@@ -1,0 +1,19 @@
+.ekotoba {
+  writing-mode: vertical-rl;
+  z-index: 1;
+}
+.gendaibun {
+  position: relative;
+  margin: 4rem 0 3rem 2rem;
+}
+.gendaibun > h3 {
+  margin: 0 2rem;
+  font-weight: 500;
+  color: #4a4f9f;
+  font-size: var(--title-size);
+  font-family: var(--title-font);
+}
+.gendaibun > p {
+  font-size: var(--text-size);
+  font-family: var(--text-font);
+}
