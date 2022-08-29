@@ -5,8 +5,9 @@ import emakiData from "../libs/data";
 import EmakiImage from "./EmakiImage";
 import Ekotoba from "./Ekotoba";
 
-const EmakiConteiner = () => {
-  const cyoujyuuKou = emakiData[[0]].emakis;
+const EmakiConteiner = ({ data }) => {
+  const emakis = data.emakis;
+
   const scrollRef = useRef();
 
   useEffect(() => {
@@ -26,7 +27,7 @@ const EmakiConteiner = () => {
 
   return (
     <article className="conteiner" ref={scrollRef}>
-      {cyoujyuuKou.map((item, index) => {
+      {emakis.map((item, index) => {
         const { cat } = item;
         if (cat === "image") {
           return <EmakiImage key={index} item={{ ...item }} />;

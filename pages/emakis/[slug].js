@@ -1,13 +1,19 @@
-import React, { useRef, useEffect } from "react";
+import { useRouter } from "next/router";
 import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
 import EmakiConteiner from "../../components/EmakiConteiner";
+import emakisData from "../../libs/data";
 
-const emaki = () => {
+const Emaki = () => {
+  const router = useRouter();
+  const { slug } = router.query;
+  console.log(slug);
 
-  return (
-   <EmakiConteiner/>
-  );
+  const filterdEmakisData = emakisData.find((item, index) => item.titleen === slug)
+  
+  console.log({...filterdEmakisData});
+
+  return <EmakiConteiner data={{...filterdEmakisData}} />;
 };
 
-export default emaki;
+export default Emaki;
