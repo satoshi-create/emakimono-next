@@ -1,26 +1,22 @@
-html,
-body {
-  padding: 0;
+*,
+::after,
+::before {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
+  padding: 0;
   box-sizing: border-box;
+  list-style: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
+.lazyload {
+  opacity: 0;
+}
+
+.loading.lazyloading {
+  opacity: 0.3;
+  transition: opacity 300ms;
+  background: #f7f7f7 url(/loading.gif) no-repeat center;
+}
+.lazyloaded {
+  opacity: 1;
+  transition: opacity 1s;
 }
