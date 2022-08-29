@@ -25,7 +25,7 @@ const EmakiImage = ({ item: { srcSp, srcTb, src, load, name } }) => {
           }
           className={`loading lazyload ${styles.emakiImg}`}
           alt={name}
-          data-expand="600"
+          data-expand="1000"
         />
       </picture>
     </section>
