@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-843,-1266.21)">
+        <rect id="アートボード1" x="0" y="0" width="2480.32" height="3507.87" style="fill:none;"/>
+        <g id="アートボード11" serif:id="アートボード1">
+            <g>
+                <g id="scroll-solid.svg" transform="matrix(5.44287e-17,0.888889,-1,6.12323e-17,1099,1522.21)">
+                    <g transform="matrix(1,0,0,1,-288,-256)">
+                        <path d="M48,32C21.5,32 0,53.5 0,80L0,144C0,152.9 7.125,160 16,160L96,160L96,80C96,53.5 74.5,32 48,32ZM256,380.6L256,320L480,320L480,128C480,75 437,32 384,32L111.6,32C121.8,45.38 128,61.88 128,80L128,384C128,422.88 162.62,453.63 202.75,447.13C234.3,442 256,412.5 256,380.6ZM288,352L288,384C288,436.88 245,480 192,480L464,480C525.88,480 576,429.87 576,368C576,359.125 568.875,352 560,352L288,352Z" style="fill:rgb(234,131,90);fill-rule:nonzero;"/>
+                    </g>
+                </g>
+                <g transform="matrix(6.12323e-17,1,-1,6.12323e-17,2637,409.206)">
+                    <path d="M1113,1436L1166,1538L1060,1538L1113,1436Z" style="fill:white;"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
