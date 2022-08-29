@@ -1,0 +1,5 @@
+.conteiner{
+  display: flex;
+  flex-direction: row-reverse;
+  overflow-x: auto;
+}
