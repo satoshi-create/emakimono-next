@@ -6,7 +6,18 @@
   box-sizing: border-box;
   list-style: none;
 }
-
+.conteiner {
+  display: flex;
+  flex-direction: row-reverse;
+  height: 100vh;
+  width: 100vw;
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+img,
+.box {
+  height: 100%;
+}
 .lazyload {
   opacity: 0;
 }

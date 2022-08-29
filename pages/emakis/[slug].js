@@ -8,7 +8,7 @@ const emaki = () => {
   console.log(emakiData[[0]].emakis);
   const cyoujyuuKou = emakiData[[0]].emakis;
   return (
-    <div className={styles.conteiner}>
+    <div className="conteiner">
       {cyoujyuuKou.map((item, index) => {
         const {
           cat,
