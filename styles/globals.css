@@ -6,6 +6,13 @@
   box-sizing: border-box;
   list-style: none;
 }
+:root {
+  --text-size: calc(16px + (35 - 16) * ((100vh - 375px) / (1080 - 375)));
+  --title-size: calc(20px + (35 - 20) * ((100vh - 375px) / (1080 - 375)));
+  --mokuji-size: calc(14px + (20 - 14) * ((100vh - 375px) / (1080 - 375)));
+  --title-font: "Kaisei Decol", serif;
+  --text-font: "Zen Kurenaido", sans-serif;
+}
 .conteiner {
   display: flex;
   flex-direction: row-reverse;
@@ -14,10 +21,7 @@
   overflow-y: hidden;
   overflow-x: scroll;
 }
-img,
-.box {
-  height: 100%;
-}
+
 .lazyload {
   opacity: 0;
 }
