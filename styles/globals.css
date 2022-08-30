@@ -7,11 +7,25 @@
   list-style: none;
 }
 :root {
+  --clr-black: rgb(5, 5, 5);
   --text-size: calc(16px + (35 - 16) * ((100vh - 375px) / (1080 - 375)));
   --title-size: calc(20px + (35 - 20) * ((100vh - 375px) / (1080 - 375)));
   --mokuji-size: calc(14px + (20 - 14) * ((100vh - 375px) / (1080 - 375)));
   --title-font: "Kaisei Decol", serif;
   --text-font: "Zen Kurenaido", sans-serif;
+  --shadowR: -10px 15px 10px rgba(0, 0, 0, 0.2);
+  --transition: all 0.3s linear;
+  --mokuji-size: calc(14px + (20 - 14) * ((100vh - 375px) / (1080 - 375)));
+}
+a {
+  text-decoration: none;
+  color: var(--clr-black);
+  cursor: pointer;
+}
+button {
+  background: transparent;
+  border-color: transparent;
+  cursor: pointer;
 }
 .conteiner {
   display: flex;

@@ -1,9 +1,9 @@
 import React from "react";
 import styles from "../styles/EmakiImage.module.css"
 
-const EmakiImage = ({ item: { srcSp, srcTb, src, load, name } }) => {
+const EmakiImage = ({ item: { srcSp, srcTb, src, load, name,index } }) => {
   return (
-    <section className={styles.emakiimage}>
+    <section className={styles.emakiimage} id={`s${index}`}>
       <picture>
         <source
           data-srcset={srcSp}
