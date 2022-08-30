@@ -5,6 +5,7 @@ import emakiData from "../libs/data";
 import EmakiImage from "./EmakiImage";
 import Ekotoba from "./Ekotoba";
 import Sidebar from "./Sidebar";
+import Controller from "./Controller";
 
 const EmakiConteiner = ({ data }) => {
   const{backgroundImage } = data
@@ -29,12 +30,13 @@ const EmakiConteiner = ({ data }) => {
 
   return (
     <>
+      <Controller value={data} />
       <Sidebar value={data} />
       <article className="conteiner" ref={scrollRef}>
         {emakis.map((item, index) => {
           const { cat } = item;
           if (cat === "image") {
-            return <EmakiImage key={index} item={{ ...item,index }} />;
+            return <EmakiImage key={index} item={{ ...item, index }} />;
           } else {
             return (
               <Ekotoba key={index} item={{ ...item, index, backgroundImage }} />
