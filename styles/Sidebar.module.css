@@ -1,0 +1,39 @@
+.openbtn {
+  font-size: 3rem;
+  position: fixed;
+  top: 0;
+  right: 1rem;
+  z-index: 10;
+}
+.sidebar {
+  display: none;
+  padding: 2rem;
+  z-index: 99;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 40%;
+  box-shadow: var(--shadowR);
+  background: white;
+  width: 400px;
+  overflow: hidden;
+}
+.closebtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+.navtitle {
+  font-size: var(--mokuji-size);
+  margin-bottom: 2rem;
+  font-family: var(--title-font);
+}
+.navlink {
+  font-family: var(--text-font);
+  transition: var(--transition);
+  font-size: var(--mokuji-size);
+}
+.open {
+  display: block;
+}

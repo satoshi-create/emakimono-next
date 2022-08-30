@@ -4,8 +4,10 @@ import "lazysizes/plugins/attrchange/ls.attrchange";
 import emakiData from "../libs/data";
 import EmakiImage from "./EmakiImage";
 import Ekotoba from "./Ekotoba";
+import Sidebar from "./Sidebar";
 
 const EmakiConteiner = ({ data }) => {
+  const{backgroundImage } = data
   const emakis = data.emakis;
 
   const scrollRef = useRef();
@@ -26,16 +28,21 @@ const EmakiConteiner = ({ data }) => {
   }, []);
 
   return (
-    <article className="conteiner" ref={scrollRef}>
-      {emakis.map((item, index) => {
-        const { cat } = item;
-        if (cat === "image") {
-          return <EmakiImage key={index} item={{ ...item }} />;
-        } else {
-          return <Ekotoba key={index} item={{ ...item }} />;
-        }
-      })}
-    </article>
+    <>
+      <Sidebar value={data} />
+      <article className="conteiner" ref={scrollRef}>
+        {emakis.map((item, index) => {
+          const { cat } = item;
+          if (cat === "image") {
+            return <EmakiImage key={index} item={{ ...item,index }} />;
+          } else {
+            return (
+              <Ekotoba key={index} item={{ ...item, index, backgroundImage }} />
+            );
+          }
+        })}
+      </article>
+    </>
   );
 };
 
