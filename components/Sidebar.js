@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styles from "../styles/Sidebar.module.css";
 import { Menu, X } from "react-feather";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 const Sidebar = ({ value }) => {
   const { emakis, title, backgroundImage } = value;
@@ -10,13 +12,15 @@ const Sidebar = ({ value }) => {
   return (
     <aside>
       <button className={styles.openbtn} onClick={() => setOepnSidebar(true)}>
-        <Menu />
+        <i className={styles.openbtnicon}>
+          <FontAwesomeIcon icon={faBars} />
+        </i>
       </button>
       <div
         className={
           oepnSidebar ? `${styles.open} ${styles.sidebar}` : `${styles.sidebar}`
         }
-        style={{ "background": `url(${backgroundImage})` }}
+        style={{ background: `url(${backgroundImage})` }}
       >
         <button
           className={styles.closebtn}
