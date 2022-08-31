@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import controller from "../libs/controller";
 import Link from "next/link";
 import styles from "../styles/Controller.module.css";
-
+import { NextContext } from "../context/context";
 
 const Controller = ({ value }) => {
-  const { emakis, title, backgroundImage } = value;
-  console.log(emakis);
+  const { count, setcount } = useContext(NextContext);
+  console.log(count);
+  const { emakis } = value;
   return (
     <aside className={styles.controller}>
       {controller.map((item, index) => {
@@ -17,9 +18,7 @@ const Controller = ({ value }) => {
             key={index}
           >
             <a title={title} className={styles.linkicon}>
-              <i>
-                {icon}
-              </i>
+              <i>{icon}</i>
             </a>
           </Link>
         );

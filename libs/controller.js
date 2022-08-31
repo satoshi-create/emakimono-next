@@ -1,6 +1,11 @@
-import {ChevronLeft,ChevronRight,Home} from "react-feather"
+import { ChevronLeft, ChevronRight, Home } from "react-feather";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse,faAngleLeft,faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHouse,
+  faAngleLeft,
+  faAngleRight, 
+  faPaintBrush,
+} from "@fortawesome/free-solid-svg-icons";
 
 const controller = [
   {
@@ -15,12 +20,12 @@ const controller = [
     icon: <FontAwesomeIcon icon={faHouse} />,
     title: "ホーム",
   },
-  // {
-  //   className: "pen-icon",
-  //   link: "",
-  //   icon: "fa-solid fa-pen",
-  //   title: "詞書の書風を見る",
-  // },
+  {
+    className: "pen-icon",
+    link: "",
+    icon: <FontAwesomeIcon icon={faPaintBrush} />,
+    title: "詞書の書風を見る",
+  },
   // {
   //   className: "toggle-icon",
   //   link: "",

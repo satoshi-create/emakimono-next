@@ -7,7 +7,6 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 const Sidebar = ({ value }) => {
   const { emakis, title, backgroundImage } = value;
-  console.log(emakis);
   const [oepnSidebar, setOepnSidebar] = useState(false);
   return (
     <aside>
