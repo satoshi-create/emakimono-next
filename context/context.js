@@ -3,9 +3,20 @@ import React, { useState } from "react";
 const NextContext = React.createContext();
 
 const NextProvider = ({ children }) => {
-  const [count, setcount] = useState(10);
+  const [ekotobaToggle, setekotobaToggle] = useState(false);
+  const [oepnSidebar, setOepnSidebar] = useState(false);
+  const [ekotobaImageToggle, setEkotobaImageToggle] = useState(false);
   return (
-    <NextContext.Provider value={{ count, setcount }}>
+    <NextContext.Provider
+      value={{
+        ekotobaToggle,
+        setekotobaToggle,
+        oepnSidebar,
+        setOepnSidebar,
+        ekotobaImageToggle,
+        setEkotobaImageToggle,
+      }}
+    >
       {children}
     </NextContext.Provider>
   );

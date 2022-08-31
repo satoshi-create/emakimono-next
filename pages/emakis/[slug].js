@@ -8,8 +8,7 @@ import Sidebar from "../../components/Sidebar";
 const Emaki = () => {
   const router = useRouter();
   const { slug } = router.query;
-  console.log(slug);
-
+  
   const filterdEmakisData = emakisData.find(
     (item, index) => item.titleen === slug
   );
