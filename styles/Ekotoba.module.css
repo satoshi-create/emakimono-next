@@ -7,6 +7,33 @@
   position: relative;
   margin: 4rem 0 3rem 2rem;
 }
+.kobun {
+  display: none;
+}
+.gendaibun {
+  position: relative;
+}
+.togglebtn {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  transition: var(--transition);
+}
+.togglebtn:hover {
+  opacity: 0.6;
+}
+.togglebtn i {
+  font-size: 20px;
+  color: var(--clr-grey);
+  border: 2px solid var(--clr-grey);
+  padding: 0.2rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}
+.open {
+  display: block;
+}
 .gendaibun > h3 {
   margin: 0 2rem;
   font-weight: 500;
@@ -18,4 +45,7 @@
 .kobun > p {
   font-size: var(--text-size);
   font-family: var(--text-font);
+}
+.calligraphy{
+  display: none;
 }
