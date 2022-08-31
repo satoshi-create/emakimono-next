@@ -11,7 +11,7 @@ const controller = [
   },
   {
     className: "home-icon",
-    link: "/",
+    link: "/emakis",
     icon: <FontAwesomeIcon icon={faHouse} />,
     title: "ホーム",
   },

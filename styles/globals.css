@@ -7,8 +7,10 @@
   list-style: none;
 }
 :root {
-  --clr-primary-02: rgba(117, 159, 238, 0.3);
   --clr-black: rgb(5, 5, 5);
+  --clr-grey: rgb(114 114 114);
+  --clr-white: #fff;
+  --clr-primary-02: rgba(117, 159, 238, 0.3);
   --text-size: calc(16px + (35 - 16) * ((100vh - 375px) / (1080 - 375)));
   --title-size: calc(20px + (35 - 20) * ((100vh - 375px) / (1080 - 375)));
   --mokuji-size: calc(14px + (20 - 14) * ((100vh - 375px) / (1080 - 375)));
