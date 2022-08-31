@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import styles from "../styles/Sidebar.module.css";
 import { Menu, X } from "react-feather";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { NextContext } from "../context/context";
 
 const Sidebar = ({ value }) => {
   const { emakis, title, backgroundImage } = value;
-  const [oepnSidebar, setOepnSidebar] = useState(false);
+  const { oepnSidebar, setOepnSidebar } = useContext(NextContext);
+
   return (
     <aside>
       <button className={styles.openbtn} onClick={() => setOepnSidebar(true)}>

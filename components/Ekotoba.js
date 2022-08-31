@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import styles from "../styles/Ekotoba.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import ResposiveImage from "./ResposiveImage";
+import { NextContext } from "../context/context";
 
 const Ekotoba = ({
   item: {
@@ -18,34 +19,45 @@ const Ekotoba = ({
     name,
   },
 }) => {
-  const [toggle, setToggle] = useState(false);
+  const {
+    ekotobaToggle,
+    setekotobaToggle,
+    ekotobaImageToggle,
+    setEkotobaImageToggle,
+  } = useContext(NextContext);
   return (
     <section
       className={styles.ekotoba}
       id={`s${index}`}
       style={{ background: `url(${backgroundImage})` }}
     >
-      <div className={styles.gendaibun}>
-        <h3 dangerouslySetInnerHTML={{ __html: chapter }} />
-        <p dangerouslySetInnerHTML={{ __html: gendaibun }} />
-        <button className={styles.togglebtn}>
-          <i>
-            <FontAwesomeIcon
-              icon={toggle ? faMinus : faPlus}
-              title={toggle ? "閉じる" : "詞書の現代語訳と原文を比べて読む"}
-              onClick={() => setToggle(!toggle)}
-            />
-          </i>
-        </button>
+      <div className={ekotobaImageToggle ? `${styles.close}` : `${styles.open}`}>
+        <div className={styles.gendaibun}>
+          <h3 dangerouslySetInnerHTML={{ __html: chapter }} />
+          <p dangerouslySetInnerHTML={{ __html: gendaibun }} />
+          <button className={styles.togglebtn}>
+            <i>
+              <FontAwesomeIcon
+                icon={ekotobaToggle ? faMinus : faPlus}
+                title={
+                  ekotobaToggle ? "閉じる" : "詞書の現代語訳と原文を比べて読む"
+                }
+                onClick={() => setekotobaToggle(!ekotobaToggle)}
+              />
+            </i>
+          </button>
+        </div>
+        <div
+          className={
+            ekotobaToggle ? `${styles.kobun} ${styles.open}` : `${styles.kobun}`
+          }
+        >
+          <p dangerouslySetInnerHTML={{ __html: kobun }} />
+        </div>
       </div>
-      <div
-        className={
-          toggle ? `${styles.kobun} ${styles.open}` : `${styles.kobun}`
-        }
+      <span
+        className={ekotobaImageToggle ? `${styles.open}` : `${styles.close}`}
       >
-        <p dangerouslySetInnerHTML={{ __html: kobun }} />
-      </div>
-      <span className={styles.calligraphy}>
         <ResposiveImage value={{ srcSp, srcTb, src, load, name }} />
       </span>
     </section>
