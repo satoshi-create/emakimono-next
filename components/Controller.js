@@ -32,6 +32,7 @@ const Controller = ({ value }) => {
               className={styles.linkicon}
               title={title}
               onClick={() => toggleEkotobaImage()}
+              key={index}
             >
               <i>{icon}</i>
             </span>
