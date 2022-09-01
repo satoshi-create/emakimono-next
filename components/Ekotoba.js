@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import styles from "../styles/Ekotoba.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import ResposiveImage from "./ResposiveImage";
 import { NextContext } from "../context/context";
+import { AppContext } from "../pages/_app";
 
 const Ekotoba = ({
   item: {
@@ -24,14 +25,26 @@ const Ekotoba = ({
     setekotobaToggle,
     ekotobaImageToggle,
     setEkotobaImageToggle,
-  } = useContext(NextContext);
+  } = useContext(AppContext);
+
+  useEffect(() => {
+    setEkotobaImageToggle(false);
+  }, []);
+  
+  useEffect(() => {
+    setekotobaToggle(false);
+    false;
+  }, []);
+
   return (
     <section
       className={styles.ekotoba}
       id={`s${index}`}
       style={{ background: `url(${backgroundImage})` }}
     >
-      <div className={ekotobaImageToggle ? `${styles.close}` : `${styles.open}`}>
+      <div
+        className={ekotobaImageToggle ? `${styles.close}` : `${styles.open}`}
+      >
         <div className={styles.gendaibun}>
           <h3 dangerouslySetInnerHTML={{ __html: chapter }} />
           <p dangerouslySetInnerHTML={{ __html: gendaibun }} />
