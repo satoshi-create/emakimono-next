@@ -1,17 +1,30 @@
-import React from "react";
+import React, { createContext, useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import "../styles/globals.css";
-import { NextProvider } from "../context/context";
+// import { NextProvider } from "../context/context";
 
-export const AppContext = React.createContext();
+export const AppContext = createContext();
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, router }) {
+  const [ekotobaToggle, setekotobaToggle] = useState(false);
+  const [oepnSidebar, setOepnSidebar] = useState(false);
+  const [ekotobaImageToggle, setEkotobaImageToggle] = useState(false);
+
   return (
-    <NextProvider>
+    <AppContext.Provider
+      value={{
+        ekotobaToggle,
+        setekotobaToggle,
+        oepnSidebar,
+        setOepnSidebar,
+        ekotobaImageToggle,
+        setEkotobaImageToggle,
+      }}
+    >
       <Layout>
-        <Component {...pageProps} />
+        <Component {...pageProps} key={router.asPath} />
       </Layout>
-    </NextProvider>
+    </AppContext.Provider>
   );
 }
 

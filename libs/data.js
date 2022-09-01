@@ -1,5 +1,6 @@
 const data = [
   {
+    id: 1,
     title: "鳥獣人物戯画絵巻",
     titleen: "cyoujyujinbutsugiga_kou",
     author: "鳥羽僧正覚猷",
@@ -260,6 +261,7 @@ const data = [
     ],
   },
   {
+    id: 2,
     title: "鳥獣人物戯画絵巻",
     titleen: "cyoujyujinbutsugiga_otu",
     author: "鳥羽僧正覚猷",
@@ -549,6 +551,7 @@ const data = [
     ],
   },
   {
+    id: 3,
     title: "鳥獣人物戯画絵巻",
     titleen: "cyoujyujinbutsugiga_hei",
     author: "不明",
@@ -813,6 +816,7 @@ const data = [
     ],
   },
   {
+    id: 4,
     title: "鳥獣人物戯画絵巻",
     titleen: "cyoujyujinbutsugiga_tei",
     author: "不明",
@@ -1047,6 +1051,7 @@ const data = [
     ],
   },
   {
+    id: 5,
     title: "直幹申文絵詞",
     titleen: "naomotomousibumiekotoba",
     author: "不明",
@@ -1311,6 +1316,7 @@ const data = [
     ],
   },
   {
+    id: 6,
     title: "奈与竹物語絵巻",
     titleen: "nayotakemonogatariemaki",
     author: "不明",
@@ -1665,6 +1671,7 @@ const data = [
     ],
   },
   {
+    id: 7,
     title: "長谷雄草紙",
     titleen: "haseozousshi",
     author: "",

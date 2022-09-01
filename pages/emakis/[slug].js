@@ -10,7 +10,6 @@ const Emaki = ({ emakis }) => {
   const router = useRouter();
   const path = router.pathname;
 
-  console.log(emakis);
   // console.log(router.asPath);
 
   // useEffect(() => {
@@ -23,17 +22,17 @@ const Emaki = ({ emakis }) => {
 
   // console.log({ ...filterdEmakisData });
 
-  return <EmakiConteiner data={{ ...emakis }} />;
+  return <EmakiConteiner data={{ ...emakis }}/>;
 };
 
 export default Emaki;
 
 export const getServerSideProps = async (context) => {
   const { slug } = context.params;
-  console.log(slug);
   const filterdEmakisData = emakisData.find(
     (item, index) => item.titleen === slug
   );
+  console.log(filterdEmakisData);
 
   return {
     props: {
