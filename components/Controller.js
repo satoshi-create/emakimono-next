@@ -3,11 +3,11 @@ import dataController from "../libs/controller";
 import Link from "next/link";
 import styles from "../styles/Controller.module.css";
 import { NextContext } from "../context/context";
+import { AppContext } from "../pages/_app";
 
 const Controller = ({ value }) => {
   const controller = dataController();
-  console.log(controller);
-  const { ekotobaImageToggle, setEkotobaImageToggle } = useContext(NextContext);
+  const { ekotobaImageToggle, setEkotobaImageToggle } = useContext(AppContext);
   const { emakis } = value;
 
   return (

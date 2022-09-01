@@ -1,14 +1,19 @@
-import React, { useContext } from "react";
+import React, { useContext,useEffect } from "react";
 import styles from "../styles/Sidebar.module.css";
 import { Menu, X } from "react-feather";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { NextContext } from "../context/context";
+import { AppContext } from "../pages/_app";
 
 const Sidebar = ({ value }) => {
   const { emakis, title, backgroundImage } = value;
-  const { oepnSidebar, setOepnSidebar } = useContext(NextContext);
+  const { oepnSidebar, setOepnSidebar } = useContext(AppContext);
+  // const [oepnSidebar, setOepnSidebar] = useState(false);
+
+  useEffect(() => {
+    setOepnSidebar(false);
+  }, []);
 
   return (
     <aside>
@@ -37,7 +42,10 @@ const Sidebar = ({ value }) => {
               return (
                 <li key={index} onClick={() => setOepnSidebar(false)}>
                   <Link href={`#s${index}`}>
-                    <a className={styles.navlink}>{chapter}</a>
+                    <a
+                      className={styles.navlink}
+                      dangerouslySetInnerHTML={{ __html: chapter }}
+                    ></a>
                   </Link>
                 </li>
               );

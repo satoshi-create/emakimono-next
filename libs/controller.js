@@ -7,10 +7,12 @@ import {
   faPaintBrush,
 } from "@fortawesome/free-solid-svg-icons";
 import { NextContext } from "../context/context";
-
+import { AppContext } from "../pages/_app";
 const DataController = () => {
-  const { ekotobaImageToggle, setEkotobaImageToggle } = useContext(NextContext);
+  const { ekotobaImageToggle, setEkotobaImageToggle } = useContext(AppContext);
   console.log(ekotobaImageToggle);
+
+
   const data = [
     {
       className: "end-icon js-smooth-scroll",

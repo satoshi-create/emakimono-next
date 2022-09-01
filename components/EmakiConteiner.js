@@ -8,7 +8,7 @@ import Sidebar from "./Sidebar";
 import Controller from "./Controller";
 
 const EmakiConteiner = ({ data }) => {
-  const{backgroundImage } = data
+  const { backgroundImage } = data;
   const emakis = data.emakis;
 
   const scrollRef = useRef();
