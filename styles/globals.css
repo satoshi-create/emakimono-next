@@ -37,6 +37,9 @@ button {
   border-color: transparent;
   cursor: pointer;
 }
+.section{
+  height: 100%;
+}
 .section-grid {
   display: grid;
   grid-template-columns: 1fr min(calc(100vw - (5vw * 2)), 1200px) 1fr;

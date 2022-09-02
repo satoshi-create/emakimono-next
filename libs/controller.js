@@ -22,7 +22,7 @@ const DataController = () => {
     },
     {
       ctype: "all",
-      link: "/emakis",
+      link: "/",
       icon: <FontAwesomeIcon icon={faHouse} />,
       title: "ホーム",
     },
