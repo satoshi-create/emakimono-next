@@ -5,7 +5,7 @@ import {
   faAngleLeft,
   faAngleRight,
   faPaintBrush,
-  faKeyboard
+  faKeyboard,
 } from "@fortawesome/free-solid-svg-icons";
 import { NextContext } from "../context/context";
 import { AppContext } from "../pages/_app";
@@ -13,29 +13,29 @@ const DataController = () => {
   const { ekotobaImageToggle, setEkotobaImageToggle } = useContext(AppContext);
   console.log(ekotobaImageToggle);
 
-
   const data = [
     {
-      className: "end-icon js-smooth-scroll",
+      ctype: "all",
       link: "#s9",
       icon: <FontAwesomeIcon icon={faAngleLeft} />,
       title: "最後に進む",
     },
     {
-      className: "home-icon",
+      ctype: "all",
       link: "/emakis",
       icon: <FontAwesomeIcon icon={faHouse} />,
       title: "ホーム",
     },
     {
-      className: "pen-icon",
+      ctype: "ekotoba",
       toggleEkotobaImage: () => setEkotobaImageToggle(!ekotobaImageToggle),
       icon: <FontAwesomeIcon icon={faPaintBrush} />,
       icon2: <FontAwesomeIcon icon={faKeyboard} />,
       title: "詞書の書風を見る",
+      title2: "詞書の現代語訳を読む",
     },
     {
-      className: "start-icon js-smooth-scroll",
+      ctype: "all",
       link: "#s0",
       icon: <FontAwesomeIcon icon={faAngleRight} />,
       title: "最初に戻る",

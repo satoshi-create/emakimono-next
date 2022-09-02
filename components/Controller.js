@@ -8,36 +8,75 @@ import { AppContext } from "../pages/_app";
 const Controller = ({ value }) => {
   const controller = dataController();
   const { ekotobaImageToggle, setEkotobaImageToggle } = useContext(AppContext);
-  const { emakis ,type} = value;
+  const { emakis, type } = value;
   console.log(type);
 
   return (
     <aside className={styles.controller}>
       {controller.map((item, index) => {
-        const { className, title, link, icon, icon2,toggleEkotobaImage } = item;
+        const {
+          className,
+          title,
+          link,
+          icon,
+          icon2,
+          toggleEkotobaImage,
+          title2,
+          ctype,
+        } = item;
         console.log(ekotobaImageToggle);
-        if (link) {
-          return (
-            <Link
-              href={title === "最後に進む" ? `#s${emakis.length - 1}` : link}
-              key={index}
-            >
-              <a title={title} className={styles.linkicon}>
-                <i>{icon}</i>
-              </a>
-            </Link>
-          );
+        if (type === "連続式絵巻") {
+          if (ctype === "all") {
+            if (link) {
+              return (
+                <Link
+                  href={
+                    title === "最後に進む" ? `#s${emakis.length - 1}` : link
+                  }
+                  key={index}
+                >
+                  <a title={title} className={styles.linkicon}>
+                    <i>{icon}</i>
+                  </a>
+                </Link>
+              );
+            } else {
+              return (
+                <span
+                  className={styles.linkicon}
+                  title={ekotobaImageToggle ? title2 : title}
+                  onClick={() => toggleEkotobaImage()}
+                  key={index}
+                >
+                  <i>{ekotobaImageToggle ? icon2 : icon}</i>
+                </span>
+              );
+            }
+          }
         } else {
-          return (
-            <span
-              className={styles.linkicon}
-              title={title}
-              onClick={() => toggleEkotobaImage()}
-              key={index}
-            >
-              <i>{ekotobaImageToggle ? icon2 : icon}</i>
-            </span>
-          );
+          if (link) {
+            return (
+              <Link
+                href={title === "最後に進む" ? `#s${emakis.length - 1}` : link}
+                key={index}
+              >
+                <a title={title} className={styles.linkicon}>
+                  <i>{icon}</i>
+                </a>
+              </Link>
+            );
+          } else {
+            return (
+              <span
+                className={styles.linkicon}
+                title={ekotobaImageToggle ? title2 : title}
+                onClick={() => toggleEkotobaImage()}
+                key={index}
+              >
+                <i>{ekotobaImageToggle ? icon2 : icon}</i>
+              </span>
+            );
+          }
         }
       })}
     </aside>

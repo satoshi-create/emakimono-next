@@ -30,7 +30,7 @@ const Ekotoba = ({
   useEffect(() => {
     setEkotobaImageToggle(false);
   }, []);
-  
+
   useEffect(() => {
     setekotobaToggle(false);
     false;
@@ -71,7 +71,7 @@ const Ekotoba = ({
       <span
         className={ekotobaImageToggle ? `${styles.open}` : `${styles.close}`}
       >
-        <ResposiveImage value={{ srcSp, srcTb, src, load, name }} />
+        {src && <ResposiveImage value={{ srcSp, srcTb, src, load, name }} />}
       </span>
     </section>
   );
