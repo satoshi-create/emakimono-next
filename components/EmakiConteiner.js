@@ -6,6 +6,7 @@ import EmakiImage from "./EmakiImage";
 import Ekotoba from "./Ekotoba";
 import Sidebar from "./Sidebar";
 import Controller from "./Controller";
+import styles from "../styles/EmakiConteiner.module.css";
 
 const EmakiConteiner = ({ data }) => {
   const { backgroundImage } = data;
@@ -32,7 +33,7 @@ const EmakiConteiner = ({ data }) => {
     <>
       <Controller value={data} />
       <Sidebar value={data} />
-      <article className="conteiner" ref={scrollRef}>
+      <article className={styles.conteiner} ref={scrollRef}>
         {emakis.map((item, index) => {
           const { cat } = item;
           if (cat === "image") {
