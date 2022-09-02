@@ -1,14 +1,34 @@
+.open {
+  display: block;
+}
+.close {
+  display: none;
+}
 .ekotoba {
   writing-mode: vertical-rl;
   z-index: 1;
 }
-.gendaibun,
-.kobun {
+.gendaibun {
   position: relative;
   margin: 4rem 0 3rem 2rem;
 }
 .kobun {
   display: none;
+  opacity: 0;
+  /* max-width: 0; */
+  transition: var(--transition);
+  overflow: hidden;
+  /* transform: translateX(100%); */
+  z-index: -1;
+}
+.kobun p {
+  margin: 4rem 0 3rem 2rem;
+}
+.open.kobun {
+  display: block;
+  opacity: 1;
+  max-width: 100%;  
+  /* transform: translateX(0); */
 }
 .gendaibun {
   position: relative;
@@ -31,12 +51,7 @@
   display: grid;
   place-items: center;
 }
-.open {
-  display: block;
-}
-.close {
-  display: none;
-}
+
 .gendaibun > h3 {
   margin: 0 2rem;
   font-weight: 500;
@@ -49,4 +64,3 @@
   font-size: var(--text-size);
   font-family: var(--text-font);
 }
-
