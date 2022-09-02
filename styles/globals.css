@@ -11,11 +11,14 @@
   --clr-grey: rgb(114 114 114);
   --clr-white: #fff;
   --clr-primary-02: rgba(117, 159, 238, 0.3);
+  --clr-accent-02: #ff8c77;
+  --clr-green-01: #54896a;
   --text-size: calc(16px + (35 - 16) * ((100vh - 375px) / (1080 - 375)));
   --title-size: calc(20px + (35 - 20) * ((100vh - 375px) / (1080 - 375)));
   --mokuji-size: calc(14px + (20 - 14) * ((100vh - 375px) / (1080 - 375)));
   --title-font: "Kaisei Decol", serif;
   --text-font: "Zen Kurenaido", sans-serif;
+  --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   --shadowR: -10px 15px 10px rgba(0, 0, 0, 0.2);
   --transition: all 0.3s linear;
   --mokuji-size: calc(14px + (20 - 14) * ((100vh - 375px) / (1080 - 375)));
@@ -30,15 +33,17 @@ button {
   border-color: transparent;
   cursor: pointer;
 }
-.conteiner {
-  display: flex;
-  flex-direction: row-reverse;
-  height: 100vh;
-  width: 100vw;
-  overflow-y: hidden;
-  overflow-x: scroll;
+.section-center {
+  margin: 0 auto;
+  width: 90vw;
+  max-width: 1200px;
 }
-
+.renzokushiki {
+  background-color: var(--clr-accent-02);
+}
+.setsuwa {
+  background-color: var(--clr-green-01);
+}
 .lazyload {
   opacity: 0;
 }
