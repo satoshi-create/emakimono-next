@@ -27,6 +27,7 @@ const Ekotoba = ({
     setEkotobaImageToggle,
   } = useContext(AppContext);
 
+
   useEffect(() => {
     setEkotobaImageToggle(false);
   }, []);
