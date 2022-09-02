@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 
 const index = () => {
   return (
-    <div>index</div>
-  )
-}
+    <>
+      <Header />
+      <div>index</div>
+      <Footer />
+    </>
+  );
+};
 
-export default index
+export default index;

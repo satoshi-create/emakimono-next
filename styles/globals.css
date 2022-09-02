@@ -23,6 +23,10 @@
   --transition: all 0.3s linear;
   --mokuji-size: calc(14px + (20 - 14) * ((100vh - 375px) / (1080 - 375)));
 }
+body {
+  background-color: #f9fbff;
+}
+
 a {
   text-decoration: none;
   color: var(--clr-black);
@@ -32,6 +36,13 @@ button {
   background: transparent;
   border-color: transparent;
   cursor: pointer;
+}
+.section-grid {
+  display: grid;
+  grid-template-columns: 1fr min(calc(100vw - (5vw * 2)), 1200px) 1fr;
+}
+.section-grid > * {
+  grid-column: 2;
 }
 .section-center {
   margin: 0 auto;

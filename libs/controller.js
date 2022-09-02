@@ -5,6 +5,7 @@ import {
   faAngleLeft,
   faAngleRight,
   faPaintBrush,
+  faKeyboard
 } from "@fortawesome/free-solid-svg-icons";
 import { NextContext } from "../context/context";
 import { AppContext } from "../pages/_app";
@@ -30,6 +31,7 @@ const DataController = () => {
       className: "pen-icon",
       toggleEkotobaImage: () => setEkotobaImageToggle(!ekotobaImageToggle),
       icon: <FontAwesomeIcon icon={faPaintBrush} />,
+      icon2: <FontAwesomeIcon icon={faKeyboard} />,
       title: "詞書の書風を見る",
     },
     {

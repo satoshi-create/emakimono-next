@@ -8,12 +8,13 @@ import { AppContext } from "../pages/_app";
 const Controller = ({ value }) => {
   const controller = dataController();
   const { ekotobaImageToggle, setEkotobaImageToggle } = useContext(AppContext);
-  const { emakis } = value;
+  const { emakis ,type} = value;
+  console.log(type);
 
   return (
     <aside className={styles.controller}>
       {controller.map((item, index) => {
-        const { className, title, link, icon, toggleEkotobaImage } = item;
+        const { className, title, link, icon, icon2,toggleEkotobaImage } = item;
         console.log(ekotobaImageToggle);
         if (link) {
           return (
@@ -34,7 +35,7 @@ const Controller = ({ value }) => {
               onClick={() => toggleEkotobaImage()}
               key={index}
             >
-              <i>{icon}</i>
+              <i>{ekotobaImageToggle ? icon2 : icon}</i>
             </span>
           );
         }
