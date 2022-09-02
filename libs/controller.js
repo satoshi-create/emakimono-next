@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHouse,
-  faAngleLeft,
-  faAngleRight,
+  faAnglesLeft,
+  faAnglesRight,
   faPaintBrush,
   faKeyboard,
 } from "@fortawesome/free-solid-svg-icons";
@@ -17,7 +17,7 @@ const DataController = () => {
     {
       ctype: "all",
       link: "#s9",
-      icon: <FontAwesomeIcon icon={faAngleLeft} />,
+      icon: <FontAwesomeIcon icon={faAnglesLeft} />,
       title: "最後に進む",
     },
     {
@@ -37,7 +37,7 @@ const DataController = () => {
     {
       ctype: "all",
       link: "#s0",
-      icon: <FontAwesomeIcon icon={faAngleRight} />,
+      icon: <FontAwesomeIcon icon={faAnglesRight} />,
       title: "最初に戻る",
     },
   ];
