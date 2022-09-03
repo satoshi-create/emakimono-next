@@ -1,12 +1,12 @@
 .openbtn {
-  font-size: 3rem;
+  /* font-size: 3rem; */
   position: fixed;
-  top: 0;
+  top: 1rem;
   right: 1rem;
   z-index: 10;
 }
 .openbtnicon {
-  font-size: 30px;
+  font-size: calc(20px + (30 - 20) * ((100vh - 375px) / (1080 - 375)));
 }
 .sidebar {
   display: none;
