@@ -6,12 +6,13 @@ import styles from "../styles/Emakis.module.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Card from "../components/Card";
+import CardConteiner from "../components/CardConteiner";
 
 export default function emakis() {
   return (
     <>
       <Header />
-      <Card emakis={emakisData} />
+      <CardConteiner emakis={emakisData} />
       <Footer />
     </>
   );
