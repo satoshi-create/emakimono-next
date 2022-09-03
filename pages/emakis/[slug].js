@@ -5,24 +5,24 @@ import "lazysizes/plugins/attrchange/ls.attrchange";
 import EmakiConteiner from "../../components/EmakiConteiner";
 import emakisData from "../../libs/data";
 import Sidebar from "../../components/Sidebar";
+import Head from "../../components/Meta";
+import Controller from "../../components/Controller";
 
 const Emaki = ({ emakis }) => {
   const router = useRouter();
   const path = router.pathname;
 
-  // console.log(router.asPath);
-
-  // useEffect(() => {
-  //   if (router.isReady) console.log(query.limit);
-  // }, [query, router]);
-
-  // const filterdEmakisData = emakisData.find(
-  //   (item, index) => item.titleen === slug
-  // );
-
-  // console.log({ ...filterdEmakisData });
-
-  return <EmakiConteiner data={{ ...emakis }}/>;
+  return (
+    <>
+      <Head
+        pagetitle={emakis.title}
+        pageDesc={emakis.desc}
+      />
+      <Controller value={emakis} />
+      <Sidebar value={emakis} />
+      <EmakiConteiner data={{ ...emakis }} />
+    </>
+  );
 };
 
 export default Emaki;
