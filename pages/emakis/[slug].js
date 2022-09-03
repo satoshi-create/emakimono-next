@@ -17,6 +17,9 @@ const Emaki = ({ emakis }) => {
       <Head
         pagetitle={emakis.title}
         pageDesc={emakis.desc}
+        pageImg={emakis.thumb}
+        pageImgW={emakis.thumb.width}
+        pageImgH={emakis.thumb.height}
       />
       <Controller value={emakis} />
       <Sidebar value={emakis} />

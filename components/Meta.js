@@ -2,8 +2,11 @@ import React from "react";
 import siteMeta from "../libs/constants";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import Router from "next/dist/server/router";
+import siteImg from "../public/ogp.jpg";
 
-const Meta = ({ pagetitle, pageDesc }) => {
+const Meta = ({ pagetitle, pageDesc, pageImg, pageImgW, pageImgH }) => {
+  console.log(siteImg);
   const {
     siteTitle,
     siteDesc,
@@ -19,6 +22,12 @@ const Meta = ({ pagetitle, pageDesc }) => {
 
   const router = useRouter();
   const url = `${siteUrl}${router.asPath}`;
+
+  // ogp画像
+  const img = pageImg || siteImg.src;
+  const imgW = pageImgW || siteImg.width;
+  const imgH = pageImgH || siteImg.height;
+  const imgUrl = img.startsWith("https") ? img : `${siteUrl}${img}`;
 
   return (
     <Head>
@@ -37,6 +46,11 @@ const Meta = ({ pagetitle, pageDesc }) => {
 
       <link rel="icon" href={siteIcon} />
       <link rel="apple-touch-icon" href={siteIcon} />
+
+      <meta property="og:image" content={imgUrl} />
+      <meta property="og:image:width" content={imgW} />
+      <meta property="og:image:height" content={imgH} />
+      <meta name="twitter:card" content="summary_large_image" />
     </Head>
   );
 };
