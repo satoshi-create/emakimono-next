@@ -4,8 +4,6 @@ import "lazysizes/plugins/attrchange/ls.attrchange";
 import emakiData from "../libs/data";
 import EmakiImage from "./EmakiImage";
 import Ekotoba from "./Ekotoba";
-import Sidebar from "./Sidebar";
-import Controller from "./Controller";
 import styles from "../styles/EmakiConteiner.module.css";
 
 const EmakiConteiner = ({ data }) => {
@@ -31,8 +29,6 @@ const EmakiConteiner = ({ data }) => {
 
   return (
     <>
-      <Controller value={data} />
-      <Sidebar value={data} />
       <article className={styles.conteiner} ref={scrollRef}>
         {emakis.map((item, index) => {
           const { cat } = item;

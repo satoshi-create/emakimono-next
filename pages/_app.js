@@ -1,7 +1,10 @@
 import React, { createContext, useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import "../styles/globals.css";
-// import { NextProvider } from "../context/context";
+
+import "@fortawesome/fontawesome-svg-core/styles.css"
+import {config} from "@fortawesome/fontawesome-svg-core"
+config.autoAddCss = false
 
 export const AppContext = createContext();
 
