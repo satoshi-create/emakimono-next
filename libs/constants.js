@@ -6,7 +6,7 @@ const siteMeta = {
   siteLang: "ja",
   siteLocale: "ja_JP",
   siteType: "website",
-  siteIcon: "/favicon.svg",
+  siteIcon: "/favicon.png",
 };
 
 export default siteMeta;
