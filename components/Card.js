@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import styles from "../styles/Card.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const Card = ({
   item: { titleen, title, thumb, edition, author, era, desc, type, typeColor },

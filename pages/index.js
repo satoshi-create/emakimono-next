@@ -5,14 +5,15 @@ import Card from "../components/Card";
 import emakisData from "../libs/data";
 import "lazysizes";
 import CardConteiner from "../components/CardConteiner";
-
+import Head from "../components/Meta";
 
 const index = () => {
   return (
     <>
+      <Head/>
       <Header />
       <CardConteiner emakis={emakisData} />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };
