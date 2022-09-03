@@ -27,7 +27,7 @@
 .open.kobun {
   display: block;
   opacity: 1;
-  max-width: 100%;  
+  max-width: 100%;
   /* transform: translateX(0); */
 }
 .gendaibun {
@@ -43,7 +43,8 @@
   opacity: 0.6;
 }
 .togglebtn i {
-  font-size: 20px;
+  font-size: calc(12px + (20 - 12) * ((100vh - 375px) / (1080 - 375)));
+  /* font-size: 20px; */
   color: var(--clr-grey);
   border: 2px solid var(--clr-grey);
   padding: 0.2rem;

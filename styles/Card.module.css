@@ -44,9 +44,10 @@
   grid-area: 2/2;
   justify-self: flex-end;
 }
-/* .desc {
-  font-family: var(--text-font);
-} */
+.readMore{
+  color: var(--clr-accent-02);
+  font-weight: bold;
+}
 .type {
   position: absolute;
   bottom: 0;

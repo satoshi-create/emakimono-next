@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import styles from "../styles/Card.module.css";
 
 const Card = ({ emakis }) => {
+  const [readMore, setReadmore] = useState(false);
   console.log(emakis);
+
   return (
     <section className={`section-center ${styles.conteiner}`}>
       {emakis.map((item, index) => {
@@ -18,6 +20,7 @@ const Card = ({ emakis }) => {
           type,
           typeColor,
         } = item;
+        const filterDesc = desc.substring(0, 100);
         return (
           <div className={styles.card} key={index}>
             <Link href={`/emakis/${titleen}`}>
@@ -43,7 +46,15 @@ const Card = ({ emakis }) => {
                 <h4 className={styles.era}>{era}</h4>
               </div>
               <div className={styles.desc}>
-                <p dangerouslySetInnerHTML={{ __html: desc }} />
+                {/* <p>{readMore ? desc : filterDesc}</p> */}
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: `${readMore ? desc : filterDesc}`,
+                  }}
+                />
+                <button onClick={() => setReadmore(!readMore)} className={styles.readMore}>
+                  {readMore ? "閉じる" : "...続きを読む"}
+                </button>
               </div>
             </div>
           </div>
