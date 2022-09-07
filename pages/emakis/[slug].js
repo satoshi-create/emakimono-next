@@ -30,7 +30,13 @@ const Emaki = ({ emakis }) => {
 
 export default Emaki;
 
-export const getServerSideProps = async (context) => {
+export const getStaticPaths = async () => {
+  const paths = emakisData.map((item) => `/emakis/${item.titleen}`);
+  console.log(paths);
+  return { paths, fallback: false };
+};
+
+export const getStaticProps = async (context) => {
   const { slug } = context.params;
   const filterdEmakisData = emakisData.find(
     (item, index) => item.titleen === slug
