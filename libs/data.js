@@ -1,3 +1,5 @@
+import { faL } from "@fortawesome/free-solid-svg-icons";
+
 const data = [
   {
     id: 1,
@@ -18,6 +20,7 @@ const data = [
     readMore: false,
     type: "連続式絵巻",
     typeColor: "renzokushiki",
+    kotobagaki: false,
     sourceImage: "鳥獣人戯画絵巻 摸本（山崎董詮画 国立博物館）",
     emakis: [
       {
@@ -278,6 +281,7 @@ const data = [
     gif: "/img/cyoujyuu_yamazaki_kou.mp4",
     type: "連続式絵巻",
     typeColor: "renzokushiki",
+    kotobagaki: false,
     sourceImage: "鳥獣人戯画絵巻 摸本（山崎董詮画 国立博物館）",
     emakis: [
       {
@@ -568,6 +572,7 @@ const data = [
     gif: "/cyoujyuu_yamazaki_hei.mp4",
     type: "連続式絵巻",
     typeColor: "renzokushiki",
+    kotobagaki: false,
     sourceImage: "鳥獣人戯画絵巻 摸本（山崎董詮画 国立博物館）",
     emakis: [
       {
@@ -835,6 +840,7 @@ const data = [
     gif: "/cyoujyuu_yamazaki_kou.mp4",
     type: "連続式絵巻",
     typeColor: "renzokushiki",
+    kotobagaki: false,
     sourceImage: "鳥獣人戯画絵巻 摸本（山崎董詮画 国立博物館）",
     emakis: [
       {
@@ -1067,6 +1073,7 @@ const data = [
     gif: "/cyoujyuu_yamazaki_kou.mp4",
     type: "説話絵巻",
     typeColor: "setsuwa",
+    kotobagaki: true,
     sourceImage: "直幹申文絵詞（国立国会図書館）",
     sourceEkotoba: "『日本の絵巻十七 奈与竹物語絵巻 直幹申文絵詞』",
     emakis: [
@@ -1332,6 +1339,7 @@ const data = [
     gif: "/cyoujyuu_yamazaki_kou.mp4",
     type: "説話絵巻",
     typeColor: "setsuwa",
+    kotobagaki: true,
     sourceImage: "弱竹物語（国立国会図書館）",
     sourceEkotoba: "『日本の絵巻十七 奈与竹物語絵巻 直幹申文絵詞』",
     emakis: [
@@ -1687,6 +1695,7 @@ const data = [
     gif: "/cyoujyuu_yamazaki_kou.mp4",
     type: "説話絵巻",
     typeColor: "setsuwa",
+    kotobagaki: true,
     sourceImage:
       "繪卷物長谷雄卿逢羅城門鬼神之圖（京都府立京都学・歴彩館　デジタルアーカイブ）",
     sourceEkotoba:
@@ -1864,6 +1873,110 @@ const data = [
         srcTb: "/haseozoushi_17-800.webp",
         src: "/haseozoushi_17-1080.webp",
         name: "haseozoushi_17.webp",
+      },
+    ],
+  },
+  {
+    id: 8,
+    title: "九相図巻",
+    titleen: "kusouzumaki",
+    author: "",
+    backgroundImage: "/washi-pattern-01.webp",
+    video: "",
+    thumb: "/haseozousshi_thumb.webp",
+    thumb2: "/haseozousshi_thumb.webp",
+    srcFirstView: "/haseozousshi_02-1080.webp",
+    metadesc: "",
+    desc: "",
+    era: "鎌倉時代（14c）",
+    gif: "",
+    type: "経典説話絵巻",
+    typeColor: "kyoutensetsuwa",
+    kotobagaki: false,
+    sourceImage: "九相図巻（九州国立博物館）",
+    sourceEkotoba: "",
+    emakis: [
+      {
+        load: true,
+        cat: "image",
+        srcSp: "/kusouzu_01-375.webp",
+        srcTb: "/kusouzu_01-800.webp",
+        src: "/kusouzu_01-1080.webp",
+        name: "kusouzu_01.webp",
+      },
+      {
+        load: true,
+        cat: "image",
+        srcSp: "/kusouzu_02-375.webp",
+        srcTb: "/kusouzu_02-800.webp",
+        src: "/kusouzu_02-1080.webp",
+        name: "kusouzu_02.webp",
+      },
+      {
+        load: true,
+        cat: "image",
+        srcSp: "/kusouzu_03-375.webp",
+        srcTb: "/kusouzu_03-800.webp",
+        src: "/kusouzu_03-1080.webp",
+        name: "kusouzu_03.webp",
+      },
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/kusouzu_04-375.webp",
+        srcTb: "/kusouzu_04-800.webp",
+        src: "/kusouzu_04-1080.webp",
+        name: "kusouzu_04.webp",
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/kusouzu_05-375.webp",
+        srcTb: "/kusouzu_05-800.webp",
+        src: "/kusouzu_05-1080.webp",
+        name: "kusouzu_05.webp",
+      },
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/kusouzu_06-375.webp",
+        srcTb: "/kusouzu_06-800.webp",
+        src: "/kusouzu_06-1080.webp",
+        name: "kusouzu_06.webp",
+      },
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/kusouzu_07-375.webp",
+        srcTb: "/kusouzu_07-800.webp",
+        src: "/kusouzu_07-1080.webp",
+        name: "kusouzu_07.webp",
+      },
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/kusouzu_08-375.webp",
+        srcTb: "/kusouzu_08-800.webp",
+        src: "/kusouzu_08-1080.webp",
+        name: "kusouzu_08.webp",
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/kusouzu_09-375.webp",
+        srcTb: "/kusouzu_09-800.webp",
+        src: "/kusouzu_09-1080.webp",
+        name: "kusouzu_09.webp",
+      },
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/kusouzu_10-375.webp",
+        srcTb: "/kusouzu_10-800.webp",
+        src: "/kusouzu_10-1080.webp",
+        name: "kusouzu_10.webp",
       },
     ],
   },
