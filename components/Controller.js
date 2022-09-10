@@ -8,8 +8,8 @@ import { AppContext } from "../pages/_app";
 const Controller = ({ value }) => {
   const controller = dataController();
   const { ekotobaImageToggle, setEkotobaImageToggle } = useContext(AppContext);
-  const { emakis, type } = value;
-  console.log(type);
+  const { emakis, kotobagaki, type } = value;
+  console.log(kotobagaki);
 
   return (
     <aside className={styles.controller}>
@@ -25,7 +25,31 @@ const Controller = ({ value }) => {
           ctype,
         } = item;
         console.log(ekotobaImageToggle);
-        if (type === "連続式絵巻") {
+        if (kotobagaki) {
+          if (link) {
+            return (
+              <Link
+                href={title === "最後に進む" ? `#s${emakis.length - 1}` : link}
+                key={index}
+              >
+                <a title={title} className={styles.linkicon}>
+                  <i>{icon}</i>
+                </a>
+              </Link>
+            );
+          } else {
+            return (
+              <span
+                className={styles.linkicon}
+                title={ekotobaImageToggle ? title2 : title}
+                onClick={() => toggleEkotobaImage()}
+                key={index}
+              >
+                <i>{ekotobaImageToggle ? icon2 : icon}</i>
+              </span>
+            );
+          }
+        } else {
           if (ctype === "all") {
             if (link) {
               return (
@@ -52,30 +76,6 @@ const Controller = ({ value }) => {
                 </span>
               );
             }
-          }
-        } else {
-          if (link) {
-            return (
-              <Link
-                href={title === "最後に進む" ? `#s${emakis.length - 1}` : link}
-                key={index}
-              >
-                <a title={title} className={styles.linkicon}>
-                  <i>{icon}</i>
-                </a>
-              </Link>
-            );
-          } else {
-            return (
-              <span
-                className={styles.linkicon}
-                title={ekotobaImageToggle ? title2 : title}
-                onClick={() => toggleEkotobaImage()}
-                key={index}
-              >
-                <i>{ekotobaImageToggle ? icon2 : icon}</i>
-              </span>
-            );
           }
         }
       })}
