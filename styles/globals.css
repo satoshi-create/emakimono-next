@@ -37,7 +37,7 @@ button {
   border-color: transparent;
   cursor: pointer;
 }
-.section{
+.section {
   height: 100%;
 }
 .section-grid {
@@ -59,15 +59,15 @@ button {
   background-color: var(--clr-green-01);
 }
 .lazyload {
-  opacity: 0;
+  opacity: 0.3  ;
 }
 
 .loading.lazyloading {
-  opacity: 0.3;
-  transition: opacity 300ms;
+  opacity: 0.6;
+  transition: opacity 1s;
   background: #f7f7f7 url(/loading.gif) no-repeat center;
 }
 .lazyloaded {
   opacity: 1;
-  transition: opacity 1s;
+  transition: opacity 0.3ms;
 }
