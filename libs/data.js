@@ -1911,6 +1911,12 @@ const data = [
         name: "kusouzu_02.webp",
       },
       {
+        cat: "ekotoba",
+        chapter: "一 脹相（ちょうそう） ",
+        kobun: "",
+        gendaibun: "死体が腐敗によるガスの発生で内部から膨張する。",
+      },
+      {
         load: true,
         cat: "image",
         srcSp: "/kusouzu_03-375.webp",
