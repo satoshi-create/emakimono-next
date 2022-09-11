@@ -7,7 +7,7 @@ import Ekotoba from "./Ekotoba";
 import styles from "../styles/EmakiConteiner.module.css";
 
 const EmakiConteiner = ({ data }) => {
-  const { backgroundImage } = data;
+  const { backgroundImage, kotobagaki } = data;
   const emakis = data.emakis;
 
   const scrollRef = useRef();
@@ -36,7 +36,10 @@ const EmakiConteiner = ({ data }) => {
             return <EmakiImage key={index} item={{ ...item, index }} />;
           } else {
             return (
-              <Ekotoba key={index} item={{ ...item, index, backgroundImage }} />
+              <Ekotoba
+                key={index}
+                item={{ ...item, index, backgroundImage, kotobagaki }}
+              />
             );
           }
         })}

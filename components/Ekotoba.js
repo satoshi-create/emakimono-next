@@ -12,6 +12,7 @@ const Ekotoba = ({
     kobun,
     index,
     backgroundImage,
+    kotobagaki,
     srcSp,
     srcTb,
     src,
@@ -27,6 +28,8 @@ const Ekotoba = ({
   } = useContext(AppContext);
 
   const [toggle, setToggle] = useState(false);
+
+  console.log(kotobagaki);
 
   useEffect(() => {
     setEkotobaImageToggle(false);
@@ -49,19 +52,19 @@ const Ekotoba = ({
         <div className={styles.gendaibun}>
           <h3 dangerouslySetInnerHTML={{ __html: chapter }} />
           <p dangerouslySetInnerHTML={{ __html: gendaibun }} />
-          <button
-            className={styles.togglebtn}
-            onClick={() => setToggle(!toggle)}
-          >
-            <i>
-              <FontAwesomeIcon
-                icon={toggle ? faMinus : faPlus}
-                title={
-                  toggle ? "閉じる" : "詞書の現代語訳と原文を比べて読む"
-                }
-              />
-            </i>
-          </button>
+          {kotobagaki === true && (
+            <button
+              className={styles.togglebtn}
+              onClick={() => setToggle(!toggle)}
+            >
+              <i>
+                <FontAwesomeIcon
+                  icon={toggle ? faMinus : faPlus}
+                  title={toggle ? "閉じる" : "詞書の現代語訳と原文を比べて読む"}
+                />
+              </i>
+            </button>
+          )}
         </div>
         <div
           className={

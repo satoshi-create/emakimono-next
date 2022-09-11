@@ -6,6 +6,8 @@ import {
   faAnglesRight,
   faPaintBrush,
   faKeyboard,
+  faCommentSlash,
+  faComment,
 } from "@fortawesome/free-solid-svg-icons";
 import { NextContext } from "../context/context";
 import { AppContext } from "../pages/_app";
@@ -27,12 +29,16 @@ const DataController = () => {
       title: "ホーム",
     },
     {
-      ctype: "ekotoba",
+      ctype: "all",
       toggleEkotobaImage: () => setEkotobaImageToggle(!ekotobaImageToggle),
-      icon: <FontAwesomeIcon icon={faPaintBrush} />,
-      icon2: <FontAwesomeIcon icon={faKeyboard} />,
-      title: "詞書の書風を見る",
-      title2: "詞書の現代語訳を読む",
+      iconEkotoba1: <FontAwesomeIcon icon={faPaintBrush} />,
+      iconEkotoba2: <FontAwesomeIcon icon={faKeyboard} />,
+      iconEmaki1: <FontAwesomeIcon icon={faCommentSlash} />,
+      iconEmaki2: <FontAwesomeIcon icon={faComment} />,
+      titleEkotoba1: "詞書の書風を見る",
+      titleEkotoba2: "詞書の現代語訳を読む",
+      titleEmaki1: "解説を閉じて絵巻形式で見る",
+      titleEmaki2: "解説を読む",
     },
     {
       ctype: "all",
