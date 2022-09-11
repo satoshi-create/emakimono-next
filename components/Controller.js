@@ -17,9 +17,16 @@ const Controller = ({ value }) => {
         const {
           className,
           title,
+          titleEkotoba1,
+          titleEkotoba2,
+          titleEmaki1,
+          titleEmaki2,
           link,
           icon,
-          icon2,
+          iconEkotoba1,
+          iconEkotoba2,
+          iconEmaki1,
+          iconEmaki2,
           toggleEkotobaImage,
           title2,
           ctype,
@@ -41,42 +48,40 @@ const Controller = ({ value }) => {
             return (
               <span
                 className={styles.linkicon}
-                title={ekotobaImageToggle ? title2 : title}
+                title={ekotobaImageToggle ? titleEkotoba2 : titleEkotoba1}
                 onClick={() => toggleEkotobaImage()}
                 key={index}
               >
-                <i>{ekotobaImageToggle ? icon2 : icon}</i>
+                <i>{ekotobaImageToggle ? iconEkotoba2 : iconEkotoba1}</i>
               </span>
             );
           }
         } else {
-          if (ctype === "all") {
-            if (link) {
-              return (
-                <Link
-                  href={
-                    title === "最後に進む" ? `#s${emakis.length - 1}` : link
-                  }
-                  key={index}
-                >
-                  <a title={title} className={styles.linkicon}>
-                    <i>{icon}</i>
-                  </a>
-                </Link>
-              );
-            } else {
-              return (
-                <span
-                  className={styles.linkicon}
-                  title={ekotobaImageToggle ? title2 : title}
-                  onClick={() => toggleEkotobaImage()}
-                  key={index}
-                >
-                  <i>{ekotobaImageToggle ? icon2 : icon}</i>
-                </span>
-              );
-            }
+          // if (ctype === "all") {
+          if (link) {
+            return (
+              <Link
+                href={title === "最後に進む" ? `#s${emakis.length - 1}` : link}
+                key={index}
+              >
+                <a title={title} className={styles.linkicon}>
+                  <i>{icon}</i>
+                </a>
+              </Link>
+            );
+          } else {
+            return (
+              <span
+                className={styles.linkicon}
+                title={ekotobaImageToggle ? titleEmaki2 : titleEmaki1}
+                onClick={() => toggleEkotobaImage()}
+                key={index}
+              >
+                <i>{ekotobaImageToggle ? iconEmaki2 : iconEmaki1}</i>
+              </span>
+            );
           }
+          // }
         }
       })}
     </aside>
