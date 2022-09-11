@@ -24,7 +24,7 @@ const ResposiveImage = ({ value: { srcSp, srcTb, src, load, name } }) => {
         }
         className={`loading lazyload ${styles.emakiImg}`}
         alt={name}
-        data-expand="1000"
+        data-expand="5000"
       />
     </picture>
   );

@@ -15,7 +15,7 @@ const Emaki = ({ emakis }) => {
   return (
     <>
       <Head
-        pagetitle={emakis.title}
+        pagetitle={`${emakis.title} ${emakis.edition ? emakis.edition : ""}`}
         pageDesc={emakis.desc}
         pageImg={emakis.thumb}
         pageImgW={emakis.thumb.width}
