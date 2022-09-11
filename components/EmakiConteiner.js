@@ -18,7 +18,7 @@ const EmakiConteiner = ({ data }) => {
       const wheelListener = (e) => {
         e.preventDefault();
         el.scrollTo({
-          left: el.scrollLeft + e.deltaY * 5,
+          left: el.scrollLeft + e.deltaY * 3,
           behavior: "smooth",
         });
       };
