@@ -1,5 +1,3 @@
-import { faL } from "@fortawesome/free-solid-svg-icons";
-
 const data = [
   {
     id: 1,
@@ -1890,8 +1888,8 @@ const data = [
     desc: "",
     era: "鎌倉時代（14c）",
     gif: "",
-    type: "経典説話絵巻",
-    typeColor: "kyoutensetsuwa",
+    type: "仏教絵巻",
+    typeColor: "bukkyou",
     kotobagaki: false,
     sourceImage: "九相図巻（九州国立博物館）",
     sourceEkotoba: "",
