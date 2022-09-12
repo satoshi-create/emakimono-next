@@ -58,14 +58,16 @@ button {
 .setsuwa {
   background-color: var(--clr-green-01);
 }
+
 .lazyload {
-  opacity: 0.3  ;
+  /* opacity: 0.3  ; */
+  /* filter: blur(0.6); */
 }
 
 .loading.lazyloading {
-  opacity: 0.6;
-  transition: opacity 1s;
-  background: #f7f7f7 url(/loading.gif) no-repeat center;
+  filter: blur(0.6);
+  transition: filter 1s;
+  /* background: #f7f7f7 url(/loading.gif) no-repeat center; */
 }
 .lazyloaded {
   opacity: 1;
