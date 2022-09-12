@@ -17,12 +17,12 @@ const ResposiveImage = ({ value: { srcSp, srcTb, src, load, name } }) => {
       <source data-srcset={src} type="image/webp" />
       <img
         decoding="async"
-        src={
-          load
-            ? srcSp
-            : "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-        }
-        // src={srcSp}
+        // src={
+        //   load
+        //     ? srcSp
+        //     : "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+        // }
+        src={srcSp}
         className={`loading lazyload ${styles.emakiImg}`}
         alt={name}
         // data-expand="5000"
