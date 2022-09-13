@@ -1896,7 +1896,7 @@ const data = [
     emakis: [
       {
         cat: "ekotoba",
-        chapter: "一 生前相",
+        chapter: " 生前相",
         kobun: "",
         gendaibun: "",
       },
@@ -1910,7 +1910,7 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "一 新死相",
+        chapter: "【第一相】 新死相",
         kobun: "",
         gendaibun: "",
       },
@@ -1924,7 +1924,8 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "二 脹相（ちょうそう） ",
+        chapter:
+          "【第二相】 <ruby><rb>脹相</rb><rp>（</rp><rt>ちょうそう</rt><rp>）</rp></ruby> ",
         kobun: "",
         gendaibun: "死体が腐敗によるガスの発生で内部から膨張する。",
       },
@@ -1938,7 +1939,8 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "３ 壊相（えそう）",
+        chapter:
+          "【第三相】 <ruby><rb>壊相</rb><rp>（</rp><rt>えそう</rt><rp>）</rp></ruby> ",
         kobun: "",
         gendaibun: "死体の腐乱が進み皮膚が破れ壊れはじめる。",
       },
@@ -1952,7 +1954,8 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "４ 血塗相（けちずそう）",
+        chapter:
+          "【第四相】 <ruby><rb>血塗相</rb><rp>（</rp><rt>けちずそう</rt><rp>）</rp></ruby> ",
         kobun: "",
         gendaibun:
           "死体の腐敗による損壊がさらに進み、溶解した脂肪・血液・体液が体外に滲みだす。",
@@ -1967,10 +1970,10 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "５ 血塗相（けちずそう）",
+        chapter:
+          "【第五相】 <ruby><rb>膿爛相</rb><rp>（</rp><rt>のうらんそう</rt><rp>）</rp></ruby>",
         kobun: "",
-        gendaibun:
-          "死体の腐敗による損壊がさらに進み、溶解した脂肪・血液・体液が体外に滲みだす。",
+        gendaibun: "死体自体が腐敗により溶解する。",
       },
       {
         load: false,
@@ -1982,7 +1985,8 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "６ 青瘀相（しょうおそう）",
+        chapter:
+          "【第六相】 <ruby><rb>青瘀相</rb><rp>（</rp><rt>しょうおそう</rt><rp>）</rp></ruby>",
         kobun: "",
         gendaibun: "死体が青黒くなる。",
       },
@@ -1996,7 +2000,8 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "７ 噉相（たんそう）",
+        chapter:
+          "【第七相】 <ruby><rb>噉相</rb><rp>（</rp><rt>たんそう</rt><rp>）</rp></ruby>",
         kobun: "",
         gendaibun: "死体に虫がわき、鳥獣に食い荒らされる。",
       },
@@ -2010,7 +2015,8 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "８ 散相（さんそう）",
+        chapter:
+          "【第八相】 <ruby><rb>散相</rb><rp>（</rp><rt>さんそう</rt><rp>）</rp></ruby>",
         kobun: "",
         gendaibun: "以上の結果、死体の部位が散乱する。",
       },
@@ -2024,7 +2030,8 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "９ 骨相（こつそう）",
+        chapter:
+          "【第九相】 <ruby><rb> 骨相</rb><rp>（</rp><rt>こつそう</rt><rp>）</rp></ruby>",
         kobun: "",
         gendaibun: "血肉や皮脂がなくなり骨だけになる。",
       },
@@ -2040,189 +2047,6 @@ const data = [
   },
   {
     id: 9,
-    title: "九相詩絵巻",
-    titleen: "kusoushiemaki",
-    author: "",
-    backgroundImage: "/washi-pattern-01.webp",
-    video: "",
-    thumb: "/kusoushiemaki_thumb.webp",
-    thumb2: "/kusoushiemaki_thumb.webp",
-    srcFirstView: "/kusoushiemaki_02-1080.webp",
-    metadesc: "",
-    desc: "",
-    era: "室町時代（1501年）",
-    gif: "",
-    type: "仏教絵巻",
-    typeColor: "bukkyou",
-    kotobagaki: false,
-    sourceImage: "九相詩絵巻（九州国立博物館）",
-    sourceEkotoba: "",
-    emakis: [
-      {
-        load: true,
-        cat: "image",
-        srcSp: "/kusoushiemaki_01-375.webp",
-        srcTb: "/kusoushiemaki_01-800.webp",
-        src: "/kusoushiemaki_01-1080.webp",
-        name: "kusoushiemaki_01.webp",
-      },
-
-      {
-        load: true,
-        cat: "image",
-        srcSp: "/kusoushiemaki_02-375.webp",
-        srcTb: "/kusoushiemaki_02-800.webp",
-        src: "/kusoushiemaki_02-1080.webp",
-        name: "kusoushiemaki_02.webp",
-      },
-
-      {
-        load: true,
-        cat: "image",
-        srcSp: "/kusoushiemaki_03-375.webp",
-        srcTb: "/kusoushiemaki_03-800.webp",
-        src: "/kusoushiemaki_03-1080.webp",
-        name: "kusoushiemaki_03.webp",
-      },
-
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/kusoushiemaki_04-375.webp",
-        srcTb: "/kusoushiemaki_04-800.webp",
-        src: "/kusoushiemaki_04-1080.webp",
-        name: "kusoushiemaki_04.webp",
-      },
-
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/kusoushiemaki_05-375.webp",
-        srcTb: "/kusoushiemaki_05-800.webp",
-        src: "/kusoushiemaki_05-1080.webp",
-        name: "kusoushiemaki_05.webp",
-      },
-
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/kusoushiemaki_06-375.webp",
-        srcTb: "/kusoushiemaki_06-800.webp",
-        src: "/kusoushiemaki_06-1080.webp",
-        name: "kusoushiemaki_06.webp",
-      },
-
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/kusoushiemaki_07-375.webp",
-        srcTb: "/kusoushiemaki_07-800.webp",
-        src: "/kusoushiemaki_07-1080.webp",
-        name: "kusoushiemaki_07.webp",
-      },
-
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/kusoushiemaki_08-375.webp",
-        srcTb: "/kusoushiemaki_08-800.webp",
-        src: "/kusoushiemaki_08-1080.webp",
-        name: "kusoushiemaki_08.webp",
-      },
-
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/kusoushiemaki_09-375.webp",
-        srcTb: "/kusoushiemaki_09-800.webp",
-        src: "/kusoushiemaki_09-1080.webp",
-        name: "kusoushiemaki_09.webp",
-      },
-
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/kusoushiemaki_10-375.webp",
-        srcTb: "/kusoushiemaki_10-800.webp",
-        src: "/kusoushiemaki_10-1080.webp",
-        name: "kusoushiemaki_10.webp",
-      },
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/kusoushiemaki_11-375.webp",
-        srcTb: "/kusoushiemaki_11-800.webp",
-        src: "/kusoushiemaki_11-1080.webp",
-        name: "kusoushiemaki_11.webp",
-      },
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/kusoushiemaki_12-375.webp",
-        srcTb: "/kusoushiemaki_12-800.webp",
-        src: "/kusoushiemaki_12-1080.webp",
-        name: "kusoushiemaki_12.webp",
-      },
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/kusoushiemaki_13-375.webp",
-        srcTb: "/kusoushiemaki_13-800.webp",
-        src: "/kusoushiemaki_13-1080.webp",
-        name: "kusoushiemaki_13.webp",
-      },
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/kusoushiemaki_14-375.webp",
-        srcTb: "/kusoushiemaki_14-800.webp",
-        src: "/kusoushiemaki_14-1080.webp",
-        name: "kusoushiemaki_14.webp",
-      },
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/kusoushiemaki_15-375.webp",
-        srcTb: "/kusoushiemaki_15-800.webp",
-        src: "/kusoushiemaki_15-1080.webp",
-        name: "kusoushiemaki_15.webp",
-      },
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/kusoushiemaki_16-375.webp",
-        srcTb: "/kusoushiemaki_16-800.webp",
-        src: "/kusoushiemaki_16-1080.webp",
-        name: "kusoushiemaki_16.webp",
-      },
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/kusoushiemaki_18-375.webp",
-        srcTb: "/kusoushiemaki_18-800.webp",
-        src: "/kusoushiemaki_18-1080.webp",
-        name: "kusoushiemaki_18.webp",
-      },
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/kusoushiemaki_19-375.webp",
-        srcTb: "/kusoushiemaki_19-800.webp",
-        src: "/kusoushiemaki_19-1080.webp",
-        name: "kusoushiemaki_19.webp",
-      },
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/kusoushiemaki_20-375.webp",
-        srcTb: "/kusoushiemaki_20-800.webp",
-        src: "/kusoushiemaki_20-1080.webp",
-        name: "kusoushiemaki_20.webp",
-      },
-    ],
-  },
-  {
-    id: 10,
     title: "九相図（小林永濯 画）",
     titleen: "kusouzu_kobayasieieitaku",
     author: "",
@@ -2242,6 +2066,12 @@ const data = [
     sourceEkotoba: "",
     emakis: [
       {
+        cat: "ekotoba",
+        chapter: "【第一相 生前相",
+        kobun: "",
+        gendaibun: "",
+      },
+      {
         load: true,
         cat: "image",
         srcSp: "/kusouzu_eitaku_01-375.webp",
@@ -2249,7 +2079,12 @@ const data = [
         src: "/kusouzu_eitaku_01-1080.webp",
         name: "kusouzu_eitaku_01.webp",
       },
-
+      {
+        cat: "ekotoba",
+        chapter: "【第二相】 新死相",
+        kobun: "",
+        gendaibun: "",
+      },
       {
         load: true,
         cat: "image",
@@ -2258,7 +2093,13 @@ const data = [
         src: "/kusouzu_eitaku_02-1080.webp",
         name: "kusouzu_eitaku_02.webp",
       },
-
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第三相】 <ruby><rb>脹相</rb><rp>（</rp><rt>ちょうそう</rt><rp>）</rp></ruby>",
+        kobun: "",
+        gendaibun: "",
+      },
       {
         load: true,
         cat: "image",
@@ -2267,7 +2108,13 @@ const data = [
         src: "/kusouzu_eitaku_03-1080.webp",
         name: "kusouzu_eitaku_03.webp",
       },
-
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第四相】 <ruby><rb>壊相</rb><rp>（</rp><rt>えそう</rt><rp>）</rp></ruby>",
+        kobun: "",
+        gendaibun: "",
+      },
       {
         load: false,
         cat: "image",
@@ -2276,7 +2123,13 @@ const data = [
         src: "/kusouzu_eitaku_04-1080.webp",
         name: "kusouzu_eitaku_04.webp",
       },
-
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第五相】 <ruby><rb>血塗相</rb><rp>（</rp><rt>けちずそう</rt><rp>）</rp></ruby>",
+        kobun: "",
+        gendaibun: "",
+      },
       {
         load: false,
         cat: "image",
@@ -2284,6 +2137,13 @@ const data = [
         srcTb: "/kusouzu_eitaku_05-800.webp",
         src: "/kusouzu_eitaku_05-1080.webp",
         name: "kusouzu_eitaku_05.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第六相】 <ruby><rb>膿爛相</rb><rp>（</rp><rt>のうらんそう</rt><rp>）</rp></ruby>",
+        kobun: "",
+        gendaibun: "",
       },
 
       {
@@ -2294,6 +2154,13 @@ const data = [
         src: "/kusouzu_eitaku_06-1080.webp",
         name: "kusouzu_eitaku_06.webp",
       },
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第七相】 <ruby><rb>噉相</rb><rp>（</rp><rt>たんそう</rt><rp>）</rp></ruby>",
+        kobun: "",
+        gendaibun: "",
+      },
 
       {
         load: false,
@@ -2303,7 +2170,13 @@ const data = [
         src: "/kusouzu_eitaku_07-1080.webp",
         name: "kusouzu_eitaku_07.webp",
       },
-
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第八相】 <ruby><rb>散相</rb><rp>（</rp><rt>さんそう</rt><rp>）</rp></ruby>",
+        kobun: "",
+        gendaibun: "",
+      },
       {
         load: false,
         cat: "image",
@@ -2312,7 +2185,13 @@ const data = [
         src: "/kusouzu_eitaku_08-1080.webp",
         name: "kusouzu_eitaku_08.webp",
       },
-
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第九相】 <ruby><rb>骨相</rb><rp>（</rp><rt>こっそう</rt><rp>）</rp></ruby>",
+        kobun: "",
+        gendaibun: "",
+      },
       {
         load: false,
         cat: "image",
@@ -2325,6 +2204,233 @@ const data = [
   },
   {
     id: 10,
+    title: "九相詩絵巻",
+    titleen: "kusoushiemaki",
+    author: "",
+    backgroundImage: "/washi-pattern-01.webp",
+    video: "",
+    thumb: "/kusoushiemaki_thumb.webp",
+    thumb2: "/kusoushiemaki_thumb.webp",
+    srcFirstView: "/kusoushiemaki_02-1080.webp",
+    metadesc: "",
+    desc: "",
+    era: "室町時代（1501年）",
+    gif: "",
+    type: "仏教絵巻",
+    typeColor: "bukkyou",
+    kotobagaki: true,
+    sourceImage: "九相詩絵巻（九州国立博物館）",
+    sourceEkotoba: "",
+    emakis: [
+      {
+        cat: "ekotoba",
+        chapter: "九相詩序 ",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/kusoushiemaki_01-375.webp",
+        srcTb: "/kusoushiemaki_01-800.webp",
+        src: "/kusoushiemaki_01-1080.webp",
+        name: "kusoushiemaki_01.webp",
+        phrase: [{}],
+      },
+      {
+        cat: "ekotoba",
+        chapter: "【第一相】 新死相",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/kusoushiemaki_02-375.webp",
+        srcTb: "/kusoushiemaki_02-800.webp",
+        src: "/kusoushiemaki_02-1080.webp",
+        name: "kusoushiemaki_02.webp",
+        phrase: [{}],
+      },
+
+      {
+        load: true,
+        cat: "image",
+        srcSp: "/kusoushiemaki_03-375.webp",
+        srcTb: "/kusoushiemaki_03-800.webp",
+        src: "/kusoushiemaki_03-1080.webp",
+        name: "kusoushiemaki_03.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第二相】 <ruby><rb>肪脹相</rb><rp>（</rp><rt>ぼうちょうそう</rt><rp>）</rp></ruby>",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/kusoushiemaki_04-375.webp",
+        srcTb: "/kusoushiemaki_04-800.webp",
+        src: "/kusoushiemaki_04-1080.webp",
+        name: "kusoushiemaki_04.webp",
+        phrase: [{}],
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/kusoushiemaki_05-375.webp",
+        srcTb: "/kusoushiemaki_05-800.webp",
+        src: "/kusoushiemaki_05-1080.webp",
+        name: "kusoushiemaki_05.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第三相】 <ruby><rb>血塗相</rb><rp>（</rp><rt>けちずそう</rt><rp>）</rp></ruby> ",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/kusoushiemaki_06-375.webp",
+        srcTb: "/kusoushiemaki_06-800.webp",
+        src: "/kusoushiemaki_06-1080.webp",
+        name: "kusoushiemaki_06.webp",
+        phrase: [{}],
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/kusoushiemaki_07-375.webp",
+        srcTb: "/kusoushiemaki_07-800.webp",
+        src: "/kusoushiemaki_07-1080.webp",
+        name: "kusoushiemaki_07.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第四相】 <ruby><rb>肪乱相</rb><rp>（</rp><rt>ほうらんそう</rt><rp>）</rp></ruby> ",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/kusoushiemaki_08-375.webp",
+        srcTb: "/kusoushiemaki_08-800.webp",
+        src: "/kusoushiemaki_08-1080.webp",
+        name: "kusoushiemaki_08.webp",
+        phrase: [{}],
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/kusoushiemaki_09-375.webp",
+        srcTb: "/kusoushiemaki_09-800.webp",
+        src: "/kusoushiemaki_09-1080.webp",
+        name: "kusoushiemaki_09.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第五相】 <ruby><rb>噉食相</rb><rp>（</rp><rt>たんじきそう</rt><rp>）</rp></ruby> ",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/kusoushiemaki_10-375.webp",
+        srcTb: "/kusoushiemaki_10-800.webp",
+        src: "/kusoushiemaki_10-1080.webp",
+        name: "kusoushiemaki_10.webp",
+        phrase: [{}],
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/kusoushiemaki_11-375.webp",
+        srcTb: "/kusoushiemaki_11-800.webp",
+        src: "/kusoushiemaki_11-1080.webp",
+        name: "kusoushiemaki_11.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第六相】 <ruby><rb>青瘀相</rb><rp>（</rp><rt>しょうおそう</rt><rp>）</rp></ruby> ",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/kusoushiemaki_12-375.webp",
+        srcTb: "/kusoushiemaki_12-800.webp",
+        src: "/kusoushiemaki_12-1080.webp",
+        name: "kusoushiemaki_12.webp",
+        phrase: [{}],
+      },
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/kusoushiemaki_13-375.webp",
+        srcTb: "/kusoushiemaki_13-800.webp",
+        src: "/kusoushiemaki_13-1080.webp",
+        name: "kusoushiemaki_13.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第七相】 <ruby><rb>白骨連相</rb><rp>（</rp><rt>はっこつれんそう</rt><rp>）</rp></ruby> ",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/kusoushiemaki_14-375.webp",
+        srcTb: "/kusoushiemaki_14-800.webp",
+        src: "/kusoushiemaki_14-1080.webp",
+        name: "kusoushiemaki_14.webp",
+        phrase: [{}],
+      },
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/kusoushiemaki_15-375.webp",
+        srcTb: "/kusoushiemaki_15-800.webp",
+        src: "/kusoushiemaki_15-1080.webp",
+        name: "kusoushiemaki_15.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第八相】 <ruby><rb>白骨散相</rb><rp>（</rp><rt>はっこつさんそう</rt><rp>）</rp></ruby> ",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/kusoushiemaki_16-375.webp",
+        srcTb: "/kusoushiemaki_16-800.webp",
+        src: "/kusoushiemaki_16-1080.webp",
+        name: "kusoushiemaki_16.webp",
+        phrase: [{}],
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/kusoushiemaki_17-375.webp",
+        srcTb: "/kusoushiemaki_17-800.webp",
+        src: "/kusoushiemaki_17-1080.webp",
+        name: "kusoushiemaki_17.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第九相】 <ruby><rb>成灰相</rb><rp>（</rp><rt>じょうかいそう</rt><rp>）</rp></ruby> ",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/kusoushiemaki_18-375.webp",
+        srcTb: "/kusoushiemaki_18-800.webp",
+        src: "/kusoushiemaki_18-1080.webp",
+        name: "kusoushiemaki_18.webp",
+        phrase: [{}],
+      },
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/kusoushiemaki_19-375.webp",
+        srcTb: "/kusoushiemaki_19-800.webp",
+        src: "/kusoushiemaki_19-1080.webp",
+        name: "kusoushiemaki_19.webp",
+      },
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/kusoushiemaki_20-375.webp",
+        srcTb: "/kusoushiemaki_20-800.webp",
+        src: "/kusoushiemaki_20-1080.webp",
+        name: "kusoushiemaki_20.webp",
+      },
+    ],
+  },
+
+  {
+    id: 11,
     title: "西行物語絵巻（万野本）",
     titleen: "saigyomonogatariemaki",
     author: "",
@@ -2339,10 +2445,21 @@ const data = [
     gif: "",
     type: "伝記絵巻",
     typeColor: "denki",
-    kotobagaki: false,
+    kotobagaki: true,
     sourceImage: "西行物語絵巻（大英博物館）",
     sourceEkotoba: "",
     emakis: [
+      {
+        cat: "ekotoba",
+        chapter: "西行、歳末に当たり、往事の追憶にふける",
+        kobun: "",
+        gendaibun: "",
+        // srcSp: "/kusoushiemaki_18-375.webp",
+        // srcTb: "/kusoushiemaki_18-800.webp",
+        // src: "/kusoushiemaki_18-1080.webp",
+        // name: "kusoushiemaki_18.webp",
+        phrase: [{}],
+      },
       {
         load: true,
         cat: "image",
@@ -2378,16 +2495,17 @@ const data = [
         src: "/saigyo_manno_04-1080.webp",
         name: "saigyo_manno_04.webp",
       },
-
       {
-        load: false,
-        cat: "image",
+        cat: "ekotoba",
+        chapter: "新年を迎えた西行、西方浄土の往生を祈る",
+        kobun: "",
+        gendaibun: "",
         srcSp: "/saigyo_manno_05-375.webp",
         srcTb: "/saigyo_manno_05-800.webp",
         src: "/saigyo_manno_05-1080.webp",
         name: "saigyo_manno_05.webp",
+        phrase: [{}],
       },
-
       {
         load: false,
         cat: "image",
@@ -2414,16 +2532,17 @@ const data = [
         src: "/saigyo_manno_08-1080.webp",
         name: "saigyo_manno_08.webp",
       },
-
       {
-        load: false,
-        cat: "image",
+        cat: "ekotoba",
+        chapter: "旅に出た西行、まず吉野山に足を踏み入れる",
+        kobun: "",
+        gendaibun: "",
         srcSp: "/saigyo_manno_09-375.webp",
         srcTb: "/saigyo_manno_09-800.webp",
         src: "/saigyo_manno_09-1080.webp",
         name: "saigyo_manno_09.webp",
+        phrase: [{}],
       },
-
       {
         load: false,
         cat: "image",
@@ -2457,12 +2576,15 @@ const data = [
         name: "saigyo_manno_13.webp",
       },
       {
-        load: false,
-        cat: "image",
+        cat: "ekotoba",
+        chapter: "西行、熊野詣でに向かう",
+        kobun: "",
+        gendaibun: "",
         srcSp: "/saigyo_manno_14-375.webp",
         srcTb: "/saigyo_manno_14-800.webp",
         src: "/saigyo_manno_14-1080.webp",
         name: "saigyo_manno_14.webp",
+        phrase: [{}],
       },
       {
         load: false,
@@ -2473,12 +2595,24 @@ const data = [
         name: "saigyo_manno_15.webp",
       },
       {
-        load: false,
-        cat: "image",
+        cat: "ekotoba",
+        chapter: "西行、千里の浜で夢の中に俊恵に会う",
+        kobun: "",
+        gendaibun: "",
         srcSp: "/saigyo_manno_16-375.webp",
         srcTb: "/saigyo_manno_16-800.webp",
         src: "/saigyo_manno_16-1080.webp",
         name: "saigyo_manno_16.webp",
+        phrase: [{}],
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/saigyo_manno_17-375.webp",
+        srcTb: "/saigyo_manno_17-800.webp",
+        src: "/saigyo_manno_17-1080.webp",
+        name: "saigyo_manno_17.webp",
       },
       {
         load: false,
@@ -2497,13 +2631,17 @@ const data = [
         name: "saigyo_manno_19.webp",
       },
       {
-        load: false,
-        cat: "image",
+        cat: "ekotoba",
+        chapter: "西行、熊野詣での帰途、葛城山の麓を通る",
+        kobun: "",
+        gendaibun: "",
         srcSp: "/saigyo_manno_20-375.webp",
         srcTb: "/saigyo_manno_20-800.webp",
         src: "/saigyo_manno_20-1080.webp",
         name: "saigyo_manno_20.webp",
+        phrase: [{}],
       },
+
       {
         load: false,
         cat: "image",
@@ -2529,13 +2667,17 @@ const data = [
         name: "saigyo_manno_23.webp",
       },
       {
-        load: false,
-        cat: "image",
+        cat: "ekotoba",
+        chapter: "西行、大和の里で同行の先達たちと別れる",
+        kobun: "",
+        gendaibun: "",
         srcSp: "/saigyo_manno_24-375.webp",
         srcTb: "/saigyo_manno_24-800.webp",
         src: "/saigyo_manno_24-1080.webp",
         name: "saigyo_manno_24.webp",
+        phrase: [{}],
       },
+
       {
         load: false,
         cat: "image",
@@ -2553,12 +2695,15 @@ const data = [
         name: "saigyo_manno_26.webp",
       },
       {
-        load: false,
-        cat: "image",
+        cat: "ekotoba",
+        chapter: "西行、住吉・浪速を往く。",
+        kobun: "",
+        gendaibun: "",
         srcSp: "/saigyo_manno_27-375.webp",
         srcTb: "/saigyo_manno_27-800.webp",
         src: "/saigyo_manno_27-1080.webp",
         name: "saigyo_manno_27.webp",
+        phrase: [{}],
       },
       {
         load: false,
