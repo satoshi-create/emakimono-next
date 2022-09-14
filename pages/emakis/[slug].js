@@ -16,7 +16,7 @@ const Emaki = ({ emakis }) => {
     <>
       <Head
         pagetitle={`${emakis.title} ${emakis.edition ? emakis.edition : ""}`}
-        pageDesc={emakis.desc}
+        pageDesc={emakis.metadesc}
         pageImg={emakis.thumb}
         pageImgW={emakis.thumb.width}
         pageImgH={emakis.thumb.height}
