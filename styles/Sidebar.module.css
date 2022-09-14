@@ -28,15 +28,43 @@
   right: 1rem;
 }
 .navtitle {
-  font-size: var(--mokuji-size);
+  font-size: calc(16px + (22 - 16) * ((100vh - 375px) / (1080 - 375)));
   margin-bottom: 2rem;
   font-family: var(--title-font);
+  text-align: center;
+}
+.tabConteiner {
+  display: flex;
+  justify-content: center;
+  column-gap: 2rem;
+  margin-bottom: 2rem;
+}
+.tabBtn {
+  font-size: var(--mokuji-size);
+  font-family: var(--title-font);
+}
+.activeBtn {
+  color: var(--clr-accent-02);
+  box-shadow: 0 4px var(--clr-accent-02);
 }
 .navlink {
   font-family: var(--text-font);
   transition: var(--transition);
   font-size: var(--mokuji-size);
 }
+.navlink:hover {
+  opacity: 0.4;
+}
 .open {
   display: block;
+}
+.source {
+  font-size: var(--mokuji-size);
+  font-family: var(--text-font);
+  list-style: disc;
+  list-style-position: inside;
+}
+.mokuji {
+  list-style: disc;
+  list-style-position: inside;
 }

@@ -4,7 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  list-style: none;
+
 }
 :root {
   --clr-black: rgb(5, 5, 5);
@@ -26,7 +26,9 @@
 body {
   background-color: #f9fbff;
 }
-
+ul{
+  list-style: none;
+}
 a {
   text-decoration: none;
   color: var(--clr-black);
