@@ -1,4 +1,4 @@
-import React, { useContext,useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "../styles/Sidebar.module.css";
 import { Menu, X } from "react-feather";
 import Link from "next/link";
@@ -7,13 +7,24 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { AppContext } from "../pages/_app";
 
 const Sidebar = ({ value }) => {
-  const { emakis, title, backgroundImage } = value;
+  const { emakis, title, backgroundImage, sourceImage } = value;
   const { oepnSidebar, setOepnSidebar } = useContext(AppContext);
-  // const [oepnSidebar, setOepnSidebar] = useState(false);
+  const [tabValue, setTabValue] = useState(0);
 
   useEffect(() => {
     setOepnSidebar(false);
   }, []);
+
+  const tabData = [
+    {
+      title: "目次",
+    },
+    {
+      title: "出典",
+    },
+  ];
+
+  console.log(tabValue);
 
   return (
     <aside>
@@ -34,24 +45,46 @@ const Sidebar = ({ value }) => {
         >
           <X />
         </button>
-        <ul>
-          <h4 className={styles.navtitle}>{title}</h4>
-          {emakis.map((item, index) => {
-            const { cat, chapter } = item;
-            if (cat === "ekotoba") {
-              return (
-                <li key={index} onClick={() => setOepnSidebar(false)}>
-                  <Link href={`#s${index}`}>
-                    <a
-                      className={styles.navlink}
-                      dangerouslySetInnerHTML={{ __html: chapter }}
-                    ></a>
-                  </Link>
-                </li>
-              );
-            }
+        <h4 className={styles.navtitle}>{title}</h4>
+        <div className={styles.tabConteiner}>
+          {tabData.map((item, index) => {
+            const { title } = item;
+            return (
+              <button
+                onClick={() => setTabValue(index)}
+                className={`${styles.tabBtn} ${
+                  tabValue === index ? styles.activeBtn : ""
+                }`}
+                key={index}
+              >
+                {title}
+              </button>
+            );
           })}
-        </ul>
+        </div>
+        {tabValue === 1 ? (
+          <ul className={styles.source}>
+            <li>{sourceImage}</li>
+          </ul>
+        ) : (
+          <ul className={styles.mokuji}>
+            {emakis.map((item, index) => {
+              const { cat, chapter } = item;
+              if (cat === "ekotoba") {
+                return (
+                  <li key={index} onClick={() => setOepnSidebar(false)}>
+                    <Link href={`#s${index}`}>
+                      <a
+                        className={styles.navlink}
+                        dangerouslySetInnerHTML={{ __html: chapter }}
+                      ></a>
+                    </Link>
+                  </li>
+                );
+              }
+            })}
+          </ul>
+        )}
       </div>
     </aside>
   );

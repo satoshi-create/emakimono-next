@@ -1928,7 +1928,7 @@ const data = [
         chapter:
           "【第二相】 <ruby><rb>脹相</rb><rp>（</rp><rt>ちょうそう</rt><rp>）</rp></ruby> ",
         kobun: "",
-        gendaibun: "死体が腐敗によるガスの発生で内部から膨張する。",
+        gendaibun: "これらの死屍は、顔色が黒ずみ、身体は硬直して手足が花を散らしたようにあちこちを向く。",
       },
       {
         load: true,
