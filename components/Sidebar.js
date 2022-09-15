@@ -7,7 +7,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { AppContext } from "../pages/_app";
 
 const Sidebar = ({ value }) => {
-  const { emakis, title, backgroundImage, sourceImage } = value;
+  const { emakis, title, backgroundImage, sourceImage, reference } = value;
   const { oepnSidebar, setOepnSidebar } = useContext(AppContext);
   const [tabValue, setTabValue] = useState(0);
 
@@ -22,7 +22,46 @@ const Sidebar = ({ value }) => {
     {
       title: "出典",
     },
+    {
+      title: "参照",
+    },
   ];
+
+  const Test = () => {
+    if (tabValue === 0) {
+      return (
+        <ul className={styles.mokuji}>
+          {emakis.map((item, index) => {
+            const { cat, chapter } = item;
+            if (cat === "ekotoba") {
+              return (
+                <li key={index} onClick={() => setOepnSidebar(false)}>
+                  <Link href={`#s${index}`}>
+                    <a
+                      className={styles.navlink}
+                      dangerouslySetInnerHTML={{ __html: chapter }}
+                    ></a>
+                  </Link>
+                </li>
+              );
+            }
+          })}
+        </ul>
+      );
+    } else if (tabValue === 1) {
+      return (
+        <ul className={styles.source}>
+          <li>{sourceImage}</li>
+        </ul>
+      );
+    } else if (tabValue === 2) {
+      return (
+        <ul className={styles.source}>
+          <li>{reference}</li>
+        </ul>
+      );
+    }
+  };
 
   console.log(tabValue);
 
@@ -62,7 +101,10 @@ const Sidebar = ({ value }) => {
             );
           })}
         </div>
-        {tabValue === 1 ? (
+        <div>
+          <Test />
+        </div>
+        {/* {tabValue === 1 ? (
           <ul className={styles.source}>
             <li>{sourceImage}</li>
           </ul>
@@ -84,7 +126,7 @@ const Sidebar = ({ value }) => {
               }
             })}
           </ul>
-        )}
+        )} */}
       </div>
     </aside>
   );

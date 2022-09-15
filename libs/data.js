@@ -1893,6 +1893,8 @@ const data = [
     typeColor: "bukkyou",
     kotobagaki: false,
     sourceImage: "九相図巻（九州国立博物館）",
+    reference:
+      "『九相図をよむ　朽ちてゆく死体の美術』（山本聡美 著　角川選書）",
     sourceEkotoba: "",
     emakis: [
       {
@@ -1928,7 +1930,8 @@ const data = [
         chapter:
           "【第二相】 <ruby><rb>脹相</rb><rp>（</rp><rt>ちょうそう</rt><rp>）</rp></ruby> ",
         kobun: "",
-        gendaibun: "これらの死屍は、顔色が黒ずみ、身体は硬直して手足が花を散らしたようにあちこちを向く。",
+        gendaibun:
+          "これらの死屍は、顔色が黒ずみ、身体が硬直して手足が花を散らしたようにあちこちを向く、膨脹した身体が風をはらんでふくらんだ革袋のようである。九つの孔からは、汚物が流れ溢れ、はなはだ穢れ醜悪である。行者は自らおもう、我が身もこれと同じであるし、未だ愛着を断ち切ることのできない愛人もまた、これと同じである。この相を見れば、心が少々定まり徐々に落ち着くのである。",
       },
       {
         load: true,
@@ -1943,7 +1946,8 @@ const data = [
         chapter:
           "【第三相】 <ruby><rb>壊相</rb><rp>（</rp><rt>えそう</rt><rp>）</rp></ruby> ",
         kobun: "",
-        gendaibun: "死体の腐乱が進み皮膚が破れ壊れはじめる。",
+        gendaibun:
+          "またたく間に、この膨張した屍は、風に吹かれ日に曝されて、皮や肉が破れ壊れ、身体が<ruby><rb>坼裂</rb><rp>（</rp><rt>たくれつ</rt><rp>）</rp></ruby>して形や色が変わってしまい、識別不可能となる。これを、壊相と名づける。",
       },
       {
         load: false,
@@ -1959,7 +1963,7 @@ const data = [
           "【第四相】 <ruby><rb>血塗相</rb><rp>（</rp><rt>けちずそう</rt><rp>）</rp></ruby> ",
         kobun: "",
         gendaibun:
-          "死体の腐敗による損壊がさらに進み、溶解した脂肪・血液・体液が体外に滲みだす。",
+          "<ruby><rb>坼裂</rb><rp>（</rp><rt>たくれつ</rt><rp>）</rp></ruby>したところから血が溢れ出る。あちこちに飛び散り溜り、所々を斑に染める、溢れて地面に染み込み悪臭が漂う、これを血塗相とする。",
       },
       {
         load: false,
@@ -1974,7 +1978,8 @@ const data = [
         chapter:
           "【第五相】 <ruby><rb>膿爛相</rb><rp>（</rp><rt>のうらんそう</rt><rp>）</rp></ruby>",
         kobun: "",
-        gendaibun: "死体自体が腐敗により溶解する。",
+        gendaibun:
+          "膿爛し流れ潰える死体を見る。肉が溶けて流れ、火をつけた蝋燭のようである。これを膿爛相と名づける。",
       },
       {
         load: false,
@@ -1989,7 +1994,8 @@ const data = [
         chapter:
           "【第六相】 <ruby><rb>青瘀相</rb><rp>（</rp><rt>しょうおそう</rt><rp>）</rp></ruby>",
         kobun: "",
-        gendaibun: "死体が青黒くなる。",
+        gendaibun:
+          "残りの皮やあまった肉が風や日に乾き炙られ、臭く腐敗し黒ずむのを見る。半ば青く半ば傷んで、痩せて皮がたるんでいる、これを青瘀相とする。",
       },
       {
         load: false,
@@ -2004,7 +2010,8 @@ const data = [
         chapter:
           "【第七相】 <ruby><rb>噉相</rb><rp>（</rp><rt>たんそう</rt><rp>）</rp></ruby>",
         kobun: "",
-        gendaibun: "死体に虫がわき、鳥獣に食い荒らされる。",
+        gendaibun:
+          "この屍が狐、狼、鳶、鷲に噉相されるのを見る、肉片を奪い争い、引き裂いて散り散りになる、これを噉相とする。",
       },
       {
         load: false,
@@ -2019,7 +2026,8 @@ const data = [
         chapter:
           "【第八相】 <ruby><rb>散相</rb><rp>（</rp><rt>さんそう</rt><rp>）</rp></ruby>",
         kobun: "",
-        gendaibun: "以上の結果、死体の部位が散乱する。",
+        gendaibun:
+          "頭と手が異なるところにあるのを見る。五臓が散らばってもはや収斂しない。これを散相とする。",
       },
       {
         load: false,
@@ -2034,7 +2042,8 @@ const data = [
         chapter:
           "【第九相】 <ruby><rb> 骨相</rb><rp>（</rp><rt>こつそう</rt><rp>）</rp></ruby>",
         kobun: "",
-        gendaibun: "血肉や皮脂がなくなり骨だけになる。",
+        gendaibun:
+          "二種の骨があるのを見る。一つは濃膏を帯び、一つは純白で清浄である。ある時は一具の骨で、またある時は散乱している。",
       },
       {
         load: false,
@@ -2223,6 +2232,8 @@ const data = [
     typeColor: "bukkyou",
     kotobagaki: true,
     sourceImage: "九相詩絵巻（九州国立博物館）",
+    reference:
+      "『九相図をよむ　朽ちてゆく死体の美術』（山本聡美 著　角川選書）",
     sourceEkotoba: "",
     emakis: [
       {
@@ -2240,7 +2251,8 @@ const data = [
         cat: "ekotoba",
         chapter: "【第一相】 新死相",
         kobun: "",
-        gendaibun: "",
+        gendaibun:
+          "<span class='waka'>さかりなる　花のすかたも散はてて<br>　　　　　あはれにみゆる　春の夕くれ<br><br>花もちり　春も暮行木のもとに<br>　　　　　　命もつきぬ　入あひのかね</span>",
         srcSp: "/kusoushiemaki_02-375.webp",
         srcTb: "/kusoushiemaki_02-800.webp",
         src: "/kusoushiemaki_02-1080.webp",
@@ -2261,7 +2273,8 @@ const data = [
         chapter:
           "【第二相】 <ruby><rb>肪脹相</rb><rp>（</rp><rt>ぼうちょうそう</rt><rp>）</rp></ruby>",
         kobun: "",
-        gendaibun: "",
+        gendaibun:
+          "<span class='waka'>あさからす　しなはともにと　契しも<br>　　　　　人はよそなる　よもきふのやと<br><br>落やすき　秋のもみちの　霜かれて<br>　　　　　みしにもあらぬ人々のいろ</span>",
         srcSp: "/kusoushiemaki_04-375.webp",
         srcTb: "/kusoushiemaki_04-800.webp",
         src: "/kusoushiemaki_04-1080.webp",
@@ -2282,7 +2295,8 @@ const data = [
         chapter:
           "【第三相】 <ruby><rb>血塗相</rb><rp>（</rp><rt>けちずそう</rt><rp>）</rp></ruby> ",
         kobun: "",
-        gendaibun: "",
+        gendaibun:
+          "<span class='waka'>日にそへて　かはるすかたの　黛も<br>　　　　きえて跡なき　露の身そかし<br><br>みな人の　我か物かほに おもひしに<br>　　　　　此身のはての　なれる姿よ</span>",
         srcSp: "/kusoushiemaki_06-375.webp",
         srcTb: "/kusoushiemaki_06-800.webp",
         src: "/kusoushiemaki_06-1080.webp",
@@ -2303,7 +2317,8 @@ const data = [
         chapter:
           "【第四相】 <ruby><rb>肪乱相</rb><rp>（</rp><rt>ほうらんそう</rt><rp>）</rp></ruby> ",
         kobun: "",
-        gendaibun: "",
+        gendaibun:
+          "<span class='waka'>何とたに　かりなる色を　かさる覧<br>　　　　　かかるへしとは　かねてしらすや<br><br>うら見ても　かひなきものを　鳥辺山<br>　　　　　まくすか原に　すてらるる身を</span>",
         srcSp: "/kusoushiemaki_08-375.webp",
         srcTb: "/kusoushiemaki_08-800.webp",
         src: "/kusoushiemaki_08-1080.webp",
@@ -2324,7 +2339,8 @@ const data = [
         chapter:
           "【第五相】 <ruby><rb>噉食相</rb><rp>（</rp><rt>たんじきそう</rt><rp>）</rp></ruby> ",
         kobun: "",
-        gendaibun: "",
+        gendaibun:
+          "<span class='waka'>とりへやまに　あらそふ犬の　聲きけは<br>　　　　　かねてうき身の　をき所なき<br><br>是を見て　身はうき物と　おもひしに<br>　　　　　なにの情か　これにあるへき</span>",
         srcSp: "/kusoushiemaki_10-375.webp",
         srcTb: "/kusoushiemaki_10-800.webp",
         src: "/kusoushiemaki_10-1080.webp",
@@ -2345,7 +2361,8 @@ const data = [
         chapter:
           "【第六相】 <ruby><rb>青瘀相</rb><rp>（</rp><rt>しょうおそう</rt><rp>）</rp></ruby> ",
         kobun: "",
-        gendaibun: "",
+        gendaibun:
+          "<span class='waka'>はかなしや　あさ夕なてし　くろ髪も<br>　　　　　蓬（よもぎ）かもとの　ちりと成たり<br><br>おもひきや　鳥への山に　捨てられし<br>　　　　　犬のあらそふ　身なるへしとは</span>",
         srcSp: "/kusoushiemaki_12-375.webp",
         srcTb: "/kusoushiemaki_12-800.webp",
         src: "/kusoushiemaki_12-1080.webp",
@@ -2365,7 +2382,8 @@ const data = [
         chapter:
           "【第七相】 <ruby><rb>白骨連相</rb><rp>（</rp><rt>はっこつれんそう</rt><rp>）</rp></ruby> ",
         kobun: "",
-        gendaibun: "",
+        gendaibun:
+          "<span class='waka'>皮にこそ　おとこをんなの　色はあれ<br>　　　　　ほねにはかはる　人かたもなし<br><br>かさりつる　すかたは野辺に　散はてて<br>　　　　　のこるかはねの　なれる姿よ</span>",
         srcSp: "/kusoushiemaki_14-375.webp",
         srcTb: "/kusoushiemaki_14-800.webp",
         src: "/kusoushiemaki_14-1080.webp",
@@ -2385,7 +2403,8 @@ const data = [
         chapter:
           "【第八相】 <ruby><rb>白骨散相</rb><rp>（</rp><rt>はっこつさんそう</rt><rp>）</rp></ruby> ",
         kobun: "",
-        gendaibun: "",
+        gendaibun:
+          "<span class='waka'>露の命　消にし跡を　見よかほに<br>　　　　　お花かもとに　のこるかはねよ<br><br>われとおもふ　身はみな野辺に　朽ち果てて<br>　　　　　よもきかもとの　ちりと成けり</span>",
         srcSp: "/kusoushiemaki_16-375.webp",
         srcTb: "/kusoushiemaki_16-800.webp",
         src: "/kusoushiemaki_16-1080.webp",
@@ -2406,7 +2425,8 @@ const data = [
         chapter:
           "【第九相】 <ruby><rb>成灰相</rb><rp>（</rp><rt>じょうかいそう</rt><rp>）</rp></ruby> ",
         kobun: "",
-        gendaibun: "",
+        gendaibun:
+          "<span class='waka'>かきつけし　其名ははやく　きえはてて<br>　　　　　たれともしらぬ　古卒都婆かな<br><br>とり辺山　すてにし人は　後たえて<br>　　　　　つかにはのこる　露のたましい</span>",
         srcSp: "/kusoushiemaki_18-375.webp",
         srcTb: "/kusoushiemaki_18-800.webp",
         src: "/kusoushiemaki_18-1080.webp",
@@ -2456,11 +2476,8 @@ const data = [
         cat: "ekotoba",
         chapter: "西行、歳末に当たり、往事の追憶にふける",
         kobun: "",
-        gendaibun: "",
-        // srcSp: "/kusoushiemaki_18-375.webp",
-        // srcTb: "/kusoushiemaki_18-800.webp",
-        // src: "/kusoushiemaki_18-1080.webp",
-        // name: "kusoushiemaki_18.webp",
+        gendaibun:
+          "<span class='waka'>おのずから　言はぬを慕う　人やあると<br>　　　　　　やすらふほどに　年の暮れぬる<br><br>昔思ふ　庭に薪を　積みおきて<br>　　　　　　見し世にも似ぬ　年の暮れかな<br><br>年暮らし　その営みの　果かなくて<br>　　　　　　あらぬさまなる　急ぎをぞする</span>",
         phrase: [{}],
       },
       {
@@ -2502,7 +2519,8 @@ const data = [
         cat: "ekotoba",
         chapter: "新年を迎えた西行、西方浄土の往生を祈る",
         kobun: "",
-        gendaibun: "",
+        gendaibun:
+          "やがて新年を迎えた。年賀の客とてもない西行は、元旦の朝、ひとり西方浄土の拝して、臨終正念、往生極楽を祈るばかりであった。俗世間の人たちは、いずれも年頭には千代を喜ぶ。子の日に野に出でて小松の根を引き、七日には若菜を摘む。われもわれもとこぞって新年を祝う。が、人生はただ春の夜の夢のごとし。まことにはかないものである。高位高官、栄達の望みもまた、七珍万法の蓄えもすべては水の泡、幻のようなものである。<br><br>西行は、今年こそと心に誓い、せめてこの春のうちに往生を遂げたいものと神仏に祈った。庵室の前の梅が今を盛り、過行く人々を眺めて、<br><br><span class='waka'>心せん　<ruby><rb>賤</rb><rp>（</rp><rt>しず</rt><rp>）</rp></ruby>か垣根の　梅の花<br>　　　　　由無く過ぐる人留めけり<br><br>香を留めん　人をしぞ待て　山里の<br>　　　　　垣根の梅の　散らぬ限りは</span><br><br>そばの庵室の垣根に、咲いている梅の花が風に誘われて、懐かしく散る様を見て<br><br><span class='waka'>主いかに　風渡るとて　厭ふ覧<br>　　　　　余所に嬉しき　風の匂ひを</span><br><br>花を愛でつつ静かに過ごしていると、昔の友が花見に来ているのを見つけ、心乱れたとき<br><br><span class='waka'>花見にと　群れつつ人の　来る時ぞ<br>　　　　　あたら桜の　咎にはありける	</span><br><br>",
         srcSp: "/saigyo_manno_05-375.webp",
         srcTb: "/saigyo_manno_05-800.webp",
         src: "/saigyo_manno_05-1080.webp",
