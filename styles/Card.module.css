@@ -36,15 +36,15 @@
 .header h4 {
   font-family: var(--title-font);
 }
-.atuthor {
+/* .atuthor {
+  grid-area: 1/2;
+  justify-self: flex-end;
+} */
+.era {
   grid-area: 1/2;
   justify-self: flex-end;
 }
-.era {
-  grid-area: 2/2;
-  justify-self: flex-end;
-}
-.readMore{
+.readMore {
   color: var(--clr-accent-02);
   font-weight: bold;
 }

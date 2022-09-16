@@ -53,7 +53,8 @@
   font-size: var(--mokuji-size);
 }
 .navlink:hover {
-  opacity: 0.4;
+  opacity: 0.6;
+  color: var(--clr-accent-02);
 }
 .open {
   display: block;
@@ -67,4 +68,11 @@
 .mokuji {
   list-style: disc;
   list-style-position: inside;
+}
+.sourceLink {
+  transition: var(--transition);
+}
+.sourceLink:hover {
+  opacity: 0.6;
+  color: var(--clr-accent-02);
 }
