@@ -7,7 +7,14 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { AppContext } from "../pages/_app";
 
 const Sidebar = ({ value }) => {
-  const { emakis, title, backgroundImage, sourceImage, reference } = value;
+  const {
+    emakis,
+    title,
+    backgroundImage,
+    sourceImageUrl,
+    sourceImage,
+    reference,
+  } = value;
   const { oepnSidebar, setOepnSidebar } = useContext(AppContext);
   const [tabValue, setTabValue] = useState(0);
 
@@ -51,7 +58,13 @@ const Sidebar = ({ value }) => {
     } else if (tabValue === 1) {
       return (
         <ul className={styles.source}>
-          <li>{sourceImage}</li>
+          <li>
+            <Link href={sourceImageUrl}>
+              <a target="_blank" className={styles.sourceLink}>
+                {sourceImage}
+              </a>
+            </Link>
+          </li>
         </ul>
       );
     } else if (tabValue === 2) {

@@ -19,7 +19,9 @@ const data = [
     type: "連続式絵巻",
     typeColor: "renzokushiki",
     kotobagaki: false,
-    sourceImage: "鳥獣人戯画絵巻 摸本（山崎董詮画 国立博物館）",
+    sourceImageUrl:
+      "https://colbase.nich.go.jp/collection_items/tnm/A-1530?locale=ja",
+    sourceImage: "鳥獣人戯画絵巻 摸本（ColBase）",
     emakis: [
       {
         cat: "ekotoba",
@@ -280,7 +282,9 @@ const data = [
     type: "連続式絵巻",
     typeColor: "renzokushiki",
     kotobagaki: false,
-    sourceImage: "鳥獣人戯画絵巻 摸本（山崎董詮画 国立博物館）",
+    sourceImageUrl:
+      "https://colbase.nich.go.jp/collection_items/tnm/A-1530?locale=ja",
+    sourceImage: "鳥獣人戯画絵巻 摸本（ColBase）",
     emakis: [
       {
         cat: "ekotoba",
@@ -571,7 +575,9 @@ const data = [
     type: "連続式絵巻",
     typeColor: "renzokushiki",
     kotobagaki: false,
-    sourceImage: "鳥獣人戯画絵巻 摸本（山崎董詮画 国立博物館）",
+    sourceImageUrl:
+      "https://colbase.nich.go.jp/collection_items/tnm/A-1530?locale=ja",
+    sourceImage: "鳥獣人戯画絵巻 摸本（ColBase）",
     emakis: [
       {
         cat: "ekotoba",
@@ -839,7 +845,9 @@ const data = [
     type: "連続式絵巻",
     typeColor: "renzokushiki",
     kotobagaki: false,
-    sourceImage: "鳥獣人戯画絵巻 摸本（山崎董詮画 国立博物館）",
+    sourceImageUrl:
+      "https://colbase.nich.go.jp/collection_items/tnm/A-1530?locale=ja",
+    sourceImage: "鳥獣人戯画絵巻 摸本（ColBase）",
     emakis: [
       {
         cat: "ekotoba",
@@ -1072,6 +1080,7 @@ const data = [
     type: "説話絵巻",
     typeColor: "setsuwa",
     kotobagaki: true,
+    sourceImageUrl: "https://dl.ndl.go.jp/info:ndljp/pid/2541034",
     sourceImage: "直幹申文絵詞（国立国会図書館）",
     sourceEkotoba: "『日本の絵巻十七 奈与竹物語絵巻 直幹申文絵詞』",
     emakis: [
@@ -1338,6 +1347,7 @@ const data = [
     type: "説話絵巻",
     typeColor: "setsuwa",
     kotobagaki: true,
+    sourceImageUrl: "https://dl.ndl.go.jp/info:ndljp/pid/2540882",
     sourceImage: "弱竹物語（国立国会図書館）",
     sourceEkotoba: "『日本の絵巻十七 奈与竹物語絵巻 直幹申文絵詞』",
     emakis: [
@@ -1694,6 +1704,8 @@ const data = [
     type: "説話絵巻",
     typeColor: "setsuwa",
     kotobagaki: true,
+    sourceImageUrl:
+      "http://www.archives.kyoto.jp/websearchpe/detail?cls=152_old_books_catalog&pkey=0000000096",
     sourceImage:
       "繪卷物長谷雄卿逢羅城門鬼神之圖（京都府立京都学・歴彩館　デジタルアーカイブ）",
     sourceEkotoba:
@@ -1892,6 +1904,8 @@ const data = [
     type: "仏教絵巻",
     typeColor: "bukkyou",
     kotobagaki: false,
+    sourceImageUrl:
+      "https://colbase.nich.go.jp/collection_items/kyuhaku/A70?locale=ja",
     sourceImage: "九相図巻（九州国立博物館）",
     reference:
       "『九相図をよむ　朽ちてゆく死体の美術』（山本聡美 著　角川選書）",
@@ -2068,11 +2082,13 @@ const data = [
     metadesc:
       "九相図（小林永濯 画）の全シーンを、横スクロールで楽しむことができます。明治時代の浮世絵師、小林永濯が描いた九相図です。",
     desc: "九相図の全シーンを、横スクロールで楽しむことができます。明治時代の浮世絵師、小林永濯の作品です。多くの九相図は小野小町や檀林皇后がモデルとなっていますが、こちらは近世～近代の作品らしく、娼婦がモデルになっています。",
-    era: "明治時代（1870年代）",
+    era: "明治時代",
     gif: "",
     type: "仏教絵巻",
     typeColor: "bukkyou",
     kotobagaki: false,
+    sourceImageUrl:
+      "https://www.britishmuseum.org/collection/object/A_2008-3033-1",
     sourceImage: "九相図（大英博物館）",
     sourceEkotoba: "",
     emakis: [
@@ -2231,6 +2247,8 @@ const data = [
     type: "仏教絵巻",
     typeColor: "bukkyou",
     kotobagaki: true,
+    sourceImageUrl:
+      "https://colbase.nich.go.jp/collection_items/kyuhaku/A56?locale=ja",
     sourceImage: "九相詩絵巻（九州国立博物館）",
     reference:
       "『九相図をよむ　朽ちてゆく死体の美術』（山本聡美 著　角川選書）",
@@ -2469,6 +2487,8 @@ const data = [
     type: "伝記絵巻",
     typeColor: "denki",
     kotobagaki: true,
+    sourceImageUrl:
+      "https://www.britishmuseum.org/collection/object/A_1881-1210-0-267",
     sourceImage: "西行物語絵巻（大英博物館）",
     sourceEkotoba: "",
     emakis: [
@@ -2758,6 +2778,233 @@ const data = [
         srcTb: "/saigyo_manno_31-800.webp",
         src: "/saigyo_manno_31-1080.webp",
         name: "saigyo_manno_31.webp",
+      },
+    ],
+  },
+  {
+    id: 12,
+    title: "地獄草紙（安住院本）",
+    titleen: "jigokusoushi_anzyuin",
+    author: "",
+    backgroundImage: "/washi-pattern-01.webp",
+    video: "",
+    thumb: "/saigyo_manno_thumb.webp",
+    thumb2: "/jigokusoushi_anzyuin_thumb.webp",
+    srcFirstView: "/jigokusoushi_anzyuin_02-1080.webp",
+    metadesc: "",
+    desc: "",
+    era: "平安時代末期",
+    gif: "",
+    type: "仏教絵巻",
+    typeColor: "denki",
+    kotobagaki: true,
+    sourceImage: "地獄草紙（ColBase）",
+    sourceEkotoba: "",
+    emakis: [
+      {
+        load: true,
+        cat: "image",
+        srcSp: "/jigokusoushi_anzyuin_01-375.webp",
+        srcTb: "/jigokusoushi_anzyuin_01-800.webp",
+        src: "/jigokusoushi_anzyuin_01-1080.webp",
+        name: "jigokusoushi_anzyuin_01.webp",
+      },
+
+      {
+        load: true,
+        cat: "image",
+        srcSp: "/jigokusoushi_anzyuin_02-375.webp",
+        srcTb: "/jigokusoushi_anzyuin_02-800.webp",
+        src: "/jigokusoushi_anzyuin_02-1080.webp",
+        name: "jigokusoushi_anzyuin_02.webp",
+      },
+
+      {
+        load: true,
+        cat: "image",
+        srcSp: "/jigokusoushi_anzyuin_03-375.webp",
+        srcTb: "/jigokusoushi_anzyuin_03-800.webp",
+        src: "/jigokusoushi_anzyuin_03-1080.webp",
+        name: "jigokusoushi_anzyuin_03.webp",
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_anzyuin_04-375.webp",
+        srcTb: "/jigokusoushi_anzyuin_04-800.webp",
+        src: "/jigokusoushi_anzyuin_04-1080.webp",
+        name: "jigokusoushi_anzyuin_04.webp",
+      },
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_anzyuin_05-375.webp",
+        srcTb: "/jigokusoushi_anzyuin_05-800.webp",
+        src: "/jigokusoushi_anzyuin_05-1080.webp",
+        name: "jigokusoushi_anzyuin_05.webp",
+      },
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_anzyuin_06-375.webp",
+        srcTb: "/jigokusoushi_anzyuin_06-800.webp",
+        src: "/jigokusoushi_anzyuin_06-1080.webp",
+        name: "jigokusoushi_anzyuin_06.webp",
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_anzyuin_07-375.webp",
+        srcTb: "/jigokusoushi_anzyuin_07-800.webp",
+        src: "/jigokusoushi_anzyuin_07-1080.webp",
+        name: "jigokusoushi_anzyuin_07.webp",
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_anzyuin_08-375.webp",
+        srcTb: "/jigokusoushi_anzyuin_08-800.webp",
+        src: "/jigokusoushi_anzyuin_08-1080.webp",
+        name: "jigokusoushi_anzyuin_08.webp",
+      },
+    ],
+  },
+  {
+    id: 13,
+    title: "地獄草紙（原家本）",
+    titleen: "jigokusoushi_genke",
+    author: "",
+    backgroundImage: "/washi-pattern-01.webp",
+    video: "",
+    thumb: "/saigyo_manno_thumb.webp",
+    thumb2: "/jigokusoushi_genke_thumb.webp",
+    srcFirstView: "/jigokusoushi_genke_02-1080.webp",
+    metadesc: "",
+    desc: "",
+    era: "平安時代末期",
+    gif: "",
+    type: "仏教絵巻",
+    typeColor: "denki",
+    kotobagaki: true,
+    sourceImage: "地獄草紙 （ColBase）",
+    sourceEkotoba: "",
+    emakis: [
+      {
+        load: true,
+        cat: "image",
+        srcSp: "/jigokusoushi_genke_01-375.webp",
+        srcTb: "/jigokusoushi_genke_01-800.webp",
+        src: "/jigokusoushi_genke_01-1080.webp",
+        name: "jigokusoushi_genke_01.webp",
+      },
+
+      {
+        load: true,
+        cat: "image",
+        srcSp: "/jigokusoushi_genke_02-375.webp",
+        srcTb: "/jigokusoushi_genke_02-800.webp",
+        src: "/jigokusoushi_genke_02-1080.webp",
+        name: "jigokusoushi_genke_02.webp",
+      },
+
+      {
+        load: true,
+        cat: "image",
+        srcSp: "/jigokusoushi_genke_03-375.webp",
+        srcTb: "/jigokusoushi_genke_03-800.webp",
+        src: "/jigokusoushi_genke_03-1080.webp",
+        name: "jigokusoushi_genke_03.webp",
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_genke_04-375.webp",
+        srcTb: "/jigokusoushi_genke_04-800.webp",
+        src: "/jigokusoushi_genke_04-1080.webp",
+        name: "jigokusoushi_genke_04.webp",
+      },
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_genke_05-375.webp",
+        srcTb: "/jigokusoushi_genke_05-800.webp",
+        src: "/jigokusoushi_genke_05-1080.webp",
+        name: "jigokusoushi_genke_05.webp",
+      },
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_genke_06-375.webp",
+        srcTb: "/jigokusoushi_genke_06-800.webp",
+        src: "/jigokusoushi_genke_06-1080.webp",
+        name: "jigokusoushi_genke_06.webp",
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_genke_07-375.webp",
+        srcTb: "/jigokusoushi_genke_07-800.webp",
+        src: "/jigokusoushi_genke_07-1080.webp",
+        name: "jigokusoushi_genke_07.webp",
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_genke_08-375.webp",
+        srcTb: "/jigokusoushi_genke_08-800.webp",
+        src: "/jigokusoushi_genke_08-1080.webp",
+        name: "jigokusoushi_genke_08.webp",
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_genke_09-375.webp",
+        srcTb: "/jigokusoushi_genke_09-800.webp",
+        src: "/jigokusoushi_genke_09-1080.webp",
+        name: "jigokusoushi_genke_09.webp",
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_genke_10-375.webp",
+        srcTb: "/jigokusoushi_genke_10-800.webp",
+        src: "/jigokusoushi_genke_10-1080.webp",
+        name: "jigokusoushi_genke_10.webp",
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_genke_11-375.webp",
+        srcTb: "/jigokusoushi_genke_11-800.webp",
+        src: "/jigokusoushi_genke_11-1080.webp",
+        name: "jigokusoushi_genke_11.webp",
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_genke_12-375.webp",
+        srcTb: "/jigokusoushi_genke_12-800.webp",
+        src: "/jigokusoushi_genke_12-1080.webp",
+        name: "jigokusoushi_genke_12.webp",
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_genke_13-375.webp",
+        srcTb: "/jigokusoushi_genke_13-800.webp",
+        src: "/jigokusoushi_genke_13-1080.webp",
+        name: "jigokusoushi_genke_13.webp",
       },
     ],
   },

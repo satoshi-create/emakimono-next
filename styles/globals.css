@@ -17,7 +17,7 @@
   --mokuji-size: calc(14px + (20 - 14) * ((100vh - 375px) / (1080 - 375)));
   --title-font: "Kaisei Decol", serif;
   --text-font: "Zen Kurenaido", sans-serif;
-  /* --waka-font: "Noto Sans JP", sans-serif; */
+  --waka-font: "Noto Serif JP", serif;
   --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   --shadowR: -10px 15px 10px rgba(0, 0, 0, 0.2);
   --transition: all 0.3s linear;
@@ -75,6 +75,7 @@ button {
   opacity: 1;
   transition: opacity 0.3ms;
 }
-/* .waka {
-  font-family: var(--waka-font);
-} */
+.waka {
+  /* font-family: var(--waka-font); */
+  /* font-weight: bold;  */
+}
