@@ -2789,7 +2789,7 @@ const data = [
     author: "",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
-    thumb: "/saigyo_manno_thumb.webp",
+    thumb: "/jigokusoushi_anzyuin_thumb.webp",
     thumb2: "/jigokusoushi_anzyuin_thumb.webp",
     srcFirstView: "/jigokusoushi_anzyuin_02-1080.webp",
     metadesc: "",
@@ -2803,12 +2803,15 @@ const data = [
     sourceEkotoba: "",
     emakis: [
       {
-        load: true,
-        cat: "image",
+        cat: "ekotoba",
+        chapter: "叫喚地獄第三別所・髪火流（はつかる）",
+        kobun: "",
+        gendaibun: "",
         srcSp: "/jigokusoushi_anzyuin_01-375.webp",
         srcTb: "/jigokusoushi_anzyuin_01-800.webp",
         src: "/jigokusoushi_anzyuin_01-1080.webp",
         name: "jigokusoushi_anzyuin_01.webp",
+        phrase: [{}],
       },
 
       {
@@ -2819,14 +2822,16 @@ const data = [
         src: "/jigokusoushi_anzyuin_02-1080.webp",
         name: "jigokusoushi_anzyuin_02.webp",
       },
-
       {
-        load: true,
-        cat: "image",
+        cat: "ekotoba",
+        chapter: "叫喚地獄第四別所・火末虫（かまつむし）",
+        kobun: "",
+        gendaibun: "",
         srcSp: "/jigokusoushi_anzyuin_03-375.webp",
         srcTb: "/jigokusoushi_anzyuin_03-800.webp",
         src: "/jigokusoushi_anzyuin_03-1080.webp",
         name: "jigokusoushi_anzyuin_03.webp",
+        phrase: [{}],
       },
 
       {
@@ -2838,13 +2843,17 @@ const data = [
         name: "jigokusoushi_anzyuin_04.webp",
       },
       {
-        load: false,
-        cat: "image",
+        cat: "ekotoba",
+        chapter: "叫喚地獄第十五別所・雲火霧（うんかむ）",
+        kobun: "",
+        gendaibun: "",
         srcSp: "/jigokusoushi_anzyuin_05-375.webp",
         srcTb: "/jigokusoushi_anzyuin_05-800.webp",
         src: "/jigokusoushi_anzyuin_05-1080.webp",
         name: "jigokusoushi_anzyuin_05.webp",
+        phrase: [{}],
       },
+
       {
         load: false,
         cat: "image",
@@ -2853,14 +2862,16 @@ const data = [
         src: "/jigokusoushi_anzyuin_06-1080.webp",
         name: "jigokusoushi_anzyuin_06.webp",
       },
-
       {
-        load: false,
-        cat: "image",
+        cat: "ekotoba",
+        chapter: "叫喚地獄第六別所・雨炎火石（うえんかせき）",
+        kobun: "",
+        gendaibun: "",
         srcSp: "/jigokusoushi_anzyuin_07-375.webp",
         srcTb: "/jigokusoushi_anzyuin_07-800.webp",
         src: "/jigokusoushi_anzyuin_07-1080.webp",
         name: "jigokusoushi_anzyuin_07.webp",
+        phrase: [{}],
       },
 
       {
@@ -2880,7 +2891,7 @@ const data = [
     author: "",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
-    thumb: "/saigyo_manno_thumb.webp",
+    thumb: "/jigokusoushi_genke_thumb.webp",
     thumb2: "/jigokusoushi_genke_thumb.webp",
     srcFirstView: "/jigokusoushi_genke_02-1080.webp",
     metadesc: "",
@@ -2894,12 +2905,15 @@ const data = [
     sourceEkotoba: "",
     emakis: [
       {
-        load: true,
-        cat: "image",
+        cat: "ekotoba",
+        chapter: "屎糞所（しふんしょ）",
+        kobun: "",
+        gendaibun: "",
         srcSp: "/jigokusoushi_genke_01-375.webp",
         srcTb: "/jigokusoushi_genke_01-800.webp",
         src: "/jigokusoushi_genke_01-1080.webp",
         name: "jigokusoushi_genke_01.webp",
+        phrase: [{}],
       },
 
       {
@@ -2910,14 +2924,16 @@ const data = [
         src: "/jigokusoushi_genke_02-1080.webp",
         name: "jigokusoushi_genke_02.webp",
       },
-
       {
-        load: true,
-        cat: "image",
+        cat: "ekotoba",
+        chapter: "函量所（かんりょうしょ）",
+        kobun: "",
+        gendaibun: "",
         srcSp: "/jigokusoushi_genke_03-375.webp",
         srcTb: "/jigokusoushi_genke_03-800.webp",
         src: "/jigokusoushi_genke_03-1080.webp",
         name: "jigokusoushi_genke_03.webp",
+        phrase: [{}],
       },
 
       {
@@ -2929,13 +2945,17 @@ const data = [
         name: "jigokusoushi_genke_04.webp",
       },
       {
-        load: false,
-        cat: "image",
+        cat: "ekotoba",
+        chapter: "鉄鎧所（てつがいしょ）",
+        kobun: "",
+        gendaibun: "",
         srcSp: "/jigokusoushi_genke_05-375.webp",
         srcTb: "/jigokusoushi_genke_05-800.webp",
         src: "/jigokusoushi_genke_05-1080.webp",
         name: "jigokusoushi_genke_05.webp",
+        phrase: [{}],
       },
+
       {
         load: false,
         cat: "image",
@@ -2944,14 +2964,16 @@ const data = [
         src: "/jigokusoushi_genke_06-1080.webp",
         name: "jigokusoushi_genke_06.webp",
       },
-
       {
-        load: false,
-        cat: "image",
+        cat: "ekotoba",
+        chapter: "鶏地獄（とりじごく）",
+        kobun: "",
+        gendaibun: "",
         srcSp: "/jigokusoushi_genke_07-375.webp",
         srcTb: "/jigokusoushi_genke_07-800.webp",
         src: "/jigokusoushi_genke_07-1080.webp",
         name: "jigokusoushi_genke_07.webp",
+        phrase: [{}],
       },
 
       {
@@ -2962,16 +2984,17 @@ const data = [
         src: "/jigokusoushi_genke_08-1080.webp",
         name: "jigokusoushi_genke_08.webp",
       },
-
       {
-        load: false,
-        cat: "image",
+        cat: "ekotoba",
+        chapter: "黒雲沙（こくうんしゃ）",
+        kobun: "",
+        gendaibun: "",
         srcSp: "/jigokusoushi_genke_09-375.webp",
         srcTb: "/jigokusoushi_genke_09-800.webp",
         src: "/jigokusoushi_genke_09-1080.webp",
         name: "jigokusoushi_genke_09.webp",
+        phrase: [{}],
       },
-
       {
         load: false,
         cat: "image",
@@ -2980,14 +3003,16 @@ const data = [
         src: "/jigokusoushi_genke_10-1080.webp",
         name: "jigokusoushi_genke_10.webp",
       },
-
       {
-        load: false,
-        cat: "image",
+        cat: "ekotoba",
+        chapter: "濃血所（のうけつしょ）",
+        kobun: "",
+        gendaibun: "",
         srcSp: "/jigokusoushi_genke_11-375.webp",
         srcTb: "/jigokusoushi_genke_11-800.webp",
         src: "/jigokusoushi_genke_11-1080.webp",
         name: "jigokusoushi_genke_11.webp",
+        phrase: [{}],
       },
 
       {
@@ -2997,6 +3022,13 @@ const data = [
         srcTb: "/jigokusoushi_genke_12-800.webp",
         src: "/jigokusoushi_genke_12-1080.webp",
         name: "jigokusoushi_genke_12.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter: "狐狼地獄（ころうじごく）",
+        kobun: "",
+        gendaibun: "",
+        phrase: [{}],
       },
 
       {
