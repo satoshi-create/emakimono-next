@@ -2094,7 +2094,7 @@ const data = [
     emakis: [
       {
         cat: "ekotoba",
-        chapter: "【第一相 生前相",
+        chapter: "【第一相】 生前相",
         kobun: "",
         gendaibun: "",
       },
@@ -2125,7 +2125,8 @@ const data = [
         chapter:
           "【第三相】 <ruby><rb>脹相</rb><rp>（</rp><rt>ちょうそう</rt><rp>）</rp></ruby>",
         kobun: "",
-        gendaibun: "",
+        gendaibun:
+          "これらの死屍は、顔色が黒ずみ、身体が硬直して手足が花を散らしたようにあちこちを向く、膨脹した身体が風をはらんでふくらんだ革袋のようである。九つの孔からは、汚物が流れ溢れ、はなはだ穢れ醜悪である。行者は自らおもう、我が身もこれと同じであるし、未だ愛着を断ち切ることのできない愛人もまた、これと同じである。この相を見れば、心が少々定まり徐々に落ち着くのである。",
       },
       {
         load: true,
@@ -2140,7 +2141,8 @@ const data = [
         chapter:
           "【第四相】 <ruby><rb>壊相</rb><rp>（</rp><rt>えそう</rt><rp>）</rp></ruby>",
         kobun: "",
-        gendaibun: "",
+        gendaibun:
+          "またたく間に、この膨張した屍は、風に吹かれ日に曝されて、皮や肉が破れ壊れ、身体が<ruby><rb>坼裂</rb><rp>（</rp><rt>たくれつ</rt><rp>）</rp></ruby>して形や色が変わってしまい、識別不可能となる。これを、壊相と名づける。",
       },
       {
         load: false,
@@ -2155,7 +2157,8 @@ const data = [
         chapter:
           "【第五相】 <ruby><rb>血塗相</rb><rp>（</rp><rt>けちずそう</rt><rp>）</rp></ruby>",
         kobun: "",
-        gendaibun: "",
+        gendaibun:
+          "<ruby><rb>坼裂</rb><rp>（</rp><rt>たくれつ</rt><rp>）</rp></ruby>したところから血が溢れ出る。あちこちに飛び散り溜り、所々を斑に染める、溢れて地面に染み込み悪臭が漂う、これを血塗相とする。",
       },
       {
         load: false,
@@ -2170,7 +2173,8 @@ const data = [
         chapter:
           "【第六相】 <ruby><rb>膿爛相</rb><rp>（</rp><rt>のうらんそう</rt><rp>）</rp></ruby>",
         kobun: "",
-        gendaibun: "",
+        gendaibun:
+          "膿爛し流れ潰える死体を見る。肉が溶けて流れ、火をつけた蝋燭のようである。これを膿爛相と名づける。",
       },
 
       {
@@ -2186,7 +2190,8 @@ const data = [
         chapter:
           "【第七相】 <ruby><rb>噉相</rb><rp>（</rp><rt>たんそう</rt><rp>）</rp></ruby>",
         kobun: "",
-        gendaibun: "",
+        gendaibun:
+          "この屍が狐、狼、鳶、鷲に噉相されるのを見る、肉片を奪い争い、引き裂いて散り散りになる、これを噉相とする。",
       },
 
       {
@@ -2202,7 +2207,8 @@ const data = [
         chapter:
           "【第八相】 <ruby><rb>散相</rb><rp>（</rp><rt>さんそう</rt><rp>）</rp></ruby>",
         kobun: "",
-        gendaibun: "",
+        gendaibun:
+          "頭と手が異なるところにあるのを見る。五臓が散らばってもはや収斂しない。これを散相とする",
       },
       {
         load: false,
@@ -2217,7 +2223,8 @@ const data = [
         chapter:
           "【第九相】 <ruby><rb>骨相</rb><rp>（</rp><rt>こっそう</rt><rp>）</rp></ruby>",
         kobun: "",
-        gendaibun: "",
+        gendaibun:
+          "二種の骨があるのを見る。一つは濃膏を帯び、一つは純白で清浄である。ある時は一具の骨で、またある時は散乱している",
       },
       {
         load: false,
@@ -3040,6 +3047,265 @@ const data = [
         srcTb: "/jigokusoushi_genke_13-800.webp",
         src: "/jigokusoushi_genke_13-1080.webp",
         name: "jigokusoushi_genke_13.webp",
+      },
+    ],
+  },
+  {
+    id: 12,
+    title: "地獄草紙（安住院本）",
+    titleen: "jigokusoushi_anzyuin",
+    author: "",
+    backgroundImage: "/washi-pattern-01.webp",
+    video: "",
+    thumb: "/jigokusoushi_anzyuin_thumb.webp",
+    thumb2: "/jigokusoushi_anzyuin_thumb.webp",
+    srcFirstView: "/jigokusoushi_anzyuin_02-1080.webp",
+    metadesc: "",
+    desc: "",
+    era: "平安時代末期",
+    gif: "",
+    type: "仏教絵巻",
+    typeColor: "denki",
+    kotobagaki: true,
+    sourceImage: "地獄草紙（ColBase）",
+    sourceEkotoba: "",
+    emakis: [
+      {
+        cat: "ekotoba",
+        chapter: "叫喚地獄第三別所・髪火流（はつかる）",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/jigokusoushi_anzyuin_01-375.webp",
+        srcTb: "/jigokusoushi_anzyuin_01-800.webp",
+        src: "/jigokusoushi_anzyuin_01-1080.webp",
+        name: "jigokusoushi_anzyuin_01.webp",
+        phrase: [{}],
+      },
+
+      {
+        load: true,
+        cat: "image",
+        srcSp: "/jigokusoushi_anzyuin_02-375.webp",
+        srcTb: "/jigokusoushi_anzyuin_02-800.webp",
+        src: "/jigokusoushi_anzyuin_02-1080.webp",
+        name: "jigokusoushi_anzyuin_02.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter: "叫喚地獄第四別所・火末虫（かまつむし）",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/jigokusoushi_anzyuin_03-375.webp",
+        srcTb: "/jigokusoushi_anzyuin_03-800.webp",
+        src: "/jigokusoushi_anzyuin_03-1080.webp",
+        name: "jigokusoushi_anzyuin_03.webp",
+        phrase: [{}],
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_anzyuin_04-375.webp",
+        srcTb: "/jigokusoushi_anzyuin_04-800.webp",
+        src: "/jigokusoushi_anzyuin_04-1080.webp",
+        name: "jigokusoushi_anzyuin_04.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter: "叫喚地獄第十五別所・雲火霧（うんかむ）",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/jigokusoushi_anzyuin_05-375.webp",
+        srcTb: "/jigokusoushi_anzyuin_05-800.webp",
+        src: "/jigokusoushi_anzyuin_05-1080.webp",
+        name: "jigokusoushi_anzyuin_05.webp",
+        phrase: [{}],
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_anzyuin_06-375.webp",
+        srcTb: "/jigokusoushi_anzyuin_06-800.webp",
+        src: "/jigokusoushi_anzyuin_06-1080.webp",
+        name: "jigokusoushi_anzyuin_06.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter: "叫喚地獄第六別所・雨炎火石（うえんかせき）",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/jigokusoushi_anzyuin_07-375.webp",
+        srcTb: "/jigokusoushi_anzyuin_07-800.webp",
+        src: "/jigokusoushi_anzyuin_07-1080.webp",
+        name: "jigokusoushi_anzyuin_07.webp",
+        phrase: [{}],
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_anzyuin_08-375.webp",
+        srcTb: "/jigokusoushi_anzyuin_08-800.webp",
+        src: "/jigokusoushi_anzyuin_08-1080.webp",
+        name: "jigokusoushi_anzyuin_08.webp",
+      },
+    ],
+  },
+  {
+    id: 13,
+    title: "地獄草紙 甲（益田家本）",
+    titleen: "jigokusoushi_masuda_kou",
+    author: "",
+    backgroundImage: "/washi-pattern-01.webp",
+    video: "",
+    thumb: "/jigokusoushi_genke_thumb.webp",
+    thumb2: "/jigokusoushi_masuda_kou_thumb.webp",
+    srcFirstView: "/jigokusoushi_masuda_kou_02-1080.webp",
+    metadesc: "",
+    desc: "",
+    era: "平安時代末期",
+    gif: "",
+    type: "仏教絵巻",
+    typeColor: "denki",
+    kotobagaki: true,
+    sourceImage: "地獄草紙 （ColBase）",
+    sourceEkotoba: "",
+    emakis: [
+      {
+        cat: "ekotoba",
+        chapter: "屎糞所（しふんしょ）",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/jigokusoushi_masuda_kou_01-375.webp",
+        srcTb: "/jigokusoushi_masuda_kou_01-800.webp",
+        src: "/jigokusoushi_masuda_kou_01-1080.webp",
+        name: "jigokusoushi_masuda_kou_01.webp",
+        phrase: [{}],
+      },
+
+      {
+        load: true,
+        cat: "image",
+        srcSp: "/jigokusoushi_masuda_kou_02-375.webp",
+        srcTb: "/jigokusoushi_masuda_kou_02-800.webp",
+        src: "/jigokusoushi_masuda_kou_02-1080.webp",
+        name: "jigokusoushi_masuda_kou_02.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter: "函量所（かんりょうしょ）",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/jigokusoushi_masuda_kou_03-375.webp",
+        srcTb: "/jigokusoushi_masuda_kou_03-800.webp",
+        src: "/jigokusoushi_masuda_kou_03-1080.webp",
+        name: "jigokusoushi_masuda_kou_03.webp",
+        phrase: [{}],
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_masuda_kou_04-375.webp",
+        srcTb: "/jigokusoushi_masuda_kou_04-800.webp",
+        src: "/jigokusoushi_masuda_kou_04-1080.webp",
+        name: "jigokusoushi_masuda_kou_04.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter: "鉄鎧所（てつがいしょ）",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/jigokusoushi_masuda_kou_05-375.webp",
+        srcTb: "/jigokusoushi_masuda_kou_05-800.webp",
+        src: "/jigokusoushi_masuda_kou_05-1080.webp",
+        name: "jigokusoushi_masuda_kou_05.webp",
+        phrase: [{}],
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_masuda_kou_06-375.webp",
+        srcTb: "/jigokusoushi_masuda_kou_06-800.webp",
+        src: "/jigokusoushi_masuda_kou_06-1080.webp",
+        name: "jigokusoushi_masuda_kou_06.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter: "鶏地獄（とりじごく）",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/jigokusoushi_masuda_kou_07-375.webp",
+        srcTb: "/jigokusoushi_masuda_kou_07-800.webp",
+        src: "/jigokusoushi_masuda_kou_07-1080.webp",
+        name: "jigokusoushi_masuda_kou_07.webp",
+        phrase: [{}],
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_masuda_kou_08-375.webp",
+        srcTb: "/jigokusoushi_masuda_kou_08-800.webp",
+        src: "/jigokusoushi_masuda_kou_08-1080.webp",
+        name: "jigokusoushi_masuda_kou_08.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter: "黒雲沙（こくうんしゃ）",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/jigokusoushi_masuda_kou_09-375.webp",
+        srcTb: "/jigokusoushi_masuda_kou_09-800.webp",
+        src: "/jigokusoushi_masuda_kou_09-1080.webp",
+        name: "jigokusoushi_masuda_kou_09.webp",
+        phrase: [{}],
+      },
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_masuda_kou_10-375.webp",
+        srcTb: "/jigokusoushi_masuda_kou_10-800.webp",
+        src: "/jigokusoushi_masuda_kou_10-1080.webp",
+        name: "jigokusoushi_masuda_kou_10.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter: "濃血所（のうけつしょ）",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/jigokusoushi_masuda_kou_11-375.webp",
+        srcTb: "/jigokusoushi_masuda_kou_11-800.webp",
+        src: "/jigokusoushi_masuda_kou_11-1080.webp",
+        name: "jigokusoushi_masuda_kou_11.webp",
+        phrase: [{}],
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_masuda_kou_12-375.webp",
+        srcTb: "/jigokusoushi_masuda_kou_12-800.webp",
+        src: "/jigokusoushi_masuda_kou_12-1080.webp",
+        name: "jigokusoushi_masuda_kou_12.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter: "狐狼地獄（ころうじごく）",
+        kobun: "",
+        gendaibun: "",
+        phrase: [{}],
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/jigokusoushi_masuda_kou_13-375.webp",
+        srcTb: "/jigokusoushi_masuda_kou_13-800.webp",
+        src: "/jigokusoushi_masuda_kou_13-1080.webp",
+        name: "jigokusoushi_masuda_kou_13.webp",
       },
     ],
   },
