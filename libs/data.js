@@ -2722,7 +2722,8 @@ const data = [
         cat: "ekotoba",
         chapter: "西行、大和の里で同行の先達たちと別れる",
         kobun: "",
-        gendaibun: "",
+        gendaibun:
+          "葛城山を越えて、里に出ると、同行の修験者たちはみな散り別れになり、別れ際に涙を抑えることができなかった。その中の心ある同行の一人が、ことさらに名残を惜しんで「いつの日かどこかでまた会いましょう」と、袖を拭ったので<br><br><span class='waka'>然（さ）りともと　猶逢うことを　恃むかな<br>　　　　　　死出の山路を　越えぬ別れは</span><br><br>と一首を書きつけて、餞（はなむけ）として渡した。<br>夜明け前、みなが旅支度を終えて最後の別れをしようというとき、鳥の声が心細く聞こえて<br><br><span class='waka'>去らぬだに　世のはかなさを　身に知りて<br>　　　　　　鵺（ぬえ）鳴きわたる　曙の空</span>",
         srcSp: "/saigyo_manno_24-375.webp",
         srcTb: "/saigyo_manno_24-800.webp",
         src: "/saigyo_manno_24-1080.webp",
@@ -2750,7 +2751,8 @@ const data = [
         cat: "ekotoba",
         chapter: "西行、住吉・浪速を往く。",
         kobun: "",
-        gendaibun: "",
+        gendaibun:
+          "皆と別れ、元の孤独な身になって、住吉へたどり着いてみると、ふと源頼政卿の<br><br><span class='waka'>住吉の　松の木間より　眺むれば<br>　　　　　　月落ちかかる　淡路島山</span><br><br>という歌が、思い浮かんだ。<br>松の下枝を洗う波が、今の心地を表してる気がして<br><br><span class='waka'>古（いにしえ）の　松の下枝を　洗ひけむ<br>　　　　　　浪を心に　懸けてこそ見れ<br><br>住吉の　松の根洗う　浪の音を<br>　　　　　梢に掛くる　沖つ潮風</span><br><br>その年は住吉に籠り、翌年の春都へ行き、津国難波辺りを眺めると、春風がにわかに葦の枯れ葉を驚かして、すべてのことが心細くなって<br><br><span class='waka'>津国の　難波の春は　夢なれや<br>　　　　　　葦の枯れ葉に　風渡るなり</span>",
         srcSp: "/saigyo_manno_27-375.webp",
         srcTb: "/saigyo_manno_27-800.webp",
         src: "/saigyo_manno_27-1080.webp",
