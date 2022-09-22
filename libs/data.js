@@ -2090,6 +2090,8 @@ const data = [
     sourceImageUrl:
       "https://www.britishmuseum.org/collection/object/A_2008-3033-1",
     sourceImage: "九相図（大英博物館）",
+    reference:
+      "『九相図をよむ　朽ちてゆく死体の美術』（山本聡美 著　角川選書）",
     sourceEkotoba: "",
     emakis: [
       {
@@ -2497,6 +2499,7 @@ const data = [
     sourceImageUrl:
       "https://www.britishmuseum.org/collection/object/A_1881-1210-0-267",
     sourceImage: "西行物語絵巻（大英博物館）",
+    reference: "『西行物語絵巻』（日本の絵巻19 中央公論社）",
     sourceEkotoba: "",
     emakis: [
       {
@@ -2813,6 +2816,8 @@ const data = [
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-10942?locale=ja",
     sourceImage: "地獄草紙（ColBase）",
+    reference:
+      "『餓鬼草紙 地獄草紙 病草紙 九相詩絵巻』（日本絵巻大成7 中央公論社）",
     sourceEkotoba: "",
     emakis: [
       {
@@ -2921,6 +2926,8 @@ const data = [
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/narahaku/644-0?locale=ja",
     sourceImage: "地獄草紙 （ColBase）",
+    reference:
+      "『餓鬼草紙 地獄草紙 病草紙 九相詩絵巻』（日本絵巻大成7 中央公論社）",
     sourceEkotoba: "",
     emakis: [
       {
@@ -3081,7 +3088,16 @@ const data = [
       "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
     sourceImage: "餓鬼草紙 （ColBase）",
     sourceEkotoba: "",
+    reference:
+      "『餓鬼草紙 地獄草紙 病草紙 九相詩絵巻』（日本絵巻大成7 中央公論社）",
     emakis: [
+      {
+        cat: "ekotoba",
+        chapter: "欲色餓鬼（よくじきがき）",
+        kobun: "",
+        gendaibun: "",
+        phrase: [{}],
+      },
       {
         load: true,
         cat: "image",
@@ -3089,6 +3105,13 @@ const data = [
         srcTb: "/gakisoushi_kawamoto_01-800.webp",
         src: "/gakisoushi_kawamoto_01-1080.webp",
         name: "gakisoushi_kawamoto_01.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter: "伺嬰児便飢餓（しえいじべんきが）",
+        kobun: "",
+        gendaibun: "",
+        phrase: [{}],
       },
       {
         load: false,
@@ -3099,6 +3122,13 @@ const data = [
         name: "gakisoushi_kawamoto_02.webp",
       },
       {
+        cat: "ekotoba",
+        chapter: "伺便飢餓（しべんきが）",
+        kobun: "",
+        gendaibun: "",
+        phrase: [{}],
+      },
+      {
         load: false,
         cat: "image",
         srcSp: "/gakisoushi_kawamoto_03-375.webp",
@@ -3106,7 +3136,13 @@ const data = [
         src: "/gakisoushi_kawamoto_03-1080.webp",
         name: "gakisoushi_kawamoto_03.webp",
       },
-
+      {
+        cat: "ekotoba",
+        chapter: "疾行飢餓（しっこうきが）",
+        kobun: "",
+        gendaibun: "",
+        phrase: [{}],
+      },
       {
         load: false,
         cat: "image",
@@ -3114,6 +3150,13 @@ const data = [
         srcTb: "/gakisoushi_kawamoto_04-800.webp",
         src: "/gakisoushi_kawamoto_04-1080.webp",
         name: "gakisoushi_kawamoto_04.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter: "食糞飢餓（しょくふんきが）",
+        kobun: "",
+        gendaibun: "",
+        phrase: [{}],
       },
 
       {
@@ -3123,6 +3166,13 @@ const data = [
         srcTb: "/gakisoushi_kawamoto_05-800.webp",
         src: "/gakisoushi_kawamoto_05-1080.webp",
         name: "gakisoushi_kawamoto_05.webp",
+      },
+      {
+        cat: "ekotoba",
+        chapter: "曠野飢餓（こうやきが）",
+        kobun: "",
+        gendaibun: "",
+        phrase: [{}],
       },
 
       {
@@ -3134,12 +3184,104 @@ const data = [
         name: "gakisoushi_kawamoto_06.webp",
       },
       {
+        cat: "ekotoba",
+        chapter: "食火炭飢餓",
+        kobun: "",
+        gendaibun: "",
+        phrase: [{}],
+      },
+
+      {
         load: false,
         cat: "image",
         srcSp: "/gakisoushi_kawamoto_07-375.webp",
         srcTb: "/gakisoushi_kawamoto_07-800.webp",
         src: "/gakisoushi_kawamoto_07-1080.webp",
         name: "gakisoushi_kawamoto_07.webp",
+      },
+    ],
+  },
+
+  {
+    id: 15,
+    title: "鶴図下絵和歌巻",
+    titleen: "tsuruzusitaewakamaki",
+    author: "",
+    backgroundImage: "/washi-pattern-01.webp",
+    video: "",
+    thumb: "/jigokusoushi_genke_thumb.webp",
+    thumb2: "/tsuruzusitaewakamaki_thumb.webp",
+    srcFirstView: "/tsuruzusitaewakamaki_02-1080.webp",
+    metadesc: "",
+    desc: "",
+    era: "平安時代末期",
+    gif: "",
+    type: "仏教絵巻",
+    typeColor: "denki",
+    kotobagaki: true,
+    sourceImageUrl:
+      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
+    sourceImage: "鶴図下絵和歌巻（ColBase）",
+    sourceEkotoba: "",
+    emakis: [
+      {
+        load: true,
+        cat: "image",
+        srcSp: "/tsuruzusitaewakamaki_01-375.webp",
+        srcTb: "/tsuruzusitaewakamaki_01-800.webp",
+        src: "/tsuruzusitaewakamaki_01-1080.webp",
+        name: "tsuruzusitaewakamaki_01.webp",
+      },
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/tsuruzusitaewakamaki_02-375.webp",
+        srcTb: "/tsuruzusitaewakamaki_02-800.webp",
+        src: "/tsuruzusitaewakamaki_02-1080.webp",
+        name: "tsuruzusitaewakamaki_02.webp",
+      },
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/tsuruzusitaewakamaki_03-375.webp",
+        srcTb: "/tsuruzusitaewakamaki_03-800.webp",
+        src: "/tsuruzusitaewakamaki_03-1080.webp",
+        name: "tsuruzusitaewakamaki_03.webp",
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/tsuruzusitaewakamaki_04-375.webp",
+        srcTb: "/tsuruzusitaewakamaki_04-800.webp",
+        src: "/tsuruzusitaewakamaki_04-1080.webp",
+        name: "tsuruzusitaewakamaki_04.webp",
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/tsuruzusitaewakamaki_05-375.webp",
+        srcTb: "/tsuruzusitaewakamaki_05-800.webp",
+        src: "/tsuruzusitaewakamaki_05-1080.webp",
+        name: "tsuruzusitaewakamaki_05.webp",
+      },
+
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/tsuruzusitaewakamaki_06-375.webp",
+        srcTb: "/tsuruzusitaewakamaki_06-800.webp",
+        src: "/tsuruzusitaewakamaki_06-1080.webp",
+        name: "tsuruzusitaewakamaki_06.webp",
+      },
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/tsuruzusitaewakamaki_07-375.webp",
+        srcTb: "/tsuruzusitaewakamaki_07-800.webp",
+        src: "/tsuruzusitaewakamaki_07-1080.webp",
+        name: "tsuruzusitaewakamaki_07.webp",
       },
     ],
   },

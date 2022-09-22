@@ -57,15 +57,18 @@ const Sidebar = ({ value }) => {
       );
     } else if (tabValue === 1) {
       return (
-        <ul className={styles.source}>
-          <li>
-            <Link href={sourceImageUrl}>
-              <a target="_blank" className={styles.sourceLink}>
-                {sourceImage}
-              </a>
-            </Link>
-          </li>
-        </ul>
+        <>
+          <p>以下を加工して作成</p>
+          <ul className={styles.source}>
+            <li>
+              <Link href={sourceImageUrl}>
+                <a target="_blank" className={styles.sourceLink}>
+                  {sourceImage}
+                </a>
+              </Link>
+            </li>
+          </ul>
+        </>
       );
     } else if (tabValue === 2) {
       return (
