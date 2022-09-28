@@ -1,7 +1,5 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import "lazysizes";
-import "lazysizes/plugins/attrchange/ls.attrchange";
 import EmakiConteiner from "../../components/EmakiConteiner";
 import emakisData from "../../libs/data";
 import Sidebar from "../../components/Sidebar";
