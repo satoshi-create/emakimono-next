@@ -54,11 +54,23 @@ button {
   width: 90vw;
   max-width: 1200px;
 }
-.renzokushiki {
+.orange {
   background-color: var(--clr-accent-02);
 }
-.setsuwa {
+.green {
   background-color: var(--clr-green-01);
+}
+.purple{
+  background-color: purple;
+}
+.gold{
+background-color: goldenrod;
+}
+.skyblue{
+  background-color:skyblue;
+}
+.firebrick{
+  background-color: firebrick;
 }
 
 .lazyload {
