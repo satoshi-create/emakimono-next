@@ -34,7 +34,7 @@ const Sidebar = ({ value }) => {
     },
   ];
 
-  const Test = () => {
+  const TabMenu = () => {
     if (tabValue === 0) {
       return (
         <ul className={styles.mokuji}>
@@ -60,7 +60,7 @@ const Sidebar = ({ value }) => {
         <>
           <p>以下を加工して作成</p>
           <ul className={styles.source}>
-            <li>
+            <li>gold
               <Link href={sourceImageUrl}>
                 <a target="_blank" className={styles.sourceLink}>
                   {sourceImage}
@@ -118,7 +118,7 @@ const Sidebar = ({ value }) => {
           })}
         </div>
         <div>
-          <Test />
+          <TabMenu />
         </div>
         {/* {tabValue === 1 ? (
           <ul className={styles.source}>
