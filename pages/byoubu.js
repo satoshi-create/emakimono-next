@@ -10,15 +10,14 @@ import CardConteiner from "../components/CardConteiner";
 import Head from "../components/Meta";
 import Title from "../components/Title";
 
-export default function emakis() {
-  const emakisData = data.filter((item) => item.type.includes("絵巻"));
+export default function byoubu() {
+  const emakisData = data.filter((item) => item.type.includes("屏風"));
   console.log(emakisData);
   return (
     <>
       <Head pagetitle={"絵巻"} pageDesc={"絵巻図鑑のページです"} />
       <Header />
-      <Title pagetitle={"絵巻"} />
-
+      <Title pagetitle={"屛風"} />
       <CardConteiner emakis={emakisData} />
       {/* <Footer /> */}
     </>
