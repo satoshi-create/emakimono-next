@@ -5,10 +5,44 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const Card = ({
-  item: { titleen, title, thumb, edition, author, era, desc, type, typeColor },
+  item: { titleen, title, thumb, edition, author, era, desc, type },
 }) => {
   const [readMore, setReadmore] = useState(false);
   const filterDesc = desc.substring(0, 100);
+
+  // const color = () => {
+  //   if (era === "平安時代") {
+  //     return "orange"
+  //   }else{
+  //     return "green"
+  //   }
+  // }
+
+  const eraColor = () => {
+    switch (era) {
+      case "平安時代":
+        return "orange"
+        break;
+      case "鎌倉時代":
+        return "green"
+        break;
+      case "室町時代":
+        return "purple";
+        break;
+      case "安土・桃山時代":
+        return "gold";
+        break;
+      case "江戸時代":
+        return "skyblue";
+        break;
+      case "明治時代":
+        return "firebrick";
+        break;
+      default:
+        break;
+    }
+  }
+
 
   return (
     <>
@@ -23,7 +57,7 @@ const Card = ({
                 alt={thumb}
               />
             </picture>
-            <div className={`${typeColor} ${styles.type}`}>{type}</div>
+            <div className={`${eraColor()} ${styles.era}`}>{era}</div>
           </div>
         </Link>
         <div className={styles.info}>
@@ -32,8 +66,8 @@ const Card = ({
               {title}
               {edition ? edition : ""}
             </h3>
-            <h4 className={styles.author}>{author}</h4>
-            <h4 className={styles.era}>{era}</h4>
+            {/* <h4 className={styles.author}>{author}</h4> */}
+            {/* <h4 className={styles.era}>{era}</h4> */}
           </div>
           <div className={styles.desc}>
             {/* <p>{readMore ? desc : filterDesc}</p> */}
