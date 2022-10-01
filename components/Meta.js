@@ -6,7 +6,6 @@ import Router from "next/dist/server/router";
 import siteImg from "../public/ogp.jpg";
 
 const Meta = ({ pagetitle, pageDesc, pageImg, pageImgW, pageImgH }) => {
-  console.log(siteImg);
   const {
     siteTitle,
     siteDesc,
