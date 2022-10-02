@@ -12,6 +12,7 @@ function MyApp({ Component, pageProps, router }) {
   const [ekotobaToggle, setekotobaToggle] = useState(false);
   const [oepnSidebar, setOepnSidebar] = useState(false);
   const [ekotobaImageToggle, setEkotobaImageToggle] = useState(false);
+  const [query, setQuery] = useState("");
 
   return (
     <AppContext.Provider
@@ -22,6 +23,8 @@ function MyApp({ Component, pageProps, router }) {
         setOepnSidebar,
         ekotobaImageToggle,
         setEkotobaImageToggle,
+        query,
+        setQuery,
       }}
     >
       <Layout>
