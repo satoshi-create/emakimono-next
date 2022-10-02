@@ -6,14 +6,15 @@ import emakisData from "../libs/data";
 import "lazysizes";
 import CardConteiner from "../components/CardConteiner";
 import Head from "../components/Meta";
+import SerchForm from "../components/SerchForm";
 
 const index = () => {
   return (
     <>
-      <Head/>
+      <Head />
       <Header />
+      <SerchForm />
       <CardConteiner emakis={emakisData} />
-      {/* <Footer /> */}
     </>
   );
 };
