@@ -9,6 +9,7 @@ import Card from "../components/Card";
 import CardConteiner from "../components/CardConteiner";
 import Head from "../components/Meta";
 import Title from "../components/Title";
+import SerchForm from "../components/SerchForm";
 
 export default function byoubu() {
   const emakisData = data.filter((item) => item.type.includes("屏風"));
@@ -18,8 +19,8 @@ export default function byoubu() {
       <Head pagetitle={"絵巻"} pageDesc={"絵巻図鑑のページです"} />
       <Header />
       <Title pagetitle={"屛風"} />
+      <SerchForm />
       <CardConteiner emakis={emakisData} />
-      {/* <Footer /> */}
     </>
   );
 }
