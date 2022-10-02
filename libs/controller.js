@@ -21,12 +21,14 @@ const DataController = () => {
       link: "#s9",
       icon: <FontAwesomeIcon icon={faAnglesLeft} />,
       title: "最後に進む",
+      titleen: "next",
     },
     {
       ctype: "all",
       link: "/",
       icon: <FontAwesomeIcon icon={faHouse} />,
       title: "ホーム",
+      titleen: "home",
     },
     {
       ctype: "all",
@@ -39,12 +41,14 @@ const DataController = () => {
       titleEkotoba2: "詞書の現代語訳を読む",
       titleEmaki1: "解説を閉じて絵巻形式で見る",
       titleEmaki2: "解説を読む",
+      titleen: "comment",
     },
     {
       ctype: "all",
       link: "#s0",
       icon: <FontAwesomeIcon icon={faAnglesRight} />,
       title: "最初に戻る",
+      titleen: "prev",
     },
   ];
 
