@@ -21,10 +21,10 @@ const Card = ({
   const eraColor = () => {
     switch (era) {
       case "平安時代":
-        return "orange"
+        return "orange";
         break;
       case "鎌倉時代":
-        return "green"
+        return "green";
         break;
       case "室町時代":
         return "purple";
@@ -41,8 +41,7 @@ const Card = ({
       default:
         break;
     }
-  }
-
+  };
 
   return (
     <>
