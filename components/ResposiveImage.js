@@ -5,7 +5,7 @@ import "lazysizes/plugins/attrchange/ls.attrchange";
 
 const ResposiveImage = ({ value: { srcSp, srcTb, src, load, name } }) => (
   <picture>
-    <source data-srcset={srcSp} media="(max-height: 375px)" type="image/webp" />
+    {/* <source data-srcset={srcSp} media="(max-height: 375px)" type="image/webp" /> */}
     <source data-srcset={srcTb} media="(max-height: 800px)" type="image/webp" />
     <source data-srcset={src} type="image/webp" />
     <img

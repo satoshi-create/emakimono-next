@@ -27,7 +27,7 @@
   top: 1rem;
   right: 1rem;
 }
-.navtitle {
+.navheader {
   font-size: calc(16px + (22 - 16) * ((100vh - 375px) / (1080 - 375)));
   margin-bottom: 2rem;
   font-family: var(--title-font);
@@ -59,9 +59,11 @@
 .open {
   display: block;
 }
-.source {
+.tabmenu {
   font-size: var(--mokuji-size);
   font-family: var(--text-font);
+}
+.source {
   list-style: disc;
   list-style-position: inside;
 }

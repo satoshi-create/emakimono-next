@@ -14,6 +14,7 @@ const Sidebar = ({ value }) => {
     sourceImageUrl,
     sourceImage,
     reference,
+    author,
   } = value;
   const { oepnSidebar, setOepnSidebar } = useContext(AppContext);
   const [tabValue, setTabValue] = useState(0);
@@ -59,8 +60,9 @@ const Sidebar = ({ value }) => {
       return (
         <>
           <p>以下を加工して作成</p>
+          <br />
           <ul className={styles.source}>
-            <li>gold
+            <li>
               <Link href={sourceImageUrl}>
                 <a target="_blank" className={styles.sourceLink}>
                   {sourceImage}
@@ -100,7 +102,10 @@ const Sidebar = ({ value }) => {
         >
           <X />
         </button>
-        <h4 className={styles.navtitle}>{title}</h4>
+        <div className={styles.navheader}>
+          <h4 className={styles.title}>{title}</h4>
+          <h4 className={styles.author}>{author}</h4>
+        </div>
         <div className={styles.tabConteiner}>
           {tabData.map((item, index) => {
             const { title } = item;
@@ -117,7 +122,7 @@ const Sidebar = ({ value }) => {
             );
           })}
         </div>
-        <div>
+        <div className={styles.tabmenu}>
           <TabMenu />
         </div>
         {/* {tabValue === 1 ? (
