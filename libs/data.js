@@ -3364,8 +3364,8 @@ const data = [
     desc: "",
     era: "平安時代",
     gif: "",
-    type: "仏教絵巻",
-    typeColor: "denki",
+    type: "屏風",
+    typeColor: "byoubu",
     kotobagaki: true,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
