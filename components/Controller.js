@@ -15,8 +15,8 @@ const Controller = ({ value }) => {
     <aside className={styles.controller}>
       {controller.map((item, index) => {
         const {
-          className,
           title,
+          titleen,
           titleEkotoba1,
           titleEkotoba2,
           titleEmaki1,
@@ -31,7 +31,6 @@ const Controller = ({ value }) => {
           title2,
           ctype,
         } = item;
-        console.log(ekotobaImageToggle);
         if (kotobagaki) {
           if (link) {
             return (
@@ -39,7 +38,11 @@ const Controller = ({ value }) => {
                 href={title === "最後に進む" ? `#s${emakis.length - 1}` : link}
                 key={index}
               >
-                <a title={title} className={styles.linkicon}>
+                <a
+                  title={title}
+                  className={`${styles[`${titleen}`]} ${styles.linkicon}`}
+                >
+                  {/* <div className={styles[`class${variantJ}`]}></div> */}
                   <i>{icon}</i>
                 </a>
               </Link>
@@ -47,7 +50,7 @@ const Controller = ({ value }) => {
           } else {
             return (
               <span
-                className={styles.linkicon}
+                className={`${styles[`${titleen}`]} ${styles.linkicon}`}
                 title={ekotobaImageToggle ? titleEkotoba2 : titleEkotoba1}
                 onClick={() => toggleEkotobaImage()}
                 key={index}
@@ -64,7 +67,10 @@ const Controller = ({ value }) => {
                 href={title === "最後に進む" ? `#s${emakis.length - 1}` : link}
                 key={index}
               >
-                <a title={title} className={styles.linkicon}>
+                <a
+                  title={title}
+                  className={`${styles[`${titleen}`]} ${styles.linkicon}`}
+                >
                   <i>{icon}</i>
                 </a>
               </Link>
@@ -72,7 +78,7 @@ const Controller = ({ value }) => {
           } else {
             return (
               <span
-                className={styles.linkicon}
+                className={`${styles[`${titleen}`]} ${styles.linkicon}`}
                 title={ekotobaImageToggle ? titleEmaki2 : titleEmaki1}
                 onClick={() => toggleEkotobaImage()}
                 key={index}
