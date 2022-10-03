@@ -1,4 +1,4 @@
-import React, { useContext ,useEffect} from "react";
+import React, { useContext, useEffect } from "react";
 import Link from "next/link";
 import styles from "../styles/Card.module.css";
 import Card from "./Card";
@@ -8,7 +8,12 @@ const CardConteiner = ({ emakis }) => {
   const { query, setQuery } = useContext(AppContext);
 
   const fliterdEmakis = emakis.filter((item) => {
-    return item.title.toLowerCase().includes(query);
+    const title = item.title.includes(query);
+    const titleen = item.titleen.includes(query);
+    const author = item.author.includes(query);
+    const era = item.era.includes(query);
+    console.log(title || titleen || author);
+    return title || titleen || author;
   });
 
   useEffect(() => {
