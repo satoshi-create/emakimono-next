@@ -65,7 +65,7 @@ const Card = ({
               {title}
               {edition ? edition : ""}
             </h3>
-            {/* <h4 className={styles.author}>{author}</h4> */}
+            <h4 className={styles.author}>{author}</h4>
             {/* <h4 className={styles.era}>{era}</h4> */}
           </div>
           <div className={styles.desc}>
