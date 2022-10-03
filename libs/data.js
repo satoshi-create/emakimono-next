@@ -4329,7 +4329,7 @@ const data = [
     id: 27,
     title: "関谷図屏風",
     titleen: "sekiyazu",
-    author: "長谷川等伯",
+    author: "俵屋宗達",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
     thumb: "/jigokusoushi_genke_thumb.webp",
