@@ -3362,7 +3362,7 @@ const data = [
     srcFirstView: "/tsuruzusitaewakamaki_02-1080.webp",
     metadesc: "",
     desc: "",
-    era: "平安時代",
+    era: "安土・桃山時代",
     gif: "",
     type: "屏風",
     typeColor: "byoubu",

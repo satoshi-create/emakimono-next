@@ -1,6 +1,15 @@
-.cyoujyujinbutsugiga_kou {
-  color: red;
+.eraTab {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
 }
+.eraTabBtn {
+  font-size: 1.3rem;
+  /* font-family: var(--text-font); */
+  font-weight: bold;
+}
+
 .single {
   position: relative;
   transition: var(--transition);
