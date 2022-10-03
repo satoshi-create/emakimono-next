@@ -1,10 +1,11 @@
 import React, { createContext, useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import "../styles/globals.css";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
+import emakis from "../libs/data";
 
-import "@fortawesome/fontawesome-svg-core/styles.css"
-import {config} from "@fortawesome/fontawesome-svg-core"
-config.autoAddCss = false
+config.autoAddCss = false;
 
 export const AppContext = createContext();
 
@@ -13,6 +14,7 @@ function MyApp({ Component, pageProps, router }) {
   const [oepnSidebar, setOepnSidebar] = useState(false);
   const [ekotobaImageToggle, setEkotobaImageToggle] = useState(false);
   const [query, setQuery] = useState("");
+  const [fliterdEmakis, setfliterdEmakis] = useState(emakis);
 
   return (
     <AppContext.Provider
@@ -25,6 +27,8 @@ function MyApp({ Component, pageProps, router }) {
         setEkotobaImageToggle,
         query,
         setQuery,
+        fliterdEmakis,
+        setfliterdEmakis,
       }}
     >
       <Layout>
