@@ -19,7 +19,7 @@ export default function emakis() {
       <Head pagetitle={"絵巻"} pageDesc={"絵巻図鑑のページです"} />
       <Header />
       <Title pagetitle={"絵巻"} />
-      <SerchForm />
+      <SerchForm emakis={emakisData} />
       <CardConteiner emakis={emakisData} />
       {/* <Footer /> */}
     </>
