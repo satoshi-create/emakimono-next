@@ -13,7 +13,7 @@ const index = () => {
     <>
       <Head />
       <Header />
-      <SerchForm />
+      <SerchForm emakis={emakisData} />
       <CardConteiner emakis={emakisData} />
     </>
   );

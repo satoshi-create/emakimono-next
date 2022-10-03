@@ -19,7 +19,7 @@ export default function byoubu() {
       <Head pagetitle={"絵巻"} pageDesc={"絵巻図鑑のページです"} />
       <Header />
       <Title pagetitle={"屛風"} />
-      <SerchForm />
+      <SerchForm emakis={emakisData} />
       <CardConteiner emakis={emakisData} />
     </>
   );
