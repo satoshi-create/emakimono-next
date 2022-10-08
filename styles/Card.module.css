@@ -3,6 +3,7 @@
   justify-content: center;
   gap: 2rem;
   margin-bottom: 2rem;
+  flex-wrap: wrap;
 }
 .eraTabBtn {
   font-size: 1.3rem;
