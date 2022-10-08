@@ -7,7 +7,7 @@ import Ekotoba from "./Ekotoba";
 import styles from "../styles/EmakiConteiner.module.css";
 
 const EmakiConteiner = ({ data }) => {
-  const { backgroundImage, kotobagaki } = data;
+  const { backgroundImage, kotobagaki,type } = data;
   const emakis = data.emakis;
 
   const scrollRef = useRef();
@@ -29,7 +29,7 @@ const EmakiConteiner = ({ data }) => {
 
   return (
     <>
-      <article className={styles.conteiner} ref={scrollRef}>
+      <article className={`${styles.conteiner } ${type === "西洋絵画" ? styles.lr :styles.rl}`} ref={scrollRef}>
         {emakis.map((item, index) => {
           const { cat } = item;
           if (cat === "image") {
@@ -38,7 +38,7 @@ const EmakiConteiner = ({ data }) => {
             return (
               <Ekotoba
                 key={index}
-                item={{ ...item, index, backgroundImage, kotobagaki }}
+                item={{ ...item, index, backgroundImage, kotobagaki ,type}}
               />
             );
           }

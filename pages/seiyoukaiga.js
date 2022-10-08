@@ -7,7 +7,7 @@ import Title from "../components/Title";
 import SerchForm from "../components/SerchForm";
 
 export default function emakis() {
-  const emakisData = data.filter((item) => item.type.includes("大装飾画"));
+  const emakisData = data.filter((item) => item.type.includes("西洋絵画"));
   console.log(emakisData);
   return (
     <>

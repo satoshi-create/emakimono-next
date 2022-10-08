@@ -1,8 +1,13 @@
 .conteiner {
   display: flex;
-  flex-direction: row-reverse;
   height: 100vh;
   width: 100vw;
   overflow-y: hidden;
   overflow-x: scroll;
+}
+.rl {
+  flex-direction: row-reverse;
+}
+.lr {
+  flex-direction: row;
 }

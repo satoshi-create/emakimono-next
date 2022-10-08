@@ -7,6 +7,7 @@ import { AppContext } from "../pages/_app";
 
 const Ekotoba = ({
   item: {
+    type,
     chapter,
     gendaibun,
     kobun,
@@ -42,7 +43,7 @@ const Ekotoba = ({
 
   return (
     <section
-      className={`section ${styles.ekotoba}`}
+      className={`section ${type === "西洋絵画" ? styles.ekotobalr : styles.ekotobarl}`}
       id={`s${index}`}
       style={{ background: `url(${backgroundImage})` }}
     >
