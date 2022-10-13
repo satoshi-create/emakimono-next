@@ -20,7 +20,7 @@
   box-shadow: var(--shadowR);
   background: white;
   width: 400px;
-  overflow: hidden;
+  overflow: scroll;
 }
 .closebtn {
   position: absolute;
