@@ -39,7 +39,7 @@ const Meta = ({
 
   const title = pagetitle ? `${pagetitle} | ${siteTitle}` : siteTitle;
   const pageDescTemp = pageDesc
-    ? siteDesc
+    ? pageDesc
     : `${pagetitle} ${
         pageAuthor && `（${pageAuthor}）`
       }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
