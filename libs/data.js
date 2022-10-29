@@ -1,3 +1,5 @@
+import { faL } from "@fortawesome/free-solid-svg-icons";
+
 const data = [
   {
     id: 1,
@@ -38,7 +40,7 @@ const data = [
       },
 
       {
-        load: false,
+        load: true,
         cat: "image",
         srcSp: "/cyoujyuu_yamazaki_kou_02-375.webp",
         srcTb: "/cyoujyuu_yamazaki_kou_02-800.webp",
@@ -300,7 +302,7 @@ const data = [
       },
 
       {
-        load: false,
+        load: true,
         cat: "image",
         srcSp: "/cyoujyuu_yamazaki_otu_02-375.webp",
         srcTb: "/cyoujyuu_yamazaki_otu_02-800.webp",
@@ -597,7 +599,7 @@ const data = [
         gendaibun: "",
       },
       {
-        load: false,
+        load: true,
         cat: "image",
         srcSp: "/cyoujyuu_yamazaki_hei_02-375.webp",
         srcTb: "/cyoujyuu_yamazaki_hei_02-800.webp",
@@ -867,7 +869,7 @@ const data = [
         gendaibun: "",
       },
       {
-        load: false,
+        load: true,
         cat: "image",
         srcSp: "/cyoujyuu_yamazaki_tei_02-375.webp",
         srcTb: "/cyoujyuu_yamazaki_tei_02-800.webp",
@@ -1125,7 +1127,7 @@ const data = [
         name: "naomoto_02.webp",
       },
       {
-        load: false,
+        load: true,
         cat: "image",
         srcSp: "/naomoto_03-375.webp",
         srcTb: "/naomoto_03-800.webp",
@@ -1941,7 +1943,7 @@ const data = [
           "これらの死屍は、顔色が黒ずみ、身体が硬直して手足が花を散らしたようにあちこちを向く、膨脹した身体が風をはらんでふくらんだ革袋のようである。九つの孔からは、汚物が流れ溢れ、はなはだ穢れ醜悪である。行者は自らおもう、我が身もこれと同じであるし、未だ愛着を断ち切ることのできない愛人もまた、これと同じである。この相を見れば、心が少々定まり徐々に落ち着くのである。",
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/kusouzu_03-375.webp",
         srcTb: "/kusouzu_03-800.webp",
@@ -2124,7 +2126,7 @@ const data = [
           "これらの死屍は、顔色が黒ずみ、身体が硬直して手足が花を散らしたようにあちこちを向く、膨脹した身体が風をはらんでふくらんだ革袋のようである。九つの孔からは、汚物が流れ溢れ、はなはだ穢れ醜悪である。行者は自らおもう、我が身もこれと同じであるし、未だ愛着を断ち切ることのできない愛人もまた、これと同じである。この相を見れば、心が少々定まり徐々に落ち着くのである。",
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/kusouzu_eitaku_03-375.webp",
         srcTb: "/kusouzu_eitaku_03-800.webp",
@@ -2521,7 +2523,7 @@ const data = [
       },
 
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/saigyo_manno_03-375.webp",
         srcTb: "/saigyo_manno_03-800.webp",
@@ -3212,7 +3214,7 @@ const data = [
     typeColor: "denki",
     kotobagaki: true,
     sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
+      "https://colbase.nich.go.jp/collection_items/kyohaku/A%E7%94%B2364?locale=ja",
     sourceImage: "鶴図下絵和歌巻（ColBase）",
     sourceEkotoba: "",
     emakis: [
@@ -3225,7 +3227,7 @@ const data = [
         name: "tsuruzusitaewakamaki_01.webp",
       },
       {
-        load: false,
+        load: true,
         cat: "image",
         srcSp: "/tsuruzusitaewakamaki_02-375.webp",
         srcTb: "/tsuruzusitaewakamaki_02-800.webp",
@@ -3366,16 +3368,15 @@ const data = [
     type: "屏風",
     typeColor: "byoubu",
     kotobagaki: true,
-    sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+    sourceImageUrl: "https://asia.si.edu/object/F1906.231-232/",
+    sourceImage: "Waves at Matsushima（フリーア美術館）",
     sourceEkotoba: "",
     emakis: [
       {
         cat: "ekotoba",
-        chapter: "右隻",
+        chapter: "六曲一双",
         kobun: "",
-        gendaibun: "",
+        gendaibun: "右隻",
         phrase: [{}],
       },
       {
@@ -3388,9 +3389,9 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "左隻",
+        chapter: "",
         kobun: "",
-        gendaibun: "",
+        gendaibun: "左隻",
         phrase: [{}],
       },
       {
@@ -3421,8 +3422,8 @@ const data = [
     typeColor: "denki",
     kotobagaki: true,
     sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+      "https://colbase.nich.go.jp/collection_items/tnm/A-9277?locale=ja",
+    sourceImage: "徳川種姫婚礼行列図（ColBase）",
     sourceEkotoba: "",
     emakis: [
       {
@@ -3434,7 +3435,7 @@ const data = [
         name: "tokugawagyouretsu_01.webp",
       },
       {
-        load: false,
+        load: true,
         cat: "image",
         srcSp: "/tokugawagyouretsu_02-375.webp",
         srcTb: "/tokugawagyouretsu_02-800.webp",
@@ -3715,113 +3716,119 @@ const data = [
       },
     ],
   },
-  {
-    id: 18,
-    title: "六扇面散屏風（フリーア美術館）",
-    titleen: "sixfan",
-    author: "俵屋宗達",
-    backgroundImage: "/washi-pattern-01.webp",
-    video: "",
-    thumb: "/jigokusoushi_genke_thumb.webp",
-    thumb2: "/sixfan_thumb.webp",
-    srcFirstView: "/sixfan_02-1080.webp",
-    metadesc: "",
-    desc: "",
-    era: "安土・桃山時代",
-    gif: "",
-    type: "屏風",
-    typeColor: "byoubu",
-    kotobagaki: true,
-    sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
-    sourceEkotoba: "",
-    emakis: [
-      {
-        load: true,
-        cat: "image",
-        srcSp: "/sixfan_01-375.webp",
-        srcTb: "/sixfan_01-800.webp",
-        src: "/sixfan_01-1080.webp",
-        name: "sixfan_01.webp",
-      },
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/sixfan_02-375.webp",
-        srcTb: "/sixfan_02-800.webp",
-        src: "/sixfan_02-1080.webp",
-        name: "sixfan_02.webp",
-      },
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/sixfan_03-375.webp",
-        srcTb: "/sixfan_03-800.webp",
-        src: "/sixfan_03-1080.webp",
-        name: "sixfan_03.webp",
-      },
-    ],
-  },
-  {
-    id: 19,
-    title: "扇面流図屏風（東京国立博物館）",
-    titleen: "senmennagashi",
-    author: "俵屋宗達",
-    backgroundImage: "/washi-pattern-01.webp",
-    video: "",
-    thumb: "/jigokusoushi_genke_thumb.webp",
-    thumb2: "/senmennagashi_thumb.webp",
-    srcFirstView: "/senmennagashi_02-1080.webp",
-    metadesc: "",
-    desc: "",
-    era: "安土・桃山時代",
-    gif: "",
-    type: "屏風",
-    typeColor: "byoubu",
-    kotobagaki: true,
-    sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
-    sourceEkotoba: "",
-    emakis: [
-      {
-        cat: "ekotoba",
-        chapter: "六曲一隻",
-        kobun: "",
-        gendaibun:
-          "蛇籠（じゃかご）が描かれた銀地の流れに宗達風下絵に光悦流で和歌の書かれた扇が舞っています。足利尊氏が天龍寺へ参詣した折に供の童子が誤って川に落とした扇がひらひらと舞って川を流れる様子を見て喜んだという逸話を意匠化した扇面流しの屏風で、扇は本紙に直接描かれています。",
-        phrase: [{}],
-      },
-      {
-        load: true,
-        cat: "image",
-        srcSp: "/senmennagashi_01-375.webp",
-        srcTb: "/senmennagashi_01-800.webp",
-        src: "/senmennagashi_01-1080.webp",
-        name: "senmennagashi_01.webp",
-      },
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/senmennagashi_02-375.webp",
-        srcTb: "/senmennagashi_02-800.webp",
-        src: "/senmennagashi_02-1080.webp",
-        name: "senmennagashi_02.webp",
-      },
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/senmennagashi_03-375.webp",
-        srcTb: "/senmennagashi_03-800.webp",
-        src: "/senmennagashi_03-1080.webp",
-        name: "senmennagashi_03.webp",
-      },
-    ],
-  },
+  // {
+  //   id: 18,
+  //   title: "六扇面散屏風",
+  //   titleen: "sixfan",
+  //   author: "俵屋宗達",
+  //   backgroundImage: "/washi-pattern-01.webp",
+  //   video: "",
+  //   thumb: "/jigokusoushi_genke_thumb.webp",
+  //   thumb2: "/sixfan_thumb.webp",
+  //   srcFirstView: "/sixfan_02-1080.webp",
+  //   metadesc: "",
+  //   desc: "",
+  //   era: "安土・桃山時代",
+  //   gif: "",
+  //   type: "屏風",
+  //   typeColor: "byoubu",
+  //   kotobagaki: true,
+  //   sourceImageUrl: "https://asia.si.edu/object/F1905.231/",
+  //   sourceImage: "Six fan papers: miscellaneous subjects（フリーア美術館）",
+  //   sourceEkotoba: "",
+  //   emakis: [
+  //     {
+  //       cat: "ekotoba",
+  //       chapter: "六曲一隻",
+  //       kobun: "",
+  //       gendaibun: "",
+  //       phrase: [{}],
+  //     },
+  //     {
+  //       load: true,
+  //       cat: "image",
+  //       srcSp: "/sixfan_01-375.webp",
+  //       srcTb: "/sixfan_01-800.webp",
+  //       src: "/sixfan_01-1080.webp",
+  //       name: "sixfan_01.webp",
+  //     },
+  //     {
+  //       load: false,
+  //       cat: "image",
+  //       srcSp: "/sixfan_02-375.webp",
+  //       srcTb: "/sixfan_02-800.webp",
+  //       src: "/sixfan_02-1080.webp",
+  //       name: "sixfan_02.webp",
+  //     },
+  //     {
+  //       load: false,
+  //       cat: "image",
+  //       srcSp: "/sixfan_03-375.webp",
+  //       srcTb: "/sixfan_03-800.webp",
+  //       src: "/sixfan_03-1080.webp",
+  //       name: "sixfan_03.webp",
+  //     },
+  //   ],
+  // },
+  // {
+  //   id: 19,
+  //   title: "扇面流図屏風",
+  //   titleen: "senmennagashi",
+  //   author: "俵屋宗達",
+  //   backgroundImage: "/washi-pattern-01.webp",
+  //   video: "",
+  //   thumb: "/jigokusoushi_genke_thumb.webp",
+  //   thumb2: "/senmennagashi_thumb.webp",
+  //   srcFirstView: "/senmennagashi_02-1080.webp",
+  //   metadesc: "",
+  //   desc: "",
+  //   era: "安土・桃山時代",
+  //   gif: "",
+  //   type: "屏風",
+  //   typeColor: "byoubu",
+  //   kotobagaki: true,
+  //   sourceImageUrl:
+  //     "https://colbase.nich.go.jp/collection_items/tnm/A-10141?locale=ja",
+  //   sourceImage: "扇面流図屏風（ColBase）",
+  //   sourceEkotoba: "",
+  //   emakis: [
+  //     {
+  //       cat: "ekotoba",
+  //       chapter: "六曲一隻",
+  //       kobun: "",
+  //       gendaibun:
+  //         "蛇籠（じゃかご）が描かれた銀地の流れに宗達風下絵に光悦流で和歌の書かれた扇が舞っています。足利尊氏が天龍寺へ参詣した折に供の童子が誤って川に落とした扇がひらひらと舞って川を流れる様子を見て喜んだという逸話を意匠化した扇面流しの屏風で、扇は本紙に直接描かれています。",
+  //       phrase: [{}],
+  //     },
+  //     {
+  //       load: true,
+  //       cat: "image",
+  //       srcSp: "/senmennagashi_01-375.webp",
+  //       srcTb: "/senmennagashi_01-800.webp",
+  //       src: "/senmennagashi_01-1080.webp",
+  //       name: "senmennagashi_01.webp",
+  //     },
+  //     {
+  //       load: false,
+  //       cat: "image",
+  //       srcSp: "/senmennagashi_02-375.webp",
+  //       srcTb: "/senmennagashi_02-800.webp",
+  //       src: "/senmennagashi_02-1080.webp",
+  //       name: "senmennagashi_02.webp",
+  //     },
+  //     {
+  //       load: false,
+  //       cat: "image",
+  //       srcSp: "/senmennagashi_03-375.webp",
+  //       srcTb: "/senmennagashi_03-800.webp",
+  //       src: "/senmennagashi_03-1080.webp",
+  //       name: "senmennagashi_03.webp",
+  //     },
+  //   ],
+  // },
   {
     id: 20,
-    title: "扇面散屏風（フリーア美術館）",
+    title: "扇面散屏風",
     titleen: "senmenchirashi_freer",
     author: "俵屋宗達",
     backgroundImage: "/washi-pattern-01.webp",
@@ -3836,9 +3843,8 @@ const data = [
     type: "屏風",
     typeColor: "byoubu",
     kotobagaki: true,
-    sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+    sourceImageUrl: "https://asia.si.edu/object/F1900.24/",
+    sourceImage: "Screen with Scattered Fans（フリーア美術館）",
     sourceEkotoba: "",
     emakis: [
       {
@@ -3897,86 +3903,86 @@ const data = [
       },
     ],
   },
-  {
-    id: 21,
-    title: "扇面散屏風（東京国立博物館）",
-    titleen: "senmenchirashi_tohaku",
-    author: "俵屋宗達",
-    backgroundImage: "/washi-pattern-01.webp",
-    video: "",
-    thumb: "/jigokusoushi_genke_thumb.webp",
-    thumb2: "/senmenchirashi_tohaku_thumb.webp",
-    srcFirstView: "/senmenchirashi_tohaku_02-1080.webp",
-    metadesc: "",
-    desc: "",
-    era: "安土・桃山時代",
-    gif: "",
-    type: "屏風",
-    typeColor: "byoubu",
-    kotobagaki: true,
-    sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
-    sourceEkotoba: "",
-    emakis: [
-      {
-        cat: "ekotoba",
-        chapter: "六曲一双",
-        kobun: "",
-        gendaibun: "",
-        phrase: [{}],
-      },
-      {
-        cat: "ekotoba",
-        chapter: "右隻",
-        kobun: "",
-        gendaibun: "",
-        phrase: [{}],
-      },
-      {
-        load: true,
-        cat: "image",
-        srcSp: "/senmenchirashi_tohaku_01-375.webp",
-        srcTb: "/senmenchirashi_tohaku_01-800.webp",
-        src: "/senmenchirashi_tohaku_01-1080.webp",
-        name: "senmenchirashi_tohaku_01.webp",
-      },
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/senmenchirashi_tohaku_02-375.webp",
-        srcTb: "/senmenchirashi_tohaku_02-800.webp",
-        src: "/senmenchirashi_tohaku_02-1080.webp",
-        name: "senmenchirashi_tohaku_02.webp",
-      },
-      {
-        cat: "ekotoba",
-        chapter: "左隻",
-        kobun: "",
-        gendaibun: "",
-        phrase: [{}],
-      },
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/senmenchirashi_tohaku_03-375.webp",
-        srcTb: "/senmenchirashi_tohaku_03-800.webp",
-        src: "/senmenchirashi_tohaku_03-1080.webp",
-        name: "senmenchirashi_tohaku_03.webp",
-      },
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/senmenchirashi_tohaku_04-375.webp",
-        srcTb: "/senmenchirashi_tohaku_04-800.webp",
-        src: "/senmenchirashi_tohaku_04-1080.webp",
-        name: "senmenchirashi_tohaku_04.webp",
-      },
-    ],
-  },
+  // {
+  //   id: 21,
+  //   title: "扇面散屏風",
+  //   titleen: "senmenchirashi_tohaku",
+  //   author: "俵屋宗達",
+  //   backgroundImage: "/washi-pattern-01.webp",
+  //   video: "",
+  //   thumb: "/jigokusoushi_genke_thumb.webp",
+  //   thumb2: "/senmenchirashi_tohaku_thumb.webp",
+  //   srcFirstView: "/senmenchirashi_tohaku_02-1080.webp",
+  //   metadesc: "",
+  //   desc: "",
+  //   era: "安土・桃山時代",
+  //   gif: "",
+  //   type: "屏風",
+  //   typeColor: "byoubu",
+  //   kotobagaki: true,
+  //   sourceImageUrl:
+  //     "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
+  //   sourceImage: "鶴図下絵和歌巻（ColBase）",
+  //   sourceEkotoba: "",
+  //   emakis: [
+  //     {
+  //       cat: "ekotoba",
+  //       chapter: "六曲一双",
+  //       kobun: "",
+  //       gendaibun: "",
+  //       phrase: [{}],
+  //     },
+  //     {
+  //       cat: "ekotoba",
+  //       chapter: "右隻",
+  //       kobun: "",
+  //       gendaibun: "",
+  //       phrase: [{}],
+  //     },
+  //     {
+  //       load: true,
+  //       cat: "image",
+  //       srcSp: "/senmenchirashi_tohaku_01-375.webp",
+  //       srcTb: "/senmenchirashi_tohaku_01-800.webp",
+  //       src: "/senmenchirashi_tohaku_01-1080.webp",
+  //       name: "senmenchirashi_tohaku_01.webp",
+  //     },
+  //     {
+  //       load: false,
+  //       cat: "image",
+  //       srcSp: "/senmenchirashi_tohaku_02-375.webp",
+  //       srcTb: "/senmenchirashi_tohaku_02-800.webp",
+  //       src: "/senmenchirashi_tohaku_02-1080.webp",
+  //       name: "senmenchirashi_tohaku_02.webp",
+  //     },
+  //     {
+  //       cat: "ekotoba",
+  //       chapter: "左隻",
+  //       kobun: "",
+  //       gendaibun: "",
+  //       phrase: [{}],
+  //     },
+  //     {
+  //       load: false,
+  //       cat: "image",
+  //       srcSp: "/senmenchirashi_tohaku_03-375.webp",
+  //       srcTb: "/senmenchirashi_tohaku_03-800.webp",
+  //       src: "/senmenchirashi_tohaku_03-1080.webp",
+  //       name: "senmenchirashi_tohaku_03.webp",
+  //     },
+  //     {
+  //       load: false,
+  //       cat: "image",
+  //       srcSp: "/senmenchirashi_tohaku_04-375.webp",
+  //       srcTb: "/senmenchirashi_tohaku_04-800.webp",
+  //       src: "/senmenchirashi_tohaku_04-1080.webp",
+  //       name: "senmenchirashi_tohaku_04.webp",
+  //     },
+  //   ],
+  // },
   {
     id: 22,
-    title: "雲龍図屏風（フリーア美術館）",
+    title: "雲龍図屏風",
     titleen: "unryuzu",
     author: "俵屋宗達",
     backgroundImage: "/washi-pattern-01.webp",
@@ -3991,16 +3997,15 @@ const data = [
     type: "屏風",
     typeColor: "byoubu",
     kotobagaki: true,
-    sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+    sourceImageUrl: "https://asia.si.edu/object/F1905.230/",
+    sourceImage: "Dragons and Clouds（フリーア美術館）",
     sourceEkotoba: "",
     emakis: [
       {
         cat: "ekotoba",
-        chapter: "右隻",
+        chapter: "六曲一双",
         kobun: "",
-        gendaibun: "",
+        gendaibun: "右隻",
         phrase: [{}],
       },
       {
@@ -4021,9 +4026,9 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "左隻",
+        chapter: "",
         kobun: "",
-        gendaibun: "",
+        gendaibun: "左隻",
         phrase: [{}],
       },
       {
@@ -4061,16 +4066,16 @@ const data = [
     type: "屏風",
     typeColor: "byoubu",
     kotobagaki: true,
-    sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+    sourceImageUrl: "https://asia.si.edu/object/F1903.101-102/",
+    sourceImage:
+      "Court Ladies among cherry trees (left); Cherry blossoms, a high fence and retainers (right)（フリーア美術館）",
     sourceEkotoba: "",
     emakis: [
       {
         cat: "ekotoba",
-        chapter: "右隻",
+        chapter: "六曲一双",
         kobun: "",
-        gendaibun: "",
+        gendaibun: "右隻",
         phrase: [{}],
       },
       {
@@ -4091,9 +4096,9 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "左隻",
+        chapter: "",
         kobun: "",
-        gendaibun: "",
+        gendaibun: "左隻",
         phrase: [{}],
       },
       {
@@ -4132,15 +4137,15 @@ const data = [
     typeColor: "byoubu",
     kotobagaki: true,
     sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+      "https://colbase.nich.go.jp/collection_items/tnm/A-11783?locale=ja",
+    sourceImage: "松竹梅（ColBase）",
     sourceEkotoba: "",
     emakis: [
       {
         cat: "ekotoba",
-        chapter: "右隻",
+        chapter: "六曲一双",
         kobun: "",
-        gendaibun: "",
+        gendaibun: "右隻",
         phrase: [{}],
       },
       {
@@ -4161,9 +4166,9 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "左隻",
+        chapter: "",
         kobun: "",
-        gendaibun: "",
+        gendaibun: "左隻",
         phrase: [{}],
       },
       {
@@ -4186,7 +4191,7 @@ const data = [
   },
   {
     id: 25,
-    title: "松溪山四時図屏風",
+    title: "溪山四時図屏風",
     titleen: "keizanyoizu",
     author: "川合玉堂",
     backgroundImage: "/washi-pattern-01.webp",
@@ -4202,15 +4207,15 @@ const data = [
     typeColor: "byoubu",
     kotobagaki: true,
     sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+      "https://colbase.nich.go.jp/collection_items/tnm/A-11782?locale=ja",
+    sourceImage: "溪山四時図屏風（ColBase）",
     sourceEkotoba: "",
     emakis: [
       {
         cat: "ekotoba",
-        chapter: "右隻",
+        chapter: "六曲一双",
         kobun: "",
-        gendaibun: "",
+        gendaibun: "右隻",
         phrase: [{}],
       },
       {
@@ -4231,9 +4236,9 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "左隻",
+        chapter: "",
         kobun: "",
-        gendaibun: "",
+        gendaibun: "左隻",
         phrase: [{}],
       },
       {
@@ -4272,15 +4277,15 @@ const data = [
     typeColor: "byoubu",
     kotobagaki: true,
     sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+      "https://colbase.nich.go.jp/collection_items/tnm/A-56?locale=ja",
+    sourceImage: "牧馬図屏風（ColBase）",
     sourceEkotoba: "",
     emakis: [
       {
         cat: "ekotoba",
-        chapter: "右隻",
+        chapter: "六曲一双",
         kobun: "",
-        gendaibun: "",
+        gendaibun: "右隻",
         phrase: [{}],
       },
       {
@@ -4301,9 +4306,9 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "左隻",
+        chapter: "",
         kobun: "",
-        gendaibun: "",
+        gendaibun: "左隻",
         phrase: [{}],
       },
       {
@@ -4326,7 +4331,7 @@ const data = [
   },
   {
     id: 27,
-    title: "関谷図屏風",
+    title: "関屋図屏風",
     titleen: "sekiyazu",
     author: "俵屋宗達",
     backgroundImage: "/washi-pattern-01.webp",
@@ -4342,8 +4347,8 @@ const data = [
     typeColor: "byoubu",
     kotobagaki: true,
     sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+      "https://colbase.nich.go.jp/collection_items/tnm/A-12190?locale=ja",
+    sourceImage: "関屋図屏風（ColBase）",
     sourceEkotoba: "",
     emakis: [
       {
@@ -4364,54 +4369,54 @@ const data = [
       },
     ],
   },
-  {
-    id: 28,
-    title: "橋下扇面図屛風",
-    titleen: "hashisitasenmen",
-    author: "俵屋宗達",
-    backgroundImage: "/washi-pattern-01.webp",
-    video: "",
-    thumb: "/jigokusoushi_genke_thumb.webp",
-    thumb2: "/hashisitasenmen_thumb.webp",
-    srcFirstView: "/hashisitasenmen_02-1080.webp",
-    metadesc: "",
-    desc: "",
-    era: "安土・桃山時代",
-    gif: "",
-    type: "屏風",
-    typeColor: "byoubu",
-    kotobagaki: true,
-    sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
-    sourceEkotoba: "",
-    emakis: [
-      {
-        cat: "ekotoba",
-        chapter: "六曲一隻",
-        kobun: "",
-        gendaibun:
-          "橋の上から扇子が流れ落ちる様子は、十五世紀の将軍が京都の中心部から郊外の寺院に向かう際に行った伝説的な旅を思い起こさせる。橋の上で将軍に仕える者が、主人の扇を誤って水の中に落としてしまったのだ。美の儚さを痛感させられた将軍の側近たちは、皆、扇を水に流してしまった。",
-        phrase: [{}],
-      },
-      {
-        load: true,
-        cat: "image",
-        srcSp: "/hashisitasenmen_01-375.webp",
-        srcTb: "/hashisitasenmen_01-800.webp",
-        src: "/hashisitasenmen_01-1080.webp",
-        name: "hashisitasenmen_01.webp",
-      },
-      {
-        load: false,
-        cat: "image",
-        srcSp: "/hashisitasenmen_02-375.webp",
-        srcTb: "/hashisitasenmen_02-800.webp",
-        src: "/hashisitasenmen_02-1080.webp",
-        name: "hashisitasenmen_02.webp",
-      },
-    ],
-  },
+  // {
+  //   id: 28,
+  //   title: "橋下扇面図屛風",
+  //   titleen: "hashisitasenmen",
+  //   author: "俵屋宗達",
+  //   backgroundImage: "/washi-pattern-01.webp",
+  //   video: "",
+  //   thumb: "/jigokusoushi_genke_thumb.webp",
+  //   thumb2: "/hashisitasenmen_thumb.webp",
+  //   srcFirstView: "/hashisitasenmen_02-1080.webp",
+  //   metadesc: "",
+  //   desc: "",
+  //   era: "安土・桃山時代",
+  //   gif: "",
+  //   type: "屏風",
+  //   typeColor: "byoubu",
+  //   kotobagaki: true,
+  //   sourceImageUrl:
+  //     "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
+  //   sourceImage: "鶴図下絵和歌巻（ColBase）",
+  //   sourceEkotoba: "",
+  //   emakis: [
+  //     {
+  //       cat: "ekotoba",
+  //       chapter: "六曲一隻",
+  //       kobun: "",
+  //       gendaibun:
+  //         "橋の上から扇子が流れ落ちる様子は、十五世紀の将軍が京都の中心部から郊外の寺院に向かう際に行った伝説的な旅を思い起こさせる。橋の上で将軍に仕える者が、主人の扇を誤って水の中に落としてしまったのだ。美の儚さを痛感させられた将軍の側近たちは、皆、扇を水に流してしまった。",
+  //       phrase: [{}],
+  //     },
+  //     {
+  //       load: true,
+  //       cat: "image",
+  //       srcSp: "/hashisitasenmen_01-375.webp",
+  //       srcTb: "/hashisitasenmen_01-800.webp",
+  //       src: "/hashisitasenmen_01-1080.webp",
+  //       name: "hashisitasenmen_01.webp",
+  //     },
+  //     {
+  //       load: false,
+  //       cat: "image",
+  //       srcSp: "/hashisitasenmen_02-375.webp",
+  //       srcTb: "/hashisitasenmen_02-800.webp",
+  //       src: "/hashisitasenmen_02-1080.webp",
+  //       name: "hashisitasenmen_02.webp",
+  //     },
+  //   ],
+  // },
   {
     id: 29,
     title: "鵜",
@@ -4430,13 +4435,13 @@ const data = [
     typeColor: "byoubu",
     kotobagaki: true,
     sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+      "https://colbase.nich.go.jp/collection_items/tnm/A-10514?locale=ja",
+    sourceImage: "鵜（ColBase）",
     sourceEkotoba: "",
     emakis: [
       {
         cat: "ekotoba",
-        chapter: "六曲１双",
+        chapter: "六曲一双",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
@@ -4507,13 +4512,13 @@ const data = [
     typeColor: "byoubu",
     kotobagaki: true,
     sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+      "https://colbase.nich.go.jp/collection_items/tnm/A-10508?locale=ja",
+    sourceImage: "弱法師（ColBase）",
     sourceEkotoba: "",
     emakis: [
       {
         cat: "ekotoba",
-        chapter: "六曲１双",
+        chapter: "六曲一双",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
@@ -4568,7 +4573,7 @@ const data = [
   },
   {
     id: 30,
-    title: "春雨",
+    title: "春雨図屏風",
     titleen: "harusame",
     author: "下村観山",
     backgroundImage: "/washi-pattern-01.webp",
@@ -4584,13 +4589,13 @@ const data = [
     typeColor: "byoubu",
     kotobagaki: true,
     sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+      "https://colbase.nich.go.jp/collection_items/tnm/A-10517?locale=ja",
+    sourceImage: "春雨図屏風（ColBase）",
     sourceEkotoba: "",
     emakis: [
       {
         cat: "ekotoba",
-        chapter: "六曲１双",
+        chapter: "六曲一双",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
@@ -4643,106 +4648,106 @@ const data = [
       },
     ],
   },
-  {
-    id: 31,
-    title: "",
-    titleen: "Vittore_Carpaccio",
-    author: "ヴィットーレ・カルパッチョ",
-    backgroundImage: "/washi-pattern-01.webp",
-    video: "",
-    thumb: "/jigokusoushi_genke_thumb.webp",
-    thumb2: "Vittore_Carpaccio_01-_thumb.webp",
-    srcFirstView: "Vittore_Carpaccio_01-_02-1080.webp",
-    metadesc: "",
-    desc: "",
-    era: "ルネサンス",
-    gif: "",
-    type: "西洋絵画",
-    typeColor: "seiyoukaiga",
-    kotobagaki: true,
-    sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
-    sourceEkotoba: "",
-    emakis: [
-      {
-        cat: "ekotoba",
-        chapter: "ゲオルギウス",
-        kobun: "",
-        gendaibun: "",
-        phrase: [{}],
-      },
-      {
-        load: true,
-        cat: "image",
-        srcSp: "/Vittore_Carpaccio_01-375.webp",
-        srcTb: "/Vittore_Carpaccio_01-800.webp",
-        src: "/Vittore_Carpaccio_01-1080.webp",
-        name: "Vittore_Carpaccio_01.webp",
-      },
-    ],
-  },
-  {
-    id: 32,
-    title: "",
-    titleen: "tintoretto",
-    author: "ティントレット",
-    backgroundImage: "/washi-pattern-01.webp",
-    video: "",
-    thumb: "/jigokusoushi_genke_thumb.webp",
-    thumb2: "tintoretto_01-_thumb.webp",
-    srcFirstView: "tintoretto_01-_02-1080.webp",
-    metadesc: "",
-    desc: "",
-    era: "ルネサンス",
-    gif: "",
-    type: "西洋絵画",
-    typeColor: "seiyoukaiga",
-    kotobagaki: true,
-    sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
-    sourceEkotoba: "",
-    emakis: [
-      {
-        cat: "ekotoba",
-        chapter: "弟子の足を洗うキリスト",
-        kobun: "",
-        gendaibun: "",
-        phrase: [{}],
-      },
-      {
-        cat: "ekotoba",
-        chapter: "オンタリオ美術館（1545~1555）",
-        kobun: "",
-        gendaibun: "",
-        phrase: [{}],
-      },
-      {
-        load: true,
-        cat: "image",
-        srcSp: "/tintoretto_christwashing_02-375.webp",
-        srcTb: "/tintoretto_christwashing_02-800.webp",
-        src: "/tintoretto_christwashing_02-1080.webp",
-        name: "tintoretto_christwashing_02.webp",
-      },
-      {
-        cat: "ekotoba",
-        chapter: "プラド美術館（1548~1549）",
-        kobun: "",
-        gendaibun: "",
-        phrase: [{}],
-      },
-      {
-        load: true,
-        cat: "image",
-        srcSp: "/tintoretto_christwashing_01-375.webp",
-        srcTb: "/tintoretto_christwashing_01-800.webp",
-        src: "/tintoretto_christwashing_01-1080.webp",
-        name: "tintoretto_christwashing_01.webp",
-      },
-    ],
-  },
+  // {
+  //   id: 31,
+  //   title: "",
+  //   titleen: "Vittore_Carpaccio",
+  //   author: "ヴィットーレ・カルパッチョ",
+  //   backgroundImage: "/washi-pattern-01.webp",
+  //   video: "",
+  //   thumb: "/jigokusoushi_genke_thumb.webp",
+  //   thumb2: "Vittore_Carpaccio_01-_thumb.webp",
+  //   srcFirstView: "Vittore_Carpaccio_01-_02-1080.webp",
+  //   metadesc: "",
+  //   desc: "",
+  //   era: "ルネサンス",
+  //   gif: "",
+  //   type: "西洋絵画",
+  //   typeColor: "seiyoukaiga",
+  //   kotobagaki: true,
+  //   sourceImageUrl:
+  //     "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
+  //   sourceImage: "鶴図下絵和歌巻（ColBase）",
+  //   sourceEkotoba: "",
+  //   emakis: [
+  //     {
+  //       cat: "ekotoba",
+  //       chapter: "ゲオルギウス",
+  //       kobun: "",
+  //       gendaibun: "",
+  //       phrase: [{}],
+  //     },
+  //     {
+  //       load: true,
+  //       cat: "image",
+  //       srcSp: "/Vittore_Carpaccio_01-375.webp",
+  //       srcTb: "/Vittore_Carpaccio_01-800.webp",
+  //       src: "/Vittore_Carpaccio_01-1080.webp",
+  //       name: "Vittore_Carpaccio_01.webp",
+  //     },
+  //   ],
+  // },
+  // {
+  //   id: 32,
+  //   title: "",
+  //   titleen: "tintoretto",
+  //   author: "ティントレット",
+  //   backgroundImage: "/washi-pattern-01.webp",
+  //   video: "",
+  //   thumb: "/jigokusoushi_genke_thumb.webp",
+  //   thumb2: "tintoretto_01-_thumb.webp",
+  //   srcFirstView: "tintoretto_01-_02-1080.webp",
+  //   metadesc: "",
+  //   desc: "",
+  //   era: "ルネサンス",
+  //   gif: "",
+  //   type: "西洋絵画",
+  //   typeColor: "seiyoukaiga",
+  //   kotobagaki: true,
+  //   sourceImageUrl:
+  //     "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
+  //   sourceImage: "鶴図下絵和歌巻（ColBase）",
+  //   sourceEkotoba: "",
+  //   emakis: [
+  //     {
+  //       cat: "ekotoba",
+  //       chapter: "弟子の足を洗うキリスト",
+  //       kobun: "",
+  //       gendaibun: "",
+  //       phrase: [{}],
+  //     },
+  //     {
+  //       cat: "ekotoba",
+  //       chapter: "オンタリオ美術館（1545~1555）",
+  //       kobun: "",
+  //       gendaibun: "",
+  //       phrase: [{}],
+  //     },
+  //     {
+  //       load: true,
+  //       cat: "image",
+  //       srcSp: "/tintoretto_christwashing_02-375.webp",
+  //       srcTb: "/tintoretto_christwashing_02-800.webp",
+  //       src: "/tintoretto_christwashing_02-1080.webp",
+  //       name: "tintoretto_christwashing_02.webp",
+  //     },
+  //     {
+  //       cat: "ekotoba",
+  //       chapter: "プラド美術館（1548~1549）",
+  //       kobun: "",
+  //       gendaibun: "",
+  //       phrase: [{}],
+  //     },
+  //     {
+  //       load: true,
+  //       cat: "image",
+  //       srcSp: "/tintoretto_christwashing_01-375.webp",
+  //       srcTb: "/tintoretto_christwashing_01-800.webp",
+  //       src: "/tintoretto_christwashing_01-1080.webp",
+  //       name: "tintoretto_christwashing_01.webp",
+  //     },
+  //   ],
+  // },
   {
     id: 33,
     title: "睡蓮",
@@ -4761,8 +4766,8 @@ const data = [
     typeColor: "seiyoukaiga",
     kotobagaki: true,
     sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+      "https://ja.wikipedia.org/wiki/%E7%9D%A1%E8%93%AE_(%E3%83%A2%E3%83%8D)",
+    sourceImage: "睡蓮_モネ（ウィキペディア）",
     sourceEkotoba: "",
     emakis: [
       {
@@ -4960,8 +4965,8 @@ const data = [
     typeColor: "emaki",
     kotobagaki: true,
     sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+      "https://colbase.nich.go.jp/collection_items/tnm/A-10512?locale=ja",
+    sourceImage: "修羅道絵巻（ColBase）",
     sourceEkotoba: "",
     emakis: [
       {
@@ -5088,9 +5093,8 @@ const data = [
     type: "西洋絵画",
     typeColor: "seiyoukaiga",
     kotobagaki: true,
-    sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+    sourceImageUrl: "https://en.wikipedia.org/wiki/Beethoven_Frieze",
+    sourceImage: "Beethoven Frieze（ウィキペディア）",
     sourceEkotoba: "",
     emakis: [
       {
@@ -5164,7 +5168,7 @@ const data = [
   },
   {
     id: 35,
-    title: "江戸名所八景",
+    title: "江戸近郊八景",
     titleen: "edomeisyohakkei",
     author: "歌川広重",
     backgroundImage: "/washi-pattern-01.webp",
@@ -5179,9 +5183,8 @@ const data = [
     type: "浮世絵",
     typeColor: "ukiyoe",
     kotobagaki: true,
-    sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+    sourceImageUrl: "https://dl.ndl.go.jp/info:ndljp/pid/1307297",
+    sourceImage: "江戸近郊八景（国立国会図書館デジタルコレクション）",
     sourceEkotoba: "",
     emakis: [
       {
@@ -5323,9 +5326,8 @@ const data = [
     type: "西洋絵画",
     typeColor: "seiyoukaiga",
     kotobagaki: true,
-    sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+    sourceImageUrl: "https://en.wikipedia.org/wiki/Scrovegni_Chapel",
+    sourceImage: "Scrovegni Chapel（ウィキペディア）",
     sourceEkotoba: "",
     emakis: [
       {
@@ -5961,9 +5963,8 @@ const data = [
     type: "水墨画",
     typeColor: "suibokuga",
     kotobagaki: true,
-    sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/kyuhaku/A56?locale=ja",
-    sourceImage: "九相詩絵巻（九州国立博物館）",
+    sourceImageUrl: "https://ja.wikipedia.org/wiki/%E9%9B%AA%E8%88%9F",
+    sourceImage: "雪舟（ウィキペディア）",
     reference: "",
     sourceEkotoba: "",
     emakis: [
@@ -6088,9 +6089,8 @@ const data = [
     type: "浮世絵",
     typeColor: "ukiyoe",
     kotobagaki: true,
-    sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+    sourceImageUrl: "https://en.wikipedia.org/wiki/Oceans_of_Wisdom",
+    sourceImage: "Oceans of Wisdom（ウィキペディア）",
     sourceEkotoba: "",
     emakis: [
       {
@@ -6262,9 +6262,8 @@ const data = [
     type: "西洋絵画",
     typeColor: "seiyoukaiga",
     kotobagaki: true,
-    sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+    sourceImageUrl: "https://en.wikipedia.org/wiki/Brancacci_Chapel",
+    sourceImage: "Brancacci Chapel（ウィキペディア）",
     sourceEkotoba: "",
     emakis: [
       {
@@ -6495,8 +6494,8 @@ const data = [
     typeColor: "emaki",
     kotobagaki: true,
     sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+      "https://colbase.nich.go.jp/collection_items/tnm/A-10561?locale=ja",
+    sourceImage: "東海道五十三次絵巻（ColBase）",
     sourceEkotoba: "",
     emakis: [
       {
@@ -6928,8 +6927,8 @@ const data = [
     typeColor: "emaki",
     kotobagaki: true,
     sourceImageUrl:
-      "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    sourceImage: "鶴図下絵和歌巻（ColBase）",
+      "https://colbase.nich.go.jp/collection_items/tnm/A-10525?locale=ja",
+    sourceImage: "熱国之巻（ColBase）",
     sourceEkotoba: "",
     emakis: [
       {
@@ -6956,7 +6955,7 @@ const data = [
         name: "nekkokunomaki_asa_02.webp",
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/nekkokunomaki_asa_03-375.webp",
         srcTb: "/nekkokunomaki_asa_03-800.webp",
@@ -6964,7 +6963,7 @@ const data = [
         name: "nekkokunomaki_asa_03.webp",
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/nekkokunomaki_asa_04-375.webp",
         srcTb: "/nekkokunomaki_asa_04-800.webp",
@@ -6972,7 +6971,7 @@ const data = [
         name: "nekkokunomaki_asa_04.webp",
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/nekkokunomaki_asa_05-375.webp",
         srcTb: "/nekkokunomaki_asa_05-800.webp",
@@ -6980,7 +6979,7 @@ const data = [
         name: "nekkokunomaki_asa_05.webp",
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/nekkokunomaki_asa_06-375.webp",
         srcTb: "/nekkokunomaki_asa_06-800.webp",
@@ -6988,7 +6987,7 @@ const data = [
         name: "nekkokunomaki_asa_06.webp",
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/nekkokunomaki_asa_07-375.webp",
         srcTb: "/nekkokunomaki_asa_07-800.webp",
@@ -7003,7 +7002,7 @@ const data = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/nekkokunomaki_kure_01-375.webp",
         srcTb: "/nekkokunomaki_kure_01-100.webp",
@@ -7011,7 +7010,7 @@ const data = [
         name: "nekkokunomaki_kure_01.webp",
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/nekkokunomaki_kure_02-375.webp",
         srcTb: "/nekkokunomaki_kure_02-800.webp",
@@ -7019,7 +7018,7 @@ const data = [
         name: "nekkokunomaki_kure_02.webp",
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/nekkokunomaki_kure_03-375.webp",
         srcTb: "/nekkokunomaki_kure_03-800.webp",
@@ -7027,7 +7026,7 @@ const data = [
         name: "nekkokunomaki_kure_03.webp",
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/nekkokunomaki_kure_04-375.webp",
         srcTb: "/nekkokunomaki_kure_04-800.webp",
@@ -7035,7 +7034,7 @@ const data = [
         name: "nekkokunomaki_kure_04.webp",
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/nekkokunomaki_kure_05-375.webp",
         srcTb: "/nekkokunomaki_kure_05-800.webp",
@@ -7043,7 +7042,7 @@ const data = [
         name: "nekkokunomaki_kure_05.webp",
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/nekkokunomaki_kure_06-375.webp",
         srcTb: "/nekkokunomaki_kure_06-800.webp",
