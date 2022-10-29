@@ -5,7 +5,15 @@ import { useRouter } from "next/router";
 import Router from "next/dist/server/router";
 import siteImg from "../public/ogp.jpg";
 
-const Meta = ({ pagetitle, pageDesc, pageImg, pageImgW, pageImgH }) => {
+const Meta = ({
+  pagetitle,
+  pageDesc,
+  pageImg,
+  pageImgW,
+  pageImgH,
+  pageType,
+  pageAuthor,
+}) => {
   const {
     siteTitle,
     siteDesc,
@@ -16,8 +24,27 @@ const Meta = ({ pagetitle, pageDesc, pageImg, pageImgW, pageImgH }) => {
     siteIcon,
   } = siteMeta;
 
+  // const pageDescTemp = () => {
+  //   switch (pageType) {
+  //     case "連続式絵巻":
+  //       return `${pagetitle}の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+  //       break;
+  //     case "屏風":
+  //       return `${pagetitle}の全シーンを、横スクロールで楽しむことができます。`;
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
+
   const title = pagetitle ? `${pagetitle} | ${siteTitle}` : siteTitle;
-  const desc = pageDesc ?? siteDesc;
+  const pageDescTemp = pageDesc
+    ? siteDesc
+    : `${pagetitle} ${
+        pageAuthor && `（${pageAuthor}）`
+      }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+  const desc = pagetitle ? pageDescTemp : siteDesc;
+
 
   const router = useRouter();
   const url = `${siteUrl}${router.asPath}`;
