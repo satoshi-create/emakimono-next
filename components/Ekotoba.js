@@ -30,7 +30,6 @@ const Ekotoba = ({
 
   const [toggle, setToggle] = useState(false);
 
-  console.log(kotobagaki);
 
   useEffect(() => {
     setEkotobaImageToggle(false);

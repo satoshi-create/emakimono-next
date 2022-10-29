@@ -10,7 +10,6 @@ const CardConteiner = ({ emakis }) => {
 
   const eraTab = ["全て", ...new Set(emakis.map((item) => item.era))];
 
-  console.log(eraTab);
 
   const fetchEmakis = (q) => {
     const serchEmakis = emakis.filter((item) => {
