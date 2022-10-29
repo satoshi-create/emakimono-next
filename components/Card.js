@@ -9,14 +9,9 @@ const Card = ({
 }) => {
   const [readMore, setReadmore] = useState(false);
   const filterDesc = desc.substring(0, 100);
-
-  // const color = () => {
-  //   if (era === "平安時代") {
-  //     return "orange"
-  //   }else{
-  //     return "green"
-  //   }
-  // }
+  const descTemp = `${title} ${
+    author && `（${author}）`
+  }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
 
   const eraColor = () => {
     switch (era) {
@@ -69,18 +64,27 @@ const Card = ({
             {/* <h4 className={styles.era}>{era}</h4> */}
           </div>
           <div className={styles.desc}>
-            {/* <p>{readMore ? desc : filterDesc}</p> */}
-            <p
-              dangerouslySetInnerHTML={{
-                __html: `${readMore ? desc : filterDesc}`,
-              }}
-            />
-            <button
-              onClick={() => setReadmore(!readMore)}
-              className={styles.readMore}
-            >
-              {readMore ? "閉じる" : "...続きを読む"}
-            </button>
+            {desc ? (
+              <>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: `${readMore ? desc : filterDesc}`,
+                  }}
+                />
+                <button
+                  onClick={() => setReadmore(!readMore)}
+                  className={styles.readMore}
+                >
+                  {readMore ? "閉じる" : "...続きを読む"}
+                </button>
+              </>
+            ) : (
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: descTemp,
+                }}
+              />
+            )}
           </div>
         </div>
       </div>
