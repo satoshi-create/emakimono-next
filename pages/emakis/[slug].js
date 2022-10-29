@@ -9,15 +9,18 @@ import Controller from "../../components/Controller";
 const Emaki = ({ emakis }) => {
   const router = useRouter();
   const path = router.pathname;
+  
 
   return (
     <>
       <Head
-        pagetitle={`${emakis.title} ${emakis.edition ? emakis.edition : ""}`}
+        pagetitle={`${emakis.title}${emakis.edition ? emakis.edition : ""}`}
+        pageAuthor={emakis.author}
         pageDesc={emakis.metadesc}
         pageImg={emakis.thumb}
         pageImgW={emakis.thumb.width}
         pageImgH={emakis.thumb.height}
+        pageType={emakis.type}
       />
       <Controller value={emakis} />
       <Sidebar value={emakis} />
