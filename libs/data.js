@@ -3376,7 +3376,14 @@ const data = [
         cat: "ekotoba",
         chapter: "六曲一双",
         kobun: "",
-        gendaibun: "右隻",
+        gendaibun: "",
+        phrase: [{}],
+      },
+      {
+        cat: "ekotoba",
+        chapter: "右隻",
+        kobun: "",
+        gendaibun: "",
         phrase: [{}],
       },
       {
@@ -3389,9 +3396,9 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "",
+        chapter: "左隻",
         kobun: "",
-        gendaibun: "左隻",
+        gendaibun: "",
         phrase: [{}],
       },
       {
@@ -4005,7 +4012,14 @@ const data = [
         cat: "ekotoba",
         chapter: "六曲一双",
         kobun: "",
-        gendaibun: "右隻",
+        gendaibun: "",
+        phrase: [{}],
+      },
+      {
+        cat: "ekotoba",
+        chapter: "右隻",
+        kobun: "",
+        gendaibun: "",
         phrase: [{}],
       },
       {
@@ -4026,9 +4040,9 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "",
+        chapter: "左隻",
         kobun: "",
-        gendaibun: "左隻",
+        gendaibun: "",
         phrase: [{}],
       },
       {
@@ -4075,7 +4089,14 @@ const data = [
         cat: "ekotoba",
         chapter: "六曲一双",
         kobun: "",
-        gendaibun: "右隻",
+        gendaibun: "",
+        phrase: [{}],
+      },
+      {
+        cat: "ekotoba",
+        chapter: "右隻",
+        kobun: "",
+        gendaibun: "",
         phrase: [{}],
       },
       {
@@ -4096,9 +4117,9 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "",
+        chapter: "左隻",
         kobun: "",
-        gendaibun: "左隻",
+        gendaibun: "",
         phrase: [{}],
       },
       {
@@ -4145,7 +4166,14 @@ const data = [
         cat: "ekotoba",
         chapter: "六曲一双",
         kobun: "",
-        gendaibun: "右隻",
+        gendaibun: "",
+        phrase: [{}],
+      },
+      {
+        cat: "ekotoba",
+        chapter: "右隻",
+        kobun: "",
+        gendaibun: "",
         phrase: [{}],
       },
       {
@@ -4166,9 +4194,9 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "",
+        chapter: "左隻",
         kobun: "",
-        gendaibun: "左隻",
+        gendaibun: "",
         phrase: [{}],
       },
       {
@@ -4215,7 +4243,14 @@ const data = [
         cat: "ekotoba",
         chapter: "六曲一双",
         kobun: "",
-        gendaibun: "右隻",
+        gendaibun: "",
+        phrase: [{}],
+      },
+      {
+        cat: "ekotoba",
+        chapter: "右隻",
+        kobun: "",
+        gendaibun: "",
         phrase: [{}],
       },
       {
@@ -4236,9 +4271,9 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "",
+        chapter: "左隻",
         kobun: "",
-        gendaibun: "左隻",
+        gendaibun: "",
         phrase: [{}],
       },
       {
@@ -4285,7 +4320,14 @@ const data = [
         cat: "ekotoba",
         chapter: "六曲一双",
         kobun: "",
-        gendaibun: "右隻",
+        gendaibun: "",
+        phrase: [{}],
+      },
+      {
+        cat: "ekotoba",
+        chapter: "右隻",
+        kobun: "",
+        gendaibun: "",
         phrase: [{}],
       },
       {
@@ -4306,9 +4348,9 @@ const data = [
       },
       {
         cat: "ekotoba",
-        chapter: "",
+        chapter: "左隻",
         kobun: "",
-        gendaibun: "左隻",
+        gendaibun: "",
         phrase: [{}],
       },
       {
@@ -4351,6 +4393,13 @@ const data = [
     sourceImage: "関屋図屏風（ColBase）",
     sourceEkotoba: "",
     emakis: [
+      {
+        cat: "ekotoba",
+        chapter: "六曲一隻",
+        kobun: "",
+        gendaibun: "",
+        phrase: [{}],
+      },
       {
         load: true,
         cat: "image",
@@ -4424,9 +4473,9 @@ const data = [
     author: "下村観山",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
-    thumb: "/jigokusoushi_genke_thumb.webp",
-    thumb2: "/hashisitasenmen_thumb.webp",
-    srcFirstView: "/hashisitasenmen_02-1080.webp",
+    thumb: "/u_thumb.webp",
+    thumb2: "/u_thumb.webp",
+    srcFirstView: "/u_02-1080.webp",
     metadesc: "",
     desc: "",
     era: "明治時代",
@@ -4501,8 +4550,8 @@ const data = [
     author: "下村観山",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
-    thumb: "/jigokusoushi_genke_thumb.webp",
-    thumb2: "yoroboushi_01-_thumb.webp",
+    thumb: "/yoroboushi_thumb.webp",
+    thumb2: "yoroboushi_thumb.webp",
     srcFirstView: "yoroboushi_01-_02-1080.webp",
     metadesc: "",
     desc: "",
@@ -4578,9 +4627,9 @@ const data = [
     author: "下村観山",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
-    thumb: "/jigokusoushi_genke_thumb.webp",
-    thumb2: "harusame_01-_thumb.webp",
-    srcFirstView: "harusame_01-_02-1080.webp",
+    thumb: "/harusame_thumb.webp",
+    thumb2: "harusame_thumb.webp",
+    srcFirstView: "harusame_01-1080.webp",
     metadesc: "",
     desc: "",
     era: "明治時代",
