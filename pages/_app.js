@@ -17,6 +17,7 @@ function MyApp({ Component, pageProps, router }) {
   const [query, setQuery] = useState("");
   const [fliterdEmakis, setfliterdEmakis] = useState(emakis);
 
+
   return (
     <AppContext.Provider
       value={{
