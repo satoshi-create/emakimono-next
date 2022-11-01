@@ -32,22 +32,22 @@ function MyApp({ Component, pageProps, router }) {
         setfliterdEmakis,
       }}
     >
-      <Layout>
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-4115JJFY0B"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){window.dataLayer.push(arguments);}
             gtag('js', new Date());
 
             gtag('config', 'G-4115JJFY0B');
           `}
-        </Script>
-        <Component {...pageProps} key={router.asPath} />
-      </Layout>
+      </Script>
+      {/* <Layout> */}
+      <Component {...pageProps} key={router.asPath} />
+      {/* </Layout> */}
     </AppContext.Provider>
   );
 }
