@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import dataController from "../libs/controller";
 import Link from "next/link";
 import styles from "../styles/Controller.module.css";
-import { NextContext } from "../context/context";
+// import { NextContext } from "../context/context";
 import { AppContext } from "../pages/_app";
 
 const Controller = ({ value }) => {
