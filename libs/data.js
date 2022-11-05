@@ -6923,7 +6923,7 @@ const data = [
     author: "	今村紫紅",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
-    thumb: "/jigokusoushi_genke_thumb.webp",
+    thumb: "/nekkokunomaki_thumb.webp",
     thumb2: "nekkokunomaki_thumb.webp",
     metadesc: "",
     desc: "",
