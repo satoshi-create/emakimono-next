@@ -43,14 +43,15 @@ const Card = ({
       <div className={styles.card}>
         <Link href={`/emakis/${titleen}`}>
           <div className={styles.single}>
-            <picture>
+            <img src={thumb} alt={title} />
+            {/* <picture>
               <source data-srcset={thumb} type="image/webp" />
               <img
                 src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
                 className="lazyload loading"
                 alt={thumb}
               />
-            </picture>
+            </picture> */}
             <div className={`${eraColor()} ${styles.era}`}>{era}</div>
           </div>
         </Link>
