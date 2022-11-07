@@ -2058,9 +2058,9 @@ const data = [
   },
   {
     id: 9,
-    title: "九相図（小林永濯 画）",
+    title: "九相図",
     titleen: "kusouzu_kobayasieieitaku",
-    author: "",
+    author: "小林永濯",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
     thumb: "/kusouzu_eitaku_thumb.webp",
@@ -5323,7 +5323,7 @@ const data = [
   },
   {
     id: 36,
-    title: "スクロヴェーニ礼拝堂 装飾画",
+    title: "スクロヴェーニ礼拝堂<br>装飾画",
     titleen: "scrovegni",
     author: "ジョット",
     backgroundImage: "/washi-pattern-01.webp",
@@ -6256,7 +6256,7 @@ const data = [
   },
   {
     id: 39,
-    title: "ブランカッチ礼拝堂 装飾画",
+    title: "ブランカッチ礼拝堂<br> 装飾画",
     titleen: "brancacci",
     author: "マザッチョ",
     backgroundImage: "/washi-pattern-01.webp",
