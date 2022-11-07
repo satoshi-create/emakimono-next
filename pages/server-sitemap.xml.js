@@ -9,7 +9,7 @@ console.log(getServerSideProps());
 export async function getServerSideProps(context) {
   const postFields = emakisData.map((post) => {
     return {
-      loc: `${siteMeta.siteUrl}/${post.titleen}`,
+      loc: `${siteMeta.siteUrl}/${post.typeen}/${post.titleen}`,
     };
   });
 
