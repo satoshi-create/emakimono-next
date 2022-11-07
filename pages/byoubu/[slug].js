@@ -9,7 +9,7 @@ import Controller from "../../components/Controller";
 const Emaki = ({ emakis }) => {
   const router = useRouter();
   const path = router.pathname;
-  
+  console.log(path);
 
   return (
     <>
@@ -24,6 +24,7 @@ const Emaki = ({ emakis }) => {
       />
       <Controller value={emakis} />
       <Sidebar value={emakis} />
+
       <EmakiConteiner data={{ ...emakis }} />
     </>
   );
@@ -32,7 +33,7 @@ const Emaki = ({ emakis }) => {
 export default Emaki;
 
 export const getStaticPaths = async () => {
-  const paths = emakisData.map((item) => `/emakis/${item.titleen}`);
+  const paths = emakisData.map((item) => `/byoubu/${item.titleen}`);
   console.log(paths);
   return { paths, fallback: false };
 };
