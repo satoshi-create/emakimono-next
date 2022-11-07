@@ -4,15 +4,17 @@ import Link from "next/link";
 import styles from "../styles/Controller.module.css";
 // import { NextContext } from "../context/context";
 import { AppContext } from "../pages/_app";
+import Test from "./Test";
 
 const Controller = ({ value }) => {
   const controller = dataController();
   const { ekotobaImageToggle, setEkotobaImageToggle } = useContext(AppContext);
-  const { emakis, kotobagaki, type } = value;
+  const { emakis, kotobagaki, type, title, titleen } = value;
   console.log(kotobagaki);
 
   return (
     <aside className={styles.controller}>
+      <Test type={type} title={title} titleen={titleen} />
       {controller.map((item, index) => {
         const {
           title,

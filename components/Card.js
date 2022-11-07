@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const Card = ({
-  item: { titleen, title, thumb, edition, author, era, desc, type },
+  item: { titleen, title, thumb, edition, author, era, desc, typeen },
 }) => {
   const [readMore, setReadmore] = useState(false);
   const filterDesc = desc.substring(0, 100);
@@ -41,10 +41,11 @@ const Card = ({
   return (
     <>
       <div className={styles.card}>
-        <Link href={`/emakis/${titleen}`}>
-          <div className={styles.single}>
-            <img src={thumb} alt={title} />
-            {/* <picture>
+        <Link href={`/${typeen}/${titleen}`}>
+          <a>
+            <div className={styles.single}>
+              <img src={thumb} loading="lazy" alt={title} />
+              {/* <picture>
               <source data-srcset={thumb} type="image/webp" />
               <img
                 src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
@@ -52,8 +53,9 @@ const Card = ({
                 alt={thumb}
               />
             </picture> */}
-            <div className={`${eraColor()} ${styles.era}`}>{era}</div>
-          </div>
+              <div className={`${eraColor()} ${styles.era}`}>{era}</div>
+            </div>
+          </a>
         </Link>
         <div className={styles.info}>
           <div className={styles.header}>
