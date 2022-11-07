@@ -16,7 +16,7 @@ const Breadcrumbs = ({ type, title, titleen, typeen }) => {
         <a>Top</a>
       </Link>
       {">"}
-      <Link href={`/${typeen}`}>
+      <Link href={`/category/${typeen}`}>
         <a>{type}</a>
       </Link>
       {">"}
