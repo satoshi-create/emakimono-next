@@ -41,7 +41,7 @@ const Card = ({
   return (
     <>
       <div className={styles.card}>
-        <Link href={`/${typeen}/${titleen}`}>
+        <Link href={`/${titleen}`}>
           <a>
             <div className={styles.single}>
               <img src={thumb} loading="lazy" alt={title} />
