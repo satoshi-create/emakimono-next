@@ -6,10 +6,10 @@ import Head from "../components/Meta";
 import Title from "../components/Title";
 import SerchForm from "../components/SerchForm";
 
+export default function emaki() {
+  const emakisData = data.filter((item) => item.type.match("絵巻"));
 
-export default function emakis() {
-  const emakisData = data.filter((item) => item.type.includes("絵巻"));
-  console.log(emakisData);
+
   return (
     <>
       <Head pagetitle={"絵巻"} pageDesc={"絵巻図鑑のページです"} />

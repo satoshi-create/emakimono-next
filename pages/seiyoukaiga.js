@@ -7,8 +7,7 @@ import Title from "../components/Title";
 import SerchForm from "../components/SerchForm";
 
 export default function emakis() {
-  const emakisData = data.filter((item) => item.type.includes("西洋絵画"));
-  console.log(emakisData);
+  const emakisData = data.filter((item) => item.type.match("西洋絵画"));
   return (
     <>
       <Head pagetitle={"西洋絵画"} pageDesc={"西洋絵画のページです"} />

@@ -12,11 +12,10 @@ import Title from "../components/Title";
 import SerchForm from "../components/SerchForm";
 
 export default function byoubu() {
-  const emakisData = data.filter((item) => item.type.includes("屏風"));
-  console.log(emakisData);
+  const emakisData = data.filter((item) => item.type.match("屏風"));
   return (
     <>
-      <Head pagetitle={"絵巻"} pageDesc={"絵巻図鑑のページです"} />
+      <Head pagetitle={"屏風"} pageDesc={"屏風のページです"} />
       <Header />
       <Title pagetitle={"屛風"} />
       <SerchForm emakis={emakisData} />

@@ -33,7 +33,9 @@ const Emaki = ({ emakis }) => {
 export default Emaki;
 
 export const getStaticPaths = async () => {
-  const paths = emakisData.map((item) => `/seiyoukaiga/${item.titleen}`);
+  const seiyouData = emakisData.filter((item) => item.type.match("西洋絵画"));
+  console.log(seiyouData);
+  const paths = seiyouData.map((item) => `/seiyoukaiga/${item.titleen}`);
   console.log(paths);
   return { paths, fallback: false };
 };

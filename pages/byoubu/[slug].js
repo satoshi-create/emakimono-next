@@ -33,7 +33,9 @@ const Emaki = ({ emakis }) => {
 export default Emaki;
 
 export const getStaticPaths = async () => {
-  const paths = emakisData.map((item) => `/byoubu/${item.titleen}`);
+  const byoubuData = emakisData.filter((item) => item.type.match("屏風"));
+  console.log(byoubuData);
+  const paths = byoubuData.map((item) => `/byoubu/${item.titleen}`);
   console.log(paths);
   return { paths, fallback: false };
 };
