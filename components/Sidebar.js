@@ -5,16 +5,19 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { AppContext } from "../pages/_app";
+import Test from "./Test";
 
 const Sidebar = ({ value }) => {
   const {
     emakis,
     title,
+    titleen,
     backgroundImage,
     sourceImageUrl,
     sourceImage,
     reference,
     author,
+    type,
   } = value;
   const { oepnSidebar, setOepnSidebar } = useContext(AppContext);
   const [tabValue, setTabValue] = useState(0);
@@ -102,6 +105,7 @@ const Sidebar = ({ value }) => {
         >
           <X />
         </button>
+
         <div className={styles.navheader}>
           <h4 className={styles.title}>{title}</h4>
           <h4 className={styles.author}>{author}</h4>
