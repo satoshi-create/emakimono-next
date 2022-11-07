@@ -1,0 +1,19 @@
+.container {
+  font-size: 1.2rem;
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-weight: 300;
+  /* background: rgb(177 177 177 / 39%); */
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+}
+.container,
+.container a {
+  color: white;
+}
+.container a {
+  transition: var(--transition);
+}
+.container a:hover {
+  color: var(--clr-accent-02);
+  font-weight: 400;
+}

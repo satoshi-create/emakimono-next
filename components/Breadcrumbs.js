@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import styles from "../styles/Breadcrumbs.module.css";
 
 const Breadcrumbs = ({ type, title, titleen, typeen }) => {
   const router = useRouter();
@@ -11,15 +12,15 @@ const Breadcrumbs = ({ type, title, titleen, typeen }) => {
   for (let i = 0; i < paths.length; i++) roots.push(roots[i] + "/" + paths[i]);
 
   return (
-    <ol>
+    <ol className={styles.container}>
       <Link href={"/"}>
         <a>Top</a>
       </Link>
-      {">"}
+      {" > "}
       <Link href={`/category/${typeen}`}>
         <a>{type}</a>
       </Link>
-      {">"}
+      {" > "}
       <Link href={`/${typeen}/${titleen}`}>
         <a>{title}</a>
       </Link>

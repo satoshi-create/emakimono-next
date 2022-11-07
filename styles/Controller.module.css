@@ -1,16 +1,15 @@
-.controller {
-  display: flex;
-  width: 100%;
+.container {
+}
+.breadcrumbs {
   position: fixed;
+  z-index: 20;
   top: 6px;
-  left: 0;
-  z-index: 10;
-  justify-content: right;
-  column-gap: 5px;
+  left: 6px;
 }
 .next,
 .comment,
-.prev {
+.prev,
+.home {
   opacity: 0;
 }
 .linkicon {
@@ -32,11 +31,19 @@
 }
 @media (min-height: 800px) {
   .controller {
+    width: 100%;
+    position: fixed;
+    z-index: 10;
+    top: 6px;
+    left: 0;
+    column-gap: 5px;
+    display: flex;
     justify-content: center;
   }
   .next,
   .comment,
-  .prev {
+  .prev,
+  .home {
     opacity: 1;
   }
 }
