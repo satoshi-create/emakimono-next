@@ -1,10 +1,10 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import EmakiConteiner from "../../components/EmakiConteiner";
-import emakisData from "../../libs/data";
-import Sidebar from "../../components/Sidebar";
-import Head from "../../components/Meta";
-import Controller from "../../components/Controller";
+import EmakiConteiner from "../components/EmakiConteiner";
+import emakisData from "../libs/data";
+import Sidebar from "../components/Sidebar";
+import Head from "../components/Meta";
+import Controller from "../components/Controller";
 
 const Emaki = ({ emakis }) => {
   const router = useRouter();
@@ -33,9 +33,9 @@ const Emaki = ({ emakis }) => {
 export default Emaki;
 
 export const getStaticPaths = async () => {
-  const byoubuData = emakisData.filter((item) => item.type.match("屏風"));
-  console.log(byoubuData);
-  const paths = byoubuData.map((item) => `/byoubu/${item.titleen}`);
+  // const emakiData = emakisData.filter((item) => item.type.match("絵巻"));
+  // console.log(emakiData);
+  const paths = emakisData.map((item) => `/${item.titleen}`);
   console.log(paths);
   return { paths, fallback: false };
 };
