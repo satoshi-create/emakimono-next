@@ -33,7 +33,9 @@ const Emaki = ({ emakis }) => {
 export default Emaki;
 
 export const getStaticPaths = async () => {
-  const paths = emakisData.map((item) => `/emaki/${item.titleen}`);
+  const emakiData = emakisData.filter((item) => item.type.match("絵巻"));
+  console.log(emakiData);
+  const paths = emakiData.map((item) => `/emaki/${item.titleen}`);
   console.log(paths);
   return { paths, fallback: false };
 };
