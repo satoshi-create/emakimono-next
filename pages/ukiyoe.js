@@ -12,11 +12,10 @@ import Title from "../components/Title";
 import SerchForm from "../components/SerchForm";
 
 export default function emakis() {
-  const emakisData = data.filter((item) => item.type.includes("浮世絵"));
-  console.log(emakisData);
+  const emakisData = data.filter((item) => item.type.match("浮世絵"));
   return (
     <>
-      <Head pagetitle={"浮世絵"} pageDesc={"浮世絵図鑑のページです"} />
+      <Head pagetitle={"浮世絵"} pageDesc={"浮世絵のページです"} />
       <Header />
       <Title pagetitle={"浮世絵"} />
       <SerchForm emakis={emakisData} />

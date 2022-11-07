@@ -9,7 +9,6 @@ import Controller from "../../components/Controller";
 const Emaki = ({ emakis }) => {
   const router = useRouter();
   const path = router.pathname;
-  console.log(path);
 
   return (
     <>
@@ -33,7 +32,9 @@ const Emaki = ({ emakis }) => {
 export default Emaki;
 
 export const getStaticPaths = async () => {
-  const paths = emakisData.map((item) => `/ukiyoe/${item.titleen}`);
+  const ukiyoeData = emakisData.filter((item) => item.type.match("浮世絵"));
+  console.log(ukiyoeData);
+  const paths = ukiyoeData.map((item) => `/ukiyoe/${item.titleen}`);
   console.log(paths);
   return { paths, fallback: false };
 };
@@ -43,7 +44,7 @@ export const getStaticProps = async (context) => {
   const filterdEmakisData = emakisData.find(
     (item, index) => item.titleen === slug
   );
-  console.log(filterdEmakisData);
+  // console.log(filterdEmakisData);
 
   return {
     props: {

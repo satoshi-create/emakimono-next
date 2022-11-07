@@ -9,7 +9,6 @@ import Controller from "../../components/Controller";
 const Emaki = ({ emakis }) => {
   const router = useRouter();
   const path = router.pathname;
-  console.log(path);
 
   return (
     <>
@@ -33,7 +32,9 @@ const Emaki = ({ emakis }) => {
 export default Emaki;
 
 export const getStaticPaths = async () => {
-  const paths = emakisData.map((item) => `/suibokuga/${item.titleen}`);
+  const suibokuData = emakisData.filter((item) => item.type.match("水墨画"));
+  console.log(suibokuData);
+  const paths = suibokuData.map((item) => `/suibokuga/${item.titleen}`);
   console.log(paths);
   return { paths, fallback: false };
 };
