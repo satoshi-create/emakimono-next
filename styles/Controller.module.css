@@ -6,12 +6,10 @@
   top: 6px;
   left: 6px;
 }
-.next,
-.comment,
-.prev,
-.home {
-  opacity: 0;
+.controller{
+  display:none;
 }
+
 .linkicon {
   width: 3rem;
   height: 3rem;
@@ -40,10 +38,5 @@
     display: flex;
     justify-content: center;
   }
-  .next,
-  .comment,
-  .prev,
-  .home {
-    opacity: 1;
-  }
+
 }

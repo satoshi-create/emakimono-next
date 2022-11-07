@@ -1,6 +1,7 @@
 .container {
   font-size: 1.2rem;
   font-family: "Zen Maru Gothic", sans-serif;
+  /* font-family: var(--text-font); */
   font-weight: 300;
   /* background: rgb(177 177 177 / 39%); */
   padding: 0.5rem 1rem;

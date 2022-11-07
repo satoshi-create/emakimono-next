@@ -4,12 +4,6 @@ import { useRouter } from "next/router";
 import styles from "../styles/Breadcrumbs.module.css";
 
 const Breadcrumbs = ({ type, title, titleen, typeen }) => {
-  const router = useRouter();
-  const paths = decodeURI(router.asPath).substring(1).split("/");
-  console.log(typeen);
-
-  const roots = [""];
-  for (let i = 0; i < paths.length; i++) roots.push(roots[i] + "/" + paths[i]);
 
   return (
     <ol className={styles.container}>
