@@ -5,7 +5,6 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { AppContext } from "../pages/_app";
-import Test from "./Test";
 
 const Sidebar = ({ value }) => {
   const {

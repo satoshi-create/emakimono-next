@@ -1,43 +1,50 @@
-import styled from "styled-components";
+import React from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
-const BreadcrumbStyle = styled.div`
-margin:2rem 0;
-  nav {
-    display: grid;
-    grid-template-columns: 1fr min(calc(100vw - (5vw * 2)), 1024px) 1fr;
-   > * {
-    grid-column:2;
-  }
- > ol {
-    display: flex;
-    align-items: center;
-    list-style: none;
+const Breadcrumbs = ({ type, title, titleen, typeen }) => {
+  const router = useRouter();
+  const paths = decodeURI(router.asPath).substring(1).split("/");
+  console.log(typeen);
 
-    >li {
-      margin-right: 8px;
+  const roots = [""];
+  for (let i = 0; i < paths.length; i++) roots.push(roots[i] + "/" + paths[i]);
 
-      &:after {
-        content: ">";
-        display: inline-block;
-        margin-left: 4px;
-        font-size: clamp(0.375rem, 0.0861rem + 1.2327vw, 0.875rem);
-      }
+  return (
+    <ol>
+      <Link href={"/"}>
+        <a>Top</a>
+      </Link>
+      {">"}
+      <Link href={`/${typeen}`}>
+        <a>{type}</a>
+      </Link>
+      {">"}
+      <Link href={`/${typeen}/${titleen}`}>
+        <a>{title}</a>
+      </Link>
+      {/* {paths.map((x, i) => (
+        <>
+          {">"}
+          <Link href={roots[i + 1]} key={i}>
+            <a>{x}</a>
+          </Link>
+        </>
+      ))} */}
+      {/* {lists.map((list, index) => {
+        const { name, path } = list;
+        return (
+          <li key={index}>
+            <Link href={path}>
+              <a>{name}</a>
+            </Link>
+          </li>
+        );
+      })}
+      {">"}
+      {title} */}
+    </ol>
+  );
+};
 
-      &:last-child:after {
-        content: "";
-      }
-    }
-
-    a {
-      text-decoration: none;
-      color: #666;
-      font-size: clamp(0.375rem, 0.0861rem + 1.2327vw, 0.875rem);
-    }
-  }
-
-  .brActive > * {
-    color: #ff97c7;
-  }
-`;
-
-export default BreadcrumbStyle;
+export default Breadcrumbs;

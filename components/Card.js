@@ -59,10 +59,15 @@ const Card = ({
         </Link>
         <div className={styles.info}>
           <div className={styles.header}>
-            <h3>
+            <h3
+              dangerouslySetInnerHTML={{
+                __html: `${title}`,
+              }}
+            />
+            {/* <h3>
               {title}
               {edition ? edition : ""}
-            </h3>
+            </h3> */}
             <h4 className={styles.author}>{author}</h4>
             {/* <h4 className={styles.era}>{era}</h4> */}
           </div>
