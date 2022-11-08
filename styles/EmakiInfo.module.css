@@ -1,0 +1,59 @@
+.container {
+  font-family: "Zen Maru Gothic", sans-serif;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  column-gap: 2rem;
+}
+.title {
+  font-size: 2rem;
+  font-weight: 300;
+  color: white;
+}
+.era,
+.type {
+  font-size: 1rem;
+  font-weight: 300;
+  border: 1px solid white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.8rem;
+  color: white;
+  transition: var(--transition);
+}
+
+.type:hover {
+  color: rgb(34, 34, 34);
+  border: 1px solid var(--clr-accent-02);
+  background-color: var(--clr-accent-02);
+}
+
+.orange.era:hover {
+  color: rgb(34, 34, 34);
+  border: 1px solid var(--clr-accent-02);
+  background-color: var(--clr-accent-02);
+}
+.green.era:hover {
+  color: rgb(34, 34, 34);
+  border: 1px solid var(--clr-green-01);
+  background-color: var(--clr-green-01);
+}
+.purple.era:hover {
+  color: rgb(34, 34, 34);
+  border: 1px solid purple;
+  background-color: purple;
+}
+.gold.era:hover {
+  color: rgb(34, 34, 34);
+  border: 1px solid goldenrod;
+  background-color: goldenrod;
+}
+.skyblue.era:hover {
+  color: rgb(34, 34, 34);
+  border: 1px solid skyblue;
+  background-color: skyblue;
+}
+.firebrick.era:hover {
+  color: rgb(34, 34, 34);
+  border: 1px solid firebrick;
+  background-color: firebrick;
+}

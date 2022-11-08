@@ -4,24 +4,24 @@ import Link from "next/link";
 import styles from "../styles/Controller.module.css";
 // import { NextContext } from "../context/context";
 import { AppContext } from "../pages/_app";
-import Breadcrumbs from "./Breadcrumbs";
+import EmakiInfo from "./EmakiInfo";
 
 const Controller = ({ value }) => {
   const controller = dataController();
   const { ekotobaImageToggle, setEkotobaImageToggle } = useContext(AppContext);
-  const { emakis, kotobagaki, type, title, titleen, typeen } = value;
+  const { emakis, kotobagaki, type, title, titleen, typeen, era, eraen } =
+    value;
   console.log(kotobagaki);
 
   return (
     <aside className={styles.container}>
-      <div className={styles.breadcrumbs}>
-        <Breadcrumbs
-          type={type}
-          typeen={typeen}
-          title={title}
-          titleen={titleen}
-        />
-      </div>
+      <EmakiInfo
+        title={title}
+        era={era}
+        type={type}
+        typeen={typeen}
+        eraen={eraen}
+      />
       <div className={styles.controller}>
         {controller.map((item, index) => {
           const {

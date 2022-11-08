@@ -69,6 +69,24 @@
   padding: 0.2rem 0.6rem;
   border-radius: 0.5rem;
 }
+.orange {
+  background-color: var(--clr-accent-02);
+}
+.green {
+  background-color: var(--clr-green-01);
+}
+.purple {
+  background-color: purple;
+}
+.gold {
+  background-color: goldenrod;
+}
+.skyblue {
+  background-color: skyblue;
+}
+.firebrick {
+  background-color: firebrick;
+}
 .footer {
   position: absolute;
   right: 1rem;

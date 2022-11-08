@@ -1,20 +1,20 @@
-.container {
-  font-size: 1.2rem;
-  font-family: "Zen Maru Gothic", sans-serif;
-  /* font-family: var(--text-font); */
-  font-weight: 300;
-  /* background: rgb(177 177 177 / 39%); */
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
+.next::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  transform: rotate(45deg);
+  display: inline-block;
+  border-top: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  margin: 0 6px 2px 4px;
 }
-.container,
-.container a {
-  color: white;
+
+.list {
+  display: flex;
 }
-.container a {
-  transition: var(--transition);
-}
-.container a:hover {
-  color: var(--clr-accent-02);
-  font-weight: 400;
+
+.item {
+  font-size: 14px;
+  color: #aba4a2;
+  text-transform: capitalize;
 }
