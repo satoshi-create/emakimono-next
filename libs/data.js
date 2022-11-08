@@ -4597,6 +4597,7 @@ const data = [
     metadesc: "",
     desc: "",
     era: "明治時代",
+    eraen: "meiji",
     eraen: "",
     gif: "",
     type: "絵巻",

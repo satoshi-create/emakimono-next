@@ -6,12 +6,14 @@ import CardConteiner from "../../components/CardConteiner";
 import { useRouter } from "next/router";
 import Head from "../../components/Meta";
 import SerchForm from "../../components/SerchForm";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 const Emaki = ({ name, posts }) => {
   return (
     <>
       <Head pagetitle={name} pageDesc={`${name}のページです`} />
       <Header />
+      <Breadcrumbs name={name} />
       <Title pagetitle={name} />
       <SerchForm emakis={posts} />
       <CardConteiner emakis={posts} />
