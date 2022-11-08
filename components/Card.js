@@ -53,23 +53,18 @@ const Card = ({
                 alt={thumb}
               />
             </picture> */}
-              <div className={`${eraColor()} ${styles.era}`}>{era}</div>
             </div>
           </a>
         </Link>
         <div className={styles.info}>
           <div className={styles.header}>
-            <h3
+            <h3>{title}</h3>
+            {/* <h3
               dangerouslySetInnerHTML={{
                 __html: `${title}`,
               }}
-            />
-            {/* <h3>
-              {title}
-              {edition ? edition : ""}
-            </h3> */}
-            <h4 className={styles.author}>{author}</h4>
-            {/* <h4 className={styles.era}>{era}</h4> */}
+            /> */}
+            {/* <h4 className={styles.author}>{author}</h4> */}
           </div>
           <div className={styles.desc}>
             {desc ? (
@@ -94,6 +89,10 @@ const Card = ({
               />
             )}
           </div>
+        </div>
+        <div className={styles.footer}>
+          <div className={`${eraColor()} ${styles.era}`}>{era}</div>
+          {/* <div className={styles.era}>{era}</div> */}
         </div>
       </div>
     </>

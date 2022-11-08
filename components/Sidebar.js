@@ -76,9 +76,11 @@ const Sidebar = ({ value }) => {
       );
     } else if (tabValue === 2) {
       return (
-        <ul className={styles.source}>
-          <li>{reference}</li>
-        </ul>
+        reference && (
+          <ul className={styles.source}>
+            <li>{reference}</li>
+          </ul>
+        )
       );
     }
   };
