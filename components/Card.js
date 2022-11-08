@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const Card = ({
-  item: { titleen, title, thumb, edition, author, era, desc, typeen },
+  item: { titleen, title, thumb, edition, author, era, eraen, desc, typeen },
 }) => {
   const [readMore, setReadmore] = useState(false);
   const filterDesc = desc.substring(0, 100);
@@ -91,8 +91,12 @@ const Card = ({
           </div>
         </div>
         <div className={styles.footer}>
-          <div className={`${eraColor()} ${styles.era}`}>{era}</div>
-          {/* <div className={styles.era}>{era}</div> */}
+          <Link href={`/era/${eraen}`}>
+            <a>
+              <div className={`${eraColor()} ${styles.era}`}>{era}</div>
+              {/* <div className={styles.era}>{era}</div> */}
+            </a>
+          </Link>
         </div>
       </div>
     </>
