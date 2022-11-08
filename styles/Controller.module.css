@@ -1,13 +1,18 @@
 .container {
-}
-.breadcrumbs {
+  width: 80%;
   position: fixed;
-  z-index: 20;
-  top: 6px;
-  left: 6px;
+  top: 10px;
+  left: 10px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  /* display: flex;
+  justify-content: center; */
+  align-items: baseline;
+  z-index: 10;
+  /* column-gap: 5px; */
 }
-.controller{
-  display:none;
+.controller {
+  display: none;
 }
 
 .linkicon {
@@ -29,14 +34,8 @@
 }
 @media (min-height: 800px) {
   .controller {
-    width: 100%;
-    position: fixed;
-    z-index: 10;
-    top: 6px;
-    left: 0;
     column-gap: 5px;
     display: flex;
     justify-content: center;
   }
-
 }

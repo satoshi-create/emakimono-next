@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import styles from "../styles/Card.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import eraColor from "../libs/func";
 
 const Card = ({
   item: { titleen, title, thumb, edition, author, era, eraen, desc, typeen },
@@ -12,31 +11,6 @@ const Card = ({
   const descTemp = `${title} ${
     author && `（${author}）`
   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
-
-  const eraColor = () => {
-    switch (era) {
-      case "平安時代":
-        return "orange";
-        break;
-      case "鎌倉時代":
-        return "green";
-        break;
-      case "室町時代":
-        return "purple";
-        break;
-      case "安土・桃山時代":
-        return "gold";
-        break;
-      case "江戸時代":
-        return "skyblue";
-        break;
-      case "明治時代":
-        return "firebrick";
-        break;
-      default:
-        break;
-    }
-  };
 
   return (
     <>
@@ -93,7 +67,9 @@ const Card = ({
         <div className={styles.footer}>
           <Link href={`/era/${eraen}`}>
             <a>
-              <div className={`${eraColor()} ${styles.era}`}>{era}</div>
+              <div className={`${styles[eraColor(era)]} ${styles.era}`}>
+                {era}
+              </div>
               {/* <div className={styles.era}>{era}</div> */}
             </a>
           </Link>
