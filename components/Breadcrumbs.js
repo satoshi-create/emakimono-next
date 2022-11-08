@@ -15,7 +15,7 @@ const Breadcrumbs = ({ type, title, titleen, typeen }) => {
         <a>{type}</a>
       </Link>
       {" > "}
-      <Link href={`/${typeen}/${titleen}`}>
+      <Link href={`/${titleen}`}>
         <a>{title}</a>
       </Link>
       {/* {paths.map((x, i) => (
