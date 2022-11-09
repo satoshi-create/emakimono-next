@@ -5,7 +5,7 @@ import Card from "./Card";
 import { AppContext } from "../pages/_app";
 import CardConteiner from "./CardConteiner";
 
-const SortEra = ({ emakis }) => {
+const SortEra = ({ emakis, columns }) => {
   const { query, setQuery, setfliterdEmakis, fliterdEmakis } =
     useContext(AppContext);
 
@@ -60,7 +60,7 @@ const SortEra = ({ emakis }) => {
             );
           })}
         </div>
-        <CardConteiner emakis={fliterdEmakis} />
+        <CardConteiner emakis={fliterdEmakis} columns={columns} />
       </>
     );
   }

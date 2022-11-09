@@ -89,36 +89,44 @@
   color: var(--clr-white);
   background: var(--clr-accent-02);
 }
-/* .orange {
-  background-color: var(--clr-accent-02);
+.pluscontainter {
+  display: flex;
+  row-gap: 1rem;
+  flex-direction: column;
 }
-.green {
-  background-color: var(--clr-green-01);
+.pluscontainter > .card {
+  margin-bottom: 0;
 }
-.purple {
-  background-color: purple;
+.pluscontainter h4 {
+  align-self: center;
 }
-.gold {
-  background-color: goldenrod;
-}
-.skyblue {
-  background-color: skyblue;
-}
-.firebrick {
-  background-color: firebrick;
-} */
+
 @media screen and (min-width: 768px) {
   .conteiner {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
   }
-  .card {
+  .plus {
+    display: flex;
+    justify-content: space-between;
+    column-gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .plus > section {
+    flex-direction: column;
+  }
+  .two,
+  .three,
+  .four {
     flex: 0 0 calc(50% - 2rem);
   }
 }
 @media screen and (min-width: 1024px) {
-  .card {
+  .three {
     flex: 0 0 calc(33% - 2rem);
+  }
+  .four {
+    flex: 0 0 calc(25% - 2rem);
   }
 }
