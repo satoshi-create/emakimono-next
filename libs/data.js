@@ -1,5 +1,3 @@
-import { faL } from "@fortawesome/free-solid-svg-icons";
-
 const data = [
   {
     id: 1,
@@ -20,6 +18,7 @@ const data = [
     type: "絵巻",
     typeen: "emaki",
     kotobagaki: false,
+    favorite: true,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-1530?locale=ja",
     sourceImage: "鳥獣人戯画絵巻 摸本（ColBase）",
@@ -1699,6 +1698,7 @@ const data = [
     type: "絵巻",
     typeen: "emaki",
     kotobagaki: true,
+    favorite: true,
     sourceImageUrl:
       "http://www.archives.kyoto.jp/websearchpe/detail?cls=152_old_books_catalog&pkey=0000000096",
     sourceImage:
@@ -4603,6 +4603,7 @@ const data = [
     type: "絵巻",
     typeen: "emaki",
     kotobagaki: true,
+    favorite: true,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-10512?locale=ja",
     sourceImage: "修羅道絵巻（ColBase）",
