@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import Head from "../../components/Meta";
 import SerchForm from "../../components/SerchForm";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import SortEra from "../../components/SortEra";
 
 const Emaki = ({ name, posts }) => {
   // const filterdEmakisData = emakisData.find((item) => item.typeen === "ukiyoe");
@@ -18,7 +19,8 @@ const Emaki = ({ name, posts }) => {
       <Breadcrumbs name={name} />
       <Title pagetitle={name} />
       <SerchForm emakis={posts} />
-      <CardConteiner emakis={posts} />
+      <SortEra emakis={emakisData} />
+      {/* <CardConteiner emakis={posts} /> */}
     </>
   );
 };
