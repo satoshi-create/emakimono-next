@@ -16,6 +16,7 @@ const Card = ({
     typeen,
     type,
   },
+  columns,
 }) => {
   const [readMore, setReadmore] = useState(false);
   const filterDesc = desc.substring(0, 100);
@@ -23,11 +24,9 @@ const Card = ({
     author && `（${author}）`
   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
 
-  const tag = ["html", "css", "javascript", "jquery"];
-
   return (
     <>
-      <div className={styles.card}>
+      <div className={`${styles.card} ${styles[columns]} `}>
         <Link href={`/${titleen}`}>
           <a>
             <div className={styles.single}>

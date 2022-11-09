@@ -6,8 +6,8 @@ const Button = ({ value }) => {
   const { style, title, path } = value;
   return (
     <Link href={path}>
-      <a className={style}>
-        <button className={`btn ${styles.cmnbtn}`}>{title}</button>
+      <a>
+        <button className={`btn ${styles[style]}`}>{title}</button>
       </a>
     </Link>
   );
