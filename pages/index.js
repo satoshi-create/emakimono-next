@@ -7,13 +7,15 @@ import "lazysizes";
 import CardConteiner from "../components/CardConteiner";
 import Head from "../components/Meta";
 import SerchForm from "../components/SerchForm";
+import SortEra from "../components/SortEra";
 
 const index = () => {
   return (
     <>
       <Head />
       <Header />
-      <SerchForm emakis={emakisData} />
+      {/* <SerchForm emakis={emakisData} /> */}
+      {/* <SortEra emakis={emakisData} /> */}
       <CardConteiner emakis={emakisData} />
     </>
   );

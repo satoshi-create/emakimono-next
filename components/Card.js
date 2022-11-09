@@ -12,6 +12,8 @@ const Card = ({
     author && `（${author}）`
   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
 
+  const tag = ["html", "css", "javascript", "jquery"];
+
   return (
     <>
       <div className={styles.card}>
@@ -70,7 +72,7 @@ const Card = ({
               <div className={`${styles[eraColor(era)]} ${styles.era}`}>
                 {era}
               </div>
-              {/* <div className={styles.era}>{era}</div> */}
+              <div>test</div>
             </a>
           </Link>
         </div>
