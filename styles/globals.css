@@ -8,6 +8,7 @@
 :root {
   --clr-black: rgb(5, 5, 5);
   --clr-grey: rgb(114 114 114);
+  --clr-grey-light: rgb(163, 163, 163);
   --clr-white: #fff;
   --clr-primary-02: rgba(117, 159, 238, 0.3);
   --clr-accent-02: #ff8c77;
