@@ -1,15 +1,15 @@
 .cmnbtn {
   font-size: clamp(0.9375rem, 0.5764rem + 1.5408vw, 1.5625rem);
-  color: var(--clr-white);
-  background-color: var(--clr-accent-02);
+  color: var(--clr-green-01);
+  /* background-color: var(--clr-accent-02); */
   padding: clamp(0.4375rem, 0.3292rem + 0.4622vw, 0.625rem)
     clamp(1.25rem, 0.8889rem + 1.5408vw, 1.875rem);
   border-radius: 24px;
   /* width: clamp(8.125rem, 5.9582rem + 9.245vw, 11.875rem); */
   transition: var(--transition);
-  border: 1px solid var(--clr-accent-02);
+  border: 1px solid var(--clr-green-01);
 }
 .cmnbtn:hover {
-  color: var(--accent-clr-01);
-  background-color: var(--white);
+  color: var(--clr-white);
+  background-color: var(--clr-green-01);
 }
