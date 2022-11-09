@@ -6,7 +6,10 @@ import { AppContext } from "../pages/_app";
 
 const CardConteiner = ({ emakis }) => {
   return (
-    <section className={`section-center ${styles.conteiner}`}>
+    <section
+      className={`section-center ${styles.conteiner}`}
+      suppressHydrationWarning={true}
+    >
       {emakis.map((item, index) => {
         return <Card key={index} item={{ ...item }} />;
       })}
