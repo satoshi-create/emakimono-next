@@ -17,7 +17,7 @@ const Emaki = ({ name, posts }) => {
       <Breadcrumbs name={name} />
       <Title pagetitle={name} />
       <SerchForm emakis={posts} />
-      <SortEra emakis={emakisData} />
+      <SortEra emakis={posts} />
       {/* <CardConteiner emakis={posts} /> */}
     </>
   );
