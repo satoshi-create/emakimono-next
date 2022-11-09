@@ -22,38 +22,38 @@
 }
 
 .type:hover {
-  color: rgb(34, 34, 34);
+  /* color: rgb(34, 34, 34); */
   border: 1px solid var(--clr-accent-02);
   background-color: var(--clr-accent-02);
 }
 
 .orange.era:hover {
-  color: rgb(34, 34, 34);
+  /* color: rgb(34, 34, 34); */
   border: 1px solid var(--clr-accent-02);
   background-color: var(--clr-accent-02);
 }
 .green.era:hover {
-  color: rgb(34, 34, 34);
+  /* color: rgb(34, 34, 34); */
   border: 1px solid var(--clr-green-01);
   background-color: var(--clr-green-01);
 }
 .purple.era:hover {
-  color: rgb(34, 34, 34);
+  /* color: rgb(34, 34, 34); */
   border: 1px solid purple;
   background-color: purple;
 }
 .gold.era:hover {
-  color: rgb(34, 34, 34);
+  /* color: rgb(34, 34, 34); */
   border: 1px solid goldenrod;
   background-color: goldenrod;
 }
 .skyblue.era:hover {
-  color: rgb(34, 34, 34);
+  /* color: rgb(34, 34, 34); */
   border: 1px solid skyblue;
   background-color: skyblue;
 }
 .firebrick.era:hover {
-  color: rgb(34, 34, 34);
+  /* color: rgb(34, 34, 34); */
   border: 1px solid firebrick;
   background-color: firebrick;
 }

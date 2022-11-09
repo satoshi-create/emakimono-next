@@ -4,7 +4,18 @@ import styles from "../styles/Card.module.css";
 import eraColor from "../libs/func";
 
 const Card = ({
-  item: { titleen, title, thumb, edition, author, era, eraen, desc, typeen },
+  item: {
+    titleen,
+    title,
+    thumb,
+    edition,
+    author,
+    era,
+    eraen,
+    desc,
+    typeen,
+    type,
+  },
 }) => {
   const [readMore, setReadmore] = useState(false);
   const filterDesc = desc.substring(0, 100);
@@ -32,47 +43,28 @@ const Card = ({
             </div>
           </a>
         </Link>
-        <div className={styles.info}>
-          <div className={styles.header}>
-            <h3>{title}</h3>
-            {/* <h3
-              dangerouslySetInnerHTML={{
-                __html: `${title}`,
-              }}
-            /> */}
-            {/* <h4 className={styles.author}>{author}</h4> */}
-          </div>
-          <div className={styles.desc}>
-            {desc ? (
-              <>
-                <p
-                  dangerouslySetInnerHTML={{
-                    __html: `${readMore ? desc : filterDesc}`,
-                  }}
-                />
-                <button
-                  onClick={() => setReadmore(!readMore)}
-                  className={styles.readMore}
-                >
-                  {readMore ? "閉じる" : "...続きを読む"}
-                </button>
-              </>
-            ) : (
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: descTemp,
-                }}
-              />
-            )}
+        <div className={styles.footer}>
+          <h3 className={styles.title}>
+            {title}　{edition}
+          </h3>
+          <div className={styles.info}>
+            <div className={styles.type}>
+              <div>{type}</div>
+              <div>type</div>
+            </div>
+            <div className={styles.scroll}>
+              <div>3</div>
+              <div>scroll</div>
+            </div>
+            <div className={styles.era}>
+              <div>{era}</div>
+              <div>era</div>
+            </div>
           </div>
         </div>
-        <div className={styles.footer}>
-          <Link href={`/era/${eraen}`}>
-            <a>
-              <div className={`${styles[eraColor(era)]} ${styles.era}`}>
-                {era}
-              </div>
-            </a>
+        <div className={styles.link}>
+          <Link href={`/${titleen}`}>
+            <a>横スクロールで見る</a>
           </Link>
         </div>
       </div>
