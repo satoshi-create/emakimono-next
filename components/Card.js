@@ -72,7 +72,6 @@ const Card = ({
               <div className={`${styles[eraColor(era)]} ${styles.era}`}>
                 {era}
               </div>
-              <div>test</div>
             </a>
           </Link>
         </div>
