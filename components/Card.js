@@ -46,8 +46,10 @@ const Card = ({
         <div className={styles.footer}>
           <h3 className={styles.title}>
             {title}　{edition}
+            <br />
+            {author ? author : "絵師不明"}
           </h3>
-          <div className={styles.info}>
+          {/* <div className={styles.info}>
             <div className={styles.type}>
               <div>{type}</div>
               <div>type</div>
@@ -60,12 +62,12 @@ const Card = ({
               <div>{era}</div>
               <div>era</div>
             </div>
+          </div> */}
+          <div className={styles.link}>
+            <Link href={`/${titleen}`}>
+              <a className={styles.link}>横スクロールで見る</a>
+            </Link>
           </div>
-        </div>
-        <div className={styles.link}>
-          <Link href={`/${titleen}`}>
-            <a>横スクロールで見る</a>
-          </Link>
         </div>
       </div>
     </>

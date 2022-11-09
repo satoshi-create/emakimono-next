@@ -40,9 +40,10 @@
 .card:hover {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   transform: scale(1.02);
+  /* outline: red solid; */
 }
 .footer {
-  padding: 1.5rem 3rem;
+  padding: 2rem;
 }
 .title {
   /* text-align: center; */
@@ -64,17 +65,31 @@
   color: var(--clr-grey-light);
 }
 
-.link {
+/* .link {
   text-align: center;
   padding: 1rem;
   background: var(--clr-accent-02);
   border-bottom-right-radius: var(--borderRadius);
   border-bottom-left-radius: var(--borderRadius);
+} */
+.link {
+  margin-top: 1.5rem;
 }
 .link a {
-  color: var(--clr-white);
+  padding: 0.5rem;
+  border: 1px solid var(--clr-accent-02);
+  color: var(--clr-accent-02);
+  border-radius: var(--borderRadius);
+  /* background: var(--clr-accent-02); */
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: var(--transition);
 }
-.orange {
+.link a:hover {
+  color: var(--clr-white);
+  background: var(--clr-accent-02);
+}
+/* .orange {
   background-color: var(--clr-accent-02);
 }
 .green {
@@ -91,7 +106,7 @@
 }
 .firebrick {
   background-color: firebrick;
-}
+} */
 @media screen and (min-width: 768px) {
   .conteiner {
     display: flex;
