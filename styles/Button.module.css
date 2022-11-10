@@ -30,7 +30,6 @@
   color: var(--clr-green-01);
   padding: 0.5rem 2rem;
   border-radius: var(--borderRadius);
-  width: 80%;
   transition: var(--transition);
 }
 .plusbtn:hover {
