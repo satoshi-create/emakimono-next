@@ -17,6 +17,7 @@ const index = () => {
       {/* <SerchForm emakis={emakisData} /> */}
       <SortType emakis={emakisData} />
       {/* <CardConteiner emakis={emakisData} /> */}
+      <Footer />
     </>
   );
 };
