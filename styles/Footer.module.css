@@ -1,0 +1,58 @@
+.footer {
+  width: 100%;
+  height: 70vh;
+  background-color: black;
+  display: grid;
+  place-items: center;
+}
+.center {
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+.title {
+  display: flex;
+  column-gap: 6px;
+  align-items: center;
+  justify-content: center;
+}
+.logo {
+  width: clamp(1.875rem, 1.6583rem + 0.9245vw, 2.25rem);
+  height: clamp(1.875rem, 1.6583rem + 0.9245vw, 2.25rem);
+}
+.title h4 {
+  font-size: clamp(1.0625rem, 0.9542rem + 0.4622vw, 1.25rem);
+  font-family: var(--en-font);
+  color: var(--clr-white);
+  text-transform: uppercase;
+}
+.aboutLinks {
+  /* composes: links from "./SocialLinks.module.css"; */
+  justify-content: center;
+  font-size: clamp(0.875rem, 0.6583rem + 0.9245vw, 1.25rem);
+}
+.aboutLinks svg {
+  background-color: var(--white);
+  color: var(--black);
+  border-radius: 0.2rem;
+  padding: 0.3rem;
+  transition: var(--transition);
+}
+.aboutLinks svg:hover {
+  background-color: var(--black);
+  color: var(--white);
+  border: 1px solid var(--white);
+}
+.footerNavPc {
+  /* composes: navPc from "./Links.module.css"; */
+  color: var(--white);
+}
+.copyright {
+  grid-row: 1;
+  justify-self: center;
+  align-self: flex-end;
+  font-size: clamp(0.5625rem, 0.3819rem + 0.7704vw, 0.875rem);
+  color: var(--white);
+  margin-bottom: 20px;
+}

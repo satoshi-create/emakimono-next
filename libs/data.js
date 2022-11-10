@@ -1341,6 +1341,8 @@ const data = [
     eraen: "kamakura",
     type: "絵巻",
     typeen: "emaki",
+    subtype: "説話",
+    subtypeen: "emakien",
     kotobagaki: true,
     sourceImageUrl: "https://dl.ndl.go.jp/info:ndljp/pid/2540882",
     sourceImage: "弱竹物語（国立国会図書館）",
@@ -1684,12 +1686,12 @@ const data = [
   {
     id: 7,
     title: "長谷雄草紙",
-    titleen: "haseozousshi",
+    titleen: "haseozoushi",
     author: "",
     backgroundImage: "/washi-pattern-01.webp",
     video: "https://youtu.be/Qgc0lrTPkiY",
-    thumb: "/haseozousshi_thumb.webp",
-    thumb2: "/haseozousshi_thumb.webp",
+    thumb: "/haseozoushi_thumb.webp",
+    thumb2: "/haseozoushi_thumb.webp",
     metadesc:
       "長谷雄草紙の全シーンを、縦書きの現代語訳、横スクロールで楽しむことができます。平安時代の大学者、紀長谷雄が、鬼との博打に勝って手にいれた美女を、はかなくも手からこぼれ落としてしまうという、哀れみに満ちたお話です。",
     desc: "長谷雄草紙の全シーンを、縦書きの現代語訳、横スクロールで楽しむことができます。平安時代の大学者、紀長谷雄が、鬼との博打に勝って手にいれた美女を、はかなくも手からこぼれ落としてしまうという、哀れみに満ちたお話です。",
@@ -1898,6 +1900,7 @@ const data = [
     gif: "",
     type: "絵巻",
     typeen: "emaki",
+    subtype: "仏典",
     kotobagaki: false,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/kyuhaku/A70?locale=ja",
@@ -2489,6 +2492,7 @@ const data = [
     gif: "",
     type: "絵巻",
     typeen: "emaki",
+    subtype: "高僧伝",
     kotobagaki: true,
     sourceImageUrl:
       "https://www.britishmuseum.org/collection/object/A_1881-1210-0-267",
@@ -2806,6 +2810,7 @@ const data = [
     gif: "",
     type: "絵巻",
     typeen: "emaki",
+
     kotobagaki: true,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-10942?locale=ja",
@@ -3427,6 +3432,7 @@ const data = [
     gif: "",
     type: "絵巻",
     typeen: "emaki",
+    subtype: "諸行事・祭礼",
     kotobagaki: true,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-9277?locale=ja",
@@ -4598,7 +4604,6 @@ const data = [
     desc: "",
     era: "明治",
     eraen: "meiji",
-    eraen: "",
     gif: "",
     type: "絵巻",
     typeen: "emaki",
