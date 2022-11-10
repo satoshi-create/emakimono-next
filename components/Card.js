@@ -17,9 +17,10 @@ const Card = ({
     type,
   },
   columns,
+  needdesc,
 }) => {
-  const [readMore, setReadmore] = useState(false);
-  const filterDesc = desc.substring(0, 100);
+  // const [readMore, setReadmore] = useState(false);
+  const filterDesc = desc.substring(0, 40);
   const descTemp = `${title} ${
     author && `（${author}）`
   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
@@ -45,28 +46,27 @@ const Card = ({
         <div className={styles.footer}>
           <h3 className={styles.title}>
             {title}　{edition}
-            <br />
-            {author ? author : "絵師不明"}
           </h3>
-          {/* <div className={styles.info}>
-            <div className={styles.type}>
-              <div>{type}</div>
-              <div>type</div>
+          <h4 className={styles.author}>{author ? author : "絵師不明"}</h4>
+          {needdesc && (
+            <div className={styles.desc}>
+              {desc ? `${filterDesc}...` : descTemp}
             </div>
-            <div className={styles.scroll}>
-              <div>3</div>
-              <div>scroll</div>
-            </div>
-            <div className={styles.era}>
-              <div>{era}</div>
-              <div>era</div>
-            </div>
-          </div> */}
+          )}
           <div className={styles.link}>
             <Link href={`/${titleen}`}>
               <a className={styles.link}>横スクロールで見る</a>
             </Link>
           </div>
+        </div>
+        <div className={styles.info}>
+          <Link href={`/category/${typeen}`}>
+            <a>{type}</a>
+          </Link>
+          <Link href={`/era/${eraen}`}>
+            <a>{era}</a>
+          </Link>
+          <div>3巻</div>
         </div>
       </div>
     </>
