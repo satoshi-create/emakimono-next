@@ -1,20 +1,35 @@
-.conteiner,
-.plus {
+.favorite {
+  width: 90vw;
+  max-width: 1200px;
+}
+.variation {
+  width: 90vw;
+}
+.alpha {
+  width: 40vw;
+  max-width: 1200px;
+}
+.conteiner {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  row-gap: 4rem;
 }
-.eraTab {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
+.cardContainer > h4 {
+  text-align: center;
+  margin-bottom: 1rem;
 }
-.eraTabBtn {
-  font-size: 1.3rem;
-  /* font-family: var(--text-font); */
-  font-weight: bold;
+.card {
+  border-radius: var(--borderRadius);
+  /* padding: 1rem; */
+  position: relative;
+  transition: var(--transition);
+  background: white;
+}
+.card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+  /* outline
+  : red solid; */
 }
 
 .single {
@@ -34,22 +49,9 @@
   position: absolute;
   transition: var(--transition);
 }
-.card {
-  border-radius: var(--borderRadius);
-  /* padding: 1rem; */
-  position: relative;
-  transition: var(--transition);
-  background: white;
-}
-.card:hover {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  transform: scale(1.02);
-  /* outline
-  : red solid; */
-}
 
 .footer {
-  padding: 1.5rem;
+  padding: 1rem;
 }
 .title {
   font-weight: 600;
@@ -64,34 +66,11 @@
   margin-top: 0.5rem;
   color: rgb(112 112 112);
 }
-.info {
-  padding: 0.5rem;
-  display: flex;
-  justify-content: right;
-  column-gap: 0.5rem;
-  font-size: 0.7rem;
-  color: var(--clr-grey-light);
-}
-.info > * {
-  padding: 0.1rem 0.4rem;
-  border-radius: var(--borderRadius);
-  color: var(--clr-grey-light);
-  border: 1px solid var(--clr-grey-light);
-  font-weight: 100;
-}
-.variation {
-  background-color: #effff6;
-}
-.variationContainter {
-  width: 90%;
-  margin: 0 auto;
-  padding: 10rem 0;
-}
-.link {
+.viewemaki {
   margin-top: 1.5rem;
   text-align: center;
 }
-.link a {
+.viewemaki a {
   padding: 0.5rem;
   border: 1px solid var(--clr-accent-02);
   color: var(--clr-white);
@@ -102,32 +81,31 @@
   font-family: "Zen Maru Gothic", sans-serif;
   background-color: var(--clr-accent-02);
 }
-.link a:hover {
+.viewemaki a:hover {
   color: var(--clr-accent-02);
   background: var(--clr-white);
 }
-.pluscontainter {
+.tag {
+  padding: 0.5rem;
   display: flex;
-  row-gap: 1rem;
-  flex-direction: column;
+  justify-content: right;
+  column-gap: 0.5rem;
+  font-size: 0.7rem;
+  color: var(--clr-grey-light);
 }
-.pluscontainter > .card {
-  margin-bottom: 0;
-}
-.pluscontainter > h4,
-.pluscontainter > .btnbox {
-  align-self: center;
+.tag > * {
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--borderRadius);
+  color: var(--clr-grey-light);
+  border: 1px solid var(--clr-grey-light);
+  font-weight: 100;
 }
 
 @media screen and (min-width: 768px) {
-  .conteiner,
-  .plus {
+  .conteiner {
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: wrap;
-  }
-  .plus > section {
-    flex-direction: column;
   }
   .two,
   .three,

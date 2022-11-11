@@ -2,12 +2,12 @@ import allEras from "../../libs/era";
 import emakisData from "../../libs/data";
 import Title from "../../components/Title";
 import Header from "../../components/Header";
-import CardConteiner from "../../components/CardConteiner";
 import { useRouter } from "next/router";
 import Head from "../../components/Meta";
 import SerchForm from "../../components/SerchForm";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import SortEra from "../../components/SortEra";
+import Card from "../../components/Card";
 
 const Emaki = ({ name, posts }) => {
   // const filterdEmakisData = emakisData.find((item) => item.typeen === "ukiyoe");
@@ -16,11 +16,7 @@ const Emaki = ({ name, posts }) => {
     <>
       <Head pagetitle={name} pageDesc={`${name}のページです`} />
       <Header />
-      <Breadcrumbs name={name} />
-      <Title pagetitle={name} />
-      <SerchForm emakis={posts} />
-      <SortEra emakis={posts} columns={"three"} />
-      {/* <CardConteiner emakis={posts} /> */}
+      <Card emakis={posts} columns={"three"} sectionname={"favorite"} />
     </>
   );
 };
