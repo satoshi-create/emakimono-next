@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "../styles/Card.module.css";
 import Card from "./Card";
-import CardConteiner from "./CardConteiner";
+// import CardConteiner from "./CardConteiner";
 import Title from "./Title";
 import Button from "./Button";
 import GridImages from "./GridImages";
@@ -78,15 +78,19 @@ const SortType = ({ emakis }) => {
 
   return (
     <>
-      <section className={"section-center"}>
+      {/* <section className={"section-center"}>
         <Title pagetitle={"三大絵巻"} />
         {allTypes.map((item, index) => {
           const { type, typeen, data } = item;
           if (type === "三大絵巻") {
             return (
               <>
-                <CardConteiner emakis={data} columns={"three"} needdesc={true} />
-                {/* <div>
+                <CardConteiner
+                  emakis={data}
+                  columns={"three"}
+                  needdesc={true}
+                />
+                <div>
                   <Button
                     value={{
                       style: "emakibtn",
@@ -94,12 +98,12 @@ const SortType = ({ emakis }) => {
                       path: `/category/${typeen}`,
                     }}
                   />
-                </div> */}
+                </div>
               </>
             );
           }
         })}
-      </section>
+      </section> */}
       <section className={styles.variation}>
         <div className={styles.variationContainter}>
           <Title pagetitle={"さまざまな絵巻"} />
@@ -123,7 +127,7 @@ const SortType = ({ emakis }) => {
           </div>
         </div>
       </section>
-      <GridImages />
+      {/* <GridImages /> */}
       <section className="section-center">
         <Title pagetitle={"＋アルファ"} />
         <div className={styles.plus}>
@@ -141,7 +145,7 @@ const SortType = ({ emakis }) => {
                       <Card key={index} item={{ ...item }} needdesc={false} />
                     );
                   })}
-                    {/* <div className={styles.btnbox}>
+                  {/* <div className={styles.btnbox}>
                       <Button
                         value={{
                           style: "plusbtn",

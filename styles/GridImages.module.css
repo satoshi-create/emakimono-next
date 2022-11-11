@@ -48,6 +48,7 @@
   row-gap: 1rem;
   z-index: 10;
 }
+
 .name {
   font-family: var(--sub-font);
   color: var(--white);

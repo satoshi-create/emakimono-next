@@ -24,7 +24,6 @@ const Emaki = ({ emakis }) => {
       />
       <Controller value={emakis} />
       <Sidebar value={emakis} />
-
       <EmakiConteiner data={{ ...emakis }} />
     </>
   );

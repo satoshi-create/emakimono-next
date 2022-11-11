@@ -3,7 +3,6 @@ import Link from "next/link";
 import styles from "../styles/Card.module.css";
 import Card from "./Card";
 import { AppContext } from "../pages/_app";
-import CardConteiner from "./CardConteiner";
 
 const SortEra = ({ emakis, columns }) => {
   const { query, setQuery, setfliterdEmakis, fliterdEmakis } =
@@ -60,7 +59,7 @@ const SortEra = ({ emakis, columns }) => {
             );
           })}
         </div>
-        <CardConteiner emakis={fliterdEmakis} columns={columns} />
+        <Card emakis={fliterdEmakis} columns={columns} />
       </>
     );
   }
