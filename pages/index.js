@@ -1,7 +1,8 @@
 import React from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import Card from "../components/Card";
+import CardA from "../components/CardA";
+import CardB from "../components/CardB";
 import emakisData from "../libs/data";
 import "lazysizes";
 import Head from "../components/Meta";
@@ -25,8 +26,6 @@ const index = () => {
     ...gyouziEmakis,
   ];
 
-  console.log(variation);
-
   const typeByoubu = emakisData
     .filter((emaki) => emaki.type === "屏風")
     .splice(0, 1);
@@ -47,26 +46,73 @@ const index = () => {
     ...typeSeiyoukaiga,
   ];
 
+  const historyemakis = [
+    {
+      path: "/era/heiann",
+      name: "平安",
+      src: "/cyoujyuu_yamazaki_kou_thumb.webp",
+    },
+    {
+      path: "/era/kamakura",
+      name: "鎌倉",
+      src: "/cyoujyuu_yamazaki_kou_thumb.webp",
+    },
+    {
+      path: "/era/muromachi",
+      name: "室町",
+      src: "/cyoujyuu_yamazaki_kou_thumb.webp",
+    },
+    {
+      path: "/era/edo",
+      name: "江戸",
+      src: "/cyoujyuu_yamazaki_kou_thumb.webp",
+    },
+  ];
+
   return (
     <>
       <Head />
       <Header />
-      <Card
+
+      <CardA
         emakis={favoriteEmakis}
         columns={"three"}
-        pagetitle={"三大絵巻"}
+        sectiontitle={"ニッポン三大絵巻"}
+        sectiontitleen={"legend"}
+        sectiondesc={
+          "平安時代末期に突如として現れた絵巻の傑作群。詞書をもたず、連続した絵の流れだけで物語を伝えることから、連続式絵巻と呼ばれます。なかでも、「鳥獣人物戯画絵巻」「信貴山縁起絵巻」「伴大納言絵巻」は傑作中の傑作。横スクロールで眺めると、中世の物語が生き生きと語りだします。"
+        }
         sectionname={"favorite"}
       />
-      <Card
+
+      <CardA
         emakis={variation}
         columns={"four"}
-        pagetitle={"さまざまな絵巻"}
+        sectiontitle={"さまざまな絵巻"}
+        sectiontitleen={"variation"}
+        sectiondesc={
+          "絵巻の全盛期は平安時代末期から室町時代です。冊子形式の読書が普及するにつれ、絵巻は徐々に廃れていきました。しかし、江戸時代に入ってもなお、絵巻は描かれていましたし、明治には日本画家が絵巻を描いています。時を越えて描かれてきた絵巻には、多様な表情があり、絵巻のなかに日本の歴史の息遣いを感じることができるのです。"
+        }
         sectionname={"variation"}
       />
-      <Card
-        emakis={alpha}
+      <CardB
+        emakis={historyemakis}
         columns={"two"}
-        pagetitle={"＋α"}
+        sectiontitle={"中世を彩った絵巻"}
+        sectiontitleen={"history"}
+        sectiondesc={
+          "平安時代末期に突如として現れた絵巻の傑作群。詞書をもたず、連続した絵の流れだけで物語を伝えることから、連続式絵巻と呼ばれます。なかでも、「鳥獣人物戯画絵巻」「信貴山縁起絵巻」「伴大納言絵巻」は傑作中の傑作。横スクロールで眺めると、中世の物語が生き生きと語りだします。"
+        }
+        sectionname={"history"}
+      />
+      <CardA
+        emakis={alpha}
+        columns={"four"}
+        sectiondesc={
+          "横スクロールで再発見できる美術は絵巻だけではありません。たとえば、屏風や襖絵など、日本の美術品の多くは、ワイドスクリーンで作られていますし、西洋にも「バイユーのタピストリー」やフレスコ画など、数多くの絵解き美術が存在します。また。近代に入ってからは、ジャポニズムの影響を受けたモネが、連作「睡蓮」で、まるで襖絵のように部屋を取り囲んだ作品に取り組んでいます。"
+        }
+        sectiontitle={"横スクロールで楽しむワイド美術"}
+        sectiontitleen={"＋α"}
         sectionname={"alpha"}
       />
       <Footer />

@@ -1,14 +1,24 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import styles from "../styles/Card.module.css";
+import styles from "../styles/CardA.module.css";
 import Title from "./Title";
+import eraColor from "../libs/func";
 
-const Card = ({ emakis, columns, needdesc, pagetitle, sectionname }) => {
+const CardA = ({
+  emakis,
+  columns,
+  needdesc,
+  sectiontitle,
+  sectionname,
+  sectiondesc,
+  sectiontitleen,
+}) => {
   return (
     <section
       className={`section-center section-padding ${styles[sectionname]}`}
     >
-      <Title pagetitle={pagetitle} />
+      <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
+      <p className={styles.sectiondesc}>{sectiondesc}</p>
       <section className={styles.conteiner}>
         {emakis.map((item, index) => {
           const {
@@ -36,8 +46,8 @@ const Card = ({ emakis, columns, needdesc, pagetitle, sectionname }) => {
               key={index}
             >
               <h4>
-                {pagetitle === "さまざまな絵巻" && `${subtype}絵巻`}
-                {pagetitle === "＋α" && type}
+                {sectiontitle === "さまざまな絵巻" && `${subtype}絵巻`}
+                {sectiontitle === "横スクロールで楽しむワイド美術" && type}
               </h4>
               <div className={styles.card}>
                 <Link href={`/${titleen}`}>
@@ -70,7 +80,7 @@ const Card = ({ emakis, columns, needdesc, pagetitle, sectionname }) => {
                     <a>{type}</a>
                   </Link>
                   <Link href={`/era/${eraen}`}>
-                    <a>{era}</a>
+                    <a className={`${eraColor(era)} ${styles.era}`}>{era}</a>
                   </Link>
                   <div>3巻</div>
                 </div>
@@ -83,4 +93,4 @@ const Card = ({ emakis, columns, needdesc, pagetitle, sectionname }) => {
   );
 };
 
-export default Card;
+export default CardA;

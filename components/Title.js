@@ -1,10 +1,11 @@
 import React from "react";
 import styles from "../styles/Title.module.css";
 
-const Title = ({ pagetitle }) => {
+const Title = ({ sectiontitle, sectiontitleen }) => {
   return (
     <section className={styles.title}>
-      <h2>{pagetitle}</h2>
+      <h3>{sectiontitleen}</h3>
+      <h2>{sectiontitle}</h2>
     </section>
   );
 };
