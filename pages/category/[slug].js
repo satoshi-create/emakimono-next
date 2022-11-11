@@ -2,23 +2,23 @@ import allCats from "../../libs/category";
 import emakisData from "../../libs/data";
 import Title from "../../components/Title";
 import Header from "../../components/Header";
-import CardConteiner from "../../components/CardConteiner";
 import { useRouter } from "next/router";
 import Head from "../../components/Meta";
 import SerchForm from "../../components/SerchForm";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import SortEra from "../../components/SortEra";
+import Card from "../../components/Card";
 
 const Emaki = ({ name, posts }) => {
   return (
     <>
       <Head pagetitle={name} pageDesc={`${name}のページです`} />
       <Header />
-      <Breadcrumbs name={name} />
+      {/* <Breadcrumbs name={name} />
       <Title pagetitle={name} />
-      <SerchForm emakis={posts} />
-      <SortEra emakis={posts} columns={"three"} />
-      {/* <CardConteiner emakis={posts} /> */}
+      <SerchForm emakis={posts} /> */}
+      {/* <SortEra emakis={posts}   columns={"three"} /> */}
+      <Card emakis={posts} columns={"three"} sectionname={"favorite"} />
     </>
   );
 };
