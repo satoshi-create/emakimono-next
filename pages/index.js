@@ -50,22 +50,26 @@ const index = () => {
     {
       path: "/era/heiann",
       name: "平安",
-      src: "/cyoujyuu_yamazaki_kou_thumb.webp",
+      src: "/cyoujyuu_yamazaki_kou_13-375.webp",
+      eracolor: "orange",
     },
     {
       path: "/era/kamakura",
       name: "鎌倉",
-      src: "/cyoujyuu_yamazaki_kou_thumb.webp",
+      src: "/naomoto_03-1080.webp",
+      eracolor: "green",
     },
     {
       path: "/era/muromachi",
       name: "室町",
-      src: "/cyoujyuu_yamazaki_kou_thumb.webp",
+      src: "/sessyu_sikisansuizu_07-1080.webp",
+      eracolor: "purple",
     },
     {
       path: "/era/edo",
       name: "江戸",
-      src: "/cyoujyuu_yamazaki_kou_thumb.webp",
+      src: "/tokugawagyouretsu_32-1080.webp",
+      eracolor: "skyblue",
     },
   ];
 
@@ -98,11 +102,9 @@ const index = () => {
       <CardB
         emakis={historyemakis}
         columns={"two"}
-        sectiontitle={"中世を彩った絵巻"}
+        sectiontitle={"時代から見る絵巻"}
         sectiontitleen={"history"}
-        sectiondesc={
-          "平安時代末期に突如として現れた絵巻の傑作群。詞書をもたず、連続した絵の流れだけで物語を伝えることから、連続式絵巻と呼ばれます。なかでも、「鳥獣人物戯画絵巻」「信貴山縁起絵巻」「伴大納言絵巻」は傑作中の傑作。横スクロールで眺めると、中世の物語が生き生きと語りだします。"
-        }
+        sectiondesc={""}
         sectionname={"history"}
       />
       <CardA

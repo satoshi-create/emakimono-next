@@ -22,7 +22,8 @@ const CardB = ({
       <p className={styles.sectiondesc}>{sectiondesc}</p>
       <section className={styles.conteiner}>
         {emakis.map((item, index) => {
-          const { path, name, src } = item;
+          const { path, name, src, eracolor } = item;
+          console.log(eracolor);
           return (
             <div
               className={`${styles.cardContainer} ${styles[columns]}`}
@@ -41,7 +42,7 @@ const CardB = ({
                       placeholder="blur"
                       blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
                     />
-                    <div className={styles.info}>
+                    <div className={`${styles.info} ${styles[eracolor]}`}>
                       <p className={styles.title}>{name}</p>
                     </div>
                   </a>

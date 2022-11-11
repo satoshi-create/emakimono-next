@@ -9,9 +9,6 @@
   width: 90vw;
   max-width: 1200px;
 }
-.sectiontitleen {
-
-}
 .sectiondesc {
   font-family: "Zen Maru Gothic", sans-serif;
   padding: 1.5rem 0;
@@ -23,25 +20,16 @@
   flex-direction: column;
   row-gap: 4rem;
 }
-.cardContainer > h4 {
-  text-align: center;
-  margin-bottom: 1rem;
-  font-family: "Kiwi Maru", serif;
-  font-weight: 500;
-  font-size: clamp(1.2rem, 1.0844rem + 0.4931vw, 1.4rem);
-}
 .card {
   border-radius: var(--borderRadius);
-  /* padding: 1rem; */
   position: relative;
   transition: var(--transition);
   background: white;
+  box-shadow: var(--shadow-1);
 }
 .card:hover {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-2);
   transform: scale(1.02);
-  /* outline
-  : red solid; */
 }
 
 .single {
@@ -87,17 +75,17 @@
 .viewemaki a {
   padding: 0.5rem;
   border: 1px solid var(--clr-accent-02);
-  color: var(--clr-white);
-  border-radius: var(--borderRadius);
-  font-size: 0.9rem;
-  font-weight: 400;
-  transition: var(--transition);
-  font-family: "Zen Maru Gothic", sans-serif;
-  background-color: var(--clr-accent-02);
-}
-.viewemaki a:hover {
   color: var(--clr-accent-02);
   background: var(--clr-white);
+  border-radius: var(--borderRadius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: var(--transition);
+  font-family: "Zen Maru Gothic", sans-serif;
+}
+.viewemaki a:hover {
+  color: var(--clr-white);
+  background-color: var(--clr-accent-02);
 }
 .tag {
   padding: 0.5rem;

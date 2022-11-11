@@ -19,13 +19,12 @@
   --title-font: "Kaisei Decol", serif;
   --text-font: "Zen Kurenaido", sans-serif;
   --waka-font: "Noto Serif JP", serif;
-  --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  --shadow-1: 0 5px 15px rgb(0 0 0 / 10%);
+  --shadow-2: 0 5px 15px rgba(0, 0, 0, 20%);
   --shadowR: -10px 15px 10px rgba(0, 0, 0, 0.2);
   --transition: all 0.3s linear;
   --mokuji-size: calc(14px + (20 - 14) * ((100vh - 375px) / (1080 - 375)));
   --my-font: "sans-serif";
-  /* --my-font: "Helvetica Neue", "Helvetica", "Hiragino Sans",
-    "Hiragino Kaku Gothic ProN", "Arial", "Yu Gothic", , sans-serif; */
   --borderRadius: 0.5rem;
 }
 body {
@@ -79,38 +78,28 @@ button {
   opacity: 1;
   transition: opacity 0.3ms;
 }
-.waka {
-  /* font-family: var(--waka-font); */
-  /* font-weight: bold;  */
-}
 
 .orange:hover {
-  /* color: rgb(34, 34, 34); */
   border: 1px solid var(--clr-accent-02);
   background-color: var(--clr-accent-02);
 }
 .green:hover {
-  /* color: rgb(34, 34, 34); */
   border: 1px solid var(--clr-green-01);
   background-color: var(--clr-green-01);
 }
 .purple:hover {
-  /* color: rgb(34, 34, 34); */
   border: 1px solid purple;
   background-color: purple;
 }
 .gold:hover {
-  /* color: rgb(34, 34, 34); */
   border: 1px solid goldenrod;
   background-color: goldenrod;
 }
 .skyblue:hover {
-  /* color: rgb(34, 34, 34); */
   border: 1px solid skyblue;
   background-color: skyblue;
 }
 .firebrick:hover {
-  /* color: rgb(34, 34, 34); */
   border: 1px solid firebrick;
   background-color: firebrick;
 }
