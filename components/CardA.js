@@ -80,7 +80,7 @@ const CardA = ({
                     <a>{type}</a>
                   </Link>
                   <Link href={`/era/${eraen}`}>
-                    <a className={`${eraColor(era)} ${styles.era}`}>{era}</a>
+                    <a className={`era ${eraColor(era)} ${styles.era}`}>{era}</a>
                   </Link>
                   <div>3巻</div>
                 </div>
