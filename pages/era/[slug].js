@@ -7,16 +7,21 @@ import Head from "../../components/Meta";
 import SerchForm from "../../components/SerchForm";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import SortEra from "../../components/SortEra";
-import Card from "../../components/Card";
+import CardA from "../../components/CardA";
 
-const Emaki = ({ name, posts }) => {
-  // const filterdEmakisData = emakisData.find((item) => item.typeen === "ukiyoe");
-  console.log(posts);
+const Emaki = ({ name, nameen, posts }) => {
   return (
     <>
       <Head pagetitle={name} pageDesc={`${name}のページです`} />
       <Header />
-      <Card emakis={posts} columns={"three"} sectionname={"favorite"} />
+      <CardA
+        emakis={posts}
+        columns={"three"}
+        sectionname={"favorite"}
+        pagetitle={name}
+        sectiontitle={name}
+        sectiontitleen={nameen}
+      />
     </>
   );
 };
@@ -40,6 +45,7 @@ export const getStaticProps = async (context) => {
   return {
     props: {
       name: cat.name,
+      nameen: cat.id,
       posts: filterdEmakisData,
     },
   };

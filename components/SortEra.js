@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import Link from "next/link";
-import styles from "../styles/Card.module.css";
-import Card from "./Card";
+import styles from "../styles/CardA.module.css";
+import CardA from "./CardA";
 import { AppContext } from "../pages/_app";
 
 const SortEra = ({ emakis, columns }) => {
@@ -59,7 +58,7 @@ const SortEra = ({ emakis, columns }) => {
             );
           })}
         </div>
-        <Card emakis={fliterdEmakis} columns={columns} />
+        <CardA emakis={fliterdEmakis} columns={columns} />
       </>
     );
   }
