@@ -7,6 +7,7 @@ import emakisData from "../libs/data";
 import "lazysizes";
 import Head from "../components/Meta";
 import GridImages from "../components/GridImages";
+import Attention from "../components/Attention";
 
 const index = () => {
   const favoriteEmakis = emakisData.filter((emaki) => emaki.favorite === true);
@@ -78,6 +79,7 @@ const index = () => {
     <>
       <Head />
       <Header />
+      <Attention />
       <CardA
         emakis={favoriteEmakis}
         columns={"three"}
