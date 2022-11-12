@@ -21,10 +21,7 @@
   width: 100%;
   height: 30vh;
 }
-.card:hover {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  transform: scale(1.02);
-}
+
 .image {
   transition: var(--transition);
 }
