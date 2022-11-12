@@ -19,7 +19,7 @@ const CardB = ({
       className={`section-center section-padding ${styles[sectionname]}`}
     >
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
-      <p className={styles.sectiondesc}>{sectiondesc}</p>
+      {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
       <section className={styles.conteiner}>
         {emakis.map((item, index) => {
           const { path, name, src, eracolor } = item;
@@ -38,7 +38,7 @@ const CardB = ({
                       objectFit="responsive"
                       className={styles.image}
                       alt={name}
-                      priority
+                      loading="lazy"
                       placeholder="blur"
                       blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
                     />

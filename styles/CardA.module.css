@@ -20,6 +20,16 @@
   flex-direction: column;
   row-gap: 4rem;
 }
+.cardContainer {
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+}
+.subtype {
+  font-family: "Zen Maru Gothic", sans-serif;
+  align-self: center;
+  font-size: clamp(1.2rem, 1.0844rem + 0.4931vw, 1.4rem);
+}
 .card {
   border-radius: var(--borderRadius);
   position: relative;
@@ -72,21 +82,6 @@
   margin-top: 1.5rem;
   text-align: center;
 }
-.viewemaki a {
-  padding: 0.5rem;
-  border: 1px solid var(--clr-accent-02);
-  color: var(--clr-accent-02);
-  background: var(--clr-white);
-  border-radius: var(--borderRadius);
-  font-size: 0.9rem;
-  font-weight: 600;
-  transition: var(--transition);
-  font-family: "Zen Maru Gothic", sans-serif;
-}
-.viewemaki a:hover {
-  color: var(--clr-white);
-  background-color: var(--clr-accent-02);
-}
 .tag {
   padding: 0.5rem;
   display: flex;
@@ -120,7 +115,8 @@
   }
   .sectiondesc {
     margin: 0 auto;
-    padding: 2rem 0;
+    padding: 2rem 0 3rem 0;
+    line-height: 1.6;
   }
 }
 @media screen and (min-width: 1024px) {

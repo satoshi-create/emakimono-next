@@ -3,6 +3,7 @@ import Link from "next/link";
 import styles from "../styles/CardA.module.css";
 import Title from "./Title";
 import eraColor from "../libs/func";
+import Button from "./Button";
 
 const CardA = ({
   emakis,
@@ -18,7 +19,7 @@ const CardA = ({
       className={`section-center section-padding ${styles[sectionname]}`}
     >
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
-      <p className={styles.sectiondesc}>{sectiondesc}</p>
+      {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
       <section className={styles.conteiner}>
         {emakis.map((item, index) => {
           const {
@@ -45,7 +46,7 @@ const CardA = ({
               className={`${styles.cardContainer} ${styles[columns]}`}
               key={index}
             >
-              <h4>
+              <h4 className={styles.subtype}>
                 {sectiontitle === "さまざまな絵巻" && `${subtype}絵巻`}
                 {sectiontitle === "横スクロールで楽しむワイド美術" && type}
               </h4>
@@ -70,9 +71,11 @@ const CardA = ({
                     </div>
                   )}
                   <div className={styles.viewemaki}>
-                    <Link href={`/${titleen}`}>
-                      <a className={styles.link}>横スクロールで見る</a>
-                    </Link>
+                    <Button
+                      title={"横スクロールで見る"}
+                      path={titleen}
+                      style={"carda"}
+                    />
                   </div>
                 </div>
                 <div className={styles.tag}>
@@ -80,7 +83,9 @@ const CardA = ({
                     <a>{type}</a>
                   </Link>
                   <Link href={`/era/${eraen}`}>
-                    <a className={`era ${eraColor(era)} ${styles.era}`}>{era}</a>
+                    <a className={`era ${eraColor(era)} ${styles.era}`}>
+                      {era}
+                    </a>
                   </Link>
                   <div>3巻</div>
                 </div>

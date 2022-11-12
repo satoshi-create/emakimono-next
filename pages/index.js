@@ -6,6 +6,7 @@ import CardB from "../components/CardB";
 import emakisData from "../libs/data";
 import "lazysizes";
 import Head from "../components/Meta";
+import GridImages from "../components/GridImages";
 
 const index = () => {
   const favoriteEmakis = emakisData.filter((emaki) => emaki.favorite === true);
@@ -77,7 +78,6 @@ const index = () => {
     <>
       <Head />
       <Header />
-
       <CardA
         emakis={favoriteEmakis}
         columns={"three"}
@@ -88,7 +88,6 @@ const index = () => {
         }
         sectionname={"favorite"}
       />
-
       <CardA
         emakis={variation}
         columns={"four"}
@@ -102,10 +101,16 @@ const index = () => {
       <CardB
         emakis={historyemakis}
         columns={"two"}
-        sectiontitle={"時代から見る絵巻"}
+        sectiontitle={"時代ごとに見る絵巻"}
         sectiontitleen={"history"}
         sectiondesc={""}
         sectionname={"history"}
+      />
+      <GridImages
+        sectiontitle={"絵巻名場面集！"}
+        sectiontitleen={"famousscene"}
+        sectiondesc={""}
+        sectionname={"famousscene"}
       />
       <CardA
         emakis={alpha}
