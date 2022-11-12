@@ -4,6 +4,7 @@ import styles from "../styles/CardA.module.css";
 import Title from "./Title";
 import eraColor from "../libs/func";
 import Button from "./Button";
+import Image from "next/image";
 
 const CardA = ({
   emakis,
@@ -51,13 +52,23 @@ const CardA = ({
                 {sectiontitle === "横スクロールで楽しむワイド美術" && type}
               </h4>
               <div className={styles.card}>
-                <Link href={`/${titleen}`}>
-                  <a>
-                    <div className={styles.single}>
-                      <img src={thumb} loading="lazy" alt={title} />
-                    </div>
-                  </a>
-                </Link>
+                <div className={styles.single}>
+                  <Link href={`/${titleen}`}>
+                    <a>
+                      {/* <img src={thumb} loading="lazy" alt={title} /> */}
+                      <Image
+                        src={thumb}
+                        layout="fill"
+                        objectFit="responsive"
+                        className={styles.image}
+                        alt={title}
+                        loading="lazy"
+                        placeholder="blur"
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
+                      />
+                    </a>
+                  </Link>
+                </div>
                 <div className={styles.footer}>
                   <h3 className={styles.title}>
                     {title}　{edition}
