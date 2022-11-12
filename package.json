@@ -1,7 +1,7 @@
 {
   "name": "emakimono-next",
   "version": "0.1.0",
-  "private": true,  
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -28,6 +28,7 @@
     "nextjs-breadcrumbs": "^1.1.9",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-dropdown": "^1.11.0",
     "react-feather": "^2.0.10",
     "react-lazy-load": "^3.1.14",
     "react-lazysizes": "^1.0.0",

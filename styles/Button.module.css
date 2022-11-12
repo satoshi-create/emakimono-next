@@ -4,7 +4,7 @@
   font-size: 0.9rem;
   font-weight: 600;
   transition: var(--transition);
-  font-family: "Zen Maru Gothic", sans-serif;
+  font-family: var(--text-font);
 }
 .carda {
   color: var(--clr-accent-02);

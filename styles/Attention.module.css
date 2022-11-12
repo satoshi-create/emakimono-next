@@ -1,0 +1,22 @@
+.attention {
+  background-color: var(--clr-accent-02);
+  margin: 3rem 0;
+  display: grid;
+  justify-content: center;
+}
+.container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 2rem;
+  align-items: center;
+  padding: 1.5rem;
+  max-width: 1200px;
+  font-family: var(--text-font);
+}
+.attention i {
+  color: white;
+  font-size: 2.5rem;
+}
+.container p {
+  font-size: clamp(1rem, 0.8267rem + 0.7396vw, 1.3rem);
+}
