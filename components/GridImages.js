@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useReducer } from "react";
 import Title from "./Title";
 import styles from "../styles/GridImages.module.css";
 import Image from "next/image";
@@ -14,6 +14,41 @@ const GridImages = ({
   sectiondesc,
   sectiontitleen,
 }) => {
+  const init = {
+    gridImages: gridImages,
+  };
+
+  const enterImage = (id) => {
+    dispatch({ type: "ENTERIMAGE", payload: id });
+  };
+  const leaveImage = (id) => {
+    dispatch({ type: "LEAVEIMAGE", payload: id });
+  };
+  const reducer = (state, action) => {
+    if (action.type === "ENTERIMAGE") {
+      let tempgridImages = state.gridImages.map((item) => {
+        if (item.id === action.payload) {
+          return { ...item, bln: true };
+        }
+        return item;
+      });
+      return { gridImages: tempgridImages };
+    }
+    if (action.type === "LEAVEIMAGE") {
+      let tempgridImages = state.gridImages.map((item) => {
+        if (item.id === action.payload) {
+          return { ...item, bln: false };
+        }
+        return item;
+      });
+      return { gridImages: tempgridImages };
+    }
+  };
+
+  const [state, dispatch] = useReducer(reducer, init);
+
+  console.log(state.gridImages);
+
   return (
     <section
       className={`section-center section-padding ${styles[sectionname]}`}
@@ -21,8 +56,8 @@ const GridImages = ({
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
       <section className={styles.gridconteinter}>
-        {gridImages.map((item, index) => {
-          const { path, title, image, desc, eracolor } = item;
+        {state.gridImages.map((item, index) => {
+          const { path, title, image, desc, eracolor, id, bln } = item;
           return (
             <figure className={styles.figure} key={index}>
               <Image
@@ -39,16 +74,22 @@ const GridImages = ({
               <div
                 className={`${styles.infocontainer} ${styles[eracolor]}`}
               ></div>
-              <div className={styles.info}>
-                {/* <p className={styles.title}>{title}</p> */}
-                <p className={styles.desc}>{desc}</p>
-                <div className={styles.link}>
-                  <Button
-                    title={"横スクロールで見る"}
-                    path={path}
-                    style={"gridimage"}
-                  />
-                </div>
+              <div
+                className={styles.info}
+                onMouseOver={() => enterImage(id)}
+                onMouseOut={() => leaveImage(id)}
+              >
+                {bln ? (
+                  <div className={styles.link}>
+                    <Button
+                      title={"横スクロールで見る"}
+                      path={path}
+                      style={"gridimage"}
+                    />
+                  </div>
+                ) : (
+                  <p className={styles.desc}>{desc}</p>
+                )}
               </div>
             </figure>
           );
