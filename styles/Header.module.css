@@ -12,6 +12,7 @@
   z-index: 2;
   padding: 1rem 0;
 }
+
 .center {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -31,11 +32,20 @@
   .nav {
     display: none;
   }
+
   .center {
     display: grid;
     grid-template-rows: 1fr 1fr;
     justify-items: center;
     row-gap: 1rem;
+  }
+  .header-fixed .center {
+    display: grid;
+    grid-template-rows: 1fr;
+    row-gap: 0;
+  }
+  .header-fixed .title {
+    display: none;
   }
   .title {
     grid-row: 1;
@@ -47,8 +57,8 @@
     font-weight: 200;
     font-size: 1.3rem;
   }
-  .active{
-    color: red
+  .active {
+    color: red;
   }
   .links a {
     transition: var(--transition);

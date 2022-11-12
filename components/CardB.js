@@ -23,7 +23,6 @@ const CardB = ({
       <section className={styles.conteiner}>
         {emakis.map((item, index) => {
           const { path, name, src, eracolor } = item;
-          console.log(eracolor);
           return (
             <div
               className={`${styles.cardContainer} ${styles[columns]}`}

@@ -1,4 +1,5 @@
 const links = [
+  // { name: "Home", nameen: "", path: "/" },
   { name: "絵巻", nameen: "emaki", path: "/category/emaki" },
   { name: "屛風", nameen: "byoubu", path: "/category/byoubu" },
   { name: "水墨画", nameen: "suibokuga", path: "/category/suibokuga" },
