@@ -1,5 +1,5 @@
 .container {
-  font-family: "Zen Maru Gothic", sans-serif;
+  font-family: var(--text-font);
   border-radius: 1rem;
   display: flex;
   align-items: center;

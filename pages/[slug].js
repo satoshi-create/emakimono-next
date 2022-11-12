@@ -1,4 +1,3 @@
-import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import EmakiConteiner from "../components/EmakiConteiner";
 import emakisData from "../libs/data";

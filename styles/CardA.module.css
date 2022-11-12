@@ -10,7 +10,7 @@
   max-width: 1200px;
 }
 .sectiondesc {
-  font-family: "Zen Maru Gothic", sans-serif;
+  font-family: var(--text-font);
   padding: 1.5rem 0;
   font-size: clamp(1rem, 0.8844rem + 0.4931vw, 1.2rem);
   width: clamp(20rem, 2.6656rem + 73.9599vw, 50rem);
@@ -26,7 +26,7 @@
   flex-direction: column;
 }
 .subtype {
-  font-family: "Zen Maru Gothic", sans-serif;
+  font-family: var(--text-font);
   align-self: center;
   font-size: clamp(1.2rem, 1.0844rem + 0.4931vw, 1.4rem);
 }

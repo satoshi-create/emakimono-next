@@ -4,7 +4,7 @@
   width: 90vw;
 }
 .sectiondesc {
-  font-family: "Zen Maru Gothic", sans-serif;
+  font-family: var(--text-font);
   padding: 1.5rem 0;
   font-size: clamp(1rem, 0.8844rem + 0.4931vw, 1.2rem);
   width: clamp(20rem, 2.6656rem + 73.9599vw, 50rem);
@@ -50,7 +50,7 @@
 }
 .title {
   font-size: 6rem;
-  font-family: "Zen Maru Gothic", sans-serif;
+  font-family: var(--text-font);
   color: var(--clr-white);
 }
 

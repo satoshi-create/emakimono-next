@@ -16,15 +16,17 @@
   --text-size: calc(16px + (35 - 16) * ((100vh - 375px) / (1080 - 375)));
   --title-size: calc(20px + (35 - 20) * ((100vh - 375px) / (1080 - 375)));
   --mokuji-size: calc(14px + (20 - 14) * ((100vh - 375px) / (1080 - 375)));
-  --title-font: "Kaisei Decol", serif;
-  --text-font: "Zen Kurenaido", sans-serif;
-  --waka-font: "Noto Serif JP", serif;
+
   --shadow-1: 0 5px 15px rgb(0 0 0 / 10%);
   --shadow-2: 0 5px 15px rgba(0, 0, 0, 20%);
   --shadowR: -10px 15px 10px rgba(0, 0, 0, 0.2);
   --transition: all 0.3s linear;
   --mokuji-size: calc(14px + (20 - 14) * ((100vh - 375px) / (1080 - 375)));
   --my-font: "sans-serif";
+  --title-font: "Kaisei HarunoUmi", serif;
+  --text-font: "Zen Maru Gothic", sans-serif;
+  --emaki-title-font: "Kaisei HarunoUmi", serif;
+  --emaki-kotobagki-font: "Zen Kurenaido", sans-serif;
   --borderRadius: 0.5rem;
 }
 body {

@@ -9,7 +9,7 @@
   z-index: 1;
 }
 .ekotobarl {
-  writing-mode: vertical-rl ;
+  writing-mode: vertical-rl;
   z-index: 1;
 }
 .gendaibun {
@@ -62,10 +62,10 @@
   font-weight: 500;
   color: #4a4f9f;
   font-size: var(--title-size);
-  font-family: var(--title-font);
+  font-family: var(--emaki-title-font);
 }
 .gendaibun > p,
 .kobun > p {
   font-size: var(--text-size);
-  font-family: var(--text-font);
+  font-family: var(--emaki-kotobagki-font);
 }
