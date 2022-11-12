@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Button = ({ title, path, style }) => {
   return (
-    <Link href={path}>
+    <Link href={`/${path}`}>
       <a>
         <button className={`btn ${styles.cardbtn} ${styles[style]}`}>
           {title}
