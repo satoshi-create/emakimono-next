@@ -17,6 +17,12 @@ const data = [
     readMore: false,
     type: "絵巻",
     typeen: "emaki",
+    tag: [
+      { name: "戯画", id: "caricature", slug: "caricature" },
+      { name: "動物", id: "animal", slug: "animal" },
+      { name: "鳥羽絵", id: "tobae", slug: "tobae" },
+      { name: "年中行事", id: "annualevent", slug: "annualevent" },
+    ],
     kotobagaki: false,
     favorite: true,
     sourceImageUrl:
@@ -280,6 +286,12 @@ const data = [
     desc: "平安時代（12世紀）に描かれた鳥獣人物戯画絵巻 乙巻の摸本。「動物尽くし」の図鑑のような一巻で、絵師の手習いとして使われたという説もある。前半は「日本に生息する動物」を扱い、馬、牛など当時身近だった動物が描かれる。後半は、一転して「日本に生息しない動物＆霊獣」が描かれ、玄武、麒麟など空想上の動物と象、虎など日本には生息していない動物が、想像力を交えて描かれる。",
     type: "絵巻",
     typeen: "emaki",
+    tag: [
+      { name: "戯画", id: "caricature", slug: "caricature" },
+      { name: "動物", id: "animal", slug: "animal" },
+      { name: "霊獣", id: "spiritualbeast", slug: "spiritualbeast" },
+      { name: "鳥羽絵", id: "tobae", slug: "tobae" },
+    ],
     kotobagaki: false,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-1530?locale=ja",
@@ -572,6 +584,13 @@ const data = [
     eraen: "heiann",
     type: "絵巻",
     typeen: "emaki",
+    tag: [
+      { name: "戯画", id: "caricature", slug: "caricature" },
+      { name: "動物", id: "animal", slug: "animal" },
+      { name: "鳥羽絵", id: "tobae", slug: "tobae" },
+      { name: "遊戯", id: "game", slug: "game" },
+      { name: "年中行事", id: "annualevent", slug: "annualevent" },
+    ],
     kotobagaki: false,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-1530?locale=ja",
@@ -841,6 +860,12 @@ const data = [
     eraen: "kamakura",
     type: "絵巻",
     typeen: "emaki",
+    tag: [
+      { name: "戯画", id: "caricature", slug: "caricature" },
+      { name: "動物", id: "animal", slug: "animal" },
+      { name: "遊戯", id: "game", slug: "game" },
+      { name: "鳥羽絵", id: "tobae", slug: "tobae" },
+    ],
     kotobagaki: false,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-1530?locale=ja",
@@ -1075,6 +1100,11 @@ const data = [
     eraen: "kamakura",
     type: "絵巻",
     typeen: "emaki",
+    tag: [
+      { name: "説話", id: "story", slug: "story" },
+      { name: "火事", id: "fire", slug: "fire" },
+      { name: "市場", id: "market", slug: "market" },
+    ],
     kotobagaki: true,
     sourceImageUrl: "https://dl.ndl.go.jp/info:ndljp/pid/2541034",
     sourceImage: "直幹申文絵詞（国立国会図書館）",
@@ -1343,6 +1373,11 @@ const data = [
     typeen: "emaki",
     subtype: "説話",
     subtypeen: "emakien",
+    tag: [
+      { name: "蹴鞠", id: "kemari", slug: "kemari" },
+      { name: "陰陽師", id: "onmyoji", slug: "onmyoji" },
+      { name: "中将", id: "lieutenantgeneral", slug: "lieutenantgeneral" },
+    ],
     kotobagaki: true,
     sourceImageUrl: "https://dl.ndl.go.jp/info:ndljp/pid/2540882",
     sourceImage: "弱竹物語（国立国会図書館）",
@@ -1699,6 +1734,12 @@ const data = [
     eraen: "kamakura",
     type: "絵巻",
     typeen: "emaki",
+    tag: [
+      { name: "双六", id: "sugoroku", slug: "sugoroku" },
+      { name: "鬼", id: "demon", slug: "demon" },
+      { name: "朱雀門", id: "suzakumon", slug: "suzakumon" },
+      { name: "天神", id: "tenjin", slug: "tenjin" },
+    ],
     kotobagaki: true,
     favorite: true,
     sourceImageUrl:

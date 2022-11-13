@@ -47,7 +47,7 @@ const GridImages = ({
 
   const [state, dispatch] = useReducer(reducer, init);
 
-  console.log(state.gridImages);
+  // console.log(state.gridImages); 
 
   return (
     <section

@@ -1,15 +1,10 @@
-import allCats from "../../libs/category";
-import emakisData from "../../libs/data";
-import Title from "../../components/Title";
 import Header from "../../components/Header";
-import { useRouter } from "next/router";
 import Head from "../../components/Meta";
-import SerchForm from "../../components/SerchForm";
-import Breadcrumbs from "../../components/Breadcrumbs";
-import SortEra from "../../components/SortEra";
 import CardA from "../../components/CardA";
+import allTags from "../../libs/tag";
+import emakisData from "../../libs/data";
 
-const Emaki = ({ name, nameen, posts }) => {
+const Emaki = ({ name, posts, nameen }) => {
   return (
     <>
       <Head pagetitle={name} pageDesc={`${name}のページです`} />
@@ -28,7 +23,7 @@ const Emaki = ({ name, nameen, posts }) => {
 export default Emaki;
 
 export const getStaticPaths = async () => {
-  const paths = allCats.map(({ slug }) => `/category/${slug}`);
+  const paths = allTags.map(({ slug }) => `/tag/${slug}`);
   return {
     paths: paths,
     fallback: false,
@@ -36,17 +31,22 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async (context) => {
-  const catslug = context.params.slug;
+  const tagslug = context.params.slug;
 
-  const cat = allCats.find(({ slug }) => slug === catslug);
-  const filterdEmakisData = emakisData.filter(
-    (item) => item.typeen === catslug
-  );
+  const tag = allTags.find(({ slug }) => slug === tagslug);
+
+  const filterdEmakisData = emakisData.filter((x) => {
+    if (x.tag) {
+      const filterdTag = x.tag.some((y) => y.slug === tagslug);
+      return filterdTag;
+    }
+  });
+  console.log(filterdEmakisData);
 
   return {
     props: {
-      name: cat.name,
-      nameen: cat.id,
+      name: tag.name,
+      nameen: tag.id,
       posts: filterdEmakisData,
     },
   };

@@ -10,7 +10,7 @@ import Attention from "./Attention";
 const Header = () => {
   const router = useRouter();
   const { slug } = router.query;
-  console.log(slug);
+  // console.log(slug);
 
   const [stickyClass, setStickyClass] = useState("");
   const [stickyClassB, setStickyClassB] = useState("");

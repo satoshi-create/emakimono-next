@@ -10,6 +10,7 @@
   max-width: 1200px;
 }
 .sectiondesc {
+  margin: 0 auto;
   font-family: var(--text-font);
   padding: 1.5rem 0;
   font-size: clamp(1rem, 0.8844rem + 0.4931vw, 1.2rem);
@@ -61,8 +62,56 @@
 }
 
 .footer {
-  padding: 1rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
 }
+.cat {
+  display: flex;
+  justify-content: left;
+  column-gap: 0.5rem;
+  font-size: 0.7rem;
+  padding: 0.5rem 0;
+}
+.cat > * {
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--borderRadius);
+  color: var(--clr-grey-light);
+  border: 1px solid var(--clr-grey-light);
+  font-weight: 100;
+  transition: var(--transition);
+  cursor: pointer;
+}
+.cat > .type:hover,
+.cat > div:hover {
+  opacity: 0.5;
+}
+.cat > .era:hover {
+  color: white;
+}
+.orange:hover {
+  border: 1px solid var(--clr-accent-02);
+  background-color: var(--clr-accent-02);
+}
+.green:hover {
+  border: 1px solid var(--clr-green-01);
+  background-color: var(--clr-green-01);
+}
+.purple:hover {
+  border: 1px solid purple;
+  background-color: purple;
+}
+.gold:hover {
+  border: 1px solid goldenrod;
+  background-color: goldenrod;
+}
+.skyblue:hover {
+  border: 1px solid skyblue;
+  background-color: skyblue;
+}
+.firebrick:hover {
+  border: 1px solid firebrick;
+  background-color: firebrick;
+}
+
 .title {
   font-weight: 600;
   font-size: 1rem;
@@ -79,27 +128,24 @@
   color: rgb(112 112 112);
 }
 .viewemaki {
-  margin-top: 1.5rem;
+  margin-top: 1rem;
   text-align: center;
 }
 .tag {
-  padding: 0.5rem;
   display: flex;
   justify-content: right;
-  column-gap: 0.5rem;
-  font-size: 0.7rem;
-  color: var(--clr-grey-light);
+  -moz-column-gap: 0.5rem;
+  column-gap: 0.3rem;
+  font-size: 0.5rem;
 }
-.tag > * {
-  padding: 0.1rem 0.4rem;
-  border-radius: var(--borderRadius);
+.tagLink {
   color: var(--clr-grey-light);
-  border: 1px solid var(--clr-grey-light);
   font-weight: 100;
   transition: var(--transition);
+  cursor: pointer;
 }
-.tag .era:hover {
-  color: white;
+.tagLink:hover {
+  opacity: 0.5;
 }
 
 @media screen and (min-width: 768px) {
@@ -114,7 +160,6 @@
     flex: 0 0 calc(50% - 2rem);
   }
   .sectiondesc {
-    margin: 0 auto;
     padding: 2rem 0 3rem 0;
     line-height: 1.6;
   }
