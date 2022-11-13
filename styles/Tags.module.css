@@ -3,10 +3,9 @@
   width: 90vw;
 }
 .tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: center;
 }
 .taginfo {
   display: grid;
@@ -18,4 +17,15 @@
 }
 .title:hover {
   color: var(--clr-accent-02);
+}
+
+@media screen and (min-width: 768px) {
+  .tags {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media screen and (min-width: 1024px) {
+  .tags {
+    grid-template-columns: repeat(6, 1fr);
+  }
 }
