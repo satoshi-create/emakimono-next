@@ -1,12 +1,7 @@
 import allEras from "../../libs/era";
 import emakisData from "../../libs/data";
-import Title from "../../components/Title";
 import Header from "../../components/Header";
-import { useRouter } from "next/router";
 import Head from "../../components/Meta";
-import SerchForm from "../../components/SerchForm";
-import Breadcrumbs from "../../components/Breadcrumbs";
-import SortEra from "../../components/SortEra";
 import CardA from "../../components/CardA";
 
 const Emaki = ({ name, nameen, posts }) => {
