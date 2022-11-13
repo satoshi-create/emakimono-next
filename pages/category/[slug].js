@@ -1,19 +1,16 @@
 import allCats from "../../libs/category";
 import emakisData from "../../libs/data";
-import Title from "../../components/Title";
 import Header from "../../components/Header";
-import { useRouter } from "next/router";
 import Head from "../../components/Meta";
-import SerchForm from "../../components/SerchForm";
-import Breadcrumbs from "../../components/Breadcrumbs";
-import SortEra from "../../components/SortEra";
 import CardA from "../../components/CardA";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 const Emaki = ({ name, nameen, posts }) => {
   return (
     <>
       <Head pagetitle={name} pageDesc={`${name}のページです`} />
       <Header />
+      <Breadcrumbs name={name} />
       <CardA
         emakis={posts}
         columns={"three"}

@@ -137,6 +137,7 @@
   -moz-column-gap: 0.5rem;
   column-gap: 0.3rem;
   font-size: 0.5rem;
+  padding: .5rem 0;
 }
 .tagLink {
   color: var(--clr-grey-light);
