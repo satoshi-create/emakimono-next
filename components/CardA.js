@@ -36,6 +36,7 @@ const CardA = ({
             type,
             subtype,
             data,
+            tag,
           } = item;
           const filterDesc = desc.substring(0, 40);
           const descTemp = `${title} ${
@@ -70,6 +71,19 @@ const CardA = ({
                   </Link>
                 </div>
                 <div className={styles.footer}>
+                  <div className={styles.cat}>
+                    <Link href={`/category/${typeen}`}>
+                      <a className={styles.type}>{type}</a>
+                    </Link>
+                    <Link href={`/era/${eraen}`}>
+                      <a
+                        className={`era ${styles[eraColor(era)]} ${styles.era}`}
+                      >
+                        {era}
+                      </a>
+                    </Link>
+                    <div>3巻</div>
+                  </div>
                   <h3 className={styles.title}>
                     {title}　{edition}
                   </h3>
@@ -88,17 +102,18 @@ const CardA = ({
                       style={"carda"}
                     />
                   </div>
-                </div>
-                <div className={styles.tag}>
-                  <Link href={`/category/${typeen}`}>
-                    <a>{type}</a>
-                  </Link>
-                  <Link href={`/era/${eraen}`}>
-                    <a className={`era ${eraColor(era)} ${styles.era}`}>
-                      {era}
-                    </a>
-                  </Link>
-                  <div>3巻</div>
+                  {tag && (
+                    <div className={styles.tag}>
+                      {tag.map((item, index) => {
+                        const { name, slug } = item;
+                        return (
+                          <Link href={`/tag/${slug}`} key={index}>
+                            <a className={styles.tagLink}>{name}</a>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
