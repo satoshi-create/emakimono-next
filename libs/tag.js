@@ -15,6 +15,7 @@ const tag = [
   { name: "鬼", id: "demon", slug: "demon" },
   { name: "朱雀門", id: "suzakumon", slug: "suzakumon" },
   { name: "天神", id: "tenjin", slug: "tenjin" },
+
 ];
 
 export default tag;

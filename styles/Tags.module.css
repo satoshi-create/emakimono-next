@@ -1,0 +1,21 @@
+.container {
+  max-width: 1200px;
+  width: 90vw;
+}
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+}
+.taginfo {
+  display: grid;
+  grid-template-columns: 4rem auto;
+  column-gap: 0.3rem;
+}
+.title {
+  transition: var(--transition);
+}
+.title:hover {
+  color: var(--clr-accent-02);
+}

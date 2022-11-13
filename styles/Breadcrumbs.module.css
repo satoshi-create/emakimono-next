@@ -1,3 +1,7 @@
+.breadcrumbs {
+  max-width: 1200px;
+  width: 90vw;
+}
 .next::after {
   content: "";
   width: 5px;

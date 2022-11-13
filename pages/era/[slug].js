@@ -3,12 +3,14 @@ import emakisData from "../../libs/data";
 import Header from "../../components/Header";
 import Head from "../../components/Meta";
 import CardA from "../../components/CardA";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 const Emaki = ({ name, nameen, posts }) => {
   return (
     <>
       <Head pagetitle={name} pageDesc={`${name}のページです`} />
       <Header />
+      <Breadcrumbs name={name} />
       <CardA
         emakis={posts}
         columns={"three"}

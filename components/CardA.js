@@ -38,6 +38,7 @@ const CardA = ({
             data,
             tag,
           } = item;
+
           const filterDesc = desc.substring(0, 40);
           const descTemp = `${title} ${
             author && `（${author}）`
@@ -104,7 +105,7 @@ const CardA = ({
                   </div>
                   {tag && (
                     <div className={styles.tag}>
-                      {tag.map((item, index) => {
+                      {tag.slice(0,3).map((item, index) => {
                         const { name, slug } = item;
                         return (
                           <Link href={`/tag/${slug}`} key={index}>
