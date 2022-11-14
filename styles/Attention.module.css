@@ -20,3 +20,8 @@
 .container p {
   font-size: clamp(1rem, 0.8267rem + 0.7396vw, 1.3rem);
 }
+@media screen and (min-width: 768px) {
+  .attention {
+    display: none;
+  }
+}

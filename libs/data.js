@@ -862,7 +862,6 @@ const data = [
     typeen: "emaki",
     tag: [
       { name: "戯画", id: "caricature", slug: "caricature" },
-      { name: "動物", id: "animal", slug: "animal" },
       { name: "遊戯", id: "game", slug: "game" },
       { name: "鳥羽絵", id: "tobae", slug: "tobae" },
     ],
