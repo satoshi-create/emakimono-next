@@ -1,0 +1,15 @@
+.tabcontainer {
+  display: flex;
+  justify-content: center;
+  column-gap: 2rem;
+}
+.tabbtn {
+  font-size: clamp(1.4rem, 1.0533rem + 1.4792vw, 2rem);
+  color: var(--clr-black);
+  font-family: var(--text-font);
+  font-weight: 400;
+}
+.activebtn {
+  color: var(--clr-accent-02);
+  box-shadow: 0 3px var(--clr-accent-02);
+}
