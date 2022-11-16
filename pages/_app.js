@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect } from "react";
-
 import "../styles/globals.css";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
@@ -16,7 +15,28 @@ function MyApp({ Component, pageProps, router }) {
   const [ekotobaImageToggle, setEkotobaImageToggle] = useState(false);
   const [query, setQuery] = useState("");
   const [fliterdEmakis, setfliterdEmakis] = useState(emakis);
+  const [isModalOpen, setisModalOpen] = useState(false);
 
+  const openModal = (i) => {
+    setisModalOpen(true);
+    // const clientWidth = document.body.clientWidth;
+    // document.querySelector("html").classList.add("open");
+    // const noScrollBarWidth = document.body.clientWidth;
+    // const diff = noScrollBarWidth - clientWidth;
+    // if (diff > 0) {
+    //   setdiff(diff);
+    //   document.body.style["padding-right"] = diff + "px";
+    //   // const nav = document.getElementsByClassName("nav-fixed");
+    //   // nav.style["padding-right"] = diff + "px";
+    // }
+    // setValue(i);
+  };
+
+  const closeModal = () => {
+    // document.querySelector("html").classList.remove("open");
+    // document.body.style["padding-right"] = "0px";
+    setisModalOpen(false);
+  };
 
   return (
     <AppContext.Provider
@@ -31,6 +51,10 @@ function MyApp({ Component, pageProps, router }) {
         setQuery,
         fliterdEmakis,
         setfliterdEmakis,
+        isModalOpen,
+        closeModal,
+        openModal,
+        setisModalOpen,
       }}
     >
       <Script
