@@ -1,7 +1,7 @@
 import Header from "../../components/Header";
 import Head from "../../components/Meta";
 import CardA from "../../components/CardA";
-import allTags from "../../libs/tag";
+import allPersonNames from "../../libs/allPersonNames";
 import emakisData from "../../libs/data";
 import Breadcrumbs from "../../components/Breadcrumbs";
 
@@ -10,7 +10,7 @@ const Emaki = ({ name, posts, nameen }) => {
     <>
       <Head pagetitle={name} pageDesc={`${name}のページです`} />
       <Header />
-      <Breadcrumbs name={name} test={"タグ一覧"} testen={"tags"} />
+      <Breadcrumbs name={name} test={"人物名一覧"} testen={"personnames"} />
       <CardA
         emakis={posts}
         columns={"three"}
@@ -25,7 +25,7 @@ const Emaki = ({ name, posts, nameen }) => {
 export default Emaki;
 
 export const getStaticPaths = async () => {
-  const paths = allTags.map(({ slug }) => `/tag/${slug}`);
+  const paths = allPersonNames.map(({ slug }) => `/personname/${slug}`);
   return {
     paths: paths,
     fallback: false,
@@ -33,22 +33,21 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async (context) => {
-  const tagslug = context.params.slug;
+  const personnameslug = context.params.slug;
 
-  const tag = allTags.find(({ slug }) => slug === tagslug);
+  const personname = allPersonNames.find(({ slug }) => slug === personnameslug);
 
   const filterdEmakisData = emakisData.filter((x) => {
-    if (x.tag) {
-      const filterdTag = x.tag.some((y) => y.slug === tagslug);
+    if (x.personname) {
+      const filterdTag = x.personname.some((y) => y.slug === personnameslug);
       return filterdTag;
     }
   });
-  console.log(filterdEmakisData);
 
   return {
     props: {
-      name: tag.name,
-      nameen: tag.id,
+      name: personname.name,
+      nameen: personname.id,
       posts: filterdEmakisData,
     },
   };

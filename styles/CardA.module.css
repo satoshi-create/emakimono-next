@@ -131,21 +131,21 @@
   margin-top: 1rem;
   text-align: center;
 }
-.tag {
+.keyword {
   display: flex;
   justify-content: right;
   -moz-column-gap: 0.5rem;
   column-gap: 0.3rem;
   font-size: 0.5rem;
-  padding: .5rem 0;
+  padding: 0.5rem 0;
 }
-.tagLink {
+.keywordLink {
   color: var(--clr-grey-light);
   font-weight: 100;
   transition: var(--transition);
   cursor: pointer;
 }
-.tagLink:hover {
+.keywordLink:hover {
   opacity: 0.5;
 }
 

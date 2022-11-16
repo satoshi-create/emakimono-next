@@ -19,6 +19,7 @@
     "imagemin-mozjpeg": "9.0.0",
     "imagemin-webp": "^7.0.0",
     "jimp": "^0.16.2",
+    "jquery": "^3.6.1",
     "lazysizes": "^5.3.2",
     "lqip-loader": "^2.2.1",
     "next": "12.2.5",

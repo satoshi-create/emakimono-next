@@ -3,7 +3,9 @@ import styles from "../styles/ResposiveImage.module.css";
 import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
 
-const ResposiveImage = ({ value: { srcSp, srcTb, src, load, name } }) => (
+const ResposiveImage = ({
+  value: { srcSp, srcTb, src, load, name, srcWidth, srcHeight },
+}) => (
   <picture>
     {/* <source data-srcset={srcSp} media="(max-height: 375px)" type="image/webp" /> */}
     {/* <source data-srcset={srcTb} media="(max-height: 800px)" type="image/webp" /> */}
@@ -18,6 +20,8 @@ const ResposiveImage = ({ value: { srcSp, srcTb, src, load, name } }) => (
       src={srcSp}
       className={`loading lazyload ${styles.emakiImg}`}
       alt={name}
+      width={srcWidth}
+      height={srcHeight}
     />
   </picture>
 );

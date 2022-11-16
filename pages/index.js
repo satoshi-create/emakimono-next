@@ -8,6 +8,7 @@ import "lazysizes";
 import Head from "../components/Meta";
 import GridImages from "../components/GridImages";
 import Attention from "../components/Attention";
+import ToggleTag from "../components/ToggleTag";
 
 const index = () => {
   const favoriteEmakis = emakisData.filter((emaki) => emaki.favorite === true);
@@ -103,7 +104,7 @@ const index = () => {
       <CardB
         emakis={historyemakis}
         columns={"two"}
-        sectiontitle={"時代ごとに見る絵巻"}
+        sectiontitle={"時代から見る絵巻"}
         sectiontitleen={"history"}
         sectiondesc={""}
         sectionname={"history"}
@@ -114,6 +115,8 @@ const index = () => {
         sectiondesc={""}
         sectionname={"famousscene"}
       />
+      <ToggleTag />
+
       <CardA
         emakis={alpha}
         columns={"four"}

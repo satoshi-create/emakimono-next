@@ -1,3 +1,5 @@
 .emakiImg {
   height: 100%;
-} 
+  width: auto;
+  /* aspect-ratio: 16/9; */
+}

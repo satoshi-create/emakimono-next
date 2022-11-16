@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect } from "react";
 import Link from "next/link";
 import styles from "../styles/CardA.module.css";
 import Title from "./Title";
 import eraColor from "../libs/func";
 import Button from "./Button";
 import Image from "next/image";
+import { AppContext } from "../pages/_app";
+
 
 const CardA = ({
   emakis,
@@ -15,6 +17,13 @@ const CardA = ({
   sectiondesc,
   sectiontitleen,
 }) => {
+  const { setisModalOpen } = useContext(AppContext);
+
+  useEffect(() => {
+    setisModalOpen(false);
+  }, []);
+
+
   return (
     <section
       className={`section-center section-padding ${styles[sectionname]}`}
@@ -36,7 +45,7 @@ const CardA = ({
             type,
             subtype,
             data,
-            tag,
+            keyword,
           } = item;
 
           const filterDesc = desc.substring(0, 40);
@@ -49,7 +58,7 @@ const CardA = ({
               className={`${styles.cardContainer} ${styles[columns]}`}
               key={index}
             >
-              <h4 className={styles.subtype}>
+              <h4 className={styles.subtype} id="alart" value="test">
                 {sectiontitle === "さまざまな絵巻" && `${subtype}絵巻`}
                 {sectiontitle === "横スクロールで楽しむワイド美術" && type}
               </h4>
@@ -103,13 +112,13 @@ const CardA = ({
                       style={"carda"}
                     />
                   </div>
-                  {tag && (
-                    <div className={styles.tag}>
-                      {tag.slice(0,3).map((item, index) => {
+                  {keyword && (
+                    <div className={styles.keyword}>
+                      {keyword.slice(0, 3).map((item, index) => {
                         const { name, slug } = item;
                         return (
-                          <Link href={`/tag/${slug}`} key={index}>
-                            <a className={styles.tagLink}>{name}</a>
+                          <Link href={`/keyword/${slug}`} key={index}>
+                            <a className={styles.keywordLink}>{name}</a>
                           </Link>
                         );
                       })}

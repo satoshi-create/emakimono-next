@@ -12,7 +12,6 @@ import {
 import { AppContext } from "../pages/_app";
 const DataController = () => {
   const { ekotobaImageToggle, setEkotobaImageToggle } = useContext(AppContext);
-  console.log(ekotobaImageToggle);
 
   const data = [
     {

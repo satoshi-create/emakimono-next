@@ -17,7 +17,7 @@ const data = [
     readMore: false,
     type: "絵巻",
     typeen: "emaki",
-    tag: [
+    keyword: [
       { name: "戯画", id: "caricature", slug: "caricature" },
       { name: "動物", id: "animal", slug: "animal" },
       { name: "鳥羽絵", id: "tobae", slug: "tobae" },
@@ -286,7 +286,7 @@ const data = [
     desc: "平安時代（12世紀）に描かれた鳥獣人物戯画絵巻 乙巻の摸本。「動物尽くし」の図鑑のような一巻で、絵師の手習いとして使われたという説もある。前半は「日本に生息する動物」を扱い、馬、牛など当時身近だった動物が描かれる。後半は、一転して「日本に生息しない動物＆霊獣」が描かれ、玄武、麒麟など空想上の動物と象、虎など日本には生息していない動物が、想像力を交えて描かれる。",
     type: "絵巻",
     typeen: "emaki",
-    tag: [
+    keyword: [
       { name: "戯画", id: "caricature", slug: "caricature" },
       { name: "動物", id: "animal", slug: "animal" },
       { name: "霊獣", id: "spiritualbeast", slug: "spiritualbeast" },
@@ -584,7 +584,7 @@ const data = [
     eraen: "heiann",
     type: "絵巻",
     typeen: "emaki",
-    tag: [
+    keyword: [
       { name: "戯画", id: "caricature", slug: "caricature" },
       { name: "動物", id: "animal", slug: "animal" },
       { name: "鳥羽絵", id: "tobae", slug: "tobae" },
@@ -860,7 +860,7 @@ const data = [
     eraen: "kamakura",
     type: "絵巻",
     typeen: "emaki",
-    tag: [
+    keyword: [
       { name: "戯画", id: "caricature", slug: "caricature" },
       { name: "遊戯", id: "game", slug: "game" },
       { name: "鳥羽絵", id: "tobae", slug: "tobae" },
@@ -1099,10 +1099,17 @@ const data = [
     eraen: "kamakura",
     type: "絵巻",
     typeen: "emaki",
-    tag: [
+    keyword: [
       { name: "説話", id: "story", slug: "story" },
       { name: "火事", id: "fire", slug: "fire" },
       { name: "市場", id: "market", slug: "market" },
+    ],
+    personname: [
+      { name: "橘直幹", id: "tachibananaomoto", slug: "tachibananaomoto" },
+      { name: "小野道風", id: "ononomichikaze", slug: "ononomichikaze" },
+      { name: "村上天皇", id: "murakamitennnou", slug: "murakamitennnou" },
+      { name: "三統元夏", id: "mimunenomotonatsu", slug: "mimunenomotonatsu" },
+      { name: "藤原実頼", id: "fujiwarasaneyori", slug: "fujiwarasaneyori" },
     ],
     kotobagaki: true,
     sourceImageUrl: "https://dl.ndl.go.jp/info:ndljp/pid/2541034",
@@ -1372,10 +1379,16 @@ const data = [
     typeen: "emaki",
     subtype: "説話",
     subtypeen: "emakien",
-    tag: [
+    keyword: [
       { name: "蹴鞠", id: "kemari", slug: "kemari" },
       { name: "陰陽師", id: "onmyoji", slug: "onmyoji" },
       { name: "中将", id: "lieutenantgeneral", slug: "lieutenantgeneral" },
+    ],
+    personname: [
+      { name: "後嵯峨天皇", id: "gosagatennou", slug: "gosagatennou" },
+      { name: "小宰相局", id: "kosaisyounotubone", slug: "kosaisyounotubone" },
+      { name: "小式部内侍", id: "koshikibunaishi", slug: "koshikibunaishi" },
+      { name: "上東門院", id: "syoutouinnmon", slug: "syoutouinnmon" },
     ],
     kotobagaki: true,
     sourceImageUrl: "https://dl.ndl.go.jp/info:ndljp/pid/2540882",
@@ -1733,12 +1746,13 @@ const data = [
     eraen: "kamakura",
     type: "絵巻",
     typeen: "emaki",
-    tag: [
+    keyword: [
       { name: "双六", id: "sugoroku", slug: "sugoroku" },
       { name: "鬼", id: "demon", slug: "demon" },
       { name: "朱雀門", id: "suzakumon", slug: "suzakumon" },
       { name: "天神", id: "tenjin", slug: "tenjin" },
     ],
+    personname: [{ name: "紀長谷雄", id: "kinohaseo", slug: "kinohaseo" }],
     kotobagaki: true,
     favorite: true,
     sourceImageUrl:
@@ -1766,25 +1780,9 @@ const data = [
         srcSp: "/haseozoushi_02-375.webp",
         srcTb: "/haseozoushi_02-800.webp",
         src: "/haseozoushi_02-1080.webp",
+        srcWidth: "2557",
+        srcHeight: "1080",
         name: "haseozoushi_02.webp",
-        viewBoxW: "669",
-        viewBoxH: "375",
-        clickImg: [
-          {
-            shape:
-              '<circle cx="334.5" cy="174" r="33" style="fill:rgb(255,0,0);fill-opacity:0.42;"/>',
-            partImg: "/esi_03_partimage_01.webp",
-            title: "宣旨を読み上げる絵師",
-            text: "「伊予国・・・令知行・・・天気（によって執達件の如し）」と書いてある。",
-          },
-          {
-            shape:
-              '<rect x="130" y="159" width="62" height="41" style="fill:rgb(255,0,0);fill-opacity:0.42;"/>',
-            partImg: "/esi_03_partimage_01.webp",
-            title: "宣旨を読み上げる絵師",
-            text: "宴会に興じる絵師一族",
-          },
-        ],
       },
       {
         load: false,
@@ -1792,6 +1790,8 @@ const data = [
         srcSp: "/haseozoushi_03-375.webp",
         srcTb: "/haseozoushi_03-800.webp",
         src: "/haseozoushi_03-1080.webp",
+        srcWidth: "2177",
+        srcHeight: "1080",
         name: "haseozoushi_03.webp",
       },
       {
@@ -1800,13 +1800,19 @@ const data = [
         srcSp: "/haseozoushi_04-375.webp",
         srcTb: "/haseozoushi_04-800.webp",
         src: "/haseozoushi_04-1080.webp",
+        srcWidth: "2313",
+        srcHeight: "1080",
         name: "haseozoushi_04.webp",
       },
       {
+        load: false,
+        cat: "image",
         srcSp: "/haseozoushi_05-375.webp",
         srcTb: "/haseozoushi_05-800.webp",
         src: "/haseozoushi_05-1080.webp",
         name: "haseozoushi_05.webp",
+        srcWidth: "1889",
+        srcHeight: "1080",
       },
       {
         cat: "ekotoba",
@@ -1827,6 +1833,8 @@ const data = [
         srcTb: "/haseozoushi_07-800.webp",
         src: "/haseozoushi_07-1080.webp",
         name: "haseozoushi_07.webp",
+        srcWidth: "2722",
+        srcHeight: "1080",
       },
       {
         load: false,
@@ -1835,6 +1843,8 @@ const data = [
         srcTb: "/haseozoushi_08-800.webp",
         src: "/haseozoushi_08-1080.webp",
         name: "haseozoushi_08.webp",
+        srcWidth: "1771",
+        srcHeight: "1080",
       },
       {
         cat: "ekotoba",
@@ -1855,6 +1865,8 @@ const data = [
         srcTb: "/haseozoushi_10-800.webp",
         src: "/haseozoushi_10-1080.webp",
         name: "haseozoushi_10.webp",
+        srcWidth: "1979",
+        srcHeight: "1080",
       },
       {
         load: false,
@@ -1863,8 +1875,9 @@ const data = [
         srcTb: "/haseozoushi_11-800.webp",
         src: "/haseozoushi_11-1080.webp",
         name: "haseozoushi_11.webp",
+        srcWidth: "1737",
+        srcHeight: "1080",
       },
-
       {
         cat: "ekotoba",
         chapter: "第四段　長谷雄の違約",
@@ -1884,6 +1897,8 @@ const data = [
         srcTb: "/haseozoushi_13-800.webp",
         src: "/haseozoushi_13-1080.webp",
         name: "haseozoushi_13.webp",
+        srcWidth: "3056",
+        srcHeight: "1080",
       },
       {
         cat: "ekotoba",
@@ -1904,6 +1919,8 @@ const data = [
         srcTb: "/haseozoushi_15-800.webp",
         src: "/haseozoushi_15-1080.webp",
         name: "haseozoushi_15.webp",
+        srcWidth: "2148",
+        srcHeight: "1080",
       },
       {
         load: false,
@@ -1912,6 +1929,8 @@ const data = [
         srcTb: "/haseozoushi_16-800.webp",
         src: "/haseozoushi_16-1080.webp",
         name: "haseozoushi_16.webp",
+        srcWidth: "2411",
+        srcHeight: "1080",
       },
       {
         load: false,
@@ -1920,6 +1939,8 @@ const data = [
         srcTb: "/haseozoushi_17-800.webp",
         src: "/haseozoushi_17-1080.webp",
         name: "haseozoushi_17.webp",
+        srcWidth: "1855",
+        srcHeight: "1080",
       },
     ],
   },
@@ -2532,6 +2553,12 @@ const data = [
     gif: "",
     type: "絵巻",
     typeen: "emaki",
+    personname: [
+      { name: "西行", id: "saigyo", slug: "saigyo" },
+      { name: "登蓮法師", id: "torenhoushi", slug: "torenhoushi" },
+      { name: "俊恵", id: "syunne", slug: "syunne" },
+      { name: "源頼政", id: "minamotonoyorimasa", slug: "minamotonoyorimasa" },
+    ],
     subtype: "高僧伝",
     kotobagaki: true,
     sourceImageUrl:
