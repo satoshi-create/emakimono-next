@@ -1,4 +1,4 @@
-const tag = [
+const allKeywords = [
   { name: "戯画", id: "caricature", slug: "caricature" },
   { name: "動物", id: "animal", slug: "animal" },
   { name: "鳥羽絵", id: "tobae", slug: "tobae" },
@@ -18,4 +18,4 @@ const tag = [
 
 ];
 
-export default tag;
+export default allKeywords;

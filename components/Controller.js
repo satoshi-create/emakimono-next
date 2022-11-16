@@ -11,7 +11,6 @@ const Controller = ({ value }) => {
   const { ekotobaImageToggle, setEkotobaImageToggle } = useContext(AppContext);
   const { emakis, kotobagaki, type, title, titleen, typeen, era, eraen } =
     value;
-  console.log(kotobagaki);
 
   return (
     <aside className={styles.container}>
