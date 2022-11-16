@@ -109,14 +109,13 @@ const index = () => {
         sectiondesc={""}
         sectionname={"history"}
       />
+      <ToggleTag />
       <GridImages
         sectiontitle={"絵巻名場面集！"}
         sectiontitleen={"famousscene"}
         sectiondesc={""}
         sectionname={"famousscene"}
       />
-      <ToggleTag />
-
       <CardA
         emakis={alpha}
         columns={"four"}
