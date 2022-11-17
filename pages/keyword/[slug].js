@@ -1,9 +1,10 @@
 import Header from "../../components/Header";
 import Head from "../../components/Meta";
 import CardA from "../../components/CardA";
-import allKeywords from "../../libs/allKeywords";
+
 import emakisData from "../../libs/data";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import { keywordItem } from "../../libs/func";
 
 const Emaki = ({ name, posts, nameen }) => {
   return (
@@ -25,7 +26,7 @@ const Emaki = ({ name, posts, nameen }) => {
 export default Emaki;
 
 export const getStaticPaths = async () => {
-  const paths = allKeywords.map(({ slug }) => `/keyword/${slug}`);
+  const paths = keywordItem(emakisData).map(({ slug }) => `/keyword/${slug}`);
   return {
     paths: paths,
     fallback: false,
@@ -35,7 +36,9 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
   const keywordslug = context.params.slug;
 
-  const keyword = allKeywords.find(({ slug }) => slug === keywordslug);
+  const keyword = keywordItem(emakisData).find(
+    ({ slug }) => slug === keywordslug
+  );
 
   const filterdEmakisData = emakisData.filter((x) => {
     if (x.keyword) {
