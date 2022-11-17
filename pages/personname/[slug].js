@@ -1,9 +1,9 @@
 import Header from "../../components/Header";
 import Head from "../../components/Meta";
 import CardA from "../../components/CardA";
-import allPersonNames from "../../libs/allPersonNames";
 import emakisData from "../../libs/data";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import { personnameItem } from "../../libs/func";
 
 const Emaki = ({ name, posts, nameen }) => {
   return (
@@ -25,7 +25,9 @@ const Emaki = ({ name, posts, nameen }) => {
 export default Emaki;
 
 export const getStaticPaths = async () => {
-  const paths = allPersonNames.map(({ slug }) => `/personname/${slug}`);
+  const paths = personnameItem(emakisData).map(
+    ({ slug }) => `/personname/${slug}`
+  );
   return {
     paths: paths,
     fallback: false,
@@ -35,7 +37,9 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
   const personnameslug = context.params.slug;
 
-  const personname = allPersonNames.find(({ slug }) => slug === personnameslug);
+  const personname = personnameItem(emakisData).find(
+    ({ slug }) => slug === personnameslug
+  );
 
   const filterdEmakisData = emakisData.filter((x) => {
     if (x.personname) {
