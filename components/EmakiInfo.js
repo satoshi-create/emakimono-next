@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Link from "next/link";
 import styles from "../styles/EmakiInfo.module.css";
-import eraColor from "../libs/func";
+import {eraColor} from "../libs/func";
 import { AppContext } from "../pages/_app";
 
 const EmakiInfo = ({ type, title, era, typeen, eraen }) => {

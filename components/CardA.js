@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import Link from "next/link";
 import styles from "../styles/CardA.module.css";
 import Title from "./Title";
-import eraColor from "../libs/func";
+import {eraColor} from "../libs/func";
 import Button from "./Button";
 import Image from "next/image";
 import { AppContext } from "../pages/_app";
