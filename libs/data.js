@@ -18,6 +18,8 @@ const data = [
     type: "絵巻",
     typeen: "emaki",
     keyword: [
+    
+    
       { name: "戯画", id: "caricature", slug: "caricature" },
       { name: "動物", id: "animal", slug: "animal" },
       { name: "鳥羽絵", id: "tobae", slug: "tobae" },
@@ -1962,6 +1964,12 @@ const data = [
     type: "絵巻",
     typeen: "emaki",
     subtype: "仏典",
+    keyword: [
+      { name: "無常", id: "impermanence", slug: "impermanence" },
+      { name: "仏教", id: "buddhism", slug: "buddhism" },
+      { name: "死生観", id: "lifeandodeath", slug: "lifeandodeath" },
+      { name: "解剖学", id: "anatomy", slug: "anatomy" },
+    ],
     kotobagaki: false,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/kyuhaku/A70?locale=ja",
@@ -2145,6 +2153,12 @@ const data = [
     gif: "",
     type: "絵巻",
     typeen: "emaki",
+    keyword: [
+      { name: "無常", id: "impermanence", slug: "impermanence" },
+      { name: "仏教", id: "buddhism", slug: "buddhism" },
+      { name: "死生観", id: "lifeandodeath", slug: "lifeandodeath" },
+      { name: "解剖学", id: "anatomy", slug: "anatomy" },
+    ],
     kotobagaki: false,
     sourceImageUrl:
       "https://www.britishmuseum.org/collection/object/A_2008-3033-1",
@@ -2314,6 +2328,13 @@ const data = [
     gif: "",
     type: "絵巻",
     typeen: "emaki",
+    keyword: [
+      { name: "無常", id: "impermanence", slug: "impermanence" },
+      { name: "仏教", id: "buddhism", slug: "buddhism" },
+      { name: "死生観", id: "lifeandodeath", slug: "lifeandodeath" },
+      { name: "解剖学", id: "anatomy", slug: "anatomy" },
+      { name: "和歌", id: "waka", slug: "waka" },
+    ],
     kotobagaki: true,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/kyuhaku/A56?locale=ja",
@@ -2553,6 +2574,13 @@ const data = [
     gif: "",
     type: "絵巻",
     typeen: "emaki",
+    keyword: [
+      { name: "和歌", id: "waka", slug: "waka" },
+      { name: "吉野", id: "yoshino", slug: "yoshino" },
+      { name: "仏教", id: "buddhism", slug: "buddhism" },
+      { name: "熊野", id: "kumano", slug: "kumano" },
+      { name: "桜", id: "cherry", slug: "cherry" },
+    ],
     personname: [
       { name: "西行", id: "saigyo", slug: "saigyo" },
       { name: "登蓮法師", id: "torenhoushi", slug: "torenhoushi" },
@@ -2877,7 +2905,11 @@ const data = [
     gif: "",
     type: "絵巻",
     typeen: "emaki",
-
+    keyword: [
+      { name: "地獄", id: "hell", slug: "hell" },
+      { name: "仏教", id: "buddhism", slug: "buddhism" },
+      { name: "鬼", id: "demon", slug: "demon" },
+    ],
     kotobagaki: true,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-10942?locale=ja",
@@ -2988,6 +3020,11 @@ const data = [
     gif: "",
     type: "絵巻",
     typeen: "emaki",
+    keyword: [
+      { name: "地獄", id: "hell", slug: "hell" },
+      { name: "仏教", id: "buddhism", slug: "buddhism" },
+      { name: "鬼", id: "demon", slug: "demon" },
+    ],
     kotobagaki: true,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/narahaku/644-0?locale=ja",
@@ -3149,6 +3186,13 @@ const data = [
     gif: "",
     type: "絵巻",
     typeen: "emaki",
+    keyword: [
+      { name: "仏教", id: "buddhism", slug: "buddhism" },
+      { name: "鬼", id: "demon", slug: "demon" },
+      { name: "巫女", id: "shrinemaiden", slug: "shrinemaiden" },
+      { name: "双六", id: "sugoroku", slug: "sugoroku" },
+      { name: "出産", id: "childbirth", slug: "childbirth" },
+    ],
     kotobagaki: true,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
@@ -3284,6 +3328,11 @@ const data = [
     gif: "",
     type: "絵巻",
     typeen: "emaki",
+    keyword: [
+      { name: "和歌", id: "waka", slug: "waka" },
+      { name: "連続式", id: "continuoustype", slug: "continuoustype" },
+      { name: "鳥", id: "bird", slug: "bird" },
+    ],
     kotobagaki: true,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/kyohaku/A%E7%94%B2364?locale=ja",
@@ -3500,6 +3549,10 @@ const data = [
     type: "絵巻",
     typeen: "emaki",
     subtype: "諸行事・祭礼",
+    keyword: [
+      { name: "武士", id: "samurai", slug: "samurai" },
+      { name: "結婚", id: "marry", slug: "marry" },
+    ],
     kotobagaki: true,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-9277?locale=ja",
@@ -4674,6 +4727,13 @@ const data = [
     gif: "",
     type: "絵巻",
     typeen: "emaki",
+    keyword: [
+      { name: "仏教", id: "buddhism", slug: "buddhism" },
+      { name: "六道", id: "sixpaths", slug: "sixpaths" },
+      { name: "火事", id: "fire", slug: "fire" },
+      { name: "鬼", id: "demon", slug: "demon" },
+      { name: "月", id: "moon", slug: "moon" },
+    ],
     kotobagaki: true,
     favorite: true,
     sourceImageUrl:
@@ -6204,6 +6264,11 @@ const data = [
     gif: "",
     type: "絵巻",
     typeen: "emaki",
+    keyword: [
+      { name: "風景", id: "scenery", slug: "scenery" },
+      { name: "写生", id: "sketch", slug: "sketch" },
+      { name: "富士山", id: "fujimountain", slug: "fujimountain" },
+    ],
     kotobagaki: true,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-10561?locale=ja",
@@ -6637,6 +6702,11 @@ const data = [
     gif: "",
     type: "絵巻",
     typeen: "emaki",
+    keyword: [
+      { name: "インド", id: "india", slug: "india" },
+      { name: "虹", id: "rainbow", slug: "rainbow" },
+      { name: "月", id: "moon", slug: "moon" },
+    ],
     kotobagaki: true,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-10525?locale=ja",
