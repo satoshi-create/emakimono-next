@@ -14,7 +14,7 @@ const keywords = () => {
       <Header />
       <Breadcrumbs name={"キーワード一覧"} />
       <Keywords
-        sectiontitle={"キーワード一覧"}
+        sectiontitle={"キーワード"}
         sectiontitleen={"keywords"}
         allTags={allKeywords}
         path={"keyword"}
