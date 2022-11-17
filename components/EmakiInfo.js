@@ -10,12 +10,12 @@ const EmakiInfo = ({ type, title, era, typeen, eraen }) => {
     <div className={styles.container}>
       <h1 className={styles.title}>{title}</h1>
       <Link href={`/era/${eraen}`}>
-        <a className={`${eraColor(era)} ${styles.era}`}>{era}</a>
+        <a className={`${eraColor(era)} ${styles.era}`}>{`${era}時代`}</a>
       </Link>
       <Link href={`/category/${typeen}`}>
         <a className={styles.type}>{type}</a>
       </Link>
-      <div onClick={openModal}>?</div>
+      {/* <div onClick={openModal}>?</div> */}
     </div>
   );
 };

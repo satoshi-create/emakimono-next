@@ -1,50 +1,69 @@
-$(window).on('load',function(){
-	$(function() {
-	    let url = location.href;
-	    if(url.indexOf("?id=") != -1){
-	        let id = url.split("?id=");
-	        let $target = $('#' + id[id.length - 1]);
-	        if($target.length){
-	            let position = $target.offset().top;
-	            $("html, body").animate({scrollTop:position}, 1);
-	        }
-	    }
-	});
-})
+const data = [
+  {
+    keyword: [
+      { name: "戯画", id: "caricature", slug: "caricature" },
+      { name: "鳥羽絵", id: "tobae", slug: "tobae" },
+    ],
+  },
+  {
+    keyword: [
+      { name: "戯画", id: "caricature", slug: "caricature" },
+      { name: "動物", id: "animal", slug: "animal" },
+      { name: "鳥羽絵", id: "tobae", slug: "tobae" },
+    ],
+  },
+  {
+    keyword: [
+      { name: "戯画", id: "caricature", slug: "caricature" },
+      { name: "動物", id: "animal", slug: "animal" },
+      { name: "鳥羽絵", id: "tobae", slug: "tobae" },
+      { name: "年中行事", id: "annualevent", slug: "annualevent" },
+    ],
+  },
+  {
+    test: "test",
+  },
+];
 
-// 5行目 let url = location.hrefでURLを取得します。
-// 6行目 URLに?id=が含まれていたら
-// 7行目 ?id=で前後に分割してリストに入れて
-// 8行目 先のリストの一番最後（?id=の後が入っている）と同じid名の要素を取得
-// 10行目 先の要素の位置を取得
-// 11行目 先の要素の位置までスクロール
+const keyworditem = data.flatMap((item) => item.keyword).filter((item) => item);
 
+const filter = keyworditem.filter((item) => item);
+console.log(keyworditem);
 
-const [createQuiz, setCreateQuiz] = useState(false);
-	
-useEffect(()=> {
-    const reRender = () => {
-        setCreateQuiz(true)
+const convert = (arr) => {
+  const res = {};
+  arr.forEach((obj) => {
+    const key = `${obj.name}`;
+    if (!res[key]) {
+      res[key] = { ...obj, total: 0 };
     }
-    window.onload=function(){
-      document.getElementById("myBtn").addEventListener("click", reRender);
-    } 
-    // return document.getElementById("myBtn").removeEventListener("click", reRender);
-  }, [createQuiz])
+    res[key].total += 1;
+  });
+  return Object.values(res);
+};
+console.log(convert(keyworditem));
 
-return (
-    <QuizContextProvider>
-      {
-      (createQuiz) ? (
-        <div>Form</div>
-      ) : (
-        <div>
-        <Modal/>
-        <Question question={questions[questionNumber]} next={goToTheNext} />
-        </div>
-      )
-      }
-      {console.log(createQuiz)}
-    </QuizContextProvider>
-  );
-}
+// const setKeywordItem = [...new Set(keyworditem.map((item) => item.name))];
+const sortItem = convert(keyworditem).sort((a, b) => {
+  if (a.total > b.total) return -1;
+  if (b.total > a.total) return 1;
+  return 0;
+});
+
+console.log(sortItem);
+
+var obj = [
+  { sbj: "数学", score: 80 },
+  { sbj: "英語", score: 20 },
+  { sbj: "社会", score: 55 },
+  { sbj: "国語", score: 90 },
+];
+
+console.log(
+  obj.sort(function (a, b) {
+    if (a.score > b.score) return -1;
+    if (b.score > a.score) return 1;
+
+    return 0;
+  })
+);

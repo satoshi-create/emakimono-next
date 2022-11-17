@@ -89,7 +89,7 @@ const CardA = ({
                       <a
                         className={`era ${styles[eraColor(era)]} ${styles.era}`}
                       >
-                        {era}
+                        {`${era}時代`}
                       </a>
                     </Link>
                     <div>3巻</div>

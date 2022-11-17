@@ -5,41 +5,66 @@ import Link from "next/link";
 import styles from "../styles/Tags.module.css";
 
 const Keywords = ({ sectiontitle, sectiontitleen, allTags, path }) => {
-  return (
-    <section className={`section-center section-padding ${styles.container}`}>
-      {/* <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} /> */}
-      <section className={styles.tags}>
-        {allTags.map((item, index) => {
-          const { name, id, slug } = item;
+  const convert = (arr) => {
+    const res = {};
+    arr.forEach((obj) => {
+      const key = `${obj.name}`;
+      if (!res[key]) {
+        res[key] = { ...obj, total: 0 };
+      }
+      res[key].total += 1;
+    });
+    return Object.values(res);
+  };
 
-          const totalKeyword = emakisData.filter((x) => {
-            if (x.keyword) {
-              const filterdTag = x.keyword.some((y) => y.slug === slug);
-              return filterdTag;
-            }
-          }).length;
+  const keywordItem = convert(
+    emakisData.flatMap((item) => item.keyword).filter((item) => item)
+  ).sort((a, b) => (a.total > b.total ? -1 : 1));
 
-          const totalPersonname = emakisData.filter((x) => {
-            if (x.personname) {
-              const filterdTag = x.personname.some((y) => y.slug === slug);
-              return filterdTag;
-            }
-          }).length;
-          console.log(totalPersonname);
-          return (
-            <div key={index} className={styles.taginfo}>
-              <Link href={`./${path}/${slug}`}>
-                <a className={styles.title}>{name}</a>
-              </Link>
-              <div className={styles.total}>
-                {path === "keyword" ? `(${totalKeyword})` : `(${totalPersonname})`}
+  const personnameItem = convert(
+    emakisData.flatMap((item) => item.personname).filter((item) => item)
+  ).sort((a, b) => (a.total > b.total ? -1 : 1));
+  console.log(personnameItem);
+
+  if (sectiontitle === "キーワード") {
+    return (
+      <section className={`section-center section-padding ${styles.container}`}>
+        <section className={styles.tags}>
+          {keywordItem.map((item, index) => {
+            const { name, id, slug, total } = item;
+
+            return (
+              <div key={index} className={styles.taginfo}>
+                <Link href={`./${path}/${slug}`}>
+                  <a className={styles.title}>{name}</a>
+                </Link>
+                <div className={styles.total}>{`(${total})`}</div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </section>
       </section>
-    </section>
-  );
+    );
+  } else {
+    return (
+      <section className={`section-center section-padding ${styles.container}`}>
+        <section className={styles.tags}>
+          {personnameItem.map((item, index) => {
+            const { name, id, slug, total } = item;
+
+            return (
+              <div key={index} className={styles.taginfo}>
+                <Link href={`./${path}/${slug}`}>
+                  <a className={styles.title}>{name}</a>
+                </Link>
+                <div className={styles.total}>{`(${total})`}</div>
+              </div>
+            );
+          })}
+        </section>
+      </section>
+    );
+  }
 };
 
 export default Keywords;
