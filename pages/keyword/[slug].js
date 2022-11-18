@@ -1,7 +1,6 @@
 import Header from "../../components/Header";
 import Head from "../../components/Meta";
 import CardA from "../../components/CardA";
-
 import emakisData from "../../libs/data";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { keywordItem } from "../../libs/func";
