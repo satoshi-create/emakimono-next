@@ -10,7 +10,7 @@ import allKeywords from "../libs/allKeywords";
 const keywords = () => {
   return (
     <>
-      <Head />
+      <Head pagetitle={"キーワード"} pageDesc={`キーワード一覧のページです`} />
       <Header />
       <Breadcrumbs name={"キーワード一覧"} />
       <Keywords
