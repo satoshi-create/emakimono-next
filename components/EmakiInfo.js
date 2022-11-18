@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
 import Link from "next/link";
 import styles from "../styles/EmakiInfo.module.css";
-import {eraColor} from "../libs/func";
+import { eraColor } from "../libs/func";
 import { AppContext } from "../pages/_app";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 
 const EmakiInfo = ({ type, title, era, typeen, eraen }) => {
   const { openModal } = useContext(AppContext);
@@ -15,7 +17,9 @@ const EmakiInfo = ({ type, title, era, typeen, eraen }) => {
       <Link href={`/category/${typeen}`}>
         <a className={styles.type}>{type}</a>
       </Link>
-      {/* <div onClick={openModal}>?</div> */}
+      <div onClick={openModal} className={styles.question}>
+        <FontAwesomeIcon icon={faCircleQuestion} />
+      </div>
     </div>
   );
 };

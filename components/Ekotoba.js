@@ -7,18 +7,18 @@ import { AppContext } from "../pages/_app";
 
 const Ekotoba = ({
   item: {
-    type,
     chapter,
     gendaibun,
     kobun,
     index,
-    backgroundImage,
-    kotobagaki,
     srcSp,
     srcTb,
     src,
     load,
     name,
+    backgroundImage,
+    kotobagaki,
+    type,
   },
 }) => {
   const {
@@ -29,8 +29,6 @@ const Ekotoba = ({
   } = useContext(AppContext);
 
   const [toggle, setToggle] = useState(false);
-
-
   useEffect(() => {
     setEkotobaImageToggle(false);
   }, []);
@@ -42,7 +40,9 @@ const Ekotoba = ({
 
   return (
     <section
-      className={`section ${type === "西洋絵画" ? styles.ekotobalr : styles.ekotobarl}`}
+      className={`section ${
+        type === "西洋絵画" ? styles.ekotobalr : styles.ekotobarl
+      }`}
       id={`s${index}`}
       style={{ background: `url(${backgroundImage})` }}
     >
@@ -57,12 +57,12 @@ const Ekotoba = ({
               className={styles.togglebtn}
               onClick={() => setToggle(!toggle)}
             >
-              <i>
                 <FontAwesomeIcon
                   icon={toggle ? faMinus : faPlus}
                   title={toggle ? "閉じる" : "詞書の現代語訳と原文を比べて読む"}
+                  className={styles.togglebtnicon}
                 />
-              </i>
+
             </button>
           )}
         </div>
