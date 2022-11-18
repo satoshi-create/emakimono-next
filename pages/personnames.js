@@ -10,7 +10,7 @@ import allPersonNames from "../libs/allPersonNames";
 const personnames = () => {
   return (
     <>
-      <Head />
+      <Head pagetitle={"人物名一覧"} pageDesc={`人物名一覧のページです`} />
       <Header />
       <Breadcrumbs name={"人物名一覧"} />
       <Keywords
