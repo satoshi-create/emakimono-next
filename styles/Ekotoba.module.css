@@ -46,7 +46,7 @@
 .togglebtn:hover {
   opacity: 0.6;
 }
-.togglebtn i {
+.togglebtnicon {
   font-size: calc(12px + (20 - 12) * ((100vh - 375px) / (1080 - 375)));
   /* font-size: 20px; */
   color: var(--clr-grey);
