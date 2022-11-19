@@ -81,6 +81,7 @@ const index = () => {
       <Head />
       <Header />
       <Attention />
+
       <CardA
         emakis={favoriteEmakis}
         columns={"three"}
