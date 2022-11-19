@@ -11,7 +11,7 @@ const EmakiConteiner = ({ data }) => {
   const { isModalOpen } = useContext(AppContext);
 
   const emakis = data.emakis;
-  const { backgroundImage, kotobagaki, type } = data;
+  const { backgroundImage, kotobagaki, type, } = data;
   console.log(backgroundImage);
 
   const scrollRef = useRef();
@@ -33,7 +33,9 @@ const EmakiConteiner = ({ data }) => {
 
   return (
     <>
-      {isModalOpen && <Modal emakis={emakis} />}
+      {isModalOpen && (
+        <Modal data={data} />
+      )}
       <article
         className={`${styles.conteiner} ${
           type === "西洋絵画" ? styles.lr : styles.rl

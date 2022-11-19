@@ -18,8 +18,6 @@ const data = [
     type: "絵巻",
     typeen: "emaki",
     keyword: [
-    
-    
       { name: "戯画", id: "caricature", slug: "caricature" },
       { name: "動物", id: "animal", slug: "animal" },
       { name: "鳥羽絵", id: "tobae", slug: "tobae" },
@@ -4958,12 +4956,20 @@ const data = [
     sourceImageUrl: "https://dl.ndl.go.jp/info:ndljp/pid/1307297",
     sourceImage: "江戸近郊八景（国立国会図書館デジタルコレクション）",
     sourceEkotoba: "",
+    googlemap: "/googlemap_edomeisyohakkei.webp",
+    basinmap: "/basinmap_edomeisyohakkei.webp",
+    mapWidth: 1171,
+    mapHeight: 658,
     emakis: [
       {
         cat: "ekotoba",
         chapter: "吾嬬杜夜雨",
         kobun: "",
         gendaibun: "",
+        width:768,
+        height: 500,
+        googlemap: "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d15414.822865578184!2d139.82582089467476!3d35.707879529814385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1z5ZC-5ays5p2c!5e0!3m2!1sja!2sjp!4v1668769680120!5m2!1sja!2sjp",
+        basinmap:"https://maps.gsi.go.jp/?hc=hic#14/35.708921/139.825315/&ls=anaglyphmap_color&disp=1&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
         phrase: [{}],
       },
       {
