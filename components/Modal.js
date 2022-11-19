@@ -2,31 +2,59 @@ import React, { useContext, useState } from "react";
 import { AppContext } from "../pages/_app";
 import styles from "../styles/Modal.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose, faLocationDot } from "@fortawesome/free-solid-svg-icons";
+
+import {
+  faClose,
+  faAnglesLeft,
+  faAnglesRight,
+} from "@fortawesome/free-solid-svg-icons";
+
 import Link from "next/link";
-import Image from "next/image";
-import styled from "styled-components";
-import Title from "./Title";
 
 const Modal = ({ data }) => {
   const { isModalOpen, closeModal, openModal } = useContext(AppContext);
   const emakis = data.emakis;
-  console.log(emakis[0]);
-  const { googlemap, basinmap, mapWidth, mapHeight } = data;
+  console.log(emakis);
+  const filterEkotobas = emakis.filter((item) => item.cat === "ekotoba");
+  console.log(filterEkotobas);
 
+  const { googlemap, basinmap } = emakis[0];
+
+  const [ekotobas, setEkotobas] = useState(filterEkotobas);
   const [value, setValue] = useState(0);
+  const [index, setIndex] = useState(0);
+
+  const nextSlide = () => {
+    setIndex((oldIndex) => {
+      let index = oldIndex + 1;
+      if (index > ekotobas.length - 1) {
+        index = 0;
+      }
+      return index;
+    });
+  };
+
+  const prevSlide = () => {
+    setIndex((oldIndex) => {
+      let index = oldIndex - 1;
+      if (index < 0) {
+        index = ekotobas.length - 1;
+      }
+      return index;
+    });
+  };
 
   const allMap = [
     {
       title: "googleマップ",
       titleen: "googlemap",
-      src: "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d15414.822865578184!2d139.82582089467476!3d35.707879529814385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1z5ZC-5ays5p2c!5e0!3m2!1sja!2sjp!4v1668769680120!5m2!1sja!2sjp",
+      src: googlemap,
       path: "googlemap",
     },
     {
       title: "国土地理院地図",
       titleen: "personnames",
-      src: "https://maps.gsi.go.jp/?hc=hc#15/35.705701/139.826752/&base=std&ls=std%7Canaglyphmap_color%2C0.82&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
+      src: basinmap,
       path: "basinmap",
     },
   ];
@@ -57,22 +85,52 @@ const Modal = ({ data }) => {
             );
           })}
         </div>
-        <figure className={styles.figure}>
-          <iframe
-            src={src}
-            frameBorder="0"
-            scrolling="no"
-            marginHeight="0"
-            marginWidth="0"
-            width={768}
-            height={500}
-          ></iframe>
-        </figure>
-        <div className={styles.link}>
-          <Link href={`#s0`}>
-            <a onClick={closeModal}>吾嬬杜夜雨</a>
-          </Link>
-        </div>
+        {ekotobas.map((item, ekotobasIndex) => {
+          const { googlemap, basinmap, chapter } = item;
+
+          let position = "nextSlide";
+          if (ekotobasIndex === index) {
+            position = "activeSlide";
+          }
+          if (
+            ekotobasIndex === index - 1 ||
+            (index === 0 && ekotobasIndex === ekotobas.length - 1)
+          ) {
+            position = "lastSlide";
+          }
+          // const id = (i) => i + 1;
+          const sum = (i) => ( i  )+ ekotobasIndex;
+          console.log(sum(ekotobasIndex));
+          return (
+            <article
+              className={`${styles.article} ${styles[position]}`}
+              key={ekotobasIndex}
+            >
+              <figure className={styles.figure}>
+                <iframe
+                  src={value === 0 ? googlemap : basinmap}
+                  frameBorder="0"
+                  scrolling="no"
+                  marginHeight="0"
+                  marginWidth="0"
+                  width={768}
+                  height={500}
+                ></iframe>
+              </figure>
+              <div className={styles.link}>
+                <Link href={`#s${sum(ekotobasIndex)}`}>
+                  <a onClick={closeModal}>{chapter}</a>
+                </Link>
+              </div>
+            </article>
+          );
+        })}
+        <button className={styles.prev} onClick={prevSlide}>
+          <FontAwesomeIcon icon={faAnglesLeft} />
+        </button>
+        <button className={styles.next} onClick={nextSlide}>
+          <FontAwesomeIcon icon={faAnglesRight} />
+        </button>
       </div>
     </div>
   );
