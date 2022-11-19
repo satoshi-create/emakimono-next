@@ -8,11 +8,11 @@ import {
   faAnglesLeft,
   faAnglesRight,
 } from "@fortawesome/free-solid-svg-icons";
-
 import Link from "next/link";
 
 const Modal = ({ data }) => {
-  const { isModalOpen, closeModal, openModal } = useContext(AppContext);
+  const { isModalOpen, closeModal, openModal, index, setIndex } =
+    useContext(AppContext);
   const emakis = data.emakis;
   console.log(emakis);
   const filterEkotobas = emakis.filter((item) => item.cat === "ekotoba");
@@ -22,7 +22,6 @@ const Modal = ({ data }) => {
 
   const [ekotobas, setEkotobas] = useState(filterEkotobas);
   const [value, setValue] = useState(0);
-  const [index, setIndex] = useState(0);
 
   const nextSlide = () => {
     setIndex((oldIndex) => {
@@ -46,20 +45,18 @@ const Modal = ({ data }) => {
 
   const allMap = [
     {
-      title: "googleマップ",
-      titleen: "googlemap",
-      src: googlemap,
-      path: "googlemap",
-    },
-    {
       title: "国土地理院地図",
       titleen: "personnames",
       src: basinmap,
       path: "basinmap",
     },
+    {
+      title: "googleマップ",
+      titleen: "googlemap",
+      src: googlemap,
+      path: "googlemap",
+    },
   ];
-
-  const { title, src } = allMap[value];
 
   return (
     <div className={styles.modal}>
@@ -86,7 +83,7 @@ const Modal = ({ data }) => {
           })}
         </div>
         {ekotobas.map((item, ekotobasIndex) => {
-          const { googlemap, basinmap, chapter } = item;
+          const { googlemap, basinmap, chapter, chapterruby, id } = item;
 
           let position = "nextSlide";
           if (ekotobasIndex === index) {
@@ -98,9 +95,9 @@ const Modal = ({ data }) => {
           ) {
             position = "lastSlide";
           }
+
           // const id = (i) => i + 1;
-          const sum = (i) => ( i  )+ ekotobasIndex;
-          console.log(sum(ekotobasIndex));
+          const sum = (i) => i + ekotobasIndex;
           return (
             <article
               className={`${styles.article} ${styles[position]}`}
@@ -108,7 +105,7 @@ const Modal = ({ data }) => {
             >
               <figure className={styles.figure}>
                 <iframe
-                  src={value === 0 ? googlemap : basinmap}
+                  src={value === 0 ? basinmap : googlemap}
                   frameBorder="0"
                   scrolling="no"
                   marginHeight="0"
@@ -119,7 +116,10 @@ const Modal = ({ data }) => {
               </figure>
               <div className={styles.link}>
                 <Link href={`#s${sum(ekotobasIndex)}`}>
-                  <a onClick={closeModal}>{chapter}</a>
+                  <a onClick={closeModal}>
+                    <h3>{chapterruby}</h3>
+                    <h2>{chapter}</h2>
+                  </a>
                 </Link>
               </div>
             </article>

@@ -35,26 +35,33 @@
   /* transform: translateX(0); */
 }
 .gendaibun {
-  position: relative;
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  grid-template-columns: 1fr auto auto;
+  column-gap: 2rem;
 }
-.togglebtn {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  transition: var(--transition);
-}
-.togglebtn:hover {
-  opacity: 0.6;
-}
+
+.modalebtnicon,
 .togglebtnicon {
-  font-size: calc(12px + (20 - 12) * ((100vh - 375px) / (1080 - 375)));
-  /* font-size: 20px; */
+  font-size: calc(14px + (20 - 12) * ((100vh - 375px) / (1080 - 375)));
   color: var(--clr-grey);
-  border: 2px solid var(--clr-grey);
   padding: 0.2rem;
   border-radius: 50%;
   display: grid;
   place-items: center;
+  transition: var(--transition);
+}
+.modalebtnicon:hover,
+.togglebtnicon:hover {
+  color: var(--clr-accent-02);
+}
+.togglebtnicon:hover {
+  color: var(--clr-accent-02);
+  border: 2px solid var(--clr-accent-02);
+}
+.togglebtnicon {
+  border: 2px solid var(--clr-grey);
 }
 
 .gendaibun > h3 {
