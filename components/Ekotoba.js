@@ -1,13 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import styles from "../styles/Ekotoba.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlus,
+  faMinus,
+  faLocationDot,
+} from "@fortawesome/free-solid-svg-icons";
 import ResposiveImage from "./ResposiveImage";
 import { AppContext } from "../pages/_app";
+import Title from "./Title";
 
 const Ekotoba = ({
   item: {
     chapter,
+    chapterruby,
     gendaibun,
     kobun,
     index,
@@ -19,9 +25,11 @@ const Ekotoba = ({
     backgroundImage,
     kotobagaki,
     type,
+    id,
   },
 }) => {
   const {
+    openModal,
     ekotobaToggle,
     setekotobaToggle,
     ekotobaImageToggle,
@@ -37,7 +45,6 @@ const Ekotoba = ({
     setekotobaToggle(false);
     false;
   }, []);
-
   return (
     <section
       className={`section ${
@@ -50,20 +57,37 @@ const Ekotoba = ({
         className={ekotobaImageToggle ? `${styles.close}` : `${styles.open}`}
       >
         <div className={styles.gendaibun}>
-          <h3 dangerouslySetInnerHTML={{ __html: chapter }} />
+          <h3>
+            <ruby>
+              <rb>{chapter}</rb>
+              <rp>（</rp>
+              <rt>{chapterruby}</rt>
+              <rp>）</rp>
+            </ruby>
+          </h3>
           <p dangerouslySetInnerHTML={{ __html: gendaibun }} />
           {kotobagaki === true && (
-            <button
-              className={styles.togglebtn}
-              onClick={() => setToggle(!toggle)}
-            >
+            <>
+              <button
+                className={styles.modalebtn}
+                onClick={() => openModal(id - 1)}
+              >
+                <FontAwesomeIcon
+                  icon={faLocationDot}
+                  className={styles.modalebtnicon}
+                />
+              </button>
+              <button
+                className={styles.togglebtn}
+                onClick={() => setToggle(!toggle)}
+              >
                 <FontAwesomeIcon
                   icon={toggle ? faMinus : faPlus}
                   title={toggle ? "閉じる" : "詞書の現代語訳と原文を比べて読む"}
                   className={styles.togglebtnicon}
                 />
-
-            </button>
+              </button>
+            </>
           )}
         </div>
         <div

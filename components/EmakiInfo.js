@@ -17,7 +17,7 @@ const EmakiInfo = ({ type, title, era, typeen, eraen }) => {
       <Link href={`/category/${typeen}`}>
         <a className={styles.type}>{type}</a>
       </Link>
-      <div onClick={openModal} className={styles.question}>
+      <div onClick={() => openModal(0)} className={styles.question}>
         <FontAwesomeIcon icon={faCircleQuestion} />
       </div>
     </div>

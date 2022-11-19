@@ -16,20 +16,11 @@ function MyApp({ Component, pageProps, router }) {
   const [query, setQuery] = useState("");
   const [fliterdEmakis, setfliterdEmakis] = useState(emakis);
   const [isModalOpen, setisModalOpen] = useState(false);
+  const [index, setIndex] = useState(0);
 
   const openModal = (i) => {
     setisModalOpen(true);
-    // const clientWidth = document.body.clientWidth;
-    // document.querySelector("html").classList.add("open");
-    // const noScrollBarWidth = document.body.clientWidth;
-    // const diff = noScrollBarWidth - clientWidth;
-    // if (diff > 0) {
-    //   setdiff(diff);
-    //   document.body.style["padding-right"] = diff + "px";
-    //   // const nav = document.getElementsByClassName("nav-fixed");
-    //   // nav.style["padding-right"] = diff + "px";
-    // }
-    // setValue(i);
+    setIndex(i);
   };
 
   const closeModal = () => {
@@ -55,6 +46,8 @@ function MyApp({ Component, pageProps, router }) {
         closeModal,
         openModal,
         setisModalOpen,
+        index,
+        setIndex,
       }}
     >
       <Script
