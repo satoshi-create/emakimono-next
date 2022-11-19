@@ -4962,14 +4962,16 @@ const data = [
     mapHeight: 658,
     emakis: [
       {
+        id: 1,
         cat: "ekotoba",
         chapter: "吾嬬杜夜雨",
+        chapterruby: "あずまもりやう",
         kobun: "",
         gendaibun: "",
-        width:768,
-        height: 500,
-        googlemap: "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d15414.822865578184!2d139.82582089467476!3d35.707879529814385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1z5ZC-5ays5p2c!5e0!3m2!1sja!2sjp!4v1668769680120!5m2!1sja!2sjp",
-        basinmap:"https://maps.gsi.go.jp/?hc=hic#14/35.708921/139.825315/&ls=anaglyphmap_color&disp=1&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
+        googlemap:
+          "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d15414.822865578184!2d139.82582089467476!3d35.707879529814385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1z5ZC-5ays5p2c!5e0!3m2!1sja!2sjp!4v1668769680120!5m2!1sja!2sjp",
+        basinmap:
+          "https://maps.gsi.go.jp/?hc=hc#16/35.705741/139.82671/&base=std&ls=std%7Canaglyphmap_color%2C0.72&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
         phrase: [{}],
       },
       {
@@ -4981,10 +4983,16 @@ const data = [
         name: "edomeisyohakkei_01.webp",
       },
       {
+        id: 2,
         cat: "ekotoba",
         chapter: "羽根田落雁",
+        chapterruby: "はねだらくがん",
         kobun: "",
         gendaibun: "",
+        googlemap:
+          "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d4590.906211667831!2d139.75202253540812!3d35.54725787450078!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1z576955Sw5byB5aSp!5e0!3m2!1sja!2sjp!4v1668846842909!5m2!1sja!2sjp",
+        basinmap:
+          "https://maps.gsi.go.jp/?hc=hc#16/35.546954/139.751952/&base=std&ls=std%7Canaglyphmap_color%2C0.72&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
         phrase: [{}],
       },
       {
@@ -4996,10 +5004,16 @@ const data = [
         name: "edomeisyohakkei_02.webp",
       },
       {
+        id:3,
         cat: "ekotoba",
         chapter: "行徳帰帆",
+        chapterruby: "ぎょうとくきはん",
         kobun: "",
         gendaibun: "",
+        googlemap:
+          "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d10900.561585577208!2d139.90961763102686!3d35.68310975406771!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1z6KGM5b6z!5e0!3m2!1sja!2sjp!4v1668847191312!5m2!1sja!2sjp",
+        basinmap:
+          "https://maps.gsi.go.jp/?hc=hc#15/35.687749/139.91621/&base=std&ls=std%7Canaglyphmap_color%2C0.72&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
         phrase: [{}],
       },
       {
@@ -5011,10 +5025,16 @@ const data = [
         name: "edomeisyohakkei_03.webp",
       },
       {
+        id:4,
         cat: "ekotoba",
         chapter: "玉川秋月",
+        chapterruby: "たまがわしゅうげつ",
         kobun: "",
         gendaibun: "",
+        googlemap:
+          "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d2728.4710114390114!2d139.66713490526107!3d35.585372829615395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1z5Li45a2Q44Gu5rih44GX!5e0!3m2!1sja!2sjp!4v1668846235874!5m2!1sja!2sjp",
+        basinmap:
+          "https://maps.gsi.go.jp/?hc=hc#16/35.585442/139.669082/&base=std&ls=std%7Canaglyphmap_color%2C0.72&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
         phrase: [{}],
       },
       {
@@ -5026,8 +5046,10 @@ const data = [
         name: "edomeisyohakkei_04.webp",
       },
       {
+        id:5,
         cat: "ekotoba",
         chapter: "小金井橋夕照",
+        chapterruby: "こがねいばしせきしょう",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
@@ -5041,8 +5063,10 @@ const data = [
         name: "edomeisyohakkei_05.webp",
       },
       {
+        id:6,
         cat: "ekotoba",
         chapter: "芝浦晴嵐",
+        chapterruby: "しばうらせいらん",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
@@ -5056,8 +5080,10 @@ const data = [
         name: "edomeisyohakkei_06.webp",
       },
       {
+        id:7,
         cat: "ekotoba",
         chapter: "池上晩鐘",
+        chapterruby: "いけがみばんしょう",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
@@ -5071,8 +5097,10 @@ const data = [
         name: "edomeisyohakkei_07.webp",
       },
       {
+        id:8,
         cat: "ekotoba",
         chapter: "飛鳥山暮雪",
+        chapterruby: "あすかやまぼせつ",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
