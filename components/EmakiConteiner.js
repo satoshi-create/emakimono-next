@@ -33,7 +33,7 @@ const EmakiConteiner = ({ data }) => {
 
   return (
     <>
-      {isModalOpen && (
+      {type === "浮世絵" && isModalOpen && (
         <Modal data={data} />
       )}
       <article
