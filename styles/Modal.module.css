@@ -29,6 +29,8 @@
   display: grid;
   grid-template-columns: minmax(2vw, auto) 1fr minmax(2vw, auto);
   grid-template-rows: 2vh auto auto auto 2vh;
+  align-content: center;
+  row-gap: 3rem;
   background-color: var(--clr-white);
   border-radius: 8px;
   width: 90vw;
@@ -56,13 +58,29 @@
   color: var(--clr-accent-02);
   box-shadow: 0 3px var(--clr-accent-02);
 }
-.figure {
+
+.prev,
+.next{
+  cursor: pointer;
+  z-index: 10;
+}
+.prev {
   grid-column: 2;
   grid-row: 3;
-  align-self: center;
+  justify-self: flex-start;
+}
+.next {
+  grid-column: 2;
+  grid-row: 3;
+  justify-self: flex-end;
+}
+.article {
+  opacity: 0;
+  transition: var(--transition);
+  grid-column: 2;
+  grid-row: 3;
   justify-self: center;
-  /* width: 100%; */
-  display: grid;
+  align-self: center;
 }
 .link {
   grid-column: 2;
@@ -76,4 +94,14 @@
 }
 .link a:hover {
   opacity: 0.6;
+}
+.activeSlide {
+  opacity: 1;
+  transform: translateX(0);
+}
+.lastSlide {
+  transform: translateX(-100%);
+}
+.nextSlide {
+  transform: translateX(100%);
 }
