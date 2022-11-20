@@ -89,6 +89,10 @@
   grid-column: 1;
   grid-row: 1;
 }
+.figure > iframe{
+  width: 100%;
+  aspect-ratio: 16/9;
+}
 .link {
   grid-column: 1;
   grid-row: 2;

@@ -105,13 +105,14 @@ const Modal = ({ data }) => {
             >
               <figure className={styles.figure}>
                 <iframe
-                  src={value === 0 ? basinmap : googlemap}
+                  src={googlemap}
                   frameBorder="0"
                   scrolling="no"
                   marginHeight="0"
                   marginWidth="0"
-                  width={768}
-                  height={500}
+                  // width={768}
+                  // height={500}
+                  
                 ></iframe>
               </figure>
               <div className={styles.link}>
