@@ -103,18 +103,14 @@ const Modal = ({ data }) => {
               className={`${styles.article} ${styles[position]}`}
               key={ekotobasIndex}
             >
-              <figure className={styles.figure}>
-                <iframe
-                  src={googlemap}
-                  frameBorder="0"
-                  scrolling="no"
-                  marginHeight="0"
-                  marginWidth="0"
-                  // width={768}
-                  // height={500}
-                  
-                ></iframe>
-              </figure>
+              <iframe
+                src={googlemap}
+                frameBorder="0"
+                scrolling="no"
+                marginHeight="0"
+                marginWidth="0"
+                className={styles.iframe}
+              ></iframe>
               <div className={styles.link}>
                 <Link href={`#s${sum(ekotobasIndex)}`}>
                   <a onClick={closeModal}>

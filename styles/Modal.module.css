@@ -28,9 +28,9 @@
 .container {
   display: grid;
   grid-template-columns: minmax(2vw, auto) 1fr minmax(2vw, auto);
-  grid-template-rows: 2vh auto auto auto 2vh;
-  align-content: center;
-  row-gap: 3rem;
+  grid-template-rows: auto 1fr auto;
+  /* align-content: center; */
+  /* row-gap: 3rem; */
   background-color: var(--clr-white);
   border-radius: 8px;
   width: 90vw;
@@ -44,7 +44,7 @@
 
 .tabcontainer {
   grid-column: 2;
-  grid-row: 2;
+  grid-row: 1;
   display: flex;
   justify-content: center;
   column-gap: 2rem;
@@ -61,41 +61,48 @@
 }
 
 .prev,
-.next{
+.next {
   cursor: pointer;
   z-index: 10;
 }
 .prev {
   grid-column: 2;
-  grid-row: 3;
+  grid-row: 2;
   justify-self: flex-start;
 }
 .next {
   grid-column: 2;
-  grid-row: 3;
+  grid-row: 2;
   justify-self: flex-end;
 }
 .article {
   opacity: 0;
   transition: var(--transition);
   grid-column: 2;
-  grid-row: 3;
-  justify-self: center;
+  grid-row: 2;
+  width: 80%;
+  height: 80%;
+  position: relative;
+  padding-top: 56.25%;
   align-self: center;
-  display: grid;
-  gap: 2rem;
+  justify-self: center;
 }
-.figure{
-  grid-column: 1;
-  grid-row: 1;
-}
-.figure > iframe{
+
+.iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  aspect-ratio: 16/9;
+  height: 60%;
+}
+@media screen and (min-width: 768px) {
+  .iframe {
+    height: 80%;
+  }
 }
 .link {
   grid-column: 1;
-  grid-row: 2;
+  grid-row: 3;
   text-align: center;
 }
 .link a {
