@@ -79,7 +79,7 @@ const index = () => {
   return (
     <>
       <Head />
-      {/* <Header /> */}
+      <Header />
       <Attention />
       <CardA
         emakis={favoriteEmakis}
@@ -110,12 +110,12 @@ const index = () => {
         sectionname={"history"}
       />
       <ToggleTag />
-      {/* <GridImages
+      <GridImages
         sectiontitle={"絵巻名場面集！"}
         sectiontitleen={"famousscene"}
         sectiondesc={""}
         sectionname={"famousscene"}
-      /> */}
+      />
       <CardA
         emakis={alpha}
         columns={"four"}
