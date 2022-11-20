@@ -24,9 +24,9 @@
   overflow: hidden;
   /* transform: translateX(100%); */
   z-index: -1;
+  margin: 4rem 0 3rem 2rem;
 }
 .kobun p {
-  margin: 4rem 0 3rem 2rem;
 }
 .open.kobun {
   display: block;

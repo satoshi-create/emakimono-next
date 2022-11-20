@@ -25,12 +25,13 @@ const Ekotoba = ({
     backgroundImage,
     kotobagaki,
     type,
-    id,
+    ekotobaId,
+    kobunsrc,
+    kobunsrcSp,
   },
 }) => {
   const {
     openModal,
-    ekotobaToggle,
     setekotobaToggle,
     ekotobaImageToggle,
     setEkotobaImageToggle,
@@ -70,7 +71,7 @@ const Ekotoba = ({
             <>
               <button
                 className={styles.modalebtn}
-                onClick={() => openModal(id - 1)}
+                onClick={() => openModal(ekotobaId - 1)}
               >
                 <FontAwesomeIcon
                   icon={faLocationDot}
@@ -96,6 +97,9 @@ const Ekotoba = ({
           }
         >
           <p dangerouslySetInnerHTML={{ __html: kobun }} />
+          {kobunsrc && (
+            <ResposiveImage value={{ src:kobunsrc, srcSp:kobunsrcSp }} />
+          )}
         </div>
       </div>
       <span
