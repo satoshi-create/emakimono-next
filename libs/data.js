@@ -1288,7 +1288,7 @@ const data = [
         kobun:
           "俄中院に御ゆきなりたりけるに、朝々代々の御わたりもの、御椅子・時簡・玄象・鈴鹿以下、もちて参たりけるに、叡覧ありて、「直幹が申文はとりいでたや」と仰ありけるにこそ。先日奏覧の時、御気色あしかりしかば、人々をそれたりしに、今御尋こそいみじけれとて、よの人ありがたき事になん申あひたりける。其時のことぞかし、火は左衛門の陣よりいできたれば、内侍所のおはします温明殿もほどちかかりけるうへ、如法夜中の事なりしかば、内侍も女官も参あはずして、賢所をもいだしたてまつらず。少（小）野宮殿、いそぎまいり賜（給）て、内侍所をみたてまつらせたまうにわたらせ給はず。世は今はかうにこそありけれとおぼして、御なみだをながさせ給ける程に、南殿のさくらの木のこずえに御かがみかからせ給へり。光明奕棘として、朝の日の山をいづるがごとし。世はいまだうせざりけりとおぼしける。感涙をさへがたくて、右の御膝をつきて、左の御袖をひろげて申させ賜けるは、「昔天照御神百王をまぶりたてまつらむと御ちかひありけり。そのむねあらたまらずば、神鏡実頼がそでにやどり給へ」と申給ける。御詞いまだをはらざるにとびいり賜へり。御袖につつみて大政官の朝所へぞわたしたてまつられける。この世にはうけたてまつらんと思よる人もありがたく、御鏡も入給まじ。上代こそめでたく侍けれ。抑皇居には、難波・藤原の両館はむかしの事也。此京に遷都ののちは、これぞはじめにて侍ける。",
         gendaibun:
-          "その後、天徳四年（九六〇）九月二十三日の子刻（午前零時）に内裏で出火があった。帝は、難を逃れて中院の御所に渡御された。清涼殿の調度類も運びだすことができた。歴代伝世の重宝はむろんんのこと、<ruby><rb>御椅子</rb><rp>（</rp><rt>ごいし</rt><rp>）</rp></ruby>・<ruby><rb>時簡</rb><rp>（</rp><rt>ときのふだ</rt><rp>）</rp></ruby>・<ruby><rb>玄象</rb><rp>（</rp><rt>げんじょう</rt><rp>）</rp></ruby>（玄上）・<ruby><rb>鈴鹿</rb><rp>（</rp><rt>すずか</rt><rp>）</rp></ruby>（ともに琵琶の名器）以下、すべてを移した。帝は、満足の体であった。<br><br>が、ふと思い出したように、直幹の申文は取り出したであろうな、と問うた。その申文ではケチがついて、だれもそれに触れることは禁句にしていたのに。ところが、いま、帝のほうからそれをお尋ねになる。なんと、ありがたいことではないか。<br><br>そのときのことである。火事が左衛門の陣（建春門）から起こった。<span class='word'><ruby><rb>内侍所</rb><rp>（</rp><rt>ないしどころ</rt><rp>）</rp></ruby></span>（<ruby><rb>神鏡</rb><rp>（</rp><rt>しんきょう</rt><rp>）</rp></ruby>）の安置してある<span class='word'><ruby><rb>温明殿</rb><rp>（</rp><rt>うんめいでん</rt><rp>）</rp></ruby></span>も近く、しかも、折悪しく夜半過ぎのことであれば、だれ一人としていない。しぜん、<ruby><rb>賢所</rb><rp>（</rp><rt>かしこどころ</rt><rp>）</rp></ruby>（内侍所と同じ。神鏡）も出すことはできなかった。そこで、<span class='word'>小野宮左大臣藤原<ruby><rb>実頼</rb><rp>（</rp><rt>さねより</rt><rp>）</rp></ruby></span>（六十一歳）が、急ぎ行ってみた。が、すでにあたりは焼け落ちていた。実頼が、ふと紫宸殿の左近桜を見上げたところ、不思議にも、<ruby><rb>梢</rb><rp>（</rp><rt>こずえ</rt><rp>）</rp></ruby>のあたりに神鏡がかかっているではないか。<br><br>感涙にむせびながら、実頼は右のひざをつき、左の袖を広げて申した。「昔、天照大神は百王を守護しもうた。その御誓言に疑いなくば、どうか神鏡を実頼の袖に移してください、」と。<br>そのことばをいいも終わらぬうちに、鏡はその袖の中に飛んで入った。実頼は、さっそく太政官の朝所へ安置することができた。",
+          "その後、天徳四年（九六〇）九月二十三日の子刻（午前零時）に内裏で出火があった。帝は、難を逃れて中院の御所に渡御された。清涼殿の調度類も運びだすことができた。歴代伝世の重宝はむろんんのこと、<ruby><rb>御椅子</rb><rp>（</rp><rt>ごいし</rt><rp>）</rp></ruby>・<ruby><rb>時簡</rb><rp>（</rp><rt>ときのふだ</rt><rp>）</rp></ruby>・<ruby><rb>玄象</rb><rp>（</rp><rt>げんじょう</rt><rp>）</rp></ruby>（玄上）・<ruby><rb>鈴鹿</rb><rp>（</rp><rt>すずか</rt><rp>）</rp></ruby>（ともに琵琶の名器）以下、すべてを移した。帝は、満足の体であった。<br><br>が、ふと思い出したように、直幹の申文は取り出したであろうな、と問うた。その申文ではケチがついて、だれもそ れに触れることは禁句にしていたのに。ところが、いま、帝のほうからそれをお尋ねになる。なんと、ありがたいことではないか。<br><br>そのときのことである。火事が左衛門の陣（建春門）から起こった。<span class='word'><ruby><rb>内侍所</rb><rp>（</rp><rt>ないしどころ</rt><rp>）</rp></ruby></span>（<ruby><rb>神鏡</rb><rp>（</rp><rt>しんきょう</rt><rp>）</rp></ruby>）の安置してある<span class='word'><ruby><rb>温明殿</rb><rp>（</rp><rt>うんめいでん</rt><rp>）</rp></ruby></span>も近く、しかも、折悪しく夜半過ぎのことであれば、だれ一人としていない。しぜん、<ruby><rb>賢所</rb><rp>（</rp><rt>かしこどころ</rt><rp>）</rp></ruby>（内侍所と同じ。神鏡）も出すことはできなかった。そこで、<span class='word'>小野宮左大臣藤原<ruby><rb>実頼</rb><rp>（</rp><rt>さねより</rt><rp>）</rp></ruby></span>（六十一歳）が、急ぎ行ってみた。が、すでにあたりは焼け落ちていた。実頼が、ふと紫宸殿の左近桜を見上げたところ、不思議にも、<ruby><rb>梢</rb><rp>（</rp><rt>こずえ</rt><rp>）</rp></ruby>のあたりに神鏡がかかっているではないか。<br><br>感涙にむせびながら、実頼は右のひざをつき、左の袖を広げて申した。「昔、天照大神は百王を守護しもうた。その御誓言に疑いなくば、どうか神鏡を実頼の袖に移してください、」と。<br>そのことばをいいも終わらぬうちに、鏡はその袖の中に飛んで入った。実頼は、さっそく太政官の朝所へ安置することができた。",
         srcSp: "/naomoto_14-375.webp",
         srcTb: "/naomoto_14-800.webp",
         src: "/naomoto_14-1080.webp",
@@ -4962,16 +4962,18 @@ const data = [
     mapHeight: 658,
     emakis: [
       {
-        id: 1,
+        ekotobaId: 1,
         cat: "ekotoba",
         chapter: "吾嬬杜夜雨",
         chapterruby: "あずまもりやう",
-        kobun: "",
+        kobun: "【吾嬬杜（江戸名所図会より）】",
         gendaibun: "",
         googlemap:
           "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d15414.822865578184!2d139.82582089467476!3d35.707879529814385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1z5ZC-5ays5p2c!5e0!3m2!1sja!2sjp!4v1668769680120!5m2!1sja!2sjp",
         basinmap:
           "https://maps.gsi.go.jp/?hc=hc#16/35.705741/139.82671/&base=std&ls=std%7Canaglyphmap_color%2C0.72&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
+        kobunsrc: "/asukayama_edomisyozue_1080.webp",
+        kobunsrcSp: "/asukayama_edomisyozue_375.webp",
         phrase: [{}],
       },
       {
@@ -4985,7 +4987,7 @@ const data = [
         srcHeight: "1080",
       },
       {
-        id: 2,
+        ekotobaId: 2,
         cat: "ekotoba",
         chapter: "羽根田落雁",
         chapterruby: "はねだらくがん",
@@ -5008,7 +5010,7 @@ const data = [
         srcHeight: "1080",
       },
       {
-        id: 3,
+        ekotobaId: 3,
         cat: "ekotoba",
         chapter: "行徳帰帆",
         chapterruby: "ぎょうとくきはん",
@@ -5031,7 +5033,7 @@ const data = [
         srcHeight: "1080",
       },
       {
-        id: 4,
+        ekotobaId: 4,
         cat: "ekotoba",
         chapter: "玉川秋月",
         chapterruby: "たまがわしゅうげつ",
@@ -5054,7 +5056,7 @@ const data = [
         srcHeight: "1080",
       },
       {
-        id: 5,
+        ekotobaId: 5,
         cat: "ekotoba",
         chapter: "小金井橋夕照",
         chapterruby: "こがねいばしせきしょう",
@@ -5077,7 +5079,7 @@ const data = [
         srcHeight: "1080",
       },
       {
-        id: 6,
+        ekotobaId: 6,
         cat: "ekotoba",
         chapter: "芝浦晴嵐",
         chapterruby: "しばうらせいらん",
@@ -5100,16 +5102,18 @@ const data = [
         srcHeight: "1080",
       },
       {
-        id: 7,
+        ekotobaId: 7,
         cat: "ekotoba",
         chapter: "池上晩鐘",
         chapterruby: "いけがみばんしょう",
-        kobun: "",
+        kobun: "【池上本門寺（江戸名所図会より）】",
         gendaibun: "",
         googlemap:
           "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d2296.0921480104307!2d139.7042960400912!3d35.57845715493988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sja!2sjp!4v1668915506905!5m2!1sja!2sjp",
         basinmap:
           "https://maps.gsi.go.jp/?hc=hc#16/35.577763/139.706011/&base=std&ls=std%7Canaglyphmap_color%2C0.72&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
+        kobunsrc: "/ikegamihonmonji_edomeisyozue_1080.webp",
+        kobunsrcSp: "/ikegamihonmonji_edomeisyozue_375.webp",
         phrase: [{}],
       },
       {
@@ -5123,16 +5127,18 @@ const data = [
         srcHeight: "1080",
       },
       {
-        id: 8,
+        ekotobaId: 8,
         cat: "ekotoba",
         chapter: "飛鳥山暮雪",
         chapterruby: "あすかやまぼせつ",
-        kobun: "",
+        kobun: "【飛鳥山（江戸名所図会より）】",
         gendaibun: "",
         googlemap:
           "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d2722.820047440856!2d139.73557753942174!3d35.75087915274423!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1z6aOb6bOl5bGx!5e0!3m2!1sja!2sjp!4v1668915649686!5m2!1sja!2sjp",
         basinmap:
           "https://maps.gsi.go.jp/?hc=hc#17/35.750313/139.738948/&base=std&ls=std%7Canaglyphmap_color%2C0.72&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
+        kobunsrc: "/asukayama_edomisyozue_1080.webp",
+        kobunsrcSp: "/azumasya_edomeisyozue_375.webp",
         phrase: [{}],
       },
       {
