@@ -45,16 +45,16 @@ const Modal = ({ data }) => {
 
   const allMap = [
     {
-      title: "国土地理院地図",
-      titleen: "personnames",
-      src: basinmap,
-      path: "basinmap",
-    },
-    {
       title: "googleマップ",
       titleen: "googlemap",
       src: googlemap,
       path: "googlemap",
+    },
+    {
+      title: "国土地理院地図",
+      titleen: "personnames",
+      src: basinmap,
+      path: "basinmap",
     },
   ];
 
@@ -104,7 +104,7 @@ const Modal = ({ data }) => {
               key={ekotobasIndex}
             >
               <iframe
-                src={googlemap}
+                src={value === 0 ? googlemap : basinmap}
                 frameBorder="0"
                 scrolling="no"
                 marginHeight="0"
