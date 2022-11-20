@@ -12,7 +12,9 @@ const Footer = () => {
         {/* <SocialLinks value={{ styleUl: styles.aboutLinks }} />
         <Links value={{style:styles.footerNavPc}}/> */}
       </div>
-      <p className={styles.copyright}>@2022 hand scrolll with left scroll All rights reserverd</p>
+      <p className={styles.copyright}>
+        @2022 emakimono.com All rights reserverd
+      </p>
     </footer>
   );
 };

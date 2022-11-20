@@ -5060,6 +5060,10 @@ const data = [
         chapterruby: "こがねいばしせきしょう",
         kobun: "",
         gendaibun: "",
+        googlemap:
+          "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2290.7257130904995!2d139.50616574668044!3d35.71206566484347!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6018e5ea872215f7%3A0xb812ff0d5cf84c2e!2z5p2x5Lqs6YO9IOWwj-mHkeS6leapiw!5e0!3m2!1sja!2sjp!4v1668914849413!5m2!1sja!2sjp",
+        basinmap:
+          "https://maps.gsi.go.jp/?hc=hc#16/35.712502/139.508107/&base=std&ls=std%7Canaglyphmap_color%2C0.72&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
         phrase: [{}],
       },
       {
@@ -5079,6 +5083,10 @@ const data = [
         chapterruby: "しばうらせいらん",
         kobun: "",
         gendaibun: "",
+        googlemap:
+          "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6484.784007245786!2d139.74775880016236!3d35.642712417268065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188bb51e9c07bd%3A0xad368c5378bedf50!2z5p2x5Lqs6YO95riv5Yy66Iqd5rWm!5e0!3m2!1sja!2sjp!4v1668915152501!5m2!1sja!2sjp",
+        basinmap:
+          "https://maps.gsi.go.jp/?hc=hc#15/35.641221/139.752887/&base=std&ls=std%7Canaglyphmap_color%2C0.72&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
         phrase: [{}],
       },
       {
@@ -5098,6 +5106,10 @@ const data = [
         chapterruby: "いけがみばんしょう",
         kobun: "",
         gendaibun: "",
+        googlemap:
+          "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d2296.0921480104307!2d139.7042960400912!3d35.57845715493988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sja!2sjp!4v1668915506905!5m2!1sja!2sjp",
+        basinmap:
+          "https://maps.gsi.go.jp/?hc=hc#16/35.577763/139.706011/&base=std&ls=std%7Canaglyphmap_color%2C0.72&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
         phrase: [{}],
       },
       {
@@ -5117,6 +5129,10 @@ const data = [
         chapterruby: "あすかやまぼせつ",
         kobun: "",
         gendaibun: "",
+        googlemap:
+          "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d2722.820047440856!2d139.73557753942174!3d35.75087915274423!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1z6aOb6bOl5bGx!5e0!3m2!1sja!2sjp!4v1668915649686!5m2!1sja!2sjp",
+        basinmap:
+          "https://maps.gsi.go.jp/?hc=hc#17/35.750313/139.738948/&base=std&ls=std%7Canaglyphmap_color%2C0.72&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
         phrase: [{}],
       },
       {
