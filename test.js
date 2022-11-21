@@ -1,28 +1,13 @@
-// const arr = [0, 1, 2, 3, 4, 5];
-// // [0, 2, 4, 6, 7];
-// const add = (i) => i + 1;
+import dataByoubus from "./libs/dataByoubus.js";
+import dataEmakis from "./libs/dataEmakis.js";
+import dataSeiyoukaiga from "./libs/dataSeiyoukaiga.js";
+import dataSuibokuga from "./libs/dataSuibokuga.js";
+import dataUkiyoes from "./libs/dataUkiyoes.js";
 
-// const sum = arr.map((item) => add(item) + add(item));
-// console.log(sum);
-// [2, 3, 4, 5, 6, 7];
-// [0,2,4,6,8,10]
-
-// let total = [];
-// for (let i = 0; i < arr.length; i++) {
-//   total += numbers[i];
-// }
-
-// // 6
-// console.log(total);
-const s = 1;
-const sum = (i) => i + 1;
-// console.log((s) => s + s);
-
-const arr = [0, 2, 4, 6, 8, 10];
-
-const arr2 = [0, 1, 2, 3, 4, 5];
-let total = [];
-for (let i = 0; i <= arr.length - 1; i++) {
-  console.log((arr[i] -= i));
-}
-console.log(total);
+const data = dataEmakis.concat(
+  dataByoubus,
+  dataSeiyoukaiga,
+  dataSuibokuga,
+  dataUkiyoes
+);
+console.log(data);
