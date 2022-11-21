@@ -8,7 +8,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import ResposiveImage from "./ResposiveImage";
 import { AppContext } from "../pages/_app";
-import Title from "./Title";
 
 const Ekotoba = ({
   item: {
@@ -57,27 +56,26 @@ const Ekotoba = ({
       <div
         className={ekotobaImageToggle ? `${styles.close}` : `${styles.open}`}
       >
-        <div className={styles.gendaibun}>
-          <h3>
-            <ruby>
-              <rb>{chapter}</rb>
-              <rp>（</rp>
-              <rt>{chapterruby}</rt>
-              <rp>）</rp>
-            </ruby>
-          </h3>
-          <p dangerouslySetInnerHTML={{ __html: gendaibun }} />
+        {/* chaptercontainer */}
+        <div className={styles.chaptercontainer}>
+          <h3
+            dangerouslySetInnerHTML={{ __html: chapter }}
+            className={styles.chapter}
+          />
+
           {kotobagaki === true && (
             <>
-              <button
-                className={styles.modalebtn}
-                onClick={() => openModal(ekotobaId - 1)}
-              >
-                <FontAwesomeIcon
-                  icon={faLocationDot}
-                  className={styles.modalebtnicon}
-                />
-              </button>
+              {type === "浮世絵" && (
+                <button
+                  className={styles.modalebtn}
+                  onClick={() => openModal(ekotobaId - 1)}
+                >
+                  <FontAwesomeIcon
+                    icon={faLocationDot}
+                    className={styles.modalebtnicon}
+                  />
+                </button>
+              )}
               <button
                 className={styles.togglebtn}
                 onClick={() => setToggle(!toggle)}
@@ -91,17 +89,29 @@ const Ekotoba = ({
             </>
           )}
         </div>
+        {/* gendaibun */}
+        <div className={styles.gendaibun}>
+          <p
+            dangerouslySetInnerHTML={{ __html: gendaibun }}
+            className={styles.gendaibuntext}
+          />
+        </div>
+        {/* kobun */}
         <div
           className={
             toggle ? `${styles.kobun} ${styles.open}` : `${styles.kobun}`
           }
         >
-          <p dangerouslySetInnerHTML={{ __html: kobun }} />
+          <p
+            dangerouslySetInnerHTML={{ __html: kobun }}
+            className={styles.kobuntext}
+          />
           {kobunsrc && (
-            <ResposiveImage value={{ src:kobunsrc, srcSp:kobunsrcSp }} />
+            <ResposiveImage value={{ src: kobunsrc, srcSp: kobunsrcSp }} />
           )}
         </div>
       </div>
+      {/* ekotobaimage */}
       <span
         className={ekotobaImageToggle ? `${styles.open}` : `${styles.close}`}
       >

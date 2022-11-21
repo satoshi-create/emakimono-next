@@ -12,34 +12,23 @@
   writing-mode: vertical-rl;
   z-index: 1;
 }
-.gendaibun {
-  position: relative;
-  margin: 4rem 0 3rem 2rem;
-}
-.kobun {
-  display: none;
-  opacity: 0;
-  /* max-width: 0; */
-  transition: var(--transition);
-  overflow: hidden;
-  /* transform: translateX(100%); */
-  z-index: -1;
-  margin: 4rem 0 3rem 2rem;
-}
-.kobun p {
-}
-.open.kobun {
-  display: block;
-  opacity: 1;
-  max-width: 100%;
-  /* transform: translateX(0); */
-}
-.gendaibun {
+
+/* chaptercontainer */
+.chaptercontainer {
   display: grid;
   grid-auto-flow: column;
   align-items: center;
   grid-template-columns: 1fr auto auto;
   column-gap: 2rem;
+  margin: 4rem 0;
+}
+
+.chapter {
+  margin: 0 2rem;
+  font-weight: 500;
+  color: #4a4f9f;
+  font-size: var(--title-size);
+  font-family: var(--emaki-title-font);
 }
 
 .modalebtnicon,
@@ -64,15 +53,36 @@
   border: 2px solid var(--clr-grey);
 }
 
-.gendaibun > h3 {
-  margin: 0 2rem;
-  font-weight: 500;
-  color: #4a4f9f;
-  font-size: var(--title-size);
-  font-family: var(--emaki-title-font);
+/* gendaibun */
+
+.gendaibun {
+  transition: var(--transition);
+  overflow: hidden;
+  margin: 4rem 0 2rem 2rem;
 }
-.gendaibun > p,
-.kobun > p {
+.gendaibuntext {
   font-size: var(--text-size);
   font-family: var(--emaki-kotobagki-font);
+}
+
+/* kobun */
+.kobun {
+  display: none;
+  opacity: 0;
+  transition: var(--transition);
+  overflow: hidden;
+  z-index: -1;
+  margin: 4rem 0 2rem 2rem;
+}
+
+.kobuntext {
+  font-size: var(--text-size);
+  font-family: var(--emaki-kotobagki-font);
+}
+
+.open.kobun {
+  display: block;
+  opacity: 1;
+  max-width: 100%;
+  /* transform: translateX(0); */
 }
