@@ -10,7 +10,6 @@ const data = dataEmakis.concat(
   dataSuibokuga,
   dataUkiyoes
 );
-console.log(data);
 
 export default data;
   

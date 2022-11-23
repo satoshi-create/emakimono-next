@@ -84,12 +84,12 @@ const index = () => {
       <CardA
         emakis={favoriteEmakis}
         columns={"three"}
-        sectiontitle={"ニッポン三大絵巻"}
-        sectiontitleen={"legend"}
+        sectiontitle={"おすすめの絵巻"}
+        sectiontitleen={"recommend"}
         sectiondesc={
-          "平安時代末期に突如として現れた絵巻の傑作群。詞書をもたず、連続した絵の流れだけで物語を伝えることから、連続式絵巻と呼ばれます。なかでも、「鳥獣人物戯画絵巻」「信貴山縁起絵巻」「伴大納言絵巻」は傑作中の傑作。横スクロールで眺めると、中世の物語が生き生きと語りだします。"
+          ""
         }
-        sectionname={"favorite"}
+        sectionname={"recommend"}
       />
       <CardA
         emakis={variation}
