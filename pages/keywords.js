@@ -5,9 +5,11 @@ import "lazysizes";
 import Head from "../components/Meta";
 import Keywords from "../components/Keywords";
 import Breadcrumbs from "../components/Breadcrumbs";
-import allKeywords from "../libs/allKeywords";
+import emakisData from "../libs/data";
+import { keywordItem } from "../libs/func";
 
 const keywords = () => {
+    const allKeywords = keywordItem(emakisData);
   return (
     <>
       <Head pagetitle={"キーワード"} pageDesc={`キーワード一覧のページです`} />
