@@ -24,18 +24,6 @@ const Meta = ({
     siteIcon,
   } = siteMeta;
 
-  // const pageDescTemp = () => {
-  //   switch (pageType) {
-  //     case "連続式絵巻":
-  //       return `${pagetitle}の全シーンを、縦書き、横スクロールで楽しむことができます。`;
-  //       break;
-  //     case "屏風":
-  //       return `${pagetitle}の全シーンを、横スクロールで楽しむことができます。`;
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
 
   const title = pagetitle ? `${pagetitle} | ${siteTitle}` : siteTitle;
   const pageDescTemp = pageDesc
