@@ -5,18 +5,21 @@ import emakisData from "../../libs/data";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { personnameItem } from "../../libs/func";
 
-const Emaki = ({ name, posts, nameen }) => {
+const Emaki = ({ name, posts, nameruby }) => {
   return (
     <>
-      <Head pagetitle={name} pageDesc={`${name}のページです`} />
+      <Head
+        pagetitle={name}
+        pageDesc={`${name}（${nameruby}）が登場する絵巻物を、縦書き横スクロールでご覧になることができます`}
+      />
       <Header />
       <Breadcrumbs name={name} test={"人物名一覧"} testen={"personnames"} />
       <CardA
         emakis={posts}
         columns={"three"}
-        sectionname={"favorite"}
+        sectionname={"recommend"}
         sectiontitle={name}
-        sectiontitleen={nameen}
+        sectiontitleen={nameruby}
       />
     </>
   );
@@ -44,6 +47,7 @@ export const getStaticProps = async (context) => {
   const filterdEmakisData = emakisData.filter((x) => {
     if (x.personname) {
       const filterdTag = x.personname.some((y) => y.slug === personnameslug);
+
       return filterdTag;
     }
   });
@@ -51,7 +55,7 @@ export const getStaticProps = async (context) => {
   return {
     props: {
       name: personname.name,
-      nameen: personname.id,
+      nameruby: personname.ruby,
       posts: filterdEmakisData,
     },
   };
