@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import Keywords from "./Keywords";
-import allKeywords from "../libs/allKeywords";
-import allPersonNames from "../libs/allPersonNames";
 import Title from "./Title";
 import styles from "../styles/ToggleTag.module.css";
+import emakisData from "../libs/data";
+import { keywordItem, personnameItem } from "../libs/func";
 
 const ToggleTag = () => {
   const [value, setValue] = useState(0);
+  const allPersonNames = personnameItem(emakisData);
+  const allKeywords = keywordItem(emakisData);
 
   const allTag = [
     {
@@ -47,12 +49,12 @@ const ToggleTag = () => {
           );
         })}
       </div>
-        <Keywords
-          sectiontitle={sectiontitle}
-          sectiontitleen={sectiontitleen}
-          allTags={allTags}
-          path={path}
-        />
+      <Keywords
+        sectiontitle={sectiontitle}
+        sectiontitleen={sectiontitleen}
+        allTags={allTags}
+        path={path}
+      />
     </>
   );
 };

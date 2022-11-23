@@ -16,6 +16,9 @@
 .title {
   transition: var(--transition);
 }
+.title rt{
+  letter-spacing: -0.5em;
+}
 .title:hover {
   color: var(--clr-accent-02);
 }
