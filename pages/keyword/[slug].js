@@ -8,13 +8,16 @@ import { keywordItem } from "../../libs/func";
 const Emaki = ({ name, posts, nameen }) => {
   return (
     <>
-      <Head pagetitle={name} pageDesc={`${name}というキーワードに合った絵巻物を、縦書き横スクロールでご覧になることができます`} />
+      <Head
+        pagetitle={name}
+        pageDesc={`${name}というキーワードに合った絵巻物を、縦書き横スクロールでご覧になることができます`}
+      />
       <Header />
       <Breadcrumbs name={name} test={"キーワード一覧"} testen={"keywords"} />
       <CardA
         emakis={posts}
         columns={"three"}
-        sectionname={"favorite"}
+        sectionname={"recommend"}
         sectiontitle={name}
         sectiontitleen={nameen}
       />

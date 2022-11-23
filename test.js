@@ -1,13 +1,86 @@
-import dataByoubus from "./libs/dataByoubus.js";
-import dataEmakis from "./libs/dataEmakis.js";
-import dataSeiyoukaiga from "./libs/dataSeiyoukaiga.js";
-import dataSuibokuga from "./libs/dataSuibokuga.js";
-import dataUkiyoes from "./libs/dataUkiyoes.js";
-
-const data = dataEmakis.concat(
-  dataByoubus,
-  dataSeiyoukaiga,
-  dataSuibokuga,
-  dataUkiyoes
-);
-console.log(data);
+[
+  {
+    name: "橘直幹",
+    id: "tachibananaomoto",
+    slug: "tachibananaomoto",
+    total: 1,
+  },
+  {
+    name: "小野道風",
+    id: "ononomichikaze",
+    slug: "ononomichikaze",
+    total: 1,
+  },
+  {
+    name: "村上天皇",
+    id: "murakamitennnou",
+    slug: "murakamitennnou",
+    total: 1,
+  },
+  {
+    name: "三統元夏",
+    id: "mimunenomotonatsu",
+    slug: "mimunenomotonatsu",
+    total: 1,
+  },
+  {
+    name: "藤原実頼",
+    id: "fujiwarasaneyori",
+    slug: "fujiwarasaneyori",
+    total: 1,
+  },
+  {
+    name: "後嵯峨天皇",
+    id: "gosagatennou",
+    slug: "gosagatennou",
+    total: 1,
+  },
+  {
+    name: "小宰相局",
+    id: "kosaisyounotubone",
+    slug: "kosaisyounotubone",
+    total: 1,
+  },
+  {
+    name: "小式部内侍",
+    id: "koshikibunaishi",
+    slug: "koshikibunaishi",
+    total: 1,
+  },
+  {
+    name: "上東門院",
+    id: "syoutouinnmon",
+    slug: "syoutouinnmon",
+    total: 1,
+  },
+  {
+    name: "紀長谷雄",
+    id: "kinohaseo",
+    slug: "kinohaseo",
+    total: 1,
+  },
+  {
+    name: "西行",
+    id: "saigyo",
+    slug: "saigyo",
+    total: 1,
+  },
+  {
+    name: "登蓮法師",
+    id: "torenhoushi",
+    slug: "torenhoushi",
+    total: 1,
+  },
+  {
+    name: "俊恵",
+    id: "syunne",
+    slug: "syunne",
+    total: 1,
+  },
+  {
+    name: "源頼政",
+    id: "minamotonoyorimasa",
+    slug: "minamotonoyorimasa",
+    total: 1,
+  },
+];

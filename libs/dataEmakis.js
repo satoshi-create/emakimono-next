@@ -1105,11 +1105,11 @@ const dataEmakis = [
       { name: "市場", id: "market", slug: "market" },
     ],
     personname: [
-      { name: "橘直幹", id: "tachibananaomoto", slug: "tachibananaomoto" },
-      { name: "小野道風", id: "ononomichikaze", slug: "ononomichikaze" },
-      { name: "村上天皇", id: "murakamitennnou", slug: "murakamitennnou" },
-      { name: "三統元夏", id: "mimunenomotonatsu", slug: "mimunenomotonatsu" },
-      { name: "藤原実頼", id: "fujiwarasaneyori", slug: "fujiwarasaneyori" },
+      { name: "橘直幹", id: "tachibananaomoto", slug: "tachibananaomoto",ruby:"たちばななおもと" },
+      { name: "小野道風", id: "ononomichikaze", slug: "ononomichikaze" ,ruby:"おののみちかぜ"},
+      { name: "村上天皇", id: "murakamitennnou", slug: "murakamitennnou" ,ruby:"むらかみてんのう"},
+      { name: "三統元夏", id: "mimunenomotonatsu", slug: "mimunenomotonatsu" ,ruby:"みむねのもとなつ"},
+      { name: "藤原実頼", id: "fujiwarasaneyori", slug: "fujiwarasaneyori" ,ruby:"ふじわらさねより"},
     ],
     kotobagaki: true,
     sourceImageUrl: "https://dl.ndl.go.jp/info:ndljp/pid/2541034",
@@ -1385,10 +1385,30 @@ const dataEmakis = [
       { name: "中将", id: "lieutenantgeneral", slug: "lieutenantgeneral" },
     ],
     personname: [
-      { name: "後嵯峨天皇", id: "gosagatennou", slug: "gosagatennou" },
-      { name: "小宰相局", id: "kosaisyounotubone", slug: "kosaisyounotubone" },
-      { name: "小式部内侍", id: "koshikibunaishi", slug: "koshikibunaishi" },
-      { name: "上東門院", id: "syoutouinnmon", slug: "syoutouinnmon" },
+      {
+        name: "後嵯峨天皇",
+        id: "gosagatennou",
+        slug: "gosagatennou",
+        ruby: "ごさがてんのう",
+      },
+      {
+        name: "小宰相局",
+        id: "kosaisyounotubone",
+        slug: "kosaisyounotubone",
+        ruby: "こざいしょうのつぼね",
+      },
+      {
+        name: "小式部内侍",
+        id: "koshikibunaishi",
+        slug: "koshikibunaishi",
+        ruby: "こしきぶのないし",
+      },
+      {
+        name: "藤原彰子",
+        id: "fujiwaranosyousi",
+        slug: "fujiwaranosyousi",
+        ruby: "ふじわらのしょうし",
+      },
     ],
     kotobagaki: true,
     sourceImageUrl: "https://dl.ndl.go.jp/info:ndljp/pid/2540882",
@@ -1752,7 +1772,14 @@ const dataEmakis = [
       { name: "朱雀門", id: "suzakumon", slug: "suzakumon" },
       { name: "天神", id: "tenjin", slug: "tenjin" },
     ],
-    personname: [{ name: "紀長谷雄", id: "kinohaseo", slug: "kinohaseo" }],
+    personname: [
+      {
+        name: "紀長谷雄",
+        id: "kinohaseo",
+        slug: "kinohaseo",
+        ruby: "きのはせお",
+      },
+    ],
     kotobagaki: true,
     favorite: true,
     sourceImageUrl:
@@ -2580,10 +2607,15 @@ const dataEmakis = [
       { name: "桜", id: "cherry", slug: "cherry" },
     ],
     personname: [
-      { name: "西行", id: "saigyo", slug: "saigyo" },
-      { name: "登蓮法師", id: "torenhoushi", slug: "torenhoushi" },
-      { name: "俊恵", id: "syunne", slug: "syunne" },
-      { name: "源頼政", id: "minamotonoyorimasa", slug: "minamotonoyorimasa" },
+      { name: "西行", id: "saigyo", slug: "saigyo", ruby: "さいぎょう" },
+      {
+        name: "登蓮法師",
+        id: "torenhoushi",
+        slug: "torenhoushi",
+        ruby: "とうれんほうし",
+      },
+      { name: "俊恵", id: "syunne", slug: "syunne",ruby:"しゅんえ" },
+      { name: "源頼政", id: "minamotonoyorimasa", slug: "minamotonoyorimasa",ruby:"みなもとのよりまさ" },
     ],
     subtype: "高僧伝",
     kotobagaki: true,
@@ -4571,4 +4603,4 @@ const dataEmakis = [
   },
 ];
 
-export default dataEmakis
+export default dataEmakis;
