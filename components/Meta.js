@@ -25,14 +25,14 @@ const Meta = ({
   } = siteMeta;
 
   const title = pagetitle ? `${pagetitle} | ${siteTitle}` : siteTitle;
-  // const pageDescTemp = pageDesc
-  //   ? pageDesc
-  //   : `${pagetitle} ${
-  //       pageAuthor && `（${pageAuthor}）`
-  //     }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
-  const pageDescTemp = `${pagetitle} ${
-    pageAuthor && `（${pageAuthor}）`
-  }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+  const pageDescTemp = pageDesc
+    ? pageDesc
+    : `${pagetitle} ${
+        pageAuthor && `（${pageAuthor}）`
+      }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+  // const pageDescTemp = `${pagetitle} ${
+  //   pageAuthor && `（${pageAuthor}）`
+  // }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
   const desc = pagetitle ? pageDescTemp : siteDesc;
 
   const router = useRouter();
