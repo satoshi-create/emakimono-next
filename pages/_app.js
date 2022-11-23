@@ -24,8 +24,6 @@ function MyApp({ Component, pageProps, router }) {
   };
 
   const closeModal = () => {
-    // document.querySelector("html").classList.remove("open");
-    // document.body.style["padding-right"] = "0px";
     setisModalOpen(false);
   };
 

@@ -25,7 +25,8 @@ const dataUkiyoes = [
     mapHeight: 658,
     emakis: [
       {
-        ekotobaId: 1,
+        ekotobaId: 2,
+        linkId: 0,
         cat: "ekotoba",
         chapter: "吾嬬杜夜雨",
         chapterruby: "あずまもりやう",
@@ -50,7 +51,8 @@ const dataUkiyoes = [
         srcHeight: "1080",
       },
       {
-        ekotobaId: 2,
+        ekotobaId: 3,
+        linkId: 2,
         cat: "ekotoba",
         chapter: "羽根田落雁",
         chapterruby: "はねだらくがん",
@@ -73,7 +75,8 @@ const dataUkiyoes = [
         srcHeight: "1080",
       },
       {
-        ekotobaId: 3,
+        ekotobaId: 4,
+        linkId: 4,
         cat: "ekotoba",
         chapter: "行徳帰帆",
         chapterruby: "ぎょうとくきはん",
@@ -96,7 +99,8 @@ const dataUkiyoes = [
         srcHeight: "1080",
       },
       {
-        ekotobaId: 4,
+        ekotobaId: 5,
+        linkId: 6,
         cat: "ekotoba",
         chapter: "玉川秋月",
         chapterruby: "たまがわしゅうげつ",
@@ -119,7 +123,8 @@ const dataUkiyoes = [
         srcHeight: "1080",
       },
       {
-        ekotobaId: 5,
+        ekotobaId: 6,
+        linkId: 8,
         cat: "ekotoba",
         chapter: "小金井橋夕照",
         chapterruby: "こがねいばしせきしょう",
@@ -142,7 +147,8 @@ const dataUkiyoes = [
         srcHeight: "1080",
       },
       {
-        ekotobaId: 6,
+        ekotobaId: 7,
+        linkId: 10,
         cat: "ekotoba",
         chapter: "芝浦晴嵐",
         chapterruby: "しばうらせいらん",
@@ -165,7 +171,8 @@ const dataUkiyoes = [
         srcHeight: "1080",
       },
       {
-        ekotobaId: 7,
+        ekotobaId: 8,
+        linkId: 12,
         cat: "ekotoba",
         chapter: "池上晩鐘",
         chapterruby: "いけがみばんしょう",
@@ -190,7 +197,8 @@ const dataUkiyoes = [
         srcHeight: "1080",
       },
       {
-        ekotobaId: 8,
+        ekotobaId: 9,
+        linkId: 14,
         cat: "ekotoba",
         chapter: "飛鳥山暮雪",
         chapterruby: "あすかやまぼせつ",

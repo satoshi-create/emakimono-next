@@ -20,13 +20,13 @@ const EmakiConteiner = ({ data }) => {
     const el = scrollRef.current;
     if (el) {
       const wheelListener = (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         el.scrollTo({
           left: el.scrollLeft + e.deltaY * 3,
           behavior: "smooth",
         });
       };
-      el.addEventListener("wheel", wheelListener);
+      el.addEventListener("wheel", wheelListener, { passive: true });
       return () => el.removeEventListener("wheel", wheelListener);
     }
   }, []);

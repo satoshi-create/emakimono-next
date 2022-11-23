@@ -12,7 +12,6 @@ import { AppContext } from "../pages/_app";
 const Ekotoba = ({
   item: {
     chapter,
-    chapterruby,
     gendaibun,
     kobun,
     index,
@@ -63,7 +62,7 @@ const Ekotoba = ({
             className={styles.chapter}
           />
 
-          {kotobagaki === true && (
+          {kobun && (
             <>
               {type === "浮世絵" && (
                 <button
@@ -90,12 +89,14 @@ const Ekotoba = ({
           )}
         </div>
         {/* gendaibun */}
-        <div className={styles.gendaibun}>
-          <p
-            dangerouslySetInnerHTML={{ __html: gendaibun }}
-            className={styles.gendaibuntext}
-          />
-        </div>
+        {gendaibun && (
+          <div className={styles.gendaibun}>
+            <p
+              dangerouslySetInnerHTML={{ __html: gendaibun }}
+              className={styles.gendaibuntext}
+            />
+          </div>
+        )}
         {/* kobun */}
         <div
           className={

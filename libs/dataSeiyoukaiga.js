@@ -15,7 +15,7 @@ const dataSeiyoukaiga = [
     gif: "",
     type: "西洋絵画",
     typeen: "seiyoukaiga",
-    kotobagaki: true,
+    kotobagaki: false,
     sourceImageUrl:
       "https://ja.wikipedia.org/wiki/%E7%9D%A1%E8%93%AE_(%E3%83%A2%E3%83%8D)",
     sourceImage: "睡蓮_モネ（ウィキペディア）",
