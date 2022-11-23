@@ -14,6 +14,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.1.2",
     "@fortawesome/free-solid-svg-icons": "^6.1.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "google-map-react": "^2.2.0",
     "image-trace-loader": "^1.0.2",
     "imagemin": "^8.0.1",
     "imagemin-mozjpeg": "9.0.0",

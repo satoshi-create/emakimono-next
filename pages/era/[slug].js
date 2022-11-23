@@ -8,7 +8,7 @@ import Breadcrumbs from "../../components/Breadcrumbs";
 const Emaki = ({ name, nameen, posts }) => {
   return (
     <>
-      <Head pagetitle={name} pageDesc={`${name}のページです`} />
+      <Head pagetitle={name} pageDesc={`${name}の絵巻物を、縦書き横スクロールでご覧になることができます`} />
       <Header />
       <Breadcrumbs name={name} />
       <CardA
