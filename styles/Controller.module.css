@@ -4,12 +4,9 @@
   top: 10px;
   left: 10px;
   display: grid;
-  grid-template-columns: auto 1fr;
-  /* display: flex;
-  justify-content: center; */
+  grid-template-columns: auto 1fr auto;
   align-items: baseline;
   z-index: 10;
-  /* column-gap: 5px; */
 }
 .controller {
   display: none;
@@ -32,7 +29,7 @@
   font-size: 21px;
   transition: var(--transition);
 }
-@media (min-height: 800px) {
+@media (min-height: 768px) {
   .controller {
     column-gap: 5px;
     display: flex;
