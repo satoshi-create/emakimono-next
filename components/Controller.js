@@ -9,8 +9,17 @@ import EmakiInfo from "./EmakiInfo";
 const Controller = ({ value }) => {
   const controller = dataController();
   const { ekotobaImageToggle, setEkotobaImageToggle } = useContext(AppContext);
-  const { emakis, kotobagaki, type, title, titleen, typeen, era, eraen } =
-    value;
+  const {
+    emakis,
+    kotobagaki,
+    type,
+    title,
+    titleen,
+    typeen,
+    era,
+    eraen,
+    keyword,
+  } = value;
 
   return (
     <aside className={styles.container}>
@@ -20,6 +29,7 @@ const Controller = ({ value }) => {
         type={type}
         typeen={typeen}
         eraen={eraen}
+        keyword={keyword}
       />
       <div className={styles.controller}>
         {controller.map((item, index) => {
@@ -53,7 +63,6 @@ const Controller = ({ value }) => {
                     title={title}
                     className={`${styles[`${titleen}`]} ${styles.linkicon}`}
                   >
-                    {/* <div className={styles[`class${variantJ}`]}></div> */}
                     <i>{icon}</i>
                   </a>
                 </Link>

@@ -6,17 +6,26 @@ import { AppContext } from "../pages/_app";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 
-const EmakiInfo = ({ type, title, era, typeen, eraen }) => {
+const EmakiInfo = ({ type, title, era, typeen, eraen, keyword }) => {
+  console.log(keyword);
   const { openModal } = useContext(AppContext);
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>{title}</h1>
       <Link href={`/era/${eraen}`}>
-        <a className={`${eraColor(era)} ${styles.era}`}>{`${era}時代`}</a>
+        <a className={styles.tag}>{`${era}時代`}</a>
       </Link>
       <Link href={`/category/${typeen}`}>
-        <a className={styles.type}>{type}</a>
+        <a className={styles.tag}>{type}</a>
       </Link>
+      {keyword.map((item, index) => {
+        const { name, slug } = item;
+        return (
+          <Link href={`/keyword/${slug}`} key={index}>
+            <a className={styles.tag}>{name}</a>
+          </Link>
+        );
+      })}
       {type === "浮世絵" && (
         <div onClick={() => openModal(0)} className={styles.question}>
           <FontAwesomeIcon icon={faCircleQuestion} />
