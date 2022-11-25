@@ -18,14 +18,14 @@ const EmakiInfo = ({ type, title, era, typeen, eraen, keyword }) => {
       <Link href={`/category/${typeen}`}>
         <a className={styles.tag}>{type}</a>
       </Link>
-      {keyword.map((item, index) => {
+      {/* {keyword.map((item, index) => {
         const { name, slug } = item;
         return (
           <Link href={`/keyword/${slug}`} key={index}>
             <a className={styles.tag}>{name}</a>
           </Link>
         );
-      })}
+      })} */}
       {type === "浮世絵" && (
         <div onClick={() => openModal(0)} className={styles.question}>
           <FontAwesomeIcon icon={faCircleQuestion} />
