@@ -38,7 +38,6 @@ const Keywords = ({ sectiontitle, sectiontitleen, allTags, path }) => {
         <section className={styles.tags}>
           {personnameItem(emakisData).map((item, index) => {
             const { name, id, slug, total, ruby } = item;
-            console.log(ruby);
             return (
               <div key={index} className={styles.taginfo}>
                 <Link href={`./${path}/${slug}`}>

@@ -10,7 +10,6 @@ import { personnameItem } from "../libs/func";
 
 const personnames = () => {
   const allPersonNames = personnameItem(emakisData);
-  console.log(allPersonNames);
   return (
     <>
       <Head pagetitle={"人物名一覧"} pageDesc={`人物名一覧のページです`} />

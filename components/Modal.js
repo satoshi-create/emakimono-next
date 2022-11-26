@@ -35,8 +35,6 @@ const Modal = ({ data }) => {
 
   const addAllLocation = allLocation.concat(filterEkotobas);
 
-  console.log(allLocation);
-  console.log(addAllLocation);
 
   const { googlemap, basinmap } = emakis[0];
 

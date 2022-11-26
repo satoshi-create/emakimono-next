@@ -4,8 +4,6 @@ import emakisData from "../libs/data";
 
 export default function Sitemap() {}
 
-console.log(getServerSideProps());
-
 export async function getServerSideProps(context) {
   const postFields = emakisData.map((post) => {
     return {

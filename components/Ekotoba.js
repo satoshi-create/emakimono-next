@@ -62,30 +62,28 @@ const Ekotoba = ({
             className={styles.chapter}
           />
 
+          {type === "浮世絵" && (
+            <button
+              className={styles.modalebtn}
+              onClick={() => openModal(ekotobaId - 1)}
+            >
+              <FontAwesomeIcon
+                icon={faLocationDot}
+                className={styles.modalebtnicon}
+              />
+            </button>
+          )}
           {kobun && (
-            <>
-              {type === "浮世絵" && (
-                <button
-                  className={styles.modalebtn}
-                  onClick={() => openModal(ekotobaId - 1)}
-                >
-                  <FontAwesomeIcon
-                    icon={faLocationDot}
-                    className={styles.modalebtnicon}
-                  />
-                </button>
-              )}
-              <button
-                className={styles.togglebtn}
-                onClick={() => setToggle(!toggle)}
-              >
-                <FontAwesomeIcon
-                  icon={toggle ? faMinus : faPlus}
-                  title={toggle ? "閉じる" : "詞書の現代語訳と原文を比べて読む"}
-                  className={styles.togglebtnicon}
-                />
-              </button>
-            </>
+            <button
+              className={styles.togglebtn}
+              onClick={() => setToggle(!toggle)}
+            >
+              <FontAwesomeIcon
+                icon={toggle ? faMinus : faPlus}
+                title={toggle ? "閉じる" : "詞書の現代語訳と原文を比べて読む"}
+                className={styles.togglebtnicon}
+              />
+            </button>
           )}
         </div>
         {/* gendaibun */}

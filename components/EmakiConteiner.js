@@ -12,7 +12,6 @@ const EmakiConteiner = ({ data }) => {
 
   const emakis = data.emakis;
   const { backgroundImage, kotobagaki, type, } = data;
-  console.log(backgroundImage);
 
   const scrollRef = useRef();
 

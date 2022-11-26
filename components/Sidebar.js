@@ -85,7 +85,6 @@ const Sidebar = ({ value }) => {
     }
   };
 
-  console.log(tabValue);
 
   return (
     <aside>

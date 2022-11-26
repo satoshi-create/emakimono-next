@@ -26,7 +26,6 @@ const SortEra = ({ emakis, columns }) => {
   const handleClick = (e) => {
     const el = e.target;
 
-    console.log(el);
 
     if (el.dataset.id === "全て") {
       setfliterdEmakis(emakis);

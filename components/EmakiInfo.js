@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 
 const EmakiInfo = ({ type, title, era, typeen, eraen, keyword }) => {
-  console.log(keyword);
   const { openModal } = useContext(AppContext);
   return (
     <div className={styles.container}>

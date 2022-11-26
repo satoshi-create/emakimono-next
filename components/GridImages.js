@@ -16,13 +16,6 @@ const GridImages = ({
     gridImages: gridImages,
   };
 
-  // const { setisModalOpen } = useContext(AppContext);
-  // console.log(setisModalOpen);
-
-  // useEffect(() => {
-  //   setisModalOpen(false);
-  // }, []);
-
   const enterImage = (id) => {
     dispatch({ type: "ENTERIMAGE", payload: id });
   };
@@ -52,7 +45,6 @@ const GridImages = ({
 
   const [state, dispatch] = useReducer(reducer, init);
 
-  // console.log(state.gridImages);
 
   return (
     <section
