@@ -41,7 +41,6 @@ export const getStaticProps = async (context) => {
 
   const cat = allEras.find(({ slug }) => slug === eraslug);
   const filterdEmakisData = emakisData.filter((item) => item.eraen === eraslug);
-  console.log(filterdEmakisData);
   return {
     props: {
       name: cat.name,
