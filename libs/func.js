@@ -14,7 +14,7 @@ const eraColor = (x) => {
       break;
     case "江戸":
       return "skyblue";
-      break;
+      break; 
     case "明治":
       return "firebrick";
       break;
