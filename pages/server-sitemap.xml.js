@@ -1,5 +1,5 @@
 import { getServerSideSitemap } from "next-sitemap";
-import siteMeta from "../libs/constants";
+import siteMeta from "../libs/dataSiteMeta";
 import emakisData from "../libs/data";
 
 export default function Sitemap() {}
