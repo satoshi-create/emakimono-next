@@ -53,7 +53,7 @@ const Header = () => {
               </li>
             );
           })}
-          {/* <li>
+          <li>
             <Link href="/" locale="ja" passHref>
               <a>日本語</a>
             </Link>
@@ -62,7 +62,7 @@ const Header = () => {
             <Link href="/" locale="en" passHref>
               <a>英語</a>
             </Link>
-          </li> */}
+          </li>
         </ul>
       </div>
     </header>
