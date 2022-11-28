@@ -1,9 +1,8 @@
 import React from "react";
-import siteMeta from "../libs/constants";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import Router from "next/dist/server/router";
 import siteImg from "../public/ogp.jpg";
+import { useLocaleMeta } from "../libs/func";
 
 const Meta = ({
   pagetitle,
@@ -11,38 +10,34 @@ const Meta = ({
   pageImg,
   pageImgW,
   pageImgH,
-  pageType,
   pageAuthor,
 }) => {
-  const {
-    siteTitle,
-    siteDesc,
-    siteUrl,
-    siteLang,
-    siteLocale,
-    siteType,
-    siteIcon,
-  } = siteMeta;
+  const { t } = useLocaleMeta();
+  const { locale } = useRouter();
 
-  const title = pagetitle ? `${pagetitle} | ${siteTitle}` : siteTitle;
-  const pageDescTemp = pageDesc
-    ? pageDesc
-    : `${pagetitle} ${
-        pageAuthor && `（${pageAuthor}）`
-      }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
-  // const pageDescTemp = `${pagetitle} ${
-  //   pageAuthor && `（${pageAuthor}）`
-  // }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
-  const desc = pagetitle ? pageDescTemp : siteDesc;
+  console.log(t);
+
+  const title = pagetitle ? `${pagetitle} | ${t.siteTitle}` : t.siteTitle;
+  const tPageDesc =
+    locale === "en"
+      ? `You can enjoy all the scenes of the${pagetitle} ${
+          pageAuthor && `（${pageAuthor}）`
+        }in vertical and right to left scrolling mode.`
+      : `${pagetitle} ${
+          pageAuthor && `（${pageAuthor}）`
+        }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+  const pageDescTemp = pageDesc ? pageDesc : tPageDesc;
+
+  const desc = pagetitle ? pageDescTemp : t.siteDesc;
 
   const router = useRouter();
-  const url = `${siteUrl}${router.asPath}`;
+  const url = `${t.siteUrl}${router.asPath}`;
 
   // ogp画像
   const img = pageImg || siteImg.src;
   const imgW = pageImgW || siteImg.width;
   const imgH = pageImgH || siteImg.height;
-  const imgUrl = img.startsWith("https") ? img : `${siteUrl}${img}`;
+  const imgUrl = img.startsWith("https") ? img : `${t.siteUrl}${img}`;
 
   return (
     <Head>
@@ -55,12 +50,12 @@ const Meta = ({
       <link rel="canonical" href={url} />
       <meta property="og:url" content={url} />
 
-      <meta property="og:site_name" content={siteTitle} />
-      <meta property="og:type" content={siteType} />
-      <meta property="og:locale" content={siteLocale} />
+      <meta property="og:site_name" content={t.siteTitle} />
+      <meta property="og:type" content={t.siteType} />
+      <meta property="og:locale" content={t.siteLocale} />
 
-      <link rel="icon" href={siteIcon} />
-      <link rel="apple-touch-icon" href={siteIcon} />
+      <link rel="icon" href={t.siteIcon} />
+      <link rel="apple-touch-icon" href={t.siteIcon} />
 
       {/* <meta property="og:image" content={imgUrl} />
       <meta property="og:image:width" content={imgW} />

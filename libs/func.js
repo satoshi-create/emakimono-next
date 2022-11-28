@@ -1,3 +1,19 @@
+import { useRouter } from "next/router";
+import { ja, en } from "./staticData";
+import { jaMeta, enMeta } from "./dataSiteMeta";
+
+const useLocale = () => {
+  const { locale } = useRouter();
+  const t = locale === "en" ? en : ja;
+  return { locale, t };
+};
+const useLocaleMeta = () => {
+  const { locale } = useRouter();
+  const t = locale === "en" ? enMeta : jaMeta;
+  console.log({ locale, t });
+  return { locale, t };
+};
+
 const eraColor = (x) => {
   switch (x) {
     case "平安":
@@ -14,7 +30,7 @@ const eraColor = (x) => {
       break;
     case "江戸":
       return "skyblue";
-      break; 
+      break;
     case "明治":
       return "firebrick";
       break;
@@ -45,4 +61,4 @@ const personnameItem = (arr) =>
     (a, b) => (a.total > b.total ? -1 : 1)
   );
 
-export { eraColor, keywordItem, personnameItem };
+export { eraColor, keywordItem, personnameItem, useLocale, useLocaleMeta };
