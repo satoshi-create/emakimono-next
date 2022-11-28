@@ -4,8 +4,10 @@ import emakisData from "../libs/data";
 import Sidebar from "../components/Sidebar";
 import Head from "../components/Meta";
 import Controller from "../components/Controller";
+import { useLocale } from "../libs/func";
 
 const Emaki = ({ emakis }) => {
+  const { t } = useLocale();
   const router = useRouter();
   const path = router.pathname;
 
@@ -21,16 +23,38 @@ const Emaki = ({ emakis }) => {
         pageType={emakis.type}
       />
       <Controller value={emakis} />
+      {/* {t.desc} */}
       <Sidebar value={emakis} />
       <EmakiConteiner data={{ ...emakis }} />
     </>
   );
 };
 
-export default Emaki;
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   const paths = categories.map(c => ({
+//     params: {
+//       slug: c.slug as string,
+//     },
+//     locale: 'ja',
+//   }))
+//   // 英語に対してもpathを作成
+//   paths.push(...paths.map(p => ({ ...p, locale: 'en' })))
+
+//   return {
+//     paths,
+//     fallback: false
+//   }
+// }
 
 export const getStaticPaths = async () => {
-  const paths = emakisData.map((item) => `/${item.titleen}`);
+  const paths = emakisData.map((item) => ({
+    params: {
+      slug: item.titleen,
+    },
+    locale: "ja",
+  }));
+  paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
+  console.log(paths);
   return { paths, fallback: false };
 };
 
@@ -46,3 +70,5 @@ export const getStaticProps = async (context) => {
     },
   };
 };
+
+export default Emaki;

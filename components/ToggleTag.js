@@ -4,38 +4,37 @@ import Title from "./Title";
 import styles from "../styles/ToggleTag.module.css";
 import emakisData from "../libs/data";
 import { keywordItem, personnameItem } from "../libs/func";
+import { useRouter } from "next/router";
 
-const ToggleTag = () => {
+const ToggleTag = ({ sectiontitle, sectiontitleen }) => {
+  const { locale } = useRouter();
   const [value, setValue] = useState(0);
   const allPersonNames = personnameItem(emakisData);
   const allKeywords = keywordItem(emakisData);
 
   const allTag = [
     {
-      sectiontitle: "キーワード",
-      sectiontitleen: "keywords",
+      tagtitle: "キーワード",
+      tagtitleen: "keywords",
       allTags: allKeywords,
       path: "keyword",
     },
     {
-      sectiontitle: "人物名",
-      sectiontitleen: "personnames",
+      tagtitle: "人物名",
+      tagtitleen: "personnames",
       allTags: allPersonNames,
       path: "personname",
     },
   ];
 
-  const { sectiontitle, sectiontitleen, allTags, path } = allTag[value];
+  const { tagtitle, tagtitleen, allTags, path } = allTag[value];
 
   return (
     <>
-      <Title
-        sectiontitle={"索引から見る絵巻"}
-        sectiontitleen={"index of emaki"}
-      />
+      <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       <div className={styles.tabcontainer}>
         {allTag.map((item, index) => {
-          const { sectiontitle } = item;
+          const { tagtitle, tagtitleen } = item;
           return (
             <button
               onClick={() => setValue(index)}
@@ -44,14 +43,14 @@ const ToggleTag = () => {
               }`}
               key={index}
             >
-              {sectiontitle}
+              {locale === "en" ? tagtitleen : tagtitle}
             </button>
           );
         })}
       </div>
       <Keywords
-        sectiontitle={sectiontitle}
-        sectiontitleen={sectiontitleen}
+        sectiontitle={tagtitle}
+        sectiontitleen={tagtitleen}
         allTags={allTags}
         path={path}
       />

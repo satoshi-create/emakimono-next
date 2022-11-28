@@ -29,7 +29,13 @@ const Emaki = ({ name, nameen, posts }) => {
 export default Emaki;
 
 export const getStaticPaths = async () => {
-  const paths = allEras.map(({ slug }) => `/era/${slug}`);
+  const paths = allEras.map(({ slug }) => ({
+    params: {
+      slug: slug,
+    },
+    locale: "ja",
+  }));
+  paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
   return {
     paths: paths,
     fallback: false,

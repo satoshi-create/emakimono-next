@@ -4,7 +4,7 @@ import styles from "../styles/GridImages.module.css";
 import Image from "next/image";
 import { gridImages } from "../libs/gridImages";
 import Button from "./Button";
-import { AppContext } from "../pages/_app";
+import { useRouter } from "next/router";
 
 const GridImages = ({
   sectiontitle,
@@ -12,6 +12,7 @@ const GridImages = ({
   sectiondesc,
   sectiontitleen,
 }) => {
+  const { locale } = useRouter();
   const init = {
     gridImages: gridImages,
   };
@@ -45,7 +46,6 @@ const GridImages = ({
 
   const [state, dispatch] = useReducer(reducer, init);
 
-
   return (
     <section
       className={`section-center section-padding ${styles[sectionname]}`}
@@ -54,7 +54,7 @@ const GridImages = ({
       {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
       <section className={styles.gridconteinter}>
         {state.gridImages.map((item, index) => {
-          const { path, title, image, desc, eracolor, id, bln } = item;
+          const { path, title, image, desc, eracolor, id, bln, descen } = item;
           return (
             <figure className={styles.figure} key={index}>
               <Image
@@ -85,7 +85,9 @@ const GridImages = ({
                     />
                   </div>
                 ) : (
-                  <p className={styles.desc}>{desc}</p>
+                  <p className={styles.desc}>
+                    {locale === "en" ? descen : desc}
+                  </p>
                 )}
               </div>
             </figure>
