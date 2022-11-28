@@ -23,7 +23,6 @@ const Emaki = ({ emakis }) => {
         pageType={emakis.type}
       />
       <Controller value={emakis} />
-      {/* {t.desc} */}
       <Sidebar value={emakis} />
       <EmakiConteiner data={{ ...emakis }} />
     </>
