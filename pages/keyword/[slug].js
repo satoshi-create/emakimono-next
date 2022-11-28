@@ -28,11 +28,17 @@ const Emaki = ({ name, posts, nameen }) => {
 export default Emaki;
 
 export const getStaticPaths = async () => {
-  const paths = keywordItem(emakisData).map(({ slug }) => `/keyword/${slug}`);
-  return {
-    paths: paths,
-    fallback: false,
-  };
+    const paths = keywordItem(emakisData).map(({ slug }) => ({
+      params: {
+        slug: slug,
+      },
+      locale: "ja",
+    }));
+    paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
+    return {
+      paths: paths,
+      fallback: false,
+    };
 };
 
 export const getStaticProps = async (context) => {

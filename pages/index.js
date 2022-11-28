@@ -9,8 +9,10 @@ import Head from "../components/Meta";
 import GridImages from "../components/GridImages";
 import Attention from "../components/Attention";
 import ToggleTag from "../components/ToggleTag";
+import { useLocale } from "../libs/func";
 
-const index = () => {
+const Home = () => {
+  const { t } = useLocale();
   const favoriteEmakis = emakisData.filter((emaki) => emaki.favorite === true);
 
   const setsuwaEmakis = emakisData.filter((emaki) => emaki.subtype === "説話");
@@ -83,52 +85,49 @@ const index = () => {
       <Attention />
       <CardA
         emakis={favoriteEmakis}
-        columns={"three"}
-        sectiontitle={"おすすめの絵巻"}
-        sectiontitleen={"recommend"}
-        sectiondesc={
-          ""
-        }
+        columns={t.favorite.columns}
+        sectiontitle={t.favorite.title}
+        sectiontitleen={t.favorite.titleen}
+        sectiondesc={t.history.desc}
         sectionname={"recommend"}
       />
       <CardA
         emakis={variation}
-        columns={"four"}
-        sectiontitle={"さまざまな絵巻"}
-        sectiontitleen={"variation"}
-        sectiondesc={
-          "絵巻の全盛期は平安時代末期から室町時代です。冊子形式の読書が普及するにつれ、絵巻は徐々に廃れていきました。しかし、江戸時代に入ってもなお、絵巻は描かれていましたし、明治には日本画家が絵巻を描いています。時を越えて描かれてきた絵巻には、多様な表情があり、絵巻のなかに日本の歴史の息遣いを感じることができるのです。"
-        }
-        sectionname={"variation"}
+        columns={t.variation.columns}
+        sectiontitle={t.variation.title}
+        sectiontitleen={t.variation.titleen}
+        sectiondesc={t.variation.desc}
+        sectionname={t.variation.name}
       />
       <CardB
         emakis={historyemakis}
-        columns={"two"}
-        sectiontitle={"時代から見る絵巻"}
-        sectiontitleen={"history"}
-        sectiondesc={""}
-        sectionname={"history"}
+        columns={t.history.columns}
+        sectiontitle={t.history.title}
+        sectiontitleen={t.history.titleen}
+        sectiondesc={t.history.desc}
+        sectionname={t.history.name}
       />
-      <ToggleTag />
+      <ToggleTag
+        sectiontitle={t.toggleTag.title}
+        sectiontitleen={t.toggleTag.titleen}
+      />
       <GridImages
-        sectiontitle={"絵巻名場面集！"}
-        sectiontitleen={"famousscene"}
-        sectiondesc={""}
-        sectionname={"famousscene"}
+        sectiontitle={t.famousscene.title}
+        sectiontitleen={t.famousscene.titleen}
+        sectiondesc={t.famousscene.desc}
+        sectionname={t.famousscene.name}
       />
       <CardA
         emakis={alpha}
-        columns={"four"}
-        sectiondesc={
-          "横スクロールで再発見できる美術は絵巻だけではありません。たとえば、屏風や襖絵など、日本の美術品の多くは、ワイドスクリーンで作られていますし、西洋にも「バイユーのタピストリー」やフレスコ画など、数多くの絵解き美術が存在します。また。近代に入ってからは、ジャポニズムの影響を受けたモネが、連作「睡蓮」で、まるで襖絵のように部屋を取り囲んだ作品に取り組んでいます。"
-        }
-        sectiontitle={"横スクロールで楽しむワイド美術"}
-        sectiontitleen={"＋α"}
-        sectionname={"alpha"}
+        columns={t.alpha.columns}
+        sectiontitle={t.alpha.title}
+        sectiontitleen={t.alpha.titleen}
+        sectiondesc={t.alpha.desc}
+        sectionname={t.alpha.name}
       />
       <Footer />
     </>
   );
 };
 
-export default index;
+export default Home;

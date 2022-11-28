@@ -28,9 +28,13 @@ const Emaki = ({ name, posts, nameruby }) => {
 export default Emaki;
 
 export const getStaticPaths = async () => {
-  const paths = personnameItem(emakisData).map(
-    ({ slug }) => `/personname/${slug}`
-  );
+  const paths = personnameItem(emakisData).map(({ slug }) => ({
+    params: {
+      slug: slug,
+    },
+    locale: "ja",
+  }));
+  paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
   return {
     paths: paths,
     fallback: false,
