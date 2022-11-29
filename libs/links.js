@@ -11,7 +11,7 @@ const links = [
   { name: "浮世絵", nameen: "ukiyoe", id: "ukiyoe", path: "/category/ukiyoe" },
   {
     name: "西洋絵画",
-    nameen: "seiyoukaiga",
+    nameen: "Western painting",
     id: "seiyoukaiga",
     path: "/category/seiyoukaiga",
   },

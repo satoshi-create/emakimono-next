@@ -6,6 +6,7 @@ import { eraColor } from "../libs/func";
 import Button from "./Button";
 import Image from "next/image";
 import { AppContext } from "../pages/_app";
+import { useRouter } from "next/router";
 
 const CardA = ({
   emakis,
@@ -17,6 +18,7 @@ const CardA = ({
   sectiontitleen,
 }) => {
   const { setisModalOpen } = useContext(AppContext);
+    const { locale } = useRouter();
 
   useEffect(() => {
     setisModalOpen(false);
@@ -90,7 +92,7 @@ const CardA = ({
                         {`${era}時代`}
                       </a>
                     </Link>
-                    <div>3巻</div>
+                    {/* <div>3巻</div> */}
                   </div>
                   <h3 className={styles.title}>
                     {title}　{edition}
@@ -105,7 +107,11 @@ const CardA = ({
                   )}
                   <div className={styles.viewemaki}>
                     <Button
-                      title={"横スクロールで見る"}
+                      title={
+                        locale === "en"
+                          ? "Scroll sideways to view"
+                          : "横スクロールで見る"
+                      }
                       path={titleen}
                       style={"carda"}
                     />
