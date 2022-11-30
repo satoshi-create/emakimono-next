@@ -5,22 +5,26 @@ import Header from "../../components/Header";
 import Head from "../../components/Meta";
 import CardA from "../../components/CardA";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import { useRouter } from "next/router";
 
 const Emaki = ({ name, nameen, posts }) => {
+  const { locale } = useRouter();
+  const tPageDesc =
+    locale === "en"
+      ? `This is the ${nameen} list page.This site pursues the enjoyment of picture scrolls by scrolling from right to left!`
+      : `${name}一覧のページです。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。`;
+
   return (
     <>
-      <Head
-        pagetitle={name}
-        pageDesc={`${name}を、縦書き横スクロールでご覧になることができます`}
-      />
+      <Head pagetitle={locale === "en" ? nameen : name} pageDesc={tPageDesc} />
       <Header />
-      <Breadcrumbs name={name} />
+      <Breadcrumbs name={locale === "en" ? nameen : name} />
       <CardA
         emakis={posts}
         columns={"three"}
         sectionname={"recommend"}
-        sectiontitle={name}
-        sectiontitleen={nameen}
+        sectiontitle={locale === "en" ? nameen : name}
+        sectiontitleen={locale === "en" ? name : nameen}
       />
     </>
   );
@@ -53,7 +57,7 @@ export const getStaticProps = async (context) => {
   return {
     props: {
       name: cat.name,
-      nameen: cat.id,
+      nameen: cat.nameen,
       posts: filterdEmakisData,
     },
   };

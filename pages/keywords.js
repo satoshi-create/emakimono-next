@@ -5,16 +5,23 @@ import "lazysizes";
 import Head from "../components/Meta";
 import Keywords from "../components/Keywords";
 import Breadcrumbs from "../components/Breadcrumbs";
-import emakisData from "../libs/data";
-import { keywordItem } from "../libs/func";
+import { keywordItem, useLocaleData } from "../libs/func";
 
-const keywords = () => {
-    const allKeywords = keywordItem(emakisData);
+const KeywordsComp = () => {
+  const { t: emakisData, locale } = useLocaleData();
+  const allKeywords = keywordItem(emakisData);
+  const tPageDesc =
+    locale === "en"
+      ? `This is the keyword list page.This site pursues the enjoyment of picture scrolls by scrolling from right to left!`
+      : `キーワード一覧のページです。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。`;
   return (
     <>
-      <Head pagetitle={"キーワード"} pageDesc={`キーワード一覧のページです`} />
+      <Head
+        pagetitle={locale === "en" ? "keyword list" : "キーワード一覧"}
+        pageDesc={tPageDesc}
+      />
       <Header />
-      <Breadcrumbs name={"キーワード一覧"} />
+      <Breadcrumbs name={locale === "en" ? "keyword list" : "キーワード一覧"} />
       <Keywords
         sectiontitle={"キーワード"}
         sectiontitleen={"keywords"}
@@ -26,4 +33,4 @@ const keywords = () => {
   );
 };
 
-export default keywords;
+export default KeywordsComp;

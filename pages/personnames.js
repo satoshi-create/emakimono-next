@@ -6,15 +6,23 @@ import Head from "../components/Meta";
 import Keywords from "../components/Keywords";
 import Breadcrumbs from "../components/Breadcrumbs";
 import emakisData from "../libs/data";
-import { personnameItem } from "../libs/func";
+import { personnameItem, useLocaleData } from "../libs/func";
 
-const personnames = () => {
+const PersonnamesComp = () => {
+  const { t: emakisData, locale } = useLocaleData();
   const allPersonNames = personnameItem(emakisData);
+  const tPageDesc =
+    locale === "en"
+      ? `This is the personnames list page.This site pursues the enjoyment of picture scrolls by scrolling from right to left!`
+      : `人物名一覧のページです。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。`;
   return (
     <>
-      <Head pagetitle={"人物名一覧"} pageDesc={`人物名一覧のページです`} />
+      <Head
+        pagetitle={locale === "en" ? "personnames list" : "人物名一覧"}
+        pageDesc={tPageDesc}
+      />
       <Header />
-      <Breadcrumbs name={"人物名一覧"} />
+      <Breadcrumbs name={locale === "en" ? "personnames list" : "人物名一覧"} />
       <Keywords
         sectiontitle={"人物名一覧"}
         sectiontitleen={"keywords"}
@@ -26,4 +34,4 @@ const personnames = () => {
   );
 };
 
-export default personnames;
+export default PersonnamesComp;

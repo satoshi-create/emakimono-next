@@ -1,15 +1,14 @@
 import { useRouter } from "next/router";
 import EmakiConteiner from "../components/EmakiConteiner";
-import emakisData from "../libs/data";
 import Sidebar from "../components/Sidebar";
 import Head from "../components/Meta";
 import Controller from "../components/Controller";
-import { useLocale } from "../libs/func";
+import emakisData from "../libs/data";
+import enData from "../libs/en/data";
+import jaData from "../libs/data";
 
-const Emaki = ({ emakis }) => {
-  const { t } = useLocale();
-  const router = useRouter();
-  const path = router.pathname;
+const Emaki = ({ emakis ,locales}) => {
+  console.log({emakis,locales});
 
   return (
     <>
@@ -59,13 +58,17 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   const { slug } = context.params;
-  const filterdEmakisData = emakisData.find(
+  const { locale ,locales} = context;
+  const tEmakisData = locale === "en" ? enData : jaData;
+
+  const filterdEmakisData = tEmakisData.find(
     (item, index) => item.titleen === slug
   );
 
   return {
     props: {
       emakis: filterdEmakisData,
+      locales,
     },
   };
 };

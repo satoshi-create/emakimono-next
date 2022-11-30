@@ -4,41 +4,49 @@ import CardA from "../../components/CardA";
 import emakisData from "../../libs/data";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { keywordItem } from "../../libs/func";
+import { useRouter } from "next/router";
 
 const Emaki = ({ name, posts, nameen }) => {
+  const { locale } = useRouter();
+  const tPageDesc =
+    locale === "en"
+      ? `You can enjoy Emakis that match the keyword ${nameen} in vertical writing and right to left scrolling mode.`
+      : `${name}というキーワードに合った絵巻物を、縦書き、横スクロールで楽しむことができます。`;
   return (
     <>
       <Head
-        pagetitle={name}
-        pageDesc={`${name}というキーワードに合った絵巻物を、縦書き横スクロールでご覧になることができます`}
+        pagetitle={locale === "en" ? `${nameen}` : name}
+        pageDesc={tPageDesc}
       />
       <Header />
-      <Breadcrumbs name={name} test={"キーワード一覧"} testen={"keywords"} />
+      <Breadcrumbs
+        name={locale === "en" ? `${nameen}` : name}
+        test={locale === "en" ? "keyword list" : "キーワード一覧"}
+        testen={"keywords"}
+      />
       <CardA
         emakis={posts}
         columns={"three"}
         sectionname={"recommend"}
-        sectiontitle={name}
-        sectiontitleen={nameen}
+        sectiontitle={locale === "en" ? `${nameen}` : name}
+        sectiontitleen={locale === "en" ? name : `${nameen}`}
       />
     </>
   );
 };
 
-export default Emaki;
-
 export const getStaticPaths = async () => {
-    const paths = keywordItem(emakisData).map(({ slug }) => ({
-      params: {
-        slug: slug,
-      },
-      locale: "ja",
-    }));
-    paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
-    return {
-      paths: paths,
-      fallback: false,
-    };
+  const paths = keywordItem(emakisData).map(({ slug }) => ({
+    params: {
+      slug: slug,
+    },
+    locale: "ja",
+  }));
+  paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
+  return {
+    paths: paths,
+    fallback: false,
+  };
 };
 
 export const getStaticProps = async (context) => {
@@ -63,3 +71,5 @@ export const getStaticProps = async (context) => {
     },
   };
 };
+
+export default Emaki;
