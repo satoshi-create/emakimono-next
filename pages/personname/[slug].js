@@ -4,22 +4,33 @@ import CardA from "../../components/CardA";
 import emakisData from "../../libs/data";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { personnameItem } from "../../libs/func";
+import { useRouter } from "next/router";
 
-const Emaki = ({ name, posts, nameruby }) => {
+const Emaki = ({ name, posts, nameruby, nameen }) => {
+  console.log(nameen);
+  const { locale } = useRouter();
+  const tPageDesc =
+    locale === "en"
+      ? `You can enjoy Emakis that match the person name ${nameen} in vertical writing and right to left scrolling mode.`
+      : `${name}という人物名に合った絵巻物を、縦書き、横スクロールで楽しむことができます。`;
   return (
     <>
       <Head
-        pagetitle={name}
-        pageDesc={`${name}（${nameruby}）が登場する絵巻物を、縦書き横スクロールでご覧になることができます`}
+        pagetitle={locale === "en" ? `${nameen}` : name}
+        pageDesc={tPageDesc}
       />
       <Header />
-      <Breadcrumbs name={name} test={"人物名一覧"} testen={"personnames"} />
+      <Breadcrumbs
+        name={locale === "en" ? `${nameen}` : name}
+        test={locale === "en" ? "personname list" : "人物名一覧"}
+        testen={"personnames"}
+      />
       <CardA
         emakis={posts}
         columns={"three"}
         sectionname={"recommend"}
-        sectiontitle={name}
-        sectiontitleen={nameruby}
+        sectiontitle={locale === "en" ? name : name}
+        sectiontitleen={locale === "en" ? nameen : nameruby}
       />
     </>
   );
@@ -60,6 +71,7 @@ export const getStaticProps = async (context) => {
     props: {
       name: personname.name,
       nameruby: personname.ruby,
+      nameen: personname.id,
       posts: filterdEmakisData,
     },
   };
