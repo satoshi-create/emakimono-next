@@ -2,19 +2,19 @@ import React, { createContext, useState, useEffect } from "react";
 import "../styles/globals.css";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
-import emakis from "../libs/data";
 import Script from "next/script";
-
+import { useLocaleData } from "../libs/func";
 config.autoAddCss = false;
 
 export const AppContext = createContext();
 
 function MyApp({ Component, pageProps, router }) {
+  const { t: emakisData } = useLocaleData();
   const [ekotobaToggle, setekotobaToggle] = useState(false);
   const [oepnSidebar, setOepnSidebar] = useState(false);
   const [ekotobaImageToggle, setEkotobaImageToggle] = useState(false);
   const [query, setQuery] = useState("");
-  const [fliterdEmakis, setfliterdEmakis] = useState(emakis);
+  const [fliterdEmakis, setfliterdEmakis] = useState(emakisData);
   const [isModalOpen, setisModalOpen] = useState(false);
   const [index, setIndex] = useState(0);
 

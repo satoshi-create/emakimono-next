@@ -109,7 +109,7 @@ const CardA = ({
                     <Button
                       title={
                         locale === "en"
-                          ? "Scroll sideways to view"
+                          ? "Enjoy by right to left scroll !!"
                           : "横スクロールで見る"
                       }
                       path={titleen}

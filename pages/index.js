@@ -9,10 +9,12 @@ import Head from "../components/Meta";
 import GridImages from "../components/GridImages";
 import Attention from "../components/Attention";
 import ToggleTag from "../components/ToggleTag";
-import { useLocale } from "../libs/func";
+import { useLocale, useLocaleData } from "../libs/func";
 
 const Home = () => {
   const { t } = useLocale();
+  const { t: emakisData } = useLocaleData();
+  
   const favoriteEmakis = emakisData.filter((emaki) => emaki.favorite === true);
 
   const setsuwaEmakis = emakisData.filter((emaki) => emaki.subtype === "説話");
@@ -55,24 +57,28 @@ const Home = () => {
     {
       path: "/era/heiann",
       name: "平安",
+      nameen: "Heian",
       src: "/cyoujyuu_yamazaki_kou_13-375.webp",
       eracolor: "orange",
     },
     {
       path: "/era/kamakura",
       name: "鎌倉",
+      nameen: "Kamakura",
       src: "/naomoto_03-1080.webp",
       eracolor: "green",
     },
     {
       path: "/era/muromachi",
       name: "室町",
+      nameen: "Muromachi",
       src: "/sessyu_sikisansuizu_07-1080.webp",
       eracolor: "purple",
     },
     {
       path: "/era/edo",
       name: "江戸",
+      nameen: "Edo",
       src: "/tokugawagyouretsu_32-1080.webp",
       eracolor: "skyblue",
     },

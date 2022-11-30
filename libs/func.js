@@ -1,6 +1,8 @@
 import { useRouter } from "next/router";
 import { ja, en } from "./staticData";
 import { jaMeta, enMeta } from "./dataSiteMeta";
+import enData from "./en/data";
+import jaData from "./data";
 
 const useLocale = () => {
   const { locale } = useRouter();
@@ -10,6 +12,11 @@ const useLocale = () => {
 const useLocaleMeta = () => {
   const { locale } = useRouter();
   const t = locale === "en" ? enMeta : jaMeta;
+  return { locale, t };
+};
+const useLocaleData = () => {
+  const { locale } = useRouter();
+  const t = locale === "en" ? enData : jaData;
   console.log({ locale, t });
   return { locale, t };
 };
@@ -61,4 +68,11 @@ const personnameItem = (arr) =>
     (a, b) => (a.total > b.total ? -1 : 1)
   );
 
-export { eraColor, keywordItem, personnameItem, useLocale, useLocaleMeta };
+export {
+  eraColor,
+  keywordItem,
+  personnameItem,
+  useLocale,
+  useLocaleMeta,
+  useLocaleData,
+};
