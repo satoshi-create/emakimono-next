@@ -4,23 +4,29 @@ import Header from "../../components/Header";
 import Head from "../../components/Meta";
 import CardA from "../../components/CardA";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import { useRouter } from "next/router";
 
 const Emaki = ({ name, nameen, posts }) => {
+  const { locale } = useRouter();
+  const tPageDesc =
+    locale === "en"
+      ? `You can enjoy all the scenes of the ${nameen} Period in vertical and right to left scrolling mode.`
+      : `${name}に描かれた絵巻物を、縦書き、横スクロールで楽しむことができます。`;
   return (
     <>
       <Head
-        pagetitle={name}
-        pageDesc={`${name}の絵巻物を、縦書き横スクロールでご覧になることができます`}
+        pagetitle={locale === "en" ? `${nameen} Period` : name}
+        pageDesc={tPageDesc}
       />
       <Header />
-      <Breadcrumbs name={name} />
+      <Breadcrumbs name={locale === "en" ? `${nameen} Period` : name} />
       <CardA
         emakis={posts}
         columns={"three"}
         sectionname={"recommend"}
         pagetitle={name}
-        sectiontitle={name}
-        sectiontitleen={nameen}
+        sectiontitle={locale === "en" ? `${nameen} Period` : name}
+        sectiontitleen={locale === "en" ? name : `${nameen} Period`}
       />
     </>
   );
@@ -50,7 +56,7 @@ export const getStaticProps = async (context) => {
   return {
     props: {
       name: cat.name,
-      nameen: cat.id,
+      nameen: cat.nameen,
       posts: filterdEmakisData,
     },
   };

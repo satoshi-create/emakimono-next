@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import styles from "../styles/CardB.module.css";
 import Title from "./Title";
-import eraColor from "../libs/func";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const CardB = ({
   emakis,
@@ -14,6 +14,7 @@ const CardB = ({
   sectiondesc,
   sectiontitleen,
 }) => {
+  const { locale } = useRouter();
   return (
     <section
       className={`section-center section-padding ${styles[sectionname]}`}
@@ -22,7 +23,7 @@ const CardB = ({
       {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
       <section className={styles.conteiner}>
         {emakis.map((item, index) => {
-          const { path, name, src, eracolor } = item;
+          const { path, name, nameen, src, eracolor } = item;
           return (
             <div
               className={`${styles.cardContainer} ${styles[columns]}`}
@@ -42,7 +43,9 @@ const CardB = ({
                       blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
                     />
                     <div className={`${styles.info} ${styles[eracolor]}`}>
-                      <p className={styles.title}>{name}</p>
+                      <p className={styles.title}>
+                        {locale === "en" ? nameen : name}
+                      </p>
                     </div>
                   </a>
                 </Link>
