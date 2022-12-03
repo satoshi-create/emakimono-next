@@ -34,9 +34,6 @@ const Meta = ({
 
   // ogp画像
   const img = pageImg || siteImg.src;
-  const imgW = pageImgW || siteImg.width;
-  const imgH = pageImgH || siteImg.height;
-  const imgUrl = img.startsWith("https") ? img : `${t.siteUrl}${img}`;
 
   return (
     <Head>
@@ -56,10 +53,6 @@ const Meta = ({
       <link rel="icon" href={t.siteIcon} />
       <link rel="apple-touch-icon" href={t.siteIcon} />
 
-      {/* <meta property="og:image" content={imgUrl} />
-      <meta property="og:image:width" content={imgW} />
-      <meta property="og:image:height" content={imgH} />
-      <meta name="twitter:card" content="summary_large_image" /> */}
     </Head>
   );
 };
