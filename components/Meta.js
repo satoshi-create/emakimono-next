@@ -40,24 +40,22 @@ const Meta = ({ pagetitle, pageDesc, pageImg, pageAuthor }) => {
       <meta property="og:url" content={url} />
       {locales.map((locale) => {
         return (
-          <>
-            <link
-              key={`hreflang-${locale}`}
-              rel="alternate"
-              hrefLang={locale}
-              href={`https://emakimono.com${
-                locale === defaultLocale ? "" : "/" + locale
-              }${asPath}`}
-            />
-            <link
-              key="hreflang-default"
-              rel="alternate"
-              hrefLang="x-default"
-              href={`https://emakimono.com${asPath}`}
-            />
-          </>
+          <link
+            key={`hreflang-${locale}`}
+            rel="alternate"
+            hrefLang={locale}
+            href={`https://emakimono.com${
+              locale === defaultLocale ? "" : "/" + locale
+            }${asPath}`}
+          />
         );
       })}
+      <link
+        key="hreflang-default"
+        rel="alternate"
+        hrefLang="x-default"
+        href={`https://emakimono.com${asPath}`}
+      />
       <meta property="og:site_name" content={t.siteTitle} />
       <meta property="og:type" content={t.siteType} />
       <meta property="og:locale" content={t.siteLocale} />
