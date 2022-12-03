@@ -7,7 +7,7 @@ import { personnameItem } from "../../libs/func";
 import { useRouter } from "next/router";
 
 const Emaki = ({ name, posts, nameruby, nameen }) => {
-  console.log(nameen);
+
   const { locale } = useRouter();
   const tPageDesc =
     locale === "en"
