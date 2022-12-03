@@ -17,7 +17,6 @@ const useLocaleMeta = () => {
 const useLocaleData = () => {
   const { locale } = useRouter();
   const t = locale === "en" ? enData : jaData;
-  console.log({ locale, t });
   return { locale, t };
 };
 

@@ -4,17 +4,10 @@ import { useRouter } from "next/router";
 import siteImg from "../public/ogp.jpg";
 import { useLocaleMeta } from "../libs/func";
 
-const Meta = ({
-  pagetitle,
-  pageDesc,
-  pageImg,
-  pageImgW,
-  pageImgH,
-  pageAuthor,
-}) => {
+const Meta = ({ pagetitle, pageDesc, pageImg, pageAuthor }) => {
   const { t } = useLocaleMeta();
-  const { locale } = useRouter();
-
+  const { locale, locales, asPath, defaultLocale } = useRouter();
+  console.log({ locales, asPath, defaultLocale });
 
   const title = pagetitle ? `${pagetitle} | ${t.siteTitle}` : t.siteTitle;
   const tPageDesc =
@@ -45,14 +38,32 @@ const Meta = ({
 
       <link rel="canonical" href={url} />
       <meta property="og:url" content={url} />
-
+      {locales.map((locale) => {
+        return (
+          <>
+            <link
+              key={`hreflang-${locale}`}
+              rel="alternate"
+              hrefLang={locale}
+              href={`https://emakimono.com${
+                locale === defaultLocale ? "" : "/" + locale
+              }${asPath}`}
+            />
+            <link
+              key="hreflang-default"
+              rel="alternate"
+              hrefLang="x-default"
+              href={`https://emakimono.com${asPath}`}
+            />
+          </>
+        );
+      })}
       <meta property="og:site_name" content={t.siteTitle} />
       <meta property="og:type" content={t.siteType} />
       <meta property="og:locale" content={t.siteLocale} />
 
       <link rel="icon" href={t.siteIcon} />
       <link rel="apple-touch-icon" href={t.siteIcon} />
-
     </Head>
   );
 };
