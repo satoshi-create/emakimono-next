@@ -22,11 +22,8 @@ const Meta = ({ pagetitle, pageDesc, pageImg, pageAuthor }) => {
 
   const desc = pagetitle ? pageDescTemp : t.siteDesc;
 
-  const router = useRouter();
-  const url = `${t.siteUrl}${router.asPath}`;
+  const url = `${t.siteUrl}${asPath}`;
 
-  // ogp画像
-  const img = pageImg || siteImg.src;
 
   return (
     <Head>
