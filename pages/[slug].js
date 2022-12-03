@@ -8,7 +8,6 @@ import enData from "../libs/en/data";
 import jaData from "../libs/data";
 
 const Emaki = ({ emakis ,locales}) => {
-  console.log({emakis,locales});
 
   return (
     <>
@@ -52,7 +51,6 @@ export const getStaticPaths = async () => {
     locale: "ja",
   }));
   paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
-  console.log(paths);
   return { paths, fallback: false };
 };
 
