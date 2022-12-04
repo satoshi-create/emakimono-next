@@ -19,6 +19,7 @@ const Controller = ({ value }) => {
     era,
     eraen,
     keyword,
+    edition
   } = value;
 
   return (
@@ -30,6 +31,7 @@ const Controller = ({ value }) => {
         typeen={typeen}
         eraen={eraen}
         keyword={keyword}
+        edition={edition}
       />
       <div className={styles.controller}>
         {controller.map((item, index) => {

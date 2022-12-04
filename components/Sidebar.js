@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { AppContext } from "../pages/_app";
+import { useRouter } from "next/router";
 
 const Sidebar = ({ value }) => {
   const {
@@ -20,6 +21,7 @@ const Sidebar = ({ value }) => {
   } = value;
   const { oepnSidebar, setOepnSidebar } = useContext(AppContext);
   const [tabValue, setTabValue] = useState(0);
+  const { locale } = useRouter();
 
   useEffect(() => {
     setOepnSidebar(false);
@@ -28,12 +30,15 @@ const Sidebar = ({ value }) => {
   const tabData = [
     {
       title: "目次",
+      titleen: "contents",
     },
     {
       title: "出典",
+      titleen: "source",
     },
     {
       title: "参照",
+      titleen: "refarence",
     },
   ];
 
@@ -85,7 +90,6 @@ const Sidebar = ({ value }) => {
     }
   };
 
-
   return (
     <aside>
       <button className={styles.openbtn} onClick={() => setOepnSidebar(true)}>
@@ -112,7 +116,7 @@ const Sidebar = ({ value }) => {
         </div>
         <div className={styles.tabConteiner}>
           {tabData.map((item, index) => {
-            const { title } = item;
+            const { title,titleen } = item;
             return (
               <button
                 onClick={() => setTabValue(index)}
@@ -121,7 +125,7 @@ const Sidebar = ({ value }) => {
                 }`}
                 key={index}
               >
-                {title}
+                {locale === "en" ? titleen : title}
               </button>
             );
           })}
