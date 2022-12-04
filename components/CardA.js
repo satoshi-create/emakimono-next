@@ -18,7 +18,7 @@ const CardA = ({
   sectiontitleen,
 }) => {
   const { setisModalOpen } = useContext(AppContext);
-    const { locale } = useRouter();
+  const { locale } = useRouter();
 
   useEffect(() => {
     setisModalOpen(false);
@@ -97,9 +97,7 @@ const CardA = ({
                   <h3 className={styles.title}>
                     {title}　{edition}
                   </h3>
-                  <h4 className={styles.author}>
-                    {author ? author : "絵師不明"}
-                  </h4>
+                  <h4 className={styles.author}>{author ? author : ""}</h4>
                   {needdesc && (
                     <div className={styles.desc}>
                       {desc ? `${filterDesc}...` : descTemp}

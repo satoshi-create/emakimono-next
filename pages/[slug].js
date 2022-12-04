@@ -12,7 +12,7 @@ const Emaki = ({ emakis ,locales}) => {
   return (
     <>
       <Head
-        pagetitle={`${emakis.title}${emakis.edition ? emakis.edition : ""}`}
+        pagetitle={`${emakis.title} ${emakis.edition ? emakis.edition : ""}`}
         pageAuthor={emakis.author}
         pageDesc={emakis.metadesc}
         pageImg={emakis.thumb}
