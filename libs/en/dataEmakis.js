@@ -1,18 +1,16 @@
 const dataEmakis = [
   {
     id: 1,
-    title: "cyouzyuujinbutugiga",
+    title: "Chōjū-jinbutsu-giga",
     titleen: "cyoujyujinbutsugiga_kou",
-    author: "鳥羽僧正覚猷",
-    edition: "甲巻",
+    author: "Kakuyū（Toba Sōjō ）",
+    edition: "volume 1",
     backgroundImage: "/110310200304.webp",
     thumb: "/cyoujyuu_yamazaki_kou_thumb.webp",
     thumb2: "/cyoujyuu_yamazaki_kou_thumb2.webp",
     video: "https://youtu.be/Si8NzY2drSg",
     era: "平安",
     eraen: "heiann",
-    // metadesc:
-    //   "鳥獣人物戯画絵巻甲巻の全シーンを横スクロールでご覧になることができます。猿と蛙の喧嘩はなぜ起きたのか？、兎と蛙の相撲の結末は？、猫と鼠の思わぬ共演！？、などなど動物たちの生き生きとした表情を、心ゆくまでご覧ください☆",
     desc: "平安時代（12世紀）に描かれた鳥獣人物戯画絵巻 甲巻の摸本。有名な猿と蛙の喧嘩、兎と蛙の相撲のほか、田楽、賭弓など、当時ミヤコで流行っていた様々な遊びに動物が興じる姿が、表情豊かに描かれている。摸本や断簡には競馬や双六遊び、高跳びなど、現在知られている絵巻とは異なるモチーフの遊びが描かれている。そもそもははもっと長大な絵巻だったようだ。",
     readMore: false,
     type: "絵巻",
@@ -31,7 +29,7 @@ const dataEmakis = [
     emakis: [
       {
         cat: "ekotoba",
-        chapter: "兎と猿の水遊び ",
+        chapter: "Rabbits and Monkeys Playing in Water",
         kobun: "",
         gendaibun: "",
       },
@@ -70,7 +68,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "兎と蛙の賭弓 ",
+        chapter: "Rabbit and Frog Betting Bow",
         kobun: "",
         gendaibun: "",
       },
@@ -124,7 +122,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "禄の物を受ける猿僧正",
+        chapter: "Monk Monkey priest Receiving a Stipend",
         kobun: "",
         gendaibun: "",
       },
@@ -146,7 +144,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "猿と蛙の喧嘩",
+        chapter: "Monkey and Frog Fight",
         kobun: "",
         gendaibun: "",
       },
@@ -168,12 +166,13 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "田楽見物",
+        chapter: "Rice Dance",
         kobun: "",
         gendaibun: "",
       },
       {
         load: false,
+        cat: "image",
         srcSp: "/cyoujyuu_yamazaki_kou_15-375.webp",
         srcTb: "/cyoujyuu_yamazaki_kou_15-800.webp",
         src: "/cyoujyuu_yamazaki_kou_15-1080.webp",
@@ -189,7 +188,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "兎と蛙の相撲",
+        chapter: "Wrestling between a Rabbit and a Frog",
         kobun: "",
         gendaibun: "",
       },
@@ -211,7 +210,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "双六盤を運ぶ猿",
+        chapter: "Monkey carrying a Sugoroku board",
         kobun: "",
         gendaibun: "",
       },
@@ -225,7 +224,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "周忌法会の導師をつとめる猿僧正",
+        chapter: "Monk Monkey officiating at the anniversary Buddhist service.",
         kobun: "",
         gendaibun: "",
       },
@@ -247,7 +246,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "猿僧正への僧供",
+        chapter: "Offerings to Monks Monkey",
         kobun: "",
         gendaibun: "",
       },
@@ -271,10 +270,10 @@ const dataEmakis = [
   },
   {
     id: 2,
-    title: "鳥獣人物戯画絵巻",
+    title: "Chōjū-jinbutsu-giga",
     titleen: "cyoujyujinbutsugiga_otu",
-    author: "鳥羽僧正覚猷",
-    edition: "乙巻",
+    author: "Kakuyū（Toba Sōjō ）",
+    edition: "volume 2",
     backgroundImage: "/110310200304.webp",
     video: "https://youtu.be/0OCF6w7Ljj4",
     thumb: "/cyoujyuu_yamazaki_otu_thumb.webp",
@@ -286,6 +285,7 @@ const dataEmakis = [
     desc: "平安時代（12世紀）に描かれた鳥獣人物戯画絵巻 乙巻の摸本。「動物尽くし」の図鑑のような一巻で、絵師の手習いとして使われたという説もある。前半は「日本に生息する動物」を扱い、馬、牛など当時身近だった動物が描かれる。後半は、一転して「日本に生息しない動物＆霊獣」が描かれ、玄武、麒麟など空想上の動物と象、虎など日本には生息していない動物が、想像力を交えて描かれる。",
     type: "絵巻",
     typeen: "emaki",
+    favorite: true,
     keyword: [
       { name: "戯画", id: "caricature", slug: "caricature" },
       { name: "動物", id: "animal", slug: "animal" },
@@ -569,10 +569,10 @@ const dataEmakis = [
   },
   {
     id: 3,
-    title: "鳥獣人物戯画絵巻",
+    title: "Chōjū-jinbutsu-giga",
     titleen: "cyoujyujinbutsugiga_hei",
     author: "",
-    edition: "丙巻",
+    edition: "volume 3",
     backgroundImage: "/110310200304.webp",
     video: "https://youtu.be/ZByb_6oS-30",
     thumb: "/cyoujyuu_yamazaki_hei_thumb.webp",
@@ -584,6 +584,7 @@ const dataEmakis = [
     eraen: "heiann",
     type: "絵巻",
     typeen: "emaki",
+    favorite: true,
     keyword: [
       { name: "戯画", id: "caricature", slug: "caricature" },
       { name: "動物", id: "animal", slug: "animal" },
@@ -1103,11 +1104,36 @@ const dataEmakis = [
       { name: "市場", id: "market", slug: "market" },
     ],
     personname: [
-      { name: "橘直幹", id: "tachibananaomoto", slug: "tachibananaomoto",ruby:"たちばななおもと" },
-      { name: "小野道風", id: "ononomichikaze", slug: "ononomichikaze" ,ruby:"おののみちかぜ"},
-      { name: "村上天皇", id: "murakamitennnou", slug: "murakamitennnou" ,ruby:"むらかみてんのう"},
-      { name: "三統元夏", id: "mimunenomotonatsu", slug: "mimunenomotonatsu" ,ruby:"みむねのもとなつ"},
-      { name: "藤原実頼", id: "fujiwarasaneyori", slug: "fujiwarasaneyori" ,ruby:"ふじわらさねより"},
+      {
+        name: "橘直幹",
+        id: "tachibananaomoto",
+        slug: "tachibananaomoto",
+        ruby: "たちばななおもと",
+      },
+      {
+        name: "小野道風",
+        id: "ononomichikaze",
+        slug: "ononomichikaze",
+        ruby: "おののみちかぜ",
+      },
+      {
+        name: "村上天皇",
+        id: "murakamitennnou",
+        slug: "murakamitennnou",
+        ruby: "むらかみてんのう",
+      },
+      {
+        name: "三統元夏",
+        id: "mimunenomotonatsu",
+        slug: "mimunenomotonatsu",
+        ruby: "みむねのもとなつ",
+      },
+      {
+        name: "藤原実頼",
+        id: "fujiwarasaneyori",
+        slug: "fujiwarasaneyori",
+        ruby: "ふじわらさねより",
+      },
     ],
     kotobagaki: true,
     sourceImageUrl: "https://dl.ndl.go.jp/info:ndljp/pid/2541034",
@@ -1779,7 +1805,7 @@ const dataEmakis = [
       },
     ],
     kotobagaki: true,
-    favorite: true,
+    favorite: false,
     sourceImageUrl:
       "http://www.archives.kyoto.jp/websearchpe/detail?cls=152_old_books_catalog&pkey=0000000096",
     sourceImage:
@@ -2612,8 +2638,13 @@ const dataEmakis = [
         slug: "torenhoushi",
         ruby: "とうれんほうし",
       },
-      { name: "俊恵", id: "syunne", slug: "syunne",ruby:"しゅんえ" },
-      { name: "源頼政", id: "minamotonoyorimasa", slug: "minamotonoyorimasa",ruby:"みなもとのよりまさ" },
+      { name: "俊恵", id: "syunne", slug: "syunne", ruby: "しゅんえ" },
+      {
+        name: "源頼政",
+        id: "minamotonoyorimasa",
+        slug: "minamotonoyorimasa",
+        ruby: "みなもとのよりまさ",
+      },
     ],
     subtype: "高僧伝",
     kotobagaki: true,
@@ -3842,7 +3873,7 @@ const dataEmakis = [
       { name: "月", id: "moon", slug: "moon" },
     ],
     kotobagaki: true,
-    favorite: true,
+    favorite: false,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-10512?locale=ja",
     sourceImage: "修羅道絵巻（ColBase）",
