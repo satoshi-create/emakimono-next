@@ -286,6 +286,7 @@ const dataEmakis = [
     desc: "平安時代（12世紀）に描かれた鳥獣人物戯画絵巻 乙巻の摸本。「動物尽くし」の図鑑のような一巻で、絵師の手習いとして使われたという説もある。前半は「日本に生息する動物」を扱い、馬、牛など当時身近だった動物が描かれる。後半は、一転して「日本に生息しない動物＆霊獣」が描かれ、玄武、麒麟など空想上の動物と象、虎など日本には生息していない動物が、想像力を交えて描かれる。",
     type: "絵巻",
     typeen: "emaki",
+    favorite: true,
     keyword: [
       { name: "戯画", id: "caricature", slug: "caricature" },
       { name: "動物", id: "animal", slug: "animal" },
@@ -592,6 +593,7 @@ const dataEmakis = [
       { name: "年中行事", id: "annualevent", slug: "annualevent" },
     ],
     kotobagaki: false,
+    favorite: true,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-1530?locale=ja",
     sourceImage: "鳥獣人戯画絵巻 摸本（ColBase）",
@@ -1103,11 +1105,36 @@ const dataEmakis = [
       { name: "市場", id: "market", slug: "market" },
     ],
     personname: [
-      { name: "橘直幹", id: "tachibananaomoto", slug: "tachibananaomoto",ruby:"たちばななおもと" },
-      { name: "小野道風", id: "ononomichikaze", slug: "ononomichikaze" ,ruby:"おののみちかぜ"},
-      { name: "村上天皇", id: "murakamitennnou", slug: "murakamitennnou" ,ruby:"むらかみてんのう"},
-      { name: "三統元夏", id: "mimunenomotonatsu", slug: "mimunenomotonatsu" ,ruby:"みむねのもとなつ"},
-      { name: "藤原実頼", id: "fujiwarasaneyori", slug: "fujiwarasaneyori" ,ruby:"ふじわらさねより"},
+      {
+        name: "橘直幹",
+        id: "tachibananaomoto",
+        slug: "tachibananaomoto",
+        ruby: "たちばななおもと",
+      },
+      {
+        name: "小野道風",
+        id: "ononomichikaze",
+        slug: "ononomichikaze",
+        ruby: "おののみちかぜ",
+      },
+      {
+        name: "村上天皇",
+        id: "murakamitennnou",
+        slug: "murakamitennnou",
+        ruby: "むらかみてんのう",
+      },
+      {
+        name: "三統元夏",
+        id: "mimunenomotonatsu",
+        slug: "mimunenomotonatsu",
+        ruby: "みむねのもとなつ",
+      },
+      {
+        name: "藤原実頼",
+        id: "fujiwarasaneyori",
+        slug: "fujiwarasaneyori",
+        ruby: "ふじわらさねより",
+      },
     ],
     kotobagaki: true,
     sourceImageUrl: "https://dl.ndl.go.jp/info:ndljp/pid/2541034",
@@ -1779,7 +1806,7 @@ const dataEmakis = [
       },
     ],
     kotobagaki: true,
-    favorite: true,
+    favorite: false,
     sourceImageUrl:
       "http://www.archives.kyoto.jp/websearchpe/detail?cls=152_old_books_catalog&pkey=0000000096",
     sourceImage:
@@ -2612,8 +2639,13 @@ const dataEmakis = [
         slug: "torenhoushi",
         ruby: "とうれんほうし",
       },
-      { name: "俊恵", id: "syunne", slug: "syunne",ruby:"しゅんえ" },
-      { name: "源頼政", id: "minamotonoyorimasa", slug: "minamotonoyorimasa",ruby:"みなもとのよりまさ" },
+      { name: "俊恵", id: "syunne", slug: "syunne", ruby: "しゅんえ" },
+      {
+        name: "源頼政",
+        id: "minamotonoyorimasa",
+        slug: "minamotonoyorimasa",
+        ruby: "みなもとのよりまさ",
+      },
     ],
     subtype: "高僧伝",
     kotobagaki: true,
@@ -3842,7 +3874,7 @@ const dataEmakis = [
       { name: "月", id: "moon", slug: "moon" },
     ],
     kotobagaki: true,
-    favorite: true,
+    favorite: false,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-10512?locale=ja",
     sourceImage: "修羅道絵巻（ColBase）",
