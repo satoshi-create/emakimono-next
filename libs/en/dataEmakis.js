@@ -280,8 +280,6 @@ const dataEmakis = [
     thumb2: "/cyoujyuu_yamazaki_otu_thumb2.webp",
     era: "平安",
     eraen: "heiann",
-    // metadesc:
-    //   "鳥獣人物戯画絵巻乙巻の全シーンを横スクロールでご覧になることができます。国宝として有名な甲巻と同じ絵師が描いたと言われる「動物尽くし」の図鑑のような乙巻は、牛や馬など現実の動物と、玄武、麒麟など空想の動物が、想像力を交えて生き生きと描かれています。",
     desc: "平安時代（12世紀）に描かれた鳥獣人物戯画絵巻 乙巻の摸本。「動物尽くし」の図鑑のような一巻で、絵師の手習いとして使われたという説もある。前半は「日本に生息する動物」を扱い、馬、牛など当時身近だった動物が描かれる。後半は、一転して「日本に生息しない動物＆霊獣」が描かれ、玄武、麒麟など空想上の動物と象、虎など日本には生息していない動物が、想像力を交えて描かれる。",
     type: "絵巻",
     typeen: "emaki",
@@ -299,7 +297,7 @@ const dataEmakis = [
     emakis: [
       {
         cat: "ekotoba",
-        chapter: "馬",
+        chapter: "Hourse",
         kobun: "",
         gendaibun: "",
       },
@@ -338,7 +336,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "牛",
+        chapter: "Cow",
         kobun: "",
         gendaibun: "",
       },
@@ -376,7 +374,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "鷹",
+        chapter: "Falcon",
         kobun: "",
         gendaibun: "",
       },
@@ -390,7 +388,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "犬",
+        chapter: "Dog",
         kobun: "",
         gendaibun: "",
       },
@@ -404,7 +402,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "鶏",
+        chapter: "Chicken",
         kobun: "",
         gendaibun: "",
       },
@@ -427,7 +425,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "鷲と隼",
+        chapter: "Eagle and Falcon",
         kobun: "",
         gendaibun: "",
       },
@@ -441,7 +439,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "玄武",
+        chapter: "Black Tortoise ",
         kobun: "",
         gendaibun: "",
       },
@@ -455,7 +453,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "麒麟",
+        chapter: "Qilin",
         kobun: "",
         gendaibun: "",
       },
@@ -468,7 +466,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "豹",
+        chapter: "Panther",
         kobun: "",
         gendaibun: "",
       },
@@ -482,7 +480,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "山羊",
+        chapter: "Goat",
         kobun: "",
         gendaibun: "",
       },
@@ -496,7 +494,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "虎",
+        chapter: "Tiger",
         kobun: "",
         gendaibun: "",
       },
@@ -510,7 +508,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "獅子",
+        chapter: "Lion",
         kobun: "",
         gendaibun: "",
       },
@@ -524,7 +522,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "青竜",
+        chapter: "Blue Dragon",
         kobun: "",
         gendaibun: "",
       },
@@ -538,7 +536,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "象",
+        chapter: "Elephant",
         kobun: "",
         gendaibun: "",
       },
@@ -552,7 +550,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "獏",
+        chapter: "Tapir",
         kobun: "",
         gendaibun: "",
       },
@@ -577,8 +575,6 @@ const dataEmakis = [
     video: "https://youtu.be/ZByb_6oS-30",
     thumb: "/cyoujyuu_yamazaki_hei_thumb.webp",
     thumb2: "/cyoujyuu_yamazaki_hei_thumb2.webp",
-    // metadesc:
-    //   "鳥獣人物戯画絵巻丙巻の全シーンを横スクロールでご覧になることができます。人間と動物の戯画が描かれる丙巻の後半は、甲巻に戻ったかのように、蛙、猿などが競馬、蹴鞠に興じる様が描かれています。甲巻の成り立ちを考えるうえで、興味が尽きない一巻です。",
     desc: "平安～鎌倉時代（12世紀～13世紀）にかけて描かれた鳥獣人物戯画絵巻 丙巻の摸本。この巻になり初めて人間が登場する。双六、目比べなど庶民が遊びに興じするさまが、前半の「人間の戯画」で生き生きと描かれる。後半は一転して、甲巻に戻ったかのように、蛙、猿などが競馬、蹴鞠に興じる様が描かれる。前半と後半は、もともと料紙の裏表に描かれており、描かれた時代も絵師も違うのではないといの指摘がある。",
     era: "平安",
     eraen: "heiann",
@@ -599,7 +595,7 @@ const dataEmakis = [
     emakis: [
       {
         cat: "ekotoba",
-        chapter: "囲碁",
+        chapter: "Go",
         kobun: "",
         gendaibun: "",
       },
@@ -613,7 +609,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "双六",
+        chapter: "Sugoroku",
         kobun: "",
         gendaibun: "",
       },
@@ -627,7 +623,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "将棋",
+        chapter: "Shogi",
         kobun: "",
         gendaibun: "",
       },
@@ -641,7 +637,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "耳引き",
+        chapter: "Cutting off the Ears",
         kobun: "",
         gendaibun: "",
       },
@@ -655,7 +651,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "首引き",
+        chapter: "Cutting off the Head",
         kobun: "",
         gendaibun: "",
       },
@@ -669,7 +665,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "目比べ",
+        chapter: "Comparing Eyes",
         kobun: "",
         gendaibun: "",
       },
@@ -683,7 +679,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "腰引き",
+        chapter: "Cutting off the Waist",
         kobun: "",
         gendaibun: "",
       },
@@ -697,7 +693,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "鶏合せ",
+        chapter: "CockFighting",
         kobun: "",
         gendaibun: "",
       },
@@ -711,7 +707,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "闘犬",
+        chapter: "DogFighting",
         kobun: "",
         gendaibun: "",
       },
@@ -725,7 +721,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "猿の競馬",
+        chapter: "Monkey Racing",
         kobun: "",
         gendaibun: "",
       },
@@ -755,7 +751,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "山車の囃子方",
+        chapter: "Festival Car",
         kobun: "",
         gendaibun: "",
       },
@@ -784,7 +780,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "猿と蛙の蹴鞠",
+        chapter: "Kemari",
         kobun: "",
         gendaibun: "",
       },
@@ -798,7 +794,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "猿と蛙の験競べ",
+        chapter: "Contest of Strength and skill",
         kobun: "",
         gendaibun: "",
       },
@@ -820,7 +816,7 @@ const dataEmakis = [
       },
       {
         cat: "ekotoba",
-        chapter: "蛇の出現",
+        chapter: "Appearance of a snake",
         kobun: "",
         gendaibun: "",
       },

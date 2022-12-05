@@ -66,7 +66,7 @@ const Sidebar = ({ value }) => {
     } else if (tabValue === 1) {
       return (
         <>
-          <p>以下を加工して作成</p>
+          <p>{locale === "en" ? "Created by modifying the following" : "以下を加工して作成"}</p>
           <br />
           <ul className={styles.source}>
             <li>
