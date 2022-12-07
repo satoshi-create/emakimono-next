@@ -66,7 +66,6 @@ const CardA = ({
                 <div className={styles.single}>
                   <Link href={`/${titleen}`}>
                     <a>
-                      {/* <img src={thumb} loading="lazy" alt={title} /> */}
                       <Image
                         src={thumb}
                         layout="fill"
@@ -83,16 +82,17 @@ const CardA = ({
                 <div className={styles.footer}>
                   <div className={styles.cat}>
                     <Link href={`/category/${typeen}`}>
-                      <a className={styles.type}>{type}</a>
+                      <a className={styles.type}>
+                        {locale === "en" ? typeen : type}
+                      </a>
                     </Link>
                     <Link href={`/era/${eraen}`}>
                       <a
                         className={`era ${styles[eraColor(era)]} ${styles.era}`}
                       >
-                        {`${era}時代`}
+                        {locale === "en" ? `${eraen} period` : `${era}時代`}
                       </a>
                     </Link>
-                    {/* <div>3巻</div> */}
                   </div>
                   <h3 className={styles.title}>
                     {title}　{edition}
@@ -117,10 +117,12 @@ const CardA = ({
                   {keyword && (
                     <div className={styles.keyword}>
                       {keyword.slice(0, 3).map((item, index) => {
-                        const { name, slug } = item;
+                        const { name, slug, id } = item;
                         return (
                           <Link href={`/keyword/${slug}`} key={index}>
-                            <a className={styles.keywordLink}>{name}</a>
+                            <a className={styles.keywordLink}>
+                              {locale === "en" ? id : name}
+                            </a>
                           </Link>
                         );
                       })}
