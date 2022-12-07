@@ -5,6 +5,7 @@ import emakisData from "../../libs/data";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { keywordItem } from "../../libs/func";
 import { useRouter } from "next/router";
+import Footer from "../../components/Footer";
 
 const Emaki = ({ name, posts, nameen }) => {
   const { locale } = useRouter();
@@ -31,6 +32,7 @@ const Emaki = ({ name, posts, nameen }) => {
         sectiontitle={locale === "en" ? `${nameen}` : name}
         sectiontitleen={locale === "en" ? name : `${nameen}`}
       />
+      <Footer/>
     </>
   );
 };
