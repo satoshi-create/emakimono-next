@@ -6,6 +6,7 @@ import Controller from "../components/Controller";
 import emakisData from "../libs/data";
 import enData from "../libs/en/data";
 import jaData from "../libs/data";
+import Footer from "../components/Footer";
 
 const Emaki = ({ emakis ,locales}) => {
 
@@ -23,6 +24,7 @@ const Emaki = ({ emakis ,locales}) => {
       <Controller value={emakis} />
       <Sidebar value={emakis} />
       <EmakiConteiner data={{ ...emakis }} />
+      <Footer/>
     </>
   );
 };

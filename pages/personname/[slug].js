@@ -5,6 +5,7 @@ import emakisData from "../../libs/data";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { personnameItem } from "../../libs/func";
 import { useRouter } from "next/router";
+import Footer from "../../components/Footer";
 
 const Emaki = ({ name, posts, nameruby, nameen }) => {
 
@@ -32,6 +33,7 @@ const Emaki = ({ name, posts, nameruby, nameen }) => {
         sectiontitle={locale === "en" ? name : name}
         sectiontitleen={locale === "en" ? nameen : nameruby}
       />
+      <Footer/>
     </>
   );
 };

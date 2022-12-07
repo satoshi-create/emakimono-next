@@ -6,6 +6,7 @@ import Head from "../../components/Meta";
 import CardA from "../../components/CardA";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { useRouter } from "next/router";
+import Footer from "../../components/Footer";
 
 const Emaki = ({ name, nameen, posts }) => {
   const { locale } = useRouter();
@@ -26,6 +27,7 @@ const Emaki = ({ name, nameen, posts }) => {
         sectiontitle={locale === "en" ? nameen : name}
         sectiontitleen={locale === "en" ? name : nameen}
       />
+      <Footer />
     </>
   );
 };
