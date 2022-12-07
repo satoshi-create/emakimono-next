@@ -10,13 +10,14 @@
   flex-direction: column; */
   row-gap: 20px;
   align-self: flex-end;
-  justify-self: center
+  justify-self: center;
 }
 .title {
   display: flex;
   column-gap: 6px;
-  /* align-items: center;
-  justify-content: center; */
+  /* align-items: center; */
+  justify-content: center;
+  margin-top: 2rem;
 }
 .logo {
   width: clamp(1.875rem, 1.6583rem + 0.9245vw, 2.25rem);
@@ -24,8 +25,10 @@
 }
 .title h4 {
   font-size: clamp(1.0625rem, 0.9542rem + 0.4622vw, 1.25rem);
-  font-family: var(--en-font);
   color: var(--clr-white);
+  font-family: var(--title-font);
+  font-weight: 400;
+
   text-transform: uppercase;
 }
 .aboutLinks {

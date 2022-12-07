@@ -1,0 +1,21 @@
+.links {
+  display: none;
+}
+@media screen and (min-width: 768px) {
+  .links {
+    grid-row: 2;
+    display: flex;
+    column-gap: 3rem;
+    font-weight: 200;
+    font-size: 1.3rem;
+  }
+  .active {
+    color: red;
+  }
+  .links a {
+    transition: var(--transition);
+  }
+  .links a:active {
+    color: var(--clr-accent-02);
+  }
+}
