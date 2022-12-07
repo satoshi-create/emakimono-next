@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import styles from "../styles/Header.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import links from "../libs/links";
+
 import { useRouter } from "next/router";
+import NavLinks from "./NavLinks";
 
 const Header = () => {
   const { locale } = useRouter();
@@ -12,7 +13,6 @@ const Header = () => {
   const { slug } = router.query;
 
   const [stickyClass, setStickyClass] = useState("");
-  const [stickyClassB, setStickyClassB] = useState("");
 
   const stickNavbar = () => {
     let windowHeight = window.scrollY;
@@ -40,30 +40,7 @@ const Header = () => {
             </button>
           </div>
         </nav>
-        <ul className={styles.links}>
-          {links.map((link, index) => {
-            const { path, name, nameen, id } = link;
-            return (
-              <li key={index}>
-                <Link href={path}>
-                  <a className={id === slug && styles.active}>
-                    {locale === "en" ? nameen : name}
-                  </a>
-                </Link>
-              </li>
-            );
-          })}
-          <li>
-            <Link href="/" locale="ja" passHref>
-              <a>日本語</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/" locale="en" passHref>
-              <a>英語</a>
-            </Link>
-          </li>
-        </ul>
+        <NavLinks slug={slug} />
       </div>
     </header>
   );
