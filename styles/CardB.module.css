@@ -49,7 +49,7 @@
   opacity: 0.4;
 }
 .title {
-  font-size: 6rem;
+  font-size: 3rem;
   font-family: var(--text-font);
   color: var(--clr-white);
 }
