@@ -19,4 +19,6 @@ const enMeta = {
   siteIcon: "/favicon.png",
 };
 
+
+
 export { jaMeta, enMeta };

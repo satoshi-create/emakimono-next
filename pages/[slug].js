@@ -8,42 +8,69 @@ import enData from "../libs/en/data";
 import jaData from "../libs/data";
 import Footer from "../components/Footer";
 
-const Emaki = ({ emakis ,locales}) => {
+const Emaki = ({ emakis, locale, locales, slug }) => {
+  console.log(emakis.thumb.width);
+
+  const pagetitle = `${emakis.title} ${emakis.edition ? emakis.edition : ""}`;
+  const tPageDesc =
+    locale === "en"
+      ? `You can enjoy all the scenes of the${pagetitle} ${
+          emakis.author && `（${emakis.author}）`
+        }in vertical and right to left scrolling mode.`
+      : `${pagetitle} ${
+          emakis.author && `（${emakis.author}）`
+        }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+
+  const jsonData = {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://emakimono.com/`,
+    },
+    headline: pagetitle,
+    description: tPageDesc,
+    url: `https://${locale}/emakimono.com/${slug}`,
+    image: {
+      "@type": "ImageObject",
+      url: emakis.thumb,
+      width: "533px",
+      height: "300px",
+    },
+    author: {
+      "@type": "Person",
+      name: "太郎",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "横スクロールで楽しむ絵巻",
+      logo: {
+        "@type": "ImageObject",
+        url: "/favicon.png",
+      },
+    },
+  };
+  const jsonLd = JSON.stringify(jsonData);
 
   return (
     <>
       <Head
-        pagetitle={`${emakis.title} ${emakis.edition ? emakis.edition : ""}`}
+        pagetitle={pagetitle}
         pageAuthor={emakis.author}
         pageDesc={emakis.metadesc}
         pageImg={emakis.thumb}
         pageImgW={emakis.thumb.width}
         pageImgH={emakis.thumb.height}
         pageType={emakis.type}
+        jsonLd={jsonLd}
       />
       <Controller value={emakis} />
       <Sidebar value={emakis} />
       <EmakiConteiner data={{ ...emakis }} />
-      <Footer/>
+      <Footer />
     </>
   );
 };
-
-// export const getStaticPaths: GetStaticPaths = async () => {
-//   const paths = categories.map(c => ({
-//     params: {
-//       slug: c.slug as string,
-//     },
-//     locale: 'ja',
-//   }))
-//   // 英語に対してもpathを作成
-//   paths.push(...paths.map(p => ({ ...p, locale: 'en' })))
-
-//   return {
-//     paths,
-//     fallback: false
-//   }
-// }
 
 export const getStaticPaths = async () => {
   const paths = emakisData.map((item) => ({
@@ -58,7 +85,7 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   const { slug } = context.params;
-  const { locale ,locales} = context;
+  const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
 
   const filterdEmakisData = tEmakisData.find(
@@ -69,6 +96,8 @@ export const getStaticProps = async (context) => {
     props: {
       emakis: filterdEmakisData,
       locales,
+      locale,
+      slug,
     },
   };
 };
