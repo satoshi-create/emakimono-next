@@ -4,10 +4,9 @@ import { useRouter } from "next/router";
 import siteImg from "../public/ogp.jpg";
 import { useLocaleMeta } from "../libs/func";
 
-const Meta = ({ pagetitle, pageDesc, pageImg, pageAuthor }) => {
+const Meta = ({ pagetitle, pageDesc, pageImg, pageAuthor, jsonLd }) => {
   const { t } = useLocaleMeta();
   const { locale, locales, asPath, defaultLocale } = useRouter();
-  console.log({ locales, asPath, defaultLocale });
 
   const title = pagetitle ? `${pagetitle} | ${t.siteTitle}` : t.siteTitle;
   const tPageDesc =
@@ -19,17 +18,13 @@ const Meta = ({ pagetitle, pageDesc, pageImg, pageAuthor }) => {
           pageAuthor && `（${pageAuthor}）`
         }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
   const pageDescTemp = pageDesc ? pageDesc : tPageDesc;
-
   const desc = pagetitle ? pageDescTemp : t.siteDesc;
-
   const url = `${t.siteUrl}${asPath}`;
-
 
   return (
     <Head>
       <title>{title}</title>
       <meta property="og:title" content={title} />
-
       <meta name="description" content={desc} />
       <meta property="og:description" content={desc} />
 
@@ -59,6 +54,13 @@ const Meta = ({ pagetitle, pageDesc, pageImg, pageAuthor }) => {
 
       <link rel="icon" href={t.siteIcon} />
       <link rel="apple-touch-icon" href={t.siteIcon} />
+      {jsonLd && (
+        <script
+          key="json-ld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd }}
+        />
+      )}
     </Head>
   );
 };
