@@ -1,0 +1,56 @@
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://emakimono.com/"
+  },
+  "headline": "鳥獣人物戯画絵巻 乙巻",
+  "description": "鳥獣人物戯画絵巻 乙巻 （鳥羽僧正覚猷）の全シーンを、縦書き、横スクロールで楽しむことができます。",
+  "url": "https://ja/emakimono.com/cyoujyujinbutsugiga_otu",
+  "image": {
+    "@type": "ImageObject",
+    "url": "/cyoujyuu_yamazaki_otu_thumb.webp",
+    "width": "533px",
+    "height": "300px"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "太郎"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "横スクロールで楽しむ絵巻",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/favicon.png"
+    }
+  }
+}
+
+{
+	"@context": "http://schema.org",
+	"@type": "Article",
+	"name": "Next.jsでブログ記事の構造化データ(JSON-LD)を生成する",
+	"headline": "Next.jsでブログ記事の構造化データ(JSON-LD)を生成する",
+	"datePublished": "2020-12-16T20:00:00.000+09:00",
+	"dateModified": "2020-12-16T20:00:00.000+09:00",
+	"url": "https://sunday-morning.app/posts/2020-12-16-next-js-generate-json-ld",
+	"mainEntityOfPage": "https://sunday-morning.app/posts/2020-12-16-next-js-generate-json-ld",
+	"image": [
+		"https://images.ctfassets.net/83xbj7nb79zu/48FlFi1PIObLHzHVHNw9j6/b8f587aac53eded2af3f0322a16c51cb/rich_result.png"
+	],
+	"description": "リッチリザルト テストで結果を確認",
+	"author": {
+		"@type": "Person",
+		"name": "hello world"
+	},
+	"publisher": {
+		"@type": "Organization",
+		"name": "Sunday morning",
+		"logo": {
+			"@type": "ImageObject",
+			"url": "https://sunday-morning.app/images/ogp.png"
+		}
+	}
+}
