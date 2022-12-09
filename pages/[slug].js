@@ -26,7 +26,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
     "@type": "Article",
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://emakimono.com/`,
+      "@id": `https://${locale}/emakimono.com/${slug}`,
     },
     headline: pagetitle,
     description: tPageDesc,
