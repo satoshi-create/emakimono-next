@@ -67,7 +67,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
       <Controller value={emakis} />
       <Sidebar value={emakis} />
       <EmakiConteiner data={{ ...emakis }} />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };
