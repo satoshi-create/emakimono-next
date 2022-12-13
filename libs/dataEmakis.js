@@ -34,6 +34,7 @@ const dataEmakis = [
         chapter: "兎と猿の水遊び ",
         kobun: "",
         gendaibun: "",
+        id: 0,
       },
       {
         load: true,
@@ -42,8 +43,10 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_01-800.webp",
         src: "/cyoujyuu_yamazaki_kou_01-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 1804,
+        srcHeight: 1080,
+        id: 1,
       },
-
       {
         load: true,
         cat: "image",
@@ -51,6 +54,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_02-800.webp",
         src: "/cyoujyuu_yamazaki_kou_02-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 2228,
+        srcHeight: 1080,
+        id: 2,
       },
       {
         load: false,
@@ -59,6 +65,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_03-800.webp",
         src: "/cyoujyuu_yamazaki_kou_03-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 2436,
+        srcHeight: 1080,
+        id: 3,
       },
       {
         load: false,
@@ -67,12 +76,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_04-800.webp",
         src: "/cyoujyuu_yamazaki_kou_04-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 2279,
+        srcHeight: 1080,
+        id: 4,
       },
       {
         cat: "ekotoba",
         chapter: "兎と蛙の賭弓 ",
         kobun: "",
         gendaibun: "",
+        id: 5,
       },
       {
         load: false,
@@ -81,6 +94,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_05-800.webp",
         src: "/cyoujyuu_yamazaki_kou_05-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 1617,
+        srcHeight: 1080,
+        id: 6,
       },
       {
         load: false,
@@ -89,6 +105,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_06-800.webp",
         src: "/cyoujyuu_yamazaki_kou_06-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 1860,
+        srcHeight: 1080,
+        id: 7,
       },
       {
         load: false,
@@ -97,6 +116,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_07-800.webp",
         src: "/cyoujyuu_yamazaki_kou_07-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 1845,
+        srcHeight: 1080,
+        id: 8,
       },
       {
         load: false,
@@ -105,6 +127,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_08-800.webp",
         src: "/cyoujyuu_yamazaki_kou_08-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 1845,
+        srcHeight: 1080,
+        id: 9,
       },
       {
         load: false,
@@ -113,6 +138,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_09-800.webp",
         src: "/cyoujyuu_yamazaki_kou_09-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 1860,
+        srcHeight: 1080,
+        id: 10,
       },
       {
         load: false,
@@ -121,12 +149,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_10-800.webp",
         src: "/cyoujyuu_yamazaki_kou_10-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 1709,
+        srcHeight: 1080,
+        id: 11,
       },
       {
         cat: "ekotoba",
         chapter: "禄の物を受ける猿僧正",
         kobun: "",
         gendaibun: "",
+        id: 12,
       },
       {
         load: false,
@@ -135,6 +167,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_11-800.webp",
         src: "/cyoujyuu_yamazaki_kou_11-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 1065,
+        srcHeight: 1080,
+        id: 13,
       },
       {
         load: false,
@@ -143,12 +178,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_12-800.webp",
         src: "/cyoujyuu_yamazaki_kou_12-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 1902,
+        srcHeight: 1080,
+        id: 14,
       },
       {
         cat: "ekotoba",
         chapter: "猿と蛙の喧嘩",
         kobun: "",
         gendaibun: "",
+        id: 15,
       },
       {
         load: false,
@@ -157,6 +196,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_13-800.webp",
         src: "/cyoujyuu_yamazaki_kou_13-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 1878,
+        srcHeight: 1080,
+        id: 16,
       },
       {
         load: false,
@@ -165,12 +207,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_14-800.webp",
         src: "/cyoujyuu_yamazaki_kou_14-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 2196,
+        srcHeight: 1080,
+        id: 17,
       },
       {
         cat: "ekotoba",
         chapter: "田楽見物",
         kobun: "",
         gendaibun: "",
+        id: 18,
       },
       {
         load: false,
@@ -178,6 +224,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_15-800.webp",
         src: "/cyoujyuu_yamazaki_kou_15-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 1350,
+        srcHeight: 1080,
+        id: 19,
       },
       {
         load: false,
@@ -186,12 +235,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_16-800.webp",
         src: "/cyoujyuu_yamazaki_kou_16-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 1252,
+        srcHeight: 1080,
+        id: 20,
       },
       {
         cat: "ekotoba",
         chapter: "兎と蛙の相撲",
         kobun: "",
         gendaibun: "",
+        id: 21,
       },
       {
         load: false,
@@ -200,6 +253,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_17-800.webp",
         src: "/cyoujyuu_yamazaki_kou_17-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 2015,
+        srcHeight: 1080,
+        id: 22,
       },
       {
         load: false,
@@ -208,12 +264,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_18-800.webp",
         src: "/cyoujyuu_yamazaki_kou_18-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 1899,
+        srcHeight: 1080,
+        id: 23,
       },
       {
         cat: "ekotoba",
         chapter: "双六盤を運ぶ猿",
         kobun: "",
         gendaibun: "",
+        id: 24,
       },
       {
         load: false,
@@ -222,12 +282,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_19-800.webp",
         src: "/cyoujyuu_yamazaki_kou_19-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 1380,
+        srcHeight: 1080,
+        id: 25,
       },
       {
         cat: "ekotoba",
         chapter: "周忌法会の導師をつとめる猿僧正",
         kobun: "",
         gendaibun: "",
+        id: 26,
       },
       {
         load: false,
@@ -236,6 +300,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_20-800.webp",
         src: "/cyoujyuu_yamazaki_kou_20-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 1685,
+        srcHeight: 1080,
+        id: 27,
       },
       {
         load: false,
@@ -244,12 +311,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_21-800.webp",
         src: "/cyoujyuu_yamazaki_kou_21-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 1887,
+        srcHeight: 1080,
+        id: 28,
       },
       {
         cat: "ekotoba",
         chapter: "猿僧正への僧供",
         kobun: "",
         gendaibun: "",
+        id: 29,
       },
       {
         load: false,
@@ -258,6 +329,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_22-800.webp",
         src: "/cyoujyuu_yamazaki_kou_22-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 1881,
+        srcHeight: 1080,
+        id: 30,
       },
       {
         load: false,
@@ -266,6 +340,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_kou_23-800.webp",
         src: "/cyoujyuu_yamazaki_kou_23-1080.webp",
         name: "鳥獣人物戯画絵巻甲巻摸本の画像",
+        srcWidth: 1216,
+        srcHeight: 1080,
+        id: 31,
       },
     ],
   },
@@ -303,6 +380,7 @@ const dataEmakis = [
         chapter: "馬",
         kobun: "",
         gendaibun: "",
+        id: 32,
       },
       {
         load: true,
@@ -311,8 +389,10 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_01-800.webp",
         src: "/cyoujyuu_yamazaki_otu_01-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 33,
+        srcWidth: 1589,
+        srcHeight: 1080,
       },
-
       {
         load: true,
         cat: "image",
@@ -320,6 +400,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_02-800.webp",
         src: "/cyoujyuu_yamazaki_otu_02-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 34,
+        srcWidth: 1373,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -328,6 +411,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_03-800.webp",
         src: "/cyoujyuu_yamazaki_otu_03-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 35,
+        srcWidth: 1814,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -336,12 +422,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_04-800.webp",
         src: "/cyoujyuu_yamazaki_otu_04-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 36,
+        srcWidth: 1793,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "牛",
         kobun: "",
         gendaibun: "",
+        id: 37,
       },
       {
         load: false,
@@ -350,6 +440,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_05-800.webp",
         src: "/cyoujyuu_yamazaki_otu_05-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 38,
+        srcWidth: 1864,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -358,6 +451,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_06-800.webp",
         src: "/cyoujyuu_yamazaki_otu_06-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 39,
+        srcWidth: 2045,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -366,6 +462,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_07-800.webp",
         src: "/cyoujyuu_yamazaki_otu_07-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 40,
+        srcWidth: 1633,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -374,12 +473,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_08-800.webp",
         src: "/cyoujyuu_yamazaki_otu_08-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 41,
+        srcWidth: 1837,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "鷹",
         kobun: "",
         gendaibun: "",
+        id: 42,
       },
       {
         load: false,
@@ -388,12 +491,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_09-800.webp",
         src: "/cyoujyuu_yamazaki_otu_09-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 43,
+        srcWidth: 1290,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "犬",
         kobun: "",
         gendaibun: "",
+        id: 44,
       },
       {
         load: false,
@@ -402,14 +509,17 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_10-800.webp",
         src: "/cyoujyuu_yamazaki_otu_10-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 45,
+        srcWidth: 2906,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "鶏",
         kobun: "",
         gendaibun: "",
+        id: 46,
       },
-
       {
         load: false,
         cat: "image",
@@ -417,6 +527,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_11-800.webp",
         src: "/cyoujyuu_yamazaki_otu_11-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 47,
+        srcWidth: 2551,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -425,12 +538,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_12-800.webp",
         src: "/cyoujyuu_yamazaki_otu_12-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 48,
+        srcWidth: 1355,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "鷲と隼",
         kobun: "",
         gendaibun: "",
+        id: 49,
       },
       {
         load: false,
@@ -439,12 +556,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_13-800.webp",
         src: "/cyoujyuu_yamazaki_otu_13-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 50,
+        srcWidth: 1213,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "玄武",
         kobun: "",
         gendaibun: "",
+        id: 51,
       },
       {
         load: false,
@@ -453,12 +574,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_14-800.webp",
         src: "/cyoujyuu_yamazaki_otu_14-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 52,
+        srcWidth: 1485,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "麒麟",
         kobun: "",
         gendaibun: "",
+        id: 53,
       },
       {
         load: false,
@@ -466,12 +591,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_15-800.webp",
         src: "/cyoujyuu_yamazaki_otu_15-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 54,
+        srcWidth: 2388,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "豹",
         kobun: "",
         gendaibun: "",
+        id: 55,
       },
       {
         load: false,
@@ -480,12 +609,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_16-800.webp",
         src: "/cyoujyuu_yamazaki_otu_16-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 56,
+        srcWidth: 2332,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "山羊",
         kobun: "",
         gendaibun: "",
+        id: 57,
       },
       {
         load: false,
@@ -494,12 +627,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_17-800.webp",
         src: "/cyoujyuu_yamazaki_otu_17-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 58,
+        srcWidth: 1379,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "虎",
         kobun: "",
         gendaibun: "",
+        id: 59,
       },
       {
         load: false,
@@ -508,12 +645,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_18-800.webp",
         src: "/cyoujyuu_yamazaki_otu_18-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 60,
+        srcWidth: 1959,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "獅子",
         kobun: "",
         gendaibun: "",
+        id: 61,
       },
       {
         load: false,
@@ -522,12 +663,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_19-800.webp",
         src: "/cyoujyuu_yamazaki_otu_19-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 62,
+        srcWidth: 3000,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "青竜",
         kobun: "",
         gendaibun: "",
+        id: 63,
       },
       {
         load: false,
@@ -536,12 +681,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_20-800.webp",
         src: "/cyoujyuu_yamazaki_otu_20-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 64,
+        srcWidth: 2086,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "象",
         kobun: "",
         gendaibun: "",
+        id: 65,
       },
       {
         load: false,
@@ -550,14 +699,17 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_21-800.webp",
         src: "/cyoujyuu_yamazaki_otu_21-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 66,
+        srcWidth: 1968,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "獏",
         kobun: "",
         gendaibun: "",
+        id: 67,
       },
-
       {
         load: false,
         cat: "image",
@@ -565,6 +717,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_otu_22-800.webp",
         src: "/cyoujyuu_yamazaki_otu_22-1080.webp",
         name: "鳥獣人物戯画絵巻乙巻摸本の画像",
+        id: 68,
+        srcWidth: 1837,
+        srcHeight: 1080,
       },
     ],
   },
@@ -603,6 +758,7 @@ const dataEmakis = [
         chapter: "囲碁",
         kobun: "",
         gendaibun: "",
+        id: 69,
       },
       {
         load: true,
@@ -611,12 +767,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_hei_01-800.webp",
         src: "/cyoujyuu_yamazaki_hei_01-1080.webp",
         name: "鳥獣人物戯画絵巻丙巻摸本の画像",
+        id: 70,
+        srcWidth: 2687,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "双六",
         kobun: "",
         gendaibun: "",
+        id: 71,
       },
       {
         load: true,
@@ -625,12 +785,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_hei_02-800.webp",
         src: "/cyoujyuu_yamazaki_hei_02-1080.webp",
         name: "鳥獣人物戯画絵巻丙巻摸本の画像",
+        id: 72,
+        srcWidth: 2310,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "将棋",
         kobun: "",
         gendaibun: "",
+        id: 73,
       },
       {
         load: false,
@@ -639,12 +803,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_hei_03-800.webp",
         src: "/cyoujyuu_yamazaki_hei_03-1080.webp",
         name: "鳥獣人物戯画絵巻丙巻摸本の画像",
+        id: 74,
+        srcWidth: 1593,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "耳引き",
         kobun: "",
         gendaibun: "",
+        id: 75,
       },
       {
         load: false,
@@ -653,12 +821,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_hei_04-800.webp",
         src: "/cyoujyuu_yamazaki_hei_04-1080.webp",
         name: "鳥獣人物戯画絵巻丙巻摸本の画像",
+        id: 76,
+        srcWidth: 1731,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "首引き",
         kobun: "",
         gendaibun: "",
+        id: 77,
       },
       {
         load: false,
@@ -667,12 +839,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_hei_05-800.webp",
         src: "/cyoujyuu_yamazaki_hei_05-1080.webp",
         name: "鳥獣人物戯画絵巻丙巻摸本の画像",
+        id: 78,
+        srcWidth: 2339,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "目比べ",
         kobun: "",
         gendaibun: "",
+        id: 79,
       },
       {
         load: false,
@@ -681,12 +857,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_hei_06-800.webp",
         src: "/cyoujyuu_yamazaki_hei_06-1080.webp",
         name: "鳥獣人物戯画絵巻丙巻摸本の画像",
+        id: 80,
+        srcWidth: 1331,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "腰引き",
         kobun: "",
         gendaibun: "",
+        id: 81,
       },
       {
         load: false,
@@ -695,12 +875,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_hei_07-800.webp",
         src: "/cyoujyuu_yamazaki_hei_07-1080.webp",
         name: "鳥獣人物戯画絵巻丙巻摸本の画像",
+        id: 82,
+        srcWidth: 1816,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "鶏合せ",
         kobun: "",
         gendaibun: "",
+        id: 83,
       },
       {
         load: false,
@@ -709,12 +893,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_hei_08-800.webp",
         src: "/cyoujyuu_yamazaki_hei_08-1080.webp",
         name: "鳥獣人物戯画絵巻丙巻摸本の画像",
+        id: 84,
+        srcWidth: 3794,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "闘犬",
         kobun: "",
         gendaibun: "",
+        id: 85,
       },
       {
         load: false,
@@ -723,12 +911,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_hei_09-800.webp",
         src: "/cyoujyuu_yamazaki_hei_09-1080.webp",
         name: "鳥獣人物戯画絵巻丙巻摸本の画像",
+        id: 86,
+        srcWidth: 2180,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "猿の競馬",
         kobun: "",
         gendaibun: "",
+        id: 87,
       },
       {
         load: false,
@@ -737,6 +929,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_hei_10-800.webp",
         src: "/cyoujyuu_yamazaki_hei_10-1080.webp",
         name: "鳥獣人物戯画絵巻丙巻摸本の画像",
+        id: 88,
+        srcWidth: 1666,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -745,6 +940,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_hei_11-800.webp",
         src: "/cyoujyuu_yamazaki_hei_11-1080.webp",
         name: "鳥獣人物戯画絵巻丙巻摸本の画像",
+        id: 89,
+        srcWidth: 1891,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -753,12 +951,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_hei_12-800.webp",
         src: "/cyoujyuu_yamazaki_hei_12-1080.webp",
         name: "鳥獣人物戯画絵巻丙巻摸本の画像",
+        id: 90,
+        srcWidth: 1921,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "山車の囃子方",
         kobun: "",
         gendaibun: "",
+        id: 91,
       },
       {
         load: false,
@@ -767,6 +969,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_hei_13-800.webp",
         src: "/cyoujyuu_yamazaki_hei_13-1080.webp",
         name: "鳥獣人物戯画絵巻丙巻摸本の画像",
+        id: 92,
+        srcWidth: 1926,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -775,6 +980,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_hei_14-800.webp",
         src: "/cyoujyuu_yamazaki_hei_14-1080.webp",
         name: "鳥獣人物戯画絵巻丙巻摸本の画像",
+        id: 93,
+        srcWidth: 1871,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -782,12 +990,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_hei_15-800.webp",
         src: "/cyoujyuu_yamazaki_hei_15-1080.webp",
         name: "鳥獣人物戯画絵巻丙巻摸本の画像",
+        id: 94,
+        srcWidth: 1481,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "猿と蛙の蹴鞠",
         kobun: "",
         gendaibun: "",
+        id: 95,
       },
       {
         load: false,
@@ -796,12 +1008,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_hei_16-800.webp",
         src: "/cyoujyuu_yamazaki_hei_16-1080.webp",
         name: "鳥獣人物戯画絵巻丙巻摸本の画像",
+        id: 96,
+        srcWidth: 1643,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "猿と蛙の験競べ",
         kobun: "",
         gendaibun: "",
+        id: 97,
       },
       {
         load: false,
@@ -810,6 +1026,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_hei_17-800.webp",
         src: "/cyoujyuu_yamazaki_hei_17-1080.webp",
         name: "鳥獣人物戯画絵巻丙巻摸本の画像",
+        id: 98,
+        srcWidth: 1857,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -818,12 +1037,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_hei_18-800.webp",
         src: "/cyoujyuu_yamazaki_hei_18-1080.webp",
         name: "鳥獣人物戯画絵巻丙巻摸本の画像",
+        id: 99,
+        srcWidth: 1920,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "蛇の出現",
         kobun: "",
         gendaibun: "",
+        id: 100,
       },
       {
         load: false,
@@ -832,6 +1055,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_hei_19-800.webp",
         src: "/cyoujyuu_yamazaki_hei_19-1080.webp",
         name: "鳥獣人物戯画絵巻丙巻摸本の画像",
+        id: 101,
+        srcWidth: 1845,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -840,6 +1066,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_hei_20-800.webp",
         src: "/cyoujyuu_yamazaki_hei_20-1080.webp",
         name: "鳥獣人物戯画絵巻丙巻摸本の画像",
+        id: 102,
+        srcWidth: 635,
+        srcHeight: 1080,
       },
     ],
   },
@@ -876,6 +1105,7 @@ const dataEmakis = [
           "<ruby><rb>侏儒</rb><rp>（</rp><rt>しゅじゅ</rt><rp>）</rp></ruby>（小人）の<ruby><rb>籠脱け</rb><rp>（</rp><rt>かごぬけ</rt><rp>）</rp></ruby>",
         kobun: "",
         gendaibun: "",
+        id: 103,
       },
       {
         load: true,
@@ -884,12 +1114,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_tei_01-800.webp",
         src: "/cyoujyuu_yamazaki_tei_01-1080.webp",
         name: "鳥獣人物戯画絵巻丁巻摸本の画像",
+        id: 104,
+        srcWidth: 1619,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "験競べ",
         kobun: "",
         gendaibun: "",
+        id: 105,
       },
       {
         load: true,
@@ -898,6 +1132,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_tei_02-800.webp",
         src: "/cyoujyuu_yamazaki_tei_02-1080.webp",
         name: "鳥獣人物戯画絵巻丁巻摸本の画像",
+        id: 106,
+        srcWidth: 2301,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -906,6 +1143,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_tei_03-800.webp",
         src: "/cyoujyuu_yamazaki_tei_03-1080.webp",
         name: "鳥獣人物戯画絵巻丁巻摸本の画像",
+        id: 107,
+        srcWidth: 1696,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -913,6 +1153,7 @@ const dataEmakis = [
           "供養の<ruby><rb>結縁者</rb><rp>（</rp><rt>けちえんしゃ</rt><rp>）</rp></ruby>たち",
         kobun: "",
         gendaibun: "",
+        id: 108,
       },
       {
         load: false,
@@ -921,6 +1162,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_tei_04-800.webp",
         src: "/cyoujyuu_yamazaki_tei_04-1080.webp",
         name: "鳥獣人物戯画絵巻丁巻摸本の画像",
+        id: 109,
+        srcWidth: 2604,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -929,6 +1173,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_tei_05-800.webp",
         src: "/cyoujyuu_yamazaki_tei_05-1080.webp",
         name: "鳥獣人物戯画絵巻丁巻摸本の画像",
+        id: 110,
+        srcWidth: 1138,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -936,6 +1183,7 @@ const dataEmakis = [
           "<ruby><rb>流鏑馬</rb><rp>（</rp><rt>やぶさめ</rt><rp>）</rp></ruby>",
         kobun: "",
         gendaibun: "",
+        id: 111,
       },
       {
         load: false,
@@ -944,6 +1192,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_tei_06-800.webp",
         src: "/cyoujyuu_yamazaki_tei_06-1080.webp",
         name: "鳥獣人物戯画絵巻丁巻摸本の画像",
+        id: 112,
+        srcWidth: 1740,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -952,12 +1203,16 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_tei_07-800.webp",
         src: "/cyoujyuu_yamazaki_tei_07-1080.webp",
         name: "鳥獣人物戯画絵巻丁巻摸本の画像",
+        id: 113,
+        srcWidth: 1601,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "田楽",
         kobun: "",
         gendaibun: "",
+        id: 114,
       },
       {
         load: false,
@@ -966,6 +1221,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_tei_08-800.webp",
         src: "/cyoujyuu_yamazaki_tei_08-1080.webp",
         name: "鳥獣人物戯画絵巻丁巻摸本の画像",
+        id: 115,
+        srcWidth: 1840,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -973,6 +1231,7 @@ const dataEmakis = [
           "<ruby><rb>毬打</rb><rp>（</rp><rt>ぎっちょう</rt><rp>）</rp></ruby>",
         kobun: "",
         gendaibun: "",
+        id: 116,
       },
       {
         load: false,
@@ -981,6 +1240,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_tei_09-800.webp",
         src: "/cyoujyuu_yamazaki_tei_09-1080.webp",
         name: "鳥獣人物戯画絵巻丁巻摸本の画像",
+        id: 117,
+        srcWidth: 2655,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -988,6 +1250,7 @@ const dataEmakis = [
           "<ruby><rb>木遣り</rb><rp>（</rp><rt>きやり</rt><rp>）</rp></ruby>",
         kobun: "",
         gendaibun: "",
+        id: 118,
       },
       {
         load: false,
@@ -996,6 +1259,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_tei_10-800.webp",
         src: "/cyoujyuu_yamazaki_tei_10-1080.webp",
         name: "鳥獣人物戯画絵巻丁巻摸本の画像",
+        id: 119,
+        srcWidth: 1558,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -1004,6 +1270,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_tei_11-800.webp",
         src: "/cyoujyuu_yamazaki_tei_11-1080.webp",
         name: "鳥獣人物戯画絵巻丁巻摸本の画像",
+        id: 120,
+        srcWidth: 1140,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -1012,6 +1281,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_tei_12-800.webp",
         src: "/cyoujyuu_yamazaki_tei_12-1080.webp",
         name: "鳥獣人物戯画絵巻丁巻摸本の画像",
+        id: 121,
+        srcWidth: 1812,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -1019,6 +1291,7 @@ const dataEmakis = [
           "<ruby><rb>番論義</rb><rp>（</rp><rt>ばんろんぎ</rt><rp>）</rp></ruby>に着座した公卿たち",
         kobun: "",
         gendaibun: "",
+        id: 122,
       },
       {
         load: false,
@@ -1027,6 +1300,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_tei_13-800.webp",
         src: "/cyoujyuu_yamazaki_tei_13-1080.webp",
         name: "鳥獣人物戯画絵巻丁巻摸本の画像",
+        id: 123,
+        srcWidth: 2062,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -1034,6 +1310,7 @@ const dataEmakis = [
           "<ruby><rb>印地</rb><rp>（</rp><rt>いんじ</rt><rp>）</rp></ruby>打ち",
         kobun: "",
         gendaibun: "",
+        id: 124,
       },
       {
         load: false,
@@ -1042,6 +1319,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_tei_14-800.webp",
         src: "/cyoujyuu_yamazaki_tei_14-1080.webp",
         name: "鳥獣人物戯画絵巻丁巻摸本の画像",
+        id: 125,
+        srcWidth: 2200,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -1049,6 +1329,7 @@ const dataEmakis = [
           "<ruby><rb>拝賀</rb><rp>（</rp><rt>はいが</rt><rp>）</rp></ruby>の<ruby><rb>大臣</rb><rp>（</rp><rt>おとど</rt><rp>）</rp></ruby>",
         kobun: "",
         gendaibun: "",
+        id: 126,
       },
       {
         load: false,
@@ -1056,6 +1337,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_tei_15-800.webp",
         src: "/cyoujyuu_yamazaki_tei_15-1080.webp",
         name: "鳥獣人物戯画絵巻丁巻摸本の画像",
+        id: 127,
+        srcWidth: 1117,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -1064,6 +1348,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_tei_16-800.webp",
         src: "/cyoujyuu_yamazaki_tei_16-1080.webp",
         name: "鳥獣人物戯画絵巻丁巻摸本の画像",
+        id: 128,
+        srcWidth: 1797,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -1072,6 +1359,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_tei_17-800.webp",
         src: "/cyoujyuu_yamazaki_tei_17-1080.webp",
         name: "鳥獣人物戯画絵巻丁巻摸本の画像",
+        id: 129,
+        srcWidth: 1734,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -1080,6 +1370,9 @@ const dataEmakis = [
         srcTb: "/cyoujyuu_yamazaki_tei_18-800.webp",
         src: "/cyoujyuu_yamazaki_tei_18-1080.webp",
         name: "鳥獣人物戯画絵巻丁巻摸本の画像",
+        id: 130,
+        srcWidth: 1639,
+        srcHeight: 1080,
       },
     ],
   },
@@ -1177,7 +1470,11 @@ const dataEmakis = [
               "1　下位の者から上位の者へ、願い事などを書いて差し出す文書。<br>2　  特に平安時代以後、官人が、叙任や官位の昇進を望むとき、その理由を書いて朝廷に上奏した文書。",
           },
         ],
+        id: 131,
+        srcWidth: 1316,
+        srcHeight: 1080,
       },
+
       {
         load: true,
         cat: "image",
@@ -1185,6 +1482,9 @@ const dataEmakis = [
         srcTb: "/naomoto_02-800.webp",
         src: "/naomoto_02-1080.webp",
         name: "naomoto_02.webp",
+        id: 132,
+        srcWidth: 1688,
+        srcHeight: 1080,
       },
       {
         load: true,
@@ -1193,6 +1493,9 @@ const dataEmakis = [
         srcTb: "/naomoto_03-800.webp",
         src: "/naomoto_03-1080.webp",
         name: "naomoto_03.webp",
+        id: 133,
+        srcWidth: 1626,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -1201,6 +1504,9 @@ const dataEmakis = [
         srcTb: "/naomoto_04-800.webp",
         src: "/naomoto_04-1080.webp",
         name: "naomoto_04.webp",
+        id: 134,
+        srcWidth: 2195,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -1209,7 +1515,11 @@ const dataEmakis = [
         srcTb: "/naomoto_05-800.webp",
         src: "/naomoto_05-1080.webp",
         name: "naomoto_05.webp",
+        id: 135,
+        srcWidth: 1884,
+        srcHeight: 1080,
       },
+
       {
         cat: "ekotoba",
         chapter: "第二段　直幹の申文に、村上天皇機嫌を損ずる",
@@ -1233,6 +1543,7 @@ const dataEmakis = [
               "蔵人所の頭(とう)、および五位・六位の蔵人の総称。<br>蔵人所は、天皇と天皇家に関する私的な要件について、進奏、詔勅の伝宣を行ない、天皇身辺の雑事や宮中における物資の調達、儀式の奉行や宮中の整備取締りをするなど、昇殿者の統率と宮中諸雑事処理の中心であった。",
           },
         ],
+        id: 136,
       },
       {
         load: false,
@@ -1241,6 +1552,9 @@ const dataEmakis = [
         srcTb: "/naomoto_07-800.webp",
         src: "/naomoto_07-1080.webp",
         name: "naomoto_07.webp",
+        id: 137,
+        srcWidth: 1918,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -1249,7 +1563,11 @@ const dataEmakis = [
         srcTb: "/naomoto_08-800.webp",
         src: "/naomoto_08-1080.webp",
         name: "naomoto_08.webp",
+        id: 138,
+        srcWidth: 2397,
+        srcHeight: 1080,
       },
+
       {
         cat: "ekotoba",
         chapter: "第三段　愁訴の情を書き連ねる直幹の申文",
@@ -1273,6 +1591,7 @@ const dataEmakis = [
               "平安時代中期の官吏。<br>三統理平(まさひら)の子。文章博士,ついで式部少輔(しょう)となり,天徳元年(957)東宮学士をかねた。<br>（デジタル版 日本人名大辞典+Plus）",
           },
         ],
+        id: 139,
       },
       {
         load: false,
@@ -1281,6 +1600,9 @@ const dataEmakis = [
         srcTb: "/naomoto_10-800.webp",
         src: "/naomoto_10-1080.webp",
         name: "naomoto_10.webp",
+        id: 140,
+        srcWidth: 1860,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -1289,6 +1611,9 @@ const dataEmakis = [
         srcTb: "/naomoto_11-800.webp",
         src: "/naomoto_11-1080.webp",
         name: "naomoto_11.webp",
+        id: 141,
+        srcWidth: 2192,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -1297,6 +1622,9 @@ const dataEmakis = [
         srcTb: "/naomoto_12-800.webp",
         src: "/naomoto_12-1080.webp",
         name: "naomoto_12.webp",
+        id: 142,
+        srcWidth: 2097,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -1305,6 +1633,9 @@ const dataEmakis = [
         srcTb: "/naomoto_13-800.webp",
         src: "/naomoto_13-1080.webp",
         name: "naomoto_13.webp",
+        id: 143,
+        srcWidth: 2449,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -1335,6 +1666,7 @@ const dataEmakis = [
               "平安中期の公卿。藤原忠平と宇多天皇の娘源順子の子。右大臣,左大臣を経て,康保4(967)年冷泉天皇の即位により関白太政大臣,次いで安和2(969)年円融天皇の摂政となり,以後摂政,関白が常置される先例となった。",
           },
         ],
+        id: 144,
       },
       {
         load: false,
@@ -1343,6 +1675,9 @@ const dataEmakis = [
         srcTb: "/naomoto_15-800.webp",
         src: "/naomoto_15-1080.webp",
         name: "naomoto_15.webp",
+        id: 145,
+        srcWidth: 1650,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -1351,6 +1686,9 @@ const dataEmakis = [
         srcTb: "/naomoto_16-800.webp",
         src: "/naomoto_16-1080.webp",
         name: "naomoto_16.webp",
+        id: 146,
+        srcWidth: 1707,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -1359,6 +1697,9 @@ const dataEmakis = [
         srcTb: "/naomoto_17-800.webp",
         src: "/naomoto_17-1080.webp",
         name: "naomoto_17.webp",
+        id: 147,
+        srcWidth: 1747,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -1367,6 +1708,9 @@ const dataEmakis = [
         srcTb: "/naomoto_18-800.webp",
         src: "/naomoto_18-1080.webp",
         name: "naomoto_18.webp",
+        id: 148,
+        srcWidth: 1959,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -1375,6 +1719,9 @@ const dataEmakis = [
         srcTb: "/naomoto_19-800.webp",
         src: "/naomoto_19-1080.webp",
         name: "naomoto_19.webp",
+        id: 149,
+        srcWidth: 1924,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -1383,6 +1730,9 @@ const dataEmakis = [
         srcTb: "/naomoto_20-800.webp",
         src: "/naomoto_20-1080.webp",
         name: "naomoto_20.webp",
+        id: 150,
+        srcWidth: 2068,
+        srcHeight: 1080,
       },
     ],
   },
@@ -1474,6 +1824,7 @@ const dataEmakis = [
               "1　下位の者から上位の者へ、願い事などを書いて差し出す文書。<br>2　  特に平安時代以後、官人が、叙任や官位の昇進を望むとき、その理由を書いて朝廷に上奏した文書。",
           },
         ],
+        id: 151,
       },
       {
         load: true,
@@ -1500,6 +1851,9 @@ const dataEmakis = [
             text: "宴会に興じる絵師一族",
           },
         ],
+        id: 152,
+        srcWidth: 1909,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -1508,6 +1862,9 @@ const dataEmakis = [
         srcTb: "/nayotake_03-800.webp",
         src: "/nayotake_03-1080.webp",
         name: "nayotake_03.webp",
+        id: 153,
+        srcWidth: 1774,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -1516,7 +1873,11 @@ const dataEmakis = [
         srcTb: "/nayotake_04-800.webp",
         src: "/nayotake_04-1080.webp",
         name: "nayotake_04.webp",
+        id: 154,
+        srcWidth: 1325,
+        srcHeight: 1080,
       },
+
       {
         cat: "ekotoba",
         chapter: "第二段　公卿たち、帝の悶々の心を慰める",
@@ -1539,6 +1900,7 @@ const dataEmakis = [
               "蔵人所の頭(とう)、および五位・六位の蔵人の総称。<br>蔵人所は、天皇と天皇家に関する私的な要件について、進奏、詔勅の伝宣を行ない、天皇身辺の雑事や宮中における物資の調達、儀式の奉行や宮中の整備取締りをするなど、昇殿者の統率と宮中諸雑事処理の中心であった。",
           },
         ],
+        id: 155,
       },
       {
         load: false,
@@ -1547,7 +1909,11 @@ const dataEmakis = [
         srcTb: "/nayotake_06-800.webp",
         src: "/nayotake_06-1080.webp",
         name: "nayotake_06.webp",
+        id: 156,
+        srcWidth: 1915,
+        srcHeight: 1080,
       },
+
       {
         cat: "ekotoba",
         chapter: "第三段　蔵人、陰陽師の占いにより女を待つ",
@@ -1570,6 +1936,7 @@ const dataEmakis = [
               "蔵人所の頭(とう)、および五位・六位の蔵人の総称。<br>蔵人所は、天皇と天皇家に関する私的な要件について、進奏、詔勅の伝宣を行ない、天皇身辺の雑事や宮中における物資の調達、儀式の奉行や宮中の整備取締りをするなど、昇殿者の統率と宮中諸雑事処理の中心であった。",
           },
         ],
+        id: 157,
       },
       {
         load: false,
@@ -1578,6 +1945,9 @@ const dataEmakis = [
         srcTb: "/nayotake_08-800.webp",
         src: "/nayotake_08-1080.webp",
         name: "nayotake_08.webp",
+        id: 158,
+        srcWidth: 2506,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -1602,6 +1972,7 @@ const dataEmakis = [
               "平安時代中期の官吏。<br>三統理平(まさひら)の子。文章博士,ついで式部少輔(しょう)となり,天徳元年(957)東宮学士をかねた。<br>（デジタル版 日本人名大辞典+Plus）",
           },
         ],
+        id: 159,
       },
       {
         load: false,
@@ -1610,6 +1981,9 @@ const dataEmakis = [
         srcTb: "/nayotake_10-800.webp",
         src: "/nayotake_10-1080.webp",
         name: "nayotake_10.webp",
+        id: 160,
+        srcWidth: 2693,
+        srcHeight: 1080,
       },
 
       {
@@ -1639,6 +2013,7 @@ const dataEmakis = [
               "平安中期の公卿。藤原忠平と宇多天皇の娘源順子の子。右大臣,左大臣を経て,康保4(967)年冷泉天皇の即位により関白太政大臣,次いで安和2(969)年円融天皇の摂政となり,以後摂政,関白が常置される先例となった。",
           },
         ],
+        id: 161,
       },
       {
         load: false,
@@ -1647,6 +2022,9 @@ const dataEmakis = [
         srcTb: "/nayotake_14-800.webp",
         src: "/nayotake_14-1080.webp",
         name: "nayotake_14.webp",
+        id: 162,
+        srcWidth: 1979,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -1655,7 +2033,11 @@ const dataEmakis = [
         srcTb: "/nayotake_15-800.webp",
         src: "/nayotake_15-1080.webp",
         name: "nayotake_15.webp",
+        id: 163,
+        srcWidth: 1967,
+        srcHeight: 1080,
       },
+
       {
         cat: "ekotoba",
         chapter: "第六段　帝、返し文の「を」の字のなぞにいぶかる",
@@ -1683,6 +2065,7 @@ const dataEmakis = [
               "平安中期の公卿。藤原忠平と宇多天皇の娘源順子の子。右大臣,左大臣を経て,康保4(967)年冷泉天皇の即位により関白太政大臣,次いで安和2(969)年円融天皇の摂政となり,以後摂政,関白が常置される先例となった。",
           },
         ],
+        id: 164,
       },
       {
         load: false,
@@ -1691,7 +2074,11 @@ const dataEmakis = [
         srcTb: "/nayotake_17-800.webp",
         src: "/nayotake_17-1080.webp",
         name: "nayotake_17.webp",
+        id: 165,
+        srcWidth: 1918,
+        srcHeight: 1080,
       },
+
       {
         cat: "ekotoba",
         chapter: "第七段　夜陰に紛れて、女が帝のもとに参入",
@@ -1719,6 +2106,7 @@ const dataEmakis = [
               "平安中期の公卿。藤原忠平と宇多天皇の娘源順子の子。右大臣,左大臣を経て,康保4(967)年冷泉天皇の即位により関白太政大臣,次いで安和2(969)年円融天皇の摂政となり,以後摂政,関白が常置される先例となった。",
           },
         ],
+        id: 166,
       },
       {
         load: false,
@@ -1727,6 +2115,9 @@ const dataEmakis = [
         srcTb: "/nayotake_19-800.webp",
         src: "/nayotake_19-1080.webp",
         name: "nayotake_19.webp",
+        id: 167,
+        srcWidth: 2621,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -1756,6 +2147,7 @@ const dataEmakis = [
               "平安中期の公卿。藤原忠平と宇多天皇の娘源順子の子。右大臣,左大臣を経て,康保4(967)年冷泉天皇の即位により関白太政大臣,次いで安和2(969)年円融天皇の摂政となり,以後摂政,関白が常置される先例となった。",
           },
         ],
+        id: 168,
       },
       {
         load: false,
@@ -1764,6 +2156,9 @@ const dataEmakis = [
         srcTb: "/nayotake_11-800.webp",
         src: "/nayotake_11-1080.webp",
         name: "nayotake_11.webp",
+        id: 169,
+        srcWidth: 1797,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -1772,6 +2167,9 @@ const dataEmakis = [
         srcTb: "/nayotake_12-800.webp",
         src: "/nayotake_12-1080.webp",
         name: "nayotake_12.webp",
+        id: 170,
+        srcWidth: 1380,
+        srcHeight: 1080,
       },
     ],
   },
@@ -1825,6 +2223,7 @@ const dataEmakis = [
         src: "/haseozoushi_01-1080.webp",
         name: "haseozoushi_06.webp",
         phrase: [{}],
+        id: 171,
       },
       {
         load: true,
@@ -1832,9 +2231,10 @@ const dataEmakis = [
         srcSp: "/haseozoushi_02-375.webp",
         srcTb: "/haseozoushi_02-800.webp",
         src: "/haseozoushi_02-1080.webp",
-        srcWidth: "2557",
-        srcHeight: "1080",
+        srcWidth: 2557,
+        srcHeight: 1080,
         name: "haseozoushi_02.webp",
+        id: 172,
       },
       {
         load: false,
@@ -1842,9 +2242,10 @@ const dataEmakis = [
         srcSp: "/haseozoushi_03-375.webp",
         srcTb: "/haseozoushi_03-800.webp",
         src: "/haseozoushi_03-1080.webp",
-        srcWidth: "2177",
-        srcHeight: "1080",
+        srcWidth: 2177,
+        srcHeight: 1080,
         name: "haseozoushi_03.webp",
+        id: 173,
       },
       {
         load: false,
@@ -1852,9 +2253,10 @@ const dataEmakis = [
         srcSp: "/haseozoushi_04-375.webp",
         srcTb: "/haseozoushi_04-800.webp",
         src: "/haseozoushi_04-1080.webp",
-        srcWidth: "2313",
-        srcHeight: "1080",
+        srcWidth: 2313,
+        srcHeight: 1080,
         name: "haseozoushi_04.webp",
+        id: 174,
       },
       {
         load: false,
@@ -1863,9 +2265,11 @@ const dataEmakis = [
         srcTb: "/haseozoushi_05-800.webp",
         src: "/haseozoushi_05-1080.webp",
         name: "haseozoushi_05.webp",
-        srcWidth: "1889",
-        srcHeight: "1080",
+        srcWidth: 1889,
+        srcHeight: 1080,
+        id: 175,
       },
+
       {
         cat: "ekotoba",
         chapter: "第二段　朱雀門楼上での双六の勝負",
@@ -1877,6 +2281,7 @@ const dataEmakis = [
         src: "/haseozoushi_06-1080.webp",
         name: "haseozoushi_06.webp",
         phrase: [{}],
+        id: 176,
       },
       {
         load: false,
@@ -1885,8 +2290,9 @@ const dataEmakis = [
         srcTb: "/haseozoushi_07-800.webp",
         src: "/haseozoushi_07-1080.webp",
         name: "haseozoushi_07.webp",
-        srcWidth: "2722",
-        srcHeight: "1080",
+        srcWidth: 2722,
+        srcHeight: 1080,
+        id: 177,
       },
       {
         load: false,
@@ -1895,9 +2301,11 @@ const dataEmakis = [
         srcTb: "/haseozoushi_08-800.webp",
         src: "/haseozoushi_08-1080.webp",
         name: "haseozoushi_08.webp",
-        srcWidth: "1771",
-        srcHeight: "1080",
+        srcWidth: 1771,
+        srcHeight: 1080,
+        id: 178,
       },
+
       {
         cat: "ekotoba",
         chapter: "第三段　勝負に負けた鬼の約束",
@@ -1909,6 +2317,7 @@ const dataEmakis = [
         src: "/haseozoushi_09-1080.webp",
         name: "haseozoushi_09.webp",
         phrase: [{}],
+        id: 179,
       },
       {
         load: false,
@@ -1917,8 +2326,9 @@ const dataEmakis = [
         srcTb: "/haseozoushi_10-800.webp",
         src: "/haseozoushi_10-1080.webp",
         name: "haseozoushi_10.webp",
-        srcWidth: "1979",
-        srcHeight: "1080",
+        srcWidth: 1979,
+        srcHeight: 1080,
+        id: 180,
       },
       {
         load: false,
@@ -1927,8 +2337,9 @@ const dataEmakis = [
         srcTb: "/haseozoushi_11-800.webp",
         src: "/haseozoushi_11-1080.webp",
         name: "haseozoushi_11.webp",
-        srcWidth: "1737",
-        srcHeight: "1080",
+        srcWidth: 1737,
+        srcHeight: 1080,
+        id: 181,
       },
       {
         cat: "ekotoba",
@@ -1941,6 +2352,7 @@ const dataEmakis = [
         src: "/haseozoushi_12-1080.webp",
         name: "haseozoushi_12.webp",
         phrase: [{}],
+        id: 182,
       },
       {
         load: false,
@@ -1949,9 +2361,11 @@ const dataEmakis = [
         srcTb: "/haseozoushi_13-800.webp",
         src: "/haseozoushi_13-1080.webp",
         name: "haseozoushi_13.webp",
-        srcWidth: "3056",
-        srcHeight: "1080",
+        srcWidth: 3056,
+        srcHeight: 1080,
+        id: 183,
       },
+
       {
         cat: "ekotoba",
         chapter: "第五段　天神の加護により鬼は退散",
@@ -1963,6 +2377,7 @@ const dataEmakis = [
         src: "/haseozoushi_14-1080.webp",
         name: "haseozoushi_14.webp",
         phrase: [{}],
+        id: 184,
       },
       {
         load: false,
@@ -1971,8 +2386,9 @@ const dataEmakis = [
         srcTb: "/haseozoushi_15-800.webp",
         src: "/haseozoushi_15-1080.webp",
         name: "haseozoushi_15.webp",
-        srcWidth: "2148",
-        srcHeight: "1080",
+        srcWidth: 2148,
+        srcHeight: 1080,
+        id: 185,
       },
       {
         load: false,
@@ -1981,8 +2397,9 @@ const dataEmakis = [
         srcTb: "/haseozoushi_16-800.webp",
         src: "/haseozoushi_16-1080.webp",
         name: "haseozoushi_16.webp",
-        srcWidth: "2411",
-        srcHeight: "1080",
+        srcWidth: 2411,
+        srcHeight: 1080,
+        id: 186,
       },
       {
         load: false,
@@ -1991,8 +2408,9 @@ const dataEmakis = [
         srcTb: "/haseozoushi_17-800.webp",
         src: "/haseozoushi_17-1080.webp",
         name: "haseozoushi_17.webp",
-        srcWidth: "1855",
-        srcHeight: "1080",
+        srcWidth: 1855,
+        srcHeight: 1080,
+        id: 187,
       },
     ],
   },
@@ -2033,6 +2451,7 @@ const dataEmakis = [
         chapter: " 生前相",
         kobun: "",
         gendaibun: "",
+        id: 188,
       },
       {
         load: true,
@@ -2041,12 +2460,16 @@ const dataEmakis = [
         srcTb: "/kusouzu_01-800.webp",
         src: "/kusouzu_01-1080.webp",
         name: "kusouzu_01.webp",
+        id: 189,
+        srcWidth: 1757,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "【第一相】 新死相",
         kobun: "",
         gendaibun: "",
+        id: 190,
       },
       {
         load: true,
@@ -2055,6 +2478,9 @@ const dataEmakis = [
         srcTb: "/kusouzu_02-800.webp",
         src: "/kusouzu_02-1080.webp",
         name: "kusouzu_02.webp",
+        id: 191,
+        srcWidth: 1693,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2063,6 +2489,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun:
           "これらの死屍は、顔色が黒ずみ、身体が硬直して手足が花を散らしたようにあちこちを向く、膨脹した身体が風をはらんでふくらんだ革袋のようである。九つの孔からは、汚物が流れ溢れ、はなはだ穢れ醜悪である。行者は自らおもう、我が身もこれと同じであるし、未だ愛着を断ち切ることのできない愛人もまた、これと同じである。この相を見れば、心が少々定まり徐々に落ち着くのである。",
+        id: 192,
       },
       {
         load: false,
@@ -2071,6 +2498,9 @@ const dataEmakis = [
         srcTb: "/kusouzu_03-800.webp",
         src: "/kusouzu_03-1080.webp",
         name: "kusouzu_03.webp",
+        id: 193,
+        srcWidth: 1708,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2079,6 +2509,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun:
           "またたく間に、この膨張した屍は、風に吹かれ日に曝されて、皮や肉が破れ壊れ、身体が<ruby><rb>坼裂</rb><rp>（</rp><rt>たくれつ</rt><rp>）</rp></ruby>して形や色が変わってしまい、識別不可能となる。これを、壊相と名づける。",
+        id: 194,
       },
       {
         load: false,
@@ -2087,6 +2518,9 @@ const dataEmakis = [
         srcTb: "/kusouzu_04-800.webp",
         src: "/kusouzu_04-1080.webp",
         name: "kusouzu_04.webp",
+        id: 195,
+        srcWidth: 1685,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2095,6 +2529,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun:
           "<ruby><rb>坼裂</rb><rp>（</rp><rt>たくれつ</rt><rp>）</rp></ruby>したところから血が溢れ出る。あちこちに飛び散り溜り、所々を斑に染める、溢れて地面に染み込み悪臭が漂う、これを血塗相とする。",
+        id: 196,
       },
       {
         load: false,
@@ -2103,6 +2538,9 @@ const dataEmakis = [
         srcTb: "/kusouzu_05-800.webp",
         src: "/kusouzu_05-1080.webp",
         name: "kusouzu_05.webp",
+        id: 197,
+        srcWidth: 1682,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2111,6 +2549,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun:
           "膿爛し流れ潰える死体を見る。肉が溶けて流れ、火をつけた蝋燭のようである。これを膿爛相と名づける。",
+        id: 198,
       },
       {
         load: false,
@@ -2119,6 +2558,9 @@ const dataEmakis = [
         srcTb: "/kusouzu_06-800.webp",
         src: "/kusouzu_06-1080.webp",
         name: "kusouzu_06.webp",
+        id: 199,
+        srcWidth: 1705,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2127,6 +2569,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun:
           "残りの皮やあまった肉が風や日に乾き炙られ、臭く腐敗し黒ずむのを見る。半ば青く半ば傷んで、痩せて皮がたるんでいる、これを青瘀相とする。",
+        id: 200,
       },
       {
         load: false,
@@ -2135,6 +2578,9 @@ const dataEmakis = [
         srcTb: "/kusouzu_07-800.webp",
         src: "/kusouzu_07-1080.webp",
         name: "kusouzu_07.webp",
+        id: 201,
+        srcWidth: 1711,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2143,6 +2589,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun:
           "この屍が狐、狼、鳶、鷲に噉相されるのを見る、肉片を奪い争い、引き裂いて散り散りになる、これを噉相とする。",
+        id: 202,
       },
       {
         load: false,
@@ -2151,6 +2598,9 @@ const dataEmakis = [
         srcTb: "/kusouzu_08-800.webp",
         src: "/kusouzu_08-1080.webp",
         name: "kusouzu_08.webp",
+        id: 203,
+        srcWidth: 2180,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2159,6 +2609,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun:
           "頭と手が異なるところにあるのを見る。五臓が散らばってもはや収斂しない。これを散相とする。",
+        id: 204,
       },
       {
         load: false,
@@ -2167,6 +2618,9 @@ const dataEmakis = [
         srcTb: "/kusouzu_09-800.webp",
         src: "/kusouzu_09-1080.webp",
         name: "kusouzu_09.webp",
+        id: 205,
+        srcWidth: 1221,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2175,6 +2629,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun:
           "二種の骨があるのを見る。一つは濃膏を帯び、一つは純白で清浄である。ある時は一具の骨で、またある時は散乱している。",
+        id: 206,
       },
       {
         load: false,
@@ -2183,6 +2638,9 @@ const dataEmakis = [
         srcTb: "/kusouzu_10-800.webp",
         src: "/kusouzu_10-1080.webp",
         name: "kusouzu_10.webp",
+        id: 207,
+        srcWidth: 1771,
+        srcHeight: 1080,
       },
     ],
   },
@@ -2222,6 +2680,7 @@ const dataEmakis = [
         chapter: "【第一相】 生前相",
         kobun: "",
         gendaibun: "",
+        id: 208,
       },
       {
         load: true,
@@ -2230,12 +2689,16 @@ const dataEmakis = [
         srcTb: "/kusouzu_eitaku_01-800.webp",
         src: "/kusouzu_eitaku_01-1080.webp",
         name: "kusouzu_eitaku_01.webp",
+        id: 209,
+        srcWidth: 2143,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
         chapter: "【第二相】 新死相",
         kobun: "",
         gendaibun: "",
+        id: 210,
       },
       {
         load: true,
@@ -2244,6 +2707,9 @@ const dataEmakis = [
         srcTb: "/kusouzu_eitaku_02-800.webp",
         src: "/kusouzu_eitaku_02-1080.webp",
         name: "kusouzu_eitaku_02.webp",
+        id: 211,
+        srcWidth: 2359,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2252,6 +2718,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun:
           "これらの死屍は、顔色が黒ずみ、身体が硬直して手足が花を散らしたようにあちこちを向く、膨脹した身体が風をはらんでふくらんだ革袋のようである。九つの孔からは、汚物が流れ溢れ、はなはだ穢れ醜悪である。行者は自らおもう、我が身もこれと同じであるし、未だ愛着を断ち切ることのできない愛人もまた、これと同じである。この相を見れば、心が少々定まり徐々に落ち着くのである。",
+        id: 212,
       },
       {
         load: false,
@@ -2260,6 +2727,9 @@ const dataEmakis = [
         srcTb: "/kusouzu_eitaku_03-800.webp",
         src: "/kusouzu_eitaku_03-1080.webp",
         name: "kusouzu_eitaku_03.webp",
+        id: 213,
+        srcWidth: 2422,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2268,6 +2738,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun:
           "またたく間に、この膨張した屍は、風に吹かれ日に曝されて、皮や肉が破れ壊れ、身体が<ruby><rb>坼裂</rb><rp>（</rp><rt>たくれつ</rt><rp>）</rp></ruby>して形や色が変わってしまい、識別不可能となる。これを、壊相と名づける。",
+        id: 214,
       },
       {
         load: false,
@@ -2276,6 +2747,9 @@ const dataEmakis = [
         srcTb: "/kusouzu_eitaku_04-800.webp",
         src: "/kusouzu_eitaku_04-1080.webp",
         name: "kusouzu_eitaku_04.webp",
+        id: 215,
+        srcWidth: 2376,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2284,6 +2758,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun:
           "<ruby><rb>坼裂</rb><rp>（</rp><rt>たくれつ</rt><rp>）</rp></ruby>したところから血が溢れ出る。あちこちに飛び散り溜り、所々を斑に染める、溢れて地面に染み込み悪臭が漂う、これを血塗相とする。",
+        id: 216,
       },
       {
         load: false,
@@ -2292,6 +2767,9 @@ const dataEmakis = [
         srcTb: "/kusouzu_eitaku_05-800.webp",
         src: "/kusouzu_eitaku_05-1080.webp",
         name: "kusouzu_eitaku_05.webp",
+        id: 217,
+        srcWidth: 2396,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2300,8 +2778,8 @@ const dataEmakis = [
         kobun: "",
         gendaibun:
           "膿爛し流れ潰える死体を見る。肉が溶けて流れ、火をつけた蝋燭のようである。これを膿爛相と名づける。",
+        id: 218,
       },
-
       {
         load: false,
         cat: "image",
@@ -2309,6 +2787,9 @@ const dataEmakis = [
         srcTb: "/kusouzu_eitaku_06-800.webp",
         src: "/kusouzu_eitaku_06-1080.webp",
         name: "kusouzu_eitaku_06.webp",
+        id: 219,
+        srcWidth: 2442,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2317,8 +2798,8 @@ const dataEmakis = [
         kobun: "",
         gendaibun:
           "この屍が狐、狼、鳶、鷲に噉相されるのを見る、肉片を奪い争い、引き裂いて散り散りになる、これを噉相とする。",
+        id: 220,
       },
-
       {
         load: false,
         cat: "image",
@@ -2326,6 +2807,9 @@ const dataEmakis = [
         srcTb: "/kusouzu_eitaku_07-800.webp",
         src: "/kusouzu_eitaku_07-1080.webp",
         name: "kusouzu_eitaku_07.webp",
+        id: 221,
+        srcWidth: 2350,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2334,6 +2818,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun:
           "頭と手が異なるところにあるのを見る。五臓が散らばってもはや収斂しない。これを散相とする",
+        id: 222,
       },
       {
         load: false,
@@ -2342,6 +2827,9 @@ const dataEmakis = [
         srcTb: "/kusouzu_eitaku_08-800.webp",
         src: "/kusouzu_eitaku_08-1080.webp",
         name: "kusouzu_eitaku_08.webp",
+        id: 223,
+        srcWidth: 2203,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2350,6 +2838,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun:
           "二種の骨があるのを見る。一つは濃膏を帯び、一つは純白で清浄である。ある時は一具の骨で、またある時は散乱している",
+        id: 224,
       },
       {
         load: false,
@@ -2358,6 +2847,9 @@ const dataEmakis = [
         srcTb: "/kusouzu_eitaku_09-800.webp",
         src: "/kusouzu_eitaku_09-1080.webp",
         name: "kusouzu_eitaku_09.webp",
+        id: 225,
+        srcWidth: 2483,
+        srcHeight: 1080,
       },
     ],
   },
@@ -2403,6 +2895,21 @@ const dataEmakis = [
         src: "/kusoushiemaki_01-1080.webp",
         name: "kusoushiemaki_01.webp",
         phrase: [{}],
+        id: 226,
+        srcWidth: 2883,
+        srcHeight: 1080,
+      },
+      {
+        cat: "ekotoba",
+        chapter: "九相詩序 ",
+        kobun: "",
+        gendaibun: "",
+        srcSp: "/kusoushiemaki_01-375.webp",
+        srcTb: "/kusoushiemaki_01-800.webp",
+        src: "/kusoushiemaki_01-1080.webp",
+        name: "kusoushiemaki_01.webp",
+        phrase: [{}],
+        id: 226,
       },
       {
         cat: "ekotoba",
@@ -2415,8 +2922,23 @@ const dataEmakis = [
         src: "/kusoushiemaki_02-1080.webp",
         name: "kusoushiemaki_02.webp",
         phrase: [{}],
+        id: 227,
+        srcWidth: 1685,
+        srcHeight: 1080,
       },
-
+      {
+        cat: "ekotoba",
+        chapter: "【第一相】 新死相",
+        kobun: "",
+        gendaibun:
+          "<span class='waka'>さかりなる　花のすかたも散はてて<br>　　　　　あはれにみゆる　春の夕くれ<br><br>花もちり　春も暮行木のもとに<br>　　　　　　命もつきぬ　入あひのかね</span>",
+        srcSp: "/kusoushiemaki_02-375.webp",
+        srcTb: "/kusoushiemaki_02-800.webp",
+        src: "/kusoushiemaki_02-1080.webp",
+        name: "kusoushiemaki_02.webp",
+        phrase: [{}],
+        id: 227,
+      },
       {
         load: true,
         cat: "image",
@@ -2424,6 +2946,9 @@ const dataEmakis = [
         srcTb: "/kusoushiemaki_03-800.webp",
         src: "/kusoushiemaki_03-1080.webp",
         name: "kusoushiemaki_03.webp",
+        id: 228,
+        srcWidth: 1725,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2437,8 +2962,24 @@ const dataEmakis = [
         src: "/kusoushiemaki_04-1080.webp",
         name: "kusoushiemaki_04.webp",
         phrase: [{}],
+        id: 229,
+        srcWidth: 1659,
+        srcHeight: 1080,
       },
-
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第二相】 <ruby><rb>肪脹相</rb><rp>（</rp><rt>ぼうちょうそう</rt><rp>）</rp></ruby>",
+        kobun: "",
+        gendaibun:
+          "<span class='waka'>あさからす　しなはともにと　契しも<br>　　　　　人はよそなる　よもきふのやと<br><br>落やすき　秋のもみちの　霜かれて<br>　　　　　みしにもあらぬ人々のいろ</span>",
+        srcSp: "/kusoushiemaki_04-375.webp",
+        srcTb: "/kusoushiemaki_04-800.webp",
+        src: "/kusoushiemaki_04-1080.webp",
+        name: "kusoushiemaki_04.webp",
+        phrase: [{}],
+        id: 229,
+      },
       {
         load: false,
         cat: "image",
@@ -2446,6 +2987,9 @@ const dataEmakis = [
         srcTb: "/kusoushiemaki_05-800.webp",
         src: "/kusoushiemaki_05-1080.webp",
         name: "kusoushiemaki_05.webp",
+        id: 230,
+        srcWidth: 1725,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2459,8 +3003,24 @@ const dataEmakis = [
         src: "/kusoushiemaki_06-1080.webp",
         name: "kusoushiemaki_06.webp",
         phrase: [{}],
+        id: 231,
+        srcWidth: 1696,
+        srcHeight: 1080,
       },
-
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第三相】 <ruby><rb>血塗相</rb><rp>（</rp><rt>けちずそう</rt><rp>）</rp></ruby> ",
+        kobun: "",
+        gendaibun:
+          "<span class='waka'>日にそへて　かはるすかたの　黛も<br>　　　　きえて跡なき　露の身そかし<br><br>みな人の　我か物かほに おもひしに<br>　　　　　此身のはての　なれる姿よ</span>",
+        srcSp: "/kusoushiemaki_06-375.webp",
+        srcTb: "/kusoushiemaki_06-800.webp",
+        src: "/kusoushiemaki_06-1080.webp",
+        name: "kusoushiemaki_06.webp",
+        phrase: [{}],
+        id: 231,
+      },
       {
         load: false,
         cat: "image",
@@ -2468,6 +3028,9 @@ const dataEmakis = [
         srcTb: "/kusoushiemaki_07-800.webp",
         src: "/kusoushiemaki_07-1080.webp",
         name: "kusoushiemaki_07.webp",
+        id: 232,
+        srcWidth: 1728,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2481,8 +3044,24 @@ const dataEmakis = [
         src: "/kusoushiemaki_08-1080.webp",
         name: "kusoushiemaki_08.webp",
         phrase: [{}],
+        id: 233,
+        srcWidth: 1783,
+        srcHeight: 1080,
       },
-
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第四相】 <ruby><rb>肪乱相</rb><rp>（</rp><rt>ほうらんそう</rt><rp>）</rp></ruby> ",
+        kobun: "",
+        gendaibun:
+          "<span class='waka'>何とたに　かりなる色を　かさる覧<br>　　　　　かかるへしとは　かねてしらすや<br><br>うら見ても　かひなきものを　鳥辺山<br>　　　　　まくすか原に　すてらるる身を</span>",
+        srcSp: "/kusoushiemaki_08-375.webp",
+        srcTb: "/kusoushiemaki_08-800.webp",
+        src: "/kusoushiemaki_08-1080.webp",
+        name: "kusoushiemaki_08.webp",
+        phrase: [{}],
+        id: 233,
+      },
       {
         load: false,
         cat: "image",
@@ -2490,6 +3069,9 @@ const dataEmakis = [
         srcTb: "/kusoushiemaki_09-800.webp",
         src: "/kusoushiemaki_09-1080.webp",
         name: "kusoushiemaki_09.webp",
+        id: 234,
+        srcWidth: 1714,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2503,8 +3085,24 @@ const dataEmakis = [
         src: "/kusoushiemaki_10-1080.webp",
         name: "kusoushiemaki_10.webp",
         phrase: [{}],
+        id: 235,
+        srcWidth: 1745,
+        srcHeight: 1080,
       },
-
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第五相】 <ruby><rb>噉食相</rb><rp>（</rp><rt>たんじきそう</rt><rp>）</rp></ruby> ",
+        kobun: "",
+        gendaibun:
+          "<span class='waka'>とりへやまに　あらそふ犬の　聲きけは<br>　　　　　かねてうき身の　をき所なき<br><br>是を見て　身はうき物と　おもひしに<br>　　　　　なにの情か　これにあるへき</span>",
+        srcSp: "/kusoushiemaki_10-375.webp",
+        srcTb: "/kusoushiemaki_10-800.webp",
+        src: "/kusoushiemaki_10-1080.webp",
+        name: "kusoushiemaki_10.webp",
+        phrase: [{}],
+        id: 235,
+      },
       {
         load: false,
         cat: "image",
@@ -2512,6 +3110,9 @@ const dataEmakis = [
         srcTb: "/kusoushiemaki_11-800.webp",
         src: "/kusoushiemaki_11-1080.webp",
         name: "kusoushiemaki_11.webp",
+        id: 236,
+        srcWidth: 1716,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2525,6 +3126,23 @@ const dataEmakis = [
         src: "/kusoushiemaki_12-1080.webp",
         name: "kusoushiemaki_12.webp",
         phrase: [{}],
+        id: 237,
+        srcWidth: 1751,
+        srcHeight: 1080,
+      },
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第六相】 <ruby><rb>青瘀相</rb><rp>（</rp><rt>しょうおそう</rt><rp>）</rp></ruby> ",
+        kobun: "",
+        gendaibun:
+          "<span class='waka'>はかなしや　あさ夕なてし　くろ髪も<br>　　　　　蓬（よもぎ）かもとの　ちりと成たり<br><br>おもひきや　鳥への山に　捨てられし<br>　　　　　犬のあらそふ　身なるへしとは</span>",
+        srcSp: "/kusoushiemaki_12-375.webp",
+        srcTb: "/kusoushiemaki_12-800.webp",
+        src: "/kusoushiemaki_12-1080.webp",
+        name: "kusoushiemaki_12.webp",
+        phrase: [{}],
+        id: 237,
       },
       {
         load: false,
@@ -2533,6 +3151,9 @@ const dataEmakis = [
         srcTb: "/kusoushiemaki_13-800.webp",
         src: "/kusoushiemaki_13-1080.webp",
         name: "kusoushiemaki_13.webp",
+        id: 238,
+        srcWidth: 1751,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2546,6 +3167,23 @@ const dataEmakis = [
         src: "/kusoushiemaki_14-1080.webp",
         name: "kusoushiemaki_14.webp",
         phrase: [{}],
+        id: 239,
+        srcWidth: 1714,
+        srcHeight: 1080,
+      },
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第七相】 <ruby><rb>白骨連相</rb><rp>（</rp><rt>はっこつれんそう</rt><rp>）</rp></ruby> ",
+        kobun: "",
+        gendaibun:
+          "<span class='waka'>皮にこそ　おとこをんなの　色はあれ<br>　　　　　ほねにはかはる　人かたもなし<br><br>かさりつる　すかたは野辺に　散はてて<br>　　　　　のこるかはねの　なれる姿よ</span>",
+        srcSp: "/kusoushiemaki_14-375.webp",
+        srcTb: "/kusoushiemaki_14-800.webp",
+        src: "/kusoushiemaki_14-1080.webp",
+        name: "kusoushiemaki_14.webp",
+        phrase: [{}],
+        id: 239,
       },
       {
         load: false,
@@ -2554,6 +3192,9 @@ const dataEmakis = [
         srcTb: "/kusoushiemaki_15-800.webp",
         src: "/kusoushiemaki_15-1080.webp",
         name: "kusoushiemaki_15.webp",
+        id: 240,
+        srcWidth: 1745,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2567,8 +3208,24 @@ const dataEmakis = [
         src: "/kusoushiemaki_16-1080.webp",
         name: "kusoushiemaki_16.webp",
         phrase: [{}],
+        id: 241,
+        srcWidth: 1668,
+        srcHeight: 1080,
       },
-
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第八相】 <ruby><rb>白骨散相</rb><rp>（</rp><rt>はっこつさんそう</rt><rp>）</rp></ruby> ",
+        kobun: "",
+        gendaibun:
+          "<span class='waka'>露の命　消にし跡を　見よかほに<br>　　　　　お花かもとに　のこるかはねよ<br><br>われとおもふ　身はみな野辺に　朽ち果てて<br>　　　　　よもきかもとの　ちりと成けり</span>",
+        srcSp: "/kusoushiemaki_16-375.webp",
+        srcTb: "/kusoushiemaki_16-800.webp",
+        src: "/kusoushiemaki_16-1080.webp",
+        name: "kusoushiemaki_16.webp",
+        phrase: [{}],
+        id: 241,
+      },
       {
         load: false,
         cat: "image",
@@ -2576,6 +3233,9 @@ const dataEmakis = [
         srcTb: "/kusoushiemaki_17-800.webp",
         src: "/kusoushiemaki_17-1080.webp",
         name: "kusoushiemaki_17.webp",
+        id: 242,
+        srcWidth: 1731,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2589,6 +3249,23 @@ const dataEmakis = [
         src: "/kusoushiemaki_18-1080.webp",
         name: "kusoushiemaki_18.webp",
         phrase: [{}],
+        id: 243,
+        srcWidth: 1630,
+        srcHeight: 1080,
+      },
+      {
+        cat: "ekotoba",
+        chapter:
+          "【第九相】 <ruby><rb>成灰相</rb><rp>（</rp><rt>じょうかいそう</rt><rp>）</rp></ruby> ",
+        kobun: "",
+        gendaibun:
+          "<span class='waka'>かきつけし　其名ははやく　きえはてて<br>　　　　　たれともしらぬ　古卒都婆かな<br><br>とり辺山　すてにし人は　後たえて<br>　　　　　つかにはのこる　露のたましい</span>",
+        srcSp: "/kusoushiemaki_18-375.webp",
+        srcTb: "/kusoushiemaki_18-800.webp",
+        src: "/kusoushiemaki_18-1080.webp",
+        name: "kusoushiemaki_18.webp",
+        phrase: [{}],
+        id: 243,
       },
       {
         load: false,
@@ -2597,6 +3274,9 @@ const dataEmakis = [
         srcTb: "/kusoushiemaki_19-800.webp",
         src: "/kusoushiemaki_19-1080.webp",
         name: "kusoushiemaki_19.webp",
+        id: 244,
+        srcWidth: 1731,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -2605,6 +3285,9 @@ const dataEmakis = [
         srcTb: "/kusoushiemaki_20-800.webp",
         src: "/kusoushiemaki_20-1080.webp",
         name: "kusoushiemaki_20.webp",
+        id: 245,
+        srcWidth: 1863,
+        srcHeight: 1080,
       },
     ],
   },
@@ -2662,6 +3345,7 @@ const dataEmakis = [
         gendaibun:
           "<span class='waka'>おのずから　言はぬを慕う　人やあると<br>　　　　　　やすらふほどに　年の暮れぬる<br><br>昔思ふ　庭に薪を　積みおきて<br>　　　　　　見し世にも似ぬ　年の暮れかな<br><br>年暮らし　その営みの　果かなくて<br>　　　　　　あらぬさまなる　急ぎをぞする</span>",
         phrase: [{}],
+        id: 246,
       },
       {
         load: true,
@@ -2670,8 +3354,10 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_01-800.webp",
         src: "/saigyo_manno_01-1080.webp",
         name: "saigyo_manno_01.webp",
+        id: 247,
+        srcWidth: 1763,
+        srcHeight: 1080,
       },
-
       {
         load: true,
         cat: "image",
@@ -2679,8 +3365,10 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_02-800.webp",
         src: "/saigyo_manno_02-1080.webp",
         name: "saigyo_manno_02.webp",
+        id: 248,
+        srcWidth: 1806,
+        srcHeight: 1080,
       },
-
       {
         load: false,
         cat: "image",
@@ -2688,8 +3376,10 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_03-800.webp",
         src: "/saigyo_manno_03-1080.webp",
         name: "saigyo_manno_03.webp",
+        id: 249,
+        srcWidth: 1696,
+        srcHeight: 1080,
       },
-
       {
         load: false,
         cat: "image",
@@ -2697,18 +3387,23 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_04-800.webp",
         src: "/saigyo_manno_04-1080.webp",
         name: "saigyo_manno_04.webp",
+        id: 250,
+        srcWidth: 1385,
+        srcHeight: 1080,
       },
+
       {
         cat: "ekotoba",
         chapter: "新年を迎えた西行、西方浄土の往生を祈る",
         kobun: "",
         gendaibun:
-          "やがて新年を迎えた。年賀の客とてもない西行は、元旦の朝、ひとり西方浄土の拝して、臨終正念、往生極楽を祈るばかりであった。俗世間の人たちは、いずれも年頭には千代を喜ぶ。子の日に野に出でて小松の根を引き、七日には若菜を摘む。われもわれもとこぞって新年を祝う。が、人生はただ春の夜の夢のごとし。まことにはかないものである。高位高官、栄達の望みもまた、七珍万法の蓄えもすべては水の泡、幻のようなものである。<br><br>西行は、今年こそと心に誓い、せめてこの春のうちに往生を遂げたいものと神仏に祈った。庵室の前の梅が今を盛り、過行く人々を眺めて、<br><br><span class='waka'>心せん　<ruby><rb>賤</rb><rp>（</rp><rt>しず</rt><rp>）</rp></ruby>か垣根の　梅の花<br>　　　　　由無く過ぐる人留めけり<br><br>香を留めん　人をしぞ待て　山里の<br>　　　　　垣根の梅の　散らぬ限りは</span><br><br>そばの庵室の垣根に、咲いている梅の花が風に誘われて、懐かしく散る様を見て<br><br><span class='waka'>主いかに　風渡るとて　厭ふ覧<br>　　　　　余所に嬉しき　風の匂ひを</span><br><br>花を愛でつつ静かに過ごしていると、昔の友が花見に来ているのを見つけ、心乱れたとき<br><br><span class='waka'>花見にと　群れつつ人の　来る時ぞ<br>　　　　　あたら桜の　咎にはありける	</span>",
+          "やがて新年を迎えた。年賀の客とてもない西行は、元旦の朝、ひとり西方浄土の拝して、臨終正念、往生極楽を祈るばかりであった。俗世間の人たちは、いずれも年頭には千代を喜ぶ。子の日に野に出でて小松の根を引き、七日には若菜を摘む。われもわれもとこぞって新年を祝う。が、人生はただ春の夜の夢のごとし。まことにはかないものである。高位高官、栄達の望みもまた、七珍万法の蓄えもすべては水の泡、幻のようなものである。<br><br>西行は、今年こそと心に誓い、せめてこの春のうちに往生を遂げたいものと神仏に祈った。庵室の前の梅が今を盛り、過行く人々を眺めて、<br><br><span class='waka'>心せん　<ruby><rb>賤</rb><rp>（</rp><rt>しず</rt><rp>）</rp></ruby>か垣根の　梅の花<br>　　　　　由無く過ぐる人留めけり<br><br>香を留めん　人をしぞ待て　山里の<br>　　　　　垣根の梅の　散らぬ限りは</span><br><br>そばの庵室の垣根に、咲いている梅の花が風に誘われて、懐かしく散る様を見て<br><br><span class='waka'>主いかに　風渡るとて　厭ふ覧<br>　　　　　余所に嬉しき　風の匂ひを</span><br><br>花を愛でつつ静かに過ごしていると、昔の友が花見に来ているのを見つけ、心乱れたとき<br><br><span class='waka'>花見にと　群れつつ人の　来る時ぞ<br>　　　　　あたら桜の　咎にはありける\t</span>",
         srcSp: "/saigyo_manno_05-375.webp",
         srcTb: "/saigyo_manno_05-800.webp",
         src: "/saigyo_manno_05-1080.webp",
         name: "saigyo_manno_05.webp",
         phrase: [{}],
+        id: 251,
       },
       {
         load: false,
@@ -2717,8 +3412,10 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_06-800.webp",
         src: "/saigyo_manno_06-1080.webp",
         name: "saigyo_manno_06.webp",
+        id: 252,
+        srcWidth: 1630,
+        srcHeight: 1080,
       },
-
       {
         load: false,
         cat: "image",
@@ -2726,8 +3423,10 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_07-800.webp",
         src: "/saigyo_manno_07-1080.webp",
         name: "saigyo_manno_07.webp",
+        id: 253,
+        srcWidth: 1446,
+        srcHeight: 1080,
       },
-
       {
         load: false,
         cat: "image",
@@ -2735,7 +3434,11 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_08-800.webp",
         src: "/saigyo_manno_08-1080.webp",
         name: "saigyo_manno_08.webp",
+        id: 254,
+        srcWidth: 1382,
+        srcHeight: 1080,
       },
+
       {
         cat: "ekotoba",
         chapter: "旅に出た西行、まず吉野山に足を踏み入れる",
@@ -2747,6 +3450,7 @@ const dataEmakis = [
         src: "/saigyo_manno_09-1080.webp",
         name: "saigyo_manno_09.webp",
         phrase: [{}],
+        id: 255,
       },
       {
         load: false,
@@ -2755,6 +3459,9 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_10-800.webp",
         src: "/saigyo_manno_10-1080.webp",
         name: "saigyo_manno_10.webp",
+        id: 256,
+        srcWidth: 1889,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -2763,6 +3470,9 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_11-800.webp",
         src: "/saigyo_manno_11-1080.webp",
         name: "saigyo_manno_11.webp",
+        id: 257,
+        srcWidth: 1924,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -2771,6 +3481,9 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_12-800.webp",
         src: "/saigyo_manno_12-1080.webp",
         name: "saigyo_manno_12.webp",
+        id: 258,
+        srcWidth: 1621,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -2779,7 +3492,11 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_13-800.webp",
         src: "/saigyo_manno_13-1080.webp",
         name: "saigyo_manno_13.webp",
+        id: 259,
+        srcWidth: 1354,
+        srcHeight: 1080,
       },
+
       {
         cat: "ekotoba",
         chapter: "西行、熊野詣でに向かう",
@@ -2791,6 +3508,7 @@ const dataEmakis = [
         src: "/saigyo_manno_14-1080.webp",
         name: "saigyo_manno_14.webp",
         phrase: [{}],
+        id: 260,
       },
       {
         load: false,
@@ -2799,7 +3517,11 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_15-800.webp",
         src: "/saigyo_manno_15-1080.webp",
         name: "saigyo_manno_15.webp",
+        id: 261,
+        srcWidth: 2082,
+        srcHeight: 1080,
       },
+
       {
         cat: "ekotoba",
         chapter: "西行、千里の浜で夢の中に俊恵（しゅんえ）に会う",
@@ -2811,8 +3533,8 @@ const dataEmakis = [
         src: "/saigyo_manno_16-1080.webp",
         name: "saigyo_manno_16.webp",
         phrase: [{}],
+        id: 262,
       },
-
       {
         load: false,
         cat: "image",
@@ -2820,6 +3542,9 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_17-800.webp",
         src: "/saigyo_manno_17-1080.webp",
         name: "saigyo_manno_17.webp",
+        id: 263,
+        srcWidth: 1549,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -2828,6 +3553,9 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_18-800.webp",
         src: "/saigyo_manno_18-1080.webp",
         name: "saigyo_manno_18.webp",
+        id: 264,
+        srcWidth: 1529,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -2836,6 +3564,9 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_19-800.webp",
         src: "/saigyo_manno_19-1080.webp",
         name: "saigyo_manno_19.webp",
+        id: 265,
+        srcWidth: 2428,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2848,8 +3579,8 @@ const dataEmakis = [
         src: "/saigyo_manno_20-1080.webp",
         name: "saigyo_manno_20.webp",
         phrase: [{}],
+        id: 266,
       },
-
       {
         load: false,
         cat: "image",
@@ -2857,6 +3588,9 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_21-800.webp",
         src: "/saigyo_manno_21-1080.webp",
         name: "saigyo_manno_21.webp",
+        id: 267,
+        srcWidth: 1532,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -2865,6 +3599,9 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_22-800.webp",
         src: "/saigyo_manno_22-1080.webp",
         name: "saigyo_manno_22.webp",
+        id: 268,
+        srcWidth: 1526,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -2873,6 +3610,9 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_23-800.webp",
         src: "/saigyo_manno_23-1080.webp",
         name: "saigyo_manno_23.webp",
+        id: 269,
+        srcWidth: 1428,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2885,8 +3625,8 @@ const dataEmakis = [
         src: "/saigyo_manno_24-1080.webp",
         name: "saigyo_manno_24.webp",
         phrase: [{}],
+        id: 270,
       },
-
       {
         load: false,
         cat: "image",
@@ -2894,6 +3634,9 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_25-800.webp",
         src: "/saigyo_manno_25-1080.webp",
         name: "saigyo_manno_25.webp",
+        id: 271,
+        srcWidth: 1601,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -2902,6 +3645,9 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_26-800.webp",
         src: "/saigyo_manno_26-1080.webp",
         name: "saigyo_manno_26.webp",
+        id: 272,
+        srcWidth: 1403,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -2914,6 +3660,7 @@ const dataEmakis = [
         src: "/saigyo_manno_27-1080.webp",
         name: "saigyo_manno_27.webp",
         phrase: [{}],
+        id: 273,
       },
       {
         load: false,
@@ -2922,6 +3669,9 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_28-800.webp",
         src: "/saigyo_manno_28-1080.webp",
         name: "saigyo_manno_28.webp",
+        id: 274,
+        srcWidth: 1742,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -2930,6 +3680,9 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_29-800.webp",
         src: "/saigyo_manno_29-1080.webp",
         name: "saigyo_manno_29.webp",
+        id: 275,
+        srcWidth: 1812,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -2938,6 +3691,9 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_30-800.webp",
         src: "/saigyo_manno_30-1080.webp",
         name: "saigyo_manno_30.webp",
+        id: 276,
+        srcWidth: 1466,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -2946,6 +3702,9 @@ const dataEmakis = [
         srcTb: "/saigyo_manno_31-800.webp",
         src: "/saigyo_manno_31-1080.webp",
         name: "saigyo_manno_31.webp",
+        id: 277,
+        srcWidth: 1863,
+        srcHeight: 1080,
       },
     ],
   },
@@ -2989,8 +3748,10 @@ const dataEmakis = [
         src: "/jigokusoushi_anzyuin_01-1080.webp",
         name: "jigokusoushi_anzyuin_01.webp",
         phrase: [{}],
+        id: 288,
+        srcWidth: 1524,
+        srcHeight: 1080,
       },
-
       {
         load: true,
         cat: "image",
@@ -2998,6 +3759,9 @@ const dataEmakis = [
         srcTb: "/jigokusoushi_anzyuin_02-800.webp",
         src: "/jigokusoushi_anzyuin_02-1080.webp",
         name: "jigokusoushi_anzyuin_02.webp",
+        id: 289,
+        srcWidth: 775,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -3010,8 +3774,10 @@ const dataEmakis = [
         src: "/jigokusoushi_anzyuin_03-1080.webp",
         name: "jigokusoushi_anzyuin_03.webp",
         phrase: [{}],
+        id: 290,
+        srcWidth: 1279,
+        srcHeight: 1080,
       },
-
       {
         load: false,
         cat: "image",
@@ -3019,6 +3785,9 @@ const dataEmakis = [
         srcTb: "/jigokusoushi_anzyuin_04-800.webp",
         src: "/jigokusoushi_anzyuin_04-1080.webp",
         name: "jigokusoushi_anzyuin_04.webp",
+        id: 291,
+        srcWidth: 1103,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -3031,8 +3800,10 @@ const dataEmakis = [
         src: "/jigokusoushi_anzyuin_05-1080.webp",
         name: "jigokusoushi_anzyuin_05.webp",
         phrase: [{}],
+        id: 292,
+        srcWidth: 1374,
+        srcHeight: 1080,
       },
-
       {
         load: false,
         cat: "image",
@@ -3040,6 +3811,9 @@ const dataEmakis = [
         srcTb: "/jigokusoushi_anzyuin_06-800.webp",
         src: "/jigokusoushi_anzyuin_06-1080.webp",
         name: "jigokusoushi_anzyuin_06.webp",
+        id: 293,
+        srcWidth: 1103,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -3052,8 +3826,10 @@ const dataEmakis = [
         src: "/jigokusoushi_anzyuin_07-1080.webp",
         name: "jigokusoushi_anzyuin_07.webp",
         phrase: [{}],
+        id: 294,
+        srcWidth: 1909,
+        srcHeight: 1080,
       },
-
       {
         load: false,
         cat: "image",
@@ -3061,6 +3837,9 @@ const dataEmakis = [
         srcTb: "/jigokusoushi_anzyuin_08-800.webp",
         src: "/jigokusoushi_anzyuin_08-1080.webp",
         name: "jigokusoushi_anzyuin_08.webp",
+        id: 295,
+        srcWidth: 1561,
+        srcHeight: 1080,
       },
     ],
   },
@@ -3103,8 +3882,10 @@ const dataEmakis = [
         src: "/jigokusoushi_genke_01-1080.webp",
         name: "jigokusoushi_genke_01.webp",
         phrase: [{}],
+        id: 296,
+        srcWidth: 2013,
+        srcHeight: 1080,
       },
-
       {
         load: true,
         cat: "image",
@@ -3112,6 +3893,9 @@ const dataEmakis = [
         srcTb: "/jigokusoushi_genke_02-800.webp",
         src: "/jigokusoushi_genke_02-1080.webp",
         name: "jigokusoushi_genke_02.webp",
+        id: 297,
+        srcWidth: 1011,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -3123,8 +3907,10 @@ const dataEmakis = [
         src: "/jigokusoushi_genke_03-1080.webp",
         name: "jigokusoushi_genke_03.webp",
         phrase: [{}],
+        id: 298,
+        srcWidth: 1685,
+        srcHeight: 1080,
       },
-
       {
         load: false,
         cat: "image",
@@ -3132,6 +3918,9 @@ const dataEmakis = [
         srcTb: "/jigokusoushi_genke_04-800.webp",
         src: "/jigokusoushi_genke_04-1080.webp",
         name: "jigokusoushi_genke_04.webp",
+        id: 299,
+        srcWidth: 1051,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -3143,8 +3932,10 @@ const dataEmakis = [
         src: "/jigokusoushi_genke_05-1080.webp",
         name: "jigokusoushi_genke_05.webp",
         phrase: [{}],
+        id: 300,
+        srcWidth: 1475,
+        srcHeight: 1080,
       },
-
       {
         load: false,
         cat: "image",
@@ -3152,6 +3943,9 @@ const dataEmakis = [
         srcTb: "/jigokusoushi_genke_06-800.webp",
         src: "/jigokusoushi_genke_06-1080.webp",
         name: "jigokusoushi_genke_06.webp",
+        id: 301,
+        srcWidth: 2120,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -3163,8 +3957,10 @@ const dataEmakis = [
         src: "/jigokusoushi_genke_07-1080.webp",
         name: "jigokusoushi_genke_07.webp",
         phrase: [{}],
+        id: 302,
+        srcWidth: 1521,
+        srcHeight: 1080,
       },
-
       {
         load: false,
         cat: "image",
@@ -3172,6 +3968,9 @@ const dataEmakis = [
         srcTb: "/jigokusoushi_genke_08-800.webp",
         src: "/jigokusoushi_genke_08-1080.webp",
         name: "jigokusoushi_genke_08.webp",
+        id: 303,
+        srcWidth: 2042,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -3183,6 +3982,9 @@ const dataEmakis = [
         src: "/jigokusoushi_genke_09-1080.webp",
         name: "jigokusoushi_genke_09.webp",
         phrase: [{}],
+        id: 304,
+        srcWidth: 1215,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3191,6 +3993,9 @@ const dataEmakis = [
         srcTb: "/jigokusoushi_genke_10-800.webp",
         src: "/jigokusoushi_genke_10-1080.webp",
         name: "jigokusoushi_genke_10.webp",
+        id: 305,
+        srcWidth: 1068,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -3202,8 +4007,10 @@ const dataEmakis = [
         src: "/jigokusoushi_genke_11-1080.webp",
         name: "jigokusoushi_genke_11.webp",
         phrase: [{}],
+        id: 306,
+        srcWidth: 1486,
+        srcHeight: 1080,
       },
-
       {
         load: false,
         cat: "image",
@@ -3211,6 +4018,9 @@ const dataEmakis = [
         srcTb: "/jigokusoushi_genke_12-800.webp",
         src: "/jigokusoushi_genke_12-1080.webp",
         name: "jigokusoushi_genke_12.webp",
+        id: 307,
+        srcWidth: 1077,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -3218,8 +4028,8 @@ const dataEmakis = [
         kobun: "",
         gendaibun: "",
         phrase: [{}],
+        id: 308,
       },
-
       {
         load: false,
         cat: "image",
@@ -3227,6 +4037,9 @@ const dataEmakis = [
         srcTb: "/jigokusoushi_genke_13-800.webp",
         src: "/jigokusoushi_genke_13-1080.webp",
         name: "jigokusoushi_genke_13.webp",
+        id: 309,
+        srcWidth: 1282,
+        srcHeight: 1080,
       },
     ],
   },
@@ -3267,6 +4080,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun: "",
         phrase: [{}],
+        id: 310,
       },
       {
         load: true,
@@ -3275,6 +4089,9 @@ const dataEmakis = [
         srcTb: "/gakisoushi_kawamoto_01-800.webp",
         src: "/gakisoushi_kawamoto_01-1080.webp",
         name: "gakisoushi_kawamoto_01.webp",
+        id: 311,
+        srcWidth: 2978,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -3282,6 +4099,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun: "",
         phrase: [{}],
+        id: 312,
       },
       {
         load: false,
@@ -3290,6 +4108,9 @@ const dataEmakis = [
         srcTb: "/gakisoushi_kawamoto_02-800.webp",
         src: "/gakisoushi_kawamoto_02-1080.webp",
         name: "gakisoushi_kawamoto_02.webp",
+        id: 313,
+        srcWidth: 1950,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -3297,6 +4118,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun: "",
         phrase: [{}],
+        id: 314,
       },
       {
         load: false,
@@ -3305,6 +4127,9 @@ const dataEmakis = [
         srcTb: "/gakisoushi_kawamoto_03-800.webp",
         src: "/gakisoushi_kawamoto_03-1080.webp",
         name: "gakisoushi_kawamoto_03.webp",
+        id: 315,
+        srcWidth: 1970,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -3312,6 +4137,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun: "",
         phrase: [{}],
+        id: 316,
       },
       {
         load: false,
@@ -3320,6 +4146,9 @@ const dataEmakis = [
         srcTb: "/gakisoushi_kawamoto_04-800.webp",
         src: "/gakisoushi_kawamoto_04-1080.webp",
         name: "gakisoushi_kawamoto_04.webp",
+        id: 317,
+        srcWidth: 1976,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -3327,8 +4156,8 @@ const dataEmakis = [
         kobun: "",
         gendaibun: "",
         phrase: [{}],
+        id: 318,
       },
-
       {
         load: false,
         cat: "image",
@@ -3336,6 +4165,9 @@ const dataEmakis = [
         srcTb: "/gakisoushi_kawamoto_05-800.webp",
         src: "/gakisoushi_kawamoto_05-1080.webp",
         name: "gakisoushi_kawamoto_05.webp",
+        id: 319,
+        srcWidth: 1932,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -3343,8 +4175,8 @@ const dataEmakis = [
         kobun: "",
         gendaibun: "",
         phrase: [{}],
+        id: 320,
       },
-
       {
         load: false,
         cat: "image",
@@ -3352,6 +4184,9 @@ const dataEmakis = [
         srcTb: "/gakisoushi_kawamoto_06-800.webp",
         src: "/gakisoushi_kawamoto_06-1080.webp",
         name: "gakisoushi_kawamoto_06.webp",
+        id: 321,
+        srcWidth: 976,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -3359,8 +4194,8 @@ const dataEmakis = [
         kobun: "",
         gendaibun: "",
         phrase: [{}],
+        id: 322,
       },
-
       {
         load: false,
         cat: "image",
@@ -3368,6 +4203,9 @@ const dataEmakis = [
         srcTb: "/gakisoushi_kawamoto_07-800.webp",
         src: "/gakisoushi_kawamoto_07-1080.webp",
         name: "gakisoushi_kawamoto_07.webp",
+        id: 323,
+        srcWidth: 4922,
+        srcHeight: 1080,
       },
     ],
   },
@@ -3406,6 +4244,9 @@ const dataEmakis = [
         srcTb: "/tsuruzusitaewakamaki_01-800.webp",
         src: "/tsuruzusitaewakamaki_01-1080.webp",
         name: "tsuruzusitaewakamaki_01.webp",
+        id: 324,
+        srcWidth: 1803,
+        srcHeight: 1080,
       },
       {
         load: true,
@@ -3414,6 +4255,9 @@ const dataEmakis = [
         srcTb: "/tsuruzusitaewakamaki_02-800.webp",
         src: "/tsuruzusitaewakamaki_02-1080.webp",
         name: "tsuruzusitaewakamaki_02.webp",
+        id: 325,
+        srcWidth: 2644,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3422,8 +4266,10 @@ const dataEmakis = [
         srcTb: "/tsuruzusitaewakamaki_03-800.webp",
         src: "/tsuruzusitaewakamaki_03-1080.webp",
         name: "tsuruzusitaewakamaki_03.webp",
+        id: 326,
+        srcWidth: 3131,
+        srcHeight: 1080,
       },
-
       {
         load: false,
         cat: "image",
@@ -3431,8 +4277,10 @@ const dataEmakis = [
         srcTb: "/tsuruzusitaewakamaki_04-800.webp",
         src: "/tsuruzusitaewakamaki_04-1080.webp",
         name: "tsuruzusitaewakamaki_04.webp",
+        id: 327,
+        srcWidth: 2172,
+        srcHeight: 1080,
       },
-
       {
         load: false,
         cat: "image",
@@ -3440,8 +4288,10 @@ const dataEmakis = [
         srcTb: "/tsuruzusitaewakamaki_05-800.webp",
         src: "/tsuruzusitaewakamaki_05-1080.webp",
         name: "tsuruzusitaewakamaki_05.webp",
+        id: 328,
+        srcWidth: 2940,
+        srcHeight: 1080,
       },
-
       {
         load: false,
         cat: "image",
@@ -3449,6 +4299,9 @@ const dataEmakis = [
         srcTb: "/tsuruzusitaewakamaki_06-800.webp",
         src: "/tsuruzusitaewakamaki_06-1080.webp",
         name: "tsuruzusitaewakamaki_06.webp",
+        id: 329,
+        srcWidth: 2935,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3457,6 +4310,9 @@ const dataEmakis = [
         srcTb: "/tsuruzusitaewakamaki_07-800.webp",
         src: "/tsuruzusitaewakamaki_07-1080.webp",
         name: "tsuruzusitaewakamaki_07.webp",
+        id: 330,
+        srcWidth: 2961,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3465,6 +4321,9 @@ const dataEmakis = [
         srcTb: "/tsuruzusitaewakamaki_08-800.webp",
         src: "/tsuruzusitaewakamaki_08-1080.webp",
         name: "tsuruzusitaewakamaki_08.webp",
+        id: 331,
+        srcWidth: 2952,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3473,6 +4332,9 @@ const dataEmakis = [
         srcTb: "/tsuruzusitaewakamaki_09-800.webp",
         src: "/tsuruzusitaewakamaki_09-1080.webp",
         name: "tsuruzusitaewakamaki_09.webp",
+        id: 332,
+        srcWidth: 2975,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3481,6 +4343,9 @@ const dataEmakis = [
         srcTb: "/tsuruzusitaewakamaki_10-800.webp",
         src: "/tsuruzusitaewakamaki_10-1080.webp",
         name: "tsuruzusitaewakamaki_10.webp",
+        id: 333,
+        srcWidth: 2940,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3489,6 +4354,9 @@ const dataEmakis = [
         srcTb: "/tsuruzusitaewakamaki_11-800.webp",
         src: "/tsuruzusitaewakamaki_11-1080.webp",
         name: "tsuruzusitaewakamaki_11.webp",
+        id: 334,
+        srcWidth: 2958,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3497,6 +4365,9 @@ const dataEmakis = [
         srcTb: "/tsuruzusitaewakamaki_12-800.webp",
         src: "/tsuruzusitaewakamaki_12-1080.webp",
         name: "tsuruzusitaewakamaki_12.webp",
+        id: 335,
+        srcWidth: 2929,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3505,6 +4376,9 @@ const dataEmakis = [
         srcTb: "/tsuruzusitaewakamaki_13-800.webp",
         src: "/tsuruzusitaewakamaki_13-1080.webp",
         name: "tsuruzusitaewakamaki_13.webp",
+        id: 336,
+        srcWidth: 2529,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3513,6 +4387,9 @@ const dataEmakis = [
         srcTb: "/tsuruzusitaewakamaki_14-800.webp",
         src: "/tsuruzusitaewakamaki_14-1080.webp",
         name: "tsuruzusitaewakamaki_14.webp",
+        id: 337,
+        srcWidth: 2987,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3521,6 +4398,9 @@ const dataEmakis = [
         srcTb: "/tsuruzusitaewakamaki_15-800.webp",
         src: "/tsuruzusitaewakamaki_15-1080.webp",
         name: "tsuruzusitaewakamaki_15.webp",
+        id: 338,
+        srcWidth: 3381,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3529,6 +4409,9 @@ const dataEmakis = [
         srcTb: "/tsuruzusitaewakamaki_16-800.webp",
         src: "/tsuruzusitaewakamaki_16-1080.webp",
         name: "tsuruzusitaewakamaki_16.webp",
+        id: 339,
+        srcWidth: 2658,
+        srcHeight: 1080,
       },
     ],
   },
@@ -3567,6 +4450,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_01-800.webp",
         src: "/tokugawagyouretsu_01-1080.webp",
         name: "tokugawagyouretsu_01.webp",
+        id: 340,
+        srcWidth: 3079,
+        srcHeight: 1080,
       },
       {
         load: true,
@@ -3575,6 +4461,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_02-800.webp",
         src: "/tokugawagyouretsu_02-1080.webp",
         name: "tokugawagyouretsu_02.webp",
+        id: 341,
+        srcWidth: 2295,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3583,6 +4472,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_03-800.webp",
         src: "/tokugawagyouretsu_03-1080.webp",
         name: "tokugawagyouretsu_03.webp",
+        id: 342,
+        srcWidth: 2779,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3591,6 +4483,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_04-800.webp",
         src: "/tokugawagyouretsu_04-1080.webp",
         name: "tokugawagyouretsu_04.webp",
+        id: 343,
+        srcWidth: 2327,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3599,6 +4494,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_05-800.webp",
         src: "/tokugawagyouretsu_05-1080.webp",
         name: "tokugawagyouretsu_05.webp",
+        id: 344,
+        srcWidth: 2128,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3607,6 +4505,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_06-800.webp",
         src: "/tokugawagyouretsu_06-1080.webp",
         name: "tokugawagyouretsu_06.webp",
+        id: 345,
+        srcWidth: 2324,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3615,6 +4516,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_07-800.webp",
         src: "/tokugawagyouretsu_07-1080.webp",
         name: "tokugawagyouretsu_07.webp",
+        id: 346,
+        srcWidth: 2100,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3623,6 +4527,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_08-800.webp",
         src: "/tokugawagyouretsu_08-1080.webp",
         name: "tokugawagyouretsu_08.webp",
+        id: 347,
+        srcWidth: 1685,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3631,6 +4538,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_09-800.webp",
         src: "/tokugawagyouretsu_09-1080.webp",
         name: "tokugawagyouretsu_09.webp",
+        id: 348,
+        srcWidth: 2439,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3639,6 +4549,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_10-800.webp",
         src: "/tokugawagyouretsu_10-1080.webp",
         name: "tokugawagyouretsu_10.webp",
+        id: 349,
+        srcWidth: 2601,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3647,6 +4560,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_11-800.webp",
         src: "/tokugawagyouretsu_11-1080.webp",
         name: "tokugawagyouretsu_11.webp",
+        id: 350,
+        srcWidth: 2292,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3655,6 +4571,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_12-800.webp",
         src: "/tokugawagyouretsu_12-1080.webp",
         name: "tokugawagyouretsu_12.webp",
+        id: 351,
+        srcWidth: 2085,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3663,6 +4582,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_13-800.webp",
         src: "/tokugawagyouretsu_13-1080.webp",
         name: "tokugawagyouretsu_13.webp",
+        id: 352,
+        srcWidth: 2454,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3671,6 +4593,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_14-800.webp",
         src: "/tokugawagyouretsu_14-1080.webp",
         name: "tokugawagyouretsu_14.webp",
+        id: 353,
+        srcWidth: 2396,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3679,6 +4604,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_15-800.webp",
         src: "/tokugawagyouretsu_15-1080.webp",
         name: "tokugawagyouretsu_15.webp",
+        id: 354,
+        srcWidth: 2405,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3687,6 +4615,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_16-800.webp",
         src: "/tokugawagyouretsu_16-1080.webp",
         name: "tokugawagyouretsu_16.webp",
+        id: 355,
+        srcWidth: 2215,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3695,6 +4626,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_17-800.webp",
         src: "/tokugawagyouretsu_17-1080.webp",
         name: "tokugawagyouretsu_17.webp",
+        id: 356,
+        srcWidth: 2267,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3703,6 +4637,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_18-800.webp",
         src: "/tokugawagyouretsu_18-1080.webp",
         name: "tokugawagyouretsu_18.webp",
+        id: 357,
+        srcWidth: 2220,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3711,6 +4648,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_19-800.webp",
         src: "/tokugawagyouretsu_19-1080.webp",
         name: "tokugawagyouretsu_19.webp",
+        id: 358,
+        srcWidth: 2621,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3719,6 +4659,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_20-800.webp",
         src: "/tokugawagyouretsu_20-1080.webp",
         name: "tokugawagyouretsu_20.webp",
+        id: 359,
+        srcWidth: 2606,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3727,6 +4670,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_21-800.webp",
         src: "/tokugawagyouretsu_21-1080.webp",
         name: "tokugawagyouretsu_21.webp",
+        id: 360,
+        srcWidth: 2759,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3735,6 +4681,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_22-800.webp",
         src: "/tokugawagyouretsu_22-1080.webp",
         name: "tokugawagyouretsu_22.webp",
+        id: 361,
+        srcWidth: 2606,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3743,6 +4692,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_23-800.webp",
         src: "/tokugawagyouretsu_23-1080.webp",
         name: "tokugawagyouretsu_23.webp",
+        id: 362,
+        srcWidth: 2557,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3751,6 +4703,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_24-800.webp",
         src: "/tokugawagyouretsu_24-1080.webp",
         name: "tokugawagyouretsu_24.webp",
+        id: 363,
+        srcWidth: 2460,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3759,6 +4714,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_25-800.webp",
         src: "/tokugawagyouretsu_25-1080.webp",
         name: "tokugawagyouretsu_25.webp",
+        id: 364,
+        srcWidth: 2557,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3767,6 +4725,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_26-800.webp",
         src: "/tokugawagyouretsu_26-1080.webp",
         name: "tokugawagyouretsu_26.webp",
+        id: 365,
+        srcWidth: 2457,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3775,6 +4736,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_27-800.webp",
         src: "/tokugawagyouretsu_27-1080.webp",
         name: "tokugawagyouretsu_27.webp",
+        id: 366,
+        srcWidth: 2667,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3783,6 +4747,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_28-800.webp",
         src: "/tokugawagyouretsu_28-1080.webp",
         name: "tokugawagyouretsu_28.webp",
+        id: 367,
+        srcWidth: 2419,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3791,6 +4758,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_29-800.webp",
         src: "/tokugawagyouretsu_29-1080.webp",
         name: "tokugawagyouretsu_29.webp",
+        id: 368,
+        srcWidth: 2946,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3799,6 +4769,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_30-800.webp",
         src: "/tokugawagyouretsu_30-1080.webp",
         name: "tokugawagyouretsu_30.webp",
+        id: 369,
+        srcWidth: 2586,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3807,6 +4780,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_31-800.webp",
         src: "/tokugawagyouretsu_31-1080.webp",
         name: "tokugawagyouretsu_31.webp",
+        id: 370,
+        srcWidth: 2696,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3815,6 +4791,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_32-800.webp",
         src: "/tokugawagyouretsu_32-1080.webp",
         name: "tokugawagyouretsu_32.webp",
+        id: 371,
+        srcWidth: 2281,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3823,6 +4802,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_33-800.webp",
         src: "/tokugawagyouretsu_33-1080.webp",
         name: "tokugawagyouretsu_33.webp",
+        id: 372,
+        srcWidth: 2071,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3831,6 +4813,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_34-800.webp",
         src: "/tokugawagyouretsu_34-1080.webp",
         name: "tokugawagyouretsu_34.webp",
+        id: 373,
+        srcWidth: 2166,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3839,6 +4824,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_35-800.webp",
         src: "/tokugawagyouretsu_35-1080.webp",
         name: "tokugawagyouretsu_35.webp",
+        id: 374,
+        srcWidth: 2036,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -3847,6 +4835,9 @@ const dataEmakis = [
         srcTb: "/tokugawagyouretsu_36-800.webp",
         src: "/tokugawagyouretsu_36-1080.webp",
         name: "tokugawagyouretsu_36.webp",
+        id: 375,
+        srcWidth: 1817,
+        srcHeight: 1080,
       },
     ],
   },
@@ -3887,6 +4878,9 @@ const dataEmakis = [
         srcTb: "/syuradou_01-800.webp",
         src: "/syuradou_01-1080.webp",
         name: "syuradou_01.webp",
+        id: 376,
+        srcWidth: 2344,
+        srcHeight: 1080,
       },
       {
         load: true,
@@ -3895,6 +4889,9 @@ const dataEmakis = [
         srcTb: "/syuradou_02-800.webp",
         src: "/syuradou_02-1080.webp",
         name: "syuradou_02.webp",
+        id: 377,
+        srcWidth: 1768,
+        srcHeight: 1080,
       },
       {
         load: true,
@@ -3903,6 +4900,9 @@ const dataEmakis = [
         srcTb: "/syuradou_03-800.webp",
         src: "/syuradou_03-1080.webp",
         name: "syuradou_03.webp",
+        id: 378,
+        srcWidth: 1987,
+        srcHeight: 1080,
       },
       {
         load: true,
@@ -3911,6 +4911,9 @@ const dataEmakis = [
         srcTb: "/syuradou_04-800.webp",
         src: "/syuradou_04-1080.webp",
         name: "syuradou_04.webp",
+        id: 379,
+        srcWidth: 1958,
+        srcHeight: 1080,
       },
       {
         load: true,
@@ -3919,6 +4922,9 @@ const dataEmakis = [
         srcTb: "/syuradou_05-800.webp",
         src: "/syuradou_05-1080.webp",
         name: "syuradou_05.webp",
+        id: 380,
+        srcWidth: 1823,
+        srcHeight: 1080,
       },
       {
         load: true,
@@ -3927,6 +4933,9 @@ const dataEmakis = [
         srcTb: "/syuradou_06-800.webp",
         src: "/syuradou_06-1080.webp",
         name: "syuradou_06.webp",
+        id: 381,
+        srcWidth: 1915,
+        srcHeight: 1080,
       },
       {
         load: true,
@@ -3935,6 +4944,9 @@ const dataEmakis = [
         srcTb: "/syuradou_07-800.webp",
         src: "/syuradou_07-1080.webp",
         name: "syuradou_07.webp",
+        id: 382,
+        srcWidth: 1837,
+        srcHeight: 1080,
       },
       {
         load: true,
@@ -3943,6 +4955,9 @@ const dataEmakis = [
         srcTb: "/syuradou_08-800.webp",
         src: "/syuradou_08-1080.webp",
         name: "syuradou_08.webp",
+        id: 383,
+        srcWidth: 1765,
+        srcHeight: 1080,
       },
       {
         load: true,
@@ -3951,6 +4966,9 @@ const dataEmakis = [
         srcTb: "/syuradou_09-800.webp",
         src: "/syuradou_09-1080.webp",
         name: "syuradou_09.webp",
+        id: 384,
+        srcWidth: 1970,
+        srcHeight: 1080,
       },
       {
         load: true,
@@ -3959,6 +4977,9 @@ const dataEmakis = [
         srcTb: "/syuradou_10-800.webp",
         src: "/syuradou_10-1080.webp",
         name: "syuradou_10.webp",
+        id: 385,
+        srcWidth: 1956,
+        srcHeight: 1080,
       },
       {
         load: true,
@@ -3967,8 +4988,10 @@ const dataEmakis = [
         srcTb: "/syuradou_11-800.webp",
         src: "/syuradou_11-1080.webp",
         name: "syuradou_11.webp",
+        id: 386,
+        srcWidth: 2007,
+        srcHeight: 1080,
       },
-
       {
         load: true,
         cat: "image",
@@ -3976,6 +4999,9 @@ const dataEmakis = [
         srcTb: "/syuradou_12-800.webp",
         src: "/syuradou_12-1080.webp",
         name: "syuradou_12.webp",
+        id: 387,
+        srcWidth: 1953,
+        srcHeight: 1080,
       },
       {
         load: true,
@@ -3984,6 +5010,9 @@ const dataEmakis = [
         srcTb: "/syuradou_13-800.webp",
         src: "/syuradou_13-1080.webp",
         name: "syuradou_13.webp",
+        id: 388,
+        srcWidth: 1598,
+        srcHeight: 1080,
       },
     ],
   },
@@ -4020,6 +5049,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun: "",
         phrase: [{}],
+        id: 389,
       },
       {
         load: true,
@@ -4028,6 +5058,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll1_01-800.webp",
         src: "/tokaidou_scroll1_01-1080.webp",
         name: "tokaidou_scroll1_01.webp",
+        id: 390,
+        srcWidth: 3292,
+        srcHeight: 1080,
       },
       {
         load: true,
@@ -4036,6 +5069,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll1_02-800.webp",
         src: "/tokaidou_scroll1_02-1080.webp",
         name: "tokaidou_scroll1_02.webp",
+        id: 391,
+        srcWidth: 3744,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4044,6 +5080,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll1_03-800.webp",
         src: "/tokaidou_scroll1_03-1080.webp",
         name: "tokaidou_scroll1_03.webp",
+        id: 392,
+        srcWidth: 4481,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4052,6 +5091,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll1_04-800.webp",
         src: "/tokaidou_scroll1_04-1080.webp",
         name: "tokaidou_scroll1_04.webp",
+        id: 393,
+        srcWidth: 4127,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4060,6 +5102,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll1_05-800.webp",
         src: "/tokaidou_scroll1_05-1080.webp",
         name: "tokaidou_scroll1_05.webp",
+        id: 394,
+        srcWidth: 4398,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4068,6 +5113,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll1_06-800.webp",
         src: "/tokaidou_scroll1_06-1080.webp",
         name: "tokaidou_scroll1_06.webp",
+        id: 395,
+        srcWidth: 4890,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4076,6 +5124,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll1_07-800.webp",
         src: "/tokaidou_scroll1_07-1080.webp",
         name: "tokaidou_scroll1_07.webp",
+        id: 396,
+        srcWidth: 5365,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -4083,6 +5134,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun: "",
         phrase: [{}],
+        id: 397,
       },
       {
         load: false,
@@ -4091,6 +5143,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll2_08-800.webp",
         src: "/tokaidou_scroll2_08-1080.webp",
         name: "tokaidou_scroll2_08.webp",
+        id: 398,
+        srcWidth: 4337,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4099,6 +5154,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll2_09-800.webp",
         src: "/tokaidou_scroll2_09-1080.webp",
         name: "tokaidou_scroll2_09.webp",
+        id: 399,
+        srcWidth: 4654,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4107,14 +5165,17 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll2_10-800.webp",
         src: "/tokaidou_scroll2_10-1080.webp",
         name: "tokaidou_scroll2_10.webp",
+        id: 400,
+        srcWidth: 5864,
+        srcHeight: 1080,
       },
-
       {
         cat: "ekotoba",
         chapter: "　巻三",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
+        id: 401,
       },
       {
         load: false,
@@ -4123,6 +5184,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll3_01-800.webp",
         src: "/tokaidou_scroll3_01-1080.webp",
         name: "tokaidou_scroll3_01.webp",
+        id: 402,
+        srcWidth: 5855,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4131,6 +5195,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll3_02-800.webp",
         src: "/tokaidou_scroll3_02-1080.webp",
         name: "tokaidou_scroll3_02.webp",
+        id: 403,
+        srcWidth: 4739,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4139,6 +5206,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll3_03-800.webp",
         src: "/tokaidou_scroll3_03-1080.webp",
         name: "tokaidou_scroll3_03.webp",
+        id: 404,
+        srcWidth: 6592,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4147,6 +5217,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll3_04-800.webp",
         src: "/tokaidou_scroll3_04-1080.webp",
         name: "tokaidou_scroll3_04.webp",
+        id: 405,
+        srcWidth: 6933,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4155,6 +5228,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll3_05-800.webp",
         src: "/tokaidou_scroll3_05-1080.webp",
         name: "tokaidou_scroll3_05.webp",
+        id: 406,
+        srcWidth: 5760,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -4162,6 +5238,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun: "",
         phrase: [{}],
+        id: 407,
       },
       {
         load: false,
@@ -4170,6 +5247,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll4_01-800.webp",
         src: "/tokaidou_scroll4_01-1080.webp",
         name: "tokaidou_scroll4_01.webp",
+        id: 408,
+        srcWidth: 4915,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4178,6 +5258,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll4_02-800.webp",
         src: "/tokaidou_scroll4_02-1080.webp",
         name: "tokaidou_scroll4_02.webp",
+        id: 409,
+        srcWidth: 3925,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4186,6 +5269,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll4_03-800.webp",
         src: "/tokaidou_scroll4_03-1080.webp",
         name: "tokaidou_scroll4_03.webp",
+        id: 410,
+        srcWidth: 3979,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4194,6 +5280,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll4_04-800.webp",
         src: "/tokaidou_scroll4_04-1080.webp",
         name: "tokaidou_scroll4_04.webp",
+        id: 411,
+        srcWidth: 4742,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4202,6 +5291,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll4_05-800.webp",
         src: "/tokaidou_scroll4_05-1080.webp",
         name: "tokaidou_scroll4_05.webp",
+        id: 412,
+        srcWidth: 4568,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4210,6 +5302,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll4_06-800.webp",
         src: "/tokaidou_scroll4_06-1080.webp",
         name: "tokaidou_scroll4_06.webp",
+        id: 413,
+        srcWidth: 4588,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4218,6 +5313,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll4_07-800.webp",
         src: "/tokaidou_scroll4_07-1080.webp",
         name: "tokaidou_scroll4_07.webp",
+        id: 414,
+        srcWidth: 5383,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -4225,6 +5323,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun: "",
         phrase: [{}],
+        id: 415,
       },
       {
         load: false,
@@ -4233,6 +5332,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll5_01-800.webp",
         src: "/tokaidou_scroll5_01-1080.webp",
         name: "tokaidou_scroll5_01.webp",
+        id: 416,
+        srcWidth: 4651,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4241,6 +5343,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll5_02-800.webp",
         src: "/tokaidou_scroll5_02-1080.webp",
         name: "tokaidou_scroll5_02.webp",
+        id: 417,
+        srcWidth: 4643,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4249,6 +5354,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll5_03-800.webp",
         src: "/tokaidou_scroll5_03-1080.webp",
         name: "tokaidou_scroll5_03.webp",
+        id: 418,
+        srcWidth: 4692,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4257,6 +5365,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll5_04-800.webp",
         src: "/tokaidou_scroll5_04-1080.webp",
         name: "tokaidou_scroll5_04.webp",
+        id: 419,
+        srcWidth: 5688,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4265,6 +5376,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll5_05-800.webp",
         src: "/tokaidou_scroll5_05-1080.webp",
         name: "tokaidou_scroll5_05.webp",
+        id: 420,
+        srcWidth: 5898,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -4272,6 +5386,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun: "",
         phrase: [{}],
+        id: 421,
       },
       {
         load: false,
@@ -4280,6 +5395,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll6_01-800.webp",
         src: "/tokaidou_scroll6_01-1080.webp",
         name: "tokaidou_scroll6_01.webp",
+        id: 422,
+        srcWidth: 4694,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4288,6 +5406,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll6_02-800.webp",
         src: "/tokaidou_scroll6_02-1080.webp",
         name: "tokaidou_scroll6_02.webp",
+        id: 423,
+        srcWidth: 5043,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4296,6 +5417,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll6_03-800.webp",
         src: "/tokaidou_scroll6_03-1080.webp",
         name: "tokaidou_scroll6_03.webp",
+        id: 424,
+        srcWidth: 4398,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4304,6 +5428,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll6_04-800.webp",
         src: "/tokaidou_scroll6_04-1080.webp",
         name: "tokaidou_scroll6_04.webp",
+        id: 425,
+        srcWidth: 5993,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4312,6 +5439,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll6_05-800.webp",
         src: "/tokaidou_scroll6_05-1080.webp",
         name: "tokaidou_scroll6_05.webp",
+        id: 426,
+        srcWidth: 5017,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4320,6 +5450,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll6_06-800.webp",
         src: "/tokaidou_scroll6_06-1080.webp",
         name: "tokaidou_scroll6_06.webp",
+        id: 427,
+        srcWidth: 6566,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -4327,6 +5460,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun: "",
         phrase: [{}],
+        id: 428,
       },
       {
         load: false,
@@ -4335,6 +5469,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll7_01-800.webp",
         src: "/tokaidou_scroll7_01-1080.webp",
         name: "tokaidou_scroll7_01.webp",
+        id: 429,
+        srcWidth: 6250,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4343,6 +5480,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll7_02-800.webp",
         src: "/tokaidou_scroll7_02-1080.webp",
         name: "tokaidou_scroll7_02.webp",
+        id: 430,
+        srcWidth: 6503,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4351,6 +5491,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll7_03-800.webp",
         src: "/tokaidou_scroll7_03-1080.webp",
         name: "tokaidou_scroll7_03.webp",
+        id: 431,
+        srcWidth: 6503,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4359,6 +5502,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll7_04-800.webp",
         src: "/tokaidou_scroll7_04-1080.webp",
         name: "tokaidou_scroll7_04.webp",
+        id: 432,
+        srcWidth: 5944,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4367,6 +5513,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll7_05-800.webp",
         src: "/tokaidou_scroll7_05-1080.webp",
         name: "tokaidou_scroll7_05.webp",
+        id: 433,
+        srcWidth: 6661,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -4374,6 +5523,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun: "",
         phrase: [{}],
+        id: 434,
       },
       {
         load: false,
@@ -4382,6 +5532,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll8_01-800.webp",
         src: "/tokaidou_scroll8_01-1080.webp",
         name: "tokaidou_scroll8_01.webp",
+        id: 435,
+        srcWidth: 6405,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4390,6 +5543,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll8_02-800.webp",
         src: "/tokaidou_scroll8_02-1080.webp",
         name: "tokaidou_scroll8_02.webp",
+        id: 436,
+        srcWidth: 6313,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4398,6 +5554,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll8_03-800.webp",
         src: "/tokaidou_scroll8_03-1080.webp",
         name: "tokaidou_scroll8_03.webp",
+        id: 437,
+        srcWidth: 6503,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4406,6 +5565,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll8_04-800.webp",
         src: "/tokaidou_scroll8_04-1080.webp",
         name: "tokaidou_scroll8_04.webp",
+        id: 438,
+        srcWidth: 6854,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4414,6 +5576,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll8_05-800.webp",
         src: "/tokaidou_scroll8_05-1080.webp",
         name: "tokaidou_scroll8_05.webp",
+        id: 439,
+        srcWidth: 5818,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4422,6 +5587,9 @@ const dataEmakis = [
         srcTb: "/tokaidou_scroll8_06-800.webp",
         src: "/tokaidou_scroll8_06-1080.webp",
         name: "tokaidou_scroll8_06.webp",
+        id: 440,
+        srcWidth: 5720,
+        srcHeight: 1080,
       },
     ],
   },
@@ -4458,6 +5626,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun: "",
         phrase: [{}],
+        id: 441,
       },
       {
         load: true,
@@ -4466,6 +5635,9 @@ const dataEmakis = [
         srcTb: "/nekkokunomaki_asa_01-800.webp",
         src: "/nekkokunomaki_asa_01-1080.webp",
         name: "nekkokunomaki_asa_01.webp",
+        id: 442,
+        srcWidth: 3208,
+        srcHeight: 1080,
       },
       {
         load: true,
@@ -4474,6 +5646,9 @@ const dataEmakis = [
         srcTb: "/nekkokunomaki_asa_02-800.webp",
         src: "/nekkokunomaki_asa_02-1080.webp",
         name: "nekkokunomaki_asa_02.webp",
+        id: 443,
+        srcWidth: 2837,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4482,6 +5657,9 @@ const dataEmakis = [
         srcTb: "/nekkokunomaki_asa_03-800.webp",
         src: "/nekkokunomaki_asa_03-1080.webp",
         name: "nekkokunomaki_asa_03.webp",
+        id: 444,
+        srcWidth: 3606,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4490,6 +5668,9 @@ const dataEmakis = [
         srcTb: "/nekkokunomaki_asa_04-800.webp",
         src: "/nekkokunomaki_asa_04-1080.webp",
         name: "nekkokunomaki_asa_04.webp",
+        id: 445,
+        srcWidth: 2903,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4498,6 +5679,9 @@ const dataEmakis = [
         srcTb: "/nekkokunomaki_asa_05-800.webp",
         src: "/nekkokunomaki_asa_05-1080.webp",
         name: "nekkokunomaki_asa_05.webp",
+        id: 446,
+        srcWidth: 3188,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4506,6 +5690,9 @@ const dataEmakis = [
         srcTb: "/nekkokunomaki_asa_06-800.webp",
         src: "/nekkokunomaki_asa_06-1080.webp",
         name: "nekkokunomaki_asa_06.webp",
+        id: 447,
+        srcWidth: 3828,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4514,6 +5701,9 @@ const dataEmakis = [
         srcTb: "/nekkokunomaki_asa_07-800.webp",
         src: "/nekkokunomaki_asa_07-1080.webp",
         name: "nekkokunomaki_asa_07.webp",
+        id: 448,
+        srcWidth: 3367,
+        srcHeight: 1080,
       },
       {
         cat: "ekotoba",
@@ -4521,6 +5711,7 @@ const dataEmakis = [
         kobun: "",
         gendaibun: "",
         phrase: [{}],
+        id: 449,
       },
       {
         load: false,
@@ -4529,6 +5720,9 @@ const dataEmakis = [
         srcTb: "/nekkokunomaki_kure_01-100.webp",
         src: "/nekkokunomaki_kure_01-1080.webp",
         name: "nekkokunomaki_kure_01.webp",
+        id: 450,
+        srcWidth: 4029,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4537,6 +5731,9 @@ const dataEmakis = [
         srcTb: "/nekkokunomaki_kure_02-800.webp",
         src: "/nekkokunomaki_kure_02-1080.webp",
         name: "nekkokunomaki_kure_02.webp",
+        id: 451,
+        srcWidth: 4009,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4545,6 +5742,9 @@ const dataEmakis = [
         srcTb: "/nekkokunomaki_kure_03-800.webp",
         src: "/nekkokunomaki_kure_03-1080.webp",
         name: "nekkokunomaki_kure_03.webp",
+        id: 452,
+        srcWidth: 3943,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4553,6 +5753,9 @@ const dataEmakis = [
         srcTb: "/nekkokunomaki_kure_04-800.webp",
         src: "/nekkokunomaki_kure_04-1080.webp",
         name: "nekkokunomaki_kure_04.webp",
+        id: 453,
+        srcWidth: 3859,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4561,6 +5764,9 @@ const dataEmakis = [
         srcTb: "/nekkokunomaki_kure_05-800.webp",
         src: "/nekkokunomaki_kure_05-1080.webp",
         name: "nekkokunomaki_kure_05.webp",
+        id: 454,
+        srcWidth: 3925,
+        srcHeight: 1080,
       },
       {
         load: false,
@@ -4569,6 +5775,9 @@ const dataEmakis = [
         srcTb: "/nekkokunomaki_kure_06-800.webp",
         src: "/nekkokunomaki_kure_06-1080.webp",
         name: "nekkokunomaki_kure_06.webp",
+        id: 455,
+        srcWidth: 3447,
+        srcHeight: 1080,
       },
     ],
   },

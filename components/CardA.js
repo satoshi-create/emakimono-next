@@ -64,7 +64,7 @@ const CardA = ({
               </h4>
               <div className={styles.card}>
                 <div className={styles.single}>
-                  <Link href={`/${titleen}`}>
+                  <Link href={`/${titleen}#s5`}>
                     <a>
                       <Image
                         src={thumb}

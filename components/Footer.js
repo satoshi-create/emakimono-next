@@ -4,6 +4,10 @@ import { useRouter } from "next/router";
 import NavLinks from "./NavLinks";
 
 const Footer = () => {
+  
+  const date = new Date();
+  const year = date.getFullYear();
+
   const footerstyle = {
     color: "white",
     "font-family": "var(--title-font)",
@@ -23,7 +27,7 @@ const Footer = () => {
         <Links value={{style:styles.footerNavPc}}/> */}
       </div>
       <p className={styles.copyright}>
-        @2022 emakimono.com All rights reserverd
+        {`@${year} emakimono.com All rights reserverd`}
       </p>
     </footer>
   );
