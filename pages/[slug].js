@@ -7,6 +7,7 @@ import emakisData from "../libs/data";
 import enData from "../libs/en/data";
 import jaData from "../libs/data";
 import Footer from "../components/Footer";
+import FullScreenComp from "../components/FullScreenComp";
 
 const Emaki = ({ emakis, locale, locales, slug }) => {
   console.log(emakis.thumb.width);
@@ -50,7 +51,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
       },
     },
   };
-  const jsonLd = JSON.stringify(jsonData);
+  const jsonLd = JSON.stringify(jsonData, null, " ");
 
   return (
     <>
@@ -64,10 +65,11 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
         pageType={emakis.type}
         jsonLd={jsonLd}
       />
-      <Controller value={emakis} />
-      <Sidebar value={emakis} />
-      <EmakiConteiner data={{ ...emakis }} />
-      {/* <Footer /> */}
+      <FullScreenComp>
+        <Controller value={emakis} />
+        <Sidebar value={emakis} />
+        <EmakiConteiner data={{ ...emakis }} />
+      </FullScreenComp>
     </>
   );
 };

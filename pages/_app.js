@@ -4,11 +4,34 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import Script from "next/script";
 import { useLocaleData } from "../libs/func";
+import * as gtag from "../libs/gtag";
+import { useRouter } from "next/router";
+
 config.autoAddCss = false;
 
 export const AppContext = createContext();
 
 function MyApp({ Component, pageProps, router }) {
+  const gRouter = useRouter();
+
+  // useEffect(() => {
+  //   gRouter.events.on("routeChangeStart", (url) => {
+  //     console.log(`Loading: ${url}`);
+  //   });
+  // }, []);
+
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      console.log(`Loading: ${url}`);
+      gtag.pageView(url);
+    };
+
+    gRouter.events.on("routeChangeComplete", handleRouteChange);
+    return () => {
+      gRouter.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [gRouter.events]);
+
   const { t: emakisData } = useLocaleData();
   const [ekotobaToggle, setekotobaToggle] = useState(false);
   const [oepnSidebar, setOepnSidebar] = useState(false);
@@ -49,7 +72,7 @@ function MyApp({ Component, pageProps, router }) {
       }}
     >
       <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-4115JJFY0B"
+        src={`https://www.googletagmanager.com/gtag/js?id=G-4115JJFY0B${gtag.A_MEASURAMENT_ID}`}
         strategy="afterInteractive"
       />
       <Script id="google-analytics" strategy="afterInteractive">
@@ -58,12 +81,10 @@ function MyApp({ Component, pageProps, router }) {
             function gtag(){window.dataLayer.push(arguments);}
             gtag('js', new Date());
 
-            gtag('config', 'G-4115JJFY0B');
+            gtag('config', '${gtag.GA_MEASURAMENT_ID}');
           `}
       </Script>
-      {/* <Layout> */}
       <Component {...pageProps} key={router.asPath} />
-      {/* </Layout> */}
     </AppContext.Provider>
   );
 }
