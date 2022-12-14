@@ -14,7 +14,6 @@ import EmakiConteiner from "../components/EmakiConteiner";
 import dataEmakis from "../libs/data";
 
 const Home = ({ cyouzyuuzinbutugiga,seiyoukaiga }) => {
-  console.log(cyouzyuuzinbutugiga);
   const { t } = useLocale();
   const { t: data } = useLocaleData();
   const favoriteEmakis = data.filter((emaki) => emaki.favorite === true);
