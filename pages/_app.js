@@ -7,6 +7,7 @@ import { useLocaleData } from "../libs/func";
 import * as gtag from "../libs/gtag";
 import { useRouter } from "next/router";
 
+
 config.autoAddCss = false;
 
 export const AppContext = createContext();

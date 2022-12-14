@@ -8,6 +8,7 @@ import enData from "../libs/en/data";
 import jaData from "../libs/data";
 import Footer from "../components/Footer";
 import FullScreenComp from "../components/FullScreenComp";
+import Translate from "../components/Translate";
 
 const Emaki = ({ emakis, locale, locales, slug }) => {
   console.log(emakis.thumb.width);
@@ -66,6 +67,15 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
         jsonLd={jsonLd}
       />
       <FullScreenComp right={"4rem"}>
+        <Translate
+          emakipage={{
+            position: "absolute",
+            "z-index": "100",
+            top: "1rem",
+            right: "6rem",
+          }}
+          slug={slug}
+        />
         <Controller value={emakis} />
         <Sidebar value={emakis} />
         <EmakiConteiner data={{ ...emakis }} height={"100vh"} scroll={true} />

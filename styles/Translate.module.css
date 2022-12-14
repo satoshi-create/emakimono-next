@@ -1,0 +1,33 @@
+.translate {
+  color: rebeccapurple;
+  position: relative;
+  font-family: var(--my-font);
+}
+.btn {
+  transition: var(--transition);
+}
+.btn:hover {
+  opacity: 0.4;
+}
+.icon {
+  font-size: 2rem;
+}
+.menu {
+  position: absolute;
+  top: 2rem;
+  left: 0;
+  width: max-content;
+  flex-direction: column;
+  font-size: 1.2rem;
+  line-height: 2;
+}
+.menu > a {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  transition: va(--transition);
+}
+.menu > a:hover{
+  background-color: var(--clr-grey-light);
+  opacity: .6;
+}

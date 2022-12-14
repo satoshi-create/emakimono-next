@@ -3,14 +3,11 @@ import React, { useEffect, useState } from "react";
 import styles from "../styles/Header.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-
 import { useRouter } from "next/router";
 import NavLinks from "./NavLinks";
 
 const Header = () => {
   const { locale } = useRouter();
-  const router = useRouter();
-  const { slug } = router.query;
 
   const [stickyClass, setStickyClass] = useState("");
 
@@ -40,7 +37,7 @@ const Header = () => {
             </button>
           </div>
         </nav>
-        <NavLinks slug={slug} />
+        <NavLinks />
       </div>
     </header>
   );
