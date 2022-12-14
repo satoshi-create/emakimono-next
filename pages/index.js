@@ -3,28 +3,32 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import CardA from "../components/CardA";
 import CardB from "../components/CardB";
-import emakisData from "../libs/data";
 import "lazysizes";
 import Head from "../components/Meta";
 import GridImages from "../components/GridImages";
 import Attention from "../components/Attention";
 import ToggleTag from "../components/ToggleTag";
 import { useLocale, useLocaleData } from "../libs/func";
-
+import FullScreenComp from "../components/FullScreenComp";
+import EmakiConteiner from "../components/EmakiConteiner";
+import { useFullScreenHandle } from "react-full-screen";
 const Home = () => {
   const { t } = useLocale();
-  const { t: emakisData } = useLocaleData();
-  
-  const favoriteEmakis = emakisData.filter((emaki) => emaki.favorite === true);
+  const { t: data } = useLocaleData();
+  const handle = useFullScreenHandle();
+  console.log(handle);
+  const cyouzyuuzinbutugiga = data.find(
+    (emaki) => emaki.title === "鳥獣人物戯画絵巻" && emaki.edition === "甲巻"
+  );
+  const seiyoukaiga = data.find(
+    (seiyoukaiga) => seiyoukaiga.title === "ブランカッチ礼拝堂 装飾画"
+  );
+  const favoriteEmakis = data.filter((emaki) => emaki.favorite === true);
 
-  const setsuwaEmakis = emakisData.filter((emaki) => emaki.subtype === "説話");
-  const kousoudenEmakis = emakisData.filter(
-    (emaki) => emaki.subtype === "高僧伝"
-  );
-  const buttenEmakis = emakisData.filter((emaki) => emaki.subtype === "仏典");
-  const gyouziEmakis = emakisData.filter(
-    (emaki) => emaki.subtype === "諸行事・祭礼"
-  );
+  const setsuwaEmakis = data.filter((emaki) => emaki.subtype === "説話");
+  const kousoudenEmakis = data.filter((emaki) => emaki.subtype === "高僧伝");
+  const buttenEmakis = data.filter((emaki) => emaki.subtype === "仏典");
+  const gyouziEmakis = data.filter((emaki) => emaki.subtype === "諸行事・祭礼");
 
   const variation = [
     ...setsuwaEmakis,
@@ -33,16 +37,14 @@ const Home = () => {
     ...gyouziEmakis,
   ];
 
-  const typeByoubu = emakisData
-    .filter((emaki) => emaki.type === "屏風")
-    .splice(0, 1);
-  const typeUkiyoe = emakisData
+  const typeByoubu = data.filter((emaki) => emaki.type === "屏風").splice(0, 1);
+  const typeUkiyoe = data
     .filter((emaki) => emaki.type === "浮世絵")
     .splice(0, 1);
-  const typeSuibokuga = emakisData
+  const typeSuibokuga = data
     .filter((emaki) => emaki.type === "水墨画")
     .splice(0, 1);
-  const typeSeiyoukaiga = emakisData
+  const typeSeiyoukaiga = data
     .filter((emaki) => emaki.type === "西洋絵画")
     .splice(0, 1);
 
@@ -97,6 +99,7 @@ const Home = () => {
         sectiondesc={t.history.desc}
         sectionname={"recommend"}
       />
+
       <CardA
         emakis={variation}
         columns={t.variation.columns}
@@ -105,6 +108,14 @@ const Home = () => {
         sectiondesc={t.variation.desc}
         sectionname={t.variation.name}
       />
+      <FullScreenComp right={"1rem"} padding={"4rem 0"}>
+        <EmakiConteiner
+          data={{ ...cyouzyuuzinbutugiga }}
+          height={"50vh"}
+          handle={handle.active}
+          scroll={false}
+        />
+      </FullScreenComp>
       <CardB
         emakis={historyemakis}
         columns={t.history.columns}
@@ -113,6 +124,7 @@ const Home = () => {
         sectiondesc={t.history.desc}
         sectionname={t.history.name}
       />
+
       <ToggleTag
         sectiontitle={t.toggleTag.title}
         sectiontitleen={t.toggleTag.titleen}
@@ -131,6 +143,14 @@ const Home = () => {
         sectiondesc={t.alpha.desc}
         sectionname={t.alpha.name}
       />
+      <FullScreenComp left={"1rem"} padding={"4rem 0"}>
+        <EmakiConteiner
+          data={{ ...seiyoukaiga }}
+          height={"50vh"}
+          handle={handle.active}
+          scroll={false}
+        />
+      </FullScreenComp>
       <Footer />
     </>
   );

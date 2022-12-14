@@ -1,0 +1,16 @@
+.fullscreen {
+  position: relative;
+  /* padding: var(--padding); */
+}
+.openIcon,
+.closeIcon {
+  font-size: 2rem;
+}
+.openIcon,
+.closeIcon {
+  position: absolute;
+  top: 1rem;
+  right: var(--right);
+  left: var(--left);
+  z-index: 10;
+}

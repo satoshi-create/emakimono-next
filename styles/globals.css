@@ -80,25 +80,7 @@ button {
   opacity: 1;
   transition: opacity 0.3ms;
 }
-.openIcon,
-.closeIcon {
-  font-size: 2rem;
-}
-.openIcon,
-.closeIcon {
-  position: absolute;
-  top: 1rem;
-  right: 4rem;
-  z-index: 10;
-}
 
-.fullscreen-enabled .map {
-  height: 100vh;
-}
-.fullscreen-enabled .css-os8km {
-  height: 100vh;
-}
-.fullscreen-enabled .img {
-  width: 100vw;
+.fullscreen-enabled article{
   height: 100vh;
 }

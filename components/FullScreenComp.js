@@ -4,20 +4,28 @@ import {
   faArrowsAlt,
   faExpandArrowsAlt,
 } from "@fortawesome/free-solid-svg-icons";
+import styles from "../styles/FullScreenComp.module.css";
 
-export default function FullScreenComp({ children }) {
+export default function FullScreenComp({ children, right, left, padding }) {
   const handle = useFullScreenHandle();
-
   return (
-    <div className="App">
-      <button onClick={handle.enter} className="openIcon">
+    <div className={styles.fullscreen} style={{ margin: padding }}>
+      <button
+        onClick={handle.enter}
+        className={styles.openIcon}
+        style={{ "--right": right, "--left": left }}
+      >
         <FontAwesomeIcon icon={faExpandArrowsAlt} />
         <i className="fa fa-expand"></i>
       </button>
 
       <FullScreen handle={handle}>
         {handle.active && (
-          <button onClick={handle.exit} className="closeIcon">
+          <button
+            onClick={handle.exit}
+            className={styles.closeIcon}
+            style={{ "--right": right, "--left": left }}
+          >
             <FontAwesomeIcon icon={faArrowsAlt} />
           </button>
         )}

@@ -1,6 +1,6 @@
 .conteiner {
   display: flex;
-  height: 100vh;
+  height: var(--screen-height);
   /* width: 100vw; */
   /* width: var(--text-width); */
   overflow-y: hidden;
