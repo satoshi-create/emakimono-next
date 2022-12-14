@@ -72,7 +72,7 @@ function MyApp({ Component, pageProps, router }) {
       }}
     >
       <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=G-4115JJFY0B${gtag.A_MEASURAMENT_ID}`}
+        src={`https://www.googletagmanager.com/gtag/js?id=G-4115JJFY0B${gtag.GA_MEASURAMENT_ID}`}
         strategy="afterInteractive"
       />
       <Script id="google-analytics" strategy="afterInteractive">
