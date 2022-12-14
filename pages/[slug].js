@@ -65,10 +65,10 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
         pageType={emakis.type}
         jsonLd={jsonLd}
       />
-      <FullScreenComp>
+      <FullScreenComp right={"4rem"}>
         <Controller value={emakis} />
         <Sidebar value={emakis} />
-        <EmakiConteiner data={{ ...emakis }} />
+        <EmakiConteiner data={{ ...emakis }} height={"100vh"} scroll={true} />
       </FullScreenComp>
     </>
   );
