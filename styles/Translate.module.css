@@ -26,6 +26,7 @@
   align-items: center;
   gap: .5rem;
   transition: va(--transition);
+  padding: .4rem;
 }
 .menu > a:hover{
   background-color: var(--clr-grey-light);

@@ -19,7 +19,7 @@ const Emaki = ({ name, nameen, posts, slug }) => {
   return (
     <>
       <Head pagetitle={locale === "en" ? nameen : name} pageDesc={tPageDesc} />
-      <Header slug={slug} />
+      <Header slug={`category/${slug}`} />
       <Breadcrumbs name={locale === "en" ? nameen : name} />
       <CardA
         emakis={posts}
