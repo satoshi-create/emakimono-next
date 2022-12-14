@@ -7,7 +7,7 @@ import Breadcrumbs from "../../components/Breadcrumbs";
 import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
 
-const Emaki = ({ name, nameen, posts }) => {
+const Emaki = ({ name, nameen, posts, slug }) => {
   const { locale } = useRouter();
   const tPageDesc =
     locale === "en"
@@ -19,7 +19,7 @@ const Emaki = ({ name, nameen, posts }) => {
         pagetitle={locale === "en" ? `${nameen} Period` : name}
         pageDesc={tPageDesc}
       />
-      <Header />
+      <Header slug={`era/${slug}`} />
       <Breadcrumbs name={locale === "en" ? `${nameen} Period` : name} />
       <CardA
         emakis={posts}
@@ -60,6 +60,7 @@ export const getStaticProps = async (context) => {
       name: cat.name,
       nameen: cat.nameen,
       posts: filterdEmakisData,
+      slug: eraslug,
     },
   };
 };

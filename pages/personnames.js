@@ -21,7 +21,7 @@ const PersonnamesComp = () => {
         pagetitle={locale === "en" ? "personnames list" : "人物名一覧"}
         pageDesc={tPageDesc}
       />
-      <Header />
+      <Header slug={"personnames"} />
       <Breadcrumbs name={locale === "en" ? "personnames list" : "人物名一覧"} />
       <Keywords
         sectiontitle={"人物名一覧"}

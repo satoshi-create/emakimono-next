@@ -6,7 +6,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 import NavLinks from "./NavLinks";
 
-const Header = () => {
+const Header = ({slug}) => {
   const { locale } = useRouter();
 
   const [stickyClass, setStickyClass] = useState("");
@@ -37,7 +37,7 @@ const Header = () => {
             </button>
           </div>
         </nav>
-        <NavLinks />
+        <NavLinks slug={slug}/>
       </div>
     </header>
   );

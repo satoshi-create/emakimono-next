@@ -7,7 +7,7 @@ import { keywordItem } from "../../libs/func";
 import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
 
-const Emaki = ({ name, posts, nameen }) => {
+const Emaki = ({ name, posts, nameen, slug }) => {
   const { locale } = useRouter();
   const tPageDesc =
     locale === "en"
@@ -19,7 +19,7 @@ const Emaki = ({ name, posts, nameen }) => {
         pagetitle={locale === "en" ? `${nameen}` : name}
         pageDesc={tPageDesc}
       />
-      <Header />
+      <Header slug={`keyword/${slug}`} />
       <Breadcrumbs
         name={locale === "en" ? `${nameen}` : name}
         test={locale === "en" ? "keyword list" : "キーワード一覧"}
@@ -32,7 +32,7 @@ const Emaki = ({ name, posts, nameen }) => {
         sectiontitle={locale === "en" ? `${nameen}` : name}
         sectiontitleen={locale === "en" ? name : `${nameen}`}
       />
-      <Footer/>
+      <Footer />
     </>
   );
 };
@@ -70,6 +70,7 @@ export const getStaticProps = async (context) => {
       name: keyword.name,
       nameen: keyword.id,
       posts: filterdEmakisData,
+      slug: keywordslug,
     },
   };
 };
