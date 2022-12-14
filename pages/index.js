@@ -11,18 +11,18 @@ import ToggleTag from "../components/ToggleTag";
 import { useLocale, useLocaleData } from "../libs/func";
 import FullScreenComp from "../components/FullScreenComp";
 import EmakiConteiner from "../components/EmakiConteiner";
-import { useFullScreenHandle } from "react-full-screen";
-const Home = () => {
+import dataEmakis from "../libs/data";
+const Home = ({ cyouzyuuzinbutugiga }) => {
+  console.log(cyouzyuuzinbutugiga);
   const { t } = useLocale();
   const { t: data } = useLocaleData();
-  const handle = useFullScreenHandle();
-  console.log(handle);
-  const cyouzyuuzinbutugiga = data.find(
-    (emaki) => emaki.title === "鳥獣人物戯画絵巻" && emaki.edition === "甲巻"
-  );
-  const seiyoukaiga = data.find(
-    (seiyoukaiga) => seiyoukaiga.title === "ブランカッチ礼拝堂 装飾画"
-  );
+  // const cyouzyuuzinbutugiga = data.find(
+  //   (emaki) => emaki.title === "鳥獣人物戯画絵巻" && emaki.edition === "甲巻"
+  // );
+  // console.log(cyouzyuuzinbutugiga);
+  // const seiyoukaiga = data.find(
+  //   (seiyoukaiga) => seiyoukaiga.title === "ブランカッチ礼拝堂 装飾画"
+  // );
   const favoriteEmakis = data.filter((emaki) => emaki.favorite === true);
 
   const setsuwaEmakis = data.filter((emaki) => emaki.subtype === "説話");
@@ -112,7 +112,6 @@ const Home = () => {
         <EmakiConteiner
           data={{ ...cyouzyuuzinbutugiga }}
           height={"50vh"}
-          handle={handle.active}
           scroll={false}
         />
       </FullScreenComp>
@@ -147,13 +146,28 @@ const Home = () => {
         <EmakiConteiner
           data={{ ...seiyoukaiga }}
           height={"50vh"}
-          handle={handle.active}
           scroll={false}
         />
       </FullScreenComp> */}
       <Footer />
     </>
   );
+};
+
+export const getStaticProps = async (context) => {
+  const { locale, locales } = context;
+  // const tEmakisData = locale === "en" ? enData : jaData;
+
+  const cyouzyuuzinbutugiga = dataEmakis.find(
+    (item, index) =>
+      item.title === "鳥獣人物戯画絵巻" && item.edition === "甲巻"
+  );
+
+  return {
+    props: {
+      cyouzyuuzinbutugiga: cyouzyuuzinbutugiga,
+    },
+  };
 };
 
 export default Home;
