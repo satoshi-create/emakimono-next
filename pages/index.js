@@ -12,17 +12,11 @@ import { useLocale, useLocaleData } from "../libs/func";
 import FullScreenComp from "../components/FullScreenComp";
 import EmakiConteiner from "../components/EmakiConteiner";
 import dataEmakis from "../libs/data";
-const Home = ({ cyouzyuuzinbutugiga }) => {
+
+const Home = ({ cyouzyuuzinbutugiga,seiyoukaiga }) => {
   console.log(cyouzyuuzinbutugiga);
   const { t } = useLocale();
   const { t: data } = useLocaleData();
-  // const cyouzyuuzinbutugiga = data.find(
-  //   (emaki) => emaki.title === "鳥獣人物戯画絵巻" && emaki.edition === "甲巻"
-  // );
-  // console.log(cyouzyuuzinbutugiga);
-  // const seiyoukaiga = data.find(
-  //   (seiyoukaiga) => seiyoukaiga.title === "ブランカッチ礼拝堂 装飾画"
-  // );
   const favoriteEmakis = data.filter((emaki) => emaki.favorite === true);
 
   const setsuwaEmakis = data.filter((emaki) => emaki.subtype === "説話");
@@ -142,13 +136,13 @@ const Home = ({ cyouzyuuzinbutugiga }) => {
         sectiondesc={t.alpha.desc}
         sectionname={t.alpha.name}
       />
-      {/* <FullScreenComp left={"1rem"} padding={"4rem 0"}>
+      <FullScreenComp left={"1rem"} padding={"4rem 0"}>
         <EmakiConteiner
           data={{ ...seiyoukaiga }}
           height={"50vh"}
           scroll={false}
         />
-      </FullScreenComp> */}
+      </FullScreenComp>
       <Footer />
     </>
   );
@@ -163,9 +157,14 @@ export const getStaticProps = async (context) => {
       item.title === "鳥獣人物戯画絵巻" && item.edition === "甲巻"
   );
 
+  const seiyoukaiga = dataEmakis.find(
+    (seiyoukaiga) => seiyoukaiga.title === "ブランカッチ礼拝堂 装飾画"
+  );
+
   return {
     props: {
       cyouzyuuzinbutugiga: cyouzyuuzinbutugiga,
+      seiyoukaiga: seiyoukaiga,
     },
   };
 };
