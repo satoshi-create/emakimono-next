@@ -108,14 +108,14 @@ const Home = () => {
         sectiondesc={t.variation.desc}
         sectionname={t.variation.name}
       />
-      <FullScreenComp right={"1rem"} padding={"4rem 0"}>
+      {/* <FullScreenComp right={"1rem"} padding={"4rem 0"}>
         <EmakiConteiner
           data={{ ...cyouzyuuzinbutugiga }}
           height={"50vh"}
           handle={handle.active}
           scroll={false}
         />
-      </FullScreenComp>
+      </FullScreenComp> */}
       <CardB
         emakis={historyemakis}
         columns={t.history.columns}
@@ -143,14 +143,14 @@ const Home = () => {
         sectiondesc={t.alpha.desc}
         sectionname={t.alpha.name}
       />
-      <FullScreenComp left={"1rem"} padding={"4rem 0"}>
+      {/* <FullScreenComp left={"1rem"} padding={"4rem 0"}>
         <EmakiConteiner
           data={{ ...seiyoukaiga }}
           height={"50vh"}
           handle={handle.active}
           scroll={false}
         />
-      </FullScreenComp>
+      </FullScreenComp> */}
       <Footer />
     </>
   );
