@@ -3,9 +3,12 @@ import links from "../libs/links";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "../styles/NavLinks.module.css";
+import Translate from "./Translate";
 
-const NavLinks = ({ slug, footerstyle }) => {
+const NavLinks = ({ footerstyle }) => {
   const { locale } = useRouter();
+  const router = useRouter();
+  const { slug } = router.query;
   return (
     <ul className={styles.links}>
       {links.map((link, index) => {
@@ -20,16 +23,7 @@ const NavLinks = ({ slug, footerstyle }) => {
           </li>
         );
       })}
-      <li>
-        <Link href="/" locale="ja" passHref>
-          <a style={footerstyle}>日本語</a>
-        </Link>
-      </li>
-      <li>
-        <Link href="/" locale="en" passHref>
-          <a style={footerstyle}>英語</a>
-        </Link>
-      </li>
+      <Translate footerstyle={footerstyle} />
     </ul>
   );
 };
