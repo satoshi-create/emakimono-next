@@ -7,8 +7,7 @@ import { personnameItem } from "../../libs/func";
 import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
 
-const Emaki = ({ name, posts, nameruby, nameen }) => {
-
+const Emaki = ({ name, posts, nameruby, nameen, slug }) => {
   const { locale } = useRouter();
   const tPageDesc =
     locale === "en"
@@ -20,7 +19,7 @@ const Emaki = ({ name, posts, nameruby, nameen }) => {
         pagetitle={locale === "en" ? `${nameen}` : name}
         pageDesc={tPageDesc}
       />
-      <Header />
+      <Header slug={`personname/${slug}`} />
       <Breadcrumbs
         name={locale === "en" ? `${nameen}` : name}
         test={locale === "en" ? "personname list" : "人物名一覧"}
@@ -33,7 +32,7 @@ const Emaki = ({ name, posts, nameruby, nameen }) => {
         sectiontitle={locale === "en" ? name : name}
         sectiontitleen={locale === "en" ? nameen : nameruby}
       />
-      <Footer/>
+      <Footer />
     </>
   );
 };
@@ -75,6 +74,7 @@ export const getStaticProps = async (context) => {
       nameruby: personname.ruby,
       nameen: personname.id,
       posts: filterdEmakisData,
+      slug: personnameslug,
     },
   };
 };
