@@ -2,10 +2,7 @@
   position: relative;
   /* padding: var(--padding); */
 }
-.openIcon,
-.closeIcon {
-  font-size: 2rem;
-}
+
 .openIcon,
 .closeIcon {
   position: absolute;
@@ -13,4 +10,6 @@
   right: var(--right);
   left: var(--left);
   z-index: 10;
+  font-size: 1.5rem;
+  color: var(--clr-grey-light);
 }

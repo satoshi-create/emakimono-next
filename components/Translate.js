@@ -29,13 +29,13 @@ const Translate = ({ footerstyle, emakipage, slug }) => {
         className={styles.menu}
         style={toggle ? { display: "flex" } : { display: "none" }}
       >
-        <Link href={`/${slug}`} locale="ja" passHref>
+        <Link href={`/${slug ? slug : ""}`} locale="ja" passHref>
           <a style={footerstyle} onClick={() => setToggle(false)}>
             <Flag country="JP" />
             日本語
           </a>
         </Link>
-        <Link href={`/${slug}`} locale="en" passHref>
+        <Link href={`/${slug ? slug : ""}`} locale="en" passHref>
           <a style={footerstyle} onClick={() => setToggle(false)}>
             <Flag country="US" />
             英語
