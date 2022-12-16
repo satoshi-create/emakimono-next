@@ -13,6 +13,7 @@ const GridImages = ({
   sectiontitleen,
 }) => {
   const { locale } = useRouter();
+  
   const init = {
     gridImages: gridImages,
   };
