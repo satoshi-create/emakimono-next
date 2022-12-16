@@ -1,10 +1,11 @@
-import React, { useRef, useEffect, useContext } from "react";
+import React, { useRef, useEffect, useContext, useState } from "react";
 import "lazysizes";
 import EmakiImage from "./EmakiImage";
 import Ekotoba from "./Ekotoba";
 import styles from "../styles/EmakiConteiner.module.css";
 import { AppContext } from "../pages/_app";
 import Modal from "./Modal";
+import Attention from "./Attention";
 
 const EmakiConteiner = ({
   data,
@@ -19,7 +20,19 @@ const EmakiConteiner = ({
   const emakis = data.emakis;
   const { backgroundImage, kotobagaki, type } = data;
 
+  // const [orientation, setOrientation] = useState();
+  // console.log(orientation);
+  // useEffect(() => {
+  //   const isLandscape = () =>
+  //     window.matchMedia("(orientation:portrait)").matches;
+  //   setOrientation(isLandscape());
+  // }, []);
+
   const scrollRef = useRef();
+  // console.log(scrollRef);
+
+  // const scrollToLatest = (behavior = "smooth") =>
+  //   scrollRef.current.scrollIntoView({ behavior });
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -39,6 +52,7 @@ const EmakiConteiner = ({
 
   return (
     <>
+      <Attention />
       {type === "浮世絵" && isModalOpen && <Modal data={data} />}
       <article
         className={`${styles.conteiner} ${
