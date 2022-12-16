@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect, useLayoutEffect, useState } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import CardA from "../components/CardA";
@@ -9,11 +9,25 @@ import GridImages from "../components/GridImages";
 import Attention from "../components/Attention";
 import ToggleTag from "../components/ToggleTag";
 import { useLocale, useLocaleData } from "../libs/func";
-import FullScreenComp from "../components/FullScreenComp";
-import EmakiConteiner from "../components/EmakiConteiner";
+import FullscreenContents from "../components/FullscreenContents";
 import dataEmakis from "../libs/data";
 
 const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
+  // const scrollRef = useRef();
+  // console.log(scrollRef);
+
+  // useEffect(() => {
+  //   const scrollToLatest = (behavior = "smooth") =>
+  //     scrollRef.current.scrollIntoView({ behavior });
+  //   scrollToLatest();
+  // }, []);
+
+  // useLayoutEffect(() => {
+  //   const scrollToLatest = (behavior = "smooth") =>
+  //     scrollRef.current.scrollIntoView({ behavior });
+  //   scrollToLatest();
+  // }, [])
+
   const { t } = useLocale();
   const { t: data } = useLocaleData();
   const favoriteEmakis = data.filter((emaki) => emaki.favorite === true);
@@ -92,7 +106,6 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectiondesc={t.history.desc}
         sectionname={"recommend"}
       />
-
       <CardA
         emakis={variation}
         columns={t.variation.columns}
@@ -101,67 +114,9 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectiondesc={t.variation.desc}
         sectionname={t.variation.name}
       />
-      <div
-        className="section-padding"
-        style={{ display: "flex", justifyContent: "flex-start" }}
-      >
-        <FullScreenComp right={"1rem"}>
-          <EmakiConteiner
-            data={{ ...cyouzyuuzinbutugiga }}
-            height={"50vh"}
-            width={"80vw"}
-            scroll={false}
-            overflowX={"hidden"}
-            boxshadow={" 0 5px 15px rgba(0, 0, 0, 20%)"}
-          />
-        </FullScreenComp>
-      </div>
-      <div
-        className="section-padding"
-        style={{ display: "flex", justifyContent: "flex-end" }}
-      >
-        <FullScreenComp left={"1rem"}>
-          <EmakiConteiner
-            data={{ ...seiyoukaiga }}
-            height={"50vh"}
-            width={"80vw"}
-            scroll={false}
-            overflowX={"hidden"}
-            boxshadow={" 0 5px 15px rgba(0, 0, 0, 20%)"}
-          />
-        </FullScreenComp>
-      </div>
-      <div
-        className="section-padding"
-        style={{ display: "flex", justifyContent: "flex-start" }}
-      >
-        <FullScreenComp right={"1rem"}>
-          <EmakiConteiner
-            data={{ ...suibokuga }}
-            height={"50vh"}
-            width={"80vw"}
-            scroll={false}
-            overflowX={"hidden"}
-            boxshadow={" 0 5px 15px rgba(0, 0, 0, 20%)"}
-          />
-        </FullScreenComp>
-      </div>
-
-      <div
-        className="section-padding"
-        style={{ display: "flex", justifyContent: "flex-end" }}
-      >
-        <FullScreenComp left={"1rem"}>
-          <EmakiConteiner
-            data={{ ...mone }}
-            height={"50vh"}
-            width={"80vw"}
-            scroll={false}
-            overflowX={"hidden"}
-            boxshadow={" 0 5px 15px rgba(0, 0, 0, 20%)"}
-          />
-        </FullScreenComp>
-      </div>
+      <FullscreenContents
+        data={{ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }}
+      />
       <CardB
         emakis={historyemakis}
         columns={t.history.columns}
@@ -170,7 +125,6 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectiondesc={t.history.desc}
         sectionname={t.history.name}
       />
-
       <ToggleTag
         sectiontitle={t.toggleTag.title}
         sectiontitleen={t.toggleTag.titleen}
@@ -189,7 +143,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectiondesc={t.alpha.desc}
         sectionname={t.alpha.name}
       />
-
+      {/* <div style={{ float: "left", clear: "both" }} ref={scrollRef}></div> */}
       <Footer />
     </>
   );
