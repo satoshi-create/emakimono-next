@@ -81,6 +81,7 @@ button {
   transition: opacity 0.3ms;
 }
 
-.fullscreen-enabled article{
+.fullscreen-enabled article {
   height: 100vh;
+  width: 100vw;
 }

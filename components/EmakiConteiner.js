@@ -6,7 +6,14 @@ import styles from "../styles/EmakiConteiner.module.css";
 import { AppContext } from "../pages/_app";
 import Modal from "./Modal";
 
-const EmakiConteiner = ({ data, height, scroll }) => {
+const EmakiConteiner = ({
+  data,
+  height,
+  width,
+  scroll,
+  overflowX,
+  boxshadow,
+}) => {
   const { isModalOpen } = useContext(AppContext);
 
   const emakis = data.emakis;
@@ -37,7 +44,12 @@ const EmakiConteiner = ({ data, height, scroll }) => {
         className={`${styles.conteiner} ${
           type === "西洋絵画" ? styles.lr : styles.rl
         }`}
-        style={{ "--screen-height": height }}
+        style={{
+          "--screen-height": height,
+          "--screen-width": width,
+          "--overflow-x": overflowX,
+          "--box-shadow": boxshadow,
+        }}
         ref={scrollRef}
       >
         {emakis.map((item, index) => {
