@@ -13,7 +13,7 @@ import FullScreenComp from "../components/FullScreenComp";
 import EmakiConteiner from "../components/EmakiConteiner";
 import dataEmakis from "../libs/data";
 
-const Home = ({ cyouzyuuzinbutugiga,seiyoukaiga }) => {
+const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   const { t } = useLocale();
   const { t: data } = useLocaleData();
   const favoriteEmakis = data.filter((emaki) => emaki.favorite === true);
@@ -101,13 +101,67 @@ const Home = ({ cyouzyuuzinbutugiga,seiyoukaiga }) => {
         sectiondesc={t.variation.desc}
         sectionname={t.variation.name}
       />
-      <FullScreenComp right={"1rem"} padding={"4rem 0"}>
-        <EmakiConteiner
-          data={{ ...cyouzyuuzinbutugiga }}
-          height={"50vh"}
-          scroll={false}
-        />
-      </FullScreenComp>
+      <div
+        className="section-padding"
+        style={{ display: "flex", justifyContent: "flex-start" }}
+      >
+        <FullScreenComp right={"1rem"}>
+          <EmakiConteiner
+            data={{ ...cyouzyuuzinbutugiga }}
+            height={"50vh"}
+            width={"80vw"}
+            scroll={false}
+            overflowX={"hidden"}
+            boxshadow={" 0 5px 15px rgba(0, 0, 0, 20%)"}
+          />
+        </FullScreenComp>
+      </div>
+      <div
+        className="section-padding"
+        style={{ display: "flex", justifyContent: "flex-end" }}
+      >
+        <FullScreenComp left={"1rem"}>
+          <EmakiConteiner
+            data={{ ...seiyoukaiga }}
+            height={"50vh"}
+            width={"80vw"}
+            scroll={false}
+            overflowX={"hidden"}
+            boxshadow={" 0 5px 15px rgba(0, 0, 0, 20%)"}
+          />
+        </FullScreenComp>
+      </div>
+      <div
+        className="section-padding"
+        style={{ display: "flex", justifyContent: "flex-start" }}
+      >
+        <FullScreenComp right={"1rem"}>
+          <EmakiConteiner
+            data={{ ...suibokuga }}
+            height={"50vh"}
+            width={"80vw"}
+            scroll={false}
+            overflowX={"hidden"}
+            boxshadow={" 0 5px 15px rgba(0, 0, 0, 20%)"}
+          />
+        </FullScreenComp>
+      </div>
+
+      <div
+        className="section-padding"
+        style={{ display: "flex", justifyContent: "flex-end" }}
+      >
+        <FullScreenComp left={"1rem"}>
+          <EmakiConteiner
+            data={{ ...mone }}
+            height={"50vh"}
+            width={"80vw"}
+            scroll={false}
+            overflowX={"hidden"}
+            boxshadow={" 0 5px 15px rgba(0, 0, 0, 20%)"}
+          />
+        </FullScreenComp>
+      </div>
       <CardB
         emakis={historyemakis}
         columns={t.history.columns}
@@ -135,13 +189,7 @@ const Home = ({ cyouzyuuzinbutugiga,seiyoukaiga }) => {
         sectiondesc={t.alpha.desc}
         sectionname={t.alpha.name}
       />
-      <FullScreenComp left={"1rem"} padding={"4rem 0"}>
-        <EmakiConteiner
-          data={{ ...seiyoukaiga }}
-          height={"50vh"}
-          scroll={false}
-        />
-      </FullScreenComp>
+
       <Footer />
     </>
   );
@@ -156,6 +204,11 @@ export const getStaticProps = async (context) => {
       item.title === "鳥獣人物戯画絵巻" && item.edition === "甲巻"
   );
 
+  const suibokuga = dataEmakis.find(
+    (item, index) => item.title === "四季山水図巻（山水長巻）"
+  );
+  const mone = dataEmakis.find((item, index) => item.title === "睡蓮 連作");
+
   const seiyoukaiga = dataEmakis.find(
     (seiyoukaiga) => seiyoukaiga.title === "ブランカッチ礼拝堂 装飾画"
   );
@@ -164,6 +217,8 @@ export const getStaticProps = async (context) => {
     props: {
       cyouzyuuzinbutugiga: cyouzyuuzinbutugiga,
       seiyoukaiga: seiyoukaiga,
+      suibokuga: suibokuga,
+      mone: mone,
     },
   };
 };
