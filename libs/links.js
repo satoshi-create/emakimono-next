@@ -1,18 +1,50 @@
 const links = [
-  { name: "絵巻", nameen: "Emaki", id: "emaki", path: "/category/emaki" },
-  { name: "屛風", nameen: "Byoubu", id: "byoubu", path: "/category/byoubu" },
   {
-    name: "水墨画",
-    nameen: "Suibokuga",
-    id: "suibokuga",
-    path: "/category/suibokuga",
+    name: "絵巻一覧",
+    nameen: "Emaki",
+    id: "emaki",
+    path: "/category/emaki",
+    submenu: "",
   },
-  { name: "浮世絵", nameen: "Ukiyoe", id: "ukiyoe", path: "/category/ukiyoe" },
+  { name: "ご案内", nameen: "About", id: "about", path: "/about", submenu: ""},
   {
-    name: "西洋絵画",
-    nameen: "Western painting",
-    id: "seiyoukaiga",
-    path: "/category/seiyoukaiga",
+    name: "お問い合わせ",
+    nameen: "Contact",
+    id: "about",
+    path: "/contact",
+    submenu: "",
+  },
+  {
+    name: "＋α",
+    nameen: "Alpha",
+    id: "alpha",
+    path: "",
+    submenu: [
+      {
+        name: "屛風",
+        nameen: "Byoubu",
+        id: "byoubu",
+        path: "/category/byoubu",
+      },
+      {
+        name: "水墨画",
+        nameen: "Suibokuga",
+        id: "suibokuga",
+        path: "/category/suibokuga",
+      },
+      {
+        name: "浮世絵",
+        nameen: "Ukiyoe",
+        id: "ukiyoe",
+        path: "/category/ukiyoe",
+      },
+      {
+        name: "西洋絵画",
+        nameen: "Western painting",
+        id: "seiyoukaiga",
+        path: "/category/seiyoukaiga",
+      },
+    ],
   },
 ];
 
