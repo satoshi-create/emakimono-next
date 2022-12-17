@@ -1,6 +1,7 @@
 .links {
   display: none;
 }
+
 @media screen and (min-width: 768px) {
   .links {
     grid-row: 2;
@@ -17,5 +18,28 @@
   }
   .links a:active {
     color: var(--clr-accent-02);
+  }
+  .menu {
+    position: relative;
+    cursor: pointer;
+  }
+  .submenu {
+    position: absolute;
+    top: 2rem;
+    left: 0;
+    width: max-content;
+    flex-direction: column;
+    font-size: 1.2rem;
+    line-height: 2;
+    background-color: var(--clr-white);
+  }
+
+  .submenu > a {
+    transition: va(--transition);
+    padding: 0.4rem;
+  }
+  .submenu > a:hover {
+    background-color: var(--clr-grey-light);
+    opacity: 0.6;
   }
 }
