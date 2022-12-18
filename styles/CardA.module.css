@@ -132,6 +132,21 @@
   margin-top: 1rem;
   text-align: center;
 }
+.viewemakiBtn {
+  padding: 0.5rem;
+  border-radius: var(--borderRadius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: var(--transition);
+  font-family: var(--text-font);
+  color: var(--clr-accent-02);
+  border: 1px solid var(--clr-accent-02);
+  background: var(--clr-white);
+}
+.viewemakiBtn:hover {
+  color: var(--clr-white);
+  background-color: var(--clr-accent-02);
+}
 .keyword {
   display: flex;
   justify-content: right;

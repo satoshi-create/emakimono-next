@@ -5,6 +5,7 @@ import Link from "next/link";
 import styles from "../styles/Tags.module.css";
 import { keywordItem, personnameItem } from "../libs/func";
 import { useRouter } from "next/router";
+import Button from "./Button";
 
 const Keywords = ({ sectiontitle, path }) => {
   const { locale } = useRouter();
