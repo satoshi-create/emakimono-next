@@ -22,7 +22,9 @@
   --shadowR: -10px 15px 10px rgba(0, 0, 0, 0.2);
   --transition: all 0.3s linear;
   --mokuji-size: calc(14px + (20 - 14) * ((100vh - 375px) / (1080 - 375)));
-  --my-font: "sans-serif";
+  /* --my-font: "sans-serif"; */
+  --my-font: 游明朝, "Yu Mincho", YuMincho, "Hiragino Mincho ProN",
+    "Hiragino Mincho Pro", HGS明朝E, メイリオ, Meiryo, serif;
   --title-font: "Kaisei HarunoUmi", serif;
   --text-font: "Zen Maru Gothic", sans-serif;
   --emaki-title-font: "Kaisei HarunoUmi", serif;
