@@ -104,7 +104,9 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectiontitle={t.favorite.title}
         sectiontitleen={t.favorite.titleen}
         sectiondesc={t.history.desc}
-        sectionname={"recommend"}
+        sectionname={t.favorite.name}
+        linktitle={"絵巻"}
+        linkpath={"emaki"}
       />
       <CardA
         emakis={variation}
@@ -113,6 +115,8 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectiontitleen={t.variation.titleen}
         sectiondesc={t.variation.desc}
         sectionname={t.variation.name}
+        linktitle={"絵巻"}
+        linkpath={"emaki"}
       />
       <FullscreenContents
         data={{ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }}
@@ -142,6 +146,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectiontitleen={t.alpha.titleen}
         sectiondesc={t.alpha.desc}
         sectionname={t.alpha.name}
+        linktitle={"ワイド美術"}
       />
       {/* <div style={{ float: "left", clear: "both" }} ref={scrollRef}></div> */}
       <Footer />
