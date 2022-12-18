@@ -69,7 +69,7 @@ const ToggleTag = ({ sectiontitle, sectiontitleen }) => {
         <Button
           title={
             locale === "en"
-              ? "View a list of person names !!"
+              ? "View a list of personnames !!"
               : "人物名一覧を見る"
           }
           path={"/personnames"}
