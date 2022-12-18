@@ -16,6 +16,8 @@ const CardA = ({
   sectionname,
   sectiondesc,
   sectiontitleen,
+  linktitle,
+  linkpath,
 }) => {
   const { setisModalOpen } = useContext(AppContext);
   const { locale } = useRouter();
@@ -111,15 +113,15 @@ const CardA = ({
                     </div>
                   )}
                   <div className={styles.viewemaki}>
-                    <Button
-                      title={
-                        locale === "en"
-                          ? "Enjoy by right to left scroll !!"
-                          : "横スクロールで見る"
-                      }
-                      path={titleen}
-                      style={"carda"}
-                    />
+                    <Link href={`/${titleen}`}>
+                      <a>
+                        <button className={styles.viewemakiBtn}>
+                          {locale === "en"
+                            ? "Enjoy by right to left scroll !!"
+                            : "横スクロールで見る"}
+                        </button>
+                      </a>
+                    </Link>
                   </div>
                   {keyword && (
                     <div className={styles.keyword}>
@@ -140,6 +142,15 @@ const CardA = ({
             </div>
           );
         })}
+        <Button
+          title={
+            locale === "en"
+              ? "View a list of picture scrolls !!"
+              : `${linktitle}一覧を見る`
+          }
+          path={`/category/${linkpath}`}
+          style={columns}
+        />
       </section>
     </section>
   );

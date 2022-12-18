@@ -1,21 +1,4 @@
-.cardbtn {
-  padding: 0.5rem;
-  border-radius: var(--borderRadius);
-  font-size: 0.9rem;
-  font-weight: 600;
-  transition: var(--transition);
-  font-family: var(--text-font);
-}
-.carda {
-  color: var(--clr-accent-02);
-  border: 1px solid var(--clr-accent-02);
-  background: var(--clr-white);
-}
-.carda:hover {
-  color: var(--clr-white);
-  background-color: var(--clr-accent-02);
-}
-.gridimage {
+/* .gridimage {
   color: var(--clr-white);
   border: 1px solid var(--clr-accent-02);
   background: var(--clr-accent-02);
@@ -25,4 +8,40 @@
 .gridimage:hover {
   color: var(--clr-accent-02);
   background-color: var(--clr-white);
+} */
+
+.link {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+.btn {
+  /* width: 80%; */
+  padding: 0.5rem;
+  border-radius: var(--borderRadius);
+  font-size: clamp(1.2rem, 1.0844rem + 0.4931vw, 1.4rem);
+  font-weight: 500;
+  transition: var(--transition);
+  font-family: var(--text-font);
+  color: var(--clr-white);
+  border: 1px solid var(--clr-accent-02);
+  background-color: var(--clr-accent-02);
+}
+.btn:hover {
+  color: var(--clr-accent-02);
+  background: var(--clr-white);
+}
+.tag {
+  width: 40%;
+}
+
+.three{
+  width: 80%;
+}
+.four{
+  width: 60%;
+}
+.cardB{
+  width: 80%;
 }

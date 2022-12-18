@@ -5,6 +5,7 @@ import styles from "../styles/ToggleTag.module.css";
 import emakisData from "../libs/data";
 import { keywordItem, personnameItem } from "../libs/func";
 import { useRouter } from "next/router";
+import Button from "./Button";
 
 const ToggleTag = ({ sectiontitle, sectiontitleen }) => {
   const { locale } = useRouter();
@@ -54,6 +55,27 @@ const ToggleTag = ({ sectiontitle, sectiontitleen }) => {
         allTags={allTags}
         path={path}
       />
+      {tagtitle === "キーワード" ? (
+        <Button
+          title={
+            locale === "en"
+              ? "View a list of keywords !!"
+              : "キーワード一覧を見る"
+          }
+          path={"/keywords"}
+          style={"tag"}
+        />
+      ) : (
+        <Button
+          title={
+            locale === "en"
+              ? "View a list of person names !!"
+              : "人物名一覧を見る"
+          }
+          path={"/personnames"}
+          style={"tag"}
+        />
+      )}
     </>
   );
 };
