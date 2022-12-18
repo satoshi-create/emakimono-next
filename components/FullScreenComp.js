@@ -1,7 +1,7 @@
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faExpand,
+  faDownLeftAndUpRightToCenter,
   faUpRightAndDownLeftFromCenter,
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "../styles/FullScreenComp.module.css";
@@ -15,7 +15,7 @@ export default function FullScreenComp({ children, right, left, padding }) {
         className={styles.openIcon}
         style={{ "--right": right, "--left": left }}
       >
-        <FontAwesomeIcon icon={faExpand} />
+        <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
         <i className="fa fa-expand"></i>
       </button>
 
@@ -26,7 +26,7 @@ export default function FullScreenComp({ children, right, left, padding }) {
             className={styles.closeIcon}
             style={{ "--right": right, "--left": left }}
           >
-            <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
+            <FontAwesomeIcon icon={faDownLeftAndUpRightToCenter} />
           </button>
         )}
         {children}

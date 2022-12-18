@@ -13,22 +13,32 @@
   z-index: 1;
 }
 
-/* chaptercontainer */
 .chaptercontainer {
-  display: grid;
+  /* display: grid;
   grid-auto-flow: column;
   align-items: center;
   grid-template-columns: 1fr auto auto;
-  column-gap: 2rem;
-  margin: 4rem 0;
+  column-gap: 2rem; */
+  margin-top: 3rem;
+  position: relative;
 }
 
 .chapter {
-  margin: 0 2rem;
+  padding: 0 1rem;
   font-weight: 500;
   color: #4a4f9f;
   font-size: var(--title-size);
   font-family: var(--emaki-title-font);
+}
+.togglebtn {
+  position: absolute;
+  bottom: 0;
+  left: 3rem;
+}
+.modalebtn {
+  position: absolute;
+  bottom: 3rem;
+  left: 3rem;
 }
 
 .modalebtnicon,
@@ -37,8 +47,8 @@
   color: var(--clr-grey);
   padding: 0.2rem;
   border-radius: 50%;
-  display: grid;
-  place-items: center;
+  /* display: grid;
+  place-items: center; */
   transition: var(--transition);
 }
 .modalebtnicon:hover,

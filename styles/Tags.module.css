@@ -6,6 +6,7 @@
   display: grid;
   justify-items: center;
   gap: 0.5rem;
+  font-family: var(--title-font2);
 }
 .taginfo {
   display: grid;
