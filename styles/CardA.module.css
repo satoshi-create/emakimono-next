@@ -71,6 +71,8 @@
   column-gap: 0.5rem;
   font-size: 0.7rem;
   padding: 0.5rem 0;
+  font-family: var(--title-font2);
+  font-weight: 500;
 }
 .cat > * {
   padding: 0.1rem 0.4rem;
@@ -117,11 +119,13 @@
   font-weight: 600;
   font-size: 1rem;
   color: var(--clr-black);
+  font-family: var(--title-font2);
 }
 .author {
   font-weight: 600;
   font-size: 0.9rem;
   color: var(--clr-black);
+  font-family: var(--title-font2);
 }
 .desc {
   font-size: 0.8rem;
@@ -154,6 +158,7 @@
   column-gap: 0.3rem;
   font-size: 0.5rem;
   padding: 0.5rem 0;
+  font-family: var(--title-font2);
 }
 .keywordLink {
   color: var(--clr-grey-light);
