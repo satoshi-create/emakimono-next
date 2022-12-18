@@ -57,7 +57,7 @@ const CardB = ({
         <Button
           title={
             locale === "en"
-              ? "View a list of picture scrolls !!"
+              ? "View a list of EMAKIMONO !!"
               : "絵巻一覧を見る"
           }
           path={"/category/emaki"}

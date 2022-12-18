@@ -18,6 +18,7 @@ const CardA = ({
   sectiontitleen,
   linktitle,
   linkpath,
+  linktitleen,
 }) => {
   const { setisModalOpen } = useContext(AppContext);
   const { locale } = useRouter();
@@ -145,7 +146,7 @@ const CardA = ({
         <Button
           title={
             locale === "en"
-              ? "View a list of picture scrolls !!"
+              ? `View a list of ${linktitleen} !!`
               : `${linktitle}一覧を見る`
           }
           path={`/category/${linkpath}`}

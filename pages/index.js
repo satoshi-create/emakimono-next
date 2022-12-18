@@ -106,6 +106,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectiondesc={t.history.desc}
         sectionname={t.favorite.name}
         linktitle={"絵巻"}
+        linktitleen={"EMAKIMONO"}
         linkpath={"emaki"}
       />
       <CardA
@@ -116,6 +117,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectiondesc={t.variation.desc}
         sectionname={t.variation.name}
         linktitle={"絵巻"}
+        linktitleen={"EMAKIMONO"}
         linkpath={"emaki"}
       />
       <FullscreenContents
@@ -147,6 +149,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectiondesc={t.alpha.desc}
         sectionname={t.alpha.name}
         linktitle={"ワイド美術"}
+        linktitleen={"Side-scrolling art"}
       />
       {/* <div style={{ float: "left", clear: "both" }} ref={scrollRef}></div> */}
       <Footer />
