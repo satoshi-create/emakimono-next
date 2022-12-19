@@ -12,7 +12,9 @@ const Keywords = ({ sectiontitle, path }) => {
   if (sectiontitle === "キーワード") {
     return (
       <section className={`section-center section-padding ${styles.container}`}>
-        <section className={styles.tags}>
+        <section
+          className={`${styles.tags} ${locale === "ja" && styles.jatags}`}
+        >
           {keywordItem(emakisData).map((item, index) => {
             const { name, id, slug, total, ruby } = item;
 
@@ -36,7 +38,9 @@ const Keywords = ({ sectiontitle, path }) => {
   } else {
     return (
       <section className={`section-center section-padding ${styles.container}`}>
-        <section className={styles.tags}>
+        <section
+          className={`${styles.tags} ${locale === "ja" && styles.jatags}`}
+        >
           {personnameItem(emakisData).map((item, index) => {
             const { name, id, slug, total, ruby } = item;
             return (
