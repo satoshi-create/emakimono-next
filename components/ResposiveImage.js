@@ -44,8 +44,16 @@ const ResposiveImage = ({
   // }
   return (
     <picture>
-      {/* <source data-srcset={srcSp} media="(max-height: 375px)" type="image/webp" /> */}
-      {/* <source data-srcset={srcTb} media="(max-height: 800px)" type="image/webp" /> */}
+      <source
+        data-srcset={srcSp}
+        media="(max-height: 375px)"
+        type="image/webp"
+      />
+      <source
+        data-srcset={srcTb}
+        media="(max-height: 800px)"
+        type="image/webp"
+      />
       <source data-srcset={src} type="image/webp" />
       <img
         decoding="async"
