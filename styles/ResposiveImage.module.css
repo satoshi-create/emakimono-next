@@ -3,3 +3,10 @@
   width: auto;
   /* aspect-ratio: 16/9; */
 }
+
+@-moz-document url-prefix() {
+  .emakiImg {
+    height: auto;
+    width: auto;
+  }
+}
