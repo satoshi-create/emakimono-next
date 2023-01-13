@@ -57,33 +57,3 @@ export default function sendmail(req, res) {
 
   res.send("success");
 }
-
-// export default async function sendMail(req, res) {
-//   const transporter = createTransport({
-//     service: "gmail",
-//     // port: 465,
-//     // secure: true,
-//     auth: {
-//       user: "mimizunobouken@gmail.com",
-//       pass: "fzaauhcvhfdtklxc",
-//     },
-//   });
-//   await transporter.sendMail({
-//     from: "mimizunobouken@gmail.com",
-//     to: "mimizunobouken@gmail.com",
-//     subject: `【お問い合わせ】${req.body.name}様より`,
-//     text: req.body.message + " | Sent from: " + req.body.email,
-//     html: `
-//       <p>【名前】</p>
-//       <p>${req.body.name}</p>
-//       <p>【メールアドレス】</p>
-//       <p>${req.body.email}</p>
-//       <p>【メッセージ】</p>
-//       <p>${req.body.message.replaceAll("\n", "<br>")}</p>
-//     `,
-//   });
-
-//   res.status(200).json({
-//     success: true,
-//   });
-// }
