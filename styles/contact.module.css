@@ -19,7 +19,15 @@
   height: 152px;
 }
 
+.submitted {
+  text-align: center;
+  color: var(--clr-accent-02);
+  font-family: var(--text-font);
+  font-size: 1.4rem;
+}
+
 .btn {
+  margin: 2rem 0;
   width: 50%;
   align-self: center;
   padding: 0.5rem;
