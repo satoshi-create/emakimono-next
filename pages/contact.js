@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import "lazysizes";
 import Head from "../components/Meta";
-import styles from "../styles/Contact.module.css";
+import styles from "../styles/contact.module.css";
 import { FormControl, Textarea, Input } from "@chakra-ui/react";
 import Title from "../components/Title";
 
