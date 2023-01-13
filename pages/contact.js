@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import "lazysizes";
 import Head from "../components/Meta";
-import styles from "../styles/contact.module.css";
+import styles from "../styles/Contact.module.css";
 import { FormControl, Textarea, Input } from "@chakra-ui/react";
 import Title from "../components/Title";
 
@@ -13,7 +13,6 @@ const Contact = () => {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
-
 
   const send = async (e) => {
     e.preventDefault();
@@ -37,6 +36,7 @@ const Contact = () => {
         console.log("送信が成功しました");
         setSubmitted(true);
         setName("");
+        setTitle("");
         setEmail("");
         setMessage("");
       }
@@ -84,6 +84,7 @@ const Contact = () => {
           <button className={styles.btn} type="submit" onClick={(e) => send(e)}>
             送信する
           </button>
+          {submitted && <p className={styles.submitted}>送信が完了しました</p>}
         </form>
       </section>
       <Footer />

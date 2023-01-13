@@ -4,14 +4,14 @@ export default function sendmail(req, res) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "mimizunobouken@gmail.com",
-      pass: "fzaauhcvhfdtklxc",
+      user: process.env.MAIL_USER,
+      pass: process.env.MAIL_PASS,
     },
   });
 
   const toHostMailData = {
-    from: "mimizunobouken@gmail.com",
-    to: "mimizunobouken@gmail.com",
+    from: process.env.MAIL_USER,
+    to: process.env.MAIL_USER,
     subject: `【お問い合わせ】${req.body.name}様より`,
     text: req.body.message + " | Sent from: " + req.body.email,
     html: `
@@ -25,7 +25,7 @@ export default function sendmail(req, res) {
   };
 
   const toGuestMailData = {
-    from: "mimizunobouken@gmail.com",
+    from: process.env.MAIL_USER,
     to: `${req.body.email}`,
     subject: `【お問い合わせ自動受付メール】`,
     text: req.body.message + " | Sent from: " + req.body.email,
