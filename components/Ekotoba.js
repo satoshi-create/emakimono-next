@@ -8,6 +8,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import ResposiveImage from "./ResposiveImage";
 import { AppContext } from "../pages/_app";
+import "lazysizes";
+import "lazysizes/plugins/attrchange/ls.attrchange";
 
 const Ekotoba = ({
   item: {
@@ -46,7 +48,7 @@ const Ekotoba = ({
   }, []);
   return (
     <section
-      className={`section ${
+      className={`section fade-in lazyload ${
         type === "西洋絵画" ? styles.ekotobalr : styles.ekotobarl
       }`}
       id={`s${index}`}

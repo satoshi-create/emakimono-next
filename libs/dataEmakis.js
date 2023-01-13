@@ -2927,19 +2927,6 @@ const dataEmakis = [
         srcHeight: 1080,
       },
       {
-        cat: "ekotoba",
-        chapter: "【第一相】 新死相",
-        kobun: "",
-        gendaibun:
-          "<span class='waka'>さかりなる　花のすかたも散はてて<br>　　　　　あはれにみゆる　春の夕くれ<br><br>花もちり　春も暮行木のもとに<br>　　　　　　命もつきぬ　入あひのかね</span>",
-        srcSp: "/kusoushiemaki_02-375.webp",
-        srcTb: "/kusoushiemaki_02-800.webp",
-        src: "/kusoushiemaki_02-1080.webp",
-        name: "kusoushiemaki_02.webp",
-        phrase: [{}],
-        id: 227,
-      },
-      {
         load: true,
         cat: "image",
         srcSp: "/kusoushiemaki_03-375.webp",
@@ -2966,20 +2953,7 @@ const dataEmakis = [
         srcWidth: 1659,
         srcHeight: 1080,
       },
-      {
-        cat: "ekotoba",
-        chapter:
-          "【第二相】 <ruby><rb>肪脹相</rb><rp>（</rp><rt>ぼうちょうそう</rt><rp>）</rp></ruby>",
-        kobun: "",
-        gendaibun:
-          "<span class='waka'>あさからす　しなはともにと　契しも<br>　　　　　人はよそなる　よもきふのやと<br><br>落やすき　秋のもみちの　霜かれて<br>　　　　　みしにもあらぬ人々のいろ</span>",
-        srcSp: "/kusoushiemaki_04-375.webp",
-        srcTb: "/kusoushiemaki_04-800.webp",
-        src: "/kusoushiemaki_04-1080.webp",
-        name: "kusoushiemaki_04.webp",
-        phrase: [{}],
-        id: 229,
-      },
+
       {
         load: false,
         cat: "image",
@@ -3007,20 +2981,7 @@ const dataEmakis = [
         srcWidth: 1696,
         srcHeight: 1080,
       },
-      {
-        cat: "ekotoba",
-        chapter:
-          "【第三相】 <ruby><rb>血塗相</rb><rp>（</rp><rt>けちずそう</rt><rp>）</rp></ruby> ",
-        kobun: "",
-        gendaibun:
-          "<span class='waka'>日にそへて　かはるすかたの　黛も<br>　　　　きえて跡なき　露の身そかし<br><br>みな人の　我か物かほに おもひしに<br>　　　　　此身のはての　なれる姿よ</span>",
-        srcSp: "/kusoushiemaki_06-375.webp",
-        srcTb: "/kusoushiemaki_06-800.webp",
-        src: "/kusoushiemaki_06-1080.webp",
-        name: "kusoushiemaki_06.webp",
-        phrase: [{}],
-        id: 231,
-      },
+
       {
         load: false,
         cat: "image",
@@ -3048,20 +3009,7 @@ const dataEmakis = [
         srcWidth: 1783,
         srcHeight: 1080,
       },
-      {
-        cat: "ekotoba",
-        chapter:
-          "【第四相】 <ruby><rb>肪乱相</rb><rp>（</rp><rt>ほうらんそう</rt><rp>）</rp></ruby> ",
-        kobun: "",
-        gendaibun:
-          "<span class='waka'>何とたに　かりなる色を　かさる覧<br>　　　　　かかるへしとは　かねてしらすや<br><br>うら見ても　かひなきものを　鳥辺山<br>　　　　　まくすか原に　すてらるる身を</span>",
-        srcSp: "/kusoushiemaki_08-375.webp",
-        srcTb: "/kusoushiemaki_08-800.webp",
-        src: "/kusoushiemaki_08-1080.webp",
-        name: "kusoushiemaki_08.webp",
-        phrase: [{}],
-        id: 233,
-      },
+
       {
         load: false,
         cat: "image",
@@ -3089,20 +3037,7 @@ const dataEmakis = [
         srcWidth: 1745,
         srcHeight: 1080,
       },
-      {
-        cat: "ekotoba",
-        chapter:
-          "【第五相】 <ruby><rb>噉食相</rb><rp>（</rp><rt>たんじきそう</rt><rp>）</rp></ruby> ",
-        kobun: "",
-        gendaibun:
-          "<span class='waka'>とりへやまに　あらそふ犬の　聲きけは<br>　　　　　かねてうき身の　をき所なき<br><br>是を見て　身はうき物と　おもひしに<br>　　　　　なにの情か　これにあるへき</span>",
-        srcSp: "/kusoushiemaki_10-375.webp",
-        srcTb: "/kusoushiemaki_10-800.webp",
-        src: "/kusoushiemaki_10-1080.webp",
-        name: "kusoushiemaki_10.webp",
-        phrase: [{}],
-        id: 235,
-      },
+
       {
         load: false,
         cat: "image",
@@ -3130,20 +3065,7 @@ const dataEmakis = [
         srcWidth: 1751,
         srcHeight: 1080,
       },
-      {
-        cat: "ekotoba",
-        chapter:
-          "【第六相】 <ruby><rb>青瘀相</rb><rp>（</rp><rt>しょうおそう</rt><rp>）</rp></ruby> ",
-        kobun: "",
-        gendaibun:
-          "<span class='waka'>はかなしや　あさ夕なてし　くろ髪も<br>　　　　　蓬（よもぎ）かもとの　ちりと成たり<br><br>おもひきや　鳥への山に　捨てられし<br>　　　　　犬のあらそふ　身なるへしとは</span>",
-        srcSp: "/kusoushiemaki_12-375.webp",
-        srcTb: "/kusoushiemaki_12-800.webp",
-        src: "/kusoushiemaki_12-1080.webp",
-        name: "kusoushiemaki_12.webp",
-        phrase: [{}],
-        id: 237,
-      },
+
       {
         load: false,
         cat: "image",
@@ -3171,20 +3093,7 @@ const dataEmakis = [
         srcWidth: 1714,
         srcHeight: 1080,
       },
-      {
-        cat: "ekotoba",
-        chapter:
-          "【第七相】 <ruby><rb>白骨連相</rb><rp>（</rp><rt>はっこつれんそう</rt><rp>）</rp></ruby> ",
-        kobun: "",
-        gendaibun:
-          "<span class='waka'>皮にこそ　おとこをんなの　色はあれ<br>　　　　　ほねにはかはる　人かたもなし<br><br>かさりつる　すかたは野辺に　散はてて<br>　　　　　のこるかはねの　なれる姿よ</span>",
-        srcSp: "/kusoushiemaki_14-375.webp",
-        srcTb: "/kusoushiemaki_14-800.webp",
-        src: "/kusoushiemaki_14-1080.webp",
-        name: "kusoushiemaki_14.webp",
-        phrase: [{}],
-        id: 239,
-      },
+
       {
         load: false,
         cat: "image",
@@ -3212,20 +3121,7 @@ const dataEmakis = [
         srcWidth: 1668,
         srcHeight: 1080,
       },
-      {
-        cat: "ekotoba",
-        chapter:
-          "【第八相】 <ruby><rb>白骨散相</rb><rp>（</rp><rt>はっこつさんそう</rt><rp>）</rp></ruby> ",
-        kobun: "",
-        gendaibun:
-          "<span class='waka'>露の命　消にし跡を　見よかほに<br>　　　　　お花かもとに　のこるかはねよ<br><br>われとおもふ　身はみな野辺に　朽ち果てて<br>　　　　　よもきかもとの　ちりと成けり</span>",
-        srcSp: "/kusoushiemaki_16-375.webp",
-        srcTb: "/kusoushiemaki_16-800.webp",
-        src: "/kusoushiemaki_16-1080.webp",
-        name: "kusoushiemaki_16.webp",
-        phrase: [{}],
-        id: 241,
-      },
+
       {
         load: false,
         cat: "image",
@@ -3253,20 +3149,7 @@ const dataEmakis = [
         srcWidth: 1630,
         srcHeight: 1080,
       },
-      {
-        cat: "ekotoba",
-        chapter:
-          "【第九相】 <ruby><rb>成灰相</rb><rp>（</rp><rt>じょうかいそう</rt><rp>）</rp></ruby> ",
-        kobun: "",
-        gendaibun:
-          "<span class='waka'>かきつけし　其名ははやく　きえはてて<br>　　　　　たれともしらぬ　古卒都婆かな<br><br>とり辺山　すてにし人は　後たえて<br>　　　　　つかにはのこる　露のたましい</span>",
-        srcSp: "/kusoushiemaki_18-375.webp",
-        srcTb: "/kusoushiemaki_18-800.webp",
-        src: "/kusoushiemaki_18-1080.webp",
-        name: "kusoushiemaki_18.webp",
-        phrase: [{}],
-        id: 243,
-      },
+
       {
         load: false,
         cat: "image",
