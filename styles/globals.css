@@ -73,8 +73,8 @@ button {
   padding: 4rem 0;
 }
 .fade-in {
-  opacity: 0;
-  transition: 2s;
+  opacity: 0.3;
+  transition: 1s;
 }
 .fade-in.lazyloaded {
   opacity: 1;
