@@ -11,14 +11,14 @@ const Header = ({slug}) => {
 
   const [stickyClass, setStickyClass] = useState("");
 
-  const stickNavbar = () => {
-    let windowHeight = window.scrollY;
-    windowHeight > 80 ? setStickyClass("header-fixed") : setStickyClass("");
-  };
+  // const stickNavbar = () => {
+  //   let windowHeight = window.scrollY;
+  //   windowHeight > 80 ? setStickyClass("header-fixed") : setStickyClass("");
+  // };
 
-  useEffect(() => {
-    window.addEventListener("scroll", stickNavbar);
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener("scroll", stickNavbar);
+  // }, []);
 
   return (
     <header className={`${styles.header} section-grid ${styles[stickyClass]}`}>

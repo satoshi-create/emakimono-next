@@ -72,16 +72,14 @@ button {
 .section-padding {
   padding: 4rem 0;
 }
-
-.loading.lazyloading {
-  filter: blur(0.6);
-  transition: filter 1s;
-  /* background: #f7f7f7 url(/loading.gif) no-repeat center; */
+.fade-in {
+  opacity: 0;
+  transition: 2s;
 }
-.lazyloaded {
+.fade-in.lazyloaded {
   opacity: 1;
-  transition: opacity 0.3ms;
 }
+
 
 .fullscreen-enabled article {
   height: 100vh;
