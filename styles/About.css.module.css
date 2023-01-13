@@ -1,0 +1,9 @@
+.title {
+  text-align: center;
+  padding: 2rem;
+  font-size: clamp(1.5rem, 1.2111rem + 1.2327vw, 2rem);
+}
+.text {
+  font-size: clamp(1rem, 0.8844rem + 0.4931vw, 1.2rem);
+  line-height: 1.8;
+}

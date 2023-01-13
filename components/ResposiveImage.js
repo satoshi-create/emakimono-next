@@ -63,10 +63,11 @@ const ResposiveImage = ({
         //     : "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
         // }
         src={srcSp}
-        className={`loading lazyload ${styles.emakiImg}`}
+        className={`fade-in lazyload ${styles.emakiImg}`}
         alt={name}
         width={srcWidth}
         height={srcHeight}
+        data-expand="300"
       />
     </picture>
   );
