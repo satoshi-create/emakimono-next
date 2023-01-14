@@ -6,14 +6,14 @@ export default async function sendMail(req, res) {
     port: 465,
     secure: true,
     auth: {
-      user: process.env.MAIL_USER,
-      pass: process.env.MAIL_PASS,
+      user: process.env.NEXT_PUBLIC_MAIL_USER,
+      pass: process.env.NEXT_PUBLIC_MAIL_PASS,
     },
   });
 
   await transporter.sendMail({
-    from:process.env.MAIL_USER,
-    to:process.env.MAIL_USER,
+    from:process.env.NEXT_PUBLIC_MAIL_USER,
+    to:process.env.NEXT_PUBLIC_MAIL_USER,
     subject: `【お問い合わせ】${req.body.name}様より`,
     text: req.body.message + " | Sent from: " + req.body.email,
     html: `
@@ -25,6 +25,12 @@ export default async function sendMail(req, res) {
       <p>${req.body.message.replaceAll("\n", "<br>")}</p>
     `,
   });
+
+  res.status(200).json({
+    success: true,
+  });
+}
+
 
   // await transporter.sendMail({
   //   from: process.env.MAIL_USER,
@@ -46,8 +52,3 @@ export default async function sendMail(req, res) {
   //         <p>-----------------------------------------</p>
   //       `,
   // });
-
-  res.status(200).json({
-    success: true,
-  });
-}
