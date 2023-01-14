@@ -6,6 +6,20 @@ import "lazysizes/plugins/attrchange/ls.attrchange";
 const ResposiveImage = ({
   value: { srcSp, srcTb, src, load, name, srcWidth, srcHeight, index, scroll },
 }) => {
+  console.log(load);
+
+  // const dummySrc = (s, l) => {
+  //   if (s) {
+  //     if (l) {
+  //       return srcSp;
+  //     } else {
+  //       return "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+  //     }
+  //   } else {
+  //     return "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+  //   }
+  // };
+
   return (
     <picture>
       <source
@@ -18,9 +32,10 @@ const ResposiveImage = ({
         media="(max-height: 800px)"
         type="image/webp"
       />
-      <source data-srcset={src} type="image/webp" />
+      <source data-srcset={scroll ? src : srcSp} type="image/webp" />
       <img
         decoding="async"
+        // src={dummySrc(scroll,load)}
         // src={
         //   load
         //     ? srcSp
