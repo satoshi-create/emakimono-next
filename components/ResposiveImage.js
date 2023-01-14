@@ -4,9 +4,8 @@ import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
 
 const ResposiveImage = ({
-  value: { srcSp, srcTb, src, load, name, srcWidth, srcHeight, index },
+  value: { srcSp, srcTb, src, load, name, srcWidth, srcHeight, index, scroll },
 }) => {
-
   return (
     <picture>
       <source
@@ -22,12 +21,16 @@ const ResposiveImage = ({
       <source data-srcset={src} type="image/webp" />
       <img
         decoding="async"
+        // src={
+        //   load
+        //     ? srcSp
+        //     : "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+        // }
         src={
-          load
+          scroll
             ? srcSp
             : "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
         }
-        // src={srcSp}
         className={`fade-in lazyload ${styles.emakiImg}`}
         alt={name}
         width={srcWidth}
