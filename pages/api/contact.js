@@ -1,35 +1,35 @@
-// import { createTransport } from "nodemailer";
+import { createTransport } from "nodemailer";
 
-// export default async function sendMail(req, res) {
-//   const transporter = createTransport({
-//     host: "smtp.gmail.com",
-//     port: 465,
-//     secure: true,
-//     auth: {
-//       user: process.env.NEXT_PUBLIC_MAIL_USER,
-//       pass: process.env.NEXT_PUBLIC_MAIL_PASS,
-//     },
-//   });
+export default async function sendMail(req, res) {
+  const transporter = createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.USER,
+      pass: process.env.PASS,
+    },
+  });
 
-//   await transporter.sendMail({
-//     from:process.env.NEXT_PUBLIC_MAIL_USER,
-//     to:process.env.NEXT_PUBLIC_MAIL_USER,
-//     subject: `【お問い合わせ】${req.body.name}様より`,
-//     text: req.body.message + " | Sent from: " + req.body.email,
-//     html: `
-//       <p>【名前】</p>
-//       <p>${req.body.name}</p>
-//       <p>【メールアドレス】</p>
-//       <p>${req.body.email}</p>
-//       <p>【メッセージ】</p>
-//       <p>${req.body.message.replaceAll("\n", "<br>")}</p>
-//     `,
-//   });
+  await transporter.sendMail({
+    from:process.env.USER,
+    to:process.env.USER,
+    subject: `【お問い合わせ】${req.body.name}様より`,
+    text: req.body.message + " | Sent from: " + req.body.email,
+    html: `
+      <p>【名前】</p>
+      <p>${req.body.name}</p>
+      <p>【メールアドレス】</p>
+      <p>${req.body.email}</p>
+      <p>【メッセージ】</p>
+      <p>${req.body.message.replaceAll("\n", "<br>")}</p>
+    `,
+  });
 
-//   res.status(200).json({
-//     success: true,
-//   });
-// }
+  res.status(200).json({
+    success: true,
+  });
+}
 
 //   await transporter.sendMail({
 //     from: process.env.MAIL_USER,
@@ -52,34 +52,4 @@
 //         `,
 //   });
 
-import { createTransport } from "nodemailer";
 
-export default async function sendMail(req, res) {
-  const transporter = createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: "mimizunobouken@gmail.com",
-      pass: "fzaauhcvhfdtklxc",
-    },
-  });
-  await transporter.sendMail({
-    from: "mimizunobouken@gmail.com",
-    to: "mimizunobouken@gmail.com",
-    subject: `【お問い合わせ】${req.body.name}様より`,
-    text: req.body.message + " | Sent from: " + req.body.email,
-    html: `
-      <p>【名前】</p>
-      <p>${req.body.name}</p>
-      <p>【メールアドレス】</p>
-      <p>${req.body.email}</p>
-      <p>【メッセージ】</p>
-      <p>${req.body.message.replaceAll("\n", "<br>")}</p>
-    `,
-  });
-
-  res.status(200).json({
-    success: true,
-  });
-}
