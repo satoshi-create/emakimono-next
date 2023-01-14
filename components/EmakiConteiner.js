@@ -70,7 +70,7 @@ const EmakiConteiner = ({
           const { cat, src } = item;
 
           if (cat === "image") {
-            return <EmakiImage key={index} item={{ ...item, index }} />;
+            return <EmakiImage key={index} item={{ ...item, index ,scroll}} />;
           } else {
             return (
               <Ekotoba
