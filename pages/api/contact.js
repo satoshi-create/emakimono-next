@@ -31,7 +31,6 @@
 //   });
 // }
 
-
 //   await transporter.sendMail({
 //     from: process.env.MAIL_USER,
 //     to: `${req.body.email}`,
@@ -57,7 +56,7 @@ import { createTransport } from "nodemailer";
 
 export default async function sendMail(req, res) {
   const transporter = createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
     port: 465,
     secure: true,
     auth: {
