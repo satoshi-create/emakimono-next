@@ -11,7 +11,7 @@
 .sidebar {
   display: none;
   padding: 2rem;
-  z-index: 99;
+  z-index: 200;
   position: absolute;
   right: 0;
   top: 0;
