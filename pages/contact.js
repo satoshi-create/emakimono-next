@@ -14,6 +14,7 @@ const Contact = () => {
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
+
   const send = async (e) => {
     e.preventDefault();
     console.log("送信中");
