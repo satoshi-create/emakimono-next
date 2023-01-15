@@ -6,22 +6,26 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 import NavLinks from "./NavLinks";
 
-const Header = ({slug}) => {
+const Header = ({ slug, fixed }) => {
   const { locale } = useRouter();
 
   const [stickyClass, setStickyClass] = useState("");
 
-  // const stickNavbar = () => {
-  //   let windowHeight = window.scrollY;
-  //   windowHeight > 80 ? setStickyClass("header-fixed") : setStickyClass("");
-  // };
+  const stickNavbar = () => {
+    let windowHeight = window.scrollY;
+    windowHeight > 80 ? setStickyClass("header-fixed") : setStickyClass("");
+  };
 
-  // useEffect(() => {
-  //   window.addEventListener("scroll", stickNavbar);
-  // }, []);
+  useEffect(() => {
+    window.addEventListener("scroll", stickNavbar);
+  }, []);
 
   return (
-    <header className={`${styles.header} section-grid ${styles[stickyClass]}`}>
+    <header
+      className={`${styles.header} section-grid ${
+        fixed && styles[stickyClass]
+      }`}
+    >
       <div className={styles.center}>
         <h1 className={styles.title}>
           <Link href="/">
@@ -37,7 +41,7 @@ const Header = ({slug}) => {
             </button>
           </div>
         </nav>
-        <NavLinks slug={slug}/>
+        <NavLinks slug={slug} />
       </div>
     </header>
   );

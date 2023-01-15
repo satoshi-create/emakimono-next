@@ -6,6 +6,8 @@ import Head from "../components/Meta";
 import styles from "../styles/contact.module.css";
 import { FormControl, Textarea, Input } from "@chakra-ui/react";
 import Title from "../components/Title";
+import { useRouter } from "next/router";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 const Contact = () => {
   const [name, setName] = useState("");
@@ -13,7 +15,7 @@ const Contact = () => {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
-
+  const { locale } = useRouter();
 
   const send = async (e) => {
     e.preventDefault();
@@ -48,6 +50,7 @@ const Contact = () => {
     <>
       <Head />
       <Header />
+      <Breadcrumbs name={locale === "en" ? "contact" : "お問い合わせ"} />
       <section className="section-grid section-padding">
         <Title sectiontitle={"お問い合わせ"} sectiontitleen={"contact"} />
         <form className={styles.form}>

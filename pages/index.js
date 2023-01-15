@@ -96,7 +96,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   return (
     <>
       <Head />
-      <Header />
+      <Header fixed={true} />
       <Attention />
       <CardA
         emakis={favoriteEmakis}
