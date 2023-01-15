@@ -50,7 +50,7 @@ const ResposiveImage = ({
         alt={name}
         width={srcWidth}
         height={srcHeight}
-        data-expand="-300"
+        data-expand="300"
       />
     </picture>
   );
