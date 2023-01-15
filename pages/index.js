@@ -122,6 +122,12 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
       />
       <FullscreenContents
         data={{ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }}
+        sectiontitle={"流れる巻物"}
+        sectiontitleen={"flow"}
+        linktitle={"ワイド美術"}
+        linktitleen={"EMAKIMONO"}
+        linkpath={"flow"}
+        columns={t.favorite.columns}
       />
       <CardB
         emakis={historyemakis}

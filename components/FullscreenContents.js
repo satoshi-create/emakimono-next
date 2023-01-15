@@ -1,12 +1,24 @@
 import React from "react";
 import FullScreenComp from "./FullScreenComp";
 import EmakiConteiner from "./EmakiConteiner";
+import Title from "./Title";
+import Button from "./Button";
+import { useRouter } from "next/router";
 
-const FullscreenContents = ({ data }) => {
+const FullscreenContents = ({
+  data,
+  sectiontitle,
+  sectiontitleen,
+  linktitle,
+  linktitleen,
+  linkpath,
+  columns,
+}) => {
   const { cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone } = data;
-
+  const { locale } = useRouter();
   return (
-    <>
+    <section className={`section-center section-padding`}>
+      <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       <div
         className="section-padding"
         style={{ display: "flex", justifyContent: "flex-start" }}
@@ -67,7 +79,18 @@ const FullscreenContents = ({ data }) => {
           />
         </FullScreenComp>
       </div>
-    </>
+      {linktitle && (
+        <Button
+          title={
+            locale === "en"
+              ? `More flowing scrolls !!`
+              : `流れる巻物をもっと見る`
+          }
+          path={`/${linkpath}`}
+          style={columns}
+        />
+      )}
+    </section>
   );
 };
 
