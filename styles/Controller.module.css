@@ -8,11 +8,19 @@
   align-items: baseline;
   z-index: 10;
 }
+
 .controller {
-  display: none;
+  column-gap: 5px;
+  display: flex;
+  justify-content: center;
 }
 
-.linkicon {
+.controller > .next,
+.controller > .home,
+.controller > .prev {
+  display: none;
+}
+.controller > .comment {
   width: 3rem;
   height: 3rem;
   border: none;
@@ -29,10 +37,21 @@
   font-size: 21px;
   transition: var(--transition);
 }
+
 @media (min-height: 768px) {
-  .controller {
-    column-gap: 5px;
-    display: flex;
-    justify-content: center;
+  .controller > .next,
+  .controller > .home,
+  .controller > .prev {
+    width: 3rem;
+    height: 3rem;
+    border: none;
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+    transition: var(--transition);
+    background: var(--clr-primary-02);
+    padding: 4px;
+    color: var(--clr-gray);
+    cursor: pointer;
   }
 }
