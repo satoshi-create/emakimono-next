@@ -8,14 +8,18 @@ import Title from "../components/Title";
 import FullscreenContents from "../components/FullscreenContents";
 import dataEmakis from "../libs/data";
 import { useLocale, useLocaleData } from "../libs/func";
+import { useRouter } from "next/router";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 const Flow = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   const { t } = useLocale();
   const { t: data } = useLocaleData();
+    const { locale } = useRouter();
   return (
     <>
       <Head />
       <Header />
+      <Breadcrumbs name={locale === "en" ? "flow" : "流れる巻物"} />
       <FullscreenContents
         data={{ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }}
         sectiontitle={"流れる巻物"}
