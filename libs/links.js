@@ -6,7 +6,15 @@ const links = [
     path: "/category/emaki",
     submenu: "",
   },
-  { name: "ご挨拶", nameen: "About", id: "about", path: "/about", submenu: ""},
+  {
+    name: "流れる巻物",
+    nameen: "flow",
+    id: "flow",
+    path: "/flow",
+    submenu: "",
+  },
+  { name: "ご挨拶", nameen: "About", id: "about", path: "/about", submenu: "" },
+
   {
     name: "お問い合わせ",
     nameen: "Contact",
