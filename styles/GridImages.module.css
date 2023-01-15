@@ -1,17 +1,20 @@
-.gridconteinter {
+.gridconteinter,
+.gridconteinterB {
   margin: 0 auto;
-  padding: 3rem 0 0;
+  padding: 0.5rem 0 0;
   display: grid;
   gap: 0.5rem;
 }
-.figure {
+.figure,
+.figureB {
   position: relative;
   width: 100%;
   height: 30vh;
   cursor: pointer;
   opacity: 0.8;
 }
-.figure::after {
+.figure::after,
+.figureB::after {
   content: "";
   position: absolute;
   top: 0;
@@ -33,7 +36,7 @@
   transition: var(--transition);
   opacity: 1;
   z-index: 10;
-  mix-blend-mode: darken;
+  mix-blend-mode: hard-light;
 }
 .info {
   position: absolute;
@@ -79,16 +82,20 @@
 .figure:hover .desc {
   opacity: 0;
 } */
-.figure:hover .image {
-  transform: scale(1.5);
+.figure:hover .image,
+.figureB:hover .image {
+  transform: scale(1.5) rotate(-0.02turn);
 }
-.figure:hover .infocontainer {
+.figure:hover .infocontainer,
+.figureB:hover .infocontainer {
   opacity: 0;
 }
-.figure:hover .info {
+.figure:hover .info,
+.figureB:hover .info {
   opacity: 1;
 }
-.figure:hover::after {
+.figure:hover::after,
+.figureB:hover::after {
   opacity: 1;
   -webkit-transform: scale(0.8);
   transform: scale(0.8);
@@ -115,6 +122,7 @@
   background-color: firebrick;
 }
 
+
 @media screen and (min-width: 768px) {
   .gridconteinter {
     grid-template-areas:
@@ -140,6 +148,34 @@
   }
 
   .figure:nth-child(5) {
+    grid-area: E;
+    height: 100%;
+  }
+  /* .gridconteinterB */
+  .gridconteinterB {
+    grid-template-areas:
+      "B B A"
+      "E C A"
+      "E D D";
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+  }
+  .figureB:nth-child(1) {
+    grid-area: A;
+    height: 100%;
+  }
+  .figureB:nth-child(2) {
+    grid-area: B;
+  }
+
+  .figureB:nth-child(3) {
+    grid-area: C;
+  }
+  .figureB:nth-child(4) {
+    grid-area: D;
+  }
+
+  .figureB:nth-child(5) {
     grid-area: E;
     height: 100%;
   }

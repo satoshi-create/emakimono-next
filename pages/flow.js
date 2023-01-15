@@ -14,7 +14,7 @@ import Breadcrumbs from "../components/Breadcrumbs";
 const Flow = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   const { t } = useLocale();
   const { t: data } = useLocaleData();
-    const { locale } = useRouter();
+  const { locale } = useRouter();
   return (
     <>
       <Head />
@@ -22,8 +22,8 @@ const Flow = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
       <Breadcrumbs name={locale === "en" ? "flow" : "流れる巻物"} />
       <FullscreenContents
         data={{ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }}
-        sectiontitle={"流れる巻物"}
-        sectiontitleen={"flow"}
+        sectiontitle={t.flow.title}
+        sectiontitleen={t.flow.titleen}
       />
       <Footer />
     </>
