@@ -9,6 +9,7 @@ import jaData from "../libs/data";
 import Footer from "../components/Footer";
 import FullScreenComp from "../components/FullScreenComp";
 import Translate from "../components/Translate";
+import EmakiInfo from "../components/EmakiInfo";
 
 const Emaki = ({ emakis, locale, locales, slug }) => {
   console.log(emakis.thumb.width);
@@ -76,6 +77,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
           }}
           slug={slug}
         />
+        <EmakiInfo value={emakis} />
         <Controller value={emakis} />
         <Sidebar value={emakis} />
         <EmakiConteiner data={{ ...emakis }} height={"100vh"} scroll={true} />

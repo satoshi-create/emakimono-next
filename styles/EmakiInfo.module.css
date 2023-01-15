@@ -1,4 +1,8 @@
 .container {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
   font-family: var(--text-font);
   border-radius: 1rem;
   display: flex;
@@ -13,7 +17,7 @@
   color: white;
 }
 @media (min-height: 768px) {
-  .container{
+  .container {
     gap: 1rem;
   }
   .title {
