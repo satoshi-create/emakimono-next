@@ -13,6 +13,14 @@ const ja = {
     name: "variation",
     columns: "four",
   },
+  flow: {
+    title: "流れる巻物",
+    titleen: "flow Emakis",
+    desc: "",
+    name: "flow",
+    columns: "four",
+  },
+
   history: {
     title: "時代から見る絵巻",
     titleen: "history",
@@ -53,6 +61,13 @@ const en = {
     titleen: "さまざまな絵巻",
     desc: "The heyday of picture scrolls was from the end of the Heian period to the Muromachi period. As booklet-style reading spread, picture scrolls gradually fell out of fashion. However, picture scrolls were still being drawn in the Edo period, and Japanese painters were drawing picture scrolls in the Meiji period. The picture scrolls that have been drawn over time have a variety of expressions, and you can feel the breath of Japanese history in the picture scrolls.",
     name: "variation",
+    columns: "four",
+  },
+  flow: {
+    title: "flow Emakis",
+    titleen: "流れる巻物",
+    desc: "",
+    name: "flow",
     columns: "four",
   },
   history: {
