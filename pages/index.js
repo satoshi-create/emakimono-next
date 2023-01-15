@@ -11,6 +11,7 @@ import ToggleTag from "../components/ToggleTag";
 import { useLocale, useLocaleData } from "../libs/func";
 import FullscreenContents from "../components/FullscreenContents";
 import dataEmakis from "../libs/data";
+import { gridImages } from "../libs/gridImages";
 
 const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   // const scrollRef = useRef();
@@ -122,8 +123,8 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
       />
       <FullscreenContents
         data={{ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }}
-        sectiontitle={"流れる巻物"}
-        sectiontitleen={"flow"}
+        sectiontitle={t.flow.title}
+        sectiontitleen={t.flow.titleen}
         linktitle={"ワイド美術"}
         linktitleen={"EMAKIMONO"}
         linkpath={"flow"}
@@ -142,10 +143,15 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectiontitleen={t.toggleTag.titleen}
       />
       <GridImages
+        images={gridImages}
         sectiontitle={t.famousscene.title}
         sectiontitleen={t.famousscene.titleen}
         sectiondesc={t.famousscene.desc}
         sectionname={t.famousscene.name}
+        linktitle={"絵巻名場面集"}
+        linktitleen={"famousscene"}
+        linkpath={"famousscene"}
+        columns={t.favorite.columns}
       />
       <CardA
         emakis={alpha}

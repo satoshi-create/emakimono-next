@@ -2,20 +2,24 @@ import React, { useState, useReducer, useContext, useEffect } from "react";
 import Title from "./Title";
 import styles from "../styles/GridImages.module.css";
 import Image from "next/image";
-import { gridImages } from "../libs/gridImages";
 import Button from "./Button";
 import { useRouter } from "next/router";
 
 const GridImages = ({
+  images,
   sectiontitle,
   sectionname,
   sectiondesc,
   sectiontitleen,
+  linktitle,
+  linktitleen,
+  linkpath,
+  columns,
 }) => {
   const { locale } = useRouter();
-  
+
   const init = {
-    gridImages: gridImages,
+    gridImages: images,
   };
 
   const enterImage = (id) => {
@@ -47,54 +51,166 @@ const GridImages = ({
 
   const [state, dispatch] = useReducer(reducer, init);
 
+  const gridImages = (page) => {
+    if (page) {
+      return (
+        <div className={styles.gridconteinter}>
+          {state.gridImages.slice(0, 5).map((item, index) => {
+            const { path, title, image, desc, eracolor, id, bln, descen } =
+              item;
+            return (
+              <figure className={styles.figure} key={index}>
+                <Image
+                  src={image}
+                  layout="fill"
+                  objectFit="cover"
+                  className={styles.image}
+                  sName={styles.image}
+                  alt={title}
+                  loading="lazy"
+                  placeholder="blur"
+                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
+                />
+                <div
+                  className={`${styles.infocontainer} ${styles[eracolor]}`}
+                ></div>
+                <div
+                  className={styles.info}
+                  onMouseOver={() => enterImage(id)}
+                  onMouseOut={() => leaveImage(id)}
+                >
+                  {bln ? (
+                    <div className={styles.link}>
+                      <Button
+                        title={"横スクロールで見る"}
+                        path={path}
+                        style={"gridimage"}
+                      />
+                    </div>
+                  ) : (
+                    <p className={styles.desc}>
+                      {locale === "en" ? descen : desc}
+                    </p>
+                  )}
+                </div>
+              </figure>
+            );
+          })}
+        </div>
+      );
+    } else {
+      return (
+        <>
+          <div className={styles.gridconteinter}>
+            {state.gridImages.slice(0, 5).map((item, index) => {
+              const { path, title, image, desc, eracolor, id, bln, descen } =
+                item;
+              return (
+                <figure className={styles.figure} key={index}>
+                  <Image
+                    src={image}
+                    layout="fill"
+                    objectFit="cover"
+                    className={styles.image}
+                    sName={styles.image}
+                    alt={title}
+                    loading="lazy"
+                    placeholder="blur"
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
+                  />
+                  <div
+                    className={`${styles.infocontainer} ${styles[eracolor]}`}
+                  ></div>
+                  <div
+                    className={styles.info}
+                    onMouseOver={() => enterImage(id)}
+                    onMouseOut={() => leaveImage(id)}
+                  >
+                    {bln ? (
+                      <div className={styles.link}>
+                        {/* <h4 className={styles.title}>{title}</h4> */}
+                        <Button
+                          title={"横スクロールで見る"}
+                          path={path}
+                          style={"gridimage"}
+                        />
+                      </div>
+                    ) : (
+                      <p className={styles.desc}>
+                        {locale === "en" ? descen : desc}
+                      </p>
+                    )}
+                  </div>
+                </figure>
+              );
+            })}
+          </div>
+          <div className={styles.gridconteinterB}>
+            {state.gridImages.slice(0, 5).map((item, index) => {
+              const { path, title, image, desc, eracolor, id, bln, descen } =
+                item;
+              return (
+                <figure className={styles.figureB} key={index}>
+                  <Image
+                    src={image}
+                    layout="fill"
+                    objectFit="cover"
+                    className={styles.image}
+                    sName={styles.image}
+                    alt={title}
+                    loading="lazy"
+                    placeholder="blur"
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
+                  />
+                  <div
+                    className={`${styles.infocontainer} ${styles[eracolor]}`}
+                  ></div>
+                  <div
+                    className={styles.info}
+                    onMouseOver={() => enterImage(id)}
+                    onMouseOut={() => leaveImage(id)}
+                  >
+                    {bln ? (
+                      <div className={styles.link}>
+                        <Button
+                          title={"横スクロールで見る"}
+                          path={path}
+                          style={"gridimage"}
+                        />
+                      </div>
+                    ) : (
+                      <p className={styles.desc}>
+                        {locale === "en" ? descen : desc}
+                      </p>
+                    )}
+                  </div>
+                </figure>
+              );
+            })}
+          </div>
+        </>
+      );
+    }
+  };
+
   return (
     <section
       className={`section-center section-padding ${styles[sectionname]}`}
     >
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
-      <section className={styles.gridconteinter}>
-        {state.gridImages.map((item, index) => {
-          const { path, title, image, desc, eracolor, id, bln, descen } = item;
-          return (
-            <figure className={styles.figure} key={index}>
-              <Image
-                src={image}
-                layout="fill"
-                objectFit="cover"
-                className={styles.image}
-                sName={styles.image}
-                alt={title}
-                loading="lazy"
-                placeholder="blur"
-                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
-              />
-              <div
-                className={`${styles.infocontainer} ${styles[eracolor]}`}
-              ></div>
-              <div
-                className={styles.info}
-                onMouseOver={() => enterImage(id)}
-                onMouseOut={() => leaveImage(id)}
-              >
-                {bln ? (
-                  <div className={styles.link}>
-                    <Button
-                      title={"横スクロールで見る"}
-                      path={path}
-                      style={"gridimage"}
-                    />
-                  </div>
-                ) : (
-                  <p className={styles.desc}>
-                    {locale === "en" ? descen : desc}
-                  </p>
-                )}
-              </div>
-            </figure>
-          );
-        })}
-      </section>
+      {gridImages(linktitle)}
+      {linktitle && (
+        <Button
+          title={
+            locale === "en"
+              ? `More flowing ${linktitleen} !!`
+              : `${linktitle}をもっと見る`
+          }
+          path={`/${linkpath}`}
+          style={columns}
+        />
+      )}
     </section>
   );
 };
