@@ -1,4 +1,5 @@
 const links = [
+  { name: "ご挨拶", nameen: "About", id: "about", path: "/about", submenu: "" },
   {
     name: "絵巻一覧",
     nameen: "Emaki",
@@ -13,8 +14,13 @@ const links = [
     path: "/flow",
     submenu: "",
   },
-  { name: "ご挨拶", nameen: "About", id: "about", path: "/about", submenu: "" },
-
+  {
+    name: "絵巻名場面集!!",
+    nameen: "famousscene",
+    id: "famousscene",
+    path: "/famousscene",
+    submenu: "",
+  },
   {
     name: "お問い合わせ",
     nameen: "Contact",
