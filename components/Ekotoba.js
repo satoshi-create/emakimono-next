@@ -120,7 +120,9 @@ const Ekotoba = ({
       <span
         className={ekotobaImageToggle ? `${styles.open}` : `${styles.close}`}
       >
-        {src && <ResposiveImage value={{ srcSp, srcTb, src, load, name ,scroll}} />}
+        {src && (
+          <ResposiveImage value={{ srcSp, srcTb, src, load, name, scroll }} />
+        )}
       </span>
     </section>
   );

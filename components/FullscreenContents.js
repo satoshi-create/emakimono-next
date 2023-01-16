@@ -4,9 +4,10 @@ import EmakiConteiner from "./EmakiConteiner";
 import Title from "./Title";
 import Button from "./Button";
 import { useRouter } from "next/router";
+import styles from "../styles/FullscreenContents.module.css";
 
 const FullscreenContents = ({
-  data,
+  flowEmakis: emakis,
   sectiontitle,
   sectiontitleen,
   linktitle,
@@ -14,71 +15,38 @@ const FullscreenContents = ({
   linkpath,
   columns,
 }) => {
-  const { cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone } = data;
   const { locale } = useRouter();
+
+  const Left = {
+    justifyContent: "flex-start",
+  };
+  const Right = {
+    justifyContent: "flex-end",
+  };
+
   return (
     <section className={`section-center section-padding`}>
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
-      <div
-        className="section-padding"
-        style={{ display: "flex", justifyContent: "flex-start" }}
-      >
-        <FullScreenComp right={"1rem"}>
-          <EmakiConteiner
-            data={{ ...cyouzyuuzinbutugiga }}
-            height={"50vh"}
-            width={"80vw"}
-            scroll={false}
-            overflowX={"hidden"}
-            boxshadow={" 0 5px 15px rgba(0, 0, 0, 20%)"}
-          />
-        </FullScreenComp>
-      </div>
-      <div
-        className="section-padding"
-        style={{ display: "flex", justifyContent: "flex-end" }}
-      >
-        <FullScreenComp left={"1rem"}>
-          <EmakiConteiner
-            data={{ ...seiyoukaiga }}
-            height={"50vh"}
-            width={"80vw"}
-            scroll={false}
-            overflowX={"hidden"}
-            boxshadow={" 0 5px 15px rgba(0, 0, 0, 20%)"}
-          />
-        </FullScreenComp>
-      </div>
-      <div
-        className="section-padding"
-        style={{ display: "flex", justifyContent: "flex-start" }}
-      >
-        <FullScreenComp right={"1rem"}>
-          <EmakiConteiner
-            data={{ ...suibokuga }}
-            height={"50vh"}
-            width={"80vw"}
-            scroll={false}
-            overflowX={"hidden"}
-            boxshadow={" 0 5px 15px rgba(0, 0, 0, 20%)"}
-          />
-        </FullScreenComp>
-      </div>
-      <div
-        className="section-padding"
-        style={{ display: "flex", justifyContent: "flex-end" }}
-      >
-        <FullScreenComp left={"1rem"}>
-          <EmakiConteiner
-            data={{ ...mone }}
-            height={"50vh"}
-            width={"80vw"}
-            scroll={false}
-            overflowX={"hidden"}
-            boxshadow={" 0 5px 15px rgba(0, 0, 0, 20%)"}
-          />
-        </FullScreenComp>
-      </div>
+      {emakis.map((item, i) => {
+        return (
+          <div
+            className={`section-padding ${styles.container}`}
+            style={i % 2 ? Right : Left}
+            key={i}
+          >
+            <FullScreenComp iconStyle={i % 2 ? true :false}>
+              <EmakiConteiner
+                data={item}
+                height={"50vh"}
+                width={"80vw"}
+                scroll={false}
+                overflowX={"hidden"}
+                boxshadow={" 0 5px 15px rgba(0, 0, 0, 20%)"}
+              />
+            </FullScreenComp>
+          </div>
+        );
+      })}
       {linktitle && (
         <Button
           title={

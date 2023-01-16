@@ -36,7 +36,7 @@ function MyApp({ Component, pageProps, router }) {
   const { t: emakisData } = useLocaleData();
   const [ekotobaToggle, setekotobaToggle] = useState(false);
   const [oepnSidebar, setOepnSidebar] = useState(false);
-  const [ekotobaImageToggle, setEkotobaImageToggle] = useState(false);
+  const [ekotobaImageToggle, setEkotobaImageToggle] = useState(true);
   const [query, setQuery] = useState("");
   const [fliterdEmakis, setfliterdEmakis] = useState(emakisData);
   const [isModalOpen, setisModalOpen] = useState(false);
