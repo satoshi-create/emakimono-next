@@ -24,15 +24,6 @@ const Controller = ({ value }) => {
 
   return (
     <aside className={styles.container}>
-      {/* <EmakiInfo
-        title={title}
-        era={era}
-        type={type}
-        typeen={typeen}
-        eraen={eraen}
-        keyword={keyword}
-        edition={edition}
-      /> */}
       <div className={styles.controller}>
         {controller.map((item, index) => {
           const {
