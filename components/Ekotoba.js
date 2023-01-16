@@ -47,6 +47,7 @@ const Ekotoba = ({
     setekotobaToggle(false);
     false;
   }, []);
+
   return (
     <section
       className={`section fade-in lazyload ${
@@ -119,7 +120,7 @@ const Ekotoba = ({
       <span
         className={ekotobaImageToggle ? `${styles.open}` : `${styles.close}`}
       >
-        {src && <ResposiveImage value={{ srcSp, srcTb, src, load, name }} />}
+        {src && <ResposiveImage value={{ srcSp, srcTb, src, load, name ,scroll}} />}
       </span>
     </section>
   );
