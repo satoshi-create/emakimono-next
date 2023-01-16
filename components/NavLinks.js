@@ -62,7 +62,6 @@ const NavLinks = ({ footerstyle, slug }) => {
                 style={toggle ? { display: "flex" } : { display: "none" }}
               >
                 {submenu.map((item, i) => {
-                  console.log(submenu);
                   const { name, path, nameen } = item;
                   return (
                     <Link href={path} key={i}>
