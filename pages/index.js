@@ -44,6 +44,9 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
     ...buttenEmakis,
     ...gyouziEmakis,
   ];
+  const flowEmakis = [cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone];
+
+
 
   const typeByoubu = data.filter((emaki) => emaki.type === "屏風").splice(0, 1);
   const typeUkiyoe = data
@@ -122,7 +125,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         linkpath={"emaki"}
       />
       <FullscreenContents
-        data={{ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }}
+        flowEmakis={flowEmakis}
         sectiontitle={t.flow.title}
         sectiontitleen={t.flow.titleen}
         linktitle={"ワイド美術"}

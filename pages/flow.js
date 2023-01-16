@@ -11,17 +11,21 @@ import { useLocale, useLocaleData } from "../libs/func";
 import { useRouter } from "next/router";
 import Breadcrumbs from "../components/Breadcrumbs";
 
-const Flow = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
+const Flow = () => {
+
   const { t } = useLocale();
   const { t: data } = useLocaleData();
   const { locale } = useRouter();
+  
+  // const heianEmakis = dataEmakis.filter((emaki) => emaki.era === "平安");
+  // console.log(heianEmakis);
   return (
     <>
       <Head />
       <Header />
       <Breadcrumbs name={locale === "en" ? "flow" : "流れる巻物"} />
       <FullscreenContents
-        data={{ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }}
+        flowEmakis={dataEmakis}
         sectiontitle={t.flow.title}
         sectiontitleen={t.flow.titleen}
       />
@@ -30,32 +34,17 @@ const Flow = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   );
 };
 
-export const getStaticProps = async (context) => {
-  const { locale, locales } = context;
-  // const tEmakisData = locale === "en" ? enData : jaData;
+// export const getStaticProps = async (context) => {
+//   const { locale, locales } = context;
+//   // const tEmakisData = locale === "en" ? enData : jaData;
 
-  const cyouzyuuzinbutugiga = dataEmakis.find(
-    (item, index) =>
-      item.title === "鳥獣人物戯画絵巻" && item.edition === "甲巻"
-  );
+//   const heianEmakis = dataEmakis.filter((emaki) => emaki.subtype === "説話");
 
-  const suibokuga = dataEmakis.find(
-    (item, index) => item.title === "四季山水図巻（山水長巻）"
-  );
-  const mone = dataEmakis.find((item, index) => item.title === "睡蓮 連作");
-
-  const seiyoukaiga = dataEmakis.find(
-    (seiyoukaiga) => seiyoukaiga.title === "ブランカッチ礼拝堂 装飾画"
-  );
-
-  return {
-    props: {
-      cyouzyuuzinbutugiga: cyouzyuuzinbutugiga,
-      seiyoukaiga: seiyoukaiga,
-      suibokuga: suibokuga,
-      mone: mone,
-    },
-  };
-};
+//   return {
+//     props: {
+//       emakis: heianEmakis,
+//     },
+//   };
+// };
 
 export default Flow;
