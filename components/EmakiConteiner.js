@@ -75,7 +75,14 @@ const EmakiConteiner = ({
             return (
               <Ekotoba
                 key={index}
-                item={{ ...item, index, backgroundImage, kotobagaki, type }}
+                item={{
+                  ...item,
+                  index,
+                  backgroundImage,
+                  kotobagaki,
+                  type,
+                  scroll,
+                }}
               />
             );
           }
