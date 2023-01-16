@@ -41,12 +41,12 @@ const ResposiveImage = ({
         //     ? srcSp
         //     : "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
         // }
-        // src={srcSp}
-        src={
-          scroll
-            ? srcSp
-            : "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-        }
+        src={srcSp}
+        // src={
+        //   scroll
+        //     ? srcSp
+        //     : "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+        // }
         className={`fade-in lazyload ${styles.emakiImg}`}
         alt={name}
         width={srcWidth}
