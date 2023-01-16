@@ -81,7 +81,7 @@ const EmakiConteiner = ({
                   backgroundImage,
                   kotobagaki,
                   type,
-                  scroll,
+                  scroll
                 }}
               />
             );
