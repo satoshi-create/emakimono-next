@@ -12,17 +12,16 @@ import { useRouter } from "next/router";
 import Breadcrumbs from "../components/Breadcrumbs";
 
 const Flow = () => {
-
   const { t } = useLocale();
   const { t: data } = useLocaleData();
   const { locale } = useRouter();
-  
+
   // const heianEmakis = dataEmakis.filter((emaki) => emaki.era === "平安");
   // console.log(heianEmakis);
   return (
     <>
       <Head />
-      <Header />
+      <Header fixed={true} />
       <Breadcrumbs name={locale === "en" ? "flow" : "流れる巻物"} />
       <FullscreenContents
         flowEmakis={dataEmakis}
