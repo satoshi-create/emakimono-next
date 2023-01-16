@@ -28,6 +28,7 @@ const Ekotoba = ({
     ekotobaId,
     kobunsrc,
     kobunsrcSp,
+    scroll,
   },
 }) => {
   const {
@@ -108,7 +109,9 @@ const Ekotoba = ({
             className={styles.kobuntext}
           />
           {kobunsrc && (
-            <ResposiveImage value={{ src: kobunsrc, srcSp: kobunsrcSp }} />
+            <ResposiveImage
+              value={{ src: kobunsrc, srcSp: kobunsrcSp, scroll }}
+            />
           )}
         </div>
       </div>
