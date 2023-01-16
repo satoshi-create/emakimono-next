@@ -4,9 +4,8 @@ import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
 
 const ResposiveImage = ({
-  value: { srcSp, srcTb, src, load, name, srcWidth, srcHeight, index, scroll },
+  value: { srcSp, srcTb, src, load, name, srcWidth, srcHeight, index,scroll },
 }) => {
-  console.log(load);
 
   // const dummySrc = (s, l) => {
   //   if (s) {
@@ -19,7 +18,7 @@ const ResposiveImage = ({
   //     return "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
   //   }
   // };
-
+  console.log({ scroll });
   return (
     <picture>
       <source
@@ -32,7 +31,7 @@ const ResposiveImage = ({
         media="(max-height: 800px)"
         type="image/webp"
       />
-      <source data-srcset={src} type="image/webp" />
+      <source data-srcset={scroll ? src : srcSp} type="image/webp" />
       <img
         decoding="async"
         // src={dummySrc(scroll,load)}
@@ -41,17 +40,16 @@ const ResposiveImage = ({
         //     ? srcSp
         //     : "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
         // }
-        src={srcSp}
-        // src={
-        //   scroll
-        //     ? srcSp
-        //     : "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-        // }
+        src={
+          scroll
+            ? srcSp
+            : "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+        }
         className={`fade-in lazyload ${styles.emakiImg}`}
         alt={name}
         width={srcWidth}
         height={srcHeight}
-        data-expand="                     7 7p301000"
+        data-expand="1000"
       />
     </picture>
   );
