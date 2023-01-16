@@ -28,7 +28,11 @@ export default function FullScreenComp({ children, iconStyle, padding }) {
           <button
             onClick={handle.exit}
             className={styles.closeIcon}
-            style={iconStyle ? { "--left": "1rem" } : { "--right": "1rem" }}
+            style={
+              iconStyle
+                ? { "--left": "1rem", "--rotate": "90deg" }
+                : { "--right": "1rem" }
+            }
           >
             <FontAwesomeIcon icon={faDownLeftAndUpRightToCenter} />
           </button>

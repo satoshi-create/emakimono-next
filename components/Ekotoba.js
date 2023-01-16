@@ -40,12 +40,15 @@ const Ekotoba = ({
 
   const [toggle, setToggle] = useState(false);
   useEffect(() => {
-    setEkotobaImageToggle(false);
+    if (scroll) {
+      setEkotobaImageToggle(false);
+    }
   }, []);
 
   useEffect(() => {
-    setekotobaToggle(false);
-    false;
+    if (scroll) {
+      setekotobaToggle(false);
+    }
   }, []);
 
   return (
