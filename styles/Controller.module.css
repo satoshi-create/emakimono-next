@@ -1,25 +1,15 @@
 .container {
-  /* width: 80%;
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: baseline; */
   position: absolute;
   top: 1rem;
   right: 10rem;
   z-index: 10;
 }
-
-/* .controller {
+.controller {
   column-gap: 5px;
   display: flex;
   justify-content: center;
-} */
-
+}
 .controller > .next,
-.controller > .home,
 .controller > .prev {
   display: none;
 }
@@ -30,10 +20,8 @@
 }
 
 @media (min-height: 768px) {
-  .controller {
-    column-gap: 5px;
-    display: flex;
-    justify-content: center;
+  .container {
+    right: 50%;
   }
   .controller > .next,
   .controller > .home,
