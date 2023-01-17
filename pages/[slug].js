@@ -12,7 +12,6 @@ import Translate from "../components/Translate";
 import EmakiInfo from "../components/EmakiInfo";
 
 const Emaki = ({ emakis, locale, locales, slug }) => {
-  console.log(emakis.thumb.width);
 
   const pagetitle = `${emakis.title} ${emakis.edition ? emakis.edition : ""}`;
   const tPageDesc =
