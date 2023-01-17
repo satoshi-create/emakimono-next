@@ -47,25 +47,8 @@ export default async function sendMail(req, res) {
         `,
   };
 
-  await transporter.sendMail(toHostMail, (err, data) => {
-    if (err) {
-      console.log(err);
-      res.send("error" + JSON.stringify(err));
-    } else {
-      console.log("mail send");
-      res.send("success");
-    }
-  });
-
-  await transporter.sendMail(toGuestMail, (err, data) => {
-    if (err) {
-      console.log(err);
-      res.send("error" + JSON.stringify(err));
-    } else {
-      console.log("mail send");
-      res.send("success");
-    }
-  });
+  await transporter.sendMail(toHostMail);
+  await transporter.sendMail(toGuestMail);
 
   res.status(200).json({
     success: true,
