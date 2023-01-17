@@ -88,7 +88,7 @@ const Contact = () => {
             onChange={(e) => setMessage(e.target.value)}
             className={`${styles.input} ${styles.textarea}`}
           />
-          <button className={styles.btn} type="submit" onClick={(e) => send(e)}>
+          <button className={styles.btn} type="button" onClick={(e) => send(e)}>
             送信する
           </button>
           {isLoading && <p className={styles.submitted}>...ただいま送信中です</p>}
