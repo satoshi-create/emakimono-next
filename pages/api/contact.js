@@ -11,6 +11,19 @@ export default async function sendMail(req, res) {
     },
   });
 
+    await new Promise((resolve, reject) => {
+      // verify connection configuration
+      transporter.verify(function (error, success) {
+        if (error) {
+          console.log(error);
+          reject(error);
+        } else {
+          console.log("Server is ready to take our messages");
+          resolve(success);
+        }
+      });
+    });
+
   const toHostMail = {
     from: process.env.USER,
     to: process.env.USER,
@@ -47,20 +60,33 @@ export default async function sendMail(req, res) {
         `,
   };
 
-  await transporter.sendMail(toHostMail);
-  await transporter.sendMail(toGuestMail);
+    await new Promise((resolve, reject) => {
+      // send mail
+      transporter.sendMail(toHostMail, (err, info) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          console.log(info);
+          resolve(info);
+        }
+      });
+    });
+    await new Promise((resolve, reject) => {
+      // send mail
+      transporter.sendMail(toGuestMail, (err, info) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else {
+          console.log(info);
+          resolve(info);
+        }
+      });
+    });
 
   res.status(200).json({
     success: true,
   });
 }
 
-// transporter.sendMail(mailOption, (err, data) => {
-//   if (err) {
-//     console.log(err);
-//     res.send("error" + JSON.stringify(err));
-//   } else {
-//     console.log("mail send");
-//     res.send("success");
-//   }
-// });
