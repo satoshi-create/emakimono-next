@@ -18,7 +18,6 @@ const ResposiveImage = ({
   //     return "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
   //   }
   // };
-  console.log({ scroll });
   return (
     <picture>
       <source
