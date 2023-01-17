@@ -52,7 +52,6 @@ const EmakiConteiner = ({
 
   return (
     <>
-      {/* <Attention /> */}
       {type === "浮世絵" && isModalOpen && <Modal data={data} />}
       <article
         className={`${styles.conteiner} ${
@@ -66,11 +65,16 @@ const EmakiConteiner = ({
         }}
         ref={scrollRef}
       >
+        <h4 className={styles.title}>
+          {data.title}
+          {' '}
+          {data.edition && data.edition}
+        </h4>
         {emakis.map((item, index) => {
           const { cat, src } = item;
 
           if (cat === "image") {
-            return <EmakiImage key={index} item={{ ...item, index ,scroll}} />;
+            return <EmakiImage key={index} item={{ ...item, index, scroll }} />;
           } else {
             return (
               <Ekotoba
@@ -81,7 +85,7 @@ const EmakiConteiner = ({
                   backgroundImage,
                   kotobagaki,
                   type,
-                  scroll
+                  scroll,
                 }}
               />
             );
