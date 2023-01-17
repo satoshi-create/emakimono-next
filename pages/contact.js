@@ -16,9 +16,11 @@ const Contact = () => {
   const [message, setMessage] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const { locale } = useRouter();
+  const [isLoading, setisLoading] = useState(false);
 
   const send = async (e) => {
     e.preventDefault();
+    setisLoading(true);
     console.log("送信中");
 
     let data = {
@@ -37,6 +39,7 @@ const Contact = () => {
     }).then((res) => {
       if (res.status === 200) {
         console.log("送信が成功しました");
+        setisLoading(false);
         setSubmitted(true);
         setName("");
         setTitle("");
@@ -88,6 +91,7 @@ const Contact = () => {
           <button className={styles.btn} type="submit" onClick={(e) => send(e)}>
             送信する
           </button>
+          {isLoading && <p className={styles.submitted}>...ただいま送信中です</p>}
           {submitted && <p className={styles.submitted}>送信が完了しました</p>}
         </form>
       </section>
