@@ -31,7 +31,7 @@ const ResposiveImage = ({
         media="(max-height: 800px)"
         type="image/webp"
       />
-      <source data-srcset={scroll ? src : srcTb} type="image/webp" />
+      <source data-srcset={scroll ? src : srcSp} type="image/webp" />
       <img
         decoding="async"
         // src={dummySrc(scroll,load)}
