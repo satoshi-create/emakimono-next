@@ -9,11 +9,7 @@
   box-shadow: var(--box-shadow);
   /* overflow-x: var(--overflow-x); */
 }
-.title{
-  position: absolute;
-  top: -20px;
-  left: 0;
-}
+
 .rl {
   flex-direction: row-reverse;
 }
