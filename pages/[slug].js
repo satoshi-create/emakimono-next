@@ -66,7 +66,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
         pageType={emakis.type}
         jsonLd={jsonLd}
       />
-      <FullScreenComp right={"4rem"}>
+      <FullScreenComp right={"4rem"} page={true}>
         <Translate
           emakipage={{
             position: "absolute",
