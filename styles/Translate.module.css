@@ -5,9 +5,10 @@
 }
 .btn {
   transition: var(--transition);
+  cursor: pointer;
 }
 .btn:hover {
-  opacity: 0.4;
+  color: var(--clr-accent-02);
 }
 .icon {
   font-size: 2rem;

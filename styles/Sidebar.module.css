@@ -4,6 +4,11 @@
   top: 1rem;
   right: 1rem;
   z-index: 10;
+  transition: var(--transition);
+  color: var(--clr-white);
+}
+.openbtn:hover {
+  color: var(--clr-accent-02);
 }
 .openbtnicon {
   font-size: calc(20px + (30 - 20) * ((100vh - 375px) / (1080 - 375)));
