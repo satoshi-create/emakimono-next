@@ -12,7 +12,6 @@ import Translate from "../components/Translate";
 import EmakiInfo from "../components/EmakiInfo";
 
 const Emaki = ({ emakis, locale, locales, slug }) => {
-
   const pagetitle = `${emakis.title} ${emakis.edition ? emakis.edition : ""}`;
   const tPageDesc =
     locale === "en"
@@ -54,6 +53,12 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
   };
   const jsonLd = JSON.stringify(jsonData, null, " ");
 
+  const slugstyle = {
+    color: "white",
+    "font-family": "var(--title-font)",
+    
+  };
+
   return (
     <>
       <Head
@@ -75,6 +80,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
             right: "6rem",
           }}
           slug={slug}
+          footerstyle={slugstyle}
         />
         <EmakiInfo value={emakis} />
         <Controller value={emakis} />

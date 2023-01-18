@@ -1,8 +1,19 @@
 .breadcrumbs {
   max-width: 1200px;
   width: 90vw;
+  margin: 2rem 2rem 1rem;
 }
-.next::after {
+.container {
+  display: flex;
+  gap: 0.5rem;
+}
+.container > * {
+  font-family: var(--text-font);
+  font-size: 14px;
+  color: #aba4a2;
+  text-transform: capitalize;
+}
+/* .next::after {
   content: "";
   width: 5px;
   height: 5px;
@@ -11,14 +22,4 @@
   border-top: 1px solid #ccc;
   border-right: 1px solid #ccc;
   margin: 0 6px 2px 4px;
-}
-
-.list {
-  display: flex;
-}
-
-.item {
-  font-size: 14px;
-  color: #aba4a2;
-  text-transform: capitalize;
-}
+} */

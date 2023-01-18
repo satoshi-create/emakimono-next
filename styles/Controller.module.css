@@ -17,6 +17,11 @@
 .linkicon > i {
   font-size: 21px;
   transition: var(--transition);
+  color: var(--clr-white);
+  cursor: pointer;
+}
+.linkicon > i:hover{
+  color: var(--clr-accent-02);
 }
 
 @media (min-height: 768px) {
