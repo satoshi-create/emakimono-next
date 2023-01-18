@@ -10,10 +10,17 @@ const Breadcrumbs = ({ name, test, testen }) => {
         <Link href={"/"}>
           <a>Top</a>
         </Link>
-        {" > "}
-        {test && <Link href={`/${testen}`}>{test}</Link>}
-        {" > "}
-        {name}
+
+        {test && (
+          <>
+            <p>{">"}</p>
+            <Link href={`/${testen}`}>
+              <a>{test}</a>
+            </Link>
+          </>
+        )}
+        <p> {" > "} </p>
+        <p>{name}</p>
       </ul>
     </section>
   );

@@ -2,12 +2,15 @@
   display: flex;
   position: relative;
   padding: 10rem 0;
+  background-color: var(--clr-black);
+  background-color: var(--clr-white);
 }
 .title {
   position: absolute;
   top: 100px;
   font-size: clamp(4rem, 1.6888rem + 9.8613vw, 8rem);
   font-family: var(--title-font2);
+  color: rgb(44 44 44);
   color: rgb(233, 233, 233);
 }
 .left {
