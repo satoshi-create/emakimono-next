@@ -28,15 +28,20 @@ const FullscreenContents = ({
     <section className={`section-center section-padding`}>
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       {emakis.map((item, i) => {
-        const { title } = item
-        console.log(item);
         return (
           <div
-            className={`section-padding ${styles.container}`}
+            className={styles.container}
             style={i % 2 ? Right : Left}
             key={i}
           >
-            <FullScreenComp iconStyle={i % 2 ? true :false}>
+            <h4
+              className={`${styles.title} ${
+                i % 2 ? styles.left : styles.right
+              }`}
+            >
+              {item.title} <br /> {item.edition}
+            </h4>
+            <FullScreenComp iconStyle={i % 2 ? true : false}>
               <EmakiConteiner
                 data={item}
                 height={"50vh"}
