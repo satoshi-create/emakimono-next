@@ -5,17 +5,29 @@
 }
 .title {
   position: absolute;
-  top: 0;
-  font-size: 10rem;
+  top: 100px;
+  font-size: clamp(4rem, 1.6888rem + 9.8613vw, 8rem);
   font-family: var(--title-font2);
   color: rgb(233, 233, 233);
-  letter-spacing: 10px;
 }
-.left{
+.left {
   left: 100px;
-    text-align: left;
+  text-align: left;
 }
-.right{
+.right {
   right: 100px;
   text-align: right;
+}
+@media screen and (min-width: 768px) {
+  .title {
+    top: 50px;
+  }
+  .left {
+    left: 100px;
+    text-align: left;
+  }
+  .right {
+    right: 100px;
+    text-align: right;
+  }
 }
