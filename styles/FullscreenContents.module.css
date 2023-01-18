@@ -1,9 +1,13 @@
+
+.flow{
+  margin-top: 4rem;
+}
 .container {
   display: flex;
   position: relative;
   padding: 10rem 0;
   background-color: var(--clr-black);
-  background-color: var(--clr-white);
+  /* background-color: var(--clr-white); */
 }
 .title {
   position: absolute;

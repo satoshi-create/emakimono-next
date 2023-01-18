@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import FullScreenComp from "./FullScreenComp";
 import EmakiConteiner from "./EmakiConteiner";
 import Title from "./Title";
@@ -17,7 +17,7 @@ const FullscreenContents = ({
 }) => {
   const { locale } = useRouter();
 
-  const [toggleMode, setToggleMode] = useState(false)
+  const [toggleMode, setToggleMode] = useState(false);
   console.log(toggleMode);
 
   const Left = {
@@ -29,20 +29,29 @@ const FullscreenContents = ({
 
   return (
     <>
-      <button onClick={()=>setToggleMode(!toggleMode)}>toggle</button>
-      <section className={`section-center section-padding`} style={toggleMode && {ba}}>
+      {/* <button onClick={() => setToggleMode(!toggleMode)}>toggle</button> */}
+      <section className={`section-center`}>
         <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
         {emakis.map((item, i) => {
           return (
             <div
-              className={styles.container}
-              style={i % 2 ? Right : Left}
+              className={`${styles.container}`}
+              // style={i % 2 ? Right : Left}
+              style={{
+                justifyContent: `${i % 2 ? "flex - start" : "flex-end"}`,
+                backgroundColor: `${toggleMode ? "rgb(20 20 20)" : "white"}`,
+              }}
               key={i}
             >
               <h4
                 className={`${styles.title} ${
                   i % 2 ? styles.left : styles.right
                 }`}
+                style={{
+                  color: `${
+                    toggleMode ? "rgb(44 44 44)" : "rgb(233, 233, 233)"
+                  }`,
+                }}
               >
                 {item.title} <br /> {item.edition}
               </h4>
