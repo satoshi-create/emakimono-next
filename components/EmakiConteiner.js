@@ -65,11 +65,6 @@ const EmakiConteiner = ({
         }}
         ref={scrollRef}
       >
-        <h4 className={styles.title}>
-          {data.title}
-          {' '}
-          {data.edition && data.edition}
-        </h4>
         {emakis.map((item, index) => {
           const { cat, src } = item;
 
