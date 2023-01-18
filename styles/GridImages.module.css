@@ -36,7 +36,7 @@
   transition: var(--transition);
   opacity: 1;
   z-index: 10;
-  mix-blend-mode: hard-light;
+  mix-blend-mode: darken;
 }
 .info {
   position: absolute;
@@ -122,7 +122,6 @@
   background-color: firebrick;
 }
 
-
 @media screen and (min-width: 768px) {
   .gridconteinter {
     grid-template-areas:
@@ -157,7 +156,7 @@
       "B B A"
       "E C A"
       "E D D";
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 0.5fr 1fr;
     grid-template-rows: repeat(3, 1fr);
   }
   .figureB:nth-child(1) {
@@ -170,6 +169,7 @@
 
   .figureB:nth-child(3) {
     grid-area: C;
+    height: 100%;
   }
   .figureB:nth-child(4) {
     grid-area: D;
