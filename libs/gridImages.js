@@ -64,7 +64,7 @@ export const gridImages = [
     id: "7",
     image: "/tsuruzusitaewakamaki_10-1080.webp",
     title: "鶴図下絵和歌巻",
-    path: "haseozoushi#s16",
+    path: "tsuruzusitaewakamaki#s10",
     desc: "宗達と光悦のコラボが蘇る鶴の舞！！",
     descen: "Sotatsu and Koetsu's Collaboration Revives the Crane Dance！！",
     eracolor: "gold",

@@ -39,7 +39,7 @@ const FullscreenContents = ({
               // style={i % 2 ? Right : Left}
               style={{
                 justifyContent: `${i % 2 ? "flex - start" : "flex-end"}`,
-                backgroundColor: `${toggleMode ? "rgb(20 20 20)" : "white"}`,
+                backgroundColor: `${toggleMode ? "rgb(20 20 20)" : "#f9fbff"}`,
               }}
               key={i}
             >
