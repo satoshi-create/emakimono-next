@@ -15,7 +15,11 @@ export default function FullScreenComp({ children, iconStyle, padding, page }) {
           <button
             onClick={handle.enter}
             className={styles.openIcon}
-            style={{ "--right": "3rem" }}
+            style={
+              iconStyle
+                ? { "--left": "1rem", "--rotate": "90deg" }
+                : { "--right": "3.5rem" }
+            }
           >
             <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
             <i className="fa fa-expand"></i>
@@ -26,7 +30,11 @@ export default function FullScreenComp({ children, iconStyle, padding, page }) {
               <button
                 onClick={handle.exit}
                 className={styles.closeIcon}
-                style={{ "--right": "3rem" }}
+                style={
+                  iconStyle
+                    ? { "--left": "1rem", "--rotate": "90deg" }
+                    : { "--right": "3.5rem" }
+                }
               >
                 <FontAwesomeIcon icon={faDownLeftAndUpRightToCenter} />
               </button>
@@ -45,8 +53,8 @@ export default function FullScreenComp({ children, iconStyle, padding, page }) {
             className={styles.openIcon}
             style={
               iconStyle
-                ? { "--left": "1rem", "--rotate": "90deg" }
-                : { "--right": "1rem" }
+                ? { "--right": "1rem" }
+                : { "--left": "1rem", "--rotate": "90deg" }
             }
           >
             <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
@@ -60,8 +68,8 @@ export default function FullScreenComp({ children, iconStyle, padding, page }) {
                 className={styles.closeIcon}
                 style={
                   iconStyle
-                    ? { "--left": "1rem", "--rotate": "90deg" }
-                    : { "--right": "1rem" }
+                    ? { "--right": "1rem" }
+                    : { "--left": "1rem", "--rotate": "90deg" }
                 }
               >
                 <FontAwesomeIcon icon={faDownLeftAndUpRightToCenter} />
