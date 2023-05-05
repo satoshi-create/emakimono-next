@@ -15,7 +15,7 @@ const EmakiConteiner = ({
   overflowX,
   boxshadow,
 }) => {
-  const { isModalOpen } = useContext(AppContext);
+  const { isModalOpen, setOepnSidebar, oepnSidebar } = useContext(AppContext);
 
   const emakis = data.emakis;
   const { backgroundImage, kotobagaki, type } = data;
@@ -33,6 +33,7 @@ const EmakiConteiner = ({
 
   // const scrollToLatest = (behavior = "smooth") =>
   //   scrollRef.current.scrollIntoView({ behavior });
+  console.log(scroll);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -63,6 +64,7 @@ const EmakiConteiner = ({
           "--overflow-x": overflowX,
           "--box-shadow": boxshadow,
         }}
+        onClick={() => setOepnSidebar(false)}
         ref={scrollRef}
       >
         {emakis.map((item, index) => {
