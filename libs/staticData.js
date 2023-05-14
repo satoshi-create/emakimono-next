@@ -46,6 +46,21 @@ const ja = {
     name: "alpha",
     columns: "four",
   },
+  about: {
+    text: `絵巻物を左へ左へと少しづつ繰り展げ、スクリーン上に次々と現れては消えていく絵を追いながら、物語の世界に没入することこそが、本来の絵巻物の見方であり、絵巻物の魅力です。それは「絵を鑑賞する」というよりは「アニメーションを味わう」感じに近いです。絵巻物について書かれた書籍は数あれど、残念ながら繰り展げつつ見ることはできません。また、実際の絵巻物を手に取る機会も早々多くはありません。
+          <br />
+          <br />
+          けれども、縦書き、横スクロールで無限の空間が用意できるウェブサイトならば、本来の絵巻物の見方が可能ではないか。そう考え、「横スクロールで楽しむ絵巻物」というウェブサイトを制作しました。横スクロールで「繰り展げ」ながら絵巻物を味わい、はじめて日本絵画の愉快さに触れた気がしました。
+          <br />
+          <br />
+          絵巻物を味わうには、最初はちょっと根気がいるかもしれません。この世界にはすでに、マンガやアニメ、映画など、リッチなコンテンツが溢れていますし、読み方や見方など特に気にすることなく楽しむことができるからです。でも、ぼくは、絵巻物が描かれた時代に生きていた人たちも、現在の自分たちがマンガやアニメを楽しむのと同じような感覚で、絵巻物に接していたと思います。実際、絵巻物には流線表現や画中詞（セリフ）、異時同図（コマワリ）など、マンガやアニメを彷彿とさせる技法が多くあります。なによりも、読者が、次々に現れる絵を通して物語を追いかけるという見方は、マンガやアニメとまったく同じです。
+          <br />
+          <br />
+          本サイトでは「鳥獣人物戯画絵巻」をはじめ、教科書などでは断片的にしか見たことがなかった数多くの絵巻物を取り上げる予定です。絵巻物は古い時代に描かれた貴重なものですから、原本の多くは散逸したり、大切に所蔵されたりしていて、利用することができません。その代わり、後世の絵師たちが描き継いだ摸本が数多く存在します。絵師の腕は様々ですが、長い時代を生き抜いてきた貴重な遺産であることに違いはありません。
+          <br />
+          <br />
+          どうぞこのサイトで絵巻物を再発見してみてください。`,
+  },
 };
 
 const en = {
@@ -94,6 +109,9 @@ const en = {
     desc: "Picture scrolls are not the only art that can be rediscovered through horizontal scrolling. For example, many Japanese works of art, such as folding screens and fusuma paintings, are made on wide screens, and in the West, there are many examples of illustrated art, such as the Bayeux Tapestry and frescoes. Also. In the modern era, Monet, who was influenced by Japonism, created a series of paintings called Water Lilies that surrounded a room like a fusuma (sliding door) painting.",
     name: "alpha",
     columns: "four",
+  },
+  about: {
+    text: `The original way of viewing picture scrolls and the charm of picture scrolls is to immerse oneself in the world of the story, following the pictures as they appear and disappear one after another on the screen, unfolding them little by little to the left and left. It is more like savoring animation than appreciating pictures. There are many books written about EMAKIMONO, but unfortunately, they cannot be viewed while unrolling them. There are also not many opportunities to hold actual picture scrolls in one's hands.<br/><br/>However, if a website can provide unlimited space by writing vertically and scrolling horizontally, it would be possible to view picture scrolls the way they were originally intended to be viewed. With this in mind, we created the website "Enjoy Picture Scrolls by Scrolling Horizontally". I felt as if I was experiencing the joy of EMAKIMONO for the first time as I savored the scrolls while scrolling horizontally.<br/><br/>It may take a little patience at first to appreciate picture scrolls. This is because the world is already full of rich content such as manga, anime, and movies, and we can enjoy them without having to worry about how to read or view them. However, I believe that people living in the time when the picture scrolls were painted would have enjoyed them in the same way that we enjoy manga and anime today. In fact, there are many techniques in EMAKIMONO that are reminiscent of manga and anime, such as the use of flowing lines, lines in pictures (dialogues), and the use of different time signatures (koma-wari). Above all, the way in which the reader follows the story through the pictures that appear one after another is exactly the same as in manga and anime.<br/><br/>This website will feature "Chōjū-jinbutsu-giga" and numerous other EMAKIMONO scrolls that we have only seen in fragments in textbooks and other sources. Because EMAKIMONO are precious objects painted in ancient times, many of the originals have been scattered or carefully preserved and are not available. Instead, there are numerous copies that have been painted by later generations of painters. Although the skills of the painters vary, they are no less valuable legacies that have survived through the long ages.<br/><br/>Please rediscover the picture scrolls on this site.`,
   },
 };
 
