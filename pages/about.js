@@ -18,8 +18,11 @@ const About = () => {
       <Header fixed={true} />
       <Breadcrumbs name={locale === "en" ? "about" : "ご挨拶"} />
       <section className="section-grid section-padding">
-        <Title sectiontitle={"ご挨拶"} sectiontitleen={"about"} />
-        <h1 className={styles.title}>絵巻物本来の見方を目指して</h1>
+        <Title
+          sectiontitle={t.about.sectiontitle}
+          sectiontitleen={t.about.sectiontitleen}
+        />
+        <h1 className={styles.title}>{t.about.title}</h1>
         <p
           dangerouslySetInnerHTML={{ __html: t.about.text }}
           className={styles.text}
