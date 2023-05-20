@@ -134,6 +134,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectionname={t.alpha.name}
         linktitle={"ワイド美術"}
         linktitleen={"Side-scrolling art"}
+        linkpath={"byoubu"}
       />
       {/* <div style={{ float: "left", clear: "both" }} ref={scrollRef}></div> */}
       <Footer />
