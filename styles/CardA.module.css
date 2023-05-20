@@ -9,6 +9,7 @@
   width: 90vw;
   max-width: 1200px;
 }
+
 .sectiondesc {
   margin: 0 auto;
   font-family: var(--text-font);
@@ -17,6 +18,13 @@
   width: clamp(20rem, 2.6656rem + 73.9599vw, 50rem);
   text-align: justify;
 }
+.sectiondesc::first-letter {
+  font-size: clamp(2rem, 0.8844rem + 0.4931vw, 2.2rem);
+  font-style: italic;
+  font-family: var(--title-font);
+  margin-right: 5px;
+}
+
 .conteiner {
   display: flex;
   flex-direction: column;

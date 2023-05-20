@@ -20,7 +20,9 @@ const NavLinks = ({ footerstyle, slug }) => {
             <li key={index}>
               <Link href={path}>
                 <a
-                  className={id === router.query.slug && styles.active}
+                  className={`${styles.linksName} ${
+                    id === router.query.slug && styles.active
+                  }`}
                   style={footerstyle}
                 >
                   {locale === "en" ? nameen : name}
@@ -36,7 +38,9 @@ const NavLinks = ({ footerstyle, slug }) => {
                     return (
                       <li key={i}>
                         <Link href={path}>
-                          <a> {locale === "en" ? nameen : name}</a>
+                          <a className={styles.linksName}>
+                            {locale === "en" ? nameen : name}
+                          </a>
                         </Link>
                       </li>
                     );
@@ -52,7 +56,9 @@ const NavLinks = ({ footerstyle, slug }) => {
               onClick={() => setToggle(!toggle)}
             >
               <div
-                className={id === router.query.slug && styles.active}
+                className={`${styles.linksName} ${
+                  id === router.query.slug && styles.active
+                }`}
                 style={footerstyle}
               >
                 {locale === "en" ? nameen : name}
