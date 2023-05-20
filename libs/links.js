@@ -22,7 +22,7 @@ const links = [
     submenu: "",
   },
   {
-    name: "＋α",
+    name: "その他の巻物",
     nameen: "alpha",
     id: "alpha",
     path: "",

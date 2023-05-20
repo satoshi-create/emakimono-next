@@ -1,5 +1,4 @@
-
-.flow{
+.flow {
   margin-top: 4rem;
 }
 .container {
@@ -14,9 +13,10 @@
   top: 100px;
   font-size: clamp(4rem, 1.6888rem + 9.8613vw, 8rem);
   font-family: var(--title-font2);
-  color: rgb(44 44 44);
-  color: rgb(233, 233, 233);
   text-transform: capitalize;
+  background: linear-gradient(90deg, #ffdadb, #f2f3fd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 .left {
   left: 100px;
