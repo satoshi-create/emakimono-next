@@ -22,6 +22,7 @@ const KeywordsComp = () => {
       />
       <Header slug={"keywords"} />
       <Breadcrumbs name={locale === "en" ? "keyword list" : "キーワード一覧"} />
+      
       <Keywords
         sectiontitle={"キーワード"}
         sectiontitleen={"keywords"}
