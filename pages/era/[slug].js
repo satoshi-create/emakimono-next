@@ -6,6 +6,8 @@ import CardA from "../../components/CardA";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
+import enData from "../../libs/en/data";
+import jaData from "../../libs/data";
 
 const Emaki = ({ name, nameen, posts, slug }) => {
   const { locale } = useRouter();
@@ -52,9 +54,13 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   const eraslug = context.params.slug;
-
+  const { locale, locales } = context;
+  const tEmakisData = locale === "en" ? enData : jaData;
+  
   const cat = allEras.find(({ slug }) => slug === eraslug);
-  const filterdEmakisData = emakisData.filter((item) => item.eraen === eraslug);
+  const filterdEmakisData = tEmakisData.filter(
+    (item) => item.eraen === eraslug
+  );
   return {
     props: {
       name: cat.name,

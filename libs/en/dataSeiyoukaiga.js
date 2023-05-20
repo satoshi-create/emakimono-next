@@ -222,10 +222,9 @@ const dataSeiyoukaiga = [
       {
         cat: "ekotoba",
         chapter: "左壁",
-        kobun:
-          "the yearning for happiness; the sufferings of weak mankind; their petition to the well-armed strong one, to take up the struggle for happiness, impelled by motives of compassion and ambition.",
+        kobun: "",
         gendaibun:
-          "幸福への憧れ、<br><br>弱い人間の苦しみ、<br><br>よく武装した強い者への嘆願、<br><br>同情と野心の動機に突き動かされて幸福のための闘いに挑むこと。<br><br>",
+          "the yearning for happiness; the sufferings of weak mankind; their petition to the well-armed strong one, to take up the struggle for happiness, impelled by motives of compassion and ambition.",
         phrase: [{}],
       },
       {

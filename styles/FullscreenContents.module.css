@@ -16,6 +16,7 @@
   font-family: var(--title-font2);
   color: rgb(44 44 44);
   color: rgb(233, 233, 233);
+  text-transform: capitalize;
 }
 .left {
   left: 100px;

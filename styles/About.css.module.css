@@ -9,3 +9,9 @@
   line-height: 1.8;
   font-family: var(--text-font);
 }
+.text::first-letter {
+  font-size: clamp(2rem, 0.8844rem + 0.4931vw, 2.2rem);
+  margin-right: 5px;
+  font-style: italic;
+  font-family: var(--title-font);
+}

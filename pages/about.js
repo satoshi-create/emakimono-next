@@ -17,6 +17,7 @@ const About = () => {
       <Head />
       <Header fixed={true} />
       <Breadcrumbs name={locale === "en" ? "about" : "ご挨拶"} />
+
       <section className="section-grid section-padding">
         <Title
           sectiontitle={t.about.sectiontitle}

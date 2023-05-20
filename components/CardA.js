@@ -105,9 +105,14 @@ const CardA = ({
                     </Link>
                   </div>
                   <h3 className={styles.title}>
-                    {title}　{edition}
+                    {title}
+                    {/* {locale === "en" ? titleen : title}　{edition} */}
                   </h3>
-                  <h4 className={styles.author}>{author ? author : ""}</h4>
+                  <h4 className={styles.author}>
+                    {author
+                      ? author
+                      : `${locale == "en" ? "artist unknown" : "絵師不詳"}`}
+                  </h4>
                   {needdesc && (
                     <div className={styles.desc}>
                       {desc ? `${filterDesc}...` : descTemp}

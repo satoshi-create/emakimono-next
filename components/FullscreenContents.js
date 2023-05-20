@@ -53,7 +53,8 @@ const FullscreenContents = ({
                   }`,
                 }}
               >
-                {item.title} <br /> {item.edition}
+                {locale == "en" ? item.titleen : item.title} <br />
+                {locale == "en" ? item.editionen : item.edition}
               </h4>
               <FullScreenComp iconStyle={i % 2 ? true : false}>
                 <EmakiConteiner

@@ -6,11 +6,14 @@ import Head from "../../components/Meta";
 import CardA from "../../components/CardA";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { useRouter } from "next/router";
+import { useLocaleData } from "../../libs/func";
 import Footer from "../../components/Footer";
+import enData from "../../libs/en/data"
+import jaData from "../../libs/data"
 
 const Emaki = ({ name, nameen, posts, slug }) => {
-  console.log(slug);
   const { locale } = useRouter();
+
   const tPageDesc =
     locale === "en"
       ? `This is the ${nameen} list page.This site pursues the enjoyment of picture scrolls by scrolling from right to left!`
@@ -51,9 +54,11 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   const catslug = context.params.slug;
+  const { locale, locales } = context;
+  const tEmakisData = locale === "en" ? enData : jaData;
 
   const cat = allCats.find(({ slug }) => slug === catslug);
-  const filterdEmakisData = emakisData.filter(
+  const filterdEmakisData = tEmakisData.filter(
     (item) => item.typeen === catslug
   );
 
