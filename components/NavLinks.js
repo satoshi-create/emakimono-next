@@ -71,7 +71,9 @@ const NavLinks = ({ footerstyle, slug }) => {
                   const { name, path, nameen } = item;
                   return (
                     <Link href={path} key={i}>
-                      {locale === "en" ? nameen : name}
+                      <a className={styles.linksName}>
+                        {locale === "en" ? nameen : name}
+                      </a>
                     </Link>
                   );
                 })}

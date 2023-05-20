@@ -15,6 +15,7 @@ const GridImages = ({
   linktitleen,
   linkpath,
   columns,
+  bcg,
 }) => {
   const { locale } = useRouter();
 
@@ -196,24 +197,26 @@ const GridImages = ({
   };
 
   return (
-    <section
-      className={`section-center section-padding ${styles[sectionname]}`}
-    >
-      <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
-      {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
-      {gridImages(linktitle)}
-      {linktitle && (
-        <Button
-          title={
-            locale === "en"
-              ? `More flowing ${linktitleen} !!`
-              : `${linktitle}をもっと見る`
-          }
-          path={`/${linkpath}`}
-          style={columns}
-        />
-      )}
-    </section>
+    <div style={{ background: bcg }}>
+      <section
+        className={`section-center section-padding ${styles[sectionname]}`}
+      >
+        <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
+        {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
+        {gridImages(linktitle)}
+        {linktitle && (
+          <Button
+            title={
+              locale === "en"
+                ? `More flowing ${linktitleen} !!`
+                : `${linktitle}をもっと見る`
+            }
+            path={`/${linkpath}`}
+            style={columns}
+          />
+        )}
+      </section>
+    </div>
   );
 };
 

@@ -52,6 +52,7 @@
   font-size: 3rem;
   font-family: var(--text-font);
   color: var(--clr-white);
+  text-transform: capitalize;
 }
 
 .orange {

@@ -5,6 +5,7 @@ import Title from "./Title";
 import Button from "./Button";
 import { useRouter } from "next/router";
 import styles from "../styles/FullscreenContents.module.css";
+import { Italic } from "react-feather";
 
 const FullscreenContents = ({
   flowEmakis: emakis,
@@ -30,7 +31,7 @@ const FullscreenContents = ({
   return (
     <>
       {/* <button onClick={() => setToggleMode(!toggleMode)}>toggle</button> */}
-      <section className={`section-center`}>
+      <section className={`section-center section-padding`}>
         <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
         {emakis.map((item, i) => {
           return (
@@ -46,10 +47,13 @@ const FullscreenContents = ({
               <h4
                 className={`${styles.title} ${
                   i % 2 ? styles.left : styles.right
+                  // background: `${i % 2 ?  : "black"}`,
                 }`}
                 style={{
-                  color: `${
-                    toggleMode ? "rgb(44 44 44)" : "rgb(233, 233, 233)"
+                  backgroundImage: `${
+                    i % 2
+                      ? "linear-gradient(90deg,#ffdadb, #f2f3fd)"
+                      : "linear-gradient(270deg,#ffdadb, #f2f3fd)"
                   }`,
                 }}
               >
