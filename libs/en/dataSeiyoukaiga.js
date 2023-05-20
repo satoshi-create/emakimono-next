@@ -1,9 +1,9 @@
 const dataSeiyoukaiga = [
   {
     id: 33,
-    title: "睡蓮 連作",
+    title: "A series of water lilies",
     titleen: "mone_suiren",
-    author: "モネ",
+    author: "claude monet,",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
     thumb: "/mone_suiren_thumb.webp",
@@ -200,9 +200,9 @@ const dataSeiyoukaiga = [
   },
   {
     id: 33,
-    title: "ベートーヴェン・フリーズ",
+    title: "Beethoven Freeze",
     titleen: "beethoven_freeze",
-    author: "クリムト",
+    author: "Gustav Klimt",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
     thumb: "/beethoven_freeze_thumb.webp",
@@ -289,9 +289,9 @@ const dataSeiyoukaiga = [
   },
   {
     id: 36,
-    title: "スクロヴェーニ礼拝堂 装飾画",
+    title: "The Scrovegni Chapel Decorative Paintings",
     titleen: "scrovegni",
-    author: "ジョット",
+    author: "giotto di Bondone",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
     thumb: "/scrovegni_thumb.webp",
@@ -926,9 +926,9 @@ const dataSeiyoukaiga = [
   },
   {
     id: 39,
-    title: "ブランカッチ礼拝堂 装飾画",
+    title: "decorative painting of Brancacci Chapel",
     titleen: "brancacci",
-    author: "マザッチョ",
+    author: "masaccio",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
     thumb: "/brancacci_thumb.webp",
