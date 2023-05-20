@@ -128,12 +128,14 @@
   font-size: 1rem;
   color: var(--clr-black);
   font-family: var(--title-font2);
+  text-transform: capitalize;
 }
 .author {
   font-weight: 600;
   font-size: 0.9rem;
   color: var(--clr-black);
   font-family: var(--title-font2);
+  text-transform: capitalize;
 }
 .desc {
   font-size: 0.8rem;
