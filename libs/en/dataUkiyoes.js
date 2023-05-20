@@ -1,9 +1,9 @@
 const dataUkiyoes = [
   {
     id: 35,
-    title: "江戸近郊八景 連作",
+    title: "Scenery of Edo and its suburbs",
     titleen: "edomeisyohakkei",
-    author: "歌川広重",
+    author: "utagawa hiroshige",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
     thumb: "/edomeisyohakkei_thumb.webp",
@@ -226,9 +226,9 @@ const dataUkiyoes = [
   },
   {
     id: 38,
-    title: "千絵の海",
+    title: "The sea consisting of a thousand pictures",
     titleen: "chienoumi",
-    author: "葛飾北斎",
+    author: "katsushika hokusai",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
     thumb: "/chienoumi_thumb.webp",
