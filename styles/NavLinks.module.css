@@ -13,8 +13,22 @@
   .links a {
     transition: var(--transition);
   }
-  .linksName {
+  .linksName,
+  .linksNameAlpha {
     text-transform: capitalize;
+  }
+  .linksName:hover,
+  .linksNameAlpha:hover {
+   opacity: .6;
+  }
+  .linksNameAlpha {
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+  }
+  .linksNameAlpha::after {
+    content: "▼";
+    font-size: 15px;
   }
 
   .active {

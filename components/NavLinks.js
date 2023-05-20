@@ -56,7 +56,7 @@ const NavLinks = ({ footerstyle, slug }) => {
               onClick={() => setToggle(!toggle)}
             >
               <div
-                className={`${styles.linksName} ${
+                className={`${styles.linksNameAlpha} ${
                   id === router.query.slug && styles.active
                 }`}
                 style={footerstyle}
