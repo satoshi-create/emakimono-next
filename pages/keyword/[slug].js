@@ -6,6 +6,8 @@ import Breadcrumbs from "../../components/Breadcrumbs";
 import { keywordItem } from "../../libs/func";
 import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
+import enData from "../../libs/en/data";
+import jaData from "../../libs/data";
 
 const Emaki = ({ name, posts, nameen, slug }) => {
   const { locale } = useRouter();
@@ -53,12 +55,13 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   const keywordslug = context.params.slug;
-
-  const keyword = keywordItem(emakisData).find(
+  const { locale, locales } = context;
+  const tEmakisData = locale === "en" ? enData : jaData;
+  const keyword = keywordItem(tEmakisData).find(
     ({ slug }) => slug === keywordslug
   );
 
-  const filterdEmakisData = emakisData.filter((x) => {
+  const filterdEmakisData = tEmakisData.filter((x) => {
     if (x.keyword) {
       const filterdTag = x.keyword.some((y) => y.slug === keywordslug);
       return filterdTag;

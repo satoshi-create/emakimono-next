@@ -6,6 +6,8 @@ import Breadcrumbs from "../../components/Breadcrumbs";
 import { personnameItem } from "../../libs/func";
 import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
+import enData from "../../libs/en/data";
+import jaData from "../../libs/data";
 
 const Emaki = ({ name, posts, nameruby, nameen, slug }) => {
   const { locale } = useRouter();
@@ -29,8 +31,8 @@ const Emaki = ({ name, posts, nameruby, nameen, slug }) => {
         emakis={posts}
         columns={"three"}
         sectionname={"recommend"}
-        sectiontitle={locale === "en" ? name : name}
-        sectiontitleen={locale === "en" ? nameen : nameruby}
+        sectiontitle={locale === "en" ? `${nameen}` : name}
+        sectiontitleen={locale === "en" ? name : `${nameen}`}
       />
       <Footer />
     </>
@@ -55,12 +57,13 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   const personnameslug = context.params.slug;
-
-  const personname = personnameItem(emakisData).find(
+  const { locale, locales } = context;
+    const tEmakisData = locale === "en" ? enData : jaData;
+  const personname = personnameItem(tEmakisData).find(
     ({ slug }) => slug === personnameslug
   );
 
-  const filterdEmakisData = emakisData.filter((x) => {
+  const filterdEmakisData = tEmakisData.filter((x) => {
     if (x.personname) {
       const filterdTag = x.personname.some((y) => y.slug === personnameslug);
 

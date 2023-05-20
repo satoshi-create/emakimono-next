@@ -30,7 +30,7 @@ const Header = ({ slug, fixed }) => {
         <h1 className={styles.title}>
           <Link href="/">
             <a>
-              {locale === "en" ? "EMAKIMONO!!" : "横スクロールで楽しむ絵巻物"}
+              {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
             </a>
           </Link>
         </h1>
