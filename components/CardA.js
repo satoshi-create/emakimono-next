@@ -105,7 +105,7 @@ const CardA = ({
                     </Link>
                   </div>
                   <h3 className={styles.title}>
-                    {title}
+                    {title}　{edition}
                     {/* {locale === "en" ? titleen : title}　{edition} */}
                   </h3>
                   <h4 className={styles.author}>

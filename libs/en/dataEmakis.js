@@ -1,7 +1,7 @@
 const dataEmakis = [
   {
     id: 1,
-    title: "Chōjū-jinbutsu-giga",
+    title: "chōjū-jinbutsu-giga",
     titleen: "cyoujyujinbutsugiga_kou",
     author: "Kakuyū（Toba Sōjō ）",
     edition: "volume 1",
@@ -270,7 +270,7 @@ const dataEmakis = [
   },
   {
     id: 2,
-    title: "Chōjū-jinbutsu-giga",
+    title: "chōjū-jinbutsu-giga",
     titleen: "cyoujyujinbutsugiga_otu",
     author: "Kakuyū（Toba Sōjō ）",
     edition: "volume 2",
@@ -567,7 +567,7 @@ const dataEmakis = [
   },
   {
     id: 3,
-    title: "Chōjū-jinbutsu-giga",
+    title: "chōjū-jinbutsu-giga",
     titleen: "cyoujyujinbutsugiga_hei",
     author: "",
     edition: "volume 3",
@@ -840,10 +840,10 @@ const dataEmakis = [
   },
   {
     id: 4,
-    title: "鳥獣人物戯画絵巻",
+    title: "chōjū-jinbutsu-giga",
     titleen: "cyoujyujinbutsugiga_tei",
     author: "",
-    edition: "丁巻",
+    edition: "vollume 4",
     backgroundImage: "/110310200304.webp",
     video: "https://youtu.be/Qgc0lrTPkiY",
     thumb: "/cyoujyuu_yamazaki_tei_thumb.webp",
@@ -1080,7 +1080,7 @@ const dataEmakis = [
   },
   {
     id: 5,
-    title: "直幹申文絵詞",
+    title: "naomotomousibumiekotoba",
     titleen: "naomotomousibumiekotoba",
     author: "",
     backgroundImage: "/washi_green_03.webp",
@@ -1383,7 +1383,7 @@ const dataEmakis = [
   },
   {
     id: 6,
-    title: "奈与竹物語絵巻",
+    title: "Nayo bamboo story picture scroll",
     titleen: "nayotakemonogatariemaki",
     author: "",
     backgroundImage: "/washi_green_03.webp",
@@ -1772,7 +1772,7 @@ const dataEmakis = [
   },
   {
     id: 7,
-    title: "長谷雄草紙",
+    title: "haseozoushi",
     titleen: "haseozoushi",
     author: "",
     backgroundImage: "/washi-pattern-01.webp",
@@ -1993,7 +1993,7 @@ const dataEmakis = [
   },
   {
     id: 8,
-    title: "九相図巻",
+    title: "kusouzumaki",
     titleen: "kusouzumaki",
     author: "",
     backgroundImage: "/washi-pattern-01.webp",
@@ -2183,9 +2183,9 @@ const dataEmakis = [
   },
   {
     id: 9,
-    title: "九相図",
+    title: "kusouzu",
     titleen: "kusouzu_kobayasieieitaku",
-    author: "小林永濯",
+    author: "eitaku kobayashi",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
     thumb: "/kusouzu_eitaku_thumb.webp",
@@ -2358,7 +2358,7 @@ const dataEmakis = [
   },
   {
     id: 10,
-    title: "九相詩絵巻",
+    title: "kusoushiemaki",
     titleen: "kusoushiemaki",
     author: "",
     backgroundImage: "/washi-pattern-01.webp",
@@ -2605,7 +2605,7 @@ const dataEmakis = [
   },
   {
     id: 11,
-    title: "西行物語絵巻（万野本）",
+    title: "saigyomonogatariemaki",
     titleen: "saigyomonogatariemaki",
     author: "",
     backgroundImage: "/washi-pattern-01.webp",
@@ -2946,7 +2946,7 @@ const dataEmakis = [
   },
   {
     id: 12,
-    title: "地獄草紙（安住院本）",
+    title: "jigokusoushi_anzyuin",
     titleen: "jigokusoushi_anzyuin",
     author: "",
     backgroundImage: "/washi-pattern-01.webp",
@@ -3061,7 +3061,7 @@ const dataEmakis = [
   },
   {
     id: 13,
-    title: "地獄草紙（原家本）",
+    title: "jigokusoushi_genke",
     titleen: "jigokusoushi_genke",
     author: "",
     backgroundImage: "/washi-pattern-01.webp",
@@ -3227,7 +3227,7 @@ const dataEmakis = [
   },
   {
     id: 14,
-    title: "餓鬼草紙（川本家本）",
+    title: "gakisoushi_kawamoto",
     titleen: "gakisoushi_kawamoto",
     author: "",
     backgroundImage: "/washi-pattern-01.webp",
@@ -3369,9 +3369,9 @@ const dataEmakis = [
 
   {
     id: 15,
-    title: "鶴図下絵和歌巻",
+    title: "tsuruzusitaewakamaki",
     titleen: "tsuruzusitaewakamaki",
-    author: "俵屋宗達",
+    author: "tawaraya satotsu",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
     thumb: "/tsuruzusitaewakamaki_thumb.webp",
@@ -3530,7 +3530,7 @@ const dataEmakis = [
 
   {
     id: 17,
-    title: "徳川種姫婚礼行列図",
+    title: "tokugawatanehimegyouretuzu",
     titleen: "tokugawatanehimegyouretuzu",
     author: "",
     backgroundImage: "/washi-pattern-01.webp",
@@ -3847,9 +3847,9 @@ const dataEmakis = [
   },
   {
     id: 34,
-    title: "修羅道絵巻",
+    title: "syuradouemaki",
     titleen: "syuradou",
-    author: "下村観山",
+    author: "simomura kanzan",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
     thumb: "/syuradou_thumb.webp",
@@ -3984,9 +3984,9 @@ const dataEmakis = [
   },
   {
     id: 40,
-    title: "東海道五十三次絵巻",
+    title: "tokaidou53tsugiemaki",
     titleen: "tokaidou",
-    author: "横山大観ほか",
+    author: "yokoyama taikan and others",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
     thumb: "/tokaidou_thumb.webp",
@@ -4701,9 +4701,9 @@ const dataEmakis = [
   },
   {
     id: 41,
-    title: "熱国之巻",
+    title: "nekkokunomaki",
     titleen: "nekkokunomaki",
-    author: "	今村紫紅",
+    author: "	imamura shikou",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
     thumb: "/nekkokunomaki_thumb.webp",
