@@ -46,8 +46,6 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   ];
   const flowEmakis = [cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone];
 
-
-
   const typeByoubu = data.filter((emaki) => emaki.type === "屏風").splice(0, 1);
   const typeUkiyoe = data
     .filter((emaki) => emaki.type === "浮世絵")
@@ -64,37 +62,6 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
     ...typeUkiyoe,
     ...typeSuibokuga,
     ...typeSeiyoukaiga,
-  ];
-
-  const historyemakis = [
-    {
-      path: "/era/heiann",
-      name: "平安",
-      nameen: "Heian",
-      src: "/cyoujyuu_yamazaki_kou_13-375.webp",
-      eracolor: "orange",
-    },
-    {
-      path: "/era/kamakura",
-      name: "鎌倉",
-      nameen: "Kamakura",
-      src: "/naomoto_03-1080.webp",
-      eracolor: "green",
-    },
-    {
-      path: "/era/muromachi",
-      name: "室町",
-      nameen: "Muromachi",
-      src: "/sessyu_sikisansuizu_07-1080.webp",
-      eracolor: "purple",
-    },
-    {
-      path: "/era/edo",
-      name: "江戸",
-      nameen: "Edo",
-      src: "/tokugawagyouretsu_32-1080.webp",
-      eracolor: "skyblue",
-    },
   ];
 
   return (
@@ -123,6 +90,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         linktitle={"絵巻"}
         linktitleen={"EMAKIMONO"}
         linkpath={"emaki"}
+        bcg={"white"}
       />
       <FullscreenContents
         flowEmakis={flowEmakis}
@@ -134,12 +102,12 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         columns={t.favorite.columns}
       />
       <CardB
-        emakis={historyemakis}
         columns={t.history.columns}
         sectiontitle={t.history.title}
         sectiontitleen={t.history.titleen}
         sectiondesc={t.history.desc}
         sectionname={t.history.name}
+        bcg={"white"}
       />
       <ToggleTag
         sectiontitle={t.toggleTag.title}
@@ -155,6 +123,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         linktitleen={"famousscene"}
         linkpath={"famousscene"}
         columns={t.favorite.columns}
+        bcg={"white"}
       />
       <CardA
         emakis={alpha}

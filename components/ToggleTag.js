@@ -31,7 +31,7 @@ const ToggleTag = ({ sectiontitle, sectiontitleen }) => {
   const { tagtitle, tagtitleen, allTags, path } = allTag[value];
 
   return (
-    <>
+    <section className="section-center section-padding">
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       <div className={styles.tabcontainer}>
         {allTag.map((item, index) => {
@@ -76,7 +76,7 @@ const ToggleTag = ({ sectiontitle, sectiontitleen }) => {
           style={"tag"}
         />
       )}
-    </>
+    </section>
   );
 };
 
