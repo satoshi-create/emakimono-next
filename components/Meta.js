@@ -1,10 +1,18 @@
 import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import siteImg from "../public/ogp.jpg";
+// import siteImg from "ogp.jpg";
 import { useLocaleMeta } from "../libs/func";
 
-const Meta = ({ pagetitle, pageDesc, pageImg, pageAuthor, jsonLd }) => {
+const Meta = ({
+  pagetitle,
+  pageDesc,
+  pageImg,
+  pageImgW,
+  pageImgH,
+  pageAuthor,
+  jsonLd,
+}) => {
   const { t } = useLocaleMeta();
   const { locale, locales, asPath, defaultLocale } = useRouter();
 
@@ -48,12 +56,18 @@ const Meta = ({ pagetitle, pageDesc, pageImg, pageAuthor, jsonLd }) => {
         hrefLang="x-default"
         href={`https://emakimono.com${asPath}`}
       />
+
       <meta property="og:site_name" content={t.siteTitle} />
       <meta property="og:type" content={t.siteType} />
       <meta property="og:locale" content={t.siteLocale} />
 
-      <link rel="icon" href={t.siteIcon} />
-      <link rel="apple-touch-icon" href={t.siteIcon} />
+      <meta property="og:image" content={pageImg ? pageImg : "ogp.jpg"} />
+      <meta property="og:image:width" content={pageImgW ? pageImgW : "533"} />
+      <meta property="og:image:height" content={pageImgH ? pageImgH : "300"} />
+      <meta name="twitter:card" content="summary_image" />
+
+      <link rel="icon" href="/favicon.png" />
+      <link rel="apple-touch-icon" href="/favicon.png" />
       {jsonLd && (
         <script
           key="json-ld"
