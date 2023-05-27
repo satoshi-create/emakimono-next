@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-// import siteImg from "ogp.jpg";
+// import siteImg from "/ogp.jpg";
 import { useLocaleMeta } from "../libs/func";
 
 const Meta = ({
@@ -29,6 +29,11 @@ const Meta = ({
   const pageDescTemp = pageDesc ? pageDesc : tPageDesc;
   const desc = pagetitle ? pageDescTemp : t.siteDesc;
   const url = `${t.siteUrl}${asPath}`;
+
+  const img = pageImg ? pageImg : "/ogp.jpg";
+  const imgUrl = img.startsWith("https") ? img : `${t.siteUrl}${img}`;
+  const imgW = pageImgW ? pageImgW : "533";
+  const imgH = pageImgH ? pageImgH : "300";
 
   return (
     <Head>
@@ -62,9 +67,9 @@ const Meta = ({
       <meta property="og:type" content={t.siteType} />
       <meta property="og:locale" content={t.siteLocale} />
 
-      <meta property="og:image" content={pageImg ? pageImg : "ogp.jpg"} />
-      <meta property="og:image:width" content={pageImgW ? pageImgW : "533"} />
-      <meta property="og:image:height" content={pageImgH ? pageImgH : "300"} />
+      <meta property="og:image" content={imgUrl} />
+      <meta property="og:image:width" content={imgW} />
+      <meta property="og:image:height" content={imgH} />
       <meta name="twitter:card" content="summary_large_image" />
 
       <link rel="icon" href="/favicon.png" />
