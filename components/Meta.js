@@ -17,6 +17,7 @@ const Meta = ({
   const { locale, locales, asPath, defaultLocale } = useRouter();
 
   const title = pagetitle ? `${pagetitle} | ${t.siteTitle}` : t.siteTitle;
+
   const tPageDesc =
     locale === "en"
       ? `You can enjoy all the scenes of the${pagetitle} ${
@@ -64,10 +65,10 @@ const Meta = ({
       <meta property="og:image" content={pageImg ? pageImg : "ogp.jpg"} />
       <meta property="og:image:width" content={pageImgW ? pageImgW : "533"} />
       <meta property="og:image:height" content={pageImgH ? pageImgH : "300"} />
-      <meta name="twitter:card" content="summary_image" />
+      <meta name="twitter:card" content="summary_large_image" />
 
       <link rel="icon" href="/favicon.png" />
-      <link rel="apple-touch-icon" href="/favicon.png" />
+      <link rel="apple-touch-icon" href={t.siteIcon} />
       {jsonLd && (
         <script
           key="json-ld"
