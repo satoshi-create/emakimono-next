@@ -3989,7 +3989,7 @@ const dataEmakis = [
     author: "yokoyama taikan and others",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
-    thumb: "/tokaidou_thumb.webp",
+    thumb: "/tokaidou_thumb.png",
     thumb2: "tokaidou_thumb.webp",
     metadesc: "",
     desc: "",
