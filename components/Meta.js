@@ -30,7 +30,7 @@ const Meta = ({
   const desc = pagetitle ? pageDescTemp : t.siteDesc;
   const url = `${t.siteUrl}${asPath}`;
 
-  const img = pageImg ? pageImg : "/ogp.jpg";
+  const img = pageImg ? pageImg : "/ogp.png";
   const imgUrl = img.startsWith("https") ? img : `${t.siteUrl}${img}`;
   const imgW = pageImgW ? pageImgW : "533";
   const imgH = pageImgH ? pageImgH : "300";
