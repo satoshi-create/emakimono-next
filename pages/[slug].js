@@ -10,6 +10,7 @@ import Footer from "../components/Footer";
 import FullScreenComp from "../components/FullScreenComp";
 import Translate from "../components/Translate";
 import EmakiInfo from "../components/EmakiInfo";
+import Attention from "../components/Attention"
 
 const Emaki = ({ emakis, locale, locales, slug }) => {
   const pagetitle = `${emakis.title} ${emakis.edition ? emakis.edition : ""}`;
@@ -71,6 +72,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
         pageType={emakis.type}
         jsonLd={jsonLd}
       />
+      {/* <Attention /> */}
       <FullScreenComp right={"4rem"} page={true}>
         <Translate
           emakipage={{
