@@ -12,6 +12,7 @@ import { useLocale, useLocaleData } from "../libs/func";
 import FullscreenContents from "../components/FullscreenContents";
 import dataEmakis from "../libs/data";
 import { gridImages } from "../libs/gridImages";
+import SocialLinks from "../components/SocialLinks";
 
 const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   // const scrollRef = useRef();
@@ -65,7 +66,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   ];
 
   return (
-    <>
+    <main>
       <Head />
       <Header fixed={true} />
       <Attention />
@@ -138,7 +139,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
       />
       {/* <div style={{ float: "left", clear: "both" }} ref={scrollRef}></div> */}
       <Footer />
-    </>
+    </main>
   );
 };
 
