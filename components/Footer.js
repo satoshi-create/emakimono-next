@@ -2,9 +2,9 @@ import React from "react";
 import styles from "../styles/Footer.module.css";
 import { useRouter } from "next/router";
 import NavLinks from "./NavLinks";
+import SocialLinks from "./SocialLinks";
 
 const Footer = () => {
-  
   const date = new Date();
   const year = date.getFullYear();
 
@@ -12,24 +12,31 @@ const Footer = () => {
     color: "white",
     "font-family": "var(--title-font)",
   };
+  const footerStyleSocial = {
+    color: "white",
+    "font-family": "var(--title-font)",
+  };
+
   const { locale } = useRouter();
   return (
-    <footer className={`parts-grid ${styles.footer}`}>
-      <div className={styles.center}>
-        <NavLinks footerstyle={footerstyle} />
-        <div className={styles.title}>
-          {/* <img src="/logo-footer.png" alt="logo" className={styles.logo} /> */}
-          <h4>
-            {locale === "en" ? "EMAKIMONO!!" : "横スクロールで楽しむ絵巻物"}
-          </h4>
+    <>
+      <footer className={styles.footer}>
+        <div className={`parts-grid ${styles.container}`}>
+          <div className={styles.center}>
+            <NavLinks footerstyle={footerstyle} />
+            <div className={styles.title}>
+              <h4>
+                {locale === "en" ? "EMAKIMONO!!" : "横スクロールで楽しむ絵巻物"}
+              </h4>
+            </div>
+            <SocialLinks footerStyle={footerStyleSocial} />
+          </div>
         </div>
-        {/* <SocialLinks value={{ styleUl: styles.aboutLinks }} />
-        <Links value={{style:styles.footerNavPc}}/> */}
-      </div>
-      <p className={styles.copyright}>
-        {`@${year} emakimono.com All rights reserverd`}
-      </p>
-    </footer>
+        <p className={styles.copyright}>
+          {`@${year} emakimono.com All rights reserverd`}
+        </p>
+      </footer>
+    </>
   );
 };
 
