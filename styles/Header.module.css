@@ -48,17 +48,15 @@
   .header-fixed .title {
     display: none;
   }
-  .title {
-    grid-row: 1;
-  }
+
   .links {
-    grid-row: 2;
+    grid-row: 1;
     display: flex;
     column-gap: 3rem;
     font-weight: 200;
     font-size: 1.3rem;
   }
-  .sociallinks{
+  .sociallinks {
     grid-row: 3;
   }
   .active {
