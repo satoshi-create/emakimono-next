@@ -1,16 +1,23 @@
 .links {
-  display: flex;
-  column-gap: 10px;
-  grid-row: 3;
-}
-.links .icon {
-  color: var(--clr-black);
+  display: none;
 }
 .footerStyle {
+  display: flex;
+  column-gap: 10px;
   color: red;
   justify-content: center;
 }
 
 .footerStyle .icon {
   color: var(--clr-white);
+}
+@media screen and (min-width: 768px) {
+  .links {
+    display: flex;
+    column-gap: 10px;
+    grid-row: 3;
+  }
+  .links .icon {
+    color: var(--clr-grey);
+  }
 }

@@ -44,7 +44,7 @@ const Header = ({ slug, fixed }) => {
           </div>
         </nav>
         <NavLinks slug={slug} />
-        <SocialLinks  />
+        {/* <SocialLinks  /> */}
       </div>
     </header>
   );
