@@ -1,0 +1,16 @@
+.links {
+  display: flex;
+  column-gap: 10px;
+  grid-row: 3;
+}
+.links .icon {
+  color: var(--clr-black);
+}
+.footerStyle {
+  color: red;
+  justify-content: center;
+}
+
+.footerStyle .icon {
+  color: var(--clr-white);
+}

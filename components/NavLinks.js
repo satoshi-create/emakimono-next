@@ -82,7 +82,7 @@ const NavLinks = ({ footerstyle, slug }) => {
           );
         }
       })}
-      <Translate footerstyle={footerstyle} slug={slug} />
+      {/* <Translate footerstyle={footerstyle} slug={slug} /> */}
     </ul>
   );
 };

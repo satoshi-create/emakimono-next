@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 import NavLinks from "./NavLinks";
+import SocialLinks from "./SocialLinks";
 
 const Header = ({ slug, fixed }) => {
   const { locale } = useRouter();
@@ -26,6 +27,7 @@ const Header = ({ slug, fixed }) => {
         fixed && styles[stickyClass]
       }`}
     >
+ 
       <div className={styles.center}>
         <h1 className={styles.title}>
           <Link href="/">
@@ -42,6 +44,7 @@ const Header = ({ slug, fixed }) => {
           </div>
         </nav>
         <NavLinks slug={slug} />
+        <SocialLinks  />
       </div>
     </header>
   );
