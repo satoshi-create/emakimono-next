@@ -1,16 +1,19 @@
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styles from "../styles/Header.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 import NavLinks from "./NavLinks";
-import SocialLinks from "./SocialLinks";
+import { AppContext } from "../pages/_app";
+import SidebarHome from "./SidebarHome";
 
 const Header = ({ slug, fixed }) => {
   const { locale } = useRouter();
 
-  const [stickyClass, setStickyClass] = useState("");
+  const { isSidebarOpen, openSidebar, stickyClass, setStickyClass } =
+    useContext(AppContext);
+
 
   const stickNavbar = () => {
     let windowHeight = window.scrollY;
@@ -27,7 +30,6 @@ const Header = ({ slug, fixed }) => {
         fixed && styles[stickyClass]
       }`}
     >
- 
       <div className={styles.center}>
         <h1 className={styles.title}>
           <Link href="/">
@@ -38,13 +40,16 @@ const Header = ({ slug, fixed }) => {
         </h1>
         <nav className={styles.nav}>
           <div className={styles.navcenter}>
-            <button className={`${styles.openbtn} btn`}>
+            <button
+              className={`${styles.openbtn} btn`}
+              onClick={() => openSidebar()}
+            >
               <FontAwesomeIcon icon={faBars} />
             </button>
           </div>
+          <SidebarHome />
         </nav>
         <NavLinks slug={slug} />
-        {/* <SocialLinks  /> */}
       </div>
     </header>
   );
