@@ -7,7 +7,6 @@ import { useLocaleData } from "../libs/func";
 import * as gtag from "../libs/gtag";
 import { useRouter } from "next/router";
 
-
 config.autoAddCss = false;
 
 export const AppContext = createContext();
@@ -41,6 +40,17 @@ function MyApp({ Component, pageProps, router }) {
   const [fliterdEmakis, setfliterdEmakis] = useState(emakisData);
   const [isModalOpen, setisModalOpen] = useState(false);
   const [index, setIndex] = useState(0);
+  const [stickyClass, setStickyClass] = useState("");
+  const [isSidebarOpen, setisSidebarOpen] = useState(false);
+
+  const openSidebar = () => {
+    setisSidebarOpen(true);
+    document.querySelector("html").classList.add("open");
+  };
+  const closeSidebar = () => {
+    setisSidebarOpen(false);
+    document.querySelector("html").classList.remove("open");
+  };
 
   const openModal = (i) => {
     setisModalOpen(true);
@@ -70,6 +80,11 @@ function MyApp({ Component, pageProps, router }) {
         setisModalOpen,
         index,
         setIndex,
+        stickyClass,
+        setStickyClass,
+        isSidebarOpen,
+        openSidebar,
+        closeSidebar,
       }}
     >
       <Script
