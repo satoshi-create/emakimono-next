@@ -1,7 +1,10 @@
-import data from "./libs/dataEmakis.js"
+console.log("hello");
 
-console.log(data);
-
-data.map((item, i) => {
-})
-
+function add(a) {
+  return function (b) {
+    return function (c) {
+      return a + b + c;
+    };
+  };
+}
+console.log(add(3)(4)(5));
