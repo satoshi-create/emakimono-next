@@ -22,7 +22,9 @@ const Flow = () => {
     <>
       <Head />
       <Header fixed={true} />
-      <Breadcrumbs name={locale === "en" ? "flowing scroll!!" : "流れる巻物!!"} />
+      <Breadcrumbs
+        name={locale === "en" ? "flowing scroll!!" : "流れる巻物!!"}
+      />
       <FullscreenContents
         flowEmakis={dataEmakis}
         sectiontitle={t.flow.title}

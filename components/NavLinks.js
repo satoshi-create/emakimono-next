@@ -32,7 +32,7 @@ const NavLinks = ({ footerstyle, slug }) => {
                 className={`${submenu && styles.submenu}`}
                 style={toggle ? { display: "flex" } : { display: "none" }}
               >
-                {submenu &&
+                {/* {submenu &&
                   submenu.map((item, i) => {
                     const { name, path, nameen } = item;
                     return (
@@ -44,7 +44,7 @@ const NavLinks = ({ footerstyle, slug }) => {
                         </Link>
                       </li>
                     );
-                  })}
+                  })} */}
               </ul>
             </li>
           );

@@ -26,13 +26,36 @@
   font-family: var(--title-font);
   text-transform: capitalize;
 }
-.navLink {
+.navLink,
+.linksNameAlpha {
   font-size: 25px;
   color: var(--clr-white);
   transition: var(--transition);
 }
 .navLink:hover {
   color: var(--clr-accent-02);
+}
+.linksNameAlpha {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
+.linksNameAlpha::after {
+  content: "▼";
+  font-size: 15px;
+}
+.submenu {
+  width: max-content;
+  display: flex;
+  flex-direction: row;
+  font-size: 1.2rem;
+  line-height: 2;
+}
+
+.sublinksName {
+  transition: var(--transition);
+  padding: 0.4rem;
+  color: var(--clr-white);
 }
 .closebtn {
   position: absolute;
