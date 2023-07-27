@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AppContext } from "../pages/_app";
 import Link from "next/link";
 import { X } from "react-feather";
@@ -9,9 +9,8 @@ import { socialLinks } from "../libs/socialLinks";
 const SidebarHome = () => {
   const { isSidebarOpen, closeSidebar } = useContext(AppContext);
 
-  // if (isSidebarOpen) {
-  //   return <div>SidebarHome </div>;
-  // }
+  const [toggle, setToggle] = useState(false);
+  console.log(toggle);
   return (
     <div
       className={
@@ -33,13 +32,37 @@ const SidebarHome = () => {
           {links.map((link, index) => {
             const { path, name, nameen, id, submenu } = link;
             return (
-              <li key={index}>
-                <Link href={path}>
-                  <a className={styles.navLink} onClick={() => closeSidebar()}>
-                    {name}
-                  </a>
-                </Link>
-              </li>
+              <>
+                <li key={index}>
+                  <Link href={path}>
+                    <a
+                      className={styles.navLink}
+                      onClick={() => closeSidebar()}
+                    >
+                      {name}
+                    </a>
+                  </Link>
+                </li>
+                {submenu && (
+                  <ul className={styles.submenu}>
+                    {submenu.map((item, i) => {
+                      const { name, path, nameen } = item;
+                      return (
+                        <li key={i}>
+                          <Link href={path}>
+                            <a
+                              className={styles.sublinksName}
+                              onClick={() => closeSidebar()}
+                            >
+                              {name}
+                            </a>
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </>
             );
           })}
         </ul>
