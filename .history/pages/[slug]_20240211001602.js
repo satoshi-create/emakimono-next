@@ -74,7 +74,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
       />
       <AttentionPage />
       <FullScreenComp right={"4rem"} page={true}>
-        <EmakiHeader emakis={emakis} />
+        <EmakiHeader />
         {/* <Translate
           emakipage={{
             position: "absolute",
