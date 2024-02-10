@@ -52,7 +52,7 @@ const EmakiConteiner = ({
 
   return (
     <>
-      { isModalOpen && <Modal data={data} />}
+      {type === "浮世絵" && isModalOpen && <Modal data={data} />}
       <article
         className={`${styles.conteiner} ${
           type === "西洋絵画" ? styles.lr : styles.rl
