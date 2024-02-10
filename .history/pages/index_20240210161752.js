@@ -5,7 +5,7 @@ import CardA from "../components/CardA";
 import CardB from "../components/CardB";
 import "lazysizes";
 import Head from "../components/Meta";
-import GridImageList from "../components/GridImageList";
+import GridImageL from "../components/GridImageList";
 import Attention from "../components/Attention";
 import ToggleTag from "../components/ToggleTag";
 import { useLocale, useLocaleData } from "../libs/func";
@@ -107,7 +107,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectiontitle={t.toggleTag.title}
         sectiontitleen={t.toggleTag.titleen}
       />
-      <GridImageList
+      <GridImages
         images={gridImages}
         sectiontitle={t.famousscene.title}
         sectiontitleen={t.famousscene.titleen}

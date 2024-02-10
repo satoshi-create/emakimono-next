@@ -5,7 +5,7 @@ import CardA from "../components/CardA";
 import CardB from "../components/CardB";
 import "lazysizes";
 import Head from "../components/Meta";
-import GridImageList from "../components/GridImageList";
+import GridImages from "../components/GridImageList";
 import Attention from "../components/Attention";
 import ToggleTag from "../components/ToggleTag";
 import { useLocale, useLocaleData } from "../libs/func";
