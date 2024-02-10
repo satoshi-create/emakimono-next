@@ -1,0 +1,14 @@
+.header {
+  position: absolute;
+  z-index: 100;
+  width: 80%;
+  height: auto;
+  background: white;
+  margin: 0 auto;
+  /* position: absolute; */
+  top: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+}
