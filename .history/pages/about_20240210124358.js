@@ -30,15 +30,15 @@ const About = () => {
           dangerouslySetInnerHTML={{ __html: t.about.text }}
           className={styles.text}
         ></p>
+        <GridImages
+          images={gridImages}
+          sectiontitle={t.famousscene.title}
+          sectiontitleen={t.famousscene.titleen}
+          sectiondesc={t.famousscene.desc}
+          sectionname={t.famousscene.name}
+          bcg={"white"}
+        />
       </section>
-      <GridImages
-        images={gridImages}
-        // sectiontitle={t.famousscene.title}
-        // sectiontitleen={t.famousscene.titleen}
-        // sectiondesc={t.famousscene.desc}
-        // sectionname={t.famousscene.name}
-        // bcg={"white"}
-      />
       <Footer />
     </>
   );

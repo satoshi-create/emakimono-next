@@ -24,6 +24,7 @@
   right: 12px;
   top: 0;
   width: 20px;
+  cursor: pointer;
 }
 .container {
   display: grid;
@@ -75,18 +76,23 @@
 .next {
   justify-self: flex-end;
 }
-.article {
-  opacity: 0;
-  transition: var(--transition);
+.contents {
   grid-column: 2;
   grid-row: 3;
+  display: grid;
+  row-gap: 10px;
+  overflow-y: auto;
+}
+/* .article {
+  opacity: 0;
+  transition: var(--transition);
   width: 80%;
   height: 100%;
   position: relative;
-  /* padding-top: 56.25%; */
+  padding-top: 56.25%;
   align-self: center;
   justify-self: center;
-}
+} */
 
 .iframe {
   position: absolute;
@@ -132,4 +138,16 @@
 }
 .nextSlide {
   transform: translateX(100%);
+}
+
+.mokujitable {
+  width: 100%;
+  border-collapse: collapse;
+  /* font-family: serif; */
+}
+.mokujitable td,
+.mokujitable th {
+  border: solid 1px var(--clr-grey-light);
+  text-align: left;
+  /* padding: 10px; */
 }

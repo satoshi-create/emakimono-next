@@ -37,7 +37,7 @@ const About = () => {
         // sectiontitleen={t.famousscene.titleen}
         // sectiondesc={t.famousscene.desc}
         // sectionname={t.famousscene.name}
-        // bcg={"white"}
+        bcg={"white"}
       />
       <Footer />
     </>

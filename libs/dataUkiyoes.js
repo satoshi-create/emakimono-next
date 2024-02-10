@@ -250,6 +250,7 @@ const dataUkiyoes = [
         chapter: "甲州火振",
         kobun: "",
         gendaibun: "",
+        desc: "吾輩は猫である。名前はまだない",
         phrase: [{}],
       },
       {
@@ -265,6 +266,7 @@ const dataUkiyoes = [
         chapter: "五島鯨突",
         kobun: "",
         gendaibun: "",
+        desc: "吾輩は猫である。名前はまだない",
         phrase: [{}],
       },
       {
@@ -280,6 +282,7 @@ const dataUkiyoes = [
         chapter: "相州浦賀",
         kobun: "",
         gendaibun: "",
+        desc: "吾輩は猫である。名前はまだない",
         phrase: [{}],
       },
       {
@@ -295,6 +298,7 @@ const dataUkiyoes = [
         chapter: "総州銚子",
         kobun: "",
         gendaibun: "",
+        desc: "吾輩は猫である。名前はまだない",
         phrase: [{}],
       },
       {
@@ -310,6 +314,7 @@ const dataUkiyoes = [
         chapter: "総州利根川",
         kobun: "",
         gendaibun: "",
+        desc: "吾輩は猫である。名前はまだない",
         phrase: [{}],
       },
       {
@@ -325,6 +330,7 @@ const dataUkiyoes = [
         chapter: "絹川はちふせ",
         kobun: "",
         gendaibun: "",
+        desc: "吾輩は猫である。名前はまだない",
         phrase: [{}],
       },
       {
@@ -340,6 +346,7 @@ const dataUkiyoes = [
         chapter: "蚊針流",
         kobun: "",
         gendaibun: "",
+        desc: "吾輩は猫である。名前はまだない",
         phrase: [{}],
       },
       {
@@ -355,6 +362,7 @@ const dataUkiyoes = [
         chapter: "待チ網",
         kobun: "",
         gendaibun: "",
+        desc: "吾輩は猫である。名前はまだない",
         phrase: [{}],
       },
       {
@@ -370,6 +378,7 @@ const dataUkiyoes = [
         chapter: "宮戸川長縄",
         kobun: "",
         gendaibun: "",
+        desc: "吾輩は猫である。名前はまだない",
         phrase: [{}],
       },
       {
@@ -385,6 +394,7 @@ const dataUkiyoes = [
         chapter: "下総登戸",
         kobun: "",
         gendaibun: "",
+        desc: "吾輩は猫である。名前はまだない",
         phrase: [{}],
       },
       {
@@ -399,4 +409,4 @@ const dataUkiyoes = [
   },
 ];
 
-export default dataUkiyoes
+export default dataUkiyoes;

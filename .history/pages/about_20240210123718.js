@@ -9,7 +9,6 @@ import Breadcrumbs from "../components/Breadcrumbs";
 import { useRouter } from "next/router";
 import { useLocale, useLocaleData } from "../libs/func";
 import GridImages from "../components/GridImages";
-import { gridImages } from "../libs/gridImages";
 
 const About = () => {
   const { locale } = useRouter();
@@ -31,14 +30,6 @@ const About = () => {
           className={styles.text}
         ></p>
       </section>
-      <GridImages
-        images={gridImages}
-        // sectiontitle={t.famousscene.title}
-        // sectiontitleen={t.famousscene.titleen}
-        // sectiondesc={t.famousscene.desc}
-        // sectionname={t.famousscene.name}
-        // bcg={"white"}
-      />
       <Footer />
     </>
   );
