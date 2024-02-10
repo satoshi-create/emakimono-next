@@ -63,7 +63,7 @@ const GridImages = ({
   };
 
 
-  const   = (
+  const gridImages = (
     <div className={styles.gridconteinter}>
       {GridImagesData(slice).map((item, index) => {
         const { path, title, image, desc, eracolor, id, bln, descen } = item;
@@ -113,7 +113,7 @@ const GridImages = ({
       >
         <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
         {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
-        {gridImages}
+        {GridImagesData}
         {linktitle && (
           <Button
             title={

@@ -14,8 +14,7 @@ import dataEmakis from "../libs/data";
 import { gridImages } from "../libs/gridImages";
 import SocialLinks from "../components/SocialLinks";
 
-// TODO:loading機能を追加する
-
+TODE
 const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   // const scrollRef = useRef();
   // console.log(scrollRef);
@@ -94,7 +93,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         linktitleen={"EMAKIMONO"}
         linkpath={"emaki"}
         bcg={"white"}
-      />
+      />  
       <CardB
         columns={t.history.columns}
         sectiontitle={t.history.title}
@@ -118,7 +117,6 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         linkpath={"famousscene"}
         columns={t.favorite.columns}
         bcg={"white"}
-        slice={true}
       />
       <CardA
         emakis={alpha}

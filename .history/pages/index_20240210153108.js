@@ -118,7 +118,6 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         linkpath={"famousscene"}
         columns={t.favorite.columns}
         bcg={"white"}
-        slice={true}
       />
       <CardA
         emakis={alpha}
