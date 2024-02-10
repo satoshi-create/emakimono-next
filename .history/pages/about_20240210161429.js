@@ -8,7 +8,7 @@ import Title from "../components/Title";
 import Breadcrumbs from "../components/Breadcrumbs";
 import { useRouter } from "next/router";
 import { useLocale, useLocaleData } from "../libs/func";
-import GridImageList from "../components/GridImageList";
+import GridImages from "../components/GridImageList";
 import { gridImages } from "../libs/gridImages";
 
 const About = () => {
@@ -31,7 +31,7 @@ const About = () => {
           className={styles.text}
         ></p>
       </section>
-      <GridImageList
+      <GridImages
         images={gridImages}
         // sectiontitle={t.famousscene.title}
         // sectiontitleen={t.famousscene.titleen}

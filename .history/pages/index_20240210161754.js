@@ -107,7 +107,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectiontitle={t.toggleTag.title}
         sectiontitleen={t.toggleTag.titleen}
       />
-      <GridImageList
+      <GridImages
         images={gridImages}
         sectiontitle={t.famousscene.title}
         sectiontitleen={t.famousscene.titleen}

@@ -5,7 +5,7 @@ import "lazysizes";
 import Head from "../components/Meta";
 // import styles from "../styles/Flow.css.module.css";
 import Title from "../components/Title";
-import GridImageList from "../components/GridImages";
+import GridImages from "../components/GridImages";
 import dataEmakis from "../libs/data";
 import { useLocale, useLocaleData } from "../libs/func";
 import { useRouter } from "next/router";
@@ -21,7 +21,7 @@ const Famousscene = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
       <Head />
       <Header />
       <Breadcrumbs name={locale === "en" ? "famousscene" : "絵巻名場面集!!"} />
-      <GridImageList
+      <GridImages
         images={gridImages}
         sectiontitle={t.famousscene.title}
         sectiontitleen={t.famousscene.titleen}
