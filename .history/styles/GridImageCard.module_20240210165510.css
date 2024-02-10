@@ -1,11 +1,13 @@
-.figure {
+.figure
+ {
   position: relative;
   width: 100%;
   height: 30vh;
   cursor: pointer;
   opacity: 0.8;
 }
-.figure::after {
+.figure::after,
+.figureB::after {
   content: "";
   position: absolute;
   top: 0;
@@ -73,16 +75,20 @@
 .figure:hover .desc {
   opacity: 0;
 } */
-.figure:hover .image {
+.figure:hover .image,
+.figureB:hover .image {
   transform: scale(1.5) rotate(-0.02turn);
 }
-.figure:hover .imagecover {
+.figure:hover .infocontainer,
+.figureB:hover .infocontainer {
   opacity: 0;
 }
-.figure:hover .info {
+.figure:hover .info,
+.figureB:hover .info {
   opacity: 1;
 }
-.figure:hover::after {
+.figure:hover::after,
+.figureB:hover::after {
   opacity: 1;
   -webkit-transform: scale(0.8);
   transform: scale(0.8);
