@@ -12,9 +12,9 @@
       "A B B"
       "A C E"
       "D D E"
-      "G G F"
-      "I H F"
-      "J J J";
+      "G G G"
+      "J H H"
+      "J J I";
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
   }

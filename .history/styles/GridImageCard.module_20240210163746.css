@@ -135,23 +135,23 @@
     height: 100%;
   }
 
-  .figure:nth-child(6) {
+  .figureB:nth-child(6) {
     grid-area: F;
     height: 100%;
   }
-  .figure:nth-child(7) {
+  .figureB:nth-child(7) {
     grid-area: G;
   }
 
-  .figure:nth-child(8) {
+  .figureB:nth-child(8) {
     grid-area: H;
     height: 100%;
   }
-  .figure:nth-child(9) {
+  .figureB:nth-child(9) {
     grid-area: I;
   }
 
-  .figure:nth-child(10) {
+  .figureB:nth-child(10) {
     grid-area: J;
     height: 100%;
   }
