@@ -11,8 +11,7 @@ import Link from "next/link";
 import AllLocation from "./AllLocation";
 import Image from "next/image";
 
-// TODO:モーダルに絵巻の情報を表示する
-  
+TODO:浮世絵ページ以外でも
 const Modal = ({ data }) => {
   const { isModalOpen, closeModal, openModal, index, setIndex } =
     useContext(AppContext);
