@@ -5,7 +5,7 @@ import "lazysizes";
 import Head from "../components/Meta";
 // import styles from "../styles/Flow.css.module.css";
 import Title from "../components/Title";
-import GridImageList from "../components/GridImageList";
+import GridImageList from "../components/GridImage";
 import dataEmakis from "../libs/data";
 import { useLocale, useLocaleData } from "../libs/func";
 import { useRouter } from "next/router";

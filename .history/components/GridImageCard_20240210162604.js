@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Button from "./Button";
-import styles from "../styles/GridImageCard.module.css";
+import styles from "../styles/GridImageCard.module.css.module.css";
 import { useRouter } from "next/router";
 
 const GridImageCard = ({ item, enterImage, leaveImage }) => {
