@@ -11,6 +11,7 @@ import FullScreenComp from "../components/FullScreenComp";
 import Translate from "../components/Translate";
 import EmakiInfo from "../components/EmakiInfo";
 import AttentionPage from "../components/AttentionPage";
+import EmakiHeader from "../components/EmakiHeader";
 
 const Emaki = ({ emakis, locale, locales, slug }) => {
   const pagetitle = `${emakis.title} ${emakis.edition ? emakis.edition : ""}`;
