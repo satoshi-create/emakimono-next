@@ -63,7 +63,6 @@ const GridImageList = ({
   };
 
   return (
-    <div style={{ background: bcg }}>
       <section
         className={`section-center section-padding ${styles[sectionname]}`}
       >
