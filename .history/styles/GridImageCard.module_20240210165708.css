@@ -77,7 +77,7 @@
   transform: scale(1.5) rotate(-0.02turn);
 }
 .figure:hover .imagecover {
-  opacity: 0;
+  opacity: 0.2;
 }
 .figure:hover .info {
   opacity: 1;
