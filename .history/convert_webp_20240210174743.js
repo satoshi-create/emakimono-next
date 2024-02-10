@@ -7,7 +7,5 @@ import imageminWebp from "imagemin-webp";
     plugins: [imageminWebp({ quality: 50 })],
   });
 })();
-
-// add type module to package.json
+add type molue
 // npm start（node convert_webp.js）
-// remove type module to package.json
