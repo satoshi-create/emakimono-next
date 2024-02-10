@@ -16,7 +16,7 @@ const GridImages = ({
   linkpath,
   columns,
   bcg,
-  slice,
+  sort,
 }) => {
   const { locale } = useRouter();
 
@@ -53,19 +53,18 @@ const GridImages = ({
 
   const [state, dispatch] = useReducer(reducer, init);
 
-  const GridImagesData = (slice) => {
-    if (slice) {
-      const slicedGridImages = state.gridImages.slice(0, 5);
-      return slicedGridImages;
+  const GridImagesList = (sort) => {
+    if (sort) {
+      const sortGridImages = state.gridImages.sort(0, 5);
+      return sortGridImages;
     } else {
       return state.gridImages;
     }
   };
 
-
-  const   = (
+  const gridImages = (
     <div className={styles.gridconteinter}>
-      {GridImagesData(slice).map((item, index) => {
+      {GridImagesList(sort).map((item, index) => {
         const { path, title, image, desc, eracolor, id, bln, descen } = item;
         return (
           <figure className={styles.figure} key={index}>
@@ -113,7 +112,7 @@ const GridImages = ({
       >
         <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
         {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
-        {gridImages}
+        {gridImages(linktitle)}
         {linktitle && (
           <Button
             title={

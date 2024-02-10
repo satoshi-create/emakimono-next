@@ -53,19 +53,20 @@ const GridImages = ({
 
   const [state, dispatch] = useReducer(reducer, init);
 
-  const GridImagesData = (slice) => {
-    if (slice) {
-      const slicedGridImages = state.gridImages.slice(0, 5);
+  const GridImagesList = (slice) => {
+    if (slice == true) {
+      const slicedGridImages = state.gridImages.slice(0.5);
       return slicedGridImages;
     } else {
       return state.gridImages;
     }
   };
 
+  console.log(slice);
 
-  const   = (
+  const gridImages = (
     <div className={styles.gridconteinter}>
-      {GridImagesData(slice).map((item, index) => {
+      {GridImagesList(slice).map((item, index) => {
         const { path, title, image, desc, eracolor, id, bln, descen } = item;
         return (
           <figure className={styles.figure} key={index}>
