@@ -11,6 +11,7 @@ import FullScreenComp from "../components/FullScreenComp";
 import Translate from "../components/Translate";
 import EmakiInfo from "../components/EmakiInfo";
 import AttentionPage from "../components/AttentionPage";
+import EmakiHeader from "../components/EmakiHeader";
 
 const Emaki = ({ emakis, locale, locales, slug }) => {
   const pagetitle = `${emakis.title} ${emakis.edition ? emakis.edition : ""}`;
@@ -73,6 +74,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
       />
       <AttentionPage />
       <FullScreenComp right={"4rem"} page={true}>
+        <EmakiHeader emakis={emakis} />
         {/* <Translate
           emakipage={{
             position: "absolute",
@@ -86,6 +88,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
         <EmakiInfo value={emakis} />
         <Controller value={emakis} />
         <Sidebar value={emakis} />
+
         <EmakiConteiner data={{ ...emakis }} height={"100vh"} scroll={true} />
       </FullScreenComp>
     </>
