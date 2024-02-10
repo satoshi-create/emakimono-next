@@ -9,7 +9,6 @@ import Breadcrumbs from "../components/Breadcrumbs";
 import { useRouter } from "next/router";
 import { useLocale, useLocaleData } from "../libs/func";
 import GridImages from "../components/GridImages";
-import { gridImages } from "../libs/gridImages";
 
 const About = () => {
   const { locale } = useRouter();
@@ -30,15 +29,19 @@ const About = () => {
           dangerouslySetInnerHTML={{ __html: t.about.text }}
           className={styles.text}
         ></p>
+        <GridImages
+          images={gridImages}
+          sectiontitle={t.famousscene.title}
+          sectiontitleen={t.famousscene.titleen}
+          sectiondesc={t.famousscene.desc}
+          sectionname={t.famousscene.name}
+          linktitle={"絵巻名場面集"}
+          linktitleen={"famousscene"}
+          linkpath={"famousscene"}
+          columns={t.favorite.columns}
+          bcg={"white"}
+        />
       </section>
-      <GridImages
-        images={gridImages}
-        // sectiontitle={t.famousscene.title}
-        // sectiontitleen={t.famousscene.titleen}
-        // sectiondesc={t.famousscene.desc}
-        // sectionname={t.famousscene.name}
-        // bcg={"white"}
-      />
       <Footer />
     </>
   );
