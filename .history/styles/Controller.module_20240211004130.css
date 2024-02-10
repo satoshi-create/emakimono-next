@@ -22,6 +22,9 @@
 }
 
 @media (min-height: 768px) {
+  .container {
+    right: 25%;
+  }
   .controller > .next,
   .controller > .home,
   .controller > .prev,
