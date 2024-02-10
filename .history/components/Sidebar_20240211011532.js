@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+simport React, { useContext, useEffect, useState } from "react";
 import styles from "../styles/Sidebar.module.css";
 import { Menu, X } from "react-feather";
 import Link from "next/link";

@@ -18,7 +18,7 @@ export default function FullScreenComp({ children, iconStyle, padding, page }) {
             style={
               iconStyle
                 ? { "--left": "1rem", "--rotate": "90deg" }
-                : { "--right": "4rem" }
+                : { "--left": "1%" }
             }
           >
             <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
@@ -33,7 +33,7 @@ export default function FullScreenComp({ children, iconStyle, padding, page }) {
                 style={
                   iconStyle
                     ? { "--left": "1rem", "--rotate": "90deg" }
-                    : { "--right": "4rem" }
+                    : { "--left": "3.5rem" }
                 }
               >
                 <FontAwesomeIcon icon={faDownLeftAndUpRightToCenter} />

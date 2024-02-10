@@ -11,6 +11,7 @@ import next from "next";
 // TODO:prev、nextボタンにアニメーションを追加する
 // TODO:「一つ前に戻る」「一つ先に進む」機能を追加する
 
+
 const Controller = ({ value }) => {
   const controller = dataController();
   const { ekotobaImageToggle, setEkotobaImageToggle } = useContext(AppContext);

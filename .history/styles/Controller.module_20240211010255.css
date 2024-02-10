@@ -1,7 +1,7 @@
 .container {
   position: absolute;
-  bottom: 4%;
-  left: 50%;
+  bottom: 4;
+  left: 50;
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
