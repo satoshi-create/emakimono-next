@@ -752,10 +752,9 @@ const dataByoubus = [
       },
       {
         cat: "ekotoba",
-        chapter: "【右隻】　絵合",
-        kobun: "",
-        gendaibun:
-          "",
+        chapter: "右隻",
+        kobun: "　【絵合】",
+        gendaibun: "",
         phrase: [{}],
       },
       {
@@ -784,7 +783,7 @@ const dataByoubus = [
       },
       {
         cat: "ekotoba",
-        chapter: "【左隻】　胡蝶",
+        chapter: "左隻",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
