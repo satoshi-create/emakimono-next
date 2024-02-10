@@ -93,6 +93,15 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         linkpath={"emaki"}
         bcg={"white"}
       />  
+      {/* <FullscreenContents
+        flowEmakis={flowEmakis}
+        sectiontitle={t.flow.title}
+        sectiontitleen={t.flow.titleen}
+        linktitle={"ワイド美術"}
+        linktitleen={"EMAKIMONO"}
+        linkpath={"flow"}
+        columns={t.favorite.columns}
+      /> */}
       <CardB
         columns={t.history.columns}
         sectiontitle={t.history.title}

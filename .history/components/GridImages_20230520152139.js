@@ -52,6 +52,8 @@ const GridImages = ({
 
   const [state, dispatch] = useReducer(reducer, init);
 
+  console.log(state.gridImages.slice(0, 5));
+
   const gridImages = (page) => {
     if (page) {
       return (

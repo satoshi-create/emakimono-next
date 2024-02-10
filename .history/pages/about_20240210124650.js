@@ -33,11 +33,11 @@ const About = () => {
       </section>
       <GridImages
         images={gridImages}
-        // sectiontitle={t.famousscene.title}
-        // sectiontitleen={t.famousscene.titleen}
-        // sectiondesc={t.famousscene.desc}
-        // sectionname={t.famousscene.name}
-        // bcg={"white"}
+        sectiontitle={t.famousscene.title}
+        sectiontitleen={t.famousscene.titleen}
+        sectiondesc={t.famousscene.desc}
+        sectionname={t.famousscene.name}
+        bcg={"white"}
       />
       <Footer />
     </>
