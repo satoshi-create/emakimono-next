@@ -6,11 +6,11 @@
 .openIcon,
 .closeIcon {
   position: absolute;
-  top: 1.4%;
+  top: 1%;
   left: var(--left);
   right: var(--right);
   z-index: 10;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   color: var(--clr-white);
   transform: rotate(var(--rotate));
   transition: var(--transition);

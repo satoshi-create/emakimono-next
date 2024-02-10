@@ -1,6 +1,7 @@
 .container {
   position: absolute;
-  bottom: 4%;
+  z-index: 10;
+  bottom: 5%;
   left: 50%;
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
@@ -39,7 +40,7 @@
     display: grid;
     place-content: center;
     transition: var(--transition);
-    /* background: var(--clr-primary-02); */
+    background: var(--clr-primary-02);
     padding: 4px;
     color: var(--clr-gray);
     cursor: pointer;
