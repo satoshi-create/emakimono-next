@@ -31,7 +31,7 @@ const About = () => {
           className={styles.text}
         ></p>
       </section>
-      <GridImageList
+      <GridImages
         images={gridImages}
         // sectiontitle={t.famousscene.title}
         // sectiontitleen={t.famousscene.titleen}

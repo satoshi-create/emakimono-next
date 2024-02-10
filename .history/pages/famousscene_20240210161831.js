@@ -21,7 +21,7 @@ const Famousscene = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
       <Head />
       <Header />
       <Breadcrumbs name={locale === "en" ? "famousscene" : "絵巻名場面集!!"} />
-      <GridImageList
+      <GridImages
         images={gridImages}
         sectiontitle={t.famousscene.title}
         sectiontitleen={t.famousscene.titleen}
