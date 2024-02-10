@@ -4,7 +4,7 @@ import styles from "../styles/EmakiInfo.module.css";
 import { eraColor } from "../libs/func";
 import { AppContext } from "../pages/_app";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
+import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 
 const EmakiInfo = ({ value }) => {
@@ -33,9 +33,7 @@ const EmakiInfo = ({ value }) => {
         }`}</a>
       </Link>
       <Link href={`/category/${typeen}`}>
-        <a className={styles.tag}>{`${
-          locale === "en" ? typeen : type
-        }`}</a>
+        <a className={styles.tag}>{`${locale === "en" ? typeen : type}`}</a>
       </Link>
       {keyword &&
         keyword.map((item, index) => {
@@ -48,7 +46,7 @@ const EmakiInfo = ({ value }) => {
         })}
       {type === "浮世絵" && (
         <div onClick={() => openModal(0)} className={styles.question}>
-          <FontAwesomeIcon icon={faCircleQuestion} />
+          <FontAwesomeIcon icon={faCircleInfo} />
         </div>
       )}
     </div>

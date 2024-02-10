@@ -201,8 +201,8 @@ const GridImages = ({
       >
         <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
         {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
-        {gridImages(linktitle)}
-        {linktitle && (
+        {gridImages(bc)}
+        {bc && (
           <Button
             title={
               locale === "en"

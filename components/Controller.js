@@ -19,7 +19,7 @@ const Controller = ({ value }) => {
     era,
     eraen,
     keyword,
-    edition
+    edition,
   } = value;
 
   return (
@@ -94,7 +94,7 @@ const Controller = ({ value }) => {
               return (
                 <span
                   className={`${styles[`${titleen}`]} ${styles.linkicon}`}
-                  title={ekotobaImageToggle ? titleEmaki2 : titleEmaki1}
+                  title={ekotobaImageToggle ? title2 : titleEmaki1}
                   onClick={() => toggleEkotobaImage()}
                   key={index}
                 >
