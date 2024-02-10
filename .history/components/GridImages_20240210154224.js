@@ -52,6 +52,16 @@ const GridImages = ({
 
   const [state, dispatch] = useReducer(reducer, init);
 
+  const GridImagesList = (page) => {
+    if (page) {
+      const filterdGridImages = state.gridImages.sort()
+      
+    } else {
+      
+    }
+  }
+
+ 
   const gridImages = (page) => {
     if (page) {
       return (

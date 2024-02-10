@@ -1,0 +1,21 @@
+.gridconteinter,
+.gridconteinterB {
+  margin: 0 auto;
+  padding: 0.5rem 0 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+@media screen and (min-width: 768px) {
+  .gridconteinter {
+    grid-template-areas:
+      "A B B"
+      "A C E"
+      "D D E"
+      "E F F"
+      "E G H"
+      "D D E";
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+  }
+}
