@@ -27,7 +27,7 @@ const About = () => {
         />
         <h1 className={styles.title}>{t.about.title}</h1>
         <p
-          dangerouslySetInnerHTML={{ __html: t.about.text1 }}
+          dangerouslySetInnerHTML={{ __html: t.about.text1}}
           className={styles.text}
         ></p>
       </section>
@@ -41,7 +41,7 @@ const About = () => {
       />
       <section className="section-grid section-padding">
         <p
-          dangerouslySetInnerHTML={{ __html: t.about.text2 }}
+          dangerouslySetInnerHTML={{ __html: t.about.text }}
           className={styles.text}
         ></p>
       </section>
