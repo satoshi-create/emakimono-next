@@ -11,8 +11,7 @@ import Footer from "../../components/Footer";
 import enData from "../../libs/en/data"
 import jaData from "../../libs/data"
 
-// TODO:静的な絵巻ページをpage配下に作成する
-
+TODO:category/emaki
 const Emaki = ({ name, nameen, posts, slug }) => {
   const { locale } = useRouter();
 

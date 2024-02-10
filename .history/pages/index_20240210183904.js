@@ -35,7 +35,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   const { t } = useLocale();
   const { t: data } = useLocaleData();
 
-  const genjiEmakis = data.filter((emaki) => emaki.title.includes("源氏"));
+  const genjiEmakis = data.fi((emaki) => emaki.title.includes("源氏"));
   console.log(genjiEmakis);
 
   const favoriteEmakis = data.filter((emaki) => emaki.favorite === true);
@@ -76,15 +76,15 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
       <Header fixed={true} />
       <Attention />
       <CardA
-        emakis={genjiEmakis}
+        emakis={favoriteEmakis}
         columns={t.genji.columns}
         sectiontitle={t.genji.title}
         sectiontitleen={t.genji.titleen}
         sectiondesc={t.history.desc}
         sectionname={t.genji.name}
-        linktitle={"源氏絵の世界"}
-        linktitleen={"GENJIE"}
-        linkpath={"genji"}
+        linktitle={"絵巻"}
+        linktitleen={"EMAKIMONO"}
+        linkpath={"emaki"}
       />
       <CardA
         emakis={favoriteEmakis}
@@ -95,7 +95,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectionname={t.favorite.name}
         linktitle={"絵巻"}
         linktitleen={"EMAKIMONO"}
-        linkpath={"/category/emaki"}
+        linkpath={"emaki"}
       />
       <CardA
         emakis={variation}

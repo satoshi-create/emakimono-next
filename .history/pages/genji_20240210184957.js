@@ -82,9 +82,9 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectiontitleen={t.genji.titleen}
         sectiondesc={t.history.desc}
         sectionname={t.genji.name}
-        linktitle={"源氏絵の世界"}
-        linktitleen={"GENJIE"}
-        linkpath={"genji"}
+        linktitle={"絵巻"}
+        linktitleen={"EMAKIMONO"}
+        linkpath={"emaki"}
       />
       <CardA
         emakis={favoriteEmakis}
@@ -95,7 +95,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectionname={t.favorite.name}
         linktitle={"絵巻"}
         linktitleen={"EMAKIMONO"}
-        linkpath={"/category/emaki"}
+        linkpath={"emaki"}
       />
       <CardA
         emakis={variation}

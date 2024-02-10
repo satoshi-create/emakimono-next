@@ -16,21 +16,8 @@ import SocialLinks from "../components/SocialLinks";
 
 // TODO:loading機能を追加する
 
-const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
-  // const scrollRef = useRef();
-  // console.log(scrollRef);
+const Home = () => {
 
-  // useEffect(() => {
-  //   const scrollToLatest = (behavior = "smooth") =>
-  //     scrollRef.current.scrollIntoView({ behavior });
-  //   scrollToLatest();
-  // }, []);
-
-  // useLayoutEffect(() => {
-  //   const scrollToLatest = (behavior = "smooth") =>
-  //     scrollRef.current.scrollIntoView({ behavior });
-  //   scrollToLatest();
-  // }, [])
 
   const { t } = useLocale();
   const { t: data } = useLocaleData();
@@ -82,9 +69,9 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectiontitleen={t.genji.titleen}
         sectiondesc={t.history.desc}
         sectionname={t.genji.name}
-        linktitle={"源氏絵の世界"}
-        linktitleen={"GENJIE"}
-        linkpath={"genji"}
+        linktitle={"絵巻"}
+        linktitleen={"EMAKIMONO"}
+        linkpath={"emaki"}
       />
       <CardA
         emakis={favoriteEmakis}
@@ -95,7 +82,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectionname={t.favorite.name}
         linktitle={"絵巻"}
         linktitleen={"EMAKIMONO"}
-        linkpath={"/category/emaki"}
+        linkpath={"emaki"}
       />
       <CardA
         emakis={variation}
