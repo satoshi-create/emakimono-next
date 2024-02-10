@@ -1,11 +1,12 @@
-.figure {
+.figure
+ {
   position: relative;
   width: 100%;
   height: 30vh;
   cursor: pointer;
   opacity: 0.8;
 }
-.figure::after {
+.figure::after{
   content: "";
   position: absolute;
   top: 0;
@@ -76,7 +77,7 @@
 .figure:hover .image {
   transform: scale(1.5) rotate(-0.02turn);
 }
-.figure:hover .imagecover {
+.figure:hover .infocontainer {
   opacity: 0;
 }
 .figure:hover .info {
