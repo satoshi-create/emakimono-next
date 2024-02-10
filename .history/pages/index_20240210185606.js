@@ -83,7 +83,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectiondesc={t.history.desc}
         sectionname={t.genji.name}
         linktitle={"源氏絵の世界"}
-        linktitleen={"GENJIE"}
+        linktitleen={"genji"}
         linkpath={"genji"}
       />
       <CardA
