@@ -1,0 +1,21 @@
+.fullscreen {
+  position: relative;
+  /* padding: var(--padding); */
+}
+
+.openIcon,
+.closeIcon {
+  position: absolute;
+  bottom: 3%;
+  right: var(--right);
+  left: var(--left);
+  z-index: 10;
+  font-size: 1.5rem;
+  color: var(--clr-white);
+  transform: rotate(var(--rotate));
+  transition: var(--transition);
+}
+.openIcon:hover,
+.closeIcon:hover {
+  color: var(--clr-accent-02);
+}

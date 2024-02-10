@@ -1,0 +1,47 @@
+.container {
+  position: absolute;
+  bottom: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  z-index: 10;
+}
+.controller {
+  column-gap: 5px;
+  display: flex;
+  justify-content: center;
+}
+.controller > .next,
+.controller > .prev {
+  display: none;
+}
+
+.linkicon > i {
+  font-size: 21px;
+  transition: var(--transition);
+  color: var(--clr-white);
+  cursor: pointer;
+}
+.linkicon > i:hover {
+  color: var(--clr-accent-02);
+}
+
+@media (min-height: 768px) {
+  .controller > .next,
+  .controller > .home,
+  .controller > .prev,
+  .controller > .comment {
+    width: 3rem;
+    height: 3rem;
+    border: none;
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+    transition: var(--transition);
+    background: var(--clr-primary-02);
+    padding: 4px;
+    color: var(--clr-gray);
+    cursor: pointer;
+  }
+}

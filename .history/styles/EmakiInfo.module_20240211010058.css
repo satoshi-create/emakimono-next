@@ -1,0 +1,48 @@
+.container {
+  position: absolute;
+  bottom: 4%;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  font-family: var(--text-font);
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.title {
+  display: none;
+  font-size: 2rem;
+  font-weight: 300;
+  color: white;
+}
+@media (min-height: 768px) {
+  .container {
+    gap: 1rem;
+  }
+  .title {
+    display: block;
+  }
+}
+
+.tag {
+  font-size: 1rem;
+  font-weight: 300;
+  border: 1px solid white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.8rem;
+  color: white;
+  transition: var(--transition);
+}
+
+.tag:hover {
+  color: rgb(0, 0, 0);
+  border: 1px solid var(--clr-accent-02);
+  background-color: var(--clr-accent-02);
+}
+.question {
+  color: var(--clr-white);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
