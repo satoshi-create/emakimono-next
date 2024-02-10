@@ -63,9 +63,7 @@ const GridImageList = ({
   };
 
   return (
-    <section
-      className={`section-center section-padding ${styles[sectionname]}`}
-    >
+    <section className={`section-center section-padding}`}>
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       <div className={styles.gridconteinter}>
         {GridImagesData(slice).map((item, index) => {

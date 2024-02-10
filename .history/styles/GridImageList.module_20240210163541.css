@@ -12,10 +12,8 @@
       "A B B"
       "A C E"
       "D D E"
-      "G G F"
-      "I H F"
-      "J J J";
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
   }
+
 }
