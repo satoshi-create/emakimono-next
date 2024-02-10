@@ -2,7 +2,7 @@
   font-family: var(--text-font);
   border-radius: 1rem;
   display: flex;
-  align-items: center;
+  align-items: center;  
   column-gap: 0.5rem;
   flex-wrap: wrap;
 }

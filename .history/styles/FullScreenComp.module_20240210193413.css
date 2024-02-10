@@ -6,7 +6,7 @@
 .openIcon,
 .closeIcon {
   position: absolute;
-  top: 1rem;
+  t: 1rem;
   right: var(--right);
   left: var(--left);
   z-index: 10;

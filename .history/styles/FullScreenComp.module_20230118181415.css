@@ -16,6 +16,6 @@
   transition: var(--transition);
 }
 .openIcon:hover,
-.closeIcon:hover {
+.closeIcon:hover{
   color: var(--clr-accent-02);
 }

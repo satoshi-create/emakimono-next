@@ -6,7 +6,7 @@
 .openIcon,
 .closeIcon {
   position: absolute;
-  top: 1rem;
+  bottom: ;: 1rem;
   right: var(--right);
   left: var(--left);
   z-index: 10;
@@ -16,6 +16,6 @@
   transition: var(--transition);
 }
 .openIcon:hover,
-.closeIcon:hover {
+.closeIcon:hover{
   color: var(--clr-accent-02);
 }
