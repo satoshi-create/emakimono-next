@@ -147,11 +147,11 @@
     grid-area: H;
     height: 100%;
   }
-  .figure:nth-child(9) {
+  .figureB:nth-child(9) {
     grid-area: I;
   }
 
-  .figure:nth-child(10) {
+  .figureB:nth-child(10) {
     grid-area: J;
     height: 100%;
   }

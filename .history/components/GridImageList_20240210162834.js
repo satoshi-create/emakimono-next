@@ -63,34 +63,35 @@ const GridImageList = ({
   };
 
   return (
-    <section
-      className={`section-center section-padding ${styles[sectionname]}`}
-    >
-      <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
-      <div className={styles.gridconteinter}>
-        {GridImagesData(slice).map((item, index) => {
-          return (
-            <GridImageCard
-              item={item}
-              key={index}
-              enterImage={enterImage}
-              leaveImage={leaveImage}
-            />
-          );
-        })}
-      </div>
-      {linktitle && (
-        <Button
-          title={
-            locale === "en"
-              ? `More flowing ${linktitleen} !!`
-              : `${linktitle}をもっと見る`
-          }
-          path={`/${linkpath}`}
-          style={columns}
-        />
-      )}
-    </section>
+      <section
+        className={`section-center section-padding ${styles[sectionname]}`}
+      >
+        <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
+        {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
+        <div className={styles.gridconteinter}>
+          {GridImagesData(slice).map((item, index) => {
+            return (
+              <GridImageCard
+                item={item}
+                key={index}
+                enterImage={enterImage}
+                leaveImage={leaveImage}
+              />
+            );
+          })}
+        </div>
+        {linktitle && (
+          <Button
+            title={
+              locale === "en"
+                ? `More flowing ${linktitleen} !!`
+                : `${linktitle}をもっと見る`
+            }
+            path={`/${linkpath}`}
+            style={columns}
+          />
+        )}
+      </section>
   );
 };
 

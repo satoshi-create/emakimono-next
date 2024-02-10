@@ -151,7 +151,7 @@
     grid-area: I;
   }
 
-  .figure:nth-child(10) {
+  .figureB:nth-child(10) {
     grid-area: J;
     height: 100%;
   }

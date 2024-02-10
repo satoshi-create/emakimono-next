@@ -21,7 +21,7 @@ const GridImageCard = ({ item, enterImage, leaveImage }) => {
         placeholder="blur"
         blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
       />
-      <div className={`${styles.imagecover} ${styles[eracolor]}`}></div>
+      <div className={`${styles.color} ${styles[eracolor]}`}></div>
       <div
         className={styles.info}
         onMouseOver={() => enterImage(id)}
