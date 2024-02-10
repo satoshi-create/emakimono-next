@@ -1,10 +1,17 @@
 .container {
-  position: absolute;
-  top: 1%;
-  left: 1%;
-
+    position: absolute;
+  z-index: 100;
+  width: 80%;
+  height: 5%;
+  margin: 0 auto;
+  /* position: absolute; */
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
   font-family: var(--text-font);
-  z-index: 10;
+  border-radius: 1rem;
   display: flex;
   align-items: center;
   column-gap: 0.5rem;

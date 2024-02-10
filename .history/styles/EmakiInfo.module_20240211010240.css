@@ -1,6 +1,6 @@
 .container {
   position: absolute;
-  top: 1%;
+  top: 1;
   left: 1%;
 
   font-family: var(--text-font);

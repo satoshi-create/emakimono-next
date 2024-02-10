@@ -1,7 +1,7 @@
 .openbtn {
   position: absolute;
   top: 1%;
-  right: 1%;
+  ri: 1%;
   z-index: 10;
   transition: var(--transition);
   color: var(--clr-white);
