@@ -44,9 +44,14 @@ const EmakiInfo = ({ value }) => {
             </Link>
           );
         })}
-      {/* <div onClick={() => openModal(0)} className={styles.question}>
+      <div onClick={() => openModal(0)} className={styles.question}>
+        <FontAwesomeIcon icon={faCircleInfo} />
+      </div>
+      {type === "浮世絵" && (
+        <div onClick={() => openModal(0)} className={styles.question}>
           <FontAwesomeIcon icon={faCircleInfo} />
-        </div> */}
+        </div>
+      )}
     </div>
   );
 };
