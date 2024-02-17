@@ -14,7 +14,7 @@ import EmakiInfo from "../components/EmakiInfo";
 import AttentionPage from "../components/AttentionPage";
 
 const Emaki = ({ emakis, locale, locales, slug }) => {
-  console.log(emakis.title);
+  console.log(emakis);
 
   const router = useRouter();
   const pagetitle = `${emakis.title} ${emakis.edition ? emakis.edition : ""}`;

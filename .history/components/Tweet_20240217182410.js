@@ -20,7 +20,7 @@ const Tweet = () => {
       <a
         // style={tweetStyle}
         className="twitter-timeline"
-        href="https://twitter.com/engawakobosato?ref_src=twsrc%5Etfw"
+        href="https://twitter.com/ebisucom?ref_src=twsrc%5Etfw"
       >
         Tweets by engawatorahiko
       </a>

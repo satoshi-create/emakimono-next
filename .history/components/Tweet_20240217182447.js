@@ -20,7 +20,7 @@ const Tweet = () => {
       <a
         // style={tweetStyle}
         className="twitter-timeline"
-        href="https://twitter.com/engawakobosato?ref_src=twsrc%5Etfw"
+        href="https://twitter.com/ebisucom?ref_src=twsrc%5Etfw"
       >
         Tweets by engawatorahiko
       </a>
@@ -29,3 +29,5 @@ const Tweet = () => {
 };
 
 export default Tweet;
+
+<a class="twitter-timeline" href="https://twitter.com/engawakobosato?ref_src=twsrc%5Etfw">Tweets by engawakobosato</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
