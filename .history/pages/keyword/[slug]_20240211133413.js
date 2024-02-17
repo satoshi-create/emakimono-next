@@ -1,0 +1,96 @@
+import { useRouter } from "next/router";
+import Header from "../../components/Header";
+import Head from "../../components/Meta";
+import CardA from "../../components/CardA";
+import emakisData from "../../libs/data";
+import Breadcrumbs from "../../components/Breadcrumbs";
+import { keywordItem } from "../../libs/func";
+import Footer from "../../components/Footer";
+import enData from "../../libs/en/data";
+import jaData from "../../libs/data";
+
+
+const Emaki = ({ enData, jaData, name, posts, nameen, slug }) => {
+  console.log(enData, jaData);
+
+  const router = useRouter();
+  const { locale } = useRouter();
+  const tPageDesc =
+    locale === "en"
+      ? `You can enjoy Emakis that match the keyword ${nameen} in vertical writing and right to left scrolling mode.`
+      : `${name}というキーワードに合った絵巻物を、縦書き、横スクロールで楽しむことができます。`;
+
+  console.log(router.isFallback);
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  } else {
+    return <div>keyword page</div>;
+  }
+  // return (
+  //   <>
+  //     <Head
+  //       pagetitle={locale === "en" ? `${nameen}` : name}
+  //       pageDesc={tPageDesc}
+  //     />
+  //     <Header slug={`keyword/${slug}`} />
+  //     <Breadcrumbs
+  //       name={locale === "en" ? `${nameen}` : name}
+  //       test={locale === "en" ? "keyword list" : "キーワード一覧"}
+  //       testen={"keywords"}
+  //     />
+  //     <CardA
+  //       emakis={posts}
+  //       columns={"three"}
+  //       sectionname={"recommend"}
+  //       sectiontitle={locale === "en" ? `${nameen}` : name}
+  //       sectiontitleen={locale === "en" ? name : `${nameen}`}
+  //     />
+  //     <Footer />
+  //   </>
+  // );
+};
+
+export const getStaticPaths = async () => {
+  const paths = keywordItem(emakisData).map(({ slug }) => ({
+    params: {
+      slug: slug,
+    },
+    locale: "ja",
+  }));
+  paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
+  return {
+    paths: paths,
+    fallback: false,
+  };
+};
+
+export const getStaticProps = async (context) => {
+  const keywordslug = await context.params.slug;
+  const { locale, locales } = await context;
+  const tEmakisData = (await locale) === "en" ? enData : jaData;
+
+  // const keyword = keywordItem(tEmakisData).find(
+  //   ({ slug }) => slug === keywordslug
+  // );
+
+  // const filterdEmakisData = tEmakisData.filter((x) => {
+  //   if (x.keyword) {
+  //     const filterdTag = x.keyword.some((y) => y.slug === keywordslug);
+  //     return filterdTag;
+  //   }
+  // }
+  // );
+
+  return {
+    props: {
+      enData,
+      jaData,
+      // name: keyword.name,
+      // nameen: keyword.id,
+      // posts: filterdEmakisData,
+      slug: keywordslug,
+    },
+  };
+};
+
+export default Emaki;
