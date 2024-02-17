@@ -15,17 +15,12 @@ const ToggleTag = ({ sectiontitle, sectiontitleen }) => {
 
   const allTag = [
     {
-      tagtitle: "人物名",
-      tagtitleen: "personnames",
-      allTags: allPersonNames,
-      path: "personname",
-    },
-    {
       tagtitle: "キーワード",
       tagtitleen: "keywords",
       allTags: allKeywords,
       path: "keyword",
     },
+
   ];
 
   const { tagtitle, tagtitleen, allTags, path } = allTag[value];
