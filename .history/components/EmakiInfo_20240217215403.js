@@ -44,7 +44,7 @@ const EmakiInfo = ({ value }) => {
             </Link>
           );
         })}
-      {/* TODO：EmakiInfoコンポーネントを作成 */}
+      TODO：Em
       {/* <div onClick={() => openModal(0)} className={styles.question}>
           <FontAwesomeIcon icon={faCircleInfo} />
         </div> */}

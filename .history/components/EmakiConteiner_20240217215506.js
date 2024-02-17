@@ -6,7 +6,7 @@ import styles from "../styles/EmakiConteiner.module.css";
 import { AppContext } from "../pages/_app";
 import Modal from "./Modal";
 
-
+TODO:
 const EmakiConteiner = ({
   data,
   height,

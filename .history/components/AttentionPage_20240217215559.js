@@ -8,7 +8,7 @@ import {
 import { useRouter } from "next/router";
 import { AlertDialogOverlay } from "@chakra-ui/react";
 
-// TODO: 絵巻ページに遷移時、自動的に縦横切り替わる機能を追加する
+TODO: 絵巻ページに入ると、自動的に縦横切り替わる機能を追加する（
 const Attention = () => {
   const [togglbtn, setTogglBtn] = useState(true);
   console.log(togglbtn);
