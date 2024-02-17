@@ -14,8 +14,6 @@ import EmakiInfo from "../components/EmakiInfo";
 import AttentionPage from "../components/AttentionPage";
 
 const Emaki = ({ emakis, locale, locales, slug }) => {
-  console.log(emakis.title);
-
   const router = useRouter();
   const pagetitle = `${emakis.title} ${emakis.edition ? emakis.edition : ""}`;
   const tPageDesc =
@@ -62,6 +60,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
     color: "white",
     "font-family": "var(--title-font)",
   };
+
 
   if (router.isFallback) {
     return <div>Loading...</div>;
