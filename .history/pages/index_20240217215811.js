@@ -16,9 +16,9 @@ import SocialLinks from "../components/SocialLinks";
 import Tweet from "../components/Tweet";
 
 // TODO:絵巻ページ遷移時、読み込みが遅延する不具合？を改善する
-// TODO:絵巻ページ遷移時、スケルトンのようなローディング機能を追加する
-// TODO:ページ遷移時にトップに戻らないようにする
+// TODO:絵巻ページ遷移時、読み込みが遅延する不具合？を改善する
 
+// TODO:ページ遷移時にトップに戻らないようにする
 const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   // const scrollRef = useRef();
   // console.log(scrollRef);
