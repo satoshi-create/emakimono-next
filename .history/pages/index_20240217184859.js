@@ -84,7 +84,6 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         linktitleen={"EMAKIMONO"}
         linkpath={"emaki"}
       />
-      <Tweet />
       <CardA
         emakis={variation}
         columns={t.variation.columns}

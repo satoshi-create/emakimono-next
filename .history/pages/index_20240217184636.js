@@ -13,7 +13,6 @@ import FullscreenContents from "../components/FullscreenContents";
 import dataEmakis from "../libs/data";
 import { gridImages } from "../libs/gridImages";
 import SocialLinks from "../components/SocialLinks";
-import Tweet from "../components/Tweet";
 
 // TODO:loading機能を追加する
 
@@ -84,7 +83,6 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         linktitleen={"EMAKIMONO"}
         linkpath={"emaki"}
       />
-      <Tweet />
       <CardA
         emakis={variation}
         columns={t.variation.columns}
@@ -133,7 +131,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         linkpath={"byoubu"}
       />
       {/* <div style={{ float: "left", clear: "both" }} ref={scrollRef}></div> */}
-
+      <Twe
       <Footer />
     </main>
   );
