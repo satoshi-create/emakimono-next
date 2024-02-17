@@ -90,14 +90,4 @@ button {
   height: 100%;
 }
 
-/* twitter wedgids */
-.twitter-container {
-  display: grid;
-  place-content: center;
-}
-.twitter-timeline {
-  width: clamp(18.75rem, 0.6934rem + 77.0416vw, 50rem);
-  height: 500px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
+twitter 
