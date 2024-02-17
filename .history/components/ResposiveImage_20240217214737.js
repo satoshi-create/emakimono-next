@@ -21,7 +21,7 @@ const ResposiveImage = ({
   return (
     <picture>
       <source
-        data-srcset={srcTb}
+        data-srcset={srtTb}
         media="(max-height: 375px)"
         type="image/webp"
       />
