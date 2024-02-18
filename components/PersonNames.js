@@ -7,11 +7,14 @@ import Button from "./Button";
 import { useRouter } from "next/router";
 import styles from "../styles/Tags.module.css";
 
-const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags }) => {
+const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
   const { locale } = useRouter();
 
   return (
-    <section className={`section-center section-padding ${styles.container}`}>
+    <section
+      className={`section-grid section-padding`}
+      style={{ background: bcg }}
+    >
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       <div className={`${styles.tags} ${locale === "ja" && styles.jatags}`}>
         {allTags.map((item, index) => {
@@ -27,7 +30,6 @@ const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags }) => {
                       icon={faQuestion}
                       className={styles.helpcircleicon}
                     />
-    
                   </div>
                 )}
                 <p className={styles.name}>
