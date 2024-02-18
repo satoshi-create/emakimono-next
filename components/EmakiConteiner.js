@@ -6,6 +6,7 @@ import styles from "../styles/EmakiConteiner.module.css";
 import { AppContext } from "../pages/_app";
 import Modal from "./Modal";
 
+
 const EmakiConteiner = ({
   data,
   height,
@@ -52,7 +53,7 @@ const EmakiConteiner = ({
 
   return (
     <>
-      {type === "浮世絵" && isModalOpen && <Modal data={data} />}
+      { isModalOpen && <Modal data={data} />}
       <article
         className={`${styles.conteiner} ${
           type === "西洋絵画" ? styles.lr : styles.rl
