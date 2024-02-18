@@ -1,0 +1,210 @@
+.genji {
+  width: 90vw;
+  max-width: 1200px;
+}
+.recommend {
+  width: 90vw;
+  max-width: 1200px;
+}
+.variation {
+  width: 90vw;
+}
+.alpha {
+  width: 90vw;
+  max-width: 1200px;
+}
+
+.sectiondesc {
+  margin: 0 auto;
+  font-family: var(--text-font);
+  padding: 1.5rem 0;
+  font-size: clamp(1rem, 0.8844rem + 0.4931vw, 1.2rem);
+  width: clamp(20rem, 2.6656rem + 73.9599vw, 50rem);
+  text-align: justify;
+}
+.sectiondesc::first-letter {
+  font-size: clamp(2rem, 0.8844rem + 0.4931vw, 2.2rem);
+  font-style: italic;
+  font-family: var(--title-font);
+  margin-right: 5px;
+}
+
+.conteiner {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4rem;
+}
+.cardContainer {
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+}
+.subtype {
+  font-family: var(--text-font);
+  align-self: center;
+  font-size: clamp(1.2rem, 1.0844rem + 0.4931vw, 1.4rem);
+}
+.card {
+  border-radius: var(--borderRadius);
+  position: relative;
+  transition: var(--transition);
+  background: white;
+  box-shadow: var(--shadow-1);
+}
+.card:hover {
+  box-shadow: var(--shadow-2);
+  transform: scale(1.02);
+}
+
+.single {
+  border-top-right-radius: var(--borderRadius);
+  border-top-left-radius: var(--borderRadius);
+  position: relative;
+  transition: var(--transition);
+  background-color: #7c7c7cc9;
+  aspect-ratio: 16/9;
+  cursor: pointer;
+}
+.single img {
+  border-top-right-radius: var(--borderRadius);
+  border-top-left-radius: var(--borderRadius);
+  width: 100%;
+  object-fit: cover;
+  position: absolute;
+  transition: var(--transition);
+}
+
+.footer {
+  padding: 0.5rem 1rem 0.5rem 1rem;
+}
+.cat {
+  display: flex;
+  justify-content: left;
+  column-gap: 0.5rem;
+  font-size: 0.7rem;
+  padding: 0.5rem 0;
+  font-family: var(--title-font2);
+  font-weight: 500;
+}
+.cat > * {
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--borderRadius);
+  color: var(--clr-grey-light);
+  border: 1px solid var(--clr-grey-light);
+  font-weight: 100;
+  transition: var(--transition);
+  cursor: pointer;
+}
+.cat > .type:hover,
+.cat > div:hover {
+  opacity: 0.5;
+}
+.cat > .era:hover {
+  color: white;
+}
+.orange:hover {
+  border: 1px solid var(--clr-accent-02);
+  background-color: var(--clr-accent-02);
+}
+.green:hover {
+  border: 1px solid var(--clr-green-01);
+  background-color: var(--clr-green-01);
+}
+.purple:hover {
+  border: 1px solid purple;
+  background-color: purple;
+}
+.gold:hover {
+  border: 1px solid goldenrod;
+  background-color: goldenrod;
+}
+.skyblue:hover {
+  border: 1px solid skyblue;
+  background-color: skyblue;
+}
+.firebrick:hover {
+  border: 1px solid firebrick;
+  background-color: firebrick;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--clr-black);
+  font-family: var(--title-font2);
+  text-transform: capitalize;
+}
+.author {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--clr-black);
+  font-family: var(--title-font2);
+  text-transform: capitalize;
+}
+.desc {
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  color: rgb(112 112 112);
+}
+.viewemaki {
+  margin-top: 1rem;
+  text-align: center;
+}
+.viewemakiBtn {
+  padding: 0.5rem;
+  border-radius: var(--borderRadius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: var(--transition);
+  font-family: var(--text-font);
+  color: var(--clr-accent-02);
+  border: 1px solid var(--clr-accent-02);
+  background: var(--clr-white);
+}
+.viewemakiBtn:hover {
+  color: var(--clr-white);
+  background-color: var(--clr-accent-02);
+}
+.keyword {
+  display: flex;
+  justify-content: right;
+  -moz-column-gap: 0.5rem;
+  column-gap: 0.3rem;
+  font-size: 0.5rem;
+  padding: 0.5rem 0;
+  font-family: var(--title-font2);
+}
+.keywordLink {
+  color: var(--clr-grey-light);
+  font-weight: 100;
+  transition: var(--transition);
+  cursor: pointer;
+}
+.keywordLink:hover {
+  opacity: 0.5;
+}
+
+@media screen and (min-width: 667px) {
+  .conteiner {
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  .two,
+  .three,
+  .four {
+    flex: 0 0 calc(50% - 2rem);
+  }
+  .sectiondesc {
+    padding: 2rem 0 3rem 0;
+    line-height: 1.6;
+  }
+}
+@media screen and (min-width: 1024px) {
+  .three {
+    flex: 0 0 calc(33% - 2rem);
+  }
+  .four {
+    flex: 0 0 calc(25% - 2rem);
+  }
+}

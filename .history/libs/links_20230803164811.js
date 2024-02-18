@@ -2,13 +2,6 @@ const links = [
   { name: "ホーム", nameen: "home", id: "home", path: "/", submenu: "" },
   { name: "ご挨拶", nameen: "About", id: "about", path: "/about", submenu: "" },
   {
-    name: "源氏絵の世界",
-    nameen: "genji",
-    id: "genji",
-    path: "/genji",
-    submenu: "",
-  },
-  {
     name: "絵巻一覧",
     nameen: "emaki",
     id: "emaki",

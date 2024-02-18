@@ -1,6 +1,6 @@
 const ja = {
   genji: {
-    title: "源氏絵の世界",
+    title: "源氏物語絵の世界",
     titleen: "genji emakis",
     desc: "",
     name: "genji",
@@ -73,8 +73,8 @@ const ja = {
 
 const en = {
   genji: {
-    title: "源氏絵の世界",
-    titleen: "genji emakis",
+    title: "genjimonogatari emakis",
+    titleen: "源氏物語絵の世界",
     desc: "",
     name: "genji",
     columns: "three",
