@@ -7,7 +7,6 @@ import "lazysizes";
 import Head from "../components/Meta";
 import GridImageList from "../components/GridImageList";
 import Attention from "../components/Attention";
-import ToggleTag from "../components/ToggleTag";
 import { useLocale, useLocaleData } from "../libs/func";
 import FullscreenContents from "../components/FullscreenContents";
 import dataEmakis from "../libs/data";
