@@ -2212,7 +2212,7 @@ const dataEmakis = [
       "http://www.archives.kyoto.jp/websearchpe/detail?cls=152_old_books_catalog&pkey=0000000096",
     sourceImage:
       "繪卷物長谷雄卿逢羅城門鬼神之圖（京都府立京都学・歴彩館　デジタルアーカイブ）",
-    sourceEkotoba:
+    reference:
       "『鬼のいる光景 -『長谷雄草紙』に見る中世-』（楊暁捷 著　角川叢書）",
     emakis: [
       {
