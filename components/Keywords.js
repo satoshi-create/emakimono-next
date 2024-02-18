@@ -10,85 +10,38 @@ import { HelpCircle } from "react-feather";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestion } from "@fortawesome/free-solid-svg-icons";
 
-console.log(emakisData);
-
-const Keywords = ({ sectiontitle, path }) => {
+const Keywords = ({ sectiontitle, sectiontitleen, path, allTags }) => {
   const { locale } = useRouter();
-  if (sectiontitle === "キーワード") {
-    return (
-      <section className={`section-center section-padding ${styles.container}`}>
-        <section
-          className={`${styles.tags} ${locale === "ja" && styles.jatags}`}
-        >
-          {keywordItem(emakisData).map((item, index) => {
-            const { name, id, slug, total, ruby } = item;
+  return (
+    <section className={`section-center section-padding ${styles.container}`}>
+      <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
+      <div className={`${styles.tags} ${locale === "ja" && styles.jatags}`}>
+        {allTags.map((item, index) => {
+          const { name, id, slug, total, ruby } = item;
 
-            return (
-              // <div
-              //   key={index}
-              //   className={`${styles.taginfo} ${
-              //     locale === "en" && styles.keywordsen
-              //   }`}
-              // >
-              <Link href={`./${path}/${slug}`} key={index}>
-                <a className={styles.title}>
-                  <p>
-                    {locale === "en" ? id : name}
-                    <span className={styles.total}>{`(${total})`}</span>
-                  </p>
-                </a>
-              </Link>
-              // </div>
-            );
-          })}
-        </section>
-      </section>
-    );
-  } else {
-    return (
-      <section className={`section-center section-padding ${styles.container}`}>
-        <section
-          className={`${styles.tags} ${locale === "ja" && styles.jatags}`}
-        >
-          {personnameItem(emakisData).map((item, index) => {
-            const { name, id, slug, total, ruby, portrait } = item;
-            return (
-              // <div
-              //   key={index}
-              //   className={`${styles.taginfo} ${
-              //     locale === "en" && styles.
-              //   }`}
-              // >
-              <Link href={`./${path}/${slug}`} key={index}>
-                <a>
-                  {portrait ? (
-                    <img
-                      src={portrait}
-                      alt={name}
-                      className={styles.portrait}
-                    />
-                  ) : (
-                    <div className={styles.noportrait}>
-                      <FontAwesomeIcon
-                        icon={faQuestion}
-                        className={styles.helpcircleicon}
-                      />
-                      {/* <HelpCircle className={styles.helpcircleicon} /> */}
-                    </div>
-                  )}
-                  <p className={styles.name}>
-                    {locale === "en" ? id : name}
-                    <span className={styles.totalcount}>{`(${total})`}</span>
-                  </p>
-                </a>
-              </Link>
-              // </div>
-            );
-          })}
-        </section>
-      </section>
-    );
-  }
+          return (
+            <Link href={`./${path}/${slug}`} key={index}>
+              <a className={styles.title}>
+                <p>
+                  {locale === "en" ? id : name}
+                  <span className={styles.total}>{`(${total})`}</span>
+                </p>
+              </a>
+            </Link>
+          );
+        })}
+      </div>
+      <Button
+        title={
+          locale === "en"
+            ? "View a list of keywords !!"
+            : "キーワード一覧を見る"
+        }
+        path={"/keywords"}
+        style={"tag"}
+      />
+    </section>
+  );
 };
 
 export default Keywords;
