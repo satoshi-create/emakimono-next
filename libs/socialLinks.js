@@ -11,7 +11,11 @@ export const socialLinks = [
     icon: <GitHub />,
     path: "https://github.com/satoshi-create",
   },
-  { name: "twitter", icon: <Twitter />, path: "https://twitter.com/home" },
+  {
+    name: "twitter",
+    icon: <Twitter />,
+    path: "https://twitter.com/enjoy_emakimono",
+  },
   {
     name: "youtube",
     icon: <Youtube />,

@@ -1,6 +1,5 @@
 .gridconteinter,
 .gridconteinterB {
-  margin: 0 auto;
   padding: 0.5rem 0 0;
   display: grid;
   gap: 0.5rem;
@@ -17,5 +16,7 @@
       "J J J";
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
+    margin-left: -3vw;
+    margin-right: -3vw;
   }
 }

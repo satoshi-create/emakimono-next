@@ -1,7 +1,3 @@
-.container {
-  max-width: 1200px;
-  width: 90vw;
-}
 .tags {
   display: grid;
   justify-items: center;
@@ -9,26 +5,37 @@
   font-family: var(--title-font2);
 }
 .jatags {
-  grid-template-columns: repeat(2,auto);
+  grid-template-columns: repeat(2, auto);
 }
-.taginfo {
+.portrait {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  /* box-shadow: 2px 3px 5px #898989; */
+  border: 3px solid white;
+}
+.noportrait {
+  width: 130px;
+  height: 130px;
+  background: gray;
+  border-radius: 50%;
+  border: 3px solid white;
   display: grid;
-  grid-template-columns: 5rem auto;
-  column-gap: 0.3rem;
+  place-content: center;
 }
-.taginfo.keywordsen {
-  grid-template-columns: 10rem auto;
+.helpcircleicon {
+  width: 100px;
+  height: 100px;
+  color: #ffffff45;
 }
-.taginfo.personnames {
-  grid-template-columns: 12rem auto;
-}
-.title {
+.name {
   transition: var(--transition);
+  text-align: center;
 }
-.title rt {
+.name rt {
   letter-spacing: -0.5em;
 }
-.title:hover {
+.name:hover {
   color: var(--clr-accent-02);
 }
 

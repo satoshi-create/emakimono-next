@@ -7,6 +7,8 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { AppContext } from "../pages/_app";
 import { useRouter } from "next/router";
 
+// TODO:アニメーション機能を追加する
+
 const Sidebar = ({ value }) => {
   const {
     emakis,
@@ -66,7 +68,11 @@ const Sidebar = ({ value }) => {
     } else if (tabValue === 1) {
       return (
         <>
-          <p>{locale === "en" ? "Created by modifying the following" : "以下を加工して作成"}</p>
+          <p>
+            {locale === "en"
+              ? "Created by modifying the following"
+              : "以下を加工して作成"}
+          </p>
           <br />
           <ul className={styles.source}>
             <li>
@@ -116,7 +122,7 @@ const Sidebar = ({ value }) => {
         </div>
         <div className={styles.tabConteiner}>
           {tabData.map((item, index) => {
-            const { title,titleen } = item;
+            const { title, titleen } = item;
             return (
               <button
                 onClick={() => setTabValue(index)}

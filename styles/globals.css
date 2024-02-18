@@ -54,9 +54,6 @@ button {
   border-color: transparent;
   cursor: pointer;
 }
-.section {
-  height: 100%;
-}
 
 .section-grid {
   display: grid;
@@ -64,9 +61,6 @@ button {
 }
 .section-grid > * {
   grid-column: 2;
-}
-.section-center {
-  margin: 0 auto;
 }
 .section-padding {
   padding: 4rem 0;
@@ -88,4 +82,16 @@ button {
 .open body {
   overflow: hidden;
   height: 100%;
+}
+
+/* twitter wedgids */
+.twitter-container {
+  display: grid;
+  place-content: center;
+}
+.twitter-timeline {
+  width: clamp(18.75rem, 0.6934rem + 77.0416vw, 50rem);
+  height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }

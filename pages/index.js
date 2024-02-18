@@ -7,14 +7,24 @@ import "lazysizes";
 import Head from "../components/Meta";
 import GridImageList from "../components/GridImageList";
 import Attention from "../components/Attention";
-import ToggleTag from "../components/ToggleTag";
-import { useLocale, useLocaleData } from "../libs/func";
+
+import {
+  personnameItem,
+  keywordItem,
+  useLocale,
+  useLocaleData,
+} from "../libs/func";
 import FullscreenContents from "../components/FullscreenContents";
 import dataEmakis from "../libs/data";
 import { gridImages } from "../libs/gridImages";
 import SocialLinks from "../components/SocialLinks";
+import Tweet from "../components/Tweet";
+import Keywords from "../components/Keywords";
+import PersonNames from "../components/PersonNames";
 
-// TODO:loading機能を追加する
+// TODO:絵巻ページ遷移時、読み込みが遅延する不具合？を改善する
+// TODO:絵巻ページ遷移時、スケルトンのようなローディング機能を追加する
+// TODO:ページ遷移時にトップに戻らないようにする
 
 const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   // const scrollRef = useRef();
@@ -31,6 +41,9 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   //     scrollRef.current.scrollIntoView({ behavior });
   //   scrollToLatest();
   // }, [])
+
+  const allPersonNames = personnameItem(dataEmakis);
+  const allKeywords = keywordItem(dataEmakis);
 
   const { t } = useLocale();
   const { t: data } = useLocaleData();
@@ -97,6 +110,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         linktitleen={"EMAKIMONO"}
         linkpath={"/category/emaki"}
       />
+
       <CardA
         emakis={variation}
         columns={t.variation.columns}
@@ -112,14 +126,22 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
       <CardB
         columns={t.history.columns}
         sectiontitle={t.history.title}
-        sectiontitleen={t.history.titleen}
+        sectipontitleen={t.history.titleen}
         sectiondesc={t.history.desc}
         sectionname={t.history.name}
+      />
+      <PersonNames
+        sectiontitle={"人物から見る絵巻"}
+        sectiontitleen={"personnames"}
+        allTags={allPersonNames}
+        path={"personname"}
         bcg={"white"}
       />
-      <ToggleTag
-        sectiontitle={t.toggleTag.title}
-        sectiontitleen={t.toggleTag.titleen}
+      <Keywords
+        sectiontitle={"索引から見る絵巻"}
+        sectiontitleen={"keyword"}
+        allTags={allKeywords}
+        path={"keyword"}
       />
       <GridImageList
         images={gridImages}
@@ -132,6 +154,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         linkpath={"famousscene"}
         columns={t.favorite.columns}
         slice={true}
+        bcg={"white"}
       />
       <CardA
         emakis={alpha}
@@ -145,6 +168,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         linkpath={"byoubu"}
       />
       {/* <div style={{ float: "left", clear: "both" }} ref={scrollRef}></div> */}
+      <Tweet />
       <Footer />
     </main>
   );

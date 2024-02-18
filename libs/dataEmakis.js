@@ -1403,6 +1403,7 @@ const dataEmakis = [
         id: "tachibananaomoto",
         slug: "tachibananaomoto",
         ruby: "たちばななおもと",
+        portrait: "/portrait_tachibananaomoto.webp",
       },
       {
         name: "小野道風",
@@ -1765,6 +1766,7 @@ const dataEmakis = [
         id: "gosagatennou",
         slug: "gosagatennou",
         ruby: "ごさがてんのう",
+        portrait: "portrait_gosagatennou.webp",
       },
       {
         name: "小宰相局",
@@ -2201,6 +2203,7 @@ const dataEmakis = [
         id: "kinohaseo",
         slug: "kinohaseo",
         ruby: "きのはせお",
+        portrait: "./portrait_kinohaseo.webp",
       },
     ],
     kotobagaki: true,

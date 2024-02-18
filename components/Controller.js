@@ -5,6 +5,11 @@ import styles from "../styles/Controller.module.css";
 // import { NextContext } from "../context/context";
 import { AppContext } from "../pages/_app";
 import EmakiInfo from "./EmakiInfo";
+import next from "next";
+
+// TODO:リファクタリングする
+// TODO:prev、nextボタンにアニメーションを追加する
+// TODO:「一つ前に戻る」「一つ先に進む」機能を追加する
 
 const Controller = ({ value }) => {
   const controller = dataController();

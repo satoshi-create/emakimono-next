@@ -13,8 +13,6 @@ import EmakiInfo from "../components/EmakiInfo";
 import AttentionPage from "../components/AttentionPage";
 
 const Emaki = ({ emakis, locale, locales, slug }) => {
-
-
   const pagetitle = `${emakis.title} ${emakis.edition ? emakis.edition : ""}`;
   const tPageDesc =
     locale === "en"
@@ -75,16 +73,6 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
       />
       <AttentionPage />
       <FullScreenComp right={"4rem"} page={true}>
-        <Translate
-          emakipage={{
-            position: "absolute",
-            "z-index": "100",
-            top: "1rem",
-            right: "6rem",
-          }}
-          slug={slug}
-          footerstyle={slugstyle}
-        />
         <EmakiInfo value={emakis} />
         <Controller value={emakis} />
         <Sidebar value={emakis} />

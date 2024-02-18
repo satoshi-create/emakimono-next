@@ -44,11 +44,10 @@ const EmakiInfo = ({ value }) => {
             </Link>
           );
         })}
-      {type === "浮世絵" && (
-        <div onClick={() => openModal(0)} className={styles.question}>
+      {/* TODO：EmakiInfoコンポーネントを作成 */}
+      {/* <div onClick={() => openModal(0)} className={styles.question}>
           <FontAwesomeIcon icon={faCircleInfo} />
-        </div>
-      )}
+        </div> */}
     </div>
   );
 };
