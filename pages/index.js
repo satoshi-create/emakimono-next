@@ -25,6 +25,9 @@ import PersonNames from "../components/PersonNames";
 // TODO:絵巻ページ遷移時、読み込みが遅延する不具合？を改善する
 // TODO:絵巻ページ遷移時、スケルトンのようなローディング機能を追加する
 // TODO:ページ遷移時にトップに戻らないようにする
+// TODO:「装束から見た絵巻」を作成する
+// TODO:「絵巻関連年表」を作成する
+
 
 const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   // const scrollRef = useRef();
