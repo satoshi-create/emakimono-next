@@ -6,14 +6,11 @@ import styles from "../styles/Tags.module.css";
 import { keywordItem, personnameItem } from "../libs/func";
 import { useRouter } from "next/router";
 import Button from "./Button";
-import { HelpCircle } from "react-feather";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faQuestion } from "@fortawesome/free-solid-svg-icons";
 
 const Keywords = ({ sectiontitle, sectiontitleen, path, allTags }) => {
   const { locale } = useRouter();
   return (
-    <section className={`section-center section-padding ${styles.container}`}>
+    <section className={`section-grid section-padding `}>
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       <div className={`${styles.tags} ${locale === "ja" && styles.jatags}`}>
         {allTags.map((item, index) => {

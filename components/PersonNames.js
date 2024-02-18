@@ -12,7 +12,7 @@ const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
 
   return (
     <section
-      className={`section-center section-padding ${styles.container}`}
+      className={`section-grid section-padding`}
       style={{ background: bcg }}
     >
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />

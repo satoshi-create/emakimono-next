@@ -54,9 +54,6 @@ button {
   border-color: transparent;
   cursor: pointer;
 }
-.section {
-  height: 100%;
-}
 
 .section-grid {
   display: grid;
@@ -64,9 +61,6 @@ button {
 }
 .section-grid > * {
   grid-column: 2;
-}
-.section-center {
-  margin: 0 auto;
 }
 .section-padding {
   padding: 4rem 0;
