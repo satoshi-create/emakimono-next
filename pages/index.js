@@ -7,13 +7,20 @@ import "lazysizes";
 import Head from "../components/Meta";
 import GridImageList from "../components/GridImageList";
 import Attention from "../components/Attention";
-import ToggleTag from "../components/ToggleTag";
-import { useLocale, useLocaleData } from "../libs/func";
+
+import {
+  personnameItem,
+  keywordItem,
+  useLocale,
+  useLocaleData,
+} from "../libs/func";
 import FullscreenContents from "../components/FullscreenContents";
 import dataEmakis from "../libs/data";
 import { gridImages } from "../libs/gridImages";
 import SocialLinks from "../components/SocialLinks";
 import Tweet from "../components/Tweet";
+import Keywords from "../components/Keywords";
+import PersonNames from "../components/PersonNames";
 
 // TODO:絵巻ページ遷移時、読み込みが遅延する不具合？を改善する
 // TODO:絵巻ページ遷移時、スケルトンのようなローディング機能を追加する
@@ -34,6 +41,9 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   //     scrollRef.current.scrollIntoView({ behavior });
   //   scrollToLatest();
   // }, [])
+
+  const allPersonNames = personnameItem(dataEmakis);
+  const allKeywords = keywordItem(dataEmakis);
 
   const { t } = useLocale();
   const { t: data } = useLocaleData();
@@ -102,14 +112,22 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
       <CardB
         columns={t.history.columns}
         sectiontitle={t.history.title}
-        sectiontitleen={t.history.titleen}
+        sectipontitleen={t.history.titleen}
         sectiondesc={t.history.desc}
         sectionname={t.history.name}
         bcg={"white"}
       />
-      <ToggleTag
-        sectiontitle={t.toggleTag.title}
-        sectiontitleen={t.toggleTag.titleen}
+      <PersonNames
+        sectiontitle={"人物から見る絵巻"}
+        sectiontitleen={"personnames"}
+        allTags={allPersonNames}
+        path={"personname"}
+      />
+      <Keywords
+        sectiontitle={"索引から見る絵巻"}
+        sectiontitleen={"keyword"}
+        allTags={allKeywords}
+        path={"keyword"}
       />
       <GridImageList
         images={gridImages}
