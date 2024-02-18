@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import "lazysizes";
 import Head from "../components/Meta";
-import Keywords from "../components/Keywords";
+import PersonNames from "../components/PersonNames";
 import Breadcrumbs from "../components/Breadcrumbs";
 import emakisData from "../libs/data";
 import { personnameItem, useLocaleData } from "../libs/func";
@@ -23,7 +23,7 @@ const PersonnamesComp = () => {
       />
       <Header slug={"personnames"} />
       <Breadcrumbs name={locale === "en" ? "personnames list" : "人物名一覧"} />
-      <Keywords
+      <PersonNames
         sectiontitle={"人物名一覧"}
         sectiontitleen={"keywords"}
         allTags={allPersonNames}

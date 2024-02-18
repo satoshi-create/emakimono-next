@@ -3,7 +3,7 @@
   background-color: black;
 }
 .container {
-  height: 70vh;
+  height: 30vh;
   display: grid;
   place-content: center;
 }
