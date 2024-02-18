@@ -7,27 +7,14 @@ import "lazysizes";
 import Head from "../components/Meta";
 import GridImageList from "../components/GridImageList";
 import Attention from "../components/Attention";
-
-import {
-  personnameItem,
-  keywordItem,
-  useLocale,
-  useLocaleData,
-} from "../libs/func";
+import ToggleTag from "../components/ToggleTag";
+import { useLocale, useLocaleData } from "../libs/func";
 import FullscreenContents from "../components/FullscreenContents";
 import dataEmakis from "../libs/data";
 import { gridImages } from "../libs/gridImages";
 import SocialLinks from "../components/SocialLinks";
-import Tweet from "../components/Tweet";
-import Keywords from "../components/Keywords";
-import PersonNames from "../components/PersonNames";
 
-// TODO:絵巻ページ遷移時、読み込みが遅延する不具合？を改善する
-// TODO:絵巻ページ遷移時、スケルトンのようなローディング機能を追加する
-// TODO:ページ遷移時にトップに戻らないようにする
-// TODO:「装束から見た絵巻」を作成する
-// TODO:「絵巻関連年表」を作成する
-
+// TODO:loading機能を追加する
 
 const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   // const scrollRef = useRef();
@@ -45,15 +32,10 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   //   scrollToLatest();
   // }, [])
 
-  const allPersonNames = personnameItem(dataEmakis);
-  const allKeywords = keywordItem(dataEmakis);
-
   const { t } = useLocale();
   const { t: data } = useLocaleData();
 
-  const genjiEmakis = data.filter((emaki) => emaki.title.includes("源氏"));
-  console.log(genjiEmakis);
-
+  const genjiEmakis = data.find(());
   const favoriteEmakis = data.filter((emaki) => emaki.favorite === true);
   const setsuwaEmakis = data.filter((emaki) => emaki.subtype === "説話");
   const kousoudenEmakis = data.filter((emaki) => emaki.subtype === "高僧伝");
@@ -92,15 +74,15 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
       <Header fixed={true} />
       <Attention />
       <CardA
-        emakis={genjiEmakis}
+        emakis={favoriteEmakis}
         columns={t.genji.columns}
         sectiontitle={t.genji.title}
         sectiontitleen={t.genji.titleen}
         sectiondesc={t.history.desc}
         sectionname={t.genji.name}
-        linktitle={"源氏絵の世界"}
-        linktitleen={"GENJIE"}
-        linkpath={"genji"}
+        linktitle={"絵巻"}
+        linktitleen={"EMAKIMONO"}
+        linkpath={"emaki"}
       />
       <CardA
         emakis={favoriteEmakis}
@@ -111,9 +93,8 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectionname={t.favorite.name}
         linktitle={"絵巻"}
         linktitleen={"EMAKIMONO"}
-        linkpath={"/category/emaki"}
+        linkpath={"emaki"}
       />
-
       <CardA
         emakis={variation}
         columns={t.variation.columns}
@@ -129,22 +110,14 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
       <CardB
         columns={t.history.columns}
         sectiontitle={t.history.title}
-        sectipontitleen={t.history.titleen}
+        sectiontitleen={t.history.titleen}
         sectiondesc={t.history.desc}
         sectionname={t.history.name}
-      />
-      <PersonNames
-        sectiontitle={"人物から見る絵巻"}
-        sectiontitleen={"personnames"}
-        allTags={allPersonNames}
-        path={"personname"}
         bcg={"white"}
       />
-      <Keywords
-        sectiontitle={"索引から見る絵巻"}
-        sectiontitleen={"keyword"}
-        allTags={allKeywords}
-        path={"keyword"}
+      <ToggleTag
+        sectiontitle={t.toggleTag.title}
+        sectiontitleen={t.toggleTag.titleen}
       />
       <GridImageList
         images={gridImages}
@@ -157,7 +130,6 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         linkpath={"famousscene"}
         columns={t.favorite.columns}
         slice={true}
-        bcg={"white"}
       />
       <CardA
         emakis={alpha}
@@ -171,7 +143,6 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         linkpath={"byoubu"}
       />
       {/* <div style={{ float: "left", clear: "both" }} ref={scrollRef}></div> */}
-      <Tweet />
       <Footer />
     </main>
   );
