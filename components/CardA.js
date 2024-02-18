@@ -30,9 +30,9 @@ const CardA = ({
   }, []);
 
   return (
-    <div style={{ background: bcg }}>
       <section
         className={`section-center section-padding ${styles[sectionname]} `}
+        style={{ background: bcg }}
       >
         <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
         {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
@@ -166,7 +166,6 @@ const CardA = ({
           )}
         </section>
       </section>
-    </div>
   );
 };
 

@@ -65,6 +65,7 @@ const GridImageList = ({
   return (
     <section
       className={`section-center section-padding ${styles[sectionname]}`}
+      style={{ background: bcg }}
     >
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       <div className={styles.gridconteinter}>
