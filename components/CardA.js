@@ -31,7 +31,8 @@ const CardA = ({
 
   return (
     <section
-      className={`section-center section-padding ${styles[sectionname]} `}
+      className={`section-grid section-padding `}
+      style={{ background: bcg }}
     >
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
@@ -157,7 +158,7 @@ const CardA = ({
                 ? `View a list of ${linktitleen} !!`
                 : `${linktitle}一覧を見る`
             }
-            path={`${linkpath}`}
+            path={`/category/${linkpath}`}
             style={columns}
           />
         )}
