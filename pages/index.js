@@ -115,13 +115,13 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectipontitleen={t.history.titleen}
         sectiondesc={t.history.desc}
         sectionname={t.history.name}
-        bcg={"white"}
       />
       <PersonNames
         sectiontitle={"人物から見る絵巻"}
         sectiontitleen={"personnames"}
         allTags={allPersonNames}
         path={"personname"}
+        bcg={"white"}
       />
       <Keywords
         sectiontitle={"索引から見る絵巻"}
@@ -140,6 +140,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         linkpath={"famousscene"}
         columns={t.favorite.columns}
         slice={true}
+        bcg={"white"}
       />
       <CardA
         emakis={alpha}
