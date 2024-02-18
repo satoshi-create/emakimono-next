@@ -445,7 +445,7 @@ const dataByoubus = [
   },
   {
     id: 27,
-    title: "関屋図屏風",
+    title: "関屋図屏風（源氏物語・関屋巻）",
     titleen: "sekiyazu",
     author: "俵屋宗達",
     backgroundImage: "/washi-pattern-01.webp",
@@ -754,8 +754,7 @@ const dataByoubus = [
         cat: "ekotoba",
         chapter: "【右隻】　絵合",
         kobun: "",
-        gendaibun:
-          "",
+        gendaibun: "",
         phrase: [{}],
       },
       {
