@@ -8,6 +8,7 @@ import { AppContext } from "../pages/_app";
 import { useRouter } from "next/router";
 
 // TODO:アニメーション機能を追加する
+// TODO:referenceにリンクを作成
 
 const Sidebar = ({ value }) => {
   const {
