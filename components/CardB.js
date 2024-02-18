@@ -62,7 +62,8 @@ const CardB = ({
   ];
   return (
     <section
-      className={`section-center section-padding ${styles[sectionname]}`}
+      className={`section-grid section-padding`}
+      style={{ background: bcg }}
     >
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
