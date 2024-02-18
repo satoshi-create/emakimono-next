@@ -12,58 +12,58 @@ const CardB = ({
   sectionname,
   sectiondesc,
   sectiontitleen,
-  bcg
+  bcg,
 }) => {
   const { locale } = useRouter();
 
-    const historyemakis = [
-      {
-        path: "/era/heiann",
-        name: "平安",
-        nameen: "heian",
-        src: "/cyoujyuu_yamazaki_kou_13-375.webp",
-        eracolor: "orange",
-      },
-      {
-        path: "/era/kamakura",
-        name: "鎌倉",
-        nameen: "kamakura",
-        src: "/naomoto_03-1080.webp",
-        eracolor: "green",
-      },
-      {
-        path: "/era/muromachi",
-        name: "室町",
-        nameen: "muromachi",
-        src: "/sessyu_sikisansuizu_07-1080.webp",
-        eracolor: "purple",
-      },
-      {
-        path: "/era/aduchimomoyama",
-        name: "安土・桃山",
-        nameen: "aduchimomoyama",
-        src: "/unryuzu_01-1080.webp",
-        eracolor: "gold",
-      },
-      {
-        path: "/era/edo",
-        name: "江戸",
-        nameen: "edo",
-        src: "/tokugawagyouretsu_32-1080.webp",
-        eracolor: "skyblue",
-      },
-      {
-        path: "/era/meiji",
-        name: "明治",
-        nameen: "meiji",
-        src: "/yoroboushi_01-1080.webp",
-        eracolor: "firebrick",
-      },
-    ];
+  const historyemakis = [
+    {
+      path: "/era/heiann",
+      name: "平安",
+      nameen: "heian",
+      src: "/cyoujyuu_yamazaki_kou_13-375.webp",
+      eracolor: "orange",
+    },
+    {
+      path: "/era/kamakura",
+      name: "鎌倉",
+      nameen: "kamakura",
+      src: "/naomoto_03-1080.webp",
+      eracolor: "green",
+    },
+    {
+      path: "/era/muromachi",
+      name: "室町",
+      nameen: "muromachi",
+      src: "/sessyu_sikisansuizu_07-1080.webp",
+      eracolor: "purple",
+    },
+    {
+      path: "/era/aduchimomoyama",
+      name: "安土・桃山",
+      nameen: "aduchimomoyama",
+      src: "/unryuzu_01-1080.webp",
+      eracolor: "gold",
+    },
+    {
+      path: "/era/edo",
+      name: "江戸",
+      nameen: "edo",
+      src: "/tokugawagyouretsu_32-1080.webp",
+      eracolor: "skyblue",
+    },
+    {
+      path: "/era/meiji",
+      name: "明治",
+      nameen: "meiji",
+      src: "/yoroboushi_01-1080.webp",
+      eracolor: "firebrick",
+    },
+  ];
   return (
-    <div style={{ background: bcg }}>
       <section
         className={`section-center section-padding ${styles[sectionname]}`}
+        style={{ background: bcg }}
       >
         <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
         {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
@@ -110,7 +110,6 @@ const CardB = ({
           />
         </section>
       </section>
-    </div>
   );
 };
 
