@@ -81,6 +81,13 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
     screen.orientation.addEventListener("change", function () {
       if (screen.orientation.type === "portrait-primary") {
         console.log("たて");
+
+        let de = document.documentElement;
+
+        if (de.requestFullscreen) {
+          de.requestFullscreen();
+        }
+
         screen.orientation
           .lock("landscape")
           .then(function () {
@@ -89,6 +96,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
           .catch(function (error) {
             alert(error);
           });
+
       } else {
         console.log("よこ");
       }
