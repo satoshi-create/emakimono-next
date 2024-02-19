@@ -8,6 +8,7 @@ import {
 import { useRouter } from "next/router";
 
 // 絵巻ページ用
+// TODO:dangerouslySetInnerHTMLにlocalを組み込む
 
 const Attention = () => {
   const [togglbtn, setTogglBtn] = useState(true);
@@ -64,10 +65,15 @@ const Attention = () => {
                 <FontAwesomeIcon icon={faTriangleExclamation} />
               </i>
             </span> */}
-            <p>
-              {locale === "en"
+            <p
+              dangerouslySetInnerHTML={{
+                __html:
+                  "ご覧いただきありがとうございます。<br><br>このページは「縦書き、横スクロールで絵巻物を楽しむ」目的で作成しています。モバイルデバイスから訪問された方は、横向きに切り替えてご覧になってください",
+              }}
+            >
+              {/* {locale === "en"
                 ? `Thank you for visiting. This page is designed for the purpose of "enjoying picture scrolls in portrait and landscape mode. If you are visiting from a mobile device, please switch to landscape orientation to view this page`
-                : `ご覧いただきありがとうございます。このページは「縦書き、横スクロールで絵巻物を楽しむ」目的で作成しています。モバイルデバイスから訪問された方は、横向きに切り替えてご覧になってください👇`}
+                : `ご覧いただきありがとうございます。このページは「縦書き、横スクロールで絵巻物を楽しむ」目的で作成しています。モバイルデバイスから訪問された方は、横向きに切り替えてご覧になってください👇`} */}
             </p>
             <button
               type="button"
