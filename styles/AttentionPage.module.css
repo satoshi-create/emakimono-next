@@ -23,8 +23,7 @@
 }
 .container {
   display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: 2rem;
+  gap: 2rem;
   align-items: center;
   padding: 2rem 1.5rem;
   max-width: 1200px;
@@ -36,6 +35,20 @@
 }
 .container p {
   font-size: clamp(1rem, 0.8267rem + 0.7396vw, 1.3rem);
+}
+.button {
+  grid-row: 2;
+  grid-column: 1/-1;
+  justify-self: center;
+  width: 60%;
+  background: white;
+  border: 3px solid #000;
+  border-radius: 5rem;
+  padding: 1rem;
+  transition: var(--transition);
+  font-family: var(--text-font);
+  font-size: 16px;
+  font-weight: bold;
 }
 
 @media (orientation: portrait) {
