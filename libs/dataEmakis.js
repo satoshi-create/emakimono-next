@@ -1433,7 +1433,7 @@ const dataEmakis = [
     kotobagaki: true,
     sourceImageUrl: "https://dl.ndl.go.jp/info:ndljp/pid/2541034",
     sourceImage: "直幹申文絵詞（国立国会図書館）",
-    sourceEkotoba: "『日本の絵巻十七 奈与竹物語絵巻 直幹申文絵詞』",
+    reference: "『日本の絵巻十七 奈与竹物語絵巻 直幹申文絵詞』",
     emakis: [
       {
         cat: "ekotoba",
