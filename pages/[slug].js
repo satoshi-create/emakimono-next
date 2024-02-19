@@ -61,110 +61,6 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
     "font-family": "var(--title-font)",
   };
 
-  // 2 画面を検知し、自動的に横向きに変える
-
-  // useEffect(() => {
-  //   const isLandscape = () =>
-  //     window.matchMedia("(orientation:portrait)").matches;
-  //   if (isLandscape() == true) {
-  //     console.log("tate");
-  //     let de = document.documentElement;
-  //     de.requestFullscreen().catch((error) => {
-  //       console.log(error);
-  //     });
-  //   }
-
-  //   screen.orientation.addEventListener("change", function () {
-  //     if (screen.orientation.type === "portrait-primary") {
-  //       console.log("tate");
-  //     }
-  //   });
-
-  // }, []);
-
-  // useEffect(() => {
-  //   if (window.innerHeight > window.innerWidth) {
-  //     console.log("よこ");
-  //     let de = document.documentElement;
-  //     if (de.requestFullscreen) {
-  //       de.requestFullscreen();
-  //     }
-  //     screen.orientation
-  //       .lock("landscape")
-  //       .then(function () {
-  //         alert("Locked");
-  //       })
-  //       .catch(function (error) {
-  //         alert(error);
-  //       });
-  //   } else {
-  //     console.log("よこ");
-  //   }
-  //   screen.orientation.addEventListener("change", function () {
-  //     if (screen.orientation.type === "portrait-primary") {
-  //       console.log("たて");
-  //       let de = document.documentElement;
-  //       if (de.requestFullscreen) {
-  //         de.requestFullscreen();
-  //       }
-  //       screen.orientation
-  //         .lock("landscape")
-  //         .then(function () {
-  //           alert("Locked");
-  //         })
-  //         .catch(function (error) {
-  //           alert(error);
-  //         });
-  //     } else {
-  //       console.log("よこ");
-  //     }
-  //   });
-  //   window.addEventListener("orientationchange", function () {
-  //     if (screen.orientation.type === "portrait-primary") {
-  //       console.log("たて");
-  //       screen.orientation
-  //         .lock("portrait")
-  //         .then(function () {
-  //           alert("Locked");
-  //         })
-  //         .catch(function (error) {
-  //           alert(error);
-  //         });
-  //     } else {
-  //       console.log("よこ");
-  //     }
-  //   });
-  // }, []);
-
-  // function lock(orientation) {
-  //   let de = document.documentElement;
-
-  //   if (de.requestFullscreen) {
-  //     de.requestFullscreen();
-  //   } else if (de.mozRequestFullscreen) {
-  //     de.mozRequestFullscreen();
-  //   } else if (de.webkitRequestFullscreen) {
-  //     de.webkitRequestFullscreen();
-  //   } else if (de.msRequestFullscreen) {
-  //     de.msRequestFullscreen();
-  //   }
-
-  //   screen.orientation.lock(orientation);
-  // }
-
-  // function unlock() {
-  //   screen.orientation.unlock();
-
-  //   if (document.exitFullscreen) {
-  //     document.exitFullscreen();
-  //   } else if (document.mozExitFullscreen) {
-  //     document.mozExitFullscreen();
-  //   } else if (document.webkitExitFullscreen) {
-  //     document.webkitExitFullscreen();
-  //   } else if (document.msExitFullscreen) {
-  //     document.msExitFullscreen();
-  //   }
-  // }
   return (
     <>
       <Head
@@ -178,22 +74,12 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
         jsonLd={jsonLd}
       />
       <AttentionPage />
-      {/* <FullScreenComp right={"4rem"} page={true}> */}
-      {/* <button
-        type="button"
-        value="Lock Landscape"
-        onClick={() => lock("landscape")}
-      >
-        Lock Landscape
-      </button>
-      <button type="button" value="unlock Landscape" onClick={() => unlock()}>
-        UnLock Landscape
-      </button> */}
-      {/* <EmakiInfo value={emakis} />
-      <Controller value={emakis} />
-      <Sidebar value={emakis} /> */}
-      <EmakiConteiner data={{ ...emakis }} height={"100vh"} scroll={true} />
-      {/* </FullScreenComp> */}
+      <FullScreenComp right={"4rem"} page={true}>
+        <EmakiInfo value={emakis} />
+        <Controller value={emakis} />
+        <Sidebar value={emakis} />
+        <EmakiConteiner data={{ ...emakis }} height={"100vh"} scroll={true} />
+      </FullScreenComp>
     </>
   );
 };
