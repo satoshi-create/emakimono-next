@@ -7,6 +7,7 @@ import {
 import styles from "../styles/FullScreenComp.module.css";
 
 export default function FullScreenComp({ children, iconStyle, padding, page }) {
+
   const handle = useFullScreenHandle();
   if (page) {
     return (

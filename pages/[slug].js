@@ -59,6 +59,16 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
     "font-family": "var(--title-font)",
   };
 
+  function lock(orientation) {
+    let de = document.documentElement;
+
+    if (de.requestFullscreen) {
+      de.requestFullscreen();
+    }
+
+    screen.orientation.lock(orientation);
+  }
+
   return (
     <>
       <Head
@@ -72,12 +82,19 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
         jsonLd={jsonLd}
       />
       {/* <AttentionPage /> */}
-      <FullScreenComp right={"4rem"} page={true}>
-        <EmakiInfo value={emakis} />
-        <Controller value={emakis} />
-        <Sidebar value={emakis} />
-        <EmakiConteiner data={{ ...emakis }} height={"100vh"} scroll={true} />
-      </FullScreenComp>
+      {/* <FullScreenComp right={"4rem"} page={true}> */}
+      <button
+        type="button"
+        value="Lock Landscape"
+        onClick={() => lock("landscape")}
+      >
+        Lock Landscape
+      </button>
+      {/* <EmakiInfo value={emakis} />
+      <Controller value={emakis} />
+      <Sidebar value={emakis} /> */}
+      <EmakiConteiner data={{ ...emakis }} height={"100vh"} scroll={true} />
+      {/* </FullScreenComp> */}
     </>
   );
 };
