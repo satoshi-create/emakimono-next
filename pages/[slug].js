@@ -78,16 +78,17 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
   // }
 
   useEffect(() => {
-    
     screen.orientation.addEventListener("change", function () {
       if (screen.orientation.type === "portrait-primary") {
         console.log("たて");
-        screen.orientation.lock("landscape").then(function () {
-          alert("Locked");
-        });
-        // .catch(function (error) {
-        //   alert(error);
-        // });
+        screen.orientation
+          .lock("landscape")
+          .then(function () {
+            alert("Locked");
+          })
+          .catch(function (error) {
+            alert(error);
+          });
       } else {
         console.log("よこ");
       }
