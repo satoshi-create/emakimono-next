@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 
+
+// indexページ用
 const Attention = () => {
   const { locale } = useRouter();
   return (

@@ -71,7 +71,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
         pageType={emakis.type}
         jsonLd={jsonLd}
       />
-      <AttentionPage />
+      {/* <AttentionPage /> */}
       <FullScreenComp right={"4rem"} page={true}>
         <EmakiInfo value={emakis} />
         <Controller value={emakis} />

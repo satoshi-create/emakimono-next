@@ -1,8 +1,14 @@
+/* @media only screen and (orientation: portrait) {
+  .fullscreen {
+    height: 100vh;
+    width: 100vw;
+    transform: rotate(90deg);
+  }
+} */
 .fullscreen {
   position: relative;
   /* padding: var(--padding); */
 }
-
 .openIcon,
 .closeIcon {
   position: absolute;
