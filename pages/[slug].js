@@ -64,9 +64,22 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
 
     if (de.requestFullscreen) {
       de.requestFullscreen();
+    } else if (de.mozRequestFullscreen) {
+      de.mozRequestFullscreen();
+    } else if (de.webkitRequestFullscreen) {
+      de.webkitRequestFullscreen();
+    } else if (de.msRequestFullscreen) {
+      de.msRequestFullscreen();
     }
 
     screen.orientation.lock(orientation);
+  }
+
+  function unlock() {
+    screen.orientation.unlock();
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } 
   }
 
   return (
@@ -89,6 +102,9 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
         onClick={() => lock("landscape")}
       >
         Lock Landscape
+      </button>
+      <button type="button" value="unlock Landscape" onClick={() => unlock()}>
+        UnLock Landscape
       </button>
       {/* <EmakiInfo value={emakis} />
       <Controller value={emakis} />
