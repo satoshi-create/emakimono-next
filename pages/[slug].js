@@ -62,65 +62,80 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
   };
 
   // 2 画面を検知し、自動的に横向きに変える
-  useEffect(() => {
-    if (window.innerHeight > window.innerWidth) {
-      console.log("よこ");
-      let de = document.documentElement;
-      if (de.requestFullscreen) {
-        de.requestFullscreen();
-      }
-      screen.orientation
-        .lock("landscape")
-        .then(function () {
-          alert("Locked");
-        })
-        .catch(function (error) {
-          alert(error);
-        });
-    } else {
-      console.log("よこ");
-    }
-    // screen.orientation.addEventListener("change", function () {
-    //   if (screen.orientation.type === "portrait-primary") {
-    //     console.log("たて");
 
-    //     let de = document.documentElement;
+  // useEffect(() => {
+  //   const isLandscape = () =>
+  //     window.matchMedia("(orientation:portrait)").matches;
+  //   if (isLandscape() == true) {
+  //     console.log("tate");
+  //     let de = document.documentElement;
+  //     de.requestFullscreen().catch((error) => {
+  //       console.log(error);
+  //     });
+  //   }
 
-    //     if (de.requestFullscreen) {
-    //       de.requestFullscreen();
-    //     }
+  //   screen.orientation.addEventListener("change", function () {
+  //     if (screen.orientation.type === "portrait-primary") {
+  //       console.log("tate");
+  //     }
+  //   });
 
-    //     screen.orientation
-    //       .lock("landscape")
-    //       .then(function () {
-    //         alert("Locked");
-    //       })
-    //       .catch(function (error) {
-    //         alert(error);
-    //       });
-    //   } else {
-    //     console.log("よこ");
-    //   }
-    // });
+  // }, []);
 
-    // window.addEventListener("orientationchange", function () {
-    //   if (screen.orientation.type === "portrait-primary") {
-    //     console.log("たて");
-    //     screen.orientation
-    //       .lock("portrait")
-    //       .then(function () {
-    //         alert("Locked");
-    //       })
-    //       .catch(function (error) {
-    //         alert(error);
-    //       });
-    //   } else {
-    //     console.log("よこ");
-    //   }
-    // });
-  }, []);
+  // useEffect(() => {
+  //   if (window.innerHeight > window.innerWidth) {
+  //     console.log("よこ");
+  //     let de = document.documentElement;
+  //     if (de.requestFullscreen) {
+  //       de.requestFullscreen();
+  //     }
+  //     screen.orientation
+  //       .lock("landscape")
+  //       .then(function () {
+  //         alert("Locked");
+  //       })
+  //       .catch(function (error) {
+  //         alert(error);
+  //       });
+  //   } else {
+  //     console.log("よこ");
+  //   }
+  //   screen.orientation.addEventListener("change", function () {
+  //     if (screen.orientation.type === "portrait-primary") {
+  //       console.log("たて");
+  //       let de = document.documentElement;
+  //       if (de.requestFullscreen) {
+  //         de.requestFullscreen();
+  //       }
+  //       screen.orientation
+  //         .lock("landscape")
+  //         .then(function () {
+  //           alert("Locked");
+  //         })
+  //         .catch(function (error) {
+  //           alert(error);
+  //         });
+  //     } else {
+  //       console.log("よこ");
+  //     }
+  //   });
+  //   window.addEventListener("orientationchange", function () {
+  //     if (screen.orientation.type === "portrait-primary") {
+  //       console.log("たて");
+  //       screen.orientation
+  //         .lock("portrait")
+  //         .then(function () {
+  //           alert("Locked");
+  //         })
+  //         .catch(function (error) {
+  //           alert(error);
+  //         });
+  //     } else {
+  //       console.log("よこ");
+  //     }
+  //   });
+  // }, []);
 
-  // 1 ボタンをクリックしたら、全画面＆横向きに変わる
   // function lock(orientation) {
   //   let de = document.documentElement;
 
@@ -162,7 +177,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
         pageType={emakis.type}
         jsonLd={jsonLd}
       />
-      {/* <AttentionPage /> */}
+      <AttentionPage />
       {/* <FullScreenComp right={"4rem"} page={true}> */}
       {/* <button
         type="button"
@@ -177,9 +192,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
       {/* <EmakiInfo value={emakis} />
       <Controller value={emakis} />
       <Sidebar value={emakis} /> */}
-      <div className={styles.viewport}>
-        <EmakiConteiner data={{ ...emakis }} height={"100vh"} scroll={true} />
-      </div>
+      <EmakiConteiner data={{ ...emakis }} height={"100vh"} scroll={true} />
       {/* </FullScreenComp> */}
     </>
   );

@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { AlertDialogOverlay } from "@chakra-ui/react";
 
 // 絵巻ページ用
-// TODO: 絵巻ページに遷移時、自動的に縦横切り替わる機能を追加する
+
 const Attention = () => {
   const [togglbtn, setTogglBtn] = useState(true);
   console.log(togglbtn);
@@ -17,6 +17,37 @@ const Attention = () => {
   useEffect(() => {
     setTogglBtn(true);
   }, []);
+
+  function lock(orientation) {
+    setTogglBtn(false);
+    let de = document.documentElement;
+
+    if (de.requestFullscreen) {
+      de.requestFullscreen();
+    } else if (de.mozRequestFullscreen) {
+      de.mozRequestFullscreen();
+    } else if (de.webkitRequestFullscreen) {
+      de.webkitRequestFullscreen();
+    } else if (de.msRequestFullscreen) {
+      de.msRequestFullscreen();
+    }
+
+    screen.orientation.lock(orientation);
+  }
+
+  function unlock() {
+    screen.orientation.unlock();
+
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.mozExitFullscreen) {
+      document.mozExitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    }
+  }
 
   if (togglbtn) {
     return (
@@ -40,6 +71,20 @@ const Attention = () => {
                 : `このページは「縦書き、横スクロールで絵巻物を楽しむ」目的で作成しています。スマホ・タブレットで絵巻物を閲覧するさいは、あらかじめ横画面に切り替えてから、ご覧になってください。`}
             </p>
           </div>
+          <button
+            type="button"
+            value="Lock Landscape"
+            onClick={() => lock("landscape")}
+          >
+            Lock Landscape
+          </button>
+          <button
+            type="button"
+            value="unlock Landscape"
+            onClick={() => unlock()}
+          >
+            UnLock Landscape
+          </button>
         </aside>
       </div>
     );
