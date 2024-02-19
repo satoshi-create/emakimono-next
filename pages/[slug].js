@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import EmakiConteiner from "../components/EmakiConteiner";
 import Sidebar from "../components/Sidebar";
@@ -11,6 +12,7 @@ import FullScreenComp from "../components/FullScreenComp";
 import Translate from "../components/Translate";
 import EmakiInfo from "../components/EmakiInfo";
 import AttentionPage from "../components/AttentionPage";
+import styles from "../styles/viewport.module.css";
 
 const Emaki = ({ emakis, locale, locales, slug }) => {
   const pagetitle = `${emakis.title} ${emakis.edition ? emakis.edition : ""}`;
@@ -59,37 +61,43 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
     "font-family": "var(--title-font)",
   };
 
-  function lock(orientation) {
-    let de = document.documentElement;
+  // function lock(orientation) {
+  //   let de = document.documentElement;
 
-    if (de.requestFullscreen) {
-      de.requestFullscreen();
-    } else if (de.mozRequestFullscreen) {
-      de.mozRequestFullscreen();
-    } else if (de.webkitRequestFullscreen) {
-      de.webkitRequestFullscreen();
-    } else if (de.msRequestFullscreen) {
-      de.msRequestFullscreen();
-    }
+  //   if (de.requestFullscreen) {
+  //     de.requestFullscreen();
+  //   } else if (de.mozRequestFullscreen) {
+  //     de.mozRequestFullscreen();
+  //   } else if (de.webkitRequestFullscreen) {
+  //     de.webkitRequestFullscreen();
+  //   } else if (de.msRequestFullscreen) {
+  //     de.msRequestFullscreen();
+  //   }
 
-    screen.orientation.lock(orientation);
-  }
+  //   screen.orientation.lock(orientation);
+  // }
 
-  function unlock() {
-    screen.orientation.lock("portrait");
-    // screen.orientation.unlock();
+  useEffect(() => {
+    window.addEventListener("orientationchange", function () {
+      if (screen.orientation.angle == 0) {
+        screen.orientation.lock("landscape");
+      }
+    });
+  }, []);
 
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.mozExitFullscreen) {
-      document.mozExitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
-    }
-  }
+  // function unlock() {
+  //   screen.orientation.unlock();
 
+  //   if (document.exitFullscreen) {
+  //     document.exitFullscreen();
+  //   } else if (document.mozExitFullscreen) {
+  //     document.mozExitFullscreen();
+  //   } else if (document.webkitExitFullscreen) {
+  //     document.webkitExitFullscreen();
+  //   } else if (document.msExitFullscreen) {
+  //     document.msExitFullscreen();
+  //   }
+  // }
   return (
     <>
       <Head
@@ -104,7 +112,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
       />
       {/* <AttentionPage /> */}
       {/* <FullScreenComp right={"4rem"} page={true}> */}
-      <button
+      {/* <button
         type="button"
         value="Lock Landscape"
         onClick={() => lock("landscape")}
@@ -113,11 +121,13 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
       </button>
       <button type="button" value="unlock Landscape" onClick={() => unlock()}>
         UnLock Landscape
-      </button>
+      </button> */}
       {/* <EmakiInfo value={emakis} />
       <Controller value={emakis} />
       <Sidebar value={emakis} /> */}
+      {/* <div className={styles.viewport}> */}
       <EmakiConteiner data={{ ...emakis }} height={"100vh"} scroll={true} />
+      {/* </div> */}
       {/* </FullScreenComp> */}
     </>
   );
