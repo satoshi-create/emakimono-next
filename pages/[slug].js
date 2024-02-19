@@ -76,10 +76,18 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
   }
 
   function unlock() {
-    screen.orientation.unlock();
+    screen.orientation.lock("portrait");
+    // screen.orientation.unlock();
+
     if (document.exitFullscreen) {
       document.exitFullscreen();
-    } 
+    } else if (document.mozExitFullscreen) {
+      document.mozExitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
+    }
   }
 
   return (
