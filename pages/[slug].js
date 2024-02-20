@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
 import { useRouter } from "next/router";
 import EmakiConteiner from "../components/EmakiConteiner";
 import Sidebar from "../components/Sidebar";
@@ -13,6 +13,8 @@ import Translate from "../components/Translate";
 import EmakiInfo from "../components/EmakiInfo";
 import AttentionEmakiPage from "../components/AttentionEmakiPage";
 import styles from "../styles/viewport.module.css";
+import { AppContext } from "../pages/_app";
+import FullScreen from "../components/FullScreen";
 
 const Emaki = ({ emakis, locale, locales, slug }) => {
   const pagetitle = `${emakis.title} ${emakis.edition ? emakis.edition : ""}`;
@@ -56,11 +58,6 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
   };
   const jsonLd = JSON.stringify(jsonData, null, " ");
 
-  const slugstyle = {
-    color: "white",
-    "font-family": "var(--title-font)",
-  };
-
   return (
     <>
       <Head
@@ -74,12 +71,13 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
         jsonLd={jsonLd}
       />
       <AttentionEmakiPage />
-      <FullScreenComp right={"4rem"} page={true}>
-        <EmakiInfo value={emakis} />
-        <Controller value={emakis} />
-        <Sidebar value={emakis} />
-        <EmakiConteiner data={{ ...emakis }} height={"100vh"} scroll={true} />
-      </FullScreenComp>
+      {/* <FullScreenComp right={"4rem"} page={true}> */}
+      <FullScreen />
+      <EmakiInfo value={emakis} />
+      <Controller value={emakis} />
+      <Sidebar value={emakis} />
+      <EmakiConteiner data={{ ...emakis }} height={"100vh"} scroll={true} />
+      {/* </FullScreenComp> */}
     </>
   );
 };
