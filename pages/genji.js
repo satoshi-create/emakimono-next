@@ -5,13 +5,8 @@ import CardA from "../components/CardA";
 import CardB from "../components/CardB";
 import "lazysizes";
 import Head from "../components/Meta";
-import GridImageList from "../components/GridImageList";
 import Attention from "../components/Attention";
 import { useLocale, useLocaleData } from "../libs/func";
-import FullscreenContents from "../components/FullscreenContents";
-import dataEmakis from "../libs/data";
-import { gridImages } from "../libs/gridImages";
-import SocialLinks from "../components/SocialLinks";
 
 // TODO:loading機能を追加する
 
