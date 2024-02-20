@@ -43,6 +43,7 @@ function MyApp({ Component, pageProps, router }) {
   const [stickyClass, setStickyClass] = useState("");
   const [isSidebarOpen, setisSidebarOpen] = useState(false);
   const [togglbtn, setTogglBtn] = useState(true);
+  const [openAttention, setOpenAttention] = useState(true);
 
   const openSidebar = () => {
     setisSidebarOpen(true);
@@ -64,6 +65,7 @@ function MyApp({ Component, pageProps, router }) {
 
   const lock = (orientation) => {
     setTogglBtn(false);
+    setOpenAttention(false);
 
     let de = document.documentElement;
 
@@ -123,6 +125,7 @@ function MyApp({ Component, pageProps, router }) {
         setTogglBtn,
         lock,
         unlock,
+        openAttention,
       }}
     >
       <Script

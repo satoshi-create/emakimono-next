@@ -12,15 +12,15 @@ import { AppContext } from "../pages/_app";
 // TODO:dangerouslySetInnerHTMLにlocalを組み込む
 
 const AttentionEmakiPage = () => {
-  const { togglbtn, setTogglBtn, lock, unlock } = useContext(AppContext);
+  const { togglbtn, setTogglBtn, lock, openAttention } = useContext(AppContext);
 
-  console.log(togglbtn);
+  console.log({ togglbtn, openAttention });
   const { locale } = useRouter();
   useEffect(() => {
     setTogglBtn(true);
   }, []);
 
-  if (togglbtn) {
+  if (togglbtn && openAttention) {
     return (
       <div className={styles.wrapper}>
         <aside className={styles.attention}>
