@@ -12,31 +12,25 @@ import { AppContext } from "../pages/_app";
 // TODO:dangerouslySetInnerHTMLにlocalを組み込む
 
 const AttentionEmakiPage = () => {
-  const { togglbtn, setTogglBtn, lock, openAttention } = useContext(AppContext);
+  const { lock, toggleBtn, setToggleBtn } = useContext(AppContext);
 
-  console.log({ togglbtn, openAttention });
   const { locale } = useRouter();
+
   useEffect(() => {
-    setTogglBtn(true);
+    setToggleBtn(true);
   }, []);
 
-  // 絵巻ページに遷移時に、一度だけ開く
-  if (togglbtn && openAttention) {
+  if (toggleBtn) {
     return (
       <div className={styles.wrapper}>
         <aside className={styles.attention}>
           <button
             className={`button ${styles.closeBtn}`}
-            onClick={() => setTogglBtn(false)}
+            onClick={() => setToggleBtn(false)}
           >
             <FontAwesomeIcon icon={faClose} />
           </button>
           <div className={styles.container}>
-            {/* <span className="exclamation-icon">
-              <i>
-                <FontAwesomeIcon icon={faTriangleExclamation} />
-              </i>
-            </span> */}
             <p
               dangerouslySetInnerHTML={{
                 __html:
@@ -44,8 +38,8 @@ const AttentionEmakiPage = () => {
               }}
             >
               {/* {locale === "en"
-                ? `Thank you for visiting. This page is designed for the purpose of "enjoying picture scrolls in portrait and landscape mode. If you are visiting from a mobile device, please switch to landscape orientation to view this page`
-                : `ご覧いただきありがとうございます。このページは「縦書き、横スクロールで絵巻物を楽しむ」目的で作成しています。モバイルデバイスから訪問された方は、横向きに切り替えてご覧になってください👇`} */}
+                  ? `Thank you for visiting. This page is designed for the purpose of "enjoying picture scrolls in portrait and landscape mode. If you are visiting from a mobile device, please switch to landscape orientation to view this page`
+                  : `ご覧いただきありがとうございます。このページは「縦書き、横スクロールで絵巻物を楽しむ」目的で作成しています。モバイルデバイスから訪問された方は、横向きに切り替えてご覧になってください👇`} */}
             </p>
             <button
               type="button"
