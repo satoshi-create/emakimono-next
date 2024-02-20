@@ -11,7 +11,7 @@ import Footer from "../components/Footer";
 import FullScreenComp from "../components/FullScreenComp";
 import Translate from "../components/Translate";
 import EmakiInfo from "../components/EmakiInfo";
-import AttentionPage from "../components/AttentionPage";
+import AttentionEmakiPage from "../components/AttentionEmakiPage";
 import styles from "../styles/viewport.module.css";
 
 const Emaki = ({ emakis, locale, locales, slug }) => {
@@ -73,7 +73,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
         pageType={emakis.type}
         jsonLd={jsonLd}
       />
-      <AttentionPage />
+      <AttentionEmakiPage />
       <FullScreenComp right={"4rem"} page={true}>
         <EmakiInfo value={emakis} />
         <Controller value={emakis} />
