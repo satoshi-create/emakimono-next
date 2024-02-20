@@ -20,6 +20,7 @@ const AttentionEmakiPage = () => {
     setTogglBtn(true);
   }, []);
 
+  // 絵巻ページに遷移時に、一度だけ開く
   if (togglbtn && openAttention) {
     return (
       <div className={styles.wrapper}>
