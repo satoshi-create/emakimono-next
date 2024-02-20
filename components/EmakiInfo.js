@@ -7,6 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 
+// TODO:絵詞を参照から出典に変更
+
 const EmakiInfo = ({ value }) => {
   const { openModal } = useContext(AppContext);
   const {
