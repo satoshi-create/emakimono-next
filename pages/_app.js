@@ -64,6 +64,7 @@ function MyApp({ Component, pageProps, router }) {
 
   const lock = (orientation) => {
     setTogglBtn(false);
+
     let de = document.documentElement;
 
     if (de.requestFullscreen) {
@@ -91,6 +92,7 @@ function MyApp({ Component, pageProps, router }) {
     } else if (document.msExitFullscreen) {
       document.msExitFullscreen();
     }
+    setTogglBtn(true);
   };
 
   return (
