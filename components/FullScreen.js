@@ -3,16 +3,19 @@ import { AppContext } from "../pages/_app";
 import styles from "../styles/FullScreen.module.css";
 
 const FullScreen = () => {
-  const { togglbtn, setTogglBtn, lock, unlock } = useContext(AppContext);
-  console.log(togglbtn);
+  const { toggleFullscreen, lock, unlock } =
+    useContext(AppContext);
+
+  console.log(toggleFullscreen);
+
   return (
     <button
       type="button"
       value="Lock Landscape"
-      onClick={togglbtn ? () => lock("landscape") : () => unlock()}
+      onClick={() => lock("landscape")}
       className={styles.button}
     >
-      {togglbtn ? "lock" : "unlock"}
+      {toggleFullscreen ? "lock" : "unlock"}
     </button>
   );
 };
