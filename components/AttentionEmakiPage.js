@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "../styles/AttentionPage.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -6,48 +6,19 @@ import {
   faClose,
 } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
+import { AppContext } from "../pages/_app";
 
 // 絵巻ページ用
 // TODO:dangerouslySetInnerHTMLにlocalを組み込む
 
-const Attention = () => {
-  const [togglbtn, setTogglBtn] = useState(true);
+const AttentionEmakiPage = () => {
+  const { togglbtn, setTogglBtn, lock, unlock } = useContext(AppContext);
+
   console.log(togglbtn);
   const { locale } = useRouter();
   useEffect(() => {
     setTogglBtn(true);
   }, []);
-
-  function lock(orientation) {
-    setTogglBtn(false);
-    let de = document.documentElement;
-
-    if (de.requestFullscreen) {
-      de.requestFullscreen();
-    } else if (de.mozRequestFullscreen) {
-      de.mozRequestFullscreen();
-    } else if (de.webkitRequestFullscreen) {
-      de.webkitRequestFullscreen();
-    } else if (de.msRequestFullscreen) {
-      de.msRequestFullscreen();
-    }
-
-    screen.orientation.lock(orientation);
-  }
-
-  function unlock() {
-    screen.orientation.unlock();
-
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.mozExitFullscreen) {
-      document.mozExitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
-    }
-  }
 
   if (togglbtn) {
     return (
@@ -90,4 +61,4 @@ const Attention = () => {
   }
 };
 
-export default Attention;
+export default AttentionEmakiPage;

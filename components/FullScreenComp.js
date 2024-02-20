@@ -6,10 +6,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "../styles/FullScreenComp.module.css";
 
-TODO: モバイルデバイスから訪問時の開閉の調整
+// TODO: モバイルデバイスから訪問時の開閉の調整
 
 export default function FullScreenComp({ children, iconStyle, padding, page }) {
-
   const handle = useFullScreenHandle();
   if (page) {
     return (
