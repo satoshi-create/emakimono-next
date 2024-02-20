@@ -12,7 +12,7 @@ const FullScreen = () => {
       onClick={togglbtn ? () => lock("landscape") : () => unlock()}
       className={styles.button}
     >
-      lock/unlock
+      {togglbtn ? "lock" : "unlock"}
     </button>
   );
 };
