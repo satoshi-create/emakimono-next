@@ -6,6 +6,7 @@ import styles from "../styles/NavLinks.module.css";
 import Translate from "./Translate";
 import { Divide } from "react-feather";
 
+// TODO:NavLinksから<ul>を削除しリファクタリング
 const NavLinks = ({ footerstyle, slug }) => {
   const [toggle, setToggle] = useState(false);
   const { locale } = useRouter();
