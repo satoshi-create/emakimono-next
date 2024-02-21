@@ -8,8 +8,6 @@ import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 
 // TODO:絵詞を参照から出典に変更
-
-
 // TODO:現在位置（段、紙、長さ）を表示する機能を追加する
 const EmakiInfo = ({ value }) => {
   const { openModal } = useContext(AppContext);
