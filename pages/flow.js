@@ -5,7 +5,7 @@ import "lazysizes";
 import Head from "../components/Meta";
 // import styles from "../styles/Flow.css.module.css";
 import Title from "../components/Title";
-import FullscreenContents from "../components/FullscreenContents";
+import FlowEmaki from "../components/FlowEmaki";
 import dataEmakis from "../libs/data";
 import { useLocale, useLocaleData } from "../libs/func";
 import { useRouter } from "next/router";
@@ -25,7 +25,7 @@ const Flow = () => {
       <Breadcrumbs
         name={locale === "en" ? "flowing scroll!!" : "流れる巻物!!"}
       />
-      <FullscreenContents
+      <FlowEmaki
         flowEmakis={dataEmakis}
         sectiontitle={t.flow.title}
         sectiontitleen={t.flow.titleen}

@@ -42,6 +42,8 @@ function MyApp({ Component, pageProps, router }) {
   const [index, setIndex] = useState(0);
   const [stickyClass, setStickyClass] = useState("");
   const [isSidebarOpen, setisSidebarOpen] = useState(false);
+  const [toggleFullscreen, setToggleFullscreen] = useState(true);
+  const [toggleBtn, setToggleBtn] = useState(true);
 
   const openSidebar = () => {
     setisSidebarOpen(true);
@@ -59,6 +61,40 @@ function MyApp({ Component, pageProps, router }) {
 
   const closeModal = () => {
     setisModalOpen(false);
+  };
+
+  const handleFullScreen = (orientation) => {
+    setToggleFullscreen(false);
+    setToggleBtn(false);
+
+    if (toggleFullscreen) {
+      let de = document.documentElement;
+
+      if (de.requestFullscreen) {
+        de.requestFullscreen();
+      } else if (de.mozRequestFullscreen) {
+        de.mozRequestFullscreen();
+      } else if (de.webkitRequestFullscreen) {
+        de.webkitRequestFullscreen();
+      } else if (de.msRequestFullscreen) {
+        de.msRequestFullscreen();
+      }
+
+      screen.orientation.lock(orientation);
+    } else {
+      screen.orientation.unlock();
+
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.mozExitFullscreen) {
+        document.mozExitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+      setToggleFullscreen(true);
+    }
   };
 
   return (
@@ -85,6 +121,11 @@ function MyApp({ Component, pageProps, router }) {
         isSidebarOpen,
         openSidebar,
         closeSidebar,
+        handleFullScreen,
+        toggleFullscreen,
+        setToggleFullscreen,
+        toggleBtn,
+        setToggleBtn,
       }}
     >
       <Script

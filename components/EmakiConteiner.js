@@ -33,7 +33,6 @@ const EmakiConteiner = ({
 
   // const scrollToLatest = (behavior = "smooth") =>
   //   scrollRef.current.scrollIntoView({ behavior });
-  console.log(scroll);
 
   useEffect(() => {
     const el = scrollRef.current;
