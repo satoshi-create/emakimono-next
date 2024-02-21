@@ -8,6 +8,7 @@ import styles from "../styles/FullScreenComp.module.css";
 
 // TODO: モバイルデバイスから訪問時の開閉の調整
 
+// react - full - screen;
 export default function FullScreenComp({ children, iconStyle, padding, page }) {
   const handle = useFullScreenHandle();
   if (page) {

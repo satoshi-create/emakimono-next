@@ -12,7 +12,7 @@ import { AppContext } from "../pages/_app";
 // TODO:dangerouslySetInnerHTMLにlocalを組み込む
 
 const AttentionEmakiPage = () => {
-  const { lock, toggleBtn, setToggleBtn } = useContext(AppContext);
+  const { handleFullScreen, toggleBtn, setToggleBtn } = useContext(AppContext);
 
   const { locale } = useRouter();
 
@@ -44,7 +44,7 @@ const AttentionEmakiPage = () => {
             <button
               type="button"
               value="Lock Landscape"
-              onClick={() => lock("landscape")}
+              onClick={() => handleFullScreen("landscape")}
               className={styles.button}
             >
               横スクロールで見る

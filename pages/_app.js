@@ -63,7 +63,7 @@ function MyApp({ Component, pageProps, router }) {
     setisModalOpen(false);
   };
 
-  const lock = (orientation) => {
+  const handleFullScreen = (orientation) => {
     setToggleFullscreen(false);
     setToggleBtn(false);
 
@@ -97,21 +97,6 @@ function MyApp({ Component, pageProps, router }) {
     }
   };
 
-  const unlock = () => {
-    screen.orientation.unlock();
-
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.mozExitFullscreen) {
-      document.mozExitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
-    }
-    setToggleBtn(true);
-  };
-
   return (
     <AppContext.Provider
       value={{
@@ -136,8 +121,7 @@ function MyApp({ Component, pageProps, router }) {
         isSidebarOpen,
         openSidebar,
         closeSidebar,
-        lock,
-        unlock,
+        handleFullScreen,
         toggleFullscreen,
         setToggleFullscreen,
         toggleBtn,

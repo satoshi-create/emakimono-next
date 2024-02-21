@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import styles from "../styles/FullscreenContents.module.css";
 import { Italic } from "react-feather";
 
-const FullscreenContents = ({
+const FlowEmaki = ({
   flowEmakis: emakis,
   sectiontitle,
   sectiontitleen,
@@ -90,4 +90,4 @@ const FullscreenContents = ({
   );
 };
 
-export default FullscreenContents;
+export default FlowEmaki;
