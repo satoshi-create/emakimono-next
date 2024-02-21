@@ -8,14 +8,12 @@ import Head from "../components/Meta";
 import GridImageList from "../components/GridImageList";
 import Attention from "../components/Attention";
 
-
 import {
   personnameItem,
   keywordItem,
   useLocale,
   useLocaleData,
 } from "../libs/func";
-import FullscreenContents from "../components/FullscreenContents";
 import dataEmakis from "../libs/data";
 import { gridImages } from "../libs/gridImages";
 import SocialLinks from "../components/SocialLinks";
@@ -28,7 +26,6 @@ import PersonNames from "../components/PersonNames";
 // TODO:ページ遷移時にトップに戻らないようにする
 // TODO:「装束から見た絵巻」を作成する
 // TODO:「絵巻関連年表」を作成する
-
 
 const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   // const scrollRef = useRef();
