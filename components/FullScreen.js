@@ -7,9 +7,9 @@ import {
   faUpRightAndDownLeftFromCenter,
 } from "@fortawesome/free-solid-svg-icons";
 
+// lock func
 const FullScreen = () => {
-  const { toggleFullscreen, setToggleFullscreen, lock, unlock } =
-    useContext(AppContext);
+  const { toggleFullscreen, handleFullScreen } = useContext(AppContext);
 
   console.log(toggleFullscreen);
 
@@ -21,7 +21,7 @@ const FullScreen = () => {
     <button
       type="button"
       value="Lock Landscape"
-      onClick={() => lock("landscape")}
+      onClick={() => handleFullScreen("landscape")}
       className={`${styles.button} ${styles.icon}`}
     >
       {toggleFullscreen ? (
