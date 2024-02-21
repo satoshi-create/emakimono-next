@@ -19,24 +19,18 @@ const Footer = () => {
 
   const { locale } = useRouter();
   return (
-    <>
-      <footer className={styles.footer}>
-        <div className={`parts-grid ${styles.container}`}>
-          <div className={styles.center}>
-            <NavLinks footerstyle={footerstyle} />
-            <div className={styles.title}>
-              <h4>
-                {locale === "en" ? "EMAKIMONO!!" : "横スクロールで楽しむ絵巻物"}
-              </h4>
-            </div>
-            <SocialLinks footerStyle={footerStyleSocial} />
-          </div>
-        </div>
-        <p className={styles.copyright}>
-          {`@${year} emakimono.com All rights reserverd`}
-        </p>
-      </footer>
-    </>
+    <footer className={`parts-grid ${styles.container} ${styles.footer}`}>
+      <h4 className={styles.title}>
+        {locale === "en" ? "EMAKIMONO!!" : "横スクロールで楽しむ絵巻物"}
+      </h4>
+      <SocialLinks footerStyle={footerStyleSocial} />
+      <div className={styles.navlinks}>
+        <NavLinks footerstyle={footerstyle} />
+      </div>
+      <p className={styles.copyright}>
+        {`@${year} emakimono.com All rights reserverd`}
+      </p>
+    </footer>
   );
 };
 
