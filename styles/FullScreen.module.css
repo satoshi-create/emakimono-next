@@ -3,3 +3,17 @@
   right: 2rem;
   z-index: 100;
 }
+.icon {
+  position: absolute;
+  top: 1.4%;
+  /* left: var(--left); */
+  right: 4rem;
+  z-index: 10;
+  font-size: 1.2rem;
+  color: var(--clr-white);
+  transform: rotate(var(--rotate));
+  transition: var(--transition);
+}
+.icon:hover {
+  color: var(--clr-accent-02);
+}
