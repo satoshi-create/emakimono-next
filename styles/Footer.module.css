@@ -1,60 +1,44 @@
 .footer {
-  width: 100%;
   background-color: black;
-}
-.container {
-  height: 30vh;
+  height: 60vh;
   display: grid;
-  place-content: center;
 }
-.center {
-  display: grid;
-  row-gap: 20px;
-  align-self: flex-end;
-  justify-self: center;
-}
+
 .title {
-  display: flex;
-  column-gap: 6px;
-  /* align-items: center; */
-  justify-content: center;
-  /* margin-top: 2rem; */
-}
-.logo {
-  width: clamp(1.875rem, 1.6583rem + 0.9245vw, 2.25rem);
-  height: clamp(1.875rem, 1.6583rem + 0.9245vw, 2.25rem);
-}
-.title h4 {
+  grid-row: 2;
+  justify-self: center;
+  align-self: flex-end;
+  color: white;
   font-size: clamp(1.0625rem, 0.9542rem + 0.4622vw, 1.25rem);
   color: var(--clr-white);
   font-family: var(--title-font);
   font-weight: 400;
-
   text-transform: uppercase;
+  margin-bottom: 1rem;
 }
-.aboutLinks {
-  /* composes: links from "./SocialLinks.module.css"; */
+/* sociallinks => SocialLiks.module.cssに記入 */
+/* .footerStyle {
+  grid-row: 3;
+  justify-self: center;
+  align-self: flex-start;
+  display: flex;
+  column-gap: 10px;
   justify-content: center;
-  font-size: clamp(0.875rem, 0.6583rem + 0.9245vw, 1.25rem);
-}
-.aboutLinks svg {
-  background-color: var(--white);
-  color: var(--black);
-  border-radius: 0.2rem;
-  padding: 0.3rem;
-  transition: var(--transition);
-}
-.aboutLinks svg:hover {
-  background-color: var(--black);
-  color: var(--white);
-  border: 1px solid var(--white);
-}
-.footerNavPc {
-  /* composes: navPc from "./Links.module.css"; */
-  color: var(--white);
+  color: white;
+  font-family: var(--title-font);
+} */
+
+.navlinks {
+  grid-row: 4;
+  justify-self: center;
+  align-self: flex-start;
+  width: 50%;
 }
 .copyright {
+  grid-row: 5;
+  justify-self: center;
+  align-self: flex-end;
   font-size: clamp(0.5625rem, 0.3819rem + 0.7704vw, 0.875rem);
   color: var(--clr-white);
-  text-align: center;
+  margin-bottom: 0.5rem;
 }
