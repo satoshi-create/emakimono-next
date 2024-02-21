@@ -2,10 +2,14 @@
   display: none;
 }
 .footerStyle {
+  grid-row: 3;
+  justify-self: center;
+  align-self: flex-start;
   display: flex;
   column-gap: 10px;
-  color: red;
   justify-content: center;
+  color: white;
+  font-family: var(--title-font);
 }
 
 .footerStyle .icon {
