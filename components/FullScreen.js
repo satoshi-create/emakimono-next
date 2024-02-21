@@ -1,12 +1,16 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { AppContext } from "../pages/_app";
 import styles from "../styles/FullScreen.module.css";
 
 const FullScreen = () => {
-  const { toggleFullscreen, lock, unlock } =
+  const { toggleFullscreen, setToggleFullscreen, lock, unlock } =
     useContext(AppContext);
 
   console.log(toggleFullscreen);
+
+  // useEffect(() => {
+  //   setToggleFullscreen(false);
+  // }, []);
 
   return (
     <button
