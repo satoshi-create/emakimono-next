@@ -1,102 +1,154 @@
-console.log("hello");
+// // import image from "./testImage.jpg";
 
-function add(a) {
-  return function (b) {
-    return function (c) {
-      return a + b + c;
-    };
-  };
-}
-console.log(add(3)(4)(5));
+// // console.log(image);
 
+// // const loadImage = async (src) => {
+// //   const image = new Image();
+// //   image.src = src;
+// //   await image.decode();
+// //   return image;
+// // };
 
-import React, { useContext, useState } from "react";
-import { AppContext } from "../pages/_app";
-import Link from "next/link";
-import { X } from "react-feather";
-import links from "../libs/links";
-import styles from "../styles/SidebarHome.module.css";
-import { socialLinks } from "../libs/socialLinks";
+// // const image = await loadImage("image.png");
+// // // ... image ...
 
-const SidebarHome = () => {
-  const { isSidebarOpen, closeSidebar } = useContext(AppContext);
+// // const newArr = Array.from(arr)
+// //   .concat(ekotobaData)
+// //   .sort((a, b) => {
+// //     return a.id - b.id;
+// //   });
+// // const setNewArr = [...new Set(newArr)];
+// // console.log(setNewArr);
 
-  const [toggle, setToggle] = useState(false);
-  console.log(toggle);
-  return (
-    <div
-      className={
-        isSidebarOpen
-          ? `${styles.wrapper} ${styles.active}`
-          : ` ${styles.wrapper} `
-      }
-      // style={isSidebarOpen && { transition: "ease-in" }}
-      // style={{ transition: "all 0.3s linear" }}
-    >
-      <button
-        className={`btn ${styles.closebtn}`}
-        onClick={() => closeSidebar()}
-      >
-        <X className={styles.closeIcon} />
-      </button>
-      <aside className={styles.aside}>
-        <ul className={styles.navLinks}>
-          {links.map((link, index) => {
-            const { path, name, nameen, id, submenu } = link;
-            if (!submenu) {
-              return (
-                <li key={index}>
-                  <Link href={path}>
-                    <a
-                      className={styles.navLink}
-                      onClick={() => closeSidebar()}
-                    >
-                      {name}
-                    </a>
-                  </Link>
-                </li>
-              );
-            } else {
-              return (
-                <li
-                  key={index}
-                  className={styles.menu}
-                  // onClick={() => setToggle(!toggle)}
-                >
-                  <div className={styles.linksNameAlpha}>{name}</div>
-                  <div
-                    className={styles.submenu}
-                    // style={toggle ? { display: "grid" } : { display: "none" }}
-                  >
-                    {submenu.map((item, i) => {
-                      const { name, path, nameen } = item;
-                      return (
-                        <Link href={path} key={i}>
-                          <a className={styles.linksName}>{name}</a>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </li>
-              );
-            }
-          })}
-        </ul>
-        <ul className={styles.socialLinks}>
-          {socialLinks.map((item, index) => {
-            const { name, icon, path } = item;
-            return (
-              <li key={index}>
-                <Link href={path}>
-                  <a className={styles.socialLinksIcon}>{icon}</a>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </aside>
-    </div>
-  );
-};
+// // createImageElement(srcTb).then((res) => {
+// //   const newObj = { ...item, srcTbWidth: res.width };
+// //   newArr.push(newObj);
+// //   console.log(arr);
+// // });
 
-export default SidebarHome;
+// // function loadImages(list) {
+// //   async function load(src) {
+// //     const img = new Image();
+// //     img.src = src;
+// //     await img.decode();
+// //     return img;
+// //   }
+// //   return Promise.all(list.map((src) => load(src)));
+// // }
+
+// // console.log({
+// //   oddObj: imageArr.filter((item, i) => i % 2 == 0).map((item) => item.width),
+// //   evenObj: imageArr.filter((item, i) => i % 2 == 1).map((item) => item.width),
+// // });
+
+// // imageArr
+// //   .filter((item, i) => i % 2 == 0)
+// //   .map((item) => {
+// //     const newObj = { oddObj: item.width };
+// //     arr.push(newObj);
+// //     console.log(arr);
+// //   });
+
+// const newArr = Array.from(arr)
+//   .concat(ekotobaData)
+//   .sort((a, b) => {
+//     return a.id - b.id;
+//   });
+// const setNewArr = [...new Set(newArr)];
+
+// loadimages
+// const isClient = () => typeof window !== "undefined";
+
+// if (isClient()) {
+//   const loadImage = (src) => {
+//     return new Promise((resolve, reject) => {
+//       const img = new Image();
+//       img.onload = () => {
+//         resolve(img);
+//       };
+//       img.onerror = reject;
+//       img.src = src;
+//     });
+//   };
+
+//   const loadImages = (list) => {
+//     const promiseArr = list.map((item) => loadImage(item.src, item.srcTb));
+//     return Promise.all(promiseArr);
+//   };
+
+//   const srcArr = [
+//     {
+//       src: "/cyoujyuu_yamazaki_kou_01-800.webp",
+//       srcTb: "/cyoujyuu_yamazaki_kou_01-1080.webp",
+//     },
+//   ];
+//   const arr = [];
+//   loadImages(srcArr) // まとめて画像を読み込む
+//     .then((imageArr) => {
+//       // resolve(img) で返ってきた画像の配列
+//     });
+// }
+
+// const LoadImages = () => {
+//   return <div>LoadImages</div>;
+// };
+
+// export default LoadImages;
+
+ const [data, setData] = useState(data);
+ console.log(data);
+
+ const srcArr = [
+   // 読み込みたい画像パスの配列
+   "/asukayama_edomisyozue_375.webp",
+   "/asukayama_edomisyozue_800.webp",
+   "/asukayama_edomisyozue_1080.webp",
+ ];
+
+ useEffect(() => {
+   const loadImage = (src) => {
+     return new Promise((resolve, reject) => {
+       const img = new Image();
+       img.onload = () => {
+         resolve(img);
+       };
+       img.onerror = reject;
+       img.src = src;
+     });
+   };
+
+   const loadImages = (srcArr) => {
+     const promiseArr = srcArr.map((src) => loadImage(src)); // 画像パスの配列からPromiseの配列に変換
+     return Promise.all(promiseArr); // Promise.all(Array<Promise>) で複数のPromiseを実行して全部完了したら次に進む
+   };
+
+   // loadImages(srcArr) // まとめて画像を読み込む
+   //   .then((data) => {
+   //     data.forEach((img) => {
+   //       console.log(img.width);
+   //     });
+   //   })
+   //   .catch((error) => {
+   //     console.error(`Could not get products: ${error}`);
+   //   });
+
+   // async/await
+   async function fetchData() {
+     const data = await loadImages(srcArr);
+     setData(data);
+     try {
+     } catch (err) {
+       console.error(`Could not get products: ${error}`);
+     }
+   }
+   fetchData();
+
+   // Promise.all
+   // Promise.all([fetchPromise1, fetchPromise2, fetchPromise3]).then(
+   //   (responses) => {
+   //     for (const response of responses) {
+   //       console.log(`${response.url}:${response.status}`);
+   //     }
+   //   }
+   // );
+ }, []);
