@@ -47,7 +47,8 @@ const ResposiveImage = ({
             ? srcSp
             : "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
         }
-        className={`fade-in lazyload ${styles.emakiImg}`}
+        className={`lazyload ${styles.emakiImg}`}
+        // className={`fade-in lazyload ${styles.emakiImg}`}
         alt={name}
         width={srcWidth}
         height={srcHeight}
