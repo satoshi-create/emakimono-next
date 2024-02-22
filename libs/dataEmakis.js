@@ -5743,7 +5743,7 @@ const dataEmakis = [
         load: false,
         cat: "image",
         srcSp: "/nekkokunomaki_kure_01-375.webp",
-        srcTb: "/nekkokunomaki_kure_01-100.webp",
+        srcTb: "/nekkokunomaki_kure_01-800.webp",
         src: "/nekkokunomaki_kure_01-1080.webp",
         name: "nekkokunomaki_kure_01.webp",
         id: 450,

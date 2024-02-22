@@ -1,10 +1,5 @@
 import React from "react";
 import dataEmakis from "../libs/dataEmakis";
-import dataSeiyoukaiga from "../libs/dataSeiyoukaiga";
-import dataUkiyoes from "../libs/dataUkiyoes";
-import dataSuibokuga from "../libs/dataSuibokuga";
-import dataByoubus from "../libs/dataByoubus";
-import FullScreenComp from "../components/FullScreenComp";
 
 const isClient = () => typeof window !== "undefined";
 
@@ -31,9 +26,9 @@ if (isClient()) {
 
     const arr = [];
     emakiData.map((item, i) => {
-      const { src } = item;
-      createImageElement(src).then((res) => {
-        const newObj = { ...item, srcWidth: res.width, srcHeight: 1080 };
+      const { srcTb } = item;
+      createImageElement(srcTb).then((res) => {
+        const newObj = { ...item, srcTbWidth: res.width, srcTbHeight: 800 };
         arr.push(newObj);
         const newArr = Array.from(arr)
           .concat(ekotobaData)
@@ -42,21 +37,15 @@ if (isClient()) {
           });
         const setNewArr = [...new Set(newArr)];
         console.log(setNewArr);
+        // TODO:この後どうやって元データ（dataEamkis）と連結する？ここから手動？
       });
     });
   };
   addImagesrc(dataEmakis);
-
 }
 
 const addImageData = () => {
-  return (
-    <>
-      <FullScreenComp>
-        <img src="./cyoujyuu_yamazaki_kou_thumb.webp" className="img"/>
-      </FullScreenComp>
-    </>
-  );
+  return <div>addImageDataIsClient</div>;
 };
 
 export default addImageData;

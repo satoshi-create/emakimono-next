@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 
 // TODO:アニメーション機能を追加する
 // TODO:referenceにリンクを作成
+// TODO: FIXED: モバイルデバイスのサイドバーの幅が広すぎる;
 
 const Sidebar = ({ value }) => {
   const {
