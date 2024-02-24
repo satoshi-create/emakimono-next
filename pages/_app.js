@@ -22,7 +22,6 @@ function MyApp({ Component, pageProps, router }) {
 
   useEffect(() => {
     const handleRouteChange = (url) => {
-      console.log(`Loading: ${url}`);
       gtag.pageView(url);
     };
 
@@ -71,7 +70,6 @@ function MyApp({ Component, pageProps, router }) {
     // if (toggleFullscreen) {
     let de = document.documentElement;
 
-    // 要素を全画面表示するための非同期的な要求を発行;
     // if (de.requestFullscreen) {
     //   de.requestFullscreen();
     // } else if (de.mozRequestFullscreen) {
@@ -82,6 +80,7 @@ function MyApp({ Component, pageProps, router }) {
     //   de.msRequestFullscreen();
     // }
 
+    // 要素を全画面表示するための非同期的な要求を発行;
     if (!document.fullscreenElement) {
       de.requestFullscreen()
         .then(() => {
@@ -89,21 +88,28 @@ function MyApp({ Component, pageProps, router }) {
           screen.orientation.lock(orientation);
         })
         .catch((err) => {
-          alert(
-            `Error attempting to enable fullscreen mode: ${err.message} (${err.name})`
-          );
+          console.log(`Error attempting to enable fullscreen mode ${err})`);
+        });
+
+      screen.orientation
+        .lock(orientation)
+        .then(() => {
+          console.log("Success lock orientation");
+          // hashを置き換え
+          const pathAndSlug = router.asPath.split("#")[0];
+          const newPath = `${pathAndSlug}#s3`;
+          window.location.replace(newPath);
+          console.log(newPath);
+        })
+        .catch((error) => {
+          console.log(`Error lock orientation ${error}`);
         });
     } else {
       document.exitFullscreen();
+      // / 要素を横向きに固定（モバイルデバイスで、ブラウザーがフルスクリーン表示になっているときのみ有効）
       screen.orientation.unlock();
       console.log(`exit fullscreen`);
     }
-
-    // / 要素を横向きに固定（モバイルデバイスで、ブラウザーがフルスクリーン表示になっているときのみ有効）
-
-    // const pathAndSlug = router.asPath.split("#")[0];
-    // const newPath = `${pathAndSlug}#s15`;
-    // window.location.replace(newPath);
   };
   //   else {
   //     screen.orientation.unlock();
