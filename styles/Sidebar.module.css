@@ -55,6 +55,7 @@
   font-family: var(--text-font);
   transition: var(--transition);
   font-size: var(--mokuji-size);
+  cursor: pointer;
 }
 .navlink:hover {
   opacity: 0.6;
