@@ -13,7 +13,7 @@ export const gridImages = [
     id: "2",
     image: "/haseozoushi_17-1080.webp",
     title: "長谷雄草紙",
-    path: "haseozoushi#s16",
+    path: "haseozoushi",
     desc: "長谷雄が一心に祈ると、鬼は退散し...",
     descen: "Haseo prayed earnestly, and the demon disappeared...",
     eracolor: "green",
