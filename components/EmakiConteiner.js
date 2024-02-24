@@ -14,6 +14,7 @@ const EmakiConteiner = ({
   scroll,
   overflowX,
   boxshadow,
+  getMap,
 }) => {
   const { isModalOpen, setOepnSidebar, oepnSidebar } = useContext(AppContext);
   const router = useRouter();
@@ -22,17 +23,17 @@ const EmakiConteiner = ({
 
   const scrollRef = useRef();
 
-  const scrollBottomRef = useRef();
+  // const scrollBottomRef = useRef();
 
-  useEffect(() => {
-    if (scrollBottomRef && scrollBottomRef.current) {
-      scrollBottomRef.current.scrollIntoView({
-        behavior: "smooth",
-        // block: "end",
-        // inline: "nearest",
-      });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (scrollBottomRef && scrollBottomRef.current) {
+  //     scrollBottomRef.current.scrollIntoView({
+  //       behavior: "smooth",
+  //       // block: "end",
+  //       // inline: "nearest",
+  //     });
+  //   }
+  // }, []);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -70,7 +71,12 @@ const EmakiConteiner = ({
           const { cat, src } = item;
 
           if (cat === "image") {
-            return <EmakiImage key={index} item={{ ...item, index, scroll }} />;
+            return (
+              <EmakiImage
+                key={index}
+                item={{ ...item, index, scroll, getMap }}
+              />
+            );
           } else {
             return (
               <Ekotoba
@@ -82,12 +88,12 @@ const EmakiConteiner = ({
                   kotobagaki,
                   type,
                   scroll,
+                  getMap
                 }}
               />
             );
           }
         })}
-        <p ref={scrollBottomRef}>scrollIntoView</p>
       </article>
     </>
   );
