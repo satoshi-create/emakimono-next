@@ -20,19 +20,19 @@ const EmakiConteiner = ({
   const emakis = data.emakis;
   const { backgroundImage, kotobagaki, type } = data;
 
-  // const [orientation, setOrientation] = useState();
-  // console.log(orientation);
-  // useEffect(() => {
-  //   const isLandscape = () =>
-  //     window.matchMedia("(orientation:portrait)").matches;
-  //   setOrientation(isLandscape());
-  // }, []);
-
   const scrollRef = useRef();
-  // console.log(scrollRef);
 
-  // const scrollToLatest = (behavior = "smooth") =>
-  //   scrollRef.current.scrollIntoView({ behavior });
+  const scrollBottomRef = useRef();
+
+  useEffect(() => {
+    if (scrollBottomRef && scrollBottomRef.current) {
+      scrollBottomRef.current.scrollIntoView({
+        behavior: "smooth",
+        // block: "end",
+        // inline: "nearest",
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -87,6 +87,7 @@ const EmakiConteiner = ({
             );
           }
         })}
+        <p ref={scrollBottomRef}>scrollIntoView</p>
       </article>
     </>
   );

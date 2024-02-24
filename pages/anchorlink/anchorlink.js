@@ -97,26 +97,26 @@
 
 // export default FormComponent;
 
-import { useEffect } from "react";
-import { useRouter } from "next/router";
+// import { useEffect } from "react";
+// import { useRouter } from "next/router";
 
-const FormComponent = () => {
-  const router = useRouter();
+// const FormComponent = () => {
+//   const router = useRouter();
 
-  useEffect(() => {
-    // history に追加しないように router.replace
-    // Cancel Rendering Route Error 
-    router.replace({ hash: scroll }, undefined, {
-      shallow: true,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+//   useEffect(() => {
+//     // history に追加しないように router.replace
+//     // Cancel Rendering Route Error
+//     router.replace({ hash: scroll }, undefined, {
+//       shallow: true,
+//     });
+//     // eslint-disable-next-line react-hooks/exhaustive-deps
+//   }, []);
 
-  return (
-    <>
-       <div id={"scroll"}>ここまでスクロールできた</div>;
-    </>
-  );
-};
+//   return (
+//     <>
+//        <div id={"scroll"}>ここまでスクロールできた</div>;
+//     </>
+//   );
+// };
 
-export default FormComponent;
+// export default FormComponent;
