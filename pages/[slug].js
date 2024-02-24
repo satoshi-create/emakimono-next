@@ -60,13 +60,6 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
   };
   const jsonLd = JSON.stringify(jsonData, null, " ");
 
-  useEffect(() => {
-    const pathAndSlug = router.asPath.split("#")[0];
-    const newPath = `${pathAndSlug}#s15`;
-    window.location.replace(newPath);
-  }, [])
-  
-
   return (
     <>
       <Head
