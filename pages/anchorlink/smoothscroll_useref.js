@@ -6,8 +6,8 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 
 export default function App() {
-  const mainRef = useRef();
-  const aboutRef = useRef();
+  // const mainRef = useRef();
+  // const aboutRef = useRef();
   const itemsRef = useRef(null);
 
   const handleScroll = (ref) => {
@@ -39,7 +39,7 @@ export default function App() {
   return (
     <>
       <Navigation scrollToId={scrollToId} />
-      <Main mainRef={mainRef} handleScroll={handleScroll} getMap={getMap} />
+      <Main  getMap={getMap} />
       {/* <About aboutRef={aboutRef} handleScroll={handleScroll} /> */}
     </>
   );
@@ -67,7 +67,7 @@ const Navigation = ({ scrollToId }) => {
   );
 };
 
-const Main = ({ mainRef, handleScroll, getMap }) => {
+const Main = ({  getMap }) => {
   // useEffect(() => {
   //   if (mainRef && mainRef.current) {
   //     mainRef.current.scrollIntoView({

@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 // TODO:referenceにリンクを作成
 // TODO: FIXED: モバイルデバイスのサイドバーの幅が広すぎる;
 
-const Sidebar = ({ value }) => {
+const Sidebar = ({ value, scrollToId }) => {
   const {
     emakis,
     title,
@@ -55,12 +55,17 @@ const Sidebar = ({ value }) => {
             if (cat === "ekotoba") {
               return (
                 <li key={index} onClick={() => setOepnSidebar(false)}>
-                  <Link href={`#s${index}`}>
+                  <span
+                    onClick={() => scrollToId(index)}
+                    className={styles.navlink}
+                    dangerouslySetInnerHTML={{ __html: chapter }}
+                  ></span>
+                  {/* <Link href={`#s${index}`}>
                     <a
                       className={styles.navlink}
                       dangerouslySetInnerHTML={{ __html: chapter }}
                     ></a>
-                  </Link>
+                  </Link> */}
                 </li>
               );
             }

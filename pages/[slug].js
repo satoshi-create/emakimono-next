@@ -18,6 +18,7 @@ import FullScreen from "../components/FullScreen";
 
 const Emaki = ({ emakis, locale, locales, slug }) => {
   const router = useRouter();
+  const itemsRef = useRef(null);
 
   const pagetitle = `${emakis.title} ${emakis.edition ? emakis.edition : ""}`;
   const tPageDesc =
@@ -66,7 +67,25 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
   //   window.location.replace(newPath);
   // }, []);
 
-;
+  function scrollToId(itemId) {
+    const map = getMap();
+    const node = map.get(itemId);
+    node.scrollIntoView({
+      behavior: "smooth",
+      // // vertical
+      // block: "nearest",
+      // // horizontal
+      // inline: "center",
+    });
+  }
+
+  function getMap() {
+    if (!itemsRef.current) {
+      // Initialize the Map on first usage.
+      itemsRef.current = new Map();
+    }
+    return itemsRef.current;
+  }
 
   return (
     <>
@@ -84,9 +103,13 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
       <FullScreen />
       <EmakiInfo value={emakis} />
       <Controller value={emakis} />
-      <Sidebar value={emakis} />
-      <EmakiConteiner data={{ ...emakis }} height={"100vh"} scroll={true} />
-   
+      <Sidebar value={emakis} scrollToId={scrollToId} />
+      <EmakiConteiner
+        data={{ ...emakis }}
+        height={"100vh"}
+        scroll={true}
+        getMap={getMap}
+      />
     </>
   );
 };
