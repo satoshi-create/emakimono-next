@@ -3,7 +3,7 @@ export const gridImages = [
     id: "1",
     image: "/cyoujyuu_yamazaki_kou_13-1080.webp",
     title: "鳥獣人物戯画絵巻 甲巻",
-    path: "cyoujyujinbutsugiga_kou",
+    path: "cyoujyujinbutsugiga_kou#s5",
     desc: "猿は蛙たちの怒りを買い...",
     descen: "The monkey got angry with the frogs...",
     eracolor: "orange",
