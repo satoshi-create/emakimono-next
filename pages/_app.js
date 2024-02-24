@@ -63,7 +63,13 @@ function MyApp({ Component, pageProps, router }) {
     setisModalOpen(false);
   };
 
+  // TODO: モバイルデバイスから訪問時、絵巻ページからホームページに戻るときにfullscreenをfalseにする
   const handleFullScreen = (orientation) => {
+    const pathAndSlug = router.asPath.split("#")[0];
+    const newPath = `${pathAndSlug}#s15`;
+
+    window.location.replace(newPath);
+
     setToggleFullscreen(false);
     setToggleBtn(false);
 

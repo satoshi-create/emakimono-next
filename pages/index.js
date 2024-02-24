@@ -7,7 +7,7 @@ import "lazysizes";
 import Head from "../components/Meta";
 import GridImageList from "../components/GridImageList";
 import Attention from "../components/Attention";
-
+import Link from "next/link";
 import {
   personnameItem,
   keywordItem,
@@ -89,6 +89,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
       <Head />
       <Header fixed={true} />
       <Attention />
+      <Link href={"/anchorlink"}>anchorlink</Link>
       <CardA
         emakis={genjiEmakis}
         columns={t.genji.columns}

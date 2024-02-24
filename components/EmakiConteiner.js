@@ -5,7 +5,7 @@ import Ekotoba from "./Ekotoba";
 import styles from "../styles/EmakiConteiner.module.css";
 import { AppContext } from "../pages/_app";
 import Modal from "./Modal";
-
+import { useRouter } from "next/router";
 
 const EmakiConteiner = ({
   data,
@@ -16,7 +16,7 @@ const EmakiConteiner = ({
   boxshadow,
 }) => {
   const { isModalOpen, setOepnSidebar, oepnSidebar } = useContext(AppContext);
-
+  const router = useRouter();
   const emakis = data.emakis;
   const { backgroundImage, kotobagaki, type } = data;
 
@@ -52,7 +52,7 @@ const EmakiConteiner = ({
 
   return (
     <>
-      { isModalOpen && <Modal data={data} />}
+      {isModalOpen && <Modal data={data} />}
       <article
         className={`${styles.conteiner} ${
           type === "西洋絵画" ? styles.lr : styles.rl
