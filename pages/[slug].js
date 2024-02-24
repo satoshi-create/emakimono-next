@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import EmakiConteiner from "../components/EmakiConteiner";
 import Sidebar from "../components/Sidebar";
@@ -60,6 +60,14 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
   };
   const jsonLd = JSON.stringify(jsonData, null, " ");
 
+  // useEffect(() => {
+  //   const pathAndSlug = router.asPath.split("#")[0];
+  //   const newPath = `${pathAndSlug}#s5`;
+  //   window.location.replace(newPath);
+  // }, []);
+
+;
+
   return (
     <>
       <Head
@@ -73,13 +81,12 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
         jsonLd={jsonLd}
       />
       <AttentionEmakiPage />
-      {/* <FullScreenComp right={"4rem"} page={true}> */}
       <FullScreen />
       <EmakiInfo value={emakis} />
       <Controller value={emakis} />
       <Sidebar value={emakis} />
       <EmakiConteiner data={{ ...emakis }} height={"100vh"} scroll={true} />
-      {/* </FullScreenComp> */}
+   
     </>
   );
 };
