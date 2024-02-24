@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import EmakiConteiner from "../components/EmakiConteiner";
 import Sidebar from "../components/Sidebar";
@@ -17,6 +17,8 @@ import { AppContext } from "../pages/_app";
 import FullScreen from "../components/FullScreen";
 
 const Emaki = ({ emakis, locale, locales, slug }) => {
+  const router = useRouter();
+
   const pagetitle = `${emakis.title} ${emakis.edition ? emakis.edition : ""}`;
   const tPageDesc =
     locale === "en"

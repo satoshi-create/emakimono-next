@@ -7,6 +7,8 @@ import {
   faUpRightAndDownLeftFromCenter,
 } from "@fortawesome/free-solid-svg-icons";
 
+// TODO:フルスクリーンを解除しないでページ遷移したときに、フルスクリーンを解除する
+
 // lock func
 const FullScreen = () => {
   const { toggleFullscreen, handleFullScreen } = useContext(AppContext);
