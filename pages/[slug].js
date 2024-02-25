@@ -15,6 +15,7 @@ import AttentionEmakiPage from "../components/AttentionEmakiPage";
 import styles from "../styles/viewport.module.css";
 import { AppContext } from "../pages/_app";
 import FullScreen from "../components/FullScreen";
+import EmakiCursel from "../components/EmakiCursel";
 
 const Emaki = ({ emakis, locale, locales, slug }) => {
   const router = useRouter();
@@ -61,24 +62,14 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
   };
   const jsonLd = JSON.stringify(jsonData, null, " ");
 
-  // useEffect(() => {
-  //   const pathAndSlug = router.asPath.split("#")[0];
-  //   const newPath = `${pathAndSlug}#s5`;
-  //   window.location.replace(newPath);
-  // }, []);
-
+  //  anchor link with smooth scroll
   function scrollToId(itemId) {
     const map = getMap();
     const node = map.get(itemId);
     node.scrollIntoView({
       behavior: "smooth",
-      // // vertical
-      // block: "nearest",
-      // // horizontal
-      // inline: "center",
     });
   }
-
   function getMap() {
     if (!itemsRef.current) {
       // Initialize the Map on first usage.
@@ -102,7 +93,8 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
       <AttentionEmakiPage />
       <FullScreen />
       <EmakiInfo value={emakis} />
-      <Controller value={emakis} />
+      {/* <Controller value={emakis} /> */}
+      <EmakiCursel data={emakis} scrollToId={scrollToId} />
       <Sidebar value={emakis} scrollToId={scrollToId} />
       <EmakiConteiner
         data={{ ...emakis }}
