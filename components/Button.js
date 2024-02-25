@@ -11,7 +11,7 @@ const Button = ({ title, path, style }) => {
       <a className={styles.link}>
         <button
           className={`btn ${styles.btn} ${styles[style]}`}
-          onClick={() => handleFullScreen("landscape")}
+          // onClick={() => handleFullScreen("landscape")}
         >
           {title}
         </button>
