@@ -1,22 +1,14 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useRouter } from "next/router";
 import EmakiConteiner from "../components/EmakiConteiner";
 import Sidebar from "../components/Sidebar";
 import Head from "../components/Meta";
 import Controller from "../components/Controller";
-import emakisData from "../libs/data";
-import enData from "../libs/en/data";
-import jaData from "../libs/data";
-import Footer from "../components/Footer";
-import FullScreenComp from "../components/FullScreenComp";
-import Translate from "../components/Translate";
 import EmakiInfo from "../components/EmakiInfo";
 import AttentionEmakiPage from "../components/AttentionEmakiPage";
-import styles from "../styles/viewport.module.css";
-import { AppContext } from "../pages/_app";
 import FullScreen from "../components/FullScreen";
 
-const Emaki = ({ emakis, locale, locales, slug }) => {
+export const Emaki = ({ emakis, locale, locales, slug }) => {
   const router = useRouter();
   const itemsRef = useRef(null);
 
@@ -66,7 +58,6 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
   //   const newPath = `${pathAndSlug}#s5`;
   //   window.location.replace(newPath);
   // }, []);
-
   function scrollToId(itemId) {
     const map = getMap();
     const node = map.get(itemId);
@@ -99,7 +90,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
         pageType={emakis.type}
         jsonLd={jsonLd}
       />
-      {/* <AttentionEmakiPage /> */}
+      <AttentionEmakiPage />
       <FullScreen />
       <EmakiInfo value={emakis} />
       <Controller value={emakis} />
@@ -113,35 +104,3 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
     </>
   );
 };
-
-export const getStaticPaths = async () => {
-  const paths = emakisData.map((item) => ({
-    params: {
-      slug: item.titleen,
-    },
-    locale: "ja",
-  }));
-  paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
-  return { paths, fallback: false };
-};
-
-export const getStaticProps = async (context) => {
-  const { slug } = context.params;
-  const { locale, locales } = context;
-  const tEmakisData = locale === "en" ? enData : jaData;
-
-  const filterdEmakisData = tEmakisData.find(
-    (item, index) => item.titleen === slug
-  );
-
-  return {
-    props: {
-      emakis: filterdEmakisData,
-      locales,
-      locale,
-      slug,
-    },
-  };
-};
-
-export default Emaki;
