@@ -29,6 +29,7 @@ const Ekotoba = ({
     kobunsrc,
     kobunsrcSp,
     scroll,
+    getMap,
   },
 }) => {
   const {
@@ -56,8 +57,16 @@ const Ekotoba = ({
       className={`section fade-in lazyload ${
         type === "西洋絵画" ? styles.ekotobalr : styles.ekotobarl
       }`}
-      id={`s${index}`}
+      id={`${index}`}
       style={{ background: `url(${backgroundImage})` }}
+      ref={(node) => {
+        const map = getMap();
+        if (node) {
+          map.set(index, node);
+        } else {
+          map.delete(index);
+        }
+      }}
     >
       <div
         className={ekotobaImageToggle ? `${styles.close}` : `${styles.open}`}

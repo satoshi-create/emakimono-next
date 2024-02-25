@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import EmakiConteiner from "../components/EmakiConteiner";
 import Sidebar from "../components/Sidebar";
@@ -17,6 +17,9 @@ import { AppContext } from "../pages/_app";
 import FullScreen from "../components/FullScreen";
 
 const Emaki = ({ emakis, locale, locales, slug }) => {
+  const router = useRouter();
+  const itemsRef = useRef(null);
+
   const pagetitle = `${emakis.title} ${emakis.edition ? emakis.edition : ""}`;
   const tPageDesc =
     locale === "en"
@@ -58,6 +61,32 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
   };
   const jsonLd = JSON.stringify(jsonData, null, " ");
 
+  // useEffect(() => {
+  //   const pathAndSlug = router.asPath.split("#")[0];
+  //   const newPath = `${pathAndSlug}#s5`;
+  //   window.location.replace(newPath);
+  // }, []);
+
+  function scrollToId(itemId) {
+    const map = getMap();
+    const node = map.get(itemId);
+    node.scrollIntoView({
+      behavior: "smooth",
+      // // vertical
+      // block: "nearest",
+      // // horizontal
+      // inline: "center",
+    });
+  }
+
+  function getMap() {
+    if (!itemsRef.current) {
+      // Initialize the Map on first usage.
+      itemsRef.current = new Map();
+    }
+    return itemsRef.current;
+  }
+
   return (
     <>
       <Head
@@ -71,13 +100,16 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
         jsonLd={jsonLd}
       />
       <AttentionEmakiPage />
-      {/* <FullScreenComp right={"4rem"} page={true}> */}
       <FullScreen />
       <EmakiInfo value={emakis} />
       <Controller value={emakis} />
-      <Sidebar value={emakis} />
-      <EmakiConteiner data={{ ...emakis }} height={"100vh"} scroll={true} />
-      {/* </FullScreenComp> */}
+      <Sidebar value={emakis} scrollToId={scrollToId} />
+      <EmakiConteiner
+        data={{ ...emakis }}
+        height={"100vh"}
+        scroll={true}
+        getMap={getMap}
+      />
     </>
   );
 };
