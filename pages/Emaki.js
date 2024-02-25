@@ -8,7 +8,7 @@ import EmakiInfo from "../components/EmakiInfo";
 import AttentionEmakiPage from "../components/AttentionEmakiPage";
 import FullScreen from "../components/FullScreen";
 
-export const Emaki = ({ emakis, locale, locales, slug }) => {
+const Emaki = ({ emakis, locale, locales, slug }) => {
   const router = useRouter();
   const itemsRef = useRef(null);
 
@@ -104,3 +104,6 @@ export const Emaki = ({ emakis, locale, locales, slug }) => {
     </>
   );
 };
+
+
+export default Emaki
