@@ -89,7 +89,6 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
       <Head />
       <Header fixed={true} />
       <Attention />
-      <Link href={"/afterloading_02"}>anchorlink</Link>
       <CardA
         emakis={genjiEmakis}
         columns={t.genji.columns}
