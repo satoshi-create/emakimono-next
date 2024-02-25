@@ -74,7 +74,12 @@ const EmakiConteiner = ({
             return (
               <EmakiImage
                 key={index}
-                item={{ ...item, index, scroll, getMap }}
+                item={{
+                  ...item,
+                  index,
+                  scroll,
+                  getMap,
+                }}
               />
             );
           } else {
@@ -88,7 +93,7 @@ const EmakiConteiner = ({
                   kotobagaki,
                   type,
                   scroll,
-                  getMap
+                  getMap,
                 }}
               />
             );
