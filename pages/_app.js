@@ -96,18 +96,18 @@ function MyApp({ Component, pageProps, router }) {
         .then(() => {
           console.log("Success lock orientation");
           // hashを置き換え
-          const pathAndSlug = router.asPath.split("#")[0];
-          const newPath = `${pathAndSlug}#s3`;
-          window.location.replace(newPath);
-          console.log(newPath);
+          // const pathAndSlug = router.asPath.split("#")[0];
+          // const newPath = `${pathAndSlug}#5`;
+          // window.location.replace(newPath);
+          // console.log(newPath);
         })
         .catch((error) => {
           console.log(`Error lock orientation ${error}`);
           // hashを置き換え
-          const pathAndSlug = router.asPath.split("#")[0];
-          const newPath = `${pathAndSlug}#s5`;
-          window.location.replace(newPath);
-          console.log(newPath);
+          // const pathAndSlug = router.asPath.split("#")[0];
+          // const newPath = `${pathAndSlug}#5`;
+          // window.location.replace(newPath);
+          // console.log(newPath);
         });
     } else {
       document.exitFullscreen();
