@@ -4,7 +4,7 @@
   right: 1%;
   z-index: 10;
   transition: var(--transition);
-  color: var(--clr-white);
+  color: var(--clr-grey-light);
 }
 .openbtn:hover {
   color: var(--clr-accent-02);
