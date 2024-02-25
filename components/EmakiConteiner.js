@@ -5,7 +5,7 @@ import Ekotoba from "./Ekotoba";
 import styles from "../styles/EmakiConteiner.module.css";
 import { AppContext } from "../pages/_app";
 import Modal from "./Modal";
-
+import { useRouter } from "next/router";
 
 const EmakiConteiner = ({
   data,
@@ -14,25 +14,26 @@ const EmakiConteiner = ({
   scroll,
   overflowX,
   boxshadow,
+  getMap,
 }) => {
   const { isModalOpen, setOepnSidebar, oepnSidebar } = useContext(AppContext);
-
+  const router = useRouter();
   const emakis = data.emakis;
   const { backgroundImage, kotobagaki, type } = data;
 
-  // const [orientation, setOrientation] = useState();
-  // console.log(orientation);
-  // useEffect(() => {
-  //   const isLandscape = () =>
-  //     window.matchMedia("(orientation:portrait)").matches;
-  //   setOrientation(isLandscape());
-  // }, []);
-
   const scrollRef = useRef();
-  // console.log(scrollRef);
 
-  // const scrollToLatest = (behavior = "smooth") =>
-  //   scrollRef.current.scrollIntoView({ behavior });
+  // const scrollBottomRef = useRef();
+
+  // useEffect(() => {
+  //   if (scrollBottomRef && scrollBottomRef.current) {
+  //     scrollBottomRef.current.scrollIntoView({
+  //       behavior: "smooth",
+  //       // block: "end",
+  //       // inline: "nearest",
+  //     });
+  //   }
+  // }, []);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -52,7 +53,7 @@ const EmakiConteiner = ({
 
   return (
     <>
-      { isModalOpen && <Modal data={data} />}
+      {isModalOpen && <Modal data={data} />}
       <article
         className={`${styles.conteiner} ${
           type === "西洋絵画" ? styles.lr : styles.rl
@@ -70,7 +71,12 @@ const EmakiConteiner = ({
           const { cat, src } = item;
 
           if (cat === "image") {
-            return <EmakiImage key={index} item={{ ...item, index, scroll }} />;
+            return (
+              <EmakiImage
+                key={index}
+                item={{ ...item, index, scroll, getMap }}
+              />
+            );
           } else {
             return (
               <Ekotoba
@@ -82,6 +88,7 @@ const EmakiConteiner = ({
                   kotobagaki,
                   type,
                   scroll,
+                  getMap
                 }}
               />
             );

@@ -22,7 +22,6 @@ function MyApp({ Component, pageProps, router }) {
 
   useEffect(() => {
     const handleRouteChange = (url) => {
-      console.log(`Loading: ${url}`);
       gtag.pageView(url);
     };
 
@@ -63,39 +62,83 @@ function MyApp({ Component, pageProps, router }) {
     setisModalOpen(false);
   };
 
+  // TODO: モバイルデバイスから訪問時、絵巻ページからホームページに戻るときにfullscreenをfalseにする
   const handleFullScreen = (orientation) => {
     setToggleFullscreen(false);
     setToggleBtn(false);
 
-    if (toggleFullscreen) {
-      let de = document.documentElement;
+    // if (toggleFullscreen) {
+    let de = document.documentElement;
 
-      if (de.requestFullscreen) {
-        de.requestFullscreen();
-      } else if (de.mozRequestFullscreen) {
-        de.mozRequestFullscreen();
-      } else if (de.webkitRequestFullscreen) {
-        de.webkitRequestFullscreen();
-      } else if (de.msRequestFullscreen) {
-        de.msRequestFullscreen();
-      }
+    // if (de.requestFullscreen) {
+    //   de.requestFullscreen();
+    // } else if (de.mozRequestFullscreen) {
+    //   de.mozRequestFullscreen();
+    // } else if (de.webkitRequestFullscreen) {
+    //   de.webkitRequestFullscreen();
+    // } else if (de.msRequestFullscreen) {
+    //   de.msRequestFullscreen();
+    // }
 
-      screen.orientation.lock(orientation);
+    // 要素を全画面表示するための非同期的な要求を発行;
+    if (!document.fullscreenElement) {
+      de.requestFullscreen()
+        .then(() => {
+          console.log("enter fullscreen");
+          screen.orientation.lock(orientation);
+        })
+        .catch((err) => {
+          console.log(`Error attempting to enable fullscreen mode ${err})`);
+        });
+
+      screen.orientation
+        .lock(orientation)
+        .then(() => {
+          console.log("Success lock orientation");
+          // hashを置き換え
+          // const pathAndSlug = router.asPath.split("#")[0];
+          // const newPath = `${pathAndSlug}#5`;
+          // window.location.replace(newPath);
+          // console.log(newPath);
+        })
+        .catch((error) => {
+          console.log(`Error lock orientation ${error}`);
+          // hashを置き換え
+          // const pathAndSlug = router.asPath.split("#")[0];
+          // const newPath = `${pathAndSlug}#5`;
+          // window.location.replace(newPath);
+          // console.log(newPath);
+        });
     } else {
+      document.exitFullscreen();
+      // / 要素を横向きに固定（モバイルデバイスで、ブラウザーがフルスクリーン表示になっているときのみ有効）
       screen.orientation.unlock();
-
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.mozExitFullscreen) {
-        document.mozExitFullscreen();
-      } else if (document.webkitExitFullscreen) {
-        document.webkitExitFullscreen();
-      } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
-      }
-      setToggleFullscreen(true);
+      console.log(`exit fullscreen`);
     }
   };
+  //   else {
+  //     screen.orientation.unlock();
+
+  //     if (document.exitFullscreen) {
+  //       document.exitFullscreen();
+  //     } else if (document.mozExitFullscreen) {
+  //       document.mozExitFullscreen();
+  //     } else if (document.webkitExitFullscreen) {
+  //       document.webkitExitFullscreen();
+  //     } else if (document.msExitFullscreen) {
+  //       document.msExitFullscreen();
+  //     }
+
+  //     if (document.fullscreenElement) {
+  //       console.log(
+  //         `Element: ${document.fullscreenElement.id} entered fullscreen mode.`
+  //       );
+  //     } else {
+  //       console.log("Leaving fullscreen mode.");
+  //     }
+  //     setToggleFullscreen(true);
+  //   }
+  // };
 
   return (
     <AppContext.Provider

@@ -30,6 +30,7 @@
   --emaki-kotobagki-font: "Zen Kurenaido", sans-serif;
   --borderRadius: 0.5rem;
 }
+
 body {
   background-color: #f9fbff;
   font-family: var(--my-font);

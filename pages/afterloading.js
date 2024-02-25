@@ -1,4 +1,34 @@
-export const gridImages = [
+
+// https://zenn.dev/dove/articles/be3fff0e84729d
+import { useRef, useEffect } from "react";
+
+const Afterloading = () => {
+  const scrollBottomRef = useRef(null);
+
+  useEffect(() => {
+    if (scrollBottomRef && scrollBottomRef.current) {
+      scrollBottomRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
+  return (
+    <div>
+      {items.map((item, i) => (
+        <div key={i}>
+          <div>{item.id}</div>
+          <div>{item.title}</div>
+          <div>{item.desc}</div>
+          <div>{item.descen}</div>
+        </div>
+      ))}
+      <div ref={scrollBottomRef} style={{ color: "red" }}>
+        Bottom
+      </div>
+    </div>
+  );
+};
+
+const items = [
   {
     id: "1",
     image: "/cyoujyuu_yamazaki_kou_13-1080.webp",
@@ -102,3 +132,5 @@ export const gridImages = [
     bln: false,
   },
 ];
+
+export default Afterloading;
