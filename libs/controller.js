@@ -8,8 +8,11 @@ import {
   faKeyboard,
   faCommentSlash,
   faComment,
+  faChevronLeft,
+  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { AppContext } from "../pages/_app";
+
 const DataController = () => {
   const { ekotobaImageToggle, setEkotobaImageToggle } = useContext(AppContext);
 
@@ -19,7 +22,14 @@ const DataController = () => {
       link: "#s9",
       icon: <FontAwesomeIcon icon={faAnglesLeft} />,
       title: "最後に進む",
-      titleen: "next",
+      titleen: "go to end",
+    },
+    {
+      ctype: "all",
+      link: "#s9",
+      icon: <FontAwesomeIcon icon={faChevronLeft} />,
+      title: "次に進む",
+      titleen: "go to next",
     },
     {
       ctype: "all",
@@ -44,9 +54,16 @@ const DataController = () => {
     {
       ctype: "all",
       link: "#s0",
+      icon: <FontAwesomeIcon icon={faChevronRight} />,
+      title: "前に戻る",
+      titleen: "back to previous",
+    },
+    {
+      ctype: "all",
+      link: "#s0",
       icon: <FontAwesomeIcon icon={faAnglesRight} />,
       title: "最初に戻る",
-      titleen: "prev",
+      titleen: "back to first",
     },
   ];
 
