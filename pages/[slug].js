@@ -99,7 +99,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
         pageType={emakis.type}
         jsonLd={jsonLd}
       />
-      {/* <AttentionEmakiPage /> */}
+      <AttentionEmakiPage />
       <FullScreen />
       <EmakiInfo value={emakis} />
       <Controller value={emakis} />
