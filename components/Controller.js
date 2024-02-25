@@ -73,6 +73,7 @@ const Controller = ({ value }) => {
                   onClick={() => toggleEkotobaImage()}
                   key={index}
                 >
+                  {/* 詞書がある絵巻のケース */}
                   <i>{ekotobaImageToggle ? iconEkotoba2 : iconEkotoba1}</i>
                 </span>
               );
@@ -103,6 +104,7 @@ const Controller = ({ value }) => {
                   onClick={() => toggleEkotobaImage()}
                   key={index}
                 >
+                  {/* 詞書がない絵巻のケース */}
                   <i>{ekotobaImageToggle ? iconEmaki2 : iconEmaki1}</i>
                 </span>
               );

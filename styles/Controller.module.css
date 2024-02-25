@@ -8,9 +8,10 @@
   z-index: 10;
 }
 .controller {
-  column-gap: 5px;
+  column-gap: 1.5rem;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .controller > .next,
 .controller > .prev {
