@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import EmakiConteiner from "../components/EmakiConteiner";
 import Sidebar from "../components/Sidebar";
@@ -15,20 +15,24 @@ import AttentionEmakiPage from "../components/AttentionEmakiPage";
 import styles from "../styles/viewport.module.css";
 import { AppContext } from "../pages/_app";
 import FullScreen from "../components/FullScreen";
-import EmakiCursel from "../components/EmakiCursel";
+import EmakiNavigation from "../components/EmakiNavigation";
+import { flushSync } from "react-dom";
 
-const Emaki = ({ emakis, locale, locales, slug }) => {
+const Emaki = ({ data, locale, locales, slug }) => {
+  console.log(data);
+
   const router = useRouter();
-  const itemsRef = useRef(null);
+  const selectedRef = useRef(null);
+  const [navIndex, setnavIndex] = useState(0);
 
-  const pagetitle = `${emakis.title} ${emakis.edition ? emakis.edition : ""}`;
+  const pagetitle = `${data.title} ${data.edition ? data.edition : ""}`;
   const tPageDesc =
     locale === "en"
       ? `You can enjoy all the scenes of the${pagetitle} ${
-          emakis.author && `（${emakis.author}）`
+          data.author && `（${data.author}）`
         }in vertical and right to left scrolling mode.`
       : `${pagetitle} ${
-          emakis.author && `（${emakis.author}）`
+          data.author && `（${data.author}）`
         }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
 
   const jsonData = {
@@ -43,7 +47,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
     url: `https://${locale}/emakimono.com/${slug}`,
     image: {
       "@type": "ImageObject",
-      url: emakis.thumb,
+      url: data.thumb,
       width: "533px",
       height: "300px",
     },
@@ -62,45 +66,72 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
   };
   const jsonLd = JSON.stringify(jsonData, null, " ");
 
-  //  anchor link with smooth scroll
-  function scrollToId(itemId) {
-    const map = getMap();
-    const node = map.get(itemId);
-    node.scrollIntoView({
+  function handleToId(id) {
+    flushSync(() => {
+      setnavIndex(id);
+    });
+    selectedRef.current.scrollIntoView({
       behavior: "smooth",
     });
   }
-  function getMap() {
-    if (!itemsRef.current) {
-      // Initialize the Map on first usage.
-      itemsRef.current = new Map();
-    }
-    return itemsRef.current;
+  const endIndex = data.emakis.length - 1;
+
+  function handleCurselNext() {
+    flushSync(() => {
+      if (navIndex < endIndex) {
+        setnavIndex(navIndex + 1);
+      } else {
+        setnavIndex(endIndex);
+      }
+    });
+    selectedRef.current.scrollIntoView({
+      behavior: "smooth",
+    });
+  }
+
+  function handleCurselPrev() {
+    flushSync(() => {
+      if (navIndex <= 0) {
+        setnavIndex(0);
+      } else {
+        setnavIndex(navIndex - 1);
+      }
+    });
+
+    selectedRef.current.scrollIntoView({
+      behavior: "smooth",
+    });
   }
 
   return (
     <>
       <Head
         pagetitle={pagetitle}
-        pageAuthor={emakis.author}
-        pageDesc={emakis.metadesc}
-        pageImg={emakis.thumb}
-        pageImgW={emakis.thumb.width}
-        pageImgH={emakis.thumb.height}
-        pageType={emakis.type}
+        pageAuthor={data.author}
+        pageDesc={data.metadesc}
+        pageImg={data.thumb}
+        pageImgW={data.thumb.width}
+        pageImgH={data.thumb.height}
+        pageType={data.type}
         jsonLd={jsonLd}
       />
       <AttentionEmakiPage />
       <FullScreen />
-      <EmakiInfo value={emakis} />
-      {/* <Controller value={emakis} /> */}
-      {/* <EmakiCursel data={emakis} scrollToId={scrollToId} /> */}
-      <Sidebar value={emakis} scrollToId={scrollToId} />
+      <EmakiInfo value={data} />
+      {/* <Controller value={data} /> */}
+      <EmakiNavigation
+        handleCurselNext={handleCurselNext}
+        handleCurselPrev={handleCurselPrev}
+        endIndex={endIndex}
+        handleToId={handleToId}
+      />
+      <Sidebar value={data} handleToId={handleToId} />
       <EmakiConteiner
-        data={{ ...emakis }}
+        data={{ ...data }}
         height={"100vh"}
         scroll={true}
-        getMap={getMap}
+        selectedRef={selectedRef}
+        navIndex={navIndex}
       />
     </>
   );
@@ -128,7 +159,7 @@ export const getStaticProps = async (context) => {
 
   return {
     props: {
-      emakis: filterdEmakisData,
+      data: filterdEmakisData,
       locales,
       locale,
       slug,
