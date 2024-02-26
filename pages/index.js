@@ -26,6 +26,7 @@ import PersonNames from "../components/PersonNames";
 // TODO:ページ遷移時にトップに戻らないようにする
 // TODO:「装束から見た絵巻」を作成する
 // TODO:「絵巻関連年表」を作成する
+// TODO:画像の遅延読み込みをブラウザのキャッシュをクリアして検証;
 
 const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   // const scrollRef = useRef();
