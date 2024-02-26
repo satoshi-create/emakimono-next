@@ -17,23 +17,29 @@ export default function CatFriends() {
     console.log(selectedRef.current);
     selectedRef.current.scrollIntoView({
       behavior: "smooth",
-      // block: "nearest",
-      // inline: "center",
+    });
+  }
+
+  function handleToId(id) {
+    setIndex(id);
+    selectedRef.current.scrollIntoView({
+      behavior: "smooth",
     });
   }
 
   return (
     <div>
-      <Navigation handleCursel={handleCursel} />
+      <Navigation handleCursel={handleCursel} handleToId={handleToId} />
       <List selectedRef={selectedRef} index={index} />
     </div>
   );
 }
 
-const Navigation = ({ handleCursel }) => {
+const Navigation = ({ handleCursel, handleToId }) => {
   return (
     <nav style={{ position: "absolute", right: "0" }}>
       <button onClick={() => handleCursel()}>Next</button>
+      <button onClick={() => handleToId(9)}>Next</button>
     </nav>
   );
 };
