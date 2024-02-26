@@ -1,44 +1,76 @@
-import React, { useRef, useLayoutEffect } from "react";
+// https://zenn.dev/dove/articles/be3fff0e84729d
+import { useRef, useEffect, useState, useLayoutEffect } from "react";
 
-const SmoothScrolling = () => {
-  const containerRef = useRef(null);
+const Afterloading = () => {
+  const scrollBottomRef = useRef(null);
+  const [itemsAPI, setItemsAPI] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useLayoutEffect(() => {
-    const container = containerRef.current;
+  useEffect(() => {
+    let isUnmounted = false;
 
-    const handleScroll = () => {
-      console.log("mount:start smooth scroll");
-      // Smoothly scroll to the top of the container
-      container.scrollTo({
-        top: 100,
-        behavior: "smooth",
-      });
+    const load = async () => {
+      setIsLoading(true);
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/posts"
+      );
+      const movies = await response.json();
+
+      if (!isUnmounted) {
+        setItemsAPI(movies);
+        setIsLoading(false);
+      }
     };
 
-    // Scroll to the top when the component is mounted
-    handleScroll();
-
-    // Add event listener to scroll to the top on subsequent scrolls
-    window.addEventListener("scroll", handleScroll);
+    load();
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-      console.log("unmout:remove scroll event");
+      isUnmounted = true;
     };
+  }, []);
+  // refs using a ref callbackに書き換える
+  useLayoutEffect(() => {
+    console.log(scrollBottomRef.current);
+    scrollBottomRef.current.scrollIntoView({ behavior: "smooth" });
   }, []);
 
   return (
-    <div ref={containerRef}>
-      {items.map((item, i) => (
-        <div key={i}>
-          <div>{item.id}</div>
-          <div>{item.title}</div>
-          <div>{item.desc}</div>
-          <div>{item.descen}</div>
+    <div>
+      {isLoading ? (
+        <div>loading...</div>
+      ) : (
+        <div>
+          {itemsAPI.map((item, i) => (
+            <div key={i}>
+              <div>{item.id}</div>
+              <div>{item.name}</div>
+              <div>{item.email}</div>
+              <div>{item.body}</div>
+            </div>
+          ))}
+          <div ref={scrollBottomRef} style={{ color: "red" }}>
+            Bottom
+          </div>
         </div>
-      ))}
+      )}
     </div>
   );
+
+  // return (
+  //   <div>
+  //     {items.map((item, i) => (
+  //       <div key={i}>
+  //         <div>{item.id}</div>
+  //         <div>{item.title}</div>
+  //         <div>{item.desc}</div>
+  //         <div>{item.descen}</div>
+  //       </div>
+  //     ))}
+  //     <div ref={scrollBottomRef} style={{ color: "red" }}>
+  //       Bottom
+  //     </div>
+  //   </div>
+  // );
 };
 
 const items = [
@@ -248,4 +280,4 @@ const items = [
   },
 ];
 
-export default SmoothScrolling;
+export default Afterloading;

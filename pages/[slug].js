@@ -94,7 +94,7 @@ const Emaki = ({ emakis, locale, locales, slug }) => {
       <FullScreen />
       <EmakiInfo value={emakis} />
       {/* <Controller value={emakis} /> */}
-      <EmakiCursel data={emakis} scrollToId={scrollToId} />
+      {/* <EmakiCursel data={emakis} scrollToId={scrollToId} /> */}
       <Sidebar value={emakis} scrollToId={scrollToId} />
       <EmakiConteiner
         data={{ ...emakis }}

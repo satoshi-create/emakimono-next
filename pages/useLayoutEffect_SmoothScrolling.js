@@ -1,76 +1,42 @@
-// https://zenn.dev/dove/articles/be3fff0e84729d
-import { useRef, useEffect, useState,useLayoutEffect } from "react";
+import React, { useRef, useLayoutEffect, useEffect } from "react";
 
-const Afterloading = () => {
-  const scrollBottomRef = useRef(null);
-  const [itemsAPI, setItemsAPI] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+const SmoothScrolling = () => {
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    let isUnmounted = false;
+    const container = containerRef.current;
 
-    const load = async () => {
-      setIsLoading(true);
-      const response = await fetch(
-        "https://jsonplaceholder.typicode.com/comments"
-      );
-      const movies = await response.json();
-
-      if (!isUnmounted) {
-        setItemsAPI(movies);
-        setIsLoading(false);
-      }
+    const handleScroll = () => {
+      console.log("mount:start smooth scroll");
+      // Smoothly scroll to the top of the container
+      container.scrollIntoView({ behavior: "smooth" });
     };
-    load();
+
+    // Scroll to the top when the component is mounted
+    handleScroll();
+
+    // Add event listener to scroll to the top on subsequent scrolls
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      isUnmounted = true;
+      window.removeEventListener("scroll", handleScroll);
+      console.log("unmount:stop smooth scroll");
     };
-  }, []);
-
-  useEffect(() => {
-    if (scrollBottomRef && scrollBottomRef.current) {
-      scrollBottomRef.current.scrollIntoView({ behavior: "smooth" });
-    }
   }, []);
 
   return (
     <div>
-      {isLoading ? (
-        <div>loading...</div>
-      ) : (
-        <div>
-          {itemsAPI.map((item, i) => (
-            <div key={i}>
-              <div>{item.id}</div>
-              <div>{item.name}</div>
-              <div>{item.email}</div>
-              <div>{item.body}</div>
-            </div>
-          ))}
-          <div ref={scrollBottomRef} style={{ color: "red" }}>
-            Bottom
-          </div>
+      {items.map((item, i) => (
+        <div key={i}>
+          <div ref={containerRef}></div>
+          <div>{item.id}</div>
+          <div>{item.title}</div>
+          <div>{item.desc}</div>
+          <div>{item.descen}</div>
         </div>
-      )}
+      ))}
     </div>
   );
-
-  // return (
-  //   <div>
-  //     {items.map((item, i) => (
-  //       <div key={i}>
-  //         <div>{item.id}</div>
-  //         <div>{item.title}</div>
-  //         <div>{item.desc}</div>
-  //         <div>{item.descen}</div>
-  //       </div>
-  //     ))}
-  //     <div ref={scrollBottomRef} style={{ color: "red" }}>
-  //       Bottom
-  //     </div>
-  //   </div>
-  // );
 };
 
 const items = [
@@ -280,4 +246,4 @@ const items = [
   },
 ];
 
-export default Afterloading;
+export default SmoothScrolling;
