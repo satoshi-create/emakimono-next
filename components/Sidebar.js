@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 // TODO: FIXED: モバイルデバイスのサイドバーの幅が広すぎる;
 // TODO:sidebarを開くと高さが変わるバグ;
 
-const Sidebar = ({ value, scrollToId }) => {
+const Sidebar = ({ value, handleToId }) => {
   const {
     emakis,
     title,
@@ -57,7 +57,7 @@ const Sidebar = ({ value, scrollToId }) => {
               return (
                 <li key={index} onClick={() => setOepnSidebar(false)}>
                   <span
-                    onClick={() => scrollToId(index)}
+                    onClick={() => handleToId(index)}
                     className={styles.navlink}
                     dangerouslySetInnerHTML={{ __html: chapter }}
                   ></span>
