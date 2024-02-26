@@ -19,7 +19,6 @@ import EmakiNavigation from "../components/EmakiNavigation";
 import { flushSync } from "react-dom";
 
 const Emaki = ({ data, locale, locales, slug }) => {
-  console.log(data);
 
   const router = useRouter();
   const selectedRef = useRef(null);
@@ -124,6 +123,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
         handleCurselPrev={handleCurselPrev}
         endIndex={endIndex}
         handleToId={handleToId}
+        data={data}
       />
       <Sidebar value={data} handleToId={handleToId} />
       <EmakiConteiner

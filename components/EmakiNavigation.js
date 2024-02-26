@@ -5,28 +5,54 @@ import {
   faAnglesRight,
   faChevronLeft,
   faChevronRight,
+  faHouse,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { ArrowRight, ChevronRight } from "react-feather";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import ToggleEkotoba from "./ToggleEkotoba";
 
 const EmakiNavigation = ({
   handleCurselNext,
   handleCurselPrev,
   endIndex,
   handleToId,
+  data,
 }) => {
+  const router = useRouter();
+
   return (
     <aside className={styled.container}>
-      <button onClick={() => handleToId(endIndex)}>
-        <FontAwesomeIcon icon={faAnglesLeft} />
+      <button onClick={() => handleToId(endIndex)} className={styled.button}>
+        <i>
+          <FontAwesomeIcon icon={faAnglesLeft} />
+        </i>
       </button>
-      <button onClick={() => handleCurselNext()}>
-        <FontAwesomeIcon icon={faChevronLeft} />
+      <button onClick={() => handleCurselNext()} className={styled.button}>
+        <i>
+          <FontAwesomeIcon icon={faChevronLeft} />
+        </i>
       </button>
-      <button onClick={() => handleCurselPrev()}>
-        <FontAwesomeIcon icon={faChevronRight} />
+      <button
+        onClick={() => router.push("/")}
+        className={styled.button}
+        title={"次に進む"}
+      >
+        <i>
+          <FontAwesomeIcon icon={faHouse} />
+        </i>
       </button>
-      <button onClick={() => handleToId(0)}>
-        <FontAwesomeIcon icon={faAnglesRight} />
+      <ToggleEkotoba data={data} />
+      <button onClick={() => handleCurselPrev()} className={styled.button}>
+        <i>
+          <FontAwesomeIcon icon={faChevronRight} />
+        </i>
+      </button>
+      <button onClick={() => handleToId(0)} className={styled.button}>
+        <i>
+          <FontAwesomeIcon icon={faAnglesRight} />
+        </i>
       </button>
     </aside>
   );
