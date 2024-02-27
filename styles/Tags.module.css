@@ -6,10 +6,9 @@
 }
 .jatags {
   grid-template-columns: repeat(2, auto);
+  position: relative;
 }
 .portrait {
-  width: 130px;
-  height: 130px;
   border-radius: 50%;
   /* box-shadow: 2px 3px 5px #898989; */
   border: 3px solid white;
