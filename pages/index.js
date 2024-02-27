@@ -172,7 +172,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         linkpath={"/category/byoubu"}
       />
       {/* <div style={{ float: "left", clear: "both" }} ref={scrollRef}></div> */}
-      <Tweet />
+      {/* <Tweet /> */}
       <Footer />
     </main>
   );
