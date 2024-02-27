@@ -10,6 +10,7 @@ const Translate = ({ footerstyle, emakipage, slug }) => {
   const router = useRouter();
   // console.log(router.pathname);
   // console.log(slug);
+  console.log(slug);
   const [toggle, setToggle] = useState(false);
 
   return (

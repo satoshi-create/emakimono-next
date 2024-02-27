@@ -2,6 +2,7 @@
 const removeNestedObj = Object.entries(obj).reduce(
   (acc, [key, val]) => {
     if ("object" === typeof val) {
+      console.log(acc);
 
       return acc;
     }
