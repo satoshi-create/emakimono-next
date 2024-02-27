@@ -21,7 +21,7 @@ const SortEra = ({ emakis, columns }) => {
 
   useEffect(() => {
     fetchEmakis(query);
-  }, [query]);
+  }, []);
 
   const handleClick = (e) => {
     const el = e.target;
