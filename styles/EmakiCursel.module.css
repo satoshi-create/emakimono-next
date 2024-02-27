@@ -1,8 +1,0 @@
-.container {
-  position: absolute;
-  bottom: 4rem;
-  z-index: 100;
-  left: 50%;
-  display: flex;
-  gap: 2rem;
-}

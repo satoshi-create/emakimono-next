@@ -13,21 +13,15 @@ const EmakiImage = ({
     srcWidth,
     srcHeight,
     scroll,
-    getMap,
+    selectedRef,
+    navIndex,
   },
 }) => {
   return (
     <section
       className={`section ${styles.emakiimage}`}
       id={`${index}`}
-      ref={(node) => {
-        const map = getMap();
-        if (node) {
-          map.set(index, node);
-        } else {
-          map.delete(index);
-        }
-      }}
+      ref={navIndex === index ? selectedRef : null}
     >
       <ResposiveImage
         value={{

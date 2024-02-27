@@ -14,7 +14,8 @@ const EmakiConteiner = ({
   scroll,
   overflowX,
   boxshadow,
-  getMap,
+  selectedRef,
+  navIndex,
 }) => {
   const { isModalOpen, setOepnSidebar, oepnSidebar } = useContext(AppContext);
   const router = useRouter();
@@ -37,6 +38,8 @@ const EmakiConteiner = ({
 
   useEffect(() => {
     const el = scrollRef.current;
+    console.log(el);
+
     if (scroll) {
       if (el) {
         const wheelListener = (e) => {
@@ -78,7 +81,8 @@ const EmakiConteiner = ({
                   ...item,
                   index,
                   scroll,
-                  getMap,
+                  selectedRef,
+                  navIndex,
                 }}
               />
             );
@@ -93,7 +97,8 @@ const EmakiConteiner = ({
                   kotobagaki,
                   type,
                   scroll,
-                  getMap,
+                  selectedRef,
+                  navIndex,
                 }}
               />
             );
