@@ -6,7 +6,7 @@ import Head from "../../components/Meta";
 import CardA from "../../components/CardA";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { useRouter } from "next/router";
-import { useLocaleData } from "../../libs/func";
+import { removeNestedObj } from "../../libs/func";
 import Footer from "../../components/Footer";
 import enData from "../../libs/en/data";
 import jaData from "../../libs/data";
@@ -65,27 +65,9 @@ export const getStaticProps = async (context) => {
     (item) => item.typeen === catslug
   );
 
-  // 2. ネストしているObjectを削除して新しいObjectを作成する;
-  // https://hi97.hamazo.tv/e8537787.html
-  const removeNestedObj = (obj) =>
-    Object.entries(obj).reduce(
-      (acc, [key, val]) => {
-        // value の型が object であった時は Object に新しい値を加えずに返す
-        if ("object" === typeof val) {
-          return acc;
-        }
-        acc[key] = val;
-        return acc;
-      },
-      // 初期値：空のオブジェクト
-      {}
-    );
-
   const removeNestedArrayObj = filterdEmakisData.map((item) => {
     return removeNestedObj(item);
   });
-
-  console.log(removeNestedArrayObj);
 
   return {
     props: {
