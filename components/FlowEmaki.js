@@ -19,8 +19,6 @@ const FlowEmaki = ({
   const { locale } = useRouter();
 
   const [toggleMode, setToggleMode] = useState(false);
-  console.log(toggleMode);
-
   const Left = {
     justifyContent: "flex-start",
   };
