@@ -45,9 +45,9 @@
   font-size: 15px;
 }
 .submenu {
-  width: max-content;
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: auto auto;
+  place-items: center;
   font-size: 1.2rem;
   line-height: 2;
 }

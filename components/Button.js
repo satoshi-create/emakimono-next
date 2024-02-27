@@ -7,7 +7,7 @@ const Button = ({ title, path, style }) => {
   const { handleFullScreen } = useContext(AppContext);
 
   return (
-    <Link href={`/${path}`}>
+    <Link href={path}>
       <a className={styles.link}>
         <button
           className={`btn ${styles.btn} ${styles[style]}`}

@@ -1411,7 +1411,7 @@ const dataEmakis = [
         id: "gosagatennou",
         slug: "gosagatennou",
         ruby: "ごさがてんのう",
-        portrait: "portrait_gosagatennou.webp",
+        portrait: "/portrait_gosagatennou.webp",
       },
       {
         name: "小宰相局",
@@ -1800,7 +1800,7 @@ const dataEmakis = [
         id: "kinohaseo",
         slug: "kinohaseo",
         ruby: "きのはせお",
-        portrait: "./portrait_kinohaseo.webp",
+        portrait: "/portrait_kinohaseo.webp",
       },
     ],
     kotobagaki: true,

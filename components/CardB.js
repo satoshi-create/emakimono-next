@@ -13,6 +13,9 @@ const CardB = ({
   sectiondesc,
   sectiontitleen,
   bcg,
+  linkpath,
+  linktitle,
+  linktitleen,
 }) => {
   const { locale } = useRouter();
 
@@ -75,13 +78,13 @@ const CardB = ({
               className={`${styles.cardContainer} ${styles[columns]}`}
               key={index}
             >
-              <figure className={styles.card} key={index}>
-                <Link href={path}>
-                  <a>
+              <Link href={path}>
+                <a className={styles.link}>
+                  <figure className={styles.figure} key={index}>
                     <Image
                       src={src}
                       layout="fill"
-                      objectFit="cover"
+                      // objectFit="cover"
                       // width={533}
                       // height={300}
                       className={styles.image}
@@ -95,19 +98,30 @@ const CardB = ({
                         {locale === "en" ? nameen : name}
                       </p>
                     </div>
-                  </a>
-                </Link>
-              </figure>
+                  </figure>
+                </a>
+              </Link>
             </div>
           );
         })}
-        <Button
+        {/* <Button
           title={
             locale === "en" ? "View a list of EMAKIMONO !!" : "絵巻一覧を見る"
           }
           path={"/category/emaki"}
           style={"cardB"}
-        />
+        /> */}
+        {linktitle && (
+          <Button
+            title={
+              locale === "en"
+                ? `View a list of ${linktitleen} !!`
+                : `${linktitle}一覧を見る`
+            }
+            path={linkpath}
+            style={columns}
+          />
+        )}
       </section>
     </section>
   );
