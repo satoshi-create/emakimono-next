@@ -15,7 +15,6 @@ const GridImageCard = ({ item, enterImage, leaveImage }) => {
         layout="fill"
         objectFit="cover"
         className={styles.image}
-        sName={styles.image}
         alt={title}
         loading="lazy"
         placeholder="blur"

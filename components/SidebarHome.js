@@ -10,7 +10,6 @@ const SidebarHome = () => {
   const { isSidebarOpen, closeSidebar } = useContext(AppContext);
 
   const [toggle, setToggle] = useState(false);
-  console.log(toggle);
   return (
     <div
       className={
