@@ -15,7 +15,6 @@ const Genji = () => {
   const { t: data } = useLocaleData();
 
   const genjiEmakis = data.filter((emaki) => emaki.title.includes("源氏"));
-  console.log(genjiEmakis);
 
   return (
     <main>
