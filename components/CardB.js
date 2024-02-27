@@ -13,6 +13,9 @@ const CardB = ({
   sectiondesc,
   sectiontitleen,
   bcg,
+  linkpath,
+  linktitle,
+  linktitleen,
 }) => {
   const { locale } = useRouter();
 
@@ -101,13 +104,24 @@ const CardB = ({
             </div>
           );
         })}
-        <Button
+        {/* <Button
           title={
             locale === "en" ? "View a list of EMAKIMONO !!" : "絵巻一覧を見る"
           }
           path={"/category/emaki"}
           style={"cardB"}
-        />
+        /> */}
+        {linktitle && (
+          <Button
+            title={
+              locale === "en"
+                ? `View a list of ${linktitleen} !!`
+                : `${linktitle}一覧を見る`
+            }
+            path={linkpath}
+            style={columns}
+          />
+        )}
       </section>
     </section>
   );
