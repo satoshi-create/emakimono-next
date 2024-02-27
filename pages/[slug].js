@@ -102,21 +102,29 @@ const Emaki = ({ data, locale, locales, slug }) => {
   }
 
   useEffect(() => {
-    function fullscreenchanged() {
-      // document.fullscreenElement は、全画面モードにある要素があれば
-      // それを指します。要素がなければ、このプロパティの値は null に
-      // あります。
+    
+    // let de = document.documentElement;
+
+    // function fullscreenchanged() {
+    //   if (!document.fullscreenElement) {
+    //     de.requestFullscreen()
+    //       .then(() => {
+    //         console.log("enter fullscreen");
+    //         // screen.orientation.lock("orientation");
+    //       })
+    //       .catch((err) => {
+    //         console.log(`Error attempting to enable fullscreen mode ${err})`);
+    //       });
+    //   }
+    // }
+
+    // fullscreenchanged();
+
+    return () => {
       if (document.fullscreenElement) {
-        console.log(
-          `Element: ${document.fullscreenElement.id} entered fullscreen mode.`
-        );
-      } else {
-        console.log("Leaving fullscreen mode.");
+        document.exitFullscreen();
       }
-    }
-
-    fullscreenchanged();
-
+    };
   }, []);
 
   return (
@@ -131,7 +139,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
         pageType={data.type}
         jsonLd={jsonLd}
       />
-      {/* <AttentionEmakiPage /> */}
+      <AttentionEmakiPage />
       <FullScreen />
       <EmakiInfo value={data} />
       {/* <Controller value={data} /> */}
