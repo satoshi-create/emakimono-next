@@ -79,11 +79,11 @@ const CardA = ({
                         width={533}
                         height={300}
                         sizes="100vw"
-                        className={styles.image}
-                        style={{
-                          width: "100%",
-                          height: "auto",
-                        }}
+                        // className={styles.image}
+                        // style={{
+                        //   width: "100%",
+                        //   height: "auto",
+                        // }}
                         alt={title}
                         loading="lazy"
                         placeholder="blur"
