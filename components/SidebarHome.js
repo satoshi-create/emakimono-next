@@ -10,7 +10,6 @@ const SidebarHome = () => {
   const { isSidebarOpen, closeSidebar } = useContext(AppContext);
 
   const [toggle, setToggle] = useState(false);
-  console.log(toggle);
   return (
     <div
       className={
@@ -32,17 +31,12 @@ const SidebarHome = () => {
           {links.map((link, index) => {
             const { path, name, nameen, id, submenu } = link;
             return (
-              <>
-                <li key={index}>
-                  <Link href={path}>
-                    <a
-                      className={styles.navLink}
-                      onClick={() => closeSidebar()}
-                    >
-                      {name}
-                    </a>
-                  </Link>
-                </li>
+              <li key={index}>
+                <Link href={path}>
+                  <a className={styles.navLink} onClick={() => closeSidebar()}>
+                    {name}
+                  </a>
+                </Link>
                 {submenu && (
                   <ul className={styles.submenu}>
                     {submenu.map((item, i) => {
@@ -62,7 +56,7 @@ const SidebarHome = () => {
                     })}
                   </ul>
                 )}
-              </>
+              </li>
             );
           })}
         </ul>
