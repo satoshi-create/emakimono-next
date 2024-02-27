@@ -30,7 +30,7 @@ const Sidebar = ({ value, handleToId }) => {
 
   useEffect(() => {
     setOepnSidebar(false);
-  }, []);
+  }, [setOepnSidebar]);
 
   const tabData = [
     {
