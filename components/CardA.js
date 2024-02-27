@@ -158,7 +158,7 @@ const CardA = ({
                 ? `View a list of ${linktitleen} !!`
                 : `${linktitle}一覧を見る`
             }
-            path={`/category/${linkpath}`}
+            path={linkpath}
             style={columns}
           />
         )}
