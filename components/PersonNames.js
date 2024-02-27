@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import styles from "../styles/Tags.module.css";
 import Image from "next/image";
 
+// TODO:画像のサイズを統一
 const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
   const { locale } = useRouter();
 
