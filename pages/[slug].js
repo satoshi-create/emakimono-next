@@ -19,7 +19,6 @@ import EmakiNavigation from "../components/EmakiNavigation";
 import { flushSync } from "react-dom";
 
 const Emaki = ({ data, locale, locales, slug }) => {
-
   const router = useRouter();
   const selectedRef = useRef(null);
   const [navIndex, setnavIndex] = useState(0);
@@ -102,6 +101,24 @@ const Emaki = ({ data, locale, locales, slug }) => {
     });
   }
 
+  useEffect(() => {
+    function fullscreenchanged() {
+      // document.fullscreenElement は、全画面モードにある要素があれば
+      // それを指します。要素がなければ、このプロパティの値は null に
+      // あります。
+      if (document.fullscreenElement) {
+        console.log(
+          `Element: ${document.fullscreenElement.id} entered fullscreen mode.`
+        );
+      } else {
+        console.log("Leaving fullscreen mode.");
+      }
+    }
+
+    fullscreenchanged();
+
+  }, []);
+
   return (
     <>
       <Head
@@ -114,7 +131,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
         pageType={data.type}
         jsonLd={jsonLd}
       />
-      <AttentionEmakiPage />
+      {/* <AttentionEmakiPage /> */}
       <FullScreen />
       <EmakiInfo value={data} />
       {/* <Controller value={data} /> */}
