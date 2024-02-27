@@ -6,7 +6,7 @@ import CardB from "../components/CardB";
 import "lazysizes";
 import Head from "../components/Meta";
 import Attention from "../components/Attention";
-import { useLocale, useLocaleData } from "../libs/func";
+import { useLocale, useLocaleData, removeNestedObj } from "../libs/func";
 
 // TODO:loading機能を追加する
 
@@ -14,7 +14,13 @@ const Genji = () => {
   const { t } = useLocale();
   const { t: data } = useLocaleData();
 
-  const genjiEmakis = data.filter((emaki) => emaki.title.includes("源氏"));
+  const removeNestedArrayObj = data.map((item) => {
+    return removeNestedObj(item);
+  });
+
+  const genjiEmakis = removeNestedArrayObj.filter((emaki) =>
+    emaki.title.includes("源氏")
+  );
 
   return (
     <main>
