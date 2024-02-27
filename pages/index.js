@@ -51,7 +51,6 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   const { t: data } = useLocaleData();
 
   const genjiEmakis = data.filter((emaki) => emaki.title.includes("源氏"));
-  console.log(genjiEmakis);
 
   const favoriteEmakis = data.filter((emaki) => emaki.favorite === true);
   const setsuwaEmakis = data.filter((emaki) => emaki.subtype === "説話");
@@ -122,7 +121,7 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectionname={t.variation.name}
         linktitle={"絵巻"}
         linktitleen={"EMAKIMONO"}
-        linkpath={"emaki"}
+        linkpath={"/category/emaki"}
         bcg={"white"}
       />
       <CardB
@@ -131,6 +130,9 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectipontitleen={t.history.titleen}
         sectiondesc={t.history.desc}
         sectionname={t.history.name}
+        linktitle={"絵巻"}
+        linktitleen={"EMAKIMONO"}
+        linkpath={"/category/emaki"}
       />
       <PersonNames
         sectiontitle={"人物から見る絵巻"}
@@ -167,10 +169,10 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
         sectionname={t.alpha.name}
         linktitle={"ワイド美術"}
         linktitleen={"Side-scrolling art"}
-        linkpath={"byoubu"}
+        linkpath={"/category/byoubu"}
       />
       {/* <div style={{ float: "left", clear: "both" }} ref={scrollRef}></div> */}
-      <Tweet />
+      {/* <Tweet /> */}
       <Footer />
     </main>
   );

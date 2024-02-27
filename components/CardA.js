@@ -74,16 +74,9 @@ const CardA = ({
                     <a>
                       <Image
                         src={thumb}
-                        // layout="fill"
-                        // objectFit="responsive"
                         width={533}
                         height={300}
                         sizes="100vw"
-                        className={styles.image}
-                        style={{
-                          width: "100%",
-                          height: "auto",
-                        }}
                         alt={title}
                         loading="lazy"
                         placeholder="blur"
@@ -158,7 +151,7 @@ const CardA = ({
                 ? `View a list of ${linktitleen} !!`
                 : `${linktitle}一覧を見る`
             }
-            path={`/category/${linkpath}`}
+            path={linkpath}
             style={columns}
           />
         )}

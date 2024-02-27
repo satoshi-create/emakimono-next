@@ -17,7 +17,7 @@
   margin: 3rem 0;
 }
 .btn {
-  /* width: 80%; */
+  width: 80%;
   padding: 0.5rem;
   border-radius: var(--borderRadius);
   font-size: clamp(1.2rem, 1.0844rem + 0.4931vw, 1.4rem);
@@ -32,7 +32,8 @@
   color: var(--clr-accent-02);
   background: var(--clr-white);
 }
-.tag,
+
+/* .tag,
 .three,
 .four,
 .cardB {
@@ -53,4 +54,4 @@
   .cardB {
     width: 80%;
   }
-}
+} */

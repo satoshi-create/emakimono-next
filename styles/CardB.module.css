@@ -10,10 +10,10 @@
   gap: 2rem;
   padding: 2rem 0;
 }
-.card {
-  position: relative;
+.figure {
   transition: var(--transition);
   background: rgb(184, 109, 109);
+  position: relative;
   width: 100%;
   height: 30vh;
 }
