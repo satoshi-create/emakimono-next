@@ -78,13 +78,13 @@ const CardB = ({
               className={`${styles.cardContainer} ${styles[columns]}`}
               key={index}
             >
-              <figure className={styles.card} key={index}>
-                <Link href={path}>
-                  <a>
+              <Link href={path}>
+                <a className={styles.link}>
+                  <figure className={styles.figure} key={index}>
                     <Image
                       src={src}
                       layout="fill"
-                      objectFit="cover"
+                      // objectFit="cover"
                       // width={533}
                       // height={300}
                       className={styles.image}
@@ -98,9 +98,9 @@ const CardB = ({
                         {locale === "en" ? nameen : name}
                       </p>
                     </div>
-                  </a>
-                </Link>
-              </figure>
+                  </figure>
+                </a>
+              </Link>
             </div>
           );
         })}
