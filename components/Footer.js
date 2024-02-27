@@ -10,11 +10,11 @@ const Footer = () => {
 
   const footerstyle = {
     color: "white",
-    "font-family": "var(--title-font)",
+    fontFamily: "var(--title-font)",
   };
   const footerStyleSocial = {
     color: "white",
-    "font-family": "var(--title-font)",
+    fontFamily: "var(--title-font)",
   };
 
   const { locale } = useRouter();

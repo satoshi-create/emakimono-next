@@ -21,8 +21,7 @@ const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
       <div className={`${styles.tags} ${locale === "ja" && styles.jatags}`}>
         {allTags.map((item, index) => {
           const { name, id, slug, total, ruby, portrait } = item;
-          console.log(portrait);
-
+          
           return (
             <Link href={`./${path}/${slug}`} key={index}>
               <a>
