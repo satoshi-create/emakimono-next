@@ -45,13 +45,13 @@ const Ekotoba = ({
     if (scroll) {
       setEkotobaImageToggle(false);
     }
-  }, []);
+  }, [setEkotobaImageToggle,scroll]);
 
   useEffect(() => {
     if (scroll) {
       setekotobaToggle(false);
     }
-  }, []);
+  }, [setekotobaToggle,scroll]);
 
   return (
     <section

@@ -18,7 +18,7 @@ const AttentionEmakiPage = () => {
 
   useEffect(() => {
     setToggleBtn(true);
-  }, []);
+  }, [setToggleBtn]);
 
   if (toggleBtn) {
     return (

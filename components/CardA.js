@@ -27,7 +27,7 @@ const CardA = ({
 
   useEffect(() => {
     setisModalOpen(false);
-  }, []);
+  }, [setisModalOpen]);
 
   return (
     <section

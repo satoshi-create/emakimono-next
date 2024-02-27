@@ -50,7 +50,7 @@ const EmakiConteiner = ({
         el.addEventListener("wheel", wheelListener, { passive: true });
       }
     }
-  }, []);
+  }, [scroll]);
 
   return (
     <>

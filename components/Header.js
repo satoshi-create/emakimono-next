@@ -14,15 +14,13 @@ const Header = ({ slug, fixed }) => {
   const { isSidebarOpen, openSidebar, stickyClass, setStickyClass } =
     useContext(AppContext);
 
-
-  const stickNavbar = () => {
-    let windowHeight = window.scrollY;
-    windowHeight > 80 ? setStickyClass("header-fixed") : setStickyClass("");
-  };
-
   useEffect(() => {
+    const stickNavbar = () => {
+      let windowHeight = window.scrollY;
+      windowHeight > 80 ? setStickyClass("header-fixed") : setStickyClass("");
+    };
     window.addEventListener("scroll", stickNavbar);
-  }, []);
+  }, [setStickyClass]);
 
   return (
     <header

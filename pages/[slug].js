@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import EmakiConteiner from "../components/EmakiConteiner";
 import Sidebar from "../components/Sidebar";
 import Head from "../components/Meta";
-import Controller from "../components/Controller";
 import emakisData from "../libs/data";
 import enData from "../libs/en/data";
 import jaData from "../libs/data";
@@ -142,7 +141,6 @@ const Emaki = ({ data, locale, locales, slug }) => {
       <AttentionEmakiPage />
       <FullScreen />
       <EmakiInfo value={data} />
-      {/* <Controller value={data} /> */}
       <EmakiNavigation
         handleCurselNext={handleCurselNext}
         handleCurselPrev={handleCurselPrev}
