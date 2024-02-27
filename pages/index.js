@@ -13,6 +13,7 @@ import {
   keywordItem,
   useLocale,
   useLocaleData,
+  removeNestedObj,
 } from "../libs/func";
 import dataEmakis from "../libs/data";
 import { gridImages } from "../libs/gridImages";
@@ -28,7 +29,7 @@ import PersonNames from "../components/PersonNames";
 // TODO:「絵巻関連年表」を作成する
 // TODO:画像の遅延読み込みをブラウザのキャッシュをクリアして検証;
 
-const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
+const Home = () => {
   // const scrollRef = useRef();
   // console.log(scrollRef);
 
@@ -44,8 +45,28 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   //   scrollToLatest();
   // }, [])
 
-  const allPersonNames = personnameItem(dataEmakis);
-  const allKeywords = keywordItem(dataEmakis);
+  const removeNestedArrayObj = dataEmakis.map((item) => {
+    return removeNestedObj(item);
+  });
+
+  const cyouzyuuzinbutugiga = removeNestedArrayObj.find(
+    (item, index) =>
+      item.title === "鳥獣人物戯画絵巻" && item.edition === "甲巻"
+  );
+
+  const suibokuga = removeNestedArrayObj.find(
+    (item, index) => item.title === "四季山水図巻（山水長巻）"
+  );
+  const mone = removeNestedArrayObj.find(
+    (item, index) => item.title === "睡蓮 連作"
+  );
+
+  const seiyoukaiga = removeNestedArrayObj.find(
+    (seiyoukaiga) => seiyoukaiga.title === "ブランカッチ礼拝堂 装飾画"
+  );
+
+  const allPersonNames = personnameItem(removeNestedArrayObj);
+  const allKeywords = keywordItem(removeNestedArrayObj);
 
   const { t } = useLocale();
   const { t: data } = useLocaleData();
@@ -178,32 +199,37 @@ const Home = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   );
 };
 
-export const getStaticProps = async (context) => {
-  const { locale, locales } = context;
-  // const tEmakisData = locale === "en" ? enData : jaData;
+// export const getStaticProps = async (context) => {
+//   const { locale, locales } = context;
+//   // const tEmakisData = locale === "en" ? enData : jaData;
+//   const removeNestedArrayObj = dataEmakis.map((item) => {
+//     return removeNestedObj(item);
+//   });
 
-  const cyouzyuuzinbutugiga = dataEmakis.find(
-    (item, index) =>
-      item.title === "鳥獣人物戯画絵巻" && item.edition === "甲巻"
-  );
+//   const cyouzyuuzinbutugiga = removeNestedArrayObj.find(
+//     (item, index) =>
+//       item.title === "鳥獣人物戯画絵巻" && item.edition === "甲巻"
+//   );
 
-  const suibokuga = dataEmakis.find(
-    (item, index) => item.title === "四季山水図巻（山水長巻）"
-  );
-  const mone = dataEmakis.find((item, index) => item.title === "睡蓮 連作");
+//   const suibokuga = removeNestedArrayObj.find(
+//     (item, index) => item.title === "四季山水図巻（山水長巻）"
+//   );
+//   const mone = removeNestedArrayObj.find(
+//     (item, index) => item.title === "睡蓮 連作"
+//   );
 
-  const seiyoukaiga = dataEmakis.find(
-    (seiyoukaiga) => seiyoukaiga.title === "ブランカッチ礼拝堂 装飾画"
-  );
+//   const seiyoukaiga = removeNestedArrayObj.find(
+//     (seiyoukaiga) => seiyoukaiga.title === "ブランカッチ礼拝堂 装飾画"
+//   );
 
-  return {
-    props: {
-      cyouzyuuzinbutugiga: cyouzyuuzinbutugiga,
-      seiyoukaiga: seiyoukaiga,
-      suibokuga: suibokuga,
-      mone: mone,
-    },
-  };
-};
+//   return {
+//     props: {
+//       cyouzyuuzinbutugiga: cyouzyuuzinbutugiga,
+//       seiyoukaiga: seiyoukaiga,
+//       suibokuga: suibokuga,
+//       mone: mone,
+//     },
+//   };
+// };
 
 export default Home;

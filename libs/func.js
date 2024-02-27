@@ -67,6 +67,22 @@ const personnameItem = (arr) =>
     (a, b) => (a.total > b.total ? -1 : 1)
   );
 
+// ネストしているObjectを削除して新しいObjectを作成する;
+// https://hi97.hamazo.tv/e8537787.html
+const removeNestedObj = (obj) =>
+  Object.entries(obj).reduce(
+    (acc, [key, val]) => {
+      // value の型が object であった時は Object に新しい値を加えずに返す
+      if ("object" === typeof val) {
+        return acc;
+      }
+      acc[key] = val;
+      return acc;
+    },
+    // 初期値：空のオブジェクト
+    {}
+  );
+
 export {
   eraColor,
   keywordItem,
@@ -74,4 +90,5 @@ export {
   useLocale,
   useLocaleMeta,
   useLocaleData,
+  removeNestedObj,
 };
