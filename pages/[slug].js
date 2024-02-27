@@ -102,7 +102,6 @@ const Emaki = ({ data, locale, locales, slug }) => {
   }
 
   useEffect(() => {
-    
     // let de = document.documentElement;
 
     // function fullscreenchanged() {
@@ -123,6 +122,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
     return () => {
       if (document.fullscreenElement) {
         document.exitFullscreen();
+        screen.orientation.unlock();
       }
     };
   }, []);
