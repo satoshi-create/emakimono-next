@@ -29,7 +29,8 @@ const Ekotoba = ({
     kobunsrc,
     kobunsrcSp,
     scroll,
-    getMap,
+    selectedRef,
+    navIndex,
   },
 }) => {
   const {
@@ -59,14 +60,7 @@ const Ekotoba = ({
       }`}
       id={`${index}`}
       style={{ background: `url(${backgroundImage})` }}
-      ref={(node) => {
-        const map = getMap();
-        if (node) {
-          map.set(index, node);
-        } else {
-          map.delete(index);
-        }
-      }}
+      ref={navIndex === index ? selectedRef : null}
     >
       <div
         className={ekotobaImageToggle ? `${styles.close}` : `${styles.open}`}
