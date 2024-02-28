@@ -1,5 +1,5 @@
 import React from "react";
-import dataEmakis from "../libs/dataEmakis";
+import dataEmakis from "./dataEmakis";
 
 const isClient = () => typeof window !== "undefined";
 

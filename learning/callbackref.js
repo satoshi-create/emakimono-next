@@ -1,11 +1,12 @@
-import { useCallback,useState } from "react";
+import { useCallback, useState } from "react";
 
 function MeasureExample() {
   const [height, setHeight] = useState(0);
+  console.log(height);
 
   const measuredRef = useCallback((node) => {
     if (node !== null) {
-      setHeight(node.getBoundingClientRect().height);
+      setHeight(node.getBoundingClientRect().width);
     }
   }, []);
 
@@ -17,4 +18,4 @@ function MeasureExample() {
   );
 }
 
-export default MeasureExample
+export default MeasureExample;
