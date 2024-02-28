@@ -16,29 +16,16 @@ const EmakiConteiner = ({
   boxshadow,
   selectedRef,
   navIndex,
+  articleRef,
 }) => {
   const { isModalOpen, setOepnSidebar, oepnSidebar } = useContext(AppContext);
   const router = useRouter();
   const emakis = data.emakis;
   const { backgroundImage, kotobagaki, type } = data;
 
-  const scrollRef = useRef();
-
-  // const scrollBottomRef = useRef();
-
-  // useEffect(() => {
-  //   if (scrollBottomRef && scrollBottomRef.current) {
-  //     scrollBottomRef.current.scrollIntoView({
-  //       behavior: "smooth",
-  //       // block: "end",
-  //       // inline: "nearest",
-  //     });
-  //   }
-  // }, []);
-
   useEffect(() => {
-    const el = scrollRef.current;
-    
+    const el = articleRef.current;
+
     if (scroll) {
       if (el) {
         const wheelListener = (e) => {
@@ -51,7 +38,7 @@ const EmakiConteiner = ({
         el.addEventListener("wheel", wheelListener, { passive: true });
       }
     }
-  }, [scroll]);
+  }, [articleRef, scroll]);
 
   return (
     <>
@@ -67,7 +54,7 @@ const EmakiConteiner = ({
           "--box-shadow": boxshadow,
         }}
         onClick={() => setOepnSidebar(false)}
-        ref={scrollRef}
+        ref={articleRef}
       >
         {emakis.map((item, index) => {
           const { cat, src } = item;
