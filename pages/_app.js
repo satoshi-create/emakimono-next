@@ -95,8 +95,7 @@ function MyApp({ Component, pageProps, router }) {
           // const newPath = `${pathAndSlug}#5`;
           // window.location.replace(newPath);
           // console.log(newPath);
-          console.log(typeof hash);
-          setnavIndex(10);
+          setnavIndex(hash);
         })
         .catch((error) => {
           console.log(`Error lock orientation ${error}`);
@@ -105,8 +104,7 @@ function MyApp({ Component, pageProps, router }) {
           // const newPath = `${pathAndSlug}#5`;
           // window.location.replace(newPath);
           // console.log(newPath);
-          console.log(typeof hash);
-          setnavIndex(10);
+          setnavIndex(hash);
         });
     } else {
       document.exitFullscreen();
