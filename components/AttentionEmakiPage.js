@@ -25,8 +25,9 @@ const AttentionEmakiPage = () => {
     // ハッシュフラグを取得し、stringからnumbarに変換
     const fetchHashflag = () => {
       const hashflag = Number(router.asPath.split("#")[1]);
-
-      setHash(hashflag);
+      if (hashflag) {
+        setHash(hashflag);
+      }
     };
     // レンダリング完了時に発火
     fetchHashflag();
