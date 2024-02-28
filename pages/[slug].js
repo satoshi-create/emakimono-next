@@ -20,8 +20,8 @@ import { flushSync } from "react-dom";
 const Emaki = ({ data, locale, locales, slug }) => {
   const router = useRouter();
   const selectedRef = useRef(null);
-  const [navIndex, setnavIndex] = useState(0);
-
+  const { navIndex, setnavIndex } = useContext(AppContext);
+  console.log(navIndex);
   const pagetitle = `${data.title} ${data.edition ? data.edition : ""}`;
   const tPageDesc =
     locale === "en"
