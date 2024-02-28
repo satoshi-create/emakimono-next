@@ -107,6 +107,7 @@ const Home = () => {
 
   return (
     <main>
+      <p>ahead main</p>
       <Head />
       <Header fixed={true} />
       <Attention />
