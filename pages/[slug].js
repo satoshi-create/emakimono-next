@@ -82,10 +82,12 @@ const Emaki = ({ data, locale, locales, slug }) => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   setnavIndex(0);
-  //   setHash(0);
-  // }, [setnavIndex, setHash]);
+  useEffect(() => {
+    return () => {
+      setnavIndex(0);
+      setHash(0);
+    };
+  }, [setnavIndex, setHash]);
 
   const articleRef = useRef();
   const scrollNextRef = useRef(null);

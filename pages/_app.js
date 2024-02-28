@@ -96,7 +96,9 @@ function MyApp({ Component, pageProps, router }) {
           // window.location.replace(newPath);
           // console.log(newPath);
           console.log(hash);
-          setnavIndex(hash);
+          if (hash) {
+            setnavIndex(hash);
+          }
           console.log(navIndex);
         })
         .catch((error) => {
@@ -106,7 +108,9 @@ function MyApp({ Component, pageProps, router }) {
           // const newPath = `${pathAndSlug}#5`;
           // window.location.replace(newPath);
           console.log(hash);
-          setnavIndex(hash);
+          if (hash) {
+            setnavIndex(hash);
+          }
           console.log(navIndex);
         });
     } else {
