@@ -14,11 +14,11 @@ import { useRouter } from "next/router";
 import ToggleEkotoba from "./ToggleEkotoba";
 
 const EmakiNavigation = ({
-  handleCurselNext,
-  handleCurselPrev,
   endIndex,
   handleToId,
   data,
+  scrollNextRef,
+  scrollPrevRef,
 }) => {
   const router = useRouter();
 
@@ -29,22 +29,18 @@ const EmakiNavigation = ({
           <FontAwesomeIcon icon={faAnglesLeft} />
         </i>
       </button>
-      <button onClick={() => handleCurselNext()} className={styled.button}>
+      <button ref={scrollNextRef} className={styled.button}>
         <i>
           <FontAwesomeIcon icon={faChevronLeft} />
         </i>
       </button>
-      <button
-        onClick={() => router.push("/")}
-        className={styled.button}
-        title={"次に進む"}
-      >
+      <button onClick={() => router.push("/")} className={styled.button}>
         <i>
           <FontAwesomeIcon icon={faHouse} />
         </i>
       </button>
       <ToggleEkotoba data={data} />
-      <button onClick={() => handleCurselPrev()} className={styled.button}>
+      <button ref={scrollPrevRef} className={styled.button}>
         <i>
           <FontAwesomeIcon icon={faChevronRight} />
         </i>

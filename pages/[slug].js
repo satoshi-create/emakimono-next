@@ -73,51 +73,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
   }
   const endIndex = data.emakis.length - 1;
 
-  function handleCurselNext() {
-    flushSync(() => {
-      if (navIndex < endIndex) {
-        setnavIndex(navIndex + 1);
-      } else {
-        setnavIndex(endIndex);
-      }
-    });
-    selectedRef.current.scrollIntoView({
-      behavior: "smooth",
-    });
-  }
-
-  function handleCurselPrev() {
-    flushSync(() => {
-      if (navIndex <= 0) {
-        setnavIndex(0);
-      } else {
-        setnavIndex(navIndex - 1);
-      }
-    });
-
-    selectedRef.current.scrollIntoView({
-      behavior: "smooth",
-    });
-  }
-
   useEffect(() => {
-    // let de = document.documentElement;
-
-    // function fullscreenchanged() {
-    //   if (!document.fullscreenElement) {
-    //     de.requestFullscreen()
-    //       .then(() => {
-    //         console.log("enter fullscreen");
-    //         // screen.orientation.lock("orientation");
-    //       })
-    //       .catch((err) => {
-    //         console.log(`Error attempting to enable fullscreen mode ${err})`);
-    //       });
-    //   }
-    // }
-
-    // fullscreenchanged();
-
     return () => {
       if (document.fullscreenElement) {
         document.exitFullscreen();
@@ -125,6 +81,46 @@ const Emaki = ({ data, locale, locales, slug }) => {
       }
     };
   }, []);
+
+  const articleRef = useRef();
+  const scrollNextRef = useRef(null);
+  const scrollPrevRef = useRef(null);
+
+  const con = articleRef.current;
+  const btnPrev = scrollPrevRef.current;
+  const btnNext = scrollNextRef.current;
+
+  // イベントリスナーを使う方法で実装。
+  // イベントハンドラーを使う方法は（scrollevent_eventhandler）内
+  useEffect(() => {
+    const scrollNextEvent = () => {
+      con.scrollTo({
+        left: con.scrollLeft - 1000,
+        behavior: "smooth",
+      });
+    };
+    const scrollPrevEvent = () => {
+      con.scrollTo({
+        left: con.scrollLeft + 1000,
+        behavior: "smooth",
+      });
+    };
+
+    if (btnNext) {
+      btnNext.addEventListener("click", scrollNextEvent);
+    }
+    if (btnPrev) {
+      btnPrev.addEventListener("click", scrollPrevEvent);
+    }
+    return () => {
+      if (btnNext) {
+        btnNext.removeEventListener("click", scrollNextEvent);
+      }
+      if (btnPrev) {
+        btnNext.removeEventListener("click", scrollNextEvent);
+      }
+    };
+  }, [btnNext, btnPrev, con]);
 
   return (
     <>
@@ -142,11 +138,11 @@ const Emaki = ({ data, locale, locales, slug }) => {
       <FullScreen />
       <EmakiInfo value={data} />
       <EmakiNavigation
-        handleCurselNext={handleCurselNext}
-        handleCurselPrev={handleCurselPrev}
         endIndex={endIndex}
         handleToId={handleToId}
         data={data}
+        scrollNextRef={scrollNextRef}
+        scrollPrevRef={scrollPrevRef}
       />
       <Sidebar value={data} handleToId={handleToId} />
       <EmakiConteiner
@@ -155,6 +151,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
         scroll={true}
         selectedRef={selectedRef}
         navIndex={navIndex}
+        articleRef={articleRef}
       />
     </>
   );
