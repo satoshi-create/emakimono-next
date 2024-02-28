@@ -38,6 +38,7 @@ const EmakiConteiner = ({
 
   useEffect(() => {
     const el = scrollRef.current;
+    
     if (scroll) {
       if (el) {
         const wheelListener = (e) => {
