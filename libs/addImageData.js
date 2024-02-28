@@ -36,7 +36,7 @@ if (isClient()) {
             return a.id - b.id;
           });
         const setNewArr = [...new Set(newArr)];
-        console.log(setNewArr);
+        // console.log(setNewArr);
         // TODO:この後どうやって元データ（dataEamkis）と連結する？ここから手動？
       });
     });

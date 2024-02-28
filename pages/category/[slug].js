@@ -15,8 +15,6 @@ import jaData from "../../libs/data";
 
 const Emaki = ({ name, nameen, posts, slug }) => {
   const { locale } = useRouter();
-  console.log(posts);
-
   const tPageDesc =
     locale === "en"
       ? `This is the ${nameen} list page.This site pursues the enjoyment of picture scrolls by scrolling from right to left!`
