@@ -20,7 +20,7 @@ import { flushSync } from "react-dom";
 const Emaki = ({ data, locale, locales, slug }) => {
   const router = useRouter();
   const selectedRef = useRef(null);
-  const { navIndex, setnavIndex } = useContext(AppContext);
+  const { navIndex, setnavIndex, setHash } = useContext(AppContext);
   console.log(navIndex);
   const pagetitle = `${data.title} ${data.edition ? data.edition : ""}`;
   const tPageDesc =
@@ -81,6 +81,11 @@ const Emaki = ({ data, locale, locales, slug }) => {
       }
     };
   }, []);
+
+  useEffect(() => {
+    setnavIndex(0);
+    setHash(0);
+  }, [setnavIndex, setHash]);
 
   const articleRef = useRef();
   const scrollNextRef = useRef(null);
