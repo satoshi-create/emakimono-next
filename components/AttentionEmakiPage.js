@@ -14,17 +14,8 @@ import { AppContext } from "../pages/_app";
 const AttentionEmakiPage = () => {
   const { locale } = useRouter();
   const router = useRouter();
-  const {
-    handleFullScreen,
-    toggleBtn,
-    setToggleBtn,
-    hash,
-    setHash,
-    navIndex,
-    setnavIndex,
-  } = useContext(AppContext);
-
-
+  const { handleFullScreen, toggleBtn, setToggleBtn, setHash } =
+    useContext(AppContext);
 
   useEffect(() => {
     setToggleBtn(true);
