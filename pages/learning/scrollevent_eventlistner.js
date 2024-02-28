@@ -5,10 +5,12 @@ const Scrollevent = () => {
   const scrollNextRef = useRef(null);
   const scrollPrevRef = useRef(null);
 
+  const con = containerRef.current;
+  const btnPrev = scrollPrevRef.current;
+  const btnNext = scrollNextRef.current;
+
   useEffect(() => {
-    const con = containerRef.current;
-    const btnPrev = scrollPrevRef.current;
-    const btnNext = scrollNextRef.current;
+    console.log(con);
 
     const scrollPrevEvent = () => {
       con.scrollTo({
@@ -58,7 +60,14 @@ const Scrollevent = () => {
           </div>
         ))}
       </div>
+      <Navigation scrollNextRef={scrollNextRef} scrollPrevRef={scrollPrevRef} />
+    </>
+  );
+};
 
+const Navigation = ({ scrollNextRef, scrollPrevRef }) => {
+  return (
+    <>
       <button id="slide" type="button" ref={scrollNextRef}>
         next
       </button>
