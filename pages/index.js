@@ -109,6 +109,9 @@ const Home = () => {
     <main>
       <Head />
       <Header fixed={true} />
+      <Link href="/cyoujyujinbutsugiga_otu#10">
+        <a>link</a>
+      </Link>
       <Attention />
       <CardA
         emakis={genjiEmakis}

@@ -38,6 +38,7 @@ const Ekotoba = ({
     setekotobaToggle,
     ekotobaImageToggle,
     setEkotobaImageToggle,
+    scrollDialog,
   } = useContext(AppContext);
 
   const [toggle, setToggle] = useState(false);
@@ -45,13 +46,13 @@ const Ekotoba = ({
     if (scroll) {
       setEkotobaImageToggle(false);
     }
-  }, [setEkotobaImageToggle,scroll]);
+  }, [setEkotobaImageToggle, scroll]);
 
   useEffect(() => {
     if (scroll) {
       setekotobaToggle(false);
     }
-  }, [setekotobaToggle,scroll]);
+  }, [setekotobaToggle, scroll]);
 
   return (
     <section
@@ -60,7 +61,8 @@ const Ekotoba = ({
       }`}
       id={`${index}`}
       style={{ background: `url(${backgroundImage})` }}
-      ref={navIndex === index ? selectedRef : null}
+      // ref={navIndex === index ? selectedRef : null}
+      ref={navIndex === index ? scrollDialog : null}
     >
       <div
         className={ekotobaImageToggle ? `${styles.close}` : `${styles.open}`}
