@@ -67,11 +67,10 @@ const Emaki = ({ data, locale, locales, slug }) => {
     flushSync(() => {
       setnavIndex(id);
     });
-    selectedRef.current.scrollIntoView({
-      behavior: "smooth",
-    });
+    // selectedRef.current.scrollIntoView({
+    //   behavior: "smooth",
+    // });
   }
-  const endIndex = data.emakis.length - 1;
 
   useEffect(() => {
     return () => {
@@ -145,7 +144,6 @@ const Emaki = ({ data, locale, locales, slug }) => {
       <FullScreen />
       <EmakiInfo value={data} />
       <EmakiNavigation
-        endIndex={endIndex}
         handleToId={handleToId}
         data={data}
         scrollNextRef={scrollNextRef}
