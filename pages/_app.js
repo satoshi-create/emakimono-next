@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useCallback } from "react";
 import "../styles/globals.css";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
@@ -13,12 +13,6 @@ export const AppContext = createContext();
 
 function MyApp({ Component, pageProps, router }) {
   const gRouter = useRouter();
-
-  // useEffect(() => {
-  //   gRouter.events.on("routeChangeStart", (url) => {
-  //     console.log(`Loading: ${url}`);
-  //   });
-  // }, []);
 
   useEffect(() => {
     const handleRouteChange = (url) => {
@@ -43,6 +37,8 @@ function MyApp({ Component, pageProps, router }) {
   const [isSidebarOpen, setisSidebarOpen] = useState(false);
   const [toggleFullscreen, setToggleFullscreen] = useState(true);
   const [toggleBtn, setToggleBtn] = useState(true);
+  const [hash, setHash] = useState(0);
+  const [navIndex, setnavIndex] = useState(0);
 
   const openSidebar = () => {
     setisSidebarOpen(true);
@@ -85,7 +81,6 @@ function MyApp({ Component, pageProps, router }) {
       de.requestFullscreen()
         .then(() => {
           console.log("enter fullscreen");
-          screen.orientation.lock(orientation);
         })
         .catch((err) => {
           console.log(`Error attempting to enable fullscreen mode ${err})`);
@@ -100,6 +95,11 @@ function MyApp({ Component, pageProps, router }) {
           // const newPath = `${pathAndSlug}#5`;
           // window.location.replace(newPath);
           // console.log(newPath);
+          console.log(hash);
+          if (hash) {
+            setnavIndex(hash);
+          }
+          console.log(navIndex);
         })
         .catch((error) => {
           console.log(`Error lock orientation ${error}`);
@@ -107,7 +107,11 @@ function MyApp({ Component, pageProps, router }) {
           // const pathAndSlug = router.asPath.split("#")[0];
           // const newPath = `${pathAndSlug}#5`;
           // window.location.replace(newPath);
-          // console.log(newPath);
+          console.log(hash);
+          if (hash) {
+            setnavIndex(hash);
+          }
+          console.log(navIndex);
         });
     } else {
       document.exitFullscreen();
@@ -140,6 +144,15 @@ function MyApp({ Component, pageProps, router }) {
   //   }
   // };
 
+  const scrollDialog = useCallback((node) => {
+    if (node !== null) {
+      node.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, []);
+
   return (
     <AppContext.Provider
       value={{
@@ -169,6 +182,11 @@ function MyApp({ Component, pageProps, router }) {
         setToggleFullscreen,
         toggleBtn,
         setToggleBtn,
+        hash,
+        setHash,
+        navIndex,
+        setnavIndex,
+        scrollDialog,
       }}
     >
       <Script

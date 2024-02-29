@@ -12,13 +12,26 @@ import { AppContext } from "../pages/_app";
 // TODO:dangerouslySetInnerHTMLにlocalを組み込む
 
 const AttentionEmakiPage = () => {
-  const { handleFullScreen, toggleBtn, setToggleBtn } = useContext(AppContext);
-
   const { locale } = useRouter();
+  const router = useRouter();
+  const { handleFullScreen, toggleBtn, setToggleBtn, setHash } =
+    useContext(AppContext);
 
   useEffect(() => {
     setToggleBtn(true);
   }, [setToggleBtn]);
+
+  useEffect(() => {
+    // ハッシュフラグを取得し、stringからnumbarに変換
+    const fetchHashflag = () => {
+      const hashflag = Number(router.asPath.split("#")[1]);
+      if (hashflag) {
+        setHash(hashflag);
+      }
+    };
+    // レンダリング完了時に発火
+    fetchHashflag();
+  }, [router.asPath, setHash]);
 
   if (toggleBtn) {
     return (
