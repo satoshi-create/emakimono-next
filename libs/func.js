@@ -82,7 +82,8 @@ const removeNestedObj = (obj) =>
     // 初期値：空のオブジェクト
     {}
   );
-
+  
+//  ネストしている「絵巻オブジェクト」を削除して新しいObjectを作成する;
 const removeNestedEmakisObj = (obj) =>
   Object.entries(obj).reduce(
     (acc, [key, val]) => {
