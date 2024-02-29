@@ -6,6 +6,7 @@ import Script from "next/script";
 import { useLocaleData } from "../libs/func";
 import * as gtag from "../libs/gtag";
 import { useRouter } from "next/router";
+import { flushSync } from "react-dom";
 
 config.autoAddCss = false;
 
@@ -146,6 +147,12 @@ function MyApp({ Component, pageProps, router }) {
   //   }
   // };
 
+  const handleToId = (id) => {
+    flushSync(() => {
+      setnavIndex(id);
+    });
+  };
+
   const scrollDialog = useCallback((node) => {
     if (node !== null) {
       node.scrollIntoView({
@@ -218,6 +225,7 @@ function MyApp({ Component, pageProps, router }) {
         scrollDialog,
         orientation,
         setOrientation,
+        handleToId,
       }}
     >
       <Script
