@@ -142,7 +142,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
         jsonLd={jsonLd}
       />
       {orientation === "portrait" && <Header emakipage={true} />}
-      <FullScreen />
+      {/* <FullScreen /> */}
       {/* <AttentionEmakiPage /> */}
       {/* <EmakiInfo value={data} /> */}
       {/* <EmakiNavigation
