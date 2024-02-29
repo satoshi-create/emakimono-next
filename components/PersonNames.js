@@ -31,6 +31,9 @@ const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
                     height={130}
                     className={styles.portraitImage}
                     alt={name}
+                    loading="lazy"
+                    placeholder="blur"
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
                   />
                 ) : (
                   <div className={styles.noportrait}>
