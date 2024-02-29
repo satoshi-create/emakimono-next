@@ -148,7 +148,6 @@ function MyApp({ Component, pageProps, router }) {
     if (node !== null) {
       node.scrollIntoView({
         behavior: "smooth",
-        block: "start",
       });
     }
   }, []);

@@ -13,14 +13,15 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import ToggleEkotoba from "./ToggleEkotoba";
 
+// TODO: 「先頭に戻る」を押しても反応がない
 const EmakiNavigation = ({
-  endIndex,
   handleToId,
   data,
   scrollNextRef,
   scrollPrevRef,
 }) => {
   const router = useRouter();
+  const endIndex = data.emakis.length - 1;
 
   return (
     <aside className={styled.container}>
