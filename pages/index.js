@@ -12,9 +12,6 @@ import {
   personnameItem,
   keywordItem,
   useLocale,
-  useLocaleData,
-  removeNestedObj,
-  removeNestedEmakisObj,
 } from "../libs/func";
 import dataEmakis from "../libs/data";
 import { gridImages } from "../libs/gridImages";
@@ -22,6 +19,7 @@ import SocialLinks from "../components/SocialLinks";
 import Tweet from "../components/Tweet";
 import Keywords from "../components/Keywords";
 import PersonNames from "../components/PersonNames";
+import ExtractingListData from "../components/ExtractingListData";
 
 // TODO:絵巻ページ遷移時、読み込みが遅延する不具合？を改善する
 // TODO:絵巻ページ遷移時、スケルトンのようなローディング機能を追加する
@@ -32,24 +30,8 @@ import PersonNames from "../components/PersonNames";
 // TODO:絵師名でルーティングできるようにする
 
 const Home = () => {
-  // const scrollRef = useRef();
-  // console.log(scrollRef);
-
-  // useEffect(() => {
-  //   const scrollToLatest = (behavior = "smooth") =>
-  //     scrollRef.current.scrollIntoView({ behavior });
-  //   scrollToLatest();
-  // }, []);
-
-  // useLayoutEffect(() => {
-  //   const scrollToLatest = (behavior = "smooth") =>
-  //     scrollRef.current.scrollIntoView({ behavior });
-  //   scrollToLatest();
-  // }, [])
-
-  const removeNestedArrayObj = dataEmakis.map((item) => {
-    return removeNestedEmakisObj(item);
-  });
+  const { t } = useLocale();
+  const removeNestedArrayObj = ExtractingListData();
 
   const cyouzyuuzinbutugiga = removeNestedArrayObj.find(
     (item, index) =>
@@ -71,16 +53,25 @@ const Home = () => {
 
   const allKeywords = keywordItem(removeNestedArrayObj);
 
-  const { t } = useLocale();
-  const { t: data } = useLocaleData();
+  const genjiEmakis = removeNestedArrayObj.filter((emaki) =>
+    emaki.title.includes("源氏")
+  );
 
-  const genjiEmakis = data.filter((emaki) => emaki.title.includes("源氏"));
-
-  const favoriteEmakis = data.filter((emaki) => emaki.favorite === true);
-  const setsuwaEmakis = data.filter((emaki) => emaki.subtype === "説話");
-  const kousoudenEmakis = data.filter((emaki) => emaki.subtype === "高僧伝");
-  const buttenEmakis = data.filter((emaki) => emaki.subtype === "仏典");
-  const gyouziEmakis = data.filter((emaki) => emaki.subtype === "諸行事・祭礼");
+  const favoriteEmakis = removeNestedArrayObj.filter(
+    (emaki) => emaki.favorite === true
+  );
+  const setsuwaEmakis = removeNestedArrayObj.filter(
+    (emaki) => emaki.subtype === "説話"
+  );
+  const kousoudenEmakis = removeNestedArrayObj.filter(
+    (emaki) => emaki.subtype === "高僧伝"
+  );
+  const buttenEmakis = removeNestedArrayObj.filter(
+    (emaki) => emaki.subtype === "仏典"
+  );
+  const gyouziEmakis = removeNestedArrayObj.filter(
+    (emaki) => emaki.subtype === "諸行事・祭礼"
+  );
 
   const variation = [
     ...setsuwaEmakis,
@@ -90,14 +81,16 @@ const Home = () => {
   ];
   const flowEmakis = [cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone];
 
-  const typeByoubu = data.filter((emaki) => emaki.type === "屏風").splice(0, 1);
-  const typeUkiyoe = data
+  const typeByoubu = removeNestedArrayObj
+    .filter((emaki) => emaki.type === "屏風")
+    .splice(0, 1);
+  const typeUkiyoe = removeNestedArrayObj
     .filter((emaki) => emaki.type === "浮世絵")
     .splice(0, 1);
-  const typeSuibokuga = data
+  const typeSuibokuga = removeNestedArrayObj
     .filter((emaki) => emaki.type === "水墨画")
     .splice(0, 1);
-  const typeSeiyoukaiga = data
+  const typeSeiyoukaiga = removeNestedArrayObj
     .filter((emaki) => emaki.type === "西洋絵画")
     .splice(0, 1);
 
