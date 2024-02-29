@@ -6,11 +6,18 @@ import Head from "../components/Meta";
 import PersonNames from "../components/PersonNames";
 import Breadcrumbs from "../components/Breadcrumbs";
 import emakisData from "../libs/data";
-import { personnameItem, useLocaleData } from "../libs/func";
+import {
+  personnameItem,
+  useLocaleData,
+  removeNestedEmakisObj,
+} from "../libs/func";
+import ExtractingListData from "../components/ExtractingListData";
 
 const PersonnamesComp = () => {
-  const { t: emakisData, locale } = useLocaleData();
-  const allPersonNames = personnameItem(emakisData);
+  const { locale } = useLocaleData();
+  const removeNestedArrayObj = ExtractingListData();
+  const allPersonNames = personnameItem(removeNestedArrayObj);
+
   const tPageDesc =
     locale === "en"
       ? `This is the personnames list page.This site pursues the enjoyment of picture scrolls by scrolling from right to left!`
