@@ -1,7 +1,7 @@
 .tags {
   display: grid;
   justify-items: center;
-  gap: 0.5rem;
+  gap: 2rem;
   font-family: var(--title-font2);
 }
 .jatags {
@@ -9,9 +9,13 @@
   position: relative;
 }
 .portrait {
+  width: 130px;
+  height: 130px;
+}
+.portraitImage {
   border-radius: 50%;
-  /* box-shadow: 2px 3px 5px #898989; */
   border: 3px solid white;
+  background: gray;
 }
 .noportrait {
   width: 130px;

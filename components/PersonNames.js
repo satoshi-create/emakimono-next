@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 import styles from "../styles/Tags.module.css";
 import Image from "next/image";
 
-// TODO:画像のサイズを統一
 const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
   const { locale } = useRouter();
 
@@ -21,16 +20,16 @@ const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
       <div className={`${styles.tags} ${locale === "ja" && styles.jatags}`}>
         {allTags.map((item, index) => {
           const { name, id, slug, total, ruby, portrait } = item;
-          
+
           return (
             <Link href={`./${path}/${slug}`} key={index}>
-              <a>
+              <a className={styles.portrait}>
                 {portrait ? (
                   <Image
                     src={portrait}
                     width={100}
                     height={100}
-                    className={styles.portrait}
+                    className={styles.portraitImage}
                     sizes="100vw"
                     alt={name}
                     loading="lazy"
