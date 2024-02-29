@@ -23,14 +23,12 @@ const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
 
           return (
             <Link href={`./${path}/${slug}`} key={index}>
-              {/* 画像は130px×130pxで作成する */}
               <a className={styles.portrait}>
                 {portrait ? (
                   <Image
                     src={portrait}
-                    width={100}
-                    height={100}
-                    sizes="100vw"
+                    width={130}
+                    height={130}
                     className={styles.portraitImage}
                     alt={name}
                   />
