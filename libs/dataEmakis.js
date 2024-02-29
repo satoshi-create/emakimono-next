@@ -1403,7 +1403,7 @@ const dataEmakis = [
         id: "tachibananaomoto",
         slug: "tachibananaomoto",
         ruby: "たちばななおもと",
-        portrait: "/portrait_tachibananaomoto.jpg",
+        portrait: "/portrait_tachibananaomoto.webp",
       },
       {
         name: "小野道風",
