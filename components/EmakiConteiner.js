@@ -18,7 +18,8 @@ const EmakiConteiner = ({
   navIndex,
   articleRef,
 }) => {
-  const { isModalOpen, setOepnSidebar, oepnSidebar } = useContext(AppContext);
+  const { isModalOpen, setOepnSidebar, oepnSidebar, orientation } =
+    useContext(AppContext);
   const router = useRouter();
   const emakis = data.emakis;
   const { backgroundImage, kotobagaki, type } = data;
@@ -39,6 +40,18 @@ const EmakiConteiner = ({
     }
   }, [articleRef, scroll]);
 
+  const emakkiHeight = (scr) => {
+    if (scr) {
+      if (orientation === "portrait") {
+        return "50vh";
+      } else {
+        return "100vh";
+      }
+    } else {
+      return "50vh";
+    }
+  };
+
   return (
     <>
       {isModalOpen && <Modal data={data} />}
@@ -47,7 +60,7 @@ const EmakiConteiner = ({
           type === "西洋絵画" ? styles.lr : styles.rl
         }`}
         style={{
-          "--screen-height": height,
+          "--screen-height": emakkiHeight(scroll),
           "--screen-width": width,
           "--overflow-x": overflowX,
           "--box-shadow": boxshadow,

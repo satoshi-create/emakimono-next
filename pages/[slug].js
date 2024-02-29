@@ -68,9 +68,6 @@ const Emaki = ({ data, locale, locales, slug }) => {
     flushSync(() => {
       setnavIndex(id);
     });
-    // selectedRef.current.scrollIntoView({
-    //   behavior: "smooth",
-    // });
   }
 
   useEffect(() => {
@@ -129,6 +126,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
       }
     };
   }, []);
+
   return (
     <>
       <Head
@@ -141,7 +139,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
         pageType={data.type}
         jsonLd={jsonLd}
       />
-      <AttentionEmakiPage />
+      {/* <AttentionEmakiPage /> */}
       <FullScreen />
       <EmakiInfo value={data} />
       <EmakiNavigation
@@ -153,7 +151,6 @@ const Emaki = ({ data, locale, locales, slug }) => {
       <Sidebar value={data} handleToId={handleToId} />
       <EmakiConteiner
         data={{ ...data }}
-        height={"100vh"}
         scroll={true}
         selectedRef={selectedRef}
         navIndex={navIndex}
