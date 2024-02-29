@@ -56,55 +56,57 @@ const EmakiConteiner = ({
 
   return (
     <>
-      {isModalOpen && <Modal data={data} />}
-      <article
-        className={`${styles.conteiner} ${
-          type === "西洋絵画" ? styles.lr : styles.rl
-        }`}
-        style={{
-          "--screen-height": emakkiHeight(scroll),
-          "--screen-width": width,
-          "--overflow-x": overflowX,
-          "--box-shadow": boxshadow,
-        }}
-        onClick={() => setOepnSidebar(false)}
-        ref={articleRef}
-      >
-        {emakis.map((item, index) => {
-          const { cat, src } = item;
+      <div className={styles.wrapper}>
+        {isModalOpen && <Modal data={data} />}
+        <article
+          className={`${styles.conteiner} ${
+            type === "西洋絵画" ? styles.lr : styles.rl
+          }`}
+          style={{
+            "--screen-height": emakkiHeight(scroll),
+            "--screen-width": width,
+            "--overflow-x": overflowX,
+            "--box-shadow": boxshadow,
+          }}
+          onClick={() => setOepnSidebar(false)}
+          ref={articleRef}
+        >
+          {emakis.map((item, index) => {
+            const { cat, src } = item;
 
-          if (cat === "image") {
-            return (
-              <EmakiImage
-                key={index}
-                item={{
-                  ...item,
-                  index,
-                  scroll,
-                  selectedRef,
-                  navIndex,
-                }}
-              />
-            );
-          } else {
-            return (
-              <Ekotoba
-                key={index}
-                item={{
-                  ...item,
-                  index,
-                  backgroundImage,
-                  kotobagaki,
-                  type,
-                  scroll,
-                  selectedRef,
-                  navIndex,
-                }}
-              />
-            );
-          }
-        })}
-      </article>
+            if (cat === "image") {
+              return (
+                <EmakiImage
+                  key={index}
+                  item={{
+                    ...item,
+                    index,
+                    scroll,
+                    selectedRef,
+                    navIndex,
+                  }}
+                />
+              );
+            } else {
+              return (
+                <Ekotoba
+                  key={index}
+                  item={{
+                    ...item,
+                    index,
+                    backgroundImage,
+                    kotobagaki,
+                    type,
+                    scroll,
+                    selectedRef,
+                    navIndex,
+                  }}
+                />
+              );
+            }
+          })}
+        </article>
+      </div>
       {orientation === "portrait" && (
         <div className={styles.metadata}>
           <div className={styles.emakiinfo}>
