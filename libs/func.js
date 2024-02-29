@@ -83,6 +83,20 @@ const removeNestedObj = (obj) =>
     {}
   );
 
+const removeNestedEmakisObj = (obj) =>
+  Object.entries(obj).reduce(
+    (acc, [key, val]) => {
+      //keyの名前がemakisであった時は Object に新しい値を加えずに返す
+      if (key === "emakis") {
+        return acc;
+      }
+      acc[key] = val;
+      return acc;
+    },
+    // 初期値：空のオブジェクト
+    {}
+  );
+
 export {
   eraColor,
   keywordItem,
@@ -91,4 +105,5 @@ export {
   useLocaleMeta,
   useLocaleData,
   removeNestedObj,
+  removeNestedEmakisObj,
 };

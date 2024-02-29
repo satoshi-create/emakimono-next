@@ -18,6 +18,7 @@ const CardB = ({
   linktitleen,
 }) => {
   const { locale } = useRouter();
+  console.log(sectiontitleen);
 
   const historyemakis = [
     {

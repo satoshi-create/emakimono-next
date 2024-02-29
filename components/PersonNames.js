@@ -26,11 +26,6 @@ const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
             <Link href={`./${path}/${slug}`} key={index}>
               <a>
                 {portrait ? (
-                  // <img
-                  //   src={portrait}
-                  //   alt={name}
-                  //   className={styles.portrait}
-                  // />
                   <Image
                     src={portrait}
                     width={100}

@@ -14,6 +14,7 @@ import {
   useLocale,
   useLocaleData,
   removeNestedObj,
+  removeNestedEmakisObj,
 } from "../libs/func";
 import dataEmakis from "../libs/data";
 import { gridImages } from "../libs/gridImages";
@@ -28,6 +29,7 @@ import PersonNames from "../components/PersonNames";
 // TODO:「装束から見た絵巻」を作成する
 // TODO:「絵巻関連年表」を作成する
 // TODO:画像の遅延読み込みをブラウザのキャッシュをクリアして検証;
+// TODO:絵師名でルーティングできるようにする
 
 const Home = () => {
   // const scrollRef = useRef();
@@ -46,7 +48,7 @@ const Home = () => {
   // }, [])
 
   const removeNestedArrayObj = dataEmakis.map((item) => {
-    return removeNestedObj(item);
+    return removeNestedEmakisObj(item);
   });
 
   const cyouzyuuzinbutugiga = removeNestedArrayObj.find(
@@ -66,6 +68,7 @@ const Home = () => {
   );
 
   const allPersonNames = personnameItem(removeNestedArrayObj);
+
   const allKeywords = keywordItem(removeNestedArrayObj);
 
   const { t } = useLocale();
@@ -109,9 +112,6 @@ const Home = () => {
     <main>
       <Head />
       <Header fixed={true} />
-      <Link href="/cyoujyujinbutsugiga_otu#10">
-        <a>link</a>
-      </Link>
       <Attention />
       <CardA
         emakis={genjiEmakis}
@@ -151,7 +151,7 @@ const Home = () => {
       <CardB
         columns={t.history.columns}
         sectiontitle={t.history.title}
-        sectipontitleen={t.history.titleen}
+        sectiontitleen={t.history.titleen}
         sectiondesc={t.history.desc}
         sectionname={t.history.name}
         linktitle={"絵巻"}
@@ -159,15 +159,15 @@ const Home = () => {
         linkpath={"/category/emaki"}
       />
       <PersonNames
-        sectiontitle={"人物から見る絵巻"}
-        sectiontitleen={"personnames"}
+        sectiontitle={t.personname.title}
+        sectiontitleen={t.personname.titleen}
         allTags={allPersonNames}
         path={"personname"}
         bcg={"white"}
       />
       <Keywords
-        sectiontitle={"索引から見る絵巻"}
-        sectiontitleen={"keyword"}
+        sectiontitle={t.indextag.title}
+        sectiontitleen={t.indextag.titleen}
         allTags={allKeywords}
         path={"keyword"}
       />

@@ -27,7 +27,6 @@ const ja = {
     name: "flow",
     columns: "four",
   },
-
   history: {
     title: "時代から見る絵巻",
     titleen: "emakis in historical perspective",
@@ -35,7 +34,11 @@ const ja = {
     name: "history",
     columns: "two",
   },
-  toggleTag: {
+  personname: {
+    title: "人物から見る絵巻",
+    titleen: "personnames",
+  },
+  indextag: {
     title: "索引から見る絵巻",
     titleen: "emakis from the index",
   },
@@ -107,10 +110,15 @@ const en = {
     name: "history",
     columns: "two",
   },
-  toggleTag: {
-    title: "emakis from the index",
-    titleen: "索引から見る絵巻",
+  personname: {
+    title: "人物から見る絵巻",
+    titleen: "personnames",
   },
+  indextag: {
+    title: "索引から見る絵巻",
+    titleen: "emakis from the index",
+  },
+
   famousscene: {
     title: "great scenes from the emakis!",
     titleen: "絵巻名場面集！！",

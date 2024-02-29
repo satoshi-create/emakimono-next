@@ -17,11 +17,12 @@ import FullScreen from "../components/FullScreen";
 import EmakiNavigation from "../components/EmakiNavigation";
 import { flushSync } from "react-dom";
 
+// TODO:スマホ版横向きのページにタイトルと絵師名を追加する
+
 const Emaki = ({ data, locale, locales, slug }) => {
   const router = useRouter();
   const selectedRef = useRef(null);
   const { navIndex, setnavIndex, setHash } = useContext(AppContext);
-  console.log(navIndex);
   const pagetitle = `${data.title} ${data.edition ? data.edition : ""}`;
   const tPageDesc =
     locale === "en"
@@ -92,19 +93,20 @@ const Emaki = ({ data, locale, locales, slug }) => {
   const scrollNextRef = useRef(null);
   const scrollPrevRef = useRef(null);
 
-  const con = articleRef.current;
-  const btnPrev = scrollPrevRef.current;
-  const btnNext = scrollNextRef.current;
-
   // イベントリスナーを使う方法で実装。
   // イベントハンドラーを使う方法は（scrollevent_eventhandler）内
   useEffect(() => {
+    const con = articleRef.current;
+    const btnPrev = scrollPrevRef.current;
+    const btnNext = scrollNextRef.current;
+
     const scrollNextEvent = () => {
       con.scrollTo({
         left: con.scrollLeft - 1000,
         behavior: "smooth",
       });
     };
+
     const scrollPrevEvent = () => {
       con.scrollTo({
         left: con.scrollLeft + 1000,
@@ -126,8 +128,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
         btnNext.removeEventListener("click", scrollNextEvent);
       }
     };
-  }, [btnNext, btnPrev, con]);
-
+  }, []);
   return (
     <>
       <Head
