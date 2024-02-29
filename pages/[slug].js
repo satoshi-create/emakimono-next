@@ -16,6 +16,7 @@ import { AppContext } from "../pages/_app";
 import FullScreen from "../components/FullScreen";
 import EmakiNavigation from "../components/EmakiNavigation";
 import { flushSync } from "react-dom";
+import Header from "../components/Header";
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
@@ -139,16 +140,17 @@ const Emaki = ({ data, locale, locales, slug }) => {
         pageType={data.type}
         jsonLd={jsonLd}
       />
-      {/* <AttentionEmakiPage /> */}
+      <Header emakipage={true} />
       <FullScreen />
-      <EmakiInfo value={data} />
-      <EmakiNavigation
+      {/* <AttentionEmakiPage /> */}
+      {/* <EmakiInfo value={data} /> */}
+      {/* <EmakiNavigation
         handleToId={handleToId}
         data={data}
         scrollNextRef={scrollNextRef}
         scrollPrevRef={scrollPrevRef}
-      />
-      <Sidebar value={data} handleToId={handleToId} />
+      /> */}
+      {/* <Sidebar value={data} handleToId={handleToId} /> */}
       <EmakiConteiner
         data={{ ...data }}
         scroll={true}

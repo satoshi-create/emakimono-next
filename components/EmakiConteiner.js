@@ -6,6 +6,7 @@ import styles from "../styles/EmakiConteiner.module.css";
 import { AppContext } from "../pages/_app";
 import Modal from "./Modal";
 import { useRouter } from "next/router";
+import FullScreen from "../components/FullScreen";
 
 const EmakiConteiner = ({
   data,
@@ -43,7 +44,7 @@ const EmakiConteiner = ({
   const emakkiHeight = (scr) => {
     if (scr) {
       if (orientation === "portrait") {
-        return "50vh";
+        return "40vh";
       } else {
         return "100vh";
       }
