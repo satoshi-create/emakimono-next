@@ -39,6 +39,7 @@ const Ekotoba = ({
     ekotobaImageToggle,
     setEkotobaImageToggle,
     scrollDialog,
+    orientation,
   } = useContext(AppContext);
 
   const [toggle, setToggle] = useState(false);
@@ -65,13 +66,23 @@ const Ekotoba = ({
       ref={navIndex === index ? scrollDialog : null}
     >
       <div
-        className={ekotobaImageToggle ? `${styles.close}` : `${styles.open}`}
+        // className={ekotobaImageToggle ? `${styles.close}` : `${styles.open}`}
+        className={`${styles.container} ${
+          ekotobaImageToggle ? `${styles.close}` : `${styles.open}`
+        }`}
       >
         {/* chaptercontainer */}
         <div className={styles.chaptercontainer}>
           <h3
             dangerouslySetInnerHTML={{ __html: chapter }}
             className={styles.chapter}
+            style={{
+              fontSize: `${
+                orientation === "portrait"
+                  ? "var(--title-size-prt)"
+                  : "var(--title-size)"
+              }`,
+            }}
           />
 
           {type === "浮世絵" && (
@@ -104,6 +115,13 @@ const Ekotoba = ({
             <p
               dangerouslySetInnerHTML={{ __html: gendaibun }}
               className={styles.gendaibuntext}
+              style={{
+                fontSize: `${
+                  orientation === "portrait"
+                    ? "var(--text-size-prt)"
+                    : "var(--text-size)"
+                }`,
+              }}
             />
           </div>
         )}
