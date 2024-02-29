@@ -23,7 +23,8 @@ import Header from "../components/Header";
 const Emaki = ({ data, locale, locales, slug }) => {
   const router = useRouter();
   const selectedRef = useRef(null);
-  const { navIndex, setnavIndex, setHash } = useContext(AppContext);
+  const { navIndex, setnavIndex, setHash, orientation } =
+    useContext(AppContext);
   const pagetitle = `${data.title} ${data.edition ? data.edition : ""}`;
   const tPageDesc =
     locale === "en"
@@ -140,7 +141,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
         pageType={data.type}
         jsonLd={jsonLd}
       />
-      <Header emakipage={true} />
+      {orientation === "portrait" && <Header emakipage={true} />}
       <FullScreen />
       {/* <AttentionEmakiPage /> */}
       {/* <EmakiInfo value={data} /> */}
