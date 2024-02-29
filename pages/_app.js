@@ -35,7 +35,7 @@ function MyApp({ Component, pageProps, router }) {
   const [index, setIndex] = useState(0);
   const [stickyClass, setStickyClass] = useState("");
   const [isSidebarOpen, setisSidebarOpen] = useState(false);
-  const [toggleFullscreen, setToggleFullscreen] = useState(true);
+  const [toggleFullscreen, setToggleFullscreen] = useState(false);
   const [toggleBtn, setToggleBtn] = useState(true);
   const [hash, setHash] = useState(0);
   const [navIndex, setnavIndex] = useState(0);
@@ -60,7 +60,6 @@ function MyApp({ Component, pageProps, router }) {
 
   // TODO: モバイルデバイスから訪問時、絵巻ページからホームページに戻るときにfullscreenをfalseにする
   const handleFullScreen = (orientation) => {
-    setToggleFullscreen(false);
     setToggleBtn(false);
 
     // if (toggleFullscreen) {
@@ -81,6 +80,7 @@ function MyApp({ Component, pageProps, router }) {
       de.requestFullscreen()
         .then(() => {
           console.log("enter fullscreen");
+          setToggleFullscreen(true);
         })
         .catch((err) => {
           console.log(`Error attempting to enable fullscreen mode ${err})`);
@@ -115,6 +115,7 @@ function MyApp({ Component, pageProps, router }) {
         });
     } else {
       document.exitFullscreen();
+      setToggleFullscreen(false);
       // / 要素を横向きに固定（モバイルデバイスで、ブラウザーがフルスクリーン表示になっているときのみ有効）
       screen.orientation.unlock();
       console.log(`exit fullscreen`);
