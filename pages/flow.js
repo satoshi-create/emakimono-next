@@ -6,7 +6,6 @@ import Head from "../components/Meta";
 // import styles from "../styles/Flow.css.module.css";
 import Title from "../components/Title";
 import FlowEmaki from "../components/FlowEmaki";
-import dataEmakis from "../libs/data";
 import { useLocale, useLocaleData } from "../libs/func";
 import { useRouter } from "next/router";
 import Breadcrumbs from "../components/Breadcrumbs";
@@ -16,8 +15,6 @@ const Flow = () => {
   const { t: data } = useLocaleData();
   const { locale } = useRouter();
 
-  // const heianEmakis = dataEmakis.filter((emaki) => emaki.era === "平安");
-  // console.log(heianEmakis);
   return (
     <>
       <Head />
@@ -26,7 +23,7 @@ const Flow = () => {
         name={locale === "en" ? "flowing scroll!!" : "流れる巻物!!"}
       />
       <FlowEmaki
-        flowEmakis={dataEmakis}
+        flowEmakis={data}
         sectiontitle={t.flow.title}
         sectiontitleen={t.flow.titleen}
       />
