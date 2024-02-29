@@ -22,10 +22,14 @@ const EmakiNavigation = ({
 }) => {
   const router = useRouter();
   const endIndex = data.emakis.length - 1;
+  console.log(data.type);
 
   return (
     <aside className={styled.container}>
-      <button onClick={() => handleToId(endIndex)} className={styled.button}>
+      <button
+        onClick={() => handleToId(data.type === "西洋絵画" ? 0 : endIndex)}
+        className={styled.button}
+      >
         <i>
           <FontAwesomeIcon icon={faAnglesLeft} />
         </i>
@@ -46,7 +50,10 @@ const EmakiNavigation = ({
           <FontAwesomeIcon icon={faChevronRight} />
         </i>
       </button>
-      <button onClick={() => handleToId(0)} className={styled.button}>
+      <button
+        onClick={() => handleToId(data.type === "西洋絵画" ? endIndex : 0)}
+        className={styled.button}
+      >
         <i>
           <FontAwesomeIcon icon={faAnglesRight} />
         </i>
