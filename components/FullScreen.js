@@ -12,9 +12,6 @@ import {
 // lock func
 const FullScreen = () => {
   const { toggleFullscreen, handleFullScreen } = useContext(AppContext);
-  // useEffect(() => {
-  //   setToggleFullscreen(false);
-  // }, []);
 
   return (
     <button
@@ -23,12 +20,11 @@ const FullScreen = () => {
       onClick={() => handleFullScreen("landscape")}
       className={`${styles.button} ${styles.icon}`}
     >
-      {/* {toggleFullscreen ? (
-        <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
-      ) : (
+      {toggleFullscreen ? (
         <FontAwesomeIcon icon={faDownLeftAndUpRightToCenter} />
-      )} */}
-      <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
+      ) : (
+        <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
+      )}
     </button>
   );
 };
