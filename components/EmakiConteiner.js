@@ -24,9 +24,8 @@ const EmakiConteiner = ({
   const { backgroundImage, kotobagaki, type } = data;
 
   useEffect(() => {
-    const el = articleRef.current;
-
     if (scroll) {
+      const el = articleRef.current;
       if (el) {
         const wheelListener = (e) => {
           // e.preventDefault();

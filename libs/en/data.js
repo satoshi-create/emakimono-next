@@ -1,4 +1,4 @@
-import dataByoubus from "./dataByoubus";
+import dataByoubus from "./dataByoubus.js";
 import dataEmakis from "./dataEmakis.js";
 import dataSeiyoukaiga from "./dataSeiyoukaiga.js";
 import dataSuibokuga from "./dataSuibokuga.js";

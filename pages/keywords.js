@@ -6,10 +6,13 @@ import Head from "../components/Meta";
 import Keywords from "../components/Keywords";
 import Breadcrumbs from "../components/Breadcrumbs";
 import { keywordItem, useLocaleData } from "../libs/func";
+import ExtractingListData from "../components/ExtractingListData";
 
 const KeywordsComp = () => {
-  const { t: emakisData, locale } = useLocaleData();
-  const allKeywords = keywordItem(emakisData);
+  const { locale } = useLocaleData();
+  const removeNestedArrayObj = ExtractingListData();
+
+  const allKeywords = keywordItem(removeNestedArrayObj);
   const tPageDesc =
     locale === "en"
       ? `This is the keyword list page.This site pursues the enjoyment of picture scrolls by scrolling from right to left!`
@@ -22,7 +25,7 @@ const KeywordsComp = () => {
       />
       <Header slug={"keywords"} />
       <Breadcrumbs name={locale === "en" ? "keyword list" : "キーワード一覧"} />
-      
+
       <Keywords
         sectiontitle={"キーワード"}
         sectiontitleen={"keywords"}
