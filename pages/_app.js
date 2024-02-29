@@ -39,6 +39,7 @@ function MyApp({ Component, pageProps, router }) {
   const [toggleBtn, setToggleBtn] = useState(true);
   const [hash, setHash] = useState(0);
   const [navIndex, setnavIndex] = useState(0);
+  const [orientation, setOrientation] = useState("portrait");
 
   const openSidebar = () => {
     setisSidebarOpen(true);
@@ -153,6 +154,34 @@ function MyApp({ Component, pageProps, router }) {
     }
   }, []);
 
+  https: useEffect(() => {
+    // クエリーリストを作成する。
+    const mediaQueryList = window.matchMedia("(orientation: portrait)");
+
+    // イベントリスナーのコールバック関数を定義する。
+    function handleOrientationChange(evt) {
+      if (evt.matches) {
+        /* 現在ビューポートが縦長 */
+        console.log("portrait");
+        setOrientation("portrait");
+      } else {
+        /* 現在ビューポートが横長 */
+        console.log("landscape");
+        setOrientation("landscape");
+      }
+    }
+
+    // 向き変更時のハンドラーを一度実行する。
+    handleOrientationChange(mediaQueryList);
+
+    // コールバック関数をリスナーとしてクエリーリストに追加する。
+    mediaQueryList.addEventListener("change", handleOrientationChange);
+
+    return () => {
+      mediaQueryList.removeEventListener("change", handleOrientationChange);
+    };
+  }, []);
+
   return (
     <AppContext.Provider
       value={{
@@ -187,6 +216,8 @@ function MyApp({ Component, pageProps, router }) {
         navIndex,
         setnavIndex,
         scrollDialog,
+        orientation,
+        setOrientation,
       }}
     >
       <Script
