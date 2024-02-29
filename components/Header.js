@@ -8,7 +8,7 @@ import NavLinks from "./NavLinks";
 import { AppContext } from "../pages/_app";
 import SidebarHome from "./SidebarHome";
 
-const Header = ({ slug, fixed }) => {
+const Header = ({ slug, fixed, emakipage }) => {
   const { locale } = useRouter();
 
   const { isSidebarOpen, openSidebar, stickyClass, setStickyClass } =
@@ -27,6 +27,7 @@ const Header = ({ slug, fixed }) => {
       className={`${styles.header} section-grid ${
         fixed && styles[stickyClass]
       }`}
+      style={{ padding: `${emakipage ? "0.5rem 0" : "1.5rem 0"}` }}
     >
       <div className={styles.center}>
         <h1 className={styles.title}>

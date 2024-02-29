@@ -2,12 +2,10 @@
   display: flex !important;
   height: var(--screen-height);
   width: var(--screen-width);
-  /* width: 100vw; */
-  /* width: var(--text-width); */
   overflow-y: hidden;
   overflow-x: scroll;
   box-shadow: var(--box-shadow);
-  /* overflow-x: var(--overflow-x); */
+  position: relative;
 }
 
 .rl {
