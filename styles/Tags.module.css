@@ -1,7 +1,7 @@
 .tags {
   display: grid;
   justify-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
   font-family: var(--title-font2);
 }
 .jatags {
