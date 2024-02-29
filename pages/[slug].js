@@ -15,7 +15,6 @@ import styles from "../styles/viewport.module.css";
 import { AppContext } from "../pages/_app";
 import FullScreen from "../components/FullScreen";
 import EmakiNavigation from "../components/EmakiNavigation";
-import { flushSync } from "react-dom";
 import Header from "../components/Header";
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
@@ -65,12 +64,6 @@ const Emaki = ({ data, locale, locales, slug }) => {
     },
   };
   const jsonLd = JSON.stringify(jsonData, null, " ");
-
-  function handleToId(id) {
-    flushSync(() => {
-      setnavIndex(id);
-    });
-  }
 
   useEffect(() => {
     return () => {
