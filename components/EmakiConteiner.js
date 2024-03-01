@@ -46,27 +46,28 @@ const EmakiConteiner = ({
     }
   }, [articleRef, scroll]);
 
-  const emakkiHeight = (scr) => {
-    if (scr) {
-      if (orientation === "portrait") {
-        return "40vh";
-      } else {
-        return "100vh";
-      }
-    } else {
-      return "50vh";
-    }
-  };
+  // const emakkiHeight = (scr) => {
+  //   if (scr) {
+  //     if (orientation === "portrait") {
+  //       return "40vh";
+  //     } else {
+  //       return "100vh";
+  //     }
+  //   } else {
+  //     return "50vh";
+  //   }
+  // };
 
   return (
     <>
       <div className={styles.wrapper}>
+        <FullScreen />
         <article
           className={`${styles.conteiner} ${
             type === "西洋絵画" ? styles.lr : styles.rl
           }`}
           style={{
-            "--screen-height": emakkiHeight(scroll),
+            "--screen-height": height,
             "--screen-width": width,
             "--overflow-x": overflowX,
             "--box-shadow": boxshadow,
