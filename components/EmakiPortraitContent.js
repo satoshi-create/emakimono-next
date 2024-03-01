@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "../styles/EmakiPortraitContent.module.css";
 import { AppContext } from "../pages/_app";
+import { eraColor } from "../libs/func";
 
 const EmakiPortraitContent = ({ data }) => {
   const { handleToId } = useContext(AppContext);
@@ -40,8 +41,14 @@ const EmakiPortraitContent = ({ data }) => {
         </h4>
       </div>
       <div className={styles.metadataB}>
-        <div className={styles.desc}>{desc}</div>
-        <ul className={styles.chapter}>
+        <div
+          className={styles.desc}
+          dangerouslySetInnerHTML={{ __html: desc ? desc : descTemp }}
+        ></div>
+        <ul
+          className={styles.chapter}
+          // style={{ color: eraColor(era) }}
+        >
           {emakis.map((item, index) => {
             const { cat, chapter } = item;
             if (cat === "ekotoba") {
@@ -50,6 +57,7 @@ const EmakiPortraitContent = ({ data }) => {
                   <span
                     onClick={() => handleToId(index)}
                     dangerouslySetInnerHTML={{ __html: chapter }}
+                    className={styles[eraColor(era)]}
                   ></span>
                 </li>
               );
@@ -58,7 +66,13 @@ const EmakiPortraitContent = ({ data }) => {
         </ul>
         <div className={styles.cat}>
           <Link href={`/era/${eraen}`}>
-            <a className={`era ${styles.era}`}>
+            <a
+              className={styles.era}
+              style={{
+                border: eraColor(era),
+                backgroundColor: eraColor(era),
+              }}
+            >
               {locale === "en" ? `${eraen} period` : `${era}`}
             </a>
           </Link>
@@ -72,7 +86,7 @@ const EmakiPortraitContent = ({ data }) => {
               出典 - {sourceImage}
             </a>
           </Link>
-          <div>参照 - {reference}</div>
+          <div> {reference ? `参照 - ${reference}` : ""}</div>
         </div>
       </div>
     </div>
