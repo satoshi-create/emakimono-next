@@ -13,6 +13,7 @@
   --clr-primary-02: rgba(117, 159, 238, 0.3);
   --clr-accent-02: #ff8c77;
   --clr-green-01: #54896a;
+  --clr-link: #065fd4;
   --text-size: calc(16px + (35 - 16) * ((100vh - 375px) / (1080 - 375)));
   --text-size-prt: clamp(0.875rem, 0.6583rem + 0.9245vw, 1.25rem);
   --title-size: calc(20px + (35 - 20) * ((100vh - 375px) / (1080 - 375)));
@@ -37,7 +38,7 @@
 }
 
 body {
-  background-color: #f9fbff;
+  background-color: var(--clr-white);
   font-family: var(--my-font);
   line-height: 1.5;
 }

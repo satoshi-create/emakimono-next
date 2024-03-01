@@ -50,7 +50,6 @@ const CardA = ({
             typeen,
             type,
             subtype,
-            data,
             keyword,
           } = item;
 
@@ -94,7 +93,11 @@ const CardA = ({
                     </Link>
                     <Link href={`/era/${eraen}`}>
                       <a
-                        className={`era ${styles[eraColor(era)]} ${styles.era}`}
+                        className={`${styles.era}`}
+                        style={{
+                          border: eraColor(era),
+                          backgroundColor: eraColor(era),
+                        }}
                       >
                         {locale === "en" ? `${eraen} period` : `${era}時代`}
                       </a>
