@@ -1,8 +1,13 @@
-.button {
+.land {
   position: absolute;
   right: 1rem;
   top: 18rem;
   z-index: 100;
+}
+.port {
+  position: absolute;
+  bottom: 0.2rem;
+  right: 0.2rem;
 }
 .icon {
   z-index: 10;
@@ -10,7 +15,4 @@
   color: var(--clr-grey-light);
   transform: rotate(var(--rotate));
   transition: var(--transition);
-}
-.icon:hover {
-  color: var(--clr-accent-02);
 }

@@ -32,7 +32,7 @@ const EmakiPortraitContent = ({ data }) => {
     <div className={styles.container}>
       <div className={styles.metadataA}>
         <h3 className={styles.title}>
-          {title}　{edition}
+          {title} {edition}
         </h3>
         <h4 className={styles.author}>
           {author

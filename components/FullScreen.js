@@ -5,25 +5,28 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDownLeftAndUpRightToCenter,
   faUpRightAndDownLeftFromCenter,
+  faExpand,
+  faCompress,
 } from "@fortawesome/free-solid-svg-icons";
 
 // TODO:フルスクリーンを解除しないでページ遷移したときに、フルスクリーンを解除する
 
 // lock func
 const FullScreen = () => {
-  const { toggleFullscreen, handleFullScreen } = useContext(AppContext);
+  const { toggleFullscreen, handleFullScreen, orientation } =
+    useContext(AppContext);
 
   return (
     <button
       type="button"
       value="Lock Landscape"
       onClick={() => handleFullScreen("landscape")}
-      className={`${styles.button} ${styles.icon}`}
+      className={`${orientation === "landscape" && styles.land} ${styles.icon}`}
     >
       {toggleFullscreen ? (
-        <FontAwesomeIcon icon={faDownLeftAndUpRightToCenter} />
+        <FontAwesomeIcon icon={faCompress} />
       ) : (
-        <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
+        <FontAwesomeIcon icon={faExpand} />
       )}
     </button>
   );
