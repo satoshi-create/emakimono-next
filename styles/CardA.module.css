@@ -1,4 +1,3 @@
-
 .sectiondesc {
   margin: 0 auto;
   font-family: var(--text-font);
@@ -72,7 +71,7 @@
   font-weight: 500;
 }
 .cat > * {
-  padding: 0.1rem 0.4rem;
+  padding: 0.1rem 0.4rem 0;
   border-radius: var(--borderRadius);
   color: var(--clr-grey-light);
   border: 1px solid var(--clr-grey-light);
