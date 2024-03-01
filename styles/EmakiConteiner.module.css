@@ -4,9 +4,9 @@
   left: 0;
   z-index: 10;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  /* background-color: var(--clr-grey); */
-  background-image: url("/washi_gray.webp");
-  background-repeat: repeat;
+  background-color: var(--clr-white);
+  /* background-image: url("/washi_gray.webp");
+  background-repeat: repeat; */
 }
 .conteiner {
   display: flex !important;
