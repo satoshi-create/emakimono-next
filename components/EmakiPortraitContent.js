@@ -7,8 +7,21 @@ import { AppContext } from "../pages/_app";
 const EmakiPortraitContent = ({ data }) => {
   const { handleToId } = useContext(AppContext);
   const { locale } = useRouter();
-  const { type, typeen, eraen, era, title, edition, author, desc, emakis } =
-    data;
+  const {
+    type,
+    typeen,
+    eraen,
+    era,
+    title,
+    edition,
+    author,
+    desc,
+    emakis,
+    sourceImage,
+    sourceImageUrl,
+    subtype,
+    reference,
+  } = data;
 
   const filterDesc = desc.substring(0, 40);
   const descTemp = `${title} ${
@@ -17,16 +30,6 @@ const EmakiPortraitContent = ({ data }) => {
   return (
     <div className={styles.container}>
       <div className={styles.metadataA}>
-        <div className={styles.cat}>
-          <Link href={`/category/${typeen}`}>
-            <a className={styles.type}>{locale === "en" ? typeen : type}</a>
-          </Link>
-          <Link href={`/era/${eraen}`}>
-            <a className={`era ${styles.era}`}>
-              {locale === "en" ? `${eraen} period` : `${era}時代`}
-            </a>
-          </Link>
-        </div>
         <h3 className={styles.title}>
           {title}　{edition}
         </h3>
@@ -36,26 +39,42 @@ const EmakiPortraitContent = ({ data }) => {
             : `${locale == "en" ? "artist unknown" : "絵師不詳"}`}
         </h4>
       </div>
-
-      <div className={styles.desc}>
-        {desc ? `${filterDesc}...もっと見る` : descTemp}
+      <div className={styles.metadataB}>
+        <div className={styles.desc}>{desc}</div>
+        <ul className={styles.chapter}>
+          {emakis.map((item, index) => {
+            const { cat, chapter } = item;
+            if (cat === "ekotoba") {
+              return (
+                <li key={index}>
+                  <span
+                    onClick={() => handleToId(index)}
+                    dangerouslySetInnerHTML={{ __html: chapter }}
+                  ></span>
+                </li>
+              );
+            }
+          })}
+        </ul>
+        <div className={styles.cat}>
+          <Link href={`/era/${eraen}`}>
+            <a className={`era ${styles.era}`}>
+              {locale === "en" ? `${eraen} period` : `${era}`}
+            </a>
+          </Link>
+          <Link href={`/category/${typeen}`} className={styles.type}>
+            <a>{locale === "en" ? typeen : type}</a>
+          </Link>
+        </div>
+        <div className={styles.authority}>
+          <Link href={sourceImageUrl}>
+            <a target="_blank" className={styles.sourceLink}>
+              出典 - {sourceImage}
+            </a>
+          </Link>
+          <div>参照 - {reference}</div>
+        </div>
       </div>
-
-      <ul className={styles.mokuji}>
-        {emakis.map((item, index) => {
-          const { cat, chapter } = item;
-          if (cat === "ekotoba") {
-            return (
-              <li key={index}>
-                <span
-                  onClick={() => handleToId(index)}
-                  dangerouslySetInnerHTML={{ __html: chapter }}
-                ></span>
-              </li>
-            );
-          }
-        })}
-      </ul>
     </div>
   );
 };
