@@ -27,6 +27,8 @@ const EmakiConteiner = ({
   const emakis = data.emakis;
   const { backgroundImage, kotobagaki, type } = data;
 
+  console.log(data);
+
   useEffect(() => {
     if (scroll) {
       const el = articleRef.current;
