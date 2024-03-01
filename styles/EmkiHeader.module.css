@@ -1,0 +1,30 @@
+.header {
+  background: var(--clr-white);
+  font-family: "Kaisei Decol", serif;
+  padding: 0.5rem 0;
+}
+.header-fixed {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 1rem 0;
+}
+
+.center {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+.title {
+  font-size: 1.3rem;
+  text-transform: uppercase;
+}
+.openbtn {
+  font-size: 1.5rem;
+}
+.links {
+  display: none;
+}

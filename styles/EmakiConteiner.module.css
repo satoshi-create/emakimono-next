@@ -8,7 +8,6 @@
   /* background-image: url("/washi_gray.webp");
   background-repeat: repeat; */
   border-radius: 5%;
-  outline: solid;
 }
 .conteiner {
   display: flex !important;

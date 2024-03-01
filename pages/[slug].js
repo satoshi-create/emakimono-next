@@ -15,14 +15,15 @@ import styles from "../styles/viewport.module.css";
 import { AppContext } from "../pages/_app";
 import FullScreen from "../components/FullScreen";
 import EmakiNavigation from "../components/EmakiNavigation";
-import Header from "../components/Header";
+import EmakiHeader from "../components/EmakiHeader";
+import EmakiPortraitContent from "../components/EmakiPortraitContent";
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
 const Emaki = ({ data, locale, locales, slug }) => {
   const router = useRouter();
   const selectedRef = useRef(null);
-  const { navIndex, setnavIndex, setHash, orientation } =
+  const { navIndex, setnavIndex, setHash, orientation, toggleFullscreen } =
     useContext(AppContext);
   const pagetitle = `${data.title} ${data.edition ? data.edition : ""}`;
   const tPageDesc =
@@ -134,7 +135,6 @@ const Emaki = ({ data, locale, locales, slug }) => {
         pageType={data.type}
         jsonLd={jsonLd}
       />
-      {orientation === "portrait" && <Header emakipage={true} />}
       {/* <FullScreen /> */}
       {/* <AttentionEmakiPage /> */}
       {/* <EmakiInfo value={data} /> */}
@@ -145,14 +145,27 @@ const Emaki = ({ data, locale, locales, slug }) => {
         scrollPrevRef={scrollPrevRef}
       /> */}
       {/* <Sidebar value={data} handleToId={handleToId} /> */}
-      <EmakiConteiner
-        data={{ ...data }}
-        scroll={true}
-        selectedRef={selectedRef}
-        navIndex={navIndex}
-        articleRef={articleRef}
-      />
-      {/* <Footer /> */}
+      {toggleFullscreen ? (
+        <EmakiConteiner
+          data={{ ...data }}
+          scroll={true}
+          selectedRef={selectedRef}
+          navIndex={navIndex}
+          articleRef={articleRef}
+        />
+      ) : (
+        <>
+          <EmakiHeader />
+          <EmakiConteiner
+            data={{ ...data }}
+            scroll={true}
+            selectedRef={selectedRef}
+            navIndex={navIndex}
+            articleRef={articleRef}
+          />
+          {orientation === "portrait" && <EmakiPortraitContent data={data} />}
+        </>
+      )}
     </>
   );
 };
