@@ -1,0 +1,56 @@
+.container {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.metadataA {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.cat {
+  display: flex;
+  justify-content: left;
+  column-gap: 0.5rem;
+  font-size: 0.7rem;
+  font-family: var(--title-font2);
+  font-weight: 500;
+}
+.cat > * {
+  padding: 0.1rem 0.4rem;
+  border-radius: var(--borderRadius);
+  color: var(--clr-grey-light);
+  border: 1px solid var(--clr-grey-light);
+  font-weight: 100;
+  transition: var(--transition);
+  cursor: pointer;
+}
+.cat > .type:hover,
+.cat > div:hover {
+  opacity: 0.5;
+}
+.title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--clr-black);
+  font-family: var(--title-font2);
+  text-transform: capitalize;
+}
+.author {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--clr-black);
+  font-family: var(--title-font2);
+  text-transform: capitalize;
+}
+.desc {
+  font-size: 0.9rem;
+  color: var(--clr-black);
+  font-family: var(--text-font);
+}
+.mokuji {
+  font-size: 0.9rem;
+  color: var(--clr-black);
+  font-family: var(--text-font);
+}
