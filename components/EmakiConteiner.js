@@ -8,7 +8,6 @@ import Modal from "./Modal";
 import { useRouter } from "next/router";
 import FullScreen from "../components/FullScreen";
 import Link from "next/link";
-import EmakiPortraitContent from "./EmakiPortraitContent";
 
 const EmakiConteiner = ({
   data,
@@ -111,7 +110,6 @@ const EmakiConteiner = ({
           })}
         </article>
       </div>
-      {orientation === "portrait" && <EmakiPortraitContent data={data} />}
     </>
   );
 };

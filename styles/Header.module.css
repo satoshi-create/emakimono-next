@@ -28,7 +28,7 @@
   display: none;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 768px) {
   .nav {
     display: none;
   }
