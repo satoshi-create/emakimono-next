@@ -152,7 +152,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
         scrollPrevRef={scrollPrevRef}
       /> */}
       {/* <Sidebar value={data} handleToId={handleToId} /> */}
-      {toggleFullscreen || orientation === "landscape" ? (
+      {toggleFullscreen && orientation === "landscape" ? (
         <EmakiConteiner
           data={{ ...data }}
           scroll={true}
