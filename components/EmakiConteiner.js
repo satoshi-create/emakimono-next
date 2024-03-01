@@ -23,9 +23,11 @@ const EmakiConteiner = ({
 }) => {
   const { isModalOpen, setOepnSidebar, oepnSidebar, orientation, handleToId } =
     useContext(AppContext);
-  const { locale } = useRouter();
+
   const emakis = data.emakis;
   const { backgroundImage, kotobagaki, type } = data;
+
+  const [toggle, setToggle] = useState(true);
 
   console.log(data);
 
@@ -60,7 +62,6 @@ const EmakiConteiner = ({
   return (
     <>
       <div className={styles.wrapper}>
-        {isModalOpen && <Modal data={data} />}
         <article
           className={`${styles.conteiner} ${
             type === "西洋絵画" ? styles.lr : styles.rl
