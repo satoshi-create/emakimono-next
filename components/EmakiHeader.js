@@ -23,11 +23,7 @@ const Header = ({ slug, fixed, emakipage }) => {
   }, [setStickyClass]);
 
   return (
-    <header
-      className={`${styles.header} section-grid ${
-        fixed && styles[stickyClass]
-      }`}
-    >
+    <header className={`${styles.header} emaki-page-landscape-grid`}>
       <div className={styles.center}>
         <h1 className={styles.title}>
           <Link href="/">

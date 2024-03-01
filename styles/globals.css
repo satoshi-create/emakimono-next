@@ -69,6 +69,13 @@ button {
 .section-grid > * {
   grid-column: 2;
 }
+.emaki-page-landscape-grid {
+  display: grid;
+  grid-template-columns: 1fr min(calc(100vw - (5vw * 2)), 1700px) 1fr;
+}
+.emaki-page-landscape-grid > * {
+  grid-column: 2;
+}
 .section-padding {
   padding: 4rem 0;
 }

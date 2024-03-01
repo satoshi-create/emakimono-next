@@ -101,7 +101,7 @@ const Home = () => {
     <main>
       <Head />
       <Header fixed={true} />
-      <Attention />
+      {/* <Attention /> */}
       <CardA
         emakis={genjiEmakis}
         columns={t.genji.columns}

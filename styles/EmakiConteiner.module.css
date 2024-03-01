@@ -7,16 +7,17 @@
   background-color: var(--clr-white);
   /* background-image: url("/washi_gray.webp");
   background-repeat: repeat; */
-  border-radius: 5%;
+  border-radius: 3%;
 }
 .conteiner {
   display: flex !important;
   height: var(--screen-height);
-  width: var(--screen-width);
+  /* width: var(--screen-width); */
   overflow-y: hidden;
-  overflow-x: scroll;
+  overflow-x: hidden;
+  /* overflow-x: scroll; */
   position: relative;
-  border-radius: 5%;
+  border-radius: 3%;
 }
 .emakiplayer {
   position: absolute;
