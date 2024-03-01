@@ -23,8 +23,14 @@ import EmakiPortraitContent from "../components/EmakiPortraitContent";
 const Emaki = ({ data, locale, locales, slug }) => {
   const router = useRouter();
   const selectedRef = useRef(null);
-  const { navIndex, setnavIndex, setHash, orientation, toggleFullscreen } =
-    useContext(AppContext);
+  const {
+    navIndex,
+    setnavIndex,
+    setHash,
+    orientation,
+    toggleFullscreen,
+    setToggleFullscreen,
+  } = useContext(AppContext);
   const pagetitle = `${data.title} ${data.edition ? data.edition : ""}`;
   const tPageDesc =
     locale === "en"
@@ -70,6 +76,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
     return () => {
       if (document.fullscreenElement) {
         document.exitFullscreen();
+        setToggleFullscreen(false);
         screen.orientation.unlock();
       }
     };
@@ -145,7 +152,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
         scrollPrevRef={scrollPrevRef}
       /> */}
       {/* <Sidebar value={data} handleToId={handleToId} /> */}
-      {toggleFullscreen ? (
+      {toggleFullscreen || orientation === "landscape" ? (
         <EmakiConteiner
           data={{ ...data }}
           scroll={true}
