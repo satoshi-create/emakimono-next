@@ -7,6 +7,8 @@ import { AppContext } from "../pages/_app";
 import Modal from "./Modal";
 import { useRouter } from "next/router";
 import FullScreen from "../components/FullScreen";
+import Link from "next/link";
+import EmakiPortraitContent from "./EmakiPortraitContent";
 
 const EmakiConteiner = ({
   data,
@@ -21,10 +23,9 @@ const EmakiConteiner = ({
 }) => {
   const { isModalOpen, setOepnSidebar, oepnSidebar, orientation, handleToId } =
     useContext(AppContext);
-  const router = useRouter();
+  const { locale } = useRouter();
   const emakis = data.emakis;
   const { backgroundImage, kotobagaki, type } = data;
-  console.log(data);
 
   useEffect(() => {
     if (scroll) {
@@ -107,31 +108,7 @@ const EmakiConteiner = ({
           })}
         </article>
       </div>
-      {orientation === "portrait" && (
-        <div className={styles.metadata}>
-          <div className={styles.emakiinfo}>
-            <h3>{data.title}</h3>
-            <p>絵師{data.author ? data.author : "不詳"}</p>
-            <p>{data.era}時代</p>
-            <p>{data.desc}</p>
-          </div>
-          <ul className={styles.mokuji}>
-            {emakis.map((item, index) => {
-              const { cat, chapter } = item;
-              if (cat === "ekotoba") {
-                return (
-                  <li key={index}>
-                    <span
-                      onClick={() => handleToId(index)}
-                      dangerouslySetInnerHTML={{ __html: chapter }}
-                    ></span>
-                  </li>
-                );
-              }
-            })}
-          </ul>
-        </div>
-      )}
+      {orientation === "portrait" && <EmakiPortraitContent data={data} />}
     </>
   );
 };
