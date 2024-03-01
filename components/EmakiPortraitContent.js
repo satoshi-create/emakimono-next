@@ -6,7 +6,7 @@ import { AppContext } from "../pages/_app";
 import { eraColor } from "../libs/func";
 
 const EmakiPortraitContent = ({ data }) => {
-  const { handleToId } = useContext(AppContext);
+  const { handleToId, handleFullScreen } = useContext(AppContext);
   const { locale } = useRouter();
   const {
     type,
@@ -39,6 +39,14 @@ const EmakiPortraitContent = ({ data }) => {
             ? author
             : `${locale == "en" ? "artist unknown" : "絵師不詳"}`}
         </h4>
+        <button
+          type="button"
+          value="Lock Landscape"
+          onClick={() => handleFullScreen("landscape")}
+          className={styles.linkedbutton}
+        >
+          横スクロールで見る
+        </button>
       </div>
       <div className={styles.metadataB}>
         <div
