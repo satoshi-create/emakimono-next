@@ -152,6 +152,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
         navIndex={navIndex}
         articleRef={articleRef}
       />
+      {/* <Footer /> */}
     </>
   );
 };

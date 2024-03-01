@@ -23,10 +23,10 @@ const useLocaleData = () => {
 const eraColor = (x) => {
   switch (x) {
     case "平安":
-      return "orange";
+      return "#ff8c77";
       break;
     case "鎌倉":
-      return "green";
+      return "#54896a";
       break;
     case "室町":
       return "purple";

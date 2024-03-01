@@ -32,21 +32,7 @@ const NavLinks = ({ footerstyle, slug }) => {
               <ul
                 className={`${submenu && styles.submenu}`}
                 style={toggle ? { display: "flex" } : { display: "none" }}
-              >
-                {/* {submenu &&
-                  submenu.map((item, i) => {
-                    const { name, path, nameen } = item;
-                    return (
-                      <li key={i}>
-                        <Link href={path}>
-                          <a className={styles.linksName}>
-                            {locale === "en" ? nameen : name}
-                          </a>
-                        </Link>
-                      </li>
-                    );
-                  })} */}
-              </ul>
+              ></ul>
             </li>
           );
         } else {
@@ -83,7 +69,6 @@ const NavLinks = ({ footerstyle, slug }) => {
           );
         }
       })}
-      {/* <Translate footerstyle={footerstyle} slug={slug} /> */}
     </ul>
   );
 };
