@@ -17,6 +17,7 @@ import FullScreen from "../components/FullScreen";
 import EmakiNavigation from "../components/EmakiNavigation";
 import EmakiHeader from "../components/EmakiHeader";
 import EmakiPortraitContent from "../components/EmakiPortraitContent";
+import EmakiLandscapContent from "../components/EmakiLandscapContent";
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
@@ -159,18 +160,31 @@ const Emaki = ({ data, locale, locales, slug }) => {
           selectedRef={selectedRef}
           navIndex={navIndex}
           articleRef={articleRef}
+          height={"100vh"}
         />
       ) : (
         <>
           <EmakiHeader />
-          <EmakiConteiner
-            data={{ ...data }}
-            scroll={true}
-            selectedRef={selectedRef}
-            navIndex={navIndex}
-            articleRef={articleRef}
-          />
-          {orientation === "portrait" && <EmakiPortraitContent data={data} />}
+          {orientation === "portrait" && (
+            <EmakiPortraitContent
+              data={data}
+              scroll={true}
+              selectedRef={selectedRef}
+              navIndex={navIndex}
+              articleRef={articleRef}
+              height={"40vh"}
+            />
+          )}
+          {orientation === "landscape" && (
+            <EmakiLandscapContent
+              data={{ ...data }}
+              scroll={true}
+              selectedRef={selectedRef}
+              navIndex={navIndex}
+              articleRef={articleRef}
+              height={"75vh"}
+            />
+          )}
         </>
       )}
     </>
