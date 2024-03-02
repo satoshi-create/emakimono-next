@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 import FullScreen from "../components/FullScreen";
 import Link from "next/link";
 import Sidebar from "./Sidebar";
+import EmakiInfo from "../components/EmakiInfo";
+import EmakiNavigation from "../components/EmakiNavigation";
 
 const EmakiConteiner = ({
   data,
@@ -19,17 +21,24 @@ const EmakiConteiner = ({
   boxshadow,
   selectedRef,
   navIndex,
-  articleRef,
 }) => {
-  const { isModalOpen, setOepnSidebar, oepnSidebar, orientation, handleToId } =
-    useContext(AppContext);
+  const {
+    isModalOpen,
+    setOepnSidebar,
+    oepnSidebar,
+    orientation,
+    handleToId,
+    toggleFullscreen,
+  } = useContext(AppContext);
 
   const emakis = data.emakis;
   const { backgroundImage, kotobagaki, type } = data;
 
   const [toggle, setToggle] = useState(true);
 
-  console.log(data);
+  const articleRef = useRef();
+  const scrollNextRef = useRef(null);
+  const scrollPrevRef = useRef(null);
 
   useEffect(() => {
     if (scroll) {
@@ -47,17 +56,42 @@ const EmakiConteiner = ({
     }
   }, [articleRef, scroll]);
 
-  // const emakkiHeight = (scr) => {
-  //   if (scr) {
-  //     if (orientation === "portrait") {
-  //       return "40vh";
-  //     } else {
-  //       return "100vh";
-  //     }
-  //   } else {
-  //     return "50vh";
-  //   }
-  // };
+  // イベントリスナーを使う方法で実装。
+  // イベントハンドラーを使う方法は（scrollevent_eventhandler）内
+  useEffect(() => {
+    const con = articleRef.current;
+    const btnPrev = scrollPrevRef.current;
+    const btnNext = scrollNextRef.current;
+
+    const scrollNextEvent = () => {
+      con.scrollTo({
+        left: con.scrollLeft - 1000,
+        behavior: "smooth",
+      });
+    };
+
+    const scrollPrevEvent = () => {
+      con.scrollTo({
+        left: con.scrollLeft + 1000,
+        behavior: "smooth",
+      });
+    };
+
+    if (btnNext) {
+      btnNext.addEventListener("click", scrollNextEvent);
+    }
+    if (btnPrev) {
+      btnPrev.addEventListener("click", scrollPrevEvent);
+    }
+    return () => {
+      if (btnNext) {
+        btnNext.removeEventListener("click", scrollNextEvent);
+      }
+      if (btnPrev) {
+        btnNext.removeEventListener("click", scrollNextEvent);
+      }
+    };
+  }, []);
 
   return (
     <>
@@ -67,6 +101,13 @@ const EmakiConteiner = ({
         }`}
       >
         <FullScreen />
+        {toggleFullscreen && <EmakiInfo value={data} />}
+        <EmakiNavigation
+          handleToId={handleToId}
+          data={data}
+          scrollNextRef={scrollNextRef}
+          scrollPrevRef={scrollPrevRef}
+        />
         <article
           className={`${styles.conteiner} ${
             type === "西洋絵画" ? styles.lr : styles.rl

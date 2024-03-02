@@ -2,7 +2,6 @@
   position: absolute;
   top: 1%;
   left: 1%;
-
   font-family: var(--text-font);
   z-index: 10;
   display: flex;

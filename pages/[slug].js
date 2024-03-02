@@ -14,7 +14,7 @@ import AttentionEmakiPage from "../components/AttentionEmakiPage";
 import styles from "../styles/viewport.module.css";
 import { AppContext } from "../pages/_app";
 import FullScreen from "../components/FullScreen";
-import EmakiNavigation from "../components/EmakiNavigation";
+
 import EmakiHeader from "../components/EmakiHeader";
 import EmakiPortraitContent from "../components/EmakiPortraitContent";
 import EmakiLandscapContent from "../components/EmakiLandscapContent";
@@ -91,47 +91,6 @@ const Emaki = ({ data, locale, locales, slug }) => {
     };
   }, [setnavIndex, setHash]);
 
-  const articleRef = useRef();
-  const scrollNextRef = useRef(null);
-  const scrollPrevRef = useRef(null);
-
-  // イベントリスナーを使う方法で実装。
-  // イベントハンドラーを使う方法は（scrollevent_eventhandler）内
-  useEffect(() => {
-    const con = articleRef.current;
-    const btnPrev = scrollPrevRef.current;
-    const btnNext = scrollNextRef.current;
-
-    const scrollNextEvent = () => {
-      con.scrollTo({
-        left: con.scrollLeft - 1000,
-        behavior: "smooth",
-      });
-    };
-
-    const scrollPrevEvent = () => {
-      con.scrollTo({
-        left: con.scrollLeft + 1000,
-        behavior: "smooth",
-      });
-    };
-
-    if (btnNext) {
-      btnNext.addEventListener("click", scrollNextEvent);
-    }
-    if (btnPrev) {
-      btnPrev.addEventListener("click", scrollPrevEvent);
-    }
-    return () => {
-      if (btnNext) {
-        btnNext.removeEventListener("click", scrollNextEvent);
-      }
-      if (btnPrev) {
-        btnNext.removeEventListener("click", scrollNextEvent);
-      }
-    };
-  }, []);
-
   return (
     <>
       <Head
@@ -144,25 +103,17 @@ const Emaki = ({ data, locale, locales, slug }) => {
         pageType={data.type}
         jsonLd={jsonLd}
       />
-      {/* <FullScreen /> */}
-      {/* <AttentionEmakiPage />
-      <EmakiInfo value={data} />
-      <EmakiNavigation
-        handleToId={handleToId}
-        data={data}
-        scrollNextRef={scrollNextRef}
-        scrollPrevRef={scrollPrevRef}
-      /> */}
       {/* <Sidebar value={data} handleToId={handleToId} /> */}
       {toggleFullscreen && orientation === "landscape" ? (
-        <EmakiConteiner
-          data={{ ...data }}
-          scroll={true}
-          selectedRef={selectedRef}
-          navIndex={navIndex}
-          articleRef={articleRef}
-          height={"100vh"}
-        />
+        <>
+          <EmakiConteiner
+            data={{ ...data }}
+            scroll={true}
+            selectedRef={selectedRef}
+            navIndex={navIndex}
+            height={"100vh"}
+          />
+        </>
       ) : (
         <>
           <EmakiHeader />
@@ -172,7 +123,6 @@ const Emaki = ({ data, locale, locales, slug }) => {
               scroll={true}
               selectedRef={selectedRef}
               navIndex={navIndex}
-              articleRef={articleRef}
               height={"40vh"}
             />
           )}
@@ -182,7 +132,6 @@ const Emaki = ({ data, locale, locales, slug }) => {
               scroll={true}
               selectedRef={selectedRef}
               navIndex={navIndex}
-              articleRef={articleRef}
               height={"75vh"}
             />
           )}
