@@ -1,6 +1,7 @@
 .wrapper {
   display: grid;
   grid-template-columns: 65vw auto;
+  grid-template-rows: 75vh auto;
   gap: 2rem;
 }
 .chapter {
@@ -14,6 +15,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+  overflow-y: auto;
 }
 .chapterTitle {
   line-height: 2;
