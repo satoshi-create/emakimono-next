@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 // TODO:絵詞を参照から出典に変更
 // TODO:現在位置（段、紙、長さ）を表示する機能を追加する
 const EmakiInfo = ({ value }) => {
-  const { openModal } = useContext(AppContext);
+  const { openModal, isModalOpen } = useContext(AppContext);
   const {
     emakis,
     kotobagaki,
@@ -46,10 +46,9 @@ const EmakiInfo = ({ value }) => {
             </Link>
           );
         })}
-      {/* TODO：EmakiInfoコンポーネントを作成 */}
-      {/* <div onClick={() => openModal(0)} className={styles.question}>
-          <FontAwesomeIcon icon={faCircleInfo} />
-        </div> */}
+      <div onClick={() => openModal(0)} className={styles.question}>
+        <FontAwesomeIcon icon={faCircleInfo} />
+      </div>
     </div>
   );
 };

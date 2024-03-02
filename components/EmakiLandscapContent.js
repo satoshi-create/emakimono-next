@@ -51,7 +51,7 @@ const EmakiLandscapContent = ({
           height={height}
         />
         {/* chapter */}
-        <ul className={styles.chapter} style={{ color: eraColor(era) }}>
+        <ul className={styles.chapter}>
           <h4 className={styles.chapterTitle}>目次</h4>
           <span className={styles.chapterBorderline}></span>
           {emakis.map((item, index) => {
@@ -62,6 +62,7 @@ const EmakiLandscapContent = ({
                   <span
                     onClick={() => handleToId(index)}
                     className={styles.chapterlink}
+                    style={{ color: eraColor(era) }}
                     dangerouslySetInnerHTML={{ __html: chapter }}
                   ></span>
                 </li>
