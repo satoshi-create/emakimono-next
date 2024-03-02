@@ -4,6 +4,12 @@
   right: 1rem;
   z-index: 100;
 }
+.prt {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 100;
+}
 
 .icon {
   z-index: 10;
