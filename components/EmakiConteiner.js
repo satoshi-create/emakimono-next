@@ -8,6 +8,7 @@ import Modal from "./Modal";
 import { useRouter } from "next/router";
 import FullScreen from "../components/FullScreen";
 import Link from "next/link";
+import Sidebar from "./Sidebar";
 
 const EmakiConteiner = ({
   data,
@@ -60,7 +61,11 @@ const EmakiConteiner = ({
 
   return (
     <>
-      <div className={styles.wrapper}>
+      <div
+        className={`${styles.wrapper} ${
+          orientation === "landscape" && styles.land
+        }`}
+      >
         <FullScreen />
         <article
           className={`${styles.conteiner} ${

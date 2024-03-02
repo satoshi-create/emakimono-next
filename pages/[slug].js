@@ -31,6 +31,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
     orientation,
     toggleFullscreen,
     setToggleFullscreen,
+    handleToId,
   } = useContext(AppContext);
   const pagetitle = `${data.title} ${data.edition ? data.edition : ""}`;
   const tPageDesc =
@@ -144,9 +145,9 @@ const Emaki = ({ data, locale, locales, slug }) => {
         jsonLd={jsonLd}
       />
       {/* <FullScreen /> */}
-      {/* <AttentionEmakiPage /> */}
-      {/* <EmakiInfo value={data} /> */}
-      {/* <EmakiNavigation
+      {/* <AttentionEmakiPage />
+      <EmakiInfo value={data} />
+      <EmakiNavigation
         handleToId={handleToId}
         data={data}
         scrollNextRef={scrollNextRef}
