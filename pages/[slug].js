@@ -103,7 +103,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
         pageType={data.type}
         jsonLd={jsonLd}
       />
-      {/* <Sidebar value={data} handleToId={handleToId} /> */}
+  
       {toggleFullscreen && orientation === "landscape" ? (
         <>
           <EmakiConteiner
@@ -112,6 +112,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
             selectedRef={selectedRef}
             navIndex={navIndex}
             height={"100vh"}
+    
           />
         </>
       ) : (

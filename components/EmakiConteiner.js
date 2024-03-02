@@ -4,13 +4,14 @@ import EmakiImage from "./EmakiImage";
 import Ekotoba from "./Ekotoba";
 import styles from "../styles/EmakiConteiner.module.css";
 import { AppContext } from "../pages/_app";
-import Modal from "./Modal";
 import { useRouter } from "next/router";
 import FullScreen from "../components/FullScreen";
 import Link from "next/link";
 import Sidebar from "./Sidebar";
 import EmakiInfo from "../components/EmakiInfo";
 import EmakiNavigation from "../components/EmakiNavigation";
+import Modal from "./Modal";
+import { NodeNextRequest } from "next/dist/server/base-http/node";
 
 const EmakiConteiner = ({
   data,
@@ -45,13 +46,17 @@ const EmakiConteiner = ({
       const el = articleRef.current;
       if (el) {
         const wheelListener = (e) => {
-          // e.preventDefault();
+          console.log(e.deltaY);
+
+          e.preventDefault();
           el.scrollTo({
             left: el.scrollLeft + e.deltaY * 3,
             behavior: "smooth",
           });
         };
+
         el.addEventListener("wheel", wheelListener, { passive: true });
+        el.addEventListener("touchmove", wheelListener, { passive: false });
       }
     }
   }, [articleRef, scroll]);
@@ -99,15 +104,22 @@ const EmakiConteiner = ({
         className={`${styles.wrapper} ${
           orientation === "landscape" ? styles.land : styles.prt
         }`}
+        style={{
+          borderRadius: toggleFullscreen && "0px",
+        }}
       >
         <FullScreen />
         {toggleFullscreen && <EmakiInfo value={data} />}
+
+        {/* <Sidebar value={data} handleToId={handleToId} /> */}
+        {isModalOpen && <Modal data={data} />}
         <EmakiNavigation
           handleToId={handleToId}
           data={data}
           scrollNextRef={scrollNextRef}
           scrollPrevRef={scrollPrevRef}
         />
+
         <article
           className={`${styles.conteiner} ${
             type === "西洋絵画" ? styles.lr : styles.rl
@@ -117,6 +129,7 @@ const EmakiConteiner = ({
             "--screen-width": width,
             "--overflow-x": overflowX,
             "--box-shadow": boxshadow,
+            borderRadius: toggleFullscreen && "0px",
           }}
           onClick={() => setOepnSidebar(false)}
           ref={articleRef}
