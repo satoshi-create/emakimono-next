@@ -21,7 +21,9 @@ const FullScreen = () => {
       type="button"
       value="Lock Landscape"
       onClick={() => handleFullScreen("landscape")}
-      className={`${orientation === "landscape" && styles.land} ${styles.icon}`}
+      className={`${orientation === "landscape" ? styles.land : styles.prt} ${
+        styles.icon
+      }`}
     >
       {toggleFullscreen ? (
         <FontAwesomeIcon icon={faCompress} />
