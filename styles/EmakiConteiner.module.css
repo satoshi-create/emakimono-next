@@ -22,8 +22,8 @@
   height: var(--screen-height);
   /* width: var(--screen-width); */
   overflow-y: hidden;
-  overflow-x: hidden;
-  /* overflow-x: scroll; */
+  /* overflow-x: hidden; */
+  overflow-x: scroll;
   position: relative;
   border-radius: 12px;
 }
