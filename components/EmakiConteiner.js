@@ -63,7 +63,7 @@ const EmakiConteiner = ({
     <>
       <div
         className={`${styles.wrapper} ${
-          orientation === "landscape" && styles.land
+          orientation === "landscape" ? styles.land : styles.prt
         }`}
       >
         <FullScreen />
