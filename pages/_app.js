@@ -161,7 +161,7 @@ function MyApp({ Component, pageProps, router }) {
     }
   }, []);
 
-  https: useEffect(() => {
+  useEffect(() => {
     // クエリーリストを作成する。
     const mediaQueryList = window.matchMedia("(orientation: portrait)");
 

@@ -1,10 +1,8 @@
 .wrapper {
-  position: sticky;
-  top: 0;
-  left: 0;
   z-index: 10;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  background-color: var(--clr-white);
+  /* background-color: var(--clr-white); */
+  background-color: red;
   /* background-image: url("/washi_gray.webp");
   background-repeat: repeat; */
   border-radius: 12px;
@@ -12,6 +10,12 @@
 .land {
   grid-row: 1;
   grid-column: 1;
+  position: relative;
+}
+.prt {
+  position: sticky;
+  top: 0;
+  left: 0;
 }
 .conteiner {
   display: flex !important;
