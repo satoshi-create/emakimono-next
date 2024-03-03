@@ -57,9 +57,10 @@ const CardC = ({ data }) => {
                   height={130}
                   alt={title}
                   className={styles.image}
-                  loading="lazy"
-                  placeholder="blur"
-                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
+                  // sizes="(max-width: 768px) 100vw, 50vw"
+                  // loading="lazy"
+                  // placeholder="blur"
+                  // blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
                 />
               </a>
             </Link>
