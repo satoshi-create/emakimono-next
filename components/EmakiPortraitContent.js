@@ -26,12 +26,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     reference,
   } = data;
 
-  useEffect(() => {
-    return () => {
-      setnavIndex(null);
-    };
-  }, [setnavIndex]);
-
   const filterDesc = desc.substring(0, 40);
   const descTemp = `${title} ${
     author && `（${author}）`
