@@ -2,10 +2,9 @@
   z-index: 10;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   /* background-color: var(--clr-white); */
-  background-color: red;
+  background-color: white;
   /* background-image: url("/washi_gray.webp");
   background-repeat: repeat; */
-  border-radius: 12px;
 }
 .land {
   grid-row: 1;
@@ -25,7 +24,6 @@
   /* overflow-x: hidden; */
   overflow-x: auto;
   position: relative;
-  border-radius: 12px;
 }
 .emakiplayer {
   position: absolute;

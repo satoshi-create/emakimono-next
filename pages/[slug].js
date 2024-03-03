@@ -91,6 +91,78 @@ const Emaki = ({ data, locale, locales, slug }) => {
     };
   }, [setnavIndex, setHash]);
 
+  // const matchMediaContainer = (ori) => {
+  //   switch (ori) {
+  //     case "landscape":
+  //       return (
+  //         <EmakiPortraitContent
+  //           data={data}
+  //           scroll={true}
+  //           selectedRef={selectedRef}
+  //           navIndex={navIndex}
+  //           height={"40vh"}
+  //         />
+  //       );
+  //     case "portrait":
+  //       return (
+  //         <>
+  //           <EmakiLandscapContent
+  //             data={{ ...data }}
+  //             scroll={true}
+  //             selectedRef={selectedRef}
+  //             navIndex={navIndex}
+  //             height={"75vh"}
+  //           />
+  //         </>
+  //       );
+  //     default:
+  //       break;
+  //   }
+  // };
+  console.log(orientation);
+
+  const matchMediaContainer = (full, ori) => {
+    if (full && ori === "landscape") {
+      return (
+        <>
+          <EmakiConteiner
+            data={{ ...data }}
+            scroll={true}
+            selectedRef={selectedRef}
+            navIndex={navIndex}
+            height={"100vh"}
+          />
+        </>
+      );
+    } else if (ori === "portrait") {
+      return (
+        <>
+          <EmakiHeader />
+          <EmakiPortraitContent
+            data={data}
+            scroll={true}
+            selectedRef={selectedRef}
+            navIndex={navIndex}
+            height={"40vh"}
+          />
+        </>
+      );
+    } else if (ori === "landscape") {
+      return (
+        <>
+          <EmakiHeader />
+          <EmakiLandscapContent
+            data={{ ...data }}
+            scroll={true}
+            selectedRef={selectedRef}
+            navIndex={navIndex}
+            height={"75vh"}
+          />
+        </>
+      );
+    }
+  };
+
   return (
     <>
       <Head
@@ -104,7 +176,9 @@ const Emaki = ({ data, locale, locales, slug }) => {
         jsonLd={jsonLd}
       />
 
-      {toggleFullscreen && orientation === "landscape" ? (
+      {matchMediaContainer(toggleFullscreen, orientation)}
+      {/* {matchMediaContainer(orientation)} */}
+      {/* {toggleFullscreen && orientation === "landscape" ? (
         <>
           <EmakiConteiner
             data={{ ...data }}
@@ -136,7 +210,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
             />
           )}
         </>
-      )}
+      )} */}
     </>
   );
 };

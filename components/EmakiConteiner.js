@@ -176,7 +176,7 @@ const EmakiConteiner = ({
           orientation === "landscape" ? styles.land : styles.prt
         }`}
         style={{
-          borderRadius: toggleFullscreen && "0px",
+          borderRadius: orientation === "landscape" && "12px",
         }}
       >
         <FullScreen />
@@ -200,7 +200,7 @@ const EmakiConteiner = ({
             "--screen-width": width,
             "--overflow-x": overflowX,
             "--box-shadow": boxshadow,
-            borderRadius: toggleFullscreen && "0px",
+            borderRadius: orientation === "landscape" && "12px",
           }}
           onClick={() => setOepnSidebar(false)}
           ref={articleRef}

@@ -6,8 +6,8 @@
 }
 .prt {
   position: absolute;
-  bottom: 1rem;
-  right: 1rem;
+  bottom: 2%;
+  right: 2%;
   z-index: 100;
 }
 
