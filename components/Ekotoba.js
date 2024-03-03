@@ -85,7 +85,7 @@ const Ekotoba = ({
             }}
           />
 
-          {type === "浮世絵" && (
+          {/* {type === "浮世絵" && (
             <button
               className={styles.modalebtn}
               onClick={() => openModal(ekotobaId - 1)}
@@ -95,7 +95,7 @@ const Ekotoba = ({
                 className={styles.modalebtnicon}
               />
             </button>
-          )}
+          )} */}
           {kobun && (
             <button
               className={styles.togglebtn}
