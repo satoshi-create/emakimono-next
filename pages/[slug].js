@@ -86,8 +86,8 @@ const Emaki = ({ data, locale, locales, slug }) => {
 
   useEffect(() => {
     return () => {
-      setnavIndex(0);
-      setHash(0);
+      setnavIndex(null);
+      setHash(null);
     };
   }, [setnavIndex, setHash]);
 
@@ -103,7 +103,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
         pageType={data.type}
         jsonLd={jsonLd}
       />
-  
+
       {toggleFullscreen && orientation === "landscape" ? (
         <>
           <EmakiConteiner
@@ -112,7 +112,6 @@ const Emaki = ({ data, locale, locales, slug }) => {
             selectedRef={selectedRef}
             navIndex={navIndex}
             height={"100vh"}
-    
           />
         </>
       ) : (
