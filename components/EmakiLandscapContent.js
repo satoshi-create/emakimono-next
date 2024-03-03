@@ -88,7 +88,7 @@ const EmakiLandscapContent = ({
               onClick={() => handleFullScreen("landscape")}
               className={styles.linkedbutton}
             >
-              横スクロールで見る
+              フルスクリーンで見る
             </button>
           </div>
           <div className={styles.metadataB}>
