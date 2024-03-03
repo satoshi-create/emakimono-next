@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "../styles/EmakiPortraitContent.module.css";
@@ -8,7 +8,7 @@ import EmakiConteiner from "../components/EmakiConteiner";
 import CardC from "./CardC";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
-  const { handleToId, handleFullScreen } = useContext(AppContext);
+  const { handleToId, handleFullScreen, setnavIndex } = useContext(AppContext);
   const { locale } = useRouter();
   const {
     type,
@@ -25,6 +25,12 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     subtype,
     reference,
   } = data;
+
+  useEffect(() => {
+    return () => {
+      setnavIndex(null);
+    };
+  }, [setnavIndex]);
 
   const filterDesc = desc.substring(0, 40);
   const descTemp = `${title} ${

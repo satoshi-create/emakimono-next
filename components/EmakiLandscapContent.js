@@ -35,7 +35,7 @@ const EmakiLandscapContent = ({
     personname,
     keyword,
   } = data;
-  console.log(data);
+
 
   const descTemp = `${title} ${
     author && `（${author}）`
