@@ -4,8 +4,11 @@
   row-gap: 1rem;
 }
 .box {
-  display: flex;
+  /* display: flex;
   flex-direction: row;
+  column-gap: 0.5rem; */
+  display: grid;
+  grid-template-columns: 60% auto;
   column-gap: 0.5rem;
 }
 .image {
