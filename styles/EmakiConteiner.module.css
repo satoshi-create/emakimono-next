@@ -23,7 +23,7 @@
   /* width: var(--screen-width); */
   overflow-y: hidden;
   /* overflow-x: hidden; */
-  overflow-x: scroll;
+  overflow-x: auto;
   position: relative;
   border-radius: 12px;
 }
