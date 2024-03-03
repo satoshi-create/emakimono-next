@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect } from "react";
 import Link from "next/link";
 import styles from "../styles/CardA.module.css";
@@ -50,7 +51,6 @@ const CardA = ({
             typeen,
             type,
             subtype,
-            data,
             keyword,
           } = item;
 
@@ -94,7 +94,11 @@ const CardA = ({
                     </Link>
                     <Link href={`/era/${eraen}`}>
                       <a
-                        className={`era ${styles[eraColor(era)]} ${styles.era}`}
+                        className={`${styles.era}`}
+                        style={{
+                          border: eraColor(era),
+                          backgroundColor: eraColor(era),
+                        }}
                       >
                         {locale === "en" ? `${eraen} period` : `${era}時代`}
                       </a>
@@ -102,7 +106,6 @@ const CardA = ({
                   </div>
                   <h3 className={styles.title}>
                     {title}　{edition}
-                    {/* {locale === "en" ? titleen : title}　{edition} */}
                   </h3>
                   <h4 className={styles.author}>
                     {author

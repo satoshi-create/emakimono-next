@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React, { useEffect, useState, useContext } from "react";
-import styles from "../styles/Header.module.css";
+import styles from "../styles/EmkiHeader.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
@@ -23,12 +23,7 @@ const Header = ({ slug, fixed, emakipage }) => {
   }, [setStickyClass]);
 
   return (
-    <header
-      className={`${styles.header} section-grid ${
-        fixed && styles[stickyClass]
-      }`}
-      style={{ padding: "1.5rem 0" }}
-    >
+    <header className={`${styles.header} emaki-page-landscape-grid`}>
       <div className={styles.center}>
         <h1 className={styles.title}>
           <Link href="/">
@@ -48,7 +43,7 @@ const Header = ({ slug, fixed, emakipage }) => {
           </div>
           <SidebarHome />
         </nav>
-        <NavLinks slug={slug} />
+        {/* <NavLinks slug={slug} /> */}
       </div>
     </header>
   );

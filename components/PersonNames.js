@@ -24,25 +24,17 @@ const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
           return (
             <Link href={`./${path}/${slug}`} key={index}>
               <a className={styles.portrait}>
-                {portrait ? (
-                  <Image
-                    src={portrait}
-                    width={130}
-                    height={130}
-                    className={styles.portraitImage}
-                    alt={name}
-                    loading="lazy"
-                    placeholder="blur"
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
-                  />
-                ) : (
-                  <div className={styles.noportrait}>
-                    <FontAwesomeIcon
-                      icon={faQuestion}
-                      className={styles.helpcircleicon}
-                    />
-                  </div>
-                )}
+                <Image
+                  src={portrait ? portrait : "/question-solid.svg"}
+                  width={130}
+                  height={130}
+                  className={styles.portraitImage}
+                  alt={name}
+                  loading="lazy"
+                  placeholder="blur"
+                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
+                />
+
                 <p className={styles.name}>
                   {locale === "en" ? id : name}
                   <span className={styles.totalcount}>{`(${total})`}</span>

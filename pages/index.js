@@ -8,11 +8,7 @@ import Head from "../components/Meta";
 import GridImageList from "../components/GridImageList";
 import Attention from "../components/Attention";
 import Link from "next/link";
-import {
-  personnameItem,
-  keywordItem,
-  useLocale,
-} from "../libs/func";
+import { personnameItem, keywordItem, useLocale } from "../libs/func";
 import dataEmakis from "../libs/data";
 import { gridImages } from "../libs/gridImages";
 import SocialLinks from "../components/SocialLinks";
@@ -105,7 +101,7 @@ const Home = () => {
     <main>
       <Head />
       <Header fixed={true} />
-      <Attention />
+      {/* <Attention /> */}
       <CardA
         emakis={genjiEmakis}
         columns={t.genji.columns}
@@ -116,6 +112,7 @@ const Home = () => {
         linktitle={"源氏絵の世界"}
         linktitleen={"GENJIE"}
         linkpath={"genji"}
+        bcg={"#f9fbff"}
       />
       <CardA
         emakis={favoriteEmakis}
@@ -139,7 +136,7 @@ const Home = () => {
         linktitle={"絵巻"}
         linktitleen={"EMAKIMONO"}
         linkpath={"/category/emaki"}
-        bcg={"white"}
+        bcg={"#f9fbff"}
       />
       <CardB
         columns={t.history.columns}
@@ -156,7 +153,7 @@ const Home = () => {
         sectiontitleen={t.personname.titleen}
         allTags={allPersonNames}
         path={"personname"}
-        bcg={"white"}
+        bcg={"#f9fbff"}
       />
       <Keywords
         sectiontitle={t.indextag.title}
@@ -175,7 +172,7 @@ const Home = () => {
         linkpath={"famousscene"}
         columns={t.favorite.columns}
         slice={true}
-        bcg={"white"}
+        bcg={"#f9fbff"}
       />
       <CardA
         emakis={alpha}

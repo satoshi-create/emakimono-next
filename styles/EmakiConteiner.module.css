@@ -1,13 +1,40 @@
+.wrapper {
+  z-index: 10;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  /* background-color: var(--clr-white); */
+  background-color: white;
+  /* background-image: url("/washi_gray.webp");
+  background-repeat: repeat; */
+}
+.land {
+  grid-row: 1;
+  grid-column: 1;
+  position: relative;
+}
+.prt {
+  z-index: 10;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  position: sticky;
+  top: 0;
+  left: 0;
+}
 .conteiner {
   display: flex !important;
   height: var(--screen-height);
-  width: var(--screen-width);
-  /* width: 100vw; */
-  /* width: var(--text-width); */
+  /* width: var(--screen-width); */
   overflow-y: hidden;
-  overflow-x: scroll;
-  box-shadow: var(--box-shadow);
-  /* overflow-x: var(--overflow-x); */
+  /* overflow-x: hidden; */
+  overflow-x: auto;
+  position: relative;
+}
+.emakiplayer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #ffc2c2e6;
+  z-index: 100;
+  border-radius: 5%;
 }
 
 .rl {

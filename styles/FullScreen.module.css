@@ -1,19 +1,20 @@
-.button {
+.land {
   position: absolute;
-  right: 2rem;
+  bottom: 4%;
+  right: 1%;
   z-index: 100;
 }
-.icon {
+.prt {
   position: absolute;
-  top: 1.4%;
-  /* left: var(--left); */
-  right: 4rem;
+  bottom: 2%;
+  right: 2%;
+  z-index: 100;
+}
+
+.icon {
   z-index: 10;
-  font-size: 1.2rem;
-    color: var(--clr-grey-light);
+  font-size: 1.4rem;
+  color: var(--clr-white);
   transform: rotate(var(--rotate));
   transition: var(--transition);
-}
-.icon:hover {
-  color: var(--clr-accent-02);
 }
