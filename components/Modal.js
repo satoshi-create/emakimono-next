@@ -10,16 +10,21 @@ import {
 import Link from "next/link";
 import AllLocation from "./AllLocation";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 // TODO:モーダルに絵巻の情報を表示する
-  
+
 const Modal = ({ data }) => {
+  const { locale } = useRouter();
   const { isModalOpen, closeModal, openModal, index, setIndex } =
     useContext(AppContext);
+  console.log(isModalOpen);
+
   const emakis = data.emakis;
   const filterEkotobas = emakis.filter((item) => item.cat === "ekotoba");
+  console.log(data);
 
-  const { title, thumb } = data;
+  const { reference, sourceImageUrl, sourceImage } = data;
 
   const [value, setValue] = useState(0);
 
@@ -30,47 +35,57 @@ const Modal = ({ data }) => {
     {
       title: "書誌情報",
     },
+    {
+      title: "参照",
+      titleen: "refarence",
+    },
   ];
 
   const toggleContets = (v) => {
     if (v === 0) {
       return (
-        <>
+        <ul className={styles.chapter}>
           {filterEkotobas.map((item, i) => {
             const { chapter, linkId, chapterruby, desc } = item;
             return (
-              <table className={styles.mokujitable} key={i}>
-                <tbody>
-                  <tr>
-                    <th colSpan="4">{chapter}</th>
-                  </tr>
-                  <tr>
-                    <td colSpan="1">
-                      <figure>
-                        <Image
-                          src={thumb}
-                          // layout="fill"
-                          objectFit="cover"
-                          width={200}
-                          height={100}
-                          alt={chapter}
-                          loading="lazy"
-                        />
-                      </figure>
-                    </td>
-                    <td colSpan="3">{desc}</td>
-                  </tr>
-                </tbody>
-              </table>
+              <li key={index} onClick={() => setOepnSidebar(false)}>
+                <span
+                  onClick={() => handleToId(index)}
+                  className={styles.navlink}
+                  dangerouslySetInnerHTML={{ __html: chapter }}
+                ></span>
+              </li>
             );
           })}
-        </>
+        </ul>
       );
     } else if (v === 1) {
       return (
-        <dl>
-          <dt>{title}</dt>
-        </dl>
+        <>
+          <ul className={styles.source}>
+            <p>
+              {locale === "en"
+                ? "Created by modifying the following"
+                : "以下を加工して作成"}
+            </p>
+            <br />
+            <li>
+              <Link href={sourceImageUrl}>
+                <a target="_blank" className={styles.sourceLink}>
+                  {sourceImage}
+                </a>
+              </Link>
+            </li>
+          </ul>
+        </>
+      );
+    } else if (v === 2) {
+      return (
+        reference && (
+          <ul className={styles.source}>
+            <li>{reference}</li>
+          </ul>
+        )
       );
     }
   };

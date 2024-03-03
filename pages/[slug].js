@@ -14,15 +14,25 @@ import AttentionEmakiPage from "../components/AttentionEmakiPage";
 import styles from "../styles/viewport.module.css";
 import { AppContext } from "../pages/_app";
 import FullScreen from "../components/FullScreen";
-import EmakiNavigation from "../components/EmakiNavigation";
-import { flushSync } from "react-dom";
+
+import EmakiHeader from "../components/EmakiHeader";
+import EmakiPortraitContent from "../components/EmakiPortraitContent";
+import EmakiLandscapContent from "../components/EmakiLandscapContent";
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
 const Emaki = ({ data, locale, locales, slug }) => {
   const router = useRouter();
   const selectedRef = useRef(null);
-  const { navIndex, setnavIndex, setHash } = useContext(AppContext);
+  const {
+    navIndex,
+    setnavIndex,
+    setHash,
+    orientation,
+    toggleFullscreen,
+    setToggleFullscreen,
+    handleToId,
+  } = useContext(AppContext);
   const pagetitle = `${data.title} ${data.edition ? data.edition : ""}`;
   const tPageDesc =
     locale === "en"
@@ -64,71 +74,97 @@ const Emaki = ({ data, locale, locales, slug }) => {
   };
   const jsonLd = JSON.stringify(jsonData, null, " ");
 
-  function handleToId(id) {
-    flushSync(() => {
-      setnavIndex(id);
-    });
-    // selectedRef.current.scrollIntoView({
-    //   behavior: "smooth",
-    // });
-  }
-
   useEffect(() => {
     return () => {
       if (document.fullscreenElement) {
         document.exitFullscreen();
+        setToggleFullscreen(false);
         screen.orientation.unlock();
       }
     };
   }, []);
 
+  console.log(navIndex);
+
   useEffect(() => {
-    return () => {
-      setnavIndex(0);
-      setHash(0);
-    };
+    //qiita.com/7280ayubihs/items/0d359c3a3b5bc8a4b6fd
+    // 画面遷移した際に、スクロール位置をリセット
+    https: window.scrollTo({ top: 0, behavior: "instant" });
+    setnavIndex(0);
+    setHash(0);
   }, [setnavIndex, setHash]);
 
-  const articleRef = useRef();
-  const scrollNextRef = useRef(null);
-  const scrollPrevRef = useRef(null);
+  // const matchMediaContainer = (ori) => {
+  //   switch (ori) {
+  //     case "landscape":
+  //       return (
+  //         <EmakiPortraitContent
+  //           data={data}
+  //           scroll={true}
+  //           selectedRef={selectedRef}
+  //           navIndex={navIndex}
+  //           height={"40vh"}
+  //         />
+  //       );
+  //     case "portrait":
+  //       return (
+  //         <>
+  //           <EmakiLandscapContent
+  //             data={{ ...data }}
+  //             scroll={true}
+  //             selectedRef={selectedRef}
+  //             navIndex={navIndex}
+  //             height={"75vh"}
+  //           />
+  //         </>
+  //       );
+  //     default:
+  //       break;
+  //   }
+  // };
 
-  // イベントリスナーを使う方法で実装。
-  // イベントハンドラーを使う方法は（scrollevent_eventhandler）内
-  useEffect(() => {
-    const con = articleRef.current;
-    const btnPrev = scrollPrevRef.current;
-    const btnNext = scrollNextRef.current;
-
-    const scrollNextEvent = () => {
-      con.scrollTo({
-        left: con.scrollLeft - 1000,
-        behavior: "smooth",
-      });
-    };
-
-    const scrollPrevEvent = () => {
-      con.scrollTo({
-        left: con.scrollLeft + 1000,
-        behavior: "smooth",
-      });
-    };
-
-    if (btnNext) {
-      btnNext.addEventListener("click", scrollNextEvent);
+  const matchMediaContainer = (full, ori) => {
+    if (full && ori === "landscape") {
+      return (
+        <>
+          <EmakiConteiner
+            data={{ ...data }}
+            scroll={true}
+            selectedRef={selectedRef}
+            navIndex={navIndex}
+            height={"100vh"}
+          />
+        </>
+      );
+    } else if (ori === "portrait") {
+      return (
+        <>
+          <EmakiHeader />
+          <EmakiPortraitContent
+            data={data}
+            scroll={true}
+            selectedRef={selectedRef}
+            navIndex={navIndex}
+            height={"40vh"}
+          />
+        </>
+      );
+    } else if (ori === "landscape") {
+      return (
+        <>
+          <EmakiHeader />
+          <EmakiLandscapContent
+            data={{ ...data }}
+            scroll={true}
+            selectedRef={selectedRef}
+            navIndex={navIndex}
+            height={"75vh"}
+          />
+        </>
+      );
     }
-    if (btnPrev) {
-      btnPrev.addEventListener("click", scrollPrevEvent);
-    }
-    return () => {
-      if (btnNext) {
-        btnNext.removeEventListener("click", scrollNextEvent);
-      }
-      if (btnPrev) {
-        btnNext.removeEventListener("click", scrollNextEvent);
-      }
-    };
-  }, []);
+  };
+
   return (
     <>
       <Head
@@ -141,24 +177,42 @@ const Emaki = ({ data, locale, locales, slug }) => {
         pageType={data.type}
         jsonLd={jsonLd}
       />
-      <AttentionEmakiPage />
-      <FullScreen />
-      <EmakiInfo value={data} />
-      <EmakiNavigation
-        handleToId={handleToId}
-        data={data}
-        scrollNextRef={scrollNextRef}
-        scrollPrevRef={scrollPrevRef}
-      />
-      <Sidebar value={data} handleToId={handleToId} />
-      <EmakiConteiner
-        data={{ ...data }}
-        height={"100vh"}
-        scroll={true}
-        selectedRef={selectedRef}
-        navIndex={navIndex}
-        articleRef={articleRef}
-      />
+
+      {matchMediaContainer(toggleFullscreen, orientation)}
+      {/* {matchMediaContainer(orientation)} */}
+      {/* {toggleFullscreen && orientation === "landscape" ? (
+        <>
+          <EmakiConteiner
+            data={{ ...data }}
+            scroll={true}
+            selectedRef={selectedRef}
+            navIndex={navIndex}
+            height={"100vh"}
+          />
+        </>
+      ) : (
+        <>
+          <EmakiHeader />
+          {orientation === "portrait" && (
+            <EmakiPortraitContent
+              data={data}
+              scroll={true}
+              selectedRef={selectedRef}
+              navIndex={navIndex}
+              height={"40vh"}
+            />
+          )}
+          {orientation === "landscape" && (
+            <EmakiLandscapContent
+              data={{ ...data }}
+              scroll={true}
+              selectedRef={selectedRef}
+              navIndex={navIndex}
+              height={"75vh"}
+            />
+          )}
+        </>
+      )} */}
     </>
   );
 };
