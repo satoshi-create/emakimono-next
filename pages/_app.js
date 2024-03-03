@@ -39,7 +39,7 @@ function MyApp({ Component, pageProps, router }) {
   const [toggleFullscreen, setToggleFullscreen] = useState(false);
   const [toggleBtn, setToggleBtn] = useState(true);
   const [hash, setHash] = useState(0);
-  const [navIndex, setnavIndex] = useState(0);
+  const [navIndex, setnavIndex] = useState(null);
   const [orientation, setOrientation] = useState("portrait");
 
   const openSidebar = () => {
@@ -161,6 +161,13 @@ function MyApp({ Component, pageProps, router }) {
     }
   }, []);
 
+  const fetchHashflag = () => {
+    const hashflag = Number(gRouter.asPath.split("#")[1]);
+    if (hashflag) {
+      setnavIndex(hashflag);
+    }
+  };
+
   useEffect(() => {
     // クエリーリストを作成する。
     const mediaQueryList = window.matchMedia("(orientation: portrait)");
@@ -169,12 +176,15 @@ function MyApp({ Component, pageProps, router }) {
     function handleOrientationChange(evt) {
       if (evt.matches) {
         /* 現在ビューポートが縦長 */
-        console.log("portrait");
         setOrientation("portrait");
+        fetchHashflag();
       } else {
         /* 現在ビューポートが横長 */
-        console.log("landscape");
         setOrientation("landscape");
+        // ハッシュフラグを取得し、stringからnumbarに変換
+
+        // レンダリング完了時に発火
+        fetchHashflag();
       }
     }
 
@@ -187,7 +197,7 @@ function MyApp({ Component, pageProps, router }) {
     return () => {
       mediaQueryList.removeEventListener("change", handleOrientationChange);
     };
-  }, []);
+  }, [setnavIndex, gRouter.asPath, fetchHashflag]);
 
   return (
     <AppContext.Provider
