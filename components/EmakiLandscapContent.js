@@ -6,8 +6,7 @@ import Link from "next/link";
 import { eraColor } from "../libs/func";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faQuestion } from "@fortawesome/free-solid-svg-icons";
+import CardC from "./CardC";
 
 const EmakiLandscapContent = ({
   data,
@@ -36,6 +35,8 @@ const EmakiLandscapContent = ({
     personname,
     keyword,
   } = data;
+  console.log(data);
+
   const descTemp = `${title} ${
     author && `（${author}）`
   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
@@ -168,6 +169,8 @@ const EmakiLandscapContent = ({
             </div>
           </div>
         </div>
+
+        {data.type === "絵巻" && <CardC data={data} />}
       </div>
     </div>
   );
