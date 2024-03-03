@@ -39,12 +39,13 @@ const Ekotoba = ({
     ekotobaImageToggle,
     setEkotobaImageToggle,
     scrollDialog,
+    orientation,
   } = useContext(AppContext);
 
   const [toggle, setToggle] = useState(false);
   useEffect(() => {
     if (scroll) {
-      setEkotobaImageToggle(false);
+      setEkotobaImageToggle(true);
     }
   }, [setEkotobaImageToggle, scroll]);
 
@@ -65,16 +66,26 @@ const Ekotoba = ({
       ref={navIndex === index ? scrollDialog : null}
     >
       <div
-        className={ekotobaImageToggle ? `${styles.close}` : `${styles.open}`}
+        // className={ekotobaImageToggle ? `${styles.close}` : `${styles.open}`}
+        className={`${styles.container} ${
+          ekotobaImageToggle ? `${styles.close}` : `${styles.open}`
+        }`}
       >
         {/* chaptercontainer */}
         <div className={styles.chaptercontainer}>
           <h3
             dangerouslySetInnerHTML={{ __html: chapter }}
             className={styles.chapter}
+            style={{
+              fontSize: `${
+                orientation === "portrait"
+                  ? "var(--title-size-prt)"
+                  : "var(--title-size)"
+              }`,
+            }}
           />
 
-          {type === "浮世絵" && (
+          {/* {type === "浮世絵" && (
             <button
               className={styles.modalebtn}
               onClick={() => openModal(ekotobaId - 1)}
@@ -84,7 +95,7 @@ const Ekotoba = ({
                 className={styles.modalebtnicon}
               />
             </button>
-          )}
+          )} */}
           {kobun && (
             <button
               className={styles.togglebtn}
@@ -104,6 +115,13 @@ const Ekotoba = ({
             <p
               dangerouslySetInnerHTML={{ __html: gendaibun }}
               className={styles.gendaibuntext}
+              style={{
+                fontSize: `${
+                  orientation === "portrait"
+                    ? "var(--text-size-prt)"
+                    : "var(--text-size)"
+                }`,
+              }}
             />
           </div>
         )}
