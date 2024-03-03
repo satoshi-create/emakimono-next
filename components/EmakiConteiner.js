@@ -172,9 +172,7 @@ const EmakiConteiner = ({
   return (
     <>
       <div
-        className={`${styles.wrapper} ${
-          orientation === "landscape" ? styles.land : styles.prt
-        }`}
+        className={`${orientation === "landscape" ? styles.land : styles.prt}`}
         style={{
           borderRadius: orientation === "landscape" && "12px",
         }}
