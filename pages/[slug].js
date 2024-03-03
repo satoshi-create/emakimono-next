@@ -84,10 +84,12 @@ const Emaki = ({ data, locale, locales, slug }) => {
     };
   }, []);
 
+  console.log(navIndex);
+
   useEffect(() => {
     return () => {
-      setnavIndex(null);
-      setHash(null);
+      setnavIndex(0);
+      setHash(0);
     };
   }, [setnavIndex, setHash]);
 
@@ -119,7 +121,6 @@ const Emaki = ({ data, locale, locales, slug }) => {
   //       break;
   //   }
   // };
-  console.log(orientation);
 
   const matchMediaContainer = (full, ori) => {
     if (full && ori === "landscape") {

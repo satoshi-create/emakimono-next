@@ -28,7 +28,6 @@ const CardC = ({ data }) => {
   });
   // relationalEmakiから絵巻データと同一idを除去
   const removeEqualityId = relationalEmaki.filter((item) => item.id !== id);
-  console.log(removeEqualityId);
 
   return (
     <aside className={styles.container}>

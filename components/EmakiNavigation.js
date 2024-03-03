@@ -23,7 +23,6 @@ const EmakiNavigation = ({
 }) => {
   const router = useRouter();
   const endIndex = data.emakis.length - 1;
-  console.log(data.type);
 
   const { orientation } = useContext(AppContext);
   return (
