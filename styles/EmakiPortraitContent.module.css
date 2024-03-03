@@ -1,11 +1,10 @@
-
 .wrapper {
   row-gap: 1.5rem;
 }
 .container {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 1rem;
 }
 .metadataA {
   display: grid;
@@ -89,6 +88,9 @@
 .chapter {
   font-size: 0.9rem;
   color: var(--clr-link);
+}
+.chaptername {
+  cursor: pointer;
 }
 .authority {
   font-family: var(--title-font2);

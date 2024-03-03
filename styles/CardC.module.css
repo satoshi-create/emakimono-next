@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+.box {
+  display: flex;
+  flex-direction: row;
+  column-gap: 0.5rem;
+}
+.image {
+  border-radius: 12px;
+}
+.metadata {
+  font-family: var(--title-font2);
+}
+.title {
+  font-size: medium;
+}
+.author {
+  font-size: small;
+}

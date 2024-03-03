@@ -5,6 +5,7 @@ import styles from "../styles/EmakiPortraitContent.module.css";
 import { AppContext } from "../pages/_app";
 import { eraColor } from "../libs/func";
 import EmakiConteiner from "../components/EmakiConteiner";
+import CardC from "./CardC";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { handleToId, handleFullScreen } = useContext(AppContext);
@@ -72,7 +73,9 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                     <span
                       onClick={() => handleToId(index)}
                       dangerouslySetInnerHTML={{ __html: chapter }}
-                      className={styles[eraColor(era)]}
+                      className={`${styles[eraColor(era)]} ${
+                        styles.chaptername
+                      }`}
                     ></span>
                   </li>
                 );
@@ -104,6 +107,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             <div> {reference ? `参照 - ${reference}` : ""}</div>
           </div>
         </div>
+        {data.type === "絵巻" && <CardC data={data} />}
       </div>
     </div>
   );
