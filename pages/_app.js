@@ -6,6 +6,7 @@ import Script from "next/script";
 import { useLocaleData } from "../libs/func";
 import * as gtag from "../libs/gtag";
 import { useRouter } from "next/router";
+import { flushSync } from "react-dom";
 
 config.autoAddCss = false;
 
@@ -39,6 +40,7 @@ function MyApp({ Component, pageProps, router }) {
   const [toggleBtn, setToggleBtn] = useState(true);
   const [hash, setHash] = useState(0);
   const [navIndex, setnavIndex] = useState(0);
+  const [orientation, setOrientation] = useState("portrait");
 
   const openSidebar = () => {
     setisSidebarOpen(true);
@@ -145,6 +147,12 @@ function MyApp({ Component, pageProps, router }) {
   //   }
   // };
 
+  const handleToId = (id) => {
+    flushSync(() => {
+      setnavIndex(id);
+    });
+  };
+
   const scrollDialog = useCallback((node) => {
     if (node !== null) {
       node.scrollIntoView({
@@ -152,6 +160,49 @@ function MyApp({ Component, pageProps, router }) {
       });
     }
   }, []);
+
+  useEffect(() => {
+    // クエリーリストを作成する。
+    const mediaQueryList = window.matchMedia("(orientation: portrait)");
+
+    // イベントリスナーのコールバック関数を定義する。
+    function handleOrientationChange(evt) {
+      if (evt.matches) {
+        /* 現在ビューポートが縦長 */
+        setOrientation("portrait");
+        const fetchHashflag = () => {
+          const hashflag = Number(gRouter.asPath.split("#")[1]);
+          if (hashflag) {
+            setnavIndex(hashflag);
+          }
+        };
+        fetchHashflag();
+      } else {
+        /* 現在ビューポートが横長 */
+        setOrientation("landscape");
+        // ハッシュフラグを取得し、stringからnumbarに変換
+
+        // レンダリング完了時に発火
+        const fetchHashflag = () => {
+          const hashflag = Number(gRouter.asPath.split("#")[1]);
+          if (hashflag) {
+            setnavIndex(hashflag);
+          }
+        };
+        fetchHashflag();
+      }
+    }
+
+    // 向き変更時のハンドラーを一度実行する。
+    handleOrientationChange(mediaQueryList);
+
+    // コールバック関数をリスナーとしてクエリーリストに追加する。
+    mediaQueryList.addEventListener("change", handleOrientationChange);
+
+    return () => {
+      mediaQueryList.removeEventListener("change", handleOrientationChange);
+    };
+  }, [setnavIndex, gRouter.asPath]);
 
   return (
     <AppContext.Provider
@@ -187,6 +238,9 @@ function MyApp({ Component, pageProps, router }) {
         navIndex,
         setnavIndex,
         scrollDialog,
+        orientation,
+        setOrientation,
+        handleToId,
       }}
     >
       <Script

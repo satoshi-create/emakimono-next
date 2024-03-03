@@ -1,6 +1,5 @@
 .container {
   position: absolute;
-  bottom: 4%;
   left: 50%;
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
@@ -10,6 +9,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.prt {
+  bottom: 2%;
+}
+.land {
+  bottom: 4%;
 }
 .button > i,
 .titleen > i {
@@ -23,4 +28,3 @@
 .titleen > i :hover {
   color: var(--clr-accent-02);
 }
-

@@ -723,8 +723,9 @@ const dataByoubus = [
   },
   {
     id: 31,
-    title: "源氏物語図屏風（絵合・胡蝶）",
+    title: "源氏物語図屏風",
     titleen: "genjibyobu_eawasekocyo",
+    edition: "（絵合・胡蝶）",
     author: "狩野〈晴川院〉養信",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
