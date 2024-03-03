@@ -87,9 +87,9 @@ const Emaki = ({ data, locale, locales, slug }) => {
   console.log(navIndex);
 
   useEffect(() => {
-    //qiita.com/7280ayubihs/items/0d359c3a3b5bc8a4b6fd
+    //https: qiita.com/7280ayubihs/items/0d359c3a3b5bc8a4b6fd
     // 画面遷移した際に、スクロール位置をリセット
-    https: window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo({ top: 0, behavior: "instant" });
     setnavIndex(0);
     setHash(0);
   }, [setnavIndex, setHash]);
