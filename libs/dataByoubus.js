@@ -15,7 +15,7 @@ const dataByoubus = [
     gif: "",
     type: "屏風",
     typeen: "byoubu",
-    kotobagaki: true,
+    kotobagaki: false,
     sourceImageUrl: "https://asia.si.edu/object/F1906.231-232/",
     sourceImage: "Waves at Matsushima（フリーア美術館）",
     sourceEkotoba: "",
@@ -75,7 +75,7 @@ const dataByoubus = [
     gif: "",
     type: "屏風",
     typeen: "byoubu",
-    kotobagaki: true,
+    kotobagaki: false,
     sourceImageUrl: "https://asia.si.edu/object/F1905.230/",
     sourceImage: "Dragons and Clouds（フリーア美術館）",
     sourceEkotoba: "",
@@ -151,7 +151,7 @@ const dataByoubus = [
     gif: "",
     type: "屏風",
     typeen: "byoubu",
-    kotobagaki: true,
+    kotobagaki: false,
     sourceImageUrl: "https://asia.si.edu/object/F1903.101-102/",
     sourceImage:
       "Court Ladies among cherry trees (left); Cherry blossoms, a high fence and retainers (right)（フリーア美術館）",
@@ -228,7 +228,7 @@ const dataByoubus = [
     gif: "",
     type: "屏風",
     typeen: "byoubu",
-    kotobagaki: true,
+    kotobagaki: false,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-11783?locale=ja",
     sourceImage: "松竹梅（ColBase）",
@@ -305,7 +305,7 @@ const dataByoubus = [
     gif: "",
     type: "屏風",
     typeen: "byoubu",
-    kotobagaki: true,
+    kotobagaki: false,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-11782?locale=ja",
     sourceImage: "溪山四時図屏風（ColBase）",
@@ -382,7 +382,7 @@ const dataByoubus = [
     gif: "",
     type: "屏風",
     typeen: "byoubu",
-    kotobagaki: true,
+    kotobagaki: false,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-56?locale=ja",
     sourceImage: "牧馬図屏風（ColBase）",
@@ -459,7 +459,7 @@ const dataByoubus = [
     gif: "",
     type: "屏風",
     typeen: "byoubu",
-    kotobagaki: true,
+    kotobagaki: false,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-12190?locale=ja",
     sourceImage: "関屋図屏風（ColBase）",
@@ -506,7 +506,7 @@ const dataByoubus = [
     gif: "",
     type: "屏風",
     typeen: "byoubu",
-    kotobagaki: true,
+    kotobagaki: false,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-10514?locale=ja",
     sourceImage: "鵜（ColBase）",
@@ -583,7 +583,7 @@ const dataByoubus = [
     gif: "",
     type: "屏風",
     typeen: "byoubu",
-    kotobagaki: true,
+    kotobagaki: false,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-10508?locale=ja",
     sourceImage: "弱法師（ColBase）",
@@ -660,7 +660,7 @@ const dataByoubus = [
     gif: "",
     type: "屏風",
     typeen: "byoubu",
-    kotobagaki: true,
+    kotobagaki: false,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-10517?locale=ja",
     sourceImage: "春雨図屏風（ColBase）",
@@ -738,7 +738,7 @@ const dataByoubus = [
     gif: "",
     type: "屏風",
     typeen: "byoubu",
-    kotobagaki: true,
+    kotobagaki: false,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-12373?locale=ja",
     sourceImage: "源氏物語図屏風（絵合・胡蝶）（ColBase）",
@@ -832,7 +832,7 @@ const dataByoubus = [
     gif: "",
     type: "屏風",
     typeen: "byoubu",
-    kotobagaki: true,
+    kotobagaki: false,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-11153?locale=ja",
     sourceImage: "源氏物語図屏風（明石・蓬生）（ColBase）",
