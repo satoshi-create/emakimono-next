@@ -92,6 +92,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
     window.scrollTo({ top: 0, behavior: "instant" });
     setnavIndex(0);
     setHash(0);
+
   }, [setnavIndex, setHash]);
 
   // const matchMediaContainer = (ori) => {
