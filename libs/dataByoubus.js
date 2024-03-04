@@ -816,7 +816,7 @@ const dataByoubus = [
     ],
   },
   {
-    id: 31,
+    id: 32,
     title: "源氏物語図屏風",
     titleen: "genjibyobu_akashi_yomogiu",
     edition: "（明石・蓬生）",
