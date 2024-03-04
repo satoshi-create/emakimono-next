@@ -43,6 +43,12 @@ const EmakiConteiner = ({
   const scrollNextRef = useRef(null);
   const scrollPrevRef = useRef(null);
 
+  useEffect(() => {
+    const ref = articleRef.current;
+    const coordinate = ref.getBoundingClientRect();
+    console.log(coordinate);
+  }, [articleRef]);
+
   // useEffect(() => {
   //   if (scroll) {
   //     const el = articleRef.current;
