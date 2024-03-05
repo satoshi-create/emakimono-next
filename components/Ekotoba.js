@@ -34,7 +34,6 @@ const Ekotoba = ({
   },
 }) => {
   const {
-    openModal,
     setekotobaToggle,
     ekotobaImageToggle,
     setEkotobaImageToggle,
@@ -43,9 +42,18 @@ const Ekotoba = ({
   } = useContext(AppContext);
 
   const [toggle, setToggle] = useState(false);
+
+  // dangerouslySetInnerHTMLでgendaibunを描画使用するとHydration failedになる問題の対処のため、
+  // gendaibunを最初のレンダリング後に取得
+  // https://qiita.com/maaaashi/items/957bf8a949833151612b
+  const [ekotobabody, setEkotobabody] = useState("");
+  useEffect(() => {
+    setEkotobabody(gendaibun);
+  }, [setEkotobabody, gendaibun]);
+
   useEffect(() => {
     if (scroll) {
-      setEkotobaImageToggle(true);
+      setEkotobaImageToggle(false);
     }
   }, [setEkotobaImageToggle, scroll]);
 
@@ -113,7 +121,7 @@ const Ekotoba = ({
         {gendaibun && (
           <div className={styles.gendaibun}>
             <p
-              dangerouslySetInnerHTML={{ __html: gendaibun }}
+              dangerouslySetInnerHTML={{ __html: ekotobabody }}
               className={styles.gendaibuntext}
               style={{
                 fontSize: `${
