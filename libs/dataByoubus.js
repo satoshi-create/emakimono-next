@@ -786,7 +786,7 @@ const dataByoubus = [
         cat: "ekotoba",
         chapter: "絵合2",
         kobun: "",
-        gendaibun: eawase2,
+        gendaibun: "",
         phrase: [{}],
       },
 
