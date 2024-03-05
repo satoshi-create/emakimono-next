@@ -1,16 +1,21 @@
-.land {
-  position: absolute;
-  bottom: 4%;
-  right: 1%;
-  z-index: 100;
-}
 .prt {
   position: absolute;
   bottom: 2%;
   right: 2%;
   z-index: 100;
 }
-
+.prt > i {
+  font-size: 14px;
+}
+.land {
+  position: absolute;
+  bottom: 4%;
+  right: 1%;
+  z-index: 100;
+}
+.land > i {
+  font-size: 20px;
+}
 .icon {
   z-index: 10;
   font-size: 1.4rem;

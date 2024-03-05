@@ -16,6 +16,7 @@ const ToggleEkotoba = ({ data }) => {
     setEkotobaImageToggle,
     setekotobaToggle,
     ekotobaToggle,
+    orientation,
   } = useContext(AppContext);
 
   // 詞書があるケース
@@ -50,7 +51,11 @@ const ToggleEkotoba = ({ data }) => {
       }
       onClick={handleEkotobaImageToggle}
     >
-      <i>
+      <i
+        style={{
+          fontSize: `${orientation === "portrait" ? "14px" : "20px"}`,
+        }}
+      >
         {kotobagaki
           ? withEkotobaIcon(ekotobaImageToggle)
           : withoutEkotobaIcon(ekotobaImageToggle)}

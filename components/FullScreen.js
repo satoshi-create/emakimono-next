@@ -26,9 +26,13 @@ const FullScreen = () => {
       }`}
     >
       {toggleFullscreen ? (
-        <FontAwesomeIcon icon={faCompress} />
+        <i>
+          <FontAwesomeIcon icon={faCompress} />
+        </i>
       ) : (
-        <FontAwesomeIcon icon={faExpand} />
+        <i>
+          <FontAwesomeIcon icon={faExpand} />
+        </i>
       )}
     </button>
   );
