@@ -18,15 +18,14 @@ container
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
-  margin: 1.5rem 0;
-  margin: 1.5rem 0 1.5rem 0.5rem;
+  margin: 1.5rem 0 1rem 0.5rem;
 }
-/* @media (min-height: 768px) {
+
+@media (min-height: 768px) {
   .container {
-    row-gap: 2rem;
-    margin: 2rem 0;
+    margin-bottom: 1.5rem;
   }
-} */
+}
 
 .chaptercontainer {
   /* margin-top: -1rem; */
@@ -53,9 +52,16 @@ gendaibun
 .kobunSideGendaibun,
 .gendaibunSideKobun {
   border: 1px dotted #ddd;
-  margin: 2rem 0;
+  margin: 1rem 0;
   font-family: var(--text-font-koten);
   font-size: 1.4rem;
+  color: #454545;
+}
+@media screen and (min-width: 768px) {
+  .kobunSideGendaibun,
+  .gendaibunSideKobun {
+    margin: 2rem 0;
+  }
 }
 .gendaibunSideGendaibun,
 .kobunSideKobun {
