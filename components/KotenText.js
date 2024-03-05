@@ -139,13 +139,13 @@ const Kotentext = ({
               <p
                 dangerouslySetInnerHTML={{ __html: gendaibun }}
                 className={styles.gendaibuntext}
-                // style={{
-                //   fontSize: `${
-                //     orientation === "portrait"
-                //       ? "var(--text-size-prt)"
-                //       : "var(--text-size)"
-                //   }`,
-                // }}
+                style={{
+                  fontSize: `${
+                    orientation === "portrait"
+                      ? "var(--text-size-prt)"
+                      : "var(--text-size)"
+                  }`,
+                }}
               />
               <button
                 className={`${styles.togglekobun} ${styles.togglekobunClose}`}
@@ -226,6 +226,13 @@ const Kotentext = ({
                 <p
                   dangerouslySetInnerHTML={{ __html: kobun }}
                   className={styles.kobuntext}
+                  style={{
+                    fontSize: `${
+                      orientation === "portrait"
+                        ? "var(--text-size-prt)"
+                        : "var(--text-size)"
+                    }`,
+                  }}
                 />
                 <button
                   className={`${styles.togglekobun} ${styles.togglekobunClose}`}
