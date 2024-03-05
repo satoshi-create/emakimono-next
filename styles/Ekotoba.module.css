@@ -35,11 +35,7 @@
   color: #4a4f9f;
   font-family: var(--emaki-title-font);
 }
-.togglebtn {
-  position: absolute;
-  bottom: 0;
-  left: 3rem;
-}
+
 .modalebtn {
   position: absolute;
   bottom: 3rem;
@@ -69,14 +65,20 @@
 }
 
 /* gendaibun */
-
-.gendaibun {
+.gendaibunBox {
   transition: var(--transition);
   overflow: hidden;
   margin-left: 1rem;
+  position: relative;
 }
 .gendaibuntext {
-  font-family: var(--emaki-kotobagki-font);
+  /* font-family: var(--emaki-kotobagki-font); */
+  font-family: var(--my-font);
+}
+.togglekobun {
+  position: absolute;
+  bottom: 4rem;
+  left: 0;
 }
 
 /* kobun */
@@ -85,8 +87,7 @@
   opacity: 0;
   transition: var(--transition);
   overflow: hidden;
-  z-index: -1;
-  margin: 4rem 0 2rem 2rem;
+  margin-left: 1rem;
 }
 
 .kobuntext {

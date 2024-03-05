@@ -41,7 +41,7 @@ const Ekotoba = ({
     orientation,
   } = useContext(AppContext);
 
-  const [toggle, setToggle] = useState(false);
+  // const [toggle, setToggle] = useState(false);
 
   // dangerouslySetInnerHTMLでgendaibunを描画使用するとHydration failedになる問題の対処のため、
   // gendaibunを最初のレンダリング後に取得
@@ -93,34 +93,10 @@ const Ekotoba = ({
               }`,
             }}
           />
-
-          {/* {type === "浮世絵" && (
-            <button
-              className={styles.modalebtn}
-              onClick={() => openModal(ekotobaId - 1)}
-            >
-              <FontAwesomeIcon
-                icon={faLocationDot}
-                className={styles.modalebtnicon}
-              />
-            </button>
-          )} */}
-          {kobun && (
-            <button
-              className={styles.togglebtn}
-              onClick={() => setToggle(!toggle)}
-            >
-              <FontAwesomeIcon
-                icon={toggle ? faMinus : faPlus}
-                title={toggle ? "閉じる" : "詞書の現代語訳と原文を比べて読む"}
-                className={styles.togglebtnicon}
-              />
-            </button>
-          )}
         </div>
         {/* gendaibun */}
         {gendaibun && (
-          <div className={styles.gendaibun}>
+          <div className={styles.gendaibunBox}>
             <p
               dangerouslySetInnerHTML={{ __html: ekotobabody }}
               className={styles.gendaibuntext}
@@ -132,6 +108,18 @@ const Ekotoba = ({
                 }`,
               }}
             />
+            {kobun && (
+              <button
+                className={styles.togglekobun}
+                onClick={() => setToggle(!toggle)}
+              >
+                <FontAwesomeIcon
+                  icon={toggle ? faMinus : faPlus}
+                  title={toggle ? "閉じる" : "詞書の現代語訳と原文を比べて読む"}
+                  className={styles.togglebtnicon}
+                />
+              </button>
+            )}
           </div>
         )}
         {/* kobun */}

@@ -11,7 +11,7 @@ class MyDocument extends Document {
           /> */}
           {/* Noto Sans Japaneseを追加 */}
           <link
-            href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;500;700&family=Kaisei+HarunoUmi:wght@400;500;700&family=Noto+Sans+JP:wght@300;400;500&family=Zen+Kurenaido&family=Zen+Maru+Gothic:wght@300;400;500;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;500;700&family=Kaisei+HarunoUmi:wght@400;500;700&family=Noto+Sans+JP:wght@300;400;500&family=Zen+Kurenaido&family=Zen+Maru+Gothic:wght@300;400;500;700&display=swap&family=Noto+Serif+JP&display=swap&family=Noto+Serif+JP&family=Zen+Kaku+Gothic+New&family=Shippori+Mincho&family=Yomogi&display=swap"
             rel="stylesheet"
           />
         </Head>
