@@ -13,6 +13,7 @@ import EmakiNavigation from "../components/EmakiNavigation";
 import Modal from "./Modal";
 import { NodeNextRequest } from "next/dist/server/base-http/node";
 import $ from "jquery";
+import KotenText from "./KotenText";
 
 const EmakiConteiner = ({
   data,
@@ -227,7 +228,7 @@ const EmakiConteiner = ({
               );
             } else {
               return (
-                <Ekotoba
+                <KotenText
                   key={index}
                   item={{
                     ...item,
@@ -241,6 +242,21 @@ const EmakiConteiner = ({
                   }}
                 />
               );
+              // return (
+              //   <Ekotoba
+              //     key={index}
+              //     item={{
+              //       ...item,
+              //       index,
+              //       backgroundImage,
+              //       kotobagaki,
+              //       type,
+              //       scroll,
+              //       selectedRef,
+              //       navIndex,
+              //     }}
+              //   />
+              // );
             }
           })}
         </article>
