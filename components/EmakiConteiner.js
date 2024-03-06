@@ -102,42 +102,42 @@ const EmakiConteiner = ({
 
   // https://stackoverflow.com/questions/55152799/prevent-window-vertical-scroll-until-divs-horizontal-scroll-reaches-its-end
   useEffect(() => {
-    let scrollSpeed = 50;
-    const el = articleRef.current;
-
-    const MouseWheelHandler = (e) => {
-      // block if e.deltaY==0
-      // 垂直方向のスクロールがゼロならばリターン
-      if (!e.deltaY) return;
-      // Set scrollDirection (-1 = up // 1 = down)
-      let scrollDirection = e.deltaY > 0 ? 1 : -1;
-      // convert vertical scroll into horizontal
-      // 縦スクロールを横スクロールに変換
-      el.scrollLeft += scrollSpeed * scrollDirection;
-      let scrollLeft = Math.round(el.scrollLeft);
-      // calculate box total vertical scroll
-      // ボックス全体の垂直スクロール（水平スクロール）を計算する;
-      let maxScrollLeft = Math.round(el.scrollWidth - el.clientWidth);
-      // console.log(el.clientWidth);
-      // // 818;
-      // console.log(el.scrollWidth);
-      // // 25202;
-      // console.log(maxScrollLeft);
-      // // 24384;
-      // if element scroll has not finished scrolling
-      // prevent window to scroll
-      // ウィンドウがスクロールしないようにする;
-      if (
-        (scrollDirection === -1 && scrollLeft > 0) ||
-        (scrollDirection === 1 && scrollLeft < maxScrollLeft)
-      )
-        e.preventDefault();
-      // done!
-      return true;
-    };
-
-    el.addEventListener("mousewheel", MouseWheelHandler, false);
-  }, []);
+    if (scroll) {
+      let scrollSpeed = 50;
+      const el = articleRef.current;
+      const MouseWheelHandler = (e) => {
+        // block if e.deltaY==0
+        // 垂直方向のスクロールがゼロならばリターン
+        if (!e.deltaY) return;
+        // Set scrollDirection (-1 = up // 1 = down)
+        let scrollDirection = e.deltaY > 0 ? 1 : -1;
+        // convert vertical scroll into horizontal
+        // 縦スクロールを横スクロールに変換
+        el.scrollLeft += scrollSpeed * scrollDirection;
+        let scrollLeft = Math.round(el.scrollLeft);
+        // calculate box total vertical scroll
+        // ボックス全体の垂直スクロール（水平スクロール）を計算する;
+        let maxScrollLeft = Math.round(el.scrollWidth - el.clientWidth);
+        // console.log(el.clientWidth);
+        // // 818;
+        // console.log(el.scrollWidth);
+        // // 25202;
+        // console.log(maxScrollLeft);
+        // // 24384;
+        // if element scroll has not finished scrolling
+        // prevent window to scroll
+        // ウィンドウがスクロールしないようにする;
+        if (
+          (scrollDirection === -1 && scrollLeft > 0) ||
+          (scrollDirection === 1 && scrollLeft < maxScrollLeft)
+        )
+          e.preventDefault();
+        // done!
+        return true;
+      };
+      el.addEventListener("mousewheel", MouseWheelHandler, false);
+    }
+  }, [scroll]);
 
   // イベントリスナーを使う方法で実装。
   // イベントハンドラーを使う方法は（scrollevent_eventhandler）内

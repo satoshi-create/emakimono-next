@@ -111,7 +111,7 @@ const Home = () => {
         sectionname={t.genji.name}
         linktitle={"源氏絵の世界"}
         linktitleen={"GENJIE"}
-        linkpath={"genji"}
+        linkpath={"genji-pictures"}
         bcg={"#f9fbff"}
       />
       <CardA

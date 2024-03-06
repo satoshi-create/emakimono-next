@@ -46,7 +46,7 @@ const Ekotoba = ({
   // gendaibunを最初のレンダリング後に取得
   // https://qiita.com/maaaashi/items/957bf8a949833151612b
   const [ekotobabody, setEkotobabody] = useState("");
-  console.log(ekotobabody);
+
   useEffect(() => {
     setEkotobabody(gendaibun);
   }, [setEkotobabody, gendaibun]);
