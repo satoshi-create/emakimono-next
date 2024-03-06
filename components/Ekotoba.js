@@ -39,9 +39,8 @@ const Ekotoba = ({
     setEkotobaImageToggle,
     scrollDialog,
     orientation,
+    ekotobaToggle,
   } = useContext(AppContext);
-
-  // const [toggle, setToggle] = useState(false);
 
   // dangerouslySetInnerHTMLでgendaibunを描画使用するとHydration failedになる問題の対処のため、
   // gendaibunを最初のレンダリング後に取得
@@ -53,16 +52,9 @@ const Ekotoba = ({
   }, [setEkotobabody, gendaibun]);
 
   useEffect(() => {
-    if (scroll) {
-      setEkotobaImageToggle(false);
-    }
-  }, [setEkotobaImageToggle, scroll]);
-
-  useEffect(() => {
-    if (scroll) {
-      setekotobaToggle(false);
-    }
-  }, [setekotobaToggle, scroll]);
+    setEkotobaImageToggle(true);
+    setekotobaToggle(true);
+  }, [setEkotobaImageToggle, setekotobaToggle]);
 
   return (
     <section
@@ -111,11 +103,15 @@ const Ekotoba = ({
             {kobun && (
               <button
                 className={styles.togglekobun}
-                onClick={() => setToggle(!toggle)}
+                onClick={() => setekotobaToggle(!ekotobaToggle)}
               >
                 <FontAwesomeIcon
-                  icon={toggle ? faMinus : faPlus}
-                  title={toggle ? "閉じる" : "詞書の現代語訳と原文を比べて読む"}
+                  icon={ekotobaToggle ? faMinus : faPlus}
+                  title={
+                    ekotobaToggle
+                      ? "閉じる"
+                      : "詞書の現代語訳と原文を比べて読む"
+                  }
                   className={styles.togglebtnicon}
                 />
               </button>
@@ -125,7 +121,7 @@ const Ekotoba = ({
         {/* kobun */}
         <div
           className={
-            toggle ? `${styles.kobun} ${styles.open}` : `${styles.kobun}`
+            ekotobaToggle ? `${styles.kobun} ${styles.open}` : `${styles.kobun}`
           }
         >
           <p
