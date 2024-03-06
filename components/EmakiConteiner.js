@@ -175,26 +175,53 @@ const EmakiConteiner = ({
       }
     };
   }, []);
+  console.log(scroll);
 
-  return (
-    <>
-      <div
-        className={`${orientation === "landscape" ? styles.land : styles.prt}`}
-        style={{
-          borderRadius: orientation === "landscape" && "12px",
-        }}
-      >
+  const Navigation = (scr) => {
+    if (scr) {
+      <>
         <FullScreen />
-        {toggleFullscreen && <EmakiInfo value={data} />}
-
-        {/* <Sidebar value={data} handleToId={handleToId} /> */}
-        {isModalOpen && <Modal data={data} />}
         <EmakiNavigation
           handleToId={handleToId}
           data={data}
           scrollNextRef={scrollNextRef}
           scrollPrevRef={scrollPrevRef}
         />
+      </>;
+      // if (toggleFullscreen) {
+      //   <EmakiInfo value={data} />;
+      // }
+      // if (isModalOpen) {
+      //   <Modal data={data} />;
+      // }
+    } else {
+      return;
+    }
+  };
+
+  return (
+    <>
+      <div
+        className={`${
+          orientation === "landscape" && scroll ? styles.land : styles.prt
+        }`}
+        style={{
+          borderRadius: orientation === "landscape" && scroll && "12px",
+        }}
+      >
+        {scroll && (
+          <>
+            <FullScreen />
+            <EmakiNavigation
+              handleToId={handleToId}
+              data={data}
+              scrollNextRef={scrollNextRef}
+              scrollPrevRef={scrollPrevRef}
+            />
+          </>
+        )}
+        {scroll && toggleFullscreen && <EmakiInfo value={data} />}
+        {scroll && isModalOpen && <Modal data={data} />}
 
         <article
           className={`${styles.conteiner} ${
@@ -205,7 +232,7 @@ const EmakiConteiner = ({
             "--screen-width": width,
             "--overflow-x": overflowX,
             "--box-shadow": boxshadow,
-            borderRadius: orientation === "landscape" && "12px",
+            borderRadius: orientation === "landscape" && scroll && "12px",
           }}
           onClick={() => setOepnSidebar(false)}
           ref={articleRef}
@@ -227,23 +254,8 @@ const EmakiConteiner = ({
                 />
               );
             } else {
-              return (
-                <KotenText
-                  key={index}
-                  item={{
-                    ...item,
-                    index,
-                    backgroundImage,
-                    kotobagaki,
-                    type,
-                    scroll,
-                    selectedRef,
-                    navIndex,
-                  }}
-                />
-              );
               // return (
-              //   <Ekotoba
+              //   <KotenText
               //     key={index}
               //     item={{
               //       ...item,
@@ -257,6 +269,21 @@ const EmakiConteiner = ({
               //     }}
               //   />
               // );
+              return (
+                <Ekotoba
+                  key={index}
+                  item={{
+                    ...item,
+                    index,
+                    backgroundImage,
+                    kotobagaki,
+                    type,
+                    scroll,
+                    selectedRef,
+                    navIndex,
+                  }}
+                />
+              );
             }
           })}
         </article>

@@ -3,9 +3,9 @@ const links = [
   { name: "ご挨拶", nameen: "About", id: "about", path: "/about", submenu: "" },
   {
     name: "源氏絵の世界",
-    nameen: "genji",
-    id: "genji",
-    path: "/genji",
+    nameen: "genji-pictures",
+    id: "genji-pictures",
+    path: "/genji-pictures",
     submenu: "",
   },
   {

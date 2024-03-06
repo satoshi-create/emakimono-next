@@ -40,6 +40,7 @@ const ToggleEkotoba = ({ data }) => {
     setEkotobaImageToggle(!ekotobaImageToggle);
     setekotobaToggle(false);
   };
+  
   console.log(ekotobaToggle);
   return (
     <button

@@ -6,6 +6,7 @@ import Button from "./Button";
 import { useRouter } from "next/router";
 import styles from "../styles/FullscreenContents.module.css";
 import { Italic } from "react-feather";
+import Link from "next/link";
 
 const FlowEmaki = ({
   flowEmakis: emakis,
@@ -28,7 +29,6 @@ const FlowEmaki = ({
 
   return (
     <>
-      {/* <button onClick={() => setToggleMode(!toggleMode)}>toggle</button> */}
       <section className={`section-center section-padding`}>
         <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
         {emakis.map((item, i) => {
@@ -37,7 +37,7 @@ const FlowEmaki = ({
               className={`${styles.container}`}
               // style={i % 2 ? Right : Left}
               style={{
-                justifyContent: `${i % 2 ? "flex - start" : "flex-end"}`,
+                justifyContent: `${i % 2 ? "flex-start" : "flex-end"}`,
                 backgroundColor: `${toggleMode ? "rgb(20 20 20)" : "#f9fbff"}`,
               }}
               key={i}
@@ -45,7 +45,6 @@ const FlowEmaki = ({
               <h4
                 className={`${styles.title} ${
                   i % 2 ? styles.left : styles.right
-                  // background: `${i % 2 ?  : "black"}`,
                 }`}
                 style={{
                   backgroundImage: `${
@@ -55,15 +54,18 @@ const FlowEmaki = ({
                   }`,
                 }}
               >
-                {item.title}
-                {/* {locale == "en" ? item.titleen : item.title} <br />
-                {locale == "en" ? item.editionen : item.edition} */}
+                <Link href={`/${item.titleen}`}>
+                  <a>
+                    {item.title}
+                    <span>{item.edition}</span>
+                  </a>
+                </Link>
               </h4>
-              <FullScreenComp iconStyle={i % 2 ? true : false}>
+              <FullScreenComp iconStyle={i % 2 ? false : true} width={"80vw"}>
                 <EmakiConteiner
                   data={item}
                   height={"50vh"}
-                  width={"80vw"}
+                  // width={"80vw"}
                   scroll={false}
                   overflowX={"hidden"}
                   boxshadow={" 0 5px 15px rgba(0, 0, 0, 20%)"}

@@ -185,44 +185,9 @@ const Home = () => {
         linktitleen={"Side-scrolling art"}
         linkpath={"/category/byoubu"}
       />
-      {/* <div style={{ float: "left", clear: "both" }} ref={scrollRef}></div> */}
-      {/* <Tweet /> */}
       <Footer />
     </main>
   );
 };
-
-// export const getStaticProps = async (context) => {
-//   const { locale, locales } = context;
-//   // const tEmakisData = locale === "en" ? enData : jaData;
-//   const removeNestedArrayObj = dataEmakis.map((item) => {
-//     return removeNestedObj(item);
-//   });
-
-//   const cyouzyuuzinbutugiga = removeNestedArrayObj.find(
-//     (item, index) =>
-//       item.title === "鳥獣人物戯画絵巻" && item.edition === "甲巻"
-//   );
-
-//   const suibokuga = removeNestedArrayObj.find(
-//     (item, index) => item.title === "四季山水図巻（山水長巻）"
-//   );
-//   const mone = removeNestedArrayObj.find(
-//     (item, index) => item.title === "睡蓮 連作"
-//   );
-
-//   const seiyoukaiga = removeNestedArrayObj.find(
-//     (seiyoukaiga) => seiyoukaiga.title === "ブランカッチ礼拝堂 装飾画"
-//   );
-
-//   return {
-//     props: {
-//       cyouzyuuzinbutugiga: cyouzyuuzinbutugiga,
-//       seiyoukaiga: seiyoukaiga,
-//       suibokuga: suibokuga,
-//       mone: mone,
-//     },
-//   };
-// };
 
 export default Home;

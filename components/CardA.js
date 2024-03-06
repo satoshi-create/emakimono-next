@@ -1,4 +1,3 @@
-
 import React, { useContext, useEffect } from "react";
 import Link from "next/link";
 import styles from "../styles/CardA.module.css";
@@ -8,7 +7,6 @@ import Button from "./Button";
 import Image from "next/image";
 import { AppContext } from "../pages/_app";
 import { useRouter } from "next/router";
-import SocialLinks from "./SocialLinks";
 
 const CardA = ({
   emakis,

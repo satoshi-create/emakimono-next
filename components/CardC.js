@@ -66,7 +66,10 @@ const CardC = ({ data }) => {
             <Link href={`/${titleen}`}>
               <a>
                 <div className={styles.metadata}>
-                  <h3 className={styles.title}>{title}</h3>
+                  <h3 className={styles.title}>
+                    {title}
+                    <div>{edition}</div>
+                  </h3>
                   <p className={styles.author}>{author}</p>
                 </div>
               </a>
