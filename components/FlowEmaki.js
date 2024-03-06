@@ -67,7 +67,7 @@ const FlowEmaki = ({
                   height={"50vh"}
                   // width={"80vw"}
                   scroll={false}
-                  overflowX={"hidden"}
+                  overflowX={"auto"}
                   boxshadow={" 0 5px 15px rgba(0, 0, 0, 20%)"}
                 />
               </FullScreenComp>
