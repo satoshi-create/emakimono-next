@@ -59,8 +59,8 @@ const Genji = () => {
       />
       <FlowEmaki
         flowEmakis={genjiFlowDatas}
-        sectiontitle={t.flow.title}
-        sectiontitleen={t.flow.titleen}
+        // sectiontitle={t.flow.title}
+        // sectiontitleen={t.flow.titleen}
       />
       <Footer />
     </main>
