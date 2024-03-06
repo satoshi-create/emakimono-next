@@ -30,7 +30,7 @@ const Genji = () => {
     <main>
       <Head />
       <Header fixed={true} />
-      <Attention />
+      {/* <Attention /> */}
       {/* <CardA
         emakis={alpha}
         columns={t.alpha.columns}

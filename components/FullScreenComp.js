@@ -7,7 +7,7 @@ import {
 import styles from "../styles/FullScreenComp.module.css";
 
 // react - full - screen;
-export default function FullScreenComp({ children, iconStyle, page }) {
+export default function FullScreenComp({ children, iconStyle, }) {
   const handle = useFullScreenHandle();
   return (
     <>

@@ -75,7 +75,7 @@ const Kotentext = ({
       ref={navIndex === index ? scrollDialog : null}
     >
       {ekotobaImageToggle ? (
-        // 古文側
+        // 古文サイド
         <div
           className={`${styles.container} ${
             ekotobaImageToggle
@@ -100,19 +100,17 @@ const Kotentext = ({
             </div>
           )}
           {/* kobun */}
-          <div
-            className={`${styles.kobunBox} ${styles.kobunSideKobun}`}
-            style={{
-              fontSize: `${
-                orientation === "portrait"
-                  ? "var(--title-size-prt)"
-                  : "var(--title-size)"
-              }`,
-            }}
-          >
+          <div className={`${styles.kobunBox} ${styles.kobunSideKobun}`}>
             <p
               dangerouslySetInnerHTML={{ __html: kobun }}
               className={styles.kobuntext}
+              style={{
+                fontSize: `${
+                  orientation === "portrait"
+                    ? "var(--text-size-prt)"
+                    : "var(--text-size)"
+                }`,
+              }}
             />
             {gendaibun && (
               <button
@@ -165,7 +163,7 @@ const Kotentext = ({
           )}
         </div>
       ) : (
-        // 現代文側
+        // 現代文サイド
         <div className={styles.container}>
           {/* chapter */}
           {chapter && (

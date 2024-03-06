@@ -56,6 +56,8 @@ gendaibun
   font-family: var(--text-font-koten);
   font-size: 1.4rem;
   color: #454545;
+  background-color: #ff8c771f;
+  padding: 0.5rem;
 }
 @media screen and (min-width: 768px) {
   .kobunSideGendaibun,
