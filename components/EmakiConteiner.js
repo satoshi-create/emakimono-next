@@ -35,6 +35,7 @@ const EmakiConteiner = ({
   } = useContext(AppContext);
 
   const emakis = data.emakis;
+
   const { backgroundImage, kotobagaki, type } = data;
 
   const [toggle, setToggle] = useState(true);
@@ -239,7 +240,6 @@ const EmakiConteiner = ({
         >
           {emakis.map((item, index) => {
             const { cat, src } = item;
-
             if (cat === "image") {
               return (
                 <EmakiImage
@@ -254,36 +254,39 @@ const EmakiConteiner = ({
                 />
               );
             } else {
-              // return (
-              //   <KotenText
-              //     key={index}
-              //     item={{
-              //       ...item,
-              //       index,
-              //       backgroundImage,
-              //       kotobagaki,
-              //       type,
-              //       scroll,
-              //       selectedRef,
-              //       navIndex,
-              //     }}
-              //   />
-              // );
-              return (
-                <Ekotoba
-                  key={index}
-                  item={{
-                    ...item,
-                    index,
-                    backgroundImage,
-                    kotobagaki,
-                    type,
-                    scroll,
-                    selectedRef,
-                    navIndex,
-                  }}
-                />
-              );
+              if (data.type === "古典文学") {
+                return (
+                  <KotenText
+                    key={index}
+                    item={{
+                      ...item,
+                      index,
+                      backgroundImage,
+                      kotobagaki,
+                      type,
+                      scroll,
+                      selectedRef,
+                      navIndex,
+                    }}
+                  />
+                );
+              } else {
+                return (
+                  <Ekotoba
+                    key={index}
+                    item={{
+                      ...item,
+                      index,
+                      backgroundImage,
+                      kotobagaki,
+                      type,
+                      scroll,
+                      selectedRef,
+                      navIndex,
+                    }}
+                  />
+                );
+              }
             }
           })}
         </article>
