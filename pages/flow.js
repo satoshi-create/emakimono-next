@@ -3,7 +3,6 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import "lazysizes";
 import Head from "../components/Meta";
-// import styles from "../styles/Flow.css.module.css";
 import Title from "../components/Title";
 import FlowEmaki from "../components/FlowEmaki";
 import { useLocale, useLocaleData } from "../libs/func";
@@ -31,18 +30,5 @@ const Flow = () => {
     </>
   );
 };
-
-// export const getStaticProps = async (context) => {
-//   const { locale, locales } = context;
-//   // const tEmakisData = locale === "en" ? enData : jaData;
-
-//   const heianEmakis = dataEmakis.filter((emaki) => emaki.subtype === "説話");
-
-//   return {
-//     props: {
-//       emakis: heianEmakis,
-//     },
-//   };
-// };
 
 export default Flow;

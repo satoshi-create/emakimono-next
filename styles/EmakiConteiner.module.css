@@ -22,10 +22,8 @@
 .conteiner {
   display: flex !important;
   height: var(--screen-height);
-  /* width: var(--screen-width); */
   overflow-y: hidden;
-  /* overflow-x: hidden; */
-  overflow-x: auto;
+  overflow-x: var(--overflow-x);
   position: relative;
 }
 .emakiplayer {

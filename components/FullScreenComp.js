@@ -6,81 +6,42 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "../styles/FullScreenComp.module.css";
 
-
 // react - full - screen;
-export default function FullScreenComp({ children, iconStyle, padding, page }) {
+export default function FullScreenComp({ children, iconStyle, page }) {
   const handle = useFullScreenHandle();
-  if (page) {
-    return (
-      <>
-        <div className={styles.fullscreen} style={{ margin: padding }}>
-          <button
-            onClick={handle.enter}
-            className={styles.openIcon}
-            style={
-              iconStyle
-                ? { "--left": "1rem", "--rotate": "90deg" }
-                : { "--right": "4rem" }
-            }
-          >
-            <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
-            <i className="fa fa-expand"></i>
-          </button>
+  return (
+    <>
+      <div className={styles.fullscreen}>
+        <button
+          onClick={handle.enter}
+          className={styles.openIcon}
+          style={
+            iconStyle
+              ? { "--left": "1rem", "--rotate": "90deg" }
+              : { "--right": "4rem" }
+          }
+        >
+          <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
+          <i className="fa fa-expand"></i>
+        </button>
 
-          <FullScreen handle={handle}>
-            {handle.active && (
-              <button
-                onClick={handle.exit}
-                className={styles.closeIcon}
-                style={
-                  iconStyle
-                    ? { "--left": "1rem", "--rotate": "90deg" }
-                    : { "--right": "4rem" }
-                }
-              >
-                <FontAwesomeIcon icon={faDownLeftAndUpRightToCenter} />
-              </button>
-            )}
-            {children}
-          </FullScreen>
-        </div>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <div className={styles.fullscreen} style={{ margin: padding }}>
-          <button
-            onClick={handle.enter}
-            className={styles.openIcon}
-            style={
-              iconStyle
-                ? { "--right": "1rem" }
-                : { "--left": "1rem", "--rotate": "90deg" }
-            }
-          >
-            <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
-            <i className="fa fa-expand"></i>
-          </button>
-
-          <FullScreen handle={handle}>
-            {handle.active && (
-              <button
-                onClick={handle.exit}
-                className={styles.closeIcon}
-                style={
-                  iconStyle
-                    ? { "--right": "1rem" }
-                    : { "--left": "1rem", "--rotate": "90deg" }
-                }
-              >
-                <FontAwesomeIcon icon={faDownLeftAndUpRightToCenter} />
-              </button>
-            )}
-            {children}
-          </FullScreen>
-        </div>
-      </>
-    );
-  }
+        <FullScreen handle={handle}>
+          {handle.active && (
+            <button
+              onClick={handle.exit}
+              className={styles.closeIcon}
+              style={
+                iconStyle
+                  ? { "--left": "1rem", "--rotate": "90deg" }
+                  : { "--right": "4rem" }
+              }
+            >
+              <FontAwesomeIcon icon={faDownLeftAndUpRightToCenter} />
+            </button>
+          )}
+          {children}
+        </FullScreen>
+      </div>
+    </>
+  );
 }

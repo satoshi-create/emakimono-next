@@ -60,7 +60,7 @@ const Kotentext = ({
 
   useEffect(() => {
     if (scroll) {
-      setekotobaToggle(false);
+      setekotobaToggle(true);
     }
   }, [setekotobaToggle, scroll]);
 
