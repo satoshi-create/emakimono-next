@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import FullScreenComp from "./FullScreenComp";
 import EmakiConteiner from "./EmakiConteiner";
 import Title from "./Title";
 import Button from "./Button";
 import { useRouter } from "next/router";
 import styles from "../styles/FullscreenContents.module.css";
+import { AppContext } from "../pages/_app";
 
 // TODO:CREATE - レスポンシブデザインを作成する
 
@@ -18,12 +19,10 @@ const FlowEmaki = ({
   columns,
 }) => {
   const { locale } = useRouter();
-
-  const [toggleMode, setToggleMode] = useState(false);
-
+  const { orientation } = useContext(AppContext);
   return (
     <>
-      <section className={`section-center section-padding `}>
+      <section className={`section-center section-padding`}>
         {/* <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} /> */}
         {emakis.map((item, i) => {
           return (
@@ -33,13 +32,6 @@ const FlowEmaki = ({
               }`}
               key={i}
             >
-              {/* title */}
-              {/* <h4 className={`${styles.title}`}>
-                <Link href={`/${item.titleen}`}>
-                  <a>{item.edition}</a>
-                </Link>
-              </h4> */}
-              {/* waka */}
               <h4
                 className={`${styles.waka} ${styles.kami}`}
                 dangerouslySetInnerHTML={{
@@ -52,10 +44,15 @@ const FlowEmaki = ({
                   __html: item.waka_simo,
                 }}
               ></h4>
-              <FullScreenComp index={i} width={"60vw"} edition={item.edition} titleen={item.titleen}>
+              <FullScreenComp
+                index={i}
+                // width={"60vw"}
+                edition={item.edition}
+                titleen={item.titleen}
+              >
                 <EmakiConteiner
                   data={item}
-                  height={"30vh"}
+                  height={orientation === "portrait" ? "30vh" : "40vh"}
                   // width={"80vw"}
                   scroll={false}
                   overflowX={"hidden"}
