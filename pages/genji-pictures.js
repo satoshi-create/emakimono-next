@@ -46,7 +46,7 @@ const Genji = () => {
         sectiontitleen={"The Tale of Genji 54 chapters"}
       /> */}
       <FlowEmaki
-        flowEmakis={genjiFlowDatas.slice(0, 2)}
+        flowEmakis={genjiFlowDatas}
         // sectiontitle={t.flow.title}
         // sectiontitleen={t.flow.titleen}
       />
