@@ -5,7 +5,8 @@ import Title from "./Title";
 import Button from "./Button";
 import { useRouter } from "next/router";
 import styles from "../styles/FullscreenContents.module.css";
-import { Italic } from "react-feather";
+
+// TODO:CREATE - レスポンシブデザインを作成する
 
 const FlowEmaki = ({
   flowEmakis: emakis,

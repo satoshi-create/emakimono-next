@@ -8,12 +8,23 @@
   gap: 0.5rem;
 }
 .container.left {
-  grid-template-columns: auto 3.5rem;
+  grid-template-columns: auto 14vw;
   justify-content: flex-start;
 }
 .container.right {
-  grid-template-columns: 3.5rem auto;
+  grid-template-columns: 14vw auto;
   justify-content: flex-end;
+}
+@media (min-width: 425px) and (max-width: 768px) {
+  .container {
+    gap: 1rem;
+  }
+  .container.left {
+    grid-template-columns: auto 12vw;
+  }
+  .container.right {
+    grid-template-columns: 12vw auto;
+  }
 }
 
 /* .waka */
@@ -22,7 +33,7 @@
   writing-mode: vertical-rl;
   grid-row: 1;
   font-family: var(--title-font);
-  font-size: 18px;
+  font-size: clamp(1.125rem, 0.5286rem + 2.5445vw, 1.75rem);
 }
 .waka.kami {
   justify-self: right;

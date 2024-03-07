@@ -19,8 +19,7 @@
   position: absolute;
   left: 0;
   z-index: 50;
-  font-size: 3rem;
-  /* font-size: clamp(4rem, 1.6888rem + 9.8613vw, 8rem); */
+  font-size: clamp(3.125rem, 2.5286rem + 2.5445vw, 3.75rem);
   font-family: var(--title-font2);
   text-transform: capitalize;
   transition: var(--transition);
