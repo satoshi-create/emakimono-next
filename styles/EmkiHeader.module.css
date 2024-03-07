@@ -3,6 +3,15 @@
   font-family: "Kaisei Decol", serif;
   padding: 0.5rem 0;
 }
+.titleLink {
+  display: flex;
+  align-items: center;
+  column-gap: 0.3rem;
+}
+.favicon {
+  width: 20px;
+  height: 20px;
+}
 @media screen and (min-width: 768px) {
   .header {
     padding: 1.5rem 0;

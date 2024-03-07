@@ -2,32 +2,83 @@
   margin-top: 4rem;
 }
 .container {
-  display: flex;
   position: relative;
-  padding: 10rem 0;
+  padding: 4rem 0;
+  display: grid;
+  gap: 0.5rem;
+}
+.container.left {
+  grid-template-columns: auto 3.5rem;
+  justify-content: flex-start;
+}
+.container.right {
+  grid-template-columns: 3.5rem auto;
+  justify-content: flex-end;
 }
 .title {
-  position: absolute;
-  top: 100px;
+  grid-row: 1;
+  justify-self: flex-start;
+  align-self: flex-start;
+  margin-top: -2rem;
   font-size: clamp(4rem, 1.6888rem + 9.8613vw, 8rem);
   font-family: var(--title-font2);
   text-transform: capitalize;
+  transition: var(--transition);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  transition: var(--transition);
 }
+
+.container.right .title {
+  grid-column: 2;
+  background-image: linear-gradient(
+    90deg,
+    rgb(255, 218, 219),
+    rgb(242, 243, 253)
+  );
+}
+.container.left .title {
+  grid-column: 1;
+  background-image: linear-gradient(
+    90deg,
+    rgb(255, 218, 219),
+    rgb(242, 243, 253)
+  );
+}
+
+/* .waka */
+.waka {
+  z-index: 10;
+  writing-mode: vertical-rl;
+  grid-row: 1;
+  font-family: var(--title-font);
+  font-size: 18px;
+}
+.waka.kami {
+  justify-self: right;
+}
+.container.right .waka.waka.kami {
+  grid-column: 1;
+}
+.container.left .waka.waka.kami {
+  grid-column: 2;
+}
+
+.waka.simo {
+  justify-self: left;
+  align-self: flex-end;
+  margin-bottom: -2rem;
+}
+.container.right .waka.waka.waka.simo {
+  grid-column: 1;
+}
+.container.left .waka.waka.waka.simo {
+  grid-column: 2;
+}
+
 .title:hover {
   filter: blur(4px);
 }
-.left {
-  left: 100px;
-  text-align: left;
-}
-.right {
-  right: 100px;
-  text-align: right;
-}
-@media screen and (min-width: 768px) {
+/* @media screen and (min-width: 768px) {
   .title {
     top: 50px;
   }
@@ -39,4 +90,4 @@
     right: 100px;
     text-align: right;
   }
-}
+} */

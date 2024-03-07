@@ -6,19 +6,24 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "../styles/FullScreenComp.module.css";
 
-// react - full - screen;
-export default function FullScreenComp({ children, iconStyle, }) {
+// TODO:CREATE - 「流れる絵巻」をフルスクリーンにすると横向きになる機能を実装する or ライブラリを使わない方式に切り替える
+
+export default function FullScreenComp({ children, index }) {
   const handle = useFullScreenHandle();
   return (
     <>
-      <div className={styles.fullscreen}>
+      <div
+        className={`${styles.fullscreen} ${
+          index % 2 ? styles.left : styles.right
+        }`}
+      >
         <button
           onClick={handle.enter}
           className={styles.openIcon}
           style={
-            iconStyle
+            index % 2
               ? { "--left": "1rem", "--rotate": "90deg" }
-              : { "--right": "4rem" }
+              : { "--left": "0" }
           }
         >
           <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
@@ -31,9 +36,9 @@ export default function FullScreenComp({ children, iconStyle, }) {
               onClick={handle.exit}
               className={styles.closeIcon}
               style={
-                iconStyle
+                flowStyle
                   ? { "--left": "1rem", "--rotate": "90deg" }
-                  : { "--right": "4rem" }
+                  : { "--left": "0" }
               }
             >
               <FontAwesomeIcon icon={faDownLeftAndUpRightToCenter} />
