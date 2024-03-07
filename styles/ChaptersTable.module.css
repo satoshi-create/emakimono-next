@@ -1,0 +1,40 @@
+.table {
+  border-spacing: 0;
+}
+.table thead span {
+  writing-mode: vertical-lr;
+}
+.table thead th {
+  border-top: solid 1px #d3d3d3;
+  font-size: 16px;
+}
+.table th,
+.table td {
+  padding: 5px 0;
+  border-bottom: solid 1px #d3d3d3;
+  color: #282832;
+  font-size: 14px;
+  text-align: center;
+}
+.table td {
+  text-align: center;
+}
+
+.table tbody tr:nth-child(odd) {
+  background: #eeeeee;
+  /* background-color: var(--clr-accent-02); */
+}
+.table th {
+  font-family: var(--title-font);
+}
+.table tbody th {
+  font-size: 16px;
+}
+.table th,
+.table td {
+  padding: 0.8rem 0;
+}
+
+.link {
+  color: var(--clr-link);
+}

@@ -27,7 +27,12 @@ const Header = ({ slug, fixed, emakipage }) => {
       <div className={styles.center}>
         <h1 className={styles.title}>
           <Link href="/">
-            <a>
+            <a className={styles.titleLink}>
+              <img
+                src="/favicon.png"
+                alt="favicon"
+                className={styles.favicon}
+              />
               {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
             </a>
           </Link>

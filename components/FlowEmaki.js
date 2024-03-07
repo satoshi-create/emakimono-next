@@ -20,54 +20,45 @@ const FlowEmaki = ({
   const { locale } = useRouter();
 
   const [toggleMode, setToggleMode] = useState(false);
-  const Left = {
-    justifyContent: "flex-start",
-  };
-  const Right = {
-    justifyContent: "flex-end",
-  };
 
   return (
     <>
-      <section className={`section-center section-padding`}>
-        <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
+      <section className={`section-center section-padding `}>
+        {/* <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} /> */}
         {emakis.map((item, i) => {
           return (
             <div
-              className={`${styles.container}`}
-              // style={i % 2 ? Right : Left}
-              style={{
-                justifyContent: `${i % 2 ? "flex-start" : "flex-end"}`,
-                backgroundColor: `${toggleMode ? "rgb(20 20 20)" : "#f9fbff"}`,
-              }}
+              className={`${styles.container}  ${
+                i % 2 ? styles.left : styles.right
+              }`}
               key={i}
             >
-              <h4
-                className={`${styles.title} ${
-                  i % 2 ? styles.left : styles.right
-                }`}
-                style={{
-                  backgroundImage: `${
-                    i % 2
-                      ? "linear-gradient(90deg,#ffdadb, #f2f3fd)"
-                      : "linear-gradient(270deg,#ffdadb, #f2f3fd)"
-                  }`,
-                }}
-              >
+              {/* title */}
+              <h4 className={`${styles.title}`}>
                 <Link href={`/${item.titleen}`}>
-                  <a>
-                    {item.title}
-                    <span>{item.edition}</span>
-                  </a>
+                  <a>{item.edition}</a>
                 </Link>
               </h4>
-              <FullScreenComp iconStyle={i % 2 ? false : true} width={"80vw"}>
+              {/* waka */}
+              <h4
+                className={`${styles.waka} ${styles.kami}`}
+                dangerouslySetInnerHTML={{
+                  __html: item.waka_kami,
+                }}
+              ></h4>
+              <h4
+                className={`${styles.waka} ${styles.simo}`}
+                dangerouslySetInnerHTML={{
+                  __html: item.waka_simo,
+                }}
+              ></h4>
+              <FullScreenComp index={i} width={"60vw"}>
                 <EmakiConteiner
                   data={item}
-                  height={"50vh"}
+                  height={"30vh"}
                   // width={"80vw"}
                   scroll={false}
-                  overflowX={"auto"}
+                  overflowX={"hidden"}
                   boxshadow={" 0 5px 15px rgba(0, 0, 0, 20%)"}
                 />
               </FullScreenComp>

@@ -15,13 +15,13 @@ const links = [
     path: "/category/emaki",
     submenu: "",
   },
-  {
-    name: "流れる巻物!!",
-    nameen: "flowing scroll!!",
-    id: "flow",
-    path: "/flow",
-    submenu: "",
-  },
+  // {
+  //   name: "流れる巻物!!",
+  //   nameen: "flowing scroll!!",
+  //   id: "flow",
+  //   path: "/flow",
+  //   submenu: "",
+  // },
   {
     name: "絵巻名場面集!!",
     nameen: "famousscene",

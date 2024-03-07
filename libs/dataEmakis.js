@@ -2426,8 +2426,6 @@ const dataEmakis = [
     video: "",
     thumb: "/kusouzumaki_thumb.webp",
     thumb2: "/kusouzumaki_thumb.webp",
-    // metadesc:
-    //   "九相図巻の全シーンを、横スクロールで楽しむことができます。美しい女の人が、死後朽ち果てるまでの変容を９つの相に分け、肉体の美醜が生々しく描かれています。",
     desc: "九相図巻の全シーンを、横スクロールで楽しむことができます。美しい女の人が、死後朽ち果てるまでの変容を９つの相に分け、肉体の美醜が生々しく描かれています。煩悩を退けるための仏教の修行に使われたと言われています。",
     era: "鎌倉",
     eraen: "kamakura",
@@ -2440,6 +2438,15 @@ const dataEmakis = [
       { name: "仏教", id: "buddhism", slug: "buddhism" },
       { name: "死生観", id: "lifeandodeath", slug: "lifeandodeath" },
       { name: "解剖学", id: "anatomy", slug: "anatomy" },
+    ],
+    personname: [
+      {
+        name: "橘嘉智子（檀林皇后）",
+        id: "tachibananokachiko_danrinkougou",
+        slug: "tachibananokachiko_danrinkougou",
+        ruby: "たちばなのかちこ",
+        portrait: "/portrait_tachibananokachiko_danrinkougou.webp",
+      },
     ],
     kotobagaki: false,
     sourceImageUrl:

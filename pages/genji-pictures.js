@@ -30,19 +30,7 @@ const Genji = () => {
     <main>
       <Head />
       <Header fixed={true} />
-      {/* <Attention /> */}
       {/* <CardA
-        emakis={alpha}
-        columns={t.alpha.columns}
-        sectiontitle={t.alpha.title}
-        sectiontitleen={t.alpha.titleen}
-        sectiondesc={t.alpha.desc}
-        sectionname={t.alpha.name}
-        linktitle={"ワイド美術"}
-        linktitleen={"Side-scrolling art"}
-        linkpath={"/category/byoubu"}
-      /> */}
-      <CardA
         emakis={genjiPictures.slice(0, 4)}
         columns={"four"}
         sectiontitle={t.genji.title}
@@ -52,13 +40,13 @@ const Genji = () => {
         // linktitle={"絵巻"}
         // linktitleen={"EMAKIMONO"}
         // linkpath={"emaki"}
-      />
-      <ChaptersTable
+      /> */}
+      {/* <ChaptersTable
         sectiontitle={"源氏物語54帖"}
         sectiontitleen={"The Tale of Genji 54 chapters"}
-      />
+      /> */}
       <FlowEmaki
-        flowEmakis={genjiFlowDatas}
+        flowEmakis={genjiFlowDatas.slice(0, 2)}
         // sectiontitle={t.flow.title}
         // sectiontitleen={t.flow.titleen}
       />

@@ -48,7 +48,6 @@ const EmakiConteiner = ({
   useEffect(() => {
     const ref = articleRef.current;
     const coordinate = ref.getBoundingClientRect();
-    console.log(coordinate);
   }, [articleRef]);
 
   // useEffect(() => {
