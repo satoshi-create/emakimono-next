@@ -10,7 +10,7 @@ import { useLocale, useLocaleData } from "../libs/func";
 import ExtractingListData from "../components/ExtractingListData";
 import ChaptersTable from "../components/ChaptersTable";
 import FlowEmaki from "../components/FlowEmaki";
-import ChapterGenji from "../libs/genji/chapters_of_genji.json";
+import ChapterGenji from "../libs/genji/chapters_of_genji";
 
 // TODO:loading機能を追加する
 
@@ -23,18 +23,13 @@ const Genji = () => {
     emaki.title.includes("源氏")
   );
 
-  const genjiFlowDatas = data
-    .filter((item) => item.title.includes("源氏"))
-    .filter((item) => item.edition !== "関屋")
-    .filter((item) => item.type !== "古典文学");
-
-  console.log(genjiFlowDatas);
-  console.log(ChapterGenji);
+  const genjiFlowDatas = data.filter((item) => item.title.includes("源氏"));
+  // .filter((item) => item.type !== "古典文学");
 
   return (
     <main>
       <Head />
-      <Header fixed={true} />
+      <Header fixed={false} />
       {/* <CardA
         emakis={genjiPictures.slice(0, 4)}
         columns={"four"}

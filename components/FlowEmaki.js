@@ -49,13 +49,14 @@ const FlowEmaki = ({
                 // width={"60vw"}
                 edition={item.edition}
                 titleen={item.titleen}
+                genjieslug={item.genjieslug}
               >
                 <EmakiConteiner
                   data={item}
                   height={orientation === "portrait" ? "30vh" : "40vh"}
                   // width={"80vw"}
                   scroll={false}
-                  overflowX={"hidden"}
+                  overflowX={"auto"}
                   boxshadow={" 0 5px 15px rgba(0, 0, 0, 20%)"}
                 />
               </FullScreenComp>
