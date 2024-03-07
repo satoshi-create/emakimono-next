@@ -5,7 +5,9 @@ import styles from "../styles/Breadcrumbs.module.css";
 
 const Breadcrumbs = ({ name, test, testen }) => {
   return (
-    <section className={`section-center ${styles.breadcrumbs}`}>
+    <section
+      className={`section-center section-grid section-padding ${styles.breadcrumbs}`}
+    >
       <ul className={styles.container}>
         <Link href={"/"}>
           <a>Top</a>
