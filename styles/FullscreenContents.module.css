@@ -15,35 +15,6 @@
   grid-template-columns: 3.5rem auto;
   justify-content: flex-end;
 }
-.title {
-  grid-row: 1;
-  justify-self: flex-start;
-  align-self: flex-start;
-  margin-top: -2rem;
-  font-size: clamp(4rem, 1.6888rem + 9.8613vw, 8rem);
-  font-family: var(--title-font2);
-  text-transform: capitalize;
-  transition: var(--transition);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.container.right .title {
-  grid-column: 2;
-  background-image: linear-gradient(
-    90deg,
-    rgb(255, 218, 219),
-    rgb(242, 243, 253)
-  );
-}
-.container.left .title {
-  grid-column: 1;
-  background-image: linear-gradient(
-    90deg,
-    rgb(255, 218, 219),
-    rgb(242, 243, 253)
-  );
-}
 
 /* .waka */
 .waka {
