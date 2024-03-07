@@ -6,7 +6,6 @@ import Button from "./Button";
 import { useRouter } from "next/router";
 import styles from "../styles/FullscreenContents.module.css";
 import { Italic } from "react-feather";
-import Link from "next/link";
 
 const FlowEmaki = ({
   flowEmakis: emakis,
@@ -34,11 +33,11 @@ const FlowEmaki = ({
               key={i}
             >
               {/* title */}
-              <h4 className={`${styles.title}`}>
+              {/* <h4 className={`${styles.title}`}>
                 <Link href={`/${item.titleen}`}>
                   <a>{item.edition}</a>
                 </Link>
-              </h4>
+              </h4> */}
               {/* waka */}
               <h4
                 className={`${styles.waka} ${styles.kami}`}
@@ -52,7 +51,7 @@ const FlowEmaki = ({
                   __html: item.waka_simo,
                 }}
               ></h4>
-              <FullScreenComp index={i} width={"60vw"}>
+              <FullScreenComp index={i} width={"60vw"} edition={item.edition} titleen={item.titleen}>
                 <EmakiConteiner
                   data={item}
                   height={"30vh"}

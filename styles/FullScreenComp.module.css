@@ -13,6 +13,37 @@
   grid-column: 2;
   align-self: center;
 }
+
+/* title */
+.title {
+  position: absolute;
+  left: 0;
+  z-index: 50;
+  font-size: 3rem;
+  /* font-size: clamp(4rem, 1.6888rem + 9.8613vw, 8rem); */
+  font-family: var(--title-font2);
+  text-transform: capitalize;
+  transition: var(--transition);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.fullscreen.right .title {
+  top: -20%;
+  background-image: linear-gradient(
+    90deg,
+    rgb(255, 218, 219),
+    rgb(242, 243, 253)
+  );
+}
+.fullscreen.left .title {
+  top: -20%;
+  background-image: linear-gradient(
+    90deg,
+    rgb(255, 218, 219),
+    rgb(242, 243, 253)
+  );
+}
 .openIcon,
 .closeIcon {
   position: absolute;
@@ -21,7 +52,7 @@
   right: var(--right);
   z-index: 100;
   font-size: 1.3rem;
-  color: var(--clr-white);
+  color: #ffffff52;
   transform: rotate(var(--rotate));
   transition: var(--transition);
 }
