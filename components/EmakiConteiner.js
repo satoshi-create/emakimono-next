@@ -188,12 +188,6 @@ const EmakiConteiner = ({
           scrollPrevRef={scrollPrevRef}
         />
       </>;
-      // if (toggleFullscreen) {
-      //   <EmakiInfo value={data} />;
-      // }
-      // if (isModalOpen) {
-      //   <Modal data={data} />;
-      // }
     } else {
       return;
     }
