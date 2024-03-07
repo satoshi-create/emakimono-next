@@ -9,7 +9,7 @@ import Link from "next/link";
 
 // TODO:CREATE - 「流れる絵巻」をフルスクリーンにすると横向きになる機能を実装する or ライブラリを使わない方式に切り替える
 
-export default function FullScreenComp({ children, index, edition, titleen }) {
+export default function FullScreenComp({ children, index, edition, titleen,genjieslug }) {
   const handle = useFullScreenHandle();
   return (
     <>
@@ -19,7 +19,7 @@ export default function FullScreenComp({ children, index, edition, titleen }) {
         }`}
       >
         <h4 className={`${styles.title}`}>
-          <Link href={`/${titleen}`}>
+          <Link href={`/genjie/${genjieslug}`}>
             <a>{edition}</a>
           </Link>
         </h4>
@@ -42,7 +42,7 @@ export default function FullScreenComp({ children, index, edition, titleen }) {
               onClick={handle.exit}
               className={styles.closeIcon}
               style={
-                flowStyle
+                index % 2
                   ? { "--left": "1rem", "--rotate": "90deg" }
                   : { "--left": "0" }
               }

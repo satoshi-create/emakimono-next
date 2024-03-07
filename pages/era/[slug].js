@@ -56,7 +56,7 @@ export const getStaticProps = async (context) => {
   const eraslug = context.params.slug;
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
-  
+
   const cat = allEras.find(({ slug }) => slug === eraslug);
   const filterdEmakisData = tEmakisData.filter(
     (item) => item.eraen === eraslug

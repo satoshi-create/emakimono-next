@@ -1,6 +1,6 @@
 import React from "react";
 import Title from "./Title";
-import ChapterGenji from "../libs/genji/chapters_of_genji.json";
+import ChapterGenji from "../libs/genji/chapters_of_genji";
 import styles from "../styles/ChaptersTable.module.css";
 import Link from "next/link";
 
