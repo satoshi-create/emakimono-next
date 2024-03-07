@@ -5,10 +5,11 @@ import {
   faUpRightAndDownLeftFromCenter,
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "../styles/FullScreenComp.module.css";
+import Link from "next/link";
 
 // TODO:CREATE - 「流れる絵巻」をフルスクリーンにすると横向きになる機能を実装する or ライブラリを使わない方式に切り替える
 
-export default function FullScreenComp({ children, index }) {
+export default function FullScreenComp({ children, index, edition, titleen }) {
   const handle = useFullScreenHandle();
   return (
     <>
@@ -17,12 +18,17 @@ export default function FullScreenComp({ children, index }) {
           index % 2 ? styles.left : styles.right
         }`}
       >
+        <h4 className={`${styles.title}`}>
+          <Link href={`/${titleen}`}>
+            <a>{edition}</a>
+          </Link>
+        </h4>
         <button
           onClick={handle.enter}
           className={styles.openIcon}
           style={
             index % 2
-              ? { "--left": "1rem", "--rotate": "90deg" }
+              ? { "--right": "1rem", "--rotate": "90deg" }
               : { "--left": "0" }
           }
         >
