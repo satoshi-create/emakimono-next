@@ -10,6 +10,7 @@ import { useLocale, useLocaleData } from "../libs/func";
 import ExtractingListData from "../components/ExtractingListData";
 import ChaptersTable from "../components/ChaptersTable";
 import FlowEmaki from "../components/FlowEmaki";
+import ChapterGenji from "../libs/genji/chapters_of_genji.json";
 
 // TODO:loading機能を追加する
 
@@ -24,7 +25,11 @@ const Genji = () => {
 
   const genjiFlowDatas = data
     .filter((item) => item.title.includes("源氏"))
+    .filter((item) => item.edition !== "関屋")
     .filter((item) => item.type !== "古典文学");
+
+  console.log(genjiFlowDatas);
+  console.log(ChapterGenji);
 
   return (
     <main>
