@@ -30,15 +30,16 @@ const EmakiLandscapContent = ({
     desc,
     sourceImage,
     sourceImageUrl,
-    subtype,
     reference,
     personname,
     keyword,
+    genjieslug,
   } = data;
 
   const descTemp = `${title} ${
     author && `（${author}）`
   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+
   return (
     <div className={`emaki-page-landscape-grid`}>
       <div className={styles.wrapper}>
@@ -95,6 +96,19 @@ const EmakiLandscapContent = ({
               className={styles.desc}
               dangerouslySetInnerHTML={{ __html: desc ? desc : descTemp }}
             ></div>
+            {genjieslug && (
+              <div className={`${styles.genjieslugBox}`}>
+                {genjieslug.map((item, i) => {
+                  return (
+                    <h4 className={`${styles.genjieslugTitle}`} key={i}>
+                      <Link href={`/genjie/${item.path}`}>
+                        <a>{item.title}</a>
+                      </Link>
+                    </h4>
+                  );
+                })}
+              </div>
+            )}
             {personname && (
               <div className={styles.tags}>
                 {personname?.map((item, index) => {
@@ -122,7 +136,6 @@ const EmakiLandscapContent = ({
                 })}
               </div>
             )}
-
             {keyword && (
               <div className={styles.tags}>
                 {keyword?.map((item, index) => {

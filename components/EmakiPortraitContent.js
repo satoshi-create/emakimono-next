@@ -25,6 +25,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     sourceImageUrl,
     reference,
     keyword,
+    genjieslug,
     personname,
   } = data;
 
@@ -85,6 +86,19 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 }
               })}
             </ul>
+            {genjieslug && (
+              <div className={`${styles.genjieslugBox}`}>
+                {genjieslug.map((item, i) => {
+                  return (
+                    <h4 className={`${styles.genjieslugTitle}`} key={i}>
+                      <Link href={`/genjie/${item.path}`}>
+                        <a>{item.title}</a>
+                      </Link>
+                    </h4>
+                  );
+                })}
+              </div>
+            )}
             {personname && (
               <div
                 className={`${styles.tags} ${locale === "ja" && styles.jatags}`}
