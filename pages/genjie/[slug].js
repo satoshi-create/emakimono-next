@@ -9,6 +9,7 @@ import Footer from "../../components/Footer";
 import enData from "../../libs/en/data";
 import jaData from "../../libs/data";
 import { removeNestedObj } from "../../libs/func";
+import { genjieSlugItem } from "../../libs/func";
 
 const Genjie = ({ title, titleen, posts, slug }) => {
   const { locale } = useRouter();
@@ -37,10 +38,8 @@ const Genjie = ({ title, titleen, posts, slug }) => {
   );
 };
 
-export default Genjie;
-
 export const getStaticPaths = async () => {
-  const paths = AllChapterGenji.map(({ path }) => ({
+  const paths = genjieSlugItem(emakisData).map(({ path }) => ({
     params: {
       slug: path,
     },
@@ -54,28 +53,41 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async (context) => {
-  const genjieslug = context.params.slug;
-
+  console.log(genjieSlugItem(emakisData));
+  const genjieslugname = context.params.slug;
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
+  const chaptergenji = genjieSlugItem(tEmakisData).find(
+    ({ path }) => path === genjieslugname
+  );
+  // const filterdEmakisData = tEmakisData.filter((item) => {
+  //   // if (item.genjieslug) {
+  //   //   return item.genjieslug.includes(genjieslug);
+  //   // }
+  //   return item.genjieslug === genjieslug;
+  // });
+  // const removeNestedArrayObj = filterdEmakisData.map((item) => {
+  //   return removeNestedObj(item);
+  // });
 
-  const chaptergenji = AllChapterGenji.find(({ path }) => path === genjieslug);
-  const filterdEmakisData = tEmakisData.filter((item) => {
-    // if (item.genjieslug) {
-    //   return item.genjieslug.includes(genjieslug);
-    // }
-    return item.genjieslug === genjieslug;
+  const filterdEmakisData = tEmakisData.filter((x) => {
+    if (x.genjieslug) {
+      const filterdGenjieslug = x.genjieslug.some(
+        (y) => y.path === genjieslugname
+      );
+      return filterdGenjieslug;
+    }
   });
-  const removeNestedArrayObj = filterdEmakisData.map((item) => {
-    return removeNestedObj(item);
-  });
+
 
   return {
     props: {
       title: chaptergenji.title,
       titleen: chaptergenji.path,
-      posts: removeNestedArrayObj,
-      slug: genjieslug,
+      posts: filterdEmakisData,
+      slug: genjieslugname,
     },
   };
 };
+
+export default Genjie;
