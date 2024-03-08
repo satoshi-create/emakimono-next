@@ -23,7 +23,7 @@ const FlowEmaki = ({
   return (
     <>
       <section className={`section-center section-padding`}>
-        {/* <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} /> */}
+        <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
         {emakis.map((item, i) => {
           return (
             <div

@@ -3,7 +3,7 @@ import Head from "../../components/Meta";
 import CardA from "../../components/CardA";
 import emakisData from "../../libs/data";
 import Breadcrumbs from "../../components/Breadcrumbs";
-import { keywordItem } from "../../libs/func";
+import { keywordItem, genjieSlugItem, personnameItem } from "../../libs/func";
 import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
 import enData from "../../libs/en/data";
@@ -54,6 +54,7 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async (context) => {
+  console.log(genjieSlugItem(emakisData));
   const keywordslug = context.params.slug;
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
