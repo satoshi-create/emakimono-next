@@ -36,7 +36,6 @@ const EmakiLandscapContent = ({
     keyword,
   } = data;
 
-
   const descTemp = `${title} ${
     author && `（${author}）`
   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
@@ -97,11 +96,9 @@ const EmakiLandscapContent = ({
               dangerouslySetInnerHTML={{ __html: desc ? desc : descTemp }}
             ></div>
             {personname && (
-              <div
-                className={`${styles.tags} ${locale === "ja" && styles.jatags}`}
-              >
+              <div className={styles.tags}>
                 {personname?.map((item, index) => {
-                  const { name, id, slug, total, ruby, portrait } = item;
+                  const { name, id, slug, portrait } = item;
 
                   return (
                     <Link href={`./personname/${slug}`} key={index}>
@@ -127,9 +124,7 @@ const EmakiLandscapContent = ({
             )}
 
             {keyword && (
-              <div
-                className={`${styles.tags} ${locale === "ja" && styles.jatags}`}
-              >
+              <div className={styles.tags}>
                 {keyword?.map((item, index) => {
                   const { name, id, slug, total, ruby } = item;
 

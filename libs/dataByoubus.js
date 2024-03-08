@@ -768,7 +768,7 @@ const dataByoubus = [
       },
       {
         cat: "ekotoba",
-        chapter: "絵合1",
+        chapter: "【右隻】　絵合",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
@@ -797,14 +797,6 @@ const dataByoubus = [
         src: "/genjibyobu_eawasekocyo_03-1080.webp",
         name: "genjibyobu_eawasekocyo_03.webp",
       },
-      {
-        cat: "ekotoba",
-        chapter: "絵合2",
-        kobun: "",
-        gendaibun: "",
-        phrase: [{}],
-      },
-
       {
         cat: "ekotoba",
         chapter: "【左隻】　胡蝶",
