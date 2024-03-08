@@ -4,6 +4,7 @@ const dataKotenBungaku = [
     title: "源氏物語（紫式部）",
     titleen: "genjibyobu_eawase_sikibu",
     edition: "絵合",
+    genjieslug: [{ id: "17", title: "絵合", ruby: "えあわせ", path: "eawase" }],
     author: "",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
