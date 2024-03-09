@@ -11,16 +11,20 @@ import jaData from "../../libs/data";
 import { removeNestedObj } from "../../libs/func";
 import { genjieSlugItem } from "../../libs/func";
 
+// TODO:CREATE - 「源氏絵の世界一覧」をつくる
+
 const Genjie = ({ title, titleen, posts, slug }) => {
   const { locale } = useRouter();
   const tPageDesc =
     locale === "en"
-      ? `You can enjoy all the scenes of the ${titleen} Period in vertical and right to left scrolling mode.`
-      : `${title}に描かれた絵巻物を、縦書き、横スクロールで楽しむことができます。`;
+      ? `You can enjoy the Genji-e paintings on the theme of the "${titleen}" scroll from the 54 chapters of The Tale of Genji in both vertical and horizontal scrolling mode.`
+      : `源氏物語54帖より「${title}」巻をテーマに描いた源氏絵を、縦書き、横スクロールで楽しむことができます。`;
   return (
     <>
       <Head
-        pagetitle={locale === "en" ? `${titleen} Period` : title}
+        pagetitle={
+          locale === "en" ? `${titleen} Period` : `源氏物語54帖より「${title}」巻`
+        }
         pageDesc={tPageDesc}
       />
       <Header slug={`era/${slug}`} />
@@ -78,7 +82,6 @@ export const getStaticProps = async (context) => {
       return filterdGenjieslug;
     }
   });
-
 
   return {
     props: {
