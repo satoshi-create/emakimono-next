@@ -77,7 +77,7 @@ const keywordItem = (arr) =>
 const genjieSlugItem = (arr) =>
   convertGenjiSlug(
     arr.flatMap((item) => item.genjieslug).filter((item) => item)
-  ).sort((a, b) => (a.total > b.total ? -1 : 1));
+  ).sort((a, b) => (b.id > a.id ? -1 : 1));
 
 const personnameItem = (arr) =>
   convert(arr.flatMap((item) => item.personname).filter((item) => item)).sort(

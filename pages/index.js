@@ -8,7 +8,14 @@ import Head from "../components/Meta";
 import GridImageList from "../components/GridImageList";
 import Attention from "../components/Attention";
 import Link from "next/link";
-import { personnameItem, keywordItem, useLocale } from "../libs/func";
+import ChaptersTable from "../components/ChaptersTable";
+
+import {
+  personnameItem,
+  keywordItem,
+  useLocale,
+  genjieSlugItem,
+} from "../libs/func";
 import dataEmakis from "../libs/data";
 import { gridImages } from "../libs/gridImages";
 import SocialLinks from "../components/SocialLinks";
@@ -101,8 +108,7 @@ const Home = () => {
     <main>
       <Head />
       <Header fixed={true} />
-      {/* <Attention /> */}
-      <CardA
+      {/* <CardA
         emakis={genjiEmakis}
         columns={t.genji.columns}
         sectiontitle={t.genji.title}
@@ -113,7 +119,8 @@ const Home = () => {
         linktitleen={"GENJIE"}
         linkpath={"genji-pictures"}
         bcg={"#f9fbff"}
-      />
+      /> */}
+
       <CardA
         emakis={favoriteEmakis}
         columns={t.favorite.columns}
