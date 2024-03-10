@@ -35,6 +35,10 @@
 .genjieslugTitle:hover {
   filter: blur(4px);
 }
+.genjieslugTitle .rt {
+  font-size: clamp(1.125rem, 0.7841rem + 1.4545vw, 1.875rem);
+  font-family: var(--emaki-title-font);
+}
 .fullscreen.right .genjieslugTitle {
   background-image: linear-gradient(
     90deg,
