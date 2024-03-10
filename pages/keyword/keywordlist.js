@@ -23,7 +23,7 @@ const KeywordsComp = () => {
         pagetitle={locale === "en" ? "keyword list" : "キーワード一覧"}
         pageDesc={tPageDesc}
       />
-      <Header slug={"keywords"} />
+      <Header />
       <Breadcrumbs name={locale === "en" ? "keyword list" : "キーワード一覧"} />
 
       <Keywords

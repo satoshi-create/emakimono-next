@@ -4,9 +4,10 @@ import ChapterGenji from "../libs/genji/chapters_of_genji";
 import styles from "../styles/ChaptersTable.module.css";
 import Link from "next/link";
 
-const ChaptersTable = ({ sectiontitle, sectiontitleen }) => {
+const ChaptersTable = ({ sectiontitle, sectiontitleen, AllGenjiChapters }) => {
   return (
     <section className={`section-grid section-padding `}>
+      <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       <table className={styles.table}>
         <colgroup>
           <col span="2" className={styles.col1} />
@@ -16,20 +17,20 @@ const ChaptersTable = ({ sectiontitle, sectiontitleen }) => {
           <tr>
             <th>番号</th>
             <th>帖</th>
-            <th>
+            {/* <th>
               <span>現代文</span>
               <span>古文</span>
             </th>
             <th>
               <span>屏風</span>
-            </th>
+            </th> */}
             <th>
-              <span>絵巻</span>
+              <span>コンテンツ</span>
             </th>
           </tr>
         </thead>
         <tbody>
-          {ChapterGenji.map((item, i) => {
+          {AllGenjiChapters.map((item, i) => {
             return (
               <tr key={i}>
                 <th>{item.id}</th>
@@ -41,14 +42,11 @@ const ChaptersTable = ({ sectiontitle, sectiontitleen }) => {
                   </ruby>
                 </th>
                 <td>
-                  <Link
-                    href="/genjibyobu_eawase_sikibu"
-                    className={styles.link}
-                  >
+                  <Link href={`/genjie/${item.path}`} className={styles.link}>
                     <a>○</a>
                   </Link>
                 </td>
-                <td>
+                {/* <td>
                   <Link href="/genjibyobu_eawasekocyo">
                     <a className={styles.link}>○</a>
                   </Link>
@@ -57,7 +55,7 @@ const ChaptersTable = ({ sectiontitle, sectiontitleen }) => {
                   <Link href="" className={styles.link}>
                     <a>✖</a>
                   </Link>
-                </td>
+                </td> */}
               </tr>
             );
           })}

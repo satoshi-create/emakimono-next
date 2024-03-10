@@ -6,11 +6,10 @@ import CardB from "../components/CardB";
 import "lazysizes";
 import Head from "../components/Meta";
 import Attention from "../components/Attention";
-import { useLocale, useLocaleData } from "../libs/func";
+import { useLocale, useLocaleData, genjieSlugItem } from "../libs/func";
 import ExtractingListData from "../components/ExtractingListData";
 import ChaptersTable from "../components/ChaptersTable";
 import FlowEmaki from "../components/FlowEmaki";
-import ChapterGenji from "../libs/genji/chapters_of_genji";
 
 // TODO:loading機能を追加する
 
@@ -19,12 +18,9 @@ const Genji = () => {
   const { t: data } = useLocaleData();
   const removeNestedArrayObj = ExtractingListData();
 
-  const genjiPictures = removeNestedArrayObj.filter((emaki) =>
-    emaki.title.includes("源氏")
-  );
+  const AllGenjiChapters = genjieSlugItem(removeNestedArrayObj);
 
   const genjiFlowDatas = data.filter((item) => item.title.includes("源氏"));
-  // .filter((item) => item.type !== "古典文学");
 
   return (
     <main>
@@ -41,10 +37,7 @@ const Genji = () => {
         // linktitleen={"EMAKIMONO"}
         // linkpath={"emaki"}
       /> */}
-      {/* <ChaptersTable
-        sectiontitle={"源氏物語54帖"}
-        sectiontitleen={"The Tale of Genji 54 chapters"}
-      /> */}
+      <ChaptersTable AllGenjiChapters={AllGenjiChapters} />
       <FlowEmaki
         flowEmakis={genjiFlowDatas}
         // sectiontitle={t.flow.title}
