@@ -8,8 +8,7 @@ import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
 import enData from "../../libs/en/data";
 import jaData from "../../libs/data";
-import { removeNestedObj } from "../../libs/func";
-import { genjieSlugItem } from "../../libs/func";
+import { removeNestedEmakisObj, genjieSlugItem } from "../../libs/func";
 
 // TODO:CREATE - 「源氏絵の世界一覧」をつくる
 
@@ -89,11 +88,15 @@ export const getStaticProps = async (context) => {
     }
   });
 
+  const removeNestedArrayObj = filterdEmakisData.map((item) => {
+    return removeNestedEmakisObj(item);
+  });
+
   return {
     props: {
       title: chaptergenji.title,
       titleen: chaptergenji.path,
-      posts: filterdEmakisData,
+      posts: removeNestedArrayObj,
       slug: genjieslugname,
     },
   };

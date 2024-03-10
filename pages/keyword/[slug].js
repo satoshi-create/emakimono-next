@@ -3,7 +3,11 @@ import Head from "../../components/Meta";
 import CardA from "../../components/CardA";
 import emakisData from "../../libs/data";
 import Breadcrumbs from "../../components/Breadcrumbs";
-import { keywordItem, genjieSlugItem, personnameItem } from "../../libs/func";
+import {
+  keywordItem,
+  genjieSlugItem,
+  removeNestedEmakisObj,
+} from "../../libs/func";
 import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
 import enData from "../../libs/en/data";
@@ -69,11 +73,16 @@ export const getStaticProps = async (context) => {
     }
   });
 
+  const removeNestedArrayObj = filterdEmakisData.map((item) => {
+    return removeNestedEmakisObj(item);
+  });
+
+
   return {
     props: {
       name: keyword.name,
       nameen: keyword.id,
-      posts: filterdEmakisData,
+      posts: removeNestedArrayObj,
       slug: keywordslug,
     },
   };
