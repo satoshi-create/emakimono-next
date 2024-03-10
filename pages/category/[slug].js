@@ -6,7 +6,7 @@ import Head from "../../components/Meta";
 import CardA from "../../components/CardA";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { useRouter } from "next/router";
-import { removeNestedObj } from "../../libs/func";
+import { removeNestedEmakisObj } from "../../libs/func";
 import Footer from "../../components/Footer";
 import enData from "../../libs/en/data";
 import jaData from "../../libs/data";
@@ -64,7 +64,7 @@ export const getStaticProps = async (context) => {
   );
 
   const removeNestedArrayObj = filterdEmakisData.map((item) => {
-    return removeNestedObj(item);
+    return removeNestedEmakisObj(item);
   });
 
   return {
