@@ -23,19 +23,25 @@ const Genjie = ({ title, titleen, posts, slug }) => {
     <>
       <Head
         pagetitle={
-          locale === "en" ? `${titleen} Period` : `源氏物語54帖より「${title}」巻`
+          locale === "en"
+            ? `"${titleen}" from The Tale of Genji, 54 chapters`
+            : `源氏物語54帖より「${title}」巻`
         }
         pageDesc={tPageDesc}
       />
-      <Header slug={`era/${slug}`} />
-      <Breadcrumbs name={locale === "en" ? `${titleen} Period` : title} />
+      <Header />
+      <Breadcrumbs name={locale === "en" ? titleen : title} />
       <CardA
         emakis={posts}
         columns={"three"}
         sectionname={"recommend"}
         pagetitle={title}
-        sectiontitle={locale === "en" ? `${titleen} Period` : title}
-        sectiontitleen={locale === "en" ? title : `${titleen} Period`}
+        sectiontitle={
+          locale === "en"
+            ? `"${titleen}" from The Tale of Genji, 54 chapters`
+            : title
+        }
+        sectiontitleen={locale === "en" ? title : `${titleen}`}
       />
       <Footer />
     </>
