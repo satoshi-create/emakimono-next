@@ -5,6 +5,26 @@ import styles from "../styles/ChaptersTable.module.css";
 import Link from "next/link";
 
 const ChaptersTable = ({ sectiontitle, sectiontitleen, AllGenjiChapters }) => {
+  // console.log(AllGenjiChapters.filter((item, i) => item.id === "13"));
+  // const chapterGenjiMatching = (title) => {
+  //   const ArrayMathing = AllGenjiChapters.map((item, i) => {
+  //     if (item.title === title) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   });
+  //   return ArrayMathing;
+  // };
+
+  const AllGenjiChaptersTitletoString = AllGenjiChapters.map(
+    (item) => item.title
+  ).toString();
+  const chapterGenjiMatching = (title) =>
+    AllGenjiChaptersTitletoString.includes(title);
+
+  console.log(chapterGenjiMatching());
+
   return (
     <section className={`section-grid section-padding `}>
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
@@ -25,12 +45,12 @@ const ChaptersTable = ({ sectiontitle, sectiontitleen, AllGenjiChapters }) => {
               <span>屏風</span>
             </th> */}
             <th>
-              <span>コンテンツ</span>
+              <span>作品</span>
             </th>
           </tr>
         </thead>
         <tbody>
-          {AllGenjiChapters.map((item, i) => {
+          {ChapterGenji.map((item, i) => {
             return (
               <tr key={i}>
                 <th>{item.id}</th>
@@ -42,9 +62,13 @@ const ChaptersTable = ({ sectiontitle, sectiontitleen, AllGenjiChapters }) => {
                   </ruby>
                 </th>
                 <td>
-                  <Link href={`/genjie/${item.path}`} className={styles.link}>
-                    <a>○</a>
-                  </Link>
+                  {chapterGenjiMatching(item.title) ? (
+                    <Link href={`/genjie/${item.path}`} className={styles.link}>
+                      <a>○</a>
+                    </Link>
+                  ) : (
+                    <span>✖</span>
+                  )}
                 </td>
                 {/* <td>
                   <Link href="/genjibyobu_eawasekocyo">
