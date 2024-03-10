@@ -18,7 +18,6 @@ import Link from "next/link";
 
 export default function FullScreenComp({ children, index, genjieslug }) {
   const handle = useFullScreenHandle();
-  console.log(genjieslug);
   return (
     <>
       <div

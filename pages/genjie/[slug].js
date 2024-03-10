@@ -10,8 +10,6 @@ import enData from "../../libs/en/data";
 import jaData from "../../libs/data";
 import { removeNestedEmakisObj, genjieSlugItem } from "../../libs/func";
 
-// TODO:CREATE - 「源氏絵の世界一覧」をつくる
-
 const Genjie = ({ title, titleen, posts, slug }) => {
   const { locale } = useRouter();
   const tPageDesc =
@@ -29,7 +27,11 @@ const Genjie = ({ title, titleen, posts, slug }) => {
         pageDesc={tPageDesc}
       />
       <Header />
-      <Breadcrumbs name={locale === "en" ? titleen : title} />
+      <Breadcrumbs
+        name={locale === "en" ? titleen : title}
+        test={locale === "en" ? "chapter genji list" : "源氏物語54帖一覧"}
+        testen={"/genjie/chaptersgenjilist"}
+      />
       <CardA
         emakis={posts}
         columns={"three"}
