@@ -175,7 +175,6 @@ const EmakiConteiner = ({
       }
     };
   }, []);
-  console.log(scroll);
 
   const Navigation = (scr) => {
     if (scr) {
