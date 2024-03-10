@@ -2022,7 +2022,7 @@ const dataEmakis = [
         id: "tachibananokachiko_danrinkougou",
         slug: "tachibananokachiko_danrinkougou",
         ruby: "たちばなのかちこ",
-        portrait: "/portrait_tachibananokachiko_danrinkougou.webp",
+        portrait: "/portrait_tachibananokachiko.webp",
       },
     ],
     kotobagaki: false,

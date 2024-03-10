@@ -1,12 +1,12 @@
 import React from "react";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
+import Footer from "../../components/Footer";
+import Header from "../../components/Header";
 import "lazysizes";
-import Head from "../components/Meta";
-import Keywords from "../components/Keywords";
-import Breadcrumbs from "../components/Breadcrumbs";
-import { keywordItem, useLocaleData } from "../libs/func";
-import ExtractingListData from "../components/ExtractingListData";
+import Head from "../../components/Meta";
+import Keywords from "../../components/Keywords";
+import Breadcrumbs from "../../components/Breadcrumbs";
+import { keywordItem, useLocaleData } from "../../libs/func";
+import ExtractingListData from "../../components/ExtractingListData";
 
 const KeywordsComp = () => {
   const { locale } = useLocaleData();
@@ -28,9 +28,8 @@ const KeywordsComp = () => {
 
       <Keywords
         sectiontitle={"キーワード"}
-        sectiontitleen={"keywords"}
+        sectiontitleen={"keyword list"}
         allTags={allKeywords}
-        path={"keyword"}
       />
       <Footer />
     </>
