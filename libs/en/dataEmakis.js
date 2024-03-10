@@ -2018,9 +2018,9 @@ const dataEmakis = [
     ],
     personname: [
       {
-        name: "橘嘉智子（檀林皇后）",
-        id: "tachibananokachiko_danrinkougou",
-        slug: "tachibananokachiko_danrinkougou",
+        name: "檀林皇后",
+        id: "danrinkougou",
+        slug: "danrinkougou",
         ruby: "たちばなのかちこ",
         portrait: "/portrait_tachibananokachiko.webp",
       },
