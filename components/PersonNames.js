@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestion } from "@fortawesome/free-solid-svg-icons";
 import Button from "./Button";
 import { useRouter } from "next/router";
-import styles from "../styles/Tags.module.css";
+import styles from "../styles/PersonNameList.module.css";
 import Image from "next/image";
 
 const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
@@ -22,12 +22,13 @@ const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
           const { name, id, slug, total, ruby, portrait } = item;
 
           return (
-            <Link href={`./${path}/${slug}`} key={index}>
+            <Link href={`/personname/${slug}`} key={index}>
               <a className={styles.portrait}>
                 <Image
                   src={portrait ? portrait : "/question-solid.svg"}
                   width={130}
                   height={130}
+                  objectFit="contain"
                   className={styles.portraitImage}
                   alt={name}
                   loading="lazy"
@@ -44,13 +45,17 @@ const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
           );
         })}
       </div>
-      <Button
-        title={
-          locale === "en" ? "View a list of personnames !!" : "人物名一覧を見る"
-        }
-        path={"/personnames"}
-        style={"tag"}
-      />
+      {path && (
+        <Button
+          title={
+            locale === "en"
+              ? "View a list of personnames !!"
+              : "人物名一覧を見る"
+          }
+          path={path}
+          style={"tag"}
+        />
+      )}
     </section>
   );
 };

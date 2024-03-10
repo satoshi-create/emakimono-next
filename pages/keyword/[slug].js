@@ -25,7 +25,7 @@ const Emaki = ({ name, posts, nameen, slug }) => {
       <Breadcrumbs
         name={locale === "en" ? `${nameen}` : name}
         test={locale === "en" ? "keyword list" : "キーワード一覧"}
-        testen={"keywords"}
+        testen={"/keyword/keywordlist"}
       />
       <CardA
         emakis={posts}

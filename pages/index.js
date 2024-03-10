@@ -152,14 +152,14 @@ const Home = () => {
         sectiontitle={t.personname.title}
         sectiontitleen={t.personname.titleen}
         allTags={allPersonNames}
-        path={"personname"}
+        path={"/personname/personnamelist"}
         bcg={"#f9fbff"}
       />
       <Keywords
         sectiontitle={t.indextag.title}
         sectiontitleen={t.indextag.titleen}
         allTags={allKeywords}
-        path={"keyword"}
+        path={"/keyword/keywordlist"}
       />
       <GridImageList
         images={gridImages}
