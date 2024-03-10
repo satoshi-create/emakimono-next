@@ -1,17 +1,17 @@
 import React from "react";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
+import Footer from "../../components/Footer";
+import Header from "../../components/Header";
 import "lazysizes";
-import Head from "../components/Meta";
-import PersonNames from "../components/PersonNames";
-import Breadcrumbs from "../components/Breadcrumbs";
-import emakisData from "../libs/data";
+import Head from "../../components/Meta";
+import PersonNames from "../../components/PersonNames";
+import Breadcrumbs from "../../components/Breadcrumbs";
+import emakisData from "../../libs/data";
 import {
   personnameItem,
   useLocaleData,
   removeNestedEmakisObj,
-} from "../libs/func";
-import ExtractingListData from "../components/ExtractingListData";
+} from "../../libs/func";
+import ExtractingListData from "../../components/ExtractingListData";
 
 const PersonnamesComp = () => {
   const { locale } = useLocaleData();
@@ -34,7 +34,6 @@ const PersonnamesComp = () => {
         sectiontitle={"人物名一覧"}
         sectiontitleen={"keywords"}
         allTags={allPersonNames}
-        path={"personname"}
       />
       <Footer />
     </>

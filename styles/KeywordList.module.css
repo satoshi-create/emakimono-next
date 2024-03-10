@@ -1,0 +1,27 @@
+.tags {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  font-family: var(--title-font2);
+  grid-template-columns: repeat(2, auto);
+  position: relative;
+  margin: 4rem 0;
+}
+.title {
+  transition: var(--transition);
+}
+.title:hover {
+  color: var(--clr-accent-02);
+  opacity: 0.8;
+}
+
+@media screen and (min-width: 768px) {
+  .tags {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media screen and (min-width: 1024px) {
+  .tags {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
