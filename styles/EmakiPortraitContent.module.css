@@ -1,5 +1,6 @@
 .wrapper {
   row-gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 .container {
   display: flex;
