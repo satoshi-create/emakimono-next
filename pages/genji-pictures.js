@@ -37,7 +37,7 @@ const Genji = () => {
         // linktitleen={"EMAKIMONO"}
         // linkpath={"emaki"}
       /> */}
-      <ChaptersTable AllGenjiChapters={AllGenjiChapters} />
+      {/* <ChaptersTable AllGenjiChapters={AllGenjiChapters} /> */}
       <FlowEmaki
         flowEmakis={genjiFlowDatas}
         // sectiontitle={t.flow.title}

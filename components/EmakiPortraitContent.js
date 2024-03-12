@@ -7,6 +7,7 @@ import { eraColor } from "../libs/func";
 import EmakiConteiner from "../components/EmakiConteiner";
 import CardC from "./CardC";
 import Image from "next/image";
+import Footer from "./Footer";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { handleToId, handleFullScreen, setnavIndex } = useContext(AppContext);
@@ -173,6 +174,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
           {data.type === "絵巻" && <CardC data={data} />}
         </div>
       </div>
+      <Footer />
     </>
   );
 };

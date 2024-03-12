@@ -2,7 +2,7 @@ import React from "react";
 import dataEmakis from "./dataEmakis";
 
 const isClient = () => typeof window !== "undefined";
-
+  // TODO:元データからaddImageDataで生成したデータをdataに渡す（srcWidth、srcHeightは削除）
 if (isClient()) {
   const addImagesrc = (data) => {
     const emakiData = data
@@ -37,7 +37,6 @@ if (isClient()) {
           });
         const setNewArr = [...new Set(newArr)];
         // console.log(setNewArr);
-        // TODO:この後どうやって元データ（dataEamkis）と連結する？ここから手動？
       });
     });
   };
