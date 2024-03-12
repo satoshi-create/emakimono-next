@@ -25,22 +25,24 @@ export default function FullScreenComp({ children, index, genjieslug }) {
           index % 2 ? styles.left : styles.right
         }`}
       >
-        <div className={`${styles.genjieslugBox}`}>
-          {genjieslug.flatMap((item, i) => [
-            ...(i ? ["　"] : []),
-            <h4 className={`${styles.genjieslugTitle}`} key={i}>
-              <Link href={`/genjie/${item.path}`}>
-                <a>
-                  <ruby>
-                    {item.title} <rp>(</rp>
-                    <rt className={styles.rt}>{item.ruby}</rt>
-                    <rp>)</rp>
-                  </ruby>
-                </a>
-              </Link>
-            </h4>,
-          ])}
-        </div>
+        {genjieslug && (
+          <div className={`${styles.genjieslugBox}`}>
+            {genjieslug.flatMap((item, i) => [
+              ...(i ? ["　"] : []),
+              <h4 className={`${styles.genjieslugTitle}`} key={i}>
+                <Link href={`/genjie/${item.path}`}>
+                  <a>
+                    <ruby>
+                      {item.title} <rp>(</rp>
+                      <rt className={styles.rt}>{item.ruby}</rt>
+                      <rp>)</rp>
+                    </ruby>
+                  </a>
+                </Link>
+              </h4>,
+            ])}
+          </div>
+        )}
         {/* <div className={`${styles.genjieslugBox}`}>
           {genjieslug.map((item, i) => {
             return (
