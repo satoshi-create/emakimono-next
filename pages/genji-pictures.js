@@ -7,7 +7,7 @@ import "lazysizes";
 import Head from "../components/Meta";
 import Attention from "../components/Attention";
 import { useLocale, useLocaleData, genjieSlugItem } from "../libs/func";
-import ExtractingListData from "../components/ExtractingListData";
+import ExtractingListData from "../libs/ExtractingListData";
 import ChaptersTable from "../components/ChaptersTable";
 import FlowEmaki from "../components/FlowEmaki";
 import Breadcrumbs from "../components/Breadcrumbs";
