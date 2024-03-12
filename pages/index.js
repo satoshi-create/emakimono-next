@@ -22,7 +22,7 @@ import SocialLinks from "../components/SocialLinks";
 import Tweet from "../components/Tweet";
 import Keywords from "../components/Keywords";
 import PersonNames from "../components/PersonNames";
-import ExtractingListData from "../components/ExtractingListData";
+import ExtractingListData from "../libs/ExtractingListData";
 
 // TODO:絵巻ページ遷移時、読み込みが遅延する不具合？を改善する
 // TODO:絵巻ページ遷移時、スケルトンのようなローディング機能を追加する

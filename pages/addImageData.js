@@ -45,7 +45,7 @@ const AddImageData = () => {
         });
       });
     };
-    addImagesrc(dataEmakis);
+    addImagesrc(dataEmakis);  
   }, []);
 };
 
