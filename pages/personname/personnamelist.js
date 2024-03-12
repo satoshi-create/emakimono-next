@@ -11,7 +11,7 @@ import {
   useLocaleData,
   removeNestedEmakisObj,
 } from "../../libs/func";
-import ExtractingListData from "../../components/ExtractingListData";
+import ExtractingListData from "../../libs/ExtractingListData";
 
 const PersonnamesComp = () => {
   const { locale } = useLocaleData();

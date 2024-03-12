@@ -6,7 +6,7 @@ import Head from "../../components/Meta";
 import Keywords from "../../components/Keywords";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { keywordItem, useLocaleData } from "../../libs/func";
-import ExtractingListData from "../../components/ExtractingListData";
+import ExtractingListData from "../../libs/ExtractingListData";
 
 const KeywordsComp = () => {
   const { locale } = useLocaleData();
