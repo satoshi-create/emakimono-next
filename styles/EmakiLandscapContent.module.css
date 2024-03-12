@@ -4,6 +4,7 @@
   grid-template-rows: 75vh auto;
   row-gap: 1.5rem;
   column-gap: 2rem;
+  margin-bottom: 4rem;
 }
 
 /* chapter */
