@@ -1,7 +1,7 @@
 import React from "react";
 import ChaptersTable from "../../components/ChaptersTable";
 import { genjieSlugItem, useLocaleData } from "../../libs/func";
-import ExtractingListData from "../../components/ExtractingListData";
+import ExtractingListData from "../../libs/ExtractingListData";
 import Head from "../../components/Meta";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
