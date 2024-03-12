@@ -5064,5 +5064,6 @@ const dataEmakis = [
       },
     ],
   },
+];
 
 export default dataEmakis;
