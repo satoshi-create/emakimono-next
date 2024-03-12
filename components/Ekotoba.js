@@ -31,6 +31,8 @@ const Ekotoba = ({
     scroll,
     selectedRef,
     navIndex,
+    srcWidth,
+    srcHeight,
   },
 }) => {
   const {
@@ -140,7 +142,18 @@ const Ekotoba = ({
         className={ekotobaImageToggle ? `${styles.open}` : `${styles.close}`}
       >
         {src && (
-          <ResposiveImage value={{ srcSp, srcTb, src, load, name, scroll }} />
+          <ResposiveImage
+            value={{
+              srcSp,
+              srcTb,
+              src,
+              load,
+              name,
+              scroll,
+              srcWidth,
+              srcHeight,
+            }}
+          />
         )}
       </span>
     </section>

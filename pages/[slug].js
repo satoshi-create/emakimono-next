@@ -14,7 +14,7 @@ import AttentionEmakiPage from "../components/AttentionEmakiPage";
 import styles from "../styles/viewport.module.css";
 import { AppContext } from "../pages/_app";
 import FullScreen from "../components/FullScreen";
-
+import Breadcrumbs from "../components/Breadcrumbs";
 import EmakiHeader from "../components/EmakiHeader";
 import EmakiPortraitContent from "../components/EmakiPortraitContent";
 import EmakiLandscapContent from "../components/EmakiLandscapContent";
@@ -92,7 +92,6 @@ const Emaki = ({ data, locale, locales, slug }) => {
     window.scrollTo({ top: 0, behavior: "instant" });
     setnavIndex(0);
     setHash(0);
-
   }, [setnavIndex, setHash]);
 
   // const matchMediaContainer = (ori) => {
