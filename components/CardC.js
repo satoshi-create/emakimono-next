@@ -1,5 +1,5 @@
 import React from "react";
-import ExtractingListData from "./ExtractingListData";
+import ExtractingListData from "../libs/ExtractingListData";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/CardC.module.css";
