@@ -15,7 +15,7 @@ import { NodeNextRequest } from "next/dist/server/base-http/node";
 import $ from "jquery";
 import KotenText from "./KotenText";
 
-const EmakiConteiner = ({
+const EmakiContainer = ({
   data,
   height,
   width,
@@ -217,7 +217,7 @@ const EmakiConteiner = ({
         {scroll && isModalOpen && <Modal data={data} />}
 
         <article
-          className={`${styles.conteiner} ${
+          className={`${styles.container} ${
             type === "西洋絵画" ? styles.lr : styles.rl
           }`}
           style={{
@@ -287,4 +287,4 @@ const EmakiConteiner = ({
   );
 };
 
-export default EmakiConteiner;
+export default EmakiContainer;

@@ -52,6 +52,7 @@ const EmakiLandscapContent = ({
             navIndex={navIndex}
             articleRef={articleRef}
             height={height}
+            overflowX={"scroll"}
           />
           {/* chapter */}
           <ul className={styles.chapter}>
