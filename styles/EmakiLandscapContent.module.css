@@ -34,6 +34,10 @@
 }
 .chapterlink {
   cursor: pointer;
+  transition: var(--transition);
+}
+.chapterlink:hover {
+  opacity: 0.6;
 }
 /* metadata */
 .metadata {
@@ -82,12 +86,13 @@
   transition: var(--transition);
   cursor: pointer;
 }
-.cat > .type:hover,
-.cat > div:hover {
-  opacity: 0.5;
-}
-.cat > .era:hover {
+.cat > .era {
   color: white;
+}
+.cat > .type:hover,
+.cat > div:hover,
+.cat > .era:hover {
+  opacity: 0.5;
 }
 
 .title {
@@ -153,6 +158,10 @@
   font-size: medium;
   color: var(--clr-link);
   font-weight: 600;
+  transition: var(--transition);
+}
+.keywodtTitle:hover {
+  opacity: 0.6;
 }
 .relationemaki {
   grid-row: 2;
