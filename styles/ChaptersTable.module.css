@@ -35,10 +35,9 @@
   padding: 0.8rem 0;
 }
 .link {
-  color: var(--clr-accent-02);
+  color: var(--clr-link);
   transition: var(--transition);
 }
 .link:hover {
   opacity: 0.6;
-  color: #383838;
 }
