@@ -3,6 +3,8 @@ import Title from "./Title";
 import ChapterGenji from "../libs/genji/chapters_of_genji";
 import styles from "../styles/ChaptersTable.module.css";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const ChaptersTable = ({ sectiontitle, sectiontitleen, AllGenjiChapters }) => {
   // console.log(AllGenjiChapters.filter((item, i) => item.id === "13"));
@@ -63,11 +65,15 @@ const ChaptersTable = ({ sectiontitle, sectiontitleen, AllGenjiChapters }) => {
                 </th>
                 <td>
                   {chapterGenjiMatching(item.title) ? (
-                    <Link href={`/genjie/${item.path}`} className={styles.link}>
-                      <a>○</a>
+                    <Link href={`/genjie/${item.path}`}>
+                      <a className={styles.link}>
+                        <FontAwesomeIcon icon={faCircle} />
+                      </a>
                     </Link>
                   ) : (
-                    <span>✖</span>
+                    <span>
+                      <FontAwesomeIcon icon={faXmark} />
+                    </span>
                   )}
                 </td>
                 {/* <td>

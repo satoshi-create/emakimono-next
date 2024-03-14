@@ -80,9 +80,13 @@
 }
 
 .container::-webkit-scrollbar-thumb {
-  background-image: linear-gradient(90deg, #d0368a 0%, #708ad4 99%);
-  box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5);
-  /* background-color: #e4e4e4bd; */
+  /* background-image: linear-gradient(
+    90deg,
+    rgb(253, 147, 150),
+    rgb(144, 152, 247)
+  );
+  box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5); */
+  background-color: #ccccccbd;
   border: 3px solid transparent;
   border-radius: 100px;
   background-clip: content-box;
