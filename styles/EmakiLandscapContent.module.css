@@ -89,9 +89,7 @@
 .cat > .era {
   color: white;
 }
-.cat > .type:hover,
-.cat > div:hover,
-.cat > .era:hover {
+.cat > *:hover {
   opacity: 0.5;
 }
 
