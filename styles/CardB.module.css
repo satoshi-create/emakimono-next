@@ -4,7 +4,7 @@
   font-size: clamp(1rem, 0.8844rem + 0.4931vw, 1.2rem);
   width: clamp(20rem, 2.6656rem + 73.9599vw, 50rem);
 }
-.conteiner {
+.container {
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -21,7 +21,7 @@
 .image {
   transition: var(--transition);
 }
-.card:hover .image {
+.cardContainer:hover .image {
   transform: scale(1.5);
 }
 .info {
@@ -40,7 +40,7 @@
   height: 100%;
   opacity: 0.8;
 }
-.card:hover .info {
+.cardContainer:hover .info {
   opacity: 0.4;
 }
 .title {
@@ -50,27 +50,9 @@
   text-transform: capitalize;
 }
 
-.orange {
-  background-color: var(--clr-accent-02);
-}
-.green {
-  background-color: var(--clr-green-01);
-}
-.purple {
-  background-color: purple;
-}
-.gold {
-  background-color: goldenrod;
-}
-.skyblue {
-  background-color: skyblue;
-}
-.firebrick {
-  background-color: firebrick;
-}
 
 @media screen and (min-width: 768px) {
-  .conteiner {
+  .container {
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
