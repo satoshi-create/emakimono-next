@@ -28,7 +28,7 @@ export default function FullScreenComp({ children, index, genjieslug }) {
         {genjieslug && (
           <div className={`${styles.genjieslugBox}`}>
             {genjieslug.flatMap((item, i) => [
-              ...(i ? ["　"] : []),
+              ...(i ? ["　　"] : []),
               <h4 className={`${styles.genjieslugTitle}`} key={i}>
                 <Link href={`/genjie/${item.path}`}>
                   <a>

@@ -34,7 +34,11 @@
 .table td {
   padding: 0.8rem 0;
 }
-
 .link {
-  color: var(--clr-link);
+  color: var(--clr-accent-02);
+  transition: var(--transition);
+}
+.link:hover {
+  opacity: 0.6;
+  color: #383838;
 }
