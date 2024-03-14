@@ -10,6 +10,10 @@
   display: grid;
   grid-template-columns: 60% auto;
   column-gap: 0.5rem;
+  transition: var(--transition);
+}
+.box:hover {
+  opacity: 0.6;
 }
 .image {
   border-radius: 12px;
