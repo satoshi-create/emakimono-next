@@ -70,7 +70,12 @@
 } */
 
 .container::-webkit-scrollbar {
-  height: 20px;
+  height: 15px;
+}
+@media (min-width: 768px) {
+  .container::-webkit-scrollbar {
+    height: 20px;
+  }
 }
 
 .container::-webkit-scrollbar-track {

@@ -6,18 +6,11 @@ import Button from "./Button";
 import { useRouter } from "next/router";
 import styles from "../styles/FullscreenContents.module.css";
 import { AppContext } from "../pages/_app";
+import Link from "next/link";
 
 // TODO:CREATE - レスポンシブデザインを作成する
 
-const FlowEmaki = ({
-  flowEmakis: emakis,
-  sectiontitle,
-  sectiontitleen,
-  linktitle,
-  linktitleen,
-  linkpath,
-  columns,
-}) => {
+const FlowEmaki = ({ flowEmakis: emakis, sectiontitle, sectiontitleen }) => {
   const { locale } = useRouter();
   const { orientation } = useContext(AppContext);
   return (
@@ -60,10 +53,15 @@ const FlowEmaki = ({
                   boxshadow={" 0 5px 15px rgba(0, 0, 0, 20%)"}
                 />
               </FullScreenComp>
+              <div className={styles.link}>
+                <Link href={`/${item.titleen}`} >
+                  <a className={styles.linkedbutton}> 横スクロールで見る</a>
+                </Link>
+              </div>
             </div>
           );
         })}
-        {linktitle && (
+        {/* {linktitle && (
           <Button
             title={
               locale === "en"
@@ -73,7 +71,7 @@ const FlowEmaki = ({
             path={`/${linkpath}`}
             style={columns}
           />
-        )}
+        )} */}
       </section>
     </>
   );
