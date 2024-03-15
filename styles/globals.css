@@ -14,6 +14,7 @@
   --clr-accent-02: #ff8c77;
   --clr-green-01: #54896a;
   --clr-link: #065fd4;
+  --clr-bcg: #f9fbff;
   --text-size: calc(16px + (35 - 16) * ((100vh - 375px) / (1080 - 375)));
   --text-size-prt: clamp(0.875rem, 0.6583rem + 0.9245vw, 1.25rem);
   --title-size: calc(20px + (35 - 20) * ((100vh - 375px) / (1080 - 375)));
@@ -116,4 +117,3 @@ button {
 /* .active {
   border: 1px solid red;
 } */
-

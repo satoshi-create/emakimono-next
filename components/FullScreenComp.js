@@ -79,7 +79,7 @@ export default function FullScreenComp({ children, index, genjieslug }) {
               className={styles.closeIcon}
               style={
                 index % 2
-                  ? { "--left": "1rem", "--rotate": "90deg" }
+                  ? { "--right": "1rem", "--rotate": "90deg" }
                   : { "--left": "0" }
               }
             >

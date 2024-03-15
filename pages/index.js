@@ -143,7 +143,7 @@ const Home = () => {
         linktitle={"絵巻"}
         linktitleen={"EMAKIMONO"}
         linkpath={"/category/emaki"}
-        bcg={"#f9fbff"}
+        bcg={"var(--clr-bcg)"}
       />
       <CardB
         columns={t.history.columns}
@@ -160,7 +160,7 @@ const Home = () => {
         sectiontitleen={t.personname.titleen}
         allTags={allPersonNames}
         path={"/personname/personnamelist"}
-        bcg={"#f9fbff"}
+        bcg={"var(--clr-bcg)"}
       />
       <Keywords
         sectiontitle={t.indextag.title}
@@ -179,7 +179,7 @@ const Home = () => {
         linkpath={"famousscene"}
         columns={t.favorite.columns}
         slice={true}
-        bcg={"#f9fbff"}
+        bcg={"var(--clr-bcg)"}
       />
       <CardA
         emakis={alpha}

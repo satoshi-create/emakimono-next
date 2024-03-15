@@ -54,7 +54,7 @@ const FlowEmaki = ({ flowEmakis: emakis, sectiontitle, sectiontitleen }) => {
                 />
               </FullScreenComp>
               <div className={styles.link}>
-                <Link href={`/${item.titleen}`} >
+                <Link href={`/${item.titleen}`}>
                   <a className={styles.linkedbutton}> 横スクロールで見る</a>
                 </Link>
               </div>
