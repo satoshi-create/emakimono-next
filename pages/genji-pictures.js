@@ -32,18 +32,6 @@ const Genji = () => {
       <Breadcrumbs
         name={locale === "en" ? "The World of Genji Pictures" : "源氏絵の世界"}
       />
-      {/* <CardA
-        emakis={genjiPictures.slice(0, 4)}
-        columns={"four"}
-        sectiontitle={t.genji.title}
-        sectiontitleen={t.genji.titleen}
-        sectiondesc={t.history.desc}
-        sectionname={t.genji.name}
-        // linktitle={"絵巻"}
-        // linktitleen={"EMAKIMONO"}
-        // linkpath={"emaki"}
-      /> */}
-      {/* <ChaptersTable AllGenjiChapters={AllGenjiChapters} /> */}
       <FlowEmaki
         flowEmakis={genjiFlowDatas}
         sectiontitle={t.genji.title}
