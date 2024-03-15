@@ -6,12 +6,12 @@
 .left {
   grid-row: 1;
   grid-column: 1;
-  align-self: center;
+  align-self: flex-end;
 }
 .right {
   grid-row: 1;
   grid-column: 2;
-  align-self: center;
+  align-self: flex-end;
 }
 
 /* title */
