@@ -143,6 +143,18 @@
   font-size: medium;
   color: var(--clr-black);
 }
+.genjieslugBox {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+.genjieslugTitle {
+  color: var(--clr-accent-02);
+  transition: var(--transition);
+}
+.genjieslugTitle:hover {
+  opacity: 0.6;
+}
 .authority {
   font-family: var(--title-font2);
   font-size: 0.7rem;
