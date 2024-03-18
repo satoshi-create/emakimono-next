@@ -25,6 +25,7 @@
   overflow-y: hidden;
   overflow-x: var(--overflow-x);
   position: relative;
+  box-shadow: var(--shadow-1);
 }
 .emakiplayer {
   position: absolute;
