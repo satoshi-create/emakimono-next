@@ -87,7 +87,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 }
               })}
             </ul>
-            {genjieslug && (
+            {/* {genjieslug && (
               <div className={`${styles.genjieslugBox}`}>
                 {genjieslug.map((item, i) => {
                   return (
@@ -99,7 +99,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   );
                 })}
               </div>
-            )}
+            )} */}
             {personname && (
               <div
                 className={`${styles.tags} ${locale === "ja" && styles.jatags}`}
