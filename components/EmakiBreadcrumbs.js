@@ -9,27 +9,21 @@ const EmakiBreadcrumbs = ({ nameA, nameAen, nameB, orientation }) => {
         styles.container
       }`}
     >
-      <ul className={styles.breadcrumbs}>
+      <div className={styles.breadcrumbs}>
         <Link href={"/"}>
-          <a>
-            <p>home</p>
-          </a>
+          <a>home</a>
         </Link>
 
         {nameA && (
           <>
-            <p>{">"}</p>
-            <Link href={`/${nameAen}`}>
-              <a>
-                <p>{nameA}</p>
-              </a>
-            </Link>
+            <span>{">"}</span>
+            <Link href={`/${nameAen}`}>{nameA}</Link>
           </>
         )}
 
-        <p> {">"} </p>
+        <span> {">"} </span>
         <p>{nameB}</p>
-      </ul>
+      </div>
     </section>
   );
 };
