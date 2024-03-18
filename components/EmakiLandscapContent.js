@@ -85,6 +85,13 @@ const EmakiLandscapContent = ({
                   ? author
                   : `${locale == "en" ? "artist unknown" : "絵師不詳"}`}
               </h4>
+              {genjieslug && (
+                <div className={`${styles.genjieslugBox}`}>
+                  <Link href={`/genjie/chaptersgenjilist`}>
+                    <a className={styles.genjieslugTitle}>源氏物語54帖</a>
+                  </Link>
+                </div>
+              )}
               <button
                 type="button"
                 value="Lock Landscape"
@@ -99,6 +106,17 @@ const EmakiLandscapContent = ({
                 className={styles.desc}
                 dangerouslySetInnerHTML={{ __html: desc ? desc : descTemp }}
               ></div>
+              {/* {genjieslug && (
+                <div className={`${styles.genjieslugBox}`}>
+                  <Link href={`/genjie/chaptersgenjilist`}>
+                    <a>
+                      <p className={styles.genjieslugTitle}>
+                        {">"} 源氏物語54帖一覧を見る
+                      </p>
+                    </a>
+                  </Link>
+                </div>
+              )} */}
               {/* {genjieslug && (
                 <div className={`${styles.genjieslugBox}`}>
                   {genjieslug.map((item, i) => {
