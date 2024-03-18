@@ -97,7 +97,9 @@
   background-clip: content-box;
   width: 80px;
 }
-
+.container::-webkit-scrollbar-thumb:hover {
+  background-color: #afafafbd;
+}
 /* 2.「熈代勝覧」 */
 /* https://nihonbashi-info.tokyo/kidaishoran/ */
 
