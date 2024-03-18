@@ -16,12 +16,18 @@
   color: #aba4a2;
   text-transform: capitalize;
 }
+.breadcrumbs > a {
+  transition: var(--transition);
+}
+.breadcrumbs > a:hover {
+  opacity: 0.6;
+}
 
 /* portrait */
 .prt {
   display: block;
   margin: 0 0 0.3rem 0.1rem;
 }
-.prt p {
+.prt .breadcrumbs > * {
   font-size: 10px;
 }
