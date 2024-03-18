@@ -99,19 +99,21 @@ const EmakiLandscapContent = ({
                 className={styles.desc}
                 dangerouslySetInnerHTML={{ __html: desc ? desc : descTemp }}
               ></div>
-              {genjieslug && (
+              {/* {genjieslug && (
                 <div className={`${styles.genjieslugBox}`}>
                   {genjieslug.map((item, i) => {
                     return (
-                      <h4 className={`${styles.genjieslugTitle}`} key={i}>
-                        <Link href={`/genjie/${item.path}`}>
-                          <a>{item.title}</a>
-                        </Link>
-                      </h4>
+                      <Link href={`/genjie/${item.path}`} key={i}>
+                        <a>
+                          <h4 className={styles.genjieslugTitle}>
+                            {item.title}
+                          </h4>
+                        </a>
+                      </Link>
                     );
                   })}
                 </div>
-              )}
+              )} */}
               {personname && (
                 <div className={styles.tags}>
                   {personname?.map((item, index) => {

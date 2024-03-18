@@ -1,15 +1,19 @@
 import React from "react";
 import Title from "./Title";
-import ChapterGenji from "../libs/genji/chapters_of_genji";
+import AllGenjiChapters from "../libs/genji/chapters_of_genji";
 import styles from "../styles/ChaptersTable.module.css";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
 
-const ChaptersTable = ({ sectiontitle, sectiontitleen, AllGenjiChapters }) => {
-  // console.log(AllGenjiChapters.filter((item, i) => item.id === "13"));
+const ChaptersTable = ({
+  sectiontitle,
+  sectiontitleen,
+  ExistGenjiChapters,
+}) => {
+  // console.log(ExistGenjiChapters.filter((item, i) => item.id === "13"));
   // const chapterGenjiMatching = (title) => {
-  //   const ArrayMathing = AllGenjiChapters.map((item, i) => {
+  //   const ArrayMathing = ExistGenjiChapters.map((item, i) => {
   //     if (item.title === title) {
   //       return true;
   //     } else {
@@ -19,13 +23,11 @@ const ChaptersTable = ({ sectiontitle, sectiontitleen, AllGenjiChapters }) => {
   //   return ArrayMathing;
   // };
 
-  const AllGenjiChaptersTitletoString = AllGenjiChapters.map(
+  const ExistGenjiChaptersTitletoString = ExistGenjiChapters.map(
     (item) => item.title
   ).toString();
   const chapterGenjiMatching = (title) =>
-    AllGenjiChaptersTitletoString.includes(title);
-
-  console.log(chapterGenjiMatching());
+    ExistGenjiChaptersTitletoString.includes(title);
 
   return (
     <section className={`section-grid section-padding `}>
@@ -39,20 +41,16 @@ const ChaptersTable = ({ sectiontitle, sectiontitleen, AllGenjiChapters }) => {
           <tr>
             <th>番号</th>
             <th>帖</th>
-            {/* <th>
-              <span>現代文</span>
-              <span>古文</span>
-            </th>
-            <th>
-              <span>屏風</span>
-            </th> */}
             <th>
               <span>作品</span>
+            </th>
+            <th>
+              <span>作品数</span>
             </th>
           </tr>
         </thead>
         <tbody>
-          {ChapterGenji.map((item, i) => {
+          {AllGenjiChapters.map((item, i) => {
             return (
               <tr key={i}>
                 <th>{item.id}</th>
@@ -76,16 +74,9 @@ const ChaptersTable = ({ sectiontitle, sectiontitleen, AllGenjiChapters }) => {
                     </span>
                   )}
                 </td>
-                {/* <td>
-                  <Link href="/genjibyobu_eawasekocyo">
-                    <a className={styles.link}>○</a>
-                  </Link>
-                </td>
                 <td>
-                  <Link href="" className={styles.link}>
-                    <a>✖</a>
-                  </Link>
-                </td> */}
+                  <span>0</span>
+                </td>
               </tr>
             );
           })}

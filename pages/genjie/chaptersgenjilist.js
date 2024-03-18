@@ -11,8 +11,9 @@ const Chaptersgenjilist = () => {
   const { locale } = useLocaleData();
   const removeNestedArrayObj = ExtractingListData();
 
-  const AllGenjiChapters = genjieSlugItem(removeNestedArrayObj);
-  console.log(AllGenjiChapters);
+  const ExistGenjiChapters = genjieSlugItem(removeNestedArrayObj);
+
+
   const tPageDesc =
     locale === "en"
       ? `It is on the page of Tale of Genji 54.This site pursues the enjoyment of picture scrolls by scrolling from right to `
@@ -30,7 +31,7 @@ const Chaptersgenjilist = () => {
       <ChaptersTable
         sectiontitle={"源氏物語54帖"}
         sectiontitleen={"The Tale of Genji 54 chapters"}
-        AllGenjiChapters={AllGenjiChapters}
+        ExistGenjiChapters={ExistGenjiChapters}
       />
       <Footer />
     </>

@@ -14,7 +14,7 @@ import AttentionEmakiPage from "../components/AttentionEmakiPage";
 import styles from "../styles/viewport.module.css";
 import { AppContext } from "../pages/_app";
 import FullScreen from "../components/FullScreen";
-import Breadcrumbs from "../components/Breadcrumbs";
+import EmakiBreadcrumbs from "../components/EmakiBreadcrumbs";
 import EmakiHeader from "../components/EmakiHeader";
 import EmakiPortraitContent from "../components/EmakiPortraitContent";
 import EmakiLandscapContent from "../components/EmakiLandscapContent";
@@ -140,6 +140,12 @@ const Emaki = ({ data, locale, locales, slug }) => {
       return (
         <>
           <EmakiHeader />
+          <EmakiBreadcrumbs
+            orientation={orientation}
+            nameA={locale === "en" ? data.typeen : data.type}
+            nameAen={`category/${data.typeen}`}
+            nameB={locale === "en" ? data.titleen : data.title}
+          />
           <EmakiPortraitContent
             data={data}
             scroll={true}
@@ -153,6 +159,11 @@ const Emaki = ({ data, locale, locales, slug }) => {
       return (
         <>
           <EmakiHeader />
+          <EmakiBreadcrumbs
+            nameA={locale === "en" ? data.typeen : data.type}
+            nameAen={`category/${data.typeen}`}
+            nameB={locale === "en" ? data.titleen : data.title}
+          />
           <EmakiLandscapContent
             data={{ ...data }}
             scroll={true}

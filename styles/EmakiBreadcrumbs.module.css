@@ -1,24 +1,27 @@
 .container {
-  padding: 2rem 0;
   display: grid;
-  grid-template-columns: 1fr min(calc(100vw - (5vw * 2)), 1200px) 1fr;
+  grid-template-columns: 1fr min(calc(100vw - (5vw * 2)), 1700px) 1fr;
+  margin-bottom: 0.3rem;
 }
 .container > * {
   grid-column: 2;
 }
-
 .breadcrumbs {
   display: flex;
   gap: 0.5rem;
 }
 .breadcrumbs > * {
   font-family: var(--text-font);
-  font-size: 10px;
+  font-size: 14px;
   color: #aba4a2;
   text-transform: capitalize;
 }
-@media screen and (min-width: 768px) {
-  .breadcrumbs > * {
-    font-size: 14px;
-  }
+
+/* portrait */
+.prt {
+  display: block;
+  margin: 0 0 0.3rem 0.1rem;
+}
+.prt p {
+  font-size: 10px;
 }
