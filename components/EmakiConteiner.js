@@ -11,8 +11,6 @@ import Sidebar from "./Sidebar";
 import EmakiInfo from "../components/EmakiInfo";
 import EmakiNavigation from "../components/EmakiNavigation";
 import Modal from "./Modal";
-import { NodeNextRequest } from "next/dist/server/base-http/node";
-import $ from "jquery";
 import KotenText from "./KotenText";
 
 const EmakiContainer = ({
