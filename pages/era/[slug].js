@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
 import enData from "../../libs/en/data";
 import jaData from "../../libs/data";
+import { removeNestedEmakisObj } from "../../libs/func";
 
 const Emaki = ({ name, nameen, posts, slug }) => {
   const { locale } = useRouter();
@@ -56,16 +57,21 @@ export const getStaticProps = async (context) => {
   const eraslug = context.params.slug;
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
-  
+
   const cat = allEras.find(({ slug }) => slug === eraslug);
   const filterdEmakisData = tEmakisData.filter(
     (item) => item.eraen === eraslug
   );
+  const removeNestedArrayObj = filterdEmakisData.map((item) => {
+    return removeNestedEmakisObj(item);
+  });
+
+
   return {
     props: {
       name: cat.name,
       nameen: cat.nameen,
-      posts: filterdEmakisData,
+      posts: removeNestedArrayObj,
       slug: eraslug,
     },
   };

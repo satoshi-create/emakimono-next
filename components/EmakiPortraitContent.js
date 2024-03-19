@@ -6,6 +6,8 @@ import { AppContext } from "../pages/_app";
 import { eraColor } from "../libs/func";
 import EmakiConteiner from "../components/EmakiConteiner";
 import CardC from "./CardC";
+import Image from "next/image";
+import Footer from "./Footer";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { handleToId, handleFullScreen, setnavIndex } = useContext(AppContext);
@@ -22,8 +24,10 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     emakis,
     sourceImage,
     sourceImageUrl,
-    subtype,
     reference,
+    keyword,
+    genjieslug,
+    personname,
   } = data;
 
   const filterDesc = desc.substring(0, 40);
@@ -83,6 +87,65 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 }
               })}
             </ul>
+            {/* {genjieslug && (
+              <div className={`${styles.genjieslugBox}`}>
+                {genjieslug.map((item, i) => {
+                  return (
+                    <h4 className={`${styles.genjieslugTitle}`} key={i}>
+                      <Link href={`/genjie/${item.path}`}>
+                        <a>{item.title}</a>
+                      </Link>
+                    </h4>
+                  );
+                })}
+              </div>
+            )} */}
+            {personname && (
+              <div
+                className={`${styles.tags} ${locale === "ja" && styles.jatags}`}
+              >
+                {personname?.map((item, index) => {
+                  const { name, id, slug, total, ruby, portrait } = item;
+
+                  return (
+                    <Link href={`./personname/${slug}`} key={index}>
+                      <a className={styles.portrait}>
+                        <Image
+                          src={portrait ? portrait : "/question-solid.svg"}
+                          width={80}
+                          height={80}
+                          className={styles.portraitImage}
+                          alt={name}
+                          loading="lazy"
+                          placeholder="blur"
+                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
+                        />
+                        <p className={styles.name}>
+                          {locale === "en" ? id : name}
+                        </p>
+                      </a>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+            {keyword && (
+              <div
+                className={`${styles.tags} ${locale === "ja" && styles.jatags}`}
+              >
+                {keyword?.map((item, index) => {
+                  const { name, id, slug, total, ruby } = item;
+
+                  return (
+                    <Link href={`./keyword/${slug}`} key={index}>
+                      <a className={styles.keywodtTitle}>
+                        <p>#{locale === "en" ? id : name}</p>
+                      </a>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
             <div className={styles.cat}>
               <Link href={`/era/${eraen}`}>
                 <a
@@ -111,6 +174,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
           {data.type === "絵巻" && <CardC data={data} />}
         </div>
       </div>
+      <Footer />
     </>
   );
 };

@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
+  height: 400px;
+  overflow-y: auto;
 }
 .box {
   /* display: flex;
@@ -10,6 +12,10 @@
   display: grid;
   grid-template-columns: 60% auto;
   column-gap: 0.5rem;
+  transition: var(--transition);
+}
+.box:hover {
+  opacity: 0.6;
 }
 .image {
   border-radius: 12px;
@@ -22,4 +28,30 @@
 }
 .author {
   font-size: small;
+}
+
+.container::-webkit-scrollbar {
+  height: 10px;
+}
+@media (min-width: 768px) {
+  .container::-webkit-scrollbar {
+    height: 15px;
+  }
+}
+
+.container::-webkit-scrollbar-track {
+  border-bottom-right-radius: 100px;
+  border-bottom-left-radius: 100px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background-color: #ccccccbd;
+  border: 3px solid transparent;
+  border-radius: 100px;
+  background-clip: content-box;
+  width: 80px;
+  transition: var(--transition);
+}
+.container::-webkit-scrollbar-thumb:hover {
+  background-color: #afafafbd;
 }
