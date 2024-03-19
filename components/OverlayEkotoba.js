@@ -5,36 +5,19 @@ import { AppContext } from "../pages/_app";
 
 const OverlayEkotoba = ({
   item: {
-    chapter,
     gendaibun,
-    kobun,
-    index,
     srcSp,
     srcTb,
     src,
     load,
     name,
-    backgroundImage,
-    kotobagaki,
-    type,
-    ekotobaId,
-    kobunsrc,
-    kobunsrcSp,
     scroll,
-    selectedRef,
-    navIndex,
     srcWidth,
     srcHeight,
   },
 }) => {
-  const {
-    setekotobaToggle,
-    ekotobaImageToggle,
-    setEkotobaImageToggle,
-    scrollDialog,
-    orientation,
-    ekotobaToggle,
-  } = useContext(AppContext);
+  const { setekotobaToggle, ekotobaImageToggle, setEkotobaImageToggle } =
+    useContext(AppContext);
 
   // dangerouslySetInnerHTMLでgendaibunを描画使用するとHydration failedになる問題の対処のため、
   // gendaibunを最初のレンダリング後に取得
