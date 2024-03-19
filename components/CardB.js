@@ -5,6 +5,7 @@ import Title from "./Title";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Button from "./Button";
+import { eraColor } from "../libs/func";
 
 const CardB = ({
   columns,
@@ -21,43 +22,43 @@ const CardB = ({
   const historyemakis = [
     {
       path: "/era/heiann",
-      name: "平安",
-      nameen: "heian",
+      era: "平安",
+      eraen: "heian",
       src: "/cyoujyuu_yamazaki_kou_13-375.webp",
       eracolor: "orange",
     },
     {
       path: "/era/kamakura",
-      name: "鎌倉",
-      nameen: "kamakura",
+      era: "鎌倉",
+      eraen: "kamakura",
       src: "/naomoto_03-1080.webp",
       eracolor: "green",
     },
     {
       path: "/era/muromachi",
-      name: "室町",
-      nameen: "muromachi",
+      era: "室町",
+      eraen: "muromachi",
       src: "/sessyu_sikisansuizu_07-1080.webp",
       eracolor: "purple",
     },
     {
       path: "/era/aduchimomoyama",
-      name: "安土・桃山",
-      nameen: "aduchimomoyama",
+      era: "安土・桃山",
+      eraen: "aduchimomoyama",
       src: "/unryuzu_01-1080.webp",
       eracolor: "gold",
     },
     {
       path: "/era/edo",
-      name: "江戸",
-      nameen: "edo",
+      era: "江戸",
+      eraen: "edo",
       src: "/tokugawagyouretsu_32-1080.webp",
       eracolor: "skyblue",
     },
     {
       path: "/era/meiji",
-      name: "明治",
-      nameen: "meiji",
+      era: "明治",
+      eraen: "meiji",
       src: "/yoroboushi_01-1080.webp",
       eracolor: "firebrick",
     },
@@ -69,9 +70,9 @@ const CardB = ({
     >
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
-      <section className={styles.conteiner}>
+      <section className={styles.container}>
         {historyemakis.map((item, index) => {
-          const { path, name, nameen, src, eracolor } = item;
+          const { path, era, eraen, src, eracolor } = item;
           return (
             <div
               className={`${styles.cardContainer} ${styles[columns]}`}
@@ -83,18 +84,24 @@ const CardB = ({
                     <Image
                       src={src}
                       layout="fill"
-                      // objectFit="cover"
+                      objectFit="cover"
                       // width={533}
                       // height={300}
                       className={styles.image}
-                      alt={name}
+                      alt={era}
                       loading="lazy"
                       placeholder="blur"
                       blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
                     />
-                    <div className={`${styles.info} ${styles[eracolor]}`}>
+                    <div
+                      className={styles.info}
+                      style={{
+                        border: eraColor(era),
+                        backgroundColor: eraColor(era),
+                      }}
+                    >
                       <p className={styles.title}>
-                        {locale === "en" ? nameen : name}
+                        {locale === "en" ? eraen : era}
                       </p>
                     </div>
                   </figure>

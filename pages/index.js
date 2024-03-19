@@ -8,14 +8,21 @@ import Head from "../components/Meta";
 import GridImageList from "../components/GridImageList";
 import Attention from "../components/Attention";
 import Link from "next/link";
-import { personnameItem, keywordItem, useLocale } from "../libs/func";
+import ChaptersTable from "../components/ChaptersTable";
+
+import {
+  personnameItem,
+  keywordItem,
+  useLocale,
+  genjieSlugItem,
+} from "../libs/func";
 import dataEmakis from "../libs/data";
 import { gridImages } from "../libs/gridImages";
 import SocialLinks from "../components/SocialLinks";
 import Tweet from "../components/Tweet";
 import Keywords from "../components/Keywords";
 import PersonNames from "../components/PersonNames";
-import ExtractingListData from "../components/ExtractingListData";
+import ExtractingListData from "../libs/ExtractingListData";
 
 // TODO:絵巻ページ遷移時、読み込みが遅延する不具合？を改善する
 // TODO:絵巻ページ遷移時、スケルトンのようなローディング機能を追加する
@@ -101,8 +108,7 @@ const Home = () => {
     <main>
       <Head />
       <Header fixed={true} />
-      {/* <Attention /> */}
-      <CardA
+      {/* <CardA
         emakis={genjiEmakis}
         columns={t.genji.columns}
         sectiontitle={t.genji.title}
@@ -111,9 +117,10 @@ const Home = () => {
         sectionname={t.genji.name}
         linktitle={"源氏絵の世界"}
         linktitleen={"GENJIE"}
-        linkpath={"genji"}
+        linkpath={"genji-pictures"}
         bcg={"#f9fbff"}
-      />
+      /> */}
+
       <CardA
         emakis={favoriteEmakis}
         columns={t.favorite.columns}
@@ -136,7 +143,7 @@ const Home = () => {
         linktitle={"絵巻"}
         linktitleen={"EMAKIMONO"}
         linkpath={"/category/emaki"}
-        bcg={"#f9fbff"}
+        bcg={"var(--clr-bcg)"}
       />
       <CardB
         columns={t.history.columns}
@@ -152,14 +159,14 @@ const Home = () => {
         sectiontitle={t.personname.title}
         sectiontitleen={t.personname.titleen}
         allTags={allPersonNames}
-        path={"personname"}
-        bcg={"#f9fbff"}
+        path={"/personname/personnamelist"}
+        bcg={"var(--clr-bcg)"}
       />
       <Keywords
         sectiontitle={t.indextag.title}
         sectiontitleen={t.indextag.titleen}
         allTags={allKeywords}
-        path={"keyword"}
+        path={"/keyword/keywordlist"}
       />
       <GridImageList
         images={gridImages}
@@ -172,7 +179,7 @@ const Home = () => {
         linkpath={"famousscene"}
         columns={t.favorite.columns}
         slice={true}
-        bcg={"#f9fbff"}
+        bcg={"var(--clr-bcg)"}
       />
       <CardA
         emakis={alpha}
@@ -185,44 +192,9 @@ const Home = () => {
         linktitleen={"Side-scrolling art"}
         linkpath={"/category/byoubu"}
       />
-      {/* <div style={{ float: "left", clear: "both" }} ref={scrollRef}></div> */}
-      {/* <Tweet /> */}
       <Footer />
     </main>
   );
 };
-
-// export const getStaticProps = async (context) => {
-//   const { locale, locales } = context;
-//   // const tEmakisData = locale === "en" ? enData : jaData;
-//   const removeNestedArrayObj = dataEmakis.map((item) => {
-//     return removeNestedObj(item);
-//   });
-
-//   const cyouzyuuzinbutugiga = removeNestedArrayObj.find(
-//     (item, index) =>
-//       item.title === "鳥獣人物戯画絵巻" && item.edition === "甲巻"
-//   );
-
-//   const suibokuga = removeNestedArrayObj.find(
-//     (item, index) => item.title === "四季山水図巻（山水長巻）"
-//   );
-//   const mone = removeNestedArrayObj.find(
-//     (item, index) => item.title === "睡蓮 連作"
-//   );
-
-//   const seiyoukaiga = removeNestedArrayObj.find(
-//     (seiyoukaiga) => seiyoukaiga.title === "ブランカッチ礼拝堂 装飾画"
-//   );
-
-//   return {
-//     props: {
-//       cyouzyuuzinbutugiga: cyouzyuuzinbutugiga,
-//       seiyoukaiga: seiyoukaiga,
-//       suibokuga: suibokuga,
-//       mone: mone,
-//     },
-//   };
-// };
 
 export default Home;

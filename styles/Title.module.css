@@ -6,7 +6,7 @@
   font-family: "Dancing Script", cursive;
   font-size: 1.4rem;
   color: #77b591;
-  text-transform: lowercase;
+  text-transform: capitalize;
 }
 .title h2 {
   font-size: clamp(1.8rem, 1.3955rem + 1.7257vw, 2.5rem);

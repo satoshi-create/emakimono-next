@@ -5,82 +5,90 @@ import {
   faUpRightAndDownLeftFromCenter,
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "../styles/FullScreenComp.module.css";
+import Link from "next/link";
 
+// TODO:CREATE - 「流れる絵巻」をフルスクリーンにすると横向きになる機能を実装する or ライブラリを使わない方式に切り替える
 
-// react - full - screen;
-export default function FullScreenComp({ children, iconStyle, padding, page }) {
+// https://stackoverflow.com/questions/34034038/how-to-render-react-components-by-using-map-and-join
+// const Demo = ({ data }) => (
+//   <div>
+//     {data.flatMap((t, i) => [...(i ? [", "] : []), <span key={i}>{t}</span>])}
+//   </div>
+// );
+
+export default function FullScreenComp({ children, index, genjieslug }) {
   const handle = useFullScreenHandle();
-  if (page) {
-    return (
-      <>
-        <div className={styles.fullscreen} style={{ margin: padding }}>
-          <button
-            onClick={handle.enter}
-            className={styles.openIcon}
-            style={
-              iconStyle
-                ? { "--left": "1rem", "--rotate": "90deg" }
-                : { "--right": "4rem" }
-            }
-          >
-            <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
-            <i className="fa fa-expand"></i>
-          </button>
-
-          <FullScreen handle={handle}>
-            {handle.active && (
-              <button
-                onClick={handle.exit}
-                className={styles.closeIcon}
-                style={
-                  iconStyle
-                    ? { "--left": "1rem", "--rotate": "90deg" }
-                    : { "--right": "4rem" }
-                }
-              >
-                <FontAwesomeIcon icon={faDownLeftAndUpRightToCenter} />
-              </button>
-            )}
-            {children}
-          </FullScreen>
-        </div>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <div className={styles.fullscreen} style={{ margin: padding }}>
-          <button
-            onClick={handle.enter}
-            className={styles.openIcon}
-            style={
-              iconStyle
-                ? { "--right": "1rem" }
-                : { "--left": "1rem", "--rotate": "90deg" }
-            }
-          >
-            <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
-            <i className="fa fa-expand"></i>
-          </button>
-
-          <FullScreen handle={handle}>
-            {handle.active && (
-              <button
-                onClick={handle.exit}
-                className={styles.closeIcon}
-                style={
-                  iconStyle
-                    ? { "--right": "1rem" }
-                    : { "--left": "1rem", "--rotate": "90deg" }
-                }
-              >
-                <FontAwesomeIcon icon={faDownLeftAndUpRightToCenter} />
-              </button>
-            )}
-            {children}
-          </FullScreen>
-        </div>
-      </>
-    );
-  }
+  return (
+    <>
+      <div
+        className={`${styles.fullscreen} ${
+          index % 2 ? styles.left : styles.right
+        }`}
+      >
+        {genjieslug && (
+          <div className={`${styles.genjieslugBox}`}>
+            {genjieslug.flatMap((item, i) => [
+              ...(i ? ["　　"] : []),
+              <h4 className={`${styles.genjieslugTitle}`} key={i}>
+                <Link href={`/genjie/${item.path}`}>
+                  <a>
+                    <ruby>
+                      {item.title} <rp>(</rp>
+                      <rt className={styles.rt}>{item.ruby}</rt>
+                      <rp>)</rp>
+                    </ruby>
+                  </a>
+                </Link>
+              </h4>,
+            ])}
+          </div>
+        )}
+        {/* <div className={`${styles.genjieslugBox}`}>
+          {genjieslug.map((item, i) => {
+            return (
+              <h4 className={`${styles.genjieslugTitle}`} key={i}>
+                <Link href={`/genjie/${item.path}`}>
+                  <a>
+                    <ruby>
+                      {item.title} <rp>(</rp>
+                      <rt className={styles.rt}>{item.ruby}</rt>
+                      <rp>)</rp>
+                    </ruby>
+                  </a>
+                </Link>
+              </h4>
+            );
+          })}
+        </div> */}
+        <button
+          onClick={handle.enter}
+          className={styles.openIcon}
+          style={
+            index % 2
+              ? { "--right": "1rem", "--rotate": "90deg" }
+              : { "--left": "0" }
+          }
+        >
+          <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
+          <i className="fa fa-expand"></i>
+        </button>
+        <FullScreen handle={handle}>
+          {handle.active && (
+            <button
+              onClick={handle.exit}
+              className={styles.closeIcon}
+              style={
+                index % 2
+                  ? { "--right": "1rem", "--rotate": "90deg" }
+                  : { "--left": "0" }
+              }
+            >
+              <FontAwesomeIcon icon={faDownLeftAndUpRightToCenter} />
+            </button>
+          )}
+          {children}
+        </FullScreen>
+      </div>
+    </>
+  );
 }

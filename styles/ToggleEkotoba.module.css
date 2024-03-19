@@ -1,7 +1,7 @@
 .button > i {
   font-size: clamp(1.3125rem, 0.895rem + 1.7812vw, 1.75rem);
   transition: var(--transition);
-  color: var(--clr-white);
+  color: var(--clr-grey-light);
   cursor: pointer;
   opacity: 0.8;
 }

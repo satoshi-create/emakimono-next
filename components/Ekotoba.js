@@ -31,29 +31,32 @@ const Ekotoba = ({
     scroll,
     selectedRef,
     navIndex,
+    srcWidth,
+    srcHeight,
   },
 }) => {
   const {
-    openModal,
     setekotobaToggle,
     ekotobaImageToggle,
     setEkotobaImageToggle,
     scrollDialog,
     orientation,
+    ekotobaToggle,
   } = useContext(AppContext);
 
-  const [toggle, setToggle] = useState(false);
-  useEffect(() => {
-    if (scroll) {
-      setEkotobaImageToggle(true);
-    }
-  }, [setEkotobaImageToggle, scroll]);
+  // dangerouslySetInnerHTMLでgendaibunを描画使用するとHydration failedになる問題の対処のため、
+  // gendaibunを最初のレンダリング後に取得
+  // https://qiita.com/maaaashi/items/957bf8a949833151612b
+  const [ekotobabody, setEkotobabody] = useState("");
 
   useEffect(() => {
-    if (scroll) {
-      setekotobaToggle(false);
-    }
-  }, [setekotobaToggle, scroll]);
+    setEkotobabody(gendaibun);
+  }, [setEkotobabody, gendaibun]);
+
+  useEffect(() => {
+    setEkotobaImageToggle(true);
+    setekotobaToggle(true);
+  }, [setEkotobaImageToggle, setekotobaToggle]);
 
   return (
     <section
@@ -84,36 +87,12 @@ const Ekotoba = ({
               }`,
             }}
           />
-
-          {/* {type === "浮世絵" && (
-            <button
-              className={styles.modalebtn}
-              onClick={() => openModal(ekotobaId - 1)}
-            >
-              <FontAwesomeIcon
-                icon={faLocationDot}
-                className={styles.modalebtnicon}
-              />
-            </button>
-          )} */}
-          {kobun && (
-            <button
-              className={styles.togglebtn}
-              onClick={() => setToggle(!toggle)}
-            >
-              <FontAwesomeIcon
-                icon={toggle ? faMinus : faPlus}
-                title={toggle ? "閉じる" : "詞書の現代語訳と原文を比べて読む"}
-                className={styles.togglebtnicon}
-              />
-            </button>
-          )}
         </div>
         {/* gendaibun */}
         {gendaibun && (
-          <div className={styles.gendaibun}>
+          <div className={styles.gendaibunBox}>
             <p
-              dangerouslySetInnerHTML={{ __html: gendaibun }}
+              dangerouslySetInnerHTML={{ __html: ekotobabody }}
               className={styles.gendaibuntext}
               style={{
                 fontSize: `${
@@ -123,12 +102,28 @@ const Ekotoba = ({
                 }`,
               }}
             />
+            {kobun && (
+              <button
+                className={styles.togglekobun}
+                onClick={() => setekotobaToggle(!ekotobaToggle)}
+              >
+                <FontAwesomeIcon
+                  icon={ekotobaToggle ? faMinus : faPlus}
+                  title={
+                    ekotobaToggle
+                      ? "閉じる"
+                      : "詞書の現代語訳と原文を比べて読む"
+                  }
+                  className={styles.togglebtnicon}
+                />
+              </button>
+            )}
           </div>
         )}
         {/* kobun */}
         <div
           className={
-            toggle ? `${styles.kobun} ${styles.open}` : `${styles.kobun}`
+            ekotobaToggle ? `${styles.kobun} ${styles.open}` : `${styles.kobun}`
           }
         >
           <p
@@ -147,7 +142,18 @@ const Ekotoba = ({
         className={ekotobaImageToggle ? `${styles.open}` : `${styles.close}`}
       >
         {src && (
-          <ResposiveImage value={{ srcSp, srcTb, src, load, name, scroll }} />
+          <ResposiveImage
+            value={{
+              srcSp,
+              srcTb,
+              src,
+              load,
+              name,
+              scroll,
+              srcWidth,
+              srcHeight,
+            }}
+          />
         )}
       </span>
     </section>

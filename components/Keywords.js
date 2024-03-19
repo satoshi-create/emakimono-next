@@ -2,7 +2,7 @@ import React from "react";
 import Title from "./Title";
 import emakisData from "../libs/data";
 import Link from "next/link";
-import styles from "../styles/Tags.module.css";
+import styles from "../styles/KeywordList.module.css";
 import { keywordItem, personnameItem } from "../libs/func";
 import { useRouter } from "next/router";
 import Button from "./Button";
@@ -17,7 +17,7 @@ const Keywords = ({ sectiontitle, sectiontitleen, path, allTags }) => {
           const { name, id, slug, total, ruby } = item;
 
           return (
-            <Link href={`./${path}/${slug}`} key={index}>
+            <Link href={`/keyword/${slug}`} key={index}>
               <a className={styles.title}>
                 <p>
                   {locale === "en" ? id : name}
@@ -28,15 +28,17 @@ const Keywords = ({ sectiontitle, sectiontitleen, path, allTags }) => {
           );
         })}
       </div>
-      <Button
-        title={
-          locale === "en"
-            ? "View a list of keywords !!"
-            : "キーワード一覧を見る"
-        }
-        path={"/keywords"}
-        style={"tag"}
-      />
+      {path && (
+        <Button
+          title={
+            locale === "en"
+              ? "View a list of keywords !!"
+              : "キーワード一覧を見る"
+          }
+          path={path}
+          style={"tag"}
+        />
+      )}
     </section>
   );
 };

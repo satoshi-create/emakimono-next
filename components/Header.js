@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import NavLinks from "./NavLinks";
 import { AppContext } from "../pages/_app";
 import SidebarHome from "./SidebarHome";
+import Image from "next/image";
 
 const Header = ({ slug, fixed, emakipage }) => {
   const { locale } = useRouter();
@@ -27,12 +28,17 @@ const Header = ({ slug, fixed, emakipage }) => {
       className={`${styles.header} section-grid ${
         fixed && styles[stickyClass]
       }`}
-      style={{ padding: "1.5rem 0" }}
+      style={{ padding: "1rem 0" }}
     >
       <div className={styles.center}>
         <h1 className={styles.title}>
           <Link href="/">
-            <a>
+            <a className={styles.titleLink}>
+              <img
+                src="/favicon.png"
+                alt="favicon"
+                className={styles.favicon}
+              />
               {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
             </a>
           </Link>

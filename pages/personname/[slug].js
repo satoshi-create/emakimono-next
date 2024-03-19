@@ -3,7 +3,7 @@ import Head from "../../components/Meta";
 import CardA from "../../components/CardA";
 import emakisData from "../../libs/data";
 import Breadcrumbs from "../../components/Breadcrumbs";
-import { personnameItem } from "../../libs/func";
+import { personnameItem, removeNestedEmakisObj } from "../../libs/func";
 import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
 import enData from "../../libs/en/data";
@@ -25,7 +25,7 @@ const Emaki = ({ name, posts, nameruby, nameen, slug }) => {
       <Breadcrumbs
         name={locale === "en" ? `${nameen}` : name}
         test={locale === "en" ? "personname list" : "人物名一覧"}
-        testen={"personnames"}
+        testen={"/personname/personnamelist"}
       />
       <CardA
         emakis={posts}
@@ -58,7 +58,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
   const personnameslug = context.params.slug;
   const { locale, locales } = context;
-    const tEmakisData = locale === "en" ? enData : jaData;
+  const tEmakisData = locale === "en" ? enData : jaData;
   const personname = personnameItem(tEmakisData).find(
     ({ slug }) => slug === personnameslug
   );
@@ -71,12 +71,16 @@ export const getStaticProps = async (context) => {
     }
   });
 
+  const removeNestedArrayObj = filterdEmakisData.map((item) => {
+    return removeNestedEmakisObj(item);
+  });
+
   return {
     props: {
       name: personname.name,
       nameruby: personname.ruby,
       nameen: personname.id,
-      posts: filterdEmakisData,
+      posts: removeNestedArrayObj,
       slug: personnameslug,
     },
   };

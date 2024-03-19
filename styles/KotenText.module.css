@@ -1,0 +1,99 @@
+/* =============================================
+section 
+============================================= */
+/* 絵巻物ほか（左⇒右） */
+.ekotobalr {
+  writing-mode: vertical-lr;
+  z-index: 1;
+}
+/* 西洋絵画（右⇒左） */
+.ekotobarl {
+  writing-mode: vertical-rl;
+  z-index: 1;
+}
+/* =============================================
+container
+============================================= */
+.container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  margin: 1.5rem 0 1rem 0.5rem;
+}
+
+@media (min-height: 768px) {
+  .container {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.chaptercontainer {
+  /* margin-top: -1rem; */
+  padding: 0 0.5rem;
+  position: relative;
+}
+
+.chapter {
+  font-weight: 500;
+  color: #4a4f9f;
+  font-family: var(--emaki-title-font);
+}
+
+/* =============================================
+gendaibun
+============================================= */
+.gendaibunBox,
+.kobunBox {
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+.kobunSideGendaibun,
+.gendaibunSideKobun {
+  border: 1px dotted #ddd;
+  margin: 1rem 0;
+  font-family: var(--text-font-koten);
+  font-size: 1.4rem;
+  color: #454545;
+  background-color: #ff8c771f;
+  padding: 0.5rem;
+}
+@media screen and (min-width: 768px) {
+  .kobunSideGendaibun,
+  .gendaibunSideKobun {
+    margin: 2rem 0;
+  }
+}
+.gendaibunSideGendaibun,
+.kobunSideKobun {
+  font-family: var(--emaki-kotobagki-font);
+}
+
+/* =============================================
+toggle-button
+============================================= */
+.togglekobun {
+  height: 10%;
+  width: auto;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.togglebtnicon {
+  font-size: 18px;
+  color: #cdbcb5;
+  padding: 0.2rem;
+}
+.modalebtnicon:hover,
+.togglebtnicon:hover {
+  color: var(--clr-accent-02);
+}
+.togglebtnicon:hover {
+  color: var(--clr-accent-02);
+}
+.togglekobunClose {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}

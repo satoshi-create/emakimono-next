@@ -1,78 +1,67 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import FullScreenComp from "./FullScreenComp";
 import EmakiConteiner from "./EmakiConteiner";
 import Title from "./Title";
 import Button from "./Button";
 import { useRouter } from "next/router";
 import styles from "../styles/FullscreenContents.module.css";
-import { Italic } from "react-feather";
+import { AppContext } from "../pages/_app";
+import Link from "next/link";
 
-const FlowEmaki = ({
-  flowEmakis: emakis,
-  sectiontitle,
-  sectiontitleen,
-  linktitle,
-  linktitleen,
-  linkpath,
-  columns,
-}) => {
+// TODO:CREATE - レスポンシブデザインを作成する
+
+const FlowEmaki = ({ flowEmakis: emakis, sectiontitle, sectiontitleen }) => {
   const { locale } = useRouter();
-
-  const [toggleMode, setToggleMode] = useState(false);
-  const Left = {
-    justifyContent: "flex-start",
-  };
-  const Right = {
-    justifyContent: "flex-end",
-  };
-
+  const { orientation } = useContext(AppContext);
   return (
     <>
-      {/* <button onClick={() => setToggleMode(!toggleMode)}>toggle</button> */}
       <section className={`section-center section-padding`}>
         <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
         {emakis.map((item, i) => {
           return (
             <div
-              className={`${styles.container}`}
-              // style={i % 2 ? Right : Left}
-              style={{
-                justifyContent: `${i % 2 ? "flex - start" : "flex-end"}`,
-                backgroundColor: `${toggleMode ? "rgb(20 20 20)" : "#f9fbff"}`,
-              }}
+              className={`${styles.container}  ${
+                i % 2 ? styles.left : styles.right
+              }`}
               key={i}
             >
               <h4
-                className={`${styles.title} ${
-                  i % 2 ? styles.left : styles.right
-                  // background: `${i % 2 ?  : "black"}`,
-                }`}
-                style={{
-                  backgroundImage: `${
-                    i % 2
-                      ? "linear-gradient(90deg,#ffdadb, #f2f3fd)"
-                      : "linear-gradient(270deg,#ffdadb, #f2f3fd)"
-                  }`,
+                className={`${styles.waka} ${styles.kami}`}
+                dangerouslySetInnerHTML={{
+                  __html: item.waka_kami,
                 }}
+              ></h4>
+              <h4
+                className={`${styles.waka} ${styles.simo}`}
+                dangerouslySetInnerHTML={{
+                  __html: item.waka_simo,
+                }}
+              ></h4>
+              <FullScreenComp
+                index={i}
+                // width={"60vw"}
+                edition={item.edition}
+                titleen={item.titleen}
+                genjieslug={item.genjieslug}
               >
-                {item.title}
-                {/* {locale == "en" ? item.titleen : item.title} <br />
-                {locale == "en" ? item.editionen : item.edition} */}
-              </h4>
-              <FullScreenComp iconStyle={i % 2 ? true : false}>
                 <EmakiConteiner
                   data={item}
-                  height={"50vh"}
-                  width={"80vw"}
+                  height={orientation === "portrait" ? "30vh" : "40vh"}
+                  // width={"80vw"}
                   scroll={false}
-                  overflowX={"hidden"}
+                  overflowX={"auto"}
                   boxshadow={" 0 5px 15px rgba(0, 0, 0, 20%)"}
                 />
               </FullScreenComp>
+              <div className={styles.link}>
+                <Link href={`/${item.titleen}`}>
+                  <a className={styles.linkedbutton}> 横スクロールで見る</a>
+                </Link>
+              </div>
             </div>
           );
         })}
-        {linktitle && (
+        {/* {linktitle && (
           <Button
             title={
               locale === "en"
@@ -82,7 +71,7 @@ const FlowEmaki = ({
             path={`/${linkpath}`}
             style={columns}
           />
-        )}
+        )} */}
       </section>
     </>
   );
