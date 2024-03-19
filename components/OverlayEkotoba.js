@@ -49,54 +49,54 @@ const OverlayEkotoba = ({
         type === "西洋絵画" ? styles.ekotobalr : styles.ekotobarl
       } ${
         ekotobaImageToggle
-          ? `${styles.gendaibunopen}`
-          : `${styles.gendaibunclose}`
-      }`}
+          ? `${styles.gendaibunclose}`
+          : `${styles.gendaibunopen}`
+      } ${styles.container}`}
       id={`${index}`}
       ref={navIndex === index ? scrollDialog : null}
     >
-      <div className={`${styles.container} `}>
-        <div className={styles.gendaibunbox}>
-          <h3
-            dangerouslySetInnerHTML={{ __html: chapter }}
-            className={styles.chapter}
-            style={{
-              fontSize: `${
-                orientation === "portrait"
-                  ? "var(--title-size-prt)"
-                  : "var(--title-size)"
-              }`,
-            }}
-          />
-          <p
-            dangerouslySetInnerHTML={{ __html: ekotobabody }}
-            className={styles.gendaibun}
-            style={{
-              fontSize: `${
-                orientation === "portrait"
-                  ? "var(--text-size-prt)"
-                  : "var(--text-size)"
-              }`,
-            }}
-          />
-        </div>
-        <div className={styles.ekotobaimagebox}>
-          {src && (
-            <ResposiveImage
-              value={{
-                srcSp,
-                srcTb,
-                src,
-                load,
-                name,
-                scroll,
-                srcWidth,
-                srcHeight,
-              }}
-            />
-          )}
-        </div>
+      <div
+        className={`${styles.gendaibunbox} ${!src && styles.noekotobaimage}`}
+      >
+        <h3
+          dangerouslySetInnerHTML={{ __html: chapter }}
+          className={styles.chapter}
+          style={{
+            fontSize: `${
+              orientation === "portrait"
+                ? "var(--title-size-prt)"
+                : "var(--title-size)"
+            }`,
+          }}
+        />
+        <p
+          dangerouslySetInnerHTML={{ __html: ekotobabody }}
+          className={styles.gendaibun}
+          style={{
+            fontSize: `${
+              orientation === "portrait"
+                ? "var(--text-size-prt)"
+                : "var(--text-size)"
+            }`,
+          }}
+        />
       </div>
+      {src && (
+        <div className={styles.ekotobaimagebox}>
+          <ResposiveImage
+            value={{
+              srcSp,
+              srcTb,
+              src,
+              load,
+              name,
+              scroll,
+              srcWidth,
+              srcHeight,
+            }}
+          />
+        </div>
+      )}
     </section>
   );
 };

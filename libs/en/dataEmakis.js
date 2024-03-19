@@ -459,6 +459,7 @@ const dataEmakis = [
       },
       {
         load: false,
+        cat: "image",
         srcSp: "/cyoujyuu_yamazaki_otu_15-375.webp",
         srcTb: "/cyoujyuu_yamazaki_otu_15-800.webp",
         src: "/cyoujyuu_yamazaki_otu_15-1080.webp",
