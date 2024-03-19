@@ -21,7 +21,9 @@ const Genji = () => {
   const { t: data } = useLocaleData();
   const removeNestedArrayObj = ExtractingListData();
 
-  const genjiFlowDatas = data.filter((item) => item.title.includes("源氏"));
+  const genjiFlowDatas = data
+    .filter((item) => item.title.includes("源氏"))
+    .filter((item) => item.type === "屏風");
 
   return (
     <main>
