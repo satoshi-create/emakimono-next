@@ -69,7 +69,6 @@ const Ekotoba = ({
       ref={navIndex === index ? scrollDialog : null}
     >
       <div
-        // className={ekotobaImageToggle ? `${styles.close}` : `${styles.open}`}
         className={`${styles.container} ${
           ekotobaImageToggle ? `${styles.close}` : `${styles.open}`
         }`}

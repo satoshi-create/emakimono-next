@@ -14,10 +14,17 @@ const OverlayEkotoba = ({
     scroll,
     srcWidth,
     srcHeight,
+    chapter,
   },
 }) => {
-  const { setekotobaToggle, ekotobaImageToggle, setEkotobaImageToggle } =
-    useContext(AppContext);
+  const {
+    setekotobaToggle,
+    ekotobaImageToggle,
+    setEkotobaImageToggle,
+    scrollDialog,
+    orientation,
+    ekotobaToggle,
+  } = useContext(AppContext);
 
   // dangerouslySetInnerHTMLでgendaibunを描画使用するとHydration failedになる問題の対処のため、
   // gendaibunを最初のレンダリング後に取得
@@ -34,19 +41,36 @@ const OverlayEkotoba = ({
   }, [setEkotobaImageToggle, setekotobaToggle]);
 
   return (
-    <span
-      // className={ekotobaImageToggle ? `${styles.open}` : `${styles.close}`}
-      className={`${styles.overlaycontainer} ${
+    <div
+      className={`${styles.container} ${
         ekotobaImageToggle ? `${styles.open}` : `${styles.close}`
       }`}
     >
       <div className={styles.gendaibunbox}>
+        <h3
+          dangerouslySetInnerHTML={{ __html: chapter }}
+          className={styles.chapter}
+          style={{
+            fontSize: `${
+              orientation === "portrait"
+                ? "var(--title-size-prt)"
+                : "var(--title-size)"
+            }`,
+          }}
+        />
         <p
           dangerouslySetInnerHTML={{ __html: ekotobabody }}
           className={styles.gendaibun}
+          style={{
+            fontSize: `${
+              orientation === "portrait"
+                ? "var(--text-size-prt)"
+                : "var(--text-size)"
+            }`,
+          }}
         />
       </div>
-      <div className={styles.ekotobaimage}>
+      <div className={styles.ekotobaimagebox}>
         {src && (
           <ResposiveImage
             value={{
@@ -62,7 +86,7 @@ const OverlayEkotoba = ({
           />
         )}
       </div>
-    </span>
+    </div>
   );
 };
 

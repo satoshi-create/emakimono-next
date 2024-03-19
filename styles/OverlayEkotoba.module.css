@@ -2,17 +2,34 @@
  * overlay event
  * =========================== */
 
-.overlaycontainer {
+.container {
+  /* display: flex;
+  flex-direction: row-reverse; */
   position: relative;
 }
-.ekotobaimage {
+.ekotobaimagebox {
   filter: blur(5px);
 }
-.gendaibun {
+.gendaibunbox {
   position: absolute;
   top: 0;
-  left: 0;
-  z-index: 100;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+  padding: 2rem 0;
+  writing-mode: vertical-rl;
+  font-size: var(--text-size);
+  background-color: #ffffff7d;
   width: 100%;
-  height: auto;
+}
+.chapter {
+  font-weight: 500;
+  color: #4a4f9f;
+  font-family: var(--text-font-koten);
+  padding: 0 0.5rem;
+}
+.gendaibun {
+  font-family: var(--emaki-kotobagki-font);
 }
