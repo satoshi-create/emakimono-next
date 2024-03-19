@@ -12,21 +12,18 @@
 }
 
 .container {
-  /* display: flex;
-  flex-direction: row-reverse; */
   position: relative;
 }
 .ekotobaimagebox {
   transition: var(--transition);
   width: 100%;
 }
-.gendaibunclose .ekotobaimagebox {
+.gendaibunopen .ekotobaimagebox {
   filter: blur(10px);
 }
 .gendaibunbox {
   position: absolute;
   top: 0;
-  right: 0;
   z-index: 5;
   display: flex;
   flex-direction: column;
@@ -36,12 +33,27 @@
   background-color: #ffffff7d;
   width: 100%;
   /* overflowを指定すると背景となる料紙が存在しない場合は、幅がゼロになり表示されない */
-  overflow-x: auto;
+  /* overflow-x: auto; */
   height: 100%;
   transition: var(--transition);
   opacity: 0;
 }
-.gendaibunclose .gendaibunbox {
+.ekotobalr .gendaibunbox {
+  left: 0;
+}
+.ekotobarl .gendaibunbox {
+  right: 0;
+}
+.ekotobalr .noekotobaimage.gendaibunbox {
+  margin-left: 1rem;
+}
+.ekotobarl .noekotobaimage.gendaibunbox {
+  margin-right: 1rem;
+}
+.noekotobaimage.gendaibunbox {
+  height: auto;
+}
+.gendaibunopen .gendaibunbox {
   opacity: 100;
 }
 .chapter {
@@ -51,7 +63,15 @@
   padding: 0 1rem;
   /* position: sticky;
   right: 0; */
+  /* height: 100%; */
+  z-index: 5;
+}
+.noekotobaimage .chapter {
+  color: var(--clr-white);
+  background-color: #00000099;
+  padding: 2rem 1rem;
 }
 .gendaibun {
   font-family: var(--emaki-kotobagki-font);
+  line-height: 1.6;
 }
