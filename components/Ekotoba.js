@@ -11,6 +11,9 @@ import { AppContext } from "../pages/_app";
 import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
 
+// TODO:CHANGE - 現代文⇔絵詞の切替えをトグルからオーバーレイに変更する
+
+
 const Ekotoba = ({
   item: {
     chapter,
