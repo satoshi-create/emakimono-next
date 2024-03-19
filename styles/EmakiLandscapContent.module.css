@@ -4,6 +4,7 @@
   grid-template-rows: 75vh auto;
   row-gap: 1.5rem;
   column-gap: 2rem;
+  margin-bottom: 4rem;
 }
 
 /* chapter */
@@ -33,6 +34,10 @@
 }
 .chapterlink {
   cursor: pointer;
+  transition: var(--transition);
+}
+.chapterlink:hover {
+  opacity: 0.6;
 }
 /* metadata */
 .metadata {
@@ -46,6 +51,47 @@
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 0.1rem;
+}
+.genjieslugBox {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  align-self: center;
+  justify-self: start;
+  transition: var(--transition);
+  font-size: 14px;
+  margin-left: 1.5rem;
+  border: 1px double #000;
+}
+.genjieslugBox:hover {
+  background: var(--clr-black);
+  border: 1px double #fff;
+}
+.genjieslugTitle {
+  padding: 0.2rem;
+  font-family: var(--text-font);
+  transition: var(--transition);
+}
+.genjieslugBox:hover .genjieslugTitle {
+  color: var(--clr-white);
+}
+
+.linkedbutton {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  align-self: center;
+  justify-self: end;
+  background: var(--clr-accent-02);
+  border: 1px solid var(--clr-accent-02);
+  border-radius: 5rem;
+  transition: var(--transition);
+  font-family: var(--text-font);
+  padding: 0.5rem;
+  color: var(--clr-white);
+  font-size: medium;
+}
+.linkedbutton:hover {
+  background-color: var(--clr-white);
+  color: var(--clr-accent-02);
 }
 
 .tags {
@@ -81,12 +127,11 @@
   transition: var(--transition);
   cursor: pointer;
 }
-.cat > .type:hover,
-.cat > div:hover {
-  opacity: 0.5;
-}
-.cat > .era:hover {
+.cat > .era {
   color: white;
+}
+.cat > *:hover {
+  opacity: 0.5;
 }
 
 .title {
@@ -107,24 +152,6 @@
   grid-row: 2;
   grid-column: 1;
 }
-.linkedbutton {
-  grid-row: span 2;
-  grid-column: 2;
-  align-self: center;
-  justify-self: end;
-  background: var(--clr-accent-02);
-  border: 1px solid var(--clr-accent-02);
-  border-radius: 5rem;
-  transition: var(--transition);
-  font-family: var(--text-font);
-  padding: 0.5rem;
-  color: var(--clr-white);
-  font-size: medium;
-}
-.linkedbutton:hover {
-  background-color: var(--clr-white);
-  color: var(--clr-accent-02);
-}
 
 .metadataB {
   display: flex;
@@ -139,6 +166,12 @@
   font-size: medium;
   color: var(--clr-black);
 }
+.genjieslugBox {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
 .authority {
   font-family: var(--title-font2);
   font-size: 0.7rem;
@@ -152,6 +185,10 @@
   font-size: medium;
   color: var(--clr-link);
   font-weight: 600;
+  transition: var(--transition);
+}
+.keywodtTitle:hover {
+  opacity: 0.6;
 }
 .relationemaki {
   grid-row: 2;

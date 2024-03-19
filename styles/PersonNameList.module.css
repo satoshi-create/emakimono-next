@@ -1,0 +1,63 @@
+.tags {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  font-family: var(--title-font2);
+  grid-template-columns: repeat(2, auto);
+  position: relative;
+  margin: 4rem 0;
+}
+.portrait {
+  display: grid;
+  gap: 0.5rem;
+  place-content: center;
+  width: 130px;
+  height: auto;
+  transition: var(--transition);
+}
+
+.portraitImage {
+  border-radius: 50%;
+  border: 3px solid white;
+  background: gray;
+}
+.noportrait {
+  width: 130px;
+  height: 130px;
+  background: gray;
+  border-radius: 50%;
+  border: 3px solid white;
+  display: grid;
+  place-content: center;
+  transition: var(--transition);
+}
+.portrait:hover,
+.noportrait:hover {
+  opacity: 0.6;
+}
+.helpcircleicon {
+  width: 100px;
+  height: 100px;
+  color: #ffffff45;
+}
+.name {
+  transition: var(--transition);
+  text-align: center;
+}
+.name rt {
+  letter-spacing: -0.5em;
+}
+.name:hover {
+  color: var(--clr-accent-02);
+}
+
+@media screen and (min-width: 768px) {
+  .tags {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media screen and (min-width: 1024px) {
+  .tags {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}

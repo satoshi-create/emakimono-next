@@ -79,12 +79,13 @@
   transition: var(--transition);
   cursor: pointer;
 }
-.cat > .type:hover,
-.cat > div:hover {
-  opacity: 0.5;
-}
-.cat > .era:hover {
+.cat > .era {
   color: white;
+}
+.cat > .type:hover,
+.cat > div:hover,
+.cat > .era:hover {
+  opacity: 0.6;
 }
 
 .title {
@@ -147,7 +148,7 @@
 @media screen and (min-width: 667px) {
   .conteiner {
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-wrap: wrap;
   }
   .two,

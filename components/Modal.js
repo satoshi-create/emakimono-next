@@ -11,20 +11,20 @@ import Link from "next/link";
 import AllLocation from "./AllLocation";
 import Image from "next/image";
 import { useRouter } from "next/router";
-
-// TODO:モーダルに絵巻の情報を表示する
+import { eraColor } from "../libs/func";
+import { flushSync } from "react-dom";
 
 const Modal = ({ data }) => {
   const { locale } = useRouter();
-  const { isModalOpen, closeModal, openModal, index, setIndex } =
-    useContext(AppContext);
-  console.log(isModalOpen);
+  const { closeModal, navIndex, handleToId } = useContext(AppContext);
 
+  const { reference, sourceImageUrl, sourceImage, era } = data;
   const emakis = data.emakis;
-  const filterEkotobas = emakis.filter((item) => item.cat === "ekotoba");
-  console.log(data);
 
-  const { reference, sourceImageUrl, sourceImage } = data;
+  const handleChapter = (index) => {
+    handleToId(index);
+    closeModal();
+  };
 
   const [value, setValue] = useState(0);
 
@@ -37,7 +37,6 @@ const Modal = ({ data }) => {
     },
     {
       title: "参照",
-      titleen: "refarence",
     },
   ];
 
@@ -45,44 +44,41 @@ const Modal = ({ data }) => {
     if (v === 0) {
       return (
         <ul className={styles.chapter}>
-          {filterEkotobas.map((item, i) => {
-            const { chapter, linkId, chapterruby, desc } = item;
-            return (
-              <li key={index} onClick={() => setOepnSidebar(false)}>
-                <span
-                  onClick={() => handleToId(index)}
-                  className={styles.navlink}
+          {emakis.map((item, i) => {
+            const { cat, chapter } = item;
+            if (cat === "ekotoba") {
+              return (
+                <li
+                  key={i}
+                  onClick={() => handleChapter(i)}
+                  className={styles.chapterlink}
+                  style={{ color: eraColor(era) }}
                   dangerouslySetInnerHTML={{ __html: chapter }}
-                ></span>
-              </li>
-            );
+                ></li>
+              );
+            }
           })}
         </ul>
       );
     } else if (v === 1) {
       return (
-        <>
-          <ul className={styles.source}>
-            <p>
-              {locale === "en"
-                ? "Created by modifying the following"
-                : "以下を加工して作成"}
-            </p>
-            <br />
-            <li>
-              <Link href={sourceImageUrl}>
-                <a target="_blank" className={styles.sourceLink}>
-                  {sourceImage}
-                </a>
-              </Link>
-            </li>
-          </ul>
-        </>
+        <p className={styles.source}>
+          {locale === "en"
+            ? "Created by modifying the following"
+            : "以下を加工して作成"}
+          <br />
+          <br />
+          <Link href={sourceImageUrl}>
+            <a target="_blank" className={styles.sourceLink}>
+              {sourceImage}
+            </a>
+          </Link>
+        </p>
       );
     } else if (v === 2) {
       return (
         reference && (
-          <ul className={styles.source}>
+          <ul className={styles.reference}>
             <li>{reference}</li>
           </ul>
         )
@@ -109,15 +105,15 @@ const Modal = ({ data }) => {
         </div>
 
         <div className={styles.tabcontainer}>
-          {allMap.map((item, index) => {
+          {allMap.map((item, i) => {
             const { title } = item;
             return (
               <button
-                onClick={() => setValue(index)}
+                onClick={() => setValue(i)}
                 className={`btn ${styles.tabbtn} ${
-                  value === index ? styles.activebtn : ""
+                  value === i ? styles.activebtn : ""
                 }`}
-                key={index}
+                key={i}
               >
                 {title}
               </button>
