@@ -2909,18 +2909,7 @@ const dataEmakis = [
         srcWidth: 2883,
         srcHeight: 1080,
       },
-      {
-        cat: "ekotoba",
-        chapter: "九相詩序 ",
-        kobun: "",
-        gendaibun: "",
-        srcSp: "/kusoushiemaki_01-375.webp",
-        srcTb: "/kusoushiemaki_01-800.webp",
-        src: "/kusoushiemaki_01-1080.webp",
-        name: "kusoushiemaki_01.webp",
-        phrase: [{}],
-        id: 226,
-      },
+
       {
         cat: "ekotoba",
         chapter: "【第一相】 新死相",

@@ -2,33 +2,55 @@
  * overlay event
  * =========================== */
 
+.ekotobalr {
+  writing-mode: vertical-lr;
+  z-index: 1;
+}
+.ekotobarl {
+  writing-mode: vertical-rl;
+  z-index: 1;
+}
+
 .container {
   /* display: flex;
   flex-direction: row-reverse; */
   position: relative;
 }
 .ekotobaimagebox {
-  filter: blur(5px);
+  transition: var(--transition);
+  width: 100%;
+}
+.gendaibunclose .ekotobaimagebox {
+  filter: blur(10px);
 }
 .gendaibunbox {
   position: absolute;
   top: 0;
   right: 0;
-  z-index: 1;
+  z-index: 5;
   display: flex;
   flex-direction: column;
   row-gap: 2rem;
   padding: 2rem 0;
-  writing-mode: vertical-rl;
   font-size: var(--text-size);
   background-color: #ffffff7d;
   width: 100%;
+  /* overflowを指定すると背景となる料紙が存在しない場合は、幅がゼロになり表示されない */
+  overflow-x: auto;
+  height: 100%;
+  transition: var(--transition);
+  opacity: 0;
+}
+.gendaibunclose .gendaibunbox {
+  opacity: 100;
 }
 .chapter {
   font-weight: 500;
   color: #4a4f9f;
   font-family: var(--text-font-koten);
-  padding: 0 0.5rem;
+  padding: 0 1rem;
+  /* position: sticky;
+  right: 0; */
 }
 .gendaibun {
   font-family: var(--emaki-kotobagki-font);
