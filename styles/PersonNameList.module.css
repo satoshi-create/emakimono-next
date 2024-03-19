@@ -3,19 +3,20 @@
   justify-items: center;
   gap: 1rem;
   font-family: var(--title-font2);
-}
-.jatags {
   grid-template-columns: repeat(2, auto);
   position: relative;
+  margin: 4rem 0;
 }
 .portrait {
   display: grid;
   gap: 0.5rem;
   place-content: center;
-}
-.portraitImage {
   width: 130px;
-  height: 130px;
+  height: auto;
+  transition: var(--transition);
+}
+
+.portraitImage {
   border-radius: 50%;
   border: 3px solid white;
   background: gray;
@@ -28,6 +29,11 @@
   border: 3px solid white;
   display: grid;
   place-content: center;
+  transition: var(--transition);
+}
+.portrait:hover,
+.noportrait:hover {
+  opacity: 0.6;
 }
 .helpcircleicon {
   width: 100px;

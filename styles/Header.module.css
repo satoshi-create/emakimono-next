@@ -21,6 +21,15 @@
   font-size: 1.3rem;
   text-transform: uppercase;
 }
+.titleLink {
+  display: flex;
+  align-items: center;
+  column-gap: 0.3rem;
+}
+.favicon {
+  width: 20px;
+  height: 20px;
+}
 .openbtn {
   font-size: 1.5rem;
 }

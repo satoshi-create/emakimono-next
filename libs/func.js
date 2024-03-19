@@ -57,10 +57,27 @@ const convert = (arr) => {
   return Object.values(res);
 };
 
+const convertGenjiSlug = (arr) => {
+  const res = {};
+  arr.forEach((obj) => {
+    const key = `${obj.title}`;
+    if (!res[key]) {
+      res[key] = { ...obj, total: 0 };
+    }
+    res[key].total += 1;
+  });
+  return Object.values(res);
+};
+
 const keywordItem = (arr) =>
   convert(arr.flatMap((item) => item.keyword).filter((item) => item)).sort(
     (a, b) => (a.total > b.total ? -1 : 1)
   );
+
+const genjieSlugItem = (arr) =>
+  convertGenjiSlug(
+    arr.flatMap((item) => item.genjieslug).filter((item) => item)
+  ).sort((a, b) => (b.id > a.id ? -1 : 1));
 
 const personnameItem = (arr) =>
   convert(arr.flatMap((item) => item.personname).filter((item) => item)).sort(
@@ -82,7 +99,7 @@ const removeNestedObj = (obj) =>
     // 初期値：空のオブジェクト
     {}
   );
-  
+
 //  ネストしている「絵巻オブジェクト」を削除して新しいObjectを作成する;
 const removeNestedEmakisObj = (obj) =>
   Object.entries(obj).reduce(
@@ -107,4 +124,5 @@ export {
   useLocaleData,
   removeNestedObj,
   removeNestedEmakisObj,
+  genjieSlugItem,
 };
