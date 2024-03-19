@@ -11,7 +11,6 @@ import { AppContext } from "../pages/_app";
 import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
 
-
 const Ekotoba = ({
   item: {
     chapter,
@@ -140,22 +139,33 @@ const Ekotoba = ({
       </div>
       {/* ekotobaimage */}
       <span
-        className={ekotobaImageToggle ? `${styles.open}` : `${styles.close}`}
+        // className={ekotobaImageToggle ? `${styles.open}` : `${styles.close}`}
+        className={`${styles.overlaycontainer} ${
+          ekotobaImageToggle ? `${styles.open}` : `${styles.close}`
+        }`}
       >
-        {src && (
-          <ResposiveImage
-            value={{
-              srcSp,
-              srcTb,
-              src,
-              load,
-              name,
-              scroll,
-              srcWidth,
-              srcHeight,
-            }}
+        <div className={styles.gendaibunbox}>
+          <p
+            dangerouslySetInnerHTML={{ __html: ekotobabody }}
+            className={styles.gendaibun}
           />
-        )}
+        </div>
+        <div className={styles.ekotobaimage}>
+          {src && (
+            <ResposiveImage
+              value={{
+                srcSp,
+                srcTb,
+                src,
+                load,
+                name,
+                scroll,
+                srcWidth,
+                srcHeight,
+              }}
+            />
+          )}
+        </div>
       </span>
     </section>
   );

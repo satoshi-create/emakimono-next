@@ -12,6 +12,7 @@ import EmakiInfo from "../components/EmakiInfo";
 import EmakiNavigation from "../components/EmakiNavigation";
 import Modal from "./Modal";
 import KotenText from "./KotenText";
+import OverlayEkotoba from "./OverlayEkotoba";
 
 const EmakiContainer = ({
   data,
@@ -262,7 +263,7 @@ const EmakiContainer = ({
                 );
               } else {
                 return (
-                  <Ekotoba
+                  <OverlayEkotoba
                     key={index}
                     item={{
                       ...item,
@@ -275,6 +276,19 @@ const EmakiContainer = ({
                       navIndex,
                     }}
                   />
+                  // <Ekotoba
+                  //   key={index}
+                  //   item={{
+                  //     ...item,
+                  //     index,
+                  //     backgroundImage,
+                  //     kotobagaki,
+                  //     type,
+                  //     scroll,
+                  //     selectedRef,
+                  //     navIndex,
+                  //   }}
+                  // />
                 );
               }
             }
