@@ -1,16 +1,3 @@
-/* ===========================
- * overlay event
- * =========================== */
-
-.ekotobalr {
-  writing-mode: vertical-lr;
-  z-index: 1;
-}
-.ekotobarl {
-  writing-mode: vertical-rl;
-  z-index: 1;
-}
-
 .container {
   position: relative;
 }
@@ -32,24 +19,13 @@
   font-size: var(--text-size);
   background-color: #ffffff7d;
   width: 100%;
-  /* overflowを指定すると背景となる料紙が存在しない場合は、幅がゼロになり表示されない */
+  /* overflowを指定すると背景となる料紙が存在しない場合は、幅がゼロになり表示されない！ */
   /* overflow-x: auto; */
   height: 100%;
   transition: var(--transition);
   opacity: 0;
 }
-.ekotobalr .gendaibunbox {
-  left: 0;
-}
-.ekotobarl .gendaibunbox {
-  right: 0;
-}
-.ekotobalr .noekotobaimage.gendaibunbox {
-  margin-left: 1rem;
-}
-.ekotobarl .noekotobaimage.gendaibunbox {
-  margin-right: 1rem;
-}
+
 .noekotobaimage.gendaibunbox {
   height: auto;
 }
@@ -58,20 +34,43 @@
 }
 .chapter {
   font-weight: 500;
-  color: #4a4f9f;
   font-family: var(--text-font-koten);
-  padding: 0 1rem;
-  /* position: sticky;
-  right: 0; */
-  /* height: 100%; */
   z-index: 5;
-}
-.noekotobaimage .chapter {
   color: var(--clr-white);
-  background-color: #00000099;
+  background-color: #0000008c;
   padding: 2rem 1rem;
 }
+
 .gendaibun {
   font-family: var(--emaki-kotobagki-font);
   line-height: 1.6;
+}
+
+/* ===========================
+ * 右⇒左（rl）の設定
+ * =========================== */
+
+.ekotobarl {
+  writing-mode: vertical-rl;
+  z-index: 1;
+}
+.ekotobarl .gendaibunbox {
+  right: 0;
+}
+.ekotobarl .chapter {
+  margin-right: 1rem;
+}
+
+/* ===========================
+ * 左⇒右（lr）の設定
+ * =========================== */
+.ekotobalr {
+  writing-mode: vertical-lr;
+  z-index: 1;
+}
+.ekotobalr .gendaibunbox {
+  left: 0;
+}
+.ekotobalr .chapter {
+  margin-left: 1rem;
 }
