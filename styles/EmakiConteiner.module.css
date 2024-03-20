@@ -24,6 +24,7 @@
   height: var(--screen-height);
   overflow-y: hidden;
   overflow-x: var(--overflow-x);
+  /* overflow-x: hidden; */
   position: relative;
   box-shadow: var(--shadow-1);
 }

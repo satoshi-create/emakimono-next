@@ -1,0 +1,119 @@
+.container {
+  position: relative;
+}
+.ekotobaimagebox {
+  transition: var(--transition);
+  width: 100%;
+}
+.gendaibunopen .ekotobaimagebox {
+  filter: blur(10px);
+}
+.gendaibunbox {
+  position: absolute;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+  padding: 2rem 0;
+  font-size: var(--text-size);
+  background-color: #ffffff7d;
+  width: 100%;
+  overflow-x: scroll;
+  height: 100%;
+  transition: var(--transition);
+  opacity: 0;
+}
+/* overflowを指定すると詞書の画像が存在しない場合は、幅がゼロになり表示されないので
+  visibleに切り替える */
+.noekotobaimage.gendaibunbox {
+  height: auto;
+  overflow-x: visible;
+}
+.gendaibunopen .gendaibunbox {
+  opacity: 100;
+}
+.chapter {
+  font-weight: 500;
+  font-family: var(--text-font-koten);
+  z-index: 5;
+  color: var(--clr-white);
+  background-color: #0000008c;
+  padding: 2rem 1rem;
+}
+
+.gendaibun {
+  font-family: var(--emaki-kotobagki-font);
+  line-height: 1.6;
+}
+
+/* ===========================
+ * 右⇒左（rl）の設定
+ * =========================== */
+
+.ekotobarl {
+  writing-mode: vertical-rl;
+  z-index: 1;
+}
+.ekotobarl .gendaibunbox {
+  right: 0;
+}
+.ekotobarl .chapter {
+  margin-right: 1rem;
+}
+
+/* ===========================
+ * 左⇒右（lr）の設定
+ * =========================== */
+.ekotobalr {
+  writing-mode: vertical-lr;
+  z-index: 1;
+}
+.ekotobalr .gendaibunbox {
+  left: 0;
+}
+.ekotobalr .chapter {
+  margin-left: 1rem;
+}
+
+.container::-webkit-scrollbar {
+  height: 15px;
+}
+@media (min-width: 768px) {
+  .container::-webkit-scrollbar {
+    height: 20px;
+  }
+}
+
+/* ===========================
+ * スクロールバーのスタイル 
+ * =========================== */
+.gendaibunbox::-webkit-scrollbar {
+  height: 15px;
+}
+@media (min-width: 768px) {
+  .gendaibunbox::-webkit-scrollbar {
+    height: 20px;
+  }
+}
+.gendaibunbox::-webkit-scrollbar-track {
+  border-bottom-right-radius: 100px;
+  border-bottom-left-radius: 100px;
+}
+
+.gendaibunbox::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(
+    90deg,
+    rgb(253, 147, 150),
+    rgb(144, 152, 247)
+  );
+  /* box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5); */
+  background-color: #ccccccbd;
+  border: 3px solid transparent;
+  border-radius: 100px;
+  background-clip: content-box;
+  width: 80px;
+}
+.gendaibunbox::-webkit-scrollbar-thumb:hover {
+  background-color: #afafafbd;
+}
