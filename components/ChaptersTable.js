@@ -44,9 +44,9 @@ const ChaptersTable = ({
             <th>
               <span>作品</span>
             </th>
-            <th>
+            {/* <th>
               <span>作品数</span>
-            </th>
+            </th> */}
           </tr>
         </thead>
         <tbody>
@@ -74,9 +74,9 @@ const ChaptersTable = ({
                     </span>
                   )}
                 </td>
-                <td>
+                {/* <td>
                   <span>0</span>
-                </td>
+                </td> */}
               </tr>
             );
           })}

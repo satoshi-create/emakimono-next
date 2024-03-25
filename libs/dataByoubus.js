@@ -22,13 +22,6 @@ const dataByoubus = [
     emakis: [
       {
         cat: "ekotoba",
-        chapter: "六曲一双",
-        kobun: "",
-        gendaibun: "",
-        phrase: [{}],
-      },
-      {
-        cat: "ekotoba",
         chapter: "右隻",
         kobun: "",
         gendaibun: "",
@@ -80,13 +73,6 @@ const dataByoubus = [
     sourceImage: "Dragons and Clouds（フリーア美術館）",
     sourceEkotoba: "",
     emakis: [
-      {
-        cat: "ekotoba",
-        chapter: "六曲一双",
-        kobun: "",
-        gendaibun: "",
-        phrase: [{}],
-      },
       {
         cat: "ekotoba",
         chapter: "右隻",
@@ -164,13 +150,6 @@ const dataByoubus = [
     emakis: [
       {
         cat: "ekotoba",
-        chapter: "六曲一双",
-        kobun: "",
-        gendaibun: "",
-        phrase: [{}],
-      },
-      {
-        cat: "ekotoba",
         chapter: "右隻",
         kobun: "",
         gendaibun: "",
@@ -239,13 +218,6 @@ const dataByoubus = [
     sourceImage: "松竹梅（ColBase）",
     sourceEkotoba: "",
     emakis: [
-      {
-        cat: "ekotoba",
-        chapter: "六曲一双",
-        kobun: "",
-        gendaibun: "",
-        phrase: [{}],
-      },
       {
         cat: "ekotoba",
         chapter: "右隻",
@@ -318,13 +290,6 @@ const dataByoubus = [
     emakis: [
       {
         cat: "ekotoba",
-        chapter: "六曲一双",
-        kobun: "",
-        gendaibun: "",
-        phrase: [{}],
-      },
-      {
-        cat: "ekotoba",
         chapter: "右隻",
         kobun: "",
         gendaibun: "",
@@ -393,13 +358,6 @@ const dataByoubus = [
     sourceImage: "牧馬図屏風（ColBase）",
     sourceEkotoba: "",
     emakis: [
-      {
-        cat: "ekotoba",
-        chapter: "六曲一双",
-        kobun: "",
-        gendaibun: "",
-        phrase: [{}],
-      },
       {
         cat: "ekotoba",
         chapter: "右隻",
@@ -523,13 +481,6 @@ const dataByoubus = [
     emakis: [
       {
         cat: "ekotoba",
-        chapter: "六曲一双",
-        kobun: "",
-        gendaibun: "",
-        phrase: [{}],
-      },
-      {
-        cat: "ekotoba",
         chapter: "右隻",
         kobun: "",
         gendaibun: "",
@@ -600,13 +551,6 @@ const dataByoubus = [
     emakis: [
       {
         cat: "ekotoba",
-        chapter: "六曲一双",
-        kobun: "",
-        gendaibun: "",
-        phrase: [{}],
-      },
-      {
-        cat: "ekotoba",
         chapter: "右隻",
         kobun: "",
         gendaibun: "",
@@ -675,13 +619,6 @@ const dataByoubus = [
     sourceImage: "春雨図屏風（ColBase）",
     sourceEkotoba: "",
     emakis: [
-      {
-        cat: "ekotoba",
-        chapter: "六曲一双",
-        kobun: "",
-        gendaibun: "",
-        phrase: [{}],
-      },
       {
         cat: "ekotoba",
         chapter: "右隻",
@@ -759,13 +696,6 @@ const dataByoubus = [
     sourceImage: "源氏物語図屏風（絵合・胡蝶）（ColBase）",
     sourceEkotoba: "",
     emakis: [
-      {
-        cat: "ekotoba",
-        chapter: "六曲一双",
-        kobun: "",
-        gendaibun: "",
-        phrase: [{}],
-      },
       {
         cat: "ekotoba",
         chapter: "【右隻】　絵合",
@@ -859,13 +789,6 @@ const dataByoubus = [
     sourceImage: "源氏物語図屏風（明石・蓬生）（ColBase）",
     sourceEkotoba: "",
     emakis: [
-      {
-        cat: "ekotoba",
-        chapter: "六曲一双",
-        kobun: "",
-        gendaibun: "",
-        phrase: [{}],
-      },
       {
         cat: "ekotoba",
         chapter: "【右隻】　明石",
