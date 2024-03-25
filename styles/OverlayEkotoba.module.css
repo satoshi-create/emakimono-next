@@ -1,12 +1,13 @@
 .container {
   position: relative;
+  /* overflow: hidden; */
 }
 .ekotobaimagebox {
   transition: var(--transition);
   width: 100%;
 }
 .gendaibunopen .ekotobaimagebox {
-  filter: grayscale(1) blur(5px);
+  filter: blur(5px);
   /* mask-image: linear-gradient(to left, black, black, black, transparent); */
   mask-image: linear-gradient(
     to left,

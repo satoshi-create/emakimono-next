@@ -1,0 +1,254 @@
+<!-- https://ics.media/entry/190902/ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  html {
+    color: #333333;
+  }
+
+  body {
+    margin: 0;
+    padding: 8px;
+  }
+
+  .mainTitle {
+    text-align: center;
+  }
+
+  .wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: row-reverse;
+  }
+
+  .indexWrapper {
+    position: sticky;
+    top: 0px;
+    width: 176px;
+  }
+
+  .contents {
+    width: calc(100% - 240px);
+  }
+
+  .index {
+    padding-left: 0;
+  }
+
+  .index li {
+    list-style: none;
+    color: #999999;
+  }
+
+  .index a {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .index a.active {
+    color: #333333;
+    background-color: #f3f3f3;
+  }
+
+  .contents img {
+    width: 100%;
+    height: auto;
+  }
+</style>
+
+<body>
+  <h1 class="mainTitle">Intersection Observer API Demo</h1>
+  <div class="wrapper">
+    <aside class="indexWrapper">
+      <h1>目次</h1>
+
+      <ol id="indexList" class="index">
+        <li><a href="#index1">Lorem</a></li>
+        <li><a href="#index2">Ipsum </a></li>
+        <li><a href="#index3">Dolor</a></li>
+        <li><a href="#index4">Sit amet</a></li>
+        <li><a href="#index5">Consectetur</a></li>
+      </ol>
+    </aside>
+    <main class="contents">
+      <div class="box" id="index1">
+        <h1>Lorem</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+      </div>
+
+      <div class="box" id="index2">
+        <h1>Ipsum</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+      </div>
+
+      <div class="box" id="index3">
+        <h1>Dolor</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+      </div>
+
+      <div class="box" id="index4">
+        <h1>Sit amet</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+      </div>
+
+      <div class="box" id="index5">
+        <h1>Consectetur</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+          Accusantium asperiores expedita minus nisi praesentium provident
+          quisquam repellat sapiente ut vitae. Aut corporis deleniti deserunt
+          eos error facere, maiores necessitatibus quo.</p>
+      </div>
+    </main>
+  </div>
+</body>
+<script>
+  // 今回の交差を監視する要素
+  const boxes = document.querySelectorAll(".box");
+
+  const options = {
+    root: null, // 今回はビューポートをルート要素とする
+    // rootMargin: "0px"で交差し始めをトリガーとした場合、画面下側から交差した時と、戻って画面上側から交差した時両方でトリガーされてしまい、意図した挙動とはならない
+    rootMargin: "-50% 0px", // ビューポートの中心を判定基準にする
+    threshold: 0 // 閾値は0
+  };
+  const observer = new IntersectionObserver(doWhenIntersect, options);
+  // それぞれのboxを監視する
+  boxes.forEach(box => {
+    observer.observe(box);
+  });
+
+  /**
+   * 交差したときに呼び出す関数
+   * @param entries
+   */
+  function doWhenIntersect(entries) {
+    // 交差検知をしたもののなかで、isIntersectingがtrueのDOMを色を変える関数に渡す
+    entries.forEach(entry => {
+      // entry.isIntersecting:論理値で、対象要素が、この交差オブザーバーのルートに対象要素が交差したときは true になる
+      if (entry.isIntersecting) {
+        // entry.target:ルートとの交差状態が変化した要素 
+        activateIndex(entry.target);
+      }
+    });
+  }
+
+  /**
+   * 目次の色を変える関数
+   * @param element
+   */
+  function activateIndex(element) {
+    // すでにアクティブになっている目次を選択
+    const currentActiveIndex = document.querySelector("#indexList .active");
+    // すでにアクティブになっているものが0個の時（=null）以外は、activeクラスを除去
+    if (currentActiveIndex !== null) {
+      currentActiveIndex.classList.remove("active");
+    }
+    // 引数で渡されたDOMが飛び先のaタグを選択し、activeクラスを付与
+    const newActiveIndex = document.querySelector(`a[href='#${element.id}']`);
+    newActiveIndex.classList.add("active");
+  }
+</script>
+
+</html>

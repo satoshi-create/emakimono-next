@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>スクロールでふわっと出てくるデモ</title>
+  <script src="./intersection-observer.js"></script>
+  <style>
+    .wrapper {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      padding: 0 16px;
+      font-size: 40px;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.8;
+      margin: 0 auto 1.5em;
+    }
+
+    .box {
+      box-sizing: border-box;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+      padding: 16px;
+      margin-bottom: 2em;
+      transition: opacity 1.4s, transform 0.8s;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .box.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <h1>Lorem ipsum</h1>
+    <div class="box show">
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci
+        asperiores consequatur deserunt enim in, inventore neque, nulla,
+        pariatur perferendis placeat soluta ut veniam vero. Consectetur fugit
+        iure necessitatibus nostrum quo. Lorem ipsum dolor sit amet,
+        consectetur adipisicing elit. Alias aspernatur enim, eum illo odit
+        quae rerum unde vero. Consequatur ea in iure minus ratione!
+        Accusantium culpa possimus reprehenderit sapiente velit!
+      </p>
+      <p>
+        Cum eos facere maiores maxime nesciunt, nobis optio quae quo?
+        Assumenda consequuntur illum ipsum itaque laboriosam laborum molestias
+        nam obcaecati voluptas voluptatum.Lorem ipsum dolor sit amet,
+        consectetur adipisicing elit. A aperiam aspernatur commodi culpa cum
+        cumque dolor dolore eos fugit illo ipsa, laboriosam nisi pariatur quas
+        quibusdam quidem sed suscipit veritatis?
+      </p>
+    </div>
+    <div class="box">
+      <p>
+        Ad aliquid assumenda ducimus ea nisi nulla numquam quisquam recusandae
+        sequi! Iusto magni quod voluptatum? Deleniti dolores libero magni
+        nesciunt obcaecati! Lorem ipsum dolor sit amet, consectetur
+        adipisicing elit. Ab accusantium alias aliquid assumenda atque
+        cupiditate debitis dicta dolorem error, fugit inventore ipsum minima
+        mollitia nulla quae saepe unde voluptates voluptatibus? Lorem ipsum
+        dolor sit amet, consectetur adipisicing elit. Amet corporis cupiditate
+        debitis eum nesciunt pariatur recusandae ut voluptatem? Commodi
+        distinctio eius est exercitationem fugit illum laborum voluptatum!
+        Necessitatibus, nisi, perspiciatis.
+      </p>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet
+        assumenda deserunt ea eveniet explicabo facilis id illum in incidunt
+        laudantium magni, necessitatibus nesciunt, optio quas, quidem repellat
+        repudiandae rerum veritatis.
+      </p>
+    </div>
+    <div class="box">
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam aut,
+        corporis deleniti doloremque dolores eligendi explicabo ipsa
+        necessitatibus placeat quasi quo repellat saepe temporibus unde
+        voluptatem. Blanditiis consequatur nesciunt rem.
+      </p>
+      <p>
+        Amet, perspiciatis, quisquam. Architecto beatae labore, laboriosam,
+        nam nulla odit perspiciatis sunt totam ullam vel velit voluptates! Ea
+        id minima provident veniam! Lorem ipsum dolor sit amet, consectetur
+        adipisicing elit. A, accusantium aspernatur cupiditate distinctio
+        doloremque, explicabo illum inventore ipsum itaque maxime recusandae
+        repellendus ullam. Impedit quos, voluptatibus! A aliquam laudantium
+        minima!
+      </p>
+    </div>
+    <div class="box">
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquid,
+        corporis culpa dolore doloribus ducimus eum impedit, inventore iure
+        molestiae obcaecati perferendis quidem quos reiciendis sequi
+        temporibus totam vero voluptatem! Lorem ipsum dolor sit amet,
+        consectetur adipisicing elit. Accusantium assumenda consequatur cum
+        deserunt doloremque, eveniet facere illo molestiae neque nisi optio
+        pariatur placeat porro quos reiciendis repellendus repudiandae tempore
+        temporibus! Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        Asperiores atque exercitationem magnam modi, nam nobis quas qui. A
+        consequuntur exercitationem labore minima officiis quas ratione sed
+        sunt vitae voluptates? Voluptatibus.
+      </p>
+      <p>
+        Accusamus atque debitis, deserunt dolores doloribus eius eum
+        laboriosam laudantium magni molestias nesciunt, odit porro quis quos
+        recusandae saepe tempore veniam, voluptates. Lorem ipsum dolor sit
+        amet, consectetur adipisicing elit. Cumque cupiditate dolorem esse
+        expedita facilis harum modi obcaecati odit quis quod. Aliquid
+        asperiores deserunt esse id natus quasi tempora totam voluptatem?
+      </p>
+    </div>
+  </div>
+  <script>
+    window.addEventListener("scroll", function (e) {
+      console.log(
+        "スクロールイベントが呼ばれました。スクロール量" + e.pageY + "px"
+      );
+    });
+
+    const boxes = document.querySelectorAll(".box");
+    const boxesArray = Array.prototype.slice.call(boxes, 0);
+
+    const options = {
+      root: null,
+      rootMargin: "0px 0px -150px",
+      threshold: 0
+    };
+    const observer = new IntersectionObserver(doWhenIntersect, options);
+    boxesArray.forEach(function (box) {
+      observer.observe(box);
+    });
+
+    /**
+     * 交差したときに呼び出す関数
+     * @param entries
+     */
+    function doWhenIntersect(entries) {
+      const entriesArray = Array.prototype.slice.call(entries, 0);
+      entriesArray.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>
