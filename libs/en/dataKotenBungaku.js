@@ -6,6 +6,7 @@ const dataKotenBungaku = [
     edition: "絵合",
     genjieslug: [{ id: "17", title: "絵合", ruby: "えあわせ", path: "eawase" }],
     author: "",
+    authoren: "",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
     thumb: "/genjibyobu_eawasekocyo_01-1080.webp",
