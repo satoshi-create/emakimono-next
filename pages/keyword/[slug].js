@@ -58,7 +58,6 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async (context) => {
-  console.log(genjieSlugItem(emakisData));
   const keywordslug = context.params.slug;
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
@@ -76,7 +75,6 @@ export const getStaticProps = async (context) => {
   const removeNestedArrayObj = filterdEmakisData.map((item) => {
     return removeNestedEmakisObj(item);
   });
-
 
   return {
     props: {

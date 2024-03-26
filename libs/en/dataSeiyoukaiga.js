@@ -1,9 +1,10 @@
 const dataSeiyoukaiga = [
   {
     id: 33,
-    title: "A series of water lilies",
+    title: "睡蓮 連作",
     titleen: "mone_suiren",
-    author: "claude monet,",
+    author: "モネ",
+    authoren: "claude-monet",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
     thumb: "/mone_suiren_thumb.webp",
@@ -200,9 +201,10 @@ const dataSeiyoukaiga = [
   },
   {
     id: 33,
-    title: "Beethoven Freeze",
+    title: "ベートーヴェン・フリーズ",
     titleen: "beethoven_freeze",
-    author: "Gustav Klimt",
+    author: "クリムト",
+    authoren: "gustav-klimt",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
     thumb: "/beethoven_freeze_thumb.webp",
@@ -222,9 +224,10 @@ const dataSeiyoukaiga = [
       {
         cat: "ekotoba",
         chapter: "左壁",
-        kobun: "",
-        gendaibun:
+        kobun:
           "the yearning for happiness; the sufferings of weak mankind; their petition to the well-armed strong one, to take up the struggle for happiness, impelled by motives of compassion and ambition.",
+        gendaibun:
+          "幸福への憧れ、<br><br>弱い人間の苦しみ、<br><br>よく武装した強い者への嘆願、<br><br>同情と野心の動機に突き動かされて幸福のための闘いに挑むこと。<br><br>",
         phrase: [{}],
       },
       {
@@ -289,9 +292,10 @@ const dataSeiyoukaiga = [
   },
   {
     id: 36,
-    title: "The Scrovegni Chapel Decorative Paintings",
+    title: "スクロヴェーニ礼拝堂 装飾画",
     titleen: "scrovegni",
-    author: "giotto di Bondone",
+    author: "ジョット",
+    authoren: "giotto-di-bondone",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
     thumb: "/scrovegni_thumb.webp",
@@ -926,9 +930,10 @@ const dataSeiyoukaiga = [
   },
   {
     id: 39,
-    title: "decorative painting of Brancacci Chapel",
+    title: "ブランカッチ礼拝堂 装飾画",
     titleen: "brancacci",
-    author: "masaccio",
+    author: "マザッチョ",
+    authoren: "masaccio",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
     thumb: "/brancacci_thumb.webp",
@@ -954,7 +959,7 @@ const dataSeiyoukaiga = [
       },
       {
         cat: "ekotoba",
-        chapter: "　楽園追放",
+        chapter: "楽園追放",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
@@ -969,7 +974,7 @@ const dataSeiyoukaiga = [
       },
       {
         cat: "ekotoba",
-        chapter: "　貢の銭",
+        chapter: "貢の銭",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
@@ -984,7 +989,7 @@ const dataSeiyoukaiga = [
       },
       {
         cat: "ekotoba",
-        chapter: "　聖ペテロの説教",
+        chapter: "聖ペテロの説教",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
@@ -1006,7 +1011,7 @@ const dataSeiyoukaiga = [
       },
       {
         cat: "ekotoba",
-        chapter: "　洗礼を与える聖ペテロ",
+        chapter: "洗礼を与える聖ペテロ",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
@@ -1021,7 +1026,7 @@ const dataSeiyoukaiga = [
       },
       {
         cat: "ekotoba",
-        chapter: "　障碍者を癒す聖ペテロ<br>　タビタの復活",
+        chapter: "障碍者を癒す聖ペテロ<br>タビタの復活",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
@@ -1036,7 +1041,7 @@ const dataSeiyoukaiga = [
       },
       {
         cat: "ekotoba",
-        chapter: "　原罪",
+        chapter: "原罪",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
@@ -1058,7 +1063,7 @@ const dataSeiyoukaiga = [
       },
       {
         cat: "ekotoba",
-        chapter: "　聖ピエトロ刑務所を訪問する聖パウロ",
+        chapter: "聖ピエトロ刑務所を訪問する聖パウロ",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
@@ -1073,7 +1078,7 @@ const dataSeiyoukaiga = [
       },
       {
         cat: "ekotoba",
-        chapter: "　テオフィロスの息子を復活させる聖ペテロ<br>　聖ペテロ崇拝",
+        chapter: "テオフィロスの息子を復活させる聖ペテロ<br>聖ペテロ崇拝",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
@@ -1088,7 +1093,7 @@ const dataSeiyoukaiga = [
       },
       {
         cat: "ekotoba",
-        chapter: "　影で病人を癒す聖ペテロ",
+        chapter: "影で病人を癒す聖ペテロ",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
@@ -1110,7 +1115,7 @@ const dataSeiyoukaiga = [
       },
       {
         cat: "ekotoba",
-        chapter: "　アナニヤの死",
+        chapter: "アナニヤの死",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
@@ -1125,7 +1130,7 @@ const dataSeiyoukaiga = [
       },
       {
         cat: "ekotoba",
-        chapter: "　聖ペトロの磔刑<br>　ネロと論争する聖ペトロとシモン",
+        chapter: "聖ペトロの磔刑<br>ネロと論争する聖ペトロとシモン",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
@@ -1140,7 +1145,7 @@ const dataSeiyoukaiga = [
       },
       {
         cat: "ekotoba",
-        chapter: "　聖ペテロの解放",
+        chapter: "聖ペテロの解放",
         kobun: "",
         gendaibun: "",
         phrase: [{}],
