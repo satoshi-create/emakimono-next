@@ -81,6 +81,7 @@
   grid-column: 2;
   grid-row: 3;
   padding: 3rem;
+  overflow-y: scroll;
 }
 
 /* 目次 */
