@@ -1,9 +1,10 @@
 const dataSuibokuga = [
   {
     id: 37,
-    title: "Landscapes of the Four Seasons",
+    title: "四季山水図巻（山水長巻）",
     titleen: "sessyu_sikisansuizu",
-    author: "sessyu",
+    author: "雪舟",
+    authoren: "sesshu",
     backgroundImage: "/washi-pattern-01.webp",
     video: "",
     thumb: "/sessyu_sikisansuizu_thumb.webp",
@@ -127,4 +128,4 @@ const dataSuibokuga = [
   },
 ];
 
-export default dataSuibokuga
+export default dataSuibokuga;
