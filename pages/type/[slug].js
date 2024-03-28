@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import allCats from "../../libs/category";
-import emakisData from "../../libs/data";
 import Header from "../../components/Header";
 import Head from "../../components/Meta";
 import CardA from "../../components/CardA";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { useRouter } from "next/router";
-import { removeNestedEmakisObj } from "../../libs/func";
+import { removeNestedEmakisObj, typeItem } from "../../libs/func";
 import Footer from "../../components/Footer";
 import enData from "../../libs/en/data";
 import jaData from "../../libs/data";
-
 
 const Type = ({ name, nameen, posts, slug }) => {
   const { locale } = useRouter();
@@ -22,7 +19,7 @@ const Type = ({ name, nameen, posts, slug }) => {
   return (
     <>
       <Head pagetitle={locale === "en" ? nameen : name} pageDesc={tPageDesc} />
-      <Header slug={`category/${slug}`} />
+      <Header />
       <Breadcrumbs name={locale === "en" ? nameen : name} />
       <CardA
         emakis={posts}
@@ -38,10 +35,13 @@ const Type = ({ name, nameen, posts, slug }) => {
 
 export default Type;
 
-export const getStaticPaths = async () => {
-  const paths = allCats.map(({ slug }) => ({
+export const getStaticPaths = async (context) => {
+  const { locale, locales } = context;
+  const tEmakisData = locale === "en" ? enData : jaData;
+
+  const paths = typeItem(tEmakisData).map(({ typeen }) => ({
     params: {
-      slug: slug,
+      slug: typeen,
     },
     locale: "ja",
   }));
@@ -57,20 +57,20 @@ export const getStaticProps = async (context) => {
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
 
-  const cat = allCats.find(({ slug }) => slug === catslug);
-  const filterdEmakisData = tEmakisData.filter(
+  const typeObj = typeItem(tEmakisData).find(({ typeen }) => typeen === catslug);
+
+  const removeNestedArrayObj = tEmakisData.map((item) => {
+    return removeNestedEmakisObj(item);
+  });
+  const filterdEmakisData = removeNestedArrayObj.filter(
     (item) => item.typeen === catslug
   );
 
-  const removeNestedArrayObj = filterdEmakisData.map((item) => {
-    return removeNestedEmakisObj(item);
-  });
-
   return {
     props: {
-      name: cat.name,
-      nameen: cat.nameen,
-      posts: removeNestedArrayObj,
+      name: typeObj.type,
+      nameen: typeObj.typeen,
+      posts: filterdEmakisData,
       slug: catslug,
     },
   };

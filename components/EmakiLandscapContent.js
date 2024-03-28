@@ -67,7 +67,7 @@ const EmakiLandscapContent = ({
                     <span
                       onClick={() => handleToId(index)}
                       className={styles.chapterlink}
-                      style={{ color: eraColor(era) }}
+                      style={{ color: eraColor(era) ? "white" : "black" }}
                       dangerouslySetInnerHTML={{ __html: chapter }}
                     ></span>
                   </li>

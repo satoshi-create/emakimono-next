@@ -127,9 +127,6 @@
   transition: var(--transition);
   cursor: pointer;
 }
-.cat > .era {
-  color: white;
-}
 .cat > *:hover {
   opacity: 0.5;
 }
