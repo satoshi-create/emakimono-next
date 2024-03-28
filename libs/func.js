@@ -44,23 +44,11 @@ const eraColor = (x) => {
       break;
   }
 };
-
+// getStaticPaths用の配列をつくる
 const convert = (arr) => {
   const res = {};
   arr.forEach((obj) => {
     const key = `${obj.name}`;
-    if (!res[key]) {
-      res[key] = { ...obj, total: 0 };
-    }
-    res[key].total += 1;
-  });
-  return Object.values(res);
-};
-
-const convertGenjiSlug = (arr) => {
-  const res = {};
-  arr.forEach((obj) => {
-    const key = `${obj.title}`;
     if (!res[key]) {
       res[key] = { ...obj, total: 0 };
     }
@@ -74,6 +62,30 @@ const keywordItem = (arr) =>
     (a, b) => (a.total > b.total ? -1 : 1)
   );
 
+const convertGenjiSlug = (arr) => {
+  const res = {};
+  arr.forEach((obj) => {
+    const key = `${obj.title}`;
+    if (!res[key]) {
+      res[key] = { ...obj, total: 0 };
+    }
+    res[key].total += 1;
+  });
+  return Object.values(res);
+};
+
+const convertAuthor = (arr) => {
+  const res = {};
+  arr.forEach((obj) => {
+    const key = `${obj.authoren}`;
+    if (!res[key]) {
+      res[key] = { ...obj, total: 0 };
+    }
+    res[key].total += 1;
+  });
+  return Object.values(res);
+};
+
 const genjieSlugItem = (arr) =>
   convertGenjiSlug(
     arr.flatMap((item) => item.genjieslug).filter((item) => item)
@@ -83,6 +95,17 @@ const personnameItem = (arr) =>
   convert(arr.flatMap((item) => item.personname).filter((item) => item)).sort(
     (a, b) => (a.total > b.total ? -1 : 1)
   );
+
+const authorItem = (arr) =>
+  convertAuthor(arr)
+    .filter((item) => item.author !== "")
+    .map((item) => {
+      return {
+        author: item.author,
+        authoren: item.authoren,
+        total: item.total,
+      };
+    });
 
 // ネストしているObjectを削除して新しいObjectを作成する;
 // https://hi97.hamazo.tv/e8537787.html
@@ -125,4 +148,6 @@ export {
   removeNestedObj,
   removeNestedEmakisObj,
   genjieSlugItem,
+  convertAuthor,
+  authorItem,
 };

@@ -28,6 +28,7 @@ const EmakiLandscapContent = ({
     title,
     edition,
     author,
+    authoren,
     desc,
     sourceImage,
     sourceImageUrl,
@@ -80,11 +81,13 @@ const EmakiLandscapContent = ({
               <h3 className={styles.title}>
                 {title} {edition}
               </h3>
-              <h4 className={styles.author}>
-                {author
-                  ? author
-                  : `${locale == "en" ? "artist unknown" : "絵師不詳"}`}
-              </h4>
+              {author && (
+                <Link href={`/author/${authoren}`}>
+                  <a className={styles.authorLink}>
+                    <h4 className={styles.author}>{author}</h4>
+                  </a>
+                </Link>
+              )}
               {genjieslug && (
                 <div className={`${styles.genjieslugBox}`}>
                   <Link href={`/genjie/chaptersgenjilist`}>
@@ -106,32 +109,6 @@ const EmakiLandscapContent = ({
                 className={styles.desc}
                 dangerouslySetInnerHTML={{ __html: desc ? desc : descTemp }}
               ></div>
-              {/* {genjieslug && (
-                <div className={`${styles.genjieslugBox}`}>
-                  <Link href={`/genjie/chaptersgenjilist`}>
-                    <a>
-                      <p className={styles.genjieslugTitle}>
-                        {">"} 源氏物語54帖一覧を見る
-                      </p>
-                    </a>
-                  </Link>
-                </div>
-              )} */}
-              {/* {genjieslug && (
-                <div className={`${styles.genjieslugBox}`}>
-                  {genjieslug.map((item, i) => {
-                    return (
-                      <Link href={`/genjie/${item.path}`} key={i}>
-                        <a>
-                          <h4 className={styles.genjieslugTitle}>
-                            {item.title}
-                          </h4>
-                        </a>
-                      </Link>
-                    );
-                  })}
-                </div>
-              )} */}
               {personname && (
                 <div className={styles.tags}>
                   {personname?.map((item, index) => {
