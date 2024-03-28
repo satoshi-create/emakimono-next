@@ -12,7 +12,7 @@ import enData from "../../libs/en/data";
 import jaData from "../../libs/data";
 
 
-const Emaki = ({ name, nameen, posts, slug }) => {
+const Type = ({ name, nameen, posts, slug }) => {
   const { locale } = useRouter();
   const tPageDesc =
     locale === "en"
@@ -36,7 +36,7 @@ const Emaki = ({ name, nameen, posts, slug }) => {
   );
 };
 
-export default Emaki;
+export default Type;
 
 export const getStaticPaths = async () => {
   const paths = allCats.map(({ slug }) => ({

@@ -85,7 +85,7 @@ const CardA = ({
                 </div>
                 <div className={styles.footer}>
                   <div className={styles.cat}>
-                    <Link href={`/category/${typeen}`}>
+                    <Link href={`/type/${typeen}`}>
                       <a className={styles.type}>
                         {locale === "en" ? typeen : type}
                       </a>
