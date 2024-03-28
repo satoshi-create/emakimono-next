@@ -1,4 +1,3 @@
-import allEras from "../../libs/era";
 import emakisData from "../../libs/data";
 import Header from "../../components/Header";
 import Head from "../../components/Meta";
@@ -8,7 +7,7 @@ import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
 import enData from "../../libs/en/data";
 import jaData from "../../libs/data";
-import { removeNestedEmakisObj } from "../../libs/func";
+import { removeNestedEmakisObj, eraItem } from "../../libs/func";
 
 const Emaki = ({ name, nameen, posts, slug }) => {
   const { locale } = useRouter();
@@ -39,10 +38,12 @@ const Emaki = ({ name, nameen, posts, slug }) => {
 
 export default Emaki;
 
-export const getStaticPaths = async () => {
-  const paths = allEras.map(({ slug }) => ({
+export const getStaticPaths = async (context) => {
+  const { locale, locales } = context;
+  const tEmakisData = locale === "en" ? enData : jaData;
+  const paths = eraItem(tEmakisData).map(({ eraen }) => ({
     params: {
-      slug: slug,
+      slug: eraen,
     },
     locale: "ja",
   }));
@@ -58,20 +59,20 @@ export const getStaticProps = async (context) => {
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
 
-  const cat = allEras.find(({ slug }) => slug === eraslug);
-  const filterdEmakisData = tEmakisData.filter(
-    (item) => item.eraen === eraslug
-  );
-  const removeNestedArrayObj = filterdEmakisData.map((item) => {
+  console.log(eraItem(tEmakisData));
+  const eraObj = eraItem(tEmakisData).find(({ eraen }) => eraen === eraslug);
+  const removeNestedArrayObj = tEmakisData.map((item) => {
     return removeNestedEmakisObj(item);
   });
-
+  const filterdEmakisData = removeNestedArrayObj.filter(
+    (item) => item.eraen === eraslug
+  );
 
   return {
     props: {
-      name: cat.name,
-      nameen: cat.nameen,
-      posts: removeNestedArrayObj,
+      name: eraObj.era,
+      nameen: eraObj.eraen,
+      posts: filterdEmakisData,
       slug: eraslug,
     },
   };
