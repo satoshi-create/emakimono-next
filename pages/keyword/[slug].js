@@ -44,7 +44,6 @@ const Emaki = ({ name, posts, nameen, slug }) => {
 };
 
 export const getStaticPaths = async () => {
-  console.log(keywordItem(emakisData, "name"));
   const paths = keywordItem(emakisData).map(({ slug }) => ({
     params: {
       slug: slug,

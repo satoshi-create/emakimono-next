@@ -34,8 +34,10 @@ const Author = ({ name, nameen, posts, slug }) => {
   );
 };
 
-export const getStaticPaths = async () => {
-  const paths = authorItem(emakisData).map(({ authoren }) => ({
+export const getStaticPaths = async (context) => {
+  const { locale, locales } = context;
+  const tEmakisData = locale === "en" ? enData : jaData;
+  const paths = authorItem(tEmakisData).map(({ authoren }) => ({
     params: {
       slug: authoren,
     },
@@ -52,7 +54,6 @@ export const getStaticProps = async (context) => {
   const authorslug = context.params.slug;
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
-  console.log(authorItem(tEmakisData));
   const authorObj = authorItem(tEmakisData).find(
     ({ authoren }) => authoren === authorslug
   );
