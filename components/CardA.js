@@ -96,6 +96,7 @@ const CardA = ({
                         style={{
                           border: eraColor(era),
                           backgroundColor: eraColor(era),
+                          color: eraColor(era) ? "white" : "black",
                         }}
                       >
                         {locale === "en" ? `${eraen} period` : `${era}時代`}
