@@ -143,7 +143,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
           <EmakiBreadcrumbs
             orientation={orientation}
             nameA={locale === "en" ? data.typeen : data.type}
-            nameAen={`category/${data.typeen}`}
+            nameAen={`type/${data.typeen}`}
             nameB={locale === "en" ? data.titleen : data.title}
           />
           <EmakiPortraitContent
@@ -161,7 +161,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
           <EmakiHeader />
           <EmakiBreadcrumbs
             nameA={locale === "en" ? data.typeen : data.type}
-            nameAen={`category/${data.typeen}`}
+            nameAen={`type/${data.typeen}`}
             nameB={locale === "en" ? data.titleen : data.title}
           />
           <EmakiLandscapContent
