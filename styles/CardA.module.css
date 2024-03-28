@@ -92,6 +92,12 @@
   font-family: var(--title-font2);
   text-transform: capitalize;
 }
+.authorLink {
+  transition: var(--transition);
+}
+.authorLink:hover {
+  opacity: 0.6;
+}
 .author {
   font-weight: 600;
   font-size: 0.9rem;

@@ -43,6 +43,7 @@ const CardA = ({
             thumb,
             edition,
             author,
+            authoren,
             era,
             eraen,
             desc,
@@ -106,7 +107,13 @@ const CardA = ({
                   <h3 className={styles.title}>
                     {title}　{edition}
                   </h3>
-                  {author && <h4 className={styles.author}>{author}</h4>}
+                  {author && (
+                    <Link href={`/author/${authoren}`}>
+                      <a className={styles.authorLink}>
+                        <h4 className={styles.author}>{author}</h4>
+                      </a>
+                    </Link>
+                  )}
                   {needdesc && (
                     <div className={styles.desc}>
                       {desc ? `${filterDesc}...` : descTemp}
