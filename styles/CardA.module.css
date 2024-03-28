@@ -79,9 +79,6 @@
   transition: var(--transition);
   cursor: pointer;
 }
-.cat > .era {
-  color: white;
-}
 .cat > .type:hover,
 .cat > div:hover,
 .cat > .era:hover {

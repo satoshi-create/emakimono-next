@@ -134,10 +134,10 @@ const eraItem = (arr) =>
     });
 
 // category
-const convertCategory = (arr) => {
+const convertType= (arr) => {
   const res = {};
   arr.forEach((obj) => {
-    const key = `${obj.eraen}`;
+    const key = `${obj.typeen}`;
     if (!res[key]) {
       res[key] = { ...obj, total: 0 };
     }
@@ -146,11 +146,11 @@ const convertCategory = (arr) => {
   return Object.values(res);
 };
 
-const categoryItem = (arr) =>
-  convertEra(arr)
-    .filter((item) => item.eraen !== "")
+const typeItem = (arr) =>
+  convertType(arr)
+    .filter((item) => item.typeen !== "")
     .map((item) => {
-      return { era: item.era, eraen: item.eraen, total: item.total };
+      return { type: item.type, typeen: item.typeen, total: item.total };
     });
 
 
@@ -197,5 +197,6 @@ export {
   genjieSlugItem,
   convertAuthor,
   authorItem,
-  eraItem
+  eraItem,
+  typeItem,
 };
