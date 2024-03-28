@@ -51,6 +51,7 @@ const eraColor = (x) => {
 
 ================ */
 
+// キーワード
 const convert = (arr) => {
   const res = {};
   arr.forEach((obj) => {
@@ -68,22 +69,17 @@ const keywordItem = (arr) =>
     (a, b) => (a.total > b.total ? -1 : 1)
   );
 
+// 登場人物名
+const personnameItem = (arr) =>
+  convert(arr.flatMap((item) => item.personname).filter((item) => item)).sort(
+    (a, b) => (a.total > b.total ? -1 : 1)
+  );
+
+// 源氏絵
 const convertGenjiSlug = (arr) => {
   const res = {};
   arr.forEach((obj) => {
     const key = `${obj.title}`;
-    if (!res[key]) {
-      res[key] = { ...obj, total: 0 };
-    }
-    res[key].total += 1;
-  });
-  return Object.values(res);
-};
-
-const convertAuthor = (arr) => {
-  const res = {};
-  arr.forEach((obj) => {
-    const key = `${obj.authoren}`;
     if (!res[key]) {
       res[key] = { ...obj, total: 0 };
     }
@@ -97,10 +93,18 @@ const genjieSlugItem = (arr) =>
     arr.flatMap((item) => item.genjieslug).filter((item) => item)
   ).sort((a, b) => (b.id > a.id ? -1 : 1));
 
-const personnameItem = (arr) =>
-  convert(arr.flatMap((item) => item.personname).filter((item) => item)).sort(
-    (a, b) => (a.total > b.total ? -1 : 1)
-  );
+// 絵師名
+const convertAuthor = (arr) => {
+  const res = {};
+  arr.forEach((obj) => {
+    const key = `${obj.authoren}`;
+    if (!res[key]) {
+      res[key] = { ...obj, total: 0 };
+    }
+    res[key].total += 1;
+  });
+  return Object.values(res);
+};
 
 const authorItem = (arr) =>
   convertAuthor(arr)
@@ -113,7 +117,7 @@ const authorItem = (arr) =>
       };
     });
 
-// era
+// 時代区分
 const convertEra = (arr) => {
   const res = {};
   arr.forEach((obj) => {
@@ -133,8 +137,8 @@ const eraItem = (arr) =>
       return { era: item.era, eraen: item.eraen, total: item.total };
     });
 
-// category
-const convertType= (arr) => {
+// タイプ
+const convertType = (arr) => {
   const res = {};
   arr.forEach((obj) => {
     const key = `${obj.typeen}`;
@@ -153,24 +157,11 @@ const typeItem = (arr) =>
       return { type: item.type, typeen: item.typeen, total: item.total };
     });
 
+/* ================
 
-// ネストしているObjectを削除して新しいObjectを作成する;
-// https://hi97.hamazo.tv/e8537787.html
-const removeNestedObj = (obj) =>
-  Object.entries(obj).reduce(
-    (acc, [key, val]) => {
-      // value の型が object であった時は Object に新しい値を加えずに返す
-      if ("object" === typeof val) {
-        return acc;
-      }
-      acc[key] = val;
-      return acc;
-    },
-    // 初期値：空のオブジェクト
-    {}
-  );
+ネストしている「絵巻オブジェクト」を削除して新しいObjectを作成する;
 
-//  ネストしている「絵巻オブジェクト」を削除して新しいObjectを作成する;
+================ */
 const removeNestedEmakisObj = (obj) =>
   Object.entries(obj).reduce(
     (acc, [key, val]) => {
@@ -185,6 +176,22 @@ const removeNestedEmakisObj = (obj) =>
     {}
   );
 
+// ネストしているObjectを削除して新しいObjectを作成する;
+// https://hi97.hamazo.tv/e8537787.html
+// const removeNestedObj = (obj) =>
+//   Object.entries(obj).reduce(
+//     (acc, [key, val]) => {
+//       // value の型が object であった時は Object に新しい値を加えずに返す
+//       if ("object" === typeof val) {
+//         return acc;
+//       }
+//       acc[key] = val;
+//       return acc;
+//     },
+//     // 初期値：空のオブジェクト
+//     {}
+//   );
+
 export {
   eraColor,
   keywordItem,
@@ -192,7 +199,7 @@ export {
   useLocale,
   useLocaleMeta,
   useLocaleData,
-  removeNestedObj,
+  // removeNestedObj,
   removeNestedEmakisObj,
   genjieSlugItem,
   convertAuthor,
