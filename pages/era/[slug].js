@@ -1,4 +1,3 @@
-import emakisData from "../../libs/data";
 import Header from "../../components/Header";
 import Head from "../../components/Meta";
 import CardA from "../../components/CardA";
@@ -59,7 +58,6 @@ export const getStaticProps = async (context) => {
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
 
-  console.log(eraItem(tEmakisData));
   const eraObj = eraItem(tEmakisData).find(({ eraen }) => eraen === eraslug);
   const removeNestedArrayObj = tEmakisData.map((item) => {
     return removeNestedEmakisObj(item);
