@@ -20,6 +20,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     title,
     edition,
     author,
+    authoren,
     desc,
     emakis,
     sourceImage,
@@ -50,11 +51,13 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             <h3 className={styles.title}>
               {title} {edition}
             </h3>
-            <h4 className={styles.author}>
-              {author
-                ? author
-                : `${locale == "en" ? "artist unknown" : "絵師不詳"}`}
-            </h4>
+            {author && (
+              <Link href={`/author/${authoren}`}>
+                <a className={styles.authorLink}>
+                  <h4 className={styles.author}>{author}</h4>
+                </a>
+              </Link>
+            )}
             <button
               type="button"
               value="Lock Landscape"
