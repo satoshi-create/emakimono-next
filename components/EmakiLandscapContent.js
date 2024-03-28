@@ -163,7 +163,7 @@ const EmakiLandscapContent = ({
                     {locale === "en" ? `${eraen} period` : `${era}`}
                   </a>
                 </Link>
-                <Link href={`/category/${typeen}`} className={styles.type}>
+                <Link href={`/type/${typeen}`} className={styles.type}>
                   <a>{locale === "en" ? typeen : type}</a>
                 </Link>
               </div>

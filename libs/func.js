@@ -133,8 +133,27 @@ const eraItem = (arr) =>
       return { era: item.era, eraen: item.eraen, total: item.total };
     });
 
+// category
+const convertCategory = (arr) => {
+  const res = {};
+  arr.forEach((obj) => {
+    const key = `${obj.eraen}`;
+    if (!res[key]) {
+      res[key] = { ...obj, total: 0 };
+    }
+    res[key].total += 1;
+  });
+  return Object.values(res);
+};
 
-    
+const categoryItem = (arr) =>
+  convertEra(arr)
+    .filter((item) => item.eraen !== "")
+    .map((item) => {
+      return { era: item.era, eraen: item.eraen, total: item.total };
+    });
+
+
 // ネストしているObjectを削除して新しいObjectを作成する;
 // https://hi97.hamazo.tv/e8537787.html
 const removeNestedObj = (obj) =>
