@@ -141,7 +141,8 @@
   grid-column: 1;
 }
 .authorLink {
-  text-transform: capitalize;
+  grid-row: 2;
+  grid-column: 1;
   cursor: pointer;
   transition: var(--transition);
 }
@@ -153,9 +154,7 @@
   font-size: medium;
   color: var(--clr-black);
   font-family: var(--title-font2);
-
-  grid-row: 2;
-  grid-column: 1;
+  text-transform: capitalize;
 }
 
 .metadataB {

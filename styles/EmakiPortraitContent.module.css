@@ -68,14 +68,21 @@
   grid-row: 1;
   grid-column: 1;
 }
+.authorLink {
+  cursor: pointer;
+  grid-row: 2;
+  grid-column: 1;
+  transition: var(--transition);
+}
+.authorLink:hover {
+  opacity: 0.6;
+}
 .author {
   font-weight: 400;
   font-size: 0.9rem;
   color: var(--clr-black);
   font-family: var(--title-font2);
   text-transform: capitalize;
-  grid-row: 2;
-  grid-column: 1;
 }
 .linkedbutton {
   grid-row: span 2;
