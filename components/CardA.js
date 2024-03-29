@@ -35,7 +35,7 @@ const CardA = ({
     >
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
-      <section className={styles.conteiner}>
+      <div className={`${styles.conteiner} ${styles[columns]}`}>
         {emakis.map((item, index) => {
           const {
             titleen,
@@ -59,14 +59,13 @@ const CardA = ({
           }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
 
           return (
-            <div
-              className={`${styles.cardContainer} ${styles[columns]}`}
-              key={index}
-            >
-              <h4 className={styles.subtype} id="alart" value="test">
-                {sectiontitle === "さまざまな絵巻" && `${subtype}絵巻`}
-                {sectiontitle === "横スクロールで楽しむワイド美術" && type}
-              </h4>
+            <div key={index}>
+              {sectiontitle === "さまざまな絵巻" && (
+                <h4 className={styles.subtype} id="alart" value="test">
+                  {sectiontitle === "さまざまな絵巻" && `${subtype}絵巻`}
+                  {sectiontitle === "横スクロールで楽しむワイド美術" && type}
+                </h4>
+              )}
               <div className={styles.card}>
                 <div className={styles.single}>
                   <Link href={`/${titleen}`}>
@@ -107,12 +106,14 @@ const CardA = ({
                   <h3 className={styles.title}>
                     {title}　{edition}
                   </h3>
-                  {author && (
+                  {author ? (
                     <Link href={`/author/${authoren}`}>
                       <a className={styles.authorLink}>
                         <h4 className={styles.author}>{author}</h4>
                       </a>
                     </Link>
+                  ) : (
+                    <br />
                   )}
                   {needdesc && (
                     <div className={styles.desc}>
@@ -149,18 +150,18 @@ const CardA = ({
             </div>
           );
         })}
-        {linktitle && (
-          <Button
-            title={
-              locale === "en"
-                ? `View a list of ${linktitleen} !!`
-                : `${linktitle}一覧を見る`
-            }
-            path={linkpath}
-            style={columns}
-          />
-        )}
-      </section>
+      </div>
+      {linktitle && (
+        <Button
+          title={
+            locale === "en"
+              ? `View a list of ${linktitleen} !!`
+              : `${linktitle}一覧を見る`
+          }
+          path={linkpath}
+          style={columns}
+        />
+      )}
     </section>
   );
 };
