@@ -41,7 +41,6 @@ const ToggleEkotoba = ({ data }) => {
     setekotobaToggle(false);
   };
   
-  console.log(ekotobaToggle);
   return (
     <button
       className={styled.button}

@@ -82,17 +82,15 @@ const Emaki = ({ data, locale, locales, slug }) => {
         screen.orientation.unlock();
       }
     };
-  }, []);
-
-  console.log(navIndex);
+  }, [setToggleFullscreen]);
 
   useEffect(() => {
-    //https: qiita.com/7280ayubihs/items/0d359c3a3b5bc8a4b6fd
+    // https: qiita.com/7280ayubihs/items/0d359c3a3b5bc8a4b6fd
     // 画面遷移した際に、スクロール位置をリセット
     window.scrollTo({ top: 0, behavior: "instant" });
     setnavIndex(0);
     setHash(0);
-  }, [setnavIndex, setHash]);
+  }, [setnavIndex, setHash]) ;
 
   // const matchMediaContainer = (ori) => {
   //   switch (ori) {
