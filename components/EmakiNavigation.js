@@ -16,6 +16,7 @@ import { AppContext } from "../pages/_app";
 
 // TODO: 横スクロールで最後まで進み、「先頭に戻る」を押しても反応がない
 // ⇒navIndexが0になっている
+// TODO : アイコンホバー時のtitleを追加・修正する
 const EmakiNavigation = ({
   handleToId,
   data,
