@@ -97,11 +97,9 @@ function MyApp({ Component, pageProps, router }) {
           // const newPath = `${pathAndSlug}#5`;
           // window.location.replace(newPath);
           // console.log(newPath);
-          console.log(hash);
-          if (hash) {
-            setnavIndex(hash);
-          }
-          console.log(navIndex);
+          // if (hash) {
+          //   setnavIndex(hash);
+          // }
         })
         .catch((error) => {
           console.log(`Error lock orientation ${error}`);
@@ -109,20 +107,28 @@ function MyApp({ Component, pageProps, router }) {
           // const pathAndSlug = router.asPath.split("#")[0];
           // const newPath = `${pathAndSlug}#5`;
           // window.location.replace(newPath);
-          console.log(hash);
-          if (hash) {
-            setnavIndex(hash);
-          }
-          console.log(navIndex);
+          // if (hash) {
+          //   setnavIndex(hash);
+          // }
         });
     } else {
-      document.exitFullscreen();
-      setToggleFullscreen(false);
-      // / 要素を横向きに固定（モバイルデバイスで、ブラウザーがフルスクリーン表示になっているときのみ有効）
-      screen.orientation.unlock();
-      console.log(`exit fullscreen`);
+      // Document: exitFullscreen() メソッド
+      // https://developer.mozilla.org/ja/docs/Web/API/Document/exitFullscreen
+      if (document.fullscreenElement) {
+        document.exitFullscreen().then(() => {
+          setToggleFullscreen(false);
+          console.log(`exit fullscreen`);
+        });
+      }
+      // setToggleFullscreen(false);
+      // // / 要素を横向きに固定（モバイルデバイスで、ブラウザーがフルスクリーン表示になっているときのみ有効）
+      // screen.orientation.unlock();
+      // setnavIndex(10);
+      // console.log(`exit fullscreen`);
+      // console.log(navIndex);
     }
   };
+
   //   else {
   //     screen.orientation.unlock();
 
