@@ -16,6 +16,7 @@ const EmakiImage = ({
     scroll,
     selectedRef,
     navIndex,
+    character,
   },
 }) => {
   const { scrollDialog } = useContext(AppContext);
@@ -27,6 +28,11 @@ const EmakiImage = ({
       // ref={navIndex === index ? selectedRef : null}
       ref={navIndex === index ? scrollDialog : null}
     >
+      {character && (
+        <div className={styles.characterBox}>
+          <div className={styles.genji}>源氏</div>
+        </div>
+      )}
       <ResposiveImage
         value={{
           srcSp,
