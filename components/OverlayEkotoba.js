@@ -81,6 +81,7 @@ const OverlayEkotoba = ({
           }}
         />
       </div>
+
       {src && (
         <div className={styles.ekotobaimagebox}>
           <ResposiveImage
