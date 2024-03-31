@@ -66,7 +66,7 @@ function MyApp({ Component, pageProps, router }) {
     console.log(ekotobaImageToggle);
   };
 
-  // TODO: モバイルデバイスから訪問時、絵巻ページからホームページに戻るときにfullscreenをfalseにする
+  // TODO: Edgeでフルスクリーン開閉時にスムーズスクロールが効かない不具合を修正する
   const handleFullScreen = (orientation) => {
     setToggleBtn(false);
 
@@ -88,8 +88,8 @@ function MyApp({ Component, pageProps, router }) {
       de.requestFullscreen()
         .then(() => {
           console.log("enter fullscreen");
+          console.log(navIndex);
           setToggleFullscreen(true);
-          console.log(ekotobaImageToggle);
         })
         .catch((err) => {
           console.log(`Error attempting to enable fullscreen mode ${err})`);
@@ -125,6 +125,7 @@ function MyApp({ Component, pageProps, router }) {
         document.exitFullscreen().then(() => {
           setToggleFullscreen(false);
           console.log(`exit fullscreen`);
+          console.log(navIndex);
         });
       }
       // setToggleFullscreen(false);
