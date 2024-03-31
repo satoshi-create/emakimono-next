@@ -750,7 +750,7 @@ const dataEmakis = [
       { name: "年中行事", id: "annualevent", slug: "annualevent" },
     ],
     kotobagaki: false,
-    favorite: true,
+    favorite: false,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-1530?locale=ja",
     sourceImage: "鳥獣人戯画絵巻 摸本（ColBase）",
@@ -5851,6 +5851,7 @@ const dataEmakis = [
     typeen: "emaki",
     keyword: [],
     kotobagaki: true,
+    favorite: true,
     sourceImageUrl: "https://dl.ndl.go.jp/pid/1685003",
     sourceImage: "源氏物語絵巻（徳川美術館 国立国会図書館）ほか",
     sourceEkotoba: "",
