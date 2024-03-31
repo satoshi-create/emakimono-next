@@ -60,6 +60,12 @@ function MyApp({ Component, pageProps, router }) {
     setisModalOpen(false);
   };
 
+  const handleEkotobaImageToggle = () => {
+    setEkotobaImageToggle(!ekotobaImageToggle);
+    setekotobaToggle(false);
+    console.log(ekotobaImageToggle);
+  };
+
   // TODO: モバイルデバイスから訪問時、絵巻ページからホームページに戻るときにfullscreenをfalseにする
   const handleFullScreen = (orientation) => {
     setToggleBtn(false);
@@ -83,6 +89,7 @@ function MyApp({ Component, pageProps, router }) {
         .then(() => {
           console.log("enter fullscreen");
           setToggleFullscreen(true);
+          console.log(ekotobaImageToggle);
         })
         .catch((err) => {
           console.log(`Error attempting to enable fullscreen mode ${err})`);
@@ -247,6 +254,7 @@ function MyApp({ Component, pageProps, router }) {
         orientation,
         setOrientation,
         handleToId,
+        handleEkotobaImageToggle,
       }}
     >
       <Script

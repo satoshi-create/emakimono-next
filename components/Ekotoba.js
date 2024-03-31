@@ -53,10 +53,10 @@ const Ekotoba = ({
     setEkotobabody(gendaibun);
   }, [setEkotobabody, gendaibun]);
 
-  useEffect(() => {
-    setEkotobaImageToggle(true);
-    setekotobaToggle(true);
-  }, [setEkotobaImageToggle, setekotobaToggle]);
+  // useEffect(() => {
+  //   setEkotobaImageToggle(true);
+  //   setekotobaToggle(true);
+  // }, [setEkotobaImageToggle, setekotobaToggle]);
 
   return (
     <section
