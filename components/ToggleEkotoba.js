@@ -11,8 +11,6 @@ import styled from "../styles/ToggleEkotoba.module.css";
 
 const ToggleEkotoba = ({ data }) => {
   const { emakis, kotobagaki } = data;
-  const { ekotobaImageToggle, handleEkotobaImageToggle, orientation } =
-    useContext(AppContext);
 
   // 詞書があるケース
   const withEkotoba = (v) => (v ? "現代語訳を読む" : "詞書を読む");

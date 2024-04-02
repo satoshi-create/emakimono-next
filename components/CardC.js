@@ -30,7 +30,7 @@ const CardC = ({ data }) => {
   const removeEqualityId = relationalEmaki.filter((item) => item.id !== id);
 
   return (
-    <aside className={styles.container}>
+    <aside className={`${styles.container} scrollbar`}>
       {removeEqualityId.map((item, i) => {
         const {
           titleen,

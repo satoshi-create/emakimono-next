@@ -198,7 +198,11 @@ const EmakiContainer = ({
           orientation === "landscape" && scroll ? styles.land : styles.prt
         }`}
         style={{
-          borderRadius: orientation === "landscape" && scroll && "12px",
+          borderRadius:
+            orientation === "landscape" &&
+            scroll &&
+            toggleFullscreen === false &&
+            "12px",
         }}
       >
         {scroll && (
@@ -218,13 +222,17 @@ const EmakiContainer = ({
         <article
           className={`${styles.container} ${
             type === "西洋絵画" ? styles.lr : styles.rl
-          }`}
+          } scrollbar`}
           style={{
             "--screen-height": height,
             "--screen-width": width,
             "--overflow-x": overflowX,
             "--box-shadow": boxshadow,
-            borderRadius: orientation === "landscape" && scroll && "12px",
+            borderRadius:
+              orientation === "landscape" &&
+              scroll &&
+              toggleFullscreen === false &&
+              "12px",
           }}
           onClick={() => setOepnSidebar(false)}
           ref={articleRef}
