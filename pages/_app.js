@@ -60,6 +60,11 @@ function MyApp({ Component, pageProps, router }) {
     setisModalOpen(false);
   };
 
+  const handleEkotobaImageToggle = () => {
+    setEkotobaImageToggle(!ekotobaImageToggle);
+    setekotobaToggle(false);
+  };
+
   // TODO: モバイルデバイスから訪問時、絵巻ページからホームページに戻るときにfullscreenをfalseにする
   const handleFullScreen = (orientation) => {
     setToggleBtn(false);
@@ -247,6 +252,7 @@ function MyApp({ Component, pageProps, router }) {
         orientation,
         setOrientation,
         handleToId,
+        handleEkotobaImageToggle,
       }}
     >
       <Script
