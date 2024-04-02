@@ -64,6 +64,10 @@ function MyApp({ Component, pageProps, router }) {
   const handleEkotobaImageToggle = () => {
     setEkotobaImageToggle(!ekotobaImageToggle);
     setekotobaToggle(false);
+  };
+  const handleCharacterToggle = () => {
+    setCharacterToggle(!characterToggle);
+  };
 
   const handleFullScreen = (orientation) => {
     setToggleBtn(false);
@@ -254,7 +258,8 @@ function MyApp({ Component, pageProps, router }) {
         setOrientation,
         handleToId,
         handleEkotobaImageToggle,
-
+        handleCharacterToggle,
+        characterToggle,
       }}
     >
       <Script
