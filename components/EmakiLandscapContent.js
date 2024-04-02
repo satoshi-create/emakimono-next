@@ -9,6 +9,8 @@ import Image from "next/image";
 import CardC from "./CardC";
 import Footer from "./Footer";
 
+// TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
+
 const EmakiLandscapContent = ({
   data,
   selectedRef,
@@ -56,7 +58,7 @@ const EmakiLandscapContent = ({
             overflowX={"scroll"}
           />
           {/* chapter */}
-          <ul className={styles.chapter}>
+          <ul className={`${styles.chapter} scrollbar`}>
             <h4 className={styles.chapterTitle}>目次</h4>
             <span className={styles.chapterBorderline}></span>
             {emakis.map((item, index) => {

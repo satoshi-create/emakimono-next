@@ -222,7 +222,7 @@ const EmakiContainer = ({
         <article
           className={`${styles.container} ${
             type === "西洋絵画" ? styles.lr : styles.rl
-          }`}
+          } scrollbar`}
           style={{
             "--screen-height": height,
             "--screen-width": width,

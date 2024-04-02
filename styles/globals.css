@@ -112,3 +112,35 @@ button {
   overflow-y: auto;
   overflow-x: hidden;
 }
+
+/* スクロールバー */
+@media (pointer: fine) {
+  .scrollbar {
+    /* スクロールバーの太さと背景色 */
+    &::-webkit-scrollbar,
+    &::-webkit-scrollbar-corner {
+      width: 20px;
+      height: 20px;
+      background: transparent;
+    }
+  }
+  .scrollbar {
+    /* 矢印ボタンのスペースを削除 */
+    &::-webkit-scrollbar-button {
+      width: 0;
+      height: 0;
+    }
+    /*  */
+    /* ハンドルの最小の長さ、色、角丸半径 */
+    &::-webkit-scrollbar-thumb {
+      border: 3px solid transparent;
+      border-radius: 100px;
+      background-color: #ccccccbd;
+      background-clip: content-box;
+      width: 80px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #afafafbd;
+    }
+  }
+}
