@@ -13,6 +13,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import ToggleEkotoba from "./ToggleEkotoba";
 import { AppContext } from "../pages/_app";
+import ToggleCharacter from "./ToggleCharacter";
 
 // TODO: 横スクロールで最後まで進み、「先頭に戻る」を押しても反応がない
 // ⇒navIndexが0になっている
@@ -23,6 +24,7 @@ const EmakiNavigation = ({
   scrollNextRef,
   scrollPrevRef,
 }) => {
+  const { character } = data;
   const router = useRouter();
   const endIndex = data.emakis.length - 1;
 
@@ -47,12 +49,8 @@ const EmakiNavigation = ({
           <FontAwesomeIcon icon={faChevronLeft} />
         </i>
       </button>
-      {/* <button onClick={() => router.push("/")} className={styles.button}>
-        <i>
-          <FontAwesomeIcon icon={faHouse} />
-        </i>
-      </button> */}
       <ToggleEkotoba data={data} />
+      {character && <ToggleCharacter data={data} />}
       <button ref={scrollPrevRef} className={styles.button} title="前に戻る">
         <i>
           <FontAwesomeIcon icon={faChevronRight} />

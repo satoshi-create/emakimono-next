@@ -29,6 +29,8 @@ const OverlayEkotoba = ({
     ekotobaToggle,
   } = useContext(AppContext);
 
+  // TODO : 目次のフォントサイズをレスポンシブにする
+
   // dangerouslySetInnerHTMLでgendaibunを描画使用するとHydration failedになる問題の対処のため、
   // gendaibunを最初のレンダリング後に取得
   // https://qiita.com/maaaashi/items/957bf8a949833151612b

@@ -28,6 +28,7 @@ function MyApp({ Component, pageProps, router }) {
 
   const { t: emakisData } = useLocaleData();
   const [ekotobaToggle, setekotobaToggle] = useState(false);
+  const [characterToggle, setCharacterToggle] = useState(false);
   const [oepnSidebar, setOepnSidebar] = useState(false);
   const [ekotobaImageToggle, setEkotobaImageToggle] = useState(true);
   const [query, setQuery] = useState("");
@@ -63,6 +64,10 @@ function MyApp({ Component, pageProps, router }) {
   const handleEkotobaImageToggle = () => {
     setEkotobaImageToggle(!ekotobaImageToggle);
     setekotobaToggle(false);
+  };
+
+  const handleCharacterToggle = () => {
+    setCharacterToggle(!characterToggle);
   };
 
   // TODO: モバイルデバイスから訪問時、絵巻ページからホームページに戻るときにfullscreenをfalseにする
@@ -253,6 +258,8 @@ function MyApp({ Component, pageProps, router }) {
         setOrientation,
         handleToId,
         handleEkotobaImageToggle,
+        handleCharacterToggle,
+        characterToggle,
       }}
     >
       <Script
