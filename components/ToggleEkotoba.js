@@ -11,13 +11,8 @@ import styled from "../styles/ToggleEkotoba.module.css";
 
 const ToggleEkotoba = ({ data }) => {
   const { emakis, kotobagaki } = data;
-  const {
-    ekotobaImageToggle,
-    setEkotobaImageToggle,
-    setekotobaToggle,
-    ekotobaToggle,
-    orientation,
-  } = useContext(AppContext);
+  const { ekotobaImageToggle, orientation, handleEkotobaImageToggle } =
+    useContext(AppContext);
 
   // 詞書があるケース
   const withEkotoba = (v) => (v ? "現代語訳を読む" : "詞書を読む");
@@ -36,11 +31,6 @@ const ToggleEkotoba = ({ data }) => {
       <FontAwesomeIcon icon={faCommentSlash} />
     );
 
-  const handleEkotobaImageToggle = () => {
-    setEkotobaImageToggle(!ekotobaImageToggle);
-    setekotobaToggle(false);
-  };
-  
   return (
     <button
       className={styled.button}
