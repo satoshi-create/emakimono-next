@@ -120,7 +120,9 @@ const Modal = ({ data }) => {
             );
           })}
         </div>
-        <div className={`${styles.contents}`}>{toggleContets(value)}</div>
+        <div className={`${styles.contents} scrollbar`}>
+          {toggleContets(value)}
+        </div>
       </div>
     </div>
   );
