@@ -750,7 +750,7 @@ const dataEmakis = [
       { name: "年中行事", id: "annualevent", slug: "annualevent" },
     ],
     kotobagaki: false,
-    favorite: true,
+    favorite: false,
     sourceImageUrl:
       "https://colbase.nich.go.jp/collection_items/tnm/A-1530?locale=ja",
     sourceImage: "鳥獣人戯画絵巻 摸本（ColBase）",
@@ -5850,7 +5850,9 @@ const dataEmakis = [
     type: "絵巻",
     typeen: "emaki",
     keyword: [],
-    kotobagaki: true,
+    kotobagaki: false,
+    character: true,
+    favorite: true,
     sourceImageUrl: "https://dl.ndl.go.jp/pid/1685003",
     sourceImage: "源氏物語絵巻（徳川美術館 国立国会図書館）ほか",
     sourceEkotoba: "",
@@ -5871,6 +5873,7 @@ const dataEmakis = [
         name: "5_genji_emaki_wakamurasaki_image_tokyokokuritsu.webp",
         srcWidth: 3208,
         srcHeight: 1080,
+        character: [{ name: "源氏", top: 30, left: 10 }],
       },
       {
         cat: "ekotoba",
