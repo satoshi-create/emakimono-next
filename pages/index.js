@@ -24,6 +24,9 @@ import Keywords from "../components/Keywords";
 import PersonNames from "../components/PersonNames";
 import ExtractingListData from "../libs/ExtractingListData";
 
+
+// TODO : Firefoxで絵巻が拡大されて表示されてしまう不具合を修正する
+
 // TODO:絵巻ページ遷移時、読み込みが遅延する不具合？を改善する
 // TODO:絵巻ページ遷移時、スケルトンのようなローディング機能を追加する
 // TODO:ページ遷移時にトップに戻らないようにする
