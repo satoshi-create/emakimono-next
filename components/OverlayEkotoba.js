@@ -56,7 +56,9 @@ const OverlayEkotoba = ({
       ref={navIndex === index ? scrollDialog : null}
     >
       <div
-        className={`${styles.gendaibunbox} ${!src && styles.noekotobaimage}`}
+        className={`${styles.gendaibunbox} ${
+          !src && styles.noekotobaimage
+        } scrollbar`}
       >
         <h3
           dangerouslySetInnerHTML={{ __html: chapter }}
