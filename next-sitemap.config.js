@@ -1,5 +1,5 @@
 const config = {
-  siteUrl: `https://${process.env.NEXT_PUBLIC_SITE_DOMAIN}`,
+  siteUrl: "https://emakimono.com",
   // TODD : スクレイピング対策のためsitemapの名前を変更する
   // https://ph-1ab.com/exclude-specific-url-in-next-sitemap/
   // https://zenn.dev/masa5714/articles/b00f4ebffbbcd4
