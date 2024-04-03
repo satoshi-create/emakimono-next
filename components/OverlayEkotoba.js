@@ -71,6 +71,9 @@ const OverlayEkotoba = ({
                 ? "var(--title-size-prt)"
                 : "var(--title-size)"
             }`,
+            padding: `${
+              orientation === "portrait" ? "1rem .5rem" : "1.5rem 1rem"
+            }`,
           }}
         />
         <p
