@@ -5851,7 +5851,7 @@ const dataEmakis = [
     typeen: "emaki",
     keyword: [],
     kotobagaki: false,
-    character:true,
+    character: true,
     favorite: true,
     sourceImageUrl: "https://dl.ndl.go.jp/pid/1685003",
     sourceImage: "源氏物語絵巻（徳川美術館 国立国会図書館）ほか",
