@@ -5873,7 +5873,10 @@ const dataEmakis = [
         name: "5_genji_emaki_wakamurasaki_image_tokyokokuritsu.webp",
         srcWidth: 3208,
         srcHeight: 1080,
-        character: [{ name: "源氏", top: 30, left: 10 }],
+        character: [
+          { name: "源氏", top: 30, right: 20, gender: "man" },
+          { name: "僧侶", top: 50, right: 75, gender: "woman" },
+        ],
       },
       {
         cat: "ekotoba",
