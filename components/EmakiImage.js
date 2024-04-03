@@ -39,6 +39,13 @@ const EmakiImage = ({
                 key={i}
                 className={styles.genji}
                 style={{
+                  top: `${item.top}%`,
+                  right: `${item.right}%`,
+                  outline: `${
+                    item.gender === "man"
+                      ? "1px solid #5da3ff"
+                      : "1px solid #ff7580"
+                  }`,
                   fontSize: `${
                     orientation === "portrait"
                       ? "var(--text-size-prt)"
