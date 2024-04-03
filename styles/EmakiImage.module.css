@@ -8,7 +8,7 @@
   position: absolute;
   /* top: 30%;
   right: 20%; */
-  font-family: var(--emaki-kotobagki-font);
+  font-family: var(--text-font);
   background: #ffffff61;
   padding: 1rem 0;
   outline: 1px solid #5da3ff;
