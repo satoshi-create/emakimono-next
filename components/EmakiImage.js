@@ -21,7 +21,8 @@ const EmakiImage = ({
     character,
   },
 }) => {
-  const { scrollDialog, characterToggle } = useContext(AppContext);
+  console.log(character);
+  const { scrollDialog, characterToggle, orientation } = useContext(AppContext);
 
   return (
     <section
@@ -32,7 +33,26 @@ const EmakiImage = ({
     >
       {characterToggle && character && (
         <div className={styles.characterBox}>
-          <div className={styles.genji}>源氏</div>
+          {character?.map((item, i) => {
+            return (
+              <p
+                key={i}
+                className={styles.genji}
+                style={{
+                  fontSize: `${
+                    orientation === "portrait"
+                      ? "var(--text-size-prt)"
+                      : "var(--text-size)"
+                  }`,
+                  padding: `${
+                    orientation === "portrait" ? ".5rem 0" : "1rem 0"
+                  }`,
+                }}
+              >
+                {item.name}
+              </p>
+            );
+          })}
         </div>
       )}
       <ResposiveImage
