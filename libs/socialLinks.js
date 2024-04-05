@@ -1,16 +1,16 @@
 import { GitHub, Twitter, Youtube, Linkedin } from "react-feather";
 
 export const socialLinks = [
-  {
-    name: "Linkedin",
-    icon: <Linkedin />,
-    path: "https://www.linkedin.com/in/satoprofile/",
-  },
-  {
-    name: "github",
-    icon: <GitHub />,
-    path: "https://github.com/satoshi-create",
-  },
+  // {
+  //   name: "Linkedin",
+  //   icon: <Linkedin />,
+  //   path: "https://www.linkedin.com/in/satoprofile/",
+  // },
+  // {
+  //   name: "github",
+  //   icon: <GitHub />,
+  //   path: "https://github.com/satoshi-create",
+  // },
   {
     name: "twitter",
     icon: <Twitter />,
