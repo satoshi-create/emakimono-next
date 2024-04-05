@@ -89,11 +89,10 @@ const OverlayEkotoba = ({
           </h3>
           {type === "浮世絵" && (
             <Link href="/">
-              <a>
-                <FontAwesomeIcon
-                  icon={faLocationDot}
-                  className={styles.mapicon}
-                />
+              <a className={styles.mapiconlink}>
+                <i>
+                  <FontAwesomeIcon icon={faLocationDot} />
+                </i>
               </a>
             </Link>
           )}
