@@ -5874,8 +5874,8 @@ const dataEmakis = [
         srcWidth: 3208,
         srcHeight: 1080,
         character: [
-          { name: "源氏", top: 30, right: 20, gender: "man" },
-          { name: "僧侶", top: 50, right: 75, gender: "woman" },
+          { name: "源氏", status: "貴族", top: 30, right: 20, gender: "man" },
+          { name: "？", status: "僧侶", top: 50, right: 75, gender: "man" },
         ],
       },
       {
@@ -5894,6 +5894,11 @@ const dataEmakis = [
         name: "15_genji_emaki_yomogifu_image_tokugawa-kokkai.webp",
         srcWidth: 3367,
         srcHeight: 1080,
+        character: [
+          { name: "少将", status: "女房", top: 5, right: 8, gender: "woman" },
+          { name: "惟光", status: "従者", top: 80, right: 75, gender: "man" },
+          { name: "源氏", status: "貴族", top: 50, right: 90, gender: "man" },
+        ],
       },
       {
         cat: "ekotoba",
