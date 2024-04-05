@@ -63,13 +63,17 @@
 /* ===========================
  * 浮世絵の地図アイコン
  * =========================== */
-.mapicon {
+
+.mapiconlink > i {
   display: grid;
   place-items: center;
   padding: 0.5rem;
   color: white;
+  transition: var(--transition);
 }
-
+.mapiconlink > i:hover {
+  color: var(--clr-accent-02);
+}
 /* ===========================
  * 右⇒左（rl）の設定
  * =========================== */
