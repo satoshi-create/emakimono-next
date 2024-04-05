@@ -42,21 +42,32 @@
 .gendaibunopen .gendaibunbox {
   opacity: 100;
 }
-.chapter {
+.chapterbox {
   letter-spacing: 0.2rem;
-  font-weight: 400;
-  font-family: var(--text-font-koten);
   z-index: 5;
   color: var(--clr-white);
   background-color: #0000008c;
-  /* padding: 2rem 1rem; */
   outline: 1px solid #ffffff;
   outline-offset: -6px;
+}
+.chapter {
+  font-weight: 400;
+  font-family: var(--text-font-koten);
 }
 
 .gendaibun {
   font-family: var(--emaki-kotobagki-font);
   line-height: 1.6;
+}
+
+/* ===========================
+ * 浮世絵の地図アイコン
+ * =========================== */
+.mapicon {
+  display: grid;
+  place-items: center;
+  padding: 0.5rem;
+  color: white;
 }
 
 /* ===========================
@@ -70,7 +81,7 @@
 .ekotobarl .gendaibunbox {
   right: 0;
 }
-.ekotobarl .chapter {
+.ekotobarl .chapterbox {
   margin-right: 1rem;
 }
 
@@ -84,7 +95,7 @@
 .ekotobalr .gendaibunbox {
   left: 0;
 }
-.ekotobalr .chapter {
+.ekotobalr .chapterbox {
   margin-left: 1rem;
 }
 
