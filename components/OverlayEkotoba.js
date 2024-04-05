@@ -2,6 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import styles from "../styles/OverlayEkotoba.module.css";
 import ResposiveImage from "./ResposiveImage";
 import { AppContext } from "../pages/_app";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 const OverlayEkotoba = ({
   item: {
@@ -62,20 +65,39 @@ const OverlayEkotoba = ({
           !src && styles.noekotobaimage
         } scrollbar`}
       >
-        <h3
-          dangerouslySetInnerHTML={{ __html: chapter }}
-          className={styles.chapter}
+        <div
+          className={styles.chapterbox}
           style={{
-            fontSize: `${
-              orientation === "portrait"
-                ? "var(--title-size-prt)"
-                : "var(--title-size)"
-            }`,
+            display: `${type === "浮世絵" && "flex"}`,
+            alignItems: `${type === "浮世絵" && "center"}`,
             padding: `${
               orientation === "portrait" ? "1rem .5rem" : "1.5rem 1rem"
             }`,
           }}
-        />
+        >
+          <h3
+            className={styles.chapter}
+            style={{
+              fontSize: `${
+                orientation === "portrait"
+                  ? "var(--title-size-prt)"
+                  : "var(--title-size)"
+              }`,
+            }}
+          >
+            {chapter}
+          </h3>
+          {type === "浮世絵" && (
+            <Link href="/">
+              <a>
+                <FontAwesomeIcon
+                  icon={faLocationDot}
+                  className={styles.mapicon}
+                />
+              </a>
+            </Link>
+          )}
+        </div>
         <p
           dangerouslySetInnerHTML={{ __html: ekotobabody }}
           className={styles.gendaibun}
