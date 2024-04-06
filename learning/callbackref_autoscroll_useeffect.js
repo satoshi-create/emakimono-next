@@ -6,7 +6,6 @@ const AutoScroll = () => {
 
   // useEffectの中でhashIdがわかるのでそれを保存しておく変数を作る
   const [hashId, setId] = useState(null);
-  console.log(hashId);
 
   useEffect(() => {
     // NextJSだと/apiにバックエンドを生やせ、同じホストからアクセスできる
