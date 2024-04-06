@@ -64,7 +64,6 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async (context) => {
-  console.log(genjieSlugItem(emakisData));
   const genjieslugname = context.params.slug;
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
