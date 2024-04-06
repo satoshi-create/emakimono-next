@@ -4,7 +4,6 @@ const SmoothScrolling = () => {
   const ref = useRef();
 
   const [scrollWidth, setScrollHeight] = useState(0);
-  console.log(scrollWidth);
 
   // refオブジェクトはstateのように中身に変更があった際の通知はされないので、useEffectは使えない。
 

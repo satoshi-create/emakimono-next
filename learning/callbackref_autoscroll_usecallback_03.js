@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 const SmoothScrolling = () => {
   const ref = useRef();
   const [index, setIndex] = useState(null);
-  console.log(index);
 
   const router = useRouter();
 
