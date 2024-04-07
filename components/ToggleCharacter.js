@@ -8,8 +8,6 @@ const ToggleCharacter = () => {
   const { orientation, handleCharacterToggle, characterToggle } =
     useContext(AppContext);
 
-  console.log(characterToggle);
-
   return (
     <button
       className={styles.button}

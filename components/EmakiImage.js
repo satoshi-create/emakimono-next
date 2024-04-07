@@ -21,7 +21,6 @@ const EmakiImage = ({
     character,
   },
 }) => {
-  console.log(character);
   const { scrollDialog, characterToggle, orientation } = useContext(AppContext);
 
   return (

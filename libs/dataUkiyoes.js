@@ -90,7 +90,7 @@ const dataUkiyoes = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/edomeisyohakkei_03-375.webp",
         srcTb: "/edomeisyohakkei_03-800.webp",
@@ -114,7 +114,7 @@ const dataUkiyoes = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/edomeisyohakkei_04-375.webp",
         srcTb: "/edomeisyohakkei_04-800.webp",
@@ -138,7 +138,7 @@ const dataUkiyoes = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/edomeisyohakkei_05-375.webp",
         srcTb: "/edomeisyohakkei_05-800.webp",
@@ -162,7 +162,7 @@ const dataUkiyoes = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/edomeisyohakkei_06-375.webp",
         srcTb: "/edomeisyohakkei_06-800.webp",
@@ -188,7 +188,7 @@ const dataUkiyoes = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/edomeisyohakkei_07-375.webp",
         srcTb: "/edomeisyohakkei_07-800.webp",
@@ -214,7 +214,7 @@ const dataUkiyoes = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/edomeisyohakkei_08-375.webp",
         srcTb: "/edomeisyohakkei_08-800.webp",
@@ -285,7 +285,7 @@ const dataUkiyoes = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/chienoumi_03-375.webp",
         srcTb: "/chienoumi_03-800.webp",
@@ -300,7 +300,7 @@ const dataUkiyoes = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/chienoumi_04-375.webp",
         srcTb: "/chienoumi_04-800.webp",
@@ -315,7 +315,7 @@ const dataUkiyoes = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/chienoumi_05-375.webp",
         srcTb: "/chienoumi_05-800.webp",
@@ -330,7 +330,7 @@ const dataUkiyoes = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/chienoumi_06-375.webp",
         srcTb: "/chienoumi_06-800.webp",
@@ -345,7 +345,7 @@ const dataUkiyoes = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/chienoumi_07-375.webp",
         srcTb: "/chienoumi_07-800.webp",
@@ -360,7 +360,7 @@ const dataUkiyoes = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/chienoumi_08-375.webp",
         srcTb: "/chienoumi_08-800.webp",
@@ -375,7 +375,7 @@ const dataUkiyoes = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/chienoumi_09-375.webp",
         srcTb: "/chienoumi_09-800.webp",
@@ -390,7 +390,7 @@ const dataUkiyoes = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/chienoumi_10-375.webp",
         srcTb: "/chienoumi_10-800.webp",
@@ -459,7 +459,7 @@ const dataUkiyoes = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/03_syoumyou-no-bansyou_kanazawa-hakkei-375.webp",
         srcTb: "/03_syoumyou-no-bansyou_kanazawa-hakkei-800.webp",
@@ -474,7 +474,7 @@ const dataUkiyoes = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/04_seto-no-syuugetsu_kanazawa-hakkei-375.webp",
         srcTb: "/04_seto-no-syuugetsu_kanazawa-hakkei-800.webp",
@@ -489,7 +489,7 @@ const dataUkiyoes = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/05_koizumi-no-yau_kanazawa-hakkei-375.webp",
         srcTb: "/05_koizumi-no-yau_kanazawa-hakkei-800.webp",
@@ -504,7 +504,7 @@ const dataUkiyoes = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/06_hiragata-no-rakugann_kanazawa-hakkei-375.webp",
         srcTb: "/06_hiragata-no-rakugann_kanazawa-hakkei-800.webp",
@@ -519,7 +519,7 @@ const dataUkiyoes = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/07_ottomo-kisenn_kanazawa-hakkei-375.webp",
         srcTb: "/07_ottomo-kisenn_kanazawa-hakkei-800.webp",
@@ -534,12 +534,61 @@ const dataUkiyoes = [
         phrase: [{}],
       },
       {
-        load: true,
+        load: false,
         cat: "image",
         srcSp: "/08_nojima-no-sekisyou_kanazawa-hakkei-375.webp",
         srcTb: "/08_nojima-no-sekisyou_kanazawa-hakkei-800.webp",
         src: "/08_nojima-no-sekisyou_kanazawa-hakkei-1080.webp",
         name: "08_nojima-no-sekisyou_kanazawa-hakkei.webp",
+      },
+    ],
+  },
+  {
+    id: 40,
+    title: "武陽金澤八勝夜景",
+    titleen: "buyokanazawahasshoyakei",
+    author: "歌川広重",
+    authoren: "utawaga-hirosige",
+    backgroundImage: "/washi-pattern-01.webp",
+    video: "",
+    thumb: "/02_buyokanazawahasshoyakei_center-800.webp",
+    thumb2: "02_buyokanazawahasshoyakei_center-800.webp",
+    metadesc: "",
+    desc: "",
+    era: "江戸",
+    eraen: "edo",
+    gif: "",
+    type: "浮世絵",
+    typeen: "ukiyoe",
+    kotobagaki: true,
+    sourceImageUrl:
+      "https://colbase.nich.go.jp/collection_items/tnm/A-10569-3230?locale=ja",
+    sourceImage: "武陽金澤八勝夜景（東京国立博物館 ColBase）",
+    sourceEkotoba: "",
+    emakis: [
+      {
+        load: true,
+        cat: "image",
+        srcSp: "/01_buyokanazawahasshoyakei_right-375.webp",
+        srcTb: "/01_buyokanazawahasshoyakei_right-800.webp",
+        src: "/01_buyokanazawahasshoyakei_right-1080.webp",
+        name: "01_buyokanazawahasshoyakei_right.webp",
+      },
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/02_buyokanazawahasshoyakei_center-375.webp",
+        srcTb: "/02_buyokanazawahasshoyakei_center-800.webp",
+        src: "/02_buyokanazawahasshoyakei_center-1080.webp",
+        name: "02_buyokanazawahasshoyakei_center.webp",
+      },
+      {
+        load: false,
+        cat: "image",
+        srcSp: "/03_buyokanazawahasshoyakei_left-375.webp",
+        srcTb: "/03_buyokanazawahasshoyakei_left-800.webp",
+        src: "/03_buyokanazawahasshoyakei_left-1080.webp",
+        name: "03_buyokanazawahasshoyakei_left.webp",
       },
     ],
   },

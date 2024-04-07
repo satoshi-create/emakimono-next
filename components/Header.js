@@ -7,7 +7,9 @@ import { useRouter } from "next/router";
 import NavLinks from "./NavLinks";
 import { AppContext } from "../pages/_app";
 import SidebarHome from "./SidebarHome";
-import Image from "next/image";
+
+// TODO : ホバー時、header全体にリンクが入ってしまう
+
 
 const Header = ({ slug, fixed, emakipage }) => {
   const { locale } = useRouter();

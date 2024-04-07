@@ -40,9 +40,9 @@ const EmakiLandscapContent = ({
     genjieslug,
   } = data;
 
-  const descTemp = `「${title} ${edition ? edition : ""}」${
+  const descTemp = `「${title} ${edition ? edition : ""}」（${
     author ? author : ""
-  }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+  }）の全シーンを、縦書き、横スクロールで楽しむことができます。`;
 
   return (
     <>
