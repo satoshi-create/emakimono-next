@@ -5936,6 +5936,24 @@ const dataEmakis = [
         name: "36_genji_emaki_kashiwagi1_image_tokugawa-kokkai.webp",
         srcWidth: 4009,
         srcHeight: 1080,
+        character: [
+          {
+            name: "４人の女房",
+            status: "女官",
+            top: 30,
+            right: 20,
+            gender: "woman",
+          },
+          { name: "朱雀院", status: "天皇", top: 30, right: 55, gender: "man" },
+          { name: "源氏", status: "天皇", top: 65, right: 65, gender: "man" },
+          {
+            name: "女三の宮",
+            status: "皇女",
+            top: 40,
+            right: 78,
+            gender: "woman",
+          },
+        ],
       },
       {
         cat: "ekotoba",
@@ -5956,6 +5974,29 @@ const dataEmakis = [
         name: "36_genji_emaki_kashiwagi2_image_tokugawa-kokkai.webp",
         srcWidth: 4009,
         srcHeight: 1080,
+        character: [
+          {
+            name: "夕霧",
+            status: "貴族（源氏の長男）",
+            top: 30,
+            right: 30,
+            gender: "man",
+          },
+          {
+            name: "柏木",
+            status: "貴族（源氏の甥）",
+            top: 20,
+            right: 45,
+            gender: "man",
+          },
+          {
+            name: "５人の女房",
+            status: "皇女",
+            top: 40,
+            right: 80,
+            gender: "woman",
+          },
+        ],
       },
       {
         cat: "ekotoba",
