@@ -2,6 +2,7 @@ import React, { useRef, useContext } from "react";
 import styles from "../styles/EmakiImage.module.css";
 import ResposiveImage from "./ResposiveImage";
 import { AppContext } from "../pages/_app";
+import Link from "next/link";
 
 // TODO : 登場人物の名前のフォントサイズをレスポンシブにする
 
@@ -31,32 +32,35 @@ const EmakiImage = ({
       ref={navIndex === index ? scrollDialog : null}
     >
       {characterToggle && character && (
-        <div className={styles.characterBox}>
+        <div>
           {character?.map((item, i) => {
             return (
-              <p
-                key={i}
-                className={styles.genji}
-                style={{
-                  top: `${item.top}%`,
-                  right: `${item.right}%`,
-                  outline: `${
-                    item.gender === "man"
-                      ? "1px solid #5da3ff"
-                      : "1px solid #ff7580"
-                  }`,
-                  fontSize: `${
-                    orientation === "portrait"
-                      ? "var(--text-size-prt)"
-                      : "var(--text-size)"
-                  }`,
-                  padding: `${
-                    orientation === "portrait" ? ".5rem 0" : "1rem 0"
-                  }`,
-                }}
-              >
-                {item.name}
-              </p>
+              <Link key={i} href={`${item.wiki ? item.wiki : "/"}`}>
+                <a
+                  target="_blank"
+                  className={styles.characterbox}
+                  // inline cssにhoverは当てられない？？
+                  style={{
+                    top: `${item.top}%`,
+                    right: `${item.right}%`,
+                    outline: `${
+                      item.gender === "man"
+                        ? "1px solid #5da3ff"
+                        : "1px solid #ff7580"
+                    }`,
+                    fontSize: `${
+                      orientation === "portrait"
+                        ? "var(--text-size-prt)"
+                        : "var(--text-size)"
+                    }`,
+                    padding: `${
+                      orientation === "portrait" ? ".5rem 0" : "1rem 0"
+                    }`,
+                  }}
+                >
+                  {item.name}
+                </a>
+              </Link>
             );
           })}
         </div>
