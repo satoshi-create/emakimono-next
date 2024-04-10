@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import dataEmakis from "../libs/dataEmakis";
+import dataEmakis from "./json-data/dataEmakis.json";
 
 const AddImageData = () => {
   // const [data, setData] = useState([]);
