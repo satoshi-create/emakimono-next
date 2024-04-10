@@ -15,6 +15,9 @@ const data = dataEmakis.concat(
   dataSenmenga
 );
 
+console.log(data);
+
+
 // import JSONdata from "./placeholder.json";
 // console.log(JSONdata);
 // const JSONdata = JSON.stringify(dataSenmenga);
