@@ -6113,6 +6113,32 @@ const dataEmakis = [
         name: "44_genji_emaki_takekawa_image_tokugawa-kokkai.webp",
         srcWidth: 4009,
         srcHeight: 1080,
+        character: [
+          {
+            name: "宰相の君",
+            status: "貴族（夕霧の妻）",
+            top: 10,
+            right: 45,
+            gender: "woman",
+            wiki: "https://ja.wikipedia.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E%E3%81%AE%E7%99%BB%E5%A0%B4%E4%BA%BA%E7%89%A9",
+          },
+          {
+            name: "薫",
+            status: "貴族",
+            top: 60,
+            right: 55,
+            gender: "man",
+            wiki: "https://ja.wikipedia.org/wiki/%E8%96%AB",
+          },
+          {
+            name: "女房",
+            status: "女官",
+            top: 20,
+            right: 90,
+            gender: "woman",
+            wiki: "",
+          },
+        ],
       },
       {
         cat: "ekotoba",
@@ -6130,6 +6156,32 @@ const dataEmakis = [
         name: "44_genji_emaki_takekawa2_image_tokugawa-kokkai.webp",
         srcWidth: 4009,
         srcHeight: 1080,
+        character: [
+          {
+            name: "女房",
+            status: "女官",
+            top: 10,
+            right: 30,
+            gender: "woman",
+            wiki: "",
+          },
+          {
+            name: "蔵人の少将",
+            status: "貴族（夕霧の五男）",
+            top: 70,
+            right: 10,
+            gender: "man",
+            wiki: "",
+          },
+          {
+            name: "大君、中の君",
+            status: "貴族（玉鬘の娘）",
+            top: 20,
+            right: 70,
+            gender: "woman",
+            wiki: "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B",
+          },
+        ],
       },
       {
         cat: "ekotoba",
@@ -6348,7 +6400,6 @@ const dataEmakis = [
       },
     ],
   },
-
 ];
 
 export default dataEmakis;
