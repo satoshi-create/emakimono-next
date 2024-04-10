@@ -1,10 +1,10 @@
-import dataByoubus from "./dataByoubus.js";
-import dataEmakis from "./dataEmakis.js";
-import dataSeiyoukaiga from "./dataSeiyoukaiga.js";
-import dataSuibokuga from "./dataSuibokuga.js";
-import dataUkiyoes from "./dataUkiyoes.js";
-import dataKotenBungaku from "./dataKotenBungaku.js";
-import dataSenmenga from "./dataSenmenga.js";
+import dataByoubus from "./json-data/dataByoubus.json";
+import dataEmakis from "./json-data/dataEmakis.json";
+import dataSeiyoukaiga from "./json-data/dataSeiyoukaiga.json";
+import dataSuibokuga from "./json-data/dataSuibokuga.json";
+import dataUkiyoes from "./json-data/dataUkiyoes.json";
+import dataKotenBungaku from "./json-data/dataKotenBungaku.json";
+import dataSenmenga from "./json-data/dataSenmenga.json";
 
 const data = dataEmakis.concat(
   dataByoubus,
@@ -14,5 +14,10 @@ const data = dataEmakis.concat(
   dataKotenBungaku,
   dataSenmenga
 );
+
+// import JSONdata from "./placeholder.json";
+// console.log(JSONdata);
+// const JSONdata = JSON.stringify(dataSenmenga);
+// console.log(JSONdata);
 
 export default data;
