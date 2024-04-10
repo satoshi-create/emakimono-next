@@ -24,7 +24,6 @@ import Keywords from "../components/Keywords";
 import PersonNames from "../components/PersonNames";
 import ExtractingListData from "../libs/ExtractingListData";
 
-
 // TODO : Firefoxで絵巻が拡大されて表示されてしまう不具合を修正する
 
 // TODO:絵巻ページ遷移時、読み込みが遅延する不具合？を改善する
@@ -34,6 +33,8 @@ import ExtractingListData from "../libs/ExtractingListData";
 // TODO:「絵巻関連年表」を作成する
 // TODO:画像の遅延読み込みをブラウザのキャッシュをクリアして検証;
 // TODO:絵師名でルーティングできるようにする
+
+console.log(JSON.stringify(dataEmakis));
 
 const Home = () => {
   const { t } = useLocale();

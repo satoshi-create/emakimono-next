@@ -53,6 +53,7 @@
     font-size: 1.2rem;
     line-height: 2;
     background-color: var(--clr-white);
+    z-index: 10;
   }
 
   .submenu > a {
