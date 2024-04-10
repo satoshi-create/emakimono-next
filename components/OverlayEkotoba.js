@@ -65,38 +65,40 @@ const OverlayEkotoba = ({
           !src && styles.noekotobaimage
         } scrollbar`}
       >
-        <div
-          className={styles.chapterbox}
-          style={{
-            display: `${type === "浮世絵" && "flex"}`,
-            alignItems: `${type === "浮世絵" && "center"}`,
-            padding: `${
-              orientation === "portrait" ? "1rem .5rem" : "1.5rem 1rem"
-            }`,
-          }}
-        >
-          <h3
-            className={styles.chapter}
+        {chapter && (
+          <div
+            className={styles.chapterbox}
             style={{
-              fontSize: `${
-                orientation === "portrait"
-                  ? "var(--title-size-prt)"
-                  : "var(--title-size)"
+              display: `${type === "浮世絵" && "flex"}`,
+              alignItems: `${type === "浮世絵" && "center"}`,
+              padding: `${
+                orientation === "portrait" ? "1rem .5rem" : "1.5rem 1rem"
               }`,
             }}
           >
-            {chapter}
-          </h3>
-          {type === "浮世絵" && (
-            <Link href="/">
-              <a className={styles.mapiconlink}>
-                <i>
-                  <FontAwesomeIcon icon={faLocationDot} />
-                </i>
-              </a>
-            </Link>
-          )}
-        </div>
+            <h3
+              className={styles.chapter}
+              style={{
+                fontSize: `${
+                  orientation === "portrait"
+                    ? "var(--title-size-prt)"
+                    : "var(--title-size)"
+                }`,
+              }}
+            >
+              {chapter}
+            </h3>
+            {type === "浮世絵" && (
+              <Link href="/">
+                <a className={styles.mapiconlink}>
+                  <i>
+                    <FontAwesomeIcon icon={faLocationDot} />
+                  </i>
+                </a>
+              </Link>
+            )}
+          </div>
+        )}
         <p
           dangerouslySetInnerHTML={{ __html: ekotobabody }}
           className={styles.gendaibun}
