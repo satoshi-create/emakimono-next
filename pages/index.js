@@ -34,7 +34,6 @@ import ExtractingListData from "../libs/ExtractingListData";
 // TODO:画像の遅延読み込みをブラウザのキャッシュをクリアして検証;
 // TODO:絵師名でルーティングできるようにする
 
-console.log(JSON.stringify(dataEmakis));
 
 const Home = () => {
   const { t } = useLocale();
