@@ -10,7 +10,7 @@ import {
 } from "../../libs/func";
 import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
-import enData from "../../libs/en/data";
+import enData from "../../libs/data";
 import jaData from "../../libs/data";
 
 const Emaki = ({ name, posts, nameen, slug }) => {
