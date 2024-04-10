@@ -13,7 +13,7 @@ const dataSenmenga = [
     metadesc: "",
     desc: "",
     era: "平安",
-    eraen: "heiann",
+    eraen: "heiann",  
     gif: "",
     type: "扇面画",
     typeen: "senmenga",
