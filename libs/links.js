@@ -47,6 +47,12 @@ const links = [
         path: "/type/ukiyoe",
       },
       {
+        name: "扇面画",
+        nameen: "senmenga",
+        id: "senmenga",
+        path: "/type/senmenga",
+      },
+      {
         name: "西洋絵画",
         nameen: "western painting",
         id: "western painting",
