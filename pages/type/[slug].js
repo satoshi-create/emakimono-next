@@ -6,7 +6,7 @@ import Breadcrumbs from "../../components/Breadcrumbs";
 import { useRouter } from "next/router";
 import { removeNestedEmakisObj, typeItem } from "../../libs/func";
 import Footer from "../../components/Footer";
-import enData from "../../libs/en/data";
+import enData from "../../libs/data";
 import jaData from "../../libs/data";
 
 const Type = ({ name, nameen, posts, slug }) => {

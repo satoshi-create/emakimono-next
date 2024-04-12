@@ -1,0 +1,722 @@
+[
+  {
+    "id": 35,
+    "title": "江戸近郊八景",
+    "titleen": "edomeisyohakkei",
+    "author": "歌川広重",
+    "authoren": "utawaga-hirosige",
+    "backgroundImage": "/washi-pattern-01.webp",
+    "video": "",
+    "thumb": "/edomeisyohakkei_thumb.webp",
+    "thumb2": "edomeisyohakkei_thumb.webp",
+    "metadesc": "",
+    "desc": "",
+    "era": "江戸",
+    "eraen": "edo",
+    "gif": "",
+    "type": "浮世絵",
+    "typeen": "ukiyoe",
+    "kotobagaki": true,
+    "sourceImageUrl": "https://dl.ndl.go.jp/info:ndljp/pid/1307297",
+    "sourceImage": "江戸近郊八景（国立国会図書館デジタルコレクション）",
+    "sourceEkotoba": "",
+    "googlemap": "/googlemap_edomeisyohakkei.webp",
+    "basinmap": "/basinmap_edomeisyohakkei.webp",
+    "mapWidth": 1171,
+    "mapHeight": 658,
+    "emakis": [
+      {
+        "ekotobaId": 2,
+        "linkId": 0,
+        "cat": "ekotoba",
+        "chapter": "吾嬬杜夜雨",
+        "chapterruby": "あずまもりやう",
+        "kobun": "【吾嬬杜（江戸名所図会より）】",
+        "gendaibun": "",
+        "googlemap": "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d15414.822865578184!2d139.82582089467476!3d35.707879529814385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1z5ZC-5ays5p2c!5e0!3m2!1sja!2sjp!4v1668769680120!5m2!1sja!2sjp",
+        "basinmap": "https://maps.gsi.go.jp/?hc=hc#16/35.705741/139.82671/&base=std&ls=std%7Canaglyphmap_color%2C0.72&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
+        "kobunsrc": "/azumasya_edomeisyozue_1080.webp",
+        "kobunsrcSp": "/azumasya_edomeisyozue_375.webp",
+        "phrase": [{}]
+      },
+      {
+        "load": true,
+        "cat": "image",
+        "srcSp": "/edomeisyohakkei_01-375.webp",
+        "srcTb": "/edomeisyohakkei_01-800.webp",
+        "src": "/edomeisyohakkei_01-1080.webp",
+        "name": "edomeisyohakkei_01.webp",
+        "srcWidth": "1740",
+        "srcHeight": "1080"
+      },
+      {
+        "ekotobaId": 3,
+        "linkId": 2,
+        "cat": "ekotoba",
+        "chapter": "羽根田落雁",
+        "chapterruby": "はねだらくがん",
+        "kobun": "",
+        "gendaibun": "",
+        "googlemap": "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d4590.906211667831!2d139.75202253540812!3d35.54725787450078!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1z576955Sw5byB5aSp!5e0!3m2!1sja!2sjp!4v1668846842909!5m2!1sja!2sjp",
+        "basinmap": "https://maps.gsi.go.jp/?hc=hc#16/35.546954/139.751952/&base=std&ls=std%7Canaglyphmap_color%2C0.72&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
+        "phrase": [{}]
+      },
+      {
+        "load": true,
+        "cat": "image",
+        "srcSp": "/edomeisyohakkei_02-375.webp",
+        "srcTb": "/edomeisyohakkei_02-800.webp",
+        "src": "/edomeisyohakkei_02-1080.webp",
+        "name": "edomeisyohakkei_02.webp",
+        "srcWidth": "1685",
+        "srcHeight": "1080"
+      },
+      {
+        "ekotobaId": 4,
+        "linkId": 4,
+        "cat": "ekotoba",
+        "chapter": "行徳帰帆",
+        "chapterruby": "ぎょうとくきはん",
+        "kobun": "",
+        "gendaibun": "",
+        "googlemap": "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d10900.561585577208!2d139.90961763102686!3d35.68310975406771!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1z6KGM5b6z!5e0!3m2!1sja!2sjp!4v1668847191312!5m2!1sja!2sjp",
+        "basinmap": "https://maps.gsi.go.jp/?hc=hc#15/35.687749/139.91621/&base=std&ls=std%7Canaglyphmap_color%2C0.72&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/edomeisyohakkei_03-375.webp",
+        "srcTb": "/edomeisyohakkei_03-800.webp",
+        "src": "/edomeisyohakkei_03-1080.webp",
+        "name": "edomeisyohakkei_03.webp",
+        "srcWidth": "1691",
+        "srcHeight": "1080"
+      },
+      {
+        "ekotobaId": 5,
+        "linkId": 6,
+        "cat": "ekotoba",
+        "chapter": "玉川秋月",
+        "chapterruby": "たまがわしゅうげつ",
+        "kobun": "",
+        "gendaibun": "",
+        "googlemap": "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d2728.4710114390114!2d139.66713490526107!3d35.585372829615395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1z5Li45a2Q44Gu5rih44GX!5e0!3m2!1sja!2sjp!4v1668846235874!5m2!1sja!2sjp",
+        "basinmap": "https://maps.gsi.go.jp/?hc=hc#16/35.585442/139.669082/&base=std&ls=std%7Canaglyphmap_color%2C0.72&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/edomeisyohakkei_04-375.webp",
+        "srcTb": "/edomeisyohakkei_04-800.webp",
+        "src": "/edomeisyohakkei_04-1080.webp",
+        "name": "edomeisyohakkei_04.webp",
+        "srcWidth": "1711",
+        "srcHeight": "1080"
+      },
+      {
+        "ekotobaId": 6,
+        "linkId": 8,
+        "cat": "ekotoba",
+        "chapter": "小金井橋夕照",
+        "chapterruby": "こがねいばしせきしょう",
+        "kobun": "",
+        "gendaibun": "",
+        "googlemap": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2290.7257130904995!2d139.50616574668044!3d35.71206566484347!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6018e5ea872215f7%3A0xb812ff0d5cf84c2e!2z5p2x5Lqs6YO9IOWwj-mHkeS6leapiw!5e0!3m2!1sja!2sjp!4v1668914849413!5m2!1sja!2sjp",
+        "basinmap": "https://maps.gsi.go.jp/?hc=hc#16/35.712502/139.508107/&base=std&ls=std%7Canaglyphmap_color%2C0.72&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/edomeisyohakkei_05-375.webp",
+        "srcTb": "/edomeisyohakkei_05-800.webp",
+        "src": "/edomeisyohakkei_05-1080.webp",
+        "name": "edomeisyohakkei_05.webp",
+        "srcWidth": "1691",
+        "srcHeight": "1080"
+      },
+      {
+        "ekotobaId": 7,
+        "linkId": 10,
+        "cat": "ekotoba",
+        "chapter": "芝浦晴嵐",
+        "chapterruby": "しばうらせいらん",
+        "kobun": "",
+        "gendaibun": "",
+        "googlemap": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6484.784007245786!2d139.74775880016236!3d35.642712417268065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188bb51e9c07bd%3A0xad368c5378bedf50!2z5p2x5Lqs6YO95riv5Yy66Iqd5rWm!5e0!3m2!1sja!2sjp!4v1668915152501!5m2!1sja!2sjp",
+        "basinmap": "https://maps.gsi.go.jp/?hc=hc#15/35.641221/139.752887/&base=std&ls=std%7Canaglyphmap_color%2C0.72&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/edomeisyohakkei_06-375.webp",
+        "srcTb": "/edomeisyohakkei_06-800.webp",
+        "src": "/edomeisyohakkei_06-1080.webp",
+        "name": "edomeisyohakkei_06.webp",
+        "srcWidth": "1641",
+        "srcHeight": "1080"
+      },
+      {
+        "ekotobaId": 8,
+        "linkId": 12,
+        "cat": "ekotoba",
+        "chapter": "池上晩鐘",
+        "chapterruby": "いけがみばんしょう",
+        "kobun": "【池上本門寺（江戸名所図会より）】",
+        "gendaibun": "",
+        "googlemap": "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d2296.0921480104307!2d139.7042960400912!3d35.57845715493988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sja!2sjp!4v1668915506905!5m2!1sja!2sjp",
+        "basinmap": "https://maps.gsi.go.jp/?hc=hc#16/35.577763/139.706011/&base=std&ls=std%7Canaglyphmap_color%2C0.72&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
+        "kobunsrc": "/ikegamihonmonji_edomeisyozue_1080.webp",
+        "kobunsrcSp": "/ikegamihonmonji_edomeisyozue_375.webp",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/edomeisyohakkei_07-375.webp",
+        "srcTb": "/edomeisyohakkei_07-800.webp",
+        "src": "/edomeisyohakkei_07-1080.webp",
+        "name": "edomeisyohakkei_07.webp",
+        "srcWidth": "1696",
+        "srcHeight": "1080"
+      },
+      {
+        "ekotobaId": 9,
+        "linkId": 14,
+        "cat": "ekotoba",
+        "chapter": "飛鳥山暮雪",
+        "chapterruby": "あすかやまぼせつ",
+        "kobun": "【飛鳥山（江戸名所図会より）】",
+        "gendaibun": "",
+        "googlemap": "https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d2722.820047440856!2d139.73557753942174!3d35.75087915274423!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1z6aOb6bOl5bGx!5e0!3m2!1sja!2sjp!4v1668915649686!5m2!1sja!2sjp",
+        "basinmap": "https://maps.gsi.go.jp/?hc=hc#17/35.750313/139.738948/&base=std&ls=std%7Canaglyphmap_color%2C0.72&blend=0&disp=11&vs=c1g1j0h0k0l0u0t0z0r0s0m0f0",
+        "kobunsrc": "/asukayama_edomisyozue_1080.webp",
+        "kobunsrcSp": "/asukayama_edomisyozue_375.webp",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/edomeisyohakkei_08-375.webp",
+        "srcTb": "/edomeisyohakkei_08-800.webp",
+        "src": "/edomeisyohakkei_08-1080.webp",
+        "name": "edomeisyohakkei_08.webp",
+        "srcWidth": "1693",
+        "srcHeight": "1080"
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "title": "千絵の海",
+    "titleen": "chienoumi",
+    "author": "葛飾北斎",
+    "authoren": "katsushika-hokusai",
+    "backgroundImage": "/washi-pattern-01.webp",
+    "video": "",
+    "thumb": "/chienoumi_thumb.webp",
+    "thumb2": "chienoumi_thumb.webp",
+    "metadesc": "",
+    "desc": "",
+    "era": "江戸",
+    "eraen": "edo",
+    "gif": "",
+    "type": "浮世絵",
+    "typeen": "ukiyoe",
+    "kotobagaki": true,
+    "sourceImageUrl": "https://en.wikipedia.org/wiki/Oceans_of_Wisdom",
+    "sourceImage": "Oceans of Wisdom（ウィキペディア）",
+    "sourceEkotoba": "",
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "甲州火振",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": true,
+        "cat": "image",
+        "srcSp": "/chienoumi_01-375.webp",
+        "srcTb": "/chienoumi_01-800.webp",
+        "src": "/chienoumi_01-1080.webp",
+        "name": "chienoumi_01.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "五島鯨突",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": true,
+        "cat": "image",
+        "srcSp": "/chienoumi_02-375.webp",
+        "srcTb": "/chienoumi_02-800.webp",
+        "src": "/chienoumi_02-1080.webp",
+        "name": "chienoumi_02.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "相州浦賀",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/chienoumi_03-375.webp",
+        "srcTb": "/chienoumi_03-800.webp",
+        "src": "/chienoumi_03-1080.webp",
+        "name": "chienoumi_03.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "総州銚子",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/chienoumi_04-375.webp",
+        "srcTb": "/chienoumi_04-800.webp",
+        "src": "/chienoumi_04-1080.webp",
+        "name": "chienoumi_04.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "総州利根川",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/chienoumi_05-375.webp",
+        "srcTb": "/chienoumi_05-800.webp",
+        "src": "/chienoumi_05-1080.webp",
+        "name": "chienoumi_05.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "絹川はちふせ",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/chienoumi_06-375.webp",
+        "srcTb": "/chienoumi_06-800.webp",
+        "src": "/chienoumi_06-1080.webp",
+        "name": "chienoumi_06.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "蚊針流",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/chienoumi_07-375.webp",
+        "srcTb": "/chienoumi_07-800.webp",
+        "src": "/chienoumi_07-1080.webp",
+        "name": "chienoumi_07.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "待チ網",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/chienoumi_08-375.webp",
+        "srcTb": "/chienoumi_08-800.webp",
+        "src": "/chienoumi_08-1080.webp",
+        "name": "chienoumi_08.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "宮戸川長縄",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/chienoumi_09-375.webp",
+        "srcTb": "/chienoumi_09-800.webp",
+        "src": "/chienoumi_09-1080.webp",
+        "name": "chienoumi_09.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "下総登戸",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/chienoumi_10-375.webp",
+        "srcTb": "/chienoumi_10-800.webp",
+        "src": "/chienoumi_10-1080.webp",
+        "name": "chienoumi_10.webp"
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "title": "金沢八景",
+    "titleen": "kanazawa-hakkei",
+    "author": "歌川広重",
+    "authoren": "utawaga-hirosige",
+    "backgroundImage": "/washi-pattern-01.webp",
+    "video": "",
+    "thumb": "/01_uchikawa-no-bosetsu_kanazawa-hakkei-800.webp",
+    "thumb2": "01_uchikawa-no-bosetsu_kanazawa-hakkei-800.webp",
+    "metadesc": "",
+    "desc": "",
+    "era": "江戸",
+    "eraen": "edo",
+    "gif": "",
+    "type": "浮世絵",
+    "typeen": "ukiyoe",
+    "kotobagaki": true,
+    "sourceImageUrl": "https://dl.ndl.go.jp/pid/1305445/1/1",
+    "sourceImage": "金沢八景（国立国会図書館）",
+    "sourceEkotoba": "",
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "内川暮雪",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": true,
+        "cat": "image",
+        "srcSp": "/01_uchikawa-no-bosetsu_kanazawa-hakkei-375.webp",
+        "srcTb": "/01_uchikawa-no-bosetsu_kanazawa-hakkei-800.webp",
+        "src": "/01_uchikawa-no-bosetsu_kanazawa-hakkei-1080.webp",
+        "name": "01_uchikawa-no-bosetsu_kanazawa-hakkei.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "洲崎晴嵐",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": true,
+        "cat": "image",
+        "srcSp": "/02_susaki-no-seirann_kanazawa-hakkei-375.webp",
+        "srcTb": "/02_susaki-no-seirann_kanazawa-hakkei-800.webp",
+        "src": "/02_susaki-no-seirann_kanazawa-hakkei-1080.webp",
+        "name": "02_susaki-no-seirann_kanazawa-hakkei.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "称名晩鐘",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/03_syoumyou-no-bansyou_kanazawa-hakkei-375.webp",
+        "srcTb": "/03_syoumyou-no-bansyou_kanazawa-hakkei-800.webp",
+        "src": "/03_syoumyou-no-bansyou_kanazawa-hakkei-1080.webp",
+        "name": "03_syoumyou-no-bansyou_kanazawa-hakkei.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "瀬戸秋月",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/04_seto-no-syuugetsu_kanazawa-hakkei-375.webp",
+        "srcTb": "/04_seto-no-syuugetsu_kanazawa-hakkei-800.webp",
+        "src": "/04_seto-no-syuugetsu_kanazawa-hakkei-1080.webp",
+        "name": "04_seto-no-syuugetsu_kanazawa-hakkei.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "小泉夜雨",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/05_koizumi-no-yau_kanazawa-hakkei-375.webp",
+        "srcTb": "/05_koizumi-no-yau_kanazawa-hakkei-800.webp",
+        "src": "/05_koizumi-no-yau_kanazawa-hakkei-1080.webp",
+        "name": "05_koizumi-no-yau_kanazawa-hakkei.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "平潟落雁",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/06_hiragata-no-rakugann_kanazawa-hakkei-375.webp",
+        "srcTb": "/06_hiragata-no-rakugann_kanazawa-hakkei-800.webp",
+        "src": "/06_hiragata-no-rakugann_kanazawa-hakkei-1080.webp",
+        "name": "06_hiragata-no-rakugann_kanazawa-hakkei.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "乙艫帰帆",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/07_ottomo-kisenn_kanazawa-hakkei-375.webp",
+        "srcTb": "/07_ottomo-kisenn_kanazawa-hakkei-800.webp",
+        "src": "/07_ottomo-kisenn_kanazawa-hakkei-1080.webp",
+        "name": "07_ottomo-kisenn_kanazawa-hakkei.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "野島夕照",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/08_nojima-no-sekisyou_kanazawa-hakkei-375.webp",
+        "srcTb": "/08_nojima-no-sekisyou_kanazawa-hakkei-800.webp",
+        "src": "/08_nojima-no-sekisyou_kanazawa-hakkei-1080.webp",
+        "name": "08_nojima-no-sekisyou_kanazawa-hakkei.webp"
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "title": "武陽金澤八勝夜景",
+    "titleen": "buyokanazawahasshoyakei",
+    "author": "歌川広重",
+    "authoren": "utawaga-hirosige",
+    "backgroundImage": "/washi-pattern-01.webp",
+    "video": "",
+    "thumb": "/02_buyokanazawahasshoyakei_center-800.webp",
+    "thumb2": "02_buyokanazawahasshoyakei_center-800.webp",
+    "metadesc": "",
+    "desc": "",
+    "era": "江戸",
+    "eraen": "edo",
+    "gif": "",
+    "type": "浮世絵",
+    "typeen": "ukiyoe",
+    "kotobagaki": true,
+    "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-10569-3230?locale=ja",
+    "sourceImage": "武陽金澤八勝夜景（東京国立博物館 ColBase）",
+    "sourceEkotoba": "",
+    "emakis": [
+      {
+        "load": true,
+        "cat": "image",
+        "srcSp": "/01_buyokanazawahasshoyakei_right-375.webp",
+        "srcTb": "/01_buyokanazawahasshoyakei_right-800.webp",
+        "src": "/01_buyokanazawahasshoyakei_right-1080.webp",
+        "name": "01_buyokanazawahasshoyakei_right.webp"
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/02_buyokanazawahasshoyakei_center-375.webp",
+        "srcTb": "/02_buyokanazawahasshoyakei_center-800.webp",
+        "src": "/02_buyokanazawahasshoyakei_center-1080.webp",
+        "name": "02_buyokanazawahasshoyakei_center.webp"
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/03_buyokanazawahasshoyakei_left-375.webp",
+        "srcTb": "/03_buyokanazawahasshoyakei_left-800.webp",
+        "src": "/03_buyokanazawahasshoyakei_left-1080.webp",
+        "name": "03_buyokanazawahasshoyakei_left.webp"
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "title": "近江八景",
+    "titleen": "omi-hakkei",
+    "author": "歌川広重",
+    "authoren": "utawaga-hirosige",
+    "backgroundImage": "/washi-pattern-01.webp",
+    "video": "",
+    "thumb": "/07_ishiyamashugetsu_omi-hakkei-800.webp",
+    "thumb2": "07_ishiyamashugetsu_omi-hakkei-800.webp",
+    "metadesc": "",
+    "desc": "",
+    "era": "江戸",
+    "eraen": "edo",
+    "gif": "",
+    "type": "浮世絵",
+    "typeen": "ukiyoe",
+    "kotobagaki": true,
+    "sourceImageUrl": "https://dl.ndl.go.jp/pid/1304662",
+    "sourceImage": "近江八景（国立国会図書館）",
+    "sourceEkotoba": "",
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "唐崎夜雨",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": true,
+        "cat": "image",
+        "srcSp": "/01_karasakiyau_omi-hakkei-375.webp",
+        "srcTb": "/01_karasakiyau_omi-hakkei-800.webp",
+        "src": "/01_karasakiyau_omi-hakkei-1080.webp",
+        "name": "01_karasakiyau_omi-hakkei.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "堅田落雁",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": true,
+        "cat": "image",
+        "srcSp": "/02_katatarakugan_omi-hakkei-375.webp",
+        "srcTb": "/02_katatarakugan_omi-hakkei-800.webp",
+        "src": "/02_katatarakugan_omi-hakkei-1080.webp",
+        "name": "02_katatarakugan_omi-hakkei.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "三井晩鐘",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/03_mitsuibansho_omi-hakkei-375.webp",
+        "srcTb": "/03_mitsuibansho_omi-hakkei-800.webp",
+        "src": "/03_mitsuibansho_omi-hakkei-1080.webp",
+        "name": "03_mitsuibansho_omi-hakkei.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "粟津晴嵐",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/04_awazuseiran_omi-hakkei-375.webp",
+        "srcTb": "/04_awazuseiran_omi-hakkei-800.webp",
+        "src": "/04_awazuseiran_omi-hakkei-1080.webp",
+        "name": "04_awazuseiran_omi-hakkei.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "比良暮雪",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/05_hiyoshibosetsu_omi-hakkei-375.webp",
+        "srcTb": "/05_hiyoshibosetsu_omi-hakkei-800.webp",
+        "src": "/05_hiyoshibosetsu_omi-hakkei-1080.webp",
+        "name": "05_hiyoshibosetsu_omi-hakkei.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "瀬田夕照",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/06_setayusho_omi-hakkei-375.webp",
+        "srcTb": "/06_setayusho_omi-hakkei-800.webp",
+        "src": "/06_setayusho_omi-hakkei-1080.webp",
+        "name": "06_setayusho_omi-hakkei.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "石山秋月",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/07_ishiyamashugetsu_omi-hakkei-375.webp",
+        "srcTb": "/07_ishiyamashugetsu_omi-hakkei-800.webp",
+        "src": "/07_ishiyamashugetsu_omi-hakkei-1080.webp",
+        "name": "07_ishiyamashugetsu_omi-hakkei.webp"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "矢橋帰帆",
+        "kobun": "",
+        "gendaibun": "",
+        "phrase": [{}]
+      },
+      {
+        "load": false,
+        "cat": "image",
+        "srcSp": "/08_yahashikihan_omi-hakkei-375.webp",
+        "srcTb": "/08_yahashikihan_omi-hakkei-800.webp",
+        "src": "/08_yahashikihan_omi-hakkei-1080.webp",
+        "name": "08_yahashikihan_omi-hakkei.webp"
+      }
+    ]
+  }
+]

@@ -4,7 +4,7 @@ import CardA from "../../components/CardA";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
-import enData from "../../libs/en/data";
+import enData from "../../libs/data";
 import jaData from "../../libs/data";
 import { removeNestedEmakisObj, eraItem } from "../../libs/func";
 

@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { ja, en } from "./staticData";
 import { jaMeta, enMeta } from "./dataSiteMeta";
-import enData from "./en/data";
+import enData from "./data";
 import jaData from "./data";
 
 const useLocale = () => {

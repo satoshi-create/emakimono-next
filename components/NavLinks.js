@@ -31,7 +31,7 @@ const NavLinks = ({ footerstyle, slug }) => {
               </Link>
               <ul
                 className={`${submenu && styles.submenu}`}
-                style={toggle ? { display: "flex" } : { display: "none" }}
+                style={toggle ? { display: "grid" } : { display: "none" }}
               ></ul>
             </li>
           );
@@ -52,7 +52,7 @@ const NavLinks = ({ footerstyle, slug }) => {
               </div>
               <div
                 className={styles.submenu}
-                style={toggle ? { display: "flex" } : { display: "none" }}
+                style={toggle ? { display: "grid" } : { display: "none" }}
               >
                 {submenu.map((item, i) => {
                   const { name, path, nameen } = item;

@@ -4,7 +4,7 @@ import EmakiConteiner from "../components/EmakiConteiner";
 import Sidebar from "../components/Sidebar";
 import Head from "../components/Meta";
 import emakisData from "../libs/data";
-import enData from "../libs/en/data";
+import enData from "../libs/data";
 import jaData from "../libs/data";
 import Footer from "../components/Footer";
 import FullScreenComp from "../components/FullScreenComp";
@@ -90,7 +90,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
     window.scrollTo({ top: 0, behavior: "instant" });
     setnavIndex(0);
     setHash(0);
-  }, [setnavIndex, setHash]) ;
+  }, [setnavIndex, setHash]);
 
   // const matchMediaContainer = (ori) => {
   //   switch (ori) {
