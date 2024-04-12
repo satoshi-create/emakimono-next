@@ -6012,7 +6012,7 @@
     "sourceImageUrl": "https://dl.ndl.go.jp/pid/1685003",
     "sourceImage": "源氏物語絵巻（徳川美術館 国立国会図書館）ほか",
     "sourceEkotoba": "",
-    "emakis": [
+    "emakis":[
       {
         "cat": "ekotoba",
         "chapter": "五　若紫",
@@ -6330,10 +6330,18 @@
             "wiki": ""
           },
           {
-            "name": "大君、中の君",
+            "name": "中の君",
             "status": "貴族（玉鬘の娘）",
             "top": 20,
             "right": 70,
+            "gender": "woman",
+            "wiki": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
+          },
+          {
+            "name": "大君",
+            "status": "貴族（玉鬘の娘）",
+            "top": 40,
+            "right": 85,
             "gender": "woman",
             "wiki": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
           }
@@ -6358,7 +6366,33 @@
         "src": "/45_genji_emaki_hashihime_image_tokugawa-kokkai-1080.webp",
         "name": "45_genji_emaki_hashihime_image_tokugawa-kokkai.webp",
         "srcWidth": 4009,
-        "srcHeight": 1080
+        "srcHeight": 1080,
+        "character": [
+          {
+            "name": "中の君",
+            "status": "貴族（玉鬘の娘）",
+            "top": 20,
+            "right": 60,
+            "gender": "woman",
+            "wiki": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
+          },
+          {
+            "name": "薫",
+            "status": "貴族",
+            "top": 70,
+            "right": 10,
+            "gender": "man",
+            "wiki": "https://ja.wikipedia.org/wiki/%E8%96%AB"
+          },
+          {
+            "name": "大君",
+            "status": "貴族（玉鬘の娘）",
+            "top": 40,
+            "right": 90,
+            "gender": "woman",
+            "wiki": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -6463,6 +6497,7 @@
         "srcHeight": 1080
       }
     ]
+
   },
   {
     "id": 43,
