@@ -18,6 +18,7 @@ const OverlayEkotoba = ({
     srcWidth,
     srcHeight,
     chapter,
+    chapter_num,
     index,
     navIndex,
     type,
