@@ -6012,7 +6012,7 @@
     "sourceImageUrl": "https://dl.ndl.go.jp/pid/1685003",
     "sourceImage": "源氏物語絵巻（徳川美術館 国立国会図書館）ほか",
     "sourceEkotoba": "",
-    "emakis":[
+    "emakis": [
       {
         "cat": "ekotoba",
         "chapter": "五　若紫",
@@ -6409,7 +6409,33 @@
         "src": "/48_genji_emaki_sawarabi_image_tokugawa-kokkai-1080.webp",
         "name": "48_genji_emaki_sawarabi_image_tokugawa-kokkai.webp",
         "srcWidth": 4009,
-        "srcHeight": 1080
+        "srcHeight": 1080,
+        "character": [
+          {
+            "name": "中の君",
+            "status": "貴族（玉鬘の娘）",
+            "top": 20,
+            "right": 60,
+            "gender": "woman",
+            "wiki": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
+          },
+          {
+            "name": "女房",
+            "status": "女官",
+            "top": 70,
+            "right": 20,
+            "gender": "woman",
+            "wiki": ""
+          },
+          {
+            "name": "弁の尼",
+            "status": "貴族（玉鬘の娘）",
+            "top": 50,
+            "right": 85,
+            "gender": "woman",
+            "wiki": "https://ja.wikipedia.org/wiki/%E5%BC%81%E3%81%AE%E5%B0%BC"
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -6497,7 +6523,6 @@
         "srcHeight": 1080
       }
     ]
-
   },
   {
     "id": 43,
