@@ -53,6 +53,8 @@
 .chapter {
   font-weight: 400;
   font-family: var(--text-font-koten);
+  /* text-combine-upright: all; */
+
 }
 
 .gendaibun {
