@@ -718,5 +718,137 @@
         "name": "08_yahashikihan_omi-hakkei.webp"
       }
     ]
+  },
+  {
+    "id": 42,
+    "title": "雪月花　三部作",
+    "titleen": "setsugekka",
+    "author": "歌川広重",
+    "authoren": "utawaga-hirosige",
+    "backgroundImage": "/washi-pattern-01.webp",
+    "video": "",
+    "thumb": "/awanarutonofukei_02-flower-center_tohaku-800.webp",
+    "thumb2": "awanarutonofukei_02-flower-center_tohaku-800.webp",
+    "metadesc": "",
+    "desc": "",
+    "era": "江戸",
+    "eraen": "edo",
+    "gif": "",
+    "type": "浮世絵",
+    "typeen": "ukiyoe",
+    "kotobagaki": true,
+    "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-10569-3235?locale=ja",
+    "sourceImage": "（東京国立博物館 ColBase）",
+    "sourceEkotoba": "",
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "【雪】木曽路之山川",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "True",
+        "srcSp": "/kisojinosansen_01-snow-right_tohaku-375.webp",
+        "srcTb": "/kisojinosansen_01-snow-right_tohaku-800.webp",
+        "src": "/kisojinosansen_01-snow-right_tohaku-1080.webp",
+        "name": "kisojinosansen_01-snow-right_tohaku"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "True",
+        "srcSp": "/kisojinosansen_02-snow-center_tohaku-375.webp",
+        "srcTb": "/kisojinosansen_02-snow-center_tohaku-800.webp",
+        "src": "/kisojinosansen_02-snow-center_tohaku-1080.webp",
+        "name": "kisojinosansen_02-snow-center_tohaku"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/kisojinosansen_03-snow-left_tohaku-375.webp",
+        "srcTb": "/kisojinosansen_03-snow-left_tohaku-800.webp",
+        "src": "/kisojinosansen_03-snow-left_tohaku-1080.webp",
+        "name": "kisojinosansen_03-snow-left_tohaku"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "【月】武陽金澤八勝夜景",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/buyokanazawahasshoyakei_01-moon-right_tohaku-375.webp",
+        "srcTb": "/buyokanazawahasshoyakei_01-moon-right_tohaku-800.webp",
+        "src": "/buyokanazawahasshoyakei_01-moon-right_tohaku-1080.webp",
+        "name": "buyokanazawahasshoyakei_01-moon-right_tohaku"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/buyokanazawahasshoyakei_02-moon-center_tohaku-375.webp",
+        "srcTb": "/buyokanazawahasshoyakei_02-moon-center_tohaku-800.webp",
+        "src": "/buyokanazawahasshoyakei_02-moon-center_tohaku-1080.webp",
+        "name": "buyokanazawahasshoyakei_02-moon-center_tohaku"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/buyokanazawahasshoyakei_03-moon-left_tohaku-375.webp",
+        "srcTb": "/buyokanazawahasshoyakei_03-moon-left_tohaku-800.webp",
+        "src": "/buyokanazawahasshoyakei_03-moon-left_tohaku-1080.webp",
+        "name": "buyokanazawahasshoyakei_03-moon-left_tohaku"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "【花】阿波鳴門之風景",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/awanarutonofukei_01-flower-right_tohaku-375.webp",
+        "srcTb": "/awanarutonofukei_01-flower-right_tohaku-800.webp",
+        "src": "/awanarutonofukei_01-flower-right_tohaku-1080.webp",
+        "name": "awanarutonofukei_01-flower-right_tohaku"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/awanarutonofukei_02-flower-center_tohaku-375.webp",
+        "srcTb": "/awanarutonofukei_02-flower-center_tohaku-800.webp",
+        "src": "/awanarutonofukei_02-flower-center_tohaku-1080.webp",
+        "name": "awanarutonofukei_02-flower-center_tohaku"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/awanarutonofukei_03-flower-left_tohaku-375.webp",
+        "srcTb": "/awanarutonofukei_03-flower-left_tohaku-800.webp",
+        "src": "/awanarutonofukei_03-flower-left_tohaku-1080.webp",
+        "name": "awanarutonofukei_03-flower-left_tohaku"
+      }
+    ]
   }
 ]
