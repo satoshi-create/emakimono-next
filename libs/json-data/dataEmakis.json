@@ -6452,7 +6452,33 @@
         "src": "/49_genji_emaki_yadorigi_image_tokugawa-kokkai-1080.webp",
         "name": "49_genji_emaki_yadorigi_image_tokugawa-kokkai.webp",
         "srcWidth": 4009,
-        "srcHeight": 1080
+        "srcHeight": 1080,
+        "character": [
+          {
+            "name": "薫",
+            "status": "貴族",
+            "top": 65,
+            "right": 15,
+            "gender": "man",
+            "wiki": "https://ja.wikipedia.org/wiki/%E8%96%AB"
+          },
+          {
+            "name": "今上帝",
+            "status": "天皇",
+            "top": 40,
+            "right": 20,
+            "gender": "man",
+            "wiki": "https://ja.wikipedia.org/wiki/%E4%BB%8A%E4%B8%8A%E5%B8%9D_(%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E)"
+          },
+          {
+            "name": "女房",
+            "status": "女官",
+            "top": 50,
+            "right": 85,
+            "gender": "woman",
+            "wiki": ""
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -6469,7 +6495,33 @@
         "src": "/49_genji_emaki_yadorigi2_image_tokugawa-kokkai-1080.webp",
         "name": "49_genji_emaki_yadorigi2_image_tokugawa-kokkai.webp",
         "srcWidth": 4009,
-        "srcHeight": 1080
+        "srcHeight": 1080,
+        "character": [
+          {
+            "name": "六の君",
+            "status": "貴族（夕霧の娘、匂の宮の妻）",
+            "top": 65,
+            "right": 15,
+            "gender": "woman",
+            "wiki": "https://ja.wikipedia.org/wiki/%E5%85%AD%E3%81%AE%E5%90%9B"
+          },
+          {
+            "name": "匂の宮",
+            "status": "貴族（源氏の外孫）",
+            "top": 30,
+            "right": 20,
+            "gender": "man",
+            "wiki": "https://ja.wikipedia.org/wiki/%E5%8C%82%E5%AE%AE"
+          },
+          {
+            "name": "女房",
+            "status": "女官",
+            "top": 50,
+            "right": 85,
+            "gender": "woman",
+            "wiki": ""
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -6486,7 +6538,25 @@
         "src": "/49_genji_emaki_yadorigi3_image_tokugawa-kokkai-1080.webp",
         "name": "49_genji_emaki_yadorigi3_image_tokugawa-kokkai.webp",
         "srcWidth": 4009,
-        "srcHeight": 1080
+        "srcHeight": 1080,
+        "character": [
+          {
+            "name": "中の君",
+            "status": "貴族（宇治八宮の娘、匂の宮の妻）",
+            "top": 15,
+            "right": 15,
+            "gender": "woman",
+            "wiki": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
+          },
+          {
+            "name": "匂の宮",
+            "status": "貴族（源氏の外孫）",
+            "top": 5,
+            "right": 35,
+            "gender": "man",
+            "wiki": "https://ja.wikipedia.org/wiki/%E5%8C%82%E5%AE%AE"
+          }
+        ]
       },
       {
         "cat": "ekotoba",
