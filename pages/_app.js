@@ -29,6 +29,7 @@ function MyApp({ Component, pageProps, router }) {
   const { t: emakisData } = useLocaleData();
   const [ekotobaToggle, setekotobaToggle] = useState(false);
   const [characterToggle, setCharacterToggle] = useState(true);
+  const [ebikiToggle, setEbikiToggle] = useState(true);
   const [oepnSidebar, setOepnSidebar] = useState(false);
   const [ekotobaImageToggle, setEkotobaImageToggle] = useState(true);
   const [query, setQuery] = useState("");
@@ -67,6 +68,10 @@ function MyApp({ Component, pageProps, router }) {
   };
   const handleCharacterToggle = () => {
     setCharacterToggle(!characterToggle);
+  };
+
+  const handleEbikiToggle = () => {
+    setEbikiToggle(!ebikiToggle);
   };
 
   const handleFullScreen = (orientation) => {
@@ -260,6 +265,8 @@ function MyApp({ Component, pageProps, router }) {
         handleEkotobaImageToggle,
         handleCharacterToggle,
         characterToggle,
+        handleEbikiToggle,
+        ebikiToggle
       }}
     >
       <Script

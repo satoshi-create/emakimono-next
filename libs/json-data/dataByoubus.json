@@ -16,6 +16,7 @@
     "gif": "",
     "type": "屏風",
     "typeen": "byoubu",
+    "ebiki":true,
     "kotobagaki": false,
     "sourceImageUrl": "https://asia.si.edu/object/F1906.231-232/",
     "sourceImage": "Waves at Matsushima（フリーア美術館）",
@@ -34,7 +35,16 @@
         "srcSp": "/matsusima_01-375.webp",
         "srcTb": "/matsusima_01-800.webp",
         "src": "/matsusima_01-1080.webp",
-        "name": "matsusima_01.webp"
+        "name": "matsusima_01.webp",
+        "ebiki": [
+          {
+            "name": "誰ヶ袖図屏風",
+            "status": "",
+            "top": 30,
+            "right": 20,
+            "path": "/whose-sleeves-byoubu#3"
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -906,6 +916,7 @@
     "gif": "",
     "type": "屏風",
     "typeen": "byoubu",
+    "ebiki": true,
     "kotobagaki": false,
     "sourceImageUrl": "https://asia.si.edu/explore-art-culture/collections/search/edanmdm:fsg_F1907.126/",
     "sourceImage": "Whose Sleeves（フリーア美術館）",
@@ -939,7 +950,16 @@
         "srcSp": "/left-side_whose-sleeves-375.webp",
         "srcTb": "/left-side_whose-sleeves-800.webp",
         "src": "/left-side_whose-sleeves-1080.webp",
-        "name": "left-side_whose-sleeves.webp"
+        "name": "left-side_whose-sleeves.webp",
+        "ebiki": [
+          {
+            "name": "松島図屏風",
+            "status": "松島図屏風",
+            "top": 30,
+            "right": 50,
+            "path": "/matsusima"
+          }
+        ]
       }
     ]
   },
