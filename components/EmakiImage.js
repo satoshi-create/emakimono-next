@@ -20,9 +20,11 @@ const EmakiImage = ({
     selectedRef,
     navIndex,
     character,
+    ebiki,
   },
 }) => {
-  const { scrollDialog, characterToggle, orientation } = useContext(AppContext);
+  const { scrollDialog, characterToggle, orientation, ebikiToggle } =
+    useContext(AppContext);
 
   return (
     <section
@@ -48,6 +50,35 @@ const EmakiImage = ({
                         ? "1px solid #5da3ff"
                         : "1px solid #ff7580"
                     }`,
+                    fontSize: `${
+                      orientation === "portrait"
+                        ? "var(--text-size-prt)"
+                        : "var(--text-size)"
+                    }`,
+                    padding: `${
+                      orientation === "portrait" ? ".5rem 0" : "1rem 0"
+                    }`,
+                  }}
+                >
+                  {item.name}
+                </a>
+              </Link>
+            );
+          })}
+        </div>
+      )}
+      {ebikiToggle && ebiki && (
+        <div>
+          {ebiki?.map((item, i) => {
+            return (
+              <Link key={i} href={`${item.path ? item.path : "/"}`}>
+                <a
+                  // target="_blank"
+                  className={styles.ebikibox}
+                  // inline cssにhoverは当てられない？？
+                  style={{
+                    top: `${item.top}%`,
+                    right: `${item.right}%`,
                     fontSize: `${
                       orientation === "portrait"
                         ? "var(--text-size-prt)"
