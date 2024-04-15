@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import styles from "../styles/ToggleEkotoba.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBook,faBookOpen } from "@fortawesome/free-solid-svg-icons";
+import { faBook, faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import { AppContext } from "../pages/_app";
 
 const ToggleEbiki = () => {
@@ -20,9 +20,9 @@ const ToggleEbiki = () => {
         }}
       >
         {ebikiToggle ? (
-          <FontAwesomeIcon icon={faBookOpen} />
-        ) : (
           <FontAwesomeIcon icon={faBook} />
+        ) : (
+          <FontAwesomeIcon icon={faBookOpen} />
         )}
       </i>
     </button>
