@@ -1440,6 +1440,7 @@
     "eraen": "kamakura",
     "type": "絵巻",
     "typeen": "emaki",
+
     "keyword": [
       {
         "name": "説話",
@@ -1789,6 +1790,7 @@
     "era": "鎌倉",
     "eraen": "kamakura",
     "type": "絵巻",
+    "ebiki": true,
     "typeen": "emaki",
     "subtype": "説話",
     "subtypeen": "emakien",
@@ -1883,23 +1885,32 @@
         "name": "nayotake_02.webp",
         "viewBoxW": "669",
         "viewBoxH": "375",
-        "clickImg": [
-          {
-            "shape": "<circle cx=\"334.5\" cy=\"174\" r=\"33\" style=\"fill:rgb(255,0,0);fill-opacity:0.42;\"/>",
-            "partImg": "/esi_03_partimage_01.webp",
-            "title": "宣旨を読み上げる絵師",
-            "text": "「伊予国・・・令知行・・・天気（によって執達件の如し）」と書いてある。"
-          },
-          {
-            "shape": "<rect x=\"130\" y=\"159\" width=\"62\" height=\"41\" style=\"fill:rgb(255,0,0);fill-opacity:0.42;\"/>",
-            "partImg": "/esi_03_partimage_01.webp",
-            "title": "宣旨を読み上げる絵師",
-            "text": "宴会に興じる絵師一族"
-          }
-        ],
         "id": 152,
         "srcWidth": 1909,
-        "srcHeight": 1080
+        "srcHeight": 1080,
+        "ebiki": [
+          {
+            "name": "柳",
+            "status": "",
+            "top": 40,
+            "right": 15,
+            "path": "https://ja.wikipedia.org/wiki/%E8%B9%B4%E9%9E%A0"
+          },
+          {
+            "name": "桜",
+            "status": "",
+            "top": 80,
+            "right": 45,
+            "path": "https://ja.wikipedia.org/wiki/%E8%B9%B4%E9%9E%A0"
+          },
+          {
+            "name": "楓",
+            "status": "",
+            "top": 30,
+            "right": 80,
+            "path": "https://ja.wikipedia.org/wiki/%E8%B9%B4%E9%9E%A0"
+          }
+        ]
       },
       {
         "load": false,
@@ -1910,7 +1921,16 @@
         "name": "nayotake_03.webp",
         "id": 153,
         "srcWidth": 1774,
-        "srcHeight": 1080
+        "srcHeight": 1080,
+        "ebiki": [
+          {
+            "name": "松",
+            "status": "",
+            "top": 85,
+            "right": 15,
+            "path": "https://ja.wikipedia.org/wiki/%E8%B9%B4%E9%9E%A0"
+          }
+        ]
       },
       {
         "load": false,
@@ -6630,7 +6650,7 @@
             "name": "薫",
             "status": "貴族",
             "top": 50,
-            "right":30,
+            "right": 30,
             "gender": "man",
             "wiki": "https://ja.wikipedia.org/wiki/%E8%96%AB"
           },
@@ -6646,7 +6666,7 @@
             "name": "弁の尼",
             "status": "宇治八の宮家の女房",
             "top": 50,
-            "right":75,
+            "right": 75,
             "gender": "woman",
             "wiki": "https://ja.wikipedia.org/wiki/%E5%BC%81%E3%81%AE%E5%B0%BC"
           }

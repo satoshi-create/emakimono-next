@@ -86,9 +86,10 @@ const OverlayEkotoba = ({
                     : "var(--title-size)"
                 }`,
               }}
-            >
-              {chapter}
-            </h3>
+              dangerouslySetInnerHTML={{
+                __html: chapter,
+              }}
+            ></h3>
             {type === "浮世絵" && (
               <Link href="/">
                 <a className={styles.mapiconlink}>
