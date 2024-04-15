@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps, router }) {
   const { t: emakisData } = useLocaleData();
   const [ekotobaToggle, setekotobaToggle] = useState(false);
   const [characterToggle, setCharacterToggle] = useState(true);
-  const [ebikiToggle, setEbikiToggle] = useState(true);
+  const [ebikiToggle, setEbikiToggle] = useState(false);
   const [oepnSidebar, setOepnSidebar] = useState(false);
   const [ekotobaImageToggle, setEkotobaImageToggle] = useState(true);
   const [query, setQuery] = useState("");
