@@ -1440,7 +1440,8 @@
     "eraen": "kamakura",
     "type": "絵巻",
     "typeen": "emaki",
-
+    "ebiki": true,
+    "character": true,
     "keyword": [
       {
         "name": "説話",
@@ -1551,7 +1552,33 @@
         "name": "naomoto_03.webp",
         "id": 133,
         "srcWidth": 1626,
-        "srcHeight": 1080
+        "srcHeight": 1080,
+        "character": [
+          {
+            "name": "鳩車をひく少女",
+            "status": "",
+            "top": 60,
+            "right": 85,
+            "gender": "man",
+            "wiki": "https://kotobank.jp/word/%E9%B3%A9%E8%BB%8A-115411#w-115411"
+          },
+          {
+            "name": "橘直幹",
+            "status": "",
+            "top": 15,
+            "right": 65,
+            "gender": "man",
+            "wiki": "https://kotobank.jp/word/%E6%A9%98%E7%9B%B4%E5%B9%B9-1089490"
+          },
+          {
+            "name": "はだかの子",
+            "status": "",
+            "top": 60,
+            "right": 63,
+            "gender": "man",
+            "wiki": ""
+          }
+        ]
       },
       {
         "load": false,
@@ -1562,7 +1589,49 @@
         "name": "naomoto_04.webp",
         "id": 134,
         "srcWidth": 2195,
-        "srcHeight": 1080
+        "srcHeight": 1080,
+        "ebiki": [
+          {
+            "name": "上げ土門",
+            "status": "",
+            "top": 25,
+            "right": 58,
+            "path": "https://kotobank.jp/word/%E4%B8%8A%E5%9C%9F%E9%96%80-423754#goog_rewarded"
+          },
+          {
+            "name": "網代垣",
+            "status": "",
+            "top": 50,
+            "right": 20,
+            "path": "https://kotobank.jp/word/%E7%B6%B2%E4%BB%A3%E5%9E%A3-424738"
+          }
+        ],
+        "character": [
+          {
+            "name": "朸をかつぐ男",
+            "status": "商人",
+            "top": 60,
+            "right": 75,
+            "gender": "man",
+            "wiki": "https://kotobank.jp/word/%E6%9C%B8-426468"
+          },
+          {
+            "name": "皿籠を運ぶ子",
+            "status": "",
+            "top": 20,
+            "right": 30,
+            "gender": "man",
+            "wiki": ""
+          },
+          {
+            "name": "垂髪の少年",
+            "status": "",
+            "top": 60,
+            "right": 35,
+            "gender": "man",
+            "wiki": "https://kotobank.jp/word/%E5%9E%82%E9%AB%AA-83122#w-2014505"
+          }
+        ]
       },
       {
         "load": false,
