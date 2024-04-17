@@ -133,7 +133,7 @@ const Home = () => {
         sectionname={t.favorite.name}
         linktitle={"絵巻"}
         linktitleen={"EMAKIMONO"}
-        linkpath={"/category/emaki"}
+        linkpath={"/type/emaki"}
       />
 
       <CardA
@@ -145,7 +145,7 @@ const Home = () => {
         sectionname={t.variation.name}
         linktitle={"絵巻"}
         linktitleen={"EMAKIMONO"}
-        linkpath={"/category/emaki"}
+        linkpath={"/type/emaki"}
         bcg={"var(--clr-bcg)"}
       />
       <CardB
@@ -156,7 +156,7 @@ const Home = () => {
         sectionname={t.history.name}
         linktitle={"絵巻"}
         linktitleen={"EMAKIMONO"}
-        linkpath={"/category/emaki"}
+        linkpath={"/type/emaki"}
       />
       <PersonNames
         sectiontitle={t.personname.title}
@@ -193,7 +193,7 @@ const Home = () => {
         sectionname={t.alpha.name}
         linktitle={"ワイド美術"}
         linktitleen={"Side-scrolling art"}
-        linkpath={"/category/byoubu"}
+        linkpath={"/type/byoubu"}
       />
       <Footer />
     </main>

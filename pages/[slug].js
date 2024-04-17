@@ -38,7 +38,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
     locale === "en"
       ? `You can enjoy all the scenes of the${pagetitle} ${
           data.author && `（${data.author}）`
-        }in vertical and right to left scrolling mode.`
+        }in verticalp and right to left scrolling mode.`
       : `${pagetitle} ${
           data.author && `（${data.author}）`
         }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
