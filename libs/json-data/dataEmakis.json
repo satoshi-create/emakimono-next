@@ -1560,7 +1560,7 @@
             "top": 60,
             "right": 85,
             "gender": "man",
-            "wiki": "https://kotobank.jp/word/%E9%B3%A9%E8%BB%8A-115411#w-115411"
+            "link": "https://kotobank.jp/word/%E9%B3%A9%E8%BB%8A-115411#w-115411"
           },
           {
             "name": "橘直幹",
@@ -1568,7 +1568,7 @@
             "top": 15,
             "right": 65,
             "gender": "man",
-            "wiki": "https://kotobank.jp/word/%E6%A9%98%E7%9B%B4%E5%B9%B9-1089490"
+            "link": "https://kotobank.jp/word/%E6%A9%98%E7%9B%B4%E5%B9%B9-1089490"
           },
           {
             "name": "はだかの子",
@@ -1576,7 +1576,7 @@
             "top": 60,
             "right": 63,
             "gender": "man",
-            "wiki": ""
+            "link": ""
           }
         ]
       },
@@ -1613,7 +1613,7 @@
             "top": 60,
             "right": 75,
             "gender": "man",
-            "wiki": "https://kotobank.jp/word/%E6%9C%B8-426468"
+            "link": "https://kotobank.jp/word/%E6%9C%B8-426468"
           },
           {
             "name": "皿籠を運ぶ子",
@@ -1621,7 +1621,7 @@
             "top": 20,
             "right": 30,
             "gender": "man",
-            "wiki": ""
+            "link": ""
           },
           {
             "name": "垂髪の少年",
@@ -1629,7 +1629,7 @@
             "top": 60,
             "right": 35,
             "gender": "man",
-            "wiki": "https://kotobank.jp/word/%E5%9E%82%E9%AB%AA-83122#w-2014505"
+            "link": "https://kotobank.jp/word/%E5%9E%82%E9%AB%AA-83122#w-2014505"
           }
         ]
       },
@@ -1650,7 +1650,7 @@
             "top": 60,
             "right": 20,
             "gender": "man",
-            "wiki": ""
+            "link": ""
           },
           {
             "name": "巫女",
@@ -1658,7 +1658,7 @@
             "top": 60,
             "right": 0,
             "gender": "man",
-            "wiki": ""
+            "link": ""
           },
           {
             "name": "臼搗きの女",
@@ -1666,7 +1666,7 @@
             "top": 10,
             "right": 25,
             "gender": "woman",
-            "wiki": ""
+            "link": ""
           },
           {
             "name": "卸商売の女",
@@ -1674,7 +1674,7 @@
             "top": 30,
             "right":65,
             "gender": "woman",
-            "wiki": ""
+            "link": ""
           }
         ]
       },
@@ -6159,7 +6159,7 @@
             "top": 30,
             "right": 20,
             "gender": "man",
-            "wiki": "https://ja.wikipedia.org/wiki/%E5%85%89%E6%BA%90%E6%B0%8F"
+            "link": "https://ja.wikipedia.org/wiki/%E5%85%89%E6%BA%90%E6%B0%8F"
           },
           {
             "name": "？",
@@ -6167,7 +6167,7 @@
             "top": 50,
             "right": 75,
             "gender": "man",
-            "wiki": ""
+            "link": ""
           }
         ]
       },
@@ -6194,7 +6194,7 @@
             "top": 5,
             "right": 8,
             "gender": "woman",
-            "wiki": ""
+            "link": ""
           },
           {
             "name": "惟光",
@@ -6202,7 +6202,7 @@
             "top": 80,
             "right": 75,
             "gender": "man",
-            "wiki": ""
+            "link": ""
           },
           {
             "name": "源氏",
@@ -6210,7 +6210,7 @@
             "top": 50,
             "right": 90,
             "gender": "man",
-            "wiki": ""
+            "link": ""
           }
         ]
       },
@@ -6257,7 +6257,7 @@
             "top": 30,
             "right": 20,
             "gender": "woman",
-            "wiki": ""
+            "link": ""
           },
           {
             "name": "朱雀院",
@@ -6265,7 +6265,7 @@
             "top": 30,
             "right": 55,
             "gender": "man",
-            "wiki": ""
+            "link": ""
           },
           {
             "name": "源氏",
@@ -6273,7 +6273,7 @@
             "top": 65,
             "right": 65,
             "gender": "man",
-            "wiki": ""
+            "link": ""
           },
           {
             "name": "女三の宮",
@@ -6310,7 +6310,7 @@
             "top": 30,
             "right": 30,
             "gender": "man",
-            "wiki": ""
+            "link": ""
           },
           {
             "name": "柏木",
@@ -6318,7 +6318,7 @@
             "top": 20,
             "right": 45,
             "gender": "man",
-            "wiki": ""
+            "link": ""
           },
           {
             "name": "５人の女房",
@@ -6326,7 +6326,7 @@
             "top": 40,
             "right": 80,
             "gender": "woman",
-            "wiki": ""
+            "link": ""
           }
         ]
       },
@@ -6356,7 +6356,7 @@
             "top": 20,
             "right": 30,
             "gender": "woman",
-            "wiki": ""
+            "link": ""
           },
           {
             "name": "夕霧",
@@ -6364,7 +6364,7 @@
             "top": 20,
             "right": 43,
             "gender": "man",
-            "wiki": ""
+            "link": ""
           },
           {
             "name": "女房",
@@ -6372,7 +6372,7 @@
             "top": 40,
             "right": 15,
             "gender": "woman",
-            "wiki": ""
+            "link": ""
           }
         ]
       },
@@ -6399,7 +6399,7 @@
             "top": 10,
             "right": 45,
             "gender": "woman",
-            "wiki": "https://ja.wikipedia.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E%E3%81%AE%E7%99%BB%E5%A0%B4%E4%BA%BA%E7%89%A9"
+            "link": "https://ja.wikipedia.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E%E3%81%AE%E7%99%BB%E5%A0%B4%E4%BA%BA%E7%89%A9"
           },
           {
             "name": "薫",
@@ -6407,7 +6407,7 @@
             "top": 60,
             "right": 55,
             "gender": "man",
-            "wiki": "https://ja.wikipedia.org/wiki/%E8%96%AB"
+            "link": "https://ja.wikipedia.org/wiki/%E8%96%AB"
           },
           {
             "name": "女房",
@@ -6415,7 +6415,7 @@
             "top": 20,
             "right": 90,
             "gender": "woman",
-            "wiki": ""
+            "link": ""
           }
         ]
       },
@@ -6442,7 +6442,7 @@
             "top": 10,
             "right": 30,
             "gender": "woman",
-            "wiki": ""
+            "link": ""
           },
           {
             "name": "蔵人の少将",
@@ -6450,7 +6450,7 @@
             "top": 70,
             "right": 10,
             "gender": "man",
-            "wiki": ""
+            "link": ""
           },
           {
             "name": "中の君",
@@ -6458,7 +6458,7 @@
             "top": 20,
             "right": 70,
             "gender": "woman",
-            "wiki": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
+            "link": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
           },
           {
             "name": "大君",
@@ -6466,7 +6466,7 @@
             "top": 40,
             "right": 85,
             "gender": "woman",
-            "wiki": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
+            "link": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
           }
         ]
       },
@@ -6497,7 +6497,7 @@
             "top": 20,
             "right": 60,
             "gender": "woman",
-            "wiki": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
+            "link": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
           },
           {
             "name": "薫",
@@ -6505,7 +6505,7 @@
             "top": 70,
             "right": 10,
             "gender": "man",
-            "wiki": "https://ja.wikipedia.org/wiki/%E8%96%AB"
+            "link": "https://ja.wikipedia.org/wiki/%E8%96%AB"
           },
           {
             "name": "大君",
@@ -6513,7 +6513,7 @@
             "top": 40,
             "right": 90,
             "gender": "woman",
-            "wiki": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
+            "link": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
           }
         ]
       },
@@ -6540,7 +6540,7 @@
             "top": 20,
             "right": 60,
             "gender": "woman",
-            "wiki": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
+            "link": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
           },
           {
             "name": "女房",
@@ -6548,7 +6548,7 @@
             "top": 70,
             "right": 20,
             "gender": "woman",
-            "wiki": ""
+            "link": ""
           },
           {
             "name": "弁の尼",
@@ -6556,7 +6556,7 @@
             "top": 50,
             "right": 85,
             "gender": "woman",
-            "wiki": "https://ja.wikipedia.org/wiki/%E5%BC%81%E3%81%AE%E5%B0%BC"
+            "link": "https://ja.wikipedia.org/wiki/%E5%BC%81%E3%81%AE%E5%B0%BC"
           }
         ]
       },
@@ -6583,7 +6583,7 @@
             "top": 65,
             "right": 15,
             "gender": "man",
-            "wiki": "https://ja.wikipedia.org/wiki/%E8%96%AB"
+            "link": "https://ja.wikipedia.org/wiki/%E8%96%AB"
           },
           {
             "name": "今上帝",
@@ -6591,7 +6591,7 @@
             "top": 40,
             "right": 20,
             "gender": "man",
-            "wiki": "https://ja.wikipedia.org/wiki/%E4%BB%8A%E4%B8%8A%E5%B8%9D_(%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E)"
+            "link": "https://ja.wikipedia.org/wiki/%E4%BB%8A%E4%B8%8A%E5%B8%9D_(%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E)"
           },
           {
             "name": "女房",
@@ -6599,7 +6599,7 @@
             "top": 50,
             "right": 85,
             "gender": "woman",
-            "wiki": ""
+            "link": ""
           }
         ]
       },
@@ -6626,7 +6626,7 @@
             "top": 65,
             "right": 15,
             "gender": "woman",
-            "wiki": "https://ja.wikipedia.org/wiki/%E5%85%AD%E3%81%AE%E5%90%9B"
+            "link": "https://ja.wikipedia.org/wiki/%E5%85%AD%E3%81%AE%E5%90%9B"
           },
           {
             "name": "匂の宮",
@@ -6634,7 +6634,7 @@
             "top": 30,
             "right": 20,
             "gender": "man",
-            "wiki": "https://ja.wikipedia.org/wiki/%E5%8C%82%E5%AE%AE"
+            "link": "https://ja.wikipedia.org/wiki/%E5%8C%82%E5%AE%AE"
           },
           {
             "name": "女房",
@@ -6642,7 +6642,7 @@
             "top": 50,
             "right": 85,
             "gender": "woman",
-            "wiki": ""
+            "link": ""
           }
         ]
       },
@@ -6669,7 +6669,7 @@
             "top": 15,
             "right": 15,
             "gender": "woman",
-            "wiki": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
+            "link": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
           },
           {
             "name": "匂の宮",
@@ -6677,7 +6677,7 @@
             "top": 5,
             "right": 35,
             "gender": "man",
-            "wiki": "https://ja.wikipedia.org/wiki/%E5%8C%82%E5%AE%AE"
+            "link": "https://ja.wikipedia.org/wiki/%E5%8C%82%E5%AE%AE"
           }
         ]
       },
@@ -6704,7 +6704,7 @@
             "top": 50,
             "right": 10,
             "gender": "woman",
-            "wiki": ""
+            "link": ""
           },
           {
             "name": "浮舟",
@@ -6712,7 +6712,7 @@
             "top": 5,
             "right": 58,
             "gender": "woman",
-            "wiki": "https://ja.wikipedia.org/wiki/%E6%B5%AE%E8%88%9F_(%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E)"
+            "link": "https://ja.wikipedia.org/wiki/%E6%B5%AE%E8%88%9F_(%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E)"
           },
           {
             "name": "中の君",
@@ -6720,7 +6720,7 @@
             "top": 55,
             "right": 75,
             "gender": "woman",
-            "wiki": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
+            "link": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
           },
           {
             "name": "右近",
@@ -6728,7 +6728,7 @@
             "top": 60,
             "right": 58,
             "gender": "woman",
-            "wiki": "https://ja.wikipedia.org/wiki/%E7%8E%89%E9%AC%98_(%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E)"
+            "link": "https://ja.wikipedia.org/wiki/%E7%8E%89%E9%AC%98_(%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E)"
           }
         ]
       },
@@ -6755,7 +6755,7 @@
             "top": 50,
             "right": 30,
             "gender": "man",
-            "wiki": "https://ja.wikipedia.org/wiki/%E8%96%AB"
+            "link": "https://ja.wikipedia.org/wiki/%E8%96%AB"
           },
           {
             "name": "浮舟",
@@ -6763,7 +6763,7 @@
             "top": 60,
             "right": 95,
             "gender": "woman",
-            "wiki": "https://ja.wikipedia.org/wiki/%E6%B5%AE%E8%88%9F_(%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E)"
+            "link": "https://ja.wikipedia.org/wiki/%E6%B5%AE%E8%88%9F_(%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E)"
           },
           {
             "name": "弁の尼",
@@ -6771,7 +6771,7 @@
             "top": 50,
             "right": 75,
             "gender": "woman",
-            "wiki": "https://ja.wikipedia.org/wiki/%E5%BC%81%E3%81%AE%E5%B0%BC"
+            "link": "https://ja.wikipedia.org/wiki/%E5%BC%81%E3%81%AE%E5%B0%BC"
           }
         ]
       }
