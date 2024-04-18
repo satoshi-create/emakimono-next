@@ -16,9 +16,9 @@
   outline-offset: -4px;
 }
 .ebikibox {
-  outline: 1px solid var( --clr-black);
+  outline: 1px solid var(--clr-black);
 }
-.characterbox:hover,
+.characterboxLink:hover,
 .ebikibox:hover {
   opacity: 0.6;
 }

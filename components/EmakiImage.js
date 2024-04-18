@@ -36,9 +36,39 @@ const EmakiImage = ({
       {characterToggle && character && (
         <div>
           {character?.map((item, i) => {
-            return (
-              <Link key={i} href={`${item.wiki ? item.wiki : "/"}`}>
-                <a
+            if (item.link) {
+              return (
+                <Link key={i} href={`${item.link && item.link}`}>
+                  <a
+                    target="_blank"
+                    className={`${styles.characterbox} ${styles.characterboxLink}`}
+                    // inline cssにhoverは当てられない？？
+                    style={{
+                      top: `${item.top}%`,
+                      right: `${item.right}%`,
+                      outline: `${
+                        item.gender === "man"
+                          ? "1px solid #5da3ff"
+                          : "1px solid #ff7580"
+                      }`,
+                      fontSize: `${
+                        orientation === "portrait"
+                          ? "var(--text-size-prt)"
+                          : "var(--text-size)"
+                      }`,
+                      padding: `${
+                        orientation === "portrait" ? ".5rem 0" : "1rem 0"
+                      }`,
+                    }}
+                  >
+                    {item.name}
+                  </a>
+                </Link>
+              );
+            } else {
+              return (
+                <div
+                  key={i}
                   target="_blank"
                   className={styles.characterbox}
                   // inline cssにhoverは当てられない？？
@@ -49,7 +79,8 @@ const EmakiImage = ({
                       item.gender === "man"
                         ? "1px solid #5da3ff"
                         : "1px solid #ff7580"
-                    }`,
+                      }`,
+                    cursor:"default",
                     fontSize: `${
                       orientation === "portrait"
                         ? "var(--text-size-prt)"
@@ -61,9 +92,9 @@ const EmakiImage = ({
                   }}
                 >
                   {item.name}
-                </a>
-              </Link>
-            );
+                </div>
+              );
+            }
           })}
         </div>
       )}
