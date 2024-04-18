@@ -1642,7 +1642,41 @@
         "name": "naomoto_05.webp",
         "id": 135,
         "srcWidth": 1884,
-        "srcHeight": 1080
+        "srcHeight": 1080,
+        "character": [
+          {
+            "name": "琵琶法師",
+            "status": "",
+            "top": 60,
+            "right": 20,
+            "gender": "man",
+            "wiki": ""
+          },
+          {
+            "name": "巫女",
+            "status": "",
+            "top": 60,
+            "right": 0,
+            "gender": "man",
+            "wiki": ""
+          },
+          {
+            "name": "臼搗きの女",
+            "status": "",
+            "top": 10,
+            "right": 25,
+            "gender": "woman",
+            "wiki": ""
+          },
+          {
+            "name": "卸商売の女",
+            "status": "",
+            "top": 30,
+            "right":65,
+            "gender": "woman",
+            "wiki": ""
+          }
+        ]
       },
       {
         "cat": "ekotoba",
