@@ -26,6 +26,20 @@ const EmakiImage = ({
   const { scrollDialog, characterToggle, orientation, ebikiToggle } =
     useContext(AppContext);
 
+  const characterOuntline = (x) => {
+    switch (x) {
+      case "man":
+        return "1px solid #5da3ff";
+        break;
+      case "woman":
+        return "1px solid #ff7580";
+      case "animal":
+        return "1px solid rgb(171 223 51)";
+      default:
+        break;
+    }
+  };
+
   return (
     <section
       className={`section ${styles.emakiimage}`}
@@ -46,11 +60,7 @@ const EmakiImage = ({
                     style={{
                       top: `${item.top}%`,
                       right: `${item.right}%`,
-                      outline: `${
-                        item.gender === "man"
-                          ? "1px solid #5da3ff"
-                          : "1px solid #ff7580"
-                      }`,
+                      outline: characterOuntline(item.gender),
                       fontSize: `${
                         orientation === "portrait"
                           ? "var(--text-size-prt)"
@@ -75,12 +85,13 @@ const EmakiImage = ({
                   style={{
                     top: `${item.top}%`,
                     right: `${item.right}%`,
-                    outline: `${
-                      item.gender === "man"
-                        ? "1px solid #5da3ff"
-                        : "1px solid #ff7580"
-                      }`,
-                    cursor:"default",
+                    outline: characterOuntline(item.gender),
+                    // outline: `${
+                    //   item.gender === "man"
+                    //     ? "1px solid #5da3ff"
+                    //     : "1px solid #ff7580"
+                    // }`,
+                    cursor: "default",
                     fontSize: `${
                       orientation === "portrait"
                         ? "var(--text-size-prt)"

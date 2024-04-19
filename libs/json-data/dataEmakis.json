@@ -2312,8 +2312,8 @@
   },
   {
     "id": 7,
-    "title": "長谷雄草紙",
-    "titleen": "haseozoushi",
+    "title": "長谷雄草紙（摸本）",
+    "titleen": "haseozoushi-mohon",
     "author": "",
     "authoren": "",
     "backgroundImage": "/washi-pattern-01.webp",
@@ -2325,6 +2325,8 @@
     "eraen": "kamakura",
     "type": "絵巻",
     "typeen": "emaki",
+    "character":true,
+    "ebiki":true,
     "keyword": [
       {
         "name": "双六",
@@ -2405,7 +2407,41 @@
         "srcWidth": 2313,
         "srcHeight": 1080,
         "name": "haseozoushi_04.webp",
-        "id": 174
+        "id": 174,
+        "character": [
+          {
+            "name": "無帽の男",
+            "status": "",
+            "top": 20,
+            "right": 85,
+            "gender": "man",
+            "link": ""
+          },
+          {
+            "name": "猿",
+            "status": "",
+            "top": 50,
+            "right": 80,
+            "gender": "animal",
+            "link": ""
+          }
+        ],
+        "ebiki":[
+          {
+            "name": "荷車",
+            "status": "",
+            "top": 30,
+            "right": 55,
+            "path": ""
+          },
+          {
+            "name": "轅",
+            "status": "",
+            "top": 20,
+            "right": 65,
+            "path": "https://kotobank.jp/word/%E8%BD%85-587593#goog_rewarded"
+          }
+        ]
       },
       {
         "load": false,
@@ -2416,7 +2452,17 @@
         "name": "haseozoushi_05.webp",
         "srcWidth": 1889,
         "srcHeight": 1080,
-        "id": 175
+        "id": 175,
+        "character": [
+          {
+            "name": "酒売り（油売り）",
+            "status": "",
+            "top": 10,
+            "right": 40,
+            "gender": "man",
+            "link": ""
+          }
+        ]
       },
       {
         "cat": "ekotoba",
