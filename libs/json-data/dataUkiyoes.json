@@ -545,6 +545,7 @@
     "type": "浮世絵",
     "typeen": "ukiyoe",
     "kotobagaki": true,
+    "ebiki": true,
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-10569-3230?locale=ja",
     "sourceImage": "武陽金澤八勝夜景（東京国立博物館 ColBase）",
     "sourceEkotoba": "",
@@ -555,7 +556,33 @@
         "srcSp": "/01_buyokanazawahasshoyakei_right-375.webp",
         "srcTb": "/01_buyokanazawahasshoyakei_right-800.webp",
         "src": "/01_buyokanazawahasshoyakei_right-1080.webp",
-        "name": "01_buyokanazawahasshoyakei_right.webp"
+        "name": "01_buyokanazawahasshoyakei_right.webp",
+        "ebiki": [
+          {
+            "name": "内川暮雪",
+            "status": "",
+            "top": 40,
+            "right": 10,
+            "path": "/kanazawa-hakkei#1",
+            "attr": "link"
+          },
+          {
+            "name": "小泉夜雨",
+            "status": "",
+            "top": 70,
+            "right": 20,
+            "path": "/kanazawa-hakkei#9",
+            "attr": "link"
+          },
+          {
+            "name": "瀬戸秋月",
+            "status": "",
+            "top": 60,
+            "right": 60,
+            "path": "/kanazawa-hakkei#7",
+            "attr": "link"
+          }
+        ]
       },
       {
         "load": false,
@@ -563,7 +590,55 @@
         "srcSp": "/02_buyokanazawahasshoyakei_center-375.webp",
         "srcTb": "/02_buyokanazawahasshoyakei_center-800.webp",
         "src": "/02_buyokanazawahasshoyakei_center-1080.webp",
-        "name": "02_buyokanazawahasshoyakei_center.webp"
+        "name": "02_buyokanazawahasshoyakei_center.webp",
+        "ebiki": [
+          {
+            "name": "野島",
+            "status": "",
+            "top": 20,
+            "right": 58,
+            "path": ""
+          },
+          {
+            "name": "烏帽子岩",
+            "status": "",
+            "top": 20,
+            "right": 90,
+            "path": ""
+          },
+          {
+            "name": "平潟落雁",
+            "status": "",
+            "top": 40,
+            "right": 10,
+            "path": "/kanazawa-hakkei#11",
+            "attr": "link"
+          },
+          {
+            "name": "野島夕照",
+            "status": "",
+            "top": 30,
+            "right": 30,
+            "path": "/kanazawa-hakkei#15",
+            "attr": "link"
+          },
+          {
+            "name": "乙艫帰帆",
+            "status": "",
+            "top": 55,
+            "right": 90,
+            "path": "/kanazawa-hakkei#13",
+            "attr": "link"
+          },
+          {
+            "name": "称名晩鐘",
+            "status": "",
+            "top": 70,
+            "right": 20,
+            "path": "/kanazawa-hakkei#5",
+            "attr": "link"
+          }
+        ]
       },
       {
         "load": false,
@@ -571,7 +646,23 @@
         "srcSp": "/03_buyokanazawahasshoyakei_left-375.webp",
         "srcTb": "/03_buyokanazawahasshoyakei_left-800.webp",
         "src": "/03_buyokanazawahasshoyakei_left-1080.webp",
-        "name": "03_buyokanazawahasshoyakei_left.webp"
+        "name": "03_buyokanazawahasshoyakei_left.webp",
+        "ebiki": [
+          {
+            "name": "夏島",
+            "status": "",
+            "top": 20,
+            "right": 25,
+            "path": ""
+          },
+          {
+            "name": "？",
+            "status": "",
+            "top": 20,
+            "right": 55,
+            "path": ""
+          }
+        ]
       }
     ]
   },

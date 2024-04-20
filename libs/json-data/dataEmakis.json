@@ -234,6 +234,7 @@
       },
       {
         "load": false,
+        "cat": "image",
         "srcSp": "/cyoujyuu_yamazaki_kou_15-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_15-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_15-1080.webp",
@@ -1382,6 +1383,7 @@
       },
       {
         "load": false,
+        "cat": "image",
         "srcSp": "/cyoujyuu_yamazaki_tei_15-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_tei_15-800.webp",
         "src": "/cyoujyuu_yamazaki_tei_15-1080.webp",
