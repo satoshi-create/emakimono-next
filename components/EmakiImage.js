@@ -40,6 +40,17 @@ const EmakiImage = ({
     }
   };
 
+  const ebikiOutline = (x) => {
+    switch (x) {
+      case "link":
+        return "1px solid var(--clr-accent-02)";
+        break;
+      default:
+        return "1px solid var(--clr-black)";
+        break;
+    }
+  };
+
   return (
     <section
       className={`section ${styles.emakiimage}`}
@@ -112,10 +123,35 @@ const EmakiImage = ({
       {ebikiToggle && ebiki && (
         <div>
           {ebiki?.map((item, i) => {
-            return (
-              <Link key={i} href={`${item.path ? item.path : "/"}`}>
-                <a
-                  // target="_blank"
+            if (item.path) {
+              return (
+                <Link key={i} href={item.path}>
+                  <a
+                    target="_blank"
+                    className={styles.ebikibox}
+                    // inline cssにhoverは当てられない？？
+                    style={{
+                      top: `${item.top}%`,
+                      right: `${item.right}%`,
+                      fontSize: `${
+                        orientation === "portrait"
+                          ? "var(--text-size-prt)"
+                          : "var(--text-size)"
+                      }`,
+                      outline: ebikiOutline(item.attr),
+                      padding: `${
+                        orientation === "portrait" ? ".5rem 0" : "1rem 0"
+                      }`,
+                    }}
+                  >
+                    {item.name}
+                  </a>
+                </Link>
+              );
+            } else {
+              return (
+                <div
+                  key={i}
                   className={styles.ebikibox}
                   // inline cssにhoverは当てられない？？
                   style={{
@@ -126,15 +162,17 @@ const EmakiImage = ({
                         ? "var(--text-size-prt)"
                         : "var(--text-size)"
                     }`,
+                    outline: ebikiOutline(item.attr),
+                    cursor: "default",
                     padding: `${
                       orientation === "portrait" ? ".5rem 0" : "1rem 0"
                     }`,
                   }}
                 >
                   {item.name}
-                </a>
-              </Link>
-            );
+                </div>
+              );
+            }
           })}
         </div>
       )}
