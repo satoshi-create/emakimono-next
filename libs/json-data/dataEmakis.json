@@ -6942,13 +6942,13 @@
     "typeen": "emaki",
     "keyword": [],
     "kotobagaki": true,
-    "sourceImageUrl": "https://viewer.cbl.ie/viewer/image/J_1150/9/",
-    "sourceImage": "Ansei Edo earthquake（Chester Beatty Library）",
+    "sourceImageUrl": "https://viewer.cbl.ie/viewer/image/J_1150/4/",
+    "sourceImage": "Ansei Edo earthquake（Chester Beatty Online Collections）",
     "sourceEkotoba": "",
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "",
+        "chapter": "安政江戸地震災厄絵巻",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -6983,15 +6983,6 @@
         "name": "ansei-edo-earthquake_03_cbl"
       },
       {
-        "cat": "ekotoba",
-        "chapter": "",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
-        "src": "",
-        "name": ""
-      },
-      {
         "cat": "image",
         "chapter": "",
         "load": "False",
@@ -7019,15 +7010,6 @@
         "name": "ansei-edo-earthquake_06_cbl"
       },
       {
-        "cat": "ekotoba",
-        "chapter": "",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
-        "src": "",
-        "name": ""
-      },
-      {
         "cat": "image",
         "chapter": "",
         "load": "False",
@@ -7053,6 +7035,96 @@
         "srcTb": "/ansei-edo-earthquake_09_cbl-800.webp",
         "src": "/ansei-edo-earthquake_09_cbl-1080.webp",
         "name": "ansei-edo-earthquake_09_cbl"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/ansei-edo-earthquake_10_cbl-375.webp",
+        "srcTb": "/ansei-edo-earthquake_10_cbl-800.webp",
+        "src": "/ansei-edo-earthquake_10_cbl-1080.webp",
+        "name": "ansei-edo-earthquake_10_cbl"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/ansei-edo-earthquake_11_cbl-375.webp",
+        "srcTb": "/ansei-edo-earthquake_11_cbl-800.webp",
+        "src": "/ansei-edo-earthquake_11_cbl-1080.webp",
+        "name": "ansei-edo-earthquake_11_cbl"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/ansei-edo-earthquake_12_cbl-375.webp",
+        "srcTb": "/ansei-edo-earthquake_12_cbl-800.webp",
+        "src": "/ansei-edo-earthquake_12_cbl-1080.webp",
+        "name": "ansei-edo-earthquake_12_cbl"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/ansei-edo-earthquake_13_cbl-375.webp",
+        "srcTb": "/ansei-edo-earthquake_13_cbl-800.webp",
+        "src": "/ansei-edo-earthquake_13_cbl-1080.webp",
+        "name": "ansei-edo-earthquake_13_cbl"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/ansei-edo-earthquake_14_cbl-375.webp",
+        "srcTb": "/ansei-edo-earthquake_14_cbl-800.webp",
+        "src": "/ansei-edo-earthquake_14_cbl-1080.webp",
+        "name": "ansei-edo-earthquake_14_cbl"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/ansei-edo-earthquake_15_cbl-375.webp",
+        "srcTb": "/ansei-edo-earthquake_15_cbl-800.webp",
+        "src": "/ansei-edo-earthquake_15_cbl-1080.webp",
+        "name": "ansei-edo-earthquake_15_cbl"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/ansei-edo-earthquake_16_cbl-375.webp",
+        "srcTb": "/ansei-edo-earthquake_16_cbl-800.webp",
+        "src": "/ansei-edo-earthquake_16_cbl-1080.webp",
+        "name": "ansei-edo-earthquake_16_cbl"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/ansei-edo-earthquake_17_cbl-375.webp",
+        "srcTb": "/ansei-edo-earthquake_17_cbl-800.webp",
+        "src": "/ansei-edo-earthquake_17_cbl-1080.webp",
+        "name": "ansei-edo-earthquake_17_cbl"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/ansei-edo-earthquake_18_cbl-375.webp",
+        "srcTb": "/ansei-edo-earthquake_18_cbl-800.webp",
+        "src": "/ansei-edo-earthquake_18_cbl-1080.webp",
+        "name": "ansei-edo-earthquake_18_cbl"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/ansei-edo-earthquake_19_cbl-375.webp",
+        "srcTb": "/ansei-edo-earthquake_19_cbl-800.webp",
+        "src": "/ansei-edo-earthquake_19_cbl-1080.webp",
+        "name": "ansei-edo-earthquake_19_cbl"
       }
     ]
   }
