@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import ToggleEkotoba from "./ToggleEkotoba";
 import { AppContext } from "../pages/_app";
 import ToggleCharacter from "./ToggleCharacter";
-import ToggleEbiki from "./ToggleEbiki"
+import ToggleEbiki from "./ToggleEbiki";
 
 // TODO: 横スクロールで最後まで進み、「先頭に戻る」を押しても反応がない
 // ⇒navIndexが0になっている
@@ -25,7 +25,7 @@ const EmakiNavigation = ({
   scrollNextRef,
   scrollPrevRef,
 }) => {
-  const { character,ebiki } = data;
+  const { character, ebiki } = data;
   const router = useRouter();
   const endIndex = data.emakis.length - 1;
 
