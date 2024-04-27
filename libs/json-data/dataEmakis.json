@@ -7019,15 +7019,6 @@
     ],
     "emakis": [
       {
-        "cat": "ekotoba",
-        "chapter": "安政江戸地震災厄絵巻",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
-        "src": "",
-        "name": ""
-      },
-      {
         "cat": "image",
         "chapter": "",
         "load": "True",
@@ -7035,6 +7026,15 @@
         "srcTb": "/ansei-edo-earthquake_01_cbl-800.webp",
         "src": "/ansei-edo-earthquake_01_cbl-1080.webp",
         "name": "ansei-edo-earthquake_01_cbl"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "第一景　地震発生前",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
         "cat": "image",
@@ -7062,6 +7062,15 @@
         "srcTb": "/ansei-edo-earthquake_04_cbl-800.webp",
         "src": "/ansei-edo-earthquake_04_cbl-1080.webp",
         "name": "ansei-edo-earthquake_04_cbl"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "第二景　地震発生",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
         "cat": "image",
@@ -7109,6 +7118,15 @@
         "name": "ansei-edo-earthquake_09_cbl"
       },
       {
+        "cat": "ekotoba",
+        "chapter": "第三景　地震火事発生",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
+      },
+      {
         "cat": "image",
         "chapter": "",
         "load": "False",
@@ -7134,6 +7152,15 @@
         "srcTb": "/ansei-edo-earthquake_12_cbl-800.webp",
         "src": "/ansei-edo-earthquake_12_cbl-1080.webp",
         "name": "ansei-edo-earthquake_12_cbl"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "第四景　焼け跡",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
         "cat": "image",
@@ -7170,6 +7197,15 @@
         "srcTb": "/ansei-edo-earthquake_16_cbl-800.webp",
         "src": "/ansei-edo-earthquake_16_cbl-1080.webp",
         "name": "ansei-edo-earthquake_16_cbl"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "第五景　復興への営み",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
         "cat": "image",
