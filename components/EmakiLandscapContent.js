@@ -175,7 +175,21 @@ const EmakiLandscapContent = ({
                     出典 - {sourceImage}
                   </a>
                 </Link>
-                <div> {reference ? `参照 - ${reference}` : ""}</div>
+                <ul>
+                  参照
+                  {reference?.map((item, i) => {
+                    return (
+                      <li key={i}>
+                        <Link href={item.url ? item.url : "/"}>
+                          <a target="_blank" className={styles.sourceLink}>
+                            {`【${item.type}】
+                          ${item.title}`}
+                          </a>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
               </div>
             </div>
           </div>
