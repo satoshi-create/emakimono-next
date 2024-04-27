@@ -69,7 +69,11 @@ const Modal = ({ data }) => {
           <br />
           <br />
           <Link href={sourceImageUrl}>
-            <a target="_blank" className={styles.sourceLink}>
+            <a
+              target="_blank"
+              className={styles.sourceLink}
+              style={{ color: eraColor(era) }}
+            >
               {sourceImage}
             </a>
           </Link>
@@ -77,11 +81,24 @@ const Modal = ({ data }) => {
       );
     } else if (v === 2) {
       return (
-        reference && (
-          <ul className={styles.reference}>
-            <li>{reference}</li>
-          </ul>
-        )
+        <ul className={styles.reference}>
+          {reference?.map((item, i) => {
+            return (
+              <li key={i}>
+                <Link href={item.url}>
+                  <a
+                    target="_blank"
+                    className={styles.sourceLink}
+                    style={{ color: eraColor(era) }}
+                  >
+                    {`【${item.type}】
+                          ${item.title}`}
+                  </a>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
       );
     }
   };
