@@ -7000,7 +7000,28 @@
     "gif": "",
     "type": "絵巻",
     "typeen": "emaki",
-    "keyword": [],
+    "keyword": [
+      {
+        "name": "天災",
+        "id": "disaster",
+        "slug": "disaster"
+      },
+      {
+        "name": "幕末",
+        "id": "closing-days-of-the-tokugawa-shogunate",
+        "slug": "closing-days-of-the-tokugawa-shogunate"
+      },
+      {
+        "name": "火事",
+        "id": "fire",
+        "slug": "fire"
+      },
+      {
+        "name": "地震",
+        "id": "earthquake",
+        "slug": "earthquake"
+      }
+    ],
     "kotobagaki": true,
     "sourceImageUrl": "https://viewer.cbl.ie/viewer/image/J_1150/4/",
     "sourceImage": "Ansei Edo earthquake（Chester Beatty Online Collections）",
@@ -7021,6 +7042,7 @@
         "title": "「江戸大地震之図」（東京大学史料編纂所）"
       }
     ],
+
     "emakis": [
       {
         "cat": "image",
@@ -7306,7 +7328,23 @@
     "gif": "",
     "type": "絵巻",
     "typeen": "emaki",
-    "keyword": [],
+    "keyword": [
+      {
+        "name": "天災",
+        "id": "disaster",
+        "slug": "disaster"
+      },
+      {
+        "name": "幕末",
+        "id": "closing-days-of-the-tokugawa-shogunate",
+        "slug": "closing-days-of-the-tokugawa-shogunate"
+      },
+      {
+        "name": "火事",
+        "id": "fire",
+        "slug": "fire"
+      }
+    ],
     "kotobagaki": true,
     "sourceImageUrl": "https://dl.ndl.go.jp/info:ndljp/pid/2542652",
     "sourceImage": "鎮火安心図巻（国立国会図書館）",
