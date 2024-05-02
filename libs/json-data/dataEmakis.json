@@ -7313,6 +7313,17 @@
     "reference": [],
     "emakis": [
       {
+        "cat": "ekotoba",
+        "chapter": "鎮火安心図巻",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
+      },
+      {
         "cat": "image",
         "chapter": "",
         "load": "True",
@@ -7518,6 +7529,83 @@
         "srcTb": "/fire-fighting-edo-period_19_kokkai-800.webp",
         "src": "/fire-fighting-edo-period_19_kokkai-1080.webp",
         "name": "fire-fighting-edo-period_19_kokkai",
+        "srcWidth": "600",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/fire-fighting-edo-period_20_kokkai-375.webp",
+        "srcTb": "/fire-fighting-edo-period_20_kokkai-800.webp",
+        "src": "/fire-fighting-edo-period_20_kokkai-1080.webp",
+        "name": "fire-fighting-edo-period_20_kokkai",
+        "srcWidth": "600",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/fire-fighting-edo-period_21_kokkai-375.webp",
+        "srcTb": "/fire-fighting-edo-period_21_kokkai-800.webp",
+        "src": "/fire-fighting-edo-period_21_kokkai-1080.webp",
+        "name": "fire-fighting-edo-period_21_kokkai",
+        "srcWidth": "600",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/fire-fighting-edo-period_22_kokkai-375.webp",
+        "srcTb": "/fire-fighting-edo-period_22_kokkai-800.webp",
+        "src": "/fire-fighting-edo-period_22_kokkai-1080.webp",
+        "name": "fire-fighting-edo-period_22_kokkai",
+        "srcWidth": "600",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/fire-fighting-edo-period_23_kokkai-375.webp",
+        "srcTb": "/fire-fighting-edo-period_23_kokkai-800.webp",
+        "src": "/fire-fighting-edo-period_23_kokkai-1080.webp",
+        "name": "fire-fighting-edo-period_23_kokkai",
+        "srcWidth": "600",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/fire-fighting-edo-period_24_kokkai-375.webp",
+        "srcTb": "/fire-fighting-edo-period_24_kokkai-800.webp",
+        "src": "/fire-fighting-edo-period_24_kokkai-1080.webp",
+        "name": "fire-fighting-edo-period_24_kokkai",
+        "srcWidth": "600",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/fire-fighting-edo-period_25_kokkai-375.webp",
+        "srcTb": "/fire-fighting-edo-period_25_kokkai-800.webp",
+        "src": "/fire-fighting-edo-period_25_kokkai-1080.webp",
+        "name": "fire-fighting-edo-period_25_kokkai",
+        "srcWidth": "600",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/fire-fighting-edo-period_26_kokkai-375.webp",
+        "srcTb": "/fire-fighting-edo-period_26_kokkai-800.webp",
+        "src": "/fire-fighting-edo-period_26_kokkai-1080.webp",
+        "name": "fire-fighting-edo-period_26_kokkai",
         "srcWidth": "600",
         "srcHeight": "1080"
       }
