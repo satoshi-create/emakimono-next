@@ -102,7 +102,7 @@ const EmakiContainer = ({
   // https://stackoverflow.com/questions/55152799/prevent-window-vertical-scroll-until-divs-horizontal-scroll-reaches-its-end
   useEffect(() => {
     if (scroll) {
-      let scrollSpeed = 10;
+      let scrollSpeed = 30;
       const el = articleRef.current;
       const MouseWheelHandler = (e) => {
         // block if e.deltaY==0
