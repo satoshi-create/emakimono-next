@@ -33,7 +33,8 @@ import ExtractingListData from "../libs/ExtractingListData";
 // TODO:「絵巻関連年表」を作成する
 // TODO:画像の遅延読み込みをブラウザのキャッシュをクリアして検証;
 // TODO:絵師名でルーティングできるようにする
-
+// TODO:404pageを作る
+// TODO:エラーハンドリングのページを作る
 
 const Home = () => {
   const { t } = useLocale();
