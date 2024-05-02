@@ -7032,6 +7032,8 @@
         "src": "/ansei-edo-earthquake_01_cbl-1080.webp",
         "name": "ansei-edo-earthquake_01_cbl",
         "srcWidth": "1300",
+        "srcHeight": "1080",
+        "srcWidth": "1300",
         "srcHeight": "1080"
       },
       {
@@ -7042,6 +7044,8 @@
         "srcTb": "",
         "src": "",
         "name": "",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcWidth": "",
         "srcHeight": ""
       },
@@ -7054,6 +7058,8 @@
         "src": "/ansei-edo-earthquake_02_cbl-1080.webp",
         "name": "ansei-edo-earthquake_02_cbl",
         "srcWidth": "1300",
+        "srcHeight": "1080",
+        "srcWidth": "1300",
         "srcHeight": "1080"
       },
       {
@@ -7064,6 +7070,8 @@
         "srcTb": "/ansei-edo-earthquake_03_cbl-800.webp",
         "src": "/ansei-edo-earthquake_03_cbl-1080.webp",
         "name": "ansei-edo-earthquake_03_cbl",
+        "srcWidth": "1300",
+        "srcHeight": "1080",
         "srcWidth": "1300",
         "srcHeight": "1080"
       },
@@ -7076,16 +7084,20 @@
         "src": "/ansei-edo-earthquake_04_cbl-1080.webp",
         "name": "ansei-edo-earthquake_04_cbl",
         "srcWidth": "1300",
+        "srcHeight": "1080",
+        "srcWidth": "1300",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
-        "chapter": "??????????<br/>?????????????????????",
+        "chapter": "??????????<br/>?????????????????????<br/>（安政二年十月二日午後十時頃）",
         "load": "",
         "srcSp": "",
         "srcTb": "",
         "src": "",
         "name": "",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcWidth": "",
         "srcHeight": ""
       },
@@ -7098,6 +7110,8 @@
         "src": "/ansei-edo-earthquake_05_cbl-1080.webp",
         "name": "ansei-edo-earthquake_05_cbl",
         "srcWidth": "1300",
+        "srcHeight": "1080",
+        "srcWidth": "1300",
         "srcHeight": "1080"
       },
       {
@@ -7108,6 +7122,8 @@
         "srcTb": "/ansei-edo-earthquake_06_cbl-800.webp",
         "src": "/ansei-edo-earthquake_06_cbl-1080.webp",
         "name": "ansei-edo-earthquake_06_cbl",
+        "srcWidth": "1300",
+        "srcHeight": "1080",
         "srcWidth": "1300",
         "srcHeight": "1080"
       },
@@ -7120,6 +7136,8 @@
         "src": "/ansei-edo-earthquake_07_cbl-1080.webp",
         "name": "ansei-edo-earthquake_07_cbl",
         "srcWidth": "1300",
+        "srcHeight": "1080",
+        "srcWidth": "1300",
         "srcHeight": "1080"
       },
       {
@@ -7130,6 +7148,8 @@
         "srcTb": "/ansei-edo-earthquake_08_cbl-800.webp",
         "src": "/ansei-edo-earthquake_08_cbl-1080.webp",
         "name": "ansei-edo-earthquake_08_cbl",
+        "srcWidth": "1300",
+        "srcHeight": "1080",
         "srcWidth": "1300",
         "srcHeight": "1080"
       },
@@ -7142,6 +7162,8 @@
         "src": "/ansei-edo-earthquake_09_cbl-1080.webp",
         "name": "ansei-edo-earthquake_09_cbl",
         "srcWidth": "1300",
+        "srcHeight": "1080",
+        "srcWidth": "1300",
         "srcHeight": "1080"
       },
       {
@@ -7152,6 +7174,8 @@
         "srcTb": "",
         "src": "",
         "name": "",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcWidth": "",
         "srcHeight": ""
       },
@@ -7164,6 +7188,8 @@
         "src": "/ansei-edo-earthquake_10_cbl-1080.webp",
         "name": "ansei-edo-earthquake_10_cbl",
         "srcWidth": "1300",
+        "srcHeight": "1080",
+        "srcWidth": "1300",
         "srcHeight": "1080"
       },
       {
@@ -7174,6 +7200,8 @@
         "srcTb": "/ansei-edo-earthquake_11_cbl-800.webp",
         "src": "/ansei-edo-earthquake_11_cbl-1080.webp",
         "name": "ansei-edo-earthquake_11_cbl",
+        "srcWidth": "1300",
+        "srcHeight": "1080",
         "srcWidth": "1300",
         "srcHeight": "1080"
       },
@@ -7186,6 +7214,8 @@
         "src": "/ansei-edo-earthquake_12_cbl-1080.webp",
         "name": "ansei-edo-earthquake_12_cbl",
         "srcWidth": "1300",
+        "srcHeight": "1080",
+        "srcWidth": "1300",
         "srcHeight": "1080"
       },
       {
@@ -7196,6 +7226,8 @@
         "srcTb": "",
         "src": "",
         "name": "",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcWidth": "",
         "srcHeight": ""
       },
@@ -7208,6 +7240,8 @@
         "src": "/ansei-edo-earthquake_13_cbl-1080.webp",
         "name": "ansei-edo-earthquake_13_cbl",
         "srcWidth": "1300",
+        "srcHeight": "1080",
+        "srcWidth": "1300",
         "srcHeight": "1080"
       },
       {
@@ -7218,6 +7252,8 @@
         "srcTb": "/ansei-edo-earthquake_14_cbl-800.webp",
         "src": "/ansei-edo-earthquake_14_cbl-1080.webp",
         "name": "ansei-edo-earthquake_14_cbl",
+        "srcWidth": "1300",
+        "srcHeight": "1080",
         "srcWidth": "1300",
         "srcHeight": "1080"
       },
@@ -7230,6 +7266,8 @@
         "src": "/ansei-edo-earthquake_15_cbl-1080.webp",
         "name": "ansei-edo-earthquake_15_cbl",
         "srcWidth": "1300",
+        "srcHeight": "1080",
+        "srcWidth": "1300",
         "srcHeight": "1080"
       },
       {
@@ -7240,6 +7278,8 @@
         "srcTb": "/ansei-edo-earthquake_16_cbl-800.webp",
         "src": "/ansei-edo-earthquake_16_cbl-1080.webp",
         "name": "ansei-edo-earthquake_16_cbl",
+        "srcWidth": "1300",
+        "srcHeight": "1080",
         "srcWidth": "1300",
         "srcHeight": "1080"
       },
@@ -7252,6 +7292,8 @@
         "src": "",
         "name": "",
         "srcWidth": "",
+        "srcHeight": "",
+        "srcWidth": "",
         "srcHeight": ""
       },
       {
@@ -7262,6 +7304,8 @@
         "srcTb": "/ansei-edo-earthquake_17_cbl-800.webp",
         "src": "/ansei-edo-earthquake_17_cbl-1080.webp",
         "name": "ansei-edo-earthquake_17_cbl",
+        "srcWidth": "1300",
+        "srcHeight": "1080",
         "srcWidth": "1300",
         "srcHeight": "1080"
       },
@@ -7274,6 +7318,8 @@
         "src": "/ansei-edo-earthquake_18_cbl-1080.webp",
         "name": "ansei-edo-earthquake_18_cbl",
         "srcWidth": "1300",
+        "srcHeight": "1080",
+        "srcWidth": "1300",
         "srcHeight": "1080"
       },
       {
@@ -7284,6 +7330,8 @@
         "srcTb": "/ansei-edo-earthquake_19_cbl-800.webp",
         "src": "/ansei-edo-earthquake_19_cbl-1080.webp",
         "name": "ansei-edo-earthquake_19_cbl",
+        "srcWidth": "1300",
+        "srcHeight": "1080",
         "srcWidth": "1300",
         "srcHeight": "1080"
       }
