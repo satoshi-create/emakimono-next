@@ -122,7 +122,7 @@ const EmakiLandscapContent = ({
                 <Link
                   href={`https://twitter.com/share?url=${
                     encodeUrl ? encodeUrl : "https://emakimono.com/"
-                  }&text=${title} ${edition}`}
+                  }&text=${title} ${edition ? edition : ""}`}
                 >
                   <a target="_blank" rel="noopener noreferrer">
                     <FontAwesomeIcon

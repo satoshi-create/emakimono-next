@@ -49,17 +49,18 @@
 }
 .metadataA {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto;
+  grid-auto-flow: column;
   gap: 0.1rem;
 }
 .genjieslugBox {
   grid-row: 1 / span 2;
-  grid-column: 2;
+  /* grid-column: 2; */
   align-self: center;
-  justify-self: start;
+  justify-self: flex-start;
   transition: var(--transition);
   font-size: 14px;
-  margin-left: 1.5rem;
+  /* margin-left: 1.5rem; */
   border: 1px double #000;
 }
 .genjieslugBox:hover {
@@ -76,9 +77,9 @@
 }
 .snsShareBox {
   grid-row: 1 / span 2;
-  grid-column: 2;
+  /* grid-column: 2; */
   align-self: center;
-  justify-self: center;
+  justify-self: flex-end;
   display: flex;
   gap: 0 0.2rem;
 }
@@ -105,7 +106,7 @@
 }
 .linkedbutton {
   grid-row: 1 / span 2;
-  grid-column: 2;
+  /* grid-column: 2; */
   align-self: center;
   justify-self: end;
   background: var(--clr-accent-02);
