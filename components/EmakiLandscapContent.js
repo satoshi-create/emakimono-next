@@ -49,7 +49,7 @@ const EmakiLandscapContent = ({
     author ? `（${author}）` : ""
   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
   
-  const url = `${NEXT_PUBLIC_SITE_URL}/${titleen}`;
+  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${titleen}`;
   console.log(url);
   
 
