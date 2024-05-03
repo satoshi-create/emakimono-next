@@ -135,9 +135,7 @@ const EmakiLandscapContent = ({
                   </a>
                 </Link>
                 <Link
-                  href={`https://www.facebook.com/sharer/sharer.php?u=${
-                    encodeUrl ? encodeUrl : "https://emakimono.com/"
-                  }`}
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
                 >
                   <a target="_blank" rel="noopener noreferrer">
                     <FontAwesomeIcon
