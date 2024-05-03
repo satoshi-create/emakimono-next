@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+﻿import React, { useContext } from "react";
 import EmakiConteiner from "./EmakiConteiner";
 import styles from "../styles/EmakiLandscapContent.module.css";
 import { AppContext } from "../pages/_app";
@@ -31,6 +31,7 @@ const EmakiLandscapContent = ({
     eraen,
     era,
     title,
+    titleen,
     edition,
     author,
     authoren,
@@ -47,6 +48,10 @@ const EmakiLandscapContent = ({
   const descTemp = `「${title} ${edition ? edition : ""}」${
     author ? `（${author}）` : ""
   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+  
+  const url = `${process.env.SITE_URL}/${titleen}`;
+  console.log(url);
+  
 
   return (
     <>
@@ -120,9 +125,7 @@ const EmakiLandscapContent = ({
                   );
                 })} */}
                 <Link
-                  href={`https://twitter.com/share?url=${
-                    encodeUrl ? encodeUrl : "https://emakimono.com/"
-                  }&text=${title} ${edition ? edition : ""}`}
+                  href={`https://twitter.com/share?url=${url}&text=${title} ${edition ? edition : ""}`}
                 >
                   <a target="_blank" rel="noopener noreferrer">
                     <FontAwesomeIcon
