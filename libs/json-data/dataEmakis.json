@@ -4628,6 +4628,11 @@
         "name": "結婚",
         "id": "marry",
         "slug": "marry"
+      },
+      {
+        "name": "行列",
+        "id": "procession",
+        "slug": "procession"
       }
     ],
     "kotobagaki": true,
@@ -7350,6 +7355,7 @@
     "sourceImageUrl": "https://dl.ndl.go.jp/info:ndljp/pid/2542652",
     "sourceImage": "鎮火安心図巻（国立国会図書館）",
     "reference": [],
+
     "emakis": [
       {
         "cat": "ekotoba",
@@ -7688,7 +7694,12 @@
     "kotobagaki": true,
     "sourceImageUrl": "https://dl.ndl.go.jp/pid/1286837",
     "sourceImage": "江戸の華 ㊤㊦（国立国会図書館）",
-    "reference": [],
+    "reference": [
+  {
+    "type": "ウェブサイト",
+    "url": "https://shorturl.at/nySUW",
+    "title": "江戸の華［写］（みんなの知識 ちょっと便利帳）"
+  }],
     "emakis": [
 	{
 		"cat":"ekotoba",
@@ -7933,6 +7944,84 @@
 		"srcHeight":"1080"
 	}
 ]
+
+  },
+  {
+    "id": 47,
+    "title": "神田神社祭礼図",
+    "titleen": "kanda-shrine-festival-chart",
+    "author": "",
+    "authoren": "",
+    "edition": "",
+    "backgroundImage": "/washi-pattern-01.webp",
+    "video": "",
+    "thumb": "/kanda-shrine-festival-chart_tohaku_01-375.webp",
+    "thumb2": "/kanda-shrine-festival-chart_tohaku_01-375.webp",
+    "metadesc": "",
+    "desc": "",
+    "era": "江戸",
+    "eraen": "edo",
+    "gif": "",
+    "type": "絵巻",
+    "typeen": "emaki",
+    "keyword": [
+         {
+        "name": "行列",
+        "id": "procession",
+        "slug": "procession"
+      },
+         {
+        "name": "神社",
+        "id": "shrine",
+        "slug": "shrine"
+      },
+         {
+        "name": "祭礼",
+        "id": "festival",
+        "slug": "festival"
+      }
+    ],
+    "kotobagaki": true,
+    "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-9287",
+    "sourceImage": "神田神社祭礼図（ColBase 東京国立博物館）",
+    "reference": [
+],
+    "emakis": [
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "True",
+        "srcSp": "/kanda-shrine-festival-chart_tohaku_01-375.webp",
+        "srcTb": "/kanda-shrine-festival-chart_tohaku_01-800.webp",
+        "src": "/kanda-shrine-festival-chart_tohaku_01-1080.webp",
+        "name": "kanda-shrine-festival-chart_tohaku_01",
+        "srcWidth": "600",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "True",
+        "srcSp": "/kanda-shrine-festival-chart_tohaku_02-375.webp",
+        "srcTb": "/kanda-shrine-festival-chart_tohaku_02-800.webp",
+        "src": "/kanda-shrine-festival-chart_tohaku_02-1080.webp",
+        "name": "kanda-shrine-festival-chart_tohaku_02",
+        "srcWidth": "600",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/kanda-shrine-festival-chart_tohaku_03-375.webp",
+        "srcTb": "/kanda-shrine-festival-chart_tohaku_03-800.webp",
+        "src": "/kanda-shrine-festival-chart_tohaku_03-1080.webp",
+        "name": "kanda-shrine-festival-chart_tohaku_03",
+        "srcWidth": "600",
+        "srcHeight": "1080"
+      }
+    ]
+
 
   }
 ]
