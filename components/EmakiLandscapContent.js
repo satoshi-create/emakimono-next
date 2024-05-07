@@ -9,8 +9,7 @@ import Image from "next/image";
 import CardC from "./CardC";
 import Footer from "./Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTwitter, faFacebook } from "@fortawesome/free-brands-svg-icons";
-import { snsShareData } from "../libs/sns-share-data";
+import { faTwitter, faFacebook, faLinkedin} from "@fortawesome/free-brands-svg-icons";
 
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
 
@@ -107,25 +106,10 @@ const EmakiLandscapContent = ({
                 </div>
               )}
               <div className={styles.snsShareBox}>
-                {/* {snsShareData.map((item, i) => {
-                  const {path,name,icon} = item
-                  return (
-                    <Link
-                      href={`https://twitter.com/share?url=${
-                        encodeUrl ? encodeUrl : "https://emakimono.com/"
-                      }&text=${title} ${edition}`}
-                    >
-                      <a target="_blank" rel="noopener noreferrer">
-                        <FontAwesomeIcon
-                          icon={name}
-                          className={`${styles.snsShareIcon} ${styles[icon]}`}
-                        />
-                      </a>
-                    </Link>
-                  );
-                })} */}
                 <Link
-                  href={`https://twitter.com/share?url=${url}&text=${title} ${edition ? edition : ""}`}
+                  href={`https://twitter.com/share?url=${url}&text=${title} ${
+                    edition ? edition : ""
+                  }`}
                 >
                   <a target="_blank" rel="noopener noreferrer">
                     <FontAwesomeIcon
@@ -141,6 +125,16 @@ const EmakiLandscapContent = ({
                     <FontAwesomeIcon
                       icon={faFacebook}
                       className={`${styles.snsShareIcon} ${styles.facebook}`}
+                    />
+                  </a>
+                </Link>
+                <Link
+                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
+                >
+                  <a target="_blank" rel="noopener noreferrer">
+                    <FontAwesomeIcon
+                      icon={faLinkedin}
+                      className={`${styles.snsShareIcon} ${styles.linkedin}`}
                     />
                   </a>
                 </Link>

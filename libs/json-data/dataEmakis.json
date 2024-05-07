@@ -7649,5 +7649,290 @@
         "srcHeight": "1080"
       }
     ]
+  },
+  {
+    "id": 46,
+    "title": "江戸の華",
+    "titleen": "flowers-of-edo",
+    "author": "歌川広重",
+    "authoren": "utawaga-hirosige",
+    "edition": "",
+    "backgroundImage": "/washi-pattern-01.webp",
+    "video": "",
+    "thumb": "/flowers-of-edo_kokkai_01-375.webp",
+    "thumb2": "/flowers-of-edo_kokkai_01-375.webp",
+    "metadesc": "",
+    "desc": "",
+    "era": "江戸",
+    "eraen": "edo",
+    "gif": "",
+    "type": "絵巻",
+    "typeen": "emaki",
+    "keyword": [
+      {
+        "name": "天災",
+        "id": "disaster",
+        "slug": "disaster"
+      },
+      {
+        "name": "幕末",
+        "id": "closing-days-of-the-tokugawa-shogunate",
+        "slug": "closing-days-of-the-tokugawa-shogunate"
+      },
+      {
+        "name": "火事",
+        "id": "fire",
+        "slug": "fire"
+      }
+    ],
+    "kotobagaki": true,
+    "sourceImageUrl": "https://dl.ndl.go.jp/pid/1286837",
+    "sourceImage": "江戸の華 ㊤㊦（国立国会図書館）",
+    "reference": [],
+    "emakis": [
+	{
+		"cat":"ekotoba",
+		"chapter":"毎町自身番屋火事を知らするの図",
+		"load":"",
+		"srcSp":"",
+		"srcTb":"",
+		"src":"",
+		"name":"",
+		"srcWidth":"",
+		"srcHeight":""
+	},
+	{
+		"cat":"image",
+		"chapter":"",
+		"load":"True",
+		"srcSp":"/flowers-of-edo_kokkai_01-375.webp",
+		"srcTb":"/flowers-of-edo_kokkai_01-800.webp",
+		"src":"/flowers-of-edo_kokkai_01-1080.webp",
+		"name":"flowers-of-edo_kokkai_01",
+		"srcWidth":"",
+		"srcHeight":"1080"
+	},
+	{
+		"cat":"ekotoba",
+		"chapter":"御使番並諸候手子火元見之図",
+		"load":"",
+		"srcSp":"",
+		"srcTb":"",
+		"src":"",
+		"name":"",
+		"srcWidth":"",
+		"srcHeight":""
+	},
+	{
+		"cat":"image",
+		"chapter":"",
+		"load":"True",
+		"srcSp":"/flowers-of-edo_kokkai_02-375.webp",
+		"srcTb":"/flowers-of-edo_kokkai_02-800.webp",
+		"src":"/flowers-of-edo_kokkai_02-1080.webp",
+		"name":"flowers-of-edo_kokkai_02",
+		"srcWidth":"",
+		"srcHeight":"1080"
+	},
+	{
+		"cat":"ekotoba",
+		"chapter":"御使番並火事場見廻役駈付之図",
+		"load":"",
+		"srcSp":"",
+		"srcTb":"",
+		"src":"",
+		"name":"",
+		"srcWidth":"",
+		"srcHeight":""
+	},
+	{
+		"cat":"image",
+		"chapter":"",
+		"load":"False",
+		"srcSp":"/flowers-of-edo_kokkai_03-375.webp",
+		"srcTb":"/flowers-of-edo_kokkai_03-800.webp",
+		"src":"/flowers-of-edo_kokkai_03-1080.webp",
+		"name":"flowers-of-edo_kokkai_03",
+		"srcWidth":"",
+		"srcHeight":"1080"
+	},
+	{
+		"cat":"image",
+		"chapter":"",
+		"load":"False",
+		"srcSp":"/flowers-of-edo_kokkai_04-375.webp",
+		"srcTb":"/flowers-of-edo_kokkai_04-800.webp",
+		"src":"/flowers-of-edo_kokkai_04-1080.webp",
+		"name":"flowers-of-edo_kokkai_04",
+		"srcWidth":"",
+		"srcHeight":"1080"
+	},
+	{
+		"cat":"image",
+		"chapter":"",
+		"load":"False",
+		"srcSp":"/flowers-of-edo_kokkai_05-375.webp",
+		"srcTb":"/flowers-of-edo_kokkai_05-800.webp",
+		"src":"/flowers-of-edo_kokkai_05-1080.webp",
+		"name":"flowers-of-edo_kokkai_05",
+		"srcWidth":"",
+		"srcHeight":"1080"
+	},
+	{
+		"cat":"image",
+		"chapter":"",
+		"load":"False",
+		"srcSp":"/flowers-of-edo_kokkai_06-375.webp",
+		"srcTb":"/flowers-of-edo_kokkai_06-800.webp",
+		"src":"/flowers-of-edo_kokkai_06-1080.webp",
+		"name":"flowers-of-edo_kokkai_06",
+		"srcWidth":"",
+		"srcHeight":"1080"
+	},
+	{
+		"cat":"image",
+		"chapter":"",
+		"load":"False",
+		"srcSp":"/flowers-of-edo_kokkai_07-375.webp",
+		"srcTb":"/flowers-of-edo_kokkai_07-800.webp",
+		"src":"/flowers-of-edo_kokkai_07-1080.webp",
+		"name":"flowers-of-edo_kokkai_07",
+		"srcWidth":"",
+		"srcHeight":"1080"
+	},
+	{
+		"cat":"image",
+		"chapter":"",
+		"load":"False",
+		"srcSp":"/flowers-of-edo_kokkai_08-375.webp",
+		"srcTb":"/flowers-of-edo_kokkai_08-800.webp",
+		"src":"/flowers-of-edo_kokkai_08-1080.webp",
+		"name":"flowers-of-edo_kokkai_08",
+		"srcWidth":"",
+		"srcHeight":"1080"
+	},
+	{
+		"cat":"image",
+		"chapter":"",
+		"load":"False",
+		"srcSp":"/flowers-of-edo_kokkai_09-375.webp",
+		"srcTb":"/flowers-of-edo_kokkai_09-800.webp",
+		"src":"/flowers-of-edo_kokkai_09-1080.webp",
+		"name":"flowers-of-edo_kokkai_09",
+		"srcWidth":"",
+		"srcHeight":"1080"
+	},
+	{
+		"cat":"image",
+		"chapter":"",
+		"load":"False",
+		"srcSp":"/flowers-of-edo_kokkai_10-375.webp",
+		"srcTb":"/flowers-of-edo_kokkai_10-800.webp",
+		"src":"/flowers-of-edo_kokkai_10-1080.webp",
+		"name":"flowers-of-edo_kokkai_10",
+		"srcWidth":"",
+		"srcHeight":"1080"
+	},
+	{
+		"cat":"image",
+		"chapter":"",
+		"load":"False",
+		"srcSp":"/flowers-of-edo_kokkai_11-375.webp",
+		"srcTb":"/flowers-of-edo_kokkai_11-800.webp",
+		"src":"/flowers-of-edo_kokkai_11-1080.webp",
+		"name":"flowers-of-edo_kokkai_11",
+		"srcWidth":"",
+		"srcHeight":"1080"
+	},
+	{
+		"cat":"image",
+		"chapter":"",
+		"load":"False",
+		"srcSp":"/flowers-of-edo_kokkai_12-375.webp",
+		"srcTb":"/flowers-of-edo_kokkai_12-800.webp",
+		"src":"/flowers-of-edo_kokkai_12-1080.webp",
+		"name":"flowers-of-edo_kokkai_12",
+		"srcWidth":"",
+		"srcHeight":"1080"
+	},
+	{
+		"cat":"image",
+		"chapter":"",
+		"load":"False",
+		"srcSp":"/flowers-of-edo_kokkai_13-375.webp",
+		"srcTb":"/flowers-of-edo_kokkai_13-800.webp",
+		"src":"/flowers-of-edo_kokkai_13-1080.webp",
+		"name":"flowers-of-edo_kokkai_13",
+		"srcWidth":"",
+		"srcHeight":"1080"
+	},
+	{
+		"cat":"image",
+		"chapter":"",
+		"load":"False",
+		"srcSp":"/flowers-of-edo_kokkai_14-375.webp",
+		"srcTb":"/flowers-of-edo_kokkai_14-800.webp",
+		"src":"/flowers-of-edo_kokkai_14-1080.webp",
+		"name":"flowers-of-edo_kokkai_14",
+		"srcWidth":"",
+		"srcHeight":"1080"
+	},
+	{
+		"cat":"image",
+		"chapter":"",
+		"load":"False",
+		"srcSp":"/flowers-of-edo_kokkai_15-375.webp",
+		"srcTb":"/flowers-of-edo_kokkai_15-800.webp",
+		"src":"/flowers-of-edo_kokkai_15-1080.webp",
+		"name":"flowers-of-edo_kokkai_15",
+		"srcWidth":"",
+		"srcHeight":"1080"
+	},
+	{
+		"cat":"image",
+		"chapter":"",
+		"load":"False",
+		"srcSp":"/flowers-of-edo_kokkai_16-375.webp",
+		"srcTb":"/flowers-of-edo_kokkai_16-800.webp",
+		"src":"/flowers-of-edo_kokkai_16-1080.webp",
+		"name":"flowers-of-edo_kokkai_16",
+		"srcWidth":"",
+		"srcHeight":"1080"
+	},
+	{
+		"cat":"image",
+		"chapter":"",
+		"load":"False",
+		"srcSp":"/flowers-of-edo_kokkai_17-375.webp",
+		"srcTb":"/flowers-of-edo_kokkai_17-800.webp",
+		"src":"/flowers-of-edo_kokkai_17-1080.webp",
+		"name":"flowers-of-edo_kokkai_17",
+		"srcWidth":"",
+		"srcHeight":"1080"
+	},
+	{
+		"cat":"image",
+		"chapter":"",
+		"load":"False",
+		"srcSp":"/flowers-of-edo_kokkai_18-375.webp",
+		"srcTb":"/flowers-of-edo_kokkai_18-800.webp",
+		"src":"/flowers-of-edo_kokkai_18-1080.webp",
+		"name":"flowers-of-edo_kokkai_18",
+		"srcWidth":"",
+		"srcHeight":"1080"
+	},
+	{
+		"cat":"image",
+		"chapter":"",
+		"load":"False",
+		"srcSp":"/flowers-of-edo_kokkai_19-375.webp",
+		"srcTb":"/flowers-of-edo_kokkai_19-800.webp",
+		"src":"/flowers-of-edo_kokkai_19-1080.webp",
+		"name":"flowers-of-edo_kokkai_19",
+		"srcWidth":"",
+		"srcHeight":"1080"
+	}
+]
+
   }
 ]
