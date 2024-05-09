@@ -264,8 +264,8 @@ const EmakiLandscapContent = ({
               </div>
             </div>
           </div>
- <CardC data={data} />
-          {/* {data.type === "絵巻" && <CardC data={data} />} */}
+ {/* <CardC data={data} /> */}
+          {data.keyword && <CardC data={data} />}
         </div>
       </div>
       <Footer />
