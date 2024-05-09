@@ -6231,6 +6231,13 @@
         "path": "azumaya"
       }
     ],
+    "keyword": [
+      {
+        "name": "源氏絵",
+        "id": "picture-of-the-genji-monogatari",
+        "slug": "picture-of-the-genji-monogatari"
+      }
+    ],
     "backgroundImage": "/washi-pattern-01.webp",
     "video": "",
     "thumb": "/5_genji_emaki_wakamurasaki_tokyokokuritsu-375.webp",
@@ -6242,7 +6249,6 @@
     "gif": "",
     "type": "絵巻",
     "typeen": "emaki",
-    "keyword": [],
     "kotobagaki": false,
     "character": true,
     "favorite": true,
