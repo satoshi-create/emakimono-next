@@ -14,9 +14,7 @@ import {
   faFacebook,
   faLinkedin,
 } from "@fortawesome/free-brands-svg-icons";
-import {
-faPlus
-} from "@fortawesome/free-solid-svg-icons";
+import SingleChapterDesc from "./SingleChapterDesc";
 
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
 
@@ -48,7 +46,6 @@ const EmakiLandscapContent = ({
     personname,
     keyword,
     genjieslug,
-    encodeUrl,
   } = data;
 
   const descTemp = `「${title} ${edition ? edition : ""}」${
@@ -60,7 +57,6 @@ const EmakiLandscapContent = ({
 
   const [toggle, setToggle] = useState(false)
   console.log(toggle);
-  
 
   return (
     <>
@@ -170,34 +166,16 @@ const EmakiLandscapContent = ({
                   onClick={() => setToggle(!toggle)}
                   className={styles.toggleChapterDesc}
                 >
-                  {toggle ? "...各段の解説を閉じる" : "...各段の解説を読む"}
+                  {toggle ? "...各段の詞書・解説を閉じる" : "...各段の詞書・解説を読む"}
                 </p>
                 {/* 各段の詞書・解説 */}
-             {toggle && (
+              {toggle && (
                 <div className={styles.chapterDescBox}>
                   {emakis.map((item, index) => {
                     const { cat, chapter, gendaibun } = item;
                     if (cat === "ekotoba") {
                       return (
-                        <article className={styles.chapterDesc} key={index}>
-                          <div className={styles.chapterDesctTitle}>
-                            <div
-                              onClick={() => handleToId(index)}
-                              className={styles.chapterlink}
-                              // style={{ color: eraColor(era) }}
-                              dangerouslySetInnerHTML={{ __html: chapter }}
-                            ></div>
-                            <button>
-                              <FontAwesomeIcon icon={faPlus} />
-                            </button>
-                          </div>
-                          <div className={styles.line}></div>
-                          {/* <p
-                          dangerouslySetInnerHTML={{
-                            __html: gendaibun,
-                          }}
-                        ></p> */}
-                        </article>
+                        <SingleChapterDesc item={item} index={index} key={index} emakis={emakis}/>
                       );
                     }
                   })}
