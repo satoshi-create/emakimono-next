@@ -1,4 +1,4 @@
-﻿import React, { useContext,useState } from "react";
+﻿import React, { useContext, useState } from "react";
 import EmakiConteiner from "./EmakiConteiner";
 import styles from "../styles/EmakiLandscapContent.module.css";
 import { AppContext } from "../pages/_app";
@@ -46,6 +46,7 @@ const EmakiLandscapContent = ({
     personname,
     keyword,
     genjieslug,
+    kotobagaki,
   } = data;
 
   const descTemp = `「${title} ${edition ? edition : ""}」${
@@ -55,7 +56,7 @@ const EmakiLandscapContent = ({
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${titleen}`;
   // console.log(url);
 
-  const [toggle, setToggle] = useState(false)
+  const [toggle, setToggle] = useState(false);
   console.log(toggle);
 
   return (
@@ -159,28 +160,38 @@ const EmakiLandscapContent = ({
               <div
                 className={styles.desc}
                 dangerouslySetInnerHTML={{ __html: desc ? desc : descTemp }}
-              >
-                {/* <span>...各段の解説を閉じる</span> */}
-              </div>
-                <p
-                  onClick={() => setToggle(!toggle)}
-                  className={styles.toggleChapterDesc}
-                >
-                  {toggle ? "...各段の詞書・解説を閉じる" : "...各段の詞書・解説を読む"}
-                </p>
-                {/* 各段の詞書・解説 */}
-              {toggle && (
-                <div className={styles.chapterDescBox}>
-                  {emakis.map((item, index) => {
-                    const { cat, chapter, gendaibun } = item;
-                    if (cat === "ekotoba") {
-                      return (
-                        <SingleChapterDesc item={item} index={index} key={index} emakis={emakis}/>
-                      );
-                    }
-                  })}
-                </div>
+              ></div>
+              {/* 各段の詞書・解説 */}
+              {kotobagaki && (
+                <>
+                  <p
+                    onClick={() => setToggle(!toggle)}
+                    className={styles.toggleChapterDesc}
+                  >
+                    {toggle
+                      ? "...各段の詞書・解説を閉じる"
+                      : "...各段の詞書・解説を読む"}
+                  </p>
+                  {toggle && (
+                    <div className={styles.chapterDescBox}>
+                      {emakis.map((item, index) => {
+                        const { cat, chapter, gendaibun } = item;
+                        if (cat === "ekotoba" && gendaibun) {
+                          return (
+                            <SingleChapterDesc
+                              item={item}
+                              index={index}
+                              key={index}
+                              emakis={emakis}
+                            />
+                          );
+                        }
+                      })}
+                    </div>
+                  )}
+                </>
               )}
+
               {/* 登場人物 */}
               {personname && (
                 <div className={styles.tags}>
@@ -264,7 +275,7 @@ const EmakiLandscapContent = ({
               </div>
             </div>
           </div>
- {/* <CardC data={data} /> */}
+          {/* <CardC data={data} /> */}
           {data.keyword && <CardC data={data} />}
         </div>
       </div>
