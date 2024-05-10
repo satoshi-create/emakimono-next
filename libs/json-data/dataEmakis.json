@@ -2671,7 +2671,7 @@
         "portrait": "/portrait_tachibananokachiko.webp"
       }
     ],
-    "kotobagaki": false,
+    "kotobagaki": true,
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/kyuhaku/A70?locale=ja",
     "sourceImage": "九相図巻（九州国立博物館）",
     "reference": [
