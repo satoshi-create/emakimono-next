@@ -747,7 +747,7 @@
     "gif": "",
     "type": "屏風",
     "typeen": "byoubu",
-    "kotobagaki": true,
+    "kotobagaki": false,
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-12373?locale=ja",
     "sourceImage": "源氏物語図屏風（絵合・胡蝶）（ColBase）",
     "sourceEkotoba": "",
