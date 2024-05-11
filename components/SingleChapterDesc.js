@@ -1,15 +1,15 @@
-﻿import React, { useContext,useState } from 'react'
+﻿import React, { useContext, useState } from "react";
 import styles from "../styles/EmakiLandscapContent.module.css";
 import { ChevronDown, ChevronUp } from "react-feather";
 import { AppContext } from "../pages/_app";
 import Image from "next/image";
 
-const SingleChapterDesc = ({item,index,emakis}) => {
-    const { handleToId, handleFullScreen } = useContext(AppContext);
+const SingleChapterDesc = ({ item, index, emakis }) => {
+  const { handleToId, handleFullScreen } = useContext(AppContext);
   const [showInfo, setShowInfo] = useState(false);
-  const { chapter, gendaibun, cat } = item
+  const { chapter, gendaibun, cat, desc } = item;
   console.log(emakis[1].srcSp);
-  
+
   return (
     <article className={styles.chapterDesc}>
       <div
@@ -31,16 +31,34 @@ const SingleChapterDesc = ({item,index,emakis}) => {
       <div className={styles.line}></div>
       {showInfo && (
         <div className={styles.chapterDesctBody}>
-          <p
-            className={styles.chapterDescText}
-            dangerouslySetInnerHTML={{
-              __html: gendaibun,
-            }}
-          ></p>
+          {gendaibun && (
+            <>
+              <h4 className={styles.chapterDescTitle}>現代文</h4>
+              <p
+                className={styles.chapterDescText}
+                dangerouslySetInnerHTML={{
+                  __html: gendaibun,
+                }}
+              ></p>
+            </>
+          )}
+          {desc && (
+            <>
+              <h4 className={styles.chapterDescTitle}>
+                解説
+              </h4>
+              <p
+                className={styles.chapterDescText}
+                dangerouslySetInnerHTML={{
+                  __html: desc,
+                }}
+              ></p>
+            </>
+          )}
           <button
             type="button"
             onClick={() => handleToId(index)}
-            className={`${styles.chapterDescbutton} ${styles.linkedbutton}`}
+            className={styles.chapterDescbutton}
           >
             横スクロールで見る
           </button>
@@ -61,6 +79,6 @@ const SingleChapterDesc = ({item,index,emakis}) => {
       )}
     </article>
   );
-}
+};
 
-export default SingleChapterDesc
+export default SingleChapterDesc;

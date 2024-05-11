@@ -246,31 +246,47 @@
 }
 .chapterDesctBody{
   display: grid;
-  grid-template-columns: 1fr auto;
+  /* grid-template-columns: 1fr auto; */
+  grid-auto-flow: row;
   gap:1.5rem;
   padding: .8rem;
   line-height: 1.6;
   font-size: 1.1rem;
   padding: .8rem;
 }
-.chapterDescText{
-  grid-column: 1;
-  grid-row: 1;
+.chapterDesctTitle{
+      font-weight: 500;
+    /* grid-column: 1;
+  grid-row: 1; */
 }
-.chapterDesctImageBox{
+.chapterDescText{
+  /* grid-column: 1;
+  grid-row: 2; */
+}
+/* .chapterDesctImageBox{
   grid-column: 2;
   grid-row: 1/span 2;
   align-self: center;
-}
+} */
 .chapterDesctImage{
   border-radius: 1rem;
   cursor: pointer;
 
 }
-.chapterDescbutton{
-  grid-column: 1;
-  grid-row: 2;
-  justify-self: flex-end;
+.chapterDescbutton {
+  justify-self: end;
+  background: var(--clr-accent-02);
+  border: 1px solid var(--clr-accent-02);
+  border-radius: 5rem;
+  transition: var(--transition);
+  font-family: var(--text-font);
+  padding: 0.5rem;
+  color: var(--clr-white);
+  font-size: medium;
+}
+.chapterDescbutton:hover {
+  background-color: var(--clr-white);
+  color: var(--clr-accent-02);
 }
 .authority {
   font-family: var(--title-font2);
