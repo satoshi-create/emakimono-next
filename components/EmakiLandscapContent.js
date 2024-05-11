@@ -175,8 +175,8 @@ const EmakiLandscapContent = ({
                   {toggle && (
                     <div className={styles.chapterDescBox}>
                       {emakis.map((item, index) => {
-                        const { cat, chapter, gendaibun } = item;
-                        if (cat === "ekotoba" && gendaibun) {
+                        const { cat, chapter, gendaibun, desc } = item;
+                        if ((cat === "ekotoba" && gendaibun) || desc) {
                           return (
                             <SingleChapterDesc
                               item={item}
