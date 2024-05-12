@@ -1,4 +1,4 @@
-﻿import React, { useContext } from "react";
+﻿import React, { useContext, useState } from "react";
 import EmakiConteiner from "./EmakiConteiner";
 import styles from "../styles/EmakiLandscapContent.module.css";
 import { AppContext } from "../pages/_app";
@@ -9,7 +9,12 @@ import Image from "next/image";
 import CardC from "./CardC";
 import Footer from "./Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTwitter, faFacebook, faLinkedin} from "@fortawesome/free-brands-svg-icons";
+import {
+  faTwitter,
+  faFacebook,
+  faLinkedin,
+} from "@fortawesome/free-brands-svg-icons";
+import SingleChapterDesc from "./SingleChapterDesc";
 
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
 
@@ -41,16 +46,18 @@ const EmakiLandscapContent = ({
     personname,
     keyword,
     genjieslug,
-    encodeUrl
+    kotobagaki,
   } = data;
 
   const descTemp = `「${title} ${edition ? edition : ""}」${
     author ? `（${author}）` : ""
   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
-  
+
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${titleen}`;
   // console.log(url);
-  
+
+  const [toggle, setToggle] = useState(false);
+  console.log(toggle);
 
   return (
     <>
@@ -149,10 +156,43 @@ const EmakiLandscapContent = ({
               </button>
             </div>
             <div className={styles.metadataB}>
+              {/* 絵巻の紹介 */}
               <div
                 className={styles.desc}
                 dangerouslySetInnerHTML={{ __html: desc ? desc : descTemp }}
               ></div>
+              {/* 各段の詞書・解説 */}
+              {kotobagaki && (
+                <>
+                  <p
+                    onClick={() => setToggle(!toggle)}
+                    className={styles.toggleChapterDesc}
+                  >
+                    {toggle
+                      ? "...各段の詞書・解説を閉じる"
+                      : "...各段の詞書・解説を読む"}
+                  </p>
+                  {toggle && (
+                    <div className={styles.chapterDescBox}>
+                      {emakis.map((item, index) => {
+                        const { cat, chapter, gendaibun, desc } = item;
+                        if ((cat === "ekotoba" && gendaibun) || desc) {
+                          return (
+                            <SingleChapterDesc
+                              item={item}
+                              index={index}
+                              key={index}
+                              emakis={emakis}
+                            />
+                          );
+                        }
+                      })}
+                    </div>
+                  )}
+                </>
+              )}
+
+              {/* 登場人物 */}
               {personname && (
                 <div className={styles.tags}>
                   {personname?.map((item, index) => {
@@ -235,8 +275,8 @@ const EmakiLandscapContent = ({
               </div>
             </div>
           </div>
-
-          {data.type === "絵巻" && <CardC data={data} />}
+          {/* <CardC data={data} /> */}
+          {data.keyword && <CardC data={data} />}
         </div>
       </div>
       <Footer />

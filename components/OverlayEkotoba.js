@@ -41,12 +41,12 @@ const OverlayEkotoba = ({
   const [ekotobabody, setEkotobabody] = useState("");
 
   useEffect(() => {
-    setEkotobabody(gendaibun);
+    setEkotobabody(gendaibun); 
   }, [setEkotobabody, gendaibun]);
 
   useEffect(() => {
-    setEkotobaImageToggle(true);
-    setekotobaToggle(true);
+    setEkotobaImageToggle(false);
+    setekotobaToggle(false);
   }, [setEkotobaImageToggle, setekotobaToggle]);
 
   return (
