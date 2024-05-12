@@ -2671,7 +2671,7 @@
         "portrait": "/portrait_tachibananokachiko.webp"
       }
     ],
-    "kotobagaki": false,
+    "kotobagaki": true,
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/kyuhaku/A70?locale=ja",
     "sourceImage": "九相図巻（九州国立博物館）",
     "reference": [
@@ -2685,185 +2685,286 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": " 生前相",
+        "chapter": " 【第０相】生前相",
         "kobun": "",
         "gendaibun": "",
-        "id": 188
+        "desc": "",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": true,
         "cat": "image",
+        "chapter": "",
+        "kobun": "",
+        "gendaibun": "",
+        "desc": "",
+        "load": "True",
         "srcSp": "/kusouzu_01-375.webp",
         "srcTb": "/kusouzu_01-800.webp",
         "src": "/kusouzu_01-1080.webp",
         "name": "kusouzu_01.webp",
-        "id": 189,
-        "srcWidth": 1757,
-        "srcHeight": 1080
+        "srcWidth": "1757",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "【第一相】 新死相",
         "kobun": "",
         "gendaibun": "",
-        "id": 190
+        "desc": "",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": true,
         "cat": "image",
+        "chapter": "",
+        "kobun": "",
+        "gendaibun": "",
+        "desc": "",
+        "load": "True",
         "srcSp": "/kusouzu_02-375.webp",
         "srcTb": "/kusouzu_02-800.webp",
         "src": "/kusouzu_02-1080.webp",
         "name": "kusouzu_02.webp",
-        "id": 191,
-        "srcWidth": 1693,
-        "srcHeight": 1080
+        "srcWidth": "1693",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "【第二相】 <ruby><rb>脹相</rb><rp>（</rp><rt>ちょうそう</rt><rp>）</rp></ruby> ",
         "kobun": "",
-        "gendaibun": "これらの死屍は、顔色が黒ずみ、身体が硬直して手足が花を散らしたようにあちこちを向く、膨脹した身体が風をはらんでふくらんだ革袋のようである。九つの孔からは、汚物が流れ溢れ、はなはだ穢れ醜悪である。行者は自らおもう、我が身もこれと同じであるし、未だ愛着を断ち切ることのできない愛人もまた、これと同じである。この相を見れば、心が少々定まり徐々に落ち着くのである。",
-        "id": 192
+        "gendaibun": "",
+        "desc": "これらの死屍は、顔色が黒ずみ、身体が硬直して手足が花を散らしたようにあちこちを向く、膨脹した身体が風をはらんでふくらんだ革袋のようである。九つの孔からは、汚物が流れ溢れ、はなはだ穢れ醜悪である。行者は自らおもう、我が身もこれと同じであるし、未だ愛着を断ち切ることのできない愛人もまた、これと同じである。この相を見れば、心が少々定まり徐々に落ち着くのである。",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "kobun": "",
+        "gendaibun": "",
+        "desc": "",
+        "load": "False",
         "srcSp": "/kusouzu_03-375.webp",
         "srcTb": "/kusouzu_03-800.webp",
         "src": "/kusouzu_03-1080.webp",
         "name": "kusouzu_03.webp",
-        "id": 193,
-        "srcWidth": 1708,
-        "srcHeight": 1080
+        "srcWidth": "1708",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "【第三相】 <ruby><rb>壊相</rb><rp>（</rp><rt>えそう</rt><rp>）</rp></ruby> ",
         "kobun": "",
-        "gendaibun": "またたく間に、この膨張した屍は、風に吹かれ日に曝されて、皮や肉が破れ壊れ、身体が<ruby><rb>坼裂</rb><rp>（</rp><rt>たくれつ</rt><rp>）</rp></ruby>して形や色が変わってしまい、識別不可能となる。これを、壊相と名づける。",
-        "id": 194
+        "gendaibun": "",
+        "desc": "またたく間に、この膨張した屍は、風に吹かれ日に曝されて、皮や肉が破れ壊れ、身体が<ruby><rb>坼裂</rb><rp>（</rp><rt>たくれつ</rt><rp>）</rp></ruby>して形や色が変わってしまい、識別不可能となる。これを、壊相と名づける。",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "kobun": "",
+        "gendaibun": "",
+        "desc": "",
+        "load": "False",
         "srcSp": "/kusouzu_04-375.webp",
         "srcTb": "/kusouzu_04-800.webp",
         "src": "/kusouzu_04-1080.webp",
         "name": "kusouzu_04.webp",
-        "id": 195,
-        "srcWidth": 1685,
-        "srcHeight": 1080
+        "srcWidth": "1685",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "【第四相】 <ruby><rb>血塗相</rb><rp>（</rp><rt>けちずそう</rt><rp>）</rp></ruby> ",
         "kobun": "",
-        "gendaibun": "<ruby><rb>坼裂</rb><rp>（</rp><rt>たくれつ</rt><rp>）</rp></ruby>したところから血が溢れ出る。あちこちに飛び散り溜り、所々を斑に染める、溢れて地面に染み込み悪臭が漂う、これを血塗相とする。",
-        "id": 196
+        "gendaibun": "",
+        "desc": "<ruby><rb>坼裂</rb><rp>（</rp><rt>たくれつ</rt><rp>）</rp></ruby>したところから血が溢れ出る。あちこちに飛び散り溜り、所々を斑に染める、溢れて地面に染み込み悪臭が漂う、これを血塗相とする。",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "kobun": "",
+        "gendaibun": "",
+        "desc": "",
+        "load": "False",
         "srcSp": "/kusouzu_05-375.webp",
         "srcTb": "/kusouzu_05-800.webp",
         "src": "/kusouzu_05-1080.webp",
         "name": "kusouzu_05.webp",
-        "id": 197,
-        "srcWidth": 1682,
-        "srcHeight": 1080
+        "srcWidth": "1682",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "【第五相】 <ruby><rb>膿爛相</rb><rp>（</rp><rt>のうらんそう</rt><rp>）</rp></ruby>",
         "kobun": "",
-        "gendaibun": "膿爛し流れ潰える死体を見る。肉が溶けて流れ、火をつけた蝋燭のようである。これを膿爛相と名づける。",
-        "id": 198
+        "gendaibun": "",
+        "desc": "膿爛し流れ潰える死体を見る。肉が溶けて流れ、火をつけた蝋燭のようである。これを膿爛相と名づける。",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "kobun": "",
+        "gendaibun": "",
+        "desc": "",
+        "load": "False",
         "srcSp": "/kusouzu_06-375.webp",
         "srcTb": "/kusouzu_06-800.webp",
         "src": "/kusouzu_06-1080.webp",
         "name": "kusouzu_06.webp",
-        "id": 199,
-        "srcWidth": 1705,
-        "srcHeight": 1080
+        "srcWidth": "1705",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "【第六相】 <ruby><rb>青瘀相</rb><rp>（</rp><rt>しょうおそう</rt><rp>）</rp></ruby>",
         "kobun": "",
-        "gendaibun": "残りの皮やあまった肉が風や日に乾き炙られ、臭く腐敗し黒ずむのを見る。半ば青く半ば傷んで、痩せて皮がたるんでいる、これを青瘀相とする。",
-        "id": 200
+        "gendaibun": "",
+        "desc": "残りの皮やあまった肉が風や日に乾き炙られ、臭く腐敗し黒ずむのを見る。半ば青く半ば傷んで、痩せて皮がたるんでいる、これを青瘀相とする。",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "kobun": "",
+        "gendaibun": "",
+        "desc": "",
+        "load": "False",
         "srcSp": "/kusouzu_07-375.webp",
         "srcTb": "/kusouzu_07-800.webp",
         "src": "/kusouzu_07-1080.webp",
         "name": "kusouzu_07.webp",
-        "id": 201,
-        "srcWidth": 1711,
-        "srcHeight": 1080
+        "srcWidth": "1711",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "【第七相】 <ruby><rb>噉相</rb><rp>（</rp><rt>たんそう</rt><rp>）</rp></ruby>",
         "kobun": "",
-        "gendaibun": "この屍が狐、狼、鳶、鷲に噉相されるのを見る、肉片を奪い争い、引き裂いて散り散りになる、これを噉相とする。",
-        "id": 202
+        "gendaibun": "",
+        "desc": "この屍が狐、狼、鳶、鷲に噉相されるのを見る、肉片を奪い争い、引き裂いて散り散りになる、これを噉相とする。",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "kobun": "",
+        "gendaibun": "",
+        "desc": "",
+        "load": "False",
         "srcSp": "/kusouzu_08-375.webp",
         "srcTb": "/kusouzu_08-800.webp",
         "src": "/kusouzu_08-1080.webp",
         "name": "kusouzu_08.webp",
-        "id": 203,
-        "srcWidth": 2180,
-        "srcHeight": 1080
+        "srcWidth": "2180",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "【第八相】 <ruby><rb>散相</rb><rp>（</rp><rt>さんそう</rt><rp>）</rp></ruby>",
         "kobun": "",
-        "gendaibun": "頭と手が異なるところにあるのを見る。五臓が散らばってもはや収斂しない。これを散相とする。",
-        "id": 204
+        "gendaibun": "",
+        "desc": "頭と手が異なるところにあるのを見る。五臓が散らばってもはや収斂しない。これを散相とする。",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "kobun": "",
+        "gendaibun": "",
+        "desc": "",
+        "load": "False",
         "srcSp": "/kusouzu_09-375.webp",
         "srcTb": "/kusouzu_09-800.webp",
         "src": "/kusouzu_09-1080.webp",
         "name": "kusouzu_09.webp",
-        "id": 205,
-        "srcWidth": 1221,
-        "srcHeight": 1080
+        "srcWidth": "1221",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "【第九相】 <ruby><rb> 骨相</rb><rp>（</rp><rt>こつそう</rt><rp>）</rp></ruby>",
         "kobun": "",
-        "gendaibun": "二種の骨があるのを見る。一つは濃膏を帯び、一つは純白で清浄である。ある時は一具の骨で、またある時は散乱している。",
-        "id": 206
+        "gendaibun": "",
+        "desc": "二種の骨があるのを見る。一つは濃膏を帯び、一つは純白で清浄である。ある時は一具の骨で、またある時は散乱している。",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "kobun": "",
+        "gendaibun": "",
+        "desc": "",
+        "load": "False",
         "srcSp": "/kusouzu_10-375.webp",
         "srcTb": "/kusouzu_10-800.webp",
         "src": "/kusouzu_10-1080.webp",
         "name": "kusouzu_10.webp",
-        "id": 207,
-        "srcWidth": 1771,
-        "srcHeight": 1080
+        "srcWidth": "1771",
+        "srcHeight": "1080"
       }
     ]
+
   },
   {
     "id": 9,
@@ -5271,696 +5372,724 @@
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-10561?locale=ja",
     "sourceImage": "東海道五十三次絵巻（ColBase）",
     "sourceEkotoba": "",
-    "emakis": [
+    "emakis":[
       {
         "cat": "ekotoba",
-        "chapter": "　巻一",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}],
-        "id": 380
+        "chapter": "【巻一】日本橋、品川、大崎、川崎、神奈川、程ヶ谷、戸塚、藤沢、馬入川（相模川）",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "True",
         "srcSp": "/tokaidou_scroll4_01-375.webp",
         "srcTb": "/tokaidou_scroll4_01-800.webp",
         "src": "/tokaidou_scroll4_01-1080.webp",
-        "name": "tokaidou_scroll4_01.webp",
-        "id": 381,
-        "srcWidth": 4915,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll4_01",
+        "srcWidth": "4915",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "True",
         "srcSp": "/tokaidou_scroll4_02-375.webp",
         "srcTb": "/tokaidou_scroll4_02-800.webp",
         "src": "/tokaidou_scroll4_02-1080.webp",
-        "name": "tokaidou_scroll4_02.webp",
-        "id": 382,
-        "srcWidth": 3925,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll4_02",
+        "srcWidth": "3925",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll4_03-375.webp",
         "srcTb": "/tokaidou_scroll4_03-800.webp",
         "src": "/tokaidou_scroll4_03-1080.webp",
-        "name": "tokaidou_scroll4_03.webp",
-        "id": 383,
-        "srcWidth": 3979,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll4_03",
+        "srcWidth": "3979",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll4_04-375.webp",
         "srcTb": "/tokaidou_scroll4_04-800.webp",
         "src": "/tokaidou_scroll4_04-1080.webp",
-        "name": "tokaidou_scroll4_04.webp",
-        "id": 384,
-        "srcWidth": 4742,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll4_04",
+        "srcWidth": "4742",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll4_05-375.webp",
         "srcTb": "/tokaidou_scroll4_05-800.webp",
         "src": "/tokaidou_scroll4_05-1080.webp",
-        "name": "tokaidou_scroll4_05.webp",
-        "id": 385,
-        "srcWidth": 4568,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll4_05",
+        "srcWidth": "4568",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll4_06-375.webp",
         "srcTb": "/tokaidou_scroll4_06-800.webp",
         "src": "/tokaidou_scroll4_06-1080.webp",
-        "name": "tokaidou_scroll4_06.webp",
-        "id": 386,
-        "srcWidth": 4588,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll4_06",
+        "srcWidth": "4588",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll4_07-375.webp",
         "srcTb": "/tokaidou_scroll4_07-800.webp",
         "src": "/tokaidou_scroll4_07-1080.webp",
-        "name": "tokaidou_scroll4_07.webp",
-        "id": 387,
-        "srcWidth": 5383,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll4_07",
+        "srcWidth": "5383",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
-        "chapter": "　巻二",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}],
-        "id": 388
+        "chapter": "【巻二】大磯、小田原、箱根湯本、箱根宮下、箱根湖水",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll9_01-375.webp",
         "srcTb": "/tokaidou_scroll9_01-800.webp",
         "src": "/tokaidou_scroll9_01-1080.webp",
-        "name": "tokaidou_scroll9_01.webp",
-        "id": 389,
-        "srcWidth": 5884,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll9_01",
+        "srcWidth": "5884",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll9_02-375.webp",
         "srcTb": "/tokaidou_scroll9_02-800.webp",
         "src": "/tokaidou_scroll9_02-1080.webp",
-        "name": "tokaidou_scroll9_02.webp",
-        "id": 390,
-        "srcWidth": 4850,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll9_02",
+        "srcWidth": "4850",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll9_03-375.webp",
         "srcTb": "/tokaidou_scroll9_03-800.webp",
         "src": "/tokaidou_scroll9_03-1080.webp",
-        "name": "tokaidou_scroll9_03.webp",
-        "id": 391,
-        "srcWidth": 5377,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll9_03",
+        "srcWidth": "5377",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll9_04-375.webp",
         "srcTb": "/tokaidou_scroll9_04-800.webp",
         "src": "/tokaidou_scroll9_04-1080.webp",
-        "name": "tokaidou_scroll9_04.webp",
-        "id": 392,
-        "srcWidth": 5872,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll9_04",
+        "srcWidth": "5872",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll9_05-375.webp",
         "srcTb": "/tokaidou_scroll9_05-800.webp",
         "src": "/tokaidou_scroll9_05-1080.webp",
-        "name": "tokaidou_scroll9_05.webp",
-        "id": 393,
-        "srcWidth": 5941,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll9_05",
+        "srcWidth": "5941",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
-        "chapter": "　巻三",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}],
-        "id": 394
+        "chapter": "【巻三】三島、沼津、原、吉原、蒲原、由比、菩薩峠、興津",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll6_01-375.webp",
         "srcTb": "/tokaidou_scroll6_01-800.webp",
         "src": "/tokaidou_scroll6_01-1080.webp",
-        "name": "tokaidou_scroll6_01.webp",
-        "id": 395,
-        "srcWidth": 4694,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll6_01",
+        "srcWidth": "4694",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll6_02-375.webp",
         "srcTb": "/tokaidou_scroll6_02-800.webp",
         "src": "/tokaidou_scroll6_02-1080.webp",
-        "name": "tokaidou_scroll6_02.webp",
-        "id": 396,
-        "srcWidth": 5043,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll6_02",
+        "srcWidth": "5043",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll6_03-375.webp",
         "srcTb": "/tokaidou_scroll6_03-800.webp",
         "src": "/tokaidou_scroll6_03-1080.webp",
-        "name": "tokaidou_scroll6_03.webp",
-        "id": 397,
-        "srcWidth": 4398,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll6_03",
+        "srcWidth": "4398",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll6_04-375.webp",
         "srcTb": "/tokaidou_scroll6_04-800.webp",
         "src": "/tokaidou_scroll6_04-1080.webp",
-        "name": "tokaidou_scroll6_04.webp",
-        "id": 398,
-        "srcWidth": 5993,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll6_04",
+        "srcWidth": "5993",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll6_05-375.webp",
         "srcTb": "/tokaidou_scroll6_05-800.webp",
         "src": "/tokaidou_scroll6_05-1080.webp",
-        "name": "tokaidou_scroll6_05.webp",
-        "id": 399,
-        "srcWidth": 5017,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll6_05",
+        "srcWidth": "5017",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll6_06-375.webp",
         "srcTb": "/tokaidou_scroll6_06-800.webp",
         "src": "/tokaidou_scroll6_06-1080.webp",
-        "name": "tokaidou_scroll6_06.webp",
-        "id": 400,
-        "srcWidth": 6566,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll6_06",
+        "srcWidth": "6566",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
-        "chapter": "　巻四",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}],
-        "id": 401
+        "chapter": "【巻四】江尻、府中静岡、鞠子、宇津谷峠、岡部、藤枝、嶋田、大井川",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll7_01-375.webp",
         "srcTb": "/tokaidou_scroll7_01-800.webp",
         "src": "/tokaidou_scroll7_01-1080.webp",
-        "name": "tokaidou_scroll7_01.webp",
-        "id": 402,
-        "srcWidth": 6250,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll7_01",
+        "srcWidth": "6250",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll7_02-375.webp",
         "srcTb": "/tokaidou_scroll7_02-800.webp",
         "src": "/tokaidou_scroll7_02-1080.webp",
-        "name": "tokaidou_scroll7_02.webp",
-        "id": 403,
-        "srcWidth": 6503,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll7_02",
+        "srcWidth": "6503",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll7_03-375.webp",
         "srcTb": "/tokaidou_scroll7_03-800.webp",
         "src": "/tokaidou_scroll7_03-1080.webp",
-        "name": "tokaidou_scroll7_03.webp",
-        "id": 404,
-        "srcWidth": 6503,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll7_03",
+        "srcWidth": "6503",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll7_04-375.webp",
         "srcTb": "/tokaidou_scroll7_04-800.webp",
         "src": "/tokaidou_scroll7_04-1080.webp",
-        "name": "tokaidou_scroll7_04.webp",
-        "id": 405,
-        "srcWidth": 5944,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll7_04",
+        "srcWidth": "5944",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll7_05-375.webp",
         "srcTb": "/tokaidou_scroll7_05-800.webp",
         "src": "/tokaidou_scroll7_05-1080.webp",
-        "name": "tokaidou_scroll7_05.webp",
-        "id": 406,
-        "srcWidth": 6661,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll7_05",
+        "srcWidth": "6661",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
-        "chapter": "　巻五",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}],
-        "id": 407
+        "chapter": "【巻五】大井川の河川敷、金谷、日坂、小夜中山、掛川、袋井、見附、天竜川、浜松",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": true,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll1_01-375.webp",
         "srcTb": "/tokaidou_scroll1_01-800.webp",
         "src": "/tokaidou_scroll1_01-1080.webp",
-        "name": "tokaidou_scroll1_01.webp",
-        "id": 408,
-        "srcWidth": 3292,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll1_01",
+        "srcWidth": "3292",
+        "srcHeight": "1080"
       },
       {
-        "load": true,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll1_02-375.webp",
         "srcTb": "/tokaidou_scroll1_02-800.webp",
         "src": "/tokaidou_scroll1_02-1080.webp",
-        "name": "tokaidou_scroll1_02.webp",
-        "id": 409,
-        "srcWidth": 3744,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll1_02",
+        "srcWidth": "3744",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll1_03-375.webp",
         "srcTb": "/tokaidou_scroll1_03-800.webp",
         "src": "/tokaidou_scroll1_03-1080.webp",
-        "name": "tokaidou_scroll1_03.webp",
-        "id": 410,
-        "srcWidth": 4481,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll1_03",
+        "srcWidth": "4481",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll1_04-375.webp",
         "srcTb": "/tokaidou_scroll1_04-800.webp",
         "src": "/tokaidou_scroll1_04-1080.webp",
-        "name": "tokaidou_scroll1_04.webp",
-        "id": 411,
-        "srcWidth": 4127,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll1_04",
+        "srcWidth": "4127",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll1_05-375.webp",
         "srcTb": "/tokaidou_scroll1_05-800.webp",
         "src": "/tokaidou_scroll1_05-1080.webp",
-        "name": "tokaidou_scroll1_05.webp",
-        "id": 412,
-        "srcWidth": 4398,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll1_05",
+        "srcWidth": "4398",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll1_06-375.webp",
         "srcTb": "/tokaidou_scroll1_06-800.webp",
         "src": "/tokaidou_scroll1_06-1080.webp",
-        "name": "tokaidou_scroll1_06.webp",
-        "id": 413,
-        "srcWidth": 4890,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll1_06",
+        "srcWidth": "4890",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll1_07-375.webp",
         "srcTb": "/tokaidou_scroll1_07-800.webp",
         "src": "/tokaidou_scroll1_07-1080.webp",
-        "name": "tokaidou_scroll1_07.webp",
-        "id": 414,
-        "srcWidth": 5365,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll1_07",
+        "srcWidth": "5365",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
-        "chapter": "　巻六",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}],
-        "id": 415
+        "chapter": "【巻六】舞坂、浜名湖、新居、白須賀、塩見坂、二川、吉田豊橋、御油",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll8_01-375.webp",
         "srcTb": "/tokaidou_scroll8_01-800.webp",
         "src": "/tokaidou_scroll8_01-1080.webp",
-        "name": "tokaidou_scroll8_01.webp",
-        "id": 416,
-        "srcWidth": 6405,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll8_01",
+        "srcWidth": "6405",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll8_02-375.webp",
         "srcTb": "/tokaidou_scroll8_02-800.webp",
         "src": "/tokaidou_scroll8_02-1080.webp",
-        "name": "tokaidou_scroll8_02.webp",
-        "id": 417,
-        "srcWidth": 6313,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll8_02",
+        "srcWidth": "6313",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll8_03-375.webp",
         "srcTb": "/tokaidou_scroll8_03-800.webp",
         "src": "/tokaidou_scroll8_03-1080.webp",
-        "name": "tokaidou_scroll8_03.webp",
-        "id": 418,
-        "srcWidth": 6503,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll8_03",
+        "srcWidth": "6503",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll8_04-375.webp",
         "srcTb": "/tokaidou_scroll8_04-800.webp",
         "src": "/tokaidou_scroll8_04-1080.webp",
-        "name": "tokaidou_scroll8_04.webp",
-        "id": 419,
-        "srcWidth": 6854,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll8_04",
+        "srcWidth": "6854",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll8_05-375.webp",
         "srcTb": "/tokaidou_scroll8_05-800.webp",
         "src": "/tokaidou_scroll8_05-1080.webp",
-        "name": "tokaidou_scroll8_05.webp",
-        "id": 420,
-        "srcWidth": 5818,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll8_05",
+        "srcWidth": "5818",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll8_06-375.webp",
         "srcTb": "/tokaidou_scroll8_06-800.webp",
         "src": "/tokaidou_scroll8_06-1080.webp",
-        "name": "tokaidou_scroll8_06.webp",
-        "id": 421,
-        "srcWidth": 5720,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll8_06",
+        "srcWidth": "5720",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
-        "chapter": "　巻七",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}],
-        "id": 422
+        "chapter": "【巻七】赤坂、藤川、岡崎、池鯉鮒、桶狭間、鳴海、宮熱田、桑名、四日市",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll2_01-375.webp",
         "srcTb": "/tokaidou_scroll2_01-800.webp",
         "src": "/tokaidou_scroll2_01-1080.webp",
-        "name": "tokaidou_scroll2_01.webp",
-        "id": 423,
-        "srcWidth": 4043,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll2_01",
+        "srcWidth": "4043",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll2_02-375.webp",
         "srcTb": "/tokaidou_scroll2_02-800.webp",
         "src": "/tokaidou_scroll2_02-1080.webp",
-        "name": "tokaidou_scroll2_02.webp",
-        "id": 424,
-        "srcWidth": 3601,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll2_02",
+        "srcWidth": "3601",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll2_03-375.webp",
         "srcTb": "/tokaidou_scroll2_03-800.webp",
         "src": "/tokaidou_scroll2_03-1080.webp",
-        "name": "tokaidou_scroll2_03.webp",
-        "id": 425,
-        "srcWidth": 4083,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll2_03",
+        "srcWidth": "4083",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll2_04-375.webp",
         "srcTb": "/tokaidou_scroll2_04-800.webp",
         "src": "/tokaidou_scroll2_04-1080.webp",
-        "name": "tokaidou_scroll2_04.webp",
-        "id": 426,
-        "srcWidth": 4219,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll2_04",
+        "srcWidth": "4219",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll2_05-375.webp",
         "srcTb": "/tokaidou_scroll2_05-800.webp",
         "src": "/tokaidou_scroll2_05-1080.webp",
-        "name": "tokaidou_scroll2_05.webp",
-        "id": 427,
-        "srcWidth": 4320,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll2_05",
+        "srcWidth": "4320",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll2_06-375.webp",
         "srcTb": "/tokaidou_scroll2_06-800.webp",
         "src": "/tokaidou_scroll2_06-1080.webp",
-        "name": "tokaidou_scroll2_06.webp",
-        "id": 428,
-        "srcWidth": 5072,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll2_06",
+        "srcWidth": "5072",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll2_07-375.webp",
         "srcTb": "/tokaidou_scroll2_07-800.webp",
         "src": "/tokaidou_scroll2_07-1080.webp",
-        "name": "tokaidou_scroll2_07.webp",
-        "id": 429,
-        "srcWidth": 4576,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll2_07",
+        "srcWidth": "4576",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll2_08-375.webp",
         "srcTb": "/tokaidou_scroll2_08-800.webp",
         "src": "/tokaidou_scroll2_08-1080.webp",
-        "name": "tokaidou_scroll2_08.webp",
-        "id": 430,
-        "srcWidth": 4337,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll2_08",
+        "srcWidth": "4337",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll2_09-375.webp",
         "srcTb": "/tokaidou_scroll2_09-800.webp",
         "src": "/tokaidou_scroll2_09-1080.webp",
-        "name": "tokaidou_scroll2_09.webp",
-        "id": 431,
-        "srcWidth": 4654,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll2_09",
+        "srcWidth": "4654",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll2_10-375.webp",
         "srcTb": "/tokaidou_scroll2_10-800.webp",
         "src": "/tokaidou_scroll2_10-1080.webp",
-        "name": "tokaidou_scroll2_10.webp",
-        "id": 432,
-        "srcWidth": 5864,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll2_10",
+        "srcWidth": "5864",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
-        "chapter": "　巻八",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}],
-        "id": 433
+        "chapter": "【巻八】石薬師、庄野、亀山、関、坂ノ下、鈴鹿峠、二山",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll3_01-375.webp",
         "srcTb": "/tokaidou_scroll3_01-800.webp",
         "src": "/tokaidou_scroll3_01-1080.webp",
-        "name": "tokaidou_scroll3_01.webp",
-        "id": 434,
-        "srcWidth": 5855,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll3_01",
+        "srcWidth": "5855",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll3_02-375.webp",
         "srcTb": "/tokaidou_scroll3_02-800.webp",
         "src": "/tokaidou_scroll3_02-1080.webp",
-        "name": "tokaidou_scroll3_02.webp",
-        "id": 435,
-        "srcWidth": 4739,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll3_02",
+        "srcWidth": "4739",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll3_03-375.webp",
         "srcTb": "/tokaidou_scroll3_03-800.webp",
         "src": "/tokaidou_scroll3_03-1080.webp",
-        "name": "tokaidou_scroll3_03.webp",
-        "id": 436,
-        "srcWidth": 6592,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll3_03",
+        "srcWidth": "6592",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll3_04-375.webp",
         "srcTb": "/tokaidou_scroll3_04-800.webp",
         "src": "/tokaidou_scroll3_04-1080.webp",
-        "name": "tokaidou_scroll3_04.webp",
-        "id": 437,
-        "srcWidth": 6933,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll3_04",
+        "srcWidth": "6933",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll3_05-375.webp",
         "srcTb": "/tokaidou_scroll3_05-800.webp",
         "src": "/tokaidou_scroll3_05-1080.webp",
-        "name": "tokaidou_scroll3_05.webp",
-        "id": 438,
-        "srcWidth": 5760,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll3_05",
+        "srcWidth": "5760",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
-        "chapter": "　巻九",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}],
-        "id": 439
+        "chapter": "【巻九】水口、石都、草津、大津、京都",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll5_01-375.webp",
         "srcTb": "/tokaidou_scroll5_01-800.webp",
         "src": "/tokaidou_scroll5_01-1080.webp",
-        "name": "tokaidou_scroll5_01.webp",
-        "id": 440,
-        "srcWidth": 4651,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll5_01",
+        "srcWidth": "4651",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll5_02-375.webp",
         "srcTb": "/tokaidou_scroll5_02-800.webp",
         "src": "/tokaidou_scroll5_02-1080.webp",
-        "name": "tokaidou_scroll5_02.webp",
-        "id": 441,
-        "srcWidth": 4643,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll5_02",
+        "srcWidth": "4643",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll5_03-375.webp",
         "srcTb": "/tokaidou_scroll5_03-800.webp",
         "src": "/tokaidou_scroll5_03-1080.webp",
-        "name": "tokaidou_scroll5_03.webp",
-        "id": 442,
-        "srcWidth": 4692,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll5_03",
+        "srcWidth": "4692",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll5_04-375.webp",
         "srcTb": "/tokaidou_scroll5_04-800.webp",
         "src": "/tokaidou_scroll5_04-1080.webp",
-        "name": "tokaidou_scroll5_04.webp",
-        "id": 443,
-        "srcWidth": 5688,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll5_04",
+        "srcWidth": "5688",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
         "srcSp": "/tokaidou_scroll5_05-375.webp",
         "srcTb": "/tokaidou_scroll5_05-800.webp",
         "src": "/tokaidou_scroll5_05-1080.webp",
-        "name": "tokaidou_scroll5_05.webp",
-        "id": 444,
-        "srcWidth": 5898,
-        "srcHeight": 1080
+        "name": "tokaidou_scroll5_05",
+        "srcWidth": "5898",
+        "srcHeight": "1080"
       }
     ]
+
   },
   {
     "id": 41,
@@ -6231,6 +6360,13 @@
         "path": "azumaya"
       }
     ],
+    "keyword": [
+      {
+        "name": "源氏絵",
+        "id": "picture-of-the-genji-monogatari",
+        "slug": "picture-of-the-genji-monogatari"
+      }
+    ],
     "backgroundImage": "/washi-pattern-01.webp",
     "video": "",
     "thumb": "/5_genji_emaki_wakamurasaki_tokyokokuritsu-375.webp",
@@ -6242,7 +6378,6 @@
     "gif": "",
     "type": "絵巻",
     "typeen": "emaki",
-    "keyword": [],
     "kotobagaki": false,
     "character": true,
     "favorite": true,
@@ -7845,7 +7980,5 @@
         "srcHeight": "1080"
       }
     ]
-
-
   }
 ]

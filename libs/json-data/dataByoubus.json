@@ -146,6 +146,13 @@
         "path": "asagao"
       }
     ],
+    "keyword": [
+      {
+        "name": "源氏絵",
+        "id": "picture-of-the-genji-monogatari",
+        "slug": "picture-of-the-genji-monogatari"
+      }
+    ],
     "author": "俵屋宗達",
     "authoren": "tawaraya-sotatsu",
     "backgroundImage": "/washi-pattern-01.webp",
@@ -437,6 +444,13 @@
         "path": "sekiya"
       }
     ],
+    "keyword": [
+      {
+        "name": "源氏絵",
+        "id": "picture-of-the-genji-monogatari",
+        "slug": "picture-of-the-genji-monogatari"
+      }
+    ],
     "author": "俵屋宗達",
     "authoren": "tawaraya-sotatsu",
     "backgroundImage": "/washi-pattern-01.webp",
@@ -711,6 +725,13 @@
         "path": "kotefu"
       }
     ],
+    "keyword": [
+      {
+        "name": "源氏絵",
+        "id": "picture-of-the-genji-monogatari",
+        "slug": "picture-of-the-genji-monogatari"
+      }
+    ],
     "author": "狩野〈晴川院〉養信",
     "authoren": "kano-yoshinobu",
     "backgroundImage": "/washi-pattern-01.webp",
@@ -726,7 +747,7 @@
     "gif": "",
     "type": "屏風",
     "typeen": "byoubu",
-    "kotobagaki": true,
+    "kotobagaki": false,
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-12373?locale=ja",
     "sourceImage": "源氏物語図屏風（絵合・胡蝶）（ColBase）",
     "sourceEkotoba": "",
@@ -811,6 +832,13 @@
         "title": "蓬生",
         "ruby": "よもぎふ",
         "path": "yomogifu"
+      }
+    ],
+    "keyword": [
+      {
+        "name": "源氏絵",
+        "id": "picture-of-the-genji-monogatari",
+        "slug": "picture-of-the-genji-monogatari"
       }
     ],
     "edition": "明石・蓬生",
@@ -980,6 +1008,13 @@
         "title": "若菜（上）",
         "ruby": "わかな（じょう）",
         "path": "wakanajo"
+      }
+    ],
+    "keyword": [
+      {
+        "name": "源氏絵",
+        "id": "picture-of-the-genji-monogatari",
+        "slug": "picture-of-the-genji-monogatari"
       }
     ],
     "author": "土佐光起",
