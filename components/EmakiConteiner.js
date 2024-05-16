@@ -11,6 +11,7 @@ import Sidebar from "./Sidebar";
 import EmakiInfo from "../components/EmakiInfo";
 import EmakiNavigation from "../components/EmakiNavigation";
 import Modal from "./Modal";
+import MapModal from "./MapModal"
 import KotenText from "./KotenText";
 import OverlayEkotoba from "./OverlayEkotoba";
 
@@ -31,6 +32,7 @@ const EmakiContainer = ({
     orientation,
     handleToId,
     toggleFullscreen,
+    isMapModalOpen
   } = useContext(AppContext);
 
   const emakis = data.emakis;
@@ -49,57 +51,6 @@ const EmakiContainer = ({
     const coordinate = ref.getBoundingClientRect();
   }, [articleRef]);
 
-  // useEffect(() => {
-  //   if (scroll) {
-  //     const el = articleRef.current;
-  //     if (el) {
-  //       const wheelListener = (e) => {
-  //         console.log(e.deltaY);
-
-  //         e.preventDefault();
-  //         el.scrollTo({
-  //           left: el.scrollLeft + e.deltaY * 3,
-  //           behavior: "smooth",
-  //         });
-  //       };
-
-  //       el.addEventListener("wheel", wheelListener, { passive: true });
-  //       el.addEventListener("touchmove", wheelListener, { passive: false });
-  //     }
-  //   }
-  // }, [articleRef, scroll]);
-
-  // https://stackoverflow.com/questions/55152799/prevent-window-vertical-scroll-until-divs-horizontal-scroll-reaches-its-end
-  // useEffect(() => {
-  //   const wr = wrapperRef.current;
-  //   const el = articleRef.current;
-  //   var scroller = {};
-  //   scroller.e = document.getElementById("scroll");
-
-  //   function MouseWheelHandler(e) {
-  //     // // cross-browser wheel delta
-  //     // var e = window.event || e;
-  //     var delta = -30 * Math.max(-1, Math.min(1, e.wheelDelta || -e.detail));
-
-  //     var pst = $("#scroll").scrollLeft() + delta;
-
-  //     if (pst < 0) {
-  //       pst = 0;
-  //     } else if (pst > $(".box-wrap").width()) {
-  //       pst = $(".box-wrap").width();
-  //     }
-  //     console.log(pst);
-
-  //     $("#scroll").scrollLeft(pst);
-  //     e.preventDefault(); // << add this
-  //     e.stopPropagation(); // << add this
-  //     return false;
-  //   }
-
-  //   scroller.e.addEventListener("mousewheel", MouseWheelHandler, false);
-  // }, []);
-
-  // https://stackoverflow.com/questions/55152799/prevent-window-vertical-scroll-until-divs-horizontal-scroll-reaches-its-end
   useEffect(() => {
     if (scroll) {
       let scrollSpeed = 30;
@@ -218,6 +169,7 @@ const EmakiContainer = ({
         )}
         {scroll && toggleFullscreen && <EmakiInfo value={data} />}
         {scroll && isModalOpen && <Modal data={data} />}
+        {scroll && isModalOpen && <MapModal data={data} />}
 
         <article
           className={`${styles.container} ${

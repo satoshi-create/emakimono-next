@@ -31,6 +31,7 @@ const OverlayEkotoba = ({
     scrollDialog,
     orientation,
     ekotobaToggle,
+    openMapModal,
   } = useContext(AppContext);
 
   // TODO : 目次のフォントサイズをレスポンシブにする
@@ -91,13 +92,9 @@ const OverlayEkotoba = ({
               }}
             ></h3>
             {type === "浮世絵" && (
-              <Link href="/">
-                <a className={styles.mapiconlink}>
-                  <i>
+                <div className={styles.mapiconlink} onClick={() => openMapModal(0)}>
                     <FontAwesomeIcon icon={faLocationDot} />
-                  </i>
-                </a>
-              </Link>
+                </div>
             )}
           </div>
         )}

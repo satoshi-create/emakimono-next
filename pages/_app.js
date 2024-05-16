@@ -35,6 +35,7 @@ function MyApp({ Component, pageProps, router }) {
   const [query, setQuery] = useState("");
   const [fliterdEmakis, setfliterdEmakis] = useState(emakisData);
   const [isModalOpen, setisModalOpen] = useState(false);
+  const [isMapModalOpen, setIsMapModalOpen] = useState(false)
   const [index, setIndex] = useState(0);
   const [stickyClass, setStickyClass] = useState("");
   const [isSidebarOpen, setisSidebarOpen] = useState(false);
@@ -61,6 +62,15 @@ function MyApp({ Component, pageProps, router }) {
   const closeModal = () => {
     setisModalOpen(false);
   };
+
+  const openMapModal = (i) => {
+       setisModalOpen(true);
+       setIndex(i);
+  }
+
+  const closeMapModal = () => {
+    setIsMapModalOpen(false)
+  }
 
   const handleEkotobaImageToggle = () => {
     setEkotobaImageToggle(!ekotobaImageToggle);
@@ -266,7 +276,9 @@ function MyApp({ Component, pageProps, router }) {
         handleCharacterToggle,
         characterToggle,
         handleEbikiToggle,
-        ebikiToggle
+        ebikiToggle,
+        openMapModal,
+        closeMapModal
       }}
     >
       <Script
