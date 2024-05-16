@@ -35,8 +35,9 @@ function MyApp({ Component, pageProps, router }) {
   const [query, setQuery] = useState("");
   const [fliterdEmakis, setfliterdEmakis] = useState(emakisData);
   const [isModalOpen, setisModalOpen] = useState(false);
-  const [isMapModalOpen, setIsMapModalOpen] = useState(false)
   const [index, setIndex] = useState(0);
+  const [isMapModalOpen, setIsMapModalOpen] = useState(false)
+  const [MapIndex, setMapIndex] = useState(0)
   const [stickyClass, setStickyClass] = useState("");
   const [isSidebarOpen, setisSidebarOpen] = useState(false);
   const [toggleFullscreen, setToggleFullscreen] = useState(false);
@@ -64,11 +65,13 @@ function MyApp({ Component, pageProps, router }) {
   };
 
   const openMapModal = (i) => {
-       setisModalOpen(true);
-       setIndex(i);
+    document.querySelector("html").classList.add("open");
+       setIsMapModalOpen(true);
+       setMapIndex(i);
   }
 
   const closeMapModal = () => {
+    document.querySelector("html").classList.remove("open");
     setIsMapModalOpen(false)
   }
 
@@ -278,7 +281,10 @@ function MyApp({ Component, pageProps, router }) {
         handleEbikiToggle,
         ebikiToggle,
         openMapModal,
-        closeMapModal
+        closeMapModal,
+        MapIndex,
+        setMapIndex,
+        isMapModalOpen,
       }}
     >
       <Script

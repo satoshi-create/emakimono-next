@@ -22,6 +22,7 @@ const OverlayEkotoba = ({
     index,
     navIndex,
     type,
+    ekotobaId,
   },
 }) => {
   const {
@@ -42,7 +43,7 @@ const OverlayEkotoba = ({
   const [ekotobabody, setEkotobabody] = useState("");
 
   useEffect(() => {
-    setEkotobabody(gendaibun); 
+    setEkotobabody(gendaibun);
   }, [setEkotobabody, gendaibun]);
 
   useEffect(() => {
@@ -92,9 +93,12 @@ const OverlayEkotoba = ({
               }}
             ></h3>
             {type === "浮世絵" && (
-                <div className={styles.mapiconlink} onClick={() => openMapModal(0)}>
-                    <FontAwesomeIcon icon={faLocationDot} />
-                </div>
+              <div
+                className={styles.mapiconlink}
+                onClick={() => openMapModal(ekotobaId)}
+              >
+                <FontAwesomeIcon icon={faLocationDot} />
+              </div>
             )}
           </div>
         )}
