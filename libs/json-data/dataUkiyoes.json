@@ -26,7 +26,7 @@
     "mapHeight": 658,
     "emakis": [
       {
-        "ekotobaId": 2,
+        "ekotobaId": 1,
         "linkId": 0,
         "cat": "ekotoba",
         "chapter": "吾嬬杜夜雨",
@@ -50,7 +50,7 @@
         "srcHeight": "1080"
       },
       {
-        "ekotobaId": 3,
+        "ekotobaId": 2,
         "linkId": 2,
         "cat": "ekotoba",
         "chapter": "羽根田落雁",
@@ -72,7 +72,7 @@
         "srcHeight": "1080"
       },
       {
-        "ekotobaId": 4,
+        "ekotobaId": 3,
         "linkId": 4,
         "cat": "ekotoba",
         "chapter": "行徳帰帆",
@@ -94,7 +94,7 @@
         "srcHeight": "1080"
       },
       {
-        "ekotobaId": 5,
+        "ekotobaId": 4,
         "linkId": 6,
         "cat": "ekotoba",
         "chapter": "玉川秋月",
@@ -116,7 +116,7 @@
         "srcHeight": "1080"
       },
       {
-        "ekotobaId": 6,
+        "ekotobaId": 5,
         "linkId": 8,
         "cat": "ekotoba",
         "chapter": "小金井橋夕照",
@@ -138,7 +138,7 @@
         "srcHeight": "1080"
       },
       {
-        "ekotobaId": 7,
+        "ekotobaId": 6,
         "linkId": 10,
         "cat": "ekotoba",
         "chapter": "芝浦晴嵐",
@@ -160,7 +160,7 @@
         "srcHeight": "1080"
       },
       {
-        "ekotobaId": 8,
+        "ekotobaId": 7,
         "linkId": 12,
         "cat": "ekotoba",
         "chapter": "池上晩鐘",
@@ -184,7 +184,7 @@
         "srcHeight": "1080"
       },
       {
-        "ekotobaId": 9,
+        "ekotobaId":8,
         "linkId": 14,
         "cat": "ekotoba",
         "chapter": "飛鳥山暮雪",

@@ -16,11 +16,11 @@ import { flushSync } from "react-dom";
 
 const Modal = ({ data }) => {
   const { locale } = useRouter();
-  const { closeModal, navIndex, handleToId } = useContext(AppContext);
+  const { closeModal, navIndex, handleToId,isMapIndex } = useContext(AppContext);
 
   const { reference, sourceImageUrl, sourceImage, era } = data;
   const emakis = data.emakis;
-
+  const ekotobaSection = emakis[isMapIndex];
   const handleChapter = (index) => {
     handleToId(index);
     closeModal();
