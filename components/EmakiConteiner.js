@@ -169,7 +169,7 @@ const EmakiContainer = ({
         )}
         {scroll && toggleFullscreen && <EmakiInfo value={data} />}
         {scroll && isModalOpen && <Modal data={data} />}
-        {scroll && isModalOpen && <MapModal data={data} />}
+        {scroll && isMapModalOpen && <MapModal data={data} />}
 
         <article
           className={`${styles.container} ${
