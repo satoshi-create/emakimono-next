@@ -2640,6 +2640,7 @@
     "type": "絵巻",
     "typeen": "emaki",
     "subtype": "仏典",
+    "favorite":true,
     "keyword": [
       {
         "name": "無常",
@@ -3001,6 +3002,7 @@
     "gif": "",
     "type": "絵巻",
     "typeen": "emaki",
+        "favorite":true,
     "keyword": [
       {
         "name": "無常",
@@ -3216,6 +3218,7 @@
     "gif": "",
     "type": "絵巻",
     "typeen": "emaki",
+    "favorite": true,
     "keyword": [
       {
         "name": "無常",
