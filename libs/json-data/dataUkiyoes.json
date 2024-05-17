@@ -16,7 +16,7 @@
     "gif": "",
     "type": "浮世絵",
     "typeen": "ukiyoe",
-    "kotobagaki": true,
+    "kotobagaki": false,
     "sourceImageUrl": "https://dl.ndl.go.jp/info:ndljp/pid/1307297",
     "sourceImage": "江戸近郊八景（国立国会図書館デジタルコレクション）",
     "sourceEkotoba": "",
