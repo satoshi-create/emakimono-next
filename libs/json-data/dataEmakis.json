@@ -6,7 +6,7 @@
     "author": "鳥羽僧正覚猷",
     "authoren": "toba-sojo-kakuyu",
     "edition": "甲巻",
-    "encodeUrl":"https://emakimono.com/cyoujyujinbutsugiga_kou",
+    "encodeUrl": "https://emakimono.com/cyoujyujinbutsugiga_kou",
     "backgroundImage": "/110310200304.webp",
     "thumb": "/cyoujyuu_yamazaki_kou_thumb.webp",
     "thumb2": "/cyoujyuu_yamazaki_kou_thumb2.webp",
@@ -2684,8 +2684,10 @@
     "sourceEkotoba": "",
     "emakis": [
       {
+        "ekotobaId": 0,
+        "linkId": 0,
         "cat": "ekotoba",
-        "chapter": " 【第０相】生前相",
+        "chapter": "【第０相】生前相",
         "kobun": "",
         "gendaibun": "",
         "desc": "",
@@ -2712,6 +2714,8 @@
         "srcHeight": "1080"
       },
       {
+        "ekotobaId": 1,
+        "linkId":2,
         "cat": "ekotoba",
         "chapter": "【第一相】 新死相",
         "kobun": "",
@@ -2740,10 +2744,12 @@
         "srcHeight": "1080"
       },
       {
+        "ekotobaId": 2,
+        "linkId":4,
         "cat": "ekotoba",
         "chapter": "【第二相】 <ruby><rb>脹相</rb><rp>（</rp><rt>ちょうそう</rt><rp>）</rp></ruby> ",
         "kobun": "",
-        "gendaibun": "",
+        "gendaibun": "これらの死屍は、顔色が黒ずみ、身体が硬直して手足が花を散らしたようにあちこちを向く、膨脹した身体が風をはらんでふくらんだ革袋のようである。九つの孔からは、汚物が流れ溢れ、はなはだ穢れ醜悪である。行者は自らおもう、我が身もこれと同じであるし、未だ愛着を断ち切ることのできない愛人もまた、これと同じである。この相を見れば、心が少々定まり徐々に落ち着くのである。",
         "desc": "これらの死屍は、顔色が黒ずみ、身体が硬直して手足が花を散らしたようにあちこちを向く、膨脹した身体が風をはらんでふくらんだ革袋のようである。九つの孔からは、汚物が流れ溢れ、はなはだ穢れ醜悪である。行者は自らおもう、我が身もこれと同じであるし、未だ愛着を断ち切ることのできない愛人もまた、これと同じである。この相を見れば、心が少々定まり徐々に落ち着くのである。",
         "load": "",
         "srcSp": "",
@@ -2768,10 +2774,12 @@
         "srcHeight": "1080"
       },
       {
+        "ekotobaId":3,
+        "linkId":6,
         "cat": "ekotoba",
         "chapter": "【第三相】 <ruby><rb>壊相</rb><rp>（</rp><rt>えそう</rt><rp>）</rp></ruby> ",
         "kobun": "",
-        "gendaibun": "",
+        "gendaibun": "またたく間に、この膨張した屍は、風に吹かれ日に曝されて、皮や肉が破れ壊れ、身体が<ruby><rb>坼裂</rb><rp>（</rp><rt>たくれつ</rt><rp>）</rp></ruby>して形や色が変わってしまい、識別不可能となる。これを、壊相と名づける。",
         "desc": "またたく間に、この膨張した屍は、風に吹かれ日に曝されて、皮や肉が破れ壊れ、身体が<ruby><rb>坼裂</rb><rp>（</rp><rt>たくれつ</rt><rp>）</rp></ruby>して形や色が変わってしまい、識別不可能となる。これを、壊相と名づける。",
         "load": "",
         "srcSp": "",
@@ -2796,10 +2804,12 @@
         "srcHeight": "1080"
       },
       {
+        "ekotobaId":4,
+        "linkId":8,
         "cat": "ekotoba",
         "chapter": "【第四相】 <ruby><rb>血塗相</rb><rp>（</rp><rt>けちずそう</rt><rp>）</rp></ruby> ",
         "kobun": "",
-        "gendaibun": "",
+        "gendaibun": "<ruby><rb>坼裂</rb><rp>（</rp><rt>たくれつ</rt><rp>）</rp></ruby>したところから血が溢れ出る。あちこちに飛び散り溜り、所々を斑に染める、溢れて地面に染み込み悪臭が漂う、これを血塗相とする。",
         "desc": "<ruby><rb>坼裂</rb><rp>（</rp><rt>たくれつ</rt><rp>）</rp></ruby>したところから血が溢れ出る。あちこちに飛び散り溜り、所々を斑に染める、溢れて地面に染み込み悪臭が漂う、これを血塗相とする。",
         "load": "",
         "srcSp": "",
@@ -2824,10 +2834,12 @@
         "srcHeight": "1080"
       },
       {
+        "ekotobaId":5,
+        "linkId":10,
         "cat": "ekotoba",
         "chapter": "【第五相】 <ruby><rb>膿爛相</rb><rp>（</rp><rt>のうらんそう</rt><rp>）</rp></ruby>",
         "kobun": "",
-        "gendaibun": "",
+        "gendaibun": "膿爛し流れ潰える死体を見る。肉が溶けて流れ、火をつけた蝋燭のようである。これを膿爛相と名づける。",
         "desc": "膿爛し流れ潰える死体を見る。肉が溶けて流れ、火をつけた蝋燭のようである。これを膿爛相と名づける。",
         "load": "",
         "srcSp": "",
@@ -2852,10 +2864,12 @@
         "srcHeight": "1080"
       },
       {
+        "ekotobaId":6,
+        "linkId":12,
         "cat": "ekotoba",
         "chapter": "【第六相】 <ruby><rb>青瘀相</rb><rp>（</rp><rt>しょうおそう</rt><rp>）</rp></ruby>",
         "kobun": "",
-        "gendaibun": "",
+        "gendaibun": "残りの皮やあまった肉が風や日に乾き炙られ、臭く腐敗し黒ずむのを見る。半ば青く半ば傷んで、痩せて皮がたるんでいる、これを青瘀相とする。",
         "desc": "残りの皮やあまった肉が風や日に乾き炙られ、臭く腐敗し黒ずむのを見る。半ば青く半ば傷んで、痩せて皮がたるんでいる、これを青瘀相とする。",
         "load": "",
         "srcSp": "",
@@ -2880,10 +2894,12 @@
         "srcHeight": "1080"
       },
       {
+        "ekotobaId":7,
+        "linkId":14,
         "cat": "ekotoba",
         "chapter": "【第七相】 <ruby><rb>噉相</rb><rp>（</rp><rt>たんそう</rt><rp>）</rp></ruby>",
         "kobun": "",
-        "gendaibun": "",
+        "gendaibun": "この屍が狐、狼、鳶、鷲に噉相されるのを見る、肉片を奪い争い、引き裂いて散り散りになる、これを噉相とする。",
         "desc": "この屍が狐、狼、鳶、鷲に噉相されるのを見る、肉片を奪い争い、引き裂いて散り散りになる、これを噉相とする。",
         "load": "",
         "srcSp": "",
@@ -2908,10 +2924,12 @@
         "srcHeight": "1080"
       },
       {
+        "ekotobaId":8,
+        "linkId":16,
         "cat": "ekotoba",
         "chapter": "【第八相】 <ruby><rb>散相</rb><rp>（</rp><rt>さんそう</rt><rp>）</rp></ruby>",
         "kobun": "",
-        "gendaibun": "",
+        "gendaibun": "頭と手が異なるところにあるのを見る。五臓が散らばってもはや収斂しない。これを散相とする。",
         "desc": "頭と手が異なるところにあるのを見る。五臓が散らばってもはや収斂しない。これを散相とする。",
         "load": "",
         "srcSp": "",
@@ -2936,10 +2954,12 @@
         "srcHeight": "1080"
       },
       {
+        "ekotobaId":9,
+        "linkId":18,
         "cat": "ekotoba",
         "chapter": "【第九相】 <ruby><rb> 骨相</rb><rp>（</rp><rt>こつそう</rt><rp>）</rp></ruby>",
         "kobun": "",
-        "gendaibun": "",
+        "gendaibun": "二種の骨があるのを見る。一つは濃膏を帯び、一つは純白で清浄である。ある時は一具の骨で、またある時は散乱している。",
         "desc": "二種の骨があるのを見る。一つは濃膏を帯び、一つは純白で清浄である。ある時は一具の骨で、またある時は散乱している。",
         "load": "",
         "srcSp": "",
@@ -2964,7 +2984,6 @@
         "srcHeight": "1080"
       }
     ]
-
   },
   {
     "id": 9,
@@ -3021,6 +3040,7 @@
         "chapter": "【第一相】 生前相",
         "kobun": "",
         "gendaibun": "",
+        "desc":"",
         "id": 208
       },
       {
@@ -5372,7 +5392,7 @@
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-10561?locale=ja",
     "sourceImage": "東海道五十三次絵巻（ColBase）",
     "sourceEkotoba": "",
-    "emakis":[
+    "emakis": [
       {
         "cat": "ekotoba",
         "chapter": "【巻一】日本橋、品川、大崎、川崎、神奈川、程ヶ谷、戸塚、藤沢、馬入川（相模川）",
@@ -6089,7 +6109,6 @@
         "srcHeight": "1080"
       }
     ]
-
   },
   {
     "id": 41,
@@ -7183,7 +7202,6 @@
         "title": "「江戸大地震之図」（東京大学史料編纂所）"
       }
     ],
-
     "emakis": [
       {
         "cat": "image",
@@ -7490,7 +7508,6 @@
     "sourceImageUrl": "https://dl.ndl.go.jp/info:ndljp/pid/2542652",
     "sourceImage": "鎮火安心図巻（国立国会図書館）",
     "reference": [],
-
     "emakis": [
       {
         "cat": "ekotoba",
@@ -7830,80 +7847,80 @@
     "sourceImageUrl": "https://dl.ndl.go.jp/pid/1286837",
     "sourceImage": "江戸の華 ㊤㊦（国立国会図書館）",
     "reference": [
-  {
-    "type": "ウェブサイト",
-    "url": "https://shorturl.at/nySUW",
-    "title": "江戸の華［写］（みんなの知識 ちょっと便利帳）"
-  }],
+      {
+        "type": "ウェブサイト",
+        "url": "https://shorturl.at/nySUW",
+        "title": "江戸の華［写］（みんなの知識 ちょっと便利帳）"
+      }
+    ],
     "emakis": [
-	{
-		"cat":"ekotoba",
-		"chapter":"毎町自身番屋火事を知らするの図",
-		"load":"",
-		"srcSp":"",
-		"srcTb":"",
-		"src":"",
-		"name":"",
-		"srcWidth":"",
-		"srcHeight":""
-	},
-	{
-		"cat":"image",
-		"chapter":"",
-		"load":"True",
-		"srcSp":"/flowers-of-edo_kokkai_01-375.webp",
-		"srcTb":"/flowers-of-edo_kokkai_01-800.webp",
-		"src":"/flowers-of-edo_kokkai_01-1080.webp",
-		"name":"flowers-of-edo_kokkai_01",
-		"srcWidth":"",
-		"srcHeight":"1080"
-	},
-	{
-		"cat":"ekotoba",
-		"chapter":"御使番並諸候手子火元見之図",
-		"load":"",
-		"srcSp":"",
-		"srcTb":"",
-		"src":"",
-		"name":"",
-		"srcWidth":"",
-		"srcHeight":""
-	},
-	{
-		"cat":"image",
-		"chapter":"",
-		"load":"True",
-		"srcSp":"/flowers-of-edo_kokkai_02-375.webp",
-		"srcTb":"/flowers-of-edo_kokkai_02-800.webp",
-		"src":"/flowers-of-edo_kokkai_02-1080.webp",
-		"name":"flowers-of-edo_kokkai_02",
-		"srcWidth":"",
-		"srcHeight":"1080"
-	},
-	{
-		"cat":"ekotoba",
-		"chapter":"御使番並火事場見廻役駈付之図",
-		"load":"",
-		"srcSp":"",
-		"srcTb":"",
-		"src":"",
-		"name":"",
-		"srcWidth":"",
-		"srcHeight":""
-	},
-	{
-		"cat":"image",
-		"chapter":"",
-		"load":"False",
-		"srcSp":"/flowers-of-edo_kokkai_03-375.webp",
-		"srcTb":"/flowers-of-edo_kokkai_03-800.webp",
-		"src":"/flowers-of-edo_kokkai_03-1080.webp",
-		"name":"flowers-of-edo_kokkai_03",
-		"srcWidth":"",
-		"srcHeight":"1080"
-	}
-]
-
+      {
+        "cat": "ekotoba",
+        "chapter": "毎町自身番屋火事を知らするの図",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "True",
+        "srcSp": "/flowers-of-edo_kokkai_01-375.webp",
+        "srcTb": "/flowers-of-edo_kokkai_01-800.webp",
+        "src": "/flowers-of-edo_kokkai_01-1080.webp",
+        "name": "flowers-of-edo_kokkai_01",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "御使番並諸候手子火元見之図",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "True",
+        "srcSp": "/flowers-of-edo_kokkai_02-375.webp",
+        "srcTb": "/flowers-of-edo_kokkai_02-800.webp",
+        "src": "/flowers-of-edo_kokkai_02-1080.webp",
+        "name": "flowers-of-edo_kokkai_02",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "御使番並火事場見廻役駈付之図",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/flowers-of-edo_kokkai_03-375.webp",
+        "srcTb": "/flowers-of-edo_kokkai_03-800.webp",
+        "src": "/flowers-of-edo_kokkai_03-1080.webp",
+        "name": "flowers-of-edo_kokkai_03",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      }
+    ]
   },
   {
     "id": 47,
@@ -7924,17 +7941,17 @@
     "type": "絵巻",
     "typeen": "emaki",
     "keyword": [
-         {
+      {
         "name": "行列",
         "id": "procession",
         "slug": "procession"
       },
-         {
+      {
         "name": "神社",
         "id": "shrine",
         "slug": "shrine"
       },
-         {
+      {
         "name": "祭礼",
         "id": "festival",
         "slug": "festival"
@@ -7943,8 +7960,7 @@
     "kotobagaki": true,
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-9287",
     "sourceImage": "神田神社祭礼図（ColBase 東京国立博物館）",
-    "reference": [
-],
+    "reference": [],
     "emakis": [
       {
         "cat": "image",
