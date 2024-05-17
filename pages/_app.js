@@ -36,8 +36,10 @@ function MyApp({ Component, pageProps, router }) {
   const [fliterdEmakis, setfliterdEmakis] = useState(emakisData);
   const [isModalOpen, setisModalOpen] = useState(false);
   const [index, setIndex] = useState(0);
-  const [isMapModalOpen, setIsMapModalOpen] = useState(false)
-  const [MapIndex, setMapIndex] = useState(0)
+  const [isMapModalOpen, setIsMapModalOpen] = useState(false);
+  const [MapIndex, setMapIndex] = useState(0);
+  const [isDescModalOpen, setIsDescModalOpen] = useState(false);
+  const [DescIndex, setDescIndex] = useState(false);
   const [stickyClass, setStickyClass] = useState("");
   const [isSidebarOpen, setisSidebarOpen] = useState(false);
   const [toggleFullscreen, setToggleFullscreen] = useState(false);
@@ -65,15 +67,41 @@ function MyApp({ Component, pageProps, router }) {
   };
 
   const openMapModal = (i) => {
+    setIsMapModalOpen(true);
+        const clientWidth = document.body.clientWidth;
     document.querySelector("html").classList.add("open");
-       setIsMapModalOpen(true);
-       setMapIndex(i);
-  }
+        const noScrollBarWidth = document.body.clientWidth;
+    const diff = noScrollBarWidth - clientWidth;
+    console.log(diff)
+    if (diff > 0 ) {
+      document.body.style["padding-right"] = diff + "px";
+    }
+    setMapIndex(i);
+  };
 
   const closeMapModal = () => {
     document.querySelector("html").classList.remove("open");
-    setIsMapModalOpen(false)
-  }
+    setIsMapModalOpen(false);
+  };
+
+  const openDescModal = (i) => {
+    setIsDescModalOpen(true);
+    const clientWidth = document.body.clientWidth;
+    document.querySelector("html").classList.add("open");
+    const noScrollBarWidth = document.body.clientWidth;
+    const diff = noScrollBarWidth - clientWidth;
+    console.log(diff)
+    if (diff > 0 ) {
+      document.body.style["padding-right"] = diff + "px";
+    }
+    setDescIndex(i);
+  };
+  const closeDescModal = () => {
+    document.querySelector("html").classList.remove("open");
+    setIsDescModalOpen(false);
+  };
+
+
 
   const handleEkotobaImageToggle = () => {
     setEkotobaImageToggle(!ekotobaImageToggle);
@@ -285,6 +313,11 @@ function MyApp({ Component, pageProps, router }) {
         MapIndex,
         setMapIndex,
         isMapModalOpen,
+        openDescModal,
+        closeDescModal,
+        isDescModalOpen,
+        DescIndex,
+        setDescIndex,
       }}
     >
       <Script

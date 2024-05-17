@@ -10,12 +10,9 @@ import {
 import Link from "next/link";
 import AllLocation from "./AllLocation";
 
-const MapModal = ({ data }) => {
+const ModalMap = ({ data }) => {
   const {
-    isModalOpen,
     closeMapModal,
-    openModal,
-    index,
     MapIndex,
     setMapIndex,
     handleToId,
@@ -48,8 +45,6 @@ const MapModal = ({ data }) => {
 
   const addAllLocation = allLocation.concat(filterEkotobas);
 
-  const { googlemap, basinmap } = emakis[0];
-
   const [ekotobas, setEkotobas] = useState(addAllLocation);
 
   const [value, setValue] = useState(0);
@@ -78,37 +73,14 @@ const MapModal = ({ data }) => {
     {
       title: "googleマップ",
       titleen: "googlemap",
-      src: googlemap,
       path: "googlemap",
     },
     {
       title: "国土地理院地図",
       titleen: "basinmap",
-      src: basinmap,
       path: "basinmap",
     },
-      // {
-      //   title: "目次",
-      //   titleen: "chapter",
-      //   src: basinmap,
-      //   path: "chapter",
-      // },
-  ];
-
-  // const toggleContents = v => {
-  //   switch (v) {
-  //     case 0:
-  //       return googlemap
-  //       break;
-  //   case 1:
-  //       return basinmap
-  //     case 2:
-  //       return
-  //     default:
-  //       break;
-  //   }
-  // }
-
+  ]
   return (
     <div className={styles.modal}>
       <div className={styles.MuiBackdrop} onClick={closeMapModal}></div>
@@ -212,10 +184,10 @@ const MapModal = ({ data }) => {
           //   );
           // }
         })}
-        <button className={styles.prev} onClick={prevSlide}>
+        <button className={styles.prev} onClick={nextSlide}>
           <FontAwesomeIcon icon={faAnglesLeft} />
         </button>
-        <button className={styles.next} onClick={nextSlide}>
+        <button className={styles.next} onClick={prevSlide}>
           <FontAwesomeIcon icon={faAnglesRight} />
         </button>
       </div>
@@ -223,4 +195,4 @@ const MapModal = ({ data }) => {
   );
 };
 
-export default MapModal;
+export default ModalMap;

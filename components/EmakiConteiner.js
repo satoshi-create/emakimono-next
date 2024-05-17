@@ -11,9 +11,10 @@ import Sidebar from "./Sidebar";
 import EmakiInfo from "../components/EmakiInfo";
 import EmakiNavigation from "../components/EmakiNavigation";
 import Modal from "./Modal";
-import MapModal from "./MapModal"
 import KotenText from "./KotenText";
 import OverlayEkotoba from "./OverlayEkotoba";
+import ModalMap from "./ModalMap";
+import ModalDesc from "./ModalDesc";
 
 const EmakiContainer = ({
   data,
@@ -32,7 +33,8 @@ const EmakiContainer = ({
     orientation,
     handleToId,
     toggleFullscreen,
-    isMapModalOpen
+    isMapModalOpen,
+    isDescModalOpen,
   } = useContext(AppContext);
 
   const emakis = data.emakis;
@@ -169,8 +171,8 @@ const EmakiContainer = ({
         )}
         {scroll && toggleFullscreen && <EmakiInfo value={data} />}
         {scroll && isModalOpen && <Modal data={data} />}
-        {scroll && isMapModalOpen && <MapModal data={data} />}
-
+        {scroll && isMapModalOpen && <ModalMap data={data} />}
+        {scroll && isDescModalOpen && <ModalDesc data={data}/>}
         <article
           className={`${styles.container} ${
             type === "西洋絵画" ? styles.lr : styles.rl
