@@ -79,8 +79,6 @@ const OverlayEkotoba = ({
           <div
             className={styles.chapterbox}
             style={{
-              display: `${type === "浮世絵" && "flex"}`,
-              alignItems: `${type === "浮世絵" && "center"}`,
               padding: `${
                 orientation === "portrait" ? "1rem .5rem" : "1.5rem 1rem"
               }`,
