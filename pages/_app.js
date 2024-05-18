@@ -39,7 +39,7 @@ function MyApp({ Component, pageProps, router }) {
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
   const [MapIndex, setMapIndex] = useState(0);
   const [isDescModalOpen, setIsDescModalOpen] = useState(false);
-  const [DescIndex, setDescIndex] = useState(false);
+  const [DescIndex, setDescIndex] = useState({});
   const [stickyClass, setStickyClass] = useState("");
   const [isSidebarOpen, setisSidebarOpen] = useState(false);
   const [toggleFullscreen, setToggleFullscreen] = useState(false);
@@ -84,7 +84,7 @@ function MyApp({ Component, pageProps, router }) {
     setIsMapModalOpen(false);
   };
 
-  const openDescModal = (i) => {
+  const openDescModal = (ei,i) => {
     setIsDescModalOpen(true);
     const clientWidth = document.body.clientWidth;
     document.querySelector("html").classList.add("open");
@@ -94,7 +94,7 @@ function MyApp({ Component, pageProps, router }) {
     if (diff > 0 ) {
       document.body.style["padding-right"] = diff + "px";
     }
-    setDescIndex(i);
+    setDescIndex(ei,i);
   };
   const closeDescModal = () => {
     document.querySelector("html").classList.remove("open");

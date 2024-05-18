@@ -9,6 +9,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import AllLocation from "./AllLocation";
+import {
+  faTwitter,
+  faFacebook,
+  faLinkedin,
+} from "@fortawesome/free-brands-svg-icons";
 
 const ModalDesc = ({ data }) => {
   const {
@@ -23,12 +28,16 @@ const ModalDesc = ({ data }) => {
   } = useContext(AppContext);
   const emakis = data.emakis;
   const filterEkotobas = emakis.filter((item) => item.cat === "ekotoba");
-  console.log(DescIndex);
+  console.log(DescIndex.ekotobaId);
 
   const handleChapter = (index) => {
     handleToId(index);
     closeDescModal();
   };
+
+  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${data.titleen}%23${DescIndex.index}`;
+  console.log(url);
+  
 
   const { kobun, gendaibun, desc } = emakis[0];
 
@@ -102,12 +111,12 @@ const ModalDesc = ({ data }) => {
           const { gendaibun,chapter,linkId } = item;
 
           let position = "nextSlide";
-          if (ekotobasIndex === DescIndex) {
+          if (ekotobasIndex === DescIndex.ekotobaId) {
             position = "activeSlide";
           }
           if (
-            ekotobasIndex === DescIndex - 1 ||
-            (DescIndex === 0 && ekotobasIndex === filterEkotobas.length - 1)
+            ekotobasIndex === DescIndex.ekotobaId - 1 ||
+            (DescIndex.ekotobaId === 0 && ekotobasIndex === filterEkotobas.length - 1)
           ) {
             position = "lastSlide";
           }
@@ -129,9 +138,44 @@ const ModalDesc = ({ data }) => {
                     __html: gendaibun,
                   }}
                 ></p>
+                <div className={styles.snsShareBox}>
+                  <Link
+                    href={`https://twitter.com/share?url=${url}&text=${
+                      data.title
+                    } ${chapter}`}
+                  >
+                    <a target="_blank" rel="noopener noreferrer">
+                      <FontAwesomeIcon
+                        icon={faTwitter}
+                        className={`${styles.snsShareIcon} ${styles.twitter}`}
+                      />
+                    </a>
+                  </Link>
+                  <Link
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
+                  >
+                    <a target="_blank" rel="noopener noreferrer">
+                      <FontAwesomeIcon
+                        icon={faFacebook}
+                        className={`${styles.snsShareIcon} ${styles.facebook}`}
+                      />
+                    </a>
+                  </Link>
+                  <Link
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
+                  >
+                    <a target="_blank" rel="noopener noreferrer">
+                      <FontAwesomeIcon
+                        icon={faLinkedin}
+                        className={`${styles.snsShareIcon} ${styles.linkedin}`}
+                      />
+                    </a>
+                  </Link>
+                </div>
               </article>
             );
           }
+            
           // if (value === 1) {
           //   return (
           //     <article
