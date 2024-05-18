@@ -299,7 +299,7 @@
     "gif": "",
     "type": "西洋絵画",
     "typeen": "seiyoukaiga",
-    "kotobagaki": true,
+    "kotobagaki": false,
     "sourceImageUrl": "https://en.wikipedia.org/wiki/Scrovegni_Chapel",
     "sourceImage": "Scrovegni Chapel（ウィキペディア）",
     "sourceEkotoba": "",
