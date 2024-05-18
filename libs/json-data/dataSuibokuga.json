@@ -16,12 +16,22 @@
     "gif": "",
     "type": "水墨画",
     "typeen": "suibokuga",
-    "kotobagaki": true,
+    "kotobagaki": false,
     "sourceImageUrl": "https://ja.wikipedia.org/wiki/%E9%9B%AA%E8%88%9F",
     "sourceImage": "雪舟（ウィキペディア）",
-    "reference": "",
     "sourceEkotoba": "",
     "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "四季山水図巻（山水長巻）",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
+      },
       {
         "load": true,
         "cat": "image",

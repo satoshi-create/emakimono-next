@@ -110,7 +110,7 @@ const OverlayEkotoba = ({
             {gendaibun && ekotobaId &&(
               <div
                 className={styles.mapiconlink}
-                onClick={() => openDescModal(ekotobaId)}
+                onClick={() => openDescModal({ekotobaId,index})}
               >
                 <FontAwesomeIcon icon={faCircleInfo} />
               </div>
