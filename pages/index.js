@@ -64,9 +64,6 @@ const Home = () => {
     emaki.title.includes("源氏")
   );
 
-  const favoriteEmakis = removeNestedArrayObj.filter(
-    (emaki) => emaki.favorite === true
-  );
   const setsuwaEmakis = removeNestedArrayObj.filter(
     (emaki) => emaki.subtype === "説話"
   );
@@ -108,6 +105,18 @@ const Home = () => {
     ...typeSeiyoukaiga,
   ];
 
+  const [favoriteEmakisRandom, setfavoriteEmakisRandom] = useState([]);
+  const favoriteEmakis = removeNestedArrayObj.filter(
+    (emaki) => emaki.favorite === true
+  );
+
+  useEffect(() => {
+    const shuffleArray = (array) => {
+      return array.slice().sort(() => Math.random() - Math.random());
+    };
+   setfavoriteEmakisRandom(shuffleArray(favoriteEmakis))
+  }, []);
+
   return (
     <main>
       <Head />
@@ -126,7 +135,7 @@ const Home = () => {
       /> */}
 
       <CardA
-        emakis={favoriteEmakis}
+        emakis={favoriteEmakisRandom}
         columns={t.favorite.columns}
         sectiontitle={t.favorite.title}
         sectiontitleen={t.favorite.titleen}
