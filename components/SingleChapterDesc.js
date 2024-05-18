@@ -1,5 +1,5 @@
 ﻿import React, { useContext, useState } from "react";
-import styles from "../styles/EmakiLandscapContent.module.css";
+import styles from "../styles/ChapterDesc.module.css";
 import { ChevronDown, ChevronUp } from "react-feather";
 import { AppContext } from "../pages/_app";
 import Image from "next/image";
@@ -42,7 +42,7 @@ const SingleChapterDesc = ({ item, index, emakis }) => {
               ></p>
             </>
           )}
-          {desc && (
+          {/* {desc && (
             <>
               <h4 className={styles.chapterDescTitle}>
                 解説
@@ -54,7 +54,7 @@ const SingleChapterDesc = ({ item, index, emakis }) => {
                 }}
               ></p>
             </>
-          )}
+          )} */}
           <button
             type="button"
             onClick={() => handleToId(index)}
