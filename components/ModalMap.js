@@ -138,12 +138,7 @@ const ModalMap = ({ data }) => {
                 >
                   <h3>{chapterruby}</h3>
                   <h2>{chapter}</h2>
-                  {/* <Link href={`#s${isMapIndex}`}>
-                  <a onClick={closeMapModal}>
-                    <h3>{chapterruby}</h3>
-                    <h2>{chapter}</h2>
-                  </a>
-                </Link> */}
+  
                 </div>
               </article>
             );
@@ -168,12 +163,6 @@ const ModalMap = ({ data }) => {
                 >
                   <h3>{chapterruby}</h3>
                   <h2>{chapter}</h2>
-                  {/* <Link href={`#s${isMapIndex}`}>
-                  <a onClick={closeMapModal}>
-                    <h3>{chapterruby}</h3>
-                    <h2>{chapter}</h2>
-                  </a>
-                </Link> */}
                 </div>
               </article>
             );

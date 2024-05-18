@@ -1,4 +1,4 @@
-﻿import React, { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { AppContext } from "../pages/_app";
 import styles from "../styles/ModalDesc.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,20 +16,10 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 
 const ModalDesc = ({ data }) => {
-  const {
-    isModalOpen,
-    closeMapModal,
-    openModal,
-    index,
-    DescIndex,
-    setDescIndex,
-    handleToId,
-    closeDescModal,
-  } = useContext(AppContext);
+  const { DescIndex, setDescIndex, handleToId, closeDescModal, orientation } =
+    useContext(AppContext);
   const emakis = data.emakis;
   const filterEkotobas = emakis.filter((item) => item.cat === "ekotoba");
-  console.log(DescIndex.ekotobaId);
-
   const handleChapter = (index) => {
     handleToId(index);
     closeDescModal();
@@ -37,33 +27,41 @@ const ModalDesc = ({ data }) => {
 
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${data.titleen}%23${DescIndex.index}`;
   console.log(url);
-  
 
   const { kobun, gendaibun, desc } = emakis[0];
 
   const [value, setValue] = useState(0);
 
-
-    const nextSlide = () => {
-      setDescIndex((oldIndex) => {
-        let index = oldIndex + 1;
-        if (index > filterEkotobas.length - 1) {
-          index = 0;
-        }
-        return index;
-      });
-    };
-
-    const prevSlide = () => {
-      setDescIndex((oldIndex) => {
-        let index = oldIndex - 1;
-        if (index < 0) {
-          index = filterEkotobas.length - 1;
-        }
-        return index;
-      });
+  // const nextSlide = () => {
+  //   setMapIndex((oldIndex) => {
+  //     let index = oldIndex + 1;
+  //     if (index > filterEkotobas.length - 1) {
+  //       index = 0;
+  //     }
+  //     return index;
+  //   });
+  // };
+  const nextSlide = () => {
+    setDescIndex((DescIndex) => {
+      let index = DescIndex.ekotobaId + 1;
+      if (index > filterEkotobas.length - 1) {
+        index = 0;
+      }
+      return { ...DescIndex, ekotobaId: index };
+    });
   };
-  
+
+
+  const prevSlide = () => {
+    setDescIndex((DescIndex) => {
+      let index = DescIndex.ekotobaId - 1;
+      if (index < 0) {
+        index = filterEkotobas.length - 1;
+      }
+      return { ...DescIndex, ekotobaId: index };
+    });
+  };
+
   const allMap = [
     {
       title: "現代文",
@@ -99,6 +97,13 @@ const ModalDesc = ({ data }) => {
                 className={`btn ${styles.tabbtn} ${
                   value === index ? styles.activebtn : ""
                 }`}
+                style={
+                  orientation === "portrait"
+                    ? {
+                        fontSize: "var(--title-size-prt)",
+                      }
+                    : { fontSize: "var(--title-size)" }
+                }
                 key={index}
               >
                 {title}
@@ -108,7 +113,7 @@ const ModalDesc = ({ data }) => {
         </div>
 
         {filterEkotobas.map((item, ekotobasIndex) => {
-          const { gendaibun,chapter,linkId } = item;
+          const { gendaibun, chapter, linkId } = item;
 
           let position = "nextSlide";
           if (ekotobasIndex === DescIndex.ekotobaId) {
@@ -116,7 +121,8 @@ const ModalDesc = ({ data }) => {
           }
           if (
             ekotobasIndex === DescIndex.ekotobaId - 1 ||
-            (DescIndex.ekotobaId === 0 && ekotobasIndex === filterEkotobas.length - 1)
+            (DescIndex.ekotobaId === 0 &&
+              ekotobasIndex === filterEkotobas.length - 1)
           ) {
             position = "lastSlide";
           }
@@ -128,17 +134,39 @@ const ModalDesc = ({ data }) => {
               >
                 <h4
                   className={styles.link}
+                  style={
+                    orientation === "portrait"
+                      ? {
+                          fontSize: "var(--title-size-prt)",
+                        }
+                      : { fontSize: "var(--title-size)" }
+                  }
                   onClick={() => handleChapter(linkId)}
                   dangerouslySetInnerHTML={{
                     __html: chapter,
                   }}
                 ></h4>
                 <p
+                  className={styles.gendaibun}
+                  style={
+                    orientation === "portrait"
+                      ? {
+                          fontSize: "var(--text-size-prt)",
+                        }
+                      : { fontSize: "var(--text-size)" }
+                  }
                   dangerouslySetInnerHTML={{
                     __html: gendaibun,
                   }}
                 ></p>
-                <div className={styles.snsShareBox}>
+                <button
+                  type="button"
+                  onClick={() => handleChapter(linkId)}
+                  className={styles.linkedbutton}
+                >
+                  横スクロールで見る
+                </button>
+                {/* <div className={styles.snsShareBox}>
                   <Link
                     href={`https://twitter.com/share?url=${url}&text=${
                       data.title
@@ -171,11 +199,11 @@ const ModalDesc = ({ data }) => {
                       />
                     </a>
                   </Link>
-                </div>
+                </div> */}
               </article>
             );
           }
-            
+
           // if (value === 1) {
           //   return (
           //     <article
@@ -196,7 +224,6 @@ const ModalDesc = ({ data }) => {
           //     </article>
           //   );
           // }
-        
         })}
         <button className={styles.prev} onClick={nextSlide}>
           <FontAwesomeIcon icon={faAnglesLeft} />

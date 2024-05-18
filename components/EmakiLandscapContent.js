@@ -14,7 +14,7 @@ import {
   faFacebook,
   faLinkedin,
 } from "@fortawesome/free-brands-svg-icons";
-import SingleChapterDesc from "./SingleChapterDesc";
+import ChapterDesc from "./ChapterDesc";
 
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
 
@@ -55,9 +55,6 @@ const EmakiLandscapContent = ({
 
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${titleen}`;
   // console.log(url);
-
-  const [toggle, setToggle] = useState(false);
-  console.log(toggle);
 
   return (
     <>
@@ -162,35 +159,7 @@ const EmakiLandscapContent = ({
                 dangerouslySetInnerHTML={{ __html: desc ? desc : descTemp }}
               ></div>
               {/* 各段の詞書・解説 */}
-              {kotobagaki && (
-                <>
-                  <p
-                    onClick={() => setToggle(!toggle)}
-                    className={styles.toggleChapterDesc}
-                  >
-                    {toggle
-                      ? "...各段の詞書・解説を閉じる"
-                      : "...各段の詞書・解説を読む"}
-                  </p>
-                  {toggle && (
-                    <div className={styles.chapterDescBox}>
-                      {emakis.map((item, index) => {
-                        const { cat, chapter, gendaibun, desc } = item;
-                        if ((cat === "ekotoba" && gendaibun) || desc) {
-                          return (
-                            <SingleChapterDesc
-                              item={item}
-                              index={index}
-                              key={index}
-                              emakis={emakis}
-                            />
-                          );
-                        }
-                      })}
-                    </div>
-                  )}
-                </>
-              )}
+              {kotobagaki && <ChapterDesc emakis={emakis} />}
 
               {/* 登場人物 */}
               {personname && (
