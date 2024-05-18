@@ -3,7 +3,7 @@ import styles from "../styles/OverlayEkotoba.module.css";
 import ResposiveImage from "./ResposiveImage";
 import { AppContext } from "../pages/_app";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { faLocationDot,faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 
 const OverlayEkotoba = ({
@@ -22,6 +22,8 @@ const OverlayEkotoba = ({
     index,
     navIndex,
     type,
+    ekotobaId,
+    kotobagaki,
   },
 }) => {
   const {
@@ -32,6 +34,7 @@ const OverlayEkotoba = ({
     orientation,
     ekotobaToggle,
     openMapModal,
+    openDescModal,
   } = useContext(AppContext);
 
   // TODO : 目次のフォントサイズをレスポンシブにする
@@ -42,7 +45,7 @@ const OverlayEkotoba = ({
   const [ekotobabody, setEkotobabody] = useState("");
 
   useEffect(() => {
-    setEkotobabody(gendaibun); 
+    setEkotobabody(gendaibun);
   }, [setEkotobabody, gendaibun]);
 
   useEffect(() => {
@@ -62,6 +65,11 @@ const OverlayEkotoba = ({
       id={`${index}`}
       ref={navIndex === index ? scrollDialog : null}
     >
+      {/* <div
+        className={`${styles.gendaibunbox} ${ekotobaImageToggle && !src ? styles.noekotobaimage : styles.ekotobaimage}  ${
+          !src && !gendaibun && styles.ekotobaimage
+        }  ${src && styles.ekotobaimage} scrollbar`}
+      > */}
       <div
         className={`${styles.gendaibunbox} ${
           !src && styles.noekotobaimage
@@ -91,15 +99,26 @@ const OverlayEkotoba = ({
                 __html: chapter,
               }}
             ></h3>
-            {type === "浮世絵" && (
-                <div className={styles.mapiconlink} onClick={() => openMapModal(0)}>
-                    <FontAwesomeIcon icon={faLocationDot} />
-                </div>
+            {type === "浮世絵" && ekotobaId && (
+              <div
+                className={styles.mapiconlink}
+                onClick={() => openMapModal(ekotobaId)}
+              >
+                <FontAwesomeIcon icon={faLocationDot} />
+              </div>
+            )}
+            {gendaibun && ekotobaId &&(
+              <div
+                className={styles.mapiconlink}
+                onClick={() => openDescModal({ekotobaId,index})}
+              >
+                <FontAwesomeIcon icon={faCircleInfo} />
+              </div>
             )}
           </div>
         )}
         <p
-          dangerouslySetInnerHTML={{ __html: ekotobabody }}
+          dangerouslySetInnerHTML={{ __html: src && ekotobabody }}
           className={styles.gendaibun}
           style={{
             fontSize: `${
