@@ -47,8 +47,6 @@
   .submenu {
     font-family: var(--title-font);
     flex-direction: row;
-    row-gap: 1rem;
-        /* grid-template-columns: repeat(2, auto); */
     box-shadow: var(--shadow-1);
     position: absolute;
     top: 2rem;
@@ -63,7 +61,7 @@
 
   .submenu > a {
     transition: var(--transition);
-    padding: 0.4rem;
+    /* padding: 0.4rem; */
   }
   .submenu > a:hover {
     background-color: var(--clr-grey-light);
