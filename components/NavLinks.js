@@ -8,7 +8,7 @@ import { Divide } from "react-feather";
 
 // TODO:NavLinksから<ul>を削除しリファクタリング
 const NavLinks = ({ footerstyle, slug }) => {
-  const [toggle, setToggle] = useState(false);
+  const [value, setValue] = useState(null);
   const { locale } = useRouter();
   const router = useRouter();
   // const { slug } = router.query.slug;
@@ -29,10 +29,10 @@ const NavLinks = ({ footerstyle, slug }) => {
                   {locale === "en" ? nameen : name}
                 </a>
               </Link>
-              <ul
+              {/* <ul
                 className={`${submenu && styles.submenu}`}
                 style={toggle ? { display: "grid" } : { display: "none" }}
-              ></ul>
+              ></ul> */}
             </li>
           );
         } else {
@@ -40,7 +40,7 @@ const NavLinks = ({ footerstyle, slug }) => {
             <li
               key={index}
               className={styles.menu}
-              onClick={() => setToggle(!toggle)}
+              onClick={() => setValue(index)}
             >
               <div
                 className={`${styles.linksNameAlpha} ${
@@ -52,7 +52,7 @@ const NavLinks = ({ footerstyle, slug }) => {
               </div>
               <div
                 className={styles.submenu}
-                style={toggle ? { display: "grid" } : { display: "none" }}
+                style={index === value ? { display: "flex" } : { display: "none" }}
               >
                 {submenu.map((item, i) => {
                   const { name, path, nameen } = item;
