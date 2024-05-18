@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect ,useState} from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "../styles/EmakiPortraitContent.module.css";
@@ -8,6 +8,8 @@ import EmakiConteiner from "../components/EmakiConteiner";
 import CardC from "./CardC";
 import Image from "next/image";
 import Footer from "./Footer";
+import ChapterDesc from "./ChapterDesc";
+
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { handleToId, handleFullScreen, setnavIndex } = useContext(AppContext);
@@ -29,12 +31,14 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     keyword,
     genjieslug,
     personname,
+    kotobagaki
   } = data;
 
   const filterDesc = desc.substring(0, 40);
   const descTemp = `「${title} ${edition ? edition : ""}」${
     author ? `（${author}）` : ""
   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+
 
   return (
     <>
@@ -73,6 +77,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               className={styles.desc}
               dangerouslySetInnerHTML={{ __html: desc ? desc : descTemp }}
             ></div>
+
             <ul className={styles.chapter} style={{ color: eraColor(era) }}>
               {emakis.map((item, index) => {
                 const { cat, chapter } = item;
@@ -91,6 +96,8 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 }
               })}
             </ul>
+            {/* 各段の詞書・解説 */}
+            {kotobagaki && <ChapterDesc emakis={emakis} />}
             {/* {genjieslug && (
               <div className={`${styles.genjieslugBox}`}>
                 {genjieslug.map((item, i) => {
