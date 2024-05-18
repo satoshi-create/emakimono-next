@@ -9,12 +9,14 @@ import GridImageList from "../components/GridImageList";
 import Attention from "../components/Attention";
 import Link from "next/link";
 import ChaptersTable from "../components/ChaptersTable";
+import FlowEmaki from "../components/FlowEmaki";
 
 import {
   personnameItem,
   keywordItem,
   useLocale,
   genjieSlugItem,
+  useLocaleData,
 } from "../libs/func";
 import dataEmakis from "../libs/data";
 import { gridImages } from "../libs/gridImages";
@@ -40,28 +42,24 @@ const Home = () => {
   const { t } = useLocale();
   const removeNestedArrayObj = ExtractingListData();
 
-  const cyouzyuuzinbutugiga = removeNestedArrayObj.find(
-    (item, index) =>
-      item.title === "鳥獣人物戯画絵巻" && item.edition === "甲巻"
-  );
+  const { t: data } = useLocaleData();
 
-  const suibokuga = removeNestedArrayObj.find(
-    (item, index) => item.title === "四季山水図巻（山水長巻）"
-  );
-  const mone = removeNestedArrayObj.find(
-    (item, index) => item.title === "睡蓮 連作"
-  );
-
-  const seiyoukaiga = removeNestedArrayObj.find(
-    (seiyoukaiga) => seiyoukaiga.title === "ブランカッチ礼拝堂 装飾画"
-  );
+  const sikisansuizuFlowDatas = data.filter((item) => item.type === "水墨画");
 
   const allPersonNames = personnameItem(removeNestedArrayObj);
 
   const allKeywords = keywordItem(removeNestedArrayObj);
 
-  const genjiEmakis = removeNestedArrayObj.filter((emaki) =>
-    emaki.title.includes("源氏")
+  const genjiEmakis = removeNestedArrayObj
+    .filter((emaki) => emaki.title.includes("源氏"))
+    .splice(0, 3);
+
+  const kusouzuEmakis = removeNestedArrayObj.filter((emaki) =>
+    emaki.title.includes("九相")
+  );
+
+  const cyouzyuuEmakis = removeNestedArrayObj.filter((emaki) =>
+    emaki.title.includes("鳥獣人物戯画絵巻")
   );
 
   const setsuwaEmakis = removeNestedArrayObj.filter(
@@ -83,7 +81,6 @@ const Home = () => {
     ...buttenEmakis,
     ...gyouziEmakis,
   ];
-  const flowEmakis = [cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone];
 
   const typeByoubu = removeNestedArrayObj
     .filter((emaki) => emaki.type === "屏風")
@@ -114,49 +111,53 @@ const Home = () => {
     const shuffleArray = (array) => {
       return array.slice().sort(() => Math.random() - Math.random());
     };
-   setfavoriteEmakisRandom(shuffleArray(favoriteEmakis))
+    setfavoriteEmakisRandom(shuffleArray(favoriteEmakis));
   }, []);
 
   return (
     <main>
       <Head />
       <Header fixed={true} />
-      {/* <CardA
+      <CardA
+        emakis={kusouzuEmakis}
+        columns={t.kusouzu.columns}
+        sectiontitle={t.kusouzu.title}
+        sectiontitleen={t.kusouzu.titleen}
+        sectiondesc={t.kusouzu.desc}
+        sectionname={t.kusouzu.name}
+        linktitle={t.kusouzu.title}
+        linktitleen={t.kusouzu.titleen}
+        linkpath={"kusouzu"}
+        bcg={"#f9fbff"}
+      />
+      <CardA
+        emakis={cyouzyuuEmakis}
+        columns={t.cyouzyuu.columns}
+        sectiontitle={t.cyouzyuu.title}
+        sectiontitleen={t.cyouzyuu.titleen}
+        sectiondesc={t.cyouzyuu.desc}
+        sectionname={t.cyouzyuu.name}
+        linktitle={t.cyouzyuu.title}
+        linktitleen={t.cyouzyuu.titleen}
+        linkpath={"cyouzyuu"}
+        // bcg={"#f9fbff"}
+      />
+      <CardA
         emakis={genjiEmakis}
         columns={t.genji.columns}
         sectiontitle={t.genji.title}
         sectiontitleen={t.genji.titleen}
-        sectiondesc={t.history.desc}
+        sectiondesc={t.genji.desc}
         sectionname={t.genji.name}
-        linktitle={"源氏絵の世界"}
+        linktitle={"源氏物語絵54帖万華鏡"}
         linktitleen={"GENJIE"}
         linkpath={"genji-pictures"}
         bcg={"#f9fbff"}
-      /> */}
-
-      <CardA
-        emakis={favoriteEmakisRandom}
-        columns={t.favorite.columns}
-        sectiontitle={t.favorite.title}
-        sectiontitleen={t.favorite.titleen}
-        sectiondesc={t.history.desc}
-        sectionname={t.favorite.name}
-        linktitle={"絵巻"}
-        linktitleen={"EMAKIMONO"}
-        linkpath={"/type/emaki"}
       />
-
-      <CardA
-        emakis={variation}
-        columns={t.variation.columns}
-        sectiontitle={t.variation.title}
-        sectiontitleen={t.variation.titleen}
-        sectiondesc={t.variation.desc}
-        sectionname={t.variation.name}
-        linktitle={"絵巻"}
-        linktitleen={"EMAKIMONO"}
-        linkpath={"/type/emaki"}
-        bcg={"var(--clr-bcg)"}
+      <FlowEmaki
+        flowEmakis={sikisansuizuFlowDatas}
+        sectiontitle={"四季山水図巻（山水長巻）"}
+        sectiontitleen={"sessyu_sikisansuizu"}
       />
       <CardB
         columns={t.history.columns}

@@ -168,7 +168,7 @@
   border-radius: 5rem;
   transition: var(--transition);
   font-family: var(--text-font);
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
   color: var(--clr-white);
    font-size: var(--text-size-prt);
 }

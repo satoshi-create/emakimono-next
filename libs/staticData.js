@@ -1,8 +1,23 @@
 const ja = {
+  kusouzu: {
+    title: "九相図観想",
+    titleen: "contemplation of Nine stages of decay",
+    desc: "九相図巻の全シーンを、横スクロールで楽しむことができます。美しい女の人が、死後朽ち果てるまでの変容を９つの相に分け、肉体の美醜が生々しく描かれています。全九相をまとめて鑑賞し、仏教の修行者になったつもりで浄土を観想してみましょう！",
+    name: "kusouzu",
+    columns: "three",
+  },
+  cyouzyuu: {
+    title: "鳥獣人物戯画絵巻イッキ見！！",
+    titleen: "See all cyoujyu-jinbutsu-giga",
+    desc: "鳥獣人物戯画絵巻の甲～丁巻まで全巻を、横スクロールで楽しむことができます。平安時代から鎌倉時代にかけて描かれた絵巻で、動物や人間が遊戯に興じる様が、洒脱なタッチで描かれています。誰が描いたのかなど分かっていないことも多い、謎多き絵巻です。全巻イッキ見して、謎解きに挑戦してみましょう。",
+    name: "cyouzyuu",
+    columns: "four",
+  },
   genji: {
-    title: "源氏絵の世界",
-    titleen: "The World of Genji Pictures",
-    desc: "",
+    title: "源氏物語絵54帖万華鏡",
+    titleen: "Tale of Genji Picture 54 Kaleidoscope",
+    desc: "See all cyoujyu-jinbutsu-giga",
+    desc: " 源氏物語54帖は「源氏絵」とも呼ばれ、絵巻から屏風まで、さまざまな「ワイド美術」に描かれ、鑑賞の対象とされてきました。徳川美術館に秘蔵される源氏物語絵巻は、現存する最古の絵巻で、絵巻のルーツを探る上で欠かせない巻物です。絵巻物から屏風まで、描かれた源氏物語をお楽しみください。",
     name: "genji",
     columns: "three",
   },

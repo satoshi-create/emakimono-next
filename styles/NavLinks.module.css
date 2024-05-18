@@ -46,7 +46,9 @@
   }
   .submenu {
     font-family: var(--title-font);
-    grid-template-columns: repeat(2, auto);
+    flex-direction: row;
+    row-gap: 1rem;
+        /* grid-template-columns: repeat(2, auto); */
     box-shadow: var(--shadow-1);
     position: absolute;
     top: 2rem;

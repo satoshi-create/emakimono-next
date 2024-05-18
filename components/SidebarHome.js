@@ -31,9 +31,9 @@ const SidebarHome = () => {
           {links.map((link, index) => {
             const { path, name, nameen, id, submenu } = link;
             return (
-              <li key={index}>
+              <li key={index} className={styles.navLink}>
                 <Link href={path}>
-                  <a className={styles.navLink} onClick={() => closeSidebar()}>
+                  <a onClick={() => closeSidebar()}>
                     {name}
                   </a>
                 </Link>

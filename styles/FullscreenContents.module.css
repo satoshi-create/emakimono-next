@@ -14,7 +14,7 @@
 .container.right {
   grid-template-columns: 14vw auto;
   justify-content: flex-end;
-  background-color: var(--clr-bcg);
+  /* background-color: var(--clr-bcg); */
 }
 @media (min-width: 425px) and (max-width: 768px) {
   .container.left {
@@ -27,7 +27,7 @@
 @media (min-width: 768px) {
   .container {
     gap: 2rem;
-    padding: 12rem 0;
+    padding: 8rem 0;
   }
 }
 

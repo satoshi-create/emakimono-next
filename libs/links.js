@@ -1,13 +1,8 @@
+
 const links = [
   { name: "ホーム", nameen: "home", id: "home", path: "/", submenu: "" },
   { name: "ご挨拶", nameen: "About", id: "about", path: "/about", submenu: "" },
-  {
-    name: "源氏絵の世界",
-    nameen: "genji-pictures",
-    id: "genji-pictures",
-    path: "/genji-pictures",
-    submenu: "",
-  },
+
   {
     name: "絵巻一覧",
     nameen: "emaki",
@@ -16,12 +11,38 @@ const links = [
     submenu: "",
   },
   {
-    name: "絵巻名場面集!!",
-    nameen: "famousscene",
-    id: "famousscene",
-    path: "/famousscene",
-    submenu: "",
+    name: "特集",
+    nameen: "feature",
+    id: "feature",
+    path: "",
+    submenu: [
+      {
+        name: "源氏物語絵54帖万華鏡",
+        nameen: "genji-pictures",
+        id: "genji-pictures",
+        path: "/genji-pictures",
+      },
+      {
+        name: "九相図観想",
+        nameen: "contemplation of Nine stages of decay",
+        id: "kusouzu",
+        path: "/kusouzu",
+      },
+      {
+        name: "鳥獣人物戯画絵巻イッキ見！！",
+        nameen: "See all cyoujyu-jinbutsu-giga",
+        id: "cyouzyuu",
+        path: "/cyouzyuu",
+      },
+    ],
   },
+  // {
+  //   name: "絵巻名場面集!!",
+  //   nameen: "famousscene",
+  //   id: "famousscene",
+  //   path: "/famousscene",
+  //   submenu: "",
+  // },
   {
     name: "その他の巻物",
     nameen: "alpha",
