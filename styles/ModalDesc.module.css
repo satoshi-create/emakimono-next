@@ -55,7 +55,6 @@
   column-gap: 2rem;
 }
 .tabbtn {
-  font-size: clamp(1.5rem, 1.2111rem + 1.2327vw, 2rem);
   color: var(--clr-black);
   font-family: var(--text-font);
   font-weight: 400;
@@ -104,12 +103,12 @@
   align-self: center;
   justify-self: center;
   font-size: 2rem;
-  writing-mode: vertical-rl;
+  /* writing-mode: vertical-rl; */
   line-height: 2;
   font-family: var(--text-font-koten);
   display: flex;
   flex-direction: column;
-  gap: 1rem 0;
+  gap: 2rem 0;
 }
 
 .iframe {
@@ -126,7 +125,6 @@
   }
 }
 .link {
-  font-family: var(--text-font);
   cursor: pointer;
   transition: var(--transition);
   font-family: var(--text-font-koten);
@@ -138,6 +136,9 @@
 .link h3,
 .link h2 {
   font-weight: 400;
+}
+.gendaibun {
+  font-size: var(--text-size-prt);
 }
 .activeSlide {
   opacity: 1;
@@ -159,4 +160,19 @@
   /* padding-top: 56.25%; */
   align-self: center;
   justify-self: center;
+}
+.linkedbutton {
+    align-self: flex-end;
+  background: var(--clr-accent-02);
+  border: 1px solid var(--clr-accent-02);
+  border-radius: 5rem;
+  transition: var(--transition);
+  font-family: var(--text-font);
+  padding: 0.5rem;
+  color: var(--clr-white);
+   font-size: var(--text-size-prt);
+}
+.linkedbutton:hover {
+  background-color: var(--clr-white);
+  color: var(--clr-accent-02);
 }
