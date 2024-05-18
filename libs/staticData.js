@@ -90,10 +90,25 @@ const ja = {
 };
 
 const en = {
+  kusouzu: {
+    title: "contemplation of Nine stages of decay",
+    titleen: "九相図観想",
+    desc: "All scenes of the nine phases of the scroll can be enjoyed by scrolling horizontally. The transformation of a beautiful woman from death to decay is divided into nine phases, vividly depicting the beauty and ugliness of the body. View all nine phases together and contemplate the Pure Land as if you were a Buddhist practitioner!",
+    name: "kusouzu",
+    columns: "three",
+  },
+  cyouzyuu: {
+    title: "See all cyoujyu-jinbutsu-giga",
+    titleen: "鳥獣人物戯画絵巻イッキ見！！",
+    desc: "You can enjoy all scrolls of the Birds, Beasts, and Humans Caricature Picture Scrolls from A to Ding scrolls in side-scrolling mode. These picture scrolls were painted between the Heian and Kamakura periods, and depict animals and humans playing games with a stylish touch. There are many mysteries in these picture scrolls, and it is not always known who painted them. Let's take a look at all the scrolls and try to solve the riddles.",
+    name: "cyouzyuu",
+    columns: "four",
+  },
   genji: {
-    title: "源氏絵の世界",
-    titleen: "The World of Genji Pictures",
-    desc: "",
+    title: "Tale of Genji Picture 54 Kaleidoscope",
+    titleen: "源氏物語絵54帖万華鏡",
+    desc: "See all cyoujyu-jinbutsu-giga",
+    desc: "The 54 chapters of The Tale of Genji, also known as Genji-e, have been depicted in various wide art works, from picture scrolls to folding screens, and have been the subject of much appreciation. The Tale of Genji Picture Scroll, which is treasured by the Tokugawa Art Museum, is the oldest extant picture scroll, and is an essential scroll in the search for the roots of picture scrolls. From picture scrolls to folding screens, enjoy the Tale of Genji as it was depicted.",
     name: "genji",
     columns: "three",
   },
