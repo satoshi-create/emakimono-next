@@ -25,13 +25,12 @@
   top: 0;
   width: 20px;
   cursor: pointer;
-  color: black;
 }
 .container {
   display: grid;
   grid-template-columns: minmax(2vw, auto) 1fr minmax(2vw, auto);
   grid-template-rows: 2vw auto 1fr 2vw;
-  background-color: var(--clr-white);
+  background-color: white;
   border-radius: 8px;
   width: 90vw;
   height: 90vh;
@@ -60,17 +59,30 @@
   font-weight: 400;
 }
 .activebtn {
-  font-weight: 500;
+  color: var(--clr-accent-02);
   box-shadow: 0 3px var(--clr-accent-02);
-  color:var(--clr-accent-02)
 }
 
 .prev,
 .next {
+    align-self: center;
   cursor: pointer;
   z-index: 10;
   grid-column: 2;
   grid-row: 3;
+  font-size: 1.5rem;
+     border: 1px solid white;
+  border-radius: 50%;
+  padding: 0.5rem;
+  display: grid;
+  place-items: center;
+  transition: var(--transition);
+}
+.prev:hover,
+.next:hover{
+    /* border: 1px solid var(--clr-black); */
+    box-shadow: var(--shadow-1);
+transform: scale(1.2);
 }
 .prev {
   justify-self: flex-start;
@@ -78,43 +90,25 @@
 .next {
   justify-self: flex-end;
 }
-.contents {
+.article {
+  opacity: 0;
+  transition: var(--transition);
   grid-column: 2;
   grid-row: 3;
-  padding: 3rem;
-  overflow-y: auto;
+  width: 80%;
+  height: 100%;
+  position: relative;
+  /* padding-top: 56.25%; */
+  align-self: center;
+  justify-self: center;
 }
 
-/* 目次 */
-.chapter {
-  font-family: var(--text-font);
-  display: flex;
-  flex-direction: column;
-  row-gap: 0.5rem;
-  font-size: clamp(1.5rem, 1.2111rem + 1.2327vw, 2rem);
-  cursor: pointer;
-}
-.chapterlink {
-  transition: var(--transition);
-}
-.chapterlink:hover {
-  opacity: 0.4;
-}
-/* 書誌情報 */
-.source {
-  font-family: var(--text-font);
-  font-size: clamp(1.5rem, 1.2111rem + 1.2327vw, 2rem);
-}
-.sourceLink {
-  transition: var(--transition);
-}
-.sourceLink:hover {
-  opacity: 0.4;
-}
-/* 参照 */
-.reference {
-  font-family: var(--text-font);
-  font-size: clamp(1.5rem, 1.2111rem + 1.2327vw, 2rem);
+.iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80%;
 }
 @media screen and (min-width: 768px) {
   .iframe {
@@ -130,14 +124,11 @@
   margin: auto;
   font-family: var(--text-font);
   text-align: center;
-}
-.link a {
-  color: var(--clr-accent-02);
-  transition: var(--transition);
   cursor: pointer;
-  font-size: clamp(0.8rem, 0.5689rem + 0.9861vw, 1.2rem);
+  transition: var(--transition);
 }
-.link a:hover {
+
+.link:hover {
   opacity: 0.6;
 }
 .link h3,
@@ -149,20 +140,19 @@
   transform: translateX(0);
 }
 .lastSlide {
-  transform: translateX(-100%);
-}
-.nextSlide {
   transform: translateX(100%);
 }
-
-.mokujitable {
-  width: 100%;
-  border-collapse: collapse;
-  /* font-family: serif; */
+.nextSlide {
+  transform: translateX(-100%);
 }
-.mokujitable td,
-.mokujitable th {
-  border: solid 1px var(--clr-grey-light);
-  text-align: left;
-  /* padding: 10px; */
+.chapter {
+  transition: var(--transition);
+  grid-column: 2;
+  grid-row: 3;
+  width: 80%;
+  height: 100%;
+  position: relative;
+  /* padding-top: 56.25%; */
+  align-self: center;
+  justify-self: center;
 }

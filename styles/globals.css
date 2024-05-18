@@ -95,7 +95,7 @@ button {
   width: 100vw;
 }
 
-/* ハンバーガーメニューをfixed */
+/* ハンバーガーメニュー＆モーダル画面を固定 */
 .open html,
 .open body {
   overflow: hidden;

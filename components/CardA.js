@@ -28,6 +28,11 @@ const CardA = ({
     setisModalOpen(false);
   }, [setisModalOpen]);
 
+
+ 
+
+  
+
   return (
     <section
       className={`section-grid section-padding `}
