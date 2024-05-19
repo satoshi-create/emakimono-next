@@ -37,6 +37,11 @@
         "name": "年中行事",
         "id": "annualevent",
         "slug": "annualevent"
+      },
+      {
+        "name": "仏教",
+        "id": "buddhism",
+        "slug": "buddhism"
       }
     ],
     "kotobagaki": false,
@@ -399,6 +404,11 @@
         "name": "鳥羽絵",
         "id": "tobae",
         "slug": "tobae"
+      },
+      {
+        "name": "仏教",
+        "id": "buddhism",
+        "slug": "buddhism"
       }
     ],
     "kotobagaki": false,
@@ -795,6 +805,11 @@
         "name": "年中行事",
         "id": "annualevent",
         "slug": "annualevent"
+      },
+      {
+        "name": "仏教",
+        "id": "buddhism",
+        "slug": "buddhism"
       }
     ],
     "kotobagaki": false,
@@ -1152,6 +1167,11 @@
         "name": "鳥羽絵",
         "id": "tobae",
         "slug": "tobae"
+      },
+      {
+        "name": "仏教",
+        "id": "buddhism",
+        "slug": "buddhism"
       }
     ],
     "kotobagaki": false,
