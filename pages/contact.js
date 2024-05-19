@@ -46,6 +46,8 @@ const Contact = () => {
         setEmail("");
         setMessage("");
       }
+    }).catch(error => {
+      console.error("通信に失敗しました",error)
     });
   };
 
