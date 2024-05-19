@@ -102,17 +102,17 @@ const Home = () => {
     ...typeSeiyoukaiga,
   ];
 
-  const [favoriteEmakisRandom, setfavoriteEmakisRandom] = useState([]);
-  const favoriteEmakis = removeNestedArrayObj.filter(
-    (emaki) => emaki.favorite === true
-  );
+  // const [favoriteEmakisRandom, setfavoriteEmakisRandom] = useState([]);
+  // const favoriteEmakis = removeNestedArrayObj.filter(
+  //   (emaki) => emaki.favorite === true
+  // );
 
-  useEffect(() => {
-    const shuffleArray = (array) => {
-      return array.slice().sort(() => Math.random() - Math.random());
-    };
-    setfavoriteEmakisRandom(shuffleArray(favoriteEmakis));
-  }, []);
+  // useEffect(() => {
+  //   const shuffleArray = (array) => {
+  //     return array.slice().sort(() => Math.random() - Math.random());
+  //   };
+  //   setfavoriteEmakisRandom(shuffleArray(favoriteEmakis));
+  // }, []);
 
   return (
     <main>
