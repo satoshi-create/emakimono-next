@@ -61,7 +61,7 @@
 
   .submenu > a {
     transition: var(--transition);
-    /* padding: 0.4rem; */
+    padding: 0.4rem;
   }
   .submenu > a:hover {
     background-color: var(--clr-grey-light);
