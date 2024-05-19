@@ -2660,7 +2660,7 @@
     "type": "絵巻",
     "typeen": "emaki",
     "subtype": "仏典",
-    "favorite":true,
+    "favorite": true,
     "keyword": [
       {
         "name": "無常",
@@ -2736,7 +2736,7 @@
       },
       {
         "ekotobaId": 1,
-        "linkId":2,
+        "linkId": 2,
         "cat": "ekotoba",
         "chapter": "【第一相】 新死相",
         "kobun": "",
@@ -2766,7 +2766,7 @@
       },
       {
         "ekotobaId": 2,
-        "linkId":4,
+        "linkId": 4,
         "cat": "ekotoba",
         "chapter": "【第二相】 <ruby><rb>脹相</rb><rp>（</rp><rt>ちょうそう</rt><rp>）</rp></ruby> ",
         "kobun": "",
@@ -2795,8 +2795,8 @@
         "srcHeight": "1080"
       },
       {
-        "ekotobaId":3,
-        "linkId":6,
+        "ekotobaId": 3,
+        "linkId": 6,
         "cat": "ekotoba",
         "chapter": "【第三相】 <ruby><rb>壊相</rb><rp>（</rp><rt>えそう</rt><rp>）</rp></ruby> ",
         "kobun": "",
@@ -2825,8 +2825,8 @@
         "srcHeight": "1080"
       },
       {
-        "ekotobaId":4,
-        "linkId":8,
+        "ekotobaId": 4,
+        "linkId": 8,
         "cat": "ekotoba",
         "chapter": "【第四相】 <ruby><rb>血塗相</rb><rp>（</rp><rt>けちずそう</rt><rp>）</rp></ruby> ",
         "kobun": "",
@@ -2855,8 +2855,8 @@
         "srcHeight": "1080"
       },
       {
-        "ekotobaId":5,
-        "linkId":10,
+        "ekotobaId": 5,
+        "linkId": 10,
         "cat": "ekotoba",
         "chapter": "【第五相】 <ruby><rb>膿爛相</rb><rp>（</rp><rt>のうらんそう</rt><rp>）</rp></ruby>",
         "kobun": "",
@@ -2885,8 +2885,8 @@
         "srcHeight": "1080"
       },
       {
-        "ekotobaId":6,
-        "linkId":12,
+        "ekotobaId": 6,
+        "linkId": 12,
         "cat": "ekotoba",
         "chapter": "【第六相】 <ruby><rb>青瘀相</rb><rp>（</rp><rt>しょうおそう</rt><rp>）</rp></ruby>",
         "kobun": "",
@@ -2915,8 +2915,8 @@
         "srcHeight": "1080"
       },
       {
-        "ekotobaId":7,
-        "linkId":14,
+        "ekotobaId": 7,
+        "linkId": 14,
         "cat": "ekotoba",
         "chapter": "【第七相】 <ruby><rb>噉相</rb><rp>（</rp><rt>たんそう</rt><rp>）</rp></ruby>",
         "kobun": "",
@@ -2945,8 +2945,8 @@
         "srcHeight": "1080"
       },
       {
-        "ekotobaId":8,
-        "linkId":16,
+        "ekotobaId": 8,
+        "linkId": 16,
         "cat": "ekotoba",
         "chapter": "【第八相】 <ruby><rb>散相</rb><rp>（</rp><rt>さんそう</rt><rp>）</rp></ruby>",
         "kobun": "",
@@ -2975,8 +2975,8 @@
         "srcHeight": "1080"
       },
       {
-        "ekotobaId":9,
-        "linkId":18,
+        "ekotobaId": 9,
+        "linkId": 18,
         "cat": "ekotoba",
         "chapter": "【第九相】 <ruby><rb> 骨相</rb><rp>（</rp><rt>こつそう</rt><rp>）</rp></ruby>",
         "kobun": "",
@@ -3022,7 +3022,7 @@
     "gif": "",
     "type": "絵巻",
     "typeen": "emaki",
-        "favorite":true,
+    "favorite": true,
     "keyword": [
       {
         "name": "無常",
@@ -3062,7 +3062,7 @@
         "chapter": "【第一相】 生前相",
         "kobun": "",
         "gendaibun": "",
-        "desc":"",
+        "desc": "",
         "id": 208
       },
       {
@@ -8015,6 +8015,206 @@
         "srcTb": "/kanda-shrine-festival-chart_tohaku_03-800.webp",
         "src": "/kanda-shrine-festival-chart_tohaku_03-1080.webp",
         "name": "kanda-shrine-festival-chart_tohaku_03",
+        "srcWidth": "600",
+        "srcHeight": "1080"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "title": "檀林皇后九相観",
+    "titleen": "nine-stages-of-decay-empress-danrin",
+    "author": "",
+    "authoren": "",
+    "backgroundImage": "/washi-pattern-01.webp",
+    "video": "",
+    "thumb": "/nine-stages-of-decay-empress-danrin_honolulu_01-375.webp",
+    "thumb2": "/nine-stages-of-decay-empress-danrin_honolulu_01-375.webp",
+    "desc": "檀林皇后九相観の一覧を、横スクロールで楽しむことができます。ハワイのホノルル美術館所蔵の九相図です。リチャード・レイン氏のコレクションとして、日本からハワイに渡ったようです。",
+    "era": "平安",
+    "eraen": "heiann",
+    "gif": "",
+    "type": "絵巻",
+    "typeen": "emaki",
+    "subtype": "仏典",
+    "favorite": true,
+    "keyword": [
+      {
+        "name": "無常",
+        "id": "impermanence",
+        "slug": "impermanence"
+      },
+      {
+        "name": "仏教",
+        "id": "buddhism",
+        "slug": "buddhism"
+      },
+      {
+        "name": "死生観",
+        "id": "lifeandodeath",
+        "slug": "lifeandodeath"
+      },
+      {
+        "name": "解剖学",
+        "id": "anatomy",
+        "slug": "anatomy"
+      }
+    ],
+    "personname": [
+      {
+        "name": "檀林皇后",
+        "id": "danrinkougou",
+        "slug": "danrinkougou",
+        "ruby": "たちばなのかちこ",
+        "portrait": "/portrait_tachibananokachiko.webp"
+      }
+    ],
+    "kotobagaki": false,
+    "sourceImageUrl": "https://commons.wikimedia.org/wiki/Category:Nine_Stages_of_Decomposition_of_the_Heian_Period_Empress_Danrin",
+    "sourceImage": "Nine Stages of Decomposition of the Heian Period Empress Danrin（Wikimedia Commons）",
+    "reference": [
+      {
+        "type": "書籍",
+        "url": "https://shorturl.at/gqyzH",
+        "title": "『九相図をよむ　朽ちてゆく死体の美術』（山本聡美 著　角川選書）"
+      },
+      {
+        "type": "ウェブサイト",
+        "url": "https://ja.wikipedia.org/wiki/%E3%83%AA%E3%83%81%E3%83%A3%E3%83%BC%E3%83%89%E3%83%BB%E3%83%AC%E3%82%A4%E3%83%B3 ",
+        "title": "リチャード・レイン（ウィキペディア）"
+      }
+    ],
+    "sourceEkotoba": "",
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "【第０相】生前相",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "True",
+        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_01-375.webp",
+        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_01-800.webp",
+        "src": "/nine-stages-of-decay-empress-danrin_honolulu_01-1080.webp",
+        "name": "nine-stages-of-decay-empress-danrin_honolulu_01",
+        "srcWidth": "600",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "【第一相】 新死相",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "True",
+        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_02-375.webp",
+        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_02-800.webp",
+        "src": "/nine-stages-of-decay-empress-danrin_honolulu_02-1080.webp",
+        "name": "nine-stages-of-decay-empress-danrin_honolulu_02",
+        "srcWidth": "600",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "【第三相】 壊相",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_03-375.webp",
+        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_03-800.webp",
+        "src": "/nine-stages-of-decay-empress-danrin_honolulu_03-1080.webp",
+        "name": "nine-stages-of-decay-empress-danrin_honolulu_03",
+        "srcWidth": "600",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "【第四相】 血塗相",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_04-375.webp",
+        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_04-800.webp",
+        "src": "/nine-stages-of-decay-empress-danrin_honolulu_04-1080.webp",
+        "name": "nine-stages-of-decay-empress-danrin_honolulu_04",
+        "srcWidth": "600",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "【第八相】 散相",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_05-375.webp",
+        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_05-800.webp",
+        "src": "/nine-stages-of-decay-empress-danrin_honolulu_05-1080.webp",
+        "name": "nine-stages-of-decay-empress-danrin_honolulu_05",
+        "srcWidth": "600",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "【第九相】 骨相",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_06-375.webp",
+        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_06-800.webp",
+        "src": "/nine-stages-of-decay-empress-danrin_honolulu_06-1080.webp",
+        "name": "nine-stages-of-decay-empress-danrin_honolulu_06",
         "srcWidth": "600",
         "srcHeight": "1080"
       }
