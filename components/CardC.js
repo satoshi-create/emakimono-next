@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import ExtractingListData from "../libs/ExtractingListData";
 import Image from "next/image";
 import Link from "next/link";
@@ -29,9 +29,19 @@ const CardC = ({ data }) => {
   // relationalEmakiから絵巻データと同一idを除去
   const removeEqualityId = relationalEmaki.filter((item) => item.id !== id);
 
+  const [removeEqualityIdRandom, setremoveEqualityIdRandom] = useState(removeEqualityId)
+  console.log(removeEqualityIdRandom);
+
+    useEffect(() => {
+      const shuffleArray = (array) => {
+        return array.slice().sort(() => Math.random() - Math.random());
+      };
+      setremoveEqualityIdRandom(shuffleArray(removeEqualityId));
+    }, []);
+
   return (
     <aside className={`${styles.container} scrollbar`}>
-      {removeEqualityId.map((item, i) => {
+      {removeEqualityIdRandom.map((item, i) => {
         const {
           titleen,
           title,
