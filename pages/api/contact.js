@@ -89,4 +89,4 @@ export default async function sendMail(req, res) {
     success: true,
   });
 }
-
+// https://qiita.com/kad/items/365f292b6d78fa161fef
