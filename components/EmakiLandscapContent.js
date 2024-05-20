@@ -29,6 +29,7 @@ const EmakiLandscapContent = ({
   const { emakis } = data;
   const { locale } = useRouter();
 
+
   const {
     type,
     typeen,

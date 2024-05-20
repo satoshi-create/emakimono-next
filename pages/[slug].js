@@ -242,9 +242,12 @@ export const getStaticProps = async (context) => {
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
 
+  
+
   const filterdEmakisData = tEmakisData.find(
     (item, index) => item.titleen === slug
   );
+
 
   return {
     props: {

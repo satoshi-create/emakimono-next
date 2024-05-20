@@ -53,6 +53,13 @@ const OverlayEkotoba = ({
     setekotobaToggle(false);
   }, [setEkotobaImageToggle, setekotobaToggle]);
 
+  const parseEkotobaId = (ekotobaId) => {
+    if (ekotobaId) {
+      return JSON.parse(ekotobaId);
+    }
+  };
+
+  
   return (
     <section
       className={`section fade-in lazyload ${
@@ -105,14 +112,20 @@ const OverlayEkotoba = ({
                 <FontAwesomeIcon icon={faLocationDot} />
               </div>
             )}
-            {gendaibun && ekotobaId &&(
+            {/* {gendaibun && ekotobaId &&(
               <div
                 className={styles.mapiconlink}
                 onClick={() => openDescModal({ekotobaId,index})}
               >
                 <FontAwesomeIcon icon={faCircleInfo} />
               </div>
-            )}
+            )} */}
+            <div
+              className={styles.mapiconlink}
+              onClick={() => openDescModal({ parseEkotobaId:parseEkotobaId(ekotobaId), index })}
+            >
+              <FontAwesomeIcon icon={faCircleInfo} />
+            </div>
           </div>
         )}
         <p

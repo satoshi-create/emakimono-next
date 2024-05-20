@@ -1,6 +1,6 @@
 import React from "react";
 import Title from "./Title";
-import AllGenjiChapters from "../libs/genji/chapters_of_genji";
+import AllGenjiChapters from "../libs/genji/chapters-of-genji.json";
 import styles from "../styles/ChaptersTable.module.css";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,6 +26,7 @@ const ChaptersTable = ({
   const ExistGenjiChaptersTitletoString = ExistGenjiChapters.map(
     (item) => item.title
   ).toString();
+  
   const chapterGenjiMatching = (title) =>
     ExistGenjiChaptersTitletoString.includes(title);
 
@@ -41,26 +42,31 @@ const ChaptersTable = ({
           <tr>
             <th>番号</th>
             <th>帖</th>
+            <th>あらすじ</th>
             <th>
               <span>作品</span>
             </th>
-            {/* <th>
-              <span>作品数</span>
-            </th> */}
           </tr>
         </thead>
         <tbody>
           {AllGenjiChapters.map((item, i) => {
             return (
               <tr key={i}>
-                <th>{item.id}</th>
-                <th>
+                <td>{item.id}</td>
+                <td>
                   <ruby>
                     {item.title} <rp>(</rp>
                     <rt>{item.ruby}</rt>
                     <rp>)</rp>
                   </ruby>
-                </th>
+                </td>
+                <td className={styles.summary}>
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: item.summary,
+                    }}
+                  ></p>
+                </td>
                 <td>
                   {chapterGenjiMatching(item.title) ? (
                     <Link href={`/genjie/${item.path}`}>
@@ -74,9 +80,6 @@ const ChaptersTable = ({
                     </span>
                   )}
                 </td>
-                {/* <td>
-                  <span>0</span>
-                </td> */}
               </tr>
             );
           })}

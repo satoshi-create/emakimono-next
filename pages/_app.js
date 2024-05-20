@@ -94,7 +94,8 @@ function MyApp({ Component, pageProps, router }) {
     if (diff > 0 ) {
       document.body.style["padding-right"] = diff + "px";
     }
-    setDescIndex(ei,i);
+    console.log(ei);
+    setDescIndex(ei, i);
   };
   const closeDescModal = () => {
     document.querySelector("html").classList.remove("open");

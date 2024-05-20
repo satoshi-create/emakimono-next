@@ -7,13 +7,7 @@ import {
   faAnglesLeft,
   faAnglesRight,
 } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
-import AllLocation from "./AllLocation";
-import {
-  faTwitter,
-  faFacebook,
-  faLinkedin,
-} from "@fortawesome/free-brands-svg-icons";
+import chaptergenji from "../libs/genji/chapters-of-genji.json";
 
 const ModalDesc = ({ data }) => {
   const { DescIndex, setDescIndex, handleToId, closeDescModal, orientation } =
@@ -25,10 +19,20 @@ const ModalDesc = ({ data }) => {
     closeDescModal();
   };
 
-  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${data.titleen}%23${DescIndex.index}`;
-  console.log(url);
 
-  const { kobun, gendaibun, desc } = emakis[0];
+  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${data.titleen}%23${DescIndex.index}`;
+
+  const matchSummary = (chapter) => {
+    // const test = chaptergenji.map((item, i) => {
+    //   if (chapter === item.title) {
+    //     return item.summary
+    //   }
+    //   return
+    // })
+    // return test
+    const test = chaptergenji.filter(item =>chapter.includes(item.title)).map(item=> item.summary).join()
+    return test
+  }
 
   const [value, setValue] = useState(0);
 
@@ -43,22 +47,22 @@ const ModalDesc = ({ data }) => {
   // };
   const nextSlide = () => {
     setDescIndex((DescIndex) => {
-      let index = DescIndex.ekotobaId + 1;
+      let index = DescIndex.parseEkotobaId + 1;
       if (index > filterEkotobas.length - 1) {
         index = 0;
       }
-      return { ...DescIndex, ekotobaId: index };
+      return { ...DescIndex, parseEkotobaId: index };
     });
   };
 
 
   const prevSlide = () => {
     setDescIndex((DescIndex) => {
-      let index = DescIndex.ekotobaId - 1;
+      let index = DescIndex.parseEkotobaId - 1;
       if (index < 0) {
         index = filterEkotobas.length - 1;
       }
-      return { ...DescIndex, ekotobaId: index };
+      return { ...DescIndex, parseEkotobaId: index };
     });
   };
 
@@ -114,14 +118,15 @@ const ModalDesc = ({ data }) => {
 
         {filterEkotobas.map((item, ekotobasIndex) => {
           const { gendaibun, chapter, linkId } = item;
+          const parselinkId = JSON.parse(linkId);
 
           let position = "nextSlide";
-          if (ekotobasIndex === DescIndex.ekotobaId) {
+          if (ekotobasIndex === DescIndex.parseEkotobaId) {
             position = "activeSlide";
           }
           if (
-            ekotobasIndex === DescIndex.ekotobaId - 1 ||
-            (DescIndex.ekotobaId === 0 &&
+            ekotobasIndex === DescIndex.parseEkotobaId - 1 ||
+            (DescIndex.parseEkotobaId === 0 &&
               ekotobasIndex === filterEkotobas.length - 1)
           ) {
             position = "lastSlide";
@@ -129,7 +134,7 @@ const ModalDesc = ({ data }) => {
           if (value === 0) {
             return (
               <article
-                className={`${styles.article} ${styles[position]}`}
+                className={`${styles.article} ${styles[position]} scrollbar`}
                 key={ekotobasIndex}
               >
                 <h4
@@ -141,7 +146,7 @@ const ModalDesc = ({ data }) => {
                         }
                       : { fontSize: "var(--title-size)" }
                   }
-                  onClick={() => handleChapter(linkId)}
+                  onClick={() => handleChapter(parselinkId)}
                   dangerouslySetInnerHTML={{
                     __html: chapter,
                   }}
@@ -156,12 +161,12 @@ const ModalDesc = ({ data }) => {
                       : { fontSize: "var(--text-size)" }
                   }
                   dangerouslySetInnerHTML={{
-                    __html: gendaibun,
+                    __html:matchSummary(chapter) ,
                   }}
                 ></p>
                 <button
                   type="button"
-                  onClick={() => handleChapter(linkId)}
+                  onClick={() => handleChapter(parselinkId)}
                   className={styles.linkedbutton}
                 >
                   横スクロールで見る
