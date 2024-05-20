@@ -1,4 +1,3 @@
-import AllChapterGenji from "../../libs/genji/chapters_of_genji";
 import emakisData from "../../libs/data";
 import Header from "../../components/Header";
 import Head from "../../components/Meta";
