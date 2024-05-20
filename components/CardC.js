@@ -30,7 +30,6 @@ const CardC = ({ data }) => {
   const removeEqualityId = relationalEmaki.filter((item) => item.id !== id);
 
   const [removeEqualityIdRandom, setremoveEqualityIdRandom] = useState(removeEqualityId)
-  console.log(removeEqualityIdRandom);
 
     useEffect(() => {
       const shuffleArray = (array) => {

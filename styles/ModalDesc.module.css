@@ -109,6 +109,8 @@
   display: flex;
   flex-direction: column;
   gap: 2rem 0;
+  overflow-y: scroll;
+
 }
 
 .iframe {
@@ -139,6 +141,8 @@
 }
 .gendaibun {
   font-size: var(--text-size-prt);
+
+
 }
 .activeSlide {
   opacity: 1;
