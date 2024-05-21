@@ -1,5 +1,5 @@
 import React from "react";
-import ChaptersTable from "../../components/ChaptersTable";
+import ChaptersGenjiTable from "../../components/ChaptersGenjiTable";
 import { genjieSlugItem, useLocaleData } from "../../libs/func";
 import ExtractingListData from "../../libs/ExtractingListData";
 import Head from "../../components/Meta";
@@ -17,8 +17,8 @@ console.log(ExistGenjiChapters);
 
   const tPageDesc =
     locale === "en"
-      ? `It is on the page of Tale of Genji 54.This site pursues the enjoyment of picture scrolls by scrolling from right to `
-      : `源氏物語54帖のページです。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。`;
+      ? `The Tale of Genji 54 chapters page. This is a list of "wide art" such as picture scrolls and folding screens depicting scenes from each of the 54 chapters of The Tale of Genji.`
+      : `源氏物語54帖のページです。源氏物語54帖の各場面が描かれた絵巻や屏風などの「ワイド美術」の一覧リストを制作しています`;
   return (
     <>
       <Head
@@ -29,9 +29,9 @@ console.log(ExistGenjiChapters);
       <Breadcrumbs
         name={locale === "en" ? "chapters genji list" : "源氏物語54帖一覧"}
       />
-      <ChaptersTable
+      <ChaptersGenjiTable
         sectiontitle={"源氏物語54帖"}
-        sectiontitleen={"The Tale of Genji 54 chapters"}
+        sectiontitleen={"List of The Tale of Genji 54 chapters"}
         ExistGenjiChapters={ExistGenjiChapters}
       />
       <Footer />
