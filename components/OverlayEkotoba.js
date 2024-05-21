@@ -24,6 +24,7 @@ const OverlayEkotoba = ({
     type,
     ekotobaId,
     kotobagaki,
+    cat,
   },
 }) => {
   const {
@@ -59,7 +60,6 @@ const OverlayEkotoba = ({
     }
   };
 
-  
   return (
     <section
       className={`section fade-in lazyload ${
@@ -122,7 +122,13 @@ const OverlayEkotoba = ({
             )} */}
             <div
               className={styles.mapiconlink}
-              onClick={() => openDescModal({ parseEkotobaId:parseEkotobaId(ekotobaId), index })}
+              onClick={() =>
+                openDescModal({
+                  ekotobaId,
+                  // parseEkotobaId: parseEkotobaId(ekotobaId),
+                  index,
+                })
+              }
             >
               <FontAwesomeIcon icon={faCircleInfo} />
             </div>

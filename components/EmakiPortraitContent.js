@@ -48,7 +48,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
         selectedRef={selectedRef}
         navIndex={navIndex}
         articleRef={articleRef}
-        height={"40vh"}
       />
       <div className={`${styles.wrapper} section-grid`}>
         <div className={styles.container}>
@@ -77,7 +76,20 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               className={styles.desc}
               dangerouslySetInnerHTML={{ __html: desc ? desc : descTemp }}
             ></div>
-
+            {genjieslug && (
+              <div className={`${styles.genjieslugBox}`}>
+                <Link href={`/genjie/chapters-genji`}>
+                  <a className={styles.genjieslugTitle}>源氏物語54帖一覧</a>
+                </Link>
+              </div>
+            )}
+            {title.includes("九相") && (
+              <div className={`${styles.genjieslugBox}`}>
+                <Link href={`/kusouzu/chapters-kusouzu`}>
+                  <a className={styles.genjieslugTitle}>九相図一覧</a>
+                </Link>
+              </div>
+            )}
             <ul className={styles.chapter} style={{ color: eraColor(era) }}>
               {emakis.map((item, index) => {
                 const { cat, chapter } = item;
@@ -98,19 +110,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             </ul>
             {/* 各段の詞書・解説 */}
             {kotobagaki && <ChapterDesc emakis={emakis} />}
-            {/* {genjieslug && (
-              <div className={`${styles.genjieslugBox}`}>
-                {genjieslug.map((item, i) => {
-                  return (
-                    <h4 className={`${styles.genjieslugTitle}`} key={i}>
-                      <Link href={`/genjie/${item.path}`}>
-                        <a>{item.title}</a>
-                      </Link>
-                    </h4>
-                  );
-                })}
-              </div>
-            )} */}
             {personname && (
               <div
                 className={`${styles.tags} ${locale === "ja" && styles.jatags}`}

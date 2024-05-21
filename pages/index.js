@@ -8,7 +8,7 @@ import Head from "../components/Meta";
 import GridImageList from "../components/GridImageList";
 import Attention from "../components/Attention";
 import Link from "next/link";
-import ChaptersTable from "../components/ChaptersTable";
+import ChaptersTable from "../components/ChaptersGenjiTable";
 import FlowEmaki from "../components/FlowEmaki";
 
 import {

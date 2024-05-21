@@ -1,6 +1,5 @@
 .header {
   background: var(--clr-white);
-  font-family: "Kaisei Decol", serif;
 }
 .header-fixed {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -11,21 +10,23 @@
   z-index: 100;
   padding: 1rem 0;
 }
-
+.title {
+  display: flex;
+  align-items: center;
+  column-gap: 0.3rem;
+  font-family: var(--title-font);
+  column-gap: 0.8rem;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: var(--title-size-prt);
+}
 .center {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
 }
-.title {
-  font-size: 1.3rem;
-  text-transform: uppercase;
-}
-.titleLink {
-  display: flex;
-  align-items: center;
-  column-gap: 0.3rem;
-}
+
 .favicon {
   width: 20px;
   height: 20px;

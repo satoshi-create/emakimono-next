@@ -6,7 +6,7 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
 
-const ChaptersTable = ({
+const ChaptersGenjiTable = ({
   sectiontitle,
   sectiontitleen,
   ExistGenjiChapters,
@@ -89,4 +89,4 @@ const ChaptersTable = ({
   );
 };
 
-export default ChaptersTable;
+export default ChaptersGenjiTable;
