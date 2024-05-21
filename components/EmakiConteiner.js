@@ -38,7 +38,7 @@ const EmakiContainer = ({
   } = useContext(AppContext);
 
   const emakis = data.emakis;
-
+  console.log(emakis);
   const { backgroundImage, kotobagaki, type } = data;
 
   const [toggle, setToggle] = useState(true);
@@ -172,13 +172,13 @@ const EmakiContainer = ({
         {scroll && toggleFullscreen && <EmakiInfo value={data} />}
         {scroll && isModalOpen && <Modal data={data} />}
         {scroll && isMapModalOpen && <ModalMap data={data} />}
-        {scroll && isDescModalOpen && <ModalDesc data={data}/>}
+        {scroll && isDescModalOpen && <ModalDesc data={data} />}
         <article
           className={`${styles.container} ${
             type === "西洋絵画" ? styles.lr : styles.rl
           } scrollbar`}
           style={{
-            "--screen-height": height,
+            "--screen-height": orientation === "portrait" ? "45vh" : "75vh",
             "--screen-width": width,
             "--overflow-x": overflowX,
             "--box-shadow": boxshadow,
@@ -206,7 +206,27 @@ const EmakiContainer = ({
                   }}
                 />
               );
-            } else {
+            }
+            {
+              if (cat === "ekotoba")
+                return (
+                  <OverlayEkotoba
+                    key={index}
+                    item={{
+                      ...item,
+                      cat,
+                      index,
+                      backgroundImage,
+                      kotobagaki,
+                      type,
+                      scroll,
+                      selectedRef,
+                      navIndex,
+                    }}
+                  />
+                );
+            }
+            {
               if (data.type === "古典文学") {
                 return (
                   <KotenText
@@ -222,35 +242,6 @@ const EmakiContainer = ({
                       navIndex,
                     }}
                   />
-                );
-              } else {
-                return (
-                  <OverlayEkotoba
-                    key={index}
-                    item={{
-                      ...item,
-                      index,
-                      backgroundImage,
-                      kotobagaki,
-                      type,
-                      scroll,
-                      selectedRef,
-                      navIndex,
-                    }}
-                  />
-                  // <Ekotoba
-                  //   key={index}
-                  //   item={{
-                  //     ...item,
-                  //     index,
-                  //     backgroundImage,
-                  //     kotobagaki,
-                  //     type,
-                  //     scroll,
-                  //     selectedRef,
-                  //     navIndex,
-                  //   }}
-                  // />
                 );
               }
             }
