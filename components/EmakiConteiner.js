@@ -178,7 +178,7 @@ const EmakiContainer = ({
             type === "西洋絵画" ? styles.lr : styles.rl
           } scrollbar`}
           style={{
-            "--screen-height": orientation === "portrait" ? "45vh" : "75vh",
+            "--screen-height": height,
             "--screen-width": width,
             "--overflow-x": overflowX,
             "--box-shadow": boxshadow,
