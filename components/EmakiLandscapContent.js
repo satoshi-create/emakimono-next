@@ -23,7 +23,6 @@ const EmakiLandscapContent = ({
   selectedRef,
   navIndex,
   articleRef,
-  height,
 }) => {
   const { handleToId, handleFullScreen } = useContext(AppContext);
   const { emakis } = data;
@@ -67,7 +66,6 @@ const EmakiLandscapContent = ({
             selectedRef={selectedRef}
             navIndex={navIndex}
             articleRef={articleRef}
-            height={height}
             overflowX={"scroll"}
           />
           {/* chapter */}
@@ -105,8 +103,15 @@ const EmakiLandscapContent = ({
               )}
               {genjieslug && (
                 <div className={`${styles.genjieslugBox}`}>
-                  <Link href={`/genjie/chaptersgenjilist`}>
-                    <a className={styles.genjieslugTitle}>源氏物語54帖</a>
+                  <Link href={`/genjie/chapters-genji`}>
+                    <a className={styles.genjieslugTitle}>源氏物語54帖一覧</a>
+                  </Link>
+                </div>
+              )}
+              {title.includes("九相") && (
+                <div className={`${styles.genjieslugBox}`}>
+                  <Link href={`/kusouzu/chapters-kusouzu`}>
+                    <a className={styles.genjieslugTitle}>九相図一覧</a>
                   </Link>
                 </div>
               )}
