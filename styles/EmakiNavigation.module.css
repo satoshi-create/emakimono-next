@@ -20,7 +20,7 @@
   background: #b1b1b100;
   border-radius: 2rem;
   padding: 0.5rem 1rem;
-  box-shadow: var(--shadow-2);
+  box-shadow: var(--shadow-1);
 }
 .prt .button > i {
   font-size: 14px;
