@@ -19,15 +19,24 @@ const Author = ({ name, nameen, posts, slug }) => {
 
   return (
     <>
-      <Head pagetitle={locale === "en" ? nameen : name} pageDesc={tPageDesc} />
+      <Head
+        pagetitle={
+          locale === "en" ? `List of ${nameen}'s Works` : `${name}の作品一覧`
+        }
+        pageDesc={tPageDesc}
+      />
       <Header />
       <Breadcrumbs name={locale === "en" ? nameen : name} />
       <CardA
         emakis={posts}
         columns={"three"}
         sectionname={"recommend"}
-        sectiontitle={locale === "en" ? nameen : name}
-        sectiontitleen={locale === "en" ? name : nameen}
+        sectiontitle={
+          locale === "en" ? `List of ${nameen}'s Works` : `${name}の作品一覧`
+        }
+        sectiontitleen={
+          locale === "en" ? `${name}の作品一覧` : `List of Works of${nameen}`
+        }
       />
       <Footer />
     </>

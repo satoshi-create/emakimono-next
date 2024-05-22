@@ -27,6 +27,7 @@
   color: var(--clr-white);
   border: 1px solid var(--clr-accent-02);
   background-color: var(--clr-accent-02);
+  text-transform: lowercase; 
 }
 .btn:hover {
   color: var(--clr-accent-02);
