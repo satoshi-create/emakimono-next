@@ -18,15 +18,18 @@ const Type = ({ name, nameen, posts, slug }) => {
 
   return (
     <>
-      <Head pagetitle={locale === "en" ? nameen : name} pageDesc={tPageDesc} />
+      <Head
+        pagetitle={locale === "en" ? `List of ${nameen}` : `${name}一覧`}
+        pageDesc={tPageDesc}
+      />
       <Header />
       <Breadcrumbs name={locale === "en" ? nameen : name} />
       <CardA
         emakis={posts}
         columns={"three"}
         sectionname={"recommend"}
-        sectiontitle={locale === "en" ? nameen : name}
-        sectiontitleen={locale === "en" ? name : nameen}
+        sectiontitle={locale === "en" ? `List of ${nameen}` : `${name}一覧`}
+        sectiontitleen={locale === "en" ? `${name}一覧` : `List of ${nameen}`}
       />
       <Footer />
     </>
