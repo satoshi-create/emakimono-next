@@ -160,7 +160,7 @@ const EmakiContainer = ({
       >
         {scroll && (
           <>
-            <FullScreen />
+            {/* <FullScreen /> */}
             <EmakiNavigation
               handleToId={handleToId}
               data={data}
