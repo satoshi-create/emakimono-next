@@ -1,4 +1,4 @@
-import React from "react";
+  import React from "react";
 import ChaptersTable from "../../components/ChaptersGenjiTable";
 import { genjieSlugItem, useLocaleData } from "../../libs/func";
 import ExtractingListData from "../../libs/ExtractingListData";

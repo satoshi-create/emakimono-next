@@ -9,7 +9,6 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: clamp(0.3125rem, -1.3542rem + 3.4722vw, 1.25rem);
-    font-weight: 200;
     font-size: var(--mokuji-size);
   }
   .links a {
@@ -45,7 +44,6 @@
     cursor: pointer;
   }
   .submenu {
-    font-family: var(--title-font);
     flex-direction: row;
     box-shadow: var(--shadow-1);
     position: absolute;
