@@ -126,7 +126,7 @@ const Home = () => {
         sectiondesc={t.kusouzu.desc}
         sectionname={t.kusouzu.name}
         linktitle={t.kusouzu.title}
-        linktitleen={t.kusouzu.titleen}
+        linktitleen={t.kusouzu.title}
         linkpath={"kusouzu"}
         bcg={"#f9fbff"}
       />
@@ -138,7 +138,7 @@ const Home = () => {
         sectiondesc={t.cyouzyuu.desc}
         sectionname={t.cyouzyuu.name}
         linktitle={t.cyouzyuu.title}
-        linktitleen={t.cyouzyuu.titleen}
+        linktitleen={t.cyouzyuu.title}
         linkpath={"cyouzyuu"}
         // bcg={"#f9fbff"}
       />
@@ -150,7 +150,7 @@ const Home = () => {
         sectiondesc={t.genji.desc}
         sectionname={t.genji.name}
         linktitle={"源氏物語絵54帖万華鏡"}
-        linktitleen={"GENJIE"}
+        linktitleen={"Genji Picture 54 Kaleidoscope"}
         linkpath={"genji-pictures"}
         bcg={"#f9fbff"}
       />

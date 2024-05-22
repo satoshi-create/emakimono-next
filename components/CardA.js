@@ -109,12 +109,15 @@ const CardA = ({
                     </Link>
                   </div>
                   <h3 className={styles.title}>
-                    {title}　{edition}
+                    {locale === "ja" ? title : titleen}{" "}
+                    {locale === "ja" && edition}
                   </h3>
                   {author ? (
                     <Link href={`/author/${authoren}`}>
                       <a className={styles.authorLink}>
-                        <h4 className={styles.author}>{author}</h4>
+                        <h4 className={styles.author}>
+                          {locale === "ja" ? author : authoren}
+                        </h4>
                       </a>
                     </Link>
                   ) : (

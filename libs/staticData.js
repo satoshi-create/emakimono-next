@@ -7,8 +7,8 @@ const ja = {
     columns: "three",
   },
   cyouzyuu: {
-    title: "鳥獣人物戯画絵巻イッキ見！！",
-    titleen: "See all cyoujyu-jinbutsu-giga",
+    title: "鳥獣人物戯画絵巻全巻イッキ見！！",
+    titleen: "See all cyoujyu-jinbutsu-giga（Frog and rabbit）",
     desc: "鳥獣人物戯画絵巻の甲～丁巻まで全巻を、横スクロールで楽しむことができます。平安時代から鎌倉時代にかけて描かれた絵巻で、動物や人間が遊戯に興じる様が、洒脱なタッチで描かれています。誰が描いたのかなど分かっていないことも多い、謎多き絵巻です。全巻イッキ見して、謎解きに挑戦してみましょう。",
     name: "cyouzyuu",
     columns: "four",
@@ -141,12 +141,12 @@ const en = {
     columns: "two",
   },
   personname: {
-    title: "人物から見る絵巻",
-    titleen: "personnames",
+    title: "personnames",
+    titleen: "人物から見る絵巻",
   },
   indextag: {
-    title: "索引から見る絵巻",
-    titleen: "emakis from the index",
+    title: "emakis from the index",
+    titleen: "索引から見る絵巻",
   },
 
   famousscene: {
