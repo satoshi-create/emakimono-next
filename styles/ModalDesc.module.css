@@ -103,12 +103,13 @@
   align-self: center;
   justify-self: center;
   font-size: 2rem;
-  /* writing-mode: vertical-rl; */
   line-height: 2;
   font-family: var(--text-font-koten);
   display: flex;
   flex-direction: column;
   gap: 2rem 0;
+  overflow-y: auto;
+  padding: 1rem 2rem;
 }
 
 .iframe {
@@ -139,6 +140,8 @@
 }
 .gendaibun {
   font-size: var(--text-size-prt);
+
+
 }
 .activeSlide {
   opacity: 1;

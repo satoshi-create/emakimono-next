@@ -21,7 +21,7 @@ import EmakiLandscapContent from "../components/EmakiLandscapContent";
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
-const Emaki = ({ data, locale, locales, slug }) => {
+const Emaki = ({ data, locale, locales, slug, test }) => {
   const router = useRouter();
   const selectedRef = useRef(null);
   const {
@@ -33,10 +33,10 @@ const Emaki = ({ data, locale, locales, slug }) => {
     setToggleFullscreen,
     handleToId,
   } = useContext(AppContext);
-  const pagetitle = `${data.title} ${data.edition ? data.edition : ""}`;
+  const pagetitle = locale === "en" ? data.titleen : `${data.title} ${data.edition ? data.edition : ""}`;
   const tPageDesc =
     locale === "en"
-      ? `You can enjoy all the scenes of the${pagetitle} ${
+      ? `You can enjoy all the scenes of the ${pagetitle} ${
           data.author && `（${data.author}）`
         }in verticalp and right to left scrolling mode.`
       : `${pagetitle} ${
@@ -167,7 +167,6 @@ const Emaki = ({ data, locale, locales, slug }) => {
             scroll={true}
             selectedRef={selectedRef}
             navIndex={navIndex}
-            height={"75vh"}
           />
         </>
       );
@@ -242,16 +241,64 @@ export const getStaticProps = async (context) => {
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
 
-  const filterdEmakisData = tEmakisData.find(
+  const filterdEmakisData = tEmakisData.filter(
     (item, index) => item.titleen === slug
   );
+  const addObjEmakis = filterdEmakisData
+    .map((item, i) => {
+
+      const addLinkIdtoEmakis = item.emakis.map((item, i) => {
+        return { ...item, linkId: i };
+      });
+
+      const addEkotobaIdEmakis = addLinkIdtoEmakis
+        .filter((item) => item.cat === "ekotoba")
+        .map((item, i) => {
+          return { ...item, ekotobaId: i };
+        });
+      
+      const concatAddObjEmakis = Array.from(new Set(addLinkIdtoEmakis.concat(addEkotobaIdEmakis)));
+
+      const filterAddObjEmakisA = concatAddObjEmakis.filter((item) => item.cat === "image");
+      const filterAddObjEmakisB = concatAddObjEmakis.filter(
+        (item) => item.cat === "ekotoba" && item.ekotobaId >= 0
+      );
+      const concatFilterAddObjEmakis =
+        filterAddObjEmakisA.concat(filterAddObjEmakisB);
+
+      const sortConcatFilterAddObjEmakis = concatFilterAddObjEmakis.sort(
+        (a, b) => (a.linkId > b.linkId ? 1 : -1)
+      );
+
+      console.log(sortConcatFilterAddObjEmakis);
+
+      return { ...item, emakis: sortConcatFilterAddObjEmakis };
+    })
+    .find((item) => item);
+
+  // const emakis = filterdEmakisData.emakis
+  // console.log(emakis);
+
+  // const addObjEmakis = emakis.map((item, i) => {
+  //   if (item.cat === "ekotoba") {
+  //     return { ...item, ekotobaId: i, linkId: i };
+  //   }
+  //   return { ...item, linkId: i };
+  // });
+
+  // const test = filterdEmakisData
+  //   .map((item, i) => {
+  //     return { ...item, emakis: addObjEmakis };
+  //   })
+  //   .find((item) => item);
 
   return {
     props: {
-      data: filterdEmakisData,
+      data: addObjEmakis,
       locales,
       locale,
       slug,
+      test: addObjEmakis,
     },
   };
 };

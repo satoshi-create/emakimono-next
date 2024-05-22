@@ -23,11 +23,11 @@ const EmakiLandscapContent = ({
   selectedRef,
   navIndex,
   articleRef,
-  height,
 }) => {
   const { handleToId, handleFullScreen } = useContext(AppContext);
   const { emakis } = data;
   const { locale } = useRouter();
+
 
   const {
     type,
@@ -66,8 +66,8 @@ const EmakiLandscapContent = ({
             selectedRef={selectedRef}
             navIndex={navIndex}
             articleRef={articleRef}
-            height={height}
             overflowX={"scroll"}
+            height={"75vh"}
           />
           {/* chapter */}
           <ul className={`${styles.chapter} scrollbar`}>
@@ -93,19 +93,26 @@ const EmakiLandscapContent = ({
           <div className={styles.metadata}>
             <div className={styles.metadataA}>
               <h3 className={styles.title}>
-                {title} {edition}
+                {locale === "ja" ? title : titleen} {locale === "ja" && edition}
               </h3>
               {author && (
                 <Link href={`/author/${authoren}`}>
                   <a className={styles.authorLink}>
-                    <h4 className={styles.author}>{author}</h4>
+                    <h4 className={styles.author}>{locale  === "ja" ? author : authoren}</h4>
                   </a>
                 </Link>
               )}
               {genjieslug && (
                 <div className={`${styles.genjieslugBox}`}>
-                  <Link href={`/genjie/chaptersgenjilist`}>
-                    <a className={styles.genjieslugTitle}>源氏物語54帖</a>
+                  <Link href={`/genjie/chapters-genji`}>
+                    <a className={styles.genjieslugTitle}>源氏物語54帖一覧</a>
+                  </Link>
+                </div>
+              )}
+              {title.includes("九相") && (
+                <div className={`${styles.genjieslugBox}`}>
+                  <Link href={`/kusouzu/chapters-kusouzu`}>
+                    <a className={styles.genjieslugTitle}>九相図一覧</a>
                   </Link>
                 </div>
               )}

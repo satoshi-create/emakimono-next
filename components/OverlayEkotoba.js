@@ -24,6 +24,7 @@ const OverlayEkotoba = ({
     type,
     ekotobaId,
     kotobagaki,
+    cat,
   },
 }) => {
   const {
@@ -52,6 +53,12 @@ const OverlayEkotoba = ({
     setEkotobaImageToggle(false);
     setekotobaToggle(false);
   }, [setEkotobaImageToggle, setekotobaToggle]);
+
+  const parseEkotobaId = (ekotobaId) => {
+    if (ekotobaId) {
+      return JSON.parse(ekotobaId);
+    }
+  };
 
   return (
     <section
@@ -105,14 +112,26 @@ const OverlayEkotoba = ({
                 <FontAwesomeIcon icon={faLocationDot} />
               </div>
             )}
-            {gendaibun && ekotobaId &&(
+            {/* {gendaibun && ekotobaId &&(
               <div
                 className={styles.mapiconlink}
                 onClick={() => openDescModal({ekotobaId,index})}
               >
                 <FontAwesomeIcon icon={faCircleInfo} />
               </div>
-            )}
+            )} */}
+            <div
+              className={styles.mapiconlink}
+              onClick={() =>
+                openDescModal({
+                  ekotobaId,
+                  // parseEkotobaId: parseEkotobaId(ekotobaId),
+                  index,
+                })
+              }
+            >
+              <FontAwesomeIcon icon={faCircleInfo} />
+            </div>
           </div>
         )}
         <p
