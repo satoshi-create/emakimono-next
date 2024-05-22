@@ -33,10 +33,10 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
     setToggleFullscreen,
     handleToId,
   } = useContext(AppContext);
-  const pagetitle = `${data.title} ${data.edition ? data.edition : ""}`;
+  const pagetitle = locale === "en" ? data.titleen : `${data.title} ${data.edition ? data.edition : ""}`;
   const tPageDesc =
     locale === "en"
-      ? `You can enjoy all the scenes of the${pagetitle} ${
+      ? `You can enjoy all the scenes of the ${pagetitle} ${
           data.author && `（${data.author}）`
         }in verticalp and right to left scrolling mode.`
       : `${pagetitle} ${
