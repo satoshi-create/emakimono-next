@@ -111,6 +111,28 @@
   padding: 1rem;
   border-radius: 5%;
 }
+.genjieslugBox {
+  grid-row: 1 / span 2;
+  /* grid-column: 2; */
+  align-self: flex-start;
+  justify-self: flex-start;
+  transition: var(--transition);
+  font-size: 14px;
+  /* margin-left: 1.5rem; */
+  border: 1px double #000;
+}
+.genjieslugBox:hover {
+  background: var(--clr-black);
+  border: 1px double #fff;
+}
+.genjieslugTitle {
+  padding: 0.2rem;
+  font-family: var(--text-font);
+  transition: var(--transition);
+}
+.genjieslugBox:hover .genjieslugTitle {
+  color: var(--clr-white);
+}
 .desc {
   font-size: 0.9rem;
   color: var(--clr-black);

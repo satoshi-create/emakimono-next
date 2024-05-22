@@ -31,7 +31,8 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     keyword,
     genjieslug,
     personname,
-    kotobagaki
+    kotobagaki,
+    titleen
   } = data;
 
   const filterDesc = desc.substring(0, 40);
@@ -48,18 +49,20 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
         selectedRef={selectedRef}
         navIndex={navIndex}
         articleRef={articleRef}
-        height={"40vh"}
+        height={"45vh"}
       />
       <div className={`${styles.wrapper} section-grid`}>
         <div className={styles.container}>
           <div className={styles.metadataA}>
             <h3 className={styles.title}>
-              {title} {edition}
+              {locale === "ja" ? title : titleen} {locale === "ja" && edition}
             </h3>
             {author && (
               <Link href={`/author/${authoren}`}>
                 <a className={styles.authorLink}>
-                  <h4 className={styles.author}>{author}</h4>
+                  <h4 className={styles.author}>
+                    {locale === "ja" ? author : authoren}
+                  </h4>
                 </a>
               </Link>
             )}
@@ -77,7 +80,20 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               className={styles.desc}
               dangerouslySetInnerHTML={{ __html: desc ? desc : descTemp }}
             ></div>
-
+            {genjieslug && (
+              <div className={`${styles.genjieslugBox}`}>
+                <Link href={`/genjie/chapters-genji`}>
+                  <a className={styles.genjieslugTitle}>源氏物語54帖一覧</a>
+                </Link>
+              </div>
+            )}
+            {title.includes("九相") && (
+              <div className={`${styles.genjieslugBox}`}>
+                <Link href={`/kusouzu/chapters-kusouzu`}>
+                  <a className={styles.genjieslugTitle}>九相図一覧</a>
+                </Link>
+              </div>
+            )}
             <ul className={styles.chapter} style={{ color: eraColor(era) }}>
               {emakis.map((item, index) => {
                 const { cat, chapter } = item;
@@ -98,19 +114,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             </ul>
             {/* 各段の詞書・解説 */}
             {kotobagaki && <ChapterDesc emakis={emakis} />}
-            {/* {genjieslug && (
-              <div className={`${styles.genjieslugBox}`}>
-                {genjieslug.map((item, i) => {
-                  return (
-                    <h4 className={`${styles.genjieslugTitle}`} key={i}>
-                      <Link href={`/genjie/${item.path}`}>
-                        <a>{item.title}</a>
-                      </Link>
-                    </h4>
-                  );
-                })}
-              </div>
-            )} */}
             {personname && (
               <div
                 className={`${styles.tags} ${locale === "ja" && styles.jatags}`}
