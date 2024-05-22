@@ -15,6 +15,7 @@ import ToggleEkotoba from "./ToggleEkotoba";
 import { AppContext } from "../pages/_app";
 import ToggleCharacter from "./ToggleCharacter";
 import ToggleEbiki from "./ToggleEbiki";
+import FullScreen from "./FullScreen";
 
 // TODO: 横スクロールで最後まで進み、「先頭に戻る」を押しても反応がない
 // ⇒navIndexが0になっている
@@ -51,6 +52,7 @@ const EmakiNavigation = ({
         </i>
       </button>
       <ToggleEkotoba data={data} />
+      <FullScreen/>
       {character && <ToggleCharacter data={data} />}
       {ebiki && <ToggleEbiki data={data} />}
       <button ref={scrollPrevRef} className={styles.button} title="前に戻る">

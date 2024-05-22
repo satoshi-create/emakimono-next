@@ -17,6 +17,10 @@
 .land {
   bottom: 4%;
   column-gap: 1.5rem;
+  background: #b1b1b100;
+  border-radius: 2rem;
+  padding: 0.5rem 1rem;
+  box-shadow: var(--shadow-1);
 }
 .prt .button > i {
   font-size: 14px;
@@ -28,7 +32,7 @@
 .titleen > i {
   /* font-size: clamp(1.3125rem, 0.895rem + 1.7812vw, 1.75rem); */
   transition: var(--transition);
-  color: white;
+  color: rgb(255, 255, 255);
   cursor: pointer;
   opacity: 0.8;
 }

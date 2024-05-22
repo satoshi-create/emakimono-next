@@ -16,8 +16,12 @@
   font-size: 14px;
   text-align: center;
 }
-.table td {
-  text-align: center;
+.summary{
+  width: 40%;
+
+}
+.summary p{
+  text-align: left;
 }
 
 .table tbody tr:nth-child(odd) {

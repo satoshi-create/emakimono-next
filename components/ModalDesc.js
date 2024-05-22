@@ -7,28 +7,49 @@ import {
   faAnglesLeft,
   faAnglesRight,
 } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
-import AllLocation from "./AllLocation";
-import {
-  faTwitter,
-  faFacebook,
-  faLinkedin,
-} from "@fortawesome/free-brands-svg-icons";
+import chaptergenji from "../libs/genji/chapters-of-genji.json";
+import chapterkusouzu from "../libs/kusouzu/chapters-of-kusouzu.json"
 
 const ModalDesc = ({ data }) => {
   const { DescIndex, setDescIndex, handleToId, closeDescModal, orientation } =
     useContext(AppContext);
   const emakis = data.emakis;
+  const { genjieslug } = data;
+
   const filterEkotobas = emakis.filter((item) => item.cat === "ekotoba");
   const handleChapter = (index) => {
     handleToId(index);
     closeDescModal();
   };
+  console.log(DescIndex);
 
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${data.titleen}%23${DescIndex.index}`;
-  console.log(url);
 
-  const { kobun, gendaibun, desc } = emakis[0];
+  const matchSummaryGenji = (chapter) => {
+    const chaptergenjisummary = chaptergenji
+      .filter((item) => chapter.includes(item.title))
+      .map((item) => item.summary)
+      .join();
+    return chaptergenjisummary;
+  };
+
+  const matchSummaryKusouzu = (chapter) => {
+    const chapterkusouzusummary = chapterkusouzu
+      .filter((item) => chapter.includes(item.title))
+      .map((item) => item.gendaibun)
+      .join();
+    return chapterkusouzusummary
+  }
+
+  const matchSummary = (chapter) => {
+    if (genjieslug) {
+      return matchSummaryGenji(chapter)
+    }
+    else {
+      return matchSummaryKusouzu(chapter)
+    }
+  }
+
 
   const [value, setValue] = useState(0);
 
@@ -51,7 +72,6 @@ const ModalDesc = ({ data }) => {
     });
   };
 
-
   const prevSlide = () => {
     setDescIndex((DescIndex) => {
       let index = DescIndex.ekotobaId - 1;
@@ -63,6 +83,11 @@ const ModalDesc = ({ data }) => {
   };
 
   const allMap = [
+    {
+      title: "あらすじ",
+      titleen: "summary",
+      path: "summary",
+    },
     {
       title: "現代文",
       titleen: "modern-sentence",
@@ -113,23 +138,27 @@ const ModalDesc = ({ data }) => {
         </div>
 
         {filterEkotobas.map((item, ekotobasIndex) => {
-          const { gendaibun, chapter, linkId } = item;
-
+          const { gendaibun, chapter, linkId, desc,kobun } = item;
           let position = "nextSlide";
+
           if (ekotobasIndex === DescIndex.ekotobaId) {
             position = "activeSlide";
           }
-          if (
-            ekotobasIndex === DescIndex.ekotobaId - 1 ||
-            (DescIndex.ekotobaId === 0 &&
-              ekotobasIndex === filterEkotobas.length - 1)
-          ) {
-            position = "lastSlide";
+          if (filterEkotobas.length === 1) {
+            position = "activeSlide";
+          } else {
+            if (
+              ekotobasIndex === DescIndex.ekotobaId - 1 ||
+              (DescIndex.ekotobaId === 0 &&
+                ekotobasIndex === filterEkotobas.length - 1)
+            ) {
+              position = "lastSlide";
+            }
           }
           if (value === 0) {
             return (
               <article
-                className={`${styles.article} ${styles[position]}`}
+                className={`${styles.article} ${styles[position]} scrollbar`}
                 key={ekotobasIndex}
               >
                 <h4
@@ -156,7 +185,7 @@ const ModalDesc = ({ data }) => {
                       : { fontSize: "var(--text-size)" }
                   }
                   dangerouslySetInnerHTML={{
-                    __html: gendaibun,
+                    __html: matchSummary(chapter) ? matchSummary(chapter) : gendaibun,
                   }}
                 ></p>
                 <button
@@ -203,27 +232,36 @@ const ModalDesc = ({ data }) => {
               </article>
             );
           }
-
-          // if (value === 1) {
-          //   return (
-          //     <article
-          //       className={`${styles.article} ${styles[position]}`}
-          //       key={ekotobasIndex}
-          //     >
-          //      {kobun}
-          //     </article>
-          //   );
-          // }
-          // if (value === 2) {
-          //   return (
-          //     <article
-          //       className={`${styles.article} ${styles[position]}`}
-          //       key={ekotobasIndex}
-          //     >
-          //     {gendaibun}
-          //     </article>
-          //   );
-          // }
+          if (value === 1) {
+            return (
+              <article
+                className={`${styles.article} ${styles[position]}`}
+                key={ekotobasIndex}
+              >
+                {gendaibun && gendaibun}
+              </article>
+            );
+          }
+          if (value === 2) {
+            return (
+              <article
+                className={`${styles.article} ${styles[position]}`}
+                key={ekotobasIndex}
+              >
+                {kobun && kobun}
+              </article>
+            );
+          }
+          if (value === 3) {
+            return (
+              <article
+                className={`${styles.article} ${styles[position]}`}
+                key={ekotobasIndex}
+              >
+                {desc && desc}
+              </article>
+            );
+          }
         })}
         <button className={styles.prev} onClick={nextSlide}>
           <FontAwesomeIcon icon={faAnglesLeft} />

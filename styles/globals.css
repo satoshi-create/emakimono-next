@@ -33,11 +33,15 @@
     "Hiragino Mincho Pro", HGS明朝E, メイリオ, Meiryo, serif;
   --title-font: "Kaisei HarunoUmi", serif;
   --title-font2: "'Noto Sans JP', sans-serif";
+  --title-font3:  "Noto Serif JP", serif;
   --text-font: "Zen Maru Gothic", sans-serif;
   --text-font-koten: "Hina Mincho", serif;
   --text-font-koten2: "Klee One", cursive;
   --emaki-title-font: "Kaisei HarunoUmi", serif;
   --emaki-kotobagki-font: "Zen Kurenaido", sans-serif;
+  --handwriting-font-1: "Caveat", cursive;
+  --handwriting-font-2:"Dancing Script", cursive;
+  --title-font-3: "RocknRoll One", sans-serif;
   --borderRadius: 0.5rem;
 }
 

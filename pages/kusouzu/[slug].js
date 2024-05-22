@@ -29,7 +29,7 @@ const Genjie = ({ title, titleen, posts, slug }) => {
       <Breadcrumbs
         name={locale === "en" ? titleen : title}
         test={locale === "en" ? "chapter genji list" : "源氏物語54帖一覧"}
-        testen={"/genjie/chapters-genji"}
+        testen={"/genjie/chaptersgenjilist"}
       />
       <CardA
         emakis={posts}

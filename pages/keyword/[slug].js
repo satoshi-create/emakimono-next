@@ -22,7 +22,11 @@ const Emaki = ({ name, posts, nameen, slug }) => {
   return (
     <>
       <Head
-        pagetitle={locale === "en" ? `${nameen}` : name}
+        pagetitle={
+          locale === "en"
+            ? `List of works about ${nameen}`
+            : `${name}に関する作品一覧`
+        }
         pageDesc={tPageDesc}
       />
       <Header slug={`keyword/${slug}`} />
@@ -35,8 +39,16 @@ const Emaki = ({ name, posts, nameen, slug }) => {
         emakis={posts}
         columns={"three"}
         sectionname={"recommend"}
-        sectiontitle={locale === "en" ? `${nameen}` : name}
-        sectiontitleen={locale === "en" ? name : `${nameen}`}
+        sectiontitle={
+          locale === "en"
+            ? `List of works about ${nameen}`
+            : `${name}に関する作品一覧`
+        }
+        sectiontitleen={
+          locale === "en"
+            ? `${name}に関する作品一覧`
+            : `List of works about ${nameen}`
+        }
       />
       <Footer />
     </>

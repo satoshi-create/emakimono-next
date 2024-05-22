@@ -1,12 +1,17 @@
 .header {
   background: var(--clr-white);
-  font-family: "Kaisei Decol", serif;
   padding: 0.5rem 0;
 }
-.titleLink {
+.title {
   display: flex;
   align-items: center;
-  column-gap: 0.3rem;
+  column-gap: 0.5rem;
+  font-family: var(--title-font);
+  column-gap: 0.8rem;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: var(--title-size-prt);
 }
 .favicon {
   width: 20px;
@@ -32,10 +37,6 @@
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
-}
-.title {
-  font-size: 1.3rem;
-  text-transform: uppercase;
 }
 .openbtn {
   font-size: 1.5rem;

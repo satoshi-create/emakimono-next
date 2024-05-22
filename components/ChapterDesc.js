@@ -3,12 +3,8 @@ import SingleChapterDesc from "./SingleChapterDesc";
 import styles from "../styles/ChapterDesc.module.css";
 
 
-const ChapterDesc = ({emakis}) => {
-  console.log(emakis);
-  
+const ChapterDesc = ({emakis}) => { 
   const [toggle, setToggle] = useState(false);
-  console.log(toggle);
-
 
   return (<>
     <p
