@@ -13,11 +13,15 @@ const Emaki = ({ name, nameen, posts, slug }) => {
   const tPageDesc =
     locale === "en"
       ? `You can enjoy all the scenes of the ${nameen} Period in vertical and right to left scrolling mode.`
-      : `${name}に描かれた絵巻物を、縦書き、横スクロールで楽しむことができます。`;
+      : `${name}時代に描かれた絵巻物を、縦書き、横スクロールで楽しむことができます。`;
   return (
     <>
       <Head
-        pagetitle={locale === "en" ? `${nameen} Period` : name}
+        pagetitle={
+          locale === "en"
+            ? `Picture scrolls from the ${nameen} Period`
+            : `${name}時代の絵巻物`
+        }
         pageDesc={tPageDesc}
       />
       <Header slug={`era/${slug}`} />
@@ -27,8 +31,16 @@ const Emaki = ({ name, nameen, posts, slug }) => {
         columns={"three"}
         sectionname={"recommend"}
         pagetitle={name}
-        sectiontitle={locale === "en" ? `${nameen} Period` : name}
-        sectiontitleen={locale === "en" ? name : `${nameen} Period`}
+        sectiontitle={
+          locale === "en"
+            ? `Picture scrolls from the ${nameen} Period`
+            : `${name}時代の絵巻物`
+        }
+        sectiontitleen={
+          locale === "en"
+            ? `${name}時代の絵巻物`
+            : `Picture scrolls from the ${nameen} Period`
+        }
       />
       <Footer />
     </>
