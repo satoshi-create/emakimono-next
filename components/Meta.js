@@ -16,7 +16,7 @@ const Meta = ({
   const { t } = useLocaleMeta();
   const { locale, locales, asPath, defaultLocale } = useRouter();
 
-  const title = pagetitle ? `${pagetitle} | ${t.siteTitle}` : t.siteTitle;
+  const title = pagetitle ? `${pagetitle}` : t.siteTitle;
 
 
   const tPageDesc =
