@@ -75,14 +75,14 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
           {
             "@type": "ListItem",
             position: 1,
-            name: "home",
+            name: "横スクロールで楽しむ絵巻",
             item: "https://emakimono.com/",
           },
           {
             "@type": "ListItem",
             position: 2,
             name: data.type,
-            item: `https://emakimono.com/${nameAen}`,
+            item: `https://emakimono.com/type/${data.typeen}`,
           },
           {
             "@type": "ListItem",
