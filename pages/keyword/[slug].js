@@ -17,15 +17,15 @@ const Emaki = ({ name, posts, nameen, slug }) => {
   const { locale } = useRouter();
   const tPageDesc =
     locale === "en"
-      ? `You can enjoy Emakis that match the keyword ${nameen} in vertical writing and right to left scrolling mode.`
-      : `${name}というキーワードに合った絵巻物を、縦書き、横スクロールで楽しむことができます。`;
+      ? `You can enjoy picture scrolls, folding screens, etc. related to "${name}" in vertical and horizontal scrolling mode.`
+      : `「${name}」に関する絵巻物・屏風その他を、縦書き、横スクロールで楽しむことができます。`;
   return (
     <>
       <Head
         pagetitle={
           locale === "en"
-            ? `List of works about ${nameen}`
-            : `${name}に関する作品一覧`
+            ? `List of works about " ${nameen} "`
+            : `「${name}」に関する作品一覧`
         }
         pageDesc={tPageDesc}
       />
@@ -41,13 +41,13 @@ const Emaki = ({ name, posts, nameen, slug }) => {
         sectionname={"recommend"}
         sectiontitle={
           locale === "en"
-            ? `List of works about ${nameen}`
-            : `${name}に関する作品一覧`
+            ? `List of works about " ${nameen} "`
+            : `「${name}」に関する作品一覧`
         }
         sectiontitleen={
           locale === "en"
-            ? `${name}に関する作品一覧`
-            : `List of works about ${nameen}`
+            ? `「${name}」に関する作品一覧`
+            : `List of works about " ${nameen} "`
         }
       />
       <Footer />

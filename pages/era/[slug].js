@@ -20,7 +20,7 @@ const Emaki = ({ name, nameen, posts, slug }) => {
         pagetitle={
           locale === "en"
             ? `Picture scrolls from the ${nameen} Period`
-            : `${name}時代の絵巻物`
+            : `${name}時代の作品`
         }
         pageDesc={tPageDesc}
       />
@@ -34,11 +34,11 @@ const Emaki = ({ name, nameen, posts, slug }) => {
         sectiontitle={
           locale === "en"
             ? `Picture scrolls from the ${nameen} Period`
-            : `${name}時代の絵巻物`
+            : `${name}時代の作品`
         }
         sectiontitleen={
           locale === "en"
-            ? `${name}時代の絵巻物`
+            ? `${name}時代の作品`
             : `Picture scrolls from the ${nameen} Period`
         }
       />
