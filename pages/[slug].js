@@ -76,29 +76,51 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
             "@type": "ListItem",
             position: 1,
             name: "home",
-            item: `${
-              locale === "en"
-                ? `https://emakimono.com/en`
-                : `https://emakimono.com/${nameAen}`
-            }`,
+            item: "https://emakimono.com/",
           },
           {
             "@type": "ListItem",
             position: 2,
-            name: `${locale === "en" ? data.typeen : data.type}`,
-            item: `${
-              locale === "en"
-                ? `https://emakimono.com/en/${nameAen}`
-                : `https://emakimono.com/${nameAen}`
-            }`,
+            name: data.type,
+            item: `https://emakimono.com/${nameAen}`,
           },
           {
             "@type": "ListItem",
             position: 3,
-            name: `${locale === "en" ? data.titleen : data.title}`,
+            name: data.titleen,
           },
         ],
       },
+      // breadcrumbList: {
+      //   "@type": "BreadcrumbList",
+      //   itemListElement: [
+      //     {
+      //       "@type": "ListItem",
+      //       position: 1,
+      //       name: "home",
+      //       item: `${
+      //         locale === "en"
+      //           ? `https://emakimono.com/en`
+      //           : `https://emakimono.com/${nameAen}`
+      //       }`,
+      //     },
+      //     {
+      //       "@type": "ListItem",
+      //       position: 2,
+      //       name: `${locale === "en" ? data.typeen : data.type}`,
+      //       item: `${
+      //         locale === "en"
+      //           ? `https://emakimono.com/en/${nameAen}`
+      //           : `https://emakimono.com/${nameAen}`
+      //       }`,
+      //     },
+      //     {
+      //       "@type": "ListItem",
+      //       position: 3,
+      //       name: `${locale === "en" ? data.titleen : data.title}`,
+      //     },
+      //   ],
+      // },
     },
     // carousel: {
     //   "@context": "https://schema.org",
