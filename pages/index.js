@@ -38,6 +38,30 @@ import ExtractingListData from "../libs/ExtractingListData";
 // TODO:404pageを作る
 // TODO:エラーハンドリングのページを作る
 
+const jsonData = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      url: "https://example.com/peanut-butter-cookies.html",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      url: "https://example.com/triple-chocolate-chunk.html",
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      url: "https://example.com/snickerdoodles.html",
+    },
+  ],
+};
+
+  const jsonLd = JSON.stringify(jsonData, null, " ");
+
 const Home = () => {
   const { t } = useLocale();
   const removeNestedArrayObj = ExtractingListData();
