@@ -18,10 +18,12 @@ import EmakiBreadcrumbs from "../components/EmakiBreadcrumbs";
 import EmakiHeader from "../components/EmakiHeader";
 import EmakiPortraitContent from "../components/EmakiPortraitContent";
 import EmakiLandscapContent from "../components/EmakiLandscapContent";
+import { useLocaleMeta } from "../libs/func";
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
 const Emaki = ({ data, locale, locales, slug, test }) => {
+    const { t } = useLocaleMeta();
   const router = useRouter();
   const selectedRef = useRef(null);
   const {
@@ -33,7 +35,7 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
     setToggleFullscreen,
     handleToId,
   } = useContext(AppContext);
-  const pagetitle = locale === "en" ? data.titleen : `${data.title} ${data.edition ? data.edition : ""}`;
+  const pagetitle = locale === "en" ? `${data.titleen} | ${t.siteTitle}` : `${data.title} ${data.edition ? data.edition : ""} | ${t.siteTitle}`;
   const tPageDesc =
     locale === "en"
       ? `You can enjoy all the scenes of the ${pagetitle} ${
