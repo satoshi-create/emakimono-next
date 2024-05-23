@@ -7,8 +7,7 @@ import {
   faAnglesLeft,
   faAnglesRight,
 } from "@fortawesome/free-solid-svg-icons";
-import chaptergenji from "../libs/genji/chapters-of-genji.json";
-import chapterkusouzu from "../libs/kusouzu/chapters-of-kusouzu.json"
+import { matchSummary } from "../libs/func";
 
 const ModalDesc = ({ data }) => {
   const { DescIndex, setDescIndex, handleToId, closeDescModal, orientation } =
@@ -21,34 +20,9 @@ const ModalDesc = ({ data }) => {
     handleToId(index);
     closeDescModal();
   };
-  console.log(DescIndex);
 
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${data.titleen}%23${DescIndex.index}`;
 
-  const matchSummaryGenji = (chapter) => {
-    const chaptergenjisummary = chaptergenji
-      .filter((item) => chapter.includes(item.title))
-      .map((item) => item.summary)
-      .join();
-    return chaptergenjisummary;
-  };
-
-  const matchSummaryKusouzu = (chapter) => {
-    const chapterkusouzusummary = chapterkusouzu
-      .filter((item) => chapter.includes(item.title))
-      .map((item) => item.gendaibun)
-      .join();
-    return chapterkusouzusummary
-  }
-
-  const matchSummary = (chapter) => {
-    if (genjieslug) {
-      return matchSummaryGenji(chapter)
-    }
-    else {
-      return matchSummaryKusouzu(chapter)
-    }
-  }
 
 
   const [value, setValue] = useState(0);
@@ -185,7 +159,7 @@ const ModalDesc = ({ data }) => {
                       : { fontSize: "var(--text-size)" }
                   }
                   dangerouslySetInnerHTML={{
-                    __html: matchSummary(chapter) ? matchSummary(chapter) : gendaibun,
+                    __html: matchSummary(chapter,genjieslug) ? matchSummary(chapter,genjieslug) : gendaibun,
                   }}
                 ></p>
                 <button
