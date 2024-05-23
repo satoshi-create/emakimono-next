@@ -140,7 +140,7 @@ const Home = () => {
 
   return (
     <main>
-      <Head />
+      <Head jsonLd={jsonLd} />
       <Header fixed={true} />
       <CardA
         emakis={kusouzuEmakis}
