@@ -2,7 +2,7 @@
   {
     "id": 1,
     "title": "鳥獣人物戯画絵巻",
-    "titleen": "cyoujyu-jinbutsu-giga_kou",
+    "titleen": "cyoujyujinbutsugiga_kou",
     "author": "鳥羽僧正覚猷",
     "authoren": "toba-sojo-kakuyu",
     "edition": "甲巻",
@@ -370,7 +370,7 @@
   {
     "id": 2,
     "title": "鳥獣人物戯画絵巻",
-    "titleen": "cyoujyu-jinbutsu-giga_otu",
+    "titleen": "cyoujyujinbutsugiga_otu",
     "author": "鳥羽僧正覚猷",
     "authoren": "toba-sojo-kakuyu",
     "edition": "乙巻",
@@ -767,7 +767,7 @@
   {
     "id": 3,
     "title": "鳥獣人物戯画絵巻",
-    "titleen": "cyoujyu-jinbutsu-giga_hei",
+    "titleen": "cyoujyujinbutsugiga_hei",
     "author": "",
     "atuhoren": "",
     "edition": "丙巻",
@@ -1139,7 +1139,7 @@
   {
     "id": 4,
     "title": "鳥獣人物戯画絵巻",
-    "titleen": "cyoujyu-jinbutsu-giga_tei",
+    "titleen": "cyoujyujinbutsugiga_tei",
     "author": "",
     "atuhoren": "",
     "edition": "丁巻",
