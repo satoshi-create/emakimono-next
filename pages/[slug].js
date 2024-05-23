@@ -61,6 +61,7 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
     author: {
       "@type": "Person",
       name: "横スクロールで楽しむ絵巻",
+      url: "https://portfoliosite-next.vercel.app/",
     },
     publisher: {
       "@type": "Organization",
