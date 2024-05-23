@@ -76,13 +76,21 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
             "@type": "ListItem",
             position: 1,
             name: "home",
-            item: "https://emakimono.com",
+            item: `${
+              locale === "en"
+                ? `https://emakimono.com/en`
+                : `https://emakimono.com/${nameAen}`
+            }`,
           },
           {
             "@type": "ListItem",
             position: 2,
             name: `${locale === "en" ? data.typeen : data.type}`,
-            item: `https://emakimono.com/${nameAen}`,
+            item: `${
+              locale === "en"
+                ? `https://emakimono.com/en/${nameAen}`
+                : `https://emakimono.com/${nameAen}`
+            }`,
           },
           {
             "@type": "ListItem",
