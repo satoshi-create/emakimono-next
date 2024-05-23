@@ -88,7 +88,7 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
           {
             "@type": "ListItem",
             position: 3,
-            name: data.titleen,
+            name: data.title,
           },
         ],
       },
