@@ -23,7 +23,7 @@ import { useLocaleMeta } from "../libs/func";
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
 const Emaki = ({ data, locale, locales, slug, test }) => {
-    const { t } = useLocaleMeta();
+  const { t } = useLocaleMeta();
   const router = useRouter();
   const selectedRef = useRef(null);
   const {
@@ -36,10 +36,10 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
     handleToId,
   } = useContext(AppContext);
   // const pagetitle = locale === "en" ? `${data.titleen} | ${t.siteTitle}` : `${data.title} ${data.edition ? data.edition : ""} | ${t.siteTitle}`;
-    const pagetitle =
-      locale === "en"
-        ? data.titleen
-        : `${data.title} ${data.edition ? data.edition : ""}`;
+  const pagetitle =
+    locale === "en"
+      ? data.titleen
+      : `${data.title} ${data.edition ? data.edition : ""}`;
   const tPageDesc =
     locale === "en"
       ? `You can enjoy all the scenes of the ${pagetitle} ${
@@ -65,16 +65,27 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
       width: "533px",
       height: "300px",
     },
-    author: {
-      "@type": "Person",
-      name: "太郎",
-    },
+    // author: {
+    //   "@type": "Person",
+    //   name: "emakimono",
+    // },
     publisher: {
       "@type": "Organization",
       name: "横スクロールで楽しむ絵巻",
       logo: {
         "@type": "ImageObject",
         url: "/favicon.png",
+      },
+      carousel: {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            url: data.thumb,
+          },
+         ],
       },
     },
   };
@@ -252,7 +263,6 @@ export const getStaticProps = async (context) => {
   );
   const addObjEmakis = filterdEmakisData
     .map((item, i) => {
-
       const addLinkIdtoEmakis = item.emakis.map((item, i) => {
         return { ...item, linkId: i };
       });
@@ -262,10 +272,14 @@ export const getStaticProps = async (context) => {
         .map((item, i) => {
           return { ...item, ekotobaId: i };
         });
-      
-      const concatAddObjEmakis = Array.from(new Set(addLinkIdtoEmakis.concat(addEkotobaIdEmakis)));
 
-      const filterAddObjEmakisA = concatAddObjEmakis.filter((item) => item.cat === "image");
+      const concatAddObjEmakis = Array.from(
+        new Set(addLinkIdtoEmakis.concat(addEkotobaIdEmakis))
+      );
+
+      const filterAddObjEmakisA = concatAddObjEmakis.filter(
+        (item) => item.cat === "image"
+      );
       const filterAddObjEmakisB = concatAddObjEmakis.filter(
         (item) => item.cat === "ekotoba" && item.ekotobaId >= 0
       );
