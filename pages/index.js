@@ -44,18 +44,31 @@ const jsonData = {
   itemListElement: [
     {
       "@type": "ListItem",
-      position: 1,
-      url: "https://example.com/peanut-butter-cookies.html",
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      url: "https://example.com/triple-chocolate-chunk.html",
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      url: "https://example.com/snickerdoodles.html",
+      position: "1",
+      item: {
+        "@type": "Movie",
+        url: "https://example.com/2024-best-picture-noms#a-star-is-born",
+        name: "九相図巻",
+        image: "https://emakimono.com//kusouzumaki_thumb.webp",
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "4.8",
+          reviewCount: "7462",
+          bestRating: "5",
+          worstRating: "1",
+        },
+        review: {
+          "@type": "Review",
+          reviewRating: {
+            "@type": "Rating",
+            ratingValue: "2",
+          },
+          author: {
+            "@type": "Person",
+            name: "unknown",
+          },
+        },
+      },
     },
   ],
 };
