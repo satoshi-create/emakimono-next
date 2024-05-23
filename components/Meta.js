@@ -43,7 +43,6 @@ const Meta = ({
       <meta property="og:title" content={title} />
       <meta name="description" content={desc} />
       <meta property="og:description" content={desc} />
-
       <link rel="canonical" href={url} />
       <meta property="og:url" content={url} />
       {locales.map((locale) => {
