@@ -69,19 +69,19 @@
   line-height: 1.6;
 }
 
-/* ===========================
- * 浮世絵の地図アイコン
- * =========================== */
-
-.mapiconlink {
+.mapiconlink,
+.infoiconlink {
   display: grid;
   place-items: center;
   padding: 0.5rem;
   color: white;
   transition: var(--transition);
   cursor: pointer;
+  font-size: 1.8rem;
 }
-.mapiconlink:hover {
+
+.mapiconlink:hover,
+.infoiconlink:hover {
   color: var(--clr-accent-02);
 }
 /* ===========================
