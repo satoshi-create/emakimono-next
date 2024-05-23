@@ -38,42 +38,9 @@ import ExtractingListData from "../libs/ExtractingListData";
 // TODO:404pageを作る
 // TODO:エラーハンドリングのページを作る
 
-const jsonData = {
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: "1",
-      item: {
-        "@type": "Movie",
-        url: "https://example.com/2024-best-picture-noms#a-star-is-born",
-        name: "九相図巻",
-        image: "https://emakimono.com//kusouzumaki_thumb.webp",
-        aggregateRating: {
-          "@type": "AggregateRating",
-          ratingValue: "4.8",
-          reviewCount: "7462",
-          bestRating: "5",
-          worstRating: "1",
-        },
-        review: {
-          "@type": "Review",
-          reviewRating: {
-            "@type": "Rating",
-            ratingValue: "2",
-          },
-          author: {
-            "@type": "Person",
-            name: "unknown",
-          },
-        },
-      },
-    },
-  ],
-};
 
-  const jsonLd = JSON.stringify(jsonData, null, " ");
+
+
 
 const Home = () => {
   const { t } = useLocale();
@@ -99,6 +66,7 @@ const Home = () => {
     emaki.title.includes("鳥獣人物戯画絵巻")
   );
 
+  
   const setsuwaEmakis = removeNestedArrayObj.filter(
     (emaki) => emaki.subtype === "説話"
   );
@@ -150,6 +118,51 @@ const Home = () => {
   //   };
   //   setfavoriteEmakisRandom(shuffleArray(favoriteEmakis));
   // }, []);
+
+
+  const listItems =kusouzuEmakis.concat(cyouzyuuEmakis);
+
+  const itemListElement = listItems.map((item, i) => {
+    const {title,thumb,author,titleen,edition} = item
+    return {
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "Movie",
+        url: `https://emakimono.com/${titleen}`,
+        name: `${title}${edition ? ` ${edition}` : ""}`,
+        image: `https://emakimono.com${thumb}`,
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "4.8",
+          reviewCount: "7462",
+          bestRating: "5",
+          worstRating: "1",
+        },
+        review: {
+          "@type": "Review",
+          reviewRating: {
+            "@type": "Rating",
+            ratingValue: "2",
+          },
+          author: {
+            "@type": "Person",
+            name: author,
+          },
+        },
+      },
+    };
+  })
+
+  console.log(itemListElement);
+  
+  const jsonData = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: itemListElement,
+  };
+
+    const jsonLd = JSON.stringify(jsonData, null, " ");
 
   return (
     <main>
