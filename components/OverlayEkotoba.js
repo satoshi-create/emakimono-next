@@ -5,9 +5,12 @@ import { AppContext } from "../pages/_app";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot,faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import { matchSummary } from "../libs/func";
 
 const OverlayEkotoba = ({
   item: {
+    kobun,
+    desc,
     gendaibun,
     srcSp,
     srcTb,
@@ -25,6 +28,8 @@ const OverlayEkotoba = ({
     ekotobaId,
     kotobagaki,
     cat,
+    data,
+    googlemap
   },
 }) => {
   const {
@@ -59,6 +64,8 @@ const OverlayEkotoba = ({
       return JSON.parse(ekotobaId);
     }
   };
+
+  console.log(data.genjieslug);
 
   return (
     <section
@@ -104,24 +111,20 @@ const OverlayEkotoba = ({
                 __html: chapter,
               }}
             ></h3>
-            {type === "浮世絵" && ekotobaId && (
-              <div
+            {type === "浮世絵" && googlemap && (
+              <button
                 className={styles.mapiconlink}
                 onClick={() => openMapModal(ekotobaId)}
+                title={`${chapter}の場所を地図で確認する`}
               >
-                <FontAwesomeIcon icon={faLocationDot} />
-              </div>
+                <FontAwesomeIcon
+                  icon={faLocationDot}
+                  className={styles.mapiconlinkicon}
+                />
+              </button>
             )}
-            {/* {gendaibun && ekotobaId &&(
-              <div
-                className={styles.mapiconlink}
-                onClick={() => openDescModal({ekotobaId,index})}
-              >
-                <FontAwesomeIcon icon={faCircleInfo} />
-              </div>
-            )} */}
-            <div
-              className={styles.mapiconlink}
+            {/* <button
+              className={styles.infoiconlink}
               onClick={() =>
                 openDescModal({
                   ekotobaId,
@@ -129,9 +132,31 @@ const OverlayEkotoba = ({
                   index,
                 })
               }
+              title={`${chapter}の情報を見る`}
             >
-              <FontAwesomeIcon icon={faCircleInfo} />
-            </div>
+              <FontAwesomeIcon
+                icon={faCircleInfo}
+                className={styles.infoiconlinkicon}
+              />
+            </button> */}
+            {matchSummary(chapter, data.genjieslug) && (
+              <button
+                className={`${styles.infoiconlink} page_image_info_btn`}
+                onClick={() =>
+                  openDescModal({
+                    ekotobaId,
+                    // parseEkotobaId: parseEkotobaId(ekotobaId),
+                    index,
+                  })
+                }
+                title={`${chapter}の情報を見る`}
+              >
+                <FontAwesomeIcon
+                  icon={faCircleInfo}
+                  className={styles.infoiconlinkicon}
+                />
+              </button>
+            )}
           </div>
         )}
         <p

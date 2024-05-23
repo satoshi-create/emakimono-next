@@ -4,6 +4,8 @@ import { ja, en } from "./staticData";
 import { jaMeta, enMeta } from "./dataSiteMeta";
 import enData from "./data";
 import jaData from "./data";
+import chaptergenji from "./genji/chapters-of-genji.json";
+import chapterkusouzu from "./kusouzu/chapters-of-kusouzu.json";
 
 const useLocale = () => {
   const { locale } = useRouter();
@@ -193,6 +195,32 @@ const removeNestedEmakisObj = (obj) =>
 //     {}
 //   );
 
+
+  const matchSummaryGenji = (chapter) => {
+    const chaptergenjisummary = chaptergenji
+      .filter((item) => chapter.includes(item.title))
+      .map((item) => item.summary)
+      .join();
+    return chaptergenjisummary;
+  };
+
+  const matchSummaryKusouzu = (chapter) => {
+    const chapterkusouzusummary = chapterkusouzu
+      .filter((item) => chapter.includes(item.title))
+      .map((item) => item.gendaibun)
+      .join();
+    return chapterkusouzusummary;
+  };
+
+  const matchSummary = (chapter, genjieslug) => {
+    if (genjieslug) {
+      return matchSummaryGenji(chapter);
+    } else {
+      return matchSummaryKusouzu(chapter);
+    }
+  };
+
+
 export {
   eraColor,
   keywordItem,
@@ -200,11 +228,11 @@ export {
   useLocale,
   useLocaleMeta,
   useLocaleData,
-  // removeNestedObj,
   removeNestedEmakisObj,
   genjieSlugItem,
   convertAuthor,
   authorItem,
   eraItem,
   typeItem,
+  matchSummary,
 };

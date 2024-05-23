@@ -222,6 +222,7 @@ const EmakiContainer = ({
                       scroll,
                       selectedRef,
                       navIndex,
+                      data
                     }}
                   />
                 );
