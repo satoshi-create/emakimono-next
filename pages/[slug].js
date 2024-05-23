@@ -6,12 +6,6 @@ import Head from "../components/Meta";
 import emakisData from "../libs/data";
 import enData from "../libs/data";
 import jaData from "../libs/data";
-import Footer from "../components/Footer";
-import FullScreenComp from "../components/FullScreenComp";
-import Translate from "../components/Translate";
-import EmakiInfo from "../components/EmakiInfo";
-import AttentionEmakiPage from "../components/AttentionEmakiPage";
-import styles from "../styles/viewport.module.css";
 import { AppContext } from "../pages/_app";
 import FullScreen from "../components/FullScreen";
 import EmakiBreadcrumbs from "../components/EmakiBreadcrumbs";
@@ -33,7 +27,6 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
     orientation,
     toggleFullscreen,
     setToggleFullscreen,
-    handleToId,
   } = useContext(AppContext);
   // const pagetitle = locale === "en" ? `${data.titleen} | ${t.siteTitle}` : `${data.title} ${data.edition ? data.edition : ""} | ${t.siteTitle}`;
   const pagetitle =
@@ -51,7 +44,7 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
 
   const jsonData = {
     "@context": "http://schema.org",
-    "@type": "Article",
+    "@type": "NewsArticle",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `https://${locale}/emakimono.com/${slug}`,
@@ -65,10 +58,10 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
       width: "533px",
       height: "300px",
     },
-    // author: {
-    //   "@type": "Person",
-    //   name: "emakimono",
-    // },
+    author: {
+      "@type": "Person",
+      name: "横スクロールで楽しむ絵巻",
+    },
     publisher: {
       "@type": "Organization",
       name: "横スクロールで楽しむ絵巻",
@@ -76,18 +69,18 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
         "@type": "ImageObject",
         url: "/favicon.png",
       },
-      carousel: {
-        "@context": "https://schema.org",
-        "@type": "ItemList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            url: data.thumb,
-          },
-         ],
-      },
     },
+    // carousel: {
+    //   "@context": "https://schema.org",
+    //   "@type": "ItemList",
+    //   itemListElement: [
+    //     {
+    //       "@type": "ListItem",
+    //       position: 1,
+    //       url: data.thumb,
+    //     },
+    //   ],
+    // },
   };
   const jsonLd = JSON.stringify(jsonData, null, " ");
 
