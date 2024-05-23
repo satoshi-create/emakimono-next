@@ -35,7 +35,11 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
     setToggleFullscreen,
     handleToId,
   } = useContext(AppContext);
-  const pagetitle = locale === "en" ? `${data.titleen} | ${t.siteTitle}` : `${data.title} ${data.edition ? data.edition : ""} | ${t.siteTitle}`;
+  // const pagetitle = locale === "en" ? `${data.titleen} | ${t.siteTitle}` : `${data.title} ${data.edition ? data.edition : ""} | ${t.siteTitle}`;
+    const pagetitle =
+      locale === "en"
+        ? data.titleen
+        : `${data.title} ${data.edition ? data.edition : ""}`;
   const tPageDesc =
     locale === "en"
       ? `You can enjoy all the scenes of the ${pagetitle} ${

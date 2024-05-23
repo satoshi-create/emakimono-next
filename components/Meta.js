@@ -16,15 +16,16 @@ const Meta = ({
   const { t } = useLocaleMeta();
   const { locale, locales, asPath, defaultLocale } = useRouter();
 
-  const title = pagetitle ? `${pagetitle}` : t.siteTitle;
+  // const title = pagetitle ? `${pagetitle}` : t.siteTitle;
 
+  const title = pagetitle ? `${pagetitle} | ${t.siteTitle}` : t.siteTitle;
 
   const tPageDesc =
     locale === "en"
       ? `You can enjoy all the scenes of the ${pagetitle} ${
           pageAuthor && `（${pageAuthor}）`
         }in vertical and right to left scrolling mode.`
-      : `${pagetitle} ${
+      : `${pagetitle}${
           pageAuthor && `（${pageAuthor}）`
         }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
   const pageDescTemp = pageDesc ? pageDesc : tPageDesc;
