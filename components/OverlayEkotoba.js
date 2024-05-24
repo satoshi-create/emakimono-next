@@ -64,9 +64,6 @@ const OverlayEkotoba = ({
       return JSON.parse(ekotobaId);
     }
   };
-
-  console.log(data.genjieslug);
-
   return (
     <section
       className={`section fade-in lazyload ${
