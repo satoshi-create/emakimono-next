@@ -1,6 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
-
-const googleTagManagerId = process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID || "";
+import * as gtag from "../libs/gtag";
 
 class MyDocument extends Document {
   render() {
@@ -22,7 +21,7 @@ class MyDocument extends Document {
             dangerouslySetInnerHTML={{
               __html: `
               <iframe
-                src="https://www.googletagmanager.com/ns.html?id=${googleTagManagerId}"
+                src="https://www.googletagmanager.com/ns.html?id=${gtag.GTM_ID}"
                 height="0"
                 width="0"
                 style="display:none;visibility:hidden"
