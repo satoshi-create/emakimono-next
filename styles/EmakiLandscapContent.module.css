@@ -75,39 +75,7 @@
 .genjieslugBox:hover .genjieslugTitle {
   color: var(--clr-white);
 }
-.snsShareBox {
-  grid-row: 1 / span 2;
-  /* grid-column: 2; */
-  align-self: center;
-  justify-self: flex-end;
-  display: flex;
-  gap: 0 0.5rem;
-}
-.snsShareIcon {
-  display: grid;
-  place-content: center;
-  width: 20px;
-  height: 20px;
-  padding: 10px;
-  font-size: 14px;
-  text-decoration: none;
-  border-radius: 50%;
-  color: white;
-  transition: var(--transition);
-  /* background-color: var(--clr-grey-light); */
-}
-.snsShareIcon:hover {
-  opacity: 0.6;
-}
-.twitter {
-  background: #55acee;
-}
-.facebook {
-  background: #3b5998;
-}
-.linkedin {
-  background: #3b5998;
-}
+
 .linkedbutton {
   grid-row: 1 / span 2;
   /* grid-column: 2; */
