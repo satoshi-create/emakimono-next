@@ -71,7 +71,7 @@ const CardA = ({
                   {sectiontitle === "横スクロールで楽しむワイド美術" && type}
                 </h4>
               )}
-              <div className={styles.card}>
+              <div className={styles.card} id="ekotoba_info_click">
                 <div className={styles.single}>
                   <Link href={`/${titleen}`}>
                     <a>
