@@ -7,7 +7,12 @@ import {
   faAnglesLeft,
   faAnglesRight,
 } from "@fortawesome/free-solid-svg-icons";
-import { matchSummary } from "../libs/func";
+import {
+  matchSummary,
+  matchSummaryGenji,
+  matchSummaryKusouzu,
+} from "../libs/func";
+import Link from "next/link";
 
 const ModalDesc = ({ data }) => {
   const { DescIndex, setDescIndex, handleToId, closeDescModal, orientation } =
@@ -87,7 +92,7 @@ const ModalDesc = ({ data }) => {
           <FontAwesomeIcon icon={faClose} />
         </div>
         {/* <div onClick={()=>setMapIndex(0)}>繝帙�ｼ繝�</div> */}
-        <div className={styles.tabcontainer}>
+        {/* <div className={styles.tabcontainer}>
           {allMap.map((item, index) => {
             const { title } = item;
             return (
@@ -109,7 +114,7 @@ const ModalDesc = ({ data }) => {
               </button>
             );
           })}
-        </div>
+        </div> */}
 
         {filterEkotobas.map((item, ekotobasIndex) => {
           const { gendaibun, chapter, linkId, desc,kobun } = item;
@@ -169,7 +174,7 @@ const ModalDesc = ({ data }) => {
                 >
                   横スクロールで見る
                 </button>
-                {/* <div className={styles.snsShareBox}>
+                <div className={styles.snsShareBox}>
                   <Link
                     href={`https://twitter.com/share?url=${url}&text=${
                       data.title
@@ -202,7 +207,7 @@ const ModalDesc = ({ data }) => {
                       />
                     </a>
                   </Link>
-                </div> */}
+                </div>
               </article>
             );
           }

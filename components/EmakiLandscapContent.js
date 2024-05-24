@@ -8,12 +8,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import CardC from "./CardC";
 import Footer from "./Footer";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTwitter,
-  faFacebook,
-  faLinkedin,
-} from "@fortawesome/free-brands-svg-icons";
+import SnsShareBox from "./SnsShareBox";
 import ChapterDesc from "./ChapterDesc";
 
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
@@ -53,8 +48,7 @@ const EmakiLandscapContent = ({
     author ? `（${author}）` : ""
   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
 
-  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${titleen}`;
-  // console.log(url);
+
 
   return (
     <>
@@ -116,40 +110,8 @@ const EmakiLandscapContent = ({
                   </Link>
                 </div>
               )}
-              <div className={styles.snsShareBox}>
-                <Link
-                  href={`https://twitter.com/share?url=${url}&text=${title} ${
-                    edition ? edition : ""
-                  }`}
-                >
-                  <a target="_blank" rel="noopener noreferrer">
-                    <FontAwesomeIcon
-                      icon={faTwitter}
-                      className={`${styles.snsShareIcon} ${styles.twitter}`}
-                    />
-                  </a>
-                </Link>
-                <Link
-                  href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
-                >
-                  <a target="_blank" rel="noopener noreferrer">
-                    <FontAwesomeIcon
-                      icon={faFacebook}
-                      className={`${styles.snsShareIcon} ${styles.facebook}`}
-                    />
-                  </a>
-                </Link>
-                <Link
-                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
-                >
-                  <a target="_blank" rel="noopener noreferrer">
-                    <FontAwesomeIcon
-                      icon={faLinkedin}
-                      className={`${styles.snsShareIcon} ${styles.linkedin}`}
-                    />
-                  </a>
-                </Link>
-              </div>
+
+              <SnsShareBox titleen={titleen} title={title} edition={edition} ort={"land"} />
               <button
                 type="button"
                 value="Lock Landscape"
