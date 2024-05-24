@@ -8,19 +8,28 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import styles from "../styles/SnsShareBox.module.css";
 
-const SnsShareBox = ({ titleen, title, edition, ort }) => {
+const SnsShareBox = ({ titleen, title, edition, ort ,chapter,index}) => {
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${titleen}`;
+
+  const urlpart = `${process.env.NEXT_PUBLIC_SITE_URL}/${titleen}%23${index}`;
+  const twitter = () => {
+    if (ort === "modal") {
+      return `https://twitter.com/share?url=${urlpart}&text=${title} ${chapter}`;
+    } else {
+      return `https://twitter.com/share?url=${url}&text=${title} ${
+        edition ? edition : ""
+      }`;
+    }
+  }
+
+
   return (
     <div className={`${styles.snsShareBox} ${styles[ort]}`}>
-      <Link
-        href={`https://twitter.com/share?url=${url}&text=${title} ${
-          edition ? edition : ""
-        }`}
-      >
+      <Link href={twitter(ort)}>
         <a target="_blank" rel="noopener noreferrer">
           <FontAwesomeIcon
             icon={faTwitter}
-            className={`${styles.snsShareIcon} ${styles.twitter}`}
+            className={`${styles.snsShareIcon} ${styles.twitter} ${styles[ort]}`}
           />
         </a>
       </Link>
@@ -28,7 +37,7 @@ const SnsShareBox = ({ titleen, title, edition, ort }) => {
         <a target="_blank" rel="noopener noreferrer">
           <FontAwesomeIcon
             icon={faFacebook}
-            className={`${styles.snsShareIcon} ${styles.facebook}`}
+            className={`${styles.snsShareIcon} ${styles.facebook}  ${styles[ort]}`}
           />
         </a>
       </Link>
@@ -36,7 +45,7 @@ const SnsShareBox = ({ titleen, title, edition, ort }) => {
         <a target="_blank" rel="noopener noreferrer">
           <FontAwesomeIcon
             icon={faLinkedin}
-            className={`${styles.snsShareIcon} ${styles.linkedin}`}
+            className={`${styles.snsShareIcon} ${styles.linkedin}  ${styles[ort]}`}
           />
         </a>
       </Link>

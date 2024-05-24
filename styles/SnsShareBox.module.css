@@ -8,7 +8,6 @@
   grid-row: 1 / span 2;
 
 }
-
 .snsShareIcon {
   display: grid;
   place-content: center;
@@ -20,17 +19,20 @@
   border-radius: 50%;
   color: white;
   transition: var(--transition);
-  /* background-color: var(--clr-grey-light); */
 }
+
 .snsShareIcon:hover {
   opacity: 0.6;
 }
-.twitter {
-  background: #55acee;
+.twitter.land,
+.twitter.prt{
+ background: #55acee;
 }
-.facebook {
-  background: #3b5998;
+.facebook.land,
+.facebook.prt{
+ background: #3b5998;
 }
-.linkedin {
-  background: #3b5998;
+.linkedin.land,
+.linkedin.prt{
+ background: #3b5998  ;
 }
