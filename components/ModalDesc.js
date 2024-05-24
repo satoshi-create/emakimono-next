@@ -12,7 +12,7 @@ import {
   matchSummaryGenji,
   matchSummaryKusouzu,
 } from "../libs/func";
-import Link from "next/link";
+import SnsShareBox from "./SnsShareBox";
 
 const ModalDesc = ({ data }) => {
   const { DescIndex, setDescIndex, handleToId, closeDescModal, orientation } =
@@ -26,7 +26,7 @@ const ModalDesc = ({ data }) => {
     closeDescModal();
   };
 
-  const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${data.titleen}%23${DescIndex.index}`;
+console.log(data);
 
 
 
@@ -91,31 +91,6 @@ const ModalDesc = ({ data }) => {
         <div className={`${styles.closebtn} btn`} onClick={closeDescModal}>
           <FontAwesomeIcon icon={faClose} />
         </div>
-        {/* <div onClick={()=>setMapIndex(0)}>繝帙�ｼ繝�</div> */}
-        {/* <div className={styles.tabcontainer}>
-          {allMap.map((item, index) => {
-            const { title } = item;
-            return (
-              <button
-                onClick={() => setValue(index)}
-                className={`btn ${styles.tabbtn} ${
-                  value === index ? styles.activebtn : ""
-                }`}
-                style={
-                  orientation === "portrait"
-                    ? {
-                        fontSize: "var(--title-size-prt)",
-                      }
-                    : { fontSize: "var(--title-size)" }
-                }
-                key={index}
-              >
-                {title}
-              </button>
-            );
-          })}
-        </div> */}
-
         {filterEkotobas.map((item, ekotobasIndex) => {
           const { gendaibun, chapter, linkId, desc,kobun } = item;
           let position = "nextSlide";
@@ -164,7 +139,9 @@ const ModalDesc = ({ data }) => {
                       : { fontSize: "var(--text-size)" }
                   }
                   dangerouslySetInnerHTML={{
-                    __html: matchSummary(chapter,genjieslug) ? matchSummary(chapter,genjieslug) : gendaibun,
+                    __html: matchSummary(chapter, genjieslug)
+                      ? matchSummary(chapter, genjieslug)
+                      : gendaibun,
                   }}
                 ></p>
                 <button
@@ -174,40 +151,19 @@ const ModalDesc = ({ data }) => {
                 >
                   横スクロールで見る
                 </button>
-                <div className={styles.snsShareBox}>
-                  <Link
-                    href={`https://twitter.com/share?url=${url}&text=${
-                      data.title
-                    } ${chapter}`}
-                  >
-                    <a target="_blank" rel="noopener noreferrer">
-                      <FontAwesomeIcon
-                        icon={faTwitter}
-                        className={`${styles.snsShareIcon} ${styles.twitter}`}
-                      />
-                    </a>
-                  </Link>
-                  <Link
-                    href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
-                  >
-                    <a target="_blank" rel="noopener noreferrer">
-                      <FontAwesomeIcon
-                        icon={faFacebook}
-                        className={`${styles.snsShareIcon} ${styles.facebook}`}
-                      />
-                    </a>
-                  </Link>
-                  <Link
-                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
-                  >
-                    <a target="_blank" rel="noopener noreferrer">
-                      <FontAwesomeIcon
-                        icon={faLinkedin}
-                        className={`${styles.snsShareIcon} ${styles.linkedin}`}
-                      />
-                    </a>
-                  </Link>
-                </div>
+                <SnsShareBox
+                  titleen={data.titleen}
+                  title={data.title}
+                  edition={data.edition}
+                  chapter={chapter}
+                  index={DescIndex.index}
+                  ort={"modal"}
+                />
+                {/* 他絵巻へのリンク */}
+                {/* <div className={styles.emakiLinks}>
+                  <p>壇林皇后九相図 - 血塗相</p>
+                  <p>九相詩絵巻 - 血塗相</p>
+                </div> */}
               </article>
             );
           }
