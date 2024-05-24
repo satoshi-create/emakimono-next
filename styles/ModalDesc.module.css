@@ -26,7 +26,7 @@
   top: 0;
   width: 20px;
   cursor: pointer;
-  color: #ffffff36;
+  color: #ffffff99;
 }
 .container {
   display: grid;
@@ -112,7 +112,6 @@
   width: 80%;
   height: 100%;
   position: relative;
-  padding: 1rem 0;
   align-self: center;
   justify-self: center;
   font-size: 2rem;
@@ -124,11 +123,11 @@
   overflow-y: auto;
   padding: 1rem;
 }
-@media screen and (min-width: 768px) {
-  .article {
-    padding: 2rem 1rem;
-  }
-}
+  /* @media screen and (min-width: 768px) {
+    .article {
+      padding: 2rem 1rem;
+    }
+  } */
 .iframe {
   position: absolute;
   top: 0;
@@ -193,4 +192,11 @@
     background: linear-gradient(299deg, rgb(0 0 0), rgb(91 91 91 / 56%) 100%);
     color: white;
     border: 1px solid #ffffff00;
+}
+.emakiLinks{
+  border: 1px solid #b9b9b9;
+    padding: .5rem 1rem;
+    font-size: .8rem;
+    width: 80%;
+    align-self: center;
 }
