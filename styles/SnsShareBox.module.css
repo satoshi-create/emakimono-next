@@ -1,0 +1,36 @@
+.snsShareBox {
+  align-self: center;
+  justify-self: flex-end;
+  display: flex;
+    gap: 0 0.5rem;
+}
+.land{
+  grid-row: 1 / span 2;
+
+}
+
+.snsShareIcon {
+  display: grid;
+  place-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 10px;
+  font-size: 9px;
+  text-decoration: none;
+  border-radius: 50%;
+  color: white;
+  transition: var(--transition);
+  /* background-color: var(--clr-grey-light); */
+}
+.snsShareIcon:hover {
+  opacity: 0.6;
+}
+.twitter {
+  background: #55acee;
+}
+.facebook {
+  background: #3b5998;
+}
+.linkedin {
+  background: #3b5998;
+}
