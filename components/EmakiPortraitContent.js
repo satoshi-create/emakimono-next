@@ -9,6 +9,7 @@ import CardC from "./CardC";
 import Image from "next/image";
 import Footer from "./Footer";
 import ChapterDesc from "./ChapterDesc";
+import SnsShareBox from "./SnsShareBox";
 
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
@@ -182,9 +183,29 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   出典 - {sourceImage}
                 </a>
               </Link>
-              <div> {reference ? `参照 - ${reference}` : ""}</div>
+              <ul>
+                参照
+                {reference?.map((item, i) => {
+                  return (
+                    <li key={i}>
+                      <Link href={item.url ? item.url : "/"}>
+                        <a target="_blank" className={styles.sourceLink}>
+                          {`【${item.type}】
+                          ${item.title}`}
+                        </a>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
           </div>
+          <SnsShareBox
+            titleen={titleen}
+            title={title}
+            edition={edition}
+            ort={"prt"}
+          />
           {data.type === "絵巻" && <CardC data={data} />}
         </div>
       </div>
