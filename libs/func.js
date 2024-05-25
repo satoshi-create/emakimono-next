@@ -96,6 +96,23 @@ const genjieSlugItem = (arr) =>
     arr.flatMap((item) => item.genjieslug).filter((item) => item)
   ).sort((a, b) => (b.id > a.id ? -1 : 1));
 
+// 九相図
+const convertKusouzuSlug = (arr) => {
+  const res = {};
+  arr.forEach((obj) => {
+    const key = `${obj.id}`;
+    if (!res[key]) {
+      res[key] = { ...obj, total: 0 };
+    }
+    res[key].total += 1;
+  });
+  return Object.values(res);
+};
+const kusouzuSlugItem = (arr) =>
+  convertKusouzuSlug(
+    arr.flatMap((item) => item.kusouzuslug).filter((item) => item)
+  ).sort((a, b) => (b.id > a.id ? -1 : 1));
+
 // 絵師名
 const convertAuthor = (arr) => {
   const res = {};
@@ -235,4 +252,5 @@ export {
   eraItem,
   typeItem,
   matchSummary,
+  kusouzuSlugItem,
 };

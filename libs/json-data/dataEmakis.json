@@ -2660,6 +2660,32 @@
     "type": "絵巻",
     "typeen": "emaki",
     "subtype": "仏典",
+    "kusouzuslug": [
+      {
+        "id": "1"
+      },
+      {
+        "id": "2"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "4"
+      },
+      {
+        "id": "5"
+      },
+      {
+        "id": "6"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "8"
+      }
+   ],
     "favorite": true,
     "keyword": [
       {
@@ -2985,8 +3011,6 @@
         "srcHeight": "1080"
       }
     ]
-
-
   },
   {
     "id": 9,
@@ -3005,6 +3029,32 @@
     "type": "絵巻",
     "typeen": "emaki",
     "favorite": true,
+    "kusouzuslug": [
+      {
+        "id": "1"
+      },
+      {
+        "id": "2"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "4"
+      },
+      {
+        "id": "5"
+      },
+      {
+        "id": "6"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "8"
+      }
+    ],
     "keyword": [
       {
         "name": "無常",
@@ -3038,7 +3088,7 @@
       }
     ],
     "sourceEkotoba": "",
-    "emakis":[
+    "emakis": [
       {
         "cat": "ekotoba",
         "chapter": "【第一相】 生前相",
@@ -3310,7 +3360,6 @@
         "srcHeight": "1080"
       }
     ]
-
   },
   {
     "id": 10,
@@ -3329,6 +3378,19 @@
     "type": "絵巻",
     "typeen": "emaki",
     "favorite": true,
+    "kusouzuslug": [
+
+      {
+        "id": "3"
+      },
+
+      {
+        "id": "5"
+      },
+      {
+        "id": "7"
+      }
+     ],
     "keyword": [
       {
         "name": "無常",
@@ -8287,6 +8349,20 @@
     "typeen": "emaki",
     "subtype": "仏典",
     "favorite": true,
+    "kusouzuslug": [
+      {
+        "id": "2"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "8"
+      }
+    ],
     "keyword": [
       {
         "name": "無常",

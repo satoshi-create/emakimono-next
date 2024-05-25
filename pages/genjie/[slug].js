@@ -8,8 +8,10 @@ import Footer from "../../components/Footer";
 import enData from "../../libs/data";
 import jaData from "../../libs/data";
 import { removeNestedEmakisObj, genjieSlugItem } from "../../libs/func";
+import AllGenjiChapters from "../../libs/genji/chapters-of-genji.json";
 
 const Genjie = ({ title, titleen, posts, slug }) => {
+
   const { locale } = useRouter();
   const tPageDesc =
     locale === "en"
@@ -53,7 +55,7 @@ const Genjie = ({ title, titleen, posts, slug }) => {
 };
 
 export const getStaticPaths = async () => {
-  const paths = genjieSlugItem(emakisData).map(({ path }) => ({
+  const paths = AllGenjiChapters.map(({ path }) => ({
     params: {
       slug: path,
     },
@@ -70,18 +72,10 @@ export const getStaticProps = async (context) => {
   const genjieslugname = context.params.slug;
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
-  const chaptergenji = genjieSlugItem(tEmakisData).find(
-    ({ path }) => path === genjieslugname
-  );
-  // const filterdEmakisData = tEmakisData.filter((item) => {
-  //   // if (item.genjieslug) {
-  //   //   return item.genjieslug.includes(genjieslug);
-  //   // }
-  //   return item.genjieslug === genjieslug;
-  // });
-  // const removeNestedArrayObj = filterdEmakisData.map((item) => {
-  //   return removeNestedObj(item);
-  // });
+
+  const chaptergenji = AllGenjiChapters.find((item) => item.path === genjieslugname);
+  
+console.log(chaptergenji);
 
   const filterdEmakisData = tEmakisData.filter((x) => {
     if (x.genjieslug) {
@@ -98,10 +92,10 @@ export const getStaticProps = async (context) => {
 
   return {
     props: {
-      title: chaptergenji.title,
-      titleen: chaptergenji.path,
+      title: chaptergenji.title || null,
+      titleen: chaptergenji.path || null,
       posts: removeNestedArrayObj,
-      slug: genjieslugname,
+      slug: genjieslugname || null,
     },
   };
 };

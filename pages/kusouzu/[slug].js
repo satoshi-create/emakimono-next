@@ -7,29 +7,32 @@ import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
 import enData from "../../libs/data";
 import jaData from "../../libs/data";
-import { removeNestedEmakisObj, genjieSlugItem } from "../../libs/func";
+import { removeNestedEmakisObj, kusouzuSlugItem } from "../../libs/func";
+import AllKusouzuChapters from "../../libs/kusouzu/chapters-of-kusouzu.json";
 
-const Genjie = ({ title, titleen, posts, slug }) => {
+const Kusouzu = ({ title, titleen, posts, slug }) => {
   const { locale } = useRouter();
   const tPageDesc =
     locale === "en"
-      ? `You can enjoy the Genji-e paintings on the theme of the "${titleen}" scroll from the 54 chapters of The Tale of Genji in both vertical and horizontal scrolling mode.`
-      : `源氏物語54帖より「${title}」巻をテーマに描いた源氏絵を、縦書き、横スクロールで楽しむことができます。`;
+      ? `From the list of the Nine stages of decay, you can enjoy nine-phase diagrams drawn on the theme of the "${title}" scrolling vertically or horizontally.`
+      : `九相観一覧より「${title}」巻をテーマに描いた九相図を、縦書き、横スクロールで楽しむことができます。`;
   return (
     <>
       <Head
         pagetitle={
           locale === "en"
-            ? `"${titleen}" from The Tale of Genji, 54 chapters`
-            : `源氏物語54帖より「${title}」巻`
+            ? `"${titleen}" from the list of the Nine stages of decay`
+            : `九相観一覧より「${title}」`
         }
         pageDesc={tPageDesc}
       />
       <Header />
       <Breadcrumbs
         name={locale === "en" ? titleen : title}
-        test={locale === "en" ? "chapter genji list" : "源氏物語54帖一覧"}
-        testen={"/genjie/chaptersgenjilist"}
+        test={
+          locale === "en" ? "list of the Nine stages of decay" : "九相観一覧"
+        }
+        testen={"/kusouzu/chapters-kusouzu"}
       />
       <CardA
         emakis={posts}
@@ -38,10 +41,14 @@ const Genjie = ({ title, titleen, posts, slug }) => {
         pagetitle={title}
         sectiontitle={
           locale === "en"
-            ? `"${titleen}" from The Tale of Genji, 54 chapters`
-            : title
+            ? `" ${titleen} " list of the Nine stages of decay`
+            : `九相観一覧より「${title}」`
         }
-        sectiontitleen={locale === "en" ? title : `${titleen}`}
+        sectiontitleen={
+          locale === "en"
+            ? `九相観一覧より「${title}」`
+            : `" ${titleen} " list of the Nine stages of decay`
+        }
       />
       <Footer />
     </>
@@ -49,9 +56,9 @@ const Genjie = ({ title, titleen, posts, slug }) => {
 };
 
 export const getStaticPaths = async () => {
-  const paths = genjieSlugItem(emakisData).map(({ path }) => ({
+  const paths = AllKusouzuChapters.map(({ titleen }) => ({
     params: {
-      slug: path,
+      slug: titleen,
     },
     locale: "ja",
   }));
@@ -63,28 +70,21 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async (context) => {
-  const genjieslugname = context.params.slug;
+  const kusouzuslugname = context.params.slug;
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
-  const chaptergenji = genjieSlugItem(tEmakisData).find(
-    ({ path }) => path === genjieslugname
+
+    const chapterkusouzu = AllKusouzuChapters.find(
+      (item) => item.titleen === kusouzuslugname
   );
-  // const filterdEmakisData = tEmakisData.filter((item) => {
-  //   // if (item.genjieslug) {
-  //   //   return item.genjieslug.includes(genjieslug);
-  //   // }
-  //   return item.genjieslug === genjieslug;
-  // });
-  // const removeNestedArrayObj = filterdEmakisData.map((item) => {
-  //   return removeNestedObj(item);
-  // });
+  console.log(chapterkusouzu);
 
   const filterdEmakisData = tEmakisData.filter((x) => {
-    if (x.genjieslug) {
-      const filterdGenjieslug = x.genjieslug.some(
-        (y) => y.path === genjieslugname
+    if (x.kusouzuslug) {
+      const filterdKusouzuslug = x.kusouzuslug.some(
+        (y) => y.id === chapterkusouzu.id
       );
-      return filterdGenjieslug;
+      return filterdKusouzuslug;
     }
   });
 
@@ -94,12 +94,12 @@ export const getStaticProps = async (context) => {
 
   return {
     props: {
-      title: chaptergenji.title,
-      titleen: chaptergenji.path,
+      title: chapterkusouzu.title || null,
+      titleen: chapterkusouzu.titleen || null,
       posts: removeNestedArrayObj,
-      slug: genjieslugname,
+      slug: kusouzuslugname || null,
     },
   };
 };
 
-export default Genjie;
+export default Kusouzu;
