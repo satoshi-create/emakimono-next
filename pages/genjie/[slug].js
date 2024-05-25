@@ -21,7 +21,7 @@ const Genjie = ({ title, titleen, posts, slug }) => {
         pagetitle={
           locale === "en"
             ? `"${titleen}" from The Tale of Genji, 54 chapters`
-            : `源氏物語54帖より「${title}」巻`
+            : `源氏物語54帖より「${title}」を描いた源氏絵`
         }
         pageDesc={tPageDesc}
       />
@@ -38,10 +38,14 @@ const Genjie = ({ title, titleen, posts, slug }) => {
         pagetitle={title}
         sectiontitle={
           locale === "en"
-            ? `"${titleen}" from The Tale of Genji, 54 chapters`
-            : title
+            ? `" Genji-e (Genji Pictures) depicting ${titleen} from The Tale of Genji`
+            : `「${title}」を描いた源氏絵`
         }
-        sectiontitleen={locale === "en" ? title : `${titleen}`}
+        sectiontitleen={
+          locale === "en"
+            ? `「${title}」を描いた源氏絵`
+            : `" Genji-e (Genji Pictures) depicting ${titleen} from The Tale of Genji`
+        }
       />
       <Footer />
     </>
