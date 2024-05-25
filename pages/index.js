@@ -147,7 +147,7 @@ const Home = () => {
           },
           author: {
             "@type": "Person",
-            name: author,
+            name: author ? author : "不詳",
           },
         },
       },
