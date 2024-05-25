@@ -92,7 +92,9 @@ const EmakiLandscapContent = ({
               {author && (
                 <Link href={`/author/${authoren}`}>
                   <a className={styles.authorLink}>
-                    <h4 className={styles.author}>{locale  === "ja" ? author : authoren}</h4>
+                    <h4 className={styles.author}>
+                      {locale === "ja" ? author : authoren}
+                    </h4>
                   </a>
                 </Link>
               )}
@@ -111,7 +113,12 @@ const EmakiLandscapContent = ({
                 </div>
               )}
 
-              <SnsShareBox titleen={titleen} title={title} edition={edition} ort={"land"} />
+              <SnsShareBox
+                titleen={titleen}
+                title={title}
+                edition={edition}
+                ort={"land"}
+              />
               <button
                 type="button"
                 value="Lock Landscape"
@@ -180,6 +187,7 @@ const EmakiLandscapContent = ({
                     style={{
                       border: eraColor(era),
                       backgroundColor: eraColor(era),
+                      color: eraColor(era) ? "white" : "black",
                     }}
                   >
                     {locale === "en" ? `${eraen} period` : `${era}`}
@@ -196,7 +204,7 @@ const EmakiLandscapContent = ({
                   </a>
                 </Link>
                 <ul>
-                  参照
+                  参照 -
                   {reference?.map((item, i) => {
                     return (
                       <li key={i}>
