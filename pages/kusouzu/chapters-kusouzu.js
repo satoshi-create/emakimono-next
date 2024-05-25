@@ -1,6 +1,6 @@
   import React from "react";
 import ChaptersTable from "../../components/ChaptersGenjiTable";
-import { genjieSlugItem, useLocaleData } from "../../libs/func";
+import { kusouzuSlugItem, genjieSlugItem,useLocaleData } from "../../libs/func";
 import ExtractingListData from "../../libs/ExtractingListData";
 import Head from "../../components/Meta";
 import Header from "../../components/Header";
@@ -10,11 +10,11 @@ import ChaptersKusouzuTable from "../../components/ChaptersKusouzuTable";
 
 const Chaptersgenjilist = () => {
   const { locale } = useLocaleData();
-  // const removeNestedArrayObj = ExtractingListData();
+  const removeNestedArrayObj = ExtractingListData();
 
-  // const ExistGenjiChapters = genjieSlugItem(removeNestedArrayObj);
+  const ExistKusouzuChapters = kusouzuSlugItem(removeNestedArrayObj);
 
-  // console.log(ExistGenjiChapters);
+  console.log(ExistKusouzuChapters);
 
   const tPageDesc =
     locale === "en"
@@ -33,7 +33,7 @@ const Chaptersgenjilist = () => {
       <ChaptersKusouzuTable
         sectiontitle={"九相図一覧"}
         sectiontitleen={"List of Nine stages of decay"}
-        // ExistKusouzuChapters={ExistKusouzuChapters}
+        ExistKusouzuChapters={ExistKusouzuChapters}
       />
       <Footer />
     </>
