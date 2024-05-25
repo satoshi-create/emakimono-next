@@ -184,7 +184,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 </a>
               </Link>
               <ul>
-                参照
+                参照 -
                 {reference?.map((item, i) => {
                   return (
                     <li key={i}>
