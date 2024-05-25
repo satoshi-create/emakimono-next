@@ -10,7 +10,7 @@ const Cusom404 = () => {
       <Header fixed={false} />
       <h1>404 page not found</h1>
       <h4>ページが見つかりません</h4>
-      {/* <Footer /> */}
+      <Footer />
     </main>
   );
 };
