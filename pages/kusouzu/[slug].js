@@ -15,14 +15,14 @@ const Kusouzu = ({ title, titleen, posts, slug }) => {
   const tPageDesc =
     locale === "en"
       ? `From the list of the Nine stages of decay, you can enjoy nine-phase diagrams drawn on the theme of the "${title}" scrolling vertically or horizontally.`
-      : `九相観一覧より「${title}」巻をテーマに描いた九相図を、縦書き、横スクロールで楽しむことができます。`;
+      : `九相図一覧より「${title}」巻をテーマに描いた九相図を、縦書き、横スクロールで楽しむことができます。`;
   return (
     <>
       <Head
         pagetitle={
           locale === "en"
             ? `"${titleen}" from the list of the Nine stages of decay`
-            : `九相観一覧より「${title}」`
+            : `九相図一覧より「${title}」`
         }
         pageDesc={tPageDesc}
       />
@@ -30,7 +30,7 @@ const Kusouzu = ({ title, titleen, posts, slug }) => {
       <Breadcrumbs
         name={locale === "en" ? titleen : title}
         test={
-          locale === "en" ? "list of the Nine stages of decay" : "九相観一覧"
+          locale === "en" ? "list of the Nine stages of decay" : "九相図一覧"
         }
         testen={"/kusouzu/chapters-kusouzu"}
       />
@@ -42,11 +42,11 @@ const Kusouzu = ({ title, titleen, posts, slug }) => {
         sectiontitle={
           locale === "en"
             ? `" ${titleen} " list of the Nine stages of decay`
-            : `九相観一覧より「${title}」`
+            : `九相図一覧より「${title}」`
         }
         sectiontitleen={
           locale === "en"
-            ? `九相観一覧より「${title}」`
+            ? `九相図一覧より「${title}」`
             : `" ${titleen} " list of the Nine stages of decay`
         }
       />
