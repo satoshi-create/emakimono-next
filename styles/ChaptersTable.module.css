@@ -16,11 +16,19 @@
   font-size: 14px;
   text-align: center;
 }
+
 .gendaibun{
   width: 40%;
 
 }
 .gendaibun p{
+  text-align: left;
+}
+.summary{
+  width: 40%;
+
+}
+.summary p{
   text-align: left;
 }
 
