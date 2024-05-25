@@ -12,12 +12,16 @@ const ChaptersKusouzuTable = ({
   ExistKusouzuChapters,
 }) => {
 
-  // const ExistGenjiChaptersTitletoString = ExistGenjiChapters.map(
-  //   (item) => item.title
-  // ).toString();
+  const ExistKusouzuChaptersTitletoString = ExistKusouzuChapters.map(
+    (item) => item.id
+  ).toString();
 
-  // const chapterGenjiMatching = (title) =>
-  //   ExistGenjiChaptersTitletoString.includes(title);
+  console.log(ExistKusouzuChaptersTitletoString);
+
+  const chapterKusouzuMatching = (id) =>
+    ExistKusouzuChaptersTitletoString.includes(id);
+
+  console.log(AllKusouzuChapters)
 
   return (
     <section className={`section-grid section-padding `}>
@@ -31,16 +35,16 @@ const ChaptersKusouzuTable = ({
           <tr>
             <th>番号</th>
             <th>タイトル</th>
-            <th>解説</th>
-            {/* <th>
-              現代文
-            </th> */}
+            <th>現代文</th>
+            <th>
+              <span>作品</span>
+            </th>
           </tr>
         </thead>
         <tbody>
           {AllKusouzuChapters.map((item, i) => {
-            const {id,title,ruby,titleen,desc,gendaibun} = item
-            return (
+            const { id, title, ruby, titleen, desc, gendaibun } = item;
+             return (
               <tr key={i}>
                 <td>{item.id}</td>
                 <td>
@@ -50,23 +54,23 @@ const ChaptersKusouzuTable = ({
                     <rp>)</rp>
                   </ruby>
                 </td>
-                <td className={styles.summary}>
+                {/* <td className={styles.summary}>
                   <p
                     dangerouslySetInnerHTML={{
                       __html: desc,
                     }}
                   ></p>
-                </td>
-                {/* <td className={styles.gendaibun}>
+                </td> */}
+                <td className={styles.gendaibun}>
                   <p
                     dangerouslySetInnerHTML={{
                       __html: gendaibun,
                     }}
                   ></p>
-                </td> */}
-                {/* <td>
-                  {chapterGenjiMatching(item.title) ? (
-                    <Link href={`/genjie/${item.path}`}>
+                </td>
+                <td>
+                  {chapterKusouzuMatching(item.id) ? (
+                    <Link href={`/kusouzu/${titleen}`}>
                       <a className={styles.link}>
                         <FontAwesomeIcon icon={faCircle} />
                       </a>
@@ -76,7 +80,7 @@ const ChaptersKusouzuTable = ({
                       <FontAwesomeIcon icon={faXmark} />
                     </span>
                   )}
-                </td> */}
+                </td>
               </tr>
             );
           })}
