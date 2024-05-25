@@ -139,7 +139,7 @@ const OverlayEkotoba = ({
             {matchSummary(chapter, data.genjieslug) && (
               <button
                 className={`${styles.infoiconlink}`}
-                id="ekotoba_info_click"
+                data-link-click="ekotoba_info_click"
                 onClick={() =>
                   openDescModal({
                     ekotobaId,
