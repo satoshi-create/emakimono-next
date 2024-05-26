@@ -12,13 +12,15 @@ import Link from "next/link";
 import Button from "../components/Button";
 import FlowEmaki from "../components/FlowEmaki";
 
-const Custom404 = () => {
+const RedirectForm = () => {
   const { locale } = useRouter();
   const { t } = useLocale();
 
-  const { t: data } = useLocaleData();
+    const { t: data } = useLocaleData();
 
-  const chinkaEmakis = data.filter((emaki) => emaki.title === "鎮火安心図巻");
+  const cyouzyuuEmakis = data
+    .filter((emaki) => emaki.title.includes("鳥獣人物戯画絵巻"))
+    .splice(0, 1);
   return (
     <>
       <Head />
@@ -27,11 +29,10 @@ const Custom404 = () => {
         name={locale === "en" ? "redirect-form" : "リダイレクトフォーム"}
       /> */}
       <section className="section-grid section-padding">
-        <h1>404</h1>
-        <h4>ページが見つかりません</h4>
+        <h1>ご協力ありがとうございました！</h1>
         <Button title="ホームに戻る" path="/" />
         {/* <FlowEmaki
-          flowEmakis={chinkaEmakis}
+          flowEmakis={cyouzyuuEmakis}
           // sectiontitle={"四季山水図巻（山水長巻）"}
           // sectiontitleen={"sessyu_sikisansuizu"}
         /> */}
@@ -41,4 +42,4 @@ const Custom404 = () => {
   );
 };
 
-export default Custom404;
+export default RedirectForm;

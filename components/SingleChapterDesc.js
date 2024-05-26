@@ -3,12 +3,15 @@ import styles from "../styles/ChapterDesc.module.css";
 import { ChevronDown, ChevronUp } from "react-feather";
 import { AppContext } from "../pages/_app";
 import Image from "next/image";
+import { matchSummaryKusouzu,matchSummary } from "../libs/func";
 
-const SingleChapterDesc = ({ item, index, emakis }) => {
+const SingleChapterDesc = ({ item, index, emakis,data }) => {
   const { handleToId, handleFullScreen } = useContext(AppContext);
   const [showInfo, setShowInfo] = useState(false);
   const { chapter, gendaibun, cat, desc } = item;
-  console.log(emakis[1].srcSp);
+  const { genjieslug } =data
+  console.log(genjieslug);
+
 
   return (
     <article className={styles.chapterDesc}>
@@ -31,17 +34,15 @@ const SingleChapterDesc = ({ item, index, emakis }) => {
       <div className={styles.line}></div>
       {showInfo && (
         <div className={styles.chapterDesctBody}>
-          {gendaibun && (
-            <>
-              <h4 className={styles.chapterDescTitle}>現代文</h4>
-              <p
-                className={styles.chapterDescText}
-                dangerouslySetInnerHTML={{
-                  __html: gendaibun,
-                }}
-              ></p>
-            </>
-          )}
+          {/* <h4 className={styles.chapterDescTitle}>現代文</h4> */}
+          <p
+            className={styles.chapterDescText}
+            dangerouslySetInnerHTML={{
+              __html: matchSummary(chapter, genjieslug)
+                ? matchSummary(chapter, genjieslug)
+                : gendaibun,
+            }}
+          ></p>
           {/* {desc && (
             <>
               <h4 className={styles.chapterDescTitle}>
