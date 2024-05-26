@@ -343,6 +343,7 @@ function MyApp({ Component, pageProps, router }) {
         openContactModal,
         closeContactModal,
         isContactModalOpen,
+        setIsContactModalOpen
       }}
     >
       <Script

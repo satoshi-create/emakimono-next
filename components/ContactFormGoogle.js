@@ -6,12 +6,13 @@ import { faClose } from "@fortawesome/free-solid-svg-icons";
 import styles from "../styles/ContactFormGoogle.module.css";
 
 const ContactFormGoogle = () => {
-  const { closeContactModal } = useContext(AppContext);
+  
+  const { closeContactModal, setIsContactModalOpen  } = useContext(AppContext);
   const router = useRouter();
   // 初回表示か否かを判定するステートを定義しておく
   const [isFirst, setIsFirst] = useState(true);
 
-  // フォーム回答後はリダイレクトさせる
+    // フォーム回答後はリダイレクトさせる
   const redirect = () => {
     // 初回表示時はリダイレクトさせない
     if (isFirst) {
@@ -21,8 +22,10 @@ const ContactFormGoogle = () => {
 
     router.push({
       // リダイレクト先のページ
-      pathname: `/`,
+      pathname: `/redirect-form`,
     });
+   document.querySelector("html").classList.remove("open");
+    setIsContactModalOpen(false);
   };
   return (
     <div className={styles.modal}>
