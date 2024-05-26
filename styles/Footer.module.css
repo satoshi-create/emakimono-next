@@ -3,7 +3,13 @@
   height: 60vh;
   display: grid;
 }
+.titleBox{
 
+}
+.favicon {
+  width: 20px;
+  height: auto;
+}
 .title {
   grid-row: 2;
   justify-self: center;
@@ -15,6 +21,9 @@
   font-weight: 400;
   text-transform: uppercase;
   margin-bottom: 1rem;
+  display: flex;
+column-gap: .5rem;
+
 }
 /* sociallinks => SocialLiks.module.cssに記入 */
 /* .footerStyle {
