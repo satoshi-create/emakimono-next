@@ -24,6 +24,7 @@
 .center {
   display: grid;
   grid-template-columns: 1fr auto;
+    grid-auto-flow: column;
   align-items: center;
 }
 
@@ -42,9 +43,13 @@
   .nav {
     display: none;
   }
-
+.contacticonbox{
+  grid-row:2;
+  grid-column:1;
+  justify-self:flex-end
+}
   .center {
-    display: grid;
+    display: grid; 
     grid-template-rows: 1fr 1fr;
     justify-items: center;
     row-gap: 1rem;
@@ -77,4 +82,7 @@
   .links a:active {
     color: var(--clr-accent-02);
   }
+}
+.contacticon {
+  font-size: 30px;
 }

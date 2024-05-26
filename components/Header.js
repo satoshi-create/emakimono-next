@@ -7,6 +7,8 @@ import { useRouter } from "next/router";
 import NavLinks from "./NavLinks";
 import { AppContext } from "../pages/_app";
 import SidebarHome from "./SidebarHome";
+import { Mail } from "react-feather";
+
 
 // TODO : ホバー時、header全体にリンクが入ってしまう
 
@@ -14,7 +16,7 @@ import SidebarHome from "./SidebarHome";
 const Header = ({ slug, fixed, emakipage }) => {
   const { locale } = useRouter();
 
-  const { isSidebarOpen, openSidebar, stickyClass, setStickyClass } =
+  const { isSidebarOpen, openSidebar, stickyClass, setStickyClass,openContactModal } =
     useContext(AppContext);
 
   useEffect(() => {
@@ -39,6 +41,15 @@ const Header = ({ slug, fixed, emakipage }) => {
             {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
           </a>
         </Link>
+              <button
+          onClick={() => openContactModal(true)}
+          title="ご意見をお寄せください"
+          className={`${styles.contacticonbox}`}
+        >
+          <i>
+            <Mail className={`${styles.contacticon}`} />
+          </i>
+        </button>
         <nav className={styles.nav}>
           <div className={styles.navcenter}>
             <button

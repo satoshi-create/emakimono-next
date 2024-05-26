@@ -4,12 +4,13 @@
 
 @media screen and (min-width: 768px) {
   .links {
-    grid-row: 2;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: clamp(0.3125rem, -1.3542rem + 3.4722vw, 1.25rem);
     font-size: var(--mokuji-size);
+    grid-row:2;
+      grid-column:1;
   }
   .links a {
     transition: var(--transition);

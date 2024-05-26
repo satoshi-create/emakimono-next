@@ -6559,6 +6559,11 @@
         "name": "源氏絵",
         "id": "picture-of-the-genji-monogatari",
         "slug": "picture-of-the-genji-monogatari"
+      },
+      {
+        "name": "仏教",
+        "id": "buddhism",
+        "slug": "buddhism"
       }
     ],
     "backgroundImage": "/washi-pattern-01.webp",
