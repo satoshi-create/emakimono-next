@@ -3,9 +3,10 @@
 }
 .container {
   position: relative;
-  padding: 6rem 0;
+  padding: 3rem 0;
   display: grid;
   gap: 1rem;
+    justify-content: center;
 }
 .container.left {
   grid-template-columns: auto 14vw;
@@ -27,7 +28,7 @@
 @media (min-width: 768px) {
   .container {
     gap: 2rem;
-    padding: 8rem 0;
+    padding: 4rem 0;
   }
 }
 

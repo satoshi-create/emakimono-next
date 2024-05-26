@@ -16,7 +16,7 @@ import Link from "next/link";
 //   </div>
 // );
 
-export default function FullScreenComp({ children, index, genjieslug }) {
+export default function FullScreenComp({ children, index, genjieslug,titleen,title }) {
   const handle = useFullScreenHandle();
   return (
     <>
@@ -41,6 +41,15 @@ export default function FullScreenComp({ children, index, genjieslug }) {
                 </Link>
               </h4>,
             ])}
+          </div>
+        )}
+        {!genjieslug && (
+          <div className={`${styles.genjieslugBox}`}>
+            <h4 className={`${styles.genjieslugTitle}`}>
+              <Link href={`/${titleen}`}>
+                <a>{title}</a>
+              </Link>
+            </h4>
           </div>
         )}
         {/* <div className={`${styles.genjieslugBox}`}>
