@@ -33,7 +33,7 @@ const ContactFormGoogle = () => {
         </div>
         <div onLoad={redirect} className={styles.iframebox}>
           <iframe
-            src="https://docs.google.com/forms/d/e/1FAIpQLScLvpswhpnpEuJwFvlcH_rsXr6ZTi2kPo25Fv1uZYaaMZFBwg/viewform?embedded=true"
+            src={process.env.NEXT_PUBLIC_GOOGLE_FORM_URL}
             // width="640"
             // height="509"
             frameBorder="0"
@@ -50,3 +50,5 @@ const ContactFormGoogle = () => {
 };
 
 export default ContactFormGoogle;
+
+// Next.js(React)でGoogleフォーム回答後に任意のページにリダイレクトさせる// https://zenn.dev/tsukasa/articles/e09afca57ebe86
