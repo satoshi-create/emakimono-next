@@ -12,8 +12,13 @@ import { Mail } from "react-feather";
 const Header = ({ slug, fixed, emakipage }) => {
   const { locale } = useRouter();
 
-  const { isSidebarOpen, openSidebar, stickyClass, setStickyClass } =
-    useContext(AppContext);
+  const {
+    isSidebarOpen,
+    openSidebar,
+    stickyClass,
+    setStickyClass,
+    openContactModal,
+  } = useContext(AppContext);
 
   useEffect(() => {
     const stickNavbar = () => {
@@ -36,13 +41,15 @@ const Header = ({ slug, fixed, emakipage }) => {
             {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
           </a>
         </Link>
-        <Link href="/form">
-          <a target="_blank">
-            <i>
-              <Mail className={`${styles.contacticon} hide-on-mobile`} />
-            </i>
-          </a>
-        </Link>
+        <button
+          className={styles.linkedbtn}
+          onClick={() => openContactModal(true)}
+          title="ご意見をお寄せください"
+        >
+          <i>
+            <Mail className={`${styles.contacticon} hide-on-mobile`} />
+          </i>
+        </button>
 
         <nav className={styles.nav}>
           <div className={styles.navcenter}>
