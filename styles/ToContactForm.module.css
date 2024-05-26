@@ -1,0 +1,26 @@
+.contact {
+  background: #ff8c7724;
+  border-radius: 20px;
+  grid-row: 3;
+  grid-column: 1 / -1;
+  display: grid;
+  row-gap: 0.5rem;
+  place-items: center;
+  text-align: center;
+  padding: 1rem;
+  font-family: var(--title-font2);
+}
+.contacticon {
+  font-size: 30px;
+  color: var(--clr-grey-light);
+}
+.contact h4 {
+  font-size: 1.4rem;
+}
+.contact p {
+  font-size: 0.8rem;
+}
+.linkedbtn {
+  font-size: 0.8rem;
+  color: var(--clr-link);
+}

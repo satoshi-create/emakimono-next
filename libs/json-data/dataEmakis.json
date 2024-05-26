@@ -2734,7 +2734,7 @@
         "cat": "ekotoba",
         "chapter": " 【第０相】生前相",
         "kobun": "",
-        "gendaibun": "",
+        "gendaibun": "膿爛し流れ潰える死体を見る。肉が溶けて流れ、火をつけた蝋燭のようである。これを膿爛相と名づける。",
         "desc": "",
         "load": "",
         "srcSp": "",
@@ -3077,7 +3077,7 @@
         "slug": "anatomy"
       }
     ],
-    "kotobagaki": false,
+    "kotobagaki": true,
     "sourceImageUrl": "https://www.britishmuseum.org/collection/object/A_2008-3033-1",
     "sourceImage": "九相図（大英博物館）",
     "reference": [
@@ -3814,7 +3814,7 @@
         "src": "/saigyo_manno_04-1080.webp",
         "name": "saigyo_manno_04.webp",
         "id": 250,
-        "srcWidth": 1385,
+        "srcWidth": 1385, 
         "srcHeight": 1080
       },
       {
@@ -6572,7 +6572,7 @@
     "gif": "",
     "type": "絵巻",
     "typeen": "emaki",
-    "kotobagaki": false,
+    "kotobagaki": true,
     "character": true,
     "favorite": true,
     "sourceImageUrl": "https://dl.ndl.go.jp/pid/1685003",
@@ -8394,7 +8394,7 @@
         "portrait": "/portrait_tachibananokachiko.webp"
       }
     ],
-    "kotobagaki": false,
+    "kotobagaki": true,
     "sourceImageUrl": "https://commons.wikimedia.org/wiki/Category:Nine_Stages_of_Decomposition_of_the_Heian_Period_Empress_Danrin",
     "sourceImage": "Nine Stages of Decomposition of the Heian Period Empress Danrin（Wikimedia Commons）",
     "reference": [

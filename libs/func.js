@@ -253,4 +253,5 @@ export {
   typeItem,
   matchSummary,
   kusouzuSlugItem,
+  matchSummaryKusouzu,
 };
