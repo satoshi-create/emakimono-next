@@ -55,7 +55,11 @@ const OverlayEkotoba = ({
   }, [setEkotobabody, gendaibun]);
 
   useEffect(() => {
-    setEkotobaImageToggle(false);
+    if (!scroll) {  
+      setEkotobaImageToggle(true);
+    } else {
+      setEkotobaImageToggle(false);
+    }
     setekotobaToggle(false);
   }, [setEkotobaImageToggle, setekotobaToggle]);
 
@@ -76,11 +80,7 @@ const OverlayEkotoba = ({
       id={`${index}`}
       ref={navIndex === index ? scrollDialog : null}
     >
-      {/* <div
-        className={`${styles.gendaibunbox} ${ekotobaImageToggle && !src ? styles.noekotobaimage : styles.ekotobaimage}  ${
-          !src && !gendaibun && styles.ekotobaimage
-        }  ${src && styles.ekotobaimage} scrollbar`}
-      > */}
+
       <div
         className={`${styles.gendaibunbox} ${
           !src && styles.noekotobaimage
@@ -120,22 +120,6 @@ const OverlayEkotoba = ({
                 />
               </button>
             )}
-            {/* <button
-              className={styles.infoiconlink}
-              onClick={() =>
-                openDescModal({
-                  ekotobaId,
-                  // parseEkotobaId: parseEkotobaId(ekotobaId),
-                  index,
-                })
-              }
-              title={`${chapter}の情報を見る`}
-            >
-              <FontAwesomeIcon
-                icon={faCircleInfo}
-                className={styles.infoiconlinkicon}
-              />
-            </button> */}
             {matchSummary(chapter, data.genjieslug) && (
               <button
                 className={`${styles.infoiconlink} ekotoba_info_click`}
