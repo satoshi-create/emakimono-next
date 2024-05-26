@@ -1,4 +1,4 @@
-import React, { useContext, useEffect ,useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "../styles/EmakiPortraitContent.module.css";
@@ -10,10 +10,12 @@ import Image from "next/image";
 import Footer from "./Footer";
 import ChapterDesc from "./ChapterDesc";
 import SnsShareBox from "./SnsShareBox";
-
+import ToContactForm from "./ToContactForm";
+import ContactFormGoogle from "./ContactFormGoogle";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
-  const { handleToId, handleFullScreen, setnavIndex } = useContext(AppContext);
+  const { handleToId, handleFullScreen, setnavIndex, isContactModalOpen } =
+    useContext(AppContext);
   const { locale } = useRouter();
   const {
     type,
@@ -33,14 +35,13 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     genjieslug,
     personname,
     kotobagaki,
-    titleen
+    titleen,
   } = data;
 
   const filterDesc = desc.substring(0, 40);
   const descTemp = `「${title} ${edition ? edition : ""}」${
     author ? `（${author}）` : ""
   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
-
 
   return (
     <>
@@ -114,7 +115,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               })}
             </ul>
             {/* 各段の詞書・解説 */}
-            {kotobagaki && <ChapterDesc emakis={emakis} />}
+            {kotobagaki && <ChapterDesc emakis={emakis} data={data} />}
             {personname && (
               <div
                 className={`${styles.tags} ${locale === "ja" && styles.jatags}`}
@@ -200,6 +201,8 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               </ul>
             </div>
           </div>
+          <ToContactForm />
+          {isContactModalOpen && <ContactFormGoogle />}
           <SnsShareBox
             titleen={titleen}
             title={title}

@@ -3,6 +3,7 @@ import styles from "../styles/Footer.module.css";
 import { useRouter } from "next/router";
 import NavLinks from "./NavLinks";
 import SocialLinks from "./SocialLinks";
+import Link from "next/link";
 
 const Footer = () => {
   const date = new Date();
@@ -20,9 +21,12 @@ const Footer = () => {
   const { locale } = useRouter();
   return (
     <footer className={`parts-grid ${styles.container} ${styles.footer}`}>
-      <h4 className={styles.title}>
-        {locale === "en" ? "EMAKIMONO!!" : "横スクロールで楽しむ絵巻物"}
-      </h4>
+      <Link href="/">
+        <a className={styles.title}>
+          <img src="/favicon.png" alt="favicon" className={styles.favicon} />
+          {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
+        </a>
+      </Link>
       <SocialLinks footerStyle={footerStyleSocial} />
       <div className={styles.navlinks}>
         <NavLinks footerstyle={footerstyle} />
