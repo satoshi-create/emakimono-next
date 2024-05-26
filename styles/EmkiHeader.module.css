@@ -2,12 +2,20 @@
   background: var(--clr-white);
   padding: 0.5rem 0;
 }
-.title {
-  display: flex;
+@media screen and (min-width: 768px) {
+  .header {
+    padding: 1.5rem 0;
+  }
+}
+.center {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: auto 1fr auto;
   align-items: center;
-  column-gap: 0.5rem;
+  gap: 8px;
+}
+.title {
   font-family: var(--title-font);
-  column-gap: 0.8rem;
   font-size: 1.4rem;
   text-transform: uppercase;
   font-weight: 600;
@@ -16,11 +24,6 @@
 .favicon {
   width: 20px;
   height: 20px;
-}
-@media screen and (min-width: 768px) {
-  .header {
-    padding: 1.5rem 0;
-  }
 }
 
 .header-fixed {
@@ -33,14 +36,12 @@
   padding: 1rem 0;
 }
 
-.center {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-}
 .openbtn {
   font-size: 1.5rem;
 }
 .links {
   display: none;
+}
+.contacticon {
+  font-size: 30px;
 }

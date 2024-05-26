@@ -38,6 +38,10 @@ function MyApp({ Component, pageProps, router }) {
   const [index, setIndex] = useState(0);
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
   const [MapIndex, setMapIndex] = useState(0);
+  
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [ContactIndex, setContactIndex] = useState(0);
+  
   const [isDescModalOpen, setIsDescModalOpen] = useState(false);
   const [DescIndex, setDescIndex] = useState({});
   const [stickyClass, setStickyClass] = useState("");
@@ -82,6 +86,23 @@ function MyApp({ Component, pageProps, router }) {
   const closeMapModal = () => {
     document.querySelector("html").classList.remove("open");
     setIsMapModalOpen(false);
+  };
+  const openContactModal = (i) => {
+    setIsContactModalOpen(true);
+        const clientWidth = document.body.clientWidth;
+    document.querySelector("html").classList.add("open");
+        const noScrollBarWidth = document.body.clientWidth;
+    const diff = noScrollBarWidth - clientWidth;
+    console.log(diff)
+    if (diff > 0 ) {
+      document.body.style["padding-right"] = diff + "px";
+    }
+    setContactIndex(i);
+  };
+
+  const closeContactModal = () => {
+    document.querySelector("html").classList.remove("open");
+    setIsContactModalOpen(false);
   };
 
   const openDescModal = (ei,i) => {
@@ -319,6 +340,9 @@ function MyApp({ Component, pageProps, router }) {
         isDescModalOpen,
         DescIndex,
         setDescIndex,
+        openContactModal,
+        closeContactModal,
+        isContactModalOpen,
       }}
     >
       <Script
@@ -334,19 +358,19 @@ function MyApp({ Component, pageProps, router }) {
             gtag('config', '${gtag.GA_MEASURAMENT_ID}');
           `}
       </Script>
-      <Script 
+      <Script
         id="gtm"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
-          __html:`
+          __html: `
           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
           j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
           })(window,document,'script','dataLayer','${gtag.GTM_ID}');
           `,
-          
-      }}/>
+        }}
+      />
       <Component {...pageProps} key={router.asPath} />
     </AppContext.Provider>
   );

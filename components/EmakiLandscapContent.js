@@ -10,20 +10,17 @@ import CardC from "./CardC";
 import Footer from "./Footer";
 import SnsShareBox from "./SnsShareBox";
 import ChapterDesc from "./ChapterDesc";
+import ToContactForm from "./ToContactForm";
+import ContactFormGoogle from "./ContactFormGoogle";
 
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
 
-const EmakiLandscapContent = ({
-  data,
-  selectedRef,
-  navIndex,
-  articleRef,
-}) => {
-  const { handleToId, handleFullScreen } = useContext(AppContext);
+const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
+  const { handleToId, handleFullScreen, isContactModalOpen } =
+    useContext(AppContext);
   const { emakis } = data;
   const { locale } = useRouter();
-
-
+console.log(isContactModalOpen);
   const {
     type,
     typeen,
@@ -47,8 +44,6 @@ const EmakiLandscapContent = ({
   const descTemp = `「${title} ${edition ? edition : ""}」${
     author ? `（${author}）` : ""
   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
-
-
 
   return (
     <>
@@ -135,7 +130,7 @@ const EmakiLandscapContent = ({
                 dangerouslySetInnerHTML={{ __html: desc ? desc : descTemp }}
               ></div>
               {/* 各段の詞書・解説 */}
-              {kotobagaki && <ChapterDesc emakis={emakis} />}
+              {kotobagaki && <ChapterDesc emakis={emakis} data={data} />}
 
               {/* 登場人物 */}
               {personname && (
@@ -223,6 +218,8 @@ const EmakiLandscapContent = ({
           </div>
           {/* <CardC data={data} /> */}
           {data.keyword && <CardC data={data} />}
+          <ToContactForm />
+          {isContactModalOpen && <ContactFormGoogle/>}
         </div>
       </div>
       <Footer />

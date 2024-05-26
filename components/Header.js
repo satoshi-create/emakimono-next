@@ -33,16 +33,12 @@ const Header = ({ slug, fixed, emakipage }) => {
       style={{ padding: "1rem 0" }}
     >
       <div className={styles.center}>
-          <Link href="/">
-            <a className={styles.title}>
-              <img
-                src="/favicon.png"
-                alt="favicon"
-                className={styles.favicon}
-              />
-              {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
-            </a>
-          </Link>
+        <Link href="/">
+          <a className={styles.title}>
+            <img src="/favicon.png" alt="favicon" className={styles.favicon} />
+            {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
+          </a>
+        </Link>
         <nav className={styles.nav}>
           <div className={styles.navcenter}>
             <button
@@ -54,6 +50,7 @@ const Header = ({ slug, fixed, emakipage }) => {
           </div>
           <SidebarHome />
         </nav>
+
         <NavLinks slug={slug} />
       </div>
     </header>
