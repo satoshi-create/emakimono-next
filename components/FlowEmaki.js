@@ -10,7 +10,7 @@ import Link from "next/link";
 
 // TODO:CREATE - レスポンシブデザインを作成する
 
-const FlowEmaki = ({ flowEmakis: emakis, sectiontitle, sectiontitleen }) => {
+const FlowEmaki = ({ flowEmakis: emakis, sectiontitle, sectiontitleen,center }) => {
   const { locale } = useRouter();
   const { orientation } = useContext(AppContext);
   return (
@@ -20,8 +20,9 @@ const FlowEmaki = ({ flowEmakis: emakis, sectiontitle, sectiontitleen }) => {
         {emakis.map((item, i) => {
           return (
             <div
-              className={`${styles.container}  ${
+              className={`${styles.container}  ${!center && (
                 i % 2 ? styles.left : styles.right
+              )
               }`}
               key={i}
             >
@@ -39,9 +40,9 @@ const FlowEmaki = ({ flowEmakis: emakis, sectiontitle, sectiontitleen }) => {
               ></h4>
               <FullScreenComp
                 index={i}
-                // width={"60vw"}
                 edition={item.edition}
                 titleen={item.titleen}
+                title={item.title}
                 genjieslug={item.genjieslug}
               >
                 <EmakiConteiner
