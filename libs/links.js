@@ -81,13 +81,13 @@ const links = [
       },
     ],
   },
-  {
-    name: "お問い合わせ",
-    nameen: "contact",
-    id: "contact",
-    path: "/contact",
-    submenu: "",
-  },
+  // {
+  //   name: "お問い合わせ",
+  //   nameen: "contact",
+  //   id: "contact",
+  //   path: "/contact",
+  //   submenu: "",
+  // },
 ];
 
 export default links;

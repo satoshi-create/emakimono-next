@@ -42,12 +42,11 @@ const Header = ({ slug, fixed, emakipage }) => {
           </a>
         </Link>
         <button
-          className={styles.linkedbtn}
           onClick={() => openContactModal(true)}
           title="ご意見をお寄せください"
         >
           <i>
-            <Mail className={`${styles.contacticon} hide-on-mobile`} />
+            <Mail className={`${styles.contacticon}`} />
           </i>
         </button>
 
