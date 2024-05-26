@@ -1,0 +1,76 @@
+.modal {
+  display: grid;
+  inset: 0;
+  /* opacity: 0; */
+  place-items: center;
+  position: fixed;
+  /* transform: scale(0); */
+  transition: var(--transition);
+  z-index: 500;
+}
+.MuiBackdrop {
+  background-color: rgba(0, 0, 0, 0.75);
+  cursor: pointer;
+  height: 100%;
+  inset: 0;
+  position: fixed;
+  width: 100%;
+  z-index: -1;
+}
+
+.closebtn {
+  font-size: 30px;
+  position: absolute;
+  right: 12px;
+  top: 0;
+  width: 20px;
+  cursor: pointer;
+}
+.container {
+  display: grid;
+ place-content: center;
+  background-color: white;
+  border-radius: 8px;
+  width: 90vw;
+  height: 90vh;
+  max-width: 1200px;
+  overflow: auto;
+  position: relative;
+  transition: var(--transition);
+  overflow: hidden;
+}
+@media screen and (min-width: 768px) {
+  .container {
+    row-gap: 1rem;
+  }
+}
+.iframebox{
+    width: 100%;
+    overflow: hidden;
+}
+.iframe{
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+
+.container {
+  display: flex;
+  justify-content: center;
+  column-gap: 2rem;
+}
+
+.article {
+  opacity: 0;
+  transition: var(--transition);
+  grid-column: 2;
+  grid-row: 3;
+  display: grid;
+  width: 80%;
+  height: 100%;
+  position: relative;
+  /* padding-top: 56.25%; */
+  align-self: center;
+  justify-self: center;
+}
