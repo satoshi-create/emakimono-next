@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useLayoutEffect, useState } from "react";
+import React, { useRef, useEffect, useLayoutEffect, useState,useContext } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import CardA from "../components/CardA";
@@ -10,7 +10,8 @@ import Attention from "../components/Attention";
 import Link from "next/link";
 import ChaptersTable from "../components/ChaptersGenjiTable";
 import FlowEmaki from "../components/FlowEmaki";
-
+import { AppContext } from "../pages/_app";
+import ContactFormGoogle from "../components/ContactFormGoogle";
 import {
   personnameItem,
   keywordItem,
@@ -43,6 +44,8 @@ import ExtractingListData from "../libs/ExtractingListData";
 
 
 const Home = () => {
+    const { isContactModalOpen } =
+    useContext(AppContext);
   const { t } = useLocale();
   const removeNestedArrayObj = ExtractingListData();
 
@@ -256,6 +259,7 @@ const Home = () => {
         linktitleen={"Side-scrolling art"}
         linkpath={"/type/byoubu"}
       />
+                {isContactModalOpen && <ContactFormGoogle/>}
       <Footer />
     </main>
   );
