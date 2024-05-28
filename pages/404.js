@@ -23,15 +23,15 @@ const Custom404 = () => {
     <>
       <Head />
       <Header fixed={true} />
-      {/* <Breadcrumbs
-        name={locale === "en" ? "redirect-form" : "リダイレクトフォーム"}
-      /> */}
+      <Breadcrumbs
+        name={locale === "en" ? "PAGE NOT FOUND" : "ページが見つかりません"}
+      />
       <section className="section-grid section-padding">
         <Title
           sectiontitle={"ページが見つかりません"}
-          sectiontitleen={"NOT FOUND"}
+          sectiontitleen={"PAGE NOT FOUND"}
         />
-          <Button title="ホームに戻る" path="/" />
+        <Button title="ホームに戻る" path="/" />
         {/* <FlowEmaki
           flowEmakis={chinkaEmakis}
           // sectiontitle={"四季山水図巻（山水長巻）"}
