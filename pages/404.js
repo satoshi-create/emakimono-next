@@ -27,15 +27,17 @@ const Custom404 = () => {
         name={locale === "en" ? "redirect-form" : "リダイレクトフォーム"}
       /> */}
       <section className="section-grid section-padding">
-        <h1>404</h1>
-        <h4>ページが見つかりません</h4>
-        <FlowEmaki
+        <Title
+          sectiontitle={"ページが見つかりません"}
+          sectiontitleen={"NOT FOUND"}
+        />
+          <Button title="ホームに戻る" path="/" />
+        {/* <FlowEmaki
           flowEmakis={chinkaEmakis}
           // sectiontitle={"四季山水図巻（山水長巻）"}
           // sectiontitleen={"sessyu_sikisansuizu"}
           center={true}
-        />  
-        <Button title="ホームに戻る" path="/" />
+        /> */}
       </section>
       <Footer />
     </>
