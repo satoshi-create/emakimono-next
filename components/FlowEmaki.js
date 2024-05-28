@@ -41,6 +41,7 @@ const FlowEmaki = ({ flowEmakis: emakis, sectiontitle, sectiontitleen,center }) 
               <FullScreenComp
                 index={i}
                 edition={item.edition}
+                editionen={item.editionen}
                 titleen={item.titleen}
                 title={item.title}
                 genjieslug={item.genjieslug}

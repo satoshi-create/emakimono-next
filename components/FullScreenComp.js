@@ -1,3 +1,5 @@
+import React from "react";
+import { useRouter } from "next/router";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -16,8 +18,23 @@ import Link from "next/link";
 //   </div>
 // );
 
-export default function FullScreenComp({ children, index, genjieslug,titleen,title }) {
+export default function FullScreenComp({
+  children,
+  index,
+  genjieslug,
+  edition,
+  editionen,
+  title,
+  titleen,
+}) {
   const handle = useFullScreenHandle();
+  const { locale } = useRouter();
+
+  const localeTitle =
+    locale === "en"
+      ? `${titleen}`
+      : `${title} ${edition && edition}`;
+
   return (
     <>
       <div
@@ -47,7 +64,7 @@ export default function FullScreenComp({ children, index, genjieslug,titleen,tit
           <div className={`${styles.genjieslugBox}`}>
             <h4 className={`${styles.genjieslugTitle}`}>
               <Link href={`/${titleen}`}>
-                <a>{title}</a>
+                <a>{localeTitle}</a>
               </Link>
             </h4>
           </div>
