@@ -29,14 +29,17 @@ const RedirectForm = () => {
         name={locale === "en" ? "redirect-form" : "リダイレクトフォーム"}
       /> */}
       <section className="section-grid section-padding">
-        <h1>ご協力ありがとうございました！</h1>
-
+        <Title
+          sectiontitle={"ご協力ありがとうございました！"}
+          sectiontitleen={"Thank you for your cooperation!"}
+        />
+{/* 
         <FlowEmaki
           flowEmakis={cyouzyuuEmakis}
           // sectiontitle={"四季山水図巻（山水長巻）"}
           // sectiontitleen={"sessyu_sikisansuizu"}
           center={true}
-        />
+        /> */}
         <Button title="ホームに戻る" path="/" />
       </section>
       <Footer />
