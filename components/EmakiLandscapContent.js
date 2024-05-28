@@ -32,6 +32,7 @@ console.log(isContactModalOpen);
     author,
     authoren,
     desc,
+    descen,
     sourceImage,
     sourceImageUrl,
     reference,
@@ -41,9 +42,15 @@ console.log(isContactModalOpen);
     kotobagaki,
   } = data;
 
-  const descTemp = `「${title} ${edition ? edition : ""}」${
+  const descTJa = desc ? desc :  `「${title} ${edition ? edition : ""}」${
     author ? `（${author}）` : ""
-  }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+    }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+  
+   const descEn = descen
+     ? descen
+     : `You can enjoy all the scenes of the " ${titleen} ${
+         authoren && `（${authoren}）`
+       } " in vertical and right to left scrolling mode.`;
 
   return (
     <>
@@ -127,7 +134,7 @@ console.log(isContactModalOpen);
               {/* 絵巻の紹介 */}
               <div
                 className={styles.desc}
-                dangerouslySetInnerHTML={{ __html: desc ? desc : descTemp }}
+                dangerouslySetInnerHTML={{ __html: locale === "en" ? descEn : descTJa }}
               ></div>
               {/* 各段の詞書・解説 */}
               {kotobagaki && <ChapterDesc emakis={emakis} data={data} />}

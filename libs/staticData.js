@@ -98,7 +98,7 @@ const en = {
     columns: "three",
   },
   cyouzyuu: {
-    title: "See all cyoujyu-jinbutsu-giga",
+    title: "See all Chōjū-jinbutsu-giga",
     titleen: "鳥獣人物戯画絵巻イッキ見！！",
     desc: "You can enjoy all scrolls of the Birds, Beasts, and Humans Caricature Picture Scrolls from A to Ding scrolls in side-scrolling mode. These picture scrolls were painted between the Heian and Kamakura periods, and depict animals and humans playing games with a stylish touch. There are many mysteries in these picture scrolls, and it is not always known who painted them. Let's take a look at all the scrolls and try to solve the riddles.",
     name: "cyouzyuu",
