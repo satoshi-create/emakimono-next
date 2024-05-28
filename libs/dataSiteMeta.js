@@ -9,7 +9,8 @@ const jaMeta = {
   siteIcon: "/favicon.png",
 };
 const enMeta = {
-  siteTitle: "EMAKIMONO!! - Scroll from right to left to enjoy the EMAKIMONO",
+  siteTitle:
+    "EMAKIMONO!! - Scroll from right to left to enjoy the EMAKIMONO（handscroll）",
   siteDesc:
     "This site pursues the enjoyment of picture scrolls by scrolling from right to left!",
   siteUrl: `https://emakimono.com/en`,
