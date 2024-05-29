@@ -120,7 +120,7 @@ const OverlayEkotoba = ({
                 />
               </button>
             )}
-            {matchSummary(chapter, data.genjieslug) && (
+            {kotobagaki  && (
               <button
                 className={`${styles.infoiconlink} ekotoba_info_click`}
                 // data-link-click="ekotoba_info_click"
@@ -139,6 +139,7 @@ const OverlayEkotoba = ({
                 />
               </button>
             )}
+            
           </div>
         )}
         <p
