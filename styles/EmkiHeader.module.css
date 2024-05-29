@@ -7,41 +7,36 @@
     padding: 1.5rem 0;
   }
 }
-.center {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: auto 1fr auto;
-  align-items: center;
-  gap: 8px;
-}
+
 .title {
   font-family: var(--title-font);
   font-size: 1.4rem;
   text-transform: uppercase;
   font-weight: 600;
   font-size: var(--title-size-prt);
+  white-space: nowrap;
 }
-.favicon {
-  width: 20px;
+
+.favicon{
+    width: 20px;
   height: 20px;
 }
-
-.header-fixed {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  left: 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 100;
-  padding: 1rem 0;
+.contacticon,
+.fabarsicon,
+.serchicon{
+  width: 24px;
+  height: 24px;
 }
 
-.openbtn {
-  font-size: 1.5rem;
-}
-.links {
-  display: none;
-}
-.contacticon {
-  font-size: 30px;
+
+/* ===========================
+ * グリッドレイアウト
+ * =========================== */
+
+ .center {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: auto 1fr auto auto auto;
+  align-items: center;
+  gap: 8px;
 }
