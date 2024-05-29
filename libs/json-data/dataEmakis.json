@@ -8585,10 +8585,21 @@
         "slug": "fire"
       }
     ],
-    "emakis": [
+    "emakis":[
       {
         "cat": "ekotoba",
         "chapter": "伴大納言絵詞（上）",
+        "load": "True",
+        "srcSp": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_chapter-375.webp",
+        "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_chapter-800.webp",
+        "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_chapter-1080.webp",
+        "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_chapter",
+        "srcWidth": "65",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "応天門の炎上",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -8605,7 +8616,7 @@
         "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_01-800.webp",
         "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_01-1080.webp",
         "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_01",
-        "srcWidth": "",
+        "srcWidth": "600",
         "srcHeight": "1080"
       },
       {
@@ -8616,7 +8627,7 @@
         "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_02-800.webp",
         "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_02-1080.webp",
         "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_02",
-        "srcWidth": "",
+        "srcWidth": "600",
         "srcHeight": "1080"
       },
       {
@@ -8627,7 +8638,7 @@
         "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_03-800.webp",
         "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_03-1080.webp",
         "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_03",
-        "srcWidth": "",
+        "srcWidth": "600",
         "srcHeight": "1080"
       },
       {
@@ -8638,7 +8649,7 @@
         "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_04-800.webp",
         "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_04-1080.webp",
         "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_04",
-        "srcWidth": "",
+        "srcWidth": "600",
         "srcHeight": "1080"
       },
       {
@@ -8649,7 +8660,7 @@
         "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_05-800.webp",
         "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_05-1080.webp",
         "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_05",
-        "srcWidth": "",
+        "srcWidth": "600",
         "srcHeight": "1080"
       },
       {
@@ -8660,7 +8671,7 @@
         "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_06-800.webp",
         "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_06-1080.webp",
         "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_06",
-        "srcWidth": "",
+        "srcWidth": "600",
         "srcHeight": "1080"
       },
       {
@@ -8671,7 +8682,7 @@
         "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_07-800.webp",
         "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_07-1080.webp",
         "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_07",
-        "srcWidth": "",
+        "srcWidth": "600",
         "srcHeight": "1080"
       },
       {
@@ -8682,7 +8693,7 @@
         "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_08-800.webp",
         "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_08-1080.webp",
         "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_08",
-        "srcWidth": "",
+        "srcWidth": "600",
         "srcHeight": "1080"
       },
       {
@@ -8693,7 +8704,7 @@
         "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_09-800.webp",
         "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_09-1080.webp",
         "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_09",
-        "srcWidth": "",
+        "srcWidth": "600",
         "srcHeight": "1080"
       },
       {
@@ -8704,7 +8715,7 @@
         "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_10-800.webp",
         "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_10-1080.webp",
         "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_10",
-        "srcWidth": "",
+        "srcWidth": "600",
         "srcHeight": "1080"
       },
       {
@@ -8715,7 +8726,7 @@
         "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_11-800.webp",
         "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_11-1080.webp",
         "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_11",
-        "srcWidth": "",
+        "srcWidth": "600",
         "srcHeight": "1080"
       },
       {
@@ -8726,8 +8737,19 @@
         "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_12-800.webp",
         "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_12-1080.webp",
         "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_12",
-        "srcWidth": "",
+        "srcWidth": "600",
         "srcHeight": "1080"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "伴善男の讒言と、藤原良房の諫言",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
         "cat": "image",
@@ -8737,7 +8759,7 @@
         "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_13-800.webp",
         "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_13-1080.webp",
         "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_13",
-        "srcWidth": "",
+        "srcWidth": "600",
         "srcHeight": "1080"
       },
       {
@@ -8748,7 +8770,7 @@
         "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_14-800.webp",
         "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_14-1080.webp",
         "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_14",
-        "srcWidth": "",
+        "srcWidth": "600",
         "srcHeight": "1080"
       },
       {
@@ -8759,51 +8781,7 @@
         "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_15-800.webp",
         "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_15-1080.webp",
         "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_15",
-        "srcWidth": "",
-        "srcHeight": "1080"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "False",
-        "srcSp": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_16-375.webp",
-        "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_16-800.webp",
-        "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_16-1080.webp",
-        "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_16",
-        "srcWidth": "",
-        "srcHeight": "1080"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "False",
-        "srcSp": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_17-375.webp",
-        "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_17-800.webp",
-        "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_17-1080.webp",
-        "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_17",
-        "srcWidth": "",
-        "srcHeight": "1080"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "False",
-        "srcSp": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_18-375.webp",
-        "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_18-800.webp",
-        "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_18-1080.webp",
-        "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_18",
-        "srcWidth": "",
-        "srcHeight": "1080"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "False",
-        "srcSp": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_19-375.webp",
-        "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_19-800.webp",
-        "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_19-1080.webp",
-        "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_19",
-        "srcWidth": "",
+        "srcWidth": "600",
         "srcHeight": "1080"
       }
     ]
