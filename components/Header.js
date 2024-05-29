@@ -38,10 +38,12 @@ const Header = ({ slug, fixed, emakipage }) => {
         <Link href="/">
           <a className={styles.title}>
             <img src="/favicon.png" alt="favicon" className={styles.favicon} />
-            {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
+            {locale === "en"
+              ? "emakimono!!"
+              : "横スクロールで楽しむ絵巻物"}
           </a>
         </Link>
-              <button
+        <button
           onClick={() => openContactModal(true)}
           title="ご意見をお寄せください"
           className={`${styles.contacticonbox}`}
