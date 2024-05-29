@@ -33,7 +33,7 @@ export default function FullScreenComp({
   const localeTitle =
     locale === "en"
       ? `${titleen}`
-      : `${title} ${edition && edition}`;
+      : `${title} ${edition ? edition : ""}`;
 
   return (
     <>
