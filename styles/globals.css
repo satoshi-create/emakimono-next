@@ -150,12 +150,16 @@ button {
   }
 }
 
+/* モバイルで隠す */
 .hide-on-mobile {
-  display: none;
+	@media (width <= 768px) {
+		display: none !important;
+	}
 }
-@media screen and (min-width: 768px) {
-  .hide-on-mobile {
-    display: block;
-  }
+/* モバイルで表示 */
+.show-on-mobile {
+	@media (width > 768px) {
+		display: none !important;
+	}
 }
 

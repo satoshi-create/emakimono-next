@@ -8588,21 +8588,12 @@
     "emakis":[
       {
         "cat": "ekotoba",
-        "chapter": "伴大納言絵詞（上）",
-        "load": "True",
-        "srcSp": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_chapter-375.webp",
-        "srcTb": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_chapter-800.webp",
-        "src": "/ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_chapter-1080.webp",
-        "name": "ban-dainagon-ekotoba_upper_tokiwa-mitsunaga_kokubunken_chapter",
-        "srcWidth": "65",
-        "srcHeight": "1080"
-      },
-      {
-        "cat": "ekotoba",
         "chapter": "応天門の炎上",
         "load": "",
         "srcSp": "",
         "srcTb": "",
+        "kobun": "今は昔、<ruby><rb>水尾</rb><rp>（</rp><rt>みずお</rt><rp>）</rp></ruby>の帝の御時に、応天門焼けぬ。人のつけたるになんありける。",
+        "gendaibun": "今は昔、<ruby><rb>水尾</rb><rp>（</rp><rt>みずお</rt><rp>）</rp></ruby>帝の御時に、応天門焼けぬ。人のつけたるになんありける。",
         "src": "",
         "name": "",
         "srcWidth": "",

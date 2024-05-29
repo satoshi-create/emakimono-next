@@ -7,9 +7,9 @@ import { useRouter } from "next/router";
 import NavLinks from "./NavLinks";
 import { AppContext } from "../pages/_app";
 import SidebarHome from "./SidebarHome";
-import { Mail } from "react-feather";
+import { Mail,Search } from "react-feather";
 
-const Header = ({ slug, fixed, emakipage }) => {
+const EmakiHeader = ({ slug, fixed, emakipage }) => {
   const { locale } = useRouter();
 
   const {
@@ -39,24 +39,35 @@ const Header = ({ slug, fixed, emakipage }) => {
         <Link href="/">
           <a className={styles.title}>
             {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
+            {/* <p>- Scroll from right to left to enjoy the handscroll</p> */}
           </a>
         </Link>
+        <form className={`${styles.serchform} hide-on-mobile`}>
+          <div className="form-control">
+            <label htmlFor="name"></label>
+            <input type="text" name="name" id="name" />
+          </div>
+        </form>
+        <button title="" className={`${styles.serchtbtn} show-on-mobile`}>
+          <Search className={`${styles.serchicon}`} />
+        </button>
         <button
           onClick={() => openContactModal(true)}
           title="ご意見をお寄せください"
+          className={styles.contactbtn}
         >
-          <i>
-            <Mail className={`${styles.contacticon}`} />
-          </i>
+          <Mail className={`${styles.contacticon}`} />
         </button>
-
         <nav className={styles.nav}>
           <div className={styles.navcenter}>
             <button
               className={`${styles.openbtn} btn`}
               onClick={() => openSidebar()}
             >
-              <FontAwesomeIcon icon={faBars} />
+              <FontAwesomeIcon
+                icon={faBars}
+                className={`${styles.fabarsicon}`}
+              />
             </button>
           </div>
           <SidebarHome />
@@ -66,4 +77,4 @@ const Header = ({ slug, fixed, emakipage }) => {
   );
 };
 
-export default Header;
+export default EmakiHeader;
