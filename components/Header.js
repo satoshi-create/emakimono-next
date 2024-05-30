@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import NavLinks from "./NavLinks";
 import { AppContext } from "../pages/_app";
 import SidebarHome from "./SidebarHome";
-import { Mail } from "react-feather";
+import { Mail,Search } from "react-feather";
 
 
 // TODO : ホバー時、header全体にリンクが入ってしまう
@@ -38,11 +38,18 @@ const Header = ({ slug, fixed, emakipage }) => {
         <Link href="/">
           <a className={styles.title}>
             <img src="/favicon.png" alt="favicon" className={styles.favicon} />
-            {locale === "en"
-              ? "emakimono!!"
-              : "横スクロールで楽しむ絵巻物"}
+            {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
           </a>
         </Link>
+        <button title="" className={`${styles.serchtbtn} show-on-mobile`}>
+          <Search className={`${styles.serchicon}`} />
+        </button>
+        <form className={`${styles.serchform} hide-on-mobile`}>
+          <div className="form-control">
+            <label htmlFor="name"></label>
+            <input type="text" name="name" id="name" />
+          </div>
+        </form>
         <button
           onClick={() => openContactModal(true)}
           title="ご意見をお寄せください"
