@@ -19,17 +19,20 @@ const Genji = () => {
   const { t } = useLocale();
   const { t: data } = useLocaleData();
 
-  const kusouzuFlowDatas = data.filter((emaki) => emaki.title.includes("鳥獣人物戯画絵巻"));
+  const cyouzyuuFlowDatas = data.filter((emaki) => emaki.title.includes("鳥獣人物戯画絵巻"));
 
   return (
     <main>
-      <Head />
+      <Head
+        pagetitle={t.cyouzyuu.title}
+        pageDesc={`${t.cyouzyuu.title}のページです。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。`}
+      />
       <Header fixed={false} />
       <Breadcrumbs
         name={locale === "en" ? t.cyouzyuu.titleen : t.cyouzyuu.title}
       />
       <FlowEmaki
-        flowEmakis={kusouzuFlowDatas}
+        flowEmakis={cyouzyuuFlowDatas}
         sectiontitle={t.cyouzyuu.title}
         sectiontitleen={t.cyouzyuu.titleen}
       />
