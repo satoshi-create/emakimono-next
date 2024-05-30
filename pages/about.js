@@ -16,7 +16,7 @@ const About = () => {
   const { t } = useLocale();
   return (
     <>
-      <Head />
+      <Head pagetitle={"About"} pageDesc={"Aboutページです。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。"} />
       <Header fixed={true} />
       <Breadcrumbs name={locale === "en" ? "about" : "ご挨拶"} />
 

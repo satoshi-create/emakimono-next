@@ -26,11 +26,12 @@ const Genji = () => {
 
   return (
     <main>
-      <Head />
-      <Header fixed={false} />
-      <Breadcrumbs
-        name={locale === "en" ? "The World of Genji Pictures" : "源氏絵の世界"}
+      <Head
+        pagetitle={t.genji.title}
+        pageDesc={`${t.genji.title}のページです。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。`}
       />
+      <Header fixed={false} />
+      <Breadcrumbs name={locale === "en" ? t.genji.titleen : t.genji.title} />
       <FlowEmaki
         flowEmakis={genjiFlowDatas}
         sectiontitle={t.genji.title}
