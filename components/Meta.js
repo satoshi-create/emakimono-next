@@ -20,16 +20,8 @@ const Meta = ({
 
   const title = pagetitle ? `${pagetitle} | ${t.siteTitle}` : t.siteTitle;
 
-  const tPageDesc =
-    locale === "en"
-      ? `You can enjoy all the scenes of the ${pagetitle} ${
-          pageAuthor && `（${pageAuthor}）`
-        }in vertical and right to left scrolling mode.`
-      : `${pagetitle}${
-          pageAuthor && `（${pageAuthor}）`
-        }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
-  const pageDescTemp = pageDesc ? pageDesc : tPageDesc;
-  const desc = pagetitle ? pageDescTemp : t.siteDesc;
+
+
   const url = `${t.siteUrl}${asPath}`;
 
   const img = pageImg ? pageImg : "/ogp.png";
@@ -41,8 +33,8 @@ const Meta = ({
     <Head>
       <title>{title}</title>
       <meta property="og:title" content={title} />
-      <meta name="description" content={desc} />
-      <meta property="og:description" content={desc} />
+      <meta name="description" content={pageDesc} />
+      <meta property="og:description" content={pageDesc} />
       <link rel="canonical" href={url} />
       <meta property="og:url" content={url} />
       {locales.map((locale) => {

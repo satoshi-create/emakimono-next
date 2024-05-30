@@ -28,16 +28,28 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
     toggleFullscreen,
     setToggleFullscreen,
   } = useContext(AppContext);
-  // const pagetitle = locale === "en" ? `${data.titleen} | ${t.siteTitle}` : `${data.title} ${data.edition ? data.edition : ""} | ${t.siteTitle}`;
+
+  
   const pagetitle =
     locale === "en"
       ? data.titleen
       : `${data.title} ${data.edition ? data.edition : ""}`;
 
-  
+  const pageAuthor = locale === "en" ? data.authoren : data.author;
+
   const tPageDesc =
     locale === "en"
-      ? data.descen : data.desc;
+      ? `You can enjoy all the scenes of the ${pagetitle} ${
+          pageAuthor && `（${pageAuthor}）`
+        }in vertical and right to left scrolling mode.`
+      : `${pagetitle}${
+          pageAuthor && `（${pageAuthor}）`
+        }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+
+  const pageDesc = locale === "en" ? data.descen : data.desc;
+
+  const pageDescTemp = pageDesc ? pageDesc : tPageDesc;
+  const pageDescAll = pagetitle ? pageDescTemp : t.siteDesc;
 
   const jsonData = {
     "@context": "http://schema.org",
@@ -237,8 +249,8 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
     <>
       <Head
         pagetitle={pagetitle}
-        pageAuthor={data.author}
-        pageDesc={tPageDesc}
+        pageAuthor={pageAuthor}
+        pageDesc={pageDescAll}
         pageImg={data.thumb}
         pageImgW={data.thumb.width}
         pageImgH={data.thumb.height}
