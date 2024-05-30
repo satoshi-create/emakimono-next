@@ -23,7 +23,10 @@ const Genji = () => {
 
   return (
     <main>
-      <Head />
+      <Head
+        pagetitle={t.kusouzu.title}
+        pageDesc={`${t.kusouzu.title}のページです。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。`}
+      />
       <Header fixed={false} />
       <Breadcrumbs
         name={locale === "en" ? t.kusouzu.titleen : t.kusouzu.title}
