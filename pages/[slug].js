@@ -33,14 +33,11 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
     locale === "en"
       ? data.titleen
       : `${data.title} ${data.edition ? data.edition : ""}`;
+
+  
   const tPageDesc =
     locale === "en"
-      ? `You can enjoy all the scenes of the ${pagetitle} ${
-          data.author && `（${data.author}）`
-        }in verticalp and right to left scrolling mode.`
-      : `${pagetitle} ${
-          data.author && `（${data.author}）`
-        }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+      ? data.descen : data.desc;
 
   const jsonData = {
     "@context": "http://schema.org",
@@ -241,7 +238,7 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
       <Head
         pagetitle={pagetitle}
         pageAuthor={data.author}
-        pageDesc={data.metadesc}
+        pageDesc={tPageDesc}
         pageImg={data.thumb}
         pageImgW={data.thumb.width}
         pageImgH={data.thumb.height}
