@@ -23,7 +23,7 @@ const Chaptersgenjilist = () => {
   return (
     <>
       <Head
-        pagetitle={locale === "en" ? "chapters genji list" : "源氏物語54帖一覧"}
+        pagetitle={locale === "en" ? "chapters-kusouzu-list" : "九相図一覧"}
         pageDesc={tPageDesc}
       />
       <Header />
