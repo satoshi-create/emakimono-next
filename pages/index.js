@@ -68,6 +68,9 @@ const Home = () => {
   const cyouzyuuEmakis = removeNestedArrayObj.filter((emaki) =>
     emaki.title.includes("鳥獣人物戯画絵巻")
   );
+  const bandainagonEmakis = removeNestedArrayObj.filter((emaki) =>
+    emaki.title.includes("伴大納言絵詞")
+  );
 
   
   const setsuwaEmakis = removeNestedArrayObj.filter(
@@ -184,6 +187,18 @@ const Home = () => {
         bcg={"#f9fbff"}
       />
       <CardA
+        emakis={bandainagonEmakis}
+        columns={t.bandainagon.columns}
+        sectiontitle={t.bandainagon.title}
+        sectiontitleen={t.bandainagon.titleen}
+        sectiondesc={t.bandainagon.desc}
+        sectionname={t.bandainagon.name}
+        linktitle={t.bandainagon.title}
+        linktitleen={t.bandainagon.title}
+        linkpath={"bandainagon"}
+        // bcg={"#f9fbff"}
+      />
+      <CardA
         emakis={cyouzyuuEmakis}
         columns={t.cyouzyuu.columns}
         sectiontitle={t.cyouzyuu.title}
@@ -193,7 +208,7 @@ const Home = () => {
         linktitle={t.cyouzyuu.title}
         linktitleen={t.cyouzyuu.title}
         linkpath={"cyouzyuu"}
-        // bcg={"#f9fbff"}
+        bcg={"#f9fbff"}
       />
       <CardA
         emakis={genjiEmakis}
@@ -205,7 +220,7 @@ const Home = () => {
         linktitle={"源氏物語絵54帖万華鏡"}
         linktitleen={"Genji Picture 54 Kaleidoscope"}
         linkpath={"genji-pictures"}
-        bcg={"#f9fbff"}
+        // bcg={"#f9fbff"}
       />
       <FlowEmaki
         flowEmakis={sikisansuizuFlowDatas}
@@ -259,7 +274,7 @@ const Home = () => {
         linktitleen={"Side-scrolling art"}
         linkpath={"/type/byoubu"}
       />
-                {isContactModalOpen && <ContactFormGoogle/>}
+      {isContactModalOpen && <ContactFormGoogle />}
       <Footer />
     </main>
   );
