@@ -104,6 +104,13 @@ const en = {
     name: "kusouzu",
     columns: "three",
   },
+  bandainagon: {
+    title: "See all ban-dainagon-ekotoba",
+    titleen: "伴大納言絵詞全巻イッキ見！！",
+    desc: "The Ban Dainagon Emaki, upper, middle, and lower volumes, can be enjoyed vertically and horizontally scrolled. This is the masterpiece of a serial picture scroll produced by the genius painter Tokiwa Mitsunaga under the production of Emperor Go-Shirakawa, a picture scroll enthusiast, at the end of the Heian period (794-1185). From the upper part of the scroll, which depicts with great power the scene of the Otenmon Gate going up in flames, to the graphic depiction of the grieving wives of the Ban family, this emaki is full of highlights filled with joy, anger, sorrow, and happiness.",
+    name: "bandainagon",
+    columns: "three",
+  },
   cyouzyuu: {
     title: "See all Chōjū-jinbutsu-giga",
     titleen: "鳥獣人物戯画絵巻イッキ見！！",
