@@ -8827,7 +8827,7 @@
 	{
 		"cat":"ekotoba",
 		"chapter":"赦免の使者、天道に訴える源信、そして女房たち",
-		"gendaibun":"大臣（源信）は少しも犯した事などないのに、このような無実の罪を、、、",
+		"gendaibun":"",
 		"kobun":"",
 		"desc":"",
 		"load":"True",
@@ -9120,6 +9120,305 @@
 	}
 ]
 
-  }
+  },
+    {
+      "id": 51,
+      "title": "伴大納言絵詞",
+      "titleen": "ban-dainagon-ekotoba_lower",
+      "edition": "下",
+      "editionen": "lower",
+      "author": "常盤光長",
+      "authoren": "tokiwa-mitsunaga",
+      "backgroundImage": "/washi-pattern-01.webp",
+      "video": "",
+      "thumb": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_01-375.webp",
+      "thumb2": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_01-375.webp",
+      "desc": "",
+      "era": "平安",
+      "eraen": "heiann",
+      "gif": "",
+      "type": "絵巻",
+      "typeen": "emaki",
+      "subtype": "連続式",
+      "favorite": true,
+      "kotobagaki": true,
+      "sourceImageUrl": "https://kokusho.nijl.ac.jp/biblio/200013707/",
+      "sourceImage": "伴大納言繪詞（国文学研究資料館）",
+      "sourceEkotoba": "",
+      "keyword": [
+        {
+          "name": "火事",
+          "id": "fire",
+          "slug": "fire"
+        }
+      ],
+      "emakis": [
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "True",
+          "srcSp": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_chapter-375.webp",
+          "srcTb": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_chapter-800.webp",
+          "src": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_chapter-1080.webp",
+          "name": "ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_chapter",
+          "srcWidth": "60",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "ekotoba",
+          "chapter": "① 舎人の拘引と尋問",
+          "load": "True",
+          "srcSp": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_01-375.webp",
+          "srcTb": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_01-800.webp",
+          "src": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_01-1080.webp",
+          "name": "ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_01",
+          "srcWidth": "600",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "ekotoba",
+          "chapter": "舎人の拘引",
+          "load": "",
+          "srcSp": "",
+          "srcTb": "",
+          "src": "",
+          "name": "",
+          "srcWidth": "",
+          "srcHeight": ""
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_02-375.webp",
+          "srcTb": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_02-800.webp",
+          "src": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_02-1080.webp",
+          "name": "ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_02",
+          "srcWidth": "600",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_03-375.webp",
+          "srcTb": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_03-800.webp",
+          "src": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_03-1080.webp",
+          "name": "ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_03",
+          "srcWidth": "600",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "ekotoba",
+          "chapter": "舎人の尋問",
+          "load": "",
+          "srcSp": "",
+          "srcTb": "",
+          "src": "",
+          "name": "",
+          "srcWidth": "",
+          "srcHeight": ""
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_04-375.webp",
+          "srcTb": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_04-800.webp",
+          "src": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_04-1080.webp",
+          "name": "ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_04",
+          "srcWidth": "600",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_05-375.webp",
+          "srcTb": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_05-800.webp",
+          "src": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_05-1080.webp",
+          "name": "ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_05",
+          "srcWidth": "600",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "ekotoba",
+          "chapter": "② 検非違使の出動、伴家の悲嘆、大納言の護送",
+          "load": "False",
+          "srcSp": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_06-375.webp",
+          "srcTb": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_06-800.webp",
+          "src": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_06-1080.webp",
+          "name": "ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_06",
+          "srcWidth": "600",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "ekotoba",
+          "chapter": "検非違使の出動",
+          "load": "",
+          "srcSp": "",
+          "srcTb": "",
+          "src": "",
+          "name": "",
+          "srcWidth": "",
+          "srcHeight": ""
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_07-375.webp",
+          "srcTb": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_07-800.webp",
+          "src": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_07-1080.webp",
+          "name": "ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_07",
+          "srcWidth": "600",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_08-375.webp",
+          "srcTb": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_08-800.webp",
+          "src": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_08-1080.webp",
+          "name": "ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_08",
+          "srcWidth": "600",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_09-375.webp",
+          "srcTb": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_09-800.webp",
+          "src": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_09-1080.webp",
+          "name": "ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_09",
+          "srcWidth": "600",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "ekotoba",
+          "chapter": "門前で看督長の口上を聞く老家司",
+          "load": "",
+          "srcSp": "",
+          "srcTb": "",
+          "src": "",
+          "name": "",
+          "srcWidth": "",
+          "srcHeight": ""
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_10-375.webp",
+          "srcTb": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_10-800.webp",
+          "src": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_10-1080.webp",
+          "name": "ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_10",
+          "srcWidth": "600",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "ekotoba",
+          "chapter": "主なき伴家の悲嘆と絶望",
+          "load": "",
+          "srcSp": "",
+          "srcTb": "",
+          "src": "",
+          "name": "",
+          "srcWidth": "",
+          "srcHeight": ""
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_11-375.webp",
+          "srcTb": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_11-800.webp",
+          "src": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_11-1080.webp",
+          "name": "ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_11",
+          "srcWidth": "600",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_12-375.webp",
+          "srcTb": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_12-800.webp",
+          "src": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_12-1080.webp",
+          "name": "ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_12",
+          "srcWidth": "600",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "ekotoba",
+          "chapter": "門で主人を見送る使用人たちから護送の一行",
+          "load": "",
+          "srcSp": "",
+          "srcTb": "",
+          "src": "",
+          "name": "",
+          "srcWidth": "",
+          "srcHeight": ""
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_13-375.webp",
+          "srcTb": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_13-800.webp",
+          "src": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_13-1080.webp",
+          "name": "ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_13",
+          "srcWidth": "600",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_14-375.webp",
+          "srcTb": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_14-800.webp",
+          "src": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_14-1080.webp",
+          "name": "ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_14",
+          "srcWidth": "600",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_15-375.webp",
+          "srcTb": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_15-800.webp",
+          "src": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_15-1080.webp",
+          "name": "ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_15",
+          "srcWidth": "600",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_16-375.webp",
+          "srcTb": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_16-800.webp",
+          "src": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_16-1080.webp",
+          "name": "ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_16",
+          "srcWidth": "600",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_17-375.webp",
+          "srcTb": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_17-800.webp",
+          "src": "/ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_17-1080.webp",
+          "name": "ban-dainagon-ekotoba_lower_tokiwa-mitsunaga_kokubunken_17",
+          "srcWidth": "600",
+          "srcHeight": "1080"
+        }
+      ]
+
+    }
 ]
 
