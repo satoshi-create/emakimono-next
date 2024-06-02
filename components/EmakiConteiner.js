@@ -38,7 +38,7 @@ const EmakiContainer = ({
   } = useContext(AppContext);
 
   const emakis = data.emakis;
-  console.log(emakis);
+
   const { backgroundImage, kotobagaki, type } = data;
 
   const [toggle, setToggle] = useState(true);

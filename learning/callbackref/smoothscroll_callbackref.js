@@ -12,7 +12,6 @@ export default function App() {
   const itemsRef = useRef(null);
   const [index, setIndex] = useState(0);
   const [currentnode, setCurrentnode] = useState();
-  console.log(currentnode);
 
   const handleScroll = (ref) => {
     ref.current.scrollIntoView({
@@ -23,7 +22,6 @@ export default function App() {
   function scrollToId(itemId) {
     const map = getMap();
     const node = map.get(itemId);
-    console.log(node);
 
     node.scrollIntoView({
       behavior: "smooth",

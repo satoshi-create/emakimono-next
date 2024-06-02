@@ -2,7 +2,6 @@ import { useCallback, useState } from "react";
 
 function MeasureExample() {
   const [height, setHeight] = useState({});
-  console.log(height);
 
   const measuredRef = useCallback((node) => {
     if (node !== null) {

@@ -16,12 +16,9 @@ const ChaptersKusouzuTable = ({
     (item) => item.id
   ).toString();
 
-  console.log(ExistKusouzuChaptersTitletoString);
 
   const chapterKusouzuMatching = (id) =>
     ExistKusouzuChaptersTitletoString.includes(id);
-
-  console.log(AllKusouzuChapters)
 
   return (
     <section className={`section-grid section-padding `}>

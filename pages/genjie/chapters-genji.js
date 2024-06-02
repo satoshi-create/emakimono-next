@@ -13,7 +13,6 @@ const Chaptersgenjilist = () => {
 
   const ExistGenjiChapters = genjieSlugItem(removeNestedArrayObj);
 
-console.log(ExistGenjiChapters);
 
   const tPageDesc =
     locale === "en"

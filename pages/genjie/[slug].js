@@ -75,8 +75,6 @@ export const getStaticProps = async (context) => {
 
   const chaptergenji = AllGenjiChapters.find((item) => item.path === genjieslugname);
   
-console.log(chaptergenji);
-
   const filterdEmakisData = tEmakisData.filter((x) => {
     if (x.genjieslug) {
       const filterdGenjieslug = x.genjieslug.some(

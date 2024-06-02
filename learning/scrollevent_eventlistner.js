@@ -10,7 +10,7 @@ const Scrollevent = () => {
     const con = containerRef.current;
     const btnPrev = scrollPrevRef.current;
     const btnNext = scrollNextRef.current;
-    console.log(con);
+
 
     const scrollNextEvent = () => {
       if (con) {

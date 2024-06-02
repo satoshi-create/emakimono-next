@@ -20,7 +20,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     useContext(AppContext);
   const { emakis } = data;
   const { locale } = useRouter();
-console.log(isContactModalOpen);
   const {
     type,
     typeen,

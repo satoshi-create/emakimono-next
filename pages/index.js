@@ -160,7 +160,6 @@ const Home = () => {
     };
   })
 
-  console.log(itemListElement);
   
   const jsonData = {
     "@context": "https://schema.org",

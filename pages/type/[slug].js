@@ -63,8 +63,6 @@ export const getStaticProps = async (context) => {
   const typeObj = typeItem(tEmakisData).find(
     ({ typeen }) => typeen === catslug
   );
-  console.log(typeObj);
-
   const removeNestedArrayObj = tEmakisData.map((item) => {
     return removeNestedEmakisObj(item);
   });
