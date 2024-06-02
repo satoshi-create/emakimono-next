@@ -10,9 +10,6 @@ const SingleChapterDesc = ({ item, index, emakis,data }) => {
   const [showInfo, setShowInfo] = useState(false);
   const { chapter, gendaibun, cat, desc } = item;
   const { genjieslug } =data
-  console.log(genjieslug);
-
-
   return (
     <article className={styles.chapterDesc}>
       <div
