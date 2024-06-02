@@ -26,8 +26,6 @@ const ModalDesc = ({ data }) => {
     closeDescModal();
   };
 
-console.log(data);
-
 
 
   const [value, setValue] = useState(0);

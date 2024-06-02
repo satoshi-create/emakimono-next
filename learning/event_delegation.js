@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 const EventDelegation = () => {
   const [bg, setbg] = useState("");
-  console.log(bg);
 
   function random(number) {
     return Math.floor(Math.random() * number);

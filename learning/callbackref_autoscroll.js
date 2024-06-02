@@ -5,7 +5,6 @@ const SmoothScrolling = () => {
 
   useLayoutEffect(() => {
     const container = containerRef.current;
-    console.log(container);
 
     const handleScroll = () => {
       // Smoothly scroll to the top of the container
