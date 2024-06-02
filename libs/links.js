@@ -17,23 +17,30 @@ const links = [
     path: "",
     submenu: [
       {
-        name: "源氏物語絵54帖万華鏡",
-        nameen: "genji-pictures",
-        id: "genji-pictures",
-        path: "/genji-pictures",
-      },
-      {
         name: "九相図観想",
         nameen: "contemplation of Nine stages of decay",
-        id: "kusouzu",
-        path: "/kusouzu",
+        id: "flow-kusouzu",
+        path: "/flow-kusouzu",
       },
-      {
+            {
+        name: "伴大納言絵詞全巻イッキ見！！",
+        nameen: "See all ban-dainagon-ekotoba",
+        id: "flow-ban-dainagon",
+        path: "/flow-ban-dainagon",
+      },
+         {
         name: "鳥獣人物戯画絵巻イッキ見！！",
         nameen: "See all cyoujyu-jinbutsu-giga",
         id: "cyouzyuu",
         path: "/cyouzyuu",
       },
+      {
+        name: "源氏物語絵54帖万華鏡",
+        nameen: "Tale of Genji Picture 54 Kaleidoscope",
+        id: "flow-genji-pictures",
+        path: "/flow-genji-pictures",
+      },
+   
     ],
   },
   // {

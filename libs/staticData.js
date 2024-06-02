@@ -6,6 +6,13 @@ const ja = {
     name: "kusouzu",
     columns: "three",
   },
+  bandainagon: {
+    title: "伴大納言絵詞全巻イッキ見！！",
+    titleen: "See all ban-dainagon-ekotoba",
+    desc: "伴大納言絵詞、上・中・下全巻を、縦書き・横スクロールで楽しむことができます。平安時代末期に絵巻マニアの後白河法皇プロデュースのもと、天才絵師・常盤光長の手により制作された連続式絵巻の最高傑作です。応天門が炎上する様子をド迫力で描いた上巻から、悲嘆にくれる伴家の女房たちの生々しい描写まで、喜怒哀楽に満ちた見どころ満載の絵巻です。",
+    name: "cyouzyuu",
+    columns: "three",
+  },
   cyouzyuu: {
     title: "鳥獣人物戯画絵巻全巻イッキ見！！",
     titleen: "See all cyoujyu-jinbutsu-giga（Frog and rabbit）",
