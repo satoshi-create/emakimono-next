@@ -42,7 +42,7 @@ const EmakiHeader = ({ slug, fixed, emakipage }) => {
             {/* <p>- Scroll from right to left to enjoy the handscroll</p> */}
           </a>
         </Link>
-        <form className={`${styles.serchform} hide-on-mobile`}>
+        {/* <form className={`${styles.serchform} hide-on-mobile`}>
           <div className="form-control">
             <label htmlFor="name"></label>
             <input type="text" name="name" id="name" />
@@ -50,7 +50,7 @@ const EmakiHeader = ({ slug, fixed, emakipage }) => {
         </form>
         <button title="" className={`${styles.serchtbtn} show-on-mobile`}>
           <Search className={`${styles.serchicon}`} />
-        </button>
+        </button> */}
         <button
           onClick={() => openContactModal(true)}
           title="ご意見をお寄せください"

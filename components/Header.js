@@ -41,7 +41,7 @@ const Header = ({ slug, fixed, emakipage }) => {
             {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
           </a>
         </Link>
-        <button title="" className={`${styles.serchtbtn} show-on-mobile`}>
+        {/* <button title="" className={`${styles.serchtbtn} show-on-mobile`}>
           <Search className={`${styles.serchicon}`} />
         </button>
         <form className={`${styles.serchform} hide-on-mobile`}>
@@ -49,7 +49,7 @@ const Header = ({ slug, fixed, emakipage }) => {
             <label htmlFor="name"></label>
             <input type="text" name="name" id="name" />
           </div>
-        </form>
+        </form> */}
         <button
           onClick={() => openContactModal(true)}
           title="ご意見をお寄せください"
