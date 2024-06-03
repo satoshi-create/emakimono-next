@@ -16,11 +16,9 @@ const Meta = ({
   const { t } = useLocaleMeta();
   const { locale, locales, asPath, defaultLocale } = useRouter();
 
-  // const title = pagetitle ? `${pagetitle}` : t.siteTitle;
-
   const title = pagetitle ? `${pagetitle} | ${t.siteTitle}` : t.siteTitle;
 
-
+  const pageDescAll = pageDesc ? pageDesc : t.siteDesc;
 
   const url = `${t.siteUrl}${asPath}`;
 
@@ -33,8 +31,8 @@ const Meta = ({
     <Head>
       <title>{title}</title>
       <meta property="og:title" content={title} />
-      <meta name="description" content={pageDesc} />
-      <meta property="og:description" content={pageDesc} />
+      <meta name="description" content={pageDescAll} />
+      <meta property="og:description" content={pageDescAll} />
       <link rel="canonical" href={url} />
       <meta property="og:url" content={url} />
       {locales.map((locale) => {

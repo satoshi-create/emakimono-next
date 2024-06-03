@@ -49,7 +49,6 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
   const pageDesc = locale === "en" ? data.descen : data.desc;
 
   const pageDescTemp = pageDesc ? pageDesc : tPageDesc;
-  const pageDescAll = pagetitle ? pageDescTemp : t.siteDesc;
 
   const jsonData = {
     "@context": "http://schema.org",
@@ -250,7 +249,7 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
       <Head
         pagetitle={pagetitle}
         pageAuthor={pageAuthor}
-        pageDesc={pageDescAll}
+        pageDesc={pageDescTemp}
         pageImg={data.thumb}
         pageImgW={data.thumb.width}
         pageImgH={data.thumb.height}
