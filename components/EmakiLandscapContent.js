@@ -3,7 +3,7 @@ import EmakiConteiner from "./EmakiConteiner";
 import styles from "../styles/EmakiLandscapContent.module.css";
 import { AppContext } from "../pages/_app";
 import Link from "next/link";
-import { eraColor } from "../libs/func";
+import { eraColor, useLocale, useLocaleData } from "../libs/func";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import CardC from "./CardC";
@@ -12,7 +12,8 @@ import SnsShareBox from "./SnsShareBox";
 import ChapterDesc from "./ChapterDesc";
 import ToContactForm from "./ToContactForm";
 import ContactFormGoogle from "./ContactFormGoogle";
-
+import { ExternalLink } from "react-feather";
+import EditionLinks from "./EditionLinks";
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
 
 const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
@@ -20,6 +21,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     useContext(AppContext);
   const { emakis } = data;
   const { locale } = useRouter();
+
   const {
     type,
     typeen,
@@ -41,15 +43,18 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     kotobagaki,
   } = data;
 
-  const descTJa = desc ? desc :  `「${title} ${edition ? edition : ""}」${
-    author ? `（${author}）` : ""
-    }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
-  
-   const descEn = descen
-     ? descen
-     : `You can enjoy all the scenes of the " ${titleen} ${
-         authoren && `（${authoren}）`
-       } " in vertical and right to left scrolling mode.`;
+  const descTJa = desc
+    ? desc
+    : `「${title} ${edition ? edition : ""}」${
+        author ? `（${author}）` : ""
+      }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+
+  const descEn = descen
+    ? descen
+    : `You can enjoy all the scenes of the " ${titleen} ${
+        authoren && `（${authoren}）`
+      } " in vertical and right to left scrolling mode.`;
+
 
   return (
     <>
@@ -133,8 +138,13 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               {/* 絵巻の紹介 */}
               <div
                 className={styles.desc}
-                dangerouslySetInnerHTML={{ __html: locale === "en" ? descEn : descTJa }}
+                dangerouslySetInnerHTML={{
+                  __html: locale === "en" ? descEn : descTJa,
+                }}
               ></div>
+              {/* 他巻へのリンク */}
+              <EditionLinks title={title} edition={edition} />
+
               {/* 各段の詞書・解説 */}
               {kotobagaki && <ChapterDesc emakis={emakis} data={data} />}
 
@@ -225,7 +235,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
           {/* <CardC data={data} /> */}
           {data.keyword && <CardC data={data} />}
           <ToContactForm />
-          {isContactModalOpen && <ContactFormGoogle/>}
+          {isContactModalOpen && <ContactFormGoogle />}
         </div>
       </div>
       <Footer />
