@@ -12,6 +12,7 @@ import ChapterDesc from "./ChapterDesc";
 import SnsShareBox from "./SnsShareBox";
 import ToContactForm from "./ToContactForm";
 import ContactFormGoogle from "./ContactFormGoogle";
+import EditionLinks from "./EditionLinks";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { handleToId, handleFullScreen, setnavIndex, isContactModalOpen } =
@@ -97,6 +98,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               </div>
             )}
             <ul className={styles.chapter} style={{ color: eraColor(era) }}>
+              {/* 絵巻の紹介 */}
               {emakis.map((item, index) => {
                 const { cat, chapter } = item;
                 if (cat === "ekotoba") {
@@ -114,8 +116,11 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 }
               })}
             </ul>
+
             {/* 各段の詞書・解説 */}
             {kotobagaki && <ChapterDesc emakis={emakis} data={data} />}
+            {/* 他巻へのリンク */}
+            <EditionLinks title={title} edition={edition} />
             {personname && (
               <div
                 className={`${styles.tags} ${locale === "ja" && styles.jatags}`}
