@@ -22,3 +22,7 @@
   margin-left: 0.2rem;
   color: var(--clr-link);
 }
+.scrollIcon{
+    transform: rotate(90deg);
+    margin-right: 3px;
+}
