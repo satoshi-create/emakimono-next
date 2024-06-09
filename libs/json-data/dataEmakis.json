@@ -9576,6 +9576,256 @@
         }
       ]
 
+    },
+    {
+      "id": 52,
+      "title": "信貴山縁起絵巻",
+      "titleen": "shigisan-engi-emaki_upper",
+      "edition": "上",
+      "editionen": "upper",
+      "author": "",
+      "authoren": "",
+      "backgroundImage": "/washi-pattern-01.webp",
+      "video": "",
+      "thumb": "/shigisan-engi-emaki_upper_kokkai_01.webp",
+      "thumb2": "/shigisan-engi-emaki_upper_kokkai_01.webp",
+      "era": "平安",
+      "eraen": "heiann",
+      "desc":"",
+      "gif": "",
+      "type": "絵巻",
+      "typeen": "emaki",
+      "subtype": "連続式",
+      "favorite": true,
+      "kotobagaki": false,
+      "sourceImageUrl": "https://dl.ndl.go.jp/info:ndljp/pid/2574276",
+      "sourceImage": "信貴山縁起絵巻（国立国会図書館）",
+      "sourceEkotoba": "",
+      "keyword": [
+        {
+          "name": "火事",
+          "id": "fire",
+          "slug": "fire"
+        }
+      ],
+          "reference": [
+      {
+        "type": "書籍",
+        "url": "https://shorturl.at/wT01y",
+        "title": "『十二世紀のアニメーション: 国宝絵巻物に見る映画的・アニメ的なるもの』"
+      }
+    ],
+      "emakis": [
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "True",
+          "srcSp": "/shigisan-engi-emaki_upper_kokkai_01-375.webp",
+          "srcTb": "/shigisan-engi-emaki_upper_kokkai_01-800.webp",
+          "src": "/shigisan-engi-emaki_upper_kokkai_01-1080.webp",
+          "name": "shigisan-engi-emaki_upper_kokkai_01",
+          "srcWidth": "",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "True",
+          "srcSp": "/shigisan-engi-emaki_upper_kokkai_02-375.webp",
+          "srcTb": "/shigisan-engi-emaki_upper_kokkai_02-800.webp",
+          "src": "/shigisan-engi-emaki_upper_kokkai_02-1080.webp",
+          "name": "shigisan-engi-emaki_upper_kokkai_02",
+          "srcWidth": "",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/shigisan-engi-emaki_upper_kokkai_03-375.webp",
+          "srcTb": "/shigisan-engi-emaki_upper_kokkai_03-800.webp",
+          "src": "/shigisan-engi-emaki_upper_kokkai_03-1080.webp",
+          "name": "shigisan-engi-emaki_upper_kokkai_03",
+          "srcWidth": "",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/shigisan-engi-emaki_upper_kokkai_04-375.webp",
+          "srcTb": "/shigisan-engi-emaki_upper_kokkai_04-800.webp",
+          "src": "/shigisan-engi-emaki_upper_kokkai_04-1080.webp",
+          "name": "shigisan-engi-emaki_upper_kokkai_04",
+          "srcWidth": "",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/shigisan-engi-emaki_upper_kokkai_05-375.webp",
+          "srcTb": "/shigisan-engi-emaki_upper_kokkai_05-800.webp",
+          "src": "/shigisan-engi-emaki_upper_kokkai_05-1080.webp",
+          "name": "shigisan-engi-emaki_upper_kokkai_05",
+          "srcWidth": "",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/shigisan-engi-emaki_upper_kokkai_06-375.webp",
+          "srcTb": "/shigisan-engi-emaki_upper_kokkai_06-800.webp",
+          "src": "/shigisan-engi-emaki_upper_kokkai_06-1080.webp",
+          "name": "shigisan-engi-emaki_upper_kokkai_06",
+          "srcWidth": "",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/shigisan-engi-emaki_upper_kokkai_07-375.webp",
+          "srcTb": "/shigisan-engi-emaki_upper_kokkai_07-800.webp",
+          "src": "/shigisan-engi-emaki_upper_kokkai_07-1080.webp",
+          "name": "shigisan-engi-emaki_upper_kokkai_07",
+          "srcWidth": "",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/shigisan-engi-emaki_upper_kokkai_08-375.webp",
+          "srcTb": "/shigisan-engi-emaki_upper_kokkai_08-800.webp",
+          "src": "/shigisan-engi-emaki_upper_kokkai_08-1080.webp",
+          "name": "shigisan-engi-emaki_upper_kokkai_08",
+          "srcWidth": "",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/shigisan-engi-emaki_upper_kokkai_09-375.webp",
+          "srcTb": "/shigisan-engi-emaki_upper_kokkai_09-800.webp",
+          "src": "/shigisan-engi-emaki_upper_kokkai_09-1080.webp",
+          "name": "shigisan-engi-emaki_upper_kokkai_09",
+          "srcWidth": "",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/shigisan-engi-emaki_upper_kokkai_10-375.webp",
+          "srcTb": "/shigisan-engi-emaki_upper_kokkai_10-800.webp",
+          "src": "/shigisan-engi-emaki_upper_kokkai_10-1080.webp",
+          "name": "shigisan-engi-emaki_upper_kokkai_10",
+          "srcWidth": "",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/shigisan-engi-emaki_upper_kokkai_11-375.webp",
+          "srcTb": "/shigisan-engi-emaki_upper_kokkai_11-800.webp",
+          "src": "/shigisan-engi-emaki_upper_kokkai_11-1080.webp",
+          "name": "shigisan-engi-emaki_upper_kokkai_11",
+          "srcWidth": "",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/shigisan-engi-emaki_upper_kokkai_12-375.webp",
+          "srcTb": "/shigisan-engi-emaki_upper_kokkai_12-800.webp",
+          "src": "/shigisan-engi-emaki_upper_kokkai_12-1080.webp",
+          "name": "shigisan-engi-emaki_upper_kokkai_12",
+          "srcWidth": "",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/shigisan-engi-emaki_upper_kokkai_13-375.webp",
+          "srcTb": "/shigisan-engi-emaki_upper_kokkai_13-800.webp",
+          "src": "/shigisan-engi-emaki_upper_kokkai_13-1080.webp",
+          "name": "shigisan-engi-emaki_upper_kokkai_13",
+          "srcWidth": "",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/shigisan-engi-emaki_upper_kokkai_14-375.webp",
+          "srcTb": "/shigisan-engi-emaki_upper_kokkai_14-800.webp",
+          "src": "/shigisan-engi-emaki_upper_kokkai_14-1080.webp",
+          "name": "shigisan-engi-emaki_upper_kokkai_14",
+          "srcWidth": "",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/shigisan-engi-emaki_upper_kokkai_15-375.webp",
+          "srcTb": "/shigisan-engi-emaki_upper_kokkai_15-800.webp",
+          "src": "/shigisan-engi-emaki_upper_kokkai_15-1080.webp",
+          "name": "shigisan-engi-emaki_upper_kokkai_15",
+          "srcWidth": "",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/shigisan-engi-emaki_upper_kokkai_16-375.webp",
+          "srcTb": "/shigisan-engi-emaki_upper_kokkai_16-800.webp",
+          "src": "/shigisan-engi-emaki_upper_kokkai_16-1080.webp",
+          "name": "shigisan-engi-emaki_upper_kokkai_16",
+          "srcWidth": "",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/shigisan-engi-emaki_upper_kokkai_17-375.webp",
+          "srcTb": "/shigisan-engi-emaki_upper_kokkai_17-800.webp",
+          "src": "/shigisan-engi-emaki_upper_kokkai_17-1080.webp",
+          "name": "shigisan-engi-emaki_upper_kokkai_17",
+          "srcWidth": "",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/shigisan-engi-emaki_upper_kokkai_18-375.webp",
+          "srcTb": "/shigisan-engi-emaki_upper_kokkai_18-800.webp",
+          "src": "/shigisan-engi-emaki_upper_kokkai_18-1080.webp",
+          "name": "shigisan-engi-emaki_upper_kokkai_18",
+          "srcWidth": "",
+          "srcHeight": "1080"
+        },
+        {
+          "cat": "image",
+          "chapter": "",
+          "load": "False",
+          "srcSp": "/shigisan-engi-emaki_upper_kokkai_19-375.webp",
+          "srcTb": "/shigisan-engi-emaki_upper_kokkai_19-800.webp",
+          "src": "/shigisan-engi-emaki_upper_kokkai_19-1080.webp",
+          "name": "shigisan-engi-emaki_upper_kokkai_19",
+          "srcWidth": "",
+          "srcHeight": "1080"
+        }
+      ]
     }
 ]
 
