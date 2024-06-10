@@ -51,6 +51,7 @@ function MyApp({ Component, pageProps, router }) {
   const [hash, setHash] = useState(0);
   const [navIndex, setnavIndex] = useState(0);
   const [orientation, setOrientation] = useState("portrait");
+    const [searchKeyword, setSearchKeyword] = useState("");
 
   const openSidebar = () => {
     setisSidebarOpen(true);
@@ -343,7 +344,9 @@ function MyApp({ Component, pageProps, router }) {
         openContactModal,
         closeContactModal,
         isContactModalOpen,
-        setIsContactModalOpen
+        setIsContactModalOpen,
+        searchKeyword,
+        setSearchKeyword
       }}
     >
       <Script
