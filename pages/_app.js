@@ -51,7 +51,8 @@ function MyApp({ Component, pageProps, router }) {
   const [hash, setHash] = useState(0);
   const [navIndex, setnavIndex] = useState(0);
   const [orientation, setOrientation] = useState("portrait");
-    const [searchKeyword, setSearchKeyword] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [showData, setShowdData] = useState(emakisData);
 
   const openSidebar = () => {
     setisSidebarOpen(true);
@@ -346,7 +347,9 @@ function MyApp({ Component, pageProps, router }) {
         isContactModalOpen,
         setIsContactModalOpen,
         searchKeyword,
-        setSearchKeyword
+        setSearchKeyword,
+        showData,
+        setShowdData
       }}
     >
       <Script
