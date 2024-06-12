@@ -1,69 +1,84 @@
-import React, { useContext,useState } from "react";
+import React, { useContext, useState } from "react";
 import Head from "../components/Meta";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import CardA from "../components/CardA";
 import ExtractingListData from "../libs/ExtractingListData";
 import { useRouter } from "next/router";
-import SearchForm from "../components/SearchForm";
-import { AppContext } from "../pages/_app";
+import styles from "../styles/Search.css.module.css";
 
 const Search = () => {
-  const { searchKeyword } = useContext(AppContext);
   const { locale } = useRouter();
   const removeNestedArrayObj = ExtractingListData();
   const data = removeNestedArrayObj;
 
-
-  // console.log(data);
-
-  // const searchKeyword = "人"
-  // const filteredData = data.filter(item => item.titleen === searchkeywod)
-  // console.log(filteredData);
-
-  const categories = Array.from(new Set(data.map((item) => item.type)));
-  console.log(categories);
-  
-  const selectCategory = (category) => {
-    return filter((item) => item.category === category);
-  }
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [showData, setShowData] = useState(data);
+  console.log(showData);
 
   const regx = new RegExp(searchKeyword);
 
-  const filteredData = showData.filter((item) => {
+  const filteredData = data.filter((item) => {
     const title = item.title + item.edition + item.titleen;
     const data = regx.test(title);
-    setShowdData(data)
+    return data;
   });
 
-  //himenon.github.io/docs/javascript/simple-react-local-search-form/
-  // ["a", "b", "c"].filter((text) => {
-  //   return new RegExp(searchKeyword).test(text); // 入力キーワードを正規表現にする
-  // });
+  const handleInput = (e) => {
+    setSearchKeyword(e.currentTarget.value);
+    setShowData(filteredData);
+  };
 
-  // RegExp.prototype.test();
+  const types = Array.from(new Set(data.map((item) => item.type)));
+  console.log(types);
+
+  const selectTypes = (e) => {
+    const el = e.target.value;
+    console.log(e.target.value);
+    if (el === "all") {
+      setShowData(data);
+      return;
+    }
+    const selectTypeItems = data.filter((item) => item.type === el);
+    setShowData(selectTypeItems);
+  };
 
   return (
     <>
       <Head />
       <Header />
-      <SearchForm />
-      {categories.map((category, i) => (
-        <div key={i}>
-          <button onClick={() => selectCategory(category)}>{category}</button>
-        </div>
-      ))}
-      <p>検索結果：{showData.length}件</p>
-      {showData.length > 0 && (
-        <CardA
-          emakis={showData}
-          columns={"four"}
-          // sectionname={"recommend"}
-          // sectiontitle={locale === "en" ? `List of ${nameen}` : `${name}一覧`}
-          // sectiontitleen={locale === "en" ? `${name}一覧` : `List of ${nameen}`}
-        />
-      )}
+      <section
+        className={`section-grid section-padding `}
+        style={{ paddingBottom: "0" }}
+      >
+        <div className={styles.searchbox}>
+          {/* タイプ選択ドロップダウンメニュー */}
+          <h4>Types</h4>
+          <select
+            onChange={(e) => selectTypes(e)}
+            className={styles.typeselect}
+          >
+            <option value={"all"}>All</option>
+            {types.map((type, i) => (
+              <option key={i} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+          {/* キーワード検索 */}
 
+          <label htmlFor="search-keyword">Search</label>
+          <form>
+            <input
+              id="search-keyword"
+              type="text"
+              onInput={handleInput}
+              placeholder={"Input search keyword"}
+            />
+          </form>
+        </div>
+      </section>
+      <CardA emakis={showData} columns={"four"} />
       <Footer />
     </>
   );
