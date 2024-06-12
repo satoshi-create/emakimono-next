@@ -20,6 +20,7 @@
   text-transform: uppercase;
   font-weight: 600;
   font-size: var(--title-size-prt);
+  grid-column: 1/-1;
 }
 .center {
   display: grid;
@@ -56,7 +57,7 @@
     display: grid;
     grid-template-rows: 1fr 1fr;
     justify-items: center;
-    row-gap: 1rem;
+    gap: 1rem .5rem;
   }
   .header-fixed .center {
     display: grid;
@@ -89,4 +90,8 @@
 }
 .contacticon {
   font-size: 30px;
+}
+.searchboxbtn{
+  grid-column: 2;
+  grid-row: 2;
 }
