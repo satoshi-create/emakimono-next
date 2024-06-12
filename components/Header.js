@@ -7,17 +7,21 @@ import { useRouter } from "next/router";
 import NavLinks from "./NavLinks";
 import { AppContext } from "../pages/_app";
 import SidebarHome from "./SidebarHome";
-import { Mail,Search } from "react-feather";
-
+import { Mail, Search } from "react-feather";
+import SearchBoxButton from "./SearchBoxButton";
 
 // TODO : ホバー時、header全体にリンクが入ってしまう
-
 
 const Header = ({ slug, fixed, emakipage }) => {
   const { locale } = useRouter();
 
-  const { isSidebarOpen, openSidebar, stickyClass, setStickyClass,openContactModal } =
-    useContext(AppContext);
+  const {
+    isSidebarOpen,
+    openSidebar,
+    stickyClass,
+    setStickyClass,
+    openContactModal,
+  } = useContext(AppContext);
 
   useEffect(() => {
     const stickNavbar = () => {
@@ -41,15 +45,9 @@ const Header = ({ slug, fixed, emakipage }) => {
             {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
           </a>
         </Link>
-        {/* <button title="" className={`${styles.serchtbtn} show-on-mobile`}>
-          <Search className={`${styles.serchicon}`} />
-        </button>
-        <form className={`${styles.serchform} hide-on-mobile`}>
-          <div className="form-control">
-            <label htmlFor="name"></label>
-            <input type="text" name="name" id="name" />
-          </div>
-        </form> */}
+        <div className={styles.searchboxbtn}>
+        <SearchBoxButton />
+        </div>
         <button
           onClick={() => openContactModal(true)}
           title="ご意見をお寄せください"

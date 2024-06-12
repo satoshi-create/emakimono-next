@@ -1,0 +1,8 @@
+.typeselect{
+  justify-self: flex-start;
+}
+.searchbox{
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
