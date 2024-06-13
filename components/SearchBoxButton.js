@@ -11,7 +11,8 @@ const SearchBoxButton = () => {
       <FontAwesomeIcon icon={faMagnifyingGlass} />
       <span>...input search</span>
     </button>
+
   );
 }
 
-export default SearchBoxButton
+export default SearchBoxButton; 
