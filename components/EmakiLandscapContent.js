@@ -235,7 +235,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
           {/* <CardC data={data} /> */}
           {data.keyword && <CardC data={data} />}
           <ToContactForm />
-          {isContactModalOpen && <ContactFormGoogle />}
         </div>
       </div>
       <Footer />

@@ -15,17 +15,18 @@ const ModalSearch = () => {
     const removeNestedArrayObj = ExtractingListData();
   const data = removeNestedArrayObj;
   
-   const { openSearchModalOpen, isSearchModalOpen } = useContext(AppContext);
+   const { openSearchModalOpen, isSearchModalOpen, closeSearchModal } =
+     useContext(AppContext);
   return (
     <div className={styles.modal}>
-      <div className={styles.MuiBackdrop}></div>
+      <div className={styles.MuiBackdrop} onClick={closeSearchModal}></div>
       <div className={styles.container}>
-        <div className={`${styles.closebtn} btn`}>
+        <div className={`${styles.closebtn} btn`} onClick={closeSearchModal}>
           <FontAwesomeIcon icon={faClose} />
         </div>
         {/* <div className={styles.tabcontainer}>作品を検索する</div> */}
         <div className={`${styles.contents} scrollbar`}>
-            <CardA emakis={data} style={"searchbox"} />
+          <CardA emakis={data} columns={"searchbox"} />
         </div>
       </div>
     </div>
