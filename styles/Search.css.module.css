@@ -6,3 +6,172 @@
   justify-content: center;
   gap: 10px;
 }
+.modal {
+  display: grid;
+  inset: 0;
+  /* opacity: 0; */
+  place-items: center;
+  position: fixed;
+  /* transform: scale(0); */
+  transition: var(--transition);
+  z-index: 500;
+}
+.MuiBackdrop {
+  background-color: rgba(0, 0, 0, 0.75);
+  cursor: pointer;
+  height: 100%;
+  inset: 0;
+  position: fixed;
+  width: 100%;
+  z-index: -1;
+}
+
+.closebtn {
+  font-size: 30px;
+  position: absolute;
+  right: 12px;
+  top: 0;
+  width: 20px;
+  cursor: pointer;
+  color: black;
+}
+.container {
+  display: grid;
+  grid-template-columns: minmax(2vw, auto) 1fr minmax(2vw, auto);
+  grid-template-rows: 2vw auto 1fr 2vw;
+  background-color: var(--clr-white);
+  border-radius: 8px;
+  width: 90vw;
+  height: 90vh;
+  max-width: 1200px;
+  overflow-x: auto;
+  position: relative;
+  transition: var(--transition);
+  overflow: hidden;
+}
+@media screen and (min-width: 768px) {
+  .container {
+    row-gap: 1rem;
+  }
+}
+.tabcontainer {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+  justify-content: center;
+  column-gap: 2rem;
+}
+.tabbtn {
+  font-size: clamp(1.5rem, 1.2111rem + 1.2327vw, 2rem);
+  color: var(--clr-black);
+  font-family: var(--text-font);
+  font-weight: 400;
+}
+.activebtn {
+  font-weight: 500;
+  box-shadow: 0 3px var(--clr-accent-02);
+  color:var(--clr-accent-02)
+}
+
+.prev,
+.next {
+  cursor: pointer;
+  z-index: 10;
+  grid-column: 2;
+  grid-row: 3;
+}
+.prev {
+  justify-self: flex-start;
+}
+.next {
+  justify-self: flex-end;
+}
+.contents {
+  grid-column: 2;
+  grid-row: 3;
+  padding: 3rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* 目次 */
+.chapter {
+  font-family: var(--text-font);
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+  font-size: clamp(1.5rem, 1.2111rem + 1.2327vw, 2rem);
+  cursor: pointer;
+}
+.chapterlink {
+  transition: var(--transition);
+}
+.chapterlink:hover {
+  opacity: 0.4;
+}
+/* 書誌情報 */
+.source {
+  font-family: var(--text-font);
+  font-size: clamp(1.5rem, 1.2111rem + 1.2327vw, 2rem);
+}
+.sourceLink {
+  transition: var(--transition);
+}
+.sourceLink:hover {
+  opacity: 0.4;
+}
+/* 参照 */
+.reference {
+  font-family: var(--text-font);
+  font-size: clamp(1.5rem, 1.2111rem + 1.2327vw, 2rem);
+}
+@media screen and (min-width: 768px) {
+  .iframe {
+    top: 2rem;
+    height: 80%;
+  }
+}
+.link {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  font-family: var(--text-font);
+  text-align: center;
+}
+.link a {
+  color: var(--clr-accent-02);
+  transition: var(--transition);
+  cursor: pointer;
+  font-size: clamp(0.8rem, 0.5689rem + 0.9861vw, 1.2rem);
+}
+.link a:hover {
+  opacity: 0.6;
+}
+.link h3,
+.link h2 {
+  font-weight: 400;
+}
+.activeSlide {
+  opacity: 1;
+  transform: translateX(0);
+}
+.lastSlide {
+  transform: translateX(-100%);
+}
+.nextSlide {
+  transform: translateX(100%);
+}
+
+.mokujitable {
+  width: 100%;
+  border-collapse: collapse;
+  /* font-family: serif; */
+}
+.mokujitable td,
+.mokujitable th {
+  border: solid 1px var(--clr-grey-light);
+  text-align: left;
+  /* padding: 10px; */
+}

@@ -20,6 +20,7 @@ const CardA = ({
   linkpath,
   linktitleen,
   bcg,
+  style,
 }) => {
   const { setisModalOpen } = useContext(AppContext);
   const { locale } = useRouter();
@@ -28,19 +29,14 @@ const CardA = ({
     setisModalOpen(false);
   }, [setisModalOpen]);
 
-
- 
-
-  
-
   return (
     <section
-      className={`section-grid section-padding `}
+      className={!style && "section-grid section-padding"}
       style={{ background: bcg }}
     >
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
-      <div className={`${styles.conteiner} ${styles[columns]}`}>
+      <div className={style ? style : `${styles[columns]}`}>
         {emakis.map((item, index) => {
           const {
             titleen,
