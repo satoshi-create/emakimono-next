@@ -22,7 +22,7 @@ const CardA = ({
   bcg,
   style,
 }) => {
-  const { setisModalOpen } = useContext(AppContext);
+  const { setisModalOpen, closeSearchModal } = useContext(AppContext);
   const { locale } = useRouter();
 
   useEffect(() => {
@@ -60,7 +60,7 @@ const CardA = ({
           }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
 
           return (
-            <div key={index}>
+            <div key={index} onClick={closeSearchModal}>
               {sectiontitle === "さまざまな絵巻" && (
                 <h4 className={styles.subtype} id="alart" value="test">
                   {sectiontitle === "さまざまな絵巻" && `${subtype}絵巻`}
