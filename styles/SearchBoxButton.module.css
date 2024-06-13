@@ -1,20 +1,31 @@
 .searchboxbtn {
-  width: 200px;
-  height: 40px;
-  border: 1px solid #cecece;
-  border-radius: 5px;
-  box-shadow: var(--clr-grey-light);
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  padding: 10px;
 }
 .searchboxbtn svg {
-  color: var(--clr-grey-light);
   font-size: 18px;
 }
 .searchboxbtn span {
+ display: none;
+}
+@media screen and (min-width: 768px) {
+  .searchboxbtn {
+    width: 200px;
+    height: 40px;
+    border: 1px solid #cecece;
+    border-radius: 5px;
+    box-shadow: var(--clr-grey-light);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    padding: 10px;
+  }
+  .searchboxbtn svg {
+  color: var(--clr-grey-light);
+  font-size: 18px;
+}
+  .searchboxbtn span {
   font-size: 18px;
   color: var(--clr-grey-light);
   font-family: var(--text);
+  display: block;
+}
 }
