@@ -31,12 +31,12 @@ const CardA = ({
 
   return (
     <section
-      className={!style && "section-grid section-padding"}
+      className={columns !== "searchbox" && "section-grid section-padding"}
       style={{ background: bcg }}
     >
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
-      <div className={style ? style : `${styles[columns]}`}>
+      <div className={styles[columns]}>
         {emakis.map((item, index) => {
           const {
             titleen,

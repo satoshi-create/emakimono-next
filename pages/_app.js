@@ -132,6 +132,9 @@ function MyApp({ Component, pageProps, router }) {
     setIsSearchModalOpen(true)
   }
 
+  const closeSearchModal = () => {
+    setIsSearchModalOpen(false)
+  }
 
 
   const handleEkotobaImageToggle = () => {
@@ -359,6 +362,7 @@ function MyApp({ Component, pageProps, router }) {
         setShowdData,
         isSearchModalOpen,
         openSearchModalOpen,
+        closeSearchModal,
       }}
     >
       <Script
@@ -389,7 +393,7 @@ function MyApp({ Component, pageProps, router }) {
       />
       <Component {...pageProps} key={router.asPath} />
       {isContactModalOpen && <ContactFormGoogle />}
-      {isSearchModalOpen && <ModalSearch/>}
+      {isSearchModalOpen && <ModalSearch />}
     </AppContext.Provider>
   );
 }
