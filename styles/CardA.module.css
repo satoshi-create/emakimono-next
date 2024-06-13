@@ -1,3 +1,8 @@
+.searchbox{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+}
 .sectiondesc {
   margin: 0 auto 2rem;
   font-family: var(--text-font);
