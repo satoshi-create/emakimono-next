@@ -20,13 +20,14 @@
   text-transform: uppercase;
   font-weight: 600;
   font-size: var(--title-size-prt);
-  grid-column: 1/-1;
+  word-break: keep-all;
 }
 .center {
   display: grid;
   grid-template-columns: 1fr auto;
   grid-auto-flow: column;
   align-items: center;
+  gap: 0 .5rem;
 }
 
 .favicon {
@@ -39,8 +40,10 @@
 .links {
   display: none;
 }
-
 @media screen and (min-width: 768px) {
+  .title{
+    grid-column: 1 / -1;
+  }
   .nav {
     display: none;
   }
@@ -87,11 +90,11 @@
   .links a:active {
     color: var(--clr-accent-02);
   }
-}
 .contacticon {
   font-size: 30px;
 }
 .searchboxbtn{
   grid-column: 2;
   grid-row: 2;
+}
 }
