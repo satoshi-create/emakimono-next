@@ -89,7 +89,7 @@
 .contents {
   grid-column: 2;
   grid-row: 3;
-  padding: 3rem;
+  padding: 2rem;
   overflow-y: auto;
   overflow-x: hidden;
 }
