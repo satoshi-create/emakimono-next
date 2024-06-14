@@ -42,7 +42,7 @@ const Search = () => {
     const selectTypeItems = data.filter((item) => item.type === el);
     setShowData(selectTypeItems);
   };
-
+  
   return (
     <>
       <Head />

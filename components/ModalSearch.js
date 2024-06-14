@@ -3,6 +3,7 @@ import { AppContext } from "../pages/_app";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faClose,
+  faMagnifyingGlass
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "../styles/Search.css.module.css";
 import CardA from './CardA';
@@ -56,29 +57,33 @@ const ModalSearch = () => {
         <div className={`${styles.closebtn} btn`} onClick={closeSearchModal}>
           <FontAwesomeIcon icon={faClose} />
         </div>
-        <div className={styles.tabcontainer}>
-          {/* <h4>Types</h4> */}
-          <select
-            onChange={(e) => selectTypes(e)}
-            className={styles.typeselect}
-          >
-            <option value={"作品のタイプ"}>作品のタイプ</option>
-            {types.map((type, i) => (
-              <option key={i} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-          {/* <label htmlFor="search-keyword">Search</label> */}
-          <form>
-            <input
-              id="search-keyword"
-              type="text"
-              onInput={handleInput}
-              placeholder={"検索"}
-            />
-          </form>
+        {/* <select onChange={(e) => selectTypes(e)} className={styles.typeselect}>
+          <option value={"作品のタイプ"}>作品のタイプ</option>
+          {types.map((type, i) => (
+            <option key={i} value={type}>
+              {type}
+            </option>
+          ))}
+        </select> */}
+        <div className={styles.typeselect}>
+          {types.map((type, i) => (
+            <button key={i} value={type} onClick={(e) => selectTypes(e)} className={styles.typeselectbtn}>
+              {type}
+            </button>
+          ))}
         </div>
+        <form className={styles.form}>
+          <FontAwesomeIcon
+            icon={faMagnifyingGlass}
+            className={styles.faMagnifyingGlassIcon}
+          />
+          <input
+            id="search-keyword"
+            type="text"
+            onInput={handleInput}
+            placeholder={"検索"}
+          />
+        </form>
         <div className={`${styles.contents} scrollbar`}>
           <CardA emakis={showData} columns={"searchbox"} />
         </div>
