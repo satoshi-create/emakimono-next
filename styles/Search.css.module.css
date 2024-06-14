@@ -1,10 +1,47 @@
 .typeselect {
-  justify-self: flex-start;
+  grid-column: 2;
+  grid-row: 3;
+      display: flex;
+    gap: .5rem;
+    justify-content: center;
+    margin: .5rem 0;
+}
+.typeselectbtn{
+    background: #e9f0ff;
+    padding: 0 .5rem;
+    border-radius: 6px;
+    transition: var(--transition);
+}
+.typeselectbtn:hover{
+  opacity: .6;
 }
 .searchbox {
   display: flex;
   justify-content: center;
   gap: 10px;
+}
+.form {
+  grid-column: 2;
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem;
+  /* padding-bottom:1rem; */
+  align-items: center;
+
+  border-bottom: 1px solid rgb(225 225 225);
+}
+.form input {
+  border: none;
+  appearance: none;
+  outline: none;
+  height: 3.5rem;
+  font-size: 1rem;
+  font-family: var(--title-font2);
+}
+.faMagnifyingGlassIcon {
+  font-size: 1.2rem;
+  color: var(--clr-grey-light);
 }
 .modal {
   display: grid;
@@ -38,7 +75,7 @@
 .container {
   display: grid;
   grid-template-columns: minmax(2vw, auto) 1fr minmax(2vw, auto);
-  grid-template-rows: 2vw auto 1fr 2vw;
+  grid-template-rows: .5vw  auto auto 1fr 2vw;
   background-color: var(--clr-white);
   border-radius: 8px;
   width: 90vw;
@@ -48,21 +85,10 @@
   position: relative;
   transition: var(--transition);
   overflow: hidden;
+  padding:.5rem;
 }
-@media screen and (min-width: 768px) {
-  .container {
-    row-gap: 1rem;
-  }
-}
-.tabcontainer {
-  grid-column: 2;
-  grid-row: 2;
-  display: flex;
-  justify-content: center;
-  column-gap: 2rem;
-  border-bottom: 1px solid rgb(225 225 225);
-  padding-bottom: 1.5rem;
-}
+
+
 .tabbtn {
   font-size: clamp(1.5rem, 1.2111rem + 1.2327vw, 2rem);
   color: var(--clr-black);
@@ -90,7 +116,7 @@
 }
 .contents {
   grid-column: 2;
-  grid-row: 3;
+  grid-row: 4;
   padding: 2rem;
   overflow-y: auto;
   overflow-x: hidden;
