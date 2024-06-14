@@ -1,7 +1,7 @@
-.typeselect{
+.typeselect {
   justify-self: flex-start;
 }
-.searchbox{
+.searchbox {
   display: flex;
   justify-content: center;
   gap: 10px;
@@ -60,6 +60,8 @@
   display: flex;
   justify-content: center;
   column-gap: 2rem;
+  border-bottom: 1px solid rgb(225 225 225);
+  padding-bottom: 1.5rem;
 }
 .tabbtn {
   font-size: clamp(1.5rem, 1.2111rem + 1.2327vw, 2rem);
@@ -70,7 +72,7 @@
 .activebtn {
   font-weight: 500;
   box-shadow: 0 3px var(--clr-accent-02);
-  color:var(--clr-accent-02)
+  color: var(--clr-accent-02);
 }
 
 .prev,
