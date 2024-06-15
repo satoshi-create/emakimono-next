@@ -44,6 +44,12 @@
   gap: 0.5rem;
   flex-direction: column;
 } */
+ .searchbox {
+    display: grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    justify-content: center;
+    gap: 3rem;
+}
 
 .subtype {
   font-family: var(--text-font);
