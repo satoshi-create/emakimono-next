@@ -1,19 +1,34 @@
-.typeselect {
-  grid-column: 2;
-  grid-row: 3;
+.typeselect,
+.eraselect {
+    grid-column: 2;
       display: flex;
     gap: .5rem;
     justify-content: center;
     margin: .5rem 0;
+        flex-wrap: wrap;
 }
-.typeselectbtn{
-    background: #e9f0ff;
+.typeselect{
+  grid-row: 3;
+}
+.eraselect{
+  grid-row: 4;
+    border-bottom: 1px solid rgb(225 225 225);
+    padding-bottom: 2rem;
+}
+.typeselectbtn,.eraselectbtn{
+
     padding: 0 .5rem;
     border-radius: 6px;
     transition: var(--transition);
 }
-.typeselectbtn:hover{
+.typeselectbtn:hover,.eraselectbtn:hover{
   opacity: .6;
+}
+.typeselectbtn{
+      background: #e9f0ff;
+}
+.eraselectbtn{
+   background: #e9f0ff;
 }
 .searchbox {
   display: flex;
@@ -28,8 +43,6 @@
   gap: 0.5rem;
   /* padding-bottom:1rem; */
   align-items: center;
-
-  border-bottom: 1px solid rgb(225 225 225);
 }
 .form input {
   border: none;
@@ -75,7 +88,7 @@
 .container {
   display: grid;
   grid-template-columns: minmax(2vw, auto) 1fr minmax(2vw, auto);
-  grid-template-rows: .5vw  auto auto 1fr 2vw;
+  grid-template-rows: .5vw  auto auto auto 1fr 2vw;
   background-color: var(--clr-white);
   border-radius: 8px;
   width: 90vw;
@@ -116,7 +129,7 @@
 }
 .contents {
   grid-column: 2;
-  grid-row: 4;
+  grid-row: 5;
   padding: 2rem;
   overflow-y: auto;
   overflow-x: hidden;
