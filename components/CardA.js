@@ -20,27 +20,23 @@ const CardA = ({
   linkpath,
   linktitleen,
   bcg,
+  style,
 }) => {
-  const { setisModalOpen } = useContext(AppContext);
+  const { setisModalOpen, closeSearchModal } = useContext(AppContext);
   const { locale } = useRouter();
 
   useEffect(() => {
     setisModalOpen(false);
   }, [setisModalOpen]);
 
-
- 
-
-  
-
   return (
     <section
-      className={`section-grid section-padding `}
+      className={columns !== "searchbox" && "section-grid section-padding"}
       style={{ background: bcg }}
     >
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
-      <div className={`${styles.conteiner} ${styles[columns]}`}>
+      <div className={styles[columns]}>
         {emakis.map((item, index) => {
           const {
             titleen,
@@ -64,7 +60,7 @@ const CardA = ({
           }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
 
           return (
-            <div key={index}>
+            <div key={index} onClick={closeSearchModal}>
               {sectiontitle === "さまざまな絵巻" && (
                 <h4 className={styles.subtype} id="alart" value="test">
                   {sectiontitle === "さまざまな絵巻" && `${subtype}絵巻`}

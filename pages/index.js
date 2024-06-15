@@ -11,7 +11,8 @@ import Link from "next/link";
 import ChaptersTable from "../components/ChaptersGenjiTable";
 import FlowEmaki from "../components/FlowEmaki";
 import { AppContext } from "../pages/_app";
-import ContactFormGoogle from "../components/ContactFormGoogle";
+
+
 import {
   personnameItem,
   keywordItem,
@@ -273,7 +274,7 @@ const Home = () => {
         linktitleen={"Side-scrolling art"}
         linkpath={"/type/byoubu"}
       />
-      {isContactModalOpen && <ContactFormGoogle />}
+
       <Footer />
     </main>
   );

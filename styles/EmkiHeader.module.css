@@ -17,26 +17,25 @@
   white-space: nowrap;
 }
 
-.favicon{
-    width: 20px;
+.favicon {
+  width: 20px;
   height: 20px;
 }
 .contacticon,
 .fabarsicon,
-.serchicon{
+.serchicon {
   width: 24px;
   height: 24px;
 }
-
 
 /* ===========================
  * グリッドレイアウト
  * =========================== */
 
- .center {
+.center {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: auto 1fr auto;
+  grid-auto-columns: auto 1fr auto auto;
   align-items: center;
   gap: 8px;
 }

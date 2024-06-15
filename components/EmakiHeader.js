@@ -2,12 +2,13 @@ import Link from "next/link";
 import React, { useEffect, useState, useContext } from "react";
 import styles from "../styles/EmkiHeader.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faBars} from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 import NavLinks from "./NavLinks";
 import { AppContext } from "../pages/_app";
 import SidebarHome from "./SidebarHome";
 import { Mail,Search } from "react-feather";
+import SearchBoxButton from "./SearchBoxButton";
 
 const EmakiHeader = ({ slug, fixed, emakipage }) => {
   const { locale } = useRouter();
@@ -39,18 +40,9 @@ const EmakiHeader = ({ slug, fixed, emakipage }) => {
         <Link href="/">
           <a className={styles.title}>
             {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
-            {/* <p>- Scroll from right to left to enjoy the handscroll</p> */}
           </a>
         </Link>
-        {/* <form className={`${styles.serchform} hide-on-mobile`}>
-          <div className="form-control">
-            <label htmlFor="name"></label>
-            <input type="text" name="name" id="name" />
-          </div>
-        </form>
-        <button title="" className={`${styles.serchtbtn} show-on-mobile`}>
-          <Search className={`${styles.serchicon}`} />
-        </button> */}
+        <SearchBoxButton/>
         <button
           onClick={() => openContactModal(true)}
           title="ご意見をお寄せください"

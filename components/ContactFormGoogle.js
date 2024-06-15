@@ -28,13 +28,13 @@ const ContactFormGoogle = () => {
     setIsContactModalOpen(false);
   };
   return (
-    <div className={styles.modal}>
+    <div className={`${styles.modal}`}>
       <div className={styles.MuiBackdrop} onClick={closeContactModal}></div>
       <div className={styles.container}>
         <div className={`${styles.closebtn} btn`} onClick={closeContactModal}>
           <FontAwesomeIcon icon={faClose} />
         </div>
-        <div onLoad={redirect} className={styles.iframebox}>
+        <div onLoad={redirect} className={`${styles.iframebox} scrollbar`}>
           <iframe
             src={process.env.NEXT_PUBLIC_GOOGLE_FORM_URL}
             // width="640"
@@ -42,7 +42,7 @@ const ContactFormGoogle = () => {
             frameBorder="0"
             marginHeight="0"
             marginWidth="0"
-            className={`${styles.iframe} scrollbar`}
+            className={`${styles.iframe}`}
           >
             読み込んでいます…
           </iframe>
