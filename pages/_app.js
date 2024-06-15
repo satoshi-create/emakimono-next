@@ -7,6 +7,8 @@ import { useLocaleData } from "../libs/func";
 import * as gtag from "../libs/gtag";
 import { useRouter } from "next/router";
 import { flushSync } from "react-dom";
+import ContactFormGoogle from "../components/ContactFormGoogle";
+import ModalSearch from "../components/ModalSearch";
 
 config.autoAddCss = false;
 
@@ -51,6 +53,9 @@ function MyApp({ Component, pageProps, router }) {
   const [hash, setHash] = useState(0);
   const [navIndex, setnavIndex] = useState(0);
   const [orientation, setOrientation] = useState("portrait");
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [showData, setShowdData] = useState(emakisData);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
   const openSidebar = () => {
     setisSidebarOpen(true);
@@ -123,6 +128,13 @@ function MyApp({ Component, pageProps, router }) {
     setIsDescModalOpen(false);
   };
 
+  const openSearchModalOpen = () => {
+    setIsSearchModalOpen(true)
+  }
+
+  const closeSearchModal = () => {
+    setIsSearchModalOpen(false)
+  }
 
 
   const handleEkotobaImageToggle = () => {
@@ -343,7 +355,14 @@ function MyApp({ Component, pageProps, router }) {
         openContactModal,
         closeContactModal,
         isContactModalOpen,
-        setIsContactModalOpen
+        setIsContactModalOpen,
+        searchKeyword,
+        setSearchKeyword,
+        showData,
+        setShowdData,
+        isSearchModalOpen,
+        openSearchModalOpen,
+        closeSearchModal,
       }}
     >
       <Script
@@ -373,6 +392,8 @@ function MyApp({ Component, pageProps, router }) {
         }}
       />
       <Component {...pageProps} key={router.asPath} />
+      {isContactModalOpen && <ContactFormGoogle />}
+      {isSearchModalOpen && <ModalSearch />}
     </AppContext.Provider>
   );
 }
