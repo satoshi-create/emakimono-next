@@ -9,47 +9,52 @@ import styles from "../styles/Search.css.module.css";
 import CardA from './CardA';
 import ExtractingListData from "../libs/ExtractingListData";
 import { useRouter } from "next/router";
-
+import {eraColor, eraItem,typeItem } from "../libs/func";
 
 
 const ModalSearch = () => {
   const { openSearchModalOpen, isSearchModalOpen, closeSearchModal } =
     useContext(AppContext);
-    const { locale } = useRouter();
-    const removeNestedArrayObj = ExtractingListData();
+  const { locale } = useRouter();
+  const removeNestedArrayObj = ExtractingListData();
   const data = removeNestedArrayObj;
 
-  
   const [searchKeyword, setSearchKeyword] = useState("");
   const [showData, setShowData] = useState(data);
 
   const handleInput = (e) => {
-      setSearchKeyword(e.currentTarget.value);
-      setShowData(filteredData);
+    setSearchKeyword(e.currentTarget.value);
+    setShowData(filteredData);
   };
+
+  const regx = new RegExp(searchKeyword);
+
+  const filteredData = data.filter((item) => {
+    const title = item.title + item.edition + item.titleen;
+    const data = regx.test(title);
+    return data;
+  });
+
+
+  const types = typeItem(data).sort((a,b) =>(a.total > b.total ? -1 :1));
+  console.log(types);
+  // const filterdTypes = typeItem(showData);
+
+  const eras = eraItem(data).sort((a, b) => (a.total > b.total ? -1 : 1));
+  console.log(eras);
   
-    const regx = new RegExp(searchKeyword);
 
-    const filteredData = data.filter((item) => {
-      const title = item.title + item.edition + item.titleen;
-      const data = regx.test(title);
-      return data;
-    });
+  const selectTypes = (e) => {
+    const el = e.target.value;
+    console.log(e.target.value);
+    if (el === "全ての作品") {
+      setShowData(data);
+      return;
+    }
+    const selectTypeItems = data.filter((item) => item.type === el);
+    setShowData(selectTypeItems);
+  };
 
-    const types = Array.from(new Set(data.map((item) => item.type)));
-    console.log(types);
-
-    const selectTypes = (e) => {
-      const el = e.target.value;
-      console.log(e.target.value);
-      if (el === "作品のタイプ") {
-        setShowData(data);
-        return;
-      }
-      const selectTypeItems = data.filter((item) => item.type === el);
-      setShowData(selectTypeItems);
-    };
-  
   return (
     <div className={styles.modal}>
       <div className={styles.MuiBackdrop} onClick={closeSearchModal}></div>
@@ -66,9 +71,45 @@ const ModalSearch = () => {
           ))}
         </select> */}
         <div className={styles.typeselect}>
-          {types.map((type, i) => (
-            <button key={i} value={type} onClick={(e) => selectTypes(e)} className={styles.typeselectbtn}>
-              {type}
+          <button
+            value={"全ての作品"}
+            className={styles.typeselectbtn}
+            onClick={(e) => selectTypes(e)}
+          >
+            全ての作品
+          </button>
+          {types.map((item, i) => (
+            <button
+              key={i}
+              value={item.type}
+              onClick={(e) => selectTypes(e)}
+              className={styles.typeselectbtn}
+            >
+              {/* {type.type}（{type.total}） */}
+              {item.type}
+            </button>
+          ))}
+        </div>
+        <div className={styles.eraselect}>
+          <button
+            value={"全ての時代"}
+            className={styles.eraselectbtn}
+            onClick={(e) => selectTypes(e)}
+          >
+            全ての作品
+          </button>
+          {eras.map((item, i) => (
+            <button
+              key={i}
+              value={item.era}
+              onClick={(e) => selectTypes(e)}
+              className={styles.eraselectbtn}
+              style={{
+                backgroundColor: eraColor(item.era),
+              }}
+            >
+              {/* {type.type}（{type.total}） */}
+              {item.era}
             </button>
           ))}
         </div>
@@ -81,10 +122,14 @@ const ModalSearch = () => {
             id="search-keyword"
             type="text"
             onInput={handleInput}
-            placeholder={"検索"}
+            placeholder={"絵巻とその他のワイド美術を検索"}
           />
         </form>
         <div className={`${styles.contents} scrollbar`}>
+          {/* {filteredData.length === 0 && <p>作品はありません</p>}
+             {filteredData.length === 0 ? <p>作品はありません</p> : (
+              <CardA emakis={showData} columns={"searchbox"} />
+        )} */}
           <CardA emakis={showData} columns={"searchbox"} />
         </div>
       </div>
