@@ -12,7 +12,7 @@ const SearchBoxButton = () => {
   return (
     <button className={styles.searchboxbtn} onClick={openSearchModalOpen}>
       <FontAwesomeIcon icon={faMagnifyingGlass} />
-      <span>...input search</span>
+      <span>検索する</span>
     </button>
   );
 }
