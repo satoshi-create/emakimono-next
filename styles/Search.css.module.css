@@ -27,8 +27,14 @@
 .typeselectbtn{
       background: #e9f0ff;
 }
+.typeselectbtn:focus{
+  background:var(--clr-accent-02);
+}
 .eraselectbtn{
    background: #e9f0ff;
+}
+.eraselectbtn:focus{
+  background:var(--clr-accent-02);
 }
 .searchbox {
   display: flex;
