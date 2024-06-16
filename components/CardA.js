@@ -70,7 +70,7 @@ const CardA = ({
               <div className={styles.card}>
                 <div className={styles.single}>
                   <Link href={`/${titleen}`}>
-                    <a>
+                    <a target={columns === "searchbox" && "_blank"}>
                       <Image
                         src={thumb}
                         width={533}
