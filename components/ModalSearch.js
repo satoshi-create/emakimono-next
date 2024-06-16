@@ -9,8 +9,15 @@ import styles from "../styles/Search.css.module.css";
 import CardA from './CardA';
 import ExtractingListData from "../libs/ExtractingListData";
 import { useRouter } from "next/router";
-import {eraColor, eraItem,typeItem } from "../libs/func";
+import { eraColor, eraItem, typeItem } from "../libs/func";
+import styled from 'styled-components';
 
+const Button = styled.button`
+  &:focus {
+    background: ${(props) =>eraColor(props.item)};
+  }
+`;
+// background: ${(props) => props.background};
 
 const ModalSearch = () => {
   const { openSearchModalOpen, isSearchModalOpen, closeSearchModal } =
@@ -40,8 +47,10 @@ const ModalSearch = () => {
   console.log(types);
   // const filterdTypes = typeItem(showData);
 
-  const eras = eraItem(data).sort((a, b) => (a.total > b.total ? -1 : 1));
-  console.log(eras);
+  // const eras = eraItem(data).sort((a, b) => (a.total > b.total ? -1 : 1));
+  // console.log(eras);
+  
+  const eras = ["平安","鎌倉","室町","安土・桃山","江戸","明治"]
   
 
   const selectTypes = (e) => {
@@ -54,6 +63,24 @@ const ModalSearch = () => {
     const selectTypeItems = data.filter((item) => item.type === el);
     setShowData(selectTypeItems);
   };
+
+  const selectEras = (e) => {
+    const el = e.target.value;
+    if (el === "全ての時代") {
+      setShowData(data);
+      return;
+    }
+    const selectEraItems = data.filter((item) => item.era === el);
+    setShowData(selectEraItems)
+  }
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (searchKeyword === "") {
+      return;
+    }
+  }
 
   return (
     <div className={styles.modal}>
@@ -94,26 +121,26 @@ const ModalSearch = () => {
           <button
             value={"全ての時代"}
             className={styles.eraselectbtn}
-            onClick={(e) => selectTypes(e)}
+            onClick={(e) => selectEras(e)}
           >
             全ての作品
           </button>
           {eras.map((item, i) => (
-            <button
+            <Button item={item}
               key={i}
-              value={item.era}
-              onClick={(e) => selectTypes(e)}
+              value={item}
+              onClick={(e) => selectEras(e)}
               className={styles.eraselectbtn}
-              style={{
-                backgroundColor: eraColor(item.era),
-              }}
+              // style={{
+              //   backgroundColor: eraColor(item.era),
+              // }}
             >
               {/* {type.type}（{type.total}） */}
-              {item.era}
-            </button>
+              {item}
+            </Button>
           ))}
         </div>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
             className={styles.faMagnifyingGlassIcon}
@@ -129,7 +156,8 @@ const ModalSearch = () => {
           {/* {filteredData.length === 0 && <p>作品はありません</p>}
              {filteredData.length === 0 ? <p>作品はありません</p> : (
               <CardA emakis={showData} columns={"searchbox"} />
-        )} */}
+        )}
+         */}
           <CardA emakis={showData} columns={"searchbox"} />
         </div>
       </div>
