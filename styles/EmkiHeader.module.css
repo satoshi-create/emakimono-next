@@ -2,12 +2,17 @@
   background: var(--clr-white);
   padding: 0.5rem 0;
 }
+.sociallinks{
+  display: none;
+}
 @media screen and (min-width: 768px) {
   .header {
     padding: 1.5rem 0;
   }
 }
-
+.sociallinks{
+  display: block;
+}
 .title {
   font-family: var(--title-font);
   font-size: 1.4rem;
@@ -35,7 +40,7 @@
 .center {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: auto 1fr auto auto;
+  grid-auto-columns: auto 1fr auto auto auto;
   align-items: center;
   gap: 8px;
 }

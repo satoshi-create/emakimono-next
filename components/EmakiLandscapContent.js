@@ -14,6 +14,8 @@ import ToContactForm from "./ToContactForm";
 import ContactFormGoogle from "./ContactFormGoogle";
 import { ExternalLink } from "react-feather";
 import EditionLinks from "./EditionLinks";
+import LinkToNote from "./LinkToNote";
+
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
 
 const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
@@ -41,6 +43,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     keyword,
     genjieslug,
     kotobagaki,
+    note
   } = data;
 
   const descTJa = desc
@@ -147,6 +150,10 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
 
               {/* 各段の詞書・解説 */}
               {kotobagaki && <ChapterDesc emakis={emakis} data={data} />}
+
+              {/* noteへのリンク */}
+
+              {note && <LinkToNote note={note}/>}
 
               {/* 登場人物 */}
               {personname && (

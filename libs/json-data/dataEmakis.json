@@ -1151,7 +1151,7 @@
     "thumb": "/cyoujyuu_yamazaki_tei_thumb.webp",
     "thumb2": "/cyoujyuu_yamazaki_tei_thumb2.webp",
     "desc": "鎌倉時代に描かれた鳥獣人物戯画絵巻 丁巻の摸本。甲、乙、丙巻とはタッチがまったく異なり、鳥獣戯画といいながら人間しか登場しない。腕のたつ絵師が、酔った勢いで一気に描きあげたような勢いのある筆致が特徴。「番論義に着座した公卿たち」では、着座した4人の公卿のうち1人だけがリアルな顔（似絵）で描かれるなど、謎多き一巻でもある。",
-    "descen":"This is a copy of the Chōjū-Jinbutsu-Giga（Chojugiga volumn four. The touch is completely different from that of scrolls A, B, and C. Although it is called a caricature of birds, beasts, and humans, only humans appear in the painting. The vigorous brushwork is characteristic of a skillful painter, who seems to have painted it in a single stroke in a drunken stupor.",
+    "descen": "This is a copy of the Chōjū-Jinbutsu-Giga（Chojugiga volumn four. The touch is completely different from that of scrolls A, B, and C. Although it is called a caricature of birds, beasts, and humans, only humans appear in the painting. The vigorous brushwork is characteristic of a skillful painter, who seems to have painted it in a single stroke in a drunken stupor.",
     "era": "鎌倉",
     "eraen": "kamakura",
     "type": "絵巻",
@@ -2396,6 +2396,13 @@
         "ruby": "きのはせお",
         "portrait": "/portrait_kinohaseo.webp"
       }
+    ],
+    "note":[
+      {"title":"草履を売る少年",
+       "subtitle":"「長谷雄草紙」に見る少年と商いの光景",
+       "src":"/boy-selling-sandals_haseozoushi.png",
+       "url":"https://note.com/enjoy_emakimono/n/nb21e6e4f7607"
+  }
     ],
     "kotobagaki": true,
     "favorite": false,

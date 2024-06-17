@@ -47,13 +47,6 @@ const CardC = ({ data }) => {
           thumb,
           edition,
           author,
-          era,
-          eraen,
-          desc,
-          typeen,
-          type,
-          subtype,
-          keyword,
         } = item;
         return (
           <div key={i} className={styles.box}>

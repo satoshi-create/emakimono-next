@@ -9,6 +9,7 @@ import { AppContext } from "../pages/_app";
 import SidebarHome from "./SidebarHome";
 import { Mail,Search } from "react-feather";
 import SearchBoxButton from "./SearchBoxButton";
+import SocialLinks from "./SocialLinks";
 
 const EmakiHeader = ({ slug, fixed, emakipage }) => {
   const { locale } = useRouter();
@@ -42,7 +43,10 @@ const EmakiHeader = ({ slug, fixed, emakipage }) => {
             {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
           </a>
         </Link>
-        <SearchBoxButton/>
+        <div className={styles.sociallinks}>
+          <SocialLinks />
+        </div>
+        <SearchBoxButton />
         <button
           onClick={() => openContactModal(true)}
           title="ご意見をお寄せください"

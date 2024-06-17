@@ -9,7 +9,7 @@ import { AppContext } from "../pages/_app";
 import SidebarHome from "./SidebarHome";
 import { Mail, Search } from "react-feather";
 import SearchBoxButton from "./SearchBoxButton";
-
+import SocialLinks from "./SocialLinks";
 // TODO : ホバー時、header全体にリンクが入ってしまう
 
 const Header = ({ slug, fixed, emakipage }) => {
@@ -45,8 +45,11 @@ const Header = ({ slug, fixed, emakipage }) => {
             {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
           </a>
         </Link>
+        <div className={styles.sociallinks}>
+          <SocialLinks />
+        </div>
         <div className={styles.searchboxbtn}>
-        <SearchBoxButton />
+          <SearchBoxButton />
         </div>
         <button
           onClick={() => openContactModal(true)}

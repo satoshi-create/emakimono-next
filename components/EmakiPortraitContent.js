@@ -13,6 +13,7 @@ import SnsShareBox from "./SnsShareBox";
 import ToContactForm from "./ToContactForm";
 import ContactFormGoogle from "./ContactFormGoogle";
 import EditionLinks from "./EditionLinks";
+import LinkToNote from "./LinkToNote";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { handleToId, handleFullScreen, setnavIndex, isContactModalOpen } =
@@ -36,6 +37,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     genjieslug,
     personname,
     kotobagaki,
+    note,
     titleen,
   } = data;
 
@@ -119,6 +121,10 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
 
             {/* 各段の詞書・解説 */}
             {kotobagaki && <ChapterDesc emakis={emakis} data={data} />}
+            {/* noteへのリンク */}
+
+            {note && <LinkToNote note={note} />}
+
             {/* 他巻へのリンク */}
             <EditionLinks title={title} edition={edition} />
             {personname && (
