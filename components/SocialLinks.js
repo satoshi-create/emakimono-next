@@ -2,23 +2,24 @@ import React from "react";
 import { socialLinks } from "../libs/socialLinks";
 import Link from "next/link";
 import styles from "../styles/SocialLinks.module.css";
+import NoteIcon from "../public/note-icon.svg";
+import Image from "next/image";
 
 const SocialLinks = ({ footerStyle }) => {
-  // const { footerStyle } = value;
+
   return (
-    <ul
-      className={`${styles.links} ${footerStyle && styles["footerStyle"]}`}
-    >
+    <ul className={`${styles.links} ${footerStyle && styles["footerStyle"]}`}>
       {socialLinks.map((item, index) => {
         const { name, icon, path } = item;
         return (
           <li key={index}>
             <Link href={path}>
-              <a className={styles.icon}>{icon}</a>
+              <a className={styles.icon} target="_blank">{icon}</a>
             </Link>
           </li>
         );
       })}
+
     </ul>
   );
 };

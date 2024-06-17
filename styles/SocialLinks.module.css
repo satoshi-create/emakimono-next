@@ -15,6 +15,10 @@
 .footerStyle .icon {
   color: var(--clr-white);
 }
+.footerStyle a img{
+  background-color: white;
+  border-radius: 50%;
+}
 @media screen and (min-width: 768px) {
   .links {
     display: flex;
