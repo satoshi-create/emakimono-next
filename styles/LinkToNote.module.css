@@ -1,0 +1,21 @@
+.container{
+      display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 10px 0;
+}
+.box{
+      display: flex;
+    flex-direction: column;
+    gap: 5px 0;
+    transition:var(--transition)
+} 
+.box:hover{
+  opacity: .6;
+}
+.box .title{
+   font-family: var(--title-font-3);
+       font-weight: normal;
+}
+.box .subtitle{
+      font-family: var(--text-font);
+}
