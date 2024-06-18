@@ -3696,8 +3696,9 @@
   },
   {
     "id": 11,
-    "title": "西行物語絵巻（万野本）",
+    "title": "西行物語絵巻",
     "titleen": "saigyomonogatariemaki",
+    "edition":"万野本",
     "author": "",
     "authoren": "",
     "backgroundImage": "/washi-pattern-01.webp",
