@@ -152,8 +152,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               {kotobagaki && <ChapterDesc emakis={emakis} data={data} />}
 
               {/* noteへのリンク */}
-
-              {note && <LinkToNote note={note}/>}
+<LinkToNote title={title}/>
 
               {/* 登場人物 */}
               {personname && (
