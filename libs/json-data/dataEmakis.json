@@ -9595,8 +9595,8 @@
       "authoren": "",
       "backgroundImage": "/washi-pattern-01.webp",
       "video": "",
-      "thumb": "/shigisan-engi-emaki_upper_kokkai_01.webp",
-      "thumb2": "/shigisan-engi-emaki_upper_kokkai_01.webp",
+      "thumb": "/shigisan-engi-emaki_upper_kokkai_05-375.webp",
+      "thumb2": "/shigisan-engi-emaki_upper_kokkai_05-375.webp",
       "era": "平安",
       "eraen": "heiann",
       "desc":"",
@@ -9611,9 +9611,9 @@
       "sourceEkotoba": "",
       "keyword": [
         {
-          "name": "火事",
-          "id": "fire",
-          "slug": "fire"
+          "name": "仏教",
+          "id": "buddhism",
+          "slug": "buddhism"
         }
       ],
           "reference": [
