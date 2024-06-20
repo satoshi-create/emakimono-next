@@ -9936,6 +9936,11 @@
           "name": "遊戯",
           "id": "game",
           "slug": "game"
+        },
+        {
+          "name": "年中行事",
+          "id": "annualevent",
+          "slug": "annualevent"
         }
       ],
       "reference": [

@@ -24,7 +24,7 @@ console.log(reletedEmakisToNote);
           <Link key={i} href={item.noteUrl}>
             <a target="_blank" className={styles.box}>
               {/* CORSエラーのため画像をnoteからfetchできない */}
-              {/* <Image src={item.eyecatch} alt={item.name } width={1280} height={960}/> */}
+              <Image src={`/${item.eyecatch}.png`} alt={item.name } width={1280} height={670} />
               <h4 className={styles.title}>{item.name}</h4>
               <small>{item.publishAt}</small>
 
