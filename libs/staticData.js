@@ -4,13 +4,20 @@ const ja = {
     titleen: "contemplation of Nine stages of decay",
     desc: "九相図の一覧が描かれている絵巻物を、横スクロールで楽しむことができます。美しい女の人が、死後朽ち果てるまでの変容を９つの相に分け、肉体の美醜が生々しく描かれています。全九相をまとめて鑑賞し、仏教の修行者になったつもりで浄土を観想してみましょう！",
     name: "kusouzu",
-    columns: "three",
+    columns: "four",
   },
   bandainagon: {
     title: "伴大納言絵詞全巻イッキ見！！",
     titleen: "See all ban-dainagon-ekotoba",
     desc: "伴大納言絵詞、上・中・下全巻を、縦書き・横スクロールで楽しむことができます。平安時代末期に絵巻マニアの後白河法皇プロデュースのもと、天才絵師・常盤光長の手により制作された連続式絵巻の最高傑作です。応天門が炎上する様子をド迫力で描いた上巻から、悲嘆にくれる伴家の女房たちの生々しい描写まで、喜怒哀楽に満ちた見どころ満載の絵巻です。",
-    name: "cyouzyuu",
+    name: "bandainagon",
+    columns: "three",
+  },
+  shigisan: {
+    title: "信貴山縁起絵巻全巻イッキ見！！",
+    titleen: "See all shigisan-engi-emaki",
+    desc: "",
+    name: "shigisan",
     columns: "three",
   },
   cyouzyuu: {
@@ -109,6 +116,13 @@ const en = {
     titleen: "伴大納言絵詞全巻イッキ見！！",
     desc: "The Ban Dainagon Emaki, upper, middle, and lower volumes, can be enjoyed vertically and horizontally scrolled. This is the masterpiece of a serial picture scroll produced by the genius painter Tokiwa Mitsunaga under the production of Emperor Go-Shirakawa, a picture scroll enthusiast, at the end of the Heian period (794-1185). From the upper part of the scroll, which depicts with great power the scene of the Otenmon Gate going up in flames, to the graphic depiction of the grieving wives of the Ban family, this emaki is full of highlights filled with joy, anger, sorrow, and happiness.",
     name: "bandainagon",
+    columns: "three",
+  },
+  shigisan: {
+    title: "See all shigisan-engi-emaki",
+    titleen: "信貴山縁起絵巻全巻イッキ見！！",
+    desc: "",
+    name: "shigisan",
     columns: "three",
   },
   cyouzyuu: {

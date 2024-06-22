@@ -72,6 +72,9 @@ const Home = () => {
   const bandainagonEmakis = removeNestedArrayObj.filter((emaki) =>
     emaki.title.includes("伴大納言絵詞")
   );
+  const shigisanEmakis = removeNestedArrayObj.filter((emaki) =>
+    emaki.title.includes("信貴山縁起絵巻")
+  );
 
   
   const setsuwaEmakis = removeNestedArrayObj.filter(
@@ -183,7 +186,7 @@ const Home = () => {
         sectionname={t.kusouzu.name}
         linktitle={t.kusouzu.title}
         linktitleen={t.kusouzu.title}
-        linkpath={"kusouzu"}
+        linkpath={"flow-kusouzu"}
         bcg={"#f9fbff"}
       />
       <CardA
@@ -195,7 +198,7 @@ const Home = () => {
         sectionname={t.bandainagon.name}
         linktitle={t.bandainagon.title}
         linktitleen={t.bandainagon.title}
-        linkpath={"bandainagon"}
+        linkpath={"flow-ban-dainagon"}
         // bcg={"#f9fbff"}
       />
       <CardA
@@ -207,9 +210,22 @@ const Home = () => {
         sectionname={t.cyouzyuu.name}
         linktitle={t.cyouzyuu.title}
         linktitleen={t.cyouzyuu.title}
-        linkpath={"cyouzyuu"}
+        linkpath={"flow-cyouzyuu"}
         bcg={"#f9fbff"}
       />
+      <CardA
+        emakis={shigisanEmakis}
+        columns={t.shigisan.columns}
+        sectiontitle={t.shigisan.title}
+        sectiontitleen={t.shigisan.titleen}
+        sectiondesc={t.shigisan.desc}
+        sectionname={t.shigisan.name}
+        // linktitle={t.shigisan.title}
+        // linktitleen={t.shigisan.title}
+        linkpath={"shigisan"}
+        // bcg={"#f9fbff"}
+      />
+
       <CardA
         emakis={genjiEmakis}
         columns={t.genji.columns}
@@ -219,8 +235,8 @@ const Home = () => {
         sectionname={t.genji.name}
         linktitle={"源氏物語絵54帖万華鏡"}
         linktitleen={"Genji Picture 54 Kaleidoscope"}
-        linkpath={"genji-pictures"}
-        // bcg={"#f9fbff"}
+        linkpath={"flow-genji-pictures"}
+        bcg={"#f9fbff"}
       />
       <FlowEmaki
         flowEmakis={sikisansuizuFlowDatas}
