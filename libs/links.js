@@ -22,17 +22,17 @@ const links = [
         id: "flow-kusouzu",
         path: "/flow-kusouzu",
       },
-            {
+      {
         name: "伴大納言絵詞全巻イッキ見！！",
         nameen: "See all ban-dainagon-ekotoba",
         id: "flow-ban-dainagon",
         path: "/flow-ban-dainagon",
       },
-         {
+      {
         name: "鳥獣人物戯画絵巻イッキ見！！",
         nameen: "See all cyoujyu-jinbutsu-giga",
-        id: "cyouzyuu",
-        path: "/cyouzyuu",
+        id: "flow-cyouzyuu",
+        path: "/flow-cyouzyuu",
       },
       {
         name: "源氏物語絵54帖万華鏡",
@@ -40,7 +40,6 @@ const links = [
         id: "flow-genji-pictures",
         path: "/flow-genji-pictures",
       },
-   
     ],
   },
   // {
