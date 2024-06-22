@@ -45,7 +45,7 @@
 }
 @media screen and (min-width: 768px) {
   .title{
-    grid-column: 1 / -1;
+    grid-column: 1 / 5;
   }
   .nav {
     display: none;
