@@ -14,8 +14,7 @@ import {
 // lock func
 const FullScreen = () => {
   const { toggleFullscreen, handleFullScreen, orientation } =
-
-    console.log(orientation)
+    useContext(AppContext);
   return (
     <button
       type="button"
