@@ -7396,6 +7396,13 @@
         "path": "miotsukushi"
       }
     ],
+    "keyword": [
+      {
+        "name": "源氏絵",
+        "id": "picture-of-the-genji-monogatari",
+        "slug": "picture-of-the-genji-monogatari"
+      }
+    ],
     "backgroundImage": "/washi-pattern-01.webp",
     "video": "",
     "thumb": "/14_genji_emaki_miotsukushi_metoropolitan_04-375.webp",
@@ -7407,8 +7414,7 @@
     "gif": "",
     "type": "絵巻",
     "typeen": "emaki",
-    "keyword": [],
-    "kotobagaki": false,
+    "kotobagaki": true,
     "sourceImageUrl": "https://www.metmuseum.org/art/collection/search/45366",
     "sourceImage": "源氏物語絵巻「澪標」（メトロポリタン美術館）ほか",
     "sourceEkotoba": "",

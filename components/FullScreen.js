@@ -14,13 +14,13 @@ import {
 // lock func
 const FullScreen = () => {
   const { toggleFullscreen, handleFullScreen, orientation } =
-    useContext(AppContext);
 
+    console.log(orientation)
   return (
     <button
       type="button"
       value="Lock Landscape"
-      onClick={() => handleFullScreen(orientation)}
+      onClick={() => handleFullScreen("landscape")}
       className={`${orientation === "landscape" ? styles.land : styles.prt} ${
         styles.icon
       }`}

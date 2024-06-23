@@ -123,10 +123,10 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             {kotobagaki && <ChapterDesc emakis={emakis} data={data} />}
             {/* noteへのリンク */}
 
-            {note && <LinkToNote note={note} />}
-
             {/* 他巻へのリンク */}
             <EditionLinks title={title} edition={edition} />
+            {/* noteへのリンク */}
+            <LinkToNote title={title} />
             {personname && (
               <div
                 className={`${styles.tags} ${locale === "ja" && styles.jatags}`}
