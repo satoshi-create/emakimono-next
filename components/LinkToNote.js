@@ -7,12 +7,6 @@ import noteData from "../libs/note/data.json"
 const LinkToNote = ({title}) => {
   console.log(title)
 
-  // const sentence = "直幹申文絵詞扇面法華経冊子長谷雄草紙";
-
-  // const word = "長谷雄草紙（摸本）"
-
-  // console.log(word.includes(sentence));
-
   const reletedEmakisToNote = noteData.filter((item) =>
     item.relatedEmakis.includes(title)
   );
