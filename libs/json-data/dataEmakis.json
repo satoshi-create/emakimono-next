@@ -10704,6 +10704,20 @@
         "kobun": "",
         "desc": "",
         "load": "False",
+        "srcSp": "/shigisan-engi-emaki_lower_kokkai_12-375.webp",
+        "srcTb": "/shigisan-engi-emaki_lower_kokkai_12-800.webp",
+        "src": "/shigisan-engi-emaki_lower_kokkai_12-1080.webp",
+        "name": "shigisan-engi-emaki_lower_kokkai_12",
+        "srcWidth": "600",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "gendaibun": "",
+        "kobun": "",
+        "desc": "",
+        "load": "False",
         "srcSp": "/shigisan-engi-emaki_lower_kokkai_13-375.webp",
         "srcTb": "/shigisan-engi-emaki_lower_kokkai_13-800.webp",
         "src": "/shigisan-engi-emaki_lower_kokkai_13-1080.webp",
@@ -10894,5 +10908,6 @@
         "srcHeight": "1080"
       }
     ]
+
   }
 ]
