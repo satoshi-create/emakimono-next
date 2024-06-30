@@ -192,42 +192,42 @@ const EmakiContainer = ({
         >
           {emakis.map((item, index) => {
             const { cat, src } = item;
-            if (cat === "image") {
-              return (
-                <EmakiImage
-                  key={index}
-                  item={{
-                    ...item,
-                    index,
-                    scroll,
-                    selectedRef,
-                    navIndex,
-                  }}
-                />
-              );
-            }
-            {
-              if (cat === "ekotoba")
+            if (data.type !== "古典文学") {
+              if (cat === "image") {
                 return (
-                  <OverlayEkotoba
+                  <EmakiImage
                     key={index}
                     item={{
                       ...item,
-                      cat,
                       index,
-                      backgroundImage,
-                      kotobagaki,
-                      type,
                       scroll,
                       selectedRef,
                       navIndex,
-                      data
                     }}
                   />
                 );
+              }   if (cat === "ekotoba") {
+           return (
+                    <OverlayEkotoba
+                      key={index}
+                      item={{
+                        ...item,
+                        cat,
+                        index,
+                        backgroundImage,
+                        kotobagaki,
+                        type,
+                        scroll,
+                        selectedRef,
+                        navIndex,
+                        data,
+                      }}
+                    />
+                  );
+              }
             }
-            {
-              if (data.type === "古典文学") {
+            if (data.type === "古典文学")
+              {
                 return (
                   <KotenText
                     key={index}
@@ -244,7 +244,6 @@ const EmakiContainer = ({
                   />
                 );
               }
-            }
           })}
         </article>
       </div>

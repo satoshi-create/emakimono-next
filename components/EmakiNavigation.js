@@ -35,7 +35,7 @@ const EmakiNavigation = ({
     <aside
       className={`${styles.container} ${
         orientation === "landscape" ? styles.land : styles.prt
-      } `}
+      } ${data.type === "古典文学" && styles.bcg}`}
     >
       <button
         onClick={() => handleToId(data.type === "西洋絵画" ? 0 : endIndex)}
@@ -52,7 +52,7 @@ const EmakiNavigation = ({
         </i>
       </button>
       <ToggleEkotoba data={data} />
-      <FullScreen/>
+      <FullScreen />
       {character && <ToggleCharacter data={data} />}
       {ebiki && <ToggleEbiki data={data} />}
       <button ref={scrollPrevRef} className={styles.button} title="前に戻る">
