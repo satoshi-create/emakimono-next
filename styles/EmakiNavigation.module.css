@@ -12,6 +12,9 @@
 .prt {
   bottom: 2%;
   column-gap: 0.5rem;
+  border-radius: 2rem;
+  /* padding: 0.5rem 1rem; */
+  /* box-shadow: var(--shadow-1); */
 }
 
 .land {
@@ -21,6 +24,9 @@
   border-radius: 2rem;
   padding: 0.5rem 1rem;
   box-shadow: var(--shadow-1);
+}
+.bcg {
+  background: #cdcdcdad;
 }
 .prt .button > i {
   font-size: 14px;
