@@ -61,14 +61,22 @@
   font-weight: 400;
   font-family: var(--text-font-koten);
   /* text-combine-upright: all; */
-
 }
 
 .gendaibun {
   font-family: var(--emaki-kotobagki-font);
   line-height: 1.6;
 }
-
+.gendaibun {
+  font-size: var(--text-size-prt);
+}
+.gendaibun a {
+  transition: var(--transition);
+  color: var(--clr-link);
+}
+.gendaibun a:hover {
+  color: var(--clr-accent-02);
+}
 .mapiconlink,
 .infoiconlink {
   display: grid;
@@ -123,7 +131,7 @@
 }
 
 /* ===========================
- * スクロールバーのスタイル 
+ * スクロールバーのスタイル
  * =========================== */
 
 .gendaibunbox::-webkit-scrollbar-thumb {
