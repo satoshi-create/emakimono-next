@@ -6924,8 +6924,8 @@
           {
             "name": "宰相の君",
             "status": "貴族（夕霧の妻）",
-            "top": 10,
-            "right": 45,
+            "top": 30,
+            "right": 60,
             "gender": "woman",
             "link": "https://ja.wikipedia.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E%E3%81%AE%E7%99%BB%E5%A0%B4%E4%BA%BA%E7%89%A9"
           },
@@ -7508,8 +7508,8 @@
     "edition": "",
     "backgroundImage": "/washi-pattern-01.webp",
     "video": "",
-    "thumb": "/ansei-edo-earthquake_02_cbl-375.webp",
-    "thumb2": "/ansei-edo-earthquake_02_cbl-375.webp",
+    "thumb": "/ansei-edo-earthquake_thumb.png",
+    "thumb2": "/ansei-edo-earthquake_thumb.png",
     "metadesc": "",
     "desc": "",
     "era": "江戸",
@@ -11135,28 +11135,6 @@
         "srcTb": "/eshi-no-soshi_tohaku_17-800.webp",
         "src": "/eshi-no-soshi_tohaku_17-1080.webp",
         "name": "eshi-no-soshi_tohaku_17",
-        "srcWidth": "",
-        "srcHeight": "1080"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "False",
-        "srcSp": "/eshi-no-soshi_tohaku_18-375.webp",
-        "srcTb": "/eshi-no-soshi_tohaku_18-800.webp",
-        "src": "/eshi-no-soshi_tohaku_18-1080.webp",
-        "name": "eshi-no-soshi_tohaku_18",
-        "srcWidth": "",
-        "srcHeight": "1080"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "False",
-        "srcSp": "/eshi-no-soshi_tohaku_19-375.webp",
-        "srcTb": "/eshi-no-soshi_tohaku_19-800.webp",
-        "src": "/eshi-no-soshi_tohaku_19-1080.webp",
-        "name": "eshi-no-soshi_tohaku_19",
         "srcWidth": "",
         "srcHeight": "1080"
       }
