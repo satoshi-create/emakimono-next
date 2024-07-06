@@ -10906,5 +10906,260 @@
         "srcHeight": "1080"
       }
     ]
+  },
+  {
+    "id": 55,
+    "title": "絵師草紙",
+    "titleen": "eshi-no-soshi_tohaku",
+    "edition": "",
+    "editionen": "",
+    "author": "藤原信実（緑栄斉道模）",
+    "authoren": "",
+    "backgroundImage": "/washi-pattern-01.webp",
+    "video": "",
+    "thumb": "/eshi-no-soshi_tohaku_01-375.webp",
+    "thumb2": "/eshi-no-soshi_tohaku_01-375.webp",
+    "era": "鎌倉",
+    "eraen": "kamakura",
+    "desc": "",
+    "gif": "",
+    "type": "絵巻",
+    "typeen": "emaki",
+    "subtype": "説話",
+    "favorite": true,
+    "kotobagaki": false,
+    "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-1601",
+    "sourceImage": "絵師草紙（東京国立博物館）",
+    "sourceEkotoba": "",
+    "keyword": [
+      {
+        "name": "絵師",
+        "id": "artist",
+        "slug": "artist"
+      },
+      {
+        "name": "説話",
+        "id": "story",
+        "slug": "story"
+      }
+    ],
+    "reference": [
+      {
+        "type": "書籍",
+        "url": "https://shorturl.at/CS007",
+        "title": "『中世のことばと絵: 絵巻は訴える 』"
+      }
+    ],
+    "emakis": [
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "True",
+        "srcSp": "/eshi-no-soshi_tohaku_01-375.webp",
+        "srcTb": "/eshi-no-soshi_tohaku_01-800.webp",
+        "src": "/eshi-no-soshi_tohaku_01-1080.webp",
+        "name": "eshi-no-soshi_tohaku_01",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "True",
+        "srcSp": "/eshi-no-soshi_tohaku_02-375.webp",
+        "srcTb": "/eshi-no-soshi_tohaku_02-800.webp",
+        "src": "/eshi-no-soshi_tohaku_02-1080.webp",
+        "name": "eshi-no-soshi_tohaku_02",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/eshi-no-soshi_tohaku_03-375.webp",
+        "srcTb": "/eshi-no-soshi_tohaku_03-800.webp",
+        "src": "/eshi-no-soshi_tohaku_03-1080.webp",
+        "name": "eshi-no-soshi_tohaku_03",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/eshi-no-soshi_tohaku_04-375.webp",
+        "srcTb": "/eshi-no-soshi_tohaku_04-800.webp",
+        "src": "/eshi-no-soshi_tohaku_04-1080.webp",
+        "name": "eshi-no-soshi_tohaku_04",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/eshi-no-soshi_tohaku_05-375.webp",
+        "srcTb": "/eshi-no-soshi_tohaku_05-800.webp",
+        "src": "/eshi-no-soshi_tohaku_05-1080.webp",
+        "name": "eshi-no-soshi_tohaku_05",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/eshi-no-soshi_tohaku_06-375.webp",
+        "srcTb": "/eshi-no-soshi_tohaku_06-800.webp",
+        "src": "/eshi-no-soshi_tohaku_06-1080.webp",
+        "name": "eshi-no-soshi_tohaku_06",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/eshi-no-soshi_tohaku_07-375.webp",
+        "srcTb": "/eshi-no-soshi_tohaku_07-800.webp",
+        "src": "/eshi-no-soshi_tohaku_07-1080.webp",
+        "name": "eshi-no-soshi_tohaku_07",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/eshi-no-soshi_tohaku_08-375.webp",
+        "srcTb": "/eshi-no-soshi_tohaku_08-800.webp",
+        "src": "/eshi-no-soshi_tohaku_08-1080.webp",
+        "name": "eshi-no-soshi_tohaku_08",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/eshi-no-soshi_tohaku_09-375.webp",
+        "srcTb": "/eshi-no-soshi_tohaku_09-800.webp",
+        "src": "/eshi-no-soshi_tohaku_09-1080.webp",
+        "name": "eshi-no-soshi_tohaku_09",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/eshi-no-soshi_tohaku_10-375.webp",
+        "srcTb": "/eshi-no-soshi_tohaku_10-800.webp",
+        "src": "/eshi-no-soshi_tohaku_10-1080.webp",
+        "name": "eshi-no-soshi_tohaku_10",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/eshi-no-soshi_tohaku_11-375.webp",
+        "srcTb": "/eshi-no-soshi_tohaku_11-800.webp",
+        "src": "/eshi-no-soshi_tohaku_11-1080.webp",
+        "name": "eshi-no-soshi_tohaku_11",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/eshi-no-soshi_tohaku_12-375.webp",
+        "srcTb": "/eshi-no-soshi_tohaku_12-800.webp",
+        "src": "/eshi-no-soshi_tohaku_12-1080.webp",
+        "name": "eshi-no-soshi_tohaku_12",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/eshi-no-soshi_tohaku_13-375.webp",
+        "srcTb": "/eshi-no-soshi_tohaku_13-800.webp",
+        "src": "/eshi-no-soshi_tohaku_13-1080.webp",
+        "name": "eshi-no-soshi_tohaku_13",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/eshi-no-soshi_tohaku_14-375.webp",
+        "srcTb": "/eshi-no-soshi_tohaku_14-800.webp",
+        "src": "/eshi-no-soshi_tohaku_14-1080.webp",
+        "name": "eshi-no-soshi_tohaku_14",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/eshi-no-soshi_tohaku_15-375.webp",
+        "srcTb": "/eshi-no-soshi_tohaku_15-800.webp",
+        "src": "/eshi-no-soshi_tohaku_15-1080.webp",
+        "name": "eshi-no-soshi_tohaku_15",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/eshi-no-soshi_tohaku_16-375.webp",
+        "srcTb": "/eshi-no-soshi_tohaku_16-800.webp",
+        "src": "/eshi-no-soshi_tohaku_16-1080.webp",
+        "name": "eshi-no-soshi_tohaku_16",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/eshi-no-soshi_tohaku_17-375.webp",
+        "srcTb": "/eshi-no-soshi_tohaku_17-800.webp",
+        "src": "/eshi-no-soshi_tohaku_17-1080.webp",
+        "name": "eshi-no-soshi_tohaku_17",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/eshi-no-soshi_tohaku_18-375.webp",
+        "srcTb": "/eshi-no-soshi_tohaku_18-800.webp",
+        "src": "/eshi-no-soshi_tohaku_18-1080.webp",
+        "name": "eshi-no-soshi_tohaku_18",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcSp": "/eshi-no-soshi_tohaku_19-375.webp",
+        "srcTb": "/eshi-no-soshi_tohaku_19-800.webp",
+        "src": "/eshi-no-soshi_tohaku_19-1080.webp",
+        "name": "eshi-no-soshi_tohaku_19",
+        "srcWidth": "",
+        "srcHeight": "1080"
+      }
+    ]
   }
 ]
