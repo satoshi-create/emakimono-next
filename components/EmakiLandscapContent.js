@@ -43,7 +43,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     keyword,
     genjieslug,
     kotobagaki,
-    note
+    note,
   } = data;
 
   const descTJa = desc
@@ -57,7 +57,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     : `You can enjoy all the scenes of the " ${titleen} ${
         authoren && `（${authoren}）`
       } " in vertical and right to left scrolling mode.`;
-
 
   return (
     <>
@@ -152,8 +151,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               {kotobagaki && <ChapterDesc emakis={emakis} data={data} />}
 
               {/* noteへのリンク */}
-<LinkToNote title={title}/>
-
+              <LinkToNote title={title} />
               {/* 登場人物 */}
               {personname && (
                 <div className={styles.tags}>
