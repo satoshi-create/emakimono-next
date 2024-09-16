@@ -180,6 +180,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   })}
                 </div>
               )}
+              {/*キーワードタグ */}
               {keyword && (
                 <div className={styles.tags}>
                   {keyword?.map((item, index) => {
@@ -195,6 +196,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   })}
                 </div>
               )}
+              {/*カテゴリー・時代タグ */}
               <div className={styles.cat}>
                 <Link href={`/era/${eraen}`}>
                   <a
@@ -212,21 +214,21 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   <a>{locale === "en" ? typeen : type}</a>
                 </Link>
               </div>
+              {/*メタ情報*/}
               <div className={styles.authority}>
                 <Link href={sourceImageUrl}>
                   <a target="_blank" className={styles.sourceLink}>
-                    出典 - {sourceImage}
+                    【出典】 {sourceImage}
                   </a>
                 </Link>
                 <ul>
-                  参照 -
+                  【参照】
                   {reference?.map((item, i) => {
                     return (
                       <li key={i}>
                         <Link href={item.url ? item.url : "/"}>
                           <a target="_blank" className={styles.sourceLink}>
-                            {`【${item.type}】
-                          ${item.title}`}
+                            {`　　${item.title}`}
                           </a>
                         </Link>
                       </li>
