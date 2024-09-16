@@ -27,7 +27,7 @@
   grid-template-columns: 1fr auto;
   grid-auto-flow: column;
   align-items: center;
-  gap: 0 .5rem;
+  gap: .5rem;
 }
 
 .favicon {
@@ -44,6 +44,11 @@
   display: none;
 }
 @media screen and (min-width: 768px) {
+    .sociallinks {
+        display: block;
+      }
+}
+@media screen and (min-width: 1366px) {
   .title{
     grid-column: 1 / 5;
   }
