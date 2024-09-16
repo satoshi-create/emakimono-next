@@ -24,11 +24,22 @@
   font-size: var(--title-size-prt);
   white-space: nowrap;
   justify-self: flex-start;
+  transition: var(--transition);
 }
-
+.title:hover {
+  opacity: 0.6;
+}
 .favicon {
   width: 20px;
   height: 20px;
+}
+.contactbtn,
+.openbtn {
+  transition: var(--transition);
+}
+.contactbtn:hover,
+.openbtn:hover {
+  opacity: 0.6;
 }
 .contacticon,
 .fabarsicon,
@@ -36,6 +47,7 @@
   width: 24px;
   height: 24px;
 }
+
 @media screen and (min-width: 768px) {
   .header {
     padding: 1.5rem 0;
