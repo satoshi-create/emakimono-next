@@ -16,10 +16,14 @@
 .land > i {
   font-size: 20px;
 }
-.icon {
+.button {
   z-index: 10;
   font-size: 1.4rem;
   color: white;
   transform: rotate(var(--rotate));
   transition: var(--transition);
 }
+ .button:hover {
+   transform: scale(1.4);
+    color: var(--clr-accent-02);
+ }
