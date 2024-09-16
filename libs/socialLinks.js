@@ -28,13 +28,13 @@ export const socialLinks = [
   //   name: "help",
   //   icon: <HelpCircle />,
   //   path: "https://note.com/enjoy_emakimono/n/n449f765b4876",
-  //   title: "「横スクロールで楽しむ絵巻物」の操作方法",
+  //   title: "「横スクロールで楽しむ絵巻物」の使い方",
   // },
   // {
   //   name: "how to use",
   //   icon: <Settings />,
   //   path: "https://note.com/enjoy_emakimono/n/n449f765b4876",
-  //   title: "「横スクロールで楽しむ絵巻物」の操作方法",
+  //   title: "「横スクロールで楽しむ絵巻物」の使い方",
   // },
   {
     name: "note",

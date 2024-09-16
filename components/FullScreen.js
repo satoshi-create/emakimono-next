@@ -21,7 +21,7 @@ const FullScreen = () => {
       value="Lock Landscape"
       onClick={() => handleFullScreen("landscape")}
       className={`${orientation === "landscape" ? styles.land : styles.prt} ${
-        styles.icon
+        styles.button
       }`}
     >
       {toggleFullscreen ? (
