@@ -5,9 +5,10 @@ import {
   faAnglesRight,
   faChevronLeft,
   faChevronRight,
-  faHouse,
+  faCircleQuestion,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { HelpCircle } from "react-feather";
 // import { ArrowRight, ChevronRight } from "react-feather";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -51,6 +52,16 @@ const EmakiNavigation = ({
           <FontAwesomeIcon icon={faChevronLeft} />
         </i>
       </button>
+      <Link href="https://note.com/enjoy_emakimono/n/n449f765b4876">
+        <a className={styles.button} target="_blank">
+          <i>
+            <FontAwesomeIcon
+              icon={faCircleQuestion}
+              title="「横スクロールで楽しむ絵巻物」の使い方"
+            />
+          </i>
+        </a>
+      </Link>
       <ToggleEkotoba data={data} />
       <FullScreen />
       {character && <ToggleCharacter data={data} />}

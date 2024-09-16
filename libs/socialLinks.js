@@ -1,8 +1,17 @@
-import { GitHub, Twitter, Youtube, Linkedin } from "react-feather";
+import {
+  GitHub,
+  Twitter,
+  Youtube,
+  Linkedin,
+  Settings,
+  HelpCircle,
+} from "react-feather";
 import NoteIcon from "../public/note-icon.png";
 import Image from "next/image";
 
-{/* <Image priority src={NoteIcon} alt="Follow us on Twitter" /> */}
+{
+  /* <Image priority src={NoteIcon} alt="Follow us on Twitter" /> */
+}
 
 export const socialLinks = [
   // {
@@ -15,15 +24,36 @@ export const socialLinks = [
   //   icon: <GitHub />,
   //   path: "https://github.com/satoshi-create",
   // },
+  // {
+  //   name: "help",
+  //   icon: <HelpCircle />,
+  //   path: "https://note.com/enjoy_emakimono/n/n449f765b4876",
+  //   title: "「横スクロールで楽しむ絵巻物」の操作方法",
+  // },
+  // {
+  //   name: "how to use",
+  //   icon: <Settings />,
+  //   path: "https://note.com/enjoy_emakimono/n/n449f765b4876",
+  //   title: "「横スクロールで楽しむ絵巻物」の操作方法",
+  // },
   {
     name: "note",
-    icon:  <Image src={NoteIcon} alt="Follow us on Twitter" width="25px" height="25px"/> ,
+    icon: (
+      <Image
+        src={NoteIcon}
+        alt="Follow us on Twitter"
+        width="25px"
+        height="25px"
+      />
+    ),
     path: "https://note.com/enjoy_emakimono",
+    title: "note",
   },
   {
     name: "twitter",
     icon: <Twitter />,
     path: "https://twitter.com/enjoy_emakimono",
+    title: "X（旧Twitter）",
   },
   // {
   //   name: "youtube",
