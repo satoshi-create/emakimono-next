@@ -9,9 +9,9 @@ const SocialLinks = ({ footerStyle }) => {
   return (
     <ul className={`${styles.links} ${footerStyle && styles["footerStyle"]}`}>
       {socialLinks.map((item, index) => {
-        const { name, icon, path } = item;
+        const { name, icon, path, title } = item;
         return (
-          <li key={index} className={styles.link}>
+          <li key={index} className={styles.link} title={title}>
             <Link href={path}>
               <a className={styles.icon} target="_blank">
                 {icon}
