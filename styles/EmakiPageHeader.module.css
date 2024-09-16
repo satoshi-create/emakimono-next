@@ -1,16 +1,19 @@
+.center {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: auto 1fr auto auto auto;
+  align-items: center;
+  gap: 8px;
+}
+
 .header {
   background: var(--clr-white);
   padding: 0.5rem 0;
 }
-.sociallinks{
+.sociallinks {
   display: none;
 }
-@media screen and (min-width: 768px) {
-  .header {
-    padding: 1.5rem 0;
-  }
-}
-.sociallinks{
+.sociallinks {
   display: block;
 }
 .title {
@@ -20,6 +23,7 @@
   font-weight: 600;
   font-size: var(--title-size-prt);
   white-space: nowrap;
+  justify-self: flex-start;
 }
 
 .favicon {
@@ -32,15 +36,8 @@
   width: 24px;
   height: 24px;
 }
-
-/* ===========================
- * グリッドレイアウト
- * =========================== */
-
-.center {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: auto 1fr auto auto auto;
-  align-items: center;
-  gap: 8px;
+@media screen and (min-width: 768px) {
+  .header {
+    padding: 1.5rem 0;
+  }
 }
