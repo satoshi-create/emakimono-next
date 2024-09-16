@@ -30,12 +30,12 @@ export const socialLinks = [
   //   path: "https://note.com/enjoy_emakimono/n/n449f765b4876",
   //   title: "「横スクロールで楽しむ絵巻物」の使い方",
   // },
-  // {
-  //   name: "how to use",
-  //   icon: <Settings />,
-  //   path: "https://note.com/enjoy_emakimono/n/n449f765b4876",
-  //   title: "「横スクロールで楽しむ絵巻物」の使い方",
-  // },
+  {
+    name: "youtube",
+    icon: <Youtube />,
+    path: "https://www.youtube.com/channel/UC9w0YkVuUVe-_xtVbKluTbw",
+    title: "横スクロールで楽しむ絵巻物 - YouTubeチャンネル",
+  },
   {
     name: "note",
     icon: (
