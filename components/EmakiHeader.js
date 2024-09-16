@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import NavLinks from "./NavLinks";
 import { AppContext } from "../pages/_app";
 import SidebarHome from "./SidebarHome";
-import { Mail, Search } from "react-feather";
+import { Mail, } from "react-feather";
 import SearchBoxButton from "./SearchBoxButton";
 import SocialLinks from "./SocialLinks";
 
