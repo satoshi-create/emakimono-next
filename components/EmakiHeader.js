@@ -1,13 +1,13 @@
 import Link from "next/link";
 import React, { useEffect, useState, useContext } from "react";
-import styles from "../styles/EmkiHeader.module.css";
+import styles from "../styles/EmakiPageHeader.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars} from "@fortawesome/free-solid-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 import NavLinks from "./NavLinks";
 import { AppContext } from "../pages/_app";
 import SidebarHome from "./SidebarHome";
-import { Mail,Search } from "react-feather";
+import { Mail, Search } from "react-feather";
 import SearchBoxButton from "./SearchBoxButton";
 import SocialLinks from "./SocialLinks";
 
