@@ -1,10 +1,14 @@
 .searchboxbtn {
+  transition: var(--transition);
+}
+.searchboxbtn:hover {
+  opacity: 0.6;
 }
 .searchboxbtn svg {
   font-size: 18px;
 }
 .searchboxbtn span {
- display: none;
+  display: none;
   justify-self: flex-start;
 }
 @media screen and (min-width: 768px) {
@@ -21,13 +25,13 @@
     padding: 0 10px;
   }
   .searchboxbtn svg {
-  color: var(--clr-grey-light);
-  font-size: 18px;
-}
+    color: var(--clr-grey-light);
+    font-size: 18px;
+  }
   .searchboxbtn span {
-  font-size: 18px;
-  color: var(--clr-grey-light);
-  font-family: var(--text);
-  display: block;
-}
+    font-size: 18px;
+    color: var(--clr-grey-light);
+    font-family: var(--text);
+    display: block;
+  }
 }

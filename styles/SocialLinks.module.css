@@ -15,7 +15,7 @@
 .footerStyle .icon {
   color: var(--clr-white);
 }
-.footerStyle a img{
+.footerStyle a img {
   background-color: white;
   border-radius: 50%;
 }
@@ -24,6 +24,14 @@
     display: flex;
     column-gap: 10px;
     grid-row: 3;
+  }
+  .link {
+    width: 25px;
+    height: 25px;
+    transition: var(--transition);
+  }
+  .link:hover {
+    opacity: 0.6;
   }
   .links .icon {
     color: var(--clr-grey);

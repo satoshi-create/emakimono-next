@@ -43,9 +43,9 @@ const EmakiHeader = ({ slug, fixed, emakipage }) => {
             {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
           </a>
         </Link>
-        <div className={styles.sociallinks}>
+        <span className={styles.sociallinks}>
           <SocialLinks />
-        </div>
+        </span>
         <SearchBoxButton />
         <button
           onClick={() => openContactModal(true)}
