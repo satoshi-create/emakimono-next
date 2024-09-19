@@ -10,7 +10,8 @@
   /* mix-blend-mode: darken; */
 }
 .MuiBackdrop {
-  background: linear-gradient(322deg, rgb(135 1 1), rgb(0 0 0 / 76%) 95%);
+  /* background: linear-gradient(322deg, rgb(135 1 1), rgb(0 0 0 / 76%) 95%); */
+  background-color:#000000db;
   cursor: pointer;
   height: 100%;
   inset: 0;
@@ -52,6 +53,7 @@
     grid-template-columns: minmax(2vw, auto) 1fr minmax(2vw, auto);
     grid-template-rows: 2vw auto 1fr 2vw;
     row-gap: 1rem;
+    background-color: #00000033;
   }
 }
 .tabcontainer {
