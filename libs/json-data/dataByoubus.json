@@ -1137,5 +1137,92 @@
         "name": "left_god-of-wind-and-god-of-thunder.webp"
       }
     ]
-  }
+  },
+   {
+     "id": 36,
+     "title": "源氏物語図屏風",
+     "titleen": "genjie-byoubu-utsusemi",
+     "edition": "空蝉",
+     "genjieslug": [
+       {
+         "id": "3",
+         "title": "空蝉",
+         "ruby": "うつせみ",
+         "path": "utsusemi"
+       }
+     ],
+     "keyword": [
+       {
+         "name": "源氏絵",
+         "id": "picture-of-the-genji-monogatari",
+         "slug": "picture-of-the-genji-monogatari"
+       },
+       {
+         "name": "空蝉",
+         "id": "utsusemi",
+         "slug": "utsusemi"
+       }
+     ],
+     "author": "土佐光信",
+     "authoren": "tosa-mitsuoki",
+     "backgroundImage": "/washi-pattern-01.webp",
+     "video": "",
+     "thumb": "/genjie-byoubu-utsusemi_tosa-mitsuoki_freer_01-800.webp",
+     "thumb2": "genjie-byoubu-utsusemi_tosa-mitsuoki_freer_01-800.webp",
+     "metadesc": "",
+     "desc": "",
+     "era": "江戸",
+     "eraen": "edo",
+     "gif": "",
+     "type": "屏風",
+     "typeen": "byoubu",
+     "kotobagaki": false,
+     "sourceImageUrl": "https://asia.si.edu/explore-art-culture/collections/search/edanmdm:fsg_F1904.117/",
+     "sourceImage": "The Tale of Genji, chapter 2: Prince Genji's visit to Utsusemi（フリーア美術館）",
+     "sourceEkotoba": "",
+     "emakis": [
+       {
+         "cat": "ekotoba",
+         "chapter": "空蝉",
+         "gendaibun": "",
+         "kobun": "",
+         "desc": "",
+         "load": "True",
+         "srcSp": "",
+         "srcTb": "",
+         "src": "",
+         "name": "",
+         "srcWidth": "",
+         "srcHeight": ""
+       },
+       {
+         "cat": "image",
+         "chapter": "",
+         "gendaibun": "",
+         "kobun": "",
+         "desc": "",
+         "load": "True",
+         "srcSp": "/genjie-byoubu-utsusemi_tosa-mitsuoki_freer_01-375.webp",
+         "srcTb": "/genjie-byoubu-utsusemi_tosa-mitsuoki_freer_01-800.webp",
+         "src": "/genjie-byoubu-utsusemi_tosa-mitsuoki_freer_01-1080.webp",
+         "name": "genjie-byoubu-utsusemi_tosa-mitsuoki_freer_01",
+         "srcWidth": "",
+         "srcHeight": "1080"
+       },
+       {
+         "cat": "image",
+         "chapter": "",
+         "gendaibun": "",
+         "kobun": "",
+         "desc": "",
+         "load": "True",
+         "srcSp": "/genjie-byoubu-utsusemi_tosa-mitsuoki_freer_02-375.webp",
+         "srcTb": "/genjie-byoubu-utsusemi_tosa-mitsuoki_freer_02-800.webp",
+         "src": "/genjie-byoubu-utsusemi_tosa-mitsuoki_freer_02-1080.webp",
+         "name": "genjie-byoubu-utsusemi_tosa-mitsuoki_freer_02",
+         "srcWidth": "",
+         "srcHeight": "1080"
+       }
+     ]
+   }
 ]
