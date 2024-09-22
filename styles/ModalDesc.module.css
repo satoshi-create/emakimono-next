@@ -48,6 +48,34 @@
   border: 1px solid #5b5b5ba3;
   box-shadow: 1px -1px 20px 16px rgb(151 151 151 / 10%);
 }
+.titlebox{
+    display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+}
+.genjieslugBox {
+  transition: var(--transition);
+  font-size: 14px;
+  /* margin-left: 1.5rem; */
+  border: 1px double #fff;
+    align-self: flex-end;
+}
+
+.genjieslugBox:hover {
+  background: var(--clr-white);
+  border: 1px double #fff;
+}
+
+.genjieslugTitle {
+  padding: 0.2rem;
+  font-family: var(--text-font);
+  transition: var(--transition);
+  color: var(--clr-white);
+}
+
+.genjieslugBox:hover .genjieslugTitle {
+  color: var(--clr-black);
+}
 @media screen and (min-width: 768px) {
   .container {
     grid-template-columns: minmax(2vw, auto) 1fr minmax(2vw, auto);
