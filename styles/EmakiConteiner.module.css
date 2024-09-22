@@ -22,6 +22,8 @@
 .container {
   display: flex !important;
   height: var(--screen-height);
+  /* height:75vh; */
+  /* width: 65vw; */
   overflow-y: hidden;
   overflow-x: var(--overflow-x);
   /* overflow-x: hidden; */
@@ -91,7 +93,7 @@
   scrollbar-color: #6969dd #e0e0e0;
   scrollbar-width: thin;
 } */
-/* 
+/*
 .container::-webkit-scrollbar {
   height: 15px;
 }

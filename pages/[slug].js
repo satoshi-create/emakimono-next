@@ -29,7 +29,7 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
     setToggleFullscreen,
   } = useContext(AppContext);
 
-  
+
   const pagetitle =
     locale === "en"
       ? data.titleen
@@ -205,6 +205,23 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
           />
         </>
       );
+    } else if (ori === "landscape") {
+      return (
+        <>
+          <EmakiHeader />
+          <EmakiBreadcrumbs
+            nameA={locale === "en" ? data.typeen : data.type}
+            nameAen={`type/${data.typeen}`}
+            nameB={locale === "en" ? data.titleen : data.title}
+          />
+          <EmakiLandscapContent
+            data={{ ...data }}
+            scroll={true}
+            selectedRef={selectedRef}
+            navIndex={navIndex}
+          />
+        </>
+      );
     } else if (ori === "portrait") {
       return (
         <>
@@ -221,23 +238,6 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
             selectedRef={selectedRef}
             navIndex={navIndex}
             height={"40vh"}
-          />
-        </>
-      );
-    } else if (ori === "landscape") {
-      return (
-        <>
-          <EmakiHeader />
-          <EmakiBreadcrumbs
-            nameA={locale === "en" ? data.typeen : data.type}
-            nameAen={`type/${data.typeen}`}
-            nameB={locale === "en" ? data.titleen : data.title}
-          />
-          <EmakiLandscapContent
-            data={{ ...data }}
-            scroll={true}
-            selectedRef={selectedRef}
-            navIndex={navIndex}
           />
         </>
       );

@@ -40,10 +40,10 @@ function MyApp({ Component, pageProps, router }) {
   const [index, setIndex] = useState(0);
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
   const [MapIndex, setMapIndex] = useState(0);
-  
+
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [ContactIndex, setContactIndex] = useState(0);
-  
+
   const [isDescModalOpen, setIsDescModalOpen] = useState(false);
   const [DescIndex, setDescIndex] = useState({});
   const [stickyClass, setStickyClass] = useState("");
@@ -52,7 +52,7 @@ function MyApp({ Component, pageProps, router }) {
   const [toggleBtn, setToggleBtn] = useState(true);
   const [hash, setHash] = useState(0);
   const [navIndex, setnavIndex] = useState(0);
-  const [orientation, setOrientation] = useState("portrait");
+  const [orientation, setOrientation] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [showData, setShowdData] = useState(emakisData);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
