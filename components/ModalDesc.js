@@ -13,6 +13,7 @@ import {
   matchSummaryKusouzu,
 } from "../libs/func";
 import SnsShareBox from "./SnsShareBox";
+import Link from "next/link";
 
 const ModalDesc = ({ data }) => {
   const { DescIndex, setDescIndex, handleToId, closeDescModal, orientation } =
@@ -113,20 +114,31 @@ const ModalDesc = ({ data }) => {
                 className={`${styles.article} ${styles[position]} scrollbar`}
                 key={ekotobasIndex}
               >
-                <h4
-                  className={styles.link}
-                  style={
-                    orientation === "portrait"
-                      ? {
-                          fontSize: "var(--title-size-prt)",
-                        }
-                      : { fontSize: "var(--title-size)" }
-                  }
-                  onClick={() => handleChapter(linkId)}
-                  dangerouslySetInnerHTML={{
-                    __html: chapter,
-                  }}
-                ></h4>
+                <div className={styles.titlebox}>
+                  <h4
+                    className={styles.link}
+                    style={
+                      orientation === "portrait"
+                        ? {
+                            fontSize: "var(--title-size-prt)",
+                          }
+                        : { fontSize: "var(--title-size)" }
+                    }
+                    onClick={() => handleChapter(linkId)}
+                    dangerouslySetInnerHTML={{
+                      __html: chapter,
+                    }}
+                  ></h4>
+                  {genjieslug && (
+                    <div className={`${styles.genjieslugBox}`}>
+                      <Link href={`/genjie/chapters-genji`}>
+                        <a className={styles.genjieslugTitle} target="_blank">
+                          源氏物語54帖一覧
+                        </a>
+                      </Link>
+                    </div>
+                  )}
+                </div>
                 <p
                   className={styles.gendaibun}
                   style={
