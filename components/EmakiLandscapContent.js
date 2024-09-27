@@ -120,6 +120,13 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   </Link>
                 </div>
               )}
+              {title.includes("絵師草紙") && (
+                <div className={`${styles.genjieslugBox}`}>
+                  <Link href={`/eshinososhi/chapters-esinososhi`}>
+                    <a className={styles.genjieslugTitle}>絵師草紙の諸段一覧</a>
+                  </Link>
+                </div>
+              )}
 
               <SnsShareBox
                 titleen={titleen}

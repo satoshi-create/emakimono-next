@@ -1,5 +1,4 @@
   import React from "react";
-import ChaptersTable from "../../components/ChaptersGenjiTable";
 import { kusouzuSlugItem, genjieSlugItem,useLocaleData } from "../../libs/func";
 import ExtractingListData from "../../libs/ExtractingListData";
 import Head from "../../components/Meta";
@@ -8,7 +7,7 @@ import Footer from "../../components/Footer";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import ChaptersKusouzuTable from "../../components/ChaptersKusouzuTable";
 
-const Chaptersgenjilist = () => {
+const ChaptersKusouzulist = () => {
   const { locale } = useLocaleData();
   const removeNestedArrayObj = ExtractingListData();
 
@@ -38,4 +37,4 @@ const Chaptersgenjilist = () => {
   );
 };
 
-export default Chaptersgenjilist;
+export default ChaptersKusouzulist;
