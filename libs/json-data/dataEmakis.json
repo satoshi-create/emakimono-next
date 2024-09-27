@@ -2750,10 +2750,7 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": " 【第０相】生前相",
-        "kobun": "",
-        "gendaibun": "膿爛し流れ潰える死体を見る。肉が溶けて流れ、火をつけた蝋燭のようである。これを膿爛相と名づける。",
-        "desc": "",
+        "chapter": "0",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -2765,9 +2762,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
         "load": "True",
         "srcSp": "/kusouzu_01-375.webp",
         "srcTb": "/kusouzu_01-800.webp",
@@ -2778,10 +2772,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第一相】 新死相",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
+        "chapter": "1",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -2793,9 +2784,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
         "load": "True",
         "srcSp": "/kusouzu_02-375.webp",
         "srcTb": "/kusouzu_02-800.webp",
@@ -2806,10 +2794,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第二相】 <ruby><rb>脹相</rb><rp>（</rp><rt>ちょうそう</rt><rp>）</rp></ruby> ",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
+        "chapter": "2",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -2821,9 +2806,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
         "load": "False",
         "srcSp": "/kusouzu_03-375.webp",
         "srcTb": "/kusouzu_03-800.webp",
@@ -2834,10 +2816,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第三相】 <ruby><rb>壊相</rb><rp>（</rp><rt>えそう</rt><rp>）</rp></ruby> ",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
+        "chapter": "3",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -2849,9 +2828,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
         "load": "False",
         "srcSp": "/kusouzu_04-375.webp",
         "srcTb": "/kusouzu_04-800.webp",
@@ -2862,10 +2838,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第四相】 <ruby><rb>血塗相</rb><rp>（</rp><rt>けちずそう</rt><rp>）</rp></ruby> ",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
+        "chapter": "4",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -2877,9 +2850,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
         "load": "False",
         "srcSp": "/kusouzu_05-375.webp",
         "srcTb": "/kusouzu_05-800.webp",
@@ -2890,10 +2860,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第五相】 <ruby><rb>膿爛相</rb><rp>（</rp><rt>のうらんそう</rt><rp>）</rp></ruby>",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
+        "chapter": "5",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -2905,9 +2872,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
         "load": "False",
         "srcSp": "/kusouzu_06-375.webp",
         "srcTb": "/kusouzu_06-800.webp",
@@ -2918,10 +2882,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第六相】 <ruby><rb>青瘀相</rb><rp>（</rp><rt>しょうおそう</rt><rp>）</rp></ruby>",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
+        "chapter": "6",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -2933,9 +2894,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
         "load": "False",
         "srcSp": "/kusouzu_07-375.webp",
         "srcTb": "/kusouzu_07-800.webp",
@@ -2946,10 +2904,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第七相】 <ruby><rb>噉相</rb><rp>（</rp><rt>たんそう</rt><rp>）</rp></ruby>",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
+        "chapter": "7",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -2961,9 +2916,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
         "load": "False",
         "srcSp": "/kusouzu_08-375.webp",
         "srcTb": "/kusouzu_08-800.webp",
@@ -2974,10 +2926,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第八相】 <ruby><rb>散相</rb><rp>（</rp><rt>さんそう</rt><rp>）</rp></ruby>",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
+        "chapter": "8",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -2989,9 +2938,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
         "load": "False",
         "srcSp": "/kusouzu_09-375.webp",
         "srcTb": "/kusouzu_09-800.webp",
@@ -3002,10 +2948,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第九相】 <ruby><rb> 骨相</rb><rp>（</rp><rt>こつそう</rt><rp>）</rp></ruby>",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
+        "chapter": "9",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -3017,9 +2960,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
         "load": "False",
         "srcSp": "/kusouzu_10-375.webp",
         "srcTb": "/kusouzu_10-800.webp",
@@ -3029,6 +2969,7 @@
         "srcHeight": "1080"
       }
     ]
+
   },
   {
     "id": 9,
