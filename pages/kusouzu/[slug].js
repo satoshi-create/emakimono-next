@@ -82,7 +82,7 @@ export const getStaticProps = async (context) => {
   const filterdEmakisData = tEmakisData.filter((x) => {
     if (x.kusouzuslug) {
       const filterdKusouzuslug = x.kusouzuslug.some(
-        (y) => y.id === chapterkusouzu.id
+        (y) => y.id === chapterkusouzu.stage_en
       );
       return filterdKusouzuslug;
     }
