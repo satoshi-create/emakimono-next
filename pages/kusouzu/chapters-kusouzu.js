@@ -14,6 +14,14 @@ const Chaptersgenjilist = () => {
 
   const ExistKusouzuChapters = kusouzuSlugItem(removeNestedArrayObj);
 
+console.log(ExistKusouzuChapters);
+
+
+  const KusouzuArrObj = removeNestedArrayObj.filter(
+    (item) => item.title.includes("九相"));
+  console.log(KusouzuArrObj);
+
+
   const tPageDesc =
     locale === "en"
       ? `This is the page for the list of the Nine stages of decay. We are producing a list of picture scrolls with each scene of the Nine stages of decay.`
@@ -32,6 +40,7 @@ const Chaptersgenjilist = () => {
         sectiontitle={"九相図一覧"}
         sectiontitleen={"List of Nine stages of decay"}
         ExistKusouzuChapters={ExistKusouzuChapters}
+        KusouzuArrObj={KusouzuArrObj}
       />
       <Footer />
     </>
