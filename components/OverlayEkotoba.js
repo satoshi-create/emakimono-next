@@ -6,9 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot,faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import {
-  conectKusouzuChaptersStageCh,
-  conectKusouzuChaptersTitle,
-  conectKusouzuChaptersRuby
+  conectKusouzuChapters,
 } from "../libs/func";
 
 const OverlayEkotoba = ({
@@ -108,20 +106,18 @@ const OverlayEkotoba = ({
                 }`,
               }}
             >
-              {conectKusouzuChaptersStageCh(chapter)
-                ? `【第${conectKusouzuChaptersStageCh(chapter)}相】`
+              {conectKusouzuChapters(chapter, "stage_ch")
+                ? `【第${conectKusouzuChapters(chapter, "stage_ch")}相】`
                 : chapter}
             </h3>
 
             <ruby>
-              {conectKusouzuChaptersStageCh(chapter)
-                && `${conectKusouzuChaptersTitle(chapter)}`
-              }
+              {conectKusouzuChapters(chapter, "title") &&
+                `${conectKusouzuChapters(chapter, "title")}`}
               <rp>(</rp>
               <rt>
-                {conectKusouzuChaptersStageCh(chapter)
-                  && `${conectKusouzuChaptersRuby(chapter)}`
-                  }
+                {conectKusouzuChapters(chapter, "ruby") &&
+                  `${conectKusouzuChapters(chapter, "ruby")}`}
               </rt>
               <rp>)</rp>{" "}
             </ruby>

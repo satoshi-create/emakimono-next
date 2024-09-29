@@ -3,7 +3,7 @@ import styles from "../styles/ChapterDesc.module.css";
 import { ChevronDown, ChevronUp } from "react-feather";
 import { AppContext } from "../pages/_app";
 import Image from "next/image";
-import { conectKusouzuChaptersStageCh, conectKusouzuChaptersTitle,conectKusouzuChaptersGendaibun} from "../libs/func";
+import { conectKusouzuChapters } from "../libs/func";
 
 const SingleChapterDesc = ({ item, index, emakis,data }) => {
   const { handleToId, handleFullScreen } = useContext(AppContext);
@@ -22,10 +22,11 @@ const SingleChapterDesc = ({ item, index, emakis,data }) => {
         // style={{ color: eraColor(era) }}
         // dangerouslySetInnerHTML={{ __html: chapter }}
         >
-          {conectKusouzuChaptersStageCh(chapter)
-            ? `【第${conectKusouzuChaptersStageCh(
-                chapter
-              )}相】 ${conectKusouzuChaptersTitle(chapter)}`
+          {conectKusouzuChapters(chapter, "stage_ch")
+            ? `【第${conectKusouzuChapters(
+                chapter,
+                "stage_ch"
+              )}相】 ${conectKusouzuChapters(chapter, "title")}`
             : chapter}
         </h4>
         <button>
@@ -41,8 +42,8 @@ const SingleChapterDesc = ({ item, index, emakis,data }) => {
           <p
             className={styles.chapterDescText}
             dangerouslySetInnerHTML={{
-              __html: conectKusouzuChaptersGendaibun(chapter)
-                ? conectKusouzuChaptersGendaibun(chapter)
+              __html: conectKusouzuChapters(chapter, "gendaibun")
+                ? conectKusouzuChapters(chapter, "gendaibun")
                 : gendaibun,
             }}
           ></p>

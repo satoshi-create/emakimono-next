@@ -16,8 +16,7 @@ import { ExternalLink } from "react-feather";
 import EditionLinks from "./EditionLinks";
 import LinkToNote from "./LinkToNote";
 import {
-  conectKusouzuChaptersStageCh,
-  conectKusouzuChaptersTitle,
+    conectKusouzuChapters,
 } from "../libs/func";
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
 
@@ -89,10 +88,11 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                       style={{ color: eraColor(era) }}
                       // dangerouslySetInnerHTML={{ __html: chapter }}
                     >
-                      {conectKusouzuChaptersStageCh(chapter)
-                        ? `【第${conectKusouzuChaptersStageCh(
-                            chapter
-                          )}相】 ${conectKusouzuChaptersTitle(chapter)}`
+                      {conectKusouzuChapters(chapter, "stage_ch")
+                        ? `【第${conectKusouzuChapters(
+                            chapter,
+                            "stage_ch"
+                          )}相】 ${conectKusouzuChapters(chapter, "title")}`
                         : chapter}
                     </span>
                   </li>
