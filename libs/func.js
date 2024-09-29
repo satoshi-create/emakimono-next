@@ -213,29 +213,57 @@ const removeNestedEmakisObj = (obj) =>
 //   );
 
 
-  const matchSummaryGenji = (chapter) => {
-    const chaptergenjisummary = chaptergenji
-      .filter((item) => chapter.includes(item.title))
-      .map((item) => item.summary)
-      .join();
-    return chaptergenjisummary;
-  };
+  // const matchSummaryGenji = (chapter) => {
+  //   const chaptergenjisummary = chaptergenji
+  //     .filter((item) => chapter.includes(item.title))
+  //     .map((item) => item.summary)
+  //     .join();
+  //   return chaptergenjisummary;
+  // };
 
-  const matchSummaryKusouzu = (chapter) => {
+  const conectKusouzuChaptersGendaibun = (chapter) => {
     const chapterkusouzusummary = chapterkusouzu
-      .filter((item) => chapter.includes(item.title))
+      .filter((item) => chapter === item.stage_en)
       .map((item) => item.gendaibun)
       .join();
     return chapterkusouzusummary;
   };
-
-  const matchSummary = (chapter, genjieslug) => {
-    if (genjieslug) {
-      return matchSummaryGenji(chapter);
-    } else {
-      return matchSummaryKusouzu(chapter);
-    }
+  const conectKusouzuChaptersTitle = (chapter) => {
+    const chapterkusouzusummary = chapterkusouzu
+      .filter((item) => chapter === item.stage_en)
+      .map((item) => item.title)
+      .join();
+    return chapterkusouzusummary;
   };
+  const conectKusouzuChaptersDesc = (chapter) => {
+    const chapterkusouzusummary = chapterkusouzu
+      .filter((item) => chapter === item.stage_en)
+      .map((item) => item.desc)
+      .join();
+    return chapterkusouzusummary;
+  };
+  const conectKusouzuChaptersRuby = (chapter) => {
+    const chapterkusouzusummary = chapterkusouzu
+      .filter((item) => chapter === item.stage_en)
+      .map((item) => item.ruby)
+      .join();
+    return chapterkusouzusummary;
+  };
+  const conectKusouzuChaptersStageCh = (chapter) => {
+    const chapterkusouzusummary = chapterkusouzu
+      .filter((item) => chapter === item.stage_en)
+      .map((item) => item.stage_ch)
+      .join();
+    return chapterkusouzusummary;
+  };
+
+  // const matchSummary = (chapter, genjieslug) => {
+  //   if (genjieslug) {
+  //     return matchSummaryGenji(chapter);
+  //   } else {
+  //     return matchSummaryKusouzu(chapter);
+  //   }
+  // };
 
 
 export {
@@ -251,7 +279,10 @@ export {
   authorItem,
   eraItem,
   typeItem,
-  matchSummary,
+  conectKusouzuChaptersGendaibun,
+  conectKusouzuChaptersTitle,
+  conectKusouzuChaptersStageCh,
   kusouzuSlugItem,
-  matchSummaryKusouzu,
+  conectKusouzuChaptersDesc,
+  conectKusouzuChaptersRuby,
 };
