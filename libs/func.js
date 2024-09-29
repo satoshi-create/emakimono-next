@@ -221,38 +221,16 @@ const removeNestedEmakisObj = (obj) =>
   //   return chaptergenjisummary;
   // };
 
-  const conectKusouzuChaptersGendaibun = (chapter) => {
+  /* ================
+
+「九相図」の絵巻データとメタデータ（chapters-of-kusouzu）をマージする関数conectKusouzuChapters
+
+================ */
+
+  const conectKusouzuChapters = (chapter,text) => {
     const chapterkusouzusummary = chapterkusouzu
       .filter((item) => chapter === item.stage_en)
-      .map((item) => item.gendaibun)
-      .join();
-    return chapterkusouzusummary;
-  };
-  const conectKusouzuChaptersTitle = (chapter) => {
-    const chapterkusouzusummary = chapterkusouzu
-      .filter((item) => chapter === item.stage_en)
-      .map((item) => item.title)
-      .join();
-    return chapterkusouzusummary;
-  };
-  const conectKusouzuChaptersDesc = (chapter) => {
-    const chapterkusouzusummary = chapterkusouzu
-      .filter((item) => chapter === item.stage_en)
-      .map((item) => item.desc)
-      .join();
-    return chapterkusouzusummary;
-  };
-  const conectKusouzuChaptersRuby = (chapter) => {
-    const chapterkusouzusummary = chapterkusouzu
-      .filter((item) => chapter === item.stage_en)
-      .map((item) => item.ruby)
-      .join();
-    return chapterkusouzusummary;
-  };
-  const conectKusouzuChaptersStageCh = (chapter) => {
-    const chapterkusouzusummary = chapterkusouzu
-      .filter((item) => chapter === item.stage_en)
-      .map((item) => item.stage_ch)
+      .map((item) => item[text])
       .join();
     return chapterkusouzusummary;
   };
@@ -279,10 +257,6 @@ export {
   authorItem,
   eraItem,
   typeItem,
-  conectKusouzuChaptersGendaibun,
-  conectKusouzuChaptersTitle,
-  conectKusouzuChaptersStageCh,
   kusouzuSlugItem,
-  conectKusouzuChaptersDesc,
-  conectKusouzuChaptersRuby,
+  conectKusouzuChapters,
 };

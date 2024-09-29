@@ -7,12 +7,7 @@ import {
   faAnglesLeft,
   faAnglesRight,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-  conectKusouzuChaptersGendaibun,
-  conectKusouzuChaptersTitle,
-  conectKusouzuChaptersStageCh,
-  conectKusouzuChaptersDesc
-} from "../libs/func";
+import { conectKusouzuChapters } from "../libs/func";
 import SnsShareBox from "./SnsShareBox";
 import Link from "next/link";
 
@@ -130,10 +125,11 @@ const ModalDesc = ({ data }) => {
                     }
                     onClick={() => handleChapter(linkId)}
                   >
-                    {conectKusouzuChaptersStageCh(chapter)
-                      ? `【第${conectKusouzuChaptersStageCh(
-                          chapter
-                        )}相】 ${conectKusouzuChaptersTitle(chapter)}`
+                    {conectKusouzuChapters(chapter, "stage_ch")
+                      ? `【第${conectKusouzuChapters(
+                          chapter,
+                          "stage_ch"
+                        )}相】 ${conectKusouzuChapters(chapter, "title")}`
                       : chapter}
                   </h4>
                   {genjieslug && (
@@ -164,8 +160,8 @@ const ModalDesc = ({ data }) => {
                       : { fontSize: "var(--text-size)" }
                   }
                   dangerouslySetInnerHTML={{
-                    __html: conectKusouzuChaptersGendaibun(chapter)
-                      ? conectKusouzuChaptersGendaibun(chapter)
+                    __html: conectKusouzuChapters(chapter, "gendaibun")
+                      ? conectKusouzuChapters(chapter, "gendaibun")
                       : gendaibun,
                   }}
                 ></p>
@@ -180,9 +176,9 @@ const ModalDesc = ({ data }) => {
                       : { fontSize: "var(--text-size)" }
                   }
                   dangerouslySetInnerHTML={{
-                    __html: conectKusouzuChaptersDesc(chapter)
-                      ? conectKusouzuChaptersDesc(chapter)
-                      : gendaibun,
+                    __html: conectKusouzuChapters(chapter, "desc")
+                      ? conectKusouzuChapters(chapter, "desc")
+                      : desc,
                   }}
                 ></p>
 
