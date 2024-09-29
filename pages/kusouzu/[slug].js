@@ -79,14 +79,22 @@ export const getStaticProps = async (context) => {
   );
   console.log(chapterkusouzu);
 
-  const filterdEmakisData = tEmakisData.filter((x) => {
-    if (x.kusouzuslug) {
-      const filterdKusouzuslug = x.kusouzuslug.some(
-        (y) => y.id === chapterkusouzu.stage_en
+  // const filterdEmakisData = tEmakisData.filter((x) => {
+  //   if (x.kusouzuslug) {
+  //     const filterdKusouzuslug = x.kusouzuslug.some(
+  //       (y) => y.id === chapterkusouzu.stage_en
+  //     );
+  //     return filterdKusouzuslug;
+  //   }
+  // });
+  const filterdEmakisData = tEmakisData.filter((item) => {
+      const filterdKusouzuslug = item.emakis.some(
+        (emaki) => emaki.chapter === chapterkusouzu.stage_en
       );
       return filterdKusouzuslug;
-    }
   });
+
+console.log(filterdEmakisData);
 
   const removeNestedArrayObj = filterdEmakisData.map((item) => {
     return removeNestedEmakisObj(item);
