@@ -3,7 +3,7 @@ import styles from "../styles/ChapterDesc.module.css";
 import { ChevronDown, ChevronUp } from "react-feather";
 import { AppContext } from "../pages/_app";
 import Image from "next/image";
-import { matchSummaryKusouzu,matchSummary } from "../libs/func";
+import { conectKusouzuChaptersStageCh, conectKusouzuChaptersTitle,conectKusouzuChaptersGendaibun} from "../libs/func";
 
 const SingleChapterDesc = ({ item, index, emakis,data }) => {
   const { handleToId, handleFullScreen } = useContext(AppContext);
@@ -17,11 +17,17 @@ const SingleChapterDesc = ({ item, index, emakis,data }) => {
         onClick={() => setShowInfo(!showInfo)}
       >
         <h4
-          // onClick={() => handleToId(index)}
-          // className={styles.chapterDesctTitle}
-          // style={{ color: eraColor(era) }}
-          dangerouslySetInnerHTML={{ __html: chapter }}
-        ></h4>
+        // onClick={() => handleToId(index)}
+        // className={styles.chapterDesctTitle}
+        // style={{ color: eraColor(era) }}
+        // dangerouslySetInnerHTML={{ __html: chapter }}
+        >
+          {conectKusouzuChaptersStageCh(chapter)
+            ? `【第${conectKusouzuChaptersStageCh(
+                chapter
+              )}相】 ${conectKusouzuChaptersTitle(chapter)}`
+            : chapter}
+        </h4>
         <button>
           {showInfo ? <ChevronUp /> : <ChevronDown />}
 
@@ -35,8 +41,8 @@ const SingleChapterDesc = ({ item, index, emakis,data }) => {
           <p
             className={styles.chapterDescText}
             dangerouslySetInnerHTML={{
-              __html: matchSummary(chapter, genjieslug)
-                ? matchSummary(chapter, genjieslug)
+              __html: conectKusouzuChaptersGendaibun(chapter)
+                ? conectKusouzuChaptersGendaibun(chapter)
                 : gendaibun,
             }}
           ></p>

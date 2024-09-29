@@ -8,9 +8,10 @@ import {
   faAnglesRight,
 } from "@fortawesome/free-solid-svg-icons";
 import {
-  matchSummary,
-  matchSummaryGenji,
-  matchSummaryKusouzu,
+  conectKusouzuChaptersGendaibun,
+  conectKusouzuChaptersTitle,
+  conectKusouzuChaptersStageCh,
+  conectKusouzuChaptersDesc
 } from "../libs/func";
 import SnsShareBox from "./SnsShareBox";
 import Link from "next/link";
@@ -19,13 +20,15 @@ const ModalDesc = ({ data }) => {
   const { DescIndex, setDescIndex, handleToId, closeDescModal, orientation } =
     useContext(AppContext);
   const emakis = data.emakis;
-  const { genjieslug } = data;
+  const { genjieslug,title } = data;
 
   const filterEkotobas = emakis.filter((item) => item.cat === "ekotoba");
   const handleChapter = (index) => {
     handleToId(index);
     closeDescModal();
   };
+
+
 
 
 
@@ -91,7 +94,8 @@ const ModalDesc = ({ data }) => {
           <FontAwesomeIcon icon={faClose} />
         </div>
         {filterEkotobas.map((item, ekotobasIndex) => {
-          const { gendaibun, chapter, linkId, desc,kobun } = item;
+          const { gendaibun, chapter, linkId, desc, kobun } = item;
+
           let position = "nextSlide";
 
           if (ekotobasIndex === DescIndex.ekotobaId) {
@@ -125,10 +129,13 @@ const ModalDesc = ({ data }) => {
                         : { fontSize: "var(--title-size)" }
                     }
                     onClick={() => handleChapter(linkId)}
-                    dangerouslySetInnerHTML={{
-                      __html: chapter,
-                    }}
-                  ></h4>
+                  >
+                    {conectKusouzuChaptersStageCh(chapter)
+                      ? `【第${conectKusouzuChaptersStageCh(
+                          chapter
+                        )}相】 ${conectKusouzuChaptersTitle(chapter)}`
+                      : chapter}
+                  </h4>
                   {genjieslug && (
                     <div className={`${styles.genjieslugBox}`}>
                       <Link href={`/genjie/chapters-genji`}>
@@ -138,7 +145,15 @@ const ModalDesc = ({ data }) => {
                       </Link>
                     </div>
                   )}
+                  {title.includes("九相") && (
+                    <div className={`${styles.genjieslugBox}`}>
+                      <Link href={`/kusouzu/chapters-kusouzu`}>
+                        <a className={styles.genjieslugTitle}>九相図一覧</a>
+                      </Link>
+                    </div>
+                  )}
                 </div>
+                <h4>現代文</h4>
                 <p
                   className={styles.gendaibun}
                   style={
@@ -149,11 +164,28 @@ const ModalDesc = ({ data }) => {
                       : { fontSize: "var(--text-size)" }
                   }
                   dangerouslySetInnerHTML={{
-                    __html: matchSummary(chapter, genjieslug)
-                      ? matchSummary(chapter, genjieslug)
+                    __html: conectKusouzuChaptersGendaibun(chapter)
+                      ? conectKusouzuChaptersGendaibun(chapter)
                       : gendaibun,
                   }}
                 ></p>
+                <h4>解説</h4>
+                <p
+                  className={styles.gendaibun}
+                  style={
+                    orientation === "portrait"
+                      ? {
+                          fontSize: "var(--text-size-prt)",
+                        }
+                      : { fontSize: "var(--text-size)" }
+                  }
+                  dangerouslySetInnerHTML={{
+                    __html: conectKusouzuChaptersDesc(chapter)
+                      ? conectKusouzuChaptersDesc(chapter)
+                      : gendaibun,
+                  }}
+                ></p>
+
                 <button
                   type="button"
                   onClick={() => handleChapter(linkId)}

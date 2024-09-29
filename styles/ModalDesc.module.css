@@ -49,6 +49,7 @@
   box-shadow: 1px -1px 20px 16px rgb(151 151 151 / 10%);
 }
 .titlebox{
+  align-items: center;
     display: flex;
       flex-direction: row;
       justify-content: space-between;

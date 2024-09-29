@@ -13,20 +13,24 @@ const ChaptersKusouzuTable = ({
   KusouzuArrObj,
 }) => {
 
+  // const ExistKusouzuChaptersTitletoString = (contentTitle) =>
+  //   KusouzuArrObj.filter((item) => item.title === contentTitle)
+  //     .flatMap((item) => item.kusouzuslug)
+  //     .map((item) => item.id)
+  //     .toString();
+
   const ExistKusouzuChaptersTitletoString = (contentTitle) =>
     KusouzuArrObj.filter((item) => item.title === contentTitle)
-      .flatMap((item) => item.kusouzuslug)
-      .map((item) => item.id)
-      .toString();
+      .flatMap((item) => item.emakis)
+      .map((item) => item.chapter).join(" ")
 
 
   console.log(ExistKusouzuChaptersTitletoString("九相詩絵巻"));
 
+
   // const ExistKusouzuChaptersTitletoString = ExistKusouzuChapters.map(
   //   (item) => item.id
   // ).toString();
-
-
 
 
   const chapterKusouzuMatching = (contentTitle, contentid) =>
@@ -35,7 +39,6 @@ const ChaptersKusouzuTable = ({
   // const chapterKusouzuMatching = (id) =>
   //   ExistKusouzuChaptersTitletoString.includes(id);
 
-  console.log(KusouzuArrObj);
 
 
   return (

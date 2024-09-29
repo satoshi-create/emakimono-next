@@ -9,16 +9,16 @@ import Breadcrumbs from "../../components/Breadcrumbs";
 import ChaptersKusouzuTable from "../../components/ChaptersKusouzuTable";
 
 const Chaptersgenjilist = () => {
+    const { t: data } = useLocaleData();
   const { locale } = useLocaleData();
   const removeNestedArrayObj = ExtractingListData();
 
-  const ExistKusouzuChapters = kusouzuSlugItem(removeNestedArrayObj);
-
-console.log(ExistKusouzuChapters);
 
 
-  const KusouzuArrObj = removeNestedArrayObj.filter(
-    (item) => item.title.includes("九相"));
+  // const ExistKusouzuChapters = kusouzuSlugItem(removeNestedArrayObj);
+
+  const KusouzuArrObj = data.filter((item) => item.title.includes("九相"));
+
   console.log(KusouzuArrObj);
 
 
@@ -39,7 +39,7 @@ console.log(ExistKusouzuChapters);
       <ChaptersKusouzuTable
         sectiontitle={"九相図一覧"}
         sectiontitleen={"List of Nine stages of decay"}
-        ExistKusouzuChapters={ExistKusouzuChapters}
+        // ExistKusouzuChapters={ExistKusouzuChapters}
         KusouzuArrObj={KusouzuArrObj}
       />
       <Footer />

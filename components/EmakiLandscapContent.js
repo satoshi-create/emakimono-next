@@ -15,7 +15,10 @@ import ContactFormGoogle from "./ContactFormGoogle";
 import { ExternalLink } from "react-feather";
 import EditionLinks from "./EditionLinks";
 import LinkToNote from "./LinkToNote";
-
+import {
+  conectKusouzuChaptersStageCh,
+  conectKusouzuChaptersTitle,
+} from "../libs/func";
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
 
 const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
@@ -84,8 +87,14 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                       onClick={() => handleToId(index)}
                       className={styles.chapterlink}
                       style={{ color: eraColor(era) }}
-                      dangerouslySetInnerHTML={{ __html: chapter }}
-                    ></span>
+                      // dangerouslySetInnerHTML={{ __html: chapter }}
+                    >
+                      {conectKusouzuChaptersStageCh(chapter)
+                        ? `【第${conectKusouzuChaptersStageCh(
+                            chapter
+                          )}相】 ${conectKusouzuChaptersTitle(chapter)}`
+                        : chapter}
+                    </span>
                   </li>
                 );
               }

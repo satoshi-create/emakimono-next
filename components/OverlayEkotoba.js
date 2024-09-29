@@ -5,7 +5,11 @@ import { AppContext } from "../pages/_app";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot,faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import { matchSummary } from "../libs/func";
+import {
+  conectKusouzuChaptersStageCh,
+  conectKusouzuChaptersTitle,
+  conectKusouzuChaptersRuby
+} from "../libs/func";
 
 const OverlayEkotoba = ({
   item: {
@@ -55,7 +59,7 @@ const OverlayEkotoba = ({
   }, [setEkotobabody, gendaibun]);
 
   useEffect(() => {
-    if (!scroll) {  
+    if (!scroll) {
       setEkotobaImageToggle(true);
     } else {
       setEkotobaImageToggle(false);
@@ -80,7 +84,6 @@ const OverlayEkotoba = ({
       id={`${index}`}
       ref={navIndex === index ? scrollDialog : null}
     >
-
       <div
         className={`${styles.gendaibunbox} ${
           !src && styles.noekotobaimage
@@ -104,10 +107,25 @@ const OverlayEkotoba = ({
                     : "var(--title-size)"
                 }`,
               }}
-              dangerouslySetInnerHTML={{
-                __html: chapter,
-              }}
-            ></h3>
+            >
+              {conectKusouzuChaptersStageCh(chapter)
+                ? `【第${conectKusouzuChaptersStageCh(chapter)}相】`
+                : chapter}
+            </h3>
+
+            <ruby>
+              {conectKusouzuChaptersStageCh(chapter)
+                && `${conectKusouzuChaptersTitle(chapter)}`
+              }
+              <rp>(</rp>
+              <rt>
+                {conectKusouzuChaptersStageCh(chapter)
+                  && `${conectKusouzuChaptersRuby(chapter)}`
+                  }
+              </rt>
+              <rp>)</rp>{" "}
+            </ruby>
+
             {type === "浮世絵" && googlemap && (
               <button
                 className={styles.mapiconlink}
@@ -120,7 +138,7 @@ const OverlayEkotoba = ({
                 />
               </button>
             )}
-            {kotobagaki  && (
+            {kotobagaki && (
               <button
                 className={`${styles.infoiconlink} ekotoba_info_click`}
                 // data-link-click="ekotoba_info_click"
@@ -139,7 +157,6 @@ const OverlayEkotoba = ({
                 />
               </button>
             )}
-            
           </div>
         )}
         <p
