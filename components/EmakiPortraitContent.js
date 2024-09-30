@@ -43,9 +43,9 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   } = data;
 
   const filterDesc = desc.substring(0, 40);
-  // const descTemp = `「${title} ${edition ? edition : ""}」${
-  //   author ? `（${author}）` : ""
-  //   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+  const descTemp = `「${title} ${edition ? edition : ""}」${
+    author ? `（${author}）` : ""
+    }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
 
     const descTJaSeiyoukaiga = desc
       ? desc
@@ -53,7 +53,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
           author ? `（${author}）` : ""
         }の全シーンを、横スクロールで楽しむことができます。`;
 
-    const descJa = typeen === "seiyoukaiga" ? descTJaSeiyoukaiga : descTJa;
+    const descJa = typeen === "seiyoukaiga" ? descTJaSeiyoukaiga : descTemp;
 
   return (
     <>
