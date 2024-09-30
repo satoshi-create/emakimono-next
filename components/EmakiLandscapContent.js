@@ -50,7 +50,16 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     ? desc
     : `「${title} ${edition ? edition : ""}」${
         author ? `（${author}）` : ""
-      }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+    }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+
+
+  const descTJaSeiyoukaiga = desc
+    ? desc
+    : `「${title} ${edition ? edition : ""}」${
+        author ? `（${author}）` : ""
+    }の全シーンを、横スクロールで楽しむことができます。`;
+
+  const descJa = typeen === "seiyoukaiga" ? descTJaSeiyoukaiga : descTJa
 
   const descEn = descen
     ? descen
@@ -73,7 +82,9 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
           />
           {/* chapter */}
           <ul className={`${styles.chapter} scrollbar`}>
-            <h4 className={styles.chapterTitle}>段</h4>
+            <h4 className={styles.chapterTitle}>
+              {typeen === "seiyoukaiga" ? "タイトル" : "段"}
+            </h4>
             <span className={styles.chapterBorderline}></span>
             {emakis.map((item, index) => {
               const { cat, chapter } = item;
@@ -141,7 +152,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               <div
                 className={styles.desc}
                 dangerouslySetInnerHTML={{
-                  __html: locale === "en" ? descEn : descTJa,
+                  __html: locale === "en" ? descEn : descJa,
                 }}
               ></div>
               {/* 他巻へのリンク */}

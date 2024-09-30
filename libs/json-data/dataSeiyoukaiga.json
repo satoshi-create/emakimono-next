@@ -23,14 +23,7 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "第一室",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "日没",
+        "chapter": "【第一室】 日没",
         "kobun": "",
         "gendaibun": "",
         "phrase": [{}]
@@ -106,14 +99,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "第二室",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "樹々の反映",
+        "chapter": "【第二室】樹々の反映",
         "kobun": "",
         "gendaibun": "",
         "phrase": [{}]
