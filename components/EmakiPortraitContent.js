@@ -245,7 +245,8 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             edition={edition}
             ort={"prt"}
           />
-          {data.type === "絵巻" && <CardC data={data} />}
+          {(typeen === "seiyoukaiga" ||
+            keyword ) && <CardC data={data} />}
         </div>
       </div>
       <Footer />
