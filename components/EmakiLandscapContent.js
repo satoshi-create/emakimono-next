@@ -249,8 +249,8 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               </div>
             </div>
           </div>
-          {/* <CardC data={data} /> */}
-          {<CardC data={data} />}
+            {(typeen === "seiyoukaiga" ||
+            keyword ) && <CardC data={data} />}
           <ToContactForm />
         </div>
       </div>
