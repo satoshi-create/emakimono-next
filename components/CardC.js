@@ -76,6 +76,7 @@ const randomRelationalEmakis = switchData.map((item, i) => {
 });
 
   return (
+
     <aside className={`${styles.container} scrollbar`}>
       {randomRelationalEmakis}
     </aside>
