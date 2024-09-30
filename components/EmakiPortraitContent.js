@@ -43,9 +43,17 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   } = data;
 
   const filterDesc = desc.substring(0, 40);
-  const descTemp = `「${title} ${edition ? edition : ""}」${
-    author ? `（${author}）` : ""
-  }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+  // const descTemp = `「${title} ${edition ? edition : ""}」${
+  //   author ? `（${author}）` : ""
+  //   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+
+    const descTJaSeiyoukaiga = desc
+      ? desc
+      : `「${title} ${edition ? edition : ""}」${
+          author ? `（${author}）` : ""
+        }の全シーンを、横スクロールで楽しむことができます。`;
+
+    const descJa = typeen === "seiyoukaiga" ? descTJaSeiyoukaiga : descTJa;
 
   return (
     <>
@@ -84,7 +92,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
           <div className={styles.metadataB}>
             <div
               className={styles.desc}
-              dangerouslySetInnerHTML={{ __html: desc ? desc : descTemp }}
+              dangerouslySetInnerHTML={{ __html: desc ? desc : descJa }}
             ></div>
             {genjieslug && (
               <div className={`${styles.genjieslugBox}`}>
