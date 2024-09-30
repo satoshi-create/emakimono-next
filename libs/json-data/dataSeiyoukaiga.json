@@ -292,14 +292,7 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "【マリアの生涯】",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "　神殿から追われるヨアキム",
+        "chapter": "【マリアの生涯】 <br/>神殿から追われるヨアキム",
         "kobun": "",
         "gendaibun": "",
         "phrase": [{}]
@@ -524,14 +517,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【キリストの生涯】",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "　エリザベト訪問",
+        "chapter": "【キリストの生涯】 エリザベト訪問",
         "kobun": "",
         "gendaibun": "",
         "phrase": [{}]
@@ -930,14 +916,7 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "【左壁 上段】",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "楽園追放",
+        "chapter": "【左壁 上段】 楽園追放",
         "kobun": "",
         "gendaibun": "",
         "phrase": [{}]
@@ -982,14 +961,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【右壁 上段】",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "洗礼を与える聖ペテロ",
+        "chapter": "【右壁 上段】 洗礼を与える聖ペテロ",
         "kobun": "",
         "gendaibun": "",
         "phrase": [{}]
@@ -1034,14 +1006,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【左壁 下段】",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "聖ピエトロ刑務所を訪問する聖パウロ",
+        "chapter": "【左壁 下段】 聖ピエトロ刑務所を訪問する聖パウロ",
         "kobun": "",
         "gendaibun": "",
         "phrase": [{}]
@@ -1086,14 +1051,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【右壁 下段】",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "アナニヤの死",
+        "chapter": "【右壁 下段】 アナニヤの死",
         "kobun": "",
         "gendaibun": "",
         "phrase": [{}]
