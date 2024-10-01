@@ -45,7 +45,15 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const filterDesc = desc.substring(0, 40);
   const descTemp = `「${title} ${edition ? edition : ""}」${
     author ? `（${author}）` : ""
-  }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+    }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+
+    const descTJaSeiyoukaiga = desc
+      ? desc
+      : `「${title} ${edition ? edition : ""}」${
+          author ? `（${author}）` : ""
+        }の全シーンを、横スクロールで楽しむことができます。`;
+
+    const descJa = typeen === "seiyoukaiga" ? descTJaSeiyoukaiga : descTemp;
 
   return (
     <>
@@ -84,7 +92,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
           <div className={styles.metadataB}>
             <div
               className={styles.desc}
-              dangerouslySetInnerHTML={{ __html: desc ? desc : descTemp }}
+              dangerouslySetInnerHTML={{ __html: desc ? desc : descJa }}
             ></div>
             {genjieslug && (
               <div className={`${styles.genjieslugBox}`}>
@@ -237,7 +245,8 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             edition={edition}
             ort={"prt"}
           />
-          {data.type === "絵巻" && <CardC data={data} />}
+          {(typeen === "seiyoukaiga" ||
+            keyword ) && <CardC data={data} />}
         </div>
       </div>
       <Footer />
