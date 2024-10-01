@@ -39,6 +39,7 @@ import ExtractingListData from "../libs/ExtractingListData";
 // TODO:絵師名でルーティングできるようにする
 // TODO:404pageを作る
 // TODO:エラーハンドリングのページを作る
+// TODO:エラーハンドリングのページを作る
 
 
 
@@ -76,7 +77,7 @@ const Home = () => {
     emaki.title.includes("信貴山縁起絵巻")
   );
 
-  
+
   const setsuwaEmakis = removeNestedArrayObj.filter(
     (emaki) => emaki.subtype === "説話"
   );
@@ -164,7 +165,7 @@ const Home = () => {
     };
   })
 
-  
+
   const jsonData = {
     "@context": "https://schema.org",
     "@type": "ItemList",
