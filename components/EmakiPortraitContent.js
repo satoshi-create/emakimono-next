@@ -15,6 +15,9 @@ import ContactFormGoogle from "./ContactFormGoogle";
 import EditionLinks from "./EditionLinks";
 import LinkToNote from "./LinkToNote";
 import NoteIcon from "../public/note-icon.png";
+import {
+    conectKusouzuChapters,
+} from "../libs/func";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { handleToId, handleFullScreen, setnavIndex, isContactModalOpen } =
@@ -117,11 +120,18 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                     <li key={index}>
                       <span
                         onClick={() => handleToId(index)}
-                        dangerouslySetInnerHTML={{ __html: chapter }}
+                        // dangerouslySetInnerHTML={{ __html: chapter }}
                         className={`${styles[eraColor(era)]} ${
                           styles.chaptername
                         }`}
-                      ></span>
+                      >
+                                       {conectKusouzuChapters(chapter, "stage_ch")
+                        ? `【第${conectKusouzuChapters(
+                            chapter,
+                            "stage_ch"
+                          )}相】 ${conectKusouzuChapters(chapter, "title")}`
+                        : chapter}
+                      </span>
                     </li>
                   );
                 }
