@@ -60,26 +60,66 @@ const ModalDesc = ({ data }) => {
 
   const allMap = [
     {
-      title: "あらすじ",
-      titleen: "summary",
-      path: "summary",
-    },
-    {
       title: "現代文",
       titleen: "modern-sentence",
       path: "modern-sentence",
     },
-    {
-      title: "古文",
-      titleen: "ancient-text",
-      path: "ancient-text",
-    },
+    // {
+    //   title: "古文",
+    //   titleen: "ancient-text",
+    //   path: "ancient-text",
+    // },
     {
       title: "解説",
       titleen: "description",
       path: "description",
     },
   ];
+
+
+  // TODO:タブを現代文から解説に切り替えてもテキストが表示されない。if文がJSX構文のなかに書けないことがもどかしい。。
+
+  // const toggleContents = (v, chapter, gendaibun, desc) => {
+
+  //   if (v === 0) {
+  //     return (
+
+  //         <p
+  //           className={styles.gendaibun}
+  //           style={
+  //             orientation === "portrait"
+  //               ? {
+  //                   fontSize: "var(--text-size-prt)",
+  //                 }
+  //               : { fontSize: "var(--text-size)" }
+  //           }
+  //           dangerouslySetInnerHTML={{
+  //             __html: conectKusouzuChapters(chapter, "gendaibun")
+  //               ? conectKusouzuChapters(chapter, "gendaibun")
+  //               : gendaibun,
+  //           }}
+  //         >
+  //         </p>
+
+  //     );
+  //   } else if (v === 1) {
+  //       <p
+  //         className={styles.gendaibun}
+  //         style={
+  //           orientation === "portrait"
+  //             ? {
+  //                 fontSize: "var(--text-size-prt)",
+  //               }
+  //             : { fontSize: "var(--text-size)" }
+  //         }
+  //         dangerouslySetInnerHTML={{
+  //           __html: conectKusouzuChapters(chapter, "desc")
+  //             ? conectKusouzuChapters(chapter, "desc")
+  //             : desc,
+  //         }}
+  //       ></p>
+  //   }
+  // };
 
   return (
     <div className={styles.modal}>
@@ -107,14 +147,13 @@ const ModalDesc = ({ data }) => {
               position = "lastSlide";
             }
           }
-          if (value === 0) {
             return (
               <article
                 className={`${styles.article} ${styles[position]} scrollbar`}
                 key={ekotobasIndex}
               >
                 <div className={styles.titlebox}>
-                  <h4
+                  <h3
                     className={styles.link}
                     style={
                       orientation === "portrait"
@@ -131,7 +170,8 @@ const ModalDesc = ({ data }) => {
                           "stage_ch"
                         )}相】 ${conectKusouzuChapters(chapter, "title")}`
                       : chapter}
-                  </h4>
+                  </h3>
+                </div>
                   {genjieslug && (
                     <div className={`${styles.genjieslugBox}`}>
                       <Link href={`/genjie/chapters-genji`}>
@@ -148,39 +188,59 @@ const ModalDesc = ({ data }) => {
                       </Link>
                     </div>
                   )}
+                <div className={styles.tabcontainer}>
+                  {allMap.map((item, i) => {
+                    const { title } = item;
+                    return (
+                      <button
+                        onClick={() => setValue(i)}
+                        className={`btn ${styles.tabbtn} ${
+                          value === i ? styles.activebtn : ""
+                        }`}
+                        key={i}
+                      >
+                        {title}
+                      </button>
+                    );
+                  })}
                 </div>
-                <h4>現代文</h4>
-                <p
-                  className={styles.gendaibun}
-                  style={
-                    orientation === "portrait"
-                      ? {
-                          fontSize: "var(--text-size-prt)",
-                        }
-                      : { fontSize: "var(--text-size)" }
-                  }
-                  dangerouslySetInnerHTML={{
-                    __html: conectKusouzuChapters(chapter, "gendaibun")
-                      ? conectKusouzuChapters(chapter, "gendaibun")
-                      : gendaibun,
-                  }}
-                ></p>
-                <h4>解説</h4>
-                <p
-                  className={styles.gendaibun}
-                  style={
-                    orientation === "portrait"
-                      ? {
-                          fontSize: "var(--text-size-prt)",
-                        }
-                      : { fontSize: "var(--text-size)" }
-                  }
-                  dangerouslySetInnerHTML={{
-                    __html: conectKusouzuChapters(chapter, "desc")
-                      ? conectKusouzuChapters(chapter, "desc")
-                      : desc,
-                  }}
-                ></p>
+                <div className={`${styles.contents} scrollbar`}>
+                  {/* {toggleContents(value, chapter, gendaibun, desc)} */}
+                  {value === 0 && (
+                    <p
+                      className={styles.gendaibun}
+                      style={
+                        orientation === "portrait"
+                          ? {
+                              fontSize: "var(--text-size-prt)",
+                            }
+                          : { fontSize: "var(--text-size)" }
+                      }
+                      dangerouslySetInnerHTML={{
+                        __html: conectKusouzuChapters(chapter, "gendaibun")
+                          ? conectKusouzuChapters(chapter, "gendaibun")
+                          : gendaibun,
+                      }}
+                    ></p>
+                  )}
+                  {value === 1 && (
+                    <p
+                      className={styles.gendaibun}
+                      style={
+                        orientation === "portrait"
+                          ? {
+                              fontSize: "var(--text-size-prt)",
+                            }
+                          : { fontSize: "var(--text-size)" }
+                      }
+                      dangerouslySetInnerHTML={{
+                        __html: conectKusouzuChapters(chapter, "desc")
+                          ? conectKusouzuChapters(chapter, "desc")
+                          : desc,
+                      }}
+                    ></p>
+                  )}
+                </div>
 
                 <button
                   type="button"
@@ -197,44 +257,38 @@ const ModalDesc = ({ data }) => {
                   index={DescIndex.index}
                   ort={"modal"}
                 />
-                {/* 他絵巻へのリンク */}
-                {/* <div className={styles.emakiLinks}>
-                  <p>壇林皇后九相図 - 血塗相</p>
-                  <p>九相詩絵巻 - 血塗相</p>
-                </div> */}
               </article>
             );
-          }
-          if (value === 1) {
-            return (
-              <article
-                className={`${styles.article} ${styles[position]}`}
-                key={ekotobasIndex}
-              >
-                {gendaibun && gendaibun}
-              </article>
-            );
-          }
-          if (value === 2) {
-            return (
-              <article
-                className={`${styles.article} ${styles[position]}`}
-                key={ekotobasIndex}
-              >
-                {kobun && kobun}
-              </article>
-            );
-          }
-          if (value === 3) {
-            return (
-              <article
-                className={`${styles.article} ${styles[position]}`}
-                key={ekotobasIndex}
-              >
-                {desc && desc}
-              </article>
-            );
-          }
+          // if (value === 1) {
+          //   return (
+          //     <article
+          //       className={`${styles.article} ${styles[position]}`}
+          //       key={ekotobasIndex}
+          //     >
+          //       {gendaibun && gendaibun}
+          //     </article>
+          //   );
+          // }
+          // if (value === 2) {
+          //   return (
+          //     <article
+          //       className={`${styles.article} ${styles[position]}`}
+          //       key={ekotobasIndex}
+          //     >
+          //       {kobun && kobun}
+          //     </article>
+          //   );
+          // }
+          // if (value === 3) {
+          //   return (
+          //     <article
+          //       className={`${styles.article} ${styles[position]}`}
+          //       key={ekotobasIndex}
+          //     >
+          //       {desc && desc}
+          //     </article>
+          //   );
+          // }
         })}
         <button className={styles.prev} onClick={nextSlide}>
           <FontAwesomeIcon icon={faAnglesLeft} />
