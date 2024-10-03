@@ -46,18 +46,18 @@ const ChaptersKusouzuTable = ({
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       <table className={styles.table}>
         <colgroup>
-          <col span="2" className={styles.col1} />
-          <col span="3" className={styles.col2} />
+          {/* <col span="2" className={styles.col1} />
+          <col span="3" className={styles.col2} /> */}
         </colgroup>
-        <thead>
-          <tr >
+        <thead className={styles.thead}>
+          <tr>
             <th>相</th>
             <th>タイトル</th>
             <th>解説</th>
             <th>現代文</th>
             {KusouzuArrObj.map((item, i) => {
               return (
-                <th key={i}>
+                <th key={i} className={styles.contents}>
                   {item.title}
                 </th>
               );
