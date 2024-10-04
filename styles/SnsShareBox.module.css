@@ -4,6 +4,9 @@
   display: flex;
     gap: 0 0.5rem;
 }
+.modal.snsShareBox{
+  justify-self: center;
+}
 .land{
   grid-row: 1 / span 2;
 
