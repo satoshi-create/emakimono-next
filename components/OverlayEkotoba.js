@@ -109,18 +109,17 @@ const OverlayEkotoba = ({
               {conectKusouzuChapters(chapter, "stage_ch")
                 ? `【第${conectKusouzuChapters(chapter, "stage_ch")}相】`
                 : chapter}
+              <ruby>
+                {conectKusouzuChapters(chapter, "title") &&
+                  `${conectKusouzuChapters(chapter, "title")}`}
+                <rp>(</rp>
+                <rt>
+                  {conectKusouzuChapters(chapter, "ruby") &&
+                    `${conectKusouzuChapters(chapter, "ruby")}`}
+                </rt>
+                <rp>)</rp>
+              </ruby>
             </h3>
-
-            <ruby>
-              {conectKusouzuChapters(chapter, "title") &&
-                `${conectKusouzuChapters(chapter, "title")}`}
-              <rp>(</rp>
-              <rt>
-                {conectKusouzuChapters(chapter, "ruby") &&
-                  `${conectKusouzuChapters(chapter, "ruby")}`}
-              </rt>
-              <rp>)</rp>{" "}
-            </ruby>
 
             {type === "浮世絵" && googlemap && (
               <button
