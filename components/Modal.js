@@ -13,12 +13,13 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { eraColor } from "../libs/func";
 import { flushSync } from "react-dom";
+import { conectKusouzuChapters } from "../libs/func";
 
 const Modal = ({ data }) => {
   const { locale } = useRouter();
   const { closeModal, navIndex, handleToId,isMapIndex } = useContext(AppContext);
 
-  const { reference, sourceImageUrl, sourceImage, era } = data;
+  const { reference, sourceImageUrl, sourceImage, era,typeen } = data;
   const emakis = data.emakis;
   const ekotobaSection = emakis[isMapIndex];
   const handleChapter = (index) => {
@@ -30,7 +31,7 @@ const Modal = ({ data }) => {
 
   const allMap = [
     {
-      title: "目次",
+      title:   typeen === "emaki" ? "段" : "タイトル",
     },
     {
       title: "書誌情報",
@@ -53,8 +54,22 @@ const Modal = ({ data }) => {
                   onClick={() => handleChapter(i)}
                   className={styles.chapterlink}
                   style={{ color: eraColor(era) }}
-                  dangerouslySetInnerHTML={{ __html: chapter }}
-                ></li>
+                  // dangerouslySetInnerHTML={{ __html: chapter }}
+                >
+                  {conectKusouzuChapters(chapter, "stage_ch")
+                    ? `【第${conectKusouzuChapters(chapter, "stage_ch")}相】`
+                    : chapter}
+                  <ruby>
+                    {conectKusouzuChapters(chapter, "title") &&
+                      `${conectKusouzuChapters(chapter, "title")}`}
+                    <rp>(</rp>
+                    <rt>
+                      {conectKusouzuChapters(chapter, "ruby") &&
+                        `${conectKusouzuChapters(chapter, "ruby")}`}
+                    </rt>
+                    <rp>)</rp>
+                  </ruby>
+                </li>
               );
             }
           })}
@@ -102,16 +117,6 @@ const Modal = ({ data }) => {
       );
     }
   };
-
-  {
-    /* //   <Link href={`#s${linkId}`} key={i}>
-              //     <a onClick={closeModal}>
-              //       <dt>{chapter}</dt>
-              //     </a>
-              //   </Link>
-              //   <dd>{desc}</dd>
-              //  */
-  }
 
   return (
     <div className={styles.modal}>
