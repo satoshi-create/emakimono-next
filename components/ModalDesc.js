@@ -126,9 +126,14 @@ const ModalDesc = ({ data }) => {
     <div className={styles.modal}>
       <div className={styles.MuiBackdrop} onClick={closeDescModal}></div>
       <div className={styles.container}>
-        <div className={`${styles.closebtn} btn`} onClick={closeDescModal}>
+        {/* <div className={`${styles.closebtn} btn`} onClick={closeDescModal}>
           <FontAwesomeIcon icon={faClose} />
-        </div>
+        </div> */}
+          <FontAwesomeIcon
+            icon={faClose}
+            className={`${styles.closebtn} btn`}
+            onClick={closeDescModal}
+          />
         {filterEkotobas.map((item, ekotobasIndex) => {
           const { gendaibun, chapter, linkId, desc, kobun } = item;
 
@@ -148,118 +153,123 @@ const ModalDesc = ({ data }) => {
               position = "lastSlide";
             }
           }
-            return (
-              <article
-                className={`${styles.article} ${styles[position]} scrollbar`}
-                key={ekotobasIndex}
+          return (
+            <article
+              className={`${styles.article} ${styles[position]} scrollbar`}
+              key={ekotobasIndex}
+            >
+              <h3
+                className={styles.title}
+                style={
+                  orientation === "portrait"
+                    ? {
+                        fontSize: "var(--title-size-prt)",
+                      }
+                    : { fontSize: "var(--title-size)" }
+                }
+                onClick={() => handleChapter(linkId)}
               >
-                <div className={styles.titlebox}>
-                  <h3
-                    className={styles.link}
+                {conectKusouzuChapters(chapter, "stage_ch")
+                  ? `【第${conectKusouzuChapters(chapter, "stage_ch")}相】`
+                  : chapter}
+                <ruby>
+                  {conectKusouzuChapters(chapter, "title") &&
+                    `${conectKusouzuChapters(chapter, "title")}`}
+                  <rp>(</rp>
+                  <rt>
+                    {conectKusouzuChapters(chapter, "ruby") &&
+                      `${conectKusouzuChapters(chapter, "ruby")}`}
+                  </rt>
+                  <rp>)</rp>
+                </ruby>
+              </h3>
+              {genjieslug && (
+                <aside className={`${styles.linktochapter}`}>
+                  <Link href={`/genjie/chapters-genji`}>
+                    <a className={styles.genjieslugTitle} target="_blank">
+                      源氏物語54帖一覧
+                    </a>
+                  </Link>
+                </aside>
+              )}
+              {title.includes("九相") && (
+                <aside className={`${styles.linktochapter}`}>
+                  <Link href={`/kusouzu/chapters-kusouzu`}>
+                    <a className={styles.genjieslugTitle}>九相図一覧</a>
+                  </Link>
+                </aside>
+              )}
+              <div className={styles.tabcontainer}>
+                {allMap.map((item, i) => {
+                  const { title } = item;
+                  return (
+                    <button
+                      onClick={() => setValue(i)}
+                      className={`btn ${styles.tabbtn} ${
+                        value === i ? styles.activebtn : ""
+                      }`}
+                      key={i}
+                    >
+                      {title}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className={`${styles.contents} scrollbar`}>
+                {/* {toggleContents(value, chapter, gendaibun, desc)} */}
+                {value === 0 && (
+                  <p
+                    className={styles.gendaibun}
                     style={
                       orientation === "portrait"
                         ? {
-                            fontSize: "var(--title-size-prt)",
+                            fontSize: "var(--text-size-prt)",
                           }
-                        : { fontSize: "var(--title-size)" }
+                        : { fontSize: "var(--text-size)" }
                     }
-                    onClick={() => handleChapter(linkId)}
-                  >
-                    {conectKusouzuChapters(chapter, "stage_ch")
-                      ? `【第${conectKusouzuChapters(
-                          chapter,
-                          "stage_ch"
-                        )}相】 ${conectKusouzuChapters(chapter, "title")}`
-                      : chapter}
-                  </h3>
-                </div>
-                  {genjieslug && (
-                    <div className={`${styles.genjieslugBox}`}>
-                      <Link href={`/genjie/chapters-genji`}>
-                        <a className={styles.genjieslugTitle} target="_blank">
-                          源氏物語54帖一覧
-                        </a>
-                      </Link>
-                    </div>
-                  )}
-                  {title.includes("九相") && (
-                    <div className={`${styles.genjieslugBox}`}>
-                      <Link href={`/kusouzu/chapters-kusouzu`}>
-                        <a className={styles.genjieslugTitle}>九相図一覧</a>
-                      </Link>
-                    </div>
-                  )}
-                <div className={styles.tabcontainer}>
-                  {allMap.map((item, i) => {
-                    const { title } = item;
-                    return (
-                      <button
-                        onClick={() => setValue(i)}
-                        className={`btn ${styles.tabbtn} ${
-                          value === i ? styles.activebtn : ""
-                        }`}
-                        key={i}
-                      >
-                        {title}
-                      </button>
-                    );
-                  })}
-                </div>
-                <div className={`${styles.contents} scrollbar`}>
-                  {/* {toggleContents(value, chapter, gendaibun, desc)} */}
-                  {value === 0 && (
-                    <p
-                      className={styles.gendaibun}
-                      style={
-                        orientation === "portrait"
-                          ? {
-                              fontSize: "var(--text-size-prt)",
-                            }
-                          : { fontSize: "var(--text-size)" }
-                      }
-                      dangerouslySetInnerHTML={{
-                        __html: conectKusouzuChapters(chapter, "gendaibun")
-                          ? conectKusouzuChapters(chapter, "gendaibun")
-                          : gendaibun,
-                      }}
-                    ></p>
-                  )}
-                  {value === 1 && (
-                    <p
-                      className={styles.gendaibun}
-                      style={
-                        orientation === "portrait"
-                          ? {
-                              fontSize: "var(--text-size-prt)",
-                            }
-                          : { fontSize: "var(--text-size)" }
-                      }
-                      dangerouslySetInnerHTML={{
-                        __html: conectKusouzuChapters(chapter, "desc")
-                          ? conectKusouzuChapters(chapter, "desc")
-                          : desc,
-                      }}
-                    ></p>
-                  )}
-                </div>
+                    dangerouslySetInnerHTML={{
+                      __html: conectKusouzuChapters(chapter, "gendaibun")
+                        ? conectKusouzuChapters(chapter, "gendaibun")
+                        : gendaibun,
+                    }}
+                  ></p>
+                )}
+                {value === 1 && (
+                  <p
+                    className={styles.gendaibun}
+                    style={
+                      orientation === "portrait"
+                        ? {
+                            fontSize: "var(--text-size-prt)",
+                          }
+                        : { fontSize: "var(--text-size)" }
+                    }
+                    dangerouslySetInnerHTML={{
+                      __html: conectKusouzuChapters(chapter, "desc")
+                        ? conectKusouzuChapters(chapter, "desc")
+                        : desc,
+                    }}
+                  ></p>
+                )}
+              </div>
 
-                <button
-                  type="button"
-                  onClick={() => handleChapter(linkId)}
-                  className={styles.linkedbutton}
-                >
-                  横スクロールで見る
-                </button>
-                <SnsShareBox
-                  titleen={data.titleen}
-                  title={data.title}
-                  edition={data.edition}
-                  chapter={chapter}
-                  index={DescIndex.index}
-                  ort={"modal"}
-                />
-              </article>
-            );
+              <button
+                type="button"
+                onClick={() => handleChapter(linkId)}
+                className={styles.linkedbutton}
+              >
+                横スクロールで見る
+              </button>
+              <SnsShareBox
+                titleen={data.titleen}
+                title={data.title}
+                edition={data.edition}
+                chapter={chapter}
+                index={DescIndex.index}
+                ort={"modal"}
+              />
+            </article>
+          );
           // if (value === 1) {
           //   return (
           //     <article
@@ -291,6 +301,7 @@ const ModalDesc = ({ data }) => {
           //   );
           // }
         })}
+
         <button className={styles.prev} onClick={nextSlide}>
           <FontAwesomeIcon icon={faAnglesLeft} />
         </button>
