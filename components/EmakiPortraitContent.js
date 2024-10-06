@@ -91,7 +91,12 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             >
               横スクロールで見る
             </button>
-            <LikeButton title={title} ort={"prt"} />
+            <LikeButton
+              title={title}
+              edition={edition}
+              author={author}
+              ort={"prt"}
+            />
           </div>
           <div className={styles.metadataB}>
             <div
