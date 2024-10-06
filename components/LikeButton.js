@@ -10,8 +10,14 @@ const LikeButton = ({title,edition,author, ort}) => {
   const [isDisplay, setIsDisplay] = useState(false);
 
   const message = isDisplay
-    ? title + "　" + edition + "　" + author + "のいいねが取り消されました"
-    : title + "　" + edition + "　" + author + "がいいねされました";
+    ? `${title == undefined ? "" : title}` +
+      `${edition == undefined ? "" : edition}` +
+      `${author == undefined ? "" : author}` +
+      "のいいねが取り消されました"
+    : `${title == undefined ? "" : title}` +
+      `${edition == undefined ? "" : edition}` +
+      `${author == undefined ? "" : author}` +
+      "がいいねされました";
 
    const postLike = () => {
       postMessage(message);
