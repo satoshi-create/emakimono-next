@@ -140,7 +140,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 edition={edition}
                 ort={"land"}
               />
-              <LikeButton title={title} />
+              <LikeButton title={title} ort={"land"} />
               <button
                 type="button"
                 value="Lock Landscape"

@@ -82,7 +82,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 </a>
               </Link>
             )}
-            <LikeButton title={title} />
+
             <button
               type="button"
               value="Lock Landscape"
@@ -91,6 +91,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             >
               横スクロールで見る
             </button>
+            <LikeButton title={title} ort={"prt"} />
           </div>
           <div className={styles.metadataB}>
             <div
