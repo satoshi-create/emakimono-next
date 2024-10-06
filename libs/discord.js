@@ -1,9 +1,9 @@
 const webHookUrl = process.env.NEXT_PUBLIC_DISCORD_WEBHOOK_URL;
 
-function postMessage(title) {
+function postMessage(message) {
   const data = {
     username: "blog-notify",
-    content: title + "がいいねされました",
+    content: message,
   };
 
   fetch(webHookUrl, {
