@@ -11,12 +11,16 @@ const LikeButton = ({title,edition,author, ort}) => {
 
   const message = isDisplay
     ? `${title == undefined ? "" : title}` +
+      "（" +
       `${edition == undefined ? "" : edition}` +
       `${author == undefined ? "" : author}` +
+      "）" +
       "のいいねが取り消されました"
     : `${title == undefined ? "" : title}` +
+      "（" +
       `${edition == undefined ? "" : edition}` +
       `${author == undefined ? "" : author}` +
+      "）" +
       "がいいねされました";
 
    const postLike = () => {
