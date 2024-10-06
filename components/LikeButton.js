@@ -9,8 +9,10 @@ const LikeButton = ({title,ort}) => {
 
   const [isDisplay, setIsDisplay] = useState(false);
 
+  const message = isDisplay ? title + "のいいねが取り消されました" : title + "がいいねされました"
+
    const postLike = (title) => {
-      postMessage(title);
+      postMessage(message);
       setIsDisplay(!isDisplay);
     }
 
