@@ -1,33 +1,32 @@
 import React, { useState } from 'react'
 import postMessage from "../libs/discord"
+import {Heart} from "react-feather"
+import styles from "../styles/LikeButton.module.css";
 
-const LikeButton = ({title}) => {
-  console.log(title);
+
+const LikeButton = ({title,ort}) => {
+
 
   const [isDisplay, setIsDisplay] = useState(false);
 
-
-  const toggleDisplay = () => {
-    setIsDisplay(!isDisplay)
-  }
-
-    const postLike = (title) => {
+   const postLike = (title) => {
       postMessage(title);
-      toggleDisplay();
-    };
+      setIsDisplay(!isDisplay);
+    }
 
   return (
     <>
       <button
-        disabled={isDisplay ? true : false}
+        // disabled={isDisplay ? true : false}
         onClick={() => postLike(title)}
+        className={`${ort === "land" ? styles.land : styles.prt}`}
       >
-        👍
+        <Heart className={`${styles.icon} ${isDisplay && styles.activeicon}`} />
       </button>
-      <span style={{ display: isDisplay ? "" : "none" }}>
+      {/* <span style={{ display: isDisplay ? "" : "none" }}>
         {" "}
         {"<"} thank you !{" "}
-      </span>
+      </span> */}
     </>
   );
 }
