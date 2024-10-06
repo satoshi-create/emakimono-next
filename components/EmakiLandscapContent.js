@@ -16,6 +16,8 @@ import { ExternalLink } from "react-feather";
 import EditionLinks from "./EditionLinks";
 import LinkToNote from "./LinkToNote";
 
+import LikeButton from "./LikeButton";
+
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
 
 const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
@@ -146,6 +148,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               >
                 フルスクリーンで見る
               </button>
+              <LikeButton title={title} />
             </div>
             <div className={styles.metadataB}>
               {/* 絵巻の紹介 */}
@@ -249,8 +252,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               </div>
             </div>
           </div>
-            {(typeen === "seiyoukaiga" ||
-            keyword ) && <CardC data={data} />}
+          {(typeen === "seiyoukaiga" || keyword) && <CardC data={data} />}
           <ToContactForm />
         </div>
       </div>
