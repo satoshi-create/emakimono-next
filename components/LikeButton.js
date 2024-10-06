@@ -4,14 +4,16 @@ import {Heart} from "react-feather"
 import styles from "../styles/LikeButton.module.css";
 
 
-const LikeButton = ({title,ort}) => {
+const LikeButton = ({title,edition,author, ort}) => {
 
 
   const [isDisplay, setIsDisplay] = useState(false);
 
-  const message = isDisplay ? title + "のいいねが取り消されました" : title + "がいいねされました"
+  const message = isDisplay
+    ? title + "　" + edition + "　" + author + "のいいねが取り消されました"
+    : title + "　" + edition + "　" + author + "がいいねされました";
 
-   const postLike = (title) => {
+   const postLike = () => {
       postMessage(message);
       setIsDisplay(!isDisplay);
     }
@@ -20,7 +22,7 @@ const LikeButton = ({title,ort}) => {
     <>
       <button
         // disabled={isDisplay ? true : false}
-        onClick={() => postLike(title)}
+        onClick={() => postLike()}
         className={`${ort === "land" ? styles.land : styles.prt}`}
       >
         <Heart className={`${styles.icon} ${isDisplay && styles.activeicon}`} />
