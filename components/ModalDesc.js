@@ -77,8 +77,8 @@ const ModalDesc = ({ data }) => {
   ];
 
 
-  // TODO:タブを現代文から解説に切り替えてもテキストが表示されないバグをどうにかする
-  // TODO:SNSアイコン、リンクボタンがモーダル下部に固定されるように、フレックスレイアウトを書き換える
+  // TODO:スマホ全画面でコンテンツがつぶれるので修正する。
+
 
   // const toggleContents = (v, chapter, gendaibun, desc) => {
 
