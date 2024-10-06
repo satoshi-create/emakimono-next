@@ -140,6 +140,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 edition={edition}
                 ort={"land"}
               />
+              <LikeButton title={title} />
               <button
                 type="button"
                 value="Lock Landscape"
@@ -148,7 +149,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               >
                 フルスクリーンで見る
               </button>
-              <LikeButton title={title} />
             </div>
             <div className={styles.metadataB}>
               {/* 絵巻の紹介 */}
