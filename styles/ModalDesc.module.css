@@ -49,7 +49,9 @@
   border: 1px solid #5b5b5ba3;
   box-shadow: 1px -1px 20px 16px rgb(151 151 151 / 10%);
 }
-
+.land.container{
+    grid-template-rows: 2vw 1fr 2vw;
+}
 .article {
   display: grid;
   grid-template-rows: auto auto 1fr auto auto;
@@ -242,7 +244,7 @@
     font-size: 14px;
   }
 
-  .container {
+  .container,.land.container {
     grid-template-columns: minmax(4vw, auto) 1fr minmax(4vw, auto);
     grid-template-rows: 2vw 1fr 2vw;
     background-color: #00000033;
