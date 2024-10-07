@@ -19,6 +19,8 @@ import {
     conectKusouzuChapters,
 } from "../libs/func";
 
+import LikeButton from "./LikeButton";
+
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { handleToId, handleFullScreen, setnavIndex, isContactModalOpen } =
     useContext(AppContext);
@@ -83,6 +85,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 </a>
               </Link>
             )}
+
             <button
               type="button"
               value="Lock Landscape"
@@ -91,6 +94,12 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             >
               横スクロールで見る
             </button>
+            <LikeButton
+              title={title}
+              edition={edition}
+              author={author}
+              ort={"prt"}
+            />
           </div>
           <div className={styles.metadataB}>
             <div
@@ -265,8 +274,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             edition={edition}
             ort={"prt"}
           />
-          {(typeen === "seiyoukaiga" ||
-            keyword ) && <CardC data={data} />}
+          {(typeen === "seiyoukaiga" || keyword) && <CardC data={data} />}
         </div>
       </div>
       <Footer />

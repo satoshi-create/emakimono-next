@@ -18,6 +18,8 @@ import LinkToNote from "./LinkToNote";
 import {
     conectKusouzuChapters,
 } from "../libs/func";
+import LikeButton from "./LikeButton";
+
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
 
 const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
@@ -157,6 +159,8 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 edition={edition}
                 ort={"land"}
               />
+              <LikeButton title={title} edition={edition}
+              author={author} ort={"land"} />
               <button
                 type="button"
                 value="Lock Landscape"
@@ -268,8 +272,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               </div>
             </div>
           </div>
-            {(typeen === "seiyoukaiga" ||
-            keyword ) && <CardC data={data} />}
+          {(typeen === "seiyoukaiga" || keyword) && <CardC data={data} />}
           <ToContactForm />
         </div>
       </div>
