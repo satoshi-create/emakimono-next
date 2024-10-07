@@ -125,7 +125,7 @@ const ModalDesc = ({ data }) => {
   return (
     <div className={styles.modal}>
       <div className={styles.MuiBackdrop} onClick={closeDescModal}></div>
-      <div className={styles.container}>
+      <div className={`${orientation === "landscape" ? styles.land : styles.prt} ${styles.container}`}>
         {/* <div className={`${styles.closebtn} btn`} onClick={closeDescModal}>
           <FontAwesomeIcon icon={faClose} />
         </div> */}
