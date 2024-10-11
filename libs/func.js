@@ -234,14 +234,13 @@ const removeNestedEmakisObj = (obj) =>
       .join();
     return chapterkusouzusummary;
   };
-
-  // const matchSummary = (chapter, genjieslug) => {
-  //   if (genjieslug) {
-  //     return matchSummaryGenji(chapter);
-  //   } else {
-  //     return matchSummaryKusouzu(chapter);
-  //   }
-  // };
+  const conectGenjiChapters = (chapter,text) => {
+    const chapterGenjisummary = chaptergenji
+      .filter((item) => chapter === item.chapter_en)
+      .map((item) => item[text])
+      .join();
+    return chapterGenjisummary;
+  };
 
 
 export {
@@ -259,4 +258,5 @@ export {
   typeItem,
   kusouzuSlugItem,
   conectKusouzuChapters,
+  conectGenjiChapters,
 };
