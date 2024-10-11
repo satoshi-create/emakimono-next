@@ -7,7 +7,7 @@ import {
   faAnglesLeft,
   faAnglesRight,
 } from "@fortawesome/free-solid-svg-icons";
-import { conectKusouzuChapters } from "../libs/func";
+import { conectKusouzuChapters,conectGenjiChapters } from "../libs/func";
 import SnsShareBox from "./SnsShareBox";
 import Link from "next/link";
 
@@ -137,6 +137,10 @@ const ModalDesc = ({ data }) => {
         {filterEkotobas.map((item, ekotobasIndex) => {
           const { gendaibun, chapter, linkId, desc, kobun } = item;
 
+console.log(chapter)
+
+          console.log(conectGenjiChapters(chapter,"title"))
+
           let position = "nextSlide";
 
           if (ekotobasIndex === DescIndex.ekotobaId) {
@@ -169,8 +173,11 @@ const ModalDesc = ({ data }) => {
                 }
                 onClick={() => handleChapter(linkId)}
               >
-                {conectKusouzuChapters(chapter, "stage_ch")
+                {/* {conectKusouzuChapters(chapter, "stage_ch")
                   ? `【第${conectKusouzuChapters(chapter, "stage_ch")}相】`
+                  : chapter} */}
+                {conectGenjiChapters(chapter, "title")
+                  ? `${conectGenjiChapters(chapter, "title")}`
                   : chapter}
                 <ruby>
                   {conectKusouzuChapters(chapter, "title") &&
