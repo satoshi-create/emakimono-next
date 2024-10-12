@@ -6433,7 +6433,6 @@
       {
         "cat": "ekotoba",
         "chapter": "5",
-        "load": "",
         "srcWidth": "",
         "srcHeight": "",
         "srcSp": "",
@@ -6444,18 +6443,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "True",
-        "srcWidth": "3208",
-        "srcHeight": "1080",
-        "srcSp": "/5_genji_emaki_wakamurasaki_image_tokyokokuritsu-375.webp",
-        "srcTb": "/5_genji_emaki_wakamurasaki_image_tokyokokuritsu-800.webp",
-        "src": "/5_genji_emaki_wakamurasaki_image_tokyokokuritsu-1080.webp",
-        "name": "5_genji_emaki_wakamurasaki_image_tokyokokuritsu.webp"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "True",
         "srcWidth": "3208",
         "srcHeight": "1080",
         "srcSp": "/5_genji_emaki_wakamurasaki_image_tokyokokuritsu-375.webp",
@@ -6466,7 +6453,6 @@
       {
         "cat": "ekotoba",
         "chapter": "15",
-        "load": "",
         "srcWidth": "",
         "srcHeight": "",
         "srcSp": "",
@@ -6477,29 +6463,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "True",
-        "srcWidth": "3367",
-        "srcHeight": "1080",
-        "srcSp": "/15_genji_emaki_yomogifu_image_tokugawa-kokkai-375.webp",
-        "srcTb": "/15_genji_emaki_yomogifu_image_tokugawa-kokkai-800.webp",
-        "src": "/15_genji_emaki_yomogifu_image_tokugawa-kokkai-1080.webp",
-        "name": "15_genji_emaki_yomogifu_image_tokugawa-kokkai.webp"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "True",
-        "srcWidth": "3367",
-        "srcHeight": "1080",
-        "srcSp": "/15_genji_emaki_yomogifu_image_tokugawa-kokkai-375.webp",
-        "srcTb": "/15_genji_emaki_yomogifu_image_tokugawa-kokkai-800.webp",
-        "src": "/15_genji_emaki_yomogifu_image_tokugawa-kokkai-1080.webp",
-        "name": "15_genji_emaki_yomogifu_image_tokugawa-kokkai.webp"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "True",
         "srcWidth": "3367",
         "srcHeight": "1080",
         "srcSp": "/15_genji_emaki_yomogifu_image_tokugawa-kokkai-375.webp",
@@ -6510,7 +6473,6 @@
       {
         "cat": "ekotoba",
         "chapter": "16",
-        "load": "",
         "srcWidth": "",
         "srcHeight": "",
         "srcSp": "",
@@ -6521,7 +6483,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "False",
         "srcWidth": "4009",
         "srcHeight": "1080",
         "srcSp": "/16_genji_emaki_sekiya_image_tokugawa-kokkai-375.webp",
@@ -6532,7 +6493,6 @@
       {
         "cat": "ekotoba",
         "chapter": "36",
-        "load": "",
         "srcWidth": "",
         "srcHeight": "",
         "srcSp": "/36_genji_emaki_kashiwagi1_ekotoba_tokugawa-kokkai-375.webp",
@@ -6543,40 +6503,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "False",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
-        "srcSp": "/36_genji_emaki_kashiwagi1_image_tokugawa-kokkai-375.webp",
-        "srcTb": "/36_genji_emaki_kashiwagi1_image_tokugawa-kokkai-800.webp",
-        "src": "/36_genji_emaki_kashiwagi1_image_tokugawa-kokkai-1080.webp",
-        "name": "36_genji_emaki_kashiwagi1_image_tokugawa-kokkai.webp"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "False",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
-        "srcSp": "/36_genji_emaki_kashiwagi1_image_tokugawa-kokkai-375.webp",
-        "srcTb": "/36_genji_emaki_kashiwagi1_image_tokugawa-kokkai-800.webp",
-        "src": "/36_genji_emaki_kashiwagi1_image_tokugawa-kokkai-1080.webp",
-        "name": "36_genji_emaki_kashiwagi1_image_tokugawa-kokkai.webp"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "False",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
-        "srcSp": "/36_genji_emaki_kashiwagi1_image_tokugawa-kokkai-375.webp",
-        "srcTb": "/36_genji_emaki_kashiwagi1_image_tokugawa-kokkai-800.webp",
-        "src": "/36_genji_emaki_kashiwagi1_image_tokugawa-kokkai-1080.webp",
-        "name": "36_genji_emaki_kashiwagi1_image_tokugawa-kokkai.webp"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "False",
         "srcWidth": "4009",
         "srcHeight": "1080",
         "srcSp": "/36_genji_emaki_kashiwagi1_image_tokugawa-kokkai-375.webp",
@@ -6587,7 +6513,6 @@
       {
         "cat": "ekotoba",
         "chapter": "36",
-        "load": "",
         "srcWidth": "",
         "srcHeight": "",
         "srcSp": "/36_genji_emaki_kashiwagi2_ekotoba_tokugawa-kokkai-375.webp",
@@ -6598,29 +6523,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "False",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
-        "srcSp": "/36_genji_emaki_kashiwagi2_image_tokugawa-kokkai-375.webp",
-        "srcTb": "/36_genji_emaki_kashiwagi2_image_tokugawa-kokkai-800.webp",
-        "src": "/36_genji_emaki_kashiwagi2_image_tokugawa-kokkai-1080.webp",
-        "name": "36_genji_emaki_kashiwagi2_image_tokugawa-kokkai.webp"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "False",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
-        "srcSp": "/36_genji_emaki_kashiwagi2_image_tokugawa-kokkai-375.webp",
-        "srcTb": "/36_genji_emaki_kashiwagi2_image_tokugawa-kokkai-800.webp",
-        "src": "/36_genji_emaki_kashiwagi2_image_tokugawa-kokkai-1080.webp",
-        "name": "36_genji_emaki_kashiwagi2_image_tokugawa-kokkai.webp"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "False",
         "srcWidth": "4009",
         "srcHeight": "1080",
         "srcSp": "/36_genji_emaki_kashiwagi2_image_tokugawa-kokkai-375.webp",
@@ -6631,7 +6533,6 @@
       {
         "cat": "ekotoba",
         "chapter": "37",
-        "load": "",
         "srcWidth": "",
         "srcHeight": "",
         "srcSp": "/37_genji_emaki_yokobue_ekotoba_tokugawa-kokkai-375.webp",
@@ -6642,29 +6543,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "False",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
-        "srcSp": "/37_genji_emaki_yokobue_image_tokugawa-kokkai-375.webp",
-        "srcTb": "/37_genji_emaki_yokobue_image_tokugawa-kokkai-800.webp",
-        "src": "/37_genji_emaki_yokobue_image_tokugawa-kokkai-1080.webp",
-        "name": "37_genji_emaki_yokobue_image_tokugawa-kokkai.webp"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "False",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
-        "srcSp": "/37_genji_emaki_yokobue_image_tokugawa-kokkai-375.webp",
-        "srcTb": "/37_genji_emaki_yokobue_image_tokugawa-kokkai-800.webp",
-        "src": "/37_genji_emaki_yokobue_image_tokugawa-kokkai-1080.webp",
-        "name": "37_genji_emaki_yokobue_image_tokugawa-kokkai.webp"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "False",
         "srcWidth": "4009",
         "srcHeight": "1080",
         "srcSp": "/37_genji_emaki_yokobue_image_tokugawa-kokkai-375.webp",
@@ -6675,7 +6553,6 @@
       {
         "cat": "ekotoba",
         "chapter": "44",
-        "load": "",
         "srcWidth": "",
         "srcHeight": "",
         "srcSp": "",
@@ -6686,29 +6563,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "False",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
-        "srcSp": "/44_genji_emaki_takekawa_image_tokugawa-kokkai-375.webp",
-        "srcTb": "/44_genji_emaki_takekawa_image_tokugawa-kokkai-800.webp",
-        "src": "/44_genji_emaki_takekawa_image_tokugawa-kokkai-1080.webp",
-        "name": "44_genji_emaki_takekawa_image_tokugawa-kokkai.webp"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "False",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
-        "srcSp": "/44_genji_emaki_takekawa_image_tokugawa-kokkai-375.webp",
-        "srcTb": "/44_genji_emaki_takekawa_image_tokugawa-kokkai-800.webp",
-        "src": "/44_genji_emaki_takekawa_image_tokugawa-kokkai-1080.webp",
-        "name": "44_genji_emaki_takekawa_image_tokugawa-kokkai.webp"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "False",
         "srcWidth": "4009",
         "srcHeight": "1080",
         "srcSp": "/44_genji_emaki_takekawa_image_tokugawa-kokkai-375.webp",
@@ -6719,7 +6573,6 @@
       {
         "cat": "ekotoba",
         "chapter": "44",
-        "load": "",
         "srcWidth": "",
         "srcHeight": "",
         "srcSp": "",
@@ -6730,29 +6583,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "False",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
-        "srcSp": "/44_genji_emaki_takekawa2_image_tokugawa-kokkai-375.webp",
-        "srcTb": "/44_genji_emaki_takekawa2_image_tokugawa-kokkai-800.webp",
-        "src": "/44_genji_emaki_takekawa2_image_tokugawa-kokkai-1080.webp",
-        "name": "44_genji_emaki_takekawa2_image_tokugawa-kokkai.webp"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "False",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
-        "srcSp": "/44_genji_emaki_takekawa2_image_tokugawa-kokkai-375.webp",
-        "srcTb": "/44_genji_emaki_takekawa2_image_tokugawa-kokkai-800.webp",
-        "src": "/44_genji_emaki_takekawa2_image_tokugawa-kokkai-1080.webp",
-        "name": "44_genji_emaki_takekawa2_image_tokugawa-kokkai.webp"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "False",
         "srcWidth": "4009",
         "srcHeight": "1080",
         "srcSp": "/44_genji_emaki_takekawa2_image_tokugawa-kokkai-375.webp",
@@ -6763,7 +6593,6 @@
       {
         "cat": "ekotoba",
         "chapter": "45",
-        "load": "",
         "srcWidth": "",
         "srcHeight": "",
         "srcSp": "/45_genji_emaki_hashihime_ekotoba_tokugawa-kokkai-375.webp",
@@ -6774,7 +6603,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "False",
         "srcWidth": "4009",
         "srcHeight": "1080",
         "srcSp": "/45_genji_emaki_hashihime_image_tokugawa-kokkai-375.webp",
@@ -6785,7 +6613,6 @@
       {
         "cat": "ekotoba",
         "chapter": "48",
-        "load": "",
         "srcWidth": "",
         "srcHeight": "",
         "srcSp": "",
@@ -6796,7 +6623,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "False",
         "srcWidth": "4009",
         "srcHeight": "1080",
         "srcSp": "/48_genji_emaki_sawarabi_image_tokugawa-kokkai-375.webp",
@@ -6807,7 +6633,6 @@
       {
         "cat": "ekotoba",
         "chapter": "49",
-        "load": "",
         "srcWidth": "",
         "srcHeight": "",
         "srcSp": "",
@@ -6818,7 +6643,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "False",
         "srcWidth": "4009",
         "srcHeight": "1080",
         "srcSp": "/49_genji_emaki_yadorigi_image_tokugawa-kokkai-375.webp",
@@ -6829,7 +6653,6 @@
       {
         "cat": "ekotoba",
         "chapter": "49",
-        "load": "",
         "srcWidth": "",
         "srcHeight": "",
         "srcSp": "",
@@ -6840,7 +6663,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "False",
         "srcWidth": "4009",
         "srcHeight": "1080",
         "srcSp": "/49_genji_emaki_yadorigi2_image_tokugawa-kokkai-375.webp",
@@ -6851,7 +6673,6 @@
       {
         "cat": "ekotoba",
         "chapter": "49",
-        "load": "",
         "srcWidth": "",
         "srcHeight": "",
         "srcSp": "",
@@ -6862,7 +6683,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "False",
         "srcWidth": "4009",
         "srcHeight": "1080",
         "srcSp": "/49_genji_emaki_yadorigi3_image_tokugawa-kokkai-375.webp",
@@ -6873,7 +6693,6 @@
       {
         "cat": "ekotoba",
         "chapter": "50",
-        "load": "",
         "srcWidth": "",
         "srcHeight": "",
         "srcSp": "",
@@ -6884,7 +6703,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "False",
         "srcWidth": "4009",
         "srcHeight": "1080",
         "srcSp": "/50_genji_emaki_adumaya1_image_tokugawa-kokkai-375.webp",
@@ -6895,7 +6713,6 @@
       {
         "cat": "ekotoba",
         "chapter": "50",
-        "load": "",
         "srcWidth": "",
         "srcHeight": "",
         "srcSp": "",
@@ -6906,7 +6723,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "False",
         "srcWidth": "4009",
         "srcHeight": "1080",
         "srcSp": "/50_genji_emaki_adumaya2_image_tokugawa-kokkai-375.webp",
@@ -6915,6 +6731,7 @@
         "name": "50_genji_emaki_adumaya2_image_tokugawa-kokkai.webp"
       }
     ]
+
 
   },
   {
