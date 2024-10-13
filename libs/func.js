@@ -1,4 +1,3 @@
-
 import { useRouter } from "next/router";
 import { ja, en } from "./staticData";
 import { jaMeta, enMeta } from "./dataSiteMeta";
@@ -212,36 +211,44 @@ const removeNestedEmakisObj = (obj) =>
 //     {}
 //   );
 
+// const matchSummaryGenji = (chapter) => {
+//   const chaptergenjisummary = chaptergenji
+//     .filter((item) => chapter.includes(item.title))
+//     .map((item) => item.summary)
+//     .join();
+//   return chaptergenjisummary;
+// };
 
-  // const matchSummaryGenji = (chapter) => {
-  //   const chaptergenjisummary = chaptergenji
-  //     .filter((item) => chapter.includes(item.title))
-  //     .map((item) => item.summary)
-  //     .join();
-  //   return chaptergenjisummary;
-  // };
-
-  /* ================
+/* ================
 
 「九相図」の絵巻データとメタデータ（chapters-of-kusouzu）をマージする関数conectKusouzuChapters
 
 ================ */
 
-  const conectKusouzuChapters = (chapter,text) => {
-    const chapterkusouzusummary = chapterkusouzu
-      .filter((item) => chapter === item.stage_en)
-      .map((item) => item[text])
-      .join();
-    return chapterkusouzusummary;
-  };
-  const conectGenjiChapters = (chapter,text) => {
+const conectKusouzuChapters = (chapter, text) => {
+  const chapterkusouzusummary = chapterkusouzu
+    .filter((item) => chapter === item.stage_en)
+    .map((item) => item[text])
+    .join();
+  return chapterkusouzusummary;
+};
+const conectGenjiChapters = (chapter, text) => {
+  const chapterGenjisummary = chaptergenji
+    .filter((item) => chapter === item.chapter_en)
+    .map((item) => item[text])
+    .join();
+  return chapterGenjisummary;
+};
+const conectGenjiChaptersScene = (chapter, scene) => {
+  if (scene) {
     const chapterGenjisummary = chaptergenji
       .filter((item) => chapter === item.chapter_en)
-      .map((item) => item[text])
-      .join();
+      .flatMap(item => item.scene)
+      .filter(item => scene === item.sceneId)
+    .map(item => item.content)
     return chapterGenjisummary;
-  };
-
+  }
+};
 
 export {
   eraColor,
@@ -259,4 +266,5 @@ export {
   kusouzuSlugItem,
   conectKusouzuChapters,
   conectGenjiChapters,
+  conectGenjiChaptersScene,
 };
