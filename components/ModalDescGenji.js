@@ -7,7 +7,7 @@ import {
   faAnglesLeft,
   faAnglesRight,
 } from "@fortawesome/free-solid-svg-icons";
-import { conectGenjiChapters } from "../libs/func";
+import { conectGenjiChapters, conectGenjiChaptersScene } from "../libs/func";
 import SnsShareBox from "./SnsShareBox";
 import Link from "next/link";
 
@@ -81,11 +81,9 @@ const ModalDescGenji = ({ data }) => {
           onClick={closeDescModal}
         />
         {filterEkotobas.map((item, ekotobasIndex) => {
-          const { gendaibun, chapter, linkId, desc, kobun } = item;
+          const { gendaibun, chapter, linkId, desc, kobun ,scene} = item;
 
-          console.log(chapter);
-
-          console.log(conectGenjiChapters(chapter, "title"));
+          console.log(conectGenjiChaptersScene(chapter, scene));
 
           let position = "nextSlide";
 
@@ -181,7 +179,7 @@ const ModalDescGenji = ({ data }) => {
                           : gendaibun,
                       }}
                     ></p>
-                    <br/>
+                    <br />
                     <p
                       className={styles.gendaibun}
                       style={
@@ -210,8 +208,8 @@ const ModalDescGenji = ({ data }) => {
                         : { fontSize: "var(--text-size)" }
                     }
                     dangerouslySetInnerHTML={{
-                      __html: conectGenjiChapters(chapter, "chapter_en")
-                        ? conectGenjiChapters(chapter, "desc")
+                      __html: conectGenjiChaptersScene(chapter, scene)
+                        ? conectGenjiChaptersScene(chapter, scene)
                         : desc,
                     }}
                   ></p>
