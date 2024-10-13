@@ -175,7 +175,10 @@ const ModalDescGenji = ({ data }) => {
                       }
                       dangerouslySetInnerHTML={{
                         __html: conectGenjiChapters(chapter, "chapter_en")
-                          ? conectGenjiChapters(chapter, "age")
+                          ? `${conectGenjiChapters(
+                              chapter,
+                              "main-character"
+                            )}${conectGenjiChapters(chapter, "age")}`
                           : gendaibun,
                       }}
                     ></p>
