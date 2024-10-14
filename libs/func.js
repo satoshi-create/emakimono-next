@@ -232,6 +232,8 @@ const conectKusouzuChapters = (chapter, text) => {
     .join();
   return chapterkusouzusummary;
 };
+
+
 const conectGenjiChapters = (chapter, text) => {
   const chapterGenjisummary = chaptergenji
     .filter((item) => chapter === item.chapter_en)
@@ -247,6 +249,48 @@ const conectGenjiChaptersScene = (chapter, scene) => {
       .filter(item => scene === item.sceneId)
     .map(item => item.content)
     return chapterGenjisummary;
+  }
+};
+
+const ChaptersTitle = (title, chapter) => {
+  if (title.includes("九相")) {
+    return (
+      <>
+        {conectKusouzuChapters(chapter, "stage_ch")
+          ? `【第${conectKusouzuChapters(chapter, "stage_ch")}相】`
+          : chapter}
+        <ruby>
+          {conectKusouzuChapters(chapter, "title") &&
+            `${conectKusouzuChapters(chapter, "title")}`}
+          <rp>(</rp>
+          <rt>
+            {conectKusouzuChapters(chapter, "ruby") &&
+              `${conectKusouzuChapters(chapter, "ruby")}`}
+          </rt>
+          <rp>)</rp>
+        </ruby>
+      </>
+    );
+  } else if (title.includes("源氏")) {
+    return (
+      <>
+        {conectGenjiChapters(chapter, "chapter_en")
+          ? `【第${conectGenjiChapters(chapter, "chapter_ch")}帖】`
+          : chapter}
+        <ruby>
+          {conectGenjiChapters(chapter, "chapter_en") &&
+            `${conectGenjiChapters(chapter, "title")}`}
+          <rp>(</rp>
+          <rt>
+            {conectGenjiChapters(chapter, "chapter_en") &&
+              `${conectGenjiChapters(chapter, "ruby")}`}
+          </rt>
+          <rp>)</rp>
+        </ruby>
+      </>
+    );
+  }else{
+    return chapter
   }
 };
 
@@ -267,4 +311,5 @@ export {
   conectKusouzuChapters,
   conectGenjiChapters,
   conectGenjiChaptersScene,
+  ChaptersTitle,
 };

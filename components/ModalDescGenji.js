@@ -7,7 +7,11 @@ import {
   faAnglesLeft,
   faAnglesRight,
 } from "@fortawesome/free-solid-svg-icons";
-import { conectGenjiChapters, conectGenjiChaptersScene } from "../libs/func";
+import {
+  conectGenjiChapters,
+  conectGenjiChaptersScene,
+  ChaptersTitle,
+} from "../libs/func";
 import SnsShareBox from "./SnsShareBox";
 import Link from "next/link";
 
@@ -54,19 +58,6 @@ const ModalDescGenji = ({ data }) => {
     });
   };
 
-  const allMap = [
-    {
-      title: "あらすじ",
-      titleen: "modern-sentence",
-      path: "modern-sentence",
-    },
-    {
-      title: "場面",
-      titleen: "scene",
-      path: "scene",
-    },
-  ];
-
   return (
     <div className={styles.modal}>
       <div className={styles.MuiBackdrop} onClick={closeDescModal}></div>
@@ -81,9 +72,20 @@ const ModalDescGenji = ({ data }) => {
           onClick={closeDescModal}
         />
         {filterEkotobas.map((item, ekotobasIndex) => {
-          const { gendaibun, chapter, linkId, desc, kobun ,scene} = item;
+          const { gendaibun, chapter, linkId, desc, kobun, scene } = item;
 
-          console.log(conectGenjiChaptersScene(chapter, scene));
+          const allMap = [
+            {
+              title: "場面内容",
+              titleen: "scene",
+              path: "scene",
+            },
+            {
+              title: `${conectGenjiChapters(chapter, "title")}のあらすじ`,
+              titleen: "modern-sentence",
+              path: "modern-sentence",
+            },
+          ];
 
           let position = "nextSlide";
 
@@ -117,16 +119,7 @@ const ModalDescGenji = ({ data }) => {
                 }
                 onClick={() => handleChapter(linkId)}
               >
-                <ruby>
-                  {conectGenjiChapters(chapter, "chapter_en") &&
-                    `${conectGenjiChapters(chapter, "title")}`}
-                  <rp>(</rp>
-                  <rt>
-                    {conectGenjiChapters(chapter, "chapter_en") &&
-                      `${conectGenjiChapters(chapter, "ruby")}`}
-                  </rt>
-                  <rp>)</rp>
-                </ruby>
+                {ChaptersTitle(title,chapter)}
               </h3>
               {genjieslug && (
                 <aside className={`${styles.linktochapter}`}>
@@ -163,6 +156,23 @@ const ModalDescGenji = ({ data }) => {
               <div className={`${styles.contents} scrollbar`}>
                 {/* {toggleContents(value, chapter, gendaibun, desc)} */}
                 {value === 0 && (
+                  <p
+                    className={styles.gendaibun}
+                    style={
+                      orientation === "portrait"
+                        ? {
+                            fontSize: "var(--text-size-prt)",
+                          }
+                        : { fontSize: "var(--text-size)" }
+                    }
+                    dangerouslySetInnerHTML={{
+                      __html: conectGenjiChaptersScene(chapter, scene)
+                        ? conectGenjiChaptersScene(chapter, scene)
+                        : desc,
+                    }}
+                  ></p>
+                )}
+                {value === 1 && (
                   <>
                     <p
                       className={styles.gendaibun}
@@ -199,23 +209,6 @@ const ModalDescGenji = ({ data }) => {
                       }}
                     ></p>
                   </>
-                )}
-                {value === 1 && (
-                  <p
-                    className={styles.gendaibun}
-                    style={
-                      orientation === "portrait"
-                        ? {
-                            fontSize: "var(--text-size-prt)",
-                          }
-                        : { fontSize: "var(--text-size)" }
-                    }
-                    dangerouslySetInnerHTML={{
-                      __html: conectGenjiChaptersScene(chapter, scene)
-                        ? conectGenjiChaptersScene(chapter, scene)
-                        : desc,
-                    }}
-                  ></p>
                 )}
               </div>
 

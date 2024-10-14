@@ -5,9 +5,7 @@ import { AppContext } from "../pages/_app";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot,faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import {
-  conectKusouzuChapters,
-} from "../libs/func";
+import { conectKusouzuChapters, ChaptersTitle } from "../libs/func";
 
 const OverlayEkotoba = ({
   item: {
@@ -44,6 +42,11 @@ const OverlayEkotoba = ({
     openMapModal,
     openDescModal,
   } = useContext(AppContext);
+
+
+  const {title} = data
+  console.log(title);
+
 
   // TODO : 目次のフォントサイズをレスポンシブにする
 
@@ -106,19 +109,7 @@ const OverlayEkotoba = ({
                 }`,
               }}
             >
-              {conectKusouzuChapters(chapter, "stage_ch")
-                ? `【第${conectKusouzuChapters(chapter, "stage_ch")}相】`
-                : chapter}
-              <ruby>
-                {conectKusouzuChapters(chapter, "title") &&
-                  `${conectKusouzuChapters(chapter, "title")}`}
-                <rp>(</rp>
-                <rt>
-                  {conectKusouzuChapters(chapter, "ruby") &&
-                    `${conectKusouzuChapters(chapter, "ruby")}`}
-                </rt>
-                <rp>)</rp>
-              </ruby>
+              {ChaptersTitle(title, chapter)}
             </h3>
 
             {type === "浮世絵" && googlemap && (

@@ -470,31 +470,39 @@
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-12190?locale=ja",
     "sourceImage": "関屋図屏風（ColBase）",
     "sourceEkotoba": "",
-    "emakis": [
+    "emakis":[
       {
         "cat": "ekotoba",
-        "chapter": "関屋",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
+        "chapter": "16",
+        "scene": "1",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": true,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "True",
         "srcSp": "/sekiyazu_01-375.webp",
         "srcTb": "/sekiyazu_01-800.webp",
         "src": "/sekiyazu_01-1080.webp",
         "name": "sekiyazu_01.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/sekiyazu_02-375.webp",
         "srcTb": "/sekiyazu_02-800.webp",
         "src": "/sekiyazu_02-1080.webp",
         "name": "sekiyazu_02.webp"
       }
     ]
+
   },
   {
     "id": 29,
