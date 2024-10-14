@@ -291,7 +291,7 @@ const ChaptersTitle = (title, chapter) => {
       </>
     );
   }else{
-    return chapter
+    return parse(chapter)
   }
 };
 
