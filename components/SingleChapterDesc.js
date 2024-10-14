@@ -3,13 +3,16 @@ import styles from "../styles/ChapterDesc.module.css";
 import { ChevronDown, ChevronUp } from "react-feather";
 import { AppContext } from "../pages/_app";
 import Image from "next/image";
-import { conectKusouzuChapters, ChaptersTitle } from "../libs/func";
+import { conectKusouzuChapters, ChaptersTitle,ChaptersDesc } from "../libs/func";
+
 
 const SingleChapterDesc = ({ item, index, emakis,data }) => {
   const { handleToId, handleFullScreen } = useContext(AppContext);
   const [showInfo, setShowInfo] = useState(false);
   const { chapter, gendaibun, cat, desc } = item;
   const { genjieslug, title } = data;
+
+
   return (
     <article className={styles.chapterDesc}>
       <div
@@ -22,7 +25,7 @@ const SingleChapterDesc = ({ item, index, emakis,data }) => {
         // style={{ color: eraColor(era) }}
         // dangerouslySetInnerHTML={{ __html: chapter }}
         >
-          {ChaptersTitle(title,chapter)}
+          {ChaptersTitle(title, chapter)}
         </h4>
         <button>
           {showInfo ? <ChevronUp /> : <ChevronDown />}
@@ -34,27 +37,13 @@ const SingleChapterDesc = ({ item, index, emakis,data }) => {
       {showInfo && (
         <div className={styles.chapterDesctBody}>
           {/* <h4 className={styles.chapterDescTitle}>現代文</h4> */}
-          <p
-            className={styles.chapterDescText}
-            dangerouslySetInnerHTML={{
-              __html: conectKusouzuChapters(chapter, "gendaibun")
-                ? conectKusouzuChapters(chapter, "gendaibun")
-                : gendaibun,
-            }}
-          ></p>
-          {/* {desc && (
-            <>
-              <h4 className={styles.chapterDescTitle}>
-                解説
-              </h4>
-              <p
-                className={styles.chapterDescText}
-                dangerouslySetInnerHTML={{
-                  __html: desc,
-                }}
-              ></p>
-            </>
-          )} */}
+          <p className={styles.chapterDescText}>
+            {/* {conectKusouzuChapters(chapter, "gendaibun")
+              ? conectKusouzuChapters(chapter, "gendaibun")
+              : parse(gendaibun)} */}
+            {ChaptersDesc(title,chapter,gendaibun)}
+          </p>
+
           <button
             type="button"
             onClick={() => handleToId(index)}

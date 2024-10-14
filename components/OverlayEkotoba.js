@@ -5,7 +5,8 @@ import { AppContext } from "../pages/_app";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot,faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import { conectKusouzuChapters, ChaptersTitle } from "../libs/func";
+import { conectKusouzuChapters, ChaptersTitle,ChaptersDesc } from "../libs/func";
+import parse from "html-react-parser";
 
 const OverlayEkotoba = ({
   item: {
@@ -45,7 +46,6 @@ const OverlayEkotoba = ({
 
 
   const {title} = data
-  console.log(title);
 
 
   // TODO : 目次のフォントサイズをレスポンシブにする
@@ -146,7 +146,7 @@ const OverlayEkotoba = ({
           </div>
         )}
         <p
-          dangerouslySetInnerHTML={{ __html: src && ekotobabody }}
+          // dangerouslySetInnerHTML={{ __html: src && ekotobabody }}
           className={styles.gendaibun}
           style={{
             fontSize: `${
@@ -155,7 +155,9 @@ const OverlayEkotoba = ({
                 : "var(--text-size)"
             }`,
           }}
-        />
+        >
+          {src && ChaptersDesc(title,chapter,ekotobabody)}
+        </p>
       </div>
 
       {src && (

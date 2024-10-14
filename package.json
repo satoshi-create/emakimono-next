@@ -21,6 +21,7 @@
     "flag-icons": "^6.6.6",
     "framer-motion": "^8.3.3",
     "google-map-react": "^2.2.0",
+    "html-react-parser": "^5.1.18",
     "image-trace-loader": "^1.0.2",
     "imagemin": "^8.0.1",
     "imagemin-mozjpeg": "9.0.0",
