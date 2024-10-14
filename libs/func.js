@@ -5,6 +5,7 @@ import enData from "./data";
 import jaData from "./data";
 import chaptergenji from "./genji/chapters-of-genji.json";
 import chapterkusouzu from "./kusouzu/chapters-of-kusouzu.json";
+import parse from "html-react-parser";
 
 const useLocale = () => {
   const { locale } = useRouter();
@@ -294,6 +295,27 @@ const ChaptersTitle = (title, chapter) => {
   }
 };
 
+const ChaptersDesc = (title, chapter,gendaibun) => {
+  if (title.includes("九相")) {
+    return (
+      <>
+        {conectKusouzuChapters(chapter, "gendaibun") &&
+          `${conectKusouzuChapters(chapter, "gendaibun")}`}
+      </>
+    );
+  } else if (title.includes("源氏")) {
+    return (
+      <>
+        {conectGenjiChapters(chapter, "summary") &&
+          `${conectGenjiChapters(chapter, "summary")}`}
+      </>
+    );
+  } else {
+    return parse(gendaibun)
+  }
+};
+
+
 export {
   eraColor,
   keywordItem,
@@ -312,4 +334,5 @@ export {
   conectGenjiChapters,
   conectGenjiChaptersScene,
   ChaptersTitle,
+  ChaptersDesc,
 };
