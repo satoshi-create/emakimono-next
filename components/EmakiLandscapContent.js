@@ -15,9 +15,7 @@ import ContactFormGoogle from "./ContactFormGoogle";
 import { ExternalLink } from "react-feather";
 import EditionLinks from "./EditionLinks";
 import LinkToNote from "./LinkToNote";
-import {
-    conectKusouzuChapters,
-} from "../libs/func";
+import { conectKusouzuChapters, conectGenjiChapters,  ChaptersTitle } from "../libs/func";
 import LikeButton from "./LikeButton";
 
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
@@ -54,22 +52,22 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     ? desc
     : `「${title} ${edition ? edition : ""}」${
         author ? `（${author}）` : ""
-    }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
-
+      }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
 
   const descTJaSeiyoukaiga = desc
     ? desc
     : `「${title} ${edition ? edition : ""}」${
         author ? `（${author}）` : ""
-    }の全シーンを、横スクロールで楽しむことができます。`;
+      }の全シーンを、横スクロールで楽しむことができます。`;
 
-  const descJa = typeen === "seiyoukaiga" ? descTJaSeiyoukaiga : descTJa
+  const descJa = typeen === "seiyoukaiga" ? descTJaSeiyoukaiga : descTJa;
 
   const descEn = descen
     ? descen
     : `You can enjoy all the scenes of the " ${titleen} ${
         authoren && `（${authoren}）`
       } " in vertical and right to left scrolling mode.`;
+
 
   return (
     <>
@@ -101,22 +99,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                       style={{ color: eraColor(era) }}
                       // dangerouslySetInnerHTML={{ __html: chapter }}
                     >
-                      {conectKusouzuChapters(chapter, "stage_ch")
-                        ? `【第${conectKusouzuChapters(
-                            chapter,
-                            "stage_ch"
-                          )}相】`
-                        : chapter}
-                      <ruby>
-                        {conectKusouzuChapters(chapter, "title") &&
-                          `${conectKusouzuChapters(chapter, "title")}`}
-                        <rp>(</rp>
-                        <rt>
-                          {conectKusouzuChapters(chapter, "ruby") &&
-                            `${conectKusouzuChapters(chapter, "ruby")}`}
-                        </rt>
-                        <rp>)</rp>
-                      </ruby>
+                      {ChaptersTitle(title,chapter)}
                     </span>
                   </li>
                 );
@@ -159,8 +142,12 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 edition={edition}
                 ort={"land"}
               />
-              <LikeButton title={title} edition={edition}
-              author={author} ort={"land"} />
+              <LikeButton
+                title={title}
+                edition={edition}
+                author={author}
+                ort={"land"}
+              />
               <button
                 type="button"
                 value="Lock Landscape"

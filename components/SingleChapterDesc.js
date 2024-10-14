@@ -3,13 +3,13 @@ import styles from "../styles/ChapterDesc.module.css";
 import { ChevronDown, ChevronUp } from "react-feather";
 import { AppContext } from "../pages/_app";
 import Image from "next/image";
-import { conectKusouzuChapters } from "../libs/func";
+import { conectKusouzuChapters, ChaptersTitle } from "../libs/func";
 
 const SingleChapterDesc = ({ item, index, emakis,data }) => {
   const { handleToId, handleFullScreen } = useContext(AppContext);
   const [showInfo, setShowInfo] = useState(false);
   const { chapter, gendaibun, cat, desc } = item;
-  const { genjieslug } =data
+  const { genjieslug, title } = data;
   return (
     <article className={styles.chapterDesc}>
       <div
@@ -22,19 +22,7 @@ const SingleChapterDesc = ({ item, index, emakis,data }) => {
         // style={{ color: eraColor(era) }}
         // dangerouslySetInnerHTML={{ __html: chapter }}
         >
-          {conectKusouzuChapters(chapter, "stage_ch")
-            ? `【第${conectKusouzuChapters(chapter, "stage_ch")}相】`
-            : chapter}
-          <ruby>
-            {conectKusouzuChapters(chapter, "title") &&
-              `${conectKusouzuChapters(chapter, "title")}`}
-            <rp>(</rp>
-            <rt>
-              {conectKusouzuChapters(chapter, "ruby") &&
-                `${conectKusouzuChapters(chapter, "ruby")}`}
-            </rt>
-            <rp>)</rp>
-          </ruby>
+          {ChaptersTitle(title,chapter)}
         </h4>
         <button>
           {showInfo ? <ChevronUp /> : <ChevronDown />}
