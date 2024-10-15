@@ -1171,7 +1171,7 @@
          "slug": "utsusemi"
        }
      ],
-     "author": "土佐光信",
+     "author": "土佐光起",
      "authoren": "tosa-mitsuoki",
      "backgroundImage": "/washi-pattern-01.webp",
      "video": "",
@@ -1191,10 +1191,8 @@
      "emakis": [
        {
          "cat": "ekotoba",
-         "chapter": "空蝉",
-         "gendaibun": "",
-         "kobun": "",
-         "desc": "",
+         "chapter": "3",
+         "scene": "2",
          "load": "True",
          "srcSp": "",
          "srcTb": "",
@@ -1206,9 +1204,7 @@
        {
          "cat": "image",
          "chapter": "",
-         "gendaibun": "",
-         "kobun": "",
-         "desc": "",
+         "scene": "",
          "load": "True",
          "srcSp": "/genjie-byoubu-utsusemi_tosa-mitsuoki_freer_01-375.webp",
          "srcTb": "/genjie-byoubu-utsusemi_tosa-mitsuoki_freer_01-800.webp",
@@ -1220,9 +1216,7 @@
        {
          "cat": "image",
          "chapter": "",
-         "gendaibun": "",
-         "kobun": "",
-         "desc": "",
+         "scene": "",
          "load": "True",
          "srcSp": "/genjie-byoubu-utsusemi_tosa-mitsuoki_freer_02-375.webp",
          "srcTb": "/genjie-byoubu-utsusemi_tosa-mitsuoki_freer_02-800.webp",
@@ -1232,5 +1226,7 @@
          "srcHeight": "1080"
        }
      ]
+
+
    }
 ]
