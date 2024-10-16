@@ -872,30 +872,39 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "【右隻】　明石",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
+        "chapter": "13",
+        "scene": "3",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": true,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "True",
         "srcSp": "/genjibyobu_akashi_yomogiu_01-375.webp",
         "srcTb": "/genjibyobu_akashi_yomogiu_01-800.webp",
         "src": "/genjibyobu_akashi_yomogiu_01-1080.webp",
         "name": "genjibyobu_akashi_yomogiu_01.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genjibyobu_akashi_yomogiu_02-375.webp",
         "srcTb": "/genjibyobu_akashi_yomogiu_02-800.webp",
         "src": "/genjibyobu_akashi_yomogiu_02-1080.webp",
         "name": "genjibyobu_akashi_yomogiu_02.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genjibyobu_akashi_yomogiu_03-375.webp",
         "srcTb": "/genjibyobu_akashi_yomogiu_03-800.webp",
         "src": "/genjibyobu_akashi_yomogiu_03-1080.webp",
@@ -903,30 +912,39 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【左隻】　蓬生",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
+        "chapter": "15",
+        "scene": "",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genjibyobu_akashi_yomogiu_04-375.webp",
         "srcTb": "/genjibyobu_akashi_yomogiu_04-800.webp",
         "src": "/genjibyobu_akashi_yomogiu_04-1080.webp",
         "name": "genjibyobu_akashi_yomogiu_04.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genjibyobu_akashi_yomogiu_05-375.webp",
         "srcTb": "/genjibyobu_akashi_yomogiu_05-800.webp",
         "src": "/genjibyobu_akashi_yomogiu_05-1080.webp",
         "name": "genjibyobu_akashi_yomogiu_05.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genjibyobu_akashi_yomogiu_06-375.webp",
         "srcTb": "/genjibyobu_akashi_yomogiu_06-800.webp",
         "src": "/genjibyobu_akashi_yomogiu_06-1080.webp",
