@@ -172,25 +172,32 @@
     "sourceImageUrl": "https://asia.si.edu/object/F1903.101-102/",
     "sourceImage": "Court Ladies among cherry trees (left); Cherry blossoms, a high fence and retainers (right)（フリーア美術館）",
     "sourceEkotoba": "",
-    "emakis": [
+    "emakis":[
       {
         "cat": "ekotoba",
-        "chapter": "【右隻】 朝顔",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
+        "chapter": "20",
+        "scene": "3",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": true,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "True",
         "srcSp": "/genji_asagao_01-375.webp",
         "srcTb": "/genji_asagao_01-800.webp",
         "src": "/genji_asagao_01-1080.webp",
         "name": "genji_asagao_01.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genji_asagao_02-375.webp",
         "srcTb": "/genji_asagao_02-800.webp",
         "src": "/genji_asagao_02-1080.webp",
@@ -198,28 +205,36 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "左隻",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
+        "chapter": "20",
+        "scene": "3",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genji_asagao_03-375.webp",
         "srcTb": "/genji_asagao_03-800.webp",
         "src": "/genji_asagao_03-1080.webp",
         "name": "genji_asagao_03.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genji_asagao_04-375.webp",
         "srcTb": "/genji_asagao_04-800.webp",
         "src": "/genji_asagao_04-1080.webp",
         "name": "genji_asagao_04.webp"
       }
     ]
+
   },
   {
     "id": 24,
