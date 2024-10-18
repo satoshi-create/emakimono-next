@@ -57,7 +57,7 @@ const EmakiNavigation = ({
           <i>
             <FontAwesomeIcon
               icon={faCircleQuestion}
-              title="「横スクロールで楽しむ絵巻物」の使い方"
+              title="絵巻の見方"
             />
           </i>
         </a>
