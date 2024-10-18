@@ -1,5 +1,5 @@
 .snsShareBox {
-  justify-self: center;
+    align-self: center;
   display: flex;
     gap: 0 0.5rem;
 }
