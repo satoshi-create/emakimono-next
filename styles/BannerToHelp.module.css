@@ -1,0 +1,23 @@
+.banner {
+  /* border: 1px double var(--clr-black); */
+  padding: .5rem;
+  background-color: var(--clr-accent-02);
+  font-family: var(--text-font);
+  cursor: pointer;
+  transition: var(--transition);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 5px;
+  background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+  background-color: #FA8BFF;
+    background-image: linear-gradient(45deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
+  align-self: flex-start;
+}
+
+.banner i {
+  color: rgb(255, 255, 255);
+}
+
+.banner:hover {
+  opacity: .6;
+}
