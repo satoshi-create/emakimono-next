@@ -15,7 +15,7 @@ import ContactFormGoogle from "./ContactFormGoogle";
 import { ExternalLink } from "react-feather";
 import EditionLinks from "./EditionLinks";
 import LinkToNote from "./LinkToNote";
-
+import BannerToHelp from "./BannerToHelp";
 import LikeButton from "./LikeButton";
 
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
@@ -140,8 +140,12 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 edition={edition}
                 ort={"land"}
               />
-              <LikeButton title={title} edition={edition}
-              author={author} ort={"land"} />
+              <LikeButton
+                title={title}
+                edition={edition}
+                author={author}
+                ort={"land"}
+              />
               <button
                 type="button"
                 value="Lock Landscape"
@@ -161,6 +165,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               ></div>
               {/* 他巻へのリンク */}
               <EditionLinks title={title} edition={edition} />
+              <BannerToHelp />
 
               {/* 各段の詞書・解説 */}
               {kotobagaki && <ChapterDesc emakis={emakis} data={data} />}
@@ -195,6 +200,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   })}
                 </div>
               )}
+
               {/*キーワードタグ */}
               {keyword && (
                 <div className={styles.tags}>
