@@ -137,9 +137,6 @@ const ModalDesc = ({ data }) => {
         {filterEkotobas.map((item, ekotobasIndex) => {
           const { gendaibun, chapter, linkId, desc, kobun } = item;
 
-console.log(chapter)
-
-          console.log(conectGenjiChapters(chapter,"title"))
 
           let position = "nextSlide";
 
