@@ -6450,7 +6450,25 @@
         "srcSp": "/5_genji_emaki_wakamurasaki_image_tokyokokuritsu-375.webp",
         "srcTb": "/5_genji_emaki_wakamurasaki_image_tokyokokuritsu-800.webp",
         "src": "/5_genji_emaki_wakamurasaki_image_tokyokokuritsu-1080.webp",
-        "name": "5_genji_emaki_wakamurasaki_image_tokyokokuritsu.webp"
+        "name": "5_genji_emaki_wakamurasaki_image_tokyokokuritsu.webp",
+        "character": [
+          {
+            "name": "源氏",
+            "status": "貴族",
+            "top": 30,
+            "right": 20,
+            "gender": "man",
+            "link": "https://ja.wikipedia.org/wiki/%E5%85%89%E6%BA%90%E6%B0%8F"
+          },
+          {
+            "name": "？",
+            "status": "僧侶",
+            "top": 50,
+            "right": 75,
+            "gender": "man",
+            "link": ""
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -6472,7 +6490,33 @@
         "srcSp": "/15_genji_emaki_yomogifu_image_tokugawa-kokkai-375.webp",
         "srcTb": "/15_genji_emaki_yomogifu_image_tokugawa-kokkai-800.webp",
         "src": "/15_genji_emaki_yomogifu_image_tokugawa-kokkai-1080.webp",
-        "name": "15_genji_emaki_yomogifu_image_tokugawa-kokkai.webp"
+        "name": "15_genji_emaki_yomogifu_image_tokugawa-kokkai.webp",
+        "character": [
+          {
+            "name": "少将",
+            "status": "女房",
+            "top": 5,
+            "right": 8,
+            "gender": "woman",
+            "link": ""
+          },
+          {
+            "name": "惟光",
+            "status": "従者",
+            "top": 80,
+            "right": 75,
+            "gender": "man",
+            "link": ""
+          },
+          {
+            "name": "源氏",
+            "status": "貴族",
+            "top": 50,
+            "right": 90,
+            "gender": "man",
+            "link": ""
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -6516,7 +6560,40 @@
         "srcSp": "/36_genji_emaki_kashiwagi1_image_tokugawa-kokkai-375.webp",
         "srcTb": "/36_genji_emaki_kashiwagi1_image_tokugawa-kokkai-800.webp",
         "src": "/36_genji_emaki_kashiwagi1_image_tokugawa-kokkai-1080.webp",
-        "name": "36_genji_emaki_kashiwagi1_image_tokugawa-kokkai.webp"
+        "name": "36_genji_emaki_kashiwagi1_image_tokugawa-kokkai.webp",
+        "character": [
+          {
+            "name": "４人の女房",
+            "status": "女官",
+            "top": 30,
+            "right": 20,
+            "gender": "woman",
+            "link": ""
+          },
+          {
+            "name": "朱雀院",
+            "status": "天皇",
+            "top": 30,
+            "right": 55,
+            "gender": "man",
+            "link": ""
+          },
+          {
+            "name": "源氏",
+            "status": "天皇",
+            "top": 65,
+            "right": 65,
+            "gender": "man",
+            "link": ""
+          },
+          {
+            "name": "女三の宮",
+            "status": "皇女",
+            "top": 40,
+            "right": 78,
+            "gender": "woman"
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -6538,7 +6615,33 @@
         "srcSp": "/36_genji_emaki_kashiwagi2_image_tokugawa-kokkai-375.webp",
         "srcTb": "/36_genji_emaki_kashiwagi2_image_tokugawa-kokkai-800.webp",
         "src": "/36_genji_emaki_kashiwagi2_image_tokugawa-kokkai-1080.webp",
-        "name": "36_genji_emaki_kashiwagi2_image_tokugawa-kokkai.webp"
+        "name": "36_genji_emaki_kashiwagi2_image_tokugawa-kokkai.webp",
+        "character": [
+          {
+            "name": "夕霧",
+            "status": "貴族（源氏の長男）",
+            "top": 30,
+            "right": 30,
+            "gender": "man",
+            "link": ""
+          },
+          {
+            "name": "柏木",
+            "status": "貴族（源氏の甥）",
+            "top": 20,
+            "right": 45,
+            "gender": "man",
+            "link": ""
+          },
+          {
+            "name": "５人の女房",
+            "status": "皇女",
+            "top": 40,
+            "right": 80,
+            "gender": "woman",
+            "link": ""
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -6560,7 +6663,33 @@
         "srcSp": "/37_genji_emaki_yokobue_image_tokugawa-kokkai-375.webp",
         "srcTb": "/37_genji_emaki_yokobue_image_tokugawa-kokkai-800.webp",
         "src": "/37_genji_emaki_yokobue_image_tokugawa-kokkai-1080.webp",
-        "name": "37_genji_emaki_yokobue_image_tokugawa-kokkai.webp"
+        "name": "37_genji_emaki_yokobue_image_tokugawa-kokkai.webp",
+        "character": [
+          {
+            "name": "雲井の雁",
+            "status": "貴族（夕霧の妻）",
+            "top": 20,
+            "right": 30,
+            "gender": "woman",
+            "link": ""
+          },
+          {
+            "name": "夕霧",
+            "status": "貴族",
+            "top": 20,
+            "right": 43,
+            "gender": "man",
+            "link": ""
+          },
+          {
+            "name": "女房",
+            "status": "女官",
+            "top": 40,
+            "right": 15,
+            "gender": "woman",
+            "link": ""
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -6582,7 +6711,33 @@
         "srcSp": "/44_genji_emaki_takekawa_image_tokugawa-kokkai-375.webp",
         "srcTb": "/44_genji_emaki_takekawa_image_tokugawa-kokkai-800.webp",
         "src": "/44_genji_emaki_takekawa_image_tokugawa-kokkai-1080.webp",
-        "name": "44_genji_emaki_takekawa_image_tokugawa-kokkai.webp"
+        "name": "44_genji_emaki_takekawa_image_tokugawa-kokkai.webp",
+        "character": [
+          {
+            "name": "宰相の君",
+            "status": "貴族（夕霧の妻）",
+            "top": 30,
+            "right": 60,
+            "gender": "woman",
+            "link": "https://ja.wikipedia.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E%E3%81%AE%E7%99%BB%E5%A0%B4%E4%BA%BA%E7%89%A9"
+          },
+          {
+            "name": "薫",
+            "status": "貴族",
+            "top": 60,
+            "right": 55,
+            "gender": "man",
+            "link": "https://ja.wikipedia.org/wiki/%E8%96%AB"
+          },
+          {
+            "name": "女房",
+            "status": "女官",
+            "top": 20,
+            "right": 90,
+            "gender": "woman",
+            "link": ""
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -6604,12 +6759,46 @@
         "srcSp": "/44_genji_emaki_takekawa2_image_tokugawa-kokkai-375.webp",
         "srcTb": "/44_genji_emaki_takekawa2_image_tokugawa-kokkai-800.webp",
         "src": "/44_genji_emaki_takekawa2_image_tokugawa-kokkai-1080.webp",
-        "name": "44_genji_emaki_takekawa2_image_tokugawa-kokkai.webp"
+        "name": "44_genji_emaki_takekawa2_image_tokugawa-kokkai.webp",
+        "character": [
+          {
+            "name": "女房",
+            "status": "女官",
+            "top": 10,
+            "right": 30,
+            "gender": "woman",
+            "link": ""
+          },
+          {
+            "name": "蔵人の少将",
+            "status": "貴族（夕霧の五男）",
+            "top": 70,
+            "right": 10,
+            "gender": "man",
+            "link": ""
+          },
+          {
+            "name": "中の君",
+            "status": "貴族（玉鬘の娘）",
+            "top": 20,
+            "right": 70,
+            "gender": "woman",
+            "link": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
+          },
+          {
+            "name": "大君",
+            "status": "貴族（玉鬘の娘）",
+            "top": 40,
+            "right": 85,
+            "gender": "woman",
+            "link": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
+          }
+        ]
       },
       {
         "cat": "ekotoba",
         "chapter": "45",
-        "scene": "1",
+        "scene": "2",
         "srcWidth": "",
         "srcHeight": "",
         "srcSp": "/45_genji_emaki_hashihime_ekotoba_tokugawa-kokkai-375.webp",
@@ -6626,7 +6815,33 @@
         "srcSp": "/45_genji_emaki_hashihime_image_tokugawa-kokkai-375.webp",
         "srcTb": "/45_genji_emaki_hashihime_image_tokugawa-kokkai-800.webp",
         "src": "/45_genji_emaki_hashihime_image_tokugawa-kokkai-1080.webp",
-        "name": "45_genji_emaki_hashihime_image_tokugawa-kokkai.webp"
+        "name": "45_genji_emaki_hashihime_image_tokugawa-kokkai.webp",
+        "character": [
+          {
+            "name": "中の君",
+            "status": "貴族（玉鬘の娘）",
+            "top": 20,
+            "right": 60,
+            "gender": "woman",
+            "link": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
+          },
+          {
+            "name": "薫",
+            "status": "貴族",
+            "top": 70,
+            "right": 10,
+            "gender": "man",
+            "link": "https://ja.wikipedia.org/wiki/%E8%96%AB"
+          },
+          {
+            "name": "大君",
+            "status": "貴族（玉鬘の娘）",
+            "top": 40,
+            "right": 90,
+            "gender": "woman",
+            "link": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -6648,7 +6863,33 @@
         "srcSp": "/48_genji_emaki_sawarabi_image_tokugawa-kokkai-375.webp",
         "srcTb": "/48_genji_emaki_sawarabi_image_tokugawa-kokkai-800.webp",
         "src": "/48_genji_emaki_sawarabi_image_tokugawa-kokkai-1080.webp",
-        "name": "48_genji_emaki_sawarabi_image_tokugawa-kokkai.webp"
+        "name": "48_genji_emaki_sawarabi_image_tokugawa-kokkai.webp",
+        "character": [
+          {
+            "name": "中の君",
+            "status": "貴族（玉鬘の娘）",
+            "top": 20,
+            "right": 60,
+            "gender": "woman",
+            "link": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
+          },
+          {
+            "name": "女房",
+            "status": "女官",
+            "top": 70,
+            "right": 20,
+            "gender": "woman",
+            "link": ""
+          },
+          {
+            "name": "弁の尼",
+            "status": "貴族（玉鬘の娘）",
+            "top": 50,
+            "right": 85,
+            "gender": "woman",
+            "link": "https://ja.wikipedia.org/wiki/%E5%BC%81%E3%81%AE%E5%B0%BC"
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -6670,7 +6911,33 @@
         "srcSp": "/49_genji_emaki_yadorigi_image_tokugawa-kokkai-375.webp",
         "srcTb": "/49_genji_emaki_yadorigi_image_tokugawa-kokkai-800.webp",
         "src": "/49_genji_emaki_yadorigi_image_tokugawa-kokkai-1080.webp",
-        "name": "49_genji_emaki_yadorigi_image_tokugawa-kokkai.webp"
+        "name": "49_genji_emaki_yadorigi_image_tokugawa-kokkai.webp",
+        "character": [
+          {
+            "name": "薫",
+            "status": "貴族",
+            "top": 65,
+            "right": 15,
+            "gender": "man",
+            "link": "https://ja.wikipedia.org/wiki/%E8%96%AB"
+          },
+          {
+            "name": "今上帝",
+            "status": "天皇",
+            "top": 40,
+            "right": 20,
+            "gender": "man",
+            "link": "https://ja.wikipedia.org/wiki/%E4%BB%8A%E4%B8%8A%E5%B8%9D_(%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E)"
+          },
+          {
+            "name": "女房",
+            "status": "女官",
+            "top": 50,
+            "right": 85,
+            "gender": "woman",
+            "link": ""
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -6692,7 +6959,33 @@
         "srcSp": "/49_genji_emaki_yadorigi2_image_tokugawa-kokkai-375.webp",
         "srcTb": "/49_genji_emaki_yadorigi2_image_tokugawa-kokkai-800.webp",
         "src": "/49_genji_emaki_yadorigi2_image_tokugawa-kokkai-1080.webp",
-        "name": "49_genji_emaki_yadorigi2_image_tokugawa-kokkai.webp"
+        "name": "49_genji_emaki_yadorigi2_image_tokugawa-kokkai.webp",
+        "character": [
+          {
+            "name": "六の君",
+            "status": "貴族（夕霧の娘、匂の宮の妻）",
+            "top": 65,
+            "right": 15,
+            "gender": "woman",
+            "link": "https://ja.wikipedia.org/wiki/%E5%85%AD%E3%81%AE%E5%90%9B"
+          },
+          {
+            "name": "匂の宮",
+            "status": "貴族（源氏の外孫）",
+            "top": 30,
+            "right": 20,
+            "gender": "man",
+            "link": "https://ja.wikipedia.org/wiki/%E5%8C%82%E5%AE%AE"
+          },
+          {
+            "name": "女房",
+            "status": "女官",
+            "top": 50,
+            "right": 85,
+            "gender": "woman",
+            "link": ""
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -6714,7 +7007,25 @@
         "srcSp": "/49_genji_emaki_yadorigi3_image_tokugawa-kokkai-375.webp",
         "srcTb": "/49_genji_emaki_yadorigi3_image_tokugawa-kokkai-800.webp",
         "src": "/49_genji_emaki_yadorigi3_image_tokugawa-kokkai-1080.webp",
-        "name": "49_genji_emaki_yadorigi3_image_tokugawa-kokkai.webp"
+        "name": "49_genji_emaki_yadorigi3_image_tokugawa-kokkai.webp",
+        "character": [
+          {
+            "name": "中の君",
+            "status": "貴族（宇治八宮の娘、匂の宮の妻）",
+            "top": 15,
+            "right": 15,
+            "gender": "woman",
+            "link": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
+          },
+          {
+            "name": "匂の宮",
+            "status": "貴族（源氏の外孫）",
+            "top": 5,
+            "right": 35,
+            "gender": "man",
+            "link": "https://ja.wikipedia.org/wiki/%E5%8C%82%E5%AE%AE"
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -6736,7 +7047,41 @@
         "srcSp": "/50_genji_emaki_adumaya1_image_tokugawa-kokkai-375.webp",
         "srcTb": "/50_genji_emaki_adumaya1_image_tokugawa-kokkai-800.webp",
         "src": "/50_genji_emaki_adumaya1_image_tokugawa-kokkai-1080.webp",
-        "name": "50_genji_emaki_adumaya1_image_tokugawa-kokkai.webp"
+        "name": "50_genji_emaki_adumaya1_image_tokugawa-kokkai.webp",
+        "character": [
+          {
+            "name": "女房",
+            "status": "女官",
+            "top": 50,
+            "right": 10,
+            "gender": "woman",
+            "link": ""
+          },
+          {
+            "name": "浮舟",
+            "status": "貴族（宇治八宮の娘、中の君の異母妹）",
+            "top": 5,
+            "right": 58,
+            "gender": "woman",
+            "link": "https://ja.wikipedia.org/wiki/%E6%B5%AE%E8%88%9F_(%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E)"
+          },
+          {
+            "name": "中の君",
+            "status": "貴族（宇治八宮の娘、匂の宮の妻）",
+            "top": 55,
+            "right": 75,
+            "gender": "woman",
+            "link": "https://ja.wikipedia.org/wiki/%E5%AE%87%E6%B2%BB%E3%81%AE%E4%B8%AD%E5%90%9B"
+          },
+          {
+            "name": "右近",
+            "status": "",
+            "top": 60,
+            "right": 58,
+            "gender": "woman",
+            "link": "https://ja.wikipedia.org/wiki/%E7%8E%89%E9%AC%98_(%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E)"
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -6758,7 +7103,33 @@
         "srcSp": "/50_genji_emaki_adumaya2_image_tokugawa-kokkai-375.webp",
         "srcTb": "/50_genji_emaki_adumaya2_image_tokugawa-kokkai-800.webp",
         "src": "/50_genji_emaki_adumaya2_image_tokugawa-kokkai-1080.webp",
-        "name": "50_genji_emaki_adumaya2_image_tokugawa-kokkai.webp"
+        "name": "50_genji_emaki_adumaya2_image_tokugawa-kokkai.webp",
+        "character": [
+          {
+            "name": "薫",
+            "status": "貴族",
+            "top": 50,
+            "right": 30,
+            "gender": "man",
+            "link": "https://ja.wikipedia.org/wiki/%E8%96%AB"
+          },
+          {
+            "name": "浮舟",
+            "status": "貴族（宇治八宮の娘、中の君の異母妹）",
+            "top": 60,
+            "right": 95,
+            "gender": "woman",
+            "link": "https://ja.wikipedia.org/wiki/%E6%B5%AE%E8%88%9F_(%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E)"
+          },
+          {
+            "name": "弁の尼",
+            "status": "宇治八の宮家の女房",
+            "top": 50,
+            "right": 75,
+            "gender": "woman",
+            "link": "https://ja.wikipedia.org/wiki/%E5%BC%81%E3%81%AE%E5%B0%BC"
+          }
+        ]
       }
     ]
 
@@ -6804,6 +7175,7 @@
       {
         "cat": "ekotoba",
         "chapter": "14",
+        "scene":"4",
         "srcWidth": "3208",
         "srcHeight": "1080",
         "load": "",
