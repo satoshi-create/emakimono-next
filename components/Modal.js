@@ -14,13 +14,13 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { eraColor } from "../libs/func";
 import { flushSync } from "react-dom";
-import { conectKusouzuChapters } from "../libs/func";
+import {ChaptersTitle } from "../libs/func";
 
 const Modal = ({ data }) => {
   const { locale } = useRouter();
   const { closeModal, navIndex, handleToId,isMapIndex } = useContext(AppContext);
 
-  const { reference, sourceImageUrl, sourceImage, era,typeen } = data;
+  const { reference, sourceImageUrl, sourceImage, era, typeen, title, } = data;
   const emakis = data.emakis;
   const ekotobaSection = emakis[isMapIndex];
   const handleChapter = (index) => {
@@ -57,19 +57,7 @@ const Modal = ({ data }) => {
                   style={{ color: eraColor(era) }}
                   // dangerouslySetInnerHTML={{ __html: chapter }}
                 >
-                  {conectKusouzuChapters(chapter, "stage_ch")
-                    ? `【第${conectKusouzuChapters(chapter, "stage_ch")}相】`
-                    : chapter}
-                  <ruby>
-                    {conectKusouzuChapters(chapter, "title") &&
-                      `${conectKusouzuChapters(chapter, "title")}`}
-                    <rp>(</rp>
-                    <rt>
-                      {conectKusouzuChapters(chapter, "ruby") &&
-                        `${conectKusouzuChapters(chapter, "ruby")}`}
-                    </rt>
-                    <rp>)</rp>
-                  </ruby>
+                  {ChaptersTitle(title, chapter)}
                 </li>
               );
             }
