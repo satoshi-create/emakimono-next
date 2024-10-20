@@ -15,7 +15,7 @@ import ContactFormGoogle from "./ContactFormGoogle";
 import EditionLinks from "./EditionLinks";
 import LinkToNote from "./LinkToNote";
 import NoteIcon from "../public/note-icon.png";
-import { conectKusouzuChapters, ChaptersTitle } from "../libs/func";
+import BannerToHelp from "./BannerToHelp";import { conectKusouzuChapters, ChaptersTitle } from "../libs/func";
 
 import LikeButton from "./LikeButton";
 
@@ -83,7 +83,12 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 </a>
               </Link>
             )}
-
+            <LikeButton
+              title={title}
+              edition={edition}
+              author={author}
+              ort={"prt"}
+            />
             <button
               type="button"
               value="Lock Landscape"
@@ -92,18 +97,15 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             >
               横スクロールで見る
             </button>
-            <LikeButton
-              title={title}
-              edition={edition}
-              author={author}
-              ort={"prt"}
-            />
+
           </div>
+
           <div className={styles.metadataB}>
             <div
               className={styles.desc}
               dangerouslySetInnerHTML={{ __html: desc ? desc : descJa }}
             ></div>
+            <BannerToHelp />
             {genjieslug && (
               <div className={`${styles.genjieslugBox}`}>
                 <Link href={`/genjie/chapters-genji`}>
@@ -118,6 +120,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 </Link>
               </div>
             )}
+
             <ul className={styles.chapter} style={{ color: eraColor(era) }}>
               {/* 絵巻の紹介 */}
               {emakis.map((item, index) => {
@@ -139,6 +142,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 }
               })}
             </ul>
+
             {/* 各段の詞書・解説 */}
             {kotobagaki && <ChapterDesc emakis={emakis} data={data} />}
             {/* noteへのリンク */}
@@ -175,22 +179,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 })}
               </div>
             )}
-            {/* 「横スクロールで楽しむ絵巻物」の使い方 */}
-            {/* <div>
-            <Link href={`/`}>
-              <a href="">
-                <p>
-                  <Image
-                    src={NoteIcon}
-                    alt="Follow us on Twitter"
-                    width="25px"
-                    height="25px"
-                  />
-                  「横スクロールで楽しむ絵巻物」の使い方
-                </p>
-              </a>
-            </Link>
-            </div> */}
             {/*キーワードタグ */}
             {keyword && (
               <div
