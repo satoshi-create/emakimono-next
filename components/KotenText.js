@@ -11,6 +11,8 @@ import ResposiveImage from "./ResposiveImage";
 import { AppContext } from "../pages/_app";
 import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
+import parse from "html-react-parser";
+
 
 const Kotentext = ({
   item: {
@@ -60,7 +62,7 @@ const Kotentext = ({
 
   useEffect(() => {
     if (scroll) {
-      setekotobaToggle(true);
+      setekotobaToggle(false);
     }
   }, [setekotobaToggle, scroll]);
 
@@ -87,7 +89,7 @@ const Kotentext = ({
           {chapter && (
             <div className={styles.chaptercontainer}>
               <h3
-                dangerouslySetInnerHTML={{ __html: chapter }}
+                // dangerouslySetInnerHTML={{ __html: chapter }}
                 className={styles.chapter}
                 style={{
                   fontSize: `${
@@ -96,13 +98,14 @@ const Kotentext = ({
                       : "var(--title-size)"
                   }`,
                 }}
-              />
+              >
+              {parse(chapter)}</h3>
             </div>
           )}
           {/* kobun */}
           <div className={`${styles.kobunBox} ${styles.kobunSideKobun}`}>
             <p
-              dangerouslySetInnerHTML={{ __html: kobun }}
+              // dangerouslySetInnerHTML={{ __html: kobun }}
               className={styles.kobuntext}
               style={{
                 fontSize: `${
@@ -111,7 +114,9 @@ const Kotentext = ({
                     : "var(--text-size)"
                 }`,
               }}
-            />
+            >
+              {parse(kobun)}
+            </p>
             {gendaibun && (
               <button
                 className={styles.togglekobun}
@@ -135,7 +140,7 @@ const Kotentext = ({
               className={`${styles.gendaibunBox} ${styles.kobunSideGendaibun}`}
             >
               <p
-                dangerouslySetInnerHTML={{ __html: gendaibun }}
+                // dangerouslySetInnerHTML={{ __html: gendaibun }}
                 className={styles.gendaibuntext}
                 style={{
                   fontSize: `${
@@ -144,7 +149,9 @@ const Kotentext = ({
                       : "var(--text-size)"
                   }`,
                 }}
-              />
+              >
+                {parse(gendaibun)}
+              </p>
               <button
                 className={`${styles.togglekobun} ${styles.togglekobunClose}`}
                 onClick={() => setekotobaToggle(!ekotobaToggle)}
@@ -169,7 +176,7 @@ const Kotentext = ({
           {chapter && (
             <div className={styles.chaptercontainer}>
               <h3
-                dangerouslySetInnerHTML={{ __html: chapter }}
+                // dangerouslySetInnerHTML={{ __html: chapter }}
                 className={styles.chapter}
                 style={{
                   fontSize: `${
@@ -178,7 +185,9 @@ const Kotentext = ({
                       : "var(--title-size)"
                   }`,
                 }}
-              />
+              >
+                {parse(chapter)}
+              </h3>
             </div>
           )}
           {/* gendaibun */}
@@ -187,7 +196,7 @@ const Kotentext = ({
               className={`${styles.gendaibunBox} ${styles.gendaibunSideGendaibun}`}
             >
               <p
-                dangerouslySetInnerHTML={{ __html: ekotobabody }}
+                // dangerouslySetInnerHTML={{ __html: ekotobabody }}
                 className={styles.gendaibuntext}
                 style={{
                   fontSize: `${
@@ -196,7 +205,9 @@ const Kotentext = ({
                       : "var(--text-size)"
                   }`,
                 }}
-              />
+              >
+                {parse(ekotobabody)}
+              </p>
               {kobun && (
                 <button
                   className={styles.togglekobun}
@@ -222,7 +233,7 @@ const Kotentext = ({
                 className={`${styles.kobunBox} ${styles.gendaibunSideKobun}`}
               >
                 <p
-                  dangerouslySetInnerHTML={{ __html: kobun }}
+                  // dangerouslySetInnerHTML={{ __html: kobun }}
                   className={styles.kobuntext}
                   style={{
                     fontSize: `${
@@ -231,7 +242,10 @@ const Kotentext = ({
                         : "var(--text-size)"
                     }`,
                   }}
-                />
+                >
+                  {" "}
+                  {parse(ekotobabody)}
+                </p>
                 <button
                   className={`${styles.togglekobun} ${styles.togglekobunClose}`}
                   onClick={() => setekotobaToggle(!ekotobaToggle)}
