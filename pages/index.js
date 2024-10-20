@@ -179,28 +179,16 @@ const Home = () => {
       <Head jsonLd={jsonLd} />
       <Header fixed={true} />
       <CardA
-        emakis={kusouzuEmakis}
-        columns={t.kusouzu.columns}
-        sectiontitle={t.kusouzu.title}
-        sectiontitleen={t.kusouzu.titleen}
-        sectiondesc={t.kusouzu.desc}
-        sectionname={t.kusouzu.name}
-        linktitle={t.kusouzu.title}
-        linktitleen={t.kusouzu.title}
-        linkpath={"flow-kusouzu"}
+        emakis={genjiEmakis}
+        columns={t.genji.columns}
+        sectiontitle={t.genji.title}
+        sectiontitleen={t.genji.titleen}
+        sectiondesc={t.genji.desc}
+        sectionname={t.genji.name}
+        linktitle={"源氏物語絵54帖万華鏡"}
+        linktitleen={"Genji Picture 54 Kaleidoscope"}
+        linkpath={"flow-genji-pictures"}
         bcg={"#f9fbff"}
-      />
-      <CardA
-        emakis={bandainagonEmakis}
-        columns={t.bandainagon.columns}
-        sectiontitle={t.bandainagon.title}
-        sectiontitleen={t.bandainagon.titleen}
-        sectiondesc={t.bandainagon.desc}
-        sectionname={t.bandainagon.name}
-        linktitle={t.bandainagon.title}
-        linktitleen={t.bandainagon.title}
-        linkpath={"flow-ban-dainagon"}
-        // bcg={"#f9fbff"}
       />
       <CardA
         emakis={cyouzyuuEmakis}
@@ -215,6 +203,32 @@ const Home = () => {
         bcg={"#f9fbff"}
       />
       <CardA
+        emakis={kusouzuEmakis}
+        columns={t.kusouzu.columns}
+        sectiontitle={t.kusouzu.title}
+        sectiontitleen={t.kusouzu.titleen}
+        sectiondesc={t.kusouzu.desc}
+        sectionname={t.kusouzu.name}
+        linktitle={t.kusouzu.title}
+        linktitleen={t.kusouzu.title}
+        linkpath={"flow-kusouzu"}
+        bcg={"#f9fbff"}
+      />
+
+      <CardA
+        emakis={bandainagonEmakis}
+        columns={t.bandainagon.columns}
+        sectiontitle={t.bandainagon.title}
+        sectiontitleen={t.bandainagon.titleen}
+        sectiondesc={t.bandainagon.desc}
+        sectionname={t.bandainagon.name}
+        linktitle={t.bandainagon.title}
+        linktitleen={t.bandainagon.title}
+        linkpath={"flow-ban-dainagon"}
+        // bcg={"#f9fbff"}
+      />
+
+      <CardA
         emakis={shigisanEmakis}
         columns={t.shigisan.columns}
         sectiontitle={t.shigisan.title}
@@ -225,19 +239,6 @@ const Home = () => {
         // linktitleen={t.shigisan.title}
         linkpath={"shigisan"}
         // bcg={"#f9fbff"}
-      />
-
-      <CardA
-        emakis={genjiEmakis}
-        columns={t.genji.columns}
-        sectiontitle={t.genji.title}
-        sectiontitleen={t.genji.titleen}
-        sectiondesc={t.genji.desc}
-        sectionname={t.genji.name}
-        linktitle={"源氏物語絵54帖万華鏡"}
-        linktitleen={"Genji Picture 54 Kaleidoscope"}
-        linkpath={"flow-genji-pictures"}
-        bcg={"#f9fbff"}
       />
       <FlowEmaki
         flowEmakis={sikisansuizuFlowDatas}
