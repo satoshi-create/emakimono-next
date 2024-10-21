@@ -7,25 +7,25 @@ import {
   faAnglesLeft,
   faAnglesRight,
 } from "@fortawesome/free-solid-svg-icons";
-import { conectKusouzuChapters,conectGenjiChapters } from "../libs/func";
+import {
+  conectGenjiChapters,
+  conectGenjiChaptersScene,
+  ChaptersTitle,
+} from "../libs/func";
 import SnsShareBox from "./SnsShareBox";
 import Link from "next/link";
 
-const ModalDesc = ({ data }) => {
+const ModalDescGenji = ({ data }) => {
   const { DescIndex, setDescIndex, handleToId, closeDescModal, orientation } =
     useContext(AppContext);
   const emakis = data.emakis;
-  const { genjieslug,title } = data;
+  const { genjieslug, title } = data;
 
   const filterEkotobas = emakis.filter((item) => item.cat === "ekotoba");
   const handleChapter = (index) => {
     handleToId(index);
     closeDescModal();
   };
-
-
-
-
 
   const [value, setValue] = useState(0);
 
@@ -58,85 +58,34 @@ const ModalDesc = ({ data }) => {
     });
   };
 
-  const allMap = [
-    {
-      title: "現代文",
-      titleen: "modern-sentence",
-      path: "modern-sentence",
-    },
-    // {
-    //   title: "古文",
-    //   titleen: "ancient-text",
-    //   path: "ancient-text",
-    // },
-    {
-      title: "解説",
-      titleen: "description",
-      path: "description",
-    },
-  ];
-
-
-  // TODO:スマホ全画面でコンテンツがつぶれるので修正する。
-
-
-  // const toggleContents = (v, chapter, gendaibun, desc) => {
-
-  //   if (v === 0) {
-  //     return (
-
-  //         <p
-  //           className={styles.gendaibun}
-  //           style={
-  //             orientation === "portrait"
-  //               ? {
-  //                   fontSize: "var(--text-size-prt)",
-  //                 }
-  //               : { fontSize: "var(--text-size)" }
-  //           }
-  //           dangerouslySetInnerHTML={{
-  //             __html: conectKusouzuChapters(chapter, "gendaibun")
-  //               ? conectKusouzuChapters(chapter, "gendaibun")
-  //               : gendaibun,
-  //           }}
-  //         >
-  //         </p>
-
-  //     );
-  //   } else if (v === 1) {
-  //       <p
-  //         className={styles.gendaibun}
-  //         style={
-  //           orientation === "portrait"
-  //             ? {
-  //                 fontSize: "var(--text-size-prt)",
-  //               }
-  //             : { fontSize: "var(--text-size)" }
-  //         }
-  //         dangerouslySetInnerHTML={{
-  //           __html: conectKusouzuChapters(chapter, "desc")
-  //             ? conectKusouzuChapters(chapter, "desc")
-  //             : desc,
-  //         }}
-  //       ></p>
-  //   }
-  // };
-
   return (
     <div className={styles.modal}>
       <div className={styles.MuiBackdrop} onClick={closeDescModal}></div>
-      <div className={`${orientation === "landscape" ? styles.land : styles.prt} ${styles.container}`}>
-        {/* <div className={`${styles.closebtn} btn`} onClick={closeDescModal}>
-          <FontAwesomeIcon icon={faClose} />
-        </div> */}
-          <FontAwesomeIcon
-            icon={faClose}
-            className={`${styles.closebtn} btn`}
-            onClick={closeDescModal}
-          />
+      <div
+        className={`${orientation === "landscape" ? styles.land : styles.prt} ${
+          styles.container
+        }`}
+      >
+        <FontAwesomeIcon
+          icon={faClose}
+          className={`${styles.closebtn} btn`}
+          onClick={closeDescModal}
+        />
         {filterEkotobas.map((item, ekotobasIndex) => {
-          const { gendaibun, chapter, linkId, desc, kobun } = item;
+          const { gendaibun, chapter, linkId, desc, kobun, scene } = item;
 
+          const allMap = [
+            {
+              title: "場面内容",
+              titleen: "scene",
+              path: "scene",
+            },
+            {
+              title: `${conectGenjiChapters(chapter, "title")}のあらすじ`,
+              titleen: "modern-sentence",
+              path: "modern-sentence",
+            },
+          ];
 
           let position = "nextSlide";
 
@@ -170,19 +119,7 @@ const ModalDesc = ({ data }) => {
                 }
                 onClick={() => handleChapter(linkId)}
               >
-                {conectKusouzuChapters(chapter, "stage_ch")
-                  ? `【第${conectKusouzuChapters(chapter, "stage_ch")}相】`
-                  : chapter}
-                 <ruby>
-                  {conectKusouzuChapters(chapter, "title") &&
-                    `${conectKusouzuChapters(chapter, "title")}`}
-                  <rp>(</rp>
-                  <rt>
-                    {conectKusouzuChapters(chapter, "ruby") &&
-                      `${conectKusouzuChapters(chapter, "ruby")}`}
-                  </rt>
-                  <rp>)</rp>
-                </ruby>
+                {ChaptersTitle(title,chapter)}
               </h3>
               {genjieslug && (
                 <aside className={`${styles.linktochapter}`}>
@@ -229,28 +166,49 @@ const ModalDesc = ({ data }) => {
                         : { fontSize: "var(--text-size)" }
                     }
                     dangerouslySetInnerHTML={{
-                      __html: conectKusouzuChapters(chapter, "gendaibun")
-                        ? conectKusouzuChapters(chapter, "gendaibun")
-                        : gendaibun,
+                      __html: conectGenjiChaptersScene(chapter, scene)
+                        ? conectGenjiChaptersScene(chapter, scene)
+                        : desc,
                     }}
                   ></p>
                 )}
                 {value === 1 && (
-                  <p
-                    className={styles.gendaibun}
-                    style={
-                      orientation === "portrait"
-                        ? {
-                            fontSize: "var(--text-size-prt)",
-                          }
-                        : { fontSize: "var(--text-size)" }
-                    }
-                    dangerouslySetInnerHTML={{
-                      __html: conectKusouzuChapters(chapter, "desc")
-                        ? conectKusouzuChapters(chapter, "desc")
-                        : desc,
-                    }}
-                  ></p>
+                  <>
+                    <p
+                      className={styles.gendaibun}
+                      style={
+                        orientation === "portrait"
+                          ? {
+                              fontSize: "var(--text-size-prt)",
+                            }
+                          : { fontSize: "var(--text-size)" }
+                      }
+                      dangerouslySetInnerHTML={{
+                        __html: conectGenjiChapters(chapter, "chapter_en")
+                          ? `${conectGenjiChapters(
+                              chapter,
+                              "main-character"
+                            )}${conectGenjiChapters(chapter, "age")}`
+                          : gendaibun,
+                      }}
+                    ></p>
+                    <br />
+                    <p
+                      className={styles.gendaibun}
+                      style={
+                        orientation === "portrait"
+                          ? {
+                              fontSize: "var(--text-size-prt)",
+                            }
+                          : { fontSize: "var(--text-size)" }
+                      }
+                      dangerouslySetInnerHTML={{
+                        __html: conectGenjiChapters(chapter, "chapter_en")
+                          ? conectGenjiChapters(chapter, "summary")
+                          : gendaibun,
+                      }}
+                    ></p>
+                  </>
                 )}
               </div>
 
@@ -314,4 +272,4 @@ const ModalDesc = ({ data }) => {
   );
 };
 
-export default ModalDesc;
+export default ModalDescGenji;

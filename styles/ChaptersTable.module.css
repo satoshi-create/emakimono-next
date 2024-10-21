@@ -1,10 +1,15 @@
 .table {
   border-spacing: 0;
 }
-.table thead span {
+.thead tr th{
   writing-mode: vertical-lr;
 }
-.table thead th {
+@media screen and (min-width: 768px) {
+  .thead tr th:not(.contents) {
+      writing-mode: horizontal-tb;
+    }
+}
+.thead th {
   border-top: solid 1px #d3d3d3;
   font-size: 16px;
 }

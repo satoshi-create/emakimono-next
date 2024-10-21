@@ -2750,10 +2750,7 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": " 【第０相】生前相",
-        "kobun": "",
-        "gendaibun": "膿爛し流れ潰える死体を見る。肉が溶けて流れ、火をつけた蝋燭のようである。これを膿爛相と名づける。",
-        "desc": "",
+        "chapter": "生前相",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -2765,9 +2762,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
         "load": "True",
         "srcSp": "/kusouzu_01-375.webp",
         "srcTb": "/kusouzu_01-800.webp",
@@ -2778,10 +2772,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第一相】 新死相",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
+        "chapter": "1",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -2793,9 +2784,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
         "load": "True",
         "srcSp": "/kusouzu_02-375.webp",
         "srcTb": "/kusouzu_02-800.webp",
@@ -2806,10 +2794,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第二相】 <ruby><rb>脹相</rb><rp>（</rp><rt>ちょうそう</rt><rp>）</rp></ruby> ",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
+        "chapter": "2",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -2821,9 +2806,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
         "load": "False",
         "srcSp": "/kusouzu_03-375.webp",
         "srcTb": "/kusouzu_03-800.webp",
@@ -2834,10 +2816,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第三相】 <ruby><rb>壊相</rb><rp>（</rp><rt>えそう</rt><rp>）</rp></ruby> ",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
+        "chapter": "3",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -2849,9 +2828,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
         "load": "False",
         "srcSp": "/kusouzu_04-375.webp",
         "srcTb": "/kusouzu_04-800.webp",
@@ -2862,10 +2838,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第四相】 <ruby><rb>血塗相</rb><rp>（</rp><rt>けちずそう</rt><rp>）</rp></ruby> ",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
+        "chapter": "4",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -2877,9 +2850,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
         "load": "False",
         "srcSp": "/kusouzu_05-375.webp",
         "srcTb": "/kusouzu_05-800.webp",
@@ -2890,10 +2860,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第五相】 <ruby><rb>膿爛相</rb><rp>（</rp><rt>のうらんそう</rt><rp>）</rp></ruby>",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
+        "chapter": "5",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -2905,9 +2872,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
         "load": "False",
         "srcSp": "/kusouzu_06-375.webp",
         "srcTb": "/kusouzu_06-800.webp",
@@ -2918,10 +2882,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第六相】 <ruby><rb>青瘀相</rb><rp>（</rp><rt>しょうおそう</rt><rp>）</rp></ruby>",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
+        "chapter": "6",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -2933,9 +2894,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
         "load": "False",
         "srcSp": "/kusouzu_07-375.webp",
         "srcTb": "/kusouzu_07-800.webp",
@@ -2946,10 +2904,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第七相】 <ruby><rb>噉相</rb><rp>（</rp><rt>たんそう</rt><rp>）</rp></ruby>",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
+        "chapter": "7",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -2961,9 +2916,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
         "load": "False",
         "srcSp": "/kusouzu_08-375.webp",
         "srcTb": "/kusouzu_08-800.webp",
@@ -2974,10 +2926,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第八相】 <ruby><rb>散相</rb><rp>（</rp><rt>さんそう</rt><rp>）</rp></ruby>",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
+        "chapter": "8",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -2989,9 +2938,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
         "load": "False",
         "srcSp": "/kusouzu_09-375.webp",
         "srcTb": "/kusouzu_09-800.webp",
@@ -3002,10 +2948,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第九相】 <ruby><rb> 骨相</rb><rp>（</rp><rt>こつそう</rt><rp>）</rp></ruby>",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
+        "chapter": "9",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -3017,9 +2960,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
         "load": "False",
         "srcSp": "/kusouzu_10-375.webp",
         "srcTb": "/kusouzu_10-800.webp",
@@ -3029,6 +2969,7 @@
         "srcHeight": "1080"
       }
     ]
+
   },
   {
     "id": 9,
@@ -3109,11 +3050,7 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "【第一相】 生前相",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
-        "id": "208",
+        "chapter": "生前相",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -3125,10 +3062,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
-        "id": "209",
         "load": "True",
         "srcSp": "/kusouzu_eitaku_01-375.webp",
         "srcTb": "/kusouzu_eitaku_01-800.webp",
@@ -3139,11 +3072,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第二相】 新死相",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
-        "id": "210",
+        "chapter": "新死相",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -3155,10 +3084,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
-        "id": "211",
         "load": "True",
         "srcSp": "/kusouzu_eitaku_02-375.webp",
         "srcTb": "/kusouzu_eitaku_02-800.webp",
@@ -3169,11 +3094,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第三相】 <ruby><rb>脹相</rb><rp>（</rp><rt>ちょうそう</rt><rp>）</rp></ruby>",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
-        "id": "212",
+        "chapter": "1",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -3185,10 +3106,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
-        "id": "213",
         "load": "False",
         "srcSp": "/kusouzu_eitaku_03-375.webp",
         "srcTb": "/kusouzu_eitaku_03-800.webp",
@@ -3199,11 +3116,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第四相】 <ruby><rb>壊相</rb><rp>（</rp><rt>えそう</rt><rp>）</rp></ruby>",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
-        "id": "214",
+        "chapter": "2",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -3215,10 +3128,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
-        "id": "215",
         "load": "False",
         "srcSp": "/kusouzu_eitaku_04-375.webp",
         "srcTb": "/kusouzu_eitaku_04-800.webp",
@@ -3229,11 +3138,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第五相】 <ruby><rb>血塗相</rb><rp>（</rp><rt>けちずそう</rt><rp>）</rp></ruby>",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
-        "id": "216",
+        "chapter": "3",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -3245,10 +3150,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
-        "id": "217",
         "load": "False",
         "srcSp": "/kusouzu_eitaku_05-375.webp",
         "srcTb": "/kusouzu_eitaku_05-800.webp",
@@ -3259,11 +3160,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第六相】 <ruby><rb>膿爛相</rb><rp>（</rp><rt>のうらんそう</rt><rp>）</rp></ruby>",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
-        "id": "218",
+        "chapter": "4",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -3275,10 +3172,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
-        "id": "219",
         "load": "False",
         "srcSp": "/kusouzu_eitaku_06-375.webp",
         "srcTb": "/kusouzu_eitaku_06-800.webp",
@@ -3289,11 +3182,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第七相】 <ruby><rb>噉相</rb><rp>（</rp><rt>たんそう</rt><rp>）</rp></ruby>",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
-        "id": "220",
+        "chapter": "6",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -3305,10 +3194,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
-        "id": "221",
         "load": "False",
         "srcSp": "/kusouzu_eitaku_07-375.webp",
         "srcTb": "/kusouzu_eitaku_07-800.webp",
@@ -3319,11 +3204,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第八相】 <ruby><rb>散相</rb><rp>（</rp><rt>さんそう</rt><rp>）</rp></ruby>",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
-        "id": "222",
+        "chapter": "7",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -3335,10 +3216,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
-        "id": "223",
         "load": "False",
         "srcSp": "/kusouzu_eitaku_08-375.webp",
         "srcTb": "/kusouzu_eitaku_08-800.webp",
@@ -3349,11 +3226,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第九相】 <ruby><rb>骨相</rb><rp>（</rp><rt>こっそう</rt><rp>）</rp></ruby>",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
-        "id": "224",
+        "chapter": "8",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -3365,10 +3238,6 @@
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "desc": "",
-        "id": "225",
         "load": "False",
         "srcSp": "/kusouzu_eitaku_09-375.webp",
         "srcTb": "/kusouzu_eitaku_09-800.webp",
@@ -3378,6 +3247,7 @@
         "srcHeight": "1080"
       }
     ]
+
   },
   {
     "id": 10,
@@ -3450,254 +3320,205 @@
       {
         "cat": "ekotoba",
         "chapter": "九相詩序 ",
-        "kobun": "",
-        "gendaibun": "",
         "srcSp": "/kusoushiemaki_01-375.webp",
         "srcTb": "/kusoushiemaki_01-800.webp",
         "src": "/kusoushiemaki_01-1080.webp",
         "name": "kusoushiemaki_01.webp",
-        "phrase": [{}],
-        "id": 226,
-        "srcWidth": 2883,
-        "srcHeight": 1080
+        "srcWidth": "2883",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第一相】 新死相",
-        "kobun": "",
-        "gendaibun": "<span class='waka'>さかりなる　花のすかたも散はてて<br>　　　　　あはれにみゆる　春の夕くれ<br><br>花もちり　春も暮行木のもとに<br>　　　　　　命もつきぬ　入あひのかね</span>",
+        "chapter": "1",
         "srcSp": "/kusoushiemaki_02-375.webp",
         "srcTb": "/kusoushiemaki_02-800.webp",
         "src": "/kusoushiemaki_02-1080.webp",
         "name": "kusoushiemaki_02.webp",
-        "phrase": [{}],
-        "id": 227,
-        "srcWidth": 1685,
-        "srcHeight": 1080
+        "srcWidth": "1685",
+        "srcHeight": "1080"
       },
       {
-        "load": true,
         "cat": "image",
+        "chapter": "",
         "srcSp": "/kusoushiemaki_03-375.webp",
         "srcTb": "/kusoushiemaki_03-800.webp",
         "src": "/kusoushiemaki_03-1080.webp",
         "name": "kusoushiemaki_03.webp",
-        "id": 228,
-        "srcWidth": 1725,
-        "srcHeight": 1080
+        "srcWidth": "1725",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第二相】 <ruby><rb>肪脹相</rb><rp>（</rp><rt>ぼうちょうそう</rt><rp>）</rp></ruby>",
-        "kobun": "",
-        "gendaibun": "<span class='waka'>あさからす　しなはともにと　契しも<br>　　　　　人はよそなる　よもきふのやと<br><br>落やすき　秋のもみちの　霜かれて<br>　　　　　みしにもあらぬ人々のいろ</span>",
+        "chapter": "2",
         "srcSp": "/kusoushiemaki_04-375.webp",
         "srcTb": "/kusoushiemaki_04-800.webp",
         "src": "/kusoushiemaki_04-1080.webp",
         "name": "kusoushiemaki_04.webp",
-        "phrase": [{}],
-        "id": 229,
-        "srcWidth": 1659,
-        "srcHeight": 1080
+        "srcWidth": "1659",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
         "srcSp": "/kusoushiemaki_05-375.webp",
         "srcTb": "/kusoushiemaki_05-800.webp",
         "src": "/kusoushiemaki_05-1080.webp",
         "name": "kusoushiemaki_05.webp",
-        "id": 230,
-        "srcWidth": 1725,
-        "srcHeight": 1080
+        "srcWidth": "1725",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第三相】 <ruby><rb>血塗相</rb><rp>（</rp><rt>けちずそう</rt><rp>）</rp></ruby> ",
-        "kobun": "",
-        "gendaibun": "<span class='waka'>日にそへて　かはるすかたの　黛も<br>　　　　きえて跡なき　露の身そかし<br><br>みな人の　我か物かほに おもひしに<br>　　　　　此身のはての　なれる姿よ</span>",
+        "chapter": "3",
         "srcSp": "/kusoushiemaki_06-375.webp",
         "srcTb": "/kusoushiemaki_06-800.webp",
         "src": "/kusoushiemaki_06-1080.webp",
         "name": "kusoushiemaki_06.webp",
-        "phrase": [{}],
-        "id": 231,
-        "srcWidth": 1696,
-        "srcHeight": 1080
+        "srcWidth": "1696",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
         "srcSp": "/kusoushiemaki_07-375.webp",
         "srcTb": "/kusoushiemaki_07-800.webp",
         "src": "/kusoushiemaki_07-1080.webp",
         "name": "kusoushiemaki_07.webp",
-        "id": 232,
-        "srcWidth": 1728,
-        "srcHeight": 1080
+        "srcWidth": "1728",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第四相】 <ruby><rb>肪乱相</rb><rp>（</rp><rt>ほうらんそう</rt><rp>）</rp></ruby> ",
-        "kobun": "",
-        "gendaibun": "<span class='waka'>何とたに　かりなる色を　かさる覧<br>　　　　　かかるへしとは　かねてしらすや<br><br>うら見ても　かひなきものを　鳥辺山<br>　　　　　まくすか原に　すてらるる身を</span>",
+        "chapter": "4",
         "srcSp": "/kusoushiemaki_08-375.webp",
         "srcTb": "/kusoushiemaki_08-800.webp",
         "src": "/kusoushiemaki_08-1080.webp",
         "name": "kusoushiemaki_08.webp",
-        "phrase": [{}],
-        "id": 233,
-        "srcWidth": 1783,
-        "srcHeight": 1080
+        "srcWidth": "1783",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
         "srcSp": "/kusoushiemaki_09-375.webp",
         "srcTb": "/kusoushiemaki_09-800.webp",
         "src": "/kusoushiemaki_09-1080.webp",
         "name": "kusoushiemaki_09.webp",
-        "id": 234,
-        "srcWidth": 1714,
-        "srcHeight": 1080
+        "srcWidth": "1714",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第五相】 <ruby><rb>噉食相</rb><rp>（</rp><rt>たんじきそう</rt><rp>）</rp></ruby> ",
-        "kobun": "",
-        "gendaibun": "<span class='waka'>とりへやまに　あらそふ犬の　聲きけは<br>　　　　　かねてうき身の　をき所なき<br><br>是を見て　身はうき物と　おもひしに<br>　　　　　なにの情か　これにあるへき</span>",
+        "chapter": "5",
         "srcSp": "/kusoushiemaki_10-375.webp",
         "srcTb": "/kusoushiemaki_10-800.webp",
         "src": "/kusoushiemaki_10-1080.webp",
         "name": "kusoushiemaki_10.webp",
-        "phrase": [{}],
-        "id": 235,
-        "srcWidth": 1745,
-        "srcHeight": 1080
+        "srcWidth": "1745",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
         "srcSp": "/kusoushiemaki_11-375.webp",
         "srcTb": "/kusoushiemaki_11-800.webp",
         "src": "/kusoushiemaki_11-1080.webp",
         "name": "kusoushiemaki_11.webp",
-        "id": 236,
-        "srcWidth": 1716,
-        "srcHeight": 1080
+        "srcWidth": "1716",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第六相】 <ruby><rb>青瘀相</rb><rp>（</rp><rt>しょうおそう</rt><rp>）</rp></ruby> ",
-        "kobun": "",
-        "gendaibun": "<span class='waka'>はかなしや　あさ夕なてし　くろ髪も<br>　　　　　蓬（よもぎ）かもとの　ちりと成たり<br><br>おもひきや　鳥への山に　捨てられし<br>　　　　　犬のあらそふ　身なるへしとは</span>",
+        "chapter": "6",
         "srcSp": "/kusoushiemaki_12-375.webp",
         "srcTb": "/kusoushiemaki_12-800.webp",
         "src": "/kusoushiemaki_12-1080.webp",
         "name": "kusoushiemaki_12.webp",
-        "phrase": [{}],
-        "id": 237,
-        "srcWidth": 1751,
-        "srcHeight": 1080
+        "srcWidth": "1751",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
         "srcSp": "/kusoushiemaki_13-375.webp",
         "srcTb": "/kusoushiemaki_13-800.webp",
         "src": "/kusoushiemaki_13-1080.webp",
         "name": "kusoushiemaki_13.webp",
-        "id": 238,
-        "srcWidth": 1751,
-        "srcHeight": 1080
+        "srcWidth": "1751",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第七相】 <ruby><rb>白骨連相</rb><rp>（</rp><rt>はっこつれんそう</rt><rp>）</rp></ruby> ",
-        "kobun": "",
-        "gendaibun": "<span class='waka'>皮にこそ　おとこをんなの　色はあれ<br>　　　　　ほねにはかはる　人かたもなし<br><br>かさりつる　すかたは野辺に　散はてて<br>　　　　　のこるかはねの　なれる姿よ</span>",
+        "chapter": "7",
         "srcSp": "/kusoushiemaki_14-375.webp",
         "srcTb": "/kusoushiemaki_14-800.webp",
         "src": "/kusoushiemaki_14-1080.webp",
         "name": "kusoushiemaki_14.webp",
-        "phrase": [{}],
-        "id": 239,
-        "srcWidth": 1714,
-        "srcHeight": 1080
+        "srcWidth": "1714",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
         "srcSp": "/kusoushiemaki_15-375.webp",
         "srcTb": "/kusoushiemaki_15-800.webp",
         "src": "/kusoushiemaki_15-1080.webp",
         "name": "kusoushiemaki_15.webp",
-        "id": 240,
-        "srcWidth": 1745,
-        "srcHeight": 1080
+        "srcWidth": "1745",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第八相】 <ruby><rb>白骨散相</rb><rp>（</rp><rt>はっこつさんそう</rt><rp>）</rp></ruby> ",
-        "kobun": "",
-        "gendaibun": "<span class='waka'>露の命　消にし跡を　見よかほに<br>　　　　　お花かもとに　のこるかはねよ<br><br>われとおもふ　身はみな野辺に　朽ち果てて<br>　　　　　よもきかもとの　ちりと成けり</span>",
+        "chapter": "8",
         "srcSp": "/kusoushiemaki_16-375.webp",
         "srcTb": "/kusoushiemaki_16-800.webp",
         "src": "/kusoushiemaki_16-1080.webp",
         "name": "kusoushiemaki_16.webp",
-        "phrase": [{}],
-        "id": 241,
-        "srcWidth": 1668,
-        "srcHeight": 1080
+        "srcWidth": "1668",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
         "srcSp": "/kusoushiemaki_17-375.webp",
         "srcTb": "/kusoushiemaki_17-800.webp",
         "src": "/kusoushiemaki_17-1080.webp",
         "name": "kusoushiemaki_17.webp",
-        "id": 242,
-        "srcWidth": 1731,
-        "srcHeight": 1080
+        "srcWidth": "1731",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第九相】 <ruby><rb>成灰相</rb><rp>（</rp><rt>じょうかいそう</rt><rp>）</rp></ruby> ",
-        "kobun": "",
-        "gendaibun": "<span class='waka'>かきつけし　其名ははやく　きえはてて<br>　　　　　たれともしらぬ　古卒都婆かな<br><br>とり辺山　すてにし人は　後たえて<br>　　　　　つかにはのこる　露のたましい</span>",
+        "chapter": "9",
         "srcSp": "/kusoushiemaki_18-375.webp",
         "srcTb": "/kusoushiemaki_18-800.webp",
         "src": "/kusoushiemaki_18-1080.webp",
         "name": "kusoushiemaki_18.webp",
-        "phrase": [{}],
-        "id": 243,
-        "srcWidth": 1630,
-        "srcHeight": 1080
+        "srcWidth": "1630",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
         "srcSp": "/kusoushiemaki_19-375.webp",
         "srcTb": "/kusoushiemaki_19-800.webp",
         "src": "/kusoushiemaki_19-1080.webp",
         "name": "kusoushiemaki_19.webp",
-        "id": 244,
-        "srcWidth": 1731,
-        "srcHeight": 1080
+        "srcWidth": "1731",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
         "srcSp": "/kusoushiemaki_20-375.webp",
         "srcTb": "/kusoushiemaki_20-800.webp",
         "src": "/kusoushiemaki_20-1080.webp",
         "name": "kusoushiemaki_20.webp",
-        "id": 245,
-        "srcWidth": 1863,
-        "srcHeight": 1080
+        "srcWidth": "1863",
+        "srcHeight": "1080"
       }
     ]
+
   },
   {
     "id": 11,
@@ -6608,33 +6429,28 @@
         "title": "Chapters of Genji monogatari (The Tale of Genji)"
       }
     ],
-    "emakis": [
+    "emakis":[
       {
         "cat": "ekotoba",
-        "chapter": "五　若紫",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "",
+        "chapter": "5",
+        "scene": "1",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcSp": "",
         "srcTb": "",
         "src": "",
-        "name": "",
-        "srcWidth": "",
-        "srcHeight": "",
-        "character": []
+        "name": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "True",
+        "scene": "",
+        "srcWidth": "3208",
+        "srcHeight": "1080",
         "srcSp": "/5_genji_emaki_wakamurasaki_image_tokyokokuritsu-375.webp",
         "srcTb": "/5_genji_emaki_wakamurasaki_image_tokyokokuritsu-800.webp",
         "src": "/5_genji_emaki_wakamurasaki_image_tokyokokuritsu-1080.webp",
         "name": "5_genji_emaki_wakamurasaki_image_tokyokokuritsu.webp",
-        "srcWidth": "3208",
-        "srcHeight": "1080",
         "character": [
           {
             "name": "源氏",
@@ -6656,29 +6472,25 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "十五　蓬生",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "",
+        "chapter": "15",
+        "scene": "5",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcSp": "",
         "srcTb": "",
         "src": "",
-        "name": "",
-        "srcWidth": "",
-        "srcHeight": ""
+        "name": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "True",
+        "scene": "",
+        "srcWidth": "3367",
+        "srcHeight": "1080",
         "srcSp": "/15_genji_emaki_yomogifu_image_tokugawa-kokkai-375.webp",
         "srcTb": "/15_genji_emaki_yomogifu_image_tokugawa-kokkai-800.webp",
         "src": "/15_genji_emaki_yomogifu_image_tokugawa-kokkai-1080.webp",
         "name": "15_genji_emaki_yomogifu_image_tokugawa-kokkai.webp",
-        "srcWidth": "3367",
-        "srcHeight": "1080",
         "character": [
           {
             "name": "少将",
@@ -6708,57 +6520,47 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "十六　関屋",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "",
+        "chapter": "16",
+        "scene": "1",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcSp": "",
         "srcTb": "",
         "src": "",
-        "name": "",
-        "srcWidth": "",
-        "srcHeight": "",
-        "character": []
+        "name": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "False",
+        "scene": "",
+        "srcWidth": "4009",
+        "srcHeight": "1080",
         "srcSp": "/16_genji_emaki_sekiya_image_tokugawa-kokkai-375.webp",
         "srcTb": "/16_genji_emaki_sekiya_image_tokugawa-kokkai-800.webp",
         "src": "/16_genji_emaki_sekiya_image_tokugawa-kokkai-1080.webp",
-        "name": "16_genji_emaki_sekiya_image_tokugawa-kokkai.webp",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
-        "character": []
+        "name": "16_genji_emaki_sekiya_image_tokugawa-kokkai.webp"
       },
       {
         "cat": "ekotoba",
-        "chapter": "三十六　柏木一",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "",
+        "chapter": "36",
+        "scene": "2",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcSp": "/36_genji_emaki_kashiwagi1_ekotoba_tokugawa-kokkai-375.webp",
         "srcTb": "/36_genji_emaki_kashiwagi1_ekotoba_tokugawa-kokkai-800.webp",
         "src": "/36_genji_emaki_kashiwagi1_ekotoba_tokugawa-kokkai-1080.webp",
-        "name": "",
-        "srcWidth": "",
-        "srcHeight": ""
+        "name": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "False",
+        "scene": "",
+        "srcWidth": "4009",
+        "srcHeight": "1080",
         "srcSp": "/36_genji_emaki_kashiwagi1_image_tokugawa-kokkai-375.webp",
         "srcTb": "/36_genji_emaki_kashiwagi1_image_tokugawa-kokkai-800.webp",
         "src": "/36_genji_emaki_kashiwagi1_image_tokugawa-kokkai-1080.webp",
         "name": "36_genji_emaki_kashiwagi1_image_tokugawa-kokkai.webp",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
         "character": [
           {
             "name": "４人の女房",
@@ -6795,30 +6597,25 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "三十六　柏木二",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "",
+        "chapter": "36",
+        "scene": "3",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcSp": "/36_genji_emaki_kashiwagi2_ekotoba_tokugawa-kokkai-375.webp",
         "srcTb": "/36_genji_emaki_kashiwagi2_ekotoba_tokugawa-kokkai-800.webp",
         "src": "/36_genji_emaki_kashiwagi2_ekotoba_tokugawa-kokkai-1080.webp",
-        "name": "",
-        "srcWidth": "",
-        "srcHeight": "",
-        "character": []
+        "name": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "False",
+        "scene": "",
+        "srcWidth": "4009",
+        "srcHeight": "1080",
         "srcSp": "/36_genji_emaki_kashiwagi2_image_tokugawa-kokkai-375.webp",
         "srcTb": "/36_genji_emaki_kashiwagi2_image_tokugawa-kokkai-800.webp",
         "src": "/36_genji_emaki_kashiwagi2_image_tokugawa-kokkai-1080.webp",
         "name": "36_genji_emaki_kashiwagi2_image_tokugawa-kokkai.webp",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
         "character": [
           {
             "name": "夕霧",
@@ -6848,30 +6645,25 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "三十七　横笛",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "",
+        "chapter": "37",
+        "scene": "6",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcSp": "/37_genji_emaki_yokobue_ekotoba_tokugawa-kokkai-375.webp",
         "srcTb": "/37_genji_emaki_yokobue_ekotoba_tokugawa-kokkai-800.webp",
         "src": "/37_genji_emaki_yokobue_ekotoba_tokugawa-kokkai-1080.webp",
-        "name": "",
-        "srcWidth": "",
-        "srcHeight": "",
-        "character": []
+        "name": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "False",
+        "scene": "",
+        "srcWidth": "4009",
+        "srcHeight": "1080",
         "srcSp": "/37_genji_emaki_yokobue_image_tokugawa-kokkai-375.webp",
         "srcTb": "/37_genji_emaki_yokobue_image_tokugawa-kokkai-800.webp",
         "src": "/37_genji_emaki_yokobue_image_tokugawa-kokkai-1080.webp",
         "name": "37_genji_emaki_yokobue_image_tokugawa-kokkai.webp",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
         "character": [
           {
             "name": "雲井の雁",
@@ -6901,30 +6693,25 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "四十四　竹河一",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "",
+        "chapter": "44",
+        "scene": "1",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcSp": "",
         "srcTb": "",
         "src": "",
-        "name": "",
-        "srcWidth": "",
-        "srcHeight": "",
-        "character": []
+        "name": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "False",
+        "scene": "",
+        "srcWidth": "4009",
+        "srcHeight": "1080",
         "srcSp": "/44_genji_emaki_takekawa_image_tokugawa-kokkai-375.webp",
         "srcTb": "/44_genji_emaki_takekawa_image_tokugawa-kokkai-800.webp",
         "src": "/44_genji_emaki_takekawa_image_tokugawa-kokkai-1080.webp",
         "name": "44_genji_emaki_takekawa_image_tokugawa-kokkai.webp",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
         "character": [
           {
             "name": "宰相の君",
@@ -6954,30 +6741,25 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "四十四　竹河二",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "",
+        "chapter": "44",
+        "scene": "3",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcSp": "",
         "srcTb": "",
         "src": "",
-        "name": "",
-        "srcWidth": "",
-        "srcHeight": "",
-        "character": []
+        "name": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "False",
+        "scene": "",
+        "srcWidth": "4009",
+        "srcHeight": "1080",
         "srcSp": "/44_genji_emaki_takekawa2_image_tokugawa-kokkai-375.webp",
         "srcTb": "/44_genji_emaki_takekawa2_image_tokugawa-kokkai-800.webp",
         "src": "/44_genji_emaki_takekawa2_image_tokugawa-kokkai-1080.webp",
         "name": "44_genji_emaki_takekawa2_image_tokugawa-kokkai.webp",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
         "character": [
           {
             "name": "女房",
@@ -7015,30 +6797,25 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "四十五　橋姫",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "",
+        "chapter": "45",
+        "scene": "2",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcSp": "/45_genji_emaki_hashihime_ekotoba_tokugawa-kokkai-375.webp",
         "srcTb": "/45_genji_emaki_hashihime_ekotoba_tokugawa-kokkai-800.webp",
         "src": "/45_genji_emaki_hashihime_ekotoba_tokugawa-kokkai-1080.webp",
-        "name": "45_genji_emaki_hashihime_ekotoba_tokugawa-kokkai.webp",
-        "srcWidth": "",
-        "srcHeight": "",
-        "character": []
+        "name": "45_genji_emaki_hashihime_ekotoba_tokugawa-kokkai.webp"
       },
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "False",
+        "scene": "",
+        "srcWidth": "4009",
+        "srcHeight": "1080",
         "srcSp": "/45_genji_emaki_hashihime_image_tokugawa-kokkai-375.webp",
         "srcTb": "/45_genji_emaki_hashihime_image_tokugawa-kokkai-800.webp",
         "src": "/45_genji_emaki_hashihime_image_tokugawa-kokkai-1080.webp",
         "name": "45_genji_emaki_hashihime_image_tokugawa-kokkai.webp",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
         "character": [
           {
             "name": "中の君",
@@ -7068,30 +6845,25 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "四十八　早蕨",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "",
+        "chapter": "48",
+        "scene": "4",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcSp": "",
         "srcTb": "",
         "src": "",
-        "name": "",
-        "srcWidth": "",
-        "srcHeight": "",
-        "character": []
+        "name": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "False",
+        "scene": "",
+        "srcWidth": "4009",
+        "srcHeight": "1080",
         "srcSp": "/48_genji_emaki_sawarabi_image_tokugawa-kokkai-375.webp",
         "srcTb": "/48_genji_emaki_sawarabi_image_tokugawa-kokkai-800.webp",
         "src": "/48_genji_emaki_sawarabi_image_tokugawa-kokkai-1080.webp",
         "name": "48_genji_emaki_sawarabi_image_tokugawa-kokkai.webp",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
         "character": [
           {
             "name": "中の君",
@@ -7121,30 +6893,25 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "四十九　宿木一",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "",
+        "chapter": "49",
+        "scene": "1",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcSp": "",
         "srcTb": "",
         "src": "",
-        "name": "",
-        "srcWidth": "",
-        "srcHeight": "",
-        "character": []
+        "name": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "False",
+        "scene": "",
+        "srcWidth": "4009",
+        "srcHeight": "1080",
         "srcSp": "/49_genji_emaki_yadorigi_image_tokugawa-kokkai-375.webp",
         "srcTb": "/49_genji_emaki_yadorigi_image_tokugawa-kokkai-800.webp",
         "src": "/49_genji_emaki_yadorigi_image_tokugawa-kokkai-1080.webp",
         "name": "49_genji_emaki_yadorigi_image_tokugawa-kokkai.webp",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
         "character": [
           {
             "name": "薫",
@@ -7174,30 +6941,25 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "四十九　宿木二",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "",
+        "chapter": "49",
+        "scene": "4",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcSp": "",
         "srcTb": "",
         "src": "",
-        "name": "",
-        "srcWidth": "",
-        "srcHeight": "",
-        "character": []
+        "name": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "False",
+        "scene": "",
+        "srcWidth": "4009",
+        "srcHeight": "1080",
         "srcSp": "/49_genji_emaki_yadorigi2_image_tokugawa-kokkai-375.webp",
         "srcTb": "/49_genji_emaki_yadorigi2_image_tokugawa-kokkai-800.webp",
         "src": "/49_genji_emaki_yadorigi2_image_tokugawa-kokkai-1080.webp",
         "name": "49_genji_emaki_yadorigi2_image_tokugawa-kokkai.webp",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
         "character": [
           {
             "name": "六の君",
@@ -7227,30 +6989,25 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "四十九　宿木三",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "",
+        "chapter": "49",
+        "scene": "5",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcSp": "",
         "srcTb": "",
         "src": "",
-        "name": "",
-        "srcWidth": "",
-        "srcHeight": "",
-        "character": []
+        "name": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "False",
+        "scene": "",
+        "srcWidth": "4009",
+        "srcHeight": "1080",
         "srcSp": "/49_genji_emaki_yadorigi3_image_tokugawa-kokkai-375.webp",
         "srcTb": "/49_genji_emaki_yadorigi3_image_tokugawa-kokkai-800.webp",
         "src": "/49_genji_emaki_yadorigi3_image_tokugawa-kokkai-1080.webp",
         "name": "49_genji_emaki_yadorigi3_image_tokugawa-kokkai.webp",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
         "character": [
           {
             "name": "中の君",
@@ -7272,30 +7029,25 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "五十　東屋一",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "",
+        "chapter": "50",
+        "scene": "2",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcSp": "",
         "srcTb": "",
         "src": "",
-        "name": "",
-        "srcWidth": "",
-        "srcHeight": "",
-        "character": []
+        "name": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "False",
+        "scene": "",
+        "srcWidth": "4009",
+        "srcHeight": "1080",
         "srcSp": "/50_genji_emaki_adumaya1_image_tokugawa-kokkai-375.webp",
         "srcTb": "/50_genji_emaki_adumaya1_image_tokugawa-kokkai-800.webp",
         "src": "/50_genji_emaki_adumaya1_image_tokugawa-kokkai-1080.webp",
         "name": "50_genji_emaki_adumaya1_image_tokugawa-kokkai.webp",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
         "character": [
           {
             "name": "女房",
@@ -7333,30 +7085,25 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "五十　東屋二",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "",
+        "chapter": "50",
+        "scene": "3",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcSp": "",
         "srcTb": "",
         "src": "",
-        "name": "",
-        "srcWidth": "",
-        "srcHeight": "",
-        "character": []
+        "name": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
-        "load": "False",
+        "scene": "",
+        "srcWidth": "4009",
+        "srcHeight": "1080",
         "srcSp": "/50_genji_emaki_adumaya2_image_tokugawa-kokkai-375.webp",
         "srcTb": "/50_genji_emaki_adumaya2_image_tokugawa-kokkai-800.webp",
         "src": "/50_genji_emaki_adumaya2_image_tokugawa-kokkai-1080.webp",
         "name": "50_genji_emaki_adumaya2_image_tokugawa-kokkai.webp",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
         "character": [
           {
             "name": "薫",
@@ -7385,6 +7132,7 @@
         ]
       }
     ]
+
   },
   {
     "id": 43,
@@ -7426,83 +7174,78 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "十四　澪標",
-        "kobun": "",
-        "gendaibun": "",
+        "chapter": "14",
+        "scene":"4",
+        "srcWidth": "3208",
+        "srcHeight": "1080",
+        "load": "",
         "srcSp": "/14_genji_emaki_miotsukushi_metoropolitan_01-375.webp",
         "srcTb": "/14_genji_emaki_miotsukushi_metoropolitan_01-800.webp",
         "src": "/14_genji_emaki_miotsukushi_metoropolitan_01-1080.webp",
-        "name": "14_genji_emaki_miotsukushi_metoropolitan_01.webp",
-        "srcWidth": "3208",
-        "srcHeight": "1080",
-        "load": ""
+        "name": "14_genji_emaki_miotsukushi_metoropolitan_01.webp"
       },
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
+        "scene": "",
+        "srcWidth": "3367",
+        "srcHeight": "1080",
+        "load": "True",
         "srcSp": "/14_genji_emaki_miotsukushi_metoropolitan_02-375.webp",
         "srcTb": "/14_genji_emaki_miotsukushi_metoropolitan_02-800.webp",
         "src": "/14_genji_emaki_miotsukushi_metoropolitan_02-1080.webp",
-        "name": "14_genji_emaki_miotsukushi_metoropolitan_02.webp",
-        "srcWidth": "3367",
-        "srcHeight": "1080",
-        "load": "True"
+        "name": "14_genji_emaki_miotsukushi_metoropolitan_02.webp"
       },
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
+        "scene": "",
+        "srcWidth": "4009",
+        "srcHeight": "1080",
+        "load": "False",
         "srcSp": "/14_genji_emaki_miotsukushi_metoropolitan_03-375.webp",
         "srcTb": "/14_genji_emaki_miotsukushi_metoropolitan_03-800.webp",
         "src": "/14_genji_emaki_miotsukushi_metoropolitan_03-1080.webp",
-        "name": "14_genji_emaki_miotsukushi_metoropolitan_03.webp",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
-        "load": "False"
+        "name": "14_genji_emaki_miotsukushi_metoropolitan_03.webp"
       },
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
+        "scene": "",
+        "srcWidth": "4009",
+        "srcHeight": "1080",
+        "load": "False",
         "srcSp": "/14_genji_emaki_miotsukushi_metoropolitan_04-375.webp",
         "srcTb": "/14_genji_emaki_miotsukushi_metoropolitan_04-800.webp",
         "src": "/14_genji_emaki_miotsukushi_metoropolitan_04-1080.webp",
-        "name": "14_genji_emaki_miotsukushi_metoropolitan_04.webp",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
-        "load": "False"
+        "name": "14_genji_emaki_miotsukushi_metoropolitan_04.webp"
       },
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
+        "scene": "",
+        "srcWidth": "4009",
+        "srcHeight": "1080",
+        "load": "False",
         "srcSp": "/14_genji_emaki_miotsukushi_metoropolitan_05-375.webp",
         "srcTb": "/14_genji_emaki_miotsukushi_metoropolitan_05-800.webp",
         "src": "/14_genji_emaki_miotsukushi_metoropolitan_05-1080.webp",
-        "name": "14_genji_emaki_miotsukushi_metoropolitan_05.webp",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
-        "load": "False"
+        "name": "14_genji_emaki_miotsukushi_metoropolitan_05.webp"
       },
       {
         "cat": "image",
         "chapter": "",
-        "kobun": "",
-        "gendaibun": "",
+        "scene": "",
+        "srcWidth": "4009",
+        "srcHeight": "1080",
+        "load": "False",
         "srcSp": "/14_genji_emaki_miotsukushi_metoropolitan_06-375.webp",
         "srcTb": "/14_genji_emaki_miotsukushi_metoropolitan_06-800.webp",
         "src": "/14_genji_emaki_miotsukushi_metoropolitan_06-1080.webp",
-        "name": "14_genji_emaki_miotsukushi_metoropolitan_06.webp",
-        "srcWidth": "4009",
-        "srcHeight": "1080",
-        "load": "False"
+        "name": "14_genji_emaki_miotsukushi_metoropolitan_06.webp"
       }
     ]
+
   },
   {
     "id": 44,
@@ -8441,7 +8184,7 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "【第０相】生前相",
+        "chapter": "生前相",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -8463,7 +8206,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第一相】 新死相",
+        "chapter": "新死相",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -8485,7 +8228,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第三相】 壊相",
+        "chapter": "2",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -8507,7 +8250,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第四相】 血塗相",
+        "chapter": "3",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -8529,7 +8272,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第八相】 散相",
+        "chapter": "7",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -8551,7 +8294,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【第九相】 骨相",
+        "chapter": "8",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -8572,6 +8315,7 @@
         "srcHeight": "1080"
       }
     ]
+
   },
   {
     "id": 49,
