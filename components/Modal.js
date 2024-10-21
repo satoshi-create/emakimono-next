@@ -14,7 +14,9 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { eraColor } from "../libs/func";
 import { flushSync } from "react-dom";
-import {ChaptersTitle } from "../libs/func";
+import { ChaptersTitle } from "../libs/func";
+import parse from "html-react-parser";
+
 
 const Modal = ({ data }) => {
   const { locale } = useRouter();

@@ -6,6 +6,7 @@ import jaData from "./data";
 import chaptergenji from "./genji/chapters-of-genji.json";
 import chapterkusouzu from "./kusouzu/chapters-of-kusouzu.json";
 import parse from "html-react-parser";
+import listOfTextEshi from "./eshi-no-soshi/eshi-no-soshi-text.json";
 
 const useLocale = () => {
   const { locale } = useRouter();
@@ -234,7 +235,6 @@ const conectKusouzuChapters = (chapter, text) => {
   return chapterkusouzusummary;
 };
 
-
 const conectGenjiChapters = (chapter, text) => {
   const chapterGenjisummary = chaptergenji
     .filter((item) => chapter === item.chapter_en)
@@ -246,11 +246,18 @@ const conectGenjiChaptersScene = (chapter, scene) => {
   if (scene) {
     const chapterGenjisummary = chaptergenji
       .filter((item) => chapter === item.chapter_en)
-      .flatMap(item => item.scene)
-      .filter(item => scene === item.sceneId)
-    .map(item => item.content)
+      .flatMap((item) => item.scene)
+      .filter((item) => scene === item.sceneId)
+      .map((item) => item.content);
     return chapterGenjisummary;
   }
+};
+const conectEshiText = (chapter, text) => {
+  const conectEshiChapter = listOfTextEshi
+    .filter((item) => chapter === item.chapter)
+    .map((item) => item[text])
+    .join();
+  return parse(conectEshiChapter);
 };
 
 const ChaptersTitle = (title, chapter) => {
@@ -290,12 +297,18 @@ const ChaptersTitle = (title, chapter) => {
         </ruby>
       </>
     );
-  }else{
-    return parse(chapter)
+  } else if (title.includes("絵師草紙")) {
+    return (
+      <>
+        {conectEshiText(chapter, "title") && conectEshiText(chapter, "title")}
+      </>
+    );
+  } else {
+    return parse(chapter);
   }
 };
 
-const ChaptersDesc = (title, chapter,gendaibun) => {
+const ChaptersGendaibun= (title, chapter, gendaibun) => {
   if (title.includes("九相")) {
     return (
       <>
@@ -310,11 +323,44 @@ const ChaptersDesc = (title, chapter,gendaibun) => {
           `${conectGenjiChapters(chapter, "summary")}`}
       </>
     );
+  } else if (title.includes("絵師草紙")) {
+    return (
+      <>
+        {conectEshiText(chapter, "gendaibun") &&
+          conectEshiText(chapter, "gendaibun")}
+      </>
+    );
   } else {
-    return parse(gendaibun)
+    return parse(gendaibun);
   }
 };
 
+const ChaptersDesc = (title, chapter, desc) => {
+  if (title.includes("九相")) {
+    return (
+      <>
+        {conectKusouzuChapters(chapter, "desc") &&
+          `${conectKusouzuChapters(chapter, "desc")}`}
+      </>
+    );
+  } else if (title.includes("源氏")) {
+    return (
+      <>
+        {conectGenjiChapters(chapter, "summary") &&
+          `${conectGenjiChapters(chapter, "summary")}`}
+      </>
+    );
+  } else if (title.includes("絵師草紙")) {
+    return (
+      <>
+        {conectEshiText(chapter, "desc") &&
+          conectEshiText(chapter, "desc")}
+      </>
+    );
+  } else {
+    return parse(desc);
+  }
+};
 
 export {
   eraColor,
@@ -334,5 +380,6 @@ export {
   conectGenjiChapters,
   conectGenjiChaptersScene,
   ChaptersTitle,
+  ChaptersGendaibun,
   ChaptersDesc,
 };

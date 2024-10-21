@@ -170,7 +170,10 @@ const ModalDescGenji = ({ data }) => {
                         ? conectGenjiChaptersScene(chapter, scene)
                         : desc,
                     }}
-                  ></p>
+                  >
+
+
+                  </p>
                 )}
                 {value === 1 && (
                   <>
