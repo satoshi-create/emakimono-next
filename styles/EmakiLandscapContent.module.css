@@ -21,24 +21,29 @@
   gap: 0.3rem;
   overflow-y: auto;
 }
+
 .chapterTitle {
   line-height: 2;
   font-weight: 400;
   /* color: var(--clr-grey); */
 }
+
 .chapterBorderline {
   width: 100%;
   height: 1px;
   background-color: rgb(209 209 209);
   margin: 0.5rem auto;
 }
+
 .chapterlink {
   cursor: pointer;
   transition: var(--transition);
 }
+
 .chapterlink:hover {
   opacity: 0.6;
 }
+
 /* metadata */
 .metadata {
   grid-row: 2;
@@ -47,14 +52,16 @@
   flex-direction: column;
   row-gap: 1.5rem;
 }
+
 .metadataA {
   display: grid;
   grid-template-columns: auto;
   grid-auto-flow: column;
-  gap: 0.1rem;
+  align-items: center;
 }
+
 .genjieslugBox {
-  grid-row: 1 / span 2;
+  grid-row: 1;
   /* grid-column: 2; */
   align-self: center;
   justify-self: flex-start;
@@ -63,21 +70,24 @@
   /* margin-left: 1.5rem; */
   border: 1px double #000;
 }
+
 .genjieslugBox:hover {
   background: var(--clr-black);
   border: 1px double #fff;
 }
+
 .genjieslugTitle {
   padding: 0.2rem;
   font-family: var(--text-font);
   transition: var(--transition);
 }
+
 .genjieslugBox:hover .genjieslugTitle {
   color: var(--clr-white);
 }
 
 .linkedbutton {
-  grid-row: 1 / span 2;
+  grid-row: 1;
   /* grid-column: 2; */
   align-self: center;
   justify-self: end;
@@ -90,6 +100,7 @@
   color: var(--clr-white);
   font-size: medium;
 }
+
 .linkedbutton:hover {
   background-color: var(--clr-white);
   color: var(--clr-accent-02);
@@ -101,16 +112,19 @@
   gap: 1.5rem;
   font-family: var(--title-font2);
 }
+
 .portraitImage {
   border-radius: 50%;
   border: 3px solid white;
   background: rgb(61, 61, 61);
 }
+
 .name {
   transition: var(--transition);
   font-size: small;
   text-align: center;
 }
+
 .cat {
   display: flex;
   justify-content: left;
@@ -119,7 +133,8 @@
   font-family: var(--title-font2);
   font-weight: 500;
 }
-.cat > * {
+
+.cat>* {
   padding: 0.1rem 0.4rem 0;
   border-radius: var(--borderRadius);
   color: rgb(71 71 71);
@@ -128,11 +143,14 @@
   transition: var(--transition);
   cursor: pointer;
 }
-.cat > *:hover {
+
+.cat>*:hover {
   opacity: 0.5;
 }
 
 .title {
+  white-space: nowrap;
+  align-self: center;
   font-weight: 600;
   font-size: x-large;
   color: var(--clr-black);
@@ -141,15 +159,18 @@
   grid-row: 1;
   grid-column: 1;
 }
+
 .authorLink {
   grid-row: 2;
   grid-column: 1;
   cursor: pointer;
   transition: var(--transition);
 }
+
 .authorLink:hover {
   opacity: 0.6;
 }
+
 .author {
   font-weight: 600;
   font-size: medium;
@@ -167,10 +188,12 @@
   padding: 1.5rem;
   border-radius: 12px;
 }
+
 .desc {
   font-size: medium;
   color: var(--clr-black);
 }
+
 .genjieslugBox {
   display: flex;
   flex-direction: row;
@@ -184,18 +207,22 @@
   font-weight: 100;
   color: var(--clr-grey);
 }
+
 .sourceLink {
   color: var(--clr-grey);
 }
+
 .keywodtTitle {
   font-size: medium;
   color: var(--clr-link);
   font-weight: 600;
   transition: var(--transition);
 }
+
 .keywodtTitle:hover {
   opacity: 0.6;
 }
+
 .relationemaki {
   grid-row: 2;
   grid-column: 2;

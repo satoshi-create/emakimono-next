@@ -1,7 +1,7 @@
 .center {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: auto 1fr auto auto auto auto;
+  grid-auto-columns: auto 1fr auto auto auto auto auto;
   align-items: center;
   gap: 8px;
 }
@@ -10,12 +10,15 @@
   background: var(--clr-white);
   padding: 0.5rem 0;
 }
+
 .sociallinks {
   display: none;
 }
+
 .sociallinks {
   display: block;
 }
+
 .title {
   font-family: var(--title-font);
   font-size: 1.4rem;
@@ -26,21 +29,28 @@
   justify-self: flex-start;
   transition: var(--transition);
 }
+
 .title:hover {
   opacity: 0.6;
 }
+
+
+
 .favicon {
   width: 20px;
   height: 20px;
 }
+
 .contactbtn,
 .openbtn {
   transition: var(--transition);
 }
+
 .contactbtn:hover,
 .openbtn:hover {
   opacity: 0.6;
 }
+
 .contacticon,
 .fabarsicon,
 .serchicon {

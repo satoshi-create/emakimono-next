@@ -15,6 +15,7 @@ import KotenText from "./KotenText";
 import OverlayEkotoba from "./OverlayEkotoba";
 import ModalMap from "./ModalMap";
 import ModalDesc from "./ModalDesc";
+import ModalDescGenji from "./ModalDescGenji";
 
 const EmakiContainer = ({
   data,
@@ -39,7 +40,7 @@ const EmakiContainer = ({
 
   const emakis = data.emakis;
 
-  const { backgroundImage, kotobagaki, type } = data;
+  const { backgroundImage, kotobagaki, type,genjieslug } = data;
 
   const [toggle, setToggle] = useState(true);
 
@@ -171,7 +172,10 @@ const EmakiContainer = ({
         {scroll && toggleFullscreen && <EmakiInfo value={data} />}
         {scroll && isModalOpen && <Modal data={data} />}
         {scroll && isMapModalOpen && <ModalMap data={data} />}
-        {scroll && isDescModalOpen && <ModalDesc data={data} />}
+        {!genjieslug && scroll && isDescModalOpen && <ModalDesc data={data} />}
+        {genjieslug && scroll && isDescModalOpen && (
+          <ModalDescGenji data={data} />
+        )}
         <article
           className={`${styles.container} ${
             type === "西洋絵画" ? styles.lr : styles.rl
@@ -206,33 +210,14 @@ const EmakiContainer = ({
                     }}
                   />
                 );
-              }   if (cat === "ekotoba") {
-           return (
-                    <OverlayEkotoba
-                      key={index}
-                      item={{
-                        ...item,
-                        cat,
-                        index,
-                        backgroundImage,
-                        kotobagaki,
-                        type,
-                        scroll,
-                        selectedRef,
-                        navIndex,
-                        data,
-                      }}
-                    />
-                  );
               }
-            }
-            if (data.type === "古典文学")
-              {
+              if (cat === "ekotoba") {
                 return (
-                  <KotenText
+                  <OverlayEkotoba
                     key={index}
                     item={{
                       ...item,
+                      cat,
                       index,
                       backgroundImage,
                       kotobagaki,
@@ -240,10 +225,29 @@ const EmakiContainer = ({
                       scroll,
                       selectedRef,
                       navIndex,
+                      data,
                     }}
                   />
                 );
               }
+            }
+            if (data.type === "古典文学") {
+              return (
+                <KotenText
+                  key={index}
+                  item={{
+                    ...item,
+                    index,
+                    backgroundImage,
+                    kotobagaki,
+                    type,
+                    scroll,
+                    selectedRef,
+                    navIndex,
+                  }}
+                />
+              );
+            }
           })}
         </article>
       </div>

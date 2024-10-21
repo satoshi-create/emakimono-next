@@ -15,6 +15,8 @@ import ContactFormGoogle from "./ContactFormGoogle";
 import { ExternalLink } from "react-feather";
 import EditionLinks from "./EditionLinks";
 import LinkToNote from "./LinkToNote";
+import BannerToHelp from "./BannerToHelp";import { conectKusouzuChapters, conectGenjiChapters,  ChaptersTitle } from "../libs/func";
+import LikeButton from "./LikeButton";
 
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
 
@@ -52,11 +54,20 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
         author ? `（${author}）` : ""
       }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
 
+  const descTJaSeiyoukaiga = desc
+    ? desc
+    : `「${title} ${edition ? edition : ""}」${
+        author ? `（${author}）` : ""
+      }の全シーンを、横スクロールで楽しむことができます。`;
+
+  const descJa = typeen === "seiyoukaiga" ? descTJaSeiyoukaiga : descTJa;
+
   const descEn = descen
     ? descen
     : `You can enjoy all the scenes of the " ${titleen} ${
         authoren && `（${authoren}）`
       } " in vertical and right to left scrolling mode.`;
+
 
   return (
     <>
@@ -73,7 +84,9 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
           />
           {/* chapter */}
           <ul className={`${styles.chapter} scrollbar`}>
-            <h4 className={styles.chapterTitle}>段</h4>
+            <h4 className={styles.chapterTitle}>
+              {typeen === "emaki" ? "段" : "タイトル"}
+            </h4>
             <span className={styles.chapterBorderline}></span>
             {emakis.map((item, index) => {
               const { cat, chapter } = item;
@@ -84,8 +97,10 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                       onClick={() => handleToId(index)}
                       className={styles.chapterlink}
                       style={{ color: eraColor(era) }}
-                      dangerouslySetInnerHTML={{ __html: chapter }}
-                    ></span>
+                      // dangerouslySetInnerHTML={{ __html: chapter }}
+                    >
+                      {ChaptersTitle(title,chapter)}
+                    </span>
                   </li>
                 );
               }
@@ -134,6 +149,12 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 edition={edition}
                 ort={"land"}
               />
+              <LikeButton
+                title={title}
+                edition={edition}
+                author={author}
+                ort={"land"}
+              />
               <button
                 type="button"
                 value="Lock Landscape"
@@ -148,11 +169,12 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               <div
                 className={styles.desc}
                 dangerouslySetInnerHTML={{
-                  __html: locale === "en" ? descEn : descTJa,
+                  __html: locale === "en" ? descEn : descJa,
                 }}
               ></div>
               {/* 他巻へのリンク */}
               <EditionLinks title={title} edition={edition} />
+              <BannerToHelp />
 
               {/* 各段の詞書・解説 */}
               {kotobagaki && <ChapterDesc emakis={emakis} data={data} />}
@@ -187,6 +209,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   })}
                 </div>
               )}
+
               {/*キーワードタグ */}
               {keyword && (
                 <div className={styles.tags}>
@@ -245,8 +268,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               </div>
             </div>
           </div>
-          {/* <CardC data={data} /> */}
-          {data.keyword && <CardC data={data} />}
+          {(typeen === "seiyoukaiga" || keyword) && <CardC data={data} />}
           <ToContactForm />
         </div>
       </div>

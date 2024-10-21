@@ -7,11 +7,19 @@ import Footer from "../../components/Footer";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import ChaptersKusouzuTable from "../../components/ChaptersKusouzuTable";
 
-const ChaptersKusouzulist = () => {
+const Chaptersgenjilist = () => {
+    const { t: data } = useLocaleData();
   const { locale } = useLocaleData();
   const removeNestedArrayObj = ExtractingListData();
 
-  const ExistKusouzuChapters = kusouzuSlugItem(removeNestedArrayObj);
+
+
+  // const ExistKusouzuChapters = kusouzuSlugItem(removeNestedArrayObj);
+
+  const KusouzuArrObj = data.filter((item) => item.title.includes("九相"));
+
+  console.log(KusouzuArrObj);
+
 
   const tPageDesc =
     locale === "en"
@@ -30,7 +38,8 @@ const ChaptersKusouzulist = () => {
       <ChaptersKusouzuTable
         sectiontitle={"九相図一覧"}
         sectiontitleen={"List of Nine stages of decay"}
-        ExistKusouzuChapters={ExistKusouzuChapters}
+        // ExistKusouzuChapters={ExistKusouzuChapters}
+        KusouzuArrObj={KusouzuArrObj}
       />
       <Footer />
     </>

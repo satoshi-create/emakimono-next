@@ -172,25 +172,32 @@
     "sourceImageUrl": "https://asia.si.edu/object/F1903.101-102/",
     "sourceImage": "Court Ladies among cherry trees (left); Cherry blossoms, a high fence and retainers (right)（フリーア美術館）",
     "sourceEkotoba": "",
-    "emakis": [
+    "emakis":[
       {
         "cat": "ekotoba",
-        "chapter": "【右隻】 朝顔",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
+        "chapter": "20",
+        "scene": "3",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": true,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "True",
         "srcSp": "/genji_asagao_01-375.webp",
         "srcTb": "/genji_asagao_01-800.webp",
         "src": "/genji_asagao_01-1080.webp",
         "name": "genji_asagao_01.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genji_asagao_02-375.webp",
         "srcTb": "/genji_asagao_02-800.webp",
         "src": "/genji_asagao_02-1080.webp",
@@ -198,28 +205,36 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "左隻",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
+        "chapter": "20",
+        "scene": "3",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genji_asagao_03-375.webp",
         "srcTb": "/genji_asagao_03-800.webp",
         "src": "/genji_asagao_03-1080.webp",
         "name": "genji_asagao_03.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genji_asagao_04-375.webp",
         "srcTb": "/genji_asagao_04-800.webp",
         "src": "/genji_asagao_04-1080.webp",
         "name": "genji_asagao_04.webp"
       }
     ]
+
   },
   {
     "id": 24,
@@ -470,31 +485,39 @@
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-12190?locale=ja",
     "sourceImage": "関屋図屏風（ColBase）",
     "sourceEkotoba": "",
-    "emakis": [
+    "emakis":[
       {
         "cat": "ekotoba",
-        "chapter": "関屋",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
+        "chapter": "16",
+        "scene": "1",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": true,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "True",
         "srcSp": "/sekiyazu_01-375.webp",
         "srcTb": "/sekiyazu_01-800.webp",
         "src": "/sekiyazu_01-1080.webp",
         "name": "sekiyazu_01.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/sekiyazu_02-375.webp",
         "srcTb": "/sekiyazu_02-800.webp",
         "src": "/sekiyazu_02-1080.webp",
         "name": "sekiyazu_02.webp"
       }
     ]
+
   },
   {
     "id": 29,
@@ -754,30 +777,39 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "【右隻】 絵合",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
+        "chapter": "17",
+        "scene": "3",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": true,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "True",
         "srcSp": "/genjibyobu_eawasekocyo_01-375.webp",
         "srcTb": "/genjibyobu_eawasekocyo_01-800.webp",
         "src": "/genjibyobu_eawasekocyo_01-1080.webp",
         "name": "genjibyobu_eawasekocyo_01.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genjibyobu_eawasekocyo_02-375.webp",
         "srcTb": "/genjibyobu_eawasekocyo_02-800.webp",
         "src": "/genjibyobu_eawasekocyo_02-1080.webp",
         "name": "genjibyobu_eawasekocyo_02.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genjibyobu_eawasekocyo_03-375.webp",
         "srcTb": "/genjibyobu_eawasekocyo_03-800.webp",
         "src": "/genjibyobu_eawasekocyo_03-1080.webp",
@@ -785,36 +817,46 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【左隻】 胡蝶",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
+        "chapter": "24",
+        "scene": "1",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genjibyobu_eawasekocyo_04-375.webp",
         "srcTb": "/genjibyobu_eawasekocyo_04-800.webp",
         "src": "/genjibyobu_eawasekocyo_04-1080.webp",
         "name": "genjibyobu_eawasekocyo_04.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genjibyobu_eawasekocyo_05-375.webp",
         "srcTb": "/genjibyobu_eawasekocyo_05-800.webp",
         "src": "/genjibyobu_eawasekocyo_05-1080.webp",
         "name": "genjibyobu_eawasekocyo_05.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genjibyobu_eawasekocyo_06-375.webp",
         "srcTb": "/genjibyobu_eawasekocyo_06-800.webp",
         "src": "/genjibyobu_eawasekocyo_06-1080.webp",
         "name": "genjibyobu_eawasekocyo_06.webp"
       }
     ]
+
   },
   {
     "id": 32,
@@ -864,30 +906,39 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "【右隻】　明石",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
+        "chapter": "13",
+        "scene": "3",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": true,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "True",
         "srcSp": "/genjibyobu_akashi_yomogiu_01-375.webp",
         "srcTb": "/genjibyobu_akashi_yomogiu_01-800.webp",
         "src": "/genjibyobu_akashi_yomogiu_01-1080.webp",
         "name": "genjibyobu_akashi_yomogiu_01.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genjibyobu_akashi_yomogiu_02-375.webp",
         "srcTb": "/genjibyobu_akashi_yomogiu_02-800.webp",
         "src": "/genjibyobu_akashi_yomogiu_02-1080.webp",
         "name": "genjibyobu_akashi_yomogiu_02.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genjibyobu_akashi_yomogiu_03-375.webp",
         "srcTb": "/genjibyobu_akashi_yomogiu_03-800.webp",
         "src": "/genjibyobu_akashi_yomogiu_03-1080.webp",
@@ -895,30 +946,39 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【左隻】　蓬生",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
+        "chapter": "15",
+        "scene": "4",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genjibyobu_akashi_yomogiu_04-375.webp",
         "srcTb": "/genjibyobu_akashi_yomogiu_04-800.webp",
         "src": "/genjibyobu_akashi_yomogiu_04-1080.webp",
         "name": "genjibyobu_akashi_yomogiu_04.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genjibyobu_akashi_yomogiu_05-375.webp",
         "srcTb": "/genjibyobu_akashi_yomogiu_05-800.webp",
         "src": "/genjibyobu_akashi_yomogiu_05-1080.webp",
         "name": "genjibyobu_akashi_yomogiu_05.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/genjibyobu_akashi_yomogiu_06-375.webp",
         "srcTb": "/genjibyobu_akashi_yomogiu_06-800.webp",
         "src": "/genjibyobu_akashi_yomogiu_06-1080.webp",
@@ -1034,25 +1094,32 @@
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-211?locale=ja",
     "sourceImage": "源氏物語図屏風（初音・若菜上 ColBase）",
     "sourceEkotoba": "",
-    "emakis": [
+    "emakis":[
       {
         "cat": "ekotoba",
-        "chapter": "【右隻】 初音",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
+        "chapter": "23",
+        "scene": "3",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": true,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "True",
         "srcSp": "/right_genjie_byoubu_hatsune-wakana-upper_01-375.webp",
         "srcTb": "/right_genjie_byoubu_hatsune-wakana-upper_01-800.webp",
         "src": "/right_genjie_byoubu_hatsune-wakana-upper_01-1080.webp",
         "name": "right_genjie_byoubu_hatsune-wakana-upper_01.webp"
       },
       {
-        "load": true,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "True",
         "srcSp": "/right_genjie_byoubu_hatsune-wakana-upper_02-375.webp",
         "srcTb": "/right_genjie_byoubu_hatsune-wakana-upper_02-800.webp",
         "src": "/right_genjie_byoubu_hatsune-wakana-upper_02-1080.webp",
@@ -1060,28 +1127,36 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "【左隻】 若菜（上）",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [{}]
+        "chapter": "34",
+        "scene": "1",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/left_genjie_byoubu_hatsune-wakana-upper_01-375.webp",
         "srcTb": "/left_genjie_byoubu_hatsune-wakana-upper_01-800.webp",
         "src": "/left_genjie_byoubu_hatsune-wakana-upper_01-1080.webp",
         "name": "left_genjie_byoubu_hatsune-wakana-upper_01.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "scene": "",
+        "load": "False",
         "srcSp": "/left_genjie_byoubu_hatsune-wakana-upper_02-375.webp",
         "srcTb": "/left_genjie_byoubu_hatsune-wakana-upper_02-800.webp",
         "src": "/left_genjie_byoubu_hatsune-wakana-upper_02-1080.webp",
         "name": "left_genjie_byoubu_hatsune-wakana-upper_02.webp"
       }
     ]
+
   },
   {
     "id": 35,
@@ -1163,7 +1238,7 @@
          "slug": "utsusemi"
        }
      ],
-     "author": "土佐光信",
+     "author": "土佐光起",
      "authoren": "tosa-mitsuoki",
      "backgroundImage": "/washi-pattern-01.webp",
      "video": "",
@@ -1183,10 +1258,8 @@
      "emakis": [
        {
          "cat": "ekotoba",
-         "chapter": "空蝉",
-         "gendaibun": "",
-         "kobun": "",
-         "desc": "",
+         "chapter": "3",
+         "scene": "2",
          "load": "True",
          "srcSp": "",
          "srcTb": "",
@@ -1198,9 +1271,7 @@
        {
          "cat": "image",
          "chapter": "",
-         "gendaibun": "",
-         "kobun": "",
-         "desc": "",
+         "scene": "",
          "load": "True",
          "srcSp": "/genjie-byoubu-utsusemi_tosa-mitsuoki_freer_01-375.webp",
          "srcTb": "/genjie-byoubu-utsusemi_tosa-mitsuoki_freer_01-800.webp",
@@ -1212,9 +1283,7 @@
        {
          "cat": "image",
          "chapter": "",
-         "gendaibun": "",
-         "kobun": "",
-         "desc": "",
+         "scene": "",
          "load": "True",
          "srcSp": "/genjie-byoubu-utsusemi_tosa-mitsuoki_freer_02-375.webp",
          "srcTb": "/genjie-byoubu-utsusemi_tosa-mitsuoki_freer_02-800.webp",
@@ -1224,5 +1293,7 @@
          "srcHeight": "1080"
        }
      ]
+
+
    }
 ]

@@ -1,3 +1,4 @@
+
 import React, { useContext, useState } from "react";
 import { AppContext } from "../pages/_app";
 import styles from "../styles/Modal.module.css";
@@ -13,12 +14,13 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { eraColor } from "../libs/func";
 import { flushSync } from "react-dom";
+import {ChaptersTitle } from "../libs/func";
 
 const Modal = ({ data }) => {
   const { locale } = useRouter();
   const { closeModal, navIndex, handleToId,isMapIndex } = useContext(AppContext);
 
-  const { reference, sourceImageUrl, sourceImage, era } = data;
+  const { reference, sourceImageUrl, sourceImage, era, typeen, title, } = data;
   const emakis = data.emakis;
   const ekotobaSection = emakis[isMapIndex];
   const handleChapter = (index) => {
@@ -30,7 +32,7 @@ const Modal = ({ data }) => {
 
   const allMap = [
     {
-      title: "目次",
+      title:   typeen === "emaki" ? "段" : "タイトル",
     },
     {
       title: "書誌情報",
@@ -53,8 +55,10 @@ const Modal = ({ data }) => {
                   onClick={() => handleChapter(i)}
                   className={styles.chapterlink}
                   style={{ color: eraColor(era) }}
-                  dangerouslySetInnerHTML={{ __html: chapter }}
-                ></li>
+                  // dangerouslySetInnerHTML={{ __html: chapter }}
+                >
+                  {ChaptersTitle(title, chapter)}
+                </li>
               );
             }
           })}
@@ -102,16 +106,6 @@ const Modal = ({ data }) => {
       );
     }
   };
-
-  {
-    /* //   <Link href={`#s${linkId}`} key={i}>
-              //     <a onClick={closeModal}>
-              //       <dt>{chapter}</dt>
-              //     </a>
-              //   </Link>
-              //   <dd>{desc}</dd>
-              //  */
-  }
 
   return (
     <div className={styles.modal}>

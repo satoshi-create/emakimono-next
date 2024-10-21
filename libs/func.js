@@ -1,4 +1,3 @@
-
 import { useRouter } from "next/router";
 import { ja, en } from "./staticData";
 import { jaMeta, enMeta } from "./dataSiteMeta";
@@ -6,6 +5,7 @@ import enData from "./data";
 import jaData from "./data";
 import chaptergenji from "./genji/chapters-of-genji.json";
 import chapterkusouzu from "./kusouzu/chapters-of-kusouzu.json";
+import parse from "html-react-parser";
 
 const useLocale = () => {
   const { locale } = useRouter();
@@ -212,30 +212,108 @@ const removeNestedEmakisObj = (obj) =>
 //     {}
 //   );
 
+// const matchSummaryGenji = (chapter) => {
+//   const chaptergenjisummary = chaptergenji
+//     .filter((item) => chapter.includes(item.title))
+//     .map((item) => item.summary)
+//     .join();
+//   return chaptergenjisummary;
+// };
 
-  const matchSummaryGenji = (chapter) => {
-    const chaptergenjisummary = chaptergenji
-      .filter((item) => chapter.includes(item.title))
-      .map((item) => item.summary)
-      .join();
-    return chaptergenjisummary;
-  };
+/* ================
 
-  const matchSummaryKusouzu = (chapter) => {
-    const chapterkusouzusummary = chapterkusouzu
-      .filter((item) => chapter.includes(item.title))
-      .map((item) => item.gendaibun)
-      .join();
-    return chapterkusouzusummary;
-  };
+「九相図」の絵巻データとメタデータ（chapters-of-kusouzu）をマージする関数conectKusouzuChapters
 
-  const matchSummary = (chapter, genjieslug) => {
-    if (genjieslug) {
-      return matchSummaryGenji(chapter);
-    } else {
-      return matchSummaryKusouzu(chapter);
-    }
-  };
+================ */
+
+const conectKusouzuChapters = (chapter, text) => {
+  const chapterkusouzusummary = chapterkusouzu
+    .filter((item) => chapter === item.stage_en)
+    .map((item) => item[text])
+    .join();
+  return chapterkusouzusummary;
+};
+
+
+const conectGenjiChapters = (chapter, text) => {
+  const chapterGenjisummary = chaptergenji
+    .filter((item) => chapter === item.chapter_en)
+    .map((item) => item[text])
+    .join();
+  return chapterGenjisummary;
+};
+const conectGenjiChaptersScene = (chapter, scene) => {
+  if (scene) {
+    const chapterGenjisummary = chaptergenji
+      .filter((item) => chapter === item.chapter_en)
+      .flatMap(item => item.scene)
+      .filter(item => scene === item.sceneId)
+    .map(item => item.content)
+    return chapterGenjisummary;
+  }
+};
+
+const ChaptersTitle = (title, chapter) => {
+  if (title.includes("九相")) {
+    return (
+      <>
+        {conectKusouzuChapters(chapter, "stage_ch")
+          ? `【第${conectKusouzuChapters(chapter, "stage_ch")}相】`
+          : chapter}
+        <ruby>
+          {conectKusouzuChapters(chapter, "title") &&
+            `${conectKusouzuChapters(chapter, "title")}`}
+          <rp>(</rp>
+          <rt>
+            {conectKusouzuChapters(chapter, "ruby") &&
+              `${conectKusouzuChapters(chapter, "ruby")}`}
+          </rt>
+          <rp>)</rp>
+        </ruby>
+      </>
+    );
+  } else if (title.includes("源氏")) {
+    return (
+      <>
+        {conectGenjiChapters(chapter, "chapter_en")
+          ? `【第${conectGenjiChapters(chapter, "chapter_ch")}帖】`
+          : chapter}
+        <ruby>
+          {conectGenjiChapters(chapter, "chapter_en") &&
+            `${conectGenjiChapters(chapter, "title")}`}
+          <rp>(</rp>
+          <rt>
+            {conectGenjiChapters(chapter, "chapter_en") &&
+              `${conectGenjiChapters(chapter, "ruby")}`}
+          </rt>
+          <rp>)</rp>
+        </ruby>
+      </>
+    );
+  }else{
+    return parse(chapter)
+  }
+};
+
+const ChaptersDesc = (title, chapter,gendaibun) => {
+  if (title.includes("九相")) {
+    return (
+      <>
+        {conectKusouzuChapters(chapter, "gendaibun") &&
+          `${conectKusouzuChapters(chapter, "gendaibun")}`}
+      </>
+    );
+  } else if (title.includes("源氏")) {
+    return (
+      <>
+        {conectGenjiChapters(chapter, "summary") &&
+          `${conectGenjiChapters(chapter, "summary")}`}
+      </>
+    );
+  } else {
+    return parse(gendaibun)
+  }
+};
 
 
 export {
@@ -251,7 +329,10 @@ export {
   authorItem,
   eraItem,
   typeItem,
-  matchSummary,
   kusouzuSlugItem,
-  matchSummaryKusouzu,
+  conectKusouzuChapters,
+  conectGenjiChapters,
+  conectGenjiChaptersScene,
+  ChaptersTitle,
+  ChaptersDesc,
 };
