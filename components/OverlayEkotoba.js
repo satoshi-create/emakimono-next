@@ -5,7 +5,11 @@ import { AppContext } from "../pages/_app";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot,faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import { conectKusouzuChapters, ChaptersTitle,ChaptersDesc } from "../libs/func";
+import {
+  conectKusouzuChapters,
+  ChaptersTitle,
+  ChaptersGendaibun,
+} from "../libs/func";
 import parse from "html-react-parser";
 
 const OverlayEkotoba = ({
@@ -73,6 +77,10 @@ const OverlayEkotoba = ({
       return JSON.parse(ekotobaId);
     }
   };
+
+
+console.log(title,chapter,ekotobabody)
+
   return (
     <section
       className={`section fade-in lazyload ${
@@ -156,7 +164,7 @@ const OverlayEkotoba = ({
             }`,
           }}
         >
-          {src && ChaptersDesc(title,chapter,ekotobabody)}
+          {src && ChaptersGendaibun(title, chapter, ekotobabody)}
         </p>
       </div>
 
