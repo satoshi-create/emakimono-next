@@ -1,5 +1,10 @@
-  import React from "react";
-import { kusouzuSlugItem, genjieSlugItem,useLocaleData } from "../../libs/func";
+import React from "react";
+import ChaptersTable from "../../components/ChaptersGenjiTable";
+import {
+  kusouzuSlugItem,
+  genjieSlugItem,
+  useLocaleData,
+} from "../../libs/func";
 import ExtractingListData from "../../libs/ExtractingListData";
 import Head from "../../components/Meta";
 import Header from "../../components/Header";
@@ -7,19 +12,16 @@ import Footer from "../../components/Footer";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import ChaptersKusouzuTable from "../../components/ChaptersKusouzuTable";
 
-const Chaptersgenjilist = () => {
-    const { t: data } = useLocaleData();
+const ChaptersKusouzulist = () => {
+  const { t: data } = useLocaleData();
   const { locale } = useLocaleData();
   const removeNestedArrayObj = ExtractingListData();
-
-
 
   // const ExistKusouzuChapters = kusouzuSlugItem(removeNestedArrayObj);
 
   const KusouzuArrObj = data.filter((item) => item.title.includes("九相"));
 
   console.log(KusouzuArrObj);
-
 
   const tPageDesc =
     locale === "en"
