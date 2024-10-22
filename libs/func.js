@@ -6,7 +6,6 @@ import jaData from "./data";
 import chaptergenji from "./genji/chapters-of-genji.json";
 import chapterkusouzu from "./kusouzu/chapters-of-kusouzu.json";
 import parse from "html-react-parser";
-import listOfTextEshi from "./eshi-no-soshi/eshi-no-soshi-text.json";
 
 const useLocale = () => {
   const { locale } = useRouter();
@@ -197,29 +196,6 @@ const removeNestedEmakisObj = (obj) =>
     {}
   );
 
-// ネストしているObjectを削除して新しいObjectを作成する;
-// https://hi97.hamazo.tv/e8537787.html
-// const removeNestedObj = (obj) =>
-//   Object.entries(obj).reduce(
-//     (acc, [key, val]) => {
-//       // value の型が object であった時は Object に新しい値を加えずに返す
-//       if ("object" === typeof val) {
-//         return acc;
-//       }
-//       acc[key] = val;
-//       return acc;
-//     },
-//     // 初期値：空のオブジェクト
-//     {}
-//   );
-
-// const matchSummaryGenji = (chapter) => {
-//   const chaptergenjisummary = chaptergenji
-//     .filter((item) => chapter.includes(item.title))
-//     .map((item) => item.summary)
-//     .join();
-//   return chaptergenjisummary;
-// };
 
 /* ================
 
@@ -252,15 +228,19 @@ const conectGenjiChaptersScene = (chapter, scene) => {
     return chapterGenjisummary;
   }
 };
-const conectEshiText = (chapter, text) => {
-  const conectEshiChapter = listOfTextEshi
-    .filter((item) => chapter === item.chapter)
+const conectEmakiText = (titleen,chapter, text) => {
+  let EmakiTextdata = require(`./emaki-text-data/${titleen}.json`);
+  console.log(EmakiTextdata);
+
+  const conectEshiChapter = EmakiTextdata.filter(
+    (item) => chapter === item.chapter
+  )
     .map((item) => item[text])
     .join();
   return parse(conectEshiChapter);
 };
 
-const ChaptersTitle = (title, chapter) => {
+const ChaptersTitle = (titleen,title, chapter) => {
   if (title.includes("九相")) {
     return (
       <>
@@ -300,7 +280,8 @@ const ChaptersTitle = (title, chapter) => {
   } else if (title.includes("絵師草紙")) {
     return (
       <>
-        {conectEshiText(chapter, "title") && conectEshiText(chapter, "title")}
+        {conectEmakiText(titleen, chapter, "title") &&
+          conectEmakiText(titleen,chapter, "title")}
       </>
     );
   } else {
@@ -308,7 +289,7 @@ const ChaptersTitle = (title, chapter) => {
   }
 };
 
-const ChaptersGendaibun= (title, chapter, gendaibun) => {
+const ChaptersGendaibun= (titleen,title, chapter, gendaibun) => {
   if (title.includes("九相")) {
     return (
       <>
@@ -326,16 +307,16 @@ const ChaptersGendaibun= (title, chapter, gendaibun) => {
   } else if (title.includes("絵師草紙")) {
     return (
       <>
-        {conectEshiText(chapter, "gendaibun") &&
-          conectEshiText(chapter, "gendaibun")}
+        {conectEmakiText(titleen, chapter, "gendaibun") &&
+          conectEmakiText(titleen,chapter, "gendaibun")}
       </>
     );
   } else {
-    return parse(gendaibun);
+    return gendaibun && parse(gendaibun);
   }
 };
 
-const ChaptersDesc = (title, chapter, desc) => {
+const ChaptersDesc = (titleen,title, chapter, desc) => {
   if (title.includes("九相")) {
     return (
       <>
@@ -353,12 +334,12 @@ const ChaptersDesc = (title, chapter, desc) => {
   } else if (title.includes("絵師草紙")) {
     return (
       <>
-        {conectEshiText(chapter, "desc") &&
-          conectEshiText(chapter, "desc")}
+        {conectEmakiText(titleen, chapter, "desc") &&
+          conectEmakiText(titleen,chapter, "desc")}
       </>
     );
   } else {
-    return parse(desc);
+    return desc && parse(desc);
   }
 };
 
