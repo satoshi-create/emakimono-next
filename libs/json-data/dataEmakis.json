@@ -10944,5 +10944,347 @@
         "srcHeight": "1080"
       }
     ]
-  }
+  },
+     {
+       "id": 58,
+       "title": "紫式部日記絵巻",
+       "titleen": "murasaki-shikibu-nikki-emaki",
+       "edition": "",
+       "editionen": "",
+       "author": "",
+       "authoren": "",
+       "backgroundImage": "/washi-pattern-01.webp",
+       "video": "",
+       "thumb": "/18_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-01_former-morikawa-scroll_tokyo-national-museum-375.webp",
+       "thumb2": "/18_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-01_former-morikawa-scroll_tokyo-national-museum-375.webp",
+       "era": "鎌倉",
+       "eraen": "kamakura",
+       "desc": "",
+       "gif": "",
+       "type": "絵巻",
+       "typeen": "emaki",
+       "subtype": "説話",
+       "favorite": false,
+       "kotobagaki": true,
+       "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-8375?locale=ja",
+       "sourceImage": "紫式部日記絵巻（模本）（国立国会図書館）ほか",
+       "sourceEkotoba": "",
+       "reference": [
+         {
+           "type": "書籍",
+           "url": "https://x.gd/pq8u1",
+           "title": "『紫式部日記絵詞』（小松茂美 編　中央公論社）"
+         },
+         {
+           "type": "ウェブサイト",
+           "url": "https://ja.wikipedia.org/wiki/%E7%B4%AB%E5%BC%8F%E9%83%A8%E6%97%A5%E8%A8%98%E7%B5%B5%E5%B7%BB",
+           "title": "紫式部日記絵巻（ウィキペディア）"
+         },
+         {
+           "type": "ウェブサイト",
+           "url": "https://en.wikipedia.org/wiki/Murasaki_Shikibu_Nikki_Emaki",
+           "title": "紫式部日記絵巻（ウィキペディア英語版）"
+         }
+       ],
+       "keyword": [
+         {
+           "name": "源氏絵",
+           "id": "picture-of-the-genji-monogatari",
+           "slug": "picture-of-the-genji-monogatari"
+         },
+         {
+           "name": "仏教",
+           "id": "buddhism",
+           "slug": "buddhism"
+         }
+       ],
+       "emakis": [
+         {
+           "cat": "ekotoba",
+           "chapter": "8",
+           "load": "True",
+           "srcSp": "",
+           "srcTb": "",
+           "src": "",
+           "name": "",
+           "srcWidth": "",
+           "srcHeight": ""
+         },
+         {
+           "cat": "image",
+           "chapter": "",
+           "load": "True",
+           "srcSp": "/08_murasaki-shikibu-nikki-emaki_our-lady-of-the-chronicle_hachisuka-scroll_privately-owned-375.webp",
+           "srcTb": "/08_murasaki-shikibu-nikki-emaki_our-lady-of-the-chronicle_hachisuka-scroll_privately-owned-800.webp",
+           "src": "/08_murasaki-shikibu-nikki-emaki_our-lady-of-the-chronicle_hachisuka-scroll_privately-owned-1080.webp",
+           "name": "08_murasaki-shikibu-nikki-emaki_our-lady-of-the-chronicle_hachisuka-scroll_privately-owned",
+           "srcWidth": "",
+           "srcHeight": "1080"
+         },
+         {
+           "cat": "ekotoba",
+           "chapter": "11",
+           "load": "True",
+           "srcSp": "",
+           "srcTb": "",
+           "src": "",
+           "name": "",
+           "srcWidth": "",
+           "srcHeight": ""
+         },
+         {
+           "cat": "image",
+           "chapter": "",
+           "load": "True",
+           "srcSp": "/11_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-01_fujita-scroll_fujita-art-museum-375.webp",
+           "srcTb": "/11_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-01_fujita-scroll_fujita-art-museum-800.webp",
+           "src": "/11_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-01_fujita-scroll_fujita-art-museum-1080.webp",
+           "name": "11_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-01_fujita-scroll_fujita-art-museum",
+           "srcWidth": "",
+           "srcHeight": "1080"
+         },
+         {
+           "cat": "ekotoba",
+           "chapter": "12",
+           "load": "True",
+           "srcSp": "",
+           "srcTb": "",
+           "src": "",
+           "name": "",
+           "srcWidth": "",
+           "srcHeight": ""
+         },
+         {
+           "cat": "image",
+           "chapter": "",
+           "load": "False",
+           "srcSp": "/12_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-02_fujita-scroll_fujita-art-museum-375.webp",
+           "srcTb": "/12_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-02_fujita-scroll_fujita-art-museum-800.webp",
+           "src": "/12_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-02_fujita-scroll_fujita-art-museum-1080.webp",
+           "name": "12_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-02_fujita-scroll_fujita-art-museum",
+           "srcWidth": "",
+           "srcHeight": "1080"
+         },
+         {
+           "cat": "ekotoba",
+           "chapter": "13",
+           "load": "False",
+           "srcSp": "",
+           "srcTb": "",
+           "src": "",
+           "name": "",
+           "srcWidth": "",
+           "srcHeight": ""
+         },
+         {
+           "cat": "image",
+           "chapter": "",
+           "load": "False",
+           "srcSp": "/13_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-03_fujita-scroll_fujita-art-museum-375.webp",
+           "srcTb": "/13_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-03_fujita-scroll_fujita-art-museum-800.webp",
+           "src": "/13_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-03_fujita-scroll_fujita-art-museum-1080.webp",
+           "name": "13_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-03_fujita-scroll_fujita-art-museum",
+           "srcWidth": "",
+           "srcHeight": "1080"
+         },
+         {
+           "cat": "ekotoba",
+           "chapter": "14",
+           "load": "False",
+           "srcSp": "",
+           "srcTb": "",
+           "src": "",
+           "name": "",
+           "srcWidth": "",
+           "srcHeight": ""
+         },
+         {
+           "cat": "image",
+           "chapter": "",
+           "load": "False",
+           "srcSp": "/14_murasaki-shikibu-nikki-emaki_seven-day-of-birth-celebration-of-atsuhira-shinno_fujita-scroll_fujita-art-museum-375.webp",
+           "srcTb": "/14_murasaki-shikibu-nikki-emaki_seven-day-of-birth-celebration-of-atsuhira-shinno_fujita-scroll_fujita-art-museum-800.webp",
+           "src": "/14_murasaki-shikibu-nikki-emaki_seven-day-of-birth-celebration-of-atsuhira-shinno_fujita-scroll_fujita-art-museum-1080.webp",
+           "name": "14_murasaki-shikibu-nikki-emaki_seven-day-of-birth-celebration-of-atsuhira-shinno_fujita-scroll_fujita-art-museum",
+           "srcWidth": "",
+           "srcHeight": "1080"
+         },
+         {
+           "cat": "ekotoba",
+           "chapter": "15",
+           "load": "False",
+           "srcSp": "",
+           "srcTb": "",
+           "src": "",
+           "name": "",
+           "srcWidth": "",
+           "srcHeight": ""
+         },
+         {
+           "cat": "image",
+           "chapter": "",
+           "load": "False",
+           "srcSp": "/15_murasaki-shikibu-nikki-emaki_day-of-the-imperial-visit_fujita-scroll_fujita-art-museum-375.webp",
+           "srcTb": "/15_murasaki-shikibu-nikki-emaki_day-of-the-imperial-visit_fujita-scroll_fujita-art-museum-800.webp",
+           "src": "/15_murasaki-shikibu-nikki-emaki_day-of-the-imperial-visit_fujita-scroll_fujita-art-museum-1080.webp",
+           "name": "15_murasaki-shikibu-nikki-emaki_day-of-the-imperial-visit_fujita-scroll_fujita-art-museum",
+           "srcWidth": "",
+           "srcHeight": "1080"
+         },
+         {
+           "cat": "ekotoba",
+           "chapter": "16",
+           "load": "False",
+           "srcSp": "",
+           "srcTb": "",
+           "src": "",
+           "name": "",
+           "srcWidth": "",
+           "srcHeight": ""
+         },
+         {
+           "cat": "image",
+           "chapter": "",
+           "load": "False",
+           "srcSp": "/16_murasaki-shikibu-nikki-emaki_moonlit-night_former-morikawa-scroll_ gotoh-museum-375.webp",
+           "srcTb": "/16_murasaki-shikibu-nikki-emaki_moonlit-night_former-morikawa-scroll_ gotoh-museum-800.webp",
+           "src": "/16_murasaki-shikibu-nikki-emaki_moonlit-night_former-morikawa-scroll_ gotoh-museum-1080.webp",
+           "name": "16_murasaki-shikibu-nikki-emaki_moonlit-night_former-morikawa-scroll_ gotoh-museum",
+           "srcWidth": "",
+           "srcHeight": "1080"
+         },
+         {
+           "cat": "ekotoba",
+           "chapter": "17",
+           "load": "False",
+           "srcSp": "",
+           "srcTb": "",
+           "src": "",
+           "name": "",
+           "srcWidth": "",
+           "srcHeight": ""
+         },
+         {
+           "cat": "image",
+           "chapter": "",
+           "load": "False",
+           "srcSp": "/17_murasaki-shikibu-nikki-emaki_50-day-celebration-of-the-birth-of-atsuhira-shinno_former-morikawa-scroll_ gotoh-museum-375.webp",
+           "srcTb": "/17_murasaki-shikibu-nikki-emaki_50-day-celebration-of-the-birth-of-atsuhira-shinno_former-morikawa-scroll_ gotoh-museum-800.webp",
+           "src": "/17_murasaki-shikibu-nikki-emaki_50-day-celebration-of-the-birth-of-atsuhira-shinno_former-morikawa-scroll_ gotoh-museum-1080.webp",
+           "name": "17_murasaki-shikibu-nikki-emaki_50-day-celebration-of-the-birth-of-atsuhira-shinno_former-morikawa-scroll_ gotoh-museum",
+           "srcWidth": "",
+           "srcHeight": "1080"
+         },
+         {
+           "cat": "ekotoba",
+           "chapter": "18",
+           "load": "False",
+           "srcSp": "",
+           "srcTb": "",
+           "src": "",
+           "name": "",
+           "srcWidth": "",
+           "srcHeight": ""
+         },
+         {
+           "cat": "image",
+           "chapter": "",
+           "load": "False",
+           "srcSp": "/18_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-01_former-morikawa-scroll_tokyo-national-museum-375.webp",
+           "srcTb": "/18_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-01_former-morikawa-scroll_tokyo-national-museum-800.webp",
+           "src": "/18_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-01_former-morikawa-scroll_tokyo-national-museum-1080.webp",
+           "name": "18_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-01_former-morikawa-scroll_tokyo-national-museum",
+           "srcWidth": "",
+           "srcHeight": "1080"
+         },
+         {
+           "cat": "ekotoba",
+           "chapter": "19",
+           "load": "False",
+           "srcSp": "",
+           "srcTb": "",
+           "src": "",
+           "name": "",
+           "srcWidth": "",
+           "srcHeight": ""
+         },
+         {
+           "cat": "image",
+           "chapter": "",
+           "load": "False",
+           "srcSp": "/19_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-02_former-morikawa-scroll_ gotoh-museum-375.webp",
+           "srcTb": "/19_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-02_former-morikawa-scroll_ gotoh-museum-800.webp",
+           "src": "/19_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-02_former-morikawa-scroll_ gotoh-museum-1080.webp",
+           "name": "19_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-02_former-morikawa-scroll_ gotoh-museum",
+           "srcWidth": "",
+           "srcHeight": "1080"
+         },
+         {
+           "cat": "ekotoba",
+           "chapter": "20",
+           "load": "False",
+           "srcSp": "",
+           "srcTb": "",
+           "src": "",
+           "name": "",
+           "srcWidth": "",
+           "srcHeight": ""
+         },
+         {
+           "cat": "image",
+           "chapter": "",
+           "load": "False",
+           "srcSp": "/20_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-03_former-morikawa-scroll_privately-owned-375.webp",
+           "srcTb": "/20_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-03_former-morikawa-scroll_privately-owned-800.webp",
+           "src": "/20_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-03_former-morikawa-scroll_privately-owned-1080.webp",
+           "name": "20_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-03_former-morikawa-scroll_privately-owned",
+           "srcWidth": "",
+           "srcHeight": "1080"
+         },
+         {
+           "cat": "ekotoba",
+           "chapter": "25",
+           "load": "False",
+           "srcSp": "",
+           "srcTb": "",
+           "src": "",
+           "name": "",
+           "srcWidth": "",
+           "srcHeight": ""
+         },
+         {
+           "cat": "image",
+           "chapter": "",
+           "load": "False",
+           "srcSp": "/25_murasaki-shikibu-nikki-emaki_Incident-at-night_former-hinohara-scroll_privately-owned-375.webp",
+           "srcTb": "/25_murasaki-shikibu-nikki-emaki_Incident-at-night_former-hinohara-scroll_privately-owned-800.webp",
+           "src": "/25_murasaki-shikibu-nikki-emaki_Incident-at-night_former-hinohara-scroll_privately-owned-1080.webp",
+           "name": "25_murasaki-shikibu-nikki-emaki_Incident-at-night_former-hinohara-scroll_privately-owned",
+           "srcWidth": "",
+           "srcHeight": "1080"
+         },
+         {
+           "cat": "ekotoba",
+           "chapter": "26",
+           "load": "False",
+           "srcSp": "",
+           "srcTb": "",
+           "src": "",
+           "name": "",
+           "srcWidth": "",
+           "srcHeight": ""
+         },
+         {
+           "cat": "image",
+           "chapter": "",
+           "load": "False",
+           "srcSp": "/26_murasaki-shikibu-nikki-emaki_50th-day-celebration-of-atsunaga-shinno-01_former-hisamatsu-scroll_privately-owned-375.webp",
+           "srcTb": "/26_murasaki-shikibu-nikki-emaki_50th-day-celebration-of-atsunaga-shinno-01_former-hisamatsu-scroll_privately-owned-800.webp",
+           "src": "/26_murasaki-shikibu-nikki-emaki_50th-day-celebration-of-atsunaga-shinno-01_former-hisamatsu-scroll_privately-owned-1080.webp",
+           "name": "26_murasaki-shikibu-nikki-emaki_50th-day-celebration-of-atsunaga-shinno-01_former-hisamatsu-scroll_privately-owned",
+           "srcWidth": "",
+           "srcHeight": "1080"
+         }
+       ]
+     }
 ]
