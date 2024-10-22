@@ -25,17 +25,11 @@ const SingleChapterDesc = ({ item, index, emakis,data }) => {
         onClick={() => setShowInfo(!showInfo)}
       >
         <h4
-        // onClick={() => handleToId(index)}
-        // className={styles.chapterDesctTitle}
-        // style={{ color: eraColor(era) }}
-        // dangerouslySetInnerHTML={{ __html: chapter }}
         >
           {ChaptersTitle(title, chapter)}
         </h4>
         <button>
           {showInfo ? <ChevronUp /> : <ChevronDown />}
-
-          {/* <FontAwesomeIcon icon={faPlus} /> */}
         </button>
       </div>
       <div className={styles.line}></div>

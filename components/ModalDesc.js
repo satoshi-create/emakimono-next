@@ -55,6 +55,11 @@ const ModalDesc = ({ data }) => {
       titleen: "modern-sentence",
       path: "modern-sentence",
     },
+    // {
+    //   title: "古文",
+    //   titleen: "ancient-text",
+    //   path: "ancient-text",
+    // },
     {
       title: "解説",
       titleen: "description",
@@ -117,22 +122,6 @@ const ModalDesc = ({ data }) => {
               >
                 {ChaptersTitle(title, chapter)}
               </h3>
-              {genjieslug && (
-                <aside className={`${styles.linktochapter}`}>
-                  <Link href={`/genjie/chapters-genji`}>
-                    <a className={styles.genjieslugTitle} target="_blank">
-                      源氏物語54帖一覧
-                    </a>
-                  </Link>
-                </aside>
-              )}
-              {title.includes("九相") && (
-                <aside className={`${styles.linktochapter}`}>
-                  <Link href={`/kusouzu/chapters-kusouzu`}>
-                    <a className={styles.genjieslugTitle}>九相図一覧</a>
-                  </Link>
-                </aside>
-              )}
               <div className={styles.tabcontainer}>
                 {allMap.map((item, i) => {
                   const { title } = item;
@@ -150,7 +139,6 @@ const ModalDesc = ({ data }) => {
                 })}
               </div>
               <div className={`${styles.contents} scrollbar`}>
-                {/* {toggleContents(value, chapter, gendaibun, desc)} */}
                 {value === 0 && (
                   <p
                     className={styles.gendaibun}

@@ -10698,7 +10698,7 @@
         "title": "『中世のことばと絵: 絵巻は訴える 』"
       }
     ],
-    "emakis": [
+    "emakis":[
       {
         "cat": "image",
         "chapter": "",
@@ -10822,7 +10822,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "",
+        "chapter": "4",
         "load": "False",
         "srcSp": "/eshi-no-soshi_tohaku_12-375.webp",
         "srcTb": "/eshi-no-soshi_tohaku_12-800.webp",
@@ -10833,7 +10833,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "",
+        "chapter": "5",
         "load": "False",
         "srcSp": "/eshi-no-soshi_tohaku_13-375.webp",
         "srcTb": "/eshi-no-soshi_tohaku_13-800.webp",
