@@ -99,7 +99,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                       style={{ color: eraColor(era) }}
                       // dangerouslySetInnerHTML={{ __html: chapter }}
                     >
-                      {ChaptersTitle(titleen,title, chapter)}
+                      {ChaptersTitle(titleen, title, chapter)}
                     </span>
                   </li>
                 );
@@ -135,14 +135,15 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   </Link>
                 </div>
               )}
-              {title.includes("絵師草紙") && (
+
+              {/* {(title.includes("絵師草紙") ||
+                title.includes("地獄草紙（安住院本）")) && (
                 <div className={`${styles.genjieslugBox}`}>
                   <Link href={`/eshinososhi/chapters-eshinososhi`}>
-                    <a className={styles.genjieslugTitle}>絵師草紙の諸段一覧</a>
+                    <a className={styles.genjieslugTitle}>{title}の諸段一覧</a>
                   </Link>
                 </div>
-              )}
-
+              )} */}
               <SnsShareBox
                 titleen={titleen}
                 title={title}
