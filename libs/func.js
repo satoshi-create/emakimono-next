@@ -230,17 +230,21 @@ const connectGenjiChaptersScene = (chapter, scene) => {
 };
 const connectEmakiText = (titleen,chapter, text) => {
   let EmakiTextdata = require(`./emaki-text-data/${titleen}.json`);
-  console.log(EmakiTextdata);
 
+  if (EmakiTextdata) {
   const connectEshiChapter = EmakiTextdata.filter(
     (item) => chapter === item.chapter
   )
     .map((item) => item[text])
     .join();
   return parse(connectEshiChapter);
+  }else{
+    return titleen
+  }
 };
 
-const ChaptersTitle = (titleen,title, chapter) => {
+const ChaptersTitle = (titleen, title, chapter) => {
+
   if (title.includes("九相")) {
     return (
       <>
@@ -277,15 +281,15 @@ const ChaptersTitle = (titleen,title, chapter) => {
         </ruby>
       </>
     );
-  } else if (title.includes("絵師草紙")) {
+  } else if (Number.isInteger(parseInt(chapter))) {
     return (
       <>
         {connectEmakiText(titleen, chapter, "title") &&
-          connectEmakiText(titleen,chapter, "title")}
+          connectEmakiText(titleen, chapter, "title")}
       </>
     );
   } else {
-    return parse(chapter);
+    return chapter && parse(chapter);
   }
 };
 
@@ -304,11 +308,11 @@ const ChaptersGendaibun= (titleen,title, chapter, gendaibun) => {
           `${connectGenjiChapters(chapter, "summary")}`}
       </>
     );
-  } else if (title.includes("絵師草紙")) {
+  } else if (Number.isInteger(parseInt(chapter))) {
     return (
       <>
         {connectEmakiText(titleen, chapter, "gendaibun") &&
-          connectEmakiText(titleen,chapter, "gendaibun")}
+          connectEmakiText(titleen, chapter, "gendaibun")}
       </>
     );
   } else {
@@ -331,11 +335,11 @@ const ChaptersDesc = (titleen,title, chapter, desc) => {
           `${connectGenjiChapters(chapter, "summary")}`}
       </>
     );
-  } else if (title.includes("絵師草紙")) {
+  } else if (Number.isInteger(parseInt(chapter))) {
     return (
       <>
         {connectEmakiText(titleen, chapter, "desc") &&
-          connectEmakiText(titleen,chapter, "desc")}
+          connectEmakiText(titleen, chapter, "desc")}
       </>
     );
   } else {
