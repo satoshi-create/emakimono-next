@@ -267,8 +267,7 @@ const ChaptersTitle = (titleen, title, chapter) => {
     return (
       <>
         {connectGenjiChapters(chapter, "chapter_en")
-          ? `【第${connectGenjiChapters(chapter, "chapter_ch")}帖】`
-          : chapter}
+          && `【第${connectGenjiChapters(chapter, "chapter_ch")}帖】`}
         <ruby>
           {connectGenjiChapters(chapter, "chapter_en") &&
             `${connectGenjiChapters(chapter, "title")}`}
@@ -286,7 +285,7 @@ const ChaptersTitle = (titleen, title, chapter) => {
       <>
         {connectEmakiText(titleen, chapter, "title") &&
           connectEmakiText(titleen, chapter, "title")}
-      </>
+       </>
     );
   } else {
     return chapter && parse(chapter);

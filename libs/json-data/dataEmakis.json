@@ -52,321 +52,358 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "兎と猿の水遊び ",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 0
+        "chapter": "1",
+        "srcHeight": "",
+        "srcWidth": "",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": true,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "1804",
+        "load": "True",
         "srcSp": "/cyoujyuu_yamazaki_kou_01-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_01-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_01-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 1804,
-        "srcHeight": 1080,
-        "id": 1
+        "name": "cyoujyuu_yamazaki_kou_01"
       },
       {
-        "load": true,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "2228",
+        "load": "True",
         "srcSp": "/cyoujyuu_yamazaki_kou_02-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_02-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_02-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 2228,
-        "srcHeight": 1080,
-        "id": 2
+        "name": "cyoujyuu_yamazaki_kou_02"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "2436",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_03-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_03-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_03-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 2436,
-        "srcHeight": 1080,
-        "id": 3
+        "name": "cyoujyuu_yamazaki_kou_03"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "2279",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_04-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_04-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_04-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 2279,
-        "srcHeight": 1080,
-        "id": 4
+        "name": "cyoujyuu_yamazaki_kou_04"
       },
       {
         "cat": "ekotoba",
-        "chapter": "兎と蛙の賭弓 ",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 5
+        "chapter": "2",
+        "srcHeight": "",
+        "srcWidth": "",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "1617",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_05-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_05-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_05-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 1617,
-        "srcHeight": 1080,
-        "id": 6
+        "name": "cyoujyuu_yamazaki_kou_05"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "1860",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_06-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_06-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_06-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 1860,
-        "srcHeight": 1080,
-        "id": 7
+        "name": "cyoujyuu_yamazaki_kou_06"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "1845",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_07-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_07-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_07-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 1845,
-        "srcHeight": 1080,
-        "id": 8
+        "name": "cyoujyuu_yamazaki_kou_07"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "1845",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_08-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_08-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_08-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 1845,
-        "srcHeight": 1080,
-        "id": 9
+        "name": "cyoujyuu_yamazaki_kou_08"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "1860",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_09-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_09-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_09-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 1860,
-        "srcHeight": 1080,
-        "id": 10
+        "name": "cyoujyuu_yamazaki_kou_09"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "1709",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_10-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_10-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_10-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 1709,
-        "srcHeight": 1080,
-        "id": 11
+        "name": "cyoujyuu_yamazaki_kou_10"
       },
       {
         "cat": "ekotoba",
-        "chapter": "禄の物を受ける猿僧正",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 12
+        "chapter": "3",
+        "srcHeight": "",
+        "srcWidth": "",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "1065",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_11-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_11-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_11-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 1065,
-        "srcHeight": 1080,
-        "id": 13
+        "name": "cyoujyuu_yamazaki_kou_11"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "1902",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_12-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_12-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_12-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 1902,
-        "srcHeight": 1080,
-        "id": 14
+        "name": "cyoujyuu_yamazaki_kou_12"
       },
       {
         "cat": "ekotoba",
-        "chapter": "猿と蛙の喧嘩",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 15
+        "chapter": "4",
+        "srcHeight": "",
+        "srcWidth": "",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "1878",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_13-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_13-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_13-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 1878,
-        "srcHeight": 1080,
-        "id": 16
+        "name": "cyoujyuu_yamazaki_kou_13"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "2196",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_14-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_14-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_14-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 2196,
-        "srcHeight": 1080,
-        "id": 17
+        "name": "cyoujyuu_yamazaki_kou_14"
       },
       {
         "cat": "ekotoba",
-        "chapter": "田楽見物",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 18
+        "chapter": "5",
+        "srcHeight": "",
+        "srcWidth": "",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "1350",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_15-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_15-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_15-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 1350,
-        "srcHeight": 1080,
-        "id": 19
+        "name": "cyoujyuu_yamazaki_kou_15"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "1252",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_16-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_16-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_16-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 1252,
-        "srcHeight": 1080,
-        "id": 20
+        "name": "cyoujyuu_yamazaki_kou_16"
       },
       {
         "cat": "ekotoba",
-        "chapter": "兎と蛙の相撲",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 21
+        "chapter": "6",
+        "srcHeight": "",
+        "srcWidth": "",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "2015",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_17-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_17-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_17-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 2015,
-        "srcHeight": 1080,
-        "id": 22
+        "name": "cyoujyuu_yamazaki_kou_17"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "1899",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_18-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_18-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_18-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 1899,
-        "srcHeight": 1080,
-        "id": 23
+        "name": "cyoujyuu_yamazaki_kou_18"
       },
       {
         "cat": "ekotoba",
-        "chapter": "双六盤を運ぶ猿",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 24
+        "chapter": "7",
+        "srcHeight": "",
+        "srcWidth": "",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "1380",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_19-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_19-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_19-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 1380,
-        "srcHeight": 1080,
-        "id": 25
+        "name": "cyoujyuu_yamazaki_kou_19"
       },
       {
         "cat": "ekotoba",
-        "chapter": "周忌法会の導師をつとめる猿僧正",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 26
+        "chapter": "8",
+        "srcHeight": "",
+        "srcWidth": "",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "1685",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_20-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_20-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_20-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 1685,
-        "srcHeight": 1080,
-        "id": 27
+        "name": "cyoujyuu_yamazaki_kou_20"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "1887",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_21-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_21-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_21-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 1887,
-        "srcHeight": 1080,
-        "id": 28
+        "name": "cyoujyuu_yamazaki_kou_21"
       },
       {
         "cat": "ekotoba",
-        "chapter": "猿僧正への僧供",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 29
+        "chapter": "9",
+        "srcHeight": "",
+        "srcWidth": "",
+        "load": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "1881",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_22-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_22-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_22-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 1881,
-        "srcHeight": 1080,
-        "id": 30
+        "name": "cyoujyuu_yamazaki_kou_22"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "srcHeight": "1080",
+        "srcWidth": "1216",
+        "load": "False",
         "srcSp": "/cyoujyuu_yamazaki_kou_23-375.webp",
         "srcTb": "/cyoujyuu_yamazaki_kou_23-800.webp",
         "src": "/cyoujyuu_yamazaki_kou_23-1080.webp",
-        "name": "鳥獣人物戯画絵巻甲巻摸本の画像",
-        "srcWidth": 1216,
-        "srcHeight": 1080,
-        "id": 31
+        "name": "cyoujyuu_yamazaki_kou_23"
       }
     ]
+
   },
   {
     "id": 2,
@@ -2424,241 +2461,193 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "第一段 見知らぬ男、長谷雄卿に双六をいどむ",
-        "kobun": "",
-        "gendaibun": "いまは昔、中納言の紀長谷雄卿は、すべての学問に精通し、ありとあらゆる芸能に達して、世間からこの上なく重んじられていたたいへん偉いお方であった。<br><br>ある日の夕暮れの出来事である。中納言がこれから内裏に参ろうとなさった矢先に、一人の見知らぬ男がどこからともなく現れた。この男は、顔立ちといえば賢そうに見えて、一目見ただけで、ただならぬ人だと分かる。<br><br>男は、ずかずかと中納言の目の前にやってきて、「退屈なままに日を過ごして、ただただ双六を打とうとするものでございます。その相手と申しますのは、おそらく天下高名の殿しかいらっしゃるまいと思い、このように参った次第でございます」と申しあげた。中納言は、内心怪しい話だとうすうす感じながらも、一方では相手になってやろうという思いを押さえがたく、あっさりと「いかにも面白い話ではないか。どこで打てばいいのだい」と応対した。「ここはなにかと不都合がありましょう。みどものもとまで足をお運びいただけないでしょうか」との答えだった。中納言は迷わずに「良かろう」と答えた。<br><br>牛車にも乗らず、従者どもも連れずに、この男の後について歩き、朱雀門のところまで辿りついた。",
+        "chapter": "1",
+        "load": "True",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcSp": "/haseozoushi_01-375.webp",
         "srcTb": "/haseozoushi_01-800.webp",
         "src": "/haseozoushi_01-1080.webp",
-        "name": "haseozoushi_06.webp",
-        "phrase": [{}],
-        "id": 171
+        "name": "haseozoushi_01.webp"
       },
       {
-        "load": true,
         "cat": "image",
+        "chapter": "",
+        "load": "True",
+        "srcWidth": "2557",
+        "srcHeight": "1080",
         "srcSp": "/haseozoushi_02-375.webp",
         "srcTb": "/haseozoushi_02-800.webp",
         "src": "/haseozoushi_02-1080.webp",
-        "srcWidth": 2557,
-        "srcHeight": 1080,
-        "name": "haseozoushi_02.webp",
-        "id": 172
+        "name": "haseozoushi_02.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcWidth": "2177",
+        "srcHeight": "1080",
         "srcSp": "/haseozoushi_03-375.webp",
         "srcTb": "/haseozoushi_03-800.webp",
         "src": "/haseozoushi_03-1080.webp",
-        "srcWidth": 2177,
-        "srcHeight": 1080,
-        "name": "haseozoushi_03.webp",
-        "id": 173
+        "name": "haseozoushi_03.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcWidth": "2313",
+        "srcHeight": "1080",
         "srcSp": "/haseozoushi_04-375.webp",
         "srcTb": "/haseozoushi_04-800.webp",
         "src": "/haseozoushi_04-1080.webp",
-        "srcWidth": 2313,
-        "srcHeight": 1080,
-        "name": "haseozoushi_04.webp",
-        "id": 174,
-        "character": [
-          {
-            "name": "無帽の男",
-            "status": "",
-            "top": 20,
-            "right": 85,
-            "gender": "man",
-            "link": ""
-          },
-          {
-            "name": "猿",
-            "status": "",
-            "top": 50,
-            "right": 80,
-            "gender": "animal",
-            "link": ""
-          }
-        ],
-        "ebiki": [
-          {
-            "name": "荷車",
-            "status": "",
-            "top": 30,
-            "right": 55,
-            "path": ""
-          },
-          {
-            "name": "轅",
-            "status": "",
-            "top": 20,
-            "right": 65,
-            "path": "https://kotobank.jp/word/%E8%BD%85-587593#goog_rewarded"
-          }
-        ]
+        "name": "haseozoushi_04.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcWidth": "1889",
+        "srcHeight": "1080",
         "srcSp": "/haseozoushi_05-375.webp",
         "srcTb": "/haseozoushi_05-800.webp",
         "src": "/haseozoushi_05-1080.webp",
-        "name": "haseozoushi_05.webp",
-        "srcWidth": 1889,
-        "srcHeight": 1080,
-        "id": 175,
-        "character": [
-          {
-            "name": "酒売り（油売り）",
-            "status": "",
-            "top": 10,
-            "right": 40,
-            "gender": "man",
-            "link": ""
-          }
-        ]
+        "name": "haseozoushi_05.webp"
       },
       {
         "cat": "ekotoba",
-        "chapter": "第二段　朱雀門楼上での双六の勝負",
-        "kobun": "",
-        "gendaibun": "「この門の上に登りましょう」と男が言う。どう見ても登りようのないものだが、男が手を出したら易々と登りあげた。<br><br>二人は賽を振って取り合いの順番を決め、「なにを賭け物にしようか」と長谷雄が聞く。「わたしが負けたら、顔も性格も完璧な女性を差し上げましょう。殿がもしお敗れになったら、いかがなさいますか」「自分が持っているすべての宝物をあげようじゃないか」「承知いたしました」<br><br>双六を打ちはじめてみれば、長谷雄はただただ勝ちつづけた。男は最初こそ普通の人間の姿をしていたが、負けるほどに賽を振るい、心を憔悴させて、元の姿を見せてしまった。なんと恐ろしい鬼だった。怖いと思いながらも、「勝ちさえすれば、鬼は鼠にでもなるのだ」との一心で打ち続ければ、長谷雄はついに勝ってしまった。<br><br>鬼は再び男の顔に戻った。「申し上げることはございません。絶対勝つと思っていましたが、いやはや負けてしまいました。しかじかの日には必ずお償いをいたしましょう」と言って、先と同じように長谷雄を楼上から降ろした。",
+        "chapter": "2",
+        "load": "False",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcSp": "/haseozoushi_06-375.webp",
         "srcTb": "/haseozoushi_06-800.webp",
         "src": "/haseozoushi_06-1080.webp",
-        "name": "haseozoushi_06.webp",
-        "phrase": [{}],
-        "id": 176
+        "name": "haseozoushi_06.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcWidth": "2722",
+        "srcHeight": "1080",
         "srcSp": "/haseozoushi_07-375.webp",
         "srcTb": "/haseozoushi_07-800.webp",
         "src": "/haseozoushi_07-1080.webp",
-        "name": "haseozoushi_07.webp",
-        "srcWidth": 2722,
-        "srcHeight": 1080,
-        "id": 177
+        "name": "haseozoushi_07.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcWidth": "1771",
+        "srcHeight": "1080",
         "srcSp": "/haseozoushi_08-375.webp",
         "srcTb": "/haseozoushi_08-800.webp",
         "src": "/haseozoushi_08-1080.webp",
-        "name": "haseozoushi_08.webp",
-        "srcWidth": 1771,
-        "srcHeight": 1080,
-        "id": 178
+        "name": "haseozoushi_08.webp"
       },
       {
         "cat": "ekotoba",
-        "chapter": "第三段　勝負に負けた鬼の約束",
-        "kobun": "",
-        "gendaibun": "長谷雄は、なんとも怪しいことだと勘付きながらも、約束の日になれば、心待ちに待ちながらしかるべき部屋を用意させて、男の訪れを待たずにはいられなかった。<br><br>夜遅くなって、約束した男は一人の輝かしいばかりの女性を連れて現れた。長谷雄は自分の目を疑うばかりに、「この方、くれるのだろうか」と聞く。「一つだけ申しあげることがございます。負けてしまった以上、この人を返してくれとは申しません。ただし、今宵から百日経ってからはじめて仲良くなるようにお願いします。もしそれまでにこの女性を抱いてしまえば、不本意なことが起こるでしょう」と男は言う。「いかにもおっしゃる通りにいたそう」と約束して、女性を残して、男に帰ってもらった。<br><br>翌日になり、再び女性を見れば、見たことも想像したこともないような、この世の人とはとても思えない美貌だった。少しずつ日が経つにつれ、とても優しそうな振る舞いに惚れこみ、すこしでも長く傍に居てもらいたく、一時も女の傍から立ち去る気にはなれなかった。",
+        "chapter": "3",
+        "load": "False",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcSp": "/haseozoushi_09-375.webp",
         "srcTb": "/haseozoushi_09-800.webp",
         "src": "/haseozoushi_09-1080.webp",
-        "name": "haseozoushi_09.webp",
-        "phrase": [{}],
-        "id": 179
+        "name": "haseozoushi_09.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcWidth": "1979",
+        "srcHeight": "1080",
         "srcSp": "/haseozoushi_10-375.webp",
         "srcTb": "/haseozoushi_10-800.webp",
         "src": "/haseozoushi_10-1080.webp",
-        "name": "haseozoushi_10.webp",
-        "srcWidth": 1979,
-        "srcHeight": 1080,
-        "id": 180
+        "name": "haseozoushi_10.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcWidth": "1737",
+        "srcHeight": "1080",
         "srcSp": "/haseozoushi_11-375.webp",
         "srcTb": "/haseozoushi_11-800.webp",
         "src": "/haseozoushi_11-1080.webp",
-        "name": "haseozoushi_11.webp",
-        "srcWidth": 1737,
-        "srcHeight": 1080,
-        "id": 181
+        "name": "haseozoushi_11.webp"
       },
       {
         "cat": "ekotoba",
-        "chapter": "第四段　長谷雄の違約",
-        "kobun": "",
-        "gendaibun": "時間がゆっくりと過ぎてゆき、ようやく八十日になった。いまかいまかと待ち続ける長谷雄にとっては、百日というのはどうでもよくなってきた。自分の約束は堪えがたいものになってきて、ついに女を抱いてしまう。しかしとたんに女は水と化し、流れて消えてしまう。女性を失ってしまった長谷雄は、約束を破ったことを百回も千回も悔い、悲しんだが、もうすでにどうすることもできなかった。",
+        "chapter": "4",
+        "load": "False",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcSp": "/haseozoushi_12-375.webp",
         "srcTb": "/haseozoushi_12-800.webp",
         "src": "/haseozoushi_12-1080.webp",
-        "name": "haseozoushi_12.webp",
-        "phrase": [{}],
-        "id": 182
+        "name": "haseozoushi_12.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcWidth": "3056",
+        "srcHeight": "1080",
         "srcSp": "/haseozoushi_13-375.webp",
         "srcTb": "/haseozoushi_13-800.webp",
         "src": "/haseozoushi_13-1080.webp",
-        "name": "haseozoushi_13.webp",
-        "srcWidth": 3056,
-        "srcHeight": 1080,
-        "id": 183
+        "name": "haseozoushi_13.webp"
       },
       {
         "cat": "ekotoba",
-        "chapter": "第五段　天神の加護により鬼は退散",
-        "kobun": "",
-        "gendaibun": "かれこれしている間に、三ヶ月ほど過ぎ去った。ある日の夜、長谷雄は内裏から帰る途中、また例に男に出逢った。男は車のまん前に現れて、「お前は信義を知らない男だ。憎んでも憎みきれな奴だ」などと叫びながら、恐ろしい様相をして近づいてきた。長谷雄は心を据えて、「北野天神様、お助けください！」と祈ると、空から祈りの声が聞こえてきた。「憐れみようのない奴、さっさと消えないか」。これを聞くやいなや、男は一瞬のうちに消えてしまった。<br><br>この男は、朱雀門に住む鬼だった。女性というのは、かずかずの死体のよいところを集めて、人に造ったものだ。それがいまだ魂が定まらないうちに、長谷雄は約束を破って彼女を抱いてしまったので、全部溶けてしまった。とんでもない惜しい結果となった。",
+        "chapter": "5",
+        "load": "False",
+        "srcWidth": "",
+        "srcHeight": "",
         "srcSp": "/haseozoushi_14-375.webp",
         "srcTb": "/haseozoushi_14-800.webp",
         "src": "/haseozoushi_14-1080.webp",
-        "name": "haseozoushi_14.webp",
-        "phrase": [{}],
-        "id": 184
+        "name": "haseozoushi_14.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcWidth": "2148",
+        "srcHeight": "1080",
         "srcSp": "/haseozoushi_15-375.webp",
         "srcTb": "/haseozoushi_15-800.webp",
         "src": "/haseozoushi_15-1080.webp",
-        "name": "haseozoushi_15.webp",
-        "srcWidth": 2148,
-        "srcHeight": 1080,
-        "id": 185
+        "name": "haseozoushi_15.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcWidth": "2411",
+        "srcHeight": "1080",
         "srcSp": "/haseozoushi_16-375.webp",
         "srcTb": "/haseozoushi_16-800.webp",
         "src": "/haseozoushi_16-1080.webp",
-        "name": "haseozoushi_16.webp",
-        "srcWidth": 2411,
-        "srcHeight": 1080,
-        "id": 186
+        "name": "haseozoushi_16.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcWidth": "1855",
+        "srcHeight": "1080",
         "srcSp": "/haseozoushi_17-375.webp",
         "srcTb": "/haseozoushi_17-800.webp",
         "src": "/haseozoushi_17-1080.webp",
-        "name": "haseozoushi_17.webp",
-        "srcWidth": 1855,
-        "srcHeight": 1080,
-        "id": 187
+        "name": "haseozoushi_17.webp"
       }
     ]
+
   },
   {
     "id": 8,
