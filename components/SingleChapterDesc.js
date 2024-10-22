@@ -3,7 +3,12 @@ import styles from "../styles/ChapterDesc.module.css";
 import { ChevronDown, ChevronUp } from "react-feather";
 import { AppContext } from "../pages/_app";
 import Image from "next/image";
-import { conectKusouzuChapters, ChaptersTitle,ChaptersDesc } from "../libs/func";
+import {
+  conectKusouzuChapters,
+  ChaptersTitle,
+  ChaptersDesc,
+  ChaptersGendaibun,
+} from "../libs/func";
 
 
 const SingleChapterDesc = ({ item, index, emakis,data }) => {
@@ -36,12 +41,8 @@ const SingleChapterDesc = ({ item, index, emakis,data }) => {
       <div className={styles.line}></div>
       {showInfo && (
         <div className={styles.chapterDesctBody}>
-          {/* <h4 className={styles.chapterDescTitle}>現代文</h4> */}
           <p className={styles.chapterDescText}>
-            {/* {conectKusouzuChapters(chapter, "gendaibun")
-              ? conectKusouzuChapters(chapter, "gendaibun")
-              : parse(gendaibun)} */}
-            {ChaptersDesc(title,chapter,gendaibun)}
+            {ChaptersGendaibun(title, chapter, gendaibun)}
           </p>
 
           <button
@@ -51,19 +52,6 @@ const SingleChapterDesc = ({ item, index, emakis,data }) => {
           >
             横スクロールで見る
           </button>
-          {/* <figure className={styles.chapterDesctImageBox}>
-            <Image
-              onClick={() => handleToId(index)}
-              src={"/kusouzu_01-375.webp"}
-              width={200}
-              height={200}
-              className={styles.chapterDesctImage}
-              alt={name}
-              loading="lazy"
-              placeholder="blur"
-              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
-            />
-          </figure> */}
         </div>
       )}
     </article>
