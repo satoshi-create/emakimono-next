@@ -8,8 +8,8 @@ import {
   faAnglesRight,
 } from "@fortawesome/free-solid-svg-icons";
 import {
-  conectGenjiChapters,
-  conectGenjiChaptersScene,
+  connectGenjiChapters,
+  connectGenjiChaptersScene,
   ChaptersTitle,
 } from "../libs/func";
 import SnsShareBox from "./SnsShareBox";
@@ -81,7 +81,7 @@ const ModalDescGenji = ({ data }) => {
               path: "scene",
             },
             {
-              title: `${conectGenjiChapters(chapter, "title")}のあらすじ`,
+              title: `${connectGenjiChapters(chapter, "title")}のあらすじ`,
               titleen: "modern-sentence",
               path: "modern-sentence",
             },
@@ -166,8 +166,8 @@ const ModalDescGenji = ({ data }) => {
                         : { fontSize: "var(--text-size)" }
                     }
                     dangerouslySetInnerHTML={{
-                      __html: conectGenjiChaptersScene(chapter, scene)
-                        ? conectGenjiChaptersScene(chapter, scene)
+                      __html: connectGenjiChaptersScene(chapter, scene)
+                        ? connectGenjiChaptersScene(chapter, scene)
                         : desc,
                     }}
                   ></p>
@@ -184,11 +184,11 @@ const ModalDescGenji = ({ data }) => {
                           : { fontSize: "var(--text-size)" }
                       }
                       dangerouslySetInnerHTML={{
-                        __html: conectGenjiChapters(chapter, "chapter_en")
-                          ? `${conectGenjiChapters(
+                        __html: connectGenjiChapters(chapter, "chapter_en")
+                          ? `${connectGenjiChapters(
                               chapter,
                               "main-character"
-                            )}${conectGenjiChapters(chapter, "age")}`
+                            )}${connectGenjiChapters(chapter, "age")}`
                           : gendaibun,
                       }}
                     ></p>
@@ -203,8 +203,8 @@ const ModalDescGenji = ({ data }) => {
                           : { fontSize: "var(--text-size)" }
                       }
                       dangerouslySetInnerHTML={{
-                        __html: conectGenjiChapters(chapter, "chapter_en")
-                          ? conectGenjiChapters(chapter, "summary")
+                        __html: connectGenjiChapters(chapter, "chapter_en")
+                          ? connectGenjiChapters(chapter, "summary")
                           : gendaibun,
                       }}
                     ></p>

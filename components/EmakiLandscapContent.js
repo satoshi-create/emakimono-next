@@ -15,7 +15,7 @@ import ContactFormGoogle from "./ContactFormGoogle";
 import { ExternalLink } from "react-feather";
 import EditionLinks from "./EditionLinks";
 import LinkToNote from "./LinkToNote";
-import BannerToHelp from "./BannerToHelp";import { conectKusouzuChapters, conectGenjiChapters,  ChaptersTitle } from "../libs/func";
+import BannerToHelp from "./BannerToHelp";import { ChaptersTitle } from "../libs/func";
 import LikeButton from "./LikeButton";
 
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
