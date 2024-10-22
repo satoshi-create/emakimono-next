@@ -8,8 +8,6 @@ import {
   faAnglesRight,
 } from "@fortawesome/free-solid-svg-icons";
 import {
-  conectKusouzuChapters,
-  conectGenjiChapters,
   ChaptersTitle,
   ChaptersGendaibun,
   ChaptersDesc,
