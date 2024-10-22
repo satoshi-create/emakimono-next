@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationDot,faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import {
-  conectKusouzuChapters,
   ChaptersTitle,
   ChaptersGendaibun,
 } from "../libs/func";

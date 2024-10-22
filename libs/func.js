@@ -199,11 +199,11 @@ const removeNestedEmakisObj = (obj) =>
 
 /* ================
 
-「九相図」の絵巻データとメタデータ（chapters-of-kusouzu）をマージする関数conectKusouzuChapters
+「九相図」の絵巻データとメタデータ（chapters-of-kusouzu）をマージする関数connectKusouzuChapters
 
 ================ */
 
-const conectKusouzuChapters = (chapter, text) => {
+const connectKusouzuChapters = (chapter, text) => {
   const chapterkusouzusummary = chapterkusouzu
     .filter((item) => chapter === item.stage_en)
     .map((item) => item[text])
@@ -211,14 +211,14 @@ const conectKusouzuChapters = (chapter, text) => {
   return chapterkusouzusummary;
 };
 
-const conectGenjiChapters = (chapter, text) => {
+const connectGenjiChapters = (chapter, text) => {
   const chapterGenjisummary = chaptergenji
     .filter((item) => chapter === item.chapter_en)
     .map((item) => item[text])
     .join();
   return chapterGenjisummary;
 };
-const conectGenjiChaptersScene = (chapter, scene) => {
+const connectGenjiChaptersScene = (chapter, scene) => {
   if (scene) {
     const chapterGenjisummary = chaptergenji
       .filter((item) => chapter === item.chapter_en)
@@ -228,32 +228,32 @@ const conectGenjiChaptersScene = (chapter, scene) => {
     return chapterGenjisummary;
   }
 };
-const conectEmakiText = (titleen,chapter, text) => {
+const connectEmakiText = (titleen,chapter, text) => {
   let EmakiTextdata = require(`./emaki-text-data/${titleen}.json`);
   console.log(EmakiTextdata);
 
-  const conectEshiChapter = EmakiTextdata.filter(
+  const connectEshiChapter = EmakiTextdata.filter(
     (item) => chapter === item.chapter
   )
     .map((item) => item[text])
     .join();
-  return parse(conectEshiChapter);
+  return parse(connectEshiChapter);
 };
 
 const ChaptersTitle = (titleen,title, chapter) => {
   if (title.includes("九相")) {
     return (
       <>
-        {conectKusouzuChapters(chapter, "stage_ch")
-          ? `【第${conectKusouzuChapters(chapter, "stage_ch")}相】`
+        {connectKusouzuChapters(chapter, "stage_ch")
+          ? `【第${connectKusouzuChapters(chapter, "stage_ch")}相】`
           : chapter}
         <ruby>
-          {conectKusouzuChapters(chapter, "title") &&
-            `${conectKusouzuChapters(chapter, "title")}`}
+          {connectKusouzuChapters(chapter, "title") &&
+            `${connectKusouzuChapters(chapter, "title")}`}
           <rp>(</rp>
           <rt>
-            {conectKusouzuChapters(chapter, "ruby") &&
-              `${conectKusouzuChapters(chapter, "ruby")}`}
+            {connectKusouzuChapters(chapter, "ruby") &&
+              `${connectKusouzuChapters(chapter, "ruby")}`}
           </rt>
           <rp>)</rp>
         </ruby>
@@ -262,16 +262,16 @@ const ChaptersTitle = (titleen,title, chapter) => {
   } else if (title.includes("源氏")) {
     return (
       <>
-        {conectGenjiChapters(chapter, "chapter_en")
-          ? `【第${conectGenjiChapters(chapter, "chapter_ch")}帖】`
+        {connectGenjiChapters(chapter, "chapter_en")
+          ? `【第${connectGenjiChapters(chapter, "chapter_ch")}帖】`
           : chapter}
         <ruby>
-          {conectGenjiChapters(chapter, "chapter_en") &&
-            `${conectGenjiChapters(chapter, "title")}`}
+          {connectGenjiChapters(chapter, "chapter_en") &&
+            `${connectGenjiChapters(chapter, "title")}`}
           <rp>(</rp>
           <rt>
-            {conectGenjiChapters(chapter, "chapter_en") &&
-              `${conectGenjiChapters(chapter, "ruby")}`}
+            {connectGenjiChapters(chapter, "chapter_en") &&
+              `${connectGenjiChapters(chapter, "ruby")}`}
           </rt>
           <rp>)</rp>
         </ruby>
@@ -280,8 +280,8 @@ const ChaptersTitle = (titleen,title, chapter) => {
   } else if (title.includes("絵師草紙")) {
     return (
       <>
-        {conectEmakiText(titleen, chapter, "title") &&
-          conectEmakiText(titleen,chapter, "title")}
+        {connectEmakiText(titleen, chapter, "title") &&
+          connectEmakiText(titleen,chapter, "title")}
       </>
     );
   } else {
@@ -293,22 +293,22 @@ const ChaptersGendaibun= (titleen,title, chapter, gendaibun) => {
   if (title.includes("九相")) {
     return (
       <>
-        {conectKusouzuChapters(chapter, "gendaibun") &&
-          `${conectKusouzuChapters(chapter, "gendaibun")}`}
+        {connectKusouzuChapters(chapter, "gendaibun") &&
+          `${connectKusouzuChapters(chapter, "gendaibun")}`}
       </>
     );
   } else if (title.includes("源氏")) {
     return (
       <>
-        {conectGenjiChapters(chapter, "summary") &&
-          `${conectGenjiChapters(chapter, "summary")}`}
+        {connectGenjiChapters(chapter, "summary") &&
+          `${connectGenjiChapters(chapter, "summary")}`}
       </>
     );
   } else if (title.includes("絵師草紙")) {
     return (
       <>
-        {conectEmakiText(titleen, chapter, "gendaibun") &&
-          conectEmakiText(titleen,chapter, "gendaibun")}
+        {connectEmakiText(titleen, chapter, "gendaibun") &&
+          connectEmakiText(titleen,chapter, "gendaibun")}
       </>
     );
   } else {
@@ -320,22 +320,22 @@ const ChaptersDesc = (titleen,title, chapter, desc) => {
   if (title.includes("九相")) {
     return (
       <>
-        {conectKusouzuChapters(chapter, "desc") &&
-          `${conectKusouzuChapters(chapter, "desc")}`}
+        {connectKusouzuChapters(chapter, "desc") &&
+          `${connectKusouzuChapters(chapter, "desc")}`}
       </>
     );
   } else if (title.includes("源氏")) {
     return (
       <>
-        {conectGenjiChapters(chapter, "summary") &&
-          `${conectGenjiChapters(chapter, "summary")}`}
+        {connectGenjiChapters(chapter, "summary") &&
+          `${connectGenjiChapters(chapter, "summary")}`}
       </>
     );
   } else if (title.includes("絵師草紙")) {
     return (
       <>
-        {conectEmakiText(titleen, chapter, "desc") &&
-          conectEmakiText(titleen,chapter, "desc")}
+        {connectEmakiText(titleen, chapter, "desc") &&
+          connectEmakiText(titleen,chapter, "desc")}
       </>
     );
   } else {
@@ -357,9 +357,9 @@ export {
   eraItem,
   typeItem,
   kusouzuSlugItem,
-  conectKusouzuChapters,
-  conectGenjiChapters,
-  conectGenjiChaptersScene,
+  connectKusouzuChapters,
+  connectGenjiChapters,
+  connectGenjiChaptersScene,
   ChaptersTitle,
   ChaptersGendaibun,
   ChaptersDesc,

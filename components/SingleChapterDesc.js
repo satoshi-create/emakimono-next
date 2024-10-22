@@ -4,9 +4,7 @@ import { ChevronDown, ChevronUp } from "react-feather";
 import { AppContext } from "../pages/_app";
 import Image from "next/image";
 import {
-  conectKusouzuChapters,
   ChaptersTitle,
-  ChaptersDesc,
   ChaptersGendaibun,
 } from "../libs/func";
 
