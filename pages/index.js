@@ -59,9 +59,22 @@ const Home = () => {
 
   const allKeywords = keywordItem(removeNestedArrayObj);
 
-  const genjiEmakis = removeNestedArrayObj
-    .filter((emaki) => emaki.title.includes("源氏"))
-    .splice(0, 3);
+  const genjimonogatariEmaki = removeNestedArrayObj
+    .filter((emaki) => emaki.title === "源氏物語絵巻");
+
+  const genjimonogatariEmakiMiotsukushi = removeNestedArrayObj.filter(
+    (emaki) => emaki.title === "源氏物語絵巻「澪標」"
+  );
+
+  const murasakinikkiEmakis = removeNestedArrayObj
+    .filter((emaki) => emaki.title.includes("紫式部日記絵巻"));
+
+
+const genjiEmakis = [
+  ...genjimonogatariEmaki,
+  ...murasakinikkiEmakis,
+  ...genjimonogatariEmakiMiotsukushi,
+];
 
   const kusouzuEmakis = removeNestedArrayObj.filter((emaki) =>
     emaki.title.includes("九相")
