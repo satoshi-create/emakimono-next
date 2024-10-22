@@ -19,7 +19,7 @@ const ModalDescGenji = ({ data }) => {
   const { DescIndex, setDescIndex, handleToId, closeDescModal, orientation } =
     useContext(AppContext);
   const emakis = data.emakis;
-  const { genjieslug, title } = data;
+  const { genjieslug, title, titleen } = data;
 
   const filterEkotobas = emakis.filter((item) => item.cat === "ekotoba");
   const handleChapter = (index) => {
@@ -119,7 +119,7 @@ const ModalDescGenji = ({ data }) => {
                 }
                 onClick={() => handleChapter(linkId)}
               >
-                {ChaptersTitle(title,chapter)}
+                {ChaptersTitle(titleen,title, chapter)}
               </h3>
               {genjieslug && (
                 <aside className={`${styles.linktochapter}`}>
@@ -170,10 +170,7 @@ const ModalDescGenji = ({ data }) => {
                         ? conectGenjiChaptersScene(chapter, scene)
                         : desc,
                     }}
-                  >
-
-
-                  </p>
+                  ></p>
                 )}
                 {value === 1 && (
                   <>
