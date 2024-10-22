@@ -99,7 +99,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                       style={{ color: eraColor(era) }}
                       // dangerouslySetInnerHTML={{ __html: chapter }}
                     >
-                      {ChaptersTitle(title, chapter)}
+                      {ChaptersTitle(titleen,title, chapter)}
                     </span>
                   </li>
                 );

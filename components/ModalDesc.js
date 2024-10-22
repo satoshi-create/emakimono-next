@@ -19,7 +19,7 @@ const ModalDesc = ({ data }) => {
   const { DescIndex, setDescIndex, handleToId, closeDescModal, orientation } =
     useContext(AppContext);
   const emakis = data.emakis;
-  const { genjieslug, title } = data;
+  const { genjieslug, title, titleen } = data;
 
   const filterEkotobas = emakis.filter((item) => item.cat === "ekotoba");
   const handleChapter = (index) => {
@@ -120,7 +120,7 @@ const ModalDesc = ({ data }) => {
                 }
                 onClick={() => handleChapter(linkId)}
               >
-                {ChaptersTitle(title, chapter)}
+                {ChaptersTitle(titleen,title, chapter)}
               </h3>
               <div className={styles.tabcontainer}>
                 {allMap.map((item, i) => {
@@ -150,7 +150,7 @@ const ModalDesc = ({ data }) => {
                         : { fontSize: "var(--text-size)" }
                     }
                   >
-                    {ChaptersGendaibun(title, chapter, gendaibun)}
+                    {ChaptersGendaibun(titleen, title, chapter, gendaibun)}
                   </p>
                 )}
                 {value === 1 && (
@@ -164,7 +164,7 @@ const ModalDesc = ({ data }) => {
                         : { fontSize: "var(--text-size)" }
                     }
                   >
-                    {ChaptersDesc(title, chapter, desc)}
+                    {ChaptersDesc(titleen, title, chapter, desc)}
                   </p>
                 )}
               </div>

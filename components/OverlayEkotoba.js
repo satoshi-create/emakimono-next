@@ -49,7 +49,7 @@ const OverlayEkotoba = ({
   } = useContext(AppContext);
 
 
-  const {title} = data
+  const { title, titleen } = data;
 
 
   // TODO : 目次のフォントサイズをレスポンシブにする
@@ -117,7 +117,7 @@ console.log(title,chapter,ekotobabody)
                 }`,
               }}
             >
-              {ChaptersTitle(title, chapter)}
+              {ChaptersTitle(titleen, title, chapter)}
             </h3>
 
             {type === "浮世絵" && googlemap && (
@@ -164,7 +164,7 @@ console.log(title,chapter,ekotobabody)
             }`,
           }}
         >
-          {src && ChaptersGendaibun(title, chapter, ekotobabody)}
+          {src && ChaptersGendaibun(titleen,title, chapter, ekotobabody)}
         </p>
       </div>
 
