@@ -22,7 +22,7 @@ const Modal = ({ data }) => {
   const { locale } = useRouter();
   const { closeModal, navIndex, handleToId,isMapIndex } = useContext(AppContext);
 
-  const { reference, sourceImageUrl, sourceImage, era, typeen, title, } = data;
+  const { reference, sourceImageUrl, sourceImage, era, typeen, title,titleen } = data;
   const emakis = data.emakis;
   const ekotobaSection = emakis[isMapIndex];
   const handleChapter = (index) => {
@@ -59,7 +59,7 @@ const Modal = ({ data }) => {
                   style={{ color: eraColor(era) }}
                   // dangerouslySetInnerHTML={{ __html: chapter }}
                 >
-                  {ChaptersTitle(title, chapter)}
+                  {ChaptersTitle(titleen,title, chapter)}
                 </li>
               );
             }
