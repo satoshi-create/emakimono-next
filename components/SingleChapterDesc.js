@@ -15,7 +15,7 @@ const SingleChapterDesc = ({ item, index, emakis,data }) => {
   const { handleToId, handleFullScreen } = useContext(AppContext);
   const [showInfo, setShowInfo] = useState(false);
   const { chapter, gendaibun, cat, desc } = item;
-  const { genjieslug, title } = data;
+  const { genjieslug, title ,titleen} = data;
 
 
   return (
@@ -24,19 +24,14 @@ const SingleChapterDesc = ({ item, index, emakis,data }) => {
         className={styles.chapterDesctTitle}
         onClick={() => setShowInfo(!showInfo)}
       >
-        <h4
-        >
-          {ChaptersTitle(title, chapter)}
-        </h4>
-        <button>
-          {showInfo ? <ChevronUp /> : <ChevronDown />}
-        </button>
+        <h4>{ChaptersTitle(titleen, title, chapter)}</h4>
+        <button>{showInfo ? <ChevronUp /> : <ChevronDown />}</button>
       </div>
       <div className={styles.line}></div>
       {showInfo && (
         <div className={styles.chapterDesctBody}>
           <p className={styles.chapterDescText}>
-            {ChaptersGendaibun(title, chapter, gendaibun)}
+            {ChaptersGendaibun(titleen,title, chapter, gendaibun)}
           </p>
 
           <button

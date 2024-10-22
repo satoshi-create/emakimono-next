@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from "../../styles/ChaptersTable.module.css";
-import AllEshiChapters from "../../libs/eshi-no-soshi/eshi-no-soshi-text.json";
+import AllEshiChapters from "../../libs/emaki-text-data/eshi-no-soshi_tohaku.json";
 import Title from "../../components/Title";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
