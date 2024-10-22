@@ -15,7 +15,8 @@ import ContactFormGoogle from "./ContactFormGoogle";
 import EditionLinks from "./EditionLinks";
 import LinkToNote from "./LinkToNote";
 import NoteIcon from "../public/note-icon.png";
-import BannerToHelp from "./BannerToHelp";import {  ChaptersTitle } from "../libs/func";
+import BannerToHelp from "./BannerToHelp";
+import { ChaptersTitle } from "../libs/func";
 
 import LikeButton from "./LikeButton";
 
@@ -135,7 +136,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                           styles.chaptername
                         }`}
                       >
-                        {ChaptersTitle(title,chapter)}
+                        {ChaptersTitle(titleen,title,chapter)}
                       </span>
                     </li>
                   );

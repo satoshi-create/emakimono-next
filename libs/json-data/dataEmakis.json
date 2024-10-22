@@ -4007,105 +4007,94 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "叫喚地獄第三別所・髪火流（はつかる）",
-        "kobun": "",
-        "gendaibun": "ここは、生前、殺生、偸盗・邪淫・妄語をおこない、また五戒を守っている人に、言葉巧みに酒の功徳を説いて、酒を飲ませた者が落ちる。<br><br>この地獄には、熱鉄の犬や鉄の嘴を持った鷲がいて、足を咬み、頭蓋骨に穴を開けて、脳髄を飲むという。",
+        "chapter": "1",
+        "load": "True",
+        "srcHeight": "1080",
+        "srcWidth": "1524",
         "srcSp": "/jigokusoushi_anzyuin_01-375.webp",
         "srcTb": "/jigokusoushi_anzyuin_01-800.webp",
         "src": "/jigokusoushi_anzyuin_01-1080.webp",
-        "name": "jigokusoushi_anzyuin_01.webp",
-        "phrase": [{}],
-        "id": 288,
-        "srcWidth": 1524,
-        "srcHeight": 1080
+        "name": "jigokusoushi_anzyuin_01.webp"
       },
       {
-        "load": true,
         "cat": "image",
+        "chapter": "",
+        "load": "True",
+        "srcHeight": "1080",
+        "srcWidth": "775",
         "srcSp": "/jigokusoushi_anzyuin_02-375.webp",
         "srcTb": "/jigokusoushi_anzyuin_02-800.webp",
         "src": "/jigokusoushi_anzyuin_02-1080.webp",
-        "name": "jigokusoushi_anzyuin_02.webp",
-        "id": 289,
-        "srcWidth": 775,
-        "srcHeight": 1080
+        "name": "jigokusoushi_anzyuin_02.webp"
       },
       {
         "cat": "ekotoba",
-        "chapter": "叫喚地獄第四別所・火末虫（かまつむし）",
-        "kobun": "",
-        "gendaibun": "ここは、生前、殺生、偸盗・邪淫をおこない、また酒の中に水増しをして売り、巨利を得た者が落ちる。<br><br>この地獄の住人は、みずからの身体から数多（あまた）の虫がわき、肉体や骨の髄までも食いさいなまれる。その苦しみは耐えがたく、叫ぶ声が耐えない。",
+        "chapter": "2",
+        "load": "True",
+        "srcHeight": "1080",
+        "srcWidth": "1279",
         "srcSp": "/jigokusoushi_anzyuin_03-375.webp",
         "srcTb": "/jigokusoushi_anzyuin_03-800.webp",
         "src": "/jigokusoushi_anzyuin_03-1080.webp",
-        "name": "jigokusoushi_anzyuin_03.webp",
-        "phrase": [{}],
-        "id": 290,
-        "srcWidth": 1279,
-        "srcHeight": 1080
+        "name": "jigokusoushi_anzyuin_03.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcHeight": "1080",
+        "srcWidth": "1103",
         "srcSp": "/jigokusoushi_anzyuin_04-375.webp",
         "srcTb": "/jigokusoushi_anzyuin_04-800.webp",
         "src": "/jigokusoushi_anzyuin_04-1080.webp",
-        "name": "jigokusoushi_anzyuin_04.webp",
-        "id": 291,
-        "srcWidth": 1103,
-        "srcHeight": 1080
+        "name": "jigokusoushi_anzyuin_04.webp"
       },
       {
         "cat": "ekotoba",
-        "chapter": "叫喚地獄第十五別所・雲火霧（うんかむ）",
-        "kobun": "",
-        "gendaibun": "ここは、生前、殺生、偸盗・邪淫をおこない、また五戒を守っている人に酒を飲ませて酔わせ、たわむれてもてあそび、それを見て喜ぶ者が落ちる。<br><br>この地獄には業火（ごうか）が燃え盛り、その炎の厚さは二百肘もあるという。獄卒が罪人をつかまえては、この火の中に投げ込む。罪人は足の先から頭の先まで、焼け切って消え失せ、また蘇る。蘇ればまた焼く。このようなことがやむことはない。叫ぶ声が天に響く。",
+        "chapter": "3",
+        "load": "False",
+        "srcHeight": "1080",
+        "srcWidth": "1374",
         "srcSp": "/jigokusoushi_anzyuin_05-375.webp",
         "srcTb": "/jigokusoushi_anzyuin_05-800.webp",
         "src": "/jigokusoushi_anzyuin_05-1080.webp",
-        "name": "jigokusoushi_anzyuin_05.webp",
-        "phrase": [{}],
-        "id": 292,
-        "srcWidth": 1374,
-        "srcHeight": 1080
+        "name": "jigokusoushi_anzyuin_05.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcHeight": "1080",
+        "srcWidth": "1103",
         "srcSp": "/jigokusoushi_anzyuin_06-375.webp",
         "srcTb": "/jigokusoushi_anzyuin_06-800.webp",
         "src": "/jigokusoushi_anzyuin_06-1080.webp",
-        "name": "jigokusoushi_anzyuin_06.webp",
-        "id": 293,
-        "srcWidth": 1103,
-        "srcHeight": 1080
+        "name": "jigokusoushi_anzyuin_06.webp"
       },
       {
         "cat": "ekotoba",
-        "chapter": "叫喚地獄第六別所・雨炎火石（うえんかせき）",
-        "kobun": "",
-        "gendaibun": "ここは、生前、殺生、偸盗・邪淫をおこない、また酒を用意して、遠い広野を旅行する人にそれを飲ませて酔わせる。酔いつぶれたころを見計らって、所持する財物のいっさいを奪い、ときにはそれを殺した者が落ちる地獄である。<br><br>この地獄は、炎のある焼け石が天から降り注いで罪人を焼き、また熱沸河という河があって、銅（あかがね）の湯、白鑞（びゃくろう）の湯と熱い血が混じって流れている。罪人どもは、常にこの河の中を泳いで苦しみを受け、泣き叫ぶ声が絶えぬという。",
+        "chapter": "4",
+        "load": "False",
+        "srcHeight": "1080",
+        "srcWidth": "1909",
         "srcSp": "/jigokusoushi_anzyuin_07-375.webp",
         "srcTb": "/jigokusoushi_anzyuin_07-800.webp",
         "src": "/jigokusoushi_anzyuin_07-1080.webp",
-        "name": "jigokusoushi_anzyuin_07.webp",
-        "phrase": [{}],
-        "id": 294,
-        "srcWidth": 1909,
-        "srcHeight": 1080
+        "name": "jigokusoushi_anzyuin_07.webp"
       },
       {
-        "load": false,
         "cat": "image",
+        "chapter": "",
+        "load": "False",
+        "srcHeight": "1080",
+        "srcWidth": "1561",
         "srcSp": "/jigokusoushi_anzyuin_08-375.webp",
         "srcTb": "/jigokusoushi_anzyuin_08-800.webp",
         "src": "/jigokusoushi_anzyuin_08-1080.webp",
-        "name": "jigokusoushi_anzyuin_08.webp",
-        "id": 295,
-        "srcWidth": 1561,
-        "srcHeight": 1080
+        "name": "jigokusoushi_anzyuin_08.webp"
       }
     ]
+
   },
   {
     "id": 13,
