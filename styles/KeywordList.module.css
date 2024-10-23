@@ -1,6 +1,6 @@
 .tags {
   display: grid;
-  justify-items: center;
+  justify-items: flex-start;
   gap: 1rem;
   font-family: var(--title-font2);
   grid-template-columns: repeat(2, auto);

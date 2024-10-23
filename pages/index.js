@@ -253,11 +253,11 @@ const genjiEmakis = [
         linkpath={"shigisan"}
         // bcg={"#f9fbff"}
       />
-      <FlowEmaki
+      {/* <FlowEmaki
         flowEmakis={sikisansuizuFlowDatas}
         sectiontitle={"四季山水図巻（山水長巻）"}
         sectiontitleen={"sessyu_sikisansuizu"}
-      />
+      /> */}
       <CardB
         columns={t.history.columns}
         sectiontitle={t.history.title}
