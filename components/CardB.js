@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import Button from "./Button";
 import { eraColor } from "../libs/func";
+import parse from "html-react-parser";
 
 const CardB = ({
   columns,
@@ -44,7 +45,7 @@ const CardB = ({
     {
       path: "/era/aduchimomoyama",
       era: "安土・桃山",
-      eraen: "aduchimomoyama",
+      eraen: "aduchi<br/>momoyama",
       src: "/unryuzu_01-1080.webp",
       eracolor: "gold",
     },
@@ -101,7 +102,7 @@ const CardB = ({
                       }}
                     >
                       <p className={styles.title}>
-                        {locale === "en" ? eraen : era}
+                        {locale === "en" ? parse(eraen) : parse(era)}
                       </p>
                     </div>
                   </figure>
