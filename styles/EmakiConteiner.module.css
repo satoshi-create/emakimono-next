@@ -65,7 +65,7 @@
 } */
 
 .container::-webkit-scrollbar-track {
-  background-image: url("/washi-pattern-01.webp");
+  /* background-image: url("/washi-pattern-01.webp"); */
   border-bottom-right-radius: 100px;
   border-bottom-left-radius: 100px;
 }
