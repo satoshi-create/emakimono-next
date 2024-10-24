@@ -3,6 +3,19 @@
   width: auto;
   /* aspect-ratio: 16/9; */
 }
+.emakiImg.lazyloaded{
+animation: fade 1s forwards;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
 
 @-moz-document url-prefix() {
   .emakiImg {
