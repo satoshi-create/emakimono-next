@@ -15,7 +15,6 @@ const EditionLinks = ({ title, edition }) => {
   const editionLinks = alldata.filter(
     (item) => item.title === title && item.edition !== edition
   );
-  console.log(editionLinks);
   return (
     <>
       {editionLinks.length > 0 && (

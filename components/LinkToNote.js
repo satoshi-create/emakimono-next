@@ -5,12 +5,10 @@ import styles from "../styles/LinkToNote.module.css";
 import noteData from "../libs/note/data.json";
 
 const LinkToNote = ({ title }) => {
-  console.log(title);
 
   const reletedEmakisToNote = noteData.filter((item) =>
     item.relatedEmakis.includes(title)
   );
-  console.log(reletedEmakisToNote);
   return (
     <div className={styles.container}>
       {reletedEmakisToNote.map((item, i) => {

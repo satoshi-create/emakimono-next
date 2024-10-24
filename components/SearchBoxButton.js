@@ -8,7 +8,6 @@ import { AppContext } from "../pages/_app";
 
 const SearchBoxButton = () => {
   const { openSearchModalOpen, isSearchModalOpen } = useContext(AppContext);
-  console.log(isSearchModalOpen);
   return (
     <button className={styles.searchboxbtn} onClick={openSearchModalOpen}>
       <FontAwesomeIcon icon={faMagnifyingGlass} />
@@ -17,4 +16,4 @@ const SearchBoxButton = () => {
   );
 }
 
-export default SearchBoxButton; 
+export default SearchBoxButton;

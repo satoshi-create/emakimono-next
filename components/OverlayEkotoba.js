@@ -78,7 +78,6 @@ const OverlayEkotoba = ({
   };
 
 
-console.log(title,chapter,ekotobabody)
 
   return (
     <section
