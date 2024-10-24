@@ -10,17 +10,6 @@ import "lazysizes/plugins/attrchange/ls.attrchange";
 const ResposiveImage = ({
   value: { srcSp, srcTb, src, load, name, srcWidth, srcHeight, index, scroll },
 }) => {
-  // const dummySrc = (s, l) => {
-  //   if (s) {
-  //     if (l) {
-  //       return srcSp;
-  //     } else {
-  //       return "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
-  //     }
-  //   } else {
-  //     return "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
-  //   }
-  // };
   return (
     <picture>
       {/* <source
@@ -36,18 +25,11 @@ const ResposiveImage = ({
       <source data-srcset={scroll ? src : srcTb} type="image/webp" />
       <img
         decoding="async"
-        // src={dummySrc(scroll,load)}
-        // src={
-        //   load
-        //     ? srcSp
-        //     : "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-        // }
         src={
           scroll
             ? srcSp
             : "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
         }
-        // className={`lazyload ${styles.emakiImg}`}
         className={`fade-in lazyload ${styles.emakiImg}`}
         alt={name}
         width={srcWidth}
