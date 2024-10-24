@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "../styles/ResposiveImage.module.css";
 import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
@@ -8,7 +8,7 @@ import "lazysizes/plugins/attrchange/ls.attrchange";
 // next / imageで画像サイズを自動で付与する方法を試してみる
 
 const ResposiveImage = ({
-  value: { srcSp, srcTb, src, load, name, srcWidth, srcHeight, index, scroll },
+  value: { srcSp, srcTb, src,name, srcWidth, srcHeight, scroll },
 }) => {
   return (
     <picture>
@@ -24,7 +24,8 @@ const ResposiveImage = ({
       />
       <source data-srcset={scroll ? src : srcTb} type="image/webp" />
       <img
-        decoding="async"
+        // decoding="async"
+        // decoding="async"について詳しく調べてみる //https://zenn.dev/ixkaito/articles/deep-dive-into-decoding
         src={
           scroll
             ? srcSp
