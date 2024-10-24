@@ -9,7 +9,6 @@ const CardC = ({ data }) => {
   const { keyword, id,typeen } = data;
 
 const filterdSeiyoukaiga = removeNestedArrayObj.filter(item => item.typeen === "seiyoukaiga")
-console.log(filterdSeiyoukaiga);
 
 
   // 絵巻データからkeyword.nameオブジェクトの値を配列に取り出し
