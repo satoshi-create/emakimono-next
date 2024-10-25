@@ -29,7 +29,7 @@ class MyDocument extends Document {
           />
         </Head>
         <body>
-          <noscript
+          {/* <noscript
             dangerouslySetInnerHTML={{
               __html: `
               <iframe
@@ -39,7 +39,7 @@ class MyDocument extends Document {
                 style="display:none;visibility:hidden"
               />`,
             }}
-          />
+          /> */}
           <Main />
           <NextScript />
         </body>
