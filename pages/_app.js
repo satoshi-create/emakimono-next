@@ -15,6 +15,9 @@ config.autoAddCss = false;
 export const AppContext = createContext();
 
 function MyApp({ Component, pageProps, router }) {
+
+  // ページ遷移を認識させるコード
+  // https://zenn.dev/rh820/articles/8af90011c573fe
   const gRouter = useRouter();
 
   useEffect(() => {
@@ -365,6 +368,7 @@ function MyApp({ Component, pageProps, router }) {
         closeSearchModal,
       }}
     >
+      {/* google analytics */}
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=G-4115JJFY0B${gtag.GA_MEASURAMENT_ID}`}
         strategy="afterInteractive"
@@ -378,7 +382,9 @@ function MyApp({ Component, pageProps, router }) {
             gtag('config', '${gtag.GA_MEASURAMENT_ID}');
           `}
       </Script>
-      <Script
+
+      {/* google tag manager */}
+      {/* <Script
         id="gtm"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{
@@ -390,7 +396,7 @@ function MyApp({ Component, pageProps, router }) {
           })(window,document,'script','dataLayer','${gtag.GTM_ID}');
           `,
         }}
-      />
+      /> */}
       <Component {...pageProps} key={router.asPath} />
       {isContactModalOpen && <ContactFormGoogle />}
       {isSearchModalOpen && <ModalSearch />}
