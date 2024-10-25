@@ -3,6 +3,8 @@
   width: auto;
   /* aspect-ratio: 16/9; */
 }
+
+/* https: //pengi-n.co.jp/column/design/js-lazysizes/ */
 .emakiImg.lazyloaded{
 animation: fade 1s forwards;
 }
