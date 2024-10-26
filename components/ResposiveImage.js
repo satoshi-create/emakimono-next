@@ -12,26 +12,15 @@ const ResposiveImage = ({
 }) => {
   return (
     <picture>
-      {/* <source
-        data-srcset={srcSp}
-        media="(max-height: 412px)"
-        type="image/webp"
-      /> */}
       <source
         data-srcset={srcTb}
         media="(max-height: 800px)"
         type="image/webp"
       />
-      <source data-srcset={scroll ? src : srcTb} type="image/webp" />
       <img
-        loading="lazy"
-        // decoding="async"
-        // decoding="async"について詳しく調べてみる //https://zenn.dev/ixkaito/articles/deep-dive-into-decoding
-        src={
-          scroll
-            ? srcSp
-            : "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
-        }
+        // loading="lazy"
+        src={srcSp}
+        data-src={src}
         className={`fade-in lazyload ${styles.emakiImg}`}
         alt={name}
         width={srcWidth}
