@@ -8,27 +8,27 @@ import "lazysizes/plugins/attrchange/ls.attrchange";
 // next / imageで画像サイズを自動で付与する方法を試してみる
 
 const ResposiveImage = ({
-  value: { srcSp, srcTb, src, name, srcWidth, srcHeight, scroll },
+  value: { srcSp, srcTb, src, name, srcWidth, srcHeight, scroll, load },
 }) => {
-  return (
-    <picture>
-      <source
-        data-srcset={srcTb}
-        media="(max-height: 800px)"
-        type="image/webp"
-      />
-      <img
-        // loading="lazy"
-        src={srcSp}
-        data-src={src}
-        className={`fade-in lazyload ${styles.emakiImg}`}
-        alt={name}
-        width={srcWidth}
-        height={srcHeight}
-        data-expand="1000"
-      />
-    </picture>
-  );
+    return (
+      <picture>
+        <source
+          data-srcset={srcTb}
+          media="(max-height: 800px)"
+          type="image/webp"
+        />
+        <img
+          // loading="lazy"
+          src={src}
+          // data-src={src}
+          className={`fade-in lazyload ${styles.emakiImg}`}
+          alt={name}
+          width={srcWidth}
+          height={srcHeight}
+          data-expand="1000"
+        />
+      </picture>
+    );
 };
 
 export default ResposiveImage;
