@@ -184,8 +184,6 @@ const EmakiImage = ({
             type="image/webp"
           />
           <img
-            loading="lazy"
-            // src={src}
             src={src}
             // data-src={src}
             // data-size="auto"
