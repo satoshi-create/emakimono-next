@@ -10,6 +10,8 @@ import {
   ChaptersGendaibun,
 } from "../libs/func";
 import parse from "html-react-parser";
+import "lazysizes";
+import "lazysizes/plugins/attrchange/ls.attrchange";
 
 const OverlayEkotoba = ({
   item: {
