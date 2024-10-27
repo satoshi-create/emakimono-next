@@ -22,3 +22,18 @@
 .ebikibox:hover {
   opacity: 0.6;
 }
+.emakiImg {
+  height: 100%;
+  width: auto;
+  animation: fade 1s forwards;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

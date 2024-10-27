@@ -176,19 +176,22 @@ const EmakiImage = ({
           })}
         </div>
       )}
-      <ResposiveImage
-        value={{
-          srcSp,
-          srcTb,
-          src,
-          load,
-          name,
-          srcWidth,
-          srcHeight,
-          index,
-          scroll,
-        }}
-      />
+      {index <= 2 && <img src={src} className={styles.emakiImg} />}
+      {index >= 3 && (
+        <ResposiveImage
+          value={{
+            srcSp,
+            srcTb,
+            src,
+            load,
+            name,
+            srcWidth,
+            srcHeight,
+            index,
+            scroll,
+          }}
+        />
+      )}
     </section>
   );
 };
