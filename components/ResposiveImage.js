@@ -10,23 +10,26 @@ import "lazysizes/plugins/attrchange/ls.attrchange";
 const ResposiveImage = ({
   value: { srcSp, srcTb, src, name, srcWidth, srcHeight, scroll, load },
 }) => {
+
     return (
       <picture>
         <source
-          data-srcset={srcTb}
+          srcSet={srcTb}
           media="(max-height: 800px)"
           type="image/webp"
         />
         <img
           loading="lazy"
-          src={srcSp}
-          data-src={src}
-          // data-size="auto"
-          className={`fade-in lazyload ${styles.emakiImg}`}
+          src={src}
+          // data-src={src}
+          data-size="auto"
+          className={styles.emakiImg}
+          // className={`fade-in lazyload ${styles.emakiImg}`}
+          // className={`fade-in lazyload ${styles.emakiImg}`}
           alt={name}
           width={srcWidth}
           height={srcHeight}
-          data-expand="1000"
+          // data-expand="1000"
         />
       </picture>
     );
