@@ -18,9 +18,9 @@ const ResposiveImage = ({
           type="image/webp"
         />
         <img
-          // loading="lazy"
-          src={src}
-          // data-src={src}
+          loading="lazy"
+          // src={src}
+          data-src={src}
           className={`fade-in lazyload ${styles.emakiImg}`}
           alt={name}
           width={srcWidth}
