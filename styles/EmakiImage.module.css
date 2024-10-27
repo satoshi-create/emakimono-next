@@ -27,7 +27,9 @@
   width: auto;
   animation: fade 1s forwards;
 }
-
+.emakiImg.fade-in {
+  animation: fade 1s forwards;
+}
 @keyframes fade {
   0% {
     opacity: 0;

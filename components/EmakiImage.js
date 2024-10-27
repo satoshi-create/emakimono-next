@@ -176,7 +176,28 @@ const EmakiImage = ({
           })}
         </div>
       )}
-      {index <= 2 && <img src={src} className={styles.emakiImg} />}
+      {index <= 2 && (
+        <picture>
+          <source
+            data-srcset={srcTb}
+            media="(max-height: 800px)"
+            type="image/webp"
+          />
+          <img
+            loading="lazy"
+            // src={src}
+            src={src}
+            // data-src={src}
+            // data-size="auto"
+            // className={`fade-in lazyload ${styles.emakiImg}`}
+            className={`fade-in ${styles.emakiImg}`}
+            alt={name}
+            width={srcWidth}
+            height={srcHeight}
+            data-expand="1000"
+          />
+        </picture>
+      )}
       {index >= 3 && (
         <ResposiveImage
           value={{
