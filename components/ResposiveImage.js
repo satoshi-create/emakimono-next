@@ -19,8 +19,9 @@ const ResposiveImage = ({
         />
         <img
           loading="lazy"
-          // src={src}
+          src={srcSp}
           data-src={src}
+          // data-size="auto"
           className={`fade-in lazyload ${styles.emakiImg}`}
           alt={name}
           width={srcWidth}
