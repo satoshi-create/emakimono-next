@@ -178,25 +178,24 @@ const EmakiImage = ({
         </div>
       )}
       {index <= 1 && (
-        // <picture>
-        //   <source
-        //     data-srcset={srcTb}
-        //     media="(max-height: 800px)"
-        //     type="image/webp"
-        //   />
-        //   <img
-        //   loading="eager"
-        //     src={src}
-        //     // data-src={src}
-        //     // data-size="auto"
-        //     // className={`fade-in lazyload ${styles.emakiImg}`}
-        //     className={`fade-in ${styles.emakiImg}`}
-        //     alt={name}
-        //     width={srcWidth}
-        //     height={srcHeight}
-        //     data-expand="1000"
-        //   />
-        // </picture>
+        <picture>
+          <source
+            data-srcset={srcTb}
+            media="(max-height: 800px)"
+            type="image/webp"
+          />
+          <img
+          loading="eager"
+            src={srcSp}
+            data-src={src}
+            // data-size="auto"
+            // className={`fade-in lazyload ${styles.emakiImg}`}
+            className={`fade-in ${styles.emakiImg} lazyload`}
+            alt={name}
+            width={srcWidth}
+            height={srcHeight}
+          />
+        </picture>
         //          <Image
         //   src={src}
         //   width={1066}
@@ -209,20 +208,20 @@ const EmakiImage = ({
         //   blurDataURL={srcSp}
         //   // blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
         // />
-        <figure
-          style={{ position: "relative", width: "1000px", height: "100%" }}
-        >
-          <Image
-            src={src}
-            alt={name}
-            layout="fill"
-            objectFit="cover"
-            placeholder="blur"
-            blurDataURL={srcSp}
-            // blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
-            priprity
-          />
-        </figure>
+        // <figure
+        //   style={{ position: "relative", width: "1000px", height: "100%" }}
+        // >
+        //   <Image
+        //     src={src}
+        //     alt={name}
+        //     layout="fill"
+        //     objectFit="cover"
+        //     placeholder="blur"
+        //     blurDataURL={srcSp}
+        //     // blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
+        //     priprity
+        //   />
+        // </figure>
       )}
       {/* {index >= 2 && (
         <figure
