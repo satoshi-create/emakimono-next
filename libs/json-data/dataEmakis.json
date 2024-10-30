@@ -6397,6 +6397,15 @@
     "sourceImageUrl": "https://dl.ndl.go.jp/pid/1685003",
     "sourceImage": "源氏物語絵巻（徳川美術館 国立国会図書館）ほか",
     "sourceEkotoba": "",
+    "personname": [
+      {
+        "name": "紫式部",
+        "id": "murasakisikibu",
+        "slug": "murasakisikibu",
+        "ruby": "たちばななおもと",
+        "portrait": "/portrait_murasakisikibu.webp"
+      }
+    ],
     "reference": [
       {
         "type": "ウェブサイト",
@@ -10969,6 +10978,15 @@
        "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-8375?locale=ja",
        "sourceImage": "紫式部日記絵巻（模本）（国立国会図書館）ほか",
        "sourceEkotoba": "",
+       "personname": [
+         {
+           "name": "紫式部",
+           "id": "murasakisikibu",
+           "slug": "murasakisikibu",
+           "ruby": "たちばななおもと",
+           "portrait": "/portrait_murasakisikibu.webp"
+         }
+       ],
        "reference": [
          {
            "type": "書籍",
@@ -10998,10 +11016,10 @@
            "slug": "buddhism"
          }
        ],
-       "emakis":[
+       "emakis": [
          {
            "cat": "ekotoba",
-           "chapter": "8",
+           "chapter": "4",
            "srcWidth": "2000",
            "srcHeight": "1080",
            "srcSp": "",
@@ -11014,10 +11032,30 @@
            "chapter": "",
            "srcWidth": "",
            "srcHeight": "",
-           "srcSp": "/08_murasaki-shikibu-nikki-emaki_our-lady-of-the-chronicle_hachisuka-scroll_privately-owned-375.webp",
-           "srcTb": "/08_murasaki-shikibu-nikki-emaki_our-lady-of-the-chronicle_hachisuka-scroll_privately-owned-800.webp",
-           "src": "/08_murasaki-shikibu-nikki-emaki_our-lady-of-the-chronicle_hachisuka-scroll_privately-owned-1080.webp",
-           "name": "08_murasaki-shikibu-nikki-emaki_our-lady-of-the-chronicle_hachisuka-scroll_privately-owned"
+           "srcSp": "/04_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned-375.webp",
+           "srcTb": "/04_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned-800.webp",
+           "src": "/04_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned-1080.webp",
+           "name": "04_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned"
+         },
+         {
+           "cat": "ekotoba",
+           "chapter": "5",
+           "srcWidth": "",
+           "srcHeight": "",
+           "srcSp": "",
+           "srcTb": "",
+           "src": "",
+           "name": ""
+         },
+         {
+           "cat": "image",
+           "chapter": "",
+           "srcWidth": "",
+           "srcHeight": "",
+           "srcSp": "/05_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned-375.webp",
+           "srcTb": "/05_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned-800.webp",
+           "src": "/05_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned-1080.webp",
+           "name": "05_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned"
          },
          {
            "cat": "ekotoba",
@@ -11260,6 +11298,5 @@
            "name": "26_murasaki-shikibu-nikki-emaki_50th-day-celebration-of-atsunaga-shinno-01_former-hisamatsu-scroll_privately-owned"
          }
        ]
-
      }
 ]
