@@ -3,6 +3,7 @@ import styles from "../styles/EmakiImage.module.css";
 import ResposiveImage from "./ResposiveImage";
 import { AppContext } from "../pages/_app";
 import Link from "next/link";
+import Image from "next/image";
 
 // TODO : 登場人物の名前のフォントサイズをレスポンシブにする
 
@@ -176,7 +177,7 @@ const EmakiImage = ({
           })}
         </div>
       )}
-      {index <= 2 && (
+      {index <= 1 && (
         <picture>
           <source
             data-srcset={srcTb}
@@ -185,19 +186,60 @@ const EmakiImage = ({
           />
           <img
           loading="eager"
-            src={src}
-            // data-src={src}
+            src={srcSp}
+            data-src={src}
             // data-size="auto"
             // className={`fade-in lazyload ${styles.emakiImg}`}
-            className={`fade-in ${styles.emakiImg}`}
+            className={`fade-in ${styles.emakiImg} lazyload`}
             alt={name}
             width={srcWidth}
             height={srcHeight}
-            data-expand="1000"
           />
         </picture>
+        //          <Image
+        //   src={src}
+        //   width={1066}
+        //   height={1080}
+        //   sizes="100vw"
+        //   alt={name}
+        //   // loading="lazy"
+        //   layout="responsive"
+        //   placeholder="blur"
+        //   blurDataURL={srcSp}
+        //   // blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
+        // />
+        // <figure
+        //   style={{ position: "relative", width: "1000px", height: "100%" }}
+        // >
+        //   <Image
+        //     src={src}
+        //     alt={name}
+        //     layout="fill"
+        //     objectFit="cover"
+        //     placeholder="blur"
+        //     blurDataURL={srcSp}
+        //     // blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
+        //     priprity
+        //   />
+        // </figure>
       )}
-      {index >= 3 && (
+      {/* {index >= 2 && (
+        <figure
+          style={{ position: "relative", width: srcWidth, height: "100%" }}
+        >
+          <Image
+            src={src}
+            alt={name}
+            layout="fill"
+            objectFit="cover"
+            loading="lazy"
+            placeholder="blur"
+            // blurDataURL={srcSp}
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
+          />
+        </figure>
+      )} */}
+      {index >= 2 && (
         <ResposiveImage
           value={{
             srcSp,

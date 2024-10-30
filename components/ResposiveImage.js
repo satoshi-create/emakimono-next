@@ -18,7 +18,6 @@ const ResposiveImage = ({
         type="image/webp"
       />
       <img
-        // src={src}
         src={srcSp}
         data-src={src}
         // data-size="auto"
