@@ -168,7 +168,7 @@ const ModalDesc = ({ data }) => {
                   </p>
                 )}
               </div>
-
+{/*
               <button
                 type="button"
                 onClick={() => handleChapter(linkId)}
@@ -183,7 +183,7 @@ const ModalDesc = ({ data }) => {
                 chapter={chapter}
                 index={DescIndex.index}
                 ort={"modal"}
-              />
+              /> */}
             </article>
           );
         })}
