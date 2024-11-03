@@ -1,3 +1,5 @@
+
+
 .wrapper {
   display: grid;
   grid-template-columns: 65vw auto;
@@ -38,6 +40,7 @@
 .chapterlink {
   cursor: pointer;
   transition: var(--transition);
+  font-size:calc(10px + (30 - 16) * ((100vh - 375px) / (1080 - 375)));
 }
 
 .chapterlink:hover {
