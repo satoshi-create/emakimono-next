@@ -212,21 +212,21 @@ const ModalDescGenji = ({ data }) => {
                 )}
               </div>
 
-              <button
+              {/* <button
                 type="button"
                 onClick={() => handleChapter(linkId)}
                 className={styles.linkedbutton}
               >
                 横スクロールで見る
-              </button>
-              <SnsShareBox
+              </button> */}
+              {/* <SnsShareBox
                 titleen={data.titleen}
                 title={data.title}
                 edition={data.edition}
                 chapter={chapter}
                 index={DescIndex.index}
                 ort={"modal"}
-              />
+              /> */}
             </article>
           );
           // if (value === 1) {
