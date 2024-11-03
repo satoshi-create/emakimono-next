@@ -168,7 +168,7 @@ const ModalDesc = ({ data }) => {
                   </p>
                 )}
               </div>
-{/*
+
               <button
                 type="button"
                 onClick={() => handleChapter(linkId)}
@@ -176,7 +176,7 @@ const ModalDesc = ({ data }) => {
               >
                 横スクロールで見る
               </button>
-              <SnsShareBox
+              {/* <SnsShareBox
                 titleen={data.titleen}
                 title={data.title}
                 edition={data.edition}
