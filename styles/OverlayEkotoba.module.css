@@ -6,36 +6,19 @@
   transition: var(--transition);
   width: 100%;
 }
-.gendaibunopen .ekotobaimagebox {
-  filter: blur(5px);
-  /* mask-image: linear-gradient(to left, black, black, black, transparent); */
-  mask-image: linear-gradient(
-    to left,
-    black,
-    black,
-    black,
-    rgba(204, 204, 204, 0.5830707282913166)
-  );
-}
 .textbox {
   position: absolute;
   top: 0;
-  background-color: #ffffff7d;
   z-index: 10;
-  display: flex;
-  flex-direction: column;
-  row-gap: 2rem;
-  font-size: var(--text-size);
   width: 100%;
   overflow-x: scroll;
   height: 100%;
-  transition: var(--transition);
+  transition:var(--transition);
   opacity: 0;
+  background-color: rgba(255, 255, 255, 0.267);
+  backdrop-filter: blur(5px);
 }
-/* .ekotobaimage{
-  position: absolute;
-  top: 0;
-} */
+
 /* overflowを指定すると詞書の画像が存在しない場合は、幅がゼロになり表示されないので
   visibleに切り替える */
 .noekotobaimage {

@@ -212,13 +212,13 @@ const ModalDescGenji = ({ data }) => {
                 )}
               </div>
 
-              {/* <button
+              <button
                 type="button"
                 onClick={() => handleChapter(linkId)}
                 className={styles.linkedbutton}
               >
                 横スクロールで見る
-              </button> */}
+              </button>
               {/* <SnsShareBox
                 titleen={data.titleen}
                 title={data.title}
