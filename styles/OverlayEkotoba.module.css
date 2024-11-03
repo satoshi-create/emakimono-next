@@ -17,7 +17,7 @@
     rgba(204, 204, 204, 0.5830707282913166)
   );
 }
-.gendaibunbox {
+.textbox {
   position: absolute;
   top: 0;
   background-color: #ffffff7d;
@@ -25,7 +25,6 @@
   display: flex;
   flex-direction: column;
   row-gap: 2rem;
-  padding: 2rem 0;
   font-size: var(--text-size);
   width: 100%;
   overflow-x: scroll;
@@ -44,18 +43,47 @@
   height: auto;
   overflow-x: visible;
 }
-.gendaibunopen .gendaibunbox {
+.gendaibunopen .textbox {
   opacity: 100;
 }
+/* CSSで作る！綺麗なWeb用リボンデザイン22選 */
+/* https: //saruwakakun.com/html-css/reference/ribbon */
 .chapterbox {
+  position: absolute;
+  top: 0;
   display: flex;
   align-items: center;
   letter-spacing: 0.2rem;
-  z-index: 5;
+  z-index: 20;
   color: var(--clr-white);
   background-color: #0000008c;
-  outline: 1px solid #ffffff;
-  outline-offset: -6px;
+    padding: .5rem;
+  background: linear-gradient(#00000033 0%, #0000008c 100%);
+  cursor: pointer;
+}
+.chapterbox.prt{
+  width: 40px;
+}
+.chapterbox.land{
+  width: 60px;
+}
+.chapterbox:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 100%;
+  height: 0;
+  width: 0;
+}
+.chapterbox.prt:after{
+  border-left: 20px solid #0000008c;
+    border-right: 20px solid #0000008c;
+    border-bottom: 10px solid transparent;
+}
+.chapterbox.land:after{
+  border-left: 30px solid #0000008c;
+    border-right: 30px solid #0000008c;
+    border-bottom: 10px solid transparent;
 }
 .chapter {
   font-weight: 400;
@@ -65,10 +93,14 @@
 
 .gendaibun {
   font-family: var(--emaki-kotobagki-font);
-  line-height: 1.6;
-}
-.gendaibun {
   font-size: var(--text-size-prt);
+line-height: 1.6;
+  padding: 2rem 0;
+  position: absolute;
+  top: 0;
+  z-index: 20;
+  right: 100px;
+  opacity:0;
 }
 .gendaibun a {
   transition: var(--transition);
@@ -76,6 +108,9 @@
 }
 .gendaibun a:hover {
   color: var(--clr-accent-02);
+}
+.gendaibunopen .gendaibun {
+  opacity: 100;
 }
 .mapiconlink,
 .infoiconlink {
@@ -100,7 +135,7 @@
   writing-mode: vertical-rl;
   z-index: 1;
 }
-.ekotobarl .gendaibunbox {
+.ekotobarl .textbox {
   right: 0;
 }
 .ekotobarl .chapterbox {
@@ -114,7 +149,7 @@
   writing-mode: vertical-lr;
   z-index: 1;
 }
-.ekotobalr .gendaibunbox {
+.ekotobalr .textbox {
   left: 0;
 }
 .ekotobalr .chapterbox {
@@ -134,7 +169,7 @@
  * スクロールバーのスタイル
  * =========================== */
 
-.gendaibunbox::-webkit-scrollbar-thumb {
+.textbox::-webkit-scrollbar-thumb {
   background-image: linear-gradient(
     90deg,
     rgb(253, 147, 150),
@@ -142,20 +177,20 @@
   );
 }
 
-/* .gendaibunbox::-webkit-scrollbar {
+/* .textbox::-webkit-scrollbar {
   height: 15px;
 }
 @media (min-width: 768px) {
-  .gendaibunbox::-webkit-scrollbar {
+  .textbox::-webkit-scrollbar {
     height: 20px;
   }
 }
-.gendaibunbox::-webkit-scrollbar-track {
+.textbox::-webkit-scrollbar-track {
   border-bottom-right-radius: 100px;
   border-bottom-left-radius: 100px;
 }
 
-.gendaibunbox::-webkit-scrollbar-thumb {
+.textbox::-webkit-scrollbar-thumb {
   background-image: linear-gradient(
     90deg,
     rgb(253, 147, 150),
@@ -167,6 +202,6 @@
   background-clip: content-box;
   width: 80px;
 }
-.gendaibunbox::-webkit-scrollbar-thumb:hover {
+.textbox::-webkit-scrollbar-thumb:hover {
   background-color: #afafafbd;
 } */
