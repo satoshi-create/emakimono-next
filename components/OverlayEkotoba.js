@@ -94,77 +94,82 @@ const OverlayEkotoba = ({
       id={`${index}`}
       ref={navIndex === index ? scrollDialog : null}
     >
-      {chapter && (
+      <div className={styles.ekotobabox}>
+        {/* 段タイトル */}
+        {chapter && (
+          <div
+            className={`${styles.chapterbox} ${
+              orientation === "portrait" ? styles.prt : styles.land
+            }`}
+            onClick={() => handleToId(index)}
+          >
+            <h3
+              className={styles.chapter}
+              style={{
+                fontSize: `${
+                  orientation === "portrait"
+                    ? "var(--title-size-prt)"
+                    : "var(--title-size)"
+                }`,
+              }}
+            >
+              {ChaptersTitle(titleen, title, chapter)}
+            </h3>
+            {/* インフォアイコン */}
+            {type === "浮世絵" && googlemap && (
+              <button
+                className={styles.mapiconlink}
+                onClick={() => openMapModal(ekotobaId)}
+                title={`${chapter}の場所を地図で確認する`}
+              >
+                <FontAwesomeIcon
+                  icon={faLocationDot}
+                  className={styles.mapiconlinkicon}
+                />
+              </button>
+            )}
+            {kotobagaki && (
+              <button
+                className={`${styles.infoiconlink} ekotoba_info_click`}
+                // data-link-click="ekotoba_info_click"
+                onClick={() =>
+                  openDescModal({
+                    ekotobaId,
+                    // parseEkotobaId: parseEkotobaId(ekotobaId),
+                    index,
+                  })
+                }
+                title={`${chapter}の情報を見る`}
+              >
+                <FontAwesomeIcon
+                  icon={faCircleInfo}
+                  className={styles.infoiconlinkicon}
+                />
+              </button>
+            )}
+          </div>
+        )}
         <div
-          className={`${styles.chapterbox} ${
-            orientation === "portrait" ? styles.prt : styles.land
-          }`}
-          onClick={() => handleToId(index)}
+          className={`${styles.textbox} ${
+            !src && styles.noekotobaimage
+          } scrollbar`}
         >
-          <h3
-            className={styles.chapter}
+          {/* 現代文 */}
+          <p
+            className={styles.gendaibun}
             style={{
               fontSize: `${
                 orientation === "portrait"
-                  ? "var(--title-size-prt)"
-                  : "var(--title-size)"
+                  ? "var(--text-size-prt)"
+                  : "var(--text-size)"
               }`,
             }}
           >
-            {ChaptersTitle(titleen, title, chapter)}
-          </h3>
-
-          {type === "浮世絵" && googlemap && (
-            <button
-              className={styles.mapiconlink}
-              onClick={() => openMapModal(ekotobaId)}
-              title={`${chapter}の場所を地図で確認する`}
-            >
-              <FontAwesomeIcon
-                icon={faLocationDot}
-                className={styles.mapiconlinkicon}
-              />
-            </button>
-          )}
-          {kotobagaki && (
-            <button
-              className={`${styles.infoiconlink} ekotoba_info_click`}
-              // data-link-click="ekotoba_info_click"
-              onClick={() =>
-                openDescModal({
-                  ekotobaId,
-                  // parseEkotobaId: parseEkotobaId(ekotobaId),
-                  index,
-                })
-              }
-              title={`${chapter}の情報を見る`}
-            >
-              <FontAwesomeIcon
-                icon={faCircleInfo}
-                className={styles.infoiconlinkicon}
-              />
-            </button>
-          )}
+            {src && ChaptersGendaibun(titleen, title, chapter, ekotobabody)}
+          </p>
         </div>
-      )}
-      <div
-        className={`${styles.textbox} ${
-          !src && styles.noekotobaimage
-        } scrollbar`}
-      ></div>
-      <p
-        // dangerouslySetInnerHTML={{ __html: src && ekotobabody }}
-        className={styles.gendaibun}
-        style={{
-          fontSize: `${
-            orientation === "portrait"
-              ? "var(--text-size-prt)"
-              : "var(--text-size)"
-          }`,
-        }}
-      >
-        {src && ChaptersGendaibun(titleen, title, chapter, ekotobabody)}
-      </p>
+      </div>
+
       {src && (
         <div className={styles.ekotobaimagebox}>
           <ResposiveImage
