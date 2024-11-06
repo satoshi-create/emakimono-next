@@ -6,9 +6,12 @@
   transition: var(--transition);
   width: 100%;
 }
-.textbox {
+.ekotobabox{
   position: absolute;
   top: 0;
+  z-index: 20;
+}
+.textbox {
   z-index: 10;
   width: 100%;
   overflow-x: scroll;
@@ -32,8 +35,6 @@
 /* CSSで作る！綺麗なWeb用リボンデザイン22選 */
 /* https: //saruwakakun.com/html-css/reference/ribbon */
 .chapterbox {
-  position: absolute;
-  top: 0;
   display: flex;
   align-items: center;
   letter-spacing: 0.2rem;
@@ -43,14 +44,16 @@
     padding: .5rem;
   background: linear-gradient(#00000033 0%, #0000008c 100%);
   cursor: pointer;
+  height: auto;
+  max-height: 80%;
 }
-.chapterbox.prt{
+/* .chapterbox.prt{
   width: 40px;
 }
 .chapterbox.land{
   width: 60px;
-}
-.chapterbox:after {
+} */
+/* .chapterbox:after {
   content: '';
   position: absolute;
   left: 0;
@@ -67,7 +70,7 @@
   border-left: 30px solid #0000008c;
     border-right: 30px solid #0000008c;
     border-bottom: 10px solid transparent;
-}
+} */
 .chapter {
   font-weight: 400;
   font-family: var(--text-font-koten);
@@ -79,11 +82,6 @@
   font-size: var(--text-size-prt);
 line-height: 1.6;
   padding: 2rem 0;
-  position: absolute;
-  top: 0;
-  z-index: 20;
-  right: 100px;
-  opacity:0;
 }
 .gendaibun a {
   transition: var(--transition);
