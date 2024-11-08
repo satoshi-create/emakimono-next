@@ -47,6 +47,7 @@ const OverlayEkotoba = ({
     ekotobaToggle,
     openMapModal,
     openDescModal,
+    handleToId,
   } = useContext(AppContext);
 
 
@@ -79,6 +80,8 @@ const OverlayEkotoba = ({
     }
   };
 
+  console.log(ChaptersTitle(titleen, title, chapter));
+
 
 
   return (
@@ -102,10 +105,9 @@ const OverlayEkotoba = ({
           <div
             className={styles.chapterbox}
             style={{
-              padding: `${
-                orientation === "portrait" ? "1rem .5rem" : "1.5rem 1rem"
-              }`,
+              padding: `${orientation === "portrait" ? "1rem .5rem" : ".5rem"}`,
             }}
+            onClick={() => handleToId(index)}
           >
             <h3
               className={styles.chapter}
@@ -143,7 +145,7 @@ const OverlayEkotoba = ({
                     index,
                   })
                 }
-                title={`${chapter}の情報を見る`}
+                // title={`${ChaptersTitle(titleen, title, chapter)}の情報を見る`}
               >
                 <FontAwesomeIcon
                   icon={faCircleInfo}
@@ -164,7 +166,7 @@ const OverlayEkotoba = ({
             }`,
           }}
         >
-          {src && ChaptersGendaibun(titleen,title, chapter, ekotobabody)}
+          {src && ChaptersGendaibun(titleen, title, chapter, ekotobabody)}
         </p>
       </div>
 
