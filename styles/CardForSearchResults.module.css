@@ -1,0 +1,141 @@
+.searchbox {
+  display: grid;
+grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  justify-content: center;
+  gap: 3rem;
+}
+
+.card {
+  border-radius: var(--borderRadius);
+  position: relative;
+  transition: var(--transition);
+  background: white;
+  box-shadow: var(--shadow-1);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-2);
+  transform: scale(1.02);
+}
+
+.single {
+  border-top-right-radius: var(--borderRadius);
+  border-top-left-radius: var(--borderRadius);
+  position: relative;
+  transition: var(--transition);
+  background-color: #7c7c7cc9;
+  aspect-ratio: 16/9;
+  cursor: pointer;
+}
+
+.single img {
+  border-top-right-radius: var(--borderRadius);
+  border-top-left-radius: var(--borderRadius);
+  width: 100%;
+  object-fit: cover;
+  position: absolute;
+  transition: var(--transition);
+}
+
+.footer {
+  padding: 0.5rem 1rem 0.5rem 1rem;
+}
+
+.cat {
+  display: flex;
+  justify-content: left;
+  column-gap: 0.5rem;
+  font-size: 0.7rem;
+  padding: 0.5rem 0;
+  font-family: var(--title-font2);
+  font-weight: 500;
+}
+
+.cat>* {
+  padding: 0.1rem 0.4rem 0;
+  border-radius: var(--borderRadius);
+  color: var(--clr-black);
+  border: 1px solid var(--clr-grey-light);
+  font-weight: 100;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.cat>.type:hover,
+.cat>div:hover,
+.cat>.era:hover {
+  opacity: 0.6;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--clr-black);
+  font-family: var(--title-font2);
+  text-transform: capitalize;
+}
+
+.authorLink {
+  transition: var(--transition);
+}
+
+.authorLink:hover {
+  opacity: 0.6;
+}
+
+.author {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--clr-black);
+  font-family: var(--title-font2);
+  text-transform: capitalize;
+}
+
+.desc {
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  color: rgb(112 112 112);
+}
+
+.viewemaki {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.viewemakiBtn {
+  padding: 0.5rem;
+  border-radius: var(--borderRadius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: var(--transition);
+  font-family: var(--text-font);
+  color: var(--clr-accent-02);
+  border: 1px solid var(--clr-accent-02);
+  background: var(--clr-white);
+}
+
+.viewemakiBtn:hover {
+  color: var(--clr-white);
+  background-color: var(--clr-accent-02);
+}
+
+.keyword {
+  display: flex;
+  justify-content: right;
+  -moz-column-gap: 0.5rem;
+  column-gap: 0.3rem;
+  font-size: 0.5rem;
+  padding: 0.5rem 0;
+  font-family: var(--title-font2);
+}
+
+.keywordLink {
+  color: var(--clr-grey-light);
+  font-weight: 100;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.keywordLink:hover {
+  opacity: 0.5;
+}

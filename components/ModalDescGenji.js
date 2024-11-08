@@ -219,14 +219,14 @@ const ModalDescGenji = ({ data }) => {
               >
                 横スクロールで見る
               </button>
-              <SnsShareBox
+              {/* <SnsShareBox
                 titleen={data.titleen}
                 title={data.title}
                 edition={data.edition}
                 chapter={chapter}
                 index={DescIndex.index}
                 ort={"modal"}
-              />
+              /> */}
             </article>
           );
           // if (value === 1) {

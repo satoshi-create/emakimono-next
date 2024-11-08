@@ -6,7 +6,7 @@ import {
   faMagnifyingGlass
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "../styles/Search.css.module.css";
-import CardA from './CardA';
+import CardForSearchResults from './CardForSearchResults';
 import ExtractingListData from "../libs/ExtractingListData";
 import { useRouter } from "next/router";
 import { eraColor, eraItem, typeItem } from "../libs/func";
@@ -49,9 +49,9 @@ const ModalSearch = () => {
 
   // const eras = eraItem(data).sort((a, b) => (a.total > b.total ? -1 : 1));
   // console.log(eras);
-  
+
   const eras = ["平安","鎌倉","室町","安土・桃山","江戸","明治"]
-  
+
 
   const selectTypes = (e) => {
     const el = e.target.value;
@@ -126,7 +126,8 @@ const ModalSearch = () => {
             全ての作品
           </button>
           {eras.map((item, i) => (
-            <Button item={item}
+            <Button
+              item={item}
               key={i}
               value={item}
               onClick={(e) => selectEras(e)}
@@ -158,7 +159,7 @@ const ModalSearch = () => {
               <CardA emakis={showData} columns={"searchbox"} />
         )}
          */}
-          <CardA emakis={showData} columns={"searchbox"} />
+          <CardForSearchResults emakis={showData} />
         </div>
       </div>
     </div>
