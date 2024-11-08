@@ -108,7 +108,7 @@ transform: scale(1.2);
 
 .mapiconlink:hover,
 .infoiconlink:hover {
-  color: var(--clr-accent-02);
+  color: var(--clr-black);
 }
 /* ===========================
  * 右⇒左（rl）の設定
