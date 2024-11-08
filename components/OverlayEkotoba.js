@@ -48,7 +48,6 @@ const OverlayEkotoba = ({
     ekotobaToggle,
     openMapModal,
     openDescModal,
-    handleToId,
   } = useContext(AppContext);
 
 
