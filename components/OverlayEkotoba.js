@@ -44,10 +44,10 @@ const OverlayEkotoba = ({
     setEkotobaImageToggle,
     scrollDialog,
     orientation,
-    handleToId,
     ekotobaToggle,
     openMapModal,
     openDescModal,
+    handleToId,
   } = useContext(AppContext);
 
 
@@ -96,18 +96,17 @@ const OverlayEkotoba = ({
       id={`${index}`}
       ref={navIndex === index ? scrollDialog : null}
     >
-      <div className={styles.ekotobabox}>
-        {/* 段タイトル */}
+      <div
+        className={`${styles.gendaibunbox} ${
+          !src && styles.noekotobaimage
+        } scrollbar`}
+      >
         {chapter && (
           <div
             className={styles.chapterbox}
             style={{
               padding: `${orientation === "portrait" ? "1rem .5rem" : ".5rem"}`,
             }}
-            className={`${styles.chapterbox} ${
-              orientation === "portrait" ? styles.prt : styles.land
-            }`}
-
             onClick={() => handleToId(index)}
           >
             <h3
@@ -122,7 +121,7 @@ const OverlayEkotoba = ({
             >
               {ChaptersTitle(titleen, title, chapter)}
             </h3>
-            {/* インフォアイコン */}
+
             {type === "浮世絵" && googlemap && (
               <button
                 className={styles.mapiconlink}
@@ -156,27 +155,19 @@ const OverlayEkotoba = ({
             )}
           </div>
         )}
-        <div
-          className={`${styles.textbox} ${
-            !src && styles.noekotobaimage
-          } scrollbar`}
+        <p
+          // dangerouslySetInnerHTML={{ __html: src && ekotobabody }}
+          className={styles.gendaibun}
+          style={{
+            fontSize: `${
+              orientation === "portrait"
+                ? "var(--text-size-prt)"
+                : "var(--text-size)"
+            }`,
+          }}
         >
           {src && ChaptersGendaibun(titleen, title, chapter, ekotobabody)}
         </p>
-          {/* 現代文 */}
-          <p
-            className={styles.gendaibun}
-            style={{
-              fontSize: `${
-                orientation === "portrait"
-                  ? "var(--text-size-prt)"
-                  : "var(--text-size)"
-              }`,
-            }}
-          >
-            {src && ChaptersGendaibun(titleen, title, chapter, ekotobabody)}
-          </p>
-        </div>
       </div>
 
       {src && (
