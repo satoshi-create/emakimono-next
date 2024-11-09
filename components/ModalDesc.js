@@ -118,7 +118,7 @@ const ModalDesc = ({ data }) => {
                       }
                     : { fontSize: "var(--title-size)" }
                 }
-                onClick={() => handleChapter(linkId)}
+                // onClick={() => handleChapter(linkId)}
               >
                 {ChaptersTitle(titleen,title, chapter)}
               </h3>
