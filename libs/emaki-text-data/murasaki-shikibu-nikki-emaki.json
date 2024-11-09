@@ -15,7 +15,7 @@
     "celebration-date": "敦成（後一条）親王 誕生三日目の産養",
     "title": "敦成親王 誕生三日目の産養",
     "event_en": "third-day-of-birth-celebration-of-atsuhira-shinno-01",
-    "gendaibun": "中宮職が主催。土御門邸東の対の庇に列座する公卿",
+    "desc": "中宮職が主催。土御門邸東の対の庇に列座する公卿",
     "edition": "蜂須賀家本",
     "edition_en": "hachisuka-scroll",
     "collection": "privately-owned"
@@ -36,7 +36,7 @@
     "celebration-date": "敦成（後一条）親王 誕生五日目の産養",
     "title": "敦成親王、誕生五日目の産養",
     "event_en": "fifth-day-of-birth-celebration-of-atsuhira-shinno-01",
-    "gendaibun": "道長が主催。土御門邸の寝殿前でかがり火をたく随身",
+    "desc": "道長が主催。土御門邸の寝殿前でかがり火をたく随身",
     "edition": "蜂須賀家本",
     "edition_en": "hachisuka-scroll",
     "collection": "privately-owned"
@@ -57,7 +57,7 @@
     "celebration-date": "敦成（後一条）親王 誕生五日目の産養",
     "title": "亥の刻、中宮に御膳を進める",
     "event_en": "fifth-day-of-birth-celebration-of-atsuhira-shinno-02",
-    "gendaibun": "中宮への御膳（おもの）まいり（食事を供する）、台盤の上の御膳、奥に中宮、手前に女房たち",
+    "desc": "中宮への御膳（おもの）まいり（食事を供する）、台盤の上の御膳、奥に中宮、手前に女房たち",
     "edition": "蜂須賀家本",
     "edition_en": "hachisuka-scroll",
     "collection": "privately-owned"
@@ -78,7 +78,7 @@
     "celebration-date": "敦成（後一条）親王 ",
     "title": "紫式部、中宮に「新楽府」を進講",
     "event_en": "",
-    "gendaibun": "式部は中宮に『白氏文集』「新楽府」を講じる。文机を挟んで対面する中宮と紫式部（本来、第六段の絵）",
+    "desc": "式部は中宮に『白氏文集』「新楽府」を講じる。文机を挟んで対面する中宮と紫式部（本来、第六段の絵）",
     "edition": "蜂須賀家本",
     "edition_en": "hachisuka-scroll",
     "collection": "privately-owned"
@@ -99,7 +99,7 @@
     "celebration-date": "敦成（後一条）親王 ",
     "title": "紫式部、女房たちの話にまどろみを破られる",
     "event_en": "",
-    "gendaibun": "寛弘5年12月29日の参内の場面か。蔀戸の背後で語り合う女房たち",
+    "desc": "寛弘5年12月29日の参内の場面か。蔀戸の背後で語り合う女房たち",
     "edition": "蜂須賀家本",
     "edition_en": "hachisuka-scroll",
     "collection": "privately-owned"
@@ -120,7 +120,7 @@
     "celebration-date": "敦成（後一条）親王 誕生五日目の産養",
     "title": "御膳進上が果てて憩う、道長の女房たち",
     "event_en": "fifth-day-of-birth-celebration-of-atsuhira-shinno-03",
-    "gendaibun": "9月15日の産養の祝儀が終わる。几帳のかげでくつろぐ女房たち",
+    "desc": "9月15日の産養の祝儀が終わる。几帳のかげでくつろぐ女房たち",
     "edition": "蜂須賀家本",
     "edition_en": "hachisuka-scroll",
     "collection": "privately-owned"
@@ -141,7 +141,7 @@
     "celebration-date": "敦成（後一条）親王 誕生五日目の産養",
     "title": "紫式部、夜居の僧に話しかける",
     "event_en": "fifth-day-of-birth-celebration-of-atsuhira-shinno-04",
-    "gendaibun": "同日、紫式部は夜居の僧に話しかける。屏風を押し開け、隣室に控える夜居の僧に中宮御前の様子を見せる紫式部",
+    "desc": "同日、紫式部は夜居の僧に話しかける。屏風を押し開け、隣室に控える夜居の僧に中宮御前の様子を見せる紫式部",
     "edition": "蜂須賀家本",
     "edition_en": "hachisuka-scroll",
     "collection": "privately-owned"
@@ -162,7 +162,7 @@
     "celebration-date": "敦成（後一条）親王 ",
     "title": "紫式部、中宮に「新楽府」を進講",
     "event_en": "Our lady of the chronicle",
-    "gendaibun": "紫式部は中宮に『白氏文集』「新楽府」を講じる。（この詞に該当する絵は第三段の次にあり）",
+    "desc": "紫式部は中宮に『白氏文集』「新楽府」を講じる。（この詞に該当する絵は第三段の次にあり）",
     "edition": "蜂須賀家本",
     "edition_en": "hachisuka-scroll",
     "collection": "privately-owned"
@@ -183,7 +183,7 @@
     "celebration-date": "敦成（後一条）親王 ",
     "title": "丹波守の五節の童女",
     "event_en": "Gosechi dancers",
-    "gendaibun": "五節の舞姫の童女御覧がある。",
+    "desc": "五節の舞姫の童女御覧がある。",
     "edition": "蜂須賀家本",
     "edition_en": "hachisuka-scroll",
     "collection": "privately-owned"
@@ -204,7 +204,7 @@
     "celebration-date": "敦成（後一条）親王 ",
     "title": "夕暮れに、琴をひく紫式部",
     "event_en": "",
-    "gendaibun": "琴を弾く女（紫式部か）",
+    "desc": "琴を弾く女（紫式部か）",
     "edition": "蜂須賀家本",
     "edition_en": "hachisuka-scroll",
     "collection": "privately-owned"
@@ -225,7 +225,7 @@
     "celebration-date": "敦成（後一条）親王 誕生五日目の産養",
     "title": "敦成親王、第五夜の産養（うぶやしない）についで賜禄",
     "event_en": "fifth-day-of-birth-celebration-of-atsuhira-shinno-01",
-    "gendaibun": "産養の後の賜禄。禄を受けて退出する者（右）と禄を受けつつある者（左）。",
+    "desc": "産養の後の賜禄。禄を受けて退出する者（右）と禄を受けつつある者（左）。",
     "edition": "藤田美術館本",
     "edition_en": "fujita-art-museum-scroll",
     "collection": "fujita-art-museum"
@@ -246,7 +246,7 @@
     "celebration-date": "敦成（後一条）親王 誕生五日目の産養",
     "title": "十六夜（いざよい）の夜、若い女房の舟遊び",
     "event_en": "fifth-day-of-birth-celebration-of-atsuhira-shinno-02",
-    "gendaibun": "十六夜（いざよい）の月の夜の舟遊び。",
+    "desc": "十六夜（いざよい）の月の夜の舟遊び。",
     "edition": "藤田美術館本",
     "edition_en": "fujita-art-museum-scroll",
     "collection": "fujita-art-museum"
@@ -267,7 +267,7 @@
     "celebration-date": "敦成（後一条）親王 誕生五日目の産養",
     "title": "土御門第の北門にたむろする女房車",
     "event_en": "fifth-day-of-birth-celebration-of-atsuhira-shinno-03",
-    "gendaibun": "同夜、土御門邸に内裏の女房たちが祝いに駆け付ける。邸の北門付近に並ぶ牛車を描く。",
+    "desc": "同夜、土御門邸に内裏の女房たちが祝いに駆け付ける。邸の北門付近に並ぶ牛車を描く。",
     "edition": "藤田美術館本",
     "edition_en": "fujita-art-museum-scroll",
     "collection": "fujita-art-museum"
@@ -288,7 +288,7 @@
     "celebration-date": "敦成（後一条）親王 誕生七日目の産養",
     "title": "七日の夜の、朝廷主催の御産養",
     "event_en": "seven-day-of-birth-celebration-of-atsuhira-shinno",
-    "gendaibun": "公（朝廷）が主催。敦成親王誕生第七夜の産養。御帳台に臥す中宮（左端）と控える女房たち（画面の変色が著しい）。",
+    "desc": "公（朝廷）が主催。敦成親王誕生第七夜の産養。御帳台に臥す中宮（左端）と控える女房たち（画面の変色が著しい）。",
     "edition": "藤田美術館本",
     "edition_en": "fujita-art-museum-scroll",
     "collection": "fujita-art-museum"
@@ -309,7 +309,7 @@
     "celebration-date": "敦成（後一条）親王 行幸の日",
     "title": "一条天皇行幸の日、龍頭鷁首の船を見る道長",
     "event_en": "day-of-the-imperial-visit",
-    "gendaibun": "一条天皇の土御門邸行幸当日の朝、池に浮かべた龍頭鷁首（りょうとうげきす）の船を見る道長。",
+    "desc": "一条天皇の土御門邸行幸当日の朝、池に浮かべた龍頭鷁首（りょうとうげきす）の船を見る道長。",
     "edition": "藤田美術館本",
     "edition_en": "fujita-art-museum-scroll",
     "collection": "fujita-art-museum"
@@ -330,7 +330,7 @@
     "celebration-date": "敦成（後一条）親王 行幸翌日",
     "title": "紫式部の局を訪ねる実成と斉信",
     "event_en": "moonlit-night",
-    "gendaibun": "中宮権亮実成と中宮大夫斉信が、紫式部のいる「宮の大夫の局」を訪れる。呼び掛ける実成（右）と斉信（左）、蔀戸越しに顔をのぞかせる紫式部。",
+    "desc": "中宮権亮実成と中宮大夫斉信が、紫式部のいる「宮の大夫の局」を訪れる。呼び掛ける実成（右）と斉信（左）、蔀戸越しに顔をのぞかせる紫式部。",
     "edition": "五島美術館本",
     "edition_en": " gotoh-museum-scroll",
     "collection": " gotoh-museum"
@@ -351,7 +351,7 @@
     "celebration-date": "敦成（後一条）親王 誕生五十日目の祝儀",
     "title": "敦成親王、誕生五十日目のお祝い",
     "event_en": "50-day-celebration-of-the-birth-of-atsuhira-shinno",
-    "gendaibun": "若宮を抱く中宮（奥、顔は見えない）と給仕する女房たち。",
+    "desc": "若宮を抱く中宮（奥、顔は見えない）と給仕する女房たち。",
     "edition": "五島美術館本",
     "edition_en": " gotoh-museum-scroll",
     "collection": " gotoh-museum"
@@ -372,7 +372,7 @@
     "celebration-date": "敦成（後一条）親王 誕生五十日目の祝儀（夜）",
     "title": "道長が五十日の餅を差し上げる",
     "event_en": "50-day-celebration-night-of-the-birth-of-atsuhira-shinno-01",
-    "gendaibun": "親王の外祖父道長が五十日の餅を差し上げる。",
+    "desc": "親王の外祖父道長が五十日の餅を差し上げる。",
     "edition": "五島美術館本",
     "edition_en": " gotoh-museum-scroll",
     "collection": "tokyo-national-museum"
@@ -393,7 +393,7 @@
     "celebration-date": "敦成（後一条）親王 誕生五十日目の祝儀（夜）",
     "title": "五十日祝宴の夜の公卿たちの酔態",
     "event_en": "50-day-celebration-night-of-the-birth-of-atsuhira-shinno-02",
-    "gendaibun": "祝宴の後、酔って女房たちにたわむれる貴人たち。左衛門督・藤原公任（画面右手中央の人物）が「あなかしこ、此のわたりわかむらさきやさぶらふ（恐れ入りますが、この辺りに若紫は居られませんか）」とたわむれる。",
+    "desc": "祝宴の後、酔って女房たちにたわむれる貴人たち。左衛門督・藤原公任（画面右手中央の人物）が「あなかしこ、此のわたりわかむらさきやさぶらふ（恐れ入りますが、この辺りに若紫は居られませんか）」とたわむれる。",
     "edition": "五島美術館本",
     "edition_en": "former-morikawa-scroll",
     "collection": " gotoh-museum"
@@ -414,7 +414,7 @@
     "celebration-date": "敦成（後一条）親王 誕生五十日目の祝儀（夜）",
     "title": "五十日祝いの当夜、道長、紫式部に和歌を所望",
     "event_en": "50-day-celebration-night-of-the-birth-of-atsuhira-shinno-03",
-    "gendaibun": "几帳のかげに隠れていたところを道長に見つかり、祝いの和歌を詠むように迫られる紫式部と宰相の君。",
+    "desc": "几帳のかげに隠れていたところを道長に見つかり、祝いの和歌を詠むように迫られる紫式部と宰相の君。",
     "edition": "森川家本",
     "edition_en": "morikawa-scroll",
     "collection": "privately-owned"
@@ -435,7 +435,7 @@
     "celebration-date": "敦成（後一条）親王 ",
     "title": "道長の子、教通、賀茂臨時祭の使いとなる",
     "event_en": "Day of the Bird festival",
-    "gendaibun": "賀茂神社の祭礼、酉の日（とりのひ）の逸話。 この日、道長の子、藤原宣通が天皇の代役を務めた。 ",
+    "desc": "賀茂神社の祭礼、酉の日（とりのひ）の逸話。 この日、道長の子、藤原宣通が天皇の代役を務めた。 ",
     "edition": "",
     "edition_en": "",
     "collection": ""
@@ -456,7 +456,7 @@
     "celebration-date": "敦成（後一条）親王 ",
     "title": "紫式部、師走の二十九日に参内する",
     "event_en": "Thinking of the first time at court",
-    "gendaibun": "紫式部が実家を訪ねて朝廷に戻る場面。 宮中に入った記念日でもあり、紫式部はかつての生活を懐かしんでいる。 ",
+    "desc": "紫式部が実家を訪ねて朝廷に戻る場面。 宮中に入った記念日でもあり、紫式部はかつての生活を懐かしんでいる。 ",
     "edition": "",
     "edition_en": "",
     "collection": ""
@@ -477,7 +477,7 @@
     "celebration-date": "敦成（後一条）親王 ",
     "title": "",
     "event_en": "",
-    "gendaibun": "賀茂臨時祭奉幣使となった藤原教通（道長二男）の晴れ姿。",
+    "desc": "賀茂臨時祭奉幣使となった藤原教通（道長二男）の晴れ姿。",
     "edition": "日野原家本",
     "edition_en": "former-hinohara-scroll",
     "collection": "privately-owned"
@@ -498,7 +498,7 @@
     "celebration-date": "敦成（後一条）親王 ",
     "title": "",
     "event_en": "",
-    "gendaibun": "船上の管絃の遊び",
+    "desc": "船上の管絃の遊び",
     "edition": "日野原家本",
     "edition_en": "former-hinohara-scroll",
     "collection": "privately-owned"
@@ -519,7 +519,7 @@
     "celebration-date": "敦成（後一条）親王 ",
     "title": "道長、夜陰に紛れ、紫式部を訪ねる",
     "event_en": "Incident at night",
-    "gendaibun": "道長が紫式部の局を訪れる。",
+    "desc": "道長が紫式部の局を訪れる。",
     "edition": "日野原家本",
     "edition_en": "former-hinohara-scroll",
     "collection": "privately-owned"
@@ -540,7 +540,7 @@
     "celebration-date": "敦良（後朱雀）親王 誕生五十日目の祝儀",
     "title": "五節の寅の日、五節所に食を運ぶ人々",
     "event_en": "50th-day-celebration-of-atsunaga-shinno-01",
-    "gendaibun": " 寛弘7年正月15日、敦良親王の五十日の祝儀、食物を運ぶ貴人たち。",
+    "desc": " 寛弘7年正月15日、敦良親王の五十日の祝儀、食物を運ぶ貴人たち。",
     "edition": "日野原家本",
     "edition_en": "former-hinohara-scroll",
     "collection": "privately-owned"
@@ -561,7 +561,7 @@
     "celebration-date": "敦良（後朱雀）親王 誕生五十日目の祝儀",
     "title": "敦良親王の五十日のお祝い",
     "event_en": "50th-day-celebration-of-atsunaga-shinno-02",
-    "gendaibun": "同日の祝儀終了後、巻き上げられた御簾と2人の女房。",
+    "desc": "同日の祝儀終了後、巻き上げられた御簾と2人の女房。",
     "edition": "日野原家本",
     "edition_en": "former-hinohara-scroll",
     "collection": "privately-owned"
@@ -582,7 +582,7 @@
     "celebration-date": "敦良（後朱雀）親王 誕生五十日目の祝儀",
     "title": "敦良親王の五十日のお祝い",
     "event_en": "50th-day-celebration-of-atsunaga-shinno-03",
-    "gendaibun": "同日の祝儀終了後、高欄に倚る3人の貴人。",
+    "desc": "同日の祝儀終了後、高欄に倚る3人の貴人。",
     "edition": "日野原家本",
     "edition_en": "former-hinohara-scroll",
     "collection": "privately-owned"
