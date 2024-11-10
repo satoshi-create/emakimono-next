@@ -53,7 +53,8 @@ const EmakiContainer = ({
   useEffect(() => {
     new ScrollHint(".js-scrollable", {
       offset: -10,
-      remainingTime: 8000,
+      // remainingTime: 8000,
+      scrollableLeftClass:true,
       i18n: {
         scrollable: "左スクロールできます",
       },
