@@ -164,7 +164,6 @@ button {
 }
 
 /* scroll-hint */
-
 @keyframes scroll-hint-appear {
   0% {
     transform: translateX(-40px);
