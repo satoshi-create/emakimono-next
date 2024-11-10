@@ -16,6 +16,7 @@ import OverlayEkotoba from "./OverlayEkotoba";
 import ModalMap from "./ModalMap";
 import ModalDesc from "./ModalDesc";
 import ModalDescGenji from "./ModalDescGenji";
+import ScrollHint from "scroll-hint";
 
 const EmakiContainer = ({
   data,
@@ -48,6 +49,14 @@ const EmakiContainer = ({
   const articleRef = useRef();
   const scrollNextRef = useRef(null);
   const scrollPrevRef = useRef(null);
+
+  useEffect(() => {
+    new ScrollHint(".js-scrollable", {
+      offset: -10,
+      remainingTime:4000,
+    });
+  }, []);
+
 
   useEffect(() => {
     const ref = articleRef.current;
@@ -150,7 +159,7 @@ const EmakiContainer = ({
       <div
         className={`${
           orientation === "landscape" && scroll ? styles.land : styles.prt
-        }`}
+        } js-scrollable entry-container left-container`}
         style={{
           borderRadius:
             orientation === "landscape" &&
@@ -179,7 +188,7 @@ const EmakiContainer = ({
         <article
           className={`${styles.container} ${
             type === "西洋絵画" ? styles.lr : styles.rl
-          } scrollbar`}
+          } scrollbar left-box`}
           style={{
             "--screen-height": height,
             "--screen-width": width,

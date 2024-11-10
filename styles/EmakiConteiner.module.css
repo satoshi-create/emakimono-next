@@ -12,21 +12,18 @@
   position: relative;
 }
 .prt {
-  z-index: 10;
+  /* z-index: 10;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   background-color: white;
   position: sticky;
   top: 0;
-  left: 0;
+  left: 0; */
 }
 .container {
-  display: flex !important;
+  display: flex;
   height: var(--screen-height);
-  /* height:75vh; */
-  /* width: 65vw; */
   overflow-y: hidden;
-  overflow-x: var(--overflow-x);
-  /* overflow-x: hidden; */
+  overflow-x: scroll;
   position: relative;
   box-shadow: var(--shadow-1);
 }

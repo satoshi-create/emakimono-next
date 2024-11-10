@@ -225,13 +225,13 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
     } else if (ori === "portrait") {
       return (
         <>
-          <EmakiHeader />
+          {/* <EmakiHeader />
           <EmakiBreadcrumbs
             orientation={orientation}
             nameA={locale === "en" ? data.typeen : data.type}
             nameAen={`type/${data.typeen}`}
             nameB={locale === "en" ? data.titleen : data.title}
-          />
+          /> */}
           <EmakiPortraitContent
             data={data}
             scroll={true}
