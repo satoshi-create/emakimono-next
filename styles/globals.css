@@ -164,7 +164,7 @@ button {
 }
 
 /* scroll-hint */
-.animal-table {
+/* .animal-table {
   width: 100%;
   border-collapse: collapse;
 }
@@ -197,4 +197,15 @@ button {
 
 .js-scrollable {
   margin-bottom: 30px;
+} */
+
+.left-container{
+  display: flex;
+    flex-direction: row-reverse;
+    /* height: 45vh; */
+}
+.left-box{
+  display: flex;
+  flex-direction: row-reverse;
+  width: 2000px;
 }
