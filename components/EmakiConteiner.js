@@ -55,7 +55,7 @@ const EmakiContainer = ({
   useEffect(() => {
     new ScrollHint(".js-scrollable", {
       offset: -10,
-      remainingTime: 6000,
+      remainingTime: 8000,
       scrollableLeftClass: true,
        scrollHintIconAppendClass: 'scroll-hint-icon-white',
       i18n: {
