@@ -45,8 +45,6 @@ const EmakiContainer = ({
 
   const { backgroundImage, kotobagaki, type,genjieslug } = data;
 
-  const [toggle, setToggle] = useState(true);
-
   const wrapperRef = useRef();
   const articleRef = useRef();
   const scrollNextRef = useRef(null);
@@ -57,9 +55,17 @@ const EmakiContainer = ({
       offset: -10,
       remainingTime: 8000,
       scrollableLeftClass: true,
-       scrollHintIconAppendClass: 'scroll-hint-icon-white',
+      scrollHintIconAppendClass: "scroll-hint-icon-white",
       i18n: {
-        scrollable: `${locale === "ja" ? "左スクロールできます" : "scrollable left"}`,
+        scrollable: `${
+          locale === "ja"
+            ? `${
+                type !== "西洋絵画"
+                  ? "左スクロールできます"
+                  : "右スクロールできます"
+              }`
+            : `${type !== "西洋絵画" ? "scrollable left" : "scrollable right"}`
+        }`,
       },
     });
   }, []);
