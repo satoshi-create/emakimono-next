@@ -55,8 +55,9 @@ const EmakiContainer = ({
   useEffect(() => {
     new ScrollHint(".js-scrollable", {
       offset: -10,
-      remainingTime: 8000,
+      remainingTime: 6000,
       scrollableLeftClass: true,
+       scrollHintIconAppendClass: 'scroll-hint-icon-white',
       i18n: {
         scrollable: `${locale === "ja" ? "左スクロールできます" : "scrollable left"}`,
       },
@@ -165,7 +166,7 @@ const EmakiContainer = ({
       <div
         className={`${
           orientation === "landscape" && scroll ? styles.land : styles.prt
-        } js-scrollable entry-container left-container`}
+        } js-scrollable entry-container`}
         style={{
           borderRadius:
             orientation === "landscape" &&
@@ -194,7 +195,7 @@ const EmakiContainer = ({
         <article
           className={`${styles.container} ${
             type === "西洋絵画" ? styles.lr : styles.rl
-          } scrollbar left-box`}
+          } scrollbar`}
           style={{
             "--screen-height": height,
             "--screen-width": width,

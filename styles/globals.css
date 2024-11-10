@@ -165,17 +165,6 @@ button {
 
 /* scroll-hint */
 
-.left-container{
-  display: flex;
-    flex-direction: row-reverse;
-    /* height: 45vh; */
-}
-.left-box{
-  display: flex;
-  flex-direction: row-reverse;
-  width: 2000px;
-}
-
 @keyframes scroll-hint-appear {
   0% {
     transform: translateX(-40px);
