@@ -162,3 +162,39 @@ button {
 		display: none !important;
 	}
 }
+
+/* scroll-hint */
+.animal-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.animal-table,
+.animal-table th,
+.animal-table td {
+  border: 1px solid black;
+}
+
+.animal-table th,
+.animal-table td {
+  padding: 8px;
+  text-align: left;
+}
+
+.animal-table th {
+  background-color: #f2f2f2;
+}
+
+.js-scrollable td,
+.js-scrollable th {
+  white-space: nowrap;
+  background-color: transparent;
+}
+
+.js-scrollable table {
+  margin-bottom: 0;
+}
+
+.js-scrollable {
+  margin-bottom: 30px;
+}
