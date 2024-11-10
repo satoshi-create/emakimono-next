@@ -4,14 +4,15 @@
   position: relative;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
-.prt {
-  z-index: 10;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  background-color: white;
+.prt{
   position: sticky;
   top: 0;
   left: 0;
+  z-index: 10;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  background-color: white;
 }
+
 .container {
   display: flex;
   height: var(--screen-height);

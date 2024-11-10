@@ -168,11 +168,13 @@ const EmakiContainer = ({
   };
 
   return (
-    <>
+    <div
+      className={`${
+         orientation === "landscape" && scroll ? styles.land : styles.prt
+      }`}
+    >
       <div
-        className={`${
-          orientation === "landscape" && scroll ? styles.land : styles.prt
-        } js-scrollable entry-container`}
+        className="js-scrollable entry-container"
         style={{
           borderRadius:
             orientation === "landscape" &&
@@ -273,7 +275,7 @@ const EmakiContainer = ({
           })}
         </article>
       </div>
-    </>
+    </div>
   );
 };
 
