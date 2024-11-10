@@ -1,31 +1,32 @@
-.wrapper {
-  z-index: 10;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  /* background-color: var(--clr-white); */
-  background-color: white;
-  /* background-image: url("/washi_gray.webp");
-  background-repeat: repeat; */
-}
 .land {
   grid-row: 1;
   grid-column: 1;
   position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 .prt {
-  /* z-index: 10;
+  z-index: 10;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   background-color: white;
   position: sticky;
   top: 0;
-  left: 0; */
+  left: 0;
 }
 .container {
   display: flex;
   height: var(--screen-height);
   overflow-y: hidden;
-  overflow-x: scroll;
+overflow-x: var(--overflow-x);
   position: relative;
-  box-shadow: var(--shadow-1);
+}
+
+.EmakiConteiner_container__A_oLx {
+  display: flex !important;
+  height: var(--screen-height);
+  overflow-y: hidden;
+  overflow-x: var(--overflow-x);
+  position: relative;
+  box-shadow: var(--shadow-1)
 }
 .emakiplayer {
   position: absolute;
