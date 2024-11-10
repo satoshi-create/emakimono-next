@@ -95,9 +95,10 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               onClick={() => handleFullScreen("landscape")}
               className={styles.linkedbutton}
             >
-              横スクロールで見る
+              {locale === "en"
+                ? "Enjoy by right to left scroll !!"
+                : "横スクロールで見る"}
             </button>
-
           </div>
 
           <div className={styles.metadataB}>
@@ -135,7 +136,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                           styles.chaptername
                         }`}
                       >
-                        {ChaptersTitle(titleen,title,chapter)}
+                        {ChaptersTitle(titleen, title, chapter)}
                       </span>
                     </li>
                   );
