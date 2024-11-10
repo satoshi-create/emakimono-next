@@ -27,10 +27,10 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Hina+Mincho&family=Zen+Kaku+Gothic+New&family=Zen+Kurenaido&family=Zen+Maru+Gothic&display=swap"
             rel="stylesheet"
           />
-          <link
+          {/* <link
             rel="stylesheet"
             href="https://unpkg.com/scroll-hint@latest/css/scroll-hint.css"
-          ></link>
+          ></link> */}
         </Head>
         <body>
           {/* <noscript
