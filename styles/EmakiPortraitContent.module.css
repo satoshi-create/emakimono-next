@@ -109,7 +109,7 @@
   font-family: var(--text-font);
   background: rgb(245 245 245);
   padding: 1rem;
-  border-radius: 5%;
+  border-radius: 20px;
 }
 .genjieslugBox {
   grid-row: 1 / span 2;
