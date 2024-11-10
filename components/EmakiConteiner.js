@@ -39,6 +39,8 @@ const EmakiContainer = ({
     isDescModalOpen,
   } = useContext(AppContext);
 
+    const { locale } = useRouter();
+
   const emakis = data.emakis;
 
   const { backgroundImage, kotobagaki, type,genjieslug } = data;
@@ -53,10 +55,10 @@ const EmakiContainer = ({
   useEffect(() => {
     new ScrollHint(".js-scrollable", {
       offset: -10,
-      // remainingTime: 8000,
-      scrollableLeftClass:true,
+      remainingTime: 8000,
+      scrollableLeftClass: true,
       i18n: {
-        scrollable: "左スクロールできます",
+        scrollable: `${locale === "ja" ? "左スクロールできます" : "scrollable left"}`,
       },
     });
   }, []);

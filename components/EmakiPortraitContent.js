@@ -14,7 +14,6 @@ import ToContactForm from "./ToContactForm";
 import ContactFormGoogle from "./ContactFormGoogle";
 import EditionLinks from "./EditionLinks";
 import LinkToNote from "./LinkToNote";
-import NoteIcon from "../public/note-icon.png";
 import BannerToHelp from "./BannerToHelp";
 import { ChaptersTitle } from "../libs/func";
 
