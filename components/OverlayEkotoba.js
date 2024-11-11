@@ -80,9 +80,6 @@ const OverlayEkotoba = ({
     }
   };
 
-  console.log(ChaptersTitle(titleen, title, chapter));
-
-
 
   return (
     <section
