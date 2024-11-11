@@ -50,25 +50,80 @@ const EmakiContainer = ({
   const scrollNextRef = useRef(null);
   const scrollPrevRef = useRef(null);
 
+  // useEffect(() => {
+  //   //セッションストレージで初回訪問かどうかを判定
+  //   const data = sessionStorage.getItem("first accessed");
+
+  //   if (data === "true") return;
+
+  //   new ScrollHint(".js-scrollable", {
+  //     offset: -10,
+  //     remainingTime: 8000,
+  //     scrollableLeftClass: true,
+  //     scrollHintIconAppendClass: "scroll-hint-icon-white",
+  //     i18n: {
+  //       scrollable: `${
+  //         locale === "ja"
+  //           ? `${
+  //               type !== "西洋絵画"
+  //                 ? "左スクロールできます"
+  //                 : "右スクロールできます"
+  //             }`
+  //           : `${type !== "西洋絵画" ? "scrollable left" : "scrollable right"}`
+  //       }`,
+  //     },
+  //   });
+
+  //   sessionStorage.setItem("first accessed", "true");
+  // }, []);
+
   useEffect(() => {
-    new ScrollHint(".js-scrollable", {
-      offset: -10,
-      remainingTime: 8000,
-      scrollableLeftClass: true,
-      scrollHintIconAppendClass: "scroll-hint-icon-white",
-      i18n: {
-        scrollable: `${
-          locale === "ja"
-            ? `${
-                type !== "西洋絵画"
-                  ? "左スクロールできます"
-                  : "右スクロールできます"
-              }`
-            : `${type !== "西洋絵画" ? "scrollable left" : "scrollable right"}`
-        }`,
-      },
-    });
-  }, []);
+   const keyName = "visited";
+   const keyValue = true;
+
+   if (!sessionStorage.getItem(keyName)) {
+     //sessionStorageにキーと値を追加
+     sessionStorage.setItem(keyName, keyValue);
+
+     console.log("first visited");
+
+     //初回アクセス時の処理
+     new ScrollHint(".js-scrollable", {
+       offset: -10,
+       remainingTime: 8000,
+       scrollableLeftClass: true,
+       scrollHintIconAppendClass: "scroll-hint-icon-white",
+       i18n: {
+         scrollable: `${
+           locale === "ja"
+             ? `${
+                 type !== "西洋絵画"
+                   ? "左スクロールできます"
+                   : "右スクロールできます"
+               }`
+             : `${type !== "西洋絵画" ? "scrollable left" : "scrollable right"}`
+         }`,
+       },
+     });
+   } else {
+     //ここに通常アクセス時の処理
+     console.log("already visited");
+   }
+  }, [])
+
+
+// useEffect(() => {
+//     //セッションストレージで初回訪問かどうかを判定
+//     const data = sessionStorage.getItem('first accessed')
+//     // 初回訪問でなければ処理を終了
+//     if (data === 'true') return
+//     //初回訪問なら処理を実行
+//     console.log("first accessed")
+//     //セッションストレージにtrueをセット
+//     sessionStorage.setItem('first accessed', 'true')
+//   }, [])
+
+
 
 
   useEffect(() => {
