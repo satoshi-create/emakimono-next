@@ -50,32 +50,6 @@ const EmakiContainer = ({
   const scrollNextRef = useRef(null);
   const scrollPrevRef = useRef(null);
 
-  // useEffect(() => {
-  //   //セッションストレージで初回訪問かどうかを判定
-  //   const data = sessionStorage.getItem("first accessed");
-
-  //   if (data === "true") return;
-
-  //   new ScrollHint(".js-scrollable", {
-  //     offset: -10,
-  //     remainingTime: 8000,
-  //     scrollableLeftClass: true,
-  //     scrollHintIconAppendClass: "scroll-hint-icon-white",
-  //     i18n: {
-  //       scrollable: `${
-  //         locale === "ja"
-  //           ? `${
-  //               type !== "西洋絵画"
-  //                 ? "左スクロールできます"
-  //                 : "右スクロールできます"
-  //             }`
-  //           : `${type !== "西洋絵画" ? "scrollable left" : "scrollable right"}`
-  //       }`,
-  //     },
-  //   });
-
-  //   sessionStorage.setItem("first accessed", "true");
-  // }, []);
 
   useEffect(() => {
    const keyName = "visited";
@@ -111,17 +85,6 @@ const EmakiContainer = ({
    }
   }, [])
 
-
-// useEffect(() => {
-//     //セッションストレージで初回訪問かどうかを判定
-//     const data = sessionStorage.getItem('first accessed')
-//     // 初回訪問でなければ処理を終了
-//     if (data === 'true') return
-//     //初回訪問なら処理を実行
-//     console.log("first accessed")
-//     //セッションストレージにtrueをセット
-//     sessionStorage.setItem('first accessed', 'true')
-//   }, [])
 
 
 
