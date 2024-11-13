@@ -12,7 +12,6 @@ const filterdSeiyoukaiga = removeNestedArrayObj.filter(item => item.typeen === "
 
 
   // 絵巻データからkeyword.nameオブジェクトの値を配列に取り出し
-
   const keywordNameArr = keyword?.map((item) => item.name);
 
   // keyword.nameの配列を文字列に変換
@@ -29,6 +28,7 @@ const filterdSeiyoukaiga = removeNestedArrayObj.filter(item => item.typeen === "
     }
     return;
   });
+
   // relationalEmakiから絵巻データと同一idを除去
   const removeEqualityId = relationalEmaki.filter((item) => item.id !== id);
 
