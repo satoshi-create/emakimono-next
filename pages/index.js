@@ -11,6 +11,7 @@ import Link from "next/link";
 import ChaptersTable from "../components/ChaptersGenjiTable";
 import FlowEmaki from "../components/FlowEmaki";
 import { AppContext } from "../pages/_app";
+import Ranking from "../components/Ranking";
 
 
 import {
