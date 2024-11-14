@@ -43,6 +43,7 @@ const Ranking = ({num}) => {
     async function fetchData() {
       const res = await fetch(`/api/fetchData`);
       const data = await res.json();
+      console.log(data);
       const slicedata = data.slice(0, 30);
       const encodeURL = slicedata.map((item, i) => {
         const pathName = item.pagePath.replace("/", "");
