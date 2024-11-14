@@ -1,18 +1,49 @@
 import React, { useEffect, useState } from "react";
 import ExtractingListData from "../libs/ExtractingListData";
 import SingleCardA from "./SingleCardA";
+import dummydata from "../libs/dummydata.js"
 import styles from "../styles/CardA.module.css";
+import CardA from "./CardA.js";
 
 const Ranking = ({num}) => {
   const removeNestedArrayObj = ExtractingListData();
 
   const [data, setData] = useState();
+  console.log(data);
+
+  const newData = data?.map((item, i) => {
+    const { pathName } = item;
+    const connectData = removeNestedArrayObj.filter(
+      (item) => item.titleen === pathName
+    );
+    if (connectData.length) {
+      return connectData;
+    }
+  });
+
+  console.log(newData);
+
+  // const array = [undefined, [{ id: 12, title: "hoge" }], undefined];
+
+  function flattenAndRemoveNullAndUndefined(arr) {
+    if (!Array.isArray(arr)) return []; // 配列でない場合は空の配列を返す
+    return arr.flatMap((item) => {
+      if (Array.isArray(item)) {
+        return flattenAndRemoveNullAndUndefined(item); // 再帰的に処理
+      }
+      return item !== null && item !== undefined ? [item] : [];
+    });
+  }
+
+  const result = flattenAndRemoveNullAndUndefined(newData);
+
+  console.log(result); // [{ "id": 12, "title": "hoge" }]
 
   useEffect(() => {
     async function fetchData() {
       const res = await fetch(`/api/fetchData`);
       const data = await res.json();
-      const slicedata = data.slice(0,30);
+      const slicedata = data.slice(0, 30);
       const encodeURL = slicedata.map((item, i) => {
         const pathName = item.pagePath.replace("/", "");
         return { pathName: pathName, pageView: item.uniquePageviews };
@@ -23,34 +54,13 @@ const Ranking = ({num}) => {
   }, []);
 
   return (
-    <section className={"section-grid section-padding"}>
-      <div className={styles["three"]}>
-        {data?.slice(0,num).map((item, i) => {
-          const { pathName, pageView } = item;
-          const connectData = removeNestedArrayObj.filter(
-            (item) => item.titleen === pathName
-          );
-          if (connectData.length) {
-                  console.log(connectData);
-            return (
-              <>
-                {connectData.map((item, i) => {
-                  return (
-                    <SingleCardA
-                      item={item}
-                      // sectiontitle={sectiontitle}
-                      // columns={columns}
-                      // needdesc={needdesc}
-                      key={i}
-                    />
-                  );
-                })}
-              </>
-            );
-          }
-        })}
-      </div>
-    </section>
+    <CardA
+      emakis={result.slice(0,3)}
+      columns={"three"}
+      sectionname={"recommend"}
+      sectiontitle={""}
+      sectiontitleen={""}
+    />
   );
 };
 
