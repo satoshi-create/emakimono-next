@@ -43,3 +43,6 @@ export default async function handler(req, res) {
     res.status(500).json({ statusCode: 500, message: error.message });
   }
 }
+
+// Next.jsのサイトでGA4のデータを取得する
+// https://qiita.com/dende-h/items/bce9066eb19f17bcc9ce
