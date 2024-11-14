@@ -1,14 +1,16 @@
 
-import { NextApiRequest, NextApiResponse } from "next";
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
 
 const propertyId = process.env.GOOGLE_APPLICATION_PROPERTY_ID;
 
 export default async function handler(req, res) {
   try {
-    process.env.GOOGLE_APPLICATION_CREDENTIALS = `./credentials.json`;
-
-    const analyticsDataClient = new BetaAnalyticsDataClient();
+  const credentials = JSON.parse(
+    Buffer.from(process.env.GOOGLE_CREDENTIALS_BASE64, "base64").toString(
+      "ascii"
+    )
+  );
+    const analyticsDataClient = new BetaAnalyticsDataClient({credentials});
 
     const [response] = await analyticsDataClient.runReport({
       property: `properties/${propertyId}`,
