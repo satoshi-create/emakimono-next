@@ -9,12 +9,37 @@ import { useRouter } from "next/router";
 import { flushSync } from "react-dom";
 import ContactFormGoogle from "../components/ContactFormGoogle";
 import ModalSearch from "../components/ModalSearch";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import ExtractingListData from "../libs/ExtractingListData";
 
 config.autoAddCss = false;
 
 export const AppContext = createContext();
 
 function MyApp({ Component, pageProps, router }) {
+  const removeNestedArrayObj = ExtractingListData();
+
+  // Chakra UI のデフォルトの CSSReset を無効化
+  const theme = extendTheme({
+    styles: {
+      global: {
+        // デフォルトリセットを上書きする
+        "*, *::before, *::after": {
+          boxSizing: "border-box",
+          margin: 0,
+          padding: 0,
+          fontFamily: "inherit",
+        },
+        body: {
+          margin: 0,
+        },
+        img: {
+          maxWidth: "none", // Chakra UI のデフォルトスタイルを無効化
+          height: "auto", // 必要に応じて変更
+        },
+      },
+    },
+  });
 
   // ページ遷移を認識させるコード
   // https://zenn.dev/rh820/articles/8af90011c573fe
@@ -59,6 +84,57 @@ function MyApp({ Component, pageProps, router }) {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [showData, setShowdData] = useState(emakisData);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const newData = data?.map((item, i) => {
+    const { pathName, pageView } = item;
+    const connectData = removeNestedArrayObj
+      .filter((item) => item.titleen === pathName)
+      .map((item) => ({ ...item, pathName, pageView }));
+    if (connectData.length) {
+      return connectData;
+    }
+  });
+
+  // const array = [undefined, [{ id: 12, title: "hoge" }], undefined];
+
+  function flattenAndRemoveNullAndUndefined(arr) {
+    if (!Array.isArray(arr)) return []; // 配列でない場合は空の配列を返す
+   return arr.flatMap((item) => {
+      if (Array.isArray(item)) {
+        return flattenAndRemoveNullAndUndefined(item); // 再帰的に処理
+      }
+      return item !== null && item !== undefined ? [item] : [];
+    });
+  }
+
+  const result = flattenAndRemoveNullAndUndefined(newData);
+
+  // console.log(result); // [{ "id": 12, "title": "hoge" }]
+
+  async function fetchData() {
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/fetchData`);
+      const data = await res.json();
+      console.log(data);
+      const slicedata = data.slice(0, 30);
+      const encodeURL = slicedata.map((item, i) => {
+        const pathName = item.pagePath.replace("/", "");
+        return { pathName: pathName, pageView: item.uniquePageviews };
+      });
+      setData(encodeURL);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const openSidebar = () => {
     setisSidebarOpen(true);
@@ -80,12 +156,12 @@ function MyApp({ Component, pageProps, router }) {
 
   const openMapModal = (i) => {
     setIsMapModalOpen(true);
-        const clientWidth = document.body.clientWidth;
+    const clientWidth = document.body.clientWidth;
     document.querySelector("html").classList.add("open");
-        const noScrollBarWidth = document.body.clientWidth;
+    const noScrollBarWidth = document.body.clientWidth;
     const diff = noScrollBarWidth - clientWidth;
-    console.log(diff)
-    if (diff > 0 ) {
+    console.log(diff);
+    if (diff > 0) {
       document.body.style["padding-right"] = diff + "px";
     }
     setMapIndex(i);
@@ -97,12 +173,12 @@ function MyApp({ Component, pageProps, router }) {
   };
   const openContactModal = (i) => {
     setIsContactModalOpen(true);
-        const clientWidth = document.body.clientWidth;
+    const clientWidth = document.body.clientWidth;
     document.querySelector("html").classList.add("open");
-        const noScrollBarWidth = document.body.clientWidth;
+    const noScrollBarWidth = document.body.clientWidth;
     const diff = noScrollBarWidth - clientWidth;
-    console.log(diff)
-    if (diff > 0 ) {
+    console.log(diff);
+    if (diff > 0) {
       document.body.style["padding-right"] = diff + "px";
     }
     setContactIndex(i);
@@ -113,14 +189,14 @@ function MyApp({ Component, pageProps, router }) {
     setIsContactModalOpen(false);
   };
 
-  const openDescModal = (ei,i) => {
+  const openDescModal = (ei, i) => {
     setIsDescModalOpen(true);
     const clientWidth = document.body.clientWidth;
     document.querySelector("html").classList.add("open");
     const noScrollBarWidth = document.body.clientWidth;
     const diff = noScrollBarWidth - clientWidth;
-    console.log(diff)
-    if (diff > 0 ) {
+    console.log(diff);
+    if (diff > 0) {
       document.body.style["padding-right"] = diff + "px";
     }
     console.log(ei);
@@ -132,13 +208,12 @@ function MyApp({ Component, pageProps, router }) {
   };
 
   const openSearchModalOpen = () => {
-    setIsSearchModalOpen(true)
-  }
+    setIsSearchModalOpen(true);
+  };
 
   const closeSearchModal = () => {
-    setIsSearchModalOpen(false)
-  }
-
+    setIsSearchModalOpen(false);
+  };
 
   const handleEkotobaImageToggle = () => {
     setEkotobaImageToggle(!ekotobaImageToggle);
@@ -366,6 +441,8 @@ function MyApp({ Component, pageProps, router }) {
         isSearchModalOpen,
         openSearchModalOpen,
         closeSearchModal,
+        loading,
+        result,
       }}
     >
       {/* google analytics */}
@@ -397,9 +474,11 @@ function MyApp({ Component, pageProps, router }) {
           `,
         }}
       /> */}
-      <Component {...pageProps} key={router.asPath} />
-      {isContactModalOpen && <ContactFormGoogle />}
-      {isSearchModalOpen && <ModalSearch />}
+      <ChakraProvider theme={theme}>
+        <Component {...pageProps} key={router.asPath} />
+        {isContactModalOpen && <ContactFormGoogle />}
+        {isSearchModalOpen && <ModalSearch />}
+      </ChakraProvider>
     </AppContext.Provider>
   );
 }
