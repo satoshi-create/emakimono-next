@@ -20,8 +20,6 @@ const ResposiveImage = ({
       <img
         src={srcSp}
         data-src={src}
-        // data-size="auto"
-        // className={`fade-in lazyload ${styles.emakiImg}`}
         className={`fade-in lazyload ${styles.emakiImg}`}
         alt={name}
         width={srcWidth}
