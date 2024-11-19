@@ -15,13 +15,15 @@ import ContactFormGoogle from "./ContactFormGoogle";
 import { ExternalLink } from "react-feather";
 import EditionLinks from "./EditionLinks";
 import LinkToNote from "./LinkToNote";
-import BannerToHelp from "./BannerToHelp";import { ChaptersTitle } from "../libs/func";
+import BannerToHelp from "./BannerToHelp";
+import { ChaptersTitle } from "../libs/func";
 import LikeButton from "./LikeButton";
+import RecommendEmaki from "./RecommendEmaki";
 
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
 
 const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
-  const { handleToId, handleFullScreen, isContactModalOpen } =
+  const { handleToId, handleFullScreen, result, loading } =
     useContext(AppContext);
   const { emakis } = data;
   const { locale } = useRouter();
@@ -67,7 +69,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     : `You can enjoy all the scenes of the " ${titleen} ${
         authoren && `（${authoren}）`
       } " in vertical and right to left scrolling mode.`;
-
 
   return (
     <>
@@ -135,15 +136,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   </Link>
                 </div>
               )}
-
-              {/* {(title.includes("絵師草紙") ||
-                title.includes("地獄草紙（安住院本）")) && (
-                <div className={`${styles.genjieslugBox}`}>
-                  <Link href={`/eshinososhi/chapters-eshinososhi`}>
-                    <a className={styles.genjieslugTitle}>{title}の諸段一覧</a>
-                  </Link>
-                </div>
-              )} */}
               <SnsShareBox
                 titleen={titleen}
                 title={title}
@@ -269,7 +261,12 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               </div>
             </div>
           </div>
-          {(typeen === "seiyoukaiga" || keyword) && <CardC data={data} />}
+          {/* おすすめの絵巻 */}
+          <aside className={`${styles.recommendEmaki} scrollbar`}>
+            <RecommendEmaki data={data} />
+            {/* {(typeen === "seiyoukaiga" || keyword) && <CardC data={result} />} */}
+          </aside>
+          {/* <RankingCard /> */}
           <ToContactForm />
         </div>
       </div>
