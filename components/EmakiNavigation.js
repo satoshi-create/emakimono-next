@@ -32,6 +32,7 @@ const EmakiNavigation = ({
   const endIndex = data.emakis.length - 1;
 
   const { orientation } = useContext(AppContext);
+
   return (
     <aside
       className={`${styles.container} ${
