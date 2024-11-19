@@ -25,7 +25,7 @@ const Genji = () => {
     <main>
       <Head
         pagetitle={t.cyouzyuu.title}
-        pageDesc={`${t.cyouzyuu.title}のページです。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。`}
+        pageDesc={`${t.cyouzyuu.title}のページです。鳥獣人物戯画甲・乙・丙・乙の全四巻を、縦書き・横スクロールで一気に鑑賞することができます。`}
       />
       <Header fixed={false} />
       <Breadcrumbs
