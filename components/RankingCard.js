@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useContext } from "react";
+import React, { useContext } from "react";
 import {
   Box,
   VStack,
@@ -8,28 +8,40 @@ import {
   Badge,
   Flex,
   Link as ChakraLink,
-Spinner
+  Button
 } from "@chakra-ui/react";
-import { ExternalLinkIcon, ViewIcon } from "@chakra-ui/icons";
+import {
+  ExternalLinkIcon,
+  ViewIcon,
+  TrendingUpIcon,
+  ArrowForwardIcon,
+} from "@chakra-ui/icons";
 import Link from "next/link";
-import ExtractingListData from "../libs/ExtractingListData";
 import { AppContext } from "../pages/_app";
 import Loader from "./Loader"
 
 
-export default function RankingCard() {
+export default function RankingCard({ isCompact = false }) {
 
-    const { loading,result} =
-    useContext(AppContext);
+    const { loading,rankingData} =
+      useContext(AppContext);
+
+  const data = () => {
+    if (isCompact) {
+      return rankingData.slice(0,6)
+    } else {
+      return rankingData
+    }
+  }
 
   return (
     <>
       {loading ? (
-      <Loader/>
+        <Loader />
       ) : (
-        <Box maxWidth="4xl" margin="auto" padding={4}>
+        <Box maxWidth={isCompact ? "lg" : "4xl"} margin="auto" padding={4}>
           <VStack spacing={4} align="stretch">
-            {result.map((item, i) => (
+            {data(isCompact).map((item, i) => (
               <Link href={`/${item.titleen}`} key={i} passHref>
                 <ChakraLink
                   textDecoration="none"
@@ -42,11 +54,17 @@ export default function RankingCard() {
                     transition="all 0.3s"
                     _hover={{ boxShadow: "lg" }}
                   >
-                    <Flex direction={{ base: "column", sm: "row" }}>
+                    <Flex
+                      direction={
+                        isCompact ? "row" : { base: "column", sm: "row" }
+                      }
+                    >
                       <Box
                         position="relative"
-                        width={{ base: "full", sm: "400px" }}
-                        height="200px"
+                        width={
+                          isCompact ? "100px" : { base: "full", sm: "200px" }
+                        }
+                        height={isCompact ? "100px" : "200px"}
                       >
                         <Badge
                           position="absolute"
@@ -75,7 +93,7 @@ export default function RankingCard() {
                           height="100%"
                         />
                       </Box>
-                      <Box p={4} flex={1}>
+                      <Box p={isCompact ? 2 : 4} flex={1}>
                         <Flex
                           justifyContent="space-between"
                           alignItems="flex-start"
@@ -85,19 +103,35 @@ export default function RankingCard() {
                               <Badge variant="outline">{item.type}</Badge>
                               <Badge variant="outline">{item.era}時代</Badge>
                             </HStack>
-                            <Text fontSize="xl" fontWeight="bold">
+                            <Text
+                              fontSize={isCompact ? "md" : "xl"}
+                              fontWeight="bold"
+                            >
                               {item.title} {item.edition ? item.edition : ""}
                             </Text>
                           </VStack>
                         </Flex>
-                        <HStack marginTop={4} color="gray.500">
+                        <HStack
+                          marginTop={isCompact ? 2 : 4}
+                          color="gray.500"
+                          fontSize={isCompact ? "sm" : "md"}
+                        >
                           <ViewIcon />
                           <Text>{item.pageView.toLocaleString()}回視聴</Text>
                         </HStack>
                         {i + 1 === 1 && (
-                          <HStack marginTop={4} color="orange.500">
-                            <ExternalLinkIcon />
-                            <Text fontWeight="medium">
+                          <HStack
+                            marginTop={isCompact ? 2 : 4}
+                            color="orange.500"
+                            fontSize={isCompact ? "sm" : "md"}
+                          >
+                            <ExternalLinkIcon
+                              display={isCompact ? "none" : "block"}
+                            />
+                            <Text
+                              fontWeight="medium"
+                              display={isCompact ? "none" : "block"}
+                            >
                               今月の人気コンテンツ
                             </Text>
                           </HStack>
@@ -109,6 +143,22 @@ export default function RankingCard() {
               </Link>
             ))}
           </VStack>
+          {isCompact && (
+            <Box  marginTop={6}>
+              <Link href="/ranking">
+                  <a target="_blank">
+                <Button
+                  as={ChakraLink}
+                  rightIcon={<ArrowForwardIcon />}
+                  borderRadius="md"
+                  borderWidth="1px"
+                >
+                  全ての絵巻ランキングを見る
+                </Button>
+                </a>
+              </Link>
+            </Box>
+          )}
         </Box>
       )}
     </>

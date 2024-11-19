@@ -109,7 +109,7 @@ function MyApp({ Component, pageProps, router }) {
     });
   }
 
-  const result = flattenAndRemoveNullAndUndefined(newData);
+  const rankingData = flattenAndRemoveNullAndUndefined(newData);
 
   // console.log(result); // [{ "id": 12, "title": "hoge" }]
 
@@ -442,7 +442,7 @@ function MyApp({ Component, pageProps, router }) {
         openSearchModalOpen,
         closeSearchModal,
         loading,
-        result,
+        rankingData,
       }}
     >
       {/* google analytics */}
