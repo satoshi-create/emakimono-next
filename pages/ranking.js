@@ -1,10 +1,13 @@
-import React from 'react'
-import RankingCard from '../components/RankingCard';
+import { useContext } from "react";
+import RankingCard from "../components/RankingCard";
 import Head from "../components/Meta";
-import Header from '../components/Header';
-import Title from '../components/Title';
+import Header from "../components/Header";
+import Title from "../components/Title";
+import Loader from "../components/Loader";
+import { AppContext } from "../pages/_app";
 
-const ranking = () => {
+const Ranking = () => {
+  const { loading } = useContext(AppContext);
   return (
     <main>
       <Head
@@ -19,10 +22,10 @@ const ranking = () => {
           sectiontitle={"絵巻物ランキング"}
           sectiontitleen={"ranking of emakimono"}
         />
-        <RankingCard />
+        {loading ? <Loader /> : <RankingCard />}
       </section>
     </main>
   );
-}
+};
 
-export default ranking
+export default Ranking;
