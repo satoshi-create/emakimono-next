@@ -16,8 +16,8 @@ import EditionLinks from "./EditionLinks";
 import LinkToNote from "./LinkToNote";
 import BannerToHelp from "./BannerToHelp";
 import { ChaptersTitle } from "../libs/func";
-
 import LikeButton from "./LikeButton";
+import RecommendEmaki from "./RecommendEmaki";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { handleToId, handleFullScreen, setnavIndex, isContactModalOpen } =
@@ -246,7 +246,8 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             edition={edition}
             ort={"prt"}
           />
-          {(typeen === "seiyoukaiga" || keyword) && <CardC data={data} />}
+          {/* {(typeen === "seiyoukaiga" || keyword) && <CardC data={data} />} */}
+          <RecommendEmaki data={data} />
         </div>
       </div>
       <Footer />
