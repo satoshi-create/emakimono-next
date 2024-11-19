@@ -62,10 +62,10 @@ export default function RankingCard({ isCompact = false }) {
                       colorScheme={
                         i + 1 === 1 ? "red" : i + 1 === 2 ? "orange" : "yellow"
                       }
-                      fontSize="lg"
+                      fontSize={isCompact ? "sm" : "lg"}
                       fontWeight="bold"
-                      paddingX={3}
-                      paddingY={1}
+                      paddingX={isCompact ? 1 : 3}
+                      paddingY={isCompact ? .5 : 1}
                     >
                       {i + 1}位
                     </Badge>
@@ -101,7 +101,7 @@ export default function RankingCard({ isCompact = false }) {
                       fontSize={isCompact ? "sm" : "md"}
                     >
                       <ViewIcon />
-                      <Text>{item.pageView.toLocaleString()}回視聴</Text>
+                      <Text>{item.pageView.toLocaleString()}回鑑賞</Text>
                     </HStack>
                     {i + 1 === 1 && (
                       <HStack
