@@ -28,7 +28,7 @@ const Genji = () => {
     <main>
       <Head
         pagetitle={t.genji.title}
-        pageDesc={`${t.genji.title}のページです。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。`}
+        pageDesc={`${t.genji.title}のページです。屏風に描かれた源氏絵を、縦書き・横スクロールで一気に鑑賞することができます。`}
       />
       <Header fixed={false} />
       <Breadcrumbs name={locale === "en" ? t.genji.titleen : t.genji.title} />

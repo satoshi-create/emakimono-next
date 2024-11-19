@@ -24,7 +24,7 @@ const BanBainagon = () => {
     <main>
       <Head
         pagetitle={t.bandainagon.title}
-        pageDesc={`${t.bandainagon.title}のページです。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。`}
+        pageDesc={`${t.bandainagon.title}のページです。伴大納言絵詞上・中・下の全巻を、縦書き・横スクロールで一気に鑑賞することができます。`}
       />
       <Header fixed={false} />
       <Breadcrumbs
