@@ -15,12 +15,14 @@ import CardC from "./CardC";
 import { AppContext } from "../pages/_app";
 import Link from "next/link";
 import RankingCard from "./RankingCard";
+import Loader from "./Loader";
+
 
 const RecommendEmaki = ({ data }) => {
 
   const [tabIndex, setTabIndex] = useState(0);
 
-
+  const { loading } = useContext(AppContext);
   const handleTabsChange = (index) => {
     setTabIndex(index);
   };
@@ -45,7 +47,9 @@ const RecommendEmaki = ({ data }) => {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <RankingCard isCompact={true} />
+              {loading ? <Loader /> : (
+                <RankingCard isCompact={true} />
+              )}
             </TabPanel>
             <TabPanel>
               <CardC data={data} />
