@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 
       dateRanges: [
         {
-          startDate: "30daysAgo", //取得したい期間を設定
+          startDate: "2024-01-01", //取得したい期間を設定
           endDate: "today",
         },
       ],
