@@ -32,23 +32,23 @@ const RecommendEmaki = ({ data }) => {
           <TabList mb="1em">
             <Tab>
               <Flex align="center">
-                <LinkIcon mr={2} />
-                <Text>関連絵巻</Text>
+                <StarIcon mr={2} />
+                <Text>絵巻ランキング</Text>
               </Flex>
             </Tab>
             <Tab>
               <Flex align="center">
-                <StarIcon mr={2} />
-                <Text>絵巻ランキング</Text>
+                <LinkIcon mr={2} />
+                <Text>関連絵巻</Text>
               </Flex>
             </Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
-              <CardC data={data} />
+              <RankingCard isCompact={true} />
             </TabPanel>
             <TabPanel>
-              <RankingCard isCompact={true}/>
+              <CardC data={data} />
             </TabPanel>
           </TabPanels>
         </Tabs>
