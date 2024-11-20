@@ -11,6 +11,7 @@ import ContactFormGoogle from "../components/ContactFormGoogle";
 import ModalSearch from "../components/ModalSearch";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import ExtractingListData from "../libs/ExtractingListData";
+import BottomNavigation from "../components/BottomNavigation";
 
 config.autoAddCss = false;
 
@@ -478,6 +479,7 @@ function MyApp({ Component, pageProps, router }) {
         <Component {...pageProps} key={router.asPath} />
         {isContactModalOpen && <ContactFormGoogle />}
         {isSearchModalOpen && <ModalSearch />}
+        <BottomNavigation/>
       </ChakraProvider>
     </AppContext.Provider>
   );
