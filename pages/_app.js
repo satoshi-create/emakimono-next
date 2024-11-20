@@ -479,6 +479,7 @@ function MyApp({ Component, pageProps, router }) {
         <Component {...pageProps} key={router.asPath} />
         {isContactModalOpen && <ContactFormGoogle />}
         {isSearchModalOpen && <ModalSearch />}
+        <BottomNavigation />
       </ChakraProvider>
     </AppContext.Provider>
   );
