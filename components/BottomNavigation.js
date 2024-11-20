@@ -37,8 +37,8 @@ const BottomNavigation = () => {
 
   const navItems = [
     { label: "ホーム", icon: <FaHome />, path: "/" },
-    { label: "絵巻物", icon: <FaScroll />, path: "/type/emaki" },
-    { label: "ランキング", icon: <FaCrown />, path: "/ranking" },
+    { label: "絵巻一覧", icon: <FaScroll />, path: "/type/emaki" },
+    { label: "絵巻ランキング", icon: <FaCrown />, path: "/ranking" },
     { label: "その他", icon: <FaEllipsisH />, path: "/more" },
   ];
 
@@ -57,7 +57,7 @@ const BottomNavigation = () => {
       bg={bgColor}
       boxShadow="0 -2px 10px rgba(0, 0, 0, 0.1)"
       zIndex="1000"
-      display={stickyClass === "header-fixed" ? "block" : "none" }
+      display={stickyClass === "header-fixed" ? "block" : "none"}
     >
       <Flex justify="space-around" align="center" py={2}>
         {navItems.map((item) => (
@@ -71,14 +71,15 @@ const BottomNavigation = () => {
           >
             <Box
               color={router.pathname === item.path ? activeColor : iconColor}
-              fontSize="24px"
+              fontSize="20px"
             >
               {item.icon}
             </Box>
             <Text
-              fontSize="sm"
+              fontSize="10px"
+              fontFamily={"Zen Maru Gothic, sans-serif"}
               color={router.pathname === item.path ? activeColor : iconColor}
-              mt="2"
+              mt="1"
             >
               {item.label}
             </Text>
