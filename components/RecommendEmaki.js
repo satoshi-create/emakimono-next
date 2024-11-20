@@ -29,7 +29,7 @@ const RecommendEmaki = ({ data }) => {
 
   return (
     <ChakraProvider>
-      <Box p={4}>
+      <Box p={1}>
         <Tabs index={tabIndex} onChange={handleTabsChange} variant="enclosed">
           <TabList mb="1em">
             <Tab>
