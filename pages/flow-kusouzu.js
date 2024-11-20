@@ -25,7 +25,7 @@ const Genji = () => {
     <main>
       <Head
         pagetitle={t.kusouzu.title}
-        pageDesc={`${t.kusouzu.title}のページです。絵巻に描かれた九相図を、縦書き、横スクロールでまとめて鑑賞することができます。`}
+        pageDesc={`${t.kusouzu.title}のページです。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。`}
       />
       <Header fixed={false} />
       <Breadcrumbs

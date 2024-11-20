@@ -1,5 +1,4 @@
-import React, { useState, useContext } from "react";
-import { AppContext } from "../pages/_app";
+import React, { useState } from "react";
 import links from "../libs/links";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -10,17 +9,9 @@ import { Divide } from "react-feather";
 // TODO:NavLinksから<ul>を削除しリファクタリング
 const NavLinks = ({ footerstyle, slug }) => {
   const [value, setValue] = useState(null);
-  // const [toggle, setToggle] = useState(false)
   const { locale } = useRouter();
   const router = useRouter();
-
-  const { closeSidebar } = useContext(AppContext);
-
-  const handleSubmenu = (i) => {
-    setValue(i)
-    setToggle(!t)
-  }
-
+  // const { slug } = router.query.slug;
   return (
     <ul className={styles.links}>
       {links.map((link, index) => {
@@ -38,6 +29,10 @@ const NavLinks = ({ footerstyle, slug }) => {
                   {locale === "en" ? nameen : name}
                 </a>
               </Link>
+              {/* <ul
+                className={`${submenu && styles.submenu}`}
+                style={toggle ? { display: "grid" } : { display: "none" }}
+              ></ul> */}
             </li>
           );
         } else {
@@ -57,7 +52,7 @@ const NavLinks = ({ footerstyle, slug }) => {
               </div>
               <div
                 className={styles.submenu}
-                style={value == index ? { display: "flex" } : { display: "none" }}
+                style={index === value ? { display: "flex" } : { display: "none" }}
               >
                 {submenu.map((item, i) => {
                   const { name, path, nameen } = item;
