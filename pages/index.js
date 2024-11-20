@@ -190,7 +190,7 @@ const genjiEmakis = [
   return (
     <main>
       <Head jsonLd={jsonLd} />
-      <Header fixed={true} />
+      <Header fixed={false} />
       <CardA
         emakis={genjiEmakis}
         columns={t.genji.columns}

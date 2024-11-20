@@ -259,7 +259,6 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
       />
 
       {matchMediaContainer(toggleFullscreen, orientation)}
-      <BottomNavigation />
     </>
   );
 };
