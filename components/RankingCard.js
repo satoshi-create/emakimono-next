@@ -9,11 +9,13 @@ import {
   Flex,
   Link as ChakraLink,
   Button,
+  Grid,
+  GridItem,
+  Stack
 } from "@chakra-ui/react";
 import {
   ExternalLinkIcon,
   ViewIcon,
-  TrendingUpIcon,
   ArrowForwardIcon,
 } from "@chakra-ui/icons";
 import Link from "next/link";
@@ -31,13 +33,19 @@ export default function RankingCard({ isCompact = false }) {
   };
 
   return (
-    <Box maxWidth={isCompact ? "lg" : "4xl"} margin="auto" padding={4}>
-      <VStack spacing={4} align="stretch">
+    <Box maxWidth="4xl" margin="auto">
+      <Stack
+        direction={{ base: "column", md: "column" }}
+        align="stretch"
+        // rowGap="10"
+        rowGap={isCompact ? "2" : "10"}
+      >
         {data(isCompact).map((item, i) => (
           <Link href={`/${item.titleen}`} key={i} passHref>
             <ChakraLink
               textDecoration="none"
               _hover={{ textDecoration: "none" }}
+              flex="1"
             >
               <Box
                 borderWidth={1}
@@ -51,8 +59,8 @@ export default function RankingCard({ isCompact = false }) {
                 >
                   <Box
                     position="relative"
-                    width={isCompact ? "100px" : { base: "full", sm: "200px" }}
-                    height={isCompact ? "100px" : "200px"}
+                    width={isCompact ? "150px" : { base: "full", sm: "60%" }}
+                    // height={isCompact ? "100px" : "300px"}
                   >
                     <Badge
                       position="absolute"
@@ -65,7 +73,7 @@ export default function RankingCard({ isCompact = false }) {
                       fontSize={isCompact ? "sm" : "lg"}
                       fontWeight="bold"
                       paddingX={isCompact ? 1 : 3}
-                      paddingY={isCompact ? .5 : 1}
+                      paddingY={isCompact ? 0.5 : 1}
                     >
                       {i + 1}位
                     </Badge>
@@ -74,7 +82,7 @@ export default function RankingCard({ isCompact = false }) {
                       alt={item.thumb}
                       objectFit="cover"
                       width="100%"
-                      height="100%"
+                      height="auto"
                     />
                   </Box>
                   <Box p={isCompact ? 2 : 4} flex={1}>
@@ -103,7 +111,7 @@ export default function RankingCard({ isCompact = false }) {
                       <ViewIcon />
                       <Text>{item.pageView.toLocaleString()}回鑑賞</Text>
                     </HStack>
-                    {i + 1 === 1 && (
+                    {/* {i + 1 === 1 && (
                       <HStack
                         marginTop={isCompact ? 2 : 4}
                         color="orange.500"
@@ -119,16 +127,16 @@ export default function RankingCard({ isCompact = false }) {
                           今月の人気コンテンツ
                         </Text>
                       </HStack>
-                    )}
+                    )} */}
                   </Box>
                 </Flex>
               </Box>
             </ChakraLink>
           </Link>
         ))}
-      </VStack>
+      </Stack>
       {isCompact && (
-        <Box marginTop={6}>
+        <Box marginTop={6} textAlign="right">
           <Link href="/ranking">
             <a target="_blank">
               <Button
@@ -136,6 +144,7 @@ export default function RankingCard({ isCompact = false }) {
                 rightIcon={<ArrowForwardIcon />}
                 borderRadius="md"
                 borderWidth="1px"
+                fontSize="small"
               >
                 全ての絵巻ランキングを見る
               </Button>
