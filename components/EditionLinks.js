@@ -42,9 +42,9 @@ const EditionLinks = ({ title, edition }) => {
                           className={styles.scrollIcon}
                         />
                         {item.title} {item.edition}
-                        {item.edition !== edition && (
+                        {/* {item.edition !== edition && (
                           <ExternalLink className={styles.ExternalLinkIcon} />
-                        )}
+                        )} */}
                       </p>
                     )}
                   </a>
