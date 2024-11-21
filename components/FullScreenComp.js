@@ -26,6 +26,7 @@ export default function FullScreenComp({
   editionen,
   title,
   titleen,
+  desc
 }) {
   const handle = useFullScreenHandle();
   const { locale } = useRouter();
