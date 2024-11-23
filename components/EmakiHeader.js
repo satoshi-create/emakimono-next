@@ -10,6 +10,8 @@ import SidebarHome from "./SidebarHome";
 import { Mail } from "react-feather";
 import SearchBoxButton from "./SearchBoxButton";
 import SocialLinks from "./SocialLinks";
+import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
+
 
 const EmakiHeader = ({ slug, fixed, emakipage }) => {
   const { locale } = useRouter();

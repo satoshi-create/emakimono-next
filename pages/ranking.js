@@ -5,11 +5,8 @@ import Header from "../components/Header";
 import Title from "../components/Title";
 import Loader from "../components/Loader";
 import { AppContext } from "../pages/_app";
-import Breadcrumbs from "../components/Breadcrumbs";
-import { useRouter } from "next/router";
 
 const Ranking = () => {
-    const { locale } = useRouter();
   const { loading } = useContext(AppContext);
   return (
     <main>
@@ -19,10 +16,7 @@ const Ranking = () => {
           "絵巻物ランキングのページです。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。"
         }
       />
-      <Header fixed={false} />
-      <Breadcrumbs
-        name={locale === "en" ? "Ranking of EMAKIMONO" : "絵巻物ランキング"}
-      />
+      <Header fixed={true} />
       <section className={"section-grid section-padding"}>
         <Title
           sectiontitle={"絵巻物ランキング"}
