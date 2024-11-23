@@ -102,7 +102,7 @@ function MyApp({ Component, pageProps, router }) {
 
   function flattenAndRemoveNullAndUndefined(arr) {
     if (!Array.isArray(arr)) return []; // 配列でない場合は空の配列を返す
-   return arr.flatMap((item) => {
+    return arr.flatMap((item) => {
       if (Array.isArray(item)) {
         return flattenAndRemoveNullAndUndefined(item); // 再帰的に処理
       }
@@ -196,11 +196,9 @@ function MyApp({ Component, pageProps, router }) {
     document.querySelector("html").classList.add("open");
     const noScrollBarWidth = document.body.clientWidth;
     const diff = noScrollBarWidth - clientWidth;
-    console.log(diff);
     if (diff > 0) {
       document.body.style["padding-right"] = diff + "px";
     }
-    console.log(ei);
     setDescIndex(ei, i);
   };
   const closeDescModal = () => {
@@ -210,9 +208,17 @@ function MyApp({ Component, pageProps, router }) {
 
   const openSearchModalOpen = () => {
     setIsSearchModalOpen(true);
+    const clientWidth = document.body.clientWidth;
+    document.querySelector("html").classList.add("open");
+    const noScrollBarWidth = document.body.clientWidth;
+    const diff = noScrollBarWidth - clientWidth;
+    if (diff > 0) {
+      document.body.style["padding-right"] = diff + "px";
+    }
   };
 
   const closeSearchModal = () => {
+    document.querySelector("html").classList.remove("open");
     setIsSearchModalOpen(false);
   };
 

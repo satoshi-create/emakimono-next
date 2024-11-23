@@ -83,7 +83,7 @@ const ModalSearch = () => {
   }
 
   return (
-    <div className={styles.modal}>
+    <div className={`${styles.modal}`}>
       <div className={styles.MuiBackdrop} onClick={closeSearchModal}></div>
       <div className={styles.container}>
         <div className={`${styles.closebtn} btn`} onClick={closeSearchModal}>
