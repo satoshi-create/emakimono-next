@@ -1,46 +1,58 @@
 .typeselect,
 .eraselect {
-    grid-column: 2;
-      display: flex;
-    gap: .5rem;
-    justify-content: center;
-    margin: .5rem 0;
-        flex-wrap: wrap;
+  grid-column: 2;
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
+  margin: .5rem 0;
+  flex-wrap: wrap;
 }
-.typeselect{
+
+.typeselect {
   grid-row: 3;
 }
-.eraselect{
-  grid-row: 4;
-    border-bottom: 1px solid rgb(225 225 225);
-    padding-bottom: 2rem;
-}
-.typeselectbtn,.eraselectbtn{
 
-    padding: 0 .5rem;
-    border-radius: 6px;
-    transition: var(--transition);
+.eraselect {
+  grid-row: 4;
+  border-bottom: 1px solid rgb(225 225 225);
+  padding-bottom: 2rem;
 }
-.typeselectbtn:hover,.eraselectbtn:hover{
+
+.typeselectbtn,
+.eraselectbtn {
+
+  padding: 0 .5rem;
+  border-radius: 6px;
+  transition: var(--transition);
+}
+
+.typeselectbtn:hover,
+.eraselectbtn:hover {
   opacity: .6;
 }
-.typeselectbtn{
-      background: #e9f0ff;
+
+.typeselectbtn {
+  background: #e9f0ff;
 }
-.typeselectbtn:focus{
-  background:var(--clr-accent-02);
+
+.typeselectbtn:focus {
+  background: var(--clr-accent-02);
 }
-.eraselectbtn{
-   background: #e9f0ff;
+
+.eraselectbtn {
+  background: #e9f0ff;
 }
-.eraselectbtn:focus{
-  background:var(--clr-accent-02);
+
+.eraselectbtn:focus {
+  background: var(--clr-accent-02);
 }
+
 .searchbox {
   display: flex;
   justify-content: center;
   gap: 10px;
 }
+
 .form {
   grid-column: 2;
   grid-row: 2;
@@ -50,6 +62,7 @@
   /* padding-bottom:1rem; */
   align-items: center;
 }
+
 .form input {
   border: none;
   appearance: none;
@@ -58,13 +71,18 @@
   font-size: 1rem;
   font-family: var(--title-font2);
 }
+
 .faMagnifyingGlassIcon {
   font-size: 1.2rem;
   color: var(--clr-grey-light);
 }
+
 .modal {
   display: grid;
-  inset: 0;
+  /* inset: 0; */
+  left: 0;
+  top: 5%;
+  right: 0;
   /* opacity: 0; */
   place-items: center;
   position: fixed;
@@ -72,6 +90,7 @@
   transition: var(--transition);
   z-index: 500;
 }
+
 .MuiBackdrop {
   background-color: rgba(0, 0, 0, 0.75);
   cursor: pointer;
@@ -91,10 +110,11 @@
   cursor: pointer;
   color: black;
 }
+
 .container {
   display: grid;
   grid-template-columns: minmax(2vw, auto) 1fr minmax(2vw, auto);
-  grid-template-rows: .5vw  auto auto auto 1fr 2vw;
+  grid-template-rows: .5vw auto auto auto 1fr 2vw;
   background-color: var(--clr-white);
   border-radius: 8px;
   width: 90vw;
@@ -104,7 +124,7 @@
   position: relative;
   transition: var(--transition);
   overflow: hidden;
-  padding:.5rem;
+  padding: .5rem;
 }
 
 
@@ -114,6 +134,7 @@
   font-family: var(--text-font);
   font-weight: 400;
 }
+
 .activebtn {
   font-weight: 500;
   box-shadow: 0 3px var(--clr-accent-02);
@@ -127,12 +148,15 @@
   grid-column: 2;
   grid-row: 3;
 }
+
 .prev {
   justify-self: flex-start;
 }
+
 .next {
   justify-self: flex-end;
 }
+
 .contents {
   grid-column: 2;
   grid-row: 5;
@@ -150,34 +174,42 @@
   font-size: clamp(1.5rem, 1.2111rem + 1.2327vw, 2rem);
   cursor: pointer;
 }
+
 .chapterlink {
   transition: var(--transition);
 }
+
 .chapterlink:hover {
   opacity: 0.4;
 }
+
 /* 書誌情報 */
 .source {
   font-family: var(--text-font);
   font-size: clamp(1.5rem, 1.2111rem + 1.2327vw, 2rem);
 }
+
 .sourceLink {
   transition: var(--transition);
 }
+
 .sourceLink:hover {
   opacity: 0.4;
 }
+
 /* 参照 */
 .reference {
   font-family: var(--text-font);
   font-size: clamp(1.5rem, 1.2111rem + 1.2327vw, 2rem);
 }
+
 @media screen and (min-width: 768px) {
   .iframe {
     top: 2rem;
     height: 80%;
   }
 }
+
 .link {
   position: absolute;
   bottom: 0;
@@ -187,26 +219,32 @@
   font-family: var(--text-font);
   text-align: center;
 }
+
 .link a {
   color: var(--clr-accent-02);
   transition: var(--transition);
   cursor: pointer;
   font-size: clamp(0.8rem, 0.5689rem + 0.9861vw, 1.2rem);
 }
+
 .link a:hover {
   opacity: 0.6;
 }
+
 .link h3,
 .link h2 {
   font-weight: 400;
 }
+
 .activeSlide {
   opacity: 1;
   transform: translateX(0);
 }
+
 .lastSlide {
   transform: translateX(-100%);
 }
+
 .nextSlide {
   transform: translateX(100%);
 }
@@ -216,6 +254,7 @@
   border-collapse: collapse;
   /* font-family: serif; */
 }
+
 .mokujitable td,
 .mokujitable th {
   border: solid 1px var(--clr-grey-light);
