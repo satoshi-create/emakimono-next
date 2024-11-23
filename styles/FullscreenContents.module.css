@@ -1,3 +1,10 @@
+.sectiondesc {
+  margin: 0 auto 2rem;
+  font-family: var(--text-font);
+  font-size: clamp(1rem, 0.8844rem + 0.4931vw, 1.2rem);
+  width: clamp(20rem, 2.6656rem + 73.9599vw, 50rem);
+  text-align: justify;
+}
 .flow {
   margin-top: 4rem;
 }

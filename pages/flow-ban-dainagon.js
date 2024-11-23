@@ -33,6 +33,7 @@ const BanBainagon = () => {
       <FlowEmaki
         flowEmakis={bandainagonFlowDatas}
         sectiontitle={t.bandainagon.title}
+        sectiondesc={t.bandainagon.desc}
         sectiontitleen={t.bandainagon.titleen}
       />
       <Footer />
