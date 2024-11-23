@@ -190,7 +190,7 @@ const genjiEmakis = [
   return (
     <main>
       <Head jsonLd={jsonLd} />
-      <Header fixed={false} />
+      <Header fixed={true} />
       <CardA
         emakis={cyouzyuuEmakis}
         columns={t.cyouzyuu.columns}

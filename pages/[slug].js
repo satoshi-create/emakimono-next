@@ -13,7 +13,6 @@ import EmakiHeader from "../components/EmakiHeader";
 import EmakiPortraitContent from "../components/EmakiPortraitContent";
 import EmakiLandscapContent from "../components/EmakiLandscapContent";
 import { useLocaleMeta } from "../libs/func";
-import BottomNavigation from "../components/BottomNavigation";
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
@@ -259,6 +258,40 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
       />
 
       {matchMediaContainer(toggleFullscreen, orientation)}
+      {/* {matchMediaContainer(orientation)} */}
+      {/* {toggleFullscreen && orientation === "landscape" ? (
+        <>
+          <EmakiConteiner
+            data={{ ...data }}
+            scroll={true}
+            selectedRef={selectedRef}
+            navIndex={navIndex}
+            height={"100vh"}
+          />
+        </>
+      ) : (
+        <>
+          <EmakiHeader />
+          {orientation === "portrait" && (
+            <EmakiPortraitContent
+              data={data}
+              scroll={true}
+              selectedRef={selectedRef}
+              navIndex={navIndex}
+              height={"40vh"}
+            />
+          )}
+          {orientation === "landscape" && (
+            <EmakiLandscapContent
+              data={{ ...data }}
+              scroll={true}
+              selectedRef={selectedRef}
+              navIndex={navIndex}
+              height={"75vh"}
+            />
+          )}
+        </>
+      )} */}
     </>
   );
 };
