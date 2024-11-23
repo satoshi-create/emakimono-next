@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext,useState } from "react";
 import {
   Box,
   Flex,
@@ -16,8 +16,11 @@ import {
 import { useRouter } from "next/router";
 import { AppContext } from "../pages/_app";
 
-const BottomNavigation = () => {
-  const { stickyClass, setStickyClass } = useContext(AppContext);
+  const BottomNavigation = () => {
+      const [activeMenu, setActiveMenu] = useState(null);
+  const { stickyClass, setStickyClass, openSearchModalOpen, closeSearchModal } =
+    useContext(AppContext);
+
 
   useEffect(() => {
     const stickNavbar = () => {
@@ -37,14 +40,21 @@ const BottomNavigation = () => {
 
   const navItems = [
     { label: "ホーム", icon: <FaHome />, path: "/" },
-    { label: "絵巻一覧", icon: <FaScroll />, path: "/type/emaki" },
-    { label: "絵巻ランキング", icon: <FaCrown />, path: "/ranking" },
-    { label: "その他", icon: <FaEllipsisH />, path: "/more" },
+    { label: "絵巻物一覧", icon: <FaScroll />, path: "/type/emaki" },
+    { label: "絵巻物ランキング", icon: <FaCrown />, path: "/ranking" },
+    // { label: "検索", icon: < FaSearch/>, path: "/more" },
   ];
 
-  const handleNavigation = (path) => {
-    router.push(path);
+  const handleNavigation = (menuLabel, path) => {
+    setActiveMenu(menuLabel);
+    router.push(path)
+    closeSearchModal();
   };
+
+    const handleOpenSearchModalOpen = () => {
+      setActiveMenu("検索");
+      openSearchModalOpen();
+  }
 
   // 幅768px以上の場合は何もレンダリングしない
   if (isLargerThan768) return null;
@@ -59,18 +69,18 @@ const BottomNavigation = () => {
       zIndex="1000"
       display={stickyClass === "header-fixed" ? "block" : "none"}
     >
-      <Flex justify="space-around" align="center" py={2}>
+      <Flex justify="space-evenly" align="center" py={2}>
         {navItems.map((item) => (
           <Flex
             key={item.label}
             direction="column"
             align="center"
             justify="center"
-            onClick={() => handleNavigation(item.path)}
+            onClick={() => handleNavigation(item.label, item.path)}
             cursor="pointer"
           >
             <Box
-              color={router.pathname === item.path ? activeColor : iconColor}
+              color={activeMenu === item.label ? activeColor : iconColor}
               fontSize="20px"
             >
               {item.icon}
@@ -78,13 +88,36 @@ const BottomNavigation = () => {
             <Text
               fontSize="10px"
               fontFamily={"Zen Maru Gothic, sans-serif"}
-              color={router.pathname === item.path ? activeColor : iconColor}
-              mt="1"
+              color={activeMenu === item.label ? activeColor : iconColor}
+              // mt="1"
             >
               {item.label}
             </Text>
           </Flex>
         ))}
+        <Flex
+          direction="column"
+          align="center"
+          justify="center"
+          // onClick={() => handleNavigation(item.path)}
+          onClick={() => handleOpenSearchModalOpen()}
+          cursor="pointer"
+        >
+          <Box
+            color={activeMenu === "検索" ? activeColor : iconColor}
+            fontSize="20px"
+          >
+            <FaSearch />
+          </Box>
+          <Text
+            fontSize="10px"
+            fontFamily={"Zen Maru Gothic, sans-serif"}
+            color={activeMenu === "検索" ? activeColor : iconColor}
+            // mt="1"
+          >
+            検索
+          </Text>
+        </Flex>
       </Flex>
     </Box>
   );
