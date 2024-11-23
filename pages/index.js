@@ -192,6 +192,74 @@ const genjiEmakis = [
       <Head jsonLd={jsonLd} />
       <Header fixed={false} />
       <CardA
+        emakis={cyouzyuuEmakis}
+        columns={t.cyouzyuu.columns}
+        sectiontitle={t.cyouzyuu.title}
+        sectiontitleen={t.cyouzyuu.titleen}
+        sectiondesc={t.cyouzyuu.desc}
+        sectionname={t.cyouzyuu.name}
+        linktitle={t.cyouzyuu.title}
+        linktitleen={t.cyouzyuu.title}
+        linkpath={"flow-cyouzyuu"}
+        bcg={"#f9fbff"}
+      />
+      <CardB
+        columns={t.history.columns}
+        sectiontitle={t.history.title}
+        sectiontitleen={t.history.titleen}
+        sectiondesc={t.history.desc}
+        sectionname={t.history.name}
+        linktitle={"絵巻"}
+        linktitleen={"EMAKIMONO"}
+        linkpath={"/type/emaki"}
+      />
+      <CardA
+        emakis={bandainagonEmakis}
+        columns={t.bandainagon.columns}
+        sectiontitle={t.bandainagon.title}
+        sectiontitleen={t.bandainagon.titleen}
+        sectiondesc={t.bandainagon.desc}
+        sectionname={t.bandainagon.name}
+        linktitle={t.bandainagon.title}
+        linktitleen={t.bandainagon.title}
+        linkpath={"flow-ban-dainagon"}
+        bcg={"#f9fbff"}
+      />
+
+      {/* <FlowEmaki
+        flowEmakis={sikisansuizuFlowDatas}
+        sectiontitle={"四季山水図巻（山水長巻）"}
+        sectiontitleen={"sessyu_sikisansuizu"}
+      /> */}
+
+      <PersonNames
+        sectiontitle={t.personname.title}
+        sectiontitleen={t.personname.titleen}
+        allTags={allPersonNames}
+        path={"/personname/personnamelist"}
+        // bcg={"var(--clr-bcg)"}
+      />
+
+      <CardA
+        emakis={shigisanEmakis}
+        columns={t.shigisan.columns}
+        sectiontitle={t.shigisan.title}
+        sectiontitleen={t.shigisan.titleen}
+        sectiondesc={t.shigisan.desc}
+        sectionname={t.shigisan.name}
+        // linktitle={t.shigisan.title}
+        // linktitleen={t.shigisan.title}
+        linkpath={"shigisan"}
+        bcg={"#f9fbff"}
+      />
+
+      <Keywords
+        sectiontitle={t.indextag.title}
+        sectiontitleen={t.indextag.titleen}
+        allTags={allKeywords}
+        path={"/keyword/keywordlist"}
+      />
+      <CardA
         emakis={genjiEmakis}
         columns={t.genji.columns}
         sectiontitle={t.genji.title}
@@ -203,17 +271,18 @@ const genjiEmakis = [
         linkpath={"flow-genji-pictures"}
         bcg={"#f9fbff"}
       />
-      <CardA
-        emakis={cyouzyuuEmakis}
-        columns={t.cyouzyuu.columns}
-        sectiontitle={t.cyouzyuu.title}
-        sectiontitleen={t.cyouzyuu.titleen}
-        sectiondesc={t.cyouzyuu.desc}
-        sectionname={t.cyouzyuu.name}
-        linktitle={t.cyouzyuu.title}
-        linktitleen={t.cyouzyuu.title}
-        linkpath={"flow-cyouzyuu"}
-        bcg={"#f9fbff"}
+      <GridImageList
+        images={gridImages}
+        sectiontitle={t.famousscene.title}
+        sectiontitleen={t.famousscene.titleen}
+        sectiondesc={t.famousscene.desc}
+        sectionname={t.famousscene.name}
+        linktitle={"絵巻名場面集"}
+        linktitleen={"famousscene"}
+        linkpath={"famousscene"}
+        columns={t.favorite.columns}
+        slice={true}
+        // bcg={"var(--clr-bcg)"}
       />
       <CardA
         emakis={kusouzuEmakis}
@@ -228,72 +297,6 @@ const genjiEmakis = [
         bcg={"#f9fbff"}
       />
 
-      <CardA
-        emakis={bandainagonEmakis}
-        columns={t.bandainagon.columns}
-        sectiontitle={t.bandainagon.title}
-        sectiontitleen={t.bandainagon.titleen}
-        sectiondesc={t.bandainagon.desc}
-        sectionname={t.bandainagon.name}
-        linktitle={t.bandainagon.title}
-        linktitleen={t.bandainagon.title}
-        linkpath={"flow-ban-dainagon"}
-        // bcg={"#f9fbff"}
-      />
-
-      <CardA
-        emakis={shigisanEmakis}
-        columns={t.shigisan.columns}
-        sectiontitle={t.shigisan.title}
-        sectiontitleen={t.shigisan.titleen}
-        sectiondesc={t.shigisan.desc}
-        sectionname={t.shigisan.name}
-        // linktitle={t.shigisan.title}
-        // linktitleen={t.shigisan.title}
-        linkpath={"shigisan"}
-        // bcg={"#f9fbff"}
-      />
-      {/* <FlowEmaki
-        flowEmakis={sikisansuizuFlowDatas}
-        sectiontitle={"四季山水図巻（山水長巻）"}
-        sectiontitleen={"sessyu_sikisansuizu"}
-      /> */}
-      <CardB
-        columns={t.history.columns}
-        sectiontitle={t.history.title}
-        sectiontitleen={t.history.titleen}
-        sectiondesc={t.history.desc}
-        sectionname={t.history.name}
-        linktitle={"絵巻"}
-        linktitleen={"EMAKIMONO"}
-        linkpath={"/type/emaki"}
-      />
-      <PersonNames
-        sectiontitle={t.personname.title}
-        sectiontitleen={t.personname.titleen}
-        allTags={allPersonNames}
-        path={"/personname/personnamelist"}
-        bcg={"var(--clr-bcg)"}
-      />
-      <Keywords
-        sectiontitle={t.indextag.title}
-        sectiontitleen={t.indextag.titleen}
-        allTags={allKeywords}
-        path={"/keyword/keywordlist"}
-      />
-      <GridImageList
-        images={gridImages}
-        sectiontitle={t.famousscene.title}
-        sectiontitleen={t.famousscene.titleen}
-        sectiondesc={t.famousscene.desc}
-        sectionname={t.famousscene.name}
-        linktitle={"絵巻名場面集"}
-        linktitleen={"famousscene"}
-        linkpath={"famousscene"}
-        columns={t.favorite.columns}
-        slice={true}
-        bcg={"var(--clr-bcg)"}
-      />
       <CardA
         emakis={alpha}
         columns={t.alpha.columns}
