@@ -155,6 +155,11 @@ function MyApp({ Component, pageProps, router }) {
     setisModalOpen(false);
   };
 
+    const handleChapter = (index) => {
+      handleToId(index);
+      closeModal();
+    };
+
   const openMapModal = (i) => {
     setIsMapModalOpen(true);
     const clientWidth = document.body.clientWidth;
@@ -450,6 +455,7 @@ function MyApp({ Component, pageProps, router }) {
         closeSearchModal,
         loading,
         rankingData,
+        handleChapter,
       }}
     >
       {/* google analytics */}
@@ -485,6 +491,7 @@ function MyApp({ Component, pageProps, router }) {
         <Component {...pageProps} key={router.asPath} />
         {isContactModalOpen && <ContactFormGoogle />}
         {isSearchModalOpen && <ModalSearch />}
+
         <BottomNavigation />
       </ChakraProvider>
     </AppContext.Provider>

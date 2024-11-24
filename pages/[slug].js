@@ -14,6 +14,7 @@ import EmakiPortraitContent from "../components/EmakiPortraitContent";
 import EmakiLandscapContent from "../components/EmakiLandscapContent";
 import { useLocaleMeta } from "../libs/func";
 import BottomNavigation from "../components/BottomNavigation";
+import MiddleNavigation from "../components/MiddleNavigation";
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
@@ -101,48 +102,7 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
           },
         ],
       },
-      // breadcrumbList: {
-      //   "@type": "BreadcrumbList",
-      //   itemListElement: [
-      //     {
-      //       "@type": "ListItem",
-      //       position: 1,
-      //       name: "home",
-      //       item: `${
-      //         locale === "en"
-      //           ? `https://emakimono.com/en`
-      //           : `https://emakimono.com/${nameAen}`
-      //       }`,
-      //     },
-      //     {
-      //       "@type": "ListItem",
-      //       position: 2,
-      //       name: `${locale === "en" ? data.typeen : data.type}`,
-      //       item: `${
-      //         locale === "en"
-      //           ? `https://emakimono.com/en/${nameAen}`
-      //           : `https://emakimono.com/${nameAen}`
-      //       }`,
-      //     },
-      //     {
-      //       "@type": "ListItem",
-      //       position: 3,
-      //       name: `${locale === "en" ? data.titleen : data.title}`,
-      //     },
-      //   ],
-      // },
     },
-    // carousel: {
-    //   "@context": "https://schema.org",
-    //   "@type": "ItemList",
-    //   itemListElement: [
-    //     {
-    //       "@type": "ListItem",
-    //       position: 1,
-    //       url: data.thumb,
-    //     },
-    //   ],
-    // },
   };
   const jsonLd = JSON.stringify(jsonData, null, " ");
 
@@ -163,35 +123,6 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
     setnavIndex(0);
     setHash(0);
   }, [setnavIndex, setHash]);
-
-  // const matchMediaContainer = (ori) => {
-  //   switch (ori) {
-  //     case "landscape":
-  //       return (
-  //         <EmakiPortraitContent
-  //           data={data}
-  //           scroll={true}
-  //           selectedRef={selectedRef}
-  //           navIndex={navIndex}
-  //           height={"40vh"}
-  //         />
-  //       );
-  //     case "portrait":
-  //       return (
-  //         <>
-  //           <EmakiLandscapContent
-  //             data={{ ...data }}
-  //             scroll={true}
-  //             selectedRef={selectedRef}
-  //             navIndex={navIndex}
-  //             height={"75vh"}
-  //           />
-  //         </>
-  //       );
-  //     default:
-  //       break;
-  //   }
-  // };
 
   const matchMediaContainer = (full, ori) => {
     if (full && ori === "landscape") {
@@ -257,8 +188,9 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
         pageType={data.type}
         jsonLd={jsonLd}
       />
-
+      <MiddleNavigation title={data.title} edition={data.edition} author={data.author} />
       {matchMediaContainer(toggleFullscreen, orientation)}
+
     </>
   );
 };
@@ -317,21 +249,6 @@ export const getStaticProps = async (context) => {
     })
     .find((item) => item);
 
-  // const emakis = filterdEmakisData.emakis
-  // console.log(emakis);
-
-  // const addObjEmakis = emakis.map((item, i) => {
-  //   if (item.cat === "ekotoba") {
-  //     return { ...item, ekotobaId: i, linkId: i };
-  //   }
-  //   return { ...item, linkId: i };
-  // });
-
-  // const test = filterdEmakisData
-  //   .map((item, i) => {
-  //     return { ...item, emakis: addObjEmakis };
-  //   })
-  //   .find((item) => item);
 
   return {
     props: {

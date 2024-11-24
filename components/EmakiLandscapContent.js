@@ -83,7 +83,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
             overflowX={"scroll"}
             height={"75vh"}
           />
-          {/* chapter */}
           <ul className={`${styles.chapter} scrollbar`}>
             <h4 className={styles.chapterTitle}>
               {typeen === "emaki" ? "段" : "タイトル"}
@@ -98,7 +97,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                       onClick={() => handleToId(index)}
                       className={styles.chapterlink}
                       style={{ color: eraColor(era) }}
-                      // dangerouslySetInnerHTML={{ __html: chapter }}
                     >
                       {ChaptersTitle(titleen, title, chapter)}
                     </span>
@@ -107,6 +105,15 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               }
             })}
           </ul>
+          {/* 絵巻の紹介 */}
+          {/* <ChapterList
+            data={emakis}
+            era={era}
+            titleen={titleen}
+            title={title}
+            ort={"land"}
+            typeen={typeen}
+          /> */}
           {/* metadata */}
           <div className={styles.metadata}>
             <div className={styles.metadataA}>

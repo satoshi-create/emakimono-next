@@ -79,14 +79,11 @@
 
 .modal {
   display: grid;
-  /* inset: 0; */
   left: 0;
   top: 5%;
   right: 0;
-  /* opacity: 0; */
   place-items: center;
   position: fixed;
-  /* transform: scale(0); */
   transition: var(--transition);
   z-index: 500;
 }
@@ -118,7 +115,7 @@
   background-color: var(--clr-white);
   border-radius: 8px;
   width: 90vw;
-  height: 80vh;
+  height: 70vh;
   max-width: 1200px;
   overflow-x: auto;
   position: relative;

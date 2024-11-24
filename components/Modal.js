@@ -5,17 +5,12 @@ import styles from "../styles/Modal.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faClose,
-  faAnglesLeft,
-  faAnglesRight,
 } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import AllLocation from "./AllLocation";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { eraColor } from "../libs/func";
-import { flushSync } from "react-dom";
-import { ChaptersTitle } from "../libs/func";
-import parse from "html-react-parser";
+import ChapterList from "./ChapterList";
+
 
 
 const Modal = ({ data }) => {
@@ -25,10 +20,6 @@ const Modal = ({ data }) => {
   const { reference, sourceImageUrl, sourceImage, era, typeen, title,titleen } = data;
   const emakis = data.emakis;
   const ekotobaSection = emakis[isMapIndex];
-  const handleChapter = (index) => {
-    handleToId(index);
-    closeModal();
-  };
 
   const [value, setValue] = useState(0);
 
@@ -47,24 +38,7 @@ const Modal = ({ data }) => {
   const toggleContets = (v) => {
     if (v === 0) {
       return (
-        <ul className={styles.chapter}>
-          {emakis.map((item, i) => {
-            const { cat, chapter } = item;
-            if (cat === "ekotoba") {
-              return (
-                <li
-                  key={i}
-                  onClick={() => handleChapter(i)}
-                  className={styles.chapterlink}
-                  style={{ color: eraColor(era) }}
-                  // dangerouslySetInnerHTML={{ __html: chapter }}
-                >
-                  {ChaptersTitle(titleen,title, chapter)}
-                </li>
-              );
-            }
-          })}
-        </ul>
+        <ChapterList data={emakis} era={era} titleen={titleen} title={title} />
       );
     } else if (v === 1) {
       return (
