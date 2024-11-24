@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext,useState } from "react";
 import {
   Box,
   Grid,
@@ -27,6 +27,7 @@ const MiddleNavigation = ({ title, edition, author }) => {
     window.addEventListener("scroll", stickNavbar);
   }, [setStickyClass]);
 
+
   useEffect(() => {
     setisModalOpen(false);
   }, [setisModalOpen]);
@@ -37,15 +38,24 @@ const MiddleNavigation = ({ title, edition, author }) => {
   // 幅768px以上の場合は何もレンダリングしない
   if (isLargerThan768) return null;
 
+
+    const styles = {
+      container: {
+        position: "fixed",
+        // bottom: '50px',
+        bottom: stickyClass === "header-fixed" ? "50px" : "-100px", // 隠れる位置: 画面外 (-100px)
+        width: "100%",
+        backgroundColor: bgColor,
+        boxShadow: "0 -2px 10px rgba(0, 0, 0, 0.1)",
+        zIndex: "999",
+        transform:
+          stickyClass === "header-fixed"   ? "translateY(0)" : "translateY(100%)",
+        transition: "transform 0.5s ease-in-out",
+      },
+    };
+
   return (
-    <Box
-      position="fixed"
-      bottom="50px" // ボトムナビゲーションの上
-      width="100%"
-      bg={bgColor}
-      boxShadow="0 -2px 10px rgba(0, 0, 0, 0.1)"
-      zIndex="999"
-      display={stickyClass === "header-fixed" ? "block" : "none"}
+    <Box style={styles.container}
     >
       <Grid templateColumns="1fr auto" alignItems="center" px={4} py={2}>
         {/* タイトル: 左寄せ */}
