@@ -1,0 +1,10 @@
+.chapter {
+  font-size: 0.9rem;
+  color: var(--clr-link);
+  font-family: var(--text-font);
+  font-size: var(--text-size-prt);
+}
+
+.chaptername {
+  cursor: pointer;
+}
