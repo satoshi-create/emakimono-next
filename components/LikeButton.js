@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import postMessage from "../libs/discord"
 import {Heart} from "react-feather"
 import styles from "../styles/LikeButton.module.css";
@@ -10,25 +10,19 @@ const LikeButton = ({title,edition,author, ort}) => {
 
 
   const message =
-    isDisplay &&
     `${title == undefined ? "" : title}` +
-      "（" +
-      `${edition == undefined ? "" : edition}` +
-      `${author == undefined ? "" : author}` +
-      "）" +
-      "がいいねされました";
-
-  //  const postLike = () => {
-  //     postMessage(message);
-  //     setIsDisplay(true);
-  //   }
+    "（" +
+    `${edition == undefined ? "" : edition}` +
+    `${author == undefined ? "" : author}` +
+    "）" +
+    "がいいねされました";
 
   const postLike = () => {
     if (!hasAnimated) {
       // アニメーションがまだ実行されていない場合
-      postMessage(message);
       setIsDisplay(true);
       setHasAnimated(true); // アニメーションが実行されたことを記録
+      postMessage(message);
     }
   };
 
