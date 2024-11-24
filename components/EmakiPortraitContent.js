@@ -83,12 +83,12 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 </a>
               </Link>
             )}
-            <LikeButton
+            {/* <LikeButton
               title={title}
               edition={edition}
               author={author}
               ort={"prt"}
-            />
+            /> */}
             <button
               type="button"
               value="Lock Landscape"
