@@ -16,11 +16,11 @@ import {
 import { useRouter } from "next/router";
 import { AppContext } from "../pages/_app";
 
+
   const BottomNavigation = () => {
       const [activeMenu, setActiveMenu] = useState(null);
   const { stickyClass, setStickyClass, openSearchModalOpen, closeSearchModal } =
     useContext(AppContext);
-
 
   useEffect(() => {
     const stickNavbar = () => {
@@ -29,6 +29,7 @@ import { AppContext } from "../pages/_app";
     };
     window.addEventListener("scroll", stickNavbar);
   }, [setStickyClass]);
+
 
   const bgColor = useColorModeValue("white", "gray.800");
   const iconColor = useColorModeValue("gray.600", "gray.300");
@@ -57,17 +58,32 @@ import { AppContext } from "../pages/_app";
   }
 
   // 幅768px以上の場合は何もレンダリングしない
-  if (isLargerThan768) return null;
+    if (isLargerThan768) return null;
+
+    const styles = {
+      container: {
+        position: "fixed",
+        bottom: "0",
+        width: "100%",
+        backgroundColor: bgColor,
+        boxShadow: "0 -2px 10px rgba(0, 0, 0, 0.1)",
+        zIndex: "1000",
+        transform:
+          stickyClass === "header-fixed"  ? "translateY(0)" : "translateY(100%)",
+        transition: "transform 0.5s ease-in-out",
+      },
+    };
 
   return (
     <Box
-      position="fixed"
-      bottom="0"
-      width="100%"
-      bg={bgColor}
-      boxShadow="0 -2px 10px rgba(0, 0, 0, 0.1)"
-      zIndex="1000"
-      display={stickyClass === "header-fixed" ? "block" : "none"}
+      style={styles.container}
+      // position="fixed"
+      // bottom="0"
+      // width="100%"
+      // bg={bgColor}
+      // boxShadow="0 -2px 10px rgba(0, 0, 0, 0.1)"
+      // zIndex="1000"
+      // display={stickyClass === "header-fixed" ? "block" : "none"}
     >
       <Flex justify="space-evenly" align="center" py={2}>
         {navItems.map((item) => (
