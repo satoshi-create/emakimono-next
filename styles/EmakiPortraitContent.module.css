@@ -137,13 +137,7 @@
   font-size: 0.9rem;
   color: var(--clr-black);
 }
-.chapter {
-  font-size: 0.9rem;
-  color: var(--clr-link);
-}
-.chaptername {
-  cursor: pointer;
-}
+
 .authority {
   font-family: var(--title-font2);
   font-size: 0.7rem;
