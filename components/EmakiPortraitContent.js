@@ -15,9 +15,9 @@ import ContactFormGoogle from "./ContactFormGoogle";
 import EditionLinks from "./EditionLinks";
 import LinkToNote from "./LinkToNote";
 import BannerToHelp from "./BannerToHelp";
-import { ChaptersTitle } from "../libs/func";
 import LikeButton from "./LikeButton";
 import RecommendEmaki from "./RecommendEmaki";
+import ChapterList from "./ChapterList";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { handleToId, handleFullScreen, setnavIndex, isContactModalOpen } =
@@ -48,15 +48,15 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const filterDesc = desc.substring(0, 40);
   const descTemp = `「${title} ${edition ? edition : ""}」${
     author ? `（${author}）` : ""
-    }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+  }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
 
-    const descTJaSeiyoukaiga = desc
-      ? desc
-      : `「${title} ${edition ? edition : ""}」${
-          author ? `（${author}）` : ""
-        }の全シーンを、横スクロールで楽しむことができます。`;
+  const descTJaSeiyoukaiga = desc
+    ? desc
+    : `「${title} ${edition ? edition : ""}」${
+        author ? `（${author}）` : ""
+      }の全シーンを、横スクロールで楽しむことができます。`;
 
-    const descJa = typeen === "seiyoukaiga" ? descTJaSeiyoukaiga : descTemp;
+  const descJa = typeen === "seiyoukaiga" ? descTJaSeiyoukaiga : descTemp;
 
   return (
     <>
@@ -122,27 +122,13 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               </div>
             )}
 
-            <ul className={styles.chapter} style={{ color: eraColor(era) }}>
-              {/* 絵巻の紹介 */}
-              {emakis.map((item, index) => {
-                const { cat, chapter } = item;
-                if (cat === "ekotoba") {
-                  return (
-                    <li key={index}>
-                      <span
-                        onClick={() => handleToId(index)}
-                        // dangerouslySetInnerHTML={{ __html: chapter }}
-                        className={`${styles[eraColor(era)]} ${
-                          styles.chaptername
-                        }`}
-                      >
-                        {ChaptersTitle(titleen, title, chapter)}
-                      </span>
-                    </li>
-                  );
-                }
-              })}
-            </ul>
+            {/* 絵巻の紹介 */}
+            <ChapterList
+              data={emakis}
+              era={era}
+              titleen={titleen}
+              title={title}
+            />
 
             {/* 各段の詞書・解説 */}
             {kotobagaki && <ChapterDesc emakis={emakis} data={data} />}

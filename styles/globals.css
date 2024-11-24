@@ -21,9 +21,6 @@
   --title-size: calc(20px + (35 - 20) * ((100vh - 375px) / (1080 - 375)));
   --title-size-prt: clamp(1rem, 0.6389rem + 1.5408vw, 1.625rem);
   --mokuji-size: calc(14px + (20 - 14) * ((100vh - 375px) / (1080 - 375)));
-  /* --text-size: calc(16px + (35 - 16) * ((100vh - 375px) / (1080 - 375)));
-  --title-size: calc(20px + (35 - 20) * ((100vh - 375px) / (1080 - 375)));
-  --mokuji-size: calc(14px + (20 - 14) * ((100vh - 375px) / (1080 - 375))); */
   --shadow-1: 0 5px 15px rgb(0 0 0 / 10%);
   --shadow-2: 0 5px 15px rgba(0, 0, 0, 20%);
   --shadowR: -10px 15px 10px rgba(0, 0, 0, 0.2);
