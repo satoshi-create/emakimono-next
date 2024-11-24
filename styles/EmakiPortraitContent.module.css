@@ -85,7 +85,7 @@
   text-transform: capitalize;
 }
 .linkedbutton {
-  grid-row: 2;
+  grid-row: 1;
   grid-column: 1/span2;
   align-self: center;
   justify-self: flex-end;
