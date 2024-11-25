@@ -31,7 +31,21 @@ const Keywords = ({ sectiontitle, sectiontitleen, path, allTags }) => {
 
       <div className={`${styles.tags} ${locale === "ja" && styles.jatags}`}>
         <CustomTagCloud tags={allTags} />
-         </div>
+        {/* {allTags.map((item, index) => {
+          const { name, id, slug, total, ruby } = item;
+
+          return (
+            <Link href={`/keyword/${slug}`} key={index}>
+              <a className={styles.title}>
+                <p>
+                  {locale === "en" ? id : name}
+                  <span className={styles.total}>{`(${total})`}</span>
+                </p>
+              </a>
+            </Link>
+          );
+        })} */}
+      </div>
       {path && (
         <Button
           title={
