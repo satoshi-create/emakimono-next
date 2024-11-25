@@ -20,6 +20,7 @@ import { ChaptersTitle } from "../libs/func";
 import LikeButton from "./LikeButton";
 import RecommendEmaki from "./RecommendEmaki";
 
+
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
 
 const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
@@ -49,6 +50,9 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     kotobagaki,
     note,
   } = data;
+
+
+
 
   const descTJa = desc
     ? desc
@@ -105,16 +109,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               }
             })}
           </ul>
-          {/* 絵巻の紹介 */}
-          {/* <ChapterList
-            data={emakis}
-            era={era}
-            titleen={titleen}
-            title={title}
-            ort={"land"}
-            typeen={typeen}
-          /> */}
-          {/* metadata */}
           <div className={styles.metadata}>
             <div className={styles.metadataA}>
               <h1 className={styles.title}>
