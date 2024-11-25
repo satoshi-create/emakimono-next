@@ -136,21 +136,21 @@ export default function RankingCard({ isCompact = false }) {
         ))}
       </Stack>
       {isCompact && (
-        <Box marginTop={6} textAlign="right">
-          <Link href="/ranking">
-            <a target="_blank">
-              <Button
-                as={ChakraLink}
-                rightIcon={<ArrowForwardIcon />}
-                borderRadius="md"
-                borderWidth="1px"
-                fontSize="small"
-              >
-                全ての絵巻ランキングを見る
-              </Button>
-            </a>
-          </Link>
-        </Box>
+          <Box marginTop={6} textAlign="right">
+            <Link href="/ranking">
+              <a target="_blank">
+                <Button
+                  as={ChakraLink}
+                  rightIcon={<ArrowForwardIcon />}
+                  borderRadius="md"
+                  borderWidth="1px"
+                  fontSize="small"
+                >
+                  全ての絵巻ランキングを見る
+                </Button>
+              </a>
+            </Link>
+          </Box>
       )}
     </Box>
   );
