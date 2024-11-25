@@ -3,7 +3,7 @@ import EmakiConteiner from "./EmakiConteiner";
 import styles from "../styles/EmakiLandscapContent.module.css";
 import { AppContext } from "../pages/_app";
 import Link from "next/link";
-import { eraColor, useLocale, useLocaleData } from "../libs/func";
+import { eraColor, useLocale, useLocaleData, keywordItem } from "../libs/func";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import CardC from "./CardC";
@@ -19,7 +19,9 @@ import BannerToHelp from "./BannerToHelp";
 import { ChaptersTitle } from "../libs/func";
 import LikeButton from "./LikeButton";
 import RecommendEmaki from "./RecommendEmaki";
+import CustomTagCloud from "./CustomTagCloud";
 
+import ExtractingListData from "../libs/ExtractingListData";
 
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
 
@@ -28,6 +30,12 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     useContext(AppContext);
   const { emakis } = data;
   const { locale } = useRouter();
+
+   const removeNestedArrayObj = ExtractingListData();
+
+  const allKeywords = keywordItem(removeNestedArrayObj);
+
+
 
   const {
     type,
@@ -51,7 +59,30 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     note,
   } = data;
 
+    console.log(allKeywords);
+    console.log(keyword);
 
+
+// const test = allKeywords.filter((item,i)=>item.name === keyword)
+
+// console.log(test);
+
+  const filterdKeywords = keyword?
+    .map((item2) => {
+      const matchingItem = allKeywords.find((item1) => item1.name === item2.name);
+      if (matchingItem) {
+        return {
+          name: matchingItem.name,
+          id: matchingItem.id,
+          slug: matchingItem.slug,
+          total: matchingItem.total,
+        };
+      }
+      return null;
+    })
+    .filter((item) => item !== null);
+
+  console.log(filterdKeywords);
 
 
   const descTJa = desc
@@ -87,28 +118,35 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
             overflowX={"scroll"}
             height={"75vh"}
           />
-          <ul className={`${styles.chapter} scrollbar`}>
-            <h4 className={styles.chapterTitle}>
-              {typeen === "emaki" ? "段" : "タイトル"}
-            </h4>
-            <span className={styles.chapterBorderline}></span>
-            {emakis.map((item, index) => {
-              const { cat, chapter } = item;
-              if (cat === "ekotoba") {
-                return (
-                  <li key={index}>
-                    <span
-                      onClick={() => handleToId(index)}
-                      className={styles.chapterlink}
-                      style={{ color: eraColor(era) }}
-                    >
-                      {ChaptersTitle(titleen, title, chapter)}
-                    </span>
-                  </li>
-                );
-              }
-            })}
-          </ul>
+          <div className={styles.subgrid}>
+            <ul className={`${styles.chapter} scrollbar`}>
+              <h4 className={styles.chapterTitle}>
+                {typeen === "emaki" ? "段" : "タイトル"}
+              </h4>
+              <span className={styles.borderline}></span>
+              {emakis.map((item, index) => {
+                const { cat, chapter } = item;
+                if (cat === "ekotoba") {
+                  return (
+                    <li key={index}>
+                      <span
+                        onClick={() => handleToId(index)}
+                        className={styles.chapterlink}
+                        style={{ color: eraColor(era) }}
+                      >
+                        {ChaptersTitle(titleen, title, chapter)}
+                      </span>
+                    </li>
+                  );
+                }
+              })}
+            </ul>
+              {keyword && (
+            <div className={styles.tagCloud}>
+                <CustomTagCloud tags={filterdKeywords} emakiPage={true} />
+            </div>
+              )}
+          </div>
           <div className={styles.metadata}>
             <div className={styles.metadataA}>
               <h1 className={styles.title}>

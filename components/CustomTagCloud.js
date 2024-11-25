@@ -1,10 +1,11 @@
-import React,{useState} from 'react';
-import { TagCloud } from 'react-tagcloud';
+import React, { useState } from "react";
+import { TagCloud } from "react-tagcloud";
 // import { useRouter } from 'next/router';
-import Link from 'next/link';
+import Link from "next/link";
+import { Box, Link as ChakraLink, Button, Text } from "@chakra-ui/react";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
 
-
-const CustomTagCloud = ({ tags }) => {
+const CustomTagCloud = ({ tags, emakiPage }) => {
   // const router = useRouter()
   const [hoveredTag, setHoveredTag] = useState(null);
 
@@ -89,41 +90,72 @@ const CustomTagCloud = ({ tags }) => {
   const customRenderer = (tag) => {
     const isHovered = hoveredTag === tag.name; // ホバー中のタグを確認
     const fontSize = calculateFontSize(tag.total, minTotal, maxTotal, 30, 100); // サイズ範囲 20~50
+    const fontSizeEmakiPage = calculateFontSize(
+      tag.total,
+      minTotal,
+      maxTotal,
+      20,
+      50
+    ); // サイズ範囲 20~50
 
     return (
       <Link href={`/keyword/${tag.slug}`} key={tag.name}>
-      <a
-        key={tag.name}
-        onMouseEnter={() => setHoveredTag(tag.name)}
-        onMouseLeave={() => setHoveredTag(null)}
-        // onClick={() => handleTagClick(tag.slug)} // クリック時に遷移処理
-        style={{
-          fontFamily: "RocknRoll One, serif",
-          fontSize: `${fontSize}px`,
-          color: isHovered
-            ? "#D8A373" // ホバー中の色
-            :  tag.color,
-          margin: "5px",
-          textDecoration: isHovered ? "underline" : "none", // ホバー中に下線
-          transition: "color 0.3s, text-decoration 0.3s", // スムーズなアニメーション
-          cursor: "pointer", // ポインターを表示
-          margin: "5px",
-        }}
-      >
-        {tag.name}
-      </a>
+        <a
+          key={tag.name}
+          onMouseEnter={() => setHoveredTag(tag.name)}
+          onMouseLeave={() => setHoveredTag(null)}
+          // onClick={() => handleTagClick(tag.slug)} // クリック時に遷移処理
+          style={{
+            fontFamily: "RocknRoll One, serif",
+            fontSize: `${emakiPage ? fontSizeEmakiPage : fontSize}px`,
+            color: isHovered
+              ? "#D8A373" // ホバー中の色
+              : tag.color,
+            margin: "5px",
+            textDecoration: isHovered ? "underline" : "none", // ホバー中に下線
+            transition: "color 0.3s, text-decoration 0.3s", // スムーズなアニメーション
+            cursor: "pointer", // ポインターを表示
+            margin: "5px",
+          }}
+        >
+          {tag.name}
+        </a>
       </Link>
     );
   };
 
   return (
-    <TagCloud
-      tags={tagsWithColors}
-      minSize={20}
-      maxSize={50}
-      renderer={customRenderer}
-    />
+    <>
+      <TagCloud
+        tags={tagsWithColors}
+        minSize={20}
+        maxSize={50}
+        renderer={customRenderer}
+      />
+      {emakiPage && (
+        <Box marginTop={6} textAlign="right">
+          <Link href={`/keyword/keywordlist`} passHref>
+            <ChakraLink target="_blank" textDecoration="none">
+              <Button
+                rightIcon={<ArrowForwardIcon />}
+                fontSize="sm"
+                color="rgb(114 114 114)"
+                fontWeight="normal"
+                variant="ghost"
+                _hover={{
+                  opacity: 0.6,
+                  transform: "translateX(5px)",
+                  transition: "all 0.2s",
+                }}
+              >
+                キーワード一覧を見る
+              </Button>
+            </ChakraLink>
+          </Link>
+        </Box>
+      )}
+    </>
   );
-}
+};
 
 export default CustomTagCloud;
