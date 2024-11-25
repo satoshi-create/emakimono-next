@@ -67,20 +67,28 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
 
 // console.log(test);
 
-  const filterdKeywords = keyword?
-    .map((item2) => {
-      const matchingItem = allKeywords.find((item1) => item1.name === item2.name);
-      if (matchingItem) {
-        return {
-          name: matchingItem.name,
-          id: matchingItem.id,
-          slug: matchingItem.slug,
-          total: matchingItem.total,
-        };
-      }
-      return null;
-    })
-    .filter((item) => item !== null);
+  const filterdKeywords = {
+    if(keyword) {
+          keyword
+            .map((item2) => {
+              const matchingItem = allKeywords.find(
+                (item1) => item1.name === item2.name
+              );
+              if (matchingItem) {
+                return {
+                  name: matchingItem.name,
+                  id: matchingItem.id,
+                  slug: matchingItem.slug,
+                  total: matchingItem.total,
+                };
+              }
+              return null;
+            })
+            .filter((item) => item !== null);
+    }
+  }
+
+
 
   console.log(filterdKeywords);
 
