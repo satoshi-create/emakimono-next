@@ -1,7 +1,11 @@
 import React,{useState} from 'react';
 import { TagCloud } from 'react-tagcloud';
+// import { useRouter } from 'next/router';
+import Link from 'next/link';
+
 
 const CustomTagCloud = ({ tags }) => {
+  // const router = useRouter()
   const [hoveredTag, setHoveredTag] = useState(null);
 
   // 日本の伝統色のパレット
@@ -13,6 +17,16 @@ const CustomTagCloud = ({ tags }) => {
     "#8A5A44", // 焦茶 (Kogecha)
     "#B79B5B", // 利休白茶 (Rikyu-shiracha)
   ];
+
+  //   const handleTagClick = (slug) => {
+  //     // タグをクリックしたときに遷移
+  //         if (!slug) {
+  //           console.error("Slug is undefined.");
+
+  //           return;
+  //         }
+  //   router.push(`/keyword/${slug}`); // タグ一覧ページのパスを指定
+  // };
 
   // const handleTagClick = (tag) => {
   //   console.log(`Tag clicked: ${tag.name}`); // デバッグ用のコンソールログ
@@ -66,7 +80,7 @@ const CustomTagCloud = ({ tags }) => {
   //   return colorPalette[Math.floor(Math.random() * colorPalette.length)];
   // };
 
-  console.log(getColorWithShade(30, 50)); // デバッグ
+  // console.log(getColorWithShade(30, 50)); // デバッグ
 
   // タグの最大・最小値を計算
   const minTotal = Math.min(...tags.map((tag) => tag.total));
@@ -75,11 +89,14 @@ const CustomTagCloud = ({ tags }) => {
   const customRenderer = (tag) => {
     const isHovered = hoveredTag === tag.name; // ホバー中のタグを確認
     const fontSize = calculateFontSize(tag.total, minTotal, maxTotal, 30, 100); // サイズ範囲 20~50
+
     return (
-      <span
+      <Link href={`/keyword/${tag.slug}`} key={tag.name}>
+      <a
         key={tag.name}
         onMouseEnter={() => setHoveredTag(tag.name)}
         onMouseLeave={() => setHoveredTag(null)}
+        // onClick={() => handleTagClick(tag.slug)} // クリック時に遷移処理
         style={{
           fontFamily: "RocknRoll One, serif",
           fontSize: `${fontSize}px`,
@@ -94,7 +111,8 @@ const CustomTagCloud = ({ tags }) => {
         }}
       >
         {tag.name}
-      </span>
+      </a>
+      </Link>
     );
   };
 
