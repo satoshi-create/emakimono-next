@@ -46,6 +46,32 @@ function MyApp({ Component, pageProps, router }) {
   // https://zenn.dev/rh820/articles/8af90011c573fe
   const gRouter = useRouter();
 
+// ページ遷移前にスクロール位置を保存し、遷移後に復元するフック
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      const scrollPosition = window.pageYOffset
+      sessionStorage.setItem('scrollPosition', scrollPosition)
+    }
+
+    const handleRouteComplete = (url) => {
+      const scrollPosition = sessionStorage.getItem('scrollPosition')
+      if (scrollPosition) {
+        window.scrollTo(0, parseInt(scrollPosition, 10))
+        sessionStorage.removeItem('scrollPosition')
+      }
+    }
+
+    gRouter.events.on('routeChangeStart', handleRouteChange)
+    gRouter.events.on('routeChangeComplete', handleRouteComplete)
+
+    return () => {
+      gRouter.events.off('routeChangeStart', handleRouteChange)
+      gRouter.events.off('routeChangeComplete', handleRouteComplete)
+    }
+  }, [gRouter])
+
+
+
   useEffect(() => {
     const handleRouteChange = (url) => {
       gtag.pageView(url);

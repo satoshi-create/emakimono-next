@@ -106,7 +106,7 @@ const SingleCardA = ({ item, sectiontitle, columns,needdesc }) => {
               {keyword.slice(0, 3).map((item, index) => {
                 const { name, slug, id } = item;
                 return (
-                  <Link href={`/keyword/${slug}`} key={index}>
+                  <Link href={`/keyword/${slug}`} key={index} scroll={false}>
                     <a className={styles.keywordLink}>
                       {locale === "en" ? id : name}
                     </a>
