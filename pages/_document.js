@@ -24,7 +24,7 @@ class MyDocument extends Document {
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
           <link
-            href="https://fonts.googleapis.com/css2?family=Hina+Mincho&family=Zen+Kaku+Gothic+New&family=Zen+Kurenaido&family=Zen+Maru+Gothic&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Hina+Mincho&family=Zen+Kaku+Gothic+New&family=Zen+Kurenaido&family=Zen+Maru+Gothic&family=RocknRoll+One&display=swap"
             rel="stylesheet"
           />
           {/* <link
