@@ -6,31 +6,24 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          {/* <link
-            href="https://fonts.googleapis.com/css2?family=Inter&display=optional"
-            rel="stylesheet"
-          /> */}
-          {/* Noto Sans Japaneseを追加 */}
-          {/* <link
-            href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;500;700&family=Kaisei+HarunoUmi:wght@400;500;700&family=Noto+Sans+JP:wght@300;400;500&family=Zen+Kurenaido&family=Zen+Maru+Gothic:wght@300;400;500;700&display=swap&family=Noto+Serif+JP&display=swap&family=Noto+Serif+JP&family=Zen+Kaku+Gothic+New&family=Shippori+Mincho&family=Yomogi&display=swap&family=Shippori+Mincho&display=swap&family=Hina+Mincho&family=Shippori+Mincho&display=swap&family=Caveat:wght@400..700&family=Dancing+Script:wght@400..700&family=Noto+Serif+JP:wght@200..900&family=RocknRoll+One&display=swap')"
-            rel="stylesheet"
-
-          /> */}
-
-          {/* <link
-            href="https://fonts.googleapis.com/css2?family=Caveat&family=Dancing+Script&family=Hina+Mincho&family=Kaisei+Decol&family=Kaisei+HarunoUmi&family=Noto+Serif+JP&family=Shippori+Mincho&family=Yomogi&family=Zen+Kaku+Gothic+New&family=Zen+Kurenaido&family=Zen+Maru+Gothic&display=swap"
-            rel="stylesheet"
-          /> */}
+          <script
+            type="text/javascript"
+            dangerouslySetInnerHTML={{
+              __html: `
+              (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+              })(window, document, "clarity", "script", '${process.env.MS_CLARITY_ID}');
+            `,
+            }}
+          />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
           <link
             href="https://fonts.googleapis.com/css2?family=Hina+Mincho&family=Zen+Kaku+Gothic+New&family=Zen+Kurenaido&family=Zen+Maru+Gothic&family=RocknRoll+One&display=swap"
             rel="stylesheet"
           />
-          {/* <link
-            rel="stylesheet"
-            href="https://unpkg.com/scroll-hint@latest/css/scroll-hint.css"
-          ></link> */}
         </Head>
         <body>
           {/* <noscript
