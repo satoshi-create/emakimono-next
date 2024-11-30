@@ -55,7 +55,7 @@ const CardA = ({
           title={
             locale === "en"
               ? `View a list of ${linktitleen} !!`
-              : `${linktitle}一覧を見る`
+              : `${linktitle}を見る`
           }
           path={linkpath}
           style={columns}
