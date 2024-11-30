@@ -3,9 +3,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "../styles/EmakiPortraitContent.module.css";
 import { AppContext } from "../pages/_app";
-import { eraColor } from "../libs/func";
+import { eraColor, filterdKeywords, keywordItem } from "../libs/func";
 import EmakiConteiner from "../components/EmakiConteiner";
-import CardC from "./CardC";
 import Image from "next/image";
 import Footer from "./Footer";
 import ChapterDesc from "./ChapterDesc";
@@ -18,10 +17,16 @@ import BannerToHelp from "./BannerToHelp";
 import LikeButton from "./LikeButton";
 import RecommendEmaki from "./RecommendEmaki";
 import ChapterList from "./ChapterList";
+import CustomTagCloud from "./CustomTagCloud";
+import ExtractingListData from "../libs/ExtractingListData";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
-  const { handleToId, handleFullScreen, setnavIndex, isContactModalOpen } =
-    useContext(AppContext);
+  const {
+    handleToId,
+    handleFullScreen,
+    setnavIndex,
+    isContactModalOpen,
+  } = useContext(AppContext);
   const { locale } = useRouter();
   const {
     type,
@@ -45,7 +50,9 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     titleen,
   } = data;
 
-  const filterDesc = desc.substring(0, 40);
+  const removeNestedArrayObj = ExtractingListData();
+  const allKeywords = keywordItem(removeNestedArrayObj);
+
   const descTemp = `「${title} ${edition ? edition : ""}」${
     author ? `（${author}）` : ""
   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
@@ -135,6 +142,18 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             {/* noteへのリンク */}
             {/* 他巻へのリンク */}
             <EditionLinks title={title} edition={edition} />
+            {/*タグクラウド */}
+            {keyword && (
+              <div
+                className={styles.tagCloud}
+
+              >
+                <CustomTagCloud
+                  tags={filterdKeywords(keyword, allKeywords)}
+                  emakiPage={true}
+                />
+              </div>
+            )}
             {/* noteへのリンク */}
             <LinkToNote title={title} />
             {personname && (
@@ -167,7 +186,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               </div>
             )}
             {/*キーワードタグ */}
-            {keyword && (
+            {/* {keyword && (
               <div
                 className={`${styles.tags} ${locale === "ja" && styles.jatags}`}
               >
@@ -183,7 +202,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   );
                 })}
               </div>
-            )}
+            )} */}
             {/*カテゴリー・時代タグ */}
             <div className={styles.cat}>
               <Link href={`/era/${eraen}`}>
@@ -224,6 +243,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               </ul>
             </div>
           </div>
+
           <ToContactForm />
           {isContactModalOpen && <ContactFormGoogle />}
           <SnsShareBox
