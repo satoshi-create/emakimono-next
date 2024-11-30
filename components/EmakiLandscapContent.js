@@ -3,7 +3,7 @@ import EmakiConteiner from "./EmakiConteiner";
 import styles from "../styles/EmakiLandscapContent.module.css";
 import { AppContext } from "../pages/_app";
 import Link from "next/link";
-import { eraColor, useLocale, useLocaleData, keywordItem } from "../libs/func";
+import { eraColor, useLocale, useLocaleData, keywordItem ,filterdKeywords} from "../libs/func";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import CardC from "./CardC";
@@ -20,7 +20,6 @@ import { ChaptersTitle } from "../libs/func";
 import LikeButton from "./LikeButton";
 import RecommendEmaki from "./RecommendEmaki";
 import CustomTagCloud from "./CustomTagCloud";
-
 import ExtractingListData from "../libs/ExtractingListData";
 
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
@@ -33,8 +32,8 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { locale } = useRouter();
 
   const removeNestedArrayObj = ExtractingListData();
-
   const allKeywords = keywordItem(removeNestedArrayObj);
+
 
   const {
     type,
@@ -58,31 +57,28 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     note,
   } = data;
 
-  console.log(allKeywords);
-  console.log(keyword);
-
   // const test = allKeywords.filter((item,i)=>item.name === keyword)
 
   // console.log(test);
 
-  const filterdKeywords = keyword
-    ?.map((item2) => {
-      const matchingItem = allKeywords.find(
-        (item1) => item1.name === item2.name
-      );
-      if (matchingItem) {
-        return {
-          name: matchingItem.name,
-          id: matchingItem.id,
-          slug: matchingItem.slug,
-          total: matchingItem.total,
-        };
-      }
-      return null;
-    })
-    .filter((item) => item !== null);
+  // const filterdKeywords = keyword
+  //   ?.map((item2) => {
+  //     const matchingItem = allKeywords.find(
+  //       (item1) => item1.name === item2.name
+  //     );
+  //     if (matchingItem) {
+  //       return {
+  //         name: matchingItem.name,
+  //         id: matchingItem.id,
+  //         slug: matchingItem.slug,
+  //         total: matchingItem.total,
+  //       };
+  //     }
+  //     return null;
+  //   })
+  //   .filter((item) => item !== null);
 
-  console.log(filterdKeywords);
+  // console.log(filterdKeywords);
 
   const descTJa = desc
     ? desc
@@ -297,7 +293,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
             {/* おすすめの絵巻 */}
             {keyword && (
               <div className={styles.tagCloud}>
-                <CustomTagCloud tags={filterdKeywords} emakiPage={true} />
+                <CustomTagCloud tags={filterdKeywords(keyword, allKeywords)} emakiPage={true} />
               </div>
             )}
             <aside className={`${styles.recommendEmaki} scrollbar`}>

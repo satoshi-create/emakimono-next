@@ -2,16 +2,19 @@
   row-gap: 1.5rem;
   margin: 2rem 0;
 }
+
 .container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
+
 .metadataA {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 0.1rem;
 }
+
 .tags {
   display: flex;
   flex-direction: row;
@@ -19,21 +22,25 @@
   font-family: var(--title-font2);
   flex-wrap: wrap;
 }
+
 .portraitImage {
   border-radius: 50%;
   border: 3px solid white;
   background: rgb(61, 61, 61);
 }
+
 .name {
   transition: var(--transition);
   font-size: small;
   text-align: center;
 }
+
 .keywodtTitle {
   font-size: small;
   color: var(--clr-link);
   font-weight: 600;
 }
+
 .cat {
   display: flex;
   justify-content: left;
@@ -42,7 +49,8 @@
   font-family: var(--title-font2);
   font-weight: 500;
 }
-.cat > * {
+
+.cat>* {
   padding: 0.1rem 0.4rem 0;
   border-radius: var(--borderRadius);
   color: rgb(71 71 71);
@@ -51,11 +59,13 @@
   transition: var(--transition);
   cursor: pointer;
 }
-.cat > .type:hover,
-.cat > div:hover {
+
+.cat>.type:hover,
+.cat>div:hover {
   opacity: 0.5;
 }
-.cat > .era:hover {
+
+.cat>.era:hover {
   color: white;
 }
 
@@ -69,15 +79,18 @@
   grid-row: 1;
   grid-column: 1;
 }
+
 .authorLink {
   cursor: pointer;
   grid-row: 2;
   grid-column: 1;
   transition: var(--transition);
 }
+
 .authorLink:hover {
   opacity: 0.6;
 }
+
 .author {
   font-weight: 400;
   font-size: 0.9rem;
@@ -85,6 +98,7 @@
   font-family: var(--title-font2);
   text-transform: capitalize;
 }
+
 .linkedbutton {
   grid-row: 1;
   grid-column: 1/span2;
@@ -98,6 +112,7 @@
   padding: 0.5rem;
   color: var(--clr-white);
 }
+
 .linkedbutton:hover {
   background-color: var(--clr-white);
   color: var(--clr-accent-02);
@@ -112,6 +127,7 @@
   padding: 1rem;
   border-radius: 20px;
 }
+
 .genjieslugBox {
   grid-row: 1 / span 2;
   /* grid-column: 2; */
@@ -122,18 +138,22 @@
   /* margin-left: 1.5rem; */
   border: 1px double #000;
 }
+
 .genjieslugBox:hover {
   background: var(--clr-black);
   border: 1px double #fff;
 }
+
 .genjieslugTitle {
   padding: 0.2rem;
   font-family: var(--text-font);
   transition: var(--transition);
 }
+
 .genjieslugBox:hover .genjieslugTitle {
   color: var(--clr-white);
 }
+
 .desc {
   font-size: 0.9rem;
   color: var(--clr-black);
@@ -145,6 +165,14 @@
   font-weight: 100;
   color: var(--clr-grey);
 }
+
 .sourceLink {
   color: var(--clr-grey);
+}
+
+.tagCloud {
+  /* border: 1px solid #d1d1d1; */
+  border-radius: 12px;
+  padding: 1rem;
+  background-color:rgb(255 255 255 / 92%);
 }

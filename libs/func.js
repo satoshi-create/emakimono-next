@@ -6,6 +6,7 @@ import jaData from "./data";
 import chaptergenji from "./genji/chapters-of-genji.json";
 import chapterkusouzu from "./kusouzu/chapters-of-kusouzu.json";
 import parse from "html-react-parser";
+import ExtractingListData from "./ExtractingListData";
 
 const useLocale = () => {
   const { locale } = useRouter();
@@ -346,6 +347,28 @@ const ChaptersDesc = (titleen,title, chapter, desc) => {
   }
 };
 
+// キーワード一覧とマッチする絵巻ページのタグをfindし、新たな配列を作成
+
+
+  const filterdKeywords = (pageKey,allKey)=> pageKey
+    ?.map((item2) => {
+      const matchingItem = allKey.find(
+        (item1) => item1.name === item2.name
+      );
+      if (matchingItem) {
+        return {
+          name: matchingItem.name,
+          id: matchingItem.id,
+          slug: matchingItem.slug,
+          total: matchingItem.total,
+        };
+      }
+      return null;
+    })
+    .filter((item) => item !== null);
+
+
+
 export {
   eraColor,
   keywordItem,
@@ -366,4 +389,5 @@ export {
   ChaptersTitle,
   ChaptersGendaibun,
   ChaptersDesc,
+  filterdKeywords
 };
