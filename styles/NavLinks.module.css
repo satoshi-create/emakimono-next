@@ -8,9 +8,10 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: clamp(0.3125rem, -1.3542rem + 3.4722vw, 1.25rem);
-    font-size: var(--mokuji-size);
     grid-row:2;
    grid-column: 1 / 5;
+   font-family: var(--title-font3);
+   font-size:var(--mokuji-size);
   }
   .links a {
     transition: var(--transition);
@@ -52,7 +53,6 @@
     left: 0;
     width: max-content;
     flex-direction: column;
-    font-size: 1.2rem;
     line-height: 2;
     background-color: var(--clr-white);
     z-index: 10;
