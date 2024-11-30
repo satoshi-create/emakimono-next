@@ -77,7 +77,6 @@ export const getStaticProps = async (context) => {
     const chapterkusouzu = AllKusouzuChapters.find(
       (item) => item.titleen === kusouzuslugname
   );
-  console.log(chapterkusouzu);
 
   // const filterdEmakisData = tEmakisData.filter((x) => {
   //   if (x.kusouzuslug) {
@@ -94,7 +93,6 @@ export const getStaticProps = async (context) => {
       return filterdKusouzuslug;
   });
 
-console.log(filterdEmakisData);
 
   const removeNestedArrayObj = filterdEmakisData.map((item) => {
     return removeNestedEmakisObj(item);
