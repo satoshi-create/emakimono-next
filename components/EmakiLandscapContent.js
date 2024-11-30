@@ -26,16 +26,15 @@ import ExtractingListData from "../libs/ExtractingListData";
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
 
 const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
-  const { handleToId, handleFullScreen, result, loading } =
-    useContext(AppContext);
+  const { handleToId, handleFullScreen, result, loading } = useContext(
+    AppContext
+  );
   const { emakis } = data;
   const { locale } = useRouter();
 
-   const removeNestedArrayObj = ExtractingListData();
+  const removeNestedArrayObj = ExtractingListData();
 
   const allKeywords = keywordItem(removeNestedArrayObj);
-
-
 
   const {
     type,
@@ -59,16 +58,18 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     note,
   } = data;
 
-    console.log(allKeywords);
-    console.log(keyword);
+  console.log(allKeywords);
+  console.log(keyword);
 
+  // const test = allKeywords.filter((item,i)=>item.name === keyword)
 
-// const test = allKeywords.filter((item,i)=>item.name === keyword)
+  // console.log(test);
 
-// console.log(test);
-
-  const filterdKeywords = keyword?.map((item2) => {
-      const matchingItem = allKeywords.find((item1) => item1.name === item2.name);
+  const filterdKeywords = keyword
+    ?.map((item2) => {
+      const matchingItem = allKeywords.find(
+        (item1) => item1.name === item2.name
+      );
       if (matchingItem) {
         return {
           name: matchingItem.name,
@@ -82,7 +83,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     .filter((item) => item !== null);
 
   console.log(filterdKeywords);
-
 
   const descTJa = desc
     ? desc
@@ -117,35 +117,29 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
             overflowX={"scroll"}
             height={"75vh"}
           />
-          <div className={styles.subgrid}>
-            <ul className={`${styles.chapter} scrollbar`}>
-              <h4 className={styles.chapterTitle}>
-                {typeen === "emaki" ? "段" : "タイトル"}
-              </h4>
-              <span className={styles.borderline}></span>
-              {emakis.map((item, index) => {
-                const { cat, chapter } = item;
-                if (cat === "ekotoba") {
-                  return (
-                    <li key={index}>
-                      <span
-                        onClick={() => handleToId(index)}
-                        className={styles.chapterlink}
-                        style={{ color: eraColor(era) }}
-                      >
-                        {ChaptersTitle(titleen, title, chapter)}
-                      </span>
-                    </li>
-                  );
-                }
-              })}
-            </ul>
-              {keyword && (
-            <div className={styles.tagCloud}>
-                <CustomTagCloud tags={filterdKeywords} emakiPage={true} />
-            </div>
-              )}
-          </div>
+          <ul className={`${styles.chapter} scrollbar`}>
+            <h4 className={styles.chapterTitle}>
+              {typeen === "emaki" ? "段" : "タイトル"}
+            </h4>
+            <span className={styles.borderline}></span>
+            {emakis.map((item, index) => {
+              const { cat, chapter } = item;
+              if (cat === "ekotoba") {
+                return (
+                  <li key={index}>
+                    <span
+                      onClick={() => handleToId(index)}
+                      className={styles.chapterlink}
+                      style={{ color: eraColor(era) }}
+                    >
+                      {ChaptersTitle(titleen, title, chapter)}
+                    </span>
+                  </li>
+                );
+              }
+            })}
+          </ul>
+
           <div className={styles.metadata}>
             <div className={styles.metadataA}>
               <h1 className={styles.title}>
@@ -299,11 +293,18 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               </div>
             </div>
           </div>
-          {/* おすすめの絵巻 */}
-          <aside className={`${styles.recommendEmaki} scrollbar`}>
-            <RecommendEmaki data={data} />
-            {/* {(typeen === "seiyoukaiga" || keyword) && <CardC data={result} />} */}
-          </aside>
+          <div className={styles.subgrid}>
+            {/* おすすめの絵巻 */}
+            {keyword && (
+              <div className={styles.tagCloud}>
+                <CustomTagCloud tags={filterdKeywords} emakiPage={true} />
+              </div>
+            )}
+            <aside className={`${styles.recommendEmaki} scrollbar`}>
+              <RecommendEmaki data={data} />
+              {/* {(typeen === "seiyoukaiga" || keyword) && <CardC data={result} />} */}
+            </aside>
+          </div>
           {/* <RankingCard /> */}
           <ToContactForm />
         </div>

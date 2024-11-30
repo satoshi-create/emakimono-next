@@ -243,7 +243,6 @@ export const getStaticProps = async (context) => {
         (a, b) => (a.linkId > b.linkId ? 1 : -1)
       );
 
-      console.log(sortConcatFilterAddObjEmakis);
 
       return { ...item, emakis: sortConcatFilterAddObjEmakis };
     })
