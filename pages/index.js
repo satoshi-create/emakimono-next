@@ -203,6 +203,18 @@ const genjiEmakis = [
         linkpath={"flow-cyouzyuu"}
         bcg={"#f9fbff"}
       />
+          <CardA
+        emakis={kusouzuEmakis}
+        columns={t.kusouzu.columns}
+        sectiontitle={t.kusouzu.title}
+        sectiontitleen={t.kusouzu.titleen}
+        sectiondesc={t.kusouzu.desc}
+        sectionname={t.kusouzu.name}
+        linktitle={t.kusouzu.title}
+        linktitleen={t.kusouzu.title}
+        linkpath={"flow-kusouzu"}
+        // bcg={"#f9fbff"}
+      />
       <CardB
         columns={t.history.columns}
         sectiontitle={t.history.title}
@@ -212,6 +224,7 @@ const genjiEmakis = [
         linktitle={"絵巻"}
         linktitleen={"EMAKIMONO"}
         linkpath={"/type/emaki"}
+          bcg={"#f9fbff"}
       />
       <CardA
         emakis={bandainagonEmakis}
@@ -223,7 +236,7 @@ const genjiEmakis = [
         linktitle={t.bandainagon.title}
         linktitleen={t.bandainagon.title}
         linkpath={"flow-ban-dainagon"}
-        bcg={"#f9fbff"}
+        // bcg={"#f9fbff"}
       />
 
       {/* <FlowEmaki
@@ -237,7 +250,7 @@ const genjiEmakis = [
         sectiontitleen={t.personname.titleen}
         allTags={allPersonNames}
         path={"/personname/personnamelist"}
-        // bcg={"var(--clr-bcg)"}
+        bcg={"var(--clr-bcg)"}
       />
 
       <CardA
@@ -250,15 +263,10 @@ const genjiEmakis = [
         // linktitle={t.shigisan.title}
         // linktitleen={t.shigisan.title}
         linkpath={"shigisan"}
-        bcg={"#f9fbff"}
+        // bcg={"#f9fbff"}
       />
 
-      <Keywords
-        sectiontitle={t.indextag.title}
-        sectiontitleen={t.indextag.titleen}
-        allTags={allKeywords}
-        path={"/keyword/keywordlist"}
-      />
+
       <CardA
         emakis={genjiEmakis}
         columns={t.genji.columns}
@@ -271,6 +279,12 @@ const genjiEmakis = [
         linkpath={"flow-genji-pictures"}
         bcg={"#f9fbff"}
       />
+           <Keywords
+        sectiontitle={t.indextag.title}
+        sectiontitleen={t.indextag.titleen}
+        allTags={allKeywords}
+        path={"/keyword/keywordlist"}
+      />
       <GridImageList
         images={gridImages}
         sectiontitle={t.famousscene.title}
@@ -282,20 +296,9 @@ const genjiEmakis = [
         linkpath={"famousscene"}
         columns={t.favorite.columns}
         slice={true}
-        // bcg={"var(--clr-bcg)"}
+        bcg={"var(--clr-bcg)"}
       />
-      <CardA
-        emakis={kusouzuEmakis}
-        columns={t.kusouzu.columns}
-        sectiontitle={t.kusouzu.title}
-        sectiontitleen={t.kusouzu.titleen}
-        sectiondesc={t.kusouzu.desc}
-        sectionname={t.kusouzu.name}
-        linktitle={t.kusouzu.title}
-        linktitleen={t.kusouzu.title}
-        linkpath={"flow-kusouzu"}
-        bcg={"#f9fbff"}
-      />
+
 
       <CardA
         emakis={alpha}
@@ -307,6 +310,7 @@ const genjiEmakis = [
         linktitle={"ワイド美術"}
         linktitleen={"Side-scrolling art"}
         linkpath={"/type/byoubu"}
+                // bcg={"var(--clr-bcg)"}
       />
 
       <Footer />
