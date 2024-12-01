@@ -182,7 +182,9 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 onClick={() => handleFullScreen("landscape")}
                 className={styles.linkedbutton}
               >
-                フルスクリーンで見る
+                       {locale === "en"
+                ? "Enjoy the picture scroll in full screen"
+                : "フルスクリーンで絵巻を楽しむ"}
               </button>
             </div>
             <div className={styles.metadataB}>
