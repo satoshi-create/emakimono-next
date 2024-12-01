@@ -102,9 +102,9 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               onClick={() => handleFullScreen("landscape")}
               className={styles.linkedbutton}
             >
-              {locale === "en"
-                ? "Enjoy by right to left scroll !!"
-                : "横スクロールで見る"}
+             {locale === "en"
+                ? "View landscape"
+                : "横画面で見る"}
             </button>
           </div>
 
