@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, forwardRef } from "react";
 import styles from "../styles/EmakiNavigation.module.css";
 import {
   faAnglesLeft,
@@ -17,6 +17,7 @@ import { AppContext } from "../pages/_app";
 import ToggleCharacter from "./ToggleCharacter";
 import ToggleEbiki from "./ToggleEbiki";
 import FullScreen from "./FullScreen";
+import ActionButton from "./ActionButton";
 
 // TODO: 横スクロールで最後まで進み、「先頭に戻る」を押しても反応がない
 // ⇒navIndexが0になっている
@@ -31,55 +32,69 @@ const EmakiNavigation = ({
   const router = useRouter();
   const endIndex = data.emakis.length - 1;
 
+  const handleClick = () => {
+    window.open("https://note.com/enjoy_emakimono/n/n449f765b4876", "_blank"); // 新しいタブで遷移
+  };
+
   const { orientation } = useContext(AppContext);
+
   return (
     <aside
       className={`${styles.container} ${
         orientation === "landscape" ? styles.land : styles.prt
       } ${data.type === "古典文学" && styles.bcg}`}
     >
-      <button
+      <ActionButton
+        icon={
+          <FontAwesomeIcon icon={faAnglesLeft} style={{ fontSize: "1.5em" }} />
+        }
+        label="戻る"
         onClick={() => handleToId(data.type === "西洋絵画" ? 0 : endIndex)}
-        className={styles.button}
-        title="最後に進む"
-      >
-        <i>
-          <FontAwesomeIcon icon={faAnglesLeft} />
-        </i>
-      </button>
-      <button ref={scrollNextRef} className={styles.button} title="次に進む">
-        <i>
-          <FontAwesomeIcon icon={faChevronLeft} />
-        </i>
-      </button>
-      <Link href="https://note.com/enjoy_emakimono/n/n449f765b4876">
-        <a className={styles.button} target="_blank">
-          <i>
-            <FontAwesomeIcon
-              icon={faCircleQuestion}
-              title="絵巻の見方"
-            />
-          </i>
-        </a>
-      </Link>
+        description="最後に進む"
+      />
+      <ActionButton
+        ref={scrollNextRef}
+        icon={
+          <FontAwesomeIcon icon={faChevronLeft} style={{ fontSize: "1.5em" }} />
+        }
+        label="次に進む"
+        description="次に進む"
+      />
+      <ActionButton
+        icon={
+          <FontAwesomeIcon
+            icon={faCircleQuestion}
+            style={{ fontSize: "1.5em" }}
+          />
+        }
+        label="絵巻の見方"
+        description="絵巻の見方"
+        onClick={handleClick}
+      />
       <ToggleEkotoba data={data} />
       <FullScreen />
       {character && <ToggleCharacter data={data} />}
       {ebiki && <ToggleEbiki data={data} />}
-      <button ref={scrollPrevRef} className={styles.button} title="前に戻る">
-        <i>
-          <FontAwesomeIcon icon={faChevronRight} />
-        </i>
-      </button>
-      <button
+
+      <ActionButton
+        ref={scrollPrevRef}
+        icon={
+          <FontAwesomeIcon
+            icon={faChevronRight}
+            style={{ fontSize: "1.5em" }}
+          />
+        }
+        label="前に戻る"
+        description="前に戻る"
+      />
+      <ActionButton
+        icon={
+          <FontAwesomeIcon icon={faAnglesRight} style={{ fontSize: "1.5em" }} />
+        }
+        label="先頭に戻る"
+        description="先頭に戻る"
         onClick={() => handleToId(data.type === "西洋絵画" ? endIndex : 0)}
-        className={styles.button}
-        title="先頭に戻る"
-      >
-        <i>
-          <FontAwesomeIcon icon={faAnglesRight} />
-        </i>
-      </button>
+      />
     </aside>
   );
 };

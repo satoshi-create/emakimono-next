@@ -3,31 +3,31 @@ import styles from "../styles/ToggleEkotoba.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faUserSlash } from "@fortawesome/free-solid-svg-icons";
 import { AppContext } from "../pages/_app";
+import ActionButton from "./ActionButton";
 
 const ToggleCharacter = () => {
-  const { orientation, handleCharacterToggle, characterToggle } =
-    useContext(AppContext);
+  const { orientation, handleCharacterToggle, characterToggle } = useContext(
+    AppContext
+  );
 
   return (
-    <button
-      className={styles.button}
-      onClick={handleCharacterToggle}
-      title={
+    <ActionButton
+      icon={
+        characterToggle ? (
+          <FontAwesomeIcon icon={faUserSlash} style={{ fontSize: "1.5em" }}/>
+        ) : (
+          <FontAwesomeIcon icon={faUser} style={{ fontSize: "1.5em" }}/>
+        )
+      }
+      label={
         characterToggle ? "登場人物の名前を閉じる" : "登場人物の名前を見る"
       }
-    >
-      <i
-        style={{
-          fontSize: `${orientation === "portrait" ? "14px" : "20px"}`,
-        }}
-      >
-        {characterToggle ? (
-          <FontAwesomeIcon icon={faUserSlash} />
-        ) : (
-          <FontAwesomeIcon icon={faUser} />
-        )}
-      </i>
-    </button>
+      description={
+        characterToggle ? "登場人物の名前を閉じる" : "登場人物の名前を見る"
+      }
+      onClick={handleCharacterToggle}
+    />
+
   );
 };
 
