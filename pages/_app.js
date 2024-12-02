@@ -155,10 +155,10 @@ function MyApp({ Component, pageProps, router }) {
     setisModalOpen(false);
   };
 
-    const handleChapter = (index) => {
-      handleToId(index);
-      closeModal();
-    };
+  const handleChapter = (index) => {
+    handleToId(index);
+    closeModal();
+  };
 
   const openMapModal = (i) => {
     setIsMapModalOpen(true);

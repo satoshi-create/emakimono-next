@@ -8,32 +8,28 @@ import {
   faExpand,
   faCompress,
 } from "@fortawesome/free-solid-svg-icons";
+import ActionButton from "./ActionButton";
 
 // TODO:フルスクリーンを解除しないでページ遷移したときに、フルスクリーンを解除する
 
 // lock func
 const FullScreen = () => {
-  const { toggleFullscreen, handleFullScreen, orientation } =
-    useContext(AppContext);
+  const { toggleFullscreen, handleFullScreen, orientation } = useContext(
+    AppContext
+  );
   return (
-    <button
-      type="button"
-      value="Lock Landscape"
+    <ActionButton
+      icon={
+        toggleFullscreen ? (
+          <FontAwesomeIcon icon={faCompress} style={{ fontSize: "1.5em" }} />
+        ) : (
+          <FontAwesomeIcon icon={faExpand} style={{ fontSize: "1.5em" }} />
+        )
+      }
+      label={toggleFullscreen ? "全画面を閉じる" : "全画面で鑑賞する"}
+      description={toggleFullscreen ? "全画面を閉じる" : "全画面で鑑賞する"}
       onClick={() => handleFullScreen("landscape")}
-      className={`${orientation === "landscape" ? styles.land : styles.prt} ${
-        styles.button
-      }`}
-    >
-      {toggleFullscreen ? (
-        <i>
-          <FontAwesomeIcon icon={faCompress} />
-        </i>
-      ) : (
-        <i>
-          <FontAwesomeIcon icon={faExpand} />
-        </i>
-      )}
-    </button>
+    />
   );
 };
 
