@@ -32,10 +32,13 @@ const ActionButton = forwardRef(({ icon, onClick, description }, ref) => {
         }}
         size={{ base: "sm", md: "md" }}
         color="white"
-        _hover={{
+        _hover={!isMobile ? {
           transform: "scale(1.4)",
           color: "#ff8c77",
+        } : {
+          color: "#ff8c77",
         }}
+
       />
     </Tooltip>
   );
