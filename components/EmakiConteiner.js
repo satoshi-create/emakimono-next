@@ -17,6 +17,7 @@ import ModalMap from "./ModalMap";
 import ModalDesc from "./ModalDesc";
 import ModalDescGenji from "./ModalDescGenji";
 import ScrollHint from "scroll-hint";
+import CarouselButton from "./CarouselButton";
 
 const EmakiContainer = ({
   data,
@@ -39,55 +40,52 @@ const EmakiContainer = ({
     isDescModalOpen,
   } = useContext(AppContext);
 
-    const { locale } = useRouter();
+  const { locale } = useRouter();
 
   const emakis = data.emakis;
 
-  const { backgroundImage, kotobagaki, type,genjieslug } = data;
+  const { backgroundImage, kotobagaki, type, genjieslug } = data;
 
   const wrapperRef = useRef();
   const articleRef = useRef();
   const scrollNextRef = useRef(null);
   const scrollPrevRef = useRef(null);
 
-
   useEffect(() => {
-   const keyName = "visited";
-   const keyValue = true;
+    const keyName = "visited";
+    const keyValue = true;
 
-   if (!sessionStorage.getItem(keyName)) {
-     //sessionStorageにキーと値を追加
-     sessionStorage.setItem(keyName, keyValue);
+    if (!sessionStorage.getItem(keyName)) {
+      //sessionStorageにキーと値を追加
+      sessionStorage.setItem(keyName, keyValue);
 
-     console.log("first visited");
+      console.log("first visited");
 
-     //初回アクセス時の処理
-     new ScrollHint(".js-scrollable", {
-       offset: -10,
-       remainingTime: 8000,
-       scrollableLeftClass: true,
-       scrollHintIconAppendClass: "scroll-hint-icon-white",
-       i18n: {
-         scrollable: `${
-           locale === "ja"
-             ? `${
-                 type !== "西洋絵画"
-                   ? "左スクロールできます"
-                   : "右スクロールできます"
-               }`
-             : `${type !== "西洋絵画" ? "scrollable left" : "scrollable right"}`
-         }`,
-       },
-     });
-   } else {
-     //ここに通常アクセス時の処理
-     console.log("already visited");
-   }
-  }, [])
-
-
-
-
+      //初回アクセス時の処理
+      new ScrollHint(".js-scrollable", {
+        offset: -10,
+        remainingTime: 8000,
+        scrollableLeftClass: true,
+        scrollHintIconAppendClass: "scroll-hint-icon-white",
+        i18n: {
+          scrollable: `${
+            locale === "ja"
+              ? `${
+                  type !== "西洋絵画"
+                    ? "左スクロールできます"
+                    : "右スクロールできます"
+                }`
+              : `${
+                  type !== "西洋絵画" ? "scrollable left" : "scrollable right"
+                }`
+          }`,
+        },
+      });
+    } else {
+      //ここに通常アクセス時の処理
+      console.log("already visited");
+    }
+  }, []);
 
   useEffect(() => {
     const ref = articleRef.current;
@@ -132,63 +130,10 @@ const EmakiContainer = ({
     }
   }, [scroll]);
 
-  // イベントリスナーを使う方法で実装。
-  // イベントハンドラーを使う方法は（scrollevent_eventhandler）内
-  useEffect(() => {
-    const con = articleRef.current;
-    const btnPrev = scrollPrevRef.current;
-    const btnNext = scrollNextRef.current;
-
-    const scrollNextEvent = () => {
-      con.scrollTo({
-        left: con.scrollLeft - 1000,
-        behavior: "smooth",
-      });
-    };
-
-    const scrollPrevEvent = () => {
-      con.scrollTo({
-        left: con.scrollLeft + 1000,
-        behavior: "smooth",
-      });
-    };
-
-    if (btnNext) {
-      btnNext.addEventListener("click", scrollNextEvent);
-    }
-    if (btnPrev) {
-      btnPrev.addEventListener("click", scrollPrevEvent);
-    }
-    return () => {
-      if (btnNext) {
-        btnNext.removeEventListener("click", scrollNextEvent);
-      }
-      if (btnPrev) {
-        btnNext.removeEventListener("click", scrollNextEvent);
-      }
-    };
-  }, []);
-
-  const Navigation = (scr) => {
-    if (scr) {
-      <>
-        <FullScreen />
-        <EmakiNavigation
-          handleToId={handleToId}
-          data={data}
-          scrollNextRef={scrollNextRef}
-          scrollPrevRef={scrollPrevRef}
-        />
-      </>;
-    } else {
-      return;
-    }
-  };
-
   return (
     <div
       className={`${
-         orientation === "landscape" && scroll ? styles.land : styles.prt
+        orientation === "landscape" && scroll ? styles.land : styles.prt
       }`}
     >
       <div
@@ -201,14 +146,10 @@ const EmakiContainer = ({
             "12px",
         }}
       >
+        <CarouselButton articleRef={articleRef}/>
         {scroll && (
           <>
-            <EmakiNavigation
-              handleToId={handleToId}
-              data={data}
-              scrollNextRef={scrollNextRef}
-              scrollPrevRef={scrollPrevRef}
-            />
+            <EmakiNavigation handleToId={handleToId} data={data} />
           </>
         )}
         {scroll && toggleFullscreen && <EmakiInfo value={data} />}
