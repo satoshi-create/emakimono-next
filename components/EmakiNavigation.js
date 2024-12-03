@@ -25,8 +25,6 @@ import ActionButton from "./ActionButton";
 const EmakiNavigation = ({
   handleToId,
   data,
-  scrollNextRef,
-  scrollPrevRef,
 }) => {
   const { character, ebiki } = data;
   const router = useRouter();
@@ -53,14 +51,6 @@ const EmakiNavigation = ({
         description="最後に進む"
       />
       <ActionButton
-        ref={scrollNextRef}
-        icon={
-          <FontAwesomeIcon icon={faChevronLeft} style={{ fontSize: "1.5em" }} />
-        }
-        label="次に進む"
-        description="次に進む"
-      />
-      <ActionButton
         icon={
           <FontAwesomeIcon
             icon={faCircleQuestion}
@@ -75,18 +65,6 @@ const EmakiNavigation = ({
       <FullScreen />
       {character && <ToggleCharacter data={data} />}
       {ebiki && <ToggleEbiki data={data} />}
-
-      <ActionButton
-        ref={scrollPrevRef}
-        icon={
-          <FontAwesomeIcon
-            icon={faChevronRight}
-            style={{ fontSize: "1.5em" }}
-          />
-        }
-        label="前に戻る"
-        description="前に戻る"
-      />
       <ActionButton
         icon={
           <FontAwesomeIcon icon={faAnglesRight} style={{ fontSize: "1.5em" }} />
