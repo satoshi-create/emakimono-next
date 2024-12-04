@@ -22,16 +22,16 @@ const { orientation } = useContext(AppContext);
   const [highlightNext, setHighlightNext] = useState(true); // 強調するフラグ
 
   // 初回のレンダリング時に次に進むボタンを強調
-  // useEffect(() => {
-  //   setHighlightNext(true);
+  useEffect(() => {
+    setHighlightNext(true);
 
-  //   // アニメーションが終わったらフラグをfalseに戻す
-  //   const timer = setTimeout(() => {
-  //     setHighlightNext(false);
-  //   }, 10000); // 2秒後に強調を解除
+    // アニメーションが終わったらフラグをfalseに戻す
+    const timer = setTimeout(() => {
+      setHighlightNext(false);
+    }, 10000); // 2秒後に強調を解除
 
-  //   return () => clearTimeout(timer); // クリーンアップ
-  // }, []);
+    return () => clearTimeout(timer); // クリーンアップ
+  }, []);
 
   console.log(nextClicked);
 
