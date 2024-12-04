@@ -58,6 +58,7 @@ const ActionButton = forwardRef(
           }}
           // className={highlightNext ? "highlight-animation" : ""}
           className={`${highlightNext && styles.highlightAnimation}`}
+          // className={styles.highlightAnimation}
           size={{ base: "sm", md: "md" }}
           color="white"
           _hover={

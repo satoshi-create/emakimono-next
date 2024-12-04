@@ -103,8 +103,8 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               className={styles.linkedbutton}
             >
              {locale === "en"
-                ? "View landscape"
-                : "横画面で見る"}
+                ? "View FullScreen"
+                : "全画面で見る"}
             </button>
           </div>
 
