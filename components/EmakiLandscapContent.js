@@ -21,6 +21,7 @@ import LikeButton from "./LikeButton";
 import RecommendEmaki from "./RecommendEmaki";
 import CustomTagCloud from "./CustomTagCloud";
 import ExtractingListData from "../libs/ExtractingListData";
+import parse from "html-react-parser";
 
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
 
@@ -57,28 +58,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     note,
   } = data;
 
-  // const test = allKeywords.filter((item,i)=>item.name === keyword)
-
-  // console.log(test);
-
-  // const filterdKeywords = keyword
-  //   ?.map((item2) => {
-  //     const matchingItem = allKeywords.find(
-  //       (item1) => item1.name === item2.name
-  //     );
-  //     if (matchingItem) {
-  //       return {
-  //         name: matchingItem.name,
-  //         id: matchingItem.id,
-  //         slug: matchingItem.slug,
-  //         total: matchingItem.total,
-  //       };
-  //     }
-  //     return null;
-  //   })
-  //   .filter((item) => item !== null);
-
-  // console.log(filterdKeywords);
 
   const descTJa = desc
     ? desc
@@ -182,22 +161,19 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 onClick={() => handleFullScreen("landscape")}
                 className={styles.linkedbutton}
               >
-                       {locale === "en"
-                ? "Enjoy the picture scroll in full screen"
-                : "フルスクリーンで絵巻を楽しむ"}
+                {locale === "en"
+                  ? "Enjoy the picture scroll in full screen"
+                  : "フルスクリーンで絵巻を楽しむ"}
               </button>
             </div>
             <div className={styles.metadataB}>
               {/* 絵巻の紹介 */}
-              <div
-                className={styles.desc}
-                dangerouslySetInnerHTML={{
-                  __html: locale === "en" ? descEn : descJa,
-                }}
-              ></div>
+              <div className={styles.desc}>
+                {locale === "en" ? parse(descEn) : parse(descJa)}
+              </div>
               {/* 他巻へのリンク */}
               <EditionLinks title={title} edition={edition} />
-              <BannerToHelp />
+              {/* <BannerToHelp /> */}
 
               {/* 各段の詞書・解説 */}
               {kotobagaki && <ChapterDesc emakis={emakis} data={data} />}
@@ -295,7 +271,10 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
             {/* おすすめの絵巻 */}
             {keyword && (
               <div className={styles.tagCloud}>
-                <CustomTagCloud tags={filterdKeywords(keyword, allKeywords)} emakiPage={true} />
+                <CustomTagCloud
+                  tags={filterdKeywords(keyword, allKeywords)}
+                  emakiPage={true}
+                />
               </div>
             )}
             <aside className={`${styles.recommendEmaki} scrollbar`}>

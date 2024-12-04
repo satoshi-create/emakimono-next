@@ -113,7 +113,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               className={styles.desc}
               dangerouslySetInnerHTML={{ __html: desc ? desc : descJa }}
             ></div>
-            <BannerToHelp />
+            {/* <BannerToHelp /> */}
             {genjieslug && (
               <div className={`${styles.genjieslugBox}`}>
                 <Link href={`/genjie/chapters-genji`}>
@@ -129,13 +129,13 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               </div>
             )}
 
-            {/* 絵巻の紹介 */}
-            <ChapterList
+            {/* 絵巻の目次 */}
+            {/* <ChapterList
               data={emakis}
               era={era}
               titleen={titleen}
               title={title}
-            />
+            /> */}
 
             {/* 各段の詞書・解説 */}
             {kotobagaki && <ChapterDesc emakis={emakis} data={data} />}
