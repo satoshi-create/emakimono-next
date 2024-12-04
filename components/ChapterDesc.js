@@ -3,7 +3,7 @@ import SingleChapterDesc from "./SingleChapterDesc";
 import styles from "../styles/ChapterDesc.module.css";
 
 const ChapterDesc = ({ emakis,data }) => {
-  const [toggle, setToggle] = useState(false);
+  const [toggle, setToggle] = useState(true);
 
   return (
     <>
