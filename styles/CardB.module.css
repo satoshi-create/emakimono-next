@@ -67,6 +67,7 @@
     padding: 2rem 0;
   }
 }
+
 @media screen and (min-width: 1024px) {
   .three {
     flex: 0 0 calc(33% - 2rem);
