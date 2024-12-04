@@ -41,7 +41,7 @@ const { orientation } = useContext(AppContext);
     if (con) {
       // 横スクロール（右方向）
       con.scrollTo({
-        left: orientation === "landscape" ? con.scrollLeft - 1000 :con.scrollLeft - 300,
+        left: orientation === "landscape" ? con.scrollLeft - 500 :con.scrollLeft - 300,
         behavior: "smooth",
       });
     }
