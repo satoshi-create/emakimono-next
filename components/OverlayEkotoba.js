@@ -3,15 +3,17 @@ import styles from "../styles/OverlayEkotoba.module.css";
 import ResposiveImage from "./ResposiveImage";
 import { AppContext } from "../pages/_app";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLocationDot,faCircleInfo } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
 import {
-  ChaptersTitle,
-  ChaptersGendaibun,
-} from "../libs/func";
+  faLocationDot,
+  faCircleInfo,
+  faCircleQuestion,
+} from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
+import { ChaptersTitle, ChaptersGendaibun } from "../libs/func";
 import parse from "html-react-parser";
 import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
+import ActionButton from "./ActionButton";
 
 const OverlayEkotoba = ({
   item: {
@@ -35,7 +37,7 @@ const OverlayEkotoba = ({
     kotobagaki,
     cat,
     data,
-    googlemap
+    googlemap,
   },
 }) => {
   const {
@@ -50,9 +52,7 @@ const OverlayEkotoba = ({
     handleToId,
   } = useContext(AppContext);
 
-
   const { title, titleen } = data;
-
 
   // TODO : 目次のフォントサイズをレスポンシブにする
 
@@ -79,7 +79,6 @@ const OverlayEkotoba = ({
       return JSON.parse(ekotobaId);
     }
   };
-
 
   return (
     <section
@@ -132,23 +131,22 @@ const OverlayEkotoba = ({
               </button>
             )}
             {kotobagaki && (
-              <button
-                className={`${styles.infoiconlink} ekotoba_info_click`}
-                // data-link-click="ekotoba_info_click"
+                <ActionButton
+                icon={
+                  <FontAwesomeIcon
+                    icon={faCircleQuestion}
+                    style={{ fontSize: "1.5em" }}
+                  />
+                }
+                label="この段の情報を見る"
                 onClick={() =>
                   openDescModal({
                     ekotobaId,
-                    // parseEkotobaId: parseEkotobaId(ekotobaId),
                     index,
                   })
                 }
-                // title={`${ChaptersTitle(titleen, title, chapter)}の情報を見る`}
-              >
-                <FontAwesomeIcon
-                  icon={faCircleInfo}
-                  className={styles.infoiconlinkicon}
-                />
-              </button>
+                description="この段の情報を見る"
+              />
             )}
           </div>
         )}
