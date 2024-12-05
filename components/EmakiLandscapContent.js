@@ -94,7 +94,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
           />
           <ul className={`${styles.chapter} scrollbar`}>
             <h4 className={styles.chapterTitle}>
-              {typeen === "emaki" ? "段" : "タイトル"}
+              {typeen === "emaki" ? "段タイトル" : "タイトル"}
             </h4>
             <span className={styles.borderline}></span>
             {emakis.map((item, index) => {
