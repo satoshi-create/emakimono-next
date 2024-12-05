@@ -34,7 +34,7 @@ const EmakiInfo = ({ value }) => {
           locale === "en" ? eraen : `${era}時代`
         }`}</a>
       </Link>
-      <Link href={`/category/${typeen}`}>
+      <Link href={`/type/${typeen}`}>
         <a className={styles.tag}>{`${locale === "en" ? typeen : type}`}</a>
       </Link>
       {keyword &&
