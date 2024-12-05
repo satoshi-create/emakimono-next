@@ -29,6 +29,7 @@ const FullScreen = () => {
       label={toggleFullscreen ? "全画面を閉じる" : "全画面で鑑賞する"}
       description={toggleFullscreen ? "全画面を閉じる" : "全画面で鑑賞する"}
       onClick={() => handleFullScreen("landscape")}
+      variant="fullscreen"
     />
   );
 };

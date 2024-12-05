@@ -65,14 +65,14 @@ const OverlayEkotoba = ({
     setEkotobabody(gendaibun);
   }, [setEkotobabody, gendaibun]);
 
-  useEffect(() => {
-    if (!scroll) {
-      setEkotobaImageToggle(true);
-    } else {
-      setEkotobaImageToggle(false);
-    }
-    setekotobaToggle(false);
-  }, [setEkotobaImageToggle, setekotobaToggle]);
+  // useEffect(() => {
+  //   if (!scroll) {
+  //     setEkotobaImageToggle(true);
+  //   } else {
+  //     setEkotobaImageToggle(false);
+  //   }
+  //   setekotobaToggle(false);
+  // }, [setEkotobaImageToggle, setekotobaToggle]);
 
   const parseEkotobaId = (ekotobaId) => {
     if (ekotobaId) {

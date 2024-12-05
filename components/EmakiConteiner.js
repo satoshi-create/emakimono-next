@@ -44,7 +44,7 @@ const EmakiContainer = ({
 
   const emakis = data.emakis;
 
-  const { backgroundImage, kotobagaki, type, genjieslug } = data;
+  const { backgroundImage, kotobagaki, type, genjieslug,title } = data;
 
   const wrapperRef = useRef();
   const articleRef = useRef();
@@ -139,14 +139,20 @@ const EmakiContainer = ({
       <div
         className="js-scrollable entry-container"
         style={{
-          borderRadius:
+          borderTopRightRadius:
+            orientation === "landscape" &&
+            scroll &&
+            toggleFullscreen === false &&
+            "12px",
+          borderBottomRightRadius:
             orientation === "landscape" &&
             scroll &&
             toggleFullscreen === false &&
             "12px",
         }}
       >
-        <CarouselButton articleRef={articleRef}/>
+        <CarouselButton articleRef={articleRef} />
+        <FullScreen />
         {scroll && (
           <>
             <EmakiNavigation handleToId={handleToId} data={data} />
@@ -168,7 +174,12 @@ const EmakiContainer = ({
             "--screen-width": width,
             "--overflow-x": overflowX,
             "--box-shadow": boxshadow,
-            borderRadius:
+            borderTopRightRadius:
+              orientation === "landscape" &&
+              scroll &&
+              toggleFullscreen === false &&
+              "12px",
+            borderBottomRightRadius:
               orientation === "landscape" &&
               scroll &&
               toggleFullscreen === false &&
@@ -177,6 +188,7 @@ const EmakiContainer = ({
           onClick={() => setOepnSidebar(false)}
           ref={articleRef}
         >
+          {/* <p className={styles.title}>{title}</p> */}
           {emakis.map((item, index) => {
             const { cat, src } = item;
             if (data.type !== "古典文学") {

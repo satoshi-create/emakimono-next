@@ -50,3 +50,6 @@ overflow-x: var(--overflow-x);
   border-bottom-right-radius: 100px;
   border-bottom-left-radius: 100px;
 }
+.title{
+  background-image: url("/washi-pattern-01.webp");
+}

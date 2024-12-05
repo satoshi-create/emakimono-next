@@ -29,6 +29,8 @@ const ActionButton = forwardRef(
 
     const isCarouselButton = variant === "carousel"; // variantに基づいてスタイルを分岐
 
+    const isFullscreenButton = variant === "fullscreen"
+
 
     return (
       <Tooltip
@@ -54,6 +56,12 @@ const ActionButton = forwardRef(
               left: left,
               right: right,
               zIndex: zIndex,
+            }),
+            ...(isFullscreenButton && {
+              position: "absolute",
+              bottom: "4%",
+              right: "1%",
+              zIndex: "10",
             }),
           }}
           // className={highlightNext ? "highlight-animation" : ""}

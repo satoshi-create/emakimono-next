@@ -117,9 +117,9 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
 
           <div className={styles.metadata}>
             <div className={styles.metadataA}>
-              <h1 className={styles.title}>
+              <h2 className={styles.title}>
                 {locale === "ja" ? title : titleen} {locale === "ja" && edition}
-              </h1>
+              </h2>
               {author && (
                 <Link href={`/author/${authoren}`}>
                   <a className={styles.authorLink}>
