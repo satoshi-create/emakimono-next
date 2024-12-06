@@ -1,65 +1,38 @@
 [
-	{
-		"chapter":"1",
-		"title":"兎と猿の水遊び ",
-		"kobun":"",
-		"gendaibun":"",
-		"desc":""
-	},
-	{
-		"chapter":"2",
-		"title":"兎と蛙の賭弓 ",
-		"kobun":"",
-		"gendaibun":"",
-		"desc":""
-	},
-	{
-		"chapter":"3",
-		"title":"禄の物を受ける猿僧正",
-		"kobun":"",
-		"gendaibun":"",
-		"desc":""
-	},
-	{
-		"chapter":"4",
-		"title":"猿と蛙の喧嘩",
-		"kobun":"",
-		"gendaibun":"",
-		"desc":""
-	},
-	{
-		"chapter":"5",
-		"title":"田楽見物",
-		"kobun":"",
-		"gendaibun":"",
-		"desc":""
-	},
-	{
-		"chapter":"6",
-		"title":"兎と蛙の相撲",
-		"kobun":"",
-		"gendaibun":"",
-		"desc":""
-	},
-	{
-		"chapter":"7",
-		"title":"双六盤を運ぶ猿",
-		"kobun":"",
-		"gendaibun":"",
-		"desc":""
-	},
-	{
-		"chapter":"8",
-		"title":"周忌法会の導師をつとめる猿僧正",
-		"kobun":"",
-		"gendaibun":"",
-		"desc":""
-	},
-	{
-		"chapter":"9",
-		"title":"猿僧正への僧供",
-		"kobun":"",
-		"gendaibun":"",
-		"desc":""
-	}
+  {
+    "chapter": "1",
+    "title": "兎と猿の水遊び "
+  },
+  {
+    "chapter": "2",
+    "title": "兎と蛙の賭弓 "
+  },
+  {
+    "chapter": "3",
+    "title": "禄の物を受ける猿僧正"
+  },
+  {
+    "chapter": "4",
+    "title": "猿と蛙の喧嘩"
+  },
+  {
+    "chapter": "5",
+    "title": "田楽見物"
+  },
+  {
+    "chapter": "6",
+    "title": "兎と蛙の相撲"
+  },
+  {
+    "chapter": "7",
+    "title": "双六盤を運ぶ猿"
+  },
+  {
+    "chapter": "8",
+    "title": "周忌法会の僧侶役をつとめる猿僧正"
+  },
+  {
+    "chapter": "9",
+    "title": "猿僧正への供え物"
+  }
 ]

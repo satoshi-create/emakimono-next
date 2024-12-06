@@ -2731,7 +2731,7 @@
     "reference": [
       {
         "type": "書籍",
-        "url": "https://shorturl.at/gqyzH",
+        "url": "https://shorturl.at/lurua",
         "title": "『九相図をよむ　朽ちてゆく死体の美術』（山本聡美 著　角川選書）"
       }
     ],
@@ -2739,12 +2739,14 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "生前相",
+        "chapter": "0",
         "load": "",
         "srcSp": "",
         "srcTb": "",
         "src": "",
         "name": "",
+        "desc": "生命が宿っている体の状態を指します。肉体が正常に機能し、自然な美しさや活力を持つ状態です。",
+        "gendaibun": "私たちが普段目にするのは、まだ生きている体の状態です。肌に血色があり、内臓や骨格もきちんと機能しています。生きている間の体の美しさや活力を表す状態を「生前相（せいぜんそう）」と呼びます",
         "srcWidth": "",
         "srcHeight": ""
       },
@@ -3030,7 +3032,7 @@
     "reference": [
       {
         "type": "書籍",
-        "url": "https://shorturl.at/gqyzH",
+        "url": "https://shorturl.at/lurua",
         "title": "『九相図をよむ　朽ちてゆく死体の美術』（山本聡美 著　角川選書）"
       }
     ],
@@ -3038,7 +3040,7 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "生前相",
+        "chapter": "0",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -3298,7 +3300,7 @@
     "reference": [
       {
         "type": "書籍",
-        "url": "https://shorturl.at/gqyzH",
+        "url": "https://shorturl.at/lurua",
         "title": "『九相図をよむ　朽ちてゆく死体の美術』（山本聡美 著　角川選書）"
       }
     ],
@@ -8153,7 +8155,7 @@
     "reference": [
       {
         "type": "書籍",
-        "url": "https://shorturl.at/gqyzH",
+        "url": "https://shorturl.at/lurua",
         "title": "『九相図をよむ　朽ちてゆく死体の美術』（山本聡美 著　角川選書）"
       },
       {
@@ -8166,7 +8168,7 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "生前相",
+        "chapter": "0",
         "load": "",
         "srcSp": "",
         "srcTb": "",
