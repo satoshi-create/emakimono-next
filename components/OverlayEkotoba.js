@@ -101,7 +101,7 @@ const OverlayEkotoba = ({
           <div
             className={styles.chapterbox}
             style={{
-              padding: `${orientation === "portrait" ? "1rem .5rem" : ".5rem"}`,
+              padding: `${orientation === "portrait" ? "1rm .5rem" : ".5rem"}`,
             }}
             onClick={() => handleToId(index)}
           >
@@ -131,7 +131,7 @@ const OverlayEkotoba = ({
               </button>
             )}
             {kotobagaki && (
-                <ActionButton
+              <ActionButton
                 icon={
                   <FontAwesomeIcon
                     icon={faCircleQuestion}
@@ -146,6 +146,7 @@ const OverlayEkotoba = ({
                   })
                 }
                 description="この段の情報を見る"
+                variant="emakipageicon"
               />
             )}
           </div>

@@ -2,21 +2,22 @@
   position: relative;
   /* overflow: hidden; */
 }
+
 .ekotobaimagebox {
   transition: var(--transition);
   width: 100%;
 }
+
 .gendaibunopen .ekotobaimagebox {
   filter: blur(5px);
   /* mask-image: linear-gradient(to left, black, black, black, transparent); */
-  mask-image: linear-gradient(
-    to left,
-    black,
-    black,
-    black,
-    rgba(204, 204, 204, 0.5830707282913166)
-  );
+  mask-image: linear-gradient(to left,
+      black,
+      black,
+      black,
+      rgba(204, 204, 204, 0.5830707282913166));
 }
+
 .gendaibunbox {
   position: absolute;
   top: 0;
@@ -32,6 +33,7 @@
   transition: var(--transition);
   opacity: 0;
 }
+
 /* .ekotobaimage{
   position: absolute;
   top: 0;
@@ -43,31 +45,43 @@
   height: auto;
   overflow-x: visible;
 }
+
 .gendaibunopen .gendaibunbox {
   opacity: 100;
 }
+
 .chapterbox {
-  display: flex;
+  display: grid;
+    grid-template-columns: min-content auto;
+    height: fit-content;
   align-items: center;
   letter-spacing: 0.2rem;
   z-index: 0;
   color: var(--clr-white);
-  background-color: #0000008c;
-  margin-bottom: 4rem;
-  /* cursor: pointer; */
-  background: linear-gradient(221deg, rgba(135, 135, 135, 0.10127801120448177) 0%, rgba(78, 78, 78, 0.46262254901960786) 17%, rgba(11, 11, 11, 1) 100%);
+  /* margin-bottom: 4rem; */
   position: relative;
+  text-shadow: pink 1px 0 15px;
+  transform: rotate(10deg);
+  background-color: #0000008c;
+  background: linear-gradient(221deg, rgba(135, 135, 135, 0.10127801120448177) 0%, rgba(78, 78, 78, 0.46262254901960786) 17%, rgba(11, 11, 11, 1) 100%);
 }
+
+/* @media screen and (min-width: 768px) {
+  .chapterbox {}
+
+} */
+
 .chapterbox::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
-background: rgb(238, 174, 202);
+  background: rgb(238, 174, 202);
   background: linear-gradient(42deg, rgba(238, 174, 202, 1) 0%, rgb(148 187 233 / 71%) 100%);
   opacity: 0;
   transition: opacity 1s;
 }
+
 /* .chapterbox:hover::before{
    opacity: 1;
 } */
@@ -75,6 +89,7 @@ background: rgb(238, 174, 202);
   font-weight: 400;
   font-family: var(--text-font-koten);
   /* text-combine-upright: all; */
+  white-space:nowrap;
 }
 
 .gendaibun {
@@ -82,16 +97,20 @@ background: rgb(238, 174, 202);
   line-height: 1.6;
   margin: 2rem 0;
 }
+
 .gendaibun {
   font-size: var(--text-size-prt);
 }
+
 .gendaibun a {
   transition: var(--transition);
   color: var(--clr-link);
 }
+
 .gendaibun a:hover {
   color: var(--clr-accent-02);
 }
+
 .mapiconlink,
 .infoiconlink {
   display: grid;
@@ -102,13 +121,15 @@ background: rgb(238, 174, 202);
   cursor: pointer;
   font-size: 1.8rem;
 }
+
 /* .chapterbox:hover .infoiconlink{
 transform: scale(1.2);
 } */
 
-.mapiconlink:hover{
+.mapiconlink:hover {
   color: var(--clr-black);
 }
+
 /* ===========================
  * 右⇒左（rl）の設定
  * =========================== */
@@ -117,9 +138,11 @@ transform: scale(1.2);
   writing-mode: vertical-rl;
   z-index: 1;
 }
+
 .ekotobarl .gendaibunbox {
   right: 0;
 }
+
 .ekotobarl .chapterbox {
   margin-right: 1rem;
 }
@@ -131,16 +154,20 @@ transform: scale(1.2);
   writing-mode: vertical-lr;
   z-index: 1;
 }
+
 .ekotobalr .gendaibunbox {
   left: 0;
 }
+
 .ekotobalr .chapterbox {
   margin-left: 1rem;
+
 }
 
 .container::-webkit-scrollbar {
   height: 15px;
 }
+
 @media (min-width: 768px) {
   .container::-webkit-scrollbar {
     height: 20px;
@@ -152,11 +179,9 @@ transform: scale(1.2);
  * =========================== */
 
 .gendaibunbox::-webkit-scrollbar-thumb {
-  background-image: linear-gradient(
-    90deg,
-    rgb(253, 147, 150),
-    rgb(144, 152, 247)
-  );
+  background-image: linear-gradient(90deg,
+      rgb(253, 147, 150),
+      rgb(144, 152, 247));
 }
 
 /* .gendaibunbox::-webkit-scrollbar {

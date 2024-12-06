@@ -29,7 +29,7 @@ const ActionButton = forwardRef(
 
     const isCarouselButton = variant === "carousel"; // variantに基づいてスタイルを分岐
 
-
+    const isEmakipageicon = variant === "emakipageicon";
     return (
       <Tooltip
         label={description}
@@ -60,6 +60,7 @@ const ActionButton = forwardRef(
           className={`${highlightNext && styles.highlightAnimation}`}
           // className={styles.highlightAnimation}
           size={{ base: "sm", md: "md" }}
+          // color={isEmakipageicon ? "#ff8c77" : "white"}
           color="white"
           _hover={
             !isMobile
