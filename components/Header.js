@@ -10,6 +10,8 @@ import SidebarHome from "./SidebarHome";
 import { Mail, Search } from "react-feather";
 import SearchBoxButton from "./SearchBoxButton";
 import SocialLinks from "./SocialLinks";
+import LanguageSwitcher from "./LanguageSwitcher";
+
 // TODO : ホバー時、header全体にリンクが入ってしまう
 
 const Header = ({ slug, fixed, emakipage }) => {
@@ -45,7 +47,7 @@ const Header = ({ slug, fixed, emakipage }) => {
             {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
           </a>
         </Link>
-
+        <LanguageSwitcher />
         <div className={styles.sociallinks}>
           <SocialLinks />
         </div>
