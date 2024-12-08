@@ -3,7 +3,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "../styles/EmakiPortraitContent.module.css";
 import { AppContext } from "../pages/_app";
-import { eraColor, filterdKeywords, keywordItem } from "../libs/func";
+import {
+  eraColor,
+  filterdKeywords,
+  keywordItem,
+  useLocaleData,
+} from "../libs/func";
 import EmakiConteiner from "../components/EmakiConteiner";
 import Image from "next/image";
 import Footer from "./Footer";
@@ -19,15 +24,15 @@ import RecommendEmaki from "./RecommendEmaki";
 import ChapterList from "./ChapterList";
 import CustomTagCloud from "./CustomTagCloud";
 import ExtractingListData from "../libs/ExtractingListData";
+import noteData from "../libs/note/data.json";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
-  const {
-    handleToId,
-    handleFullScreen,
-    setnavIndex,
-    isContactModalOpen,
-  } = useContext(AppContext);
+  const { handleToId, handleFullScreen, setnavIndex, isContactModalOpen } =
+    useContext(AppContext);
+
   const { locale } = useRouter();
+  const { t: alldata } = useLocaleData();
+
   const {
     type,
     typeen,
@@ -64,6 +69,14 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
       }の全シーンを、横スクロールで楽しむことができます。`;
 
   const descJa = typeen === "seiyoukaiga" ? descTJaSeiyoukaiga : descTemp;
+
+  const editionLinks = alldata.filter(
+    (item) => item.title === title && item.edition !== edition
+  );
+
+  const reletedEmakisToNote = noteData.filter((item) =>
+    item.relatedEmakis.includes(title)
+  );
 
   return (
     <>
@@ -102,13 +115,19 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               onClick={() => handleFullScreen("landscape")}
               className={styles.linkedbutton}
             >
-             {locale === "en"
-                ? "View FullScreen"
-                : "全画面で見る"}
+              {locale === "en" ? "View FullScreen" : "全画面で見る"}
             </button>
           </div>
 
           <div className={styles.metadataB}>
+            <h4
+              className={styles.metaBtitle}
+              style={{
+                "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
+              }}
+            >
+              絵巻の紹介
+            </h4>
             <div
               className={styles.desc}
               dangerouslySetInnerHTML={{ __html: desc ? desc : descJa }}
@@ -121,13 +140,13 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 </Link>
               </div>
             )}
-            {title.includes("九相") && (
+            {/* {title.includes("九相") && (
               <div className={`${styles.genjieslugBox}`}>
                 <Link href={`/kusouzu/chapters-kusouzu`}>
                   <a className={styles.genjieslugTitle}>九相図一覧</a>
                 </Link>
               </div>
-            )}
+            )} */}
 
             {/* 絵巻の目次 */}
             {/* <ChapterList
@@ -138,24 +157,50 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             /> */}
 
             {/* 各段の詞書・解説 */}
-            {kotobagaki && <ChapterDesc emakis={emakis} data={data} />}
+            {/* {kotobagaki && <ChapterDesc emakis={emakis} data={data} />} */}
             {/* noteへのリンク */}
             {/* 他巻へのリンク */}
-            <EditionLinks title={title} edition={edition} />
-            {/*タグクラウド */}
-            {keyword && (
-              <div
-                className={styles.tagCloud}
-
+            {editionLinks.length > 0 && (
+              <h4
+                className={styles.metaBtitle}
+                style={{
+                  "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
+                }}
               >
-                <CustomTagCloud
-                  tags={filterdKeywords(keyword, allKeywords)}
-                  emakiPage={true}
-                />
-              </div>
+                他の巻を見る
+              </h4>
             )}
+            <EditionLinks
+              title={title}
+              edition={edition}
+              editionLinks={editionLinks}
+            />
             {/* noteへのリンク */}
-            <LinkToNote title={title} />
+            {reletedEmakisToNote.length > 0 && (
+              <h4
+                className={styles.metaBtitle}
+                style={{
+                  "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
+                }}
+              >
+                note
+              </h4>
+            )}
+            <LinkToNote
+              title={title}
+              reletedEmakisToNote={reletedEmakisToNote}
+            />
+            {/* 登場人物 */}
+            {personname && (
+              <h4
+                className={styles.metaBtitle}
+                style={{
+                  "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
+                }}
+              >
+                登場人物
+              </h4>
+            )}
             {personname && (
               <div
                 className={`${styles.tags} ${locale === "ja" && styles.jatags}`}
@@ -185,24 +230,20 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 })}
               </div>
             )}
-            {/*キーワードタグ */}
-            {/* {keyword && (
-              <div
-                className={`${styles.tags} ${locale === "ja" && styles.jatags}`}
-              >
-                {keyword?.map((item, index) => {
-                  const { name, id, slug, total, ruby } = item;
 
-                  return (
-                    <Link href={`./keyword/${slug}`} key={index}>
-                      <a className={styles.keywodtTitle}>
-                        <p>#{locale === "en" ? id : name}</p>
-                      </a>
-                    </Link>
-                  );
-                })}
+            <span
+              className={styles.borderline}
+              style={{ margin: "1rem 0 0.5rem 0" }}
+            ></span>
+            {/*タグクラウド */}
+            {keyword && (
+              <div className={styles.tagCloud}>
+                <CustomTagCloud
+                  tags={filterdKeywords(keyword, allKeywords)}
+                  emakiPage={true}
+                />
               </div>
-            )} */}
+            )}
             {/*カテゴリー・時代タグ */}
             <div className={styles.cat}>
               <Link href={`/era/${eraen}`}>
