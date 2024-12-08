@@ -7,6 +7,7 @@ import {
   MenuItem,
   Button,
   Icon,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { MdLanguage, MdCheck } from "react-icons/md";
@@ -27,17 +28,20 @@ const LanguageSwitcher = () => {
     router.push({ pathname, query }, asPath, { locale: newLocale });
   };
 
+  const buttonSize = useBreakpointValue({ base: "sm", md: "md" });
+  const showText = useBreakpointValue({ base: false, sm: true });
+
   return (
     <Menu>
       <MenuButton
         as={Button}
-        rightIcon={<ChevronDownIcon />}
+        rightIcon={showText ? <ChevronDownIcon /> : undefined}
         leftIcon={<Icon as={MdLanguage} />}
         variant="outline"
         colorScheme="blue"
-        size="md"
+        size={buttonSize}
       >
-        {activeLocale === "en" ? "English" : "日本語"}
+        {showText ? (activeLocale === "en" ? "English" : "日本語") : null}
       </MenuButton>
       <MenuList>
         {locales?.map((locale) => (
