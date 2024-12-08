@@ -6,7 +6,7 @@ import Link from "next/link";
 import styles from "../styles/EditionLinks.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faScroll } from "@fortawesome/free-solid-svg-icons";
-import SingleCardA from "./SingleCardA";
+import SingleCardC from "./SingleCardC";
 
 const EditionLinks = ({ title, edition,editionLinks }) => {
   // const { locale } = useRouter();
@@ -16,9 +16,9 @@ const EditionLinks = ({ title, edition,editionLinks }) => {
   // );
 
   return (
-    <div className={styles.four}>
+    <div className={styles.container}>
       {editionLinks.map((item, i) => {
-        return <SingleCardA item={item} key={i} variant={"editionlink"} />;
+        return <SingleCardC item={item} key={i} variant={"editionlink"} />;
       })}
     </div>
   );

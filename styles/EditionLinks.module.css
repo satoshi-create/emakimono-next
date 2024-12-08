@@ -1,15 +1,9 @@
-/* four */
-.four {
+.container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   grid-gap: 1rem;
 }
 
-@media screen and (min-width: 768px) {
-  .four {
-grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  }
-}
 
 .editionLink {
   font-size: 14px;

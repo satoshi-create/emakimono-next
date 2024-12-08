@@ -19,14 +19,6 @@ const ChapterDesc = ({ emakis,data }) => {
 
   return (
     <>
-      <p
-        onClick={() => setToggle(!toggle)}
-        className={styles.toggleChapterDesc}
-      >
-        <Text fontSize={{ base: "0.75rem", sm: "0.85rem", md: "1.0rem" }}>
-          {toggle ? "...各段の解説を閉じる" : "...各段の解説を読む"}
-        </Text>
-      </p>
       {toggle && (
         <div className={styles.chapterDescBox}>
           <article>
@@ -53,6 +45,14 @@ const ChapterDesc = ({ emakis,data }) => {
           </article>
         </div>
       )}
+      <p
+        onClick={() => setToggle(!toggle)}
+        className={styles.toggleChapterDesc}
+      >
+        <Text fontSize={{ base: "0.75rem", sm: "0.85rem", md: "1.0rem" }}>
+          {toggle ? "...各段の解説を閉じる" : "...各段の解説を読む"}
+        </Text>
+      </p>
     </>
   );
 };
