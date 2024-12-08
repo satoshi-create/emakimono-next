@@ -192,12 +192,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 />
               </>
             )}
-            <EditionLinks
-              title={title}
-              edition={edition}
-              editionLinks={editionLinks}
-            />
-            {title.includes("九相") && (
+                  {title.includes("九相") && (
               <>
                 <h4
                   className={styles.metaBtitle}
