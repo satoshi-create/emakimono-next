@@ -3,6 +3,7 @@ import ExtractingListData from "../libs/ExtractingListData";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/CardC.module.css";
+import SingleCardC from "./SingleCardC";
 
 const CardC = ({ data, loading }) => {
   console.log(data);
@@ -45,32 +46,9 @@ const CardC = ({ data, loading }) => {
       typeen === "seiyoukaiga" ? filterdSeiyoukaiga : removeEqualityIdRandom;
 
   const randomRelationalEmakis = switchData.slice(0, 8).map((item, i) => {
-    const { titleen, title, thumb, edition, author } = item;
     return (
-      <div key={i} className={styles.box}>
-        <Link href={`/${titleen}`}>
-          <a>
-            <Image
-              src={thumb}
-              width={233}
-              height={130}
-              alt={title}
-              className={styles.image}
-            />
-          </a>
-        </Link>
-        <Link href={`/${titleen}`}>
-          <a>
-            <div className={styles.metadata}>
-              <h3 className={styles.title}>
-                {title}
-                <div>{edition}</div>
-              </h3>
-              <p className={styles.author}>{author}</p>
-            </div>
-          </a>
-        </Link>
-      </div>
+      <SingleCardC key={i} item={item} />
+
     );
   });
 
