@@ -159,7 +159,15 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             /> */}
 
             {/* 各段の詞書・解説 */}
-            {/* {kotobagaki && <ChapterDesc emakis={emakis} data={data} />} */}
+            <h4
+              className={styles.metaBtitle}
+              style={{
+                "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
+              }}
+            >
+              各段の解説
+            </h4>
+            {kotobagaki && <ChapterDesc emakis={emakis} data={data} />}
             {/* noteへのリンク */}
             {/* 他の巻を見る */}
             {editionLinks.length > 0 && (

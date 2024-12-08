@@ -20,8 +20,8 @@
 .land {
   bottom: 4%;
   column-gap: .5rem;
-  /* background: #b1b1b100; */
-    background-color: rgba(0, 0, 0, 0.281);
+  background: #b1b1b100;
+    /* background-color: rgba(0, 0, 0, 0.281); */
   border-radius: 2rem;
   padding: 0.5rem 1rem;
   box-shadow: var(--shadow-1);

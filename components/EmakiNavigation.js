@@ -62,7 +62,7 @@ const EmakiNavigation = ({
         onClick={handleClick}
       />
       <ToggleEkotoba data={data} />
-      <FullScreen />
+      {/* <FullScreen /> */}
       {character && <ToggleCharacter data={data} />}
       {ebiki && <ToggleEbiki data={data} />}
       <ActionButton

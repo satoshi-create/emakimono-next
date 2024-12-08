@@ -73,9 +73,17 @@ const ActionButton = forwardRef(
                 }
           }
         />
-        {/* <Text fontSize="smaller" color="gray.600">
-          {description}
-        </Text> */}
+        {/* {!isCarouselButton && (
+          <Text
+            fontSize="10px"
+            fontFamily={"Zen Maru Gothic, sans-serif"}
+            color={"var(--chakra-colors-gray-100)"}
+            whiteSpace={"nowrap"}
+            zIndex={zIndex}
+          >
+            {description}
+          </Text>
+        )} */}
       </Tooltip>
     );
   }
