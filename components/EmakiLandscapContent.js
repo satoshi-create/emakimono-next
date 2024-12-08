@@ -22,19 +22,21 @@ import RecommendEmaki from "./RecommendEmaki";
 import CustomTagCloud from "./CustomTagCloud";
 import ExtractingListData from "../libs/ExtractingListData";
 import parse from "html-react-parser";
+import noteData from "../libs/note/data.json";
 
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
 
 const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
+
   const { handleToId, handleFullScreen, result, loading } = useContext(
     AppContext
   );
   const { emakis } = data;
   const { locale } = useRouter();
+  const { t: alldata } = useLocaleData();
 
   const removeNestedArrayObj = ExtractingListData();
   const allKeywords = keywordItem(removeNestedArrayObj);
-
 
   const {
     type,
@@ -77,7 +79,15 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     ? descen
     : `You can enjoy all the scenes of the " ${titleen} ${
         authoren && `（${authoren}）`
-      } " in vertical and right to left scrolling mode.`;
+    } " in vertical and right to left scrolling mode.`;
+
+    const editionLinks = alldata.filter(
+      (item) => item.title === title && item.edition !== edition
+    );
+
+    const reletedEmakisToNote = noteData.filter((item) =>
+      item.relatedEmakis.includes(title)
+    );
 
   return (
     <>
@@ -168,19 +178,61 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
             </div>
             <div className={styles.metadataB}>
               {/* 絵巻の紹介 */}
+              <h4
+                className={styles.metaBtitle}
+                style={{
+                  "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
+                }}
+              >
+                絵巻の紹介
+              </h4>
               <div className={styles.desc}>
                 {locale === "en" ? parse(descEn) : parse(descJa)}
               </div>
               {/* 他巻へのリンク */}
-              <EditionLinks title={title} edition={edition} />
+              {editionLinks.length > 0 && (
+                <h4
+                  className={styles.metaBtitle}
+                  style={{
+                    "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
+                  }}
+                >
+                  他の巻を見る
+                </h4>
+              )}
+              <EditionLinks
+                title={title}
+                edition={edition}
+                editionLinks={editionLinks}
+              />
               {/* <BannerToHelp /> */}
 
               {/* 各段の詞書・解説 */}
-              {kotobagaki && <ChapterDesc emakis={emakis} data={data} />}
+              {/* {kotobagaki && <ChapterDesc emakis={emakis} data={data} />} */}
 
               {/* noteへのリンク */}
+              {reletedEmakisToNote.length > 0 && (
+                <h4
+                  className={styles.metaBtitle}
+                  style={{
+                    "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
+                  }}
+                >
+                  note
+                </h4>
+              )}
               <LinkToNote title={title} />
               {/* 登場人物 */}
+              {personname  && (
+                <h4
+                  className={styles.metaBtitle}
+                  style={{
+                    "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
+                  }}
+                >
+                  登場人物
+                </h4>
+              )}
               {personname && (
                 <div className={styles.tags}>
                   {personname?.map((item, index) => {
@@ -209,6 +261,11 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 </div>
               )}
 
+              {/*カテゴリー・時代タグ */}
+              <span
+                className={styles.borderline}
+                style={{ margin: "1rem 0 0.5rem 0" }}
+              ></span>
               {/*キーワードタグ */}
               {keyword && (
                 <div className={styles.tags}>
@@ -225,7 +282,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   })}
                 </div>
               )}
-              {/*カテゴリー・時代タグ */}
               <div className={styles.cat}>
                 <Link href={`/era/${eraen}`}>
                   <a

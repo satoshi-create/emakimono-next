@@ -25,8 +25,8 @@ const LinkToNote = ({ title }) => {
                 placeholder="blur"
                 blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
               />
-              <h4 className={styles.title}>{item.name}</h4>
-              <small>{item.publishAt}</small>
+              {/* <h4 className={styles.title}>{item.name}</h4>
+              <small>{item.publishAt}</small> */}
 
               {/* <p className={styles.subtitle}>～{item.subtitle}～</p> */}
             </a>

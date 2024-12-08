@@ -182,13 +182,45 @@
 }
 
 .metadataB {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  display: grid;
+  row-gap: 15px;
   font-family: var(--text-font);
   background: rgb(245 245 245);
-  padding: 1.5rem;
+  /* padding: 1.5rem; */
+  padding: 2rem 1.5rem;
   border-radius: 12px;
+}
+
+.metadataB .metaBtitle:nth-child(1) {
+  margin-top: 0;
+}
+.metadataB .metaBtitle {
+  margin-top: 2rem;
+}
+
+
+.metaBtitle {
+  font-weight: 600;
+  font-family: var(--title-font2);
+  position: relative;
+  padding-left: 15px;
+  /* ボーダーとの間隔を調整 */
+}
+
+.metaBtitle::before {
+  content: "";
+  /* 空のコンテンツを作成 */
+  position: absolute;
+  top: 50%;
+  /* 垂直方向で中央揃え */
+  left: 0;
+  transform: translateY(-50%);
+  width: 5px;
+  /* ボーダーの幅 */
+  height: 80%;
+  /* ボーダーの高さ */
+background-color: var(--border-color, black);
+  /* デフォルトの色は黒 */
 }
 
 .desc {
@@ -229,6 +261,7 @@
   grid-row: 2;
   grid-column: 2;
 }
+
 .subgrid {
   display: grid;
   grid-template-rows: auto 1fr;
@@ -236,6 +269,7 @@
   align-items: flex-start;
   row-gap: 1rem;
 }
+
 .tagCloud {
   grid-row: 1;
   grid-column: 2;
@@ -243,9 +277,10 @@
   border-radius: 12px;
   padding: 1rem;
 }
+
 .recommendEmaki {
   grid-row: 2;
-    grid-column: 2;
+  grid-column: 2;
   display: flex;
   flex-direction: column;
   row-gap: 1rem;

@@ -1,3 +1,10 @@
+/* four */
+.four {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 3rem;
+}
+
 .editionLink {
   font-size: 14px;
   /* border: 1px solid var(--clr-grey-light); */
