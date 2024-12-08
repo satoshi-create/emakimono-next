@@ -8,7 +8,7 @@ const SingleCardC = ({ item ,i}) => {
   return (
     <div key={i} className={styles.box}>
       <Link href={`/${titleen}`}>
-        <a>
+        <a target="_blank">
           <Image
             src={thumb}
             width={233}
