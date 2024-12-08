@@ -4,8 +4,8 @@ const nextConfig = {
   swcMinify: true,
   i18n: {
     locales: ["en", "ja"],
-    defaultLocale: "ja",
-    localeDetection: false,
+    defaultLocale: "en",
+    // localeDetection: false,
   },
   // async rewrites() {
   //   return [
@@ -18,4 +18,3 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
-
