@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDownLeftAndUpRightToCenter,
   faUpRightAndDownLeftFromCenter,
+
   faExpand,
   faCompress,
 } from "@fortawesome/free-solid-svg-icons";
@@ -21,17 +22,21 @@ const FullScreen = () => {
     <ActionButton
       icon={
         toggleFullscreen ? (
-          <FontAwesomeIcon icon={faCompress} style={{ fontSize: "1.5em" }} />
+          <FontAwesomeIcon
+            icon={faDownLeftAndUpRightToCenter}
+            style={{ fontSize: "1.5em" }}
+          />
         ) : (
-          <FontAwesomeIcon icon={faExpand} style={{ fontSize: "1.5em" }} />
+          <FontAwesomeIcon
+            icon={faUpRightAndDownLeftFromCenter}
+            style={{ fontSize: "1.5em" }}
+          />
         )
       }
       label={toggleFullscreen ? "全画面を閉じる" : "全画面で鑑賞する"}
       description={toggleFullscreen ? "全画面を閉じる" : "全画面で鑑賞する"}
       onClick={() => handleFullScreen("landscape")}
-      pos="absolute"
-      top="50%"
-      right="10px"
+      variant="fullscreen"
     />
   );
 };
