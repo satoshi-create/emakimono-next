@@ -23,8 +23,8 @@ const ChapterDesc = ({ emakis,data }) => {
         onClick={() => setToggle(!toggle)}
         className={styles.toggleChapterDesc}
       >
-        <Text fontSize={{ base: "0.75rem", sm: "0.85rem", md: "0.9rem" }}>
-          {toggle ? "...各段の解説を閉じる" : "...各段の詞書を読む"}
+        <Text fontSize={{ base: "0.75rem", sm: "0.85rem", md: "1.0rem" }}>
+          {toggle ? "...各段の解説を閉じる" : "...各段の解説を読む"}
         </Text>
       </p>
       {toggle && (

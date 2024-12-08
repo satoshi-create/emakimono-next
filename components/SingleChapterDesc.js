@@ -39,7 +39,7 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
                flex="1"
                textAlign="left"
                color={eraColor(era)}
-               fontSize={{ base: "0.8rem", sm: "0.9rem", md: "1rem" }}
+               fontSize={{ base: "0.8rem", sm: "0.9rem", md: "1.1rem" }}
              >
                {ChaptersTitle(titleen, title, chapter)}
              </Box>
@@ -59,7 +59,7 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
            </AccordionButton>
          </h4>
          <AccordionPanel pb={4}>
-           <Text fontSize={{ base: "0.75rem", sm: "0.85rem", md: "0.9rem" }}>
+           <Text fontSize={{ base: "0.75rem", sm: "0.85rem", md: "1.1rem" }}>
              {ChaptersGendaibun(titleen, title, chapter, gendaibun)}
            </Text>
            <Button
