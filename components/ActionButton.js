@@ -73,6 +73,9 @@ const ActionButton = forwardRef(
                 }
           }
         />
+        {/* <Text fontSize="smaller" color="gray.600">
+          {description}
+        </Text> */}
       </Tooltip>
     );
   }
