@@ -39,7 +39,7 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
             onClick={() => handleToId(index)}
             className={styles.chapterDescbutton}
           >
-            横スクロールで見る
+            {ChaptersTitle(titleen, title, chapter)}の画像を見る
           </button>
         </div>
       )}
