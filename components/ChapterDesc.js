@@ -1,9 +1,21 @@
 import React, { useState } from "react";
 import SingleChapterDesc from "./SingleChapterDesc";
 import styles from "../styles/ChapterDesc.module.css";
+import {
+  Accordion,
+  Text
+} from "@chakra-ui/react";
 
 const ChapterDesc = ({ emakis,data }) => {
   const [toggle, setToggle] = useState(true);
+
+
+    const [expandedIndex, setExpandedIndex] = useState(null);
+
+    const handleToggle = (index) => {
+      setExpandedIndex((prevIndex) => (prevIndex === index ? null : index));
+    };
+
 
   return (
     <>
@@ -11,24 +23,34 @@ const ChapterDesc = ({ emakis,data }) => {
         onClick={() => setToggle(!toggle)}
         className={styles.toggleChapterDesc}
       >
-        {toggle ? "...各段の詞書・解説を閉じる" : "...各段の詞書・解説を読む"}
+        <Text fontSize={{ base: "0.75rem", sm: "0.85rem", md: "0.9rem" }}>
+          {toggle ? "...各段の解説を閉じる" : "...各段の詞書を読む"}
+        </Text>
       </p>
       {toggle && (
         <div className={styles.chapterDescBox}>
-          {emakis.map((item, index) => {
-            const { cat } = item;
-            if (( cat === "ekotoba")) {
-              return (
-                <SingleChapterDesc
-                  item={item}
-                  index={index}
-                  key={index}
-                  emakis={emakis}
-                  data={data}
-                />
-              );
-            }
-          })}
+          <article>
+            <Accordion
+              allowToggle
+              index={expandedIndex}
+              onChange={(index) => handleToggle(index)}
+            >
+              {emakis.map((item, index) => {
+                const { cat } = item;
+                if (cat === "ekotoba") {
+                  return (
+                    <SingleChapterDesc
+                      item={item}
+                      index={index}
+                      key={index}
+                      emakis={emakis}
+                      data={data}
+                    />
+                  );
+                }
+              })}
+            </Accordion>
+          </article>
         </div>
       )}
     </>
