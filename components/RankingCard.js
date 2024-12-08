@@ -46,6 +46,7 @@ export default function RankingCard({ isCompact = false }) {
               textDecoration="none"
               _hover={{ textDecoration: "none" }}
               flex="1"
+              isExternal
             >
               <Box
                 borderWidth={1}
