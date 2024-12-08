@@ -73,7 +73,9 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const editionLinks = alldata.filter(
     (item) => item.title === title && item.edition !== edition
   );
-
+  const LinksToKusouzu = alldata.filter(
+    (item) => item.title.includes("九相") && item.title !== title
+  );
   const reletedEmakisToNote = noteData.filter((item) =>
     item.relatedEmakis.includes(title)
   );
@@ -159,22 +161,46 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             {/* 各段の詞書・解説 */}
             {/* {kotobagaki && <ChapterDesc emakis={emakis} data={data} />} */}
             {/* noteへのリンク */}
-            {/* 他巻へのリンク */}
+            {/* 他の巻を見る */}
             {editionLinks.length > 0 && (
-              <h4
-                className={styles.metaBtitle}
-                style={{
-                  "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                }}
-              >
-                他の巻を見る
-              </h4>
+              <>
+                <h4
+                  className={styles.metaBtitle}
+                  style={{
+                    "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
+                  }}
+                >
+                  他の巻を見る
+                </h4>
+                <EditionLinks
+                  title={title}
+                  edition={edition}
+                  editionLinks={editionLinks}
+                />
+              </>
             )}
             <EditionLinks
               title={title}
               edition={edition}
               editionLinks={editionLinks}
             />
+            {title.includes("九相") && (
+              <>
+                <h4
+                  className={styles.metaBtitle}
+                  style={{
+                    "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
+                  }}
+                >
+                  他の巻を見る
+                </h4>
+                <EditionLinks
+                  title={title}
+                  edition={edition}
+                  editionLinks={LinksToKusouzu}
+                />
+              </>
+            )}
             {/* noteへのリンク */}
             {reletedEmakisToNote.length > 0 && (
               <h4
@@ -192,45 +218,46 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             />
             {/* 登場人物 */}
             {personname && (
-              <h4
-                className={styles.metaBtitle}
-                style={{
-                  "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                }}
-              >
-                登場人物
-              </h4>
-            )}
-            {personname && (
-              <div
-                className={`${styles.tags} ${locale === "ja" && styles.jatags}`}
-              >
-                {personname?.map((item, index) => {
-                  const { name, id, slug, total, ruby, portrait } = item;
+              <>
+                <h4
+                  className={styles.metaBtitle}
+                  style={{
+                    "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
+                  }}
+                >
+                  登場人物
+                </h4>
+                <div
+                  className={`${styles.tags} ${
+                    locale === "ja" && styles.jatags
+                  }`}
+                >
+                  {personname?.map((item, index) => {
+                    const { name, id, slug, total, ruby, portrait } = item;
 
-                  return (
-                    <Link href={`./personname/${slug}`} key={index}>
-                      <a className={styles.portrait}>
-                        <Image
-                          src={portrait ? portrait : "/question-solid.svg"}
-                          width={80}
-                          height={80}
-                          className={styles.portraitImage}
-                          alt={name}
-                          loading="lazy"
-                          placeholder="blur"
-                          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
-                        />
-                        <p className={styles.name}>
-                          {locale === "en" ? id : name}
-                        </p>
-                      </a>
-                    </Link>
-                  );
-                })}
-              </div>
+                    return (
+                      <Link href={`./personname/${slug}`} key={index}>
+                        <a className={styles.portrait}>
+                          <Image
+                            src={portrait ? portrait : "/question-solid.svg"}
+                            width={80}
+                            height={80}
+                            className={styles.portraitImage}
+                            alt={name}
+                            loading="lazy"
+                            placeholder="blur"
+                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
+                          />
+                          <p className={styles.name}>
+                            {locale === "en" ? id : name}
+                          </p>
+                        </a>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </>
             )}
-
             <span
               className={styles.borderline}
               style={{ margin: "1rem 0 0.5rem 0" }}
