@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState, useContext } from "react";
-import { Box, Button, Flex, IconButton } from "@chakra-ui/react";
+import { Box, Button, Flex, IconButton,Text } from "@chakra-ui/react";
 import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
+
 import ActionButton from "./ActionButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,7 +15,7 @@ import { motion } from "framer-motion";
 import { AppContext } from "../pages/_app";
 
 const CarouselComponent = ({ scrollNextRef, scrollPrevRef, articleRef }) => {
-const { orientation } = useContext(AppContext);
+  const { orientation } = useContext(AppContext);
 
   const con = articleRef.current;
 
@@ -41,12 +42,14 @@ const { orientation } = useContext(AppContext);
     if (con) {
       // 横スクロール（右方向）
       con.scrollTo({
-        left: orientation === "landscape" ? con.scrollLeft - 500 :con.scrollLeft - 300,
+        left:
+          orientation === "landscape"
+            ? con.scrollLeft - 500
+            : con.scrollLeft - 300,
         behavior: "smooth",
       });
     }
   };
-
 
   // 元に戻るボタンがクリックされたときの処理
   const handlePrevClick = () => {
@@ -62,7 +65,7 @@ const { orientation } = useContext(AppContext);
 
   return (
     <>
-      {/* 左ボタン */}
+        {/* 左ボタン */}
         <ActionButton
           // ref={scrollNextRef}
           icon={
@@ -71,8 +74,8 @@ const { orientation } = useContext(AppContext);
               style={{ fontSize: "1.5em" }}
             />
           }
-          label="絵巻を次へ進める"
-          description="絵巻を次へ進める"
+          label="次へ"
+          description="次へ"
           pos="absolute"
           top="50%"
           left="10px"
@@ -81,26 +84,28 @@ const { orientation } = useContext(AppContext);
           onClick={handleNextClick}
           highlightNext={highlightNext}
         />
-      {/* 右ボタン */}
-      {nextClicked && (
-        <ActionButton
-          // ref={scrollPrevRef}
-          icon={
-            <FontAwesomeIcon
-              icon={faChevronRight}
-              style={{ fontSize: "1.5em" }}
+        {/* 右ボタン */}
+        {nextClicked && (
+          <>
+            <ActionButton
+              // ref={scrollPrevRef}
+              icon={
+                <FontAwesomeIcon
+                  icon={faChevronRight}
+                  style={{ fontSize: "1.5em" }}
+                />
+              }
+              label="絵巻を巻き戻して再鑑賞"
+              description="絵巻を巻き戻して再鑑賞"
+              pos="absolute"
+              top="50%"
+              right="10px"
+              zIndex="100"
+              variant="carousel"
+              onClick={handlePrevClick}
             />
-          }
-          label="絵巻を巻き戻して再鑑賞"
-          description="絵巻を巻き戻して再鑑賞"
-          pos="absolute"
-          top="50%"
-          right="10px"
-          zIndex="100"
-          variant="carousel"
-          onClick={handlePrevClick}
-        />
-      )}
+          </>
+        )}
     </>
   );
 };

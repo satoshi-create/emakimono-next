@@ -1,8 +1,14 @@
 /* four */
 .four {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 3rem;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-gap: 1rem;
+}
+
+@media screen and (min-width: 768px) {
+  .four {
+grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
 }
 
 .editionLink {
@@ -19,9 +25,11 @@
   transition: var(--transition);
   color: var(--clr-link);
 }
+
 .editionLink li a:hover {
   opacity: 0.6;
 }
+
 .ExternalLinkIcon {
   width: 15px;
   height: 15px;
@@ -29,7 +37,8 @@
   margin-left: 0.2rem;
   color: var(--clr-link);
 }
-.scrollIcon{
-    transform: rotate(90deg);
-    margin-right: 3px;
+
+.scrollIcon {
+  transform: rotate(90deg);
+  margin-right: 3px;
 }
