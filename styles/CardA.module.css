@@ -5,6 +5,7 @@
   width: clamp(20rem, 2.6656rem + 73.9599vw, 50rem);
   text-align: justify;
 }
+
 .sectiondesc::first-letter {
   font-size: clamp(2rem, 0.8844rem + 0.4931vw, 2.2rem);
   font-style: italic;
@@ -33,22 +34,24 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 3rem;
 }
+
 /* four */
 .four {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 3rem;
 }
+
 /* .cardContainer {
   display: flex;
   gap: 0.5rem;
   flex-direction: column;
 } */
- .searchbox {
-    display: grid;
-    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-    justify-content: center;
-    gap: 3rem;
+.searchbox {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  justify-content: center;
+  gap: 3rem;
 }
 
 .subtype {
@@ -58,6 +61,7 @@
   margin-bottom: 0.5rem;
   text-align: center;
 }
+
 .card {
   border-radius: var(--borderRadius);
   position: relative;
@@ -65,6 +69,7 @@
   background: white;
   box-shadow: var(--shadow-1);
 }
+
 .card:hover {
   box-shadow: var(--shadow-2);
   transform: scale(1.02);
@@ -79,6 +84,7 @@
   aspect-ratio: 16/9;
   cursor: pointer;
 }
+
 .single img {
   border-top-right-radius: var(--borderRadius);
   border-top-left-radius: var(--borderRadius);
@@ -91,6 +97,7 @@
 .footer {
   padding: 0.5rem 1rem 0.5rem 1rem;
 }
+
 .cat {
   display: flex;
   justify-content: left;
@@ -100,7 +107,8 @@
   font-family: var(--title-font2);
   font-weight: 500;
 }
-.cat > * {
+
+.cat>* {
   padding: 0.1rem 0.4rem 0;
   border-radius: var(--borderRadius);
   color: var(--clr-black);
@@ -109,9 +117,10 @@
   transition: var(--transition);
   cursor: pointer;
 }
-.cat > .type:hover,
-.cat > div:hover,
-.cat > .era:hover {
+
+.cat>.type:hover,
+.cat>div:hover,
+.cat>.era:hover {
   opacity: 0.6;
 }
 
@@ -121,13 +130,21 @@
   color: var(--clr-black);
   font-family: var(--title-font2);
   text-transform: capitalize;
+  transition: var(--transition);
 }
+
+.title:hover {
+  opacity: 0.6;
+}
+
 .authorLink {
   transition: var(--transition);
 }
+
 .authorLink:hover {
   opacity: 0.6;
 }
+
 .author {
   font-weight: 600;
   font-size: 0.9rem;
@@ -135,15 +152,18 @@
   font-family: var(--title-font2);
   text-transform: capitalize;
 }
+
 .desc {
   font-size: 0.8rem;
   margin-top: 0.5rem;
   color: rgb(112 112 112);
 }
+
 .viewemaki {
   margin-top: 1rem;
   text-align: center;
 }
+
 .viewemakiBtn {
   padding: 0.5rem;
   border-radius: var(--borderRadius);
@@ -155,10 +175,12 @@
   border: 1px solid var(--clr-accent-02);
   background: var(--clr-white);
 }
+
 .viewemakiBtn:hover {
   color: var(--clr-white);
   background-color: var(--clr-accent-02);
 }
+
 .keyword {
   display: flex;
   justify-content: right;
@@ -168,12 +190,14 @@
   padding: 0.5rem 0;
   font-family: var(--title-font2);
 }
+
 .keywordLink {
   color: var(--clr-grey-light);
   font-weight: 100;
   transition: var(--transition);
   cursor: pointer;
 }
+
 .keywordLink:hover {
   opacity: 0.5;
 }

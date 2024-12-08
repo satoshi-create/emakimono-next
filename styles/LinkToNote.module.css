@@ -8,7 +8,7 @@
     flex-direction: column;
     gap: 5px 0;
     transition:var(--transition)
-} 
+}
 .box:hover{
   opacity: .6;
 }
