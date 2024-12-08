@@ -6,8 +6,8 @@ import { AppContext } from "../pages/_app";
 import styles from "../styles/CardA.module.css";
 import { useRouter } from "next/router";
 
-const SingleCardA = ({ item, sectiontitle, columns,needdesc }) => {
-    const { locale } = useRouter();
+const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
+  const { locale } = useRouter();
   const { closeSearchModal } = useContext(AppContext);
   const {
     titleen,
@@ -24,6 +24,7 @@ const SingleCardA = ({ item, sectiontitle, columns,needdesc }) => {
     subtype,
     keyword,
   } = item;
+
   const filterDesc = desc.substring(0, 40);
   const descTemp = `${title} ${
     author && `（${author}）`
@@ -39,7 +40,7 @@ const SingleCardA = ({ item, sectiontitle, columns,needdesc }) => {
       <div className={styles.card}>
         <div className={styles.single}>
           <Link href={`/${titleen}`}>
-            <a target={columns === "searchbox" && "_blank"}>
+            <a target="_blank">
               <Image
                 src={thumb}
                 width={533}
@@ -71,9 +72,13 @@ const SingleCardA = ({ item, sectiontitle, columns,needdesc }) => {
               </a>
             </Link>
           </div>
-          <h3 className={styles.title}>
-            {locale === "ja" ? title : titleen} {locale === "ja" && edition}
-          </h3>
+          <Link href={`/${titleen}`}>
+            <a target="_blank">
+              <h3 className={styles.title}>
+                {locale === "ja" ? title : titleen} {locale === "ja" && edition}
+              </h3>
+            </a>
+          </Link>
           {author ? (
             <Link href={`/author/${authoren}`}>
               <a className={styles.authorLink}>
@@ -90,17 +95,20 @@ const SingleCardA = ({ item, sectiontitle, columns,needdesc }) => {
               {desc ? `${filterDesc}...` : descTemp}
             </div>
           )}
-          <div className={styles.viewemaki}>
-            <Link href={`/${titleen}`}>
-              <a>
-                <button className={styles.viewemakiBtn}>
-                  {locale === "en"
-                    ? "Enjoy by right to left scroll !!"
-                    : "横スクロールで見る"}
-                </button>
-              </a>
-            </Link>
-          </div>
+          {variant !== "editionlink" && (
+            <div className={styles.viewemaki}>
+              <Link href={`/${titleen}`}>
+                <a>
+                  <button className={styles.viewemakiBtn}>
+                    {locale === "en"
+                      ? "Enjoy by right to left scroll !!"
+                      : "横スクロールで見る"}
+                  </button>
+                </a>
+              </Link>
+            </div>
+          )}
+
           {keyword && (
             <div className={styles.keyword}>
               {keyword.slice(0, 3).map((item, index) => {

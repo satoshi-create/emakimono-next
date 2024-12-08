@@ -22,6 +22,7 @@ const CardA = ({
   linktitleen,
   bcg,
   style,
+  variant
 }) => {
   const { setisModalOpen} = useContext(AppContext);
   const { locale } = useRouter();
@@ -46,6 +47,7 @@ const CardA = ({
               columns={columns}
               needdesc={needdesc}
               key={i}
+              variant={variant}
             />
           );
         })}
