@@ -4,11 +4,12 @@ import Link from "next/link";
 import styles from "../styles/LinkToNote.module.css";
 import noteData from "../libs/note/data.json";
 
-const LinkToNote = ({ title }) => {
+const LinkToNote = ({ title,reletedEmakisToNote }) => {
 
-  const reletedEmakisToNote = noteData.filter((item) =>
-    item.relatedEmakis.includes(title)
-  );
+  // const reletedEmakisToNote = noteData.filter((item) =>
+  //   item.relatedEmakis.includes(title)
+  // );
+
   return (
     <div className={styles.container}>
       {reletedEmakisToNote.map((item, i) => {
