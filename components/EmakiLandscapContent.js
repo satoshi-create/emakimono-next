@@ -195,16 +195,20 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               <div className={styles.desc}>
                 {locale === "en" ? parse(descEn) : parse(descJa)}
               </div>
-                    {/* 各段の詞書・解説 */}
-            <h4
-              className={styles.metaBtitle}
-              style={{
-                "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-              }}
-            >
-              各段の解説
-            </h4>
-            {kotobagaki && <ChapterDesc emakis={emakis} data={data} />}
+              {/* 各段の詞書・解説 */}
+              {kotobagaki && (
+                <>
+                  <h4
+                    className={styles.metaBtitle}
+                    style={{
+                      "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
+                    }}
+                  >
+                    各段の解説
+                  </h4>
+                  {<ChapterDesc emakis={emakis} data={data} />}
+                </>
+              )}
               {/* 他の巻を見る */}
               {editionLinks.length > 0 && (
                 <>
@@ -241,7 +245,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 </>
               )}
               {/* <BannerToHelp /> */}
-
 
               {/* noteへのリンク */}
               {reletedEmakisToNote.length > 0 && (
