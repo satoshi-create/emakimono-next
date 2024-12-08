@@ -28,8 +28,9 @@ const ActionButton = forwardRef(
     const isMobile = useBreakpointValue({ base: true, md: false });
 
     const isCarouselButton = variant === "carousel"; // variantに基づいてスタイルを分岐
-
     const isEmakipageicon = variant === "emakipageicon";
+    const isFullscreenButton = variant === "fullscreen";
+
     return (
       <Tooltip
         label={description}
@@ -54,6 +55,13 @@ const ActionButton = forwardRef(
               left: left,
               right: right,
               zIndex: zIndex,
+            }),
+            ...(isFullscreenButton && {
+              position: "absolute",
+              bottom: !isMobile ? "4%" : "1%",
+              right: !isMobile ? "1%" : "1%",
+              zIndex: "10",
+              fontsize:"1em"
             }),
           }}
           // className={highlightNext ? "highlight-animation" : ""}
