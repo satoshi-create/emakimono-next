@@ -10,6 +10,7 @@ import SidebarHome from "./SidebarHome";
 import { Mail } from "react-feather";
 import SearchBoxButton from "./SearchBoxButton";
 import SocialLinks from "./SocialLinks";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const EmakiHeader = ({ slug, fixed, emakipage }) => {
   const { locale } = useRouter();
@@ -43,6 +44,7 @@ const EmakiHeader = ({ slug, fixed, emakipage }) => {
             {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
           </a>
         </Link>
+        <LanguageSwitcher />
         <span className={styles.sociallinks}>
           <SocialLinks />
         </span>
