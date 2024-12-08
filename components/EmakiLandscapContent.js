@@ -221,9 +221,12 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   note
                 </h4>
               )}
-              <LinkToNote title={title} />
+              <LinkToNote
+                title={title}
+                reletedEmakisToNote={reletedEmakisToNote}
+              />
               {/* 登場人物 */}
-              {personname  && (
+              {personname && (
                 <h4
                   className={styles.metaBtitle}
                   style={{
