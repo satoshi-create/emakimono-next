@@ -146,7 +146,7 @@ const EmakiContainer = ({
             "12px",
         }}
       >
-        {/* <FullScreen/> */}
+        <FullScreen/>
         <CarouselButton articleRef={articleRef}/>
         {scroll && (
           <>
