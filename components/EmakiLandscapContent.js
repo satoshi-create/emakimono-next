@@ -30,6 +30,7 @@ import ExtractingListData from "../libs/ExtractingListData";
 import parse from "html-react-parser";
 import noteData from "../libs/note/data.json";
 import ChapterTimeline from "./ChapterTimeline";
+import { Box, VStack } from "@chakra-ui/react";
 
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
 
@@ -64,6 +65,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     kotobagaki,
     note,
   } = data;
+
 
   const descTJa = desc
     ? desc
@@ -110,27 +112,43 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
             overflowX={"scroll"}
             height={"75vh"}
           />
-          <ul className={`${styles.chapter} scrollbar`}>
+          <div className={`${styles.chapter} scrollbar`}>
             <h4 className={styles.chapterTitle}>
               {typeen === "emaki" ? "段タイトル" : "タイトル"}
             </h4>
             <span className={styles.borderline}></span>
-            {emakis.map((item, i) => {
-              const { cat, chapter } = item;
-              if (cat === "ekotoba") {
-                return (
-                  <ChapterTimeline
-                    key={i}
-                    titleen={titleen}
-                    title={title}
-                    chapter={chapter}
-                    era={era}
-                    index={i}
-                  />
-                );
-              }
-            })}
-          </ul>
+            {/* タイムライン */}
+            <VStack alignItems="flex-start" spacing={6} position="relative">
+              {/* タイムラインの縦線 */}
+              <Box
+                position="absolute"
+                top={0}
+                bottom={0}
+                left="18px"
+                width="2px"
+                bg="gray.300"
+                zIndex={-1}
+              />
+              {emakis.map((item, idx) => {
+                const { cat, chapter, ekotobaId } = item;
+                if (cat === "ekotoba") {
+                  return (
+                    <ChapterTimeline
+                      key={idx}
+                      titleen={titleen}
+                      title={title}
+                      chapter={chapter}
+                      era={era}
+                      index={idx}
+                      ekotobaId={ekotobaId}
+                      kotobagaki={kotobagaki}
+                      iconType={"location"}
+                    />
+                  );
+                }
+              })}
+            </VStack>
+          </div>
 
           <div className={styles.metadata}>
             <div className={styles.metadataA}>

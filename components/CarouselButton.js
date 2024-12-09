@@ -44,7 +44,7 @@ const CarouselComponent = ({ scrollNextRef, scrollPrevRef, articleRef }) => {
       con.scrollTo({
         left:
           orientation === "landscape"
-            ? con.scrollLeft - 500
+            ? con.scrollLeft - 800
             : con.scrollLeft - 300,
         behavior: "smooth",
       });
@@ -57,7 +57,10 @@ const CarouselComponent = ({ scrollNextRef, scrollPrevRef, articleRef }) => {
     if (con) {
       // 横スクロール（右方向）
       con.scrollTo({
-        left: con.scrollLeft + 1000,
+        left:
+          orientation === "landscape"
+            ? con.scrollLeft + 800
+            : con.scrollLeft + 300,
         behavior: "smooth",
       });
     }
