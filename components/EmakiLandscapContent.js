@@ -3,7 +3,13 @@ import EmakiConteiner from "./EmakiConteiner";
 import styles from "../styles/EmakiLandscapContent.module.css";
 import { AppContext } from "../pages/_app";
 import Link from "next/link";
-import { eraColor, useLocale, useLocaleData, keywordItem ,filterdKeywords} from "../libs/func";
+import {
+  eraColor,
+  useLocale,
+  useLocaleData,
+  keywordItem,
+  filterdKeywords,
+} from "../libs/func";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import CardC from "./CardC";
@@ -23,14 +29,13 @@ import CustomTagCloud from "./CustomTagCloud";
 import ExtractingListData from "../libs/ExtractingListData";
 import parse from "html-react-parser";
 import noteData from "../libs/note/data.json";
+import ChapterTimeline from "./ChapterTimeline";
 
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
 
 const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
-
-  const { handleToId, handleFullScreen, result, loading } = useContext(
-    AppContext
-  );
+  const { handleToId, handleFullScreen, result, loading } =
+    useContext(AppContext);
   const { emakis } = data;
   const { locale } = useRouter();
   const { t: alldata } = useLocaleData();
@@ -60,7 +65,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     note,
   } = data;
 
-
   const descTJa = desc
     ? desc
     : `「${title} ${edition ? edition : ""}」${
@@ -79,21 +83,19 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     ? descen
     : `You can enjoy all the scenes of the " ${titleen} ${
         authoren && `（${authoren}）`
-    } " in vertical and right to left scrolling mode.`;
+      } " in vertical and right to left scrolling mode.`;
 
-    const editionLinks = alldata.filter(
-      (item) =>
-        (item.title === title && item.edition !== edition)
-    );
-
-  const LinksToKusouzu = alldata.filter(
-    (item) =>
-      (item.title.includes("九相") && item.title !== title)
+  const editionLinks = alldata.filter(
+    (item) => item.title === title && item.edition !== edition
   );
 
-    const reletedEmakisToNote = noteData.filter((item) =>
-      item.relatedEmakis.includes(title)
-    );
+  const LinksToKusouzu = alldata.filter(
+    (item) => item.title.includes("九相") && item.title !== title
+  );
+
+  const reletedEmakisToNote = noteData.filter((item) =>
+    item.relatedEmakis.includes(title)
+  );
 
   return (
     <>
@@ -113,19 +115,18 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               {typeen === "emaki" ? "段タイトル" : "タイトル"}
             </h4>
             <span className={styles.borderline}></span>
-            {emakis.map((item, index) => {
+            {emakis.map((item, i) => {
               const { cat, chapter } = item;
               if (cat === "ekotoba") {
                 return (
-                  <li key={index}>
-                    <span
-                      onClick={() => handleToId(index)}
-                      className={styles.chapterlink}
-                      style={{ color: eraColor(era) }}
-                    >
-                      {ChaptersTitle(titleen, title, chapter)}
-                    </span>
-                  </li>
+                  <ChapterTimeline
+                    key={i}
+                    titleen={titleen}
+                    title={title}
+                    chapter={chapter}
+                    era={era}
+                    index={i}
+                  />
                 );
               }
             })}
