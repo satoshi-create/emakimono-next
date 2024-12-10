@@ -61,7 +61,7 @@
   /* margin-bottom: 4rem; */
   position: relative;
   text-shadow: pink 1px 0 15px;
-  transform: rotate(10deg);
+  /* transform: rotate(10deg); */
   background-color: #0000008c;
   background: linear-gradient(221deg, rgba(135, 135, 135, 0.10127801120448177) 0%, rgba(78, 78, 78, 0.46262254901960786) 17%, rgba(11, 11, 11, 1) 100%);
 }
