@@ -37,6 +37,14 @@ const ChapterTimeline = ({
       icon = <FaRegCircle />;
   }
 
+  const handleModalButtonClick = (ekotobaId,index) => {
+    openDescModal({
+      ekotobaId,
+      index,
+    });
+    handleToId(index);
+  };
+
   return (
     <VStack align="start" spacing={6} w="100%">
       {/* タイムラインのノード */}
@@ -87,12 +95,7 @@ const ChapterTimeline = ({
             color={eraColor(era)}
             fontFamily="var(--text-font)"
             _hover={{ bg: eraColor(era), color: "white" }}
-            onClick={() =>
-              openDescModal({
-                ekotobaId,
-                index,
-              })
-            }
+            onClick={() => handleModalButtonClick(ekotobaId,index)}
           >
             解説・現代文
           </Button>

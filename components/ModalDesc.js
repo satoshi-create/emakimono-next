@@ -120,7 +120,7 @@ const ModalDesc = ({ data }) => {
                 }
                 // onClick={() => handleChapter(linkId)}
               >
-                {ChaptersTitle(titleen,title, chapter)}
+                {ChaptersTitle(titleen, title, chapter)}
               </h3>
               <div className={styles.tabcontainer}>
                 {allMap.map((item, i) => {
@@ -174,7 +174,8 @@ const ModalDesc = ({ data }) => {
                 onClick={() => handleChapter(linkId)}
                 className={styles.linkedbutton}
               >
-                横スクロールで見る
+                {/* 横スクロールで見る */}
+                {ChaptersTitle(titleen, title, chapter)}の画像を見る
               </button>
               <SnsShareBox
                 titleen={data.titleen}
