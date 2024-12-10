@@ -1,0 +1,21 @@
+{
+  "name": "横スクロールで楽しむ絵巻物",
+  "short_name": "横スク絵巻",
+  "description": "縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。平安時代にはじまり鎌倉、室町、安土・桃山、江戸、そして明治まで、時代を超えて受け継がれてきた絵巻物を、ウェブの世界に一覧＆横スクロールで見えるようにし、現在によみがえらせることを目指しています。",
+  "start_url": "",
+  "display": "standalone",
+  "background_color": "#54896a",
+  "theme_color": "#ff8c77",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "57x65",
+      "type": "image/png"
+    },
+    // {
+    //   "src": "/icons/icon-512x512.png",
+    //   "sizes": "512x512",
+    //   "type": "image/png"
+    // }
+  ]
+}
