@@ -1,3 +1,6 @@
+// next.config.js
+const withPWA = require("next-pwa");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -7,14 +10,12 @@ const nextConfig = {
     defaultLocale: "ja",
     localeDetection: false,
   },
-  // async rewrites() {
-  //   return [
-  //     {
-  //       source: "/api/:path*",
-  //       destination: "https://note.com/api/v2/creators/:path*",
-  //     },
-  //   ];
-  // },
+  // next-pwa設定
+  pwa: {
+    dest: "public", // サービスワーカーの出力先
+    register: true, // サービスワーカーを登録
+    skipWaiting: true, // 新しいサービスワーカーを即座にアクティブにする
+  },
 };
 
-module.exports = nextConfig;
+module.exports = withPWA(nextConfig);
