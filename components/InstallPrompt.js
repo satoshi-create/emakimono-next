@@ -51,33 +51,32 @@ const InstallPrompt = () => {
   //   setDeferredPrompt(null); // イベントをリセット
   // };
 
-    const handleInstallClick = async () => {
-      if (!deferredPrompt) return;
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
 
-      // 手動でインストールプロンプトを表示
-      try {
-        deferredPrompt.prompt();
-        const choiceResult = await deferredPrompt.userChoice;
+    // 手動でインストールプロンプトを表示
+    try {
+      deferredPrompt.prompt();
+      const choiceResult = await deferredPrompt.userChoice;
 
-        if (choiceResult.outcome === "accepted") {
-          console.log("App installed");
-        } else {
-          console.log(
-            `${
-              locale === "en"
-                ? "You canceled the installation."
-                : "インストールがキャンセルされました。"
-            }`
-          );
-          setIsInstallable(false); // キャンセル時にボタンを非表示に
-        }
-
-        setDeferredPrompt(null); // イベントをリセット
-      } catch (error) {
-        console.error("Failed to show the install prompt:", error);
+      if (choiceResult.outcome === "accepted") {
+        console.log("App installed");
+      } else {
+        console.log(
+          `${
+            locale === "en"
+              ? "You canceled the installation."
+              : "インストールがキャンセルされました。"
+          }`
+        );
+        setIsInstallable(false); // キャンセル時にボタンを非表示に
       }
-  };
 
+      setDeferredPrompt(null); // イベントをリセット
+    } catch (error) {
+      console.error("Failed to show the install prompt:", error);
+    }
+  };
 
   return (
     <div>
@@ -87,6 +86,13 @@ const InstallPrompt = () => {
         </button>
       )}
     </div>
+    // <div>
+    //   {isInstallable && (
+    //     <button onClick={handleInstallClick}>
+    //       {locale === "en" ? "Install App" : "アプリをインストール"}
+    //     </button>
+    //   )}
+    // </div>
   );
 };
 
