@@ -24,7 +24,7 @@ const InstallPrompt = () => {
         handleBeforeInstallPrompt
       );
     };
-  }, [isInstallable]);
+  }, []);
 
   // const handleInstallClick = async () => {
   //   if (!deferredPrompt) return;
@@ -79,21 +79,36 @@ const InstallPrompt = () => {
   };
 
   return (
-    <div>
-      {isInstallable && (
-        <button onClick={handleInstallClick}>
-          {locale === "en" ? "Install App" : "アプリをインストール"}
-        </button>
-      )}
-    </div>
     // <div>
     //   {isInstallable && (
-    //     <button onClick={handleInstallClick}>
+    //     <button onClick={handleInstallClick} style={styles.installButton}>
     //       {locale === "en" ? "Install App" : "アプリをインストール"}
     //     </button>
     //   )}
     // </div>
+    <div>
+      {isInstallable && (
+        <button onClick={handleInstallClick} style={styles.installButton}>
+          {locale === "en" ? "Install App" : "アプリをインストール"}
+        </button>
+      )}
+    </div>
   );
+};
+
+const styles = {
+  installButton: {
+    position: "fixed",
+    bottom: "20px",
+    right: "20px",
+    padding: "10px 20px",
+    backgroundColor: "#ff8c77",
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    zIndex: 1000,
+  },
 };
 
 export default InstallPrompt;
