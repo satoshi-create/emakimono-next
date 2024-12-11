@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useLayoutEffect, useState,useContext } from "react";
+import React, { useContext } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import CardA from "../components/CardA";
@@ -6,10 +6,6 @@ import CardB from "../components/CardB";
 import "lazysizes";
 import Head from "../components/Meta";
 import GridImageList from "../components/GridImageList";
-import Attention from "../components/Attention";
-import Link from "next/link";
-import ChaptersTable from "../components/ChaptersGenjiTable";
-import FlowEmaki from "../components/FlowEmaki";
 import { AppContext } from "../pages/_app";
 
 
@@ -17,7 +13,6 @@ import {
   personnameItem,
   keywordItem,
   useLocale,
-  genjieSlugItem,
   useLocaleData,
 } from "../libs/func";
 import dataEmakis from "../libs/data";

@@ -12,6 +12,7 @@ import ModalSearch from "../components/ModalSearch";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import ExtractingListData from "../libs/ExtractingListData";
 import BottomNavigation from "../components/BottomNavigation";
+import InstallPrompt from "../components/InstallPrompt";
 
 config.autoAddCss = false;
 
@@ -377,7 +378,6 @@ function MyApp({ Component, pageProps, router }) {
     }
   };
 
-
   const handleToId = (id) => {
     flushSync(() => {
       setnavIndex(id);
@@ -536,7 +536,7 @@ function MyApp({ Component, pageProps, router }) {
         <Component {...pageProps} key={router.asPath} />
         {isContactModalOpen && <ContactFormGoogle />}
         {isSearchModalOpen && <ModalSearch />}
-
+        <InstallPrompt />
         <BottomNavigation />
       </ChakraProvider>
     </AppContext.Provider>
