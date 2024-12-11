@@ -24,6 +24,9 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Hina+Mincho&family=Zen+Kaku+Gothic+New&family=Zen+Kurenaido&family=Zen+Maru+Gothic&family=RocknRoll+One&family=Noto+Sans+JP&display=swap"
             rel="stylesheet"
           />
+          <link rel="manifest" href="/manifest.json" />
+          <link rel="apple-touch-icon" href="/favicon.png"></link>
+          <meta name="theme-color" content="#ff8c77" />
         </Head>
         <body>
           {/* <noscript
