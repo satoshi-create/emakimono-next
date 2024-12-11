@@ -1,8 +1,9 @@
 {
+  "id": "emakimono-viewer",
   "name": "横スクロールで楽しむ絵巻物",
   "short_name": "絵巻物ビューア",
   "description": "縦書き、横スクロールで、絵巻物本来の見方を楽しむことができるビューアです。",
-  "start_url": "/",
+  "start_url": "https://emakimono.com/",
   "display": "standalone",
   "background_color": "#54896a",
   "orientation": "any",
