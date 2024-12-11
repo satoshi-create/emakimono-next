@@ -66,7 +66,6 @@ const EmakiImage = ({
               return (
                 <Link key={i} href={`${item.link && item.link}`}>
                   <a
-                    target="_blank"
                     className={`${styles.characterbox} ${styles.characterboxLink}`}
                     // inline cssにhoverは当てられない？？
                     style={{
@@ -91,7 +90,6 @@ const EmakiImage = ({
               return (
                 <div
                   key={i}
-                  target="_blank"
                   className={styles.characterbox}
                   // inline cssにhoverは当てられない？？
                   style={{
@@ -128,7 +126,6 @@ const EmakiImage = ({
               return (
                 <Link key={i} href={item.path}>
                   <a
-                    target="_blank"
                     className={styles.ebikibox}
                     // inline cssにhoverは当てられない？？
                     style={{

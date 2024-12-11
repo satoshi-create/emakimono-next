@@ -15,7 +15,7 @@ const LinkToNote = ({ title,reletedEmakisToNote }) => {
       {reletedEmakisToNote.map((item, i) => {
         return (
           <Link key={i} href={item.noteUrl}>
-            <a target="_blank" className={styles.box}>
+            <a target="_blank" rel="noopener noreferrer" className={styles.box}>
               {/* CORSエラーのため画像をnoteからfetchできない */}
               <Image
                 src={`/${item.eyecatch}.webp`}

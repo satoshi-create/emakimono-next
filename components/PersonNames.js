@@ -23,7 +23,7 @@ const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
 
           return (
             <Link href={`/personname/${slug}`} key={index}>
-              <a className={styles.portrait} target="_blank">
+              <a className={styles.portrait}>
                 <Image
                   src={portrait ? portrait : "/question-solid.svg"}
                   width={130}

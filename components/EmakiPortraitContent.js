@@ -299,7 +299,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             {/*メタ情報*/}
             <div className={styles.authority}>
               <Link href={sourceImageUrl}>
-                <a target="_blank" className={styles.sourceLink}>
+                <a target="_blank"  rel="noopener noreferrer" className={styles.sourceLink}>
                   【出典】 {sourceImage}
                 </a>
               </Link>
@@ -309,7 +309,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   return (
                     <li key={i}>
                       <Link href={item.url ? item.url : "/"}>
-                        <a target="_blank" className={styles.sourceLink}>
+                        <a target="_blank" rel="noopener noreferrer" className={styles.sourceLink}>
                           {`　　${item.title}`}
                         </a>
                       </Link>

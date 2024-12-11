@@ -13,7 +13,11 @@ const SocialLinks = ({ footerStyle }) => {
         return (
           <li key={index} className={styles.link} title={title}>
             <Link href={path}>
-              <a className={styles.icon} target="_blank">
+              <a
+                className={styles.icon}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {icon}
               </a>
             </Link>
