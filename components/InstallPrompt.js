@@ -13,6 +13,8 @@ const InstallPrompt = () => {
       setDeferredPrompt(event); // イベントを保存
       setIsInstallable(true); // インストール可能フラグを設定
       console.log("beforeinstallprompt event triggered"); // イベント発火を確認
+      console.log(isInstallable);
+
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
