@@ -87,11 +87,9 @@ const InstallPrompt = () => {
     //   )}
     // </div>
     <div>
-      {isInstallable && (
         <button onClick={handleInstallClick} style={styles.installButton}>
           {locale === "en" ? "Install App" : "アプリをインストール"}
         </button>
-      )}
     </div>
   );
 };
