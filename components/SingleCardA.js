@@ -40,7 +40,7 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
       <div className={styles.card}>
         <div className={styles.single}>
           <Link href={`/${titleen}`}>
-            <a target="_blank">
+            <a>
               <Image
                 src={thumb}
                 width={533}
@@ -73,7 +73,7 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
             </Link>
           </div>
           <Link href={`/${titleen}`}>
-            <a target="_blank">
+            <a>
               <h3 className={styles.title}>
                 {locale === "ja" ? title : titleen} {locale === "ja" && edition}
               </h3>

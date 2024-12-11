@@ -51,6 +51,7 @@ const Modal = ({ data }) => {
           <Link href={sourceImageUrl}>
             <a
               target="_blank"
+              rel="noopener noreferrer"
               className={styles.sourceLink}
               style={{ color: eraColor(era) }}
             >
@@ -68,6 +69,7 @@ const Modal = ({ data }) => {
                 <Link href={item.url}>
                   <a
                     target="_blank"
+                    rel="noopener noreferrer"
                     className={styles.sourceLink}
                     style={{ color: eraColor(era) }}
                   >

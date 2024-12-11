@@ -139,7 +139,7 @@ export default function RankingCard({ isCompact = false }) {
       {isCompact && (
           <Box marginTop={6} textAlign="right">
             <Link href="/ranking">
-              <a target="_blank">
+              <a>
                 <Button
                   as={ChakraLink}
                   rightIcon={<ArrowForwardIcon />}
