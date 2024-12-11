@@ -124,7 +124,7 @@ const ModalDescGenji = ({ data }) => {
               {genjieslug && (
                 <aside className={`${styles.linktochapter}`}>
                   <Link href={`/genjie/chapters-genji`}>
-                    <a className={styles.genjieslugTitle} target="_blank">
+                    <a className={styles.genjieslugTitle}>
                       源氏物語54帖一覧
                     </a>
                   </Link>

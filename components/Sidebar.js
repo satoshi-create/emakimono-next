@@ -85,7 +85,11 @@ const Sidebar = ({ value, handleToId }) => {
           <ul className={styles.source}>
             <li>
               <Link href={sourceImageUrl}>
-                <a target="_blank" className={styles.sourceLink}>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                   className={styles.sourceLink}
+                >
                   {sourceImage}
                 </a>
               </Link>
