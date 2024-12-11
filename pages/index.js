@@ -8,7 +8,6 @@ import Head from "../components/Meta";
 import GridImageList from "../components/GridImageList";
 import { AppContext } from "../pages/_app";
 
-
 import {
   personnameItem,
   keywordItem,
