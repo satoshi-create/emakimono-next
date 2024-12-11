@@ -41,7 +41,7 @@ export default function RankingCard({ isCompact = false }) {
         rowGap={isCompact ? "2" : "10"}
       >
         {data(isCompact).map((item, i) => (
-          <Link href={`/${item.titleen}`} key={i} passHref>
+          <Link href={`/${item.titleen}`} key={i} >
             <ChakraLink
               textDecoration="none"
               _hover={{ textDecoration: "none" }}
