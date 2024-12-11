@@ -134,7 +134,7 @@ const CustomTagCloud = ({ tags, emakiPage }) => {
       />
       {emakiPage && (
         <Box marginTop={6} textAlign="right">
-          <Link href={`/keyword/keywordlist`} passHref>
+          <Link href={`/keyword/keywordlist`}>
             <ChakraLink textDecoration="none">
               <Button
                 rightIcon={<ArrowForwardIcon />}
