@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { useLocale } from "../libs/func";
+import { useRouter } from "next/router";
 
 const InstallPrompt = () => {
-  const { t } = useLocale();
+  const { locale } = useRouter();
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isInstallable, setIsInstallable] = useState(false);
 
