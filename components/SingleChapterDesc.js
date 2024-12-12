@@ -32,15 +32,19 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
    >
      {/* ボーダーライン削除 */}
      <h4>
-       <AccordionButton>
+       <AccordionButton onClick={() => handleToId(index)}>
          {/* アイコンをタイトルの前に配置 */}
+         <Box mr={0} as="span" display="flex" alignItems="center">
+           <AccordionIcon />
+         </Box>
          <AccordionItem mr={2} />
          <Box
            flex="1"
            textAlign="left"
            color={eraColor(era)}
-           fontSize={{ base: "0.8rem", sm: "0.9rem", md: "1.1rem" }}
-           onClick={() => handleToId(index)}
+           fontSize={{ base: ".9rem", sm: "0.9rem", md: "1.1rem" }}
+           display="block"
+           paddingInlineStart="0"
          >
            {ChaptersTitle(titleen, title, chapter)}
          </Box>
@@ -48,7 +52,7 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
          <Button
            as="a"
            href="#"
-           color="#ff8c77"
+           color="#fbf8c77"
            borderRadius="full"
            size="sm"
            variant="link"
@@ -60,7 +64,7 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
        </AccordionButton>
      </h4>
      <AccordionPanel pb={4}>
-       <Text fontSize={{ base: "0.75rem", sm: "0.85rem", md: "1.1rem" }}>
+       <Text fontSize={{ base: "0.9rem", sm: "0.85rem", md: "1.1rem" }}>
          {ChaptersGendaibun(titleen, title, chapter, gendaibun)}
        </Text>
        {/* <Button
