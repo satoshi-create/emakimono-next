@@ -124,8 +124,8 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 position="absolute"
                 top={0}
                 bottom={0}
-                left="18px"
-                width="2px"
+                left={{ base: "12px", md: "18px" }} // レスポンシブで線の位置を変更
+                width={{ base: "1px", md: "2px" }} // レスポンシブで線の太さを変更
                 bg="gray.300"
                 zIndex={-1}
               />
@@ -362,7 +362,11 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               {/*メタ情報*/}
               <div className={styles.authority}>
                 <Link href={sourceImageUrl}>
-                  <a target="_blank" rel="noopener noreferrer" className={styles.sourceLink}>
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.sourceLink}
+                  >
                     【出典】 {sourceImage}
                   </a>
                 </Link>
@@ -372,7 +376,11 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                     return (
                       <li key={i}>
                         <Link href={item.url ? item.url : "/"}>
-                          <a target="_blank"  rel="noopener noreferrer" className={styles.sourceLink}>
+                          <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.sourceLink}
+                          >
                             {`　　${item.title}`}
                           </a>
                         </Link>

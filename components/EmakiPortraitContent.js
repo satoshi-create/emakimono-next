@@ -25,6 +25,9 @@ import ChapterList from "./ChapterList";
 import CustomTagCloud from "./CustomTagCloud";
 import ExtractingListData from "../libs/ExtractingListData";
 import noteData from "../libs/note/data.json";
+import ChapterTimeline from "./ChapterTimeline";
+import { Box, VStack } from "@chakra-ui/react";
+
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { handleToId, handleFullScreen, setnavIndex, isContactModalOpen } =
@@ -105,12 +108,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 </a>
               </Link>
             )}
-            {/* <LikeButton
-              title={title}
-              edition={edition}
-              author={author}
-              ort={"prt"}
-            /> */}
             <button
               type="button"
               value="Lock Landscape"
@@ -135,28 +132,56 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               dangerouslySetInnerHTML={{ __html: desc ? desc : descJa }}
             ></div>
             {/* <BannerToHelp /> */}
-            {genjieslug && (
+            {/* {genjieslug && (
               <div className={`${styles.genjieslugBox}`}>
                 <Link href={`/genjie/chapters-genji`}>
                   <a className={styles.genjieslugTitle}>源氏物語54帖一覧</a>
                 </Link>
               </div>
-            )}
-            {/* {title.includes("九相") && (
-              <div className={`${styles.genjieslugBox}`}>
-                <Link href={`/kusouzu/chapters-kusouzu`}>
-                  <a className={styles.genjieslugTitle}>九相図一覧</a>
-                </Link>
-              </div>
             )} */}
 
-            {/* 絵巻の目次 */}
-            {/* <ChapterList
-              data={emakis}
-              era={era}
-              titleen={titleen}
-              title={title}
-            /> */}
+            {!kotobagaki && (
+              <>
+                <h4
+                  className={styles.metaBtitle}
+                  style={{
+                    "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
+                  }}
+                >
+                  段タイトル
+                </h4>
+                <VStack alignItems="flex-start" spacing={6} position="relative">
+                  {/* タイムラインの縦線 */}
+                  <Box
+                    position="absolute"
+                    top={0}
+                    bottom={0}
+                    left={{ base: "18px", md: "21px" }} // レスポンシブで線の位置を変更
+                    width={{ base: "1px", md: "2px" }} // レスポンシブで線の太さを変更
+                    bg="gray.300"
+                    zIndex={1}
+                  />
+                  {emakis.map((item, idx) => {
+                    const { cat, chapter, ekotobaId } = item;
+                    if (cat === "ekotoba") {
+                      return (
+                        <ChapterTimeline
+                          key={idx}
+                          titleen={titleen}
+                          title={title}
+                          chapter={chapter}
+                          era={era}
+                          index={idx}
+                          ekotobaId={ekotobaId}
+                          kotobagaki={kotobagaki}
+                          iconType={"location"}
+                        />
+                      );
+                    }
+                  })}
+                </VStack>
+              </>
+            )}
 
             {/* 各段の詞書・解説 */}
             {kotobagaki && (
@@ -192,7 +217,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 />
               </>
             )}
-                  {title.includes("九相") && (
+            {title.includes("九相") && (
               <>
                 <h4
                   className={styles.metaBtitle}
@@ -299,7 +324,11 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             {/*メタ情報*/}
             <div className={styles.authority}>
               <Link href={sourceImageUrl}>
-                <a target="_blank"  rel="noopener noreferrer" className={styles.sourceLink}>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.sourceLink}
+                >
                   【出典】 {sourceImage}
                 </a>
               </Link>
@@ -309,7 +338,11 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   return (
                     <li key={i}>
                       <Link href={item.url ? item.url : "/"}>
-                        <a target="_blank" rel="noopener noreferrer" className={styles.sourceLink}>
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.sourceLink}
+                        >
                           {`　　${item.title}`}
                         </a>
                       </Link>
