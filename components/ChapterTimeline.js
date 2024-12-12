@@ -9,9 +9,9 @@ import {
   Circle,
   Text,
   Button,
-  Center,
 } from "@chakra-ui/react";
 import { FaRegCircle, FaMapMarkerAlt, FaBook, FaPlay } from "react-icons/fa";
+import { useBreakpointValue } from "@chakra-ui/react";
 
 const ChapterTimeline = ({
   index,
@@ -59,20 +59,24 @@ const ChapterTimeline = ({
         onClick={() => handleToId(index)}
       >
         <Circle
-          size="30px"
+          size={useBreakpointValue({ base: "24px", md: "30px" })} // レスポンシブでCircleのサイズを変更
           bg={eraColor(era)}
           color="white"
           fontFamily="var(--text-font)"
           display="flex" // flexboxで配置
           alignItems="center" // 垂直方向に中央配置
           justifyContent="center" // 水平方向に中央配置
+        zIndex={2}
         >
           {/* {index + 1} */}
-          <FaRegCircle />
+          <FaRegCircle
+            size={useBreakpointValue({ base: "14px", md: "18px" })}
+          zIndex={2}
+          />
           {/* ここでアイコンを表示 */}
         </Circle>
         <Text
-          fontSize="lg"
+          fontSize={useBreakpointValue({ base: "sm", md: "lg" })} // テキストのサイズを変更
           fontWeight="bold"
           fontFamily="var(--text-font)"
           color={eraColor(era)}
@@ -95,7 +99,7 @@ const ChapterTimeline = ({
             color={eraColor(era)}
             fontFamily="var(--text-font)"
             _hover={{ bg: eraColor(era), color: "white" }}
-            onClick={() => handleModalButtonClick(ekotobaId,index)}
+            onClick={() => handleModalButtonClick(ekotobaId, index)}
           >
             解説・現代文
           </Button>

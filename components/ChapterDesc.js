@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState,useContext} from "react";
 import SingleChapterDesc from "./SingleChapterDesc";
 import styles from "../styles/ChapterDesc.module.css";
 import {
   Accordion,
   Text
 } from "@chakra-ui/react";
+import { AppContext } from "../pages/_app";
 
-const ChapterDesc = ({ emakis,data }) => {
+
+const ChapterDesc = ({ emakis, data }) => {
+
   const [toggle, setToggle] = useState(true);
 
 
