@@ -11,6 +11,7 @@ import { Mail } from "react-feather";
 import SearchBoxButton from "./SearchBoxButton";
 import SocialLinks from "./SocialLinks";
 import LanguageSwitcher from "./LanguageSwitcher";
+import InstallPrompt from "../components/InstallPrompt";
 
 const EmakiHeader = ({ slug, fixed, emakipage }) => {
   const { locale } = useRouter();
@@ -44,6 +45,7 @@ const EmakiHeader = ({ slug, fixed, emakipage }) => {
             {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
           </a>
         </Link>
+        {/* <InstallPrompt/> */}
         <LanguageSwitcher />
         <span className={styles.sociallinks}>
           <SocialLinks />

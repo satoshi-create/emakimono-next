@@ -4,14 +4,20 @@ import { useRouter } from "next/router";
 const InstallPrompt = () => {
   const { locale } = useRouter();
   const [deferredPrompt, setDeferredPrompt] = useState(null);
-  const [isInstallable, setIsInstallable] = useState(false);
+  const [isInstallable, setIsInstallable] = useState(true);
 
   useEffect(() => {
+    // 初期化処理をクライアントサイド限定で実行
+    if (typeof window !== "undefined") {
+      const wasPromptShown =
+        localStorage.getItem("installPromptShown") === "true";
+      setIsInstallable(!wasPromptShown); // ボタンを表示するか決定
+    }
+
     // `beforeinstallprompt` イベントを監視
     const handleBeforeInstallPrompt = (event) => {
       event.preventDefault(); // デフォルトのプロンプト表示を防ぐ
       setDeferredPrompt(event); // イベントを保存
-      setIsInstallable(true); // インストール可能フラグを設定
       console.log("beforeinstallprompt event triggered"); // イベント発火を確認
       console.log(isInstallable);
     };
@@ -69,28 +75,30 @@ const InstallPrompt = () => {
               : "インストールがキャンセルされました。"
           }`
         );
-        setIsInstallable(false); // キャンセル時にボタンを非表示に
       }
 
       setDeferredPrompt(null); // イベントをリセット
+      if (typeof window !== "undefined") {
+        localStorage.setItem("installPromptShown", "true"); // ボタンを非表示状態として保存
+      }
     } catch (error) {
       console.error("Failed to show the install prompt:", error);
     }
   };
 
   return (
-    // <div>
-    //   {isInstallable && (
-    //     <button onClick={handleInstallClick} style={styles.installButton}>
-    //       {locale === "en" ? "Install App" : "アプリをインストール"}
-    //     </button>
-    //   )}
-    // </div>
     <div>
+      {isInstallable && (
         <button onClick={handleInstallClick} style={styles.installButton}>
           {locale === "en" ? "Install App" : "アプリをインストール"}
         </button>
+      )}
     </div>
+    // <div>
+    //     <button onClick={handleInstallClick} style={styles.installButton}>
+    //       {locale === "en" ? "Install App" : "アプリをインストール"}
+    //     </button>
+    // </div>
   );
 };
 
