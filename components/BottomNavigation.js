@@ -19,19 +19,10 @@ import { AppContext } from "../pages/_app";
 
   const BottomNavigation = () => {
       const [activeMenu, setActiveMenu] = useState(null);
-  const { stickyClass, setStickyClass, openSearchModalOpen, closeSearchModal } =
+  const { stickyClass,  openSearchModalOpen, closeSearchModal } =
     useContext(AppContext);
 
-  useEffect(() => {
-    const stickNavbar = () => {
-      let windowHeight = window.scrollY;
-      windowHeight > 80 ? setStickyClass("header-fixed") : setStickyClass("");
-    };
-    window.addEventListener("scroll", stickNavbar);
-  }, [setStickyClass]);
-
-
-  const bgColor = useColorModeValue("white", "gray.800");
+    const bgColor = useColorModeValue("white", "gray.800");
   const iconColor = useColorModeValue("gray.600", "gray.300");
   const activeColor = useColorModeValue("blue.500", "blue.300");
   const router = useRouter();
