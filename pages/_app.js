@@ -435,6 +435,15 @@ function MyApp({ Component, pageProps, router }) {
     };
   }, [setnavIndex, gRouter.asPath]);
 
+  useEffect(() => {
+    const stickNavbar = () => {
+      let windowHeight = window.scrollY;
+      windowHeight > 80 ? setStickyClass("header-fixed") : setStickyClass("");
+    };
+    window.addEventListener("scroll", stickNavbar);
+  }, [setStickyClass]);
+
+
   return (
     <AppContext.Provider
       value={{
@@ -536,7 +545,7 @@ function MyApp({ Component, pageProps, router }) {
         <Component {...pageProps} key={router.asPath} />
         {isContactModalOpen && <ContactFormGoogle />}
         {isSearchModalOpen && <ModalSearch />}
-       
+              <InstallPrompt/>
         <BottomNavigation />
       </ChakraProvider>
     </AppContext.Provider>
