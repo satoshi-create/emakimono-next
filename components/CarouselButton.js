@@ -34,7 +34,6 @@ const CarouselComponent = ({ scrollNextRef, scrollPrevRef, articleRef }) => {
     return () => clearTimeout(timer); // クリーンアップ
   }, []);
 
-  console.log(nextClicked);
 
   // 次に進むボタンがクリックされたときの処理
   const handleNextClick = () => {
