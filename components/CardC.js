@@ -6,7 +6,6 @@ import styles from "../styles/CardC.module.css";
 import SingleCardC from "./SingleCardC";
 
 const CardC = ({ data, loading }) => {
-  console.log(data);
     const removeNestedArrayObj = ExtractingListData();
     const { keyword, id,typeen } = data;
 
