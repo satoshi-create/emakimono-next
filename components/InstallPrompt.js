@@ -1,17 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
+import { AppContext } from "../pages/_app";
 
 const InstallPrompt = () => {
+  const { toggleFullscreen, stickyClass } = useContext(AppContext);
   const { locale } = useRouter();
   const [deferredPrompt, setDeferredPrompt] = useState(null);
-  const [isInstallable, setIsInstallable] = useState(false);
+  const [isInstallable, setIsInstallable] = useState(true);
 
   useEffect(() => {
+    // 初期化処理をクライアントサイド限定で実行
+    if (typeof window !== "undefined") {
+      const wasPromptShown =
+        localStorage.getItem("installPromptShown") === "true";
+      setIsInstallable(!wasPromptShown); // ボタンを表示するか決定
+    }
+
     // `beforeinstallprompt` イベントを監視
     const handleBeforeInstallPrompt = (event) => {
       event.preventDefault(); // デフォルトのプロンプト表示を防ぐ
       setDeferredPrompt(event); // イベントを保存
-      setIsInstallable(true); // インストール可能フラグを設定
       console.log("beforeinstallprompt event triggered"); // イベント発火を確認
       console.log(isInstallable);
     };
@@ -61,6 +69,8 @@ const InstallPrompt = () => {
 
       if (choiceResult.outcome === "accepted") {
         console.log("App installed");
+        trackPWAInstall(); // Google Analytics にイベントを送信
+        clarity("set", "pwa_install", true); // Clarity にイベントを送信
       } else {
         console.log(
           `${
@@ -69,28 +79,40 @@ const InstallPrompt = () => {
               : "インストールがキャンセルされました。"
           }`
         );
-        setIsInstallable(false); // キャンセル時にボタンを非表示に
       }
 
       setDeferredPrompt(null); // イベントをリセット
+      if (typeof window !== "undefined") {
+        localStorage.setItem("installPromptShown", "true"); // ボタンを非表示状態として保存
+      }
     } catch (error) {
       console.error("Failed to show the install prompt:", error);
     }
   };
 
+    const trackPWAInstall = () => {
+      // Google Analytics 4 用
+      if (window.gtag) {
+        gtag("event", "pwa_install", {
+          event_category: "PWA",
+          event_label: "User installed the PWA",
+        });
+      }
+   };
+
   return (
-    // <div>
-    //   {isInstallable && (
-    //     <button onClick={handleInstallClick} style={styles.installButton}>
-    //       {locale === "en" ? "Install App" : "アプリをインストール"}
-    //     </button>
-    //   )}
-    // </div>
     <div>
+      {!stickyClass && !toggleFullscreen && isInstallable && (
         <button onClick={handleInstallClick} style={styles.installButton}>
           {locale === "en" ? "Install App" : "アプリをインストール"}
         </button>
+      )}
     </div>
+    // <div>
+    //     <button onClick={handleInstallClick} style={styles.installButton}>
+    //       {locale === "en" ? "Install App" : "アプリをインストール"}
+    //     </button>
+    // </div>
   );
 };
 
