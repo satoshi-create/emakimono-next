@@ -29,7 +29,7 @@ const LanguageSwitcher = () => {
   };
 
   const buttonSize = useBreakpointValue({ base: "sm", md: "md" });
-  const showText = useBreakpointValue({ base: false, sm: true });
+  const showText = useBreakpointValue({ base: false, lg: true });
 
   return (
     <Menu>
