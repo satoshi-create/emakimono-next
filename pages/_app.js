@@ -435,6 +435,15 @@ function MyApp({ Component, pageProps, router }) {
     };
   }, [setnavIndex, gRouter.asPath]);
 
+  useEffect(() => {
+    const stickNavbar = () => {
+      let windowHeight = window.scrollY;
+      windowHeight > 80 ? setStickyClass("header-fixed") : setStickyClass("");
+    };
+    window.addEventListener("scroll", stickNavbar);
+  }, [setStickyClass]);
+
+
   return (
     <AppContext.Provider
       value={{
