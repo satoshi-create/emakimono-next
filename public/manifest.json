@@ -4,6 +4,7 @@
   "short_name": "絵巻物ビューア",
   "description": "縦書き、横スクロールで、絵巻物本来の見方を楽しむことができるビューアです。",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#54896a",
   "orientation": "any",
