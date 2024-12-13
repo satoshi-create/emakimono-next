@@ -69,6 +69,8 @@ const InstallPrompt = () => {
 
       if (choiceResult.outcome === "accepted") {
         console.log("App installed");
+        trackPWAInstall(); // Google Analytics にイベントを送信
+        clarity("set", "pwa_install", true); // Clarity にイベントを送信
       } else {
         console.log(
           `${
@@ -87,6 +89,16 @@ const InstallPrompt = () => {
       console.error("Failed to show the install prompt:", error);
     }
   };
+
+    const trackPWAInstall = () => {
+      // Google Analytics 4 用
+      if (window.gtag) {
+        gtag("event", "pwa_install", {
+          event_category: "PWA",
+          event_label: "User installed the PWA",
+        });
+      }
+   };
 
   return (
     <div>
