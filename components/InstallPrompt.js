@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
+import { AppContext } from "../pages/_app";
 
 const InstallPrompt = () => {
+  const { toggleFullscreen, stickyClass } = useContext(AppContext);
   const { locale } = useRouter();
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isInstallable, setIsInstallable] = useState(true);
@@ -88,7 +90,7 @@ const InstallPrompt = () => {
 
   return (
     <div>
-      {isInstallable && (
+      {!stickyClass && !toggleFullscreen && isInstallable && (
         <button onClick={handleInstallClick} style={styles.installButton}>
           {locale === "en" ? "Install App" : "アプリをインストール"}
         </button>

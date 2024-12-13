@@ -26,14 +26,6 @@ const Header = ({ slug, fixed, emakipage }) => {
     openContactModal,
   } = useContext(AppContext);
 
-  useEffect(() => {
-    const stickNavbar = () => {
-      let windowHeight = window.scrollY;
-      windowHeight > 80 ? setStickyClass("header-fixed") : setStickyClass("");
-    };
-    window.addEventListener("scroll", stickNavbar);
-  }, [setStickyClass]);
-
   return (
     <header
       className={`${styles.header} section-grid ${
