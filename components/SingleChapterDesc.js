@@ -3,7 +3,7 @@ import styles from "../styles/ChapterDesc.module.css";
 import { ChevronDown, ChevronUp } from "react-feather";
 import { AppContext } from "../pages/_app";
 import Image from "next/image";
-import { ChaptersTitle, ChaptersGendaibun } from "../libs/func";
+import { ChaptersTitle, ChaptersGendaibun,ChaptersDesc } from "../libs/func";
 import { eraColor } from "../libs/func";
 import {
   Accordion,
@@ -71,9 +71,28 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
        </AccordionButton>
      </h4>
      <AccordionPanel pb={4}>
+          {/* <h4
+         className={styles.metaBtitle}
+         style={{
+           "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
+         }}
+       >
+         解説
+       </h4> */}
+       <Text fontSize={{ base: "0.9rem", sm: "0.85rem", md: "1.1rem" }}>
+         {ChaptersDesc(titleen, title, chapter, desc)}
+       </Text>
+       {/* <h4
+         className={styles.metaBtitle}
+         style={{
+           "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
+         }}
+       >
+         現代文
+       </h4>
        <Text fontSize={{ base: "0.9rem", sm: "0.85rem", md: "1.1rem" }}>
          {ChaptersGendaibun(titleen, title, chapter, gendaibun)}
-       </Text>
+       </Text> */}
        {orientation == "landscape" && (
          <Button
            mt={4}
