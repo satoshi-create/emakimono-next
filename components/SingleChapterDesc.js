@@ -17,10 +17,13 @@ import {
 } from "@chakra-ui/react";
 
 const SingleChapterDesc = ({ item, index, emakis, data }) => {
-  const { handleToId, handleFullScreen } = useContext(AppContext);
+  const { handleToId, handleFullScreen, orientation } = useContext(AppContext);
   const [showInfo, setShowInfo] = useState(false);
   const { chapter, gendaibun, cat, desc } = item;
   const { genjieslug, title, titleen, era } = data;
+
+  console.log(orientation);
+
 
  return (
    <AccordionItem
@@ -32,7 +35,11 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
    >
      {/* ボーダーライン削除 */}
      <h4>
-       <AccordionButton onClick={() => handleToId(index)}>
+       <AccordionButton
+         onClick={
+           orientation == "portrait" ? () => handleToId(index) : undefined
+         }
+       >
          {/* アイコンをタイトルの前に配置 */}
          <Box mr={0} as="span" display="flex" alignItems="center">
            <AccordionIcon />
@@ -67,28 +74,30 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
        <Text fontSize={{ base: "0.9rem", sm: "0.85rem", md: "1.1rem" }}>
          {ChaptersGendaibun(titleen, title, chapter, gendaibun)}
        </Text>
-       {/* <Button
-         mt={4}
-         fontSize={{ base: "0.8rem", sm: "0.9rem", md: "1rem" }}
-         fontWeight={"normal"}
-         onClick={() => handleToId(index)}
-         sx={{
-           bg: "#ff8c77",
-           color: "#fff",
-           borderRadius: "full",
-           padding: "0.5rem 1rem",
-           display: "block",
-           ml: "auto",
-           _hover: {
-             bg: "#ff6c5a",
-           },
-           _active: {
-             bg: "#e65c4a",
-           },
-         }}
-       >
-         {ChaptersTitle(titleen, title, chapter)}の画像を見る
-       </Button> */}
+       {orientation == "landscape" && (
+         <Button
+           mt={4}
+           fontSize={{ base: "0.8rem", sm: "0.9rem", md: "1rem" }}
+           fontWeight={"normal"}
+           onClick={() => handleToId(index)}
+           sx={{
+             bg: "#ff8c77",
+             color: "#fff",
+             borderRadius: "full",
+             padding: "0.5rem 1rem",
+             display: "block",
+             ml: "auto",
+             _hover: {
+               bg: "#ff6c5a",
+             },
+             _active: {
+               bg: "#e65c4a",
+             },
+           }}
+         >
+           {ChaptersTitle(titleen, title, chapter)}の画像を見る
+         </Button>
+       )}
      </AccordionPanel>
    </AccordionItem>
  );
