@@ -7305,7 +7305,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "第一景　地震発生前",
+        "chapter": "1",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -7349,7 +7349,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "第二景　地震発生<br/>（安政二年十月二日午後十時頃）",
+        "chapter": "2",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -7415,7 +7415,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "第三景　地震火事発生",
+        "chapter": "3",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -7459,7 +7459,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "第四景　焼け跡",
+        "chapter": "4",
         "load": "",
         "srcSp": "",
         "srcTb": "",
@@ -7511,17 +7511,6 @@
         "name": "ansei-edo-earthquake_16_cbl",
         "srcWidth": "1300",
         "srcHeight": "1080"
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "第五景　復興への営み",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
-        "src": "",
-        "name": "",
-        "srcWidth": "",
-        "srcHeight": ""
       },
       {
         "cat": "image",
