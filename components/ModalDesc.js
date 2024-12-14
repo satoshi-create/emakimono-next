@@ -50,11 +50,6 @@ const ModalDesc = ({ data }) => {
   };
 
   const allMap = [
-    {
-      title: "現代文",
-      titleen: "modern-sentence",
-      path: "modern-sentence",
-    },
     // {
     //   title: "古文",
     //   titleen: "ancient-text",
@@ -64,6 +59,11 @@ const ModalDesc = ({ data }) => {
       title: "解説",
       titleen: "description",
       path: "description",
+    },
+    {
+      title: "現代文",
+      titleen: "modern-sentence",
+      path: "modern-sentence",
     },
   ];
 
@@ -150,7 +150,7 @@ const ModalDesc = ({ data }) => {
                         : { fontSize: "var(--text-size)" }
                     }
                   >
-                    {ChaptersGendaibun(titleen, title, chapter, gendaibun)}
+                    {ChaptersDesc(titleen, title, chapter, desc)}
                   </p>
                 )}
                 {value === 1 && (
@@ -164,7 +164,7 @@ const ModalDesc = ({ data }) => {
                         : { fontSize: "var(--text-size)" }
                     }
                   >
-                    {ChaptersDesc(titleen, title, chapter, desc)}
+                    {ChaptersGendaibun(titleen, title, chapter, gendaibun)}
                   </p>
                 )}
               </div>
