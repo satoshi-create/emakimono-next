@@ -5,18 +5,18 @@ import { AppContext } from "../pages/_app";
 const LazyImage = ({ src, alt, width, height, srcSp }, index) => {
   const [isVisible, setIsVisible] = useState(false);
 
-  // useEffect(() => {
-  //   const observer = new IntersectionObserver(([entry]) => {
-  //     if (entry.isIntersecting) {
-  //       setIsVisible(true);
-  //       observer.disconnect();
-  //     }
-  //   });
-  //   const element = document.getElementById(src);
-  //   if (element) observer.observe(element);
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsVisible(true);
+        observer.disconnect();
+      }
+    });
+    const element = document.getElementById(src);
+    if (element) observer.observe(element);
 
-  //   return () => observer.disconnect();
-  // }, [src]);
+    return () => observer.disconnect();
+  }, [src]);
 
   const { orientation, toggleFullscreen } =
     useContext(AppContext);
@@ -42,32 +42,21 @@ const LazyImage = ({ src, alt, width, height, srcSp }, index) => {
         position: "relative",
       }}
     >
-      <Image
-        src={src}
-        layout="fill"
-        objectFit="cover"
-        alt={alt}
-        sizes="(max-height: 375px) 375px, (max-height: 800px) 800px, 1080px"
-        // priority={index === 0} // 最初の1枚だけ優先的に読み込み
-        // loading={index < 2 ? "eager" : "lazy"} // 最初の2枚だけ遅延読み込みを無効化
-        placeholder={index < 2 ? "blur" : undefined} // 最初の2枚だけぼかしプレースホルダーを適用
-        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
-        // quality={100} // クオリティを100に変更
-      />
-      {/* {isVisible && (
+      {isVisible && (
         <Image
           src={src}
           layout="fill"
           objectFit="cover"
           alt={alt}
-          sizes="(max-height: 375px) 375px, (max-height: 800px) 800px, 1080px"
+          // sizes="(max-height: 375px) 375px, (max-height: 800px) 800px, 1080px"
           priority={index === 0} // 最初の1枚だけ優先的に読み込み
           loading={index < 2 ? "eager" : "lazy"} // 最初の2枚だけ遅延読み込みを無効化
-          placeholder={index < 2 ? "blur" : undefined} // 最初の2枚だけぼかしプレースホルダーを適用
+          // placeholder={index < 2 ? "blur" : undefined} // 最初の2枚だけぼかしプレースホルダーを適用
+          placeholder={"blur"} // 最初の2枚だけぼかしプレースホルダーを適用
           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
-          // quality={100} // クオリティを100に変更
+          quality={100} // クオリティを100に変更
         />
-      )} */}
+      )}
       <style jsx>{`
         .imageWrapper {
           position: relative; /* Imageの親要素として必要 */
