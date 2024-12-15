@@ -25,33 +25,25 @@ const EmakiImage = ({
     ebiki,
   },item
 }) => {
-  const { scrollDialog, characterToggle, orientation, ebikiToggle } =
-    useContext(AppContext);
+  const {
+    scrollDialog,
+    characterToggle,
+    orientation,
+    ebikiToggle,
+    windowHeight,
+  } = useContext(AppContext);
 
-  const [windowHeight, setWindowHeight] = useState(0);
-
-  // ウィンドウの高さを取得
-  useEffect(() => {
-    const updateHeight = () => {
-      setWindowHeight(window.innerHeight);
+    // 高さに基づいて適切な画像ソースを選択
+    const getResponsiveSrc = (emaki) => {
+      if (windowHeight <= 375) {
+        return emaki.srcSp; // スマートフォン用
+      } else if (windowHeight <= 800) {
+        return emaki.srcTb; // タブレット用
+      } else {
+        return emaki.src; // デスクトップ用
+      }
     };
 
-    updateHeight(); // 初期高さを設定
-    window.addEventListener("resize", updateHeight); // ウィンドウリサイズ時に高さを更新
-
-    return () => window.removeEventListener("resize", updateHeight);
-  }, []);
-
-  // 高さに基づいて適切な画像ソースを選択
-  const getResponsiveSrc = (emaki) => {
-    if (windowHeight <= 375) {
-      return emaki.srcSp; // スマートフォン用
-    } else if (windowHeight <= 800) {
-      return emaki.srcTb; // タブレット用
-    } else {
-      return emaki.src; // デスクトップ用
-    }
-  };
 
   const characterOuntline = (x) => {
     switch (x) {

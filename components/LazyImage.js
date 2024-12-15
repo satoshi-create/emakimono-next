@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Image from "next/image";
+import { AppContext } from "../pages/_app";
 
 const LazyImage = ({ src, alt, width, height, srcSp }, index) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -17,12 +18,26 @@ const LazyImage = ({ src, alt, width, height, srcSp }, index) => {
     return () => observer.disconnect();
   }, [src]);
 
+  const { orientation, toggleFullscreen } =
+    useContext(AppContext);
+
+  const getResponsiveWidth = (full, ori) => {
+    if (full && ori === "landscape") {
+      return 100;
+    } else if (ori === "landscape") {
+      return 75;
+    } else if (ori === "portrait") {
+      return 45;
+    }
+  };
   return (
     <div
       id={src}
       className="imageWrapper"
       style={{
-        width: `${(width / height) * 75}vh`,
+        width: `${
+          (width / height) * getResponsiveWidth(toggleFullscreen, orientation)
+        }vh`,
         // width: `${width}px`,
         position: "relative",
       }}
