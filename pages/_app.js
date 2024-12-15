@@ -544,8 +544,8 @@ function MyApp({ Component, pageProps, router }) {
       <ChakraProvider theme={theme}>
         <Component {...pageProps} key={router.asPath} />
         {isContactModalOpen && <ContactFormGoogle />}
-        {isSearchModalOpen && <ModalSearch />}
-              <InstallPrompt/>
+      {isSearchModalOpen && <ModalSearch />}
+        {/* <InstallPrompt/> */}
         <BottomNavigation />
       </ChakraProvider>
     </AppContext.Provider>
