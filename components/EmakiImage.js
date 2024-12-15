@@ -174,7 +174,25 @@ const EmakiImage = ({
           })}
         </div>
       )}
-      {index <= 1 && (
+      {/* <Image
+        src={src}
+        // layout="fill"
+        // objectFit="cover"
+        layout="intrinsic"
+        sizes="(max-height: 375px) 375px, (max-height: 800px) 800px, 1080px"
+        alt={name}
+        priority={index === 0} // 最初の画像を優先的に読み込む
+        // width={srcWidth}
+        height={srcHeight}
+      /> */}
+      <Image
+        src="/sample.jpg" // publicディレクトリ内の画像
+        layout="intrinsic" // アスペクト比を維持
+        alt="サンプル画像" // 必須プロパティ
+        width={800} // 幅を指定
+        height={600} // 高さを指定
+      />
+      {/* {index <= 1 && (
         <picture>
           <source
             data-srcset={srcTb}
@@ -219,7 +237,7 @@ const EmakiImage = ({
         //     priprity
         //   />
         // </figure>
-      )}
+      )} */}
       {/* {index >= 2 && (
         <figure
           style={{ position: "relative", width: srcWidth, height: "100%" }}
@@ -236,7 +254,7 @@ const EmakiImage = ({
           />
         </figure>
       )} */}
-      {index >= 2 && (
+      {/* {index >= 2 && (
         <ResposiveImage
           value={{
             srcSp,
@@ -250,7 +268,7 @@ const EmakiImage = ({
             scroll,
           }}
         />
-      )}
+      )} */}
     </section>
   );
 };
