@@ -49,10 +49,11 @@ const LazyImage = ({ src, alt, width, height, srcSp }, index) => {
           objectFit="cover"
           alt={alt}
           sizes="(max-height: 375px) 375px, (max-height: 800px) 800px, 1080px"
-          priority={index < 2} // 最初の2枚は優先的に読み込む
-          loading={index < 5 ? "eager" : "lazy"} // 最初の5枚は遅延読み込みを無効化
-          placeholder="blur"
+          priority={index === 0} // 最初の1枚だけ優先的に読み込み
+          loading={index < 2 ? "eager" : "lazy"} // 最初の2枚だけ遅延読み込みを無効化
+          placeholder={index < 2 ? "blur" : undefined} // 最初の2枚だけぼかしプレースホルダーを適用
           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
+          // quality={100} // クオリティを100に変更
         />
       )}
       <style jsx>{`
