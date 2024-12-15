@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const withPWA = require("next-pwa")({
   dest: "public", // PWAのリソースを出力する場所
-  register: true, // サービスワーカーの登録を有効にする
-  // register: false, // Service Workerの登録を無効にする
+  // register: true, // サービスワーカーの登録を有効にする
+  register: false, // サービスワーカーの登録を有効にする
   skipWaiting: true, // 新しいサービスワーカーがインストールされたときにページを即座にリロード
   scope: "/",
   // disable: process.env.NODE_ENV === "development",
