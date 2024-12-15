@@ -53,7 +53,7 @@ const LazyImage = ({ src, alt, width, height, srcSp }, index) => {
           loading={index < 2 ? "eager" : "lazy"} // 最初の2枚だけ遅延読み込みを無効化
           // placeholder={index < 2 ? "blur" : undefined} // 最初の2枚だけぼかしプレースホルダーを適用
           placeholder={"blur"} // 最初の2枚だけぼかしプレースホルダーを適用
-          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
+          blurDataURL={srcSp}
           quality={100} // クオリティを100に変更
         />
       )}
