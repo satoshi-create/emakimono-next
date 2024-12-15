@@ -19,7 +19,7 @@
   height: var(--screen-height);
   overflow-y: hidden;
   overflow-x: var(--overflow-x);
-  position: relative;
+  /* position: relative; */
 }
 
 .EmakiConteiner_container__A_oLx {
