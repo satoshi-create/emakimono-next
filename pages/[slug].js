@@ -213,24 +213,24 @@ export const getStaticProps = async (context) => {
   const fs = require("fs");
   const path = require("path");
 
-  const cacheDir = path.join(process.cwd(), "libs/image-metadata-cache");
-  const cacheFilePath = path.join(cacheDir, "image-metadata-cache.json");
+  // const cacheDir = path.join(process.cwd(), "libs/image-metadata-cache");
+  // const cacheFilePath = path.join(cacheDir, "image-metadata-cache.json");
 
-  // キャッシュファイルが存在しない場合のエラー処理
-  if (!fs.existsSync(cacheFilePath)) {
-    throw new Error(
-      "Image metadata cache not found. Run the generateImageMetadata script."
-    );
-  }
+  // // キャッシュファイルが存在しない場合のエラー処理
+  // if (!fs.existsSync(cacheFilePath)) {
+  //   throw new Error(
+  //     "Image metadata cache not found. Run the generateImageMetadata script."
+  //   );
+  // }
 
-  // キャッシュファイルを読み込む
-  const metadataCache = JSON.parse(fs.readFileSync(cacheFilePath, "utf-8"));
+  // // キャッシュファイルを読み込む
+  // const metadataCache = JSON.parse(fs.readFileSync(cacheFilePath, "utf-8"));
 
   const { slug } = context.params;
   const { locale, locales } = context;
-  // const tEmakisData = locale === "en" ? enData : jaData;
+  const tEmakisData = locale === "en" ? enData : jaData;
 
-  const filterdEmakisData = metadataCache.filter(
+  const filterdEmakisData = tEmakisData.filter(
     (item, index) => item.titleen === slug
   );
 
