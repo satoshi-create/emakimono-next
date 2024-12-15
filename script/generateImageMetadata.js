@@ -1,0 +1,133 @@
+const fs = require("fs");
+const path = require("path");
+const sharp = require("sharp");
+
+(async () => {
+  const cacheFilePath = path.join(process.cwd(), "image-metadata-cache.json");
+
+  // JSONデータ（例: emakisデータ）
+  const jsonData = [
+    {
+      title: "鳥獣人物戯画絵巻",
+      emakis: [
+        {
+          cat: "ekotoba",
+          chapter: "1",
+          srcHeight: "",
+          srcWidth: "",
+          load: "",
+          srcSp: "",
+          srcTb: "",
+          src: "",
+          name: "",
+        },
+        {
+          cat: "image",
+          chapter: "",
+          srcHeight: "1080",
+          srcWidth: "1804",
+          load: "True",
+          srcSp: "/cyoujyuu_yamazaki_kou_01-375.webp",
+          srcTb: "/cyoujyuu_yamazaki_kou_01-800.webp",
+          src: "/cyoujyuu_yamazaki_kou_01-1080.webp",
+          name: "cyoujyuu_yamazaki_kou_01",
+        },
+        {
+          cat: "image",
+          chapter: "",
+          srcHeight: "1080",
+          srcWidth: "2228",
+          load: "True",
+          srcSp: "/cyoujyuu_yamazaki_kou_02-375.webp",
+          srcTb: "/cyoujyuu_yamazaki_kou_02-800.webp",
+          src: "/cyoujyuu_yamazaki_kou_02-1080.webp",
+          name: "cyoujyuu_yamazaki_kou_02",
+        },
+      ],
+    },
+    {
+      title: "九相図巻",
+      emakis: [
+        {
+          cat: "ekotoba",
+          chapter: "0",
+          load: "",
+          srcSp: "",
+          srcTb: "",
+          src: "",
+          name: "",
+          desc: "生命が宿っている体の状態を指します。肉体が正常に機能し、自然な美しさや活力を持つ状態です。",
+          gendaibun:
+            "私たちが普段目にするのは、まだ生きている体の状態です。肌に血色があり、内臓や骨格もきちんと機能しています。生きている間の体の美しさや活力を表す状態を「生前相（せいぜんそう）」と呼びます",
+          srcWidth: "",
+          srcHeight: "",
+        },
+        {
+          cat: "image",
+          chapter: "",
+          load: "True",
+          srcSp: "/kusouzu_01-375.webp",
+          srcTb: "/kusouzu_01-800.webp",
+          src: "/kusouzu_01-1080.webp",
+          name: "kusouzu_01.webp",
+          srcWidth: "1757",
+          srcHeight: "1080",
+        },
+        {
+          cat: "ekotoba",
+          chapter: "1",
+          load: "",
+          srcSp: "",
+          srcTb: "",
+          src: "",
+          name: "",
+          srcWidth: "",
+          srcHeight: "",
+        },
+      ],
+    },
+  ];
+
+  // JSONデータを処理
+  const updatedJsonData = await Promise.all(
+    jsonData.map(async (item) => {
+      // 各emakis配列を処理
+      const updatedEmakis = await Promise.all(
+        item.emakis.map(async (emaki) => {
+          if (emaki.cat === "image") {
+            const filePath = path.join(process.cwd(), "public", emaki.src);
+
+            if (!fs.existsSync(filePath)) {
+              console.warn(`File not found: ${filePath}`);
+              return { ...emaki, srcWidth: 0, srcHeight: 0 }; // ファイルがない場合のデフォルト値
+            }
+
+            try {
+              const metadata = await sharp(filePath).metadata();
+              return {
+                ...emaki,
+                srcWidth: metadata.width,
+                srcHeight: metadata.height,
+              };
+            } catch (error) {
+              console.error(`Error processing file ${filePath}:`, error);
+              return { ...emaki, srcWidth: 0, srcHeight: 0 }; // エラー時のデフォルト値
+            }
+          }
+
+          // catが'image'でない場合はそのまま返す
+          return emaki;
+        })
+      );
+
+      return {
+        ...item,
+        emakis: updatedEmakis,
+      };
+    })
+  );
+
+  // 更新されたデータをキャッシュファイルとして保存
+  fs.writeFileSync(cacheFilePath, JSON.stringify(updatedJsonData, null, 2));
+  console.log(`Image metadata cache saved to ${cacheFilePath}`);
+})();
