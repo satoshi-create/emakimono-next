@@ -21,6 +21,8 @@ import MiddleNavigation from "../components/MiddleNavigation";
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
 const Emaki = ({ data, locale, locales, slug, test }) => {
+  console.log(data);
+
   const { t } = useLocaleMeta();
   const router = useRouter();
   const selectedRef = useRef(null);
@@ -171,7 +173,6 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
             scroll={true}
             selectedRef={selectedRef}
             navIndex={navIndex}
-            height={"40vh"}
           />
         </>
       );
@@ -209,13 +210,30 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async (context) => {
+  const fs = require("fs");
+  const path = require("path");
+
+  const cacheDir = path.join(process.cwd(), "libs/image-metadata-cache");
+  const cacheFilePath = path.join(cacheDir, "image-metadata-cache.json");
+
+  // キャッシュファイルが存在しない場合のエラー処理
+  if (!fs.existsSync(cacheFilePath)) {
+    throw new Error(
+      "Image metadata cache not found. Run the generateImageMetadata script."
+    );
+  }
+
+  // キャッシュファイルを読み込む
+  const metadataCache = JSON.parse(fs.readFileSync(cacheFilePath, "utf-8"));
+
   const { slug } = context.params;
   const { locale, locales } = context;
-  const tEmakisData = locale === "en" ? enData : jaData;
+  // const tEmakisData = locale === "en" ? enData : jaData;
 
-  const filterdEmakisData = tEmakisData.filter(
+  const filterdEmakisData = metadataCache.filter(
     (item, index) => item.titleen === slug
   );
+
   const addObjEmakis = filterdEmakisData
     .map((item, i) => {
       const addLinkIdtoEmakis = item.emakis.map((item, i) => {
@@ -245,11 +263,9 @@ export const getStaticProps = async (context) => {
         (a, b) => (a.linkId > b.linkId ? 1 : -1)
       );
 
-
       return { ...item, emakis: sortConcatFilterAddObjEmakis };
     })
     .find((item) => item);
-
 
   return {
     props: {

@@ -21,7 +21,6 @@ const InstallPrompt = () => {
       event.preventDefault(); // デフォルトのプロンプト表示を防ぐ
       setDeferredPrompt(event); // イベントを保存
       console.log("beforeinstallprompt event triggered"); // イベント発火を確認
-      console.log(isInstallable);
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);

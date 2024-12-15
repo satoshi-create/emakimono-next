@@ -1,9 +1,10 @@
-import React, { useRef, useContext } from "react";
+import React, { useRef,useState,useEffect, useContext } from "react";
 import styles from "../styles/EmakiImage.module.css";
 import ResposiveImage from "./ResposiveImage";
 import { AppContext } from "../pages/_app";
 import Link from "next/link";
 import Image from "next/image";
+import LazyImage from "./LazyImage";
 
 // TODO : 登場人物の名前のフォントサイズをレスポンシブにする
 
@@ -22,10 +23,27 @@ const EmakiImage = ({
     navIndex,
     character,
     ebiki,
-  },
+  },item
 }) => {
-  const { scrollDialog, characterToggle, orientation, ebikiToggle } =
-    useContext(AppContext);
+  const {
+    scrollDialog,
+    characterToggle,
+    orientation,
+    ebikiToggle,
+    windowHeight,
+  } = useContext(AppContext);
+
+    // 高さに基づいて適切な画像ソースを選択
+    const getResponsiveSrc = (emaki) => {
+      if (windowHeight <= 375) {
+        return emaki.srcSp; // スマートフォン用
+      } else if (windowHeight <= 800) {
+        return emaki.srcTb; // タブレット用
+      } else {
+        return emaki.src; // デスクトップ用
+      }
+    };
+
 
   const characterOuntline = (x) => {
     switch (x) {
@@ -174,7 +192,16 @@ const EmakiImage = ({
           })}
         </div>
       )}
-      {index <= 1 && (
+      <LazyImage
+        key={index}
+        src={getResponsiveSrc(item)}
+        alt={item.name}
+        width={item.srcWidth}
+        height={item.srcHeight}
+        index={index}
+        srcSp={item.srcSp}
+      />
+      {/* {index <= 1 && (
         <picture>
           <source
             data-srcset={srcTb}
@@ -182,7 +209,7 @@ const EmakiImage = ({
             type="image/webp"
           />
           <img
-          loading="eager"
+            loading="eager"
             src={srcSp}
             data-src={src}
             // data-size="auto"
@@ -193,49 +220,7 @@ const EmakiImage = ({
             height={srcHeight}
           />
         </picture>
-        //          <Image
-        //   src={src}
-        //   width={1066}
-        //   height={1080}
-        //   sizes="100vw"
-        //   alt={name}
-        //   // loading="lazy"
-        //   layout="responsive"
-        //   placeholder="blur"
-        //   blurDataURL={srcSp}
-        //   // blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
-        // />
-        // <figure
-        //   style={{ position: "relative", width: "1000px", height: "100%" }}
-        // >
-        //   <Image
-        //     src={src}
-        //     alt={name}
-        //     layout="fill"
-        //     objectFit="cover"
-        //     placeholder="blur"
-        //     blurDataURL={srcSp}
-        //     // blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
-        //     priprity
-        //   />
-        // </figure>
       )}
-      {/* {index >= 2 && (
-        <figure
-          style={{ position: "relative", width: srcWidth, height: "100%" }}
-        >
-          <Image
-            src={src}
-            alt={name}
-            layout="fill"
-            objectFit="cover"
-            loading="lazy"
-            placeholder="blur"
-            // blurDataURL={srcSp}
-            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
-          />
-        </figure>
-      )} */}
       {index >= 2 && (
         <ResposiveImage
           value={{
@@ -250,7 +235,7 @@ const EmakiImage = ({
             scroll,
           }}
         />
-      )}
+      )} */}
     </section>
   );
 };
