@@ -88,6 +88,7 @@ function MyApp({ Component, pageProps, router }) {
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [windowHeight, setWindowHeight] = useState(0);
 
   const newData = data?.map((item, i) => {
     const { pathName, pageView } = item;
@@ -442,6 +443,19 @@ function MyApp({ Component, pageProps, router }) {
     window.addEventListener("scroll", stickNavbar);
   }, [setStickyClass]);
 
+  // ウィンドウの高さを取得
+  useEffect(() => {
+    const updateHeight = () => {
+      setWindowHeight(window.innerHeight);
+    };
+
+    updateHeight(); // 初期高さを設定
+    window.addEventListener("resize", updateHeight); // ウィンドウリサイズ時に高さを更新
+
+    return () => window.removeEventListener("resize", updateHeight);
+  }, []);
+
+
 
   return (
     <AppContext.Provider
@@ -509,6 +523,7 @@ function MyApp({ Component, pageProps, router }) {
         loading,
         rankingData,
         handleChapter,
+        windowHeight,
       }}
     >
       {/* google analytics */}
@@ -544,7 +559,7 @@ function MyApp({ Component, pageProps, router }) {
         <Component {...pageProps} key={router.asPath} />
         {isContactModalOpen && <ContactFormGoogle />}
         {isSearchModalOpen && <ModalSearch />}
-              <InstallPrompt/>
+        <InstallPrompt />
         <BottomNavigation />
       </ChakraProvider>
     </AppContext.Provider>
