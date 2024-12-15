@@ -21,6 +21,8 @@ import MiddleNavigation from "../components/MiddleNavigation";
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
 const Emaki = ({ data, locale, locales, slug, test }) => {
+  console.log(data);
+
   const { t } = useLocaleMeta();
   const router = useRouter();
   const selectedRef = useRef(null);
@@ -231,6 +233,7 @@ export const getStaticProps = async (context) => {
   const filterdEmakisData = metadataCache.filter(
     (item, index) => item.titleen === slug
   );
+
   const addObjEmakis = filterdEmakisData
     .map((item, i) => {
       const addLinkIdtoEmakis = item.emakis.map((item, i) => {
