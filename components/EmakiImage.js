@@ -192,7 +192,7 @@ const EmakiImage = ({
           })}
         </div>
       )}
-      {/* <LazyImage
+      <LazyImage
         key={index}
         src={getResponsiveSrc(item)}
         alt={item.name}
@@ -200,8 +200,8 @@ const EmakiImage = ({
         height={item.srcHeight}
         index={index}
         srcSp={item.srcSp}
-      /> */}
-      {index <= 1 && (
+      />
+      {/* {index <= 1 && (
         <picture>
           <source
             data-srcset={srcTb}
@@ -235,7 +235,7 @@ const EmakiImage = ({
             scroll,
           }}
         />
-      )}
+      )} */}
     </section>
   );
 };
