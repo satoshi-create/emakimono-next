@@ -1,8 +1,6 @@
 .emakiimage {
   height: 100%;
   position: relative;
-  /* aspect-ratio: 16/9; */
-  min-width: 100vw;
 }
 
 .characterbox,
