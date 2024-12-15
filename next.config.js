@@ -5,12 +5,12 @@ const withPWA = require("next-pwa")({
   // register: false, // Service Workerの登録を無効にする
   skipWaiting: true, // 新しいサービスワーカーがインストールされたときにページを即座にリロード
   scope: "/",
-  disable: process.env.NODE_ENV === "development",
+  // disable: process.env.NODE_ENV === "development",
   runtimeCaching: [
     {
       // 画像リソースのキャッシュ設定
       urlPattern: /^https:\/\/.*\/.*\.(?:png|jpg|jpeg|webp|svg|gif)$/,
-      handler: "StaleWhileRevalidate", // キャッシュを使いながら、バックグラウンドで更新
+      handler: "CacheFirst",
       options: {
         cacheName: "images-cache",
         expiration: {
