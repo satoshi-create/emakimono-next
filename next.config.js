@@ -70,6 +70,9 @@ const nextConfig = {
     defaultLocale: "ja",
     localeDetection: false,
   },
+  images: {
+    domains: ["res.cloudinary.com"], // Cloudinaryのドメイン
+  },
 };
 
 module.exports = withPWA(nextConfig);

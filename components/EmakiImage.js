@@ -15,6 +15,7 @@ const EmakiImage = ({
     src,
     load,
     name,
+    config,
     index,
     srcWidth,
     srcHeight,
@@ -32,18 +33,6 @@ const EmakiImage = ({
     ebikiToggle,
     windowHeight,
   } = useContext(AppContext);
-
-    // 高さに基づいて適切な画像ソースを選択
-    const getResponsiveSrc = (emaki) => {
-      if (windowHeight <= 375) {
-        return emaki.srcSp; // スマートフォン用
-      } else if (windowHeight <= 800) {
-        return emaki.srcTb; // タブレット用
-      } else {
-        return emaki.src; // デスクトップ用
-      }
-    };
-
 
   const characterOuntline = (x) => {
     switch (x) {
@@ -194,12 +183,13 @@ const EmakiImage = ({
       )}
       <LazyImage
         key={index}
-        src={getResponsiveSrc(item)}
+        src={item}
         alt={item.name}
         width={item.srcWidth}
         height={item.srcHeight}
         index={index}
         srcSp={item.srcSp}
+        config={config}
       />
       {/* {index <= 1 && (
         <picture>
