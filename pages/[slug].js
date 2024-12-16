@@ -228,7 +228,7 @@ export const getStaticProps = async (context) => {
 
   const { slug } = context.params;
   const { locale, locales } = context;
-  // const tEmakisData = locale === "en" ? enData : jaData;
+  const tEmakisData = locale === "en" ? enData : jaData;
 
   const filterdEmakisData = metadataCache.filter(
     (item, index) => item.titleen === slug
