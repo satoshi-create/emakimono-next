@@ -2751,12 +2751,13 @@
         "srcHeight": ""
       },
       {
+        "config": "cloudinary",
         "cat": "image",
         "chapter": "",
         "load": "True",
         "srcSp": "/kusouzu_01-375.webp",
         "srcTb": "/kusouzu_01-800.webp",
-        "src": "/kusouzu_01-1080.webp",
+        "src": "v1734348068/kusouzu_01-1080_ilfcph.webp",
         "name": "kusouzu_01.webp",
         "srcWidth": "1757",
         "srcHeight": "1080"
