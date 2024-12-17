@@ -53,17 +53,26 @@ const LazyImage = ({ src, alt, width, height, srcSp ,config}, index) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    // IntersectionObserverのコールバック関数を設定。
+    // 1つのエントリ (entry) を観察し、要素がビューポートに入ったか確認します。
     const observer = new IntersectionObserver(([entry]) => {
+      // entry.isIntersecting: 要素がビューポート内に入っている場合は true
       if (entry.isIntersecting) {
-        setIsVisible(true);
-        observer.disconnect();
+        setIsVisible(true); // 要素が見えたら状態を更新して isVisible を true に設定
+        observer.disconnect(); // 一度見えたら監視を停止
       }
     });
+
+    // `src`（画像の識別子）に基づいて対象のDOM要素を取得
     const element = document.getElementById(src);
+
+    // 要素が存在する場合のみ IntersectionObserver で監視を開始
     if (element) observer.observe(element);
 
+    // コンポーネントがアンマウントされた時にクリーンアップ処理を実行
+    // IntersectionObserver を停止してリソースを解放
     return () => observer.disconnect();
-  }, [src]);
+  }, [src]); // `src`が変更されるたびに useEffect が再実行される
 
   const { orientation, toggleFullscreen } = useContext(AppContext);
 
