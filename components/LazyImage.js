@@ -34,10 +34,10 @@ const LazyImage = ({ src, alt, width, height, srcSp ,config}, index) => {
   };
 
   // 低解像度画像（ぼかしプレースホルダー用）
-  // const blurImage = `${baseUrl}/w_10,h_10,c_fill,q_auto:low/${src.src}`;
+  const blurImage = `${baseUrl}/w_10,h_10,c_fill,q_auto:low/${src.src}`;
 
   // 少し大きめの低解像度画像（ぼかしプレースホルダー用）
-  const blurImage = `${baseUrl}/w_50,h_50,c_fill,q_auto:low/${src.src}`;
+  // const blurImage = `${baseUrl}/w_50,h_50,c_fill,q_auto:low/${src.src}`;
 
   const getImages = (emaki, cfg) => {
     if (cfg === "cloudinary") {
