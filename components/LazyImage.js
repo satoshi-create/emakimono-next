@@ -5,8 +5,7 @@ import { AppContext } from "../pages/_app";
 const LazyImage = ({ src, alt, width, height, srcSp ,config}, index) => {
   const { windowHeight } = useContext(AppContext);
 
-  const baseUrl =
-    "https://res.cloudinary.com/dw2gjxrrf/image/upload";
+  const baseUrl = "https://res.cloudinary.com/dw2gjxrrf/image/upload";
 
   // 高さに基づいて適切な画像ソースを選択
   const getResponsiveSrc = (emaki) => {
@@ -33,6 +32,12 @@ const LazyImage = ({ src, alt, width, height, srcSp ,config}, index) => {
       return `${baseUrl}/w_${width},h_${height},c_fit/${emaki.src}`; // デスクトップ用
     }
   };
+
+  // 低解像度画像（ぼかしプレースホルダー用）
+  const blurImage = `${baseUrl}/w_10,h_10,c_fill,q_auto:low/${src.src}`;
+
+  // 少し大きめの低解像度画像（ぼかしプレースホルダー用）
+  // const blurImage = `${baseUrl}/w_50,h_50,c_fill,q_auto:low/${publicId}`;
 
   const getImages = (emaki, cfg) => {
     if (cfg === "cloudinary") {
@@ -71,6 +76,7 @@ const LazyImage = ({ src, alt, width, height, srcSp ,config}, index) => {
       return 45;
     }
   };
+
   return (
     <div
       id={src}
@@ -85,7 +91,7 @@ const LazyImage = ({ src, alt, width, height, srcSp ,config}, index) => {
     >
       {isVisible && (
         <Image
-          src={getImages(src,config)}
+          src={getImages(src, config)}
           layout="fill"
           objectFit="cover"
           alt={alt}
@@ -94,7 +100,7 @@ const LazyImage = ({ src, alt, width, height, srcSp ,config}, index) => {
           loading={index < 2 ? "eager" : "lazy"} // 最初の2枚だけ遅延読み込みを無効化
           // placeholder={index < 2 ? "blur" : undefined} // 最初の2枚だけぼかしプレースホルダーを適用
           placeholder={"blur"} // 最初の2枚だけぼかしプレースホルダーを適用
-          blurDataURL={srcSp}
+          blurDataURL={config === "cloudinary" ? blurImage : srcSp}
           quality={100} // クオリティを100に変更
         />
       )}
