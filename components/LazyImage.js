@@ -34,10 +34,10 @@ const LazyImage = ({ src, alt, width, height, srcSp ,config}, index) => {
   };
 
   // 低解像度画像（ぼかしプレースホルダー用）
-  const blurImage = `${baseUrl}/w_10,h_10,c_fill,q_auto:low/${src.src}`;
+  // const blurImage = `${baseUrl}/w_10,h_10,c_fill,q_auto:low/${src.src}`;
 
   // 少し大きめの低解像度画像（ぼかしプレースホルダー用）
-  // const blurImage = `${baseUrl}/w_50,h_50,c_fill,q_auto:low/${publicId}`;
+  const blurImage = `${baseUrl}/w_50,h_50,c_fill,q_auto:low/${publicId}`;
 
   const getImages = (emaki, cfg) => {
     if (cfg === "cloudinary") {
@@ -97,8 +97,8 @@ const LazyImage = ({ src, alt, width, height, srcSp ,config}, index) => {
           alt={alt}
           // sizes="(max-height: 375px) 375px, (max-height: 800px) 800px, 1080px"
           priority={index < 2} // 最初の1枚だけ優先的に読み込み
-          // placeholder={"blur"} // 最初の2枚だけぼかしプレースホルダーを適用
-          placeholder={index < 2 ? "blur" : undefined} // 最初の2枚だけぼかしプレースホルダーを適用
+          placeholder={"blur"} // 最初の2枚だけぼかしプレースホルダーを適用
+          // placeholder={index < 2 ? "blur" : undefined} // 最初の2枚だけぼかしプレースホルダーを適用
           blurDataURL={config === "cloudinary" ? blurImage : srcSp}
           quality={100} // クオリティを100に変更
         />
