@@ -102,7 +102,7 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
   return (
     <div
       id={src}
-      className="imageWrapper"
+      className={`image-wrapper ${isLoaded ? "loaded" : "loading"}`}
       style={{
         width: `${
           (width / height) * getResponsiveWidth(toggleFullscreen, orientation)
@@ -125,7 +125,7 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
           placeholder={"blur"}
           blurDataURL={config === "cloudinary" ? blurImage : srcSp}
           onLoadingComplete={() => setIsLoaded(true)} // 読み込み完了時に状態を更新
-          className={`image ${isLoaded ? "loaded" : "loading"}`} // 状態に応じたクラスを付与
+          // className={`image ${isLoaded ? "loaded" : "loading"}`} // 状態に応じたクラスを付与
         />
       )}
       <style jsx>{`
@@ -135,15 +135,42 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
           height: 100%; /* コンテナの高さに合わせる */
           width: ${width}px;
           height: ${height}px;
+          overflow: hidden;
         }
-        .image {
-          transition: opacity 0.8s ease, filter 0.8s ease; // フェードインとぼかしのアニメーション
-          opacity: 0;
-          filter: blur(20px);
+        /* 初期状態：ぼかし＆透明 */
+        .image-wrapper.loading img {
+          animation: fadeInBlur 1.5s ease-out forwards; /* アニメーション適用 */
         }
-        .image.loaded {
-          opacity: 1; // フェードイン
-          filter: blur(0); // ぼかし解除
+
+        /* 読み込み完了後の画像 */
+        .image-wrapper.loaded img {
+          animation: fadeInClear 1.5s ease-out forwards; /* アニメーション適用 */
+        }
+
+        /* フェードインとぼかし解除のキーフレーム */
+        @keyframes fadeInBlur {
+          0% {
+            opacity: 0;
+            filter: blur(20px);
+          }
+          50% {
+            opacity: 0.5;
+            filter: blur(10px);
+          }
+          100% {
+            opacity: 1;
+            filter: blur(0);
+          }
+        }
+
+        /* フェードインのみ */
+        @keyframes fadeInClear {
+          0% {
+            opacity: 0;
+          }
+          100% {
+            opacity: 1;
+          }
         }
       `}</style>
     </div>
