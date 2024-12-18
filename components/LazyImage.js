@@ -1,8 +1,11 @@
 import { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 import { AppContext } from "../pages/_app";
+import styles from "../styles/LazyImage.css.module.css";
 
 const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   const { windowHeight } = useContext(AppContext);
 
   const baseUrl =
@@ -28,6 +31,7 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
   };
 
   const getResponsiveSrcCloudinary = (emaki) => {
+
     const aspectRatio = width / height; // アスペクト比を計算
 
     // デバイスの高さに応じてCloudinaryの画像サイズを動的に調整
@@ -114,29 +118,32 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
           width={width}
           height={height}
           alt={alt}
-          priority={index < 2} // 最初の1枚だけ優先的に読み込み
+          // priority={index < 2} // 最初の1枚だけ優先的に読み込み
+          priority={index === 0} // 最初の画像は即時プリロード
+          loading={index < 2 ? "eager" : "lazy"} // 最初の2枚は即時読み込み
           // placeholder={index > 2 ? "blur" : undefined} // 最初の2枚だけぼかしプレースホルダーを適用
           placeholder={"blur"}
           blurDataURL={config === "cloudinary" ? blurImage : srcSp}
+          onLoadingComplete={() => setIsLoaded(true)} // 読み込み完了時に状態を更新
+          className={`image ${isLoaded ? "loaded" : "loading"}`} // 状態に応じたクラスを付与
         />
-        // <Image
-        //   src={getImages(src, config)}
-        //   layout="fill"
-        //   objectFit="cover"
-        //   alt={alt}
-        //   // sizes="(max-height: 375px) 375px, (max-height: 800px) 800px, 1080px"
-        //   priority={index < 2} // 最初の1枚だけ優先的に読み込み
-        //   // placeholder={"blur"}
-        //   // placeholder={index < 2 ? "blur" : undefined} // 最初の2枚だけぼかしプレースホルダーを適用
-        //   // blurDataURL={config === "cloudinary" ? blurImage : srcSp}
-        //   quality={100} // クオリティを100に変更
-        // />
       )}
       <style jsx>{`
         .imageWrapper {
           position: relative; /* Imageの親要素として必要 */
           flex-shrink: 0; /* 子要素が縮小されないようにする */
           height: 100%; /* コンテナの高さに合わせる */
+          width: ${width}px;
+          height: ${height}px;
+        }
+        .image {
+          transition: opacity 0.8s ease, filter 0.8s ease; // フェードインとぼかしのアニメーション
+          opacity: 0;
+          filter: blur(20px);
+        }
+        .image.loaded {
+          opacity: 1; // フェードイン
+          filter: blur(0); // ぼかし解除
         }
       `}</style>
     </div>
