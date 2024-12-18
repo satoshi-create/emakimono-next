@@ -22,7 +22,7 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
   console.log(src.src);
 
   const cloudinaryLoader = ({ src, width, quality }) => {
-    return `https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive,w_${width},q_${
+    return `https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive,f_jpg,w_${width},q_${
       quality || 75
     }/${src}`;
   };
@@ -114,7 +114,9 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
           width={width}
           height={height}
           alt={alt}
-          placeholder={"blur"} // 最初の2枚だけぼかしプレースホルダーを適用
+          priority={index < 2} // 最初の1枚だけ優先的に読み込み
+          // placeholder={index > 2 ? "blur" : undefined} // 最初の2枚だけぼかしプレースホルダーを適用
+          placeholder={"blur"}
           blurDataURL={config === "cloudinary" ? blurImage : srcSp}
         />
         // <Image
