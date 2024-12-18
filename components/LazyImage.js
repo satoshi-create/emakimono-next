@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 import { AppContext } from "../pages/_app";
 
-const LazyImage = ({ src, alt, width, height, srcSp ,config}, index) => {
+const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
   const { windowHeight } = useContext(AppContext);
 
   const baseUrl =
@@ -17,6 +17,14 @@ const LazyImage = ({ src, alt, width, height, srcSp ,config}, index) => {
     } else {
       return emaki.src; // デスクトップ用
     }
+  };
+
+  console.log(src.src);
+
+  const cloudinaryLoader = ({ src, width, quality }) => {
+    return `https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive,w_${width},q_${
+      quality || 75
+    }/${src}`;
   };
 
   const getResponsiveSrcCloudinary = (emaki) => {
@@ -101,17 +109,26 @@ const LazyImage = ({ src, alt, width, height, srcSp ,config}, index) => {
     >
       {isVisible && (
         <Image
-          src={getImages(src, config)}
-          layout="fill"
-          objectFit="cover"
+          loader={cloudinaryLoader}
+          src={src.src} // Cloudinaryの画像ID
+          width={width}
+          height={height}
           alt={alt}
-          // sizes="(max-height: 375px) 375px, (max-height: 800px) 800px, 1080px"
-          priority={index < 2} // 最初の1枚だけ優先的に読み込み
-          // placeholder={"blur"}
-          // placeholder={index < 2 ? "blur" : undefined} // 最初の2枚だけぼかしプレースホルダーを適用
-          // blurDataURL={config === "cloudinary" ? blurImage : srcSp}
-          quality={100} // クオリティを100に変更
+          placeholder={"blur"} // 最初の2枚だけぼかしプレースホルダーを適用
+          blurDataURL={config === "cloudinary" ? blurImage : srcSp}
         />
+        // <Image
+        //   src={getImages(src, config)}
+        //   layout="fill"
+        //   objectFit="cover"
+        //   alt={alt}
+        //   // sizes="(max-height: 375px) 375px, (max-height: 800px) 800px, 1080px"
+        //   priority={index < 2} // 最初の1枚だけ優先的に読み込み
+        //   // placeholder={"blur"}
+        //   // placeholder={index < 2 ? "blur" : undefined} // 最初の2枚だけぼかしプレースホルダーを適用
+        //   // blurDataURL={config === "cloudinary" ? blurImage : srcSp}
+        //   quality={100} // クオリティを100に変更
+        // />
       )}
       <style jsx>{`
         .imageWrapper {
