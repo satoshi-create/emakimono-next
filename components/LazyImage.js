@@ -5,7 +5,8 @@ import { AppContext } from "../pages/_app";
 const LazyImage = ({ src, alt, width, height, srcSp ,config}, index) => {
   const { windowHeight } = useContext(AppContext);
 
-  const baseUrl = "https://res.cloudinary.com/dw2gjxrrf/image/upload";
+  const baseUrl =
+    "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
 
   // 高さに基づいて適切な画像ソースを選択
   const getResponsiveSrc = (emaki) => {
@@ -106,9 +107,9 @@ const LazyImage = ({ src, alt, width, height, srcSp ,config}, index) => {
           alt={alt}
           // sizes="(max-height: 375px) 375px, (max-height: 800px) 800px, 1080px"
           priority={index < 2} // 最初の1枚だけ優先的に読み込み
-          placeholder={"blur"} // 最初の2枚だけぼかしプレースホルダーを適用
+          // placeholder={"blur"}
           // placeholder={index < 2 ? "blur" : undefined} // 最初の2枚だけぼかしプレースホルダーを適用
-          blurDataURL={config === "cloudinary" ? blurImage : srcSp}
+          // blurDataURL={config === "cloudinary" ? blurImage : srcSp}
           quality={100} // クオリティを100に変更
         />
       )}
