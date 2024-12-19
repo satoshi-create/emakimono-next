@@ -113,7 +113,7 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
     >
       {isVisible && (
         <Image
-          loader={cloudinaryLoader}
+          loader={config === "cloudinary" ? cloudinaryLoader : undefined} // Cloudinaryが有効な場合のみローダー適用
           src={src.src} // Cloudinaryの画像ID
           width={width}
           height={height}

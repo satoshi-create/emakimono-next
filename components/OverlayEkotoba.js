@@ -14,6 +14,7 @@ import parse from "html-react-parser";
 import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
 import ActionButton from "./ActionButton";
+import LazyImage from "./LazyImage";
 
 const OverlayEkotoba = ({
   item: {
@@ -23,6 +24,7 @@ const OverlayEkotoba = ({
     srcSp,
     srcTb,
     src,
+    config,
     load,
     name,
     scroll,
@@ -39,6 +41,7 @@ const OverlayEkotoba = ({
     data,
     googlemap,
   },
+  item,
 }) => {
   const {
     setekotobaToggle,
