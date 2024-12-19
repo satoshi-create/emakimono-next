@@ -140,15 +140,33 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
 
         /* 初期状態：透明＆ぼかし */
         .image.loading {
-          opacity: 0.5; /* 初期は完全に透明 */
           filter: blur(10px); /* 初期はぼかしが強い */
-          transition: opacity 1s ease-out, filter 1s ease-out; /* フェードインとぼかし解除を同時に適用 */
+          animation: fadeloading 1s forwards;
         }
 
         /* 読み込み完了後：なめらかにフェードイン＆ぼかし解除 */
         .image.loaded {
-          opacity: 1; /* 完全に表示 */
-          filter: blur(0); /* ぼかしを解除 */
+          animation: fadeLoaded 1s forwards;
+        }
+
+        @keyframes fadeLoading {
+          0% {
+            filter: blur(10px);
+          }
+
+          100% {
+            filter: blur(5px);
+          }
+        }
+
+        @keyframes fadeLoaded {
+          0% {
+            filter: blur(5px);
+          }
+
+          100% {
+            filter: blur(0);
+          }
         }
       `}</style>
     </div>
