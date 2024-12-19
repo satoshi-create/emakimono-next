@@ -102,7 +102,7 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
   return (
     <div
       id={src}
-      className={`image-wrapper ${isLoaded ? "loaded" : "loading"}`}
+      className={`image-wrapper`}
       style={{
         width: `${
           (width / height) * getResponsiveWidth(toggleFullscreen, orientation)
@@ -125,10 +125,10 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
           placeholder={"blur"}
           blurDataURL={config === "cloudinary" ? blurImage : srcSp}
           onLoadingComplete={() => setIsLoaded(true)} // 読み込み完了時に状態を更新
-          // className={`image ${isLoaded ? "loaded" : "loading"}`} // 状態に応じたクラスを付与
+          className={`image ${isLoaded ? "loaded" : "loading"}`} // 状態に応じたクラスを付与
         />
       )}
-      <style jsx>{`
+      <style jsx global>{`
         .imageWrapper {
           position: relative; /* Imageの親要素として必要 */
           flex-shrink: 0; /* 子要素が縮小されないようにする */
@@ -137,40 +137,18 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
           height: ${height}px;
           overflow: hidden;
         }
-        /* 初期状態：ぼかし＆透明 */
-        .image-wrapper.loading img {
-          animation: fadeInBlur 1.5s ease-out forwards; /* アニメーション適用 */
+
+        /* 初期状態：透明＆ぼかし */
+        .image.loading {
+          opacity: 0; /* 初期は完全に透明 */
+          filter: blur(10px); /* 初期はぼかしが強い */
+          transition: opacity 2s ease-out, filter 2s ease-out; /* フェードインとぼかし解除を同時に適用 */
         }
 
-        /* 読み込み完了後の画像 */
-        .image-wrapper.loaded img {
-          animation: fadeInClear 1.5s ease-out forwards; /* アニメーション適用 */
-        }
-
-        /* フェードインとぼかし解除のキーフレーム */
-        @keyframes fadeInBlur {
-          0% {
-            opacity: 0;
-            filter: blur(20px);
-          }
-          50% {
-            opacity: 0.5;
-            filter: blur(10px);
-          }
-          100% {
-            opacity: 1;
-            filter: blur(0);
-          }
-        }
-
-        /* フェードインのみ */
-        @keyframes fadeInClear {
-          0% {
-            opacity: 0;
-          }
-          100% {
-            opacity: 1;
-          }
+        /* 読み込み完了後：なめらかにフェードイン＆ぼかし解除 */
+        .image.loaded {
+          opacity: 1; /* 完全に表示 */
+          filter: blur(0); /* ぼかしを解除 */
         }
       `}</style>
     </div>
