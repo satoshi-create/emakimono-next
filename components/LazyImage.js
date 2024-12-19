@@ -140,9 +140,9 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
 
         /* 初期状態：透明＆ぼかし */
         .image.loading {
-          opacity: 0; /* 初期は完全に透明 */
+          opacity: 0.5; /* 初期は完全に透明 */
           filter: blur(10px); /* 初期はぼかしが強い */
-          transition: opacity 2s ease-out, filter 2s ease-out; /* フェードインとぼかし解除を同時に適用 */
+          transition: opacity 1s ease-out, filter 1s ease-out; /* フェードインとぼかし解除を同時に適用 */
         }
 
         /* 読み込み完了後：なめらかにフェードイン＆ぼかし解除 */
