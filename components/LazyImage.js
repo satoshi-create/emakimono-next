@@ -140,7 +140,7 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
 
         /* 初期状態：透明＆ぼかし */
         .image.loading {
-          filter: blur(10px); /* 初期はぼかしが強い */
+          filter: blur(5px); /* 初期はぼかしが強い */
           animation: fadeLoading 1s forwards;
         }
 
@@ -151,17 +151,17 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
 
         @keyframes fadeLoading {
           0% {
-            filter: blur(10px);
+            filter: blur(5px);
           }
 
           100% {
-            filter: blur(5px);
+            filter: blur(2px);
           }
         }
 
         @keyframes fadeLoaded {
           0% {
-            filter: blur(5px);
+            filter: blur(3px);
           }
 
           100% {
