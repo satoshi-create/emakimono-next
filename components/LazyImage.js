@@ -1,11 +1,12 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext} from "react";
 import Image from "next/image";
 import { AppContext } from "../pages/_app";
 import styles from "../styles/LazyImage.css.module.css";
 
 const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
+  const [isVisible, setIsVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-
+  const [ref, setRef] = useState(null);
   const { windowHeight } = useContext(AppContext);
 
   const baseUrl =
@@ -31,7 +32,6 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
   };
 
   const getResponsiveSrcCloudinary = (emaki) => {
-
     const aspectRatio = width / height; // アスペクト比を計算
 
     // デバイスの高さに応じてCloudinaryの画像サイズを動的に調整
@@ -63,29 +63,52 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
       return getResponsiveSrc(emaki);
     }
   };
-  const [isVisible, setIsVisible] = useState(false);
+
+  // useEffect(() => {
+  //   // IntersectionObserverのコールバック関数を設定。
+  //   // 1つのエントリ (entry) を観察し、要素がビューポートに入ったか確認します。
+  //   const observer = new IntersectionObserver(([entry]) => {
+  //     // entry.isIntersecting: 要素がビューポート内に入っている場合は true
+  //     if (entry.isIntersecting) {
+  //       setIsVisible(true); // 要素が見えたら状態を更新して isVisible を true に設定
+  //       observer.disconnect(); // 一度見えたら監視を停止
+  //     }
+  //   });
+
+  //   // `src`（画像の識別子）に基づいて対象のDOM要素を取得
+  //   const element = document.getElementById(src);
+
+  //   // 要素が存在する場合のみ IntersectionObserver で監視を開始
+  //   if (element) observer.observe(element);
+
+  //   // コンポーネントがアンマウントされた時にクリーンアップ処理を実行
+  //   // IntersectionObserver を停止してリソースを解放
+  //   return () => observer.disconnect();
+  // }, [src]); // `src`が変更されるたびに useEffect が再実行される
 
   useEffect(() => {
-    // IntersectionObserverのコールバック関数を設定。
-    // 1つのエントリ (entry) を観察し、要素がビューポートに入ったか確認します。
-    const observer = new IntersectionObserver(([entry]) => {
-      // entry.isIntersecting: 要素がビューポート内に入っている場合は true
-      if (entry.isIntersecting) {
-        setIsVisible(true); // 要素が見えたら状態を更新して isVisible を true に設定
-        observer.disconnect(); // 一度見えたら監視を停止
-      }
-    });
+    // refが設定されていない場合は何もしない
+    if (!ref) return;
 
-    // `src`（画像の識別子）に基づいて対象のDOM要素を取得
-    const element = document.getElementById(src);
+    // IntersectionObserverを作成
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // 要素がビューポートに入った場合
+        if (entry.isIntersecting) {
+          setIsVisible(true); // isVisibleをtrueに更新
+          observer.disconnect(); // 一度表示したら監視を停止
+        }
+      },
+      { rootMargin: "300px" } // ビューポートの200px手前で読み込みをトリガー
+    );
 
-    // 要素が存在する場合のみ IntersectionObserver で監視を開始
-    if (element) observer.observe(element);
+    // refで指定された要素を監視対象として設定
+    observer.observe(ref);
 
-    // コンポーネントがアンマウントされた時にクリーンアップ処理を実行
-    // IntersectionObserver を停止してリソースを解放
+    // クリーンアップ関数: コンポーネントのアンマウント時に監視を停止
     return () => observer.disconnect();
-  }, [src]); // `src`が変更されるたびに useEffect が再実行される
+  }, [ref]); // refが変更されるたびにuseEffectが再実行される
+
 
   const { orientation, toggleFullscreen } = useContext(AppContext);
 
@@ -110,6 +133,8 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
         // width: `${width}px`,
         position: "relative",
       }}
+      // IntersectionObserverで監視する対象のdiv
+      ref={setRef}
     >
       {isVisible && (
         <Image
