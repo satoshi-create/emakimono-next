@@ -141,7 +141,7 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
         /* 初期状態：透明＆ぼかし */
         .image.loading {
           filter: blur(10px); /* 初期はぼかしが強い */
-          animation: fadeloading 1s forwards;
+          animation: fadeLoading 1s forwards;
         }
 
         /* 読み込み完了後：なめらかにフェードイン＆ぼかし解除 */
