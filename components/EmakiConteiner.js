@@ -51,6 +51,31 @@ const EmakiContainer = ({
   const scrollNextRef = useRef(null);
   const scrollPrevRef = useRef(null);
 
+  const [scrollSpeed, setScrollSpeed] = useState(0);
+  const [lastScrollX, setLastScrollX] = useState(0);
+
+  console.log({scrollSpeed,lastScrollX});
+
+
+  // useEffect(() => {
+  //   setLastScrollX(0); // 初期値をリセット
+  // }, []);
+
+  useEffect(() => {
+    if (!articleRef.current) return;
+    const el = articleRef.current;
+    const handleScroll = () => {
+      const currentScrollX = el.scrollLeft;
+      const speed = Math.abs(currentScrollX - lastScrollX); // スクロール速度を計算
+      setScrollSpeed(speed);
+      setLastScrollX(currentScrollX);
+    };
+
+    el.addEventListener("scroll", handleScroll);
+
+    return () => el.removeEventListener("scroll", handleScroll);
+  }, [lastScrollX, scrollSpeed]);
+
   useEffect(() => {
     const keyName = "visited";
     const keyValue = true;
@@ -146,8 +171,8 @@ const EmakiContainer = ({
             "12px",
         }}
       >
-        <FullScreen/>
-        <CarouselButton articleRef={articleRef}/>
+        <FullScreen />
+        <CarouselButton articleRef={articleRef} />
         {scroll && (
           <>
             <EmakiNavigation handleToId={handleToId} data={data} />
@@ -192,6 +217,8 @@ const EmakiContainer = ({
                       selectedRef,
                       navIndex,
                     }}
+                    scrollSpeed={scrollSpeed}
+                    lastScrollX={lastScrollX}
                   />
                 );
               }

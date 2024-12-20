@@ -1,16 +1,27 @@
-import { useState, useEffect, useContext} from "react";
+import { useState, useEffect, useContext } from "react";
 import Image from "next/image";
 import { AppContext } from "../pages/_app";
 import styles from "../styles/LazyImage.css.module.css";
 
-const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
+const LazyImage = ({
+  src,
+  alt,
+  width,
+  height,
+  srcSp,
+  config,
+  scrollSpeed,
+  lastScrollX,
+  index,
+}) => {
   const [isSkeletonVisible, setSkeletonVisible] = useState(true); // スケルトンの表示状態
   const [isBlurVisible, setBlurVisible] = useState(false); // blurDataURL の表示状態
-
   // const [isVisible, setIsVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [ref, setRef] = useState(null);
-  const { windowHeight } = useContext(AppContext);
+  const { windowHeight, orientation, toggleFullscreen } =
+    useContext(AppContext);
+
 
   const baseUrl =
     "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
@@ -65,22 +76,25 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
     }
   };
 
- useEffect(() => {
-    // refが設定されていない場合は何もしない
+  useEffect(() => {
+      console.log("Current scrollSpeed:", scrollSpeed); // 現在のスクロール速度をログ出力
+      const margin = scrollSpeed > 50 ? "1000px" : "300px";
+      console.log("Root margin set to:", margin);
     if (!ref) return;
 
+    // refが設定されていない場合は何もしない
+    if (!ref) return;
     // IntersectionObserverを作成
     const observer = new IntersectionObserver(
       ([entry]) => {
         // 要素がビューポートに入った場合
         if (entry.isIntersecting) {
           setBlurVisible(true); // isVisibleをtrueに更新
-          console.log(true);
 
           observer.disconnect(); // 一度表示したら監視を停止
         }
       },
-      { rootMargin: "300px" } // ビューポートの200px手前で読み込みをトリガー
+      { rootMargin: scrollSpeed > 50 ? "1000px" : "300px" } // スクロール速度に応じて範囲を調整
     );
 
     // refで指定された要素を監視対象として設定
@@ -88,9 +102,7 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
 
     // クリーンアップ関数: コンポーネントのアンマウント時に監視を停止
     return () => observer.disconnect();
-  }, [ref]); // refが変更されるたびにuseEffectが再実行される
-
-  const { orientation, toggleFullscreen } = useContext(AppContext);
+  }, [ref, scrollSpeed]); // refが変更されるたびにuseEffectが再実行される
 
   const getResponsiveWidth = (full, ori) => {
     if (full && ori === "landscape") {
@@ -158,6 +170,7 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
           );
           background-size: 200% 100%;
           animation: shimmer 1.5s infinite;
+          aspect-ratio: ${width} / ${height};
         }
         @keyframes shimmer {
           0% {
@@ -175,7 +188,7 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
 
         /* 読み込み完了後：なめらかにフェードイン＆ぼかし解除 */
         .image.loaded {
-          animation: fadeLoaded .5s ease-in forwards;
+          animation: fadeLoaded 0.5s ease-in forwards;
         }
 
         @keyframes fadeLoading {
