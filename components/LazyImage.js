@@ -77,11 +77,16 @@ const LazyImage = ({
   };
 
   useEffect(() => {
-      console.log("Current scrollSpeed:", scrollSpeed); // 現在のスクロール速度をログ出力
-      const margin = scrollSpeed > 50 ? "1000px" : "300px";
-      console.log("Root margin set to:", margin);
-    if (!ref) return;
+    if (isBlurVisible) {
+      console.log("Blur removed for visible element");
+    }
+  }, [isBlurVisible]);
 
+
+  useEffect(() => {
+      // console.log("Current scrollSpeed:", scrollSpeed); // 現在のスクロール速度をログ出力
+      // const margin = scrollSpeed > 50 ? "1000px" : "300px";
+      // console.log("Root margin set to:", margin);
     // refが設定されていない場合は何もしない
     if (!ref) return;
     // IntersectionObserverを作成
@@ -90,11 +95,16 @@ const LazyImage = ({
         // 要素がビューポートに入った場合
         if (entry.isIntersecting) {
           setBlurVisible(true); // isVisibleをtrueに更新
+          console.log(isBlurVisible);
 
           observer.disconnect(); // 一度表示したら監視を停止
         }
       },
-      { rootMargin: scrollSpeed > 50 ? "1000px" : "300px" } // スクロール速度に応じて範囲を調整
+      {
+        // スクロール速度に応じてrootMarginを調整
+        rootMargin: "0px 0px 0px 1000px",
+        threshold: 0.1, // 要素の10%が交差したときにトリガー
+      }
     );
 
     // refで指定された要素を監視対象として設定
