@@ -4,7 +4,10 @@ import { AppContext } from "../pages/_app";
 import styles from "../styles/LazyImage.css.module.css";
 
 const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isSkeletonVisible, setSkeletonVisible] = useState(true); // スケルトンの表示状態
+  const [isBlurVisible, setBlurVisible] = useState(false); // blurDataURL の表示状態
+
+  // const [isVisible, setIsVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [ref, setRef] = useState(null);
   const { windowHeight } = useContext(AppContext);
@@ -22,8 +25,6 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
       return emaki.src; // デスクトップ用
     }
   };
-
-  console.log(src.src);
 
   const cloudinaryLoader = ({ src, width, quality }) => {
     return `https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive,f_jpg,w_${width},q_${
@@ -64,29 +65,7 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
     }
   };
 
-  // useEffect(() => {
-  //   // IntersectionObserverのコールバック関数を設定。
-  //   // 1つのエントリ (entry) を観察し、要素がビューポートに入ったか確認します。
-  //   const observer = new IntersectionObserver(([entry]) => {
-  //     // entry.isIntersecting: 要素がビューポート内に入っている場合は true
-  //     if (entry.isIntersecting) {
-  //       setIsVisible(true); // 要素が見えたら状態を更新して isVisible を true に設定
-  //       observer.disconnect(); // 一度見えたら監視を停止
-  //     }
-  //   });
-
-  //   // `src`（画像の識別子）に基づいて対象のDOM要素を取得
-  //   const element = document.getElementById(src);
-
-  //   // 要素が存在する場合のみ IntersectionObserver で監視を開始
-  //   if (element) observer.observe(element);
-
-  //   // コンポーネントがアンマウントされた時にクリーンアップ処理を実行
-  //   // IntersectionObserver を停止してリソースを解放
-  //   return () => observer.disconnect();
-  // }, [src]); // `src`が変更されるたびに useEffect が再実行される
-
-  useEffect(() => {
+ useEffect(() => {
     // refが設定されていない場合は何もしない
     if (!ref) return;
 
@@ -95,7 +74,9 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
       ([entry]) => {
         // 要素がビューポートに入った場合
         if (entry.isIntersecting) {
-          setIsVisible(true); // isVisibleをtrueに更新
+          setBlurVisible(true); // isVisibleをtrueに更新
+          console.log(true);
+
           observer.disconnect(); // 一度表示したら監視を停止
         }
       },
@@ -108,7 +89,6 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
     // クリーンアップ関数: コンポーネントのアンマウント時に監視を停止
     return () => observer.disconnect();
   }, [ref]); // refが変更されるたびにuseEffectが再実行される
-
 
   const { orientation, toggleFullscreen } = useContext(AppContext);
 
@@ -136,7 +116,9 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
       // IntersectionObserverで監視する対象のdiv
       ref={setRef}
     >
-      {isVisible && (
+      {/* スケルトン: 画像がロードされるまで表示 */}
+      {isSkeletonVisible && <div className="skeleton"></div>}
+      {isBlurVisible && (
         <Image
           loader={config === "cloudinary" ? cloudinaryLoader : undefined} // Cloudinaryが有効な場合のみローダー適用
           src={src.src} // Cloudinaryの画像ID
@@ -149,8 +131,8 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
           // placeholder={index > 2 ? "blur" : undefined} // 最初の2枚だけぼかしプレースホルダーを適用
           placeholder={"blur"}
           blurDataURL={config === "cloudinary" ? blurImage : srcSp}
-          onLoadingComplete={() => setIsLoaded(true)} // 読み込み完了時に状態を更新
-          className={`image ${isLoaded ? "loaded" : "loading"}`} // 状態に応じたクラスを付与
+          onLoadingComplete={() => setSkeletonVisible(false)} // 読み込み完了時に状態を更新
+          className={`image ${isBlurVisible ? "loaded" : "loading"}`} // 状態に応じたクラスを付与
         />
       )}
       <style jsx global>{`
@@ -162,16 +144,38 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
           height: ${height}px;
           overflow: hidden;
         }
-
+        .skeleton {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(
+            90deg,
+            #e0e0e0 25%,
+            #f0f0f0 50%,
+            #e0e0e0 75%
+          );
+          background-size: 200% 100%;
+          animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+          0% {
+            background-position: -200% 0;
+          }
+          100% {
+            background-position: 200% 0;
+          }
+        }
         /* 初期状態：透明＆ぼかし */
         .image.loading {
           filter: blur(5px); /* 初期はぼかしが強い */
-          animation: fadeLoading 1s forwards;
+          // animation: fadeLoading 1s forwards;
         }
 
         /* 読み込み完了後：なめらかにフェードイン＆ぼかし解除 */
         .image.loaded {
-          animation: fadeLoaded 1s forwards;
+          animation: fadeLoaded .5s ease-in forwards;
         }
 
         @keyframes fadeLoading {
@@ -180,7 +184,7 @@ const LazyImage = ({ src, alt, width, height, srcSp, config }, index) => {
           }
 
           100% {
-            filter: blur(2px);
+            filter: blur(3px);
           }
         }
 
