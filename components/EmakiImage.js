@@ -24,7 +24,10 @@ const EmakiImage = ({
     navIndex,
     character,
     ebiki,
-  },item
+  },
+  scrollSpeed,
+  lastScrollX,
+  item,
 }) => {
   const {
     scrollDialog,
@@ -190,6 +193,8 @@ const EmakiImage = ({
         index={index}
         srcSp={item.srcSp}
         config={config}
+        scrollSpeed={scrollSpeed}
+        lastScrollX={lastScrollX}
       />
       {/* {index <= 1 && (
         <picture>
