@@ -22,9 +22,6 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
   const { chapter, gendaibun, cat, desc } = item;
   const { genjieslug, title, titleen, era } = data;
 
-  console.log(orientation);
-
-
  return (
    <AccordionItem
      sx={{
