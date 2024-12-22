@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import Image from "next/image";
 import { AppContext } from "../pages/_app";
 import styles from "../styles/LazyImage.css.module.css";
@@ -10,18 +10,16 @@ const LazyImage = ({
   height,
   srcSp,
   config,
-  scrollSpeed,
-  lastScrollX,
+  isBlurVisible,
+  uniqueKey,
   index,
+  uniqueIndex,
 }) => {
   const [isSkeletonVisible, setSkeletonVisible] = useState(true); // スケルトンの表示状態
-  const [isBlurVisible, setBlurVisible] = useState(false); // blurDataURL の表示状態
   // const [isVisible, setIsVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [ref, setRef] = useState(null);
   const { windowHeight, orientation, toggleFullscreen } =
     useContext(AppContext);
-
 
   const baseUrl =
     "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
@@ -76,44 +74,6 @@ const LazyImage = ({
     }
   };
 
-  useEffect(() => {
-    if (isBlurVisible) {
-      console.log("Blur removed for visible element");
-    }
-  }, [isBlurVisible]);
-
-
-  useEffect(() => {
-      // console.log("Current scrollSpeed:", scrollSpeed); // 現在のスクロール速度をログ出力
-      // const margin = scrollSpeed > 50 ? "1000px" : "300px";
-      // console.log("Root margin set to:", margin);
-    // refが設定されていない場合は何もしない
-    if (!ref) return;
-    // IntersectionObserverを作成
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // 要素がビューポートに入った場合
-        if (entry.isIntersecting) {
-          setBlurVisible(true); // isVisibleをtrueに更新
-          console.log(isBlurVisible);
-
-          observer.disconnect(); // 一度表示したら監視を停止
-        }
-      },
-      {
-        // スクロール速度に応じてrootMarginを調整
-        rootMargin: "0px 0px 0px 1000px",
-        threshold: 0.1, // 要素の10%が交差したときにトリガー
-      }
-    );
-
-    // refで指定された要素を監視対象として設定
-    observer.observe(ref);
-
-    // クリーンアップ関数: コンポーネントのアンマウント時に監視を停止
-    return () => observer.disconnect();
-  }, [ref, scrollSpeed]); // refが変更されるたびにuseEffectが再実行される
-
   const getResponsiveWidth = (full, ori) => {
     if (full && ori === "landscape") {
       return 100;
@@ -126,7 +86,7 @@ const LazyImage = ({
 
   return (
     <div
-      id={src}
+      id={index}
       className={`image-wrapper`}
       style={{
         width: `${
@@ -135,8 +95,6 @@ const LazyImage = ({
         // width: `${width}px`,
         position: "relative",
       }}
-      // IntersectionObserverで監視する対象のdiv
-      ref={setRef}
     >
       {/* スケルトン: 画像がロードされるまで表示 */}
       {isSkeletonVisible && <div className="skeleton"></div>}
@@ -147,16 +105,16 @@ const LazyImage = ({
           width={width}
           height={height}
           alt={alt}
-          // priority={index < 2} // 最初の1枚だけ優先的に読み込み
-          priority={index === 0} // 最初の画像は即時プリロード
-          loading={index < 2 ? "eager" : "lazy"} // 最初の2枚は即時読み込み
-          // placeholder={index > 2 ? "blur" : undefined} // 最初の2枚だけぼかしプレースホルダーを適用
-          placeholder={"blur"}
+          priority={uniqueIndex === 0} // 最初の画像は即時プリロード
+          loading={uniqueIndex < 2 ? "eager" : "lazy"} // 最初の2枚は即時読み込み
+          placeholder={"blur"} // 最初の2枚だけぼかしプレースホルダーを適用
           blurDataURL={config === "cloudinary" ? blurImage : srcSp}
           onLoadingComplete={() => setSkeletonVisible(false)} // 読み込み完了時に状態を更新
           className={`image ${isBlurVisible ? "loaded" : "loading"}`} // 状態に応じたクラスを付与
+          // className={`image ${isBlurVisible ? "loaded" : "loading"}`} // 状態に応じたクラスを付与
         />
       )}
+      )
       <style jsx global>{`
         .imageWrapper {
           position: relative; /* Imageの親要素として必要 */
