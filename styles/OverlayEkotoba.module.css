@@ -1,6 +1,7 @@
 .container {
+  height: 100%;
   position: relative;
-  /* overflow: hidden; */
+
 }
 
 .ekotobaimagebox {
@@ -52,8 +53,8 @@
 
 .chapterbox {
   display: grid;
-    grid-template-columns: min-content auto;
-    height: fit-content;
+  grid-template-columns: min-content auto;
+  height: fit-content;
   align-items: center;
   letter-spacing: 0.2rem;
   z-index: 0;
@@ -89,7 +90,7 @@
   font-weight: 400;
   font-family: var(--text-font-koten);
   /* text-combine-upright: all; */
-  white-space:nowrap;
+  white-space: nowrap;
 }
 
 .gendaibun {
