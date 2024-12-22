@@ -63,7 +63,6 @@ const EmakiContainer = ({
     if (scrollSpeed > 50) {
       setRootMargin("1000px");
     }
-    console.log(scrollSpeed, rootMargin);
   }, [scrollSpeed, rootMargin]);
 
   useEffect(() => {
@@ -73,7 +72,6 @@ const EmakiContainer = ({
       entries.forEach(
         (entry) => {
           if (entry.isIntersecting) {
-            console.log("Intersecting:", entry.target);
             setBlurVisible(true);
             // observer.unobserve(entry.target); // 個別に監視を解除
           }
@@ -117,7 +115,6 @@ const EmakiContainer = ({
       //sessionStorageにキーと値を追加
       sessionStorage.setItem(keyName, keyValue);
 
-      console.log("first visited");
 
       //初回アクセス時の処理
       new ScrollHint(".js-scrollable", {
@@ -141,7 +138,6 @@ const EmakiContainer = ({
       });
     } else {
       //ここに通常アクセス時の処理
-      console.log("already visited");
     }
   }, []);
 
