@@ -280,6 +280,7 @@ const EmakiContainer = ({
                 navIndex={navIndex}
                 isBlurVisible={isBlurVisible}
                 uniqueIndex={item.uniqueIndex} // 新しい連番を渡す
+                scroll={scroll}
               />
             );
           })}
