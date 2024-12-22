@@ -271,7 +271,7 @@ export const getStaticProps = async (context) => {
       data: addObjEmakis,
       locales,
       locale,
-      slug,
+      slug: slug,
       test: addObjEmakis,
     },
   };

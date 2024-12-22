@@ -40,6 +40,7 @@ const OverlayEkotoba = ({
     cat,
     data,
     googlemap,
+    uniqueIndex,
   },
   item,
 }) => {
@@ -84,7 +85,7 @@ const OverlayEkotoba = ({
   };
 
   return (
-    <section
+    <div
       className={`section fade-in lazyload ${
         type === "西洋絵画" ? styles.ekotobalr : styles.ekotobarl
       } ${
@@ -185,7 +186,7 @@ const OverlayEkotoba = ({
           />
         </div>
       )}
-    </section>
+    </div>
   );
 };
 

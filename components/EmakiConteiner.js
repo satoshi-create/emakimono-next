@@ -11,13 +11,14 @@ import Sidebar from "./Sidebar";
 import EmakiInfo from "../components/EmakiInfo";
 import EmakiNavigation from "../components/EmakiNavigation";
 import Modal from "./Modal";
-import KotenText from "./KotenText";
+
 import OverlayEkotoba from "./OverlayEkotoba";
 import ModalMap from "./ModalMap";
 import ModalDesc from "./ModalDesc";
 import ModalDescGenji from "./ModalDescGenji";
 import ScrollHint from "scroll-hint";
 import CarouselButton from "./CarouselButton";
+import SwitcherEmaki from "./SwitcherEmaki";
 
 const EmakiContainer = ({
   data,
@@ -53,13 +54,45 @@ const EmakiContainer = ({
 
   const [scrollSpeed, setScrollSpeed] = useState(0);
   const [lastScrollX, setLastScrollX] = useState(0);
+  const [rootMargin, setRootMargin] = useState("300px");
+  const [isBlurVisible, setBlurVisible] = useState(false); // blurDataURL の表示状態
 
-  console.log({scrollSpeed,lastScrollX});
+  const sectionRefs = useRef([]);
 
+  useEffect(() => {
+    if (scrollSpeed > 50) {
+      setRootMargin("1000px");
+    }
+    console.log(scrollSpeed, rootMargin);
+  }, [scrollSpeed, rootMargin]);
 
-  // useEffect(() => {
-  //   setLastScrollX(0); // 初期値をリセット
-  // }, []);
+  useEffect(() => {
+    if (sectionRefs.current.length !== emakis.length) return; // 全要素が設定されるまで待機
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(
+        (entry) => {
+          if (entry.isIntersecting) {
+            console.log("Intersecting:", entry.target);
+            setBlurVisible(true);
+            // observer.unobserve(entry.target); // 個別に監視を解除
+          }
+        },
+        { rootMargin: rootMargin, threshold: 0 }
+      );
+    });
+
+    sectionRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => {
+      sectionRefs.current.forEach((ref) => {
+        if (ref) observer.unobserve(ref);
+      });
+      return () => observer.disconnect();
+    };
+  }, [emakis,rootMargin]);
 
   useEffect(() => {
     if (!articleRef.current) return;
@@ -155,6 +188,32 @@ const EmakiContainer = ({
     }
   }, [scroll]);
 
+  // 配列を展開し、条件ごとに連番を付与
+  const processedEmakis = data.emakis.reduce(
+    (acc, item, index) => {
+      if (item.cat === "image") {
+        acc.imageCounter += 1; // 画像のカウンターをインクリメント
+        acc.result.push({
+          ...item,
+          uniqueIndex: acc.imageCounter - 1, // 独立した連番
+        });
+      } else if (item.cat === "ekotoba") {
+        acc.ekotobaCounter += 1; // エコトバのカウンターをインクリメント
+        acc.result.push({
+          ...item,
+          uniqueIndex: acc.ekotobaCounter - 1, // 独立した連番
+        });
+      } else {
+        acc.result.push({
+          ...item,
+          uniqueIndex: null, // その他の場合、連番なし
+        });
+      }
+      return acc;
+    },
+    { result: [], imageCounter: 0, ekotobaCounter: 0 }
+  ).result;
+
   return (
     <div
       className={`${
@@ -203,62 +262,26 @@ const EmakiContainer = ({
           onClick={() => setOepnSidebar(false)}
           ref={articleRef}
         >
-          {emakis.map((item, index) => {
+          {processedEmakis.map((item, index) => {
             const { cat, src } = item;
-            if (data.type !== "古典文学") {
-              if (cat === "image") {
-                return (
-                  <EmakiImage
-                    key={index}
-                    item={{
-                      ...item,
-                      index,
-                      scroll,
-                      selectedRef,
-                      navIndex,
-                    }}
-                    scrollSpeed={scrollSpeed}
-                    lastScrollX={lastScrollX}
-                  />
-                );
-              }
-              if (cat === "ekotoba") {
-                return (
-                  <OverlayEkotoba
-                    key={index}
-                    item={{
-                      ...item,
-                      cat,
-                      index,
-                      backgroundImage,
-                      kotobagaki,
-                      type,
-                      scroll,
-                      selectedRef,
-                      navIndex,
-                      data,
-                    }}
-                  />
-                );
-              }
-            }
-            if (data.type === "古典文学") {
-              return (
-                <KotenText
-                  key={index}
-                  item={{
-                    ...item,
-                    index,
-                    backgroundImage,
-                    kotobagaki,
-                    type,
-                    scroll,
-                    selectedRef,
-                    navIndex,
-                  }}
-                />
-              );
-            }
+            return (
+              <SwitcherEmaki
+                key={index}
+                ref={(el) => (sectionRefs.current[index] = el)}
+                cat={cat}
+                data={data}
+                item={item}
+                index={index}
+                src={src}
+                backgroundImage={backgroundImage}
+                kotobagaki={kotobagaki}
+                type={type}
+                selectedRef={selectedRef}
+                navIndex={navIndex}
+                isBlurVisible={isBlurVisible}
+                uniqueIndex={item.uniqueIndex} // 新しい連番を渡す
+              />
+            );
           })}
         </article>
       </div>

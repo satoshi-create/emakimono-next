@@ -18,6 +18,7 @@
   display: flex;
   height: var(--screen-height);
   overflow-y: hidden;
+  /* overflow-y: auto; */
   overflow-x: var(--overflow-x);
   /* position: relative; */
 }
@@ -26,6 +27,7 @@
   display: flex !important;
   height: var(--screen-height);
   overflow-y: hidden;
+  /* overflow-y: auto; */
   overflow-x: var(--overflow-x);
   position: relative;
   box-shadow: var(--shadow-1)

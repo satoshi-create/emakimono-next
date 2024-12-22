@@ -15,6 +15,8 @@ const SingleCardC = ({ item ,i}) => {
             height={130}
             alt={title}
             className={styles.image}
+            loading="lazy"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
           />
         </a>
       </Link>
