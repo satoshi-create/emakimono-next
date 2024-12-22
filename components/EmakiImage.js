@@ -1,4 +1,4 @@
-import React, { useRef,useState,useEffect, useContext } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import styles from "../styles/EmakiImage.module.css";
 import ResposiveImage from "./ResposiveImage";
 import { AppContext } from "../pages/_app";
@@ -24,9 +24,9 @@ const EmakiImage = ({
     navIndex,
     character,
     ebiki,
+    uniqueIndex,
   },
-  scrollSpeed,
-  lastScrollX,
+  isBlurVisible,
   item,
 }) => {
   const {
@@ -36,6 +36,7 @@ const EmakiImage = ({
     ebikiToggle,
     windowHeight,
   } = useContext(AppContext);
+
 
   const characterOuntline = (x) => {
     switch (x) {
@@ -63,7 +64,7 @@ const EmakiImage = ({
   };
 
   return (
-    <section
+    <div
       className={`section ${styles.emakiimage}`}
       id={`${index}`}
       // ref={navIndex === index ? selectedRef : null}
@@ -193,45 +194,10 @@ const EmakiImage = ({
         index={index}
         srcSp={item.srcSp}
         config={config}
-        scrollSpeed={scrollSpeed}
-        lastScrollX={lastScrollX}
+        isBlurVisible={isBlurVisible}
+        uniqueIndex={uniqueIndex}
       />
-      {/* {index <= 1 && (
-        <picture>
-          <source
-            data-srcset={srcTb}
-            media="(max-height: 800px)"
-            type="image/webp"
-          />
-          <img
-            loading="eager"
-            src={srcSp}
-            data-src={src}
-            // data-size="auto"
-            // className={`fade-in lazyload ${styles.emakiImg}`}
-            className={`fade-in ${styles.emakiImg} lazyload`}
-            alt={name}
-            width={srcWidth}
-            height={srcHeight}
-          />
-        </picture>
-      )}
-      {index >= 2 && (
-        <ResposiveImage
-          value={{
-            srcSp,
-            srcTb,
-            src,
-            load,
-            name,
-            srcWidth,
-            srcHeight,
-            index,
-            scroll,
-          }}
-        />
-      )} */}
-    </section>
+    </div>
   );
 };
 
