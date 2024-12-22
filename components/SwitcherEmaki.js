@@ -1,7 +1,8 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useContext, useEffect } from "react";
 import OverlayEkotoba from "./OverlayEkotoba";
 import EmakiImage from "./EmakiImage";
 import KotenText from "./KotenText";
+import { AppContext } from "../pages/_app";
 
 const SwitcherEmaki = forwardRef(
   (
@@ -44,7 +45,9 @@ const SwitcherEmaki = forwardRef(
       }
       if (cat === "ekotoba") {
         return (
-          <section ref={ref}>
+          <section
+            ref={ref}
+          >
             <OverlayEkotoba
               key={index}
               item={{
