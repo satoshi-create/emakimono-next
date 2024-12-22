@@ -78,7 +78,6 @@ const OverlayEkotoba = ({
     setekotobaToggle(false);
   }, [setEkotobaImageToggle, setekotobaToggle, scroll]);
 
-  console.log(ekotobaImageToggle);
 
 
   const parseEkotobaId = (ekotobaId) => {
