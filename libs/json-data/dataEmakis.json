@@ -2736,146 +2736,186 @@
       }
     ],
     "sourceEkotoba": "",
-    "emakis":[
+    "emakis": [
       {
         "cat": "ekotoba",
         "chapter": "0",
         "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734435432/kusouzu_01-1080_mxunmp.webp",
-        "name": "kusouzu_01"
+        "src": "v1734520763/kusouzu_01-1080_ysfciy.jpg",
+        "name": "kusouzu_01",
+        "srcWidth": "1757",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "1",
         "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734435431/kusouzu_02-1080_untgda.webp",
-        "name": "kusouzu_02"
+        "src": "v1734520764/kusouzu_02-1080_wqbi7h.jpg",
+        "name": "kusouzu_02",
+        "srcWidth": "1693",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "2",
         "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734435432/kusouzu_03-1080_ulovq4.webp",
-        "name": "kusouzu_03"
+        "src": "v1734520763/kusouzu_03-1080_juu9x7.jpg",
+        "name": "kusouzu_03",
+        "srcWidth": "1708",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "3",
         "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734435431/kusouzu_04-1080_itupzb.webp",
-        "name": "kusouzu_04"
+        "src": "v1734520763/kusouzu_04-1080_yqwwf6.jpg",
+        "name": "kusouzu_04",
+        "srcWidth": "1685",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "4",
         "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734435432/kusouzu_05-1080_zu7mbm.webp",
-        "name": "kusouzu_05"
+        "src": "v1734520765/kusouzu_05-1080_rhwzlc.jpg",
+        "name": "kusouzu_05",
+        "srcWidth": "1682",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "5",
         "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734435431/kusouzu_06-1080_m12uue.webp",
-        "name": "kusouzu_06"
+        "src": "v1734520764/kusouzu_06-1080_bcwdxs.jpg",
+        "name": "kusouzu_06",
+        "srcWidth": "1705",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "6",
         "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734435431/kusouzu_07-1080_zn6f9u.webp",
-        "name": "kusouzu_07"
+        "src": "v1734520762/kusouzu_07-1080_ngsbqv.jpg",
+        "name": "kusouzu_07",
+        "srcWidth": "1711",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "7",
         "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734435431/kusouzu_08-1080_s38crd.webp",
-        "name": "kusouzu_08"
+        "src": "v1734520763/kusouzu_08-1080_mrrqbd.jpg",
+        "name": "kusouzu_08",
+        "srcWidth": "2180",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "8",
         "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734435431/kusouzu_09-1080_fw4csp.webp",
-        "name": "kusouzu_09"
+        "src": "v1734520764/kusouzu_09-1080_jvwxoy.jpg",
+        "name": "kusouzu_09",
+        "srcWidth": "1221",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "9",
         "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734435431/kusouzu_10-1080_phqmvs.webp",
-        "name": "kusouzu_10"
+        "src": "v1734520763/kusouzu_10-1080_dtv0tc.jpg",
+        "name": "kusouzu_10",
+        "srcWidth": "1771",
+        "srcHeight": "1080"
       }
     ]
 
@@ -2959,10 +2999,8 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "0",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "chapter": "生前相",
+        "config": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -2971,20 +3009,16 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "True",
-        "srcSp": "/kusouzu_eitaku_01-375.webp",
-        "srcTb": "/kusouzu_eitaku_01-800.webp",
-        "src": "/kusouzu_eitaku_01-1080.webp",
-        "name": "kusouzu_eitaku_01.webp",
+        "config": "cloudinary",
+        "src": "v1734610098/kusouzu_eitaku_01-1080_jdqkgl.jpg",
+        "name": "kusouzu_eitaku_01",
         "srcWidth": "2143",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "新死相",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -2993,20 +3027,16 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "True",
-        "srcSp": "/kusouzu_eitaku_02-375.webp",
-        "srcTb": "/kusouzu_eitaku_02-800.webp",
-        "src": "/kusouzu_eitaku_02-1080.webp",
-        "name": "kusouzu_eitaku_02.webp",
+        "config": "cloudinary",
+        "src": "v1734610238/kusouzu_eitaku_02-1080_uu97ee.jpg",
+        "name": "kusouzu_eitaku_02",
         "srcWidth": "2359",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "1",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -3015,20 +3045,16 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "False",
-        "srcSp": "/kusouzu_eitaku_03-375.webp",
-        "srcTb": "/kusouzu_eitaku_03-800.webp",
-        "src": "/kusouzu_eitaku_03-1080.webp",
-        "name": "kusouzu_eitaku_03.webp",
+        "config": "cloudinary",
+        "src": "v1734610240/kusouzu_eitaku_03-1080_oepcza.jpg",
+        "name": "kusouzu_eitaku_03",
         "srcWidth": "2422",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "2",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -3037,20 +3063,16 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "False",
-        "srcSp": "/kusouzu_eitaku_04-375.webp",
-        "srcTb": "/kusouzu_eitaku_04-800.webp",
-        "src": "/kusouzu_eitaku_04-1080.webp",
-        "name": "kusouzu_eitaku_04.webp",
+        "config": "cloudinary",
+        "src": "v1734610239/kusouzu_eitaku_04-1080_ie8t7k.jpg",
+        "name": "kusouzu_eitaku_04",
         "srcWidth": "2376",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "3",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -3059,20 +3081,16 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "False",
-        "srcSp": "/kusouzu_eitaku_05-375.webp",
-        "srcTb": "/kusouzu_eitaku_05-800.webp",
-        "src": "/kusouzu_eitaku_05-1080.webp",
-        "name": "kusouzu_eitaku_05.webp",
+        "config": "cloudinary",
+        "src": "v1734610240/kusouzu_eitaku_05-1080_zbtpqn.jpg",
+        "name": "kusouzu_eitaku_05",
         "srcWidth": "2396",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "4",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -3081,20 +3099,16 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "False",
-        "srcSp": "/kusouzu_eitaku_06-375.webp",
-        "srcTb": "/kusouzu_eitaku_06-800.webp",
-        "src": "/kusouzu_eitaku_06-1080.webp",
-        "name": "kusouzu_eitaku_06.webp",
+        "config": "cloudinary",
+        "src": "v1734610241/kusouzu_eitaku_06-1080_sfxgqr.jpg",
+        "name": "kusouzu_eitaku_06",
         "srcWidth": "2442",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "6",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -3103,20 +3117,16 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "False",
-        "srcSp": "/kusouzu_eitaku_07-375.webp",
-        "srcTb": "/kusouzu_eitaku_07-800.webp",
-        "src": "/kusouzu_eitaku_07-1080.webp",
-        "name": "kusouzu_eitaku_07.webp",
+        "config": "cloudinary",
+        "src": "v1734610240/kusouzu_eitaku_07-1080_ce1cmf.jpg",
+        "name": "kusouzu_eitaku_07",
         "srcWidth": "2350",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "7",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -3125,20 +3135,16 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "False",
-        "srcSp": "/kusouzu_eitaku_08-375.webp",
-        "srcTb": "/kusouzu_eitaku_08-800.webp",
-        "src": "/kusouzu_eitaku_08-1080.webp",
-        "name": "kusouzu_eitaku_08.webp",
+        "config": "cloudinary",
+        "src": "v1734610241/kusouzu_eitaku_08-1080_vovcje.jpg",
+        "name": "kusouzu_eitaku_08",
         "srcWidth": "2203",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "8",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -3147,11 +3153,9 @@
       {
         "cat": "image",
         "chapter": "",
-        "load": "False",
-        "srcSp": "/kusouzu_eitaku_09-375.webp",
-        "srcTb": "/kusouzu_eitaku_09-800.webp",
-        "src": "/kusouzu_eitaku_09-1080.webp",
-        "name": "kusouzu_eitaku_09.webp",
+        "config": "cloudinary",
+        "src": "v1734610240/kusouzu_eitaku_09-1080_irysz9.jpg",
+        "name": "kusouzu_eitaku_09",
         "srcWidth": "2483",
         "srcHeight": "1080"
       }
@@ -3228,200 +3232,180 @@
       {
         "cat": "ekotoba",
         "chapter": "九相詩序 ",
-        "srcSp": "/kusoushiemaki_01-375.webp",
-        "srcTb": "/kusoushiemaki_01-800.webp",
-        "src": "/kusoushiemaki_01-1080.webp",
-        "name": "kusoushiemaki_01.webp",
+        "config": "cloudinary",
+        "src": "v1734611297/kusoushiemaki_01-1080_w2xely.jpg",
+        "name": "kusoushiemaki_01",
         "srcWidth": "2883",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "1",
-        "srcSp": "/kusoushiemaki_02-375.webp",
-        "srcTb": "/kusoushiemaki_02-800.webp",
-        "src": "/kusoushiemaki_02-1080.webp",
-        "name": "kusoushiemaki_02.webp",
+        "config": "cloudinary",
+        "src": "v1734611298/kusoushiemaki_02-1080_y6jcit.jpg",
+        "name": "kusoushiemaki_02",
         "srcWidth": "1685",
         "srcHeight": "1080"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcSp": "/kusoushiemaki_03-375.webp",
-        "srcTb": "/kusoushiemaki_03-800.webp",
-        "src": "/kusoushiemaki_03-1080.webp",
-        "name": "kusoushiemaki_03.webp",
+        "config": "cloudinary",
+        "src": "v1734611297/kusoushiemaki_03-1080_d1bufk.jpg",
+        "name": "kusoushiemaki_03",
         "srcWidth": "1725",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "2",
-        "srcSp": "/kusoushiemaki_04-375.webp",
-        "srcTb": "/kusoushiemaki_04-800.webp",
-        "src": "/kusoushiemaki_04-1080.webp",
-        "name": "kusoushiemaki_04.webp",
+        "config": "cloudinary",
+        "src": "v1734611297/kusoushiemaki_04-1080_ynzpwa.jpg",
+        "name": "kusoushiemaki_04",
         "srcWidth": "1659",
         "srcHeight": "1080"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcSp": "/kusoushiemaki_05-375.webp",
-        "srcTb": "/kusoushiemaki_05-800.webp",
-        "src": "/kusoushiemaki_05-1080.webp",
-        "name": "kusoushiemaki_05.webp",
+        "config": "cloudinary",
+        "src": "v1734611297/kusoushiemaki_05-1080_zz6hn5.jpg",
+        "name": "kusoushiemaki_05",
         "srcWidth": "1725",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "3",
-        "srcSp": "/kusoushiemaki_06-375.webp",
-        "srcTb": "/kusoushiemaki_06-800.webp",
-        "src": "/kusoushiemaki_06-1080.webp",
-        "name": "kusoushiemaki_06.webp",
+        "config": "cloudinary",
+        "src": "v1734611299/kusoushiemaki_06-1080_l2iprl.jpg",
+        "name": "kusoushiemaki_06",
         "srcWidth": "1696",
         "srcHeight": "1080"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcSp": "/kusoushiemaki_07-375.webp",
-        "srcTb": "/kusoushiemaki_07-800.webp",
-        "src": "/kusoushiemaki_07-1080.webp",
-        "name": "kusoushiemaki_07.webp",
+        "config": "cloudinary",
+        "src": "v1734611300/kusoushiemaki_07-1080_smlm3s.jpg",
+        "name": "kusoushiemaki_07",
         "srcWidth": "1728",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "4",
-        "srcSp": "/kusoushiemaki_08-375.webp",
-        "srcTb": "/kusoushiemaki_08-800.webp",
-        "src": "/kusoushiemaki_08-1080.webp",
-        "name": "kusoushiemaki_08.webp",
+        "config": "cloudinary",
+        "src": "v1734611300/kusoushiemaki_08-1080_e3zpn9.jpg",
+        "name": "kusoushiemaki_08",
         "srcWidth": "1783",
         "srcHeight": "1080"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcSp": "/kusoushiemaki_09-375.webp",
-        "srcTb": "/kusoushiemaki_09-800.webp",
-        "src": "/kusoushiemaki_09-1080.webp",
-        "name": "kusoushiemaki_09.webp",
+        "config": "cloudinary",
+        "src": "v1734611301/kusoushiemaki_09-1080_rfh4ev.jpg",
+        "name": "kusoushiemaki_09",
         "srcWidth": "1714",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "5",
-        "srcSp": "/kusoushiemaki_10-375.webp",
-        "srcTb": "/kusoushiemaki_10-800.webp",
-        "src": "/kusoushiemaki_10-1080.webp",
-        "name": "kusoushiemaki_10.webp",
+        "config": "cloudinary",
+        "src": "v1734611307/kusoushiemaki_10-1080_euvrnz.jpg",
+        "name": "kusoushiemaki_10",
         "srcWidth": "1745",
         "srcHeight": "1080"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcSp": "/kusoushiemaki_11-375.webp",
-        "srcTb": "/kusoushiemaki_11-800.webp",
-        "src": "/kusoushiemaki_11-1080.webp",
-        "name": "kusoushiemaki_11.webp",
+        "config": "cloudinary",
+        "src": "v1734611309/kusoushiemaki_11-1080_i5plgh.jpg",
+        "name": "kusoushiemaki_11",
         "srcWidth": "1716",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "6",
-        "srcSp": "/kusoushiemaki_12-375.webp",
-        "srcTb": "/kusoushiemaki_12-800.webp",
-        "src": "/kusoushiemaki_12-1080.webp",
-        "name": "kusoushiemaki_12.webp",
+        "config": "cloudinary",
+        "src": "v1734611310/kusoushiemaki_12-1080_bdrr0f.jpg",
+        "name": "kusoushiemaki_12",
         "srcWidth": "1751",
         "srcHeight": "1080"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcSp": "/kusoushiemaki_13-375.webp",
-        "srcTb": "/kusoushiemaki_13-800.webp",
-        "src": "/kusoushiemaki_13-1080.webp",
-        "name": "kusoushiemaki_13.webp",
+        "config": "cloudinary",
+        "src": "v1734611310/kusoushiemaki_13-1080_iawjwm.jpg",
+        "name": "kusoushiemaki_13",
         "srcWidth": "1751",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "7",
-        "srcSp": "/kusoushiemaki_14-375.webp",
-        "srcTb": "/kusoushiemaki_14-800.webp",
-        "src": "/kusoushiemaki_14-1080.webp",
-        "name": "kusoushiemaki_14.webp",
+        "config": "cloudinary",
+        "src": "v1734611311/kusoushiemaki_14-1080_udvx52.jpg",
+        "name": "kusoushiemaki_14",
         "srcWidth": "1714",
         "srcHeight": "1080"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcSp": "/kusoushiemaki_15-375.webp",
-        "srcTb": "/kusoushiemaki_15-800.webp",
-        "src": "/kusoushiemaki_15-1080.webp",
-        "name": "kusoushiemaki_15.webp",
+        "config": "cloudinary",
+        "src": "v1734611311/kusoushiemaki_15-1080_oeifpo.jpg",
+        "name": "kusoushiemaki_15",
         "srcWidth": "1745",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "8",
-        "srcSp": "/kusoushiemaki_16-375.webp",
-        "srcTb": "/kusoushiemaki_16-800.webp",
-        "src": "/kusoushiemaki_16-1080.webp",
-        "name": "kusoushiemaki_16.webp",
+        "config": "cloudinary",
+        "src": "v1734611311/kusoushiemaki_16-1080_hw5hdj.jpg",
+        "name": "kusoushiemaki_16",
         "srcWidth": "1668",
         "srcHeight": "1080"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcSp": "/kusoushiemaki_17-375.webp",
-        "srcTb": "/kusoushiemaki_17-800.webp",
-        "src": "/kusoushiemaki_17-1080.webp",
-        "name": "kusoushiemaki_17.webp",
+        "config": "cloudinary",
+        "src": "v1734611296/kusoushiemaki_17-1080_hcdqvd.jpg",
+        "name": "kusoushiemaki_17",
         "srcWidth": "1731",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "9",
-        "srcSp": "/kusoushiemaki_18-375.webp",
-        "srcTb": "/kusoushiemaki_18-800.webp",
-        "src": "/kusoushiemaki_18-1080.webp",
-        "name": "kusoushiemaki_18.webp",
+        "config": "cloudinary",
+        "src": "v1734611296/kusoushiemaki_18-1080_ocz1vp.jpg",
+        "name": "kusoushiemaki_18",
         "srcWidth": "1630",
         "srcHeight": "1080"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcSp": "/kusoushiemaki_19-375.webp",
-        "srcTb": "/kusoushiemaki_19-800.webp",
-        "src": "/kusoushiemaki_19-1080.webp",
-        "name": "kusoushiemaki_19.webp",
+        "config": "cloudinary",
+        "src": "v1734611296/kusoushiemaki_19-1080_oubt6p.jpg",
+        "name": "kusoushiemaki_19",
         "srcWidth": "1731",
         "srcHeight": "1080"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcSp": "/kusoushiemaki_20-375.webp",
-        "srcTb": "/kusoushiemaki_20-800.webp",
-        "src": "/kusoushiemaki_20-1080.webp",
-        "name": "kusoushiemaki_20.webp",
+        "config": "cloudinary",
+        "src": "v1734611297/kusoushiemaki_20-1080_lsghxh.jpg",
+        "name": "kusoushiemaki_20",
         "srcWidth": "1863",
         "srcHeight": "1080"
       }

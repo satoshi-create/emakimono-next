@@ -45,9 +45,7 @@ const SwitcherEmaki = forwardRef(
       }
       if (cat === "ekotoba") {
         return (
-          <section
-            ref={ref}
-          >
+          <section ref={ref}>
             <OverlayEkotoba
               key={index}
               item={{
@@ -61,7 +59,9 @@ const SwitcherEmaki = forwardRef(
                 selectedRef,
                 navIndex,
                 data,
+                uniqueIndex,
               }}
+              isBlurVisible={isBlurVisible}
             />
           </section>
         );

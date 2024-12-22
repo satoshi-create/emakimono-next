@@ -43,6 +43,7 @@ const OverlayEkotoba = ({
     uniqueIndex,
   },
   item,
+  isBlurVisible
 }) => {
   const {
     setekotobaToggle,
@@ -55,6 +56,8 @@ const OverlayEkotoba = ({
     openDescModal,
     handleToId,
   } = useContext(AppContext);
+
+  console.log(srcHeight);
 
   const { title, titleen } = data;
 
@@ -77,9 +80,6 @@ const OverlayEkotoba = ({
     }
     setekotobaToggle(false);
   }, [setEkotobaImageToggle, setekotobaToggle, scroll]);
-
-  console.log(ekotobaImageToggle);
-
 
   const parseEkotobaId = (ekotobaId) => {
     if (ekotobaId) {
@@ -174,20 +174,18 @@ const OverlayEkotoba = ({
       </div>
 
       {src && (
-        <div className={styles.ekotobaimagebox}>
-          <ResposiveImage
-            value={{
-              srcSp,
-              srcTb,
-              src,
-              load,
-              name,
-              scroll,
-              srcWidth,
-              srcHeight,
-            }}
-          />
-        </div>
+        <LazyImage
+          key={index}
+          src={item}
+          alt={name}
+          width={srcWidth}
+          height={srcHeight}
+          index={index}
+          srcSp={srcSp}
+          config={config}
+          isBlurVisible={isBlurVisible}
+          uniqueIndex={uniqueIndex}
+        />
       )}
     </div>
   );
