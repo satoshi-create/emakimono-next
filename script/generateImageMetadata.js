@@ -41,7 +41,10 @@ const data = dataEmakis.concat(
       // 各emakis配列を処理
       const updatedEmakis = await Promise.all(
         item.emakis.map(async (emaki) => {
-          if (emaki.cat === "image") {
+          if (
+            (emaki.cat === "image" && emaki.config !== "cloudinary") ||
+            (emaki.cat === "ekotoba" && emaki.src)
+          ) {
             const filePath = path.join(process.cwd(), "public", emaki.src);
 
             if (!fs.existsSync(filePath)) {
