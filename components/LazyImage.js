@@ -57,7 +57,12 @@ const LazyImage = ({
   };
 
   // 低解像度画像（ぼかしプレースホルダー用）
-  const blurImage = `${baseUrl}/w_10,h_10,c_fill,q_auto:low/${src.src}`;
+  // const blurImage = `${baseUrl}/w_10,h_10,c_fill,q_auto:low/${src.src}`;
+
+   const aspectRatio = width / height; // アスペクト比を計算
+  const calculatedWidth = Math.round(375 * aspectRatio); // 高さから幅を計算
+
+  const blurImage = `${baseUrl}/w_${calculatedWidth},h_375,c_fit/${src.src}`; // スマートフォン用
 
   // 少し大きめの低解像度画像（ぼかしプレースホルダー用）
   // const blurImage = `${baseUrl}/w_50,h_50,c_fill,q_auto:low/${src.src}`;
