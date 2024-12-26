@@ -16,8 +16,6 @@ const LazyImage = ({
   index,
   uniqueIndex,
 }) => {
-
-
   const [isSkeletonVisible, setSkeletonVisible] = useState(true); // スケルトンの表示状態
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
@@ -56,18 +54,19 @@ const LazyImage = ({
   //   }/${src}`;
   // };
 
-  const aspectRatio = width / height; // アスペクト比を計算
-  const calculatedWidth = Math.round(375 * aspectRatio); // 高さから幅を計算
-
   const cloudinaryLoader = ({ src, quality }) => {
     const aspectRatio = width / height; // アスペクト比を計算
 
     // デバイスの高さに応じてCloudinaryの画像サイズを動的に調整
     if (windowHeight <= 800) {
       const calculatedWidth = Math.round(800 * aspectRatio); // 高さから幅を計算
-      return `${baseUrl}/w_${calculatedWidth},h_800,c_fit/${src}`; // スマホ・タブレット用
+      return `${baseUrl}/w_${calculatedWidth},h_800,q_${
+        quality || 75
+      },c_fit/${src}`; // スマホ・タブレット用
     } else {
-      return `${baseUrl}/w_${width},h_${height},c_fit/${src}`; // デスクトップ用
+      return `${baseUrl}/w_${width},h_${height},q_${
+        quality || 75
+      },c_fit/${src}`; // デスクトップ用
     }
   };
 
@@ -88,6 +87,9 @@ const LazyImage = ({
 
   // 低解像度画像（ぼかしプレースホルダー用）
   // const blurImage = `${baseUrl}/w_10,h_10,c_fill,q_auto:low/${src.src}`;
+
+  const aspectRatio = width / height; // アスペクト比を計算
+  const calculatedWidth = Math.round(375 * aspectRatio); // 高さから幅を計算
 
   const blurImage = `${baseUrl}/w_${calculatedWidth},h_375,c_fit/${src.src}`; // スマートフォン用
 
