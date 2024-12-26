@@ -9,58 +9,85 @@ const LazyImage = ({
   width,
   height,
   srcSp,
+  srcTb,
   config,
   isBlurVisible,
   uniqueKey,
   index,
   uniqueIndex,
 }) => {
+
+
   const [isSkeletonVisible, setSkeletonVisible] = useState(true); // スケルトンの表示状態
-  // const [isVisible, setIsVisible] = useState(false);
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+
   const [isLoaded, setIsLoaded] = useState(false);
-  const { windowHeight, orientation, toggleFullscreen } =
-    useContext(AppContext);
+  const { orientation, toggleFullscreen } = useContext(AppContext);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowHeight(window.innerHeight);
+    };
+
+    // 初期値を設定し、リサイズイベントを監視
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const baseUrl =
-    "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
+    "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive,f_jpg";
 
   // 高さに基づいて適切な画像ソースを選択
-  const getResponsiveSrc = (emaki) => {
-    if (windowHeight <= 375) {
-      return emaki.srcSp; // スマートフォン用
-    } else if (windowHeight <= 800) {
-      return emaki.srcTb; // タブレット用
+  const getResponsiveSrc = () => {
+    if (windowHeight <= 800) {
+      return src.srcTb; // タブレット用
     } else {
-      return emaki.src; // デスクトップ用
+      return src.src; // デスクトップ用
     }
   };
 
-  const cloudinaryLoader = ({ src, width, quality }) => {
-    return `https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive,f_jpg,w_${width},q_${
-      quality || 75
-    }/${src}`;
-  };
+  // const cloudinaryLoader = ({ src, width, quality }) => {
+  //   return `https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive,f_jpg,h_${height},q_${
+  //     quality || 75
+  //   }/${src}`;
+  // };
 
-  const getResponsiveSrcCloudinary = (emaki) => {
+  const aspectRatio = width / height; // アスペクト比を計算
+  const calculatedWidth = Math.round(375 * aspectRatio); // 高さから幅を計算
+
+  const cloudinaryLoader = ({ src, quality }) => {
     const aspectRatio = width / height; // アスペクト比を計算
 
     // デバイスの高さに応じてCloudinaryの画像サイズを動的に調整
-    if (windowHeight <= 375) {
-      const calculatedWidth = Math.round(375 * aspectRatio); // 高さから幅を計算
-      return `${baseUrl}/w_${calculatedWidth},h_375,c_fit/${emaki.src}`; // スマートフォン用
-    } else if (windowHeight <= 800) {
+    if (windowHeight <= 800) {
       const calculatedWidth = Math.round(800 * aspectRatio); // 高さから幅を計算
-      return `${baseUrl}/w_${calculatedWidth},h_800,c_fit/${emaki.src}`; // タブレット用
+      return `${baseUrl}/w_${calculatedWidth},h_800,c_fit/${src}`; // スマホ・タブレット用
     } else {
-      return `${baseUrl}/w_${width},h_${height},c_fit/${emaki.src}`; // デスクトップ用
+      return `${baseUrl}/w_${width},h_${height},c_fit/${src}`; // デスクトップ用
     }
   };
 
+  // const getResponsiveSrcCloudinary = (emaki) => {
+  //   const aspectRatio = width / height; // アスペクト比を計算
+
+  //   // デバイスの高さに応じてCloudinaryの画像サイズを動的に調整
+  //   if (windowHeight <= 375) {
+  //     const calculatedWidth = Math.round(375 * aspectRatio); // 高さから幅を計算
+  //     return `${baseUrl}/w_${calculatedWidth},h_375,c_fit/${emaki.src}`; // スマートフォン用
+  //   } else if (windowHeight <= 800) {
+  //     const calculatedWidth = Math.round(800 * aspectRatio); // 高さから幅を計算
+  //     return `${baseUrl}/w_${calculatedWidth},h_800,c_fit/${emaki.src}`; // タブレット用
+  //   } else {
+  //     return `${baseUrl}/w_${width},h_${height},c_fit/${emaki.src}`; // デスクトップ用
+  //   }
+  // };
+
   // 低解像度画像（ぼかしプレースホルダー用）
   // const blurImage = `${baseUrl}/w_10,h_10,c_fill,q_auto:low/${src.src}`;
-
-   const aspectRatio = width / height; // アスペクト比を計算
-  const calculatedWidth = Math.round(375 * aspectRatio); // 高さから幅を計算
 
   const blurImage = `${baseUrl}/w_${calculatedWidth},h_375,c_fit/${src.src}`; // スマートフォン用
 
@@ -105,13 +132,14 @@ const LazyImage = ({
       {isSkeletonVisible && <div className="skeleton"></div>}
       {isBlurVisible && (
         <Image
-          loader={config === "cloudinary" ? cloudinaryLoader : undefined} // Cloudinaryが有効な場合のみローダー適用
-          src={src.src} // Cloudinaryの画像ID
+          loader={config === "cloudinary" ? cloudinaryLoader : getResponsiveSrc} // Cloudinaryが有効な場合のみローダー適用
+          src={src.src}
           width={width}
           height={height}
           alt={alt}
-          priority={uniqueIndex === 0} // 最初の画像は即時プリロード
-          loading={uniqueIndex < 2 ? "eager" : "lazy"} // 最初の2枚は即時読み込み
+          // priority={uniqueIndex === 0} // 最初の画像は即時プリロード
+          loading={"lazy"} // 最初の2枚は即時読み込み
+          // loading={uniqueIndex < 2 ? "eager" : "lazy"} // 最初の2枚は即時読み込み
           placeholder={"blur"} // 最初の2枚だけぼかしプレースホルダーを適用
           blurDataURL={config === "cloudinary" ? blurImage : srcSp}
           onLoadingComplete={() => setSkeletonVisible(false)} // 読み込み完了時に状態を更新
