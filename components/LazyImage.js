@@ -17,11 +17,10 @@ const LazyImage = ({
   uniqueIndex,
 }) => {
   const [isSkeletonVisible, setSkeletonVisible] = useState(true); // スケルトンの表示状態
-  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
-
   const [isLoaded, setIsLoaded] = useState(false);
   const { orientation, toggleFullscreen } = useContext(AppContext);
 
+  const [windowHeight, setWindowHeight] = useState(null);
   useEffect(() => {
     const handleResize = () => {
       setWindowHeight(window.innerHeight);
