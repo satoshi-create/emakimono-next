@@ -8139,10 +8139,8 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "0",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "cloudinary",
+        "chapter": "生前相",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -8150,21 +8148,17 @@
       },
       {
         "cat": "image",
+        "config": "cloudinary",
         "chapter": "",
-        "load": "True",
-        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_01-375.webp",
-        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_01-800.webp",
-        "src": "/nine-stages-of-decay-empress-danrin_honolulu_01-1080.webp",
+        "src": "v1735547895/nine-stages-of-decay-empress-danrin_honolulu_01-1080_rup8zy.jpg",
         "name": "nine-stages-of-decay-empress-danrin_honolulu_01",
-        "srcWidth": 1665,
-        "srcHeight": 1080
+        "srcWidth": "1665",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
+        "config": "cloudinary",
         "chapter": "新死相",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -8172,21 +8166,17 @@
       },
       {
         "cat": "image",
+        "config": "cloudinary",
         "chapter": "",
-        "load": "True",
-        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_02-375.webp",
-        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_02-800.webp",
-        "src": "/nine-stages-of-decay-empress-danrin_honolulu_02-1080.webp",
+        "src": "v1735547895/nine-stages-of-decay-empress-danrin_honolulu_02-1080_lbhx3g.jpg",
         "name": "nine-stages-of-decay-empress-danrin_honolulu_02",
-        "srcWidth": 1832,
-        "srcHeight": 1080
+        "srcWidth": "1832",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
+        "config": "cloudinary",
         "chapter": "2",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -8194,21 +8184,17 @@
       },
       {
         "cat": "image",
+        "config": "cloudinary",
         "chapter": "",
-        "load": "False",
-        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_03-375.webp",
-        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_03-800.webp",
-        "src": "/nine-stages-of-decay-empress-danrin_honolulu_03-1080.webp",
+        "src": "v1735547895/nine-stages-of-decay-empress-danrin_honolulu_03-1080_r8jxew.jpg",
         "name": "nine-stages-of-decay-empress-danrin_honolulu_03",
-        "srcWidth": 1823,
-        "srcHeight": 1080
+        "srcWidth": "1823",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
+        "config": "cloudinary",
         "chapter": "3",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -8216,21 +8202,17 @@
       },
       {
         "cat": "image",
+        "config": "cloudinary",
         "chapter": "",
-        "load": "False",
-        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_04-375.webp",
-        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_04-800.webp",
-        "src": "/nine-stages-of-decay-empress-danrin_honolulu_04-1080.webp",
+        "src": "v1735547896/nine-stages-of-decay-empress-danrin_honolulu_04-1080_nzp4im.jpg",
         "name": "nine-stages-of-decay-empress-danrin_honolulu_04",
-        "srcWidth": 1708,
-        "srcHeight": 1080
+        "srcWidth": "1708",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
+        "config": "cloudinary",
         "chapter": "7",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -8238,21 +8220,17 @@
       },
       {
         "cat": "image",
+        "config": "cloudinary",
         "chapter": "",
-        "load": "False",
-        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_05-375.webp",
-        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_05-800.webp",
-        "src": "/nine-stages-of-decay-empress-danrin_honolulu_05-1080.webp",
+        "src": "v1735547895/nine-stages-of-decay-empress-danrin_honolulu_05-1080_dvslds.jpg",
         "name": "nine-stages-of-decay-empress-danrin_honolulu_05",
-        "srcWidth": 2157,
-        "srcHeight": 1080
+        "srcWidth": "2157",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
+        "config": "cloudinary",
         "chapter": "8",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -8260,16 +8238,15 @@
       },
       {
         "cat": "image",
+        "config": "cloudinary",
         "chapter": "",
-        "load": "False",
-        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_06-375.webp",
-        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_06-800.webp",
-        "src": "/nine-stages-of-decay-empress-danrin_honolulu_06-1080.webp",
+        "src": "v1735547896/nine-stages-of-decay-empress-danrin_honolulu_06-1080_tm1s17.jpg",
         "name": "nine-stages-of-decay-empress-danrin_honolulu_06",
-        "srcWidth": 3597,
-        "srcHeight": 1080
+        "srcWidth": "3597",
+        "srcHeight": "1080"
       }
     ]
+
   },
   {
     "id": 49,
