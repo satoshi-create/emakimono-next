@@ -138,9 +138,9 @@ const LazyImage = ({
           width={width}
           height={height}
           alt={alt}
-          // priority={uniqueIndex === 0} // 最初の画像は即時プリロード
-          loading={"lazy"} // 最初の2枚は即時読み込み
-          // loading={uniqueIndex < 2 ? "eager" : "lazy"} // 最初の2枚は即時読み込み
+          priority={uniqueIndex === 0} // 最初の画像は即時プリロード
+          // loading={"lazy"} // 最初の2枚は即時読み込み
+          loading={uniqueIndex < 2 ? "eager" : "lazy"} // 最初の2枚は即時読み込み
           placeholder={"blur"} // 最初の2枚だけぼかしプレースホルダーを適用
           blurDataURL={config === "cloudinary" ? blurImage : srcSp}
           onLoadingComplete={() => setSkeletonVisible(false)} // 読み込み完了時に状態を更新
