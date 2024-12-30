@@ -53,357 +53,292 @@
       {
         "cat": "ekotoba",
         "chapter": "1",
-        "srcHeight": "",
-        "srcWidth": "",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439092/cyoujyuu_yamazaki_kou_01-1080_zeoysv.webp",
+        "name": "cyoujyuu_yamazaki_kou_01",
         "srcHeight": "1080",
-        "srcWidth": "1804",
-        "load": "True",
-        "srcSp": "/cyoujyuu_yamazaki_kou_01-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_01-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_01-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_01"
+        "srcWidth": "1804"
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439085/cyoujyuu_yamazaki_kou_02-1080_mhgqub.webp",
+        "name": "cyoujyuu_yamazaki_kou_02",
         "srcHeight": "1080",
-        "srcWidth": "2228",
-        "load": "True",
-        "srcSp": "/cyoujyuu_yamazaki_kou_02-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_02-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_02-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_02"
+        "srcWidth": "2228"
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439085/cyoujyuu_yamazaki_kou_03-1080_irtahj.webp",
+        "name": "cyoujyuu_yamazaki_kou_03",
         "srcHeight": "1080",
-        "srcWidth": "2436",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_03-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_03-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_03-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_03"
+        "srcWidth": "2436"
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439089/cyoujyuu_yamazaki_kou_04-1080_hu3dre.webp",
+        "name": "cyoujyuu_yamazaki_kou_04",
         "srcHeight": "1080",
-        "srcWidth": "2279",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_04-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_04-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_04-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_04"
+        "srcWidth": "2279"
       },
       {
         "cat": "ekotoba",
         "chapter": "2",
-        "srcHeight": "",
-        "srcWidth": "",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439084/cyoujyuu_yamazaki_kou_05-1080_far3kt.webp",
+        "name": "cyoujyuu_yamazaki_kou_05",
         "srcHeight": "1080",
-        "srcWidth": "1617",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_05-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_05-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_05-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_05"
+        "srcWidth": "1617"
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439092/cyoujyuu_yamazaki_kou_06-1080_nb7abf.webp",
+        "name": "cyoujyuu_yamazaki_kou_06",
         "srcHeight": "1080",
-        "srcWidth": "1860",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_06-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_06-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_06-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_06"
+        "srcWidth": "1860"
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439089/cyoujyuu_yamazaki_kou_07-1080_oasxvg.webp",
+        "name": "cyoujyuu_yamazaki_kou_07",
         "srcHeight": "1080",
-        "srcWidth": "1845",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_07-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_07-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_07-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_07"
+        "srcWidth": "1845"
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439084/cyoujyuu_yamazaki_kou_08-1080_madfvy.webp",
+        "name": "cyoujyuu_yamazaki_kou_08",
         "srcHeight": "1080",
-        "srcWidth": "1845",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_08-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_08-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_08-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_08"
+        "srcWidth": "1845"
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439086/cyoujyuu_yamazaki_kou_09-1080_updc8u.webp",
+        "name": "cyoujyuu_yamazaki_kou_09",
         "srcHeight": "1080",
-        "srcWidth": "1860",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_09-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_09-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_09-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_09"
+        "srcWidth": "1860"
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439090/cyoujyuu_yamazaki_kou_10-1080_uimhus.webp",
+        "name": "cyoujyuu_yamazaki_kou_10",
         "srcHeight": "1080",
-        "srcWidth": "1709",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_10-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_10-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_10-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_10"
+        "srcWidth": "1709"
       },
       {
         "cat": "ekotoba",
         "chapter": "3",
-        "srcHeight": "",
-        "srcWidth": "",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439090/cyoujyuu_yamazaki_kou_11-1080_i9l1r4.webp",
+        "name": "cyoujyuu_yamazaki_kou_11",
         "srcHeight": "1080",
-        "srcWidth": "1065",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_11-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_11-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_11-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_11"
+        "srcWidth": "1065"
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439087/cyoujyuu_yamazaki_kou_12-1080_inopu1.webp",
+        "name": "cyoujyuu_yamazaki_kou_12",
         "srcHeight": "1080",
-        "srcWidth": "1902",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_12-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_12-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_12-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_12"
+        "srcWidth": "1902"
       },
       {
         "cat": "ekotoba",
         "chapter": "4",
-        "srcHeight": "",
-        "srcWidth": "",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439091/cyoujyuu_yamazaki_kou_13-1080_l27pbf.webp",
+        "name": "cyoujyuu_yamazaki_kou_13",
         "srcHeight": "1080",
-        "srcWidth": "1878",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_13-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_13-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_13-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_13"
+        "srcWidth": "1878"
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439085/cyoujyuu_yamazaki_kou_14-1080_dmefrd.webp",
+        "name": "cyoujyuu_yamazaki_kou_14",
         "srcHeight": "1080",
-        "srcWidth": "2196",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_14-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_14-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_14-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_14"
+        "srcWidth": "2196"
       },
       {
         "cat": "ekotoba",
         "chapter": "5",
-        "srcHeight": "",
-        "srcWidth": "",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439085/cyoujyuu_yamazaki_kou_15-1080_raecjx.webp",
+        "name": "cyoujyuu_yamazaki_kou_15",
         "srcHeight": "1080",
-        "srcWidth": "1350",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_15-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_15-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_15-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_15"
+        "srcWidth": "1350"
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439088/cyoujyuu_yamazaki_kou_16-1080_qyeu9o.webp",
+        "name": "cyoujyuu_yamazaki_kou_16",
         "srcHeight": "1080",
-        "srcWidth": "1252",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_16-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_16-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_16-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_16"
+        "srcWidth": "1252"
       },
       {
         "cat": "ekotoba",
         "chapter": "6",
-        "srcHeight": "",
-        "srcWidth": "",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439093/cyoujyuu_yamazaki_kou_17-1080_jgki6p.webp",
+        "name": "cyoujyuu_yamazaki_kou_17",
         "srcHeight": "1080",
-        "srcWidth": "2015",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_17-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_17-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_17-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_17"
+        "srcWidth": "2015"
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439140/cyoujyuu_yamazaki_kou_18-1080_n0nyot.webp",
+        "name": "cyoujyuu_yamazaki_kou_18",
         "srcHeight": "1080",
-        "srcWidth": "1899",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_18-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_18-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_18-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_18"
+        "srcWidth": "1899"
       },
       {
         "cat": "ekotoba",
         "chapter": "7",
-        "srcHeight": "",
-        "srcWidth": "",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439086/cyoujyuu_yamazaki_kou_19-1080_ounqj9.webp",
+        "name": "cyoujyuu_yamazaki_kou_19",
         "srcHeight": "1080",
-        "srcWidth": "1380",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_19-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_19-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_19-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_19"
+        "srcWidth": "1380"
       },
       {
         "cat": "ekotoba",
         "chapter": "8",
-        "srcHeight": "",
-        "srcWidth": "",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439141/cyoujyuu_yamazaki_kou_20-1080_rpieyx.webp",
+        "name": "cyoujyuu_yamazaki_kou_20",
         "srcHeight": "1080",
-        "srcWidth": "1685",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_20-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_20-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_20-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_20"
+        "srcWidth": "1685"
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439105/cyoujyuu_yamazaki_kou_21-1080_nqpo4c.webp",
+        "name": "cyoujyuu_yamazaki_kou_21",
         "srcHeight": "1080",
-        "srcWidth": "1887",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_21-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_21-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_21-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_21"
+        "srcWidth": "1887"
       },
       {
         "cat": "ekotoba",
         "chapter": "9",
-        "srcHeight": "",
-        "srcWidth": "",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439105/cyoujyuu_yamazaki_kou_21-1080_nqpo4c.webp",
+        "name": "cyoujyuu_yamazaki_kou_22",
         "srcHeight": "1080",
-        "srcWidth": "1881",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_22-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_22-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_22-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_22"
+        "srcWidth": "1881"
       },
       {
         "cat": "image",
         "chapter": "",
+        "config": "cloudinary",
+        "src": "/v1734439086/cyoujyuu_yamazaki_kou_23-1080_haneae.webp",
+        "name": "cyoujyuu_yamazaki_kou_23",
         "srcHeight": "1080",
-        "srcWidth": "1216",
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_23-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_23-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_23-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_23"
+        "srcWidth": "1216"
       }
     ]
-
   },
   {
     "id": 2,
@@ -2647,7 +2582,6 @@
         "name": "haseozoushi_17.webp"
       }
     ]
-
   },
   {
     "id": 8,
@@ -2918,7 +2852,6 @@
         "srcHeight": "1080"
       }
     ]
-
   },
   {
     "id": 9,
@@ -3988,7 +3921,6 @@
         "name": "jigokusoushi_anzyuin_08.webp"
       }
     ]
-
   },
   {
     "id": 13,
@@ -8057,13 +7989,11 @@
       }
     ],
     "sourceEkotoba": "",
-    "emakis": [
+    "emakis":[
       {
         "cat": "ekotoba",
-        "chapter": "0",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "cloudinary",
+        "chapter": "生前相",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -8071,21 +8001,17 @@
       },
       {
         "cat": "image",
+        "config": "cloudinary",
         "chapter": "",
-        "load": "True",
-        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_01-375.webp",
-        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_01-800.webp",
-        "src": "/nine-stages-of-decay-empress-danrin_honolulu_01-1080.webp",
+        "src": "v1735547895/nine-stages-of-decay-empress-danrin_honolulu_01-1080_rup8zy.jpg",
         "name": "nine-stages-of-decay-empress-danrin_honolulu_01",
         "srcWidth": "600",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
+        "config": "cloudinary",
         "chapter": "新死相",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -8093,21 +8019,17 @@
       },
       {
         "cat": "image",
+        "config": "cloudinary",
         "chapter": "",
-        "load": "True",
-        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_02-375.webp",
-        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_02-800.webp",
-        "src": "/nine-stages-of-decay-empress-danrin_honolulu_02-1080.webp",
+        "src": "v1735547895/nine-stages-of-decay-empress-danrin_honolulu_02-1080_lbhx3g.jpg",
         "name": "nine-stages-of-decay-empress-danrin_honolulu_02",
         "srcWidth": "600",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
+        "config": "cloudinary",
         "chapter": "2",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -8115,21 +8037,17 @@
       },
       {
         "cat": "image",
+        "config": "cloudinary",
         "chapter": "",
-        "load": "False",
-        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_03-375.webp",
-        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_03-800.webp",
-        "src": "/nine-stages-of-decay-empress-danrin_honolulu_03-1080.webp",
+        "src": "v1735547895/nine-stages-of-decay-empress-danrin_honolulu_03-1080_r8jxew.jpg",
         "name": "nine-stages-of-decay-empress-danrin_honolulu_03",
         "srcWidth": "600",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
+        "config": "cloudinary",
         "chapter": "3",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -8137,21 +8055,17 @@
       },
       {
         "cat": "image",
+        "config": "cloudinary",
         "chapter": "",
-        "load": "False",
-        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_04-375.webp",
-        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_04-800.webp",
-        "src": "/nine-stages-of-decay-empress-danrin_honolulu_04-1080.webp",
+        "src": "v1735547896/nine-stages-of-decay-empress-danrin_honolulu_04-1080_nzp4im.jpg",
         "name": "nine-stages-of-decay-empress-danrin_honolulu_04",
         "srcWidth": "600",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
+        "config": "cloudinary",
         "chapter": "7",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -8159,21 +8073,17 @@
       },
       {
         "cat": "image",
+        "config": "cloudinary",
         "chapter": "",
-        "load": "False",
-        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_05-375.webp",
-        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_05-800.webp",
-        "src": "/nine-stages-of-decay-empress-danrin_honolulu_05-1080.webp",
+        "src": "v1735547895/nine-stages-of-decay-empress-danrin_honolulu_05-1080_dvslds.jpg",
         "name": "nine-stages-of-decay-empress-danrin_honolulu_05",
         "srcWidth": "600",
         "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
+        "config": "cloudinary",
         "chapter": "8",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -8181,16 +8091,15 @@
       },
       {
         "cat": "image",
+        "config": "cloudinary",
         "chapter": "",
-        "load": "False",
-        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_06-375.webp",
-        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_06-800.webp",
-        "src": "/nine-stages-of-decay-empress-danrin_honolulu_06-1080.webp",
+        "src": "v1735547896/nine-stages-of-decay-empress-danrin_honolulu_06-1080_tm1s17.jpg",
         "name": "nine-stages-of-decay-empress-danrin_honolulu_06",
         "srcWidth": "600",
         "srcHeight": "1080"
       }
     ]
+
   },
   {
     "id": 49,
@@ -10551,7 +10460,7 @@
     "typeen": "emaki",
     "subtype": "説話",
     "favorite": true,
-    "kotobagaki":true,
+    "kotobagaki": true,
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-1601",
     "sourceImage": "絵師草紙（東京国立博物館）",
     "sourceEkotoba": "",
@@ -10579,7 +10488,7 @@
         "title": "『中世のことばと絵: 絵巻は訴える 』"
       }
     ],
-    "emakis":[
+    "emakis": [
       {
         "cat": "image",
         "chapter": "",
@@ -10768,7 +10677,6 @@
         "srcHeight": "1080"
       }
     ]
-
   },
   {
     "id": 57,
@@ -10848,349 +10756,349 @@
       }
     ]
   },
-     {
-       "id": 58,
-       "title": "紫式部日記絵巻",
-       "titleen": "murasaki-shikibu-nikki-emaki",
-       "edition": "",
-       "editionen": "",
-       "author": "",
-       "authoren": "",
-       "backgroundImage": "/washi-pattern-01.webp",
-       "video": "",
-       "thumb": "/18_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-01_former-morikawa-scroll_tokyo-national-museum-375.webp",
-       "thumb2": "/18_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-01_former-morikawa-scroll_tokyo-national-museum-375.webp",
-       "era": "鎌倉",
-       "eraen": "kamakura",
-       "desc": "",
-       "gif": "",
-       "type": "絵巻",
-       "typeen": "emaki",
-       "subtype": "説話",
-       "favorite": false,
-       "kotobagaki": true,
-       "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-8375?locale=ja",
-       "sourceImage": "紫式部日記絵巻（模本）（国立国会図書館）ほか",
-       "sourceEkotoba": "",
-       "personname": [
-         {
-           "name": "紫式部",
-           "id": "murasakisikibu",
-           "slug": "murasakisikibu",
-           "ruby": "たちばななおもと",
-           "portrait": "/portrait_murasakisikibu.webp"
-         }
-       ],
-       "reference": [
-         {
-           "type": "書籍",
-           "url": "https://x.gd/pq8u1",
-           "title": "『紫式部日記絵詞』（小松茂美 編　中央公論社）"
-         },
-         {
-           "type": "ウェブサイト",
-           "url": "https://ja.wikipedia.org/wiki/%E7%B4%AB%E5%BC%8F%E9%83%A8%E6%97%A5%E8%A8%98%E7%B5%B5%E5%B7%BB",
-           "title": "紫式部日記絵巻（ウィキペディア）"
-         },
-         {
-           "type": "ウェブサイト",
-           "url": "https://en.wikipedia.org/wiki/Murasaki_Shikibu_Nikki_Emaki",
-           "title": "紫式部日記絵巻（ウィキペディア英語版）"
-         }
-       ],
-       "keyword": [
-         {
-           "name": "源氏絵",
-           "id": "picture-of-the-genji-monogatari",
-           "slug": "picture-of-the-genji-monogatari"
-         },
-         {
-           "name": "仏教",
-           "id": "buddhism",
-           "slug": "buddhism"
-         }
-       ],
-       "emakis": [
-         {
-           "cat": "ekotoba",
-           "chapter": "4",
-           "srcWidth": "2000",
-           "srcHeight": "1080",
-           "srcSp": "",
-           "srcTb": "",
-           "src": "",
-           "name": ""
-         },
-         {
-           "cat": "image",
-           "chapter": "",
-           "srcWidth": "",
-           "srcHeight": "",
-           "srcSp": "/04_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned-375.webp",
-           "srcTb": "/04_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned-800.webp",
-           "src": "/04_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned-1080.webp",
-           "name": "04_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned"
-         },
-         {
-           "cat": "ekotoba",
-           "chapter": "5",
-           "srcWidth": "",
-           "srcHeight": "",
-           "srcSp": "",
-           "srcTb": "",
-           "src": "",
-           "name": ""
-         },
-         {
-           "cat": "image",
-           "chapter": "",
-           "srcWidth": "",
-           "srcHeight": "",
-           "srcSp": "/05_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned-375.webp",
-           "srcTb": "/05_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned-800.webp",
-           "src": "/05_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned-1080.webp",
-           "name": "05_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned"
-         },
-         {
-           "cat": "ekotoba",
-           "chapter": "11",
-           "srcWidth": "2000",
-           "srcHeight": "1080",
-           "srcSp": "",
-           "srcTb": "",
-           "src": "",
-           "name": ""
-         },
-         {
-           "cat": "image",
-           "chapter": "",
-           "srcWidth": "",
-           "srcHeight": "",
-           "srcSp": "/11_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-01_fujita-scroll_fujita-art-museum-375.webp",
-           "srcTb": "/11_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-01_fujita-scroll_fujita-art-museum-800.webp",
-           "src": "/11_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-01_fujita-scroll_fujita-art-museum-1080.webp",
-           "name": "11_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-01_fujita-scroll_fujita-art-museum"
-         },
-         {
-           "cat": "ekotoba",
-           "chapter": "12",
-           "srcWidth": "2000",
-           "srcHeight": "1080",
-           "srcSp": "",
-           "srcTb": "",
-           "src": "",
-           "name": ""
-         },
-         {
-           "cat": "image",
-           "chapter": "",
-           "srcWidth": "",
-           "srcHeight": "",
-           "srcSp": "/12_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-02_fujita-scroll_fujita-art-museum-375.webp",
-           "srcTb": "/12_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-02_fujita-scroll_fujita-art-museum-800.webp",
-           "src": "/12_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-02_fujita-scroll_fujita-art-museum-1080.webp",
-           "name": "12_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-02_fujita-scroll_fujita-art-museum"
-         },
-         {
-           "cat": "ekotoba",
-           "chapter": "13",
-           "srcWidth": "2000",
-           "srcHeight": "1080",
-           "srcSp": "",
-           "srcTb": "",
-           "src": "",
-           "name": ""
-         },
-         {
-           "cat": "image",
-           "chapter": "",
-           "srcWidth": "",
-           "srcHeight": "",
-           "srcSp": "/13_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-03_fujita-scroll_fujita-art-museum-375.webp",
-           "srcTb": "/13_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-03_fujita-scroll_fujita-art-museum-800.webp",
-           "src": "/13_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-03_fujita-scroll_fujita-art-museum-1080.webp",
-           "name": "13_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-03_fujita-scroll_fujita-art-museum"
-         },
-         {
-           "cat": "ekotoba",
-           "chapter": "14",
-           "srcWidth": "2000",
-           "srcHeight": "1080",
-           "srcSp": "",
-           "srcTb": "",
-           "src": "",
-           "name": ""
-         },
-         {
-           "cat": "image",
-           "chapter": "",
-           "srcWidth": "",
-           "srcHeight": "",
-           "srcSp": "/14_murasaki-shikibu-nikki-emaki_seven-day-of-birth-celebration-of-atsuhira-shinno_fujita-scroll_fujita-art-museum-375.webp",
-           "srcTb": "/14_murasaki-shikibu-nikki-emaki_seven-day-of-birth-celebration-of-atsuhira-shinno_fujita-scroll_fujita-art-museum-800.webp",
-           "src": "/14_murasaki-shikibu-nikki-emaki_seven-day-of-birth-celebration-of-atsuhira-shinno_fujita-scroll_fujita-art-museum-1080.webp",
-           "name": "14_murasaki-shikibu-nikki-emaki_seven-day-of-birth-celebration-of-atsuhira-shinno_fujita-scroll_fujita-art-museum"
-         },
-         {
-           "cat": "ekotoba",
-           "chapter": "15",
-           "srcWidth": "2000",
-           "srcHeight": "1080",
-           "srcSp": "",
-           "srcTb": "",
-           "src": "",
-           "name": ""
-         },
-         {
-           "cat": "image",
-           "chapter": "",
-           "srcWidth": "",
-           "srcHeight": "",
-           "srcSp": "/15_murasaki-shikibu-nikki-emaki_day-of-the-imperial-visit_fujita-scroll_fujita-art-museum-375.webp",
-           "srcTb": "/15_murasaki-shikibu-nikki-emaki_day-of-the-imperial-visit_fujita-scroll_fujita-art-museum-800.webp",
-           "src": "/15_murasaki-shikibu-nikki-emaki_day-of-the-imperial-visit_fujita-scroll_fujita-art-museum-1080.webp",
-           "name": "15_murasaki-shikibu-nikki-emaki_day-of-the-imperial-visit_fujita-scroll_fujita-art-museum"
-         },
-         {
-           "cat": "ekotoba",
-           "chapter": "16",
-           "srcWidth": "2000",
-           "srcHeight": "1080",
-           "srcSp": "",
-           "srcTb": "",
-           "src": "",
-           "name": ""
-         },
-         {
-           "cat": "image",
-           "chapter": "",
-           "srcWidth": "",
-           "srcHeight": "",
-           "srcSp": "/16_murasaki-shikibu-nikki-emaki_moonlit-night_former-morikawa-scroll_ gotoh-museum-375.webp",
-           "srcTb": "/16_murasaki-shikibu-nikki-emaki_moonlit-night_former-morikawa-scroll_ gotoh-museum-800.webp",
-           "src": "/16_murasaki-shikibu-nikki-emaki_moonlit-night_former-morikawa-scroll_ gotoh-museum-1080.webp",
-           "name": "16_murasaki-shikibu-nikki-emaki_moonlit-night_former-morikawa-scroll_ gotoh-museum"
-         },
-         {
-           "cat": "ekotoba",
-           "chapter": "17",
-           "srcWidth": "2000",
-           "srcHeight": "1080",
-           "srcSp": "",
-           "srcTb": "",
-           "src": "",
-           "name": ""
-         },
-         {
-           "cat": "image",
-           "chapter": "",
-           "srcWidth": "",
-           "srcHeight": "",
-           "srcSp": "/17_murasaki-shikibu-nikki-emaki_50-day-celebration-of-the-birth-of-atsuhira-shinno_former-morikawa-scroll_ gotoh-museum-375.webp",
-           "srcTb": "/17_murasaki-shikibu-nikki-emaki_50-day-celebration-of-the-birth-of-atsuhira-shinno_former-morikawa-scroll_ gotoh-museum-800.webp",
-           "src": "/17_murasaki-shikibu-nikki-emaki_50-day-celebration-of-the-birth-of-atsuhira-shinno_former-morikawa-scroll_ gotoh-museum-1080.webp",
-           "name": "17_murasaki-shikibu-nikki-emaki_50-day-celebration-of-the-birth-of-atsuhira-shinno_former-morikawa-scroll_ gotoh-museum"
-         },
-         {
-           "cat": "ekotoba",
-           "chapter": "18",
-           "srcWidth": "2000",
-           "srcHeight": "1080",
-           "srcSp": "",
-           "srcTb": "",
-           "src": "",
-           "name": ""
-         },
-         {
-           "cat": "image",
-           "chapter": "",
-           "srcWidth": "",
-           "srcHeight": "",
-           "srcSp": "/18_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-01_former-morikawa-scroll_tokyo-national-museum-375.webp",
-           "srcTb": "/18_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-01_former-morikawa-scroll_tokyo-national-museum-800.webp",
-           "src": "/18_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-01_former-morikawa-scroll_tokyo-national-museum-1080.webp",
-           "name": "18_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-01_former-morikawa-scroll_tokyo-national-museum"
-         },
-         {
-           "cat": "ekotoba",
-           "chapter": "19",
-           "srcWidth": "2000",
-           "srcHeight": "1080",
-           "srcSp": "",
-           "srcTb": "",
-           "src": "",
-           "name": ""
-         },
-         {
-           "cat": "image",
-           "chapter": "",
-           "srcWidth": "",
-           "srcHeight": "",
-           "srcSp": "/19_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-02_former-morikawa-scroll_ gotoh-museum-375.webp",
-           "srcTb": "/19_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-02_former-morikawa-scroll_ gotoh-museum-800.webp",
-           "src": "/19_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-02_former-morikawa-scroll_ gotoh-museum-1080.webp",
-           "name": "19_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-02_former-morikawa-scroll_ gotoh-museum"
-         },
-         {
-           "cat": "ekotoba",
-           "chapter": "20",
-           "srcWidth": "2000",
-           "srcHeight": "1080",
-           "srcSp": "",
-           "srcTb": "",
-           "src": "",
-           "name": ""
-         },
-         {
-           "cat": "image",
-           "chapter": "",
-           "srcWidth": "",
-           "srcHeight": "",
-           "srcSp": "/20_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-03_former-morikawa-scroll_privately-owned-375.webp",
-           "srcTb": "/20_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-03_former-morikawa-scroll_privately-owned-800.webp",
-           "src": "/20_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-03_former-morikawa-scroll_privately-owned-1080.webp",
-           "name": "20_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-03_former-morikawa-scroll_privately-owned"
-         },
-         {
-           "cat": "ekotoba",
-           "chapter": "25",
-           "srcWidth": "2000",
-           "srcHeight": "1080",
-           "srcSp": "",
-           "srcTb": "",
-           "src": "",
-           "name": ""
-         },
-         {
-           "cat": "image",
-           "chapter": "",
-           "srcWidth": "",
-           "srcHeight": "",
-           "srcSp": "/25_murasaki-shikibu-nikki-emaki_Incident-at-night_former-hinohara-scroll_privately-owned-375.webp",
-           "srcTb": "/25_murasaki-shikibu-nikki-emaki_Incident-at-night_former-hinohara-scroll_privately-owned-800.webp",
-           "src": "/25_murasaki-shikibu-nikki-emaki_Incident-at-night_former-hinohara-scroll_privately-owned-1080.webp",
-           "name": "25_murasaki-shikibu-nikki-emaki_Incident-at-night_former-hinohara-scroll_privately-owned"
-         },
-         {
-           "cat": "ekotoba",
-           "chapter": "26",
-           "srcWidth": "2000",
-           "srcHeight": "1080",
-           "srcSp": "",
-           "srcTb": "",
-           "src": "",
-           "name": ""
-         },
-         {
-           "cat": "image",
-           "chapter": "",
-           "srcWidth": "",
-           "srcHeight": "",
-           "srcSp": "/26_murasaki-shikibu-nikki-emaki_50th-day-celebration-of-atsunaga-shinno-01_former-hisamatsu-scroll_privately-owned-375.webp",
-           "srcTb": "/26_murasaki-shikibu-nikki-emaki_50th-day-celebration-of-atsunaga-shinno-01_former-hisamatsu-scroll_privately-owned-800.webp",
-           "src": "/26_murasaki-shikibu-nikki-emaki_50th-day-celebration-of-atsunaga-shinno-01_former-hisamatsu-scroll_privately-owned-1080.webp",
-           "name": "26_murasaki-shikibu-nikki-emaki_50th-day-celebration-of-atsunaga-shinno-01_former-hisamatsu-scroll_privately-owned"
-         }
-       ]
-     }
+  {
+    "id": 58,
+    "title": "紫式部日記絵巻",
+    "titleen": "murasaki-shikibu-nikki-emaki",
+    "edition": "",
+    "editionen": "",
+    "author": "",
+    "authoren": "",
+    "backgroundImage": "/washi-pattern-01.webp",
+    "video": "",
+    "thumb": "/18_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-01_former-morikawa-scroll_tokyo-national-museum-375.webp",
+    "thumb2": "/18_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-01_former-morikawa-scroll_tokyo-national-museum-375.webp",
+    "era": "鎌倉",
+    "eraen": "kamakura",
+    "desc": "",
+    "gif": "",
+    "type": "絵巻",
+    "typeen": "emaki",
+    "subtype": "説話",
+    "favorite": false,
+    "kotobagaki": true,
+    "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-8375?locale=ja",
+    "sourceImage": "紫式部日記絵巻（模本）（国立国会図書館）ほか",
+    "sourceEkotoba": "",
+    "personname": [
+      {
+        "name": "紫式部",
+        "id": "murasakisikibu",
+        "slug": "murasakisikibu",
+        "ruby": "たちばななおもと",
+        "portrait": "/portrait_murasakisikibu.webp"
+      }
+    ],
+    "reference": [
+      {
+        "type": "書籍",
+        "url": "https://x.gd/pq8u1",
+        "title": "『紫式部日記絵詞』（小松茂美 編　中央公論社）"
+      },
+      {
+        "type": "ウェブサイト",
+        "url": "https://ja.wikipedia.org/wiki/%E7%B4%AB%E5%BC%8F%E9%83%A8%E6%97%A5%E8%A8%98%E7%B5%B5%E5%B7%BB",
+        "title": "紫式部日記絵巻（ウィキペディア）"
+      },
+      {
+        "type": "ウェブサイト",
+        "url": "https://en.wikipedia.org/wiki/Murasaki_Shikibu_Nikki_Emaki",
+        "title": "紫式部日記絵巻（ウィキペディア英語版）"
+      }
+    ],
+    "keyword": [
+      {
+        "name": "源氏絵",
+        "id": "picture-of-the-genji-monogatari",
+        "slug": "picture-of-the-genji-monogatari"
+      },
+      {
+        "name": "仏教",
+        "id": "buddhism",
+        "slug": "buddhism"
+      }
+    ],
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "4",
+        "srcWidth": "2000",
+        "srcHeight": "1080",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "srcWidth": "",
+        "srcHeight": "",
+        "srcSp": "/04_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned-375.webp",
+        "srcTb": "/04_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned-800.webp",
+        "src": "/04_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned-1080.webp",
+        "name": "04_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "5",
+        "srcWidth": "",
+        "srcHeight": "",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "srcWidth": "",
+        "srcHeight": "",
+        "srcSp": "/05_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned-375.webp",
+        "srcTb": "/05_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned-800.webp",
+        "src": "/05_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned-1080.webp",
+        "name": "05_murasaki-shikibu-nikki-emaki_hachisuka-scroll_privately-owned"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "11",
+        "srcWidth": "2000",
+        "srcHeight": "1080",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "srcWidth": "",
+        "srcHeight": "",
+        "srcSp": "/11_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-01_fujita-scroll_fujita-art-museum-375.webp",
+        "srcTb": "/11_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-01_fujita-scroll_fujita-art-museum-800.webp",
+        "src": "/11_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-01_fujita-scroll_fujita-art-museum-1080.webp",
+        "name": "11_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-01_fujita-scroll_fujita-art-museum"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "12",
+        "srcWidth": "2000",
+        "srcHeight": "1080",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "srcWidth": "",
+        "srcHeight": "",
+        "srcSp": "/12_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-02_fujita-scroll_fujita-art-museum-375.webp",
+        "srcTb": "/12_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-02_fujita-scroll_fujita-art-museum-800.webp",
+        "src": "/12_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-02_fujita-scroll_fujita-art-museum-1080.webp",
+        "name": "12_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-02_fujita-scroll_fujita-art-museum"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "13",
+        "srcWidth": "2000",
+        "srcHeight": "1080",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "srcWidth": "",
+        "srcHeight": "",
+        "srcSp": "/13_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-03_fujita-scroll_fujita-art-museum-375.webp",
+        "srcTb": "/13_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-03_fujita-scroll_fujita-art-museum-800.webp",
+        "src": "/13_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-03_fujita-scroll_fujita-art-museum-1080.webp",
+        "name": "13_murasaki-shikibu-nikki-emaki_fifth-day-of-birth-celebration-of-atsuhira-shinno-03_fujita-scroll_fujita-art-museum"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "14",
+        "srcWidth": "2000",
+        "srcHeight": "1080",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "srcWidth": "",
+        "srcHeight": "",
+        "srcSp": "/14_murasaki-shikibu-nikki-emaki_seven-day-of-birth-celebration-of-atsuhira-shinno_fujita-scroll_fujita-art-museum-375.webp",
+        "srcTb": "/14_murasaki-shikibu-nikki-emaki_seven-day-of-birth-celebration-of-atsuhira-shinno_fujita-scroll_fujita-art-museum-800.webp",
+        "src": "/14_murasaki-shikibu-nikki-emaki_seven-day-of-birth-celebration-of-atsuhira-shinno_fujita-scroll_fujita-art-museum-1080.webp",
+        "name": "14_murasaki-shikibu-nikki-emaki_seven-day-of-birth-celebration-of-atsuhira-shinno_fujita-scroll_fujita-art-museum"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "15",
+        "srcWidth": "2000",
+        "srcHeight": "1080",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "srcWidth": "",
+        "srcHeight": "",
+        "srcSp": "/15_murasaki-shikibu-nikki-emaki_day-of-the-imperial-visit_fujita-scroll_fujita-art-museum-375.webp",
+        "srcTb": "/15_murasaki-shikibu-nikki-emaki_day-of-the-imperial-visit_fujita-scroll_fujita-art-museum-800.webp",
+        "src": "/15_murasaki-shikibu-nikki-emaki_day-of-the-imperial-visit_fujita-scroll_fujita-art-museum-1080.webp",
+        "name": "15_murasaki-shikibu-nikki-emaki_day-of-the-imperial-visit_fujita-scroll_fujita-art-museum"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "16",
+        "srcWidth": "2000",
+        "srcHeight": "1080",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "srcWidth": "",
+        "srcHeight": "",
+        "srcSp": "/16_murasaki-shikibu-nikki-emaki_moonlit-night_former-morikawa-scroll_ gotoh-museum-375.webp",
+        "srcTb": "/16_murasaki-shikibu-nikki-emaki_moonlit-night_former-morikawa-scroll_ gotoh-museum-800.webp",
+        "src": "/16_murasaki-shikibu-nikki-emaki_moonlit-night_former-morikawa-scroll_ gotoh-museum-1080.webp",
+        "name": "16_murasaki-shikibu-nikki-emaki_moonlit-night_former-morikawa-scroll_ gotoh-museum"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "17",
+        "srcWidth": "2000",
+        "srcHeight": "1080",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "srcWidth": "",
+        "srcHeight": "",
+        "srcSp": "/17_murasaki-shikibu-nikki-emaki_50-day-celebration-of-the-birth-of-atsuhira-shinno_former-morikawa-scroll_ gotoh-museum-375.webp",
+        "srcTb": "/17_murasaki-shikibu-nikki-emaki_50-day-celebration-of-the-birth-of-atsuhira-shinno_former-morikawa-scroll_ gotoh-museum-800.webp",
+        "src": "/17_murasaki-shikibu-nikki-emaki_50-day-celebration-of-the-birth-of-atsuhira-shinno_former-morikawa-scroll_ gotoh-museum-1080.webp",
+        "name": "17_murasaki-shikibu-nikki-emaki_50-day-celebration-of-the-birth-of-atsuhira-shinno_former-morikawa-scroll_ gotoh-museum"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "18",
+        "srcWidth": "2000",
+        "srcHeight": "1080",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "srcWidth": "",
+        "srcHeight": "",
+        "srcSp": "/18_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-01_former-morikawa-scroll_tokyo-national-museum-375.webp",
+        "srcTb": "/18_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-01_former-morikawa-scroll_tokyo-national-museum-800.webp",
+        "src": "/18_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-01_former-morikawa-scroll_tokyo-national-museum-1080.webp",
+        "name": "18_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-01_former-morikawa-scroll_tokyo-national-museum"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "19",
+        "srcWidth": "2000",
+        "srcHeight": "1080",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "srcWidth": "",
+        "srcHeight": "",
+        "srcSp": "/19_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-02_former-morikawa-scroll_ gotoh-museum-375.webp",
+        "srcTb": "/19_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-02_former-morikawa-scroll_ gotoh-museum-800.webp",
+        "src": "/19_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-02_former-morikawa-scroll_ gotoh-museum-1080.webp",
+        "name": "19_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-02_former-morikawa-scroll_ gotoh-museum"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "20",
+        "srcWidth": "2000",
+        "srcHeight": "1080",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "srcWidth": "",
+        "srcHeight": "",
+        "srcSp": "/20_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-03_former-morikawa-scroll_privately-owned-375.webp",
+        "srcTb": "/20_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-03_former-morikawa-scroll_privately-owned-800.webp",
+        "src": "/20_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-03_former-morikawa-scroll_privately-owned-1080.webp",
+        "name": "20_murasaki-shikibu-nikki-emaki_50-day-celebration-night-of-the-birth-of-atsuhira-shinno-03_former-morikawa-scroll_privately-owned"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "25",
+        "srcWidth": "2000",
+        "srcHeight": "1080",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "srcWidth": "",
+        "srcHeight": "",
+        "srcSp": "/25_murasaki-shikibu-nikki-emaki_Incident-at-night_former-hinohara-scroll_privately-owned-375.webp",
+        "srcTb": "/25_murasaki-shikibu-nikki-emaki_Incident-at-night_former-hinohara-scroll_privately-owned-800.webp",
+        "src": "/25_murasaki-shikibu-nikki-emaki_Incident-at-night_former-hinohara-scroll_privately-owned-1080.webp",
+        "name": "25_murasaki-shikibu-nikki-emaki_Incident-at-night_former-hinohara-scroll_privately-owned"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "26",
+        "srcWidth": "2000",
+        "srcHeight": "1080",
+        "srcSp": "",
+        "srcTb": "",
+        "src": "",
+        "name": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "srcWidth": "",
+        "srcHeight": "",
+        "srcSp": "/26_murasaki-shikibu-nikki-emaki_50th-day-celebration-of-atsunaga-shinno-01_former-hisamatsu-scroll_privately-owned-375.webp",
+        "srcTb": "/26_murasaki-shikibu-nikki-emaki_50th-day-celebration-of-atsunaga-shinno-01_former-hisamatsu-scroll_privately-owned-800.webp",
+        "src": "/26_murasaki-shikibu-nikki-emaki_50th-day-celebration-of-atsunaga-shinno-01_former-hisamatsu-scroll_privately-owned-1080.webp",
+        "name": "26_murasaki-shikibu-nikki-emaki_50th-day-celebration-of-atsunaga-shinno-01_former-hisamatsu-scroll_privately-owned"
+      }
+    ]
+  }
 ]
