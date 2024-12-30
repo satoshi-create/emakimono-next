@@ -53,354 +53,290 @@
       {
         "cat": "ekotoba",
         "chapter": "1",
-        "srcHeight": "",
-        "srcWidth": "",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 1804,
-        "load": "True",
-        "srcSp": "/cyoujyuu_yamazaki_kou_01-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_01-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_01-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_01"
+        "config": "cloudinary",
+        "src": "/v1734439092/cyoujyuu_yamazaki_kou_01-1080_zeoysv.webp",
+        "name": "cyoujyuu_yamazaki_kou_01",
+        "srcHeight": "1080",
+        "srcWidth": "1804"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 2228,
-        "load": "True",
-        "srcSp": "/cyoujyuu_yamazaki_kou_02-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_02-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_02-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_02"
+        "config": "cloudinary",
+        "src": "/v1734439085/cyoujyuu_yamazaki_kou_02-1080_mhgqub.webp",
+        "name": "cyoujyuu_yamazaki_kou_02",
+        "srcHeight": "1080",
+        "srcWidth": "2228"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 2436,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_03-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_03-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_03-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_03"
+        "config": "cloudinary",
+        "src": "/v1734439085/cyoujyuu_yamazaki_kou_03-1080_irtahj.webp",
+        "name": "cyoujyuu_yamazaki_kou_03",
+        "srcHeight": "1080",
+        "srcWidth": "2436"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 2279,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_04-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_04-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_04-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_04"
+        "config": "cloudinary",
+        "src": "/v1734439089/cyoujyuu_yamazaki_kou_04-1080_hu3dre.webp",
+        "name": "cyoujyuu_yamazaki_kou_04",
+        "srcHeight": "1080",
+        "srcWidth": "2279"
       },
       {
         "cat": "ekotoba",
         "chapter": "2",
-        "srcHeight": "",
-        "srcWidth": "",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 1617,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_05-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_05-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_05-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_05"
+        "config": "cloudinary",
+        "src": "/v1734439084/cyoujyuu_yamazaki_kou_05-1080_far3kt.webp",
+        "name": "cyoujyuu_yamazaki_kou_05",
+        "srcHeight": "1080",
+        "srcWidth": "1617"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 1860,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_06-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_06-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_06-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_06"
+        "config": "cloudinary",
+        "src": "/v1734439092/cyoujyuu_yamazaki_kou_06-1080_nb7abf.webp",
+        "name": "cyoujyuu_yamazaki_kou_06",
+        "srcHeight": "1080",
+        "srcWidth": "1860"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 1845,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_07-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_07-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_07-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_07"
+        "config": "cloudinary",
+        "src": "/v1734439089/cyoujyuu_yamazaki_kou_07-1080_oasxvg.webp",
+        "name": "cyoujyuu_yamazaki_kou_07",
+        "srcHeight": "1080",
+        "srcWidth": "1845"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 1845,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_08-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_08-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_08-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_08"
+        "config": "cloudinary",
+        "src": "/v1734439084/cyoujyuu_yamazaki_kou_08-1080_madfvy.webp",
+        "name": "cyoujyuu_yamazaki_kou_08",
+        "srcHeight": "1080",
+        "srcWidth": "1845"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 1860,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_09-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_09-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_09-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_09"
+        "config": "cloudinary",
+        "src": "/v1734439086/cyoujyuu_yamazaki_kou_09-1080_updc8u.webp",
+        "name": "cyoujyuu_yamazaki_kou_09",
+        "srcHeight": "1080",
+        "srcWidth": "1860"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 1709,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_10-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_10-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_10-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_10"
+        "config": "cloudinary",
+        "src": "/v1734439090/cyoujyuu_yamazaki_kou_10-1080_uimhus.webp",
+        "name": "cyoujyuu_yamazaki_kou_10",
+        "srcHeight": "1080",
+        "srcWidth": "1709"
       },
       {
         "cat": "ekotoba",
         "chapter": "3",
-        "srcHeight": "",
-        "srcWidth": "",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 1065,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_11-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_11-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_11-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_11"
+        "config": "cloudinary",
+        "src": "/v1734439090/cyoujyuu_yamazaki_kou_11-1080_i9l1r4.webp",
+        "name": "cyoujyuu_yamazaki_kou_11",
+        "srcHeight": "1080",
+        "srcWidth": "1065"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 1902,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_12-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_12-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_12-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_12"
+        "config": "cloudinary",
+        "src": "/v1734439087/cyoujyuu_yamazaki_kou_12-1080_inopu1.webp",
+        "name": "cyoujyuu_yamazaki_kou_12",
+        "srcHeight": "1080",
+        "srcWidth": "1902"
       },
       {
         "cat": "ekotoba",
         "chapter": "4",
-        "srcHeight": "",
-        "srcWidth": "",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 1878,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_13-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_13-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_13-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_13"
+        "config": "cloudinary",
+        "src": "/v1734439091/cyoujyuu_yamazaki_kou_13-1080_l27pbf.webp",
+        "name": "cyoujyuu_yamazaki_kou_13",
+        "srcHeight": "1080",
+        "srcWidth": "1878"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 2196,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_14-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_14-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_14-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_14"
+        "config": "cloudinary",
+        "src": "/v1734439085/cyoujyuu_yamazaki_kou_14-1080_dmefrd.webp",
+        "name": "cyoujyuu_yamazaki_kou_14",
+        "srcHeight": "1080",
+        "srcWidth": "2196"
       },
       {
         "cat": "ekotoba",
         "chapter": "5",
-        "srcHeight": "",
-        "srcWidth": "",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 1350,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_15-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_15-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_15-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_15"
+        "config": "cloudinary",
+        "src": "/v1734439085/cyoujyuu_yamazaki_kou_15-1080_raecjx.webp",
+        "name": "cyoujyuu_yamazaki_kou_15",
+        "srcHeight": "1080",
+        "srcWidth": "1350"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 1252,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_16-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_16-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_16-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_16"
+        "config": "cloudinary",
+        "src": "/v1734439088/cyoujyuu_yamazaki_kou_16-1080_qyeu9o.webp",
+        "name": "cyoujyuu_yamazaki_kou_16",
+        "srcHeight": "1080",
+        "srcWidth": "1252"
       },
       {
         "cat": "ekotoba",
         "chapter": "6",
-        "srcHeight": "",
-        "srcWidth": "",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 2015,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_17-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_17-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_17-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_17"
+        "config": "cloudinary",
+        "src": "/v1734439093/cyoujyuu_yamazaki_kou_17-1080_jgki6p.webp",
+        "name": "cyoujyuu_yamazaki_kou_17",
+        "srcHeight": "1080",
+        "srcWidth": "2015"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 1899,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_18-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_18-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_18-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_18"
+        "config": "cloudinary",
+        "src": "/v1734439140/cyoujyuu_yamazaki_kou_18-1080_n0nyot.webp",
+        "name": "cyoujyuu_yamazaki_kou_18",
+        "srcHeight": "1080",
+        "srcWidth": "1899"
       },
       {
         "cat": "ekotoba",
         "chapter": "7",
-        "srcHeight": "",
-        "srcWidth": "",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 1380,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_19-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_19-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_19-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_19"
+        "config": "cloudinary",
+        "src": "/v1734439086/cyoujyuu_yamazaki_kou_19-1080_ounqj9.webp",
+        "name": "cyoujyuu_yamazaki_kou_19",
+        "srcHeight": "1080",
+        "srcWidth": "1380"
       },
       {
         "cat": "ekotoba",
         "chapter": "8",
-        "srcHeight": "",
-        "srcWidth": "",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 1685,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_20-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_20-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_20-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_20"
+        "config": "cloudinary",
+        "src": "/v1734439141/cyoujyuu_yamazaki_kou_20-1080_rpieyx.webp",
+        "name": "cyoujyuu_yamazaki_kou_20",
+        "srcHeight": "1080",
+        "srcWidth": "1685"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 1887,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_21-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_21-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_21-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_21"
+        "config": "cloudinary",
+        "src": "/v1734439105/cyoujyuu_yamazaki_kou_21-1080_nqpo4c.webp",
+        "name": "cyoujyuu_yamazaki_kou_21",
+        "srcHeight": "1080",
+        "srcWidth": "1887"
       },
       {
         "cat": "ekotoba",
         "chapter": "9",
-        "srcHeight": "",
-        "srcWidth": "",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "",
         "src": "",
-        "name": ""
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 1881,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_22-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_22-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_22-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_22"
+        "config": "cloudinary",
+        "src": "/v1734439105/cyoujyuu_yamazaki_kou_21-1080_nqpo4c.webp",
+        "name": "cyoujyuu_yamazaki_kou_22",
+        "srcHeight": "1080",
+        "srcWidth": "1881"
       },
       {
         "cat": "image",
         "chapter": "",
-        "srcHeight": 1080,
-        "srcWidth": 1216,
-        "load": "False",
-        "srcSp": "/cyoujyuu_yamazaki_kou_23-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_kou_23-800.webp",
-        "src": "/cyoujyuu_yamazaki_kou_23-1080.webp",
-        "name": "cyoujyuu_yamazaki_kou_23"
+        "config": "cloudinary",
+        "src": "/v1734439086/cyoujyuu_yamazaki_kou_23-1080_haneae.webp",
+        "name": "cyoujyuu_yamazaki_kou_23",
+        "srcHeight": "1080",
+        "srcWidth": "1216"
       }
     ]
   },
@@ -3253,8 +3189,8 @@
         "config": "cloudinary",
         "src": "v1734611297/kusoushiemaki_01-1080_w2xely.jpg",
         "name": "kusoushiemaki_01",
-        "srcWidth": "2883",
-        "srcHeight": "1080"
+        "srcWidth": 0,
+        "srcHeight": 0
       },
       {
         "cat": "ekotoba",
@@ -3262,8 +3198,8 @@
         "config": "cloudinary",
         "src": "v1734611298/kusoushiemaki_02-1080_y6jcit.jpg",
         "name": "kusoushiemaki_02",
-        "srcWidth": "1685",
-        "srcHeight": "1080"
+        "srcWidth": 0,
+        "srcHeight": 0
       },
       {
         "cat": "image",
@@ -3280,8 +3216,8 @@
         "config": "cloudinary",
         "src": "v1734611297/kusoushiemaki_04-1080_ynzpwa.jpg",
         "name": "kusoushiemaki_04",
-        "srcWidth": "1659",
-        "srcHeight": "1080"
+        "srcWidth": 0,
+        "srcHeight": 0
       },
       {
         "cat": "image",
@@ -3298,8 +3234,8 @@
         "config": "cloudinary",
         "src": "v1734611299/kusoushiemaki_06-1080_l2iprl.jpg",
         "name": "kusoushiemaki_06",
-        "srcWidth": "1696",
-        "srcHeight": "1080"
+        "srcWidth": 0,
+        "srcHeight": 0
       },
       {
         "cat": "image",
@@ -3316,8 +3252,8 @@
         "config": "cloudinary",
         "src": "v1734611300/kusoushiemaki_08-1080_e3zpn9.jpg",
         "name": "kusoushiemaki_08",
-        "srcWidth": "1783",
-        "srcHeight": "1080"
+        "srcWidth": 0,
+        "srcHeight": 0
       },
       {
         "cat": "image",
@@ -3334,8 +3270,8 @@
         "config": "cloudinary",
         "src": "v1734611307/kusoushiemaki_10-1080_euvrnz.jpg",
         "name": "kusoushiemaki_10",
-        "srcWidth": "1745",
-        "srcHeight": "1080"
+        "srcWidth": 0,
+        "srcHeight": 0
       },
       {
         "cat": "image",
@@ -3352,8 +3288,8 @@
         "config": "cloudinary",
         "src": "v1734611310/kusoushiemaki_12-1080_bdrr0f.jpg",
         "name": "kusoushiemaki_12",
-        "srcWidth": "1751",
-        "srcHeight": "1080"
+        "srcWidth": 0,
+        "srcHeight": 0
       },
       {
         "cat": "image",
@@ -3370,8 +3306,8 @@
         "config": "cloudinary",
         "src": "v1734611311/kusoushiemaki_14-1080_udvx52.jpg",
         "name": "kusoushiemaki_14",
-        "srcWidth": "1714",
-        "srcHeight": "1080"
+        "srcWidth": 0,
+        "srcHeight": 0
       },
       {
         "cat": "image",
@@ -3388,8 +3324,8 @@
         "config": "cloudinary",
         "src": "v1734611311/kusoushiemaki_16-1080_hw5hdj.jpg",
         "name": "kusoushiemaki_16",
-        "srcWidth": "1668",
-        "srcHeight": "1080"
+        "srcWidth": 0,
+        "srcHeight": 0
       },
       {
         "cat": "image",
@@ -3406,8 +3342,8 @@
         "config": "cloudinary",
         "src": "v1734611296/kusoushiemaki_18-1080_ocz1vp.jpg",
         "name": "kusoushiemaki_18",
-        "srcWidth": "1630",
-        "srcHeight": "1080"
+        "srcWidth": 0,
+        "srcHeight": 0
       },
       {
         "cat": "image",
@@ -8139,10 +8075,8 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "0",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
+        "config": "cloudinary",
+        "chapter": "生前相",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -8150,21 +8084,17 @@
       },
       {
         "cat": "image",
+        "config": "cloudinary",
         "chapter": "",
-        "load": "True",
-        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_01-375.webp",
-        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_01-800.webp",
-        "src": "/nine-stages-of-decay-empress-danrin_honolulu_01-1080.webp",
+        "src": "v1735547895/nine-stages-of-decay-empress-danrin_honolulu_01-1080_rup8zy.jpg",
         "name": "nine-stages-of-decay-empress-danrin_honolulu_01",
-        "srcWidth": 1665,
-        "srcHeight": 1080
+        "srcWidth": "600",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
+        "config": "cloudinary",
         "chapter": "新死相",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -8172,21 +8102,17 @@
       },
       {
         "cat": "image",
+        "config": "cloudinary",
         "chapter": "",
-        "load": "True",
-        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_02-375.webp",
-        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_02-800.webp",
-        "src": "/nine-stages-of-decay-empress-danrin_honolulu_02-1080.webp",
+        "src": "v1735547895/nine-stages-of-decay-empress-danrin_honolulu_02-1080_lbhx3g.jpg",
         "name": "nine-stages-of-decay-empress-danrin_honolulu_02",
-        "srcWidth": 1832,
-        "srcHeight": 1080
+        "srcWidth": "600",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
+        "config": "cloudinary",
         "chapter": "2",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -8194,21 +8120,17 @@
       },
       {
         "cat": "image",
+        "config": "cloudinary",
         "chapter": "",
-        "load": "False",
-        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_03-375.webp",
-        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_03-800.webp",
-        "src": "/nine-stages-of-decay-empress-danrin_honolulu_03-1080.webp",
+        "src": "v1735547895/nine-stages-of-decay-empress-danrin_honolulu_03-1080_r8jxew.jpg",
         "name": "nine-stages-of-decay-empress-danrin_honolulu_03",
-        "srcWidth": 1823,
-        "srcHeight": 1080
+        "srcWidth": "600",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
+        "config": "cloudinary",
         "chapter": "3",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -8216,21 +8138,17 @@
       },
       {
         "cat": "image",
+        "config": "cloudinary",
         "chapter": "",
-        "load": "False",
-        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_04-375.webp",
-        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_04-800.webp",
-        "src": "/nine-stages-of-decay-empress-danrin_honolulu_04-1080.webp",
+        "src": "v1735547896/nine-stages-of-decay-empress-danrin_honolulu_04-1080_nzp4im.jpg",
         "name": "nine-stages-of-decay-empress-danrin_honolulu_04",
-        "srcWidth": 1708,
-        "srcHeight": 1080
+        "srcWidth": "600",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
+        "config": "cloudinary",
         "chapter": "7",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -8238,21 +8156,17 @@
       },
       {
         "cat": "image",
+        "config": "cloudinary",
         "chapter": "",
-        "load": "False",
-        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_05-375.webp",
-        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_05-800.webp",
-        "src": "/nine-stages-of-decay-empress-danrin_honolulu_05-1080.webp",
+        "src": "v1735547895/nine-stages-of-decay-empress-danrin_honolulu_05-1080_dvslds.jpg",
         "name": "nine-stages-of-decay-empress-danrin_honolulu_05",
-        "srcWidth": 2157,
-        "srcHeight": 1080
+        "srcWidth": "600",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
+        "config": "cloudinary",
         "chapter": "8",
-        "load": "",
-        "srcSp": "",
-        "srcTb": "",
         "src": "",
         "name": "",
         "srcWidth": "",
@@ -8260,14 +8174,12 @@
       },
       {
         "cat": "image",
+        "config": "cloudinary",
         "chapter": "",
-        "load": "False",
-        "srcSp": "/nine-stages-of-decay-empress-danrin_honolulu_06-375.webp",
-        "srcTb": "/nine-stages-of-decay-empress-danrin_honolulu_06-800.webp",
-        "src": "/nine-stages-of-decay-empress-danrin_honolulu_06-1080.webp",
+        "src": "v1735547896/nine-stages-of-decay-empress-danrin_honolulu_06-1080_tm1s17.jpg",
         "name": "nine-stages-of-decay-empress-danrin_honolulu_06",
-        "srcWidth": 3597,
-        "srcHeight": 1080
+        "srcWidth": "600",
+        "srcHeight": "1080"
       }
     ]
   },
