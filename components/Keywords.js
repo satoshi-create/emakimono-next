@@ -10,19 +10,6 @@ import CustomTagCloud from "../components/CustomTagCloud";
 
 const Keywords = ({ sectiontitle, sectiontitleen, path, allTags }) => {
 
-    const tags = useMemo(() => [
-    { name: 'JavaScript', count: 38 },
-    { name: 'React', count: 30 },
-    { name: 'Nodejs', count: 28 },
-    { name: 'Express.js', count: 25 },
-    { name: 'HTML5', count: 33 },
-    { name: 'MongoDB', count: 18 },
-    { name: 'CSS3', count: 20 },
-    ], []);
-
-  console.log(allTags);
-
-
 
   const { locale } = useRouter();
   return (

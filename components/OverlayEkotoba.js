@@ -57,8 +57,6 @@ const OverlayEkotoba = ({
     handleToId,
   } = useContext(AppContext);
 
-  console.log(srcHeight);
-
   const { title, titleen } = data;
 
   // TODO : 目次のフォントサイズをレスポンシブにする

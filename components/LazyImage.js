@@ -18,33 +18,25 @@ const LazyImage = ({
 }) => {
   const [isSkeletonVisible, setSkeletonVisible] = useState(true); // スケルトンの表示状態
   const [isVisible, setIsVisible] = useState(false);
-  // const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  // const [imageUrl, setImageUrl] = useState("");
-  // console.log(src.src);
+  const [images, setImages] = useState([]);
+  // console.log(images);
 
   const { windowHeight, orientation, toggleFullscreen } =
     useContext(AppContext);
 
-  // useEffect(() => {
-  //   // Cloudinary APIを呼び出して画像メタデータを取得
-  //   const fetchImageMetadata = async () => {
-  //     const response = await fetch(
-  //       `https://res.cloudinary.com/${process.env.CLOUD_NAME}image/upload/v1734439090/cyoujyuu_yamazaki_kou_10-1080_uimhus.webp`,
-  //       {
-  //         headers: {
-  //           Authorization: `Basic ${btoa("<api_key>:<api_secret>")}`,
-  //         },
-  //       }
-  //     );
-  //     const data = await response.json();
-  //     console.log(data);
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const response = await fetch("/api/cloudinary");
+        const data = await response.json();
+        setImages(data.images);
+      } catch (error) {
+        console.error("Error fetching images:", error);
+      }
+    };
 
-  //     setDimensions({ width: data.width, height: data.height });
-  //     setImageUrl(data.secure_url);
-  //   };
-
-  //   fetchImageMetadata();
-  // }, [src]);
+    fetchImages();
+  }, []);
 
   const baseUrl =
     "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
