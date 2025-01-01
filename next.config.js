@@ -72,7 +72,6 @@ const nextConfig = {
   },
   images: {
     domains: ["res.cloudinary.com"], // Cloudinaryのドメイン
-    loader: "custom",
     path: "", // パスはカスタムローダーで管理されるため空にします
   },
 };

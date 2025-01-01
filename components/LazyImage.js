@@ -54,9 +54,7 @@ const LazyImage = ({
   };
 
   const cloudinaryLoader = ({ src, width, quality }) => {
-    return `https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive,f_jpg,w_${width},q_${
-      quality || 75
-    }/${src}`;
+    return `${baseUrl},f_jpg,w_${width},q_${quality || 75}/${src}`;
   };
 
   const getResponsiveSrcCloudinary = (emaki, containerHeight) => {
