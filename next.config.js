@@ -72,6 +72,7 @@ const nextConfig = {
   },
   images: {
     domains: ["res.cloudinary.com"], // Cloudinaryのドメイン
+    path: "/_next/image", // デフォルトパス
   },
 };
 
