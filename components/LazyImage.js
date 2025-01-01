@@ -16,26 +16,27 @@ const LazyImage = ({
   index,
   uniqueIndex,
 }) => {
-  const [isSkeletonVisible, setSkeletonVisible] = useState(true); // スケルトンの表示状態
-  const [isVisible, setIsVisible] = useState(false);
-  const [images, setImages] = useState([]);
-  // console.log(images);
-
   const { windowHeight, orientation, toggleFullscreen } =
     useContext(AppContext);
 
+  const [isSkeletonVisible, setSkeletonVisible] = useState(true);
+
+  const containerRef = useRef(null);
+  const [containerHeight, setContainerHeight] = useState(0);
+
   useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const response = await fetch("/api/cloudinary");
-        const data = await response.json();
-        setImages(data.images);
-      } catch (error) {
-        console.error("Error fetching images:", error);
+    const updateHeight = () => {
+      if (containerRef.current) {
+        setContainerHeight(containerRef.current.offsetHeight);
       }
     };
 
-    fetchImages();
+    // 初回取得
+    updateHeight();
+
+    // ウィンドウリサイズ時にも高さを更新
+    window.addEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
   }, []);
 
   const baseUrl =
@@ -58,20 +59,23 @@ const LazyImage = ({
     }/${src}`;
   };
 
-  const getResponsiveSrcCloudinary = (emaki) => {
+  const getResponsiveSrcCloudinary = (emaki, containerHeight) => {
     const aspectRatio = width / height; // アスペクト比を計算
 
-    // デバイスの高さに応じてCloudinaryの画像サイズを動的に調整
-    if (windowHeight <= 375) {
+    // コンテナの高さに応じてCloudinaryの画像サイズを動的に調整
+    if (containerHeight <= 375) {
       const calculatedWidth = Math.round(375 * aspectRatio); // 高さから幅を計算
       return `${baseUrl}/w_${calculatedWidth},h_375,c_fit/${emaki.src}`; // スマートフォン用
-    } else if (windowHeight <= 800) {
+    } else if (containerHeight <= 800) {
       const calculatedWidth = Math.round(800 * aspectRatio); // 高さから幅を計算
       return `${baseUrl}/w_${calculatedWidth},h_800,c_fit/${emaki.src}`; // タブレット用
     } else {
-      return `${baseUrl}/w_${width},h_${height},c_fit/${emaki.src}`; // デスクトップ用
+      const calculatedWidth = Math.round(containerHeight * aspectRatio); // 高さから幅を計算
+      return `${baseUrl}/w_${calculatedWidth},h_${containerHeight},c_fit/${emaki.src}`; // デスクトップ用
     }
   };
+
+  const responsiveSrc = getResponsiveSrcCloudinary(src, containerHeight);
 
   // 低解像度画像（ぼかしプレースホルダー用）
   const blurImage = `${baseUrl}/w_10,h_10,c_fill,q_auto:low/${src.src}`;
@@ -109,9 +113,9 @@ const LazyImage = ({
         width: `${
           (width / height) * getResponsiveWidth(toggleFullscreen, orientation)
         }vh`,
-        // width: `${width}px`,
         position: "relative",
       }}
+      ref={containerRef}
     >
       {/* スケルトン: 画像がロードされるまで表示 */}
       {isSkeletonVisible && <div className="skeleton"></div>}
@@ -124,11 +128,14 @@ const LazyImage = ({
           alt={alt}
           priority={uniqueIndex === 0} // 最初の画像は即時プリロード
           loading={uniqueIndex < 2 ? "eager" : "lazy"} // 最初の2枚は即時読み込み
+          layout="responsive"
           placeholder={"blur"} // 最初の2枚だけぼかしプレースホルダーを適用
           blurDataURL={config === "cloudinary" ? blurImage : srcSp}
           onLoadingComplete={() => setSkeletonVisible(false)} // 読み込み完了時に状態を更新
           className={`image ${isBlurVisible ? "loaded" : "loading"}`} // 状態に応じたクラスを付与
           // className={`image ${isBlurVisible ? "loaded" : "loading"}`} // 状態に応じたクラスを付与
+          // onLoad={onImageLoad} // 画像のロード完了時に実行
+          // sizes="(max-width: 375px) 33vh, (max-width: 800px) 60vh, 100vh"
         />
       )}
       )
