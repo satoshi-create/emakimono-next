@@ -61,7 +61,7 @@ async function updateNestedArray(data) {
 
       const updatedEmakis = await Promise.all(
         item.emakis.map(async (emaki) => {
-          if (emaki.cat === "image" && emaki.config === "cloudinary") {
+          if (emaki.config === "cloudinary") {
             const publicId = extractPublicId(emaki.src);
             // console.log("Public ID:", publicId);
 

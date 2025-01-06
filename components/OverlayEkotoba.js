@@ -43,7 +43,7 @@ const OverlayEkotoba = ({
     uniqueIndex,
   },
   item,
-  isBlurVisible
+  isBlurVisible,
 }) => {
   const {
     setekotobaToggle,
@@ -76,10 +76,8 @@ const OverlayEkotoba = ({
     } else {
       setEkotobaImageToggle(false);
     }
-  setekotobaToggle(false);
+    setekotobaToggle(false);
   }, [setEkotobaImageToggle, setekotobaToggle, scroll]);
-
-
 
   const parseEkotobaId = (ekotobaId) => {
     if (ekotobaId) {
@@ -169,10 +167,10 @@ const OverlayEkotoba = ({
             }`,
           }}
         >
+          {/* {ChaptersGendaibun(titleen, title, chapter, ekotobabody)} */}
           {src && ChaptersGendaibun(titleen, title, chapter, ekotobabody)}
         </p>
       </div>
-
       {src && (
         <LazyImage
           key={index}

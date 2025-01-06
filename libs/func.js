@@ -297,8 +297,8 @@ const ChaptersGendaibun= (titleen,title, chapter, gendaibun) => {
   if (title.includes("九相")) {
     return (
       <>
-        {connectKusouzuChapters(chapter, "gendaibun") &&
-          `${connectKusouzuChapters(chapter, "gendaibun")}`}
+        {connectKusouzuChapters(chapter, "desc") &&
+          `${connectKusouzuChapters(chapter, "desc")}`}
       </>
     );
   } else if (title.includes("源氏")) {

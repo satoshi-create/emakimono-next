@@ -3190,8 +3190,8 @@
         "config": "cloudinary",
         "src": "v1734611297/kusoushiemaki_01-1080_w2xely.jpg",
         "name": "kusoushiemaki_01",
-        "srcWidth": 0,
-        "srcHeight": 0
+        "srcWidth": 2883,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -3199,8 +3199,8 @@
         "config": "cloudinary",
         "src": "v1734611298/kusoushiemaki_02-1080_y6jcit.jpg",
         "name": "kusoushiemaki_02",
-        "srcWidth": 0,
-        "srcHeight": 0
+        "srcWidth": 1685,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
@@ -3218,8 +3218,8 @@
         "config": "cloudinary",
         "src": "v1734611297/kusoushiemaki_04-1080_ynzpwa.jpg",
         "name": "kusoushiemaki_04",
-        "srcWidth": 0,
-        "srcHeight": 0
+        "srcWidth": 1659,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
@@ -3237,8 +3237,8 @@
         "config": "cloudinary",
         "src": "v1734611299/kusoushiemaki_06-1080_l2iprl.jpg",
         "name": "kusoushiemaki_06",
-        "srcWidth": 0,
-        "srcHeight": 0
+        "srcWidth": 1696,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
@@ -3256,8 +3256,8 @@
         "config": "cloudinary",
         "src": "v1734611300/kusoushiemaki_08-1080_e3zpn9.jpg",
         "name": "kusoushiemaki_08",
-        "srcWidth": 0,
-        "srcHeight": 0
+        "srcWidth": 1783,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
@@ -3275,8 +3275,8 @@
         "config": "cloudinary",
         "src": "v1734611307/kusoushiemaki_10-1080_euvrnz.jpg",
         "name": "kusoushiemaki_10",
-        "srcWidth": 0,
-        "srcHeight": 0
+        "srcWidth": 1745,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
@@ -3294,8 +3294,8 @@
         "config": "cloudinary",
         "src": "v1734611310/kusoushiemaki_12-1080_bdrr0f.jpg",
         "name": "kusoushiemaki_12",
-        "srcWidth": 0,
-        "srcHeight": 0
+        "srcWidth": 1751,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
@@ -3313,8 +3313,8 @@
         "config": "cloudinary",
         "src": "v1734611311/kusoushiemaki_14-1080_udvx52.jpg",
         "name": "kusoushiemaki_14",
-        "srcWidth": 0,
-        "srcHeight": 0
+        "srcWidth": 1714,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
@@ -3332,8 +3332,8 @@
         "config": "cloudinary",
         "src": "v1734611311/kusoushiemaki_16-1080_hw5hdj.jpg",
         "name": "kusoushiemaki_16",
-        "srcWidth": 0,
-        "srcHeight": 0
+        "srcWidth": 1668,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
@@ -3351,8 +3351,8 @@
         "config": "cloudinary",
         "src": "v1734611296/kusoushiemaki_18-1080_ocz1vp.jpg",
         "name": "kusoushiemaki_18",
-        "srcWidth": 0,
-        "srcHeight": 0
+        "srcWidth": 1630,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
@@ -8199,7 +8199,6 @@
         "test": "hoge"
       }
     ]
-
   },
   {
     "id": 49,
