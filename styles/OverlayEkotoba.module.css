@@ -135,7 +135,7 @@ transform: scale(1.2);
  * 右⇒左（rl）の設定
  * =========================== */
 
-.ekotobarl {
+.ekotobarl .gendaibunbox{
   writing-mode: vertical-rl;
   z-index: 1;
 }
@@ -151,7 +151,7 @@ transform: scale(1.2);
 /* ===========================
  * 左⇒右（lr）の設定
  * =========================== */
-.ekotobalr {
+.ekotobalr .gendaibunbox{
   writing-mode: vertical-lr;
   z-index: 1;
 }
