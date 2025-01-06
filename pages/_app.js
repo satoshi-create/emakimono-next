@@ -14,6 +14,7 @@ import ExtractingListData from "../libs/ExtractingListData";
 import BottomNavigation from "../components/BottomNavigation";
 import InstallPrompt from "../components/InstallPrompt";
 
+
 config.autoAddCss = false;
 
 export const AppContext = createContext();
@@ -558,7 +559,7 @@ function MyApp({ Component, pageProps, router }) {
       <ChakraProvider theme={theme}>
         <Component {...pageProps} key={router.asPath} />
         {isContactModalOpen && <ContactFormGoogle />}
-      {isSearchModalOpen && <ModalSearch />}
+        {isSearchModalOpen && <ModalSearch />}
         {/* <InstallPrompt/> */}
         <BottomNavigation />
       </ChakraProvider>

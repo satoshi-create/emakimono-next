@@ -76,7 +76,7 @@ const OverlayEkotoba = ({
     } else {
       setEkotobaImageToggle(false);
     }
-    setekotobaToggle(false);
+  setekotobaToggle(false);
   }, [setEkotobaImageToggle, setekotobaToggle, scroll]);
 
 

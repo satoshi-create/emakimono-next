@@ -1,6 +1,7 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import * as gtag from "../libs/gtag";
 
+
 class MyDocument extends Document {
   render() {
     return (
