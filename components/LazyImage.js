@@ -105,7 +105,7 @@ const LazyImage = ({
 
   return (
     <div
-      id={index}
+
       className={`image-wrapper`}
       style={{
         width: `${
@@ -136,6 +136,7 @@ const LazyImage = ({
           // sizes="(max-width: 375px) 33vh, (max-width: 800px) 60vh, 100vh"
         />
       )}
+      )
       <style jsx global>{`
         .imageWrapper {
           position: relative; /* Imageの親要素として必要 */

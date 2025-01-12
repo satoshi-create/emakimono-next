@@ -27,7 +27,7 @@ const SwitcherEmaki = forwardRef(
     if (data.type !== "古典文学") {
       if (cat === "image") {
         return (
-          <section ref={ref}>
+          <section ref={ref} id={index}>
             <EmakiImage
               key={index}
               item={{
@@ -45,7 +45,7 @@ const SwitcherEmaki = forwardRef(
       }
       if (cat === "ekotoba") {
         return (
-          <section ref={ref}>
+          <section ref={ref} id={index}>
             <OverlayEkotoba
               key={index}
               item={{

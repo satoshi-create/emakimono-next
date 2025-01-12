@@ -94,7 +94,6 @@ const OverlayEkotoba = ({
           ? `${styles.gendaibunclose}`
           : `${styles.gendaibunopen}`
       } ${styles.container}`}
-      id={`${index}`}
       ref={navIndex === index ? scrollDialog : null}
     >
       <div
@@ -172,19 +171,37 @@ const OverlayEkotoba = ({
         </p>
       </div>
       {src && (
-        <LazyImage
-          key={index}
-          src={item}
-          alt={name}
-          width={srcWidth}
-          height={srcHeight}
-          index={index}
-          srcSp={srcSp}
-          config={config}
-          isBlurVisible={isBlurVisible}
-          uniqueIndex={uniqueIndex}
-        />
+        <div className={styles.ekotobaimagebox}>
+          <LazyImage
+            key={index}
+            src={item}
+            alt={name}
+            width={srcWidth}
+            height={srcHeight}
+            index={index}
+            srcSp={srcSp}
+            config={config}
+            isBlurVisible={isBlurVisible}
+            uniqueIndex={uniqueIndex}
+          />
+        </div>
       )}
+      {/* {src && (
+        <div className={styles.ekotobaimagebox}>
+          <ResposiveImage
+            value={{
+              srcSp,
+              srcTb,
+              src,
+              load,
+              name,
+              scroll,
+              srcWidth,
+              srcHeight,
+            }}
+          />
+        </div>
+      )} */}
     </div>
   );
 };
