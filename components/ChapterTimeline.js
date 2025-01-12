@@ -37,7 +37,7 @@ const ChapterTimeline = ({
       ekotobaId,
       index,
     });
-    handleToId(index + 1);
+    handleToId(index);
   };
 
   return (
@@ -51,7 +51,7 @@ const ChapterTimeline = ({
         p={2}
         cursor={"pointer"}
         borderRadius={10}
-        onClick={() => handleToId(index + 1)}
+        onClick={() => handleToId(index)}
       >
         <Circle
           size={useBreakpointValue({ base: "24px", md: "30px" })} // レスポンシブでCircleのサイズを変更

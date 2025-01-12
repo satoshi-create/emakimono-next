@@ -5,19 +5,20 @@
 }
 
 .ekotobaimagebox {
-  transition: var(--transition);
-  width: 100%;
+  /* transition: var(--transition);
+  width: 100%; */
+  writing-mode: horizontal-tb;
 }
 
-.gendaibu nopen .ekotobaimagebox {
+/* .gendaibunopen .ekotobaimagebox {
   filter: blur(5px);
-  /* mask-image: linear-gradient(to left, black, black, black, transparent); */
+  mask-image: linear-gradient(to left, black, black, black, transparent);
   mask-image: linear-gradient(to left,
       black,
       black,
       black,
       rgba(204, 204, 204, 0.5830707282913166));
-}
+} */
 
 .gendaibunbox {
   position: absolute;
@@ -135,12 +136,12 @@ transform: scale(1.2);
  * 右⇒左（rl）の設定
  * =========================== */
 
-.ekotobarl .gendaibunbox{
+.ekotobarl {
   writing-mode: vertical-rl;
   z-index: 1;
 }
 
-.ekotobarl .gendaibunbox {
+.ekotobarl  {
   right: 0;
 }
 
@@ -151,7 +152,7 @@ transform: scale(1.2);
 /* ===========================
  * 左⇒右（lr）の設定
  * =========================== */
-.ekotobalr .gendaibunbox{
+.ekotobalr .gendaibunbox {
   writing-mode: vertical-lr;
   z-index: 1;
 }
