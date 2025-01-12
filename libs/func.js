@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import { ja, en } from "./staticData";
 import { jaMeta, enMeta } from "./dataSiteMeta";
-import enData from "./data";
-import jaData from "./data";
+import enData from "./image-metadata-cache/image-metadata-cache.json";
+import jaData from "./image-metadata-cache/image-metadata-cache.json";
 import chaptergenji from "./genji/chapters-of-genji.json";
 import chapterkusouzu from "./kusouzu/chapters-of-kusouzu.json";
 import parse from "html-react-parser";

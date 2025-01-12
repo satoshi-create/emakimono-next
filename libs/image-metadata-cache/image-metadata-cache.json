@@ -174,9 +174,9 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717700/cyoujyuu_yamazaki_kou_11-1080_cidvdn.jpg",
+        "src": "v1735717701/cyoujyuu_yamazaki_kou_12-1080_hpc8cu.jpg",
         "name": "cyoujyuu_yamazaki_kou_12",
-        "srcWidth": 1065,
+        "srcWidth": 1902,
         "srcHeight": 1080
       },
       {
@@ -16280,6 +16280,177 @@
         "srcTb": "/semmenhokkekyosasshi-mohon_38_tohaku-800.webp",
         "src": "/semmenhokkekyosasshi-mohon_38_tohaku-1080.webp",
         "name": "semmenhokkekyosasshi-mohon_38_tohaku"
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "title": "鳥獣人物戯画絵巻と天狗草紙",
+    "titleen": "test",
+    "author": "",
+    "authoren": "",
+    "edition": "",
+    "backgroundImage": "/110310200304.webp",
+    "thumb": "/frolicking-animals-and-tengu-goblins_thumb.webp",
+    "thumb2": "/frolicking-animals-and-tengu-goblins_thumb.webp",
+    "era": "江戸",
+    "eraen": "edo",
+    "desc": "",
+    "descen": "",
+    "readMore": false,
+    "type": "絵巻",
+    "typeen": "emaki",
+    "keyword": [
+      {
+        "name": "戯画",
+        "id": "caricature",
+        "slug": "caricature"
+      },
+      {
+        "name": "動物",
+        "id": "animal",
+        "slug": "animal"
+      },
+      {
+        "name": "鳥羽絵",
+        "id": "tobae",
+        "slug": "tobae"
+      },
+      {
+        "name": "年中行事",
+        "id": "annualevent",
+        "slug": "annualevent"
+      },
+      {
+        "name": "仏教",
+        "id": "buddhism",
+        "slug": "buddhism"
+      },
+      {
+        "name": "天狗",
+        "id": "tengu-goblin",
+        "slug": "tengu-goblin"
+      }
+    ],
+    "kotobagaki": true,
+    "favorite": true,
+    "sourceImageUrl": "https://honolulu.emuseum.com/objects/38858/frolicking-animals-and-tengu-goblins",
+    "sourceImage": "Frolicking Animals and Tengu Goblins（ホノルル美術館）",
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "天狗草紙",
+        "desc": "",
+        "descen": "",
+        "config": "",
+        "src": "",
+        "name": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "desc": "",
+        "descen": "",
+        "config": "cloudinary",
+        "src": "/v1736671199/frolicking-animals-and-tengu-goblins_01-1080_ru9093.jpg",
+        "name": "frolicking-animals-and-tengu-goblins_01",
+        "srcWidth": 2929,
+        "srcHeight": 1080
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "desc": "",
+        "descen": "",
+        "config": "cloudinary",
+        "src": "/v1736671199/frolicking-animals-and-tengu-goblins_02-1080_zicxqr.jpg",
+        "name": "frolicking-animals-and-tengu-goblins_02",
+        "srcWidth": 3427,
+        "srcHeight": 1080
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "禄の物を受ける猿僧正（ref.甲巻）",
+        "desc": "<a href='/Chōjū-jinbutsu-giga_first#13' target='_blank'>「鳥獣人物戯画 甲巻」の「禄の物を受ける猿僧正」</a>と同じモチーフ",
+        "descen": "",
+        "config": "",
+        "src": "",
+        "name": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "desc": "",
+        "descen": "",
+        "config": "cloudinary",
+        "src": "/v1736671199/frolicking-animals-and-tengu-goblins_03-1080_uapb0g.jpg",
+        "name": "frolicking-animals-and-tengu-goblins_03",
+        "srcWidth": 3036,
+        "srcHeight": 1080
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "猿の競馬（ref.丙巻）",
+        "desc": "<a href='/Chōjū-jinbutsu-giga_third#19' target='_blank'>「鳥獣人物戯画 丙巻」の「猿の競馬」</a>と同じモチーフ",
+        "descen": "",
+        "config": "",
+        "src": "",
+        "name": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "desc": "",
+        "descen": "",
+        "config": "cloudinary",
+        "src": "/v1736671198/frolicking-animals-and-tengu-goblins_04-1080_g8aoiu.jpg",
+        "name": "frolicking-animals-and-tengu-goblins_04",
+        "srcWidth": 3018,
+        "srcHeight": 1080
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "desc": "",
+        "descen": "",
+        "config": "cloudinary",
+        "src": "/v1736671198/frolicking-animals-and-tengu-goblins_05-1080_vklehk.jpg",
+        "name": "frolicking-animals-and-tengu-goblins_05",
+        "srcWidth": 2969,
+        "srcHeight": 1080
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "desc": "",
+        "descen": "",
+        "config": "cloudinary",
+        "src": "/v1736671198/frolicking-animals-and-tengu-goblins_06-1080_v8adkj.jpg",
+        "name": "frolicking-animals-and-tengu-goblins_06",
+        "srcWidth": 3093,
+        "srcHeight": 1080
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "desc": "",
+        "descen": "",
+        "config": "cloudinary",
+        "src": "/v1736671199/frolicking-animals-and-tengu-goblins_07-1080_chilwy.jpg",
+        "name": "frolicking-animals-and-tengu-goblins_07",
+        "srcWidth": 3047,
+        "srcHeight": 1080
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "desc": "",
+        "descen": "",
+        "config": "cloudinary",
+        "src": "/v1736671199/frolicking-animals-and-tengu-goblins_08-1080_ifn9b8.jpg",
+        "name": "frolicking-animals-and-tengu-goblins_08",
+        "srcWidth": 1693,
+        "srcHeight": 1080
       }
     ]
   }

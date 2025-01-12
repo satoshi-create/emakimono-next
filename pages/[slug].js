@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import EmakiConteiner from "../components/EmakiConteiner";
 import Sidebar from "../components/Sidebar";
 import Head from "../components/Meta";
-import emakisData from "../libs/data";
+import emakisData from "../libs/image-metadata-cache/image-metadata-cache.json";
 import enData from "../libs/data";
 import jaData from "../libs/data";
 import { AppContext } from "../pages/_app";
@@ -16,11 +16,10 @@ import { useLocaleMeta } from "../libs/func";
 import BottomNavigation from "../components/BottomNavigation";
 import MiddleNavigation from "../components/MiddleNavigation";
 
-
-
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
 const Emaki = ({ data, locale, locales, slug, test }) => {
+  console.log(data);
 
   const { t } = useLocaleMeta();
   const router = useRouter();
@@ -33,7 +32,6 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
     toggleFullscreen,
     setToggleFullscreen,
   } = useContext(AppContext);
-
 
   const pagetitle =
     locale === "en"
@@ -190,9 +188,12 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
         pageType={data.type}
         jsonLd={jsonLd}
       />
-      <MiddleNavigation title={data.title} edition={data.edition} author={data.author} />
+      <MiddleNavigation
+        title={data.title}
+        edition={data.edition}
+        author={data.author}
+      />
       {matchMediaContainer(toggleFullscreen, orientation)}
-
     </>
   );
 };
@@ -232,6 +233,8 @@ export const getStaticProps = async (context) => {
   const filterdEmakisData = metadataCache.filter(
     (item, index) => item.titleen === slug
   );
+
+  console.log(filterdEmakisData);
 
   const addObjEmakis = filterdEmakisData
     .map((item, i) => {
