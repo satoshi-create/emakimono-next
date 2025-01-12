@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import { ja, en } from "./staticData";
 import { jaMeta, enMeta } from "./dataSiteMeta";
-import enData from "./data";
-import jaData from "./data";
+import enData from "./image-metadata-cache/image-metadata-cache.json";
+import jaData from "./image-metadata-cache/image-metadata-cache.json";
 import chaptergenji from "./genji/chapters-of-genji.json";
 import chapterkusouzu from "./kusouzu/chapters-of-kusouzu.json";
 import parse from "html-react-parser";
@@ -197,6 +197,7 @@ const removeNestedEmakisObj = (obj) =>
     {}
   );
 
+
 /* ================
 
 「九相図」の絵巻データとメタデータ（chapters-of-kusouzu）をマージする関数connectKusouzuChapters
@@ -228,22 +229,23 @@ const connectGenjiChaptersScene = (chapter, scene) => {
     return chapterGenjisummary;
   }
 };
-const connectEmakiText = (titleen, chapter, text) => {
+const connectEmakiText = (titleen,chapter, text) => {
   let EmakiTextdata = require(`./emaki-text-data/${titleen}.json`);
 
   if (EmakiTextdata) {
-    const connectEshiChapter = EmakiTextdata.filter(
-      (item) => chapter === item.chapter
-    )
-      .map((item) => item[text])
-      .join();
-    return parse(connectEshiChapter);
-  } else {
-    return titleen;
+  const connectEshiChapter = EmakiTextdata.filter(
+    (item) => chapter === item.chapter
+  )
+    .map((item) => item[text])
+    .join();
+  return parse(connectEshiChapter);
+  }else{
+    return titleen
   }
 };
 
 const ChaptersTitle = (titleen, title, chapter) => {
+
   if (title.includes("九相")) {
     return (
       <>
@@ -265,8 +267,8 @@ const ChaptersTitle = (titleen, title, chapter) => {
   } else if (title.includes("源氏")) {
     return (
       <>
-        {connectGenjiChapters(chapter, "chapter_en") &&
-          `【第${connectGenjiChapters(chapter, "chapter_ch")}帖】`}
+        {connectGenjiChapters(chapter, "chapter_en")
+          && `【第${connectGenjiChapters(chapter, "chapter_ch")}帖】`}
         <ruby>
           {connectGenjiChapters(chapter, "chapter_en") &&
             `${connectGenjiChapters(chapter, "title")}`}
@@ -284,14 +286,14 @@ const ChaptersTitle = (titleen, title, chapter) => {
       <>
         {connectEmakiText(titleen, chapter, "title") &&
           connectEmakiText(titleen, chapter, "title")}
-      </>
+       </>
     );
   } else {
     return chapter && parse(chapter);
   }
 };
 
-const ChaptersGendaibun = (titleen, title, chapter, gendaibun) => {
+const ChaptersGendaibun= (titleen,title, chapter, gendaibun) => {
   if (title.includes("九相")) {
     return (
       <>
@@ -318,7 +320,7 @@ const ChaptersGendaibun = (titleen, title, chapter, gendaibun) => {
   }
 };
 
-const ChaptersDesc = (titleen, title, chapter, desc) => {
+const ChaptersDesc = (titleen,title, chapter, desc) => {
   if (title.includes("九相")) {
     return (
       <>
@@ -347,10 +349,12 @@ const ChaptersDesc = (titleen, title, chapter, desc) => {
 
 // キーワード一覧とマッチする絵巻ページのタグをfindし、新たな配列を作成
 
-const filterdKeywords = (pageKey, allKey) =>
-  pageKey
+
+  const filterdKeywords = (pageKey,allKey)=> pageKey
     ?.map((item2) => {
-      const matchingItem = allKey.find((item1) => item1.name === item2.name);
+      const matchingItem = allKey.find(
+        (item1) => item1.name === item2.name
+      );
       if (matchingItem) {
         return {
           name: matchingItem.name,
@@ -362,6 +366,8 @@ const filterdKeywords = (pageKey, allKey) =>
       return null;
     })
     .filter((item) => item !== null);
+
+
 
 export {
   eraColor,
@@ -383,5 +389,5 @@ export {
   ChaptersTitle,
   ChaptersGendaibun,
   ChaptersDesc,
-  filterdKeywords,
+  filterdKeywords
 };
