@@ -2,14 +2,7 @@ import React, { useContext, useState } from "react";
 import styles from "../styles/EmakiLandscapContent.module.css";
 import { eraColor, ChaptersTitle } from "../libs/func";
 import { AppContext } from "../pages/_app";
-import {
-  Box,
-  VStack,
-  HStack,
-  Circle,
-  Text,
-  Button,
-} from "@chakra-ui/react";
+import { Box, VStack, HStack, Circle, Text, Button } from "@chakra-ui/react";
 import { FaRegCircle, FaMapMarkerAlt, FaBook, FaPlay } from "react-icons/fa";
 import { useBreakpointValue } from "@chakra-ui/react";
 
@@ -25,6 +18,8 @@ const ChapterTimeline = ({
 }) => {
   const { handleToId, openDescModal } = useContext(AppContext);
 
+
+
   let icon;
   switch (iconType) {
     case "location":
@@ -37,12 +32,12 @@ const ChapterTimeline = ({
       icon = <FaRegCircle />;
   }
 
-  const handleModalButtonClick = (ekotobaId,index) => {
+  const handleModalButtonClick = (ekotobaId, index) => {
     openDescModal({
       ekotobaId,
       index,
     });
-    handleToId(index);
+    handleToId(index + 1);
   };
 
   return (
@@ -56,7 +51,7 @@ const ChapterTimeline = ({
         p={2}
         cursor={"pointer"}
         borderRadius={10}
-        onClick={() => handleToId(index)}
+        onClick={() => handleToId(index + 1)}
       >
         <Circle
           size={useBreakpointValue({ base: "24px", md: "30px" })} // レスポンシブでCircleのサイズを変更
@@ -66,12 +61,12 @@ const ChapterTimeline = ({
           display="flex" // flexboxで配置
           alignItems="center" // 垂直方向に中央配置
           justifyContent="center" // 水平方向に中央配置
-        zIndex={2}
+          zIndex={2}
         >
           {/* {index + 1} */}
           <FaRegCircle
             size={useBreakpointValue({ base: "14px", md: "18px" })}
-          zIndex={2}
+            zIndex={2}
           />
           {/* ここでアイコンを表示 */}
         </Circle>

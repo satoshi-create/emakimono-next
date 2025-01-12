@@ -28,7 +28,13 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
   const filterDesc = desc.substring(0, 40);
   const descTemp = `${title} ${
     author && `（${author}）`
-  }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+    }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+
+
+    const baseUrl =
+      "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
+
+
   return (
     <div onClick={closeSearchModal}>
       {sectiontitle === "さまざまな絵巻" && (

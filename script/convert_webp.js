@@ -9,5 +9,5 @@ import imageminWebp from "imagemin-webp";
 })();
 
 // add "type module" to package.json
-// npm start（node convert_webp.js）
+// npm start（node script/convert_webp.js）
 // remove type module to package.json
