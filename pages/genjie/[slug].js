@@ -5,8 +5,8 @@ import CardA from "../../components/CardA";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
-import enData from "../../libs/data";
-import jaData from "../../libs/data";
+import enData from "../../libs/image-metadata-cache/image-metadata-cache.json";
+import jaData from "../../libs/image-metadata-cache/image-metadata-cache.json";
 import { removeNestedEmakisObj, genjieSlugItem } from "../../libs/func";
 import AllGenjiChapters from "../../libs/genji/chapters-of-genji.json";
 
@@ -74,7 +74,7 @@ export const getStaticProps = async (context) => {
   const tEmakisData = locale === "en" ? enData : jaData;
 
   const chaptergenji = AllGenjiChapters.find((item) => item.path === genjieslugname);
-  
+
   const filterdEmakisData = tEmakisData.filter((x) => {
     if (x.genjieslug) {
       const filterdGenjieslug = x.genjieslug.some(

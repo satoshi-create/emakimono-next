@@ -6,8 +6,8 @@ import Breadcrumbs from "../../components/Breadcrumbs";
 import { personnameItem, removeNestedEmakisObj } from "../../libs/func";
 import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
-import enData from "../../libs/data";
-import jaData from "../../libs/data";
+import enData from "../../libs/image-metadata-cache/image-metadata-cache.json";
+import jaData from "../../libs/image-metadata-cache/image-metadata-cache.json";
 
 const Emaki = ({ name, posts, nameruby, nameen, slug }) => {
   const { locale } = useRouter();

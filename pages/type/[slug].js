@@ -6,8 +6,8 @@ import Breadcrumbs from "../../components/Breadcrumbs";
 import { useRouter } from "next/router";
 import { removeNestedEmakisObj, typeItem } from "../../libs/func";
 import Footer from "../../components/Footer";
-import enData from "../../libs/data";
-import jaData from "../../libs/data";
+import enData from "../../libs/image-metadata-cache/image-metadata-cache.json";
+import jaData from "../../libs/image-metadata-cache/image-metadata-cache.json";
 
 const Type = ({ name, nameen, posts, slug }) => {
   const { locale } = useRouter();

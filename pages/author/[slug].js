@@ -1,8 +1,8 @@
 import React from "react";
 import emakisData from "../../libs/data";
 import { authorItem, removeNestedEmakisObj } from "../../libs/func";
-import enData from "../../libs/data";
-import jaData from "../../libs/data";
+import enData from "../../libs/image-metadata-cache/image-metadata-cache.json";
+import jaData from "../../libs/image-metadata-cache/image-metadata-cache.json";
 import Head from "../../components/Meta";
 import Header from "../../components/Header";
 import Breadcrumbs from "../../components/Breadcrumbs";

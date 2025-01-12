@@ -1,20 +1,22 @@
 import Header from "../../components/Header";
 import Head from "../../components/Meta";
 import CardA from "../../components/CardA";
-import emakisData from "../../libs/data";
+import emakisData from "../../libs/image-metadata-cache/image-metadata-cache.json";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import {
   keywordItem,
   genjieSlugItem,
+  useLocaleData,
   removeNestedEmakisObj,
 } from "../../libs/func";
 import { useRouter } from "next/router";
 import Footer from "../../components/Footer";
-import enData from "../../libs/data";
-import jaData from "../../libs/data";
+import enData from "../../libs/image-metadata-cache/image-metadata-cache.json";
+import jaData from "../../libs/image-metadata-cache/image-metadata-cache.json";
 
 const Emaki = ({ name, posts, nameen, slug }) => {
   const { locale } = useRouter();
+
   const tPageDesc =
     locale === "en"
       ? `You can enjoy picture scrolls, folding screens, etc. related to "${name}" in vertical and horizontal scrolling mode.`
