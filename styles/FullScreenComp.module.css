@@ -3,11 +3,13 @@
   width: 80vw;
   /* padding: var(--padding); */
 }
+
 .left {
   grid-row: 1;
   grid-column: 1;
   align-self: flex-end;
 }
+
 .right {
   grid-row: 1;
   grid-column: 2;
@@ -23,6 +25,7 @@
   display: flex;
   flex-direction: row;
 }
+
 .genjieslugTitle {
   font-size: clamp(3.75rem, 2.0455rem + 7.2727vw, 7.5rem);
   font-family: var(--title-font-3);
@@ -31,16 +34,20 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
 .genjieslugTitle:hover {
   filter: blur(4px);
 }
+
 .genjieslugTitle .rt {
   font-size: clamp(1.125rem, 0.7841rem + 1.4545vw, 1.875rem);
   font-family: var(--emaki-title-font);
 }
+
 .fullscreen.right .genjieslugTitle {
   background-image: linear-gradient(90deg, rgb(255 191 193), rgb(217 220 255))
 }
+
 .fullscreen.left .genjieslugTitle {
   background-image: linear-gradient(270deg, rgb(255 191 193), rgb(217 220 255))
 }
@@ -48,15 +55,18 @@
 .openIcon,
 .closeIcon {
   position: absolute;
-  top: 1.4%;
-  left: var(--left);
+  bottom: 8%;
+  right: 1%;
+  /* left: var(--left);
   right: var(--right);
+  bottom:2rem; */
   z-index: 100;
   font-size: 1.3rem;
-  color: #ffffff52;
-  transform: rotate(var(--rotate));
+  color: white;
+  /* transform: rotate(var(--rotate)); */
   transition: var(--transition);
 }
+
 .openIcon:hover,
 .closeIcon:hover {
   color: var(--clr-accent-02);

@@ -49,7 +49,7 @@ const FlowEmaki = ({ flowEmakis: emakis, sectiontitle, sectiondesc,sectiontitlee
                 >
                   <EmakiConteiner
                     data={item}
-                    height={orientation === "portrait" ? "30vh" : "40vh"}
+                    height={orientation === "portrait" ? "30vh" : "60vh"}
                     // width={"80vw"}
                     scroll={false}
                     overflowX={"auto"}

@@ -26,15 +26,13 @@ export default function FullScreenComp({
   editionen,
   title,
   titleen,
-  desc
+  desc,
 }) {
   const handle = useFullScreenHandle();
   const { locale } = useRouter();
 
   const localeTitle =
-    locale === "en"
-      ? `${titleen}`
-      : `${title} ${edition ? edition : ""}`;
+    locale === "en" ? `${titleen}` : `${title} ${edition ? edition : ""}`;
 
   return (
     <>
@@ -63,11 +61,11 @@ export default function FullScreenComp({
         )}
         {!genjieslug && (
           <div className={`${styles.genjieslugBox}`}>
-            <h4 className={`${styles.genjieslugTitle}`}>
-              <Link href={`/${titleen}`}>
-                <a>{localeTitle}</a>
-              </Link>
-            </h4>
+            <Link href={`/${titleen}`}>
+              <a>
+                <h4 className={`${styles.genjieslugTitle}`}>{localeTitle}</h4>
+              </a>
+            </Link>
           </div>
         )}
         {/* <div className={`${styles.genjieslugBox}`}>
@@ -87,14 +85,9 @@ export default function FullScreenComp({
             );
           })}
         </div> */}
-        <button
+        {/* <button
           onClick={handle.enter}
           className={styles.openIcon}
-          style={
-            index % 2
-              ? { "--right": "1rem", "--rotate": "90deg" }
-              : { "--left": "0" }
-          }
         >
           <FontAwesomeIcon icon={faUpRightAndDownLeftFromCenter} />
           <i className="fa fa-expand"></i>
@@ -104,17 +97,12 @@ export default function FullScreenComp({
             <button
               onClick={handle.exit}
               className={styles.closeIcon}
-              style={
-                index % 2
-                  ? { "--right": "1rem", "--rotate": "90deg" }
-                  : { "--left": "0" }
-              }
             >
               <FontAwesomeIcon icon={faDownLeftAndUpRightToCenter} />
             </button>
-          )}
-          {children}
-        </FullScreen>
+          )} */}
+        {children}
+        {/* </FullScreen> */}
       </div>
     </>
   );
