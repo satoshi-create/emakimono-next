@@ -1,5 +1,6 @@
 .typeselect,
-.eraselect {
+.eraselect,
+.authorselect {
   grid-column: 2;
   display: flex;
   gap: .5rem;
@@ -14,6 +15,10 @@
 
 .eraselect {
   grid-row: 4;
+}
+
+.authorselect {
+  grid-row: 5;
   border-bottom: 1px solid rgb(225 225 225);
   padding-bottom: 2rem;
 }
@@ -110,7 +115,7 @@
 .container {
   display: grid;
   grid-template-columns: minmax(2vw, auto) 1fr minmax(2vw, auto);
-  grid-template-rows: .5vw auto auto auto 1fr 2vw;
+  grid-template-rows: .5vw auto auto auto auto 1fr 2vw;
   background-color: var(--clr-white);
   border-radius: 8px;
   width: 90vw;
@@ -155,18 +160,20 @@
 
 .contents {
   grid-column: 2;
-  grid-row: 5;
+  grid-row: 6;
   padding: 2rem;
   overflow-y: auto;
   overflow-x: hidden;
 }
-.noresultsmsg{
+
+.noresultsmsg {
   text-align: center;
   font-size: var(--text-size-prt);
   color: var(--clr-grey);
 
 }
-.noresultsmsg span{
+
+.noresultsmsg span {
   color: black;
 }
 
@@ -209,12 +216,14 @@
 }
 
 @media screen and (min-width: 768px) {
-  .modal{
-      inset: 0;
+  .modal {
+    inset: 0;
   }
+
   .container {
-  height: 90vh;
-}
+    height: 90vh;
+  }
+
   .iframe {
     top: 2rem;
     height: 80%;

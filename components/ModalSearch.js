@@ -6,7 +6,7 @@ import styles from "../styles/Search.css.module.css";
 import CardForSearchResults from "./CardForSearchResults";
 import ExtractingListData from "../libs/ExtractingListData";
 import { useRouter } from "next/router";
-import { eraColor, eraItem, typeItem } from "../libs/func";
+import { eraColor, eraItem, typeItem ,authorItem} from "../libs/func";
 import styled from "styled-components";
 import { toRomaji } from "wanakana";
 
@@ -62,17 +62,11 @@ const ModalSearch = () => {
     const regx = new RegExp(romajiKeyword, "i");
      const filteredData = state.data.filter((item) => {
        // データ内のタイトルをローマ字に変換
-       const title = toRomaji(item.title + item.edition + item.titleen);
+       const title = toRomaji(item.title + item.edition + item.titleen + item.author + item.authoren);
 
        // ローマ字またはそのままの文字列で一致するかを確認
        return regx.test(title);
      });
-
-    // const filteredData = state.data.filter((item) => {
-    //   const title = item.title + item.edition + item.titleen;
-    //   const data = regx.test(title);
-    //   return data;
-    // });
 
     // フィルタリング結果をdispatchで更新
     dispatch({ type: "SET_FILTERED_DATA", payload: filteredData });
@@ -81,7 +75,6 @@ const ModalSearch = () => {
   const handleInput = (e) => {
     const keyword = e.currentTarget.value;
     setSearchKeyword(keyword);
-
     // 日本語入力中でもリアルタイムフィルタリングを実行
     filterData(keyword);
   };
@@ -99,6 +92,13 @@ const ModalSearch = () => {
   const types = typeItem(state.data).sort((a, b) =>
     a.total > b.total ? -1 : 1
   );
+
+  const authors = authorItem(state.data).sort((a, b) =>
+    a.total > b.total ? -1 : 1
+  );
+
+  console.log(authors);
+
 
   const eras = ["平安", "鎌倉", "室町", "安土・桃山", "江戸", "明治"];
 
@@ -121,6 +121,16 @@ const ModalSearch = () => {
     }
     const selectEraItems = state.data.filter((item) => item.era === el);
     dispatch({ type: "SET_FILTERED_DATA", payload: selectEraItems });
+  };
+
+  const selectAuthor = (e) => {
+    const el = e.target.value;
+    if (el === "全ての時代") {
+      dispatch({ type: "RESET_DATA" });
+      return;
+    }
+    const selectAuthorItems = state.data.filter((item) => item.author === el);
+    dispatch({ type: "SET_FILTERED_DATA", payload: selectAuthorItems });
   };
 
   return (
@@ -167,6 +177,25 @@ const ModalSearch = () => {
             >
               {item}
             </Button>
+          ))}
+        </div>
+        <div className={styles.authorselect}>
+          <button
+            value={"全ての作品"}
+            className={styles.typeselectbtn}
+            onClick={(e) => selectTypes(e)}
+          >
+            全ての作品
+          </button>
+          {authors.map((item, i) => (
+            <button
+              key={i}
+              value={item.author}
+              onClick={(e) => selectAuthor(e)}
+              className={styles.typeselectbtn}
+            >
+              {item.author}
+            </button>
           ))}
         </div>
         <form className={styles.form} onSubmit={(e) => e.preventDefault()}>

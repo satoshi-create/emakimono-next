@@ -48,7 +48,7 @@ const CardForSearchResults = ({
             <div key={index} onClick={closeSearchModal}  className={styles.card}>
               <div className={styles.single}>
                 <Link href={`/${titleen}`}>
-                  <a>
+                  <a target="_blank">
                     <Image
                       src={thumb}
                       width={533}
