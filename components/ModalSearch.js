@@ -8,6 +8,7 @@ import ExtractingListData from "../libs/ExtractingListData";
 import { useRouter } from "next/router";
 import { eraColor, eraItem, typeItem } from "../libs/func";
 import styled from "styled-components";
+import { toRomaji } from "wanakana";
 
 const Button = styled.button`
   &:focus {
@@ -45,27 +46,54 @@ const ModalSearch = () => {
   });
 
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [isComposing, setIsComposing] = useState(false); // 日本語入力中かどうか
+
+  const filterData = (keyword) => {
+    if (keyword.trim() === "") {
+      // 入力が空の場合、すべてのデータを表示
+      dispatch({ type: "RESET_DATA" });
+      return;
+    }
+
+    // 入力文字列をローマ字に変換
+    const romajiKeyword = toRomaji(keyword);
+
+    // 大文字・小文字を区別しない正規表現
+    const regx = new RegExp(romajiKeyword, "i");
+     const filteredData = state.data.filter((item) => {
+       // データ内のタイトルをローマ字に変換
+       const title = toRomaji(item.title + item.edition + item.titleen);
+
+       // ローマ字またはそのままの文字列で一致するかを確認
+       return regx.test(title);
+     });
+
+    // const filteredData = state.data.filter((item) => {
+    //   const title = item.title + item.edition + item.titleen;
+    //   const data = regx.test(title);
+    //   return data;
+    // });
+
+    // フィルタリング結果をdispatchで更新
+    dispatch({ type: "SET_FILTERED_DATA", payload: filteredData });
+  };
 
   const handleInput = (e) => {
     const keyword = e.currentTarget.value;
     setSearchKeyword(keyword);
 
+    // 日本語入力中でもリアルタイムフィルタリングを実行
+    filterData(keyword);
+  };
 
-  if (keyword.trim() === "") {
-    // 入力が空の場合、すべてのデータを表示
-    dispatch({ type: "RESET_DATA" });
-    return;
-  }
+  const handleCompositionStart = () => {
+    setIsComposing(true); // 日本語入力開始
+  };
 
-    const regx = new RegExp(searchKeyword);
-
-    const filteredData = state.data.filter((item) => {
-      const title = item.title + item.edition + item.titleen;
-      const data = regx.test(title);
-      return data;
-    });
-    // フィルタリング結果をdispatchで更新
-    dispatch({ type: "SET_FILTERED_DATA", payload: filteredData });
+  const handleCompositionEnd = (e) => {
+    setIsComposing(false); // 日本語入力終了
+    // 入力が確定した時点でフィルタリングをもう一度実行
+    filterData(e.currentTarget.value);
   };
 
   const types = typeItem(state.data).sort((a, b) =>
@@ -95,13 +123,6 @@ const ModalSearch = () => {
     }
     const selectEraItems = state.data.filter((item) => item.era === el);
     dispatch({ type: "SET_FILTERED_DATA", payload: selectEraItems });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (searchKeyword === "") {
-      return;
-    }
   };
 
   return (
@@ -150,7 +171,7 @@ const ModalSearch = () => {
             </Button>
           ))}
         </div>
-        <form className={styles.form} onSubmit={handleSubmit}>
+        <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
             className={styles.faMagnifyingGlassIcon}
@@ -158,14 +179,19 @@ const ModalSearch = () => {
           <input
             id="search-keyword"
             type="text"
-            onInput={handleInput}
+            value={searchKeyword}
+            onChange={handleInput} // 入力時のイベント
+            onCompositionStart={handleCompositionStart} // 日本語入力開始時
+            onCompositionEnd={handleCompositionEnd} // 日本語入力確定時
             placeholder={"絵巻とその他のワイド美術を検索"}
           />
         </form>
         <div className={`${styles.contents} scrollbar`}>
           {state.showData.length > 0 ? (
             <CardForSearchResults emakis={state.showData} />
-          ) : "data is null"}
+          ) : (
+            "data is null"
+          )}
         </div>
       </div>
     </div>

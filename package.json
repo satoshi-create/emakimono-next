@@ -9,7 +9,6 @@
     "start": "next start",
     "lint": "next lint"
   },
-
   "dependencies": {
     "@chakra-ui/button": "^2.0.14",
     "@chakra-ui/icons": "^2.2.4",
@@ -63,6 +62,7 @@
     "styled-components": "^5.3.6",
     "svg-sprite-loader": "^6.0.11",
     "uuid": "^11.0.3",
+    "wanakana": "^5.3.1",
     "webp-loader": "^0.6.0"
   },
   "devDependencies": {
