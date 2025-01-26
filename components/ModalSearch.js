@@ -50,6 +50,13 @@ const ModalSearch = () => {
     const keyword = e.currentTarget.value;
     setSearchKeyword(keyword);
 
+
+  if (keyword.trim() === "") {
+    // 入力が空の場合、すべてのデータを表示
+    dispatch({ type: "RESET_DATA" });
+    return;
+  }
+
     const regx = new RegExp(searchKeyword);
 
     const filteredData = state.data.filter((item) => {
@@ -64,7 +71,6 @@ const ModalSearch = () => {
   const types = typeItem(state.data).sort((a, b) =>
     a.total > b.total ? -1 : 1
   );
-  console.log(types);
 
   const eras = ["平安", "鎌倉", "室町", "安土・桃山", "江戸", "明治"];
 
@@ -159,7 +165,7 @@ const ModalSearch = () => {
         <div className={`${styles.contents} scrollbar`}>
           {state.showData.length > 0 ? (
             <CardForSearchResults emakis={state.showData} />
-          ) : null}
+          ) : "data is null"}
         </div>
       </div>
     </div>
