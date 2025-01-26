@@ -149,13 +149,13 @@
 
 .container {
   display: grid;
-  grid-template-columns: minmax(2vw, auto) 20vw 55vw minmax(2vw, auto);
+  grid-template-columns: minmax(2vw, 1fr) 20vw 55vw minmax(2vw, 1fr);
   grid-template-rows: .5vh 4rem auto 2vh;
   background-color: var(--clr-white);
   border-radius: 8px;
   width: 90vw;
   height: 70vh;
-  max-width: 1200px;
+  /* max-width: 1200px; */
   overflow-x: auto;
   position: relative;
   transition: var(--transition);
