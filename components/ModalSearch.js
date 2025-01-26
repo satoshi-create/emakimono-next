@@ -6,7 +6,7 @@ import styles from "../styles/Search.css.module.css";
 import CardForSearchResults from "./CardForSearchResults";
 import ExtractingListData from "../libs/ExtractingListData";
 import { useRouter } from "next/router";
-import { eraColor, eraItem, typeItem ,authorItem} from "../libs/func";
+import { eraColor, eraItem, typeItem, authorItem } from "../libs/func";
 import styled from "styled-components";
 import { toRomaji } from "wanakana";
 
@@ -60,13 +60,15 @@ const ModalSearch = () => {
 
     // 大文字・小文字を区別しない正規表現
     const regx = new RegExp(romajiKeyword, "i");
-     const filteredData = state.data.filter((item) => {
-       // データ内のタイトルをローマ字に変換
-       const title = toRomaji(item.title + item.edition + item.titleen + item.author + item.authoren);
+    const filteredData = state.data.filter((item) => {
+      // データ内のタイトルをローマ字に変換
+      const title = toRomaji(
+        item.title + item.edition + item.titleen + item.author + item.authoren
+      );
 
-       // ローマ字またはそのままの文字列で一致するかを確認
-       return regx.test(title);
-     });
+      // ローマ字またはそのままの文字列で一致するかを確認
+      return regx.test(title);
+    });
 
     // フィルタリング結果をdispatchで更新
     dispatch({ type: "SET_FILTERED_DATA", payload: filteredData });
@@ -99,36 +101,27 @@ const ModalSearch = () => {
 
   console.log(authors);
 
-
   const eras = ["平安", "鎌倉", "室町", "安土・桃山", "江戸", "明治"];
+
+  const selectAll = (e) => {
+    dispatch({ type: "RESET_DATA" });
+    return;
+  };
 
   const selectTypes = (e) => {
     const el = e.target.value;
-    console.log(e.target.value);
-    if (el === "全ての作品") {
-      dispatch({ type: "RESET_DATA" });
-      return;
-    }
     const selectTypeItems = state.data.filter((item) => item.type === el);
     dispatch({ type: "SET_FILTERED_DATA", payload: selectTypeItems });
   };
 
   const selectEras = (e) => {
     const el = e.target.value;
-    if (el === "全ての時代") {
-      dispatch({ type: "RESET_DATA" });
-      return;
-    }
     const selectEraItems = state.data.filter((item) => item.era === el);
     dispatch({ type: "SET_FILTERED_DATA", payload: selectEraItems });
   };
 
   const selectAuthor = (e) => {
     const el = e.target.value;
-    if (el === "全ての時代") {
-      dispatch({ type: "RESET_DATA" });
-      return;
-    }
     const selectAuthorItems = state.data.filter((item) => item.author === el);
     dispatch({ type: "SET_FILTERED_DATA", payload: selectAuthorItems });
   };
@@ -139,64 +132,6 @@ const ModalSearch = () => {
       <div className={styles.container}>
         <div className={`${styles.closebtn} btn`} onClick={closeSearchModal}>
           <FontAwesomeIcon icon={faClose} />
-        </div>
-        <div className={styles.typeselect}>
-          <button
-            value={"全ての作品"}
-            className={styles.typeselectbtn}
-            onClick={(e) => selectTypes(e)}
-          >
-            全ての作品
-          </button>
-          {types.map((item, i) => (
-            <button
-              key={i}
-              value={item.type}
-              onClick={(e) => selectTypes(e)}
-              className={styles.typeselectbtn}
-            >
-              {item.type}
-            </button>
-          ))}
-        </div>
-        <div className={styles.eraselect}>
-          <button
-            value={"全ての時代"}
-            className={styles.eraselectbtn}
-            onClick={(e) => selectEras(e)}
-          >
-            全ての作品
-          </button>
-          {eras.map((item, i) => (
-            <Button
-              item={item}
-              key={i}
-              value={item}
-              onClick={(e) => selectEras(e)}
-              className={styles.eraselectbtn}
-            >
-              {item}
-            </Button>
-          ))}
-        </div>
-        <div className={styles.authorselect}>
-          <button
-            value={"全ての作品"}
-            className={styles.typeselectbtn}
-            onClick={(e) => selectTypes(e)}
-          >
-            全ての作品
-          </button>
-          {authors.map((item, i) => (
-            <button
-              key={i}
-              value={item.author}
-              onClick={(e) => selectAuthor(e)}
-              className={styles.typeselectbtn}
-            >
-              {item.author}
-            </button>
-          ))}
         </div>
         <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
           <FontAwesomeIcon
@@ -213,7 +148,66 @@ const ModalSearch = () => {
             placeholder={"絵巻とその他のワイド美術を検索"}
           />
         </form>
+        <div className={styles.underline}></div>
+        <div className={styles.selectbtn}>
+          <button
+            value={"全ての作品"}
+            className={styles.typeselectbtn}
+            onClick={(e) => selectAll(e)}
+          >
+            全ての作品
+          </button>
+          <div className={styles.typeselect}>
+            <h4>タイプから見る</h4>
+            <div className={styles.selectbtnbox}>
+              {types.map((item, i) => (
+                <button
+                  key={i}
+                  value={item.type}
+                  onClick={(e) => selectTypes(e)}
+                  className={styles.typeselectbtn}
+                >
+                  {item.type}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className={styles.eraselect}>
+            <h4>制作年から見る</h4>
+            <div className={styles.selectbtnbox}>
+              {eras.map((item, i) => (
+                <Button
+                  item={item}
+                  key={i}
+                  value={item}
+                  onClick={(e) => selectEras(e)}
+                  className={styles.eraselectbtn}
+                >
+                  {item}
+                </Button>
+              ))}
+            </div>
+          </div>
+          <div className={styles.authorselect}>
+            <h4>絵師から見る</h4>
+            <div className={styles.selectbtnbox}>
+              {authors.map((item, i) => (
+                <button
+                  key={i}
+                  value={item.author}
+                  onClick={(e) => selectAuthor(e)}
+                  className={styles.typeselectbtn}
+                >
+                  {item.author}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
         <div className={`${styles.contents} scrollbar`}>
+          <p className={styles.resultsmsg}>
+            results for <span>&quot;{searchKeyword}&quot;</span>
+          </p>
           {state.showData.length > 0 ? (
             <CardForSearchResults emakis={state.showData} />
           ) : (
