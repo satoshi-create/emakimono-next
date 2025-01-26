@@ -20,7 +20,6 @@
 
 .typeselectbtn,
 .eraselectbtn {
-
   padding: 0 .5rem;
   border-radius: 6px;
   transition: var(--transition);
@@ -160,6 +159,15 @@
   padding: 2rem;
   overflow-y: auto;
   overflow-x: hidden;
+}
+.noresultsmsg{
+  text-align: center;
+  font-size: var(--text-size-prt);
+  color: var(--clr-grey);
+
+}
+.noresultsmsg span{
+  color: black;
 }
 
 /* 目次 */

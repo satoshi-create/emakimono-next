@@ -107,7 +107,6 @@ const ModalSearch = () => {
     console.log(e.target.value);
     if (el === "全ての作品") {
       dispatch({ type: "RESET_DATA" });
-      setShowData(data);
       return;
     }
     const selectTypeItems = state.data.filter((item) => item.type === el);
@@ -118,7 +117,6 @@ const ModalSearch = () => {
     const el = e.target.value;
     if (el === "全ての時代") {
       dispatch({ type: "RESET_DATA" });
-      setShowData(data);
       return;
     }
     const selectEraItems = state.data.filter((item) => item.era === el);
@@ -190,7 +188,9 @@ const ModalSearch = () => {
           {state.showData.length > 0 ? (
             <CardForSearchResults emakis={state.showData} />
           ) : (
-            "data is null"
+            <p className={styles.noresultsmsg}>
+              No results for <span>&quot;{searchKeyword}&quot;</span>
+            </p>
           )}
         </div>
       </div>
