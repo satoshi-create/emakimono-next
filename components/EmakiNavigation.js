@@ -46,7 +46,7 @@ const EmakiNavigation = ({
         icon={
           <FontAwesomeIcon icon={faAnglesLeft} style={{ fontSize: "1.5em" }} />
         }
-        label="戻る"
+        label="最後に進む"
         onClick={() => handleToId(data.type === "西洋絵画" ? 0 : endIndex)}
         description="最後に進む"
       />

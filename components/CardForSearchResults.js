@@ -20,6 +20,7 @@ const CardForSearchResults = ({
     setisModalOpen(false);
   }, [setisModalOpen]);
 
+
   return (
     <div className={styles.searchbox}>
       {emakis.map((item, index) => {

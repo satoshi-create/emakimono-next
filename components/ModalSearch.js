@@ -1,86 +1,102 @@
-import React ,{useContext,useState}from 'react'
+import React, { useContext, useState, useEffect, useReducer } from "react";
 import { AppContext } from "../pages/_app";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faClose,
-  faMagnifyingGlass
-} from "@fortawesome/free-solid-svg-icons";
+import { faClose, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import styles from "../styles/Search.css.module.css";
-import CardForSearchResults from './CardForSearchResults';
+import CardForSearchResults from "./CardForSearchResults";
 import ExtractingListData from "../libs/ExtractingListData";
 import { useRouter } from "next/router";
 import { eraColor, eraItem, typeItem } from "../libs/func";
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Button = styled.button`
   &:focus {
-    background: ${(props) =>eraColor(props.item)};
+    background: ${(props) => eraColor(props.item)};
   }
 `;
-// background: ${(props) => props.background};
+
+// Reducer関数
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "SET_FILTERED_DATA":
+      return {
+        ...state,
+        showData: action.payload,
+      };
+    case "RESET_DATA":
+      return {
+        ...state,
+        showData: state.data,
+      };
+    default:
+      return state;
+  }
+};
 
 const ModalSearch = () => {
-  const { openSearchModalOpen, isSearchModalOpen, closeSearchModal } =
-    useContext(AppContext);
+  const { closeSearchModal } = useContext(AppContext);
   const { locale } = useRouter();
-  const removeNestedArrayObj = ExtractingListData();
-  const data = removeNestedArrayObj;
+  const initialData = ExtractingListData();
 
-  const [searchKeyword, setSearchKeyword] = useState("");
-  const [showData, setShowData] = useState(data);
-
-  const handleInput = (e) => {
-    setSearchKeyword(e.currentTarget.value);
-    setShowData(filteredData);
-  };
-
-  const regx = new RegExp(searchKeyword);
-
-  const filteredData = data.filter((item) => {
-    const title = item.title + item.edition + item.titleen;
-    const data = regx.test(title);
-    return data;
+  // useReducerで状態を管理
+  const [state, dispatch] = useReducer(reducer, {
+    data: initialData, // 元データ
+    showData: initialData, // 表示するデータ
   });
 
+  const [searchKeyword, setSearchKeyword] = useState("");
 
-  const types = typeItem(data).sort((a,b) =>(a.total > b.total ? -1 :1));
+  const handleInput = (e) => {
+    const keyword = e.currentTarget.value;
+    setSearchKeyword(keyword);
+
+    const regx = new RegExp(searchKeyword);
+
+    const filteredData = state.data.filter((item) => {
+      const title = item.title + item.edition + item.titleen;
+      const data = regx.test(title);
+      return data;
+    });
+    // フィルタリング結果をdispatchで更新
+    dispatch({ type: "SET_FILTERED_DATA", payload: filteredData });
+  };
+
+  const types = typeItem(state.data).sort((a, b) =>
+    a.total > b.total ? -1 : 1
+  );
   console.log(types);
-  // const filterdTypes = typeItem(showData);
 
-  // const eras = eraItem(data).sort((a, b) => (a.total > b.total ? -1 : 1));
-  // console.log(eras);
-
-  const eras = ["平安","鎌倉","室町","安土・桃山","江戸","明治"]
-
+  const eras = ["平安", "鎌倉", "室町", "安土・桃山", "江戸", "明治"];
 
   const selectTypes = (e) => {
     const el = e.target.value;
     console.log(e.target.value);
     if (el === "全ての作品") {
+      dispatch({ type: "RESET_DATA" });
       setShowData(data);
       return;
     }
-    const selectTypeItems = data.filter((item) => item.type === el);
-    setShowData(selectTypeItems);
+    const selectTypeItems = state.data.filter((item) => item.type === el);
+    dispatch({ type: "SET_FILTERED_DATA", payload: selectTypeItems });
   };
 
   const selectEras = (e) => {
     const el = e.target.value;
     if (el === "全ての時代") {
+      dispatch({ type: "RESET_DATA" });
       setShowData(data);
       return;
     }
-    const selectEraItems = data.filter((item) => item.era === el);
-    setShowData(selectEraItems)
-  }
-
+    const selectEraItems = state.data.filter((item) => item.era === el);
+    dispatch({ type: "SET_FILTERED_DATA", payload: selectEraItems });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (searchKeyword === "") {
       return;
     }
-  }
+  };
 
   return (
     <div className={`${styles.modal}`}>
@@ -89,14 +105,6 @@ const ModalSearch = () => {
         <div className={`${styles.closebtn} btn`} onClick={closeSearchModal}>
           <FontAwesomeIcon icon={faClose} />
         </div>
-        {/* <select onChange={(e) => selectTypes(e)} className={styles.typeselect}>
-          <option value={"作品のタイプ"}>作品のタイプ</option>
-          {types.map((type, i) => (
-            <option key={i} value={type}>
-              {type}
-            </option>
-          ))}
-        </select> */}
         <div className={styles.typeselect}>
           <button
             value={"全ての作品"}
@@ -112,7 +120,6 @@ const ModalSearch = () => {
               onClick={(e) => selectTypes(e)}
               className={styles.typeselectbtn}
             >
-              {/* {type.type}（{type.total}） */}
               {item.type}
             </button>
           ))}
@@ -132,11 +139,7 @@ const ModalSearch = () => {
               value={item}
               onClick={(e) => selectEras(e)}
               className={styles.eraselectbtn}
-              // style={{
-              //   backgroundColor: eraColor(item.era),
-              // }}
             >
-              {/* {type.type}（{type.total}） */}
               {item}
             </Button>
           ))}
@@ -154,16 +157,13 @@ const ModalSearch = () => {
           />
         </form>
         <div className={`${styles.contents} scrollbar`}>
-          {/* {filteredData.length === 0 && <p>作品はありません</p>}
-             {filteredData.length === 0 ? <p>作品はありません</p> : (
-              <CardA emakis={showData} columns={"searchbox"} />
-        )}
-         */}
-          <CardForSearchResults emakis={showData} />
+          {state.showData.length > 0 ? (
+            <CardForSearchResults emakis={state.showData} />
+          ) : null}
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default ModalSearch
+export default ModalSearch;

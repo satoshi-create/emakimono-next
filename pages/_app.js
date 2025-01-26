@@ -389,6 +389,8 @@ function MyApp({ Component, pageProps, router }) {
     if (node !== null) {
       node.scrollIntoView({
         behavior: "smooth",
+        block: "start", // 必要なら "center" に変更
+        inline: "start", // 横方向スクロールのみを許可
       });
     }
   }, []);
