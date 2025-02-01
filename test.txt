@@ -1,1 +1,1 @@
-test deploy this branch from desktop PC
+test deploy after git lfs pull from note PC
