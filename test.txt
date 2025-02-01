@@ -1,1 +1,1 @@
-test deploy from desktop pc
+test deploy create-tag-cloud from desktop pc a
