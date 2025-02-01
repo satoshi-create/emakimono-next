@@ -1,1 +1,3 @@
 deploy after git lfs pull from note PC
+
+deploy after git lfs pull from desktop PC
