@@ -1,0 +1,2 @@
+
+GIT_LFS_SKIP_SMUDGE=1 git clone --branch bugfix/emaki-page-issues --single-branch --depth 1 https://github.com/satoshi-create/emakimono-next.git emakimonofix-bug-issues
