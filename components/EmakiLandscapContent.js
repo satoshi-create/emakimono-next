@@ -31,8 +31,11 @@ import parse from "html-react-parser";
 import noteData from "../libs/note/data.json";
 import ChapterTimeline from "./ChapterTimeline";
 import { Box, VStack } from "@chakra-ui/react";
+import MarkdownContent from "./MarkdownContent";
 
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
+
+
 
 const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { handleToId, handleFullScreen, result, loading } =
@@ -65,7 +68,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     kotobagaki,
     note,
   } = data;
-
 
   const descTJa = desc
     ? desc
@@ -211,11 +213,16 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               >
                 絵巻の紹介
               </h4>
-              <div className={styles.desc}>
+
+              {/* <div className={styles.desc}>
+                 <div className={styles.desc}>
                 {locale === "en" ? parse(descEn) : parse(descJa)}
               </div>
+              </div> */}
+              <MarkdownContent />
+
               {/* 各段の詞書・解説 */}
-              {kotobagaki && (
+              {/* {kotobagaki && (
                 <>
                   <h4
                     className={styles.metaBtitle}
@@ -227,7 +234,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   </h4>
                   {<ChapterDesc emakis={emakis} data={data} />}
                 </>
-              )}
+              )} */}
               {/* 他の巻を見る */}
               {editionLinks.length > 0 && (
                 <>

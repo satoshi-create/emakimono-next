@@ -227,14 +227,6 @@ background-color: var(--border-color, black);
   font-size: medium;
   color: var(--clr-black);
 }
-
-.genjieslugBox {
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
-}
-
-
 .authority {
   font-family: var(--title-font2);
   font-size: 0.7rem;

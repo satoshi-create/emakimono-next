@@ -27,6 +27,7 @@ import ExtractingListData from "../libs/ExtractingListData";
 import noteData from "../libs/note/data.json";
 import ChapterTimeline from "./ChapterTimeline";
 import { Box, VStack } from "@chakra-ui/react";
+import MarkdownContent from "./MarkdownContent";
 
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
@@ -119,18 +120,19 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
           </div>
 
           <div className={styles.metadataB}>
-            <h4
+            {/* <h4
               className={styles.metaBtitle}
               style={{
                 "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
               }}
             >
               絵巻の紹介
-            </h4>
-            <div
+            </h4> */}
+            {/* <div
               className={styles.desc}
               dangerouslySetInnerHTML={{ __html: desc ? desc : descJa }}
-            ></div>
+            ></div> */}
+            <MarkdownContent />
             {/* <BannerToHelp /> */}
             {/* {genjieslug && (
               <div className={`${styles.genjieslugBox}`}>

@@ -1,0 +1,93 @@
+/* Markdown のコンテンツ用スタイル */
+.markdownContent {
+  font-family: var(--text-font);
+  line-height: 1.8;
+  color: #333;
+}
+
+/* 見出しのデザイン */
+.markdownContent h1 {
+  font-size: 1em;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.markdownContent h2 {
+  font-size: 1.5em;
+  color: #34495e;
+  margin-bottom: 15px;
+}
+
+.markdownContent h3 {
+  font-size: 1.2em;
+  color: #7f8c8d;
+  margin-bottom: 10px;
+}
+
+/* 段落の余白 */
+.markdownContent p {
+  margin-bottom: 1.5em;
+}
+
+/* リストのデザイン */
+.markdownContent ul {
+  margin-left: 20px;
+  padding-left: 20px;
+}
+
+.markdownContent li {
+  margin-bottom: 10px;
+}
+
+/* 引用のデザイン */
+.markdownContent blockquote {
+  border-left: 4px solid #95a5a6;
+  padding-left: 15px;
+  color: #7f8c8d;
+  font-style: italic;
+  background: #ecf0f1;
+  padding: 10px;
+  margin: 20px 0;
+}
+
+/* 太字 */
+.markdownContent strong {
+  color: #c0392b;
+  font-weight: bold;
+}
+
+/* コードブロック */
+.markdownContent pre {
+  background: #2d2d2d;
+  color: #ecf0f1;
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto;
+}
+
+.markdownContent code {
+  background: #f1f1f1;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-family: "Courier New", monospace;
+}
+
+/* テーブルのデザイン */
+.markdownContent table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.markdownContent th,
+.markdownContent td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.markdownContent th {
+  background: #3498db;
+  color: white;
+  font-weight: bold;
+}
