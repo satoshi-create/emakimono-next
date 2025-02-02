@@ -1,8 +1,8 @@
 .searchbox {
   display: grid;
-grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   justify-content: center;
-  gap: 3rem;
+  gap: .5rem;
 }
 
 .card {
@@ -38,7 +38,7 @@ grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 }
 
 .footer {
-  padding: 0.5rem 1rem 0.5rem 1rem;
+  padding: .5rem;
 }
 
 .cat {
@@ -69,7 +69,7 @@ grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 
 .title {
   font-weight: 600;
-  font-size: 1rem;
+  font-size: .8rem;
   color: var(--clr-black);
   font-family: var(--title-font2);
   text-transform: capitalize;
@@ -84,8 +84,8 @@ grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 }
 
 .author {
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 400;
+  font-size: 0.8rem;
   color: var(--clr-black);
   font-family: var(--title-font2);
   text-transform: capitalize;
@@ -98,8 +98,7 @@ grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 }
 
 .viewemaki {
-  margin-top: 1rem;
-  text-align: center;
+  display: none;
 }
 
 .viewemakiBtn {
@@ -120,13 +119,7 @@ grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 }
 
 .keyword {
-  display: flex;
-  justify-content: right;
-  -moz-column-gap: 0.5rem;
-  column-gap: 0.3rem;
-  font-size: 0.5rem;
-  padding: 0.5rem 0;
-  font-family: var(--title-font2);
+  display: none;
 }
 
 .keywordLink {
@@ -138,4 +131,50 @@ grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 
 .keywordLink:hover {
   opacity: 0.5;
+}
+
+@media screen and (min-width: 768px) {
+  .searchbox {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .searchbox {
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      justify-content: center;
+      gap: 2rem;
+    }
+  .viewemaki {
+    display: block;
+    margin-top: 1rem;
+    text-align: center;
+  }
+
+  .footer {
+    padding: 0.5rem 1rem 0.5rem 1rem;
+  }
+
+  .keyword {
+    display: flex;
+    justify-content: right;
+    -moz-column-gap: 0.5rem;
+    column-gap: 0.3rem;
+    font-size: 0.5rem;
+    padding: 0.5rem 0;
+    font-family: var(--title-font2);
+  }
+
+  .title {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .author {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
 }
