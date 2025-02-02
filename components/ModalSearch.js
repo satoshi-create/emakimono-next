@@ -149,7 +149,7 @@ const ModalSearch = () => {
           />
         </form>
         <div className={styles.underline}></div>
-        <div className={styles.selectbtn}>
+        <div className={`${styles.selectbtn} scrollbar`}>
           <button
             value={"全ての作品"}
             className={styles.typeselectbtn}
