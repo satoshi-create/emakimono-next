@@ -57,10 +57,11 @@ const ModalSearch = () => {
   });
 
   const [searchKeyword, setSearchKeyword] = useState(""); // 検索キーワード
+  const [displayKeyword, setDisplayKeyword] = useState(""); // results for に表示する用
   const [isComposing, setIsComposing] = useState(false); // 日本語入力中かどうか
   const observerTarget = useRef(); // スクロール監視対象の要素
 
-  const filterData = (keyword) => {
+  const filterData = (keyword, updateDisplay = true) => {
     if (keyword.trim() === "") {
       // 入力が空の場合、すべてのデータを表示
       dispatch({ type: "RESET_DATA" });
@@ -87,13 +88,16 @@ const ModalSearch = () => {
       type: "SET_FILTERED_DATA",
       payload: filteredData.slice(0, ITEMS_PER_PAGE),
     });
+    if (updateDisplay) {
+      setDisplayKeyword(keyword); // 手動入力時のみ更新
+    }
   };
 
   const handleInput = (e) => {
     const keyword = e.currentTarget.value;
     setSearchKeyword(keyword);
     // 日本語入力中でもリアルタイムフィルタリングを実行
-    filterData(keyword);
+    filterData(keyword,true);
   };
 
   const handleCompositionStart = () => {
@@ -116,19 +120,19 @@ const ModalSearch = () => {
         const target = entries[0];
         console.log("🟢 Observer triggered!", target.isIntersecting); // デバッグ用
         if (target.isIntersecting) {
-           console.log("🔵 Loading more items...");
+          console.log("🔵 Loading more items...");
           loadMoreItems(); // 追加データを読み込む
         }
       },
       { threshold: 0.1 } // 100%表示されたら実行
     );
 
-      if (observerTarget.current) {
-        observer.observe(observerTarget.current);
-        console.log("✅ Observer is set on target");
-      } else {
-        console.error("❌ observerTarget is null");
-      }
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current);
+      console.log("✅ Observer is set on target");
+    } else {
+      console.error("❌ observerTarget is null");
+    }
 
     return () => {
       if (observerTarget.current) observer.unobserve(observerTarget.current);
@@ -174,22 +178,32 @@ const ModalSearch = () => {
     const el = e.target.value;
     const selectTypeItems = state.data.filter((item) => item.type === el);
     dispatch({ type: "SET_FILTERED_DATA", payload: selectTypeItems });
-    setSearchKeyword(el);
+    setSearchKeyword(""); // 🔹 検索ボックスは空のまま
+    setDisplayKeyword(el); // 🔹 "results for" にのみ表示
   };
 
   const selectEras = (e) => {
     const el = e.target.value;
     const selectEraItems = state.data.filter((item) => item.era === el);
     dispatch({ type: "SET_FILTERED_DATA", payload: selectEraItems });
-    setSearchKeyword(el);
+    setSearchKeyword(""); // 🔹 検索ボックスは空のまま
+    setDisplayKeyword(el); // 🔹 "results for" にのみ表示
   };
 
   const selectAuthor = (e) => {
     const el = e.target.value;
     const selectAuthorItems = state.data.filter((item) => item.author === el);
     dispatch({ type: "SET_FILTERED_DATA", payload: selectAuthorItems });
-    setSearchKeyword(el);
+    setSearchKeyword(""); // 🔹 検索ボックスは空のまま
+    setDisplayKeyword(el); // 🔹 "results for" にのみ表示
   };
+
+  const handleReset = () => {
+    setSearchKeyword(""); // 🔹 検索ボックスを空にする
+    setDisplayKeyword(""); // 🔹 "results for" もクリア
+    dispatch({ type: "RESET_DATA" }); // 🔹 検索結果を初期状態に戻す
+  };
+
 
   return (
     <div className={`${styles.modal}`}>
@@ -212,6 +226,16 @@ const ModalSearch = () => {
             onCompositionEnd={handleCompositionEnd} // 日本語入力確定時
             placeholder={"絵巻とその他のワイド美術を検索"}
           />
+          {/* 🔹 リセットボタンを追加 */}
+          {searchKeyword && (
+            <button
+              type="button"
+              className={styles.resetButton}
+              onClick={handleReset}
+            >
+              ✖
+            </button>
+          )}
         </form>
         <div className={styles.underline}></div>
         <div className={`${styles.selectbtn} scrollbar`}>
@@ -271,7 +295,7 @@ const ModalSearch = () => {
         </div>
         <div className={`${styles.contents} scrollbar`}>
           <p className={styles.resultsmsg}>
-            results for <span>&quot;{searchKeyword}&quot;</span>
+            results for <span>&quot;{displayKeyword}&quot;</span>
           </p>
           {state.showData.length > 0 ? (
             <>
