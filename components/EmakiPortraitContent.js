@@ -28,6 +28,7 @@ import noteData from "../libs/note/data.json";
 import ChapterTimeline from "./ChapterTimeline";
 import { Box, VStack } from "@chakra-ui/react";
 import MarkdownContent from "./MarkdownContent";
+import { BookOpen, ScrollText, Play, NotebookTabs } from "lucide-react";
 
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
@@ -97,61 +98,71 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
       <div className={`${styles.wrapper} section-grid`}>
         <div className={styles.container}>
           <div className={styles.metadataA}>
-            <h3 className={styles.title}>
+            <h1 className={styles.title}>
               {locale === "ja" ? title : titleen} {locale === "ja" && edition}
-            </h3>
+            </h1>
             {author && (
               <Link href={`/author/${authoren}`}>
                 <a className={styles.authorLink}>
-                  <h4 className={styles.author}>
+                  <h2 className={styles.author}>
+                    絵師:
                     {locale === "ja" ? author : authoren}
-                  </h4>
+                  </h2>
                 </a>
               </Link>
             )}
+            <div className={styles.likebutton}>
+              <LikeButton title={title} edition={edition} author={author} />
+            </div>
             <button
               type="button"
               value="Lock Landscape"
               onClick={() => handleFullScreen("landscape")}
               className={styles.linkedbutton}
             >
-              {locale === "en" ? "View FullScreen" : "全画面で見る"}
+              <Play />
+              {locale === "en"
+                ? "Enjoy the picture scroll in full screen"
+                : "フルスクリーンで絵巻を楽しむ"}
             </button>
           </div>
 
           <div className={styles.metadataB}>
-            {/* <h4
-              className={styles.metaBtitle}
+            <h2
+              className={styles.H2title}
+              style={{
+                "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
+              }}
+            >
+              <ScrollText className="w-6 h-6 fa-rotate-90" /> 概要・解説
+            </h2>
+            {/* <span
+              className={styles.borderline}
+              // style={{ margin: "0.5rem 0" }}
+            ></span> */}
+            <h3
+              className={styles.H3title}
               style={{
                 "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
               }}
             >
               絵巻の紹介
-            </h4> */}
-            {/* <div
+            </h3>
+            <div
               className={styles.desc}
               dangerouslySetInnerHTML={{ __html: desc ? desc : descJa }}
-            ></div> */}
-            <MarkdownContent />
-            {/* <BannerToHelp /> */}
-            {/* {genjieslug && (
-              <div className={`${styles.genjieslugBox}`}>
-                <Link href={`/genjie/chapters-genji`}>
-                  <a className={styles.genjieslugTitle}>源氏物語54帖一覧</a>
-                </Link>
-              </div>
-            )} */}
-
+            ></div>
+            {/* <MarkdownContent /> */}
             {!kotobagaki && (
               <>
-                <h4
-                  className={styles.metaBtitle}
+                <h3
+                  className={styles.H3title}
                   style={{
                     "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
                   }}
                 >
                   段タイトル
-                </h4>
+                </h3>
                 <VStack alignItems="flex-start" spacing={6} position="relative">
                   {/* タイムラインの縦線 */}
                   <Box
@@ -188,14 +199,14 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             {/* 各段の詞書・解説 */}
             {kotobagaki && (
               <>
-                <h4
-                  className={styles.metaBtitle}
+                <h3
+                  className={styles.H3title}
                   style={{
                     "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
                   }}
                 >
                   各段の解説
-                </h4>
+                </h3>
                 {<ChapterDesc emakis={emakis} data={data} />}
               </>
             )}
@@ -293,19 +304,16 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 </div>
               </>
             )}
-            <span
-              className={styles.borderline}
-              style={{ margin: "1rem 0 0.5rem 0" }}
-            ></span>
-            {/*タグクラウド */}
-            {keyword && (
-              <div className={styles.tagCloud}>
-                <CustomTagCloud
-                  tags={filterdKeywords(keyword, allKeywords)}
-                  emakiPage={true}
-                />
-              </div>
-            )}
+            {/*メタ情報*/}
+            <h2
+              className={styles.H2title}
+              style={{
+                "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
+              }}
+            >
+              <NotebookTabs />
+              詳細情報
+            </h2>
             {/*カテゴリー・時代タグ */}
             <div className={styles.cat}>
               <Link href={`/era/${eraen}`}>
@@ -323,7 +331,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 <a>{locale === "en" ? typeen : type}</a>
               </Link>
             </div>
-            {/*メタ情報*/}
+
             <div className={styles.authority}>
               <Link href={sourceImageUrl}>
                 <a
