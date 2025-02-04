@@ -1,0 +1,18 @@
+.container {
+  position: relative;
+  /* max-width: 600px;
+  margin: 20px auto;
+  padding: 10px;
+  background: #fff; */
+  /* border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); */
+}
+
+.clickableText {
+cursor: pointer;
+}
+.readMore{
+  color: red;
+    font-weight: bold;
+    cursor: pointer;
+}

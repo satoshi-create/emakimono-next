@@ -69,25 +69,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     note,
   } = data;
 
-  const descTJa = desc
-    ? desc
-    : `「${title} ${edition ? edition : ""}」${
-        author ? `（${author}）` : ""
-      }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
-
-  const descTJaSeiyoukaiga = desc
-    ? desc
-    : `「${title} ${edition ? edition : ""}」${
-        author ? `（${author}）` : ""
-      }の全シーンを、横スクロールで楽しむことができます。`;
-
-  const descJa = typeen === "seiyoukaiga" ? descTJaSeiyoukaiga : descTJa;
-
-  const descEn = descen
-    ? descen
-    : `You can enjoy all the scenes of the " ${titleen} ${
-        authoren && `（${authoren}）`
-      } " in vertical and right to left scrolling mode.`;
 
   const editionLinks = alldata.filter(
     (item) => item.title === title && item.edition !== edition

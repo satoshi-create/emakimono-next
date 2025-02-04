@@ -1,6 +1,6 @@
 /* Markdown のコンテンツ用スタイル */
 .markdownContent {
-  font-family: var(--text-font);
+  /* font-family: var(--text-font); */
   line-height: 1.8;
   color: #333;
 }

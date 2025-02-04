@@ -28,7 +28,13 @@ import noteData from "../libs/note/data.json";
 import ChapterTimeline from "./ChapterTimeline";
 import { Box, VStack } from "@chakra-ui/react";
 import MarkdownContent from "./MarkdownContent";
-import { BookOpen, ScrollText, Play, NotebookTabs } from "lucide-react";
+import {
+  BookOpen,
+  ScrollText,
+  Play,
+  NotebookTabs,
+  PenLine,
+} from "lucide-react";
 
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
@@ -48,6 +54,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     author,
     authoren,
     desc,
+    descen,
     emakis,
     sourceImage,
     sourceImageUrl,
@@ -60,20 +67,11 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     titleen,
   } = data;
 
+  console.log(desc);
+
+
   const removeNestedArrayObj = ExtractingListData();
   const allKeywords = keywordItem(removeNestedArrayObj);
-
-  const descTemp = `「${title} ${edition ? edition : ""}」${
-    author ? `（${author}）` : ""
-  }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
-
-  const descTJaSeiyoukaiga = desc
-    ? desc
-    : `「${title} ${edition ? edition : ""}」${
-        author ? `（${author}）` : ""
-      }の全シーンを、横スクロールで楽しむことができます。`;
-
-  const descJa = typeen === "seiyoukaiga" ? descTJaSeiyoukaiga : descTemp;
 
   const editionLinks = alldata.filter(
     (item) => item.title === title && item.edition !== edition
@@ -128,31 +126,41 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
           </div>
 
           <div className={styles.metadataB}>
-            <h2
+            {/* <h2
               className={styles.H2title}
               style={{
                 "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
               }}
             >
               <ScrollText className="w-6 h-6 fa-rotate-90" /> 概要・解説
-            </h2>
+            </h2> */}
             {/* <span
               className={styles.borderline}
               // style={{ margin: "0.5rem 0" }}
             ></span> */}
-            <h3
-              className={styles.H3title}
+            <h2
+              className={styles.H2title}
               style={{
                 "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
               }}
             >
+              <ScrollText className="w-6 h-6 fa-rotate-90" />
               絵巻の紹介
-            </h3>
-            <div
+            </h2>
+            {/* <div
               className={styles.desc}
               dangerouslySetInnerHTML={{ __html: desc ? desc : descJa }}
-            ></div>
-            {/* <MarkdownContent /> */}
+            ></div> */}
+            <MarkdownContent
+              desc={desc}
+              descen={descen}
+              title={title}
+              titleen={titleen}
+              author={author}
+              authoren={authoren}
+              edition={edition}
+              typeen={typeen}
+            />
             {!kotobagaki && (
               <>
                 <h3
@@ -199,14 +207,15 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             {/* 各段の詞書・解説 */}
             {kotobagaki && (
               <>
-                <h3
-                  className={styles.H3title}
+                <h2
+                  className={styles.H2title}
                   style={{
                     "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
                   }}
                 >
+                  <PenLine />
                   各段の解説
-                </h3>
+                </h2>
                 {<ChapterDesc emakis={emakis} data={data} />}
               </>
             )}
