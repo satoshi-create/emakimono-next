@@ -9,10 +9,11 @@
 }
 
 .clickableText {
-cursor: pointer;
+  cursor: pointer;
 }
-.readMore{
-  color: red;
-    font-weight: bold;
-    cursor: pointer;
+
+.readMore {
+  color: var(--clr-accent-02);
+  font-weight: bold;
+  cursor: pointer;
 }

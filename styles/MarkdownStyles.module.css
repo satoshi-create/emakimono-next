@@ -27,7 +27,7 @@
 
 /* 段落の余白 */
 .markdownContent p {
-  margin-bottom: 1.5em;
+  /* margin-bottom: 1.5em; */
 }
 
 /* リストのデザイン */
@@ -90,4 +90,16 @@
   background: #3498db;
   color: white;
   font-weight: bold;
+}
+
+.markdownContent a {
+  /* color: var(--clr-accent-01); */
+  color: #c0392b;
+  text-decoration: underline;
+  font-weight: bold;
+  transition: var(--transition);
+}
+
+.markdownContent a:hover {
+  opacity: .6;
 }

@@ -16,16 +16,20 @@ const MarkdownContent = ({
   authoren,
 }) => {
   const { locale } = useRouter();
-  const descJa = desc ? desc : `「${title} ${edition ? edition : ""}」${
-    author ? `（${author}）` : ""
-  }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
 
-  const descEn =  descen ? descen : `You can enjoy all the scenes of the " ${titleen} ${
-    authoren && `（${authoren}）`
-  } " in vertical and right to left scrolling mode.`;
+  const descJa = desc
+    ? desc
+    : `「${title} ${edition ? edition : ""}」${
+        author ? `（${author}）` : ""
+      }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+
+  const descEn = descen
+    ? descen
+    : `You can enjoy all the scenes of the " ${titleen} ${
+        authoren && `（${authoren}）`
+      } " in vertical and right to left scrolling mode.`;
 
   const descText = locale === "en" ? descEn : descJa;
-
 
   return (
     <div className={styles.markdownContent}>
@@ -41,8 +45,6 @@ const MarkdownContent = ({
           </ReactMarkdown>
         )}
       </ExpandableText> */}
-
-
     </div>
   );
 };
