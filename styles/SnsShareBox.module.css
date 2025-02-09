@@ -15,18 +15,18 @@
   place-content: center;
   width: 20px;
   height: 20px;
-  padding: 10px;
+  padding: 5px;
   font-size: 9px;
   text-decoration: none;
   border-radius: 50%;
-  color: white;
+  color: #ccc;
   transition: var(--transition);
 }
 
 .snsShareIcon:hover {
   opacity: 0.6;
 }
-.twitter.land,
+/* .twitter.land,
 .twitter.prt{
  background: #55acee;
 }
@@ -37,4 +37,4 @@
 .linkedin.land,
 .linkedin.prt{
  background: #3b5998  ;
-}
+} */

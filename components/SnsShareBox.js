@@ -3,6 +3,7 @@ import {
   faTwitter,
   faFacebook,
   faLinkedin,
+  faXTwitter
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
@@ -28,7 +29,7 @@ const SnsShareBox = ({ titleen, title, edition, ort ,chapter,index}) => {
       <Link href={twitter(ort)}>
         <a target="_blank" rel="noopener noreferrer">
           <FontAwesomeIcon
-            icon={faTwitter}
+            icon={faXTwitter}
             className={`${styles.snsShareIcon} ${styles.twitter} ${styles[ort]}`}
           />
         </a>

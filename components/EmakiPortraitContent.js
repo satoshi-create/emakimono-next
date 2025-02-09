@@ -29,11 +29,14 @@ import ChapterTimeline from "./ChapterTimeline";
 import { Box, VStack } from "@chakra-ui/react";
 import MarkdownContent from "./MarkdownContent";
 import {
-  BookOpen,
   ScrollText,
   Play,
   NotebookTabs,
   PenLine,
+  LibraryBig,
+  UserRound,
+  NotebookPen,
+  TableOfContents,
 } from "lucide-react";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
@@ -96,17 +99,18 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
           <div className={styles.metadataA}>
             <h1 className={styles.title}>
               {locale === "ja" ? title : titleen} {locale === "ja" && edition}
+              {author && (
+                <Link href={`/author/${authoren}`}>
+                  <a className={styles.authorLink}>
+                    <h2 className={styles.author}>
+                      絵師:
+                      {locale === "ja" ? author : authoren}
+                    </h2>
+                  </a>
+                </Link>
+              )}
             </h1>
-            {author && (
-              <Link href={`/author/${authoren}`}>
-                <a className={styles.authorLink}>
-                  <h2 className={styles.author}>
-                    絵師:
-                    {locale === "ja" ? author : authoren}
-                  </h2>
-                </a>
-              </Link>
-            )}
+
             <div className={styles.likebutton}>
               <LikeButton title={title} edition={edition} author={author} />
             </div>
@@ -121,6 +125,14 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 ? "Enjoy the picture scroll in full screen"
                 : "フルスクリーンで絵巻を楽しむ"}
             </button>
+            <div className={styles.snsbutton}>
+              <SnsShareBox
+                titleen={titleen}
+                title={title}
+                edition={edition}
+                ort={"prt"}
+              />
+            </div>
           </div>
           {/* H2:絵巻の紹介 */}
           <div className={styles.metadataB}>
@@ -141,7 +153,10 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             {/* H2:絵巻の紹介 */}
             {!kotobagaki && (
               <>
-                <h2>段タイトル</h2>
+                <h2>
+                  <TableOfContents />
+                  各段のタイトル
+                </h2>
                 <VStack alignItems="flex-start" spacing={6} position="relative">
                   <Box
                     position="absolute"
@@ -187,7 +202,10 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             {/* H2:他の巻を見る */}
             {editionLinks.length > 0 && (
               <>
-                <h2>他の巻を見る</h2>
+                <h2>
+                  <LibraryBig />
+                  他の巻を見る
+                </h2>
                 <EditionLinks
                   title={title}
                   edition={edition}
@@ -197,14 +215,10 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             )}
             {title.includes("九相") && (
               <>
-                <h4
-                  className={styles.metaBtitle}
-                  style={{
-                    "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                  }}
-                >
+                <h2>
+                  <LibraryBig />
                   他の巻を見る
-                </h4>
+                </h2>
                 <EditionLinks
                   title={title}
                   edition={edition}
@@ -214,7 +228,12 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             )}
 
             {/* H2:noteへのリンク */}
-            {reletedEmakisToNote.length > 0 && <h2>note</h2>}
+            {reletedEmakisToNote.length > 0 && (
+              <h2>
+                <NotebookPen />
+                Note
+              </h2>
+            )}
             <LinkToNote
               title={title}
               reletedEmakisToNote={reletedEmakisToNote}
@@ -222,7 +241,10 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             {/* H2:登場人物 */}
             {personname && (
               <>
-                <h2>登場人物</h2>
+                <h2>
+                  <UserRound />
+                  登場人物
+                </h2>
                 <div
                   className={`${styles.tags} ${
                     locale === "ja" && styles.jatags
@@ -259,62 +281,70 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               <NotebookTabs />
               詳細情報
             </h2>
-            <h3>時代背景</h3>
-            <Link href={`/era/${eraen}`}>
-              <a className={styles.era}>
-                {locale === "en" ? `${eraen} period` : `${era}`}時代
-              </a>
-            </Link>
-            <h3>タイプ</h3>
-            <Link href={`/type/${typeen}`}>
-              <a className={styles.type}>{locale === "en" ? typeen : type}</a>
-            </Link>
-            <h3>タグ</h3>
-            <p className={styles.keywordItems}>
-              {keyword?.map((item, index) => {
-                const { name, id, slug, total, ruby } = item;
+            <div className={styles.datailInfo}>
+              {/*H3:時代背景*/}
+              <h3>時代背景</h3>
+              <Link href={`/era/${eraen}`}>
+                <a className={styles.era} style={{ color: eraColor(era) }}>
+                  {locale === "en" ? `${eraen} period` : `${era}`}時代
+                </a>
+              </Link>
+              {/*H3:タイプ*/}
+              <h3>タイプ</h3>
+              <Link href={`/type/${typeen}`}>
+                <a className={styles.type}>{locale === "en" ? typeen : type}</a>
+              </Link>
+              {/*H3:タグ*/}
+              <h3>タグ</h3>
+              <p className={styles.keywordItems}>
+                {keyword?.map((item, index) => {
+                  const { name, id, slug, total, ruby } = item;
+                  return (
+                    <Link href={`./keyword/${slug}`} key={index}>
+                      <a>
+                        <span className={styles.keywordItem}>
+                          #{locale === "en" ? id : name}
+                        </span>
+                      </a>
+                    </Link>
+                  );
+                })}
+              </p>
+              {/*H3:出典*/}
+              <h3>出典</h3>
+              <Link href={sourceImageUrl}>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.sourceLink}
+                >
+                  {sourceImage}
+                </a>
+              </Link>
+              {/*H3:参照*/}
+              <h3>参照</h3>
+              {reference?.map((item, i) => {
                 return (
-                  <Link href={`./keyword/${slug}`} key={index}>
-                    <a>
-                      <span className={styles.keywordItem}>
-                        #{locale === "en" ? id : name}
-                      </span>
-                    </a>
-                  </Link>
+                  <li key={i} className={styles.reference}>
+                    <Link href={item.url ? item.url : "/"}>
+                      <a target="_blank" rel="noopener noreferrer">
+                        {`${item.title}`}
+                      </a>
+                    </Link>
+                  </li>
                 );
               })}
-            </p>
-            <h3>出典</h3>
-            <Link href={sourceImageUrl}>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.sourceLink}
-              >
-                {sourceImage}
-              </a>
-            </Link>
-            <h3>参照</h3>
-            {reference?.map((item, i) => {
-              return (
-                <li key={i} className={styles.reference}>
-                  <Link href={item.url ? item.url : "/"}>
-                    <a target="_blank" rel="noopener noreferrer">
-                      {`${item.title}`}
-                    </a>
-                  </Link>
-                </li>
-              );
-            })}
+            </div>
           </div>
+
           <ToContactForm />
           {isContactModalOpen && <ContactFormGoogle />}
-          <SnsShareBox
+          {/* <SnsShareBox
             titleen={titleen}
             title={title}
             edition={edition}
             ort={"prt"}
-          />
+          /> */}
           {/* {(typeen === "seiyoukaiga" || keyword) && <CardC data={data} />} */}
           <RecommendEmaki data={data} />
         </div>
