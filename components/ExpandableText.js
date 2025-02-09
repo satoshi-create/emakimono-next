@@ -9,17 +9,33 @@ import remarkGfm from "remark-gfm";
 //   const router = useRouter();
 
 //   useEffect(() => {
-//     const hash = window.location.hash;
-//     if (hash) {
-//       const element = document.querySelector(hash);
-//       if (element) {
-//         setTimeout(() => {
-//           <element className="scrol"></element>lIntoView({ behavior: "smooth", block: "start" });
-//         }, 100);
-//       }
-//     }
-//   }, [router.asPath]);
+//     const handleScroll = () => {
+//       requestAnimationFrame(() => {
+//         let hash = window.location.hash;
+//         console.log("Current hash:", hash);
+
+//         if (hash) {
+//           const id = hash.substring(1);
+//           const element = document.getElementById(id);
+
+//           console.log("Found element:", element);
+//           if (element) {
+//             element.scrollIntoView({ behavior: "smooth", block: "start" });
+//           }
+//         }
+//       });
+//     };
+
+//     router.events.on("routeChangeComplete", handleScroll);
+//     window.addEventListener("hashchange", handleScroll);
+
+//     return () => {
+//       router.events.off("routeChangeComplete", handleScroll);
+//       window.removeEventListener("hashchange", handleScroll);
+//     };
+//   }, [router.asPath]); // 修正
 // };
+
 
 const ExpandableText = ({ text, maxLength = 100 }) => {
   // useSmoothScroll();

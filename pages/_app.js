@@ -22,6 +22,7 @@ export const AppContext = createContext();
 function MyApp({ Component, pageProps, router }) {
   const removeNestedArrayObj = ExtractingListData();
 
+
   // Chakra UI のデフォルトの CSSReset を無効化
   const theme = extendTheme({
     styles: {
