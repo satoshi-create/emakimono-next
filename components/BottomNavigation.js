@@ -68,13 +68,6 @@ import { AppContext } from "../pages/_app";
   return (
     <Box
       style={styles.container}
-      // position="fixed"
-      // bottom="0"
-      // width="100%"
-      // bg={bgColor}
-      // boxShadow="0 -2px 10px rgba(0, 0, 0, 0.1)"
-      // zIndex="1000"
-      // display={stickyClass === "header-fixed" ? "block" : "none"}
     >
       <Flex justify="space-evenly" align="center" py={2}>
         {navItems.map((item) => (

@@ -1,4 +1,4 @@
-import React, { useEffect, useContext,useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import {
   Box,
   Grid,
@@ -11,6 +11,7 @@ import {
 import { FaHeart, FaBars } from "react-icons/fa";
 import { AppContext } from "../pages/_app";
 import LikeButton from "./LikeButton";
+import { TableOfContents } from "lucide-react";
 
 const MiddleNavigation = ({ title, edition, author }) => {
   const bgColor = useColorModeValue("white", "gray.800");
@@ -27,7 +28,6 @@ const MiddleNavigation = ({ title, edition, author }) => {
     window.addEventListener("scroll", stickNavbar);
   }, [setStickyClass]);
 
-
   useEffect(() => {
     setisModalOpen(false);
   }, [setisModalOpen]);
@@ -38,25 +38,23 @@ const MiddleNavigation = ({ title, edition, author }) => {
   // 幅768px以上の場合は何もレンダリングしない
   if (isLargerThan768) return null;
 
-
-    const styles = {
-      container: {
-        position: "fixed",
-        // bottom: '50px',
-        bottom: stickyClass === "header-fixed" ? "50px" : "-100px", // 隠れる位置: 画面外 (-100px)
-        width: "100%",
-        backgroundColor: bgColor,
-        boxShadow: "0 -2px 10px rgba(0, 0, 0, 0.1)",
-        zIndex: "999",
-        transform:
-          stickyClass === "header-fixed"   ? "translateY(0)" : "translateY(100%)",
-        transition: "transform 0.5s ease-in-out",
-      },
-    };
+  const styles = {
+    container: {
+      position: "fixed",
+      // bottom: '50px',
+      bottom: stickyClass === "header-fixed" ? "50px" : "-100px", // 隠れる位置: 画面外 (-100px)
+      width: "100%",
+      backgroundColor: bgColor,
+      boxShadow: "0 -2px 10px rgba(0, 0, 0, 0.1)",
+      zIndex: "999",
+      transform:
+        stickyClass === "header-fixed" ? "translateY(0)" : "translateY(100%)",
+      transition: "transform 0.5s ease-in-out",
+    },
+  };
 
   return (
-    <Box style={styles.container}
-    >
+    <Box style={styles.container}>
       <Grid templateColumns="1fr auto" alignItems="center" px={4} py={2}>
         {/* タイトル: 左寄せ */}
         <GridItem>
@@ -68,14 +66,15 @@ const MiddleNavigation = ({ title, edition, author }) => {
         {/* ボタン: 右寄せ */}
         <GridItem display="flex" gap={2}>
           <LikeButton
-            title={title}p
+            title={title}
+            p
             edition={edition}
             author={author}
             ort={"prt"}
           />
           <IconButton
             aria-label="メニュー"
-            icon={<FaBars />}
+            icon={<TableOfContents />}
             variant="ghost"
             color={iconColor}
             onClick={() => openModal(0)}
