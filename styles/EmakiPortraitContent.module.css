@@ -85,7 +85,7 @@
   font-family: var(--text-font);
   padding: 0.5rem;
   color: var(--clr-white);
-  margin-top: 0.5rem;
+  margin-top:   0.5rem;
   display: flex;
   gap: 0.3rem;
   justify-content: center;

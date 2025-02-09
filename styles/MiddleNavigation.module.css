@@ -1,0 +1,18 @@
+
+.linkedbutton {
+  /* justify-self: stretch; */
+  /* background: var(--clr-accent-02); */
+  border: 1px solid var(--clr-accent-02);
+  border-radius: 1rem;
+  transition: var(--transition);
+  font-family: var(--text-font);
+  padding: 0.3rem;
+  color: var(--clr-accent-02);
+  display: flex;
+  gap: 0.3rem;
+}
+
+.linkedbutton:hover {
+  background-color: var(--clr-white);
+  color: var(--clr-accent-02);
+}

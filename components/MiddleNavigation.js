@@ -1,4 +1,5 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext } from "react";
+import { useRouter } from "next/router";
 import {
   Box,
   Grid,
@@ -7,13 +8,17 @@ import {
   Text,
   useColorModeValue,
   useMediaQuery,
+  Button,
 } from "@chakra-ui/react";
-import { FaHeart, FaBars } from "react-icons/fa";
 import { AppContext } from "../pages/_app";
 import LikeButton from "./LikeButton";
-import { TableOfContents } from "lucide-react";
+import { TableOfContents, Play } from "lucide-react";
+import styles from "../styles/MiddleNavigation.module.css";
 
 const MiddleNavigation = ({ title, edition, author }) => {
+    const { handleFullScreen } = useContext(AppContext);
+
+  const { locale } = useRouter();
   const bgColor = useColorModeValue("white", "gray.800");
   const iconColor = useColorModeValue("gray.600", "gray.300");
 
@@ -38,7 +43,7 @@ const MiddleNavigation = ({ title, edition, author }) => {
   // 幅768px以上の場合は何もレンダリングしない
   if (isLargerThan768) return null;
 
-  const styles = {
+  const style = {
     container: {
       position: "fixed",
       // bottom: '50px',
@@ -50,24 +55,28 @@ const MiddleNavigation = ({ title, edition, author }) => {
       transform:
         stickyClass === "header-fixed" ? "translateY(0)" : "translateY(100%)",
       transition: "transform 0.5s ease-in-out",
+      padding: "1rem 0.5rem",
     },
   };
 
   return (
-    <Box style={styles.container}>
-      <Grid templateColumns="1fr auto" alignItems="center" px={4} py={2}>
+    <Box style={style.container}>
+      <Grid
+        templateColumns="1fr auto"
+        templateRows={2}
+        alignItems="center"
+        gap={4}
+      >
         {/* タイトル: 左寄せ */}
-        <GridItem>
+        <GridItem gridRow={1} gridColumn={1}>
           <Text fontSize="lg" fontWeight="bold" color={iconColor}>
             {title} {edition && edition}
           </Text>
         </GridItem>
-
         {/* ボタン: 右寄せ */}
-        <GridItem display="flex" gap={2}>
+        <GridItem display="flex" gap={2} gridRow={1} gridColumn={2}>
           <LikeButton
             title={title}
-            p
             edition={edition}
             author={author}
             ort={"prt"}
@@ -79,6 +88,19 @@ const MiddleNavigation = ({ title, edition, author }) => {
             color={iconColor}
             onClick={() => openModal(0)}
           />
+        </GridItem>
+        <GridItem gridRow={2} gridColumn="1 / span 2" justifyItems={"center"}>
+          <button
+            type="button"
+            value="Lock Landscape"
+            onClick={() => handleFullScreen("landscape")}
+            className={styles.linkedbutton}
+          >
+            <Play />
+            {locale === "en"
+              ? "Enjoy the picture scroll in full screen"
+              : "フルスクリーンで絵巻を楽しむ"}
+          </button>
         </GridItem>
       </Grid>
     </Box>
