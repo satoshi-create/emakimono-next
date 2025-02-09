@@ -110,7 +110,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 </Link>
               )}
             </h1>
-
             <div className={styles.likebutton}>
               <LikeButton title={title} edition={edition} author={author} />
             </div>
@@ -137,7 +136,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
           {/* H2:絵巻の紹介 */}
           <div className={styles.metadataB}>
             <h2>
-              <ScrollText className="w-6 h-6 fa-rotate-90" />
+              <ScrollText />
               絵巻の紹介
             </h2>
             <MarkdownContent
@@ -229,15 +228,18 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
 
             {/* H2:noteへのリンク */}
             {reletedEmakisToNote.length > 0 && (
-              <h2>
-                <NotebookPen />
-                Note
-              </h2>
+              <>
+                <h2>
+                  <NotebookPen />
+                  Note
+                </h2>
+                <LinkToNote
+                  title={title}
+                  reletedEmakisToNote={reletedEmakisToNote}
+                />
+              </>
             )}
-            <LinkToNote
-              title={title}
-              reletedEmakisToNote={reletedEmakisToNote}
-            />
+
             {/* H2:登場人物 */}
             {personname && (
               <>

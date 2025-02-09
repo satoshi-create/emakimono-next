@@ -109,10 +109,8 @@
   font-family: var(--title-font2);
 }
 
-.metaBtitle {
-  font-weight: 600;
-  font-family: var(--title-font2);
-  position: relative;
+.metadataB > div {
+  margin-bottom: 1rem;
 }
 
 .metadataB h2 {
