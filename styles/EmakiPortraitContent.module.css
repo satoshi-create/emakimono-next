@@ -35,39 +35,6 @@
   text-align: center;
 }
 
-.keywodtTitle {
-  font-size: small;
-  color: var(--clr-link);
-  font-weight: 600;
-}
-
-.cat {
-  display: flex;
-  justify-content: left;
-  column-gap: 0.5rem;
-  font-size: 0.6rem;
-  font-family: var(--title-font2);
-  font-weight: 500;
-}
-
-.cat>* {
-  padding: 0.1rem 0.4rem 0;
-  border-radius: var(--borderRadius);
-  color: rgb(71 71 71);
-  border: 1px solid var(--clr-grey-light);
-  font-weight: 100;
-  transition: var(--transition);
-  cursor: pointer;
-}
-
-.cat>.type:hover,
-.cat>div:hover {
-  opacity: 0.5;
-}
-
-.cat>.era:hover {
-  color: white;
-}
 
 .title {
   align-self: center;
@@ -119,7 +86,7 @@
   padding: 0.5rem;
   color: var(--clr-white);
   margin-top: .5rem;
-  display:flex;
+  display: flex;
   gap: .3rem;
   justify-content: center;
 }
@@ -129,7 +96,21 @@
   color: var(--clr-accent-02);
 }
 
-.H2title {
+.metadataB {
+  display: grid;
+  background: rgb(245 245 245);
+  padding: 1rem;
+  border-radius: 20px;
+}
+
+.metaBtitle {
+  font-weight: 600;
+  font-family: var(--title-font2);
+  position: relative;
+}
+
+.metadataB h2 {
+  margin-bottom: 10px;
   font-weight: 600;
   font-family: var(--text-font);
   display: flex;
@@ -137,51 +118,36 @@
   align-items: center;
 }
 
-.H3title {
+.metadataB h3 {
   font-weight: 600;
   font-family: var(--text-font);
   position: relative;
-  padding-left: 15px;
+  font-size: 0.9rem;
 }
 
-/* .H3title::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  width: 5px;
-  height: 80%;
-  background-color: var(--border-color, black);
-} */
-
-.metadataB {
-  display: grid;
-  row-gap: 10px;
-  /* font-family: var(--text-font); */
-  background: rgb(245 245 245);
-  padding: 1rem;
-  border-radius: 20px;
+.era,
+.type,
+.sourceLink,
+.reference a {
+  font-size: 0.8rem;
 }
 
-/*
-.metadataB .metaBtitle:nth-child(1) {
-  margin-top: 0;
+.reference {
+  list-style: none;
 }
 
-.metadataB .metaBtitle {
-  margin-top: 2rem;
-} */
-
-.metaBtitle {
+.keywordItems {
+  font-size: small;
+  color: var(--clr-link);
   font-weight: 600;
-  font-family: var(--title-font2);
-  position: relative;
-  /* padding-left: 15px; */
-  /* ボーダーとの間隔を調整 */
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-
+.keywordItem {
+  white-space: nowrap;
+}
 
 .genjieslugBox {
   grid-row: 1 / span 2;

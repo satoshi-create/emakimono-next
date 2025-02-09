@@ -10,7 +10,8 @@
   background: var(--clr-white);
   border-radius: 1rem;
   /* padding:clamp(1rem, 0.0458rem + 4.0712vw, 2rem); */
-  padding: .5rem;
+  /* padding: .5rem; */
+  margin-bottom: 20px;
 }
 
 .chapterDesc {

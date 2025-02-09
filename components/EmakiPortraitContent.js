@@ -36,7 +36,6 @@ import {
   PenLine,
 } from "lucide-react";
 
-
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { handleToId, handleFullScreen, setnavIndex, isContactModalOpen } =
     useContext(AppContext);
@@ -68,7 +67,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   } = data;
 
   console.log(desc);
-
 
   const removeNestedArrayObj = ExtractingListData();
   const allKeywords = keywordItem(removeNestedArrayObj);
@@ -124,33 +122,12 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 : "フルスクリーンで絵巻を楽しむ"}
             </button>
           </div>
-
+          {/* H2:絵巻の紹介 */}
           <div className={styles.metadataB}>
-            {/* <h2
-              className={styles.H2title}
-              style={{
-                "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-              }}
-            >
-              <ScrollText className="w-6 h-6 fa-rotate-90" /> 概要・解説
-            </h2> */}
-            {/* <span
-              className={styles.borderline}
-              // style={{ margin: "0.5rem 0" }}
-            ></span> */}
-            <h2
-              className={styles.H2title}
-              style={{
-                "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-              }}
-            >
+            <h2>
               <ScrollText className="w-6 h-6 fa-rotate-90" />
               絵巻の紹介
             </h2>
-            {/* <div
-              className={styles.desc}
-              dangerouslySetInnerHTML={{ __html: desc ? desc : descJa }}
-            ></div> */}
             <MarkdownContent
               desc={desc}
               descen={descen}
@@ -161,18 +138,11 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               edition={edition}
               typeen={typeen}
             />
+            {/* H2:絵巻の紹介 */}
             {!kotobagaki && (
               <>
-                <h3
-                  className={styles.H3title}
-                  style={{
-                    "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                  }}
-                >
-                  段タイトル
-                </h3>
+                <h2>段タイトル</h2>
                 <VStack alignItems="flex-start" spacing={6} position="relative">
-                  {/* タイムラインの縦線 */}
                   <Box
                     position="absolute"
                     top={0}
@@ -204,34 +174,20 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               </>
             )}
 
-            {/* 各段の詞書・解説 */}
+            {/* H2:各段の解説 */}
             {kotobagaki && (
               <>
-                <h2
-                  className={styles.H2title}
-                  style={{
-                    "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                  }}
-                >
+                <h2>
                   <PenLine />
                   各段の解説
                 </h2>
                 {<ChapterDesc emakis={emakis} data={data} />}
               </>
             )}
-
-            {/* noteへのリンク */}
-            {/* 他の巻を見る */}
+            {/* H2:他の巻を見る */}
             {editionLinks.length > 0 && (
               <>
-                <h4
-                  className={styles.metaBtitle}
-                  style={{
-                    "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                  }}
-                >
-                  他の巻を見る
-                </h4>
+                <h2>他の巻を見る</h2>
                 <EditionLinks
                   title={title}
                   edition={edition}
@@ -256,32 +212,17 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 />
               </>
             )}
-            {/* noteへのリンク */}
-            {reletedEmakisToNote.length > 0 && (
-              <h4
-                className={styles.metaBtitle}
-                style={{
-                  "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                }}
-              >
-                note
-              </h4>
-            )}
+
+            {/* H2:noteへのリンク */}
+            {reletedEmakisToNote.length > 0 && <h2>note</h2>}
             <LinkToNote
               title={title}
               reletedEmakisToNote={reletedEmakisToNote}
             />
-            {/* 登場人物 */}
+            {/* H2:登場人物 */}
             {personname && (
               <>
-                <h4
-                  className={styles.metaBtitle}
-                  style={{
-                    "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                  }}
-                >
-                  登場人物
-                </h4>
+                <h2>登場人物</h2>
                 <div
                   className={`${styles.tags} ${
                     locale === "ja" && styles.jatags
@@ -313,65 +254,59 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 </div>
               </>
             )}
-            {/*メタ情報*/}
-            <h2
-              className={styles.H2title}
-              style={{
-                "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-              }}
-            >
+            {/*H2:詳細情報*/}
+            <h2>
               <NotebookTabs />
               詳細情報
             </h2>
-            {/*カテゴリー・時代タグ */}
-            <div className={styles.cat}>
-              <Link href={`/era/${eraen}`}>
-                <a
-                  className={styles.era}
-                  style={{
-                    border: eraColor(era),
-                    backgroundColor: eraColor(era),
-                  }}
-                >
-                  {locale === "en" ? `${eraen} period` : `${era}`}
-                </a>
-              </Link>
-              <Link href={`/type/${typeen}`} className={styles.type}>
-                <a>{locale === "en" ? typeen : type}</a>
-              </Link>
-            </div>
-
-            <div className={styles.authority}>
-              <Link href={sourceImageUrl}>
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.sourceLink}
-                >
-                  【出典】 {sourceImage}
-                </a>
-              </Link>
-              <ul>
-                【参照】
-                {reference?.map((item, i) => {
-                  return (
-                    <li key={i}>
-                      <Link href={item.url ? item.url : "/"}>
-                        <a
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={styles.sourceLink}
-                        >
-                          {`　　${item.title}`}
-                        </a>
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
+            <h3>時代背景</h3>
+            <Link href={`/era/${eraen}`}>
+              <a className={styles.era}>
+                {locale === "en" ? `${eraen} period` : `${era}`}時代
+              </a>
+            </Link>
+            <h3>タイプ</h3>
+            <Link href={`/type/${typeen}`}>
+              <a className={styles.type}>{locale === "en" ? typeen : type}</a>
+            </Link>
+            <h3>タグ</h3>
+            <p className={styles.keywordItems}>
+              {keyword?.map((item, index) => {
+                const { name, id, slug, total, ruby } = item;
+                return (
+                  <Link href={`./keyword/${slug}`} key={index}>
+                    <a>
+                      <span className={styles.keywordItem}>
+                        #{locale === "en" ? id : name}
+                      </span>
+                    </a>
+                  </Link>
+                );
+              })}
+            </p>
+            <h3>出典</h3>
+            <Link href={sourceImageUrl}>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.sourceLink}
+              >
+                {sourceImage}
+              </a>
+            </Link>
+            <h3>参照</h3>
+            {reference?.map((item, i) => {
+              return (
+                <li key={i} className={styles.reference}>
+                  <Link href={item.url ? item.url : "/"}>
+                    <a target="_blank" rel="noopener noreferrer">
+                      {`${item.title}`}
+                    </a>
+                  </Link>
+                </li>
+              );
+            })}
           </div>
-
           <ToContactForm />
           {isContactModalOpen && <ContactFormGoogle />}
           <SnsShareBox
