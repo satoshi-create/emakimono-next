@@ -190,6 +190,7 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
       />
       <MiddleNavigation
         title={data.title}
+        titleen={data.titleen}
         edition={data.edition}
         author={data.author}
       />

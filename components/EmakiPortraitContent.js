@@ -103,8 +103,9 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 <Link href={`/author/${authoren}`}>
                   <a className={styles.authorLink}>
                     <h2 className={styles.author}>
-                      絵師:
-                      {locale === "ja" ? author : authoren}
+                      {locale === "ja"
+                        ? `絵師：${author}`
+                        : `Attributed:${authoren}`}
                     </h2>
                   </a>
                 </Link>
@@ -137,7 +138,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
           <div className={styles.metadataB}>
             <h2>
               <ScrollText />
-              絵巻の紹介
+              {locale === "ja" ? "絵巻の紹介" : "Introduction"}
             </h2>
             <MarkdownContent
               desc={desc}
@@ -149,12 +150,13 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               edition={edition}
               typeen={typeen}
             />
-            {/* H2:絵巻の紹介 */}
             {!kotobagaki && (
               <>
                 <h2>
                   <TableOfContents />
-                  各段のタイトル
+                  {locale === "ja"
+                    ? "各段のタイトル"
+                    : "Titles of Each Chapter"}
                 </h2>
                 <VStack alignItems="flex-start" spacing={6} position="relative">
                   <Box
@@ -193,7 +195,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               <>
                 <h2>
                   <PenLine />
-                  各段の解説
+                  {locale === "ja" ? "各段の解説" : "Scene Breakdown"}
                 </h2>
                 {<ChapterDesc emakis={emakis} data={data} />}
               </>
@@ -203,7 +205,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               <>
                 <h2>
                   <LibraryBig />
-                  他の巻を見る
+                  {locale === "ja" ? "他の巻を見る" : "View Other Volumes"}
                 </h2>
                 <EditionLinks
                   title={title}
@@ -216,7 +218,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               <>
                 <h2>
                   <LibraryBig />
-                  他の巻を見る
+                  {locale === "ja" ? "他の巻を見る" : "View Other Volumes"}
                 </h2>
                 <EditionLinks
                   title={title}
@@ -245,7 +247,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               <>
                 <h2>
                   <UserRound />
-                  登場人物
+                  {locale === "ja" ? "登場人物" : "Characters"}
                 </h2>
                 <div
                   className={`${styles.tags} ${
@@ -281,61 +283,75 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             {/*H2:詳細情報*/}
             <h2>
               <NotebookTabs />
-              詳細情報
+              {locale === "ja" ? "詳細情報" : "Detailed Information"}
             </h2>
             <div className={styles.datailInfo}>
               {/*H3:時代背景*/}
-              <h3>時代背景</h3>
+              <h3>{locale === "ja" ? "時代背景" : "Historical Context"}</h3>
               <Link href={`/era/${eraen}`}>
-                <a className={styles.era} style={{ color: eraColor(era) }}>
-                  {locale === "en" ? `${eraen} period` : `${era}`}時代
+                <a className={styles.era}>
+                  {locale === "ja" ? `${era}時代` : `${eraen} period`}
                 </a>
               </Link>
               {/*H3:タイプ*/}
-              <h3>タイプ</h3>
+              <h3>{locale === "ja" ? "タイプ" : "Type"}</h3>
               <Link href={`/type/${typeen}`}>
                 <a className={styles.type}>{locale === "en" ? typeen : type}</a>
               </Link>
               {/*H3:タグ*/}
-              <h3>タグ</h3>
-              <p className={styles.keywordItems}>
-                {keyword?.map((item, index) => {
-                  const { name, id, slug, total, ruby } = item;
-                  return (
-                    <Link href={`./keyword/${slug}`} key={index}>
-                      <a>
-                        <span className={styles.keywordItem}>
-                          #{locale === "en" ? id : name}
-                        </span>
-                      </a>
-                    </Link>
-                  );
-                })}
-              </p>
+              {keyword && (
+                <>
+                  <h3>{locale === "ja" ? "タグ" : "Tags"}</h3>
+                  <p className={styles.keywordItems}>
+                    {keyword?.map((item, index) => {
+                      const { name, id, slug, total, ruby } = item;
+                      return (
+                        <Link href={`./keyword/${slug}`} key={index}>
+                          <a>
+                            <span className={styles.keywordItem}>
+                              #{locale === "en" ? id : name}
+                            </span>
+                          </a>
+                        </Link>
+                      );
+                    })}
+                  </p>
+                </>
+              )}
               {/*H3:出典*/}
-              <h3>出典</h3>
-              <Link href={sourceImageUrl}>
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.sourceLink}
-                >
-                  {sourceImage}
-                </a>
-              </Link>
+              {sourceImage && (
+                <>
+                  <h3>
+                    {locale === "ja" ? "出典・所蔵" : "Source & Collection"}
+                  </h3>
+                  <Link href={sourceImageUrl}>
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.sourceLink}
+                    >
+                      {sourceImage}
+                    </a>
+                  </Link>
+                </>
+              )}
               {/*H3:参照*/}
-              <h3>参照</h3>
-              {reference?.map((item, i) => {
-                return (
-                  <li key={i} className={styles.reference}>
-                    <Link href={item.url ? item.url : "/"}>
-                      <a target="_blank" rel="noopener noreferrer">
-                        {`${item.title}`}
-                      </a>
-                    </Link>
-                  </li>
-                );
-              })}
+              {reference && (
+                <>
+                  <h3>{locale === "ja" ? "関連リンク" : "Related Links"}</h3>
+                  {reference?.map((item, i) => {
+                    return (
+                      <li key={i} className={styles.reference}>
+                        <Link href={item.url ? item.url : "/"}>
+                          <a target="_blank" rel="noopener noreferrer">
+                            {`${item.title}`}
+                          </a>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </>
+              )}
             </div>
           </div>
 

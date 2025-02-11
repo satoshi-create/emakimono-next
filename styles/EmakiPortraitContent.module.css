@@ -134,7 +134,8 @@
 }
 
 .metadataB .datailInfo a {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
+  color: var(--clr-grey);
 }
 
 .reference {
@@ -143,8 +144,8 @@
 
 .keywordItems {
   font-size: small;
-  color: var(--clr-link);
-  font-weight: 600;
+  /* color: var(--clr-link); */
+  /* font-weight: 600; */
   display: flex;
   gap: 8px;
   flex-wrap: wrap;

@@ -15,8 +15,8 @@ import LikeButton from "./LikeButton";
 import { TableOfContents, Play } from "lucide-react";
 import styles from "../styles/MiddleNavigation.module.css";
 
-const MiddleNavigation = ({ title, edition, author }) => {
-    const { handleFullScreen } = useContext(AppContext);
+const MiddleNavigation = ({ title, titleen,edition, author }) => {
+  const { handleFullScreen } = useContext(AppContext);
 
   const { locale } = useRouter();
   const bgColor = useColorModeValue("white", "gray.800");
@@ -70,7 +70,7 @@ const MiddleNavigation = ({ title, edition, author }) => {
         {/* タイトル: 左寄せ */}
         <GridItem gridRow={1} gridColumn={1}>
           <Text fontSize="lg" fontWeight="bold" color={iconColor}>
-            {title} {edition && edition}
+            {locale === "ja" ? title : titleen}
           </Text>
         </GridItem>
         {/* ボタン: 右寄せ */}
