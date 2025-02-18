@@ -39,8 +39,8 @@
   /* backdrop-filter: blur(2px); */
   color: white;
   border-radius: 8px;
-  width: 90vw;
-  height: 90vh;
+  width: 80vw;
+  height: 80vh;
   max-width: 1200px;
   overflow: auto;
   position: relative;
@@ -49,12 +49,14 @@
   border: 1px solid #5b5b5ba3;
   box-shadow: 1px -1px 20px 16px rgb(151 151 151 / 10%);
 }
-.land.container{
-    grid-template-rows: 2vw 1fr 2vw;
+
+.land.container {
+  grid-template-rows: 2vw 1fr 2vw;
 }
+
 .article {
   display: grid;
-  grid-template-rows: auto auto 1fr auto auto;
+  grid-template-rows: auto auto 1fr auto;
   justify-self: center;
   opacity: 0;
   transition: var(--transition);
@@ -63,12 +65,13 @@
   width: 80%;
   height: 100%;
   position: relative;
-  font-size: 2rem;
-  line-height: 2;
+  /* font-size: 2rem; */
+  /* line-height: 2; */
   font-family: var(--text-font-koten);
-  gap: 1rem 0;
+  gap: .5rem 0;
   overflow-y: auto;
 }
+
 
 .title {
   font-size: var(--title-size-prt);
@@ -115,6 +118,7 @@
 
 .contents {
   overflow-y: auto;
+  padding: .5rem;
 }
 
 .tabbtn {
@@ -171,6 +175,7 @@
 
 .gendaibun {
   font-size: var(--text-size-prt);
+  line-height: 1.8;
 }
 
 .gendaibun a {
@@ -244,10 +249,15 @@
     font-size: 14px;
   }
 
-  .container,.land.container {
+  .container,
+  .land.container {
     grid-template-columns: minmax(4vw, auto) 1fr minmax(4vw, auto);
     grid-template-rows: 2vw 1fr 2vw;
     background-color: #00000033;
+  }
+
+  .article {
+    gap: 1rem 0;
   }
 
   .linkedbutton {

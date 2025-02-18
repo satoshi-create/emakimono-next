@@ -54,7 +54,7 @@
   column-gap: 2rem;
 }
 .tabbtn {
-  font-size: clamp(1.5rem, 1.2111rem + 1.2327vw, 2rem);
+  font-size:var(--title-size-prt);
   color: var(--clr-black);
   font-family: var(--text-font);
   font-weight: 400;
@@ -91,7 +91,7 @@
   display: flex;
   flex-direction: column;
   row-gap: 0.5rem;
-  font-size: clamp(1.5rem, 1.2111rem + 1.2327vw, 2rem);
+  font-size: var(--text-size-prt);
   cursor: pointer;
 }
 .chapterlink {
@@ -103,7 +103,7 @@
 /* 書誌情報 */
 .source {
   font-family: var(--text-font);
-  font-size: clamp(1.5rem, 1.2111rem + 1.2327vw, 2rem);
+  font-size: var(--text-size-prt);
 }
 .sourceLink {
   transition: var(--transition);
@@ -114,7 +114,7 @@
 /* 参照 */
 .reference {
   font-family: var(--text-font);
-  font-size: clamp(1.5rem, 1.2111rem + 1.2327vw, 2rem);
+  font-size: var(--text-size-prt);
 }
 @media screen and (min-width: 768px) {
   .iframe {
@@ -135,7 +135,7 @@
   color: var(--clr-accent-02);
   transition: var(--transition);
   cursor: pointer;
-  font-size: clamp(0.8rem, 0.5689rem + 0.9861vw, 1.2rem);
+  font-size: var(--text-size-prt);
 }
 .link a:hover {
   opacity: 0.6;
