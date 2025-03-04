@@ -1,15 +1,18 @@
 .snsShareBox {
-    align-self: center;
+  align-self: center;
   display: flex;
-    gap: 0 0.5rem;
+  gap: 0 0.5rem;
 }
-.modal.snsShareBox{
+
+.modal.snsShareBox {
   justify-self: center;
 }
-.land{
-  grid-row: 1 / span 2;
 
+.land {
+  grid-row: 1;
+  justify-self: center;
 }
+
 .snsShareIcon {
   display: grid;
   place-content: center;
@@ -23,9 +26,15 @@
   transition: var(--transition);
 }
 
+.snsShareIcon.land {
+  width: 30px;
+  height: 30px;
+}
+
 .snsShareIcon:hover {
   opacity: 0.6;
 }
+
 /* .twitter.land,
 .twitter.prt{
  background: #55acee;

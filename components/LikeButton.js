@@ -33,7 +33,7 @@ const LikeButton = ({title,edition,author, ort}) => {
   return (
       <button
         onClick={() => postLike()}
-        // className={`${ort === "land" ? styles.land : styles.prt}`}
+        className={`${ort === "land" ? styles.land : styles.prt}`}
       >
         <Heart
           className={`${styles.icon} ${isDisplay && styles.activeicon} ${hasAnimated && styles.heartclr}`}

@@ -32,10 +32,18 @@ import noteData from "../libs/note/data.json";
 import ChapterTimeline from "./ChapterTimeline";
 import { Box, VStack } from "@chakra-ui/react";
 import MarkdownContent from "./MarkdownContent";
+import {
+  ScrollText,
+  Play,
+  NotebookTabs,
+  PenLine,
+  LibraryBig,
+  UserRound,
+  NotebookPen,
+  TableOfContents,
+} from "lucide-react";
 
 // TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
-
-
 
 const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { handleToId, handleFullScreen, result, loading } =
@@ -68,7 +76,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     kotobagaki,
     note,
   } = data;
-
 
   const editionLinks = alldata.filter(
     (item) => item.title === title && item.edition !== edition
@@ -179,28 +186,31 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 onClick={() => handleFullScreen("landscape")}
                 className={styles.linkedbutton}
               >
-                {locale === "en"
-                  ? "Enjoy the picture scroll in full screen"
-                  : "フルスクリーンで絵巻を楽しむ"}
+                {locale === "en" ? "View full screen" : "全画面で見る"}
               </button>
             </div>
+            {/* H2:絵巻の紹介 */}
             <div className={styles.metadataB}>
-              {/* 絵巻の紹介 */}
-              <h4
-                className={styles.metaBtitle}
-                style={{
-                  "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                }}
-              >
-                絵巻の紹介
-              </h4>
-
+              <h2>
+                <ScrollText />
+                {locale === "ja" ? "絵巻の紹介" : "Introduction"}
+              </h2>
+              <MarkdownContent
+                desc={desc}
+                descen={descen}
+                title={title}
+                titleen={titleen}
+                author={author}
+                authoren={authoren}
+                edition={edition}
+                typeen={typeen}
+              />
               {/* <div className={styles.desc}>
                  <div className={styles.desc}>
                 {locale === "en" ? parse(descEn) : parse(descJa)}
               </div>
               </div> */}
-              <MarkdownContent />
+              {/* <MarkdownContent /> */}
 
               {/* 各段の詞書・解説 */}
               {/* {kotobagaki && (
@@ -216,17 +226,13 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   {<ChapterDesc emakis={emakis} data={data} />}
                 </>
               )} */}
-              {/* 他の巻を見る */}
+              {/* H2:他の巻を見る */}
               {editionLinks.length > 0 && (
                 <>
-                  <h4
-                    className={styles.metaBtitle}
-                    style={{
-                      "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                    }}
-                  >
-                    他の巻を見る
-                  </h4>
+                  <h2>
+                    <LibraryBig />
+                    {locale === "ja" ? "他の巻を見る" : "View Other Volumes"}
+                  </h2>
                   <EditionLinks
                     title={title}
                     edition={edition}
@@ -253,17 +259,13 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               )}
               {/* <BannerToHelp /> */}
 
-              {/* noteへのリンク */}
+              {/* H2:noteへのリンク */}
               {reletedEmakisToNote.length > 0 && (
                 <>
-                  <h4
-                    className={styles.metaBtitle}
-                    style={{
-                      "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                    }}
-                  >
-                    note
-                  </h4>
+                  <h2>
+                    <NotebookPen />
+                    Note
+                  </h2>
                   <LinkToNote
                     title={title}
                     reletedEmakisToNote={reletedEmakisToNote}
@@ -271,17 +273,13 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 </>
               )}
 
-              {/* 登場人物 */}
+              {/* H2:登場人物 */}
               {personname && (
                 <>
-                  <h4
-                    className={styles.metaBtitle}
-                    style={{
-                      "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                    }}
-                  >
-                    登場人物
-                  </h4>
+                  <h2>
+                    <UserRound />
+                    {locale === "ja" ? "登場人物" : "Characters"}
+                  </h2>
                   <div className={styles.tags}>
                     {personname?.map((item, index) => {
                       const { name, id, slug, portrait } = item;
@@ -309,13 +307,90 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   </div>
                 </>
               )}
+
+              {/*H2:詳細情報*/}
+              <h2>
+                <NotebookTabs />
+                {locale === "ja" ? "詳細情報" : "Detailed Information"}
+              </h2>
+              <div className={styles.datailInfo}>
+                {/*H3:時代背景*/}
+                <h3>{locale === "ja" ? "時代背景" : "Historical Context"}</h3>
+                <Link href={`/era/${eraen}`}>
+                  <a className={styles.era}>
+                    {locale === "ja" ? `${era}時代` : `${eraen} period`}
+                  </a>
+                </Link>
+                {/*H3:タイプ*/}
+                <h3>{locale === "ja" ? "タイプ" : "Type"}</h3>
+                <Link href={`/type/${typeen}`}>
+                  <a className={styles.type}>
+                    {locale === "en" ? typeen : type}
+                  </a>
+                </Link>
+                {/*H3:タグ*/}
+                {keyword && (
+                  <>
+                    <h3>{locale === "ja" ? "タグ" : "Tags"}</h3>
+                    <p className={styles.keywordItems}>
+                      {keyword?.map((item, index) => {
+                        const { name, id, slug, total, ruby } = item;
+                        return (
+                          <Link href={`./keyword/${slug}`} key={index}>
+                            <a>
+                              <span className={styles.keywordItem}>
+                                #{locale === "en" ? id : name}
+                              </span>
+                            </a>
+                          </Link>
+                        );
+                      })}
+                    </p>
+                  </>
+                )}
+                {/*H3:出典*/}
+                {sourceImage && (
+                  <>
+                    <h3>
+                      {locale === "ja" ? "出典・所蔵" : "Source & Collection"}
+                    </h3>
+                    <Link href={sourceImageUrl}>
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.sourceLink}
+                      >
+                        {sourceImage}
+                      </a>
+                    </Link>
+                  </>
+                )}
+                {/*H3:参照*/}
+                {reference && (
+                  <>
+                    <h3>{locale === "ja" ? "関連リンク" : "Related Links"}</h3>
+                    {reference?.map((item, i) => {
+                      return (
+                        <li key={i} className={styles.reference}>
+                          <Link href={item.url ? item.url : "/"}>
+                            <a target="_blank" rel="noopener noreferrer">
+                              {`${item.title}`}
+                            </a>
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </>
+                )}
+              </div>
+
               {/*カテゴリー・時代タグ */}
-              <span
+              {/* <span
                 className={styles.borderline}
                 style={{ margin: "1rem 0 0.5rem 0" }}
-              ></span>
+              ></span> */}
               {/*キーワードタグ */}
-              {keyword && (
+              {/* {keyword && (
                 <div className={styles.tags}>
                   {keyword?.map((item, index) => {
                     const { name, id, slug, total, ruby } = item;
@@ -329,8 +404,8 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                     );
                   })}
                 </div>
-              )}
-              <div className={styles.cat}>
+              )} */}
+              {/* <div className={styles.cat}>
                 <Link href={`/era/${eraen}`}>
                   <a
                     className={styles.era}
@@ -346,37 +421,37 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 <Link href={`/type/${typeen}`} className={styles.type}>
                   <a>{locale === "en" ? typeen : type}</a>
                 </Link>
-              </div>
+              </div> */}
               {/*メタ情報*/}
-              <div className={styles.authority}>
-                <Link href={sourceImageUrl}>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.sourceLink}
-                  >
-                    【出典】 {sourceImage}
-                  </a>
-                </Link>
-                <ul>
-                  【参照】
-                  {reference?.map((item, i) => {
-                    return (
-                      <li key={i}>
-                        <Link href={item.url ? item.url : "/"}>
-                          <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={styles.sourceLink}
-                          >
-                            {`　　${item.title}`}
-                          </a>
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
+              {/* <div className={styles.authority}>
+                  <Link href={sourceImageUrl}>
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.sourceLink}
+                    >
+                      【出典】 {sourceImage}
+                    </a>
+                  </Link>
+                  <ul>
+                    【参照】
+                    {reference?.map((item, i) => {
+                      return (
+                        <li key={i}>
+                          <Link href={item.url ? item.url : "/"}>
+                            <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={styles.sourceLink}
+                            >
+                              {`　　${item.title}`}
+                            </a>
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div> */}
             </div>
           </div>
           <div className={styles.subgrid}>

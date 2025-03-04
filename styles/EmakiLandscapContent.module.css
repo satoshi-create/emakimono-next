@@ -183,12 +183,26 @@
 
 .metadataB {
   display: grid;
-  row-gap: 15px;
+  /* row-gap: 15px; */
+  row-gap: 1.6rem;
   font-family: var(--text-font);
   background: rgb(245 245 245);
   /* padding: 1.5rem; */
   padding: 2rem 1.5rem;
   border-radius: 12px;
+}
+.metadataB h2 {
+  font-weight: 600;
+  font-family: var(--text-font);
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+.metadataB .datailInfo h3 {
+  font-weight: 600;
+  font-family: var(--title-font2);
+  position: relative;
+  font-size: 0.9rem;
 }
 
 .metadataB .metaBtitle:nth-child(1) {
@@ -223,6 +237,14 @@ background-color: var(--border-color, black);
   /* デフォルトの色は黒 */
 }
 
+.metadataB .datailInfo a {
+  font-size: 0.9rem;
+  color: var(--clr-grey);
+}
+.datailInfo {
+  display: grid;
+  row-gap: 0.2rem;
+}
 .desc {
   font-size: medium;
   color: var(--clr-black);
@@ -279,4 +301,12 @@ background-color: var(--border-color, black);
   height: 600px;
   overflow-y: auto;
   overflow-x: hidden;
+}
+.keywordItems {
+  font-size: small;
+  /* color: var(--clr-link); */
+  /* font-weight: 600; */
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
