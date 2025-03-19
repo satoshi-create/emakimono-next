@@ -1,35 +1,55 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🎨 横スクロールで楽しむ絵巻物 - Open Source Project
 
-## Getting Started
+## 📌 プロジェクト概要
+このプロジェクトは、日本の伝統的な絵巻物を **横スクロールで楽しめるデジタル体験** にするためのOSSプロジェクトです。Next.js をベースに開発されており、WebGL や画像最適化技術を活用して、美しくスムーズな閲覧体験を提供します。
 
-First, run the development server:
+## 🚀 デモ
+[デモサイトを見る](#)（準備中）
 
-```bash
-npm run dev
-# or
-yarn dev
+## 🏗 技術スタック
+- **フロントエンド**: Next.js, React, Tailwind CSS
+- **バックエンド**: Node.js, Express (予定)
+- **データ管理**: Googleスプレッドシート, JSON
+- **画像最適化**: WebP, Image Optimization
+- **その他**: GitHub Actions (CI/CD), Vercel
+
+## 📥 セットアップ方法
+### 1. リポジトリをクローン
+```sh
+ git clone https://github.com/your-username/emaki-scroll.git
+ cd emaki-scroll
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. 依存関係をインストール
+```sh
+npm install  # または yarn install
+```
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+### 3. 開発サーバーを起動
+```sh
+npm run dev  # または yarn dev
+```
+ローカル環境で `http://localhost:3000` にアクセスできます。
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## 📌 貢献方法
+### コントリビューションの流れ
+1. Issue を確認し、自分ができそうなものを選ぶ
+2. `feature/your-feature-name` のブランチを作成
+3. 修正を加えて PR（プルリクエスト）を作成
+4. レビューを受けて修正
+5. `main` ブランチにマージ！ 🎉
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Good First Issues
+初心者向けのタスクを用意しています！
+- [Good First Issues を探す](https://github.com/your-username/emaki-scroll/issues?q=label%3A%22good+first+issue%22)
 
-## Learn More
+## 📝 ライセンス
+このプロジェクトは **MITライセンス** のもとで公開されています。自由に利用・改変可能です。
 
-To learn more about Next.js, take a look at the following resources:
+## 🌟 スターをつけて応援！
+このプロジェクトが気に入ったら、GitHub のスターをつけて応援してください！ ⭐️
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
+📩 **開発者・コントリビューター募集中！**
+興味がある方は、Issue または [Discussions](https://github.com/your-username/emaki-scroll/discussions) でご連絡ください！
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-# emakimono-next
