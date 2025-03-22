@@ -1,0 +1,6 @@
+blank_issues_enabled: false # 空のIssue作成を無効化（テンプレート必須にする）
+
+contact_links:
+  - name: 💬 質問・アイデア・雑談はこちら
+    url: https://github.com/your-username/emaki-scroll/discussions
+    about: バグ報告や機能提案でない話題はこちらのDiscussionsで行ってください。
