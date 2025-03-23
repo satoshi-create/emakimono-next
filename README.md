@@ -4,14 +4,13 @@
 このプロジェクトは、日本の伝統的な絵巻物を **横スクロールで楽しめるデジタル体験** にするためのOSSプロジェクトです。Next.js をベースに開発されており、WebGL や画像最適化技術を活用して、美しくスムーズな閲覧体験を提供します。
 
 ## 🚀 デモ
-[デモサイトを見る](#)（準備中）
+[横スクロールで楽しむ絵巻物](https://emakimono.com/)
 
 ## 🏗 技術スタック
-- **フロントエンド**: Next.js, React, Tailwind CSS
-- **バックエンド**: Node.js, Express (予定)
-- **データ管理**: Googleスプレッドシート, JSON
+- **フロントエンド**: Next.js, React, CSS.Module
+- **バックエンド**: Node.js
+- **データ管理**: JSON
 - **画像最適化**: WebP, Image Optimization
-- **その他**: GitHub Actions (CI/CD), Vercel
 
 ## 📥 セットアップ方法
 ### 1. リポジトリをクローン
@@ -41,7 +40,7 @@ npm run dev  # または yarn dev
 
 ### Good First Issues
 初心者向けのタスクを用意しています！
-- [Good First Issues を探す](https://github.com/your-username/emaki-scroll/issues?q=label%3A%22good+first+issue%22)
+- [Good First Issues を探す](https://github.com/satoshi-create/emakimono-next/issues)
 
 ## 📝 ライセンス
 このプロジェクトは **MITライセンス** のもとで公開されています。自由に利用・改変可能です。
