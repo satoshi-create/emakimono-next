@@ -12,22 +12,43 @@
 - **データ管理**: JSON
 - **画像最適化**: WebP, Image Optimization
 
+
 ## 📥 セットアップ方法
-### 1. リポジトリをクローン
+
+### ✅ 前提条件
+- Node.js（推奨: v18 以上）
+- Git LFS（画像取得用）
+
+### 1. Git LFS をインストール & クローン
+このプロジェクトでは画像ファイルの管理に Git LFS を使用しています。
+
 ```sh
- git clone https://github.com/your-username/emaki-scroll.git
- cd emaki-scroll
+git lfs install
+git clone https://github.com/your-username/emaki-scroll.git
+cd emaki-scroll
+git lfs pull
 ```
 
-### 2. 依存関係をインストール
-```sh
-npm install  # または yarn install
+### 2. 環境変数ファイル（.env.local）の作成
+`.env.local` ファイルをプロジェクトのルートに作成し、以下のように記述してください：
+
+```env
+NEXT_PUBLIC_CLOUDINARY_URL=your-cloudinary-url
+NEXT_PUBLIC_API_KEY=your-api-key
 ```
 
-### 3. 開発サーバーを起動
+※ `.env.example` も参考にしてください。
+
+### 3. 依存関係をインストール（Next.js 12 対応）
+```sh
+npm install --legacy-peer-deps  # または yarn install --legacy-peer-deps
+```
+
+### 4. 開発サーバーを起動
 ```sh
 npm run dev  # または yarn dev
 ```
+
 ローカル環境で `http://localhost:3000` にアクセスできます。
 
 ## 📌 貢献方法
@@ -50,5 +71,5 @@ npm run dev  # または yarn dev
 
 ---
 📩 **開発者・コントリビューター募集中！**
-興味がある方は、Issue または [Discussions](https://github.com/your-username/emaki-scroll/discussions) でご連絡ください！
+興味がある方は、Issue または [Discussions](https://github.com/satoshi-create/emakimono-next/discussions) でご連絡ください！
 
