@@ -1,8 +1,6 @@
 # 🎐 Emakimono: Horizontal Scroll Picture Scroll Viewer
 
-This project reimagines traditional Japanese picture scrolls (emakimono) as a horizontally scrollable web experience.  
-It allows users to explore narrative scenes by scrolling sideways, simulating the act of reading a physical emaki in a modern browser.
-
+Horizontal Scroll Emaki" is an open-source project exploring how traditional Japanese emakimono (picture scrolls) can be experienced on the web. It bridges cultural heritage and modern frontend technologies. This project inspired the CANW subproject: Horizontal Scroll Emaki
 [![Emaki Screenshot](./public/hero-img.png)](https://emakimono.com/en)
 
 ---
