@@ -26,7 +26,9 @@ It allows users to explore narrative scenes by scrolling sideways, simulating th
 
 ---
 
-## 🧭 How to Explore the Scroll
+## Usage
+
+### 🧭 How to Explore the Scroll
 
 - The emaki scroll proceeds from left to right.
 - On smartphones: swipe with your finger.  
@@ -35,11 +37,9 @@ It allows users to explore narrative scenes by scrolling sideways, simulating th
 - You can use navigation buttons or thumbnails to jump between scenes.
 - Even if you're not familiar with Japanese culture, enjoy freely by interpreting the visuals!
 
-📝 Read more on [note (in Japanese)](https://note.com/your-link)
+📝 Read more on [note (in Japanese)](https://note.com/enjoy_emakimono/n/n449f765b4876)
 
----
-
-## 📸 Demo
+### 📸 Demo
 
 [![Screenshot](./public/demo_kusouzu.gif)](https://emakimono.com/en)
 
