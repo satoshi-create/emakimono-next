@@ -4,6 +4,8 @@ Horizontal Scroll Emaki" is an open-source project exploring how traditional Jap
 
 [![Emaki Screenshot](./public/hero-img.png)](https://emakimono.com/en)
 
+- 🌐 [Horizontal Scroll Emaki (CANW version)](https://github.com/satoshi-create/complexity-and-network-webdesign/tree/main/projects/horizontal-scroll-emaki)
+
 ---
 
 ## 🎯 Key Features
@@ -60,9 +62,4 @@ a cultural UI exploration within the CANW (Complexity and Network Webdesign) eco
 - Help organize scroll image data or metadata
 
 ---
-
-
-## 🔗 Related
-
-- 🌐 [Horizontal Scroll Emaki (CANW version)](https://github.com/satoshi-create/complexity-and-network-webdesign/tree/main/projects/horizontal-scroll-emaki)
 
