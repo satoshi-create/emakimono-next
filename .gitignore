@@ -1,5 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# エディタで .gitignore を開いて以下を追加
+/public/emaki-images/
+
 # dependencies
 /node_modules
 /.pnp
