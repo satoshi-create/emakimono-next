@@ -2,8 +2,10 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/CardC.module.css";
+import { useRouter } from "next/router";
 
-const SingleCardC = ({ item ,i}) => {
+const SingleCardC = ({ item, i }) => {
+  const { locale } = useRouter();
   const { titleen, title, thumb, edition, author } = item;
   return (
     <div key={i} className={styles.box}>
@@ -24,10 +26,9 @@ const SingleCardC = ({ item ,i}) => {
         <a>
           <div className={styles.metadata}>
             <h3 className={styles.title}>
-              {title}
-              <div>{edition}</div>
+              {locale == "en" ? titleen : title}
+              <div>{locale == "ja" && edition}</div>
             </h3>
-            <p className={styles.author}>{author}</p>
           </div>
         </a>
       </Link>
