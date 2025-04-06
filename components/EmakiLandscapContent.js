@@ -111,7 +111,8 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
           />
           <div className={`${styles.chapter} scrollbar`}>
             <h4 className={styles.chapterTitle}>
-              {typeen === "emaki" ? "段タイトル" : "タイトル"}
+              {/* {typeen === "emaki" ? "段タイトル" : "タイトル"} */}
+              {locale == "en" ? "Section Title" : "段タイトル"}
             </h4>
             <span className={styles.borderline}></span>
             {/* タイムライン */}
@@ -206,7 +207,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
                 }}
               >
-                絵巻の紹介
+                {locale == "en" ? "Introduction to Emaki" : "絵巻の紹介"}
               </h4>
               <div className={styles.desc}>
                 {locale === "en" ? parse(descEn) : parse(descJa)}
@@ -220,7 +221,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                       "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
                     }}
                   >
-                    各段の解説
+                    {locale == "en" ? "Sectional Explanation" : "各段の解説"}
                   </h4>
                   {<ChapterDesc emakis={emakis} data={data} />}
                 </>
@@ -234,7 +235,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                       "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
                     }}
                   >
-                    他の巻を見る
+                    {locale == "en" ? "View Other Scrolls" : "他の巻を見る"}
                   </h4>
                   <EditionLinks
                     title={title}
@@ -251,7 +252,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                       "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
                     }}
                   >
-                    他の巻を見る
+                    {locale == "en" ? "View Other Scrolls" : "他の巻を見る"}
                   </h4>
                   <EditionLinks
                     title={title}
@@ -364,11 +365,12 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                     rel="noopener noreferrer"
                     className={styles.sourceLink}
                   >
-                    【出典】 {sourceImage}
+                    {locale == "en" ? "【source】" : "【出典】"}
+                    {sourceImage}
                   </a>
                 </Link>
                 <ul>
-                  【参照】
+                  {locale == "en" ? "【reference】" : "【出典】"}
                   {reference?.map((item, i) => {
                     return (
                       <li key={i}>
