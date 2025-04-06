@@ -2,8 +2,6 @@ import React from "react";
 import { socialLinks } from "../libs/socialLinks";
 import Link from "next/link";
 import styles from "../styles/SocialLinks.module.css";
-import NoteIcon from "../public/note-icon.svg";
-import Image from "next/image";
 
 const SocialLinks = ({ footerStyle }) => {
   return (

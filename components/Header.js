@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import styles from "../styles/Header.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
@@ -12,19 +12,10 @@ import SearchBoxButton from "./SearchBoxButton";
 import SocialLinks from "./SocialLinks";
 import LanguageSwitcher from "./LanguageSwitcher";
 
-
-// TODO : ホバー時、header全体にリンクが入ってしまう
-
-const Header = ({ slug, fixed, emakipage }) => {
+const Header = ({ slug, fixed }) => {
   const { locale } = useRouter();
 
-  const {
-    isSidebarOpen,
-    openSidebar,
-    stickyClass,
-    setStickyClass,
-    openContactModal,
-  } = useContext(AppContext);
+  const { openSidebar, stickyClass, openContactModal } = useContext(AppContext);
 
   return (
     <header
