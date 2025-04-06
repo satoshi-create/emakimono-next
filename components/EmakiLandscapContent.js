@@ -32,8 +32,6 @@ import noteData from "../libs/note/data.json";
 import ChapterTimeline from "./ChapterTimeline";
 import { Box, VStack } from "@chakra-ui/react";
 
-// TODO : FIX - 目次がオーバーフローされるときに、目次の下にボーダーが入らない
-
 const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { handleToId, handleFullScreen, result, loading } =
     useContext(AppContext);
@@ -65,7 +63,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     kotobagaki,
     note,
   } = data;
-
 
   const descTJa = desc
     ? desc
