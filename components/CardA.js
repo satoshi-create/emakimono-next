@@ -13,7 +13,6 @@ const CardA = ({
   emakis,
   columns,
   sectiontitle,
-  sectionname,
   needdesc,
   sectiondesc,
   sectiontitleen,
@@ -21,10 +20,9 @@ const CardA = ({
   linkpath,
   linktitleen,
   bcg,
-  style,
-  variant
+  variant,
 }) => {
-  const { setisModalOpen} = useContext(AppContext);
+  const { setisModalOpen } = useContext(AppContext);
   const { locale } = useRouter();
 
   useEffect(() => {

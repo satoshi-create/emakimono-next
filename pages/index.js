@@ -22,7 +22,7 @@ const Home = () => {
   return (
     <main>
       <Head />
-      <Header fixed={false} />
+      <Header fixed={true} />
       <CardA
         emakis={cyouzyuuEmakis}
         columns={t.cyouzyuu.columns}

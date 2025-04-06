@@ -3,15 +3,12 @@ import links from "../libs/links";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "../styles/NavLinks.module.css";
-import Translate from "./Translate";
-import { Divide } from "react-feather";
 
-// TODO:NavLinksから<ul>を削除しリファクタリング
 const NavLinks = ({ footerstyle, slug }) => {
   const [value, setValue] = useState(null);
   const { locale } = useRouter();
   const router = useRouter();
-  // const { slug } = router.query.slug;
+
   return (
     <ul className={styles.links}>
       {links.map((link, index) => {
@@ -29,10 +26,6 @@ const NavLinks = ({ footerstyle, slug }) => {
                   {locale === "en" ? nameen : name}
                 </a>
               </Link>
-              {/* <ul
-                className={`${submenu && styles.submenu}`}
-                style={toggle ? { display: "grid" } : { display: "none" }}
-              ></ul> */}
             </li>
           );
         } else {
@@ -52,19 +45,10 @@ const NavLinks = ({ footerstyle, slug }) => {
               </div>
               <div
                 className={styles.submenu}
-                style={index === value ? { display: "flex" } : { display: "none" }}
-              >
-                {submenu.map((item, i) => {
-                  const { name, path, nameen } = item;
-                  return (
-                    <Link href={path} key={i}>
-                      <a className={styles.linksName}>
-                        {locale === "en" ? nameen : name}
-                      </a>
-                    </Link>
-                  );
-                })}
-              </div>
+                style={
+                  index === value ? { display: "flex" } : { display: "none" }
+                }
+              ></div>
             </li>
           );
         }

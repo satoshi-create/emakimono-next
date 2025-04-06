@@ -1,4 +1,11 @@
 const ja = {
+  cyouzyuu: {
+    title: "鳥獣人物戯画絵巻全巻イッキ見！！",
+    titleen: "See all cyoujyu-jinbutsu-giga（Frog and rabbit）",
+    desc: "「鳥獣人物戯画絵巻」の甲巻から丁巻までを、横スクロールで一度に楽しむことができます。この絵巻は、平安時代から鎌倉時代にかけて描かれ、動物や人間が遊戯に興じる様子が、洒脱な筆致で表現されています。誰が描いたのかは不明な部分が多く、謎に包まれた絵巻です。全巻一気に観賞し、絵巻の謎に挑戦してみましょう。",
+    name: "cyouzyuu",
+    columns: "four",
+  },
   kusouzu: {
     title: "九相図観想",
     titleen: "contemplation of Nine stages of decay",
@@ -20,13 +27,7 @@ const ja = {
     name: "shigisan",
     columns: "three",
   },
-  cyouzyuu: {
-    title: "鳥獣人物戯画絵巻全巻イッキ見！！",
-    titleen: "See all cyoujyu-jinbutsu-giga（Frog and rabbit）",
-    desc: "「鳥獣人物戯画絵巻」の甲巻から丁巻までを、横スクロールで一度に楽しむことができます。この絵巻は、平安時代から鎌倉時代にかけて描かれ、動物や人間が遊戯に興じる様子が、洒脱な筆致で表現されています。誰が描いたのかは不明な部分が多く、謎に包まれた絵巻です。全巻一気に観賞し、絵巻の謎に挑戦してみましょう。",
-    name: "cyouzyuu",
-    columns: "four",
-  },
+
   genji: {
     title: "源氏物語絵54帖万華鏡",
     titleen: "Tale of Genji Picture 54 Kaleidoscope",
@@ -110,7 +111,7 @@ const en = {
     titleen: "九相図観想",
     desc: "All scenes of the nine phases of the scroll can be enjoyed by scrolling horizontally. The transformation of a beautiful woman from death to decay is divided into nine phases, vividly depicting the beauty and ugliness of the body. View all nine phases together and contemplate the Pure Land as if you were a Buddhist practitioner!",
     name: "kusouzu",
-    columns: "three",
+    columns: "four",
   },
   bandainagon: {
     title: "See all ban-dainagon-ekotoba",
