@@ -5,11 +5,13 @@ import { X } from "react-feather";
 import links from "../libs/links";
 import styles from "../styles/SidebarHome.module.css";
 import { socialLinks } from "../libs/socialLinks";
+import { useRouter } from "next/router";
 
 const SidebarHome = () => {
   const { isSidebarOpen, closeSidebar } = useContext(AppContext);
-
+  const { locale } = useRouter();
   const [toggle, setToggle] = useState(false);
+
   return (
     <div
       className={
@@ -17,8 +19,6 @@ const SidebarHome = () => {
           ? `${styles.wrapper} ${styles.active}`
           : ` ${styles.wrapper} `
       }
-      // style={isSidebarOpen && { transition: "ease-in" }}
-      // style={{ transition: "all 0.3s linear" }}
     >
       <button
         className={`btn ${styles.closebtn}`}
@@ -34,28 +34,9 @@ const SidebarHome = () => {
               <li key={index} className={styles.navLink}>
                 <Link href={path}>
                   <a onClick={() => closeSidebar()}>
-                    {name}
+                    {locale === "en" ? nameen : name}
                   </a>
                 </Link>
-                {submenu && (
-                  <ul className={styles.submenu}>
-                    {submenu.map((item, i) => {
-                      const { name, path, nameen } = item;
-                      return (
-                        <li key={i}>
-                          <Link href={path}>
-                            <a
-                              className={styles.sublinksName}
-                              onClick={() => closeSidebar()}
-                            >
-                              {name}
-                            </a>
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
               </li>
             );
           })}

@@ -97,7 +97,7 @@ const ModalSearch = () => {
     const keyword = e.currentTarget.value;
     setSearchKeyword(keyword);
     // 日本語入力中でもリアルタイムフィルタリングを実行
-    filterData(keyword,true);
+    filterData(keyword, true);
   };
 
   const handleCompositionStart = () => {
@@ -204,7 +204,6 @@ const ModalSearch = () => {
     dispatch({ type: "RESET_DATA" }); // 🔹 検索結果を初期状態に戻す
   };
 
-
   return (
     <div className={`${styles.modal}`}>
       <div className={styles.MuiBackdrop} onClick={closeSearchModal}></div>
@@ -224,7 +223,9 @@ const ModalSearch = () => {
             onChange={handleInput} // 入力時のイベント
             onCompositionStart={handleCompositionStart} // 日本語入力開始時
             onCompositionEnd={handleCompositionEnd} // 日本語入力確定時
-            placeholder={"絵巻とその他のワイド美術を検索"}
+            placeholder={
+              locale == "en" ? "Search Emaki Gallary" : "絵巻を検索する"
+            }
           />
           {/* 🔹 リセットボタンを追加 */}
           {searchKeyword && (
@@ -244,10 +245,10 @@ const ModalSearch = () => {
             className={styles.typeselectbtn}
             onClick={(e) => selectAll(e)}
           >
-            全ての作品
+            {locale == "en" ? "View All Contents" : "全ての作品"}
           </button>
           <div className={styles.typeselect}>
-            <h4>タイプから見る</h4>
+            <h4>{locale == "en" ? "View by Genre" : "タイプから見る"}</h4>
             <div className={styles.selectbtnbox}>
               {types.map((item, i) => (
                 <button
@@ -262,7 +263,7 @@ const ModalSearch = () => {
             </div>
           </div>
           <div className={styles.eraselect}>
-            <h4>制作年から見る</h4>
+            <h4>{locale == "en" ? "View by Date" : "制作年から見る"}</h4>
             <div className={styles.selectbtnbox}>
               {eras.map((item, i) => (
                 <Button
@@ -278,7 +279,7 @@ const ModalSearch = () => {
             </div>
           </div>
           <div className={styles.authorselect}>
-            <h4>絵師から見る</h4>
+            <h4>{locale == "en" ? "View by Artist" : "絵師から見る"}</h4>
             <div className={styles.selectbtnbox}>
               {authors.map((item, i) => (
                 <button

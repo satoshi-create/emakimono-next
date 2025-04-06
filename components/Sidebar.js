@@ -7,22 +7,15 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { AppContext } from "../pages/_app";
 import { useRouter } from "next/router";
 
-// TODO:アニメーション機能を追加する
-// TODO:referenceにリンクを作成
-// TODO: FIXED: モバイルデバイスのサイドバーの幅が広すぎる;
-// TODO:sidebarを開くと高さが変わるバグ;
-
 const Sidebar = ({ value, handleToId }) => {
   const {
     emakis,
     title,
-    titleen,
     backgroundImage,
     sourceImageUrl,
     sourceImage,
     reference,
     author,
-    type,
   } = value;
   const { oepnSidebar, setOepnSidebar } = useContext(AppContext);
   const [tabValue, setTabValue] = useState(0);
@@ -88,7 +81,7 @@ const Sidebar = ({ value, handleToId }) => {
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                   className={styles.sourceLink}
+                  className={styles.sourceLink}
                 >
                   {sourceImage}
                 </a>
