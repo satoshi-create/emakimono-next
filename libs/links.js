@@ -1,6 +1,12 @@
 const links = [
   { name: "ホーム", nameen: "home", id: "home", path: "/", submenu: "" },
-  { name: "ご挨拶", nameen: "About", id: "about", path: "/about", submenu: "" },
+  {
+    name: "About",
+    nameen: "About",
+    id: "about",
+    path: "/about",
+    submenu: "",
+  },
 
   {
     name: "絵巻一覧",
