@@ -19,7 +19,7 @@ const Type = ({ name, nameen, posts, slug }) => {
   return (
     <>
       <Head
-        pagetitle={locale === "en" ? `List of ${nameen}` : `${name}一覧`}
+        pagetitle={locale === "en" ? `${nameen} gallary` : `${name}一覧`}
         pageDesc={tPageDesc}
       />
       <Header />
@@ -28,7 +28,7 @@ const Type = ({ name, nameen, posts, slug }) => {
         emakis={posts}
         columns={"three"}
         sectionname={"recommend"}
-        sectiontitle={locale === "en" ? `List of ${nameen}` : `${name}一覧`}
+        sectiontitle={locale === "en" ? `${nameen} gallary` : `${name}一覧`}
         sectiontitleen={locale === "en" ? `${name}一覧` : `List of ${nameen}`}
       />
       <Footer />

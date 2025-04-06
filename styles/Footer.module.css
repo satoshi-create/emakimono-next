@@ -1,15 +1,14 @@
 .footer {
   background-color: black;
-  height: 60vh;
+  height: 30vh;
   display: grid;
 }
-.titleBox{
 
-}
 .favicon {
   width: 20px;
   height: auto;
 }
+
 .title {
   grid-row: 2;
   justify-self: center;
@@ -22,9 +21,10 @@
   text-transform: uppercase;
   margin-bottom: 1rem;
   display: flex;
-column-gap: .5rem;
+  column-gap: .5rem;
 
 }
+
 /* sociallinks => SocialLiks.module.cssに記入 */
 /* .footerStyle {
   grid-row: 3;
@@ -43,8 +43,9 @@ column-gap: .5rem;
   align-self: flex-start;
   width: 50%;
 }
+
 .copyright {
-  grid-row: 5;
+  grid-row: 4;
   justify-self: center;
   align-self: flex-end;
   font-size: clamp(0.5625rem, 0.3819rem + 0.7704vw, 0.875rem);

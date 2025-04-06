@@ -28,9 +28,6 @@ const Footer = () => {
         </a>
       </Link>
       <SocialLinks footerStyle={footerStyleSocial} />
-      <div className={styles.navlinks}>
-        <NavLinks footerstyle={footerstyle} />
-      </div>
       <p className={styles.copyright}>
         {`@${year} emakimono.com All rights reserverd`}
       </p>
