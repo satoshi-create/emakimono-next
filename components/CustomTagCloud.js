@@ -119,7 +119,7 @@ const CustomTagCloud = ({ tags, emakiPage }) => {
             margin: "5px",
           }}
         >
-          {tag.name}
+          {locale === "en" ? tag.id : tag.name}
         </a>
       </Link>
     );

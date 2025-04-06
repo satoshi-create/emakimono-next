@@ -5,6 +5,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 :root {
   --clr-black: rgb(20 20 20);
   --clr-grey: rgb(114 114 114);
@@ -47,20 +48,24 @@ body {
   font-family: var(--my-font);
   line-height: 1.5;
 }
+
 h1,
 h2,
 h3,
 h4 {
   line-height: 1.5;
 }
+
 ul {
   list-style: none;
 }
+
 a {
   text-decoration: none;
   color: var(--clr-black);
   cursor: pointer;
 }
+
 button {
   background: transparent;
   border-color: transparent;
@@ -71,31 +76,39 @@ button {
   display: grid;
   grid-template-columns: 1fr min(calc(100vw - (5vw * 2)), 1200px) 1fr;
 }
-.section-grid > * {
+
+.section-grid>* {
   grid-column: 2;
 }
+
 .emaki-page-landscape-grid {
   display: grid;
   grid-template-columns: 1fr min(calc(100vw - (5vw * 2)), 1700px) 1fr;
 }
-.emaki-page-landscape-grid > * {
+
+.emaki-page-landscape-grid>* {
   grid-column: 2;
 }
+
 .section-padding {
   padding: 2rem 0;
 }
+
 @media screen and (min-width: 768px) {
-.section-padding {
+  .section-padding {
     padding: 4rem 0;
   }
 }
+
 .fade-in {
   opacity: 0.3;
   transition: 1s;
 }
+
 .fade-in.lazyloaded {
   opacity: 1;
 }
+
 .fullscreen-enabled article {
   height: 100vh;
   width: 100vw;
@@ -113,6 +126,7 @@ button {
   display: grid;
   place-content: center;
 }
+
 .twitter-timeline {
   width: clamp(18.75rem, 0.6934rem + 77.0416vw, 50rem);
   height: 500px;
@@ -123,6 +137,7 @@ button {
 /* スクロールバー */
 @media (pointer: fine) {
   .scrollbar {
+
     /* スクロールバーの太さと背景色 */
     &::-webkit-scrollbar,
     &::-webkit-scrollbar-corner {
@@ -131,12 +146,15 @@ button {
       background: transparent;
     }
   }
+
   .scrollbar {
+
     /* 矢印ボタンのスペースを削除 */
     &::-webkit-scrollbar-button {
       width: 0;
       height: 0;
     }
+
     /*  */
     /* ハンドルの最小の長さ、色、角丸半径 */
     &::-webkit-scrollbar-thumb {
@@ -146,6 +164,7 @@ button {
       background-clip: content-box;
       width: 80px;
     }
+
     &::-webkit-scrollbar-thumb:hover {
       background-color: #afafafbd;
     }
@@ -154,15 +173,16 @@ button {
 
 /* モバイルで隠す */
 .hide-on-mobile {
-	@media (width <= 768px) {
-		display: none !important;
-	}
+  @media (width <=768px) {
+    display: none !important;
+  }
 }
+
 /* モバイルで表示 */
 .show-on-mobile {
-	@media (width > 768px) {
-		display: none !important;
-	}
+  @media (width > 768px) {
+    display: none !important;
+  }
 }
 
 /* scroll-hint */
@@ -171,9 +191,11 @@ button {
     transform: translateX(-40px);
     opacity: 0;
   }
+
   10% {
     opacity: 1;
   }
+
   50%,
   100% {
     transform: translateX(40px);
@@ -282,4 +304,9 @@ button {
 
 .scroll-hint-icon-white .scroll-hint-text {
   color: #000;
+}
+
+/* react-tagcloud */
+.tag-cloud {
+  word-break: break-word;
 }
