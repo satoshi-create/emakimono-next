@@ -27,7 +27,7 @@ import ExtractingListData from "../libs/ExtractingListData";
 import noteData from "../libs/note/data.json";
 import ChapterTimeline from "./ChapterTimeline";
 import { Box, VStack } from "@chakra-ui/react";
-
+import parse from "html-react-parser";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { handleToId, handleFullScreen, setnavIndex, isContactModalOpen } =
@@ -46,6 +46,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     author,
     authoren,
     desc,
+    descen,
     emakis,
     sourceImage,
     sourceImageUrl,
@@ -72,6 +73,12 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
       }の全シーンを、横スクロールで楽しむことができます。`;
 
   const descJa = typeen === "seiyoukaiga" ? descTJaSeiyoukaiga : descTemp;
+
+  const descEn = descen
+    ? descen
+    : `You can enjoy all the scenes of the " ${titleen} ${
+        authoren && `（${authoren}）`
+      } " in vertical and right to left scrolling mode.`;
 
   const editionLinks = alldata.filter(
     (item) => item.title === title && item.edition !== edition
@@ -125,12 +132,11 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
               }}
             >
-              絵巻の紹介
+              {locale == "en" ? "Introduction to Emaki" : "絵巻の紹介"}
             </h4>
-            <div
-              className={styles.desc}
-              dangerouslySetInnerHTML={{ __html: desc ? desc : descJa }}
-            ></div>
+            <div className={styles.desc}>
+              {locale === "en" ? parse(descEn) : parse(descJa)}
+            </div>
             {/* <BannerToHelp /> */}
             {/* {genjieslug && (
               <div className={`${styles.genjieslugBox}`}>
@@ -148,7 +154,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                     "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
                   }}
                 >
-                  段タイトル
+                  {locale == "en" ? "Section Title" : "段タイトル"}
                 </h4>
                 <VStack alignItems="flex-start" spacing={6} position="relative">
                   {/* タイムラインの縦線 */}
@@ -208,7 +214,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                     "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
                   }}
                 >
-                  他の巻を見る
+                  {locale == "en" ? "View Other Scrolls" : "他の巻を見る"}{" "}
                 </h4>
                 <EditionLinks
                   title={title}
