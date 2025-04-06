@@ -27,7 +27,7 @@ const KeywordsComp = () => {
       <Breadcrumbs name={locale === "en" ? "keyword list" : "キーワード一覧"} />
 
       <Keywords
-        sectiontitle={"キーワード"}
+        sectiontitle={locale === "en" ? "keyword List" : "キーワード一覧"}
         sectiontitleen={"keyword list"}
         allTags={allKeywords}
       />

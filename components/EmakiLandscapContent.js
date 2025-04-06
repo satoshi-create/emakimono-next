@@ -5,7 +5,6 @@ import { AppContext } from "../pages/_app";
 import Link from "next/link";
 import {
   eraColor,
-  useLocale,
   useLocaleData,
   keywordItem,
   filterdKeywords,
@@ -17,12 +16,8 @@ import Footer from "./Footer";
 import SnsShareBox from "./SnsShareBox";
 import ChapterDesc from "./ChapterDesc";
 import ToContactForm from "./ToContactForm";
-import ContactFormGoogle from "./ContactFormGoogle";
-import { ExternalLink } from "react-feather";
 import EditionLinks from "./EditionLinks";
 import LinkToNote from "./LinkToNote";
-import BannerToHelp from "./BannerToHelp";
-import { ChaptersTitle } from "../libs/func";
 import LikeButton from "./LikeButton";
 import RecommendEmaki from "./RecommendEmaki";
 import CustomTagCloud from "./CustomTagCloud";
