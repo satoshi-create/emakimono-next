@@ -296,7 +296,7 @@ const ModalSearch = () => {
         </div>
         <div className={`${styles.contents} scrollbar`}>
           <p className={styles.resultsmsg}>
-            results for <span>&quot;{displayKeyword}&quot;</span>
+            Results for <span>&quot;{displayKeyword}&quot;</span>
           </p>
           {state.showData.length > 0 ? (
             <>
