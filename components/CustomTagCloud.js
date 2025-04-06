@@ -4,9 +4,10 @@ import { TagCloud } from "react-tagcloud";
 import Link from "next/link";
 import { Box, Link as ChakraLink, Button, Text } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
+import { useRouter } from "next/router";
 
 const CustomTagCloud = ({ tags, emakiPage }) => {
-  // const router = useRouter()
+  const { locale } = useRouter();
   const [hoveredTag, setHoveredTag] = useState(null);
 
   // 日本の伝統色のパレット
@@ -148,7 +149,7 @@ const CustomTagCloud = ({ tags, emakiPage }) => {
                   transition: "all 0.2s",
                 }}
               >
-                キーワード一覧を見る
+                {locale == "en" ? "View All Keywords	" : "キーワード一覧を見る"}
               </Button>
             </ChakraLink>
           </Link>
