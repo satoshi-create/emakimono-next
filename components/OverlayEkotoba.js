@@ -15,6 +15,7 @@ import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
 import ActionButton from "./ActionButton";
 import LazyImage from "./LazyImage";
+import { useRouter } from "next/router";
 
 const OverlayEkotoba = ({
   item: {
@@ -56,7 +57,7 @@ const OverlayEkotoba = ({
     openDescModal,
     handleToId,
   } = useContext(AppContext);
-
+  const { locale } = useRouter();
   const { title, titleen } = data;
 
   // TODO : 目次のフォントサイズをレスポンシブにする
@@ -119,7 +120,10 @@ const OverlayEkotoba = ({
                 }`,
               }}
             >
-              {ChaptersTitle(titleen, title, chapter)}
+              {locale == "en"
+                ? ChaptersTitle(titleen, title, chapter, "titleen")
+                : ChaptersTitle(titleen, title, chapter, "title")}
+              {/* {ChaptersTitle(titleen, title, chapter)} */}
             </h3>
 
             {type === "浮世絵" && googlemap && (

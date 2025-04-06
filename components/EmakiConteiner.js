@@ -90,7 +90,7 @@ const EmakiContainer = ({
       });
       return () => observer.disconnect();
     };
-  }, [emakis,rootMargin]);
+  }, [emakis, rootMargin]);
 
   useEffect(() => {
     if (!articleRef.current) return;
@@ -114,7 +114,6 @@ const EmakiContainer = ({
     if (!sessionStorage.getItem(keyName)) {
       //sessionStorageにキーと値を追加
       sessionStorage.setItem(keyName, keyValue);
-
 
       //初回アクセス時の処理
       new ScrollHint(".js-scrollable", {

@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
-import styles from "../styles/EmakiLandscapContent.module.css";
 import { eraColor, ChaptersTitle } from "../libs/func";
 import { AppContext } from "../pages/_app";
 import { Box, VStack, HStack, Circle, Text, Button } from "@chakra-ui/react";
 import { FaRegCircle, FaMapMarkerAlt, FaBook, FaPlay } from "react-icons/fa";
 import { useBreakpointValue } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 const ChapterTimeline = ({
   index,
@@ -17,8 +17,7 @@ const ChapterTimeline = ({
   iconType,
 }) => {
   const { handleToId, openDescModal } = useContext(AppContext);
-
-
+  const { locale } = useRouter();
 
   let icon;
   switch (iconType) {
@@ -76,7 +75,9 @@ const ChapterTimeline = ({
           fontFamily="var(--text-font)"
           color={eraColor(era)}
         >
-          {ChaptersTitle(titleen, title, chapter)}
+          {locale == "en"
+            ? ChaptersTitle(titleen, title, chapter, "titleen")
+            : ChaptersTitle(titleen, title, chapter, "title")}
         </Text>
       </HStack>
       {/* セクション間のボタン */}

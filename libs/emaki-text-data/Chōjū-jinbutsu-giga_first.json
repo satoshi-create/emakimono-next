@@ -1,38 +1,47 @@
 [
   {
     "chapter": "1",
-    "title": "兎と猿の水遊び "
+    "title": "兎と猿の水遊び",
+    "titleen": "Rabbits and Monkeys Playing in the Water"
   },
   {
     "chapter": "2",
-    "title": "兎と蛙の賭弓 "
+    "title": "兎と蛙の賭弓",
+    "titleen": "Archery Gambling Between Rabbits and Frogs"
   },
   {
     "chapter": "3",
-    "title": "禄の物を受ける猿僧正"
+    "title": "禄の物を受ける猿僧正",
+    "titleen": "Monkey Monk Receiving Offerings"
   },
   {
     "chapter": "4",
-    "title": "猿と蛙の喧嘩"
+    "title": "猿と蛙の喧嘩",
+    "titleen": "Fight Between Monkey and Frog"
   },
   {
     "chapter": "5",
-    "title": "田楽見物"
+    "title": "田楽見物",
+    "titleen": "Watching a Dengaku Performance"
   },
   {
     "chapter": "6",
-    "title": "兎と蛙の相撲"
+    "title": "兎と蛙の相撲",
+    "titleen": "Sumo Match Between Rabbit and Frog"
   },
   {
     "chapter": "7",
-    "title": "双六盤を運ぶ猿"
+    "title": "双六盤を運ぶ猿",
+    "titleen": "Monkey Carrying a Sugoroku Board"
   },
   {
     "chapter": "8",
-    "title": "周忌法会の僧侶役をつとめる猿僧正"
+    "title": "周忌法会の僧侶役をつとめる猿僧正",
+    "titleen": "Monkey Monk Performing a Memorial Service"
   },
   {
     "chapter": "9",
-    "title": "猿僧正への供え物"
+    "title": "猿僧正への供え物",
+    "titleen": "Offerings to the Monkey Monk"
   }
 ]
