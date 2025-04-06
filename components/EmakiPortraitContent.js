@@ -335,11 +335,12 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   rel="noopener noreferrer"
                   className={styles.sourceLink}
                 >
-                  【出典】 {sourceImage}
+                  {locale == "en" ? "【source】" : "【出典】"}
+                  {sourceImage}
                 </a>
               </Link>
               <ul>
-                【参照】
+                {locale == "en" ? "【reference】" : "【出典】"}
                 {reference?.map((item, i) => {
                   return (
                     <li key={i}>

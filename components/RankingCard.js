@@ -11,17 +11,15 @@ import {
   Button,
   Grid,
   GridItem,
-  Stack
+  Stack,
 } from "@chakra-ui/react";
-import {
-  ExternalLinkIcon,
-  ViewIcon,
-  ArrowForwardIcon,
-} from "@chakra-ui/icons";
+import { ExternalLinkIcon, ViewIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { AppContext } from "../pages/_app";
 
 export default function RankingCard({ isCompact = false }) {
+  const { locale } = useRouter();
   const { loading, rankingData } = useContext(AppContext);
 
   const data = () => {
@@ -119,7 +117,7 @@ export default function RankingCard({ isCompact = false }) {
                         <ViewIcon />
                         <Text>{item.pageView.toLocaleString()}回鑑賞</Text>
                       </HStack>
-                        </Box>
+                    </Box>
                   </Flex>
                 </Box>
               </ChakraLink>
@@ -138,7 +136,9 @@ export default function RankingCard({ isCompact = false }) {
                 borderWidth="1px"
                 fontSize="small"
               >
-                全ての絵巻ランキングを見る
+                {locale == "en"
+                  ? "View All Emaki Rankings"
+                  : "全ての絵巻ランキングを見る"}
               </Button>
             </a>
           </Link>
@@ -147,16 +147,3 @@ export default function RankingCard({ isCompact = false }) {
     </Box>
   );
 }
-
-//  {
-//    item.kotobagaki && (
-//      <Badge
-//        colorScheme="purple"
-//        display="flex"
-//        alignItems="center"
-//      >
-//        {/* <TrendingUpIcon marginRight={1} /> */}
-//        急上昇
-//      </Badge>
-//    );
-//  }
