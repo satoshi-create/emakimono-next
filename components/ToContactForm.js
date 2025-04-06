@@ -32,7 +32,7 @@ const ToContactForm = () => {
         className={styles.linkedbtn}
         onClick={() => openContactModal(true)}
       >
-        {locale == "en" ? "意見を送る" : "意見を送る"}
+        {locale == "en" ? "Submit Feedback" : "意見を送る"}
       </button>
     </div>
   );
