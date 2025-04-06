@@ -16,12 +16,10 @@ import { AppContext } from "../pages/_app";
 import Link from "next/link";
 import RankingCard from "./RankingCard";
 import Loader from "./Loader";
-
-
+import { useRouter } from "next/router";
 const RecommendEmaki = ({ data }) => {
-
   const [tabIndex, setTabIndex] = useState(0);
-
+  const { locale } = useRouter();
   const { loading } = useContext(AppContext);
   const handleTabsChange = (index) => {
     setTabIndex(index);
@@ -35,21 +33,21 @@ const RecommendEmaki = ({ data }) => {
             <Tab>
               <Flex align="center">
                 <StarIcon mr={2} />
-                <Text>絵巻ランキング</Text>
+                <Text>
+                  {locale == "en" ? "Emaki Rankings" : "絵巻ランキング"}
+                </Text>
               </Flex>
             </Tab>
             <Tab>
               <Flex align="center">
                 <LinkIcon mr={2} />
-                <Text>関連絵巻</Text>
+                <Text>{locale == "en" ? "Related Emaki" : "関連絵巻"}</Text>
               </Flex>
             </Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
-              {loading ? <Loader /> : (
-                <RankingCard isCompact={true} />
-              )}
+              {loading ? <Loader /> : <RankingCard isCompact={true} />}
             </TabPanel>
             <TabPanel>
               <CardC data={data} />
