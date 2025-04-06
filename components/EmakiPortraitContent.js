@@ -214,7 +214,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                     "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
                   }}
                 >
-                  {locale == "en" ? "View Other Scrolls" : "他の巻を見る"}{" "}
+                  {locale == "en" ? "View Other Scrolls" : "他の巻を見る"}
                 </h4>
                 <EditionLinks
                   title={title}
