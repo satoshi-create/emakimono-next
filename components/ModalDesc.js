@@ -7,15 +7,12 @@ import {
   faAnglesLeft,
   faAnglesRight,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-  ChaptersTitle,
-  ChaptersGendaibun,
-  ChaptersDesc,
-} from "../libs/func";
+import { ChaptersTitle, ChaptersGendaibun, ChaptersDesc } from "../libs/func";
 import SnsShareBox from "./SnsShareBox";
-import Link from "next/link";
+import { useRouter } from "next/router";
 
 const ModalDesc = ({ data }) => {
+  const { locale } = useRouter();
   const { DescIndex, setDescIndex, handleToId, closeDescModal, orientation } =
     useContext(AppContext);
   const emakis = data.emakis;
@@ -50,11 +47,6 @@ const ModalDesc = ({ data }) => {
   };
 
   const allMap = [
-    // {
-    //   title: "古文",
-    //   titleen: "ancient-text",
-    //   path: "ancient-text",
-    // },
     {
       title: "解説",
       titleen: "description",
@@ -120,7 +112,10 @@ const ModalDesc = ({ data }) => {
                 }
                 // onClick={() => handleChapter(linkId)}
               >
-                {ChaptersTitle(titleen, title, chapter)}
+                {locale == "en"
+                  ? ChaptersTitle(titleen, title, chapter, "titleen")
+                  : ChaptersTitle(titleen, title, chapter, "title")}
+                {/* {ChaptersTitle(titleen, title, chapter)} */}
               </h3>
               <div className={styles.tabcontainer}>
                 {allMap.map((item, i) => {
