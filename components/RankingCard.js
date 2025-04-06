@@ -13,14 +13,14 @@ import {
   GridItem,
   Stack,
 } from "@chakra-ui/react";
-import { ExternalLinkIcon, ViewIcon, ArrowForwardIcon } from "@chakra-ui/icons";
+import { ViewIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { AppContext } from "../pages/_app";
 
 export default function RankingCard({ isCompact = false }) {
   const { locale } = useRouter();
-  const { loading, rankingData } = useContext(AppContext);
+  const { rankingData } = useContext(AppContext);
 
   const data = () => {
     if (isCompact) {
@@ -35,95 +35,124 @@ export default function RankingCard({ isCompact = false }) {
       <Stack
         direction={{ base: "column", md: "column" }}
         align="stretch"
-        // rowGap="10"
         rowGap={isCompact ? "2" : "10"}
       >
-        {data(isCompact).map((item, i) => (
-          <Link href={`/${item.titleen}`} key={i}>
-            <a>
-              <ChakraLink
-                textDecoration="none"
-                _hover={{ textDecoration: "none" }}
-                flex="1"
-                isExternal
-              >
-                <Box
-                  borderWidth={1}
-                  borderRadius="lg"
-                  overflow="hidden"
-                  transition="all 0.3s"
-                  _hover={{ boxShadow: "lg" }}
+        {data(isCompact).map((item, i) => {
+          const {
+            title,
+            titleen,
+            thumb,
+            type,
+            typeen,
+            era,
+            eraen,
+            edition,
+            pageView,
+          } = item;
+          return (
+            <Link href={`/${titleen}`} key={i}>
+              <a>
+                <ChakraLink
+                  textDecoration="none"
+                  _hover={{ textDecoration: "none" }}
+                  flex="1"
+                  isExternal
                 >
-                  <Flex
-                    direction={
-                      isCompact ? "row" : { base: "column", sm: "row" }
-                    }
+                  <Box
+                    borderWidth={1}
+                    borderRadius="lg"
+                    overflow="hidden"
+                    transition="all 0.3s"
+                    _hover={{ boxShadow: "lg" }}
                   >
-                    <Box
-                      position="relative"
-                      width={isCompact ? "150px" : { base: "full", sm: "60%" }}
-                      // height={isCompact ? "100px" : "300px"}
+                    <Flex
+                      direction={
+                        isCompact ? "row" : { base: "column", sm: "row" }
+                      }
                     >
-                      <Badge
-                        position="absolute"
-                        top={2}
-                        left={2}
-                        zIndex={1}
-                        colorScheme={
-                          i + 1 === 1
-                            ? "red"
-                            : i + 1 === 2
-                            ? "orange"
-                            : "yellow"
+                      <Box
+                        position="relative"
+                        width={
+                          isCompact ? "150px" : { base: "full", sm: "60%" }
                         }
-                        fontSize={isCompact ? "sm" : "lg"}
-                        fontWeight="bold"
-                        paddingX={isCompact ? 1 : 3}
-                        paddingY={isCompact ? 0.5 : 1}
+                        // height={isCompact ? "100px" : "300px"}
                       >
-                        {i + 1}位
-                      </Badge>
-                      <Image
-                        src={item.thumb}
-                        alt={item.thumb}
-                        objectFit="cover"
-                        width="100%"
-                        height="auto"
-                      />
-                    </Box>
-                    <Box p={isCompact ? 2 : 4} flex={1}>
-                      <Flex
-                        justifyContent="space-between"
-                        alignItems="flex-start"
-                      >
-                        <VStack align="start" spacing={1}>
-                          <HStack>
-                            <Badge variant="outline">{item.type}</Badge>
-                            <Badge variant="outline">{item.era}時代</Badge>
-                          </HStack>
-                          <Text
-                            fontSize={isCompact ? "md" : "xl"}
-                            fontWeight="bold"
-                          >
-                            {item.title} {item.edition ? item.edition : ""}
-                          </Text>
-                        </VStack>
-                      </Flex>
-                      <HStack
-                        marginTop={isCompact ? 2 : 4}
-                        color="gray.500"
-                        fontSize={isCompact ? "sm" : "md"}
-                      >
-                        <ViewIcon />
-                        <Text>{item.pageView.toLocaleString()}回鑑賞</Text>
-                      </HStack>
-                    </Box>
-                  </Flex>
-                </Box>
-              </ChakraLink>
-            </a>
-          </Link>
-        ))}
+                        <Badge
+                          position="absolute"
+                          top={2}
+                          left={2}
+                          zIndex={1}
+                          colorScheme={
+                            i + 1 === 1
+                              ? "red"
+                              : i + 1 === 2
+                              ? "orange"
+                              : "yellow"
+                          }
+                          fontSize={isCompact ? "sm" : "lg"}
+                          fontWeight="bold"
+                          paddingX={isCompact ? 1 : 3}
+                          paddingY={isCompact ? 0.5 : 1}
+                        >
+                          {i + 1}位
+                        </Badge>
+                        <Image
+                          src={thumb}
+                          alt={thumb}
+                          objectFit="cover"
+                          width="100%"
+                          height="auto"
+                        />
+                      </Box>
+                      <Box p={isCompact ? 2 : 4} flex={1}>
+                        <Flex
+                          justifyContent="space-between"
+                          alignItems="flex-start"
+                        >
+                          <VStack align="start" spacing={1}>
+                            <HStack>
+                              <Badge
+                                variant="outline"
+                                textTransform="none"
+                                borderRadius={10}
+                              >
+                                {locale == "en" ? typeen : type}
+                              </Badge>
+                              <Badge
+                                variant="outline"
+                                textTransform="none"
+                                borderRadius={10}
+                              >
+                                {locale == "en"
+                                  ? `${eraen} period`
+                                  : `${era}時代`}
+                              </Badge>
+                            </HStack>
+                            <Text
+                              fontSize={isCompact ? "md" : "xl"}
+                              fontWeight="bold"
+                            >
+                              {locale == "en" ? titleen : title}
+                              {locale == "ja" && edition}
+                            </Text>
+                          </VStack>
+                        </Flex>
+                        <HStack
+                          marginTop={isCompact ? 2 : 4}
+                          color="gray.500"
+                          fontSize={isCompact ? "sm" : "md"}
+                        >
+                          <ViewIcon />
+                          <Text>{pageView.toLocaleString()}回鑑賞</Text>
+                        </HStack>
+                      </Box>
+                    </Flex>
+                  </Box>
+                </ChakraLink>
+              </a>
+            </Link>
+          );
+        })}
       </Stack>
       {isCompact && (
         <Box marginTop={6} textAlign="right">

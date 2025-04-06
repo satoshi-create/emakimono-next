@@ -17,6 +17,7 @@ import Link from "next/link";
 import RankingCard from "./RankingCard";
 import Loader from "./Loader";
 import { useRouter } from "next/router";
+
 const RecommendEmaki = ({ data }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const { locale } = useRouter();
