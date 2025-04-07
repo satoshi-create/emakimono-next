@@ -243,23 +243,25 @@ const connectEmakiText = (titleen, chapter, text) => {
   }
 };
 
-const ChaptersTitle = (titleen, title, chapter, text) => {
+const ChaptersTitle = (titleen, title, chapter, text, scene) => {
   if (title.includes("九相")) {
     return (
       <>
-        {connectKusouzuChapters(chapter, "stage_ch")
-          ? `【第${connectKusouzuChapters(chapter, "stage_ch")}相】`
+        {connectKusouzuChapters(chapter, text) &&
+          `${connectKusouzuChapters(chapter, text)}`}
+        {/* {connectKusouzuChapters(chapter, scene)
+          ? `【第${connectKusouzuChapters(chapter, scene)}相】`
           : chapter}
         <ruby>
-          {connectKusouzuChapters(chapter, "title") &&
-            `${connectKusouzuChapters(chapter, "title")}`}
+          {connectKusouzuChapters(chapter, text) &&
+            `${connectKusouzuChapters(chapter, text)}`}
           <rp>(</rp>
           <rt>
             {connectKusouzuChapters(chapter, "ruby") &&
               `${connectKusouzuChapters(chapter, "ruby")}`}
           </rt>
           <rp>)</rp>
-        </ruby>
+        </ruby> */}
       </>
     );
   } else if (title.includes("源氏")) {
@@ -318,12 +320,12 @@ const ChaptersGendaibun = (titleen, title, chapter, gendaibun) => {
   }
 };
 
-const ChaptersDesc = (titleen, title, chapter, desc) => {
+const ChaptersDesc = (titleen, title, chapter, text, desc) => {
   if (title.includes("九相")) {
     return (
       <>
-        {connectKusouzuChapters(chapter, "desc") &&
-          `${connectKusouzuChapters(chapter, "desc")}`}
+        {connectKusouzuChapters(chapter, text) &&
+          `${connectKusouzuChapters(chapter, text)}`}
       </>
     );
   } else if (title.includes("源氏")) {
