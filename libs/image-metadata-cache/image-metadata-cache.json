@@ -373,7 +373,7 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "馬",
+        "chapter": "1",
         "kobun": "",
         "gendaibun": "",
         "id": 32
@@ -424,7 +424,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "牛",
+        "chapter": "2",
         "kobun": "",
         "gendaibun": "",
         "id": 37
@@ -475,7 +475,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "鷹",
+        "chapter": "3",
         "kobun": "",
         "gendaibun": "",
         "id": 42
@@ -493,7 +493,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "犬",
+        "chapter": "4",
         "kobun": "",
         "gendaibun": "",
         "id": 44
@@ -511,7 +511,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "鶏",
+        "chapter": "5",
         "kobun": "",
         "gendaibun": "",
         "id": 46
@@ -540,7 +540,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "鷲と隼",
+        "chapter": "6",
         "kobun": "",
         "gendaibun": "",
         "id": 49
@@ -558,7 +558,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "玄武",
+        "chapter": "7",
         "kobun": "",
         "gendaibun": "",
         "id": 51
@@ -576,7 +576,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "麒麟",
+        "chapter": "8",
         "kobun": "",
         "gendaibun": "",
         "id": 53
@@ -594,7 +594,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "豹",
+        "chapter": "9",
         "kobun": "",
         "gendaibun": "",
         "id": 55
@@ -612,7 +612,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "山羊",
+        "chapter": "10",
         "kobun": "",
         "gendaibun": "",
         "id": 57
@@ -630,7 +630,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "虎",
+        "chapter": "11",
         "kobun": "",
         "gendaibun": "",
         "id": 59
@@ -648,7 +648,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "獅子",
+        "chapter": "12",
         "kobun": "",
         "gendaibun": "",
         "id": 61
@@ -666,7 +666,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "青竜",
+        "chapter": "13",
         "kobun": "",
         "gendaibun": "",
         "id": 63
@@ -684,7 +684,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "象",
+        "chapter": "14",
         "kobun": "",
         "gendaibun": "",
         "id": 65
@@ -702,7 +702,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "獏",
+        "chapter": "15",
         "kobun": "",
         "gendaibun": "",
         "id": 67
@@ -776,7 +776,7 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "囲碁",
+        "chapter": "1",
         "kobun": "",
         "gendaibun": "",
         "id": 69
@@ -794,7 +794,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "双六",
+        "chapter": "2",
         "kobun": "",
         "gendaibun": "",
         "id": 71
@@ -812,7 +812,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "将棋",
+        "chapter": "3",
         "kobun": "",
         "gendaibun": "",
         "id": 73
@@ -830,7 +830,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "耳引き",
+        "chapter": "4",
         "kobun": "",
         "gendaibun": "",
         "id": 75
@@ -848,7 +848,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "首引き",
+        "chapter": "5",
         "kobun": "",
         "gendaibun": "",
         "id": 77
@@ -866,7 +866,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "目比べ",
+        "chapter": "6",
         "kobun": "",
         "gendaibun": "",
         "id": 79
@@ -884,7 +884,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "腰引き",
+        "chapter": "7",
         "kobun": "",
         "gendaibun": "",
         "id": 81
@@ -902,7 +902,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "鶏合せ",
+        "chapter": "8",
         "kobun": "",
         "gendaibun": "",
         "id": 83
@@ -920,7 +920,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "闘犬",
+        "chapter": "9",
         "kobun": "",
         "gendaibun": "",
         "id": 85
@@ -938,7 +938,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "猿の競馬",
+        "chapter": "10",
         "kobun": "",
         "gendaibun": "",
         "id": 87
@@ -978,7 +978,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "山車の囃子方",
+        "chapter": "11",
         "kobun": "",
         "gendaibun": "",
         "id": 91
@@ -1017,7 +1017,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "猿と蛙の蹴鞠",
+        "chapter": "12",
         "kobun": "",
         "gendaibun": "",
         "id": 95
@@ -1035,7 +1035,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "猿と蛙の験競べ",
+        "chapter": "13",
         "kobun": "",
         "gendaibun": "",
         "id": 97
@@ -1064,7 +1064,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "蛇の出現",
+        "chapter": "14",
         "kobun": "",
         "gendaibun": "",
         "id": 100
@@ -1138,7 +1138,7 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "<ruby><rb>侏儒</rb><rp>（</rp><rt>しゅじゅ</rt><rp>）</rp></ruby>（小人）の<ruby><rb>籠脱け</rb><rp>（</rp><rt>かごぬけ</rt><rp>）</rp></ruby>",
+        "chapter": "1",
         "kobun": "",
         "gendaibun": "",
         "id": 103
@@ -1156,7 +1156,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "験競べ",
+        "chapter": "2",
         "kobun": "",
         "gendaibun": "",
         "id": 105
@@ -1185,7 +1185,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "供養の<ruby><rb>結縁者</rb><rp>（</rp><rt>けちえんしゃ</rt><rp>）</rp></ruby>たち",
+        "chapter": "3",
         "kobun": "",
         "gendaibun": "",
         "id": 108
@@ -1214,7 +1214,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "<ruby><rb>流鏑馬</rb><rp>（</rp><rt>やぶさめ</rt><rp>）</rp></ruby>",
+        "chapter": "4",
         "kobun": "",
         "gendaibun": "",
         "id": 111
@@ -1243,7 +1243,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "田楽",
+        "chapter": "5",
         "kobun": "",
         "gendaibun": "",
         "id": 114
@@ -1261,7 +1261,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "<ruby><rb>毬打</rb><rp>（</rp><rt>ぎっちょう</rt><rp>）</rp></ruby>",
+        "chapter": "6",
         "kobun": "",
         "gendaibun": "",
         "id": 116
@@ -1279,7 +1279,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "<ruby><rb>木遣り</rb><rp>（</rp><rt>きやり</rt><rp>）</rp></ruby>",
+        "chapter": "7",
         "kobun": "",
         "gendaibun": "",
         "id": 118
@@ -1319,7 +1319,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "<ruby><rb>番論義</rb><rp>（</rp><rt>ばんろんぎ</rt><rp>）</rp></ruby>に着座した公卿たち",
+        "chapter": "8",
         "kobun": "",
         "gendaibun": "",
         "id": 122
@@ -1337,7 +1337,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "<ruby><rb>印地</rb><rp>（</rp><rt>いんじ</rt><rp>）</rp></ruby>打ち",
+        "chapter": "9",
         "kobun": "",
         "gendaibun": "",
         "id": 124
@@ -1355,7 +1355,7 @@
       },
       {
         "cat": "ekotoba",
-        "chapter": "<ruby><rb>拝賀</rb><rp>（</rp><rt>はいが</rt><rp>）</rp></ruby>の<ruby><rb>大臣</rb><rp>（</rp><rt>おとど</rt><rp>）</rp></ruby>",
+        "chapter": "10",
         "kobun": "",
         "gendaibun": "",
         "id": 126
