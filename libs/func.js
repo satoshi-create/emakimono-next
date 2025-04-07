@@ -243,7 +243,7 @@ const connectEmakiText = (titleen, chapter, text) => {
   }
 };
 
-const ChaptersTitle = (titleen, title, chapter, text, scene) => {
+const ChaptersTitle = (titleen, title, chapter, text) => {
   if (title.includes("九相")) {
     return (
       <>
