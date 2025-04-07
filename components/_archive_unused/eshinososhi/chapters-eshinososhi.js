@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 import styles from "../../styles/ChaptersTable.module.css";
 import AllEshiChapters from "../../libs/emaki-text-data/eshi-no-soshi_tohaku.json";
-import Title from "../../components/Title";
+import Title from "../../Title";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
@@ -28,7 +28,7 @@ const chaptersEshinososhiTable = () => {
         </thead>
         <tbody>
           {AllEshiChapters.map((item, i) => {
-            const {chapter,title,gendaibun} = item
+            const { chapter, title, gendaibun } = item;
             return (
               <tr key={i}>
                 <td>{chapter}</td>
@@ -45,6 +45,6 @@ const chaptersEshinososhiTable = () => {
       </table>
     </section>
   );
-}
+};
 
 export default chaptersEshinososhiTable;

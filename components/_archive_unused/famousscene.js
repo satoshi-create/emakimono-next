@@ -1,16 +1,14 @@
+import "lazysizes";
 import React from "react";
 import Footer from "../Footer";
 import Header from "../Header";
-import "lazysizes";
 import Head from "../Meta";
 // import styles from "../styles/Flow.css.module.css";
-import Title from "../Title";
-import GridImageList from "../GridImageList";
-import dataEmakis from "../../libs/data";
-import { useLocale, useLocaleData } from "../../libs/func";
 import { useRouter } from "next/router";
-import Breadcrumbs from "../Breadcrumbs";
+import { useLocale, useLocaleData } from "../../libs/func";
 import { gridImages } from "../../libs/gridImages";
+import Breadcrumbs from "../Breadcrumbs";
+import GridImageList from "../GridImageList";
 
 const Famousscene = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {
   const { t } = useLocale();
