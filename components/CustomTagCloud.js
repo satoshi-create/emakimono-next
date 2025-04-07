@@ -142,6 +142,7 @@ const CustomTagCloud = ({ tags, emakiPage }) => {
                 fontSize="sm"
                 color="rgb(114 114 114)"
                 fontWeight="normal"
+                fontStyle="italic"
                 variant="ghost"
                 _hover={{
                   opacity: 0.6,
