@@ -249,19 +249,6 @@ const ChaptersTitle = (titleen, title, chapter, text) => {
       <>
         {connectKusouzuChapters(chapter, text) &&
           `${connectKusouzuChapters(chapter, text)}`}
-        {/* {connectKusouzuChapters(chapter, scene)
-          ? `【第${connectKusouzuChapters(chapter, scene)}相】`
-          : chapter}
-        <ruby>
-          {connectKusouzuChapters(chapter, text) &&
-            `${connectKusouzuChapters(chapter, text)}`}
-          <rp>(</rp>
-          <rt>
-            {connectKusouzuChapters(chapter, "ruby") &&
-              `${connectKusouzuChapters(chapter, "ruby")}`}
-          </rt>
-          <rp>)</rp>
-        </ruby> */}
       </>
     );
   } else if (title.includes("源氏")) {
