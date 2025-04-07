@@ -6,6 +6,7 @@ import links from "../libs/links";
 import styles from "../styles/SidebarHome.module.css";
 import { socialLinks } from "../libs/socialLinks";
 import { useRouter } from "next/router";
+import SocialLinks from "./SocialLinks";
 
 const SidebarHome = () => {
   const { isSidebarOpen, closeSidebar } = useContext(AppContext);
@@ -41,7 +42,8 @@ const SidebarHome = () => {
             );
           })}
         </ul>
-        <ul className={styles.socialLinks}>
+        <SocialLinks iconStyle />
+        {/* <ul className={styles.socialLinks}>
           {socialLinks.map((item, index) => {
             const { name, icon, path } = item;
             return (
@@ -52,7 +54,7 @@ const SidebarHome = () => {
               </li>
             );
           })}
-        </ul>
+        </ul> */}
       </aside>
     </div>
   );

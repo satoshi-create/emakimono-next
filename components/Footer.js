@@ -9,15 +9,6 @@ const Footer = () => {
   const date = new Date();
   const year = date.getFullYear();
 
-  const footerstyle = {
-    color: "white",
-    // fontFamily: "var(--title-font)",
-  };
-  const footerStyleSocial = {
-    color: "white",
-    // fontFamily: "var(--title-font)",
-  };
-
   const { locale } = useRouter();
   return (
     <footer className={`parts-grid ${styles.container} ${styles.footer}`}>
@@ -27,7 +18,7 @@ const Footer = () => {
           {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
         </a>
       </Link>
-      <SocialLinks footerStyle={footerStyleSocial} />
+      <SocialLinks footerStyle iconStyle />
       <p className={styles.copyright}>
         {`@${year} emakimono.com All rights reserverd`}
       </p>
