@@ -763,319 +763,227 @@
       {
         "cat": "ekotoba",
         "chapter": "1",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 69
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": true,
         "cat": "image",
-        "srcSp": "/cyoujyuu_yamazaki_hei_01-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_hei_01-800.webp",
-        "src": "/cyoujyuu_yamazaki_hei_01-1080.webp",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1744009743/cyoujyuu_yamazaki_hei_01-1080_elt97j.jpg",
         "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "id": 70,
-        "srcWidth": 2687,
-        "srcHeight": 1080
+        "srcWidth": "2687",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "2",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 71
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": true,
         "cat": "image",
-        "srcSp": "/cyoujyuu_yamazaki_hei_02-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_hei_02-800.webp",
-        "src": "/cyoujyuu_yamazaki_hei_02-1080.webp",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1744009743/cyoujyuu_yamazaki_hei_02-1080_eavb8v.jpg",
         "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "id": 72,
-        "srcWidth": 2310,
-        "srcHeight": 1080
+        "srcWidth": "2310",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "3",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 73
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
-        "srcSp": "/cyoujyuu_yamazaki_hei_03-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_hei_03-800.webp",
-        "src": "/cyoujyuu_yamazaki_hei_03-1080.webp",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1744009744/cyoujyuu_yamazaki_hei_03-1080_cd7ao0.jpg",
         "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "id": 74,
-        "srcWidth": 1593,
-        "srcHeight": 1080
+        "srcWidth": "1593",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "4",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 75
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
-        "srcSp": "/cyoujyuu_yamazaki_hei_04-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_hei_04-800.webp",
-        "src": "/cyoujyuu_yamazaki_hei_04-1080.webp",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1744009743/cyoujyuu_yamazaki_hei_04-1080_jfmjky.jpg",
         "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "id": 76,
-        "srcWidth": 1731,
-        "srcHeight": 1080
+        "srcWidth": "1731",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "5",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 77
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
-        "srcSp": "/cyoujyuu_yamazaki_hei_05-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_hei_05-800.webp",
-        "src": "/cyoujyuu_yamazaki_hei_05-1080.webp",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1744009743/cyoujyuu_yamazaki_hei_05-1080_jg9iyu.jpg",
         "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "id": 78,
-        "srcWidth": 2339,
-        "srcHeight": 1080
+        "srcWidth": "2339",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "6",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 79
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
-        "srcSp": "/cyoujyuu_yamazaki_hei_06-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_hei_06-800.webp",
-        "src": "/cyoujyuu_yamazaki_hei_06-1080.webp",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1744009743/cyoujyuu_yamazaki_hei_06-1080_n3jp35.jpg",
         "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "id": 80,
-        "srcWidth": 1331,
-        "srcHeight": 1080
+        "srcWidth": "1331",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "7",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 81
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
-        "srcSp": "/cyoujyuu_yamazaki_hei_07-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_hei_07-800.webp",
-        "src": "/cyoujyuu_yamazaki_hei_07-1080.webp",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1744009744/cyoujyuu_yamazaki_hei_07-1080_httsyh.jpg",
         "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "id": 82,
-        "srcWidth": 1816,
-        "srcHeight": 1080
+        "srcWidth": "1816",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "8",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 83
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
-        "srcSp": "/cyoujyuu_yamazaki_hei_08-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_hei_08-800.webp",
-        "src": "/cyoujyuu_yamazaki_hei_08-1080.webp",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1744009744/cyoujyuu_yamazaki_hei_08-1080_rrifr6.jpg",
         "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "id": 84,
-        "srcWidth": 3794,
-        "srcHeight": 1080
+        "srcWidth": "3794",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "9",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 85
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
-        "srcSp": "/cyoujyuu_yamazaki_hei_09-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_hei_09-800.webp",
-        "src": "/cyoujyuu_yamazaki_hei_09-1080.webp",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1744009744/cyoujyuu_yamazaki_hei_09-1080_w0yopo.jpg",
         "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "id": 86,
-        "srcWidth": 2180,
-        "srcHeight": 1080
+        "srcWidth": "2180",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "10",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 87
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
-        "srcSp": "/cyoujyuu_yamazaki_hei_10-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_hei_10-800.webp",
-        "src": "/cyoujyuu_yamazaki_hei_10-1080.webp",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1744009745/cyoujyuu_yamazaki_hei_10-1080_afulzy.jpg",
         "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "id": 88,
-        "srcWidth": 1666,
-        "srcHeight": 1080
+        "srcWidth": "1666",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
-        "srcSp": "/cyoujyuu_yamazaki_hei_11-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_hei_11-800.webp",
-        "src": "/cyoujyuu_yamazaki_hei_11-1080.webp",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1744009745/cyoujyuu_yamazaki_hei_11-1080_fm4idj.jpg",
         "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "id": 89,
-        "srcWidth": 1891,
-        "srcHeight": 1080
+        "srcWidth": "1891",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
-        "srcSp": "/cyoujyuu_yamazaki_hei_12-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_hei_12-800.webp",
-        "src": "/cyoujyuu_yamazaki_hei_12-1080.webp",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1744009745/cyoujyuu_yamazaki_hei_12-1080_druipr.jpg",
         "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "id": 90,
-        "srcWidth": 1921,
-        "srcHeight": 1080
+        "srcWidth": "1921",
+        "srcHeight": "1080"
       },
       {
         "cat": "ekotoba",
         "chapter": "11",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 91
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
       },
       {
-        "load": false,
         "cat": "image",
-        "srcSp": "/cyoujyuu_yamazaki_hei_13-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_hei_13-800.webp",
-        "src": "/cyoujyuu_yamazaki_hei_13-1080.webp",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1744009745/cyoujyuu_yamazaki_hei_13-1080_fjl1fq.jpg",
         "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "id": 92,
-        "srcWidth": 1926,
-        "srcHeight": 1080
+        "srcWidth": "1926",
+        "srcHeight": "1080"
       },
       {
-        "load": false,
         "cat": "image",
-        "srcSp": "/cyoujyuu_yamazaki_hei_14-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_hei_14-800.webp",
-        "src": "/cyoujyuu_yamazaki_hei_14-1080.webp",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1744009746/cyoujyuu_yamazaki_hei_14-1080_zcgbh9.jpg",
         "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "id": 93,
-        "srcWidth": 1871,
-        "srcHeight": 1080
-      },
-      {
-        "load": false,
-        "srcSp": "/cyoujyuu_yamazaki_hei_15-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_hei_15-800.webp",
-        "src": "/cyoujyuu_yamazaki_hei_15-1080.webp",
-        "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "id": 94,
-        "srcWidth": 1481,
-        "srcHeight": 1080
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "12",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 95
-      },
-      {
-        "load": false,
-        "cat": "image",
-        "srcSp": "/cyoujyuu_yamazaki_hei_16-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_hei_16-800.webp",
-        "src": "/cyoujyuu_yamazaki_hei_16-1080.webp",
-        "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "id": 96,
-        "srcWidth": 1643,
-        "srcHeight": 1080
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "13",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 97
-      },
-      {
-        "load": false,
-        "cat": "image",
-        "srcSp": "/cyoujyuu_yamazaki_hei_17-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_hei_17-800.webp",
-        "src": "/cyoujyuu_yamazaki_hei_17-1080.webp",
-        "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "id": 98,
-        "srcWidth": 1857,
-        "srcHeight": 1080
-      },
-      {
-        "load": false,
-        "cat": "image",
-        "srcSp": "/cyoujyuu_yamazaki_hei_18-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_hei_18-800.webp",
-        "src": "/cyoujyuu_yamazaki_hei_18-1080.webp",
-        "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "id": 99,
-        "srcWidth": 1920,
-        "srcHeight": 1080
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "14",
-        "kobun": "",
-        "gendaibun": "",
-        "id": 100
-      },
-      {
-        "load": false,
-        "cat": "image",
-        "srcSp": "/cyoujyuu_yamazaki_hei_19-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_hei_19-800.webp",
-        "src": "/cyoujyuu_yamazaki_hei_19-1080.webp",
-        "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "id": 101,
-        "srcWidth": 1845,
-        "srcHeight": 1080
-      },
-      {
-        "load": false,
-        "cat": "image",
-        "srcSp": "/cyoujyuu_yamazaki_hei_20-375.webp",
-        "srcTb": "/cyoujyuu_yamazaki_hei_20-800.webp",
-        "src": "/cyoujyuu_yamazaki_hei_20-1080.webp",
-        "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "id": 102,
-        "srcWidth": 635,
-        "srcHeight": 1080
+        "srcWidth": "1871",
+        "srcHeight": "1080"
       }
     ]
   },
