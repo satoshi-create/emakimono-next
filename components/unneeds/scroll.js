@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import LazyImage from "../components/LazyImage";
+import LazyImage from "../LazyImage";
 
 const HorizontalScrollGallery = ({ images }) => {
   const [windowHeight, setWindowHeight] = useState(0);
@@ -61,7 +61,6 @@ export default HorizontalScrollGallery;
 export const getStaticProps = async () => {
   const fs = require("fs");
   const path = require("path");
-
 
   const cacheDir = path.join(process.cwd(), "libs/image-metadata-cache");
   const cacheFilePath = path.join(cacheDir, "image-metadata-cache.json");
