@@ -5,6 +5,7 @@
   height: 500px;
   overflow-y: auto;
 }
+
 .box {
   /* display: flex;
   flex-direction: row;
@@ -14,19 +15,25 @@
   column-gap: 0.5rem;
   transition: var(--transition);
 }
+
 .box:hover {
   opacity: 0.6;
 }
+
 .image {
   border-radius: 12px;
 }
+
 .metadata {
   font-family: var(--title-font2);
 }
+
 .title {
   font-size: medium;
   font-weight: bold;
+  word-break: break-all;
 }
+
 .author {
   font-size: small;
 }
