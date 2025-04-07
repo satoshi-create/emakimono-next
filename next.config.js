@@ -13,7 +13,7 @@ const nextConfig = {
   swcMinify: true,
   i18n: {
     locales: ["en", "ja"],
-    defaultLocale: "ja",
+    defaultLocale: "en",
     localeDetection: false,
   },
   images: {
