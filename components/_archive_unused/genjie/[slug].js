@@ -1,17 +1,16 @@
-import emakisData from "../../libs/data";
-import Header from "../../components/Header";
-import Head from "../../components/Meta";
-import CardA from "../../components/CardA";
-import Breadcrumbs from "../../components/Breadcrumbs";
+import emakisData from "../../../libs/data";
+import Header from "../../Header";
+import Head from "../../Meta";
+import CardA from "../../CardA";
+import Breadcrumbs from "../../Breadcrumbs";
 import { useRouter } from "next/router";
-import Footer from "../../components/Footer";
-import enData from "../../libs/image-metadata-cache/image-metadata-cache.json";
-import jaData from "../../libs/image-metadata-cache/image-metadata-cache.json";
-import { removeNestedEmakisObj, genjieSlugItem } from "../../libs/func";
+import Footer from "../../Footer";
+import enData from "../../../libs/image-metadata-cache/image-metadata-cache.json";
+import jaData from "../../../libs/image-metadata-cache/image-metadata-cache.json";
+import { removeNestedEmakisObj, genjieSlugItem } from "../../../libs/func";
 import AllGenjiChapters from "../../libs/genji/chapters-of-genji.json";
 
 const Genjie = ({ title, titleen, posts, slug }) => {
-
   const { locale } = useRouter();
   const tPageDesc =
     locale === "en"
@@ -73,7 +72,9 @@ export const getStaticProps = async (context) => {
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
 
-  const chaptergenji = AllGenjiChapters.find((item) => item.path === genjieslugname);
+  const chaptergenji = AllGenjiChapters.find(
+    (item) => item.path === genjieslugname
+  );
 
   const filterdEmakisData = tEmakisData.filter((x) => {
     if (x.genjieslug) {
