@@ -145,7 +145,9 @@ const ModalDesc = ({ data }) => {
                         : { fontSize: "var(--text-size)" }
                     }
                   >
-                    {ChaptersDesc(titleen, title, chapter, desc)}
+                    {locale == "en"
+                      ? ChaptersDesc(titleen, title, chapter, "descen", desc)
+                      : ChaptersDesc(titleen, title, chapter, "desc", desc)}
                   </p>
                 )}
                 {value === 1 && (
@@ -159,7 +161,7 @@ const ModalDesc = ({ data }) => {
                         : { fontSize: "var(--text-size)" }
                     }
                   >
-                    {ChaptersGendaibun(titleen, title, chapter, gendaibun)}
+                    {/* {ChaptersGendaibun(titleen, title, chapter, gendaibun)} */}
                   </p>
                 )}
               </div>
@@ -170,7 +172,10 @@ const ModalDesc = ({ data }) => {
                 className={styles.linkedbutton}
               >
                 {/* 横スクロールで見る */}
-                {ChaptersTitle(titleen, title, chapter)}の画像を見る
+                {locale == "en"
+                  ? ChaptersTitle(titleen, title, chapter, "titleen")
+                  : ChaptersTitle(titleen, title, chapter, "title")}
+                の画像を見る
               </button>
               <SnsShareBox
                 titleen={data.titleen}

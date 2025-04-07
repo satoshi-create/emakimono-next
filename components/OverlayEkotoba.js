@@ -123,7 +123,6 @@ const OverlayEkotoba = ({
               {locale == "en"
                 ? ChaptersTitle(titleen, title, chapter, "titleen")
                 : ChaptersTitle(titleen, title, chapter, "title")}
-              {/* {ChaptersTitle(titleen, title, chapter)} */}
             </h3>
 
             {type === "浮世絵" && googlemap && (
