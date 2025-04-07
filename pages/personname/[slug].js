@@ -63,13 +63,15 @@ export const getStaticProps = async (context) => {
     ({ slug }) => slug === personnameslug
   );
 
-  const filterdEmakisData = tEmakisData.filter((x) => {
-    if (x.personname) {
-      const filterdTag = x.personname.some((y) => y.slug === personnameslug);
+  if (!personname) {
+    return {
+      notFound: true, // これで 404 ページを返すようになる（ISR/SSGで必須）
+    };
+  }
 
-      return filterdTag;
-    }
-  });
+  const filterdEmakisData = tEmakisData.filter((x) =>
+    x.personname?.some((y) => y.slug === personnameslug)
+  );
 
   const removeNestedArrayObj = filterdEmakisData.map((item) => {
     return removeNestedEmakisObj(item);

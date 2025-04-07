@@ -6,17 +6,14 @@ import Head from "../../components/Meta";
 import PersonNames from "../../components/PersonNames";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import emakisData from "../../libs/data";
-import {
-  personnameItem,
-  useLocaleData,
-  removeNestedEmakisObj,
-} from "../../libs/func";
+import { personnameItem, useLocaleData } from "../../libs/func";
 import ExtractingListData from "../../libs/ExtractingListData";
 
 const PersonnamesComp = () => {
   const { locale } = useLocaleData();
   const removeNestedArrayObj = ExtractingListData();
   const allPersonNames = personnameItem(removeNestedArrayObj);
+  console.log(allPersonNames);
 
   const tPageDesc =
     locale === "en"
