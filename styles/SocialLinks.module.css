@@ -1,6 +1,7 @@
 .links {
   display: none;
 }
+
 .footerStyle {
   grid-row: 3;
   justify-self: center;
@@ -15,24 +16,29 @@
 .footerStyle .icon {
   color: var(--clr-white);
 }
-.footerStyle a img {
+
+.iconStyle a img {
   background-color: white;
   border-radius: 50%;
 }
+
 @media screen and (min-width: 768px) {
   .links {
     display: flex;
     column-gap: 10px;
-    grid-row: 3;
+    /* grid-row: 3; */
   }
+
   .link {
     width: 25px;
     height: 25px;
     transition: var(--transition);
   }
+
   .link:hover {
     opacity: 0.6;
   }
+
   .links .icon {
     color: var(--clr-grey);
   }

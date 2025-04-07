@@ -3,9 +3,13 @@ import { socialLinks } from "../libs/socialLinks";
 import Link from "next/link";
 import styles from "../styles/SocialLinks.module.css";
 
-const SocialLinks = ({ footerStyle }) => {
+const SocialLinks = ({ footerStyle, iconStyle }) => {
   return (
-    <ul className={`${styles.links} ${footerStyle && styles["footerStyle"]}`}>
+    <ul
+      className={`${styles.links} ${footerStyle && styles["footerStyle"]} ${
+        iconStyle && styles["iconStyle"]
+      }`}
+    >
       {socialLinks.map((item, index) => {
         const { name, icon, path, title } = item;
         return (
