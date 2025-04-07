@@ -50,7 +50,7 @@ const CardA = ({
           );
         })}
       </div>
-      {linktitle && (
+      {/* {linktitle && (
         <Button
           title={
             locale === "en"
@@ -60,7 +60,7 @@ const CardA = ({
           path={linkpath}
           style={columns}
         />
-      )}
+      )} */}
     </section>
   );
 };
