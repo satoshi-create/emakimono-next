@@ -1,16 +1,16 @@
-import Link from "next/link";
-import React, { useContext } from "react";
-import styles from "../styles/Header.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import NavLinks from "./NavLinks";
+import React, { useContext } from "react";
+import { Mail } from "react-feather";
 import { AppContext } from "../pages/_app";
-import SidebarHome from "./SidebarHome";
-import { Mail, Search } from "react-feather";
-import SearchBoxButton from "./SearchBoxButton";
-import SocialLinks from "./SocialLinks";
+import styles from "../styles/Header.module.css";
 import LanguageSwitcher from "./LanguageSwitcher";
+import NavLinks from "./NavLinks";
+import SearchBoxButton from "./SearchBoxButton";
+import SidebarHome from "./SidebarHome";
+import SocialLinks from "./SocialLinks";
 
 const Header = ({ slug, fixed }) => {
   const { locale } = useRouter();

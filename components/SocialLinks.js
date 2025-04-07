@@ -1,6 +1,6 @@
+import Link from "next/link";
 import React from "react";
 import { socialLinks } from "../libs/socialLinks";
-import Link from "next/link";
 import styles from "../styles/SocialLinks.module.css";
 
 const SocialLinks = ({ footerStyle, iconStyle }) => {

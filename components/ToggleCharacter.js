@@ -1,22 +1,19 @@
-import React, { useContext } from "react";
-import styles from "../styles/ToggleEkotoba.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faUserSlash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useContext } from "react";
 import { AppContext } from "../pages/_app";
 import ActionButton from "./ActionButton";
 
 const ToggleCharacter = () => {
-  const { orientation, handleCharacterToggle, characterToggle } = useContext(
-    AppContext
-  );
+  const { handleCharacterToggle, characterToggle } = useContext(AppContext);
 
   return (
     <ActionButton
       icon={
         characterToggle ? (
-          <FontAwesomeIcon icon={faUserSlash} style={{ fontSize: "1.5em" }}/>
+          <FontAwesomeIcon icon={faUserSlash} style={{ fontSize: "1.5em" }} />
         ) : (
-          <FontAwesomeIcon icon={faUser} style={{ fontSize: "1.5em" }}/>
+          <FontAwesomeIcon icon={faUser} style={{ fontSize: "1.5em" }} />
         )
       }
       label={
@@ -27,7 +24,6 @@ const ToggleCharacter = () => {
       }
       onClick={handleCharacterToggle}
     />
-
   );
 };
 

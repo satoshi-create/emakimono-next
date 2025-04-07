@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from "react";
 import Image from "next/image";
-import { eraColor } from "../libs/func";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useContext } from "react";
+import { eraColor } from "../libs/func";
 import { AppContext } from "../pages/_app";
 import styles from "../styles/CardA.module.css";
-import { useRouter } from "next/router";
 
 const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
   const { locale } = useRouter();
@@ -28,12 +28,10 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
   const filterDesc = desc.substring(0, 40);
   const descTemp = `${title} ${
     author && `（${author}）`
-    }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+  }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
 
-
-    const baseUrl =
-      "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
-
+  const baseUrl =
+    "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
 
   return (
     <div onClick={closeSearchModal}>

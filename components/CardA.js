@@ -1,13 +1,9 @@
-import React, { useContext, useEffect } from "react";
-
-import styles from "../styles/CardA.module.css";
-import Title from "./Title";
-
-import Button from "./Button";
-
-import { AppContext } from "../pages/_app";
 import { useRouter } from "next/router";
+import React, { useContext, useEffect } from "react";
+import { AppContext } from "../pages/_app";
+import styles from "../styles/CardA.module.css";
 import SingleCardA from "./SingleCardA";
+import Title from "./Title";
 
 const CardA = ({
   emakis,
@@ -16,14 +12,10 @@ const CardA = ({
   needdesc,
   sectiondesc,
   sectiontitleen,
-  linktitle,
-  linkpath,
-  linktitleen,
   bcg,
   variant,
 }) => {
   const { setisModalOpen } = useContext(AppContext);
-  const { locale } = useRouter();
 
   useEffect(() => {
     setisModalOpen(false);

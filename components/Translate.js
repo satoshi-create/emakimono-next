@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import styles from "../styles/Translate.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLanguage } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
+import React, { useState } from "react";
 import Flag from "react-flagkit";
-import { useRouter } from "next/router";
+import styles from "../styles/Translate.module.css";
 
 const Translate = ({ footerstyle, emakipage, slug }) => {
-  const router = useRouter();
-  // console.log(router.pathname);
-  // console.log(slug);
   const [toggle, setToggle] = useState(false);
 
   return (

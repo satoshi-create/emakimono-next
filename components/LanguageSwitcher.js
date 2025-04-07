@@ -1,16 +1,16 @@
-import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 import {
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
   Button,
   Icon,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   useBreakpointValue,
 } from "@chakra-ui/react";
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import { MdLanguage, MdCheck } from "react-icons/md";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { MdCheck, MdLanguage } from "react-icons/md";
 
 const LanguageSwitcher = () => {
   const router = useRouter();

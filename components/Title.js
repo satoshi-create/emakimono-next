@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../styles/Title.module.css";
 
-const Title = ({ sectiontitle, sectiontitleen }) => {
+const Title = ({ sectiontitle }) => {
   return (
     <div className={styles.title}>
       {/* <h3>{sectiontitleen}</h3> */}

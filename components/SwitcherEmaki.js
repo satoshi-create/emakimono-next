@@ -1,8 +1,6 @@
-import React, { forwardRef, useContext, useEffect } from "react";
-import OverlayEkotoba from "./OverlayEkotoba";
+import React, { forwardRef } from "react";
 import EmakiImage from "./EmakiImage";
-import KotenText from "./KotenText";
-import { AppContext } from "../pages/_app";
+import OverlayEkotoba from "./OverlayEkotoba";
 
 const SwitcherEmaki = forwardRef(
   (
@@ -23,7 +21,6 @@ const SwitcherEmaki = forwardRef(
     },
     ref
   ) => {
-
     if (data.type !== "古典文学") {
       if (cat === "image") {
         return (
@@ -66,25 +63,6 @@ const SwitcherEmaki = forwardRef(
           </section>
         );
       }
-    }
-    if (data.type === "古典文学") {
-      return (
-        <section ref={ref}>
-          <KotenText
-            key={index}
-            item={{
-              ...item,
-              index,
-              backgroundImage,
-              kotobagaki,
-              type,
-              scroll,
-              selectedRef,
-              navIndex,
-            }}
-          />
-        </section>
-      );
     }
     return null;
   }

@@ -1,23 +1,15 @@
-import React, { useRef, useEffect, useContext, useState } from "react";
 import "lazysizes";
-import EmakiImage from "./EmakiImage";
-import Ekotoba from "./Ekotoba";
-import styles from "../styles/EmakiConteiner.module.css";
-import { AppContext } from "../pages/_app";
 import { useRouter } from "next/router";
-import FullScreen from "../components/FullScreen";
-import Link from "next/link";
-import Sidebar from "./Sidebar";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import ScrollHint from "scroll-hint";
 import EmakiInfo from "../components/EmakiInfo";
 import EmakiNavigation from "../components/EmakiNavigation";
-import Modal from "./Modal";
-
-import OverlayEkotoba from "./OverlayEkotoba";
-import ModalMap from "./ModalMap";
-import ModalDesc from "./ModalDesc";
-import ModalDescGenji from "./ModalDescGenji";
-import ScrollHint from "scroll-hint";
+import FullScreen from "../components/FullScreen";
+import { AppContext } from "../pages/_app";
+import styles from "../styles/EmakiConteiner.module.css";
 import CarouselButton from "./CarouselButton";
+import Modal from "./Modal";
+import ModalDesc from "./ModalDesc";
 import SwitcherEmaki from "./SwitcherEmaki";
 
 const EmakiContainer = ({
@@ -234,11 +226,11 @@ const EmakiContainer = ({
         )}
         {scroll && toggleFullscreen && <EmakiInfo value={data} />}
         {scroll && isModalOpen && <Modal data={data} />}
-        {scroll && isMapModalOpen && <ModalMap data={data} />}
+        {/* {scroll && isMapModalOpen && <ModalMap data={data} />} */}
         {!genjieslug && scroll && isDescModalOpen && <ModalDesc data={data} />}
-        {genjieslug && scroll && isDescModalOpen && (
+        {/* {genjieslug && scroll && isDescModalOpen && (
           <ModalDescGenji data={data} />
-        )}
+        )} */}
         <article
           className={`${styles.container} ${
             type === "西洋絵画" ? styles.lr : styles.rl

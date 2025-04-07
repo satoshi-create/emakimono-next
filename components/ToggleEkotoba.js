@@ -1,17 +1,16 @@
+import {
+  faComment,
+  faCommentSlash,
+  faKeyboard,
+  faPaintBrush,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext } from "react";
 import { AppContext } from "../pages/_app";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPaintBrush,
-  faKeyboard,
-  faCommentSlash,
-  faComment,
-} from "@fortawesome/free-solid-svg-icons";
-import styled from "../styles/ToggleEkotoba.module.css";
 import ActionButton from "./ActionButton";
 
 const ToggleEkotoba = ({ data }) => {
-  const { emakis, kotobagaki } = data;
+  const { kotobagaki } = data;
   const { ekotobaImageToggle, orientation, handleEkotobaImageToggle } =
     useContext(AppContext);
 
@@ -29,26 +28,28 @@ const ToggleEkotoba = ({ data }) => {
     v ? (
       <FontAwesomeIcon icon={faComment} style={{ fontSize: "1.5em" }} />
     ) : (
-      <FontAwesomeIcon icon={faCommentSlash} style={{ fontSize: "1.5em" }}  />
+      <FontAwesomeIcon icon={faCommentSlash} style={{ fontSize: "1.5em" }} />
     );
 
   return (
-      <ActionButton
-        icon={kotobagaki
+    <ActionButton
+      icon={
+        kotobagaki
           ? withEkotobaIcon(ekotobaImageToggle)
-          : withoutEkotobaIcon(ekotobaImageToggle)}
-        label={
+          : withoutEkotobaIcon(ekotobaImageToggle)
+      }
+      label={
         kotobagaki
           ? withEkotoba(ekotobaImageToggle)
           : withoutEkotoba(ekotobaImageToggle)
       }
-        description={
+      description={
         kotobagaki
           ? withEkotoba(ekotobaImageToggle)
           : withoutEkotoba(ekotobaImageToggle)
       }
-        onClick={handleEkotobaImageToggle}
-      />
+      onClick={handleEkotobaImageToggle}
+    />
     // <button
     //   className={styled.button}
     //   title={

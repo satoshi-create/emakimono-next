@@ -1,31 +1,11 @@
-import React, { useRef, useState, useEffect, useContext } from "react";
-import styles from "../styles/EmakiImage.module.css";
-import ResposiveImage from "./ResposiveImage";
-import { AppContext } from "../pages/_app";
 import Link from "next/link";
-import Image from "next/image";
+import React, { useContext } from "react";
+import { AppContext } from "../pages/_app";
+import styles from "../styles/EmakiImage.module.css";
 import LazyImage from "./LazyImage";
 
-// TODO : 登場人物の名前のフォントサイズをレスポンシブにする
-
 const EmakiImage = ({
-  item: {
-    srcSp,
-    srcTb,
-    src,
-    load,
-    name,
-    config,
-    index,
-    srcWidth,
-    srcHeight,
-    scroll,
-    selectedRef,
-    navIndex,
-    character,
-    ebiki,
-    uniqueIndex,
-  },
+  item: { config, index, navIndex, character, ebiki, uniqueIndex },
   isBlurVisible,
   item,
 }) => {
@@ -36,7 +16,6 @@ const EmakiImage = ({
     ebikiToggle,
     windowHeight,
   } = useContext(AppContext);
-
 
   const characterOuntline = (x) => {
     switch (x) {

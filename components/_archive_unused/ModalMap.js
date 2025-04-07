@@ -1,22 +1,16 @@
-import React, { useContext, useState } from "react";
-import { AppContext } from "../pages/_app";
-import styles from "../styles/MapModal.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faClose,
   faAnglesLeft,
   faAnglesRight,
+  faClose,
 } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
-import AllLocation from "./AllLocation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useContext, useState } from "react";
+import { AppContext } from "../../pages/_app";
+import styles from "../styles/MapModal.module.css";
 
 const ModalMap = ({ data }) => {
-  const {
-    closeMapModal,
-    MapIndex,
-    setMapIndex,
-    handleToId,
-  } = useContext(AppContext);
+  const { closeMapModal, MapIndex, setMapIndex, handleToId } =
+    useContext(AppContext);
   const emakis = data.emakis;
   const filterEkotobas = emakis.filter((item) => item.cat === "ekotoba");
   console.log(filterEkotobas);
@@ -80,7 +74,7 @@ const ModalMap = ({ data }) => {
       titleen: "basinmap",
       path: "basinmap",
     },
-  ]
+  ];
   return (
     <div className={styles.modal}>
       <div className={styles.MuiBackdrop} onClick={closeMapModal}></div>
@@ -138,7 +132,6 @@ const ModalMap = ({ data }) => {
                 >
                   <h3>{chapterruby}</h3>
                   <h2>{chapter}</h2>
-  
                 </div>
               </article>
             );

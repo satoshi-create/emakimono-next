@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { AppContext } from "../pages/_app";
+import { AppContext } from "../../pages/_app";
 import styles from "../styles/ModalDesc.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,8 +11,8 @@ import {
   connectGenjiChapters,
   connectGenjiChaptersScene,
   ChaptersTitle,
-} from "../libs/func";
-import SnsShareBox from "./SnsShareBox";
+} from "../../libs/func";
+import SnsShareBox from "../SnsShareBox";
 import Link from "next/link";
 
 const ModalDescGenji = ({ data }) => {
@@ -119,14 +119,12 @@ const ModalDescGenji = ({ data }) => {
                 }
                 onClick={() => handleChapter(linkId)}
               >
-                {ChaptersTitle(titleen,title, chapter)}
+                {ChaptersTitle(titleen, title, chapter)}
               </h3>
               {genjieslug && (
                 <aside className={`${styles.linktochapter}`}>
                   <Link href={`/genjie/chapters-genji`}>
-                    <a className={styles.genjieslugTitle}>
-                      源氏物語54帖一覧
-                    </a>
+                    <a className={styles.genjieslugTitle}>源氏物語54帖一覧</a>
                   </Link>
                 </aside>
               )}

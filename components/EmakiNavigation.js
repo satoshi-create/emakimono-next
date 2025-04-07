@@ -1,33 +1,23 @@
-import React, { useContext, forwardRef } from "react";
-import styles from "../styles/EmakiNavigation.module.css";
 import {
   faAnglesLeft,
   faAnglesRight,
-  faChevronLeft,
-  faChevronRight,
   faCircleQuestion,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { HelpCircle } from "react-feather";
+import React, { useContext } from "react";
+import styles from "../styles/EmakiNavigation.module.css";
 // import { ArrowRight, ChevronRight } from "react-feather";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import ToggleEkotoba from "./ToggleEkotoba";
 import { AppContext } from "../pages/_app";
+import ActionButton from "./ActionButton";
 import ToggleCharacter from "./ToggleCharacter";
 import ToggleEbiki from "./ToggleEbiki";
-import FullScreen from "./FullScreen";
-import ActionButton from "./ActionButton";
+import ToggleEkotoba from "./ToggleEkotoba";
 
 // TODO: 横スクロールで最後まで進み、「先頭に戻る」を押しても反応がない
 // ⇒navIndexが0になっている
 // TODO : アイコンホバー時のtitleを追加・修正する
-const EmakiNavigation = ({
-  handleToId,
-  data,
-}) => {
+const EmakiNavigation = ({ handleToId, data }) => {
   const { character, ebiki } = data;
-  const router = useRouter();
   const endIndex = data.emakis.length - 1;
 
   const handleClick = () => {

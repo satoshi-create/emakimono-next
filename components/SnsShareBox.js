@@ -1,14 +1,14 @@
-import React from "react";
 import {
-  faTwitter,
   faFacebook,
   faLinkedin,
+  faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
+import React from "react";
 import styles from "../styles/SnsShareBox.module.css";
 
-const SnsShareBox = ({ titleen, title, edition, ort ,chapter,index}) => {
+const SnsShareBox = ({ titleen, title, edition, ort, chapter, index }) => {
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${titleen}`;
 
   const urlpart = `${process.env.NEXT_PUBLIC_SITE_URL}/${titleen}%23${index}`;
@@ -20,8 +20,7 @@ const SnsShareBox = ({ titleen, title, edition, ort ,chapter,index}) => {
         edition ? edition : ""
       }`;
     }
-  }
-
+  };
 
   return (
     <div className={`${styles.snsShareBox} ${styles[ort]}`}>

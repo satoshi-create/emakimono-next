@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import links from "../libs/links";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import React, { useState } from "react";
+import links from "../libs/links";
 import styles from "../styles/NavLinks.module.css";
 
 const NavLinks = ({ footerstyle, slug }) => {

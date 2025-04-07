@@ -1,18 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
-import styles from "../styles/KotenText.module.css";
+import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlus,
-  faMinus,
-  faCaretLeft,
-  faCaretRight,
-} from "@fortawesome/free-solid-svg-icons";
-import ResposiveImage from "./ResposiveImage";
-import { AppContext } from "../pages/_app";
+import parse from "html-react-parser";
 import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
-import parse from "html-react-parser";
-
+import React, { useContext, useEffect, useState } from "react";
+import { AppContext } from "../../pages/_app";
+import styles from "../styles/KotenText.module.css";
 
 const Kotentext = ({
   item: {
@@ -20,19 +13,9 @@ const Kotentext = ({
     gendaibun,
     kobun,
     index,
-    srcSp,
-    srcTb,
-    src,
-    load,
-    name,
     backgroundImage,
-    kotobagaki,
     type,
-    ekotobaId,
-    kobunsrc,
-    kobunsrcSp,
     scroll,
-    selectedRef,
     navIndex,
   },
 }) => {
@@ -99,7 +82,8 @@ const Kotentext = ({
                   }`,
                 }}
               >
-              {parse(chapter)}</h3>
+                {parse(chapter)}
+              </h3>
             </div>
           )}
           {/* kobun */}

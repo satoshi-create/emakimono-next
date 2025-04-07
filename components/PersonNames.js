@@ -1,12 +1,10 @@
-import React from "react";
-import Title from "./Title";
-import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faQuestion } from "@fortawesome/free-solid-svg-icons";
-import Button from "./Button";
-import { useRouter } from "next/router";
-import styles from "../styles/PersonNameList.module.css";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React from "react";
+import styles from "../styles/PersonNameList.module.css";
+import Button from "./Button";
+import Title from "./Title";
 
 const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
   const { locale } = useRouter();

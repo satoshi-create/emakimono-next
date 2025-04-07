@@ -1,28 +1,21 @@
-import Link from "next/link";
-import React, { useEffect, useState, useContext } from "react";
-import styles from "../styles/EmakiPageHeader.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import NavLinks from "./NavLinks";
-import { AppContext } from "../pages/_app";
-import SidebarHome from "./SidebarHome";
+import React, { useContext, useEffect } from "react";
 import { Mail } from "react-feather";
-import SearchBoxButton from "./SearchBoxButton";
-import SocialLinks from "./SocialLinks";
+import { AppContext } from "../pages/_app";
+import styles from "../styles/EmakiPageHeader.module.css";
 import LanguageSwitcher from "./LanguageSwitcher";
-import InstallPrompt from "../components/InstallPrompt";
+import SearchBoxButton from "./SearchBoxButton";
+import SidebarHome from "./SidebarHome";
+import SocialLinks from "./SocialLinks";
 
-const EmakiHeader = ({ slug, fixed, emakipage }) => {
+const EmakiHeader = () => {
   const { locale } = useRouter();
 
-  const {
-    isSidebarOpen,
-    openSidebar,
-    stickyClass,
-    setStickyClass,
-    openContactModal,
-  } = useContext(AppContext);
+  const { openSidebar, setStickyClass, openContactModal } =
+    useContext(AppContext);
 
   useEffect(() => {
     const stickNavbar = () => {
@@ -45,7 +38,6 @@ const EmakiHeader = ({ slug, fixed, emakipage }) => {
             {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
           </a>
         </Link>
-        {/* <InstallPrompt/> */}
         <LanguageSwitcher />
         <span className={styles.sociallinks}>
           <SocialLinks />

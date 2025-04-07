@@ -1,8 +1,6 @@
-import { useState, useEffect, useContext, useRef } from "react";
 import Image from "next/image";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../pages/_app";
-import styles from "../styles/LazyImage.css.module.css";
-import axios from "axios";
 
 const LazyImage = ({
   src,
@@ -12,8 +10,6 @@ const LazyImage = ({
   srcSp,
   config,
   isBlurVisible,
-  uniqueKey,
-  index,
   uniqueIndex,
 }) => {
   const { windowHeight, orientation, toggleFullscreen } =

@@ -1,14 +1,5 @@
+import { IconButton, Tooltip, useBreakpointValue } from "@chakra-ui/react";
 import React, { forwardRef } from "react";
-import {
-  VStack,
-  HStack,
-  IconButton,
-  Button,
-  useBreakpointValue,
-  Tooltip,
-  Text,
-} from "@chakra-ui/react";
-import { motion } from "framer-motion";
 import styles from "../styles/ActionButton.module.css";
 
 const ActionButton = forwardRef(
@@ -28,7 +19,6 @@ const ActionButton = forwardRef(
     const isMobile = useBreakpointValue({ base: true, md: false });
 
     const isCarouselButton = variant === "carousel"; // variantに基づいてスタイルを分岐
-    const isEmakipageicon = variant === "emakipageicon";
     const isFullscreenButton = variant === "fullscreen";
 
     return (
@@ -61,7 +51,7 @@ const ActionButton = forwardRef(
               bottom: !isMobile ? "4%" : "1%",
               right: !isMobile ? "1%" : "1%",
               zIndex: "10",
-              fontsize:"1em"
+              fontsize: "1em",
             }),
           }}
           // className={highlightNext ? "highlight-animation" : ""}

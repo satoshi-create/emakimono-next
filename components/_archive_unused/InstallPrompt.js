@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
-import { AppContext } from "../pages/_app";
+import { AppContext } from "../../pages/_app";
 
 const InstallPrompt = () => {
   const { toggleFullscreen, stickyClass } = useContext(AppContext);
@@ -89,15 +89,15 @@ const InstallPrompt = () => {
     }
   };
 
-    const trackPWAInstall = () => {
-      // Google Analytics 4 用
-      if (window.gtag) {
-        gtag("event", "pwa_install", {
-          event_category: "PWA",
-          event_label: "User installed the PWA",
-        });
-      }
-   };
+  const trackPWAInstall = () => {
+    // Google Analytics 4 用
+    if (window.gtag) {
+      gtag("event", "pwa_install", {
+        event_category: "PWA",
+        event_label: "User installed the PWA",
+      });
+    }
+  };
 
   return (
     <div>
