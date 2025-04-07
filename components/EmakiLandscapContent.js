@@ -281,7 +281,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                       "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
                     }}
                   >
-                    登場人物
+                    {locale == "en" ? "Person Name" : "登場人物"}
                   </h4>
                   <div className={styles.tags}>
                     {personname?.map((item, index) => {

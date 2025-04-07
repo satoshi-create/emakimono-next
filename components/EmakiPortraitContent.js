@@ -191,7 +191,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                     "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
                   }}
                 >
-                  各段の解説
+                  {locale == "en" ? "Sectional Explanation" : "各段の解説"}
                 </h4>
                 {<ChapterDesc emakis={emakis} data={data} />}
               </>
@@ -224,7 +224,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                     "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
                   }}
                 >
-                  他の巻を見る
+                  {locale == "en" ? "View Other Scrolls" : "他の巻を見る"}
                 </h4>
                 <EditionLinks
                   title={title}
@@ -257,7 +257,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                     "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
                   }}
                 >
-                  登場人物
+                  {locale == "en" ? "Person Name" : "登場人物"}
                 </h4>
                 <div
                   className={`${styles.tags} ${
