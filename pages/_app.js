@@ -1,19 +1,17 @@
-import React, { createContext, useState, useEffect, useCallback } from "react";
-import "../styles/globals.css";
-import "@fortawesome/fontawesome-svg-core/styles.css";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { config } from "@fortawesome/fontawesome-svg-core";
-import Script from "next/script";
-import { useLocaleData } from "../libs/func";
-import * as gtag from "../libs/gtag";
+import "@fortawesome/fontawesome-svg-core/styles.css";
 import { useRouter } from "next/router";
+import Script from "next/script";
+import React, { createContext, useCallback, useEffect, useState } from "react";
 import { flushSync } from "react-dom";
+import BottomNavigation from "../components/BottomNavigation";
 import ContactFormGoogle from "../components/ContactFormGoogle";
 import ModalSearch from "../components/ModalSearch";
-import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import ExtractingListData from "../libs/ExtractingListData";
-import BottomNavigation from "../components/BottomNavigation";
-import InstallPrompt from "../components/InstallPrompt";
-
+import { useLocaleData } from "../libs/func";
+import * as gtag from "../libs/gtag";
+import "../styles/globals.css";
 
 config.autoAddCss = false;
 
@@ -458,8 +456,6 @@ function MyApp({ Component, pageProps, router }) {
     return () => window.removeEventListener("resize", updateHeight);
   }, []);
 
-
-
   return (
     <AppContext.Provider
       value={{
@@ -562,7 +558,6 @@ function MyApp({ Component, pageProps, router }) {
         <Component {...pageProps} key={router.asPath} />
         {isContactModalOpen && <ContactFormGoogle />}
         {isSearchModalOpen && <ModalSearch />}
-        {/* <InstallPrompt/> */}
         <BottomNavigation />
       </ChakraProvider>
     </AppContext.Provider>

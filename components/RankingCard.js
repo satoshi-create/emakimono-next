@@ -1,21 +1,19 @@
-import React, { useContext } from "react";
+import { ArrowForwardIcon, ViewIcon } from "@chakra-ui/icons";
 import {
-  Box,
-  VStack,
-  HStack,
-  Text,
-  Image,
   Badge,
-  Flex,
-  Link as ChakraLink,
+  Box,
   Button,
-  Grid,
-  GridItem,
+  Link as ChakraLink,
+  Flex,
+  HStack,
+  Image,
   Stack,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
-import { ViewIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import React, { useContext } from "react";
 import { AppContext } from "../pages/_app";
 
 export default function RankingCard({ isCompact = false }) {

@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
-import Title from "./Title";
+import Title from "../Title";
 import styles from "../styles/GridImageList.module.css";
-import Button from "./Button";
+import Button from "../Button";
 import { useRouter } from "next/router";
 import GridImageCard from "./GridImageCard";
 

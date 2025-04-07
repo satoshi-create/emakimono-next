@@ -1,16 +1,11 @@
-import React,{useMemo} from "react";
-import Title from "./Title";
-import emakisData from "../libs/data";
-import Link from "next/link";
-import styles from "../styles/KeywordList.module.css";
-import { keywordItem, personnameItem } from "../libs/func";
 import { useRouter } from "next/router";
-import Button from "./Button";
+import React from "react";
 import CustomTagCloud from "../components/CustomTagCloud";
+import styles from "../styles/KeywordList.module.css";
+import Button from "./Button";
+import Title from "./Title";
 
 const Keywords = ({ sectiontitle, sectiontitleen, path, allTags }) => {
-
-
   const { locale } = useRouter();
   return (
     <section className={`section-grid section-padding `}>

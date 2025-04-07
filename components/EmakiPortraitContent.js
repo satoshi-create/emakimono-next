@@ -1,37 +1,33 @@
-import React, { useContext, useEffect, useState } from "react";
+import { Box, VStack } from "@chakra-ui/react";
+import parse from "html-react-parser";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import styles from "../styles/EmakiPortraitContent.module.css";
-import { AppContext } from "../pages/_app";
+import React, { useContext } from "react";
+import EmakiConteiner from "../components/EmakiConteiner";
+import ExtractingListData from "../libs/ExtractingListData";
 import {
   eraColor,
   filterdKeywords,
   keywordItem,
   useLocaleData,
 } from "../libs/func";
-import EmakiConteiner from "../components/EmakiConteiner";
-import Image from "next/image";
-import Footer from "./Footer";
+import noteData from "../libs/note/data.json";
+import { AppContext } from "../pages/_app";
+import styles from "../styles/EmakiPortraitContent.module.css";
 import ChapterDesc from "./ChapterDesc";
+import ChapterTimeline from "./ChapterTimeline";
+import ContactFormGoogle from "./ContactFormGoogle";
+import CustomTagCloud from "./CustomTagCloud";
+import EditionLinks from "./EditionLinks";
+import Footer from "./Footer";
+import LinkToNote from "./LinkToNote";
+import RecommendEmaki from "./RecommendEmaki";
 import SnsShareBox from "./SnsShareBox";
 import ToContactForm from "./ToContactForm";
-import ContactFormGoogle from "./ContactFormGoogle";
-import EditionLinks from "./EditionLinks";
-import LinkToNote from "./LinkToNote";
-import BannerToHelp from "./BannerToHelp";
-import LikeButton from "./LikeButton";
-import RecommendEmaki from "./RecommendEmaki";
-import ChapterList from "./ChapterList";
-import CustomTagCloud from "./CustomTagCloud";
-import ExtractingListData from "../libs/ExtractingListData";
-import noteData from "../libs/note/data.json";
-import ChapterTimeline from "./ChapterTimeline";
-import { Box, VStack } from "@chakra-ui/react";
-import parse from "html-react-parser";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
-  const { handleToId, handleFullScreen, setnavIndex, isContactModalOpen } =
-    useContext(AppContext);
+  const { handleFullScreen, isContactModalOpen } = useContext(AppContext);
 
   const { locale } = useRouter();
   const { t: alldata } = useLocaleData();
@@ -52,10 +48,8 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     sourceImageUrl,
     reference,
     keyword,
-    genjieslug,
     personname,
     kotobagaki,
-    note,
     titleen,
   } = data;
 
@@ -137,7 +131,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             <div className={styles.desc}>
               {locale === "en" ? parse(descEn) : parse(descJa)}
             </div>
-            {/* <BannerToHelp /> */}
             {/* {genjieslug && (
               <div className={`${styles.genjieslugBox}`}>
                 <Link href={`/genjie/chapters-genji`}>

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { TagCloud } from "react-tagcloud";
 // import { useRouter } from 'next/router';
-import Link from "next/link";
-import { Box, Link as ChakraLink, Button, Text } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
+import { Box, Button, Link as ChakraLink } from "@chakra-ui/react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 const CustomTagCloud = ({ tags, emakiPage }) => {

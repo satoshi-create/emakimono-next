@@ -1,22 +1,21 @@
-import { useState, useContext } from "react";
-import {
-  ChakraProvider,
-  Box,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-  Text,
-  Flex,
-} from "@chakra-ui/react";
 import { LinkIcon, StarIcon } from "@chakra-ui/icons";
-import CardC from "./CardC";
-import { AppContext } from "../pages/_app";
-import Link from "next/link";
-import RankingCard from "./RankingCard";
-import Loader from "./Loader";
+import {
+  Box,
+  ChakraProvider,
+  Flex,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { useContext, useState } from "react";
+import { AppContext } from "../pages/_app";
+import CardC from "./CardC";
+import Loader from "./Loader";
+import RankingCard from "./RankingCard";
 
 const RecommendEmaki = ({ data }) => {
   const [tabIndex, setTabIndex] = useState(0);

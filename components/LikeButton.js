@@ -1,13 +1,11 @@
-import React, { useState,useEffect } from 'react'
-import postMessage from "../libs/discord"
-import {Heart} from "react-feather"
+import React, { useState } from "react";
+import { Heart } from "react-feather";
+import postMessage from "../libs/discord";
 import styles from "../styles/LikeButton.module.css";
 
-
-const LikeButton = ({title,edition,author, ort}) => {
+const LikeButton = ({ title, edition, author, ort }) => {
   const [isDisplay, setIsDisplay] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false); // アニメーション状態を管理
-
 
   const message =
     `${title == undefined ? "" : title}` +
@@ -37,13 +35,15 @@ const LikeButton = ({title,edition,author, ort}) => {
         className={`${ort === "land" ? styles.land : styles.prt}`}
       >
         <Heart
-          className={`${styles.icon} ${isDisplay && styles.activeicon} ${hasAnimated && styles.heartclr}`}
+          className={`${styles.icon} ${isDisplay && styles.activeicon} ${
+            hasAnimated && styles.heartclr
+          }`}
           // アニメーション終了時の処理を追加 ]
           onAnimationEnd={handleAnimationEnd}
         />
       </button>
     </>
   );
-}
+};
 
-export default LikeButton
+export default LikeButton;

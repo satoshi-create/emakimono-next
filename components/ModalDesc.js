@@ -1,15 +1,15 @@
-import React, { useContext, useState } from "react";
-import { AppContext } from "../pages/_app";
-import styles from "../styles/ModalDesc.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faClose,
   faAnglesLeft,
   faAnglesRight,
+  faClose,
 } from "@fortawesome/free-solid-svg-icons";
-import { ChaptersTitle, ChaptersGendaibun, ChaptersDesc } from "../libs/func";
-import SnsShareBox from "./SnsShareBox";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
+import React, { useContext, useState } from "react";
+import { ChaptersDesc, ChaptersTitle } from "../libs/func";
+import { AppContext } from "../pages/_app";
+import styles from "../styles/ModalDesc.module.css";
+import SnsShareBox from "./SnsShareBox";
 
 const ModalDesc = ({ data }) => {
   const { locale } = useRouter();

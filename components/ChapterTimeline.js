@@ -1,10 +1,17 @@
-import React, { useContext, useState } from "react";
-import { eraColor, ChaptersTitle } from "../libs/func";
-import { AppContext } from "../pages/_app";
-import { Box, VStack, HStack, Circle, Text, Button } from "@chakra-ui/react";
-import { FaRegCircle, FaMapMarkerAlt, FaBook, FaPlay } from "react-icons/fa";
-import { useBreakpointValue } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Circle,
+  HStack,
+  Text,
+  useBreakpointValue,
+  VStack,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import React, { useContext } from "react";
+import { FaBook, FaMapMarkerAlt, FaRegCircle } from "react-icons/fa";
+import { ChaptersTitle, eraColor } from "../libs/func";
+import { AppContext } from "../pages/_app";
 
 const ChapterTimeline = ({
   index,

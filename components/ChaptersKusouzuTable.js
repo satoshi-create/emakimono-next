@@ -1,18 +1,16 @@
-import React,{useRef,useEffect} from "react";
-import Title from "./Title";
+import { faCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
+import React from "react";
 import AllKusouzuChapters from "../libs/kusouzu/chapters-of-kusouzu.json";
 import styles from "../styles/ChaptersTable.module.css";
-import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
+import Title from "./Title";
 
 const ChaptersKusouzuTable = ({
   sectiontitle,
   sectiontitleen,
-  ExistKusouzuChapters,
   KusouzuArrObj,
 }) => {
-
   // const ExistKusouzuChaptersTitletoString = (contentTitle) =>
   //   KusouzuArrObj.filter((item) => item.title === contentTitle)
   //     .flatMap((item) => item.kusouzuslug)
@@ -22,24 +20,20 @@ const ChaptersKusouzuTable = ({
   const ExistKusouzuChaptersTitletoString = (contentTitle) =>
     KusouzuArrObj.filter((item) => item.title === contentTitle)
       .flatMap((item) => item.emakis)
-      .map((item) => item.chapter).join(" ")
-
+      .map((item) => item.chapter)
+      .join(" ");
 
   console.log(ExistKusouzuChaptersTitletoString("九相詩絵巻"));
-
 
   // const ExistKusouzuChaptersTitletoString = ExistKusouzuChapters.map(
   //   (item) => item.id
   // ).toString();
-
 
   const chapterKusouzuMatching = (contentTitle, contentid) =>
     ExistKusouzuChaptersTitletoString(contentTitle).includes(contentid);
 
   // const chapterKusouzuMatching = (id) =>
   //   ExistKusouzuChaptersTitletoString.includes(id);
-
-
 
   return (
     <section className={`section-grid section-padding `}>
@@ -66,8 +60,15 @@ const ChaptersKusouzuTable = ({
         </thead>
         <tbody>
           {AllKusouzuChapters.map((item, i) => {
-            const { stage_en, stage_ch, title, ruby, titleen, desc, gendaibun } =
-              item;
+            const {
+              stage_en,
+              stage_ch,
+              title,
+              ruby,
+              titleen,
+              desc,
+              gendaibun,
+            } = item;
             return (
               <tr key={i}>
                 <td className={styles.chapter}>第{stage_ch}相</td>

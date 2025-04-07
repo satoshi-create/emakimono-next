@@ -1,32 +1,16 @@
-import React from "react";
-import { useRouter } from "next/router";
-import { FullScreen, useFullScreenHandle } from "react-full-screen";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faDownLeftAndUpRightToCenter,
-  faUpRightAndDownLeftFromCenter,
-} from "@fortawesome/free-solid-svg-icons";
-import styles from "../styles/FullScreenComp.module.css";
 import Link from "next/link";
-
-// TODO:CREATE - 「流れる絵巻」をフルスクリーンにすると横向きになる機能を実装する or ライブラリを使わない方式に切り替える
-
-// https://stackoverflow.com/questions/34034038/how-to-render-react-components-by-using-map-and-join
-// const Demo = ({ data }) => (
-//   <div>
-//     {data.flatMap((t, i) => [...(i ? [", "] : []), <span key={i}>{t}</span>])}
-//   </div>
-// );
+import { useRouter } from "next/router";
+import React from "react";
+import { useFullScreenHandle } from "react-full-screen";
+import styles from "../styles/FullScreenComp.module.css";
 
 export default function FullScreenComp({
   children,
   index,
   genjieslug,
   edition,
-  editionen,
   title,
   titleen,
-  desc,
 }) {
   const handle = useFullScreenHandle();
   const { locale } = useRouter();

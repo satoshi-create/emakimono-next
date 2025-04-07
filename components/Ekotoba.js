@@ -1,15 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
-import styles from "../styles/Ekotoba.module.css";
+import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlus,
-  faMinus,
-  faLocationDot,
-} from "@fortawesome/free-solid-svg-icons";
-import ResposiveImage from "./ResposiveImage";
-import { AppContext } from "../pages/_app";
 import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
+import React, { useContext, useEffect, useState } from "react";
+import { AppContext } from "../pages/_app";
+import styles from "../styles/Ekotoba.module.css";
+import ResposiveImage from "./ResposiveImage";
 
 const Ekotoba = ({
   item: {
@@ -23,13 +19,10 @@ const Ekotoba = ({
     load,
     name,
     backgroundImage,
-    kotobagaki,
     type,
-    ekotobaId,
     kobunsrc,
     kobunsrcSp,
     scroll,
-    selectedRef,
     navIndex,
     srcWidth,
     srcHeight,

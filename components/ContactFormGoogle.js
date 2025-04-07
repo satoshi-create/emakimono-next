@@ -1,8 +1,8 @@
+import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRouter } from "next/router";
 import React, { useContext, useState } from "react";
 import { AppContext } from "../pages/_app";
-import { useRouter } from "next/router";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose } from "@fortawesome/free-solid-svg-icons";
 import styles from "../styles/ContactFormGoogle.module.css";
 
 const ContactFormGoogle = () => {

@@ -1,4 +1,3 @@
-import React, { useEffect, useContext, useState } from "react";
 import {
   Box,
   Flex,
@@ -6,14 +5,9 @@ import {
   useColorModeValue,
   useMediaQuery,
 } from "@chakra-ui/react";
-import {
-  FaHome,
-  FaScroll,
-  FaCrown,
-  FaSearch,
-  FaEllipsisH,
-} from "react-icons/fa";
 import { useRouter } from "next/router";
+import React, { useContext, useState } from "react";
+import { FaCrown, FaHome, FaScroll, FaSearch } from "react-icons/fa";
 import { AppContext } from "../pages/_app";
 
 const BottomNavigation = () => {

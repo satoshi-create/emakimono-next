@@ -1,31 +1,33 @@
-
-import React, { useContext, useState } from "react";
-import { AppContext } from "../pages/_app";
-import styles from "../styles/Modal.module.css";
+import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faClose,
-} from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import React, { useContext, useState } from "react";
 import { eraColor } from "../libs/func";
+import { AppContext } from "../pages/_app";
+import styles from "../styles/Modal.module.css";
 import ChapterList from "./ChapterList";
-
-
 
 const Modal = ({ data }) => {
   const { locale } = useRouter();
-  const { closeModal, navIndex, handleToId,isMapIndex } = useContext(AppContext);
+  const { closeModal } = useContext(AppContext);
 
-  const { reference, sourceImageUrl, sourceImage, era, typeen, title,titleen } = data;
+  const {
+    reference,
+    sourceImageUrl,
+    sourceImage,
+    era,
+    typeen,
+    title,
+    titleen,
+  } = data;
   const emakis = data.emakis;
-  const ekotobaSection = emakis[isMapIndex];
 
   const [value, setValue] = useState(0);
 
   const allMap = [
     {
-      title:   typeen === "emaki" ? "段" : "タイトル",
+      title: typeen === "emaki" ? "段" : "タイトル",
     },
     {
       title: "書誌情報",

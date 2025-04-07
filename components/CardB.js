@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import Link from "next/link";
-import styles from "../styles/CardB.module.css";
-import Title from "./Title";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import Button from "./Button";
-import { eraColor } from "../libs/func";
 import parse from "html-react-parser";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React from "react";
+import { eraColor } from "../libs/func";
+import styles from "../styles/CardB.module.css";
+import Button from "./Button";
+import Title from "./Title";
 
 const CardB = ({
   columns,

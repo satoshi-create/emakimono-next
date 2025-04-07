@@ -1,20 +1,20 @@
+import { faClose, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRouter } from "next/router";
 import React, {
   useContext,
-  useState,
   useEffect,
   useReducer,
   useRef,
+  useState,
 } from "react";
-import { AppContext } from "../pages/_app";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import styles from "../styles/Search.css.module.css";
-import CardForSearchResults from "./CardForSearchResults";
-import ExtractingListData from "../libs/ExtractingListData";
-import { useRouter } from "next/router";
-import { eraColor, eraItem, typeItem, authorItem } from "../libs/func";
 import styled from "styled-components";
 import { toRomaji } from "wanakana";
+import ExtractingListData from "../libs/ExtractingListData";
+import { authorItem, eraColor, typeItem } from "../libs/func";
+import { AppContext } from "../pages/_app";
+import styles from "../styles/Search.css.module.css";
+import CardForSearchResults from "./CardForSearchResults";
 
 const Button = styled.button`
   &:focus {

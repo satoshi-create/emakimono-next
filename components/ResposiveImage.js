@@ -1,11 +1,7 @@
-import React from "react";
-import styles from "../styles/ResposiveImage.module.css";
 import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
-
-// TODO:FIXED:モバイルデバイスでリンク元から目的の画像に飛ばない
-// ⇒幅（srcWidth）、高さ（srcHeight）がsrcTbの画像で設定されていない事が原因。
-// next / imageで画像サイズを自動で付与する方法を試してみる
+import React from "react";
+import styles from "../styles/ResposiveImage.module.css";
 
 const ResposiveImage = ({
   value: { srcSp, srcTb, src, name, srcWidth, srcHeight, scroll, load, index },

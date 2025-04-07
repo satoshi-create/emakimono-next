@@ -1,10 +1,10 @@
-import React from "react";
-import Title from "./Title";
-import AllGenjiChapters from "../libs/genji/chapters-of-genji.json";
-import styles from "../styles/ChaptersTable.module.css";
-import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
+import React from "react";
+import AllGenjiChapters from "../../libs/genji/chapters-of-genji.json";
+import styles from "../styles/ChaptersTable.module.css";
+import Title from "../Title";
 
 const ChaptersGenjiTable = ({
   sectiontitle,
@@ -26,7 +26,7 @@ const ChaptersGenjiTable = ({
   const ExistGenjiChaptersTitletoString = ExistGenjiChapters.map(
     (item) => item.title
   ).toString();
-  
+
   const chapterGenjiMatching = (title) =>
     ExistGenjiChaptersTitletoString.includes(title);
 

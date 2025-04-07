@@ -1,17 +1,15 @@
-import React, { useContext, useState } from "react";
-import { AppContext } from "../pages/_app";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useContext } from "react";
 import { X } from "react-feather";
 import links from "../libs/links";
+import { AppContext } from "../pages/_app";
 import styles from "../styles/SidebarHome.module.css";
-import { socialLinks } from "../libs/socialLinks";
-import { useRouter } from "next/router";
 import SocialLinks from "./SocialLinks";
 
 const SidebarHome = () => {
   const { isSidebarOpen, closeSidebar } = useContext(AppContext);
   const { locale } = useRouter();
-  const [toggle, setToggle] = useState(false);
 
   return (
     <div

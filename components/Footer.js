@@ -1,9 +1,8 @@
+import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import styles from "../styles/Footer.module.css";
-import { useRouter } from "next/router";
-import NavLinks from "./NavLinks";
 import SocialLinks from "./SocialLinks";
-import Link from "next/link";
 
 const Footer = () => {
   const date = new Date();

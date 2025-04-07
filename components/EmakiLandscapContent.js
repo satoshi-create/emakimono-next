@@ -1,35 +1,33 @@
-﻿import React, { useContext, useState } from "react";
-import EmakiConteiner from "./EmakiConteiner";
-import styles from "../styles/EmakiLandscapContent.module.css";
-import { AppContext } from "../pages/_app";
+﻿import { Box, VStack } from "@chakra-ui/react";
+import parse from "html-react-parser";
+import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useContext } from "react";
+import ExtractingListData from "../libs/ExtractingListData";
 import {
   eraColor,
-  useLocaleData,
-  keywordItem,
   filterdKeywords,
+  keywordItem,
+  useLocaleData,
 } from "../libs/func";
-import { useRouter } from "next/router";
-import Image from "next/image";
-import CardC from "./CardC";
-import Footer from "./Footer";
-import SnsShareBox from "./SnsShareBox";
-import ChapterDesc from "./ChapterDesc";
-import ToContactForm from "./ToContactForm";
-import EditionLinks from "./EditionLinks";
-import LinkToNote from "./LinkToNote";
-import LikeButton from "./LikeButton";
-import RecommendEmaki from "./RecommendEmaki";
-import CustomTagCloud from "./CustomTagCloud";
-import ExtractingListData from "../libs/ExtractingListData";
-import parse from "html-react-parser";
 import noteData from "../libs/note/data.json";
+import { AppContext } from "../pages/_app";
+import styles from "../styles/EmakiLandscapContent.module.css";
+import ChapterDesc from "./ChapterDesc";
 import ChapterTimeline from "./ChapterTimeline";
-import { Box, VStack } from "@chakra-ui/react";
+import CustomTagCloud from "./CustomTagCloud";
+import EditionLinks from "./EditionLinks";
+import EmakiConteiner from "./EmakiConteiner";
+import Footer from "./Footer";
+import LikeButton from "./LikeButton";
+import LinkToNote from "./LinkToNote";
+import RecommendEmaki from "./RecommendEmaki";
+import SnsShareBox from "./SnsShareBox";
+import ToContactForm from "./ToContactForm";
 
 const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
-  const { handleToId, handleFullScreen, result, loading } =
-    useContext(AppContext);
+  const { handleFullScreen } = useContext(AppContext);
   const { emakis } = data;
   const { locale } = useRouter();
   const { t: alldata } = useLocaleData();
@@ -256,8 +254,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   />
                 </>
               )}
-              {/* <BannerToHelp /> */}
-
               {/* noteへのリンク */}
               {reletedEmakisToNote.length > 0 && (
                 <>

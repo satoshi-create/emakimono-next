@@ -1,11 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
-import Link from "next/link";
+import React from "react";
 import styles from "../styles/Card.module.css";
 import Card from "./Card";
 // import CardConteiner from "./CardConteiner";
-import Title from "./Title";
-import Button from "./Button";
-import GridImages from "./GridImages";
+import Title from "../Title";
 
 const SortType = ({ emakis }) => {
   const favoriteEmakis = emakis.filter((emaki) => emaki.favorite === true);

@@ -1,28 +1,14 @@
-import React, { useContext } from "react";
-import Link from "next/link";
-import styles from "../styles/EmakiInfo.module.css";
-import { eraColor } from "../libs/func";
-import { AppContext } from "../pages/_app";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import React, { useContext } from "react";
+import { AppContext } from "../pages/_app";
+import styles from "../styles/EmakiInfo.module.css";
 
-// TODO:絵詞を参照から出典に変更
-// TODO:現在位置（段、紙、長さ）を表示する機能を追加する
 const EmakiInfo = ({ value }) => {
-  const { openModal, isModalOpen } = useContext(AppContext);
-  const {
-    emakis,
-    kotobagaki,
-    type,
-    title,
-    titleen,
-    typeen,
-    era,
-    eraen,
-    keyword,
-    edition,
-  } = value;
+  const { openModal } = useContext(AppContext);
+  const { type, title, typeen, era, eraen, keyword, edition } = value;
   const { locale } = useRouter();
   return (
     <div className={styles.container}>

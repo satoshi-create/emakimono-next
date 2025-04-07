@@ -1,4 +1,3 @@
-import React, { useEffect, useContext } from "react";
 import {
   Box,
   Grid,
@@ -8,10 +7,11 @@ import {
   useColorModeValue,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { FaHeart, FaBars } from "react-icons/fa";
+import { useRouter } from "next/router";
+import React, { useContext, useEffect } from "react";
+import { FaBars } from "react-icons/fa";
 import { AppContext } from "../pages/_app";
 import LikeButton from "./LikeButton";
-import { useRouter } from "next/router";
 
 const MiddleNavigation = ({ title, titleen, edition, author }) => {
   const { locale } = useRouter();

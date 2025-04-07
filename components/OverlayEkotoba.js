@@ -1,44 +1,34 @@
-import React, { useState, useEffect, useContext } from "react";
-import styles from "../styles/OverlayEkotoba.module.css";
-import ResposiveImage from "./ResposiveImage";
-import { AppContext } from "../pages/_app";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faLocationDot,
-  faCircleInfo,
   faCircleQuestion,
+  faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
-import { ChaptersTitle, ChaptersGendaibun } from "../libs/func";
-import parse from "html-react-parser";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
+import { useRouter } from "next/router";
+import React, { useContext, useEffect, useState } from "react";
+import { ChaptersGendaibun, ChaptersTitle } from "../libs/func";
+import { AppContext } from "../pages/_app";
+import styles from "../styles/OverlayEkotoba.module.css";
 import ActionButton from "./ActionButton";
 import LazyImage from "./LazyImage";
-import { useRouter } from "next/router";
 
 const OverlayEkotoba = ({
   item: {
-    kobun,
-    desc,
     gendaibun,
     srcSp,
-    srcTb,
     src,
     config,
-    load,
     name,
     scroll,
     srcWidth,
     srcHeight,
     chapter,
-    chapter_num,
     index,
     navIndex,
     type,
     ekotobaId,
     kotobagaki,
-    cat,
     data,
     googlemap,
     uniqueIndex,
@@ -52,7 +42,6 @@ const OverlayEkotoba = ({
     setEkotobaImageToggle,
     scrollDialog,
     orientation,
-    ekotobaToggle,
     openMapModal,
     openDescModal,
     handleToId,
