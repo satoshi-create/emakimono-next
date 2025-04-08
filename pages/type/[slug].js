@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
+import Breadcrumbs from "../../components/Breadcrumbs";
+import CardA from "../../components/CardA";
+import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import Head from "../../components/Meta";
-import CardA from "../../components/CardA";
-import Breadcrumbs from "../../components/Breadcrumbs";
-import { useRouter } from "next/router";
 import { removeNestedEmakisObj, typeItem } from "../../libs/func";
-import Footer from "../../components/Footer";
-import enData from "../../libs/image-metadata-cache/image-metadata-cache.json";
-import jaData from "../../libs/image-metadata-cache/image-metadata-cache.json";
+import {
+  default as enData,
+  default as jaData,
+} from "../../libs/image-metadata-cache/image-metadata-cache.json";
 
 const Type = ({ name, nameen, posts, slug }) => {
   const { locale } = useRouter();

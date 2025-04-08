@@ -1,14 +1,13 @@
-import React from "react";
+import parse from "html-react-parser";
+import "lazysizes";
+import { useRouter } from "next/router";
+import Breadcrumbs from "../components/Breadcrumbs";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import "lazysizes";
 import Head from "../components/Meta";
-import styles from "../styles/About.css.module.css";
 import Title from "../components/Title";
-import Breadcrumbs from "../components/Breadcrumbs";
-import { useRouter } from "next/router";
 import { useLocale } from "../libs/func";
-import parse from "html-react-parser";
+import styles from "../styles/About.css.module.css";
 
 const About = () => {
   const { locale } = useRouter();

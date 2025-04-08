@@ -1,11 +1,10 @@
-import React, { useContext } from "react";
+import "lazysizes";
+import CardA from "../components/CardA";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import CardA from "../components/CardA";
-import "lazysizes";
 import Head from "../components/Meta";
-import { useLocale } from "../libs/func";
 import ExtractingListData from "../libs/ExtractingListData";
+import { useLocale } from "../libs/func";
 
 const Home = () => {
   const { t } = useLocale();

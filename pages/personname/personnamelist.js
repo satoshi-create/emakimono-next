@@ -1,13 +1,11 @@
-import React from "react";
+import "lazysizes";
+import Breadcrumbs from "../../components/Breadcrumbs";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
-import "lazysizes";
 import Head from "../../components/Meta";
 import PersonNames from "../../components/PersonNames";
-import Breadcrumbs from "../../components/Breadcrumbs";
-import emakisData from "../../libs/data";
-import { personnameItem, useLocaleData } from "../../libs/func";
 import ExtractingListData from "../../libs/ExtractingListData";
+import { personnameItem, useLocaleData } from "../../libs/func";
 
 const PersonnamesComp = () => {
   const { locale } = useLocaleData();

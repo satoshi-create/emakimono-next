@@ -1,18 +1,15 @@
+import { useRouter } from "next/router";
+import Breadcrumbs from "../../components/Breadcrumbs";
+import CardA from "../../components/CardA";
+import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import Head from "../../components/Meta";
-import CardA from "../../components/CardA";
-import emakisData from "../../libs/image-metadata-cache/image-metadata-cache.json";
-import Breadcrumbs from "../../components/Breadcrumbs";
+import { keywordItem, removeNestedEmakisObj } from "../../libs/func";
 import {
-  keywordItem,
-  genjieSlugItem,
-  useLocaleData,
-  removeNestedEmakisObj,
-} from "../../libs/func";
-import { useRouter } from "next/router";
-import Footer from "../../components/Footer";
-import enData from "../../libs/image-metadata-cache/image-metadata-cache.json";
-import jaData from "../../libs/image-metadata-cache/image-metadata-cache.json";
+  default as emakisData,
+  default as enData,
+  default as jaData,
+} from "../../libs/image-metadata-cache/image-metadata-cache.json";
 
 const Emaki = ({ name, posts, nameen, slug }) => {
   const { locale } = useRouter();

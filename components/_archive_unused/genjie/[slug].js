@@ -1,14 +1,15 @@
-import emakisData from "../../../libs/data";
-import Header from "../../Header";
-import Head from "../../Meta";
-import CardA from "../../CardA";
-import Breadcrumbs from "../../Breadcrumbs";
 import { useRouter } from "next/router";
+import { removeNestedEmakisObj } from "../../../libs/func";
+import {
+  default as enData,
+  default as jaData,
+} from "../../../libs/image-metadata-cache/image-metadata-cache.json";
+import Breadcrumbs from "../../Breadcrumbs";
+import CardA from "../../CardA";
 import Footer from "../../Footer";
-import enData from "../../../libs/image-metadata-cache/image-metadata-cache.json";
-import jaData from "../../../libs/image-metadata-cache/image-metadata-cache.json";
-import { removeNestedEmakisObj, genjieSlugItem } from "../../../libs/func";
+import Header from "../../Header";
 import AllGenjiChapters from "../../libs/genji/chapters-of-genji.json";
+import Head from "../../Meta";
 
 const Genjie = ({ title, titleen, posts, slug }) => {
   const { locale } = useRouter();

@@ -1,12 +1,11 @@
 import "lazysizes";
 import { useRouter } from "next/router";
-import React from "react";
 import FlowEmaki from "../../components/FlowEmaki";
+import { useLocale, useLocaleData } from "../../libs/func";
 import Breadcrumbs from "../Breadcrumbs";
 import Footer from "../Footer";
 import Header from "../Header";
 import Head from "../Meta";
-import { useLocale, useLocaleData } from "../../libs/func";
 
 // TODO:loading機能を追加する
 
