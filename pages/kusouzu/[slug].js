@@ -1,13 +1,14 @@
-import emakisData from "../../libs/data";
+import { useRouter } from "next/router";
+import Breadcrumbs from "../../components/Breadcrumbs";
+import CardA from "../../components/CardA";
+import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import Head from "../../components/Meta";
-import CardA from "../../components/CardA";
-import Breadcrumbs from "../../components/Breadcrumbs";
-import { useRouter } from "next/router";
-import Footer from "../../components/Footer";
-import enData from "../../libs/image-metadata-cache/image-metadata-cache.json";
-import jaData from "../../libs/image-metadata-cache/image-metadata-cache.json";
-import { removeNestedEmakisObj, kusouzuSlugItem } from "../../libs/func";
+import { removeNestedEmakisObj } from "../../libs/func";
+import {
+  default as enData,
+  default as jaData,
+} from "../../libs/image-metadata-cache/image-metadata-cache.json";
 import AllKusouzuChapters from "../../libs/kusouzu/chapters-of-kusouzu.json";
 
 const Kusouzu = ({ title, titleen, posts, slug }) => {
@@ -74,8 +75,8 @@ export const getStaticProps = async (context) => {
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
 
-    const chapterkusouzu = AllKusouzuChapters.find(
-      (item) => item.titleen === kusouzuslugname
+  const chapterkusouzu = AllKusouzuChapters.find(
+    (item) => item.titleen === kusouzuslugname
   );
 
   // const filterdEmakisData = tEmakisData.filter((x) => {
@@ -87,12 +88,11 @@ export const getStaticProps = async (context) => {
   //   }
   // });
   const filterdEmakisData = tEmakisData.filter((item) => {
-      const filterdKusouzuslug = item.emakis.some(
-        (emaki) => emaki.chapter === chapterkusouzu.stage_en
-      );
-      return filterdKusouzuslug;
+    const filterdKusouzuslug = item.emakis.some(
+      (emaki) => emaki.chapter === chapterkusouzu.stage_en
+    );
+    return filterdKusouzuslug;
   });
-
 
   const removeNestedArrayObj = filterdEmakisData.map((item) => {
     return removeNestedEmakisObj(item);

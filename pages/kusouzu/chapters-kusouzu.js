@@ -1,4 +1,3 @@
-import React from "react";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import ChaptersKusouzuTable from "../../components/ChaptersKusouzuTable";
 import Footer from "../../components/Footer";

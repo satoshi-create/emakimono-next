@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import { FormControl, Input, Textarea } from "@chakra-ui/react";
+import "lazysizes";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import Breadcrumbs from "../components/Breadcrumbs";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import "lazysizes";
 import Head from "../components/Meta";
-import styles from "../styles/contact.module.css";
-import { FormControl, Textarea, Input } from "@chakra-ui/react";
 import Title from "../components/Title";
-import { useRouter } from "next/router";
-import Breadcrumbs from "../components/Breadcrumbs";
+import styles from "../styles/contact.module.css";
 
 const Contact = () => {
   const [name, setName] = useState("");
@@ -36,19 +36,21 @@ const Contact = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    }).then((res) => {
-      if (res.status === 200) {
-        console.log("送信が成功しました");
-        setisLoading(false);
-        setSubmitted(true);
-        setName("");
-        setTitle("");
-        setEmail("");
-        setMessage("");
-      }
-    }).catch(error => {
-      console.error("通信に失敗しました",error)
-    });
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          console.log("送信が成功しました");
+          setisLoading(false);
+          setSubmitted(true);
+          setName("");
+          setTitle("");
+          setEmail("");
+          setMessage("");
+        }
+      })
+      .catch((error) => {
+        console.error("通信に失敗しました", error);
+      });
   };
 
   return (
@@ -93,7 +95,9 @@ const Contact = () => {
           <button className={styles.btn} type="button" onClick={(e) => send(e)}>
             送信する
           </button>
-          {isLoading && <p className={styles.submitted}>...ただいま送信中です</p>}
+          {isLoading && (
+            <p className={styles.submitted}>...ただいま送信中です</p>
+          )}
           {submitted && <p className={styles.submitted}>送信が完了しました</p>}
         </form>
       </section>

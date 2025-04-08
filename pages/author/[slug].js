@@ -1,14 +1,14 @@
-import React from "react";
-import emakisData from "../../libs/data";
-import { authorItem, removeNestedEmakisObj } from "../../libs/func";
-import enData from "../../libs/image-metadata-cache/image-metadata-cache.json";
-import jaData from "../../libs/image-metadata-cache/image-metadata-cache.json";
-import Head from "../../components/Meta";
-import Header from "../../components/Header";
+import { useRouter } from "next/router";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import CardA from "../../components/CardA";
 import Footer from "../../components/Footer";
-import { useRouter } from "next/router";
+import Header from "../../components/Header";
+import Head from "../../components/Meta";
+import { authorItem, removeNestedEmakisObj } from "../../libs/func";
+import {
+  default as enData,
+  default as jaData,
+} from "../../libs/image-metadata-cache/image-metadata-cache.json";
 
 const Author = ({ name, nameen, posts, slug }) => {
   const { locale } = useRouter();

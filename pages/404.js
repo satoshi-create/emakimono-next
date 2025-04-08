@@ -1,16 +1,12 @@
-import React from "react";
+import "lazysizes";
+import { useRouter } from "next/router";
+import Breadcrumbs from "../components/Breadcrumbs";
+import Button from "../components/Button";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import "lazysizes";
 import Head from "../components/Meta";
-import styles from "../styles/About.css.module.css";
 import Title from "../components/Title";
-import Breadcrumbs from "../components/Breadcrumbs";
-import { useRouter } from "next/router";
 import { useLocale, useLocaleData } from "../libs/func";
-import Link from "next/link";
-import Button from "../components/Button";
-import FlowEmaki from "../components/FlowEmaki";
 
 const Custom404 = () => {
   const { locale } = useRouter();

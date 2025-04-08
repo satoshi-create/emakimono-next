@@ -1,16 +1,11 @@
-import React, { useRef, useEffect, useLayoutEffect, useState } from "react";
+import "lazysizes";
+import { useRouter } from "next/router";
+import { useLocale, useLocaleData } from "../../libs/func";
+import Breadcrumbs from "../Breadcrumbs";
+import FlowEmaki from "../FlowEmaki";
 import Footer from "../Footer";
 import Header from "../Header";
-import CardA from "../CardA";
-import CardB from "../CardB";
-import "lazysizes";
 import Head from "../Meta";
-import Attention from "../Attention";
-import { useLocale, useLocaleData, genjieSlugItem } from "../../libs/func";
-import ExtractingListData from "../../libs/ExtractingListData";
-import FlowEmaki from "../FlowEmaki";
-import Breadcrumbs from "../Breadcrumbs";
-import { useRouter } from "next/router";
 
 const BanBainagon = () => {
   const { locale } = useRouter();

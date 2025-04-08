@@ -1,12 +1,11 @@
-import React from "react";
+import "lazysizes";
+import Breadcrumbs from "../../components/Breadcrumbs";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
-import "lazysizes";
-import Head from "../../components/Meta";
 import Keywords from "../../components/Keywords";
-import Breadcrumbs from "../../components/Breadcrumbs";
-import { keywordItem, useLocaleData } from "../../libs/func";
+import Head from "../../components/Meta";
 import ExtractingListData from "../../libs/ExtractingListData";
+import { keywordItem, useLocaleData } from "../../libs/func";
 
 const KeywordsComp = () => {
   const { locale } = useLocaleData();
