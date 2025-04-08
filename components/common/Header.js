@@ -4,13 +4,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext } from "react";
 import { Mail } from "react-feather";
-import { AppContext } from "../pages/_app";
+import { AppContext } from "../../pages/_app";
+import LanguageSwitcher from "../LanguageSwitcher";
+import NavLinks from "../NavLinks";
+import SearchBoxButton from "../SearchBoxButton";
+import SidebarHome from "../SidebarHome";
+import SocialLinks from "../SocialLinks";
 import styles from "../styles/Header.module.css";
-import LanguageSwitcher from "./LanguageSwitcher";
-import NavLinks from "./NavLinks";
-import SearchBoxButton from "./SearchBoxButton";
-import SidebarHome from "./SidebarHome";
-import SocialLinks from "./SocialLinks";
 
 const Header = ({ slug, fixed }) => {
   const { locale } = useRouter();
