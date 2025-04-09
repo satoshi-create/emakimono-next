@@ -2,10 +2,9 @@ import parse from "html-react-parser";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
 import { eraColor } from "../libs/func";
 import styles from "../styles/CardB.module.css";
-import Button from "./Button";
+import Button from "./common/Button";
 import Title from "./Title";
 
 const CardB = ({

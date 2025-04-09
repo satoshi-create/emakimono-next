@@ -1,9 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
 import styles from "../styles/PersonNameList.module.css";
-import Button from "./Button";
+import Button from "./common/Button";
 import Title from "./Title";
 
 const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
