@@ -1,6 +1,6 @@
-import { eraColor } from "@/libs/utils/func";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/CardForSearchResults.module.css";
+import { eraColor } from "@/utils/func";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";

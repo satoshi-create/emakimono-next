@@ -1,8 +1,8 @@
 import ActionButton from "@/components/emaki/ActionButton";
 import LazyImage from "@/components/emaki/LazyImage";
-import { ChaptersGendaibun, ChaptersTitle } from "@/libs/utils/func";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/OverlayEkotoba.module.css";
+import { ChaptersGendaibun, ChaptersTitle } from "@/utils/func";
 import {
   faCircleQuestion,
   faLocationDot,

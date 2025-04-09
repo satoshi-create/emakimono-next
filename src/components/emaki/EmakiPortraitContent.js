@@ -10,15 +10,15 @@ import LinkToNote from "@/components/emaki/LinkToNote";
 import RecommendEmaki from "@/components/emaki/RecommendEmaki";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
 import noteData from "@/libs/constants/notedata.json";
-import ExtractingListData from "@/libs/utils/ExtractingListData";
+import { AppContext } from "@/pages/_app";
+import styles from "@/styles/EmakiPortraitContent.module.css";
+import ExtractingListData from "@/utils/ExtractingListData";
 import {
   eraColor,
   filterdKeywords,
   keywordItem,
   useLocaleData,
-} from "@/libs/utils/func";
-import { AppContext } from "@/pages/_app";
-import styles from "@/styles/EmakiPortraitContent.module.css";
+} from "@/utils/func";
 import { Box, VStack } from "@chakra-ui/react";
 import parse from "html-react-parser";
 import Image from "next/image";

@@ -1,9 +1,9 @@
+import styles from "@/styles/ModalDesc.module.css";
 import {
   ChaptersTitle,
   connectGenjiChapters,
   connectGenjiChaptersScene,
-} from "@/libs/utils/func";
-import styles from "@/styles/ModalDesc.module.css";
+} from "@/utils/func";
 import {
   faAnglesLeft,
   faAnglesRight,

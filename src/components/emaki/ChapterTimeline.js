@@ -1,5 +1,5 @@
-import { ChaptersTitle, eraColor } from "@/libs/utils/func";
 import { AppContext } from "@/pages/_app";
+import { ChaptersTitle, eraColor } from "@/utils/func";
 import {
   Box,
   Button,

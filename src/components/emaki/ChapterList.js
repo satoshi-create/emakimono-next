@@ -1,6 +1,6 @@
-import { ChaptersTitle, eraColor } from "@/libs/utils/func";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/ChapterList.module.css";
+import { ChaptersTitle, eraColor } from "@/utils/func";
 import { useContext } from "react";
 
 const ChapterList = ({ data, era, titleen, title }) => {
