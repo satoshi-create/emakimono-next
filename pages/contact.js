@@ -1,12 +1,12 @@
+import Breadcrumbs from "@/components/Breadcrumbs";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import Head from "@/components/Meta";
+import Title from "@/components/Title";
 import { FormControl, Input, Textarea } from "@chakra-ui/react";
 import "lazysizes";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import Breadcrumbs from "../components/Breadcrumbs";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import Head from "../components/Meta";
-import Title from "../components/Title";
 import styles from "../styles/contact.module.css";
 
 const Contact = () => {

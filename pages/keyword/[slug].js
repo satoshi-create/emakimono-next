@@ -1,9 +1,9 @@
+import Breadcrumbs from "@/components/Breadcrumbs";
+import CardA from "@/components/CardA";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import Head from "@/components/Meta";
 import { useRouter } from "next/router";
-import Breadcrumbs from "../../components/Breadcrumbs";
-import CardA from "../../components/CardA";
-import Footer from "../../components/Footer";
-import Header from "../../components/Header";
-import Head from "../../components/Meta";
 import { keywordItem, removeNestedEmakisObj } from "../../libs/func";
 import {
   default as emakisData,

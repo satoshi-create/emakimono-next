@@ -1,18 +1,16 @@
-import React from "react";
-import ChaptersGenjiTable from "../../components/ChaptersGenjiTable";
-import { genjieSlugItem, useLocaleData } from "../../libs/func";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import ChaptersGenjiTable from "@/components/ChaptersGenjiTable";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import Head from "@/components/Meta";
 import ExtractingListData from "../../libs/ExtractingListData";
-import Head from "../../components/Meta";
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
-import Breadcrumbs from "../../components/Breadcrumbs";
+import { genjieSlugItem, useLocaleData } from "../../libs/func";
 
 const Chaptersgenjilist = () => {
   const { locale } = useLocaleData();
   const removeNestedArrayObj = ExtractingListData();
 
   const ExistGenjiChapters = genjieSlugItem(removeNestedArrayObj);
-
 
   const tPageDesc =
     locale === "en"

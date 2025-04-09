@@ -1,5 +1,5 @@
+import CustomTagCloud from "@/components/CustomTagCloud";
 import { useRouter } from "next/router";
-import CustomTagCloud from "../components/CustomTagCloud";
 import styles from "../styles/KeywordList.module.css";
 import Button from "./common/Button";
 import Title from "./Title";

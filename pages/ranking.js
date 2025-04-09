@@ -1,11 +1,11 @@
+import Breadcrumbs from "@/components/Breadcrumbs";
+import Header from "@/components/Header";
+import Loader from "@/components/Loader";
+import Head from "@/components/Meta";
+import RankingCard from "@/components/RankingCard";
+import Title from "@/components/Title";
 import { useRouter } from "next/router";
 import { useContext } from "react";
-import Breadcrumbs from "../components/Breadcrumbs";
-import Header from "../components/Header";
-import Loader from "../components/Loader";
-import Head from "../components/Meta";
-import RankingCard from "../components/RankingCard";
-import Title from "../components/Title";
 import { AppContext } from "../pages/_app";
 
 const Ranking = () => {

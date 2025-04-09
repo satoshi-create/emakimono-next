@@ -1,11 +1,11 @@
+import Breadcrumbs from "@/components/Breadcrumbs";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import Head from "@/components/Meta";
+import Title from "@/components/Title";
 import parse from "html-react-parser";
 import "lazysizes";
 import { useRouter } from "next/router";
-import Breadcrumbs from "../components/Breadcrumbs";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import Head from "../components/Meta";
-import Title from "../components/Title";
 import { useLocale } from "../libs/func";
 import styles from "../styles/About.css.module.css";
 
