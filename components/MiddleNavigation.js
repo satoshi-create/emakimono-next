@@ -1,3 +1,4 @@
+import LikeButton from "@/components/LikeButton";
 import { AppContext } from "@/pages/_app";
 import {
   Box,
@@ -11,7 +12,6 @@ import {
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 import { FaBars } from "react-icons/fa";
-import LikeButton from "./LikeButton";
 
 const MiddleNavigation = ({ title, titleen, edition, author }) => {
   const { locale } = useRouter();

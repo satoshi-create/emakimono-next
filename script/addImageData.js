@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import dataEmakis from "./json-data/dataEmakis.json";
+import dataEmakis from "@/libs/json-data/dataEmakis.json";
+import { useEffect } from "react";
 
 const AddImageData = () => {
   // const [data, setData] = useState([]);
@@ -45,7 +45,7 @@ const AddImageData = () => {
         });
       });
     };
-    addImagesrc(dataEmakis);  
+    addImagesrc(dataEmakis);
   }, []);
 };
 

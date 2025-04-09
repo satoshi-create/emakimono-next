@@ -1,3 +1,4 @@
+import SocialLinks from "@/components/SocialLinks";
 import links from "@/libs/links";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/SidebarHome.module.css";
@@ -5,7 +6,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { X } from "react-feather";
-import SocialLinks from "./SocialLinks";
 
 const SidebarHome = () => {
   const { isSidebarOpen, closeSidebar } = useContext(AppContext);

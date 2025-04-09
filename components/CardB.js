@@ -1,11 +1,11 @@
+import Button from "@/components/common/Button";
+import Title from "@/components/Title";
 import { eraColor } from "@/libs/func";
 import styles from "@/styles/CardB.module.css";
 import parse from "html-react-parser";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Button from "./common/Button";
-import Title from "./Title";
 
 const CardB = ({
   columns,

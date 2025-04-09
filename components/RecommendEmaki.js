@@ -1,3 +1,6 @@
+import CardC from "@/components/CardC";
+import Loader from "@/components/Loader";
+import RankingCard from "@/components/RankingCard";
 import { AppContext } from "@/pages/_app";
 import { LinkIcon, StarIcon } from "@chakra-ui/icons";
 import {
@@ -13,9 +16,6 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
-import CardC from "./CardC";
-import Loader from "./Loader";
-import RankingCard from "./RankingCard";
 
 const RecommendEmaki = ({ data }) => {
   const [tabIndex, setTabIndex] = useState(0);

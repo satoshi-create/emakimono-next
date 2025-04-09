@@ -1,3 +1,5 @@
+import ActionButton from "@/components/ActionButton";
+import LazyImage from "@/components/LazyImage";
 import { ChaptersGendaibun, ChaptersTitle } from "@/libs/func";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/OverlayEkotoba.module.css";
@@ -10,8 +12,6 @@ import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
-import ActionButton from "./ActionButton";
-import LazyImage from "./LazyImage";
 
 const OverlayEkotoba = ({
   item: {

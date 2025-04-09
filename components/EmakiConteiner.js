@@ -1,16 +1,16 @@
+import CarouselButton from "@/components/CarouselButton";
 import EmakiInfo from "@/components/EmakiInfo";
 import EmakiNavigation from "@/components/EmakiNavigation";
 import FullScreen from "@/components/FullScreen";
+import Modal from "@/components/Modal";
+import ModalDesc from "@/components/ModalDesc";
+import SwitcherEmaki from "@/components/SwitcherEmaki";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiConteiner.module.css";
 import "lazysizes";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useRef, useState } from "react";
 import ScrollHint from "scroll-hint";
-import CarouselButton from "./CarouselButton";
-import Modal from "./Modal";
-import ModalDesc from "./ModalDesc";
-import SwitcherEmaki from "./SwitcherEmaki";
 
 const EmakiContainer = ({
   data,

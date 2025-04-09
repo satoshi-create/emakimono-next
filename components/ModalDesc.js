@@ -1,3 +1,4 @@
+import SnsShareBox from "@/components/SnsShareBox";
 import { ChaptersDesc, ChaptersTitle } from "@/libs/func";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/ModalDesc.module.css";
@@ -9,7 +10,6 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
-import SnsShareBox from "./SnsShareBox";
 
 const ModalDesc = ({ data }) => {
   const { locale } = useRouter();

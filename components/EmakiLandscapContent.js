@@ -1,4 +1,15 @@
-﻿import ExtractingListData from "@/libs/ExtractingListData";
+﻿import ChapterDesc from "@/components/ChapterDesc";
+import ChapterTimeline from "@/components/ChapterTimeline";
+import CustomTagCloud from "@/components/CustomTagCloud";
+import EditionLinks from "@/components/EditionLinks";
+import EmakiConteiner from "@/components/EmakiConteiner";
+import Footer from "@/components/Footer";
+import LikeButton from "@/components/LikeButton";
+import LinkToNote from "@/components/LinkToNote";
+import RecommendEmaki from "@/components/RecommendEmaki";
+import SnsShareBox from "@/components/SnsShareBox";
+import ToContactForm from "@/components/ToContactForm";
+import ExtractingListData from "@/libs/ExtractingListData";
 import {
   eraColor,
   filterdKeywords,
@@ -14,17 +25,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext } from "react";
-import ChapterDesc from "./ChapterDesc";
-import ChapterTimeline from "./ChapterTimeline";
-import CustomTagCloud from "./CustomTagCloud";
-import EditionLinks from "./EditionLinks";
-import EmakiConteiner from "./EmakiConteiner";
-import Footer from "./Footer";
-import LikeButton from "./LikeButton";
-import LinkToNote from "./LinkToNote";
-import RecommendEmaki from "./RecommendEmaki";
-import SnsShareBox from "./SnsShareBox";
-import ToContactForm from "./ToContactForm";
 
 const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { handleFullScreen } = useContext(AppContext);

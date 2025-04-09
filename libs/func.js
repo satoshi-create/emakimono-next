@@ -1,12 +1,13 @@
-import { useRouter } from "next/router";
-import { ja, en } from "./staticData";
-import { jaMeta, enMeta } from "./dataSiteMeta";
-import enData from "./image-metadata-cache/image-metadata-cache.json";
-import jaData from "./image-metadata-cache/image-metadata-cache.json";
-import chaptergenji from "./_archive_unused_data/genji/chapters-of-genji.json";
-import chapterkusouzu from "./kusouzu/chapters-of-kusouzu.json";
+import chaptergenji from "@/libs/_archive_unused_data/genji/chapters-of-genji.json";
+import { enMeta, jaMeta } from "@/libs/dataSiteMeta";
+import {
+  default as enData,
+  default as jaData,
+} from "@/libs/image-metadata-cache/image-metadata-cache.json";
+import chapterkusouzu from "@/libs/kusouzu/chapters-of-kusouzu.json";
+import { en, ja } from "@/libs/staticData";
 import parse from "html-react-parser";
-import ExtractingListData from "./ExtractingListData";
+import { useRouter } from "next/router";
 
 const useLocale = () => {
   const { locale } = useRouter();
@@ -353,24 +354,24 @@ const filterdKeywords = (pageKey, allKey) =>
     .filter((item) => item !== null);
 
 export {
-  eraColor,
-  keywordItem,
-  personnameItem,
-  useLocale,
-  useLocaleMeta,
-  useLocaleData,
-  removeNestedEmakisObj,
-  genjieSlugItem,
-  convertAuthor,
   authorItem,
-  eraItem,
-  typeItem,
-  kusouzuSlugItem,
-  connectKusouzuChapters,
+  ChaptersDesc,
+  ChaptersGendaibun,
+  ChaptersTitle,
   connectGenjiChapters,
   connectGenjiChaptersScene,
-  ChaptersTitle,
-  ChaptersGendaibun,
-  ChaptersDesc,
+  connectKusouzuChapters,
+  convertAuthor,
+  eraColor,
+  eraItem,
   filterdKeywords,
+  genjieSlugItem,
+  keywordItem,
+  kusouzuSlugItem,
+  personnameItem,
+  removeNestedEmakisObj,
+  typeItem,
+  useLocale,
+  useLocaleData,
+  useLocaleMeta,
 };

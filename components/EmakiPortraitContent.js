@@ -1,4 +1,14 @@
+import ChapterDesc from "@/components/ChapterDesc";
+import ChapterTimeline from "@/components/ChapterTimeline";
+import ContactFormGoogle from "@/components/ContactFormGoogle";
+import CustomTagCloud from "@/components/CustomTagCloud";
+import EditionLinks from "@/components/EditionLinks";
 import EmakiConteiner from "@/components/EmakiConteiner";
+import Footer from "@/components/Footer";
+import LinkToNote from "@/components/LinkToNote";
+import RecommendEmaki from "@/components/RecommendEmaki";
+import SnsShareBox from "@/components/SnsShareBox";
+import ToContactForm from "@/components/ToContactForm";
 import ExtractingListData from "@/libs/ExtractingListData";
 import {
   eraColor,
@@ -15,16 +25,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext } from "react";
-import ChapterDesc from "./ChapterDesc";
-import ChapterTimeline from "./ChapterTimeline";
-import ContactFormGoogle from "./ContactFormGoogle";
-import CustomTagCloud from "./CustomTagCloud";
-import EditionLinks from "./EditionLinks";
-import Footer from "./Footer";
-import LinkToNote from "./LinkToNote";
-import RecommendEmaki from "./RecommendEmaki";
-import SnsShareBox from "./SnsShareBox";
-import ToContactForm from "./ToContactForm";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { handleFullScreen, isContactModalOpen } = useContext(AppContext);

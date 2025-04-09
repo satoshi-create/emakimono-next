@@ -1,8 +1,8 @@
+import LazyImage from "@/components/LazyImage";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiImage.module.css";
 import Link from "next/link";
 import { useContext } from "react";
-import LazyImage from "./LazyImage";
 
 const EmakiImage = ({
   item: { config, index, navIndex, character, ebiki, uniqueIndex },

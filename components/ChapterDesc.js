@@ -1,7 +1,7 @@
+import SingleChapterDesc from "@/components/SingleChapterDesc";
 import styles from "@/styles/ChapterDesc.module.css";
 import { Accordion } from "@chakra-ui/react";
 import { useState } from "react";
-import SingleChapterDesc from "./SingleChapterDesc";
 
 const ChapterDesc = ({ emakis, data }) => {
   const [toggle, setToggle] = useState(true);

@@ -1,4 +1,4 @@
-import { useLocaleData, removeNestedEmakisObj } from "./func";
+import { useLocaleData, removeNestedEmakisObj } from "@/libs/func";
 
 const ExtractingListData = () => {
   const { t: data } = useLocaleData();

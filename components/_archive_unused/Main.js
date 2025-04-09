@@ -1,6 +1,6 @@
+import Card from "@/components/Card";
 import styles from "@/styles/Card.module.css";
-import Card from "./Card";
-// import CardConteiner from "./CardConteiner";
+// import CardConteiner from '@/components/CardConteiner';
 import Title from "../Title";
 
 const SortType = ({ emakis }) => {

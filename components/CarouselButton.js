@@ -1,3 +1,4 @@
+import ActionButton from "@/components/ActionButton";
 import { AppContext } from "@/pages/_app";
 import {
   faChevronLeft,
@@ -5,7 +6,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
-import ActionButton from "./ActionButton";
 
 const CarouselComponent = ({ articleRef }) => {
   const { orientation } = useContext(AppContext);
