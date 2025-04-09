@@ -1,13 +1,13 @@
 import Head from "@/components/common/Meta";
+import MiddleNavigation from "@/components/common/MiddleNavigation";
 import EmakiBreadcrumbs from "@/components/emaki/EmakiBreadcrumbs";
 import EmakiConteiner from "@/components/emaki/EmakiConteiner";
 import EmakiHeader from "@/components/emaki/EmakiHeader";
 import EmakiLandscapContent from "@/components/emaki/EmakiLandscapContent";
 import EmakiPortraitContent from "@/components/emaki/EmakiPortraitContent";
-import MiddleNavigation from "@/components/common/MiddleNavigation";
-import { default as enData, default as jaData } from "@/libs/data";
+import { default as enData, default as jaData } from "@/data/data";
+import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
 import { useLocaleMeta } from "@/libs/func";
-import emakisData from "@/libs/image-metadata-cache/image-metadata-cache.json";
 import { AppContext } from "@/pages/_app";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useRef } from "react";
@@ -210,7 +210,7 @@ export const getStaticProps = async (context) => {
   const fs = require("fs");
   const path = require("path");
 
-  const cacheDir = path.join(process.cwd(), "libs/image-metadata-cache");
+  const cacheDir = path.join(process.cwd(), "data/image-metadata-cache");
   const cacheFilePath = path.join(cacheDir, "image-metadata-cache.json");
 
   // キャッシュファイルが存在しない場合のエラー処理

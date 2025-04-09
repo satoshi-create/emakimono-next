@@ -3,7 +3,7 @@ import CardA from "@/components/common/CardA";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import Head from "@/components/common/Meta";
-import emakisData from "@/libs/data";
+import emakisData from "@/data/data";
 import { personnameItem, removeNestedEmakisObj } from "@/libs/func";
 import {
   default as enData,
