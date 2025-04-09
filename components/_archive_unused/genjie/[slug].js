@@ -2,8 +2,8 @@ import {
   default as enData,
   default as jaData,
 } from "@/data/image-metadata-cache/image-metadata-cache.json";
-import { removeNestedEmakisObj } from "@/libs/func";
 import AllGenjiChapters from "@/libs/genji/chapters-of-genji.json";
+import { removeNestedEmakisObj } from "@/libs/utils/func";
 import { useRouter } from "next/router";
 import Breadcrumbs from "../../common/Breadcrumbs";
 import CardA from "../../common/CardA";

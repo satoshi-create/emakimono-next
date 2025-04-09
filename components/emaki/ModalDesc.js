@@ -1,5 +1,5 @@
 import SnsShareBox from "@/components/common/SnsShareBox";
-import { ChaptersDesc, ChaptersTitle } from "@/libs/func";
+import { ChaptersDesc, ChaptersTitle } from "@/libs/utils/func";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/ModalDesc.module.css";
 import {

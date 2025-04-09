@@ -1,4 +1,4 @@
-﻿import { ChaptersDesc, ChaptersTitle, eraColor } from "@/libs/func";
+﻿import { ChaptersDesc, ChaptersTitle, eraColor } from "@/libs/utils/func";
 import { AppContext } from "@/pages/_app";
 import {
   AccordionButton,

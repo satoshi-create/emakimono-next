@@ -2,7 +2,7 @@ import {
   ChaptersTitle,
   connectGenjiChapters,
   connectGenjiChaptersScene,
-} from "@/libs/func";
+} from "@/libs/utils/func";
 import styles from "@/styles/ModalDesc.module.css";
 import {
   faAnglesLeft,

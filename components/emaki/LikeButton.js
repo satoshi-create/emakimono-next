@@ -1,4 +1,4 @@
-import postMessage from "@/libs/discord";
+import postMessage from "@/libs/api/discord";
 import styles from "@/styles/LikeButton.module.css";
 import { useState } from "react";
 import { Heart } from "react-feather";

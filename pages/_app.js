@@ -1,9 +1,9 @@
 import BottomNavigation from "@/components/common/BottomNavigation";
 import ContactFormGoogle from "@/components/common/ContactFormGoogle";
 import ModalSearch from "@/components/search/ModalSearch";
-import ExtractingListData from "@/libs/ExtractingListData";
-import { useLocaleData } from "@/libs/func";
-import * as gtag from "@/libs/gtag";
+import * as gtag from "@/libs/api/gtag";
+import ExtractingListData from "@/libs/utils/ExtractingListData";
+import { useLocaleData } from "@/libs/utils/func";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";

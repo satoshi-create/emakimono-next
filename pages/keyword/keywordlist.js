@@ -3,8 +3,8 @@ import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import Head from "@/components/common/Meta";
 import Keywords from "@/components/emaki/Keywords";
-import ExtractingListData from "@/libs/ExtractingListData";
-import { keywordItem, useLocaleData } from "@/libs/func";
+import ExtractingListData from "@/libs/utils/ExtractingListData";
+import { keywordItem, useLocaleData } from "@/libs/utils/func";
 import "lazysizes";
 
 const KeywordsComp = () => {

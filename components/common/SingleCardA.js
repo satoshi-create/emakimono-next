@@ -1,4 +1,4 @@
-import { eraColor } from "@/libs/func";
+import { eraColor } from "@/libs/utils/func";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/CardA.module.css";
 import Image from "next/image";

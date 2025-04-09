@@ -8,7 +8,7 @@ import {
   default as enData,
   default as jaData,
 } from "@/data/image-metadata-cache/image-metadata-cache.json";
-import { keywordItem, removeNestedEmakisObj } from "@/libs/func";
+import { keywordItem, removeNestedEmakisObj } from "@/libs/utils/func";
 import { useRouter } from "next/router";
 
 const Emaki = ({ name, posts, nameen, slug }) => {

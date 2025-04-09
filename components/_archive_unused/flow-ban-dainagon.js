@@ -1,4 +1,4 @@
-import { useLocale, useLocaleData } from "@/libs/func";
+import { useLocale, useLocaleData } from "@/libs/utils/func";
 import "lazysizes";
 import { useRouter } from "next/router";
 import Breadcrumbs from "../common/Breadcrumbs";
