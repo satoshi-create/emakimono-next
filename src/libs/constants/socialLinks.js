@@ -1,6 +1,6 @@
-import NoteIcon from "@/public/note-icon.png";
 import Image from "next/image";
 import { Twitter, Youtube } from "react-feather";
+import NoteIcon from "../../../public/note-icon.png";
 
 export const socialLinks = [
   {
