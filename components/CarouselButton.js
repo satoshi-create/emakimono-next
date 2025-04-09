@@ -1,10 +1,10 @@
+import { AppContext } from "@/pages/_app";
 import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext, useEffect, useState } from "react";
-import { AppContext } from "../pages/_app";
+import { useContext, useEffect, useState } from "react";
 import ActionButton from "./ActionButton";
 
 const CarouselComponent = ({ articleRef }) => {

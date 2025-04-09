@@ -1,3 +1,4 @@
+import styles from "@/styles/SnsShareBox.module.css";
 import {
   faFacebook,
   faLinkedin,
@@ -5,8 +6,6 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import React from "react";
-import styles from "../styles/SnsShareBox.module.css";
 
 const SnsShareBox = ({ titleen, title, edition, ort, chapter, index }) => {
   const url = `${process.env.NEXT_PUBLIC_SITE_URL}/${titleen}`;

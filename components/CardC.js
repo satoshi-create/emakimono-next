@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import ExtractingListData from "../libs/ExtractingListData";
+import ExtractingListData from "@/libs/ExtractingListData";
+import { useEffect, useState } from "react";
 import SingleCardC from "./SingleCardC";
 
 const CardC = ({ data, loading }) => {

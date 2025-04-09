@@ -3,8 +3,8 @@ import ChaptersGenjiTable from "@/components/ChaptersGenjiTable";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Head from "@/components/Meta";
-import ExtractingListData from "../../libs/ExtractingListData";
-import { genjieSlugItem, useLocaleData } from "../../libs/func";
+import ExtractingListData from "@/libs/ExtractingListData";
+import { genjieSlugItem, useLocaleData } from "@/libs/func";
 
 const Chaptersgenjilist = () => {
   const { locale } = useLocaleData();

@@ -1,13 +1,13 @@
+import styles from "@/styles/EmakiNavigation.module.css";
 import {
   faAnglesLeft,
   faAnglesRight,
   faCircleQuestion,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext } from "react";
-import styles from "../styles/EmakiNavigation.module.css";
+import { useContext } from "react";
 // import { ArrowRight, ChevronRight } from "react-feather";
-import { AppContext } from "../pages/_app";
+import { AppContext } from "@/pages/_app";
 import ActionButton from "./ActionButton";
 import ToggleCharacter from "./ToggleCharacter";
 import ToggleEbiki from "./ToggleEbiki";

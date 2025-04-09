@@ -1,9 +1,9 @@
+import { AppContext } from "@/pages/_app";
+import styles from "@/styles/SearchBoxButton.module.css";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
-import { AppContext } from "../pages/_app";
-import styles from "../styles/SearchBoxButton.module.css";
+import { useContext } from "react";
 
 const SearchBoxButton = () => {
   const { locale } = useRouter();

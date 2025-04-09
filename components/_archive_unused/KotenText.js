@@ -1,11 +1,11 @@
+import styles from "@/styles/KotenText.module.css";
 import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import parse from "html-react-parser";
 import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../pages/_app";
-import styles from "../styles/KotenText.module.css";
 
 const Kotentext = ({
   item: {

@@ -1,7 +1,7 @@
+import styles from "@/styles/PersonNameList.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import styles from "../styles/PersonNameList.module.css";
 import Button from "./common/Button";
 import Title from "./Title";
 

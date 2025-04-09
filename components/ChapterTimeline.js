@@ -1,3 +1,5 @@
+import { ChaptersTitle, eraColor } from "@/libs/func";
+import { AppContext } from "@/pages/_app";
 import {
   Box,
   Button,
@@ -8,10 +10,8 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { FaBook, FaMapMarkerAlt, FaRegCircle } from "react-icons/fa";
-import { ChaptersTitle, eraColor } from "../libs/func";
-import { AppContext } from "../pages/_app";
 
 const ChapterTimeline = ({
   index,

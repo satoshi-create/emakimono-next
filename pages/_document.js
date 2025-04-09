@@ -1,6 +1,4 @@
-import Document, { Html, Head, Main, NextScript } from "next/document";
-import * as gtag from "../libs/gtag";
-
+import Document, { Head, Html, Main, NextScript } from "next/document";
 
 class MyDocument extends Document {
   render() {

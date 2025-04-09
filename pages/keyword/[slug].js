@@ -3,13 +3,13 @@ import CardA from "@/components/CardA";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Head from "@/components/Meta";
-import { useRouter } from "next/router";
-import { keywordItem, removeNestedEmakisObj } from "../../libs/func";
+import { keywordItem, removeNestedEmakisObj } from "@/libs/func";
 import {
   default as emakisData,
   default as enData,
   default as jaData,
-} from "../../libs/image-metadata-cache/image-metadata-cache.json";
+} from "@/libs/image-metadata-cache/image-metadata-cache.json";
+import { useRouter } from "next/router";
 
 const Emaki = ({ name, posts, nameen, slug }) => {
   const { locale } = useRouter();

@@ -5,12 +5,12 @@ import EmakiLandscapContent from "@/components/EmakiLandscapContent";
 import EmakiPortraitContent from "@/components/EmakiPortraitContent";
 import Head from "@/components/Meta";
 import MiddleNavigation from "@/components/MiddleNavigation";
+import { default as enData, default as jaData } from "@/libs/data";
+import { useLocaleMeta } from "@/libs/func";
+import emakisData from "@/libs/image-metadata-cache/image-metadata-cache.json";
+import { AppContext } from "@/pages/_app";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useRef } from "react";
-import { default as enData, default as jaData } from "../libs/data";
-import { useLocaleMeta } from "../libs/func";
-import emakisData from "../libs/image-metadata-cache/image-metadata-cache.json";
-import { AppContext } from "../pages/_app";
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 

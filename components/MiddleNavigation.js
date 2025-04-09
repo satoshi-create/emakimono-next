@@ -1,3 +1,4 @@
+import { AppContext } from "@/pages/_app";
 import {
   Box,
   Grid,
@@ -8,9 +9,8 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { FaBars } from "react-icons/fa";
-import { AppContext } from "../pages/_app";
 import LikeButton from "./LikeButton";
 
 const MiddleNavigation = ({ title, titleen, edition, author }) => {

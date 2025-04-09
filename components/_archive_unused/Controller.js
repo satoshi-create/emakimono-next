@@ -1,7 +1,7 @@
+import dataController from "@/libs/controller";
+import styles from "@/styles/Controller.module.css";
 import Link from "next/link";
 import { useContext } from "react";
-import dataController from "../../libs/controller";
-import styles from "../styles/Controller.module.css";
 // import { NextContext } from "../context/context";
 import { AppContext } from "../../pages/_app";
 

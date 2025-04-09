@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
-import styles from "../styles/ToggleEkotoba.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AppContext } from "@/pages/_app";
 import { faBook, faBookOpen } from "@fortawesome/free-solid-svg-icons";
-import { AppContext } from "../pages/_app";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useContext } from "react";
 import ActionButton from "./ActionButton";
 
 const ToggleEbiki = () => {

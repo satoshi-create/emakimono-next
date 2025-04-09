@@ -2,10 +2,10 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import FlowEmaki from "@/components/FlowEmaki";
 import Footer from "@/components/Footer";
 import Head from "@/components/Meta";
+import ExtractingListData from "@/libs/ExtractingListData";
+import { useLocale, useLocaleData } from "@/libs/func";
 import "lazysizes";
 import { useRouter } from "next/router";
-import ExtractingListData from "../../libs/ExtractingListData";
-import { useLocale, useLocaleData } from "../../libs/func";
 import Header from "../Header";
 
 // TODO:loading機能を追加する

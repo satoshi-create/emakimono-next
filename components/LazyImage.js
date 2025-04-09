@@ -1,6 +1,6 @@
+import { AppContext } from "@/pages/_app";
 import Image from "next/image";
 import { useContext, useEffect, useRef, useState } from "react";
-import { AppContext } from "../pages/_app";
 
 const LazyImage = ({
   src,

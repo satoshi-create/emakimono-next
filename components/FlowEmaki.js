@@ -1,7 +1,7 @@
+import { AppContext } from "@/pages/_app";
+import styles from "@/styles/FullscreenContents.module.css";
 import Link from "next/link";
-import React, { useContext } from "react";
-import { AppContext } from "../pages/_app";
-import styles from "../styles/FullscreenContents.module.css";
+import { useContext } from "react";
 import EmakiConteiner from "./EmakiConteiner";
 import FullScreenComp from "./FullScreenComp";
 import Title from "./Title";

@@ -1,11 +1,11 @@
+import { eraColor } from "@/libs/func";
+import { AppContext } from "@/pages/_app";
+import styles from "@/styles/Modal.module.css";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
-import { eraColor } from "../libs/func";
-import { AppContext } from "../pages/_app";
-import styles from "../styles/Modal.module.css";
+import { useContext, useState } from "react";
 import ChapterList from "./ChapterList";
 
 const Modal = ({ data }) => {

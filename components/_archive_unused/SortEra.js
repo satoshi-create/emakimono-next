@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
-import styles from "../styles/CardA.module.css";
-import CardA from "../CardA";
+import styles from "@/styles/CardA.module.css";
+import { useContext, useEffect } from "react";
 import { AppContext } from "../../pages/_app";
+import CardA from "../CardA";
 
 const SortEra = ({ emakis, columns }) => {
   const { query, setQuery, setfliterdEmakis, fliterdEmakis } =
@@ -25,7 +25,6 @@ const SortEra = ({ emakis, columns }) => {
 
   const handleClick = (e) => {
     const el = e.target;
-
 
     if (el.dataset.id === "全て") {
       setfliterdEmakis(emakis);

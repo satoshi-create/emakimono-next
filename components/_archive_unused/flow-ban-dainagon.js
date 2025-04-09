@@ -1,6 +1,6 @@
+import { useLocale, useLocaleData } from "@/libs/func";
 import "lazysizes";
 import { useRouter } from "next/router";
-import { useLocale, useLocaleData } from "../../libs/func";
 import Breadcrumbs from "../Breadcrumbs";
 import FlowEmaki from "../FlowEmaki";
 import Footer from "../Footer";

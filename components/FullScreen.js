@@ -1,10 +1,10 @@
+import { AppContext } from "@/pages/_app";
 import {
   faDownLeftAndUpRightToCenter,
   faUpRightAndDownLeftFromCenter,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext } from "react";
-import { AppContext } from "../pages/_app";
+import { useContext } from "react";
 import ActionButton from "./ActionButton";
 
 // lock func

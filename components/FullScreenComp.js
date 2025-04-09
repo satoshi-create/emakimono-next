@@ -1,8 +1,7 @@
+import styles from "@/styles/FullScreenComp.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
 import { useFullScreenHandle } from "react-full-screen";
-import styles from "../styles/FullScreenComp.module.css";
 
 export default function FullScreenComp({
   children,

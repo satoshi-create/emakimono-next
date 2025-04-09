@@ -1,10 +1,10 @@
+import { AppContext } from "@/pages/_app";
+import styles from "@/styles/EmakiInfo.module.css";
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
-import { AppContext } from "../pages/_app";
-import styles from "../styles/EmakiInfo.module.css";
+import { useContext } from "react";
 
 const EmakiInfo = ({ value }) => {
   const { openModal } = useContext(AppContext);

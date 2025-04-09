@@ -1,7 +1,6 @@
-import { useRouter } from "next/router";
-import React, { useContext, useEffect } from "react";
-import { AppContext } from "../pages/_app";
-import styles from "../styles/CardA.module.css";
+import { AppContext } from "@/pages/_app";
+import styles from "@/styles/CardA.module.css";
+import { useContext, useEffect } from "react";
 import SingleCardA from "./SingleCardA";
 import Title from "./Title";
 

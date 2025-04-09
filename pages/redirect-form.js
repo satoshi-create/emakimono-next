@@ -3,9 +3,9 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Head from "@/components/Meta";
 import Title from "@/components/Title";
+import { useLocale, useLocaleData } from "@/libs/func";
 import "lazysizes";
 import { useRouter } from "next/router";
-import { useLocale, useLocaleData } from "../libs/func";
 
 const RedirectForm = () => {
   const { locale } = useRouter();

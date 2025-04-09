@@ -1,12 +1,12 @@
 import SidebarHome from "@/components/SidebarHome";
+import { AppContext } from "@/pages/_app";
+import styles from "@/styles/EmakiPageHeader.module.css";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 import { Mail } from "react-feather";
-import { AppContext } from "../pages/_app";
-import styles from "../styles/EmakiPageHeader.module.css";
 import LanguageSwitcher from "./LanguageSwitcher";
 import SearchBoxButton from "./SearchBoxButton";
 import SocialLinks from "./SocialLinks";

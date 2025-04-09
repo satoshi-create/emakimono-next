@@ -1,10 +1,10 @@
+import { eraColor } from "@/libs/func";
+import { AppContext } from "@/pages/_app";
+import styles from "@/styles/CardA.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
-import { eraColor } from "../libs/func";
-import { AppContext } from "../pages/_app";
-import styles from "../styles/CardA.module.css";
+import { useContext } from "react";
 
 const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
   const { locale } = useRouter();

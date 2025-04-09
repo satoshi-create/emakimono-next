@@ -1,6 +1,6 @@
+import styles from "@/styles/ActionButton.module.css";
 import { IconButton, Tooltip, useBreakpointValue } from "@chakra-ui/react";
-import React, { forwardRef } from "react";
-import styles from "../styles/ActionButton.module.css";
+import { forwardRef } from "react";
 
 const ActionButton = forwardRef(
   (

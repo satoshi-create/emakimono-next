@@ -1,8 +1,8 @@
+import styles from "@/styles/GridImageList.module.css";
 import { useRouter } from "next/router";
 import { useReducer } from "react";
 import Title from "../Title";
 import Button from "../common/Button";
-import styles from "../styles/GridImageList.module.css";
 import GridImageCard from "./GridImageCard";
 
 const GridImageList = ({

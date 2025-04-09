@@ -1,6 +1,9 @@
 import BottomNavigation from "@/components/BottomNavigation";
 import ContactFormGoogle from "@/components/ContactFormGoogle";
 import ModalSearch from "@/components/ModalSearch";
+import ExtractingListData from "@/libs/ExtractingListData";
+import { useLocaleData } from "@/libs/func";
+import * as gtag from "@/libs/gtag";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
@@ -8,9 +11,6 @@ import { useRouter } from "next/router";
 import Script from "next/script";
 import { createContext, useCallback, useEffect, useState } from "react";
 import { flushSync } from "react-dom";
-import ExtractingListData from "../libs/ExtractingListData";
-import { useLocaleData } from "../libs/func";
-import * as gtag from "../libs/gtag";
 import "../styles/globals.css";
 
 config.autoAddCss = false;

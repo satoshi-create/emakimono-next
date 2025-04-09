@@ -1,10 +1,10 @@
+import { eraColor } from "@/libs/func";
+import { AppContext } from "@/pages/_app";
+import styles from "@/styles/CardForSearchResults.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useContext, useEffect } from "react";
-import { eraColor } from "../libs/func";
-import { AppContext } from "../pages/_app";
-import styles from "../styles/CardForSearchResults.module.css";
+import { useContext, useEffect } from "react";
 
 const CardForSearchResults = ({ emakis, columns, needdesc }) => {
   const { setisModalOpen, closeSearchModal } = useContext(AppContext);

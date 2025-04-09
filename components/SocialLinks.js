@@ -1,7 +1,6 @@
+import { socialLinks } from "@/libs/socialLinks";
+import styles from "@/styles/SocialLinks.module.css";
 import Link from "next/link";
-import React from "react";
-import { socialLinks } from "../libs/socialLinks";
-import styles from "../styles/SocialLinks.module.css";
 
 const SocialLinks = ({ footerStyle, iconStyle }) => {
   return (
