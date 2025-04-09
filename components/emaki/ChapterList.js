@@ -1,4 +1,4 @@
-import { ChaptersTitle, eraColor } from "@/libs/func";
+import { ChaptersTitle, eraColor } from "@/libs/utils/func";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/ChapterList.module.css";
 import { useContext } from "react";

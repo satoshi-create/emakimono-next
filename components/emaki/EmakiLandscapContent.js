@@ -9,14 +9,14 @@ import LikeButton from "@/components/emaki/LikeButton";
 import LinkToNote from "@/components/emaki/LinkToNote";
 import RecommendEmaki from "@/components/emaki/RecommendEmaki";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
-import ExtractingListData from "@/libs/ExtractingListData";
+import noteData from "@/libs/constants/notedata.json";
+import ExtractingListData from "@/libs/utils/ExtractingListData";
 import {
   eraColor,
   filterdKeywords,
   keywordItem,
   useLocaleData,
-} from "@/libs/func";
-import noteData from "@/libs/constants/notedata.json";
+} from "@/libs/utils/func";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiLandscapContent.module.css";
 import { Box, VStack } from "@chakra-ui/react";

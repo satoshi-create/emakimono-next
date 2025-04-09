@@ -1,6 +1,6 @@
 import Button from "@/components/common/Button";
 import Title from "@/components/common/Title";
-import { eraColor } from "@/libs/func";
+import { eraColor } from "@/libs/utils/func";
 import styles from "@/styles/CardB.module.css";
 import parse from "html-react-parser";
 import Image from "next/image";
