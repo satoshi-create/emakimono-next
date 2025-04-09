@@ -2,8 +2,8 @@ import CardA from "@/components/common/CardA";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import Head from "@/components/common/Meta";
-import ExtractingListData from "@/libs/utils/ExtractingListData";
-import { useLocale } from "@/libs/utils/func";
+import ExtractingListData from "@/utils/ExtractingListData";
+import { useLocale } from "@/utils/func";
 import "lazysizes";
 
 const Home = () => {

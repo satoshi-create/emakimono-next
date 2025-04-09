@@ -3,7 +3,7 @@ import Footer from "@/components/common/Footer";
 import Head from "@/components/common/Meta";
 import FlowEmaki from "@/components/emaki/FlowEmaki";
 import { useLocale, useLocaleData } from "@/libs/func";
-import ExtractingListData from "@/libs/utils/ExtractingListData";
+import ExtractingListData from "@/utils/ExtractingListData";
 import "lazysizes";
 import { useRouter } from "next/router";
 import Header from "../common/Header";

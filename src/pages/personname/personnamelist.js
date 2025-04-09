@@ -3,8 +3,8 @@ import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import Head from "@/components/common/Meta";
 import PersonNames from "@/components/personname/PersonNames";
-import ExtractingListData from "@/libs/utils/ExtractingListData";
-import { personnameItem, useLocaleData } from "@/libs/utils/func";
+import ExtractingListData from "@/utils/ExtractingListData";
+import { personnameItem, useLocaleData } from "@/utils/func";
 import "lazysizes";
 
 const PersonnamesComp = () => {

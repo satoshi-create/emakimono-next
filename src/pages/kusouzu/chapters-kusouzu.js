@@ -1,10 +1,10 @@
-import ChaptersKusouzuTable from "@/components/emaki/ChaptersKusouzuTable";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import Head from "@/components/common/Meta";
-import ExtractingListData from "@/libs/utils/ExtractingListData";
-import { useLocaleData } from "@/libs/utils/func";
+import ChaptersKusouzuTable from "@/components/emaki/ChaptersKusouzuTable";
+import ExtractingListData from "@/utils/ExtractingListData";
+import { useLocaleData } from "@/utils/func";
 
 const ChaptersKusouzulist = () => {
   const { t: data } = useLocaleData();

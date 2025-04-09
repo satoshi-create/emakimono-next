@@ -7,8 +7,8 @@ import EmakiLandscapContent from "@/components/emaki/EmakiLandscapContent";
 import EmakiPortraitContent from "@/components/emaki/EmakiPortraitContent";
 import { default as enData, default as jaData } from "@/data/data";
 import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
-import { useLocaleMeta } from "@/libs/utils/func";
 import { AppContext } from "@/pages/_app";
+import { useLocaleMeta } from "@/utils/func";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useRef } from "react";
 

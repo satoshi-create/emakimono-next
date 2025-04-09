@@ -4,7 +4,7 @@ import Header from "../common/Header";
 import Head from "../common/Meta";
 // import styles from '@/styles/Flow.css.module.css';
 import { gridImages } from "@/libs/gridImages";
-import { useLocale, useLocaleData } from "@/libs/utils/func";
+import { useLocale, useLocaleData } from "@/utils/func";
 import { useRouter } from "next/router";
 import Breadcrumbs from "../common/Breadcrumbs";
 import GridImageList from "../GridImageList";

@@ -7,7 +7,7 @@ import {
   default as enData,
   default as jaData,
 } from "@/data/image-metadata-cache/image-metadata-cache.json";
-import { removeNestedEmakisObj, typeItem } from "@/libs/utils/func";
+import { removeNestedEmakisObj, typeItem } from "@/utils/func";
 import { useRouter } from "next/router";
 
 const Type = ({ name, nameen, posts, slug }) => {

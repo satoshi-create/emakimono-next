@@ -1,8 +1,8 @@
 import CardForSearchResults from "@/components/search/CardForSearchResults";
-import ExtractingListData from "@/libs/utils/ExtractingListData";
-import { authorItem, eraColor, typeItem } from "@/libs/utils/func";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/Search.css.module.css";
+import ExtractingListData from "@/utils/ExtractingListData";
+import { authorItem, eraColor, typeItem } from "@/utils/func";
 import { faClose, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";

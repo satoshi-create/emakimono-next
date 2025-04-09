@@ -4,7 +4,7 @@ import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import Head from "@/components/common/Meta";
 import Title from "@/components/common/Title";
-import { useLocale, useLocaleData } from "@/libs/utils/func";
+import { useLocale, useLocaleData } from "@/utils/func";
 import "lazysizes";
 import { useRouter } from "next/router";
 

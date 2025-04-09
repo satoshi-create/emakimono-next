@@ -7,7 +7,7 @@ import {
   default as enData,
   default as jaData,
 } from "@/data/image-metadata-cache/image-metadata-cache.json";
-import { authorItem, removeNestedEmakisObj } from "@/libs/utils/func";
+import { authorItem, removeNestedEmakisObj } from "@/utils/func";
 import { useRouter } from "next/router";
 
 const Author = ({ name, nameen, posts, slug }) => {

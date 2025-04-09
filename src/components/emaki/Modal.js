@@ -1,7 +1,7 @@
 import ChapterList from "@/components/emaki/ChapterList";
-import { eraColor } from "@/libs/utils/func";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/Modal.module.css";
+import { eraColor } from "@/utils/func";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
