@@ -4,11 +4,11 @@ import Footer from "@/components/common/Footer";
 import SnsShareBox from "@/components/common/SnsShareBox";
 import ChapterDesc from "@/components/emaki/ChapterDesc";
 import ChapterTimeline from "@/components/emaki/ChapterTimeline";
-import CustomTagCloud from "@/components/emaki/CustomTagCloud";
 import EditionLinks from "@/components/emaki/EditionLinks";
 import EmakiConteiner from "@/components/emaki/EmakiConteiner";
 import LinkToNote from "@/components/emaki/LinkToNote";
 import RecommendEmaki from "@/components/emaki/RecommendEmaki";
+import CustomTagCloud from "@/components/keyword/CustomTagCloud";
 import ExtractingListData from "@/libs/ExtractingListData";
 import {
   eraColor,

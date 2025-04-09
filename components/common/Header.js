@@ -2,7 +2,7 @@ import LanguageSwitcher from "@/components/common/LanguageSwitcher";
 import NavLinks from "@/components/common/NavLinks";
 import SidebarHome from "@/components/common/SidebarHome";
 import SocialLinks from "@/components/common/SocialLinks";
-import SearchBoxButton from "@/components/SearchBoxButton";
+import SearchBoxButton from "@/components/search/SearchBoxButton";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/Header.module.css";
 import { faBars } from "@fortawesome/free-solid-svg-icons";

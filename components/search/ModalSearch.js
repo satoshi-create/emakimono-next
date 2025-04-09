@@ -1,4 +1,4 @@
-import CardForSearchResults from "@/components/CardForSearchResults";
+import CardForSearchResults from "@/components/search/CardForSearchResults";
 import ExtractingListData from "@/libs/ExtractingListData";
 import { authorItem, eraColor, typeItem } from "@/libs/func";
 import { AppContext } from "@/pages/_app";

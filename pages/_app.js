@@ -1,6 +1,6 @@
-import BottomNavigation from "@/components/BottomNavigation";
+import BottomNavigation from "@/components/common/BottomNavigation";
 import ContactFormGoogle from "@/components/common/ContactFormGoogle";
-import ModalSearch from "@/components/ModalSearch";
+import ModalSearch from "@/components/search/ModalSearch";
 import ExtractingListData from "@/libs/ExtractingListData";
 import { useLocaleData } from "@/libs/func";
 import * as gtag from "@/libs/gtag";

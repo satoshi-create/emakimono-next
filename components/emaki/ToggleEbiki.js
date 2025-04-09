@@ -1,4 +1,4 @@
-import ActionButton from "@/components/ActionButton";
+import ActionButton from "@/components/emaki/ActionButton";
 import { AppContext } from "@/pages/_app";
 import { faBook, faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

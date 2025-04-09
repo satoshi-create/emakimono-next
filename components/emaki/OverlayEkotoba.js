@@ -1,4 +1,4 @@
-import ActionButton from "@/components/ActionButton";
+import ActionButton from "@/components/emaki/ActionButton";
 import LazyImage from "@/components/emaki/LazyImage";
 import { ChaptersGendaibun, ChaptersTitle } from "@/libs/func";
 import { AppContext } from "@/pages/_app";
