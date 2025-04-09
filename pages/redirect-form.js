@@ -1,6 +1,6 @@
 import Button from "@/components/common/Button";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import Footer from "@/components/common/Footer";
+import Header from "@/components/common/Header";
 import Head from "@/components/Meta";
 import Title from "@/components/Title";
 import { useLocale, useLocaleData } from "@/libs/func";

@@ -1,7 +1,7 @@
-import Breadcrumbs from "@/components/Breadcrumbs";
 import ChaptersKusouzuTable from "@/components/ChaptersKusouzuTable";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
+import Footer from "@/components/common/Footer";
+import Header from "@/components/common/Header";
 import Head from "@/components/Meta";
 import ExtractingListData from "@/libs/ExtractingListData";
 import { useLocaleData } from "@/libs/func";

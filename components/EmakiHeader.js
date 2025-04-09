@@ -1,6 +1,6 @@
-import LanguageSwitcher from "@/components/LanguageSwitcher";
+import LanguageSwitcher from "@/components/common/LanguageSwitcher";
+import SidebarHome from "@/components/common/SidebarHome";
 import SearchBoxButton from "@/components/SearchBoxButton";
-import SidebarHome from "@/components/SidebarHome";
 import SocialLinks from "@/components/SocialLinks";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiPageHeader.module.css";

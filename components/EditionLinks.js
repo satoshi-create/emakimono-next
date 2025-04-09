@@ -1,4 +1,4 @@
-import SingleCardC from "@/components/SingleCardC";
+import SingleCardC from "@/components/common/SingleCardC";
 import styles from "@/styles/EditionLinks.module.css";
 
 const EditionLinks = ({ editionLinks }) => {
