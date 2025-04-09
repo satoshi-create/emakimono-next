@@ -1,20 +1,16 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import EmakiBreadcrumbs from "@/components/EmakiBreadcrumbs";
+import EmakiConteiner from "@/components/EmakiConteiner";
+import EmakiHeader from "@/components/EmakiHeader";
+import EmakiLandscapContent from "@/components/EmakiLandscapContent";
+import EmakiPortraitContent from "@/components/EmakiPortraitContent";
+import Head from "@/components/Meta";
+import MiddleNavigation from "@/components/MiddleNavigation";
 import { useRouter } from "next/router";
-import EmakiConteiner from "../components/EmakiConteiner";
-import Sidebar from "../components/Sidebar";
-import Head from "../components/Meta";
-import emakisData from "../libs/image-metadata-cache/image-metadata-cache.json";
-import enData from "../libs/data";
-import jaData from "../libs/data";
-import { AppContext } from "../pages/_app";
-import FullScreen from "../components/FullScreen";
-import EmakiBreadcrumbs from "../components/EmakiBreadcrumbs";
-import EmakiHeader from "../components/EmakiHeader";
-import EmakiPortraitContent from "../components/EmakiPortraitContent";
-import EmakiLandscapContent from "../components/EmakiLandscapContent";
+import { useContext, useEffect, useRef } from "react";
+import { default as enData, default as jaData } from "../libs/data";
 import { useLocaleMeta } from "../libs/func";
-import BottomNavigation from "../components/BottomNavigation";
-import MiddleNavigation from "../components/MiddleNavigation";
+import emakisData from "../libs/image-metadata-cache/image-metadata-cache.json";
+import { AppContext } from "../pages/_app";
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 

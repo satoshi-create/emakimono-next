@@ -1,9 +1,9 @@
+import Breadcrumbs from "@/components/Breadcrumbs";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import Keywords from "@/components/Keywords";
+import Head from "@/components/Meta";
 import "lazysizes";
-import Breadcrumbs from "../../components/Breadcrumbs";
-import Footer from "../../components/Footer";
-import Header from "../../components/Header";
-import Keywords from "../../components/Keywords";
-import Head from "../../components/Meta";
 import ExtractingListData from "../../libs/ExtractingListData";
 import { keywordItem, useLocaleData } from "../../libs/func";
 

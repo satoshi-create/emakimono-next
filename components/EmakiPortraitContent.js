@@ -1,10 +1,10 @@
+import EmakiConteiner from "@/components/EmakiConteiner";
 import { Box, VStack } from "@chakra-ui/react";
 import parse from "html-react-parser";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
-import EmakiConteiner from "../components/EmakiConteiner";
+import { useContext } from "react";
 import ExtractingListData from "../libs/ExtractingListData";
 import {
   eraColor,

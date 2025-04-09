@@ -1,9 +1,9 @@
+import Breadcrumbs from "@/components/Breadcrumbs";
+import FlowEmaki from "@/components/FlowEmaki";
+import Footer from "@/components/Footer";
+import Head from "@/components/Meta";
 import "lazysizes";
 import { useRouter } from "next/router";
-import Breadcrumbs from "../../components/Breadcrumbs";
-import FlowEmaki from "../../components/FlowEmaki";
-import Footer from "../../components/Footer";
-import Head from "../../components/Meta";
 import ExtractingListData from "../../libs/ExtractingListData";
 import { useLocale, useLocaleData } from "../../libs/func";
 import Header from "../Header";

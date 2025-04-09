@@ -1,9 +1,9 @@
+import Breadcrumbs from "@/components/Breadcrumbs";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import Head from "@/components/Meta";
+import PersonNames from "@/components/PersonNames";
 import "lazysizes";
-import Breadcrumbs from "../../components/Breadcrumbs";
-import Footer from "../../components/Footer";
-import Header from "../../components/Header";
-import Head from "../../components/Meta";
-import PersonNames from "../../components/PersonNames";
 import ExtractingListData from "../../libs/ExtractingListData";
 import { personnameItem, useLocaleData } from "../../libs/func";
 
