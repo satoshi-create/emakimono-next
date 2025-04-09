@@ -16,7 +16,7 @@ import {
   keywordItem,
   useLocaleData,
 } from "@/libs/func";
-import noteData from "@/libs/note/data.json";
+import noteData from "@/libs/constants/notedata.json";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiPortraitContent.module.css";
 import { Box, VStack } from "@chakra-ui/react";

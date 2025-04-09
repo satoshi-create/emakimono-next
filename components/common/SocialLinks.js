@@ -1,4 +1,4 @@
-import { socialLinks } from "@/libs/socialLinks";
+import { socialLinks } from "@/libs/constants/socialLinks";
 import styles from "@/styles/SocialLinks.module.css";
 import Link from "next/link";
 
