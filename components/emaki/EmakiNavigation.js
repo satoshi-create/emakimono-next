@@ -7,7 +7,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
 // import { ArrowRight, ChevronRight } from "react-feather";
-import ActionButton from "@/components/ActionButton";
+import ActionButton from "@/components/emaki/ActionButton";
 import ToggleCharacter from "@/components/emaki/ToggleCharacter";
 import ToggleEbiki from "@/components/emaki/ToggleEbiki";
 import ToggleEkotoba from "@/components/emaki/ToggleEkotoba";
