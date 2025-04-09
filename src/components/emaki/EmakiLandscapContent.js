@@ -26,7 +26,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 
-const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
+const EmakiLandscapContent = ({
+  data,
+  selectedRef,
+  navIndex,
+  articleRef,
+  dict,
+}) => {
   const { handleFullScreen } = useContext(AppContext);
   const { emakis } = data;
   const { locale } = useRouter();
@@ -356,7 +362,8 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                     rel="noopener noreferrer"
                     className={styles.sourceLink}
                   >
-                    {locale == "en" ? "【source】" : "【出典】"}
+                    {/* {locale == "en" ? "【source】" : "【出典】"} */}
+                    {dict.source}
                     {sourceImage}
                   </a>
                 </Link>

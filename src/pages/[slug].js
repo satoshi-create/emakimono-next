@@ -7,6 +7,7 @@ import EmakiLandscapContent from "@/components/emaki/EmakiLandscapContent";
 import EmakiPortraitContent from "@/components/emaki/EmakiPortraitContent";
 import { default as enData, default as jaData } from "@/data/data";
 import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
+import { getDictionary } from "@/libs/i18n/getDictionary";
 import { AppContext } from "@/pages/_app";
 import { useLocaleMeta } from "@/utils/func";
 import { useRouter } from "next/router";
@@ -14,8 +15,8 @@ import { useContext, useEffect, useRef } from "react";
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
-const Emaki = ({ data, locale, locales, slug, test }) => {
-  console.log(data);
+const Emaki = ({ data, locale, locales, slug, test, dict }) => {
+  console.log(dict);
 
   const { t } = useLocaleMeta();
   const router = useRouter();
@@ -148,6 +149,7 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
             scroll={true}
             selectedRef={selectedRef}
             navIndex={navIndex}
+            dict={dict}
           />
         </>
       );
@@ -209,7 +211,6 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
   const fs = require("fs");
   const path = require("path");
-
   const cacheDir = path.join(process.cwd(), "src/data/image-metadata-cache");
   const cacheFilePath = path.join(cacheDir, "image-metadata-cache.json");
 
@@ -226,7 +227,7 @@ export const getStaticProps = async (context) => {
   const { slug } = context.params;
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
-
+  const dict = await getDictionary(locale);
   const filterdEmakisData = metadataCache.filter(
     (item, index) => item.titleen === slug
   );
@@ -273,6 +274,7 @@ export const getStaticProps = async (context) => {
       locale,
       slug: slug,
       test: addObjEmakis,
+      dict,
     },
   };
 };
