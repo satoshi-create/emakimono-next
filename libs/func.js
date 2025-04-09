@@ -1,10 +1,10 @@
-import chaptergenji from "@/libs/_archive_unused_data/genji/chapters-of-genji.json";
-import { enMeta, jaMeta } from "@/libs/dataSiteMeta";
+import chapterkusouzu from "@/data/emaki-text-data/chapters-of-kusouzu.json";
 import {
   default as enData,
   default as jaData,
-} from "@/libs/image-metadata-cache/image-metadata-cache.json";
-import chapterkusouzu from "@/libs/kusouzu/chapters-of-kusouzu.json";
+} from "@/data/image-metadata-cache/image-metadata-cache.json";
+import chaptergenji from "@/libs/_archive_unused_data/genji/chapters-of-genji.json";
+import { enMeta, jaMeta } from "@/libs/dataSiteMeta";
 import { en, ja } from "@/libs/staticData";
 import parse from "html-react-parser";
 import { useRouter } from "next/router";
@@ -230,7 +230,7 @@ const connectGenjiChaptersScene = (chapter, scene) => {
   }
 };
 const connectEmakiText = (titleen, chapter, text) => {
-  let EmakiTextdata = require(`./emaki-text-data/${titleen}.json`);
+  let EmakiTextdata = require(`@/data/emaki-text-data/${titleen}.json`);
 
   if (EmakiTextdata) {
     const connectEshiChapter = EmakiTextdata.filter(
