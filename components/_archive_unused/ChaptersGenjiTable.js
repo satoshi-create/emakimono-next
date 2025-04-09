@@ -3,7 +3,7 @@ import styles from "@/styles/ChaptersTable.module.css";
 import { faCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import Title from "../Title";
+import Title from "../common/Title";
 
 const ChaptersGenjiTable = ({
   sectiontitle,

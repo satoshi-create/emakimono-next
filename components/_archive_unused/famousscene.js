@@ -1,7 +1,7 @@
 import "lazysizes";
 import Footer from "../common/Footer";
 import Header from "../common/Header";
-import Head from "../Meta";
+import Head from "../common/Meta";
 // import styles from '@/styles/Flow.css.module.css';
 import { useLocale, useLocaleData } from "@/libs/func";
 import { gridImages } from "@/libs/gridImages";

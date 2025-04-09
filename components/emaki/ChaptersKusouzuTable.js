@@ -1,4 +1,4 @@
-import Title from "@/components/Title";
+import Title from "@/components/common/Title";
 import AllKusouzuChapters from "@/libs/kusouzu/chapters-of-kusouzu.json";
 import styles from "@/styles/ChaptersTable.module.css";
 import { faCircle, faXmark } from "@fortawesome/free-solid-svg-icons";

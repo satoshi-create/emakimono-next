@@ -1,4 +1,4 @@
-import LikeButton from "@/components/LikeButton";
+import LikeButton from "@/components/emaki/LikeButton";
 import { AppContext } from "@/pages/_app";
 import {
   Box,

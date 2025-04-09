@@ -1,5 +1,5 @@
 import ActionButton from "@/components/ActionButton";
-import LazyImage from "@/components/LazyImage";
+import LazyImage from "@/components/emaki/LazyImage";
 import { ChaptersGendaibun, ChaptersTitle } from "@/libs/func";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/OverlayEkotoba.module.css";

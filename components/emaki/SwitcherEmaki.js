@@ -1,5 +1,5 @@
-import EmakiImage from "@/components/EmakiImage";
-import OverlayEkotoba from "@/components/OverlayEkotoba";
+import EmakiImage from "@/components/emaki/EmakiImage";
+import OverlayEkotoba from "@/components/emaki/OverlayEkotoba";
 import { forwardRef } from "react";
 
 const SwitcherEmaki = forwardRef(

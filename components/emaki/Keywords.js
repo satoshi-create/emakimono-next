@@ -1,6 +1,6 @@
 import Button from "@/components/common/Button";
-import CustomTagCloud from "@/components/CustomTagCloud";
-import Title from "@/components/Title";
+import Title from "@/components/common/Title";
+import CustomTagCloud from "@/components/emaki/CustomTagCloud";
 import styles from "@/styles/KeywordList.module.css";
 import { useRouter } from "next/router";
 

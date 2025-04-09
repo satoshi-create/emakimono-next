@@ -1,4 +1,4 @@
-import ResposiveImage from "@/components/ResposiveImage";
+import ResposiveImage from "@/components/emaki/ResposiveImage";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/Ekotoba.module.css";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";

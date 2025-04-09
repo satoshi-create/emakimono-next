@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useContext, useState } from "react";
 import { AppContext } from "../../pages/_app";
-import SnsShareBox from "../SnsShareBox";
+import SnsShareBox from "../common/SnsShareBox";
 
 const ModalDescGenji = ({ data }) => {
   const { DescIndex, setDescIndex, handleToId, closeDescModal, orientation } =

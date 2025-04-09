@@ -1,4 +1,4 @@
-import SingleChapterDesc from "@/components/SingleChapterDesc";
+import SingleChapterDesc from "@/components/emaki/SingleChapterDesc";
 import styles from "@/styles/ChapterDesc.module.css";
 import { Accordion } from "@chakra-ui/react";
 import { useState } from "react";

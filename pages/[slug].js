@@ -1,10 +1,10 @@
-import EmakiBreadcrumbs from "@/components/EmakiBreadcrumbs";
-import EmakiConteiner from "@/components/EmakiConteiner";
-import EmakiHeader from "@/components/EmakiHeader";
-import EmakiLandscapContent from "@/components/EmakiLandscapContent";
-import EmakiPortraitContent from "@/components/EmakiPortraitContent";
-import Head from "@/components/Meta";
-import MiddleNavigation from "@/components/MiddleNavigation";
+import Head from "@/components/common/Meta";
+import EmakiBreadcrumbs from "@/components/emaki/EmakiBreadcrumbs";
+import EmakiConteiner from "@/components/emaki/EmakiConteiner";
+import EmakiHeader from "@/components/emaki/EmakiHeader";
+import EmakiLandscapContent from "@/components/emaki/EmakiLandscapContent";
+import EmakiPortraitContent from "@/components/emaki/EmakiPortraitContent";
+import MiddleNavigation from "@/components/common/MiddleNavigation";
 import { default as enData, default as jaData } from "@/libs/data";
 import { useLocaleMeta } from "@/libs/func";
 import emakisData from "@/libs/image-metadata-cache/image-metadata-cache.json";

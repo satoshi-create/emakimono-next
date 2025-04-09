@@ -1,6 +1,6 @@
-import EmakiConteiner from "@/components/EmakiConteiner";
-import FullScreenComp from "@/components/FullScreenComp";
-import Title from "@/components/Title";
+import Title from "@/components/common/Title";
+import EmakiConteiner from "@/components/emaki/EmakiConteiner";
+import FullScreenComp from "@/components/emaki/FullScreenComp";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/FullscreenContents.module.css";
 import Link from "next/link";

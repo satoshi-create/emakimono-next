@@ -1,9 +1,9 @@
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import Header from "@/components/common/Header";
 import Loader from "@/components/common/Loader";
-import Head from "@/components/Meta";
-import RankingCard from "@/components/RankingCard";
-import Title from "@/components/Title";
+import Head from "@/components/common/Meta";
+import Title from "@/components/common/Title";
+import RankingCard from "@/components/emaki/RankingCard";
 import { AppContext } from "@/pages/_app";
 import { useRouter } from "next/router";
 import { useContext } from "react";
