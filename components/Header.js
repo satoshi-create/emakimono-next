@@ -1,3 +1,6 @@
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import NavLinks from "@/components/NavLinks";
+import SearchBoxButton from "@/components/SearchBoxButton";
 import SidebarHome from "@/components/SidebarHome";
 import SocialLinks from "@/components/SocialLinks";
 import { AppContext } from "@/pages/_app";
@@ -8,9 +11,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { Mail } from "react-feather";
-import LanguageSwitcher from "./LanguageSwitcher";
-import NavLinks from "./NavLinks";
-import SearchBoxButton from "./SearchBoxButton";
 
 const Header = ({ slug, fixed }) => {
   const { locale } = useRouter();

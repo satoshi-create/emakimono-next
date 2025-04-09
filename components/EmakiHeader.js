@@ -1,4 +1,7 @@
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import SearchBoxButton from "@/components/SearchBoxButton";
 import SidebarHome from "@/components/SidebarHome";
+import SocialLinks from "@/components/SocialLinks";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiPageHeader.module.css";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
@@ -7,9 +10,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 import { Mail } from "react-feather";
-import LanguageSwitcher from "./LanguageSwitcher";
-import SearchBoxButton from "./SearchBoxButton";
-import SocialLinks from "./SocialLinks";
 
 const EmakiHeader = () => {
   const { locale } = useRouter();

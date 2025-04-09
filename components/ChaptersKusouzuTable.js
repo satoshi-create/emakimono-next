@@ -1,9 +1,9 @@
+import Title from "@/components/Title";
 import AllKusouzuChapters from "@/libs/kusouzu/chapters-of-kusouzu.json";
 import styles from "@/styles/ChaptersTable.module.css";
 import { faCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import Title from "./Title";
 
 const ChaptersKusouzuTable = ({
   sectiontitle,

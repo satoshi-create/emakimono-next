@@ -1,5 +1,5 @@
+import SingleCardC from "@/components/SingleCardC";
 import styles from "@/styles/EditionLinks.module.css";
-import SingleCardC from "./SingleCardC";
 
 const EditionLinks = ({ editionLinks }) => {
   // const { locale } = useRouter();

@@ -1,7 +1,7 @@
+import SocialLinks from "@/components/SocialLinks";
 import styles from "@/styles/Footer.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import SocialLinks from "./SocialLinks";
 
 const Footer = () => {
   const date = new Date();

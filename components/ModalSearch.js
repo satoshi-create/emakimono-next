@@ -1,3 +1,4 @@
+import CardForSearchResults from "@/components/CardForSearchResults";
 import ExtractingListData from "@/libs/ExtractingListData";
 import { authorItem, eraColor, typeItem } from "@/libs/func";
 import { AppContext } from "@/pages/_app";
@@ -8,7 +9,6 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useReducer, useRef, useState } from "react";
 import styled from "styled-components";
 import { toRomaji } from "wanakana";
-import CardForSearchResults from "./CardForSearchResults";
 
 const Button = styled.button`
   &:focus {

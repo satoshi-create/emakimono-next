@@ -1,6 +1,6 @@
+import SingleCardC from "@/components/SingleCardC";
 import ExtractingListData from "@/libs/ExtractingListData";
 import { useEffect, useState } from "react";
-import SingleCardC from "./SingleCardC";
 
 const CardC = ({ data, loading }) => {
   const removeNestedArrayObj = ExtractingListData();

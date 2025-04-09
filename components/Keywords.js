@@ -1,8 +1,8 @@
+import Button from "@/components/common/Button";
 import CustomTagCloud from "@/components/CustomTagCloud";
+import Title from "@/components/Title";
 import styles from "@/styles/KeywordList.module.css";
 import { useRouter } from "next/router";
-import Button from "./common/Button";
-import Title from "./Title";
 
 const Keywords = ({ sectiontitle, sectiontitleen, path, allTags }) => {
   const { locale } = useRouter();

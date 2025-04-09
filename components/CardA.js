@@ -1,8 +1,8 @@
+import SingleCardA from "@/components/SingleCardA";
+import Title from "@/components/Title";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/CardA.module.css";
 import { useContext, useEffect } from "react";
-import SingleCardA from "./SingleCardA";
-import Title from "./Title";
 
 const CardA = ({
   emakis,

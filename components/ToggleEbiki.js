@@ -1,8 +1,8 @@
+import ActionButton from "@/components/ActionButton";
 import { AppContext } from "@/pages/_app";
 import { faBook, faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
-import ActionButton from "./ActionButton";
 
 const ToggleEbiki = () => {
   const { handleEbikiToggle, ebikiToggle } = useContext(AppContext);

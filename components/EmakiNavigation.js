@@ -7,11 +7,11 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
 // import { ArrowRight, ChevronRight } from "react-feather";
+import ActionButton from "@/components/ActionButton";
+import ToggleCharacter from "@/components/ToggleCharacter";
+import ToggleEbiki from "@/components/ToggleEbiki";
+import ToggleEkotoba from "@/components/ToggleEkotoba";
 import { AppContext } from "@/pages/_app";
-import ActionButton from "./ActionButton";
-import ToggleCharacter from "./ToggleCharacter";
-import ToggleEbiki from "./ToggleEbiki";
-import ToggleEkotoba from "./ToggleEkotoba";
 
 // TODO: 横スクロールで最後まで進み、「先頭に戻る」を押しても反応がない
 // ⇒navIndexが0になっている

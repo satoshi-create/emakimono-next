@@ -1,3 +1,4 @@
+import ActionButton from "@/components/ActionButton";
 import { AppContext } from "@/pages/_app";
 import {
   faDownLeftAndUpRightToCenter,
@@ -5,7 +6,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
-import ActionButton from "./ActionButton";
 
 // lock func
 const FullScreen = () => {

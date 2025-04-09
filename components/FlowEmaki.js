@@ -1,10 +1,10 @@
+import EmakiConteiner from "@/components/EmakiConteiner";
+import FullScreenComp from "@/components/FullScreenComp";
+import Title from "@/components/Title";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/FullscreenContents.module.css";
 import Link from "next/link";
 import { useContext } from "react";
-import EmakiConteiner from "./EmakiConteiner";
-import FullScreenComp from "./FullScreenComp";
-import Title from "./Title";
 
 const FlowEmaki = ({
   flowEmakis: emakis,

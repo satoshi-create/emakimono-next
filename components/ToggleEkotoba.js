@@ -1,3 +1,4 @@
+import ActionButton from "@/components/ActionButton";
 import { AppContext } from "@/pages/_app";
 import {
   faComment,
@@ -7,7 +8,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
-import ActionButton from "./ActionButton";
 
 const ToggleEkotoba = ({ data }) => {
   const { kotobagaki } = data;

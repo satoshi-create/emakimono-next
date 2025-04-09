@@ -1,9 +1,9 @@
+import Button from "@/components/common/Button";
+import Title from "@/components/Title";
 import styles from "@/styles/PersonNameList.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Button from "./common/Button";
-import Title from "./Title";
 
 const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
   const { locale } = useRouter();
