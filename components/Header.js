@@ -1,3 +1,4 @@
+import SidebarHome from "@/components/SidebarHome";
 import SocialLinks from "@/components/SocialLinks";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,7 +11,6 @@ import styles from "../styles/Header.module.css";
 import LanguageSwitcher from "./LanguageSwitcher";
 import NavLinks from "./NavLinks";
 import SearchBoxButton from "./SearchBoxButton";
-import SidebarHome from "./SidebarHome";
 
 const Header = ({ slug, fixed }) => {
   const { locale } = useRouter();

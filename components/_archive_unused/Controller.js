@@ -1,11 +1,9 @@
-import React, { useContext } from "react";
-import dataController from "../../libs/controller";
 import Link from "next/link";
+import { useContext } from "react";
+import dataController from "../../libs/controller";
 import styles from "../styles/Controller.module.css";
 // import { NextContext } from "../context/context";
 import { AppContext } from "../../pages/_app";
-import EmakiInfo from "../EmakiInfo";
-import next from "next";
 
 // TODO:リファクタリングする
 // TODO:prev、nextボタンを追加する

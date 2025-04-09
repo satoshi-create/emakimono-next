@@ -1,8 +1,7 @@
 import { useRouter } from "next/router";
-import React from "react";
 import CustomTagCloud from "../components/CustomTagCloud";
 import styles from "../styles/KeywordList.module.css";
-import Button from "./Button";
+import Button from "./common/Button";
 import Title from "./Title";
 
 const Keywords = ({ sectiontitle, sectiontitleen, path, allTags }) => {

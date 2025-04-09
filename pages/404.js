@@ -1,7 +1,7 @@
 import "lazysizes";
 import { useRouter } from "next/router";
 import Breadcrumbs from "../components/Breadcrumbs";
-import Button from "../components/Button";
+import Button from "../components/common/Button";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Head from "../components/Meta";
