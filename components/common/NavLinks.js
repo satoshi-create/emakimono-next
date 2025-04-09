@@ -1,4 +1,4 @@
-import links from "@/libs/links";
+import links from "@/libs/constants/links";
 import styles from "@/styles/NavLinks.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";

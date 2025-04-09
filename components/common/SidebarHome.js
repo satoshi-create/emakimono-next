@@ -1,5 +1,5 @@
 import SocialLinks from "@/components/common/SocialLinks";
-import links from "@/libs/links";
+import links from "@/libs/constants/links";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/SidebarHome.module.css";
 import Link from "next/link";
