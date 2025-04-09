@@ -74,6 +74,12 @@ This project is open source and part of a broader ecosystem.
   
 ---
 
+## 📚 Documentation
+
+For full documentation and contributor guides, please visit the [Emaki Project Wiki](https://github.com/satoshi-create/emakimono-next/wiki).
+
+---
+
 ## 📘 License
 
 MIT License  
