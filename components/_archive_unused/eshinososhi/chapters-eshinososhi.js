@@ -1,7 +1,7 @@
 import AllEshiChapters from "@/libs/emaki-text-data/eshi-no-soshi_tohaku.json";
 import styles from "@/styles/ChaptersTable.module.css";
 import parse from "html-react-parser";
-import Title from "../../Title";
+import Title from "../../common/Title";
 
 const chaptersEshinososhiTable = () => {
   return (

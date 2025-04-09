@@ -9,7 +9,7 @@ import Breadcrumbs from "../../common/Breadcrumbs";
 import CardA from "../../common/CardA";
 import Footer from "../../common/Footer";
 import Header from "../../common/Header";
-import Head from "../../Meta";
+import Head from "../../common/Meta";
 
 const Genjie = ({ title, titleen, posts, slug }) => {
   const { locale } = useRouter();

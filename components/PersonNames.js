@@ -1,5 +1,5 @@
 import Button from "@/components/common/Button";
-import Title from "@/components/Title";
+import Title from "@/components/common/Title";
 import styles from "@/styles/PersonNameList.module.css";
 import Image from "next/image";
 import Link from "next/link";

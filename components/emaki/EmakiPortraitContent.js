@@ -1,14 +1,14 @@
-import ChapterDesc from "@/components/ChapterDesc";
-import ChapterTimeline from "@/components/ChapterTimeline";
+import ToContactForm from "@/components/_archive_unused/ToContactForm";
+import ContactFormGoogle from "@/components/common/ContactFormGoogle";
 import Footer from "@/components/common/Footer";
-import ContactFormGoogle from "@/components/ContactFormGoogle";
-import CustomTagCloud from "@/components/CustomTagCloud";
-import EditionLinks from "@/components/EditionLinks";
-import EmakiConteiner from "@/components/EmakiConteiner";
-import LinkToNote from "@/components/LinkToNote";
-import RecommendEmaki from "@/components/RecommendEmaki";
-import SnsShareBox from "@/components/SnsShareBox";
-import ToContactForm from "@/components/ToContactForm";
+import SnsShareBox from "@/components/common/SnsShareBox";
+import ChapterDesc from "@/components/emaki/ChapterDesc";
+import ChapterTimeline from "@/components/emaki/ChapterTimeline";
+import CustomTagCloud from "@/components/emaki/CustomTagCloud";
+import EditionLinks from "@/components/emaki/EditionLinks";
+import EmakiConteiner from "@/components/emaki/EmakiConteiner";
+import LinkToNote from "@/components/emaki/LinkToNote";
+import RecommendEmaki from "@/components/emaki/RecommendEmaki";
 import ExtractingListData from "@/libs/ExtractingListData";
 import {
   eraColor,

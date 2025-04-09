@@ -1,4 +1,4 @@
-import ChapterList from "@/components/ChapterList";
+import ChapterList from "@/components/emaki/ChapterList";
 import { eraColor } from "@/libs/func";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/Modal.module.css";

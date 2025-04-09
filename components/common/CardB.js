@@ -1,5 +1,5 @@
 import Button from "@/components/common/Button";
-import Title from "@/components/Title";
+import Title from "@/components/common/Title";
 import { eraColor } from "@/libs/func";
 import styles from "@/styles/CardB.module.css";
 import parse from "html-react-parser";

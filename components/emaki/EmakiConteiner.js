@@ -1,10 +1,10 @@
-import CarouselButton from "@/components/CarouselButton";
-import EmakiInfo from "@/components/EmakiInfo";
-import EmakiNavigation from "@/components/EmakiNavigation";
-import FullScreen from "@/components/FullScreen";
-import Modal from "@/components/Modal";
-import ModalDesc from "@/components/ModalDesc";
-import SwitcherEmaki from "@/components/SwitcherEmaki";
+import CarouselButton from "@/components/emaki/CarouselButton";
+import EmakiInfo from "@/components/emaki/EmakiInfo";
+import EmakiNavigation from "@/components/emaki/EmakiNavigation";
+import FullScreen from "@/components/emaki/FullScreen";
+import Modal from "@/components/emaki/Modal";
+import ModalDesc from "@/components/emaki/ModalDesc";
+import SwitcherEmaki from "@/components/emaki/SwitcherEmaki";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiConteiner.module.css";
 import "lazysizes";

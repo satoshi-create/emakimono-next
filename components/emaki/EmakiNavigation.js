@@ -8,9 +8,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
 // import { ArrowRight, ChevronRight } from "react-feather";
 import ActionButton from "@/components/ActionButton";
-import ToggleCharacter from "@/components/ToggleCharacter";
-import ToggleEbiki from "@/components/ToggleEbiki";
-import ToggleEkotoba from "@/components/ToggleEkotoba";
+import ToggleCharacter from "@/components/emaki/ToggleCharacter";
+import ToggleEbiki from "@/components/emaki/ToggleEbiki";
+import ToggleEkotoba from "@/components/emaki/ToggleEkotoba";
 import { AppContext } from "@/pages/_app";
 
 // TODO: 横スクロールで最後まで進み、「先頭に戻る」を押しても反応がない

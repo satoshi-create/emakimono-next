@@ -1,4 +1,4 @@
-import LazyImage from "@/components/LazyImage";
+import LazyImage from "@/components/emaki/LazyImage";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiImage.module.css";
 import Link from "next/link";

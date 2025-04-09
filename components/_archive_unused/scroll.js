@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import LazyImage from "../LazyImage";
+import { useEffect, useState } from "react";
+import LazyImage from "../emaki/LazyImage";
 
 const HorizontalScrollGallery = ({ images }) => {
   const [windowHeight, setWindowHeight] = useState(0);

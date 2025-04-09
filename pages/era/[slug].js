@@ -2,7 +2,7 @@ import Breadcrumbs from "@/components/common/Breadcrumbs";
 import CardA from "@/components/common/CardA";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
-import Head from "@/components/Meta";
+import Head from "@/components/common/Meta";
 import { eraItem, removeNestedEmakisObj } from "@/libs/func";
 import {
   default as enData,

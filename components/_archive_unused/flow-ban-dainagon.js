@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import Breadcrumbs from "../common/Breadcrumbs";
 import Footer from "../common/Footer";
 import Header from "../common/Header";
-import FlowEmaki from "../FlowEmaki";
-import Head from "../Meta";
+import Head from "../common/Meta";
+import FlowEmaki from "../emaki/FlowEmaki";
 
 const BanBainagon = () => {
   const { locale } = useRouter();

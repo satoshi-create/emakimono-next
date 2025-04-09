@@ -1,7 +1,7 @@
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import Footer from "@/components/common/Footer";
-import FlowEmaki from "@/components/FlowEmaki";
-import Head from "@/components/Meta";
+import Head from "@/components/common/Meta";
+import FlowEmaki from "@/components/emaki/FlowEmaki";
 import { useLocale, useLocaleData } from "@/libs/func";
 import "lazysizes";
 import { useRouter } from "next/router";

@@ -1,8 +1,8 @@
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
-import Head from "@/components/Meta";
-import Title from "@/components/Title";
+import Head from "@/components/common/Meta";
+import Title from "@/components/common/Title";
 import styles from "@/styles/contact.module.css";
 import { FormControl, Input, Textarea } from "@chakra-ui/react";
 import "lazysizes";
