@@ -1,6 +1,6 @@
+import styles from "@/styles/ChapterDesc.module.css";
 import { Accordion } from "@chakra-ui/react";
-import React, { useState } from "react";
-import styles from "../styles/ChapterDesc.module.css";
+import { useState } from "react";
 import SingleChapterDesc from "./SingleChapterDesc";
 
 const ChapterDesc = ({ emakis, data }) => {

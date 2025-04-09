@@ -3,9 +3,9 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Head from "@/components/Meta";
 import PersonNames from "@/components/PersonNames";
+import ExtractingListData from "@/libs/ExtractingListData";
+import { personnameItem, useLocaleData } from "@/libs/func";
 import "lazysizes";
-import ExtractingListData from "../../libs/ExtractingListData";
-import { personnameItem, useLocaleData } from "../../libs/func";
 
 const PersonnamesComp = () => {
   const { locale } = useLocaleData();

@@ -1,4 +1,6 @@
-﻿import {
+﻿import { ChaptersDesc, ChaptersTitle, eraColor } from "@/libs/func";
+import { AppContext } from "@/pages/_app";
+import {
   AccordionButton,
   AccordionIcon,
   AccordionItem,
@@ -8,9 +10,7 @@
   Text,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
-import { ChaptersDesc, ChaptersTitle, eraColor } from "../libs/func";
-import { AppContext } from "../pages/_app";
+import { useContext, useState } from "react";
 
 const SingleChapterDesc = ({ item, index, emakis, data }) => {
   const { locale } = useRouter();

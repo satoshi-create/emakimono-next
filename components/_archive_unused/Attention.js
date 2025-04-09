@@ -1,7 +1,6 @@
-import React from "react";
-import styles from "../styles/Attention.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styles from "@/styles/Attention.module.css";
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 
 // indexページ用

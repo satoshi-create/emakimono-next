@@ -1,8 +1,7 @@
+import styles from "@/styles/BannerToHelp.module.css";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import React from "react";
-import styles from "../styles/BannerToHelp.module.css";
 
 const BannerToHelp = () => {
   return (

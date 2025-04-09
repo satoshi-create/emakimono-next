@@ -1,4 +1,4 @@
-import cloudinary from "../../libs/cloudinary";
+import cloudinary from "@/libs/cloudinary";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
@@ -14,7 +14,7 @@ export default async function handler(req, res) {
         url: resource.secure_url,
         created_at: resource.created_at,
         width: resource.width,
-        height:resource.height
+        height: resource.height,
       }));
 
       res.status(200).json({ images });

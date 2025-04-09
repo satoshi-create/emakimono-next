@@ -1,14 +1,14 @@
-import { useRouter } from "next/router";
-import { removeNestedEmakisObj } from "../../../libs/func";
+import { removeNestedEmakisObj } from "@/libs/func";
+import AllGenjiChapters from "@/libs/genji/chapters-of-genji.json";
 import {
   default as enData,
   default as jaData,
-} from "../../../libs/image-metadata-cache/image-metadata-cache.json";
+} from "@/libs/image-metadata-cache/image-metadata-cache.json";
+import { useRouter } from "next/router";
 import Breadcrumbs from "../../Breadcrumbs";
 import CardA from "../../CardA";
 import Footer from "../../Footer";
 import Header from "../../Header";
-import AllGenjiChapters from "../../libs/genji/chapters-of-genji.json";
 import Head from "../../Meta";
 
 const Genjie = ({ title, titleen, posts, slug }) => {

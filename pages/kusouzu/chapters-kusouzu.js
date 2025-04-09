@@ -3,8 +3,8 @@ import ChaptersKusouzuTable from "@/components/ChaptersKusouzuTable";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Head from "@/components/Meta";
-import ExtractingListData from "../../libs/ExtractingListData";
-import { useLocaleData } from "../../libs/func";
+import ExtractingListData from "@/libs/ExtractingListData";
+import { useLocaleData } from "@/libs/func";
 
 const ChaptersKusouzulist = () => {
   const { t: data } = useLocaleData();

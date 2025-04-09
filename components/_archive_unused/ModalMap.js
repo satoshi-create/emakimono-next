@@ -1,12 +1,12 @@
+import styles from "@/styles/MapModal.module.css";
 import {
   faAnglesLeft,
   faAnglesRight,
   faClose,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "../../pages/_app";
-import styles from "../styles/MapModal.module.css";
 
 const ModalMap = ({ data }) => {
   const { closeMapModal, MapIndex, setMapIndex, handleToId } =

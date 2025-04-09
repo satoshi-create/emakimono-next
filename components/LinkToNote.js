@@ -1,7 +1,6 @@
+import styles from "@/styles/LinkToNote.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import styles from "../styles/LinkToNote.module.css";
 
 const LinkToNote = ({ reletedEmakisToNote }) => {
   // const reletedEmakisToNote = noteData.filter((item) =>

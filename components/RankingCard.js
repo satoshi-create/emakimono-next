@@ -1,3 +1,4 @@
+import { AppContext } from "@/pages/_app";
 import { ArrowForwardIcon, ViewIcon } from "@chakra-ui/icons";
 import {
   Badge,
@@ -13,8 +14,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
-import { AppContext } from "../pages/_app";
+import { useContext } from "react";
 
 export default function RankingCard({ isCompact = false }) {
   const { locale } = useRouter();

@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
-import { AppContext } from "../pages/_app";
-import styles from "../styles/SearchForm.module.css";
+import { AppContext } from "@/pages/_app";
+import styles from "@/styles/SearchForm.module.css";
+import { useContext } from "react";
 
 const SearchForm = () => {
   const { setSearchKeyword } = useContext(AppContext);

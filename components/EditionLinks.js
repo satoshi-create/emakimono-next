@@ -1,5 +1,4 @@
-import React from "react";
-import styles from "../styles/EditionLinks.module.css";
+import styles from "@/styles/EditionLinks.module.css";
 import SingleCardC from "./SingleCardC";
 
 const EditionLinks = ({ editionLinks }) => {

@@ -1,19 +1,19 @@
-﻿import { Box, VStack } from "@chakra-ui/react";
-import parse from "html-react-parser";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { useContext } from "react";
-import ExtractingListData from "../libs/ExtractingListData";
+﻿import ExtractingListData from "@/libs/ExtractingListData";
 import {
   eraColor,
   filterdKeywords,
   keywordItem,
   useLocaleData,
-} from "../libs/func";
-import noteData from "../libs/note/data.json";
-import { AppContext } from "../pages/_app";
-import styles from "../styles/EmakiLandscapContent.module.css";
+} from "@/libs/func";
+import noteData from "@/libs/note/data.json";
+import { AppContext } from "@/pages/_app";
+import styles from "@/styles/EmakiLandscapContent.module.css";
+import { Box, VStack } from "@chakra-ui/react";
+import parse from "html-react-parser";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useContext } from "react";
 import ChapterDesc from "./ChapterDesc";
 import ChapterTimeline from "./ChapterTimeline";
 import CustomTagCloud from "./CustomTagCloud";

@@ -1,10 +1,10 @@
+import links from "@/libs/links";
+import { AppContext } from "@/pages/_app";
+import styles from "@/styles/SidebarHome.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { X } from "react-feather";
-import links from "../libs/links";
-import { AppContext } from "../pages/_app";
-import styles from "../styles/SidebarHome.module.css";
 import SocialLinks from "./SocialLinks";
 
 const SidebarHome = () => {

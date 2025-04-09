@@ -1,5 +1,4 @@
-import React from "react";
-import styles from "../styles/Title.module.css";
+import styles from "@/styles/Title.module.css";
 
 const Title = ({ sectiontitle }) => {
   return (

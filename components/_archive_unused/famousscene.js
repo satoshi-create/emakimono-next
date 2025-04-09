@@ -2,10 +2,10 @@ import "lazysizes";
 import Footer from "../Footer";
 import Header from "../Header";
 import Head from "../Meta";
-// import styles from "../styles/Flow.css.module.css";
+// import styles from '@/styles/Flow.css.module.css';
+import { useLocale, useLocaleData } from "@/libs/func";
+import { gridImages } from "@/libs/gridImages";
 import { useRouter } from "next/router";
-import { useLocale, useLocaleData } from "../../libs/func";
-import { gridImages } from "../../libs/gridImages";
 import Breadcrumbs from "../Breadcrumbs";
 import GridImageList from "../GridImageList";
 

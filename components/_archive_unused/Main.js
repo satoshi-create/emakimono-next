@@ -1,5 +1,4 @@
-import React from "react";
-import styles from "../styles/Card.module.css";
+import styles from "@/styles/Card.module.css";
 import Card from "./Card";
 // import CardConteiner from "./CardConteiner";
 import Title from "../Title";

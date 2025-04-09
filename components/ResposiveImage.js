@@ -1,7 +1,6 @@
+import styles from "@/styles/ResposiveImage.module.css";
 import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
-import React from "react";
-import styles from "../styles/ResposiveImage.module.css";
 
 const ResposiveImage = ({
   value: { srcSp, srcTb, src, name, srcWidth, srcHeight, scroll, load, index },

@@ -1,10 +1,10 @@
+import { AppContext } from "@/pages/_app";
+import styles from "@/styles/ToContactForm.module.css";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import parse from "html-react-parser";
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
-import { AppContext } from "../pages/_app";
-import styles from "../styles/ToContactForm.module.css";
+import { useContext } from "react";
 
 const ToContactForm = () => {
   const { locale } = useRouter();

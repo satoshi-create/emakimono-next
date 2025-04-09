@@ -2,9 +2,9 @@ import CardA from "@/components/CardA";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Head from "@/components/Meta";
+import ExtractingListData from "@/libs/ExtractingListData";
+import { useLocale } from "@/libs/func";
 import "lazysizes";
-import ExtractingListData from "../libs/ExtractingListData";
-import { useLocale } from "../libs/func";
 
 const Home = () => {
   const { t } = useLocale();

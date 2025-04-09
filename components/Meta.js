@@ -1,8 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React from "react";
 // import siteImg from "/ogp.jpg";
-import { useLocaleMeta } from "../libs/func";
+import { useLocaleMeta } from "@/libs/func";
 
 const Meta = ({
   pagetitle,

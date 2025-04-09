@@ -1,11 +1,7 @@
-import React from "react";
-import styles from "../../styles/ChaptersTable.module.css";
-import AllEshiChapters from "../../libs/emaki-text-data/eshi-no-soshi_tohaku.json";
-import Title from "../../Title";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
+import AllEshiChapters from "@/libs/emaki-text-data/eshi-no-soshi_tohaku.json";
+import styles from "@/styles/ChaptersTable.module.css";
 import parse from "html-react-parser";
+import Title from "../../Title";
 
 const chaptersEshinososhiTable = () => {
   return (

@@ -1,19 +1,19 @@
-import React, { useContext, useState } from "react";
-import { AppContext } from "../../pages/_app";
-import styles from "../styles/ModalDesc.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faClose,
-  faAnglesLeft,
-  faAnglesRight,
-} from "@fortawesome/free-solid-svg-icons";
-import {
+  ChaptersTitle,
   connectGenjiChapters,
   connectGenjiChaptersScene,
-  ChaptersTitle,
-} from "../../libs/func";
-import SnsShareBox from "../SnsShareBox";
+} from "@/libs/func";
+import styles from "@/styles/ModalDesc.module.css";
+import {
+  faAnglesLeft,
+  faAnglesRight,
+  faClose,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
+import { useContext, useState } from "react";
+import { AppContext } from "../../pages/_app";
+import SnsShareBox from "../SnsShareBox";
 
 const ModalDescGenji = ({ data }) => {
   const { DescIndex, setDescIndex, handleToId, closeDescModal, orientation } =

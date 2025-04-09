@@ -1,9 +1,9 @@
+import styles from "@/styles/Translate.module.css";
 import { faLanguage } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useState } from "react";
 import Flag from "react-flagkit";
-import styles from "../styles/Translate.module.css";
 
 const Translate = ({ footerstyle, emakipage, slug }) => {
   const [toggle, setToggle] = useState(false);

@@ -1,3 +1,6 @@
+import { ChaptersGendaibun, ChaptersTitle } from "@/libs/func";
+import { AppContext } from "@/pages/_app";
+import styles from "@/styles/OverlayEkotoba.module.css";
 import {
   faCircleQuestion,
   faLocationDot,
@@ -6,10 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
 import { useRouter } from "next/router";
-import React, { useContext, useEffect, useState } from "react";
-import { ChaptersGendaibun, ChaptersTitle } from "../libs/func";
-import { AppContext } from "../pages/_app";
-import styles from "../styles/OverlayEkotoba.module.css";
+import { useContext, useEffect, useState } from "react";
 import ActionButton from "./ActionButton";
 import LazyImage from "./LazyImage";
 

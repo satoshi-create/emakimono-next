@@ -1,10 +1,10 @@
+import { AppContext } from "@/pages/_app";
+import styles from "@/styles/Ekotoba.module.css";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
-import React, { useContext, useEffect, useState } from "react";
-import { AppContext } from "../pages/_app";
-import styles from "../styles/Ekotoba.module.css";
+import { useContext, useEffect, useState } from "react";
 import ResposiveImage from "./ResposiveImage";
 
 const Ekotoba = ({

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import postMessage from "@/libs/discord";
+import styles from "@/styles/LikeButton.module.css";
+import { useState } from "react";
 import { Heart } from "react-feather";
-import postMessage from "../libs/discord";
-import styles from "../styles/LikeButton.module.css";
 
 const LikeButton = ({ title, edition, author, ort }) => {
   const [isDisplay, setIsDisplay] = useState(false);

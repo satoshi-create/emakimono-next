@@ -3,13 +3,13 @@ import CardA from "@/components/CardA";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Head from "@/components/Meta";
-import { useRouter } from "next/router";
-import { removeNestedEmakisObj } from "../../libs/func";
+import { removeNestedEmakisObj } from "@/libs/func";
 import {
   default as enData,
   default as jaData,
-} from "../../libs/image-metadata-cache/image-metadata-cache.json";
-import AllKusouzuChapters from "../../libs/kusouzu/chapters-of-kusouzu.json";
+} from "@/libs/image-metadata-cache/image-metadata-cache.json";
+import AllKusouzuChapters from "@/libs/kusouzu/chapters-of-kusouzu.json";
+import { useRouter } from "next/router";
 
 const Kusouzu = ({ title, titleen, posts, slug }) => {
   const { locale } = useRouter();

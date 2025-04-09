@@ -1,6 +1,5 @@
+import styles from "@/styles/EmakiBreadcrumbs.module.css";
 import Link from "next/link";
-import React from "react";
-import styles from "../styles/EmakiBreadcrumbs.module.css";
 
 const EmakiBreadcrumbs = ({ nameA, nameAen, nameB, orientation }) => {
   return (

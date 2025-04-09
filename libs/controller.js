@@ -1,17 +1,17 @@
-import React, { useContext } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AppContext } from "@/pages/_app";
 import {
-  faHouse,
   faAnglesLeft,
   faAnglesRight,
-  faPaintBrush,
-  faKeyboard,
-  faCommentSlash,
-  faComment,
   faChevronLeft,
   faChevronRight,
+  faComment,
+  faCommentSlash,
+  faHouse,
+  faKeyboard,
+  faPaintBrush,
 } from "@fortawesome/free-solid-svg-icons";
-import { AppContext } from "../pages/_app";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useContext } from "react";
 
 const DataController = () => {
   const { ekotobaImageToggle, setEkotobaImageToggle } = useContext(AppContext);

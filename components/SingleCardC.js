@@ -1,7 +1,6 @@
-import React from "react";
+import styles from "@/styles/CardC.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "../styles/CardC.module.css";
 import { useRouter } from "next/router";
 
 const SingleCardC = ({ item, i }) => {

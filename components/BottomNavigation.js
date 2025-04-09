@@ -1,3 +1,4 @@
+import { AppContext } from "@/pages/_app";
 import {
   Box,
   Flex,
@@ -6,9 +7,8 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { FaCrown, FaHome, FaScroll, FaSearch } from "react-icons/fa";
-import { AppContext } from "../pages/_app";
 
 const BottomNavigation = () => {
   const { locale } = useRouter();

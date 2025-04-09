@@ -3,12 +3,12 @@ import CardA from "@/components/CardA";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Head from "@/components/Meta";
-import { useRouter } from "next/router";
-import { removeNestedEmakisObj, typeItem } from "../../libs/func";
+import { removeNestedEmakisObj, typeItem } from "@/libs/func";
 import {
   default as enData,
   default as jaData,
-} from "../../libs/image-metadata-cache/image-metadata-cache.json";
+} from "@/libs/image-metadata-cache/image-metadata-cache.json";
+import { useRouter } from "next/router";
 
 const Type = ({ name, nameen, posts, slug }) => {
   const { locale } = useRouter();
