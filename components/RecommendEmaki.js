@@ -1,5 +1,5 @@
-import CardC from "@/components/CardC";
-import Loader from "@/components/Loader";
+import CardC from "@/components/common/CardC";
+import Loader from "@/components/common/Loader";
 import RankingCard from "@/components/RankingCard";
 import { AppContext } from "@/pages/_app";
 import { LinkIcon, StarIcon } from "@chakra-ui/icons";

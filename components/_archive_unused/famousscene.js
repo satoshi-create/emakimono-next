@@ -1,12 +1,12 @@
 import "lazysizes";
-import Footer from "../Footer";
-import Header from "../Header";
+import Footer from "../common/Footer";
+import Header from "../common/Header";
 import Head from "../Meta";
 // import styles from '@/styles/Flow.css.module.css';
 import { useLocale, useLocaleData } from "@/libs/func";
 import { gridImages } from "@/libs/gridImages";
 import { useRouter } from "next/router";
-import Breadcrumbs from "../Breadcrumbs";
+import Breadcrumbs from "../common/Breadcrumbs";
 import GridImageList from "../GridImageList";
 
 const Famousscene = ({ cyouzyuuzinbutugiga, seiyoukaiga, suibokuga, mone }) => {

@@ -5,10 +5,10 @@ import {
   default as jaData,
 } from "@/libs/image-metadata-cache/image-metadata-cache.json";
 import { useRouter } from "next/router";
-import Breadcrumbs from "../../Breadcrumbs";
-import CardA from "../../CardA";
-import Footer from "../../Footer";
-import Header from "../../Header";
+import Breadcrumbs from "../../common/Breadcrumbs";
+import CardA from "../../common/CardA";
+import Footer from "../../common/Footer";
+import Header from "../../common/Header";
 import Head from "../../Meta";
 
 const Genjie = ({ title, titleen, posts, slug }) => {

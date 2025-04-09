@@ -1,7 +1,7 @@
-import Breadcrumbs from "@/components/Breadcrumbs";
-import CardA from "@/components/CardA";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
+import CardA from "@/components/common/CardA";
+import Footer from "@/components/common/Footer";
+import Header from "@/components/common/Header";
 import Head from "@/components/Meta";
 import { eraItem, removeNestedEmakisObj } from "@/libs/func";
 import {

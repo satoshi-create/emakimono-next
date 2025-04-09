@@ -1,10 +1,10 @@
 import { useLocale, useLocaleData } from "@/libs/func";
 import "lazysizes";
 import { useRouter } from "next/router";
-import Breadcrumbs from "../Breadcrumbs";
+import Breadcrumbs from "../common/Breadcrumbs";
+import Footer from "../common/Footer";
+import Header from "../common/Header";
 import FlowEmaki from "../FlowEmaki";
-import Footer from "../Footer";
-import Header from "../Header";
 import Head from "../Meta";
 
 const BanBainagon = () => {
