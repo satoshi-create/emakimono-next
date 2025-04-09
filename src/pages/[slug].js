@@ -210,7 +210,7 @@ export const getStaticProps = async (context) => {
   const fs = require("fs");
   const path = require("path");
 
-  const cacheDir = path.join(process.cwd(), "data/image-metadata-cache");
+  const cacheDir = path.join(process.cwd(), "src/data/image-metadata-cache");
   const cacheFilePath = path.join(cacheDir, "image-metadata-cache.json");
 
   // キャッシュファイルが存在しない場合のエラー処理
