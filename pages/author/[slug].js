@@ -3,11 +3,11 @@ import CardA from "@/components/common/CardA";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import Head from "@/components/common/Meta";
-import { authorItem, removeNestedEmakisObj } from "@/libs/func";
 import {
   default as enData,
   default as jaData,
-} from "@/libs/image-metadata-cache/image-metadata-cache.json";
+} from "@/data/image-metadata-cache/image-metadata-cache.json";
+import { authorItem, removeNestedEmakisObj } from "@/libs/func";
 import { useRouter } from "next/router";
 
 const Author = ({ name, nameen, posts, slug }) => {

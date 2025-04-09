@@ -4,11 +4,11 @@ import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import Head from "@/components/common/Meta";
 import AllKusouzuChapters from "@/data/emaki-text-data/chapters-of-kusouzu.json";
-import { removeNestedEmakisObj } from "@/libs/func";
 import {
   default as enData,
   default as jaData,
-} from "@/libs/image-metadata-cache/image-metadata-cache.json";
+} from "@/data/image-metadata-cache/image-metadata-cache.json";
+import { removeNestedEmakisObj } from "@/libs/func";
 import { useRouter } from "next/router";
 
 const Kusouzu = ({ title, titleen, posts, slug }) => {
