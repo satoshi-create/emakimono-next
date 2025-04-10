@@ -1,11 +1,11 @@
 import { useLocale, useLocaleData } from "@/utils/func";
 import "lazysizes";
 import { useRouter } from "next/router";
-import Breadcrumbs from "../common/Breadcrumbs";
-import Footer from "../common/Footer";
-import Header from "../common/Header";
-import Head from "../common/Meta";
-import FlowEmaki from "../emaki/FlowEmaki";
+import Footer from "../layout/Footer";
+import Header from "../layout/Header";
+import Head from "../meta/Meta";
+import Breadcrumbs from "../navigation/Breadcrumbs";
+import FlowEmaki from "./FlowEmaki";
 
 const BanBainagon = () => {
   const { locale } = useRouter();

@@ -1,7 +1,7 @@
 import styles from "@/styles/CardA.module.css";
 import { useContext, useEffect } from "react";
 import { AppContext } from "../../pages/_app";
-import CardA from "../common/CardA";
+import CardA from "../ui/CardA";
 
 const SortEra = ({ emakis, columns }) => {
   const { query, setQuery, setfliterdEmakis, fliterdEmakis } =

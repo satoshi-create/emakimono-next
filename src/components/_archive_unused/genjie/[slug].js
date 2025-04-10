@@ -5,11 +5,11 @@ import {
 import AllGenjiChapters from "@/libs/genji/chapters-of-genji.json";
 import { removeNestedEmakisObj } from "@/utils/func";
 import { useRouter } from "next/router";
-import Breadcrumbs from "../../common/Breadcrumbs";
-import CardA from "../../common/CardA";
-import Footer from "../../common/Footer";
-import Header from "../../common/Header";
-import Head from "../../common/Meta";
+import Footer from "../../layout/Footer";
+import Header from "../../layout/Header";
+import Head from "../../meta/Meta";
+import Breadcrumbs from "../../navigation/Breadcrumbs";
+import CardA from "../../ui/CardA";
 
 const Genjie = ({ title, titleen, posts, slug }) => {
   const { locale } = useRouter();

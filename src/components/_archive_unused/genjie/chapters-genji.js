@@ -1,8 +1,8 @@
 import ChaptersGenjiTable from "@/components/ChaptersGenjiTable";
-import Breadcrumbs from "@/components/common/Breadcrumbs";
-import Footer from "@/components/common/Footer";
-import Header from "@/components/common/Header";
-import Head from "@/components/common/Meta";
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
+import Head from "@/components/meta/Meta";
+import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { genjieSlugItem, useLocaleData } from "@/utils/func";
 

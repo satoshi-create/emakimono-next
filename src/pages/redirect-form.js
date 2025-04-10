@@ -1,8 +1,8 @@
-import Button from "@/components/common/Button";
-import Footer from "@/components/common/Footer";
-import Header from "@/components/common/Header";
-import Head from "@/components/common/Meta";
-import Title from "@/components/common/Title";
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
+import Head from "@/components/meta/Meta";
+import Button from "@/components/ui/Button";
+import Title from "@/components/ui/Title";
 import { useLocale, useLocaleData } from "@/utils/func";
 import "lazysizes";
 import { useRouter } from "next/router";

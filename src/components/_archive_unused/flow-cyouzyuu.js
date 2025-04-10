@@ -1,11 +1,11 @@
-import FlowEmaki from "@/components/emaki/FlowEmaki";
+import FlowEmaki from "@/components/_archive_unused/FlowEmaki";
 import { useLocale, useLocaleData } from "@/utils/func";
 import "lazysizes";
 import { useRouter } from "next/router";
-import Breadcrumbs from "../common/Breadcrumbs";
-import Footer from "../common/Footer";
-import Header from "../common/Header";
-import Head from "../common/Meta";
+import Footer from "../layout/Footer";
+import Header from "../layout/Header";
+import Head from "../meta/Meta";
+import Breadcrumbs from "../navigation/Breadcrumbs";
 
 // TODO:loading機能を追加する
 

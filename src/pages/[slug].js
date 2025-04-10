@@ -1,10 +1,10 @@
-import Head from "@/components/common/Meta";
-import MiddleNavigation from "@/components/common/MiddleNavigation";
-import EmakiBreadcrumbs from "@/components/emaki/EmakiBreadcrumbs";
-import EmakiConteiner from "@/components/emaki/EmakiConteiner";
-import EmakiHeader from "@/components/emaki/EmakiHeader";
-import EmakiLandscapContent from "@/components/emaki/EmakiLandscapContent";
-import EmakiPortraitContent from "@/components/emaki/EmakiPortraitContent";
+import EmakiLandscapContent from "@/components/emaki/layout/EmakiLandscapContent";
+import EmakiPortraitContent from "@/components/emaki/layout/EmakiPortraitContent";
+import EmakiConteiner from "@/components/emaki/layout/EmakiConteiner";
+import EmakiHeader from "@/components/emaki/layout/EmakiHeader";
+import EmakiBreadcrumbs from "@/components/emaki/navigation/EmakiBreadcrumbs";
+import Head from "@/components/meta/Meta";
+import MiddleNavigation from "@/components/navigation/MiddleNavigation";
 import { default as enData, default as jaData } from "@/data/data";
 import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
 import { getDictionary } from "@/libs/i18n/getDictionary";
