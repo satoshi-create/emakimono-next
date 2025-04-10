@@ -34,7 +34,7 @@ async function fetchImageDimensions(publicId) {
   } catch (error) {
     console.error(`Error fetching dimensions for ${publicId}:`, error.message);
 
-     // 詳細エラーをログに出力
+    // 詳細エラーをログに出力
     if (error.response && error.response.data) {
       console.error("Cloudinary API Error Details:", error.response.data);
     }
@@ -67,11 +67,11 @@ async function updateNestedArray(data) {
 
             const dimensions = await fetchImageDimensions(publicId);
             if (dimensions) {
-              console.log("Fetched dimensions:", dimensions);
+              // console.log("Fetched dimensions:", dimensions);
               return {
                 ...emaki,
                 srcWidth: dimensions.width,
-                srcHeight: dimensions.height
+                srcHeight: dimensions.height,
               };
             } else {
               return emaki; // スキップして元のデータを返す
@@ -108,10 +108,10 @@ app.put("/update-json", async (req, res) => {
       "utf-8"
     );
 
-    console.log(
-      `Updated JSON data:`
-      // JSON.parse(fs.readFileSync(jsonFilePath, "utf-8"))
-    );
+    // console.log(
+    //   `Updated JSON data:`
+    //   // JSON.parse(fs.readFileSync(jsonFilePath, "utf-8"))
+    // );
 
     res.status(200).json({
       message: "JSON data updated successfully",
@@ -124,8 +124,7 @@ app.put("/update-json", async (req, res) => {
 
 // サーバー起動
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  // console.log()`Server is running on http://localhost:${PORT}`);
 });
-
 
 // node pages/api/updatejson.js

@@ -21,7 +21,7 @@ const Contact = () => {
   const send = async (e) => {
     e.preventDefault();
     setisLoading(true);
-    console.log("送信中");
+    // console.log("送信中");
 
     let data = {
       name,
@@ -39,7 +39,7 @@ const Contact = () => {
     })
       .then((res) => {
         if (res.status === 200) {
-          console.log("送信が成功しました");
+          // console.log("送信が成功しました");
           setisLoading(false);
           setSubmitted(true);
           setName("");

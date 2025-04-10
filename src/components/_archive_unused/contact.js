@@ -11,18 +11,18 @@ export default async function sendMail(req, res) {
     },
   });
 
-    await new Promise((resolve, reject) => {
-      // verify connection configuration
-      transporter.verify(function (error, success) {
-        if (error) {
-          console.log(error);
-          reject(error);
-        } else {
-          console.log("Server is ready to take our messages");
-          resolve(success);
-        }
-      });
+  await new Promise((resolve, reject) => {
+    // verify connection configuration
+    transporter.verify(function (error, success) {
+      if (error) {
+        // console.log(error);
+        reject(error);
+      } else {
+        // console.log("Server is ready to take our messages");
+        resolve(success);
+      }
     });
+  });
 
   const toHostMail = {
     from: process.env.USER,
@@ -60,30 +60,30 @@ export default async function sendMail(req, res) {
         `,
   };
 
-    await new Promise((resolve, reject) => {
-      // send mail
-      transporter.sendMail(toHostMail, (err, info) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          console.log(info);
-          resolve(info);
-        }
-      });
+  await new Promise((resolve, reject) => {
+    // send mail
+    transporter.sendMail(toHostMail, (err, info) => {
+      if (err) {
+        console.error(err);
+        reject(err);
+      } else {
+        // console.log(info);
+        resolve(info);
+      }
     });
-    await new Promise((resolve, reject) => {
-      // send mail
-      transporter.sendMail(toGuestMail, (err, info) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          console.log(info);
-          resolve(info);
-        }
-      });
+  });
+  await new Promise((resolve, reject) => {
+    // send mail
+    transporter.sendMail(toGuestMail, (err, info) => {
+      if (err) {
+        console.error(err);
+        reject(err);
+      } else {
+        // console.log(info);
+        resolve(info);
+      }
     });
+  });
 
   res.status(200).json({
     success: true,

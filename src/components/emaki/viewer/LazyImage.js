@@ -79,9 +79,7 @@ const LazyImage = ({
 
   const getImages = (emaki, cfg) => {
     if (cfg === "cloudinary") {
-      console.log(getResponsiveSrcCloudinary(emaki));
-
-      console.log(getResponsiveSrcCloudinary(emaki));
+      // console.log(getResponsiveSrcCloudinary(emaki));
 
       return getResponsiveSrcCloudinary(emaki);
     } else {

@@ -7,6 +7,7 @@ import { AppContext } from "@/pages/_app";
 import styles from "@/styles/Header.module.css";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext } from "react";
@@ -27,7 +28,14 @@ const Header = ({ slug, fixed }) => {
       <div className={styles.center}>
         <Link href="/">
           <a className={styles.title}>
-            <img src="/favicon.png" alt="favicon" className={styles.favicon} />
+            <Image
+              src={"/favicon.ico"}
+              alt="favicon"
+              className={styles.favicon}
+              width={25}
+              height={25}
+            />
+            {/* <img src="/favicon.png" alt="favicon" className={styles.favicon} /> */}
             {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
           </a>
         </Link>

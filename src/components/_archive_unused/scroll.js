@@ -4,7 +4,6 @@ import LazyImage from "../emaki/viewer/LazyImage";
 const HorizontalScrollGallery = ({ images }) => {
   const [windowHeight, setWindowHeight] = useState(0);
   const emakis = images.emakis;
-  console.log(emakis);
 
   // ウィンドウの高さを取得
   useEffect(() => {
@@ -78,8 +77,6 @@ export const getStaticProps = async () => {
   const filteredImages = metadataCache
     .filter((item) => item.title === "奈与竹物語絵巻") // titleでマッチするオブジェクトを取得
     .find((item) => item);
-
-  console.log(filteredImages);
 
   return {
     props: {

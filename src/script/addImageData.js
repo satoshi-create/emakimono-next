@@ -41,7 +41,7 @@ const AddImageData = () => {
               return a.id - b.id;
             });
           const setNewArr = [...new Set(newArr)];
-          console.log(setNewArr);
+          // console.log(setNewArr);
         });
       });
     };

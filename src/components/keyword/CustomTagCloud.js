@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { TagCloud } from "react-tagcloud";
 // import { useRouter } from 'next/router';
 import { ArrowForwardIcon } from "@chakra-ui/icons";
@@ -135,7 +135,7 @@ const CustomTagCloud = ({ tags, emakiPage }) => {
       />
       {emakiPage && (
         <Box marginTop={6} textAlign="right">
-          <Link href={`/keyword/keywordlist`}>
+          <Link href={`keyword/keywordlist`}>
             <ChakraLink textDecoration="none">
               <Button
                 rightIcon={<ArrowForwardIcon />}

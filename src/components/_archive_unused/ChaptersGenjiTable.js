@@ -10,7 +10,6 @@ const ChaptersGenjiTable = ({
   sectiontitleen,
   ExistGenjiChapters,
 }) => {
-  // console.log(ExistGenjiChapters.filter((item, i) => item.id === "13"));
   // const chapterGenjiMatching = (title) => {
   //   const ArrayMathing = ExistGenjiChapters.map((item, i) => {
   //     if (item.title === title) {

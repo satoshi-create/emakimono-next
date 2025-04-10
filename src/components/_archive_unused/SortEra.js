@@ -1,5 +1,5 @@
 import styles from "@/styles/CardA.module.css";
-import { useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { AppContext } from "../../pages/_app";
 import CardA from "../ui/CardA";
 
@@ -9,19 +9,22 @@ const SortEra = ({ emakis, columns }) => {
 
   const eraTab = ["全て", ...new Set(emakis.map((item) => item.era))];
 
-  const fetchEmakis = (q) => {
-    const serchEmakis = emakis.filter((item) => {
-      const title = item.title.includes(q);
-      const titleen = item.titleen.includes(q);
-      const author = item.author.includes(q);
-      return title || titleen || author;
-    });
-    setfliterdEmakis(serchEmakis);
-  };
+  const fetchEmakis = useCallback(
+    (q) => {
+      const serchEmakis = emakis.filter((item) => {
+        const title = item.title.includes(q);
+        const titleen = item.titleen.includes(q);
+        const author = item.author.includes(q);
+        return title || titleen || author;
+      });
+      setfliterdEmakis(serchEmakis);
+    },
+    [emakis, setfliterdEmakis]
+  );
 
   useEffect(() => {
     fetchEmakis(query);
-  }, []);
+  }, [fetchEmakis, query]);
 
   const handleClick = (e) => {
     const el = e.target;

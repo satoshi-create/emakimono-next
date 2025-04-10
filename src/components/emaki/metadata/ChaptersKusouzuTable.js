@@ -22,8 +22,6 @@ const ChaptersKusouzuTable = ({
       .map((item) => item.chapter)
       .join(" ");
 
-  console.log(ExistKusouzuChaptersTitletoString("九相詩絵巻"));
-
   // const ExistKusouzuChaptersTitletoString = ExistKusouzuChapters.map(
   //   (item) => item.id
   // ).toString();

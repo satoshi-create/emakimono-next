@@ -84,7 +84,6 @@ const BottomNavigation = () => {
       <Flex justify="space-evenly" align="center" py={2}>
         {navItems.map((item) => {
           const { label, labelen, icon, path } = item;
-          console.log(labelen);
 
           return (
             <Flex

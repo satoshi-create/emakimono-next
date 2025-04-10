@@ -6,7 +6,7 @@ import { authorItem, eraColor, typeItem } from "@/utils/func";
 import { faClose, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useReducer, useRef, useState } from "react";
+import { useContext, useReducer, useRef, useState } from "react";
 import styled from "styled-components";
 import { toRomaji } from "wanakana";
 
@@ -108,47 +108,47 @@ const ModalSearch = () => {
    * IntersectionObserver を使用してスクロールを監視
    * 一番下の要素が表示されたら新しいデータをロード
    */
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const target = entries[0];
-        console.log("🟢 Observer triggered!", target.isIntersecting); // デバッグ用
-        if (target.isIntersecting) {
-          console.log("🔵 Loading more items...");
-          loadMoreItems(); // 追加データを読み込む
-        }
-      },
-      { threshold: 0.1 } // 100%表示されたら実行
-    );
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       const target = entries[0];
+  //       // console.log("🟢 Observer triggered!", target.isIntersecting); // デバッグ用
+  //       if (target.isIntersecting) {
+  //         // console.log("🔵 Loading more items...");
+  //         loadMoreItems(); // 追加データを読み込む
+  //       }
+  //     },
+  //     { threshold: 0.1 } // 100%表示されたら実行
+  //   );
 
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
-      console.log("✅ Observer is set on target");
-    } else {
-      console.error("❌ observerTarget is null");
-    }
+  //   if (observerTarget.current) {
+  //     observer.observe(observerTarget.current);
+  //     // console.log("✅ Observer is set on target");
+  //   } else {
+  //     console.error("❌ observerTarget is null");
+  //   }
 
-    return () => {
-      if (observerTarget.current) observer.unobserve(observerTarget.current);
-    };
-  }, [state.showData]); // showData が更新されたら監視をセットし直す
+  //   return () => {
+  //     if (observerTarget.current) observer.unobserve(observerTarget.current);
+  //   };
+  // }, [state.showData, loadMoreItems]); // showData が更新されたら監視をセットし直す
 
   /**
    * 無限スクロールで追加データを読み込む
    */
-  const loadMoreItems = () => {
-    const start = state.page * ITEMS_PER_PAGE; // 次のデータの開始位置
-    const end = start + ITEMS_PER_PAGE; // 次のデータの終了位置
-    const newItems = state.data.slice(start, end); // 次の10件を取得
+  // const loadMoreItems = useCallback(() => {
+  //   const start = state.page * ITEMS_PER_PAGE; // 次のデータの開始位置
+  //   const end = start + ITEMS_PER_PAGE; // 次のデータの終了位置
+  //   const newItems = state.data.slice(start, end); // 次の10件を取得
 
-    if (newItems.length > 0) {
-      dispatch({
-        type: "SET_FILTERED_DATA",
-        payload: [...state.showData, ...newItems],
-      });
-      state.page++; // ページを1つ増やす
-    }
-  };
+  //   if (newItems.length > 0) {
+  //     dispatch({
+  //       type: "SET_FILTERED_DATA",
+  //       payload: [...state.showData, ...newItems],
+  //     });
+  //     state.page++; // ページを1つ増やす
+  //   }
+  // }, [state.page, state.data, state.showData, dispatch]);
 
   const types = typeItem(state.data).sort((a, b) =>
     a.total > b.total ? -1 : 1
@@ -157,8 +157,6 @@ const ModalSearch = () => {
   const authors = authorItem(state.data).sort((a, b) =>
     a.total > b.total ? -1 : 1
   );
-
-  console.log(authors);
 
   const eras = [
     { era: "平安", eraen: "heiann" },
