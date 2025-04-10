@@ -160,7 +160,14 @@ const ModalSearch = () => {
 
   console.log(authors);
 
-  const eras = ["平安", "鎌倉", "室町", "安土・桃山", "江戸", "明治"];
+  const eras = [
+    { era: "平安", eraen: "heiann" },
+    { era: "鎌倉", eraen: "kamakura" },
+    { era: "室町", eraen: "muromachi" },
+    // { era: "安土・桃山", eraen: "aduchimomoyama" },
+    // { era: "江戸", eraen: "edo" },
+    // { era: "明治", eraen: "meiji" },
+  ];
 
   const selectAll = (e) => {
     dispatch({ type: "RESET_DATA" });
@@ -170,7 +177,10 @@ const ModalSearch = () => {
 
   const selectTypes = (e) => {
     const el = e.target.value;
-    const selectTypeItems = state.data.filter((item) => item.type === el);
+    const selectTypeItems =
+      locale === "en"
+        ? state.data.filter((item) => item.typeen === el)
+        : state.data.filter((item) => item.type === el);
     dispatch({ type: "SET_FILTERED_DATA", payload: selectTypeItems });
     setSearchKeyword(""); // 🔹 検索ボックスは空のまま
     setDisplayKeyword(el); // 🔹 "results for" にのみ表示
@@ -178,7 +188,11 @@ const ModalSearch = () => {
 
   const selectEras = (e) => {
     const el = e.target.value;
-    const selectEraItems = state.data.filter((item) => item.era === el);
+    const selectEraItems =
+      locale === "en"
+        ? state.data.filter((item) => item.eraen === el)
+        : state.data.filter((item) => item.era === el);
+
     dispatch({ type: "SET_FILTERED_DATA", payload: selectEraItems });
     setSearchKeyword(""); // 🔹 検索ボックスは空のまま
     setDisplayKeyword(el); // 🔹 "results for" にのみ表示
@@ -186,7 +200,11 @@ const ModalSearch = () => {
 
   const selectAuthor = (e) => {
     const el = e.target.value;
-    const selectAuthorItems = state.data.filter((item) => item.author === el);
+    const selectAuthorItems =
+      locale === "en"
+        ? state.data.filter((item) => item.authoren === el)
+        : state.data.filter((item) => item.author === el);
+
     dispatch({ type: "SET_FILTERED_DATA", payload: selectAuthorItems });
     setSearchKeyword(""); // 🔹 検索ボックスは空のまま
     setDisplayKeyword(el); // 🔹 "results for" にのみ表示
@@ -247,11 +265,11 @@ const ModalSearch = () => {
               {types.map((item, i) => (
                 <button
                   key={i}
-                  value={item.type}
+                  value={locale == "en" ? item.typeen : item.type}
                   onClick={(e) => selectTypes(e)}
                   className={styles.typeselectbtn}
                 >
-                  {item.type}
+                  {locale == "en" ? item.typeen : item.type}
                 </button>
               ))}
             </div>
@@ -261,13 +279,13 @@ const ModalSearch = () => {
             <div className={styles.selectbtnbox}>
               {eras.map((item, i) => (
                 <Button
-                  item={item}
+                  item={locale == "en" ? item.eraen : item.era}
                   key={i}
-                  value={item}
+                  value={locale == "en" ? item.eraen : item.era}
                   onClick={(e) => selectEras(e)}
                   className={styles.eraselectbtn}
                 >
-                  {item}
+                  {locale == "en" ? item.eraen : item.era}
                 </Button>
               ))}
             </div>
@@ -278,11 +296,11 @@ const ModalSearch = () => {
               {authors.map((item, i) => (
                 <button
                   key={i}
-                  value={item.author}
+                  value={locale == "en" ? item.authoren : item.author}
                   onClick={(e) => selectAuthor(e)}
                   className={styles.typeselectbtn}
                 >
-                  {item.author}
+                  {locale == "en" ? item.authoren : item.author}
                 </button>
               ))}
             </div>
