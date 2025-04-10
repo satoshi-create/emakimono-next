@@ -15,8 +15,6 @@ const ChaptersKusouzulist = () => {
 
   const KusouzuArrObj = data.filter((item) => item.title.includes("九相"));
 
-  console.log(KusouzuArrObj);
-
   const tPageDesc =
     locale === "en"
       ? `This is the page for the list of the Nine stages of decay. We are producing a list of picture scrolls with each scene of the Nine stages of decay.`

@@ -13,7 +13,6 @@ const ModalMap = ({ data }) => {
     useContext(AppContext);
   const emakis = data.emakis;
   const filterEkotobas = emakis.filter((item) => item.cat === "ekotoba");
-  console.log(filterEkotobas);
 
   const handleChapter = (index) => {
     handleToId(index);

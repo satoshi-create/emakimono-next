@@ -20,7 +20,7 @@ const InstallPrompt = () => {
     const handleBeforeInstallPrompt = (event) => {
       event.preventDefault(); // デフォルトのプロンプト表示を防ぐ
       setDeferredPrompt(event); // イベントを保存
-      console.log("beforeinstallprompt event triggered"); // イベント発火を確認
+      // console.log("beforeinstallprompt event triggered"); // イベント発火を確認
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
@@ -67,17 +67,17 @@ const InstallPrompt = () => {
       const choiceResult = await deferredPrompt.userChoice;
 
       if (choiceResult.outcome === "accepted") {
-        console.log("App installed");
+        // console.log("App installed");
         trackPWAInstall(); // Google Analytics にイベントを送信
         clarity("set", "pwa_install", true); // Clarity にイベントを送信
       } else {
-        console.log(
-          `${
-            locale === "en"
-              ? "You canceled the installation."
-              : "インストールがキャンセルされました。"
-          }`
-        );
+        // console.log(
+        //   `${
+        //     locale === "en"
+        //       ? "You canceled the installation."
+        //       : "インストールがキャンセルされました。"
+        //   }`
+        // );
       }
 
       setDeferredPrompt(null); // イベントをリセット

@@ -166,7 +166,6 @@ function MyApp({ Component, pageProps, router }) {
     document.querySelector("html").classList.add("open");
     const noScrollBarWidth = document.body.clientWidth;
     const diff = noScrollBarWidth - clientWidth;
-    console.log(diff);
     if (diff > 0) {
       document.body.style["padding-right"] = diff + "px";
     }
@@ -183,7 +182,6 @@ function MyApp({ Component, pageProps, router }) {
     document.querySelector("html").classList.add("open");
     const noScrollBarWidth = document.body.clientWidth;
     const diff = noScrollBarWidth - clientWidth;
-    console.log(diff);
     if (diff > 0) {
       document.body.style["padding-right"] = diff + "px";
     }
@@ -351,13 +349,13 @@ function MyApp({ Component, pageProps, router }) {
           throw new Error("Fullscreen API is not supported on this browser.");
         }
 
-        console.log("Entered fullscreen");
+        // console.log("Entered fullscreen");
         setToggleFullscreen(true);
 
         // 画面の向きをロック
         try {
           await screen.orientation.lock(orientation);
-          console.log("Orientation locked:", orientation);
+          // console.log("Orientation locked:", orientation);
         } catch (orientationError) {
           console.warn(`Failed to lock orientation: ${orientationError}`);
         }
@@ -369,7 +367,7 @@ function MyApp({ Component, pageProps, router }) {
           await document.webkitExitFullscreen(); // iOS Safari対応
         }
 
-        console.log("Exited fullscreen");
+        // console.log("Exited fullscreen");
         setToggleFullscreen(false);
       }
     } catch (fullscreenError) {

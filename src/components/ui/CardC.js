@@ -39,7 +39,7 @@ const CardC = ({ data, loading }) => {
       return array.slice().sort(() => Math.random() - Math.random());
     };
     setremoveEqualityIdRandom(shuffleArray(removeEqualityId));
-  }, []);
+  }, [removeEqualityId]);
 
   const switchData =
     typeen === "seiyoukaiga" ? filterdSeiyoukaiga : removeEqualityIdRandom;

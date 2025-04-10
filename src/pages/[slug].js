@@ -1,7 +1,7 @@
-import EmakiLandscapContent from "@/components/emaki/layout/EmakiLandscapContent";
-import EmakiPortraitContent from "@/components/emaki/layout/EmakiPortraitContent";
 import EmakiConteiner from "@/components/emaki/layout/EmakiConteiner";
 import EmakiHeader from "@/components/emaki/layout/EmakiHeader";
+import EmakiLandscapContent from "@/components/emaki/layout/EmakiLandscapContent";
+import EmakiPortraitContent from "@/components/emaki/layout/EmakiPortraitContent";
 import EmakiBreadcrumbs from "@/components/emaki/navigation/EmakiBreadcrumbs";
 import Head from "@/components/meta/Meta";
 import MiddleNavigation from "@/components/navigation/MiddleNavigation";
@@ -16,8 +16,6 @@ import { useContext, useEffect, useRef } from "react";
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
 const Emaki = ({ data, locale, locales, slug, test, dict }) => {
-  console.log(dict);
-
   const { t } = useLocaleMeta();
   const router = useRouter();
   const selectedRef = useRef(null);
@@ -231,8 +229,6 @@ export const getStaticProps = async (context) => {
   const filterdEmakisData = metadataCache.filter(
     (item, index) => item.titleen === slug
   );
-
-  console.log(filterdEmakisData);
 
   const addObjEmakis = filterdEmakisData
     .map((item, i) => {

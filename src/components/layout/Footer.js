@@ -1,5 +1,6 @@
 import SocialLinks from "@/components/social/SocialLinks";
 import styles from "@/styles/Footer.module.css";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -12,7 +13,14 @@ const Footer = () => {
     <footer className={`parts-grid ${styles.container} ${styles.footer}`}>
       <Link href="/">
         <a className={styles.title}>
-          <img src="/favicon.png" alt="favicon" className={styles.favicon} />
+          <Image
+            src={"/favicon-32x32.png"}
+            alt="favicon"
+            className={styles.favicon}
+            width={25}
+            height={25}
+          />
+          {/* <img src="/favicon.png" alt="favicon" className={styles.favicon} /> */}
           {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
         </a>
       </Link>

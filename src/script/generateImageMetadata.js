@@ -79,5 +79,5 @@ const data = dataEmakis.concat(
 
   // 更新されたデータをキャッシュファイルとして保存
   fs.writeFileSync(cacheFilePath, JSON.stringify(updatedJsonData, null, 2));
-  console.log(`Image metadata cache saved to ${cacheFilePath}`);
+  // console.log(`Image metadata cache saved to ${cacheFilePath}`);
 })();

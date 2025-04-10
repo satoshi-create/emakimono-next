@@ -1,6 +1,6 @@
-import CarouselButton from "@/components/emaki/viewer/CarouselButton";
 import EmakiInfo from "@/components/emaki/metadata/EmakiInfo";
 import EmakiNavigation from "@/components/emaki/navigation/EmakiNavigation";
+import CarouselButton from "@/components/emaki/viewer/CarouselButton";
 import FullScreen from "@/components/emaki/viewer/FullScreen";
 import Modal from "@/components/emaki/viewer/Modal";
 import ModalDesc from "@/components/emaki/viewer/ModalDesc";
@@ -130,7 +130,7 @@ const EmakiContainer = ({
     } else {
       //ここに通常アクセス時の処理
     }
-  }, []);
+  }, [locale, type]);
 
   useEffect(() => {
     const ref = articleRef.current;
