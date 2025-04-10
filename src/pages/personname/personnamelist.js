@@ -1,7 +1,7 @@
-import Breadcrumbs from "@/components/common/Breadcrumbs";
-import Footer from "@/components/common/Footer";
-import Header from "@/components/common/Header";
-import Head from "@/components/common/Meta";
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
+import Head from "@/components/meta/Meta";
+import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import PersonNames from "@/components/personname/PersonNames";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { personnameItem, useLocaleData } from "@/utils/func";

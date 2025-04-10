@@ -1,5 +1,5 @@
-import BottomNavigation from "@/components/common/BottomNavigation";
-import ContactFormGoogle from "@/components/common/ContactFormGoogle";
+import ContactFormGoogle from "@/components/contact/ContactFormGoogle";
+import BottomNavigation from "@/components/navigation/BottomNavigation";
 import ModalSearch from "@/components/search/ModalSearch";
 import * as gtag from "@/libs/api/gtag";
 import ExtractingListData from "@/utils/ExtractingListData";

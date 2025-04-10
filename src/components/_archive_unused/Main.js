@@ -1,7 +1,7 @@
 import Card from "@/components/Card";
 import styles from "@/styles/Card.module.css";
 // import CardConteiner from '@/components/CardConteiner';
-import Title from "../common/Title";
+import Title from "../ui/Title";
 
 const SortType = ({ emakis }) => {
   const favoriteEmakis = emakis.filter((emaki) => emaki.favorite === true);

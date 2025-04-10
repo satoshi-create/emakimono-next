@@ -1,7 +1,7 @@
-import CardA from "@/components/common/CardA";
-import Footer from "@/components/common/Footer";
-import Header from "@/components/common/Header";
-import Head from "@/components/common/Meta";
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
+import Head from "@/components/meta/Meta";
+import CardA from "@/components/ui/CardA";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { useLocale } from "@/utils/func";
 import "lazysizes";

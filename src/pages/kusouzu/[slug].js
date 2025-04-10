@@ -1,8 +1,8 @@
-import Breadcrumbs from "@/components/common/Breadcrumbs";
-import CardA from "@/components/common/CardA";
-import Footer from "@/components/common/Footer";
-import Header from "@/components/common/Header";
-import Head from "@/components/common/Meta";
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
+import Head from "@/components/meta/Meta";
+import Breadcrumbs from "@/components/navigation/Breadcrumbs";
+import CardA from "@/components/ui/CardA";
 import AllKusouzuChapters from "@/data/emaki-text-data/chapters-of-kusouzu.json";
 import {
   default as enData,

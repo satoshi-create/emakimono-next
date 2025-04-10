@@ -1,8 +1,8 @@
-import Breadcrumbs from "@/components/common/Breadcrumbs";
-import Footer from "@/components/common/Footer";
-import Header from "@/components/common/Header";
-import Head from "@/components/common/Meta";
-import Title from "@/components/common/Title";
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
+import Head from "@/components/meta/Meta";
+import Breadcrumbs from "@/components/navigation/Breadcrumbs";
+import Title from "@/components/ui/Title";
 import styles from "@/styles/About.css.module.css";
 import { useLocale } from "@/utils/func";
 import parse from "html-react-parser";
