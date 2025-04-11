@@ -29,7 +29,7 @@
     "framer-motion": "^8.5.5",
     "google-map-react": "^2.2.0",
     "html-react-parser": "^5.1.18",
-    "image-size": "^1.1.1",
+    "image-size": "^1.2.1",
     "image-trace-loader": "^1.0.2",
     "imagemin": "^8.0.1",
     "imagemin-mozjpeg": "9.0.0",
