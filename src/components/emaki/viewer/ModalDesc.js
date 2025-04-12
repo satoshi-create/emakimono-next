@@ -119,7 +119,7 @@ const ModalDesc = ({ data }) => {
               </h3>
               <div className={styles.tabcontainer}>
                 {allMap.map((item, i) => {
-                  const { title } = item;
+                  const { title, titleen } = item;
                   return (
                     <button
                       onClick={() => setValue(i)}
@@ -128,7 +128,7 @@ const ModalDesc = ({ data }) => {
                       }`}
                       key={i}
                     >
-                      {title}
+                      {locale == "en" ? titleen : title}
                     </button>
                   );
                 })}

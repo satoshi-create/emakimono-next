@@ -92,6 +92,7 @@
   font-family: var(--text-font-koten);
   /* text-combine-upright: all; */
   white-space: nowrap;
+  text-transform: capitalize;
 }
 
 .gendaibun {
@@ -141,7 +142,7 @@ transform: scale(1.2);
   z-index: 1;
 }
 
-.ekotobarl  {
+.ekotobarl {
   right: 0;
 }
 
