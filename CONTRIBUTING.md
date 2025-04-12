@@ -33,8 +33,6 @@ git checkout -b feature/your-feature-name
 npm install --legacy-peer-deps
 ```
 
-Make sure you have Node.js installed and Git LFS configured (see README).
-
 ### ✅ Step 4: Add your `.env.local`
 Copy from `.env.example` and update values as needed. Some variables (like Cloudinary keys) may require you to contact the maintainers.
 
