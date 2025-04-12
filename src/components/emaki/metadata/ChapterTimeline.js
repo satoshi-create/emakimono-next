@@ -1,7 +1,6 @@
 import { AppContext } from "@/pages/_app";
 import { ChaptersTitle, eraColor } from "@/utils/func";
 import {
-  Box,
   Button,
   Circle,
   HStack,
@@ -81,6 +80,7 @@ const ChapterTimeline = ({
           fontWeight="bold"
           fontFamily="var(--text-font)"
           color={eraColor(era)}
+          textTransform={"capitalize"}
         >
           {locale == "en"
             ? ChaptersTitle(titleen, title, chapter, "titleen")
@@ -89,24 +89,24 @@ const ChapterTimeline = ({
       </HStack>
       {/* セクション間のボタン */}
       {kotobagaki && (
-        <Box
+        <Button
           display="flex"
           alignItems="center"
-          justifyContent="flex-start"
-          w="full"
+          justifyContent="center"
+          // w="fu"
+          border={`2px solid ${eraColor(era)}`}
+          size="sm"
+          bg="white"
+          color={eraColor(era)}
+          onClick={() => handleModalButtonClick(ekotobaId, index)}
+          whiteSpace={"pre-wrap"}
+          padding={"1rem"}
+          _hover={{ bg: eraColor(era), color: "white" }}
         >
-          <Button
-            size="sm"
-            bg="white"
-            border={`2px solid ${eraColor(era)}`}
-            color={eraColor(era)}
-            fontFamily="var(--text-font)"
-            _hover={{ bg: eraColor(era), color: "white" }}
-            onClick={() => handleModalButtonClick(ekotobaId, index)}
-          >
-            解説・現代文
-          </Button>
-        </Box>
+          {locale == "en"
+            ? "Translation and Notes / Annotated Translation"
+            : "解説・現代文"}
+        </Button>
       )}
     </VStack>
   );

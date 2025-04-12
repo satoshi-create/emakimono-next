@@ -134,14 +134,22 @@ const OverlayEkotoba = ({
                     style={{ fontSize: "1.5em" }}
                   />
                 }
-                label="この段の情報を見る"
+                label={
+                  locale == "en"
+                    ? "	See details of this section"
+                    : "この段の情報を見る"
+                }
                 onClick={() =>
                   openDescModal({
                     ekotobaId,
                     index,
                   })
                 }
-                description="この段の情報を見る"
+                description={
+                  locale == "en"
+                    ? "	See details of this section"
+                    : "この段の情報を見る"
+                }
                 variant="emakipageicon"
               />
             )}
