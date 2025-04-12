@@ -33,7 +33,7 @@ const Kusouzu = ({ title, titleen, posts, slug }) => {
         test={
           locale === "en" ? "list of the Nine stages of decay" : "九相図一覧"
         }
-        testen={"/kusouzu/chapters-kusouzu"}
+        testen={"kusouzu/chapters-kusouzu"}
       />
       <CardA
         emakis={posts}
