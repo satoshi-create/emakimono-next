@@ -5,10 +5,9 @@ import { useEffect, useState } from "react";
 const CardC = ({ data, loading }) => {
   const removeNestedArrayObj = ExtractingListData();
   const { keyword, id, typeen } = data;
-
-  const filterdSeiyoukaiga = removeNestedArrayObj.filter(
-    (item) => item.typeen === "seiyoukaiga"
-  );
+  // const filterdSeiyoukaiga = removeNestedArrayObj.filter(
+  //   (item) => item.typeen === "seiyoukaiga"
+  // );
 
   // 絵巻データからkeyword.nameオブジェクトの値を配列に取り出し
   const keywordNameArr = keyword?.map((item) => item.name);
@@ -39,16 +38,18 @@ const CardC = ({ data, loading }) => {
       return array.slice().sort(() => Math.random() - Math.random());
     };
     setremoveEqualityIdRandom(shuffleArray(removeEqualityId));
-  }, [removeEqualityId]);
+  }, []);
 
-  const switchData =
-    typeen === "seiyoukaiga" ? filterdSeiyoukaiga : removeEqualityIdRandom;
+  // const switchData =
+  //   typeen === "seiyoukaiga" ? filterdSeiyoukaiga : removeEqualityIdRandom;
 
-  const randomRelationalEmakis = switchData.slice(0, 8).map((item, i) => {
-    return <SingleCardC key={i} item={item} />;
-  });
+  const randomRelationalEmakis = removeEqualityIdRandom
+    .slice(0, 8)
+    .map((item, i) => {
+      return <SingleCardC key={i} item={item} />;
+    });
 
-  return <>{randomRelationalEmakis}</>;
+  return randomRelationalEmakis;
 };
 
 export default CardC;
