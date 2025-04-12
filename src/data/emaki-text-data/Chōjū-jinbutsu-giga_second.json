@@ -1,0 +1,77 @@
+[
+  {
+    "chapter": "1",
+    "title": "馬",
+    "titleen": "Horse"
+  },
+  {
+    "chapter": "2",
+    "title": "牛",
+    "titleen": "Ox"
+  },
+  {
+    "chapter": "3",
+    "title": "鷹",
+    "titleen": "Hawk"
+  },
+  {
+    "chapter": "4",
+    "title": "犬",
+    "titleen": "Dog"
+  },
+  {
+    "chapter": "5",
+    "title": "鶏",
+    "titleen": "Rooster"
+  },
+  {
+    "chapter": "6",
+    "title": "鷲と隼",
+    "titleen": "Eagle and Falcon"
+  },
+  {
+    "chapter": "7",
+    "title": "玄武",
+    "titleen": "Black Tortoise (Genbu)"
+  },
+  {
+    "chapter": "8",
+    "title": "麒麟",
+    "titleen": "Kirin (Mythical Beast)"
+  },
+  {
+    "chapter": "9",
+    "title": "豹",
+    "titleen": "Leopard"
+  },
+  {
+    "chapter": "10",
+    "title": "山羊",
+    "titleen": "Goat"
+  },
+  {
+    "chapter": "11",
+    "title": "虎",
+    "titleen": "Tiger"
+  },
+  {
+    "chapter": "12",
+    "title": "獅子",
+    "titleen": "Lion"
+  },
+  {
+    "chapter": "13",
+    "title": "青竜",
+    "titleen": "Azure Dragon (Seiryū)"
+  },
+  {
+    "chapter": "14",
+    "title": "象",
+    "titleen": "Elephant"
+  },
+  {
+    "chapter": "15",
+    "title": "獏",
+    "titleen": "Baku (Dream-Eating Beast)"
+  }
+]

@@ -1,0 +1,54 @@
+.footer {
+  background-color: black;
+  height: 30vh;
+  display: grid;
+}
+
+.favicon {
+  width: 20px;
+  height: auto;
+}
+
+.title {
+  grid-row: 2;
+  justify-self: center;
+  align-self: flex-end;
+  color: white;
+  font-size: clamp(1.0625rem, 0.9542rem + 0.4622vw, 1.25rem);
+  color: var(--clr-white);
+  font-family: var(--title-font);
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  display: flex;
+  column-gap: .5rem;
+
+}
+
+/* sociallinks => SocialLiks.module.cssに記入 */
+/* .footerStyle {
+  grid-row: 3;
+  justify-self: center;
+  align-self: flex-start;
+  display: flex;
+  column-gap: 10px;
+  justify-content: center;
+  color: white;
+  font-family: var(--title-font);
+} */
+
+.navlinks {
+  grid-row: 4;
+  justify-self: center;
+  align-self: flex-start;
+  width: 50%;
+}
+
+.copyright {
+  grid-row: 4;
+  justify-self: center;
+  align-self: flex-end;
+  font-size: clamp(0.5625rem, 0.3819rem + 0.7704vw, 0.875rem);
+  color: var(--clr-white);
+  margin-bottom: 0.5rem;
+}

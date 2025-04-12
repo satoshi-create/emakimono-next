@@ -1,0 +1,92 @@
+[
+  {
+    "stage_en": "0",
+    "stage_ch": "0",
+    "title": "生前相",
+    "titleen": "alive",
+    "ruby": "せいぜんそう",
+    "desc": "私たちが普段目にするのは、まだ生きている体の状態です。肌に血色があり、内臓や骨格もきちんと機能しています。生きている間の体の美しさや活力を表す状態を「生前相（せいぜんそう）」と呼びます。",
+    "descen": "This is the state of a living body as we usually see it—healthy skin tone, properly functioning organs and bones. The beauty and vitality of the living body is known as the 'alive phase' (Seizensō)."
+  },
+  {
+    "stage_en": "1",
+    "stage_ch": "一",
+    "title": "脹相",
+    "titleen": "distension",
+    "ruby": "ちょうそう",
+    "desc": "死体は時間が経つとガスが溜まり、全体が膨らみます。まるで風船みたいに膨らむこの状態を「脹相（ちょうそう）」と呼びます。",
+    "descen": "As time passes after death, gas builds up and the body swells—like a balloon. This bloated condition is called the 'distension phase' (Chōsō)."
+  },
+  {
+    "stage_en": "2",
+    "stage_ch": "二",
+    "title": "壊相",
+    "titleen": "rupture",
+    "ruby": "えそう",
+    "desc": "膨らんだ体が壊れていきます。皮膚が裂けたり、肉が崩れたりして、次第に形が変わる状態を「壊相（えそう）」と言います。",
+    "descen": "The swollen body begins to break apart. Skin tears and flesh disintegrates, gradually changing the body's form. This is known as the 'rupture phase' (Esō)."
+  },
+  {
+    "stage_en": "3",
+    "stage_ch": "三",
+    "title": "血塗相",
+    "titleen": "exudationofblood",
+    "ruby": "けちずそう",
+    "desc": "体の裂け目から血が流れ出し、地面や周囲に広がります。この血だらけの状態を「血塗相（けちずそう）」と呼びます。",
+    "descen": "Blood begins to pour out of ruptured parts of the body, spreading over the ground. This bloody scene is called the 'exudation of blood phase' (Kechizusō)."
+  },
+  {
+    "stage_en": "4",
+    "stage_ch": "四",
+    "title": "膿爛相",
+    "titleen": "putrefaction",
+    "ruby": "のうらんそう",
+    "desc": "体が溶け始め、膿が流れ出す状態です。まるでロウソクが溶けるように崩れていく様子を「膿爛相（のうらんそう）」と言います。",
+    "descen": "The body starts to liquefy, and pus begins to flow out. Like a melting candle, it collapses in this 'putrefaction phase' (Nōransō)."
+  },
+  {
+    "stage_en": "5",
+    "stage_ch": "五",
+    "title": "青瘀相",
+    "titleen": "discolourationanddesiccation",
+    "ruby": "しょうおそう",
+    "desc": "体が腐敗して青黒く変色していきます。この青黒い状態を「青瘀相（しょうおそう）」と呼びます。",
+    "descen": "As decay advances, the body turns a bluish-black color. This darkened appearance is referred to as the 'discoloration phase' (Shō’osō)."
+  },
+  {
+    "stage_en": "6",
+    "stage_ch": "六",
+    "title": "噉相",
+    "titleen": "consumptionbyanimalsandbirds",
+    "ruby": "たんそう",
+    "desc": "死体が動物たちに食べられていきます。キツネやオオカミ、トビなどが肉片を奪い合い、引き裂かれて散らばる様子を指します。",
+    "descen": "The body is consumed by animals and birds. Foxes, wolves, and kites fight over the flesh, tearing it apart and scattering it. This is the 'consumption phase' (Tansō)."
+  },
+  {
+    "stage_en": "7",
+    "stage_ch": "七",
+    "title": "散相",
+    "titleen": "dismemberment",
+    "ruby": "さんそう",
+    "desc": "体がバラバラになり、頭や手が元の位置から離れてしまいます。内臓も散らばって元には戻りません。これを散相といいます。",
+    "descen": "The body falls apart—head, hands, and organs are scattered far from their original positions. This irreversible state is called the 'dismemberment phase' (Sansō)."
+  },
+  {
+    "stage_en": "8",
+    "stage_ch": "八",
+    "title": "骨相",
+    "titleen": "reductiontobones",
+    "ruby": "こつそう",
+    "desc": "骨だけが残った状態です。一部の骨は脂がついていることもあり、他の骨は真っ白できれいな状態です。場合によっては骨がまとまっていることも、散らばっていることもあります。",
+    "descen": "Only bones remain. Some may still have fat on them, while others are clean and white. The bones might be grouped together or scattered. This is the 'bone phase' (Kotsusō)."
+  },
+  {
+    "stage_en": "9",
+    "stage_ch": "九",
+    "title": "焼相",
+    "titleen": "parchingtodust",
+    "ruby": "しょうそう",
+    "desc": "焼かれて灰や燃え尽きた骨だけが残ります。これを焼相と呼びます。",
+    "descen": "The body is burned, leaving behind only ashes and charred bones. This is called the 'burnt to dust phase' (Shōsō)."
+  }
+]
