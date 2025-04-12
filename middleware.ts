@@ -23,3 +23,7 @@ export function middleware(request: NextRequest) {
   // ⑥ それ以外は何もせず処理を通す
   return NextResponse.next();
 }
+
+export const config = {
+  matcher: ["/"], // ルートだけを対象にする（例： https://your-app.com/）
+};

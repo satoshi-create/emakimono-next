@@ -14,7 +14,7 @@ const nextConfig = {
   i18n: {
     locales: ["en", "ja"],
     defaultLocale: "en",
-    localeDetection: true,
+    // localeDetection: true,
   },
   images: {
     domains: ["res.cloudinary.com"], // Cloudinaryのドメイン
