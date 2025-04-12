@@ -67,12 +67,12 @@ const ChapterTimeline = ({
           display="flex" // flexboxで配置
           alignItems="center" // 垂直方向に中央配置
           justifyContent="center" // 水平方向に中央配置
-          zIndex={2}
+          // zIndex={2}
         >
           {/* {index + 1} */}
           <FaRegCircle
             size={useBreakpointValue({ base: "14px", md: "18px" })}
-            zIndex={2}
+            // zIndex={2}
           />
           {/* ここでアイコンを表示 */}
         </Circle>
