@@ -29,6 +29,9 @@ git checkout -b feature/your-feature-name
 ```
 
 ### ✅ Step 3: Install dependencies
+
+Due to compatibility issues with peer dependencies in Next.js 12, please use the following command:
+
 ```bash
 npm install --legacy-peer-deps
 ```
