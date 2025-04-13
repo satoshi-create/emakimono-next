@@ -1,8 +1,20 @@
 import Image from "next/image";
-import { Twitter, Youtube } from "react-feather";
+import { GitHub, Twitter, Youtube } from "react-feather";
 import NoteIcon from "../../../public/note-icon.png";
 
 export const socialLinks = [
+  {
+    name: "github",
+    icon: <GitHub />,
+    path: "https://github.com/satoshi-create/",
+    title: "GitHub",
+  },
+  {
+    name: "twitter",
+    icon: <Twitter />,
+    path: "https://twitter.com/enjoy_emakimono",
+    title: "X（Twitter）",
+  },
   {
     name: "youtube",
     icon: <Youtube />,
@@ -22,11 +34,5 @@ export const socialLinks = [
     path: "https://note.com/enjoy_emakimono",
     title: "note",
     title: "note",
-  },
-  {
-    name: "twitter",
-    icon: <Twitter />,
-    path: "https://twitter.com/enjoy_emakimono",
-    title: "X（Twitter）",
   },
 ];
