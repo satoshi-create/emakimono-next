@@ -80,6 +80,14 @@ const ja = {
         <strong>「絵巻物 × フロントエンド」</strong>というユニークなテーマに興味がある方、
         ぜひ一緒にこのプロジェクトを育てていきませんか？
       </p>
+      <p>
+  👉 このプロジェクトのソースコードは、
+  <a href="https://github.com/satoshi-create/emakimono-next" target="_blank" rel="noopener noreferrer">
+    GitHub リポジトリ
+  </a>
+  から閲覧・参加できます。
+</p>
+
   `,
   },
 };
@@ -163,8 +171,14 @@ const en = {
       If you're intrigued by the unique theme of <strong>“Emaki × Front-End”</strong>,
       we invite you to join us in growing this project together!
     </p>
+    <p>
+      👉 You can explore the source code and contribute via our
+         <a href="https://github.com/satoshi-create/emakimono-next" target="_blank" rel="noopener noreferrer">
+        GitHub repository
+      </a>.
+    </p>
   `,
   },
 };
 
-export { ja, en };
+export { en, ja };
