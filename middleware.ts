@@ -24,6 +24,7 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
+// ルートだけを対象にする（例： https://your-app.com/）
 export const config = {
-  matcher: ["/"], // ルートだけを対象にする（例： https://your-app.com/）
+  matcher: ["/"],
 };
