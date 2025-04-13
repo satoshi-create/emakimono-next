@@ -7,15 +7,17 @@ const withPWA = require("next-pwa")({
   scope: "/",
   disable: process.env.NODE_ENV === "development",
 });
+const { i18n } = require("./next-i18next.config");
 
 const nextConfig = {
   reactStrictMode: true,
+  i18n,
   swcMinify: true,
-  i18n: {
-    locales: ["en", "ja"],
-    defaultLocale: "en",
-    // localeDetection: true,
-  },
+  // i18n: {
+  //   locales: ["en", "ja"],
+  //   defaultLocale: "en",
+  //   // localeDetection: true,
+  // },
   images: {
     domains: ["res.cloudinary.com"], // Cloudinaryのドメイン
     path: "/_next/image", // デフォルトパス
