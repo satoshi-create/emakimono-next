@@ -20,7 +20,6 @@ const Footer = () => {
             width={25}
             height={25}
           />
-          {/* <img src="/favicon.png" alt="favicon" className={styles.favicon} /> */}
           {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
         </a>
       </Link>
