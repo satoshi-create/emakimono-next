@@ -5,6 +5,7 @@ import CardA from "@/components/ui/CardA";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { useLocale } from "@/utils/func";
 import "lazysizes";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Home = () => {
   const { t } = useLocale();
@@ -48,6 +49,14 @@ const Home = () => {
       <Footer />
     </main>
   );
+};
+
+export const getStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale ?? "ja", ["common"])),
+    },
+  };
 };
 
 export default Home;
