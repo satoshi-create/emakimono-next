@@ -12,6 +12,7 @@ import Script from "next/script";
 import { createContext, useCallback, useEffect, useState } from "react";
 import { flushSync } from "react-dom";
 import "../styles/globals.css";
+import { appWithTranslation } from "next-i18next";
 
 config.autoAddCss = false;
 
@@ -562,4 +563,4 @@ function MyApp({ Component, pageProps, router }) {
   );
 }
 
-export default MyApp;
+export default appWithTranslation(MyApp);

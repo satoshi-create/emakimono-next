@@ -7,7 +7,6 @@ import Head from "@/components/meta/Meta";
 import MiddleNavigation from "@/components/navigation/MiddleNavigation";
 import { default as enData, default as jaData } from "@/data/data";
 import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
-import { getDictionary } from "@/libs/i18n/getDictionary";
 import { AppContext } from "@/pages/_app";
 import { useLocaleMeta } from "@/utils/func";
 import { useRouter } from "next/router";
@@ -15,7 +14,7 @@ import { useContext, useEffect, useRef } from "react";
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
-const Emaki = ({ data, locale, locales, slug, test, dict }) => {
+const Emaki = ({ data, locale, locales, slug, test }) => {
   const { t } = useLocaleMeta();
   const router = useRouter();
   const selectedRef = useRef(null);
@@ -147,7 +146,6 @@ const Emaki = ({ data, locale, locales, slug, test, dict }) => {
             scroll={true}
             selectedRef={selectedRef}
             navIndex={navIndex}
-            dict={dict}
           />
         </>
       );
@@ -225,7 +223,6 @@ export const getStaticProps = async (context) => {
   const { slug } = context.params;
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
-  const dict = await getDictionary(locale);
   const filterdEmakisData = metadataCache.filter(
     (item, index) => item.titleen === slug
   );
@@ -270,7 +267,6 @@ export const getStaticProps = async (context) => {
       locale,
       slug: slug,
       test: addObjEmakis,
-      dict,
     },
   };
 };

@@ -15,7 +15,6 @@ import { Mail } from "react-feather";
 
 const Header = ({ slug, fixed }) => {
   const { locale } = useRouter();
-
   const { openSidebar, stickyClass, openContactModal } = useContext(AppContext);
 
   return (
