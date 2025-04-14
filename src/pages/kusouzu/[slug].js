@@ -11,6 +11,7 @@ import {
 import { removeNestedEmakisObj } from "@/utils/func";
 import { useRouter } from "next/router";
 
+
 const Kusouzu = ({ title, titleen, posts, slug }) => {
   const { locale } = useRouter();
   const tPageDesc =
@@ -79,17 +80,9 @@ export const getStaticProps = async (context) => {
     (item) => item.titleen === kusouzuslugname
   );
 
-  // const filterdEmakisData = tEmakisData.filter((x) => {
-  //   if (x.kusouzuslug) {
-  //     const filterdKusouzuslug = x.kusouzuslug.some(
-  //       (y) => y.id === chapterkusouzu.stage_en
-  //     );
-  //     return filterdKusouzuslug;
-  //   }
-  // });
   const filterdEmakisData = tEmakisData.filter((item) => {
     const filterdKusouzuslug = item.emakis.some(
-      (emaki) => emaki.chapter === chapterkusouzu.stage_en
+      (emaki) => emaki.chapter === chapterkusouzu?.chapter
     );
     return filterdKusouzuslug;
   });
@@ -100,8 +93,8 @@ export const getStaticProps = async (context) => {
 
   return {
     props: {
-      title: chapterkusouzu.title || null,
-      titleen: chapterkusouzu.titleen || null,
+      title: chapterkusouzu?.title || null,
+      titleen: chapterkusouzu?.titleen || null,
       posts: removeNestedArrayObj,
       slug: kusouzuslugname || null,
     },
