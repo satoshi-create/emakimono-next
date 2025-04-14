@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { GitHub, Twitter, Youtube } from "react-feather";
+import { GitHub, Youtube } from "react-feather";
 import NoteIcon from "../../../public/note-icon.png";
 
 export const socialLinks = [
@@ -11,7 +11,7 @@ export const socialLinks = [
   },
   {
     name: "twitter",
-    icon: <Twitter />,
+    icon: <Image src="/svg/x.svg" alt="Follow us on Twitter" width="25px" height="25px" />,
     path: "https://twitter.com/enjoy_emakimono",
     title: "X（Twitter）",
   },
