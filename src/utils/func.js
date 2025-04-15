@@ -8,7 +8,7 @@ import { enMeta, jaMeta } from "@/libs/constants/dataSiteMeta";
 import { en, ja } from "@/libs/constants/staticData";
 import parse from "html-react-parser";
 import { useRouter } from "next/router";
-import { EmakiTextData } from "@/types/emaki";
+import { connectEmakiText } from "./connectEmakiText";
 
 const useLocale = () => {
   const { locale } = useRouter();
@@ -230,20 +230,20 @@ const connectGenjiChaptersScene = (chapter, scene) => {
     return chapterGenjisummary;
   }
 };
-const connectEmakiText = (titleen, chapter, text) => {
-  let EmakiTextdata = require(`@/data/emaki-text-data/${titleen}.json`);
+// const connectEmakiText = (titleen, chapter, text) => {
+//   let EmakiTextdata = require(`@/data/emaki-text-data/${titleen}.json`);
 
-  if (EmakiTextdata) {
-    const connectEshiChapter = EmakiTextdata.filter(
-      (item) => chapter === item.chapter
-    )
-      .map((item) => item[text])
-      .join();
-    return parse(connectEshiChapter);
-  } else {
-    return titleen;
-  }
-};
+//   if (EmakiTextdata) {
+//     const connectEshiChapter = EmakiTextdata.filter(
+//       (item) => chapter === item.chapter
+//     )
+//       .map((item) => item[text])
+//       .join();
+//     return parse(connectEshiChapter);
+//   } else {
+//     return titleen;
+//   }
+// };
 
 const ChaptersTitle = (titleen, title, chapter, text) => {
   if (title.includes("九相")) {
