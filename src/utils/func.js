@@ -8,6 +8,7 @@ import { enMeta, jaMeta } from "@/libs/constants/dataSiteMeta";
 import { en, ja } from "@/libs/constants/staticData";
 import parse from "html-react-parser";
 import { useRouter } from "next/router";
+import { EmakiTextData } from "@/types/emaki";
 
 const useLocale = () => {
   const { locale } = useRouter();
