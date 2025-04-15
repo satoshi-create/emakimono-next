@@ -90,6 +90,7 @@ export const getStaticProps = async (context) => {
   const filterdEmakisData = tEmakisData.filter((item) => {
     const filterdKusouzuslug = item.emakis.some(
       (emaki) => emaki.chapter === chapterkusouzu.stage_en
+      // (emaki) => emaki.chapter === chapterkusouzu?.chapter
     );
     return filterdKusouzuslug;
   });
@@ -102,6 +103,8 @@ export const getStaticProps = async (context) => {
     props: {
       title: chapterkusouzu.title || null,
       titleen: chapterkusouzu.titleen || null,
+      // title: chapterkusouzu?.title || null,
+      // titleen: chapterkusouzu?.titleen || null,
       posts: removeNestedArrayObj,
       slug: kusouzuslugname || null,
     },

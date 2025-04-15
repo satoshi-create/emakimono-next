@@ -232,9 +232,7 @@ const EmakiContainer = ({
           <ModalDescGenji data={data} />
         )} */}
         <article
-          className={`${styles.container} ${
-            type === "西洋絵画" ? styles.lr : styles.rl
-          } scrollbar`}
+          className={`${styles.container} ${styles.rl} scrollbar`}
           style={{
             "--screen-height": height,
             "--screen-width": width,
