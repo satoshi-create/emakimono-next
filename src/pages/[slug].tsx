@@ -14,7 +14,7 @@ import { useContext, useEffect, useRef } from "react";
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
-const Emaki = ({ data, locale, locales, slug, test }) => {
+const Emaki = ({ data, locale, locales, slug, test }: ) => {
   const { t } = useLocaleMeta();
   const router = useRouter();
   const selectedRef = useRef(null);
