@@ -6,12 +6,14 @@ import EmakiBreadcrumbs from "@/components/emaki/navigation/EmakiBreadcrumbs";
 import Head from "@/components/meta/Meta";
 import MiddleNavigation from "@/components/navigation/MiddleNavigation";
 import { default as enData, default as jaData } from "@/data/data";
-import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
 import { AppContext } from "@/pages/_app";
 import { useLocaleMeta } from "@/utils/func";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useRef } from "react";
 import type { EmakiImageMetadata } from '@/types/metadata'; // Import the main type
+import fs from "fs";
+import path from "path";
+import type { GetStaticPaths } from 'next';
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
@@ -202,8 +204,14 @@ const Emaki = ({ data, locale, locales, slug, test }: EmakiPageProps) => {
   );
 };
 
-export const getStaticPaths = async () => {
-  const paths = emakisData.map((item) => ({
+export const getStaticPaths: GetStaticPaths = async () => {
+  const cacheDir = path.join(process.cwd(), "src/data/image-metadata-cache");
+  const cacheFilePath = path.join(cacheDir, "image-metadata-cache.json");
+
+  // Type the data read from the cache
+  const metadataCache: EmakiImageMetadata[] = JSON.parse(fs.readFileSync(cacheFilePath, "utf-8"));
+
+  const paths = metadataCache.map((item) => ({
     params: {
       slug: item.titleen,
     },
