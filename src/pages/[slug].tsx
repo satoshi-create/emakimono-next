@@ -11,10 +11,19 @@ import { AppContext } from "@/pages/_app";
 import { useLocaleMeta } from "@/utils/func";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useRef } from "react";
+import type { EmakiImageMetadata } from '@/types/metadata'; // Import the main type
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
-const Emaki = ({ data, locale, locales, slug, test }: ) => {
+interface EmakiPageProps {
+  data: EmakiImageMetadata;
+  locale: string;
+  locales: string[];
+  slug: string;
+  test: EmakiImageMetadata;
+}
+
+const Emaki = ({ data, locale, locales, slug, test }: EmakiPageProps) => {
   const { t } = useLocaleMeta();
   const router = useRouter();
   const selectedRef = useRef(null);
