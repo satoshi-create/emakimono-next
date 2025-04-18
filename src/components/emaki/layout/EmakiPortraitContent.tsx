@@ -25,8 +25,26 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext } from "react";
+import type { EmakiImageMetadata } from '@/types/metadata'; // Import metadata type
+import type { RefObject } from 'react'; // Import RefObject
 
-const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
+// Define Props interface
+interface EmakiPortraitContentProps {
+  data: EmakiImageMetadata;
+  scroll: boolean; // Add the scroll prop
+  selectedRef: RefObject<any>;
+  navIndex: number; // Assuming navIndex is a number
+  articleRef: RefObject<HTMLElement>; // Add articleRef prop
+}
+
+const EmakiPortraitContent = ({
+  data,
+  selectedRef,
+  navIndex,
+  articleRef,
+  scroll // Destructure scroll, even if not directly used here, to satisfy the type
+}: EmakiPortraitContentProps) => {
+
   const { handleFullScreen, isContactModalOpen } = useContext(AppContext);
 
   const { locale } = useRouter();
