@@ -13,7 +13,7 @@ import { useContext, useEffect, useRef } from "react";
 import type { EmakiImageMetadata } from '@/types/metadata'; // Import the main type
 import fs from "fs";
 import path from "path";
-import type { GetStaticPaths } from 'next';
+import type { GetStaticPaths, GetStaticProps, GetStaticPropsContext  } from 'next';
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
@@ -221,9 +221,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return { paths, fallback: false };
 };
 
-export const getStaticProps = async (context) => {
-  const fs = require("fs");
-  const path = require("path");
+export const getStaticProps: GetStaticProps<EmakiPageProps, { slug: string }> = async (context: GetStaticPropsContext<{ slug: string }>) => {
   const cacheDir = path.join(process.cwd(), "src/data/image-metadata-cache");
   const cacheFilePath = path.join(cacheDir, "image-metadata-cache.json");
 
