@@ -291,7 +291,9 @@ const EmakiContainer = ({
             return (
               <SwitcherEmaki
                 key={index}
-                ref={(el) => (sectionRefs.current[index] = el)}
+                ref={(el) => {
+                  sectionRefs.current[index] = el;
+                }}
                 cat={cat}
                 data={data}
                 item={item}
