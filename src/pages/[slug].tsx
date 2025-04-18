@@ -6,15 +6,26 @@ import EmakiBreadcrumbs from "@/components/emaki/navigation/EmakiBreadcrumbs";
 import Head from "@/components/meta/Meta";
 import MiddleNavigation from "@/components/navigation/MiddleNavigation";
 import { default as enData, default as jaData } from "@/data/data";
-import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
 import { AppContext } from "@/pages/_app";
 import { useLocaleMeta } from "@/utils/func";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useRef } from "react";
+import type { EmakiImageMetadata } from '@/types/metadata'; // Import the main type
+import fs from "fs";
+import path from "path";
+import type { GetStaticPaths, GetStaticProps, GetStaticPropsContext  } from 'next';
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
-const Emaki = ({ data, locale, locales, slug, test }) => {
+interface EmakiPageProps {
+  data: EmakiImageMetadata;
+  locale: string;
+  locales: string[];
+  slug: string;
+  test: EmakiImageMetadata;
+}
+
+const Emaki = ({ data, locale, locales, slug, test }: EmakiPageProps) => {
   const { t } = useLocaleMeta();
   const router = useRouter();
   const selectedRef = useRef(null);
@@ -193,8 +204,14 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
   );
 };
 
-export const getStaticPaths = async () => {
-  const paths = emakisData.map((item) => ({
+export const getStaticPaths: GetStaticPaths = async () => {
+  const cacheDir = path.join(process.cwd(), "src/data/image-metadata-cache");
+  const cacheFilePath = path.join(cacheDir, "image-metadata-cache.json");
+
+  // Type the data read from the cache
+  const metadataCache: EmakiImageMetadata[] = JSON.parse(fs.readFileSync(cacheFilePath, "utf-8"));
+
+  const paths = metadataCache.map((item) => ({
     params: {
       slug: item.titleen,
     },
@@ -204,9 +221,7 @@ export const getStaticPaths = async () => {
   return { paths, fallback: false };
 };
 
-export const getStaticProps = async (context) => {
-  const fs = require("fs");
-  const path = require("path");
+export const getStaticProps: GetStaticProps<EmakiPageProps, { slug: string }> = async (context: GetStaticPropsContext<{ slug: string }>) => {
   const cacheDir = path.join(process.cwd(), "src/data/image-metadata-cache");
   const cacheFilePath = path.join(cacheDir, "image-metadata-cache.json");
 
@@ -218,14 +233,24 @@ export const getStaticProps = async (context) => {
   }
 
   // キャッシュファイルを読み込む
-  const metadataCache = JSON.parse(fs.readFileSync(cacheFilePath, "utf-8"));
+  const metadataCache: EmakiImageMetadata[] = JSON.parse(fs.readFileSync(cacheFilePath, "utf-8"));
 
-  const { slug } = context.params;
-  const { locale, locales } = context;
+  const slug = context.params?.slug;
+  const locale = context.locale;
+  const locales = context.locales;
+
+  if (!slug || !locale || !locales) {
+    return { notFound: true };
+  }
+
   const tEmakisData = locale === "en" ? enData : jaData;
   const filterdEmakisData = metadataCache.filter(
-    (item, index) => item.titleen === slug
+    (item: EmakiImageMetadata, index) => item.titleen === slug
   );
+
+  if (!filterdEmakisData || filterdEmakisData.length === 0) {
+    return { notFound: true };
+  }
 
   const addObjEmakis = filterdEmakisData
     .map((item, i) => {
