@@ -142,7 +142,7 @@ const EmakiPortraitContent = ({
               className={styles.metaBtitle}
               style={{
                 "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-              }}
+              } as React.CSSProperties }
             >
               {locale == "en" ? "Introduction to Emaki" : "絵巻の紹介"}
             </h4>
@@ -163,7 +163,7 @@ const EmakiPortraitContent = ({
                   className={styles.metaBtitle}
                   style={{
                     "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                  }}
+                  } as React.CSSProperties }
                 >
                   {locale == "en" ? "Section Title" : "段タイトル"}
                 </h4>
@@ -207,7 +207,7 @@ const EmakiPortraitContent = ({
                   className={styles.metaBtitle}
                   style={{
                     "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                  }}
+                  } as React.CSSProperties }
                 >
                   {locale == "en" ? "Sectional Explanation" : "各段の解説"}
                 </h4>
@@ -223,7 +223,7 @@ const EmakiPortraitContent = ({
                   className={styles.metaBtitle}
                   style={{
                     "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                  }}
+                  } as React.CSSProperties }
                 >
                   {locale == "en" ? "View Other Scrolls" : "他の巻を見る"}
                 </h4>
@@ -240,7 +240,7 @@ const EmakiPortraitContent = ({
                   className={styles.metaBtitle}
                   style={{
                     "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                  }}
+                  } as React.CSSProperties }
                 >
                   {locale == "en" ? "View Other Scrolls" : "他の巻を見る"}
                 </h4>
@@ -257,7 +257,7 @@ const EmakiPortraitContent = ({
                 className={styles.metaBtitle}
                 style={{
                   "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                }}
+                } as React.CSSProperties }
               >
                 note
               </h4>
@@ -273,7 +273,7 @@ const EmakiPortraitContent = ({
                   className={styles.metaBtitle}
                   style={{
                     "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                  }}
+                  } as React.CSSProperties }
                 >
                   {locale == "en" ? "Person Name" : "登場人物"}
                 </h4>
