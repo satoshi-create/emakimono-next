@@ -9,8 +9,22 @@ import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiConteiner.module.css";
 import "lazysizes";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState, RefObject } from "react";
 import ScrollHint from "scroll-hint";
+import type { EmakiImageMetadata } from '@/types/metadata'; // Adjust path if needed
+
+// Define Props Interface
+interface EmakiContainerProps {
+  data: EmakiImageMetadata;
+  height: string;
+  width?: string; // Optional
+  scroll: boolean;
+  overflowX?: string; // Optional
+  boxshadow?: string; // Optional
+  selectedRef?: RefObject<any>; // Use specific element type if known, else 'any' or 'HTMLElement'
+  navIndex?: number;
+  articleRef: RefObject<HTMLElement>; // Use HTMLElement or a more specific type
+}
 
 const EmakiContainer = ({
   data,
@@ -21,7 +35,8 @@ const EmakiContainer = ({
   boxshadow,
   selectedRef,
   navIndex,
-}) => {
+  articleRef,
+}: EmakiContainerProps) => {
   const {
     isModalOpen,
     setOepnSidebar,
@@ -39,10 +54,11 @@ const EmakiContainer = ({
 
   const { backgroundImage, kotobagaki, type, genjieslug } = data;
 
-  const wrapperRef = useRef();
-  const articleRef = useRef();
-  const scrollNextRef = useRef(null);
-  const scrollPrevRef = useRef(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  // articleRef is now passed as a prop, no need to redefine it here
+  // const articleRef = useRef<HTMLElement>(null);
+  const scrollNextRef = useRef<HTMLButtonElement>(null); // Assuming ActionButton forwards ref to a button
+  const scrollPrevRef = useRef<HTMLButtonElement>(null);
 
   const [scrollSpeed, setScrollSpeed] = useState(0);
   const [lastScrollX, setLastScrollX] = useState(0);
@@ -60,29 +76,42 @@ const EmakiContainer = ({
   useEffect(() => {
     if (sectionRefs.current.length !== emakis.length) return; // 全要素が設定されるまで待機
 
+    // console.log("Setting up IntersectionObserver for", sectionRefs.current.length, "elements");
+
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(
-        (entry) => {
+      entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            // console.log("Setting up IntersectionObserver for", sectionRefs.current.length, "elements");
             setBlurVisible(true);
+            // Consider unobserving only if you want the effect once per element
             // observer.unobserve(entry.target); // 個別に監視を解除
           }
         },
-        { rootMargin: rootMargin, threshold: 0 }
+        { rootMargin: rootMargin, threshold: 0 } // Use threshold 0 for any visibility
       );
     });
 
-    sectionRefs.current.forEach((ref) => {
-      if (ref) observer.observe(ref);
+    const currentRefs = sectionRefs.current.filter(ref => ref !== null) as HTMLElement[];
+    currentRefs.forEach((ref) => {
+      observer.observe(ref);
     });
 
     return () => {
-      sectionRefs.current.forEach((ref) => {
-        if (ref) observer.unobserve(ref);
+      // console.log("Cleaning up IntersectionObserver");
+      currentRefs.forEach((ref) => {
+        if (ref) { // Check if ref still exists before unobserving
+             try {
+                 observer.unobserve(ref);
+             } catch (e) {
+                 console.warn("Error unobserving element:", e);
+             }
+         }
       });
-      return () => observer.disconnect();
+       observer.disconnect(); // Disconnect observer on component unmount
     };
-  }, [emakis, rootMargin]);
+     // Add rootMargin to dependencies if you want the observer to re-setup when it changes
+  }, [emakis.length, rootMargin]);
+
 
   useEffect(() => {
     if (!articleRef.current) return;
@@ -94,39 +123,47 @@ const EmakiContainer = ({
       setLastScrollX(currentScrollX);
     };
 
-    el.addEventListener("scroll", handleScroll);
+    el.addEventListener("scroll", handleScroll); // Use passive listener
 
-    return () => el.removeEventListener("scroll", handleScroll);
-  }, [lastScrollX, scrollSpeed]);
+    return () => el.removeEventListener("scroll", handleScroll); // Check if el still exists on cleanup
+  }, [lastScrollX, scrollSpeed]);// Depend on articleRef.current existence implicitly via the effect re-run
 
   useEffect(() => {
+    // ScrollHint initialization
     const keyName = "visited";
     const keyValue = true;
+    let scrollHintInstance: ScrollHint | null = null;
 
     if (!sessionStorage.getItem(keyName)) {
       //sessionStorageにキーと値を追加
-      sessionStorage.setItem(keyName, keyValue);
+      sessionStorage.setItem(keyName, String(keyValue));
 
       //初回アクセス時の処理
-      new ScrollHint(".js-scrollable", {
-        offset: -10,
-        remainingTime: 8000,
-        scrollableLeftClass: true,
-        scrollHintIconAppendClass: "scroll-hint-icon-white",
-        i18n: {
-          scrollable: `${
-            locale === "ja"
-              ? `${
-                  type !== "西洋絵画"
-                    ? "左スクロールできます"
-                    : "右スクロールできます"
-                }`
-              : `${
-                  type !== "西洋絵画" ? "scrollable left" : "scrollable right"
-                }`
-          }`,
-        },
-      });
+      // Ensure the target element exists before initializing
+      const targetElement = document.querySelector(".js-scrollable");
+      if (targetElement) {
+        scrollHintInstance = new ScrollHint(".js-scrollable", {
+          offset: -10,
+          remainingTime: "8000",
+          scrollHintIconAppendClass: "scroll-hint-icon-white",
+          i18n: {
+            scrollable: `${
+              locale === "ja"
+                ? `${
+                    type !== "西洋絵画"
+                      ? "左スクロールできます"
+                      : "右スクロールできます"
+                  }`
+                : `${
+                    type !== "西洋絵画" ? "scrollable left" : "scrollable right"
+                  }`
+            }`,
+          },
+        });
+      }
+      else {
+        console.warn("ScrollHint target .js-scrollable not found.");
+      }
     } else {
       //ここに通常アクセス時の処理
     }
@@ -245,7 +282,7 @@ const EmakiContainer = ({
               scroll &&
               toggleFullscreen === false &&
               "12px",
-          }}
+          } as React.CSSProperties}
           onClick={() => setOepnSidebar(false)}
           ref={articleRef}
         >
