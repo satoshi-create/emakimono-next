@@ -245,8 +245,12 @@ export const getStaticProps: GetStaticProps<EmakiPageProps, { slug: string }> = 
 
   const tEmakisData = locale === "en" ? enData : jaData;
   const filterdEmakisData = metadataCache.filter(
-    (item, index) => item.titleen === slug
+    (item: EmakiImageMetadata, index) => item.titleen === slug
   );
+
+  if (!filterdEmakisData || filterdEmakisData.length === 0) {
+    return { notFound: true };
+  }
 
   const addObjEmakis = filterdEmakisData
     .map((item, i) => {
