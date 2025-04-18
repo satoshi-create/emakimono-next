@@ -233,10 +233,16 @@ export const getStaticProps: GetStaticProps<EmakiPageProps, { slug: string }> = 
   }
 
   // キャッシュファイルを読み込む
-  const metadataCache = JSON.parse(fs.readFileSync(cacheFilePath, "utf-8"));
+  const metadataCache: EmakiImageMetadata[] = JSON.parse(fs.readFileSync(cacheFilePath, "utf-8"));
 
-  const { slug } = context.params;
-  const { locale, locales } = context;
+  const slug = context.params?.slug;
+  const locale = context.locale;
+  const locales = context.locales;
+
+  if (!slug || !locale || !locales) {
+    return { notFound: true };
+  }
+
   const tEmakisData = locale === "en" ? enData : jaData;
   const filterdEmakisData = metadataCache.filter(
     (item, index) => item.titleen === slug
