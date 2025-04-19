@@ -1,5 +1,5 @@
 // TypeScriptの型だけをインポートします（ランタイムには影響しない）
-import type { EmakiTextData } from "@/types/emaki";
+import type { EmakiTextData } from "@/types/emaki.ts";
 
 /**
  * 絵巻テキストデータ（JSON）を動的に読み込み、
@@ -35,19 +35,3 @@ export const connectEmakiText = async (
     return undefined;
   }
 };
-
-// js ver
-// export const connectEmakiText = (titleen, chapter, text) => {
-//   let EmakiTextdata = require(`@/data/emaki-text-data/${titleen}.json`);
-
-//   if (EmakiTextdata) {
-//     const connectEshiChapter = EmakiTextdata.filter(
-//       (item) => chapter === item.chapter
-//     )
-//       .map((item) => item[text])
-//       .join();
-//     return parse(connectEshiChapter);
-//   } else {
-//     return titleen;
-//   }
-// };

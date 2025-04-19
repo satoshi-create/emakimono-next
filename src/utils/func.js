@@ -8,7 +8,6 @@ import { enMeta, jaMeta } from "@/libs/constants/dataSiteMeta";
 import { en, ja } from "@/libs/constants/staticData";
 import parse from "html-react-parser";
 import { useRouter } from "next/router";
-import { connectEmakiText } from "./connectEmakiText";
 
 const useLocale = () => {
   const { locale } = useRouter();
@@ -230,20 +229,13 @@ const connectGenjiChaptersScene = (chapter, scene) => {
     return chapterGenjisummary;
   }
 };
-// const connectEmakiText = (titleen, chapter, text) => {
-//   let EmakiTextdata = require(`@/data/emaki-text-data/${titleen}.json`);
 
-//   if (EmakiTextdata) {
-//     const connectEshiChapter = EmakiTextdata.filter(
-//       (item) => chapter === item.chapter
-//     )
-//       .map((item) => item[text])
-//       .join();
-//     return parse(connectEshiChapter);
-//   } else {
-//     return titleen;
-//   }
-// };
+const connectEmakiTextSync = (titleen, chapter, field) => {
+  // 応急処置：非同期関数が呼ばれることを防ぎ、固定のダミー文字列を返す
+  // 実際には後で useEffect + state に置き換える前提
+  console.warn("connectEmakiText is async, returning fallback text for now");
+  return `[${titleen} / ch${chapter} / ${field}]`; // ←仮の表示
+};
 
 const ChaptersTitle = (titleen, title, chapter, text) => {
   if (title.includes("九相")) {
@@ -273,8 +265,8 @@ const ChaptersTitle = (titleen, title, chapter, text) => {
   } else if (Number.isInteger(parseInt(chapter))) {
     return (
       <>
-        {connectEmakiText(titleen, chapter, text) &&
-          connectEmakiText(titleen, chapter, text)}
+        {connectEmakiTextSync(titleen, chapter, text) &&
+          connectEmakiTextSync(titleen, chapter, text)}
       </>
     );
   } else {
@@ -300,8 +292,8 @@ const ChaptersGendaibun = (titleen, title, chapter, gendaibun) => {
   } else if (Number.isInteger(parseInt(chapter))) {
     return (
       <>
-        {connectEmakiText(titleen, chapter, "gendaibun") &&
-          connectEmakiText(titleen, chapter, "gendaibun")}
+        {connectEmakiTextSync(titleen, chapter, "gendaibun") &&
+          connectEmakiTextSync(titleen, chapter, "gendaibun")}
       </>
     );
   } else {
@@ -327,8 +319,8 @@ const ChaptersDesc = (titleen, title, chapter, text, desc) => {
   } else if (Number.isInteger(parseInt(chapter))) {
     return (
       <>
-        {connectEmakiText(titleen, chapter, "desc") &&
-          connectEmakiText(titleen, chapter, "desc")}
+        {connectEmakiTextSync(titleen, chapter, "desc") &&
+          connectEmakiTextSync(titleen, chapter, "desc")}
       </>
     );
   } else {
