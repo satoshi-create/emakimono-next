@@ -1,7 +1,10 @@
 {
-  "extends": ["next", "next/core-web-vitals"],
-  "rules": {
-    "no-console": "warn",
-    "react/no-unescaped-entities": "off"
-  }
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "requireConfigFile": false,
+    "babelOptions": {
+      "presets": ["next/babel"]
+    }
+  },
+  "extends": ["next", "next/core-web-vitals"]
 }
