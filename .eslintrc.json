@@ -4,7 +4,6 @@
     "react/no-unknown-property": "off",
     "no-console": ["warn", { "allow": ["warn", "error"] }]
   },
-  "requireConfigFile": false,
   "babelOptions": {
     "presets": ["next/babel"]
   }
