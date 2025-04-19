@@ -1,11 +1,7 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": ["next", "next/core-web-vitals"],
   "rules": {
-    "react/no-unknown-property": "off",
-    "no-console": ["warn", { "allow": ["warn", "error"] }]
+    "no-console": "warn",
+    "react/no-unescaped-entities": "off"
   }
-  // "requireConfigFile": false,
-  // "babelOptions": {
-  //   "presets": ["next/babel"]
-  // }
 }
