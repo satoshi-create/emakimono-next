@@ -3,8 +3,9 @@
   "rules": {
     "react/no-unknown-property": "off",
     "no-console": ["warn", { "allow": ["warn", "error"] }]
-  },
-  "babelOptions": {
-    "presets": ["next/babel"]
   }
+  // "requireConfigFile": false,
+  // "babelOptions": {
+  //   "presets": ["next/babel"]
+  // }
 }
