@@ -3,7 +3,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 [![Part of CANW](https://img.shields.io/badge/CANW-ecosystem-blueviolet)](https://github.com/satoshi-create/complexity-and-network-webdesign)
-
+![Contributors](https://img.shields.io/github/contributors/satoshi-create/emakimono-next?color=brightgreen)
 
 Horizontal Scroll Emaki" is an open-source project exploring how traditional Japanese emakimono (picture scrolls) can be experienced on the web. It bridges cultural heritage and modern frontend technologies. This project inspired the CANW subproject: Horizontal Scroll Emaki
 
@@ -73,10 +73,18 @@ This project is open source and part of a broader ecosystem.
 - Explore new ideas via [Project Proposals](https://github.com/satoshi-create/complexity-and-network-webdesign/discussions/categories/-proposals)
   
 ---
-
 ## 📚 Documentation
 
 For full documentation and contributor guides, please visit the [Emaki Project Wiki](https://github.com/satoshi-create/emakimono-next/wiki).
+
+---
+## 🌟 Contributors!
+
+Thanks to all the contributors who help make Emakimono Project! 🌱
+
+<a href="https://github.com/satoshi-create/emakimono-next/contributors">
+  <img src="https://contrib.rocks/image?repo=satoshi-create/emakimono-next" />
+</a>
 
 ---
 
