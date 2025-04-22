@@ -27,8 +27,8 @@
   "associated_characters": ["usagi_archer", "usagi_observer"],
   "used_by": "兎の弓士たち",
   "location": "野外の競技場",
-  "icon_path": null,
-  "full_path": "./images/full.png",
+  "icon_path": "./images/noriyumi_icon.png",
+  "full_path": "./images/noriyumi_full.png",
   "highlight_quote": {
     "ja": "さあ、一射で勝負を決めようぞ！",
     "en": "Let this one shot decide our fate!"

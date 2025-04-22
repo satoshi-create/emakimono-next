@@ -66,8 +66,8 @@
     "ja": ["観音菩薩", "薬師如来"],
     "en": ["Kannon Bodhisattva", "Bhaisajyaguru (Medicine Buddha)"]
   },
-  "icon_path": null,
-  "full_path": "./images/full.png",
+  "icon_path": "./images/danrinkougou_icon.png",
+  "full_path": "./images/danrinkougou_full.png",
   "highlight_quote": {
     "ja": "一切の衆生に仏心ありと信ず",
     "en": "I believe that all beings possess the Buddha-nature"
