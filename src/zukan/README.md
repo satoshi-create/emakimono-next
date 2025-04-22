@@ -11,6 +11,7 @@ This directory contains a structured encyclopedia of characters and tools appear
 zukan/
 ├── characters/        # キャラクター全般 / All Characters
 ├── tools/             # 道具・装備 / Tools and Ritual Implements
+├── scrolls/           # 所蔵絵巻 / Scroll metadata and repositories
 ├── templates/         # テンプレート / Templates for new entries
 ├── index.json         # 全アイテムのメタ情報一覧 / Index of all items
 └── README.md          # このファイル / This README
@@ -30,9 +31,16 @@ zukan/
 - 道具もキャラクターと同様に `tools/{id}/` 以下に情報を整理します。  
   Tools follow the same structure under `tools/{id}/` as characters.
 
+### 📜 所蔵絵巻 / Scrolls
+- `scrolls/scrolls.csv` に各絵巻のメタ情報を登録してください。  
+  Register metadata for each scroll in `scrolls/scrolls.csv`.
+- 今後 `scrolls/{id}/` に profile.md や資料画像も整理予定です。  
+  `scrolls/{id}/` directories will be used for profiles and images in the future.
+
 ### 🧩 テンプレート / Templates
 - 新規アイテム追加時は `templates/character-template.md` または `tool-template.md` を使用してください。  
   Use `templates/character-template.md` or `tool-template.md` when adding new items.
+  
 
 ---
 
