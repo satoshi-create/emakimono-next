@@ -5,7 +5,7 @@ import EmakiPortraitContent from "@/components/emaki/layout/EmakiPortraitContent
 import EmakiBreadcrumbs from "@/components/emaki/navigation/EmakiBreadcrumbs";
 import Head from "@/components/meta/Meta";
 import MiddleNavigation from "@/components/navigation/MiddleNavigation";
-import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
+import emakisData from "@/data/metadata.json";
 import { AppContext } from "@/pages/_app";
 import { useLocaleMeta } from "@/utils/func";
 import { useRouter } from "next/router";
