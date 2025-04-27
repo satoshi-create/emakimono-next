@@ -1,4 +1,4 @@
-﻿id,title,title_en,period,author,genre,location,collection_url,thumbnail,related_characters,description
+﻿id,title,title_en,period,author,genre,location,source,thumbnail,related_characters,description
 cyoujyuu_giga_kou,鳥獣人物戯画絵巻 甲巻,Chōjū-jinbutsu-giga (Kō Volume),平安時代,鳥羽僧正覚猷,"戯画,動物,仏教,年中行事",高山寺,https://colbase.nich.go.jp/collection_items/tnm/A-1530?locale=ja,images/cyoujyuu_yamazaki_kou_thumb.webp,noriyumi,猿と蛙の喧嘩や、兎と蛙の相撲など、動物たちによる遊戯が描かれる。
 cyoujyuu_giga_otu,鳥獣人物戯画絵巻 乙巻,Chōjū-jinbutsu-giga (Otsu Volume),平安時代,鳥羽僧正覚猷,"戯画,動物,霊獣,仏教",高山寺,https://colbase.nich.go.jp/collection_items/tnm/A-1530?locale=ja,images/cyoujyuu_yamazaki_otu_thumb.webp,,前半は日本の動物、後半は霊獣など想像上の動物が描かれた、図鑑的構成の巻。
 cyoujyuu_giga_hei,鳥獣人物戯画絵巻 丙巻,Chōjū-jinbutsu-giga (Hei Volume),平安〜鎌倉時代,,"戯画,動物,遊戯,仏教",高山寺,https://colbase.nich.go.jp/collection_items/tnm/A-1530?locale=ja,images/cyoujyuu_yamazaki_hei_thumb.webp,,前半は人間の遊戯、後半は動物の競馬や蹴鞠。描かれた料紙の両面性が議論される巻。
