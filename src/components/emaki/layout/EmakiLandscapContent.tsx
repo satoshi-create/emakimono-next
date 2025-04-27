@@ -24,16 +24,34 @@ import parse from "html-react-parser";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, RefObject } from "react";
+import type { EmakiImageMetadata } from '@/types/metadata'; // Adjust path if needed
+import type { EmakiSegment } from "@/types/segment"; // Import the segment type
+import type { KeywordInfo } from "@/types/common"; // Import the common types
 
-const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
+// Define Props interface
+interface EmakiLandscapContentProps {
+  data: EmakiImageMetadata;
+  selectedRef?: RefObject<any>; // Make optional if not always passed or used directly here
+  navIndex?: number; // Make optional if not always passed or used directly here
+  articleRef: RefObject<HTMLElement>;
+  scroll: boolean; // Add scroll prop
+}
+
+const EmakiLandscapContent = ({
+  data,
+  selectedRef, // Destructure optional props
+  navIndex,   // Destructure optional props
+  articleRef,
+  scroll // Destructure scroll prop
+}: EmakiLandscapContentProps) => {
   const { handleFullScreen } = useContext(AppContext);
-  const { emakis } = data;
+  const emakis: EmakiSegment[] = data.emakis;
   const { locale } = useRouter();
   const { t: alldata } = useLocaleData();
 
   const removeNestedArrayObj = ExtractingListData();
-  const allKeywords = keywordItem(removeNestedArrayObj);
+  const allKeywords: KeywordInfo[] = keywordItem(removeNestedArrayObj); // Assume keywordItem returns KeywordInfo[]
 
   const {
     type,
