@@ -5,7 +5,6 @@ import EmakiPortraitContent from "@/components/emaki/layout/EmakiPortraitContent
 import EmakiBreadcrumbs from "@/components/emaki/navigation/EmakiBreadcrumbs";
 import Head from "@/components/meta/Meta";
 import MiddleNavigation from "@/components/navigation/MiddleNavigation";
-import { default as enData, default as jaData } from "@/data/data";
 import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
 import { AppContext } from "@/pages/_app";
 import { useLocaleMeta } from "@/utils/func";
@@ -207,58 +206,119 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
   const fs = require("fs");
   const path = require("path");
-  const cacheDir = path.join(process.cwd(), "src/data/image-metadata-cache");
-  const cacheFilePath = path.join(cacheDir, "image-metadata-cache.json");
+  const cacheDir = path.join(process.cwd(), "src/data/");
+  const cacheFilePath = path.join(cacheDir, "metadata.json");
 
-  // キャッシュファイルが存在しない場合のエラー処理
+  // metadata.jsonが存在するかチェック
   if (!fs.existsSync(cacheFilePath)) {
     throw new Error(
       "Image metadata cache not found. Run the generateImageMetadata script."
     );
   }
 
-  // キャッシュファイルを読み込む
+  // metadata.jsonを読み込む
   const metadataCache = JSON.parse(fs.readFileSync(cacheFilePath, "utf-8"));
 
   const { slug } = context.params;
   const { locale, locales } = context;
-  const tEmakisData = locale === "en" ? enData : jaData;
+
+  // slug（作品のtitleen）で対象作品を探す
   const filterdEmakisData = metadataCache.filter(
     (item, index) => item.titleen === slug
   );
 
+  // ここから新しい処理追加！
+  let emakis = [];
+  // 対象作品が存在し、かつimage_list_pathが設定されているか？
+  if (filterdEmakisData.length > 0 && filterdEmakisData[0].image_list_path) {
+    // image_list_pathからシーンリストJSONのパスを作成
+    const emakisPath = path.join(
+      cacheDir,
+      filterdEmakisData[0].image_list_path
+    );
+    // もしファイルが存在すれば読み込む
+    if (fs.existsSync(emakisPath)) {
+      emakis = JSON.parse(fs.readFileSync(emakisPath, "utf-8"));
+    } else {
+      console.warn(`Emakis data not found: ${emakisPath}`);
+    }
+  }
+
+  // emakisを対象作品データに注入する
   const addObjEmakis = filterdEmakisData
-    .map((item, i) => {
-      const addLinkIdtoEmakis = item.emakis.map((item, i) => {
-        return { ...item, linkId: i };
+    .map((item) => {
+      // 作品データにemakis配列を加える
+      const itemWithEmakis = { ...item, emakis };
+
+      // emakis配列の各要素にlinkIdを振る（並び順を保持するため）
+      const addLinkIdtoEmakis = itemWithEmakis.emakis.map((emaki, i) => {
+        return { ...emaki, linkId: i };
       });
 
+      // ekotoba（章区切り）だけにekotobaIdを振る
       const addEkotobaIdEmakis = addLinkIdtoEmakis
-        .filter((item) => item.cat === "ekotoba")
-        .map((item, i) => {
-          return { ...item, ekotobaId: i };
+        .filter((emaki) => emaki.cat === "ekotoba")
+        .map((emaki, i) => {
+          return { ...emaki, ekotobaId: i };
         });
 
+      // imageとekotobaをまとめてマージ
       const concatAddObjEmakis = Array.from(
         new Set(addLinkIdtoEmakis.concat(addEkotobaIdEmakis))
       );
-
+      // imageだけ、ekotobaだけに分け直す
       const filterAddObjEmakisA = concatAddObjEmakis.filter(
-        (item) => item.cat === "image"
+        (emaki) => emaki.cat === "image"
       );
+      // image → ekotobaの順番で連結
       const filterAddObjEmakisB = concatAddObjEmakis.filter(
-        (item) => item.cat === "ekotoba" && item.ekotobaId >= 0
+        (emaki) => emaki.cat === "ekotoba" && emaki.ekotobaId >= 0
       );
+
+      // linkId順にソートして並び替える
       const concatFilterAddObjEmakis =
         filterAddObjEmakisA.concat(filterAddObjEmakisB);
 
       const sortConcatFilterAddObjEmakis = concatFilterAddObjEmakis.sort(
         (a, b) => (a.linkId > b.linkId ? 1 : -1)
       );
-
-      return { ...item, emakis: sortConcatFilterAddObjEmakis };
+      // 最終的な1作品データを返す
+      return { ...itemWithEmakis, emakis: sortConcatFilterAddObjEmakis };
     })
     .find((item) => item);
+
+  // const addObjEmakis = filterdEmakisData
+  //   .map((item, i) => {
+  //     const addLinkIdtoEmakis = item.emakis.map((item, i) => {
+  //       return { ...item, linkId: i };
+  //     });
+
+  //     const addEkotobaIdEmakis = addLinkIdtoEmakis
+  //       .filter((item) => item.cat === "ekotoba")
+  //       .map((item, i) => {
+  //         return { ...item, ekotobaId: i };
+  //       });
+
+  //     const concatAddObjEmakis = Array.from(
+  //       new Set(addLinkIdtoEmakis.concat(addEkotobaIdEmakis))
+  //     );
+
+  //     const filterAddObjEmakisA = concatAddObjEmakis.filter(
+  //       (item) => item.cat === "image"
+  //     );
+  //     const filterAddObjEmakisB = concatAddObjEmakis.filter(
+  //       (item) => item.cat === "ekotoba" && item.ekotobaId >= 0
+  //     );
+  //     const concatFilterAddObjEmakis =
+  //       filterAddObjEmakisA.concat(filterAddObjEmakisB);
+
+  //     const sortConcatFilterAddObjEmakis = concatFilterAddObjEmakis.sort(
+  //       (a, b) => (a.linkId > b.linkId ? 1 : -1)
+  //     );
+
+  //     return { ...item, emakis: sortConcatFilterAddObjEmakis };
+  //   })
+  //   .find((item) => item);
 
   return {
     props: {
