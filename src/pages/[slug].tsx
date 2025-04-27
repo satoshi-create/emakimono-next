@@ -29,6 +29,7 @@ const Emaki = ({ data, locale, locales, slug, test }: EmakiPageProps) => {
   const { t } = useLocaleMeta();
   const router = useRouter();
   const selectedRef = useRef(null);
+  const articleRef = useRef(null);
   const {
     navIndex,
     setnavIndex,
@@ -140,6 +141,7 @@ const Emaki = ({ data, locale, locales, slug, test }: EmakiPageProps) => {
             selectedRef={selectedRef}
             navIndex={navIndex}
             height={"100vh"}
+            articleRef={articleRef}
           />
         </>
       );
