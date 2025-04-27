@@ -1,0 +1,192 @@
+[
+  {
+    "cat": "ekotoba",
+    "chapter": "九相詩序 ",
+    "config": "cloudinary",
+    "src": "v1734611297/kusoushiemaki_01-1080_w2xely.jpg",
+    "name": "kusoushiemaki_01",
+    "srcWidth": 2883,
+    "srcHeight": 1080
+  },
+  {
+    "cat": "ekotoba",
+    "chapter": "1",
+    "config": "cloudinary",
+    "src": "v1734611298/kusoushiemaki_02-1080_y6jcit.jpg",
+    "name": "kusoushiemaki_02",
+    "srcWidth": 1685,
+    "srcHeight": 1080
+  },
+  {
+    "cat": "image",
+    "chapter": "",
+    "config": "cloudinary",
+    "src": "v1734611297/kusoushiemaki_03-1080_d1bufk.jpg",
+    "name": "kusoushiemaki_03",
+    "test": "hoge",
+    "srcWidth": 1725,
+    "srcHeight": 1080
+  },
+  {
+    "cat": "ekotoba",
+    "chapter": "2",
+    "config": "cloudinary",
+    "src": "v1734611297/kusoushiemaki_04-1080_ynzpwa.jpg",
+    "name": "kusoushiemaki_04",
+    "srcWidth": 1659,
+    "srcHeight": 1080
+  },
+  {
+    "cat": "image",
+    "chapter": "",
+    "config": "cloudinary",
+    "src": "v1734611297/kusoushiemaki_05-1080_zz6hn5.jpg",
+    "name": "kusoushiemaki_05",
+    "srcWidth": 1725,
+    "srcHeight": 1080,
+    "test": "hoge"
+  },
+  {
+    "cat": "ekotoba",
+    "chapter": "3",
+    "config": "cloudinary",
+    "src": "v1734611299/kusoushiemaki_06-1080_l2iprl.jpg",
+    "name": "kusoushiemaki_06",
+    "srcWidth": 1696,
+    "srcHeight": 1080
+  },
+  {
+    "cat": "image",
+    "chapter": "",
+    "config": "cloudinary",
+    "src": "v1734611300/kusoushiemaki_07-1080_smlm3s.jpg",
+    "name": "kusoushiemaki_07",
+    "srcWidth": 1728,
+    "srcHeight": 1080,
+    "test": "hoge"
+  },
+  {
+    "cat": "ekotoba",
+    "chapter": "4",
+    "config": "cloudinary",
+    "src": "v1734611300/kusoushiemaki_08-1080_e3zpn9.jpg",
+    "name": "kusoushiemaki_08",
+    "srcWidth": 1783,
+    "srcHeight": 1080
+  },
+  {
+    "cat": "image",
+    "chapter": "",
+    "config": "cloudinary",
+    "src": "v1734611301/kusoushiemaki_09-1080_rfh4ev.jpg",
+    "name": "kusoushiemaki_09",
+    "srcWidth": 1714,
+    "srcHeight": 1080,
+    "test": "hoge"
+  },
+  {
+    "cat": "ekotoba",
+    "chapter": "5",
+    "config": "cloudinary",
+    "src": "v1734611307/kusoushiemaki_10-1080_euvrnz.jpg",
+    "name": "kusoushiemaki_10",
+    "srcWidth": 1745,
+    "srcHeight": 1080
+  },
+  {
+    "cat": "image",
+    "chapter": "",
+    "config": "cloudinary",
+    "src": "v1734611309/kusoushiemaki_11-1080_i5plgh.jpg",
+    "name": "kusoushiemaki_11",
+    "srcWidth": 1716,
+    "srcHeight": 1080,
+    "test": "hoge"
+  },
+  {
+    "cat": "ekotoba",
+    "chapter": "6",
+    "config": "cloudinary",
+    "src": "v1734611310/kusoushiemaki_12-1080_bdrr0f.jpg",
+    "name": "kusoushiemaki_12",
+    "srcWidth": 1751,
+    "srcHeight": 1080
+  },
+  {
+    "cat": "image",
+    "chapter": "",
+    "config": "cloudinary",
+    "src": "v1734611310/kusoushiemaki_13-1080_iawjwm.jpg",
+    "name": "kusoushiemaki_13",
+    "srcWidth": 1751,
+    "srcHeight": 1080,
+    "test": "hoge"
+  },
+  {
+    "cat": "ekotoba",
+    "chapter": "7",
+    "config": "cloudinary",
+    "src": "v1734611311/kusoushiemaki_14-1080_udvx52.jpg",
+    "name": "kusoushiemaki_14",
+    "srcWidth": 1714,
+    "srcHeight": 1080
+  },
+  {
+    "cat": "image",
+    "chapter": "",
+    "config": "cloudinary",
+    "src": "v1734611311/kusoushiemaki_15-1080_oeifpo.jpg",
+    "name": "kusoushiemaki_15",
+    "srcWidth": 1745,
+    "srcHeight": 1080,
+    "test": "hoge"
+  },
+  {
+    "cat": "ekotoba",
+    "chapter": "8",
+    "config": "cloudinary",
+    "src": "v1734611311/kusoushiemaki_16-1080_hw5hdj.jpg",
+    "name": "kusoushiemaki_16",
+    "srcWidth": 1668,
+    "srcHeight": 1080
+  },
+  {
+    "cat": "image",
+    "chapter": "",
+    "config": "cloudinary",
+    "src": "v1734611296/kusoushiemaki_17-1080_hcdqvd.jpg",
+    "name": "kusoushiemaki_17",
+    "srcWidth": 1731,
+    "srcHeight": 1080,
+    "test": "hoge"
+  },
+  {
+    "cat": "ekotoba",
+    "chapter": "9",
+    "config": "cloudinary",
+    "src": "v1734611296/kusoushiemaki_18-1080_ocz1vp.jpg",
+    "name": "kusoushiemaki_18",
+    "srcWidth": 1630,
+    "srcHeight": 1080
+  },
+  {
+    "cat": "image",
+    "chapter": "",
+    "config": "cloudinary",
+    "src": "v1734611296/kusoushiemaki_19-1080_oubt6p.jpg",
+    "name": "kusoushiemaki_19",
+    "srcWidth": 1731,
+    "srcHeight": 1080,
+    "test": "hoge"
+  },
+  {
+    "cat": "image",
+    "chapter": "",
+    "config": "cloudinary",
+    "src": "v1734611297/kusoushiemaki_20-1080_lsghxh.jpg",
+    "name": "kusoushiemaki_20",
+    "srcWidth": 1863,
+    "srcHeight": 1080,
+    "test": "hoge"
+  }
+]
