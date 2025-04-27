@@ -4,10 +4,7 @@ import Head from "@/components/meta/Meta";
 import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import CardA from "@/components/ui/CardA";
 import emakisData from "@/data/data";
-import {
-  default as enData,
-  default as jaData,
-} from "@/data/image-metadata-cache/image-metadata-cache.json";
+import { default as enData, default as jaData } from "@/data/metadata.json";
 import { personnameItem, removeNestedEmakisObj } from "@/utils/func";
 import { useRouter } from "next/router";
 

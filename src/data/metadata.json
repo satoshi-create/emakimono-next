@@ -15,7 +15,33 @@
     "sourceImage": "鳥獣人戯画絵巻 摸本（ColBase）",
     "type": "絵巻",
     "typeen": "emaki",
-    "image_list_path": "images/chōjū-jinbutsu-giga_first.json"
+    "image_list_path": "images/chōjū-jinbutsu-giga_first.json",
+    "keyword": [
+      {
+        "id": "caricature",
+        "name": "戯画",
+        "slug": "caricature",
+        "total": 4
+      },
+      {
+        "id": "animal",
+        "name": "動物",
+        "slug": "animal",
+        "total": 3
+      },
+      {
+        "id": "tobae",
+        "name": "鳥羽絵",
+        "slug": "tobae",
+        "total": 4
+      },
+      {
+        "id": "buddhism",
+        "name": "仏教",
+        "slug": "buddhism",
+        "total": 8
+      }
+    ]
   },
   {
     "﻿id": "2",
@@ -33,7 +59,39 @@
     "sourceImage": "鳥獣人戯画絵巻 摸本（ColBase）",
     "type": "絵巻",
     "typeen": "emaki",
-    "image_list_path": "images/chōjū-jinbutsu-giga_second.json"
+    "image_list_path": "images/chōjū-jinbutsu-giga_second.json",
+    "keyword": [
+      {
+        "id": "caricature",
+        "name": "戯画",
+        "slug": "caricature",
+        "total": 4
+      },
+      {
+        "id": "animal",
+        "name": "動物",
+        "slug": "animal",
+        "total": 3
+      },
+      {
+        "id": "spiritualbeast",
+        "name": "霊獣",
+        "slug": "spiritualbeast",
+        "total": 1
+      },
+      {
+        "id": "tobae",
+        "name": "鳥羽絵",
+        "slug": "tobae",
+        "total": 4
+      },
+      {
+        "id": "buddhism",
+        "name": "仏教",
+        "slug": "buddhism",
+        "total": 8
+      }
+    ]
   },
   {
     "﻿id": "3",
@@ -51,7 +109,45 @@
     "sourceImage": "鳥獣人戯画絵巻 摸本（ColBase）",
     "type": "絵巻",
     "typeen": "emaki",
-    "image_list_path": "images/chōjū-jinbutsu-giga_third.json"
+    "image_list_path": "images/chōjū-jinbutsu-giga_third.json",
+    "keyword": [
+      {
+        "id": "caricature",
+        "name": "戯画",
+        "slug": "caricature",
+        "total": 4
+      },
+      {
+        "id": "animal",
+        "name": "動物",
+        "slug": "animal",
+        "total": 3
+      },
+      {
+        "id": "tobae",
+        "name": "鳥羽絵",
+        "slug": "tobae",
+        "total": 4
+      },
+      {
+        "id": "game",
+        "name": "遊戯",
+        "slug": "game",
+        "total": 2
+      },
+      {
+        "id": "annualevent",
+        "name": "年中行事",
+        "slug": "annualevent",
+        "total": 2
+      },
+      {
+        "id": "buddhism",
+        "name": "仏教",
+        "slug": "buddhism",
+        "total": 8
+      }
+    ]
   },
   {
     "﻿id": "4",
@@ -69,7 +165,33 @@
     "sourceImage": "鳥獣人戯画絵巻 摸本（ColBase）",
     "type": "絵巻",
     "typeen": "emaki",
-    "image_list_path": "images/chōjū-jinbutsu-giga_fourth.json"
+    "image_list_path": "images/chōjū-jinbutsu-giga_fourth.json",
+    "keyword": [
+      {
+        "id": "caricature",
+        "name": "戯画",
+        "slug": "caricature",
+        "total": 4
+      },
+      {
+        "id": "game",
+        "name": "遊戯",
+        "slug": "game",
+        "total": 2
+      },
+      {
+        "id": "tobae",
+        "name": "鳥羽絵",
+        "slug": "tobae",
+        "total": 4
+      },
+      {
+        "id": "buddhism",
+        "name": "仏教",
+        "slug": "buddhism",
+        "total": 8
+      }
+    ]
   },
   {
     "﻿id": "5",
@@ -87,7 +209,33 @@
     "sourceImage": "九相図巻（九州国立博物館）",
     "type": "絵巻",
     "typeen": "emaki",
-    "image_list_path": "images/kusouzumaki.json"
+    "image_list_path": "images/kusouzumaki.json",
+    "keyword": [
+      {
+        "id": "impermanence",
+        "name": "無常",
+        "slug": "impermanence",
+        "total": 4
+      },
+      {
+        "id": "buddhism",
+        "name": "仏教",
+        "slug": "buddhism",
+        "total": 8
+      },
+      {
+        "id": "lifeandodeath",
+        "name": "死生観",
+        "slug": "lifeandodeath",
+        "total": 4
+      },
+      {
+        "id": "anatomy",
+        "name": "解剖学",
+        "slug": "anatomy",
+        "total": 4
+      }
+    ]
   },
   {
     "﻿id": "6",
@@ -105,7 +253,33 @@
     "sourceImage": "九相図（大英博物館）",
     "type": "絵巻",
     "typeen": "emaki",
-    "image_list_path": "images/kusouzu_kobayasieieitaku.json"
+    "image_list_path": "images/kusouzu_kobayasieieitaku.json",
+    "keyword": [
+      {
+        "id": "impermanence",
+        "name": "無常",
+        "slug": "impermanence",
+        "total": 4
+      },
+      {
+        "id": "buddhism",
+        "name": "仏教",
+        "slug": "buddhism",
+        "total": 8
+      },
+      {
+        "id": "lifeandodeath",
+        "name": "死生観",
+        "slug": "lifeandodeath",
+        "total": 4
+      },
+      {
+        "id": "anatomy",
+        "name": "解剖学",
+        "slug": "anatomy",
+        "total": 4
+      }
+    ]
   },
   {
     "﻿id": "7",
@@ -123,7 +297,39 @@
     "sourceImage": "九相詩絵巻（九州国立博物館）",
     "type": "絵巻",
     "typeen": "emaki",
-    "image_list_path": "images/kusoushiemaki.json"
+    "image_list_path": "images/kusoushiemaki.json",
+    "keyword": [
+      {
+        "id": "impermanence",
+        "name": "無常",
+        "slug": "impermanence",
+        "total": 4
+      },
+      {
+        "id": "buddhism",
+        "name": "仏教",
+        "slug": "buddhism",
+        "total": 8
+      },
+      {
+        "id": "lifeandodeath",
+        "name": "死生観",
+        "slug": "lifeandodeath",
+        "total": 4
+      },
+      {
+        "id": "anatomy",
+        "name": "解剖学",
+        "slug": "anatomy",
+        "total": 4
+      },
+      {
+        "id": "waka",
+        "name": "和歌",
+        "slug": "waka",
+        "total": 1
+      }
+    ]
   },
   {
     "﻿id": "8",
@@ -141,6 +347,32 @@
     "sourceImage": "Nine Stages of Decomposition of the Heian Period Empress Danrin（Wikimedia Commons）",
     "type": "絵巻",
     "typeen": "emaki",
-    "image_list_path": "images/nine-stages-of-decay-empress-danrin.json"
+    "image_list_path": "images/nine-stages-of-decay-empress-danrin.json",
+    "keyword": [
+      {
+        "id": "impermanence",
+        "name": "無常",
+        "slug": "impermanence",
+        "total": 4
+      },
+      {
+        "id": "buddhism",
+        "name": "仏教",
+        "slug": "buddhism",
+        "total": 8
+      },
+      {
+        "id": "lifeandodeath",
+        "name": "死生観",
+        "slug": "lifeandodeath",
+        "total": 4
+      },
+      {
+        "id": "anatomy",
+        "name": "解剖学",
+        "slug": "anatomy",
+        "total": 4
+      }
+    ]
   }
 ]

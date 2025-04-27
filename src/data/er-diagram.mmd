@@ -1,0 +1,60 @@
+erDiagram
+
+  scrolls {
+    INT id PK
+    VARCHAR title
+    VARCHAR titleen
+    VARCHAR author
+    VARCHAR authoren
+    VARCHAR edition
+    VARCHAR era
+    VARCHAR eraen
+    VARCHAR backgroundImage
+    VARCHAR thumb
+    VARCHAR video
+    TEXT desc
+    TEXT descen
+    BOOLEAN kotobagaki
+    BOOLEAN favorite
+    VARCHAR type
+    VARCHAR typeen
+  }
+
+  images {
+    INT id PK
+    INT scroll_id FK
+    VARCHAR src
+    INT srcWidth
+    INT srcHeight
+    VARCHAR config
+    VARCHAR name
+    INT chapter_id FK
+  }
+
+  chapters {
+    INT id PK
+    INT scroll_id FK
+    VARCHAR stage_ch
+    VARCHAR stage_en
+    VARCHAR title
+    VARCHAR titleen
+    VARCHAR ruby
+    TEXT desc
+    TEXT descen
+  }
+
+  keywords {
+    VARCHAR id PK
+    VARCHAR name
+    VARCHAR slug
+  }
+
+  scroll_keywords {
+    INT scroll_id FK
+    VARCHAR keyword_id FK
+  }
+
+  scrolls ||--o{ images : has
+  scrolls ||--o{ chapters : includes
+  scrolls ||--o{ scroll_keywords : has
+  keywords ||--o{ scroll_keywords : has

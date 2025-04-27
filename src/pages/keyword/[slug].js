@@ -7,7 +7,7 @@ import {
   default as emakisData,
   default as enData,
   default as jaData,
-} from "@/data/image-metadata-cache/image-metadata-cache.json";
+} from "@/data/metadata.json";
 import { keywordItem, removeNestedEmakisObj } from "@/utils/func";
 import { useRouter } from "next/router";
 

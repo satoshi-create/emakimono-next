@@ -5,13 +5,14 @@ import Head from "@/components/meta/Meta";
 import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { keywordItem, useLocaleData } from "@/utils/func";
+import allKeywords from "@/data/keywords.json";
 import "lazysizes";
 
 const KeywordsComp = () => {
   const { locale } = useLocaleData();
   const removeNestedArrayObj = ExtractingListData();
 
-  const allKeywords = keywordItem(removeNestedArrayObj);
+  // const allKeywords = keywordItem(removeNestedArrayObj);
   const tPageDesc =
     locale === "en"
       ? `This is the keyword list page.This site pursues the enjoyment of picture scrolls by scrolling from right to left!`

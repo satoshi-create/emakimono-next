@@ -1,0 +1,68 @@
+[
+  {
+    "id": "caricature",
+    "name": "戯画",
+    "slug": "caricature",
+    "total": 4
+  },
+  {
+    "id": "animal",
+    "name": "動物",
+    "slug": "animal",
+    "total": 3
+  },
+  {
+    "id": "tobae",
+    "name": "鳥羽絵",
+    "slug": "tobae",
+    "total": 4
+  },
+  {
+    "id": "annualevent",
+    "name": "年中行事",
+    "slug": "annualevent",
+    "total": 2
+  },
+  {
+    "id": "buddhism",
+    "name": "仏教",
+    "slug": "buddhism",
+    "total": 8
+  },
+  {
+    "id": "spiritualbeast",
+    "name": "霊獣",
+    "slug": "spiritualbeast",
+    "total": 1
+  },
+  {
+    "id": "game",
+    "name": "遊戯",
+    "slug": "game",
+    "total": 2
+  },
+  {
+    "id": "impermanence",
+    "name": "無常",
+    "slug": "impermanence",
+    "total": 4
+  },
+  {
+    "id": "lifeandodeath",
+    "name": "死生観",
+    "slug": "lifeandodeath",
+    "total": 4
+  },
+  {
+    "id": "anatomy",
+    "name": "解剖学",
+    "slug": "anatomy",
+    "total": 4
+  },
+  {
+    "id": "waka",
+    "name": "和歌",
+    "slug": "waka",
+    "total": 1
+  }
+]

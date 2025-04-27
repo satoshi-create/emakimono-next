@@ -15,10 +15,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // JSONファイルのパス
-const jsonFilePath = path.resolve(
-  __dirname,
-  "../../libs/image-metadata-cache/image-metadata-cache.json"
-);
+const jsonFilePath = path.resolve(__dirname, "../../libs/metadata.json");
 
 // Cloudinaryからメタデータを取得する関数
 async function fetchImageDimensions(publicId) {
