@@ -3,7 +3,7 @@ import Header from "@/components/layout/Header";
 import Head from "@/components/meta/Meta";
 import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import CardA from "@/components/ui/CardA";
-import emakisData from "@/data/data";
+import emakisData from "@/data/metadata.json";
 import { default as enData, default as jaData } from "@/data/metadata.json";
 import { personnameItem, removeNestedEmakisObj } from "@/utils/func";
 import { useRouter } from "next/router";
