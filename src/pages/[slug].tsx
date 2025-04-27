@@ -150,6 +150,7 @@ const Emaki = ({ data, locale, locales, slug, test }: EmakiPageProps) => {
         <>
           <EmakiHeader />
           <EmakiBreadcrumbs
+            orientation={orientation}
             nameA={locale === "en" ? data.typeen : data.type}
             nameAen={`type/${data.typeen}`}
             nameB={locale === "en" ? data.titleen : data.title}
