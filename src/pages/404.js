@@ -126,7 +126,7 @@ const Custom404 = () => {
             zIndex={1}
             top="-4rem"
           >
-            ホームに戻る
+            {locale === "en" ? "Go back home" : "ホームに戻る"}
           </Button>
         </NextLink>
       </Box>
