@@ -1,0 +1,75 @@
+{
+  "id": "danrinkougou",
+  "name": {
+    "ja": "壇林皇后",
+    "en": "Empress Danrin"
+  },
+  "title": {
+    "ja": "皇后",
+    "en": "Empress"
+  },
+  "aliases": {
+    "ja": ["光明皇后", "仏母"],
+    "en": ["Kōmyō Kōgō", "Mother of Buddhas"]
+  },
+  "role": {
+    "ja": "慈愛の象徴",
+    "en": "Symbol of Compassion"
+  },
+  "gender": {
+    "ja": "女性",
+    "en": "Female"
+  },
+  "age_group": {
+    "ja": "老年",
+    "en": "Elderly"
+  },
+  "appearance": {
+    "ja": ["白衣", "長髪", "数珠"],
+    "en": ["White robes", "Long hair", "Prayer beads"]
+  },
+  "attributes": {
+    "ja": ["慈悲", "威厳", "霊性"],
+    "en": ["Compassion", "Dignity", "Spirituality"]
+  },
+  "era": {
+    "ja": "奈良時代",
+    "en": "Nara Period"
+  },
+  "based_on": {
+    "ja": "光明皇后",
+    "en": "Empress Kōmyō"
+  },
+  "cultural_context": {
+    "ja": "九相図巻",
+    "en": "Kusōzu Emaki (Nine Stages of Decay Scroll)"
+  },
+  "origin_story": {
+    "ja": "病人に水を与え、死者のために祈った逸話に由来する",
+    "en": "Based on a tale in which she gave water to the sick and prayed for the dead"
+  },
+  "affiliations": {
+    "ja": ["仏教", "天皇家"],
+    "en": ["Buddhism", "Imperial Family"]
+  },
+  "relationships": {
+    "rival": {
+      "ja": "悪僧",
+      "en": "Wicked Monk"
+    },
+    "mentor": {
+      "ja": "聖武天皇",
+      "en": "Emperor Shōmu"
+    }
+  },
+  "symbolic_links": {
+    "ja": ["観音菩薩", "薬師如来"],
+    "en": ["Kannon Bodhisattva", "Bhaisajyaguru (Medicine Buddha)"]
+  },
+  "icon_path": "./images/danrinkougou_icon.png",
+  "full_path": "./images/danrinkougou_full.png",
+  "highlight_quote": {
+    "ja": "一切の衆生に仏心ありと信ず",
+    "en": "I believe that all beings possess the Buddha-nature"
+  }
+}

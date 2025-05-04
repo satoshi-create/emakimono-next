@@ -1,0 +1,16 @@
+[
+  {
+    "type": "character",
+    "id": null,
+    "name": "danrinkougou",
+    "path": "characters/danrinkougou/",
+    "icon_path": null
+  },
+  {
+    "type": "tool",
+    "id": null,
+    "name": "noriyumi",
+    "path": "tools/noriyumi（賭弓）/",
+    "icon_path": null
+  }
+]

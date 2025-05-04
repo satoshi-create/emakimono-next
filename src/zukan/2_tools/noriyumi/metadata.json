@@ -1,0 +1,36 @@
+{
+  "id": "noriyumi",
+  "name": {
+    "ja": "賭弓",
+    "en": "Noriyumi (Betting Bow)"
+  },
+  "type": "儀式具",
+  "aliases": {
+    "ja": ["勝負弓", "弓引き競べ"],
+    "en": ["Duel Bow", "Betting Archery"]
+  },
+  "description": {
+    "ja": "賭弓とは、主に鳥獣人物戯画に登場するウサギたちが遊びや勝負に使ったとされる儀式的な弓。実際の弓術ではなく、遊戯や神意を問う道具として描かれている。",
+    "en": "Noriyumi is a ceremonial bow featured in Chōjū-jinbutsu-giga, used by anthropomorphic rabbits in playful duels or as a tool of divine judgment."
+  },
+  "origin_story": {
+    "ja": "鳥獣戯画甲巻において、兎と兎が弓で勝負をする場面に由来。",
+    "en": "Originates from a scene in the Chōjū-giga scrolls, where two rabbits engage in an archery contest."
+  },
+  "first_appearance": "鳥獣人物戯画 甲巻 第6図",
+  "era": "中世",
+  "cultural_context": "遊戯と儀礼の交錯、擬人化による風刺表現",
+  "function": "競技／遊戯",
+  "symbolism": "勝負、運命、儀式",
+  "materials": ["竹", "絹糸"],
+  "size": "中型",
+  "associated_characters": ["usagi_archer", "usagi_observer"],
+  "used_by": "兎の弓士たち",
+  "location": "野外の競技場",
+  "icon_path": "./images/noriyumi_icon.png",
+  "full_path": "./images/noriyumi_full.png",
+  "highlight_quote": {
+    "ja": "さあ、一射で勝負を決めようぞ！",
+    "en": "Let this one shot decide our fate!"
+  }
+}
