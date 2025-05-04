@@ -22,8 +22,8 @@ const Footer = () => {
       bgGradient="linear(to-r, #121212, #000)"
       color="white"
       px={6}
-      pt={10}
-      pb={6}
+      pt={{ base: 10, md: 6 }}
+      pb={{ base: 14, md: 6 }}
       borderTop="1px solid #444"
       mt={12}
     >
