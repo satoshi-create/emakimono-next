@@ -2,6 +2,8 @@ import SocialLinks from "@/components/social/SocialLinks";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useContext } from "react";
+import { AppContext } from "@/pages/_app";
 import {
   Flex,
   Box,
@@ -15,6 +17,7 @@ import styles from "@/styles/Footer.module.css";
 const Footer = () => {
   const year = new Date().getFullYear();
   const { locale } = useRouter();
+  const { openContactModal } = useContext(AppContext);
 
   return (
     <Box
@@ -72,7 +75,6 @@ const Footer = () => {
                 { en: "Home", ja: "ホーム", path: "/" },
                 { en: "About", ja: "About", path: "/about" },
                 { en: "Emaki Gallery", ja: "絵巻一覧", path: "/type/emaki" },
-                { en: "Contact", ja: "お問い合わせ", path: "/contact" },
               ].map((link) => (
                 <Link key={link.path} href={link.path} passHref>
                   <ChakraLink
@@ -87,6 +89,20 @@ const Footer = () => {
                   </ChakraLink>
                 </Link>
               ))}
+
+              {/* Contact as a modal button */}
+              <ChakraLink
+                as="button"
+                onClick={() => openContactModal(true)}
+                fontWeight="medium"
+                _hover={{
+                  color: "rgb(255, 140, 119)",
+                  transform: "scale(1.05)",
+                }}
+                transition="all 0.2s"
+              >
+                {locale === "ja" ? "お問い合わせ" : "Contact"}
+              </ChakraLink>
             </Stack>
           </Box>
 
