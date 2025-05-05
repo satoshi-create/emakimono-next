@@ -1,5 +1,5 @@
 const links = [
-  { name: "ホーム", nameen: "home", id: "home", path: "/", submenu: "" },
+  { name: "ホーム", nameen: "Home", id: "home", path: "/", submenu: "" },
   {
     name: "About",
     nameen: "About",
@@ -7,14 +7,20 @@ const links = [
     path: "/about",
     submenu: "",
   },
-
   {
     name: "絵巻一覧",
-    nameen: "emaki Gallery",
+    nameen: "Emaki Gallery",
     id: "emaki",
     path: "/type/emaki",
     submenu: "",
   },
+  // {
+  //   name: "お問い合わせ",
+  //   nameen: "Contact",
+  //   id: "contact",
+  //   path: "/type/emaki",
+  //   submenu: "",
+  // },
 ];
 
 export default links;
