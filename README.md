@@ -14,7 +14,7 @@ This project reimagines traditional Japanese picture scrolls (emaki) as interact
 It brings together frontend technology, storytelling, and cultural heritage — in an open, collaborative spirit.
 
 
-[![Emaki Screenshot](./public/#02_emakimono-viewer_substack.png)](https://emakimono.com/)
+[![Emaki Screenshot](./public/hero-img_new.png)](https://emakimono.com/)
 
 
 🌟 Try the MVP site here:  
