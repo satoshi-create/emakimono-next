@@ -4,6 +4,8 @@
 [![Part of CANW](https://img.shields.io/badge/CANW-ecosystem-blueviolet)](https://github.com/satoshi-create/complexity-and-network-webdesign)
 ![Contributors](https://img.shields.io/github/contributors/satoshi-create/emakimono-next?color=brightgreen)
 
+[![Emaki Screenshot](./public/hero-img_new.png)](https://emakimono.com/)
+
 📘 Read this in other languages:
 
 - [🇯🇵 日本語](./README_ja.md)
@@ -12,10 +14,6 @@
 
 This project reimagines traditional Japanese picture scrolls (emaki) as interactive digital experiences.  
 It brings together frontend technology, storytelling, and cultural heritage — in an open, collaborative spirit.
-
-
-[![Emaki Screenshot](./public/hero-img_new.png)](https://emakimono.com/)
-
 
 🌟 Try the MVP site here:  
 👉 [https://emakimono.com/](https://emakimono.com/)
