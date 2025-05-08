@@ -1,4 +1,8 @@
-# 🎐 Emakimono: Interactive Picture Scroll Viewer
+<p align="center">
+  <img src="https://github.com/satoshi-create/complexity-and-network-webdesign/blob/main/docs/branding-mvp-launch/images/logos/logo_cultural-emergent.png" alt="CANW Logo" width="100"/>
+</p>
+
+<h1 align="center">Emakimono: Interactive Picture Scroll Viewer</h1>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 [![Part of CANW](https://img.shields.io/badge/CANW-ecosystem-blueviolet)](https://github.com/satoshi-create/complexity-and-network-webdesign)
