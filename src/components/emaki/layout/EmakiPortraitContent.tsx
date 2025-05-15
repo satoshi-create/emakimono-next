@@ -260,7 +260,6 @@ const EmakiPortraitContent = ({
               </h4>
             )}
             <LinkToNote
-              title={title}
               reletedEmakisToNote={reletedEmakisToNote}
             />
             {/* 登場人物 */}
@@ -280,7 +279,7 @@ const EmakiPortraitContent = ({
                   }`}
                 >
                   {personname?.map((item, index) => {
-                    const { name, id, slug, total, ruby, portrait } = item;
+                    const { name, id, slug, portrait } = item;
 
                     return (
                       <Link href={`./personname/${slug}`} key={index}>
