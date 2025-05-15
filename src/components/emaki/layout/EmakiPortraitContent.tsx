@@ -48,7 +48,8 @@ const EmakiPortraitContent = ({
   const { handleFullScreen, isContactModalOpen } = useContext(AppContext);
 
   const { locale } = useRouter();
-  const { t: alldata } = useLocaleData();
+  const { t: alldataTyped } = useLocaleData();
+  const alldata = alldataTyped as EmakiImageMetadata[]; // Assert or ensure useLocaleData returns typed data
 
   const {
     type,
@@ -228,8 +229,6 @@ const EmakiPortraitContent = ({
                   {locale == "en" ? "View Other Scrolls" : "他の巻を見る"}
                 </h4>
                 <EditionLinks
-                  title={title}
-                  edition={edition}
                   editionLinks={editionLinks}
                 />
               </>
@@ -245,8 +244,6 @@ const EmakiPortraitContent = ({
                   {locale == "en" ? "View Other Scrolls" : "他の巻を見る"}
                 </h4>
                 <EditionLinks
-                  title={title}
-                  edition={edition}
                   editionLinks={LinksToKusouzu}
                 />
               </>
