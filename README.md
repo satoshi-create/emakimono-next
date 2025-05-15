@@ -23,7 +23,62 @@ It brings together frontend technology, storytelling, and cultural heritage — 
 👉 [https://emakimono.com/](https://emakimono.com/)
 
 ---
+### 📀 System Architecture (Current & Future)
 
+```mermaid
+graph TD
+
+  %% === Frontend Layer ===
+  subgraph Frontend[💻 Frontend Layer]
+    UI[🖼️ Emakimono Viewer UI - Next.js_Tailwind-CSS]
+    Lang[i18n - multi-language support]
+    Scroll[Horizontal scroll display]
+  end
+
+  %% === Backend Layer ===
+  subgraph Backend[🚰 Backend Layer - API endpoints]
+    MetadataAPI[📦 API - emaki, annotations, image links]
+    Auth[🔐 Authentication]
+  end
+
+  %% === Asset & Data Layer ===
+  subgraph Assets[📁 Asset & Data Management]
+    Cloudinary[☁️ Cloudinary - image hosting]
+    Annotations[📝 Annotations - JSON files]
+    Translation[🌐 Translations - YAML or JSON]
+  end
+
+  %% === Current Connections ===
+  UI -->|fetch| MetadataAPI
+  MetadataAPI --> Cloudinary
+  MetadataAPI --> Annotations
+  Lang --> UI
+  Auth --> UI
+  Translation --> Lang
+
+  %% === Future Enhancements ===
+  subgraph Future["🚀 Future Enhancements (Planned)"]
+    Pixi[🎮 PixiJS - smooth horizontal rendering]
+    TSUI[⚙️ Refactor - TypeScript and full TailwindCSS]
+    Supabase[(📃 Supabase - PostgreSQL RLS)]
+  end
+
+  Scroll -.-> Pixi
+  UI -.-> TSUI
+  Annotations -.-> Supabase
+```
+
+### ✅ Sections Overview
+
+- **Frontend Layer**: Current implementation with Next.js and partial Tailwind CSS usage
+- **Backend Layer**: Lightweight API endpoints handling annotations and image links
+- **Asset & Data Layer**: Cloudinary for image hosting, JSON/YAML for metadata and i18n
+- **Future Enhancements**:
+  - Replace scroll with **PixiJS**
+  - Refactor UI using **TypeScript + Tailwind CSS**
+  - Migrate metadata storage to **Supabase (PostgreSQL)**
+
+---
 ## 🧭 Contribution Roadmap
 
 We welcome contributors who share our vision to make cultural storytelling dynamic, accessible, and web-native.
