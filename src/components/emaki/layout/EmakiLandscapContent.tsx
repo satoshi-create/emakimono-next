@@ -48,7 +48,8 @@ const EmakiLandscapContent = ({
   const { handleFullScreen } = useContext(AppContext);
   const emakis: EmakiSegment[] = data.emakis;
   const { locale } = useRouter();
-  const { t: alldata } = useLocaleData();
+  const { t: alldataTyped } = useLocaleData();
+  const alldata = alldataTyped as EmakiImageMetadata[]; // Assert or ensure useLocaleData returns typed data
 
   const removeNestedArrayObj = ExtractingListData();
   const allKeywords: KeywordInfo[] = keywordItem(removeNestedArrayObj); // Assume keywordItem returns KeywordInfo[]
@@ -72,7 +73,6 @@ const EmakiLandscapContent = ({
     keyword,
     genjieslug,
     kotobagaki,
-    note,
   } = data;
 
   const descTJa = desc
@@ -249,8 +249,6 @@ const EmakiLandscapContent = ({
                     {locale == "en" ? "View Other Scrolls" : "他の巻を見る"}
                   </h4>
                   <EditionLinks
-                    title={title}
-                    edition={edition}
                     editionLinks={editionLinks}
                   />
                 </>
@@ -266,8 +264,6 @@ const EmakiLandscapContent = ({
                     {locale == "en" ? "View Other Scrolls" : "他の巻を見る"}
                   </h4>
                   <EditionLinks
-                    title={title}
-                    edition={edition}
                     editionLinks={LinksToKusouzu}
                   />
                 </>
