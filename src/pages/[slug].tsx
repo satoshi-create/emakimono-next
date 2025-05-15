@@ -160,6 +160,7 @@ const Emaki = ({ data, locale, locales, slug, test }: EmakiPageProps) => {
             scroll={true}
             selectedRef={selectedRef}
             navIndex={navIndex}
+            articleRef={articleRef}
           />
         </>
       );
@@ -178,6 +179,7 @@ const Emaki = ({ data, locale, locales, slug, test }: EmakiPageProps) => {
             scroll={true}
             selectedRef={selectedRef}
             navIndex={navIndex}
+            articleRef={articleRef}
           />
         </>
       );
