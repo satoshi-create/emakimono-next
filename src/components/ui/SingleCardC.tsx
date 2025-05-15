@@ -2,12 +2,18 @@ import styles from "@/styles/CardC.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import type { EmakiImageMetadata } from '@/types/metadata'; // Import the type
 
-const SingleCardC = ({ item, i }) => {
+// Define Props Interface
+interface SingleCardCProps {
+  item: EmakiImageMetadata;
+}
+
+const SingleCardC = ({ item }: SingleCardCProps) => {
   const { locale } = useRouter();
   const { titleen, title, thumb, edition, author } = item;
   return (
-    <div key={i} className={styles.box}>
+    <div className={styles.box}>
       <Link href={`/${titleen}`}>
         <a>
           <Image
