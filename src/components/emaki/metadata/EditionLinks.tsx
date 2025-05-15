@@ -4,8 +4,6 @@ import type { EmakiImageMetadata } from '@/types/metadata';
 
 // Define Props interface
 interface EditionLinksProps {
-  title: string;
-  edition?: string; // Make optional if sometimes not passed
   editionLinks: EmakiImageMetadata[]; // Expecting the pre-filtered array
 }
 
