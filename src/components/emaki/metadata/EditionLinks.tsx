@@ -1,7 +1,15 @@
 import SingleCardC from "@/components/ui/SingleCardC";
 import styles from "@/styles/EditionLinks.module.css";
+import type { EmakiImageMetadata } from '@/types/metadata';
 
-const EditionLinks = ({ editionLinks }) => {
+// Define Props interface
+interface EditionLinksProps {
+  title: string;
+  edition?: string; // Make optional if sometimes not passed
+  editionLinks: EmakiImageMetadata[]; // Expecting the pre-filtered array
+}
+
+const EditionLinks = ({ editionLinks }: EditionLinksProps) => {
   // const { locale } = useRouter();
   // const { t: alldata } = useLocaleData();
   // const editionLinks = alldata.filter(
@@ -11,7 +19,7 @@ const EditionLinks = ({ editionLinks }) => {
   return (
     <div className={styles.container}>
       {editionLinks.map((item, i) => {
-        return <SingleCardC item={item} key={i} variant={"editionlink"} />;
+        return <SingleCardC item={item} key={i} />;
       })}
     </div>
   );
