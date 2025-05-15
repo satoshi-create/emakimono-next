@@ -280,7 +280,6 @@ const EmakiLandscapContent = ({
                     note
                   </h4>
                   <LinkToNote
-                    title={title}
                     reletedEmakisToNote={reletedEmakisToNote}
                   />
                 </>
@@ -333,7 +332,7 @@ const EmakiLandscapContent = ({
               {keyword && (
                 <div className={styles.tags}>
                   {keyword?.map((item, index) => {
-                    const { name, id, slug, total, ruby } = item;
+                    const { name, id, slug} = item;
 
                     return (
                       <Link href={`./keyword/${slug}`} key={index}>
