@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 [![Part of CANW](https://img.shields.io/badge/CANW-ecosystem-blueviolet)](https://github.com/satoshi-create/complexity-and-network-webdesign)
-![Contributors](https://img.shields.io/github/contributors/satoshi-create/emakimono-next?color=brightgreen)
+[![Contributors](https://img.shields.io/github/contributors/satoshi-create/emakimono-next?color=brightgreen)](https://github.com/satoshi-create/emakimono-next/graphs/contributors)
 
 [![Emaki Screenshot](./public/hero-img_new.png)](https://emakimono.com/)
 
