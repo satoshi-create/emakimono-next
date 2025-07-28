@@ -1,0 +1,5 @@
+pandas
+sentence-transformers
+faiss-cpu
+langchain
+chromadb
