@@ -43,3 +43,8 @@ next-env.d.ts
 .history
 
 credentials.json
+
+# Python仮想環境
+.venv/
+venv/
+env/
