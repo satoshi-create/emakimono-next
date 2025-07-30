@@ -5,7 +5,7 @@ import os, json
 import faiss
 
 # 入力ファイル
-jsonl_path = os.path.join("..", "data/embeddings", "kou_with_embeddings.jsonl")
+jsonl_path = os.path.join("..", "data/embeddings", "kou_embedding_ready.jsonl_sentences.jsonl")
 # 出力パス
 index_path = os.path.join("..", "output", "faiss.index")
 id_map_path = os.path.join("..", "output", "id_map.json")

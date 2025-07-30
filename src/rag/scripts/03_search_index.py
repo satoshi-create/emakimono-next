@@ -5,8 +5,8 @@ import numpy as np
 import os, json
 
 # 入力
-index_path = os.path.join("..", "output", "faiss.index")
-id_map_path = os.path.join("..", "output", "id_map.json")
+index_path = os.path.join("..", "data/embeddings", "faiss.index")
+id_map_path = os.path.join("..", "data/embeddings", "id_map.json")
 
 # クエリベクトル（ここでは仮に最初のベクトルを使う）
 from utils import load_jsonl_embeddings
@@ -19,7 +19,7 @@ query_vectors = load_jsonl_embeddings(os.path.join("..", "data/embeddings", "kou
 # FAISS読み込み
 index = faiss.read_index(index_path)
 # 類似検索：Top-3を取得
-D, I = index.search(query_vectors, k=5)
+D, I = index.search(query_vectors, k=3)
 
 # 結果表示
 with open(id_map_path, encoding="utf-8") as f:

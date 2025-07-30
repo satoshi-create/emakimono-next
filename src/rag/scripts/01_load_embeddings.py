@@ -3,7 +3,7 @@
 from utils import load_jsonl_embeddings
 import os
 
-jsonl_path = os.path.join("..", "data/embeddings", "kou_with_embeddings.jsonl")
+jsonl_path = os.path.join("..", "data/embeddings", "kou_embedding_ready.jsonl_sentences.jsonl")
 ids, texts, vectors = load_jsonl_embeddings(jsonl_path)
 
 print(f"✅ Loaded {len(ids)} records.")
