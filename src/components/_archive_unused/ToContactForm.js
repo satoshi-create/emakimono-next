@@ -27,12 +27,18 @@ const ToContactForm = () => {
 
       <h4>{locale == "en" ? data.en.title : data.ja.title}</h4>
       <p>{locale == "en" ? parse(data.en.text) : parse(data.ja.text)}</p>
-      <button
+      {/* <button
         className={styles.linkedbtn}
         onClick={() => openContactModal(true)}
+      > */}
+      <a
+        href="https://sour-brain-48f.notion.site/2f2994f0dfcd8028b12acbc08eb18564?pvs=105"
+        target="_blank"
+        title="ご意見をお寄せください"
       >
         {locale == "en" ? "Submit Feedback" : "意見を送る"}
-      </button>
+      </a>
+      {/* </button> */}
     </div>
   );
 };
