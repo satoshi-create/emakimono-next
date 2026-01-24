@@ -58,6 +58,7 @@ const Header = ({ slug, fixed }) => {
         <a
           href="https://sour-brain-48f.notion.site/2f2994f0dfcd8028b12acbc08eb18564?pvs=105"
           target="_blank"
+          title="ご意見をお寄せください"
         >
           <i>
             <Mail className={`${styles.contacticon}`} />
