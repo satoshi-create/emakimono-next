@@ -16,13 +16,14 @@
 
 > **“Making every emakimono scroll interactively explorable.”**
 
-This project reimagines traditional Japanese picture scrolls (emaki) as interactive digital experiences.  
+This project reimagines traditional Japanese picture scrolls (emaki) as interactive digital experiences.
 It brings together frontend technology, storytelling, and cultural heritage — in an open, collaborative spirit.
 
-🌟 Try the MVP site here:  
+🌟 Try the MVP site here:
 👉 [https://emakimono.com/](https://emakimono.com/)
 
 ---
+
 ### 📀 System Architecture (Current & Future)
 
 ```mermaid
@@ -79,11 +80,12 @@ graph TD
   - Migrate metadata storage to **Supabase (PostgreSQL)**
 
 ---
+
 ## 🧭 Contribution Roadmap
 
 We welcome contributors who share our vision to make cultural storytelling dynamic, accessible, and web-native.
 
-The roadmap below shows an overview of the project's phased development.  
+The roadmap below shows an overview of the project's phased development.
 ➡️ **For full descriptions of each phase, visit the [📍 Wiki Roadmap](https://github.com/satoshi-create/emakimono-next/wiki/Contribution-Roadmap)**
 
 ### 🗺 Roadmap Overview
@@ -119,15 +121,15 @@ journey
 
 [![Screenshot](./public/demo_kusouzu.gif)](https://emakimono.com/en)
 
-> **Try the experience:**  
-[📜 Nine Stages of Decay（九相図巻）](https://emakimono.com/kusouzumaki)
+> **Try the experience:**
+> [📜 Nine Stages of Decay（九相図巻）](https://emakimono.com/kusouzumaki)
 
 ---
 
 ## 🧭 How to Explore the Scroll
 
 - The scroll proceeds **left to right**, just like traditional emakimono.
-- On smartphones: swipe with your finger.  
+- On smartphones: swipe with your finger.
   On desktop: use trackpad or `shift + scroll` to move horizontally.
 - Navigation buttons and thumbnail previews help you jump between scenes.
 - Even if you don’t read Japanese, **feel free to interpret the imagery** intuitively!
@@ -136,14 +138,12 @@ journey
 
 ---
 
-
 ## 🧠 Related Projects
 
 - [📜 Horizontal Scroll Emaki (CANW Project)](https://github.com/satoshi-create/complexity-and-network-webdesign/tree/main/projects/horizontal-scroll-emaki)
 - [🌐 CANW GitHub Repository](https://github.com/satoshi-create/complexity-and-network-webdesign)
 
 ---
-
 
 ## 💬 Get Involved
 
@@ -152,13 +152,15 @@ This project is open source and part of a broader ecosystem.
 - Suggest improvements via [Issues](../../issues)
 - Join conversations in [CANW Discussions](https://github.com/satoshi-create/complexity-and-network-webdesign/discussions)
 - Explore new ideas via [Project Proposals](https://github.com/satoshi-create/complexity-and-network-webdesign/discussions/categories/-proposals)
-  
+
 ---
+
 ## 📚 Documentation
 
 For full documentation and contributor guides, please visit the [Emaki Project Wiki](https://github.com/satoshi-create/emakimono-next/wiki).
 
 ---
+
 ## 🌟 Contributors!
 
 Thanks to all the contributors who help make Emakimono Project! 🌱
@@ -171,5 +173,5 @@ Thanks to all the contributors who help make Emakimono Project! 🌱
 
 ## 📘 License
 
-MIT License  
-(C) 2026 canw
+MIT License
+(C) 2026 satoshi create
