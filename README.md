@@ -173,3 +173,4 @@ Thanks to all the contributors who help make Emakimono Project! 🌱
 
 MIT License  
 (C) 2024 satoshi-create
+
