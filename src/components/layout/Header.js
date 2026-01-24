@@ -46,7 +46,7 @@ const Header = ({ slug, fixed }) => {
         <div className={styles.searchboxbtn}>
           <SearchBoxButton />
         </div>
-        <button
+        {/* <button
           onClick={() => openContactModal(true)}
           title="ご意見をお寄せください"
           className={`${styles.contacticonbox}`}
@@ -54,7 +54,15 @@ const Header = ({ slug, fixed }) => {
           <i>
             <Mail className={`${styles.contacticon}`} />
           </i>
-        </button>
+        </button> */}
+        <a
+          href="https://sour-brain-48f.notion.site/2f2994f0dfcd8028b12acbc08eb18564?pvs=105"
+          target="_blank"
+        >
+          <i>
+            <Mail className={`${styles.contacticon}`} />
+          </i>
+        </a>
         <nav className={styles.nav}>
           <div className={styles.navcenter}>
             <button
