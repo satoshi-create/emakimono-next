@@ -34,7 +34,6 @@ const Header = ({ slug, fixed }) => {
               width={25}
               height={25}
             />
-            {/* <img src="/favicon.png" alt="favicon" className={styles.favicon} /> */}
             {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
           </a>
         </Link>
@@ -46,17 +45,8 @@ const Header = ({ slug, fixed }) => {
         <div className={styles.searchboxbtn}>
           <SearchBoxButton />
         </div>
-        {/* <button
-          onClick={() => openContactModal(true)}
-          title="ご意見をお寄せください"
-          className={`${styles.contacticonbox}`}
-        >
-          <i>
-            <Mail className={`${styles.contacticon}`} />
-          </i>
-        </button> */}
         <a
-          href="https://sour-brain-48f.notion.site/2f2994f0dfcd8028b12acbc08eb18564?pvs=105"
+          href="https://sour-brain-48f.notion.site/2f3994f0dfcd80409097f4cb44d2a80a?"
           target="_blank"
           title="ご意見をお寄せください"
         >

@@ -38,7 +38,6 @@ const EmakiHeader = () => {
               width={25}
               height={25}
             />
-            {/* <img src="/favicon.png" alt="favicon" className={styles.favicon} /> */}
           </a>
         </Link>
         <Link href="/">
@@ -51,13 +50,14 @@ const EmakiHeader = () => {
           <SocialLinks />
         </span>
         <SearchBoxButton />
-        <button
-          onClick={() => openContactModal(true)}
+        <a
+          href="https://sour-brain-48f.notion.site/2f3994f0dfcd80409097f4cb44d2a80a?pvs=105"
+          target="_blank"
           title="ご意見をお寄せください"
-          className={styles.contactbtn}
+          className={styles.linkedbtn}
         >
           <Mail className={`${styles.contacticon}`} />
-        </button>
+        </a>
         <nav className={styles.nav}>
           <div className={styles.navcenter}>
             <button
