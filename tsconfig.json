@@ -24,6 +24,8 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/utils/func.js"],
+  // "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/utils/func.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+
   "exclude": ["node_modules"]
 }

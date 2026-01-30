@@ -384,10 +384,26 @@ function MyApp({ Component, pageProps, router }) {
 
   const scrollDialog = useCallback((node) => {
     if (node !== null) {
-      node.scrollIntoView({
-        behavior: "smooth",
-        block: "start", // 必要なら "center" に変更
-        inline: "start", // 横方向スクロールのみを許可
+      // requestAnimationFrame でブラウザのレイアウト確定を待つ
+      requestAnimationFrame(() => {
+        // 横スクロールコンテナ（article）を取得
+        const scrollContainer = node.closest("article");
+        if (!scrollContainer) return;
+
+        // RTL（right-to-left）レイアウトを考慮した位置計算
+        const containerRect = scrollContainer.getBoundingClientRect();
+        const nodeRect = node.getBoundingClientRect();
+
+        // 横方向のオフセットを計算（RTLの場合は右端からの距離）
+        const scrollLeft =
+          scrollContainer.scrollLeft +
+          (nodeRect.left - containerRect.left);
+
+        // 横スクロールのみを実行（縦スクロールは一切発生しない）
+        scrollContainer.scrollTo({
+          left: scrollLeft,
+          behavior: "smooth",
+        });
       });
     }
   }, []);
