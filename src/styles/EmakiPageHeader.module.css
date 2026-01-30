@@ -15,9 +15,6 @@
   display: none;
 }
 
-.sociallinks {
-  display: block;
-}
 
 .title {
   font-family: var(--title-font);
@@ -67,7 +64,6 @@
   display: block;
 }
 
-
 @media screen and (min-width: 768px) {
 
   .center {
@@ -81,5 +77,9 @@
 
   .nav {
     display: none;
+  }
+
+  .sociallinks {
+    display: block;
   }
 }
