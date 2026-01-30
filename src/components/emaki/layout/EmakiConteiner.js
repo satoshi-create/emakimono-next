@@ -8,9 +8,7 @@ import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiConteiner.module.css";
 import "lazysizes";
-import { useRouter } from "next/router";
 import { useContext, useEffect, useRef, useState } from "react";
-import ScrollHint from "scroll-hint";
 
 const EmakiContainer = ({
   data,
@@ -32,8 +30,6 @@ const EmakiContainer = ({
     isMapModalOpen,
     isDescModalOpen,
   } = useContext(AppContext);
-
-  const { locale } = useRouter();
 
   const emakis = data.emakis;
 
@@ -68,7 +64,7 @@ const EmakiContainer = ({
             // observer.unobserve(entry.target); // 個別に監視を解除
           }
         },
-        { rootMargin: rootMargin, threshold: 0 }
+        { rootMargin: rootMargin, threshold: 0 },
       );
     });
 
@@ -99,38 +95,131 @@ const EmakiContainer = ({
     return () => el.removeEventListener("scroll", handleScroll);
   }, [lastScrollX, scrollSpeed]);
 
+  // 教育現場向けUI: 初回表示時のみ、横スクロール可能性を
+  // 緩やかな自動スクロールで認知させるナッジ（操作説明なし）
   useEffect(() => {
-    const keyName = "visited";
+    console.log("[AutoScroll Debug] useEffect実行");
+
+    const keyName = `visited_${data.id}`;
     const keyValue = true;
 
-    if (!sessionStorage.getItem(keyName)) {
-      //sessionStorageにキーと値を追加
-      sessionStorage.setItem(keyName, keyValue);
+    const isFirstVisit = !sessionStorage.getItem(keyName);
+    console.log("[AutoScroll Debug] 初回アクセス判定:", isFirstVisit);
+    console.log(
+      `[AutoScroll Debug] sessionStorage.${keyName}:`,
+      sessionStorage.getItem(keyName),
+    );
 
-      //初回アクセス時の処理
-      new ScrollHint(".js-scrollable", {
-        offset: -10,
-        remainingTime: 8000,
-        scrollableLeftClass: true,
-        scrollHintIconAppendClass: "scroll-hint-icon-white",
-        i18n: {
-          scrollable: `${
-            locale === "ja"
-              ? `${
-                  type !== "西洋絵画"
-                    ? "左スクロールできます"
-                    : "右スクロールできます"
-                }`
-              : `${
-                  type !== "西洋絵画" ? "scrollable left" : "scrollable right"
-                }`
-          }`,
-        },
+    if (isFirstVisit) {
+      // 初回アクセス時: 自動スクロールによる認知ナッジ
+      const el = articleRef.current;
+      console.log("[AutoScroll Debug] articleRef.current:", el);
+
+      if (!el) {
+        console.warn(
+          "[AutoScroll Debug] articleRef.currentがnullのため処理中断",
+        );
+        return;
+      }
+
+      console.log("[AutoScroll Debug] 要素情報:", {
+        clientWidth: el.clientWidth,
+        scrollWidth: el.scrollWidth,
+        scrollLeft: el.scrollLeft,
       });
-    } else {
-      //ここに通常アクセス時の処理
+
+      // 一定速度で左にスクロールし続ける（ユーザー操作があるまで継続）
+      const scrollSpeed = 2.7; // px/フレーム（約109px/秒 @ 60fps）
+      let animationId = null;
+      let stopped = false;
+
+      // CSS scroll-behavior の干渉を防ぐため一時的に無効化
+      const originalScrollBehavior = el.style.scrollBehavior;
+      el.style.scrollBehavior = "auto";
+
+      // スクロール可能な最小値（左端）
+      const minScrollLeft = -(el.scrollWidth - el.clientWidth);
+
+      console.log("[AutoScroll Debug] 自動スクロール開始準備:", {
+        scrollSpeed,
+        minScrollLeft,
+        scrollWidth: el.scrollWidth,
+        clientWidth: el.clientWidth,
+        originalScrollBehavior,
+      });
+
+      const stopAutoScroll = () => {
+        if (stopped) return;
+        stopped = true;
+        console.log("[AutoScroll Debug] 自動スクロール停止");
+        if (animationId) cancelAnimationFrame(animationId);
+        // scroll-behavior を元に戻す
+        el.style.scrollBehavior = originalScrollBehavior;
+        // イベントリスナー削除
+        el.removeEventListener("mousedown", stopAutoScroll);
+        el.removeEventListener("wheel", stopAutoScroll);
+        el.removeEventListener("touchstart", stopAutoScroll);
+        document.removeEventListener("click", stopAutoScroll);
+      };
+
+      const autoScroll = () => {
+        if (stopped) {
+          console.log("[AutoScroll Debug] autoScroll: stopped=true のため中断");
+          return;
+        }
+
+        const currentScrollLeft = el.scrollLeft;
+        const newScrollLeft = currentScrollLeft - scrollSpeed;
+
+        // スクロール可能な範囲の端に到達したら停止
+        if (newScrollLeft < minScrollLeft) {
+          console.log(
+            "[AutoScroll Debug] スクロール範囲の端（左端）に到達、停止",
+          );
+          stopAutoScroll();
+          return;
+        }
+
+        console.log("[AutoScroll Debug] autoScroll:", {
+          currentScrollLeft,
+          newScrollLeft: newScrollLeft.toFixed(2),
+          scrollSpeed,
+          minScrollLeft,
+        });
+
+        el.scrollTo({
+          left: newScrollLeft,
+          behavior: "auto",
+        });
+
+        // 次のフレームを予約（ユーザー操作があるまで継続）
+        animationId = requestAnimationFrame(autoScroll);
+      };
+
+      // ユーザー操作（ドラッグ／ホイール／タッチ／クリック）で即座に停止
+      el.addEventListener("mousedown", stopAutoScroll, { once: true });
+      el.addEventListener("wheel", stopAutoScroll, { once: true });
+      el.addEventListener("touchstart", stopAutoScroll, { once: true });
+      document.addEventListener("click", stopAutoScroll, { once: true });
+
+      // 初期描画後に開始（0.5秒遅延）
+      const timerId = setTimeout(() => {
+        console.log("[AutoScroll Debug] タイマー発火 - アニメーション開始");
+        if (!stopped) {
+          // React Strict Mode対策: アニメーション開始時にsessionStorageへ書き込み
+          sessionStorage.setItem(keyName, keyValue);
+          console.log("[AutoScroll Debug] sessionStorageへ書き込み完了");
+          animationId = requestAnimationFrame(autoScroll);
+        }
+      }, 500);
+
+      return () => {
+        console.log("[AutoScroll Debug] クリーンアップ実行");
+        clearTimeout(timerId);
+        stopAutoScroll();
+      };
     }
-  }, [locale, type]);
+  }, [data.id]);
 
   useEffect(() => {
     const ref = articleRef.current;
@@ -198,7 +287,7 @@ const EmakiContainer = ({
       }
       return acc;
     },
-    { result: [], imageCounter: 0, ekotobaCounter: 0 }
+    { result: [], imageCounter: 0, ekotobaCounter: 0 },
   ).result;
 
   return (
