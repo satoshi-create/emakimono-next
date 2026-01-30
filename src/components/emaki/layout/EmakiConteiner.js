@@ -98,45 +98,17 @@ const EmakiContainer = ({
   // 教育現場向けUI: 初回表示時のみ、横スクロール可能性を
   // 緩やかな自動スクロールで認知させるナッジ（操作説明なし）
   useEffect(() => {
-    console.log("[AutoScroll Debug] useEffect実行");
-
     const keyName = `visited_${data.id}`;
-    const keyValue = true;
-
     const isFirstVisit = !sessionStorage.getItem(keyName);
-    console.log("[AutoScroll Debug] 初回アクセス判定:", isFirstVisit);
-    console.log(
-      `[AutoScroll Debug] sessionStorage.${keyName}:`,
-      sessionStorage.getItem(keyName),
-    );
 
     if (isFirstVisit) {
-      // 初回アクセス時: 自動スクロールによる認知ナッジ
       const el = articleRef.current;
-      console.log("[AutoScroll Debug] articleRef.current:", el);
-
-      if (!el) {
-        console.warn(
-          "[AutoScroll Debug] articleRef.currentがnullのため処理中断",
-        );
-        return;
-      }
-
-      console.log("[AutoScroll Debug] 要素情報:", {
-        clientWidth: el.clientWidth,
-        scrollWidth: el.scrollWidth,
-        scrollLeft: el.scrollLeft,
-      });
+      if (!el) return;
 
       // デバイスタイプに応じたスクロール速度を設定
+      // PC: 2.4px/frame, Tablet: 1.6px/frame, Mobile: 1.2px/frame
       const width = window.innerWidth;
       const scrollSpeed = width >= 1024 ? 2.4 : width >= 768 ? 1.6 : 1.2;
-      console.log(
-        "[AutoScroll Debug] デバイス幅:",
-        width,
-        "スクロール速度:",
-        scrollSpeed,
-      );
 
       let animationId = null;
       let stopped = false;
@@ -148,22 +120,11 @@ const EmakiContainer = ({
       // スクロール可能な最小値（左端）
       const minScrollLeft = -(el.scrollWidth - el.clientWidth);
 
-      console.log("[AutoScroll Debug] 自動スクロール開始準備:", {
-        scrollSpeed,
-        minScrollLeft,
-        scrollWidth: el.scrollWidth,
-        clientWidth: el.clientWidth,
-        originalScrollBehavior,
-      });
-
       const stopAutoScroll = () => {
         if (stopped) return;
         stopped = true;
-        console.log("[AutoScroll Debug] 自動スクロール停止");
         if (animationId) cancelAnimationFrame(animationId);
-        // scroll-behavior を元に戻す
         el.style.scrollBehavior = originalScrollBehavior;
-        // イベントリスナー削除
         el.removeEventListener("mousedown", stopAutoScroll);
         el.removeEventListener("wheel", stopAutoScroll);
         el.removeEventListener("touchstart", stopAutoScroll);
@@ -171,36 +132,18 @@ const EmakiContainer = ({
       };
 
       const autoScroll = () => {
-        if (stopped) {
-          console.log("[AutoScroll Debug] autoScroll: stopped=true のため中断");
-          return;
-        }
+        if (stopped) return;
 
         const currentScrollLeft = el.scrollLeft;
         const newScrollLeft = currentScrollLeft - scrollSpeed;
 
-        // スクロール可能な範囲の端に到達したら停止
+        // スクロール範囲の端（左端）に到達したら停止
         if (newScrollLeft < minScrollLeft) {
-          console.log(
-            "[AutoScroll Debug] スクロール範囲の端（左端）に到達、停止",
-          );
           stopAutoScroll();
           return;
         }
 
-        console.log("[AutoScroll Debug] autoScroll:", {
-          currentScrollLeft,
-          newScrollLeft: newScrollLeft.toFixed(2),
-          scrollSpeed,
-          minScrollLeft,
-        });
-
-        el.scrollTo({
-          left: newScrollLeft,
-          behavior: "auto",
-        });
-
-        // 次のフレームを予約（ユーザー操作があるまで継続）
+        el.scrollTo({ left: newScrollLeft, behavior: "auto" });
         animationId = requestAnimationFrame(autoScroll);
       };
 
@@ -210,19 +153,15 @@ const EmakiContainer = ({
       el.addEventListener("touchstart", stopAutoScroll, { once: true });
       document.addEventListener("click", stopAutoScroll, { once: true });
 
-      // 初期描画後に開始（0.5秒遅延）
+      // 初期描画後に自動スクロール開始（0.5秒遅延）
       const timerId = setTimeout(() => {
-        console.log("[AutoScroll Debug] タイマー発火 - アニメーション開始");
         if (!stopped) {
-          // React Strict Mode対策: アニメーション開始時にsessionStorageへ書き込み
-          sessionStorage.setItem(keyName, keyValue);
-          console.log("[AutoScroll Debug] sessionStorageへ書き込み完了");
+          sessionStorage.setItem(keyName, true);
           animationId = requestAnimationFrame(autoScroll);
         }
       }, 500);
 
       return () => {
-        console.log("[AutoScroll Debug] クリーンアップ実行");
         clearTimeout(timerId);
         stopAutoScroll();
       };
@@ -251,15 +190,6 @@ const EmakiContainer = ({
         // calculate box total vertical scroll
         // ボックス全体の垂直スクロール（水平スクロール）を計算する;
         let maxScrollLeft = Math.round(el.scrollWidth - el.clientWidth);
-        // console.log(el.clientWidth);
-        // // 818;
-        // console.log(el.scrollWidth);
-        // // 25202;
-        // console.log(maxScrollLeft);
-        // // 24384;
-        // if element scroll has not finished scrolling
-        // prevent window to scroll
-        // ウィンドウがスクロールしないようにする;
         if (
           (scrollDirection === -1 && scrollLeft > 0) ||
           (scrollDirection === 1 && scrollLeft < maxScrollLeft)
