@@ -22,37 +22,32 @@ const Header = ({ slug, fixed }) => {
       className={`${styles.header} section-grid ${
         fixed && styles[stickyClass]
       }`}
-      style={{ padding: "1rem 0" }}
+      style={{ padding: "1rem 0px .5rem 0" }}
     >
       <div className={styles.center}>
+        <Image
+          src={"/favicon.ico"}
+          alt="favicon"
+          className={styles.favicon}
+          width={48}
+          height={48}
+        />
         <Link href="/">
           <a className={styles.title}>
-            <Image
-              src={"/favicon.ico"}
-              alt="favicon"
-              className={styles.favicon}
-              width={25}
-              height={25}
-            />
             {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
           </a>
         </Link>
-
         <LanguageSwitcher />
         <div className={styles.sociallinks}>
           <SocialLinks />
         </div>
-        <div className={styles.searchboxbtn}>
-          <SearchBoxButton />
-        </div>
+        <SearchBoxButton />
         <a
           href="https://sour-brain-48f.notion.site/2f3994f0dfcd80409097f4cb44d2a80a?"
           target="_blank"
           title="ご意見をお寄せください"
         >
-          <i>
-            <Mail className={`${styles.contacticon}`} />
-          </i>
+          <Mail className={`${styles.contacticon}`} />
         </a>
         <nav className={styles.nav}>
           <div className={styles.navcenter}>
@@ -65,9 +60,8 @@ const Header = ({ slug, fixed }) => {
           </div>
           <SidebarHome />
         </nav>
-
-        <NavLinks slug={slug} />
       </div>
+      <NavLinks slug={slug} />
     </header>
   );
 };

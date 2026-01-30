@@ -1,7 +1,7 @@
 .center {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: auto 1fr auto auto auto auto auto auto;
+  grid-auto-columns: 20px 1fr auto auto auto auto;
   align-items: center;
   gap: 8px;
 }
@@ -37,8 +37,13 @@
 
 
 .favicon {
-  width: 20px;
-  height: 20px;
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px;
+  min-height: 48px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
 }
 
 .contactbtn,
@@ -58,8 +63,23 @@
   height: 24px;
 }
 
+.nav {
+  display: block;
+}
+
+
 @media screen and (min-width: 768px) {
+
+  .center {
+    grid-auto-columns: 30px 1fr auto auto auto auto;
+    ;
+  }
+
   .header {
     padding: 1.5rem 0;
+  }
+
+  .nav {
+    display: none;
   }
 }

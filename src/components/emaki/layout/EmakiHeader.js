@@ -29,17 +29,13 @@ const EmakiHeader = () => {
   return (
     <header className={`${styles.header} emaki-page-landscape-grid`}>
       <div className={styles.center}>
-        <Link href="/">
-          <a className={styles.title}>
-            <Image
-              src={"/favicon.ico"}
-              alt="favicon"
-              className={styles.favicon}
-              width={25}
-              height={25}
-            />
-          </a>
-        </Link>
+        <Image
+          src={"/favicon.ico"}
+          alt="favicon"
+          className={styles.favicon}
+          width={48}
+          height={48}
+        />
         <Link href="/">
           <a className={styles.title}>
             {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
