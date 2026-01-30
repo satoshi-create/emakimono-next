@@ -130,7 +130,7 @@ const EmakiContainer = ({
 
       // デバイスタイプに応じたスクロール速度を設定
       const width = window.innerWidth;
-      const scrollSpeed = width >= 1024 ? 2.7 : width >= 768 ? 1.9 : 1.5;
+      const scrollSpeed = width >= 1024 ? 2.4 : width >= 768 ? 1.6 : 1.2;
       console.log(
         "[AutoScroll Debug] デバイス幅:",
         width,
