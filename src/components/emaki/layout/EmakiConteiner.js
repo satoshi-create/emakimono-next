@@ -128,8 +128,16 @@ const EmakiContainer = ({
         scrollLeft: el.scrollLeft,
       });
 
-      // 一定速度で左にスクロールし続ける（ユーザー操作があるまで継続）
-      const scrollSpeed = 2.7; // px/フレーム（約109px/秒 @ 60fps）
+      // デバイスタイプに応じたスクロール速度を設定
+      const width = window.innerWidth;
+      const scrollSpeed = width >= 1024 ? 2.7 : width >= 768 ? 1.9 : 1.5;
+      console.log(
+        "[AutoScroll Debug] デバイス幅:",
+        width,
+        "スクロール速度:",
+        scrollSpeed,
+      );
+
       let animationId = null;
       let stopped = false;
 
