@@ -315,8 +315,8 @@ const EmakiContainer = ({
 
         // スクロール実行（端点でなければ）
         if (
-          (scrollDirection === -1 && !atStart) ||  // 上回転 かつ 開始位置でない
-          (scrollDirection === 1 && !atEnd)        // 下回転 かつ 終了位置でない
+          (scrollDirection === -1 && !atEnd) ||   // 上回転（左進行） かつ 終了位置でない
+          (scrollDirection === 1 && !atStart)     // 下回転（右進行） かつ 開始位置でない
         ) {
           // convert vertical scroll into horizontal
           // 縦スクロールを横スクロールに変換
