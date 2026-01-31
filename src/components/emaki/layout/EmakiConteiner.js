@@ -47,6 +47,11 @@ const EmakiContainer = ({
   const [isBlurVisible, setBlurVisible] = useState(false); // blurDataURL の表示状態
   const [autoScrollStopped, setAutoScrollStopped] = useState(false);
 
+  // 教育現場向けUI: スクロール端点の状態管理（操作手段に依存しない）
+  const [isAtStart, setIsAtStart] = useState(true); // 開始位置（右端）にいるか
+  const [isAtEnd, setIsAtEnd] = useState(false); // 終了位置（左端）にいるか
+  const [isAutoScrolling, setIsAutoScrolling] = useState(false); // 自動スクロール中か
+
   const sectionRefs = useRef([]);
 
   useEffect(() => {
@@ -87,15 +92,40 @@ const EmakiContainer = ({
     const el = articleRef.current;
     const handleScroll = () => {
       const currentScrollX = el.scrollLeft;
-      const speed = Math.abs(currentScrollX - lastScrollX); // スクロール速度を計算
+      const scrollWidth = el.scrollWidth;
+      const clientWidth = el.clientWidth;
+
+      // スクロール速度を計算（既存処理）
+      const speed = Math.abs(currentScrollX - lastScrollX);
       setScrollSpeed(speed);
       setLastScrollX(currentScrollX);
+
+      // 教育現場向けUI: 端点判定（操作手段に依存しない）
+      // RTL環境では scrollLeft が負の値になるため、絶対値で判定
+      const SCROLL_MARGIN = 5; // ピクセル誤差を許容
+      const maxScrollLeft = scrollWidth - clientWidth;
+
+      // 開始位置判定: scrollLeft が 0 または正の最大値（RTL環境考慮）
+      const atStart = Math.abs(currentScrollX) < SCROLL_MARGIN ||
+                      currentScrollX >= maxScrollLeft - SCROLL_MARGIN;
+
+      // 終了位置判定: scrollLeft が負の最大値または 0 付近（RTL環境考慮）
+      const atEnd = Math.abs(currentScrollX) >= maxScrollLeft - SCROLL_MARGIN ||
+                    (currentScrollX < 0 && Math.abs(currentScrollX) >= maxScrollLeft - SCROLL_MARGIN);
+
+      // 状態更新（変化がある場合のみ）
+      if (atStart !== isAtStart) {
+        setIsAtStart(atStart);
+      }
+      if (atEnd !== isAtEnd) {
+        setIsAtEnd(atEnd);
+      }
     };
 
     el.addEventListener("scroll", handleScroll);
 
     return () => el.removeEventListener("scroll", handleScroll);
-  }, [lastScrollX, scrollSpeed]);
+  }, [lastScrollX, scrollSpeed, isAtStart, isAtEnd]);
 
   // 教育現場向けUI: 初回表示時のみ、横スクロール可能性を
   // 緩やかな自動スクロールで認知させるナッジ（操作説明なし）
@@ -133,6 +163,10 @@ const EmakiContainer = ({
           setAutoScrollStopped(true);
         }
 
+        // 教育現場向けUI: 自動スクロール停止を通知
+        // これにより「戻る」ボタンが表示可能になる
+        setIsAutoScrolling(false);
+
         if (animationId) cancelAnimationFrame(animationId);
         el.style.scrollBehavior = originalScrollBehavior;
         el.removeEventListener("mousedown", stopAutoScroll);
@@ -167,6 +201,11 @@ const EmakiContainer = ({
       const timerId = setTimeout(() => {
         if (!stopped) {
           scrollStarted = true; // スクロール開始フラグを立てる
+
+          // 教育現場向けUI: 自動スクロール開始を通知
+          // これにより「戻る」ボタンが非表示になる
+          setIsAutoScrolling(true);
+
           sessionStorage.setItem(keyName, true);
           animationId = requestAnimationFrame(autoScroll);
         }
@@ -256,7 +295,12 @@ const EmakiContainer = ({
         }}
       >
         {scroll && <FullScreen />}
-        <CarouselButton articleRef={articleRef} />
+        <CarouselButton
+          articleRef={articleRef}
+          isAtStart={isAtStart}
+          isAtEnd={isAtEnd}
+          isAutoScrolling={isAutoScrolling}
+        />
         {scroll && (
           <WheelScrollIndicator
             dataId={data.id}

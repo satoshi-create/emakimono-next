@@ -7,13 +7,13 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 
-const CarouselComponent = ({ articleRef }) => {
+const CarouselComponent = ({ articleRef, isAtStart, isAtEnd, isAutoScrolling }) => {
   const { orientation } = useContext(AppContext);
 
   const con = articleRef.current;
 
-  const [nextClicked, setNextClicked] = useState(false);
-  const [highlightNext, setHighlightNext] = useState(true); // 強調するフラグ
+  // 教育現場向けUI: 初回のみ「次へ進む」ボタンを強調表示
+  const [highlightNext, setHighlightNext] = useState(true);
 
   // 初回のレンダリング時に次に進むボタンを強調
   useEffect(() => {
@@ -27,11 +27,9 @@ const CarouselComponent = ({ articleRef }) => {
     return () => clearTimeout(timer); // クリーンアップ
   }, []);
 
-  // 次に進むボタンがクリックされたときの処理
+  // 教育現場向けUI: 次に進むボタン - 状態更新なし（scroll イベントで自動更新）
   const handleNextClick = () => {
-    setNextClicked(true); // 次に進むボタンをクリックしたら、状態を更新
     if (con) {
-      // 横スクロール（右方向）
       con.scrollTo({
         left:
           orientation === "landscape"
@@ -42,11 +40,9 @@ const CarouselComponent = ({ articleRef }) => {
     }
   };
 
-  // 元に戻るボタンがクリックされたときの処理
+  // 教育現場向けUI: 元に戻るボタン - 状態更新なし（scroll イベントで自動更新）
   const handlePrevClick = () => {
-    // setNextClicked(false); // 元に戻るボタンをクリックしたら、状態を更新
     if (con) {
-      // 横スクロール（右方向）
       con.scrollTo({
         left:
           orientation === "landscape"
@@ -59,43 +55,45 @@ const CarouselComponent = ({ articleRef }) => {
 
   return (
     <>
-      {/* 左ボタン */}
-      <ActionButton
-        // ref={scrollNextRef}
-        icon={
-          <FontAwesomeIcon icon={faChevronLeft} style={{ fontSize: "1.5em" }} />
-        }
-        label="次へ"
-        description="次へ"
-        pos="absolute"
-        top="50%"
-        left="10px"
-        zIndex="100"
-        variant="carousel"
-        onClick={handleNextClick}
-        highlightNext={highlightNext}
-      />
-      {/* 右ボタン */}
-      {nextClicked && (
-        <>
-          <ActionButton
-            // ref={scrollPrevRef}
-            icon={
-              <FontAwesomeIcon
-                icon={faChevronRight}
-                style={{ fontSize: "1.5em" }}
-              />
-            }
-            label="絵巻を巻き戻して再鑑賞"
-            description="絵巻を巻き戻して再鑑賞"
-            pos="absolute"
-            top="50%"
-            right="10px"
-            zIndex="100"
-            variant="carousel"
-            onClick={handlePrevClick}
-          />
-        </>
+      {/* 教育現場向けUI: 次へ進むボタン（終了位置では非表示） */}
+      {!isAtEnd && (
+        <ActionButton
+          icon={
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              style={{ fontSize: "1.5em" }}
+            />
+          }
+          label="次へ"
+          description="次へ"
+          pos="absolute"
+          top="50%"
+          left="10px"
+          zIndex="100"
+          variant="carousel"
+          onClick={handleNextClick}
+          highlightNext={highlightNext}
+        />
+      )}
+
+      {/* 教育現場向けUI: 元に戻るボタン（開始位置または自動スクロール中は非表示） */}
+      {!isAtStart && !isAutoScrolling && (
+        <ActionButton
+          icon={
+            <FontAwesomeIcon
+              icon={faChevronRight}
+              style={{ fontSize: "1.5em" }}
+            />
+          }
+          label="前へ"
+          description="前へ"
+          pos="absolute"
+          top="50%"
+          right="10px"
+          zIndex="100"
+          variant="carousel"
+          onClick={handlePrevClick}
+        />
       )}
     </>
   );
