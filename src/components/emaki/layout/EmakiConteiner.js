@@ -16,7 +16,9 @@ import { useContext, useEffect, useRef, useState } from "react";
 const scrollPositionStore = {
   scrollLeft: 0,
   scrollRatio: 0,
+  restored: false, // 復元完了フラグ（複数回の復元によるジャンプ防止）
 };
+
 
 const EmakiContainer = ({
   data,
@@ -60,6 +62,7 @@ const EmakiContainer = ({
   const [isUIVisible, setIsUIVisible] = useState(true); // UI表示状態
   const idleTimeoutRef = useRef(null); // 無操作タイマー
   const wheelIndicatorTimeoutRef = useRef(null); // WheelScrollIndicator表示期間タイマー
+
 
   // 教育現場向けUI: 静止UI耐性 - ユーザー操作検出とタイマー管理
   useEffect(() => {
@@ -178,16 +181,9 @@ const EmakiContainer = ({
       // P0改修: スクロール位置を常に保存（フルスクリーン切り替え時の復元用）
       // RTL環境対応: 相対位置（scrollRatio）も併せて保存
       if (maxScrollLeft > 0) {
-        scrollPositionStore = {
-          scrollLeft: currentScrollX,
-          scrollRatio: Math.abs(currentScrollX) / maxScrollLeft,
-        };
-        // デバッグ用ログ
-        console.log("[DEBUG] スクロール位置保存:", {
-          scrollLeft: currentScrollX,
-          scrollRatio: Math.abs(currentScrollX) / maxScrollLeft,
-          maxScrollLeft,
-        });
+        scrollPositionStore.scrollLeft = currentScrollX;
+        scrollPositionStore.scrollRatio = Math.abs(currentScrollX) / maxScrollLeft;
+        scrollPositionStore.restored = false;
       }
 
       // 開始位置判定: scrollLeft が 0 または正の最大値（RTL環境考慮）
@@ -217,79 +213,43 @@ const EmakiContainer = ({
 
   // P0改修: フルスクリーン切り替え時のスクロール位置復元
   // toggleFullscreen state の変化を監視して復元処理を行う
-  // （fullscreenchange イベントはコンポーネント再マウント時に取りこぼす可能性があるため）
   useEffect(() => {
     const el = articleRef.current;
     if (!el) return;
 
     // 初回マウント時はスキップ（スクロール位置が保存されていない）
-    if (scrollPositionStore.scrollRatio === 0) {
-      console.log("[DEBUG] 初回マウント: 復元スキップ");
-      return;
-    }
-
-    console.log("[DEBUG] toggleFullscreen 変化検出:", toggleFullscreen);
-    console.log("[DEBUG] 保存されている scrollRatio:", scrollPositionStore.scrollRatio);
+    if (scrollPositionStore.scrollRatio === 0) return;
 
     // スクロール位置を復元する関数
     const restoreScrollPosition = () => {
+      // 既に復元済みならスキップ（複数回の復元によるジャンプ防止）
+      if (scrollPositionStore.restored) return;
+
       const scrollWidth = el.scrollWidth;
       const clientWidth = el.clientWidth;
       const maxScrollLeft = scrollWidth - clientWidth;
 
-      console.log("[DEBUG] 復元処理実行:", {
-        scrollWidth,
-        clientWidth,
-        maxScrollLeft,
-        savedRatio: scrollPositionStore.scrollRatio,
-        currentScrollLeft: el.scrollLeft,
-      });
+      // ビューポートサイズが確定していない場合はスキップ
+      if (maxScrollLeft <= 0) return;
 
-      if (maxScrollLeft > 0 && scrollPositionStore.scrollRatio > 0) {
-        const savedRatio = scrollPositionStore.scrollRatio;
-        const newScrollLeft = -(savedRatio * maxScrollLeft);
-
-        console.log("[DEBUG] scrollTo 実行:", { newScrollLeft });
-
-        el.scrollTo({
-          left: newScrollLeft,
-          behavior: "auto",
-        });
-
-        console.log("[DEBUG] scrollTo 後の scrollLeft:", el.scrollLeft);
+      if (scrollPositionStore.scrollRatio > 0) {
+        const newScrollLeft = -(scrollPositionStore.scrollRatio * maxScrollLeft);
+        el.scrollTo({ left: newScrollLeft, behavior: "auto" });
+        scrollPositionStore.restored = true;
       }
     };
 
-    // P0改修: ブラウザのレイアウト再計算タイミングに対応するため
-    // 複数のタイミングで復元を試行
-    // 1. 即座に実行
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        restoreScrollPosition();
-      });
-    });
-
-    // 2. 50ms後に再実行
-    const timer1 = setTimeout(() => {
-      restoreScrollPosition();
-    }, 50);
-
-    // 3. 150ms後に再実行
-    const timer2 = setTimeout(() => {
-      restoreScrollPosition();
-    }, 150);
-
-    // 4. 300ms後に再実行（最終保険）
-    const timer3 = setTimeout(() => {
-      restoreScrollPosition();
-    }, 300);
+    // ブラウザのレイアウト再計算タイミングに対応するため複数回試行
+    const timer1 = setTimeout(restoreScrollPosition, 100);
+    const timer2 = setTimeout(restoreScrollPosition, 250);
+    const timer3 = setTimeout(restoreScrollPosition, 400);
 
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
     };
-  }, [toggleFullscreen]); // toggleFullscreen の変化を監視
+  }, [toggleFullscreen]);
 
   // 教育現場向けUI: 初回表示時のみ、横スクロール可能性を
   // 緩やかな自動スクロールで認知させるナッジ（操作説明なし）

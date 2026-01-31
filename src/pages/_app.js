@@ -432,46 +432,26 @@ function MyApp({ Component, pageProps, router }) {
   const scrollDialog = useCallback(
     (node) => {
       // P0改修: フルスクリーン切り替え中はスクロールを抑制
-      // （スクロール位置復元処理との競合を防ぐ）
-      // useRef を使用しているため、即座に最新の値を参照できる
-      if (isFullscreenTransitioningRef.current) {
-        console.log("[DEBUG] scrollDialog 抑制: isFullscreenTransitioning = true");
-        return;
-      }
+      if (isFullscreenTransitioningRef.current) return;
 
       if (node !== null) {
-        console.log("[DEBUG] scrollDialog 呼び出し: node =", node.id || node.className);
-        // requestAnimationFrame でブラウザのレイアウト確定を待つ
         requestAnimationFrame(() => {
-          // フルスクリーン切り替え中なら再度チェック（非同期処理のため）
-          if (isFullscreenTransitioningRef.current) {
-            console.log("[DEBUG] scrollDialog 抑制 (RAF内): isFullscreenTransitioning = true");
-            return;
-          }
+          // フルスクリーン切り替え中なら再度チェック
+          if (isFullscreenTransitioningRef.current) return;
 
-          // 横スクロールコンテナ（article）を取得
           const scrollContainer = node.closest("article");
           if (!scrollContainer) return;
 
-          // RTL（right-to-left）レイアウトを考慮した位置計算
           const containerRect = scrollContainer.getBoundingClientRect();
           const nodeRect = node.getBoundingClientRect();
-
-          // 横方向のオフセットを計算（RTLの場合は右端からの距離）
           const scrollLeft =
             scrollContainer.scrollLeft + (nodeRect.left - containerRect.left);
 
-          console.log("[DEBUG] scrollDialog scrollTo 実行:", { scrollLeft });
-
-          // 横スクロールのみを実行（縦スクロールは一切発生しない）
-          scrollContainer.scrollTo({
-            left: scrollLeft,
-            behavior: "smooth",
-          });
+          scrollContainer.scrollTo({ left: scrollLeft, behavior: "smooth" });
         });
       }
     },
-    [] // useRef は依存配列に含める必要なし
+    []
   );
 
   useEffect(() => {
