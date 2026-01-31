@@ -71,13 +71,13 @@ const convert = (arr) => {
 
 const keywordItem = (arr) =>
   convert(arr.flatMap((item) => item.keyword).filter((item) => item)).sort(
-    (a, b) => (a.total > b.total ? -1 : 1)
+    (a, b) => (a.total > b.total ? -1 : 1),
   );
 
 // 登場人物名
 const personnameItem = (arr) =>
   convert(arr.flatMap((item) => item.personname).filter((item) => item)).sort(
-    (a, b) => (a.total > b.total ? -1 : 1)
+    (a, b) => (a.total > b.total ? -1 : 1),
   );
 
 // 源氏絵
@@ -95,7 +95,7 @@ const convertGenjiSlug = (arr) => {
 
 const genjieSlugItem = (arr) =>
   convertGenjiSlug(
-    arr.flatMap((item) => item.genjieslug).filter((item) => item)
+    arr.flatMap((item) => item.genjieslug).filter((item) => item),
   ).sort((a, b) => (b.id > a.id ? -1 : 1));
 
 // 九相図
@@ -112,7 +112,7 @@ const convertKusouzuSlug = (arr) => {
 };
 const kusouzuSlugItem = (arr) =>
   convertKusouzuSlug(
-    arr.flatMap((item) => item.kusouzuslug).filter((item) => item)
+    arr.flatMap((item) => item.kusouzuslug).filter((item) => item),
   ).sort((a, b) => (b.id > a.id ? -1 : 1));
 
 // 絵師名
@@ -195,7 +195,7 @@ const removeNestedEmakisObj = (obj) =>
       return acc;
     },
     // 初期値：空のオブジェクト
-    {}
+    {},
   );
 
 /* ================
@@ -233,7 +233,7 @@ const connectGenjiChaptersScene = (chapter, scene) => {
 const connectEmakiTextSync = (titleen, chapter, field) => {
   // 応急処置：非同期関数が呼ばれることを防ぎ、固定のダミー文字列を返す
   // 実際には後で useEffect + state に置き換える前提
-  console.warn("connectEmakiText is async, returning fallback text for now");
+  // console.warn("connectEmakiText is async, returning fallback text for now");
   return `[${titleen} / ch${chapter} / ${field}]`; // ←仮の表示
 };
 
