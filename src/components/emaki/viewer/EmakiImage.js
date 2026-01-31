@@ -6,7 +6,6 @@ import { useContext } from "react";
 
 const EmakiImage = ({
   item: { config, index, navIndex, character, ebiki, uniqueIndex },
-  isBlurVisible,
   item,
 }) => {
   const {
@@ -173,7 +172,6 @@ const EmakiImage = ({
         index={index}
         srcSp={item.srcSp}
         config={config}
-        isBlurVisible={isBlurVisible}
         uniqueIndex={uniqueIndex}
       />
     </div>

@@ -32,8 +32,6 @@ const EmakiContainer = ({
     isDescModalOpen,
   } = useContext(AppContext);
 
-  const emakis = data.emakis;
-
   const { backgroundImage, kotobagaki, type, genjieslug } = data;
 
   const wrapperRef = useRef();
@@ -41,51 +39,12 @@ const EmakiContainer = ({
   const scrollNextRef = useRef(null);
   const scrollPrevRef = useRef(null);
 
-  const [scrollSpeed, setScrollSpeed] = useState(0);
-  const [lastScrollX, setLastScrollX] = useState(0);
-  const [rootMargin, setRootMargin] = useState("300px");
-  const [isBlurVisible, setBlurVisible] = useState(false); // blurDataURL の表示状態
   const [autoScrollStopped, setAutoScrollStopped] = useState(false);
 
   // 教育現場向けUI: スクロール端点の状態管理（操作手段に依存しない）
   const [isAtStart, setIsAtStart] = useState(true); // 開始位置（右端）にいるか
   const [isAtEnd, setIsAtEnd] = useState(false); // 終了位置（左端）にいるか
   const [isAutoScrolling, setIsAutoScrolling] = useState(false); // 自動スクロール中か
-
-  const sectionRefs = useRef([]);
-
-  useEffect(() => {
-    if (scrollSpeed > 50) {
-      setRootMargin("1000px");
-    }
-  }, [scrollSpeed, rootMargin]);
-
-  useEffect(() => {
-    if (sectionRefs.current.length !== emakis.length) return; // 全要素が設定されるまで待機
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(
-        (entry) => {
-          if (entry.isIntersecting) {
-            setBlurVisible(true);
-            // observer.unobserve(entry.target); // 個別に監視を解除
-          }
-        },
-        { rootMargin: rootMargin, threshold: 0 },
-      );
-    });
-
-    sectionRefs.current.forEach((ref) => {
-      if (ref) observer.observe(ref);
-    });
-
-    return () => {
-      sectionRefs.current.forEach((ref) => {
-        if (ref) observer.unobserve(ref);
-      });
-      return () => observer.disconnect();
-    };
-  }, [emakis, rootMargin]);
 
   useEffect(() => {
     if (!articleRef.current) return;
@@ -94,11 +53,6 @@ const EmakiContainer = ({
       const currentScrollX = el.scrollLeft;
       const scrollWidth = el.scrollWidth;
       const clientWidth = el.clientWidth;
-
-      // スクロール速度を計算（既存処理）
-      const speed = Math.abs(currentScrollX - lastScrollX);
-      setScrollSpeed(speed);
-      setLastScrollX(currentScrollX);
 
       // 教育現場向けUI: 端点判定（操作手段に依存しない）
       // RTL環境では scrollLeft が負の値になるため、絶対値で判定
@@ -125,7 +79,7 @@ const EmakiContainer = ({
     el.addEventListener("scroll", handleScroll);
 
     return () => el.removeEventListener("scroll", handleScroll);
-  }, [lastScrollX, scrollSpeed, isAtStart, isAtEnd]);
+  }, [isAtStart, isAtEnd]);
 
   // 教育現場向けUI: 初回表示時のみ、横スクロール可能性を
   // 緩やかな自動スクロールで認知させるナッジ（操作説明なし）
@@ -231,24 +185,51 @@ const EmakiContainer = ({
         // block if e.deltaY==0
         // 垂直方向のスクロールがゼロならばリターン
         if (!e.deltaY) return;
+
         // Set scrollDirection (-1 = up // 1 = down)
         let scrollDirection = e.deltaY > 0 ? 1 : -1;
-        // convert vertical scroll into horizontal
-        // 縦スクロールを横スクロールに変換
-        el.scrollLeft += scrollSpeed * scrollDirection;
-        let scrollLeft = Math.round(el.scrollLeft);
-        // calculate box total vertical scroll
-        // ボックス全体の垂直スクロール（水平スクロール）を計算する;
-        let maxScrollLeft = Math.round(el.scrollWidth - el.clientWidth);
+
+        // RTL環境考慮: scrollLeft と端点判定
+        let scrollLeft = el.scrollLeft;
+        let scrollWidth = el.scrollWidth;
+        let clientWidth = el.clientWidth;
+        let maxScrollLeft = scrollWidth - clientWidth;
+
+        // 教育現場向けUI: 端点判定（handleScroll と同じロジック）
+        // RTL環境では scrollLeft が負の値になるため、絶対値で判定
+        const SCROLL_MARGIN = 5; // ピクセル誤差を許容
+
+        // 開始位置判定: scrollLeft が 0 または正の最大値（RTL環境考慮）
+        const atStart = Math.abs(scrollLeft) < SCROLL_MARGIN ||
+                        scrollLeft >= maxScrollLeft - SCROLL_MARGIN;
+
+        // 終了位置判定: scrollLeft が負の最大値または 0 付近（RTL環境考慮）
+        const atEnd = Math.abs(scrollLeft) >= maxScrollLeft - SCROLL_MARGIN ||
+                      (scrollLeft < 0 && Math.abs(scrollLeft) >= maxScrollLeft - SCROLL_MARGIN);
+
+        // スクロール実行（端点でなければ）
         if (
-          (scrollDirection === -1 && scrollLeft > 0) ||
-          (scrollDirection === 1 && scrollLeft < maxScrollLeft)
-        )
-          e.preventDefault();
-        // done!
+          (scrollDirection === -1 && !atStart) ||  // 上回転 かつ 開始位置でない
+          (scrollDirection === 1 && !atEnd)        // 下回転 かつ 終了位置でない
+        ) {
+          // convert vertical scroll into horizontal
+          // 縦スクロールを横スクロールに変換
+          el.scrollLeft += scrollSpeed * scrollDirection;
+        }
+
+        // 教育現場向けUI: 絵巻コンテナ上では常に横スクロールとして扱う
+        // 端点でも縦スクロールを防止し、一貫した操作性を提供
+        e.preventDefault();
         return true;
       };
-      el.addEventListener("mousewheel", MouseWheelHandler, false);
+
+      // クロスブラウザ対応: 標準の wheel イベントを使用（Firefox対応）
+      el.addEventListener("wheel", MouseWheelHandler, false);
+
+      // クリーンアップ処理
+      return () => {
+        el.removeEventListener("wheel", MouseWheelHandler, false);
+      };
     }
   }, [scroll]);
 
@@ -340,7 +321,6 @@ const EmakiContainer = ({
             return (
               <SwitcherEmaki
                 key={index}
-                ref={(el) => (sectionRefs.current[index] = el)}
                 cat={cat}
                 data={data}
                 item={item}
@@ -351,7 +331,6 @@ const EmakiContainer = ({
                 type={type}
                 selectedRef={selectedRef}
                 navIndex={navIndex}
-                isBlurVisible={isBlurVisible}
                 uniqueIndex={item.uniqueIndex} // 新しい連番を渡す
                 scroll={scroll}
               />

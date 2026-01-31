@@ -9,7 +9,6 @@ const LazyImage = ({
   height,
   srcSp,
   config,
-  isBlurVisible,
   uniqueIndex,
 }) => {
   const { windowHeight, orientation, toggleFullscreen } =
@@ -110,25 +109,20 @@ const LazyImage = ({
     >
       {/* スケルトン: 画像がロードされるまで表示 */}
       {isSkeletonVisible && <div className="skeleton"></div>}
-      {isBlurVisible && (
-        <Image
-          loader={config === "cloudinary" ? cloudinaryLoader : undefined} // Cloudinaryが有効な場合のみローダー適用
-          src={src.src} // Cloudinaryの画像ID
-          width={width}
-          height={height}
-          alt={alt}
-          priority={uniqueIndex === 0} // 最初の画像は即時プリロード
-          loading={uniqueIndex < 2 ? "eager" : "lazy"} // 最初の2枚は即時読み込み
-          layout="responsive"
-          placeholder={"blur"} // 最初の2枚だけぼかしプレースホルダーを適用
-          blurDataURL={config === "cloudinary" ? blurImage : srcSp}
-          onLoadingComplete={() => setSkeletonVisible(false)} // 読み込み完了時に状態を更新
-          className={`image ${isBlurVisible ? "loaded" : "loading"}`} // 状態に応じたクラスを付与
-          // className={`image ${isBlurVisible ? "loaded" : "loading"}`} // 状態に応じたクラスを付与
-          // onLoad={onImageLoad} // 画像のロード完了時に実行
-          // sizes="(max-width: 375px) 33vh, (max-width: 800px) 60vh, 100vh"
-        />
-      )}
+      <Image
+        loader={config === "cloudinary" ? cloudinaryLoader : undefined} // Cloudinaryが有効な場合のみローダー適用
+        src={src.src} // Cloudinaryの画像ID
+        width={width}
+        height={height}
+        alt={alt}
+        priority={uniqueIndex === 0} // 最初の画像は即時プリロード
+        loading={uniqueIndex < 2 ? "eager" : "lazy"} // 最初の2枚は即時読み込み
+        layout="responsive"
+        placeholder={"blur"} // ぼかしプレースホルダーを適用
+        blurDataURL={config === "cloudinary" ? blurImage : srcSp}
+        onLoadingComplete={() => setSkeletonVisible(false)} // 読み込み完了時に状態を更新
+        className="image loaded" // Next.js標準の遅延読み込みに依存
+      />
       <style jsx global>{`
         .imageWrapper {
           position: relative; /* Imageの親要素として必要 */

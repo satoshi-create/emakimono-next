@@ -15,7 +15,6 @@ const SwitcherEmaki = forwardRef(
       type,
       selectedRef,
       navIndex,
-      isBlurVisible,
       scroll,
       uniqueIndex,
     },
@@ -35,7 +34,6 @@ const SwitcherEmaki = forwardRef(
                 navIndex,
                 uniqueIndex,
               }}
-              isBlurVisible={isBlurVisible}
             />
           </section>
         );
@@ -58,7 +56,6 @@ const SwitcherEmaki = forwardRef(
                 data,
                 uniqueIndex,
               }}
-              isBlurVisible={isBlurVisible}
             />
           </section>
         );

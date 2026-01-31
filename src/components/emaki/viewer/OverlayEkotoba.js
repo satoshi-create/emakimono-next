@@ -34,7 +34,6 @@ const OverlayEkotoba = ({
     uniqueIndex,
   },
   item,
-  isBlurVisible,
 }) => {
   const {
     setekotobaToggle,
@@ -181,7 +180,6 @@ const OverlayEkotoba = ({
             index={index}
             srcSp={srcSp}
             config={config}
-            isBlurVisible={isBlurVisible}
             uniqueIndex={uniqueIndex}
           />
         </div>
