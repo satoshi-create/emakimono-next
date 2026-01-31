@@ -9,7 +9,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { useRouter } from "next/router";
 import Script from "next/script";
-import { createContext, useCallback, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import "../styles/globals.css";
 import { appWithTranslation } from "next-i18next";
@@ -79,6 +79,9 @@ function MyApp({ Component, pageProps, router }) {
   const [stickyClass, setStickyClass] = useState("");
   const [isSidebarOpen, setisSidebarOpen] = useState(false);
   const [toggleFullscreen, setToggleFullscreen] = useState(false);
+  // P0改修: フルスクリーン切り替え中フラグ（scrollDialog抑制用）
+  // useRef を使用することで、state更新を待たずに即座に値が反映される
+  const isFullscreenTransitioningRef = useRef(false);
   const [toggleBtn, setToggleBtn] = useState(true);
   const [hash, setHash] = useState(0);
   const [navIndex, setnavIndex] = useState(0);
@@ -333,7 +336,9 @@ function MyApp({ Component, pageProps, router }) {
   // };
 
   const handleFullScreen = async (orientation) => {
-    // setToggleBtn(false); // フルスクリーン時にボタンを非表示
+    // P0改修: フルスクリーン切り替え開始時点でフラグを立てる
+    // （scrollDialogの抑制を確実にするため、handleFullScreen内でも設定）
+    isFullscreenTransitioningRef.current = true;
 
     const de = document.documentElement; // ドキュメントのルート要素
     const isFullscreen =
@@ -376,37 +381,98 @@ function MyApp({ Component, pageProps, router }) {
     }
   };
 
+  // P0改修: ブラウザ主導のフルスクリーン状態変化を監視
+  // ESCキーやブラウザUIでのフルスクリーン解除時にstateを同期
+  useEffect(() => {
+    let transitionTimeoutId = null;
+
+    const handleFullscreenChange = () => {
+      // ブラウザの実際のフルスクリーン状態を取得（Single Source of Truth）
+      const isActuallyFullscreen =
+        !!document.fullscreenElement || !!document.webkitFullscreenElement;
+
+      // フルスクリーン切り替え中フラグを立てる（scrollDialog抑制用）
+      isFullscreenTransitioningRef.current = true;
+
+      // アプリのstateをブラウザの実状態に同期
+      setToggleFullscreen(isActuallyFullscreen);
+
+      // 一定時間後にフラグを解除（レイアウト確定とスクロール復元完了を待つ）
+      if (transitionTimeoutId) {
+        clearTimeout(transitionTimeoutId);
+      }
+      transitionTimeoutId = setTimeout(() => {
+        isFullscreenTransitioningRef.current = false;
+      }, 500); // 500ms: requestAnimationFrame × 2 + 余裕
+    };
+
+    // 標準イベント + WebKit prefix（Safari対応）
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
+
+    // クリーンアップ
+    return () => {
+      if (transitionTimeoutId) {
+        clearTimeout(transitionTimeoutId);
+      }
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      document.removeEventListener(
+        "webkitfullscreenchange",
+        handleFullscreenChange
+      );
+    };
+  }, []);
+
   const handleToId = (id) => {
     flushSync(() => {
       setnavIndex(id);
     });
   };
 
-  const scrollDialog = useCallback((node) => {
-    if (node !== null) {
-      // requestAnimationFrame でブラウザのレイアウト確定を待つ
-      requestAnimationFrame(() => {
-        // 横スクロールコンテナ（article）を取得
-        const scrollContainer = node.closest("article");
-        if (!scrollContainer) return;
+  const scrollDialog = useCallback(
+    (node) => {
+      // P0改修: フルスクリーン切り替え中はスクロールを抑制
+      // （スクロール位置復元処理との競合を防ぐ）
+      // useRef を使用しているため、即座に最新の値を参照できる
+      if (isFullscreenTransitioningRef.current) {
+        console.log("[DEBUG] scrollDialog 抑制: isFullscreenTransitioning = true");
+        return;
+      }
 
-        // RTL（right-to-left）レイアウトを考慮した位置計算
-        const containerRect = scrollContainer.getBoundingClientRect();
-        const nodeRect = node.getBoundingClientRect();
+      if (node !== null) {
+        console.log("[DEBUG] scrollDialog 呼び出し: node =", node.id || node.className);
+        // requestAnimationFrame でブラウザのレイアウト確定を待つ
+        requestAnimationFrame(() => {
+          // フルスクリーン切り替え中なら再度チェック（非同期処理のため）
+          if (isFullscreenTransitioningRef.current) {
+            console.log("[DEBUG] scrollDialog 抑制 (RAF内): isFullscreenTransitioning = true");
+            return;
+          }
 
-        // 横方向のオフセットを計算（RTLの場合は右端からの距離）
-        const scrollLeft =
-          scrollContainer.scrollLeft +
-          (nodeRect.left - containerRect.left);
+          // 横スクロールコンテナ（article）を取得
+          const scrollContainer = node.closest("article");
+          if (!scrollContainer) return;
 
-        // 横スクロールのみを実行（縦スクロールは一切発生しない）
-        scrollContainer.scrollTo({
-          left: scrollLeft,
-          behavior: "smooth",
+          // RTL（right-to-left）レイアウトを考慮した位置計算
+          const containerRect = scrollContainer.getBoundingClientRect();
+          const nodeRect = node.getBoundingClientRect();
+
+          // 横方向のオフセットを計算（RTLの場合は右端からの距離）
+          const scrollLeft =
+            scrollContainer.scrollLeft + (nodeRect.left - containerRect.left);
+
+          console.log("[DEBUG] scrollDialog scrollTo 実行:", { scrollLeft });
+
+          // 横スクロールのみを実行（縦スクロールは一切発生しない）
+          scrollContainer.scrollTo({
+            left: scrollLeft,
+            behavior: "smooth",
+          });
         });
-      });
-    }
-  }, []);
+      }
+    },
+    [] // useRef は依存配列に含める必要なし
+  );
 
   useEffect(() => {
     // クエリーリストを作成する。

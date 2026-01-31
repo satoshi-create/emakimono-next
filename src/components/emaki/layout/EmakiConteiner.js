@@ -11,6 +11,13 @@ import styles from "@/styles/EmakiConteiner.module.css";
 import "lazysizes";
 import { useContext, useEffect, useRef, useState } from "react";
 
+// P0改修: フルスクリーン切り替え時のスクロール位置保存用
+// モジュールスコープに配置することで、コンポーネント再マウント時も値を保持
+const scrollPositionStore = {
+  scrollLeft: 0,
+  scrollRatio: 0,
+};
+
 const EmakiContainer = ({
   data,
   height,
@@ -38,6 +45,9 @@ const EmakiContainer = ({
   const articleRef = useRef();
   const scrollNextRef = useRef(null);
   const scrollPrevRef = useRef(null);
+
+  // P0改修: scrollPositionStore はモジュールスコープに移動済み
+  // （コンポーネント再マウント時も値を保持するため）
 
   const [autoScrollStopped, setAutoScrollStopped] = useState(false);
 
@@ -165,13 +175,31 @@ const EmakiContainer = ({
       const SCROLL_MARGIN = 5; // ピクセル誤差を許容
       const maxScrollLeft = scrollWidth - clientWidth;
 
+      // P0改修: スクロール位置を常に保存（フルスクリーン切り替え時の復元用）
+      // RTL環境対応: 相対位置（scrollRatio）も併せて保存
+      if (maxScrollLeft > 0) {
+        scrollPositionStore = {
+          scrollLeft: currentScrollX,
+          scrollRatio: Math.abs(currentScrollX) / maxScrollLeft,
+        };
+        // デバッグ用ログ
+        console.log("[DEBUG] スクロール位置保存:", {
+          scrollLeft: currentScrollX,
+          scrollRatio: Math.abs(currentScrollX) / maxScrollLeft,
+          maxScrollLeft,
+        });
+      }
+
       // 開始位置判定: scrollLeft が 0 または正の最大値（RTL環境考慮）
-      const atStart = Math.abs(currentScrollX) < SCROLL_MARGIN ||
-                      currentScrollX >= maxScrollLeft - SCROLL_MARGIN;
+      const atStart =
+        Math.abs(currentScrollX) < SCROLL_MARGIN ||
+        currentScrollX >= maxScrollLeft - SCROLL_MARGIN;
 
       // 終了位置判定: scrollLeft が負の最大値または 0 付近（RTL環境考慮）
-      const atEnd = Math.abs(currentScrollX) >= maxScrollLeft - SCROLL_MARGIN ||
-                    (currentScrollX < 0 && Math.abs(currentScrollX) >= maxScrollLeft - SCROLL_MARGIN);
+      const atEnd =
+        Math.abs(currentScrollX) >= maxScrollLeft - SCROLL_MARGIN ||
+        (currentScrollX < 0 &&
+          Math.abs(currentScrollX) >= maxScrollLeft - SCROLL_MARGIN);
 
       // 状態更新（変化がある場合のみ）
       if (atStart !== isAtStart) {
@@ -186,6 +214,82 @@ const EmakiContainer = ({
 
     return () => el.removeEventListener("scroll", handleScroll);
   }, [isAtStart, isAtEnd]);
+
+  // P0改修: フルスクリーン切り替え時のスクロール位置復元
+  // toggleFullscreen state の変化を監視して復元処理を行う
+  // （fullscreenchange イベントはコンポーネント再マウント時に取りこぼす可能性があるため）
+  useEffect(() => {
+    const el = articleRef.current;
+    if (!el) return;
+
+    // 初回マウント時はスキップ（スクロール位置が保存されていない）
+    if (scrollPositionStore.scrollRatio === 0) {
+      console.log("[DEBUG] 初回マウント: 復元スキップ");
+      return;
+    }
+
+    console.log("[DEBUG] toggleFullscreen 変化検出:", toggleFullscreen);
+    console.log("[DEBUG] 保存されている scrollRatio:", scrollPositionStore.scrollRatio);
+
+    // スクロール位置を復元する関数
+    const restoreScrollPosition = () => {
+      const scrollWidth = el.scrollWidth;
+      const clientWidth = el.clientWidth;
+      const maxScrollLeft = scrollWidth - clientWidth;
+
+      console.log("[DEBUG] 復元処理実行:", {
+        scrollWidth,
+        clientWidth,
+        maxScrollLeft,
+        savedRatio: scrollPositionStore.scrollRatio,
+        currentScrollLeft: el.scrollLeft,
+      });
+
+      if (maxScrollLeft > 0 && scrollPositionStore.scrollRatio > 0) {
+        const savedRatio = scrollPositionStore.scrollRatio;
+        const newScrollLeft = -(savedRatio * maxScrollLeft);
+
+        console.log("[DEBUG] scrollTo 実行:", { newScrollLeft });
+
+        el.scrollTo({
+          left: newScrollLeft,
+          behavior: "auto",
+        });
+
+        console.log("[DEBUG] scrollTo 後の scrollLeft:", el.scrollLeft);
+      }
+    };
+
+    // P0改修: ブラウザのレイアウト再計算タイミングに対応するため
+    // 複数のタイミングで復元を試行
+    // 1. 即座に実行
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        restoreScrollPosition();
+      });
+    });
+
+    // 2. 50ms後に再実行
+    const timer1 = setTimeout(() => {
+      restoreScrollPosition();
+    }, 50);
+
+    // 3. 150ms後に再実行
+    const timer2 = setTimeout(() => {
+      restoreScrollPosition();
+    }, 150);
+
+    // 4. 300ms後に再実行（最終保険）
+    const timer3 = setTimeout(() => {
+      restoreScrollPosition();
+    }, 300);
+
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
+    };
+  }, [toggleFullscreen]); // toggleFullscreen の変化を監視
 
   // 教育現場向けUI: 初回表示時のみ、横スクロール可能性を
   // 緩やかな自動スクロールで認知させるナッジ（操作説明なし）
