@@ -7,7 +7,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 
-const CarouselComponent = ({ articleRef, isAtStart, isAtEnd, isAutoScrolling }) => {
+const CarouselComponent = ({ articleRef, isAtStart, isAtEnd, isAutoScrolling, isUIVisible }) => {
   const { orientation } = useContext(AppContext);
 
   const con = articleRef.current;
@@ -73,6 +73,7 @@ const CarouselComponent = ({ articleRef, isAtStart, isAtEnd, isAutoScrolling }) 
           variant="carousel"
           onClick={handleNextClick}
           highlightNext={highlightNext}
+          isUIVisible={isUIVisible}
         />
       )}
 
@@ -93,6 +94,7 @@ const CarouselComponent = ({ articleRef, isAtStart, isAtEnd, isAutoScrolling }) 
           zIndex="100"
           variant="carousel"
           onClick={handlePrevClick}
+          isUIVisible={isUIVisible}
         />
       )}
     </>

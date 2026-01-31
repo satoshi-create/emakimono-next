@@ -9,7 +9,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
 
-const ToggleEkotoba = ({ data }) => {
+const ToggleEkotoba = ({ data, isUIVisible = true }) => {
   const { kotobagaki } = data;
   const { ekotobaImageToggle, orientation, handleEkotobaImageToggle } =
     useContext(AppContext);
@@ -49,6 +49,7 @@ const ToggleEkotoba = ({ data }) => {
           : withoutEkotoba(ekotobaImageToggle)
       }
       onClick={handleEkotobaImageToggle}
+      isUIVisible={isUIVisible}
     />
     // <button
     //   className={styled.button}

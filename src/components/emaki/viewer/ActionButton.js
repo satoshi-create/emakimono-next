@@ -13,6 +13,7 @@ const ActionButton = forwardRef(
       zIndex,
       variant = "default",
       highlightNext,
+      isUIVisible = true,
     },
     ref
   ) => {
@@ -38,6 +39,9 @@ const ActionButton = forwardRef(
           sx={{
             paddingInlineStart: "0 !important",
             paddingInlineEnd: "0 !important",
+            // 教育現場向けUI: 静止UI耐性 - フェードイン/アウト
+            opacity: isUIVisible ? 1 : 0,
+            pointerEvents: isUIVisible ? "auto" : "none",
             ...(isCarouselButton && {
               backgroundColor: "rgba(0, 0, 0, 0.281);",
               position: "absolute",

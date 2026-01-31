@@ -4,7 +4,7 @@ import { faUser, faUserSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
 
-const ToggleCharacter = () => {
+const ToggleCharacter = ({ isUIVisible = true }) => {
   const { handleCharacterToggle, characterToggle } = useContext(AppContext);
 
   return (
@@ -23,6 +23,7 @@ const ToggleCharacter = () => {
         characterToggle ? "登場人物の名前を閉じる" : "登場人物の名前を見る"
       }
       onClick={handleCharacterToggle}
+      isUIVisible={isUIVisible}
     />
   );
 };

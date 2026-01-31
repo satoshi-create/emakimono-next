@@ -4,7 +4,7 @@ import { faBook, faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
 
-const ToggleEbiki = () => {
+const ToggleEbiki = ({ isUIVisible = true }) => {
   const { handleEbikiToggle, ebikiToggle } = useContext(AppContext);
 
   return (
@@ -19,6 +19,7 @@ const ToggleEbiki = () => {
       label={ebikiToggle ? "絵引きを閉じる" : "絵引きを見る"}
       description={ebikiToggle ? "絵引きを閉じる" : "絵引きを見る"}
       onClick={handleEbikiToggle}
+      isUIVisible={isUIVisible}
     />
   );
 };

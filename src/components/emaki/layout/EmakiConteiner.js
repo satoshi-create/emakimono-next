@@ -46,6 +46,112 @@ const EmakiContainer = ({
   const [isAtEnd, setIsAtEnd] = useState(false); // 終了位置（左端）にいるか
   const [isAutoScrolling, setIsAutoScrolling] = useState(false); // 自動スクロール中か
 
+  // 教育現場向けUI: 静止UI耐性（Idle UI）- 長時間投影時の視覚的ノイズ軽減
+  const [isUIVisible, setIsUIVisible] = useState(true); // UI表示状態
+  const idleTimeoutRef = useRef(null); // 無操作タイマー
+  const wheelIndicatorTimeoutRef = useRef(null); // WheelScrollIndicator表示期間タイマー
+
+  // 教育現場向けUI: 静止UI耐性 - ユーザー操作検出とタイマー管理
+  useEffect(() => {
+    // デバイス幅に応じた無操作タイムアウト時間
+    // PC (1024px以上): 5秒、Tablet/Mobile: 3秒
+    const getIdleTimeout = () => {
+      const width = window.innerWidth;
+      return width >= 1024 ? 5000 : 3000;
+    };
+
+    // タイマーのクリア
+    const clearIdleTimer = () => {
+      if (idleTimeoutRef.current) {
+        clearTimeout(idleTimeoutRef.current);
+        idleTimeoutRef.current = null;
+      }
+    };
+
+    // タイマーの開始
+    const startIdleTimer = () => {
+      clearIdleTimer();
+      idleTimeoutRef.current = setTimeout(() => {
+        // 自動スクロール中は非表示にしない
+        if (!isAutoScrolling) {
+          setIsUIVisible(false);
+        }
+      }, getIdleTimeout());
+    };
+
+    // ユーザー操作検出時の処理
+    const handleUserActivity = () => {
+      // UIを即座に表示
+      setIsUIVisible(true);
+      // タイマーをリセット
+      startIdleTimer();
+    };
+
+    // 自動スクロール中はタイマーを停止
+    if (isAutoScrolling) {
+      clearIdleTimer();
+    } else {
+      // 自動スクロール終了後にタイマー開始
+      startIdleTimer();
+    }
+
+    // イベントリスナーの登録
+    // マウス移動、ホイール、タッチ、クリック、キーボード操作を検出
+    window.addEventListener("mousemove", handleUserActivity);
+    window.addEventListener("wheel", handleUserActivity, { passive: true });
+    window.addEventListener("touchstart", handleUserActivity, { passive: true });
+    window.addEventListener("click", handleUserActivity);
+    window.addEventListener("keydown", handleUserActivity);
+
+    // クリーンアップ
+    return () => {
+      clearIdleTimer();
+      window.removeEventListener("mousemove", handleUserActivity);
+      window.removeEventListener("wheel", handleUserActivity);
+      window.removeEventListener("touchstart", handleUserActivity);
+      window.removeEventListener("click", handleUserActivity);
+      window.removeEventListener("keydown", handleUserActivity);
+    };
+  }, [isAutoScrolling]); // 依存配列: 自動スクロール状態の変化を監視
+
+  // 教育現場向けUI: WheelScrollIndicator表示期間中はUIを非表示にしない
+  useEffect(() => {
+    if (autoScrollStopped) {
+      // WheelScrollIndicatorが表示される期間（0.5秒遅延 + 2.5秒表示 = 3秒間）
+      // この間はUIを表示したまま維持
+      setIsUIVisible(true);
+
+      // 既存のタイマーをクリア
+      if (idleTimeoutRef.current) {
+        clearTimeout(idleTimeoutRef.current);
+        idleTimeoutRef.current = null;
+      }
+
+      // WheelScrollIndicator消滅後にタイマーを再開
+      wheelIndicatorTimeoutRef.current = setTimeout(() => {
+        // デバイス幅に応じたタイムアウト時間
+        const getIdleTimeout = () => {
+          const width = window.innerWidth;
+          return width >= 1024 ? 5000 : 3000;
+        };
+
+        // タイマー再開
+        idleTimeoutRef.current = setTimeout(() => {
+          if (!isAutoScrolling) {
+            setIsUIVisible(false);
+          }
+        }, getIdleTimeout());
+      }, 3000); // WheelScrollIndicator表示期間
+    }
+
+    return () => {
+      if (wheelIndicatorTimeoutRef.current) {
+        clearTimeout(wheelIndicatorTimeoutRef.current);
+        wheelIndicatorTimeoutRef.current = null;
+      }
+    };
+  }, [autoScrollStopped, isAutoScrolling]);
+
   useEffect(() => {
     if (!articleRef.current) return;
     const el = articleRef.current;
@@ -281,6 +387,7 @@ const EmakiContainer = ({
           isAtStart={isAtStart}
           isAtEnd={isAtEnd}
           isAutoScrolling={isAutoScrolling}
+          isUIVisible={isUIVisible}
         />
         {scroll && (
           <WheelScrollIndicator
@@ -290,7 +397,11 @@ const EmakiContainer = ({
         )}
         {scroll && (
           <>
-            <EmakiNavigation handleToId={handleToId} data={data} />
+            <EmakiNavigation
+              handleToId={handleToId}
+              data={data}
+              isUIVisible={isUIVisible}
+            />
           </>
         )}
         {scroll && toggleFullscreen && <EmakiInfo value={data} />}
