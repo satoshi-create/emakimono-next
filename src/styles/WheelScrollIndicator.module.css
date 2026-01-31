@@ -1,0 +1,66 @@
+.indicatorContainer {
+  position: absolute;
+  bottom: 100px; /* スクロールバーより上 */
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 15;
+  animation: fadeInOut 2.5s ease-in-out forwards;
+}
+
+.wheelWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background-color: rgba(0, 0, 0, 0.75);
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.wheelIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.arrowsWrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.arrowLeft,
+.arrowRight {
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+/* フェードイン・アウトアニメーション */
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  15% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  85% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+}
+
+/* モバイルでは非表示 */
+@media (max-width: 767px) {
+  .indicatorContainer {
+    display: none;
+  }
+}

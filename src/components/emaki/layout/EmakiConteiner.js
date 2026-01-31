@@ -5,6 +5,7 @@ import FullScreen from "@/components/emaki/viewer/FullScreen";
 import Modal from "@/components/emaki/viewer/Modal";
 import ModalDesc from "@/components/emaki/viewer/ModalDesc";
 import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
+import WheelScrollIndicator from "@/components/emaki/viewer/WheelScrollIndicator";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiConteiner.module.css";
 import "lazysizes";
@@ -44,6 +45,7 @@ const EmakiContainer = ({
   const [lastScrollX, setLastScrollX] = useState(0);
   const [rootMargin, setRootMargin] = useState("300px");
   const [isBlurVisible, setBlurVisible] = useState(false); // blurDataURL の表示状態
+  const [autoScrollStopped, setAutoScrollStopped] = useState(false);
 
   const sectionRefs = useRef([]);
 
@@ -112,6 +114,7 @@ const EmakiContainer = ({
 
       let animationId = null;
       let stopped = false;
+      let scrollStarted = false; // 自動スクロールが実際に開始されたかのフラグ
 
       // CSS scroll-behavior の干渉を防ぐため一時的に無効化
       const originalScrollBehavior = el.style.scrollBehavior;
@@ -123,6 +126,15 @@ const EmakiContainer = ({
       const stopAutoScroll = () => {
         if (stopped) return;
         stopped = true;
+
+        console.log('[EmakiConteiner] 自動スクロール停止:', new Date().toISOString(), '(scrollStarted:', scrollStarted, ')');
+
+        // WheelScrollIndicator表示のために状態を更新
+        // ただし、実際にスクロールが開始されていた場合のみ
+        if (scrollStarted) {
+          setAutoScrollStopped(true);
+        }
+
         if (animationId) cancelAnimationFrame(animationId);
         el.style.scrollBehavior = originalScrollBehavior;
         el.removeEventListener("mousedown", stopAutoScroll);
@@ -156,12 +168,15 @@ const EmakiContainer = ({
       // 初期描画後に自動スクロール開始（0.5秒遅延）
       const timerId = setTimeout(() => {
         if (!stopped) {
+          console.log('[EmakiConteiner] 自動スクロール開始:', new Date().toISOString());
+          scrollStarted = true; // スクロール開始フラグを立てる
           sessionStorage.setItem(keyName, true);
           animationId = requestAnimationFrame(autoScroll);
         }
       }, 500);
 
       return () => {
+        console.log('[EmakiConteiner] クリーンアップ実行（useEffect終了）');
         clearTimeout(timerId);
         stopAutoScroll();
       };
@@ -246,6 +261,12 @@ const EmakiContainer = ({
       >
         {scroll && <FullScreen />}
         <CarouselButton articleRef={articleRef} />
+        {scroll && (
+          <WheelScrollIndicator
+            dataId={data.id}
+            autoScrollStopped={autoScrollStopped}
+          />
+        )}
         {scroll && (
           <>
             <EmakiNavigation handleToId={handleToId} data={data} />

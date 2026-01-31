@@ -15,8 +15,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 
-console.log(links);
-
 // [
 //                 { en: "Home", ja: "ホーム", path: "/" },
 //                 { en: "About", ja: "About", path: "/about" },
