@@ -127,8 +127,6 @@ const EmakiContainer = ({
         if (stopped) return;
         stopped = true;
 
-        console.log('[EmakiConteiner] 自動スクロール停止:', new Date().toISOString(), '(scrollStarted:', scrollStarted, ')');
-
         // WheelScrollIndicator表示のために状態を更新
         // ただし、実際にスクロールが開始されていた場合のみ
         if (scrollStarted) {
@@ -168,7 +166,6 @@ const EmakiContainer = ({
       // 初期描画後に自動スクロール開始（0.5秒遅延）
       const timerId = setTimeout(() => {
         if (!stopped) {
-          console.log('[EmakiConteiner] 自動スクロール開始:', new Date().toISOString());
           scrollStarted = true; // スクロール開始フラグを立てる
           sessionStorage.setItem(keyName, true);
           animationId = requestAnimationFrame(autoScroll);
@@ -176,7 +173,6 @@ const EmakiContainer = ({
       }, 500);
 
       return () => {
-        console.log('[EmakiConteiner] クリーンアップ実行（useEffect終了）');
         clearTimeout(timerId);
         stopAutoScroll();
       };

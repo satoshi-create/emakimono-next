@@ -5,42 +5,27 @@ const WheelScrollIndicator = ({ dataId, autoScrollStopped }) => {
   const [showIndicator, setShowIndicator] = useState(false);
 
   useEffect(() => {
-    console.log('[WheelScrollIndicator] useEffect実行:', {
-      dataId,
-      autoScrollStopped,
-      timestamp: new Date().toISOString()
-    });
-
     const keyName = `wheel_indicator_${dataId}`;
     const alreadyShown = sessionStorage.getItem(keyName);
 
     // 既に表示済み、またはモバイルデバイスの場合は表示しない
     if (alreadyShown || window.innerWidth < 768) {
-      console.log('[WheelScrollIndicator] 表示スキップ:', { alreadyShown, width: window.innerWidth });
       return;
     }
 
     // 自動スクロールが停止してから0.5秒後に表示
     if (autoScrollStopped) {
-      console.log('[WheelScrollIndicator] 表示処理開始（0.5秒後）');
       const timerId = setTimeout(() => {
-        console.log('[WheelScrollIndicator] アイコン表示');
         setShowIndicator(true);
         sessionStorage.setItem(keyName, 'true');
 
         // 2.5秒後に自動消滅
         setTimeout(() => {
-          console.log('[WheelScrollIndicator] アイコン非表示');
           setShowIndicator(false);
         }, 2500);
       }, 500);
 
-      return () => {
-        console.log('[WheelScrollIndicator] クリーンアップ実行');
-        clearTimeout(timerId);
-      };
-    } else {
-      console.log('[WheelScrollIndicator] autoScrollStopped = false のため待機中');
+      return () => clearTimeout(timerId);
     }
   }, [dataId, autoScrollStopped]);
 
