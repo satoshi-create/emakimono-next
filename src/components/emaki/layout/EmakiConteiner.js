@@ -59,7 +59,12 @@ const EmakiContainer = ({
   // 教育現場向けUI: スクロール端点の状態管理（操作手段に依存しない）
   const [isAtStart, setIsAtStart] = useState(true); // 開始位置（右端）にいるか
   const [isAtEnd, setIsAtEnd] = useState(false); // 終了位置（左端）にいるか
-  const [isAutoScrolling, setIsAutoScrolling] = useState(false); // 自動スクロール中か
+  const [isAutoScrolling, setIsAutoScrolling] = useState(false); // 自動スクロール中か（初回ナッジ用）
+
+  // 教育現場向けUI: 再生モード（ユーザー任意の自動スクロール）
+  // 初回ナッジ（isAutoScrolling）とは独立した状態として管理
+  const [isPlayMode, setIsPlayMode] = useState(false);
+  const playModeAnimationRef = useRef(null); // 再生モードのアニメーションID
 
   // 教育現場向けUI: 静止UI耐性（Idle UI）- 長時間投影時の視覚的ノイズ軽減
   const [isUIVisible, setIsUIVisible] = useState(true); // UI表示状態
@@ -358,6 +363,94 @@ const EmakiContainer = ({
     }
   }, [data.id]);
 
+  // 教育現場向けUI: 再生モード - 停止関数
+  // playModeAnimationRef.currentをnullにすることでアニメーションループを終了させる
+  const stopPlayMode = () => {
+    if (playModeAnimationRef.current) {
+      cancelAnimationFrame(playModeAnimationRef.current);
+      playModeAnimationRef.current = null;
+    }
+
+    setIsPlayMode(false);
+
+    // UI復帰: 静止UI耐性のタイマーに委ねる
+    setIsUIVisible(true);
+  };
+
+  // 教育現場向けUI: 再生モード - 開始関数
+  const startPlayMode = () => {
+    const el = articleRef.current;
+    if (!el) return;
+
+    // 既に再生中、または初回ナッジ中は開始しない
+    if (playModeAnimationRef.current || isAutoScrolling) return;
+
+    setIsPlayMode(true);
+
+    // デバイスタイプに応じたスクロール速度（初回ナッジと同じ）
+    const width = window.innerWidth;
+    const scrollSpeed = width >= 1024 ? 2.4 : width >= 768 ? 1.6 : 1.2;
+
+    // CSS scroll-behavior の干渉を防ぐため一時的に無効化
+    const originalScrollBehavior = el.style.scrollBehavior;
+    el.style.scrollBehavior = "auto";
+
+    // スクロール可能な最小値（左端）
+    const minScrollLeft = -(el.scrollWidth - el.clientWidth);
+
+    const playScroll = () => {
+      // 停止されていたら終了（refがnullなら停止済み）
+      if (playModeAnimationRef.current === null) {
+        el.style.scrollBehavior = originalScrollBehavior;
+        return;
+      }
+
+      const currentScrollLeft = el.scrollLeft;
+      const newScrollLeft = currentScrollLeft - scrollSpeed;
+
+      // スクロール範囲の端（左端）に到達したら停止
+      if (newScrollLeft < minScrollLeft) {
+        setIsPlayMode(false);
+        setIsUIVisible(true); // UI復帰
+        el.style.scrollBehavior = originalScrollBehavior;
+        playModeAnimationRef.current = null;
+        return;
+      }
+
+      el.scrollTo({ left: newScrollLeft, behavior: "auto" });
+      playModeAnimationRef.current = requestAnimationFrame(playScroll);
+    };
+
+    playModeAnimationRef.current = requestAnimationFrame(playScroll);
+  };
+
+  // 教育現場向けUI: 再生モード - クリーンアップ
+  useEffect(() => {
+    return () => {
+      if (playModeAnimationRef.current) {
+        cancelAnimationFrame(playModeAnimationRef.current);
+        playModeAnimationRef.current = null;
+      }
+    };
+  }, []);
+
+  // 教育現場向けUI: 絵巻切り替え時のリセット処理
+  // Chrome系でキャッシュが残る問題への対応
+  useEffect(() => {
+    // 再生モードを停止
+    if (playModeAnimationRef.current) {
+      cancelAnimationFrame(playModeAnimationRef.current);
+      playModeAnimationRef.current = null;
+    }
+    setIsPlayMode(false);
+
+    // スクロール位置ストアをリセット（フルスクリーン復元用）
+    scrollPositionStore.scrollLeft = 0;
+    scrollPositionStore.scrollRatio = 0;
+    scrollPositionStore.restored = false;
+    scrollPositionStore.isTransitioning = false;
+  }, [data.id]);
+
   useEffect(() => {
     const ref = articleRef.current;
     const coordinate = ref.getBoundingClientRect();
@@ -371,6 +464,16 @@ const EmakiContainer = ({
         // block if e.deltaY==0
         // 垂直方向のスクロールがゼロならばリターン
         if (!e.deltaY) return;
+
+        // 教育現場向けUI: 再生モード中はホイール操作で停止
+        if (playModeAnimationRef.current) {
+          cancelAnimationFrame(playModeAnimationRef.current);
+          playModeAnimationRef.current = null;
+          setIsPlayMode(false);
+          setIsUIVisible(true);
+          e.preventDefault();
+          return;
+        }
 
         // Set scrollDirection (-1 = up // 1 = down)
         let scrollDirection = e.deltaY > 0 ? 1 : -1;
@@ -481,6 +584,9 @@ const EmakiContainer = ({
               handleToId={handleToId}
               data={data}
               isUIVisible={isUIVisible}
+              isPlayMode={isPlayMode}
+              onStartPlayMode={startPlayMode}
+              onStopPlayMode={stopPlayMode}
             />
           </>
         )}
@@ -507,7 +613,20 @@ const EmakiContainer = ({
               toggleFullscreen === false &&
               "12px",
           }}
-          onClick={() => setOepnSidebar(false)}
+          onClick={() => {
+            // 再生モード中はクリックで停止
+            if (isPlayMode) {
+              stopPlayMode();
+              return;
+            }
+            setOepnSidebar(false);
+          }}
+          onTouchStart={() => {
+            // 再生モード中はタッチで停止
+            if (isPlayMode) {
+              stopPlayMode();
+            }
+          }}
           ref={articleRef}
         >
           {processedEmakis.map((item, index) => {

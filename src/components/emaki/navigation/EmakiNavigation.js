@@ -3,6 +3,8 @@ import {
   faAnglesLeft,
   faAnglesRight,
   faCircleQuestion,
+  faPlay,
+  faStop,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
@@ -16,7 +18,14 @@ import { AppContext } from "@/pages/_app";
 // TODO: 横スクロールで最後まで進み、「先頭に戻る」を押しても反応がない
 // ⇒navIndexが0になっている
 // TODO : アイコンホバー時のtitleを追加・修正する
-const EmakiNavigation = ({ handleToId, data, isUIVisible = true }) => {
+const EmakiNavigation = ({
+  handleToId,
+  data,
+  isUIVisible = true,
+  isPlayMode = false,
+  onStartPlayMode,
+  onStopPlayMode,
+}) => {
   const { character, ebiki } = data;
   const endIndex = data.emakis.length - 1;
 
@@ -55,6 +64,30 @@ const EmakiNavigation = ({ handleToId, data, isUIVisible = true }) => {
         onClick={openHelpModal}
         isUIVisible={isUIVisible}
       />
+      {/* 教育現場向けUI: 再生/停止ボタン - 状態に応じて切り替え */}
+      {isPlayMode && onStopPlayMode ? (
+        <ActionButton
+          icon={
+            <FontAwesomeIcon icon={faStop} style={{ fontSize: "1.3em" }} />
+          }
+          label="停止"
+          description="自動再生を停止"
+          onClick={onStopPlayMode}
+          isUIVisible={isUIVisible}
+        />
+      ) : (
+        onStartPlayMode && (
+          <ActionButton
+            icon={
+              <FontAwesomeIcon icon={faPlay} style={{ fontSize: "1.3em" }} />
+            }
+            label="自動再生"
+            description="自動再生"
+            onClick={onStartPlayMode}
+            isUIVisible={isUIVisible}
+          />
+        )
+      )}
       <ToggleEkotoba data={data} isUIVisible={isUIVisible} />
       {/* <FullScreen /> */}
       {character && <ToggleCharacter isUIVisible={isUIVisible} />}
