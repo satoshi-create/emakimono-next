@@ -21,6 +21,10 @@ const scrollPositionStore = {
   isTransitioning: false, // 復元中フラグ（保存の上書きを防止）
 };
 
+// 教育現場向けUI: 絵巻切り替え検出用
+// モジュールスコープに配置することで、コンポーネント再マウント時も前回値を保持
+let prevDataId = null;
+
 
 const EmakiContainer = ({
   data,
@@ -65,6 +69,7 @@ const EmakiContainer = ({
   // 初回ナッジ（isAutoScrolling）とは独立した状態として管理
   const [isPlayMode, setIsPlayMode] = useState(false);
   const playModeAnimationRef = useRef(null); // 再生モードのアニメーションID
+  // prevDataIdはモジュールスコープに移動済み（絵巻切り替え検出用）
 
   // 教育現場向けUI: 静止UI耐性（Idle UI）- 長時間投影時の視覚的ノイズ軽減
   const [isUIVisible, setIsUIVisible] = useState(true); // UI表示状態
@@ -436,19 +441,27 @@ const EmakiContainer = ({
 
   // 教育現場向けUI: 絵巻切り替え時のリセット処理
   // Chrome系でキャッシュが残る問題への対応
+  // フルスクリーン切り替え（再マウント）時はリセットしない
   useEffect(() => {
-    // 再生モードを停止
-    if (playModeAnimationRef.current) {
-      cancelAnimationFrame(playModeAnimationRef.current);
-      playModeAnimationRef.current = null;
-    }
-    setIsPlayMode(false);
+    // 実際に絵巻が切り替わった場合のみリセット
+    // prevDataIdはモジュールスコープなので再マウントでも値が保持される
+    if (prevDataId !== null && prevDataId !== data.id) {
+      // 再生モードを停止
+      if (playModeAnimationRef.current) {
+        cancelAnimationFrame(playModeAnimationRef.current);
+        playModeAnimationRef.current = null;
+      }
+      setIsPlayMode(false);
 
-    // スクロール位置ストアをリセット（フルスクリーン復元用）
-    scrollPositionStore.scrollLeft = 0;
-    scrollPositionStore.scrollRatio = 0;
-    scrollPositionStore.restored = false;
-    scrollPositionStore.isTransitioning = false;
+      // スクロール位置ストアをリセット（フルスクリーン復元用）
+      scrollPositionStore.scrollLeft = 0;
+      scrollPositionStore.scrollRatio = 0;
+      scrollPositionStore.restored = false;
+      scrollPositionStore.isTransitioning = false;
+    }
+
+    // 前回のdata.idを更新（初回マウント時も含む）
+    prevDataId = data.id;
   }, [data.id]);
 
   useEffect(() => {
@@ -585,6 +598,7 @@ const EmakiContainer = ({
               data={data}
               isUIVisible={isUIVisible}
               isPlayMode={isPlayMode}
+              isAutoScrolling={isAutoScrolling}
               onStartPlayMode={startPlayMode}
               onStopPlayMode={stopPlayMode}
             />

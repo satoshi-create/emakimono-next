@@ -23,6 +23,7 @@ const EmakiNavigation = ({
   data,
   isUIVisible = true,
   isPlayMode = false,
+  isAutoScrolling = false,
   onStartPlayMode,
   onStopPlayMode,
 }) => {
@@ -65,14 +66,15 @@ const EmakiNavigation = ({
         isUIVisible={isUIVisible}
       />
       {/* 教育現場向けUI: 再生/停止ボタン - 状態に応じて切り替え */}
-      {isPlayMode && onStopPlayMode ? (
+      {/* 再生モード中または初回ナッジ中は停止ボタンを表示 */}
+      {(isPlayMode || isAutoScrolling) ? (
         <ActionButton
           icon={
             <FontAwesomeIcon icon={faStop} style={{ fontSize: "1.3em" }} />
           }
           label="停止"
           description="自動再生を停止"
-          onClick={onStopPlayMode}
+          onClick={isPlayMode ? onStopPlayMode : undefined}
           isUIVisible={isUIVisible}
         />
       ) : (
