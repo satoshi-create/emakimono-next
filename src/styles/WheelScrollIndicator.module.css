@@ -1,66 +1,51 @@
-.indicatorContainer {
-  position: absolute;
-  bottom: 100px; /* スクロールバーより上 */
+.toastContainer {
+  position: fixed;
+  bottom: 80px;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 1000;
   pointer-events: none;
-  z-index: 15;
-  animation: fadeInOut 2.5s ease-in-out forwards;
 }
 
-.wheelWrapper {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 20px;
-  background-color: rgba(0, 0, 0, 0.75);
-  border-radius: 50px;
+.toast {
+  background-color: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  animation: toastFadeInOut 3s ease-in-out forwards;
 }
 
-.wheelIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
+.subText {
+  font-size: 12px;
+  opacity: 0.8;
+  margin-top: 4px;
 }
 
-.arrowsWrapper {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.arrowLeft,
-.arrowRight {
-  display: flex;
-  align-items: center;
-  color: white;
-}
-
-/* フェードイン・アウトアニメーション */
-@keyframes fadeInOut {
+@keyframes toastFadeInOut {
   0% {
     opacity: 0;
-    transform: translateX(-50%) translateY(10px);
+    transform: translateY(10px);
   }
-  15% {
+  10% {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
   }
-  85% {
+  80% {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
   }
   100% {
     opacity: 0;
-    transform: translateX(-50%) translateY(-10px);
+    transform: translateY(-10px);
   }
 }
 
-/* モバイルでは非表示 */
 @media (max-width: 767px) {
-  .indicatorContainer {
+  .toastContainer {
     display: none;
   }
 }

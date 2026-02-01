@@ -58,7 +58,8 @@ const EmakiContainer = ({
   // P0改修: scrollPositionStore はモジュールスコープに移動済み
   // （コンポーネント再マウント時も値を保持するため）
 
-  const [autoScrollStopped, setAutoScrollStopped] = useState(false);
+  // 教育現場向けUI: ホイール操作時のトースト表示
+  const [showWheelToast, setShowWheelToast] = useState(false);
 
   // 教育現場向けUI: スクロール端点の状態管理（操作手段に依存しない）
   const [isAtStart, setIsAtStart] = useState(true); // 開始位置（右端）にいるか
@@ -74,7 +75,6 @@ const EmakiContainer = ({
   // 教育現場向けUI: 静止UI耐性（Idle UI）- 長時間投影時の視覚的ノイズ軽減
   const [isUIVisible, setIsUIVisible] = useState(true); // UI表示状態
   const idleTimeoutRef = useRef(null); // 無操作タイマー
-  const wheelIndicatorTimeoutRef = useRef(null); // WheelScrollIndicator表示期間タイマー
 
 
   // 教育現場向けUI: 静止UI耐性 - ユーザー操作検出とタイマー管理
@@ -139,44 +139,6 @@ const EmakiContainer = ({
       window.removeEventListener("keydown", handleUserActivity);
     };
   }, [isAutoScrolling]); // 依存配列: 自動スクロール状態の変化を監視
-
-  // 教育現場向けUI: WheelScrollIndicator表示期間中はUIを非表示にしない
-  useEffect(() => {
-    if (autoScrollStopped) {
-      // WheelScrollIndicatorが表示される期間（0.5秒遅延 + 2.5秒表示 = 3秒間）
-      // この間はUIを表示したまま維持
-      setIsUIVisible(true);
-
-      // 既存のタイマーをクリア
-      if (idleTimeoutRef.current) {
-        clearTimeout(idleTimeoutRef.current);
-        idleTimeoutRef.current = null;
-      }
-
-      // WheelScrollIndicator消滅後にタイマーを再開
-      wheelIndicatorTimeoutRef.current = setTimeout(() => {
-        // デバイス幅に応じたタイムアウト時間
-        const getIdleTimeout = () => {
-          const width = window.innerWidth;
-          return width >= 1024 ? 5000 : 3000;
-        };
-
-        // タイマー再開
-        idleTimeoutRef.current = setTimeout(() => {
-          if (!isAutoScrolling) {
-            setIsUIVisible(false);
-          }
-        }, getIdleTimeout());
-      }, 3000); // WheelScrollIndicator表示期間
-    }
-
-    return () => {
-      if (wheelIndicatorTimeoutRef.current) {
-        clearTimeout(wheelIndicatorTimeoutRef.current);
-        wheelIndicatorTimeoutRef.current = null;
-      }
-    };
-  }, [autoScrollStopped, isAutoScrolling]);
 
   useEffect(() => {
     if (!articleRef.current) return;
@@ -294,7 +256,6 @@ const EmakiContainer = ({
 
       let animationId = null;
       let stopped = false;
-      let scrollStarted = false; // 自動スクロールが実際に開始されたかのフラグ
 
       // CSS scroll-behavior の干渉を防ぐため一時的に無効化
       const originalScrollBehavior = el.style.scrollBehavior;
@@ -306,12 +267,6 @@ const EmakiContainer = ({
       const stopAutoScroll = () => {
         if (stopped) return;
         stopped = true;
-
-        // WheelScrollIndicator表示のために状態を更新
-        // ただし、実際にスクロールが開始されていた場合のみ
-        if (scrollStarted) {
-          setAutoScrollStopped(true);
-        }
 
         // 教育現場向けUI: 自動スクロール停止を通知
         // これにより「戻る」ボタンが表示可能になる
@@ -350,8 +305,6 @@ const EmakiContainer = ({
       // 初期描画後に自動スクロール開始（0.5秒遅延）
       const timerId = setTimeout(() => {
         if (!stopped) {
-          scrollStarted = true; // スクロール開始フラグを立てる
-
           // 教育現場向けUI: 自動スクロール開始を通知
           // これにより「戻る」ボタンが非表示になる
           setIsAutoScrolling(true);
@@ -478,6 +431,14 @@ const EmakiContainer = ({
         // 垂直方向のスクロールがゼロならばリターン
         if (!e.deltaY) return;
 
+        // 教育現場向けUI: 初回ホイール操作時にトースト表示
+        // セッション内で1回のみ表示（sessionStorageで管理）
+        const toastKey = "wheel_toast_shown";
+        if (!sessionStorage.getItem(toastKey)) {
+          sessionStorage.setItem(toastKey, "true");
+          setShowWheelToast(true);
+        }
+
         // 教育現場向けUI: 再生モード中はホイール操作で停止
         if (playModeAnimationRef.current) {
           cancelAnimationFrame(playModeAnimationRef.current);
@@ -519,8 +480,7 @@ const EmakiContainer = ({
           el.scrollLeft += scrollSpeed * scrollDirection;
         }
 
-        // 教育現場向けUI: 絵巻コンテナ上では常に横スクロールとして扱う
-        // 端点でも縦スクロールを防止し、一貫した操作性を提供
+        // 教育現場向けUI: 絵巻コンテナ上では横スクロールとして扱う
         e.preventDefault();
         return true;
       };
@@ -587,8 +547,8 @@ const EmakiContainer = ({
         />
         {scroll && (
           <WheelScrollIndicator
-            dataId={data.id}
-            autoScrollStopped={autoScrollStopped}
+            showToast={showWheelToast}
+            onToastComplete={() => setShowWheelToast(false)}
           />
         )}
         {scroll && (
