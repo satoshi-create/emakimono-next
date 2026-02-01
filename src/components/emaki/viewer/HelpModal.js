@@ -1,8 +1,7 @@
 import styles from "@/styles/HelpModal.module.css";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useBreakpointValue } from "@chakra-ui/react";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "@/pages/_app";
 
 /**
@@ -18,8 +17,22 @@ import { AppContext } from "@/pages/_app";
 const HelpModal = () => {
   const { closeHelpModal } = useContext(AppContext);
 
-  // デバイス判定: SP/TB (base〜md未満) vs PC (md以上)
-  const isMobile = useBreakpointValue({ base: true, md: false });
+  // タッチデバイス判定（画面幅ではなくデバイスの能力で判定）
+  // フルスクリーン時に横向きになっても、タッチデバイスならモバイル用UIを表示
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  useEffect(() => {
+    // タッチデバイスかどうかを判定
+    // navigator.maxTouchPoints: タッチポイントの最大数（0ならタッチ非対応）
+    // 'ontouchstart' in window: タッチイベントがサポートされているか
+    const checkTouchDevice = () => {
+      const hasTouchPoints = navigator.maxTouchPoints > 0;
+      const hasTouchEvent = 'ontouchstart' in window;
+      return hasTouchPoints || hasTouchEvent;
+    };
+
+    setIsTouchDevice(checkTouchDevice());
+  }, []);
 
   // Escapeキーで閉じる
   useEffect(() => {
@@ -81,8 +94,8 @@ const HelpModal = () => {
         <h3 className={styles.title}>絵巻の見方</h3>
 
         <div className={styles.content}>
-          {isMobile ? (
-            // SP/TB モード: スワイプ + 矢印キー
+          {isTouchDevice ? (
+            // タッチデバイス（SP/TB）: スワイプ + 矢印キー
             <>
               <div className={styles.helpItem}>
                 <div className={styles.iconWrapper}>
@@ -160,7 +173,7 @@ const HelpModal = () => {
               </div>
             </>
           ) : (
-            // PC モード: ホイール + 矢印キー + スクロールバー
+            // PC（非タッチデバイス）: ホイール + 矢印キー + スクロールバー
             <>
               <div className={styles.helpItem}>
                 <div className={styles.iconWrapper}>
