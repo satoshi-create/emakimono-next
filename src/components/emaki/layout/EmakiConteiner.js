@@ -16,7 +16,8 @@ import { useContext, useEffect, useRef, useState } from "react";
 const scrollPositionStore = {
   scrollLeft: 0,
   scrollRatio: 0,
-  restored: false, // 復元完了フラグ（複数回の復元によるジャンプ防止）
+  restored: false,      // 復元完了フラグ（複数回の復元によるジャンプ防止）
+  isTransitioning: false, // 復元中フラグ（保存の上書きを防止）
 };
 
 
@@ -179,8 +180,8 @@ const EmakiContainer = ({
       const maxScrollLeft = scrollWidth - clientWidth;
 
       // P0改修: スクロール位置を常に保存（フルスクリーン切り替え時の復元用）
-      // RTL環境対応: 相対位置（scrollRatio）も併せて保存
-      if (maxScrollLeft > 0) {
+      // ただし、復元中は保存をスキップ（上書き防止）
+      if (maxScrollLeft > 0 && !scrollPositionStore.isTransitioning) {
         scrollPositionStore.scrollLeft = currentScrollX;
         scrollPositionStore.scrollRatio = Math.abs(currentScrollX) / maxScrollLeft;
         scrollPositionStore.restored = false;
@@ -220,6 +221,13 @@ const EmakiContainer = ({
     // 初回マウント時はスキップ（スクロール位置が保存されていない）
     if (scrollPositionStore.scrollRatio === 0) return;
 
+    // 新しいトグル時に restored フラグをリセット
+    // これにより2回目以降のトグルでも復元が実行される
+    scrollPositionStore.restored = false;
+
+    // 復元中フラグを立てる（スクロールイベントによる上書きを防止）
+    scrollPositionStore.isTransitioning = true;
+
     // スクロール位置を復元する関数
     const restoreScrollPosition = () => {
       // 既に復元済みならスキップ（複数回の復元によるジャンプ防止）
@@ -244,10 +252,16 @@ const EmakiContainer = ({
     const timer2 = setTimeout(restoreScrollPosition, 250);
     const timer3 = setTimeout(restoreScrollPosition, 400);
 
+    // 復元完了後にフラグを解除（500ms後）
+    const transitionTimer = setTimeout(() => {
+      scrollPositionStore.isTransitioning = false;
+    }, 500);
+
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
       clearTimeout(timer3);
+      clearTimeout(transitionTimer);
     };
   }, [toggleFullscreen]);
 
@@ -445,7 +459,7 @@ const EmakiContainer = ({
             "12px",
         }}
       >
-        {scroll && <FullScreen />}
+        {scroll && <FullScreen isUIVisible={isUIVisible} />}
         <CarouselButton
           articleRef={articleRef}
           isAtStart={isAtStart}
@@ -468,7 +482,9 @@ const EmakiContainer = ({
             />
           </>
         )}
-        {scroll && toggleFullscreen && <EmakiInfo value={data} />}
+        {scroll && toggleFullscreen && (
+          <EmakiInfo value={data} isUIVisible={isUIVisible} />
+        )}
         {scroll && isModalOpen && <Modal data={data} />}
         {/* {scroll && isMapModalOpen && <ModalMap data={data} />} */}
         {!genjieslug && scroll && isDescModalOpen && <ModalDesc data={data} />}

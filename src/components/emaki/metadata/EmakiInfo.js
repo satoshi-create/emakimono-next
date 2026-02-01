@@ -6,12 +6,20 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 
-const EmakiInfo = ({ value }) => {
+// 教育現場向けUI: isUIVisible で静止UI耐性に対応
+const EmakiInfo = ({ value, isUIVisible = true }) => {
   const { openModal } = useContext(AppContext);
   const { type, title, typeen, era, eraen, keyword, edition } = value;
   const { locale } = useRouter();
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      style={{
+        opacity: isUIVisible ? 1 : 0,
+        pointerEvents: isUIVisible ? "auto" : "none",
+        transition: "opacity 0.3s linear",
+      }}
+    >
       <h1 className={styles.title}>
         {title} {edition && edition}
       </h1>

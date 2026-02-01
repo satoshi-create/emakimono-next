@@ -7,10 +7,9 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
 
-// lock func
-const FullScreen = () => {
-  const { toggleFullscreen, handleFullScreen, orientation } =
-    useContext(AppContext);
+// 教育現場向けUI: isUIVisible で静止UI耐性に対応
+const FullScreen = ({ isUIVisible = true }) => {
+  const { toggleFullscreen, handleFullScreen } = useContext(AppContext);
   return (
     <ActionButton
       icon={
@@ -30,6 +29,7 @@ const FullScreen = () => {
       description={toggleFullscreen ? "全画面を閉じる" : "全画面で鑑賞する"}
       onClick={() => handleFullScreen("landscape")}
       variant="fullscreen"
+      isUIVisible={isUIVisible}
     />
   );
 };
