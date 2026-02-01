@@ -620,6 +620,7 @@ const EmakiContainer = ({
                 navIndex={navIndex}
                 uniqueIndex={item.uniqueIndex} // 新しい連番を渡す
                 scroll={scroll}
+                isPlayMode={isPlayMode} // 再生モード時は全画像を eager loading
               />
             );
           })}

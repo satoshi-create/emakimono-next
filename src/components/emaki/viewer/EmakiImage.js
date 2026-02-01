@@ -7,6 +7,7 @@ import { useContext } from "react";
 const EmakiImage = ({
   item: { config, index, navIndex, character, ebiki, uniqueIndex },
   item,
+  isPlayMode, // 再生モード状態
 }) => {
   const {
     scrollDialog,
@@ -173,6 +174,7 @@ const EmakiImage = ({
         srcSp={item.srcSp}
         config={config}
         uniqueIndex={uniqueIndex}
+        isPlayMode={isPlayMode}
       />
     </div>
   );

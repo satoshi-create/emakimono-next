@@ -17,6 +17,7 @@ const SwitcherEmaki = forwardRef(
       navIndex,
       scroll,
       uniqueIndex,
+      isPlayMode, // 再生モード状態
     },
     ref
   ) => {
@@ -34,6 +35,7 @@ const SwitcherEmaki = forwardRef(
                 navIndex,
                 uniqueIndex,
               }}
+              isPlayMode={isPlayMode}
             />
           </section>
         );
