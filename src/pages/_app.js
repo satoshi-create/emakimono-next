@@ -89,6 +89,7 @@ function MyApp({ Component, pageProps, router }) {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [showData, setShowdData] = useState(emakisData);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [windowHeight, setWindowHeight] = useState(0);
@@ -227,6 +228,14 @@ function MyApp({ Component, pageProps, router }) {
   const closeSearchModal = () => {
     document.querySelector("html").classList.remove("open");
     setIsSearchModalOpen(false);
+  };
+
+  const openHelpModal = () => {
+    setIsHelpModalOpen(true);
+  };
+
+  const closeHelpModal = () => {
+    setIsHelpModalOpen(false);
   };
 
   const handleEkotobaImageToggle = () => {
@@ -584,6 +593,9 @@ function MyApp({ Component, pageProps, router }) {
         rankingData,
         handleChapter,
         windowHeight,
+        isHelpModalOpen,
+        openHelpModal,
+        closeHelpModal,
       }}
     >
       {/* google analytics */}

@@ -1,0 +1,193 @@
+/**
+ * 内部ヘルプモーダル スタイル
+ *
+ * 設計原則:
+ * - 絵巻を背景に維持（面積は画面の1/3以下）
+ * - 静かなUI: 控えめな色・動き
+ * - 既存Modal.module.cssとの整合性
+ */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 450;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 18vh;
+  transition: opacity 0.3s ease;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  z-index: -1;
+}
+
+.modal {
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 16px;
+  padding: 1.25rem 1.75rem 1.5rem;
+  max-width: 360px;
+  width: 88%;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.2s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.closeBtn {
+  position: absolute;
+  top: 0.625rem;
+  right: 0.625rem;
+  background: none;
+  border: none;
+  font-size: 1.125rem;
+  cursor: pointer;
+  color: #666;
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
+  transition: opacity 0.2s;
+  border-radius: 4px;
+}
+
+.closeBtn:hover {
+  opacity: 0.5;
+}
+
+.closeBtn:focus {
+  outline: 2px solid var(--clr-accent-02, #ff8c77);
+  outline-offset: 2px;
+}
+
+.title {
+  font-family: var(--text-font, "Zen Maru Gothic", sans-serif);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--clr-black, #333);
+  margin: 0 0 1rem 0;
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.helpItem {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+
+.iconWrapper {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  color: var(--clr-accent-02, #ff8c77);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.label {
+  font-family: var(--text-font, "Zen Maru Gothic", sans-serif);
+  font-size: 0.875rem;
+  color: var(--clr-black, #444);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* タブレット・モバイル対応 */
+@media screen and (max-width: 767px) {
+  .overlay {
+    padding-bottom: 12vh;
+  }
+
+  .modal {
+    padding: 1rem 1.25rem 1.25rem;
+    max-width: 320px;
+    width: 90%;
+  }
+
+  .title {
+    font-size: 0.9375rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .content {
+    gap: 0.75rem;
+  }
+
+  .helpItem {
+    gap: 0.75rem;
+  }
+
+  .iconWrapper {
+    width: 36px;
+    height: 36px;
+  }
+
+  .iconWrapper svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .label {
+    font-size: 0.8125rem;
+  }
+}
+
+/* フルスクリーン時の調整 */
+@media screen and (min-height: 600px) and (max-height: 800px) {
+  .overlay {
+    padding-bottom: 15vh;
+  }
+}
+
+/* ランドスケープモード（横向き）対応 */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  .overlay {
+    padding-bottom: 8vh;
+  }
+
+  .modal {
+    padding: 0.75rem 1.25rem 1rem;
+  }
+
+  .title {
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .content {
+    gap: 0.5rem;
+  }
+
+  .iconWrapper {
+    width: 32px;
+    height: 32px;
+  }
+
+  .iconWrapper svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .label {
+    font-size: 0.75rem;
+  }
+}

@@ -20,11 +20,7 @@ const EmakiNavigation = ({ handleToId, data, isUIVisible = true }) => {
   const { character, ebiki } = data;
   const endIndex = data.emakis.length - 1;
 
-  const handleClick = () => {
-    window.open("https://note.com/enjoy_emakimono/n/n449f765b4876", "_blank"); // 新しいタブで遷移
-  };
-
-  const { orientation } = useContext(AppContext);
+  const { orientation, openHelpModal } = useContext(AppContext);
 
   return (
     <aside
@@ -56,7 +52,7 @@ const EmakiNavigation = ({ handleToId, data, isUIVisible = true }) => {
         }
         label="絵巻の見方"
         description="絵巻の見方"
-        onClick={handleClick}
+        onClick={openHelpModal}
         isUIVisible={isUIVisible}
       />
       <ToggleEkotoba data={data} isUIVisible={isUIVisible} />

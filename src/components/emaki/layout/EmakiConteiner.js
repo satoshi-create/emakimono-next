@@ -2,6 +2,7 @@ import EmakiInfo from "@/components/emaki/metadata/EmakiInfo";
 import EmakiNavigation from "@/components/emaki/navigation/EmakiNavigation";
 import CarouselButton from "@/components/emaki/viewer/CarouselButton";
 import FullScreen from "@/components/emaki/viewer/FullScreen";
+import HelpModal from "@/components/emaki/viewer/HelpModal";
 import Modal from "@/components/emaki/viewer/Modal";
 import ModalDesc from "@/components/emaki/viewer/ModalDesc";
 import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
@@ -40,6 +41,7 @@ const EmakiContainer = ({
     toggleFullscreen,
     isMapModalOpen,
     isDescModalOpen,
+    isHelpModalOpen,
   } = useContext(AppContext);
 
   const { backgroundImage, kotobagaki, type, genjieslug } = data;
@@ -488,6 +490,7 @@ const EmakiContainer = ({
         {scroll && isModalOpen && <Modal data={data} />}
         {/* {scroll && isMapModalOpen && <ModalMap data={data} />} */}
         {!genjieslug && scroll && isDescModalOpen && <ModalDesc data={data} />}
+        {scroll && isHelpModalOpen && <HelpModal />}
         {/* {genjieslug && scroll && isDescModalOpen && (
           <ModalDescGenji data={data} />
         )} */}
