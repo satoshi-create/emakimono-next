@@ -86,23 +86,24 @@ const LazyImage = ({
     }
   };
 
-  const getResponsiveWidth = (full, ori) => {
+  // CSS custom property を使用してモバイルブラウザの dvh に対応
+  // dvh (dynamic viewport height) はモバイルの URL バー表示/非表示に追従
+  const getResponsiveHeightVar = (full, ori) => {
     if (full && ori === "landscape") {
-      return 100;
+      return "var(--vh-100)";
     } else if (ori === "landscape") {
-      return 75;
+      return "var(--vh-75)";
     } else if (ori === "portrait") {
-      return 45;
+      return "var(--vh-45)";
     }
+    return "var(--vh-75)"; // fallback
   };
 
   return (
     <div
       className={`image-wrapper`}
       style={{
-        width: `${
-          (width / height) * getResponsiveWidth(toggleFullscreen, orientation)
-        }vh`,
+        width: `calc(${width / height} * ${getResponsiveHeightVar(toggleFullscreen, orientation)})`,
         position: "relative",
       }}
       ref={containerRef}

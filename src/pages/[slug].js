@@ -128,7 +128,7 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
             scroll={true}
             selectedRef={selectedRef}
             navIndex={navIndex}
-            height={"100vh"}
+            height={"var(--vh-100)"}
           />
         </>
       );

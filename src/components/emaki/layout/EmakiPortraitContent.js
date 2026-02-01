@@ -92,7 +92,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
         selectedRef={selectedRef}
         navIndex={navIndex}
         articleRef={articleRef}
-        height={"45vh"}
+        height={"var(--vh-45)"}
       />
       <div className={`${styles.wrapper} section-grid`}>
         <div className={styles.container}>

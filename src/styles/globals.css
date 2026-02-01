@@ -12,6 +12,12 @@
 }
 
 :root {
+  /* Viewport height with dvh fallback for mobile browsers */
+  /* dvh (dynamic viewport height) adjusts for mobile URL bar */
+  --vh-100: 100vh;
+  --vh-75: 75vh;
+  --vh-45: 45vh;
+
   --clr-black: rgb(20 20 20);
   --clr-grey: rgb(114 114 114);
   --clr-grey-light: rgb(163, 163, 163);
@@ -115,7 +121,7 @@ button {
 }
 
 .fullscreen-enabled article {
-  height: 100vh;
+  height: var(--vh-100);
   width: 100vw;
 }
 
@@ -314,4 +320,24 @@ button {
 /* react-tagcloud */
 .tag-cloud {
   word-break: break-word;
+}
+
+/* Dynamic viewport height support for mobile browsers */
+/* dvh adjusts automatically when mobile URL bar shows/hides */
+@supports (height: 100dvh) {
+  :root {
+    --vh-100: 100dvh;
+    --vh-75: 75dvh;
+    --vh-45: 45dvh;
+  }
+}
+
+/* Safe area inset support for notched devices */
+@supports (padding: env(safe-area-inset-bottom)) {
+  :root {
+    --safe-area-top: env(safe-area-inset-top, 0px);
+    --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-area-left: env(safe-area-inset-left, 0px);
+    --safe-area-right: env(safe-area-inset-right, 0px);
+  }
 }
