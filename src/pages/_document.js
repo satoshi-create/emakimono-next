@@ -5,11 +5,7 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          {/* viewport meta: モバイルブラウザ対応 + ノッチ端末の safe-area 有効化 */}
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-          />
+          {/* viewport meta は _app.js で next/head を使用して設定（Next.js推奨パターン） */}
           <script
             type="text/javascript"
             dangerouslySetInnerHTML={{

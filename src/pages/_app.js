@@ -7,6 +7,7 @@ import { useLocaleData } from "@/utils/func";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import Script from "next/script";
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
@@ -552,8 +553,17 @@ function MyApp({ Component, pageProps, router }) {
   }, []);
 
   return (
-    <AppContext.Provider
-      value={{
+    <>
+      {/* viewport meta: モバイルブラウザ対応 + ノッチ端末の safe-area 有効化 */}
+      {/* _app.js で next/head を使用することで Next.js のデフォルト viewport を確実に上書き */}
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+        />
+      </Head>
+      <AppContext.Provider
+        value={{
         ekotobaToggle,
         setekotobaToggle,
         oepnSidebar,
@@ -660,6 +670,7 @@ function MyApp({ Component, pageProps, router }) {
         <BottomNavigation />
       </ChakraProvider>
     </AppContext.Provider>
+    </>
   );
 }
 
