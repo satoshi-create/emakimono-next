@@ -1,9 +1,10 @@
 import postMessage from "@/libs/api/discord";
+import * as gtag from "@/libs/api/gtag";
 import styles from "@/styles/LikeButton.module.css";
 import { useState } from "react";
 import { Heart } from "react-feather";
 
-const LikeButton = ({ title, edition, author, ort }) => {
+const LikeButton = ({ title, titleen, edition, author, ort }) => {
   const [isDisplay, setIsDisplay] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false); // アニメーション状態を管理
 
@@ -21,6 +22,13 @@ const LikeButton = ({ title, edition, author, ort }) => {
       setIsDisplay(true);
       setHasAnimated(true); // アニメーションが実行されたことを記録
       postMessage(message);
+
+      // GA4イベント送信
+      gtag.event("like_emaki", {
+        emaki_title: title,
+        emaki_id: titleen,
+        emaki_edition: edition,
+      });
     }
   };
 

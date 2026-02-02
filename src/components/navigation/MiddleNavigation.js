@@ -68,7 +68,7 @@ const MiddleNavigation = ({ title, titleen, edition, author }) => {
         <GridItem display="flex" gap={2}>
           <LikeButton
             title={title}
-            p
+            titleen={titleen}
             edition={edition}
             author={author}
             ort={"prt"}

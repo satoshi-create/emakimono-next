@@ -1,5 +1,6 @@
 import ActionButton from "@/components/emaki/viewer/ActionButton";
 import LazyImage from "@/components/emaki/viewer/LazyImage";
+import SceneLikeButton from "@/components/emaki/viewer/SceneLikeButton";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/OverlayEkotoba.module.css";
 import { ChaptersGendaibun, ChaptersTitle } from "@/utils/func";
@@ -93,66 +94,74 @@ const OverlayEkotoba = ({
       >
         {chapter && (
           <div
-            className={styles.chapterbox}
-            style={{
-              padding: `${orientation === "portrait" ? "1rm .5rem" : ".5rem"}`,
-            }}
-            onClick={() => handleToId(index)}
+            className={`${styles.chapterbox} ${
+              orientation === "portrait" ? styles.chapterboxPrt : styles.chapterboxLand
+            }`}
           >
             <h3
-              className={styles.chapter}
-              style={{
-                fontSize: `${
-                  orientation === "portrait"
-                    ? "var(--title-size-prt)"
-                    : "var(--title-size)"
-                }`,
-              }}
+              className={`${styles.chapter} ${
+                orientation === "portrait" ? styles.chapterPrt : styles.chapterLand
+              }`}
+              onClick={() => handleToId(index)}
             >
               {locale == "en"
                 ? ChaptersTitle(titleen, title, chapter, "titleen")
                 : ChaptersTitle(titleen, title, chapter, "title")}
             </h3>
-
-            {type === "浮世絵" && googlemap && (
-              <button
-                className={styles.mapiconlink}
-                onClick={() => openMapModal(ekotobaId)}
-                title={`${chapter}の場所を地図で確認する`}
-              >
-                <FontAwesomeIcon
-                  icon={faLocationDot}
-                  className={styles.mapiconlinkicon}
-                />
-              </button>
-            )}
-            {kotobagaki && (
-              <ActionButton
-                icon={
-                  <FontAwesomeIcon
-                    icon={faCircleQuestion}
-                    style={{ fontSize: "1.5em" }}
-                  />
-                }
-                label={
-                  locale == "en"
-                    ? "	See details of this section"
-                    : "この段の情報を見る"
-                }
-                onClick={() =>
-                  openDescModal({
-                    ekotobaId,
-                    index,
-                  })
-                }
-                description={
-                  locale == "en"
-                    ? "	See details of this section"
-                    : "この段の情報を見る"
-                }
-                variant="emakipageicon"
+            <div className={styles.chapterActions}>
+              <SceneLikeButton
+                titleen={titleen}
+                title={title}
+                chapter={chapter}
+                index={index}
               />
-            )}
+              {(type === "浮世絵" && googlemap) || kotobagaki ? (
+                <div className={styles.actionButtons}>
+                  {type === "浮世絵" && googlemap && (
+                    <button
+                      className={styles.mapiconlink}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openMapModal(ekotobaId);
+                      }}
+                      title={`${chapter}の場所を地図で確認する`}
+                    >
+                      <FontAwesomeIcon
+                        icon={faLocationDot}
+                        className={styles.mapiconlinkicon}
+                      />
+                    </button>
+                  )}
+                  {kotobagaki && (
+                    <ActionButton
+                      icon={
+                        <FontAwesomeIcon
+                          icon={faCircleQuestion}
+                          style={{ fontSize: "1.5em" }}
+                        />
+                      }
+                      label={
+                        locale == "en"
+                          ? "	See details of this section"
+                          : "この段の情報を見る"
+                      }
+                      onClick={() =>
+                        openDescModal({
+                          ekotobaId,
+                          index,
+                        })
+                      }
+                      description={
+                        locale == "en"
+                          ? "	See details of this section"
+                          : "この段の情報を見る"
+                      }
+                      variant="emakipageicon"
+                    />
+                  )}
+                </div>
+              ) : null}
+            </div>
           </div>
         )}
         <p
@@ -185,22 +194,6 @@ const OverlayEkotoba = ({
           />
         </div>
       )}
-      {/* {src && (
-        <div className={styles.ekotobaimagebox}>
-          <ResposiveImage
-            value={{
-              srcSp,
-              srcTb,
-              src,
-              load,
-              name,
-              scroll,
-              srcWidth,
-              srcHeight,
-            }}
-          />
-        </div>
-      )} */}
     </div>
   );
 };

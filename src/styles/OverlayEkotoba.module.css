@@ -53,46 +53,140 @@
 }
 
 .chapterbox {
-  display: grid;
-  grid-template-columns: min-content auto;
-  height: fit-content;
+  display: flex;
+  flex-direction: row;
   align-items: center;
-  letter-spacing: 0.2rem;
+  height: fit-content;
+  letter-spacing: 0.1rem;
   z-index: 0;
   color: var(--clr-white);
-  /* margin-bottom: 4rem; */
   position: relative;
-  text-shadow: pink 1px 0 15px;
-  /* transform: rotate(10deg); */
-  background-color: #0000008c;
-  background: linear-gradient(221deg, rgba(135, 135, 135, 0.10127801120448177) 0%, rgba(78, 78, 78, 0.46262254901960786) 17%, rgba(11, 11, 11, 1) 100%);
+  background-color: #000;
+  max-width: 100%;
+  overflow: hidden;
 }
 
-/* @media screen and (min-width: 768px) {
-  .chapterbox {}
-
-} */
-
-.chapterbox::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: rgb(238, 174, 202);
-  background: linear-gradient(42deg, rgba(238, 174, 202, 1) 0%, rgb(148 187 233 / 71%) 100%);
-  opacity: 0;
-  transition: opacity 1s;
+/* ポートレート（縦向き）用の余白 */
+/* 縦書きモード(vertical-rl)ではpadding-blockが視覚的な左右余白になる */
+.chapterboxPrt {
+  padding-block: 1rem;
+  padding-inline: 0.4rem;
 }
 
-/* .chapterbox:hover::before{
-   opacity: 1;
-} */
+/* ランドスケープ（横向き）用の余白 */
+.chapterboxLand {
+  padding-block: 0.8rem;
+  padding-inline: 0.4rem;
+}
+
+/* タブレット以上 */
+@media (min-width: 768px) {
+  .chapterbox {
+    letter-spacing: 0.15rem;
+  }
+
+  .chapterboxPrt {
+    padding-block: 1.2rem;
+    padding-inline: 0.5rem;
+  }
+
+  .chapterboxLand {
+    padding-block: 1rem;
+    padding-inline: 0.5rem;
+  }
+}
+
+/* デスクトップ */
+@media (min-width: 1024px) {
+  .chapterbox {
+    letter-spacing: 0.2rem;
+  }
+
+  .chapterboxPrt {
+    padding-block: 1.5rem;
+    padding-inline: 0.6rem;
+  }
+
+  .chapterboxLand {
+    padding-block: 1.2rem;
+    padding-inline: 0.6rem;
+  }
+}
+
+.chapterActions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  writing-mode: horizontal-tb;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  padding-top: 0.4rem;
+  margin-top: 0.4rem;
+}
+
+@media (min-width: 768px) {
+  .chapterActions {
+    gap: 0.4rem;
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .chapterActions {
+    gap: 0.5rem;
+    padding-top: 0.6rem;
+    margin-top: 0.6rem;
+  }
+}
+
+.actionButtons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.25rem;
+}
+
 .chapter {
   font-weight: 400;
   font-family: var(--text-font-koten);
-  /* text-combine-upright: all; */
-  white-space: nowrap;
+  white-space: normal;
+  word-break: keep-all;
+  overflow-wrap: break-word;
   text-transform: capitalize;
+  line-height: 1.3;
+}
+
+/* ポートレート（縦向き・スマホ）用 */
+.chapterPrt {
+  font-size: clamp(0.75rem, 0.5rem + 1vw, 1rem);
+}
+
+/* ランドスケープ（横向き・PC/タブレット）用 */
+.chapterLand {
+  font-size: clamp(0.875rem, 0.7rem + 0.8vw, 1.25rem);
+}
+
+/* タブレット以上 */
+@media (min-width: 768px) {
+  .chapter {
+    white-space: nowrap;
+  }
+
+  .chapterPrt {
+    font-size: clamp(0.875rem, 0.6rem + 1vw, 1.25rem);
+  }
+
+  .chapterLand {
+    font-size: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+  }
+}
+
+/* デスクトップ */
+@media (min-width: 1024px) {
+  .chapterLand {
+    font-size: var(--title-size);
+  }
 }
 
 .gendaibun {

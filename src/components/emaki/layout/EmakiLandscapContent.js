@@ -177,6 +177,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               />
               <LikeButton
                 title={title}
+                titleen={titleen}
                 edition={edition}
                 author={author}
                 ort={"land"}

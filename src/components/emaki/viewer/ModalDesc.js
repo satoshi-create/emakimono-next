@@ -1,4 +1,5 @@
 import SnsShareBox from "@/components/social/SnsShareBox";
+import * as gtag from "@/libs/api/gtag";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/ModalDesc.module.css";
 import { ChaptersDesc, ChaptersTitle } from "@/utils/func";
@@ -9,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const ModalDesc = ({ data }) => {
   const { locale } = useRouter();
@@ -19,6 +20,17 @@ const ModalDesc = ({ data }) => {
   const { genjieslug, title, titleen } = data;
 
   const filterEkotobas = emakis.filter((item) => item.cat === "ekotoba");
+
+  // GA4: モーダルが開いた時にイベント送信
+  useEffect(() => {
+    const currentEkotoba = filterEkotobas[DescIndex.ekotobaId];
+    gtag.event("scene_modal_open", {
+      emaki_title: title,
+      emaki_id: titleen,
+      scene_index: DescIndex.index,
+      scene_chapter: currentEkotoba?.chapter,
+    });
+  }, []);
   const handleChapter = (index) => {
     handleToId(index);
     closeDescModal();

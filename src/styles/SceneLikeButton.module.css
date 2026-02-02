@@ -1,0 +1,81 @@
+.button {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.3rem 0.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  transition: var(--transition);
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  font-size: 0.75rem;
+}
+
+/* タブレット以上 */
+@media (min-width: 768px) {
+  .button {
+    gap: 0.3rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 18px;
+    font-size: 0.85rem;
+  }
+}
+
+/* デスクトップ */
+@media (min-width: 1024px) {
+  .button {
+    padding: 0.5rem 0.8rem;
+    border-radius: 20px;
+    font-size: 1rem;
+  }
+}
+
+.button:hover {
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+}
+
+.liked {
+  color: var(--clr-accent-02);
+  background: rgba(0, 0, 0, 0.85);
+  border-color: var(--clr-accent-02);
+}
+
+.icon {
+  width: 0.9em;
+  height: 0.9em;
+  stroke: currentColor;
+  stroke-width: 2;
+  transition: var(--transition);
+}
+
+@media (min-width: 768px) {
+  .icon {
+    width: 1em;
+    height: 1em;
+  }
+}
+
+@media (min-width: 1024px) {
+  .icon {
+    width: 1.1em;
+    height: 1.1em;
+  }
+}
+
+.animating {
+  animation: thumbPop 0.3s ease-out;
+}
+
+@keyframes thumbPop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

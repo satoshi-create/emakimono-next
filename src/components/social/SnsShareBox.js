@@ -1,3 +1,4 @@
+import * as gtag from "@/libs/api/gtag";
 import styles from "@/styles/SnsShareBox.module.css";
 import {
   faFacebook,
@@ -21,10 +22,27 @@ const SnsShareBox = ({ titleen, title, edition, ort, chapter, index }) => {
     }
   };
 
+  // GA4イベント送信
+  const handleShareClick = (platform) => {
+    const isSceneShare = ort === "modal";
+    gtag.event("sns_share_click", {
+      platform: platform,
+      emaki_title: title,
+      emaki_id: titleen,
+      share_type: isSceneShare ? "scene" : "emaki",
+      scene_index: isSceneShare ? index : null,
+      scene_chapter: isSceneShare ? chapter : null,
+    });
+  };
+
   return (
     <div className={`${styles.snsShareBox} ${styles[ort]}`}>
       <Link href={twitter(ort)}>
-        <a target="_blank" rel="noopener noreferrer">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => handleShareClick("twitter")}
+        >
           <FontAwesomeIcon
             icon={faTwitter}
             className={`${styles.snsShareIcon} ${styles.twitter} ${styles[ort]}`}
@@ -32,7 +50,11 @@ const SnsShareBox = ({ titleen, title, edition, ort, chapter, index }) => {
         </a>
       </Link>
       <Link href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}>
-        <a target="_blank" rel="noopener noreferrer">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => handleShareClick("facebook")}
+        >
           <FontAwesomeIcon
             icon={faFacebook}
             className={`${styles.snsShareIcon} ${styles.facebook}  ${styles[ort]}`}
@@ -40,7 +62,11 @@ const SnsShareBox = ({ titleen, title, edition, ort, chapter, index }) => {
         </a>
       </Link>
       <Link href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}>
-        <a target="_blank" rel="noopener noreferrer">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => handleShareClick("linkedin")}
+        >
           <FontAwesomeIcon
             icon={faLinkedin}
             className={`${styles.snsShareIcon} ${styles.linkedin}  ${styles[ort]}`}
