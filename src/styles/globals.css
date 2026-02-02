@@ -342,6 +342,18 @@ button {
   }
 }
 
+/* ポートレート時のレイアウト安定化 */
+/* svh (small viewport height) を使用することで、アドレスバーの表示/非表示による高さ変化を防止 */
+/* これにより縦スクロール時の絵巻コンテナの高さ変動（レイアウト崩れ）を解消 */
+@supports (height: 100svh) {
+  @media (orientation: portrait) {
+    :root {
+      /* ポートレート時のみ svh を使用（アドレスバー最大表示時の高さで固定） */
+      --vh-45: 45svh;
+    }
+  }
+}
+
 /* Safe area inset support for notched devices */
 @supports (padding: env(safe-area-inset-bottom)) {
   :root {
