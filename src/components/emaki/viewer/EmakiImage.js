@@ -15,6 +15,7 @@ const EmakiImage = ({
     orientation,
     ebikiToggle,
     windowHeight,
+    toggleFullscreen, // 全画面切替時の画像再マウント用
   } = useContext(AppContext);
 
   const characterOuntline = (x) => {
@@ -164,8 +165,10 @@ const EmakiImage = ({
           })}
         </div>
       )}
+      {/* key に toggleFullscreen を含めることで、全画面切替時にコンポーネントを再マウント */}
+      {/* これにより next/image の IntersectionObserver が再初期化され、画像が確実に読み込まれる */}
       <LazyImage
-        key={index}
+        key={`${index}-${toggleFullscreen}`}
         src={item}
         alt={item.name}
         width={item.srcWidth}

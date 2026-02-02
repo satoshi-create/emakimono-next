@@ -51,6 +51,21 @@ const LazyImage = ({
     }
   }, [uniqueIndex, isSkeletonVisible]);
 
+  // 全画面切替時のフォールバック処理
+  // next/image の IntersectionObserver が viewport 変化に追従しない問題への対策
+  // 全画面切替後、一定時間経過してもスケルトンが表示されている場合は強制的に非表示
+  useEffect(() => {
+    if (toggleFullscreen && isSkeletonVisible) {
+      const fallbackTimer = setTimeout(() => {
+        if (isSkeletonVisible) {
+          setImageLoaded(true);
+          setTimeout(() => setSkeletonVisible(false), 300);
+        }
+      }, 1500); // 1.5秒後にフォールバック（全画面切替の描画完了を待つ）
+      return () => clearTimeout(fallbackTimer);
+    }
+  }, [toggleFullscreen, isSkeletonVisible]);
+
   const baseUrl =
     "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
 
@@ -148,7 +163,9 @@ const LazyImage = ({
         height={height}
         alt={alt}
         priority={uniqueIndex === 0} // 最初の画像は即時プリロード
-        loading={isPlayMode || uniqueIndex < 10 ? "eager" : "lazy"} // 再生モード時は全画像 eager
+        // 再生モード時・全画面時・最初の10枚は eager loading
+        // 全画面切替時に IntersectionObserver が viewport 変化に追従しない問題への対策
+        loading={isPlayMode || toggleFullscreen || uniqueIndex < 10 ? "eager" : "lazy"}
         lazyBoundary="2000px" // ビューポートの2000px手前から読み込み開始
         layout="responsive"
         placeholder={"blur"} // ぼかしプレースホルダーを適用
