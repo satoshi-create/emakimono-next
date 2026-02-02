@@ -123,6 +123,10 @@ button {
 .fullscreen-enabled article {
   height: var(--vh-100);
   width: 100vw;
+  /* ノッチ端末対応: 全画面時に safe-area を確保 */
+  padding-left: var(--safe-area-left, 0px);
+  padding-right: var(--safe-area-right, 0px);
+  box-sizing: border-box;
 }
 
 /* ハンバーガーメニュー＆モーダル画面を固定 */

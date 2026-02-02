@@ -53,8 +53,13 @@ const ActionButton = forwardRef(
             }),
             ...(isFullscreenButton && {
               position: "absolute",
-              bottom: !isMobile ? "4%" : "1%",
-              right: !isMobile ? "1%" : "1%",
+              // ノッチ端末対応: safe-area-inset を加算して画面外に落ちるのを防止
+              bottom: !isMobile
+                ? "4%"
+                : "calc(1% + env(safe-area-inset-bottom, 0px))",
+              right: !isMobile
+                ? "1%"
+                : "calc(1% + env(safe-area-inset-right, 0px))",
               zIndex: "10",
               fontsize: "1em",
             }),

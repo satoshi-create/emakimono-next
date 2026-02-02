@@ -5,6 +5,11 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          {/* viewport meta: モバイルブラウザ対応 + ノッチ端末の safe-area 有効化 */}
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+          />
           <script
             type="text/javascript"
             dangerouslySetInnerHTML={{
