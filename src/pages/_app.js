@@ -427,7 +427,7 @@ function MyApp({ Component, pageProps, router }) {
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
       document.removeEventListener(
         "webkitfullscreenchange",
-        handleFullscreenChange
+        handleFullscreenChange,
       );
     };
   }, []);
@@ -438,30 +438,29 @@ function MyApp({ Component, pageProps, router }) {
     });
   };
 
-  const scrollDialog = useCallback(
-    (node) => {
-      // P0改修: フルスクリーン切り替え中はスクロールを抑制
-      if (isFullscreenTransitioningRef.current) return;
+  const scrollDialog = useCallback((node) => {
+    // P0改修: フルスクリーン切り替え中はスクロールを抑制
+    if (isFullscreenTransitioningRef.current) return;
 
-      if (node !== null) {
-        requestAnimationFrame(() => {
-          // フルスクリーン切り替え中なら再度チェック
-          if (isFullscreenTransitioningRef.current) return;
+    if (node !== null) {
+      requestAnimationFrame(() => {
+        // フルスクリーン切り替え中なら再度チェック
+        if (isFullscreenTransitioningRef.current) return;
 
-          const scrollContainer = node.closest("article");
-          if (!scrollContainer) return;
+        const scrollContainer = node.closest("article");
+        if (!scrollContainer) return;
 
-          const containerRect = scrollContainer.getBoundingClientRect();
-          const nodeRect = node.getBoundingClientRect();
-          const scrollLeft =
-            scrollContainer.scrollLeft + (nodeRect.left - containerRect.left);
+        const containerRect = scrollContainer.getBoundingClientRect();
+        const nodeRect = node.getBoundingClientRect();
 
-          scrollContainer.scrollTo({ left: scrollLeft, behavior: "smooth" });
-        });
-      }
-    },
-    []
-  );
+        // RTL環境: ノードの右端をコンテナの右端に合わせる
+        const scrollLeft =
+          scrollContainer.scrollLeft + (nodeRect.right - containerRect.right);
+
+        scrollContainer.scrollTo({ left: scrollLeft, behavior: "smooth" });
+      });
+    }
+  }, []);
 
   useEffect(() => {
     // クエリーリストを作成する。

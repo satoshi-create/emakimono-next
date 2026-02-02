@@ -1,4 +1,8 @@
 import chapterkusouzu from "@/data/emaki-text-data/chapters-of-kusouzu.json";
+import chapterChojugigaFirst from "@/data/emaki-text-data/Chōjū-jinbutsu-giga_first.json";
+import chapterChojugigaSecond from "@/data/emaki-text-data/Chōjū-jinbutsu-giga_second.json";
+import chapterChojugigaThird from "@/data/emaki-text-data/Chōjū-jinbutsu-giga_third.json";
+import chapterChojugigaFourth from "@/data/emaki-text-data/Chōjū-jinbutsu-giga_fourth.json";
 import {
   default as enData,
   default as jaData,
@@ -212,6 +216,31 @@ const connectKusouzuChapters = (chapter, text) => {
   return chapterkusouzusummary;
 };
 
+/* ================
+
+「鳥獣人物戯画」の絵巻データとメタデータをマージする関数connectChojugigaChapters
+
+================ */
+
+const chojugigaDataMap = {
+  "Chōjū-jinbutsu-giga_first": chapterChojugigaFirst,
+  "Chōjū-jinbutsu-giga_second": chapterChojugigaSecond,
+  "Chōjū-jinbutsu-giga_third": chapterChojugigaThird,
+  "Chōjū-jinbutsu-giga_fourth": chapterChojugigaFourth,
+};
+
+const connectChojugigaChapters = (titleen, chapter, text) => {
+  const chapterData = chojugigaDataMap[titleen];
+  if (!chapterData) {
+    return "";
+  }
+  const chapterSummary = chapterData
+    .filter((item) => chapter === item.chapter)
+    .map((item) => item[text])
+    .join();
+  return chapterSummary;
+};
+
 const connectGenjiChapters = (chapter, text) => {
   const chapterGenjisummary = chaptergenji
     .filter((item) => chapter === item.chapter_en)
@@ -231,10 +260,13 @@ const connectGenjiChaptersScene = (chapter, scene) => {
 };
 
 const connectEmakiTextSync = (titleen, chapter, field) => {
-  // 応急処置：非同期関数が呼ばれることを防ぎ、固定のダミー文字列を返す
-  // 実際には後で useEffect + state に置き換える前提
-  // console.warn("connectEmakiText is async, returning fallback text for now");
-  return `[${titleen} / ch${chapter} / ${field}]`; // ←仮の表示
+  // この関数に到達した場合、対応するメタデータ読み込み処理が未実装
+  // 新しい絵巻タイプを追加する際は、専用の connect 関数を実装すること
+  console.error(
+    `[connectEmakiTextSync] 未対応の絵巻タイプ: titleen="${titleen}", chapter="${chapter}", field="${field}". ` +
+    `この絵巻用のメタデータ読み込み処理を実装してください。`
+  );
+  return null;
 };
 
 const ChaptersTitle = (titleen, title, chapter, text) => {
@@ -243,6 +275,13 @@ const ChaptersTitle = (titleen, title, chapter, text) => {
       <>
         {connectKusouzuChapters(chapter, text) &&
           `${connectKusouzuChapters(chapter, text)}`}
+      </>
+    );
+  } else if (title.includes("鳥獣") || title.includes("戯画")) {
+    return (
+      <>
+        {connectChojugigaChapters(titleen, chapter, text) &&
+          `${connectChojugigaChapters(titleen, chapter, text)}`}
       </>
     );
   } else if (title.includes("源氏")) {
@@ -263,12 +302,7 @@ const ChaptersTitle = (titleen, title, chapter, text) => {
       </>
     );
   } else if (Number.isInteger(parseInt(chapter))) {
-    return (
-      <>
-        {connectEmakiTextSync(titleen, chapter, text) &&
-          connectEmakiTextSync(titleen, chapter, text)}
-      </>
-    );
+    return connectEmakiTextSync(titleen, chapter, text);
   } else {
     return chapter && parse(chapter);
   }
@@ -282,6 +316,14 @@ const ChaptersGendaibun = (titleen, title, chapter, gendaibun) => {
           `${connectKusouzuChapters(chapter, "desc")}`}
       </>
     );
+  } else if (title.includes("鳥獣") || title.includes("戯画")) {
+    // 鳥獣人物戯画は現在descフィールドがないため、タイトルを返す
+    return (
+      <>
+        {connectChojugigaChapters(titleen, chapter, "title") &&
+          `${connectChojugigaChapters(titleen, chapter, "title")}`}
+      </>
+    );
   } else if (title.includes("源氏")) {
     return (
       <>
@@ -290,12 +332,7 @@ const ChaptersGendaibun = (titleen, title, chapter, gendaibun) => {
       </>
     );
   } else if (Number.isInteger(parseInt(chapter))) {
-    return (
-      <>
-        {connectEmakiTextSync(titleen, chapter, "gendaibun") &&
-          connectEmakiTextSync(titleen, chapter, "gendaibun")}
-      </>
-    );
+    return connectEmakiTextSync(titleen, chapter, "gendaibun");
   } else {
     return gendaibun && parse(gendaibun);
   }
@@ -309,6 +346,13 @@ const ChaptersDesc = (titleen, title, chapter, text, desc) => {
           `${connectKusouzuChapters(chapter, text)}`}
       </>
     );
+  } else if (title.includes("鳥獣") || title.includes("戯画")) {
+    return (
+      <>
+        {connectChojugigaChapters(titleen, chapter, text) &&
+          `${connectChojugigaChapters(titleen, chapter, text)}`}
+      </>
+    );
   } else if (title.includes("源氏")) {
     return (
       <>
@@ -317,12 +361,7 @@ const ChaptersDesc = (titleen, title, chapter, text, desc) => {
       </>
     );
   } else if (Number.isInteger(parseInt(chapter))) {
-    return (
-      <>
-        {connectEmakiTextSync(titleen, chapter, "desc") &&
-          connectEmakiTextSync(titleen, chapter, "desc")}
-      </>
-    );
+    return connectEmakiTextSync(titleen, chapter, "desc");
   } else {
     return desc && parse(desc);
   }

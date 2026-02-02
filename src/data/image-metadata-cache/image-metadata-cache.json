@@ -221,15 +221,6 @@
         "srcHeight": 1080
       },
       {
-        "cat": "image",
-        "chapter": "",
-        "config": "cloudinary",
-        "src": "v1735717737/cyoujyuu_yamazaki_kou_16-1080_wgsmir.jpg",
-        "name": "cyoujyuu_yamazaki_kou_16",
-        "srcWidth": 1252,
-        "srcHeight": 1080
-      },
-      {
         "cat": "ekotoba",
         "chapter": "6",
         "config": "",
