@@ -27,7 +27,8 @@ const ActionButton = forwardRef(
         label={description}
         aria-label={description}
         hasArrow
-        isDisabled={isMobile}
+        isDisabled={isMobile || !isUIVisible} // UI非表示時はTooltipも無効化
+        isOpen={isUIVisible ? undefined : false} // UI非表示時はTooltipを強制的に閉じる
       >
         <IconButton
           icon={icon}

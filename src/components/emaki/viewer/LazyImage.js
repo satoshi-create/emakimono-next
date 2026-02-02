@@ -36,6 +36,21 @@ const LazyImage = ({
     return () => window.removeEventListener("resize", updateHeight);
   }, []);
 
+  // priority 画像（最初の画像）のフォールバック処理
+  // 再マウント時にキャッシュされた画像で onLoadingComplete が呼ばれない場合の対策
+  useEffect(() => {
+    if (uniqueIndex === 0) {
+      const fallbackTimer = setTimeout(() => {
+        // 1秒経っても skeleton が表示されている場合は強制的に非表示
+        if (isSkeletonVisible) {
+          setImageLoaded(true);
+          setTimeout(() => setSkeletonVisible(false), 300);
+        }
+      }, 1000);
+      return () => clearTimeout(fallbackTimer);
+    }
+  }, [uniqueIndex, isSkeletonVisible]);
+
   const baseUrl =
     "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
 
