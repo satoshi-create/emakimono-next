@@ -148,14 +148,20 @@ button {
 /* スクロールバー */
 @media (pointer: fine) {
   .scrollbar {
+    /* Firefox向け: つまみの色とトラックの色を指定 */
+    /* トラックを透過にして「つまみだけが浮いて見える」表現を実現 */
+    scrollbar-color: rgba(204, 204, 204, 0.74) transparent;
+    scrollbar-width: auto;
+    widget.non-native-theme.scrollbar.style
 
-    /* スクロールバーの太さと背景色 */
+    /* スクロールバーの太さと背景色 (WebKit系: Chrome, Safari, Edge) */
     &::-webkit-scrollbar,
     &::-webkit-scrollbar-corner {
-      width: 20px;
-      height: 20px;
+      width: 40px;
+      height: 40px;
       background: transparent;
     }
+
   }
 
   .scrollbar {

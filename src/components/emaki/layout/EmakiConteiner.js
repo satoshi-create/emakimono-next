@@ -530,11 +530,18 @@ const EmakiContainer = ({
       <div
         className="js-scrollable entry-container"
         style={{
+          // 角丸クリップ: 外側ラッパーで一括管理（スクロールバー領域も含めてクリップ）
           borderRadius:
             orientation === "landscape" &&
             scroll &&
             toggleFullscreen === false &&
             "12px",
+          overflow:
+            orientation === "landscape" &&
+            scroll &&
+            toggleFullscreen === false &&
+            "hidden",
+          position: "relative", // 子要素の絶対配置の基準点
         }}
       >
         {scroll && <FullScreen isUIVisible={isUIVisible} />}
@@ -581,11 +588,7 @@ const EmakiContainer = ({
             "--screen-width": width,
             "--overflow-x": overflowX,
             "--box-shadow": boxshadow,
-            borderRadius:
-              orientation === "landscape" &&
-              scroll &&
-              toggleFullscreen === false &&
-              "12px",
+            // 角丸は外側ラッパー(entry-container)で管理するため、ここでは設定しない
           }}
           onClick={() => {
             // 再生モード中はクリックで停止
