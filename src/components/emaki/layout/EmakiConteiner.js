@@ -376,6 +376,16 @@ const EmakiContainer = ({
 
       // 初期描画後に自動スクロール開始（0.5秒遅延）
       const timerId = setTimeout(() => {
+        // 絵巻ハイパーリンク: ナッジ開始直前に再度hashをチェック
+        // SSG/hydration完了後にhashが正しく取得できるようになるため
+        // useEffect冒頭のチェックだけでは不十分
+        const hasHashNow = window.location.hash;
+        if (hasHashNow) {
+          stopped = true;
+          el.style.scrollBehavior = originalScrollBehavior;
+          return;
+        }
+
         if (!stopped) {
           // 教育現場向けUI: 自動スクロール開始を通知
           // これにより「戻る」ボタンが非表示になる
