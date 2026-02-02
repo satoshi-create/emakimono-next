@@ -82,6 +82,8 @@ function MyApp({ Component, pageProps, router }) {
   // P0改修: フルスクリーン切り替え中フラグ（scrollDialog抑制用）
   // useRef を使用することで、state更新を待たずに即座に値が反映される
   const isFullscreenTransitioningRef = useRef(false);
+  // 絵巻ハイパーリンク: スクロール検出による navIndex 更新時は scrollDialog を抑制
+  const isScrollDetectedUpdateRef = useRef(false);
   const [toggleBtn, setToggleBtn] = useState(true);
   const [hash, setHash] = useState(0);
   const [navIndex, setnavIndex] = useState(0);
@@ -441,11 +443,15 @@ function MyApp({ Component, pageProps, router }) {
   const scrollDialog = useCallback((node) => {
     // P0改修: フルスクリーン切り替え中はスクロールを抑制
     if (isFullscreenTransitioningRef.current) return;
+    // 絵巻ハイパーリンク: スクロール検出による navIndex 更新時は抑制
+    if (isScrollDetectedUpdateRef.current) return;
 
     if (node !== null) {
       requestAnimationFrame(() => {
         // フルスクリーン切り替え中なら再度チェック
         if (isFullscreenTransitioningRef.current) return;
+        // 絵巻ハイパーリンク: スクロール検出フラグも再チェック
+        if (isScrollDetectedUpdateRef.current) return;
 
         const scrollContainer = node.closest("article");
         if (!scrollContainer) return;
@@ -505,6 +511,26 @@ function MyApp({ Component, pageProps, router }) {
     };
   }, [setnavIndex, gRouter.asPath]);
 
+  // 絵巻ハイパーリンク: navIndex変更時にURLのhashを更新
+  // replaceStateを使用して履歴を汚さない（戻るボタンが正常に機能）
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    // 絵巻ページ（/[slug]）でのみhashを更新
+    // トップページや他のページでは更新しない
+    const isEmakiPage = gRouter.pathname === "/[slug]";
+    if (!isEmakiPage) return;
+
+    const basePath = window.location.pathname;
+    if (navIndex > 0) {
+      const newUrl = `${basePath}#${navIndex}`;
+      window.history.replaceState(null, "", newUrl);
+    } else {
+      // navIndex === 0 のときはhashを削除
+      window.history.replaceState(null, "", basePath);
+    }
+  }, [navIndex, gRouter.pathname]);
+
   useEffect(() => {
     const stickNavbar = () => {
       let windowHeight = window.scrollY;
@@ -559,6 +585,7 @@ function MyApp({ Component, pageProps, router }) {
         navIndex,
         setnavIndex,
         scrollDialog,
+        isScrollDetectedUpdateRef,
         orientation,
         setOrientation,
         handleToId,

@@ -10,7 +10,7 @@ import WheelScrollIndicator from "@/components/emaki/viewer/WheelScrollIndicator
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiConteiner.module.css";
 import "lazysizes";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 
 // P0改修: フルスクリーン切り替え時のスクロール位置保存用
 // モジュールスコープに配置することで、コンポーネント再マウント時も値を保持
@@ -46,6 +46,8 @@ const EmakiContainer = ({
     isMapModalOpen,
     isDescModalOpen,
     isHelpModalOpen,
+    setnavIndex,
+    isScrollDetectedUpdateRef,
   } = useContext(AppContext);
 
   const { backgroundImage, kotobagaki, type, genjieslug } = data;
@@ -75,6 +77,57 @@ const EmakiContainer = ({
   // 教育現場向けUI: 静止UI耐性（Idle UI）- 長時間投影時の視覚的ノイズ軽減
   const [isUIVisible, setIsUIVisible] = useState(true); // UI表示状態
   const idleTimeoutRef = useRef(null); // 無操作タイマー
+
+  // 絵巻ハイパーリンク: シーン検出用の debounce タイマー
+  const sceneDetectionTimerRef = useRef(null);
+  const lastDetectedSceneRef = useRef(navIndex); // 前回検出したシーン（不要な更新を防ぐ）
+
+  // 絵巻ハイパーリンク: スクロール位置から現在表示中のシーンを検出
+  const detectCurrentScene = useCallback(() => {
+    const el = articleRef.current;
+    if (!el) return;
+
+    const sections = el.querySelectorAll("section[id]");
+    if (sections.length === 0) return;
+
+    const containerRect = el.getBoundingClientRect();
+    // RTL環境: 右端を基準として検出（絵巻は右から左へ読む）
+    const referenceX = containerRect.right;
+
+    let closestSection = null;
+    let closestDistance = Infinity;
+
+    sections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      // sectionの右端とコンテナ右端との距離
+      const distance = Math.abs(rect.right - referenceX);
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestSection = section;
+      }
+    });
+
+    if (closestSection) {
+      const sceneIndex = parseInt(closestSection.id, 10);
+      // 有効な数値で、前回と異なる場合のみ更新
+      if (!isNaN(sceneIndex) && sceneIndex !== lastDetectedSceneRef.current) {
+        lastDetectedSceneRef.current = sceneIndex;
+        // 絵巻ハイパーリンク: スクロール検出による更新であることをマーク
+        // scrollDialog の自動スクロールを抑制するため
+        if (isScrollDetectedUpdateRef) {
+          isScrollDetectedUpdateRef.current = true;
+        }
+        setnavIndex(sceneIndex);
+        // フラグを解除（scrollDialog の処理が完了するまで少し待つ）
+        setTimeout(() => {
+          if (isScrollDetectedUpdateRef) {
+            isScrollDetectedUpdateRef.current = false;
+          }
+        }, 100);
+      }
+    }
+  }, [setnavIndex, isScrollDetectedUpdateRef]);
 
 
   // 教育現場向けUI: 静止UI耐性 - ユーザー操作検出とタイマー管理
@@ -179,12 +232,27 @@ const EmakiContainer = ({
       if (atEnd !== isAtEnd) {
         setIsAtEnd(atEnd);
       }
+
+      // 絵巻ハイパーリンク: スクロール時のシーン検出（debounce: 150ms）
+      // 頻繁なURL更新を防ぎ、スクロールが落ち着いた後に検出
+      if (sceneDetectionTimerRef.current) {
+        clearTimeout(sceneDetectionTimerRef.current);
+      }
+      sceneDetectionTimerRef.current = setTimeout(() => {
+        detectCurrentScene();
+      }, 150);
     };
 
     el.addEventListener("scroll", handleScroll);
 
-    return () => el.removeEventListener("scroll", handleScroll);
-  }, [isAtStart, isAtEnd]);
+    return () => {
+      el.removeEventListener("scroll", handleScroll);
+      // クリーンアップ: シーン検出タイマーもクリア
+      if (sceneDetectionTimerRef.current) {
+        clearTimeout(sceneDetectionTimerRef.current);
+      }
+    };
+  }, [isAtStart, isAtEnd, detectCurrentScene]);
 
   // P0改修: フルスクリーン切り替え時のスクロール位置復元
   // toggleFullscreen state の変化を監視して復元処理を行う
@@ -245,7 +313,11 @@ const EmakiContainer = ({
     const keyName = `visited_${data.id}`;
     const isFirstVisit = !sessionStorage.getItem(keyName);
 
-    if (isFirstVisit) {
+    // 絵巻ハイパーリンク: hash付きURL（シーン指定リンク）で開いた場合はナッジをスキップ
+    // ユーザーが特定シーンを共有した意図を尊重し、該当シーンから閲覧開始
+    const hasHashInUrl = typeof window !== "undefined" && window.location.hash;
+
+    if (isFirstVisit && !hasHashInUrl) {
       const el = articleRef.current;
       if (!el) return;
 

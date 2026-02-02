@@ -3,11 +3,13 @@ import {
   faAnglesLeft,
   faAnglesRight,
   faCircleQuestion,
+  faLink,
+  faCheck,
   faPlay,
   faStop,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 // import { ArrowRight, ChevronRight } from "react-feather";
 import ToggleCharacter from "@/components/emaki/viewer/ToggleCharacter";
 import ToggleEbiki from "@/components/emaki/viewer/ToggleEbiki";
@@ -30,7 +32,26 @@ const EmakiNavigation = ({
   const { character, ebiki } = data;
   const endIndex = data.emakis.length - 1;
 
-  const { orientation, openHelpModal } = useContext(AppContext);
+  const { orientation, openHelpModal, navIndex } = useContext(AppContext);
+
+  // 絵巻ハイパーリンク: URLコピー成功時のフィードバック状態
+  const [isCopied, setIsCopied] = useState(false);
+
+  // 現在のシーンURLをクリップボードにコピー
+  const handleCopyUrl = async () => {
+    const url = navIndex > 0
+      ? `${window.location.origin}${window.location.pathname}#${navIndex}`
+      : `${window.location.origin}${window.location.pathname}`;
+
+    try {
+      await navigator.clipboard.writeText(url);
+      setIsCopied(true);
+      // 1.5秒後にアイコンを元に戻す
+      setTimeout(() => setIsCopied(false), 1500);
+    } catch (err) {
+      console.error("URLのコピーに失敗しました:", err);
+    }
+  };
 
   return (
     <aside
@@ -94,6 +115,19 @@ const EmakiNavigation = ({
       {/* <FullScreen /> */}
       {character && <ToggleCharacter isUIVisible={isUIVisible} />}
       {ebiki && <ToggleEbiki isUIVisible={isUIVisible} />}
+      {/* 絵巻ハイパーリンク: 現在のシーンURLをコピーするボタン */}
+      <ActionButton
+        icon={
+          <FontAwesomeIcon
+            icon={isCopied ? faCheck : faLink}
+            style={{ fontSize: "1.3em" }}
+          />
+        }
+        label="URLをコピー"
+        description={isCopied ? "コピーしました" : "このシーンのURLをコピー"}
+        onClick={handleCopyUrl}
+        isUIVisible={isUIVisible}
+      />
       <ActionButton
         icon={
           <FontAwesomeIcon icon={faAnglesRight} style={{ fontSize: "1.5em" }} />
