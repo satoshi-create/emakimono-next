@@ -28,16 +28,26 @@
   --clr-green-01: #54896a;
   --clr-link: #065fd4;
   --clr-bcg: #f9fbff;
-  --text-size: calc(16px + (35 - 16) * ((100vh - 375px) / (1080 - 375)));
+  /* ワイドディスプレイ対応: 高さと横幅の両方を考慮した可変フォントサイズ */
+  /* 高さベースの計算と横幅ベースの計算の大きい方を採用 */
+  --text-size: max(
+    calc(16px + (35 - 16) * ((100vh - 375px) / (1080 - 375))),
+    clamp(16px, 1.2vw, 28px)
+  );
   --text-size-prt: clamp(0.875rem, 0.6583rem + 0.9245vw, 1.25rem);
-  --title-size: calc(20px + (35 - 20) * ((100vh - 375px) / (1080 - 375)));
+  --title-size: max(
+    calc(20px + (35 - 20) * ((100vh - 375px) / (1080 - 375))),
+    clamp(20px, 1.4vw, 32px)
+  );
   --title-size-prt: clamp(1rem, 0.6389rem + 1.5408vw, 1.625rem);
-  --mokuji-size: calc(14px + (20 - 14) * ((100vh - 375px) / (1080 - 375)));
+  --mokuji-size: max(
+    calc(14px + (20 - 14) * ((100vh - 375px) / (1080 - 375))),
+    clamp(14px, 1vw, 22px)
+  );
   --shadow-1: 0 5px 15px rgb(0 0 0 / 10%);
   --shadow-2: 0 5px 15px rgba(0, 0, 0, 20%);
   --shadowR: -10px 15px 10px rgba(0, 0, 0, 0.2);
   --transition: all 0.3s linear;
-  --mokuji-size: calc(14px + (20 - 14) * ((100vh - 375px) / (1080 - 375)));
   --my-font: 游明朝, "Yu Mincho", YuMincho, "Hiragino Mincho ProN",
     "Hiragino Mincho Pro", HGS明朝E, メイリオ, Meiryo, serif;
   --title-font: "Kaisei HarunoUmi", serif;
@@ -94,7 +104,8 @@ button {
 
 .emaki-page-landscape-grid {
   display: grid;
-  grid-template-columns: 1fr min(calc(100vw - (5vw * 2)), 1700px) 1fr;
+  /* ワイドディスプレイ対応: 最大幅制限を削除し、左右5vwマージンを維持 */
+  grid-template-columns: 5vw 1fr 5vw;
 }
 
 .emaki-page-landscape-grid>* {

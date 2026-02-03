@@ -1,6 +1,7 @@
 .container {
   display: grid;
-  grid-template-columns: 1fr min(calc(100vw - (5vw * 2)), 1700px) 1fr;
+  /* ワイドディスプレイ対応: 最大幅制限を削除し、左右5vwマージンを維持 */
+  grid-template-columns: 5vw 1fr 5vw;
   margin-bottom: 0.3rem;
 }
 .container > * {
@@ -12,7 +13,8 @@
 }
 .breadcrumbs > * {
   font-family: var(--text-font);
-  font-size: 14px;
+  /* ワイドディスプレイ対応: 画面幅に応じて可変フォントサイズ */
+  font-size: clamp(14px, 0.9vw, 18px);
   color: #aba4a2;
   text-transform: capitalize;
 }
