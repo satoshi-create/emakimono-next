@@ -7,8 +7,8 @@
   transition: var(--transition);
   cursor: pointer;
   background: rgba(0, 0, 0, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
+  /* border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px; */
   font-size: 0.75rem;
 }
 
@@ -17,7 +17,7 @@
   .button {
     gap: 0.3rem;
     padding: 0.4rem 0.6rem;
-    border-radius: 18px;
+    /* border-radius: 18px; */
     font-size: 0.85rem;
   }
 }
@@ -26,7 +26,7 @@
 @media (min-width: 1024px) {
   .button {
     padding: 0.5rem 0.8rem;
-    border-radius: 20px;
+    /* border-radius: 20px; */
     font-size: 1rem;
   }
 }
@@ -39,7 +39,7 @@
 .liked {
   color: var(--clr-accent-02);
   background: rgba(0, 0, 0, 0.85);
-  border-color: var(--clr-accent-02);
+  /* border-color: var(--clr-accent-02); */
 }
 
 .icon {
@@ -72,9 +72,11 @@
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.2);
   }
+
   100% {
     transform: scale(1);
   }

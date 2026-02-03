@@ -1,4 +1,5 @@
 import { AppContext } from "@/pages/_app";
+import { trackImageLoaded, trackImageFallback } from "@/libs/api/measurementUtils";
 import Image from "next/image";
 import { useContext, useEffect, useRef, useState } from "react";
 
@@ -11,6 +12,7 @@ const LazyImage = ({
   config,
   uniqueIndex,
   isPlayMode, // 再生モード状態
+  emakiId, // 計測用: 絵巻ID
 }) => {
   const { windowHeight, orientation, toggleFullscreen } =
     useContext(AppContext);
@@ -20,6 +22,10 @@ const LazyImage = ({
 
   const containerRef = useRef(null);
   const [containerHeight, setContainerHeight] = useState(0);
+
+  // 計測用: 読み込み開始時刻
+  const loadStartTimeRef = useRef(Date.now());
+  const hasTrackedRef = useRef(false); // 重複計測防止
 
   useEffect(() => {
     const updateHeight = () => {
@@ -43,13 +49,18 @@ const LazyImage = ({
       const fallbackTimer = setTimeout(() => {
         // 1秒経っても skeleton が表示されている場合は強制的に非表示
         if (isSkeletonVisible) {
+          // 計測: フォールバック発火（priority画像タイムアウト）
+          if (!hasTrackedRef.current && emakiId) {
+            trackImageFallback(emakiId, uniqueIndex, "priority_timeout");
+            hasTrackedRef.current = true;
+          }
           setImageLoaded(true);
           setTimeout(() => setSkeletonVisible(false), 300);
         }
       }, 1000);
       return () => clearTimeout(fallbackTimer);
     }
-  }, [uniqueIndex, isSkeletonVisible]);
+  }, [uniqueIndex, isSkeletonVisible, emakiId]);
 
   // 全画面切替時のフォールバック処理
   // next/image の IntersectionObserver が viewport 変化に追従しない問題への対策
@@ -58,13 +69,18 @@ const LazyImage = ({
     if (toggleFullscreen && isSkeletonVisible) {
       const fallbackTimer = setTimeout(() => {
         if (isSkeletonVisible) {
+          // 計測: フォールバック発火（フルスクリーン時タイムアウト）
+          if (!hasTrackedRef.current && emakiId) {
+            trackImageFallback(emakiId, uniqueIndex, "fullscreen_timeout");
+            hasTrackedRef.current = true;
+          }
           setImageLoaded(true);
           setTimeout(() => setSkeletonVisible(false), 300);
         }
       }, 1500); // 1.5秒後にフォールバック（全画面切替の描画完了を待つ）
       return () => clearTimeout(fallbackTimer);
     }
-  }, [toggleFullscreen, isSkeletonVisible]);
+  }, [toggleFullscreen, isSkeletonVisible, emakiId, uniqueIndex]);
 
   const baseUrl =
     "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
@@ -171,6 +187,12 @@ const LazyImage = ({
         placeholder={"blur"} // ぼかしプレースホルダーを適用
         blurDataURL={PAPER_COLOR_BLUR_DATA_URL} // 絵巻の紙色（Firefox 白背景対策）
         onLoadingComplete={() => {
+          // 計測: 正常読み込み完了
+          if (!hasTrackedRef.current && emakiId) {
+            const loadTimeMs = Date.now() - loadStartTimeRef.current;
+            trackImageLoaded(emakiId, uniqueIndex, loadTimeMs, "normal");
+            hasTrackedRef.current = true;
+          }
           // 画像読み込み完了 → フェードアウト開始
           setImageLoaded(true);
           // フェードアウト完了後にスケルトンを非表示

@@ -11,6 +11,17 @@ import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiConteiner.module.css";
 import "lazysizes";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import {
+  trackAutoScrollStarted,
+  trackAutoScrollInterrupted,
+  trackManualScroll,
+  getDeviceType,
+  trackUIHidden,
+  trackUIRevealed,
+  resetAllTracking,
+  handleSceneChange,
+  trackInitialLoadWithHash,
+} from "@/libs/api/measurementUtils";
 
 // P0改修: フルスクリーン切り替え時のスクロール位置保存用
 // モジュールスコープに配置することで、コンポーネント再マウント時も値を保持
@@ -112,6 +123,9 @@ const EmakiContainer = ({
       const sceneIndex = parseInt(closestSection.id, 10);
       // 有効な数値で、前回と異なる場合のみ更新
       if (!isNaN(sceneIndex) && sceneIndex !== lastDetectedSceneRef.current) {
+        // 計測: シーン遷移・滞在（スクロール検出による）
+        handleSceneChange(data.id, sceneIndex, "scroll_detect");
+
         lastDetectedSceneRef.current = sceneIndex;
         // 絵巻ハイパーリンク: スクロール検出による更新であることをマーク
         // scrollDialog の自動スクロールを抑制するため
@@ -127,10 +141,14 @@ const EmakiContainer = ({
         }, 100);
       }
     }
-  }, [setnavIndex, isScrollDetectedUpdateRef]);
+  }, [setnavIndex, isScrollDetectedUpdateRef, data.id]);
 
 
   // 教育現場向けUI: 静止UI耐性 - ユーザー操作検出とタイマー管理
+  // 計測用: タイマー開始時刻を記録
+  const idleStartTimeRef = useRef(Date.now());
+  const wasUIHiddenRef = useRef(false); // UI非表示状態だったかを記録
+
   useEffect(() => {
     // デバイス幅に応じた無操作タイムアウト時間
     // PC (1024px以上): 5秒、Tablet/Mobile: 3秒
@@ -150,21 +168,38 @@ const EmakiContainer = ({
     // タイマーの開始
     const startIdleTimer = () => {
       clearIdleTimer();
+      idleStartTimeRef.current = Date.now(); // 計測用: タイマー開始時刻を記録
+      const idleTimeout = getIdleTimeout();
       idleTimeoutRef.current = setTimeout(() => {
         // 自動スクロール中は非表示にしない
         if (!isAutoScrolling) {
+          // 計測: UI非表示
+          trackUIHidden(data.id, idleTimeout);
+          wasUIHiddenRef.current = true;
           setIsUIVisible(false);
         }
-      }, getIdleTimeout());
+      }, idleTimeout);
     };
 
-    // ユーザー操作検出時の処理
-    const handleUserActivity = () => {
+    // ユーザー操作検出時の処理（トリガー種別付き）
+    const handleUserActivityWithType = (triggerType) => {
+      // 計測: UI再表示（非表示状態からの復帰時のみ）
+      if (wasUIHiddenRef.current) {
+        trackUIRevealed(data.id, triggerType);
+        wasUIHiddenRef.current = false;
+      }
       // UIを即座に表示
       setIsUIVisible(true);
       // タイマーをリセット
       startIdleTimer();
     };
+
+    // 各イベント種別のハンドラー
+    const handleMousemove = () => handleUserActivityWithType("mousemove");
+    const handleWheel = () => handleUserActivityWithType("wheel");
+    const handleTouchstart = () => handleUserActivityWithType("touch");
+    const handleClick = () => handleUserActivityWithType("click");
+    const handleKeydown = () => handleUserActivityWithType("keydown");
 
     // 自動スクロール中はタイマーを停止
     if (isAutoScrolling) {
@@ -176,22 +211,22 @@ const EmakiContainer = ({
 
     // イベントリスナーの登録
     // マウス移動、ホイール、タッチ、クリック、キーボード操作を検出
-    window.addEventListener("mousemove", handleUserActivity);
-    window.addEventListener("wheel", handleUserActivity, { passive: true });
-    window.addEventListener("touchstart", handleUserActivity, { passive: true });
-    window.addEventListener("click", handleUserActivity);
-    window.addEventListener("keydown", handleUserActivity);
+    window.addEventListener("mousemove", handleMousemove);
+    window.addEventListener("wheel", handleWheel, { passive: true });
+    window.addEventListener("touchstart", handleTouchstart, { passive: true });
+    window.addEventListener("click", handleClick);
+    window.addEventListener("keydown", handleKeydown);
 
     // クリーンアップ
     return () => {
       clearIdleTimer();
-      window.removeEventListener("mousemove", handleUserActivity);
-      window.removeEventListener("wheel", handleUserActivity);
-      window.removeEventListener("touchstart", handleUserActivity);
-      window.removeEventListener("click", handleUserActivity);
-      window.removeEventListener("keydown", handleUserActivity);
+      window.removeEventListener("mousemove", handleMousemove);
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("touchstart", handleTouchstart);
+      window.removeEventListener("click", handleClick);
+      window.removeEventListener("keydown", handleKeydown);
     };
-  }, [isAutoScrolling]); // 依存配列: 自動スクロール状態の変化を監視
+  }, [isAutoScrolling, data.id]); // 依存配列: 自動スクロール状態の変化を監視
 
   useEffect(() => {
     if (!articleRef.current) return;
@@ -245,14 +280,23 @@ const EmakiContainer = ({
 
     el.addEventListener("scroll", handleScroll);
 
+    // 計測: マウスドラッグによるスクロール操作
+    const handleMousedown = () => {
+      if (!isAutoScrolling) {
+        trackManualScroll(data.id, "drag");
+      }
+    };
+    el.addEventListener("mousedown", handleMousedown);
+
     return () => {
       el.removeEventListener("scroll", handleScroll);
+      el.removeEventListener("mousedown", handleMousedown);
       // クリーンアップ: シーン検出タイマーもクリア
       if (sceneDetectionTimerRef.current) {
         clearTimeout(sceneDetectionTimerRef.current);
       }
     };
-  }, [isAtStart, isAtEnd, detectCurrentScene]);
+  }, [isAtStart, isAtEnd, detectCurrentScene, isAutoScrolling, data.id]);
 
   // P0改修: フルスクリーン切り替え時のスクロール位置復元
   // toggleFullscreen state の変化を監視して復元処理を行う
@@ -317,6 +361,14 @@ const EmakiContainer = ({
     // ユーザーが特定シーンを共有した意図を尊重し、該当シーンから閲覧開始
     const hasHashInUrl = typeof window !== "undefined" && window.location.hash;
 
+    // 計測: hash付きURLでの初期表示
+    if (hasHashInUrl && isFirstVisit) {
+      const hashSceneIndex = parseInt(window.location.hash.replace("#", ""), 10);
+      if (!isNaN(hashSceneIndex)) {
+        trackInitialLoadWithHash(data.id, hashSceneIndex);
+      }
+    }
+
     if (isFirstVisit && !hasHashInUrl) {
       const el = articleRef.current;
       if (!el) return;
@@ -336,9 +388,18 @@ const EmakiContainer = ({
       // スクロール可能な最小値（左端）
       const minScrollLeft = -(el.scrollWidth - el.clientWidth);
 
-      const stopAutoScroll = () => {
+      const stopAutoScroll = (interruptMethod = null) => {
         if (stopped) return;
         stopped = true;
+
+        // 計測: 自動スクロール中断（ユーザー操作による場合）
+        if (interruptMethod) {
+          const scrollWidth = el.scrollWidth;
+          const clientWidth = el.clientWidth;
+          const maxScrollLeft = scrollWidth - clientWidth;
+          const scrollRatio = maxScrollLeft > 0 ? Math.abs(el.scrollLeft) / maxScrollLeft : 0;
+          trackAutoScrollInterrupted(data.id, interruptMethod, scrollRatio);
+        }
 
         // 教育現場向けUI: 自動スクロール停止を通知
         // これにより「戻る」ボタンが表示可能になる
@@ -346,11 +407,17 @@ const EmakiContainer = ({
 
         if (animationId) cancelAnimationFrame(animationId);
         el.style.scrollBehavior = originalScrollBehavior;
-        el.removeEventListener("mousedown", stopAutoScroll);
-        el.removeEventListener("wheel", stopAutoScroll);
-        el.removeEventListener("touchstart", stopAutoScroll);
-        document.removeEventListener("click", stopAutoScroll);
+        el.removeEventListener("mousedown", handleMousedown);
+        el.removeEventListener("wheel", handleWheel);
+        el.removeEventListener("touchstart", handleTouchstart);
+        document.removeEventListener("click", handleClick);
       };
+
+      // 計測用: 各操作種別のハンドラー
+      const handleMousedown = () => stopAutoScroll("mousedown");
+      const handleWheel = () => stopAutoScroll("wheel");
+      const handleTouchstart = () => stopAutoScroll("touch");
+      const handleClick = () => stopAutoScroll("click");
 
       const autoScroll = () => {
         if (stopped) return;
@@ -369,10 +436,10 @@ const EmakiContainer = ({
       };
 
       // ユーザー操作（ドラッグ／ホイール／タッチ／クリック）で即座に停止
-      el.addEventListener("mousedown", stopAutoScroll, { once: true });
-      el.addEventListener("wheel", stopAutoScroll, { once: true });
-      el.addEventListener("touchstart", stopAutoScroll, { once: true });
-      document.addEventListener("click", stopAutoScroll, { once: true });
+      el.addEventListener("mousedown", handleMousedown, { once: true });
+      el.addEventListener("wheel", handleWheel, { once: true });
+      el.addEventListener("touchstart", handleTouchstart, { once: true });
+      document.addEventListener("click", handleClick, { once: true });
 
       // 初期描画後に自動スクロール開始（0.5秒遅延）
       const timerId = setTimeout(() => {
@@ -390,6 +457,9 @@ const EmakiContainer = ({
           // 教育現場向けUI: 自動スクロール開始を通知
           // これにより「戻る」ボタンが非表示になる
           setIsAutoScrolling(true);
+
+          // 計測: 初回自動スクロール開始
+          trackAutoScrollStarted(data.id, getDeviceType());
 
           sessionStorage.setItem(keyName, true);
           animationId = requestAnimationFrame(autoScroll);
@@ -493,6 +563,9 @@ const EmakiContainer = ({
       scrollPositionStore.scrollRatio = 0;
       scrollPositionStore.restored = false;
       scrollPositionStore.isTransitioning = false;
+
+      // 計測: 全計測状態をリセット
+      resetAllTracking();
     }
 
     // 前回のdata.idを更新（初回マウント時も含む）
@@ -520,6 +593,9 @@ const EmakiContainer = ({
           sessionStorage.setItem(toastKey, "true");
           setShowWheelToast(true);
         }
+
+        // 計測: 手動スクロール操作（wheel）
+        trackManualScroll(data.id, "wheel");
 
         // 教育現場向けUI: 再生モード中はホイール操作で停止
         if (playModeAnimationRef.current) {
@@ -684,6 +760,11 @@ const EmakiContainer = ({
             // 再生モード中はタッチで停止
             if (isPlayMode) {
               stopPlayMode();
+            }
+            // 計測: 手動スクロール操作（touch）
+            // 自動スクロール中でない場合のみ（自動スクロール中断は別で計測）
+            if (!isAutoScrolling) {
+              trackManualScroll(data.id, "touch");
             }
           }}
           ref={articleRef}

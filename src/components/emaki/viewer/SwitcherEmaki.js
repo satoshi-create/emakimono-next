@@ -36,6 +36,7 @@ const SwitcherEmaki = forwardRef(
                 uniqueIndex,
               }}
               isPlayMode={isPlayMode}
+              emakiId={data?.id}
             />
           </section>
         );

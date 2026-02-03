@@ -2,6 +2,7 @@ import ContactFormGoogle from "@/components/contact/ContactFormGoogle";
 import BottomNavigation from "@/components/navigation/BottomNavigation";
 import ModalSearch from "@/components/search/ModalSearch";
 import * as gtag from "@/libs/api/gtag";
+import { trackFullscreenEnter, trackFullscreenExit } from "@/libs/api/measurementUtils";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { useLocaleData } from "@/utils/func";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
@@ -356,6 +357,9 @@ function MyApp({ Component, pageProps, router }) {
     const isFullscreen =
       !!document.fullscreenElement || !!document.webkitFullscreenElement;
 
+    // 計測用: 絵巻IDをURLから取得
+    const emakiSlug = gRouter.asPath.split("#")[0].replace("/", "");
+
     try {
       if (!isFullscreen) {
         // フルスクリーンを開始
@@ -369,6 +373,9 @@ function MyApp({ Component, pageProps, router }) {
 
         // console.log("Entered fullscreen");
         setToggleFullscreen(true);
+
+        // 計測: フルスクリーン開始
+        trackFullscreenEnter(emakiSlug, navIndex);
 
         // 画面の向きをロック
         try {
@@ -387,6 +394,10 @@ function MyApp({ Component, pageProps, router }) {
 
         // console.log("Exited fullscreen");
         setToggleFullscreen(false);
+
+        // 計測: フルスクリーン終了（ボタン操作）
+        trackFullscreenExit(emakiSlug, "button");
+        fullscreenExitTrackedRef.current = true; // 重複計測防止
       }
     } catch (fullscreenError) {
       console.error(`Fullscreen error: ${fullscreenError}`);
@@ -395,6 +406,9 @@ function MyApp({ Component, pageProps, router }) {
 
   // P0改修: ブラウザ主導のフルスクリーン状態変化を監視
   // ESCキーやブラウザUIでのフルスクリーン解除時にstateを同期
+  // 計測用: ボタン操作での終了計測済みフラグ
+  const fullscreenExitTrackedRef = useRef(false);
+
   useEffect(() => {
     let transitionTimeoutId = null;
 
@@ -402,6 +416,15 @@ function MyApp({ Component, pageProps, router }) {
       // ブラウザの実際のフルスクリーン状態を取得（Single Source of Truth）
       const isActuallyFullscreen =
         !!document.fullscreenElement || !!document.webkitFullscreenElement;
+
+      // 計測: ESC/ブラウザ主導のフルスクリーン終了
+      // ボタン操作での終了は handleFullScreen で計測済みなのでスキップ
+      if (!isActuallyFullscreen && toggleFullscreen && !fullscreenExitTrackedRef.current) {
+        const emakiSlug = gRouter.asPath.split("#")[0].replace("/", "");
+        trackFullscreenExit(emakiSlug, "esc_or_browser");
+      }
+      // フラグをリセット
+      fullscreenExitTrackedRef.current = false;
 
       // フルスクリーン切り替え中フラグを立てる（scrollDialog抑制用）
       isFullscreenTransitioningRef.current = true;
@@ -433,7 +456,7 @@ function MyApp({ Component, pageProps, router }) {
         handleFullscreenChange,
       );
     };
-  }, []);
+  }, [toggleFullscreen, gRouter.asPath]);
 
   const handleToId = (id) => {
     flushSync(() => {

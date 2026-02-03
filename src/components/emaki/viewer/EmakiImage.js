@@ -8,6 +8,7 @@ const EmakiImage = ({
   item: { config, index, navIndex, character, ebiki, uniqueIndex },
   item,
   isPlayMode, // 再生モード状態
+  emakiId, // 計測用: 絵巻ID
 }) => {
   const {
     scrollDialog,
@@ -178,6 +179,7 @@ const EmakiImage = ({
         config={config}
         uniqueIndex={uniqueIndex}
         isPlayMode={isPlayMode}
+        emakiId={emakiId}
       />
     </div>
   );
