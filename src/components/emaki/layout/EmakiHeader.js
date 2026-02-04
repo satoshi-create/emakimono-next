@@ -8,12 +8,12 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 import { Mail } from "react-feather";
+import { useTranslation } from "next-i18next";
 
 const EmakiHeader = () => {
-  const { locale } = useRouter();
+  const { t } = useTranslation("common");
 
   const { openSidebar, setStickyClass, openContactModal } =
     useContext(AppContext);
@@ -38,7 +38,7 @@ const EmakiHeader = () => {
         />
         <Link href="/">
           <a className={styles.title}>
-            {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
+            {t("header.siteTitle")}
           </a>
         </Link>
         <LanguageSwitcher />
@@ -49,7 +49,7 @@ const EmakiHeader = () => {
         <a
           href="https://sour-brain-48f.notion.site/2f3994f0dfcd80409097f4cb44d2a80a?pvs=105"
           target="_blank"
-          title="ご意見をお寄せください"
+          title={t("header.feedback")}
           className={styles.linkedbtn}
         >
           <Mail className={`${styles.contacticon}`} />

@@ -9,6 +9,7 @@ import {
 } from "@/data/image-metadata-cache/image-metadata-cache.json";
 import { authorItem, removeNestedEmakisObj } from "@/utils/func";
 import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Author = ({ name, nameen, posts, slug }) => {
   const { locale } = useRouter();
@@ -77,6 +78,7 @@ export const getStaticProps = async (context) => {
 
   return {
     props: {
+      ...(await serverSideTranslations(locale, ["common"])),
       name: authorObj.author,
       nameen: authorObj.authoren,
       posts: filterdEmakisData,

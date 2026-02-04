@@ -11,9 +11,11 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
+import { useTranslation } from "next-i18next";
 
 const ModalDesc = ({ data }) => {
   const { locale } = useRouter();
+  const { t } = useTranslation("common");
   const { DescIndex, setDescIndex, handleToId, closeDescModal, orientation } =
     useContext(AppContext);
   const emakis = data.emakis;
@@ -60,13 +62,11 @@ const ModalDesc = ({ data }) => {
 
   const allMap = [
     {
-      title: "解説",
-      titleen: "description",
+      label: t("modal.description"),
       path: "description",
     },
     {
-      title: "現代文",
-      titleen: "modern-sentence",
+      label: t("modal.modernSentence"),
       path: "modern-sentence",
     },
   ];
@@ -131,7 +131,7 @@ const ModalDesc = ({ data }) => {
               </h3>
               <div className={styles.tabcontainer}>
                 {allMap.map((item, i) => {
-                  const { title, titleen } = item;
+                  const { label } = item;
                   return (
                     <button
                       onClick={() => setValue(i)}
@@ -140,7 +140,7 @@ const ModalDesc = ({ data }) => {
                       }`}
                       key={i}
                     >
-                      {locale == "en" ? titleen : title}
+                      {label}
                     </button>
                   );
                 })}
@@ -184,10 +184,11 @@ const ModalDesc = ({ data }) => {
                 className={styles.linkedbutton}
               >
                 {/* 横スクロールで見る */}
-                {locale == "en"
-                  ? ChaptersTitle(titleen, title, chapter, "titleen")
-                  : ChaptersTitle(titleen, title, chapter, "title")}
-                の画像を見る
+                {locale == "en" ? (
+                  <>{t("viewer.viewImage")}: {ChaptersTitle(titleen, title, chapter, "titleen")}</>
+                ) : (
+                  <>{ChaptersTitle(titleen, title, chapter, "title")}{t("viewer.viewImage")}</>
+                )}
               </button>
               <SnsShareBox
                 titleen={data.titleen}

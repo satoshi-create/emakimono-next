@@ -9,6 +9,7 @@ import {
 } from "@/data/image-metadata-cache/image-metadata-cache.json";
 import { removeNestedEmakisObj, typeItem } from "@/utils/func";
 import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Type = ({ name, nameen, posts, slug }) => {
   const { locale } = useRouter();
@@ -73,6 +74,7 @@ export const getStaticProps = async (context) => {
 
   return {
     props: {
+      ...(await serverSideTranslations(locale, ["common"])),
       name: typeObj.type,
       nameen: typeObj.typeen,
       posts: filterdEmakisData,

@@ -3,9 +3,15 @@ import { AppContext } from "@/pages/_app";
 import { faUser, faUserSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
+import { useTranslation } from "next-i18next";
 
 const ToggleCharacter = ({ isUIVisible = true }) => {
   const { handleCharacterToggle, characterToggle } = useContext(AppContext);
+  const { t } = useTranslation("common");
+
+  const description = characterToggle
+    ? t("viewer.hideCharacterNames")
+    : t("viewer.showCharacterNames");
 
   return (
     <ActionButton
@@ -16,12 +22,8 @@ const ToggleCharacter = ({ isUIVisible = true }) => {
           <FontAwesomeIcon icon={faUser} style={{ fontSize: "1.5em" }} />
         )
       }
-      label={
-        characterToggle ? "登場人物の名前を閉じる" : "登場人物の名前を見る"
-      }
-      description={
-        characterToggle ? "登場人物の名前を閉じる" : "登場人物の名前を見る"
-      }
+      label={description}
+      description={description}
       onClick={handleCharacterToggle}
       isUIVisible={isUIVisible}
     />

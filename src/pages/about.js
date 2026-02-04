@@ -8,6 +8,7 @@ import { useLocale } from "@/utils/func";
 import parse from "html-react-parser";
 import "lazysizes";
 import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const About = () => {
   const { locale } = useRouter();
@@ -37,3 +38,11 @@ const About = () => {
 };
 
 export default About;
+
+export const getStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+};

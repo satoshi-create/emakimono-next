@@ -56,20 +56,17 @@
 }
 
 .metadataA {
-  display: grid;
-  grid-template-columns: auto;
-  grid-auto-flow: column;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  column-gap: 1rem;
+  row-gap: 0.5rem;
 }
 
 .genjieslugBox {
-  grid-row: 1;
-  /* grid-column: 2; */
   align-self: center;
-  justify-self: flex-start;
   transition: var(--transition);
   font-size: 14px;
-  /* margin-left: 1.5rem; */
   border: 1px double #000;
 }
 
@@ -89,18 +86,19 @@
 }
 
 .linkedbutton {
-  grid-row: 1;
-  /* grid-column: 2; */
   align-self: center;
-  justify-self: end;
+  margin-left: auto;
   background: var(--clr-accent-02);
   border: 1px solid var(--clr-accent-02);
   border-radius: 5rem;
   transition: var(--transition);
   font-family: var(--text-font);
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   color: var(--clr-white);
   font-size: medium;
+  white-space: nowrap;
+  text-align: center;
+  flex-shrink: 0;
 }
 
 .linkedbutton:hover {
@@ -151,22 +149,23 @@
 }
 
 .title {
-  white-space: nowrap;
   align-self: center;
   font-weight: 600;
   font-size: x-large;
   color: var(--clr-black);
   font-family: var(--title-font2);
   text-transform: capitalize;
-  grid-row: 1;
-  grid-column: 1;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 .authorLink {
-  grid-row: 2;
-  grid-column: 1;
   cursor: pointer;
   transition: var(--transition);
+  width: 100%;
+  flex-basis: 100%;
 }
 
 .authorLink:hover {

@@ -11,9 +11,11 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
+import { useTranslation } from "next-i18next";
 
 const SingleChapterDesc = ({ item, index, emakis, data }) => {
   const { locale } = useRouter();
+  const { t } = useTranslation("common");
   const { handleToId, handleFullScreen, orientation } = useContext(AppContext);
   const [showInfo, setShowInfo] = useState(false);
   const { chapter, gendaibun, cat, desc } = item;
@@ -112,10 +114,11 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
               },
             }}
           >
-            {locale == "en"
-              ? ChaptersTitle(titleen, title, chapter, "titleen")
-              : ChaptersTitle(titleen, title, chapter, "title")}
-            の画像を見る
+            {locale == "en" ? (
+              <>{t("viewer.viewImage")}: {ChaptersTitle(titleen, title, chapter, "titleen")}</>
+            ) : (
+              <>{ChaptersTitle(titleen, title, chapter, "title")}{t("viewer.viewImage")}</>
+            )}
           </Button>
         )}
       </AccordionPanel>

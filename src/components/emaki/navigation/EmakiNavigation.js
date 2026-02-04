@@ -16,6 +16,7 @@ import ToggleEbiki from "@/components/emaki/viewer/ToggleEbiki";
 import ToggleEkotoba from "@/components/emaki/viewer/ToggleEkotoba";
 import ActionButton from "@/components/emaki/viewer/ActionButton";
 import { AppContext } from "@/pages/_app";
+import { useTranslation } from "next-i18next";
 
 // TODO: 横スクロールで最後まで進み、「先頭に戻る」を押しても反応がない
 // ⇒navIndexが0になっている
@@ -31,6 +32,7 @@ const EmakiNavigation = ({
 }) => {
   const { character, ebiki } = data;
   const endIndex = data.emakis.length - 1;
+  const { t } = useTranslation("common");
 
   const { orientation, openHelpModal, navIndex } = useContext(AppContext);
 
@@ -69,9 +71,9 @@ const EmakiNavigation = ({
         icon={
           <FontAwesomeIcon icon={faAnglesLeft} style={{ fontSize: "1.5em" }} />
         }
-        label="最後に進む"
+        label={t("viewer.goToEnd")}
         onClick={() => handleToId(data.type === "西洋絵画" ? 0 : endIndex)}
-        description="最後に進む"
+        description={t("viewer.goToEnd")}
         isUIVisible={isUIVisible}
       />
       <ActionButton
@@ -81,8 +83,8 @@ const EmakiNavigation = ({
             style={{ fontSize: "1.5em" }}
           />
         }
-        label="絵巻の見方"
-        description="絵巻の見方"
+        label={t("viewer.howToView")}
+        description={t("viewer.howToView")}
         onClick={openHelpModal}
         isUIVisible={isUIVisible}
       />
@@ -93,8 +95,8 @@ const EmakiNavigation = ({
           icon={
             <FontAwesomeIcon icon={faStop} style={{ fontSize: "1.3em" }} />
           }
-          label="停止"
-          description="自動再生を停止"
+          label={t("viewer.stop")}
+          description={t("viewer.stopAutoPlay")}
           onClick={isPlayMode ? onStopPlayMode : undefined}
           isUIVisible={isUIVisible}
         />
@@ -104,8 +106,8 @@ const EmakiNavigation = ({
             icon={
               <FontAwesomeIcon icon={faPlay} style={{ fontSize: "1.3em" }} />
             }
-            label="自動再生"
-            description="自動再生"
+            label={t("viewer.autoPlay")}
+            description={t("viewer.autoPlay")}
             onClick={onStartPlayMode}
             isUIVisible={isUIVisible}
           />
@@ -123,8 +125,8 @@ const EmakiNavigation = ({
             style={{ fontSize: "1.3em" }}
           />
         }
-        label="URLをコピー"
-        description={isCopied ? "コピーしました" : "このシーンのURLをコピー"}
+        label={t("viewer.copyUrl")}
+        description={isCopied ? t("viewer.copied") : t("viewer.copySceneUrl")}
         onClick={handleCopyUrl}
         isUIVisible={isUIVisible}
       />
@@ -132,8 +134,8 @@ const EmakiNavigation = ({
         icon={
           <FontAwesomeIcon icon={faAnglesRight} style={{ fontSize: "1.5em" }} />
         }
-        label="先頭に戻る"
-        description="先頭に戻る"
+        label={t("viewer.goToStart")}
+        description={t("viewer.goToStart")}
         onClick={() => handleToId(data.type === "西洋絵画" ? endIndex : 0)}
         isUIVisible={isUIVisible}
       />

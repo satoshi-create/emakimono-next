@@ -8,14 +8,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
+import { useTranslation } from "next-i18next";
 
 const ToggleEkotoba = ({ data, isUIVisible = true }) => {
   const { kotobagaki } = data;
   const { ekotobaImageToggle, orientation, handleEkotobaImageToggle } =
     useContext(AppContext);
+  const { t } = useTranslation("common");
 
   // 詞書があるケース
-  const withEkotoba = (v) => (v ? "現代語訳を読む" : "詞書を読む");
+  const withEkotoba = (v) =>
+    v ? t("viewer.readModernTranslation") : t("viewer.readClassicalText");
   const withEkotobaIcon = (v) =>
     v ? (
       <FontAwesomeIcon icon={faKeyboard} style={{ fontSize: "1.5em" }} />
@@ -23,7 +26,8 @@ const ToggleEkotoba = ({ data, isUIVisible = true }) => {
       <FontAwesomeIcon icon={faPaintBrush} style={{ fontSize: "1.5em" }} />
     );
   // 詞書がないケース
-  const withoutEkotoba = (v) => (v ? "目次を開く" : "目次を閉じる");
+  const withoutEkotoba = (v) =>
+    v ? t("viewer.openTableOfContents") : t("viewer.closeTableOfContents");
   const withoutEkotobaIcon = (v) =>
     v ? (
       <FontAwesomeIcon icon={faComment} style={{ fontSize: "1.5em" }} />

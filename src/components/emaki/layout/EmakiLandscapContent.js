@@ -21,6 +21,7 @@ import {
 } from "@/utils/func";
 import { Box, VStack } from "@chakra-ui/react";
 import parse from "html-react-parser";
+import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -31,6 +32,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { emakis } = data;
   const { locale } = useRouter();
   const { t: alldata } = useLocaleData();
+  const { t } = useTranslation("common");
 
   const removeNestedArrayObj = ExtractingListData();
   const allKeywords = keywordItem(removeNestedArrayObj);
@@ -78,15 +80,15 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
       } " in vertical and right to left scrolling mode.`;
 
   const editionLinks = alldata.filter(
-    (item) => item.title === title && item.edition !== edition
+    (item) => item.title === title && item.edition !== edition,
   );
 
   const LinksToKusouzu = alldata.filter(
-    (item) => item.title.includes("九相") && item.title !== title
+    (item) => item.title.includes("九相") && item.title !== title,
   );
 
   const reletedEmakisToNote = noteData.filter((item) =>
-    item.relatedEmakis.includes(title)
+    item.relatedEmakis.includes(title),
   );
 
   return (
@@ -188,9 +190,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 onClick={() => handleFullScreen("landscape")}
                 className={styles.linkedbutton}
               >
-                {locale === "en"
-                  ? "Enjoy the picture scroll in full screen"
-                  : "フルスクリーンで絵巻を楽しむ"}
+                {t("viewer.fullscreeBtn")}
               </button>
             </div>
             <div className={styles.metadataB}>

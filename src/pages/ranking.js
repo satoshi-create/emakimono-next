@@ -7,6 +7,7 @@ import Title from "@/components/ui/Title";
 import { AppContext } from "@/pages/_app";
 import { useRouter } from "next/router";
 import { useContext } from "react";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Ranking = () => {
   const { locale } = useRouter();
@@ -35,3 +36,11 @@ const Ranking = () => {
 };
 
 export default Ranking;
+
+export const getStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+};

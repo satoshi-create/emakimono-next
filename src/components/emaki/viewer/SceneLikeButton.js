@@ -2,6 +2,7 @@ import * as gtag from "@/libs/api/gtag";
 import styles from "@/styles/SceneLikeButton.module.css";
 import { useEffect, useState } from "react";
 import { ThumbsUp } from "react-feather";
+import { useTranslation } from "next-i18next";
 
 /**
  * シーン別いいね（お気に入り）ボタン
@@ -10,6 +11,7 @@ import { ThumbsUp } from "react-feather";
 const SceneLikeButton = ({ titleen, title, chapter, index }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const { t } = useTranslation("common");
 
   // ローカルストレージのキー
   const storageKey = `scene_like_${titleen}_${index}`;
@@ -60,8 +62,8 @@ const SceneLikeButton = ({ titleen, title, chapter, index }) => {
     <button
       onClick={handleClick}
       className={`${styles.button} ${isLiked ? styles.liked : ""}`}
-      title={isLiked ? "いいねを解除" : "いいね"}
-      aria-label={isLiked ? "いいねを解除" : "いいね"}
+      title={isLiked ? t("viewer.unlike") : t("viewer.like")}
+      aria-label={isLiked ? t("viewer.unlike") : t("viewer.like")}
     >
       <ThumbsUp
         className={`${styles.icon} ${isAnimating ? styles.animating : ""}`}

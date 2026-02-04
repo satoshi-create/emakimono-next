@@ -6,9 +6,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
+import { useTranslation } from "next-i18next";
 
 const CarouselComponent = ({ articleRef, isAtStart, isAtEnd, isAutoScrolling, isUIVisible }) => {
   const { orientation } = useContext(AppContext);
+  const { t } = useTranslation("common");
 
   const con = articleRef.current;
 
@@ -64,8 +66,8 @@ const CarouselComponent = ({ articleRef, isAtStart, isAtEnd, isAutoScrolling, is
               style={{ fontSize: "1.5em" }}
             />
           }
-          label="次へ"
-          description="次へ"
+          label={t("viewer.next")}
+          description={t("viewer.next")}
           pos="absolute"
           top="50%"
           left="calc(10px + env(safe-area-inset-left, 0px))"
@@ -86,8 +88,8 @@ const CarouselComponent = ({ articleRef, isAtStart, isAtEnd, isAutoScrolling, is
               style={{ fontSize: "1.5em" }}
             />
           }
-          label="前へ"
-          description="前へ"
+          label={t("viewer.previous")}
+          description={t("viewer.previous")}
           pos="absolute"
           top="50%"
           right="calc(10px + env(safe-area-inset-right, 0px))"

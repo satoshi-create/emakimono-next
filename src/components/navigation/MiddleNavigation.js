@@ -12,9 +12,11 @@ import {
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 import { FaBars } from "react-icons/fa";
+import { useTranslation } from "next-i18next";
 
 const MiddleNavigation = ({ title, titleen, edition, author }) => {
   const { locale } = useRouter();
+  const { t } = useTranslation("common");
   const bgColor = useColorModeValue("white", "gray.800");
   const iconColor = useColorModeValue("gray.600", "gray.300");
 
@@ -74,7 +76,7 @@ const MiddleNavigation = ({ title, titleen, edition, author }) => {
             ort={"prt"}
           />
           <IconButton
-            aria-label="メニュー"
+            aria-label={t("navigation.menu")}
             icon={<FaBars />}
             variant="ghost"
             color={iconColor}

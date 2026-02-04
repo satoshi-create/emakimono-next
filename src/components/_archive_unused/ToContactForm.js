@@ -5,9 +5,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import parse from "html-react-parser";
 import { useRouter } from "next/router";
 import { useContext } from "react";
+import { useTranslation } from "next-i18next";
 
 const ToContactForm = () => {
   const { locale } = useRouter();
+  const { t } = useTranslation("common");
   const { openContactModal } = useContext(AppContext);
 
   const data = {
@@ -30,7 +32,7 @@ const ToContactForm = () => {
       <a
         href="https://sour-brain-48f.notion.site/2f3994f0dfcd80409097f4cb44d2a80a?pvs=105"
         target="_blank"
-        title="ご意見をお寄せください"
+        title={t("header.feedback")}
         className={styles.linkedbtn}
       >
         {locale == "en" ? "Submit Feedback" : "意見を送る"}

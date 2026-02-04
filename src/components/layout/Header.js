@@ -9,12 +9,12 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useContext } from "react";
 import { Mail } from "react-feather";
+import { useTranslation } from "next-i18next";
 
 const Header = ({ slug, fixed }) => {
-  const { locale } = useRouter();
+  const { t } = useTranslation("common");
   const { openSidebar, stickyClass, openContactModal } = useContext(AppContext);
 
   return (
@@ -34,7 +34,7 @@ const Header = ({ slug, fixed }) => {
         />
         <Link href="/">
           <a className={styles.title}>
-            {locale === "en" ? "emakimono!!" : "横スクロールで楽しむ絵巻物"}
+            {t("header.siteTitle")}
           </a>
         </Link>
         <LanguageSwitcher />
@@ -45,7 +45,7 @@ const Header = ({ slug, fixed }) => {
         <a
           href="https://sour-brain-48f.notion.site/2f3994f0dfcd80409097f4cb44d2a80a?"
           target="_blank"
-          title="ご意見をお寄せください"
+          title={t("header.feedback")}
         >
           <Mail className={`${styles.contacticon}`} />
         </a>

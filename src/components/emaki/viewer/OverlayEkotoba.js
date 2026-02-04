@@ -13,6 +13,7 @@ import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
+import { useTranslation } from "next-i18next";
 
 const OverlayEkotoba = ({
   item: {
@@ -47,6 +48,7 @@ const OverlayEkotoba = ({
     handleToId,
   } = useContext(AppContext);
   const { locale } = useRouter();
+  const { t } = useTranslation("common");
   const { title, titleen } = data;
 
   // TODO : 目次のフォントサイズをレスポンシブにする
@@ -140,22 +142,14 @@ const OverlayEkotoba = ({
                           style={{ fontSize: "1.5em" }}
                         />
                       }
-                      label={
-                        locale == "en"
-                          ? "	See details of this section"
-                          : "この段の情報を見る"
-                      }
+                      label={t("viewer.seeDetailsOfSection")}
                       onClick={() =>
                         openDescModal({
                           ekotobaId,
                           index,
                         })
                       }
-                      description={
-                        locale == "en"
-                          ? "	See details of this section"
-                          : "この段の情報を見る"
-                      }
+                      description={t("viewer.seeDetailsOfSection")}
                       variant="emakipageicon"
                     />
                   )}

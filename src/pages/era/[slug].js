@@ -9,6 +9,7 @@ import {
 } from "@/data/image-metadata-cache/image-metadata-cache.json";
 import { eraItem, removeNestedEmakisObj } from "@/utils/func";
 import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Emaki = ({ name, nameen, posts, slug }) => {
   const { locale } = useRouter();
@@ -82,6 +83,7 @@ export const getStaticProps = async (context) => {
 
   return {
     props: {
+      ...(await serverSideTranslations(locale, ["common"])),
       name: eraObj.era,
       nameen: eraObj.eraen,
       posts: filterdEmakisData,

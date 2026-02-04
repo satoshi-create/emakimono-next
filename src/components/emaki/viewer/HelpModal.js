@@ -3,6 +3,7 @@ import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "@/pages/_app";
+import { useTranslation } from "next-i18next";
 
 /**
  * 内部ヘルプモーダル
@@ -16,6 +17,7 @@ import { AppContext } from "@/pages/_app";
  */
 const HelpModal = () => {
   const { closeHelpModal } = useContext(AppContext);
+  const { t } = useTranslation("common");
 
   // タッチデバイス判定（画面幅ではなくデバイスの能力で判定）
   // フルスクリーン時に横向きになっても、タッチデバイスならモバイル用UIを表示
@@ -86,12 +88,12 @@ const HelpModal = () => {
         <button
           className={styles.closeBtn}
           onClick={closeHelpModal}
-          aria-label="ヘルプを閉じる"
+          aria-label={t("help.closeHelp")}
         >
           <FontAwesomeIcon icon={faClose} />
         </button>
 
-        <h3 className={styles.title}>絵巻の見方</h3>
+        <h3 className={styles.title}>{t("help.title")}</h3>
 
         <div className={styles.content}>
           {isTouchDevice ? (
@@ -144,7 +146,7 @@ const HelpModal = () => {
                     </path>
                   </svg>
                 </div>
-                <p className={styles.label}>スワイプで左右にスクロール</p>
+                <p className={styles.label}>{t("help.swipeToScroll")}</p>
               </div>
 
               <div className={styles.helpItem}>
@@ -169,7 +171,7 @@ const HelpModal = () => {
                     />
                   </svg>
                 </div>
-                <p className={styles.label}>矢印キーで移動できます</p>
+                <p className={styles.label}>{t("help.useArrowKeys")}</p>
               </div>
             </>
           ) : (
@@ -198,7 +200,7 @@ const HelpModal = () => {
                     </circle>
                   </svg>
                 </div>
-                <p className={styles.label}>ホイールで左右にスクロール</p>
+                <p className={styles.label}>{t("help.useMouseWheel")}</p>
               </div>
 
               <div className={styles.helpItem}>
@@ -223,7 +225,7 @@ const HelpModal = () => {
                     />
                   </svg>
                 </div>
-                <p className={styles.label}>矢印キーでも移動できます</p>
+                <p className={styles.label}>{t("help.useArrowKeysAlso")}</p>
               </div>
 
               <div className={styles.helpItem}>
@@ -286,7 +288,7 @@ const HelpModal = () => {
                     />
                   </svg>
                 </div>
-                <p className={styles.label}>横スクロールバーでも移動できます</p>
+                <p className={styles.label}>{t("help.useScrollbar")}</p>
               </div>
             </>
           )}

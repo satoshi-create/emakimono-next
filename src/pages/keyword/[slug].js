@@ -10,6 +10,7 @@ import {
 } from "@/data/image-metadata-cache/image-metadata-cache.json";
 import { keywordItem, removeNestedEmakisObj } from "@/utils/func";
 import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Emaki = ({ name, posts, nameen, slug }) => {
   const { locale } = useRouter();
@@ -89,6 +90,7 @@ export const getStaticProps = async (context) => {
 
   return {
     props: {
+      ...(await serverSideTranslations(locale, ["common"])),
       name: keyword.name,
       nameen: keyword.id,
       posts: removeNestedArrayObj,

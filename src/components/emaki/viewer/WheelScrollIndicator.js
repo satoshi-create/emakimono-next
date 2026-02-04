@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import styles from "@/styles/WheelScrollIndicator.module.css";
+import { useTranslation } from "next-i18next";
 
 const WheelScrollIndicator = ({ showToast, onToastComplete }) => {
+  const { t } = useTranslation("common");
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -22,8 +24,8 @@ const WheelScrollIndicator = ({ showToast, onToastComplete }) => {
   return (
     <div className={styles.toastContainer}>
       <div className={styles.toast}>
-        <div>横スクロールで移動します</div>
-        <div className={styles.subText}>縦スクロール: 絵巻の外へカーソルを移動</div>
+        <div>{t("viewer.horizontalScrollHint")}</div>
+        <div className={styles.subText}>{t("viewer.verticalScrollHint")}</div>
       </div>
     </div>
   );

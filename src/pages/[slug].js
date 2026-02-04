@@ -11,6 +11,7 @@ import { AppContext } from "@/pages/_app";
 import { useLocaleMeta } from "@/utils/func";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useRef } from "react";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
@@ -262,6 +263,7 @@ export const getStaticProps = async (context) => {
 
   return {
     props: {
+      ...(await serverSideTranslations(locale, ["common"])),
       data: addObjEmakis,
       locales,
       locale,

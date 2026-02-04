@@ -3,9 +3,15 @@ import { AppContext } from "@/pages/_app";
 import { faBook, faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
+import { useTranslation } from "next-i18next";
 
 const ToggleEbiki = ({ isUIVisible = true }) => {
   const { handleEbikiToggle, ebikiToggle } = useContext(AppContext);
+  const { t } = useTranslation("common");
+
+  const description = ebikiToggle
+    ? t("viewer.hidePictureIndex")
+    : t("viewer.showPictureIndex");
 
   return (
     <ActionButton
@@ -16,8 +22,8 @@ const ToggleEbiki = ({ isUIVisible = true }) => {
           <FontAwesomeIcon icon={faBookOpen} style={{ fontSize: "1.5em" }} />
         )
       }
-      label={ebikiToggle ? "絵引きを閉じる" : "絵引きを見る"}
-      description={ebikiToggle ? "絵引きを閉じる" : "絵引きを見る"}
+      label={description}
+      description={description}
       onClick={handleEbikiToggle}
       isUIVisible={isUIVisible}
     />

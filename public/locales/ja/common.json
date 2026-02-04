@@ -1,4 +1,64 @@
 {
   "search": "検索",
-  "source": "出典"
+  "source": "出典",
+
+  "viewer": {
+    "next": "次へ",
+    "previous": "前へ",
+    "readModernTranslation": "現代語訳を読む",
+    "readClassicalText": "詞書を読む",
+    "openTableOfContents": "目次を開く",
+    "closeTableOfContents": "目次を閉じる",
+    "showCharacterNames": "登場人物の名前を見る",
+    "hideCharacterNames": "登場人物の名前を閉じる",
+    "showPictureIndex": "絵引きを見る",
+    "hidePictureIndex": "絵引きを閉じる",
+    "like": "いいね",
+    "unlike": "いいねを解除",
+    "goToEnd": "最後に進む",
+    "goToStart": "先頭に戻る",
+    "howToView": "絵巻の見方",
+    "stop": "停止",
+    "stopAutoPlay": "自動再生を停止",
+    "autoPlay": "自動再生",
+    "copyUrl": "URLをコピー",
+    "copied": "コピーしました",
+    "copySceneUrl": "このシーンのURLをコピー",
+    "enterFullscreen": "全画面で鑑賞する",
+    "exitFullscreen": "全画面を閉じる",
+    "viewImage": "の画像を見る",
+    "seeDetailsOfSection": "この段の情報を見る",
+    "horizontalScrollHint": "横スクロールで移動します",
+    "verticalScrollHint": "縦スクロール: 絵巻の外へカーソルを移動",
+    "fullscreeBtn": "フルスクリーンで絵巻を楽しむ"
+  },
+
+  "help": {
+    "title": "絵巻の見方",
+    "closeHelp": "ヘルプを閉じる",
+    "swipeToScroll": "スワイプで左右にスクロール",
+    "useArrowKeys": "矢印キーで移動できます",
+    "useArrowKeysAlso": "矢印キーでも移動できます",
+    "useMouseWheel": "ホイールで左右にスクロール",
+    "useScrollbar": "横スクロールバーでも移動できます"
+  },
+
+  "navigation": {
+    "menu": "メニュー"
+  },
+
+  "modal": {
+    "description": "解説",
+    "modernSentence": "現代文",
+    "chapter": "段",
+    "title": "タイトル",
+    "bibliography": "書誌情報",
+    "references": "参照",
+    "createdByModifying": "以下を加工して作成"
+  },
+
+  "header": {
+    "siteTitle": "横スクロールで楽しむ絵巻物",
+    "feedback": "ご意見をお寄せください"
+  }
 }

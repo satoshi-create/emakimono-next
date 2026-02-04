@@ -7,9 +7,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
+import { useTranslation } from "next-i18next";
 
 const Modal = ({ data }) => {
   const { locale } = useRouter();
+  const { t } = useTranslation("common");
   const { closeModal } = useContext(AppContext);
 
   const {
@@ -27,13 +29,13 @@ const Modal = ({ data }) => {
 
   const allMap = [
     {
-      title: typeen === "emaki" ? "段" : "タイトル",
+      label: typeen === "emaki" ? t("modal.chapter") : t("modal.title"),
     },
     {
-      title: "書誌情報",
+      label: t("modal.bibliography"),
     },
     {
-      title: "参照",
+      label: t("modal.references"),
     },
   ];
 
@@ -45,9 +47,7 @@ const Modal = ({ data }) => {
     } else if (v === 1) {
       return (
         <p className={styles.source}>
-          {locale === "en"
-            ? "Created by modifying the following"
-            : "以下を加工して作成"}
+          {t("modal.createdByModifying")}
           <br />
           <br />
           <Link href={sourceImageUrl}>
@@ -97,7 +97,7 @@ const Modal = ({ data }) => {
 
         <div className={styles.tabcontainer}>
           {allMap.map((item, i) => {
-            const { title } = item;
+            const { label } = item;
             return (
               <button
                 onClick={() => setValue(i)}
@@ -106,7 +106,7 @@ const Modal = ({ data }) => {
                 }`}
                 key={i}
               >
-                {title}
+                {label}
               </button>
             );
           })}

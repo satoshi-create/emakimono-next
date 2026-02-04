@@ -1,4 +1,64 @@
 {
   "search": "Search",
-  "source": "【Source】"
+  "source": "Source",
+
+  "viewer": {
+    "next": "Next",
+    "previous": "Previous",
+    "readModernTranslation": "Read modern translation",
+    "readClassicalText": "Read classical commentary",
+    "openTableOfContents": "Open table of contents",
+    "closeTableOfContents": "Close table of contents",
+    "showCharacterNames": "Show character names",
+    "hideCharacterNames": "Hide character names",
+    "showPictureIndex": "Show picture index",
+    "hidePictureIndex": "Hide picture index",
+    "like": "Like",
+    "unlike": "Remove like",
+    "goToEnd": "Go to end",
+    "goToStart": "Go to start",
+    "howToView": "How to view",
+    "stop": "Stop",
+    "stopAutoPlay": "Stop auto-play",
+    "autoPlay": "Auto-play",
+    "copyUrl": "Copy URL",
+    "copied": "Copied",
+    "copySceneUrl": "Copy URL for this scene",
+    "enterFullscreen": "Enter fullscreen",
+    "exitFullscreen": "Exit fullscreen",
+    "viewImage": "View image",
+    "seeDetailsOfSection": "See details of this section",
+    "horizontalScrollHint": "Scroll horizontally to navigate",
+    "verticalScrollHint": "Vertical scroll: move cursor outside the scroll",
+    "fullscreeBtn": "Enjoy the picture scroll in full screen"
+  },
+
+  "help": {
+    "title": "How to view the scroll",
+    "closeHelp": "Close help",
+    "swipeToScroll": "Swipe left or right to scroll",
+    "useArrowKeys": "Use arrow keys to navigate",
+    "useArrowKeysAlso": "You can also use arrow keys to navigate",
+    "useMouseWheel": "Use mouse wheel to scroll horizontally",
+    "useScrollbar": "Or use the horizontal scrollbar"
+  },
+
+  "navigation": {
+    "menu": "Menu"
+  },
+
+  "modal": {
+    "description": "Description",
+    "modernSentence": "Modern text",
+    "chapter": "Chapter",
+    "title": "Title",
+    "bibliography": "Bibliography",
+    "references": "References",
+    "createdByModifying": "Created by modifying the following"
+  },
+
+  "header": {
+    "siteTitle": "emakimono!!",
+    "feedback": "Send us your feedback"
+  }
 }
