@@ -84,6 +84,9 @@ function MyApp({ Component, pageProps, router }) {
   // P0改修: フルスクリーン切り替え中フラグ（scrollDialog抑制用）
   // useRef を使用することで、state更新を待たずに即座に値が反映される
   const isFullscreenTransitioningRef = useRef(false);
+  // Step B修正: フラグ解除タイマーIDをuseRefで管理
+  // useEffect再実行によるクリーンアップでタイマーがキャンセルされる問題を回避
+  const fullscreenTransitionTimerRef = useRef(null);
   // 絵巻ハイパーリンク: スクロール検出による navIndex 更新時は scrollDialog を抑制
   const isScrollDetectedUpdateRef = useRef(false);
   const [toggleBtn, setToggleBtn] = useState(true);
@@ -401,6 +404,9 @@ function MyApp({ Component, pageProps, router }) {
       }
     } catch (fullscreenError) {
       console.error(`Fullscreen error: ${fullscreenError}`);
+      // Step B修正: エラー時はfullscreenchangeイベントが発火しない可能性があるため
+      // フラグを即座に解除（スクロール操作がブロックされ続けることを防ぐ）
+      isFullscreenTransitioningRef.current = false;
     }
   };
 
@@ -410,8 +416,6 @@ function MyApp({ Component, pageProps, router }) {
   const fullscreenExitTrackedRef = useRef(false);
 
   useEffect(() => {
-    let transitionTimeoutId = null;
-
     const handleFullscreenChange = () => {
       // ブラウザの実際のフルスクリーン状態を取得（Single Source of Truth）
       const isActuallyFullscreen =
@@ -432,12 +436,15 @@ function MyApp({ Component, pageProps, router }) {
       // アプリのstateをブラウザの実状態に同期
       setToggleFullscreen(isActuallyFullscreen);
 
-      // 一定時間後にフラグを解除（レイアウト確定とスクロール復元完了を待つ）
-      if (transitionTimeoutId) {
-        clearTimeout(transitionTimeoutId);
+      // Step B修正: タイマーIDをuseRefで管理
+      // useEffectの再実行（setToggleFullscreenによる）でクリーンアップが走っても
+      // タイマーがキャンセルされないようにする
+      if (fullscreenTransitionTimerRef.current) {
+        clearTimeout(fullscreenTransitionTimerRef.current);
       }
-      transitionTimeoutId = setTimeout(() => {
+      fullscreenTransitionTimerRef.current = setTimeout(() => {
         isFullscreenTransitioningRef.current = false;
+        fullscreenTransitionTimerRef.current = null;
       }, 500); // 500ms: requestAnimationFrame × 2 + 余裕
     };
 
@@ -445,11 +452,10 @@ function MyApp({ Component, pageProps, router }) {
     document.addEventListener("fullscreenchange", handleFullscreenChange);
     document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
 
-    // クリーンアップ
+    // クリーンアップ: イベントリスナーの削除のみ
+    // Step B修正: タイマーはuseRefで管理されており、useEffect再実行時にキャンセルしない
+    // （フラグ解除を確実に完了させるため）
     return () => {
-      if (transitionTimeoutId) {
-        clearTimeout(transitionTimeoutId);
-      }
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
       document.removeEventListener(
         "webkitfullscreenchange",
@@ -458,38 +464,43 @@ function MyApp({ Component, pageProps, router }) {
     };
   }, [toggleFullscreen, gRouter.asPath]);
 
-  const handleToId = (id) => {
+  // スクロール実行を統合した handleToId
+  // ボタン操作・hash指定など、すべての「意図的なスクロール」はこの関数を経由する
+  const handleToId = useCallback((id) => {
     flushSync(() => {
       setnavIndex(id);
     });
-  };
 
-  const scrollDialog = useCallback((node) => {
-    // P0改修: フルスクリーン切り替え中はスクロールを抑制
+    // スクロール実行（scrollDialogから責務を移管）
+    // フルスクリーン切り替え中は抑制（既存仕様を維持）
     if (isFullscreenTransitioningRef.current) return;
-    // 絵巻ハイパーリンク: スクロール検出による navIndex 更新時は抑制
-    if (isScrollDetectedUpdateRef.current) return;
 
-    if (node !== null) {
-      requestAnimationFrame(() => {
-        // フルスクリーン切り替え中なら再度チェック
-        if (isFullscreenTransitioningRef.current) return;
-        // 絵巻ハイパーリンク: スクロール検出フラグも再チェック
-        if (isScrollDetectedUpdateRef.current) return;
+    requestAnimationFrame(() => {
+      // フルスクリーン切り替え中なら再度チェック
+      if (isFullscreenTransitioningRef.current) return;
 
-        const scrollContainer = node.closest("article");
-        if (!scrollContainer) return;
+      // DOM から対象セクションを検索
+      const targetSection = document.querySelector(`section[id="${id}"]`);
+      if (!targetSection) return;
 
-        const containerRect = scrollContainer.getBoundingClientRect();
-        const nodeRect = node.getBoundingClientRect();
+      const scrollContainer = targetSection.closest("article");
+      if (!scrollContainer) return;
 
-        // RTL環境: ノードの右端をコンテナの右端に合わせる
-        const scrollLeft =
-          scrollContainer.scrollLeft + (nodeRect.right - containerRect.right);
+      const containerRect = scrollContainer.getBoundingClientRect();
+      const nodeRect = targetSection.getBoundingClientRect();
 
-        scrollContainer.scrollTo({ left: scrollLeft, behavior: "smooth" });
-      });
-    }
+      // RTL環境: ノードの右端をコンテナの右端に合わせる
+      const scrollLeft =
+        scrollContainer.scrollLeft + (nodeRect.right - containerRect.right);
+
+      scrollContainer.scrollTo({ left: scrollLeft, behavior: "smooth" });
+    });
+  }, [setnavIndex]);
+
+  // scrollDialog: スクロール実行は handleToId に統合したため無効化
+  // ref callback としての機能は維持（他コンポーネントでの参照互換性のため）
+  const scrollDialog = useCallback((node) => {
+    // 何もしない（スクロール実行は handleToId が担当）
   }, []);
 
   useEffect(() => {
@@ -504,7 +515,7 @@ function MyApp({ Component, pageProps, router }) {
         const fetchHashflag = () => {
           const hashflag = Number(gRouter.asPath.split("#")[1]);
           if (hashflag) {
-            setnavIndex(hashflag);
+            handleToId(hashflag);
           }
         };
         fetchHashflag();
@@ -517,7 +528,7 @@ function MyApp({ Component, pageProps, router }) {
         const fetchHashflag = () => {
           const hashflag = Number(gRouter.asPath.split("#")[1]);
           if (hashflag) {
-            setnavIndex(hashflag);
+            handleToId(hashflag);
           }
         };
         fetchHashflag();
@@ -533,7 +544,7 @@ function MyApp({ Component, pageProps, router }) {
     return () => {
       mediaQueryList.removeEventListener("change", handleOrientationChange);
     };
-  }, [setnavIndex, gRouter.asPath]);
+  }, [setnavIndex, gRouter.asPath, handleToId]);
 
   // 絵巻ハイパーリンク: navIndex変更時にURLのhashを更新
   // replaceStateを使用して履歴を汚さない（戻るボタンが正常に機能）
