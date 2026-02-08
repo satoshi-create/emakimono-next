@@ -1,7 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+/* Tailwind v3 directives removed: incompatible with @tailwindcss/postcss v4 plugin */
+/* Tailwind utility classes are not used in this project (CSS Modules + Chakra UI) */
 
 *,
 ::after,
@@ -167,7 +165,6 @@ button {
     /* トラックを透過にして「つまみだけが浮いて見える」表現を実現 */
     scrollbar-color: rgba(204, 204, 204, 0.74) transparent;
     scrollbar-width: auto;
-    widget.non-native-theme.scrollbar.style
 
     /* スクロールバーの太さと背景色 (WebKit系: Chrome, Safari, Edge) */
     &::-webkit-scrollbar,

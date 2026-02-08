@@ -13,6 +13,9 @@ const nextConfig = {
   reactStrictMode: true,
   i18n,
   swcMinify: true,
+  compiler: {
+    styledComponents: true,
+  },
   // i18n: {
   //   locales: ["en", "ja"],
   //   defaultLocale: "en",

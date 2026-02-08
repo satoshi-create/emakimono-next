@@ -38,6 +38,12 @@
   display: none;
 }
 
+.typeselect,
+.eraselect,
+.authorselect {
+  margin-bottom: 0.5rem;
+}
+
 .contents {
   grid-column: 2;
   grid-row: 3;

@@ -17,21 +17,21 @@
 
 .container {
   display: flex;
-  height: var(--screen-height);
+  height: var(--screen-height, 75vh);
   overflow-y: hidden;
   /* overflow-y: auto; */
-  overflow-x: var(--overflow-x);
+  overflow-x: var(--overflow-x, auto);
   /* position: relative; */
 }
 
 .EmakiConteiner_container__A_oLx {
   display: flex !important;
-  height: var(--screen-height);
+  height: var(--screen-height, 75vh);
   overflow-y: hidden;
   /* overflow-y: auto; */
-  overflow-x: var(--overflow-x);
+  overflow-x: var(--overflow-x, auto);
   position: relative;
-  box-shadow: var(--shadow-1)
+  box-shadow: var(--shadow-1);
 }
 
 .emakiplayer {
