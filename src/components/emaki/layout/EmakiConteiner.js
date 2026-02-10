@@ -9,7 +9,6 @@ import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
 import WheelScrollIndicator from "@/components/emaki/viewer/WheelScrollIndicator";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiConteiner.module.css";
-import "lazysizes";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import {
   trackAutoScrollStarted,

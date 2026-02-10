@@ -82,6 +82,25 @@ const LazyImage = ({
     }
   }, [toggleFullscreen, isSkeletonVisible, emakiId, uniqueIndex]);
 
+  // 全画像共通フォールバック: priority画像・全画面時以外の画像に対するセーフティネット
+  // onLoadingComplete が発火しなかった場合（リクエストキャンセル、キャッシュ競合等）に
+  // スケルトンが永久に表示され続ける問題を防止
+  useEffect(() => {
+    if (uniqueIndex === 0 || toggleFullscreen) return;
+
+    const fallbackTimer = setTimeout(() => {
+      if (isSkeletonVisible) {
+        if (!hasTrackedRef.current && emakiId) {
+          trackImageFallback(emakiId, uniqueIndex, "universal_timeout");
+          hasTrackedRef.current = true;
+        }
+        setImageLoaded(true);
+        setTimeout(() => setSkeletonVisible(false), 300);
+      }
+    }, 3000);
+    return () => clearTimeout(fallbackTimer);
+  }, [uniqueIndex, toggleFullscreen, isSkeletonVisible, emakiId]);
+
   const baseUrl =
     "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
 
@@ -151,6 +170,15 @@ const LazyImage = ({
     return "var(--vh-75)"; // fallback
   };
 
+  // sizes 属性: ブラウザの srcSet 選択を実際の表示幅に一致させる
+  // sizes 未指定時のデフォルト "100vw" では、横スクロール内の各画像の実幅と乖離し、
+  // 不要なリクエストキャンセル（HAR: status 0）や二重フェッチの原因となる
+  // media query を使用して SSR/クライアント間の hydration mismatch を防止
+  const ratioStr = (width / height).toFixed(4);
+  const imageSizes = toggleFullscreen
+    ? `calc(${ratioStr} * 100vh)`
+    : `(orientation: portrait) calc(${ratioStr} * 45vh), calc(${ratioStr} * 75vh)`;
+
   return (
     <div
       className={`image-wrapper`}
@@ -184,6 +212,7 @@ const LazyImage = ({
         loading={isPlayMode || toggleFullscreen || uniqueIndex < 10 ? "eager" : "lazy"}
         lazyBoundary="2000px" // ビューポートの2000px手前から読み込み開始
         layout="responsive"
+        sizes={imageSizes}
         placeholder={"blur"} // ぼかしプレースホルダーを適用
         blurDataURL={PAPER_COLOR_BLUR_DATA_URL} // 絵巻の紙色（Firefox 白背景対策）
         onLoadingComplete={() => {
