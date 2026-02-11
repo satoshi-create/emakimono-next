@@ -5,6 +5,7 @@ import FullScreen from "@/components/emaki/viewer/FullScreen";
 import HelpModal from "@/components/emaki/viewer/HelpModal";
 import Modal from "@/components/emaki/viewer/Modal";
 import ModalDesc from "@/components/emaki/viewer/ModalDesc";
+import PositionIndicator from "@/components/emaki/viewer/PositionIndicator";
 import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
 import WheelScrollIndicator from "@/components/emaki/viewer/WheelScrollIndicator";
 import { AppContext } from "@/pages/_app";
@@ -91,6 +92,11 @@ const EmakiContainer = ({
   // 絵巻ハイパーリンク: シーン検出用の debounce タイマー
   const sceneDetectionTimerRef = useRef(null);
   const lastDetectedSceneRef = useRef(navIndex); // 前回検出したシーン（不要な更新を防ぐ）
+
+  // 教育現場向けUI: 静かな現在地インジケータ
+  const [scrollRatio, setScrollRatio] = useState(0); // 進行度（0〜1）
+  const [isScrolling, setIsScrolling] = useState(false); // スクロール中か
+  const scrollingTimerRef = useRef(null); // スクロール検出タイマー
 
   // 絵巻ハイパーリンク: スクロール位置から現在表示中のシーンを検出
   const detectCurrentScene = useCallback(() => {
@@ -246,6 +252,23 @@ const EmakiContainer = ({
         scrollPositionStore.scrollLeft = currentScrollX;
         scrollPositionStore.scrollRatio = Math.abs(currentScrollX) / maxScrollLeft;
         scrollPositionStore.restored = false;
+      }
+
+      // 教育現場向けUI: 現在地インジケータ用の進行度を計算
+      if (maxScrollLeft > 0) {
+        const ratio = Math.abs(currentScrollX) / maxScrollLeft;
+        console.log("[EmakiContainer] スクロール検出:", { currentScrollX, maxScrollLeft, ratio });
+        setScrollRatio(ratio);
+        setIsScrolling(true);
+
+        // スクロール停止検出：1.5秒間スクロールイベントがなければ停止とみなす
+        if (scrollingTimerRef.current) {
+          clearTimeout(scrollingTimerRef.current);
+        }
+        scrollingTimerRef.current = setTimeout(() => {
+          console.log("[EmakiContainer] スクロール停止検出");
+          setIsScrolling(false);
+        }, 1500);
       }
 
       // 開始位置判定: scrollLeft が 0 または正の最大値（RTL環境考慮）
@@ -713,6 +736,13 @@ const EmakiContainer = ({
           <WheelScrollIndicator
             showToast={showWheelToast}
             onToastComplete={() => setShowWheelToast(false)}
+          />
+        )}
+        {scroll && (
+          <PositionIndicator
+            scrollRatio={scrollRatio}
+            isScrolling={isScrolling}
+            isUIVisible={isUIVisible}
           />
         )}
         {scroll && (

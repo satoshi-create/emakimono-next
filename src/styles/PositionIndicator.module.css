@@ -1,0 +1,70 @@
+.container {
+  position: absolute;
+  /* デスクトップ: EmakiNavigation の直上に配置 */
+  /* EmakiNavigation.land は bottom: calc(4% + env(safe-area-inset-bottom)) */
+  bottom: calc(4% + 4rem + env(safe-area-inset-bottom, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9; /* EmakiNavigation (z-index:10) より下層 */
+  pointer-events: none; /* 一切の操作を受け付けない */
+  /* 背景色に依存しない視認性: 軽いドロップシャドウ */
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25));
+}
+
+/* モバイル: EmakiNavigation の直上に配置 */
+/* EmakiNavigation.prt は bottom: calc(2% + env(safe-area-inset-bottom)) */
+@media (max-width: 1023px) {
+  .container {
+    bottom: calc(2% + 4rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+.track {
+  width: 120px;
+  height: 3px;
+  background-color: rgba(128, 128, 128, 0.4);
+  border-radius: 1.5px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* 背景色に依存しない視認性: 白い縁取り */
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.3),
+    inset 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+/* デスクトップ: 1.5倍のサイズ */
+@media (min-width: 1024px) {
+  .track {
+    width: 180px;
+    height: 4.5px;
+    border-radius: 2.25px;
+  }
+}
+
+.indicator {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background-color: rgba(60, 60, 60, 0.85);
+  border-radius: 50%; /* 円形 */
+  transform: translateY(-50%);
+  transition: transform 0.1s ease-out;
+  /* 背景色に依存しない視認性: 白い縁取り + 内側の影 */
+  box-shadow:
+    0 0 0 1.5px rgba(255, 255, 255, 0.5),
+    inset 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+/* デスクトップ: 1.5倍のサイズ */
+@media (min-width: 1024px) {
+  .indicator {
+    width: 12px;
+    height: 12px;
+    box-shadow:
+      0 0 0 2.25px rgba(255, 255, 255, 0.5),
+      inset 0 1.5px 1.5px rgba(0, 0, 0, 0.2);
+  }
+}
