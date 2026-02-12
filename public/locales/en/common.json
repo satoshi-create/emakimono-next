@@ -30,7 +30,9 @@
     "seeDetailsOfSection": "See details of this section",
     "horizontalScrollHint": "Scroll horizontally to navigate",
     "verticalScrollHint": "Vertical scroll: move cursor outside the scroll",
-    "fullscreeBtn": "Enjoy the picture scroll in full screen"
+    "fullscreeBtn": "Enjoy the picture scroll in full screen",
+    "hideUI": "Hide UI",
+    "showUI": "Show UI"
   },
 
   "help": {

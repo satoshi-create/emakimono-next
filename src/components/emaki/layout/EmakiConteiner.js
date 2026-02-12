@@ -11,6 +11,10 @@ import WheelScrollIndicator from "@/components/emaki/viewer/WheelScrollIndicator
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiConteiner.module.css";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconButton, Tooltip, useBreakpointValue } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import {
   trackAutoScrollStarted,
   trackAutoScrollInterrupted,
@@ -62,6 +66,8 @@ const EmakiContainer = ({
   } = useContext(AppContext);
 
   const { backgroundImage, kotobagaki, type, genjieslug } = data;
+  const { t } = useTranslation("common");
+  const isMobileToggle = useBreakpointValue({ base: true, md: false });
 
   const wrapperRef = useRef();
   const articleRef = useRef();
@@ -88,6 +94,15 @@ const EmakiContainer = ({
   // 教育現場向けUI: 静止UI耐性（Idle UI）- 長時間投影時の視覚的ノイズ軽減
   const [isUIVisible, setIsUIVisible] = useState(true); // UI表示状態
   const idleTimeoutRef = useRef(null); // 無操作タイマー
+
+  // 教育現場向けUI: 完全非表示トグル（Hキー / トグルボタン）
+  // 教師がプロジェクター投影中にUIを明示的に隠し続けるための機能
+  // idle timerとは独立して動作し、ユーザー操作によるUI再表示を抑制する
+  // ref: イベントハンドラ内の同期ガード用（クロージャ内で最新値を参照）
+  // state: JSX描画用（再レンダーを確実にトリガー）
+  const isUIForceHiddenRef = useRef(false);
+  const [isUIForceHidden, setIsUIForceHidden] = useState(false);
+  const [isToggleBtnHovered, setIsToggleBtnHovered] = useState(false);
 
   // 絵巻ハイパーリンク: シーン検出用の debounce タイマー + throttle
   const sceneDetectionTimerRef = useRef(null);
@@ -166,6 +181,34 @@ const EmakiContainer = ({
   }, [setnavIndex, isScrollDetectedUpdateRef, data.id]);
 
 
+  // 教育現場向けUI: Hキーによる完全非表示トグル
+  useEffect(() => {
+    const handleForceHideToggle = (e) => {
+      if (e.key !== 'h' && e.key !== 'H') return;
+
+      // テキスト入力中は無視
+      const tag = e.target.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) return;
+
+      const next = !isUIForceHiddenRef.current;
+      isUIForceHiddenRef.current = next;
+      setIsUIForceHidden(next);
+      if (next) {
+        // 強制非表示: UIを即座に隠し、idle timerを停止
+        setIsUIVisible(false);
+        if (idleTimeoutRef.current) {
+          clearTimeout(idleTimeoutRef.current);
+          idleTimeoutRef.current = null;
+        }
+      } else {
+        // 解除: 通常のidle cycleに復帰（UIを一旦表示し、タイマーに委ねる）
+        setIsUIVisible(true);
+      }
+    };
+    window.addEventListener('keydown', handleForceHideToggle);
+    return () => window.removeEventListener('keydown', handleForceHideToggle);
+  }, []);
+
   // 教育現場向けUI: 静止UI耐性 - ユーザー操作検出とタイマー管理
   // 計測用: タイマー開始時刻を記録
   const idleStartTimeRef = useRef(Date.now());
@@ -205,6 +248,9 @@ const EmakiContainer = ({
 
     // ユーザー操作検出時の処理（トリガー種別付き）
     const handleUserActivityWithType = (triggerType) => {
+      // 完全非表示トグル中はUI再表示を抑制
+      if (isUIForceHiddenRef.current) return;
+
       // 計測: UI再表示（非表示状態からの復帰時のみ）
       if (wasUIHiddenRef.current) {
         trackUIRevealed(data.id, triggerType);
@@ -825,6 +871,75 @@ const EmakiContainer = ({
               onStartPlayMode={startPlayMode}
               onStopPlayMode={stopPlayMode}
             />
+            {/* 教育現場向けUI: 完全非表示トグルボタン（aside外に独立配置）
+                force-hidden時もこのボタンだけ低opacityで残留し、UI復帰手段を確保する
+                ActionButtonと同じChakra UI Tooltip + IconButton構成で視覚的統一
+                NOTE: opacity制御はsxで一元管理（_hoverのopacity動的変更はEmotion class競合を起こすため） */}
+            <Tooltip
+              label={isUIForceHidden ? t("viewer.showUI") : t("viewer.hideUI")}
+              aria-label={isUIForceHidden ? t("viewer.showUI") : t("viewer.hideUI")}
+              hasArrow
+              isDisabled={isMobileToggle || (isUIForceHidden && !isToggleBtnHovered)}
+              isOpen={isUIForceHidden && !isToggleBtnHovered ? false : undefined}
+            >
+              <IconButton
+                icon={
+                  <FontAwesomeIcon
+                    icon={isUIForceHidden ? faEyeSlash : faEye}
+                    style={{ fontSize: "1.5em" }}
+                  />
+                }
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const next = !isUIForceHiddenRef.current;
+                  isUIForceHiddenRef.current = next;
+                  setIsUIForceHidden(next);
+                  if (next) {
+                    setIsUIVisible(false);
+                    if (idleTimeoutRef.current) {
+                      clearTimeout(idleTimeoutRef.current);
+                      idleTimeoutRef.current = null;
+                    }
+                  } else {
+                    setIsUIVisible(true);
+                  }
+                }}
+                onMouseEnter={() => setIsToggleBtnHovered(true)}
+                onMouseLeave={() => setIsToggleBtnHovered(false)}
+                aria-label={isUIForceHidden ? t("viewer.showUI") : t("viewer.hideUI")}
+                variant="unstyled"
+                size={{ base: "sm", md: "md" }}
+                color="white"
+                transition="all 0.3s linear"
+                sx={{
+                  paddingInlineStart: "0 !important",
+                  paddingInlineEnd: "0 !important",
+                  position: "absolute",
+                  bottom: !isMobileToggle
+                    ? "4%"
+                    : "calc(1% + env(safe-area-inset-bottom, 0px))",
+                  left: !isMobileToggle
+                    ? "1%"
+                    : "calc(1% + env(safe-area-inset-left, 0px))",
+                  zIndex: 10,
+                  // opacity制御: sx内で一元管理（_hoverは使わない）
+                  // force-hidden時: 控えめに視認可能（0.45）、hover時に明確化（0.85）
+                  // idle非表示時: 他UIと同様に消える
+                  // 通常時: 完全表示
+                  opacity: isUIForceHidden
+                    ? (isToggleBtnHovered ? 0.85 : 0.45)
+                    : isUIVisible
+                      ? 1
+                      : 0,
+                  pointerEvents: isUIForceHidden || isUIVisible ? "auto" : "none",
+                }}
+                _hover={
+                  !isMobileToggle
+                    ? { transform: "scale(1.4)", color: "#ff8c77" }
+                    : { color: "#ff8c77" }
+                }
+              />
+            </Tooltip>
           </>
         )}
         {scroll && toggleFullscreen && (

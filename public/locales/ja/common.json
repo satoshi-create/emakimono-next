@@ -30,7 +30,9 @@
     "seeDetailsOfSection": "この段の情報を見る",
     "horizontalScrollHint": "横スクロールで移動します",
     "verticalScrollHint": "縦スクロール: 絵巻の外へカーソルを移動",
-    "fullscreeBtn": "フルスクリーンで絵巻を楽しむ"
+    "fullscreeBtn": "フルスクリーンで絵巻を楽しむ",
+    "hideUI": "非表示にする",
+    "showUI": "表示する"
   },
 
   "help": {
