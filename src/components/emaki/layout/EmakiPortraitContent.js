@@ -84,6 +84,14 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     item.relatedEmakis.includes(title)
   );
 
+  const ekotobaIndices = emakis
+    .map((item, i) => (item.cat === "ekotoba" ? i : -1))
+    .filter((i) => i >= 0);
+  const activeEkotobaIndex = ekotobaIndices.reduce(
+    (prev, curr) => (curr <= navIndex ? curr : prev),
+    ekotobaIndices[0]
+  );
+
   return (
     <>
       <EmakiConteiner
@@ -174,6 +182,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                           ekotobaId={ekotobaId}
                           kotobagaki={kotobagaki}
                           iconType={"location"}
+                          isActive={idx === activeEkotobaIndex}
                         />
                       );
                     }

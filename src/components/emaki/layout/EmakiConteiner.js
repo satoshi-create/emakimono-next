@@ -89,62 +89,79 @@ const EmakiContainer = ({
   const [isUIVisible, setIsUIVisible] = useState(true); // UI表示状態
   const idleTimeoutRef = useRef(null); // 無操作タイマー
 
-  // 絵巻ハイパーリンク: シーン検出用の debounce タイマー
+  // 絵巻ハイパーリンク: シーン検出用の debounce タイマー + throttle
   const sceneDetectionTimerRef = useRef(null);
+  const lastSceneDetectionTimeRef = useRef(0); // throttle用タイムスタンプ
   const lastDetectedSceneRef = useRef(navIndex); // 前回検出したシーン（不要な更新を防ぐ）
 
   // 教育現場向けUI: 静かな現在地インジケータ
-  const [scrollRatio, setScrollRatio] = useState(0); // 進行度（0〜1）
+  // パフォーマンス: scrollRatio はReact stateではなくDOM直接操作で更新
+  // スクロール中のEmakiConteiner再レンダリングを完全に排除
+  const indicatorElRef = useRef(null); // PositionIndicatorのDOM要素への参照
   const [isScrolling, setIsScrolling] = useState(false); // スクロール中か
+  const isScrollingRef = useRef(false); // setIsScrolling呼び出し最適化用
   const scrollingTimerRef = useRef(null); // スクロール検出タイマー
 
   // 絵巻ハイパーリンク: スクロール位置から現在表示中のシーンを検出
+  // パフォーマンス: 初回のみ getBoundingClientRect でセクション位置を計算・キャッシュし、
+  // 以降は scrollLeft の算術演算のみでシーンを特定（DOM読み取り・レイアウト強制ゼロ）
+  const sectionsCacheRef = useRef(null);
+
   const detectCurrentScene = useCallback(() => {
     const el = articleRef.current;
     if (!el) return;
 
-    const sections = el.querySelectorAll("section[id]");
-    if (sections.length === 0) return;
+    // 初回: セクション位置をキャッシュ（getBoundingClientRect は1回だけ）
+    // items プロパティの存在もチェック（HMRで旧形式キャッシュが残る場合の対策）
+    if (!sectionsCacheRef.current?.items) {
+      const sections = Array.from(el.querySelectorAll("section[id]"));
+      if (sections.length === 0) return;
 
-    const containerRect = el.getBoundingClientRect();
-    // RTL環境: 右端を基準として検出（絵巻は右から左へ読む）
-    const referenceX = containerRect.right;
+      const containerRight = el.getBoundingClientRect().right;
+      const baseScrollLeft = el.scrollLeft;
 
-    let closestSection = null;
+      sectionsCacheRef.current = {
+        baseScrollLeft,
+        items: sections.map((section) => ({
+          id: parseInt(section.id, 10),
+          // コンテナ右端からのオフセット（スクロール位置に依存しない定数）
+          offset: section.getBoundingClientRect().right - containerRight,
+        })),
+      };
+    }
+
+    // 2回目以降: scrollLeft の差分だけでシーンを特定（DOM読み取りなし）
+    const cache = sectionsCacheRef.current;
+    const scrollDelta = el.scrollLeft - cache.baseScrollLeft;
+
+    let closestId = null;
     let closestDistance = Infinity;
 
-    sections.forEach((section) => {
-      const rect = section.getBoundingClientRect();
-      // sectionの右端とコンテナ右端との距離
-      const distance = Math.abs(rect.right - referenceX);
-
+    cache.items.forEach(({ id, offset }) => {
+      const distance = Math.abs(offset - scrollDelta);
       if (distance < closestDistance) {
         closestDistance = distance;
-        closestSection = section;
+        closestId = id;
       }
     });
 
-    if (closestSection) {
-      const sceneIndex = parseInt(closestSection.id, 10);
-      // 有効な数値で、前回と異なる場合のみ更新
-      if (!isNaN(sceneIndex) && sceneIndex !== lastDetectedSceneRef.current) {
-        // 計測: シーン遷移・滞在（スクロール検出による）
-        handleSceneChange(data.id, sceneIndex, "scroll_detect");
+    if (closestId !== null && !isNaN(closestId) && closestId !== lastDetectedSceneRef.current) {
+      // 計測: シーン遷移・滞在（スクロール検出による）
+      handleSceneChange(data.id, closestId, "scroll_detect");
 
-        lastDetectedSceneRef.current = sceneIndex;
-        // 絵巻ハイパーリンク: スクロール検出による更新であることをマーク
-        // scrollDialog の自動スクロールを抑制するため
-        if (isScrollDetectedUpdateRef) {
-          isScrollDetectedUpdateRef.current = true;
-        }
-        setnavIndex(sceneIndex);
-        // フラグを解除（scrollDialog の処理が完了するまで少し待つ）
-        setTimeout(() => {
-          if (isScrollDetectedUpdateRef) {
-            isScrollDetectedUpdateRef.current = false;
-          }
-        }, 100);
+      lastDetectedSceneRef.current = closestId;
+      // 絵巻ハイパーリンク: スクロール検出による更新であることをマーク
+      // scrollDialog の自動スクロールを抑制するため
+      if (isScrollDetectedUpdateRef) {
+        isScrollDetectedUpdateRef.current = true;
       }
+      setnavIndex(closestId);
+      // フラグを解除（scrollDialog の処理が完了するまで少し待つ）
+      setTimeout(() => {
+        if (isScrollDetectedUpdateRef) {
+          isScrollDetectedUpdateRef.current = false;
+        }
+      }, 100);
     }
   }, [setnavIndex, isScrollDetectedUpdateRef, data.id]);
 
@@ -233,13 +250,24 @@ const EmakiContainer = ({
     };
   }, [isAutoScrolling, data.id]); // 依存配列: 自動スクロール状態の変化を監視
 
+  // パフォーマンス: scrollWidth/clientWidth のキャッシュ
+  // 自動再生中は値が変化しないため、毎フレームのレイアウト読み取りを回避
+  const scrollDimsRef = useRef({ w: 0, c: 0, ts: 0 });
+
   useEffect(() => {
     if (!articleRef.current) return;
     const el = articleRef.current;
     const handleScroll = () => {
       const currentScrollX = el.scrollLeft;
-      const scrollWidth = el.scrollWidth;
-      const clientWidth = el.clientWidth;
+
+      // scrollWidth/clientWidth: 1秒間隔でキャッシュ更新
+      // 自動再生中はコンテンツサイズが不変のため、毎フレームの読み取りは不要
+      const now = Date.now();
+      if (now - scrollDimsRef.current.ts > 1000) {
+        scrollDimsRef.current = { w: el.scrollWidth, c: el.clientWidth, ts: now };
+      }
+      const scrollWidth = scrollDimsRef.current.w || el.scrollWidth;
+      const clientWidth = scrollDimsRef.current.c || el.clientWidth;
 
       // 教育現場向けUI: 端点判定（操作手段に依存しない）
       // RTL環境では scrollLeft が負の値になるため、絶対値で判定
@@ -255,20 +283,48 @@ const EmakiContainer = ({
       }
 
       // 教育現場向けUI: 現在地インジケータ用の進行度を計算
+      // パフォーマンス: DOM直接操作でReact再レンダリングを完全に回避
       if (maxScrollLeft > 0) {
         const ratio = Math.abs(currentScrollX) / maxScrollLeft;
-        console.log("[EmakiContainer] スクロール検出:", { currentScrollX, maxScrollLeft, ratio });
-        setScrollRatio(ratio);
-        setIsScrolling(true);
 
-        // スクロール停止検出：1.5秒間スクロールイベントがなければ停止とみなす
+        // PositionIndicatorのDOM要素を直接更新（React stateを経由しない）
+        if (indicatorElRef.current) {
+          const isDesktop = window.innerWidth >= 1024;
+          const trackW = isDesktop ? 180 : 120;
+          const indSize = isDesktop ? 12 : 8;
+          const position = (1 - ratio) * (trackW - indSize);
+          indicatorElRef.current.style.transform = `translateX(${position}px) translateY(-50%)`;
+        }
+
+        // isScrolling: 開始時に1回だけsetStateを呼ぶ（ref で重複呼び出しを防止）
+        if (!isScrollingRef.current) {
+          isScrollingRef.current = true;
+          setIsScrolling(true);
+        }
+      }
+
+      const isAutoPlay = isAutoScrolling || playModeAnimationRef.current;
+
+      // スクロール停止検出 + debounce: 自動再生中はタイマーチャーンを回避
+      // 自動再生中は毎フレーム clearTimeout+setTimeout（120回/秒）が不要
+      if (!isAutoPlay) {
+        // 手動スクロール: 停止検出タイマー（1.5秒後に isScrolling = false）
         if (scrollingTimerRef.current) {
           clearTimeout(scrollingTimerRef.current);
         }
         scrollingTimerRef.current = setTimeout(() => {
-          console.log("[EmakiContainer] スクロール停止検出");
+          isScrollingRef.current = false;
           setIsScrolling(false);
         }, 1500);
+
+        // 手動スクロール: debounce で最終シーン検出（150ms後）
+        if (sceneDetectionTimerRef.current) {
+          clearTimeout(sceneDetectionTimerRef.current);
+        }
+        sceneDetectionTimerRef.current = setTimeout(() => {
+          lastSceneDetectionTimeRef.current = Date.now();
+          detectCurrentScene();
+        }, 150);
       }
 
       // 開始位置判定: scrollLeft が 0 または正の最大値（RTL環境考慮）
@@ -290,14 +346,15 @@ const EmakiContainer = ({
         setIsAtEnd(atEnd);
       }
 
-      // 絵巻ハイパーリンク: スクロール時のシーン検出（debounce: 150ms）
-      // 頻繁なURL更新を防ぎ、スクロールが落ち着いた後に検出
-      if (sceneDetectionTimerRef.current) {
-        clearTimeout(sceneDetectionTimerRef.current);
+      // 絵巻ハイパーリンク: 自動再生中のシーン検出（800ms間隔）
+      // スクロールハンドラ内で同期実行（rAFに遅延するとauto-playの
+      // scrollToと同一フレーム内で競合しレイアウトスラッシングが悪化するため）
+      if (isAutoPlay) {
+        if (now - lastSceneDetectionTimeRef.current > 800) {
+          lastSceneDetectionTimeRef.current = now;
+          detectCurrentScene();
+        }
       }
-      sceneDetectionTimerRef.current = setTimeout(() => {
-        detectCurrentScene();
-      }, 150);
     };
 
     el.addEventListener("scroll", handleScroll);
@@ -427,6 +484,10 @@ const EmakiContainer = ({
         // これにより「戻る」ボタンが表示可能になる
         setIsAutoScrolling(false);
 
+        // スクロール停止を通知（自動再生中はタイマーをスキップしているため明示的にリセット）
+        isScrollingRef.current = false;
+        setIsScrolling(false);
+
         if (animationId) cancelAnimationFrame(animationId);
         el.style.scrollBehavior = originalScrollBehavior;
         el.removeEventListener("mousedown", handleMousedown);
@@ -504,6 +565,10 @@ const EmakiContainer = ({
     }
 
     setIsPlayMode(false);
+
+    // スクロール停止を通知（自動再生中はタイマーをスキップしているため明示的にリセット）
+    isScrollingRef.current = false;
+    setIsScrolling(false);
 
     // UI復帰: 静止UI耐性のタイマーに委ねる
     setIsUIVisible(true);
@@ -585,6 +650,10 @@ const EmakiContainer = ({
       scrollPositionStore.scrollRatio = 0;
       scrollPositionStore.restored = false;
       scrollPositionStore.isTransitioning = false;
+
+      // キャッシュを無効化（新しい絵巻のセクション・サイズを再取得するため）
+      sectionsCacheRef.current = null;
+      scrollDimsRef.current = { w: 0, c: 0, ts: 0 };
 
       // 計測: 全計測状態をリセット
       resetAllTracking();
@@ -740,7 +809,7 @@ const EmakiContainer = ({
         )}
         {scroll && (
           <PositionIndicator
-            scrollRatio={scrollRatio}
+            indicatorElRef={indicatorElRef}
             isScrolling={isScrolling}
             isUIVisible={isUIVisible}
           />

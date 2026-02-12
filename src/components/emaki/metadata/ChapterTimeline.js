@@ -9,7 +9,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { FaBook, FaMapMarkerAlt, FaRegCircle } from "react-icons/fa";
 
 const ChapterTimeline = ({
@@ -21,9 +21,32 @@ const ChapterTimeline = ({
   ekotobaId,
   kotobagaki,
   iconType,
+  isActive,
+  scrollOnActive,
 }) => {
   const { handleToId, openDescModal } = useContext(AppContext);
   const { locale } = useRouter();
+  const rowRef = useRef(null);
+
+  useEffect(() => {
+    if (!isActive || !scrollOnActive || !rowRef.current) return;
+    const el = rowRef.current;
+    let scrollParent = el.parentElement;
+    while (scrollParent) {
+      const { overflowY } = getComputedStyle(scrollParent);
+      if (overflowY === "auto" || overflowY === "scroll") break;
+      scrollParent = scrollParent.parentElement;
+    }
+    if (!scrollParent) return;
+    const parentRect = scrollParent.getBoundingClientRect();
+    const elRect = el.getBoundingClientRect();
+    const offset =
+      elRect.top - parentRect.top - (parentRect.height - elRect.height) / 2;
+    scrollParent.scrollTo({
+      top: scrollParent.scrollTop + offset,
+      behavior: "auto",
+    });
+  }, [isActive, scrollOnActive]);
 
   let icon;
   switch (iconType) {
@@ -49,9 +72,11 @@ const ChapterTimeline = ({
     <VStack align="start" spacing={6} w="100%">
       {/* タイムラインのノード */}
       <HStack
+        ref={rowRef}
         align="center"
         spacing={2}
-        _hover={{ bg: "gray.100" }}
+        bg={isActive ? "gray.100" : "transparent"}
+        _hover={{ bg: "gray.200" }}
         w="full"
         p={2}
         cursor={"pointer"}
