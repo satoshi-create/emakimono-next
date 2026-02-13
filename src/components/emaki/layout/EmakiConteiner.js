@@ -50,6 +50,7 @@ const EmakiContainer = ({
   boxshadow,
   selectedRef,
   navIndex,
+  hasNextVolume = false,
 }) => {
   const {
     isModalOpen,
@@ -84,6 +85,11 @@ const EmakiContainer = ({
   const [isAtStart, setIsAtStart] = useState(true); // 開始位置（右端）にいるか
   const [isAtEnd, setIsAtEnd] = useState(false); // 終了位置（左端）にいるか
   const [isAutoScrolling, setIsAutoScrolling] = useState(false); // 自動スクロール中か（初回ナッジ用）
+
+  // 教育現場向けUI: 巻末ナッジ（次巻が存在する場合のみ）
+  // 巻末到達時に一度だけ微かなグラデーションを表示し、「続きがある」ことを非言語的に伝える
+  const endNudgeShownRef = useRef(false);
+  const [showEndNudge, setShowEndNudge] = useState(false);
 
   // 教育現場向けUI: 再生モード（ユーザー任意の自動スクロール）
   // 初回ナッジ（isAutoScrolling）とは独立した状態として管理
@@ -422,6 +428,17 @@ const EmakiContainer = ({
       }
     };
   }, [isAtStart, isAtEnd, detectCurrentScene, isAutoScrolling, data.id]);
+
+  // 教育現場向けUI: 巻末ナッジ発火
+  // isAtEnd が初めて true になり、かつ次巻が存在する場合に一度だけ発火
+  useEffect(() => {
+    if (isAtEnd && hasNextVolume && !endNudgeShownRef.current) {
+      endNudgeShownRef.current = true;
+      setShowEndNudge(true);
+      const timer = setTimeout(() => setShowEndNudge(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [isAtEnd, hasNextVolume]);
 
   // P0改修: フルスクリーン切り替え時のスクロール位置復元
   // toggleFullscreen state の変化を監視して復元処理を行う
@@ -1003,6 +1020,28 @@ const EmakiContainer = ({
               />
             );
           })}
+          {/* 教育現場向けUI: 巻末ナッジ
+              次巻が存在する場合に巻末到達時に一度だけ表示
+              row-reverse内の最終子要素 = 左端に配置
+              position:sticky で左端ビューポートに固定 */}
+          {hasNextVolume && (
+            <div
+              style={{
+                position: "sticky",
+                left: 0,
+                flexShrink: 0,
+                width: "80px",
+                marginRight: "-80px", // flex領域を圧迫しない
+                height: "100%",
+                background:
+                  "linear-gradient(to right, rgba(255,140,100,0.18), transparent)",
+                opacity: showEndNudge ? 1 : 0,
+                transition: "opacity 1s ease-in-out",
+                pointerEvents: "none",
+                zIndex: 10,
+              }}
+            />
+          )}
         </article>
       </div>
     </div>

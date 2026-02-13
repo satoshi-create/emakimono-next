@@ -111,6 +111,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
             articleRef={articleRef}
             overflowX={"scroll"}
             height={"var(--vh-75)"}
+            hasNextVolume={editionLinks.length > 0}
           />
           <div className={`${styles.chapter} scrollbar`}>
             <h4 className={styles.chapterTitle}>
