@@ -15,6 +15,9 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconButton, Tooltip, useBreakpointValue } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
+import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import {
   trackAutoScrollStarted,
   trackAutoScrollInterrupted,
@@ -50,7 +53,7 @@ const EmakiContainer = ({
   boxshadow,
   selectedRef,
   navIndex,
-  hasNextVolume = false,
+  editionLinks = [],
 }) => {
   const {
     isModalOpen,
@@ -68,6 +71,7 @@ const EmakiContainer = ({
 
   const { backgroundImage, kotobagaki, type, genjieslug } = data;
   const { t } = useTranslation("common");
+  const { locale } = useRouter();
   const isMobileToggle = useBreakpointValue({ base: true, md: false });
 
   const wrapperRef = useRef();
@@ -87,9 +91,8 @@ const EmakiContainer = ({
   const [isAutoScrolling, setIsAutoScrolling] = useState(false); // 自動スクロール中か（初回ナッジ用）
 
   // 教育現場向けUI: 巻末ナッジ（次巻が存在する場合のみ）
-  // 巻末到達時に一度だけ微かなグラデーションを表示し、「続きがある」ことを非言語的に伝える
-  const endNudgeShownRef = useRef(false);
-  const [showEndNudge, setShowEndNudge] = useState(false);
+  // 巻末到達中に他の巻へのカードを表示し、「続きがある」ことを伝える
+  const hasNextVolume = editionLinks.length > 0;
 
   // 教育現場向けUI: 再生モード（ユーザー任意の自動スクロール）
   // 初回ナッジ（isAutoScrolling）とは独立した状態として管理
@@ -429,16 +432,9 @@ const EmakiContainer = ({
     };
   }, [isAtStart, isAtEnd, detectCurrentScene, isAutoScrolling, data.id]);
 
-  // 教育現場向けUI: 巻末ナッジ発火
-  // isAtEnd が初めて true になり、かつ次巻が存在する場合に一度だけ発火
-  useEffect(() => {
-    if (isAtEnd && hasNextVolume && !endNudgeShownRef.current) {
-      endNudgeShownRef.current = true;
-      setShowEndNudge(true);
-      const timer = setTimeout(() => setShowEndNudge(false), 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [isAtEnd, hasNextVolume]);
+  // 教育現場向けUI: 巻末ナッジ
+  // isAtEnd 中は他巻カードを表示、離れると非表示
+  const showEndNudge = isAtEnd && hasNextVolume;
 
   // P0改修: フルスクリーン切り替え時のスクロール位置復元
   // toggleFullscreen state の変化を監視して復元処理を行う
@@ -1021,7 +1017,7 @@ const EmakiContainer = ({
             );
           })}
           {/* 教育現場向けUI: 巻末ナッジ
-              次巻が存在する場合に巻末到達時に一度だけ表示
+              次巻が存在する場合に巻末到達中にカードを表示
               row-reverse内の最終子要素 = 左端に配置
               position:sticky で左端ビューポートに固定 */}
           {hasNextVolume && (
@@ -1030,17 +1026,83 @@ const EmakiContainer = ({
                 position: "sticky",
                 left: 0,
                 flexShrink: 0,
-                width: "80px",
-                marginRight: "-80px", // flex領域を圧迫しない
+                width: 0,
                 height: "100%",
-                background:
-                  "linear-gradient(to right, rgba(255,140,100,0.18), transparent)",
-                opacity: showEndNudge ? 1 : 0,
-                transition: "opacity 1s ease-in-out",
                 pointerEvents: "none",
                 zIndex: 10,
               }}
-            />
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: "12px",
+                  left: "12px",
+                  width: "180px",
+                  pointerEvents: showEndNudge ? "auto" : "none",
+                  opacity: showEndNudge ? 1 : 0,
+                  transform: showEndNudge
+                    ? "translateX(0)"
+                    : "translateX(-12px)",
+                  transition: "opacity 0.5s ease, transform 0.5s ease",
+                  background: "rgba(255,255,255,0.92)",
+                  backdropFilter: "blur(8px)",
+                  borderRadius: "10px",
+                  boxShadow: "0 2px 16px rgba(0,0,0,0.15)",
+                  overflow: "hidden",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1px",
+                }}
+              >
+                {editionLinks.map((item, i) => (
+                  <Link key={i} href={`/${item.titleen}`}>
+                    <a
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        padding: "8px",
+                        textDecoration: "none",
+                        color: "#333",
+                        background:
+                          i > 0
+                            ? "linear-gradient(to bottom, rgba(0,0,0,0.04), transparent)"
+                            : "transparent",
+                        transition: "background 0.2s",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background =
+                          "rgba(255,140,100,0.1)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background =
+                          i > 0
+                            ? "linear-gradient(to bottom, rgba(0,0,0,0.04), transparent)"
+                            : "transparent";
+                      }}
+                    >
+                      <Image
+                        src={item.thumb}
+                        width={48}
+                        height={27}
+                        alt={item.title}
+                        style={{ borderRadius: "4px", objectFit: "cover" }}
+                      />
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: 600,
+                          lineHeight: 1.3,
+                          flex: 1,
+                        }}
+                      >
+                        {locale === "en" ? item.titleen : item.edition}
+                      </span>
+                    </a>
+                  </Link>
+                ))}
+              </div>
+            </div>
           )}
         </article>
       </div>

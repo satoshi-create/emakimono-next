@@ -120,13 +120,13 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
     setHash(0);
   }, [setnavIndex, setHash]);
 
-  // 教育現場向けUI: 巻末ナッジ用 - 兄弟巻の存在判定
+  // 教育現場向けUI: 巻末ナッジ用 - 兄弟巻の取得
   const alldata = locale === "en" ? enData : jaData;
-  const hasNextVolume =
-    !!data.edition &&
-    alldata.some(
-      (item) => item.title === data.title && item.edition !== data.edition
-    );
+  const editionLinksForFullscreen = data.edition
+    ? alldata.filter(
+        (item) => item.title === data.title && item.edition !== data.edition
+      )
+    : [];
 
   const matchMediaContainer = (full, ori) => {
     if (full && ori === "landscape") {
@@ -138,7 +138,7 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
             selectedRef={selectedRef}
             navIndex={navIndex}
             height={"var(--vh-100)"}
-            hasNextVolume={hasNextVolume}
+            editionLinks={editionLinksForFullscreen}
           />
         </>
       );

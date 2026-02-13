@@ -101,7 +101,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
         navIndex={navIndex}
         articleRef={articleRef}
         height={"var(--vh-45)"}
-        hasNextVolume={editionLinks.length > 0}
+        editionLinks={editionLinks}
       />
       <div className={`${styles.wrapper} section-grid`}>
         <div className={styles.container}>
