@@ -1096,7 +1096,9 @@ const EmakiContainer = ({
                           flex: 1,
                         }}
                       >
-                        {locale === "en" ? item.titleen : item.edition}
+                        {locale === "en"
+                          ? item.titleen
+                          : item.edition || item.title}
                       </span>
                     </a>
                   </Link>

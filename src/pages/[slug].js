@@ -122,11 +122,18 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
 
   // 教育現場向けUI: 巻末ナッジ用 - 兄弟巻の取得
   const alldata = locale === "en" ? enData : jaData;
-  const editionLinksForFullscreen = data.edition
-    ? alldata.filter(
-        (item) => item.title === data.title && item.edition !== data.edition
-      )
-    : [];
+  const editionLinksForFullscreen = [
+    ...(data.edition
+      ? alldata.filter(
+          (item) => item.title === data.title && item.edition !== data.edition
+        )
+      : []),
+    ...(data.title && data.title.includes("九相")
+      ? alldata.filter(
+          (item) => item.title.includes("九相") && item.title !== data.title
+        )
+      : []),
+  ];
 
   const matchMediaContainer = (full, ori) => {
     if (full && ori === "landscape") {

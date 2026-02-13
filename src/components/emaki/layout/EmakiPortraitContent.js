@@ -101,7 +101,10 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
         navIndex={navIndex}
         articleRef={articleRef}
         height={"var(--vh-45)"}
-        editionLinks={editionLinks}
+        editionLinks={[
+          ...editionLinks,
+          ...(title.includes("九相") ? LinksToKusouzu : []),
+        ]}
       />
       <div className={`${styles.wrapper} section-grid`}>
         <div className={styles.container}>
