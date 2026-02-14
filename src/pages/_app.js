@@ -123,20 +123,29 @@ function MyApp({ Component, pageProps, router }) {
     });
   }
 
-  const rankingData = flattenAndRemoveNullAndUndefined(newData);
-
-  // console.log(result); // [{ "id": 12, "title": "hoge" }]
+  const rankingData = flattenAndRemoveNullAndUndefined(newData).slice(0, 30);
 
   async function fetchData() {
     setLoading(true);
     try {
       const res = await fetch(`/api/fetchData`);
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
       const data = await res.json();
-      const slicedata = data.slice(0, 30);
-      const encodeURL = slicedata.map((item, i) => {
-        const pathName = item.pagePath.replace("/", "");
-        return { pathName: pathName, pageView: item.uniquePageviews };
+
+      // /ja/xxx と /xxx のPVを同一スラグとして合算
+      const pvMap = {};
+      data.forEach((item) => {
+        // ロケールプレフィックス(/ja/)を除去し、先頭の/を除去してスラグを取得
+        const pathName = item.pagePath.replace(/^\/(ja\/)?/, "");
+        if (!pathName) return; // "/" や "/ja" は除外
+        const pv = Number(item.uniquePageviews) || 0;
+        pvMap[pathName] = (pvMap[pathName] || 0) + pv;
       });
+
+      const encodeURL = Object.entries(pvMap)
+        .map(([pathName, pageView]) => ({ pathName, pageView }))
+        .sort((a, b) => b.pageView - a.pageView);
+
       setData(encodeURL);
     } catch (error) {
       console.error("Error fetching data:", error);

@@ -3,6 +3,13 @@ import { BetaAnalyticsDataClient } from "@google-analytics/data";
 const propertyId = process.env.GOOGLE_APPLICATION_PROPERTY_ID;
 
 export default async function handler(req, res) {
+  if (!process.env.GOOGLE_CREDENTIALS_BASE64 || !propertyId) {
+    return res.status(500).json({
+      statusCode: 500,
+      message: "GA4 environment variables are not configured",
+    });
+  }
+
   try {
     const credentials = JSON.parse(
       Buffer.from(process.env.GOOGLE_CREDENTIALS_BASE64, "base64").toString(
@@ -28,6 +35,12 @@ export default async function handler(req, res) {
       metrics: [
         {
           name: "screenPageViews", // PV数を取得
+        },
+      ],
+      orderBys: [
+        {
+          metric: { metricName: "screenPageViews" },
+          desc: true,
         },
       ],
     });
