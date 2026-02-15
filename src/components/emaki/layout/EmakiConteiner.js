@@ -125,6 +125,8 @@ const EmakiContainer = ({
   const [isScrolling, setIsScrolling] = useState(false); // スクロール中か
   const isScrollingRef = useRef(false); // setIsScrolling呼び出し最適化用
   const scrollingTimerRef = useRef(null); // スクロール検出タイマー
+  const isAtStartRef = useRef(false); // useEffect依存配列からisAtStartを除去するためのref
+  const isAtEndRef = useRef(false); // useEffect依存配列からisAtEndを除去するためのref
 
   // 絵巻ハイパーリンク: スクロール位置から現在表示中のシーンを検出
   // パフォーマンス: 初回のみ getBoundingClientRect でセクション位置を計算・キャッシュし、
@@ -212,6 +214,10 @@ const EmakiContainer = ({
       } else {
         // 解除: 通常のidle cycleに復帰（UIを一旦表示し、タイマーに委ねる）
         setIsUIVisible(true);
+        // idle timerを再起動するため、合成イベントを発行
+        setTimeout(() => {
+          window.dispatchEvent(new Event('mousemove'));
+        }, 0);
       }
     };
     window.addEventListener('keydown', handleForceHideToggle);
@@ -393,11 +399,13 @@ const EmakiContainer = ({
         (currentScrollX < 0 &&
           Math.abs(currentScrollX) >= maxScrollLeft - SCROLL_MARGIN);
 
-      // 状態更新（変化がある場合のみ）
-      if (atStart !== isAtStart) {
+      // 状態更新（変化がある場合のみ、refで比較してuseEffect再実行を回避）
+      if (atStart !== isAtStartRef.current) {
+        isAtStartRef.current = atStart;
         setIsAtStart(atStart);
       }
-      if (atEnd !== isAtEnd) {
+      if (atEnd !== isAtEndRef.current) {
+        isAtEndRef.current = atEnd;
         setIsAtEnd(atEnd);
       }
 
@@ -430,7 +438,7 @@ const EmakiContainer = ({
         clearTimeout(sceneDetectionTimerRef.current);
       }
     };
-  }, [isAtStart, isAtEnd, detectCurrentScene, isAutoScrolling, data.id]);
+  }, [detectCurrentScene, isAutoScrolling, data.id]);
 
   // 教育現場向けUI: 巻末ナッジ
   // isAtEnd 中は他巻カードを表示、離れると非表示
@@ -723,11 +731,6 @@ const EmakiContainer = ({
   }, [data.id]);
 
   useEffect(() => {
-    const ref = articleRef.current;
-    const coordinate = ref.getBoundingClientRect();
-  }, [articleRef]);
-
-  useEffect(() => {
     if (scroll) {
       let scrollSpeed = 30;
       const el = articleRef.current;
@@ -761,9 +764,15 @@ const EmakiContainer = ({
         let scrollDirection = e.deltaY > 0 ? 1 : -1;
 
         // RTL環境考慮: scrollLeft と端点判定
+        // パフォーマンス: scrollWidth/clientWidth はキャッシュを利用（handleScrollと同じ）
+        // 毎tick のレイアウト読み取りを回避し、スクロールの滑らかさを維持
         let scrollLeft = el.scrollLeft;
-        let scrollWidth = el.scrollWidth;
-        let clientWidth = el.clientWidth;
+        const now = Date.now();
+        if (now - scrollDimsRef.current.ts > 1000) {
+          scrollDimsRef.current = { w: el.scrollWidth, c: el.clientWidth, ts: now };
+        }
+        let scrollWidth = scrollDimsRef.current.w || el.scrollWidth;
+        let clientWidth = scrollDimsRef.current.c || el.clientWidth;
         let maxScrollLeft = scrollWidth - clientWidth;
 
         // 教育現場向けUI: 端点判定（handleScroll と同じロジック）
@@ -794,11 +803,13 @@ const EmakiContainer = ({
       };
 
       // クロスブラウザ対応: 標準の wheel イベントを使用（Firefox対応）
-      el.addEventListener("wheel", MouseWheelHandler, false);
+      // passive: false を明示（preventDefault()を使用するため必須）
+      // 第3引数 false は useCapture であり passive 設定ではない点に注意
+      el.addEventListener("wheel", MouseWheelHandler, { passive: false });
 
       // クリーンアップ処理
       return () => {
-        el.removeEventListener("wheel", MouseWheelHandler, false);
+        el.removeEventListener("wheel", MouseWheelHandler);
       };
     }
   }, [scroll]);
@@ -915,6 +926,12 @@ const EmakiContainer = ({
                     }
                   } else {
                     setIsUIVisible(true);
+                    // idle timerを再起動するため、合成イベントを発行
+                    // e.stopPropagation()でwindow clickハンドラが呼ばれないため、
+                    // mousemoveイベントで代替してstartIdleTimer()を確実に実行する
+                    setTimeout(() => {
+                      window.dispatchEvent(new Event('mousemove'));
+                    }, 0);
                   }
                 }}
                 onMouseEnter={() => setIsToggleBtnHovered(true)}
@@ -945,6 +962,11 @@ const EmakiContainer = ({
                       ? 1
                       : 0,
                   pointerEvents: isUIForceHidden || isUIVisible ? "auto" : "none",
+                  // transform制御: force-hidden時はscale(1)を強制
+                  // タッチデバイスではCSS :hover がtap後も残留するため、
+                  // _hoverの scale(1.4) が非表示状態でも適用されてしまう問題を防ぐ
+                  // !important で :hover 疑似クラスのtransformを確実に上書き
+                  ...(isUIForceHidden && { transform: "scale(1) !important" }),
                 }}
                 _hover={
                   !isMobileToggle

@@ -12,7 +12,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import Script from "next/script";
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
-import { flushSync } from "react-dom";
+
 import "../styles/globals.css";
 import { appWithTranslation } from "next-i18next";
 
@@ -476,9 +476,7 @@ function MyApp({ Component, pageProps, router }) {
   // スクロール実行を統合した handleToId
   // ボタン操作・hash指定など、すべての「意図的なスクロール」はこの関数を経由する
   const handleToId = useCallback((id) => {
-    flushSync(() => {
-      setnavIndex(id);
-    });
+    setnavIndex(id);
 
     // スクロール実行（scrollDialogから責務を移管）
     // フルスクリーン切り替え中は抑制（既存仕様を維持）
