@@ -234,8 +234,10 @@ const connectChojugigaChapters = (titleen, chapter, text) => {
   if (!chapterData) {
     return "";
   }
+  // Notion移行期の一時対応: chapterがstring/number混在のため、両方をNumberに変換して比較
+  const chapterNum = Number(chapter);
   const chapterSummary = chapterData
-    .filter((item) => chapter === item.chapter)
+    .filter((item) => chapterNum === Number(item.chapter))
     .map((item) => item[text])
     .join();
   return chapterSummary;

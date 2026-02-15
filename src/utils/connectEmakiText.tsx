@@ -23,8 +23,9 @@ export const connectEmakiText = async (
     const emakiTextData = module.default as EmakiTextData[];
 
     // 指定されたchapterのデータを抽出し、対象のプロパティ（text）を取り出してjoin（複数ある場合は結合）
+    // Notion移行期の一時対応: chapterがstring/number混在のため、Numberに変換して比較
     const matched = emakiTextData
-      .filter((item) => chapter === item.chapter) // 該当する章だけに絞る
+      .filter((item) => chapter === Number(item.chapter)) // 該当する章だけに絞る
       .map((item) => item[text]) // そのプロパティだけ取り出す
       .join(); // 複数データがあったら文字列としてつなげる
 
