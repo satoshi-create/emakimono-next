@@ -15,6 +15,43 @@
   gap: 0.1rem;
 }
 
+/* タイトル + ランキングを横並びにしつつグリッド位置を維持 */
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  grid-row: 1;
+  grid-column: 1;
+}
+
+/* ランキング: 順位 + 閲覧数をタイトル横に表示 */
+.rankTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #b8860b;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+.rankTag:hover {
+  color: #daa520;
+}
+.rankIcon {
+  font-size: 0.7rem;
+  color: #daa520;
+}
+.rankDivider {
+  color: var(--clr-grey-light);
+  font-weight: 200;
+  margin: 0 0.05rem;
+}
+.rankViewIcon {
+  font-size: 0.55rem;
+  color: var(--clr-grey-light);
+}
+
 .tags {
   display: flex;
   flex-direction: row;
@@ -76,8 +113,6 @@
   color: var(--clr-black);
   font-family: var(--title-font2);
   text-transform: capitalize;
-  grid-row: 1;
-  grid-column: 1;
 }
 
 .authorLink {
@@ -101,7 +136,7 @@
 
 .linkedbutton {
   grid-row: 1;
-  grid-column: 1/span2;
+  grid-column: 2;
   align-self: center;
   justify-self: flex-end;
   background: var(--clr-accent-02);
@@ -116,6 +151,17 @@
 .linkedbutton:hover {
   background-color: var(--clr-white);
   color: var(--clr-accent-02);
+}
+
+/* SP: タイトル行を全幅にし、ボタンは非表示 */
+@media screen and (max-width: 768px) {
+  .titleRow {
+    grid-column: 1 / -1;
+    flex-wrap: wrap;
+  }
+  .linkedbutton {
+    display: none;
+  }
 }
 
 .metadataB {

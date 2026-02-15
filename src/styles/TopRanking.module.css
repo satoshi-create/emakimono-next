@@ -1,0 +1,119 @@
+/* トップページ用ランキングセクション */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* カード共通 */
+.card {
+  position: relative;
+  border-radius: var(--borderRadius);
+  overflow: hidden;
+  transition: var(--transition);
+  cursor: pointer;
+  aspect-ratio: 16 / 9;
+  background: #7c7c7cc9;
+}
+.card:hover {
+  box-shadow: var(--shadow-2);
+  transform: scale(1.02);
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* グラデーションオーバーレイ */
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* 順位バッジ行 */
+.rankRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.rank {
+  font-weight: 700;
+  font-family: var(--title-font2);
+}
+.rank[data-rank="1"] {
+  font-size: 1.3rem;
+  color: #ffd700;
+}
+.rank[data-rank="2"] {
+  font-size: 1.1rem;
+  color: #c0c0c0;
+}
+.rank[data-rank="3"] {
+  font-size: 1.1rem;
+  color: #cd7f32;
+}
+
+.eraBadge {
+  font-size: 0.6rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 1rem;
+  color: white;
+  font-family: var(--title-font2);
+  font-weight: 400;
+}
+
+/* タイトル */
+.cardTitle {
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  font-family: var(--title-font2);
+  text-transform: capitalize;
+  line-height: 1.3;
+}
+
+/* 閲覧数 */
+.views {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.75rem;
+  font-family: var(--title-font2);
+}
+.viewIcon {
+  font-size: 0.6rem;
+}
+
+/* もっと見るリンク */
+.moreLink {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+.moreLinkBtn {
+  padding: 0.6rem 1.5rem;
+  border-radius: var(--borderRadius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: var(--transition);
+  font-family: var(--text-font);
+  color: var(--clr-accent-02);
+  border: 1px solid var(--clr-accent-02);
+  background: var(--clr-white);
+}
+.moreLinkBtn:hover {
+  color: var(--clr-white);
+  background-color: var(--clr-accent-02);
+}

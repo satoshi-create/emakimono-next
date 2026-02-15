@@ -63,6 +63,33 @@
   row-gap: 0.5rem;
 }
 
+/* ランキング: 順位 + 閲覧数をタイトル横に表示 */
+.rankTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #b8860b;
+  transition: var(--transition);
+}
+.rankTag:hover {
+  color: #daa520;
+}
+.rankIcon {
+  font-size: 0.75rem;
+  color: #daa520;
+}
+.rankDivider {
+  color: var(--clr-grey-light);
+  font-weight: 200;
+  margin: 0 0.05rem;
+}
+.rankViewIcon {
+  font-size: 0.6rem;
+  color: var(--clr-grey-light);
+}
+
 .genjieslugBox {
   align-self: center;
   transition: var(--transition);

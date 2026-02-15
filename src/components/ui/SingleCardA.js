@@ -1,14 +1,16 @@
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/CardA.module.css";
 import { eraColor } from "@/utils/func";
+import { faEye, faTrophy } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 
 const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
   const { locale } = useRouter();
-  const { closeSearchModal } = useContext(AppContext);
+  const { closeSearchModal, rankingData } = useContext(AppContext);
   const {
     titleen,
     title,
@@ -24,6 +26,13 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
     subtype,
     keyword,
   } = item;
+
+  // ランキング順位・閲覧数を検索
+  const rankInfo = useMemo(() => {
+    const index = rankingData.findIndex((r) => r.titleen === titleen);
+    if (index < 0) return null;
+    return { rank: index + 1, pageView: rankingData[index].pageView };
+  }, [rankingData, titleen]);
 
   const filterDesc = desc.substring(0, 40);
   const descTemp = `${title} ${
@@ -75,6 +84,14 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
                 {locale === "en" ? `${eraen} period` : `${era}時代`}
               </a>
             </Link>
+            {rankInfo && (
+              <Link href="/ranking">
+                <a className={styles.rankBadge}>
+                  <FontAwesomeIcon icon={faTrophy} className={styles.rankBadgeIcon} />
+                  {locale === "en" ? `#${rankInfo.rank}` : `${rankInfo.rank}位`}
+                </a>
+              </Link>
+            )}
           </div>
           <Link href={`/${titleen}`}>
             <a>
@@ -113,20 +130,28 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
             </div>
           )}
 
-          {keyword && (
-            <div className={styles.keyword}>
-              {keyword.slice(0, 3).map((item, index) => {
-                const { name, slug, id } = item;
-                return (
-                  <Link href={`/keyword/${slug}`} key={index}>
-                    <a className={styles.keywordLink}>
-                      {locale === "en" ? id : name}
-                    </a>
-                  </Link>
-                );
-              })}
-            </div>
-          )}
+          <div className={styles.keywordRow}>
+            {rankInfo && (
+              <span className={styles.viewCount}>
+                <FontAwesomeIcon icon={faEye} />
+                {` ${Number(rankInfo.pageView).toLocaleString()}`}
+              </span>
+            )}
+            {keyword && (
+              <div className={styles.keyword}>
+                {keyword.slice(0, 3).map((item, index) => {
+                  const { name, slug, id } = item;
+                  return (
+                    <Link href={`/keyword/${slug}`} key={index}>
+                      <a className={styles.keywordLink}>
+                        {locale === "en" ? id : name}
+                      </a>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

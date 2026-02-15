@@ -19,16 +19,18 @@ import {
   keywordItem,
   useLocaleData,
 } from "@/utils/func";
+import { faEye, faTrophy } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, VStack } from "@chakra-ui/react";
 import parse from "html-react-parser";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 
 const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
-  const { handleFullScreen } = useContext(AppContext);
+  const { handleFullScreen, rankingData } = useContext(AppContext);
   const { emakis } = data;
   const { locale } = useRouter();
   const { t: alldata } = useLocaleData();
@@ -58,6 +60,13 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     kotobagaki,
     note,
   } = data;
+
+  // ランキング順位・閲覧数を検索
+  const rankInfo = useMemo(() => {
+    const index = rankingData.findIndex((item) => item.titleen === titleen);
+    if (index < 0) return null;
+    return { rank: index + 1, pageView: rankingData[index].pageView };
+  }, [rankingData, titleen]);
 
   const descTJa = desc
     ? desc
@@ -162,6 +171,25 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               <h1 className={styles.title}>
                 {locale === "ja" ? title : titleen} {locale === "ja" && edition}
               </h1>
+              {rankInfo && (
+                <Link href="/ranking">
+                  <a className={styles.rankTag}>
+                    <FontAwesomeIcon icon={faTrophy} className={styles.rankIcon} />
+                    {locale === "en" ? `#${rankInfo.rank}` : `${rankInfo.rank}位`}
+                    <span className={styles.rankDivider}>|</span>
+                    <FontAwesomeIcon icon={faEye} className={styles.rankViewIcon} />
+                    {Number(rankInfo.pageView).toLocaleString()}
+                  </a>
+                </Link>
+              )}
+              <button
+                type="button"
+                value="Lock Landscape"
+                onClick={() => handleFullScreen("landscape")}
+                className={styles.linkedbutton}
+              >
+                {t("viewer.fullscreeBtn")}
+              </button>
               {author && (
                 <Link href={`/author/${authoren}`}>
                   <a className={styles.authorLink}>
@@ -198,14 +226,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 author={author}
                 ort={"land"}
               />
-              <button
-                type="button"
-                value="Lock Landscape"
-                onClick={() => handleFullScreen("landscape")}
-                className={styles.linkedbutton}
-              >
-                {t("viewer.fullscreeBtn")}
-              </button>
             </div>
             <div className={styles.metadataB}>
               {/* 絵巻の紹介 */}

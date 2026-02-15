@@ -181,13 +181,53 @@
   background-color: var(--clr-accent-02);
 }
 
+/* ランキング順位バッジ: ボーダーなし、トロフィー+暖色テキストのみ */
+.rankBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.1rem 0.3rem 0;
+  border: none;
+  background: none;
+  font-weight: 500;
+  color: #b8860b;
+  transition: var(--transition);
+  cursor: pointer;
+}
+.rankBadge:hover {
+  color: #daa520;
+}
+.rankBadgeIcon {
+  font-size: 0.55rem;
+  color: #daa520;
+}
+
+/* キーワード行ラッパー: 左に閲覧数、右にキーワード */
+.keywordRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+/* 閲覧数: キーワードと同色・同サイズで控えめに */
+.viewCount {
+  font-size: 0.5rem;
+  font-family: var(--title-font2);
+  color: var(--clr-grey-light);
+  font-weight: 100;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
 .keyword {
   display: flex;
   justify-content: right;
   -moz-column-gap: 0.5rem;
   column-gap: 0.3rem;
   font-size: 0.5rem;
-  padding: 0.5rem 0;
+  padding: 0;
   font-family: var(--title-font2);
 }
 

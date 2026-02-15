@@ -1,3 +1,4 @@
+import TopRanking from "@/components/emaki/ranking/TopRanking";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import Head from "@/components/meta/Meta";
@@ -35,6 +36,7 @@ const Home = () => {
         linkpath={"flow-cyouzyuu"}
         bcg={"#f9fbff"}
       />
+      <TopRanking />
       <CardA
         emakis={kusouzuEmakis}
         columns={t.kusouzu.columns}
@@ -45,6 +47,7 @@ const Home = () => {
         linktitle={t.kusouzu.title}
         linktitleen={t.kusouzu.title}
         linkpath={"flow-kusouzu"}
+        bcg={"#f9fbff"}
       />
       <Footer />
     </main>

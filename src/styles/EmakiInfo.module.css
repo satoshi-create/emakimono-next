@@ -40,6 +40,35 @@
   border: 1px solid var(--clr-accent-02);
   background-color: var(--clr-accent-02);
 }
+/* ランキング: 順位 + 閲覧数をひとまとまりで表示 */
+.rankTag {
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: none;
+  padding: 0.25rem 0.4rem;
+  color: #ffd966;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.rankTag:hover {
+  color: #ffe599;
+}
+.rankIcon {
+  font-size: 0.75rem;
+  color: #daa520;
+}
+.rankDivider {
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: 200;
+  margin: 0 0.1rem;
+}
+.rankViewIcon {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
 .question {
   color: var(--clr-white);
   font-size: 1.5rem;

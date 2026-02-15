@@ -1,16 +1,24 @@
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiInfo.module.css";
-import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
+import { faCircleInfo, faEye, faTrophy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 
 // 教育現場向けUI: isUIVisible で静止UI耐性に対応
 const EmakiInfo = ({ value, isUIVisible = true }) => {
-  const { openModal } = useContext(AppContext);
-  const { type, title, typeen, era, eraen, keyword, edition } = value;
+  const { openModal, rankingData } = useContext(AppContext);
+  const { type, title, typeen, era, eraen, keyword, edition, titleen } = value;
   const { locale } = useRouter();
+
+  // ランキング順位・閲覧数を検索
+  const rankInfo = useMemo(() => {
+    const index = rankingData.findIndex((item) => item.titleen === titleen);
+    if (index < 0) return null;
+    return { rank: index + 1, pageView: rankingData[index].pageView };
+  }, [rankingData, titleen]);
+
   return (
     <div
       className={styles.container}
@@ -31,6 +39,17 @@ const EmakiInfo = ({ value, isUIVisible = true }) => {
       <Link href={`/type/${typeen}`}>
         <a className={styles.tag}>{`${locale === "en" ? typeen : type}`}</a>
       </Link>
+      {rankInfo && (
+        <Link href="/ranking">
+          <a className={styles.rankTag}>
+            <FontAwesomeIcon icon={faTrophy} className={styles.rankIcon} />
+            {locale === "en" ? `#${rankInfo.rank}` : `${rankInfo.rank}位`}
+            <span className={styles.rankDivider}>|</span>
+            <FontAwesomeIcon icon={faEye} className={styles.rankViewIcon} />
+            {Number(rankInfo.pageView).toLocaleString()}
+          </a>
+        </Link>
+      )}
       {keyword &&
         keyword.map((item, index) => {
           const { name, slug, id } = item;

@@ -19,15 +19,18 @@ import {
   keywordItem,
   useLocaleData,
 } from "@/utils/func";
+import { faEye, faTrophy } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Box, VStack } from "@chakra-ui/react";
 import parse from "html-react-parser";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
-  const { handleFullScreen, isContactModalOpen } = useContext(AppContext);
+  const { handleFullScreen, isContactModalOpen, rankingData } =
+    useContext(AppContext);
 
   const { locale } = useRouter();
   const { t: alldata } = useLocaleData();
@@ -52,6 +55,13 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     kotobagaki,
     titleen,
   } = data;
+
+  // ランキング順位・閲覧数を検索
+  const rankInfo = useMemo(() => {
+    const index = rankingData.findIndex((item) => item.titleen === titleen);
+    if (index < 0) return null;
+    return { rank: index + 1, pageView: rankingData[index].pageView };
+  }, [rankingData, titleen]);
 
   const removeNestedArrayObj = ExtractingListData();
   const allKeywords = keywordItem(removeNestedArrayObj);
@@ -109,9 +119,22 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
       <div className={`${styles.wrapper} section-grid`}>
         <div className={styles.container}>
           <div className={styles.metadataA}>
-            <h3 className={styles.title}>
-              {locale === "ja" ? title : titleen} {locale === "ja" && edition}
-            </h3>
+            <div className={styles.titleRow}>
+              <h3 className={styles.title}>
+                {locale === "ja" ? title : titleen} {locale === "ja" && edition}
+              </h3>
+              {rankInfo && (
+                <Link href="/ranking">
+                  <a className={styles.rankTag}>
+                    <FontAwesomeIcon icon={faTrophy} className={styles.rankIcon} />
+                    {locale === "en" ? `#${rankInfo.rank}` : `${rankInfo.rank}位`}
+                    <span className={styles.rankDivider}>|</span>
+                    <FontAwesomeIcon icon={faEye} className={styles.rankViewIcon} />
+                    {Number(rankInfo.pageView).toLocaleString()}
+                  </a>
+                </Link>
+              )}
+            </div>
             {author && (
               <Link href={`/author/${authoren}`}>
                 <a className={styles.authorLink}>
