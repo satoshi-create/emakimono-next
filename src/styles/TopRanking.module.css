@@ -1,8 +1,17 @@
 /* トップページ用ランキングセクション */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+@media screen and (min-width: 560px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
 }
 
 /* カード共通 */
