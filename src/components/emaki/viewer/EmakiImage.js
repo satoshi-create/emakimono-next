@@ -178,6 +178,7 @@ const EmakiImage = ({
         srcSp={item.srcSp}
         config={config}
         uniqueIndex={uniqueIndex}
+        navIndex={navIndex}
         isPlayMode={isPlayMode}
         emakiId={emakiId}
       />
