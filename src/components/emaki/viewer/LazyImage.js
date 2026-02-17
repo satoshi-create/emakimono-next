@@ -17,7 +17,7 @@ const TIMEOUT_BOUNDS = {
 };
 
 // デバッグフラグ: 検証完了後に false にするか、本ブロックごと削除
-const FB_DEBUG = true;
+const FB_DEBUG = false;
 
 const recordLoadTime = (ms) => {
   loadTimeSamples.push(ms);
