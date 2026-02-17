@@ -128,24 +128,66 @@ const LazyImage = ({
   // 全画像共通フォールバック: priority画像・全画面時以外の画像に対するセーフティネット
   // onLoadingComplete が発火しなかった場合（リクエストキャンセル、キャッシュ競合等）に
   // スケルトンが永久に表示され続ける問題を防止
+  //
+  // 重要: タイマーはマウント時ではなく、画像がビューポート付近に入った（＝ロード開始）時点から開始
+  // lazy画像はマウント後もビューポート外にあり、リクエストが始まっていないため
+  // マウント時からカウントすると不要なfallbackが大量発生する
   useEffect(() => {
     if (uniqueIndex === 0 || toggleFullscreen) return;
+    const el = containerRef.current;
+    if (!el) return;
 
-    const timeout = getAdaptiveTimeout("universal");
-    if (FB_DEBUG) console.log(`[FB-DEBUG] universal timer SET: idx=${uniqueIndex}, timeout=${timeout}ms`);
-    const fallbackTimer = setTimeout(() => {
-      if (isSkeletonVisible) {
-        if (FB_DEBUG) console.log(`[FB-DEBUG] ⚠ FALLBACK FIRED: universal_timeout | idx=${uniqueIndex}, timeout=${timeout}ms`);
-        if (!hasTrackedRef.current && emakiId) {
-          trackImageFallback(emakiId, uniqueIndex, "universal_timeout");
-          hasTrackedRef.current = true;
+    let fallbackTimer = null;
+    let observed = false;
+
+    // eager画像（uniqueIndex < 3）はマウント時にすでにリクエスト開始済みなので即タイマー設定
+    const isEager = isPlayMode || uniqueIndex < 3;
+
+    const startFallbackTimer = () => {
+      // ロード開始時刻を「今」にリセット（ビューポート進入 = ロード開始）
+      loadStartTimeRef.current = Date.now();
+      const timeout = getAdaptiveTimeout("universal");
+      if (FB_DEBUG) console.log(`[FB-DEBUG] universal timer SET (viewport enter): idx=${uniqueIndex}, timeout=${timeout}ms`);
+      fallbackTimer = setTimeout(() => {
+        if (isSkeletonVisible) {
+          if (FB_DEBUG) console.log(`[FB-DEBUG] ⚠ FALLBACK FIRED: universal_timeout | idx=${uniqueIndex}, timeout=${timeout}ms`);
+          if (!hasTrackedRef.current && emakiId) {
+            trackImageFallback(emakiId, uniqueIndex, "universal_timeout");
+            hasTrackedRef.current = true;
+          }
+          setImageLoaded(true);
+          setTimeout(() => setSkeletonVisible(false), 300);
         }
-        setImageLoaded(true);
-        setTimeout(() => setSkeletonVisible(false), 300);
-      }
-    }, timeout);
-    return () => clearTimeout(fallbackTimer);
-  }, [uniqueIndex, toggleFullscreen, isSkeletonVisible, emakiId]);
+      }, timeout);
+    };
+
+    if (isEager) {
+      // eager画像: 即座にタイマー開始
+      startFallbackTimer();
+    } else {
+      // lazy画像: IntersectionObserver でビューポート進入を検出してからタイマー開始
+      // rootMargin は lazyBoundary (800px) と同じにし、ロード開始タイミングと同期
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting && !observed) {
+            observed = true;
+            startFallbackTimer();
+            observer.disconnect();
+          }
+        },
+        { rootMargin: "800px" }
+      );
+      observer.observe(el);
+      return () => {
+        observer.disconnect();
+        if (fallbackTimer) clearTimeout(fallbackTimer);
+      };
+    }
+
+    return () => {
+      if (fallbackTimer) clearTimeout(fallbackTimer);
+    };
+  }, [uniqueIndex, toggleFullscreen, isSkeletonVisible, emakiId, isPlayMode]);
 
   const baseUrl =
     "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
