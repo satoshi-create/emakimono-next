@@ -105,11 +105,26 @@ const LazyImage = ({
   // 全画面切替時のフォールバック処理
   // next/image の IntersectionObserver が viewport 変化に追従しない問題への対策
   // 全画面切替後、一定時間経過してもスケルトンが表示されている場合は強制的に非表示
+  //
+  // 重要: eager画像（navIndex±2）は即座にタイマー開始、
+  // それ以外のlazy画像はビューポート進入を検出してからタイマー開始
+  // （universal_timeout と同じパターン）
   useEffect(() => {
-    if (toggleFullscreen && isSkeletonVisible) {
+    if (!toggleFullscreen || !isSkeletonVisible) return;
+    const el = containerRef.current;
+    if (!el) return;
+
+    let fallbackTimer = null;
+    let observed = false;
+
+    // フルスクリーン時のeager判定: navIndex±2 または playMode
+    const isEagerInFullscreen = isPlayMode || Math.abs(uniqueIndex - navIndex) <= 2;
+
+    const startFallbackTimer = () => {
+      loadStartTimeRef.current = Date.now();
       const timeout = getAdaptiveTimeout("fullscreen");
-      if (FB_DEBUG) console.log(`[FB-DEBUG] fullscreen timer SET: idx=${uniqueIndex}, timeout=${timeout}ms`);
-      const fallbackTimer = setTimeout(() => {
+      if (FB_DEBUG) console.log(`[FB-DEBUG] fullscreen timer SET: idx=${uniqueIndex}, timeout=${timeout}ms, eager=${isEagerInFullscreen}`);
+      fallbackTimer = setTimeout(() => {
         if (isSkeletonVisible) {
           if (FB_DEBUG) console.log(`[FB-DEBUG] ⚠ FALLBACK FIRED: fullscreen_timeout | idx=${uniqueIndex}, timeout=${timeout}ms`);
           // 計測: フォールバック発火（フルスクリーン時タイムアウト）
@@ -121,9 +136,34 @@ const LazyImage = ({
           setTimeout(() => setSkeletonVisible(false), 300);
         }
       }, timeout);
-      return () => clearTimeout(fallbackTimer);
+    };
+
+    if (isEagerInFullscreen) {
+      // eager画像: 即座にタイマー開始
+      startFallbackTimer();
+    } else {
+      // lazy画像: IntersectionObserver でビューポート進入を検出してからタイマー開始
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting && !observed) {
+            observed = true;
+            startFallbackTimer();
+            observer.disconnect();
+          }
+        },
+        { rootMargin: "800px" }
+      );
+      observer.observe(el);
+      return () => {
+        observer.disconnect();
+        if (fallbackTimer) clearTimeout(fallbackTimer);
+      };
     }
-  }, [toggleFullscreen, isSkeletonVisible, emakiId, uniqueIndex]);
+
+    return () => {
+      if (fallbackTimer) clearTimeout(fallbackTimer);
+    };
+  }, [toggleFullscreen, isSkeletonVisible, emakiId, uniqueIndex, navIndex, isPlayMode]);
 
   // 全画像共通フォールバック: priority画像・全画面時以外の画像に対するセーフティネット
   // onLoadingComplete が発火しなかった場合（リクエストキャンセル、キャッシュ競合等）に
