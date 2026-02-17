@@ -3,6 +3,43 @@ import { trackImageLoaded, trackImageFallback } from "@/libs/api/measurementUtil
 import Image from "next/image";
 import { useContext, useEffect, useRef, useState } from "react";
 
+// アダプティブタイムアウト: 直近の画像ロード時間からフォールバック閾値を動的算出
+// 教室一斉アクセス等の帯域逼迫時に閾値が自動的に緩和される
+const loadTimeSamples = []; // 直近の実測ロード時間（ms）
+const MAX_SAMPLES = 8;
+const TIMEOUT_MULTIPLIER = 2.5; // 平均ロード時間の2.5倍を閾値とする
+
+// 各フォールバック種別ごとの下限・上限（ms）
+const TIMEOUT_BOUNDS = {
+  priority:  { min: 1500, max: 6000, fallback: 2000 },
+  fullscreen: { min: 2000, max: 8000, fallback: 3000 },
+  universal:  { min: 3000, max: 10000, fallback: 5000 },
+};
+
+// デバッグフラグ: 検証完了後に false にするか、本ブロックごと削除
+const FB_DEBUG = true;
+
+const recordLoadTime = (ms) => {
+  loadTimeSamples.push(ms);
+  if (loadTimeSamples.length > MAX_SAMPLES) loadTimeSamples.shift();
+  if (FB_DEBUG) {
+    const avg = loadTimeSamples.reduce((a, b) => a + b, 0) / loadTimeSamples.length;
+    console.log(`[FB-DEBUG] recordLoadTime: ${ms}ms | samples(${loadTimeSamples.length}): avg=${Math.round(avg)}ms`);
+  }
+};
+
+const getAdaptiveTimeout = (type) => {
+  const bounds = TIMEOUT_BOUNDS[type];
+  if (loadTimeSamples.length === 0) {
+    if (FB_DEBUG) console.log(`[FB-DEBUG] getAdaptiveTimeout(${type}): ${bounds.fallback}ms (no samples, using fallback)`);
+    return bounds.fallback;
+  }
+  const avg = loadTimeSamples.reduce((a, b) => a + b, 0) / loadTimeSamples.length;
+  const timeout = Math.min(bounds.max, Math.max(bounds.min, Math.round(avg * TIMEOUT_MULTIPLIER)));
+  if (FB_DEBUG) console.log(`[FB-DEBUG] getAdaptiveTimeout(${type}): ${timeout}ms (avg=${Math.round(avg)}ms × ${TIMEOUT_MULTIPLIER})`);
+  return timeout;
+};
+
 const LazyImage = ({
   src,
   alt,
@@ -11,6 +48,7 @@ const LazyImage = ({
   srcSp,
   config,
   uniqueIndex,
+  navIndex, // 現在表示中のシーンインデックス（フルスクリーン時のeager制御用）
   isPlayMode, // 再生モード状態
   emakiId, // 計測用: 絵巻ID
 }) => {
@@ -46,9 +84,11 @@ const LazyImage = ({
   // 再マウント時にキャッシュされた画像で onLoadingComplete が呼ばれない場合の対策
   useEffect(() => {
     if (uniqueIndex === 0) {
+      const timeout = getAdaptiveTimeout("priority");
+      if (FB_DEBUG) console.log(`[FB-DEBUG] priority timer SET: idx=${uniqueIndex}, timeout=${timeout}ms`);
       const fallbackTimer = setTimeout(() => {
-        // 1秒経っても skeleton が表示されている場合は強制的に非表示
         if (isSkeletonVisible) {
+          if (FB_DEBUG) console.log(`[FB-DEBUG] ⚠ FALLBACK FIRED: priority_timeout | idx=${uniqueIndex}, timeout=${timeout}ms`);
           // 計測: フォールバック発火（priority画像タイムアウト）
           if (!hasTrackedRef.current && emakiId) {
             trackImageFallback(emakiId, uniqueIndex, "priority_timeout");
@@ -57,7 +97,7 @@ const LazyImage = ({
           setImageLoaded(true);
           setTimeout(() => setSkeletonVisible(false), 300);
         }
-      }, 1000);
+      }, timeout);
       return () => clearTimeout(fallbackTimer);
     }
   }, [uniqueIndex, isSkeletonVisible, emakiId]);
@@ -67,8 +107,11 @@ const LazyImage = ({
   // 全画面切替後、一定時間経過してもスケルトンが表示されている場合は強制的に非表示
   useEffect(() => {
     if (toggleFullscreen && isSkeletonVisible) {
+      const timeout = getAdaptiveTimeout("fullscreen");
+      if (FB_DEBUG) console.log(`[FB-DEBUG] fullscreen timer SET: idx=${uniqueIndex}, timeout=${timeout}ms`);
       const fallbackTimer = setTimeout(() => {
         if (isSkeletonVisible) {
+          if (FB_DEBUG) console.log(`[FB-DEBUG] ⚠ FALLBACK FIRED: fullscreen_timeout | idx=${uniqueIndex}, timeout=${timeout}ms`);
           // 計測: フォールバック発火（フルスクリーン時タイムアウト）
           if (!hasTrackedRef.current && emakiId) {
             trackImageFallback(emakiId, uniqueIndex, "fullscreen_timeout");
@@ -77,7 +120,7 @@ const LazyImage = ({
           setImageLoaded(true);
           setTimeout(() => setSkeletonVisible(false), 300);
         }
-      }, 1500); // 1.5秒後にフォールバック（全画面切替の描画完了を待つ）
+      }, timeout);
       return () => clearTimeout(fallbackTimer);
     }
   }, [toggleFullscreen, isSkeletonVisible, emakiId, uniqueIndex]);
@@ -88,8 +131,11 @@ const LazyImage = ({
   useEffect(() => {
     if (uniqueIndex === 0 || toggleFullscreen) return;
 
+    const timeout = getAdaptiveTimeout("universal");
+    if (FB_DEBUG) console.log(`[FB-DEBUG] universal timer SET: idx=${uniqueIndex}, timeout=${timeout}ms`);
     const fallbackTimer = setTimeout(() => {
       if (isSkeletonVisible) {
+        if (FB_DEBUG) console.log(`[FB-DEBUG] ⚠ FALLBACK FIRED: universal_timeout | idx=${uniqueIndex}, timeout=${timeout}ms`);
         if (!hasTrackedRef.current && emakiId) {
           trackImageFallback(emakiId, uniqueIndex, "universal_timeout");
           hasTrackedRef.current = true;
@@ -97,7 +143,7 @@ const LazyImage = ({
         setImageLoaded(true);
         setTimeout(() => setSkeletonVisible(false), 300);
       }
-    }, 3000);
+    }, timeout);
     return () => clearTimeout(fallbackTimer);
   }, [uniqueIndex, toggleFullscreen, isSkeletonVisible, emakiId]);
 
@@ -207,18 +253,31 @@ const LazyImage = ({
         height={height}
         alt={alt}
         priority={uniqueIndex === 0} // 最初の画像は即時プリロード
-        // 再生モード時・全画面時・最初の10枚は eager loading
+        // 再生モード時・最初の3枚は eager loading
+        // フルスクリーン時は現在シーン付近（±2枚）のみ eager（同時リクエスト抑制）
         // 全画面切替時に IntersectionObserver が viewport 変化に追従しない問題への対策
-        loading={isPlayMode || toggleFullscreen || uniqueIndex < 10 ? "eager" : "lazy"}
-        lazyBoundary="2000px" // ビューポートの2000px手前から読み込み開始
+        loading={(() => {
+          const isEager =
+            isPlayMode ||
+            uniqueIndex < 3 ||
+            (toggleFullscreen && Math.abs(uniqueIndex - navIndex) <= 2);
+          if (FB_DEBUG && uniqueIndex < 12) {
+            console.log(`[FB-DEBUG] loading: idx=${uniqueIndex}, navIndex=${navIndex}, fullscreen=${toggleFullscreen}, playMode=${isPlayMode} → ${isEager ? "eager" : "lazy"}`);
+          }
+          return isEager ? "eager" : "lazy";
+        })()}
+        lazyBoundary="800px" // ビューポートの800px手前から読み込み開始
         layout="responsive"
         sizes={imageSizes}
         placeholder={"blur"} // ぼかしプレースホルダーを適用
         blurDataURL={PAPER_COLOR_BLUR_DATA_URL} // 絵巻の紙色（Firefox 白背景対策）
         onLoadingComplete={() => {
           // 計測: 正常読み込み完了
+          const loadTimeMs = Date.now() - loadStartTimeRef.current;
+          if (FB_DEBUG) console.log(`[FB-DEBUG] ✓ onLoadingComplete: idx=${uniqueIndex}, loadTime=${loadTimeMs}ms`);
+          // アダプティブタイムアウト: 実測ロード時間を記録（次回以降の閾値算出に使用）
+          recordLoadTime(loadTimeMs);
           if (!hasTrackedRef.current && emakiId) {
-            const loadTimeMs = Date.now() - loadStartTimeRef.current;
             trackImageLoaded(emakiId, uniqueIndex, loadTimeMs, "normal");
             hasTrackedRef.current = true;
           }
