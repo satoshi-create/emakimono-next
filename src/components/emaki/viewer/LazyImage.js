@@ -1,5 +1,5 @@
 import { AppContext } from "@/pages/_app";
-import { trackImageLoaded, trackImageFallback } from "@/libs/api/measurementUtils";
+import { trackImageLoaded, trackImageFallback, trackImageLoadSlow } from "@/libs/api/measurementUtils";
 import Image from "next/image";
 import { useContext, useEffect, useRef, useState } from "react";
 
@@ -361,6 +361,11 @@ const LazyImage = ({
           recordLoadTime(loadTimeMs);
           if (!hasTrackedRef.current && emakiId) {
             trackImageLoaded(emakiId, uniqueIndex, loadTimeMs, "normal");
+            // 計測: 遅延検出（fallback未到達だが閾値70%超の画像）
+            const thresholdType = toggleFullscreen ? "fullscreen" : "universal";
+            const threshold = getAdaptiveTimeout(thresholdType);
+            const isEager = isPlayMode || uniqueIndex < 3 || (toggleFullscreen && Math.abs(uniqueIndex - navIndex) <= 2);
+            trackImageLoadSlow(emakiId, uniqueIndex, loadTimeMs, threshold, toggleFullscreen, isEager ? "eager" : "lazy");
             hasTrackedRef.current = true;
           }
           // 画像読み込み完了 → フェードアウト開始
