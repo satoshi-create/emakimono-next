@@ -28,6 +28,9 @@ import {
   resetAllTracking,
   handleSceneChange,
   trackInitialLoadWithHash,
+  trackSessionContext,
+  updateEngagementState,
+  updateScrollProgress,
 } from "@/libs/api/measurementUtils";
 
 // P0改修: フルスクリーン切り替え時のスクロール位置保存用
@@ -172,6 +175,8 @@ const EmakiContainer = ({
     if (closestId !== null && !isNaN(closestId) && closestId !== lastDetectedSceneRef.current) {
       // 計測: シーン遷移・滞在（スクロール検出による）
       handleSceneChange(data.id, closestId, "scroll_detect");
+      // 計測: セッション鑑賞サマリー用の状態更新
+      updateEngagementState(data.id, closestId, toggleFullscreen);
 
       lastDetectedSceneRef.current = closestId;
       // 絵巻ハイパーリンク: スクロール検出による更新であることをマーク
@@ -335,6 +340,8 @@ const EmakiContainer = ({
         scrollPositionStore.scrollLeft = currentScrollX;
         scrollPositionStore.scrollRatio = Math.abs(currentScrollX) / maxScrollLeft;
         scrollPositionStore.restored = false;
+        // 計測: セッション最大スクロール到達率を更新
+        updateScrollProgress(scrollPositionStore.scrollRatio);
       }
 
       // 教育現場向けUI: 現在地インジケータ用の進行度を計算
@@ -720,7 +727,10 @@ const EmakiContainer = ({
 
     // 前回のdata.idを更新（初回マウント時も含む）
     prevDataId = data.id;
-  }, [data.id]);
+
+    // 計測: セッション環境コンテキスト（1セッション1回のみ送信される）
+    trackSessionContext(data.id, backgroundImage?.length || 0);
+  }, [data.id, backgroundImage]);
 
   useEffect(() => {
     const ref = articleRef.current;

@@ -2,7 +2,7 @@ import ContactFormGoogle from "@/components/contact/ContactFormGoogle";
 import BottomNavigation from "@/components/navigation/BottomNavigation";
 import ModalSearch from "@/components/search/ModalSearch";
 import * as gtag from "@/libs/api/gtag";
-import { trackFullscreenEnter, trackFullscreenExit } from "@/libs/api/measurementUtils";
+import { trackFullscreenEnter, trackFullscreenExit, initEngagementTracking } from "@/libs/api/measurementUtils";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { useLocaleData } from "@/utils/func";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
@@ -59,6 +59,11 @@ function MyApp({ Component, pageProps, router }) {
       gRouter.events.off("routeChangeComplete", handleRouteChange);
     };
   }, [gRouter.events]);
+
+  // セッション鑑賞サマリー: beforeunload/visibilitychange リスナー登録
+  useEffect(() => {
+    initEngagementTracking();
+  }, []);
 
   const { t: emakisData } = useLocaleData();
   const [ekotobaToggle, setekotobaToggle] = useState(false);

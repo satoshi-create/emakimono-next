@@ -34,6 +34,10 @@ const sendEvent = (eventName, params = {}) => {
   }
 };
 
+// セッションサマリー用カウンタ（⑨で使用、①②からもインクリメント）
+let sessionFallbackCount = 0;
+let sessionSlowCount = 0;
+
 // =====================================================
 // ① 画像読み込み計測
 // =====================================================
@@ -64,6 +68,7 @@ export const trackImageLoaded = (emakiId, imageIndex, loadTimeMs, loadType = "no
  * @param {string} fallbackReason - "priority_timeout" | "fullscreen_timeout"
  */
 export const trackImageFallback = (emakiId, imageIndex, fallbackReason) => {
+  sessionFallbackCount++;
   sendEvent("image_load_fallback", {
     emaki_id: emakiId,
     image_index: imageIndex,
@@ -320,6 +325,131 @@ export const trackInitialLoadWithHash = (emakiId, sceneIndex) => {
     emaki_id: emakiId,
     scene_index: sceneIndex,
   });
+};
+
+// =====================================================
+// ⑦ セッション環境コンテキスト (TIER 1)
+// =====================================================
+
+let sessionContextSent = false;
+
+/**
+ * セッション環境情報を送信（1セッション1回）
+ * @param {string} emakiId
+ * @param {number} totalImages - 絵巻の総画像数
+ */
+export const trackSessionContext = (emakiId, totalImages) => {
+  if (typeof window === "undefined") return;
+  if (sessionContextSent) return;
+  sessionContextSent = true;
+
+  const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const now = new Date();
+
+  sendEvent("session_context", {
+    emaki_id: emakiId,
+    device_type: getDeviceType(),
+    viewport_width: window.innerWidth,
+    viewport_height: window.innerHeight,
+    connection_type: conn?.effectiveType || "unknown",
+    downlink_mbps: conn?.downlink ?? -1,
+    arrival_time: `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`,
+    total_images: totalImages,
+  });
+};
+
+// =====================================================
+// ⑧ 画像ロード遅延検出 (TIER 1)
+// =====================================================
+
+/**
+ * 画像ロードがアダプティブ閾値の70%を超えた場合に送信
+ * fallbackには至らなかったが「遅かった」画像を検出
+ * @param {string} emakiId
+ * @param {number} imageIndex
+ * @param {number} loadTimeMs - 実測ロード時間
+ * @param {number} thresholdMs - その時点のアダプティブ閾値
+ * @param {boolean} isFullscreen
+ * @param {string} loadingType - "eager" | "lazy"
+ */
+export const trackImageLoadSlow = (emakiId, imageIndex, loadTimeMs, thresholdMs, isFullscreen, loadingType) => {
+  if (loadTimeMs < thresholdMs * 0.7) return;
+
+  sessionSlowCount++;
+  sendEvent("image_load_slow", {
+    emaki_id: emakiId,
+    image_index: imageIndex,
+    load_time_ms: loadTimeMs,
+    threshold_ms: thresholdMs,
+    is_fullscreen: isFullscreen,
+    loading_type: loadingType,
+  });
+};
+
+// =====================================================
+// ⑨ セッション鑑賞サマリー (TIER 1)
+// =====================================================
+
+let sessionMaxScrollRatio = 0;
+let sessionScenesVisited = new Set();
+let sessionFullscreenUsed = false;
+let sessionStartTime = Date.now();
+let sessionEmakiId = "";
+let engagementSent = false;
+let engagementListenerAdded = false;
+
+
+/**
+ * スクロール進捗を更新
+ * @param {number} ratio - 現在のスクロール比率 (0-1)
+ */
+export const updateScrollProgress = (ratio) => {
+  if (ratio > sessionMaxScrollRatio) {
+    sessionMaxScrollRatio = Math.round(ratio * 100) / 100;
+  }
+};
+
+/**
+ * セッション鑑賞状態を更新
+ * @param {string} emakiId
+ * @param {number} sceneIndex
+ * @param {boolean} fullscreenUsed
+ */
+export const updateEngagementState = (emakiId, sceneIndex, fullscreenUsed) => {
+  sessionEmakiId = emakiId;
+  if (sceneIndex != null) sessionScenesVisited.add(sceneIndex);
+  if (fullscreenUsed) sessionFullscreenUsed = true;
+};
+
+/**
+ * セッション鑑賞サマリーを送信
+ */
+const sendEngagement = () => {
+  if (!sessionEmakiId || engagementSent) return;
+  engagementSent = true;
+
+  sendEvent("viewer_engagement", {
+    emaki_id: sessionEmakiId,
+    total_duration_ms: Date.now() - sessionStartTime,
+    max_scroll_ratio: sessionMaxScrollRatio,
+    scenes_visited: sessionScenesVisited.size,
+    fullscreen_used: sessionFullscreenUsed,
+    fallback_count: sessionFallbackCount,
+    slow_count: sessionSlowCount,
+  });
+};
+
+/**
+ * engagementリスナーを登録（1回だけ呼ぶ）
+ */
+export const initEngagementTracking = () => {
+  if (engagementListenerAdded || typeof window === "undefined") return;
+  engagementListenerAdded = true;
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") sendEngagement();
+  });
+  window.addEventListener("beforeunload", sendEngagement);
 };
 
 // =====================================================
