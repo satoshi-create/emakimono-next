@@ -1,1 +1,34 @@
-e","src":"v1771401185/emakimono/nichigin_11.png","name":"emakimono/nichigin_11","chapter":null,"srcWidth":"240","srcHeight":"360"},{"cat":"image","src":"v1771401187/emakimono/nichigin_12.png","name":"emakimono/nichigin_12","chapter":null,"srcWidth":"240","srcHeight":"360"}
+[
+  {
+    "cat": "image",
+    "src": "v1771380641/emakimono/nichigin_07.png",
+    "name": "emakimono/nichigin_07",
+    "chapter": null,
+    "srcWidth": "240",
+    "srcHeight": "360"
+  },
+  {
+    "cat": "image",
+    "src": "v1771380744/emakimono/nichigin_09.png",
+    "name": "emakimono/nichigin_09",
+    "chapter": null,
+    "srcWidth": "240",
+    "srcHeight": "360"
+  },
+  {
+    "cat": "image",
+    "src": "v1771397069/emakimono/nichigin_01.png",
+    "name": "emakimono/nichigin_01",
+    "chapter": null,
+    "srcWidth": "240",
+    "srcHeight": "360"
+  },
+  {
+    "cat": "image",
+    "src": "v1771397070/emakimono/nichigin_02.png",
+    "name": "emakimono/nichigin_02",
+    "chapter": null,
+    "srcWidth": "240",
+    "srcHeight": "360"
+  }
+]
