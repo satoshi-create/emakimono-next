@@ -1,1 +1,20 @@
-[{"cat":"image","src":"v1771380641/emakimono/nichigin_03.png","name":"emakimono/nichigin_03","config":"cloudinary","chapter":null,"srcWidth":240,"srcHeight":360},{"cat":"image","src":"v1771380744/emakimono/nichigin_04.png","name":"emakimono/nichigin_04","config":"cloudinary","chapter":null,"srcWidth":240,"srcHeight":360},{"cat":"image","src":null,"name":"emakimono/nichigin_00","config":"cloudinary","chapter":null,"srcWidth":240,"srcHeight":360},{"cat":"image","src":null,"name":"emakimono/nichigin_02","config":"cloudinary","chapter":null,"srcWidth":240,"srcHeight":360},{"cat":"image","src":null,"name":"emakimono/nichigin_01","config":"cloudinary","chapter":null,"srcWidth":240,"srcHeight":360},{"cat":"image","src":"v1771467143/emakimono/nichigin_16.png","name":"emakimono/nichigin_16","config":"cloudinary","chapter":null,"srcWidth":240,"srcHeight":360}]
+[
+  {
+    "cat": "image",
+    "src": "v1771380641/emakimono/nichigin_03.png",
+    "name": "emakimono/nichigin_03",
+    "config": "cloudinary",
+    "chapter": null,
+    "srcWidth": 240,
+    "srcHeight": 360
+  },
+  {
+    "cat": "image",
+    "src": "v1771380744/emakimono/nichigin_04.png",
+    "name": "emakimono/nichigin_04",
+    "config": "cloudinary",
+    "chapter": null,
+    "srcWidth": 240,
+    "srcHeight": 360
+  }
+]
