@@ -1,7 +1,7 @@
 import EmakiImage from "@/components/emaki/viewer/EmakiImage";
 import OverlayEkotoba from "@/components/emaki/viewer/OverlayEkotoba";
+import overlayStyles from "@/styles/OverlayEkotoba.module.css";
 import { forwardRef } from "react";
-import { useRouter } from "next/router";
 
 const SwitcherEmaki = forwardRef(
   (
@@ -11,6 +11,7 @@ const SwitcherEmaki = forwardRef(
       item,
       index,
       src,
+      overlayTitle,
       backgroundImage,
       kotobagaki,
       type,
@@ -22,17 +23,34 @@ const SwitcherEmaki = forwardRef(
     },
     ref
   ) => {
-    const { locale } = useRouter();
-
-    // 段タイトル（新スキーマ scene_title）: type に依存せず表示
+    // 段タイトル（新スキーマ scene_title）: src で独立ブロック vs オーバーレイを切り替え
     if (cat === "scene_title") {
-      const titleText =
-        locale === "en" ? (item.title_en ?? item.title) : (item.title ?? item.title_en);
-      if (!titleText) return null;
+      const hasImageUrl = src && src !== "show_original";
+      if (hasImageUrl) {
+        return (
+          <section ref={ref} id={index}>
+            <OverlayEkotoba
+              key={index}
+              item={{
+                ...item,
+                cat,
+                index,
+                backgroundImage,
+                kotobagaki,
+                type,
+                scroll,
+                selectedRef,
+                navIndex,
+                data,
+                uniqueIndex,
+              }}
+            />
+          </section>
+        );
+      }
+      // 画像なし: スクロールID維持用のマーカーのみ（見た目は空白）
       return (
-        <section ref={ref} id={index} className="scene-title-block">
-          <h2 className="scene-title-heading">{titleText}</h2>
-        </section>
+        <section ref={ref} id={index} className={overlayStyles.sceneMarker} />
       );
     }
 
@@ -55,6 +73,7 @@ const SwitcherEmaki = forwardRef(
               navIndex,
               uniqueIndex,
             }}
+            overlayTitle={overlayTitle}
             isPlayMode={isPlayMode}
             emakiId={data?.id}
           />

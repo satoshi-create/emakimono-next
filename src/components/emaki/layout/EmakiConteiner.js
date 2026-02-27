@@ -960,8 +960,9 @@ const EmakiContainer = ({
             // cat の種類に関わらず data.emakis の全要素を SwitcherEmaki に渡す（scene_title / image / ekotoba）
             let imageCounter = 0;
             let ekotobaCounter = 0;
+            const emakis = data.emakis;
 
-            return data.emakis.map((item, index) => {
+            return emakis.map((item, index) => {
               const { cat, src } = item;
 
               let uniqueIndex = null;
@@ -973,6 +974,22 @@ const EmakiContainer = ({
                 ekotobaCounter += 1;
               }
 
+              // 画像なし scene_title のタイトルを直後の image にリレー
+              let overlayTitle = null;
+              if (cat === "image") {
+                const prev = emakis[index - 1];
+                if (
+                  prev &&
+                  prev.cat === "scene_title" &&
+                  (prev.src === "show_original" || prev.src == null)
+                ) {
+                  overlayTitle = {
+                    title: prev.title,
+                    title_en: prev.title_en,
+                  };
+                }
+              }
+
               return (
                 <SwitcherEmaki
                   key={index}
@@ -981,6 +998,7 @@ const EmakiContainer = ({
                   item={item}
                   index={index}
                   src={src}
+                  overlayTitle={overlayTitle}
                   backgroundImage={backgroundImage}
                   kotobagaki={kotobagaki}
                   type={type}

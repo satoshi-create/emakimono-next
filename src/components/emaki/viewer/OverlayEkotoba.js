@@ -38,11 +38,16 @@ const OverlayEkotoba = ({
     data,
     googlemap,
     uniqueIndex,
+    cat,
+    title: itemTitle,
+    title_en: itemTitleEn,
   },
   item,
 }) => {
-  // 新スキーマ: item.text / item.content、旧スキーマ: item.gendaibun
+  const isSceneTitle = cat === "scene_title";
+  // scene_title: item.title / item.title_en。ekotoba: ChaptersTitle または gendaibun
   const gendaibun = gendaibunProp ?? text ?? content ?? "";
+  const hasImageUrl = src && src !== "show_original";
   const {
     setekotobaToggle,
     ekotobaImageToggle,
@@ -55,7 +60,8 @@ const OverlayEkotoba = ({
   } = useContext(AppContext);
   const { locale } = useRouter();
   const { t } = useTranslation("common");
-  const { title, titleen } = data;
+  const dataTitle = data?.title;
+  const dataTitleen = data?.titleen;
 
   // TODO : 目次のフォントサイズをレスポンシブにする
 
@@ -87,7 +93,7 @@ const OverlayEkotoba = ({
     <div
       id={`${index}`}
       className={`section fade-in lazyload ${
-        type === "西洋絵画" ? styles.ekotobalr : styles.ekotobarl
+        (type || data?.type) === "西洋絵画" ? styles.ekotobalr : styles.ekotobarl
       } ${
         ekotobaImageToggle
           ? `${styles.gendaibunclose}`
@@ -97,10 +103,10 @@ const OverlayEkotoba = ({
     >
       <div
         className={`${styles.gendaibunbox} ${
-          !src && styles.noekotobaimage
+          !hasImageUrl && styles.noekotobaimage
         } scrollbar`}
       >
-        {chapter && (
+        {(chapter || isSceneTitle) && (
           <div
             className={`${styles.chapterbox} ${
               orientation === "portrait" ? styles.chapterboxPrt : styles.chapterboxLand
@@ -112,74 +118,78 @@ const OverlayEkotoba = ({
               }`}
               onClick={() => handleToId(index)}
             >
-              {locale == "en"
-                ? ChaptersTitle(titleen, title, chapter, "titleen")
-                : ChaptersTitle(titleen, title, chapter, "title")}
+              {isSceneTitle
+                ? (locale === "en" ? (itemTitleEn ?? itemTitle) : (itemTitle ?? itemTitleEn))
+                : locale === "en"
+                  ? ChaptersTitle(dataTitleen, dataTitle, chapter, "titleen")
+                  : ChaptersTitle(dataTitleen, dataTitle, chapter, "title")}
             </h3>
-            <div className={styles.chapterActions}>
-              <SceneLikeButton
-                titleen={titleen}
-                title={title}
-                chapter={chapter}
-                index={index}
-              />
-              {(type === "浮世絵" && googlemap) || kotobagaki ? (
-                <div className={styles.actionButtons}>
-                  {type === "浮世絵" && googlemap && (
-                    <button
-                      className={styles.mapiconlink}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openMapModal(ekotobaId);
-                      }}
-                      title={`${chapter}の場所を地図で確認する`}
-                    >
-                      <FontAwesomeIcon
-                        icon={faLocationDot}
-                        className={styles.mapiconlinkicon}
-                      />
-                    </button>
-                  )}
-                  {kotobagaki && (
-                    <ActionButton
-                      icon={
+            {!isSceneTitle && (
+              <div className={styles.chapterActions}>
+                <SceneLikeButton
+                  titleen={dataTitleen}
+                  title={dataTitle}
+                  chapter={chapter}
+                  index={index}
+                />
+                {(type === "浮世絵" && googlemap) || kotobagaki ? (
+                  <div className={styles.actionButtons}>
+                    {type === "浮世絵" && googlemap && (
+                      <button
+                        className={styles.mapiconlink}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openMapModal(ekotobaId);
+                        }}
+                        title={`${chapter}の場所を地図で確認する`}
+                      >
                         <FontAwesomeIcon
-                          icon={faCircleQuestion}
-                          style={{ fontSize: "1.5em" }}
+                          icon={faLocationDot}
+                          className={styles.mapiconlinkicon}
                         />
-                      }
-                      label={t("viewer.seeDetailsOfSection")}
-                      onClick={() =>
-                        openDescModal({
-                          ekotobaId,
-                          index,
-                        })
-                      }
-                      description={t("viewer.seeDetailsOfSection")}
-                      variant="emakipageicon"
-                    />
-                  )}
-                </div>
-              ) : null}
-            </div>
+                      </button>
+                    )}
+                    {kotobagaki && (
+                      <ActionButton
+                        icon={
+                          <FontAwesomeIcon
+                            icon={faCircleQuestion}
+                            style={{ fontSize: "1.5em" }}
+                          />
+                        }
+                        label={t("viewer.seeDetailsOfSection")}
+                        onClick={() =>
+                          openDescModal({
+                            ekotobaId,
+                            index,
+                          })
+                        }
+                        description={t("viewer.seeDetailsOfSection")}
+                        variant="emakipageicon"
+                      />
+                    )}
+                  </div>
+                ) : null}
+              </div>
+            )}
           </div>
         )}
-        <p
-          // dangerouslySetInnerHTML={{ __html: src && ekotobabody }}
-          className={styles.gendaibun}
-          style={{
-            fontSize: `${
-              orientation === "portrait"
-                ? "var(--text-size-prt)"
-                : "var(--text-size)"
-            }`,
-          }}
-        >
-          {/* {ChaptersGendaibun(titleen, title, chapter, ekotobabody)} */}
-          {ekotobabody && ChaptersGendaibun(titleen, title, chapter, ekotobabody)}
-        </p>
+        {!isSceneTitle && (
+          <p
+            className={styles.gendaibun}
+            style={{
+              fontSize: `${
+                orientation === "portrait"
+                  ? "var(--text-size-prt)"
+                  : "var(--text-size)"
+              }`,
+            }}
+          >
+            {ekotobabody && ChaptersGendaibun(dataTitleen, dataTitle, chapter, ekotobabody)}
+          </p>
+        )}
       </div>
-      {src && (
+      {hasImageUrl && (
         <div className={styles.ekotobaimagebox}>
           <LazyImage
             key={index}

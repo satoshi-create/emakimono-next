@@ -53,6 +53,8 @@ export interface SceneTitleItem extends BaseEmakiItem {
   scene_id: string;
   /** 段タイトル（英語） */
   title_en?: string;
+  /** 画像URLの場合は独立ブロック表示、 "show_original" または null の場合は直後画像にオーバーレイ */
+  src?: string | null;
 }
 
 export interface ImageItem extends BaseEmakiItem {

@@ -1,7 +1,9 @@
 import LazyImage from "@/components/emaki/viewer/LazyImage";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiImage.module.css";
+import overlayStyles from "@/styles/OverlayEkotoba.module.css";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useContext } from "react";
 
 const EmakiImage = ({
@@ -18,6 +20,7 @@ const EmakiImage = ({
     height,
   },
   item,
+  overlayTitle,
   isPlayMode, // 再生モード状態
   emakiId, // 計測用: 絵巻ID
 }) => {
@@ -29,6 +32,7 @@ const EmakiImage = ({
     windowHeight,
     toggleFullscreen, // 全画面切替時の画像再マウント用
   } = useContext(AppContext);
+  const { locale } = useRouter();
 
   const characterOuntline = (x) => {
     switch (x) {
@@ -62,6 +66,15 @@ const EmakiImage = ({
       // ref={navIndex === index ? selectedRef : null}
       ref={navIndex === index ? scrollDialog : null}
     >
+      {overlayTitle && (
+        <div className={overlayStyles.sceneTitleOverlay}>
+          <span className={overlayStyles.sceneTitleOverlayText}>
+            {locale === "en"
+              ? (overlayTitle.title_en ?? overlayTitle.title)
+              : (overlayTitle.title ?? overlayTitle.title_en)}
+          </span>
+        </div>
+      )}
       {characterToggle && character && (
         <div>
           {character?.map((item, i) => {
