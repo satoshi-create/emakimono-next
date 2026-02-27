@@ -4,8 +4,23 @@ import "lazysizes/plugins/attrchange/ls.attrchange";
 import Image from "next/image";
 
 const ResposiveImage = ({
-  value: { srcSp, srcTb, src, name, srcWidth, srcHeight, scroll, load, index },
+  value: {
+    srcSp,
+    srcTb,
+    src,
+    name,
+    srcWidth,
+    srcHeight,
+    scroll,
+    load,
+    index,
+    width,
+    height,
+  },
 }) => {
+  // 旧スキーマ: srcWidth/srcHeight、新スキーマ: width/height のどちらでも取得（Next/Image 用に数値化）
+  const w = Number(srcWidth ?? width) || 1;
+  const h = Number(srcHeight ?? height) || 1;
   return (
     <picture>
       <source
@@ -14,10 +29,10 @@ const ResposiveImage = ({
         type="image/webp"
       />
       <Image
-        src={srcSp}
+        src={srcSp ?? src}
         alt={name}
-        width={width}
-        height={height}
+        width={w}
+        height={h}
         className={`fade-in lazyload ${styles.emakiImg}`}
         data-expand="1000"
       />

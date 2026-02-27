@@ -17,7 +17,9 @@ import { useTranslation } from "next-i18next";
 
 const OverlayEkotoba = ({
   item: {
-    gendaibun,
+    gendaibun: gendaibunProp,
+    text,
+    content,
     srcSp,
     src,
     config,
@@ -25,6 +27,8 @@ const OverlayEkotoba = ({
     scroll,
     srcWidth,
     srcHeight,
+    width,
+    height,
     chapter,
     index,
     navIndex,
@@ -37,6 +41,8 @@ const OverlayEkotoba = ({
   },
   item,
 }) => {
+  // 新スキーマ: item.text / item.content、旧スキーマ: item.gendaibun
+  const gendaibun = gendaibunProp ?? text ?? content ?? "";
   const {
     setekotobaToggle,
     ekotobaImageToggle,
@@ -170,7 +176,7 @@ const OverlayEkotoba = ({
           }}
         >
           {/* {ChaptersGendaibun(titleen, title, chapter, ekotobabody)} */}
-          {src && ChaptersGendaibun(titleen, title, chapter, ekotobabody)}
+          {ekotobabody && ChaptersGendaibun(titleen, title, chapter, ekotobabody)}
         </p>
       </div>
       {src && (
@@ -179,8 +185,8 @@ const OverlayEkotoba = ({
             key={index}
             src={item}
             alt={name}
-            width={srcWidth}
-            height={srcHeight}
+            width={srcWidth ?? width}
+            height={srcHeight ?? height}
             index={index}
             srcSp={srcSp}
             config={config}

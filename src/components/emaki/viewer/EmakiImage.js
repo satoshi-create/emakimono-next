@@ -5,7 +5,18 @@ import Link from "next/link";
 import { useContext } from "react";
 
 const EmakiImage = ({
-  item: { config, index, navIndex, character, ebiki, uniqueIndex },
+  item: {
+    config,
+    index,
+    navIndex,
+    character,
+    ebiki,
+    uniqueIndex,
+    srcWidth,
+    srcHeight,
+    width,
+    height,
+  },
   item,
   isPlayMode, // 再生モード状態
   emakiId, // 計測用: 絵巻ID
@@ -171,12 +182,12 @@ const EmakiImage = ({
       <LazyImage
         key={`${index}-${toggleFullscreen}`}
         src={item}
-        alt={item.name}
-        width={item.srcWidth}
-        height={item.srcHeight}
+        alt={item.name || ""}
+        width={item.width ?? item.srcWidth}
+        height={item.height ?? item.srcHeight}
         index={index}
         srcSp={item.srcSp}
-        config={config}
+        config={item.config ?? config}
         uniqueIndex={uniqueIndex}
         isPlayMode={isPlayMode}
         emakiId={emakiId}

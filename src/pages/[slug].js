@@ -5,7 +5,6 @@ import EmakiPortraitContent from "@/components/emaki/layout/EmakiPortraitContent
 import EmakiBreadcrumbs from "@/components/emaki/navigation/EmakiBreadcrumbs";
 import Head from "@/components/meta/Meta";
 import MiddleNavigation from "@/components/navigation/MiddleNavigation";
-import { default as enData, default as jaData } from "@/data/data";
 import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
 import { AppContext } from "@/pages/_app";
 import { useLocaleMeta } from "@/utils/func";
@@ -208,68 +207,88 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
   const fs = require("fs");
   const path = require("path");
+
+  const { slug } = context.params;
+  const { locale, locales } = context;
+
+  // 旧 image-metadata-cache からページメタデータのみ取得
   const cacheDir = path.join(process.cwd(), "src/data/image-metadata-cache");
   const cacheFilePath = path.join(cacheDir, "image-metadata-cache.json");
-
-  // キャッシュファイルが存在しない場合のエラー処理
   if (!fs.existsSync(cacheFilePath)) {
     throw new Error(
       "Image metadata cache not found. Run the generateImageMetadata script."
     );
   }
-
-  // キャッシュファイルを読み込む
   const metadataCache = JSON.parse(fs.readFileSync(cacheFilePath, "utf-8"));
 
-  const { slug } = context.params;
-  const { locale, locales } = context;
-  const tEmakisData = locale === "en" ? enData : jaData;
-  const filterdEmakisData = metadataCache.filter(
-    (item, index) => item.titleen === slug
+  const baseMeta = metadataCache.find((item) => item.titleen === slug);
+
+  if (!baseMeta) {
+    return {
+      notFound: true,
+    };
+  }
+
+  // 新スキーマ（viewer）JSON を読み込み
+  const viewerDir = path.join(process.cwd(), "src/data/viewer");
+
+  // gallary/index.json から scroll_id を解決
+  const gallaryIndexPath = path.join(
+    process.cwd(),
+    "src/data/gallary/index.json"
   );
+  const gallaryIndex = JSON.parse(
+    fs.readFileSync(gallaryIndexPath, "utf-8")
+  );
+  const gallaryItem = gallaryIndex.find((entry) => entry.id === baseMeta.id);
 
-  const addObjEmakis = filterdEmakisData
-    .map((item, i) => {
-      const addLinkIdtoEmakis = item.emakis.map((item, i) => {
-        return { ...item, linkId: i };
-      });
+  const scrollId = gallaryItem ? gallaryItem.scroll_id : null;
 
-      const addEkotobaIdEmakis = addLinkIdtoEmakis
-        .filter((item) => item.cat === "ekotoba")
-        .map((item, i) => {
-          return { ...item, ekotobaId: i };
-        });
+  if (!scrollId) {
+    throw new Error(`Scroll ID not found for slug: ${slug}`);
+  }
 
-      const concatAddObjEmakis = Array.from(
-        new Set(addLinkIdtoEmakis.concat(addEkotobaIdEmakis))
-      );
+  const viewerFilePath = path.join(viewerDir, `${scrollId}.json`);
 
-      const filterAddObjEmakisA = concatAddObjEmakis.filter(
-        (item) => item.cat === "image"
-      );
-      const filterAddObjEmakisB = concatAddObjEmakis.filter(
-        (item) => item.cat === "ekotoba" && item.ekotobaId >= 0
-      );
-      const concatFilterAddObjEmakis =
-        filterAddObjEmakisA.concat(filterAddObjEmakisB);
+  if (!fs.existsSync(viewerFilePath)) {
+    throw new Error(`Viewer JSON not found for scroll_id: ${scrollId}`);
+  }
 
-      const sortConcatFilterAddObjEmakis = concatFilterAddObjEmakis.sort(
-        (a, b) => (a.linkId > b.linkId ? 1 : -1)
-      );
+  const viewerData = JSON.parse(fs.readFileSync(viewerFilePath, "utf-8"));
 
-      return { ...item, emakis: sortConcatFilterAddObjEmakis };
-    })
-    .find((item) => item);
+  // sort_key による物語順を保証（生成側で保証されている場合でも安全のため一度だけソート）
+  const sortedEmakis = Array.isArray(viewerData.emakis)
+    ? [...viewerData.emakis].sort((a, b) => a.sort_key - b.sort_key)
+    : [];
+
+  const data = {
+    // 既存コンポーネントが利用しているメタ情報は旧キャッシュから維持
+    ...baseMeta,
+    // 新スキーマのメタデータもマージ（description など）
+    ...(viewerData.metadata || {}),
+    // 計測ロジック互換用の id
+    id: baseMeta.id,
+    // 既存フィールド互換
+    title: baseMeta.title,
+    titleen: baseMeta.titleen,
+    author: baseMeta.author,
+    authoren: baseMeta.authoren,
+    desc: baseMeta.desc,
+    descen: baseMeta.descen,
+    // 新スキーマの emakis（sort_key 順）をそのまま渡す
+    emakis: sortedEmakis,
+  };
 
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
-      data: addObjEmakis,
+      data,
       locales,
       locale,
       slug: slug,
-      test: addObjEmakis,
     },
+    // ISR: 60秒ごとにバックグラウンド再生成
+    revalidate: 60,
   };
 };
 

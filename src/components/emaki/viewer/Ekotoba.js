@@ -10,7 +10,9 @@ import { useContext, useEffect, useState } from "react";
 const Ekotoba = ({
   item: {
     chapter,
-    gendaibun,
+    gendaibun: gendaibunProp,
+    text,
+    content,
     kobun,
     index,
     srcSp,
@@ -26,6 +28,8 @@ const Ekotoba = ({
     navIndex,
     srcWidth,
     srcHeight,
+    width,
+    height,
   },
 }) => {
   const {
@@ -37,9 +41,9 @@ const Ekotoba = ({
     ekotobaToggle,
   } = useContext(AppContext);
 
-  // dangerouslySetInnerHTMLでgendaibunを描画使用するとHydration failedになる問題の対処のため、
-  // gendaibunを最初のレンダリング後に取得
-  // https://qiita.com/maaaashi/items/957bf8a949833151612b
+  // 新スキーマ: item.text / item.content、旧スキーマ: item.gendaibun
+  const gendaibun = gendaibunProp ?? text ?? content ?? "";
+
   const [ekotobabody, setEkotobabody] = useState("");
 
   useEffect(() => {
@@ -152,8 +156,8 @@ const Ekotoba = ({
                 load,
                 name,
                 scroll,
-                srcWidth,
-                srcHeight,
+                srcWidth: srcWidth ?? width,
+                srcHeight: srcHeight ?? height,
               }}
             />
           )}

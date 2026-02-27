@@ -1,5 +1,5 @@
-﻿import { AppContext } from "@/pages/_app";
-import { ChaptersDesc, ChaptersTitle, eraColor } from "@/utils/func";
+import { AppContext } from "@/pages/_app";
+import { ChaptersDesc, ChaptersTitle, ChaptersGendaibun, eraColor } from "@/utils/func";
 import {
   AccordionButton,
   AccordionIcon,
@@ -18,8 +18,15 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
   const { t } = useTranslation("common");
   const { handleToId, handleFullScreen, orientation } = useContext(AppContext);
   const [showInfo, setShowInfo] = useState(false);
-  const { chapter, gendaibun, cat, desc } = item;
+  const { chapter, gendaibun, text, content, desc, title: itemTitle, title_en: itemTitleEn } = item;
   const { genjieslug, title, titleen, era } = data;
+
+  const sectionTitleDisplay =
+    locale === "en"
+      ? (itemTitleEn ?? itemTitle ?? "")
+      : (itemTitle ?? itemTitleEn ?? "");
+  const bodyText = gendaibun ?? text ?? content ?? "";
+  const descText = desc ?? item.description ?? "";
 
   return (
     <AccordionItem
@@ -49,9 +56,10 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
             display="block"
             paddingInlineStart="0"
           >
-            {locale == "en"
-              ? ChaptersTitle(titleen, title, chapter, "titleen")
-              : ChaptersTitle(titleen, title, chapter, "title")}
+            {sectionTitleDisplay ||
+              (locale == "en"
+                ? ChaptersTitle(titleen, title, chapter, "titleen")
+                : ChaptersTitle(titleen, title, chapter, "title"))}
           </Box>
           {/* リンクアイコンの色を #ff8c77 に変更し、右寄せ、丸みを帯びたデザイン */}
           <Button
@@ -69,30 +77,21 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
         </AccordionButton>
       </h4>
       <AccordionPanel pb={4}>
-        {/* <h4
-         className={styles.metaBtitle}
-         style={{
-           "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-         }}
-       >
-         解説
-       </h4> */}
-        <Text fontSize={{ base: "0.9rem", sm: "0.85rem", md: "1.1rem" }}>
-          {locale == "en"
-            ? ChaptersDesc(titleen, title, chapter, "descen", desc)
-            : ChaptersDesc(titleen, title, chapter, "desc", desc)}
-        </Text>
-        {/* <h4
-         className={styles.metaBtitle}
-         style={{
-           "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-         }}
-       >
-         現代文
-       </h4>
-       <Text fontSize={{ base: "0.9rem", sm: "0.85rem", md: "1.1rem" }}>
-         {ChaptersGendaibun(titleen, title, chapter, gendaibun)}
-       </Text> */}
+        {descText && (
+          <Text fontSize={{ base: "0.9rem", sm: "0.85rem", md: "1.1rem" }}>
+            {locale == "en"
+              ? ChaptersDesc(titleen, title, chapter, "descen", descText)
+              : ChaptersDesc(titleen, title, chapter, "desc", descText)}
+          </Text>
+        )}
+        {bodyText && (
+          <Text
+            fontSize={{ base: "0.9rem", sm: "0.85rem", md: "1.1rem" }}
+            mt={descText ? 2 : 0}
+          >
+            {ChaptersGendaibun(titleen, title, chapter, bodyText)}
+          </Text>
+        )}
         {orientation == "landscape" && (
           <Button
             mt={4}
@@ -115,9 +114,9 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
             }}
           >
             {locale == "en" ? (
-              <>{t("viewer.viewImage")}: {ChaptersTitle(titleen, title, chapter, "titleen")}</>
+              <>{t("viewer.viewImage")}: {sectionTitleDisplay || ChaptersTitle(titleen, title, chapter, "titleen")}</>
             ) : (
-              <>{ChaptersTitle(titleen, title, chapter, "title")}{t("viewer.viewImage")}</>
+              <>{sectionTitleDisplay || ChaptersTitle(titleen, title, chapter, "title")}{t("viewer.viewImage")}</>
             )}
           </Button>
         )}

@@ -24,7 +24,7 @@ const ChapterDesc = ({ emakis, data }) => {
             >
               {emakis.map((item, index) => {
                 const { cat } = item;
-                if (cat === "ekotoba") {
+                if (cat === "scene_title" || cat === "ekotoba") {
                   return (
                     <SingleChapterDesc
                       item={item}

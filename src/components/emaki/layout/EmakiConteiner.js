@@ -790,32 +790,6 @@ const EmakiContainer = ({
     }
   }, [scroll]);
 
-  // 配列を展開し、条件ごとに連番を付与
-  const processedEmakis = data.emakis.reduce(
-    (acc, item, index) => {
-      if (item.cat === "image") {
-        acc.imageCounter += 1; // 画像のカウンターをインクリメント
-        acc.result.push({
-          ...item,
-          uniqueIndex: acc.imageCounter - 1, // 独立した連番
-        });
-      } else if (item.cat === "ekotoba") {
-        acc.ekotobaCounter += 1; // エコトバのカウンターをインクリメント
-        acc.result.push({
-          ...item,
-          uniqueIndex: acc.ekotobaCounter - 1, // 独立した連番
-        });
-      } else {
-        acc.result.push({
-          ...item,
-          uniqueIndex: null, // その他の場合、連番なし
-        });
-      }
-      return acc;
-    },
-    { result: [], imageCounter: 0, ekotobaCounter: 0 },
-  ).result;
-
   return (
     <div
       className={`${
@@ -982,27 +956,43 @@ const EmakiContainer = ({
           }}
           ref={articleRef}
         >
-          {processedEmakis.map((item, index) => {
-            const { cat, src } = item;
-            return (
-              <SwitcherEmaki
-                key={index}
-                cat={cat}
-                data={data}
-                item={item}
-                index={index}
-                src={src}
-                backgroundImage={backgroundImage}
-                kotobagaki={kotobagaki}
-                type={type}
-                selectedRef={selectedRef}
-                navIndex={navIndex}
-                uniqueIndex={item.uniqueIndex} // 新しい連番を渡す
-                scroll={scroll}
-                isPlayMode={isPlayMode} // 再生モード時は全画像を eager loading
-              />
-            );
-          })}
+          {(() => {
+            // cat の種類に関わらず data.emakis の全要素を SwitcherEmaki に渡す（scene_title / image / ekotoba）
+            let imageCounter = 0;
+            let ekotobaCounter = 0;
+
+            return data.emakis.map((item, index) => {
+              const { cat, src } = item;
+
+              let uniqueIndex = null;
+              if (cat === "image") {
+                uniqueIndex = imageCounter;
+                imageCounter += 1;
+              } else if (cat === "ekotoba") {
+                uniqueIndex = ekotobaCounter;
+                ekotobaCounter += 1;
+              }
+
+              return (
+                <SwitcherEmaki
+                  key={index}
+                  cat={cat}
+                  data={data}
+                  item={item}
+                  index={index}
+                  src={src}
+                  backgroundImage={backgroundImage}
+                  kotobagaki={kotobagaki}
+                  type={type}
+                  selectedRef={selectedRef}
+                  navIndex={navIndex}
+                  uniqueIndex={uniqueIndex}
+                  scroll={scroll}
+                  isPlayMode={isPlayMode}
+                />
+              );
+            });
+          })()}
         </article>
       </div>
     </div>

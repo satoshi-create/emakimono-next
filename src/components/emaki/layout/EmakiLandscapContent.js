@@ -1,4 +1,4 @@
-﻿import ToContactForm from "@/components/_archive_unused/ToContactForm";
+import ToContactForm from "@/components/_archive_unused/ToContactForm";
 import EmakiConteiner from "@/components/emaki/layout/EmakiConteiner";
 import ChapterDesc from "@/components/emaki/metadata/ChapterDesc";
 import ChapterTimeline from "@/components/emaki/metadata/ChapterTimeline";
@@ -92,12 +92,21 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
   );
 
   const ekotobaIndices = emakis
-    .map((item, i) => (item.cat === "ekotoba" ? i : -1))
+    .map((item, i) =>
+      item.cat === "ekotoba" || item.cat === "scene_title" ? i : -1
+    )
     .filter((i) => i >= 0);
   const activeEkotobaIndex = ekotobaIndices.reduce(
     (prev, curr) => (curr <= navIndex ? curr : prev),
     ekotobaIndices[0]
   );
+
+  const sectionItems = emakis
+    .map((item, idx) => ({ item, idx }))
+    .filter(
+      ({ item }) =>
+        item.cat === "scene_title" || item.cat === "ekotoba"
+    );
 
   return (
     <>
@@ -130,26 +139,23 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 bg="gray.300"
                 zIndex={-1}
               />
-              {emakis.map((item, idx) => {
-                const { cat, chapter, ekotobaId } = item;
-                if (cat === "ekotoba") {
-                  return (
-                    <ChapterTimeline
-                      key={idx}
-                      titleen={titleen}
-                      title={title}
-                      chapter={chapter}
-                      era={era}
-                      index={idx}
-                      ekotobaId={ekotobaId}
-                      kotobagaki={kotobagaki}
-                      iconType={"location"}
-                      isActive={idx === activeEkotobaIndex}
-                      scrollOnActive={true}
-                    />
-                  );
-                }
-              })}
+              {sectionItems.map(({ item, idx }, sectionIndex) => (
+                <ChapterTimeline
+                  key={idx}
+                  titleen={titleen}
+                  title={title}
+                  chapter={item.chapter}
+                  era={era}
+                  index={idx}
+                  ekotobaId={sectionIndex}
+                  kotobagaki={kotobagaki}
+                  iconType={"location"}
+                  isActive={idx === activeEkotobaIndex}
+                  scrollOnActive={true}
+                  sectionTitle={item.title}
+                  sectionTitleEn={item.title_en}
+                />
+              ))}
             </VStack>
           </div>
 

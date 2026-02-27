@@ -11,16 +11,20 @@ const ChapterList = ({ data, era, titleen, title }) => {
     <ul className={styles.chapter} style={{ color: eraColor(era) }}>
       {data.map((item, index) => {
         const { cat, chapter } = item;
-        if (cat === "ekotoba") {
+        if (cat === "scene_title" || cat === "ekotoba") {
+          const displayTitle =
+            locale === "en"
+              ? (item.title_en ?? item.title ?? "")
+              : (item.title ?? item.title_en ?? "");
           return (
             <li key={index}>
               <span
                 onClick={() => handleChapter(index)}
                 className={`${styles[eraColor(era)]} ${styles.chaptername}`}
               >
-                {locale === "en"
+                {displayTitle || (locale === "en"
                   ? ChaptersTitle(titleen, title, chapter, "titleen")
-                  : ChaptersTitle(titleen, title, chapter, "title")}
+                  : ChaptersTitle(titleen, title, chapter, "title"))}
               </span>
             </li>
           );

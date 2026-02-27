@@ -23,10 +23,18 @@ const ChapterTimeline = ({
   iconType,
   isActive,
   scrollOnActive,
+  /** 段タイトル（scene_title の item.title / item.title_en）を優先表示 */
+  sectionTitle,
+  sectionTitleEn,
 }) => {
   const { handleToId, openDescModal } = useContext(AppContext);
   const { locale } = useRouter();
   const rowRef = useRef(null);
+
+  const displayTitle =
+    locale === "en"
+      ? (sectionTitleEn ?? sectionTitle ?? ChaptersTitle(titleen, title, chapter, "titleen"))
+      : (sectionTitle ?? sectionTitleEn ?? ChaptersTitle(titleen, title, chapter, "title"));
 
   useEffect(() => {
     if (!isActive || !scrollOnActive || !rowRef.current) return;
@@ -60,12 +68,12 @@ const ChapterTimeline = ({
       icon = <FaRegCircle />;
   }
 
-  const handleModalButtonClick = (ekotobaId, index) => {
+  const handleModalButtonClick = (sectionIndex, scrollIndex) => {
     openDescModal({
-      ekotobaId,
-      index,
+      ekotobaId: sectionIndex,
+      index: scrollIndex,
     });
-    handleToId(index);
+    handleToId(scrollIndex);
   };
 
   return (
@@ -101,24 +109,21 @@ const ChapterTimeline = ({
           {/* ここでアイコンを表示 */}
         </Circle>
         <Text
-          fontSize={useBreakpointValue({ base: "sm", md: "lg" })} // テキストのサイズを変更
+          fontSize={useBreakpointValue({ base: "sm", md: "lg" })}
           fontWeight="bold"
           fontFamily="var(--text-font)"
           color={eraColor(era)}
           textTransform={"capitalize"}
         >
-          {locale == "en"
-            ? ChaptersTitle(titleen, title, chapter, "titleen")
-            : ChaptersTitle(titleen, title, chapter, "title")}
+          {displayTitle}
         </Text>
       </HStack>
-      {/* セクション間のボタン */}
-      {kotobagaki && (
+      {/* セクション詳細ボタン（scene_title / ekotoba いずれもモーダルで表示） */}
+      {(kotobagaki || sectionTitle != null || sectionTitleEn != null) && (
         <Button
           display="flex"
           alignItems="center"
           justifyContent="center"
-          // w="fu"
           border={`2px solid ${eraColor(era)}`}
           size="sm"
           bg="white"

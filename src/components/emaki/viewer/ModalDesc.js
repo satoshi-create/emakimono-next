@@ -2,7 +2,7 @@ import SnsShareBox from "@/components/social/SnsShareBox";
 import * as gtag from "@/libs/api/gtag";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/ModalDesc.module.css";
-import { ChaptersDesc, ChaptersTitle } from "@/utils/func";
+import { ChaptersDesc, ChaptersTitle, ChaptersGendaibun } from "@/utils/func";
 import {
   faAnglesLeft,
   faAnglesRight,
@@ -21,7 +21,12 @@ const ModalDesc = ({ data }) => {
   const emakis = data.emakis;
   const { genjieslug, title, titleen } = data;
 
-  const filterEkotobas = emakis.filter((item) => item.cat === "ekotoba");
+  const filterEkotobas = emakis
+    .map((item, index) => ({ ...item, index }))
+    .filter(
+      (item) =>
+        item.cat === "scene_title" || item.cat === "ekotoba"
+    );
 
   // GA4: モーダルが開いた時にイベント送信
   useEffect(() => {
@@ -90,7 +95,14 @@ const ModalDesc = ({ data }) => {
           onClick={closeDescModal}
         />
         {filterEkotobas.map((item, ekotobasIndex) => {
-          const { gendaibun, chapter, linkId, desc, kobun } = item;
+          const { gendaibun, text, content, chapter, linkId, desc } = item;
+          const bodyText = gendaibun ?? text ?? content ?? "";
+          const descText = desc ?? item.description ?? "";
+          const sectionTitleDisplay =
+            locale === "en"
+              ? (item.title_en ?? item.title ?? "")
+              : (item.title ?? item.title_en ?? "");
+          const scrollIndex = item.index;
 
           let position = "nextSlide";
 
@@ -122,12 +134,11 @@ const ModalDesc = ({ data }) => {
                       }
                     : { fontSize: "var(--title-size)" }
                 }
-                // onClick={() => handleChapter(linkId)}
               >
-                {locale == "en"
-                  ? ChaptersTitle(titleen, title, chapter, "titleen")
-                  : ChaptersTitle(titleen, title, chapter, "title")}
-                {/* {ChaptersTitle(titleen, title, chapter)} */}
+                {sectionTitleDisplay ||
+                  (locale == "en"
+                    ? ChaptersTitle(titleen, title, chapter, "titleen")
+                    : ChaptersTitle(titleen, title, chapter, "title"))}
               </h3>
               <div className={styles.tabcontainer}>
                 {allMap.map((item, i) => {
@@ -158,8 +169,8 @@ const ModalDesc = ({ data }) => {
                     }
                   >
                     {locale == "en"
-                      ? ChaptersDesc(titleen, title, chapter, "descen", desc)
-                      : ChaptersDesc(titleen, title, chapter, "desc", desc)}
+                      ? ChaptersDesc(titleen, title, chapter, "descen", descText)
+                      : ChaptersDesc(titleen, title, chapter, "desc", descText)}
                   </p>
                 )}
                 {value === 1 && (
@@ -173,21 +184,23 @@ const ModalDesc = ({ data }) => {
                         : { fontSize: "var(--text-size)" }
                     }
                   >
-                    {/* {ChaptersGendaibun(titleen, title, chapter, gendaibun)} */}
+                    {bodyText
+                      ? ChaptersGendaibun(titleen, title, chapter, bodyText)
+                      : null}
                   </p>
                 )}
               </div>
 
               <button
                 type="button"
-                onClick={() => handleChapter(linkId)}
+                onClick={() => handleChapter(linkId ?? scrollIndex)}
                 className={styles.linkedbutton}
               >
                 {/* 横スクロールで見る */}
                 {locale == "en" ? (
-                  <>{t("viewer.viewImage")}: {ChaptersTitle(titleen, title, chapter, "titleen")}</>
+                  <>{t("viewer.viewImage")}: {sectionTitleDisplay || ChaptersTitle(titleen, title, chapter, "titleen")}</>
                 ) : (
-                  <>{ChaptersTitle(titleen, title, chapter, "title")}{t("viewer.viewImage")}</>
+                  <>{sectionTitleDisplay || ChaptersTitle(titleen, title, chapter, "title")}{t("viewer.viewImage")}</>
                 )}
               </button>
               <SnsShareBox

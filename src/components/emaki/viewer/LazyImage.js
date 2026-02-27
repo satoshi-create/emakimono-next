@@ -104,6 +104,10 @@ const LazyImage = ({
   const baseUrl =
     "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
 
+  // 新スキーマ: item.src 文字列 / 旧スキーマ: item オブジェクトの .src を安全に抽出
+  const imageSrc =
+    typeof src === "string" ? src : src?.src || "";
+
   // 絵巻の紙色（淡いベージュ #f5f0e6）を SVG data URL で指定
   // Firefox/Chrome/Edge での白背景フラッシュを防ぐため、外部 URL ではなくインライン画像を使用
   // SVG を使用することで確実に指定した色が表示される
@@ -126,22 +130,27 @@ const LazyImage = ({
   };
 
   const getResponsiveSrcCloudinary = (emaki, containerHeight) => {
-    const aspectRatio = width / height; // アスペクト比を計算
+    const w = Number(width) || 1;
+    const h = Number(height) || 1;
+    const aspectRatio = w / h;
 
     // コンテナの高さに応じてCloudinaryの画像サイズを動的に調整
     if (containerHeight <= 375) {
       const calculatedWidth = Math.round(375 * aspectRatio); // 高さから幅を計算
       return `${baseUrl}/w_${calculatedWidth},h_375,c_fit/${emaki.src}`; // スマートフォン用
     } else if (containerHeight <= 800) {
-      const calculatedWidth = Math.round(800 * aspectRatio); // 高さから幅を計算
+      const calculatedWidth = Math.round(800 * aspectRatio);
       return `${baseUrl}/w_${calculatedWidth},h_800,c_fit/${emaki.src}`; // タブレット用
     } else {
-      const calculatedWidth = Math.round(containerHeight * aspectRatio); // 高さから幅を計算
+      const calculatedWidth = Math.round(containerHeight * aspectRatio);
       return `${baseUrl}/w_${calculatedWidth},h_${containerHeight},c_fit/${emaki.src}`; // デスクトップ用
     }
   };
 
-  const responsiveSrc = getResponsiveSrcCloudinary(src, containerHeight);
+  const responsiveSrc = getResponsiveSrcCloudinary(
+    typeof src === "object" && src !== null ? { ...src, src: imageSrc } : { src: imageSrc },
+    containerHeight
+  );
 
   // 注: 以前は Cloudinary の低解像度画像を blurDataURL に使用していたが、
   // Firefox で外部 URL の読み込み遅延により白背景が露出する問題があったため、
@@ -174,7 +183,7 @@ const LazyImage = ({
   // sizes 未指定時のデフォルト "100vw" では、横スクロール内の各画像の実幅と乖離し、
   // 不要なリクエストキャンセル（HAR: status 0）や二重フェッチの原因となる
   // media query を使用して SSR/クライアント間の hydration mismatch を防止
-  const ratioStr = (width / height).toFixed(4);
+  const ratioStr = ((Number(width) || 1) / (Number(height) || 1)).toFixed(4);
   const imageSizes = toggleFullscreen
     ? `calc(${ratioStr} * 100vh)`
     : `(orientation: portrait) calc(${ratioStr} * 45vh), calc(${ratioStr} * 75vh)`;
@@ -183,7 +192,7 @@ const LazyImage = ({
     <div
       className={`image-wrapper`}
       style={{
-        width: `calc(${width / height} * ${getResponsiveHeightVar(toggleFullscreen, orientation)})`,
+        width: `calc(${(Number(width) || 1) / (Number(height) || 1)} * ${getResponsiveHeightVar(toggleFullscreen, orientation)})`,
         height: "100%", // 高さを明示的に設定（白背景対策）
         position: "relative",
         backgroundColor: "#f5f0e6", // 絵巻の紙色（白背景対策フォールバック）
@@ -201,10 +210,10 @@ const LazyImage = ({
         />
       )}
       <Image
-        loader={config === "cloudinary" ? cloudinaryLoader : undefined} // Cloudinaryが有効な場合のみローダー適用
-        src={src.src} // Cloudinaryの画像ID
-        width={width}
-        height={height}
+        loader={config === "cloudinary" ? cloudinaryLoader : undefined}
+        src={imageSrc}
+        width={Number(width) || 1}
+        height={Number(height) || 1}
         alt={alt}
         priority={uniqueIndex === 0} // 最初の画像は即時プリロード
         // 再生モード時・全画面時・最初の10枚は eager loading
@@ -234,8 +243,8 @@ const LazyImage = ({
           position: relative; /* Imageの親要素として必要 */
           flex-shrink: 0; /* 子要素が縮小されないようにする */
           height: 100%; /* コンテナの高さに合わせる */
-          width: ${width}px;
-          height: ${height}px;
+          width: ${Number(width) || 1}px;
+          height: ${Number(height) || 1}px;
           overflow: hidden;
         }
         .skeleton {
@@ -247,7 +256,7 @@ const LazyImage = ({
           z-index: 2; /* next/image の上に表示 */
           /* 絵巻の紙色に馴染む静的な淡いベージュ（シマーアニメーションは視覚ノイズになるため削除） */
           background-color: #f5f0e6;
-          aspect-ratio: ${width} / ${height};
+          aspect-ratio: ${Number(width) || 1} / ${Number(height) || 1};
         }
         /* next/image の内部 span/img 要素にも背景色を適用（白背景対策） */
         .image-wrapper > span,
