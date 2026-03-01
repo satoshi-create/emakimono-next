@@ -2,21 +2,45 @@ import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import Head from "@/components/meta/Meta";
 import CardA from "@/components/ui/CardA";
+import { getScrollList } from "@/libs/api/scrollService";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { useLocale } from "@/utils/func";
 import "lazysizes";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-const Home = () => {
+const Home = ({ scrollList = [] }) => {
   const { t } = useLocale();
   const removeNestedArrayObj = ExtractingListData();
 
-  const kusouzuEmakis = removeNestedArrayObj.filter((emaki) =>
-    emaki.title.includes("九相")
+  // Supabase から取得した一覧があれば CardA 用にマッピング（リンクは従来の /titleen 形式）
+  const mappedScrollList =
+    scrollList.length > 0
+      ? scrollList.map((m) => ({
+          id: m.id,
+          title: m.title,
+          titleen: m.titleen ?? m.scroll_id,
+          thumb: m.thumbnail,
+          author: m.author,
+          authoren: m.author,
+          era: m.era,
+          eraen: m.era,
+          desc: m.description ?? "",
+          type: "絵巻",
+          typeen: "emaki",
+          keyword: m.keyword ?? [],
+          edition: "",
+        }))
+      : [];
+
+  const listSource =
+    mappedScrollList.length > 0 ? mappedScrollList : removeNestedArrayObj;
+
+  const kusouzuEmakis = listSource.filter((emaki) =>
+    emaki.title && emaki.title.includes("九相")
   );
 
-  const cyouzyuuEmakis = removeNestedArrayObj.filter((emaki) =>
-    emaki.title.includes("鳥獣人物戯画絵巻")
+  const cyouzyuuEmakis = listSource.filter((emaki) =>
+    emaki.title && emaki.title.includes("鳥獣人物戯画絵巻")
   );
 
   return (
@@ -32,7 +56,7 @@ const Home = () => {
         sectionname={t.cyouzyuu.name}
         linktitle={t.cyouzyuu.title}
         linktitleen={t.cyouzyuu.title}
-        linkpath={"flow-cyouzyuu"}
+        linkpath="flow-cyouzyuu"
         bcg={"#f9fbff"}
       />
       <CardA
@@ -44,7 +68,7 @@ const Home = () => {
         sectionname={t.kusouzu.name}
         linktitle={t.kusouzu.title}
         linktitleen={t.kusouzu.title}
-        linkpath={"flow-kusouzu"}
+        linkpath="flow-kusouzu"
       />
       <Footer />
     </main>
@@ -52,9 +76,26 @@ const Home = () => {
 };
 
 export const getStaticProps = async ({ locale }) => {
+  let scrollList = [];
+  try {
+    scrollList = await getScrollList();
+  } catch (e) {
+    console.warn("Supabase getScrollList failed, using fallback list:", e?.message);
+  }
+
+  // リンクを従来の /Chōjū-jinbutsu-giga_first 形式にするため、image-metadata-cache から titleen（slug）をマージ
+  if (scrollList.length > 0) {
+    const metadataCache = require("@/data/image-metadata-cache/image-metadata-cache.json");
+    scrollList = scrollList.map((s) => {
+      const cached = metadataCache.find((c) => c.id === s.id);
+      return { ...s, titleen: cached?.titleen ?? s.scroll_id };
+    });
+  }
+
   return {
     props: {
       ...(await serverSideTranslations(locale ?? "ja", ["common"])),
+      scrollList,
     },
   };
 };

@@ -7,6 +7,7 @@ import {
   default as enData,
   default as jaData,
 } from "@/data/image-metadata-cache/image-metadata-cache.json";
+import { getScrollList } from "@/libs/api/scrollService";
 import { removeNestedEmakisObj, typeItem } from "@/utils/func";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -65,19 +66,61 @@ export const getStaticProps = async (context) => {
   const typeObj = typeItem(tEmakisData).find(
     ({ typeen }) => typeen === catslug
   );
-  const removeNestedArrayObj = tEmakisData.map((item) => {
-    return removeNestedEmakisObj(item);
-  });
-  const filterdEmakisData = removeNestedArrayObj.filter(
-    (item) => item.typeen === catslug
-  );
+
+  // index.js と同様: Supabase から一覧取得し、titleen をマージ。失敗時は image-metadata-cache を使用
+  let posts;
+  try {
+    let scrollList = await getScrollList();
+    if (scrollList.length > 0) {
+      scrollList = scrollList.map((s) => {
+        const cached = tEmakisData.find((c) => c.id === s.id);
+        return {
+          ...s,
+          titleen: cached?.titleen ?? s.scroll_id,
+          type: cached?.type ?? "絵巻",
+          typeen: cached?.typeen ?? "emaki",
+        };
+      });
+      const filterdByType = scrollList.filter((item) => item.typeen === catslug);
+      posts = filterdByType.map((m) => ({
+        id: m.id,
+        title: m.title,
+        titleen: m.titleen ?? m.scroll_id,
+        thumb: m.thumbnail,
+        author: m.author,
+        authoren: m.author,
+        era: m.era,
+        eraen: m.era,
+        desc: m.description ?? "",
+        type: m.type ?? "絵巻",
+        typeen: m.typeen ?? "emaki",
+        keyword: m.keyword ?? [],
+        edition: "",
+      }));
+    } else {
+      const removeNestedArrayObj = tEmakisData.map((item) =>
+        removeNestedEmakisObj(item)
+      );
+      posts = removeNestedArrayObj.filter(
+        (item) => item.typeen === catslug
+      );
+    }
+  } catch (e) {
+    console.warn("Supabase getScrollList failed, using fallback:", e?.message);
+    const removeNestedArrayObj = tEmakisData.map((item) =>
+      removeNestedEmakisObj(item)
+    );
+    posts = removeNestedArrayObj.filter(
+      (item) => item.typeen === catslug
+    );
+  }
 
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
       name: typeObj.type,
       nameen: typeObj.typeen,
-      posts: filterdEmakisData,
+      posts,
       slug: catslug,
     },
   };

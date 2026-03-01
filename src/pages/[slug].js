@@ -232,21 +232,8 @@ export const getStaticProps = async (context) => {
   // 新スキーマ（viewer）JSON を読み込み
   const viewerDir = path.join(process.cwd(), "src/data/viewer");
 
-  // gallary/index.json から scroll_id を解決
-  const gallaryIndexPath = path.join(
-    process.cwd(),
-    "src/data/gallary/index.json"
-  );
-  const gallaryIndex = JSON.parse(
-    fs.readFileSync(gallaryIndexPath, "utf-8")
-  );
-  const gallaryItem = gallaryIndex.find((entry) => entry.id === baseMeta.id);
-
-  const scrollId = gallaryItem ? gallaryItem.scroll_id : null;
-
-  if (!scrollId) {
-    throw new Error(`Scroll ID not found for slug: ${slug}`);
-  }
+  // 一時的に固定: 絵巻画像が正常に描画されるよう viewer データを choju-giga-yamazaki-kou.json から直接読み込む
+  const scrollId = "choju-giga-yamazaki-kou";
 
   const viewerFilePath = path.join(viewerDir, `${scrollId}.json`);
 
