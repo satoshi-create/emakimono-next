@@ -1,0 +1,55 @@
+# Sync scroll: read scroll_config.yaml, upload to Cloudinary, upsert to Supabase.
+# Naming: scroll_id + volume_num + chapter + index (e.g. choju-giga-yamazaki-hei_3_1_1)
+#
+# Trigger: workflow_dispatch (manual) or push to main when scroll_config.yaml / images change.
+# Secrets: CLOUDINARY_URL (or CLOUDINARY_*), SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY
+# Optional: SCROLL_IMAGES_DIR (default: images/<scroll_id> from repo)
+
+name: Sync scroll to Cloudinary and Supabase
+
+on:
+  workflow_dispatch:
+    inputs:
+      config_path:
+        description: 'Path to scroll_config.yaml (relative to repo root)'
+        required: false
+        default: 'scroll_config.yaml'
+      skip_upload:
+        description: 'Skip Cloudinary upload (only upsert DB)'
+        required: false
+        default: false
+        type: boolean
+  push:
+    branches: [main]
+    paths:
+      - 'scroll_config.yaml'
+      - 'scroll_config*.yaml'
+      - 'images/**'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r scripts/requirements-sync.txt
+
+      - name: Sync scroll
+        env:
+          CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          CONFIG="${{ github.event.inputs.config_path || 'scroll_config.yaml' }}"
+          SKIP="${{ github.event.inputs.skip_upload }}"
+          if [ -n "$SKIP" ] && [ "$SKIP" = "true" ]; then
+            python scripts/sync_scroll.py "$CONFIG" --skip-upload
+          else
+            python scripts/sync_scroll.py "$CONFIG"
+          fi
