@@ -77,8 +77,10 @@ export const getStaticProps = async (context) => {
         return {
           ...s,
           titleen: cached?.titleen ?? s.scroll_id,
-          type: cached?.type ?? "絵巻",
-          typeen: cached?.typeen ?? "emaki",
+          type: s.type ?? cached?.type ?? "絵巻",
+          typeen: s.typeen ?? cached?.typeen ?? "emaki",
+          authoren: s.authoren ?? cached?.authoren ?? s.author,
+          eraen: s.eraen ?? cached?.eraen ?? s.era,
         };
       });
       const filterdByType = scrollList.filter((item) => item.typeen === catslug);
@@ -88,9 +90,9 @@ export const getStaticProps = async (context) => {
         titleen: m.titleen ?? m.scroll_id,
         thumb: m.thumbnail,
         author: m.author,
-        authoren: m.author,
+        authoren: m.authoren ?? m.author,
         era: m.era,
-        eraen: m.era,
+        eraen: m.eraen ?? m.era,
         desc: m.description ?? "",
         type: m.type ?? "絵巻",
         typeen: m.typeen ?? "emaki",

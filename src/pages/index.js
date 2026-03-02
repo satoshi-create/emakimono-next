@@ -12,7 +12,7 @@ const Home = ({ scrollList = [] }) => {
   const { t } = useLocale();
   const removeNestedArrayObj = ExtractingListData();
 
-  // Supabase から取得した一覧があれば CardA 用にマッピング（リンクは従来の /titleen 形式）
+  // Supabase から取得した一覧があれば CardA 用にマッピング。リンクは DB の titleen または scroll_id（/${item.titleen}）
   const mappedScrollList =
     scrollList.length > 0
       ? scrollList.map((m) => ({
@@ -21,12 +21,12 @@ const Home = ({ scrollList = [] }) => {
           titleen: m.titleen ?? m.scroll_id,
           thumb: m.thumbnail,
           author: m.author,
-          authoren: m.author,
+          authoren: m.authoren ?? m.author,
           era: m.era,
-          eraen: m.era,
+          eraen: m.eraen ?? m.era,
           desc: m.description ?? "",
-          type: "絵巻",
-          typeen: "emaki",
+          type: m.type ?? "絵巻",
+          typeen: m.typeen ?? "emaki",
           keyword: m.keyword ?? [],
           edition: "",
         }))
@@ -83,12 +83,19 @@ export const getStaticProps = async ({ locale }) => {
     console.warn("Supabase getScrollList failed, using fallback list:", e?.message);
   }
 
-  // リンクを従来の /Chōjū-jinbutsu-giga_first 形式にするため、image-metadata-cache から titleen（slug）をマージ
+  // リンク先を Supabase の scroll_id（例: choju-giga-yamazaki-kou）で統一。DB の titleen があればそれを使用
   if (scrollList.length > 0) {
     const metadataCache = require("@/data/image-metadata-cache/image-metadata-cache.json");
     scrollList = scrollList.map((s) => {
       const cached = metadataCache.find((c) => c.id === s.id);
-      return { ...s, titleen: cached?.titleen ?? s.scroll_id };
+      return {
+        ...s,
+        titleen: s.titleen ?? s.scroll_id,
+        type: s.type ?? cached?.type ?? "絵巻",
+        typeen: s.typeen ?? cached?.typeen ?? "emaki",
+        authoren: s.authoren ?? cached?.authoren ?? s.author,
+        eraen: s.eraen ?? cached?.eraen ?? s.era,
+      };
     });
   }
 

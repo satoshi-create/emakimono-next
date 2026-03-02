@@ -6,6 +6,7 @@ import EmakiBreadcrumbs from "@/components/emaki/navigation/EmakiBreadcrumbs";
 import Head from "@/components/meta/Meta";
 import MiddleNavigation from "@/components/navigation/MiddleNavigation";
 import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
+import { getEmakiDetail, getScrollData, getScrollMetadataById } from "@/libs/api/scrollService";
 import { AppContext } from "@/pages/_app";
 import { useLocaleMeta } from "@/utils/func";
 import { useRouter } from "next/router";
@@ -194,10 +195,22 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
 };
 
 export const getStaticPaths = async () => {
+  try {
+    const { getScrollList } = await import("@/libs/api/scrollService");
+    const scrollList = await getScrollList();
+    if (scrollList.length > 0) {
+      const paths = scrollList.map((item) => ({
+        params: { slug: item.scroll_id },
+        locale: "ja",
+      }));
+      const pathsEn = paths.map((p) => ({ ...p, locale: "en" }));
+      return { paths: [...paths, ...pathsEn], fallback: false };
+    }
+  } catch (e) {
+    console.warn("getStaticPaths: getScrollList failed, using cache", e?.message);
+  }
   const paths = emakisData.map((item) => ({
-    params: {
-      slug: item.titleen,
-    },
+    params: { slug: item.titleen },
     locale: "ja",
   }));
   paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
@@ -205,65 +218,86 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async (context) => {
-  const fs = require("fs");
-  const path = require("path");
-
   const { slug } = context.params;
   const { locale, locales } = context;
 
-  // 旧 image-metadata-cache からページメタデータのみ取得
-  const cacheDir = path.join(process.cwd(), "src/data/image-metadata-cache");
-  const cacheFilePath = path.join(cacheDir, "image-metadata-cache.json");
-  if (!fs.existsSync(cacheFilePath)) {
-    throw new Error(
-      "Image metadata cache not found. Run the generateImageMetadata script."
-    );
+  const metadataCache = require("@/data/image-metadata-cache/image-metadata-cache.json");
+
+  // 1) slug がキャッシュの titleen（旧URL）の場合は baseMeta から scroll_id を解決
+  let baseMeta = metadataCache.find((item) => item.titleen === slug);
+  let scrollId = null;
+
+  if (baseMeta) {
+    const scrollMeta = await getScrollMetadataById(baseMeta.id);
+    scrollId = scrollMeta?.metadata?.scroll_id ?? null;
+  } else {
+    // 2) slug が scroll_id（新URL、例: choju-giga-yamazaki-kou）の場合はそのまま使用
+    scrollId = slug;
   }
-  const metadataCache = JSON.parse(fs.readFileSync(cacheFilePath, "utf-8"));
 
-  const baseMeta = metadataCache.find((item) => item.titleen === slug);
+  if (!scrollId) {
+    return { notFound: true };
+  }
 
-  if (!baseMeta) {
+  const viewerData = await getEmakiDetail(scrollId);
+  console.log("[slug] getStaticProps viewerData:", viewerData ? { emakisCount: viewerData.emakis?.length, hasMetadata: !!viewerData.metadata } : null);
+
+  if (!viewerData || !viewerData.emakis || viewerData.emakis.length === 0) {
+    return { notFound: true };
+  }
+
+  if (baseMeta) {
+    const data = {
+      ...baseMeta,
+      ...(viewerData.metadata || {}),
+      id: baseMeta.id,
+      title: baseMeta.title,
+      titleen: baseMeta.titleen ?? scrollId,
+      author: baseMeta.author,
+      authoren: baseMeta.authoren ?? baseMeta.author,
+      type: baseMeta.type,
+      typeen: baseMeta.typeen ?? baseMeta.type,
+      desc: baseMeta.desc,
+      descen: baseMeta.descen,
+      emakis: viewerData.emakis,
+    };
     return {
-      notFound: true,
+      props: {
+        ...(await serverSideTranslations(locale, ["common"])),
+        data,
+        locales,
+        locale,
+        slug: slug,
+      },
+      revalidate: 60,
     };
   }
 
-  // 新スキーマ（viewer）JSON を読み込み
-  const viewerDir = path.join(process.cwd(), "src/data/viewer");
-
-  // 一時的に固定: 絵巻画像が正常に描画されるよう viewer データを choju-giga-yamazaki-kou.json から直接読み込む
-  const scrollId = "choju-giga-yamazaki-kou";
-
-  const viewerFilePath = path.join(viewerDir, `${scrollId}.json`);
-
-  if (!fs.existsSync(viewerFilePath)) {
-    throw new Error(`Viewer JSON not found for scroll_id: ${scrollId}`);
+  const scrollMeta = await getScrollData(scrollId);
+  const meta = scrollMeta?.metadata;
+  if (!meta) {
+    return { notFound: true };
   }
 
-  const viewerData = JSON.parse(fs.readFileSync(viewerFilePath, "utf-8"));
-
-  // sort_key による物語順を保証（生成側で保証されている場合でも安全のため一度だけソート）
-  const sortedEmakis = Array.isArray(viewerData.emakis)
-    ? [...viewerData.emakis].sort((a, b) => a.sort_key - b.sort_key)
-    : [];
-
   const data = {
-    // 既存コンポーネントが利用しているメタ情報は旧キャッシュから維持
-    ...baseMeta,
-    // 新スキーマのメタデータもマージ（description など）
+    id: meta.id,
+    title: meta.title,
+    titleen: meta.scroll_id ?? scrollId,
+    author: meta.author ?? "",
+    authoren: meta.authoren ?? meta.author ?? "",
+    type: meta.type ?? "絵巻",
+    typeen: meta.typeen ?? "emaki",
+    era: meta.era ?? "",
+    eraen: meta.eraen ?? meta.era ?? "",
+    desc: meta.description ?? "",
+    descen: meta.description ?? "",
+    thumb: meta.thumbnail ?? "",
+    sourceImageUrl: meta.source?.url ?? "#",
+    sourceImage: meta.source?.name ?? "",
+    reference: [],
+    edition: "",
+    emakis: viewerData.emakis,
     ...(viewerData.metadata || {}),
-    // 計測ロジック互換用の id
-    id: baseMeta.id,
-    // 既存フィールド互換
-    title: baseMeta.title,
-    titleen: baseMeta.titleen,
-    author: baseMeta.author,
-    authoren: baseMeta.authoren,
-    desc: baseMeta.desc,
-    descen: baseMeta.descen,
-    // 新スキーマの emakis（sort_key 順）をそのまま渡す
-    emakis: sortedEmakis,
   };
 
   return {
@@ -274,7 +308,6 @@ export const getStaticProps = async (context) => {
       locale,
       slug: slug,
     },
-    // ISR: 60秒ごとにバックグラウンド再生成
     revalidate: 60,
   };
 };
