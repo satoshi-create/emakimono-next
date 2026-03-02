@@ -20,7 +20,7 @@ on:
         default: false
         type: boolean
   push:
-    branches: [main]
+    branches: [preview]
     paths:
       - 'scroll_config.yaml'
       - 'scroll_config*.yaml'
