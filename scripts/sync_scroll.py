@@ -3,11 +3,14 @@
 Sync scroll: read scroll_config.yaml, upload images to Cloudinary,
 upsert scene_titles and images to Supabase.
 
-Supabase schema (program matches DB, no DB changes):
-  - scene_titles: scene_id (PK), scroll_id, chapter, sort_key (= chapter * 100)
-  - images: image_id (PK), scene_id (FK), scroll_id, src, width, height, sort_key (= chapter*100 + ordinal)
+Supabase schema:
+  - scene_titles: scene_id, scroll_id, chapter, sort_key, theme_id, common_id (choju_m_N)
+  - images: image_id ({folder}/{public_id}), scene_id, scroll_id, src (secure_url), width, height, sort_key
 
-IDs: scene_id = {scroll_id}_{volume_num}_{chapter:02d}; image_id = same + _{ordinal:02d}
+ID形式:
+  - public_id (Cloudinary): {scroll_id}__{scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d} (ダブルID)
+  - image_id: {folder}/{public_id}
+  - common_id: choju_m_{N} (最大値+1から連番)
 
 Usage:
   python scripts/sync_scroll.py [path/to/scroll_config.yaml]
@@ -57,7 +60,8 @@ def ensure_env(name: str, optional_keys: list[str] | None = None) -> str:
 
 
 def image_public_id(scroll_id: str, volume_num: int, chapter: int, ordinal: int) -> str:
-    return f"{scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d}"
+    """Cloudinary public_id: ダブルID形式 {scroll_id}__{scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d}"""
+    return f"{scroll_id}__{scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d}"
 
 
 def scene_id(scroll_id: str, volume_num: int, chapter: int) -> str:
@@ -119,12 +123,14 @@ def expand_chapters(config: dict) -> list[tuple[int, str, int, int]]:
     return out
 
 
-def build_scene_titles(config: dict) -> list[dict]:
-    """scene_titles rows: scene_id, scroll_id, chapter, sort_key. sort_key = chapter * 100."""
+def build_scene_titles(config: dict, common_id_start: int = 1) -> list[dict]:
+    """scene_titles rows: scene_id, scroll_id, chapter, sort_key, theme_id, common_id."""
     scroll_id = config["scroll_id"]
     volume_num = int(config["volume_num"])
+    theme_id = config.get("theme_id") or "choju-giga"
     seen = set()
     rows = []
+    seq = common_id_start
     for ch in config.get("chapters") or []:
         key = (scroll_id, volume_num, ch["id"])
         if key in seen:
@@ -136,8 +142,10 @@ def build_scene_titles(config: dict) -> list[dict]:
             "scroll_id": scroll_id,
             "chapter": ch_id,
             "sort_key": ch_id * 100,
+            "theme_id": theme_id,
+            "common_id": f"choju_m_{seq}",
         })
-        # YAML title (ch["title"]) is not stored in DB; use for logs only if needed
+        seq += 1
     return rows
 
 
@@ -170,16 +178,16 @@ def configure_cloudinary() -> None:
 
 
 def upload_to_cloudinary(file_path: Path, public_id: str, folder: str | None = None) -> dict:
-    """Upload to Cloudinary; return {"src": public_id_path, "width": int, "height": int}."""
+    """Upload to Cloudinary; return {src: secure_url, width, height, public_id}."""
     opts = {"public_id": public_id, "overwrite": True}
     if folder:
         opts["folder"] = folder
     result = cloudinary.uploader.upload(str(file_path), **opts)
-    pid = result.get("public_id") or result.get("secure_url") or ""
     return {
-        "src": pid,
+        "src": result.get("secure_url") or result.get("url") or "",
         "width": int(result.get("width") or 0),
         "height": int(result.get("height") or 0),
+        "public_id": result.get("public_id") or public_id,
     }
 
 
@@ -187,6 +195,19 @@ def get_supabase() -> Client:
     url = ensure_env("SUPABASE_URL", ["NEXT_PUBLIC_SUPABASE_URL"])
     key = ensure_env("SUPABASE_SERVICE_ROLE_KEY", ["SUPABASE_KEY", "NEXT_PUBLIC_SUPABASE_ANON_KEY"])
     return create_client(url, key)
+
+
+def fetch_max_common_id(supabase: Client) -> int:
+    """scene_titles から common_id (choju_m_N 形式) の最大連番を取得。なければ 0。"""
+    r = supabase.table("scene_titles").select("common_id").execute()
+    max_n = 0
+    pat = re.compile(r"choju_m_(\d+)", re.IGNORECASE)
+    for row in (r.data or []):
+        cid = row.get("common_id") or ""
+        m = pat.search(cid)
+        if m:
+            max_n = max(max_n, int(m.group(1)))
+    return max_n
 
 
 def upsert_scene_titles(supabase: Client, rows: list[dict], on_conflict: str = "scene_id") -> list[dict]:
@@ -223,7 +244,12 @@ def main() -> None:
     if not args.skip_upload and not args.dry_run and not images_dir.exists():
         raise SystemExit(f"SCROLL_IMAGES_DIR not found: {images_dir}")
 
-    scene_title_rows = build_scene_titles(config)
+    common_id_start = 1
+    if not args.dry_run:
+        supabase_pre = get_supabase()
+        max_common = fetch_max_common_id(supabase_pre)
+        common_id_start = max_common + 1
+    scene_title_rows = build_scene_titles(config, common_id_start)
     plan = build_images_plan(config)
     cloudinary_folder = os.environ.get("CLOUDINARY_FOLDER", "emakimono")
 
@@ -236,6 +262,9 @@ def main() -> None:
         scene_id_val = scene_id(scroll_id, volume_num, item["chapter"])
         # sort_key: NOT nullable. formula = (chapter * 100) + ordinal
         sort_key_val = (item["chapter"] * 100) + ordinal
+
+        # image_id = {folder}/{public_id} 形式
+        image_id_val = f"{cloudinary_folder}/{public_id}"
 
         if args.skip_upload:
             src_val = os.environ.get(f"IMAGE_SRC_{public_id}", "")
@@ -251,9 +280,13 @@ def main() -> None:
                 else:
                     configure_cloudinary()
                     upload_result = upload_to_cloudinary(file_path, public_id, folder=cloudinary_folder)
-                    src_val = upload_result["src"]
+                    src_val = upload_result["src"]  # secure_url（完全なURL）
                     width_val = upload_result["width"]
                     height_val = upload_result["height"]
+                    # Cloudinary が folder 付きで返す場合はそれを使用
+                    stored_pid = upload_result.get("public_id", public_id)
+                    if "/" in stored_pid:
+                        image_id_val = stored_pid
             else:
                 if not args.dry_run:
                     print(f"Warning: no file for index {item['index']} (public_id={public_id})", file=sys.stderr)
@@ -261,7 +294,7 @@ def main() -> None:
                 width_val, height_val = 0, 0
 
         image_rows.append({
-            "image_id": public_id,
+            "image_id": image_id_val,
             "scene_id": scene_id_val,
             "scroll_id": scroll_id,
             "src": src_val,

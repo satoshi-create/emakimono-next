@@ -1,5 +1,6 @@
 scroll_id: "choju-giga-yamazaki-hei"
 volume_num: 3
+theme_id: "choju-giga"
 chapters:
   - { id: 1, title: "丙巻 第1章", range: [1, 1] }
   - { id: 2, title: "丙巻 第2章", range: [2, 2] }
