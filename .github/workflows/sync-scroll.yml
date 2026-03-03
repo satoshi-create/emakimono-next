@@ -24,7 +24,7 @@ on:
     paths:
       - 'scroll_config.yaml'
       - 'scroll_config*.yaml'
-      - './public/images/**'
+      - 'public/images/**'
     workflow_dispatch:
 
 jobs:
@@ -43,6 +43,7 @@ jobs:
 
       - name: Sync scroll
         env:
+          SCROLL_IMAGES_DIR:${{ secrets.SCROLL_IMAGES_DIR }}
           CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
