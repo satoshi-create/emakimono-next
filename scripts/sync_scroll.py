@@ -185,16 +185,19 @@ def configure_cloudinary() -> None:
 
 
 def upload_to_cloudinary(file_path: Path, public_id: str, folder: str | None = None) -> dict:
-    """Upload to Cloudinary; return {src: secure_url, width, height, public_id}."""
+    """Upload to Cloudinary; return {src: emakimono/ で始まる相対パス, width, height, public_id}."""
     opts = {"public_id": public_id, "overwrite": True}
     if folder:
         opts["folder"] = folder
     result = cloudinary.uploader.upload(str(file_path), **opts)
+    stored_public_id = result.get("public_id") or public_id
+    ext = result.get("format") or file_path.suffix.lstrip(".") or "jpg"
+    src_relative = f"{stored_public_id}.{ext}" if ext else stored_public_id
     return {
-        "src": result.get("secure_url") or result.get("url") or "",
+        "src": src_relative,
         "width": int(result.get("width") or 0),
         "height": int(result.get("height") or 0),
-        "public_id": result.get("public_id") or public_id,
+        "public_id": stored_public_id,
     }
 
 
@@ -292,7 +295,7 @@ def main() -> None:
                 else:
                     configure_cloudinary()
                     upload_result = upload_to_cloudinary(file_path, public_id, folder=cloudinary_folder)
-                    src_val = upload_result["src"]  # secure_url（完全なURL）
+                    src_val = upload_result["src"]  # emakimono/ で始まる相対パス
                     width_val = upload_result["width"]
                     height_val = upload_result["height"]
                     # Cloudinary が folder 付きで返す場合はそれを使用
