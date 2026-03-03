@@ -3,10 +3,14 @@
 Sync scroll: read scroll_config.yaml, upload images to Cloudinary,
 upsert scene_titles and images to Supabase.
 
-Naming:
-  - public_id (Cloudinary): {scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d}
-  - DB images.index: global frame from YAML range.
-  - sort_key: scene_titles = chapter * 100; images = (chapter * 100) + ordinal
+Supabase schema:
+  - scene_titles: scene_id, scroll_id, chapter, sort_key, theme_id, common_id (choju_m_N)
+  - images: image_id ({folder}/{public_id}), scene_id, scroll_id, src (secure_url), width, height, sort_key
+
+ID形式:
+  - public_id (Cloudinary): {scroll_id}__{scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d} (ダブルID)
+  - image_id: {folder}/{public_id}
+  - common_id: choju_m_{N} (最大値+1から連番)
 
 Usage:
   python scripts/sync_scroll.py [path/to/scroll_config.yaml]
@@ -56,7 +60,13 @@ def ensure_env(name: str, optional_keys: list[str] | None = None) -> str:
 
 
 def image_public_id(scroll_id: str, volume_num: int, chapter: int, ordinal: int) -> str:
-    return f"{scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d}"
+    """Cloudinary public_id: ダブルID形式 {scroll_id}__{scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d}"""
+    return f"{scroll_id}__{scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d}"
+
+
+def scene_id(scroll_id: str, volume_num: int, chapter: int) -> str:
+    """scene_titles.scene_id = {scroll_id}_{volume_num}_{chapter:02d}"""
+    return f"{scroll_id}_{volume_num}_{chapter:02d}"
 
 
 def find_image_file(images_dir: Path, base: str) -> Path | None:
@@ -113,24 +123,29 @@ def expand_chapters(config: dict) -> list[tuple[int, str, int, int]]:
     return out
 
 
-def build_scene_titles(config: dict) -> list[dict]:
-    """scene_titles rows. sort_key = chapter * 100 (第1章=100, 第10章=1000)."""
+def build_scene_titles(config: dict, common_id_start: int = 1) -> list[dict]:
+    """scene_titles rows: scene_id, scroll_id, chapter, sort_key, theme_id, common_id."""
     scroll_id = config["scroll_id"]
     volume_num = int(config["volume_num"])
+    theme_id = config.get("theme_id") or "choju-giga"
     seen = set()
     rows = []
+    seq = common_id_start
     for ch in config.get("chapters") or []:
         key = (scroll_id, volume_num, ch["id"])
         if key in seen:
             continue
         seen.add(key)
+        ch_id = ch["id"]
         rows.append({
+            "scene_id": scene_id(scroll_id, volume_num, ch_id),
             "scroll_id": scroll_id,
-            "volume_num": volume_num,
-            "chapter": ch["id"],
-            "title": ch["title"],
-            "sort_key": ch["id"] * 100,
+            "chapter": ch_id,
+            "sort_key": ch_id * 100,
+            "theme_id": theme_id,
+            "common_id": f"choju_m_{seq}",
         })
+        seq += 1
     return rows
 
 
@@ -163,21 +178,16 @@ def configure_cloudinary() -> None:
 
 
 def upload_to_cloudinary(file_path: Path, public_id: str, folder: str | None = None) -> dict:
-    """Upload to Cloudinary. Returns {src, width, height}.
-    src = emakimono/ で始まる相対パス（image_id + レスポンスの拡張子）
-    """
+    """Upload to Cloudinary; return {src: secure_url, width, height, public_id}."""
     opts = {"public_id": public_id, "overwrite": True}
     if folder:
         opts["folder"] = folder
     result = cloudinary.uploader.upload(str(file_path), **opts)
-    stored_public_id = result.get("public_id") or public_id  # フォルダ込み
-    ext = result.get("format") or file_path.suffix.lstrip(".") or "jpg"
-    # src = image_id（フォルダ込み） + 拡張子 → emakimono/xxx.jpg
-    src_relative = f"{stored_public_id}.{ext}" if ext else stored_public_id
     return {
-        "src": src_relative,
+        "src": result.get("secure_url") or result.get("url") or "",
         "width": int(result.get("width") or 0),
         "height": int(result.get("height") or 0),
+        "public_id": result.get("public_id") or public_id,
     }
 
 
@@ -187,25 +197,30 @@ def get_supabase() -> Client:
     return create_client(url, key)
 
 
-def upsert_scene_titles(supabase: Client, rows: list[dict], on_conflict: str = "scroll_id,volume_num,chapter") -> list[dict]:
+def fetch_max_common_id(supabase: Client) -> int:
+    """scene_titles から common_id (choju_m_N 形式) の最大連番を取得。なければ 0。"""
+    r = supabase.table("scene_titles").select("common_id").execute()
+    max_n = 0
+    pat = re.compile(r"choju_m_(\d+)", re.IGNORECASE)
+    for row in (r.data or []):
+        cid = row.get("common_id") or ""
+        m = pat.search(cid)
+        if m:
+            max_n = max(max_n, int(m.group(1)))
+    return max_n
+
+
+def upsert_scene_titles(supabase: Client, rows: list[dict], on_conflict: str = "scene_id") -> list[dict]:
     if not rows:
         return []
     r = supabase.table("scene_titles").upsert(rows, on_conflict=on_conflict).execute()
     return list(r.data) if r.data else []
 
 
-def upsert_images(supabase: Client, rows: list[dict], on_conflict: str = "scroll_id,volume_num,chapter,index") -> None:
+def upsert_images(supabase: Client, rows: list[dict], on_conflict: str = "image_id") -> None:
     if not rows:
         return
     supabase.table("images").upsert(rows, on_conflict=on_conflict).execute()
-
-
-def fetch_scene_title_ids(supabase: Client, scroll_id: str, volume_num: int) -> dict[tuple[int, int, int], int]:
-    r = supabase.table("scene_titles").select("id,scroll_id,volume_num,chapter").eq("scroll_id", scroll_id).eq("volume_num", volume_num).execute()
-    out = {}
-    for row in (r.data or []):
-        out[(row["scroll_id"], row["volume_num"], row["chapter"])] = row["id"]
-    return out
 
 
 def main() -> None:
@@ -229,7 +244,12 @@ def main() -> None:
     if not args.skip_upload and not args.dry_run and not images_dir.exists():
         raise SystemExit(f"SCROLL_IMAGES_DIR not found: {images_dir}")
 
-    scene_title_rows = build_scene_titles(config)
+    common_id_start = 1
+    if not args.dry_run:
+        supabase_pre = get_supabase()
+        max_common = fetch_max_common_id(supabase_pre)
+        common_id_start = max_common + 1
+    scene_title_rows = build_scene_titles(config, common_id_start)
     plan = build_images_plan(config)
     cloudinary_folder = os.environ.get("CLOUDINARY_FOLDER", "emakimono")
 
@@ -239,51 +259,59 @@ def main() -> None:
     for item in plan:
         ordinal = item.get("ordinal", item["index"])
         public_id = image_public_id(scroll_id, volume_num, item["chapter"], ordinal)
-        # sort_key = (chapter_id * 100) + ordinal (e.g. chapter 10 → 1000, 1001, 1002)
-        sort_key = (item["chapter"] * 100) + ordinal
+        scene_id_val = scene_id(scroll_id, volume_num, item["chapter"])
+        # sort_key: NOT nullable. formula = (chapter * 100) + ordinal
+        sort_key_val = (item["chapter"] * 100) + ordinal
+
+        # image_id = {folder}/{public_id} 形式
+        image_id_val = f"{cloudinary_folder}/{public_id}"
 
         if args.skip_upload:
-            src = os.environ.get(f"IMAGE_SRC_{public_id}", "")
+            src_val = os.environ.get(f"IMAGE_SRC_{public_id}", "")
+            width_val, height_val = 0, 0
         else:
             file_path = find_image_file(images_dir, public_id) if images_dir.exists() else None
             if not file_path:
                 file_path = pick_file_for_index(index_to_paths, item["index"])
             if file_path:
                 if args.dry_run:
-                    ext = file_path.suffix.lstrip(".") or "jpg"
-                    src = f"{cloudinary_folder}/{public_id}.{ext}"
+                    src_val = f"[would upload] {file_path.name} -> public_id={public_id}"
+                    width_val, height_val = 0, 0
                 else:
                     configure_cloudinary()
                     upload_result = upload_to_cloudinary(file_path, public_id, folder=cloudinary_folder)
-                    src = upload_result["src"]  # emakimono/ で始まる相対パス
+                    src_val = upload_result["src"]  # secure_url（完全なURL）
+                    width_val = upload_result["width"]
+                    height_val = upload_result["height"]
+                    # Cloudinary が folder 付きで返す場合はそれを使用
+                    stored_pid = upload_result.get("public_id", public_id)
+                    if "/" in stored_pid:
+                        image_id_val = stored_pid
             else:
                 if not args.dry_run:
                     print(f"Warning: no file for index {item['index']} (public_id={public_id})", file=sys.stderr)
-                src = ""
+                src_val = ""
+                width_val, height_val = 0, 0
 
         image_rows.append({
+            "image_id": image_id_val,
+            "scene_id": scene_id_val,
             "scroll_id": scroll_id,
-            "volume_num": volume_num,
-            "chapter": item["chapter"],
-            "index": item["index"],
-            "src": src,
-            "sort_key": sort_key,
+            "src": src_val,
+            "width": width_val,
+            "height": height_val,
+            "sort_key": sort_key_val,
         })
 
     if args.dry_run:
-        print("scene_titles (sort_key = chapter * 100):", scene_title_rows)
-        print("images (sort_key = chapter*100 + ordinal), first 5:", image_rows[:5])
+        print("scene_titles (scene_id, scroll_id, chapter, sort_key):", scene_title_rows)
+        print("images (image_id, scene_id, sort_key), first 5:", image_rows[:5])
         if len(image_rows) > 5:
             print("...", len(image_rows) - 5, "more images")
         return
 
     supabase = get_supabase()
     upsert_scene_titles(supabase, scene_title_rows)
-    scene_ids = fetch_scene_title_ids(supabase, scroll_id, volume_num)
-    for row in image_rows:
-        key = (scroll_id, volume_num, row["chapter"])
-        if key in scene_ids:
-            row["scene_title_id"] = scene_ids[key]
     upsert_images(supabase, image_rows)
     print(f"Done: scroll_id={scroll_id} volume_num={volume_num} scene_titles={len(scene_title_rows)} images={len(image_rows)}")
 

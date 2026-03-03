@@ -1,0 +1,9 @@
+# すべてのテキストファイルを自動検出し、リポジトリ内ではLFで保存する
+* text=auto eol=lf
+
+# 拡張子ごとに明示的に指定（より確実です）
+*.js text eol=lf
+*.py text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
