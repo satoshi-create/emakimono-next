@@ -1,6 +1,7 @@
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/CardA.module.css";
 import { eraColor } from "@/utils/func";
+import { resolveCloudinarySrc } from "@/utils/cloudinaryUrl";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -30,8 +31,11 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
     author && `（${author}）`
   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
 
-  const baseUrl =
-    "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
+  // thumb: / 始まり=ローカル, http=完全URL → そのまま。emakimono/... 等=Cloudinary相対パス → ベースURL結合
+  const thumbSrc =
+    !thumb || thumb.startsWith("/") || thumb.startsWith("http")
+      ? thumb
+      : resolveCloudinarySrc(thumb);
 
   return (
     <div onClick={closeSearchModal}>
@@ -46,7 +50,7 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
           <Link href={`/${titleen}`}>
             <a>
               <Image
-                src={thumb}
+                src={thumbSrc ?? thumb}
                 width={533}
                 height={300}
                 sizes="100vw"

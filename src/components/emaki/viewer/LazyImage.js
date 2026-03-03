@@ -1,5 +1,6 @@
 import { AppContext } from "@/pages/_app";
 import { trackImageLoaded, trackImageFallback } from "@/libs/api/measurementUtils";
+import { CLOUDINARY_BASE_URL } from "@/utils/cloudinaryUrl";
 import Image from "next/image";
 import { useContext, useEffect, useRef, useState } from "react";
 
@@ -101,12 +102,10 @@ const LazyImage = ({
     return () => clearTimeout(fallbackTimer);
   }, [uniqueIndex, toggleFullscreen, isSkeletonVisible, emakiId]);
 
-  const baseUrl =
-    "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
+  const baseUrl = `${CLOUDINARY_BASE_URL}fl_progressive`;
 
-  // 新スキーマ: item.src 文字列 / 旧スキーマ: item オブジェクトの .src を安全に抽出
-  const imageSrc =
-    typeof src === "string" ? src : src?.src || "";
+  // 新スキーマ: item.src 文字列（emakimono/... 相対パス or 完全URL）/ 旧スキーマ: item オブジェクトの .src
+  const imageSrc = typeof src === "string" ? src : src?.src || "";
 
   // 絵巻の紙色（淡いベージュ #f5f0e6）を SVG data URL で指定
   // Firefox/Chrome/Edge での白背景フラッシュを防ぐため、外部 URL ではなくインライン画像を使用
@@ -126,6 +125,11 @@ const LazyImage = ({
   };
 
   const cloudinaryLoader = ({ src, width, quality }) => {
+    // 既に完全URLの場合はそのまま返す
+    if (src?.startsWith("http://") || src?.startsWith("https://")) {
+      return src;
+    }
+    // 相対パス（emakimono/... 等）はベースURLと結合
     return `${baseUrl},f_jpg,w_${width},q_${quality || 75}/${src}`;
   };
 
@@ -133,17 +137,22 @@ const LazyImage = ({
     const w = Number(width) || 1;
     const h = Number(height) || 1;
     const aspectRatio = w / h;
+    const pathPart = emaki.src || "";
 
-    // コンテナの高さに応じてCloudinaryの画像サイズを動的に調整
+    // 既に完全URLの場合はそのまま返す
+    if (pathPart.startsWith("http://") || pathPart.startsWith("https://")) {
+      return pathPart;
+    }
+    // 相対パス（emakimono/... 等）はベースURL + transformations と結合
     if (containerHeight <= 375) {
-      const calculatedWidth = Math.round(375 * aspectRatio); // 高さから幅を計算
-      return `${baseUrl}/w_${calculatedWidth},h_375,c_fit/${emaki.src}`; // スマートフォン用
+      const calculatedWidth = Math.round(375 * aspectRatio);
+      return `${baseUrl}/w_${calculatedWidth},h_375,c_fit/${pathPart}`;
     } else if (containerHeight <= 800) {
       const calculatedWidth = Math.round(800 * aspectRatio);
-      return `${baseUrl}/w_${calculatedWidth},h_800,c_fit/${emaki.src}`; // タブレット用
+      return `${baseUrl}/w_${calculatedWidth},h_800,c_fit/${pathPart}`;
     } else {
       const calculatedWidth = Math.round(containerHeight * aspectRatio);
-      return `${baseUrl}/w_${calculatedWidth},h_${containerHeight},c_fit/${emaki.src}`; // デスクトップ用
+      return `${baseUrl}/w_${calculatedWidth},h_${containerHeight},c_fit/${pathPart}`;
     }
   };
 
