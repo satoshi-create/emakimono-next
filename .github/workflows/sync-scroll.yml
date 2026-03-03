@@ -20,11 +20,12 @@ on:
         default: false
         type: boolean
   push:
-    branches: [preview]
+    branches: [preview, main]
     paths:
       - 'scroll_config.yaml'
       - 'scroll_config*.yaml'
-      - 'images/**'
+      - './public/images/**'
+    workflow_dispatch:
 
 jobs:
   sync:
