@@ -1,10 +1,3 @@
-# Sync scroll: read scroll_config.yaml, upload to Cloudinary, upsert to Supabase.
-# Naming: scroll_id + volume_num + chapter + index (e.g. choju-giga-yamazaki-hei_3_1_1)
-#
-# Trigger: workflow_dispatch (manual) or push to main when scroll_config.yaml / images change.
-# Secrets: CLOUDINARY_URL (or CLOUDINARY_*), SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY
-# Optional: SCROLL_IMAGES_DIR (default: images/<scroll_id> from repo)
-
 name: Sync scroll to Cloudinary and Supabase
 
 on:
@@ -25,7 +18,6 @@ on:
       - 'scroll_config.yaml'
       - 'scroll_config*.yaml'
       - 'public/images/**'
-    workflow_dispatch:
 
 jobs:
   sync:
@@ -41,9 +33,29 @@ jobs:
       - name: Install dependencies
         run: pip install -r scripts/requirements-sync.txt
 
+      # --- ここからデバッグ処理 ---
+      - name: Debug Environment and Files
+        run: |
+          echo "=== 📂 Current Directory Listing ==="
+          ls -R public/images/
+
+          echo "=== 📄 Config File Content ==="
+          CONFIG_PATH="${{ github.event.inputs.config_path || 'scroll_config.yaml' }}"
+          if [ -f "$CONFIG_PATH" ]; then
+            cat "$CONFIG_PATH"
+          else
+            echo "Error: Config file not found at $CONFIG_PATH"
+          fi
+
+          echo "=== 🌐 Environment Variables ==="
+          echo "SCROLL_IMAGES_DIR: public/images"
+          echo "CONFIG_PATH: $CONFIG_PATH"
+      # --- ここまでデバッグ処理 ---
+
       - name: Sync scroll
         env:
           SCROLL_IMAGES_DIR: "public/images"
+          CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
