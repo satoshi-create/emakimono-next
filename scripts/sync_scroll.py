@@ -32,7 +32,8 @@ import cloudinary
 import cloudinary.uploader
 from supabase import create_client, Client
 
-INDEX_IN_FILENAME_RE = re.compile(r"_(\d{1,4})[-.]", re.IGNORECASE)
+# ファイル名 _01-375.jpg から 1 を抽出（_(数字) の直後に - や . が続く形式）
+INDEX_IN_FILENAME_RE = re.compile(r"_(\d+)[-.]", re.IGNORECASE)
 
 
 def load_yaml(path: str) -> dict:
@@ -111,10 +112,16 @@ def pick_file_for_index(index_to_paths: dict[int, list[Path]], global_index: int
     return paths[0] if paths else None
 
 
+def get_scenes_config(config: dict) -> list[dict]:
+    """chapters または scenes を取得。scene_id または id を統一。"""
+    items = config.get("scenes") or config.get("chapters") or []
+    return [{"id": s.get("scene_id") or s.get("id"), "title": s.get("title", ""), "range": s["range"]} for s in items]
+
+
 def expand_chapters(config: dict) -> list[tuple[int, str, int, int]]:
     """(chapter_id, title, index, ordinal). ordinal = 1-based within chapter."""
     out = []
-    for ch in config.get("chapters") or []:
+    for ch in get_scenes_config(config):
         ch_id = ch["id"]
         title = ch["title"]
         start, end = ch["range"]
@@ -126,17 +133,17 @@ def expand_chapters(config: dict) -> list[tuple[int, str, int, int]]:
 def build_scene_titles(config: dict, common_id_start: int = 1) -> list[dict]:
     """scene_titles rows: scene_id, scroll_id, chapter, sort_key, theme_id, common_id."""
     scroll_id = config["scroll_id"]
-    volume_num = int(config["volume_num"])
+    volume_num = int(config.get("volume_num", 1))
     theme_id = config.get("theme_id") or "choju-giga"
     seen = set()
     rows = []
     seq = common_id_start
-    for ch in config.get("chapters") or []:
-        key = (scroll_id, volume_num, ch["id"])
+    for ch in get_scenes_config(config):
+        ch_id = ch["id"]
+        key = (scroll_id, volume_num, ch_id)
         if key in seen:
             continue
         seen.add(key)
-        ch_id = ch["id"]
         rows.append({
             "scene_id": scene_id(scroll_id, volume_num, ch_id),
             "scroll_id": scroll_id,
@@ -152,7 +159,7 @@ def build_scene_titles(config: dict, common_id_start: int = 1) -> list[dict]:
 def build_images_plan(config: dict) -> list[dict]:
     plan = []
     scroll_id = config["scroll_id"]
-    volume_num = int(config["volume_num"])
+    volume_num = int(config.get("volume_num", 1))
     for ch_id, title, index, ordinal in expand_chapters(config):
         plan.append({
             "scroll_id": scroll_id,
@@ -237,10 +244,13 @@ def main() -> None:
 
     config = load_yaml(str(config_path))
     scroll_id = config["scroll_id"]
-    volume_num = int(config["volume_num"])
+    volume_num = int(config.get("volume_num", 1))
 
     images_dir_str = os.environ.get("SCROLL_IMAGES_DIR", "")
-    images_dir = Path(images_dir_str).resolve() if images_dir_str else (repo_root / "images" / scroll_id)
+    if images_dir_str:
+        images_dir = (Path(images_dir_str) / scroll_id).resolve()
+    else:
+        images_dir = repo_root / "images" / scroll_id
     if not args.skip_upload and not args.dry_run and not images_dir.exists():
         raise SystemExit(f"SCROLL_IMAGES_DIR not found: {images_dir}")
 
@@ -254,6 +264,8 @@ def main() -> None:
     cloudinary_folder = os.environ.get("CLOUDINARY_FOLDER", "emakimono")
 
     index_to_paths = collect_images_by_index(images_dir) if images_dir.exists() else {}
+    num_indices = len(index_to_paths)
+    print(f"Found {num_indices} images in {images_dir}", file=sys.stderr)
 
     image_rows = []
     for item in plan:
