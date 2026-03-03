@@ -1,15 +1,35 @@
-scroll_id: "choju-giga-yamazaki-hei"
-volume_num: 3
+scroll_id: "choju-giga-yamazaki-tei"
+volume_num: 4
 theme_id: "choju-giga"
-chapters:
-  - { id: 1, title: "丙巻 第1章", range: [1, 1] }
-  - { id: 2, title: "丙巻 第2章", range: [2, 2] }
-  - { id: 3, title: "丙巻 第3章", range: [3, 3] }
-  - { id: 4, title: "丙巻 第4章", range: [4, 4] }
-  - { id: 5, title: "丙巻 第5章", range: [5, 5] }
-  - { id: 6, title: "丙巻 第6章", range: [6, 6] }
-  - { id: 7, title: "丙巻 第7章", range: [7, 7] }
-  - { id: 8, title: "丙巻 第8章", range: [8, 8] }
-  - { id: 9, title: "丙巻 第9章", range: [9, 9] }
-  - { id: 10, title: "丙巻 第10章", range: [10, 12] } # 10, 11, 12番をこの章に割り当て
-  - { id: 11, title: "丙巻 第11章", range: [13, 14] } # 13, 14番をこの章に割り当て
+folder: "emakimono"
+scenes:
+  - id: 1
+    title: "侏儒たちの脱出劇"
+    range: [1, 1]
+  - id: 2
+    title: "神秘の験くらべ"
+    range: [2, 3]
+  - id: 3
+    title: "供養に結ばれし縁者たち"
+    range: [4, 5]
+  - id: 4
+    title: "流鏑馬 ― 神聖なる騎射の儀式"
+    range: [6, 7]
+  - id: 5
+    title: "田楽 ― 五穀豊穣を祝う舞"
+    range: [8, 8]
+  - id: 6
+    title: "毬打 ― 優雅なる球戯"
+    range: [9, 9]
+  - id: 7
+    title: "木遣り ― 韻律に乗せる力の歌"
+    range: [10, 12]
+  - id: 8
+    title: "公卿たちの論議の座"
+    range: [13, 13]
+  - id: 9
+    title: "印地打ち ― 神事の石投げ合戦"
+    range: [14, 14]
+  - id: 10
+    title: "大臣、天子に拝賀す"
+    range: [15, 18]

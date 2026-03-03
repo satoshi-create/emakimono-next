@@ -43,8 +43,7 @@ jobs:
 
       - name: Sync scroll
         env:
-          SCROLL_IMAGES_DIR: "public/images"
-          CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
+          CLOUDINARY_URL: "public/images"
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
