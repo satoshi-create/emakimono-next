@@ -1,0 +1,4 @@
+cloudinary
+supabase
+PyYAML
+python-dotenv
