@@ -1,35 +1,35 @@
-scroll_id: "choju-giga-yamazaki-tei"
-volume_num: 4
-theme_id: "choju-giga"
+scroll_id: "kuso-zu-emaki"
+volume_num: 1
+theme_id: "kuso-zu"
 folder: "emakimono"
 scenes:
-  - id: 1
-    title: "侏儒たちの脱出劇"
+  - scene_id: 1
+    title: "生前相"
     range: [1, 1]
-  - id: 2
-    title: "神秘の験くらべ"
-    range: [2, 3]
-  - id: 3
-    title: "供養に結ばれし縁者たち"
-    range: [4, 5]
-  - id: 4
-    title: "流鏑馬 ― 神聖なる騎射の儀式"
-    range: [6, 7]
-  - id: 5
-    title: "田楽 ― 五穀豊穣を祝う舞"
+  - scene_id: 2
+    title: "脹相"
+    range: [2, 2]
+  - scene_id: 3
+    title: "壊相"
+    range: [3, 3]
+  - scene_id: 4
+    title: "血塗相"
+    range: [4, 4]
+  - scene_id: 5
+    title: "膿爛相"
+    range: [5, 5]
+  - scene_id: 6
+    title: "青瘀相"
+    range: [6, 6]
+  - scene_id: 7
+    title: "噉相"
+    range: [7, 7]
+  - scene_id: 8
+    title: "散相"
     range: [8, 8]
-  - id: 6
-    title: "毬打 ― 優雅なる球戯"
+  - scene_id: 9
+    title: "骨相"
     range: [9, 9]
-  - id: 7
-    title: "木遣り ― 韻律に乗せる力の歌"
-    range: [10, 12]
-  - id: 8
-    title: "公卿たちの論議の座"
-    range: [13, 13]
-  - id: 9
-    title: "印地打ち ― 神事の石投げ合戦"
-    range: [14, 14]
-  - id: 10
-    title: "大臣、天子に拝賀す"
-    range: [15, 18]
+  - scene_id: 10
+    title: "焼相"
+    range: [10, 10]
