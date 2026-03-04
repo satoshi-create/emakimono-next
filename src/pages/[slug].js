@@ -221,6 +221,8 @@ export const getStaticProps = async (context) => {
   const { slug } = context.params;
   const { locale, locales } = context;
 
+  console.log("[slug] getStaticProps 開始 params.slug:", JSON.stringify(slug), "| type:", typeof slug);
+
   const metadataCache = require("@/data/image-metadata-cache/image-metadata-cache.json");
 
   // 1) slug がキャッシュの titleen（旧URL）の場合は baseMeta から scroll_id を解決
@@ -228,14 +230,17 @@ export const getStaticProps = async (context) => {
   let scrollId = null;
 
   if (baseMeta) {
+    console.log("[slug] slug が titleen でヒット baseMeta.id:", baseMeta.id);
     const scrollMeta = await getScrollMetadataById(baseMeta.id);
     scrollId = scrollMeta?.metadata?.scroll_id ?? null;
   } else {
-    // 2) slug が scroll_id（新URL、例: choju-giga-yamazaki-kou）の場合はそのまま使用
     scrollId = slug;
   }
 
+  console.log("[slug] 解決後の scrollId:", JSON.stringify(scrollId));
+
   if (!scrollId) {
+    console.error("[slug] scrollId が null のため notFound");
     return { notFound: true };
   }
 
@@ -243,13 +248,18 @@ export const getStaticProps = async (context) => {
   console.log("[slug] getStaticProps viewerData:", viewerData ? { emakisCount: viewerData.emakis?.length, hasMetadata: !!viewerData.metadata } : null);
 
   if (!viewerData || !viewerData.emakis || viewerData.emakis.length === 0) {
+    console.error("[slug] viewerData 不足のため notFound:", {
+      hasViewerData: !!viewerData,
+      emakisLength: viewerData?.emakis?.length ?? 0,
+    });
     return { notFound: true };
   }
 
   if (baseMeta) {
+    const metaFromViewer = viewerData.metadata || {};
     const data = {
       ...baseMeta,
-      ...(viewerData.metadata || {}),
+      ...metaFromViewer,
       id: baseMeta.id,
       title: baseMeta.title,
       titleen: baseMeta.titleen ?? scrollId,
@@ -257,8 +267,10 @@ export const getStaticProps = async (context) => {
       authoren: baseMeta.authoren ?? baseMeta.author,
       type: baseMeta.type,
       typeen: baseMeta.typeen ?? baseMeta.type,
-      desc: baseMeta.desc,
-      descen: baseMeta.descen,
+      desc: metaFromViewer.description ?? baseMeta.desc,
+      descen: metaFromViewer.description_en ?? baseMeta.descen,
+      description: metaFromViewer.description ?? baseMeta.desc,
+      description_en: metaFromViewer.description_en ?? baseMeta.descen,
       emakis: viewerData.emakis,
     };
     return {
@@ -276,6 +288,11 @@ export const getStaticProps = async (context) => {
   const scrollMeta = await getScrollData(scrollId);
   const meta = scrollMeta?.metadata;
   if (!meta) {
+    console.error("[slug] getScrollData の meta が取得できないため notFound:", {
+      scrollId,
+      hasScrollMeta: !!scrollMeta,
+      hasMetadata: !!scrollMeta?.metadata,
+    });
     return { notFound: true };
   }
 
@@ -290,7 +307,9 @@ export const getStaticProps = async (context) => {
     era: meta.era ?? "",
     eraen: meta.eraen ?? meta.era ?? "",
     desc: meta.description ?? "",
-    descen: meta.description ?? "",
+    descen: meta.description_en ?? meta.description ?? "",
+    description: meta.description ?? "",
+    description_en: meta.description_en ?? "",
     thumb: meta.thumbnail ?? "",
     sourceImageUrl: meta.source?.url ?? "#",
     sourceImage: meta.source?.name ?? "",

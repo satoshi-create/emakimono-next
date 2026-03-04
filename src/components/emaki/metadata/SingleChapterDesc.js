@@ -18,7 +18,7 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
   const { t } = useTranslation("common");
   const { handleToId, handleFullScreen, orientation } = useContext(AppContext);
   const [showInfo, setShowInfo] = useState(false);
-  const { chapter, gendaibun, text, content, desc, title: itemTitle, title_en: itemTitleEn } = item;
+  const { chapter, gendaibun, text, content, title: itemTitle, title_en: itemTitleEn } = item;
   const { genjieslug, title, titleen, era } = data;
 
   const sectionTitleDisplay =
@@ -26,7 +26,13 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
       ? (itemTitleEn ?? itemTitle ?? "")
       : (itemTitle ?? itemTitleEn ?? "");
   const bodyText = gendaibun ?? text ?? content ?? "";
-  const descText = desc ?? item.description ?? "";
+  const descText =
+    (locale === "en"
+      ? (item.description_en ?? item.description)
+      : (item.description ?? item.description_en)) ??
+    item.desc ??
+    item.desc_en ??
+    "解説準備中";
 
   return (
     <AccordionItem

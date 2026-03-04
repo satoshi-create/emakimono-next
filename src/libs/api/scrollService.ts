@@ -46,18 +46,32 @@ export const getScrollMetadataById = async (id: number): Promise<ScrollResponse 
 export const getEmakiDetail = async (
   scrollId: string
 ): Promise<EmakiDetailResponse | null> => {
+  console.log('[getEmakiDetail] 呼び出し開始 target_id (scrollId):', JSON.stringify(scrollId), '| type:', typeof scrollId, '| length:', scrollId?.length);
+
   const { data, error } = await supabase.rpc('get_emaki_data', {
     target_id: scrollId,
   });
 
+  console.log('[getEmakiDetail] RPC data:', data === null ? 'null' : JSON.stringify(data, null, 2));
+
   if (error) {
-    console.error('絵巻詳細データの取得に失敗しました:', error.message);
+    console.error('[getEmakiDetail] RPC error:', {
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+      code: error.code,
+      full: JSON.stringify(error, null, 2),
+    });
     return null;
   }
 
-  console.log('RPC Response (get_emaki_data):', JSON.stringify(data, null, 2));
-
   if (!data || !Array.isArray(data.emakis)) {
+    console.warn('[getEmakiDetail] data または data.emakis が不正:', {
+      hasData: !!data,
+      dataKeys: data ? Object.keys(data) : [],
+      emakisType: data?.emakis ? typeof data.emakis : 'undefined',
+      emakisIsArray: Array.isArray(data?.emakis),
+    });
     return null;
   }
 
@@ -73,7 +87,7 @@ export const getEmakiDetail = async (
 };
 
 /**
- * 一覧用：全作品メタデータを取得（トップページ等）
+ * 一覧用：全作品メタデータを取得（ トップページ等）
  * SQL で id 昇順になっている前提でそのまま返す
  */
 export const getScrollList = async (): Promise<ScrollMetadata[]> => {

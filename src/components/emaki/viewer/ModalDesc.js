@@ -95,9 +95,15 @@ const ModalDesc = ({ data }) => {
           onClick={closeDescModal}
         />
         {filterEkotobas.map((item, ekotobasIndex) => {
-          const { gendaibun, text, content, chapter, linkId, desc } = item;
+          const { gendaibun, text, content, chapter, linkId } = item;
           const bodyText = gendaibun ?? text ?? content ?? "";
-          const descText = desc ?? item.description ?? "";
+          const descText =
+            (locale === "en"
+              ? (item.description_en ?? item.description)
+              : (item.description ?? item.description_en)) ??
+            item.desc ??
+            item.desc_en ??
+            "解説準備中";
           const sectionTitleDisplay =
             locale === "en"
               ? (item.title_en ?? item.title ?? "")

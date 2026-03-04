@@ -32,6 +32,8 @@ export interface ScrollMetadata {
   scroll_id: string;
   thumbnail: string;
   description: string;
+  /** 解説文・英語（RPC の description_en） */
+  description_en?: string;
   /** 種別（日本語） */
   type?: string;
   /** 種別（英語、RPC で返る場合） */
@@ -56,6 +58,10 @@ export interface EmakiDetailItemBase {
   src?: string | null;
   width?: number | null;
   height?: number | null;
+  /** 解説文（get_emaki_data RPC の description） */
+  description?: string | null;
+  /** 解説文・英語（get_emaki_data RPC の description_en） */
+  description_en?: string | null;
 }
 
 /** scene_title / image / ekotoba の差分配分（RPC が返す形状に合わせた緩い型） */

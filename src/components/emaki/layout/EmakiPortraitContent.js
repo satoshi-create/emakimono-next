@@ -43,6 +43,8 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     authoren,
     desc,
     descen,
+    description,
+    description_en,
     emakis,
     sourceImage,
     sourceImageUrl,
@@ -60,19 +62,19 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     author ? `（${author}）` : ""
   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
 
-  const descTJaSeiyoukaiga = desc
-    ? desc
-    : `「${title} ${edition ? edition : ""}」${
-        author ? `（${author}）` : ""
-      }の全シーンを、横スクロールで楽しむことができます。`;
+  const descTJaSeiyoukaiga =
+    (description ?? desc) ||
+    `「${title} ${edition ? edition : ""}」${
+      author ? `（${author}）` : ""
+    }の全シーンを、横スクロールで楽しむことができます。`;
 
-  const descJa = typeen === "seiyoukaiga" ? descTJaSeiyoukaiga : descTemp;
+  const descJa = typeen === "seiyoukaiga" ? descTJaSeiyoukaiga : (description ?? desc) || descTemp;
 
-  const descEn = descen
-    ? descen
-    : `You can enjoy all the scenes of the " ${titleen} ${
-        authoren && `（${authoren}）`
-      } " in vertical and right to left scrolling mode.`;
+  const descEn =
+    (description_en ?? descen) ||
+    `You can enjoy all the scenes of the " ${titleen} ${
+      authoren && `（${authoren}）`
+    } " in vertical and right to left scrolling mode.`;
 
   const editionLinks = alldata.filter(
     (item) => item.title === title && item.edition !== edition
@@ -146,7 +148,9 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               {locale == "en" ? "Introduction to Emaki" : "絵巻の紹介"}
             </h4>
             <div className={styles.desc}>
-              {locale === "en" ? parse(descEn) : parse(descJa)}
+              {(locale === "en" ? descEn : descJa)
+                ? parse(locale === "en" ? descEn : descJa)
+                : "解説準備中"}
             </div>
             {/* {genjieslug && (
               <div className={`${styles.genjieslugBox}`}>
