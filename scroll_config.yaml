@@ -1,45 +1,45 @@
-scroll_id: "kuso-zu-emaki"
+scroll_id: "kusoushi-emaki"
 volume_num: 1
 theme_id: "kuso-zu"
 folder: "emakimono"
 scenes:
   - scene_id: 1
-    common_id: "kuso-zu-0"  # ← ここを追加！
-    title: "生前相"
+    common_id: "kusoushi-preface"
+    title: "九相詩序"
     range: [1, 1]
   - scene_id: 2
     common_id: "kuso-zu-1"
     title: "脹相"
-    range: [2, 2]
+    range: [2, 3]
   - scene_id: 3
     common_id: "kuso-zu-2"
     title: "壊相"
-    range: [3, 3]
+    range: [4, 5]
   - scene_id: 4
     common_id: "kuso-zu-3"
     title: "血塗相"
-    range: [4, 4]
+    range: [6, 7]
   - scene_id: 5
     common_id: "kuso-zu-4"
     title: "膿爛相"
-    range: [5, 5]
+    range: [8, 9]
   - scene_id: 6
     common_id: "kuso-zu-5"
     title: "青瘀相"
-    range: [6, 6]
+    range: [10, 11]
   - scene_id: 7
     common_id: "kuso-zu-6"
     title: "噉相"
-    range: [7, 7]
+    range: [12, 13]
   - scene_id: 8
     common_id: "kuso-zu-7"
     title: "散相"
-    range: [8, 8]
+    range: [14, 15]
   - scene_id: 9
     common_id: "kuso-zu-8"
     title: "骨相"
-    range: [9, 9]
+    range: [16, 17]
   - scene_id: 10
     common_id: "kuso-zu-9"
     title: "焼相"
-    range: [10, 10]
+    range: [18, 20]
