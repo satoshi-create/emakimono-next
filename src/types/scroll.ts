@@ -32,6 +32,8 @@ export interface ScrollMetadata {
   scroll_id: string;
   thumbnail: string;
   description: string;
+  /** テーマID（九相図・鳥獣戯画など関連作品のグルーピング用） */
+  theme_id?: string | null;
   /** 解説文・英語（RPC の description_en） */
   description_en?: string;
   /** 種別（日本語） */

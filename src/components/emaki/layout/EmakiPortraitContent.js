@@ -13,11 +13,11 @@ import noteData from "@/libs/constants/notedata.json";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiPortraitContent.module.css";
 import ExtractingListData from "@/utils/ExtractingListData";
+import { getRelatedScrolls, normalizeScrollForDisplay } from "@/utils/getRelatedScrolls";
 import {
   eraColor,
   filterdKeywords,
   keywordItem,
-  useLocaleData,
 } from "@/utils/func";
 import { Box, VStack } from "@chakra-ui/react";
 import parse from "html-react-parser";
@@ -26,11 +26,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 
-const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
+const EmakiPortraitContent = ({ data, scrollList = [], selectedRef, navIndex, articleRef }) => {
   const { handleFullScreen, isContactModalOpen } = useContext(AppContext);
 
   const { locale } = useRouter();
-  const { t: alldata } = useLocaleData();
 
   const {
     type,
@@ -76,12 +75,10 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
       authoren && `（${authoren}）`
     } " in vertical and right to left scrolling mode.`;
 
-  const editionLinks = alldata.filter(
-    (item) => item.title === title && item.edition !== edition
-  );
-  const LinksToKusouzu = alldata.filter(
-    (item) => item.title.includes("九相") && item.title !== title
-  );
+  const relatedScrolls = getRelatedScrolls(scrollList, data, 8)
+    .map(normalizeScrollForDisplay)
+    .filter(Boolean);
+
   const reletedEmakisToNote = noteData.filter((item) =>
     item.relatedEmakis.includes(title)
   );
@@ -195,6 +192,8 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                       isActive={idx === activeEkotobaIndex}
                       sectionTitle={item.title}
                       sectionTitleEn={item.title_en}
+                      theme_id={data.theme_id}
+                      scroll_id={data.scroll_id ?? titleen}
                     />
                   ))}
                 </VStack>
@@ -216,40 +215,18 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               </>
             )}
 
-            {/* noteへのリンク */}
-            {/* 他の巻を見る */}
-            {editionLinks.length > 0 && (
+            {/* 関連絵巻（theme_id ベース、自分自身は除外） */}
+            {relatedScrolls.length > 0 && (
               <>
                 <h4
                   className={styles.metaBtitle}
                   style={{
-                    "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
+                    "--border-color": eraColor(era) || "black",
                   }}
                 >
                   {locale == "en" ? "View Other Scrolls" : "他の巻を見る"}
                 </h4>
-                <EditionLinks
-                  title={title}
-                  edition={edition}
-                  editionLinks={editionLinks}
-                />
-              </>
-            )}
-            {title.includes("九相") && (
-              <>
-                <h4
-                  className={styles.metaBtitle}
-                  style={{
-                    "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                  }}
-                >
-                  {locale == "en" ? "View Other Scrolls" : "他の巻を見る"}
-                </h4>
-                <EditionLinks
-                  title={title}
-                  edition={edition}
-                  editionLinks={LinksToKusouzu}
-                />
+                <EditionLinks editionLinks={relatedScrolls} />
               </>
             )}
             {/* noteへのリンク */}
@@ -381,7 +358,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             ort={"prt"}
           />
           {/* {(typeen === "seiyoukaiga" || keyword) && <CardC data={data} />} */}
-          <RecommendEmaki data={data} />
+          <RecommendEmaki data={data} scrollList={scrollList} />
         </div>
       </div>
       <Footer />

@@ -19,7 +19,7 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
   const { handleToId, handleFullScreen, orientation } = useContext(AppContext);
   const [showInfo, setShowInfo] = useState(false);
   const { chapter, gendaibun, text, content, title: itemTitle, title_en: itemTitleEn } = item;
-  const { genjieslug, title, titleen, era } = data;
+  const { genjieslug, title, titleen, era, theme_id, scroll_id } = data;
 
   const sectionTitleDisplay =
     locale === "en"
@@ -64,8 +64,8 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
           >
             {sectionTitleDisplay ||
               (locale == "en"
-                ? ChaptersTitle(titleen, title, chapter, "titleen")
-                : ChaptersTitle(titleen, title, chapter, "title"))}
+                ? ChaptersTitle(titleen, title, chapter, "titleen", theme_id, scroll_id ?? titleen)
+                : ChaptersTitle(titleen, title, chapter, "title", theme_id, scroll_id ?? titleen))}
           </Box>
           {/* リンクアイコンの色を #ff8c77 に変更し、右寄せ、丸みを帯びたデザイン */}
           <Button
@@ -86,8 +86,8 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
         {descText && (
           <Text fontSize={{ base: "0.9rem", sm: "0.85rem", md: "1.1rem" }}>
             {locale == "en"
-              ? ChaptersDesc(titleen, title, chapter, "descen", descText)
-              : ChaptersDesc(titleen, title, chapter, "desc", descText)}
+              ? ChaptersDesc(titleen, title, chapter, "descen", descText, theme_id, scroll_id ?? titleen)
+              : ChaptersDesc(titleen, title, chapter, "desc", descText, theme_id, scroll_id ?? titleen)}
           </Text>
         )}
         {bodyText && (
@@ -95,7 +95,7 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
             fontSize={{ base: "0.9rem", sm: "0.85rem", md: "1.1rem" }}
             mt={descText ? 2 : 0}
           >
-            {ChaptersGendaibun(titleen, title, chapter, bodyText)}
+            {ChaptersGendaibun(titleen, title, chapter, bodyText, theme_id, scroll_id ?? titleen)}
           </Text>
         )}
         {orientation == "landscape" && (
@@ -120,9 +120,9 @@ const SingleChapterDesc = ({ item, index, emakis, data }) => {
             }}
           >
             {locale == "en" ? (
-              <>{t("viewer.viewImage")}: {sectionTitleDisplay || ChaptersTitle(titleen, title, chapter, "titleen")}</>
+              <>{t("viewer.viewImage")}: {sectionTitleDisplay || ChaptersTitle(titleen, title, chapter, "titleen", theme_id, scroll_id ?? titleen)}</>
             ) : (
-              <>{sectionTitleDisplay || ChaptersTitle(titleen, title, chapter, "title")}{t("viewer.viewImage")}</>
+              <>{sectionTitleDisplay || ChaptersTitle(titleen, title, chapter, "title", theme_id, scroll_id ?? titleen)}{t("viewer.viewImage")}</>
             )}
           </Button>
         )}

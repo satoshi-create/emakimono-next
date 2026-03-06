@@ -62,6 +62,8 @@ const OverlayEkotoba = ({
   const { t } = useTranslation("common");
   const dataTitle = data?.title;
   const dataTitleen = data?.titleen;
+  const themeId = data?.theme_id;
+  const scrollId = data?.scroll_id ?? data?.titleen;
 
   // TODO : 目次のフォントサイズをレスポンシブにする
 
@@ -121,8 +123,8 @@ const OverlayEkotoba = ({
               {isSceneTitle
                 ? (locale === "en" ? (itemTitleEn ?? itemTitle) : (itemTitle ?? itemTitleEn))
                 : locale === "en"
-                  ? ChaptersTitle(dataTitleen, dataTitle, chapter, "titleen")
-                  : ChaptersTitle(dataTitleen, dataTitle, chapter, "title")}
+                  ? ChaptersTitle(dataTitleen, dataTitle, chapter, "titleen", themeId, scrollId)
+                  : ChaptersTitle(dataTitleen, dataTitle, chapter, "title", themeId, scrollId)}
             </h3>
             {!isSceneTitle && (
               <div className={styles.chapterActions}>
@@ -185,7 +187,7 @@ const OverlayEkotoba = ({
               }`,
             }}
           >
-            {ekotobabody && ChaptersGendaibun(dataTitleen, dataTitle, chapter, ekotobabody)}
+            {ekotobabody && ChaptersGendaibun(dataTitleen, dataTitle, chapter, ekotobabody, themeId, scrollId)}
           </p>
         )}
       </div>

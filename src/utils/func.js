@@ -208,9 +208,15 @@ const removeNestedEmakisObj = (obj) =>
 
 ================ */
 
+// DB の chapter が 1 始まりの場合も対応（stage_en は 0 始まり）
 const connectKusouzuChapters = (chapter, text) => {
+  const chNum = Number(chapter);
+  const stageEn =
+    Number.isInteger(chNum) && chNum >= 1 && chNum <= 10
+      ? String(chNum - 1)
+      : String(chapter);
   const chapterkusouzusummary = chapterkusouzu
-    .filter((item) => chapter === item.stage_en)
+    .filter((item) => stageEn === item.stage_en)
     .map((item) => item[text])
     .join();
   return chapterkusouzusummary;
@@ -261,112 +267,47 @@ const connectGenjiChaptersScene = (chapter, scene) => {
   }
 };
 
-const connectEmakiTextSync = (titleen, chapter, field) => {
-  // この関数に到達した場合、対応するメタデータ読み込み処理が未実装
-  // 新しい絵巻タイプを追加する際は、専用の connect 関数を実装すること
-  console.error(
-    `[connectEmakiTextSync] 未対応の絵巻タイプ: titleen="${titleen}", chapter="${chapter}", field="${field}". ` +
-    `この絵巻用のメタデータ読み込み処理を実装してください。`
-  );
+/** theme_id / scroll_id で静的フォールバックを取得 */
+const getStaticChapterFallback = (themeId, scrollId, chapter, field) => {
+  if (themeId === "kuso-zu") {
+    const kusoField = field === "gendaibun" ? "desc" : field;
+    return connectKusouzuChapters(chapter, kusoField) || null;
+  }
+  if (scrollId && /Chōjū-jinbutsu-giga|chojugiga/i.test(String(scrollId))) {
+    return connectChojugigaChapters(scrollId, chapter, field === "gendaibun" ? "title" : field) || null;
+  }
+  if (themeId === "genji" || (scrollId && /genji/i.test(String(scrollId)))) {
+    return connectGenjiChapters(chapter, field === "gendaibun" ? "summary" : "summary") || null;
+  }
   return null;
 };
 
-const ChaptersTitle = (titleen, title, chapter, text) => {
-  if (title.includes("九相")) {
-    return (
-      <>
-        {connectKusouzuChapters(chapter, text) &&
-          `${connectKusouzuChapters(chapter, text)}`}
-      </>
-    );
-  } else if (title.includes("鳥獣") || title.includes("戯画")) {
-    return (
-      <>
-        {connectChojugigaChapters(titleen, chapter, text) &&
-          `${connectChojugigaChapters(titleen, chapter, text)}`}
-      </>
-    );
-  } else if (title.includes("源氏")) {
-    return (
-      <>
-        {connectGenjiChapters(chapter, "chapter_en") &&
-          `【第${connectGenjiChapters(chapter, "chapter_ch")}帖】`}
-        <ruby>
-          {connectGenjiChapters(chapter, "chapter_en") &&
-            `${connectGenjiChapters(chapter, "title")}`}
-          <rp>(</rp>
-          <rt>
-            {connectGenjiChapters(chapter, "chapter_en") &&
-              `${connectGenjiChapters(chapter, "ruby")}`}
-          </rt>
-          <rp>)</rp>
-        </ruby>
-      </>
-    );
-  } else if (Number.isInteger(parseInt(chapter))) {
-    return connectEmakiTextSync(titleen, chapter, text);
-  } else {
-    return chapter && parse(chapter);
+const ChaptersTitle = (titleen, title, chapter, text, themeId, scrollId) => {
+  const sid = scrollId ?? titleen;
+  const fallback = getStaticChapterFallback(themeId, sid, chapter, text);
+  if (fallback) {
+    if (themeId === "genji" || (sid && /genji/i.test(String(sid)))) {
+      const chCh = connectGenjiChapters(chapter, "chapter_ch");
+      const tit = connectGenjiChapters(chapter, "title");
+      const rub = connectGenjiChapters(chapter, "ruby");
+      if (chCh) return <>【第{chCh}帖】<ruby>{tit}<rp>(</rp><rt>{rub}</rt><rp>)</rp></ruby></>;
+    }
+    return <>{fallback}</>;
   }
+  return chapter ? parse(String(chapter)) : null;
 };
 
-const ChaptersGendaibun = (titleen, title, chapter, gendaibun) => {
-  if (title.includes("九相")) {
-    return (
-      <>
-        {connectKusouzuChapters(chapter, "desc") &&
-          `${connectKusouzuChapters(chapter, "desc")}`}
-      </>
-    );
-  } else if (title.includes("鳥獣") || title.includes("戯画")) {
-    // 鳥獣人物戯画は現在descフィールドがないため、タイトルを返す
-    return (
-      <>
-        {connectChojugigaChapters(titleen, chapter, "title") &&
-          `${connectChojugigaChapters(titleen, chapter, "title")}`}
-      </>
-    );
-  } else if (title.includes("源氏")) {
-    return (
-      <>
-        {connectGenjiChapters(chapter, "summary") &&
-          `${connectGenjiChapters(chapter, "summary")}`}
-      </>
-    );
-  } else if (Number.isInteger(parseInt(chapter))) {
-    return connectEmakiTextSync(titleen, chapter, "gendaibun");
-  } else {
-    return gendaibun && parse(gendaibun);
-  }
+const ChaptersGendaibun = (titleen, title, chapter, gendaibun, themeId, scrollId) => {
+  if (gendaibun) return parse(gendaibun);
+  const fallback = getStaticChapterFallback(themeId, scrollId ?? titleen, chapter, "gendaibun");
+  return fallback ? <>{fallback}</> : null;
 };
 
-const ChaptersDesc = (titleen, title, chapter, text, desc) => {
-  if (title.includes("九相")) {
-    return (
-      <>
-        {connectKusouzuChapters(chapter, text) &&
-          `${connectKusouzuChapters(chapter, text)}`}
-      </>
-    );
-  } else if (title.includes("鳥獣") || title.includes("戯画")) {
-    return (
-      <>
-        {connectChojugigaChapters(titleen, chapter, text) &&
-          `${connectChojugigaChapters(titleen, chapter, text)}`}
-      </>
-    );
-  } else if (title.includes("源氏")) {
-    return (
-      <>
-        {connectGenjiChapters(chapter, "summary") &&
-          `${connectGenjiChapters(chapter, "summary")}`}
-      </>
-    );
-  } else if (Number.isInteger(parseInt(chapter))) {
-    return connectEmakiTextSync(titleen, chapter, "desc");
-  } else {
-    return desc && parse(desc);
-  }
+const ChaptersDesc = (titleen, title, chapter, text, desc, themeId, scrollId) => {
+  if (desc && desc !== "解説準備中") return parse(desc);
+  const fallback = getStaticChapterFallback(themeId, scrollId ?? titleen, chapter, text);
+  if (fallback) return <>{fallback}</>;
+  return desc ? parse(desc) : null;
 };
 
 // キーワード一覧とマッチする絵巻ページのタグをfindし、新たな配列を作成

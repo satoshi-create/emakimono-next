@@ -65,24 +65,33 @@ export const getEmakiDetail = async (
     return null;
   }
 
-  if (!data || !Array.isArray(data.emakis)) {
-    console.warn('[getEmakiDetail] data または data.emakis が不正:', {
+  // RPC が配列 [{emakis, metadata}] またはオブジェクト {emakis, metadata} で返る場合に対応
+  const actualData = Array.isArray(data) ? data[0] : data;
+
+  if (!actualData || !actualData.emakis) {
+    console.warn('[getEmakiDetail] data または emakis が不正:', {
       hasData: !!data,
-      dataKeys: data ? Object.keys(data) : [],
-      emakisType: data?.emakis ? typeof data.emakis : 'undefined',
-      emakisIsArray: Array.isArray(data?.emakis),
+      hasActualData: !!actualData,
+      dataKeys: actualData ? Object.keys(actualData) : [],
+      emakisType: actualData?.emakis ? typeof actualData.emakis : 'undefined',
+      emakisIsArray: Array.isArray(actualData?.emakis),
     });
     return null;
   }
 
-  const sortedEmakis = [...data.emakis].sort(
+  if (!Array.isArray(actualData.emakis)) {
+    console.warn('[getEmakiDetail] emakis が配列ではありません');
+    return null;
+  }
+
+  const sortedEmakis = [...actualData.emakis].sort(
     (a: { sort_key?: number }, b: { sort_key?: number }) =>
       (a.sort_key ?? 0) - (b.sort_key ?? 0)
   );
 
   return {
     emakis: sortedEmakis,
-    metadata: data.metadata ?? undefined,
+    metadata: actualData.metadata ?? undefined,
   };
 };
 

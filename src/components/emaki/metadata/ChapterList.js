@@ -4,7 +4,7 @@ import { ChaptersTitle, eraColor } from "@/utils/func";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 
-const ChapterList = ({ data, era, titleen, title }) => {
+const ChapterList = ({ data, era, titleen, title, theme_id, scroll_id }) => {
   const { handleChapter } = useContext(AppContext);
   const { locale } = useRouter();
   return (
@@ -23,8 +23,8 @@ const ChapterList = ({ data, era, titleen, title }) => {
                 className={`${styles[eraColor(era)]} ${styles.chaptername}`}
               >
                 {displayTitle || (locale === "en"
-                  ? ChaptersTitle(titleen, title, chapter, "titleen")
-                  : ChaptersTitle(titleen, title, chapter, "title"))}
+                  ? ChaptersTitle(titleen, title, chapter, "titleen", theme_id, scroll_id ?? titleen)
+                  : ChaptersTitle(titleen, title, chapter, "title", theme_id, scroll_id ?? titleen))}
               </span>
             </li>
           );

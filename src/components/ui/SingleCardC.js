@@ -5,7 +5,10 @@ import { useRouter } from "next/router";
 
 const SingleCardC = ({ item, i }) => {
   const { locale } = useRouter();
-  const { titleen, title, thumb, edition, author } = item;
+  const titleen = item?.titleen ?? item?.scroll_id ?? "";
+  const title = item?.title ?? "";
+  const thumb = item?.thumb ?? item?.thumbnail ?? "";
+  const edition = item?.edition ?? "";
   return (
     <div key={i} className={styles.box}>
       <Link href={`/${titleen}`}>

@@ -19,7 +19,7 @@ const ModalDesc = ({ data }) => {
   const { DescIndex, setDescIndex, handleToId, closeDescModal, orientation } =
     useContext(AppContext);
   const emakis = data.emakis;
-  const { genjieslug, title, titleen } = data;
+  const { genjieslug, title, titleen, theme_id, scroll_id } = data;
 
   const filterEkotobas = emakis
     .map((item, index) => ({ ...item, index }))
@@ -143,8 +143,8 @@ const ModalDesc = ({ data }) => {
               >
                 {sectionTitleDisplay ||
                   (locale == "en"
-                    ? ChaptersTitle(titleen, title, chapter, "titleen")
-                    : ChaptersTitle(titleen, title, chapter, "title"))}
+                    ? ChaptersTitle(titleen, title, chapter, "titleen", theme_id, scroll_id ?? titleen)
+                    : ChaptersTitle(titleen, title, chapter, "title", theme_id, scroll_id ?? titleen))}
               </h3>
               <div className={styles.tabcontainer}>
                 {allMap.map((item, i) => {
@@ -175,8 +175,8 @@ const ModalDesc = ({ data }) => {
                     }
                   >
                     {locale == "en"
-                      ? ChaptersDesc(titleen, title, chapter, "descen", descText)
-                      : ChaptersDesc(titleen, title, chapter, "desc", descText)}
+                      ? ChaptersDesc(titleen, title, chapter, "descen", descText, theme_id, scroll_id ?? titleen)
+                      : ChaptersDesc(titleen, title, chapter, "desc", descText, theme_id, scroll_id ?? titleen)}
                   </p>
                 )}
                 {value === 1 && (
@@ -191,8 +191,8 @@ const ModalDesc = ({ data }) => {
                     }
                   >
                     {bodyText
-                      ? ChaptersGendaibun(titleen, title, chapter, bodyText)
-                      : null}
+                      ? ChaptersGendaibun(titleen, title, chapter, bodyText, theme_id, scroll_id ?? titleen)
+                      : ChaptersGendaibun(titleen, title, chapter, "", theme_id, scroll_id ?? titleen)}
                   </p>
                 )}
               </div>
@@ -204,9 +204,9 @@ const ModalDesc = ({ data }) => {
               >
                 {/* 横スクロールで見る */}
                 {locale == "en" ? (
-                  <>{t("viewer.viewImage")}: {sectionTitleDisplay || ChaptersTitle(titleen, title, chapter, "titleen")}</>
+                  <>{t("viewer.viewImage")}: {sectionTitleDisplay || ChaptersTitle(titleen, title, chapter, "titleen", theme_id, scroll_id ?? titleen)}</>
                 ) : (
-                  <>{sectionTitleDisplay || ChaptersTitle(titleen, title, chapter, "title")}{t("viewer.viewImage")}</>
+                  <>{sectionTitleDisplay || ChaptersTitle(titleen, title, chapter, "title", theme_id, scroll_id ?? titleen)}{t("viewer.viewImage")}</>
                 )}
               </button>
               <SnsShareBox

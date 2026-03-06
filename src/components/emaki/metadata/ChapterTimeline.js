@@ -26,6 +26,8 @@ const ChapterTimeline = ({
   /** 段タイトル（scene_title の item.title / item.title_en）を優先表示 */
   sectionTitle,
   sectionTitleEn,
+  theme_id,
+  scroll_id,
 }) => {
   const { handleToId, openDescModal } = useContext(AppContext);
   const { locale } = useRouter();
@@ -33,8 +35,8 @@ const ChapterTimeline = ({
 
   const displayTitle =
     locale === "en"
-      ? (sectionTitleEn ?? sectionTitle ?? ChaptersTitle(titleen, title, chapter, "titleen"))
-      : (sectionTitle ?? sectionTitleEn ?? ChaptersTitle(titleen, title, chapter, "title"));
+      ? (sectionTitleEn ?? sectionTitle ?? ChaptersTitle(titleen, title, chapter, "titleen", theme_id, scroll_id ?? titleen))
+      : (sectionTitle ?? sectionTitleEn ?? ChaptersTitle(titleen, title, chapter, "title", theme_id, scroll_id ?? titleen));
 
   useEffect(() => {
     if (!isActive || !scrollOnActive || !rowRef.current) return;

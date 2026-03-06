@@ -42,7 +42,7 @@ const Modal = ({ data }) => {
   const toggleContets = (v) => {
     if (v === 0) {
       return (
-        <ChapterList data={emakis} era={era} titleen={titleen} title={title} />
+        <ChapterList data={emakis} era={era} titleen={titleen} title={title} theme_id={data.theme_id} scroll_id={data.scroll_id ?? titleen} />
       );
     } else if (v === 1) {
       return (

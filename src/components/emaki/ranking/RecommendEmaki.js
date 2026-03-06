@@ -17,7 +17,7 @@ import {
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 
-const RecommendEmaki = ({ data }) => {
+const RecommendEmaki = ({ data, scrollList = [] }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const { locale } = useRouter();
   const { loading } = useContext(AppContext);
@@ -50,7 +50,7 @@ const RecommendEmaki = ({ data }) => {
               {loading ? <Loader /> : <RankingCard isCompact={true} />}
             </TabPanel>
             <TabPanel>
-              <CardC data={data} />
+              <CardC data={data} scrollList={scrollList} />
             </TabPanel>
           </TabPanels>
         </Tabs>

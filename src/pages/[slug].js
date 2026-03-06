@@ -6,7 +6,7 @@ import EmakiBreadcrumbs from "@/components/emaki/navigation/EmakiBreadcrumbs";
 import Head from "@/components/meta/Meta";
 import MiddleNavigation from "@/components/navigation/MiddleNavigation";
 import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
-import { getEmakiDetail, getScrollData, getScrollMetadataById } from "@/libs/api/scrollService";
+import { getEmakiDetail, getScrollData, getScrollList, getScrollMetadataById } from "@/libs/api/scrollService";
 import { AppContext } from "@/pages/_app";
 import { useLocaleMeta } from "@/utils/func";
 import { useRouter } from "next/router";
@@ -15,7 +15,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
-const Emaki = ({ data, locale, locales, slug, test }) => {
+const Emaki = ({ data, scrollList = [], locale, locales, slug, test }) => {
   const { t } = useLocaleMeta();
   const router = useRouter();
   const selectedRef = useRef(null);
@@ -44,7 +44,7 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
           pageAuthor && `（${pageAuthor}）`
         }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
 
-  const pageDesc = locale === "en" ? data.descen : data.desc;
+  const pageDesc = locale === "en" ? (data.description_en ?? data.descen) : (data.description ?? data.desc);
 
   const pageDescTemp = pageDesc ? pageDesc : tPageDesc;
 
@@ -144,6 +144,7 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
           />
           <EmakiLandscapContent
             data={{ ...data }}
+            scrollList={scrollList}
             scroll={true}
             selectedRef={selectedRef}
             navIndex={navIndex}
@@ -162,6 +163,7 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
           />
           <EmakiPortraitContent
             data={data}
+            scrollList={scrollList}
             scroll={true}
             selectedRef={selectedRef}
             navIndex={navIndex}
@@ -244,7 +246,10 @@ export const getStaticProps = async (context) => {
     return { notFound: true };
   }
 
-  const viewerData = await getEmakiDetail(scrollId);
+  const [viewerData, scrollListFromDb] = await Promise.all([
+    getEmakiDetail(scrollId),
+    getScrollList(),
+  ]);
   console.log("[slug] getStaticProps viewerData:", viewerData ? { emakisCount: viewerData.emakis?.length, hasMetadata: !!viewerData.metadata } : null);
 
   if (!viewerData || !viewerData.emakis || viewerData.emakis.length === 0) {
@@ -263,20 +268,35 @@ export const getStaticProps = async (context) => {
       id: baseMeta.id,
       title: baseMeta.title,
       titleen: baseMeta.titleen ?? scrollId,
+      scroll_id: metaFromViewer.scroll_id ?? baseMeta.titleen ?? scrollId,
+      theme_id: metaFromViewer.theme_id ?? null,
       author: baseMeta.author,
       authoren: baseMeta.authoren ?? baseMeta.author,
       type: baseMeta.type,
       typeen: baseMeta.typeen ?? baseMeta.type,
-      desc: metaFromViewer.description ?? baseMeta.desc,
-      descen: metaFromViewer.description_en ?? baseMeta.descen,
-      description: metaFromViewer.description ?? baseMeta.desc,
-      description_en: metaFromViewer.description_en ?? baseMeta.descen,
+      description: metaFromViewer.description ?? baseMeta.description ?? baseMeta.desc,
+      description_en: metaFromViewer.description_en ?? baseMeta.description_en ?? baseMeta.descen,
       emakis: viewerData.emakis,
     };
+    const scrollList = scrollListFromDb.length > 0
+      ? scrollListFromDb
+      : metadataCache.map((m) => ({
+          scroll_id: m.titleen,
+          titleen: m.titleen,
+          title: m.title,
+          theme_id: m.theme_id ?? null,
+          era: m.era,
+          eraen: m.eraen,
+          type: m.type,
+          typeen: m.typeen,
+          thumbnail: m.thumb,
+          thumb: m.thumb,
+        }));
     return {
       props: {
         ...(await serverSideTranslations(locale, ["common"])),
         data,
+        scrollList,
         locales,
         locale,
         slug: slug,
@@ -300,14 +320,14 @@ export const getStaticProps = async (context) => {
     id: meta.id,
     title: meta.title,
     titleen: meta.scroll_id ?? scrollId,
+    scroll_id: meta.scroll_id ?? scrollId,
+    theme_id: meta.theme_id ?? null,
     author: meta.author ?? "",
     authoren: meta.authoren ?? meta.author ?? "",
     type: meta.type ?? "絵巻",
     typeen: meta.typeen ?? "emaki",
     era: meta.era ?? "",
     eraen: meta.eraen ?? meta.era ?? "",
-    desc: meta.description ?? "",
-    descen: meta.description_en ?? meta.description ?? "",
     description: meta.description ?? "",
     description_en: meta.description_en ?? "",
     thumb: meta.thumbnail ?? "",
@@ -319,10 +339,26 @@ export const getStaticProps = async (context) => {
     ...(viewerData.metadata || {}),
   };
 
+  const scrollList = scrollListFromDb.length > 0
+    ? scrollListFromDb
+    : metadataCache.map((m) => ({
+        scroll_id: m.titleen,
+        titleen: m.titleen,
+        title: m.title,
+        theme_id: m.theme_id ?? null,
+        era: m.era,
+        eraen: m.eraen,
+        type: m.type,
+        typeen: m.typeen,
+        thumbnail: m.thumb,
+        thumb: m.thumb,
+      }));
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
       data,
+      scrollList,
       locales,
       locale,
       slug: slug,
