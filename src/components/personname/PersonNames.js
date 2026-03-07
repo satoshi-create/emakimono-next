@@ -22,7 +22,7 @@ const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
             <Link href={`/personname/${slug}`} key={index}>
               <a className={styles.portrait}>
                 <Image
-                  src={portrait ? portrait : "/question-solid.svg"}
+                  src={portrait ? portrait : "/icons/question-solid.svg"}
                   width={130}
                   height={130}
                   objectFit="contain"

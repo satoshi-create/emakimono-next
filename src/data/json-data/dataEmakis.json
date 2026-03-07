@@ -2656,7 +2656,7 @@
         "id": "danrinkougou",
         "slug": "danrinkougou",
         "ruby": "たちばなのかちこ",
-        "portrait": "/portrait_tachibananokachiko.webp"
+        "portrait": "/assets/portrait_tachibananokachiko.webp"
       }
     ],
     "kotobagaki": true,
@@ -7970,7 +7970,7 @@
         "id": "danrinkougou",
         "slug": "danrinkougou",
         "ruby": "たちばなのかちこ",
-        "portrait": "/portrait_tachibananokachiko.webp"
+        "portrait": "/assets/portrait_tachibananokachiko.webp"
       }
     ],
     "kotobagaki": true,

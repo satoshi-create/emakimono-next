@@ -1,0 +1,56 @@
+# 作品基本情報
+title: "地獄草紙（安住院本）"
+scroll_id: "jigokusoushi-anzyuin"
+theme_id: "jigoku-zoushi"
+# ... (以前のメタデータ項目)
+era_id: "heian"
+author_id: "unknown"
+type_id: "emaki"
+source_id: "tokyo-national-museum" # 東京国立博物館（安住院旧蔵）
+description: "平安時代末期に制作された地獄草紙。安住院に伝来したもので、火末虫地獄や雲火霧地獄など、凄惨ながらもどこかユーモラスな鬼の描写が特徴です。"
+description_en: "A late Heian period Hell Scroll formerly owned by Anzyuin. It vividly depicts various Buddhist hells with a touch of caricature in its demonic figures."
+thumbnail: "/jigokusoushi_anzyuin_thumb.webp"
+favorite: true
+
+# 属性情報（中間テーブルやメタデータに対応）
+keywords:
+  - id: "hell"
+    name: "地獄"
+  - id: "buddhism"
+    name: "仏教"
+  - id: "demon"
+    name: "鬼"
+
+# 出典・参照
+source:
+  name: "地獄草紙（ColBase）"
+  url: "https://colbase.nich.go.jp/collection_items/tnm/A-10942?locale=ja"
+references:
+  - title: "『餓鬼草紙 地獄草紙 病草紙 九相詩絵巻』（日本絵巻大成7 中央公論社）"
+    url: "https://rb.gy/r3nghf"
+
+# master_texts へのアップロード用データ
+master_texts:
+  - common_id: "jigoku-anzyuin-1"
+    title: "髪火流"
+    title_en: "The Hell of Burning Hair (Hatsukaru)"
+    description: "ここは、生前、殺生、偸盗・邪淫・妄語をおこない、また五戒を守っている人に、言葉巧みに酒の功徳を説いて、酒を飲ませた者が落ちる。熱鉄の犬や鉄の嘴を持った鷲がいて、足を咬み、頭蓋骨に穴を開けて、脳髄を飲むという。"
+    description_en: "This hell is for those who committed killing, stealing, sexual misconduct, and lying, or deceived others into drinking alcohol. Here, iron dogs and eagles with iron beaks bite the sinners, pierce their skulls, and drink their brains."
+
+  - common_id: "jigoku-anzyuin-2"
+    title: "火末虫"
+    title_en: "The Hell of Fire-Tipped Insects (Kamatsumushi)"
+    description: "ここは、生前、殺生、偸盗・邪淫をおこない、また酒の中に水増しをして売り、巨利を得た者が落ちる。みずからの身体から数多（あまた）の虫がわき、肉体や骨の髄までも食いさいなまれる。その苦しみは耐えがたく、叫ぶ声が耐えない。"
+    description_en: "Sinners who diluted alcohol with water for profit fall here. Innumerable insects emerge from their bodies, devouring their flesh and the marrow of their bones. The pain is unbearable, and their screams never cease."
+
+  - common_id: "jigoku-anzyuin-3"
+    title: "雲火霧"
+    title_en: "The Hell of Cloud, Fire, and Mist (Unkamu)"
+    description: "ここは、生前、殺生、偸盗・邪淫をおこない、また五戒を守っている人に酒を飲ませて酔わせ、それを見て喜ぶ者が落ちる。この地獄には業火が燃え盛り、罪人は足の先から頭の先まで、焼け切って消え失せ、また蘇る。このようなことがやむことはない。"
+    description_en: "For those who forced others to drink and laughed at their intoxication. Enveloped in roaring flames, sinners are burnt to ash from toe to head, only to be revived and burnt again in an endless cycle of agony."
+
+  - common_id: "jigoku-anzyuin-4"
+    title: "雨炎火石"
+    title_en: "The Hell of Raining Flaming Stones (Uenkaseki)"
+    description: "ここは、生前、殺生、偸盗・邪淫をおこない、また酒を用意して、旅行する人に飲ませて酔わせ、財物を奪い、殺した者が落ちる。炎のある焼け石が天から降り注ぎ、銅の湯、白鑞（びゃくろう）の湯と熱い血が流れる河で苦しみを受ける。"
+    description_en: "This hell is for those who intoxicated travelers to rob and kill them. Flaming stones rain from the sky, while a river filled with molten copper, tin, and hot blood forces sinners to swim in eternal pain."

@@ -74,7 +74,7 @@ const Emaki = ({ data, scrollList = [], locale, locales, slug, test }) => {
       name: "横スクロールで楽しむ絵巻",
       logo: {
         "@type": "ImageObject",
-        url: "/favicon.png",
+        url: "/favicon/favicon.png",
       },
       breadcrumbList: {
         "@type": "BreadcrumbList",

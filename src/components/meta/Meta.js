@@ -21,7 +21,7 @@ const Meta = ({
 
   const url = `${t.siteUrl}${asPath}`;
 
-  const img = pageImg ? pageImg : "/ogp.png";
+  const img = pageImg ? pageImg : "/ogp/ogp.png";
   const imgUrl = img.startsWith("https") ? img : `${t.siteUrl}${img}`;
   const imgW = pageImgW ? pageImgW : "533";
   const imgH = pageImgH ? pageImgH : "300";
@@ -62,7 +62,7 @@ const Meta = ({
       <meta property="og:image:height" content={imgH} />
       <meta name="twitter:card" content="summary_large_image" />
 
-      <link rel="icon" href="/favicon.png" />
+      <link rel="icon" href="/favicon/favicon.png" />
       <link rel="apple-touch-icon" href={t.siteIcon} />
       {jsonLd && (
         <script

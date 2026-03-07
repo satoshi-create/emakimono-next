@@ -8,7 +8,7 @@
 [![Part of CANW](https://img.shields.io/badge/CANW-ecosystem-blueviolet)](https://github.com/satoshi-create/complexity-and-network-webdesign)
 ![Contributors](https://img.shields.io/github/contributors/satoshi-create/emakimono-next?color=brightgreen)
 
-[![Emaki Screenshot](./public/hero-img_new.png)](https://emakimono.com/)
+[![Emaki Screenshot](./public/assets/hero-img_new.png)](https://emakimono.com/)
 
 📘 Read this in other languages:
 
@@ -119,7 +119,7 @@ journey
 
 ## 🎨 Screenshot
 
-[![Screenshot](./public/demo_kusouzu.gif)](https://emakimono.com/en)
+[![Screenshot](./public/assets/demo_kusouzu.gif)](https://emakimono.com/en)
 
 > **Try the experience:**
 > [📜 Nine Stages of Decay（九相図巻）](https://emakimono.com/kusouzumaki)

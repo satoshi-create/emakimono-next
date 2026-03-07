@@ -30,7 +30,7 @@ const EmakiHeader = () => {
     <header className={`${styles.header} emaki-page-landscape-grid`}>
       <div className={styles.center}>
         <Image
-          src={"/favicon.ico"}
+          src={"/favicon/favicon.ico"}
           alt="favicon"
           className={styles.favicon}
           width={48}

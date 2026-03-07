@@ -66,7 +66,7 @@ const Footer = () => {
                 style={{ display: "flex", alignItems: "center" }}
               >
                 <Image
-                  src="/favicon-32x32.png"
+                  src="/favicon/favicon-32x32.png"
                   alt="favicon"
                   width={25}
                   height={25}

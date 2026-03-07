@@ -7,8 +7,15 @@ upsert scene_titles and images to Supabase.
 のメタデータ・シーン・画像を Supabase/Cloudinary と同期できます。
 
 Supabase schema:
+  - master_texts: common_id, title, title_en, description, description_en, theme_id
+  - scrolls: scroll_id, title, title_en, theme_id, description, description_en, ...
   - scene_titles: scene_id, scroll_id, chapter, sort_key, theme_id, common_id
   - images: image_id ({folder}/{public_id}), scene_id, scroll_id, src, width, height, sort_key
+
+実行順序（外部キー制約のため）:
+  1. master_texts (metadata.yaml)
+  2. scrolls (metadata.yaml 基本情報)
+  3. scene_titles / images (scroll_config.yaml)
 
 ID形式:
   - public_id (Cloudinary): {scroll_id}__{scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d}
@@ -29,11 +36,22 @@ import re
 import sys
 import argparse
 from pathlib import Path
+from dotenv import load_dotenv
+
+# プロジェクトのルートディレクトリにある .env.local を指定して読み込む
+env_path = Path('.') / '.env.local'
+load_dotenv(dotenv_path=env_path)
+
+# もし .env.local がなかった時のために、通常の .env も読み込む設定（推奨）
+load_dotenv()
 
 import yaml
 import cloudinary
 import cloudinary.uploader
 from supabase import create_client, Client
+from postgrest.exceptions import APIError
+
+
 
 # ファイル名中の _数字 を抽出（末尾や拡張子に依存せず、数字の後の文字は任意）
 INDEX_IN_FILENAME_RE = re.compile(r"_(\d+)", re.IGNORECASE)
@@ -258,9 +276,106 @@ def get_supabase() -> Client:
     return create_client(url, key)
 
 
-# scene_titles テーブルに存在するカラムのみ送信（volume_num 等の余分なカラムを排除）
+# テーブルカラム定義
+MASTER_TEXTS_COLUMNS = ("common_id", "title", "title_en", "description", "description_en", "theme_id")
+SCROLLS_COLUMNS = ("scroll_id", "title", "era_id", "type_id", "author_id", "thumbnail", "description", "description_en", "theme_id", "source_id", "favorite")
 SCENE_TITLES_COLUMNS = ("scene_id", "scroll_id", "chapter", "sort_key", "theme_id", "common_id")
 IMAGES_COLUMNS = ("image_id", "scene_id", "scroll_id", "src", "width", "height", "sort_key")
+
+
+def find_metadata_yaml(repo_root: Path, scroll_id: str, images_dir: Path) -> Path | None:
+    """metadata.yaml を検索。public/images/{scroll_id}/ または images_dir を優先。"""
+    candidates = [
+        repo_root / "public" / "images" / scroll_id / "metadata.yaml",
+        images_dir / "metadata.yaml",
+        repo_root / "images" / scroll_id / "metadata.yaml",
+    ]
+    for p in candidates:
+        if p.exists():
+            return p
+    return None
+
+
+def load_metadata_if_exists(repo_root: Path, scroll_id: str, images_dir: Path) -> dict | None:
+    """metadata.yaml があれば読み込み、なければ None。"""
+    path = find_metadata_yaml(repo_root, scroll_id, images_dir)
+    if not path:
+        return None
+    data = load_yaml(str(path))
+    return data if isinstance(data, dict) else None
+
+
+def build_master_texts_rows(metadata: dict, theme_id: str) -> list[dict]:
+    """master_texts セクションから upsert 用の行を構築。theme_id は metadata ルートから。"""
+    items = metadata.get("master_texts") or []
+    if not isinstance(items, list):
+        return []
+    theme_id_val = metadata.get("theme_id") or theme_id or ""
+    rows = []
+    for it in items:
+        if not isinstance(it, dict):
+            continue
+        common_id_val = it.get("common_id")
+        if not common_id_val or not str(common_id_val).strip():
+            continue
+        rows.append({
+            "common_id": str(common_id_val).strip(),
+            "title": (it.get("title") or ""),
+            "title_en": (it.get("title_en") or ""),
+            "description": (it.get("description") or ""),
+            "description_en": (it.get("description_en") or ""),
+            "theme_id": (it.get("theme_id") or theme_id_val),
+        })
+    return rows
+
+
+def build_scrolls_row(metadata: dict, scroll_id: str) -> dict | None:
+    """metadata.yaml の基本情報から scrolls 1行を構築。DB スキーマに合わせる。"""
+    if not metadata.get("scroll_id") and not metadata.get("title"):
+        return None
+    return {
+        "scroll_id": metadata.get("scroll_id") or scroll_id,
+        "title": metadata.get("title") or "",
+        "era_id": metadata.get("era_id") or "",
+        "author_id": metadata.get("author_id") or "",
+        "type_id": metadata.get("type_id") or "emaki",
+        "source_id": metadata.get("source_id") or "",
+        "thumbnail": metadata.get("thumbnail_url") or metadata.get("thumbnail") or "",
+        "description": metadata.get("description") or "",
+        "description_en": metadata.get("description_en") or "",
+        "theme_id": metadata.get("theme_id") or scroll_id,
+        "favorite": bool(metadata.get("favorite", False)),
+    }
+
+
+def upsert_master_texts(supabase: Client, rows: list[dict], on_conflict: str = "common_id") -> int:
+    """master_texts テーブルに upsert。"""
+    if not rows:
+        return 0
+    filtered = [{k: (r.get(k) or "") for k in MASTER_TEXTS_COLUMNS} for r in rows]
+    supabase.table("master_texts").upsert(filtered, on_conflict=on_conflict).execute()
+    return len(filtered)
+
+
+def upsert_scrolls(supabase: Client, row: dict, on_conflict: str = "scroll_id") -> None:
+    """scrolls テーブルに upsert（1行）。source_id の FK 違反時は source_id を除外してリトライ。"""
+    if not row:
+        return
+    filtered = {k: row[k] for k in SCROLLS_COLUMNS if k in row}
+    if not filtered:
+        return
+    try:
+        supabase.table("scrolls").upsert([filtered], on_conflict=on_conflict).execute()
+    except APIError as e:
+        if str(getattr(e, "code", "")) == "23503" and "source_id" in filtered:
+            filtered_no_source = {k: v for k, v in filtered.items() if k != "source_id"}
+            if filtered_no_source:
+                print("source_id FK violation: retrying without source_id", file=sys.stderr)
+                supabase.table("scrolls").upsert([filtered_no_source], on_conflict=on_conflict).execute()
+            else:
+                raise
+        else:
+            raise
 
 
 def _filter_row(row: dict, columns: tuple[str, ...]) -> dict:
@@ -316,9 +431,17 @@ def main() -> None:
     if images_dir_str:
         images_dir = (Path(images_dir_str) / scroll_id).resolve()
     else:
-        images_dir = repo_root / "images" / scroll_id
+        # public/images を優先（GitOps 体制）
+        pub_images = repo_root / "public" / "images" / scroll_id
+        images_dir = pub_images if pub_images.exists() else (repo_root / "images" / scroll_id)
+
+    metadata = load_metadata_if_exists(repo_root, scroll_id, images_dir)
+    theme_id = (metadata or config).get("theme_id") or scroll_id
 
     print(f"Sync target: scroll_id={scroll_id} | images_dir={images_dir}", file=sys.stderr)
+    if metadata:
+        meta_path = find_metadata_yaml(repo_root, scroll_id, images_dir)
+        print(f"metadata.yaml: {meta_path}", file=sys.stderr)
     if not args.skip_upload and not args.dry_run and not images_dir.exists():
         raise SystemExit(f"Images directory not found: {images_dir}")
 
@@ -386,6 +509,12 @@ def main() -> None:
             print(f"  ... and {len(missing_indices) - 20} more", file=sys.stderr)
 
     if args.dry_run:
+        master_texts_rows = build_master_texts_rows(metadata, theme_id) if metadata else []
+        scrolls_row = build_scrolls_row(metadata, scroll_id) if metadata else None
+        if master_texts_rows:
+            print("master_texts (common_id, title, ...), first 3:", master_texts_rows[:3])
+        if scrolls_row:
+            print("scrolls:", scrolls_row)
         print("scene_titles (scene_id, scroll_id, chapter, sort_key):", scene_title_rows)
         print("images (image_id, scene_id, sort_key), first 5:", image_rows[:5])
         if len(image_rows) > 5:
@@ -393,9 +522,23 @@ def main() -> None:
         return
 
     supabase = get_supabase()
+    # 実行順序: 1. master_texts 2. scrolls 3. scene_titles 4. images（外部キー制約のため）
+    master_texts_rows = build_master_texts_rows(metadata, theme_id) if metadata else []
+    if master_texts_rows:
+        n = upsert_master_texts(supabase, master_texts_rows)
+        print(f"Upserted master_texts: {n} rows", file=sys.stderr)
+    scrolls_row = build_scrolls_row(metadata, scroll_id) if metadata else None
+    if scrolls_row:
+        upsert_scrolls(supabase, scrolls_row)
+        print("Upserted scrolls: 1 row", file=sys.stderr)
     upsert_scene_titles(supabase, scene_title_rows)
     upsert_images(supabase, image_rows)
-    print(f"Done: scroll_id={scroll_id} volume_num={volume_num} scene_titles={len(scene_title_rows)} images={len(image_rows)}")
+    parts = [f"scene_titles={len(scene_title_rows)}", f"images={len(image_rows)}"]
+    if master_texts_rows:
+        parts.insert(0, f"master_texts={len(master_texts_rows)}")
+    if scrolls_row:
+        parts.insert(1 if master_texts_rows else 0, "scrolls=1")
+    print(f"Done: scroll_id={scroll_id} volume_num={volume_num} " + " ".join(parts))
 
 
 if __name__ == "__main__":

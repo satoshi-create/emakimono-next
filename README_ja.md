@@ -12,7 +12,7 @@
 
 このプロジェクトは、日本の伝統的な絵巻物（絵巻）をインタラクティブなデジタル体験として再構築する試みです。フロントエンド技術、物語表現、文化遺産を結びつけ、オープンで協働的な精神に基づいて開発されています。
 
-[![Emaki Screenshot](./public/hero-img.png)](https://emakimono.com/)
+[![Emaki Screenshot](./public/assets/hero-img.png)](https://emakimono.com/)
 
 🌟 試してみる：  
 👉 [https://emakimono.com/](https://emakimono.com/)
@@ -56,7 +56,7 @@ journey
 
 ## 🎨 スクリーンショット
 
-[![Screenshot](./public/demo_kusouzu.gif)](https://emakimono.com/en)
+[![Screenshot](./public/assets/demo_kusouzu.gif)](https://emakimono.com/en)
 
 > **体験はこちら：**  
 [📜 九相図巻](https://emakimono.com/kusouzumaki)

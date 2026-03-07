@@ -6,7 +6,7 @@ const jaMeta = {
   siteLang: "ja",
   siteLocale: "ja_JP",
   siteType: "website",
-  siteIcon: "/favicon.png",
+  siteIcon: "/favicon/favicon.png",
 };
 const enMeta = {
   siteTitle:
@@ -17,7 +17,7 @@ const enMeta = {
   siteLang: "en",
   siteLocale: "en_EN",
   siteType: "website",
-  siteIcon: "/favicon.png",
+  siteIcon: "/favicon/favicon.png",
 };
 
 

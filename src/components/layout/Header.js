@@ -26,7 +26,7 @@ const Header = ({ slug, fixed }) => {
     >
       <div className={styles.center}>
         <Image
-          src={"/favicon.ico"}
+          src={"/favicon/favicon.ico"}
           alt="favicon"
           className={styles.favicon}
           width={48}
