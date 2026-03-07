@@ -1,4 +1,4 @@
-scroll_id: "kusouzu-honolulu"
+scroll_id: "kusouzu-eitaku"
 volume_num: 1
 theme_id: "kuso-zu"
 folder: "emakimono"
@@ -20,10 +20,22 @@ scenes:
     title: "壊相"
     range: [4, 4]
   - scene_id: 5
-    common_id: "kuso-zu-7"
-    title: "散相"
+    common_id: "kuso-zu-4"
+    title: "血塗相"
     range: [5, 5]
   - scene_id: 6
-    common_id: "kuso-zu-8"
-    title: "骨相"
+    common_id: "kuso-zu-5"
+    title: "膿爛相"
     range: [6, 6]
+  - scene_id: 7
+    common_id: "kuso-zu-7"
+    title: "啖食相"
+    range: [7, 7]
+  - scene_id: 8
+    common_id: "kuso-zu-8"
+    title: "散相"
+    range: [8, 8]
+  - scene_id: 9
+    common_id: "kuso-zu-9"
+    title: "骨相"
+    range: [9, 9]
