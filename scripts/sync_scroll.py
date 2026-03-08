@@ -13,9 +13,10 @@ Supabase schema:
   - images: image_id ({folder}/{public_id}), scene_id, scroll_id, src, width, height, sort_key
 
 実行順序（外部キー制約のため）:
-  1. master_texts (metadata.yaml)
-  2. scrolls (metadata.yaml 基本情報)
-  3. scene_titles / images (scroll_config.yaml)
+  STEP A: sources / eras マスタの事前確保
+  STEP B: master_texts (metadata.yaml) → scrolls (metadata.yaml 基本情報)
+  STEP C: keywords マスタ → scroll_keywords 中間テーブル
+  4. scene_titles / images (scroll_config.yaml)
 
 ID形式:
   - public_id (Cloudinary): {scroll_id}__{scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d}
@@ -38,12 +39,10 @@ import argparse
 from pathlib import Path
 from dotenv import load_dotenv
 
-# プロジェクトのルートディレクトリにある .env.local を指定して読み込む
-env_path = Path('.') / '.env.local'
-load_dotenv(dotenv_path=env_path)
-
-# もし .env.local がなかった時のために、通常の .env も読み込む設定（推奨）
-load_dotenv()
+# Next.js 慣習: .env.local を優先、なければ .env
+repo_root_for_env = Path(__file__).resolve().parent.parent
+load_dotenv(repo_root_for_env / ".env.local")
+load_dotenv(repo_root_for_env / ".env")
 
 import yaml
 import cloudinary
@@ -197,7 +196,7 @@ def expand_chapters(config: dict) -> list[tuple[int, str, int, int]]:
 
 def build_scene_titles(config: dict) -> list[dict]:
     """scene_titles 行を構築。common_id は YAML 優先、未定義時は {scroll_id}_{chapter}。"""
-    scroll_id = config.get("scroll_id") or "unknown"
+    scroll_id = config.get("scroll_id") or "unknown-author"
     volume_num = _safe_int(config.get("volume_num"), 1)
     theme_id = config.get("theme_id") or scroll_id
     seen = set()
@@ -227,7 +226,7 @@ def build_scene_titles(config: dict) -> list[dict]:
 
 def build_images_plan(config: dict) -> list[dict]:
     plan = []
-    scroll_id = config.get("scroll_id") or "unknown"
+    scroll_id = config.get("scroll_id") or "unknown-author"
     volume_num = _safe_int(config.get("volume_num"), 1)
     for ch_id, title, index, ordinal in expand_chapters(config):
         plan.append({
@@ -278,7 +277,7 @@ def get_supabase() -> Client:
 
 # テーブルカラム定義
 MASTER_TEXTS_COLUMNS = ("common_id", "title", "title_en", "description", "description_en", "theme_id")
-SCROLLS_COLUMNS = ("scroll_id", "title", "era_id", "type_id", "author_id", "thumbnail", "description", "description_en", "theme_id", "source_id", "favorite")
+SCROLLS_COLUMNS = ("scroll_id", "title", "era_id", "type_id", "author_id", "thumbnail", "description", "description_en", "theme_id", "source_id", "favorite", "version_id")
 SCENE_TITLES_COLUMNS = ("scene_id", "scroll_id", "chapter", "sort_key", "theme_id", "common_id")
 IMAGES_COLUMNS = ("image_id", "scene_id", "scroll_id", "src", "width", "height", "sort_key")
 
@@ -329,23 +328,81 @@ def build_master_texts_rows(metadata: dict, theme_id: str) -> list[dict]:
     return rows
 
 
+def _get_metadata_value(metadata: dict, *keys: str):
+    """metadata から値を取得。複数キーを左から優先で試す。"""
+    for k in keys:
+        if k in metadata and metadata[k] is not None:
+            return metadata[k]
+    return None
+
+
 def build_scrolls_row(metadata: dict, scroll_id: str) -> dict | None:
-    """metadata.yaml の基本情報から scrolls 1行を構築。DB スキーマに合わせる。"""
+    """metadata.yaml の基本情報から scrolls 1行を構築。DB スキーマに合わせる。未知プロパティは警告してスキップ。"""
     if not metadata.get("scroll_id") and not metadata.get("title"):
         return None
-    return {
-        "scroll_id": metadata.get("scroll_id") or scroll_id,
-        "title": metadata.get("title") or "",
-        "era_id": metadata.get("era_id") or "",
-        "author_id": metadata.get("author_id") or "",
-        "type_id": metadata.get("type_id") or "emaki",
-        "source_id": metadata.get("source_id") or "",
-        "thumbnail": metadata.get("thumbnail_url") or metadata.get("thumbnail") or "",
-        "description": metadata.get("description") or "",
-        "description_en": metadata.get("description_en") or "",
-        "theme_id": metadata.get("theme_id") or scroll_id,
-        "favorite": bool(metadata.get("favorite", False)),
+
+    known_keys = {"scroll_id", "title", "title_en", "era_id", "author_id", "type_id", "source_id",
+                  "thumbnail", "thumbnail_url", "thumb", "description", "desc", "description_en", "desc_en",
+                  "theme_id", "favorite", "version_id", "source_info", "references", "master_texts", "keywords", "personnames"}
+    for k in metadata:
+        if k not in known_keys and not str(k).startswith("_"):
+            print(f"Warning: metadata.yaml の未対応プロパティ '{k}' をスキップします", file=sys.stderr)
+
+    row = {
+        "scroll_id": _get_metadata_value(metadata, "scroll_id") or scroll_id,
+        "title": _get_metadata_value(metadata, "title") or "",
+        "era_id": _get_metadata_value(metadata, "era_id") or "",
+        "author_id": _get_metadata_value(metadata, "author_id") or "",
+        "type_id": _get_metadata_value(metadata, "type_id") or "emaki",
+        "source_id": _get_metadata_value(metadata, "source_id") or "",
+        "thumbnail": _get_metadata_value(metadata, "thumbnail_url", "thumbnail", "thumb") or "",
+        "description": _get_metadata_value(metadata, "description", "desc") or "",
+        "description_en": _get_metadata_value(metadata, "description_en", "desc_en") or "",
+        "theme_id": _get_metadata_value(metadata, "theme_id") or scroll_id,
+        "favorite": bool(_get_metadata_value(metadata, "favorite") or False),
+        "version_id": _safe_int(_get_metadata_value(metadata, "version_id"), 1),
     }
+    return row
+
+
+def ensure_source_exists(supabase: Client, source_id: str, source_info: dict | None = None) -> bool:
+    """sources テーブルに source_id が存在するか確認。なければ最小限の情報で作成。"""
+    if not source_id or not str(source_id).strip():
+        return True
+    try:
+        r = supabase.table("sources").select("source_id").eq("source_id", source_id).limit(1).execute()
+        if r.data and len(r.data) > 0:
+            return True
+    except APIError:
+        pass
+    name = (source_info or {}).get("name") or source_id
+    url = (source_info or {}).get("url") or ""
+    try:
+        supabase.table("sources").upsert([{"source_id": source_id, "name": name, "url": url or None}], on_conflict="source_id").execute()
+        print(f"Created source: source_id={source_id} name={name}", file=sys.stderr)
+        return True
+    except APIError as e:
+        print(f"Warning: sources に {source_id} を作成できませんでした: {e}", file=sys.stderr)
+        return False
+
+
+def ensure_era_exists(supabase: Client, era_id: str) -> bool:
+    """eras テーブルに era_id が存在するか確認。なければ最小限の情報で作成。"""
+    if not era_id or not str(era_id).strip():
+        return True
+    try:
+        r = supabase.table("eras").select("era_id").eq("era_id", era_id).limit(1).execute()
+        if r.data and len(r.data) > 0:
+            return True
+    except APIError:
+        pass
+    try:
+        supabase.table("eras").upsert([{"era_id": era_id, "name": era_id}], on_conflict="era_id").execute()
+        print(f"Created era: era_id={era_id}", file=sys.stderr)
+        return True
+    except APIError as e:
+        print(f"Warning: eras に {era_id} を作成できませんでした: {e}", file=sys.stderr)
+        return False
 
 
 def upsert_master_texts(supabase: Client, rows: list[dict], on_conflict: str = "common_id") -> int:
@@ -358,24 +415,30 @@ def upsert_master_texts(supabase: Client, rows: list[dict], on_conflict: str = "
 
 
 def upsert_scrolls(supabase: Client, row: dict, on_conflict: str = "scroll_id") -> None:
-    """scrolls テーブルに upsert（1行）。source_id の FK 違反時は source_id を除外してリトライ。"""
+    """scrolls テーブルに upsert（1行）。FK 違反や未存在カラム時は該当カラムを除外してリトライ。"""
     if not row:
         return
     filtered = {k: row[k] for k in SCROLLS_COLUMNS if k in row}
     if not filtered:
         return
-    try:
-        supabase.table("scrolls").upsert([filtered], on_conflict=on_conflict).execute()
-    except APIError as e:
-        if str(getattr(e, "code", "")) == "23503" and "source_id" in filtered:
-            filtered_no_source = {k: v for k, v in filtered.items() if k != "source_id"}
-            if filtered_no_source:
-                print("source_id FK violation: retrying without source_id", file=sys.stderr)
-                supabase.table("scrolls").upsert([filtered_no_source], on_conflict=on_conflict).execute()
+    optional_columns = ("version_id", "source_id", "era_id")
+    attempts = [filtered]
+    for opt in optional_columns:
+        if opt in filtered:
+            reduced = {k: v for k, v in filtered.items() if k != opt}
+            if reduced and reduced not in attempts:
+                attempts.append(reduced)
+    for i, payload in enumerate(attempts):
+        try:
+            supabase.table("scrolls").upsert([payload], on_conflict=on_conflict).execute()
+            if i > 0:
+                print(f"Upsert succeeded after skipping: {set(attempts[0]) - set(payload)}", file=sys.stderr)
+            return
+        except APIError as e:
+            if i < len(attempts) - 1:
+                print(f"Retrying without optional column: {e}", file=sys.stderr)
             else:
                 raise
-        else:
-            raise
 
 
 def _filter_row(row: dict, columns: tuple[str, ...]) -> dict:
@@ -407,6 +470,65 @@ def upsert_images(supabase: Client, rows: list[dict], on_conflict: str = "image_
         return
     filtered = [_filter_row(r, IMAGES_COLUMNS) for r in rows]
     supabase.table("images").upsert(filtered, on_conflict=on_conflict).execute()
+
+
+def upsert_keywords_and_scroll_keywords(supabase: Client, scroll_id: str, keywords: list[dict]) -> int:
+    """keywords マスタを更新し、scroll_keywords 中間テーブルに紐付けを Upsert。"""
+    if not keywords or not isinstance(keywords, list):
+        return 0
+    keyword_ids = []
+    for kw in keywords:
+        if not isinstance(kw, dict):
+            continue
+        kid = kw.get("id") or kw.get("slug")
+        if not kid or not str(kid).strip():
+            continue
+        name = kw.get("name") or str(kid)
+        slug = kw.get("slug") or str(kid).lower().replace(" ", "-")
+        try:
+            supabase.table("keywords").upsert([{"keyword_id": kid, "name": name, "slug": slug}], on_conflict="keyword_id").execute()
+            keyword_ids.append(kid)
+        except APIError as e:
+            print(f"Warning: keyword {kid} を upsert できませんでした: {e}", file=sys.stderr)
+    if not keyword_ids:
+        return 0
+    rows = [{"scroll_id": scroll_id, "keyword_id": kid} for kid in keyword_ids]
+    try:
+        supabase.table("scroll_keywords").upsert(rows, on_conflict="scroll_id,keyword_id").execute()
+        return len(rows)
+    except APIError as e:
+        print(f"Warning: scroll_keywords の upsert に失敗しました: {e}", file=sys.stderr)
+        return 0
+
+
+def upsert_personnames_and_scroll_personnames(supabase: Client, scroll_id: str, personnames: list[dict]) -> int:
+    """personnames マスタを更新し、scroll_personnames 中間テーブルに紐付けを Upsert。"""
+    if not personnames or not isinstance(personnames, list):
+        return 0
+    pids = []
+    for p in personnames:
+        if not isinstance(p, dict):
+            continue
+        pid = p.get("id") or p.get("slug")
+        if not pid or not str(pid).strip():
+            continue
+        name = p.get("name") or str(pid)
+        name_en = p.get("name_en") or p.get("nameen") or str(pid)
+        slug = p.get("slug") or str(pid).lower().replace(" ", "-")
+        try:
+            supabase.table("personnames").upsert([{"id": pid, "name": name, "name_en": name_en, "slug": slug}], on_conflict="id").execute()
+            pids.append(pid)
+        except APIError as e:
+            print(f"Warning: personname {pid} を upsert できませんでした: {e}", file=sys.stderr)
+    if not pids:
+        return 0
+    rows = [{"scroll_id": scroll_id, "personname_id": pid} for pid in pids]
+    try:
+        supabase.table("scroll_personnames").upsert(rows, on_conflict="scroll_id,personname_id").execute()
+        return len(rows)
+    except APIError as e:
+        print(f"Warning: scroll_personnames の upsert に失敗しました: {e}", file=sys.stderr)
+        return 0
 
 
 def main() -> None:
@@ -522,15 +644,37 @@ def main() -> None:
         return
 
     supabase = get_supabase()
-    # 実行順序: 1. master_texts 2. scrolls 3. scene_titles 4. images（外部キー制約のため）
+    # 実行順序（外部キー制約のため）:
+    # STEP A: マスタの事前確保 → STEP B: scrolls → STEP C: 多対多(keywords) → master_texts → scene_titles → images
+    scrolls_row = build_scrolls_row(metadata, scroll_id) if metadata else None
+
+    if scrolls_row:
+        # STEP A: source_id, era_id の FK を満たすためマスタを事前確保
+        source_id_val = scrolls_row.get("source_id") or ""
+        era_id_val = scrolls_row.get("era_id") or ""
+        if source_id_val:
+            ensure_source_exists(supabase, source_id_val, metadata.get("source_info") if metadata else None)
+        if era_id_val:
+            ensure_era_exists(supabase, era_id_val)
+
     master_texts_rows = build_master_texts_rows(metadata, theme_id) if metadata else []
     if master_texts_rows:
         n = upsert_master_texts(supabase, master_texts_rows)
         print(f"Upserted master_texts: {n} rows", file=sys.stderr)
-    scrolls_row = build_scrolls_row(metadata, scroll_id) if metadata else None
     if scrolls_row:
         upsert_scrolls(supabase, scrolls_row)
         print("Upserted scrolls: 1 row", file=sys.stderr)
+        # STEP C: keywords / personnames マスタ → 中間テーブル
+        keywords_list = (metadata or {}).get("keywords") or []
+        if keywords_list:
+            n_kw = upsert_keywords_and_scroll_keywords(supabase, scrolls_row["scroll_id"], keywords_list)
+            if n_kw:
+                print(f"Upserted scroll_keywords: {n_kw} links", file=sys.stderr)
+        personnames_list = (metadata or {}).get("personnames") or []
+        if personnames_list:
+            n_p = upsert_personnames_and_scroll_personnames(supabase, scrolls_row["scroll_id"], personnames_list)
+            if n_p:
+                print(f"Upserted scroll_personnames: {n_p} links", file=sys.stderr)
     upsert_scene_titles(supabase, scene_title_rows)
     upsert_images(supabase, image_rows)
     parts = [f"scene_titles={len(scene_title_rows)}", f"images={len(image_rows)}"]

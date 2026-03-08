@@ -1,0 +1,98 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": [
+    "scroll_id",
+    "title",
+    "theme_id",
+    "era_id",
+    "source_id",
+    "version_id",
+    "desc"
+  ],
+  "properties": {
+    "scroll_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "title": {
+      "type": "string"
+    },
+    "title_en": {
+      "type": "string"
+    },
+    "theme_id": {
+      "type": "string"
+    },
+    "era_id": {
+      "type": "string"
+    },
+    "author_id": {
+      "type": "string",
+      "default": "unknown"
+    },
+    "type_id": {
+      "type": "string",
+      "default": "emaki"
+    },
+    "source_id": {
+      "type": "string"
+    },
+    "version_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "desc": {
+      "type": "string"
+    },
+    "desc_en": {
+      "type": "string"
+    },
+    "thumb": {
+      "type": "string"
+    },
+    "favorite": {
+      "type": "boolean"
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "master_texts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "common_id",
+          "title",
+          "description"
+        ],
+        "properties": {
+          "common_id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

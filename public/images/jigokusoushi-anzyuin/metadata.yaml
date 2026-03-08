@@ -1,18 +1,28 @@
-# 作品基本情報
-title: "地獄草紙（安住院本）"
+# ==========================================
+# 作品基本情報 (scrollsテーブルに直接対応)
+# ==========================================
+
 scroll_id: "jigokusoushi-anzyuin"
+title: "地獄草紙（安住院本）"
+title_en: "Hell Scroll (Anzyuin Version)"
 theme_id: "jigoku-zoushi"
-# ... (以前のメタデータ項目)
-era_id: "heian"
-author_id: "unknown"
+era_id: "heian"         # ※ DBのerasテーブルに "heian" がある前提
+author_id: "unknown"    # ※ DBのauthorsテーブルに "unknown" がある前提
 type_id: "emaki"
-source_id: "tokyo-national-museum" # 東京国立博物館（安住院旧蔵）
-description: "平安時代末期に制作された地獄草紙。安住院に伝来したもので、火末虫地獄や雲火霧地獄など、凄惨ながらもどこかユーモラスな鬼の描写が特徴です。"
-description_en: "A late Heian period Hell Scroll formerly owned by Anzyuin. It vividly depicts various Buddhist hells with a touch of caricature in its demonic figures."
-thumbnail: "/jigokusoushi_anzyuin_thumb.webp"
+source_id: "tnm"        # 東京国立博物館の略称ID。DBのsourcesテーブルに登録が必要
+version_id: 1           # 必須カラム対策
+
+# スキーマキャッシュエラー回避のためのカラム名調整
+desc: "平安時代末期に制作された地獄草紙。安住院に伝来したもので、火末虫地獄や雲火霧地獄など、凄惨ながらもどこかユーモラスな鬼の描写が特徴です。"
+desc_en: "A late Heian period Hell Scroll formerly owned by Anzyuin. It vividly depicts various Buddhist hells with a touch of caricature in its demonic figures."
+thumb: "/jigokusoushi_anzyuin_thumb.webp"
 favorite: true
 
-# 属性情報（中間テーブルやメタデータに対応）
+# ==========================================
+# 属性情報（中間テーブル登録用ロジックで利用）
+# ==========================================
+# ※ scrollsテーブルに直接プッシュせず、スクリプト側で
+#    scroll_keywords / scroll_personnames テーブルに振り分ける
 keywords:
   - id: "hell"
     name: "地獄"
@@ -21,15 +31,19 @@ keywords:
   - id: "demon"
     name: "鬼"
 
-# 出典・参照
-source:
+# ==========================================
+# 出典・参照 (別テーブル、またはJSONBカラム用)
+# ==========================================
+source_info:
   name: "地獄草紙（ColBase）"
   url: "https://colbase.nich.go.jp/collection_items/tnm/A-10942?locale=ja"
 references:
   - title: "『餓鬼草紙 地獄草紙 病草紙 九相詩絵巻』（日本絵巻大成7 中央公論社）"
     url: "https://rb.gy/r3nghf"
 
+# ==========================================
 # master_texts へのアップロード用データ
+# ==========================================
 master_texts:
   - common_id: "jigoku-anzyuin-1"
     title: "髪火流"
