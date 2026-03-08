@@ -1,0 +1,67 @@
+
+# ==========================================
+# 作品基本情報 (scrollsテーブルに直接対応)
+# ==========================================
+scroll_id: "jigokusoushi-genke"
+title: "地獄草紙（原家本）"
+title_en: "Hell Scroll (Genke Version)" # titleen から人間が読める形式に修正
+theme_id: "jigoku-zoushi"               # JSONにはなかった必須項目を補完
+era_id: "heian"                         # "heiann" (typo) を正規化
+author_id: "unknown-author"                    # 空文字をマスタのIDに変換
+type_id: "emaki"
+source_id: "narahaku"                   # sourceImageUrl から奈良国立博物館のIDを特定
+version_id: 1                           # 必須カラムを追加
+
+# 物理カラム名に準拠
+desc: "奈良国立博物館に所蔵される地獄草紙の一つ。かつて原家が所蔵していたことから「原家本」と呼ばれます。火象地獄（かぞうじぎ獄）など、他の地獄草紙には見られない場面が含まれています。" # 空だったので解説を追加
+desc_en: "A Hell Scroll kept at the Nara National Museum, formerly in the Genke family collection. It features unique scenes such as the Hell of Fiery Elephants."
+thumb: "thumbnails/jigokusoushi_genke_thumb.webp"
+favorite: false
+
+# ==========================================
+# 属性情報
+# ==========================================
+keywords:
+  - id: "hell"
+    name: "地獄"
+  - id: "buddhism"
+    name: "仏教"
+  - id: "demon"
+    name: "鬼"
+
+# ==========================================
+# 出典・参照
+# ==========================================
+source_info:
+  name: "地獄草紙（ColBase）"
+  url: "https://colbase.nich.go.jp/collection_items/narahaku/644-0?locale=ja"
+
+references:
+  - title: "『餓鬼草紙 地獄草紙 病草紙 九相詩絵巻』（日本絵巻大成7 中央公論社）"
+    url: "https://rb.gy/r3nghf"
+
+# ==========================================
+# master_texts（ここは別途画像に合わせて作成が必要）
+# ==========================================
+master_texts:
+  - common_id: "jigoku-genke-1"
+    title: "屎糞所（しふんしょ）"
+    description: "ここに解説文を入力してください。"
+  - common_id: "jigoku-genke-2"
+    title: "函量所（かんりょうしょ）"
+    description: "ここに解説文を入力してください。"
+  - common_id: "jigoku-genke-3"
+    title: "鉄鎧所（てつがいしょ）"
+    description: "ここに解説文を入力してください。"
+  - common_id: "jigoku-genke-4"
+    title: "鶏地獄（とりじごく）"
+    description: "ここに解説文を入力してください。"
+  - common_id: "jigoku-genke-5"
+    title: "黒雲沙（こくうんしゃ）"
+    description: "ここに解説文を入力してください。"
+  - common_id: "jigoku-genke-6"
+    title: "濃血所（のうけつしょ）"
+    description: "ここに解説文を入力してください。"
+  - common_id: "jigoku-genke-7"
+    title: "狐狼地獄（ころうじごく）"
+    description: "ここに解説文を入力してください。"
