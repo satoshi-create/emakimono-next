@@ -1,0 +1,25 @@
+# 依存関係
+node_modules/
+.next/
+out/
+build/
+
+# 環境変数・ログ・シークレット
+.env
+.env.*
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS関連のファイル
+.DS_Store
+Thumbs.db
+
+# バージョン管理・その他
+.git/
+.cursor/
+*.tsbuildinfo
+
+# 不要なアセットや一時ファイル
+	public/

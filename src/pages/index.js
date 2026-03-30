@@ -75,6 +75,26 @@ const Home = ({ scrollList = [] }) => {
   );
 };
 
+const REVALIDATE_SECONDS = 86400;
+
+function scrollListFromMetadataCache(metadataCache) {
+  return metadataCache.map((c) => ({
+    id: c.id,
+    title: c.title,
+    titleen: c.titleen,
+    scroll_id: c.scroll_id ?? c.titleen,
+    thumbnail: c.thumb,
+    author: c.author,
+    authoren: c.authoren ?? c.author,
+    era: c.era,
+    eraen: c.eraen ?? c.era,
+    description: c.desc ?? "",
+    type: c.type ?? "絵巻",
+    typeen: c.typeen ?? "emaki",
+    keyword: c.keyword ?? [],
+  }));
+}
+
 export const getStaticProps = async ({ locale }) => {
   let scrollList = [];
   try {
@@ -83,9 +103,10 @@ export const getStaticProps = async ({ locale }) => {
     console.warn("Supabase getScrollList failed, using fallback list:", e?.message);
   }
 
+  const metadataCache = require("@/data/image-metadata-cache/image-metadata-cache.json");
+
   // リンク先を Supabase の scroll_id（例: choju-giga-yamazaki-kou）で統一。DB の titleen があればそれを使用
   if (scrollList.length > 0) {
-    const metadataCache = require("@/data/image-metadata-cache/image-metadata-cache.json");
     scrollList = scrollList.map((s) => {
       const cached = metadataCache.find((c) => c.id === s.id);
       return {
@@ -97,6 +118,9 @@ export const getStaticProps = async ({ locale }) => {
         eraen: s.eraen ?? cached?.eraen ?? s.era,
       };
     });
+  } else {
+    scrollList = scrollListFromMetadataCache(metadataCache);
+    console.warn("Supabase 一覧が空のため image-metadata-cache を使用しました");
   }
 
   return {
@@ -104,6 +128,7 @@ export const getStaticProps = async ({ locale }) => {
       ...(await serverSideTranslations(locale ?? "ja", ["common"])),
       scrollList,
     },
+    revalidate: REVALIDATE_SECONDS,
   };
 };
 

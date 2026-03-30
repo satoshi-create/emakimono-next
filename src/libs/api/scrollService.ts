@@ -10,16 +10,22 @@ import type {
  * 指定した scroll_id のメタデータを取得する（scrolls/[id] 詳細ページ用）
  */
 export const getScrollData = async (scrollId: string): Promise<ScrollResponse | null> => {
-  const { data, error } = await supabase.rpc('get_scroll_metadata', {
-    target_id: scrollId,
-  });
+  try {
+    const { data, error } = await supabase.rpc('get_scroll_metadata', {
+      target_id: scrollId,
+    });
 
-  if (error) {
-    console.error('データ取得に失敗しました:', error.message);
+    if (error) {
+      console.error('データ取得に失敗しました:', error.message);
+      return null;
+    }
+
+    return data as ScrollResponse;
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    console.error('getScrollData: Supabase 接続エラー:', msg);
     return null;
   }
-
-  return data as ScrollResponse;
 };
 
 /**
@@ -27,16 +33,22 @@ export const getScrollData = async (scrollId: string): Promise<ScrollResponse | 
  * RPC の target_id が数値 id の場合はこちらを使用する
  */
 export const getScrollMetadataById = async (id: number): Promise<ScrollResponse | null> => {
-  const { data, error } = await supabase.rpc('get_scroll_metadata', {
-    target_id: id,
-  });
+  try {
+    const { data, error } = await supabase.rpc('get_scroll_metadata', {
+      target_id: id,
+    });
 
-  if (error) {
-    console.error('メタデータ取得に失敗しました:', error.message);
+    if (error) {
+      console.error('メタデータ取得に失敗しました:', error.message);
+      return null;
+    }
+
+    return data as ScrollResponse;
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    console.error('getScrollMetadataById: Supabase 接続エラー:', msg);
     return null;
   }
-
-  return data as ScrollResponse;
 };
 
 /**
@@ -46,53 +58,59 @@ export const getScrollMetadataById = async (id: number): Promise<ScrollResponse 
 export const getEmakiDetail = async (
   scrollId: string
 ): Promise<EmakiDetailResponse | null> => {
-  console.log('[getEmakiDetail] 呼び出し開始 target_id (scrollId):', JSON.stringify(scrollId), '| type:', typeof scrollId, '| length:', scrollId?.length);
+  try {
+    console.log('[getEmakiDetail] 呼び出し開始 target_id (scrollId):', JSON.stringify(scrollId), '| type:', typeof scrollId, '| length:', scrollId?.length);
 
-  const { data, error } = await supabase.rpc('get_emaki_data', {
-    target_id: scrollId,
-  });
-
-  console.log('[getEmakiDetail] RPC data:', data === null ? 'null' : JSON.stringify(data, null, 2));
-
-  if (error) {
-    console.error('[getEmakiDetail] RPC error:', {
-      message: error.message,
-      details: error.details,
-      hint: error.hint,
-      code: error.code,
-      full: JSON.stringify(error, null, 2),
+    const { data, error } = await supabase.rpc('get_emaki_data', {
+      target_id: scrollId,
     });
+
+    console.log('[getEmakiDetail] RPC data:', data === null ? 'null' : JSON.stringify(data, null, 2));
+
+    if (error) {
+      console.error('[getEmakiDetail] RPC error:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code,
+        full: JSON.stringify(error, null, 2),
+      });
+      return null;
+    }
+
+    // RPC が配列 [{emakis, metadata}] またはオブジェクト {emakis, metadata} で返る場合に対応
+    const actualData = Array.isArray(data) ? data[0] : data;
+
+    if (!actualData || !actualData.emakis) {
+      console.warn('[getEmakiDetail] data または emakis が不正:', {
+        hasData: !!data,
+        hasActualData: !!actualData,
+        dataKeys: actualData ? Object.keys(actualData) : [],
+        emakisType: actualData?.emakis ? typeof actualData.emakis : 'undefined',
+        emakisIsArray: Array.isArray(actualData?.emakis),
+      });
+      return null;
+    }
+
+    if (!Array.isArray(actualData.emakis)) {
+      console.warn('[getEmakiDetail] emakis が配列ではありません');
+      return null;
+    }
+
+    const sortedEmakis = [...actualData.emakis].sort(
+      (a: { sort_key?: number }, b: { sort_key?: number }) =>
+        (a.sort_key ?? 0) - (b.sort_key ?? 0)
+    );
+
+    return {
+      emakis: sortedEmakis,
+      metadata: actualData.metadata ?? undefined,
+    };
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    console.error('getEmakiDetail: Supabase 接続エラー:', msg);
     return null;
   }
-
-  // RPC が配列 [{emakis, metadata}] またはオブジェクト {emakis, metadata} で返る場合に対応
-  const actualData = Array.isArray(data) ? data[0] : data;
-
-  if (!actualData || !actualData.emakis) {
-    console.warn('[getEmakiDetail] data または emakis が不正:', {
-      hasData: !!data,
-      hasActualData: !!actualData,
-      dataKeys: actualData ? Object.keys(actualData) : [],
-      emakisType: actualData?.emakis ? typeof actualData.emakis : 'undefined',
-      emakisIsArray: Array.isArray(actualData?.emakis),
-    });
-    return null;
-  }
-
-  if (!Array.isArray(actualData.emakis)) {
-    console.warn('[getEmakiDetail] emakis が配列ではありません');
-    return null;
-  }
-
-  const sortedEmakis = [...actualData.emakis].sort(
-    (a: { sort_key?: number }, b: { sort_key?: number }) =>
-      (a.sort_key ?? 0) - (b.sort_key ?? 0)
-  );
-
-  return {
-    emakis: sortedEmakis,
-    metadata: actualData.metadata ?? undefined,
-  };
 };
 
 /**
@@ -100,12 +118,18 @@ export const getEmakiDetail = async (
  * SQL で id 昇順になっている前提でそのまま返す
  */
 export const getScrollList = async (): Promise<ScrollMetadata[]> => {
-  const { data, error } = await supabase.rpc('get_all_scroll_metadata');
+  try {
+    const { data, error } = await supabase.rpc('get_all_scroll_metadata');
 
-  if (error) {
-    console.error('一覧取得に失敗しました:', error.message);
+    if (error) {
+      console.error('一覧取得に失敗しました:', error.message);
+      return [];
+    }
+
+    return (data ?? []) as ScrollMetadata[];
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    console.error('getScrollList: Supabase 接続エラー:', msg);
     return [];
   }
-
-  return (data ?? []) as ScrollMetadata[];
 };

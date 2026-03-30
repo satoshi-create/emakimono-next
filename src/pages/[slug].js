@@ -196,6 +196,52 @@ const Emaki = ({ data, scrollList = [], locale, locales, slug, test }) => {
   );
 };
 
+const REVALIDATE_SECONDS = 86400;
+
+function findCachedScrollEntry(metadataCache, slug) {
+  return metadataCache.find(
+    (item) =>
+      item.titleen === slug ||
+      (item.scroll_id != null && item.scroll_id === slug),
+  );
+}
+
+function scrollListFromMetadataCache(metadataCache) {
+  return metadataCache.map((m) => ({
+    scroll_id: m.titleen,
+    titleen: m.titleen,
+    title: m.title,
+    theme_id: m.theme_id ?? null,
+    era: m.era,
+    eraen: m.eraen,
+    type: m.type,
+    typeen: m.typeen,
+    thumbnail: m.thumb,
+    thumb: m.thumb,
+  }));
+}
+
+function cacheEntryToMeta(cacheEntry, pathSlug) {
+  return {
+    id: cacheEntry.id,
+    title: cacheEntry.title,
+    scroll_id: cacheEntry.scroll_id ?? pathSlug,
+    author: cacheEntry.author ?? "",
+    authoren: cacheEntry.authoren ?? cacheEntry.author ?? "",
+    type: cacheEntry.type ?? "絵巻",
+    typeen: cacheEntry.typeen ?? "emaki",
+    era: cacheEntry.era ?? "",
+    eraen: cacheEntry.eraen ?? cacheEntry.era ?? "",
+    description: cacheEntry.desc ?? cacheEntry.description ?? "",
+    description_en: cacheEntry.descen ?? cacheEntry.description_en ?? "",
+    thumbnail: cacheEntry.thumb ?? "",
+    source: {
+      url: cacheEntry.sourceImageUrl ?? "#",
+      name: cacheEntry.sourceImage ?? "",
+    },
+  };
+}
+
 export const getStaticPaths = async () => {
   try {
     const { getScrollList } = await import("@/libs/api/scrollService");
@@ -206,7 +252,7 @@ export const getStaticPaths = async () => {
         locale: "ja",
       }));
       const pathsEn = paths.map((p) => ({ ...p, locale: "en" }));
-      return { paths: [...paths, ...pathsEn], fallback: false };
+      return { paths: [...paths, ...pathsEn], fallback: "blocking" };
     }
   } catch (e) {
     console.warn("getStaticPaths: getScrollList failed, using cache", e?.message);
@@ -216,7 +262,7 @@ export const getStaticPaths = async () => {
     locale: "ja",
   }));
   paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
-  return { paths, fallback: false };
+  return { paths, fallback: "blocking" };
 };
 
 export const getStaticProps = async (context) => {
@@ -227,16 +273,13 @@ export const getStaticProps = async (context) => {
 
   const metadataCache = require("@/data/image-metadata-cache/image-metadata-cache.json");
 
-  // 1) slug がキャッシュの titleen（旧URL）の場合は baseMeta から scroll_id を解決
   let baseMeta = metadataCache.find((item) => item.titleen === slug);
-  let scrollId = null;
+  let scrollId = slug;
 
   if (baseMeta) {
     console.log("[slug] slug が titleen でヒット baseMeta.id:", baseMeta.id);
     const scrollMeta = await getScrollMetadataById(baseMeta.id);
-    scrollId = scrollMeta?.metadata?.scroll_id ?? null;
-  } else {
-    scrollId = slug;
+    scrollId = scrollMeta?.metadata?.scroll_id ?? slug;
   }
 
   console.log("[slug] 解決後の scrollId:", JSON.stringify(scrollId));
@@ -246,19 +289,39 @@ export const getStaticProps = async (context) => {
     return { notFound: true };
   }
 
-  const [viewerData, scrollListFromDb] = await Promise.all([
+  const [viewerDataRaw, scrollListFromDb] = await Promise.all([
     getEmakiDetail(scrollId),
     getScrollList(),
   ]);
+
+  let viewerData = viewerDataRaw;
+  let fallbackCacheEntry = null;
+
+  if (!viewerData?.emakis?.length) {
+    fallbackCacheEntry = baseMeta || findCachedScrollEntry(metadataCache, slug);
+    if (fallbackCacheEntry?.emakis?.length) {
+      console.warn("[slug] Supabase 未取得のため image-metadata-cache を使用:", slug);
+      viewerData = {
+        emakis: fallbackCacheEntry.emakis,
+        metadata: {},
+      };
+    }
+  }
+
   console.log("[slug] getStaticProps viewerData:", viewerData ? { emakisCount: viewerData.emakis?.length, hasMetadata: !!viewerData.metadata } : null);
 
-  if (!viewerData || !viewerData.emakis || viewerData.emakis.length === 0) {
+  if (!viewerData?.emakis?.length) {
     console.error("[slug] viewerData 不足のため notFound:", {
       hasViewerData: !!viewerData,
       emakisLength: viewerData?.emakis?.length ?? 0,
     });
     return { notFound: true };
   }
+
+  const scrollList =
+    scrollListFromDb.length > 0
+      ? scrollListFromDb
+      : scrollListFromMetadataCache(metadataCache);
 
   if (baseMeta) {
     const metaFromViewer = viewerData.metadata || {};
@@ -274,24 +337,15 @@ export const getStaticProps = async (context) => {
       authoren: baseMeta.authoren ?? baseMeta.author,
       type: baseMeta.type,
       typeen: baseMeta.typeen ?? baseMeta.type,
-      description: metaFromViewer.description ?? baseMeta.description ?? baseMeta.desc,
-      description_en: metaFromViewer.description_en ?? baseMeta.description_en ?? baseMeta.descen,
+      description:
+        metaFromViewer.description ?? baseMeta.description ?? baseMeta.desc ?? "",
+      description_en:
+        metaFromViewer.description_en ??
+        baseMeta.description_en ??
+        baseMeta.descen ??
+        "",
       emakis: viewerData.emakis,
     };
-    const scrollList = scrollListFromDb.length > 0
-      ? scrollListFromDb
-      : metadataCache.map((m) => ({
-          scroll_id: m.titleen,
-          titleen: m.titleen,
-          title: m.title,
-          theme_id: m.theme_id ?? null,
-          era: m.era,
-          eraen: m.eraen,
-          type: m.type,
-          typeen: m.typeen,
-          thumbnail: m.thumb,
-          thumb: m.thumb,
-        }));
     return {
       props: {
         ...(await serverSideTranslations(locale, ["common"])),
@@ -301,14 +355,31 @@ export const getStaticProps = async (context) => {
         locale,
         slug: slug,
       },
-      revalidate: 60,
+      revalidate: REVALIDATE_SECONDS,
     };
   }
 
   const scrollMeta = await getScrollData(scrollId);
-  const meta = scrollMeta?.metadata;
+  let meta = scrollMeta?.metadata;
+
+  if (
+    !meta &&
+    viewerData.metadata &&
+    typeof viewerData.metadata === "object" &&
+    "title" in viewerData.metadata
+  ) {
+    meta = viewerData.metadata;
+  }
+
   if (!meta) {
-    console.error("[slug] getScrollData の meta が取得できないため notFound:", {
+    const cachedForMeta = fallbackCacheEntry || findCachedScrollEntry(metadataCache, slug);
+    if (cachedForMeta) {
+      meta = cacheEntryToMeta(cachedForMeta, slug);
+    }
+  }
+
+  if (!meta) {
+    console.error("[slug] メタデータが取得できないため notFound:", {
       scrollId,
       hasScrollMeta: !!scrollMeta,
       hasMetadata: !!scrollMeta?.metadata,
@@ -339,21 +410,6 @@ export const getStaticProps = async (context) => {
     ...(viewerData.metadata || {}),
   };
 
-  const scrollList = scrollListFromDb.length > 0
-    ? scrollListFromDb
-    : metadataCache.map((m) => ({
-        scroll_id: m.titleen,
-        titleen: m.titleen,
-        title: m.title,
-        theme_id: m.theme_id ?? null,
-        era: m.era,
-        eraen: m.eraen,
-        type: m.type,
-        typeen: m.typeen,
-        thumbnail: m.thumb,
-        thumb: m.thumb,
-      }));
-
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
@@ -363,7 +419,7 @@ export const getStaticProps = async (context) => {
       locale,
       slug: slug,
     },
-    revalidate: 60,
+    revalidate: REVALIDATE_SECONDS,
   };
 };
 
