@@ -4,12 +4,14 @@
 
 ## 命名規則
 
-- **Cloudinary public_id**: `{scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d}`  
+- **Cloudinary public_id**: `{scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d}`
   例: `choju-giga-yamazaki-hei_3_01_01`（`ordinal` は章内の通し番号、1枚目なら 01）
 - **DB `images.index`**: YAML の `range` の値（グローバルなフレーム番号 1, 2, … 14）
 - **新形式のローカルファイル名**: 上記 public_id と同じ（例: `choju-giga-yamazaki-hei_3_01_01.jpg`）
 
 ### 古いファイル名の自動紐付け（手動リネーム不要）
+
+
 
 `images/{scroll_id}/` 以下を**再帰的に**走査し、次のパターンで連番を検出します。
 
