@@ -6,11 +6,11 @@ scenes:
   - scene_id: 1
     common_id: "choju_m_01"
     title: "兎と猿の川遊び"
-    range: [1, 2, 3, 4]  # ← ここが 4 つ数字があるか？
+    range: [1, 4]  # 1から4まで（1, 2, 3, 4 を含む）
   - scene_id: 2
     common_id: "choju_m_02"
     title: "兎と蛙の神事弓くらべ"
-    range: [5, 6, 7, 8, 9, 10] # ← ここが 6 つあるか？
+    range: [5, 10] # 5から10まで（5, 6, 7, 8, 9, 10 を含む）
   - scene_id: 3
     common_id: "choju_m_03"
     title: "猿僧正、神供を賜る"
@@ -30,7 +30,7 @@ scenes:
   - scene_id: 7
     common_id: "choju_m_07"
     title: "猿、双六盤を運ぶ"
-    range: [19]
+    range: [19, 19] # 1枚のみの場合も [start, end] 形式にする
   - scene_id: 8
     common_id: "choju_m_08"
     title: "猿僧正、年忌法要を司る"
