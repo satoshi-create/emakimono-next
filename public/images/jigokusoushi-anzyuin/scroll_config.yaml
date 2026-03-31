@@ -1,0 +1,21 @@
+scroll_id: "jigokusoushi-anzyuin"
+volume_num: 1
+theme_id: "jigoku-zoushi"
+folder: "emakimono"
+scenes:
+  - scene_id: 1
+    common_id: "jigoku-anzyuin-1"
+    title: "叫喚地獄第三別所・髪火流"
+    range: [1, 2]
+  - scene_id: 2
+    common_id: "jigoku-anzyuin-2"
+    title: "叫喚地獄第四別所・火末虫"
+    range: [3, 4]
+  - scene_id: 3
+    common_id: "jigoku-anzyuin-3"
+    title: "叫喚地獄第十五別所・雲火霧"
+    range: [5, 6]
+  - scene_id: 4
+    common_id: "jigoku-anzyuin-4"
+    title: "叫喚地獄第六別所・雨炎火石"
+    range: [7, 8]
