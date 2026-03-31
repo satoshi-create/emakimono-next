@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Scroll Config Schema",
+  "description": "Schema for emakimono-next scroll synchronization configuration",
+  "type": "object",
+  "required": [
+    "scroll_id",
+    "volume_num",
+    "theme_id",
+    "folder",
+    "scenes"
+  ],
+  "properties": {
+    "scroll_id": {
+      "type": "string",
+      "description": "作品の一意なID。フォルダ名と一致させる必要があります。"
+    },
+    "volume_num": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "巻数（1, 2, ...）"
+    },
+    "theme_id": {
+      "type": "string",
+      "description": "作品のカテゴリID。"
+    },
+    "folder": {
+      "type": "string",
+      "default": "emakimono",
+      "description": "Cloudinary内の保存先フォルダ名。"
+    },
+    "scenes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "scene_id",
+          "common_id",
+          "title",
+          "range"
+        ],
+        "properties": {
+          "scene_id": {
+            "type": "integer",
+            "description": "シーンの連番。"
+          },
+          "common_id": {
+            "type": "string",
+            "description": "マスターテキストと紐付けるID（例: choju_m_01）。"
+          },
+          "title": {
+            "type": "string",
+            "description": "シーンのタイトル。"
+          },
+          "range": {
+            "type": "array",
+            "description": "画像の開始番号と終了番号。必ず2つの数値を指定します。",
+            "items": {
+              "type": "integer"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        }
+      }
+    }
+  }
+}

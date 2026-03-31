@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./scroll-config-schema.json
 scroll_id: "choju-giga-yamazaki-kou"
 volume_num: 1
 theme_id: "choju-giga"
