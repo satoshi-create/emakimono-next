@@ -19,7 +19,10 @@ Supabase schema:
   4. scene_titles / images (scroll_config.yaml)
 
 ID形式:
-  - public_id (Cloudinary): {scroll_id}__{scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d}
+  - scene_id（DB）: {scroll_id}_{volume_num}_{chapter:02d}
+  - public_id (Cloudinary): {scroll_id}__{scene_id}__{ordinal:02d}
+      例: choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__01
+  - 旧 public_id（ローカル画像のフォールバック探索のみ）: {scroll_id}__{scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d}
   - image_id: {folder}/{public_id}
   - common_id: YAML で指定、未指定時は {scroll_id}_{chapter}
 
@@ -52,8 +55,10 @@ from postgrest.exceptions import APIError
 
 
 
-# ファイル名中の _数字 を抽出（末尾や拡張子に依存せず、数字の後の文字は任意）
+# フォールバック用: 先頭の _数字（新形式ファイル名では巻 _1 に誤マッチするため主に使わない）
 INDEX_IN_FILENAME_RE = re.compile(r"_(\d+)", re.IGNORECASE)
+# 末尾の _連番-解像度（例: foo_03-1080 → 3）
+TRAILING_INDEX_RES_RE = re.compile(r"_(\d{1,5})(?:-\d{2,5})?$", re.IGNORECASE)
 
 # 画像拡張子（大文字小文字を区別しない）
 IMAGE_EXTENSIONS = (".jpg", ".jpeg", ".png", ".webp")
@@ -84,14 +89,37 @@ def ensure_env(name: str, optional_keys: list[str] | None = None) -> str:
     raise SystemExit(f"Missing env: {name} (or {optional_keys})")
 
 
-def image_public_id(scroll_id: str, volume_num: int, chapter: int, ordinal: int) -> str:
-    """Cloudinary public_id: ダブルID形式 {scroll_id}__{scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d}"""
-    return f"{scroll_id}__{scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d}"
-
-
 def scene_id(scroll_id: str, volume_num: int, chapter: int) -> str:
     """scene_titles.scene_id = {scroll_id}_{volume_num}_{chapter:02d}"""
     return f"{scroll_id}_{volume_num}_{chapter:02d}"
+
+
+def image_public_id(scroll_id: str, volume_num: int, chapter: int, ordinal: int) -> str:
+    """Cloudinary public_id: {scroll_id}__{scene_id}__{ordinal:02d}（scene_id と枝番は常に __ で区切る）。"""
+    sid = scene_id(scroll_id, volume_num, chapter)
+    return f"{scroll_id}__{sid}__{ordinal:02d}"
+
+
+def image_public_id_legacy_single_underscore_before_ordinal(
+    scroll_id: str, volume_num: int, chapter: int, ordinal: int
+) -> str:
+    """旧命名（chapter と ordinal の間が単一 _）。ローカルファイル名の探索用のみ。"""
+    return f"{scroll_id}__{scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d}"
+
+
+def find_image_file_for_public_id(
+    images_dir: Path,
+    scroll_id: str,
+    volume_num: int,
+    chapter: int,
+    ordinal: int,
+) -> Path | None:
+    """新 public_id を優先し、なければ旧 stem でも探索する。"""
+    primary = image_public_id(scroll_id, volume_num, chapter, ordinal)
+    legacy = image_public_id_legacy_single_underscore_before_ordinal(
+        scroll_id, volume_num, chapter, ordinal
+    )
+    return find_image_file(images_dir, primary) or find_image_file(images_dir, legacy)
 
 
 def find_image_file(images_dir: Path, base: str) -> Path | None:
@@ -107,9 +135,64 @@ def find_image_file(images_dir: Path, base: str) -> Path | None:
     return None
 
 
-def _extract_index_from_path(file_path: Path) -> int | None:
-    m = INDEX_IN_FILENAME_RE.search(file_path.stem)
-    return int(m.group(1)) if m else None
+def build_chapter_ordinal_to_global_index(config: dict) -> dict[tuple[int, int], int]:
+    """(YAML の scene/chapter ID, 章内 ordinal) → グローバル frame index（range の連番）。"""
+    out: dict[tuple[int, int], int] = {}
+    for ch_id, _title, gidx, ordinal in expand_chapters(config):
+        out[(ch_id, ordinal)] = gidx
+    return out
+
+
+def _parse_new_style_stem(
+    stem: str, scroll_id: str
+) -> tuple[int, int, int] | None:
+    """
+    新 public_id 茎または旧単一アンダー茎から (volume, chapter_id, ordinal) を取り出す。
+    - 新: {scroll_id}__{scroll_id}_{vol}_{ch:02d}__{ord}( -1080)?
+    - 旧: {scroll_id}__{scroll_id}_{vol}_{ch:02d}_{ord}( -1080)?
+    戻りの chapter_id は YAML の scene_id（1始まり）に対応する整数。
+    """
+    esc = re.escape(scroll_id)
+    for pat in (
+        esc + r"__" + esc + r"_(\d+)_(\d{2})__(\d{1,5})(?:-\d{2,5})?$",
+        esc + r"__" + esc + r"_(\d+)_(\d{2})_(\d{1,5})(?:-\d{2,5})?$",
+    ):
+        m = re.match(pat, stem, re.IGNORECASE)
+        if m:
+            vol_s, ch_s, ord_s = m.groups()
+            return (int(vol_s), int(ch_s, 10), int(ord_s, 10))
+    return None
+
+
+def _extract_index_from_path(
+    file_path: Path,
+    config: dict | None = None,
+    co_map: dict[tuple[int, int], int] | None = None,
+) -> int | None:
+    """
+    フォールバック用の「グローバル frame index」を 1 ファイルから推定する。
+    - 新命名（scroll_id 分かる）: (volume,chapter,ordinal) → co_map でグローバル番号へ
+    - 単純末尾 _NN(-1080): グローバル番号そのもの
+    - 最後の手段のみ先頭 _(\\d+)（従来互換・誤爆しうる）
+    """
+    stem = file_path.stem
+    scroll_id = (config or {}).get("scroll_id") if config else None
+
+    if scroll_id and co_map:
+        parsed = _parse_new_style_stem(stem, str(scroll_id))
+        if parsed:
+            _vol, chapter_from_stem, ordinal = parsed
+            # YAML の scene_id は 1,2,3…（scene_id() の 2 桁目はその id）
+            g = co_map.get((chapter_from_stem, ordinal))
+            if g is not None:
+                return g
+
+    m_tail = TRAILING_INDEX_RES_RE.search(stem)
+    if m_tail:
+        return int(m_tail.group(1), 10)
+
+    m = INDEX_IN_FILENAME_RE.search(stem)
+    return int(m.group(1), 10) if m else None
 
 
 def _resolution_from_path(file_path: Path) -> int:
@@ -122,8 +205,14 @@ def _resolution_from_path(file_path: Path) -> int:
     return 0
 
 
-def collect_images_by_index(images_dir: Path) -> dict[int, list[Path]]:
-    """画像を再帰的に収集。拡張子は大文字小文字を区別しない。"""
+def collect_images_by_index(
+    images_dir: Path, config: dict | None = None
+) -> dict[int, list[Path]]:
+    """画像を再帰的に収集し、グローバル frame index でバケット化。拡張子は大文字小文字を区別しない。"""
+    co_map: dict[tuple[int, int], int] | None = None
+    if config:
+        co_map = build_chapter_ordinal_to_global_index(config)
+
     index_to_paths: dict[int, list[Path]] = {}
     seen: set[Path] = set()
     for p in images_dir.rglob("*"):
@@ -132,7 +221,7 @@ def collect_images_by_index(images_dir: Path) -> dict[int, list[Path]]:
         if p.suffix.lower() not in IMAGE_EXT_SET:
             continue
         seen.add(p)
-        idx = _extract_index_from_path(p)
+        idx = _extract_index_from_path(p, config=config, co_map=co_map)
         if idx is not None:
             index_to_paths.setdefault(idx, []).append(p)
     for paths in index_to_paths.values():
@@ -571,9 +660,18 @@ def main() -> None:
     plan = build_images_plan(config)
     cloudinary_folder = os.environ.get("CLOUDINARY_FOLDER", "emakimono")
 
-    index_to_paths = collect_images_by_index(images_dir) if images_dir.exists() else {}
-    num_indices = len(index_to_paths)
-    print(f"Found {num_indices} images in {images_dir}", file=sys.stderr)
+    index_to_paths = (
+        collect_images_by_index(images_dir, config=config)
+        if images_dir.exists()
+        else {}
+    )
+    total_files = sum(len(v) for v in index_to_paths.values())
+    num_buckets = len(index_to_paths)
+    print(
+        f"Found {total_files} image file(s) in {images_dir} "
+        f"({num_buckets} global index bucket(s))",
+        file=sys.stderr,
+    )
     missing_indices: list[tuple[int, str]] = []
 
     image_rows = []
@@ -591,7 +689,13 @@ def main() -> None:
             src_val = os.environ.get(f"IMAGE_SRC_{public_id}", "")
             width_val, height_val = 0, 0
         else:
-            file_path = find_image_file(images_dir, public_id) if images_dir.exists() else None
+            file_path = (
+                find_image_file_for_public_id(
+                    images_dir, scroll_id, volume_num, item["chapter"], ordinal
+                )
+                if images_dir.exists()
+                else None
+            )
             if not file_path:
                 file_path = pick_file_for_index(index_to_paths, item["index"])
             if file_path:

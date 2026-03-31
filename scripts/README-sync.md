@@ -4,10 +4,12 @@
 
 ## 命名規則
 
-- **Cloudinary public_id**: `{scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d}`
-  例: `choju-giga-yamazaki-hei_3_01_01`（`ordinal` は章内の通し番号、1枚目なら 01）
+- **DB `scene_id`**: `{scroll_id}_{volume_num}_{chapter:02d}`（例: `choju-giga-yamazaki-kou_1_01`）
+- **Cloudinary public_id**: `{scroll_id}__{scene_id}__{ordinal:02d}`（区切りは **常に `__`**）
+  例: `choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__01`（`ordinal` は章内の通し番号、1枚目なら 01）
+- **旧 public_id（スクリプトがローカル探索でフォールバック）**: `{scroll_id}__{scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d}`（chapter と ordinal の間が単一 `_`）
 - **DB `images.index`**: YAML の `range` の値（グローバルなフレーム番号 1, 2, … 14）
-- **新形式のローカルファイル名**: 上記 public_id と同じ（例: `choju-giga-yamazaki-hei_3_01_01.jpg`）
+- **ローカルファイル名**: 新 public_id の stem と一致する名前を推奨。旧 stem でも上記フォールバックで見つかる場合があります
 
 ### 古いファイル名の自動紐付け（手動リネーム不要）
 

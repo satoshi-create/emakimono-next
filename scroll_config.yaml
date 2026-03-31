@@ -6,36 +6,36 @@ scenes:
   - scene_id: 1
     common_id: "choju_m_01"
     title: "兎と猿の川遊び"
-    range: [1, 2, 3, 4] # 4枚
+    range: [1, 2, 3, 4]  # ← ここが 4 つ数字があるか？
   - scene_id: 2
     common_id: "choju_m_02"
     title: "兎と蛙の神事弓くらべ"
-    range: [5, 6, 7, 8, 9, 10] # 6枚
+    range: [5, 6, 7, 8, 9, 10] # ← ここが 6 つあるか？
   - scene_id: 3
     common_id: "choju_m_03"
     title: "猿僧正、神供を賜る"
-    range: [11, 12] # 2枚
+    range: [11, 12]
   - scene_id: 4
     common_id: "choju_m_04"
     title: "猿と蛙の争い"
-    range: [13, 14] # 2枚
+    range: [13, 14]
   - scene_id: 5
     common_id: "choju_m_05"
     title: "田楽神事を見守る"
-    range: [15, 16] # ★15と16をここで拾う（2枚）
+    range: [15, 16]
   - scene_id: 6
     common_id: "choju_m_06"
     title: "兎と蛙の神聖なる相撲"
-    range: [17, 18] # 2枚
+    range: [17, 18]
   - scene_id: 7
     common_id: "choju_m_07"
     title: "猿、双六盤を運ぶ"
-    range: [19] # 1枚
+    range: [19]
   - scene_id: 8
     common_id: "choju_m_08"
     title: "猿僧正、年忌法要を司る"
-    range: [20, 21] # 2枚
+    range: [20, 21]
   - scene_id: 9
     common_id: "choju_m_09"
     title: "猿僧正へ奉げられた供物"
-    range: [22, 23] # 2枚
+    range: [22, 23]
