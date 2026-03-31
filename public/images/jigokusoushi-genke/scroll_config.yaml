@@ -1,0 +1,33 @@
+scroll_id: "jigokusoushi-genke"
+volume_num: 1
+theme_id: "jigoku-zoushi"
+folder: "emakimono"
+scenes:
+  - scene_id: 1
+    common_id: "jigoku-genke-1"
+    title: "等活地獄別所・屎糞所（しふんしょ）"
+    range: [1, 2]
+  - scene_id: 2
+    common_id: "jigoku-genke-2"
+    title: "等活地獄別所・函量所（かんりょうしょ）"
+    range: [3, 4]
+  - scene_id: 3
+    common_id: "jigoku-genke-3"
+    title: "等活地獄別所・鉄鎧所（てつがいしょ）"
+    range: [5, 6]
+  - scene_id: 4
+    common_id: "jigoku-genke-4"
+    title: "等活地獄別所・鶏地獄（とりじごく）"
+    range: [7, 8]
+  - scene_id: 5
+    common_id: "jigoku-genke-5"
+    title: "等活地獄別所・黒雲沙（こくうんしゃ）"
+    range: [9, 10]
+  - scene_id: 6
+    common_id: "jigoku-genke-6"
+    title: "等活地獄別所・濃血所（のうけつしょ）"
+    range: [11, 12]
+  - scene_id: 7
+    common_id: "jigoku-genke-7"
+    title: "等活地獄別所・狐狼地獄（ころうじごく）"
+    range: [13, 13]

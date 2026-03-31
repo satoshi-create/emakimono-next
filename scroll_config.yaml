@@ -1,33 +1,41 @@
-scroll_id: "jigokusoushi-genke"
+scroll_id: "choju-giga-yamazaki-kou"
 volume_num: 1
-theme_id: "jigoku-zoushi"
+theme_id: "choju-giga"
 folder: "emakimono"
 scenes:
   - scene_id: 1
-    common_id: "jigoku-genke-1"
-    title: "等活地獄別所・屎糞所（しふんしょ）"
-    range: [1, 2]
+    common_id: "choju_m_01"
+    title: "兎と猿の川遊び"
+    range: [1, 2, 3, 4]
   - scene_id: 2
-    common_id: "jigoku-genke-2"
-    title: "等活地獄別所・函量所（かんりょうしょ）"
-    range: [3, 4]
+    common_id: "choju_m_02"
+    title: "兎と蛙の神事弓くらべ"
+    range: [5, 6, 7, 8, 9, 10]
   - scene_id: 3
-    common_id: "jigoku-genke-3"
-    title: "等活地獄別所・鉄鎧所（てつがいしょ）"
-    range: [5, 6]
-  - scene_id: 4
-    common_id: "jigoku-genke-4"
-    title: "等活地獄別所・鶏地獄（とりじごく）"
-    range: [7, 8]
-  - scene_id: 5
-    common_id: "jigoku-genke-5"
-    title: "等活地獄別所・黒雲沙（こくうんしゃ）"
-    range: [9, 10]
-  - scene_id: 6
-    common_id: "jigoku-genke-6"
-    title: "等活地獄別所・濃血所（のうけつしょ）"
+    common_id: "choju_m_03"
+    title: "猿僧正、神供を賜る"
     range: [11, 12]
+  - scene_id: 4
+    common_id: "choju_m_04"
+    title: "猿と蛙の争い"
+    range: [13, 14]
+  - scene_id: 5
+    common_id: "choju_m_05"
+    title: "田楽神事を見守る"
+    range: [15]
+  - scene_id: 6
+    common_id: "choju_m_06"
+    title: "兎と蛙の神聖なる相撲"
+    range: [16, 17]
   - scene_id: 7
-    common_id: "jigoku-genke-7"
-    title: "等活地獄別所・狐狼地獄（ころうじごく）"
-    range: [13, 13]
+    common_id: "choju_m_07"
+    title: "猿、双六盤を運ぶ"
+    range: [18]
+  - scene_id: 8
+    common_id: "choju_m_08"
+    title: "猿僧正、年忌法要を司る"
+    range: [19, 20]
+  - scene_id: 9
+    common_id: "choju_m_09"
+    title: "猿僧正へ奉げられた供物"
+    range: [21, 22]
