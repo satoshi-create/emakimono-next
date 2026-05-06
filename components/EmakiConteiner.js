@@ -55,7 +55,8 @@ const EmakiContainer = ({
   const [scrollSpeed, setScrollSpeed] = useState(0);
   const [lastScrollX, setLastScrollX] = useState(0);
   const [rootMargin, setRootMargin] = useState("300px");
-  const [isBlurVisible, setBlurVisible] = useState(false); // blurDataURL の表示状態
+  // true 初期: 開発時 Strict Mode の再マウントで false に戻り Image が外れスケルトンだけになるのを防ぐ
+  const [isBlurVisible, setBlurVisible] = useState(true);
 
   const sectionRefs = useRef([]);
 
@@ -88,9 +89,9 @@ const EmakiContainer = ({
       sectionRefs.current.forEach((ref) => {
         if (ref) observer.unobserve(ref);
       });
-      return () => observer.disconnect();
+      observer.disconnect();
     };
-  }, [emakis,rootMargin]);
+  }, [emakis, rootMargin]);
 
   useEffect(() => {
     if (!articleRef.current) return;

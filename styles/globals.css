@@ -74,9 +74,14 @@ button {
 .section-grid > * {
   grid-column: 2;
 }
+/* .emaki-page-landscape-grid {
+  display: grid;
+  grid-template-columns: 1fr min(calc(100vw - (5vw * 2)), 2000px) 1fr;
+} */
 .emaki-page-landscape-grid {
   display: grid;
-  grid-template-columns: 1fr min(calc(100vw - (5vw * 2)), 1700px) 1fr;
+  /* ワイドディスプレイ対応: 最大幅制限を削除し、左右5vwマージンを維持 */
+  grid-template-columns: 5vw 1fr 5vw;
 }
 .emaki-page-landscape-grid > * {
   grid-column: 2;
