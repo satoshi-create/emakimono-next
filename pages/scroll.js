@@ -1,11 +1,8 @@
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import LazyImage from "../components/LazyImage";
-
 const HorizontalScrollGallery = ({ images }) => {
   const [windowHeight, setWindowHeight] = useState(0);
-  const emakis = images.emakis;
-  console.log(emakis);
+  const emakis = images?.emakis ?? [];
 
   // ウィンドウの高さを取得
   useEffect(() => {
@@ -62,30 +59,29 @@ export const getStaticProps = async () => {
   const fs = require("fs");
   const path = require("path");
 
-
   const cacheDir = path.join(process.cwd(), "libs/image-metadata-cache");
   const cacheFilePath = path.join(cacheDir, "image-metadata-cache.json");
 
-  // キャッシュファイルが存在しない場合のエラー処理
+  // 常にシリアライズ可能な props のみ返し、デプロイビルドを落とさない
   if (!fs.existsSync(cacheFilePath)) {
-    throw new Error(
-      "Image metadata cache not found. Run the generateImageMetadata script."
-    );
+    return { props: { images: null } };
   }
 
-  // キャッシュファイルを読み込む
-  const metadataCache = JSON.parse(fs.readFileSync(cacheFilePath, "utf-8"));
+  let metadataCache;
+  try {
+    metadataCache = JSON.parse(fs.readFileSync(cacheFilePath, "utf-8"));
+  } catch {
+    return { props: { images: null } };
+  }
 
-  // titleが「鳥獣人物戯画」にマッチするJSONオブジェクトをフィルタリング
-  const filteredImages = metadataCache
-    .filter((item) => item.title === "奈与竹物語絵巻") // titleでマッチするオブジェクトを取得
-    .find((item) => item);
-
-  console.log(filteredImages);
+  const filteredImages =
+    metadataCache
+      .filter((item) => item.title === "奈与竹物語絵巻")
+      .find((item) => item) ?? null;
 
   return {
     props: {
-      images: filteredImages, // クライアントサイドに渡すデータ
+      images: filteredImages,
     },
   };
 };

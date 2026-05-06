@@ -57,11 +57,16 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   const personnameslug = context.params.slug;
-  const { locale, locales } = context;
+  const { locale } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
   const personname = personnameItem(tEmakisData).find(
     ({ slug }) => slug === personnameslug
   );
+
+  // キャッシュ縮小時など、json-data にだけ存在する slug は 404 にする
+  if (!personname) {
+    return { notFound: true };
+  }
 
   const filterdEmakisData = tEmakisData.filter((x) => {
     if (x.personname) {
