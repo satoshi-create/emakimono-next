@@ -69,11 +69,6 @@ const ja = {
       <p>
         過去のバージョンでは多くの絵巻を扱っていましたが、
         現在は「鳥獣人物戯画」と「九相図巻」に焦点を絞り、コードをシンプルに保っています。
-        リファクタリング前の全体版デモは
-        <a href="https://emakimono-next-9mmgix9ni-satoshicreates-projects.vercel.app/" target="_blank" rel="noopener noreferrer">
-          こちら
-        </a>
-        からご覧いただけます。
       </p>
         <br/>
       <p>
@@ -161,10 +156,6 @@ const en = {
     <p>
       The previous version included many emaki scrolls, but we have now narrowed our focus to
       <strong>Chōjū-jinbutsu-giga</strong> and <strong>Kusōzu</strong> in order to keep the codebase clean and simple.
-      You can view the full demo version from before the refactoring
-      <a href="https://emakimono-next-9mmgix9ni-satoshicreates-projects.vercel.app/en" target="_blank" rel="noopener noreferrer">
-        here
-      </a>.
     </p>
     <br/>
     <p>
