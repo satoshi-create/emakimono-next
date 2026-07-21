@@ -1,4 +1,4 @@
-name: Sync scroll to Cloudinary and Supabase
+name: Sync scroll to Cloudinary
 
 on:
   workflow_dispatch:
@@ -8,14 +8,14 @@ on:
         required: false
         default: 'scroll_config.yaml'
       skip_upload:
-        description: 'Skip Cloudinary upload (only upsert DB)'
+        description: 'Skip Cloudinary upload (only update JSON)'
         required: false
         default: false
         type: boolean
+
   push:
-    branches: [preview, main]
+    branches: [main, preview]
     paths:
-      - 'scroll_config.yaml'
       - 'scroll_config*.yaml'
       - 'public/images/**'
 
@@ -24,45 +24,77 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Need full history to commit back
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: pip install -r scripts/requirements-sync.txt
 
-      # --- ここからデバッグ処理 ---
-      - name: Debug Environment and Files
-        run: |
-          echo "=== 📂 Current Directory Listing ==="
-          ls -R public/images/
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
 
-          echo "=== 📄 Config File Content ==="
-          CONFIG_PATH="${{ github.event.inputs.config_path || 'scroll_config.yaml' }}"
-          if [ -f "$CONFIG_PATH" ]; then
-            cat "$CONFIG_PATH"
+      - name: Install Node.js dependencies (for cache generation)
+        run: npm ci
+        env:
+          CI: true
+
+      - name: Determine config path
+        id: config
+        run: |
+          if [ -n "${{ github.event.inputs.config_path }}" ]; then
+            echo "path=${{ github.event.inputs.config_path }}" >> $GITHUB_OUTPUT
           else
-            echo "Error: Config file not found at $CONFIG_PATH"
+            # On push, find the changed yaml files
+            CHANGED=$(git diff --name-only ${{ github.event.before }}..${{ github.event.after }} -- 'scroll_config*.yaml' | head -1)
+            if [ -n "$CHANGED" ]; then
+              echo "path=$CHANGED" >> $GITHUB_OUTPUT
+            else
+              echo "path=scroll_config.yaml" >> $GITHUB_OUTPUT
+            fi
           fi
 
-          echo "=== 🌐 Environment Variables ==="
-          echo "SCROLL_IMAGES_DIR: public/images"
-          echo "CONFIG_PATH: $CONFIG_PATH"
-      # --- ここまでデバッグ処理 ---
-
-      - name: Sync scroll
-        env:
-          SCROLL_IMAGES_DIR: "public/images"
-          CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      - name: Debug environment
         run: |
-          CONFIG="${{ github.event.inputs.config_path || 'scroll_config.yaml' }}"
-          SKIP="${{ github.event.inputs.skip_upload }}"
-          if [ -n "$SKIP" ] && [ "$SKIP" = "true" ]; then
-            python scripts/sync_scroll.py "$CONFIG" --skip-upload
+          echo "Config path: ${{ steps.config.outputs.path }}"
+          echo "Skip upload: ${{ github.event.inputs.skip_upload }}"
+          if [ -f "${{ steps.config.outputs.path }}" ]; then
+            echo "Config file exists:"
+            cat "${{ steps.config.outputs.path }}"
           else
-            python scripts/sync_scroll.py "$CONFIG"
+            echo "Warning: Config file not found at ${{ steps.config.outputs.path }}"
+          fi
+
+      - name: Run sync pipeline
+        env:
+          CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
+          SCROLL_IMAGES_DIR: "public/images"
+        run: |
+          SKIP_FLAG=""
+          if [ "${{ github.event.inputs.skip_upload }}" = "true" ]; then
+            SKIP_FLAG="--skip-upload"
+          fi
+          python scripts/sync_all.py "${{ steps.config.outputs.path }}" $SKIP_FLAG
+
+      - name: Commit generated JSON files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Stage the JSON files that are auto-generated
+          git add src/data/json-data/dataEmakis.json src/data/image-metadata-cache/
+          # Check if there are staged changes
+          if git diff --staged --quiet; then
+            echo "No JSON changes to commit"
+          else
+            git commit -m "auto: regenerate JSON from YAML [skip ci]"
+            git push
+            echo "Committed and pushed JSON updates"
           fi

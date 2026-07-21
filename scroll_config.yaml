@@ -1,35 +1,88 @@
-scroll_id: "choju-giga-yamazaki-tei"
-volume_num: 4
-theme_id: "choju-giga"
-folder: "emakimono"
+# scroll_config.yaml - Extended format
+# Single source of truth for an emaki scroll's metadata and image structure.
+#
+# The pipeline script (scripts/sync_all.py) reads this file, uploads images
+# to Cloudinary, and regenerates dataEmakis.json + image-metadata-cache.json.
+
+scroll_id: "choju-giga-yamazaki-tei"  # used for Cloudinary public_id
+volume_num: 4                          # volume number within the series
+theme_id: "choju-giga"                 # grouping key
+folder: "emakimono"                    # Cloudinary folder
+
+# ============================================================================
+# Rich metadata — maps to the entry in dataEmakis.json / image-metadata-cache.json
+# ============================================================================
+metadata:
+  id: 4                                # numeric ID in dataEmakis.json
+  title: "鳥獣人物戯画絵巻"             # display title
+  titleen: "Chōjū-jinbutsu-giga_fourth"  # URL slug, also used as filename prefix
+  author: "鳥羽僧正覚猷"
+  authoren: "toba-sojo-kakuyu"
+  edition: "丁巻"                       # volume label
+  era: "平安"
+  eraen: "heiann"
+  type: "絵巻"
+  typeen: "emaki"
+  desc: >-
+    鳥獣人物戯画絵巻の丁巻。
+  descen: >-
+    The fourth scroll of Chōjū-jinbutsu-giga.
+  thumb: "/choju-giga-yamazaki-tei_thumb.webp"
+  thumb2: ""
+  backgroundImage: ""
+  video: ""
+  sourceImageUrl: ""
+  sourceImage: ""
+  encodeUrl: "https://emakimono.com/choju-jinbutsu-giga_tei"
+  favorite: false
+  kotobagaki: false
+  readMore: false
+  keywords:
+    - { name: "戯画", id: "caricature", slug: "caricature" }
+    - { name: "動物", id: "animal", slug: "animal" }
+
+# ============================================================================
+# Scene / chapter definitions
+# Each scene generates one ekotoba entry + image entries for each index in range.
+# ============================================================================
 scenes:
   - id: 1
     title: "侏儒たちの脱出劇"
+    titleen: "Dwarfs' Escape"
     range: [1, 1]
   - id: 2
     title: "神秘の験くらべ"
+    titleen: "Compete in mysterious ways"
     range: [2, 3]
   - id: 3
     title: "供養に結ばれし縁者たち"
+    titleen: "Relatives bound by memorial service"
     range: [4, 5]
   - id: 4
     title: "流鏑馬 ― 神聖なる騎射の儀式"
+    titleen: "Yabusame — sacred horseback archery ritual"
     range: [6, 7]
   - id: 5
     title: "田楽 ― 五穀豊穣を祝う舞"
+    titleen: "Dengaku — dance for abundant harvest"
     range: [8, 8]
   - id: 6
     title: "毬打 ― 優雅なる球戯"
+    titleen: "Mariuchi — elegant ball game"
     range: [9, 9]
   - id: 7
     title: "木遣り ― 韻律に乗せる力の歌"
+    titleen: "Kiyari — rhythmic labor song"
     range: [10, 12]
   - id: 8
     title: "公卿たちの論議の座"
+    titleen: "Courtiers' council"
     range: [13, 13]
   - id: 9
     title: "印地打ち ― 神事の石投げ合戦"
+    titleen: "Injiuchi — sacred stone-throwing battle"
     range: [14, 14]
   - id: 10
     title: "大臣、天子に拝賀す"
+    titleen: "Minister pays homage to the Emperor"
     range: [15, 18]

@@ -3,13 +3,13 @@ const path = require("path");
 const sharp = require("sharp");
 
 // JSONデータをrequireで読み込む
-const dataByoubus = require("../libs/json-data/dataByoubus.json");
-const dataEmakis = require("../libs/json-data/dataEmakis.json");
-const dataSeiyoukaiga = require("../libs/json-data/dataSeiyoukaiga.json");
-const dataSuibokuga = require("../libs/json-data/dataSuibokuga.json");
-const dataUkiyoes = require("../libs/json-data/dataUkiyoes.json");
-const dataKotenBungaku = require("../libs/json-data/dataKotenBungaku.json");
-const dataSenmenga = require("../libs/json-data/dataSenmenga.json");
+const dataByoubus = require("../data/json-data/dataByoubus.json");
+const dataEmakis = require("../data/json-data/dataEmakis.json");
+const dataSeiyoukaiga = require("../data/json-data/dataSeiyoukaiga.json");
+const dataSuibokuga = require("../data/json-data/dataSuibokuga.json");
+const dataUkiyoes = require("../data/json-data/dataUkiyoes.json");
+const dataKotenBungaku = require("../data/json-data/dataKotenBungaku.json");
+const dataSenmenga = require("../data/json-data/dataSenmenga.json");
 
 // データを結合
 const data = dataEmakis.concat(
@@ -24,8 +24,8 @@ const data = dataEmakis.concat(
 // node script/generateImageMetadata.js
 
 (async () => {
-  // 保存先ディレクトリを指定（例: `cache`ディレクトリ）
-  const cacheDir = path.join(process.cwd(), "libs/image-metadata-cache");
+  // 保存先ディレクトリを指定
+  const cacheDir = path.join(process.cwd(), "src/data/image-metadata-cache");
 
   // 保存先ファイルパスを指定
   const cacheFilePath = path.join(cacheDir, "image-metadata-cache.json");
