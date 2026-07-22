@@ -10823,12 +10823,18 @@
     ],
     "kotobagaki": true,
     "favorite": false,
-    "sourceImageUrl": "https://colbase.nich.go.jp/",
-    "sourceImage": "東京国立博物館",
+    "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-10942?locale=ja",
+    "sourceImage": "地獄草紙（ColBase）",
     "metadesc": "",
     "gif": "",
     "sourceEkotoba": "",
-    "reference": [],
+    "reference": [
+      {
+        "type": "書籍",
+        "url": "https://rb.gy/r3nghf",
+        "title": "『餓鬼草紙 地獄草紙 病草紙 九相詩絵巻』（日本絵巻大成7 中央公論社）"
+      }
+    ],
     "emakis": [
       {
         "cat": "ekotoba",
@@ -10905,6 +10911,199 @@
         "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_04__02",
         "srcHeight": "1080",
         "srcWidth": "1561"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "title": "地獄草紙（原家本）",
+    "titleen": "jigokusoushi_genke",
+    "author": "",
+    "authoren": "",
+    "edition": "奈良国立博物館蔵（原家旧蔵）",
+    "encodeUrl": "",
+    "backgroundImage": "",
+    "thumb": "/thumb/jigokusoushi_genke_thumb.webp",
+    "thumb2": "",
+    "video": "",
+    "era": "平安",
+    "eraen": "heian",
+    "desc": "隋の闍那崛多が漢訳した『起世経』に説かれる十六小地獄を描いた、奈良国立博物館所蔵の重要文化財（原家旧蔵本）。",
+    "descen": "An emaki handscroll depicting the sixteen minor hells based on the 'Qishijing', preserved at the Nara National Museum (formerly in the Hara collection).",
+    "readMore": false,
+    "type": "絵巻",
+    "typeen": "emaki",
+    "keyword": [
+      {
+        "name": "地獄",
+        "id": "jigoku",
+        "slug": "jigoku"
+      },
+      {
+        "name": "仏教",
+        "id": "buddhism",
+        "slug": "buddhism"
+      },
+      {
+        "name": "六道絵",
+        "id": "rokudo",
+        "slug": "rokudo"
+      }
+    ],
+    "kotobagaki": true,
+    "favorite": false,
+    "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/narahaku/644-0?locale=ja",
+    "sourceImage": "地獄草紙（ColBase）",
+    "metadesc": "",
+    "gif": "",
+    "sourceEkotoba": "",
+    "reference": [
+      {
+        "type": "書籍",
+        "url": "https://rb.gy/r3nghf",
+        "title": "『餓鬼草紙 地獄草紙 病草紙 九相詩絵巻』（日本絵巻大成7 中央公論社）"
+      }
+    ],
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "1",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-genke__jigokusoushi-genke_1_01__01.jpg",
+        "name": "jigokusoushi-genke__jigokusoushi-genke_1_01__01",
+        "srcHeight": "1080",
+        "srcWidth": "2013",
+        "gendaibun": "また別所あり。この地獄の深さは広大で、悪臭を放つ糞屎が満ち満ちている。<br>現世において不浄な行いや悪業を重ねた者たちがこの地獄に堕ち、責め苦を受ける。",
+        "desc": "起世経に説かれる第二の糞屎泥小地獄を描く段。"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-genke__jigokusoushi-genke_1_01__02.jpg",
+        "name": "jigokusoushi-genke__jigokusoushi-genke_1_01__02",
+        "srcHeight": "1080",
+        "srcWidth": "1011"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "2",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-genke__jigokusoushi-genke_1_02__01.jpg",
+        "name": "jigokusoushi-genke__jigokusoushi-genke_1_02__01",
+        "srcHeight": "1080",
+        "srcWidth": "1685",
+        "gendaibun": "また別所あり。罪人たちが計量や売買において不正を行い、他者を欺いた報いを受ける地獄。<br>過酷な苦しみが絶えず加えられる。",
+        "desc": "起世経に説かれる凾量小地獄を描く段。"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-genke__jigokusoushi-genke_1_02__02.jpg",
+        "name": "jigokusoushi-genke__jigokusoushi-genke_1_02__02",
+        "srcHeight": "1080",
+        "srcWidth": "1051"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "3",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-genke__jigokusoushi-genke_1_03__01.jpg",
+        "name": "jigokusoushi-genke__jigokusoushi-genke_1_03__01",
+        "srcHeight": "1080",
+        "srcWidth": "1475",
+        "gendaibun": "また別所あり。鉄の臼と杵によって罪人の身体がすり潰される地獄。<br>生前に生き物を殺傷し、残虐な行為を働いた者たちがここで果てしない苦痛を受ける。",
+        "desc": "起世経に説かれる鉄磑小地獄を描く段（词書05 + 絵06）。"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-genke__jigokusoushi-genke_1_03__02.jpg",
+        "name": "jigokusoushi-genke__jigokusoushi-genke_1_03__02",
+        "srcHeight": "1080",
+        "srcWidth": "2120"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "4",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-genke__jigokusoushi-genke_1_04__01.jpg",
+        "name": "jigokusoushi-genke__jigokusoushi-genke_1_04__01",
+        "srcHeight": "1080",
+        "srcWidth": "1521",
+        "gendaibun": "また別所あり。巨大な鳥（鶏）たちが現れ、罪人たちを突き刺し食らう地獄。<br>中国・宋代の影響が色濃く見られる表現が特徴的である。",
+        "desc": "起世経に説かれる鶏小地獄を描く段。"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-genke__jigokusoushi-genke_1_04__02.jpg",
+        "name": "jigokusoushi-genke__jigokusoushi-genke_1_04__02",
+        "srcHeight": "1080",
+        "srcWidth": "2042"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "5",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-genke__jigokusoushi-genke_1_05__01.jpg",
+        "name": "jigokusoushi-genke__jigokusoushi-genke_1_05__01",
+        "srcHeight": "1080",
+        "srcWidth": "1215",
+        "gendaibun": "また別所あり。黒雲と熱沙が吹き荒れ、罪人の皮膚や肉を焼き裂く地獄。<br>現世での重い罪業によってこの場所に堕とされ、逃れるすべがない。",
+        "desc": "起世経に説かれる黒雲沙小地獄を描く段。"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-genke__jigokusoushi-genke_1_05__02.jpg",
+        "name": "jigokusoushi-genke__jigokusoushi-genke_1_05__02",
+        "srcHeight": "1080",
+        "srcWidth": "1068"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "6",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-genke__jigokusoushi-genke_1_06__01.jpg",
+        "name": "jigokusoushi-genke__jigokusoushi-genke_1_06__01",
+        "srcHeight": "1080",
+        "srcWidth": "1486",
+        "gendaibun": "また別所あり。膿と血が満ちた河川や沼沢で、罪人たちがもがき苦しむ地獄。<br>生前の貪欲や不浄な執着の結果としてこの苦しみを味わう。",
+        "desc": "起世経に説かれる濃血小地獄を描く段（词書11 + 絵12）。"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-genke__jigokusoushi-genke_1_06__02.jpg",
+        "name": "jigokusoushi-genke__jigokusoushi-genke_1_06__02",
+        "srcHeight": "1080",
+        "srcWidth": "1077"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "7",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": "",
+        "gendaibun": "また別所あり。狐や狼のような獣に責められる地獄。<br>词書画像はなく、絵画のみで描かれる最終段。",
+        "desc": "起世経に説かれる狐狼地獄を描く段（词書なし + 絵13）。"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-genke__jigokusoushi-genke_1_07__01.jpg",
+        "name": "jigokusoushi-genke__jigokusoushi-genke_1_07__01",
+        "srcHeight": "1080",
+        "srcWidth": "1282"
       }
     ]
   }

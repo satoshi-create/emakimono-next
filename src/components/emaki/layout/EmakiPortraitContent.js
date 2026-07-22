@@ -368,9 +368,10 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   {sourceImage}
                 </a>
               </Link>
+              {reference?.length > 0 && (
               <ul>
-                {locale == "en" ? "【reference】" : "【出典】"}
-                {reference?.map((item, i) => {
+                {locale == "en" ? "【reference】" : "【参考文献】"}
+                {reference.map((item, i) => {
                   return (
                     <li key={i}>
                       <Link href={item.url ? item.url : "/"}>
@@ -386,6 +387,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   );
                 })}
               </ul>
+              )}
             </div>
           </div>
 

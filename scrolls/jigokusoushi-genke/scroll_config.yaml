@@ -1,0 +1,103 @@
+scroll_id: "jigokusoushi-genke"
+volume_num: 1
+theme_id: "jigoku"
+folder: "emakimono"
+
+metadata:
+  id: 13
+  title: "地獄草紙（原家本）"
+  titleen: "jigokusoushi_genke"
+  author: ""
+  authoren: ""
+  edition: "奈良国立博物館蔵（原家旧蔵）"
+  era: "平安"
+  eraen: "heian"
+  type: "絵巻"
+  typeen: "emaki"
+  desc: "隋の闍那崛多が漢訳した『起世経』に説かれる十六小地獄を描いた、奈良国立博物館所蔵の重要文化財（原家旧蔵本）。"
+  descen: "An emaki handscroll depicting the sixteen minor hells based on the 'Qishijing', preserved at the Nara National Museum (formerly in the Hara collection)."
+  thumb: "/thumb/jigokusoushi_genke_thumb.webp"
+  thumb2: ""
+  backgroundImage: ""
+  video: ""
+  sourceImageUrl: "https://colbase.nich.go.jp/collection_items/narahaku/644-0?locale=ja"
+  sourceImage: "地獄草紙（ColBase）"
+  reference:
+    - type: "書籍"
+      url: "https://rb.gy/r3nghf"
+      title: "『餓鬼草紙 地獄草紙 病草紙 九相詩絵巻』（日本絵巻大成7 中央公論社）"
+  encodeUrl: ""
+  favorite: false
+  kotobagaki: true
+  kotobagaki_mode: "alternating"
+  readMore: false
+  keywords:
+    - { name: "地獄", id: "jigoku", slug: "jigoku" }
+    - { name: "仏教", id: "buddhism", slug: "buddhism" }
+    - { name: "六道絵", id: "rokudo", slug: "rokudo" }
+
+scenes:
+  - id: 1
+    title: "糞屎泥地獄"
+    titleen: "Funshidei Hell"
+    range: [1, 2]
+    text:
+      gendaibun: |
+        また別所あり。この地獄の深さは広大で、悪臭を放つ糞屎が満ち満ちている。<br>現世において不浄な行いや悪業を重ねた者たちがこの地獄に堕ち、責め苦を受ける。
+      kobun: ""
+      desc: "起世経に説かれる第二の糞屎泥小地獄を描く段。"
+  - id: 2
+    title: "凾量地獄"
+    titleen: "Kanryo Hell"
+    range: [3, 4]
+    text:
+      gendaibun: |
+        また別所あり。罪人たちが計量や売買において不正を行い、他者を欺いた報いを受ける地獄。<br>過酷な苦しみが絶えず加えられる。
+      kobun: ""
+      desc: "起世経に説かれる凾量小地獄を描く段。"
+  - id: 3
+    title: "鉄磑地獄"
+    titleen: "Tetsugai Hell"
+    range: [5, 6]
+    text:
+      gendaibun: |
+        また別所あり。鉄の臼と杵によって罪人の身体がすり潰される地獄。<br>生前に生き物を殺傷し、残虐な行為を働いた者たちがここで果てしない苦痛を受ける。
+      kobun: ""
+      desc: "起世経に説かれる鉄磑小地獄を描く段（词書05 + 絵06）。"
+  - id: 4
+    title: "鶏地獄"
+    titleen: "Tori Hell"
+    range: [7, 8]
+    text:
+      gendaibun: |
+        また別所あり。巨大な鳥（鶏）たちが現れ、罪人たちを突き刺し食らう地獄。<br>中国・宋代の影響が色濃く見られる表現が特徴的である。
+      kobun: ""
+      desc: "起世経に説かれる鶏小地獄を描く段。"
+  - id: 5
+    title: "黒雲沙地獄"
+    titleen: "Kokuunsha Hell"
+    range: [9, 10]
+    text:
+      gendaibun: |
+        また別所あり。黒雲と熱沙が吹き荒れ、罪人の皮膚や肉を焼き裂く地獄。<br>現世での重い罪業によってこの場所に堕とされ、逃れるすべがない。
+      kobun: ""
+      desc: "起世経に説かれる黒雲沙小地獄を描く段。"
+  - id: 6
+    title: "濃血地獄"
+    titleen: "Noke-ketsu Hell"
+    range: [11, 12]
+    text:
+      gendaibun: |
+        また別所あり。膿と血が満ちた河川や沼沢で、罪人たちがもがき苦しむ地獄。<br>生前の貪欲や不浄な執着の結果としてこの苦しみを味わう。
+      kobun: ""
+      desc: "起世経に説かれる濃血小地獄を描く段（词書11 + 絵12）。"
+  - id: 7
+    title: "狐狼地獄"
+    titleen: "Koro Hell"
+    range: [13, 13]
+    ekotoba_src: false
+    text:
+      gendaibun: |
+        また別所あり。狐や狼のような獣に責められる地獄。<br>词書画像はなく、絵画のみで描かれる最終段。
+      kobun: ""
+      desc: "起世経に説かれる狐狼地獄を描く段（词書なし + 絵13）。"

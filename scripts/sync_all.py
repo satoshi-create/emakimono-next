@@ -236,7 +236,11 @@ def _build_emakis_default(config: dict, image_rows: list[dict]) -> list[dict]:
 
 
 def _build_emakis_alternating(config: dict, image_rows: list[dict]) -> list[dict]:
-    """Kotobagaki layout: odd global indices → ekotoba+src, even → image (per scene range)."""
+    """Kotobagaki layout: odd global indices → ekotoba+src, even → image (per scene range).
+
+    Scene flag ``ekotoba_src: false`` — text-only ekotoba (no kotobagaki image) then all
+    indices in range as image slots (e.g. 狐狼地獄: 词書なし + 絵画13).
+    """
     emakis: list[dict] = []
     for scene in ss.get_scenes_config(config):
         start_global, end_global = scene["range"]
@@ -245,6 +249,11 @@ def _build_emakis_alternating(config: dict, image_rows: list[dict]) -> list[dict
             key=lambda x: x["index"],
         )
         if not scene_rows:
+            continue
+        if scene.get("ekotoba_src") is False:
+            emakis.append(_build_ekotoba_emaki_slot(scene, None))
+            for ir in scene_rows:
+                emakis.append(_build_image_emaki_slot(ir))
             continue
         start_odd = scene_rows[0]["index"] % 2 == 1
         for i, ir in enumerate(scene_rows):

@@ -181,6 +181,8 @@ def get_scenes_config(config: dict) -> list[dict]:
             scene["titleen"] = s["titleen"]
         if s.get("text"):
             scene["text"] = s["text"]
+        if "ekotoba_src" in s:
+            scene["ekotoba_src"] = s["ekotoba_src"]
         scenes.append(scene)
     return scenes
 

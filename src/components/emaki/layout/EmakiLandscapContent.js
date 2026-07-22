@@ -395,10 +395,10 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                     {sourceImage}
                   </a>
                 </Link>
-                ran
+                {reference?.length > 0 && (
                 <ul>
-                  {locale == "en" ? "【reference】" : "【出典】"}
-                  {reference?.map((item, i) => {
+                  {locale == "en" ? "【reference】" : "【参考文献】"}
+                  {reference.map((item, i) => {
                     return (
                       <li key={i}>
                         <Link href={item.url ? item.url : "/"}>
@@ -414,6 +414,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                     );
                   })}
                 </ul>
+                )}
               </div>
             </div>
           </div>

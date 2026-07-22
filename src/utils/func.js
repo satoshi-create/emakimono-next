@@ -3,7 +3,6 @@ import chapterChojugigaFirst from "@/data/emaki-text-data/Chōjū-jinbutsu-giga_
 import chapterChojugigaSecond from "@/data/emaki-text-data/Chōjū-jinbutsu-giga_second.json";
 import chapterChojugigaThird from "@/data/emaki-text-data/Chōjū-jinbutsu-giga_third.json";
 import chapterChojugigaFourth from "@/data/emaki-text-data/Chōjū-jinbutsu-giga_fourth.json";
-import chapterJigokusoushiAnzyuin from "@/data/emaki-text-data/jigokusoushi_anzyuin.json";
 import {
   default as enData,
   default as jaData,
@@ -230,10 +229,26 @@ const chojugigaDataMap = {
   "Chōjū-jinbutsu-giga_fourth": chapterChojugigaFourth,
 };
 
-/** sync_all.py が生成する emaki-text-data/{titleen}.json を参照 */
-const emakiTextDataMap = {
-  jigokusoushi_anzyuin: chapterJigokusoushiAnzyuin,
-};
+/** sync_all.py が生成する emaki-text-data/{titleen}.json を自動ロード */
+const EMAKI_TEXT_EXCLUDED_SLUGS = new Set(["chapters-of-kusouzu"]);
+const EMAKI_TEXT_EXCLUDED_PREFIXES = ["Chōjū-jinbutsu-giga_"];
+
+function buildEmakiTextDataMap() {
+  const map = {};
+  const ctx = require.context("../data/emaki-text-data", false, /\.json$/);
+  ctx.keys().forEach((key) => {
+    const slug = key.replace(/^\.\//, "").replace(/\.json$/, "");
+    if (EMAKI_TEXT_EXCLUDED_SLUGS.has(slug)) return;
+    if (EMAKI_TEXT_EXCLUDED_PREFIXES.some((prefix) => slug.startsWith(prefix))) {
+      return;
+    }
+    const data = ctx(key);
+    map[slug] = data?.default ?? data;
+  });
+  return map;
+}
+
+const emakiTextDataMap = buildEmakiTextDataMap();
 
 const connectEmakiTextData = (titleen, chapter, field) => {
   const chapterData = emakiTextDataMap[titleen];
@@ -279,15 +294,7 @@ const connectGenjiChaptersScene = (chapter, scene) => {
 };
 
 const connectEmakiTextSync = (titleen, chapter, field) => {
-  const matched = connectEmakiTextData(titleen, chapter, field);
-  if (matched) {
-    return matched;
-  }
-  console.error(
-    `[connectEmakiTextSync] 未対応の絵巻タイプ: titleen="${titleen}", chapter="${chapter}", field="${field}". ` +
-    `この絵巻用のメタデータ読み込み処理を実装してください。`
-  );
-  return null;
+  return connectEmakiTextData(titleen, chapter, field);
 };
 
 const ChaptersTitle = (titleen, title, chapter, text) => {

@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       config_path:
-        description: 'Path to scroll_config.yaml (relative to repo root)'
+        description: 'Path to scroll_config.yaml (e.g. scrolls/my-scroll/scroll_config.yaml)'
         required: false
-        default: 'scroll_config.yaml'
+        default: 'scrolls/_examples/choju-giga-yamazaki-tei/scroll_config.yaml'
       skip_upload:
         description: 'Skip Cloudinary upload (only update JSON)'
         required: false
@@ -16,8 +16,8 @@ on:
   push:
     branches: [main, preview]
     paths:
+      - 'scrolls/**/scroll_config.yaml'
       - 'scroll_config*.yaml'
-      - 'public/images/**'
 
 jobs:
   sync:
@@ -25,7 +25,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # Need full history to commit back
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
@@ -53,12 +52,11 @@ jobs:
           if [ -n "${{ github.event.inputs.config_path }}" ]; then
             echo "path=${{ github.event.inputs.config_path }}" >> $GITHUB_OUTPUT
           else
-            # On push, find the changed yaml files
-            CHANGED=$(git diff --name-only ${{ github.event.before }}..${{ github.event.after }} -- 'scroll_config*.yaml' | head -1)
+            CHANGED=$(git diff --name-only ${{ github.event.before }}..${{ github.event.after }} -- 'scrolls/**/scroll_config.yaml' 'scroll_config*.yaml' | head -1)
             if [ -n "$CHANGED" ]; then
               echo "path=$CHANGED" >> $GITHUB_OUTPUT
             else
-              echo "path=scroll_config.yaml" >> $GITHUB_OUTPUT
+              echo "path=scrolls/_examples/choju-giga-yamazaki-tei/scroll_config.yaml" >> $GITHUB_OUTPUT
             fi
           fi
 
@@ -68,7 +66,7 @@ jobs:
           echo "Skip upload: ${{ github.event.inputs.skip_upload }}"
           if [ -f "${{ steps.config.outputs.path }}" ]; then
             echo "Config file exists:"
-            cat "${{ steps.config.outputs.path }}"
+            head -20 "${{ steps.config.outputs.path }}"
           else
             echo "Warning: Config file not found at ${{ steps.config.outputs.path }}"
           fi
@@ -76,7 +74,6 @@ jobs:
       - name: Run sync pipeline
         env:
           CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
-          SCROLL_IMAGES_DIR: "public/images"
         run: |
           SKIP_FLAG=""
           if [ "${{ github.event.inputs.skip_upload }}" = "true" ]; then
@@ -88,9 +85,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          # Stage the JSON files that are auto-generated
           git add src/data/json-data/dataEmakis.json src/data/image-metadata-cache/
-          # Check if there are staged changes
           if git diff --staged --quiet; then
             echo "No JSON changes to commit"
           else

@@ -1,6 +1,11 @@
 import os
 import re
 
+# DEPRECATED: Use scripts/sync_scroll.py instead.
+# This script predates the unified pipeline. sync_scroll.py assigns B-format
+# public_ids on upload; local pre-rename is no longer required.
+# Kept for reference when migrating legacy filename batches manually.
+
 # 1. 設定：現在作業する絵巻の情報を定義します
 # 鳥獣戯画 甲巻（原本）の場合
 theme_id = "choju-giga"

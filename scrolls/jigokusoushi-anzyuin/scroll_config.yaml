@@ -20,8 +20,12 @@ metadata:
   thumb2: ""
   backgroundImage: ""
   video: ""
-  sourceImageUrl: "https://colbase.nich.go.jp/" # TODO: ColBase等の正確な所蔵品リンク
-  sourceImage: "東京国立博物館"
+  sourceImageUrl: "https://colbase.nich.go.jp/collection_items/tnm/A-10942?locale=ja"
+  sourceImage: "地獄草紙（ColBase）"
+  reference:
+    - type: "書籍"
+      url: "https://rb.gy/r3nghf"
+      title: "『餓鬼草紙 地獄草紙 病草紙 九相詩絵巻』（日本絵巻大成7 中央公論社）"
   encodeUrl: ""
   favorite: false
   kotobagaki: true
