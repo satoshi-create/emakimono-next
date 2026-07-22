@@ -50,42 +50,49 @@ GENERATE_CACHE_SCRIPT = REPO_ROOT / "src/script/generateImageMetadata.js"
 #  Build a dataEmakis.json entry from YAML + Cloudinary results
 # ---------------------------------------------------------------------------
 
-def build_emaki_entry(config: dict, image_rows: list[dict]) -> dict:
-    """Construct one entry dict for dataEmakis.json from YAML metadata + upload results."""
+def build_emaki_entry(config: dict, image_rows: list[dict], existing_entry: dict | None = None, skip_images: bool = False) -> dict:
+    """Construct one entry dict for dataEmakis.json from YAML metadata + upload results.
+    
+    If skip_images is True and an existing_entry is provided, the emakis array is
+    preserved from the existing entry (only metadata fields are updated).
+    """
     meta = config["metadata"]
 
-    # Build the emakis array: ekotoba entries interleaved with image entries
-    emakis: list[dict] = []
-    for scene in ss.get_scenes_config(config):
-        ch_id = scene["id"]
-        start_global, end_global = scene["range"]
+    if skip_images and existing_entry:
+        # Preserve existing emakis array; only update metadata
+        emakis = existing_entry.get("emakis", [])
+    else:
+        # Build the emakis array: ekotoba entries interleaved with image entries
+        emakis: list[dict] = []
+        for scene in ss.get_scenes_config(config):
+            ch_id = scene["id"]
+            start_global, end_global = scene["range"]
 
-        # ekotoba entry
-        emakis.append({
-            "cat": "ekotoba",
-            "chapter": str(ch_id),
-            "config": "",
-            "src": "",
-            "name": "",
-            "srcHeight": "",
-            "srcWidth": "",
-        })
+            # ekotoba entry
+            emakis.append({
+                "cat": "ekotoba",
+                "chapter": str(ch_id),
+                "config": "",
+                "src": "",
+                "name": "",
+                "srcHeight": "",
+                "srcWidth": "",
+            })
 
-        # image entries whose index falls within this scene's range
-        for ir in image_rows:
-            global_idx = ir["index"]
-            if start_global <= global_idx <= end_global:
-                # Use the Cloudinary src (with leading / for consistency with existing data)
-                src_val = f"/{ir['src']}" if ir["src"] and not ir["src"].startswith("/") else ir["src"]
-                emakis.append({
-                    "cat": "image",
-                    "chapter": "",
-                    "config": "cloudinary",
-                    "src": src_val,
-                    "name": ir["public_id"],
-                    "srcHeight": str(ir["height"]) if ir["height"] else "",
-                    "srcWidth": str(ir["width"]) if ir["width"] else "",
-                })
+            # image entries whose index falls within this scene's range
+            for ir in image_rows:
+                global_idx = ir["index"]
+                if start_global <= global_idx <= end_global:
+                    src_val = f"/{ir['src']}" if ir["src"] and not ir["src"].startswith("/") else ir["src"]
+                    emakis.append({
+                        "cat": "image",
+                        "chapter": "",
+                        "config": "cloudinary" if ir["src"] else "",
+                        "src": src_val,
+                        "name": ir["public_id"],
+                        "srcHeight": str(ir["height"]) if ir["height"] else "",
+                        "srcWidth": str(ir["width"]) if ir["width"] else "",
+                    })
 
     return {
         "id": meta["id"],
@@ -111,6 +118,10 @@ def build_emaki_entry(config: dict, image_rows: list[dict]) -> dict:
         "favorite": meta.get("favorite", False),
         "sourceImageUrl": meta.get("sourceImageUrl", ""),
         "sourceImage": meta.get("sourceImage", ""),
+        "metadesc": meta.get("metadesc", ""),
+        "gif": meta.get("gif", ""),
+        "sourceEkotoba": meta.get("sourceEkotoba", ""),
+        "reference": meta.get("reference", []),
         "emakis": emakis,
     }
 
@@ -119,8 +130,10 @@ def build_emaki_entry(config: dict, image_rows: list[dict]) -> dict:
 #  Update dataEmakis.json (upsert by titleen)
 # ---------------------------------------------------------------------------
 
-def upsert_data_emakis(new_entry: dict, dry_run: bool = False) -> list[dict]:
-    """Insert or replace the entry in dataEmakis.json matching titleen. Returns all entries."""
+def upsert_data_emakis(new_entry: dict, dry_run: bool = False) -> tuple[list[dict], dict | None]:
+    """Insert or replace the entry in dataEmakis.json matching titleen.
+    Returns (all_entries, existing_entry_if_replaced).
+    """
     if not DATA_EMAKIS_PATH.exists():
         entries = []
     else:
@@ -128,9 +141,11 @@ def upsert_data_emakis(new_entry: dict, dry_run: bool = False) -> list[dict]:
             entries = json.load(f)
 
     titleen = new_entry["titleen"]
+    existing_entry = None
     replaced = False
     for i, entry in enumerate(entries):
         if entry.get("titleen") == titleen:
+            existing_entry = entry
             entries[i] = new_entry
             replaced = True
             if not dry_run:
@@ -150,7 +165,7 @@ def upsert_data_emakis(new_entry: dict, dry_run: bool = False) -> list[dict]:
     else:
         print(f"  [dry-run] Would write {len(entries)} entries")
 
-    return entries
+    return entries, existing_entry
 
 
 # ---------------------------------------------------------------------------
@@ -233,6 +248,12 @@ def main() -> None:
         image_rows = ss.build_upload_plan(config)
         # Fill with placeholder data
         for ir in image_rows:
+            ir["public_id"] = ss.image_public_id(
+                config["scroll_id"],
+                int(config.get("volume_num", 1)),
+                ir["chapter"],
+                ir.get("ordinal", ir["index"]),
+            )
             ir["src"] = ""
             ir["width"] = 0
             ir["height"] = 0
@@ -252,7 +273,19 @@ def main() -> None:
 
     # 4. Update dataEmakis.json
     print("\n[dataEmakis] Updating entry...")
-    new_entry = build_emaki_entry(config, image_rows)
+
+    # Read existing entry to preserve image paths on skip-upload
+    existing_entry = None
+    if not args.dry_run and DATA_EMAKIS_PATH.exists():
+        with open(DATA_EMAKIS_PATH, "r", encoding="utf-8") as f:
+            all_entries = json.load(f)
+        titleen = config.get("metadata", {}).get("titleen", "")
+        for e in all_entries:
+            if e.get("titleen") == titleen:
+                existing_entry = e
+                break
+
+    new_entry = build_emaki_entry(config, image_rows, existing_entry, skip_images=args.skip_upload)
     upsert_data_emakis(new_entry, dry_run=args.dry_run)
 
     # 5. Regenerate image-metadata-cache.json

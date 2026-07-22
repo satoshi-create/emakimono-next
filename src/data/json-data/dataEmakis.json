@@ -3115,7 +3115,6 @@
       {
         "id": "3"
       },
-
       {
         "id": "5"
       },
@@ -3433,7 +3432,9 @@
         "chapter": "西行、歳末に当たり、往事の追憶にふける",
         "kobun": "",
         "gendaibun": "<span class='waka'>おのずから　言はぬを慕う　人やあると<br>　　　　　　やすらふほどに　年の暮れぬる<br><br>昔思ふ　庭に薪を　積みおきて<br>　　　　　　見し世にも似ぬ　年の暮れかな<br><br>年暮らし　その営みの　果かなくて<br>　　　　　　あらぬさまなる　急ぎをぞする</span>",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 246
       },
       {
@@ -3489,7 +3490,9 @@
         "srcTb": "/saigyo_manno_05-800.webp",
         "src": "/saigyo_manno_05-1080.webp",
         "name": "saigyo_manno_05.webp",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 251
       },
       {
@@ -3534,7 +3537,9 @@
         "srcTb": "/saigyo_manno_09-800.webp",
         "src": "/saigyo_manno_09-1080.webp",
         "name": "saigyo_manno_09.webp",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 255
       },
       {
@@ -3590,7 +3595,9 @@
         "srcTb": "/saigyo_manno_14-800.webp",
         "src": "/saigyo_manno_14-1080.webp",
         "name": "saigyo_manno_14.webp",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 260
       },
       {
@@ -3613,7 +3620,9 @@
         "srcTb": "/saigyo_manno_16-800.webp",
         "src": "/saigyo_manno_16-1080.webp",
         "name": "saigyo_manno_16.webp",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 262
       },
       {
@@ -3658,7 +3667,9 @@
         "srcTb": "/saigyo_manno_20-800.webp",
         "src": "/saigyo_manno_20-1080.webp",
         "name": "saigyo_manno_20.webp",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 266
       },
       {
@@ -3703,7 +3714,9 @@
         "srcTb": "/saigyo_manno_24-800.webp",
         "src": "/saigyo_manno_24-1080.webp",
         "name": "saigyo_manno_24.webp",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 270
       },
       {
@@ -3737,7 +3750,9 @@
         "srcTb": "/saigyo_manno_27-800.webp",
         "src": "/saigyo_manno_27-1080.webp",
         "name": "saigyo_manno_27.webp",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 273
       },
       {
@@ -3792,15 +3807,17 @@
     "titleen": "jigokusoushi_anzyuin",
     "author": "",
     "authoren": "",
+    "edition": "",
+    "encodeUrl": "",
     "backgroundImage": "/washi-pattern-01.webp",
-    "video": "",
     "thumb": "/jigokusoushi_anzyuin_thumb.webp",
     "thumb2": "/jigokusoushi_anzyuin_thumb.webp",
-    "metadesc": "",
-    "desc": "",
+    "video": "",
     "era": "平安",
     "eraen": "heiann",
-    "gif": "",
+    "desc": "",
+    "descen": "",
+    "readMore": false,
     "type": "絵巻",
     "typeen": "emaki",
     "keyword": [
@@ -3821,8 +3838,12 @@
       }
     ],
     "kotobagaki": true,
+    "favorite": false,
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-10942?locale=ja",
     "sourceImage": "地獄草紙（ColBase）",
+    "metadesc": "",
+    "gif": "",
+    "sourceEkotoba": "",
     "reference": [
       {
         "type": "書籍",
@@ -3830,7 +3851,6 @@
         "title": "『餓鬼草紙 地獄草紙 病草紙 九相詩絵巻』（日本絵巻大成7 中央公論社）"
       }
     ],
-    "sourceEkotoba": "",
     "emakis": [
       {
         "cat": "ekotoba",
@@ -3928,15 +3948,17 @@
     "titleen": "jigokusoushi_genke",
     "author": "",
     "authoren": "",
+    "edition": "",
+    "encodeUrl": "",
     "backgroundImage": "/washi-pattern-01.webp",
-    "video": "",
     "thumb": "/jigokusoushi_genke_thumb.webp",
     "thumb2": "/jigokusoushi_genke_thumb.webp",
-    "metadesc": "",
-    "desc": "",
+    "video": "",
     "era": "平安",
     "eraen": "heiann",
-    "gif": "",
+    "desc": "",
+    "descen": "",
+    "readMore": false,
     "type": "絵巻",
     "typeen": "emaki",
     "keyword": [
@@ -3957,8 +3979,12 @@
       }
     ],
     "kotobagaki": true,
+    "favorite": false,
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/narahaku/644-0?locale=ja",
     "sourceImage": "地獄草紙 （ColBase）",
+    "metadesc": "",
+    "gif": "",
+    "sourceEkotoba": "",
     "reference": [
       {
         "type": "書籍",
@@ -3966,7 +3992,6 @@
         "title": "『餓鬼草紙 地獄草紙 病草紙 九相詩絵巻』（日本絵巻大成7 中央公論社）"
       }
     ],
-    "sourceEkotoba": "",
     "emakis": [
       {
         "cat": "ekotoba",
@@ -3977,7 +4002,9 @@
         "srcTb": "/jigokusoushi_genke_01-800.webp",
         "src": "/jigokusoushi_genke_01-1080.webp",
         "name": "jigokusoushi_genke_01.webp",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 296,
         "srcWidth": 2013,
         "srcHeight": 1080
@@ -4002,7 +4029,9 @@
         "srcTb": "/jigokusoushi_genke_03-800.webp",
         "src": "/jigokusoushi_genke_03-1080.webp",
         "name": "jigokusoushi_genke_03.webp",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 298,
         "srcWidth": 1685,
         "srcHeight": 1080
@@ -4027,7 +4056,9 @@
         "srcTb": "/jigokusoushi_genke_05-800.webp",
         "src": "/jigokusoushi_genke_05-1080.webp",
         "name": "jigokusoushi_genke_05.webp",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 300,
         "srcWidth": 1475,
         "srcHeight": 1080
@@ -4052,7 +4083,9 @@
         "srcTb": "/jigokusoushi_genke_07-800.webp",
         "src": "/jigokusoushi_genke_07-1080.webp",
         "name": "jigokusoushi_genke_07.webp",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 302,
         "srcWidth": 1521,
         "srcHeight": 1080
@@ -4077,7 +4110,9 @@
         "srcTb": "/jigokusoushi_genke_09-800.webp",
         "src": "/jigokusoushi_genke_09-1080.webp",
         "name": "jigokusoushi_genke_09.webp",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 304,
         "srcWidth": 1215,
         "srcHeight": 1080
@@ -4102,7 +4137,9 @@
         "srcTb": "/jigokusoushi_genke_11-800.webp",
         "src": "/jigokusoushi_genke_11-1080.webp",
         "name": "jigokusoushi_genke_11.webp",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 306,
         "srcWidth": 1486,
         "srcHeight": 1080
@@ -4123,7 +4160,9 @@
         "chapter": "狐狼地獄（ころうじごく）",
         "kobun": "",
         "gendaibun": "",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 308
       },
       {
@@ -4145,15 +4184,17 @@
     "titleen": "gakisoushi_kawamoto",
     "author": "",
     "authoren": "",
+    "edition": "",
+    "encodeUrl": "",
     "backgroundImage": "/washi-pattern-01.webp",
-    "video": "",
     "thumb": "/gakisoushi_kawamoto_thumb.webp",
     "thumb2": "/gakisoushi_kawamoto_thumb.webp",
-    "metadesc": "",
-    "desc": "",
+    "video": "",
     "era": "平安",
     "eraen": "heiann",
-    "gif": "",
+    "desc": "",
+    "descen": "",
+    "readMore": false,
     "type": "絵巻",
     "typeen": "emaki",
     "keyword": [
@@ -4184,8 +4225,11 @@
       }
     ],
     "kotobagaki": true,
+    "favorite": false,
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
     "sourceImage": "餓鬼草紙 （ColBase）",
+    "metadesc": "",
+    "gif": "",
     "sourceEkotoba": "",
     "reference": [
       {
@@ -4200,7 +4244,9 @@
         "chapter": "欲色餓鬼（よくじきがき）",
         "kobun": "",
         "gendaibun": "",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 310
       },
       {
@@ -4219,7 +4265,9 @@
         "chapter": "伺嬰児便飢餓（しえいじべんきが）",
         "kobun": "",
         "gendaibun": "",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 312
       },
       {
@@ -4238,7 +4286,9 @@
         "chapter": "伺便飢餓（しべんきが）",
         "kobun": "",
         "gendaibun": "",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 314
       },
       {
@@ -4257,7 +4307,9 @@
         "chapter": "疾行飢餓（しっこうきが）",
         "kobun": "",
         "gendaibun": "",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 316
       },
       {
@@ -4276,7 +4328,9 @@
         "chapter": "食糞飢餓（しょくふんきが）",
         "kobun": "",
         "gendaibun": "",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 318
       },
       {
@@ -4295,7 +4349,9 @@
         "chapter": "曠野飢餓（こうやきが）",
         "kobun": "",
         "gendaibun": "",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 320
       },
       {
@@ -4314,7 +4370,9 @@
         "chapter": "食火炭飢餓",
         "kobun": "",
         "gendaibun": "",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 322
       },
       {
@@ -5980,7 +6038,9 @@
         "chapter": "　朝の巻",
         "kobun": "",
         "gendaibun": "",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 441
       },
       {
@@ -6065,7 +6125,9 @@
         "chapter": "　暮の巻",
         "kobun": "",
         "gendaibun": "",
-        "phrase": [{}],
+        "phrase": [
+          {}
+        ],
         "id": 449
       },
       {
@@ -7989,7 +8051,7 @@
       }
     ],
     "sourceEkotoba": "",
-    "emakis":[
+    "emakis": [
       {
         "cat": "ekotoba",
         "config": "cloudinary",
@@ -8099,7 +8161,6 @@
         "srcHeight": "1080"
       }
     ]
-
   },
   {
     "id": 49,

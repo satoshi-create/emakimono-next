@@ -1,0 +1,57 @@
+scroll_id: "jigokusoushi_anzyuin"
+volume_num: 1
+theme_id: "jigoku"
+folder: "emakimono"
+
+metadata:
+  id: 12
+  title: "地獄草紙（安住院本）"
+  titleen: "jigokusoushi_anzyuin"
+  author: ""
+  authoren: ""
+  edition: ""
+  era: "平安"
+  eraen: "heiann"
+  type: "絵巻"
+  typeen: "emaki"
+  desc: ""
+  descen: ""
+  thumb: "/jigokusoushi_anzyuin_thumb.webp"
+  thumb2: "/jigokusoushi_anzyuin_thumb.webp"
+  backgroundImage: "/washi-pattern-01.webp"
+  video: ""
+  encodeUrl: ""
+  sourceImageUrl: "https://colbase.nich.go.jp/collection_items/tnm/A-10942?locale=ja"
+  sourceImage: "地獄草紙（ColBase）"
+  sourceEkotoba: ""
+  favorite: false
+  kotobagaki: true
+  readMore: false
+  gif: ""
+  metadesc: ""
+  reference:
+    - type: "書籍"
+      url: "https://rb.gy/r3nghf"
+      title: "『餓鬼草紙 地獄草紙 病草紙 九相詩絵巻』（日本絵巻大成7 中央公論社）"
+  keywords:
+    - { name: "地獄", id: "hell", slug: "hell" }
+    - { name: "仏教", id: "buddhism", slug: "buddhism" }
+    - { name: "鬼", id: "demon", slug: "demon" }
+
+scenes:
+  - id: 1
+    title: "第1段"
+    titleen: "Scene 1"
+    range: [1, 1]
+  - id: 2
+    title: "第2段"
+    titleen: "Scene 2"
+    range: [2, 2]
+  - id: 3
+    title: "第3段"
+    titleen: "Scene 3"
+    range: [3, 3]
+  - id: 4
+    title: "第4段"
+    titleen: "Scene 4"
+    range: [4, 4]

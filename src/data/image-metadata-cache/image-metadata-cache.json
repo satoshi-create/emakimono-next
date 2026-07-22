@@ -61,8 +61,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717675/cyoujyuu_yamazaki_kou_01-1080_dfj1qs.jpg",
-        "name": "cyoujyuu_yamazaki_kou_01",
+        "src": "v1775033725/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__01.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__01",
         "srcWidth": 1804,
         "srcHeight": 1080
       },
@@ -70,8 +70,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717675/cyoujyuu_yamazaki_kou_02-1080_dm2fya.jpg",
-        "name": "cyoujyuu_yamazaki_kou_02",
+        "src": "v1775033725/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__02.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__02",
         "srcWidth": 2228,
         "srcHeight": 1080
       },
@@ -79,18 +79,18 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717676/cyoujyuu_yamazaki_kou_03-1080_ce876r.jpg",
-        "name": "cyoujyuu_yamazaki_kou_03",
-        "srcWidth": 2436,
+        "src": "v1774943571/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01_02.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01_02",
+        "srcWidth": 2228,
         "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717677/cyoujyuu_yamazaki_kou_04-1080_wgkgxx.jpg",
-        "name": "cyoujyuu_yamazaki_kou_04",
-        "srcWidth": 2279,
+        "src": "v1775033726/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__03.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__03",
+        "srcWidth": 2436,
         "srcHeight": 1080
       },
       {
@@ -104,8 +104,17 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717680/cyoujyuu_yamazaki_kou_05-1080_siqwvb.jpg",
-        "name": "cyoujyuu_yamazaki_kou_05",
+        "src": "v1775033726/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__04.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__04",
+        "srcWidth": 2279,
+        "srcHeight": 1080
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1775033727/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__01.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__01",
         "srcWidth": 1617,
         "srcHeight": 1080
       },
@@ -113,8 +122,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717681/cyoujyuu_yamazaki_kou_06-1080_ygtwrv.jpg",
-        "name": "cyoujyuu_yamazaki_kou_06",
+        "src": "v1775033728/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__02.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__02",
         "srcWidth": 1860,
         "srcHeight": 1080
       },
@@ -122,8 +131,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717681/cyoujyuu_yamazaki_kou_07-1080_y2kuy9.jpg",
-        "name": "cyoujyuu_yamazaki_kou_07",
+        "src": "v1775033728/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__03.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__03",
         "srcWidth": 1845,
         "srcHeight": 1080
       },
@@ -131,8 +140,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717682/cyoujyuu_yamazaki_kou_08-1080_whgcro.jpg",
-        "name": "cyoujyuu_yamazaki_kou_08",
+        "src": "v1775033729/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__04.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__04",
         "srcWidth": 1845,
         "srcHeight": 1080
       },
@@ -140,18 +149,9 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717694/cyoujyuu_yamazaki_kou_09-1080_vwohqb.jpg",
-        "name": "cyoujyuu_yamazaki_kou_09",
+        "src": "v1775033729/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__05.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__05",
         "srcWidth": 1860,
-        "srcHeight": 1080
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "config": "cloudinary",
-        "src": "v1735717700/cyoujyuu_yamazaki_kou_10-1080_nwjeph.jpg",
-        "name": "cyoujyuu_yamazaki_kou_10",
-        "srcWidth": 1709,
         "srcHeight": 1080
       },
       {
@@ -165,18 +165,18 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717700/cyoujyuu_yamazaki_kou_11-1080_cidvdn.jpg",
-        "name": "cyoujyuu_yamazaki_kou_11",
-        "srcWidth": 1065,
+        "src": "v1775033730/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__06.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__06",
+        "srcWidth": 1709,
         "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717701/cyoujyuu_yamazaki_kou_12-1080_hpc8cu.jpg",
-        "name": "cyoujyuu_yamazaki_kou_12",
-        "srcWidth": 1902,
+        "src": "v1775033731/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_03__01.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_03__01",
+        "srcWidth": 1065,
         "srcHeight": 1080
       },
       {
@@ -190,18 +190,18 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717733/cyoujyuu_yamazaki_kou_13-1080_cbf96u.jpg",
-        "name": "cyoujyuu_yamazaki_kou_13",
-        "srcWidth": 1878,
+        "src": "v1775033732/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_03__02.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_03__02",
+        "srcWidth": 1902,
         "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717736/cyoujyuu_yamazaki_kou_14-1080_okc4mc.jpg",
-        "name": "cyoujyuu_yamazaki_kou_14",
-        "srcWidth": 2196,
+        "src": "v1775033732/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_04__01.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_04__01",
+        "srcWidth": 1878,
         "srcHeight": 1080
       },
       {
@@ -215,9 +215,9 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717737/cyoujyuu_yamazaki_kou_16-1080_wgsmir.jpg",
-        "name": "cyoujyuu_yamazaki_kou_15",
-        "srcWidth": 1252,
+        "src": "v1775033733/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_04__02.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_04__02",
+        "srcWidth": 2196,
         "srcHeight": 1080
       },
       {
@@ -231,18 +231,18 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717739/cyoujyuu_yamazaki_kou_17-1080_ynpdkt.jpg",
-        "name": "cyoujyuu_yamazaki_kou_17",
-        "srcWidth": 2015,
+        "src": "v1775033734/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_05__01.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_05__01",
+        "srcWidth": 1350,
         "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717739/cyoujyuu_yamazaki_kou_18-1080_bbyjrn.jpg",
-        "name": "cyoujyuu_yamazaki_kou_18",
-        "srcWidth": 1899,
+        "src": "v1775033734/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_05__02.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_05__02",
+        "srcWidth": 1252,
         "srcHeight": 1080
       },
       {
@@ -256,9 +256,9 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717741/cyoujyuu_yamazaki_kou_19-1080_qjnfyf.jpg",
-        "name": "cyoujyuu_yamazaki_kou_19",
-        "srcWidth": 1380,
+        "src": "v1775033735/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_06__01.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_06__01",
+        "srcWidth": 2015,
         "srcHeight": 1080
       },
       {
@@ -272,18 +272,18 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717742/cyoujyuu_yamazaki_kou_20-1080_vbzwgr.jpg",
-        "name": "cyoujyuu_yamazaki_kou_20",
-        "srcWidth": 1685,
+        "src": "v1775033735/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_06__02.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_06__02",
+        "srcWidth": 1899,
         "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717743/cyoujyuu_yamazaki_kou_21-1080_ax9pku.jpg",
-        "name": "cyoujyuu_yamazaki_kou_21",
-        "srcWidth": 1887,
+        "src": "v1775033736/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_07__01.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_07__01",
+        "srcWidth": 1380,
         "srcHeight": 1080
       },
       {
@@ -297,8 +297,26 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717675/cyoujyuu_yamazaki_kou_22-1080_azkn3n.jpg",
-        "name": "cyoujyuu_yamazaki_kou_22",
+        "src": "v1775033737/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_08__01.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_08__01",
+        "srcWidth": 1685,
+        "srcHeight": 1080
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1775033737/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_08__02.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_08__02",
+        "srcWidth": 1887,
+        "srcHeight": 1080
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1775033738/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_09__01.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_09__01",
         "srcWidth": 1881,
         "srcHeight": 1080
       },
@@ -306,8 +324,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1735717675/cyoujyuu_yamazaki_kou_23-1080_m7r5uk.jpg",
-        "name": "cyoujyuu_yamazaki_kou_23",
+        "src": "v1775033739/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_09__02.jpg",
+        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_09__02",
         "srcWidth": 1216,
         "srcHeight": 1080
       }
@@ -375,37 +393,37 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007209/cyoujyuu_yamazaki_otu_01-1080_a0fh8t.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "1589",
-        "srcHeight": "1080"
+        "src": "v1774933890/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_01__01.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_01__01",
+        "srcWidth": 1589,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007772/cyoujyuu_yamazaki_otu_02-1080_fsgd3t.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "1373",
-        "srcHeight": "1080"
+        "src": "v1774933892/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_01__02.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_01__02",
+        "srcWidth": 1373,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007788/cyoujyuu_yamazaki_otu_03-1080_lwzxzv.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "1814",
-        "srcHeight": "1080"
+        "src": "v1774933894/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_01__03.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_01__03",
+        "srcWidth": 1814,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007788/cyoujyuu_yamazaki_otu_04-1080_kq6bs1.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "1793",
-        "srcHeight": "1080"
+        "src": "v1774933896/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_01__04.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_01__04",
+        "srcWidth": 1793,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -420,37 +438,37 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007789/cyoujyuu_yamazaki_otu_05-1080_ygxz58.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "1864",
-        "srcHeight": "1080"
+        "src": "v1774933898/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_02__01.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_02__01",
+        "srcWidth": 1864,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007789/cyoujyuu_yamazaki_otu_06-1080_gdxci5.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "2045",
-        "srcHeight": "1080"
+        "src": "v1774933899/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_02__02.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_02__02",
+        "srcWidth": 2045,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007789/cyoujyuu_yamazaki_otu_07-1080_lskr6j.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "1633",
-        "srcHeight": "1080"
+        "src": "v1774933901/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_02__03.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_02__03",
+        "srcWidth": 1633,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007789/cyoujyuu_yamazaki_otu_08-1080_ofmhc6.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "1837",
-        "srcHeight": "1080"
+        "src": "v1774933905/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_02__04.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_02__04",
+        "srcWidth": 1837,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -465,10 +483,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007789/cyoujyuu_yamazaki_otu_09-1080_ryy9bo.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "1290",
-        "srcHeight": "1080"
+        "src": "v1774933906/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_03__01.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_03__01",
+        "srcWidth": 1290,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -483,10 +501,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007796/cyoujyuu_yamazaki_otu_10-1080_wngsws.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "2906",
-        "srcHeight": "1080"
+        "src": "v1774933908/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_04__01.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_04__01",
+        "srcWidth": 2906,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -501,19 +519,19 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007793/cyoujyuu_yamazaki_otu_11-1080_et7eaa.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "2551",
-        "srcHeight": "1080"
+        "src": "v1774933910/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_05__01.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_05__01",
+        "srcWidth": 2551,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007793/cyoujyuu_yamazaki_otu_12-1080_rfttn6.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "1355",
-        "srcHeight": "1080"
+        "src": "v1774933912/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_05__02.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_05__02",
+        "srcWidth": 1355,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -528,10 +546,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007793/cyoujyuu_yamazaki_otu_13-1080_oi4qug.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "1213",
-        "srcHeight": "1080"
+        "src": "v1774933913/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_06__01.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_06__01",
+        "srcWidth": 1213,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -546,10 +564,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007794/cyoujyuu_yamazaki_otu_14-1080_tw8zpr.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "1485",
-        "srcHeight": "1080"
+        "src": "v1774933915/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_07__01.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_07__01",
+        "srcWidth": 1485,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -564,10 +582,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007782/cyoujyuu_yamazaki_otu_15-1080_jkoybu.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "2388",
-        "srcHeight": "1080"
+        "src": "v1774933916/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_08__01.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_08__01",
+        "srcWidth": 2388,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -582,10 +600,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007783/cyoujyuu_yamazaki_otu_16-1080_fku1sf.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "2332",
-        "srcHeight": "1080"
+        "src": "v1774933917/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_09__01.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_09__01",
+        "srcWidth": 2332,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -600,10 +618,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007783/cyoujyuu_yamazaki_otu_17-1080_svyy6p.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "1379",
-        "srcHeight": "1080"
+        "src": "v1774933919/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_10__01.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_10__01",
+        "srcWidth": 1379,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -618,10 +636,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007783/cyoujyuu_yamazaki_otu_18-1080_ggi5wo.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "1959",
-        "srcHeight": "1080"
+        "src": "v1774933920/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_11__01.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_11__01",
+        "srcWidth": 1959,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -636,10 +654,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007784/cyoujyuu_yamazaki_otu_19-1080_pvijar.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "3000",
-        "srcHeight": "1080"
+        "src": "v1774933922/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_12__01.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_12__01",
+        "srcWidth": 3000,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -654,10 +672,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007784/cyoujyuu_yamazaki_otu_20-1080_kpk1gq.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "2086",
-        "srcHeight": "1080"
+        "src": "v1774933923/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_13__01.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_13__01",
+        "srcWidth": 2086,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -672,10 +690,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007784/cyoujyuu_yamazaki_otu_21-_1080_dxqjav.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "1968",
-        "srcHeight": "1080"
+        "src": "v1774933925/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_14__01.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_14__01",
+        "srcWidth": 1968,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -690,10 +708,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744007784/cyoujyuu_yamazaki_otu_22-1080_yulram.jpg",
-        "name": "鳥獣人物戯画絵巻乙巻摸本の画像",
-        "srcWidth": "1837",
-        "srcHeight": "1080"
+        "src": "v1774933927/emakimono/choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_15__01.jpg",
+        "name": "choju-giga-yamazaki-otu__choju-giga-yamazaki-otu_2_15__01",
+        "srcWidth": 1837,
+        "srcHeight": 1080
       }
     ]
   },
@@ -764,10 +782,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744009743/cyoujyuu_yamazaki_hei_01-1080_elt97j.jpg",
-        "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "srcWidth": "2687",
-        "srcHeight": "1080"
+        "src": "v1774934254/emakimono/choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_01_01.jpg",
+        "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_01_01",
+        "srcWidth": 2776,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -782,10 +800,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744009743/cyoujyuu_yamazaki_hei_02-1080_eavb8v.jpg",
-        "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "srcWidth": "2310",
-        "srcHeight": "1080"
+        "src": "v1774934256/emakimono/choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_02_01.jpg",
+        "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_02_01",
+        "srcWidth": 2386,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -800,10 +818,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744009744/cyoujyuu_yamazaki_hei_03-1080_cd7ao0.jpg",
-        "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "srcWidth": "1593",
-        "srcHeight": "1080"
+        "src": "v1774934257/emakimono/choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_03_01.jpg",
+        "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_03_01",
+        "srcWidth": 1641,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -818,10 +836,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744009743/cyoujyuu_yamazaki_hei_04-1080_jfmjky.jpg",
-        "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "srcWidth": "1731",
-        "srcHeight": "1080"
+        "src": "v1774934258/emakimono/choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_04_01.jpg",
+        "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_04_01",
+        "srcWidth": 1778,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -836,10 +854,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744009743/cyoujyuu_yamazaki_hei_05-1080_jg9iyu.jpg",
-        "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "srcWidth": "2339",
-        "srcHeight": "1080"
+        "src": "v1774934260/emakimono/choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_05_01.jpg",
+        "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_05_01",
+        "srcWidth": 2403,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -854,10 +872,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744009743/cyoujyuu_yamazaki_hei_06-1080_n3jp35.jpg",
-        "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "srcWidth": "1331",
-        "srcHeight": "1080"
+        "src": "v1774934261/emakimono/choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_06_01.jpg",
+        "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_06_01",
+        "srcWidth": 1368,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -872,10 +890,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744009744/cyoujyuu_yamazaki_hei_07-1080_httsyh.jpg",
-        "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "srcWidth": "1816",
-        "srcHeight": "1080"
+        "src": "v1774934263/emakimono/choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_07_01.jpg",
+        "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_07_01",
+        "srcWidth": 1866,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -890,10 +908,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744009744/cyoujyuu_yamazaki_hei_08-1080_rrifr6.jpg",
-        "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "srcWidth": "3794",
-        "srcHeight": "1080"
+        "src": "v1774934264/emakimono/choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_08_01.jpg",
+        "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_08_01",
+        "srcWidth": 3899,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -908,10 +926,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744009744/cyoujyuu_yamazaki_hei_09-1080_w0yopo.jpg",
-        "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "srcWidth": "2180",
-        "srcHeight": "1080"
+        "src": "v1774934265/emakimono/choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_09_01.jpg",
+        "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_09_01",
+        "srcWidth": 2240,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -926,28 +944,28 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744009745/cyoujyuu_yamazaki_hei_10-1080_afulzy.jpg",
-        "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "srcWidth": "1666",
-        "srcHeight": "1080"
+        "src": "v1774934267/emakimono/choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_10_01.jpg",
+        "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_10_01",
+        "srcWidth": 1712,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744009745/cyoujyuu_yamazaki_hei_11-1080_fm4idj.jpg",
-        "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "srcWidth": "1891",
-        "srcHeight": "1080"
+        "src": "v1774934268/emakimono/choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_10_02.jpg",
+        "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_10_02",
+        "srcWidth": 1943,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744009745/cyoujyuu_yamazaki_hei_12-1080_druipr.jpg",
-        "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "srcWidth": "1921",
-        "srcHeight": "1080"
+        "src": "v1774934269/emakimono/choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_10_03.jpg",
+        "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_10_03",
+        "srcWidth": 1974,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -962,19 +980,19 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744009745/cyoujyuu_yamazaki_hei_13-1080_fjl1fq.jpg",
-        "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "srcWidth": "1926",
-        "srcHeight": "1080"
+        "src": "v1774934271/emakimono/choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_11_01.jpg",
+        "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_11_01",
+        "srcWidth": 1979,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744009746/cyoujyuu_yamazaki_hei_14-1080_zcgbh9.jpg",
-        "name": "鳥獣人物戯画絵巻丙巻摸本の画像",
-        "srcWidth": "1871",
-        "srcHeight": "1080"
+        "src": "v1774934272/emakimono/choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_11_02.jpg",
+        "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_11_02",
+        "srcWidth": 1923,
+        "srcHeight": 1080
       }
     ]
   },
@@ -1034,10 +1052,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744011262/cyoujyuu_yamazaki_tei_01-1080_mcsjso.jpg",
-        "name": "鳥獣人物戯画絵巻丁巻摸本の画像",
-        "srcWidth": "1619",
-        "srcHeight": "1080"
+        "src": "v1774934533/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_01_01.jpg",
+        "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_01_01",
+        "srcWidth": 1619,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -1052,19 +1070,19 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744011262/cyoujyuu_yamazaki_tei_02-1080_io2ywr.jpg",
-        "name": "鳥獣人物戯画絵巻丁巻摸本の画像",
-        "srcWidth": "2301",
-        "srcHeight": "1080"
+        "src": "v1774934534/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_02_01.jpg",
+        "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_02_01",
+        "srcWidth": 2301,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744011262/cyoujyuu_yamazaki_tei_03-1080_ax7xea.jpg",
-        "name": "鳥獣人物戯画絵巻丁巻摸本の画像",
-        "srcWidth": "1696",
-        "srcHeight": "1080"
+        "src": "v1774934535/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_02_02.jpg",
+        "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_02_02",
+        "srcWidth": 1696,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -1079,19 +1097,19 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744011263/cyoujyuu_yamazaki_tei_04-1080_bemv0r.jpg",
-        "name": "鳥獣人物戯画絵巻丁巻摸本の画像",
-        "srcWidth": "2604",
-        "srcHeight": "1080"
+        "src": "v1774934537/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_03_01.jpg",
+        "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_03_01",
+        "srcWidth": 2604,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744011267/cyoujyuu_yamazaki_tei_05-1080_xpoilv.jpg",
-        "name": "鳥獣人物戯画絵巻丁巻摸本の画像",
-        "srcWidth": "1138",
-        "srcHeight": "1080"
+        "src": "v1774934538/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_03_02.jpg",
+        "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_03_02",
+        "srcWidth": 1138,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -1106,19 +1124,19 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744011268/cyoujyuu_yamazaki_tei_06-1080_plrfgp.jpg",
-        "name": "鳥獣人物戯画絵巻丁巻摸本の画像",
-        "srcWidth": "1740",
-        "srcHeight": "1080"
+        "src": "v1774934540/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_04_01.jpg",
+        "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_04_01",
+        "srcWidth": 1740,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744011268/cyoujyuu_yamazaki_tei_07-1080_n32xph.jpg",
-        "name": "鳥獣人物戯画絵巻丁巻摸本の画像",
-        "srcWidth": "1601",
-        "srcHeight": "1080"
+        "src": "v1774934541/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_04_02.jpg",
+        "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_04_02",
+        "srcWidth": 1601,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -1133,10 +1151,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744011268/cyoujyuu_yamazaki_tei_08-1080_kntf5v.jpg",
-        "name": "鳥獣人物戯画絵巻丁巻摸本の画像",
-        "srcWidth": "1840",
-        "srcHeight": "1080"
+        "src": "v1774934543/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_05_01.jpg",
+        "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_05_01",
+        "srcWidth": 1840,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -1151,10 +1169,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744011268/cyoujyuu_yamazaki_tei_09-1080_qr6yfs.jpg",
-        "name": "鳥獣人物戯画絵巻丁巻摸本の画像",
-        "srcWidth": "2655",
-        "srcHeight": "1080"
+        "src": "v1774934544/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_06_01.jpg",
+        "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_06_01",
+        "srcWidth": 2655,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -1169,28 +1187,28 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744011270/cyoujyuu_yamazaki_tei_10-1080_jmobtx.jpg",
-        "name": "鳥獣人物戯画絵巻丁巻摸本の画像",
-        "srcWidth": "1558",
-        "srcHeight": "1080"
+        "src": "v1774934545/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_07_01.jpg",
+        "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_07_01",
+        "srcWidth": 1558,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744011272/cyoujyuu_yamazaki_tei_11-1080_aj3q04.jpg",
-        "name": "鳥獣人物戯画絵巻丁巻摸本の画像",
-        "srcWidth": "1140",
-        "srcHeight": "1080"
+        "src": "v1774934546/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_07_02.jpg",
+        "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_07_02",
+        "srcWidth": 1140,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744011273/cyoujyuu_yamazaki_tei_12-1080_irbj2p.jpg",
-        "name": "鳥獣人物戯画絵巻丁巻摸本の画像",
-        "srcWidth": "1812",
-        "srcHeight": "1080"
+        "src": "v1774934547/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_07_03.jpg",
+        "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_07_03",
+        "srcWidth": 1812,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -1205,10 +1223,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744011274/cyoujyuu_yamazaki_tei_13-1080_ob5ldr.jpg",
-        "name": "鳥獣人物戯画絵巻丁巻摸本の画像",
-        "srcWidth": "2062",
-        "srcHeight": "1080"
+        "src": "v1774934549/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_08_01.jpg",
+        "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_08_01",
+        "srcWidth": 2062,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -1223,10 +1241,10 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744011273/cyoujyuu_yamazaki_tei_14-1080_e7g9bb.jpg",
-        "name": "鳥獣人物戯画絵巻丁巻摸本の画像",
-        "srcWidth": "2200",
-        "srcHeight": "1080"
+        "src": "v1774934550/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_09_01.jpg",
+        "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_09_01",
+        "srcWidth": 2200,
+        "srcHeight": 1080
       },
       {
         "cat": "ekotoba",
@@ -1241,37 +1259,37 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744011274/cyoujyuu_yamazaki_tei_15-1080_lacvvr.jpg",
-        "name": "鳥獣人物戯画絵巻丁巻摸本の画像",
-        "srcWidth": "1117",
-        "srcHeight": "1080"
+        "src": "v1774934551/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_10_01.jpg",
+        "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_10_01",
+        "srcWidth": 1117,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744011261/cyoujyuu_yamazaki_tei_16-1080_u0elp7.jpg",
-        "name": "鳥獣人物戯画絵巻丁巻摸本の画像",
-        "srcWidth": "1797",
-        "srcHeight": "1080"
+        "src": "v1774934552/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_10_02.jpg",
+        "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_10_02",
+        "srcWidth": 1797,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744011262/cyoujyuu_yamazaki_tei_17-1080_d3iauq.jpg",
-        "name": "鳥獣人物戯画絵巻丁巻摸本の画像",
-        "srcWidth": "1734",
-        "srcHeight": "1080"
+        "src": "v1774934554/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_10_03.jpg",
+        "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_10_03",
+        "srcWidth": 1734,
+        "srcHeight": 1080
       },
       {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1744011262/cyoujyuu_yamazaki_tei_18-1080_kbyyfz.jpg",
-        "name": "鳥獣人物戯画絵巻丁巻摸本の画像",
-        "srcWidth": "1639",
-        "srcHeight": "1080"
+        "src": "v1774934556/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_10_04.jpg",
+        "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_10_04",
+        "srcWidth": 1639,
+        "srcHeight": 1080
       }
     ]
   },
@@ -1376,8 +1394,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734520763/kusouzu_01-1080_ysfciy.jpg",
-        "name": "kusouzu_01",
+        "src": "v1774936234/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_01_01.jpg",
+        "name": "kuso-zu-emaki__kuso-zu-emaki_1_01_01",
         "srcWidth": 1757,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1395,8 +1413,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734520764/kusouzu_02-1080_wqbi7h.jpg",
-        "name": "kusouzu_02",
+        "src": "v1774936236/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_02_01.jpg",
+        "name": "kuso-zu-emaki__kuso-zu-emaki_1_02_01",
         "srcWidth": 1693,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1414,8 +1432,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734520763/kusouzu_03-1080_juu9x7.jpg",
-        "name": "kusouzu_03",
+        "src": "v1774936237/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_03_01.jpg",
+        "name": "kuso-zu-emaki__kuso-zu-emaki_1_03_01",
         "srcWidth": 1708,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1433,8 +1451,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734520763/kusouzu_04-1080_yqwwf6.jpg",
-        "name": "kusouzu_04",
+        "src": "v1774936237/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_04_01.jpg",
+        "name": "kuso-zu-emaki__kuso-zu-emaki_1_04_01",
         "srcWidth": 1685,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1452,8 +1470,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734520765/kusouzu_05-1080_rhwzlc.jpg",
-        "name": "kusouzu_05",
+        "src": "v1774936238/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_05_01.jpg",
+        "name": "kuso-zu-emaki__kuso-zu-emaki_1_05_01",
         "srcWidth": 1682,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1471,8 +1489,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734520764/kusouzu_06-1080_bcwdxs.jpg",
-        "name": "kusouzu_06",
+        "src": "v1774936239/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_06_01.jpg",
+        "name": "kuso-zu-emaki__kuso-zu-emaki_1_06_01",
         "srcWidth": 1705,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1490,8 +1508,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734520762/kusouzu_07-1080_ngsbqv.jpg",
-        "name": "kusouzu_07",
+        "src": "v1774936240/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_07_01.jpg",
+        "name": "kuso-zu-emaki__kuso-zu-emaki_1_07_01",
         "srcWidth": 1711,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1509,8 +1527,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734520763/kusouzu_08-1080_mrrqbd.jpg",
-        "name": "kusouzu_08",
+        "src": "v1774936241/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_08_01.jpg",
+        "name": "kuso-zu-emaki__kuso-zu-emaki_1_08_01",
         "srcWidth": 2180,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1528,8 +1546,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734520764/kusouzu_09-1080_jvwxoy.jpg",
-        "name": "kusouzu_09",
+        "src": "v1774936242/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_09_01.jpg",
+        "name": "kuso-zu-emaki__kuso-zu-emaki_1_09_01",
         "srcWidth": 1221,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1547,8 +1565,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734520763/kusouzu_10-1080_dtv0tc.jpg",
-        "name": "kusouzu_10",
+        "src": "v1774935516/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_10_01.jpg",
+        "name": "kuso-zu-emaki__kuso-zu-emaki_1_10_01",
         "srcWidth": 1771,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1645,8 +1663,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734610098/kusouzu_eitaku_01-1080_jdqkgl.jpg",
-        "name": "kusouzu_eitaku_01",
+        "src": "v1774936334/emakimono/kusouzu-eitaku__kusouzu-eitaku_1_01_01.jpg",
+        "name": "kusouzu-eitaku__kusouzu-eitaku_1_01_01",
         "srcWidth": 2143,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1664,8 +1682,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734610238/kusouzu_eitaku_02-1080_uu97ee.jpg",
-        "name": "kusouzu_eitaku_02",
+        "src": "v1774936335/emakimono/kusouzu-eitaku__kusouzu-eitaku_1_02_01.jpg",
+        "name": "kusouzu-eitaku__kusouzu-eitaku_1_02_01",
         "srcWidth": 2359,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1683,8 +1701,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734610240/kusouzu_eitaku_03-1080_oepcza.jpg",
-        "name": "kusouzu_eitaku_03",
+        "src": "v1774936336/emakimono/kusouzu-eitaku__kusouzu-eitaku_1_03_01.jpg",
+        "name": "kusouzu-eitaku__kusouzu-eitaku_1_03_01",
         "srcWidth": 2422,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1702,8 +1720,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734610239/kusouzu_eitaku_04-1080_ie8t7k.jpg",
-        "name": "kusouzu_eitaku_04",
+        "src": "v1774936337/emakimono/kusouzu-eitaku__kusouzu-eitaku_1_04_01.jpg",
+        "name": "kusouzu-eitaku__kusouzu-eitaku_1_04_01",
         "srcWidth": 2376,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1721,8 +1739,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734610240/kusouzu_eitaku_05-1080_zbtpqn.jpg",
-        "name": "kusouzu_eitaku_05",
+        "src": "v1774936338/emakimono/kusouzu-eitaku__kusouzu-eitaku_1_05_01.jpg",
+        "name": "kusouzu-eitaku__kusouzu-eitaku_1_05_01",
         "srcWidth": 2396,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1740,8 +1758,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734610241/kusouzu_eitaku_06-1080_sfxgqr.jpg",
-        "name": "kusouzu_eitaku_06",
+        "src": "v1774936339/emakimono/kusouzu-eitaku__kusouzu-eitaku_1_06_01.jpg",
+        "name": "kusouzu-eitaku__kusouzu-eitaku_1_06_01",
         "srcWidth": 2442,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1759,8 +1777,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734610240/kusouzu_eitaku_07-1080_ce1cmf.jpg",
-        "name": "kusouzu_eitaku_07",
+        "src": "v1774936340/emakimono/kusouzu-eitaku__kusouzu-eitaku_1_07_01.jpg",
+        "name": "kusouzu-eitaku__kusouzu-eitaku_1_07_01",
         "srcWidth": 2350,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1778,8 +1796,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734610241/kusouzu_eitaku_08-1080_vovcje.jpg",
-        "name": "kusouzu_eitaku_08",
+        "src": "v1774936341/emakimono/kusouzu-eitaku__kusouzu-eitaku_1_08_01.jpg",
+        "name": "kusouzu-eitaku__kusouzu-eitaku_1_08_01",
         "srcWidth": 2203,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1797,8 +1815,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734610240/kusouzu_eitaku_09-1080_irysz9.jpg",
-        "name": "kusouzu_eitaku_09",
+        "src": "v1774936343/emakimono/kusouzu-eitaku__kusouzu-eitaku_1_09_01.jpg",
+        "name": "kusouzu-eitaku__kusouzu-eitaku_1_09_01",
         "srcWidth": 2483,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1876,8 +1894,8 @@
         "cat": "ekotoba",
         "chapter": "九相詩序 ",
         "config": "cloudinary",
-        "src": "v1734611297/kusoushiemaki_01-1080_w2xely.jpg",
-        "name": "kusoushiemaki_01",
+        "src": "v1774935721/emakimono/kusoushi-emaki__kusoushi-emaki_1_01_01.jpg",
+        "name": "kusoushi-emaki__kusoushi-emaki_1_01_01",
         "srcWidth": 2883,
         "srcHeight": 1080
       },
@@ -1885,8 +1903,8 @@
         "cat": "ekotoba",
         "chapter": "1",
         "config": "cloudinary",
-        "src": "v1734611298/kusoushiemaki_02-1080_y6jcit.jpg",
-        "name": "kusoushiemaki_02",
+        "src": "v1774935723/emakimono/kusoushi-emaki__kusoushi-emaki_1_02_01.jpg",
+        "name": "kusoushi-emaki__kusoushi-emaki_1_02_01",
         "srcWidth": 1685,
         "srcHeight": 1080
       },
@@ -1894,8 +1912,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734611297/kusoushiemaki_03-1080_d1bufk.jpg",
-        "name": "kusoushiemaki_03",
+        "src": "v1774935724/emakimono/kusoushi-emaki__kusoushi-emaki_1_02_02.jpg",
+        "name": "kusoushi-emaki__kusoushi-emaki_1_02_02",
         "test": "hoge",
         "srcWidth": 1725,
         "srcHeight": 1080
@@ -1904,8 +1922,8 @@
         "cat": "ekotoba",
         "chapter": "2",
         "config": "cloudinary",
-        "src": "v1734611297/kusoushiemaki_04-1080_ynzpwa.jpg",
-        "name": "kusoushiemaki_04",
+        "src": "v1774935726/emakimono/kusoushi-emaki__kusoushi-emaki_1_03_01.jpg",
+        "name": "kusoushi-emaki__kusoushi-emaki_1_03_01",
         "srcWidth": 1659,
         "srcHeight": 1080
       },
@@ -1913,8 +1931,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734611297/kusoushiemaki_05-1080_zz6hn5.jpg",
-        "name": "kusoushiemaki_05",
+        "src": "v1774935727/emakimono/kusoushi-emaki__kusoushi-emaki_1_03_02.jpg",
+        "name": "kusoushi-emaki__kusoushi-emaki_1_03_02",
         "srcWidth": 1725,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1923,8 +1941,8 @@
         "cat": "ekotoba",
         "chapter": "3",
         "config": "cloudinary",
-        "src": "v1734611299/kusoushiemaki_06-1080_l2iprl.jpg",
-        "name": "kusoushiemaki_06",
+        "src": "v1774935728/emakimono/kusoushi-emaki__kusoushi-emaki_1_04_01.jpg",
+        "name": "kusoushi-emaki__kusoushi-emaki_1_04_01",
         "srcWidth": 1696,
         "srcHeight": 1080
       },
@@ -1932,8 +1950,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734611300/kusoushiemaki_07-1080_smlm3s.jpg",
-        "name": "kusoushiemaki_07",
+        "src": "v1774935730/emakimono/kusoushi-emaki__kusoushi-emaki_1_04_02.jpg",
+        "name": "kusoushi-emaki__kusoushi-emaki_1_04_02",
         "srcWidth": 1728,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1942,8 +1960,8 @@
         "cat": "ekotoba",
         "chapter": "4",
         "config": "cloudinary",
-        "src": "v1734611300/kusoushiemaki_08-1080_e3zpn9.jpg",
-        "name": "kusoushiemaki_08",
+        "src": "v1774935731/emakimono/kusoushi-emaki__kusoushi-emaki_1_05_01.jpg",
+        "name": "kusoushi-emaki__kusoushi-emaki_1_05_01",
         "srcWidth": 1783,
         "srcHeight": 1080
       },
@@ -1951,8 +1969,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734611301/kusoushiemaki_09-1080_rfh4ev.jpg",
-        "name": "kusoushiemaki_09",
+        "src": "v1774935732/emakimono/kusoushi-emaki__kusoushi-emaki_1_05_02.jpg",
+        "name": "kusoushi-emaki__kusoushi-emaki_1_05_02",
         "srcWidth": 1714,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1961,8 +1979,8 @@
         "cat": "ekotoba",
         "chapter": "5",
         "config": "cloudinary",
-        "src": "v1734611307/kusoushiemaki_10-1080_euvrnz.jpg",
-        "name": "kusoushiemaki_10",
+        "src": "v1774935734/emakimono/kusoushi-emaki__kusoushi-emaki_1_06_01.jpg",
+        "name": "kusoushi-emaki__kusoushi-emaki_1_06_01",
         "srcWidth": 1745,
         "srcHeight": 1080
       },
@@ -1970,8 +1988,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734611309/kusoushiemaki_11-1080_i5plgh.jpg",
-        "name": "kusoushiemaki_11",
+        "src": "v1774935735/emakimono/kusoushi-emaki__kusoushi-emaki_1_06_02.jpg",
+        "name": "kusoushi-emaki__kusoushi-emaki_1_06_02",
         "srcWidth": 1716,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1980,8 +1998,8 @@
         "cat": "ekotoba",
         "chapter": "6",
         "config": "cloudinary",
-        "src": "v1734611310/kusoushiemaki_12-1080_bdrr0f.jpg",
-        "name": "kusoushiemaki_12",
+        "src": "v1774935736/emakimono/kusoushi-emaki__kusoushi-emaki_1_07_01.jpg",
+        "name": "kusoushi-emaki__kusoushi-emaki_1_07_01",
         "srcWidth": 1751,
         "srcHeight": 1080
       },
@@ -1989,8 +2007,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734611310/kusoushiemaki_13-1080_iawjwm.jpg",
-        "name": "kusoushiemaki_13",
+        "src": "v1774935738/emakimono/kusoushi-emaki__kusoushi-emaki_1_07_02.jpg",
+        "name": "kusoushi-emaki__kusoushi-emaki_1_07_02",
         "srcWidth": 1751,
         "srcHeight": 1080,
         "test": "hoge"
@@ -1999,8 +2017,8 @@
         "cat": "ekotoba",
         "chapter": "7",
         "config": "cloudinary",
-        "src": "v1734611311/kusoushiemaki_14-1080_udvx52.jpg",
-        "name": "kusoushiemaki_14",
+        "src": "v1774935739/emakimono/kusoushi-emaki__kusoushi-emaki_1_08_01.jpg",
+        "name": "kusoushi-emaki__kusoushi-emaki_1_08_01",
         "srcWidth": 1714,
         "srcHeight": 1080
       },
@@ -2008,8 +2026,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734611311/kusoushiemaki_15-1080_oeifpo.jpg",
-        "name": "kusoushiemaki_15",
+        "src": "v1774935740/emakimono/kusoushi-emaki__kusoushi-emaki_1_08_02.jpg",
+        "name": "kusoushi-emaki__kusoushi-emaki_1_08_02",
         "srcWidth": 1745,
         "srcHeight": 1080,
         "test": "hoge"
@@ -2018,8 +2036,8 @@
         "cat": "ekotoba",
         "chapter": "8",
         "config": "cloudinary",
-        "src": "v1734611311/kusoushiemaki_16-1080_hw5hdj.jpg",
-        "name": "kusoushiemaki_16",
+        "src": "v1774935742/emakimono/kusoushi-emaki__kusoushi-emaki_1_09_01.jpg",
+        "name": "kusoushi-emaki__kusoushi-emaki_1_09_01",
         "srcWidth": 1668,
         "srcHeight": 1080
       },
@@ -2027,8 +2045,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734611296/kusoushiemaki_17-1080_hcdqvd.jpg",
-        "name": "kusoushiemaki_17",
+        "src": "v1774935743/emakimono/kusoushi-emaki__kusoushi-emaki_1_09_02.jpg",
+        "name": "kusoushi-emaki__kusoushi-emaki_1_09_02",
         "srcWidth": 1731,
         "srcHeight": 1080,
         "test": "hoge"
@@ -2037,8 +2055,8 @@
         "cat": "ekotoba",
         "chapter": "9",
         "config": "cloudinary",
-        "src": "v1734611296/kusoushiemaki_18-1080_ocz1vp.jpg",
-        "name": "kusoushiemaki_18",
+        "src": "v1774935744/emakimono/kusoushi-emaki__kusoushi-emaki_1_10_01.jpg",
+        "name": "kusoushi-emaki__kusoushi-emaki_1_10_01",
         "srcWidth": 1630,
         "srcHeight": 1080
       },
@@ -2046,8 +2064,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734611296/kusoushiemaki_19-1080_oubt6p.jpg",
-        "name": "kusoushiemaki_19",
+        "src": "v1774935745/emakimono/kusoushi-emaki__kusoushi-emaki_1_10_02.jpg",
+        "name": "kusoushi-emaki__kusoushi-emaki_1_10_02",
         "srcWidth": 1731,
         "srcHeight": 1080,
         "test": "hoge"
@@ -2056,8 +2074,8 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1734611297/kusoushiemaki_20-1080_lsghxh.jpg",
-        "name": "kusoushiemaki_20",
+        "src": "v1774935747/emakimono/kusoushi-emaki__kusoushi-emaki_1_10_03.jpg",
+        "name": "kusoushi-emaki__kusoushi-emaki_1_10_03",
         "srcWidth": 1863,
         "srcHeight": 1080,
         "test": "hoge"
@@ -2157,8 +2175,8 @@
         "cat": "image",
         "config": "cloudinary",
         "chapter": "",
-        "src": "v1735547895/nine-stages-of-decay-empress-danrin_honolulu_01-1080_rup8zy.jpg",
-        "name": "nine-stages-of-decay-empress-danrin_honolulu_01",
+        "src": "v1774936452/emakimono/kusouzu-honolulu__kusouzu-honolulu_1_01_01.jpg",
+        "name": "kusouzu-honolulu__kusouzu-honolulu_1_01_01",
         "srcWidth": 1665,
         "srcHeight": 1080,
         "test": "hoge"
@@ -2176,8 +2194,8 @@
         "cat": "image",
         "config": "cloudinary",
         "chapter": "",
-        "src": "v1735547895/nine-stages-of-decay-empress-danrin_honolulu_02-1080_lbhx3g.jpg",
-        "name": "nine-stages-of-decay-empress-danrin_honolulu_02",
+        "src": "v1774936454/emakimono/kusouzu-honolulu__kusouzu-honolulu_1_02_01.jpg",
+        "name": "kusouzu-honolulu__kusouzu-honolulu_1_02_01",
         "srcWidth": 1832,
         "srcHeight": 1080,
         "test": "hoge"
@@ -2195,8 +2213,8 @@
         "cat": "image",
         "config": "cloudinary",
         "chapter": "",
-        "src": "v1735547895/nine-stages-of-decay-empress-danrin_honolulu_03-1080_r8jxew.jpg",
-        "name": "nine-stages-of-decay-empress-danrin_honolulu_03",
+        "src": "v1774936455/emakimono/kusouzu-honolulu__kusouzu-honolulu_1_03_01.jpg",
+        "name": "kusouzu-honolulu__kusouzu-honolulu_1_03_01",
         "srcWidth": 1823,
         "srcHeight": 1080,
         "test": "hoge"
@@ -2214,8 +2232,8 @@
         "cat": "image",
         "config": "cloudinary",
         "chapter": "",
-        "src": "v1735547896/nine-stages-of-decay-empress-danrin_honolulu_04-1080_nzp4im.jpg",
-        "name": "nine-stages-of-decay-empress-danrin_honolulu_04",
+        "src": "v1774936456/emakimono/kusouzu-honolulu__kusouzu-honolulu_1_04_01.jpg",
+        "name": "kusouzu-honolulu__kusouzu-honolulu_1_04_01",
         "srcWidth": 1708,
         "srcHeight": 1080,
         "test": "hoge"
@@ -2233,8 +2251,8 @@
         "cat": "image",
         "config": "cloudinary",
         "chapter": "",
-        "src": "v1735547895/nine-stages-of-decay-empress-danrin_honolulu_05-1080_dvslds.jpg",
-        "name": "nine-stages-of-decay-empress-danrin_honolulu_05",
+        "src": "v1774936457/emakimono/kusouzu-honolulu__kusouzu-honolulu_1_05_01.jpg",
+        "name": "kusouzu-honolulu__kusouzu-honolulu_1_05_01",
         "srcWidth": 2157,
         "srcHeight": 1080,
         "test": "hoge"
@@ -2252,8 +2270,8 @@
         "cat": "image",
         "config": "cloudinary",
         "chapter": "",
-        "src": "v1735547896/nine-stages-of-decay-empress-danrin_honolulu_06-1080_tm1s17.jpg",
-        "name": "nine-stages-of-decay-empress-danrin_honolulu_06",
+        "src": "v1774936459/emakimono/kusouzu-honolulu__kusouzu-honolulu_1_06_01.jpg",
+        "name": "kusouzu-honolulu__kusouzu-honolulu_1_06_01",
         "srcWidth": 3597,
         "srcHeight": 1080,
         "test": "hoge"
