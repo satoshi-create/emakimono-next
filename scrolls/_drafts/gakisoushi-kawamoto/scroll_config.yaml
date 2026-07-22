@@ -1,4 +1,6 @@
-scroll_id: "gakisoushi_kawamoto"
+# 下書き — 餓鬼草紙（川本家本）
+# scroll_id は kebab-case。titleen は URL 用に既存 slug を維持。
+scroll_id: "gakisoushi-kawamoto"
 volume_num: 1
 theme_id: "gaki"
 folder: "emakimono"

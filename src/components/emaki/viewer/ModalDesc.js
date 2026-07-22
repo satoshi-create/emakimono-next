@@ -2,7 +2,7 @@ import SnsShareBox from "@/components/social/SnsShareBox";
 import * as gtag from "@/libs/api/gtag";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/ModalDesc.module.css";
-import { ChaptersDesc, ChaptersTitle } from "@/utils/func";
+import { ChaptersDesc, ChaptersGendaibun, ChaptersTitle } from "@/utils/func";
 import {
   faAnglesLeft,
   faAnglesRight,
@@ -173,7 +173,7 @@ const ModalDesc = ({ data }) => {
                         : { fontSize: "var(--text-size)" }
                     }
                   >
-                    {/* {ChaptersGendaibun(titleen, title, chapter, gendaibun)} */}
+                    {ChaptersGendaibun(titleen, title, chapter, gendaibun)}
                   </p>
                 )}
               </div>

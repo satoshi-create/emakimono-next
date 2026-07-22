@@ -1,0 +1,53 @@
+# scroll_config.yaml — 新規絵巻テンプレート
+# 詳細: docs/operations/sync-workflow.md
+
+scroll_id: "my-scroll-id"       # kebab-case。フォルダ名・Cloudinary ID に使用
+volume_num: 1
+theme_id: "my-theme"
+folder: "emakimono"
+
+metadata:
+  id: 99                         # dataEmakis.json 内の数値 ID（未使用の番号）
+  title: "絵巻タイトル"
+  titleen: "my_scroll_slug"      # URL スラッグ（/[slug] ページ）
+  author: "作者名"
+  authoren: "author-slug"
+  edition: ""
+  era: "平安"
+  eraen: "heiann"
+  type: "絵巻"
+  typeen: "emaki"
+  desc: ""
+  descen: ""
+  thumb: "/my-scroll-id_thumb.webp"
+  thumb2: ""
+  backgroundImage: ""
+  video: ""
+  sourceImageUrl: ""
+  sourceImage: ""
+  encodeUrl: ""
+  favorite: false
+  kotobagaki: false
+  # kotobagaki_mode: "alternating"  # 词書画像と絵画が交互（地獄草紙型）。省略時は空 ekotoba + 絵画
+  readMore: false
+  keywords:
+    - { name: "キーワード", id: "keyword", slug: "keyword" }
+
+# scenes: 各段（chapter）の定義
+# - id: 段番号（chapter）
+# - range: [開始, 終了] グローバル画像連番（1 から始まる）
+#   例: range: [1, 3] → 3 枚（ordinal 01, 02, 03）
+scenes:
+  - id: 1
+    title: "第1段"
+    titleen: "Scene 1"
+    range: [1, 1]
+    text:                          # kotobagaki 作品では AI が生成（metadata.kotobagaki: true 時推奨）
+      gendaibun: |
+        現代語訳をここに書く。<br>HTML タグ可。
+      kobun: ""
+      desc: ""
+  # - id: 2
+  #   title: "第2段"
+  #   titleen: "Scene 2"
+  #   range: [2, 3]

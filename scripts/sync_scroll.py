@@ -4,9 +4,10 @@ Sync scroll: read scroll_config.yaml, upload images to Cloudinary.
 
 This script is both a standalone CLI tool and a module for sync_all.py.
 
-ID format:
-  - public_id (Cloudinary): {scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d}
-  - image_id: {folder}/{public_id}
+ID format (B — canonical):
+  - public_id: {scroll_id}__{scroll_id}_{volume}_{chapter:02d}__{ordinal:02d}
+  - Cloudinary path: emakimono/{public_id}.jpg
+  - Local images: scrolls/{scroll_id}/images/ (or SCROLL_IMAGES_DIR)
 
 Usage:
   python scripts/sync_scroll.py [path/to/scroll_config.yaml]
@@ -45,7 +46,10 @@ def get_config_path(repo_root: Path, arg_path: str | None) -> Path:
     if arg_path:
         p = Path(arg_path)
         return p if p.is_absolute() else (repo_root / p)
-    return repo_root / "scroll_config.yaml"
+    raise SystemExit(
+        "Config path required.\n"
+        "Example: python scripts/sync_scroll.py scrolls/my-scroll/scroll_config.yaml"
+    )
 
 
 def ensure_env(name: str, optional_keys: list[str] | None = None) -> str:
@@ -64,9 +68,53 @@ def ensure_env(name: str, optional_keys: list[str] | None = None) -> str:
 #  Naming
 # ---------------------------------------------------------------------------
 
+def scene_key(scroll_id: str, volume_num: int, chapter: int) -> str:
+    """Scene segment inside a B-format public_id."""
+    return f"{scroll_id}_{volume_num}_{chapter:02d}"
+
+
 def image_public_id(scroll_id: str, volume_num: int, chapter: int, ordinal: int) -> str:
-    """Cloudinary public_id e.g. choju-giga-yamazaki-tei_4_01_01"""
-    return f"{scroll_id}_{volume_num}_{chapter:02d}_{ordinal:02d}"
+    """Cloudinary public_id (B format, no folder prefix).
+
+    Example: choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__01
+    """
+    key = scene_key(scroll_id, volume_num, chapter)
+    return f"{scroll_id}__{key}__{ordinal:02d}"
+
+
+def strip_cloudinary_folder(public_id: str) -> str:
+    """Remove emakimono/ prefix from a stored public_id."""
+    return public_id.replace("emakimono/", "", 1) if public_id else ""
+
+
+def resolve_images_dir(
+    repo_root: Path,
+    scroll_id: str,
+    config_path: Path | None = None,
+) -> Path:
+    """Find the image directory for a scroll (first match wins)."""
+    if config_path is not None:
+        sibling = config_path.parent / "images"
+        if sibling.is_dir():
+            return sibling.resolve()
+
+    env_dir = os.environ.get("SCROLL_IMAGES_DIR", "").strip()
+    if env_dir:
+        base = Path(env_dir)
+        if not base.is_absolute():
+            base = (repo_root / base).resolve()
+        nested = base / scroll_id
+        return nested if nested.is_dir() else base
+
+    candidates = [
+        repo_root / "scrolls" / scroll_id / "images",
+        repo_root / "images" / scroll_id,
+        repo_root / "public" / "images" / scroll_id,
+    ]
+    for path in candidates:
+        if path.is_dir():
+            return path.resolve()
+    return candidates[0]
 
 
 # ---------------------------------------------------------------------------
@@ -120,10 +168,21 @@ def pick_file_for_index(index_to_paths: dict[int, list[Path]], global_index: int
 # ---------------------------------------------------------------------------
 
 def get_scenes_config(config: dict) -> list[dict]:
-    """Return scenes/chapters list with unified 'id' key."""
+    """Return scenes/chapters list with unified 'id' key and optional text fields."""
     items = config.get("scenes") or config.get("chapters") or []
-    return [{"id": s.get("scene_id") or s.get("id"), "title": s.get("title", ""), "range": s["range"]}
-            for s in items]
+    scenes: list[dict] = []
+    for s in items:
+        scene: dict = {
+            "id": s.get("scene_id") or s.get("id"),
+            "title": s.get("title", ""),
+            "range": s["range"],
+        }
+        if s.get("titleen"):
+            scene["titleen"] = s["titleen"]
+        if s.get("text"):
+            scene["text"] = s["text"]
+        scenes.append(scene)
+    return scenes
 
 
 def expand_chapters(config: dict) -> list[tuple[int, str, int, int]]:
@@ -218,11 +277,7 @@ def main(args: argparse.Namespace | None = None) -> list[dict]:
     volume_num = int(config.get("volume_num", 1))
     folder = config.get("folder", "emakimono")
 
-    images_dir_str = os.environ.get("SCROLL_IMAGES_DIR", "")
-    if images_dir_str:
-        images_dir = (Path(images_dir_str) / scroll_id).resolve()
-    else:
-        images_dir = repo_root / "images" / scroll_id
+    images_dir = resolve_images_dir(repo_root, scroll_id, config_path)
 
     plan = build_upload_plan(config)
     cloudinary_folder = os.environ.get("CLOUDINARY_FOLDER", folder)
@@ -238,6 +293,8 @@ def main(args: argparse.Namespace | None = None) -> list[dict]:
         public_id = image_public_id(scroll_id, volume_num, item["chapter"], ordinal)
         sort_key_val = (item["chapter"] * 100) + ordinal
 
+        upload_result = None
+        file_path = None
         if parsed.skip_upload or parsed.dry_run:
             src_val = ""
             width_val, height_val = 0, 0
@@ -252,14 +309,16 @@ def main(args: argparse.Namespace | None = None) -> list[dict]:
                 width_val = upload_result["width"]
                 height_val = upload_result["height"]
             else:
-                if not parsed.dry_run:
-                    print(f"Warning: no file for index {item['index']} (public_id={public_id})",
-                          file=sys.stderr)
+                print(f"Warning: no file for index {item['index']} (public_id={public_id})",
+                      file=sys.stderr)
                 src_val = ""
                 width_val, height_val = 0, 0
 
+        stored_id = public_id
+        if upload_result:
+            stored_id = upload_result.get("public_id") or public_id
         image_rows.append({
-            "public_id": public_id,
+            "public_id": strip_cloudinary_folder(stored_id),
             "ordinal": ordinal,
             "chapter": item["chapter"],
             "index": item["index"],

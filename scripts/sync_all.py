@@ -5,20 +5,22 @@ sync_all.py — Unified pipeline for emakimono-next.
 Reads an extended scroll_config.yaml and:
   1. Uploads images to Cloudinary  (via sync_scroll.py)
   2. Updates dataEmakis.json with new metadata + Cloudinary URLs
-  3. Regenerates image-metadata-cache.json (via Node.js)
-  4. Verifies emaki-text-data/ exists
+  3. Upserts image-metadata-cache.json for this scroll (or full rebuild with --regenerate-cache)
+  4. Generates emaki-text-data/{titleen}.json from scenes[].text (when present)
 
 Usage:
   python scripts/sync_all.py [path/to/scroll_config.yaml]
 
 Env:
   CLOUDINARY_URL  (required for upload)
-  SCROLL_IMAGES_DIR  (optional, defaults to images/<scroll_id>/)
+  SCROLL_IMAGES_DIR  (optional; auto-detects scrolls/{scroll_id}/images/)
 
 Flags:
-  --dry-run       Print plan without uploading or writing files
-  --skip-upload   Skip Cloudinary upload (update JSON only)
-  --skip-cache    Skip image-metadata-cache regeneration
+  --dry-run           Print plan without uploading or writing files
+  --skip-upload       Skip Cloudinary upload (update JSON only)
+  --skip-cache        Skip image-metadata-cache update
+  --skip-text         Skip emaki-text-data JSON generation
+  --regenerate-cache  Rebuild entire cache from all JSON (default: upsert one entry)
 """
 
 from __future__ import annotations
@@ -44,6 +46,236 @@ DATA_EMAKIS_PATH = REPO_ROOT / "src/data/json-data/dataEmakis.json"
 CACHE_DIR = REPO_ROOT / "src/data/image-metadata-cache"
 EMAKI_TEXT_DIR = REPO_ROOT / "src/data/emaki-text-data"
 GENERATE_CACHE_SCRIPT = REPO_ROOT / "src/script/generateImageMetadata.js"
+CACHE_PATH = CACHE_DIR / "image-metadata-cache.json"
+
+
+def data_entry_to_cache_entry(entry: dict) -> dict:
+    """Convert a dataEmakis entry to image-metadata-cache format."""
+    emakis = []
+    for emaki in entry.get("emakis", []):
+        cached = dict(emaki)
+        src = cached.get("src", "")
+        if isinstance(src, str) and src.startswith("/") and cached.get("config") == "cloudinary":
+            cached["src"] = src.lstrip("/")
+        if cached.get("srcWidth") == "":
+            cached["srcWidth"] = 0
+        if cached.get("srcHeight") == "":
+            cached["srcHeight"] = 0
+        if cached.get("cat") == "image" and cached.get("config") == "cloudinary":
+            cached["srcWidth"] = int(cached.get("srcWidth") or 0)
+            cached["srcHeight"] = int(cached.get("srcHeight") or 0)
+        emakis.append(cached)
+    return {**entry, "emakis": emakis}
+
+
+def upsert_cache_entry(new_entry: dict, dry_run: bool = False) -> None:
+    """Insert or replace one scroll in image-metadata-cache.json by titleen."""
+    cache_entry = data_entry_to_cache_entry(new_entry)
+    titleen = cache_entry["titleen"]
+
+    if CACHE_PATH.exists():
+        with open(CACHE_PATH, "r", encoding="utf-8") as f:
+            cache = json.load(f)
+    else:
+        cache = []
+
+    replaced = False
+    for i, entry in enumerate(cache):
+        if entry.get("titleen") == titleen:
+            cache[i] = cache_entry
+            replaced = True
+            break
+    if not replaced:
+        cache.append(cache_entry)
+
+    if dry_run:
+        action = "replace" if replaced else "append"
+        print(f"  [dry-run] Would {action} cache entry titleen='{titleen}' ({len(cache)} total)")
+        return
+
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    with open(CACHE_PATH, "w", encoding="utf-8") as f:
+        json.dump(cache, f, ensure_ascii=False, indent=2)
+    action = "Replaced" if replaced else "Added"
+    print(f"  {action} cache entry titleen='{titleen}' ({len(cache)} total)")
+
+
+# ---------------------------------------------------------------------------
+#  emaki-text-data from scenes[].text
+# ---------------------------------------------------------------------------
+
+def text_json_path(titleen: str) -> Path:
+    return EMAKI_TEXT_DIR / f"{titleen}.json"
+
+
+def scene_has_text(scene: dict) -> bool:
+    text = scene.get("text") or {}
+    return any(str(text.get(k, "")).strip() for k in ("gendaibun", "kobun", "desc", "descen"))
+
+
+def _normalize_text_value(value: str) -> str:
+    return value.strip() if isinstance(value, str) else value
+
+
+def build_text_json(config: dict) -> list[dict]:
+    """Build emaki-text-data JSON array from scenes[].text in scroll_config.yaml."""
+    entries: list[dict] = []
+    for scene in ss.get_scenes_config(config):
+        if not scene_has_text(scene):
+            continue
+        text = scene.get("text") or {}
+        entry: dict = {
+            "chapter": str(scene["id"]),
+            "title": _normalize_text_value(text.get("title") or scene.get("title", "")),
+            "gendaibun": _normalize_text_value(text.get("gendaibun", "")),
+            "kobun": _normalize_text_value(text.get("kobun", "")),
+            "desc": _normalize_text_value(text.get("desc", "")),
+        }
+        if text.get("descen"):
+            entry["descen"] = text["descen"]
+        if scene.get("titleen"):
+            entry["titleen"] = scene["titleen"]
+        entries.append(entry)
+    return entries
+
+
+def write_text_json(config: dict, dry_run: bool = False) -> list[dict]:
+    """Write emaki-text-data/{titleen}.json from YAML scenes[].text."""
+    meta = config.get("metadata", {})
+    titleen = meta.get("titleen", "")
+    if not titleen:
+        print("  Skipped: metadata.titleen is missing")
+        return []
+
+    entries = build_text_json(config)
+    path = text_json_path(titleen)
+    kotobagaki = meta.get("kotobagaki", False)
+
+    if not entries:
+        if kotobagaki:
+            print(f"  Warning: kotobagaki=true but no scenes[].text found for '{titleen}'")
+        else:
+            print(f"  No scenes[].text — skipped emaki-text-data for '{titleen}'")
+        return []
+
+    if dry_run:
+        print(f"  [dry-run] Would write {len(entries)} chapter(s) to {path}")
+        for e in entries:
+            preview = (e.get("gendaibun") or "")[:40].replace("\n", " ")
+            print(f"    chapter {e['chapter']}: {e.get('title', '')[:50]} … {preview!r}")
+        return entries
+
+    EMAKI_TEXT_DIR.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(entries, f, ensure_ascii=False, indent=2)
+    print(f"  Wrote {len(entries)} chapter(s) to {path}")
+    return entries
+
+
+def ekotoba_text_fields(scene: dict) -> dict:
+    """Optional gendaibun/kobun/desc fields for an ekotoba emakis slot."""
+    if not scene_has_text(scene):
+        return {}
+    text = scene.get("text") or {}
+    fields: dict = {}
+    for key in ("gendaibun", "kobun", "desc", "descen"):
+        if text.get(key):
+            fields[key] = _normalize_text_value(text[key])
+    return fields
+
+
+def _image_row_to_src(ir: dict) -> str:
+    src = ir.get("src", "")
+    if src and not str(src).startswith("/"):
+        return f"/{src}"
+    return src or ""
+
+
+def _build_image_emaki_slot(ir: dict) -> dict:
+    return {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary" if ir.get("src") else "",
+        "src": _image_row_to_src(ir),
+        "name": ir["public_id"],
+        "srcHeight": str(ir["height"]) if ir.get("height") else "",
+        "srcWidth": str(ir["width"]) if ir.get("width") else "",
+    }
+
+
+def _build_ekotoba_emaki_slot(scene: dict, ir: dict | None = None) -> dict:
+    ekotoba: dict = {
+        "cat": "ekotoba",
+        "chapter": str(scene["id"]),
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": "",
+    }
+    if ir is not None:
+        ekotoba["config"] = "cloudinary" if ir.get("src") else ""
+        ekotoba["src"] = _image_row_to_src(ir)
+        ekotoba["name"] = ir["public_id"]
+        ekotoba["srcHeight"] = str(ir["height"]) if ir.get("height") else ""
+        ekotoba["srcWidth"] = str(ir["width"]) if ir.get("width") else ""
+    ekotoba.update(ekotoba_text_fields(scene))
+    return ekotoba
+
+
+def _build_emakis_default(config: dict, image_rows: list[dict]) -> list[dict]:
+    """Standard layout: empty ekotoba per scene + all range images as image slots."""
+    emakis: list[dict] = []
+    for scene in ss.get_scenes_config(config):
+        start_global, end_global = scene["range"]
+        emakis.append(_build_ekotoba_emaki_slot(scene))
+        for ir in image_rows:
+            if start_global <= ir["index"] <= end_global:
+                emakis.append(_build_image_emaki_slot(ir))
+    return emakis
+
+
+def _build_emakis_alternating(config: dict, image_rows: list[dict]) -> list[dict]:
+    """Kotobagaki layout: odd global indices → ekotoba+src, even → image (per scene range)."""
+    emakis: list[dict] = []
+    for scene in ss.get_scenes_config(config):
+        start_global, end_global = scene["range"]
+        scene_rows = sorted(
+            (ir for ir in image_rows if start_global <= ir["index"] <= end_global),
+            key=lambda x: x["index"],
+        )
+        if not scene_rows:
+            continue
+        start_odd = scene_rows[0]["index"] % 2 == 1
+        for i, ir in enumerate(scene_rows):
+            is_ekotoba = (start_odd and i % 2 == 0) or (not start_odd and i % 2 == 1)
+            if is_ekotoba:
+                emakis.append(_build_ekotoba_emaki_slot(scene, ir))
+            else:
+                emakis.append(_build_image_emaki_slot(ir))
+    return emakis
+
+
+def _merge_existing_image_src(emakis: list[dict], existing_entry: dict | None) -> list[dict]:
+    """When skipping upload, preserve Cloudinary src/dimensions from an existing entry by name."""
+    if not existing_entry:
+        return emakis
+    by_name: dict[str, dict] = {}
+    for slot in existing_entry.get("emakis", []):
+        name = slot.get("name")
+        if name:
+            by_name[name] = slot
+    merged: list[dict] = []
+    for slot in emakis:
+        out = dict(slot)
+        name = out.get("name")
+        if name and name in by_name:
+            old = by_name[name]
+            for key in ("src", "srcSp", "srcTb", "srcWidth", "srcHeight", "config", "load"):
+                if old.get(key) not in (None, ""):
+                    out[key] = old[key]
+        merged.append(out)
+    return merged
 
 
 # ---------------------------------------------------------------------------
@@ -58,41 +290,13 @@ def build_emaki_entry(config: dict, image_rows: list[dict], existing_entry: dict
     """
     meta = config["metadata"]
 
-    if skip_images and existing_entry:
-        # Preserve existing emakis array; only update metadata
-        emakis = existing_entry.get("emakis", [])
+    if meta.get("kotobagaki_mode") == "alternating":
+        emakis = _build_emakis_alternating(config, image_rows)
     else:
-        # Build the emakis array: ekotoba entries interleaved with image entries
-        emakis: list[dict] = []
-        for scene in ss.get_scenes_config(config):
-            ch_id = scene["id"]
-            start_global, end_global = scene["range"]
+        emakis = _build_emakis_default(config, image_rows)
 
-            # ekotoba entry
-            emakis.append({
-                "cat": "ekotoba",
-                "chapter": str(ch_id),
-                "config": "",
-                "src": "",
-                "name": "",
-                "srcHeight": "",
-                "srcWidth": "",
-            })
-
-            # image entries whose index falls within this scene's range
-            for ir in image_rows:
-                global_idx = ir["index"]
-                if start_global <= global_idx <= end_global:
-                    src_val = f"/{ir['src']}" if ir["src"] and not ir["src"].startswith("/") else ir["src"]
-                    emakis.append({
-                        "cat": "image",
-                        "chapter": "",
-                        "config": "cloudinary" if ir["src"] else "",
-                        "src": src_val,
-                        "name": ir["public_id"],
-                        "srcHeight": str(ir["height"]) if ir["height"] else "",
-                        "srcWidth": str(ir["width"]) if ir["width"] else "",
-                    })
+    if skip_images and existing_entry:
+        emakis = _merge_existing_image_src(emakis, existing_entry)
 
     return {
         "id": meta["id"],
@@ -202,17 +406,24 @@ def regenerate_cache(dry_run: bool = False) -> None:
 
 
 # ---------------------------------------------------------------------------
-#  Check emaki-text-data
+#  Upload plan helpers
 # ---------------------------------------------------------------------------
 
-def check_text_data(config: dict) -> None:
-    """Verify that emaki-text-data JSON exists for this scroll (warning only)."""
-    titleen = config.get("metadata", {}).get("titleen", "")
-    if not titleen:
-        return
-    text_path = EMAKI_TEXT_DIR / f"{titleen}.json"
-    if not text_path.exists():
-        print(f"  Info: emaki-text-data/{titleen}.json not found (create it manually if needed)")
+def build_image_rows_from_plan(config: dict) -> list[dict]:
+    """Build image_rows with public_id placeholders (dry-run / skip-upload)."""
+    image_rows = ss.build_upload_plan(config)
+    volume_num = int(config.get("volume_num", 1))
+    for ir in image_rows:
+        ir["public_id"] = ss.image_public_id(
+            config["scroll_id"],
+            volume_num,
+            ir["chapter"],
+            ir.get("ordinal", ir["index"]),
+        )
+        ir["src"] = ""
+        ir["width"] = 0
+        ir["height"] = 0
+    return image_rows
 
 
 # ---------------------------------------------------------------------------
@@ -226,7 +437,17 @@ def main() -> None:
     parser.add_argument("config_path", nargs="?", help="Path to scroll_config.yaml")
     parser.add_argument("--dry-run", action="store_true", help="Print plan only")
     parser.add_argument("--skip-upload", action="store_true", help="Skip Cloudinary upload")
-    parser.add_argument("--skip-cache", action="store_true", help="Skip cache regeneration")
+    parser.add_argument("--skip-cache", action="store_true", help="Skip cache update")
+    parser.add_argument(
+        "--regenerate-cache",
+        action="store_true",
+        help="Rebuild entire cache from all JSON sources (default: upsert one entry)",
+    )
+    parser.add_argument(
+        "--skip-text",
+        action="store_true",
+        help="Skip emaki-text-data JSON generation",
+    )
     args = parser.parse_args()
 
     # 1. Load YAML
@@ -243,40 +464,33 @@ def main() -> None:
         raise SystemExit("Error: YAML must have a 'metadata' section (use the extended format)")
 
     # 3. Upload to Cloudinary
-    if args.skip_upload:
+    if args.dry_run:
+        print("\n[Upload] SKIPPED (dry-run)")
+        image_rows = build_image_rows_from_plan(config)
+        print(f"  Planned {len(image_rows)} image(s)")
+    elif args.skip_upload:
         print("\n[Upload] SKIPPED (--skip-upload)")
-        image_rows = ss.build_upload_plan(config)
-        # Fill with placeholder data
-        for ir in image_rows:
-            ir["public_id"] = ss.image_public_id(
-                config["scroll_id"],
-                int(config.get("volume_num", 1)),
-                ir["chapter"],
-                ir.get("ordinal", ir["index"]),
-            )
-            ir["src"] = ""
-            ir["width"] = 0
-            ir["height"] = 0
+        image_rows = build_image_rows_from_plan(config)
     else:
         print("\n[Upload] Running sync_scroll.py upload...")
-        # Build upload args and let sync_scroll's own parser handle them
         upload_args = []
         if args.config_path:
             upload_args.append(args.config_path)
-        if args.dry_run:
-            upload_args.append("--dry-run")
         image_rows = ss.main(upload_args)
-        if args.dry_run:
-            print("\n  (dry-run: no files were uploaded)")
-            return
         print(f"  Uploaded {len(image_rows)} images")
 
-    # 4. Update dataEmakis.json
+    # 4. Generate emaki-text-data JSON from scenes[].text
+    if args.skip_text:
+        print("\n[TextData] SKIPPED (--skip-text)")
+    else:
+        print("\n[TextData] Generating emaki-text-data JSON...")
+        write_text_json(config, dry_run=args.dry_run)
+
+    # 5. Update dataEmakis.json
     print("\n[dataEmakis] Updating entry...")
 
-    # Read existing entry to preserve image paths on skip-upload
     existing_entry = None
-    if not args.dry_run and DATA_EMAKIS_PATH.exists():
+    if DATA_EMAKIS_PATH.exists():
         with open(DATA_EMAKIS_PATH, "r", encoding="utf-8") as f:
             all_entries = json.load(f)
         titleen = config.get("metadata", {}).get("titleen", "")
@@ -285,19 +499,22 @@ def main() -> None:
                 existing_entry = e
                 break
 
-    new_entry = build_emaki_entry(config, image_rows, existing_entry, skip_images=args.skip_upload)
+    skip_images = args.skip_upload or args.dry_run
+    new_entry = build_emaki_entry(config, image_rows, existing_entry, skip_images=skip_images)
     upsert_data_emakis(new_entry, dry_run=args.dry_run)
 
-    # 5. Regenerate image-metadata-cache.json
+    # 6. Update image-metadata-cache.json
     if args.skip_cache:
         print("\n[Cache] SKIPPED (--skip-cache)")
-    else:
-        print("\n[Cache] Regenerating...")
+    elif args.regenerate_cache:
+        print("\n[Cache] Full regeneration from all JSON...")
         regenerate_cache(dry_run=args.dry_run)
+    else:
+        print("\n[Cache] Upserting entry...")
+        upsert_cache_entry(new_entry, dry_run=args.dry_run)
 
-    # 6. Check text data
-    print("\n[TextData] Checking...")
-    check_text_data(config)
+    if args.dry_run:
+        print("\n  (dry-run: no files were written)")
 
     print(f"\n=== Done: {scroll_id} ===\n")
 

@@ -1,32 +1,22 @@
-# scroll_config.yaml - Extended format
-# Single source of truth for an emaki scroll's metadata and image structure.
-#
-# The pipeline script (scripts/sync_all.py) reads this file, uploads images
-# to Cloudinary, and regenerates dataEmakis.json + image-metadata-cache.json.
+# 完成例: 鳥獣戯画 丁巻（既存 Cloudinary 資産と一致）
+scroll_id: "choju-giga-yamazaki-tei"
+volume_num: 4
+theme_id: "choju-giga"
+folder: "emakimono"
 
-scroll_id: "choju-giga-yamazaki-tei"  # used for Cloudinary public_id
-volume_num: 4                          # volume number within the series
-theme_id: "choju-giga"                 # grouping key
-folder: "emakimono"                    # Cloudinary folder
-
-# ============================================================================
-# Rich metadata — maps to the entry in dataEmakis.json / image-metadata-cache.json
-# ============================================================================
 metadata:
-  id: 4                                # numeric ID in dataEmakis.json
-  title: "鳥獣人物戯画絵巻"             # display title
-  titleen: "Chōjū-jinbutsu-giga_fourth"  # URL slug, also used as filename prefix
+  id: 4
+  title: "鳥獣人物戯画絵巻"
+  titleen: "Chōjū-jinbutsu-giga_fourth"
   author: "鳥羽僧正覚猷"
   authoren: "toba-sojo-kakuyu"
-  edition: "丁巻"                       # volume label
+  edition: "丁巻"
   era: "平安"
   eraen: "heiann"
   type: "絵巻"
   typeen: "emaki"
-  desc: >-
-    鳥獣人物戯画絵巻の丁巻。
-  descen: >-
-    The fourth scroll of Chōjū-jinbutsu-giga.
+  desc: "鳥獣人物戯画絵巻の丁巻。"
+  descen: "The fourth scroll of Chōjū-jinbutsu-giga."
   thumb: "/choju-giga-yamazaki-tei_thumb.webp"
   thumb2: ""
   backgroundImage: ""
@@ -41,10 +31,6 @@ metadata:
     - { name: "戯画", id: "caricature", slug: "caricature" }
     - { name: "動物", id: "animal", slug: "animal" }
 
-# ============================================================================
-# Scene / chapter definitions
-# Each scene generates one ekotoba entry + image entries for each index in range.
-# ============================================================================
 scenes:
   - id: 1
     title: "侏儒たちの脱出劇"

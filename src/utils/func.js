@@ -3,6 +3,7 @@ import chapterChojugigaFirst from "@/data/emaki-text-data/Chōjū-jinbutsu-giga_
 import chapterChojugigaSecond from "@/data/emaki-text-data/Chōjū-jinbutsu-giga_second.json";
 import chapterChojugigaThird from "@/data/emaki-text-data/Chōjū-jinbutsu-giga_third.json";
 import chapterChojugigaFourth from "@/data/emaki-text-data/Chōjū-jinbutsu-giga_fourth.json";
+import chapterJigokusoushiAnzyuin from "@/data/emaki-text-data/jigokusoushi_anzyuin.json";
 import {
   default as enData,
   default as jaData,
@@ -229,6 +230,24 @@ const chojugigaDataMap = {
   "Chōjū-jinbutsu-giga_fourth": chapterChojugigaFourth,
 };
 
+/** sync_all.py が生成する emaki-text-data/{titleen}.json を参照 */
+const emakiTextDataMap = {
+  jigokusoushi_anzyuin: chapterJigokusoushiAnzyuin,
+};
+
+const connectEmakiTextData = (titleen, chapter, field) => {
+  const chapterData = emakiTextDataMap[titleen];
+  if (!chapterData) {
+    return "";
+  }
+  const chapterStr = String(chapter);
+  return chapterData
+    .filter((item) => chapterStr === String(item.chapter))
+    .map((item) => item[field])
+    .filter(Boolean)
+    .join();
+};
+
 const connectChojugigaChapters = (titleen, chapter, text) => {
   const chapterData = chojugigaDataMap[titleen];
   if (!chapterData) {
@@ -260,8 +279,10 @@ const connectGenjiChaptersScene = (chapter, scene) => {
 };
 
 const connectEmakiTextSync = (titleen, chapter, field) => {
-  // この関数に到達した場合、対応するメタデータ読み込み処理が未実装
-  // 新しい絵巻タイプを追加する際は、専用の connect 関数を実装すること
+  const matched = connectEmakiTextData(titleen, chapter, field);
+  if (matched) {
+    return matched;
+  }
   console.error(
     `[connectEmakiTextSync] 未対応の絵巻タイプ: titleen="${titleen}", chapter="${chapter}", field="${field}". ` +
     `この絵巻用のメタデータ読み込み処理を実装してください。`
@@ -302,6 +323,10 @@ const ChaptersTitle = (titleen, title, chapter, text) => {
       </>
     );
   } else if (Number.isInteger(parseInt(chapter))) {
+    const fromJson = connectEmakiTextData(titleen, chapter, text);
+    if (fromJson) {
+      return fromJson;
+    }
     return connectEmakiTextSync(titleen, chapter, text);
   } else {
     return chapter && parse(chapter);
@@ -332,7 +357,11 @@ const ChaptersGendaibun = (titleen, title, chapter, gendaibun) => {
       </>
     );
   } else if (Number.isInteger(parseInt(chapter))) {
-    return connectEmakiTextSync(titleen, chapter, "gendaibun");
+    if (gendaibun) {
+      return parse(gendaibun);
+    }
+    const fromJson = connectEmakiTextData(titleen, chapter, "gendaibun");
+    return fromJson ? parse(fromJson) : connectEmakiTextSync(titleen, chapter, "gendaibun");
   } else {
     return gendaibun && parse(gendaibun);
   }
@@ -361,7 +390,12 @@ const ChaptersDesc = (titleen, title, chapter, text, desc) => {
       </>
     );
   } else if (Number.isInteger(parseInt(chapter))) {
-    return connectEmakiTextSync(titleen, chapter, "desc");
+    if (desc) {
+      return parse(desc);
+    }
+    const field = text === "descen" ? "descen" : "desc";
+    const fromJson = connectEmakiTextData(titleen, chapter, field);
+    return fromJson ? parse(fromJson) : connectEmakiTextSync(titleen, chapter, field);
   } else {
     return desc && parse(desc);
   }

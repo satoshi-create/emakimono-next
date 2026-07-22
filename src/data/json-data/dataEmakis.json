@@ -3802,383 +3802,6 @@
     ]
   },
   {
-    "id": 12,
-    "title": "地獄草紙（安住院本）",
-    "titleen": "jigokusoushi_anzyuin",
-    "author": "",
-    "authoren": "",
-    "edition": "",
-    "encodeUrl": "",
-    "backgroundImage": "/washi-pattern-01.webp",
-    "thumb": "/jigokusoushi_anzyuin_thumb.webp",
-    "thumb2": "/jigokusoushi_anzyuin_thumb.webp",
-    "video": "",
-    "era": "平安",
-    "eraen": "heiann",
-    "desc": "",
-    "descen": "",
-    "readMore": false,
-    "type": "絵巻",
-    "typeen": "emaki",
-    "keyword": [
-      {
-        "name": "地獄",
-        "id": "hell",
-        "slug": "hell"
-      },
-      {
-        "name": "仏教",
-        "id": "buddhism",
-        "slug": "buddhism"
-      },
-      {
-        "name": "鬼",
-        "id": "demon",
-        "slug": "demon"
-      }
-    ],
-    "kotobagaki": true,
-    "favorite": false,
-    "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-10942?locale=ja",
-    "sourceImage": "地獄草紙（ColBase）",
-    "metadesc": "",
-    "gif": "",
-    "sourceEkotoba": "",
-    "reference": [
-      {
-        "type": "書籍",
-        "url": "https://rb.gy/r3nghf",
-        "title": "『餓鬼草紙 地獄草紙 病草紙 九相詩絵巻』（日本絵巻大成7 中央公論社）"
-      }
-    ],
-    "emakis": [
-      {
-        "cat": "ekotoba",
-        "chapter": "1",
-        "load": "True",
-        "srcHeight": "1080",
-        "srcWidth": "1524",
-        "srcSp": "/jigokusoushi_anzyuin_01-375.webp",
-        "srcTb": "/jigokusoushi_anzyuin_01-800.webp",
-        "src": "/jigokusoushi_anzyuin_01-1080.webp",
-        "name": "jigokusoushi_anzyuin_01.webp"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "True",
-        "srcHeight": "1080",
-        "srcWidth": "775",
-        "srcSp": "/jigokusoushi_anzyuin_02-375.webp",
-        "srcTb": "/jigokusoushi_anzyuin_02-800.webp",
-        "src": "/jigokusoushi_anzyuin_02-1080.webp",
-        "name": "jigokusoushi_anzyuin_02.webp"
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "2",
-        "load": "True",
-        "srcHeight": "1080",
-        "srcWidth": "1279",
-        "srcSp": "/jigokusoushi_anzyuin_03-375.webp",
-        "srcTb": "/jigokusoushi_anzyuin_03-800.webp",
-        "src": "/jigokusoushi_anzyuin_03-1080.webp",
-        "name": "jigokusoushi_anzyuin_03.webp"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "False",
-        "srcHeight": "1080",
-        "srcWidth": "1103",
-        "srcSp": "/jigokusoushi_anzyuin_04-375.webp",
-        "srcTb": "/jigokusoushi_anzyuin_04-800.webp",
-        "src": "/jigokusoushi_anzyuin_04-1080.webp",
-        "name": "jigokusoushi_anzyuin_04.webp"
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "3",
-        "load": "False",
-        "srcHeight": "1080",
-        "srcWidth": "1374",
-        "srcSp": "/jigokusoushi_anzyuin_05-375.webp",
-        "srcTb": "/jigokusoushi_anzyuin_05-800.webp",
-        "src": "/jigokusoushi_anzyuin_05-1080.webp",
-        "name": "jigokusoushi_anzyuin_05.webp"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "False",
-        "srcHeight": "1080",
-        "srcWidth": "1103",
-        "srcSp": "/jigokusoushi_anzyuin_06-375.webp",
-        "srcTb": "/jigokusoushi_anzyuin_06-800.webp",
-        "src": "/jigokusoushi_anzyuin_06-1080.webp",
-        "name": "jigokusoushi_anzyuin_06.webp"
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "4",
-        "load": "False",
-        "srcHeight": "1080",
-        "srcWidth": "1909",
-        "srcSp": "/jigokusoushi_anzyuin_07-375.webp",
-        "srcTb": "/jigokusoushi_anzyuin_07-800.webp",
-        "src": "/jigokusoushi_anzyuin_07-1080.webp",
-        "name": "jigokusoushi_anzyuin_07.webp"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "load": "False",
-        "srcHeight": "1080",
-        "srcWidth": "1561",
-        "srcSp": "/jigokusoushi_anzyuin_08-375.webp",
-        "srcTb": "/jigokusoushi_anzyuin_08-800.webp",
-        "src": "/jigokusoushi_anzyuin_08-1080.webp",
-        "name": "jigokusoushi_anzyuin_08.webp"
-      }
-    ]
-  },
-  {
-    "id": 13,
-    "title": "地獄草紙（原家本）",
-    "titleen": "jigokusoushi_genke",
-    "author": "",
-    "authoren": "",
-    "edition": "",
-    "encodeUrl": "",
-    "backgroundImage": "/washi-pattern-01.webp",
-    "thumb": "/jigokusoushi_genke_thumb.webp",
-    "thumb2": "/jigokusoushi_genke_thumb.webp",
-    "video": "",
-    "era": "平安",
-    "eraen": "heiann",
-    "desc": "",
-    "descen": "",
-    "readMore": false,
-    "type": "絵巻",
-    "typeen": "emaki",
-    "keyword": [
-      {
-        "name": "地獄",
-        "id": "hell",
-        "slug": "hell"
-      },
-      {
-        "name": "仏教",
-        "id": "buddhism",
-        "slug": "buddhism"
-      },
-      {
-        "name": "鬼",
-        "id": "demon",
-        "slug": "demon"
-      }
-    ],
-    "kotobagaki": true,
-    "favorite": false,
-    "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/narahaku/644-0?locale=ja",
-    "sourceImage": "地獄草紙 （ColBase）",
-    "metadesc": "",
-    "gif": "",
-    "sourceEkotoba": "",
-    "reference": [
-      {
-        "type": "書籍",
-        "url": "https://rb.gy/r3nghf",
-        "title": "『餓鬼草紙 地獄草紙 病草紙 九相詩絵巻』（日本絵巻大成7 中央公論社）"
-      }
-    ],
-    "emakis": [
-      {
-        "cat": "ekotoba",
-        "chapter": "屎糞所（しふんしょ）",
-        "kobun": "",
-        "gendaibun": "",
-        "srcSp": "/jigokusoushi_genke_01-375.webp",
-        "srcTb": "/jigokusoushi_genke_01-800.webp",
-        "src": "/jigokusoushi_genke_01-1080.webp",
-        "name": "jigokusoushi_genke_01.webp",
-        "phrase": [
-          {}
-        ],
-        "id": 296,
-        "srcWidth": 2013,
-        "srcHeight": 1080
-      },
-      {
-        "load": true,
-        "cat": "image",
-        "srcSp": "/jigokusoushi_genke_02-375.webp",
-        "srcTb": "/jigokusoushi_genke_02-800.webp",
-        "src": "/jigokusoushi_genke_02-1080.webp",
-        "name": "jigokusoushi_genke_02.webp",
-        "id": 297,
-        "srcWidth": 1011,
-        "srcHeight": 1080
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "函量所（かんりょうしょ）",
-        "kobun": "",
-        "gendaibun": "",
-        "srcSp": "/jigokusoushi_genke_03-375.webp",
-        "srcTb": "/jigokusoushi_genke_03-800.webp",
-        "src": "/jigokusoushi_genke_03-1080.webp",
-        "name": "jigokusoushi_genke_03.webp",
-        "phrase": [
-          {}
-        ],
-        "id": 298,
-        "srcWidth": 1685,
-        "srcHeight": 1080
-      },
-      {
-        "load": false,
-        "cat": "image",
-        "srcSp": "/jigokusoushi_genke_04-375.webp",
-        "srcTb": "/jigokusoushi_genke_04-800.webp",
-        "src": "/jigokusoushi_genke_04-1080.webp",
-        "name": "jigokusoushi_genke_04.webp",
-        "id": 299,
-        "srcWidth": 1051,
-        "srcHeight": 1080
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "鉄鎧所（てつがいしょ）",
-        "kobun": "",
-        "gendaibun": "",
-        "srcSp": "/jigokusoushi_genke_05-375.webp",
-        "srcTb": "/jigokusoushi_genke_05-800.webp",
-        "src": "/jigokusoushi_genke_05-1080.webp",
-        "name": "jigokusoushi_genke_05.webp",
-        "phrase": [
-          {}
-        ],
-        "id": 300,
-        "srcWidth": 1475,
-        "srcHeight": 1080
-      },
-      {
-        "load": false,
-        "cat": "image",
-        "srcSp": "/jigokusoushi_genke_06-375.webp",
-        "srcTb": "/jigokusoushi_genke_06-800.webp",
-        "src": "/jigokusoushi_genke_06-1080.webp",
-        "name": "jigokusoushi_genke_06.webp",
-        "id": 301,
-        "srcWidth": 2120,
-        "srcHeight": 1080
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "鶏地獄（とりじごく）",
-        "kobun": "",
-        "gendaibun": "",
-        "srcSp": "/jigokusoushi_genke_07-375.webp",
-        "srcTb": "/jigokusoushi_genke_07-800.webp",
-        "src": "/jigokusoushi_genke_07-1080.webp",
-        "name": "jigokusoushi_genke_07.webp",
-        "phrase": [
-          {}
-        ],
-        "id": 302,
-        "srcWidth": 1521,
-        "srcHeight": 1080
-      },
-      {
-        "load": false,
-        "cat": "image",
-        "srcSp": "/jigokusoushi_genke_08-375.webp",
-        "srcTb": "/jigokusoushi_genke_08-800.webp",
-        "src": "/jigokusoushi_genke_08-1080.webp",
-        "name": "jigokusoushi_genke_08.webp",
-        "id": 303,
-        "srcWidth": 2042,
-        "srcHeight": 1080
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "黒雲沙（こくうんしゃ）",
-        "kobun": "",
-        "gendaibun": "",
-        "srcSp": "/jigokusoushi_genke_09-375.webp",
-        "srcTb": "/jigokusoushi_genke_09-800.webp",
-        "src": "/jigokusoushi_genke_09-1080.webp",
-        "name": "jigokusoushi_genke_09.webp",
-        "phrase": [
-          {}
-        ],
-        "id": 304,
-        "srcWidth": 1215,
-        "srcHeight": 1080
-      },
-      {
-        "load": false,
-        "cat": "image",
-        "srcSp": "/jigokusoushi_genke_10-375.webp",
-        "srcTb": "/jigokusoushi_genke_10-800.webp",
-        "src": "/jigokusoushi_genke_10-1080.webp",
-        "name": "jigokusoushi_genke_10.webp",
-        "id": 305,
-        "srcWidth": 1068,
-        "srcHeight": 1080
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "濃血所（のうけつしょ）",
-        "kobun": "",
-        "gendaibun": "",
-        "srcSp": "/jigokusoushi_genke_11-375.webp",
-        "srcTb": "/jigokusoushi_genke_11-800.webp",
-        "src": "/jigokusoushi_genke_11-1080.webp",
-        "name": "jigokusoushi_genke_11.webp",
-        "phrase": [
-          {}
-        ],
-        "id": 306,
-        "srcWidth": 1486,
-        "srcHeight": 1080
-      },
-      {
-        "load": false,
-        "cat": "image",
-        "srcSp": "/jigokusoushi_genke_12-375.webp",
-        "srcTb": "/jigokusoushi_genke_12-800.webp",
-        "src": "/jigokusoushi_genke_12-1080.webp",
-        "name": "jigokusoushi_genke_12.webp",
-        "id": 307,
-        "srcWidth": 1077,
-        "srcHeight": 1080
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "狐狼地獄（ころうじごく）",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [
-          {}
-        ],
-        "id": 308
-      },
-      {
-        "load": false,
-        "cat": "image",
-        "srcSp": "/jigokusoushi_genke_13-375.webp",
-        "srcTb": "/jigokusoushi_genke_13-800.webp",
-        "src": "/jigokusoushi_genke_13-1080.webp",
-        "name": "jigokusoushi_genke_13.webp",
-        "id": 309,
-        "srcWidth": 1282,
-        "srcHeight": 1080
-      }
-    ]
-  },
-  {
     "id": 14,
     "title": "餓鬼草紙（川本家本）",
     "titleen": "gakisoushi_kawamoto",
@@ -11159,6 +10782,129 @@
         "srcTb": "/26_murasaki-shikibu-nikki-emaki_50th-day-celebration-of-atsunaga-shinno-01_former-hisamatsu-scroll_privately-owned-800.webp",
         "src": "/26_murasaki-shikibu-nikki-emaki_50th-day-celebration-of-atsunaga-shinno-01_former-hisamatsu-scroll_privately-owned-1080.webp",
         "name": "26_murasaki-shikibu-nikki-emaki_50th-day-celebration-of-atsunaga-shinno-01_former-hisamatsu-scroll_privately-owned"
+      }
+    ]
+  },
+  {
+    "id": 99,
+    "title": "地獄草紙（安住院本）",
+    "titleen": "jigokusoushi_anzyuin",
+    "author": "",
+    "authoren": "",
+    "edition": "安住院本",
+    "encodeUrl": "",
+    "backgroundImage": "",
+    "thumb": "/jigokusoushi-anzyuin_thumb.webp",
+    "thumb2": "",
+    "video": "",
+    "era": "平安",
+    "eraen": "heiann",
+    "desc": "東京国立博物館所蔵の安住院本『地獄草紙』。叫喚地獄の諸別所における過酷な責め苦を描いた絵巻物。",
+    "descen": "An-ju-in text of Jigoku Soshi (Paper of Hells), preserved at the Tokyo National Museum.",
+    "readMore": false,
+    "type": "絵巻",
+    "typeen": "emaki",
+    "keyword": [
+      {
+        "name": "地獄",
+        "id": "jigoku",
+        "slug": "jigoku"
+      },
+      {
+        "name": "地獄草紙",
+        "id": "jigokusoushi",
+        "slug": "jigokusoushi"
+      },
+      {
+        "name": "仏教美術",
+        "id": "buddhism",
+        "slug": "buddhism"
+      }
+    ],
+    "kotobagaki": true,
+    "favorite": false,
+    "sourceImageUrl": "https://colbase.nich.go.jp/",
+    "sourceImage": "東京国立博物館",
+    "metadesc": "",
+    "gif": "",
+    "sourceEkotoba": "",
+    "reference": [],
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "1",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_01__01.jpg",
+        "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_01__01",
+        "srcHeight": "1080",
+        "srcWidth": "1524",
+        "gendaibun": "ここは、生前、殺生、偸盗・邪淫・妄語をおこない、また五戒を守っている人に、言葉巧みに酒の功徳を説いて、酒を飲ませた者が落ちる。<br><br>この地獄には、熱鉄の犬や鉄の嘴を持った鷲がいて、足を咬み、頭蓋骨に穴を開けて、脳髄を飲むという。"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_01__02.jpg",
+        "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_01__02",
+        "srcHeight": "1080",
+        "srcWidth": "775"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "2",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_02__01.jpg",
+        "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_02__01",
+        "srcHeight": "1080",
+        "srcWidth": "1279",
+        "gendaibun": "ここは、生前、殺生、偸盗・邪淫をおこない、また酒の中に水増しをして売り、巨利を得た者が落ちる。<br><br>この地獄の住人は、みずからの身体から数多（あまた）の虫がわき、肉体や骨の髄までも食いさいなまれる。その苦しみは耐えがたく、叫ぶ声が耐えない。"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_02__02.jpg",
+        "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_02__02",
+        "srcHeight": "1080",
+        "srcWidth": "1103"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "3",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_03__01.jpg",
+        "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_03__01",
+        "srcHeight": "1080",
+        "srcWidth": "1374",
+        "gendaibun": "ここは、生前、殺生、偸盗・邪淫をおこない、また五戒を守っている人に酒を飲ませて酔わせ、たわむれてもてあそび、それを見て喜ぶ者が落ちる。<br><br>この地獄には業火（ごうか）が燃え盛り、その炎の厚さは二百肘もあるという。獄卒が罪人をつかまえては、この火の中に投げ込む。罪人は足の先から頭の先まで、焼け切って消え失せ、また蘇る。蘇ればまた焼く。このようなことがやむことはない。叫ぶ声が天に響く。"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_03__02.jpg",
+        "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_03__02",
+        "srcHeight": "1080",
+        "srcWidth": "1103"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "4",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_04__01.jpg",
+        "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_04__01",
+        "srcHeight": "1080",
+        "srcWidth": "1909",
+        "gendaibun": "ここは、生前、殺生、偸盗・邪淫をおこない、また酒を用意して、遠い広野を旅行する人にそれを飲ませて酔わせる。酔いつぶれたころを見計らって、所持する財物のいっさいを奪い、ときにはそれを殺した者が落ちる地獄である。<br><br>この地獄は、炎のある焼け石が天から降り注いで罪人を焼き、また熱沸河という河があって、銅（あかがね）の湯、白鑞（びゃくろう）の湯と熱い血が混じって流れている。罪人どもは、常にこの河の中を泳いで苦しみを受け、泣き叫ぶ声が絶えぬという。"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_04__02.jpg",
+        "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_04__02",
+        "srcHeight": "1080",
+        "srcWidth": "1561"
       }
     ]
   }

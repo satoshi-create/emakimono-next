@@ -2277,5 +2277,128 @@
         "test": "hoge"
       }
     ]
+  },
+  {
+    "id": 99,
+    "title": "地獄草紙（安住院本）",
+    "titleen": "jigokusoushi_anzyuin",
+    "author": "",
+    "authoren": "",
+    "edition": "安住院本",
+    "encodeUrl": "",
+    "backgroundImage": "",
+    "thumb": "/jigokusoushi-anzyuin_thumb.webp",
+    "thumb2": "",
+    "video": "",
+    "era": "平安",
+    "eraen": "heiann",
+    "desc": "東京国立博物館所蔵の安住院本『地獄草紙』。叫喚地獄の諸別所における過酷な責め苦を描いた絵巻物。",
+    "descen": "An-ju-in text of Jigoku Soshi (Paper of Hells), preserved at the Tokyo National Museum.",
+    "readMore": false,
+    "type": "絵巻",
+    "typeen": "emaki",
+    "keyword": [
+      {
+        "name": "地獄",
+        "id": "jigoku",
+        "slug": "jigoku"
+      },
+      {
+        "name": "地獄草紙",
+        "id": "jigokusoushi",
+        "slug": "jigokusoushi"
+      },
+      {
+        "name": "仏教美術",
+        "id": "buddhism",
+        "slug": "buddhism"
+      }
+    ],
+    "kotobagaki": true,
+    "favorite": false,
+    "sourceImageUrl": "https://colbase.nich.go.jp/",
+    "sourceImage": "東京国立博物館",
+    "metadesc": "",
+    "gif": "",
+    "sourceEkotoba": "",
+    "reference": [],
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "1",
+        "config": "cloudinary",
+        "src": "emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_01__01.jpg",
+        "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_01__01",
+        "srcHeight": "1080",
+        "srcWidth": "1524",
+        "gendaibun": "ここは、生前、殺生、偸盗・邪淫・妄語をおこない、また五戒を守っている人に、言葉巧みに酒の功徳を説いて、酒を飲ませた者が落ちる。<br><br>この地獄には、熱鉄の犬や鉄の嘴を持った鷲がいて、足を咬み、頭蓋骨に穴を開けて、脳髄を飲むという。"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_01__02.jpg",
+        "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_01__02",
+        "srcHeight": 1080,
+        "srcWidth": 775
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "2",
+        "config": "cloudinary",
+        "src": "emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_02__01.jpg",
+        "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_02__01",
+        "srcHeight": "1080",
+        "srcWidth": "1279",
+        "gendaibun": "ここは、生前、殺生、偸盗・邪淫をおこない、また酒の中に水増しをして売り、巨利を得た者が落ちる。<br><br>この地獄の住人は、みずからの身体から数多（あまた）の虫がわき、肉体や骨の髄までも食いさいなまれる。その苦しみは耐えがたく、叫ぶ声が耐えない。"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_02__02.jpg",
+        "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_02__02",
+        "srcHeight": 1080,
+        "srcWidth": 1103
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "3",
+        "config": "cloudinary",
+        "src": "emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_03__01.jpg",
+        "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_03__01",
+        "srcHeight": "1080",
+        "srcWidth": "1374",
+        "gendaibun": "ここは、生前、殺生、偸盗・邪淫をおこない、また五戒を守っている人に酒を飲ませて酔わせ、たわむれてもてあそび、それを見て喜ぶ者が落ちる。<br><br>この地獄には業火（ごうか）が燃え盛り、その炎の厚さは二百肘もあるという。獄卒が罪人をつかまえては、この火の中に投げ込む。罪人は足の先から頭の先まで、焼け切って消え失せ、また蘇る。蘇ればまた焼く。このようなことがやむことはない。叫ぶ声が天に響く。"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_03__02.jpg",
+        "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_03__02",
+        "srcHeight": 1080,
+        "srcWidth": 1103
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "4",
+        "config": "cloudinary",
+        "src": "emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_04__01.jpg",
+        "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_04__01",
+        "srcHeight": "1080",
+        "srcWidth": "1909",
+        "gendaibun": "ここは、生前、殺生、偸盗・邪淫をおこない、また酒を用意して、遠い広野を旅行する人にそれを飲ませて酔わせる。酔いつぶれたころを見計らって、所持する財物のいっさいを奪い、ときにはそれを殺した者が落ちる地獄である。<br><br>この地獄は、炎のある焼け石が天から降り注いで罪人を焼き、また熱沸河という河があって、銅（あかがね）の湯、白鑞（びゃくろう）の湯と熱い血が混じって流れている。罪人どもは、常にこの河の中を泳いで苦しみを受け、泣き叫ぶ声が絶えぬという。"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_04__02.jpg",
+        "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_04__02",
+        "srcHeight": 1080,
+        "srcWidth": 1561
+      }
+    ]
   }
 ]
