@@ -10,11 +10,17 @@ ChatGPT・Claude・Gemini など、画像入力に対応した AI にそのま�
       ↓
 [2] scrolls/{scroll_id}/ に配置（YAML + images/）
       ↓
-[3] Cursor / sync_all.py  ← ドライラン → Cloudinary アップロード
+[3] preflight_scroll.py
+      ↓
+[4] check_cloudinary_usage.py（本番 sync 前）
+      ↓
+[5] sync_all.py --dry-run → 本番 sync
+      ↓
+[6] PR → validate-scroll.yml（preflight + dry-run、自動）
 ```
 
-詳細ワークフロー: `[sync-workflow.md](./sync-workflow.md)`  
-命名規則: `[naming-convention.md](./naming-convention.md)`
+**手順・CI・運用の正本:** [`scroll-pipeline.md`](./scroll-pipeline.md)  
+命名規則: [`naming-convention.md`](./naming-convention.md)
 
 ---
 
@@ -274,27 +280,33 @@ scenes:
 
 AI 出力を `scrolls/{scroll_id}/scroll_config.yaml` に保存する前に確認:
 
-- [ ] `scroll_id` は kebab-case（ハイフン）
+- [ ] `scroll_id` は kebab-case（ハイフン）かつ **フォルダ名と一致**
 - [ ] `scenes` の `range` はすべて `[n, m]` 形式（2要素）
 - [ ] global index が 1 から連続し、**画像枚数と一致**
 - [ ] 各 `scenes.id` は 1 から連番
 - [ ] `metadata.titleen` が意図した URL スラッグと一致
+- [ ] `metadata.id` が **dataEmakis.json の既存 ID と重複しない**
 - [ ] 詞書ありの作品は `kotobagaki: true`
 - [ ] 地獄草紙型は `kotobagaki_mode: "alternating"` と range が [1,2], [3,4], … の2枚1組
 - [ ] 各 scene に `text.gendaibun` がある（または `# TODO:` で未作成を明記）
 - [ ] `text` の現代語訳が文献・画像内容と矛盾していない
-
-
+- [ ] 各画像 **≤ 10 MB**（Cloudinary Free）
 
 ### 機械チェック（ローカル）
 
+[`scroll-pipeline.md`](./scroll-pipeline.md) Phase 0〜2 に従う:
+
 ```powershell
-$env:PYTHONIOENCODING = 'utf-8'
-python scripts/sync_scroll.py scrolls/{scroll_id}/scroll_config.yaml --dry-run
+$env:PYTHONIOENCODING = "utf-8"
+py -3.14 scripts/preflight_scroll.py scrolls/{scroll_id}/scroll_config.yaml
+py -3.14 scripts/sync_all.py scrolls/{scroll_id}/scroll_config.yaml --dry-run
 ```
 
-- `Total: N images` の N が `images/` 内の絵画枚数と一致
-- `public_id` が `scroll-id__scroll-id_1_01__01` 形式（B 形式、`__` あり）
+- preflight が **Preflight OK** になること
+- dry-run の `public_id` が B 形式（`scroll-id__scroll-id_1_01__01`）
+- 画像枚数 = `scenes` range 合計
+
+PR では `.github/workflows/validate-scroll.yml` が同内容を自動実行（upload なし）。
 
 ---
 
@@ -368,15 +380,9 @@ scenes:
 
 
 
-## Cursor への引き継ぎプロンプト（参考）
+## Cursor への引き継ぎ
 
-YAML ができたあと、Cursor Agent に渡す例:
-
-```markdown
-scrolls/jigokusoushi-anzyuin/scroll_config.yaml をレビューし、
-images/ のファイル数と range が一致するか確認してください。
-問題なければ --dry-run を実行し、public_id が B 形式か報告してください。
-```
+YAML ができたあとは **[`cursor-scroll-sync-prompt.md`](./cursor-scroll-sync-prompt.md)** のプロンプト（標準または短縮版）を Cursor Agent に渡してください。
 
 ---
 
@@ -384,7 +390,8 @@ images/ のファイル数と range が一致するか確認してください�
 
 ## 関連ドキュメント
 
-- `[sync-workflow.md](./sync-workflow.md)` — アップロード〜 JSON 更新
-- `[naming-convention.md](./naming-convention.md)` — Cloudinary B 形式
-- `[scrolls/README.md](../../scrolls/README.md)` — ディレクトリ構成
+- [`scroll-pipeline.md`](./scroll-pipeline.md) — 自動化パイプライン正本（手順・CI・運用）
+- [`cursor-scroll-sync-prompt.md`](./cursor-scroll-sync-prompt.md) — Cursor Agent 用 sync プロンプト
+- [`naming-convention.md`](./naming-convention.md) — Cloudinary B 形式
+- [`scrolls/README.md`](../../scrolls/README.md) — ディレクトリ構成
 

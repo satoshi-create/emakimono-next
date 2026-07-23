@@ -1,0 +1,106 @@
+# 餓鬼草紙（河本家本）— 词書なし・絵のみ7段（餓鬼草紙型）
+# 出典: 東京国立博物館 ColBase A-10476 / 『正法念処経』餓鬼品
+scroll_id: "gakisoushi-kawamoto"
+volume_num: 1
+theme_id: "gaki"
+folder: "emakimono"
+
+metadata:
+  id: 14
+  title: "餓鬼草紙（河本家本）"
+  titleen: "gakisoushi_kawamoto"
+  author: ""
+  authoren: ""
+  edition: "河本家旧蔵"
+  era: "平安"
+  eraen: "heiann"
+  type: "絵巻"
+  typeen: "emaki"
+  desc: "東京国立博物館所蔵の河本家旧蔵本『餓鬼草紙』。词書を欠く絵のみの絵巻で、『正法念処経』に説かれる諸餓鬼の業苦を、現世の風俗場面に織り込んで描く。"
+  descen: "The Kawamoto family text of Gaki Zoshi (Scroll of Hungry Ghosts), preserved at the Tokyo National Museum. A painting-only emaki without kotobagaki, depicting various hungry ghosts from the Shōbōnenjō-kyō amid scenes of Heian-period life."
+  thumb: "/thumb/gakisoushi_kawamoto_thumb.webp"
+  thumb2: ""
+  backgroundImage: "/washi-pattern-01.webp"
+  video: ""
+  sourceImageUrl: "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja"
+  sourceImage: "餓鬼草紙（ColBase）"
+  encodeUrl: ""
+  favorite: false
+  kotobagaki: true
+  # 词書画像なし・空 ekotoba + 絵画のみ（餓鬼草紙型）。alternating は使わない。
+  readMore: false
+  reference:
+    - type: "書籍"
+      url: "https://rb.gy/r3nghf"
+      title: "『餓鬼草紙 地獄草紙 病草紙 九相詩絵巻』（日本絵巻大成7 中央公論社）"
+  keywords:
+    - { name: "仏教", id: "buddhism", slug: "buddhism" }
+    - { name: "鬼", id: "demon", slug: "demon" }
+    - { name: "巫女", id: "shrinemaiden", slug: "shrinemaiden" }
+    - { name: "双六", id: "sugoroku", slug: "sugoroku" }
+    - { name: "出産", id: "childbirth", slug: "childbirth" }
+
+scenes:
+  - id: 1
+    title: "欲色餓鬼"
+    titleen: "Yokujiki Gaki"
+    range: [1, 1]
+    text:
+      gendaibun: |
+        欲色餓鬼（よくじきがき）とは、生前に売淫で得た財を施し、人を色欲に誘惑した者の報いである。<br><br>この餓鬼は心のままに姿を変え、美しくも醜くもなれる。人家に忍び入り盗み食いをし、あるいは女の形に化けて男と交わるという。絵では、琵琶を弾く遊女や貴族の宴の場に、人の目に見えぬ餓鬼が紛れている様子が描かれる。
+      kobun: ""
+      desc: "『正法念処経』第二十一・迦摩（欲色）餓鬼。词書は原本にないため、経典に基づく解説文。"
+  - id: 2
+    title: "伺嬰児便飢餓"
+    titleen: "Shieijiben Kiga"
+    range: [2, 2]
+    text:
+      gendaibun: |
+        伺嬰児便餓鬼（しえいじべんがき）とは、生前に人の嬰児を殺され、大いに怒り、「来世は夜叉となって報いを受けさせる」と誓願した者の報いである。<br><br>産褥の場を伺い、赤子の過失を求めてその命を断とうとする。神通自在で、須臾の間に百千由旬を行き来するという。絵では出産の場に僧が座り、背後から女がのぞき込むなど、人間の営みと餓鬼の存在が交錯する。
+      kobun: ""
+      desc: "『正法念処経』第二十・蚩陀羅（伺嬰児便）餓鬼。"
+  - id: 3
+    title: "伺便飢餓"
+    titleen: "Shiben Kiga"
+    range: [3, 3]
+    text:
+      gendaibun: |
+        伺便餓鬼（しべんがき）とは、生前に詐欺で財を奪い、人の隙を伺って劫掠した者の報いである。<br><br>全身の毛孔から火が出て自らを焼き、飢渇に苦しみながら、不浄な場所や大小便のそばをうろつき、人の便を待ち求める。絵では路傍や家の外で用を足す人々の周囲に、腹の膨れた餓鬼たちが群がる。
+      kobun: ""
+      desc: "『正法念処経』第十六・蚩陀邏（伺便）餓鬼。"
+  - id: 4
+    title: "疾行飢餓"
+    titleen: "Shikko Kiga"
+    range: [4, 4]
+    text:
+      gendaibun: |
+        疾行餓鬼（しっこうがき）とは、生前に出家して戒を破り、町村を徘徊して欺罔（ぎもう）の財を求めた者の報いである。<br><br>その行は迅疾で、一念の間に百千由旬に至る。不浄の場所で穢物を食べ、行不浄の人を悩ませ、悪夢を見せるという。絵では塚や卒塔婆のある野辺に、死体や骨をめぐって餓鬼がうろつく。
+      kobun: ""
+      desc: "『正法念処経』第十五・阿毘遮羅（疾行）餓鬼。"
+  - id: 5
+    title: "食糞飢餓"
+    titleen: "Shokufun Kiga"
+    range: [5, 5]
+    text:
+      gendaibun: |
+        食糞餓鬼（しょくふんがき）とは、生前に慳貪で布施をせず、あるいは不浄な食物を僧に施した者の報いである。<br><br>人の糞尿を食とし、求めても得られず、飢渇の火に身を焼かれる。絵では泥水のたまりに身を沈め、穢物を口に運ぶ餓鬼が、同类とともに描かれる。
+      kobun: ""
+      desc: "『正法念処経』第四・毘師咃（食糞）餓鬼。"
+  - id: 6
+    title: "曠野飢餓"
+    titleen: "Koya Kiga"
+    range: [6, 6]
+    text:
+      gendaibun: |
+        曠野餓鬼（こうやがき）とは、生前に曠野の険しい所で強盗を働き、林木や水源を破壊して旅人の財を奪った者の報いである。<br><br>飢火に身を焼かれ曠野を奔走し、水を呼んでも近づけば消え、荊棘に足を刺され、雕鷲に目を啄まれるという。絵では野原に倒れた餓鬼の身上を、大きな鳥たちが襲う。
+      kobun: ""
+      desc: "『正法念処経』第三十二・阿吒毘（曠野）餓鬼。"
+  - id: 7
+    title: "食火炭飢餓"
+    titleen: "Shokukatan Kiga"
+    range: [7, 7]
+    text:
+      gendaibun: |
+        食火炭餓鬼（しょくかたんがき）とは、生前に刑獄を司り、囚人を飢渇させて虐待した者の報いである。<br><br>塚墓に至り、焼屍の火炭を食べて飢渇をしのぐ。絵では炎を携えた餓鬼や、口に火の粉を落とされて苦しむ餓鬼など、火と飢えの業報が一続きの画面に描かれる。
+      kobun: ""
+      desc: "『正法念処経』第三十・鴦伽囉婆叉（食火炭）餓鬼。"

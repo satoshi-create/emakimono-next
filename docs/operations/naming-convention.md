@@ -89,5 +89,5 @@ def image_public_id(scroll_id, volume_num, chapter, ordinal):
 
 ## 参考
 
-- ワークフロー: [`sync-workflow.md`](./sync-workflow.md)
+- ワークフロー: [`scroll-pipeline.md`](./scroll-pipeline.md)
 - 旧リネームスクリプト（非推奨）: `src/script/rename.py`

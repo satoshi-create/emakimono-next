@@ -1,7 +1,7 @@
 name: Validate scroll config
 
 # PR validation: preflight + dry-run only (no Cloudinary upload, no secrets).
-# See docs/operations/sync-workflow.md
+# See docs/operations/scroll-pipeline.md
 
 on:
   pull_request:

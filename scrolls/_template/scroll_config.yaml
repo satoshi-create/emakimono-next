@@ -1,5 +1,5 @@
 # scroll_config.yaml — 新規絵巻テンプレート
-# 詳細: docs/operations/sync-workflow.md
+# 詳細: docs/operations/scroll-pipeline.md
 
 scroll_id: "my-scroll-id"       # kebab-case。フォルダ名・Cloudinary ID に使用
 volume_num: 1

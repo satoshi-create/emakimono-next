@@ -1,0 +1,472 @@
+# 絵巻同期パイプライン
+
+**自動化パイプラインの正本。** Supabase を使わず、**YAML + ローカル画像 → Cloudinary → JSON** で絵巻を追加・更新します。
+
+| 用途 | ドキュメント |
+|------|-------------|
+| 手順・CI・運用（本書） | `scroll-pipeline.md` |
+| Cursor Agent 用 sync プロンプト | [`cursor-scroll-sync-prompt.md`](./cursor-scroll-sync-prompt.md) |
+| YAML 草案（汎用 AI プロンプト） | [`ai-scroll-config-prompt.md`](./ai-scroll-config-prompt.md) |
+| Cloudinary B 形式命名 | [`naming-convention.md`](./naming-convention.md) |
+| 旧 Supabase 時代の手順 | [`../archive/github-actions-sync-manual.md`](../archive/github-actions-sync-manual.md) |
+
+---
+
+## 目次
+
+1. [運用方針](#1-運用方針)
+2. [全体フロー](#2-全体フロー)
+3. [レーン A：1 絵巻追加](#3-レーン-a1-絵巻追加)
+4. [YAML・词書スキーマ](#4-yaml词書スキーマ)
+5. [スクリプトとフラグ](#5-スクリプトとフラグ)
+6. [GitHub Actions](#6-github-actions)
+7. [レーン B：UI リファクタ](#7-レーン-bui-リファクタ)
+8. [チェックリスト](#8-チェックリスト)
+9. [モニタリング](#9-モニタリング)
+10. [Cursor Agent プロンプト例](#10-cursor-agent-プロンプト例)
+11. [付録 A: sync_scroll.py CLI](#付録-a-sync_scrollpy-cli)
+12. [付録 B: 関連ファイル](#付録-b-関連ファイル)
+
+---
+
+## 1. 運用方針
+
+Free プラン（Cloudinary / Vercel Hobby）の上限内で、**1 絵巻 ≒ 10 枚**を少しずつ追加しつつ UI 改善も進める方針です。
+
+### 2 つの上限
+
+| サービス | 主な上限 | モニタリング先 |
+|----------|----------|----------------|
+| **Cloudinary Free** | 月 25 クレジット、Admin API 500/月 | `check_cloudinary_usage.py`、Console Usage Reports |
+| **Vercel Hobby** | Fast Data Transfer ~100 GB、Edge Requests ~1M 等 | Vercel Dashboard → Usage |
+
+**配信の分担:**
+
+```
+[ユーザー] ── HTML/JS/CSS ──→ Vercel
+[ユーザー] ── 絵巻画像 ─────→ Cloudinary CDN（LazyImage custom loader）
+```
+
+絵巻画像の帯域・Impressions は **Cloudinary** に計上され、Vercel Usage には含まれません。
+
+### 2 レーンに分ける
+
+コンテンツ追加と UI リファクタを **同じ PR・同じ週に混ぜない** ことを推奨します。
+
+| レーン | 内容 | Cloudinary | 頻度目安 |
+|--------|------|------------|----------|
+| **A: コンテンツ追加** | YAML + 画像 → sync → JSON | アップロードあり | **月 2〜3 絵巻** |
+| **B: UI リファクタ** | コンポーネント・レイアウト改善 | 触らない（URL 固定） | 随時 |
+
+**ルール:**
+
+- sync した週は **Cloudinary loader の URL パラメータを変えない**
+- UI を大きく変えた週は **新絵巻の sync を控える**
+
+### 月間バジェット（目安）
+
+| 操作 | 1 絵巻（10 枚）あたり目安 |
+|------|--------------------------|
+| アップロード | Admin API ~10 回、クレジットほぼ 0 |
+| ストレージ | +40〜80 MB → ~0.04〜0.08 クレジット |
+| 初回アクセス後の帯域 | トラフィック次第（**クレジット主因**） |
+
+**目安:** `credits.usage` が **18 未満** なら新絵巻追加 OK。**20 超** でペースを落とす。
+
+---
+
+## 2. 全体フロー
+
+```mermaid
+graph LR
+    A[画像 + scroll_config.yaml] --> B[scrolls/scroll_id/]
+    B --> C[preflight_scroll.py]
+    C --> D[check_cloudinary_usage.py]
+    D --> E[sync_all.py --dry-run]
+    E -->|OK| F[sync_all.py 本番]
+    F --> G[Cloudinary]
+    F --> H[dataEmakis.json]
+    F --> I[image-metadata-cache.json]
+    B --> J[PR: validate-scroll.yml]
+```
+
+**Windows では `py -3.14` を使う**（Store の `python` スタブを避ける）。以降の例は `$env:PYTHONIOENCODING = "utf-8"` を前提とします。
+
+---
+
+## 3. レーン A：1 絵巻追加
+
+### Phase 0: 事前チェック
+
+```powershell
+$env:PYTHONIOENCODING = "utf-8"
+py -3.14 scripts/preflight_scroll.py scrolls/my-new-scroll/scroll_config.yaml
+py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20 --no-save
+```
+
+| ツール | Cloudinary API | 役割 |
+|--------|----------------|------|
+| `preflight_scroll.py` | **呼ばない** | 枚数・重複・10MB・フォルダ名一致 |
+| `check_cloudinary_usage.py` | Admin API **1 回** | sync 前ゲート（`--warn-at` / `--fail-at`） |
+
+検証のみ（ファイル書き込みなし）:
+
+```powershell
+py -3.14 scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml --preflight
+```
+
+**画像の事前条件（Cloudinary Free）:**
+
+| 条件 | preflight | 備考 |
+|------|-----------|------|
+| 各ファイル ≤ 10 MB | 自動 | |
+| `scroll_id` = フォルダ名 | 自動 | `_template` 等は除外 |
+| `metadata.id` / `titleen` 重複なし | 自動 | `dataEmakis.json` と照合 |
+| 解像度 ≤ 25 MP | **手動** | preflight 未実装 |
+| 高さ 1080px 前後 | **手動** | `_01-1080.jpg` 形式で可 |
+
+### Phase 1: ローカル準備（Cloudinary に触らない）
+
+```powershell
+Copy-Item -Recurse scrolls\_template scrolls\my-new-scroll
+# または
+py -3.14 scripts/create-project.py my-new-scroll
+```
+
+1. `scrolls/{scroll_id}/scroll_config.yaml` を編集
+2. `scrolls/{scroll_id}/images/` に画像を配置
+3. 词書が必要なら `scenes[].text` を YAML に記述
+
+YAML 草案: [`ai-scroll-config-prompt.md`](./ai-scroll-config-prompt.md)  
+命名規則: [`naming-convention.md`](./naming-convention.md)
+
+### Phase 2: ドライラン（必須）
+
+```powershell
+py -3.14 scripts/preflight_scroll.py scrolls/my-new-scroll/scroll_config.yaml
+py -3.14 scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml --dry-run
+```
+
+本番 `sync_all.py` 実行時も preflight が **自動で先に走ります**（`--skip-preflight` で省略可）。
+
+確認:
+
+- [ ] `public_id` が B 形式（`scroll-id__scroll-id_1_01__01`）
+- [ ] 画像枚数 = `scenes` range 合計
+- [ ] `titleen` / `metadata.id` が既存と被らない
+
+### Phase 3: 本番 sync（1 回だけ）
+
+```powershell
+# .env.local に CLOUDINARY_URL を設定済みであること
+py -3.14 scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml
+```
+
+`sync_all.py` が実行する処理:
+
+1. preflight（自動）
+2. Cloudinary へアップロード（`sync_scroll.py`）
+3. `dataEmakis.json` を upsert（`titleen` キー）
+4. `image-metadata-cache.json` を upsert（同 scroll のみ）
+5. `scenes[].text` から `emaki-text-data/{titleen}.json` を生成
+
+**禁止・非推奨:**
+
+| フラグ / 操作 | 理由 |
+|---------------|------|
+| `--force-upload` | 全件再アップロード。Admin API・クレジットを浪費 |
+| `--remote-check` | Admin API 増加。通常は `.upload-cache.json` で十分 |
+| 同じ絵巻の sync ループ | 二重処理・上限消費 |
+
+成功後の更新物:
+
+- `src/data/json-data/dataEmakis.json`
+- `src/data/image-metadata-cache/image-metadata-cache.json`
+- `scrolls/{scroll_id}/.upload-cache.json`（gitignore・再 sync 時のスキップ用）
+
+### Phase 4: ローカル確認 → PR
+
+1. `npm run dev` で `/[titleen]` を開く
+2. 横スクロール・词書・段数を目視
+3. YAML + images + JSON を **同一 PR** で commit
+4. PR 上で `validate-scroll.yml` が preflight + dry-run を自動実行
+
+### Phase 5: sync 後モニタリング
+
+```powershell
+py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20
+```
+
+1 絵巻追加後の目安: credits +0.1〜0.3、storage +40〜80 MB。
+
+---
+
+## 4. YAML・词書スキーマ
+
+### 必須フィールド
+
+| フィールド | 説明 |
+|-----------|------|
+| `scroll_id` | kebab-case。フォルダ名と Cloudinary ID |
+| `volume_num` | 巻番号 |
+| `metadata.titleen` | URL スラッグ（既存ページと一致させる） |
+| `metadata.id` | dataEmakis.json 内の数値 ID |
+| `scenes` | 段定義。`range: [開始, 終了]` は **2 点指定** |
+
+### 画像配置
+
+```
+scrolls/{scroll_id}/images/
+  _01-1080.jpg
+  _02-1080.jpg
+  ...
+```
+
+旧ファイル名（`_01-1080.jpg` 等）でも可。連番が `_NN-` または `_NN.` 形式なら自動検出されます。
+
+### 词書（`scenes[].text`）
+
+`kotobagaki: true` の作品では、各 scene に `text` ブロックを YAML に含めます。
+
+词書画像と絵画が交互（地獄草紙型）では `kotobagaki_mode: "alternating"` を指定します。
+
+```yaml
+metadata:
+  kotobagaki: true
+  kotobagaki_mode: "alternating"   # 省略時: 空 ekotoba + 全 image（餓鬼草紙型）
+
+scenes:
+  - id: 1
+    title: "第1段"
+    range: [1, 2]
+    text:
+      gendaibun: |
+        現代語訳（HTML可: <br>）
+      kobun: ""
+      desc: ""
+```
+
+`--skip-text` で词書 JSON 生成をスキップできます。
+
+---
+
+## 5. スクリプトとフラグ
+
+### sync_all.py（統合パイプライン・主経路）
+
+| フラグ | 説明 |
+|--------|------|
+| `--preflight` | preflight のみ（upload / ファイル書き込みなし） |
+| `--skip-preflight` | sync 前の preflight を省略（**非推奨**） |
+| `--dry-run` | 計画表示のみ |
+| `--skip-upload` | Cloudinary スキップ。JSON のみ更新 |
+| `--skip-cache` | キャッシュ更新スキップ |
+| `--regenerate-cache` | 全 JSON からキャッシュ全再生成 |
+| `--skip-text` | emaki-text-data JSON 生成スキップ |
+| `--force-upload` | 全件再アップロード（**非推奨**） |
+
+### preflight_scroll.py
+
+```powershell
+py -3.14 scripts/preflight_scroll.py scrolls/my-scroll/scroll_config.yaml
+```
+
+| チェック | 内容 |
+|---------|------|
+| フォルダ名 | `scroll_id` と一致 |
+| scenes / range | 合計枚数・欠番・逆順 |
+| 画像ファイル | range 分が `images/` に存在 |
+| 10 MB 上限 | Cloudinary Free |
+| ID 重複 | `metadata.titleen` / `metadata.id` vs `dataEmakis.json` |
+
+### check_cloudinary_usage.py
+
+```powershell
+py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20 --no-save
+```
+
+| オプション | 意味 |
+|-----------|------|
+| `--warn-at N` | credits.usage ≥ N で警告 |
+| `--fail-at N` | credits.usage ≥ N で **exit 1** |
+| `--no-save` | `cloudinary-usage.json` を書かない |
+| `--json` | フル JSON を stdout に出力 |
+| `--date YYYY-MM` | 指定月の usage |
+
+`cloudinary-usage.json` は `.gitignore` 対象。
+
+---
+
+## 6. GitHub Actions
+
+### PR 検証 — `validate-scroll.yml`（upload なし）
+
+**pull request** で自動実行。secrets 不要。
+
+| 対象 path | 内容 |
+|-----------|------|
+| `scrolls/**` | 変更された `scroll_config.yaml` |
+| `scripts/sync_*.py` | パイプライン変更 |
+| `scripts/preflight_scroll.py` | 検証ロジック変更 |
+
+**ジョブ内容:**
+
+1. PR で変更された `scrolls/**/scroll_config.yaml` を列挙
+2. 各ファイルで `preflight_scroll.py`
+3. 各ファイルで `sync_all.py --dry-run --skip-preflight`
+
+`scroll_config.yaml` の変更が 0 件の PR は **skip（success）**。usage チェック・upload は含みません。
+
+### 手動 sync — `sync-scroll.yml`（upload は opt-in）
+
+**`workflow_dispatch` のみ。** push トリガーはありません。
+
+1. GitHub → Actions → **Sync scroll to Cloudinary** → Run workflow
+2. **config_path**（必須）: `scrolls/my-scroll/scroll_config.yaml`
+3. **skip_upload**: デフォルト **true**（JSON のみ）
+   - CI からアップロードする場合のみ **false**（明示 opt-in）
+4. Secrets: `CLOUDINARY_URL`（upload 時のみ必要）
+
+**正攻法:** ローカルで sync → JSON を commit。CI からの二重アップロードに注意。
+
+---
+
+## 7. レーン B：UI リファクタ
+
+### 固定しておくもの
+
+`LazyImage.js` の Cloudinary 変換 URL:
+
+```
+fl_progressive,f_jpg,w_{width},q_75
+```
+
+リファクタ中は **このパラメータを変更しない**。レイアウト・`sizes`・スケルトン改善は OK。
+
+### YAML / 词書だけ直す
+
+```powershell
+py -3.14 scripts/sync_all.py scrolls/my-scroll/scroll_config.yaml --skip-upload
+```
+
+### UI コードだけ直す
+
+- `sync_all.py` は **実行しない**
+- デプロイ前に既存絵巻 1〜2 作品で目視確認
+
+### 避ける API
+
+- `src/pages/api/updatejson.js` — 全画像の Admin API 一括取得
+- `src/pages/api/cloudinary.js` — search API（max 500 件）
+
+---
+
+## 8. チェックリスト
+
+```
+□ scroll_id がフォルダ名と一致
+□ metadata.id / titleen が dataEmakis.json と重複しない
+□ preflight_scroll.py が OK
+□ 画像 ≤ 10MB（25MP は手動確認）
+□ sync_all.py --dry-run OK
+□ check_cloudinary_usage.py（--warn-at 18）OK
+□ sync は 1 回（--force-upload なし）
+□ ローカルで /[titleen] 確認
+□ dataEmakis.json + cache + YAML + images を同 PR
+□ PR で validate-scroll.yml が pass
+□ push では sync-scroll.yml は走らない（手動のみ）
+```
+
+---
+
+## 9. モニタリング
+
+### Cloudinary
+
+```powershell
+py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20
+py -3.14 scripts/check_cloudinary_usage.py --json --no-save
+```
+
+| 信号 | 対処 |
+|------|------|
+| `credits.usage` **> 20** | 新絵巻追加を翌月まで延期 |
+| Transformations 急増 | loader / `sizes` 変更を見直す |
+| Admin API エラー | sync 停止、`--skip-upload` のみ |
+
+### Vercel
+
+Dashboard → **Usage** → Last 30 days。優先: Fast Data Transfer、Edge Requests、ISR Reads。
+
+---
+
+## 10. Cursor Agent プロンプト
+
+コピー用のプロンプト集: **[`cursor-scroll-sync-prompt.md`](./cursor-scroll-sync-prompt.md)**
+
+| 用途 | プロンプト |
+|------|-----------|
+| 新規絵巻 sync | 標準 / 短縮版 |
+| 词書・YAML のみ修正 | `--skip-upload` |
+| upload 前の検証 | 検証のみ |
+| PR 前 | 最終確認 |
+| UI 改善 | レーン B |
+
+**YAML 草案（汎用 AI）:** [`ai-scroll-config-prompt.md`](./ai-scroll-config-prompt.md)
+
+---
+
+## 付録 A: sync_scroll.py CLI
+
+`sync_all.py` から内部呼び出しされます。単体デバッグ用。
+
+### 画像ディレクトリの自動検出
+
+1. `SCROLL_IMAGES_DIR` 環境変数
+2. config と同じフォルダの `images/`
+3. `scrolls/{scroll_id}/images/`
+4. `images/{scroll_id}/`
+5. `public/images/{scroll_id}/`
+
+### 古いファイル名の自動紐付け
+
+- ファイル名中の `_NN-` または `_NN.` から global index を抽出
+- 同 index に複数ファイル → **解像度の高い方を優先**（1080 > 800 > 375）
+
+### 使い方
+
+```powershell
+pip install -r scripts/requirements-sync.txt
+# .env.local または CLOUDINARY_URL
+
+py -3.14 scripts/sync_scroll.py scrolls/my-scroll/scroll_config.yaml --dry-run
+py -3.14 scripts/sync_scroll.py scrolls/my-scroll/scroll_config.yaml
+```
+
+**通常は `sync_all.py` を使う。** ドライランも `sync_all.py --dry-run` が正。
+
+---
+
+## 付録 B: 関連ファイル
+
+| ファイル | 役割 |
+|---------|------|
+| `scripts/sync_all.py` | 統合パイプライン（**主経路**） |
+| `scripts/preflight_scroll.py` | sync 前検証 |
+| `scripts/check_cloudinary_usage.py` | usage 取得・ゲート |
+| `scripts/sync_scroll.py` | Cloudinary アップロード |
+| `scripts/migrate_cache_to_cloudinary.py` | キャッシュ修復 |
+| `.github/workflows/validate-scroll.yml` | PR: preflight + dry-run |
+| `.github/workflows/sync-scroll.yml` | 手動 sync（upload opt-in） |
+| `docs/operations/cursor-scroll-sync-prompt.md` | Cursor Agent 用 sync プロンプト |
+| `scrolls/README.md` | ワークスペース入口 |
+
+---
+
+## 旧ドキュメント（リダイレクト）
+
+以下は本書に統合済み。ブックマーク更新を推奨します。
+
+- `sync-workflow.md`
+- `sustainable-content-and-ui-workflow.md`
+- `sync-scroll.md`

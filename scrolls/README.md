@@ -2,6 +2,16 @@
 
 新規絵巻を追加するときは、このディレクトリ以下に **1 scroll = 1 フォルダ** で配置します。
 
+## 次に読む
+
+**[scroll-pipeline.md](../docs/operations/scroll-pipeline.md)** — 自動化パイプラインの**正本**（手順・preflight・CI・運用方針）
+
+| 用途 | ドキュメント |
+|------|-------------|
+| YAML 草案（汎用 AI プロンプト） | [`ai-scroll-config-prompt.md`](../docs/operations/ai-scroll-config-prompt.md) |
+| Cursor Agent 用 sync プロンプト | [`cursor-scroll-sync-prompt.md`](../docs/operations/cursor-scroll-sync-prompt.md) |
+| Cloudinary B 形式命名 | [`naming-convention.md`](../docs/operations/naming-convention.md) |
+
 ## ディレクトリ構成
 
 ```
@@ -9,7 +19,7 @@ scrolls/
 ├── README.md                 ← このファイル
 ├── _template/                ← 新規作成用テンプレート
 │   ├── scroll_config.yaml
-│   └── images/               ← 画像をここに置く
+│   └── images/
 ├── _examples/                ← 完成例（参考用）
 │   └── choju-giga-yamazaki-tei/
 └── {scroll_id}/              ← 本番用（例: jigokusoushi-anzyuin/）
@@ -21,39 +31,23 @@ scrolls/
 
 ## クイックスタート
 
+詳細は [`scroll-pipeline.md` §3](../docs/operations/scroll-pipeline.md#3-レーン-a1-絵巻追加) を参照。
+
 ```powershell
+$env:PYTHONIOENCODING = "utf-8"
+
 # 1. テンプレートをコピー
 Copy-Item -Recurse scrolls\_template scrolls\my-new-scroll
 
-# 2. scroll_config.yaml を編集（scroll_id, metadata, scenes）
+# 2. scroll_config.yaml を編集、images/ に画像を配置
 
-# 3. 画像を scrolls/my-new-scroll/images/ に配置
-
-# 4. ドライラン
-$env:PYTHONIOENCODING = 'utf-8'
+# 3. 検証
 py -3.14 scripts/preflight_scroll.py scrolls/my-new-scroll/scroll_config.yaml
-python scripts/sync_scroll.py scrolls/my-new-scroll/scroll_config.yaml --dry-run
+py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20 --no-save
+py -3.14 scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml --dry-run
 
-# 5. アップロード + JSON 更新
-python scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml
+# 4. 本番 sync（.env.local に CLOUDINARY_URL）
+py -3.14 scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml
 ```
 
-## 命名規則（概要）
-
-| 識別子 | 用途 | 形式 |
-|--------|------|------|
-| `scroll_id` | Cloudinary / フォルダ名 | kebab-case（ハイフン） |
-| `titleen` | URL スラッグ | レガシー形式可 |
-| Cloudinary public_id | 画像 ID（B 形式） | `{scroll_id}__{scroll_id}_{vol}_{ch}__{ord}` |
-
-詳細: [`docs/operations/naming-convention.md`](../docs/operations/naming-convention.md)
-
-YAML 作成（汎用 AI）: [`docs/operations/ai-scroll-config-prompt.md`](../docs/operations/ai-scroll-config-prompt.md)
-
-Free プラン向けの段階的追加・UI 並行運用: [`docs/operations/sustainable-content-and-ui-workflow.md`](../docs/operations/sustainable-content-and-ui-workflow.md)
-
-## Cursor 自動化（将来）
-
-プロンプト例:
-
-> `scrolls/jigokusoushi-anzyuin/scroll_config.yaml` を確認し、images/ の画像枚数に合わせて scenes を更新してから `sync_all.py` をドライランしてください。
+PR では `validate-scroll.yml` が preflight + dry-run を自動実行します。

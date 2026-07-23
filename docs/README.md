@@ -2,6 +2,24 @@
 
 プロジェクト内に散逸していたドキュメントを整理したディレクトリです。
 
+## 絵巻同期パイプライン（入口）
+
+| 用途 | ドキュメント |
+|------|-------------|
+| **手順・CI・運用（正本）** | [`operations/scroll-pipeline.md`](./operations/scroll-pipeline.md) |
+| Cursor Agent 用 sync プロンプト | [`operations/cursor-scroll-sync-prompt.md`](./operations/cursor-scroll-sync-prompt.md) |
+| YAML 草案（汎用 AI プロンプト） | [`operations/ai-scroll-config-prompt.md`](./operations/ai-scroll-config-prompt.md) |
+| Cloudinary B 形式命名 | [`operations/naming-convention.md`](./operations/naming-convention.md) |
+| ワークスペース入口 | [`scrolls/README.md`](../scrolls/README.md) |
+
+以下は **`scroll-pipeline.md` に統合済み**（リダイレクト stub のみ）:
+
+- `sync-workflow.md`
+- `sustainable-content-and-ui-workflow.md`
+- `sync-scroll.md`
+
+旧 Supabase 時代の手順: [`archive/github-actions-sync-manual.md`](./archive/github-actions-sync-manual.md)
+
 ## 構成
 
 ```
@@ -14,20 +32,23 @@ docs/
 │   ├── zukan-tool-schema.md
 │   └── scrolls-data-model.md
 ├── operations/               ← 運用手順
-│   ├── sync-workflow.md      ← 絵巻同期ワークフロー（メイン）
-│   ├── sustainable-content-and-ui-workflow.md  ← Free プラン向け並行運用ガイド
+│   ├── scroll-pipeline.md    ← 絵巻同期パイプライン（正本）
+│   ├── cursor-scroll-sync-prompt.md  ← Cursor Agent 用 sync プロンプト
 │   ├── ai-scroll-config-prompt.md  ← 汎用 AI 用 YAML 作成プロンプト
 │   ├── naming-convention.md  ← Cloudinary 命名規則（B 形式）
-│   ├── sync-scroll.md        ← sync_scroll.py CLI
-│   └── github-actions-sync-manual.md  ← 旧手順（参考）
+│   ├── sync-workflow.md      ← → scroll-pipeline.md へ
+│   ├── sustainable-content-and-ui-workflow.md  ← → scroll-pipeline.md へ
+│   ├── sync-scroll.md        ← → scroll-pipeline.md 付録 A へ
+│   └── github-actions-sync-manual.md  ← → archive へ
 ├── content/                  ← 作品解説コンテンツ（.md + .pdf）
 │   ├── genji-emaki-hikime.md
 │   ├── heian-hockey-mariuchi.md
 │   ├── ansei-daijishin-saika-emaki.md
 │   ├── gyoretsu-emaki-yuwaku.md
 │   └── zouri-wo-uru-shounen.md
-└── archive/                  ← アーカイブデータの記録
-    └── genji-source.md
+└── archive/                  ← アーカイブ
+    ├── genji-source.md
+    └── github-actions-sync-manual.md  ← 旧 Supabase 時代（非推奨）
 ```
 
 ## 移動元マッピング
@@ -39,10 +60,10 @@ docs/
 | `docs/architecture/zukan-character-schema.md` | `src/zukan/templates/character-template.md` |
 | `docs/architecture/zukan-tool-schema.md` | `src/zukan/templates/tool-template.md` |
 | `docs/architecture/scrolls-data-model.md` | `src/zukan/3_scrolls/README.md` |
-| `docs/operations/sync-workflow.md` | （新規）統合同期ワークフロー |
+| `docs/operations/scroll-pipeline.md` | `sync-workflow.md` + `sustainable-content-and-ui-workflow.md` + `sync-scroll.md` を統合 |
 | `docs/operations/ai-scroll-config-prompt.md` | （新規）汎用 AI 用 YAML 作成プロンプト |
 | `docs/operations/naming-convention.md` | （新規）B 形式命名規則 |
-| `docs/operations/sync-scroll.md` | `scripts/README-sync.md` |
+| `docs/archive/github-actions-sync-manual.md` | `docs/operations/github-actions-sync-manual.md` |
 | `docs/content/*.md` | `src/docs/note_archive_post/*.md` |
 | `docs/archive/genji-source.md` | `src/libs/_archive_unused_data/genji/source.md` |
 

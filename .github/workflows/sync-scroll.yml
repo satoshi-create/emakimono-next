@@ -2,7 +2,7 @@ name: Sync scroll to Cloudinary
 
 # Cloudinary upload runs only via manual dispatch (no push trigger).
 # Default: --skip-upload to avoid duplicate uploads after local sync.
-# See docs/operations/sustainable-content-and-ui-workflow.md
+# See docs/operations/scroll-pipeline.md
 
 on:
   workflow_dispatch:

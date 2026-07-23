@@ -3803,20 +3803,20 @@
   },
   {
     "id": 14,
-    "title": "餓鬼草紙（川本家本）",
+    "title": "餓鬼草紙（河本家本）",
     "titleen": "gakisoushi_kawamoto",
     "author": "",
     "authoren": "",
-    "edition": "",
+    "edition": "河本家旧蔵",
     "encodeUrl": "",
     "backgroundImage": "/washi-pattern-01.webp",
-    "thumb": "/gakisoushi_kawamoto_thumb.webp",
-    "thumb2": "/gakisoushi_kawamoto_thumb.webp",
+    "thumb": "/thumb/gakisoushi_kawamoto_thumb.webp",
+    "thumb2": "",
     "video": "",
     "era": "平安",
     "eraen": "heiann",
-    "desc": "",
-    "descen": "",
+    "desc": "東京国立博物館所蔵の河本家旧蔵本『餓鬼草紙』。词書を欠く絵のみの絵巻で、『正法念処経』に説かれる諸餓鬼の業苦を、現世の風俗場面に織り込んで描く。",
+    "descen": "The Kawamoto family text of Gaki Zoshi (Scroll of Hungry Ghosts), preserved at the Tokyo National Museum. A painting-only emaki without kotobagaki, depicting various hungry ghosts from the Shōbōnenjō-kyō amid scenes of Heian-period life.",
     "readMore": false,
     "type": "絵巻",
     "typeen": "emaki",
@@ -3850,7 +3850,7 @@
     "kotobagaki": true,
     "favorite": false,
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
-    "sourceImage": "餓鬼草紙 （ColBase）",
+    "sourceImage": "餓鬼草紙（ColBase）",
     "metadesc": "",
     "gif": "",
     "sourceEkotoba": "",
@@ -3864,150 +3864,143 @@
     "emakis": [
       {
         "cat": "ekotoba",
-        "chapter": "欲色餓鬼（よくじきがき）",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [
-          {}
-        ],
-        "id": 310
+        "chapter": "1",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": "",
+        "gendaibun": "欲色餓鬼（よくじきがき）とは、生前に売淫で得た財を施し、人を色欲に誘惑した者の報いである。<br><br>この餓鬼は心のままに姿を変え、美しくも醜くもなれる。人家に忍び入り盗み食いをし、あるいは女の形に化けて男と交わるという。絵では、琵琶を弾く遊女や貴族の宴の場に、人の目に見えぬ餓鬼が紛れている様子が描かれる。",
+        "desc": "『正法念処経』第二十一・迦摩（欲色）餓鬼。词書は原本にないため、経典に基づく解説文。"
       },
       {
-        "load": true,
         "cat": "image",
-        "srcSp": "/gakisoushi_kawamoto_01-375.webp",
-        "srcTb": "/gakisoushi_kawamoto_01-800.webp",
-        "src": "/gakisoushi_kawamoto_01-1080.webp",
-        "name": "gakisoushi_kawamoto_01.webp",
-        "id": 311,
-        "srcWidth": 2978,
-        "srcHeight": 1080
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/gakisoushi-kawamoto__gakisoushi-kawamoto_1_01__01.jpg",
+        "name": "gakisoushi-kawamoto__gakisoushi-kawamoto_1_01__01",
+        "srcHeight": "1080",
+        "srcWidth": "2978"
       },
       {
         "cat": "ekotoba",
-        "chapter": "伺嬰児便飢餓（しえいじべんきが）",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [
-          {}
-        ],
-        "id": 312
+        "chapter": "2",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": "",
+        "gendaibun": "伺嬰児便餓鬼（しえいじべんがき）とは、生前に人の嬰児を殺され、大いに怒り、「来世は夜叉となって報いを受けさせる」と誓願した者の報いである。<br><br>産褥の場を伺い、赤子の過失を求めてその命を断とうとする。神通自在で、須臾の間に百千由旬を行き来するという。絵では出産の場に僧が座り、背後から女がのぞき込むなど、人間の営みと餓鬼の存在が交錯する。",
+        "desc": "『正法念処経』第二十・蚩陀羅（伺嬰児便）餓鬼。"
       },
       {
-        "load": false,
         "cat": "image",
-        "srcSp": "/gakisoushi_kawamoto_02-375.webp",
-        "srcTb": "/gakisoushi_kawamoto_02-800.webp",
-        "src": "/gakisoushi_kawamoto_02-1080.webp",
-        "name": "gakisoushi_kawamoto_02.webp",
-        "id": 313,
-        "srcWidth": 1950,
-        "srcHeight": 1080
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/gakisoushi-kawamoto__gakisoushi-kawamoto_1_02__01.jpg",
+        "name": "gakisoushi-kawamoto__gakisoushi-kawamoto_1_02__01",
+        "srcHeight": "1080",
+        "srcWidth": "1950"
       },
       {
         "cat": "ekotoba",
-        "chapter": "伺便飢餓（しべんきが）",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [
-          {}
-        ],
-        "id": 314
+        "chapter": "3",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": "",
+        "gendaibun": "伺便餓鬼（しべんがき）とは、生前に詐欺で財を奪い、人の隙を伺って劫掠した者の報いである。<br><br>全身の毛孔から火が出て自らを焼き、飢渇に苦しみながら、不浄な場所や大小便のそばをうろつき、人の便を待ち求める。絵では路傍や家の外で用を足す人々の周囲に、腹の膨れた餓鬼たちが群がる。",
+        "desc": "『正法念処経』第十六・蚩陀邏（伺便）餓鬼。"
       },
       {
-        "load": false,
         "cat": "image",
-        "srcSp": "/gakisoushi_kawamoto_03-375.webp",
-        "srcTb": "/gakisoushi_kawamoto_03-800.webp",
-        "src": "/gakisoushi_kawamoto_03-1080.webp",
-        "name": "gakisoushi_kawamoto_03.webp",
-        "id": 315,
-        "srcWidth": 1970,
-        "srcHeight": 1080
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/gakisoushi-kawamoto__gakisoushi-kawamoto_1_03__01.jpg",
+        "name": "gakisoushi-kawamoto__gakisoushi-kawamoto_1_03__01",
+        "srcHeight": "1080",
+        "srcWidth": "1970"
       },
       {
         "cat": "ekotoba",
-        "chapter": "疾行飢餓（しっこうきが）",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [
-          {}
-        ],
-        "id": 316
+        "chapter": "4",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": "",
+        "gendaibun": "疾行餓鬼（しっこうがき）とは、生前に出家して戒を破り、町村を徘徊して欺罔（ぎもう）の財を求めた者の報いである。<br><br>その行は迅疾で、一念の間に百千由旬に至る。不浄の場所で穢物を食べ、行不浄の人を悩ませ、悪夢を見せるという。絵では塚や卒塔婆のある野辺に、死体や骨をめぐって餓鬼がうろつく。",
+        "desc": "『正法念処経』第十五・阿毘遮羅（疾行）餓鬼。"
       },
       {
-        "load": false,
         "cat": "image",
-        "srcSp": "/gakisoushi_kawamoto_04-375.webp",
-        "srcTb": "/gakisoushi_kawamoto_04-800.webp",
-        "src": "/gakisoushi_kawamoto_04-1080.webp",
-        "name": "gakisoushi_kawamoto_04.webp",
-        "id": 317,
-        "srcWidth": 1976,
-        "srcHeight": 1080
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/gakisoushi-kawamoto__gakisoushi-kawamoto_1_04__01.jpg",
+        "name": "gakisoushi-kawamoto__gakisoushi-kawamoto_1_04__01",
+        "srcHeight": "1080",
+        "srcWidth": "1976"
       },
       {
         "cat": "ekotoba",
-        "chapter": "食糞飢餓（しょくふんきが）",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [
-          {}
-        ],
-        "id": 318
+        "chapter": "5",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": "",
+        "gendaibun": "食糞餓鬼（しょくふんがき）とは、生前に慳貪で布施をせず、あるいは不浄な食物を僧に施した者の報いである。<br><br>人の糞尿を食とし、求めても得られず、飢渇の火に身を焼かれる。絵では泥水のたまりに身を沈め、穢物を口に運ぶ餓鬼が、同类とともに描かれる。",
+        "desc": "『正法念処経』第四・毘師咃（食糞）餓鬼。"
       },
       {
-        "load": false,
         "cat": "image",
-        "srcSp": "/gakisoushi_kawamoto_05-375.webp",
-        "srcTb": "/gakisoushi_kawamoto_05-800.webp",
-        "src": "/gakisoushi_kawamoto_05-1080.webp",
-        "name": "gakisoushi_kawamoto_05.webp",
-        "id": 319,
-        "srcWidth": 1932,
-        "srcHeight": 1080
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/gakisoushi-kawamoto__gakisoushi-kawamoto_1_05__01.jpg",
+        "name": "gakisoushi-kawamoto__gakisoushi-kawamoto_1_05__01",
+        "srcHeight": "1080",
+        "srcWidth": "1932"
       },
       {
         "cat": "ekotoba",
-        "chapter": "曠野飢餓（こうやきが）",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [
-          {}
-        ],
-        "id": 320
+        "chapter": "6",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": "",
+        "gendaibun": "曠野餓鬼（こうやがき）とは、生前に曠野の険しい所で強盗を働き、林木や水源を破壊して旅人の財を奪った者の報いである。<br><br>飢火に身を焼かれ曠野を奔走し、水を呼んでも近づけば消え、荊棘に足を刺され、雕鷲に目を啄まれるという。絵では野原に倒れた餓鬼の身上を、大きな鳥たちが襲う。",
+        "desc": "『正法念処経』第三十二・阿吒毘（曠野）餓鬼。"
       },
       {
-        "load": false,
         "cat": "image",
-        "srcSp": "/gakisoushi_kawamoto_06-375.webp",
-        "srcTb": "/gakisoushi_kawamoto_06-800.webp",
-        "src": "/gakisoushi_kawamoto_06-1080.webp",
-        "name": "gakisoushi_kawamoto_06.webp",
-        "id": 321,
-        "srcWidth": 976,
-        "srcHeight": 1080
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/gakisoushi-kawamoto__gakisoushi-kawamoto_1_06__01.jpg",
+        "name": "gakisoushi-kawamoto__gakisoushi-kawamoto_1_06__01",
+        "srcHeight": "1080",
+        "srcWidth": "976"
       },
       {
         "cat": "ekotoba",
-        "chapter": "食火炭飢餓",
-        "kobun": "",
-        "gendaibun": "",
-        "phrase": [
-          {}
-        ],
-        "id": 322
+        "chapter": "7",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": "",
+        "gendaibun": "食火炭餓鬼（しょくかたんがき）とは、生前に刑獄を司り、囚人を飢渇させて虐待した者の報いである。<br><br>塚墓に至り、焼屍の火炭を食べて飢渇をしのぐ。絵では炎を携えた餓鬼や、口に火の粉を落とされて苦しむ餓鬼など、火と飢えの業報が一続きの画面に描かれる。",
+        "desc": "『正法念処経』第三十・鴦伽囉婆叉（食火炭）餓鬼。"
       },
       {
-        "load": false,
         "cat": "image",
-        "srcSp": "/gakisoushi_kawamoto_07-375.webp",
-        "srcTb": "/gakisoushi_kawamoto_07-800.webp",
-        "src": "/gakisoushi_kawamoto_07-1080.webp",
-        "name": "gakisoushi_kawamoto_07.webp",
-        "id": 323,
-        "srcWidth": 4922,
-        "srcHeight": 1080
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/gakisoushi-kawamoto__gakisoushi-kawamoto_1_07__01.jpg",
+        "name": "gakisoushi-kawamoto__gakisoushi-kawamoto_1_07__01",
+        "srcHeight": "1080",
+        "srcWidth": "4922"
       }
     ]
   },
