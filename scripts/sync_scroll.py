@@ -31,7 +31,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import quote, urlparse
 
 import requests
 import yaml
@@ -238,15 +238,19 @@ def get_cloudinary_credentials() -> CloudinaryCredentials:
         raise SystemExit("cloudinary package required: pip install -r scripts/requirements-sync.txt")
     url = os.environ.get("CLOUDINARY_URL")
     if url:
-        cloudinary.config(cloudinary_url=url)
-    else:
-        cloudinary.config(
-            cloud_name=ensure_env("CLOUDINARY_CLOUD_NAME"),
-            api_key=ensure_env("CLOUDINARY_API_KEY"),
-            api_secret=ensure_env("CLOUDINARY_API_SECRET"),
+        parsed = urlparse(url)
+        if parsed.scheme != "cloudinary":
+            raise SystemExit("Invalid CLOUDINARY_URL scheme. Expecting 'cloudinary://'")
+        return CloudinaryCredentials(
+            api_key=parsed.username or "",
+            api_secret=parsed.password or "",
+            cloud_name=parsed.hostname or "",
         )
-    cfg = cloudinary.config()
-    return CloudinaryCredentials(cfg.api_key, cfg.api_secret, cfg.cloud_name)
+    return CloudinaryCredentials(
+        api_key=ensure_env("CLOUDINARY_API_KEY"),
+        api_secret=ensure_env("CLOUDINARY_API_SECRET"),
+        cloud_name=ensure_env("CLOUDINARY_CLOUD_NAME"),
+    )
 
 
 def _cloudinary_signature(params: dict[str, str], api_secret: str) -> str:

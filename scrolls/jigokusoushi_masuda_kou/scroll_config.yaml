@@ -1,0 +1,58 @@
+scroll_id: "jigokusoushi_masuda_kou"
+volume_num: 1
+theme_id: "jigoku"
+folder: "emakimono"
+
+metadata:
+  id: 16
+  title: "地獄草紙（益田家甲本）"
+  titleen: "jigokusoushi_masuda_kou"
+  author: ""
+  authoren: ""
+  edition: "益田家甲本（沙門地獄草紙）"
+  era: "平安"
+  eraen: "heiann"
+  type: "絵巻"
+  typeen: "emaki"
+  desc: "益田鈍翁旧蔵の沙門地獄草紙（益田家甲本）の断簡。仏法に背いた僧侶が堕ちる地獄を『馬頭羅刹経』に基づき描いた絵巻の一部。"
+  descen: "Fragment of the Masuda family version A (Shamon Jigoku Zoshi), formerly in the Masuda Takashi collection, depicting hells for monks who violated Buddhist precepts."
+  thumb: "/thumb/jigokusoushi_masuda_kou_thumb.webp"
+  thumb2: ""
+  backgroundImage: ""
+  video: ""
+  sourceImageUrl: "https://colbase.nich.go.jp/"
+  sourceImage: "地獄草紙（ColBase）"
+  reference:
+    - type: "書籍"
+      url: "https://rb.gy/r3nghf"
+      title: "『餓鬼草紙 地獄草紙 病草紙 九相詩絵巻』（日本絵巻大成7 中央公論社）"
+  encodeUrl: ""
+  favorite: false
+  kotobagaki: true
+  kotobagaki_mode: "alternating"
+  readMore: false
+  keywords:
+    - { name: "地獄", id: "jigoku", slug: "jigoku" }
+    - { name: "地獄草紙", id: "jigokusoushi", slug: "jigokusoushi" }
+    - { name: "沙門地獄", id: "shamon-jigoku", slug: "shamon-jigoku" }
+    - { name: "仏教", id: "buddhism", slug: "buddhism" }
+
+scenes:
+  - id: 1
+    title: "火象地獄"
+    titleen: "Kazo Hell"
+    range: [1, 2]
+    text:
+      gendaibun: |
+        鐵圍山の北にあたる火象地獄（かぞうじごく）という所がある。<br>ここには、生前に殺生・偸盗・邪淫・妄語を犯し、また五戒を守る者に酒を飲ませて酔わせた僧侶が堕ちる。<br>この地獄には、火の象のような猛獣が現れ、罪人を噛み砕き、獄卒たちも罪人を責め苦にあわせる。
+      kobun: ""
+      desc: "『馬頭羅刹経』に説かれる火象地獄を描く段（词書01 + 絵02）。"
+  - id: 2
+    title: "咩声地獄"
+    titleen: "Meiko Hell"
+    range: [3, 4]
+    text:
+      gendaibun: |
+        鐵圍山北にあたれる咩穀地獄（めこくじごく）という所がある。<br>ここには、生前に殺生・偸盗・邪淫を犯した僧侶が堕ちる。<br>この地獄には、赤い鬼たちが罪人を追い立て、猛火の中へ投げ込む。罪人は叫び声を上げ、逃れる術もない。
+      kobun: ""
+      desc: "『馬頭羅刹経』に説かれる咩声地獄を描く段（词書03 + 絵04）。"

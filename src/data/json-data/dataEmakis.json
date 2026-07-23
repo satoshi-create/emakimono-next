@@ -10920,7 +10920,7 @@
     "thumb2": "",
     "video": "",
     "era": "平安",
-    "eraen": "heian",
+    "eraen": "heiann",
     "desc": "隋の闍那崛多が漢訳した『起世経』に説かれる十六小地獄を描いた、奈良国立博物館所蔵の重要文化財（原家旧蔵本）。",
     "descen": "An emaki handscroll depicting the sixteen minor hells based on the 'Qishijing', preserved at the Nara National Museum (formerly in the Hara collection).",
     "readMore": false,
@@ -11097,6 +11097,104 @@
         "name": "jigokusoushi-genke__jigokusoushi-genke_1_07__01",
         "srcHeight": "1080",
         "srcWidth": "1282"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "title": "地獄草紙（益田家甲本）",
+    "titleen": "jigokusoushi_masuda_kou",
+    "author": "",
+    "authoren": "",
+    "edition": "益田家甲本（沙門地獄草紙）",
+    "encodeUrl": "",
+    "backgroundImage": "",
+    "thumb": "/thumb/jigokusoushi_masuda_kou_thumb.webp",
+    "thumb2": "",
+    "video": "",
+    "era": "平安",
+    "eraen": "heiann",
+    "desc": "益田鈍翁旧蔵の沙門地獄草紙（益田家甲本）の断簡。仏法に背いた僧侶が堕ちる地獄を『馬頭羅刹経』に基づき描いた絵巻の一部。",
+    "descen": "Fragment of the Masuda family version A (Shamon Jigoku Zoshi), formerly in the Masuda Takashi collection, depicting hells for monks who violated Buddhist precepts.",
+    "readMore": false,
+    "type": "絵巻",
+    "typeen": "emaki",
+    "keyword": [
+      {
+        "name": "地獄",
+        "id": "jigoku",
+        "slug": "jigoku"
+      },
+      {
+        "name": "地獄草紙",
+        "id": "jigokusoushi",
+        "slug": "jigokusoushi"
+      },
+      {
+        "name": "沙門地獄",
+        "id": "shamon-jigoku",
+        "slug": "shamon-jigoku"
+      },
+      {
+        "name": "仏教",
+        "id": "buddhism",
+        "slug": "buddhism"
+      }
+    ],
+    "kotobagaki": true,
+    "favorite": false,
+    "sourceImageUrl": "https://colbase.nich.go.jp/",
+    "sourceImage": "地獄草紙（ColBase）",
+    "metadesc": "",
+    "gif": "",
+    "sourceEkotoba": "",
+    "reference": [
+      {
+        "type": "書籍",
+        "url": "https://rb.gy/r3nghf",
+        "title": "『餓鬼草紙 地獄草紙 病草紙 九相詩絵巻』（日本絵巻大成7 中央公論社）"
+      }
+    ],
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "1",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi_masuda_kou__jigokusoushi_masuda_kou_1_01__01.jpg",
+        "name": "jigokusoushi_masuda_kou__jigokusoushi_masuda_kou_1_01__01",
+        "srcHeight": "1080",
+        "srcWidth": "2019",
+        "gendaibun": "鐵圍山の北にあたる火象地獄（かぞうじごく）という所がある。<br>ここには、生前に殺生・偸盗・邪淫・妄語を犯し、また五戒を守る者に酒を飲ませて酔わせた僧侶が堕ちる。<br>この地獄には、火の象のような猛獣が現れ、罪人を噛み砕き、獄卒たちも罪人を責め苦にあわせる。",
+        "desc": "『馬頭羅刹経』に説かれる火象地獄を描く段（词書01 + 絵02）。"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi_masuda_kou__jigokusoushi_masuda_kou_1_01__02.jpg",
+        "name": "jigokusoushi_masuda_kou__jigokusoushi_masuda_kou_1_01__02",
+        "srcHeight": "1080",
+        "srcWidth": "1040"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "2",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi_masuda_kou__jigokusoushi_masuda_kou_1_02__01.jpg",
+        "name": "jigokusoushi_masuda_kou__jigokusoushi_masuda_kou_1_02__01",
+        "srcHeight": "1080",
+        "srcWidth": "1555",
+        "gendaibun": "鐵圍山北にあたれる咩穀地獄（めこくじごく）という所がある。<br>ここには、生前に殺生・偸盗・邪淫を犯した僧侶が堕ちる。<br>この地獄には、赤い鬼たちが罪人を追い立て、猛火の中へ投げ込む。罪人は叫び声を上げ、逃れる術もない。",
+        "desc": "『馬頭羅刹経』に説かれる咩声地獄を描く段（词書03 + 絵04）。"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/jigokusoushi_masuda_kou__jigokusoushi_masuda_kou_1_02__02.jpg",
+        "name": "jigokusoushi_masuda_kou__jigokusoushi_masuda_kou_1_02__02",
+        "srcHeight": "1080",
+        "srcWidth": "1155"
       }
     ]
   }
