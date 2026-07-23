@@ -275,6 +275,15 @@ const connectChojugigaChapters = (titleen, chapter, text) => {
   return chapterSummary;
 };
 
+/** 鳥獣戯画4巻 → それ以外は emaki-text-data にフォールバック */
+const resolveChojugigaOrEmakiText = (titleen, chapter, field) => {
+  const fromChoju = connectChojugigaChapters(titleen, chapter, field);
+  if (fromChoju) {
+    return fromChoju;
+  }
+  return connectEmakiTextData(titleen, chapter, field);
+};
+
 const connectGenjiChapters = (chapter, text) => {
   const chapterGenjisummary = chaptergenji
     .filter((item) => chapter === item.chapter_en)
@@ -306,12 +315,8 @@ const ChaptersTitle = (titleen, title, chapter, text) => {
       </>
     );
   } else if (title.includes("鳥獣") || title.includes("戯画")) {
-    return (
-      <>
-        {connectChojugigaChapters(titleen, chapter, text) &&
-          `${connectChojugigaChapters(titleen, chapter, text)}`}
-      </>
-    );
+    const chapterTitle = resolveChojugigaOrEmakiText(titleen, chapter, text);
+    return <>{chapterTitle && `${chapterTitle}`}</>;
   } else if (title.includes("源氏")) {
     return (
       <>
@@ -349,13 +354,8 @@ const ChaptersGendaibun = (titleen, title, chapter, gendaibun) => {
       </>
     );
   } else if (title.includes("鳥獣") || title.includes("戯画")) {
-    // 鳥獣人物戯画は現在descフィールドがないため、タイトルを返す
-    return (
-      <>
-        {connectChojugigaChapters(titleen, chapter, "title") &&
-          `${connectChojugigaChapters(titleen, chapter, "title")}`}
-      </>
-    );
+    const chapterTitle = resolveChojugigaOrEmakiText(titleen, chapter, "title");
+    return <>{chapterTitle && `${chapterTitle}`}</>;
   } else if (title.includes("源氏")) {
     return (
       <>
@@ -383,12 +383,8 @@ const ChaptersDesc = (titleen, title, chapter, text, desc) => {
       </>
     );
   } else if (title.includes("鳥獣") || title.includes("戯画")) {
-    return (
-      <>
-        {connectChojugigaChapters(titleen, chapter, text) &&
-          `${connectChojugigaChapters(titleen, chapter, text)}`}
-      </>
-    );
+    const chapterDesc = resolveChojugigaOrEmakiText(titleen, chapter, text);
+    return <>{chapterDesc && parse(chapterDesc)}</>;
   } else if (title.includes("源氏")) {
     return (
       <>

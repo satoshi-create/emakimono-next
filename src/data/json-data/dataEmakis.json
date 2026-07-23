@@ -11197,5 +11197,201 @@
         "srcWidth": "1155"
       }
     ]
+  },
+  {
+    "id": 18,
+    "title": "鳥獣戯画と天狗（ホノルル美術館）",
+    "titleen": "frolicking_animals_and_tengu_goblins",
+    "author": "作者不詳",
+    "authoren": "anonymous",
+    "edition": "ホノルル美術館蔵",
+    "encodeUrl": "",
+    "backgroundImage": "/washi-pattern-01.webp",
+    "thumb": "/thumb/frolicking-animals-and-tengu-goblins_thumb.jpg",
+    "thumb2": "",
+    "video": "",
+    "era": "江戸",
+    "eraen": "edo",
+    "desc": "ホノルル美術館所蔵の18世紀作『Frolicking Animals and Tengu Goblins』。前半に天狗の行進、後半に鳥獣戯画風の擬人化した動物たちの戯れが描かれた、墨画に淡彩を加えた絵巻。",
+    "descen": "An 18th-century handscroll in the Honolulu Museum of Art collection, depicting tengu goblins in procession followed by frolicking anthropomorphic animals in the Chōjū-giga tradition, rendered in ink with light color.",
+    "readMore": false,
+    "type": "絵巻",
+    "typeen": "emaki",
+    "keyword": [
+      {
+        "name": "戯画",
+        "id": "caricature",
+        "slug": "caricature"
+      },
+      {
+        "name": "動物",
+        "id": "animal",
+        "slug": "animal"
+      },
+      {
+        "name": "鳥獣戯画",
+        "id": "tobae",
+        "slug": "tobae"
+      },
+      {
+        "name": "天狗",
+        "id": "tengu",
+        "slug": "tengu"
+      }
+    ],
+    "kotobagaki": false,
+    "favorite": false,
+    "sourceImageUrl": "https://honolulu.emuseum.com/objects/38858/frolicking-animals-and-tengu-goblins",
+    "sourceImage": "Honolulu Museum of Art",
+    "metadesc": "",
+    "gif": "",
+    "sourceEkotoba": "",
+    "reference": [],
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "1",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_01__01.jpg",
+        "name": "frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_01__01",
+        "srcHeight": "1080",
+        "srcWidth": "2929"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "2",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_02__01.jpg",
+        "name": "frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_02__01",
+        "srcHeight": "1080",
+        "srcWidth": "3427"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "3",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_03__01.jpg",
+        "name": "frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_03__01",
+        "srcHeight": "1080",
+        "srcWidth": "3036"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "4",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_04__01.jpg",
+        "name": "frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_04__01",
+        "srcHeight": "1080",
+        "srcWidth": "3018"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "5",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_05__01.jpg",
+        "name": "frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_05__01",
+        "srcHeight": "1080",
+        "srcWidth": "2969"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "6",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_06__01.jpg",
+        "name": "frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_06__01",
+        "srcHeight": "1080",
+        "srcWidth": "3093"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "7",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_07__01.jpg",
+        "name": "frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_07__01",
+        "srcHeight": "1080",
+        "srcWidth": "3047"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "8",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_08__01.jpg",
+        "name": "frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_08__01",
+        "srcHeight": "1080",
+        "srcWidth": "1693"
+      }
+    ]
   }
 ]

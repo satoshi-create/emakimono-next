@@ -1,0 +1,69 @@
+# 鳥獣戯画と天狗（ホノルル美術館）— 词書なし・絵のみ8段
+# 出典: Honolulu Museum of Art, Gift of John Gregg Allerton, 1958 (2472.1)
+scroll_id: "frolicking-animals-and-tengu-goblins"
+volume_num: 1
+theme_id: "tobae"
+folder: "emakimono"
+
+metadata:
+  id: 18
+  title: "鳥獣戯画と天狗（ホノルル美術館）"
+  titleen: "frolicking_animals_and_tengu_goblins"
+  author: "作者不詳"
+  authoren: "anonymous"
+  edition: "ホノルル美術館蔵"
+  era: "江戸"
+  eraen: "edo"
+  type: "絵巻"
+  typeen: "emaki"
+  desc: "ホノルル美術館所蔵の18世紀作『Frolicking Animals and Tengu Goblins』。前半に天狗の行進、後半に鳥獣戯画風の擬人化した動物たちの戯れが描かれた、墨画に淡彩を加えた絵巻。"
+  descen: "An 18th-century handscroll in the Honolulu Museum of Art collection, depicting tengu goblins in procession followed by frolicking anthropomorphic animals in the Chōjū-giga tradition, rendered in ink with light color."
+  thumb: "/thumb/frolicking-animals-and-tengu-goblins_thumb.jpg"
+  thumb2: ""
+  backgroundImage: "/washi-pattern-01.webp"
+  video: ""
+  sourceImageUrl: "https://honolulu.emuseum.com/objects/38858/frolicking-animals-and-tengu-goblins"
+  sourceImage: "Honolulu Museum of Art"
+  encodeUrl: ""
+  favorite: false
+  kotobagaki: false
+  readMore: false
+  keywords:
+    - { name: "戯画", id: "caricature", slug: "caricature" }
+    - { name: "動物", id: "animal", slug: "animal" }
+    - { name: "鳥獣戯画", id: "tobae", slug: "tobae" }
+    - { name: "天狗", id: "tengu", slug: "tengu" }
+
+scenes:
+  - id: 1
+    title: "天狗と鳥"
+    titleen: "Tengu and Bird"
+    range: [1, 1]
+  - id: 2
+    title: "天狗の行進"
+    titleen: "Tengu Procession"
+    range: [2, 2]
+  - id: 3
+    title: "蛙に引かれる行列"
+    titleen: "Procession Led by Frog"
+    range: [3, 3]
+  - id: 4
+    title: "丘のうさぎ"
+    titleen: "Rabbit on the Hills"
+    range: [4, 4]
+  - id: 5
+    title: "鹿に乗る猿"
+    titleen: "Monkey Riding Deer"
+    range: [5, 5]
+  - id: 6
+    title: "動物たちの行進"
+    titleen: "Animal Procession"
+    range: [6, 6]
+  - id: 7
+    title: "蛙と猿"
+    titleen: "Frogs and Monkey"
+    range: [7, 7]
+  - id: 8
+    title: "巻末"
+    titleen: "End of Scroll"
+    range: [8, 8]

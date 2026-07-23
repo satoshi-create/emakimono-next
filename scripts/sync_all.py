@@ -120,6 +120,13 @@ def scene_has_text(scene: dict) -> bool:
     return any(str(text.get(k, "")).strip() for k in ("gendaibun", "kobun", "desc", "descen"))
 
 
+def scene_includes_text_json_entry(scene: dict) -> bool:
+    """True when a scene should appear in emaki-text-data (body text and/or chapter title)."""
+    if scene_has_text(scene):
+        return True
+    return bool(str(scene.get("title", "")).strip() or str(scene.get("titleen", "")).strip())
+
+
 def _normalize_text_value(value: str) -> str:
     return value.strip() if isinstance(value, str) else value
 
@@ -128,7 +135,7 @@ def build_text_json(config: dict) -> list[dict]:
     """Build emaki-text-data JSON array from scenes[].text in scroll_config.yaml."""
     entries: list[dict] = []
     for scene in ss.get_scenes_config(config):
-        if not scene_has_text(scene):
+        if not scene_includes_text_json_entry(scene):
             continue
         text = scene.get("text") or {}
         entry: dict = {
