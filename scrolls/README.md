@@ -31,6 +31,7 @@ Copy-Item -Recurse scrolls\_template scrolls\my-new-scroll
 
 # 4. ドライラン
 $env:PYTHONIOENCODING = 'utf-8'
+py -3.14 scripts/preflight_scroll.py scrolls/my-new-scroll/scroll_config.yaml
 python scripts/sync_scroll.py scrolls/my-new-scroll/scroll_config.yaml --dry-run
 
 # 5. アップロード + JSON 更新
@@ -48,6 +49,8 @@ python scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml
 詳細: [`docs/operations/naming-convention.md`](../docs/operations/naming-convention.md)
 
 YAML 作成（汎用 AI）: [`docs/operations/ai-scroll-config-prompt.md`](../docs/operations/ai-scroll-config-prompt.md)
+
+Free プラン向けの段階的追加・UI 並行運用: [`docs/operations/sustainable-content-and-ui-workflow.md`](../docs/operations/sustainable-content-and-ui-workflow.md)
 
 ## Cursor 自動化（将来）
 

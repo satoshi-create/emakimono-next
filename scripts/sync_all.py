@@ -14,13 +14,19 @@ Usage:
 Env:
   CLOUDINARY_URL  (required for upload)
   SCROLL_IMAGES_DIR  (optional; auto-detects scrolls/{scroll_id}/images/)
+  SYNC_UPLOAD_WORKERS / SYNC_UPLOAD_TIMEOUT / SYNC_UPLOAD_RETRIES  (see sync_scroll.py)
 
 Flags:
   --dry-run           Print plan without uploading or writing files
   --skip-upload       Skip Cloudinary upload (update JSON only)
+  --force-upload      Re-upload all images even if unchanged on Cloudinary
+  --remote-check      Query Cloudinary when local .upload-cache.json misses
+  --workers N         Parallel upload threads (default: 3)
   --skip-cache        Skip image-metadata-cache update
   --skip-text         Skip emaki-text-data JSON generation
   --regenerate-cache  Rebuild entire cache from all JSON (default: upsert one entry)
+  --preflight         Run preflight checks only (no upload, no file writes)
+  --skip-preflight    Skip preflight validation (not recommended)
 """
 
 from __future__ import annotations
@@ -35,6 +41,7 @@ from pathlib import Path
 import yaml
 
 # We reuse sync_scroll's helpers
+import preflight_scroll as pf
 import sync_scroll as ss  # noqa: N812
 
 # ---------------------------------------------------------------------------
@@ -446,6 +453,22 @@ def main() -> None:
     parser.add_argument("config_path", nargs="?", help="Path to scroll_config.yaml")
     parser.add_argument("--dry-run", action="store_true", help="Print plan only")
     parser.add_argument("--skip-upload", action="store_true", help="Skip Cloudinary upload")
+    parser.add_argument(
+        "--force-upload",
+        action="store_true",
+        help="Re-upload all images even if unchanged on Cloudinary",
+    )
+    parser.add_argument(
+        "--remote-check",
+        action="store_true",
+        help="Query Cloudinary Admin API when local upload cache misses",
+    )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=int(os.environ.get("SYNC_UPLOAD_WORKERS", "3")),
+        help="Parallel upload threads (default: 3)",
+    )
     parser.add_argument("--skip-cache", action="store_true", help="Skip cache update")
     parser.add_argument(
         "--regenerate-cache",
@@ -457,6 +480,16 @@ def main() -> None:
         action="store_true",
         help="Skip emaki-text-data JSON generation",
     )
+    parser.add_argument(
+        "--preflight",
+        action="store_true",
+        help="Run preflight validation only (no upload, no file writes)",
+    )
+    parser.add_argument(
+        "--skip-preflight",
+        action="store_true",
+        help="Skip preflight validation before sync",
+    )
     args = parser.parse_args()
 
     # 1. Load YAML
@@ -467,6 +500,18 @@ def main() -> None:
     scroll_id = config["scroll_id"]
     meta = config.get("metadata", {})
     print(f"\n=== Sync: scroll_id={scroll_id}, titleen={meta.get('titleen', '(no metadata)')} ===")
+
+    if args.preflight:
+        report = pf.run_preflight(config_path, skip_upload=args.skip_upload)
+        pf.print_report(report, scroll_id=scroll_id, image_count=len(ss.build_upload_plan(config)))
+        raise SystemExit(0 if report.ok else 1)
+
+    if not args.skip_preflight:
+        print("\n[Preflight] Validating scroll config...")
+        report = pf.run_preflight(config_path, skip_upload=args.skip_upload)
+        pf.print_report(report, scroll_id=scroll_id, image_count=len(ss.build_upload_plan(config)))
+        if not report.ok:
+            raise SystemExit(1)
 
     # 2. Check that metadata section exists
     if not meta:
@@ -482,11 +527,16 @@ def main() -> None:
         image_rows = build_image_rows_from_plan(config)
     else:
         print("\n[Upload] Running sync_scroll.py upload...")
-        upload_args = []
+        upload_args: list[str] = []
         if args.config_path:
             upload_args.append(args.config_path)
+        if args.force_upload:
+            upload_args.append("--force-upload")
+        if args.remote_check:
+            upload_args.append("--remote-check")
+        upload_args.extend(["--workers", str(max(1, args.workers))])
         image_rows = ss.main(upload_args)
-        print(f"  Uploaded {len(image_rows)} images")
+        print(f"  Processed {len(image_rows)} image(s)")
 
     # 4. Generate emaki-text-data JSON from scenes[].text
     if args.skip_text:

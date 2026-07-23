@@ -15,6 +15,7 @@ docs/
 │   └── scrolls-data-model.md
 ├── operations/               ← 運用手順
 │   ├── sync-workflow.md      ← 絵巻同期ワークフロー（メイン）
+│   ├── sustainable-content-and-ui-workflow.md  ← Free プラン向け並行運用ガイド
 │   ├── ai-scroll-config-prompt.md  ← 汎用 AI 用 YAML 作成プロンプト
 │   ├── naming-convention.md  ← Cloudinary 命名規則（B 形式）
 │   ├── sync-scroll.md        ← sync_scroll.py CLI

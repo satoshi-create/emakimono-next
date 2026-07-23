@@ -1,0 +1,64 @@
+name: Validate scroll config
+
+# PR validation: preflight + dry-run only (no Cloudinary upload, no secrets).
+# See docs/operations/sync-workflow.md
+
+on:
+  pull_request:
+    paths:
+      - 'scrolls/**'
+      - 'scripts/sync_*.py'
+      - 'scripts/preflight_scroll.py'
+
+concurrency:
+  group: validate-scroll-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install -r scripts/requirements-sync.txt
+
+      - name: Validate changed scroll configs
+        env:
+          PYTHONUTF8: '1'
+        run: |
+          set -euo pipefail
+
+          BASE="${{ github.event.pull_request.base.sha }}"
+          CHANGED=$(git diff --name-only "$BASE" HEAD -- 'scrolls/**/scroll_config.yaml' | sort -u || true)
+
+          if [ -z "$CHANGED" ]; then
+            echo "No scroll_config.yaml changes in this PR — skipping validation."
+            exit 0
+          fi
+
+          echo "Changed scroll configs:"
+          echo "$CHANGED" | sed 's/^/  - /'
+
+          while IFS= read -r config; do
+            [ -z "$config" ] && continue
+            if [ ! -f "$config" ]; then
+              echo "Skipping deleted config: $config"
+              continue
+            fi
+
+            echo ""
+            echo "========== Preflight: $config =========="
+            python scripts/preflight_scroll.py "$config"
+
+            echo ""
+            echo "========== Dry-run: $config =========="
+            python scripts/sync_all.py "$config" --dry-run --skip-preflight
+          done <<< "$CHANGED"

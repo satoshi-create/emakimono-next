@@ -2,6 +2,8 @@
 
 Supabase を使わず、**YAML + ローカル画像 → Cloudinary → JSON** のパイプラインで絵巻を追加・更新します。
 
+Free プラン内でコンテンツ追加と UI 改善を並行する運用方針: [`sustainable-content-and-ui-workflow.md`](./sustainable-content-and-ui-workflow.md)
+
 ## 全体フロー
 
 ```mermaid
@@ -60,8 +62,18 @@ scrolls/{scroll_id}/images/
 
 ```powershell
 $env:PYTHONIOENCODING = 'utf-8'
+py -3.14 scripts/preflight_scroll.py scrolls/my-new-scroll/scroll_config.yaml
 python scripts/sync_scroll.py scrolls/my-new-scroll/scroll_config.yaml --dry-run
 ```
+
+統合パイプライン:
+
+```powershell
+py -3.14 scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml --preflight
+py -3.14 scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml --dry-run
+```
+
+本番 `sync_all.py` 実行時も preflight が自動で先に走ります（`--skip-preflight` で省略）。
 
 確認ポイント:
 
@@ -85,6 +97,8 @@ python scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml
 
 | フラグ | 説明 |
 |--------|------|
+| `--preflight` | preflight 検証のみ（upload / ファイル書き込みなし） |
+| `--skip-preflight` | sync 前の preflight を省略（非推奨） |
 | `--dry-run` | 計画表示のみ |
 | `--skip-upload` | Cloudinary スキップ。JSON のみ更新 |
 | `--skip-cache` | キャッシュ更新スキップ |
@@ -122,12 +136,40 @@ scenes:
 
 ## 7. GitHub Actions
 
-`.github/workflows/sync-scroll.yml` から手動実行可能。
+### PR 検証（upload なし）
 
-- **config_path**: `scrolls/my-scroll/scroll_config.yaml`
-- Secrets: `CLOUDINARY_URL`
+`.github/workflows/validate-scroll.yml` が **pull request** で自動実行されます。
 
-push トリガー: `scrolls/**/scroll_config.yaml` の変更
+| 対象 path | 内容 |
+|-----------|------|
+| `scrolls/**` | 変更された `scroll_config.yaml` |
+| `scripts/sync_*.py` | パイプライン変更 |
+| `scripts/preflight_scroll.py` | 検証ロジック変更 |
+
+**ジョブ内容（secrets 不要）:**
+
+1. PR で変更された `scrolls/**/scroll_config.yaml` を列挙
+2. 各ファイルで `preflight_scroll.py`
+3. 各ファイルで `sync_all.py --dry-run --skip-preflight`
+
+`scroll_config.yaml` の変更が 0 件の PR（スクリプトのみ変更など）は **skip（success）** します。  
+usage チェックや Cloudinary upload は **含みません**。
+
+### 手動 sync（upload は opt-in）
+
+`.github/workflows/sync-scroll.yml` から **手動実行のみ**（`workflow_dispatch`）。
+
+**push トリガーはありません。** Cloudinary アップロードはローカルで行い、JSON を commit する運用を正とします。CI からの二重アップロードを防ぐためです。
+
+### 手順
+
+1. GitHub → Actions → **Sync scroll to Cloudinary** → Run workflow
+2. **config_path**（必須）: `scrolls/my-scroll/scroll_config.yaml`
+3. **skip_upload**: デフォルト **true**（JSON のみ更新）
+   - Cloudinary へ CI からアップロードする場合のみ **false** に変更（明示 opt-in）
+4. Secrets: `CLOUDINARY_URL`（upload 時のみ必要）
+
+詳細: [`sustainable-content-and-ui-workflow.md`](./sustainable-content-and-ui-workflow.md)
 
 ## Cursor 自動化（プロンプト例）
 
@@ -149,6 +191,9 @@ python scripts/sync_all.py scrolls/jigokusoushi-anzyuin/scroll_config.yaml --dry
 | `scripts/sync_scroll.py` | Cloudinary アップロード |
 | `scripts/sync_all.py` | 統合パイプライン |
 | `scripts/migrate_cache_to_cloudinary.py` | 既存 Cloudinary 資産からキャッシュ修復 |
+| `scripts/check_cloudinary_usage.py` | Cloudinary usage 取得（`--warn-at` / `--fail-at`） |
+| `scripts/preflight_scroll.py` | sync 前検証（枚数・重複・10MB） |
+| `.github/workflows/validate-scroll.yml` | PR 用 preflight + dry-run（upload なし） |
 | `scrolls/README.md` | ディレクトリ構成 |
 
 ## 旧ドキュメント

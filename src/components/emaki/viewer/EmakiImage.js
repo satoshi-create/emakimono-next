@@ -15,7 +15,6 @@ const EmakiImage = ({
     characterToggle,
     orientation,
     ebikiToggle,
-    windowHeight,
     toggleFullscreen, // 全画面切替時の画像再マウント用
   } = useContext(AppContext);
 
@@ -174,8 +173,6 @@ const EmakiImage = ({
         alt={item.name}
         width={item.srcWidth}
         height={item.srcHeight}
-        index={index}
-        srcSp={item.srcSp}
         config={config}
         uniqueIndex={uniqueIndex}
         navIndex={navIndex}

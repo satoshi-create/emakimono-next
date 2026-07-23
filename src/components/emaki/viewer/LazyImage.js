@@ -45,40 +45,22 @@ const LazyImage = ({
   alt,
   width,
   height,
-  srcSp,
   config,
   uniqueIndex,
   navIndex, // 現在表示中のシーンインデックス（フルスクリーン時のeager制御用）
   isPlayMode, // 再生モード状態
   emakiId, // 計測用: 絵巻ID
 }) => {
-  const { windowHeight, orientation, toggleFullscreen } =
-    useContext(AppContext);
+  const { orientation, toggleFullscreen } = useContext(AppContext);
 
   const [isSkeletonVisible, setSkeletonVisible] = useState(true);
   const [isImageLoaded, setImageLoaded] = useState(false); // 画像読み込み完了状態（フェード用）
 
   const containerRef = useRef(null);
-  const [containerHeight, setContainerHeight] = useState(0);
 
   // 計測用: 読み込み開始時刻
   const loadStartTimeRef = useRef(Date.now());
   const hasTrackedRef = useRef(false); // 重複計測防止
-
-  useEffect(() => {
-    const updateHeight = () => {
-      if (containerRef.current) {
-        setContainerHeight(containerRef.current.offsetHeight);
-      }
-    };
-
-    // 初回取得
-    updateHeight();
-
-    // ウィンドウリサイズ時にも高さを更新
-    window.addEventListener("resize", updateHeight);
-    return () => window.removeEventListener("resize", updateHeight);
-  }, []);
 
   // priority 画像（最初の画像）のフォールバック処理
   // 再マウント時にキャッシュされた画像で onLoadingComplete が呼ばれない場合の対策
@@ -232,57 +214,12 @@ const LazyImage = ({
   const baseUrl =
     "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
 
-  // 絵巻の紙色（淡いベージュ #f5f0e6）を SVG data URL で指定
-  // Firefox/Chrome/Edge での白背景フラッシュを防ぐため、外部 URL ではなくインライン画像を使用
-  // SVG を使用することで確実に指定した色が表示される
+  // 絵巻の紙色（#f5f0e6）。Firefox の白背景フラッシュ対策（外部 blur URL は使わない）
   const PAPER_COLOR_BLUR_DATA_URL =
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect fill='%23f5f0e6' width='1' height='1'/%3E%3C/svg%3E";
 
-  // 高さに基づいて適切な画像ソースを選択
-  const getResponsiveSrc = (emaki) => {
-    if (windowHeight <= 375) {
-      return emaki.srcSp; // スマートフォン用
-    } else if (windowHeight <= 800) {
-      return emaki.srcTb; // タブレット用
-    } else {
-      return emaki.src; // デスクトップ用
-    }
-  };
-
   const cloudinaryLoader = ({ src, width, quality }) => {
     return `${baseUrl},f_jpg,w_${width},q_${quality || 75}/${src}`;
-  };
-
-  const getResponsiveSrcCloudinary = (emaki, containerHeight) => {
-    const aspectRatio = width / height; // アスペクト比を計算
-
-    // コンテナの高さに応じてCloudinaryの画像サイズを動的に調整
-    if (containerHeight <= 375) {
-      const calculatedWidth = Math.round(375 * aspectRatio); // 高さから幅を計算
-      return `${baseUrl}/w_${calculatedWidth},h_375,c_fit/${emaki.src}`; // スマートフォン用
-    } else if (containerHeight <= 800) {
-      const calculatedWidth = Math.round(800 * aspectRatio); // 高さから幅を計算
-      return `${baseUrl}/w_${calculatedWidth},h_800,c_fit/${emaki.src}`; // タブレット用
-    } else {
-      const calculatedWidth = Math.round(containerHeight * aspectRatio); // 高さから幅を計算
-      return `${baseUrl}/w_${calculatedWidth},h_${containerHeight},c_fit/${emaki.src}`; // デスクトップ用
-    }
-  };
-
-  const responsiveSrc = getResponsiveSrcCloudinary(src, containerHeight);
-
-  // 注: 以前は Cloudinary の低解像度画像を blurDataURL に使用していたが、
-  // Firefox で外部 URL の読み込み遅延により白背景が露出する問題があったため、
-  // 上記の PAPER_COLOR_BLUR_DATA_URL（base64 インライン画像）に変更
-
-  const getImages = (emaki, cfg) => {
-    if (cfg === "cloudinary") {
-      // console.log(getResponsiveSrcCloudinary(emaki));
-
-      return getResponsiveSrcCloudinary(emaki);
-    } else {
-      return getResponsiveSrc(emaki);
-    }
   };
 
   // CSS custom property を使用してモバイルブラウザの dvh に対応

@@ -42,12 +42,14 @@ python scripts/sync_scroll.py scrolls/my-scroll/scroll_config.yaml --skip-upload
 
 ## GitHub Actions
 
-`.github/workflows/sync-scroll.yml` を利用します。
+`.github/workflows/sync-scroll.yml` を利用します（**手動実行のみ**）。
 
 - **手動**: Actions → "Sync scroll to Cloudinary" → Run workflow
-- **自動**: `scrolls/**/scroll_config.yaml` 変更時
+- **config_path**: 必須（例: `scrolls/my-scroll/scroll_config.yaml`）
+- **skip_upload**: デフォルト `true`（JSON のみ）。CI からアップロードする場合のみ `false`
+- Secrets: `CLOUDINARY_URL`（upload 時のみ）
 
-Secrets: `CLOUDINARY_URL`
+`scroll_config.yaml` の push では workflow は **起動しません**（ローカル sync + JSON commit を正とする）。
 
 ## 関連
 

@@ -1,3 +1,4 @@
 cloudinary
 PyYAML
 python-dotenv
+requests

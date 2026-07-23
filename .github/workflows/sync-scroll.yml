@@ -1,23 +1,21 @@
 name: Sync scroll to Cloudinary
 
+# Cloudinary upload runs only via manual dispatch (no push trigger).
+# Default: --skip-upload to avoid duplicate uploads after local sync.
+# See docs/operations/sustainable-content-and-ui-workflow.md
+
 on:
   workflow_dispatch:
     inputs:
       config_path:
         description: 'Path to scroll_config.yaml (e.g. scrolls/my-scroll/scroll_config.yaml)'
-        required: false
-        default: 'scrolls/_examples/choju-giga-yamazaki-tei/scroll_config.yaml'
+        required: true
+        type: string
       skip_upload:
-        description: 'Skip Cloudinary upload (only update JSON)'
+        description: 'Skip Cloudinary upload (JSON only). Uncheck to upload from CI (opt-in).'
         required: false
-        default: false
+        default: true
         type: boolean
-
-  push:
-    branches: [main, preview]
-    paths:
-      - 'scrolls/**/scroll_config.yaml'
-      - 'scroll_config*.yaml'
 
 jobs:
   sync:
@@ -46,40 +44,31 @@ jobs:
         env:
           CI: true
 
-      - name: Determine config path
-        id: config
+      - name: Validate config path
         run: |
-          if [ -n "${{ github.event.inputs.config_path }}" ]; then
-            echo "path=${{ github.event.inputs.config_path }}" >> $GITHUB_OUTPUT
-          else
-            CHANGED=$(git diff --name-only ${{ github.event.before }}..${{ github.event.after }} -- 'scrolls/**/scroll_config.yaml' 'scroll_config*.yaml' | head -1)
-            if [ -n "$CHANGED" ]; then
-              echo "path=$CHANGED" >> $GITHUB_OUTPUT
-            else
-              echo "path=scrolls/_examples/choju-giga-yamazaki-tei/scroll_config.yaml" >> $GITHUB_OUTPUT
-            fi
-          fi
-
-      - name: Debug environment
-        run: |
-          echo "Config path: ${{ steps.config.outputs.path }}"
+          CONFIG="${{ github.event.inputs.config_path }}"
+          echo "Config path: $CONFIG"
           echo "Skip upload: ${{ github.event.inputs.skip_upload }}"
-          if [ -f "${{ steps.config.outputs.path }}" ]; then
-            echo "Config file exists:"
-            head -20 "${{ steps.config.outputs.path }}"
-          else
-            echo "Warning: Config file not found at ${{ steps.config.outputs.path }}"
+          if [ ! -f "$CONFIG" ]; then
+            echo "Error: Config not found: $CONFIG"
+            exit 1
           fi
+          head -20 "$CONFIG"
 
       - name: Run sync pipeline
         env:
           CLOUDINARY_URL: ${{ secrets.CLOUDINARY_URL }}
         run: |
-          SKIP_FLAG=""
-          if [ "${{ github.event.inputs.skip_upload }}" = "true" ]; then
-            SKIP_FLAG="--skip-upload"
+          CONFIG="${{ github.event.inputs.config_path }}"
+          SKIP_FLAG="--skip-upload"
+          if [ "${{ github.event.inputs.skip_upload }}" = "false" ]; then
+            SKIP_FLAG=""
+            if [ -z "$CLOUDINARY_URL" ]; then
+              echo "Error: CLOUDINARY_URL secret is required when upload is enabled"
+              exit 1
+            fi
           fi
-          python scripts/sync_all.py "${{ steps.config.outputs.path }}" $SKIP_FLAG
+          python scripts/sync_all.py "$CONFIG" $SKIP_FLAG
 
       - name: Commit generated JSON files
         run: |

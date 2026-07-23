@@ -18,7 +18,6 @@ import { useTranslation } from "next-i18next";
 const OverlayEkotoba = ({
   item: {
     gendaibun,
-    srcSp,
     src,
     config,
     name,
@@ -181,8 +180,6 @@ const OverlayEkotoba = ({
             alt={name}
             width={srcWidth}
             height={srcHeight}
-            index={index}
-            srcSp={srcSp}
             config={config}
             uniqueIndex={uniqueIndex}
           />
