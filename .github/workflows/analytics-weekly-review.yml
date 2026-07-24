@@ -5,6 +5,9 @@ name: Analytics weekly review
 # See docs/operations/analytics-automation-setup.md
 
 on:
+  schedule:
+    # Tuesday 10:00 JST = Tuesday 01:00 UTC (GitHub-only Pattern C fallback)
+    - cron: '0 1 * * 2'
   workflow_dispatch:
     inputs:
       report_date:
@@ -17,7 +20,7 @@ on:
         default: false
         type: boolean
       dry_run:
-        description: 'Dry-run Issue creation (generate actions only)'
+        description: 'Dry-run Issue creation (generate actions only). Cron uses false.'
         required: false
         default: true
         type: boolean
@@ -88,7 +91,9 @@ jobs:
             exit 1
           fi
           ARGS=(--report-dir "$REPORT_DIR")
-          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+          # schedule / manual false → create Issues; workflow_dispatch default dry_run=true
+          DRY="${{ github.event.inputs.dry_run }}"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "$DRY" = "true" ]; then
             ARGS+=(--dry-run)
           fi
           python scripts/analytics/run_weekly_review.py "${ARGS[@]}"

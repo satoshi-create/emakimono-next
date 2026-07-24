@@ -134,7 +134,7 @@ Workflow: `.github/workflows/analytics-weekly.yml`
 | 用途 | 参照 |
 |------|------|
 | 手動チャット | [`cursor-analytics-prompt.md`](./cursor-analytics-prompt.md) |
-| 週次 Automation | [`analytics-automation-setup.md`](./analytics-automation-setup.md) |
+| 週次 Automation | [`analytics-automation-setup.md`](./analytics-automation-setup.md) — [cursor.com/automations](https://cursor.com/automations) |
 | Skill | `.cursor/skills/analytics-review/SKILL.md` |
 | 人間レビュー | [`analytics-weekly-checklist.md`](./analytics-weekly-checklist.md) |
 

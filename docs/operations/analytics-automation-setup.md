@@ -16,7 +16,44 @@ Pattern C の**分析〜Issue〜Calendar** 層。GitHub Actions fetch の翌日�
 
 ---
 
-## 2. Automation 設定（Cursor Dashboard）
+## 2. Automation 設定
+
+> **Automations は Dashboard の一般メニュー（Cloud Agents / Billing 等）には出ないことがあります。**  
+> 下記のいずれかから開いてください。
+
+### 開き方（優先順）
+
+| 方法 | 手順 |
+|------|------|
+| **A. 直接 URL** | ブラウザで [cursor.com/automations](https://cursor.com/automations) または [cursor.com/automations/new](https://cursor.com/automations/new) |
+| **B. Agents Window（IDE）** | Cursor **3.5+** → Command Palette → **Agents Window** → **Automations** タブ |
+| **C. チャットから** | Agent に「Automations エディタを開いて」と依頼（IDE 内 Agents Window が必要） |
+
+### 表示されない場合の原因
+
+| 原因 | 確認・対処 |
+|------|-----------|
+| **Cursor が古い** | Help → About Cursor。**3.5 未満**なら [cursor.com/download](https://cursor.com/download) で更新 |
+| **Cloud Agents 非対応プラン** | Automations は **Cloud Agent 上**で動く。Pro（有料）以上が必要な場合あり。[Pricing](https://cursor.com/pricing) を確認 |
+| **Dashboard の別タブを見ている** | `Dashboard → Cloud Agents` ≠ Automations。**`/automations` URL** を直接開く |
+| **Agents Window 未使用** | 通常の Chat パネルには Automations タブは無い |
+
+### Automations が使えない場合（代替: GitHub のみ Pattern C）
+
+Cursor Automation の代わりに **GitHub Actions だけ**で週次ループ可能:
+
+| 曜日 | GitHub Actions |
+|------|----------------|
+| 月 | **Analytics weekly fetch**（cron または手動） |
+| 火 | **Analytics weekly review**（`dry_run: false` で Issue 作成） |
+| 人 | Issues レビュー 15 分（[checklist](./analytics-weekly-checklist.md)） |
+| Calendar | **手動**（Google Calendar に 30 分予約）または Cursor チャット + google-calendar MCP |
+
+LLM による深い分析が必要なときは、Cursor **通常チャット**に [cursor-analytics-prompt.md](./cursor-analytics-prompt.md) **§1** を貼る。
+
+---
+
+### 設定値（Automation を使う場合）
 
 | 項目 | 値 |
 |------|-----|
@@ -109,5 +146,6 @@ flowchart LR
 |------|------|
 | fetch 403 | GSC 権限・API 有効化 |
 | Automation が reports を見つけない | Cloud Secrets で fetch 再実行 |
-| Calendar 作成失敗 | MCP 認証を Cursor Settings で更新 |
+| Calendar 作成失敗 | MCP 認証を Cursor Settings → MCP で更新 |
 | Issue ラベルエラー | `gh label create` 未実行 |
+| **Dashboard に Automations が無い** | [cursor.com/automations](https://cursor.com/automations) を直接開く。不可なら §2「GitHub のみ Pattern C」 |
