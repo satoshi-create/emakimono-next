@@ -36,8 +36,9 @@ ChatGPT・Claude・Gemini など、画像入力に対応した AI にそのま�
   - 段（シーン）の区切りが分かる資料（解説本、ColBase など）
 4. **詞書（kotobagaki）** がある場合
   - `metadata.kotobagaki: true` とし、各 scene に `text` ブロック（現代語訳など）を YAML に含める  
-  - 词書画像と絵画が交互の作品（地獄草紙型）は `kotobagaki_mode: "alternating"` を指定  
-  - `range` には **词書画像 + 絵画** の両方を global index で含める（奇数=词書、偶数=絵画）  
+  - **地獄草紙型**（词書・絵画が交互）: `kotobagaki_mode: "alternating"` — range は [1,2], [3,4], … の2枚1組  
+  - **餓鬼草紙型**（词書画像なし・絵のみ）: `kotobagaki_mode` は省略 — 各 scene に空 ekotoba + 絵1枚  
+  - **絵師草紙型**（任意配置・词書連続あり）: `kotobagaki_mode: "explicit"` + 各 scene に `slots: [image, ekotoba, …]`（range 内 index 順）。完成例: `scrolls/eshi-no-soshi/`  
   - `sync_all.py` が `scenes[].text` から `src/data/emaki-text-data/{titleen}.json` を自動生成
 
 ---
@@ -124,8 +125,9 @@ ChatGPT・Claude・Gemini など、画像入力に対応した AI にそのま�
       encodeUrl: ""
       favorite: false
       kotobagaki: {{true または false}}
-      # kotobagaki: true かつ词書画像と絵画が交互の場合のみ:
-      # kotobagaki_mode: "alternating"
+      # 地獄草紙型: kotobagaki_mode: "alternating"
+      # 絵師草紙型（任意配置）: kotobagaki_mode: "explicit" + scenes[].slots
+      # 餓鬼草紙型: kotobagaki_mode は省略
       readMore: false
       keywords:
         - { name: "{{日本語}}", id: "{{slug}}", slug: "{{slug}}" }
@@ -151,6 +153,7 @@ ChatGPT・Claude・Gemini など、画像入力に対応した AI にそのま�
 - global index は 1 から始まり、欠番なし、全画像をカバー
 - 例: 段2に画像 index 2 と 3 がある → range: [2, 3]
 - 地獄草紙型（alternating）: 1 段 = 词書 + 絵画の 2 枚 → range: [1, 2], [3, 4], …
+- 絵師草紙型（explicit）: 各 scene に `slots: [image, ekotoba, …]`（range 内 index 順、長さ = 枚数）→ 例: `scrolls/_examples/eshi-no-soshi/`
 
 ## scenes[].text（词書テキスト）
 
@@ -238,6 +241,7 @@ ChatGPT・Claude・Gemini など、画像入力に対応した AI にそのま�
 - folder: "emakimono"
 - kotobagaki: {{true/false}}
 - 词書画像と絵画が交互なら `kotobagaki_mode: "alternating"`
+- 非交互（词書連続・絵→词書→絵など）なら `kotobagaki_mode: "explicit"` + `scenes[].slots`
 - scenes[].range は必ず [開始, 終了] の2要素
 - global index は 1 始まり、欠番なし
 - kotobagaki: true の各 scene に `text` ブロック:
@@ -288,6 +292,7 @@ AI 出力を `scrolls/{scroll_id}/scroll_config.yaml` に保存する前に確�
 - [ ] `metadata.id` が **dataEmakis.json の既存 ID と重複しない**
 - [ ] 詞書ありの作品は `kotobagaki: true`
 - [ ] 地獄草紙型は `kotobagaki_mode: "alternating"` と range が [1,2], [3,4], … の2枚1組
+- [ ] 絵師草紙型（非交互）は `kotobagaki_mode: "explicit"` と `slots` 長 = range 枚数（例: `scrolls/eshi-no-soshi/`）
 - [ ] 各 scene に `text.gendaibun` がある（または `# TODO:` で未作成を明記）
 - [ ] `text` の現代語訳が文献・画像内容と矛盾していない
 - [ ] 各画像 **≤ 10 MB**（Cloudinary Free）

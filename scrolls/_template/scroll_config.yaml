@@ -28,7 +28,7 @@ metadata:
   encodeUrl: ""
   favorite: false
   kotobagaki: false
-  # kotobagaki_mode: "alternating"  # 词書画像と絵画が交互（地獄草紙型）。省略時は空 ekotoba + 絵画
+  # kotobagaki_mode: "alternating"  # 地獄草紙型（词書・絵交互）。省略時=餓鬼草紙型。任意配置=explicit+slots（scroll-pipeline.md §4）
   readMore: false
   keywords:
     - { name: "キーワード", id: "keyword", slug: "keyword" }

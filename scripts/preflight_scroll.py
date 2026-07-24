@@ -118,6 +118,20 @@ def run_preflight(
         start, end = scene["range"]
         if start > end:
             report.error(f"Scene id={scene['id']}: invalid range [{start}, {end}]")
+        slots = scene.get("slots") or []
+        if slots:
+            expected = end - start + 1
+            if len(slots) != expected:
+                report.error(
+                    f"Scene id={scene['id']}: slots length {len(slots)} != "
+                    f"range [{start}, {end}] count ({expected})"
+                )
+            invalid = [s for s in slots if s not in ("image", "ekotoba")]
+            if invalid:
+                report.error(
+                    f"Scene id={scene['id']}: invalid slots {invalid} "
+                    f"(expected 'image' or 'ekotoba')"
+                )
 
     images_dir = ss.resolve_images_dir(repo_root, scroll_id, config_path)
     if not images_dir.is_dir():

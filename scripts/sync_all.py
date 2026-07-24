@@ -249,6 +249,40 @@ def _build_emakis_default(config: dict, image_rows: list[dict]) -> list[dict]:
     return emakis
 
 
+def _build_emakis_explicit(config: dict, image_rows: list[dict]) -> list[dict]:
+    """Per-index slot layout via scenes[].slots (image | ekotoba).
+
+    Preserves scene range / chapter ids for upload public_ids while allowing
+    non-alternating kotobagaki patterns (e.g. 絵師草紙: 絵→词書→絵×n).
+    """
+    emakis: list[dict] = []
+    for scene in ss.get_scenes_config(config):
+        start_global, end_global = scene["range"]
+        slots = scene.get("slots") or []
+        scene_rows = sorted(
+            (ir for ir in image_rows if start_global <= ir["index"] <= end_global),
+            key=lambda x: x["index"],
+        )
+        if not scene_rows:
+            continue
+        if len(slots) != len(scene_rows):
+            raise ValueError(
+                f"Scene id={scene['id']} range [{start_global}, {end_global}]: "
+                f"slots length {len(slots)} != image count {len(scene_rows)}"
+            )
+        for slot_type, ir in zip(slots, scene_rows, strict=True):
+            if slot_type == "ekotoba":
+                emakis.append(_build_ekotoba_emaki_slot(scene, ir))
+            elif slot_type == "image":
+                emakis.append(_build_image_emaki_slot(ir))
+            else:
+                raise ValueError(
+                    f"Scene id={scene['id']}: invalid slot {slot_type!r} "
+                    f"(expected 'image' or 'ekotoba')"
+                )
+    return emakis
+
+
 def _build_emakis_alternating(config: dict, image_rows: list[dict]) -> list[dict]:
     """Kotobagaki layout: odd global indices → ekotoba+src, even → image (per scene range).
 
@@ -313,7 +347,9 @@ def build_emaki_entry(config: dict, image_rows: list[dict], existing_entry: dict
     """
     meta = config["metadata"]
 
-    if meta.get("kotobagaki_mode") == "alternating":
+    if meta.get("kotobagaki_mode") == "explicit":
+        emakis = _build_emakis_explicit(config, image_rows)
+    elif meta.get("kotobagaki_mode") == "alternating":
         emakis = _build_emakis_alternating(config, image_rows)
     else:
         emakis = _build_emakis_default(config, image_rows)

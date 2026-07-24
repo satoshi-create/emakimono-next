@@ -21,13 +21,24 @@ scrolls/
 │   ├── scroll_config.yaml
 │   └── images/
 ├── _examples/                ← 完成例（参考用）
-│   └── choju-giga-yamazaki-tei/
+│   ├── choju-giga-yamazaki-tei/
+│   └── eshi-no-soshi/        ← explicit + slots（絵師草紙型）
 └── {scroll_id}/              ← 本番用（例: jigokusoushi-anzyuin/）
     ├── scroll_config.yaml
     └── images/
         ├── _01-1080.jpg      ← 旧ファイル名でも可
         └── ...
 ```
+
+### 词書レイアウト（3 パターン）
+
+| モード | 用途 | 例 |
+|--------|------|-----|
+| `alternating` | 词書・絵画が交互（地獄草紙型） | `jigokusoushi-anzyuin/` |
+| 省略（default） | 空 ekotoba + 絵のみ（餓鬼草紙型） | `gakisoushi-kawamoto/` |
+| `explicit` + `scenes[].slots` | 任意配置（絵師草紙型） | `eshi-no-soshi/` · [`_examples/eshi-no-soshi/`](_examples/eshi-no-soshi/scroll_config.yaml) |
+
+詳細: [`scroll-pipeline.md` §4](../docs/operations/scroll-pipeline.md#词書scenestext)
 
 ## クイックスタート
 

@@ -1,0 +1,89 @@
+# 完成例: 絵師草紙 — kotobagaki_mode: explicit + scenes[].slots
+# 本番（画像・全文）: scrolls/eshi-no-soshi/
+# 词書レイアウト: [絵01]→[词書02・段1]→[絵03–06]→[词書07・段2]→[絵08–10]→[词書11–13・段3–5]→[絵14–17]
+
+scroll_id: "eshi-no-soshi"
+volume_num: 1
+theme_id: "eshi-no-soshi"
+folder: "emakimono"
+
+metadata:
+  id: 56
+  title: "絵師草紙"
+  titleen: "eshi-no-soshi_tohaku"
+  author: "藤原信実（緑栄斉道模）"
+  authoren: ""
+  edition: ""
+  era: "鎌倉"
+  eraen: "kamakura"
+  type: "絵巻"
+  typeen: "emaki"
+  desc: ""
+  descen: ""
+  thumb: "/eshi-no-soshi_tohaku_14-375.webp"
+  thumb2: "/eshi-no-soshi_tohaku_14-375.webp"
+  backgroundImage: "/washi-pattern-01.webp"
+  video: ""
+  sourceImageUrl: "https://colbase.nich.go.jp/collection_items/tnm/A-1601"
+  sourceImage: "絵師草紙（東京国立博物館）"
+  encodeUrl: ""
+  favorite: true
+  kotobagaki: true
+  kotobagaki_mode: "explicit"
+  readMore: false
+  keywords:
+    - { name: "絵師", id: "artist", slug: "artist" }
+    - { name: "説話", id: "story", slug: "story" }
+    - { name: "申文", id: "request", slug: "request" }
+
+scenes:
+  - id: 1
+    title: "絵師一家、知行の宣旨に喜ぶ"
+    titleen: "The artist's family rejoices at the grant of a fief"
+    range: [1, 6]
+    slots: [image, ekotoba, image, image, image, image]
+    text:
+      gendaibun: |
+        （段1の現代語訳 — 全文は scrolls/eshi-no-soshi/scroll_config.yaml 参照）
+      kobun: ""
+      desc: ""
+  - id: 2
+    title: "ぬか喜びの宣旨の内容"
+    titleen: "The hollow joy of the imperial decree"
+    range: [7, 10]
+    slots: [ekotoba, image, image, image]
+    text:
+      gendaibun: |
+        （段2の現代語訳 — 全文は scrolls/eshi-no-soshi/scroll_config.yaml 参照）
+      kobun: ""
+      desc: ""
+  - id: 3
+    title: "絵師の愁訴①"
+    titleen: "The artist's petition (1)"
+    range: [11, 11]
+    slots: [ekotoba]
+    text:
+      gendaibun: |
+        （段3 — 全文は本番 YAML 参照）
+      kobun: ""
+      desc: ""
+  - id: 4
+    title: "絵師の愁訴②"
+    titleen: "The artist's petition (2)"
+    range: [12, 12]
+    slots: [ekotoba]
+    text:
+      gendaibun: |
+        （段4 — 全文は本番 YAML 参照）
+      kobun: ""
+      desc: ""
+  - id: 5
+    title: "絵師の愁訴③"
+    titleen: "The artist's petition (3)"
+    range: [13, 17]
+    slots: [ekotoba, image, image, image, image]
+    text:
+      gendaibun: |
+        （段5 — 全文は本番 YAML 参照）
+      kobun: ""
+      desc: ""

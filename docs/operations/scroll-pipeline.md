@@ -228,12 +228,20 @@ scrolls/{scroll_id}/images/
 
 `kotobagaki: true` の作品では、各 scene に `text` ブロックを YAML に含めます。
 
-词書画像と絵画が交互（地獄草紙型）では `kotobagaki_mode: "alternating"` を指定します。
+#### 词書レイアウト（3 パターン）
+
+| `kotobagaki_mode` | 用途 | 完成例 |
+|-------------------|------|--------|
+| `"alternating"` | 词書画像と絵画が **交互**（地獄草紙型） | `scrolls/jigokusoushi-anzyuin/` |
+| 省略（default） | **空 ekotoba + 絵画のみ**（餓鬼草紙型） | `scrolls/gakisoushi-kawamoto/` |
+| `"explicit"` | **任意配置** — `scenes[].slots` で index ごとに指定（絵師草紙型など） | `scrolls/eshi-no-soshi/` |
+
+**地獄草紙型（`alternating`）** — range 内で奇数 index → 词書（ekotoba+src）、偶数 → 絵画:
 
 ```yaml
 metadata:
   kotobagaki: true
-  kotobagaki_mode: "alternating"   # 省略時: 空 ekotoba + 全 image（餓鬼草紙型）
+  kotobagaki_mode: "alternating"
 
 scenes:
   - id: 1
@@ -245,6 +253,38 @@ scenes:
       kobun: ""
       desc: ""
 ```
+
+**絵師草紙型（`explicit`）** — 交互でない配置（例: 絵→词書→絵×n、词書連続）向け。各 scene に `slots` を付け、**range 内の global index 順**に `image` または `ekotoba` を列挙します。`slots` の長さは `range` の枚数と一致必須（preflight が検証）。
+
+```yaml
+metadata:
+  kotobagaki: true
+  kotobagaki_mode: "explicit"
+
+scenes:
+  - id: 1
+    title: "第1段"
+    range: [1, 6]
+    slots: [image, ekotoba, image, image, image, image]
+    text:
+      gendaibun: |
+        現代語訳…
+      kobun: ""
+      desc: ""
+  - id: 2
+    title: "第2段"
+    range: [7, 10]
+    slots: [ekotoba, image, image, image]
+    text:
+      gendaibun: |
+        …
+```
+
+- `ekotoba` スロット: `cat: ekotoba` + 当該 scene の `text` + 词書画像 src
+- `image` スロット: `cat: image`（絵画）
+- `range` / scene `id` は Cloudinary public_id（B 形式）の chapter 割当にそのまま使われるため、**layout 修正のみ**なら `--skip-upload` で JSON 再生成可
+
+完成例 YAML: [`scrolls/_examples/eshi-no-soshi/`](../scrolls/_examples/eshi-no-soshi/scroll_config.yaml)（本番: [`scrolls/eshi-no-soshi/`](../scrolls/eshi-no-soshi/)）
 
 `--skip-text` で词書 JSON 生成をスキップできます。
 
@@ -364,6 +404,7 @@ py -3.14 scripts/sync_all.py scrolls/my-scroll/scroll_config.yaml --skip-upload
 ## 8. チェックリスト
 
 ```
+□ kotobagaki あり: レイアウトに合った mode（alternating / 省略 / explicit+slots）
 □ scroll_id がフォルダ名と一致
 □ metadata.id / titleen が dataEmakis.json と重複しない
 □ preflight_scroll.py が OK
