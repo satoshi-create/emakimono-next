@@ -67,7 +67,23 @@ Automation は `gh issue create` で P1–P3 を作成:
 
 ## 6. 試運転
 
-1. Actions → **Analytics weekly fetch** → Run workflow（手動）
+### GitHub Actions（Automation Run once の機械部分）
+
+Cursor Automation の前に、GitHub 上で同じ経路を smoke test できます。
+
+1. Actions → **Analytics weekly review** → Run workflow
+2. 初回: `dry_run: true`（デフォルト）→ `actions.md` / artifact 確認
+3. 2 回目: `dry_run: false` → Issues + ラベル自動作成を確認
+4. Job summary の Next steps を確認
+
+| Input | 説明 |
+|-------|------|
+| `dry_run` | `true` = Issue 作成しない（デフォルト） |
+| `skip_fetch` | `true` = fetch 省略（runner 上に merged.json が無いので通常 false） |
+
+### Cursor Automation
+
+1. Actions → **Analytics weekly fetch** → Run workflow（fetch のみ未実施なら）
 2. Automation → Run once（手動トリガー）
 3. Issues / Calendar / 実行ログを確認
 4. [analytics-weekly-checklist.md](./analytics-weekly-checklist.md) で 15 分レビュー

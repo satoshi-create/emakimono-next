@@ -122,7 +122,9 @@ Workflow: `.github/workflows/analytics-weekly.yml`
 | `analytics/kpi.yaml` | レポート定義・7 日 window |
 | `analytics/dimensions.yaml` | GA4 イベント ↔ コード対応 |
 | `scripts/analytics/fetch_all.py` | **主経路** |
-| `.github/workflows/analytics-weekly.yml` | 週次 cron |
+| `.github/workflows/analytics-weekly.yml` | 週次 cron fetch |
+| `.github/workflows/analytics-weekly-review.yml` | Automation smoke test（Issue 作成検証） |
+| `scripts/analytics/run_weekly_review.py` | actions 生成 + Issue 作成 |
 | `src/libs/api/measurementUtils.js` | カスタムイベント送信 |
 
 ---
@@ -146,6 +148,8 @@ Workflow: `.github/workflows/analytics-weekly.yml`
 □ GitHub Secrets 3 件登録
 □ check_analytics_config.py OK
 □ Actions workflow_dispatch で artifact 確認
+□ Actions **Analytics weekly review** dry_run で smoke test
+□ Actions **Analytics weekly review** dry_run=false で Issue 確認
 □ Cursor Automation 試運転
 □ gh label create（analytics-weekly 等）
 □ 初回 15 分レビュー完了

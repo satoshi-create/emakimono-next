@@ -132,6 +132,8 @@ python scripts/analytics/fetch_all.py --skip-config-check
 
 同一 slug + 同一 P1 で open Issue がある場合は新規作成せずコメントで更新。
 
+CI では `scripts/analytics/run_weekly_review.py` が同じ Issue 作成経路を smoke test できます。
+
 **commit / push しない**（reports は gitignore）。
 
 ## 5. Google Calendar

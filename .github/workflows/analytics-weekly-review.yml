@@ -1,0 +1,144 @@
+name: Analytics weekly review
+
+# Pattern C review smoke test — mirrors Cursor Automation "Run once" on GitHub.
+# Fetch → generate actions.md → create Issues (optional dry-run).
+# See docs/operations/analytics-automation-setup.md
+
+on:
+  workflow_dispatch:
+    inputs:
+      report_date:
+        description: 'Report folder (YYYY-MM-DD). Empty = today JST'
+        required: false
+        type: string
+      skip_fetch:
+        description: 'Skip fetch (use existing report dir in runner workspace only)'
+        required: false
+        default: false
+        type: boolean
+      dry_run:
+        description: 'Dry-run Issue creation (generate actions only)'
+        required: false
+        default: true
+        type: boolean
+
+concurrency:
+  group: analytics-weekly-review
+  cancel-in-progress: false
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install -r scripts/requirements-analytics.txt
+
+      - name: Resolve report date (JST)
+        id: dates
+        run: |
+          if [ -n "${{ github.event.inputs.report_date }}" ]; then
+            REPORT_DATE="${{ github.event.inputs.report_date }}"
+          else
+            REPORT_DATE="$(TZ=Asia/Tokyo date +%Y-%m-%d)"
+          fi
+          echo "report_date=$REPORT_DATE" >> "$GITHUB_OUTPUT"
+          echo "Report date: $REPORT_DATE"
+
+      - name: Preflight automation
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GOOGLE_APPLICATION_PROPERTY_ID: ${{ secrets.GOOGLE_APPLICATION_PROPERTY_ID }}
+          GOOGLE_CREDENTIALS_BASE64: ${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}
+          GSC_SITE_URL: ${{ secrets.GSC_SITE_URL }}
+        run: |
+          python scripts/analytics/preflight_automation.py
+
+      - name: Fetch GSC + GA4 reports
+        if: ${{ github.event.inputs.skip_fetch != true }}
+        env:
+          GOOGLE_APPLICATION_PROPERTY_ID: ${{ secrets.GOOGLE_APPLICATION_PROPERTY_ID }}
+          GOOGLE_CREDENTIALS_BASE64: ${{ secrets.GOOGLE_CREDENTIALS_BASE64 }}
+          GSC_SITE_URL: ${{ secrets.GSC_SITE_URL }}
+          PYTHONIOENCODING: utf-8
+          PYTHONUTF8: '1'
+        run: |
+          python scripts/analytics/fetch_all.py \
+            --date "${{ steps.dates.outputs.report_date }}" \
+            --skip-config-check
+
+      - name: Run weekly review (Automation smoke test)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          REPORT_DIR="analytics/reports/${{ steps.dates.outputs.report_date }}"
+          if [ ! -f "$REPORT_DIR/merged.json" ]; then
+            echo "Missing $REPORT_DIR/merged.json — run fetch or disable skip_fetch"
+            exit 1
+          fi
+          ARGS=(--report-dir "$REPORT_DIR")
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            ARGS+=(--dry-run)
+          fi
+          python scripts/analytics/run_weekly_review.py "${ARGS[@]}"
+
+      - name: Upload review artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: analytics-review-${{ steps.dates.outputs.report_date }}
+          path: |
+            analytics/reports/${{ steps.dates.outputs.report_date }}/actions.md
+            analytics/reports/${{ steps.dates.outputs.report_date }}/actions.json
+            analytics/reports/${{ steps.dates.outputs.report_date }}/summary.md
+            analytics/reports/${{ steps.dates.outputs.report_date }}/merged.json
+          retention-days: 90
+          if-no-files-found: error
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            echo "## Analytics weekly review"
+            echo ""
+            echo "- Report date: \`${{ steps.dates.outputs.report_date }}\`"
+            echo "- Dry run: \`${{ github.event.inputs.dry_run }}\`"
+            echo "- Skip fetch: \`${{ github.event.inputs.skip_fetch }}\`"
+            echo ""
+            echo "### Next steps"
+            echo "1. Download artifact \`analytics-review-*\`"
+            echo "2. If dry-run passed, re-run with **dry_run: false** to create Issues"
+            echo "3. Run Cursor Automation **Run once** for LLM analysis + Calendar"
+            echo ""
+            echo "See \`docs/operations/analytics-automation-setup.md\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Create issue on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '[Analytics] Weekly review failed',
+              body: [
+                'The analytics weekly review workflow failed.',
+                '',
+                `- Run: ${runUrl}`,
+                `- Report date: ${{ steps.dates.outputs.report_date }}`,
+                '',
+                'See docs/operations/analytics-automation-setup.md',
+              ].join('\n'),
+            });
