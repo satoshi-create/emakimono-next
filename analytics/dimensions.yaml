@@ -1,0 +1,78 @@
+# GA4 event / param mapping — keep in sync with src/libs/api/measurementUtils.js and gtag callers
+
+events:
+  viewer_engagement:
+    source: measurementUtils.js
+    params:
+      - emaki_id
+      - max_scroll_ratio
+      - scenes_visited
+      - fullscreen_used
+      - fallback_count
+      - slow_count
+    priority: P0
+
+  scene_dwell:
+    source: measurementUtils.js
+    params:
+      - emaki_id
+      - scene_index
+      - dwell_ms
+    priority: P1
+
+  scene_transition:
+    source: measurementUtils.js
+    params:
+      - emaki_id
+      - from_scene
+      - to_scene
+      - source
+    priority: P1
+
+  image_load_fallback:
+    source: measurementUtils.js
+    params:
+      - emaki_id
+      - image_index
+      - fallback_reason
+    priority: P1
+
+  image_load_slow:
+    source: measurementUtils.js
+    params:
+      - emaki_id
+      - image_index
+      - load_time_ms
+      - threshold_ms
+    priority: P2
+
+  scene_modal_open:
+    source: ModalDesc.js
+    params:
+      - emaki_id
+      - scene_index
+    priority: P1
+
+  like_emaki:
+    source: LikeButton.js
+    params:
+      - emaki_id
+    priority: P2
+
+  scene_like:
+    source: SceneLikeButton.js
+    params:
+      - emaki_id
+      - scene_index
+    priority: P2
+
+  sns_share_click:
+    source: SnsShareBox.js
+    params:
+      - platform
+    priority: P2
+
+custom_dimensions:
+  - param: emaki_id
+    ga4_scope: event
+    notes: Must be registered in GA4 Admin before Data API reports work

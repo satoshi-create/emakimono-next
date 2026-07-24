@@ -25,6 +25,23 @@ dist/
 **/.upload-cache.json
 cloudinary-usage.json
 
+# analytics (generated locally or via CI)
+/analytics/reports/*/
+!/analytics/reports/.gitkeep
+/analytics/content-map.json
+
+# scroll workspace (local YAML + images; sync outputs go to src/data/)
+/scrolls
+
+# python cache (analytics + scroll scripts)
+scripts/__pycache__/
+scripts/analytics/__pycache__/
+*.pyc
+
+# image-metadata-cache backups
+src/data/image-metadata-cache/*.bak
+src/data/image-metadata-cache/*.pre-migrate*.bak
+
 # debug
 npm-debug.log*
 yarn-debug.log*
@@ -48,3 +65,5 @@ credentials.json
 
 .vercel
 .env*
+
+/docs

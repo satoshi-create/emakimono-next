@@ -1,0 +1,88 @@
+# KPI definitions and report queries for fetch_all.py
+
+phase: steady
+
+bootstrap:
+  min_gsc_rows: 10
+  min_ga4_sessions: 50
+
+date_ranges:
+  current:
+    start: 28daysAgo
+    end: yesterday
+  previous:
+    start: 56daysAgo
+    end: 29daysAgo
+
+gsc_reports:
+  - id: queries
+    dimensions:
+      - query
+      - page
+    row_limit: 1000
+  - id: pages
+    dimensions:
+      - page
+    row_limit: 500
+
+ga4_reports:
+  - id: pages
+    dimensions:
+      - pagePath
+    metrics:
+      - sessions
+      - screenPageViews
+      - engagementRate
+      - averageSessionDuration
+    limit: 500
+
+  - id: events_summary
+    dimensions:
+      - eventName
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: in_list
+      values:
+        - viewer_engagement
+        - scene_dwell
+        - image_load_fallback
+        - image_load_slow
+        - scene_modal_open
+        - like_emaki
+        - sns_share_click
+        - scene_like
+    limit: 100
+
+  - id: viewer_by_emaki
+    optional: true
+    requires_custom_dimension: emaki_id
+    dimensions:
+      - customEvent:emaki_id
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: viewer_engagement
+    limit: 200
+
+  - id: fallback_by_emaki
+    optional: true
+    requires_custom_dimension: emaki_id
+    dimensions:
+      - customEvent:emaki_id
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: image_load_fallback
+    limit: 200
+
+merge:
+  insight_thresholds:
+    low_ctr_vs_site_ratio: 0.7
+    low_engagement_scroll_ratio: 0.5
+    high_fallback_events: 50

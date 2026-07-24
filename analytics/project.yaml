@@ -1,0 +1,27 @@
+# emakimono-next analytics project config
+# Env vars (${NAME}) are expanded by scripts/analytics/_config.py
+
+site:
+  name: emakimono-next
+  url: https://emakimono.com
+  host: emakimono.com
+
+gsc:
+  site_url: ${GSC_SITE_URL}
+
+ga4:
+  property_id: ${GOOGLE_APPLICATION_PROPERTY_ID}
+  # GA4 Admin でイベント param「emaki_id」をカスタムディメンション登録後に API 名を合わせる
+  # 未登録の場合 viewer_by_emaki / fallback_by_emaki はスキップされる
+  custom_event_dimensions:
+    emaki_id: customEvent:emaki_id
+
+content:
+  emakis_json: src/data/json-data/dataEmakis.json
+  content_map: analytics/content-map.json
+  slug_field: titleen
+
+locale:
+  strip_prefixes:
+    - /ja
+    - /en
