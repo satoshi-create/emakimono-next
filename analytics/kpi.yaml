@@ -7,12 +7,13 @@ bootstrap:
   min_ga4_sessions: 50
 
 date_ranges:
+  # Weekly review window (single fetch aggregates the full range)
   current:
-    start: 28daysAgo
+    start: 7daysAgo
     end: yesterday
   previous:
-    start: 56daysAgo
-    end: 29daysAgo
+    start: 14daysAgo
+    end: 8daysAgo
 
 gsc_reports:
   - id: queries

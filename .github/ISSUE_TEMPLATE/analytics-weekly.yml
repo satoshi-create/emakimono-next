@@ -1,0 +1,52 @@
+---
+name: Analytics weekly action
+about: SEO / traffic improvement from weekly GSC+GA4 review
+title: '[Analytics P?] '
+labels:
+  - analytics-weekly
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Created from weekly analytics review. See `docs/operations/analytics-weekly-checklist.md`.
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - P1
+        - P2
+        - P3
+    validations:
+      required: true
+  - type: input
+    id: slug
+    attributes:
+      label: Emaki slug (titleen)
+      placeholder: Chōjū-jinbutsu-giga_first
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem (with metrics)
+      description: GSC impressions/clicks/CTR, GA4 sessions, insight_flags
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: meta, internal links, viewer UX, CDN, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: report
+    attributes:
+      label: Report folder
+      placeholder: analytics/reports/2026-07-24/
+  - type: checkboxes
+    id: go_nogo
+    attributes:
+      label: Review decision (human)
+      options:
+        - label: GO — implement this sprint
+        - label: NO-GO — close or defer
