@@ -59,18 +59,23 @@ def check_gsc_api(site_url: str) -> str | None:
     try:
         from googleapiclient.discovery import build
 
-        from fetch_gsc import ga4_style_to_iso
+        from fetch_gsc import ga4_style_to_iso, normalize_gsc_site_url, resolve_gsc_site_url
 
         start_date, end_date = ga4_style_to_iso("7daysAgo", "yesterday")
         service = build("searchconsole", "v1", credentials=get_credentials(), cache_discovery=False)
+        resolved = resolve_gsc_site_url(service, site_url)
+        if resolved != normalize_gsc_site_url(site_url):
+            print(f"  NOTE   GSC site resolved: {site_url!r} -> {resolved!r}")
         body = {
             "startDate": start_date,
             "endDate": end_date,
             "dimensions": ["date"],
             "rowLimit": 1,
         }
-        service.searchanalytics().query(siteUrl=site_url, body=body).execute()
+        service.searchanalytics().query(siteUrl=resolved, body=body).execute()
         return None
+    except ValueError as exc:
+        return str(exc)
     except Exception as exc:
         return format_google_api_error(exc, service="gsc")
 

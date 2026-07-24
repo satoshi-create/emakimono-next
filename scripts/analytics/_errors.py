@@ -27,13 +27,26 @@ def format_google_api_error(exc: Exception, *, service: str) -> str:
     if "403" in message and service == "gsc" and (
         "sufficient permission" in message.lower() or "forbidden" in message.lower()
     ):
-        if service == "gsc":
-            return (
-                f"GSC permission denied.\n"
-                f"  Add the service account email to Search Console users "
-                f"(Settings > Users and permissions).\n"
-                f"  Original: {message}"
-            )
-        return f"GA4 permission denied. Grant the service account Viewer on the GA4 property.\n  Original: {message}"
+        return (
+            "GSC permission denied.\n"
+            "  Add the service account email to Search Console users "
+            "(Settings > Users and permissions).\n"
+            f"  Original: {message}"
+        )
+
+    if "403" in message and service == "ga4":
+        return (
+            f"GA4 permission denied. Grant the service account Viewer on the GA4 property.\n"
+            f"  Original: {message}"
+        )
+
+    if service == "gsc" and ("400" in message or "invalid argument" in message.lower()):
+        return (
+            "GSC request rejected (invalid site URL or date range).\n"
+            "  Set GitHub Secret GSC_SITE_URL to the exact property URL from Search Console.\n"
+            "  Domain properties: sc-domain:emakimono.com (no https://, no trailing slash).\n"
+            "  Run locally: py -3.14 scripts/analytics/check_analytics_config.py\n"
+            f"  Original: {message}"
+        )
 
     return message

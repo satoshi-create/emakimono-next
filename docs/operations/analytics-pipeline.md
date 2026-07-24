@@ -73,7 +73,7 @@ GSC_SITE_URL=sc-domain:emakimono.com
 |--------|------|
 | `GOOGLE_APPLICATION_PROPERTY_ID` | 同上 |
 | `GOOGLE_CREDENTIALS_BASE64` | 同上 |
-| `GSC_SITE_URL` | 同上 |
+| `GSC_SITE_URL` | **`sc-domain:emakimono.com`**（ドメインプロパティ。`https://` 不可） |
 
 ### 依存関係
 
@@ -158,6 +158,7 @@ Workflow: `.github/workflows/analytics-weekly.yml`
 | 症状 | 対処 |
 |------|------|
 | GSC permission denied | サービスアカウントを GSC プロパティに追加、`GSC_SITE_URL` を `sc-domain:` 形式に |
+| GSC 400 invalid argument | Secret が `https://emakimono.com/` 等になっている → **`sc-domain:emakimono.com`** に修正（前後空白・引用符なし） |
 | GA4 403 | Data API 有効化・プロパティ ID 確認 |
 | merged で slug 重複 | URL エンコード差 — `_util.normalize_slug` で統合済み。レガシー slug は別行のまま |
 | Actions 失敗 Issue | Secrets / API 有効化を確認し workflow_dispatch で再実行 |

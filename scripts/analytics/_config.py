@@ -24,6 +24,7 @@ def _expand_env(value: Any) -> Any:
                 raise ValueError(
                     f"Environment variable {name} is not set (required by analytics config)"
                 )
+            env_val = env_val.strip().strip('"').strip("'")
             return env_val
 
         return _ENV_PATTERN.sub(repl, value)
