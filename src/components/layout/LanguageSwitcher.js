@@ -12,9 +12,30 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { MdCheck, MdLanguage } from "react-icons/md";
 
+const stripLocalePrefix = (asPath, locales) => {
+  const [pathAndQuery, hash = ""] = asPath.split("#");
+  const [path, query = ""] = pathAndQuery.split("?");
+
+  let stripped = path;
+  for (const loc of locales) {
+    if (stripped.startsWith(`/${loc}/`)) {
+      stripped = stripped.slice(`/${loc}`.length) || "/";
+      break;
+    }
+    if (stripped === `/${loc}`) {
+      stripped = "/";
+      break;
+    }
+  }
+
+  const queryPart = query ? `?${query}` : "";
+  const hashPart = hash ? `#${hash}` : "";
+  return `${stripped}${queryPart}${hashPart}`;
+};
+
 const LanguageSwitcher = () => {
   const router = useRouter();
-  const { locales, locale: activeLocale } = router;
+  const { locales, locale: activeLocale, defaultLocale } = router;
 
   const [isJapan, setIsJapan] = useState(false);
 
@@ -24,8 +45,16 @@ const LanguageSwitcher = () => {
   }, []);
 
   const handleLanguageChange = (newLocale) => {
-    const { pathname, query, asPath } = router;
-    router.push({ pathname, query }, asPath, { locale: newLocale });
+    if (newLocale === activeLocale) return;
+
+    const pathWithoutLocale = stripLocalePrefix(router.asPath, locales);
+    const href =
+      newLocale === defaultLocale
+        ? pathWithoutLocale
+        : `/${newLocale}${pathWithoutLocale === "/" ? "" : pathWithoutLocale}`;
+
+    // Full navigation: next-i18next pageProps stay in sync on locale change.
+    window.location.assign(href);
   };
 
   const buttonSize = useBreakpointValue({ base: "sm", md: "md" });

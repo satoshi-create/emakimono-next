@@ -11,6 +11,7 @@ const Meta = ({
   pageImgH,
   pageAuthor,
   jsonLd,
+  noindex,
 }) => {
   const { t } = useLocaleMeta();
   const { locale, locales, asPath, defaultLocale } = useRouter();
@@ -61,6 +62,7 @@ const Meta = ({
       <meta property="og:image:width" content={imgW} />
       <meta property="og:image:height" content={imgH} />
       <meta name="twitter:card" content="summary_large_image" />
+      {noindex && <meta name="robots" content="noindex, nofollow" />}
 
       <link rel="icon" href="/favicon.png" />
       <link rel="apple-touch-icon" href={t.siteIcon} />

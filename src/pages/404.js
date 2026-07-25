@@ -11,7 +11,7 @@ const Custom404 = () => {
   const { locale } = useRouter();
   return (
     <>
-      <Head />
+      <Head noindex />
       <Header fixed={true} />
       <Breadcrumbs
         name={locale === "en" ? "PAGE NOT FOUND" : "ページが見つかりません"}

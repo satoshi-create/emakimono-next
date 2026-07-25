@@ -28,10 +28,32 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
     setToggleFullscreen,
   } = useContext(AppContext);
 
+  useEffect(() => {
+    return () => {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+        setToggleFullscreen(false);
+        screen.orientation.unlock();
+      }
+    };
+  }, [setToggleFullscreen]);
+
+  useEffect(() => {
+    // https: qiita.com/7280ayubihs/items/0d359c3a3b5bc8a4b6fd
+    // 画面遷移した際に、スクロール位置をリセット
+    window.scrollTo({ top: 0, behavior: "instant" });
+    setnavIndex(0);
+    setHash(0);
+  }, [setnavIndex, setHash]);
+
+  if (!data) {
+    return null;
+  }
+
   const pagetitle =
     locale === "en"
       ? data.titleen
-      : `${data.title} ${data.edition ? data.edition : ""}`;
+      : `${data.title ?? ""}${data.edition ? ` ${data.edition}` : ""}`.trim();
 
   const pageAuthor = locale === "en" ? data.authoren : data.author;
 
@@ -101,24 +123,6 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
     },
   };
   const jsonLd = JSON.stringify(jsonData, null, " ");
-
-  useEffect(() => {
-    return () => {
-      if (document.fullscreenElement) {
-        document.exitFullscreen();
-        setToggleFullscreen(false);
-        screen.orientation.unlock();
-      }
-    };
-  }, [setToggleFullscreen]);
-
-  useEffect(() => {
-    // https: qiita.com/7280ayubihs/items/0d359c3a3b5bc8a4b6fd
-    // 画面遷移した際に、スクロール位置をリセット
-    window.scrollTo({ top: 0, behavior: "instant" });
-    setnavIndex(0);
-    setHash(0);
-  }, [setnavIndex, setHash]);
 
   // 教育現場向けUI: 巻末ナッジ用 - 兄弟巻の取得
   const alldata = locale === "en" ? enData : jaData;
@@ -277,10 +281,16 @@ export const getStaticProps = async (context) => {
     })
     .find((item) => item);
 
+  if (!addObjEmakis) {
+    return { notFound: true };
+  }
+
+  const metaFromList = tEmakisData.find((item) => item.titleen === slug);
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
-      data: addObjEmakis,
+      data: metaFromList ? { ...metaFromList, ...addObjEmakis } : addObjEmakis,
       locales,
       locale,
       slug: slug,

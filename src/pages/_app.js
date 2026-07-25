@@ -245,6 +245,36 @@ function MyApp({ Component, pageProps, router }) {
     setIsHelpModalOpen(false);
   };
 
+  useEffect(() => {
+    const resetViewerStateOnNavigate = () => {
+      setIsHelpModalOpen(false);
+
+      const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+      if (fsEl) {
+        void (async () => {
+          try {
+            if (document.exitFullscreen) {
+              await document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+              await document.webkitExitFullscreen();
+            }
+            setToggleFullscreen(false);
+            if (screen.orientation?.unlock) {
+              screen.orientation.unlock();
+            }
+          } catch {
+            setToggleFullscreen(false);
+          }
+        })();
+      }
+    };
+
+    gRouter.events.on("routeChangeStart", resetViewerStateOnNavigate);
+    return () => {
+      gRouter.events.off("routeChangeStart", resetViewerStateOnNavigate);
+    };
+  }, [gRouter.events]);
+
   const handleEkotobaImageToggle = () => {
     setEkotobaImageToggle(!ekotobaImageToggle);
     setekotobaToggle(false);
@@ -585,7 +615,7 @@ function MyApp({ Component, pageProps, router }) {
           `}
       </Script>
       <ChakraProvider theme={theme}>
-        <Component {...pageProps} key={router.asPath} />
+        <Component {...pageProps} />
         {isSearchModalOpen && <ModalSearch />}
         <BottomNavigation />
       </ChakraProvider>

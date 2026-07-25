@@ -1,5 +1,5 @@
 import SocialLinks from "@/components/social/SocialLinks";
-import links, { NOTION_CONTACT_URL } from "@/libs/constants/links";
+import links, { legalLinks, NOTION_CONTACT_URL } from "@/libs/constants/links";
 import styles from "@/styles/Footer.module.css";
 import {
   Box,
@@ -130,6 +130,28 @@ const Footer = () => {
 
         {/* Bottom: Divider & Copyright */}
         <Box>
+          <Stack
+            direction="row"
+            spacing={5}
+            justify="center"
+            flexWrap="wrap"
+            mb={4}
+          >
+            {legalLinks.map(({ path, name, nameen }) => (
+              <Link key={path} href={path} passHref>
+                <ChakraLink
+                  fontSize="sm"
+                  color="whiteAlpha.800"
+                  _hover={{
+                    color: "rgb(255, 140, 119)",
+                  }}
+                  transition="all 0.2s"
+                >
+                  {locale === "ja" ? name : nameen}
+                </ChakraLink>
+              </Link>
+            ))}
+          </Stack>
           <Divider
             borderColor="whiteAlpha.400"
             borderWidth="1px"

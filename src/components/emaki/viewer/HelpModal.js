@@ -2,6 +2,7 @@ import styles from "@/styles/HelpModal.module.css";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
+import Link from "next/link";
 import { AppContext } from "@/pages/_app";
 import { useTranslation } from "next-i18next";
 
@@ -18,6 +19,10 @@ import { useTranslation } from "next-i18next";
 const HelpModal = () => {
   const { closeHelpModal } = useContext(AppContext);
   const { t } = useTranslation("common");
+
+  const handleGuideClick = () => {
+    closeHelpModal();
+  };
 
   // タッチデバイス判定（画面幅ではなくデバイスの能力で判定）
   // フルスクリーン時に横向きになっても、タッチデバイスならモバイル用UIを表示
@@ -293,6 +298,17 @@ const HelpModal = () => {
             </>
           )}
         </div>
+
+        <Link href="/guide" passHref>
+          <a
+            className={styles.guideLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={handleGuideClick}
+          >
+            {t("help.fullGuide")} ↗
+          </a>
+        </Link>
       </div>
     </div>
   );

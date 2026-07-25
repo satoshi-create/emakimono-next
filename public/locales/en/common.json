@@ -42,7 +42,8 @@
     "useArrowKeys": "Use arrow keys to navigate",
     "useArrowKeysAlso": "You can also use arrow keys to navigate",
     "useMouseWheel": "Use mouse wheel to scroll horizontally",
-    "useScrollbar": "Or use the horizontal scrollbar"
+    "useScrollbar": "Or use the horizontal scrollbar",
+    "fullGuide": "Full guide on this site"
   },
 
   "navigation": {
@@ -62,5 +63,158 @@
   "header": {
     "siteTitle": "emakimono!!",
     "feedback": "Send us your feedback"
+  },
+
+  "legal": {
+    "relatedLinks": "Related pages",
+    "contactButton": "Contact form",
+    "socialLinksTitle": "Operator links"
+  },
+
+  "guide": {
+    "pagetitle": "How to Use",
+    "metaDesc": "Learn how to enjoy picture scrolls with horizontal scrolling: choosing a scroll, navigation, viewer features, and sharing.",
+    "breadcrumb": "Guide",
+    "sectionTitle": "How to Use This Site",
+    "tocTitle": "Contents",
+    "toc": {
+      "scroll": "Scroll horizontally",
+      "features": "Viewer features",
+      "share": "Share & contribute"
+    },
+    "scroll": {
+      "title": "Scroll horizontally",
+      "step1": "Choose a scroll from the home page or the gallery. New visitors may start with Chōjū-jinbutsu-giga (Scroll A).",
+      "step2": "Move through the scroll by swiping left/right, arrow keys, mouse wheel, or the horizontal scrollbar — as if unrolling a handscroll.",
+      "step3": "Each scroll is divided into sections (scenes). Use the table of contents, #number URLs, or Next/Previous to follow the story."
+    },
+    "features": {
+      "title": "Viewer features",
+      "ekotoba": "Classical captions & modern translation — read commentary only when you need it.",
+      "nav": "Table of contents, character names, picture index — see where you are and who appears.",
+      "playback": "Auto-play & fullscreen — for continuous viewing or full immersion.",
+      "tips": "Viewing tips — pause at each section to take in the art. For Nine Stages of Decay scrolls, slow contemplative viewing is recommended."
+    },
+    "share": {
+      "title": "Share & contribute",
+      "url": "Copy a scene URL to share on social media or in class.",
+      "contact": "Send feedback via our contact form.",
+      "github": "This site is open source — join us on GitHub to improve descriptions and features."
+    },
+    "faq": [
+      {
+        "q": "How do I navigate a picture scroll?",
+        "a": "Scroll horizontally. On phones, swipe; on desktop, use the mouse wheel, arrow keys, or horizontal scrollbar."
+      },
+      {
+        "q": "Why horizontal scroll for vertical writing?",
+        "a": "Handscrolls were traditionally unrolled and viewed section by section. This site recreates that experience with horizontal scrolling."
+      },
+      {
+        "q": "Can I jump to a specific scene?",
+        "a": "Yes — use #number in the URL, the table of contents, or Next/Previous buttons to move by section."
+      },
+      {
+        "q": "How do I show captions or modern translation?",
+        "a": "Use the viewer buttons to toggle classical captions (kotoba-gaki) or modern Japanese/English translation."
+      }
+    ]
+  },
+
+  "privacy": {
+    "pagetitle": "Privacy Policy",
+    "metaDesc": "How emakimono.com handles personal and access data.",
+    "breadcrumb": "Privacy Policy",
+    "sectionTitle": "Privacy Policy",
+    "updated": "Last updated: July 25, 2026",
+    "intro": "emakimono.com (\"this site\") respects your privacy. This policy explains what information we collect and how we use it.",
+    "sections": {
+      "collected": {
+        "title": "Information we collect",
+        "body": "For site improvement, we may collect:",
+        "items": [
+          "Google Analytics 4 (GA4) — page views, device/browser type, approximate region",
+          "Microsoft Clarity — usage patterns (clicks, scrolling behavior)",
+          "Web server access logs — IP address, referrer, User-Agent, etc."
+        ]
+      },
+      "location": {
+        "title": "Location data",
+        "body": "This site does not collect precise location data (GPS, etc.)."
+      },
+      "thirdParty": {
+        "title": "Third-party services",
+        "body": "We use the following services. Please also review their privacy policies:",
+        "items": [
+          "Cloudinary — image delivery",
+          "Notion — contact form",
+          "Google Analytics / Microsoft Clarity — analytics"
+        ]
+      },
+      "purpose": {
+        "title": "Purpose and retention",
+        "body": "Data is used for operation, improvement, and abuse prevention. Retention follows each provider's policy and is limited to necessary periods."
+      },
+      "contact": {
+        "title": "Contact",
+        "body": "For questions about this policy, please use the contact form on this site."
+      }
+    }
+  },
+
+  "terms": {
+    "pagetitle": "Terms of Use",
+    "metaDesc": "Terms of use, prohibited conduct, and disclaimers for emakimono.com.",
+    "breadcrumb": "Terms of Use",
+    "sectionTitle": "Terms of Use",
+    "updated": "Last updated: July 25, 2026",
+    "intro": "These terms govern use of emakimono.com (\"this site\"). By using this site, you agree to these terms.",
+    "sections": {
+      "definitions": {
+        "title": "Definitions",
+        "body": "\"This site\" means emakimono.com and its subdomains. \"Users\" means anyone who views or uses this site."
+      },
+      "service": {
+        "title": "Service",
+        "body": "This site provides picture scrolls viewable via horizontal scrolling, along with descriptions and search features."
+      },
+      "prohibited": {
+        "title": "Prohibited conduct",
+        "body": "Users must not:",
+        "items": [
+          "Reproduce or redistribute site content (images, text) without permission",
+          "Use automated tools for bulk access (scraping, etc.)",
+          "Interfere with site operation",
+          "Violate laws or public order"
+        ]
+      },
+      "disclaimer": {
+        "title": "Accuracy of descriptions",
+        "body": "Descriptions are for reference only. We do not guarantee academic accuracy or completeness. Consult originals and scholarly sources for important decisions."
+      },
+      "copyright": {
+        "title": "Copyright and sources",
+        "body": "Each scroll lists bibliographic and source information. Rights belong to holding institutions and rights holders. Main image sources include:",
+        "sources": [
+          {
+            "name": "ColBase (Integrated Collections Search of the National Institutes for Cultural Heritage)",
+            "url": "https://colbase.nich.go.jp/?locale=ja"
+          },
+          {
+            "name": "National Diet Library Digital Collections",
+            "url": "https://dl.ndl.go.jp/"
+          }
+        ],
+        "note": "Please respect the bibliographic information and conditions of each holding institution."
+      },
+      "sensitive": {
+        "title": "Sensitive content",
+        "body": "Some works (e.g. Nine Stages of Decay) depict death and the physical decay of the body (corruption, dissolution, and similar stages). These are viewed in religious and cultural context. Some viewers may find them distressing — please use your discretion."
+      },
+      "operator": {
+        "title": "Operator",
+        "body": "For operational inquiries, please contact us using the button below."
+      }
+    }
   }
 }
