@@ -19,6 +19,23 @@
 
 ---
 
+### ⚙️ 現行実装（As-Is）
+
+> **AI Agent・コントリビュータ向け:** 正本は [`AGENTS.md`](./AGENTS.md)（スタック・読む順番・規約）。
+
+| 項目 | 現状 |
+|------|------|
+| フレームワーク | Next.js **12** Pages Router |
+| UI | **Chakra UI** + CSS Modules（Tailwind は devDeps のみ） |
+| i18n | next-i18next（`ja` / `en`、デフォルト `en`） |
+| データ | `src/data/` の JSON + Cloudinary 画像 |
+| MVP 絵巻 | 鳥獣人物戯画・九相図（他 category JSON はレガシー） |
+| 本番 | Vercel → https://emakimono.com |
+
+下記アーキテクチャ図の Tailwind / Supabase / Auth 等は **計画** です。コードベースに未実装のものがあります。
+
+---
+
 ## 🧭 貢献ロードマップ
 
 このプロジェクトでは、文化的ストーリーテリングを動的かつアクセスしやすく、ウェブネイティブにしていくというビジョンに共感するコントリビューターを歓迎しています。

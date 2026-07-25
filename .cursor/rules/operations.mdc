@@ -1,0 +1,29 @@
+---
+description: Analytics and scroll pipeline operations
+globs: docs/operations/**/*,scripts/**/*,.cursor/skills/**/*
+alwaysApply: false
+---
+
+# Operations & pipelines
+
+## Before acting
+
+1. 該当する `docs/operations/*.md` を読む
+2. Analytics: `.cursor/skills/analytics-review/SKILL.md` を読む
+3. Scroll sync: `docs/operations/cursor-scroll-sync-prompt.md` のプロンプトに従う
+
+## Analytics
+
+- Google API を Agent から直接叩かない → `scripts/analytics/fetch_all.py`
+- レポート: `analytics/reports/{date}/summary.md`, `merged.json`
+- KPI: `analytics/kpi.yaml`
+
+## Scroll / Cloudinary
+
+- 命名: `docs/operations/naming-convention.md`（B 形式 public_id）
+- `scroll_id`（kebab-case）と `titleen`（URL スラッグ）は別物
+- `scrolls/` は gitignore — ローカルのみ
+
+## Secrets
+
+`.env*`, `GOOGLE_CREDENTIALS_BASE64`, Cloudinary keys をコードやコミットに含めない。

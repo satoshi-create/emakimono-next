@@ -1,13 +1,9 @@
 /**
- * 計測期間限定ユーティリティ (2025/2/3〜2/8)
- * 教育現場向けUI改善のための行動計測
+ * GA4 event helpers for emaki viewer UX measurement.
  *
- * 実装方針:
- * - GA4 event + console.log（開発時確認用）
- * - 高頻度イベントはデバウンス済み
- * - 計測期間終了後は本ファイルを削除可能
+ * Called from EmakiConteiner.js, _app.js (fullscreen). Event names must match
+ * analytics/dimensions.yaml. Related: libs/api/gtag.js.
  */
-
 import * as gtag from "./gtag";
 
 // 計測期間フラグ（本番では環境変数で制御推奨）

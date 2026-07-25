@@ -1,0 +1,33 @@
+---
+description: Core project context and agent behavior for emakimono-next
+alwaysApply: true
+---
+
+# emakimono-next — core rules
+
+## Project
+
+絵巻物を横スクロールで鑑賞する文化コンテンツサイト。道案内・UGC 投稿アプリではない。
+
+## Stack
+
+Next.js 12 Pages Router, Chakra UI, CSS Modules, next-i18next (ja/en).
+
+## Code changes
+
+- 最小スコープの diff。`_archive_unused/` は触らない
+- 既存パターンに合わせる: `@/` エイリアス, CSS Modules, `Meta` for SEO
+- 新規ページは `getStaticProps` + `serverSideTranslations(locale, ["common"])`
+- git commit / push はユーザーが明示したときのみ
+
+## i18n
+
+- UI 文言: `public/locales/{ja,en}/common.json`
+- 長文静的コンテンツ: `src/libs/constants/staticData.js`
+- 両ロケールを揃える（片方だけ追加しない）
+
+## Key paths
+
+- ビューア: `src/pages/[slug].js`, `src/components/emaki/`
+- 定数: `src/libs/constants/dataSiteMeta.js`, `links.js`
+- 運用: `docs/operations/`, `.cursor/skills/analytics-review/`

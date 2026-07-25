@@ -1,0 +1,49 @@
+﻿# Dependencies and build output
+node_modules/
+.next/
+out/
+dist/
+build/
+coverage/
+
+# Large or generated assets (keep Agent context focused)
+public/emaki-images/
+public/unused/
+public/thumb/
+public/sitemap*.xml
+
+# Local scroll workspace and sync outputs
+scrolls/
+analytics/reports/
+analytics/content-map.json
+
+# Archived / unused code
+src/libs/_archive_unused_data/
+src/components/_archive_unused/
+src/styles/_archive_unused_styles/
+
+# Image metadata backups
+src/data/image-metadata-cache/*.bak
+**/*.pre-migrate*.bak
+
+# Secrets and local env
+.env
+.env.*
+credentials.json
+.vercel/
+
+# Logs and caches
+*.log
+**/__pycache__/
+*.pyc
+.history/
+cloudinary-usage.json
+**/.upload-cache.json
+
+# Docs outside operations (gitignored; reduce noise if present locally)
+docs/concept/
+
+# Large JSON data (comment out when editing scroll metadata)
+src/data/json-data/
+src/data/image-metadata-cache/
+src/data/emaki-text-data/

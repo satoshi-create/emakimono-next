@@ -24,6 +24,23 @@ It brings together frontend technology, storytelling, and cultural heritage — 
 
 ---
 
+### ⚙️ Current Implementation (As-Is)
+
+> **For AI agents and contributors:** see [`AGENTS.md`](./AGENTS.md) for the authoritative stack description and reading order.
+
+| Area | Actual stack (today) |
+|------|----------------------|
+| Framework | Next.js **12** Pages Router (not App Router) |
+| UI | **Chakra UI** + CSS Modules (Tailwind is devDeps only) |
+| i18n | next-i18next (`ja` / `en`, default `en`) |
+| Data | JSON files in `src/data/` + Cloudinary images |
+| MVP scrolls | Chōjū-jinbutsu-giga, Kusōzu (others in JSON are legacy) |
+| Deploy | Vercel → https://emakimono.com |
+
+The Mermaid diagram below includes **planned** items (Tailwind migration, Supabase, Auth). Do not assume they exist in the codebase yet.
+
+---
+
 ### 📀 System Architecture (Current & Future)
 
 ```mermaid

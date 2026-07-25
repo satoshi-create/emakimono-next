@@ -1,0 +1,40 @@
+---
+description: Next.js pages, components, and emaki viewer patterns
+globs: src/pages/**/*,src/components/**/*
+alwaysApply: false
+---
+
+# Next.js & emaki UI
+
+## Pages
+
+- ルート = `src/pages/` のファイル名。react-router は使わない
+- ナビゲーション: `next/link` または `useRouter().push()`
+- 絵巻ページは専用 `EmakiHeader`；一般ページは `Header` + `Footer`
+
+## Layout pattern
+
+```jsx
+<>
+  <Head pagetitle="..." pageDesc="..." />
+  <Header fixed={false} />
+  {/* content */}
+  <Footer />
+</>
+```
+
+## Emaki viewer
+
+- 横スクロール鑑賞がコア。`AppContext`（`_app.js`）で navIndex / fullscreen / help modal を管理
+- 操作ヘルプ: `HelpModal.js` + `common.json` の `viewer` / `help`
+- 計測: `src/libs/api/measurementUtils.js` — イベント追加時は `analytics/dimensions.yaml` も確認
+
+## Styling
+
+- Chakra UI（Footer 等）と CSS Modules を混在。Tailwind クラスを無秩序に増やさない
+- テーマカラー例: `#ff8c77`, `#54896a`
+
+## SEO
+
+- `src/components/meta/Meta.js` を各ページで使用
+- JSON-LD: 絵巻ページは `VisualArtwork` パターン（`[slug].js` 参照）

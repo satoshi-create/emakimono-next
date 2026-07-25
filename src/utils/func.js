@@ -1,3 +1,11 @@
+/**
+ * Shared hooks and list helpers for pages and components.
+ *
+ * Exports: useLocale, useLocaleMeta, useLocaleData, keywordItem, personnameItem,
+ *   eraColor, getStaticPaths helpers, chapter JSON mappers.
+ * Related: staticData.js, dataSiteMeta.js, image-metadata-cache.json.
+ * Note: imports legacy genji data from _archive_unused_data — MVP uses choju/kusouzu.
+ */
 import chapterkusouzu from "@/data/emaki-text-data/chapters-of-kusouzu.json";
 import chapterChojugigaFirst from "@/data/emaki-text-data/Chōjū-jinbutsu-giga_first.json";
 import chapterChojugigaSecond from "@/data/emaki-text-data/Chōjū-jinbutsu-giga_second.json";

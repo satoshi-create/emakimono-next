@@ -1,0 +1,23 @@
+---
+description: Where to edit UI text and translations (ja/en)
+globs: public/locales/**/*,src/libs/constants/**/*,src/components/**/*
+alwaysApply: false
+---
+
+# i18n text sources
+
+Do not add strings to random files. Use the correct source:
+
+| What | Edit |
+|------|------|
+| Viewer buttons, help modal, search | `public/locales/{ja,en}/common.json` |
+| Home sections, About HTML body | `src/libs/constants/staticData.js` (`ja` / `en` objects) |
+| Site-wide SEO defaults | `src/libs/constants/dataSiteMeta.js` |
+| Per-page title / meta description | Page file + `Meta` component |
+
+## Rules
+
+- Always update **both** `ja` and `en`
+- Prefer `next-i18next` `t("key")` for new viewer UI; use `staticData` only for long HTML blocks
+- First mention of terms: 詞書（絵巻の説明文） style gloss — see `site-pages-plan.md`
+- Avoid contradicting About mission: emaki are **unrolled and followed**, not "read" like a book

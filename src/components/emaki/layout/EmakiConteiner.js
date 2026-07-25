@@ -1,3 +1,9 @@
+/**
+ * Emaki viewer shell: horizontal scroll, auto-play, hash navigation, analytics.
+ *
+ * Consumes AppContext (_app.js). Renders portrait/landscape via child layouts.
+ * Data: image-metadata-cache.json per slug. Do not split without a plan.
+ */
 import EmakiInfo from "@/components/emaki/metadata/EmakiInfo";
 import EmakiNavigation from "@/components/emaki/navigation/EmakiNavigation";
 import CarouselButton from "@/components/emaki/viewer/CarouselButton";
