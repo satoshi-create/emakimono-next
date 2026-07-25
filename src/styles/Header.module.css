@@ -16,9 +16,11 @@
 .center {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 20px 1fr auto auto auto auto;
+  grid-auto-columns: 20px minmax(0, 1fr) auto;
   align-items: center;
   gap: 8px;
+  width: 100%;
+  min-width: 0;
 }
 
 .title {
@@ -30,8 +32,11 @@
   font-weight: 500;
   letter-spacing: 0.02em;
   word-break: keep-all;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-
 
 .favicon {
   width: 20px;
@@ -45,6 +50,13 @@
 
 .openbtn {
   font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.contacticon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
 }
 
 .links {
@@ -59,7 +71,14 @@
   display: block;
 }
 
+.desktopOnly {
+  display: none;
+}
+
 @media screen and (min-width: 768px) {
+  .desktopOnly {
+    display: block;
+  }
 
   .sociallinks {
     display: block;
@@ -70,8 +89,13 @@
   }
 
   .center {
-    grid-auto-columns: 30px 1fr auto auto auto auto;
-    ;
+    grid-auto-columns: 30px minmax(0, 1fr) auto auto auto auto;
+  }
+
+  .title {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
   }
 
   .favicon {
@@ -80,6 +104,4 @@
     min-width: 30px;
     min-height: 30px;
   }
-
-
 }

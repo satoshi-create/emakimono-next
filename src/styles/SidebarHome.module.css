@@ -71,6 +71,31 @@ text-align: center;
   width: 2.5rem;
   height: 2.5rem;
 }
+.sidebarActions {
+  display: grid;
+  justify-items: center;
+  row-gap: 1rem;
+  width: 100%;
+}
+
+.contactLink {
+  display: inline-flex;
+  align-items: center;
+  column-gap: 0.5rem;
+  color: var(--clr-white);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.contactLink:hover {
+  color: var(--clr-accent-02);
+}
+
+.contactIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
 .navLinks {
   display: grid;
   justify-items: center;

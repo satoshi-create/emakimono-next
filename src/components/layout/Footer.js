@@ -13,15 +13,44 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-// [
-//                 { en: "Home", ja: "ホーム", path: "/" },
-//                 { en: "About", ja: "About", path: "/about" },
-//                 { en: "Emaki Gallery", ja: "絵巻一覧", path: "/type/emaki" },
-//               ]
-
 const Footer = () => {
   const year = new Date().getFullYear();
   const { locale } = useRouter();
+
+  const navLinks = (
+    <Stack direction="row" spacing={6} align="center" flexWrap="wrap">
+      {links.map((link, i) => {
+        const { path, name, nameen } = link;
+        return (
+          <Link key={i} href={path} passHref>
+            <ChakraLink
+              fontWeight="medium"
+              _hover={{
+                color: "rgb(255, 140, 119)",
+                transform: "scale(1.05)",
+              }}
+              transition="all 0.2s"
+            >
+              {locale === "ja" ? name : nameen}
+            </ChakraLink>
+          </Link>
+        );
+      })}
+
+      <ChakraLink
+        href={NOTION_CONTACT_URL}
+        isExternal
+        fontWeight="medium"
+        _hover={{
+          color: "rgb(255, 140, 119)",
+          transform: "scale(1.05)",
+        }}
+        transition="all 0.2s"
+      >
+        {locale === "ja" ? "お問い合わせ" : "Contact"}
+      </ChakraLink>
+    </Stack>
+  );
 
   return (
     <Box
@@ -40,16 +69,16 @@ const Footer = () => {
         minH="120px"
         maxW="1200px"
         mx="auto"
+        gap={{ base: 6, md: 4 }}
       >
-        {/* Top: Logo - Nav - Social */}
         <Flex
           direction={{ base: "column", md: "row" }}
           justify="space-between"
           align="center"
           wrap="wrap"
           textAlign="center"
+          w="100%"
         >
-          {/* Logo */}
           <Box
             flex="1"
             mb={{ base: 6, md: 0 }}
@@ -77,59 +106,25 @@ const Footer = () => {
             </Link>
           </Box>
 
-          {/* Navigation */}
           <Box
             flex="1"
             mb={{ base: 6, md: 0 }}
             display="flex"
             justifyContent="center"
           >
-            <Stack direction="row" spacing={6} align="center">
-              {links.map((link, i) => {
-                const { path, name, nameen, id, submenu } = link;
-                return (
-                  <Link key={i} href={path} passHref>
-                    <ChakraLink
-                      fontWeight="medium"
-                      _hover={{
-                        color: "rgb(255, 140, 119)",
-                        transform: "scale(1.05)",
-                      }}
-                      transition="all 0.2s"
-                    >
-                      {locale === "ja" ? name : nameen}
-                    </ChakraLink>
-                  </Link>
-                );
-              })}
-
-              <ChakraLink
-                href={NOTION_CONTACT_URL}
-                isExternal
-                fontWeight="medium"
-                _hover={{
-                  color: "rgb(255, 140, 119)",
-                  transform: "scale(1.05)",
-                }}
-                transition="all 0.2s"
-              >
-                {locale === "ja" ? "お問い合わせ" : "Contact"}
-              </ChakraLink>
-            </Stack>
+            {navLinks}
           </Box>
 
-          {/* Social Links */}
           <Box
             flex="1"
-            display="flex"
-            justifyContent={{ base: "center", md: "flex-end" }}
+            display={{ base: "none", md: "flex" }}
+            justifyContent="flex-end"
           >
             <SocialLinks footerStyle iconStyle />
           </Box>
         </Flex>
 
-        {/* Bottom: Divider & Copyright */}
-        <Box>
+        <Box w="100%">
           <Stack
             direction="row"
             spacing={5}
@@ -159,6 +154,13 @@ const Footer = () => {
             maxW="800px"
             mx="auto"
           />
+          <Box
+            display={{ base: "flex", md: "none" }}
+            justifyContent="center"
+            mb={4}
+          >
+            <SocialLinks footerStyle iconStyle />
+          </Box>
           <Text className={styles.copyright} textAlign="center">
             {`© ${year} emakimono.com. All rights reserved.`}
           </Text>

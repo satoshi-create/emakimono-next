@@ -3,12 +3,10 @@ import EmakiConteiner from "@/components/emaki/layout/EmakiConteiner";
 import ChapterDesc from "@/components/emaki/metadata/ChapterDesc";
 import ChapterTimeline from "@/components/emaki/metadata/ChapterTimeline";
 import EditionLinks from "@/components/emaki/metadata/EditionLinks";
-import LinkToNote from "@/components/emaki/metadata/LinkToNote";
 import RecommendEmaki from "@/components/emaki/ranking/RecommendEmaki";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
 import Footer from "@/components/layout/Footer";
 import SnsShareBox from "@/components/social/SnsShareBox";
-import noteData from "@/libs/constants/notedata.json";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiPortraitContent.module.css";
 import ExtractingListData from "@/utils/ExtractingListData";
@@ -88,10 +86,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const LinksToKusouzu = alldata.filter(
     (item) => item.title.includes("九相") && item.title !== title
   );
-  const reletedEmakisToNote = noteData.filter((item) =>
-    item.relatedEmakis.includes(title)
-  );
-
   const ekotobaIndices = emakis
     .map((item, i) => (item.cat === "ekotoba" ? i : -1))
     .filter((i) => i >= 0);
@@ -231,7 +225,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               </>
             )}
 
-            {/* noteへのリンク */}
             {/* 他の巻を見る */}
             {editionLinks.length > 0 && (
               <>
@@ -267,21 +260,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 />
               </>
             )}
-            {/* noteへのリンク */}
-            {reletedEmakisToNote.length > 0 && (
-              <h4
-                className={styles.metaBtitle}
-                style={{
-                  "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                }}
-              >
-                note
-              </h4>
-            )}
-            <LinkToNote
-              title={title}
-              reletedEmakisToNote={reletedEmakisToNote}
-            />
             {/* 登場人物 */}
             {personname && (
               <>

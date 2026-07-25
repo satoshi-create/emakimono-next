@@ -50,4 +50,13 @@ const links = [
   // },
 ];
 
+export const sidebarExtraLinks = [
+  {
+    name: "絵巻物ランキング",
+    nameen: "Emaki Rankings",
+    path: "/ranking",
+  },
+  ...legalLinks,
+];
+
 export default links;

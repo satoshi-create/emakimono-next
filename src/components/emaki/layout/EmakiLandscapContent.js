@@ -4,12 +4,10 @@ import ChapterDesc from "@/components/emaki/metadata/ChapterDesc";
 import ChapterTimeline from "@/components/emaki/metadata/ChapterTimeline";
 import EditionLinks from "@/components/emaki/metadata/EditionLinks";
 import LikeButton from "@/components/emaki/metadata/LikeButton";
-import LinkToNote from "@/components/emaki/metadata/LinkToNote";
 import RecommendEmaki from "@/components/emaki/ranking/RecommendEmaki";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
 import Footer from "@/components/layout/Footer";
 import SnsShareBox from "@/components/social/SnsShareBox";
-import noteData from "@/libs/constants/notedata.json";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiLandscapContent.module.css";
 import ExtractingListData from "@/utils/ExtractingListData";
@@ -58,7 +56,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     keyword,
     genjieslug,
     kotobagaki,
-    note,
   } = data;
 
   // ランキング順位・閲覧数を検索
@@ -94,10 +91,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
 
   const LinksToKusouzu = alldata.filter(
     (item) => item.title.includes("九相") && item.title !== title,
-  );
-
-  const reletedEmakisToNote = noteData.filter((item) =>
-    item.relatedEmakis.includes(title),
   );
 
   const ekotobaIndices = emakis
@@ -289,24 +282,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   />
                 </>
               )}
-              {/* noteへのリンク */}
-              {reletedEmakisToNote.length > 0 && (
-                <>
-                  <h4
-                    className={styles.metaBtitle}
-                    style={{
-                      "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                    }}
-                  >
-                    note
-                  </h4>
-                  <LinkToNote
-                    title={title}
-                    reletedEmakisToNote={reletedEmakisToNote}
-                  />
-                </>
-              )}
-
               {/* 登場人物 */}
               {personname && (
                 <>

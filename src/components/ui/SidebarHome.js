@@ -1,15 +1,35 @@
+import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
+import SearchBoxButton from "@/components/search/SearchBoxButton";
 import SocialLinks from "@/components/social/SocialLinks";
-import links from "@/libs/constants/links";
+import links, {
+  NOTION_CONTACT_URL,
+  sidebarExtraLinks,
+} from "@/libs/constants/links";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/SidebarHome.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext } from "react";
-import { X } from "react-feather";
+import { Mail, X } from "react-feather";
+import { useTranslation } from "next-i18next";
 
 const SidebarHome = () => {
   const { isSidebarOpen, closeSidebar } = useContext(AppContext);
   const { locale } = useRouter();
+  const { t } = useTranslation("common");
+
+  const renderLink = (link, index) => {
+    const { path, name, nameen } = link;
+    return (
+      <li key={index} className={styles.navLink}>
+        <Link href={path}>
+          <a onClick={() => closeSidebar()}>
+            {locale === "en" ? nameen : name}
+          </a>
+        </Link>
+      </li>
+    );
+  };
 
   return (
     <div
@@ -27,32 +47,25 @@ const SidebarHome = () => {
       </button>
       <aside className={styles.aside}>
         <ul className={styles.navLinks}>
-          {links.map((link, index) => {
-            const { path, name, nameen, id, submenu } = link;
-            return (
-              <li key={index} className={styles.navLink}>
-                <Link href={path}>
-                  <a onClick={() => closeSidebar()}>
-                    {locale === "en" ? nameen : name}
-                  </a>
-                </Link>
-              </li>
-            );
-          })}
+          {links.map(renderLink)}
+          {sidebarExtraLinks.map(renderLink)}
         </ul>
+        <div className={styles.sidebarActions}>
+          <LanguageSwitcher />
+          <SearchBoxButton />
+          <a
+            href={NOTION_CONTACT_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={t("header.feedback")}
+            className={styles.contactLink}
+            onClick={() => closeSidebar()}
+          >
+            <Mail className={styles.contactIcon} />
+            <span>{locale === "ja" ? "お問い合わせ" : "Contact"}</span>
+          </a>
+        </div>
         <SocialLinks iconStyle />
-        {/* <ul className={styles.socialLinks}>
-          {socialLinks.map((item, index) => {
-            const { name, icon, path } = item;
-            return (
-              <li key={index}>
-                <Link href={path}>
-                  <a className={styles.socialLinksIcon}>{icon}</a>
-                </Link>
-              </li>
-            );
-          })}
-        </ul> */}
       </aside>
     </div>
   );

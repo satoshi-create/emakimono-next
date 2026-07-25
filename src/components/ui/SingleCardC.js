@@ -3,11 +3,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const SingleCardC = ({ item, i }) => {
+const SingleCardC = ({ item, i, variant }) => {
   const { locale } = useRouter();
   const { titleen, title, thumb, edition, author } = item;
+  const boxClass =
+    variant === "editionlink"
+      ? `${styles.box} ${styles.boxEdition}`
+      : styles.box;
   return (
-    <div key={i} className={styles.box}>
+    <div key={i} className={boxClass}>
       <Link href={`/${titleen}`}>
         <a>
           <Image

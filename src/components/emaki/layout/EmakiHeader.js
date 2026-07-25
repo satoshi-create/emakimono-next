@@ -41,17 +41,21 @@ const EmakiHeader = () => {
             {t("header.siteTitle")}
           </a>
         </Link>
-        <LanguageSwitcher />
-        <span className={styles.sociallinks}>
+        <div className={styles.desktopOnly}>
+          <LanguageSwitcher />
+        </div>
+        <span className={`${styles.sociallinks} ${styles.desktopOnly}`}>
           <SocialLinks />
         </span>
-        <SearchBoxButton />
+        <div className={styles.desktopOnly}>
+          <SearchBoxButton />
+        </div>
         <a
           href={NOTION_CONTACT_URL}
           target="_blank"
           rel="noopener noreferrer"
           title={t("header.feedback")}
-          className={styles.linkedbtn}
+          className={`${styles.linkedbtn} ${styles.desktopOnly}`}
         >
           <Mail className={`${styles.contacticon}`} />
         </a>

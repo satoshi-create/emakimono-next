@@ -1,9 +1,11 @@
 .center {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 20px 1fr auto auto auto auto;
+  grid-auto-columns: 20px minmax(0, 1fr) auto;
   align-items: center;
   gap: 8px;
+  width: 100%;
+  min-width: 0;
 }
 
 .header {
@@ -15,7 +17,6 @@
   display: none;
 }
 
-
 .title {
   font-family: var(--font-story);
   font-size: var(--title-size-prt);
@@ -25,19 +26,20 @@
   white-space: nowrap;
   justify-self: flex-start;
   transition: var(--transition);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .title:hover {
   opacity: 0.6;
 }
 
-
-
 .favicon {
-  width: 48px !important;
-  height: 48px !important;
-  min-width: 48px;
-  min-height: 48px;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
   object-fit: contain;
   display: block;
   flex-shrink: 0;
@@ -46,6 +48,7 @@
 .contactbtn,
 .openbtn {
   transition: var(--transition);
+  flex-shrink: 0;
 }
 
 .contactbtn:hover,
@@ -64,11 +67,17 @@
   display: block;
 }
 
+.desktopOnly {
+  display: none;
+}
+
 @media screen and (min-width: 768px) {
+  .desktopOnly {
+    display: block;
+  }
 
   .center {
-    grid-auto-columns: 30px 1fr auto auto auto auto;
-    ;
+    grid-auto-columns: 30px minmax(0, 1fr) auto auto auto auto;
   }
 
   .header {
@@ -81,5 +90,18 @@
 
   .sociallinks {
     display: block;
+  }
+
+  .title {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+
+  .favicon {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
   }
 }

@@ -38,12 +38,17 @@ const Header = ({ slug, fixed }) => {
             {t("header.siteTitle")}
           </a>
         </Link>
-        <LanguageSwitcher />
-        <div className={styles.sociallinks}>
+        <div className={styles.desktopOnly}>
+          <LanguageSwitcher />
+        </div>
+        <div className={`${styles.sociallinks} ${styles.desktopOnly}`}>
           <SocialLinks />
         </div>
-        <SearchBoxButton />
+        <div className={styles.desktopOnly}>
+          <SearchBoxButton />
+        </div>
         <a
+          className={styles.desktopOnly}
           href={NOTION_CONTACT_URL}
           target="_blank"
           rel="noopener noreferrer"
