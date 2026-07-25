@@ -1,3 +1,6 @@
+export const NOTION_CONTACT_URL =
+  "https://sour-brain-48f.notion.site/2f3994f0dfcd80409097f4cb44d2a80a?pvs=105";
+
 const links = [
   { name: "ホーム", nameen: "Home", id: "home", path: "/", submenu: "" },
   {

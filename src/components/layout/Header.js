@@ -3,6 +3,7 @@ import NavLinks from "@/components/navigation/NavLinks";
 import SearchBoxButton from "@/components/search/SearchBoxButton";
 import SocialLinks from "@/components/social/SocialLinks";
 import SidebarHome from "@/components/ui/SidebarHome";
+import { NOTION_CONTACT_URL } from "@/libs/constants/links";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/Header.module.css";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
@@ -15,7 +16,7 @@ import { useTranslation } from "next-i18next";
 
 const Header = ({ slug, fixed }) => {
   const { t } = useTranslation("common");
-  const { openSidebar, stickyClass, openContactModal } = useContext(AppContext);
+  const { openSidebar, stickyClass } = useContext(AppContext);
 
   return (
     <header
@@ -43,8 +44,9 @@ const Header = ({ slug, fixed }) => {
         </div>
         <SearchBoxButton />
         <a
-          href="https://sour-brain-48f.notion.site/2f3994f0dfcd80409097f4cb44d2a80a?"
+          href={NOTION_CONTACT_URL}
           target="_blank"
+          rel="noopener noreferrer"
           title={t("header.feedback")}
         >
           <Mail className={`${styles.contacticon}`} />

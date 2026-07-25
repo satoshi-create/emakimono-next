@@ -2,6 +2,7 @@ import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
 import SearchBoxButton from "@/components/search/SearchBoxButton";
 import SocialLinks from "@/components/social/SocialLinks";
 import SidebarHome from "@/components/ui/SidebarHome";
+import { NOTION_CONTACT_URL } from "@/libs/constants/links";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiPageHeader.module.css";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
@@ -15,8 +16,7 @@ import { useTranslation } from "next-i18next";
 const EmakiHeader = () => {
   const { t } = useTranslation("common");
 
-  const { openSidebar, setStickyClass, openContactModal } =
-    useContext(AppContext);
+  const { openSidebar, setStickyClass } = useContext(AppContext);
 
   useEffect(() => {
     const stickNavbar = () => {
@@ -47,8 +47,9 @@ const EmakiHeader = () => {
         </span>
         <SearchBoxButton />
         <a
-          href="https://sour-brain-48f.notion.site/2f3994f0dfcd80409097f4cb44d2a80a?pvs=105"
+          href={NOTION_CONTACT_URL}
           target="_blank"
+          rel="noopener noreferrer"
           title={t("header.feedback")}
           className={styles.linkedbtn}
         >

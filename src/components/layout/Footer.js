@@ -1,6 +1,5 @@
 import SocialLinks from "@/components/social/SocialLinks";
-import links from "@/libs/constants/links";
-import { AppContext } from "@/pages/_app";
+import links, { NOTION_CONTACT_URL } from "@/libs/constants/links";
 import styles from "@/styles/Footer.module.css";
 import {
   Box,
@@ -13,7 +12,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext } from "react";
 
 // [
 //                 { en: "Home", ja: "ホーム", path: "/" },
@@ -24,7 +22,6 @@ import { useContext } from "react";
 const Footer = () => {
   const year = new Date().getFullYear();
   const { locale } = useRouter();
-  const { openContactModal } = useContext(AppContext);
 
   return (
     <Box
@@ -106,10 +103,9 @@ const Footer = () => {
                 );
               })}
 
-              {/* Contact as a modal button */}
               <ChakraLink
-                as="button"
-                onClick={() => openContactModal(true)}
+                href={NOTION_CONTACT_URL}
+                isExternal
                 fontWeight="medium"
                 _hover={{
                   color: "rgb(255, 140, 119)",

@@ -1,4 +1,3 @@
-import ContactFormGoogle from "@/components/contact/ContactFormGoogle";
 import BottomNavigation from "@/components/navigation/BottomNavigation";
 import ModalSearch from "@/components/search/ModalSearch";
 import * as gtag from "@/libs/api/gtag";
@@ -77,9 +76,6 @@ function MyApp({ Component, pageProps, router }) {
   const [index, setIndex] = useState(0);
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
   const [MapIndex, setMapIndex] = useState(0);
-
-  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-  const [ContactIndex, setContactIndex] = useState(0);
 
   const [isDescModalOpen, setIsDescModalOpen] = useState(false);
   const [DescIndex, setDescIndex] = useState({});
@@ -201,22 +197,6 @@ function MyApp({ Component, pageProps, router }) {
   const closeMapModal = () => {
     document.querySelector("html").classList.remove("open");
     setIsMapModalOpen(false);
-  };
-  const openContactModal = (i) => {
-    setIsContactModalOpen(true);
-    const clientWidth = document.body.clientWidth;
-    document.querySelector("html").classList.add("open");
-    const noScrollBarWidth = document.body.clientWidth;
-    const diff = noScrollBarWidth - clientWidth;
-    if (diff > 0) {
-      document.body.style["padding-right"] = diff + "px";
-    }
-    setContactIndex(i);
-  };
-
-  const closeContactModal = () => {
-    document.querySelector("html").classList.remove("open");
-    setIsContactModalOpen(false);
   };
 
   const openDescModal = (ei, i) => {
@@ -662,10 +642,6 @@ function MyApp({ Component, pageProps, router }) {
         isDescModalOpen,
         DescIndex,
         setDescIndex,
-        openContactModal,
-        closeContactModal,
-        isContactModalOpen,
-        setIsContactModalOpen,
         searchKeyword,
         setSearchKeyword,
         showData,
@@ -713,7 +689,6 @@ function MyApp({ Component, pageProps, router }) {
       /> */}
       <ChakraProvider theme={theme}>
         <Component {...pageProps} key={router.asPath} />
-        {isContactModalOpen && <ContactFormGoogle />}
         {isSearchModalOpen && <ModalSearch />}
         <BottomNavigation />
       </ChakraProvider>

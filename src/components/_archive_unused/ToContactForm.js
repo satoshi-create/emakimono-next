@@ -1,16 +1,14 @@
-import { AppContext } from "@/pages/_app";
+import { NOTION_CONTACT_URL } from "@/libs/constants/links";
 import styles from "@/styles/ToContactForm.module.css";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import parse from "html-react-parser";
 import { useRouter } from "next/router";
-import { useContext } from "react";
 import { useTranslation } from "next-i18next";
 
 const ToContactForm = () => {
   const { locale } = useRouter();
   const { t } = useTranslation("common");
-  const { openContactModal } = useContext(AppContext);
 
   const data = {
     ja: {
@@ -30,8 +28,9 @@ const ToContactForm = () => {
       <h4>{locale == "en" ? data.en.title : data.ja.title}</h4>
       <p>{locale == "en" ? parse(data.en.text) : parse(data.ja.text)}</p>
       <a
-        href="https://sour-brain-48f.notion.site/2f3994f0dfcd80409097f4cb44d2a80a?pvs=105"
+        href={NOTION_CONTACT_URL}
         target="_blank"
+        rel="noopener noreferrer"
         title={t("header.feedback")}
         className={styles.linkedbtn}
       >

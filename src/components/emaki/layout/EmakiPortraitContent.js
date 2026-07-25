@@ -1,5 +1,4 @@
 import ToContactForm from "@/components/_archive_unused/ToContactForm";
-import ContactFormGoogle from "@/components/contact/ContactFormGoogle";
 import EmakiConteiner from "@/components/emaki/layout/EmakiConteiner";
 import ChapterDesc from "@/components/emaki/metadata/ChapterDesc";
 import ChapterTimeline from "@/components/emaki/metadata/ChapterTimeline";
@@ -29,8 +28,7 @@ import { useRouter } from "next/router";
 import { useContext, useMemo } from "react";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
-  const { handleFullScreen, isContactModalOpen, rankingData } =
-    useContext(AppContext);
+  const { handleFullScreen, rankingData } = useContext(AppContext);
 
   const { locale } = useRouter();
   const { t: alldata } = useLocaleData();
@@ -392,7 +390,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
           </div>
 
           <ToContactForm />
-          {isContactModalOpen && <ContactFormGoogle />}
           <SnsShareBox
             titleen={titleen}
             title={title}
