@@ -16,16 +16,44 @@
   --vh-75: 75vh;
   --vh-45: 45vh;
 
-  --clr-black: rgb(20 20 20);
-  --clr-grey: rgb(114 114 114);
+  /* Semantic colors (single light mode) */
+  --clr-bg: #fff;
+  --clr-surface: #f9fbff;
+  --clr-text: rgb(20 20 20);
+  --clr-text-muted: rgb(114 114 114);
+  --clr-accent: #ff8c77;
+  --clr-accent-green: #54896a;
+
+  /* Legacy color tokens (keep for existing CSS Modules) */
+  --clr-black: var(--clr-text);
+  --clr-grey: var(--clr-text-muted);
   --clr-grey-light: rgb(163, 163, 163);
-  --clr-white: #fff;
+  --clr-white: var(--clr-bg);
   --clr-primary-02: rgba(117, 159, 238, 0.3);
   --clr-accent-01: #ff3a3a;
-  --clr-accent-02: #ff8c77;
-  --clr-green-01: #54896a;
+  --clr-accent-02: var(--clr-accent);
+  --clr-green-01: var(--clr-accent-green);
   --clr-link: #065fd4;
-  --clr-bcg: #f9fbff;
+  --clr-bcg: var(--clr-surface);
+
+  /* Typography — 3 font stacks (JTBD: UI / story / classical overlay) */
+  --font-ui: "Noto Sans JP", system-ui, -apple-system, sans-serif;
+  --font-story: "Zen Maru Gothic", sans-serif;
+  --font-classical: "Hina Mincho", serif;
+
+  /* Legacy font aliases */
+  --my-font: var(--font-ui);
+  --title-font: var(--font-ui);
+  --title-font2: var(--font-ui);
+  --title-font3: var(--font-ui);
+  --title-font-3: var(--font-ui);
+  --emaki-title-font: var(--font-ui);
+  --text-font: var(--font-story);
+  --text-font-koten: var(--font-classical);
+  --text-font-koten2: var(--font-classical);
+  --emaki-kotobagki-font: var(--font-story);
+  --handwriting-font-1: var(--font-story);
+  --handwriting-font-2: var(--font-story);
   /* ワイドディスプレイ対応: 高さと横幅の両方を考慮した可変フォントサイズ */
   /* 高さベースの計算と横幅ベースの計算の大きい方を採用 */
   --text-size: max(
@@ -46,25 +74,13 @@
   --shadow-2: 0 5px 15px rgba(0, 0, 0, 20%);
   --shadowR: -10px 15px 10px rgba(0, 0, 0, 0.2);
   --transition: all 0.3s linear;
-  --my-font: 游明朝, "Yu Mincho", YuMincho, "Hiragino Mincho ProN",
-    "Hiragino Mincho Pro", HGS明朝E, メイリオ, Meiryo, serif;
-  --title-font: "Kaisei HarunoUmi", serif;
-  --title-font2: "Noto Sans JP, sans-serif";
-  --title-font3: "Noto Serif JP", serif;
-  --text-font: "Zen Maru Gothic", sans-serif;
-  --text-font-koten: "Hina Mincho", serif;
-  --text-font-koten2: "Klee One", cursive;
-  --emaki-title-font: "Kaisei HarunoUmi", serif;
-  --emaki-kotobagki-font: "Zen Kurenaido", sans-serif;
-  --handwriting-font-1: "Caveat", cursive;
-  --handwriting-font-2: "Dancing Script", cursive;
-  --title-font-3: "RocknRoll One", sans-serif;
   --borderRadius: 0.5rem;
 }
 
 body {
-  background-color: var(--clr-white);
-  font-family: var(--my-font);
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
+  font-family: var(--font-ui);
   line-height: 1.5;
 }
 

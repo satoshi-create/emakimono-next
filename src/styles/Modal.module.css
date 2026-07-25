@@ -52,7 +52,7 @@
 .tabbtn {
   font-size: var(--mokuji-size);
   color: var(--clr-black);
-  font-family: var(--text-font);
+  font-family: var(--font-ui);
   font-weight: 400;
 }
 .activebtn {
@@ -83,7 +83,7 @@
 
 /* 目次 */
 .chapter {
-  font-family: var(--text-font);
+  font-family: var(--font-ui);
   display: flex;
   flex-direction: column;
   row-gap: 0.5rem;
@@ -98,7 +98,7 @@
 }
 /* 書誌情報 */
 .source {
-  font-family: var(--text-font);
+  font-family: var(--font-ui);
   font-size: var(--text-size-prt);
 }
 .sourceLink {
@@ -109,7 +109,7 @@
 }
 /* 参照 */
 .reference {
-  font-family: var(--text-font);
+  font-family: var(--font-ui);
   font-size: var(--text-size-prt);
 }
 
@@ -119,7 +119,7 @@
   left: 0;
   right: 0;
   margin: auto;
-  font-family: var(--text-font);
+  font-family: var(--font-ui);
   text-align: center;
 }
 .link a {

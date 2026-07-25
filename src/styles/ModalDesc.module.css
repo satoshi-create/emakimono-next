@@ -68,7 +68,7 @@
   position: relative;
   font-size: 2rem;
   line-height: 2;
-  font-family: var(--text-font-koten);
+  font-family: var(--font-classical);
   gap: 1rem 0;
   overflow-y: auto;
 }
@@ -102,7 +102,7 @@
 
 .genjieslugTitle {
   padding: 0.2rem;
-  font-family: var(--text-font);
+  font-family: var(--font-story);
   transition: var(--transition);
   color: var(--clr-white);
 }
@@ -125,7 +125,7 @@
 
 .tabbtn {
   color: var(--clr-white);
-  font-family: var(--text-font);
+  font-family: var(--font-story);
   font-weight: 400;
 }
 
@@ -219,7 +219,7 @@
   border: 1px solid #ffffff7a;
   border-radius: 5rem;
   transition: var(--transition);
-  font-family: var(--text-font);
+  font-family: var(--font-story);
   padding: 0.5rem 1rem;
   color: var(--clr-white);
   font-size: var(--text-size-prt);

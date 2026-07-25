@@ -33,7 +33,7 @@
 .chapter {
   font-weight: 500;
   color: #4a4f9f;
-  font-family: var(--text-font-koten);
+  font-family: var(--font-classical);
 }
 
 .modalebtn {
@@ -72,7 +72,7 @@
   position: relative;
 }
 .gendaibuntext {
-  font-family: var(--emaki-kotobagki-font);
+  font-family: var(--font-story);
 }
 .togglekobun {
   position: absolute;
@@ -91,7 +91,7 @@
 
 .kobuntext {
   font-size: var(--text-size);
-  font-family: var(--emaki-kotobagki-font);
+  font-family: var(--font-story);
 }
 
 .open.kobun {

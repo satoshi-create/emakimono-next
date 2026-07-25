@@ -11,7 +11,8 @@ alwaysApply: true
 
 ## Stack
 
-Next.js 12 Pages Router, Chakra UI, CSS Modules, next-i18next (ja/en).
+Next.js 12 Pages Router, Chakra UI, CSS Modules, next-i18next (ja/en).  
+Design tokens: `.cursor/rules/design-tokens.mdc` → `src/styles/globals.css`.
 
 ## Code changes
 

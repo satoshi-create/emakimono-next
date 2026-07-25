@@ -23,7 +23,7 @@
   font-size: clamp(1.2rem, 1.0844rem + 0.4931vw, 1.4rem);
   font-weight: 500;
   transition: var(--transition);
-  font-family: var(--text-font);
+  font-family: var(--font-ui);
   color: var(--clr-white);
   border: 1px solid var(--clr-accent-02);
   background-color: var(--clr-accent-02);

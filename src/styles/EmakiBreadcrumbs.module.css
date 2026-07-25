@@ -12,7 +12,7 @@
   gap: 0.5rem;
 }
 .breadcrumbs > * {
-  font-family: var(--text-font);
+  font-family: var(--font-ui);
   /* ワイドディスプレイ対応: 画面幅に応じて可変フォントサイズ */
   font-size: clamp(14px, 0.9vw, 18px);
   color: #aba4a2;

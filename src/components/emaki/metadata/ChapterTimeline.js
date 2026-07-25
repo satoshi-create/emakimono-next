@@ -87,7 +87,7 @@ const ChapterTimeline = ({
           size={useBreakpointValue({ base: "24px", md: "30px" })} // レスポンシブでCircleのサイズを変更
           bg={eraColor(era)}
           color="white"
-          fontFamily="var(--text-font)"
+          fontFamily="var(--font-ui)"
           display="flex" // flexboxで配置
           alignItems="center" // 垂直方向に中央配置
           justifyContent="center" // 水平方向に中央配置
@@ -103,7 +103,7 @@ const ChapterTimeline = ({
         <Text
           fontSize={useBreakpointValue({ base: "sm", md: "lg" })} // テキストのサイズを変更
           fontWeight="bold"
-          fontFamily="var(--text-font)"
+          fontFamily="var(--font-ui)"
           color={eraColor(era)}
           textTransform={"capitalize"}
         >

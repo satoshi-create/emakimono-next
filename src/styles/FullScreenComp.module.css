@@ -28,7 +28,7 @@
 
 .genjieslugTitle {
   font-size: clamp(3.75rem, 2.0455rem + 7.2727vw, 7.5rem);
-  font-family: var(--title-font-3);
+  font-family: var(--font-ui);
   text-transform: capitalize;
   transition: var(--transition);
   -webkit-background-clip: text;
@@ -41,7 +41,7 @@
 
 .genjieslugTitle .rt {
   font-size: clamp(1.125rem, 0.7841rem + 1.4545vw, 1.875rem);
-  font-family: var(--emaki-title-font);
+  font-family: var(--font-ui);
 }
 
 .fullscreen.right .genjieslugTitle {

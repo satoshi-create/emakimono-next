@@ -17,11 +17,11 @@
 
 
 .title {
-  font-family: var(--title-font);
-  font-size: 1.4rem;
-  text-transform: uppercase;
-  font-weight: 600;
+  font-family: var(--font-story);
   font-size: var(--title-size-prt);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
   white-space: nowrap;
   justify-self: flex-start;
   transition: var(--transition);

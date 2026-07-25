@@ -76,6 +76,7 @@ Scroll sync / analytics は `docs/operations/` を参照。
 
 ## Conventions
 
+- デザイン正本: `.cursor/rules/design-tokens.mdc` + `src/styles/globals.css`（単一ライトモード、3フォント: UI / story / classical）
 - 絵巻 ID 命名: `docs/operations/naming-convention.md`（`scroll_id` ≠ `titleen`）
 - データ正本: `docs/operations/data-model.md`
 - ページ構成（guide/legal）: `docs/operations/site-pages-plan.md`
@@ -96,7 +97,8 @@ When editing scroll metadata or text JSON, temporarily comment out the relevant 
 
 | File | Role |
 |------|------|
-| `.cursor/rules/*.mdc` | Project Rules |
+| `.cursor/rules/design-tokens.mdc` | 色・フォント・レイアウト・スタイル規約 |
+| `.cursor/rules/i18n-sources.mdc` | UI 文言の編集先 |
 | `.cursor/skills/analytics-review/` | Analytics 週次 Skill |
 | `docs/operations/cursor-analytics-prompt.md` | Analytics Agent プロンプト |
 | `docs/operations/cursor-scroll-sync-prompt.md` | Scroll sync Agent プロンプト |

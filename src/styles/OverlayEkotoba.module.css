@@ -149,7 +149,7 @@
 
 .chapter {
   font-weight: 400;
-  font-family: var(--text-font-koten);
+  font-family: var(--font-classical);
   white-space: normal;
   word-break: keep-all;
   overflow-wrap: break-word;
@@ -190,7 +190,7 @@
 }
 
 .gendaibun {
-  font-family: var(--emaki-kotobagki-font);
+  font-family: var(--font-story);
   line-height: 1.6;
   margin: 2rem 0;
 }

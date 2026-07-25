@@ -7,7 +7,7 @@
 .ebikibox {
   z-index: 10;
   position: absolute;
-  font-family: var(--text-font);
+  font-family: var(--font-ui);
   background: #ffffff61;
   padding: 1rem 0;
   writing-mode: vertical-lr;

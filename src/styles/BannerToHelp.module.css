@@ -2,7 +2,7 @@
   /* border: 1px double var(--clr-black); */
   padding: .5rem;
   background-color: var(--clr-accent-02);
-  font-family: var(--text-font);
+  font-family: var(--font-ui);
   cursor: pointer;
   transition: var(--transition);
   display: grid;

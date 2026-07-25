@@ -15,7 +15,7 @@
   border: 1px solid rgb(209 209 209);
   border-radius: 12px;
   padding: 1rem;
-  font-family: var(--text-font);
+  font-family: var(--font-ui);
   font-size: larger;
   display: flex;
   flex-direction: column;
@@ -104,7 +104,7 @@
 
 .genjieslugTitle {
   padding: 0.2rem;
-  font-family: var(--text-font);
+  font-family: var(--font-ui);
   transition: var(--transition);
 }
 
@@ -119,7 +119,7 @@
   border: 1px solid var(--clr-accent-02);
   border-radius: 5rem;
   transition: var(--transition);
-  font-family: var(--text-font);
+  font-family: var(--font-ui);
   padding: 0.5rem 1rem;
   color: var(--clr-white);
   font-size: medium;
@@ -137,7 +137,7 @@
   display: flex;
   flex-direction: row;
   gap: 1.5rem;
-  font-family: var(--title-font2);
+  font-family: var(--font-ui);
 }
 
 .portraitImage {
@@ -157,7 +157,7 @@
   justify-content: left;
   column-gap: 0.5rem;
   font-size: small;
-  font-family: var(--title-font2);
+  font-family: var(--font-ui);
   font-weight: 500;
 }
 
@@ -180,7 +180,7 @@
   font-weight: 600;
   font-size: x-large;
   color: var(--clr-black);
-  font-family: var(--title-font2);
+  font-family: var(--font-ui);
   text-transform: capitalize;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -203,14 +203,14 @@
   font-weight: 600;
   font-size: medium;
   color: var(--clr-black);
-  font-family: var(--title-font2);
+  font-family: var(--font-ui);
   text-transform: capitalize;
 }
 
 .metadataB {
   display: grid;
   row-gap: 15px;
-  font-family: var(--text-font);
+  font-family: var(--font-ui);
   background: rgb(245 245 245);
   /* padding: 1.5rem; */
   padding: 2rem 1.5rem;
@@ -227,7 +227,7 @@
 
 .metaBtitle {
   font-weight: 600;
-  font-family: var(--title-font2);
+  font-family: var(--font-ui);
   position: relative;
   padding-left: 15px;
   /* ボーダーとの間隔を調整 */
@@ -262,7 +262,7 @@ background-color: var(--border-color, black);
 
 
 .authority {
-  font-family: var(--title-font2);
+  font-family: var(--font-ui);
   font-size: 0.7rem;
   font-weight: 100;
   color: var(--clr-grey);

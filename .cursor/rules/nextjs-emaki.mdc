@@ -31,8 +31,9 @@ alwaysApply: false
 
 ## Styling
 
+See **`.cursor/rules/design-tokens.mdc`** for colors, fonts, layout classes, and era colors.
+
 - Chakra UI（Footer 等）と CSS Modules を混在。Tailwind クラスを無秩序に増やさない
-- テーマカラー例: `#ff8c77`, `#54896a`
 
 ## SEO
 

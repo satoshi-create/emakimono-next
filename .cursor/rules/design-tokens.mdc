@@ -1,0 +1,93 @@
+---
+description: Design tokens, layout, typography, and styling conventions
+globs: src/styles/**/*,src/components/**/*,src/pages/**/*
+alwaysApply: false
+---
+
+# Design system (emakimono-next)
+
+**Canonical source:** `src/styles/globals.css` (`:root` + layout classes).  
+**Do not** introduce Tailwind utility classes. Use CSS Modules + existing CSS variables.
+
+**Mode:** Single light palette only — no portal/viewer color switching.
+
+## Stack
+
+- Global tokens + layout: `globals.css`
+- Component styles: `src/styles/{Component}.module.css` (co-located by component name)
+- Partial Chakra UI: Footer, some viewer controls — prefer `var(--clr-*)` when adding colors
+- Fonts loaded in `src/pages/_document.js` (Google Fonts: Noto Sans JP, Zen Maru Gothic, Hina Mincho)
+- PWA / browser chrome: `theme-color` `#ff8c77` (`_document.js`)
+
+## Semantic colors (preferred for new code)
+
+| Token | Value | Use |
+|-------|-------|-----|
+| `--clr-bg` | `#fff` | Page background |
+| `--clr-surface` | `#f9fbff` | Section bands, header |
+| `--clr-text` | `rgb(20 20 20)` | Body text |
+| `--clr-text-muted` | `rgb(114 114 114)` | Secondary text, viewer chrome |
+| `--clr-accent` | `#ff8c77` | Primary accent, hover, theme-color |
+| `--clr-accent-green` | `#54896a` | Secondary accent (e.g. kusōzu) |
+| `--clr-link` | `#065fd4` | Links |
+
+Legacy aliases (`--clr-black`, `--clr-white`, `--clr-bcg`, `--clr-accent-02`, `--clr-green-01`, etc.) remain for existing CSS Modules — map to the semantic tokens above.
+
+Chakra inline hover often uses `rgb(255, 140, 119)` — same as `#ff8c77`.
+
+## Era accent colors (`eraColor()` in `src/utils/func.js`)
+
+| Era | Color |
+|-----|-------|
+| 平安 | `#ff8c77` |
+| 鎌倉 | `#54896a` |
+| 室町 | `purple` |
+| 安土・桃山 | `gold` |
+| 江戸 | `skyblue` |
+| 明治 | `firebrick` |
+
+New era UI: use `eraColor(era)` — do not duplicate hex in components.
+
+## Typography — 3 font stacks (JTBD)
+
+| Token | Stack | Use |
+|-------|-------|-----|
+| `--font-ui` | Noto Sans JP | Body default, nav, buttons, viewer chrome, metadata |
+| `--font-story` | Zen Maru Gothic | Portal cards, descriptions, modern 詞書 translation text |
+| `--font-classical` | Hina Mincho | Classical 詞書 overlay only (Ekotoba, OverlayEkotoba, koten blocks) |
+
+**Do not** add decorative fonts (Caveat, Dancing Script, Klee One, 游明朝 on body, etc.).
+
+Legacy aliases map to the three stacks:
+
+- `--my-font`, `--title-font*`, `--emaki-title-font` → `--font-ui`
+- `--text-font`, `--emaki-kotobagki-font`, `--handwriting-font-*` → `--font-story`
+- `--text-font-koten*` → `--font-classical`
+
+Responsive sizes: `--title-size-prt`, `--text-size-prt`, `--mokuji-size` (viewer TOC).
+
+## Viewer immersion (without dark mode)
+
+- Keep light backgrounds; reduce chrome prominence via smaller/muted `--font-ui` + `--clr-text-muted`
+- Classical font only where user opts into 詞書 overlay
+- Footer dark gradient (`#121212` → `#000`) is page anchor only — not a site-wide dark theme
+
+## Layout classes (globals.css)
+
+| Class | Purpose |
+|-------|---------|
+| `.section-grid` | Max width 1200px, centered content column |
+| `.section-padding` | Vertical section spacing (2rem / 4rem md+) |
+| `.emaki-page-landscape-grid` | Viewer: 5vw side margins |
+| `.hide-on-mobile` / `.show-on-mobile` | Breakpoint 768px |
+| `.scrollbar` | Custom horizontal scroll thumb (desktop) |
+| `.open` on `html` | Lock scroll when sidebar/modal open |
+
+General pages pattern: `className="section-grid section-padding"`.
+
+## New UI checklist
+
+1. Prefer `--clr-*` semantic tokens and `--font-ui` / `--font-story` / `--font-classical` before legacy names or hardcoded hex
+2. Add component styles in `{Name}.module.css`, not inline (except Chakra props where already used)
+3. Match existing Footer gradient: `linear(to-r, #121212, #000)` for dark bands
+4. Viewer work: read `EmakiConteiner.module.css`, `HelpModal.module.css` first
