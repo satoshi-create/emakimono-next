@@ -61,7 +61,7 @@ const Footer = () => {
       pt={{ base: 10, md: 6 }}
       pb={{ base: 14, md: 6 }}
       borderTop="1px solid #444"
-      mt={12}
+      mt="auto"
     >
       <Flex
         direction="column"

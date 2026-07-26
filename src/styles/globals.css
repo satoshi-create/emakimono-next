@@ -84,6 +84,25 @@ body {
   line-height: 1.5;
 }
 
+/* Sticky footer: short pages keep footer at viewport bottom */
+.site-shell {
+  min-height: var(--vh-100);
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-shell > main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-shell > footer,
+.site-shell > main > footer {
+  margin-top: auto;
+}
+
 h1,
 h2,
 h3,

@@ -622,7 +622,9 @@ function MyApp({ Component, pageProps, router }) {
           `}
       </Script>
       <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
+        <div className="site-shell">
+          <Component {...pageProps} />
+        </div>
         {isSearchModalOpen && <ModalSearch />}
         <BottomNavigation />
       </ChakraProvider>
