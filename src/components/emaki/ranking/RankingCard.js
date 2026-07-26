@@ -1,4 +1,4 @@
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import { eraColor } from "@/utils/func";
 import { ArrowForwardIcon, ViewIcon } from "@chakra-ui/icons";
 import {

@@ -1,4 +1,4 @@
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/ChapterList.module.css";
 import { ChaptersTitle, eraColor } from "@/utils/func";
 import { useRouter } from "next/router";

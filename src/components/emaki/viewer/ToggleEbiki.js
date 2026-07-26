@@ -1,5 +1,5 @@
 import ActionButton from "@/components/emaki/viewer/ActionButton";
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import { faBook, faBookOpen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";

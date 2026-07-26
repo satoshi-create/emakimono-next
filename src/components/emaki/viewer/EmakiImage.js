@@ -1,5 +1,5 @@
 import LazyImage from "@/components/emaki/viewer/LazyImage";
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/EmakiImage.module.css";
 import Link from "next/link";
 import { useContext } from "react";

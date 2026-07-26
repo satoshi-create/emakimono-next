@@ -3,7 +3,7 @@ import SearchBoxButton from "@/components/search/SearchBoxButton";
 import SocialLinks from "@/components/social/SocialLinks";
 import SidebarHome from "@/components/ui/SidebarHome";
 import { NOTION_CONTACT_URL } from "@/libs/constants/links";
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/EmakiPageHeader.module.css";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

@@ -1,0 +1,100 @@
+.intro {
+  background: var(--clr-surface);
+}
+
+.introTitle {
+  font-family: var(--font-ui);
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  color: var(--clr-text);
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.introLead {
+  font-family: var(--font-story);
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  color: var(--clr-text);
+  line-height: 1.8;
+  max-width: 48rem;
+  text-align: justify;
+  margin-bottom: 1rem;
+}
+
+.introTips {
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  color: var(--clr-text-muted);
+  line-height: 1.6;
+  max-width: 48rem;
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--clr-accent-green);
+}
+
+.stageSection {
+  background: var(--clr-bg);
+}
+
+.stageGrid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+}
+
+.stageCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  height: 100%;
+  padding: 1.25rem;
+  background: var(--clr-surface);
+  border: 1px solid rgb(211 211 211 / 0.6);
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--clr-text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stageCard:hover,
+.stageCard:focus-visible {
+  border-color: var(--clr-accent-green);
+  box-shadow: 0 2px 8px rgb(84 137 106 / 0.12);
+}
+
+.stageLabel {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--clr-accent-green);
+  letter-spacing: 0.02em;
+}
+
+.stageTitle {
+  font-family: var(--font-ui);
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.stageDesc {
+  font-family: var(--font-story);
+  font-size: 0.875rem;
+  color: var(--clr-text-muted);
+  line-height: 1.65;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.stageMeta {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--clr-link);
+  margin-top: auto;
+  padding-top: 0.5rem;
+}

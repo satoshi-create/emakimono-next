@@ -1,4 +1,4 @@
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import SourceAttribution from "@/components/emaki/metadata/SourceAttribution";
 import styles from "@/styles/Sidebar.module.css";
 import { faBars } from "@fortawesome/free-solid-svg-icons";

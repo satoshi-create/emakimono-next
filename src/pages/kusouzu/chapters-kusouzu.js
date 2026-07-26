@@ -1,43 +1,55 @@
-import ChaptersKusouzuTable from "@/components/emaki/metadata/ChaptersKusouzuTable";
+import KusouzuHubIntro from "@/components/emaki/kusouzu/KusouzuHubIntro";
+import KusouzuScrollCatalog from "@/components/emaki/kusouzu/KusouzuScrollCatalog";
+import KusouzuStageGrid from "@/components/emaki/kusouzu/KusouzuStageGrid";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import Head from "@/components/meta/Meta";
 import Breadcrumbs from "@/components/navigation/Breadcrumbs";
-import ExtractingListData from "@/utils/ExtractingListData";
-import { useLocaleData } from "@/utils/func";
+import { buildKusouzuHubData } from "@/utils/buildKusouzuHubData";
+import { buildKusouzuHubJsonLd } from "@/utils/buildKusouzuHubJsonLd";
+import { useLocaleMeta } from "@/utils/func";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useRouter } from "next/router";
 
-const ChaptersKusouzulist = () => {
-  const { t: data } = useLocaleData();
-  const { locale } = useLocaleData();
-  const removeNestedArrayObj = ExtractingListData();
+const ChaptersKusouzulist = ({ hubData }) => {
+  const { t } = useTranslation("common");
+  const { t: meta } = useLocaleMeta();
+  const { locale, defaultLocale } = useRouter();
 
-  // const ExistKusouzuChapters = kusouzuSlugItem(removeNestedArrayObj);
+  const jsonLd = buildKusouzuHubJsonLd({
+    locale,
+    defaultLocale,
+    pageName: t("kusouzuHub.pagetitle"),
+    pageDescription: t("kusouzuHub.metaDesc"),
+    siteTitle: meta.siteTitle,
+    hubData,
+  });
 
-  const KusouzuArrObj = data.filter((item) => item.title.includes("九相"));
-
-  const tPageDesc =
-    locale === "en"
-      ? `This is the page for the list of the Nine stages of decay. We are producing a list of picture scrolls with each scene of the Nine stages of decay.`
-      : `九相図一覧のページです。九相図の各場面が描かれた絵巻物の一覧リストを制作しています。`;
   return (
-    <>
+    <main>
       <Head
-        pagetitle={locale === "en" ? "chapters-kusouzu-list" : "九相図一覧"}
-        pageDesc={tPageDesc}
+        pagetitle={t("kusouzuHub.pagetitle")}
+        pageDesc={t("kusouzuHub.metaDesc")}
+        jsonLd={jsonLd}
       />
       <Header />
-      <Breadcrumbs
-        name={locale === "en" ? "chapters-kusouzu-list" : "九相図一覧"}
-      />
-      <ChaptersKusouzuTable
-        sectiontitle={"九相図一覧"}
-        sectiontitleen={"List of Nine stages of decay"}
-        // ExistKusouzuChapters={ExistKusouzuChapters}
-        KusouzuArrObj={KusouzuArrObj}
-      />
+      <Breadcrumbs name={t("kusouzuHub.breadcrumb")} />
+      <KusouzuHubIntro />
+      <KusouzuStageGrid stages={hubData.stages} />
+      <KusouzuScrollCatalog scrollEmakis={hubData.scrollEmakis} />
       <Footer />
-    </>
+    </main>
   );
+};
+
+export const getStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      hubData: buildKusouzuHubData(),
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
 };
 
 export default ChaptersKusouzulist;

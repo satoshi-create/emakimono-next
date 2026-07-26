@@ -1,6 +1,6 @@
 import SingleCardA from "@/components/ui/SingleCardA";
 import Title from "@/components/ui/Title";
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/CardA.module.css";
 import { useContext, useEffect } from "react";
 

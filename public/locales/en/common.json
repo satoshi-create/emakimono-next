@@ -141,6 +141,20 @@
     "sectionTitle": "Ranking of EMAKIMONO"
   },
 
+  "kusouzuHub": {
+    "pagetitle": "Nine Stages of Decay (Kusōzu) — Hub",
+    "metaDesc": "Explore the ten phases of kusōzu (Nine Stages of Decay) and browse picture scrolls that depict each stage, viewable through horizontal scrolling on emakimono.com.",
+    "breadcrumb": "Nine Stages of Decay",
+    "introTitle": "What is Kusōzu?",
+    "intro": "Kusōzu (Nine Stages of Decay) is Buddhist art depicting ten phases of a body after death—from the living form to ashes. These works contrast beauty with impermanence and support meditative contemplation. On this site you can unroll kusōzu picture scrolls horizontally, scene by scene.",
+    "tips": "Viewing tips — pause at each section to take in the art. For kusōzu scrolls, slow contemplative viewing is recommended.",
+    "stageSectionTitle": "Ten phases",
+    "scrollSectionTitle": "Kusōzu picture scrolls",
+    "stageNumber": "Phase {{stage}}",
+    "stageScrollCount": "Available in {{count}} scroll(s)",
+    "stageNoScrolls": "No scrolls on this site"
+  },
+
   "privacy": {
     "pagetitle": "Privacy Policy",
     "metaDesc": "How emakimono.com handles personal and access data.",

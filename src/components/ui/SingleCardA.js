@@ -1,4 +1,4 @@
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/CardA.module.css";
 import { eraColor } from "@/utils/func";
 import { faEye, faTrophy } from "@fortawesome/free-solid-svg-icons";

@@ -5,7 +5,7 @@ import links, {
   NOTION_CONTACT_URL,
   sidebarExtraLinks,
 } from "@/libs/constants/links";
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/SidebarHome.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";

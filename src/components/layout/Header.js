@@ -4,7 +4,7 @@ import SearchBoxButton from "@/components/search/SearchBoxButton";
 import SocialLinks from "@/components/social/SocialLinks";
 import SidebarHome from "@/components/ui/SidebarHome";
 import { NOTION_CONTACT_URL } from "@/libs/constants/links";
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/Header.module.css";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,7 +16,8 @@ import { useTranslation } from "next-i18next";
 
 const Header = ({ slug, fixed }) => {
   const { t } = useTranslation("common");
-  const { openSidebar, stickyClass } = useContext(AppContext);
+  const { openSidebar = () => {}, stickyClass = "" } =
+    useContext(AppContext) ?? {};
 
   return (
     <header

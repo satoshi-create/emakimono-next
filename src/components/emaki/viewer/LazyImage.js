@@ -1,4 +1,4 @@
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import { trackImageLoaded, trackImageFallback, trackImageLoadSlow } from "@/libs/api/measurementUtils";
 import Image from "next/image";
 import { useContext, useEffect, useRef, useState } from "react";

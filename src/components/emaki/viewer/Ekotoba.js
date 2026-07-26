@@ -1,5 +1,5 @@
 import ResposiveImage from "@/components/emaki/viewer/ResposiveImage";
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/Ekotoba.module.css";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

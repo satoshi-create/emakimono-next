@@ -1,4 +1,4 @@
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/CardForSearchResults.module.css";
 import { eraColor } from "@/utils/func";
 import Image from "next/image";

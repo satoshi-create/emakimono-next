@@ -8,7 +8,7 @@ import MiddleNavigation from "@/components/navigation/MiddleNavigation";
 import { default as enData, default as jaData } from "@/data/data";
 import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
 import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import { buildEmakiJsonLd } from "@/utils/buildEmakiJsonLd";
 import { useLocaleMeta } from "@/utils/func";
 import { useRouter } from "next/router";

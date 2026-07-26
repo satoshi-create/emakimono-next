@@ -1,5 +1,5 @@
 import CardForSearchResults from "@/components/search/CardForSearchResults";
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/Search.css.module.css";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { authorItem, eraColor, typeItem } from "@/utils/func";

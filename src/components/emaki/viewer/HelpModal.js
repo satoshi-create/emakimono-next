@@ -3,7 +3,7 @@ import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import { useTranslation } from "next-i18next";
 
 /**

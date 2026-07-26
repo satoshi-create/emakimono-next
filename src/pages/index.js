@@ -4,6 +4,7 @@ import Header from "@/components/layout/Header";
 import Head from "@/components/meta/Meta";
 import CardA from "@/components/ui/CardA";
 import ExtractingListData from "@/utils/ExtractingListData";
+import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { useLocale } from "@/utils/func";
 import "lazysizes";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -12,9 +13,7 @@ const Home = () => {
   const { t } = useLocale();
   const removeNestedArrayObj = ExtractingListData();
 
-  const kusouzuEmakis = removeNestedArrayObj.filter((emaki) =>
-    emaki.title.includes("九相")
-  );
+  const kusouzuEmakis = removeNestedArrayObj.filter(isKusouzuScroll);
 
   const cyouzyuuEmakis = removeNestedArrayObj.filter((emaki) =>
     emaki.title.includes("鳥獣人物戯画絵巻")

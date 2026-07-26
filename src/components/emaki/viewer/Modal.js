@@ -1,6 +1,6 @@
 import ChapterList from "@/components/emaki/metadata/ChapterList";
 import SourceAttribution from "@/components/emaki/metadata/SourceAttribution";
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/Modal.module.css";
 import { eraColor } from "@/utils/func";
 import { faClose } from "@fortawesome/free-solid-svg-icons";

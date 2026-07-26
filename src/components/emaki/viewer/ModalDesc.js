@@ -1,5 +1,5 @@
 import * as gtag from "@/libs/api/gtag";
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/ModalDesc.module.css";
 import { ChaptersDesc, ChaptersGendaibun, ChaptersTitle } from "@/utils/func";
 import {

@@ -1,4 +1,4 @@
-﻿import { AppContext } from "@/pages/_app";
+﻿import { AppContext } from "@/context/AppContext";
 import { ChaptersDesc, ChaptersTitle, eraColor } from "@/utils/func";
 import {
   AccordionButton,

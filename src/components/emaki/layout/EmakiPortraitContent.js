@@ -8,7 +8,7 @@ import LikeButton from "@/components/emaki/metadata/LikeButton";
 import RecommendEmaki from "@/components/emaki/ranking/RecommendEmaki";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
 import Footer from "@/components/layout/Footer";
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/EmakiPortraitContent.module.css";
 import ExtractingListData from "@/utils/ExtractingListData";
 import {

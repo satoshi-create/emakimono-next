@@ -1,7 +1,7 @@
 import RankingCard from "@/components/emaki/ranking/RankingCard";
 import CardC from "@/components/ui/CardC";
 import Loader from "@/components/ui/Loader";
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import { LinkIcon, StarIcon } from "@chakra-ui/icons";
 import {
   Box,

@@ -1,5 +1,5 @@
 import LikeButton from "@/components/emaki/metadata/LikeButton";
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import {
   Box,
   Grid,

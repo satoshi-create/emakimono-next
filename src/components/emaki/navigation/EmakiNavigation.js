@@ -15,7 +15,7 @@ import ToggleCharacter from "@/components/emaki/viewer/ToggleCharacter";
 import ToggleEbiki from "@/components/emaki/viewer/ToggleEbiki";
 import ToggleEkotoba from "@/components/emaki/viewer/ToggleEkotoba";
 import ActionButton from "@/components/emaki/viewer/ActionButton";
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import { useTranslation } from "next-i18next";
 
 // TODO: 横スクロールで最後まで進み、「先頭に戻る」を押しても反応がない

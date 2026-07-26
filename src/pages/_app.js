@@ -20,14 +20,15 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Script from "next/script";
-import { createContext, useCallback, useEffect, useRef, useState } from "react";
+import { AppContext } from "@/context/AppContext";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import "../styles/globals.css";
 import { appWithTranslation } from "next-i18next";
 
 config.autoAddCss = false;
 
-export const AppContext = createContext();
+export { AppContext };
 
 function MyApp({ Component, pageProps, router }) {
   const removeNestedArrayObj = ExtractingListData();

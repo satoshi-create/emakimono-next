@@ -1,5 +1,5 @@
 import Title from "@/components/ui/Title";
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/TopRanking.module.css";
 import { eraColor } from "@/utils/func";
 import { faEye } from "@fortawesome/free-solid-svg-icons";

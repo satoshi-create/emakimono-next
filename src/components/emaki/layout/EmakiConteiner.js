@@ -14,7 +14,7 @@ import ModalDesc from "@/components/emaki/viewer/ModalDesc";
 import PositionIndicator from "@/components/emaki/viewer/PositionIndicator";
 import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
 import WheelScrollIndicator from "@/components/emaki/viewer/WheelScrollIndicator";
-import { AppContext } from "@/pages/_app";
+import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/EmakiConteiner.module.css";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
