@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 // import siteImg from "/ogp.jpg";
+import { buildLocaleUrl, SITE_ORIGIN } from "@/libs/constants/dataSiteMeta";
 import { useLocaleMeta } from "@/utils/func";
 
 const Meta = ({
@@ -20,10 +21,10 @@ const Meta = ({
 
   const pageDescAll = pageDesc ? pageDesc : t.siteDesc;
 
-  const url = `${t.siteUrl}${asPath}`;
+  const url = buildLocaleUrl(locale, asPath, defaultLocale);
 
   const img = pageImg ? pageImg : "/ogp.png";
-  const imgUrl = img.startsWith("https") ? img : `${t.siteUrl}${img}`;
+  const imgUrl = img.startsWith("https") ? img : `${SITE_ORIGIN}${img}`;
   const imgW = pageImgW ? pageImgW : "533";
   const imgH = pageImgH ? pageImgH : "300";
 
@@ -35,23 +36,19 @@ const Meta = ({
       <meta property="og:description" content={pageDescAll} />
       <link rel="canonical" href={url} />
       <meta property="og:url" content={url} />
-      {locales.map((locale) => {
-        return (
-          <link
-            key={`hreflang-${locale}`}
-            rel="alternate"
-            hrefLang={locale}
-            href={`https://emakimono.com${
-              locale === defaultLocale ? "" : "/" + locale
-            }${asPath}`}
-          />
-        );
-      })}
+      {locales.map((loc) => (
+        <link
+          key={`hreflang-${loc}`}
+          rel="alternate"
+          hrefLang={loc}
+          href={buildLocaleUrl(loc, asPath, defaultLocale)}
+        />
+      ))}
       <link
         key="hreflang-default"
         rel="alternate"
         hrefLang="x-default"
-        href={`https://emakimono.com${asPath}`}
+        href={buildLocaleUrl(defaultLocale, asPath, defaultLocale)}
       />
 
       <meta property="og:site_name" content={t.siteTitle} />
