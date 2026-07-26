@@ -1,4 +1,5 @@
 import ChapterList from "@/components/emaki/metadata/ChapterList";
+import SourceAttribution from "@/components/emaki/metadata/SourceAttribution";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/Modal.module.css";
 import { eraColor } from "@/utils/func";
@@ -18,6 +19,8 @@ const Modal = ({ data }) => {
     reference,
     sourceImageUrl,
     sourceImage,
+    sourceAuthor,
+    sourceCollection,
     era,
     typeen,
     title,
@@ -46,21 +49,17 @@ const Modal = ({ data }) => {
       );
     } else if (v === 1) {
       return (
-        <p className={styles.source}>
-          {t("modal.createdByModifying")}
-          <br />
-          <br />
-          <Link href={sourceImageUrl}>
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.sourceLink}
-              style={{ color: eraColor(era) }}
-            >
-              {sourceImage}
-            </a>
-          </Link>
-        </p>
+        <SourceAttribution
+          sourceImageUrl={sourceImageUrl}
+          sourceImage={sourceImage}
+          sourceTitle={title}
+          sourceTitleen={titleen}
+          sourceAuthor={sourceAuthor}
+          sourceCollection={sourceCollection}
+          linkClassName={styles.sourceLink}
+          linkStyle={{ color: eraColor(era) }}
+          className={styles.source}
+        />
       );
     } else if (v === 2) {
       return (

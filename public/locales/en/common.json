@@ -2,6 +2,19 @@
   "search": "Search",
   "source": "Source",
 
+  "sourceAttribution": {
+    "colbaseSource": "Source: ColBase — Integrated Collections Database of the National Institutes for Cultural Heritage ({{url}})",
+    "colbaseModified": "Created by modifying images from ColBase ({{url}})",
+    "britishMuseumSource": "Source: © The Trustees of the British Museum ({{url}})",
+    "britishMuseumLicense": "License: CC BY-NC-SA 4.0 ({{licenseUrl}})",
+    "britishMuseumModified": "Adaptation: Resized and converted (e.g. to WebP) from the above. Shared under CC BY-NC-SA 4.0 for non-commercial use.",
+    "wikimediaSource": "Source: {{title}} ({{collection}}) — Photo: {{author}} / Wikimedia Commons ({{url}})",
+    "wikimediaLicense": "License: CC0 1.0 ({{licenseUrl}})",
+    "wikimediaModified": "Adaptation: Resized and converted (e.g. to WebP) from the above file.",
+    "genericSource": "Source: {{label}} ({{url}})",
+    "genericModified": "Created by modifying images from {{label}} ({{url}})"
+  },
+
   "viewer": {
     "next": "Next",
     "previous": "Previous",
@@ -194,18 +207,22 @@
       },
       "copyright": {
         "title": "Copyright and sources",
-        "body": "Each scroll lists bibliographic and source information. Rights belong to holding institutions and rights holders. Main image sources include:",
+        "body": "Each scroll lists bibliographic and source information. Rights belong to holding institutions and rights holders. Images from ColBase and other sources are resized, converted (e.g. to WebP), and otherwise processed for display. Each scroll page shows source attribution and a processing notice; we do not present processed images as if they were created by the holding institution.",
         "sources": [
           {
-            "name": "ColBase (Integrated Collections Search of the National Institutes for Cultural Heritage)",
+            "name": "ColBase (Integrated Collections Database of the National Institutes for Cultural Heritage)",
             "url": "https://colbase.nich.go.jp/?locale=ja"
           },
           {
-            "name": "National Diet Library Digital Collections",
-            "url": "https://dl.ndl.go.jp/"
+            "name": "The British Museum",
+            "url": "https://www.britishmuseum.org/terms-use/copyright-and-permissions"
+          },
+          {
+            "name": "Wikimedia Commons",
+            "url": "https://commons.wikimedia.org/"
           }
         ],
-        "note": "Please respect the bibliographic information and conditions of each holding institution."
+        "note": "For ColBase content we cite the specific collection item URL (terms: https://colbase.nich.go.jp/pages/term?locale=ja). Please respect each source’s conditions of use."
       },
       "sensitive": {
         "title": "Sensitive content",

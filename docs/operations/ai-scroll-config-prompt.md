@@ -120,8 +120,8 @@ ChatGPT・Claude・Gemini など、画像入力に対応した AI にそのま�
       thumb2: ""
       backgroundImage: ""
       video: ""
-      sourceImageUrl: "{{所蔵 URL}}"
-      sourceImage: "{{所蔵名}}"
+      sourceImageUrl: "{{ColBase なら collection_items/... の当該ページ URL（トップ URL 不可）}}"
+      sourceImage: "{{所蔵作品名（表示用ラベル。出典行は URL から自動生成）}}"
       encodeUrl: ""
       favorite: false
       kotobagaki: {{true または false}}
@@ -144,6 +144,37 @@ ChatGPT・Claude・Gemini など、画像入力に対応した AI にそのま�
           kobun: ""          # 古文・原文（任意）
           desc: ""           # 解説・注釈（任意）
           # descen: ""       # 英語解説（任意）
+
+## 出典（ColBase 等）
+
+ビューアの出典表示は `SourceAttribution` コンポーネントが `sourceImageUrl` から自動生成する。YAML では **当該所蔵品ページの URL** を必ず入れる。
+
+| 出典先 | sourceImageUrl の例 | 追加フィールド |
+|--------|---------------------|----------------|
+| ColBase | `https://colbase.nich.go.jp/collection_items/tnm/A-1555?locale=ja` | — |
+| 大英博物館 | `https://www.britishmuseum.org/collection/object/...` | CC BY-NC-SA 4.0（表示は自動） |
+| Wikimedia | **File ページ URL**（カテゴリ不可） | `sourceAuthor`, `sourceCollection` |
+
+ColBase 利用時（[利用規約](https://colbase.nich.go.jp/pages/term?locale=ja)）:
+
+- 出典：`国立文化財機構所蔵品統合検索システム（当該ページ URL）`
+- 加工あり（本サイトは Cloudinary で解像度調整・WebP 変換等）: `「国立文化財機構所蔵品統合検索システム」（当該 URL）を加工して作成` を併記
+- `sourceImage` は作品名・所蔵館名のメモ用（例: `地獄草紙（益田家甲本）`）。出典行そのものには使わない
+
+大英博物館（[Copyright and permissions](https://www.britishmuseum.org/terms-use/copyright-and-permissions)）:
+
+- 出典：`© The Trustees of the British Museum（オブジェクト URL）`
+- ライセンス：`CC BY-NC-SA 4.0` リンクを併記
+- 加工行＋非営利・SA 声明を表示（`SourceAttribution` 自動）
+
+Wikimedia Commons（CC0 等）:
+
+- `sourceImageUrl`: 使用 File ページ（例: `.../File:Nine_Stages_..._I.JPG`）
+- `sourceAuthor`: 撮影者（例: `Hiart`）
+- `sourceCollection`: 所蔵情報（例: `Honolulu Museum of Art (accession 2007.3)`）
+- ライセンス行（CC0 1.0）＋加工行を表示
+
+**取り下げ済み:** HoMA eMuseum 直利用（鳥獣戯画と天狗）は複製許可が必要なため非公開。データは `src/data/withdrawn/` に退避。
 
 ## scenes / range の鉄則
 

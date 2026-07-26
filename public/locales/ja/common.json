@@ -2,6 +2,19 @@
   "search": "検索",
   "source": "出典",
 
+  "sourceAttribution": {
+    "colbaseSource": "出典：国立文化財機構所蔵品統合検索システム（{{url}}）",
+    "colbaseModified": "「国立文化財機構所蔵品統合検索システム」（{{url}}）を加工して作成",
+    "britishMuseumSource": "出典：© The Trustees of the British Museum（{{url}}）",
+    "britishMuseumLicense": "ライセンス：CC BY-NC-SA 4.0（{{licenseUrl}}）",
+    "britishMuseumModified": "加工：上記画像を解像度調整・WebP 変換等して作成。加工画像は CC BY-NC-SA 4.0 に基づき非営利目的で公開。",
+    "wikimediaSource": "出典：{{title}}（{{collection}}）— 写真：{{author}} / Wikimedia Commons（{{url}}）",
+    "wikimediaLicense": "ライセンス：CC0 1.0（{{licenseUrl}}）",
+    "wikimediaModified": "加工：上記ファイルを解像度調整・WebP 変換等して作成。",
+    "genericSource": "出典：{{label}}（{{url}}）",
+    "genericModified": "「{{label}}」（{{url}}）を加工して作成"
+  },
+
   "viewer": {
     "next": "次へ",
     "previous": "前へ",
@@ -194,18 +207,22 @@
       },
       "copyright": {
         "title": "著作権・出典",
-        "body": "各絵巻の画像および解説には出典・書誌情報を記載しています。権利は各所蔵機関・権利者に帰属します。主な画像出典は以下のとおりです。",
+        "body": "各絵巻の画像および解説には出典・書誌情報を記載しています。権利は各所蔵機関・権利者に帰属します。ColBase 等から取得した画像は、解像度調整・形式変換（WebP）等の加工を行い表示しています。各絵巻ページには出典と加工の記載を表示し、加工画像を所蔵機関の作成物であるかのように公表しません。",
         "sources": [
           {
-            "name": "Colbase（国立文化財機構所蔵品統合検索システム）",
+            "name": "ColBase（国立文化財機構所蔵品統合検索システム）",
             "url": "https://colbase.nich.go.jp/?locale=ja"
           },
           {
-            "name": "国立国会図書館デジタルコレクション",
-            "url": "https://dl.ndl.go.jp/"
+            "name": "The British Museum",
+            "url": "https://www.britishmuseum.org/terms-use/copyright-and-permissions"
+          },
+          {
+            "name": "Wikimedia Commons",
+            "url": "https://commons.wikimedia.org/"
           }
         ],
-        "note": "利用にあたっては、各作品の書誌情報および所蔵元の条件を尊重してください。"
+        "note": "ColBase 利用時は当該所蔵品ページの URL を出典として記載しています（利用規約: https://colbase.nich.go.jp/pages/term?locale=ja）。各所蔵元の条件を尊重してください。"
       },
       "sensitive": {
         "title": "描写内容への注意",

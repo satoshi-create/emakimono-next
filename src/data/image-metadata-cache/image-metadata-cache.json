@@ -79,15 +79,6 @@
         "cat": "image",
         "chapter": "",
         "config": "cloudinary",
-        "src": "v1774943571/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01_02.jpg",
-        "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01_02",
-        "srcWidth": 2228,
-        "srcHeight": 1080
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "config": "cloudinary",
         "src": "v1775033726/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__03.jpg",
         "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__03",
         "srcWidth": 2436,
@@ -1640,7 +1631,7 @@
     ],
     "kotobagaki": true,
     "sourceImageUrl": "https://www.britishmuseum.org/collection/object/A_2008-3033-1",
-    "sourceImage": "九相図（大英博物館）",
+    "sourceImage": "九相図（The British Museum）",
     "reference": [
       {
         "type": "書籍",
@@ -2146,7 +2137,7 @@
       }
     ],
     "kotobagaki": true,
-    "sourceImageUrl": "https://commons.wikimedia.org/wiki/Category:Nine_Stages_of_Decomposition_of_the_Heian_Period_Empress_Danrin",
+    "sourceImageUrl": "https://commons.wikimedia.org/wiki/File:Nine_Stages_of_Decomposition_of_the_Heian_Period_Empress_Danrin,_Honolulu_Museum_of_Art_I.JPG",
     "sourceImage": "Nine Stages of Decomposition of the Heian Period Empress Danrin（Wikimedia Commons）",
     "reference": [
       {
@@ -2276,7 +2267,9 @@
         "srcHeight": 1080,
         "test": "hoge"
       }
-    ]
+    ],
+    "sourceAuthor": "Hiart",
+    "sourceCollection": "Honolulu Museum of Art (accession 2007.3)"
   },
   {
     "id": 99,
@@ -2404,199 +2397,6 @@
         "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_04__02",
         "srcHeight": 1080,
         "srcWidth": 1561
-      }
-    ]
-  },
-  {
-    "id": 13,
-    "title": "地獄草紙（原家本）",
-    "titleen": "jigokusoushi_genke",
-    "author": "",
-    "authoren": "",
-    "edition": "奈良国立博物館蔵（原家旧蔵）",
-    "encodeUrl": "",
-    "backgroundImage": "",
-    "thumb": "/thumb/jigokusoushi_genke_thumb.webp",
-    "thumb2": "",
-    "video": "",
-    "era": "平安",
-    "eraen": "heiann",
-    "desc": "隋の闍那崛多が漢訳した『起世経』に説かれる十六小地獄を描いた、奈良国立博物館所蔵の重要文化財（原家旧蔵本）。",
-    "descen": "An emaki handscroll depicting the sixteen minor hells based on the 'Qishijing', preserved at the Nara National Museum (formerly in the Hara collection).",
-    "readMore": false,
-    "type": "絵巻",
-    "typeen": "emaki",
-    "keyword": [
-      {
-        "name": "地獄",
-        "id": "jigoku",
-        "slug": "jigoku"
-      },
-      {
-        "name": "仏教",
-        "id": "buddhism",
-        "slug": "buddhism"
-      },
-      {
-        "name": "六道絵",
-        "id": "rokudo",
-        "slug": "rokudo"
-      }
-    ],
-    "kotobagaki": true,
-    "favorite": false,
-    "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/narahaku/644-0?locale=ja",
-    "sourceImage": "地獄草紙（ColBase）",
-    "metadesc": "",
-    "gif": "",
-    "sourceEkotoba": "",
-    "reference": [
-      {
-        "type": "書籍",
-        "url": "https://rb.gy/r3nghf",
-        "title": "『餓鬼草紙 地獄草紙 病草紙 九相詩絵巻』（日本絵巻大成7 中央公論社）"
-      }
-    ],
-    "emakis": [
-      {
-        "cat": "ekotoba",
-        "chapter": "1",
-        "config": "cloudinary",
-        "src": "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_01__01.jpg",
-        "name": "jigokusoushi-genke__jigokusoushi-genke_1_01__01",
-        "srcHeight": "1080",
-        "srcWidth": "2013",
-        "gendaibun": "また別所あり。この地獄の深さは広大で、悪臭を放つ糞屎が満ち満ちている。<br>現世において不浄な行いや悪業を重ねた者たちがこの地獄に堕ち、責め苦を受ける。",
-        "desc": "起世経に説かれる第二の糞屎泥小地獄を描く段。"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "config": "cloudinary",
-        "src": "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_01__02.jpg",
-        "name": "jigokusoushi-genke__jigokusoushi-genke_1_01__02",
-        "srcHeight": 1080,
-        "srcWidth": 1011
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "2",
-        "config": "cloudinary",
-        "src": "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_02__01.jpg",
-        "name": "jigokusoushi-genke__jigokusoushi-genke_1_02__01",
-        "srcHeight": "1080",
-        "srcWidth": "1685",
-        "gendaibun": "また別所あり。罪人たちが計量や売買において不正を行い、他者を欺いた報いを受ける地獄。<br>過酷な苦しみが絶えず加えられる。",
-        "desc": "起世経に説かれる凾量小地獄を描く段。"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "config": "cloudinary",
-        "src": "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_02__02.jpg",
-        "name": "jigokusoushi-genke__jigokusoushi-genke_1_02__02",
-        "srcHeight": 1080,
-        "srcWidth": 1051
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "3",
-        "config": "cloudinary",
-        "src": "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_03__01.jpg",
-        "name": "jigokusoushi-genke__jigokusoushi-genke_1_03__01",
-        "srcHeight": "1080",
-        "srcWidth": "1475",
-        "gendaibun": "また別所あり。鉄の臼と杵によって罪人の身体がすり潰される地獄。<br>生前に生き物を殺傷し、残虐な行為を働いた者たちがここで果てしない苦痛を受ける。",
-        "desc": "起世経に説かれる鉄磑小地獄を描く段（词書05 + 絵06）。"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "config": "cloudinary",
-        "src": "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_03__02.jpg",
-        "name": "jigokusoushi-genke__jigokusoushi-genke_1_03__02",
-        "srcHeight": 1080,
-        "srcWidth": 2120
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "4",
-        "config": "cloudinary",
-        "src": "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_04__01.jpg",
-        "name": "jigokusoushi-genke__jigokusoushi-genke_1_04__01",
-        "srcHeight": "1080",
-        "srcWidth": "1521",
-        "gendaibun": "また別所あり。巨大な鳥（鶏）たちが現れ、罪人たちを突き刺し食らう地獄。<br>中国・宋代の影響が色濃く見られる表現が特徴的である。",
-        "desc": "起世経に説かれる鶏小地獄を描く段。"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "config": "cloudinary",
-        "src": "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_04__02.jpg",
-        "name": "jigokusoushi-genke__jigokusoushi-genke_1_04__02",
-        "srcHeight": 1080,
-        "srcWidth": 2042
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "5",
-        "config": "cloudinary",
-        "src": "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_05__01.jpg",
-        "name": "jigokusoushi-genke__jigokusoushi-genke_1_05__01",
-        "srcHeight": "1080",
-        "srcWidth": "1215",
-        "gendaibun": "また別所あり。黒雲と熱沙が吹き荒れ、罪人の皮膚や肉を焼き裂く地獄。<br>現世での重い罪業によってこの場所に堕とされ、逃れるすべがない。",
-        "desc": "起世経に説かれる黒雲沙小地獄を描く段。"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "config": "cloudinary",
-        "src": "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_05__02.jpg",
-        "name": "jigokusoushi-genke__jigokusoushi-genke_1_05__02",
-        "srcHeight": 1080,
-        "srcWidth": 1068
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "6",
-        "config": "cloudinary",
-        "src": "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_06__01.jpg",
-        "name": "jigokusoushi-genke__jigokusoushi-genke_1_06__01",
-        "srcHeight": "1080",
-        "srcWidth": "1486",
-        "gendaibun": "また別所あり。膿と血が満ちた河川や沼沢で、罪人たちがもがき苦しむ地獄。<br>生前の貪欲や不浄な執着の結果としてこの苦しみを味わう。",
-        "desc": "起世経に説かれる濃血小地獄を描く段（词書11 + 絵12）。"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "config": "cloudinary",
-        "src": "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_06__02.jpg",
-        "name": "jigokusoushi-genke__jigokusoushi-genke_1_06__02",
-        "srcHeight": 1080,
-        "srcWidth": 1077
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "7",
-        "config": "",
-        "src": "",
-        "name": "",
-        "srcHeight": 0,
-        "srcWidth": 0,
-        "gendaibun": "また別所あり。狐や狼のような獣に責められる地獄。<br>词書画像はなく、絵画のみで描かれる最終段。",
-        "desc": "起世経に説かれる狐狼地獄を描く段（词書なし + 絵13）。"
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "config": "cloudinary",
-        "src": "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_07__01.jpg",
-        "name": "jigokusoushi-genke__jigokusoushi-genke_1_07__01",
-        "srcHeight": 1080,
-        "srcWidth": 1282
       }
     ]
   },
@@ -2846,7 +2646,7 @@
     ],
     "kotobagaki": true,
     "favorite": false,
-    "sourceImageUrl": "https://colbase.nich.go.jp/",
+    "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-1555?locale=ja",
     "sourceImage": "地獄草紙（ColBase）",
     "metadesc": "",
     "gif": "",
@@ -2898,202 +2698,6 @@
         "name": "jigokusoushi_masuda_kou__jigokusoushi_masuda_kou_1_02__02",
         "srcHeight": 1080,
         "srcWidth": 1155
-      }
-    ]
-  },
-  {
-    "id": 18,
-    "title": "鳥獣戯画と天狗（ホノルル美術館）",
-    "titleen": "frolicking_animals_and_tengu_goblins",
-    "author": "作者不詳",
-    "authoren": "anonymous",
-    "edition": "ホノルル美術館蔵",
-    "encodeUrl": "",
-    "backgroundImage": "/washi-pattern-01.webp",
-    "thumb": "/thumb/frolicking-animals-and-tengu-goblins_thumb.jpg",
-    "thumb2": "",
-    "video": "",
-    "era": "江戸",
-    "eraen": "edo",
-    "desc": "ホノルル美術館所蔵の18世紀作『Frolicking Animals and Tengu Goblins』。前半に天狗の行進、後半に鳥獣戯画風の擬人化した動物たちの戯れが描かれた、墨画に淡彩を加えた絵巻。",
-    "descen": "An 18th-century handscroll in the Honolulu Museum of Art collection, depicting tengu goblins in procession followed by frolicking anthropomorphic animals in the Chōjū-giga tradition, rendered in ink with light color.",
-    "readMore": false,
-    "type": "絵巻",
-    "typeen": "emaki",
-    "keyword": [
-      {
-        "name": "戯画",
-        "id": "caricature",
-        "slug": "caricature"
-      },
-      {
-        "name": "動物",
-        "id": "animal",
-        "slug": "animal"
-      },
-      {
-        "name": "鳥獣戯画",
-        "id": "tobae",
-        "slug": "tobae"
-      },
-      {
-        "name": "天狗",
-        "id": "tengu",
-        "slug": "tengu"
-      }
-    ],
-    "kotobagaki": false,
-    "favorite": false,
-    "sourceImageUrl": "https://honolulu.emuseum.com/objects/38858/frolicking-animals-and-tengu-goblins",
-    "sourceImage": "Honolulu Museum of Art",
-    "metadesc": "",
-    "gif": "",
-    "sourceEkotoba": "",
-    "reference": [],
-    "emakis": [
-      {
-        "cat": "ekotoba",
-        "chapter": "1",
-        "config": "",
-        "src": "",
-        "name": "",
-        "srcHeight": 0,
-        "srcWidth": 0
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "config": "cloudinary",
-        "src": "emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_01__01.jpg",
-        "name": "frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_01__01",
-        "srcHeight": 1080,
-        "srcWidth": 2929
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "2",
-        "config": "",
-        "src": "",
-        "name": "",
-        "srcHeight": 0,
-        "srcWidth": 0
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "config": "cloudinary",
-        "src": "emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_02__01.jpg",
-        "name": "frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_02__01",
-        "srcHeight": 1080,
-        "srcWidth": 3427
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "3",
-        "config": "",
-        "src": "",
-        "name": "",
-        "srcHeight": 0,
-        "srcWidth": 0
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "config": "cloudinary",
-        "src": "emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_03__01.jpg",
-        "name": "frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_03__01",
-        "srcHeight": 1080,
-        "srcWidth": 3036
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "4",
-        "config": "",
-        "src": "",
-        "name": "",
-        "srcHeight": 0,
-        "srcWidth": 0
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "config": "cloudinary",
-        "src": "emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_04__01.jpg",
-        "name": "frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_04__01",
-        "srcHeight": 1080,
-        "srcWidth": 3018
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "5",
-        "config": "",
-        "src": "",
-        "name": "",
-        "srcHeight": 0,
-        "srcWidth": 0
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "config": "cloudinary",
-        "src": "emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_05__01.jpg",
-        "name": "frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_05__01",
-        "srcHeight": 1080,
-        "srcWidth": 2969
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "6",
-        "config": "",
-        "src": "",
-        "name": "",
-        "srcHeight": 0,
-        "srcWidth": 0
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "config": "cloudinary",
-        "src": "emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_06__01.jpg",
-        "name": "frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_06__01",
-        "srcHeight": 1080,
-        "srcWidth": 3093
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "7",
-        "config": "",
-        "src": "",
-        "name": "",
-        "srcHeight": 0,
-        "srcWidth": 0
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "config": "cloudinary",
-        "src": "emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_07__01.jpg",
-        "name": "frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_07__01",
-        "srcHeight": 1080,
-        "srcWidth": 3047
-      },
-      {
-        "cat": "ekotoba",
-        "chapter": "8",
-        "config": "",
-        "src": "",
-        "name": "",
-        "srcHeight": 0,
-        "srcWidth": 0
-      },
-      {
-        "cat": "image",
-        "chapter": "",
-        "config": "cloudinary",
-        "src": "emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_08__01.jpg",
-        "name": "frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_08__01",
-        "srcHeight": 1080,
-        "srcWidth": 1693
       }
     ]
   },

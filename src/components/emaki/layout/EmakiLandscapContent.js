@@ -3,6 +3,7 @@ import EmakiConteiner from "@/components/emaki/layout/EmakiConteiner";
 import ChapterDesc from "@/components/emaki/metadata/ChapterDesc";
 import ChapterTimeline from "@/components/emaki/metadata/ChapterTimeline";
 import EditionLinks from "@/components/emaki/metadata/EditionLinks";
+import SourceAttribution from "@/components/emaki/metadata/SourceAttribution";
 import LikeButton from "@/components/emaki/metadata/LikeButton";
 import RecommendEmaki from "@/components/emaki/ranking/RecommendEmaki";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
@@ -51,6 +52,8 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
     descen,
     sourceImage,
     sourceImageUrl,
+    sourceAuthor,
+    sourceCollection,
     reference,
     personname,
     keyword,
@@ -360,16 +363,15 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
               </div>
               {/*メタ情報*/}
               <div className={styles.authority}>
-                <Link href={sourceImageUrl}>
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.sourceLink}
-                  >
-                    {locale == "en" ? "【source】" : "【出典】"}
-                    {sourceImage}
-                  </a>
-                </Link>
+                <SourceAttribution
+                  sourceImageUrl={sourceImageUrl}
+                  sourceImage={sourceImage}
+                  sourceTitle={title}
+                  sourceTitleen={titleen}
+                  sourceAuthor={sourceAuthor}
+                  sourceCollection={sourceCollection}
+                  linkClassName={styles.sourceLink}
+                />
                 {reference?.length > 0 && (
                 <ul>
                   {locale == "en" ? "【reference】" : "【参考文献】"}

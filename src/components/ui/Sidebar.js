@@ -1,4 +1,5 @@
 import { AppContext } from "@/pages/_app";
+import SourceAttribution from "@/components/emaki/metadata/SourceAttribution";
 import styles from "@/styles/Sidebar.module.css";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,9 +12,12 @@ const Sidebar = ({ value, handleToId }) => {
   const {
     emakis,
     title,
+    titleen,
     backgroundImage,
     sourceImageUrl,
     sourceImage,
+    sourceAuthor,
+    sourceCollection,
     reference,
     author,
   } = value;
@@ -68,27 +72,15 @@ const Sidebar = ({ value, handleToId }) => {
       );
     } else if (tabValue === 1) {
       return (
-        <>
-          <p>
-            {locale === "en"
-              ? "Created by modifying the following"
-              : "以下を加工して作成"}
-          </p>
-          <br />
-          <ul className={styles.source}>
-            <li>
-              <Link href={sourceImageUrl}>
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.sourceLink}
-                >
-                  {sourceImage}
-                </a>
-              </Link>
-            </li>
-          </ul>
-        </>
+        <SourceAttribution
+          sourceImageUrl={sourceImageUrl}
+          sourceImage={sourceImage}
+          sourceTitle={title}
+          sourceTitleen={titleen}
+          sourceAuthor={sourceAuthor}
+          sourceCollection={sourceCollection}
+          linkClassName={styles.sourceLink}
+        />
       );
     } else if (tabValue === 2) {
       return (

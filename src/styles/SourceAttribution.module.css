@@ -1,0 +1,25 @@
+.root {
+  margin: 0;
+}
+
+.sourceLine {
+  margin: 0;
+}
+
+.licenseLine {
+  margin: 0.35rem 0 0;
+}
+
+.modifiedLine {
+  margin: 0.35rem 0 0;
+}
+
+.link {
+  color: inherit;
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+.link:hover {
+  opacity: 0.85;
+}
