@@ -4,10 +4,10 @@ import ChapterDesc from "@/components/emaki/metadata/ChapterDesc";
 import ChapterTimeline from "@/components/emaki/metadata/ChapterTimeline";
 import EditionLinks from "@/components/emaki/metadata/EditionLinks";
 import SourceAttribution from "@/components/emaki/metadata/SourceAttribution";
+import LikeButton from "@/components/emaki/metadata/LikeButton";
 import RecommendEmaki from "@/components/emaki/ranking/RecommendEmaki";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
 import Footer from "@/components/layout/Footer";
-import SnsShareBox from "@/components/social/SnsShareBox";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiPortraitContent.module.css";
 import ExtractingListData from "@/utils/ExtractingListData";
@@ -100,6 +100,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   return (
     <>
       <EmakiConteiner
+        key={data.id}
         data={{ ...data }}
         scroll={true}
         selectedRef={selectedRef}
@@ -139,14 +140,23 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 </a>
               </Link>
             )}
-            <button
-              type="button"
-              value="Lock Landscape"
-              onClick={() => handleFullScreen("landscape")}
-              className={styles.linkedbutton}
-            >
-              {locale === "en" ? "View FullScreen" : "全画面で見る"}
-            </button>
+            <div className={styles.actionGroup}>
+              <button
+                type="button"
+                value="Lock Landscape"
+                onClick={() => handleFullScreen("landscape")}
+                className={styles.linkedbutton}
+              >
+                {locale === "en" ? "View FullScreen" : "全画面で見る"}
+              </button>
+              <LikeButton
+                title={title}
+                titleen={titleen}
+                edition={edition}
+                author={author}
+                ort={"prt"}
+              />
+            </div>
           </div>
 
           <div className={styles.metadataB}>
@@ -370,12 +380,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
           </div>
 
           <ToContactForm />
-          <SnsShareBox
-            titleen={titleen}
-            title={title}
-            edition={edition}
-            ort={"prt"}
-          />
           {/* {(typeen === "seiyoukaiga" || keyword) && <CardC data={data} />} */}
           <RecommendEmaki data={data} />
         </div>

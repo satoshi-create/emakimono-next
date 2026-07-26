@@ -8,7 +8,6 @@ import LikeButton from "@/components/emaki/metadata/LikeButton";
 import RecommendEmaki from "@/components/emaki/ranking/RecommendEmaki";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
 import Footer from "@/components/layout/Footer";
-import SnsShareBox from "@/components/social/SnsShareBox";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/EmakiLandscapContent.module.css";
 import ExtractingListData from "@/utils/ExtractingListData";
@@ -109,6 +108,7 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
       <div className={`emaki-page-landscape-grid`}>
         <div className={styles.wrapper}>
           <EmakiConteiner
+            key={data.id}
             data={{ ...data }}
             scroll={true}
             selectedRef={selectedRef}
@@ -178,14 +178,23 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   </a>
                 </Link>
               )}
-              <button
-                type="button"
-                value="Lock Landscape"
-                onClick={() => handleFullScreen("landscape")}
-                className={styles.linkedbutton}
-              >
-                {t("viewer.fullscreeBtn")}
-              </button>
+              <div className={styles.actionGroup}>
+                <button
+                  type="button"
+                  value="Lock Landscape"
+                  onClick={() => handleFullScreen("landscape")}
+                  className={styles.linkedbutton}
+                >
+                  {t("viewer.fullscreeBtn")}
+                </button>
+                <LikeButton
+                  title={title}
+                  titleen={titleen}
+                  edition={edition}
+                  author={author}
+                  ort={"land"}
+                />
+              </div>
               {author && (
                 <Link href={`/author/${authoren}`}>
                   <a className={styles.authorLink}>
@@ -209,19 +218,6 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
                   </Link>
                 </div>
               )}
-              <SnsShareBox
-                titleen={titleen}
-                title={title}
-                edition={edition}
-                ort={"land"}
-              />
-              <LikeButton
-                title={title}
-                titleen={titleen}
-                edition={edition}
-                author={author}
-                ort={"land"}
-              />
             </div>
             <div className={styles.metadataB}>
               {/* 絵巻の紹介 */}

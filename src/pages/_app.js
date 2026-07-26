@@ -7,6 +7,7 @@
  * Edit targeted blocks only — do not split this file without a plan.
  */
 import BottomNavigation from "@/components/navigation/BottomNavigation";
+import { resetScrollPositionStore } from "@/components/emaki/layout/EmakiConteiner";
 import ModalSearch from "@/components/search/ModalSearch";
 import * as gtag from "@/libs/api/gtag";
 import { trackFullscreenEnter, trackFullscreenExit, initEngagementTracking } from "@/libs/api/measurementUtils";
@@ -249,6 +250,11 @@ function MyApp({ Component, pageProps, router }) {
     const resetViewerStateOnNavigate = () => {
       setIsHelpModalOpen(false);
 
+      // 別絵巻遷移前に navIndex / 横スクロール保存状態をリセット
+      // （フルスクリーン復元 effect より先にクリアして競合を防ぐ）
+      setnavIndex(0);
+      resetScrollPositionStore();
+
       const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
       if (fsEl) {
         void (async () => {
@@ -273,7 +279,7 @@ function MyApp({ Component, pageProps, router }) {
     return () => {
       gRouter.events.off("routeChangeStart", resetViewerStateOnNavigate);
     };
-  }, [gRouter.events]);
+  }, [gRouter.events, setnavIndex]);
 
   const handleEkotobaImageToggle = () => {
     setEkotobaImageToggle(!ekotobaImageToggle);

@@ -114,7 +114,6 @@
 
 .linkedbutton {
   align-self: center;
-  margin-left: auto;
   background: var(--clr-accent-02);
   border: 1px solid var(--clr-accent-02);
   border-radius: 5rem;
@@ -125,6 +124,14 @@
   font-size: medium;
   white-space: nowrap;
   text-align: center;
+  flex-shrink: 0;
+}
+
+.actionGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-left: auto;
   flex-shrink: 0;
 }
 

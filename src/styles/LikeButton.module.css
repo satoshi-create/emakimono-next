@@ -1,13 +1,9 @@
 .land {
-  justify-self: center;
-  grid-row: 1 / span 2;
-  align-self: center;
+  flex-shrink: 0;
 }
 
 .prt {
-  grid-row: 2;
-  grid-column: 2;
-  justify-self: flex-end;
+  flex-shrink: 0;
 }
 
 .icon {

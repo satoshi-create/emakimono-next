@@ -46,6 +46,16 @@ const scrollPositionStore = {
   scrollRatio: 0,
   restored: false,      // 復元完了フラグ（複数回の復元によるジャンプ防止）
   isTransitioning: false, // 復元中フラグ（保存の上書きを防止）
+  emakiId: null,        // 保存時の絵巻ID（別絵巻への誤復元防止）
+};
+
+/** 絵巻ページ遷移時に _app.js から呼び出す */
+export const resetScrollPositionStore = () => {
+  scrollPositionStore.scrollLeft = 0;
+  scrollPositionStore.scrollRatio = 0;
+  scrollPositionStore.restored = false;
+  scrollPositionStore.isTransitioning = false;
+  scrollPositionStore.emakiId = null;
 };
 
 // 教育現場向けUI: 絵巻切り替え検出用
@@ -345,6 +355,7 @@ const EmakiContainer = ({
       if (maxScrollLeft > 0 && !scrollPositionStore.isTransitioning) {
         scrollPositionStore.scrollLeft = currentScrollX;
         scrollPositionStore.scrollRatio = Math.abs(currentScrollX) / maxScrollLeft;
+        scrollPositionStore.emakiId = data.id;
         scrollPositionStore.restored = false;
         // 計測: セッション最大スクロール到達率を更新
         updateScrollProgress(scrollPositionStore.scrollRatio);
@@ -458,6 +469,14 @@ const EmakiContainer = ({
     // 初回マウント時はスキップ（スクロール位置が保存されていない）
     if (scrollPositionStore.scrollRatio === 0) return;
 
+    // 別絵巻へ遷移中は復元しない（旧 scrollRatio の誤適用防止）
+    if (
+      scrollPositionStore.emakiId !== null &&
+      scrollPositionStore.emakiId !== data.id
+    ) {
+      return;
+    }
+
     // 新しいトグル時に restored フラグをリセット
     // これにより2回目以降のトグルでも復元が実行される
     scrollPositionStore.restored = false;
@@ -500,7 +519,7 @@ const EmakiContainer = ({
       clearTimeout(timer3);
       clearTimeout(transitionTimer);
     };
-  }, [toggleFullscreen]);
+  }, [toggleFullscreen, data.id]);
 
   // 教育現場向けUI: 初回表示時のみ、横スクロール可能性を
   // 緩やかな自動スクロールで認知させるナッジ（操作説明なし）
@@ -722,6 +741,20 @@ const EmakiContainer = ({
       scrollPositionStore.scrollRatio = 0;
       scrollPositionStore.restored = false;
       scrollPositionStore.isTransitioning = false;
+      scrollPositionStore.emakiId = null;
+
+      // DOM 横スクロールを先頭（右端）へリセット
+      const el = articleRef.current;
+      if (el) {
+        scrollPositionStore.isTransitioning = true;
+        el.scrollTo({ left: 0, behavior: "auto" });
+        setIsAtStart(true);
+        setIsAtEnd(false);
+        lastDetectedSceneRef.current = 0;
+        setTimeout(() => {
+          scrollPositionStore.isTransitioning = false;
+        }, 100);
+      }
 
       // キャッシュを無効化（新しい絵巻のセクション・サイズを再取得するため）
       sectionsCacheRef.current = null;

@@ -1,4 +1,3 @@
-import SnsShareBox from "@/components/social/SnsShareBox";
 import * as gtag from "@/libs/api/gtag";
 import { AppContext } from "@/pages/_app";
 import styles from "@/styles/ModalDesc.module.css";
@@ -190,14 +189,6 @@ const ModalDesc = ({ data }) => {
                   <>{ChaptersTitle(titleen, title, chapter, "title")}{t("viewer.viewImage")}</>
                 )}
               </button>
-              <SnsShareBox
-                titleen={data.titleen}
-                title={data.title}
-                edition={data.edition}
-                chapter={chapter}
-                index={DescIndex.index}
-                ort={"modal"}
-              />
             </article>
           );
         })}
