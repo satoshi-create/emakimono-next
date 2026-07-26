@@ -8,6 +8,7 @@ import MiddleNavigation from "@/components/navigation/MiddleNavigation";
 import { default as enData, default as jaData } from "@/data/data";
 import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
 import { AppContext } from "@/pages/_app";
+import { buildEmakiJsonLd } from "@/utils/buildEmakiJsonLd";
 import { useLocaleMeta } from "@/utils/func";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useRef } from "react";
@@ -17,7 +18,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Emaki = ({ data, locale, locales, slug, test }) => {
   const { t } = useLocaleMeta();
-  const router = useRouter();
+  const { defaultLocale } = useRouter();
   const selectedRef = useRef(null);
   const {
     navIndex,
@@ -70,59 +71,18 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
 
   const pageDescTemp = pageDesc ? pageDesc : tPageDesc;
 
-  const jsonData = {
-    "@context": "http://schema.org",
-    "@type": "NewsArticle",
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `https://${locale}/emakimono.com/${slug}`,
-    },
-    headline: pagetitle,
-    description: tPageDesc,
-    url: `https://${locale}/emakimono.com/${slug}`,
-    image: {
-      "@type": "ImageObject",
-      url: data.thumb,
-      width: "533px",
-      height: "300px",
-    },
-    author: {
-      "@type": "Person",
-      name: "横スクロールで楽しむ絵巻",
-      url: "https://portfoliosite-next.vercel.app/",
-    },
-    publisher: {
-      "@type": "Organization",
-      name: "横スクロールで楽しむ絵巻",
-      logo: {
-        "@type": "ImageObject",
-        url: "/favicon.png",
-      },
-      breadcrumbList: {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "横スクロールで楽しむ絵巻",
-            item: "https://emakimono.com/",
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: data.type,
-            item: `https://emakimono.com/type/${data.typeen}`,
-          },
-          {
-            "@type": "ListItem",
-            position: 3,
-            name: data.title,
-          },
-        ],
-      },
-    },
-  };
-  const jsonLd = JSON.stringify(jsonData, null, " ");
+  const jsonLd = buildEmakiJsonLd({
+    locale,
+    slug,
+    defaultLocale,
+    name: pagetitle,
+    description: pageDescTemp,
+    image: data.thumb,
+    creatorName: pageAuthor,
+    siteTitle: t.siteTitle,
+    typeName: locale === "en" ? data.typeen : data.type,
+    typeSlug: data.typeen,
+  });
 
   // 教育現場向けUI: 巻末ナッジ用 - 兄弟巻の取得
   const alldata = locale === "en" ? enData : jaData;
