@@ -10,27 +10,10 @@ const ChaptersKusouzuTable = ({
   sectiontitleen,
   KusouzuArrObj,
 }) => {
-  // const ExistKusouzuChaptersTitletoString = (contentTitle) =>
-  //   KusouzuArrObj.filter((item) => item.title === contentTitle)
-  //     .flatMap((item) => item.kusouzuslug)
-  //     .map((item) => item.id)
-  //     .toString();
-
-  const ExistKusouzuChaptersTitletoString = (contentTitle) =>
-    KusouzuArrObj.filter((item) => item.title === contentTitle)
-      .flatMap((item) => item.emakis)
-      .map((item) => item.chapter)
-      .join(" ");
-
-  // const ExistKusouzuChaptersTitletoString = ExistKusouzuChapters.map(
-  //   (item) => item.id
-  // ).toString();
-
-  const chapterKusouzuMatching = (contentTitle, contentid) =>
-    ExistKusouzuChaptersTitletoString(contentTitle).includes(contentid);
-
-  // const chapterKusouzuMatching = (id) =>
-  //   ExistKusouzuChaptersTitletoString.includes(id);
+  const chapterKusouzuMatching = (contentTitle, stageId) =>
+    KusouzuArrObj.filter((item) => item.title === contentTitle).some((item) =>
+      item.kusouzuslug?.some((slug) => slug.id === stageId)
+    );
 
   return (
     <section className={`section-grid section-padding `}>
@@ -62,7 +45,7 @@ const ChaptersKusouzuTable = ({
               stage_ch,
               title,
               ruby,
-              titleen,
+              slug,
               desc,
               gendaibun,
             } = item;
@@ -94,7 +77,7 @@ const ChaptersKusouzuTable = ({
                   return (
                     <td key={i}>
                       {chapterKusouzuMatching(item.title, stage_en) ? (
-                        <Link href={`/kusouzu/${titleen}`}>
+                        <Link href={`/kusouzu/${slug}`}>
                           <a className={styles.link}>
                             <FontAwesomeIcon icon={faCircle} />
                           </a>

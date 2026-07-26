@@ -1,5 +1,6 @@
 [
   {
+    "slug": "the-living-form",
     "stage_en": "0",
     "stage_ch": "0",
     "title": "生前相",
@@ -9,6 +10,7 @@
     "descen": "This is the living body as we commonly perceive it—vibrant complexion, with organs and skeleton functioning in harmony. This state, known as 'Seizensō,' represents the ephemeral beauty and vitality of mortal existence, a reminder of life's transient nature in Buddhist contemplation."
   },
   {
+    "slug": "the-swelling-stage",
     "stage_en": "1",
     "stage_ch": "一",
     "title": "脹相",
@@ -18,6 +20,7 @@
     "descen": "After life departs, the vessel begins its transformation as gases accumulate within, causing the once-familiar form to distend unnaturally. This first stage of corporeal impermanence, 'Chōsō,' marks the beginning of the body's return to the elements—a stark reminder that what we cherish in life soon becomes unrecognizable."
   },
   {
+    "slug": "the-rupturing-phase",
     "stage_en": "2",
     "stage_ch": "二",
     "title": "壊相",
@@ -27,6 +30,7 @@
     "descen": "The distended form now yields to further dissolution as the skin—once a boundary between self and world—ruptures and tears. In this 'Esō' phase, the flesh that was so carefully maintained in life begins to lose cohesion. The meditation on this stage reveals how our attachment to bodily integrity is but a temporary illusion."
   },
   {
+    "slug": "the-bloodied-state",
     "stage_en": "3",
     "stage_ch": "三",
     "title": "血塗相",
@@ -36,6 +40,7 @@
     "descen": "From the ruptured vessel flows blood—the vital essence that once sustained life, now returning to the earth. This 'Kechizusō' stage presents the vivid reality of our corporeal nature—the blood that once coursed with life's rhythm now stains the ground, a poignant symbol of the body's surrender to natural processes."
   },
   {
+    "slug": "the-purulent-dissolution",
     "stage_en": "4",
     "stage_ch": "四",
     "title": "膿爛相",
@@ -45,6 +50,7 @@
     "descen": "As decomposition advances, the body begins to liquefy—tissues breaking down into purulent matter that seeps away like a candle melting under flame. This 'Nōransō' stage reveals the impermanent nature of physical form, as what was once solid now flows and dissipates, teaching that even our most concrete perceptions of self are subject to profound transformation."
   },
   {
+    "slug": "the-darkened-discoloration",
     "stage_en": "5",
     "stage_ch": "五",
     "title": "青瘀相",
@@ -54,6 +60,7 @@
     "descen": "The once-familiar flesh now takes on unfamiliar hues—darkening to bluish-black as decay progresses. In this 'Shō'osō' phase, the body's appearance becomes increasingly alien, challenging our attachment to physical beauty and recognition. The meditation on this stage reveals how the qualities we identify with are merely temporary conditions, not our essential nature."
   },
   {
+    "slug": "the-feast-of-beasts",
     "stage_en": "6",
     "stage_ch": "六",
     "title": "噉相",
@@ -63,6 +70,7 @@
     "descen": "Now the body becomes sustenance for other beings—foxes, wolves, and kites contend for portions of what was once zealously protected as 'self.' This 'Tansō' stage illustrates the great cycle of interdependence, as the matter we claim as our own returns to the web of life. The body that was once an object of attachment now nourishes other sentient beings in the continuous flow of existence."
   },
   {
+    "slug": "the-scattering-of-form",
     "stage_en": "7",
     "stage_ch": "七",
     "title": "散相",
@@ -72,6 +80,7 @@
     "descen": "The once-unified form now lies in disarray—head, limbs, and viscera scattered beyond recognition or reassembly. This 'Sansō' phase reveals the ultimate truth of physical impermanence: that which we perceive as a coherent self is merely a temporary arrangement of elements, destined to return to their separate states. The meditation teaches that our conception of bodily integrity is but a fleeting condition."
   },
   {
+    "slug": "the-skeletal-remnants",
     "stage_en": "8",
     "stage_ch": "八",
     "title": "骨相",
@@ -81,6 +90,7 @@
     "descen": "Now only the enduring framework remains—some bones still bearing traces of fat, others bleached white by time and elements. Whether clustered together or scattered by circumstance, these skeletal remnants in the 'Kotsusō' phase represent the most resilient aspects of our physical existence. Yet even these will eventually return to dust, teaching that nothing material, however seemingly permanent, escapes the cycle of transformation."
   },
   {
+    "slug": "the-ashen-culmination",
     "stage_en": "9",
     "stage_ch": "九",
     "title": "焼相",

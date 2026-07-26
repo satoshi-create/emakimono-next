@@ -58,9 +58,9 @@ const Kusouzu = ({ title, titleen, posts, slug }) => {
 };
 
 export const getStaticPaths = async () => {
-  const paths = AllKusouzuChapters.map(({ titleen }) => ({
+  const paths = AllKusouzuChapters.map(({ slug }) => ({
     params: {
-      slug: titleen,
+      slug,
     },
     locale: "ja",
   }));
@@ -73,28 +73,20 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   const kusouzuslugname = context.params.slug;
-  const { locale, locales } = context;
+  const { locale } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
 
   const chapterkusouzu = AllKusouzuChapters.find(
-    (item) => item.titleen === kusouzuslugname
+    (item) => item.slug === kusouzuslugname
   );
 
-  // const filterdEmakisData = tEmakisData.filter((x) => {
-  //   if (x.kusouzuslug) {
-  //     const filterdKusouzuslug = x.kusouzuslug.some(
-  //       (y) => y.id === chapterkusouzu.stage_en
-  //     );
-  //     return filterdKusouzuslug;
-  //   }
-  // });
-  const filterdEmakisData = tEmakisData.filter((item) => {
-    const filterdKusouzuslug = item.emakis.some(
-      (emaki) => emaki.chapter === chapterkusouzu.stage_en
-      // (emaki) => emaki.chapter === chapterkusouzu?.chapter
-    );
-    return filterdKusouzuslug;
-  });
+  if (!chapterkusouzu) {
+    return { notFound: true };
+  }
+
+  const filterdEmakisData = tEmakisData.filter((item) =>
+    item.kusouzuslug?.some((y) => y.id === chapterkusouzu.stage_en)
+  );
 
   const removeNestedArrayObj = filterdEmakisData.map((item) => {
     return removeNestedEmakisObj(item);
