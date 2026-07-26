@@ -12,6 +12,7 @@ import ModalSearch from "@/components/search/ModalSearch";
 import * as gtag from "@/libs/api/gtag";
 import { trackFullscreenEnter, trackFullscreenExit, initEngagementTracking } from "@/libs/api/measurementUtils";
 import ExtractingListData from "@/utils/ExtractingListData";
+import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
 import { useLocaleData } from "@/utils/func";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { config } from "@fortawesome/fontawesome-svg-core";
@@ -145,7 +146,7 @@ function MyApp({ Component, pageProps, router }) {
       data.forEach((item) => {
         // ロケールプレフィックス(/ja/)を除去し、先頭の/を除去してスラグを取得
         const pathName = item.pagePath.replace(/^\/(ja\/)?/, "");
-        if (!pathName) return; // "/" や "/ja" は除外
+        if (!pathName || isWithdrawnScroll(pathName)) return; // "/" や "/ja" は除外
         const pv = Number(item.uniquePageviews) || 0;
         pvMap[pathName] = (pvMap[pathName] || 0) + pv;
       });

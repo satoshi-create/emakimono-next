@@ -274,9 +274,10 @@ function RankingList({ items, startRank, maxPageView, locale }) {
 }
 
 /* ─── メインコンポーネント ─── */
-export default function RankingCard({ isCompact = false }) {
+export default function RankingCard({ isCompact = false, rankingData: rankingDataProp }) {
   const { locale } = useRouter();
-  const { rankingData } = useContext(AppContext);
+  const { rankingData: contextRankingData } = useContext(AppContext);
+  const rankingData = rankingDataProp ?? contextRankingData;
   const [selectedEra, setSelectedEra] = useState(null);
 
   // 時代一覧を抽出

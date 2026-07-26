@@ -134,6 +134,13 @@
     ]
   },
 
+  "ranking": {
+    "pagetitle": "Ranking of EMAKIMONO",
+    "metaDesc": "Browse picture scrolls ranked by popularity. Discover emaki to enjoy through horizontal scrolling on emakimono.com.",
+    "breadcrumb": "Ranking of EMAKIMONO",
+    "sectionTitle": "Ranking of EMAKIMONO"
+  },
+
   "privacy": {
     "pagetitle": "Privacy Policy",
     "metaDesc": "How emakimono.com handles personal and access data.",

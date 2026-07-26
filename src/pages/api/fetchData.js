@@ -1,9 +1,7 @@
-import { BetaAnalyticsDataClient } from "@google-analytics/data";
-
-const propertyId = process.env.GOOGLE_APPLICATION_PROPERTY_ID;
+import { fetchRankingPageViews } from "@/libs/api/fetchRankingPageViews";
 
 export default async function handler(req, res) {
-  if (!process.env.GOOGLE_CREDENTIALS_BASE64 || !propertyId) {
+  if (!process.env.GOOGLE_CREDENTIALS_BASE64 || !process.env.GOOGLE_APPLICATION_PROPERTY_ID) {
     return res.status(500).json({
       statusCode: 500,
       message: "GA4 environment variables are not configured",
@@ -11,50 +9,13 @@ export default async function handler(req, res) {
   }
 
   try {
-    const credentials = JSON.parse(
-      Buffer.from(process.env.GOOGLE_CREDENTIALS_BASE64, "base64").toString(
-        "ascii"
-      )
-    );
-    const analyticsDataClient = new BetaAnalyticsDataClient({ credentials });
-
-    const [response] = await analyticsDataClient.runReport({
-      property: `properties/${propertyId}`,
-
-      dateRanges: [
-        {
-          startDate: "2024-01-01", //取得したい期間を設定
-          endDate: "today",
-        },
-      ],
-      dimensions: [
-        {
-          name: "pagePath",
-        },
-      ],
-      metrics: [
-        {
-          name: "screenPageViews", // PV数を取得
-        },
-      ],
-      orderBys: [
-        {
-          metric: { metricName: "screenPageViews" },
-          desc: true,
-        },
-      ],
-    });
-
-    const rankingData = response.rows.map((row) => ({
-      pagePath: row.dimensionValues[0].value,
-      uniquePageviews: row.metricValues[0].value,
+    const pageViews = await fetchRankingPageViews();
+    const rankingData = pageViews.map(({ pathName, pageView }) => ({
+      pagePath: `/${pathName}`,
+      uniquePageviews: String(pageView),
     }));
-
     res.status(200).json(rankingData);
   } catch (error) {
     res.status(500).json({ statusCode: 500, message: error.message });
   }
 }
-
-// Next.jsのサイトでGA4のデータを取得する
-// https://qiita.com/dende-h/items/bce9066eb19f17bcc9ce

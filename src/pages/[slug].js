@@ -7,6 +7,7 @@ import Head from "@/components/meta/Meta";
 import MiddleNavigation from "@/components/navigation/MiddleNavigation";
 import { default as enData, default as jaData } from "@/data/data";
 import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
+import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
 import { AppContext } from "@/pages/_app";
 import { buildEmakiJsonLd } from "@/utils/buildEmakiJsonLd";
 import { useLocaleMeta } from "@/utils/func";
@@ -176,7 +177,10 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
 };
 
 export const getStaticPaths = async () => {
-  const paths = emakisData.map((item) => ({
+  const activeEmakis = emakisData.filter(
+    (item) => !isWithdrawnScroll(item.titleen)
+  );
+  const paths = activeEmakis.map((item) => ({
     params: {
       slug: item.titleen,
     },
