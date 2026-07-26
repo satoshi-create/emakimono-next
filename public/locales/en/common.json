@@ -152,7 +152,11 @@
     "scrollSectionTitle": "Kusōzu picture scrolls",
     "stageNumber": "Phase {{stage}}",
     "stageScrollCount": "Available in {{count}} scroll(s)",
-    "stageNoScrolls": "No scrolls on this site"
+    "stageNoScrolls": "No scrolls on this site",
+    "linkLabel": "Nine Stages of Decay — Hub",
+    "linkDesc": "Explore the ten phases and scrolls on emakimono.com",
+    "otherScrollsTitle": "Other kusōzu scrolls",
+    "hubNudgeLabel": "View kusōzu hub (ten phases)"
   },
 
   "privacy": {

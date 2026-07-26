@@ -7,10 +7,12 @@ import SourceAttribution from "@/components/emaki/metadata/SourceAttribution";
 import LikeButton from "@/components/emaki/metadata/LikeButton";
 import RecommendEmaki from "@/components/emaki/ranking/RecommendEmaki";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
+import KusouzuHubLink from "@/components/emaki/kusouzu/KusouzuHubLink";
 import Footer from "@/components/layout/Footer";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/EmakiPortraitContent.module.css";
 import ExtractingListData from "@/utils/ExtractingListData";
+import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import {
   eraColor,
   filterdKeywords,
@@ -25,12 +27,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useMemo } from "react";
+import { useTranslation } from "next-i18next";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const { handleFullScreen, rankingData } = useContext(AppContext);
 
   const { locale } = useRouter();
   const { t: alldata } = useLocaleData();
+  const { t } = useTranslation("common");
 
   const {
     type,
@@ -87,8 +91,9 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     (item) => item.title === title && item.edition !== edition
   );
   const LinksToKusouzu = alldata.filter(
-    (item) => item.title.includes("九相") && item.title !== title
+    (item) => isKusouzuScroll(item) && item.titleen !== titleen
   );
+  const isKusouzu = isKusouzuScroll(data);
   const ekotobaIndices = emakis
     .map((item, i) => (item.cat === "ekotoba" ? i : -1))
     .filter((i) => i >= 0);
@@ -109,8 +114,9 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
         height={"var(--vh-45)"}
         editionLinks={[
           ...editionLinks,
-          ...(title.includes("九相") ? LinksToKusouzu : []),
+          ...(isKusouzu ? LinksToKusouzu : []),
         ]}
+        showKusouzuHubLink={isKusouzu}
       />
       <div className={`${styles.wrapper} section-grid`}>
         <div className={styles.container}>
@@ -171,13 +177,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             <div className={styles.desc}>
               {locale === "en" ? parse(descEn) : parse(descJa)}
             </div>
-            {/* {genjieslug && (
-              <div className={`${styles.genjieslugBox}`}>
-                <Link href={`/genjie/chapters-genji`}>
-                  <a className={styles.genjieslugTitle}>源氏物語54帖一覧</a>
-                </Link>
-              </div>
-            )} */}
+            {isKusouzu && <KusouzuHubLink variant="tag" />}
 
             {!kotobagaki && (
               <>
@@ -256,21 +256,34 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                 />
               </>
             )}
-            {title.includes("九相") && (
+            {isKusouzu && (
               <>
                 <h4
                   className={styles.metaBtitle}
                   style={{
-                    "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
+                    "--border-color": eraColor(era) || "black",
                   }}
                 >
-                  {locale == "en" ? "View Other Scrolls" : "他の巻を見る"}
+                  {t("kusouzuHub.linkLabel")}
                 </h4>
-                <EditionLinks
-                  title={title}
-                  edition={edition}
-                  editionLinks={LinksToKusouzu}
-                />
+                <KusouzuHubLink variant="banner" />
+                {LinksToKusouzu.length > 0 && (
+                  <>
+                    <h4
+                      className={styles.metaBtitle}
+                      style={{
+                        "--border-color": eraColor(era) || "black",
+                      }}
+                    >
+                      {t("kusouzuHub.otherScrollsTitle")}
+                    </h4>
+                    <EditionLinks
+                      title={title}
+                      edition={edition}
+                      editionLinks={LinksToKusouzu}
+                    />
+                  </>
+                )}
               </>
             )}
             {/* 登場人物 */}

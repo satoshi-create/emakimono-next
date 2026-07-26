@@ -152,7 +152,11 @@
     "scrollSectionTitle": "九相図の絵巻",
     "stageNumber": "第{{stage}}相",
     "stageScrollCount": "{{count}}巻で鑑賞可",
-    "stageNoScrolls": "収録絵巻なし"
+    "stageNoScrolls": "収録絵巻なし",
+    "linkLabel": "九相図一覧（十相）",
+    "linkDesc": "十相の解説と、各相が描かれた絵巻一覧へ",
+    "otherScrollsTitle": "他の九相図絵巻",
+    "hubNudgeLabel": "九相図一覧（十相）を見る"
   },
 
   "privacy": {

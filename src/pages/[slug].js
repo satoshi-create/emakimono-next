@@ -10,15 +10,18 @@ import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
 import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
 import { AppContext } from "@/context/AppContext";
 import { buildEmakiJsonLd } from "@/utils/buildEmakiJsonLd";
+import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { useLocaleMeta } from "@/utils/func";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useRef } from "react";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
 const Emaki = ({ data, locale, locales, slug, test }) => {
   const { t } = useLocaleMeta();
+  const { t: tc } = useTranslation("common");
   const { defaultLocale } = useRouter();
   const selectedRef = useRef(null);
   const {
@@ -87,18 +90,31 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
 
   // 教育現場向けUI: 巻末ナッジ用 - 兄弟巻の取得
   const alldata = locale === "en" ? enData : jaData;
+  const isKusouzu = isKusouzuScroll(data);
   const editionLinksForFullscreen = [
     ...(data.edition
       ? alldata.filter(
           (item) => item.title === data.title && item.edition !== data.edition
         )
       : []),
-    ...(data.title && data.title.includes("九相")
+    ...(isKusouzu
       ? alldata.filter(
-          (item) => item.title.includes("九相") && item.title !== data.title
+          (item) => isKusouzuScroll(item) && item.titleen !== data.titleen
         )
       : []),
   ];
+
+  const breadcrumbProps = isKusouzu
+    ? {
+        nameHub: tc("kusouzuHub.breadcrumb"),
+        nameHubPath: "kusouzu/chapters-kusouzu",
+        nameB: locale === "en" ? data.titleen : data.title,
+      }
+    : {
+        nameA: locale === "en" ? data.typeen : data.type,
+        nameAen: `type/${data.typeen}`,
+        nameB: locale === "en" ? data.titleen : data.title,
+      };
 
   const matchMediaContainer = (full, ori) => {
     if (full && ori === "landscape") {
@@ -112,6 +128,7 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
             navIndex={navIndex}
             height={"var(--vh-100)"}
             editionLinks={editionLinksForFullscreen}
+            showKusouzuHubLink={isKusouzu}
           />
         </>
       );
@@ -119,11 +136,7 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
       return (
         <>
           <EmakiHeader />
-          <EmakiBreadcrumbs
-            nameA={locale === "en" ? data.typeen : data.type}
-            nameAen={`type/${data.typeen}`}
-            nameB={locale === "en" ? data.titleen : data.title}
-          />
+          <EmakiBreadcrumbs {...breadcrumbProps} />
           <EmakiLandscapContent
             data={{ ...data }}
             scroll={true}
@@ -136,12 +149,7 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
       return (
         <>
           <EmakiHeader />
-          <EmakiBreadcrumbs
-            orientation={orientation}
-            nameA={locale === "en" ? data.typeen : data.type}
-            nameAen={`type/${data.typeen}`}
-            nameB={locale === "en" ? data.titleen : data.title}
-          />
+          <EmakiBreadcrumbs orientation={orientation} {...breadcrumbProps} />
           <EmakiPortraitContent
             data={data}
             scroll={true}

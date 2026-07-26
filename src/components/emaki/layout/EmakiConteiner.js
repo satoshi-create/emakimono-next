@@ -23,6 +23,8 @@ import { IconButton, Tooltip, useBreakpointValue } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import Image from "next/image";
+import { HUB_PATH } from "@/components/emaki/kusouzu/KusouzuHubLink";
+import nudgeStyles from "@/styles/KusouzuHubLink.module.css";
 import { useRouter } from "next/router";
 import {
   trackAutoScrollStarted,
@@ -73,6 +75,7 @@ const EmakiContainer = ({
   selectedRef,
   navIndex,
   editionLinks = [],
+  showKusouzuHubLink = false,
 }) => {
   const {
     isModalOpen,
@@ -111,7 +114,7 @@ const EmakiContainer = ({
 
   // 教育現場向けUI: 巻末ナッジ（次巻が存在する場合のみ）
   // 巻末到達中に他の巻へのカードを表示し、「続きがある」ことを伝える
-  const hasNextVolume = editionLinks.length > 0;
+  const hasNextVolume = editionLinks.length > 0 || showKusouzuHubLink;
 
   // 教育現場向けUI: 再生モード（ユーザー任意の自動スクロール）
   // 初回ナッジ（isAutoScrolling）とは独立した状態として管理
@@ -1103,6 +1106,15 @@ const EmakiContainer = ({
                   gap: "1px",
                 }}
               >
+                {showKusouzuHubLink && (
+                  <Link href={HUB_PATH}>
+                    <a className={nudgeStyles.nudge}>
+                      <span className={nudgeStyles.nudgeLabel}>
+                        {t("kusouzuHub.hubNudgeLabel")}
+                      </span>
+                    </a>
+                  </Link>
+                )}
                 {editionLinks.map((item, i) => (
                   <Link key={i} href={`/${item.titleen}`}>
                     <a

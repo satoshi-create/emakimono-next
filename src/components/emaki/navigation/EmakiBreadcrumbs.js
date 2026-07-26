@@ -1,7 +1,14 @@
 import styles from "@/styles/EmakiBreadcrumbs.module.css";
 import Link from "next/link";
 
-const EmakiBreadcrumbs = ({ nameA, nameAen, nameB, orientation }) => {
+const EmakiBreadcrumbs = ({
+  nameA,
+  nameAen,
+  nameHub,
+  nameHubPath,
+  nameB,
+  orientation,
+}) => {
   return (
     <section
       className={`${orientation === "portrait" && styles.prt}  ${
@@ -13,11 +20,18 @@ const EmakiBreadcrumbs = ({ nameA, nameAen, nameB, orientation }) => {
           <a>home</a>
         </Link>
 
-        {nameA && (
+        {nameHub ? (
           <>
             <span>{">"}</span>
-            <Link href={`/${nameAen}`}>{nameA}</Link>
+            <Link href={`/${nameHubPath}`}>{nameHub}</Link>
           </>
+        ) : (
+          nameA && (
+            <>
+              <span>{">"}</span>
+              <Link href={`/${nameAen}`}>{nameA}</Link>
+            </>
+          )
         )}
 
         <span> {">"} </span>
