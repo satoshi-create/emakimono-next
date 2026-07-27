@@ -8,6 +8,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  /* 全画面時: ボタン列がビューポート幅を超えないよう制限 */
+  max-width: calc(
+    100vw - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px) -
+      2rem
+  );
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
 }
 
 .prt {

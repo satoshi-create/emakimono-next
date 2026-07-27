@@ -24,8 +24,14 @@ const MiddleNavigation = ({ title, titleen, edition, author }) => {
   const bgColor = useColorModeValue("white", "gray.800");
   const iconColor = useColorModeValue("gray.600", "gray.300");
 
-  const { stickyClass, setStickyClass, openModal, setisModalOpen, rankingData } =
-    useContext(AppContext);
+  const {
+    stickyClass,
+    setStickyClass,
+    openModal,
+    setisModalOpen,
+    rankingData,
+    toggleFullscreen,
+  } = useContext(AppContext);
 
   // ランキング順位・閲覧数を検索
   const rankInfo = useMemo(() => {
@@ -49,8 +55,8 @@ const MiddleNavigation = ({ title, titleen, edition, author }) => {
   // 画面幅が768px以上かを判定
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
-  // 幅768px以上の場合は何もレンダリングしない
-  if (isLargerThan768) return null;
+  // 幅768px以上、または絵巻全画面表示中は非表示
+  if (isLargerThan768 || toggleFullscreen) return null;
 
   const styles = {
     container: {

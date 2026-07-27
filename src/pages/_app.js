@@ -319,6 +319,7 @@ function MyApp({ Component, pageProps, router }) {
         }
 
         // console.log("Entered fullscreen");
+        document.documentElement.classList.add("fullscreen-enabled");
         setToggleFullscreen(true);
 
         // 計測: フルスクリーン開始
@@ -340,6 +341,7 @@ function MyApp({ Component, pageProps, router }) {
         }
 
         // console.log("Exited fullscreen");
+        document.documentElement.classList.remove("fullscreen-enabled");
         setToggleFullscreen(false);
 
         // 計測: フルスクリーン終了（ボタン操作）
@@ -364,6 +366,12 @@ function MyApp({ Component, pageProps, router }) {
       // ブラウザの実際のフルスクリーン状態を取得（Single Source of Truth）
       const isActuallyFullscreen =
         !!document.fullscreenElement || !!document.webkitFullscreenElement;
+
+      // 全画面用 CSS クラス（article サイズ・overflow 制御）
+      document.documentElement.classList.toggle(
+        "fullscreen-enabled",
+        isActuallyFullscreen
+      );
 
       // 計測: ESC/ブラウザ主導のフルスクリーン終了
       // ボタン操作での終了は handleFullScreen で計測済みなのでスキップ

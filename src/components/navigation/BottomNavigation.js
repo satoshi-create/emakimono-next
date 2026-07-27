@@ -13,7 +13,7 @@ import { FaCrown, FaHome, FaScroll, FaSearch } from "react-icons/fa";
 const BottomNavigation = () => {
   const { locale } = useRouter();
   const [activeMenu, setActiveMenu] = useState(null);
-  const { stickyClass, openSearchModalOpen, closeSearchModal } =
+  const { stickyClass, openSearchModalOpen, closeSearchModal, toggleFullscreen } =
     useContext(AppContext);
 
   const bgColor = useColorModeValue("white", "gray.800");
@@ -62,8 +62,8 @@ const BottomNavigation = () => {
     openSearchModalOpen();
   };
 
-  // 幅768px以上の場合は何もレンダリングしない
-  if (isLargerThan768) return null;
+  // 幅768px以上、または絵巻全画面表示中は非表示
+  if (isLargerThan768 || toggleFullscreen) return null;
 
   const styles = {
     container: {

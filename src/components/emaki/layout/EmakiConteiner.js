@@ -110,6 +110,8 @@ const EmakiContainer = ({
   // 教育現場向けUI: スクロール端点の状態管理（操作手段に依存しない）
   const [isAtStart, setIsAtStart] = useState(true); // 開始位置（右端）にいるか
   const [isAtEnd, setIsAtEnd] = useState(false); // 終了位置（左端）にいるか
+  const isAtStartRef = useRef(true); // scroll ハンドラ再登録回避用
+  const isAtEndRef = useRef(false);
   const [isAutoScrolling, setIsAutoScrolling] = useState(false); // 自動スクロール中か（初回ナッジ用）
 
   // 教育現場向けUI: 巻末ナッジ（次巻が存在する場合のみ）
@@ -421,11 +423,18 @@ const EmakiContainer = ({
           Math.abs(currentScrollX) >= maxScrollLeft - SCROLL_MARGIN);
 
       // 状態更新（変化がある場合のみ）
-      if (atStart !== isAtStart) {
-        setIsAtStart(atStart);
+      // 自動再生中は setState を抑制（リスナー再登録・再レンダーによるカクつき防止）
+      if (atStart !== isAtStartRef.current) {
+        isAtStartRef.current = atStart;
+        if (!isAutoPlay) {
+          setIsAtStart(atStart);
+        }
       }
-      if (atEnd !== isAtEnd) {
-        setIsAtEnd(atEnd);
+      if (atEnd !== isAtEndRef.current) {
+        isAtEndRef.current = atEnd;
+        if (!isAutoPlay) {
+          setIsAtEnd(atEnd);
+        }
       }
 
       // 絵巻ハイパーリンク: 自動再生中のシーン検出（800ms間隔）
@@ -457,7 +466,7 @@ const EmakiContainer = ({
         clearTimeout(sceneDetectionTimerRef.current);
       }
     };
-  }, [isAtStart, isAtEnd, detectCurrentScene, isAutoScrolling, data.id]);
+  }, [detectCurrentScene, isAutoScrolling, data.id]);
 
   // 教育現場向けUI: 巻末ナッジ
   // isAtEnd 中は他巻カードを表示、離れると非表示
@@ -480,49 +489,55 @@ const EmakiContainer = ({
       return;
     }
 
-    // 新しいトグル時に restored フラグをリセット
-    // これにより2回目以降のトグルでも復元が実行される
     scrollPositionStore.restored = false;
-
-    // 復元中フラグを立てる（スクロールイベントによる上書きを防止）
     scrollPositionStore.isTransitioning = true;
 
-    // スクロール位置を復元する関数
     const restoreScrollPosition = () => {
-      // 既に復元済みならスキップ（複数回の復元によるジャンプ防止）
       if (scrollPositionStore.restored) return;
 
       const scrollWidth = el.scrollWidth;
       const clientWidth = el.clientWidth;
       const maxScrollLeft = scrollWidth - clientWidth;
 
-      // ビューポートサイズが確定していない場合はスキップ
       if (maxScrollLeft <= 0) return;
 
       if (scrollPositionStore.scrollRatio > 0) {
-        const newScrollLeft = -(scrollPositionStore.scrollRatio * maxScrollLeft);
-        el.scrollTo({ left: newScrollLeft, behavior: "auto" });
+        el.scrollLeft = -(scrollPositionStore.scrollRatio * maxScrollLeft);
         scrollPositionStore.restored = true;
+        scrollPositionStore.isTransitioning = false;
       }
     };
 
-    // ブラウザのレイアウト再計算タイミングに対応するため複数回試行
-    const timer1 = setTimeout(restoreScrollPosition, 100);
-    const timer2 = setTimeout(restoreScrollPosition, 250);
-    const timer3 = setTimeout(restoreScrollPosition, 400);
+    // レイアウト確定後に1回だけ復元（複数 setTimeout によるジャンプを防止）
+    const rafId = requestAnimationFrame(() => {
+      requestAnimationFrame(restoreScrollPosition);
+    });
 
-    // 復元完了後にフラグを解除（500ms後）
-    const transitionTimer = setTimeout(() => {
+    const ro = new ResizeObserver(() => {
+      if (!scrollPositionStore.restored) {
+        restoreScrollPosition();
+      }
+    });
+    ro.observe(el);
+
+    const fallbackTimer = setTimeout(() => {
+      restoreScrollPosition();
       scrollPositionStore.isTransitioning = false;
-    }, 500);
+    }, 300);
 
     return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-      clearTimeout(timer3);
-      clearTimeout(transitionTimer);
+      cancelAnimationFrame(rafId);
+      ro.disconnect();
+      clearTimeout(fallbackTimer);
+      scrollPositionStore.isTransitioning = false;
     };
   }, [toggleFullscreen, data.id]);
+
+  // 全画面切替でビューポートサイズが変わるためシーン検出キャッシュを無効化
+  useEffect(() => {
+    sectionsCacheRef.current = null;
+    scrollDimsRef.current = { w: 0, c: 0, ts: 0 };
+  }, [toggleFullscreen]);
 
   // 教育現場向けUI: 初回表示時のみ、横スクロール可能性を
   // 緩やかな自動スクロールで認知させるナッジ（操作説明なし）
@@ -558,9 +573,6 @@ const EmakiContainer = ({
       const originalScrollBehavior = el.style.scrollBehavior;
       el.style.scrollBehavior = "auto";
 
-      // スクロール可能な最小値（左端）
-      const minScrollLeft = -(el.scrollWidth - el.clientWidth);
-
       const stopAutoScroll = (interruptMethod = null) => {
         if (stopped) return;
         stopped = true;
@@ -577,6 +589,10 @@ const EmakiContainer = ({
         // 教育現場向けUI: 自動スクロール停止を通知
         // これにより「戻る」ボタンが表示可能になる
         setIsAutoScrolling(false);
+
+        // 自動再生中に抑制していた端点 state を同期
+        setIsAtStart(isAtStartRef.current);
+        setIsAtEnd(isAtEndRef.current);
 
         // スクロール停止を通知（自動再生中はタイマーをスキップしているため明示的にリセット）
         isScrollingRef.current = false;
@@ -602,13 +618,15 @@ const EmakiContainer = ({
         const currentScrollLeft = el.scrollLeft;
         const newScrollLeft = currentScrollLeft - scrollSpeed;
 
-        // スクロール範囲の端（左端）に到達したら停止
+        // スクロール範囲の端（左端）に到達したら停止（毎フレーム再計算）
+        const minScrollLeft = -(el.scrollWidth - el.clientWidth);
+
         if (newScrollLeft < minScrollLeft) {
           stopAutoScroll();
           return;
         }
 
-        el.scrollTo({ left: newScrollLeft, behavior: "auto" });
+        el.scrollLeft = newScrollLeft;
         animationId = requestAnimationFrame(autoScroll);
       };
 
@@ -618,7 +636,7 @@ const EmakiContainer = ({
       el.addEventListener("touchstart", handleTouchstart, { once: true });
       document.addEventListener("click", handleClick, { once: true });
 
-      // 初期描画後に自動スクロール開始（0.5秒遅延）
+      // 初期描画・レイアウト確定後に自動スクロール開始
       const timerId = setTimeout(() => {
         // 絵巻ハイパーリンク: ナッジ開始直前に再度hashをチェック
         // SSG/hydration完了後にhashが正しく取得できるようになるため
@@ -639,7 +657,14 @@ const EmakiContainer = ({
           trackAutoScrollStarted(data.id, getDeviceType());
 
           sessionStorage.setItem(keyName, true);
-          animationId = requestAnimationFrame(autoScroll);
+
+          // レイアウト確定を待ってから開始（画像 decode 前の scrollWidth 変動を軽減）
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              if (stopped) return;
+              animationId = requestAnimationFrame(autoScroll);
+            });
+          });
         }
       }, 500);
 
@@ -686,9 +711,6 @@ const EmakiContainer = ({
     const originalScrollBehavior = el.style.scrollBehavior;
     el.style.scrollBehavior = "auto";
 
-    // スクロール可能な最小値（左端）
-    const minScrollLeft = -(el.scrollWidth - el.clientWidth);
-
     const playScroll = () => {
       // 停止されていたら終了（refがnullなら停止済み）
       if (playModeAnimationRef.current === null) {
@@ -699,16 +721,20 @@ const EmakiContainer = ({
       const currentScrollLeft = el.scrollLeft;
       const newScrollLeft = currentScrollLeft - scrollSpeed;
 
-      // スクロール範囲の端（左端）に到達したら停止
+      // スクロール範囲の端（左端）に到達したら停止（毎フレーム再計算）
+      const minScrollLeft = -(el.scrollWidth - el.clientWidth);
+
       if (newScrollLeft < minScrollLeft) {
         setIsPlayMode(false);
         setIsUIVisible(true); // UI復帰
+        setIsAtStart(isAtStartRef.current);
+        setIsAtEnd(isAtEndRef.current);
         el.style.scrollBehavior = originalScrollBehavior;
         playModeAnimationRef.current = null;
         return;
       }
 
-      el.scrollTo({ left: newScrollLeft, behavior: "auto" });
+      el.scrollLeft = newScrollLeft;
       playModeAnimationRef.current = requestAnimationFrame(playScroll);
     };
 
@@ -751,6 +777,8 @@ const EmakiContainer = ({
       if (el) {
         scrollPositionStore.isTransitioning = true;
         el.scrollTo({ left: 0, behavior: "auto" });
+        isAtStartRef.current = true;
+        isAtEndRef.current = false;
         setIsAtStart(true);
         setIsAtEnd(false);
         lastDetectedSceneRef.current = 0;
@@ -890,17 +918,16 @@ const EmakiContainer = ({
       <div
         className="js-scrollable entry-container"
         style={{
-          // 角丸クリップ: 外側ラッパーで一括管理（スクロールバー領域も含めてクリップ）
+          // 角丸クリップ: 通常表示時のみ（全画面時は overflow で UI はみ出しを防止）
           borderRadius:
             orientation === "landscape" &&
             scroll &&
             toggleFullscreen === false &&
             "12px",
           overflow:
-            orientation === "landscape" &&
-            scroll &&
-            toggleFullscreen === false &&
-            "hidden",
+            orientation === "landscape" && scroll && "hidden",
+          width: toggleFullscreen ? "100%" : undefined,
+          height: toggleFullscreen ? "100%" : undefined,
           position: "relative", // 子要素の絶対配置の基準点
         }}
       >

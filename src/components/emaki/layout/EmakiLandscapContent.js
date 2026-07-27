@@ -29,7 +29,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useMemo } from "react";
 
-const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
+const EmakiLandscapContent = ({
+  data,
+  selectedRef,
+  navIndex,
+  articleRef,
+  viewerFullscreen = false,
+}) => {
   const { handleFullScreen, rankingData } = useContext(AppContext);
   const { emakis } = data;
   const { locale } = useRouter();
@@ -109,8 +115,14 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
 
   return (
     <>
-      <div className={`emaki-page-landscape-grid`}>
-        <div className={styles.wrapper}>
+      <div
+        className={
+          viewerFullscreen ? styles.fullscreenShell : "emaki-page-landscape-grid"
+        }
+      >
+        <div
+          className={viewerFullscreen ? styles.fullscreenViewer : styles.wrapper}
+        >
           <EmakiConteiner
             key={data.id}
             data={{ ...data }}
@@ -119,13 +131,15 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
             navIndex={navIndex}
             articleRef={articleRef}
             overflowX={"scroll"}
-            height={"var(--vh-75)"}
+            height={viewerFullscreen ? "var(--vh-100)" : "var(--vh-75)"}
             editionLinks={[
               ...editionLinks,
               ...(isKusouzu ? LinksToKusouzu : []),
             ]}
             showKusouzuHubLink={isKusouzu}
           />
+          {!viewerFullscreen && (
+            <>
           <div className={`${styles.chapter} scrollbar`}>
             <h4 className={styles.chapterTitle}>
               {/* {typeen === "emaki" ? "段タイトル" : "タイトル"} */}
@@ -420,9 +434,11 @@ const EmakiLandscapContent = ({ data, selectedRef, navIndex, articleRef }) => {
           </div>
           {/* <RankingCard /> */}
           <ToContactForm />
+            </>
+          )}
         </div>
       </div>
-      <Footer />
+      {!viewerFullscreen && <Footer />}
     </>
   );
 };

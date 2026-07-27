@@ -1,12 +1,11 @@
-import EmakiConteiner from "@/components/emaki/layout/EmakiConteiner";
 import EmakiHeader from "@/components/emaki/layout/EmakiHeader";
 import EmakiLandscapContent from "@/components/emaki/layout/EmakiLandscapContent";
 import EmakiPortraitContent from "@/components/emaki/layout/EmakiPortraitContent";
 import EmakiBreadcrumbs from "@/components/emaki/navigation/EmakiBreadcrumbs";
 import Head from "@/components/meta/Meta";
 import MiddleNavigation from "@/components/navigation/MiddleNavigation";
-import { default as enData, default as jaData } from "@/data/data";
 import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
+import { default as enData, default as jaData } from "@/data/data";
 import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
 import { AppContext } from "@/context/AppContext";
 import { buildEmakiJsonLd } from "@/utils/buildEmakiJsonLd";
@@ -88,21 +87,8 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
     typeSlug: data.typeen,
   });
 
-  // 教育現場向けUI: 巻末ナッジ用 - 兄弟巻の取得
-  const alldata = locale === "en" ? enData : jaData;
+  // 教育現場向けUI: 巻末ナッジ用 - 兄弟巻は EmakiLandscapContent 内で取得
   const isKusouzu = isKusouzuScroll(data);
-  const editionLinksForFullscreen = [
-    ...(data.edition
-      ? alldata.filter(
-          (item) => item.title === data.title && item.edition !== data.edition
-        )
-      : []),
-    ...(isKusouzu
-      ? alldata.filter(
-          (item) => isKusouzuScroll(item) && item.titleen !== data.titleen
-        )
-      : []),
-  ];
 
   const breadcrumbProps = isKusouzu
     ? {
@@ -117,31 +103,17 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
       };
 
   const matchMediaContainer = (full, ori) => {
-    if (full && ori === "landscape") {
+    if (ori === "landscape") {
       return (
         <>
-          <EmakiConteiner
-            key={data.id}
-            data={{ ...data }}
-            scroll={true}
-            selectedRef={selectedRef}
-            navIndex={navIndex}
-            height={"var(--vh-100)"}
-            editionLinks={editionLinksForFullscreen}
-            showKusouzuHubLink={isKusouzu}
-          />
-        </>
-      );
-    } else if (ori === "landscape") {
-      return (
-        <>
-          <EmakiHeader />
-          <EmakiBreadcrumbs {...breadcrumbProps} />
+          {!full && <EmakiHeader />}
+          {!full && <EmakiBreadcrumbs {...breadcrumbProps} />}
           <EmakiLandscapContent
             data={{ ...data }}
             scroll={true}
             selectedRef={selectedRef}
             navIndex={navIndex}
+            viewerFullscreen={full}
           />
         </>
       );
