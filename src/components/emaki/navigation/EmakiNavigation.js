@@ -3,6 +3,7 @@ import {
   faAnglesLeft,
   faAnglesRight,
   faCircleQuestion,
+  faCommentDots,
   faPlay,
   faStop,
 } from "@fortawesome/free-solid-svg-icons";
@@ -29,6 +30,8 @@ const EmakiNavigation = ({
   isAutoScrolling = false,
   onStartPlayMode,
   onStopPlayMode,
+  onOpenScrollFeedback,
+  showScrollFeedbackButton = true,
 }) => {
   const { character, ebiki } = data;
   const endIndex = data.emakis.length - 1;
@@ -75,6 +78,17 @@ const EmakiNavigation = ({
         onClick={openHelpModal}
         isUIVisible={isUIVisible}
       />
+      {showScrollFeedbackButton && onOpenScrollFeedback && (
+        <ActionButton
+          icon={
+            <FontAwesomeIcon icon={faCommentDots} style={{ fontSize: "1.35em" }} />
+          }
+          label={t("scrollFeedback.buttonLabel")}
+          description={t("scrollFeedback.buttonLabel")}
+          onClick={onOpenScrollFeedback}
+          isUIVisible={isUIVisible}
+        />
+      )}
       {/* 教育現場向けUI: 再生/停止ボタン - 状態に応じて切り替え */}
       {/* 再生モード中または初回ナッジ中は停止ボタンを表示 */}
       {(isPlayMode || isAutoScrolling) ? (

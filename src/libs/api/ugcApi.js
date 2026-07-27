@@ -39,11 +39,23 @@ export async function postSceneLike({ emakiId, sceneIndex, action }) {
   }
 }
 
-export async function postFeedback({ message, pageUrl, emakiId, locale }) {
-  const res = await fetch("/api/feedback", {
+export async function postScrollFeedback({
+  emakiId,
+  choice,
+  sceneIndex,
+  scrollRatio,
+  locale,
+}) {
+  const res = await fetch("/api/feedback/scroll", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message, pageUrl, emakiId, locale }),
+    body: JSON.stringify({
+      emakiId,
+      choice,
+      sceneIndex,
+      scrollRatio,
+      locale,
+    }),
   });
 
   const data = await res.json().catch(() => ({}));

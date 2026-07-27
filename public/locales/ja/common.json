@@ -88,13 +88,22 @@
     "nativeDesc": "アプリで共有"
   },
 
-  "feedbackForm": {
-    "title": "ご意見・ご要望",
-    "placeholder": "サイトへのご意見や改善提案をお書きください",
-    "submit": "送信する",
-    "cancel": "キャンセル",
-    "success": "送信しました。ありがとうございます。",
-    "error": "送信に失敗しました"
+  "scrollFeedback": {
+    "buttonLabel": "スクロール体験",
+    "prompt": "スクロール体験はいかがでしたか？",
+    "endPrompt": "巻末までご覧になりました。体験を教えてください",
+    "open": "回答する",
+    "close": "閉じる",
+    "dismiss": "閉じる",
+    "thanks": "ありがとうございます",
+    "error": "送信に失敗しました",
+    "choices": {
+      "smooth": "スクロールが快適",
+      "laggy": "動きが重い",
+      "hard_to_read": "絵や文字が見づらい",
+      "confusing": "操作がわかりにくい",
+      "great": "とてもよい"
+    }
   },
 
   "legal": {

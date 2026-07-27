@@ -1,0 +1,117 @@
+/**
+ * ScrollFeedbackPanel.module.css
+ * HelpModal と同系統の軽量パネル（絵巻閲覧文脈を維持）
+ */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 450;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 18vh;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  z-index: -1;
+}
+
+.modal {
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 16px;
+  padding: 1.25rem 1.25rem 1rem;
+  max-width: 360px;
+  width: 88%;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.2s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.closeBtn {
+  position: absolute;
+  top: 0.625rem;
+  right: 0.625rem;
+  background: none;
+  border: none;
+  font-size: 1.125rem;
+  cursor: pointer;
+  color: #666;
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
+  border-radius: 4px;
+}
+
+.closeBtn:hover {
+  opacity: 0.5;
+}
+
+.title {
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--clr-text-muted);
+  margin: 0 0 0.75rem 0;
+  text-align: center;
+  padding-inline: 1.5rem;
+}
+
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.choiceBtn {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  text-align: left;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--clr-text);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.choiceBtn:hover:not(:disabled) {
+  background: rgba(255, 140, 100, 0.08);
+  border-color: rgba(255, 140, 100, 0.35);
+}
+
+.choiceBtn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.thanks {
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  color: var(--clr-text-muted);
+  text-align: center;
+  padding: 1rem 0.5rem;
+}
+
+.error {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: #c53030;
+  text-align: center;
+  margin-top: 0.5rem;
+}

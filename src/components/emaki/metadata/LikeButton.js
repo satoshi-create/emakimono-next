@@ -1,4 +1,3 @@
-import postMessage from "@/libs/api/discord";
 import { postEmakiLike } from "@/libs/api/ugcApi";
 import * as gtag from "@/libs/api/gtag";
 import styles from "@/styles/LikeButton.module.css";
@@ -9,20 +8,11 @@ const LikeButton = ({ title, titleen, edition, author, ort }) => {
   const [isDisplay, setIsDisplay] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false); // アニメーション状態を管理
 
-  const message =
-    `${title == undefined ? "" : title}` +
-    "（" +
-    `${edition == undefined ? "" : edition}` +
-    `${author == undefined ? "" : author}` +
-    "）" +
-    "がいいねされました";
-
   const postLike = () => {
     if (!hasAnimated) {
       setIsDisplay(true);
       setHasAnimated(true);
       postEmakiLike(titleen);
-      postMessage(message);
 
       gtag.event("like_emaki", {
         emaki_title: title,

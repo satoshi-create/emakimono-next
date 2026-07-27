@@ -6,7 +6,6 @@
  * Related: EmakiConteiner.js (consumer), measurementUtils.js (events).
  * Edit targeted blocks only — do not split this file without a plan.
  */
-import FeedbackModal from "@/components/ui/FeedbackModal";
 import BottomNavigation from "@/components/navigation/BottomNavigation";
 import { resetScrollPositionStore } from "@/components/emaki/layout/EmakiConteiner";
 import ModalSearch from "@/components/search/ModalSearch";
@@ -110,7 +109,6 @@ function MyApp({ Component, pageProps, router }) {
   const [showData, setShowdData] = useState(emakisData);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-  const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [windowHeight, setWindowHeight] = useState(0);
@@ -248,14 +246,6 @@ function MyApp({ Component, pageProps, router }) {
 
   const closeHelpModal = () => {
     setIsHelpModalOpen(false);
-  };
-
-  const openFeedbackModal = () => {
-    setIsFeedbackModalOpen(true);
-  };
-
-  const closeFeedbackModal = () => {
-    setIsFeedbackModalOpen(false);
   };
 
   useEffect(() => {
@@ -624,9 +614,6 @@ function MyApp({ Component, pageProps, router }) {
         isHelpModalOpen,
         openHelpModal,
         closeHelpModal,
-        isFeedbackModalOpen,
-        openFeedbackModal,
-        closeFeedbackModal,
       }}
     >
       {/* google analytics */}
@@ -648,7 +635,6 @@ function MyApp({ Component, pageProps, router }) {
           <Component {...pageProps} />
         </div>
         {isSearchModalOpen && <ModalSearch />}
-        <FeedbackModal />
         <BottomNavigation />
       </ChakraProvider>
     </AppContext.Provider>

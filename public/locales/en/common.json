@@ -88,13 +88,22 @@
     "nativeDesc": "Share via apps"
   },
 
-  "feedbackForm": {
-    "title": "Feedback",
-    "placeholder": "Share your suggestions or report an issue",
-    "submit": "Send",
-    "cancel": "Cancel",
-    "success": "Thank you — your feedback was sent.",
-    "error": "Could not send feedback"
+  "scrollFeedback": {
+    "buttonLabel": "Scroll experience",
+    "prompt": "How was the scrolling experience?",
+    "endPrompt": "You reached the end. Tell us how it felt",
+    "open": "Respond",
+    "close": "Close",
+    "dismiss": "Dismiss",
+    "thanks": "Thank you",
+    "error": "Could not send feedback",
+    "choices": {
+      "smooth": "Smooth scrolling",
+      "laggy": "Feels laggy",
+      "hard_to_read": "Hard to read",
+      "confusing": "Confusing controls",
+      "great": "Great experience"
+    }
   },
 
   "legal": {

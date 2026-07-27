@@ -1,4 +1,10 @@
-import { integer, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
+import {
+  integer,
+  real,
+  sqliteTable,
+  text,
+  uniqueIndex,
+} from "drizzle-orm/sqlite-core";
 
 export const emakiLikes = sqliteTable(
   "emaki_likes",
@@ -38,12 +44,14 @@ export const sceneLikes = sqliteTable(
   })
 );
 
-export const feedback = sqliteTable("feedback", {
+export const scrollFeedback = sqliteTable("scroll_feedback", {
   id: text("id").primaryKey(),
-  message: text("message").notNull(),
-  pageUrl: text("page_url"),
-  emakiId: text("emaki_id"),
+  emakiId: text("emaki_id").notNull(),
+  choice: text("choice").notNull(),
+  sceneIndex: integer("scene_index").notNull(),
+  scrollRatio: real("scroll_ratio"),
   locale: text("locale"),
+  visitorHash: text("visitor_hash").notNull(),
   createdAt: integer("created_at", { mode: "timestamp_ms" })
     .notNull()
     .$defaultFn(() => new Date()),

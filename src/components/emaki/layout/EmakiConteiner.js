@@ -9,6 +9,8 @@ import EmakiNavigation from "@/components/emaki/navigation/EmakiNavigation";
 import CarouselButton from "@/components/emaki/viewer/CarouselButton";
 import FullScreen from "@/components/emaki/viewer/FullScreen";
 import HelpModal from "@/components/emaki/viewer/HelpModal";
+import ScrollFeedbackEndPrompt from "@/components/emaki/viewer/ScrollFeedbackEndPrompt";
+import ScrollFeedbackPanel from "@/components/emaki/viewer/ScrollFeedbackPanel";
 import Modal from "@/components/emaki/viewer/Modal";
 import ModalDesc from "@/components/emaki/viewer/ModalDesc";
 import PositionIndicator from "@/components/emaki/viewer/PositionIndicator";
@@ -40,6 +42,9 @@ import {
   updateEngagementState,
   updateScrollProgress,
 } from "@/libs/api/measurementUtils";
+import {
+  hasSubmittedScrollFeedback,
+} from "@/libs/api/scrollFeedbackSession";
 
 // P0改修: フルスクリーン切り替え時のスクロール位置保存用
 // モジュールスコープに配置することで、コンポーネント再マウント時も値を保持
@@ -136,6 +141,45 @@ const EmakiContainer = ({
   const isUIForceHiddenRef = useRef(false);
   const [isUIForceHidden, setIsUIForceHidden] = useState(false);
   const [isToggleBtnHovered, setIsToggleBtnHovered] = useState(false);
+
+  const [isScrollFeedbackOpen, setIsScrollFeedbackOpen] = useState(false);
+  const [scrollFeedbackSubmitted, setScrollFeedbackSubmitted] = useState(false);
+  const [endPromptDismissed, setEndPromptDismissed] = useState(false);
+
+  const emakiId = data.titleen;
+
+  useEffect(() => {
+    if (emakiId) {
+      setScrollFeedbackSubmitted(hasSubmittedScrollFeedback(emakiId));
+    }
+  }, [emakiId]);
+
+  useEffect(() => {
+    if (!isAtEnd) {
+      setEndPromptDismissed(false);
+    }
+  }, [isAtEnd]);
+
+  const getScrollRatio = useCallback(() => {
+    const el = articleRef.current;
+    if (!el) return null;
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    if (maxScroll <= 0) return 1;
+    return Math.round((el.scrollLeft / maxScroll) * 1000) / 1000;
+  }, []);
+
+  const handleScrollFeedbackSubmitted = useCallback(() => {
+    setScrollFeedbackSubmitted(true);
+    setEndPromptDismissed(true);
+  }, []);
+
+  const showScrollFeedbackEndPrompt =
+    scroll &&
+    isAtEnd &&
+    !scrollFeedbackSubmitted &&
+    !endPromptDismissed &&
+    !isScrollFeedbackOpen &&
+    isUIVisible;
 
   // 絵巻ハイパーリンク: シーン検出用の debounce タイマー + throttle
   const sceneDetectionTimerRef = useRef(null);
@@ -962,6 +1006,8 @@ const EmakiContainer = ({
               isAutoScrolling={isAutoScrolling}
               onStartPlayMode={startPlayMode}
               onStopPlayMode={stopPlayMode}
+              onOpenScrollFeedback={() => setIsScrollFeedbackOpen(true)}
+              showScrollFeedbackButton={!scrollFeedbackSubmitted}
             />
             {/* 教育現場向けUI: 完全非表示トグルボタン（aside外に独立配置）
                 force-hidden時もこのボタンだけ低opacityで残留し、UI復帰手段を確保する
@@ -1041,6 +1087,23 @@ const EmakiContainer = ({
         {/* {scroll && isMapModalOpen && <ModalMap data={data} />} */}
         {!genjieslug && scroll && isDescModalOpen && <ModalDesc data={data} />}
         {scroll && isHelpModalOpen && <HelpModal />}
+        {scroll && isScrollFeedbackOpen && (
+          <ScrollFeedbackPanel
+            emakiId={emakiId}
+            sceneIndex={navIndex}
+            scrollRatio={getScrollRatio()}
+            locale={locale}
+            onClose={() => setIsScrollFeedbackOpen(false)}
+            onSubmitted={handleScrollFeedbackSubmitted}
+          />
+        )}
+        {scroll && (
+          <ScrollFeedbackEndPrompt
+            isVisible={showScrollFeedbackEndPrompt}
+            onOpen={() => setIsScrollFeedbackOpen(true)}
+            onDismiss={() => setEndPromptDismissed(true)}
+          />
+        )}
         {/* {genjieslug && scroll && isDescModalOpen && (
           <ModalDescGenji data={data} />
         )} */}

@@ -1,6 +1,8 @@
 # Turso + Drizzle — UGC データベース
 
-絵巻メタデータ（JSON / YAML パイプライン）とは **別系統**。いいね・フィードバックのみ Turso に保存します。
+絵巻メタデータ（JSON / YAML パイプライン）とは **別系統**。いいね・スクロール体験フィードバックのみ Turso に保存します。
+
+一般お問い合わせは Notion（`NOTION_CONTACT_URL`）を使用します。
 
 ## 環境変数
 
@@ -9,7 +11,7 @@
 | `TURSO_DATABASE_URL` | Turso DB URL（`libsql://...`） |
 | `TURSO_AUTH_TOKEN` | Turso auth token（ローカル・Vercel 両方） |
 
-`.env.local` と Vercel Project Settings に設定してください。未設定時は API が `503` を返し、クライアントは localStorage / Discord 等の既存挙動を維持します。
+`.env.local` と Vercel Project Settings に設定してください。未設定時は API が `503` を返します（シーンいいねは localStorage で UI 状態を維持）。
 
 ## スキーマ
 
@@ -17,7 +19,7 @@
 |----------|------|
 | `emaki_likes` | 巻単位いいね（`emaki_id` + 匿名 `visitor_hash` で一意） |
 | `scene_likes` | シーン単位いいね（toggle） |
-| `feedback` | フィードバック本文 |
+| `scroll_feedback` | 絵巻鑑賞中の選択式スクロール体験フィードバック |
 
 定義: `src/db/schema.js`
 
@@ -28,8 +30,8 @@
 # 2. スキーマを反映
 npm run db:push
 
-# または SQL を直接実行
-# drizzle/0000_init.sql
+# 既存 DB に feedback テーブルがある場合
+# drizzle/0001_scroll_feedback.sql を適用（db:push でも可）
 ```
 
 ## API
@@ -38,7 +40,9 @@ npm run db:push
 |--------|------|-------|
 | POST | `/api/likes/emaki` | `{ emakiId }` |
 | POST | `/api/likes/scene` | `{ emakiId, sceneIndex, action: "like" \| "unlike" }` |
-| POST | `/api/feedback` | `{ message, pageUrl?, emakiId?, locale? }` |
+| POST | `/api/feedback/scroll` | `{ emakiId, choice, sceneIndex, scrollRatio?, locale? }` |
+
+`choice` の allowlist: `smooth`, `laggy`, `hard_to_read`, `confusing`, `great`
 
 ## 開発コマンド
 
@@ -52,9 +56,9 @@ npm run db:studio     # Drizzle Studio
 
 - `src/db/` — schema, client
 - `src/pages/api/likes/` — いいね API
-- `src/pages/api/feedback/` — フィードバック API
+- `src/pages/api/feedback/scroll.js` — スクロールフィードバック API
 - `src/libs/api/ugcApi.js` — クライアント fetch ヘルパー
-- `src/components/ui/FeedbackModal.js` — サイト内フィードバック UI
+- `src/components/emaki/viewer/ScrollFeedbackPanel.js` — 絵巻内フィードバック UI
 
 ## 絵巻データとの境界
 

@@ -1,7 +1,7 @@
 import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
 import SearchBoxButton from "@/components/search/SearchBoxButton";
 import SocialLinks from "@/components/social/SocialLinks";
-import links, { sidebarExtraLinks } from "@/libs/constants/links";
+import links, { NOTION_CONTACT_URL, sidebarExtraLinks } from "@/libs/constants/links";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/SidebarHome.module.css";
 import Link from "next/link";
@@ -11,8 +11,7 @@ import { Mail, X } from "react-feather";
 import { useTranslation } from "next-i18next";
 
 const SidebarHome = () => {
-  const { isSidebarOpen, closeSidebar, openFeedbackModal } =
-    useContext(AppContext);
+  const { isSidebarOpen, closeSidebar } = useContext(AppContext);
   const { locale } = useRouter();
   const { t } = useTranslation("common");
 
@@ -51,19 +50,18 @@ const SidebarHome = () => {
         <div className={styles.sidebarActions}>
           <LanguageSwitcher />
           <SearchBoxButton />
-          <button
-            type="button"
+          <a
+            href={NOTION_CONTACT_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             title={t("header.feedback")}
             aria-label={t("header.feedback")}
             className={styles.contactLink}
-            onClick={() => {
-              closeSidebar();
-              openFeedbackModal();
-            }}
+            onClick={() => closeSidebar()}
           >
             <Mail className={styles.contactIcon} />
             <span>{locale === "ja" ? "お問い合わせ" : "Contact"}</span>
-          </button>
+          </a>
         </div>
         <SocialLinks iconStyle />
       </aside>
