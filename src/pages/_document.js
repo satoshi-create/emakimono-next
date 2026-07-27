@@ -70,6 +70,12 @@ class MyDocument extends Document {
             href="/favicon-16x16.png"
           ></link>
           <meta name="theme-color" content="#ff8c77" />
+          {process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION && (
+            <meta
+              name="google-site-verification"
+              content={process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION}
+            />
+          )}
         </Head>
         <body>
           {/* <noscript

@@ -67,7 +67,7 @@ events:
     priority: P2
 
   sns_share_click:
-    source: SnsShareBox.js
+    source: ShareButtons.js
     params:
       - platform
     priority: P2

@@ -5,6 +5,7 @@ import ChapterTimeline from "@/components/emaki/metadata/ChapterTimeline";
 import EditionLinks from "@/components/emaki/metadata/EditionLinks";
 import SourceAttribution from "@/components/emaki/metadata/SourceAttribution";
 import LikeButton from "@/components/emaki/metadata/LikeButton";
+import ShareButtons from "@/components/emaki/viewer/ShareButtons";
 import RecommendEmaki from "@/components/emaki/ranking/RecommendEmaki";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
 import KusouzuHubLink from "@/components/emaki/kusouzu/KusouzuHubLink";
@@ -212,6 +213,16 @@ const EmakiLandscapContent = ({
                   edition={edition}
                   author={author}
                   ort={"land"}
+                />
+                <ShareButtons
+                  variant="inline"
+                  navIndex={0}
+                  emakiId={titleen}
+                  shareTitle={
+                    locale === "en"
+                      ? titleen || title
+                      : `${title ?? ""}${edition ? ` ${edition}` : ""}`.trim()
+                  }
                 />
               </div>
               {author && (

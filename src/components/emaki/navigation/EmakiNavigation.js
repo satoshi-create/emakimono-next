@@ -3,19 +3,19 @@ import {
   faAnglesLeft,
   faAnglesRight,
   faCircleQuestion,
-  faLink,
-  faCheck,
   faPlay,
   faStop,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 // import { ArrowRight, ChevronRight } from "react-feather";
 import ToggleCharacter from "@/components/emaki/viewer/ToggleCharacter";
 import ToggleEbiki from "@/components/emaki/viewer/ToggleEbiki";
 import ToggleEkotoba from "@/components/emaki/viewer/ToggleEkotoba";
+import ShareButtons from "@/components/emaki/viewer/ShareButtons";
 import ActionButton from "@/components/emaki/viewer/ActionButton";
 import { AppContext } from "@/context/AppContext";
+import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
 // TODO: 横スクロールで最後まで進み、「先頭に戻る」を押しても反応がない
@@ -33,27 +33,14 @@ const EmakiNavigation = ({
   const { character, ebiki } = data;
   const endIndex = data.emakis.length - 1;
   const { t } = useTranslation("common");
+  const { locale } = useRouter();
 
   const { orientation, openHelpModal, navIndex } = useContext(AppContext);
 
-  // 絵巻ハイパーリンク: URLコピー成功時のフィードバック状態
-  const [isCopied, setIsCopied] = useState(false);
-
-  // 現在のシーンURLをクリップボードにコピー
-  const handleCopyUrl = async () => {
-    const url = navIndex > 0
-      ? `${window.location.origin}${window.location.pathname}#${navIndex}`
-      : `${window.location.origin}${window.location.pathname}`;
-
-    try {
-      await navigator.clipboard.writeText(url);
-      setIsCopied(true);
-      // 1.5秒後にアイコンを元に戻す
-      setTimeout(() => setIsCopied(false), 1500);
-    } catch (err) {
-      console.error("URLのコピーに失敗しました:", err);
-    }
-  };
+  const shareTitle =
+    locale === "en"
+      ? data.titleen || data.title
+      : `${data.title ?? ""}${data.edition ? ` ${data.edition}` : ""}`.trim();
 
   return (
     <aside
@@ -117,17 +104,11 @@ const EmakiNavigation = ({
       {/* <FullScreen /> */}
       {character && <ToggleCharacter isUIVisible={isUIVisible} />}
       {ebiki && <ToggleEbiki isUIVisible={isUIVisible} />}
-      {/* 絵巻ハイパーリンク: 現在のシーンURLをコピーするボタン */}
-      <ActionButton
-        icon={
-          <FontAwesomeIcon
-            icon={isCopied ? faCheck : faLink}
-            style={{ fontSize: "1.3em" }}
-          />
-        }
-        label={t("viewer.copyUrl")}
-        description={isCopied ? t("viewer.copied") : t("viewer.copySceneUrl")}
-        onClick={handleCopyUrl}
+      <ShareButtons
+        variant="navigation"
+        navIndex={navIndex}
+        emakiId={data.titleen}
+        shareTitle={shareTitle}
         isUIVisible={isUIVisible}
       />
       <ActionButton

@@ -1,4 +1,5 @@
 import LikeButton from "@/components/emaki/metadata/LikeButton";
+import ShareButtons from "@/components/emaki/viewer/ShareButtons";
 import { AppContext } from "@/context/AppContext";
 import {
   Box,
@@ -31,6 +32,7 @@ const MiddleNavigation = ({ title, titleen, edition, author }) => {
     setisModalOpen,
     rankingData,
     toggleFullscreen,
+    navIndex,
   } = useContext(AppContext);
 
   // ランキング順位・閲覧数を検索
@@ -111,7 +113,17 @@ const MiddleNavigation = ({ title, titleen, edition, author }) => {
         </GridItem>
 
         {/* ボタン: 右寄せ */}
-        <GridItem display="flex" gap={2}>
+        <GridItem display="flex" gap={2} alignItems="center">
+          <ShareButtons
+            variant="inline"
+            navIndex={navIndex}
+            emakiId={titleen}
+            shareTitle={
+              locale === "en"
+                ? titleen || title
+                : `${title ?? ""}${edition ? ` ${edition}` : ""}`.trim()
+            }
+          />
           <LikeButton
             title={title}
             titleen={titleen}

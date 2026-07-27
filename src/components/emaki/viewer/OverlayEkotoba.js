@@ -1,6 +1,7 @@
 import ActionButton from "@/components/emaki/viewer/ActionButton";
 import LazyImage from "@/components/emaki/viewer/LazyImage";
 import SceneLikeButton from "@/components/emaki/viewer/SceneLikeButton";
+import ShareButtons from "@/components/emaki/viewer/ShareButtons";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/OverlayEkotoba.module.css";
 import { ChaptersGendaibun, ChaptersTitle } from "@/utils/func";
@@ -49,6 +50,11 @@ const OverlayEkotoba = ({
   const { locale } = useRouter();
   const { t } = useTranslation("common");
   const { title, titleen } = data;
+
+  const shareTitle =
+    locale === "en"
+      ? titleen || title
+      : `${title ?? ""}`.trim();
 
   // TODO : 目次のフォントサイズをレスポンシブにする
 
@@ -115,6 +121,12 @@ const OverlayEkotoba = ({
                 title={title}
                 chapter={chapter}
                 index={index}
+              />
+              <ShareButtons
+                variant="overlay"
+                navIndex={index}
+                emakiId={titleen}
+                shareTitle={shareTitle}
               />
               {(type === "浮世絵" && googlemap) || kotobagaki ? (
                 <div className={styles.actionButtons}>

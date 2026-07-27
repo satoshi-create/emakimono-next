@@ -78,6 +78,16 @@
     "feedback": "Send us your feedback"
   },
 
+  "share": {
+    "groupLabel": "Share",
+    "x": "Share on X",
+    "xDesc": "Share this URL on X (Twitter)",
+    "line": "Share on LINE",
+    "lineDesc": "Share this URL on LINE",
+    "native": "Share",
+    "nativeDesc": "Share via apps"
+  },
+
   "legal": {
     "relatedLinks": "Related pages",
     "contactButton": "Contact form",

@@ -78,6 +78,16 @@
     "feedback": "ご意見をお寄せください"
   },
 
+  "share": {
+    "groupLabel": "共有",
+    "x": "Xで共有",
+    "xDesc": "X（Twitter）でこのURLを共有",
+    "line": "LINEで共有",
+    "lineDesc": "LINEでこのURLを共有",
+    "native": "共有",
+    "nativeDesc": "アプリで共有"
+  },
+
   "legal": {
     "relatedLinks": "関連ページ",
     "contactButton": "お問い合わせフォームへ",

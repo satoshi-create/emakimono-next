@@ -1,0 +1,25 @@
+{
+  "name": "横スクロールで楽しむ絵巻物 | EMAKIMONO",
+  "short_name": "EMAKIMONO",
+  "description": "Picture scrolls in horizontal scrolling mode — emakimono.com",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ff8c77",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

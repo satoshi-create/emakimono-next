@@ -1,0 +1,70 @@
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.overlay {
+  flex-direction: row;
+  gap: 0.2rem;
+}
+
+.inline {
+  gap: 0.5rem;
+}
+
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.35rem;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: var(--transition);
+  line-height: 0;
+}
+
+.overlay .iconBtn {
+  padding: 0.3rem 0.45rem;
+  color: rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.overlay .iconBtn:hover {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.inline .iconBtn {
+  color: var(--clr-text-muted, #666);
+  border-radius: 4px;
+}
+
+.inline .iconBtn:hover {
+  color: var(--clr-accent-02, #ff8c77);
+  transform: scale(1.08);
+}
+
+.brandIcon {
+  width: 1.1em;
+  height: 1.1em;
+  fill: currentColor;
+}
+
+.brandIconLight {
+  filter: brightness(0) invert(1);
+}
+
+.lineLabel {
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-family: var(--font-ui, "Noto Sans JP", sans-serif);
+}
+
+.copied {
+  color: var(--clr-accent-02, #ff8c77);
+}
