@@ -3,7 +3,6 @@ import NavLinks from "@/components/navigation/NavLinks";
 import SearchBoxButton from "@/components/search/SearchBoxButton";
 import SocialLinks from "@/components/social/SocialLinks";
 import SidebarHome from "@/components/ui/SidebarHome";
-import { NOTION_CONTACT_URL } from "@/libs/constants/links";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/Header.module.css";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
@@ -16,7 +15,7 @@ import { useTranslation } from "next-i18next";
 
 const Header = ({ slug, fixed }) => {
   const { t } = useTranslation("common");
-  const { openSidebar = () => {}, stickyClass = "" } =
+  const { openSidebar = () => {}, stickyClass = "", openFeedbackModal = () => {} } =
     useContext(AppContext) ?? {};
 
   return (
@@ -48,15 +47,15 @@ const Header = ({ slug, fixed }) => {
         <div className={styles.desktopOnly}>
           <SearchBoxButton />
         </div>
-        <a
-          className={styles.desktopOnly}
-          href={NOTION_CONTACT_URL}
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          type="button"
+          className={`${styles.desktopOnly} ${styles.contactbtn}`}
+          onClick={openFeedbackModal}
           title={t("header.feedback")}
+          aria-label={t("header.feedback")}
         >
           <Mail className={`${styles.contacticon}`} />
-        </a>
+        </button>
         <nav className={styles.nav}>
           <div className={styles.navcenter}>
             <button

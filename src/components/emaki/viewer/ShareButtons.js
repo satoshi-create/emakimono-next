@@ -109,22 +109,30 @@ const ShareButtons = ({
   const renderCopyIcon = () => (
     <FontAwesomeIcon
       icon={isCopied ? faCheck : faLink}
-      style={{ fontSize: variant === "navigation" ? "1.3em" : "1em" }}
-      className={isCopied ? styles.copied : undefined}
+      style={
+        variant === "navigation" ? { fontSize: "1.3em" } : undefined
+      }
+      className={`${variant === "overlay" ? styles.overlayIcon : ""} ${
+        isCopied ? styles.copied : ""
+      }`.trim()}
     />
   );
 
   const renderXIcon = () => {
-    const className = `${styles.brandIcon} ${
+    const className = [
+      styles.brandIcon,
       variant === "navigation" || variant === "overlay"
         ? styles.brandIconLight
-        : ""
-    }`;
+        : "",
+      variant === "overlay" ? styles.overlayIcon : "",
+    ]
+      .filter(Boolean)
+      .join(" ");
 
     if (variant === "overlay") {
       return (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src="/svg/x.svg" alt="" width={16} height={16} className={className} />
+        <img src="/svg/x.svg" alt="" className={className} />
       );
     }
 
@@ -140,7 +148,12 @@ const ShareButtons = ({
   };
 
   const renderLineIcon = () => (
-    <span className={styles.lineLabel} aria-hidden="true">
+    <span
+      className={`${styles.lineLabel} ${
+        variant === "overlay" ? styles.overlayLineLabel : ""
+      }`}
+      aria-hidden="true"
+    >
       LINE
     </span>
   );
@@ -209,7 +222,7 @@ const ShareButtons = ({
           title={t("share.nativeDesc")}
           aria-label={t("share.nativeDesc")}
         >
-          <FontAwesomeIcon icon={faShareNodes} />
+          <FontAwesomeIcon icon={faShareNodes} className={styles.overlayIcon} />
         </button>
       ) : (
         <>

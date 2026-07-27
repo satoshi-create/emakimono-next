@@ -59,6 +59,16 @@
   flex-shrink: 0;
 }
 
+.contactbtn {
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+}
+
 .links {
   display: none;
 }

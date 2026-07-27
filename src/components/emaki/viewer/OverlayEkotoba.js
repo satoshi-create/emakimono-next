@@ -171,7 +171,9 @@ const OverlayEkotoba = ({
         )}
         <p
           // dangerouslySetInnerHTML={{ __html: src && ekotobabody }}
-          className={styles.gendaibun}
+          className={`${styles.gendaibun} ${
+            orientation === "portrait" ? styles.gendaibunPrt : styles.gendaibunLand
+          }`}
           style={{
             fontSize: `${
               orientation === "portrait"

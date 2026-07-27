@@ -5,13 +5,28 @@
   gap: 0.25rem;
 }
 
-/* 詞書オーバーレイ: 縦書き帯の幅に合わせて縦積み */
+/* 詞書オーバーレイ: 縦書き帯の幅に合わせて縦積み（SceneLikeButton と同スケール） */
 .overlay {
   flex-direction: column;
   align-items: stretch;
   gap: 0.2rem;
   width: 100%;
   min-width: 0;
+  font-size: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .overlay {
+    font-size: 0.85rem;
+    gap: 0.3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .overlay {
+    font-size: 1rem;
+    gap: 0.3rem;
+  }
 }
 
 .inline {
@@ -32,12 +47,24 @@
 }
 
 .overlay .iconBtn {
-  padding: 0.3rem 0.45rem;
+  padding: 0.3rem 0.5rem;
   color: rgba(255, 255, 255, 0.85);
   background: rgba(0, 0, 0, 0.7);
   width: 100%;
   min-width: 0;
   flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .overlay .iconBtn {
+    padding: 0.4rem 0.6rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .overlay .iconBtn {
+    padding: 0.5rem 0.8rem;
+  }
 }
 
 .overlay .iconBtn:hover {
@@ -70,6 +97,30 @@
   font-weight: 700;
   letter-spacing: -0.02em;
   font-family: var(--font-ui, "Noto Sans JP", sans-serif);
+}
+
+.overlayLineLabel {
+  font-size: 0.55em;
+}
+
+.overlayIcon {
+  width: 0.9em;
+  height: 0.9em;
+  font-size: 1em;
+}
+
+@media (min-width: 768px) {
+  .overlayIcon {
+    width: 1em;
+    height: 1em;
+  }
+}
+
+@media (min-width: 1024px) {
+  .overlayIcon {
+    width: 1.1em;
+    height: 1.1em;
+  }
 }
 
 .copied {

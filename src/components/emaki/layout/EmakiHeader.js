@@ -2,7 +2,6 @@ import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
 import SearchBoxButton from "@/components/search/SearchBoxButton";
 import SocialLinks from "@/components/social/SocialLinks";
 import SidebarHome from "@/components/ui/SidebarHome";
-import { NOTION_CONTACT_URL } from "@/libs/constants/links";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/EmakiPageHeader.module.css";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
@@ -16,7 +15,8 @@ import { useTranslation } from "next-i18next";
 const EmakiHeader = () => {
   const { t } = useTranslation("common");
 
-  const { openSidebar, setStickyClass } = useContext(AppContext);
+  const { openSidebar, setStickyClass, openFeedbackModal } =
+    useContext(AppContext);
 
   useEffect(() => {
     const stickNavbar = () => {
@@ -50,15 +50,15 @@ const EmakiHeader = () => {
         <div className={styles.desktopOnly}>
           <SearchBoxButton />
         </div>
-        <a
-          href={NOTION_CONTACT_URL}
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          type="button"
           title={t("header.feedback")}
+          aria-label={t("header.feedback")}
           className={`${styles.linkedbtn} ${styles.desktopOnly}`}
+          onClick={openFeedbackModal}
         >
           <Mail className={`${styles.contacticon}`} />
-        </a>
+        </button>
         <nav className={styles.nav}>
           <div className={styles.navcenter}>
             <button

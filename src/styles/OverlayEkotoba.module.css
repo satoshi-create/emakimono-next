@@ -197,8 +197,26 @@
   margin: 2rem 0;
 }
 
-.gendaibun {
+.gendaibunPrt {
   font-size: var(--text-size-prt);
+}
+
+/* PC 横スクロール: 縦書き詞書テキストの左右（block 軸）余白 */
+.gendaibunLand {
+  padding-block: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .gendaibunLand {
+    padding-block: 0.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .gendaibunLand {
+    padding-block: 1rem;
+    margin-inline: 0.25rem;
+  }
 }
 
 .gendaibun a {

@@ -1,4 +1,5 @@
 import * as gtag from "@/libs/api/gtag";
+import { postSceneLike } from "@/libs/api/ugcApi";
 import styles from "@/styles/SceneLikeButton.module.css";
 import { useEffect, useState } from "react";
 import { ThumbsUp } from "react-feather";
@@ -44,7 +45,12 @@ const SceneLikeButton = ({ titleen, title, chapter, index }) => {
       }
     }
 
-    // GA4イベント送信
+    postSceneLike({
+      emakiId: titleen,
+      sceneIndex: index,
+      action: newLikedState ? "like" : "unlike",
+    });
+
     gtag.event("scene_like", {
       action: newLikedState ? "like" : "unlike",
       emaki_title: title,

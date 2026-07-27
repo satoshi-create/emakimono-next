@@ -88,6 +88,15 @@
     "nativeDesc": "アプリで共有"
   },
 
+  "feedbackForm": {
+    "title": "ご意見・ご要望",
+    "placeholder": "サイトへのご意見や改善提案をお書きください",
+    "submit": "送信する",
+    "cancel": "キャンセル",
+    "success": "送信しました。ありがとうございます。",
+    "error": "送信に失敗しました"
+  },
+
   "legal": {
     "relatedLinks": "関連ページ",
     "contactButton": "お問い合わせフォームへ",

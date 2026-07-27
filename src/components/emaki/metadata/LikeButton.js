@@ -1,4 +1,5 @@
 import postMessage from "@/libs/api/discord";
+import { postEmakiLike } from "@/libs/api/ugcApi";
 import * as gtag from "@/libs/api/gtag";
 import styles from "@/styles/LikeButton.module.css";
 import { useState } from "react";
@@ -18,12 +19,11 @@ const LikeButton = ({ title, titleen, edition, author, ort }) => {
 
   const postLike = () => {
     if (!hasAnimated) {
-      // アニメーションがまだ実行されていない場合
       setIsDisplay(true);
-      setHasAnimated(true); // アニメーションが実行されたことを記録
+      setHasAnimated(true);
+      postEmakiLike(titleen);
       postMessage(message);
 
-      // GA4イベント送信
       gtag.event("like_emaki", {
         emaki_title: title,
         emaki_id: titleen,

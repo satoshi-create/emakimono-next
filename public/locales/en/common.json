@@ -88,6 +88,15 @@
     "nativeDesc": "Share via apps"
   },
 
+  "feedbackForm": {
+    "title": "Feedback",
+    "placeholder": "Share your suggestions or report an issue",
+    "submit": "Send",
+    "cancel": "Cancel",
+    "success": "Thank you — your feedback was sent.",
+    "error": "Could not send feedback"
+  },
+
   "legal": {
     "relatedLinks": "Related pages",
     "contactButton": "Contact form",
