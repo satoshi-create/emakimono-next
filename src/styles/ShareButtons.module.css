@@ -5,9 +5,13 @@
   gap: 0.25rem;
 }
 
+/* 詞書オーバーレイ: 縦書き帯の幅に合わせて縦積み */
 .overlay {
-  flex-direction: row;
+  flex-direction: column;
+  align-items: stretch;
   gap: 0.2rem;
+  width: 100%;
+  min-width: 0;
 }
 
 .inline {
@@ -31,6 +35,9 @@
   padding: 0.3rem 0.45rem;
   color: rgba(255, 255, 255, 0.85);
   background: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  min-width: 0;
+  flex-shrink: 0;
 }
 
 .overlay .iconBtn:hover {

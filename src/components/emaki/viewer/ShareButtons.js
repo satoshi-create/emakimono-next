@@ -114,19 +114,30 @@ const ShareButtons = ({
     />
   );
 
-  const renderXIcon = () => (
-    <Image
-      src="/svg/x.svg"
-      alt="X"
-      width={16}
-      height={16}
-      className={`${styles.brandIcon} ${
-        variant === "navigation" || variant === "overlay"
-          ? styles.brandIconLight
-          : ""
-      }`}
-    />
-  );
+  const renderXIcon = () => {
+    const className = `${styles.brandIcon} ${
+      variant === "navigation" || variant === "overlay"
+        ? styles.brandIconLight
+        : ""
+    }`;
+
+    if (variant === "overlay") {
+      return (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src="/svg/x.svg" alt="" width={16} height={16} className={className} />
+      );
+    }
+
+    return (
+      <Image
+        src="/svg/x.svg"
+        alt="X"
+        width={16}
+        height={16}
+        className={className}
+      />
+    );
+  };
 
   const renderLineIcon = () => (
     <span className={styles.lineLabel} aria-hidden="true">
