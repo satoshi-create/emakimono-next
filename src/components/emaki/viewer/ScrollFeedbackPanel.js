@@ -11,7 +11,7 @@ import { useTranslation } from "next-i18next";
 const ScrollFeedbackPanel = ({
   emakiId,
   sceneIndex,
-  scrollRatio,
+  getScrollRatio,
   locale,
   onClose,
   onSubmitted,
@@ -67,7 +67,7 @@ const ScrollFeedbackPanel = ({
         emakiId,
         choice,
         sceneIndex,
-        scrollRatio,
+        scrollRatio: getScrollRatio?.() ?? null,
         locale,
       });
 

@@ -165,7 +165,8 @@ const EmakiContainer = ({
     if (!el) return null;
     const maxScroll = el.scrollWidth - el.clientWidth;
     if (maxScroll <= 0) return 1;
-    return Math.round((el.scrollLeft / maxScroll) * 1000) / 1000;
+    // RTL 横スクロールでは scrollLeft が負になる
+    return Math.round((Math.abs(el.scrollLeft) / maxScroll) * 1000) / 1000;
   }, []);
 
   const handleScrollFeedbackSubmitted = useCallback(() => {
@@ -1091,7 +1092,7 @@ const EmakiContainer = ({
           <ScrollFeedbackPanel
             emakiId={emakiId}
             sceneIndex={navIndex}
-            scrollRatio={getScrollRatio()}
+            getScrollRatio={getScrollRatio}
             locale={locale}
             onClose={() => setIsScrollFeedbackOpen(false)}
             onSubmitted={handleScrollFeedbackSubmitted}
