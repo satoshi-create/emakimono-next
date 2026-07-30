@@ -9,11 +9,13 @@ import ShareButtons from "@/components/emaki/viewer/ShareButtons";
 import RecommendEmaki from "@/components/emaki/ranking/RecommendEmaki";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
 import KusouzuHubLink from "@/components/emaki/kusouzu/KusouzuHubLink";
+import ChojuGigaHubLink from "@/components/emaki/chouju-giga/ChojuGigaHubLink";
 import Footer from "@/components/layout/Footer";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/EmakiPortraitContent.module.css";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
+import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
 import {
   eraColor,
   filterdKeywords,
@@ -94,7 +96,11 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   const LinksToKusouzu = alldata.filter(
     (item) => isKusouzuScroll(item) && item.titleen !== titleen
   );
+  const LinksToChojuGiga = alldata.filter(
+    (item) => isChojuGigaScroll(item) && item.titleen !== titleen
+  );
   const isKusouzu = isKusouzuScroll(data);
+  const isChojuGiga = isChojuGigaScroll(data);
   const ekotobaIndices = emakis
     .map((item, i) => (item.cat === "ekotoba" ? i : -1))
     .filter((i) => i >= 0);
@@ -118,6 +124,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
           ...(isKusouzu ? LinksToKusouzu : []),
         ]}
         showKusouzuHubLink={isKusouzu}
+        showChojuGigaHubLink={isChojuGiga}
       />
       <div className={`${styles.wrapper} section-grid`}>
         <div className={styles.container}>
@@ -189,6 +196,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
               {locale === "en" ? parse(descEn) : parse(descJa)}
             </div>
             {isKusouzu && <KusouzuHubLink variant="tag" />}
+            {isChojuGiga && <ChojuGigaHubLink variant="tag" />}
 
             {!kotobagaki && (
               <>
@@ -292,6 +300,36 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                       title={title}
                       edition={edition}
                       editionLinks={LinksToKusouzu}
+                    />
+                  </>
+                )}
+              </>
+            )}
+            {isChojuGiga && (
+              <>
+                <h4
+                  className={styles.metaBtitle}
+                  style={{
+                    "--border-color": eraColor(era) || "black",
+                  }}
+                >
+                  {t("choujuGigaHub.linkLabel")}
+                </h4>
+                <ChojuGigaHubLink variant="banner" />
+                {LinksToChojuGiga.length > 0 && (
+                  <>
+                    <h4
+                      className={styles.metaBtitle}
+                      style={{
+                        "--border-color": eraColor(era) || "black",
+                      }}
+                    >
+                      {locale === "ja" ? "他の巻を見る" : "Other Scrolls"}
+                    </h4>
+                    <EditionLinks
+                      title={title}
+                      edition={edition}
+                      editionLinks={LinksToChojuGiga}
                     />
                   </>
                 )}

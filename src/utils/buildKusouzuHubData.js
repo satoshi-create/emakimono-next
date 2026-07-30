@@ -22,26 +22,50 @@ export function buildKusouzuHubData() {
     .filter((emaki) => isKusouzuScroll(emaki) && !isWithdrawnScroll(emaki.titleen))
     .map((emaki) => removeNestedEmakisObj(emaki));
 
+  // Build titleen → thumb lookup from ALL scrolls (not just kusouzu)
+  const thumbMap = {};
+  emakisMetadata.forEach((emaki) => {
+    if (emaki.thumb) thumbMap[emaki.titleen] = emaki.thumb;
+  });
+
   const scrolls = scrollEmakis.map((emaki) => ({
     titleen: emaki.titleen,
     title: emaki.title,
     stageIds: emaki.kusouzuslug.map((s) => s.id),
   }));
 
-  const stages = chapters.map((chapter) => ({
-    slug: chapter.slug,
-    stage_en: chapter.stage_en,
-    stage_ch: chapter.stage_ch,
-    title: chapter.title,
-    titleen: chapter.titleen,
-    ruby: chapter.ruby,
-    desc: chapter.desc ?? null,
-    descen: chapter.descen ?? null,
-    gendaibun: chapter.gendaibun ?? null,
-    scrollTitleens: scrolls
+  const stages = chapters.map((chapter) => {
+    const scrollTitleens = scrolls
       .filter((scroll) => scroll.stageIds.includes(chapter.stage_en))
-      .map((scroll) => scroll.titleen),
-  }));
+      .map((scroll) => scroll.titleen);
 
-  return { stages, scrolls, scrollEmakis };
+    // Representative thumbnail: first scroll that covers this stage
+    const thumb =
+      scrollTitleens
+        .map((t) => thumbMap[t])
+        .find(Boolean) ?? null;
+
+    return {
+      slug: chapter.slug,
+      stage_en: chapter.stage_en,
+      stage_ch: chapter.stage_ch,
+      title: chapter.title,
+      titleen: chapter.titleen,
+      ruby: chapter.ruby,
+      desc: chapter.desc ?? null,
+      descen: chapter.descen ?? null,
+      gendaibun: chapter.gendaibun ?? null,
+      scrollTitleens,
+      thumb,
+      thumbCloudinary: chapter.thumbCloudinary ?? null,
+    };
+  });
+
+  return {
+    stages,
+    scrolls,
+    scrollEmakis,
+    heroThumb: thumbMap["kusouzumaki"] ?? null,
+    heroCloudinary: "v1774936234/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_01_01.jpg",
+  };
 }

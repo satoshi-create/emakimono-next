@@ -50,6 +50,9 @@ const links = [
   // },
 ];
 
+export const CHOUJU_GIGA_HUB_PATH = "/chouju-giga/chapters";
+export const KUSOUZU_HUB_PATH = "/kusouzu/chapters-kusouzu";
+
 export const sidebarExtraLinks = [
   {
     name: "絵巻物ランキング",

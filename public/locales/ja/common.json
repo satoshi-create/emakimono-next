@@ -170,21 +170,40 @@
   },
 
   "kusouzuHub": {
-    "pagetitle": "九相図一覧（九相図の十相）",
-    "metaDesc": "九相図（くそうず）の十相を解説し、各相が描かれた絵巻物へ横スクロールで鑑賞できます。仏教の観想における肉体の変容を、絵巻物のハブページからたどれます。",
+    "pagetitle": "九相図一覧（全十場面）",
+    "metaDesc": "九相図（くそうず）の各場面を解説し、各相が描かれた絵巻物へ横スクロールで鑑賞できます。仏教の観想における肉体の変容を、絵巻物のハブページからたどれます。",
     "breadcrumb": "九相図一覧",
     "introTitle": "九相図（くそうず）とは",
-    "intro": "九相図は、死後の肉体が朽ちゆく十の段階（生前相から灰相まで）を描いた仏教美術です。美しさと無常、生命のはかなさを対比させ、修行者の観想を助ける作品として広く親しまれてきました。当サイトでは、九相図を描いた絵巻物を横スクロールで鑑賞できます。",
+    "intro": "九相図は、九つの死体図に生前の姿を加えた全十場面（生前相から灰相まで）を描いた仏教美術です。美しさと無常、生命のはかなさを対比させ、修行者の観想を助ける作品として広く親しまれてきました。当サイトでは、九相図を描いた絵巻物を横スクロールで鑑賞できます。",
     "tips": "鑑賞のコツ — 段ごとに一度止めて絵を味わう。九相図は「観想」する作品として、ゆっくり追うのがおすすめです。",
-    "stageSectionTitle": "十相一覧",
+    "stageSectionTitle": "場面一覧",
     "scrollSectionTitle": "九相図の絵巻",
     "stageNumber": "第{{stage}}相",
     "stageScrollCount": "{{count}}巻で鑑賞可",
     "stageNoScrolls": "収録絵巻なし",
-    "linkLabel": "九相図一覧（十相）",
-    "linkDesc": "十相の解説と、各相が描かれた絵巻一覧へ",
+    "linkLabel": "九相図一覧",
+    "linkDesc": "各場面の解説と、該当する絵巻一覧へ",
     "otherScrollsTitle": "他の九相図絵巻",
-    "hubNudgeLabel": "九相図一覧（十相）を見る"
+    "hubNudgeLabel": "九相図一覧を見る"
+  },
+
+  "choujuGigaHub": {
+    "pagetitle": "鳥獣人物戯画一覧",
+    "pagetitleEn": "Chōjū-jinbutsu-giga — Hub",
+    "metaDesc": "鳥獣人物戯画（ちょうじゅうじんぶつぎが）全4巻（甲乙丙丁）を横スクロールで鑑賞できるページ一覧。平安〜鎌倉時代に描かれた日本最古の漫画とも称される戯画絵巻。",
+    "metaDescEn": "Browse all four scrolls of Chōjū-jinbutsu-giga (Frolicking Animals and Humans), Japan's oldest cartoon-like picture scrolls from the Heian-Kamakura period.",
+    "introTitle": "鳥獣人物戯画",
+    "introTitleEn": "Chōjū-jinbutsu-giga",
+    "intro": "鳥獣人物戯画は、平安〜鎌倉時代に描かれた4巻からなる戯画絵巻。兎や猿、蛙などが人間のように振る舞う滑稽な描写が特徴で、「日本最古の漫画」とも称されます。全4巻（甲乙丙丁）を横スクロールでご覧いただけます。",
+    "introEn": "Chōjū-jinbutsu-giga (Frolicking Animals and Humans) is a set of four picture scrolls from the Heian-Kamakura period. Famous for humorous depictions of rabbits, monkeys, and frogs behaving like humans, it is often called Japan's oldest manga. Browse all four scrolls horizontally.",
+    "breadcrumb": "鳥獣人物戯画一覧",
+    "scrollSectionTitle": "全4巻を鑑賞",
+    "scrollSectionTitleEn": "Browse all 4 scrolls",
+    "hubNudgeLabel": "鳥獣人物戯画一覧を見る",
+    "hubNudgeLabelEn": "View Chōjū-jinbutsu-giga hub",
+    "linkLabel": "鳥獣人物戯画一覧",
+    "linkDesc": "鳥獣人物戯画 全4巻（甲・乙・丙・丁）を横スクロールで鑑賞する",
+    "linkDescEn": "Browse all 4 scrolls of Chōjū-jinbutsu-giga"
   },
 
   "privacy": {

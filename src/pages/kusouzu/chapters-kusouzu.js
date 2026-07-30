@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import Head from "@/components/meta/Meta";
 import Breadcrumbs from "@/components/navigation/Breadcrumbs";
+import hubStyles from "@/styles/KusouzuHub.module.css";
 import { buildKusouzuHubData } from "@/utils/buildKusouzuHubData";
 import { buildKusouzuHubJsonLd } from "@/utils/buildKusouzuHubJsonLd";
 import { useLocaleMeta } from "@/utils/func";
@@ -35,9 +36,17 @@ const ChaptersKusouzulist = ({ hubData }) => {
       />
       <Header />
       <Breadcrumbs name={t("kusouzuHub.breadcrumb")} />
-      <KusouzuHubIntro />
-      <KusouzuStageGrid stages={hubData.stages} />
-      <KusouzuScrollCatalog scrollEmakis={hubData.scrollEmakis} />
+      <KusouzuHubIntro heroThumb={hubData.heroThumb} heroCloudinary={hubData.heroCloudinary} />
+      <nav className={hubStyles.sectionNav}>
+        <a href="#stages">{t("kusouzuHub.stageSectionTitle")}</a>
+        <a href="#scrolls">{t("kusouzuHub.scrollSectionTitle")}</a>
+      </nav>
+      <div id="stages">
+        <KusouzuStageGrid stages={hubData.stages} />
+      </div>
+      <div id="scrolls">
+        <KusouzuScrollCatalog scrollEmakis={hubData.scrollEmakis} />
+      </div>
       <Footer />
     </main>
   );

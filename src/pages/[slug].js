@@ -10,6 +10,7 @@ import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
 import { AppContext } from "@/context/AppContext";
 import { buildEmakiJsonLd } from "@/utils/buildEmakiJsonLd";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
+import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
 import { useLocaleMeta } from "@/utils/func";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useRef } from "react";
@@ -89,11 +90,18 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
 
   // 教育現場向けUI: 巻末ナッジ用 - 兄弟巻は EmakiLandscapContent 内で取得
   const isKusouzu = isKusouzuScroll(data);
+  const isChojuGiga = isChojuGigaScroll(data);
 
   const breadcrumbProps = isKusouzu
     ? {
         nameHub: tc("kusouzuHub.breadcrumb"),
         nameHubPath: "kusouzu/chapters-kusouzu",
+        nameB: locale === "en" ? data.titleen : data.title,
+      }
+    : isChojuGiga
+    ? {
+        nameHub: tc("choujuGigaHub.breadcrumb"),
+        nameHubPath: "chouju-giga/chapters",
         nameB: locale === "en" ? data.titleen : data.title,
       }
     : {

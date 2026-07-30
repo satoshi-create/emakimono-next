@@ -1,3 +1,5 @@
+/* ── Hero section ── */
+
 .hero {
   background: var(--clr-surface);
 }
@@ -66,95 +68,7 @@
   border-left: 3px solid var(--clr-accent-green);
 }
 
-.stageSection {
-  background: var(--clr-bg);
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-}
-
-@media (min-width: 768px) {
-  .stageSection {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-  }
-}
-
-.stageGrid {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.25rem;
-  margin: 0;
-  padding: 0;
-}
-
-.stageCard {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background: var(--clr-surface);
-  border: 1px solid rgb(211 211 211 / 0.6);
-  border-radius: 4px;
-  text-decoration: none;
-  color: var(--clr-text);
-  overflow: hidden;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.stageCard:hover,
-.stageCard:focus-visible {
-  border-color: var(--clr-accent-green);
-  box-shadow: 0 2px 8px rgb(84 137 106 / 0.12);
-  transform: translateY(-2px);
-}
-
-.stageThumbWrap {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  background: rgb(0 0 0 / 0.04);
-}
-
-.stageThumb {
-  object-fit: cover;
-}
-
-.stageCardBody {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 1.25rem;
-  flex: 1;
-}
-
-.stageLabel {
-  font-family: var(--font-ui);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--clr-accent-green);
-  letter-spacing: 0.02em;
-}
-
-.stageTitle {
-  font-family: var(--font-ui);
-  font-size: 1.125rem;
-  font-weight: 600;
-  line-height: 1.4;
-  margin: 0;
-}
-
-.stageDesc {
-  font-family: var(--font-story);
-  font-size: 0.875rem;
-  color: var(--clr-text-muted);
-  line-height: 1.65;
-  margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
+/* ── Section nav ── */
 
 .sectionNav {
   padding: 0.75rem 0;
@@ -180,27 +94,6 @@
   text-decoration: underline;
 }
 
-.stageMeta {
-  display: inline-block;
-  align-self: flex-start;
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--clr-accent-green);
-  background: rgb(84 137 106 / 0.1);
-  padding: 0.2rem 0.6rem;
-  border-radius: 3px;
-  margin-top: auto;
-  padding-top: 0.2rem;
-  padding-bottom: 0.2rem;
-}
-
-.stageMetaEmpty {
-  composes: stageMeta;
-  color: var(--clr-text-muted);
-  background: rgb(114 114 114 / 0.08);
-}
-
 /* ── Scroll catalog section ── */
 
 .scrollSection {
@@ -218,7 +111,7 @@
 
 .scrollGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.25rem;
 }
 
@@ -267,7 +160,7 @@
   flex: 1;
 }
 
-.scrollCardTitle {
+.cardTitle {
   font-family: var(--font-ui);
   font-size: 1rem;
   font-weight: 600;
@@ -275,7 +168,7 @@
   margin: 0;
 }
 
-.scrollCardMeta {
+.cardMeta {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
@@ -284,17 +177,29 @@
   color: var(--clr-text-muted);
 }
 
-.scrollCardEra,
-.scrollCardAuthor {
+.cardEra,
+.cardAuthor {
   display: inline-block;
 }
 
-.scrollCardAuthor::before {
+.cardAuthor::before {
   content: "·";
   margin-right: 0.5rem;
 }
 
-.scrollCardStages {
+.cardSnippet {
+  font-family: var(--font-story);
+  font-size: 0.8125rem;
+  color: var(--clr-text);
+  line-height: 1.6;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cardChapters {
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;
@@ -302,7 +207,7 @@
   padding-top: 0.5rem;
 }
 
-.scrollCardStageTag {
+.cardChapterTag {
   display: inline-block;
   font-family: var(--font-ui);
   font-size: 0.6875rem;
@@ -313,7 +218,7 @@
   white-space: nowrap;
 }
 
-.scrollCardStageMore {
+.cardChapterMore {
   display: inline-block;
   font-family: var(--font-ui);
   font-size: 0.6875rem;

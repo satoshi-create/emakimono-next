@@ -171,20 +171,39 @@
 
   "kusouzuHub": {
     "pagetitle": "Nine Stages of Decay (Kusōzu) — Hub",
-    "metaDesc": "Explore the ten phases of kusōzu (Nine Stages of Decay) and browse picture scrolls that depict each stage, viewable through horizontal scrolling on emakimono.com.",
+    "metaDesc": "Explore the stages of kusōzu (Nine Stages of Decay) and browse picture scrolls that depict each stage, viewable through horizontal scrolling on emakimono.com.",
     "breadcrumb": "Nine Stages of Decay",
     "introTitle": "What is Kusōzu?",
-    "intro": "Kusōzu (Nine Stages of Decay) is Buddhist art depicting ten phases of a body after death—from the living form to ashes. These works contrast beauty with impermanence and support meditative contemplation. On this site you can unroll kusōzu picture scrolls horizontally, scene by scene.",
+    "intro": "Kusōzu (Nine Stages of Decay) is Buddhist art depicting nine stages of a corpse plus the living form — ten scenes from life to ashes. These works contrast beauty with impermanence and support meditative contemplation. On this site you can unroll kusōzu picture scrolls horizontally, scene by scene.",
     "tips": "Viewing tips — pause at each section to take in the art. For kusōzu scrolls, slow contemplative viewing is recommended.",
-    "stageSectionTitle": "Ten phases",
+    "stageSectionTitle": "All scenes",
     "scrollSectionTitle": "Kusōzu picture scrolls",
     "stageNumber": "Phase {{stage}}",
     "stageScrollCount": "Available in {{count}} scroll(s)",
     "stageNoScrolls": "No scrolls on this site",
     "linkLabel": "Nine Stages of Decay — Hub",
-    "linkDesc": "Explore the ten phases and scrolls on emakimono.com",
+    "linkDesc": "Explore each stage and related scrolls on emakimono.com",
     "otherScrollsTitle": "Other kusōzu scrolls",
-    "hubNudgeLabel": "View kusōzu hub (ten phases)"
+    "hubNudgeLabel": "View kusōzu hub"
+  },
+
+  "choujuGigaHub": {
+    "pagetitle": "Chōjū-jinbutsu-giga — Hub",
+    "pagetitleEn": "Chōjū-jinbutsu-giga — Hub",
+    "metaDesc": "Browse all four scrolls of Chōjū-jinbutsu-giga (Frolicking Animals and Humans), Japan's oldest cartoon-like picture scrolls from the Heian-Kamakura period.",
+    "metaDescEn": "Browse all four scrolls of Chōjū-jinbutsu-giga (Frolicking Animals and Humans), Japan's oldest cartoon-like picture scrolls from the Heian-Kamakura period.",
+    "introTitle": "Chōjū-jinbutsu-giga",
+    "introTitleEn": "Chōjū-jinbutsu-giga",
+    "intro": "Chōjū-jinbutsu-giga (Frolicking Animals and Humans) is a set of four picture scrolls from the Heian-Kamakura period. Famous for humorous depictions of rabbits, monkeys, and frogs behaving like humans, it is often called Japan's oldest manga. Browse all four scrolls horizontally.",
+    "introEn": "Chōjū-jinbutsu-giga (Frolicking Animals and Humans) is a set of four picture scrolls from the Heian-Kamakura period. Famous for humorous depictions of rabbits, monkeys, and frogs behaving like humans, it is often called Japan's oldest manga. Browse all four scrolls horizontally.",
+    "breadcrumb": "Chōjū-jinbutsu-giga — Hub",
+    "scrollSectionTitle": "Browse all 4 scrolls",
+    "scrollSectionTitleEn": "Browse all 4 scrolls",
+    "hubNudgeLabel": "View Chōjū-jinbutsu-giga hub",
+    "hubNudgeLabelEn": "View Chōjū-jinbutsu-giga hub",
+    "linkLabel": "Chōjū-jinbutsu-giga — Hub",
+    "linkDesc": "Browse all 4 scrolls of Chōjū-jinbutsu-giga",
+    "linkDescEn": "Browse all 4 scrolls of Chōjū-jinbutsu-giga"
   },
 
   "privacy": {
