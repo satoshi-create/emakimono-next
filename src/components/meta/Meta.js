@@ -25,8 +25,8 @@ const Meta = ({
 
   const img = pageImg ? pageImg : "/ogp.png";
   const imgUrl = img.startsWith("https") ? img : `${SITE_ORIGIN}${img}`;
-  const imgW = pageImgW ? pageImgW : "533";
-  const imgH = pageImgH ? pageImgH : "300";
+  const imgW = pageImgW ? pageImgW : "1200";
+  const imgH = pageImgH ? pageImgH : "630";
 
   return (
     <Head>
@@ -59,6 +59,9 @@ const Meta = ({
       <meta property="og:image:width" content={imgW} />
       <meta property="og:image:height" content={imgH} />
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={pageDescAll} />
+      <meta name="twitter:image" content={imgUrl} />
       {noindex && <meta name="robots" content="noindex, nofollow" />}
 
       <link rel="icon" href="/favicon.png" />

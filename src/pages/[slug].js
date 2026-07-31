@@ -7,6 +7,7 @@ import MiddleNavigation from "@/components/navigation/MiddleNavigation";
 import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
 import { default as enData, default as jaData } from "@/data/data";
 import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
+import { OGP_IMAGE_FALLBACKS } from "@/libs/constants/emakiOgImages";
 import { AppContext } from "@/context/AppContext";
 import { buildEmakiJsonLd } from "@/utils/buildEmakiJsonLd";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
@@ -75,13 +76,18 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
 
   const pageDescTemp = pageDesc ? pageDesc : tPageDesc;
 
+  // OGP画像: 生成済みの /ogp/{titleen}.jpg を優先し、
+  // ローカルサムネが存在しない絵巻は Cloudinary 変換URLを使用
+  const ogImage =
+    OGP_IMAGE_FALLBACKS[data.titleen] || `/ogp/${encodeURI(data.titleen)}.jpg`;
+
   const jsonLd = buildEmakiJsonLd({
     locale,
     slug,
     defaultLocale,
     name: pagetitle,
     description: pageDescTemp,
-    image: data.thumb,
+    image: ogImage,
     creatorName: pageAuthor,
     siteTitle: t.siteTitle,
     typeName: locale === "en" ? data.typeen : data.type,
@@ -147,9 +153,9 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
         pagetitle={pagetitle}
         pageAuthor={pageAuthor}
         pageDesc={pageDescTemp}
-        pageImg={data.thumb}
-        pageImgW={data.thumb.width}
-        pageImgH={data.thumb.height}
+        pageImg={ogImage}
+        pageImgW={1200}
+        pageImgH={630}
         pageType={data.type}
         jsonLd={jsonLd}
       />
