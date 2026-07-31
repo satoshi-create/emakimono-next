@@ -59,6 +59,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     keyword,
     personname,
     kotobagaki,
+    sceneText,
     titleen,
   } = data;
 
@@ -198,7 +199,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             {isKusouzu && <KusouzuHubLink variant="tag" />}
             {isChojuGiga && <ChojuGigaHubLink variant="tag" />}
 
-            {!kotobagaki && (
+            {!(kotobagaki || sceneText) && (
               <>
                 <h4
                   className={styles.metaBtitle}
@@ -232,6 +233,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
                           index={idx}
                           ekotobaId={ekotobaId}
                           kotobagaki={kotobagaki}
+                          sceneText={sceneText}
                           iconType={"location"}
                           isActive={idx === activeEkotobaIndex}
                         />
@@ -243,7 +245,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             )}
 
             {/* 各段の詞書・解説 */}
-            {kotobagaki && (
+            {(kotobagaki || sceneText) && (
               <>
                 <h4
                   className={styles.metaBtitle}

@@ -4,7 +4,8 @@
     "title": "火象地獄",
     "gendaibun": "鐵圍山の北にあたる火象地獄（かぞうじごく）という所がある。<br>ここには、生前に殺生・偸盗・邪淫・妄語を犯し、また五戒を守る者に酒を飲ませて酔わせた僧侶が堕ちる。<br>この地獄には、火の象のような猛獣が現れ、罪人を噛み砕き、獄卒たちも罪人を責め苦にあわせる。",
     "kobun": "",
-    "desc": "『馬頭羅刹経』に説かれる火象地獄を描く段（词書01 + 絵02）。",
+    "desc": "この段は、『馬頭羅刹経』に説かれる火象地獄（かぞうじごく）を描きます。沙門（僧侶）でありながら戒律を破った者が堕ちるとされ、火の象のような猛獣に噛み砕かれる苦しみが詞書に記されます。益田家甲本は、本来は一巻の絵巻だったものの断簡が残る作品で、現存する場面から、僧侶の堕落を戒める主題だったと考えられています。詞書と絵が交互に配される構成は、経典の教えを絵と文で説く絵説法の形式をとります。",
+    "descen": "This scene depicts the Fire Elephant Hell described in the Batō-rasha-kyō. Monks who broke the precepts fall here, crushed by beasts like elephants of fire as the caption describes. The Masuda family text survives only as fragments of an originally continuous scroll; from the remaining scenes it is thought to have admonished the corruption of the clergy. The alternating arrangement of captions and pictures follows the format of painting as a sermon.\n",
     "titleen": "Kazo Hell"
   },
   {
@@ -12,7 +13,8 @@
     "title": "咩声地獄",
     "gendaibun": "鐵圍山北にあたれる咩穀地獄（めこくじごく）という所がある。<br>ここには、生前に殺生・偸盗・邪淫を犯した僧侶が堕ちる。<br>この地獄には、赤い鬼たちが罪人を追い立て、猛火の中へ投げ込む。罪人は叫び声を上げ、逃れる術もない。",
     "kobun": "",
-    "desc": "『馬頭羅刹経』に説かれる咩声地獄を描く段（词書03 + 絵04）。",
+    "desc": "この段は、『馬頭羅刹経』に説かれる咩声地獄（めいしょうじごく）を描きます。こちらも、殺生・偸盗・邪淫を犯した僧侶が堕ちる地獄です。赤い鬼たちが罪人を追い立て、猛火の中へ投げ込む様子が詞書に記され、罪人は叫び声を上げるばかりで逃れる術もありません。「咩声」とは羊の鳴き声を表す字で、責め苦のうちにあげる叫びをたとえた名称とされます。詞書の語源と絵の迫真性が、経典説話を伝えるこの絵巻の性格をよく示しています。",
+    "descen": "This scene depicts the Sheep's Cry Hell of the Batō-rasha-kyō, likewise for monks who committed killing, stealing, and lust. Red demons drive the sinner into raging flames, leaving him nothing but screams and no escape. The name 'Meikō' literally writes the cry of a sheep, likening the shrieks of the tormented to an animal's bleat. The wordplay of the caption and the vividness of the painting together show the scroll's character as illustrated scripture-telling.\n",
     "titleen": "Meiko Hell"
   }
 ]

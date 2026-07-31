@@ -20,6 +20,7 @@ const ChapterTimeline = ({
   era,
   ekotobaId,
   kotobagaki,
+  sceneText,
   iconType,
   isActive,
   scrollOnActive,
@@ -113,7 +114,7 @@ const ChapterTimeline = ({
         </Text>
       </HStack>
       {/* セクション間のボタン */}
-      {kotobagaki && (
+      {(kotobagaki || sceneText) && (
         <Button
           display="flex"
           alignItems="center"

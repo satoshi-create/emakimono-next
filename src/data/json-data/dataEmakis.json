@@ -3850,6 +3850,7 @@
       }
     ],
     "kotobagaki": true,
+    "sceneText": false,
     "favorite": false,
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
     "sourceImage": "餓鬼草紙（ColBase）",
@@ -3873,7 +3874,8 @@
         "srcHeight": "",
         "srcWidth": "",
         "gendaibun": "欲色餓鬼（よくじきがき）とは、生前に売淫で得た財を施し、人を色欲に誘惑した者の報いである。<br><br>この餓鬼は心のままに姿を変え、美しくも醜くもなれる。人家に忍び入り盗み食いをし、あるいは女の形に化けて男と交わるという。絵では、琵琶を弾く遊女や貴族の宴の場に、人の目に見えぬ餓鬼が紛れている様子が描かれる。",
-        "desc": "『正法念処経』第二十一・迦摩（欲色）餓鬼。词書は原本にないため、経典に基づく解説文。"
+        "desc": "『正法念処経』第二十一に説かれる迦摩（欲色）餓鬼を描きます。この絵巻は詞書（こしき）を持たない絵のみの構成のため、解説は経典の記述に基づいています。画面では、琵琶を弾く遊女や宴の座のそばに、人の目に見えない餓鬼がひそむ様子が、現世の風俗と重ねて描かれます。",
+        "descen": "This scene depicts the Gama (lustful) hungry ghost described in chapter 21 of the Shōbōnenjō-kyō. The scroll carries no written captions, so this commentary is based on the sutra text. Invisible to humans, the ghost haunts banquets and courtesan quarters, blending the otherworldly with the everyday customs of Heian life."
       },
       {
         "cat": "image",
@@ -3893,7 +3895,8 @@
         "srcHeight": "",
         "srcWidth": "",
         "gendaibun": "伺嬰児便餓鬼（しえいじべんがき）とは、生前に人の嬰児を殺され、大いに怒り、「来世は夜叉となって報いを受けさせる」と誓願した者の報いである。<br><br>産褥の場を伺い、赤子の過失を求めてその命を断とうとする。神通自在で、須臾の間に百千由旬を行き来するという。絵では出産の場に僧が座り、背後から女がのぞき込むなど、人間の営みと餓鬼の存在が交錯する。",
-        "desc": "『正法念処経』第二十・蚩陀羅（伺嬰児便）餓鬼。"
+        "desc": "『正法念処経』第二十に説かれる蚩陀羅（伺嬰児便）餓鬼を描きます。生まれた子を殺された母が、「来世は夜叉となって報いを受ける」と誓った報いとされます。産褥（さんじょく）の場をうかがい、赤子の命を断とうとする姿は、人間の営みのすぐ隣に存在する餓鬼の世界を暗示します。絵では、産室のそばに僧の姿が描かれ、出産という現世の出来事と餓鬼の世界が対置されます。",
+        "descen": "This is the Shieijiben hungry ghost of chapter 20 of the Shōbōnenjō-kyō, said to be the retribution for a mother who, having lost her child, swore to become a yaksha in the next life. The ghost watches over childbirth, waiting to take an infant's life—a reminder that the hungry ghost realm lies just beside human existence. In the painting, a monk sits by the birthing room, setting the ghostly world against the everyday event of childbirth."
       },
       {
         "cat": "image",
@@ -3913,7 +3916,8 @@
         "srcHeight": "",
         "srcWidth": "",
         "gendaibun": "伺便餓鬼（しべんがき）とは、生前に詐欺で財を奪い、人の隙を伺って劫掠した者の報いである。<br><br>全身の毛孔から火が出て自らを焼き、飢渇に苦しみながら、不浄な場所や大小便のそばをうろつき、人の便を待ち求める。絵では路傍や家の外で用を足す人々の周囲に、腹の膨れた餓鬼たちが群がる。",
-        "desc": "『正法念処経』第十六・蚩陀邏（伺便）餓鬼。"
+        "desc": "『正法念処経』第十六に説かれる蚩陀邏（伺便）餓鬼を描きます。生前に詐欺で財を奪い、人の隙をうかがって略奪した者が、飢渇に苦しみながら人の排泄物を求めてさまよう姿が描かれます。全身の毛孔から火が出て自らを焼くという描写は、欲に焼かれる業を象徴します。路傍で用を足す人々のそばに、腹の膨れた餓鬼が群がる様子は、現世の風俗と業報を重ねるこの絵巻の手法をよく示しています。",
+        "descen": "This is the Shiben hungry ghost of chapter 16 of the Shōbōnenjō-kyō, the retribution of those who swindled and robbed others in life. Tormented by hunger and thirst, it prowls near latrines seeking human waste. The flames that burn from its own pores symbolize the karma of craving. Ghosts with swollen bellies crowding beside people at their toilets is a fine example of the scroll's way of layering everyday Heian customs with karmic retribution."
       },
       {
         "cat": "image",
@@ -3933,7 +3937,8 @@
         "srcHeight": "",
         "srcWidth": "",
         "gendaibun": "疾行餓鬼（しっこうがき）とは、生前に出家して戒を破り、町村を徘徊して欺罔（ぎもう）の財を求めた者の報いである。<br><br>その行は迅疾で、一念の間に百千由旬に至る。不浄の場所で穢物を食べ、行不浄の人を悩ませ、悪夢を見せるという。絵では塚や卒塔婆のある野辺に、死体や骨をめぐって餓鬼がうろつく。",
-        "desc": "『正法念処経』第十五・阿毘遮羅（疾行）餓鬼。"
+        "desc": "『正法念処経』第十五に説かれる阿毘遮羅（疾行）餓鬼を描きます。生前に出家して戒律を破り、欺瞞の財を求めて村々を巡った者が、一念の間に百千由旬を走る速さを与えられた報いとされます。しかし、いくら走っても飢えは満たされず、不浄の物を食うとされます。絵では、塚や卒塔婆のある野辺を舞台に、死体や骨をめぐって餓鬼がうろつく異様な光景が広がります。",
+        "descen": "This is the Abichara (swift) hungry ghost of chapter 15 of the Shōbōnenjō-kyō. A monk who broke his vows and wandered villages seeking ill-gotten wealth is punished with the ability to travel a hundred thousand yojanas in an instant—yet no distance can satisfy his hunger. In the painting, an eerie scene unfolds in a field of grave mounds and stupas, where ghosts prowl around corpses and bones."
       },
       {
         "cat": "image",
@@ -3953,7 +3958,8 @@
         "srcHeight": "",
         "srcWidth": "",
         "gendaibun": "食糞餓鬼（しょくふんがき）とは、生前に慳貪で布施をせず、あるいは不浄な食物を僧に施した者の報いである。<br><br>人の糞尿を食とし、求めても得られず、飢渇の火に身を焼かれる。絵では泥水のたまりに身を沈め、穢物を口に運ぶ餓鬼が、同类とともに描かれる。",
-        "desc": "『正法念処経』第四・毘師咃（食糞）餓鬼。"
+        "desc": "『正法念処経』第四に説かれる毘師咃（食糞）餓鬼を描きます。生前に物惜しみして布施をせず、僧に不浄な食物を施した者が、人の糞尿を食とし、求めても得られず飢えに焼かれるとされます。詞書を持たないこの絵巻では、経典の記述を絵だけで伝えます。泥水のたまりに身を沈め、穢物を口に運ぶ餓鬼の姿は、施しの精神の欠如がもたらす業の結果を、容赦なく見せます。",
+        "descen": "This is the Bishita (excrement-eating) hungry ghost of chapter 4 of the Shōbōnenjō-kyō. Those who were miserly, gave no alms, or offered unclean food to monks are condemned to eat human waste, seeking it in vain and burning with hunger. With no captions, the scroll relies entirely on imagery. A ghost sunk in muddy water, bringing filth to its mouth, unsparingly visualizes the karmic result of a life without generosity."
       },
       {
         "cat": "image",
@@ -3973,7 +3979,8 @@
         "srcHeight": "",
         "srcWidth": "",
         "gendaibun": "曠野餓鬼（こうやがき）とは、生前に曠野の険しい所で強盗を働き、林木や水源を破壊して旅人の財を奪った者の報いである。<br><br>飢火に身を焼かれ曠野を奔走し、水を呼んでも近づけば消え、荊棘に足を刺され、雕鷲に目を啄まれるという。絵では野原に倒れた餓鬼の身上を、大きな鳥たちが襲う。",
-        "desc": "『正法念処経』第三十二・阿吒毘（曠野）餓鬼。"
+        "desc": "『正法念処経』第三十二に説かれる阿吒毘（曠野）餓鬼を描きます。曠野で強盗を働き、林木や水源を壊して旅人の財を奪った者が、飢火に焼かれながら野原を奔走するとされます。水を呼んでも近づけば消え、荊棘（いばら）に足を刺され、雕鷲（ちょうじゅう）に目を啄まれるという記述が、その報いの苛烈さを物語ります。絵では、野に倒れた餓鬼の身上を大きな鳥たちが襲う、凄惨でありながら哀れを誘う場面が描かれます。",
+        "descen": "This is the Ataibi (wilderness) hungry ghost of chapter 32 of the Shōbōnenjō-kyō. Those who robbed travelers on the road and destroyed trees and water sources are condemned to wander the plains, burning with hunger. Water vanishes when they approach, thorns pierce their feet, and great vultures peck at their eyes. The painting shows large birds attacking a ghost fallen in the field—a cruel yet pitiable scene."
       },
       {
         "cat": "image",
@@ -3993,7 +4000,8 @@
         "srcHeight": "",
         "srcWidth": "",
         "gendaibun": "食火炭餓鬼（しょくかたんがき）とは、生前に刑獄を司り、囚人を飢渇させて虐待した者の報いである。<br><br>塚墓に至り、焼屍の火炭を食べて飢渇をしのぐ。絵では炎を携えた餓鬼や、口に火の粉を落とされて苦しむ餓鬼など、火と飢えの業報が一続きの画面に描かれる。",
-        "desc": "『正法念処経』第三十・鴦伽囉婆叉（食火炭）餓鬼。"
+        "desc": "『正法念処経』第三十に説かれる鴦伽囉婆叉（食火炭）餓鬼を描きます。刑獄を司り、囚人を飢えさせて虐待した者が、塚墓に至り焼屍の火炭を食べて飢えをしのぐとされます。詞書を持たないため、絵の連続だけで物語が語られます。炎を携えた餓鬼や、口に火の粉を落とされて苦しむ餓鬼が一続きの画面に並び、火と飢えに苛まれる業報が静かに、しかし容赦なく描かれます。",
+        "descen": "This is the Onkara-hasha (fire-charcoal-eating) hungry ghost of chapter 30 of the Shōbōnenjō-kyō. Officials who starved and abused prisoners are condemned to eat the burning coals of cremated corpses in graveyards. Without captions, the story is told purely through the sequence of images. Ghosts bearing flames and others suffering as fire falls into their mouths appear in a single continuous scene, quietly but relentlessly depicting the retribution of fire and hunger."
       },
       {
         "cat": "image",
@@ -10159,6 +10167,7 @@
       }
     ],
     "kotobagaki": true,
+    "sceneText": false,
     "favorite": true,
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-1601",
     "sourceImage": "絵師草紙（東京国立博物館）",
@@ -10191,7 +10200,9 @@
         "srcHeight": "1080",
         "srcWidth": "2874",
         "gendaibun": "朝恩（ちょうおん）なれば忝（かたじ）けなく、悦事（よろこぶこと）限りなし。此由（このよし）家に帰りて語りければ、妻子眷属（さいしけんぞく）ども走り集ひて、いまだ未倒の土貢（どこう）の納所（なっしょ）を求め認（したため）むる有様、笑ひ罵る声々、天地を響かして、物音も聞こえ侍らずぞありし。然（き）る程に、老母をはじめとして、疎（うと）からぬ輩と賀酒（がのさけ）を飲みけるが、早や酔（え）いぬれば、乱舞一声に及ぶままに、次第に飲み叱りつつ、酒又取り寄せけるが、使も酔いぬれば、縁の破れに足を入て倒れければ、酒もこぼしぬ。使（つかい）しかねて水を入加へて出だしたりけれども、皆酔いぬる心地には、善悪を弁（わきま）へずして、其日は朝（あした）より飲み暮らし侍りけるとかや。",
-        "kobun": "朝恩（ちょうおん）なれば忝（かたじ）けなく、悦事（よろこぶこと）限りなし。此由（このよし）家に帰りて語りければ、妻子眷属（さいしけんぞく）ども走り集ひて、いまだ未倒の土貢（どこう）の納所（なっしょ）を求め認（したため）むる有様、笑ひ罵る声々、天地を響かして、物音も聞こえ侍らずぞありし。然（き）る程に、老母をはじめとして、疎（うと）からぬ輩と賀酒（がのさけ）を飲みけるが、早や酔（え）いぬれば、乱舞一声に及ぶままに、次第に飲み叱りつつ、酒又取り寄せけるが、使も酔いぬれば、縁の破れに足を入て倒れければ、酒もこぼしぬ。使（つかい）しかねて水を入加へて出だしたりけれども、皆酔いぬる心地には、善悪を弁（わきま）へずして、其日は朝（あした）より飲み暮らし侍りけるとかや。"
+        "kobun": "朝恩（ちょうおん）なれば忝（かたじ）けなく、悦事（よろこぶこと）限りなし。此由（このよし）家に帰りて語りければ、妻子眷属（さいしけんぞく）ども走り集ひて、いまだ未倒の土貢（どこう）の納所（なっしょ）を求め認（したため）むる有様、笑ひ罵る声々、天地を響かして、物音も聞こえ侍らずぞありし。然（き）る程に、老母をはじめとして、疎（うと）からぬ輩と賀酒（がのさけ）を飲みけるが、早や酔（え）いぬれば、乱舞一声に及ぶままに、次第に飲み叱りつつ、酒又取り寄せけるが、使も酔いぬれば、縁の破れに足を入て倒れければ、酒もこぼしぬ。使（つかい）しかねて水を入加へて出だしたりけれども、皆酔いぬる心地には、善悪を弁（わきま）へずして、其日は朝（あした）より飲み暮らし侍りけるとかや。",
+        "desc": "絵師草紙は、鎌倉時代の絵師の貧しい境遇を、みずからの体験にもとづいて描いたといわれる絵巻です。この段では、絵師が領地（知行）を与えられたという朝廷の宣旨を受けて、一家で祝杯をあげる喜びの場面が描かれます。しかし、この「喜び」は次の段で「ぬか喜び」だったことが明かされます。詞書は、酔った使いが酒をこぼすなどの滑稽な細部をユーモラスに描き、喜びの絶頂とその反転を予感させます。鎌倉時代の絵師の身分や暮らしを伝える貴重な資料です。",
+        "descen": "The Eshi Sōshi is a scroll thought to depict the poverty of a Kamakura-period painter, drawn from experience. Here the artist and his household celebrate receiving an imperial decree granting him a fief. The joy, however, is revealed in the next scene to be hollow. The caption humorously describes the tipsy messenger spilling sake, foreshadowing the reversal of fortune. The scroll is a rare record of the status and daily life of painters in medieval Japan."
       },
       {
         "cat": "image",
@@ -10238,7 +10249,9 @@
         "srcHeight": "1080",
         "srcWidth": "1901",
         "gendaibun": "次日（つぎのひ）は急ぎ人拵（こしら）へつつ、田舎へ下遣（くだしつか）はしぬ。然る程に雲煙（うんえん）を凌ぐ海路も、月日過ぐれば、心許ながりつる。雁（かり）の使も帰り来り、先（まず）嬉しくて文（ふみ）を開き見るに、所の有様と覚しくて、土民の武威を高ずる次第、先使（せんし）が取りて年貢のなき事ばかりを書きてこの外は何事も見えざりければ、大方（おおかた）正躰（体）なきに、いよいよ煙絶え行く家の有様、人の跡なき庭の景色、何に命のかかるべきなれば、従類も散り行きて自（おのずか）ら留まる者は、子を思ふ老母の悲しみに惑へる。夫を慕ふ賎婦（せんぷ）の別れを嘆くなどなれば、皆飢を忍び、貧しきを忘て、残ゐ（のこり）たり。この輩（ともがら）を見るに、眼も暮るる心の内、ただ推し量られたり。",
-        "kobun": "次日（つぎのひ）は急ぎ人拵（こしら）へつつ、田舎へ下遣（くだしつか）はしぬ。然る程に雲煙（うんえん）を凌ぐ海路も、月日過ぐれば、心許ながりつる。雁（かり）の使も帰り来り、先（まず）嬉しくて文（ふみ）を開き見るに、所の有様と覚しくて、土民の武威を高ずる次第、先使（せんし）が取りて年貢のなき事ばかりを書きてこの外は何事も見えざりければ、大方（おおかた）正躰（体）なきに、いよいよ煙絶え行く家の有様、人の跡なき庭の景色、何に命のかかるべきなれば、従類も散り行きて自（おのずか）ら留まる者は、子を思ふ老母の悲しみに惑へる。夫を慕ふ賎婦（せんぷ）の別れを嘆くなどなれば、皆飢を忍び、貧しきを忘て、残ゐ（のこり）たり。この輩（ともがら）を見るに、眼も暮るる心の内、ただ推し量られたり。"
+        "kobun": "次日（つぎのひ）は急ぎ人拵（こしら）へつつ、田舎へ下遣（くだしつか）はしぬ。然る程に雲煙（うんえん）を凌ぐ海路も、月日過ぐれば、心許ながりつる。雁（かり）の使も帰り来り、先（まず）嬉しくて文（ふみ）を開き見るに、所の有様と覚しくて、土民の武威を高ずる次第、先使（せんし）が取りて年貢のなき事ばかりを書きてこの外は何事も見えざりければ、大方（おおかた）正躰（体）なきに、いよいよ煙絶え行く家の有様、人の跡なき庭の景色、何に命のかかるべきなれば、従類も散り行きて自（おのずか）ら留まる者は、子を思ふ老母の悲しみに惑へる。夫を慕ふ賎婦（せんぷ）の別れを嘆くなどなれば、皆飢を忍び、貧しきを忘て、残ゐ（のこり）たり。この輩（ともがら）を見るに、眼も暮るる心の内、ただ推し量られたり。",
+        "desc": "使者が持ち帰った文書には、与えられた土地の実情——年貢がまったく納められない荒れ地であること——だけが記されており、絵師の喜びが無意味だったことが明かされます。煙の絶えた家、人の気配のない庭、子を想う老母の悲しみ、夫を慕う妻の別れの嘆きが、詞書に切々と綴られます。この段は、絵師の絶望を、具体的な生活の光景に落とし込んで描きます。形式どおりの「朝恩」の有難さと、現実の生活の厳しさの落差が、絵巻全体の主題です。",
+        "descen": "The letter the messenger brings back reveals the truth: the granted land is a wasteland that yields no annual tribute at all. The caption poignantly describes a house whose smoke has ceased, an empty garden, a mother weeping for her son, and a wife lamenting her husband's departure. The scene translates the painter's despair into concrete images of daily life. The gap between the formality of imperial favor and the harshness of real life is the central theme of the scroll."
       },
       {
         "cat": "image",
@@ -10276,7 +10289,9 @@
         "srcHeight": "1080",
         "srcWidth": "2301",
         "gendaibun": "て馳帰りけるが、折節（おりふし）絵の事ども奉行し給（たまい）て、便よく侍りければ、当寺の上卿（しょうけい）の弟（だい）に参りて、「御所様の御哀憐の外は、頼む方なき身の有様を申入ける事どもは、朝恩も侍らず。又、本自（もとより）私の領とて、針を立つる所も知行（ちぎょう）なし。只、古絵本、旧記などをぞ家に伝え侍る。されば明け暮れ顔子一箪（がんしいったん）の食（し）忍び難く、原生百結（げんせいひゃっけつ）の衣恥ずるに足りぬべし。",
-        "kobun": "て馳帰りけるが、折節（おりふし）絵の事ども奉行し給（たまい）て、便よく侍りければ、当寺の上卿（しょうけい）の弟（だい）に参りて、「御所様の御哀憐の外は、頼む方なき身の有様を申入ける事どもは、朝恩も侍らず。又、本自（もとより）私の領とて、針を立つる所も知行（ちぎょう）なし。只、古絵本、旧記などをぞ家に伝え侍る。されば明け暮れ顔子一箪（がんしいったん）の食（し）忍び難く、原生百結（げんせいひゃっけつ）の衣恥ずるに足りぬべし。"
+        "kobun": "て馳帰りけるが、折節（おりふし）絵の事ども奉行し給（たまい）て、便よく侍りければ、当寺の上卿（しょうけい）の弟（だい）に参りて、「御所様の御哀憐の外は、頼む方なき身の有様を申入ける事どもは、朝恩も侍らず。又、本自（もとより）私の領とて、針を立つる所も知行（ちぎょう）なし。只、古絵本、旧記などをぞ家に伝え侍る。されば明け暮れ顔子一箪（がんしいったん）の食（し）忍び難く、原生百結（げんせいひゃっけつ）の衣恥ずるに足りぬべし。",
+        "desc": "絵師は、知行の地が遠方の荒れ地だったため、嘆願のために上洛します。詞書では、古絵本や旧記しか家に伝えるものがない貧しさが述べられ、『顔子一箪の食』『原生百結の衣』といった中国の故事を引いて、みすぼらしい暮らしを表現します。鎌倉時代の絵師は、今日の芸術家とは異なり、注文主に奉公する職人であり、その経済基盤は不安定でした。このような身の上を訴える「申文」をしたため、権力者に直訴する文化があったことを、この絵巻は伝えています。",
+        "descen": "The painter travels to the capital to plead his case, having discovered that his fief is a remote wasteland. The caption tells of a household that owns nothing but old picture books and documents, citing Chinese sayings—Gan Hui's single bamboo bowl and the hundred-patched coat—to convey his shabby poverty. Unlike artists today, Kamakura-period painters were craftsmen in service to their patrons, with fragile livelihoods. The scroll documents the culture of submitting written petitions and appealing directly to those in power."
       },
       {
         "cat": "ekotoba",
@@ -10287,7 +10302,9 @@
         "srcHeight": "1080",
         "srcWidth": "2477",
         "gendaibun": "この思ひ、少年の昔より強仕（きょうし）の今に及ぶまで、寝ても覚めても休む事なし。然れども稽古日を重ね、奉公年を経ぬる上、旧院他ニ異に、召仕侍りしかば、君も如何でか捨てさせ給ふべきに、適（たまたま）の　朝恩、故なく召されぬる事、面目を失うのみにあらず。且（かつ）は宮古（都）に跡を留め難く侍り。させる罪なき身の沈果（しずみは）てなば、既に一流の威（滅）亡となりなんこそ、不便なれ」と、忠実（まめ）やかに悲涙を流しつつ申しければ、上卿急ぎ　奏給ける。　勅答には、哀れみ思し召されけるにや、本の伊州を還給（かえしたまう）べき申うけ給（承）るこそ、先畏（まずかしこまり）覚えしが、其時重ねて申入けるは、「此所あまりに遥かなる上、又興行の沙汰も、身の上なくては、道行き難き間、当時、此地に命を懸けて奉公し難く侍り。",
-        "kobun": "この思ひ、少年の昔より強仕（きょうし）の今に及ぶまで、寝ても覚めても休む事なし。然れども稽古日を重ね、奉公年を経ぬる上、旧院他ニ異に、召仕侍りしかば、君も如何でか捨てさせ給ふべきに、適（たまたま）の　朝恩、故なく召されぬる事、面目を失うのみにあらず。且（かつ）は宮古（都）に跡を留め難く侍り。させる罪なき身の沈果（しずみは）てなば、既に一流の威（滅）亡となりなんこそ、不便なれ」と、忠実（まめ）やかに悲涙を流しつつ申しければ、上卿急ぎ　奏給ける。　勅答には、哀れみ思し召されけるにや、本の伊州を還給（かえしたまう）べき申うけ給（承）るこそ、先畏（まずかしこまり）覚えしが、其時重ねて申入けるは、「此所あまりに遥かなる上、又興行の沙汰も、身の上なくては、道行き難き間、当時、此地に命を懸けて奉公し難く侍り。"
+        "kobun": "この思ひ、少年の昔より強仕（きょうし）の今に及ぶまで、寝ても覚めても休む事なし。然れども稽古日を重ね、奉公年を経ぬる上、旧院他ニ異に、召仕侍りしかば、君も如何でか捨てさせ給ふべきに、適（たまたま）の　朝恩、故なく召されぬる事、面目を失うのみにあらず。且（かつ）は宮古（都）に跡を留め難く侍り。させる罪なき身の沈果（しずみは）てなば、既に一流の威（滅）亡となりなんこそ、不便なれ」と、忠実（まめ）やかに悲涙を流しつつ申しければ、上卿急ぎ　奏給ける。　勅答には、哀れみ思し召されけるにや、本の伊州を還給（かえしたまう）べき申うけ給（承）るこそ、先畏（まずかしこまり）覚えしが、其時重ねて申入けるは、「此所あまりに遥かなる上、又興行の沙汰も、身の上なくては、道行き難き間、当時、此地に命を懸けて奉公し難く侍り。",
+        "desc": "絵師は、少年の頃から絵の稽古を重ね、長く奉公してきた身の上を訴えます。詞書には、朝廷から与えられた「朝恩」を失えば、一家の家業が滅んでしまうという悲愴な思いが綴られます。上卿（しょうけい）に泣いて訴える姿は、絵巻の中で最も劇的な場面の一つです。結果、朝廷は哀れみ、もとの伊州（いしゅう）の地を返すことを約束しますが、絵師はそれが遠すぎるとして、再び陳情します。貴族に直接文を上げるという、当時の身分社会の現実がうかがえます。",
+        "descen": "The painter pleads that he has trained in painting since boyhood and served faithfully for years. The caption conveys his despair that losing the imperial favor would destroy his family's craft. His tearful appeal to the chief minister is one of the most dramatic moments in the scroll. The court, moved to pity, promises to return his original land of Ishu—but the painter, finding it too distant, petitions again. The scene reveals the realities of petitioning the nobility in the status-bound society of the age."
       },
       {
         "cat": "ekotoba",
@@ -10298,7 +10315,9 @@
         "srcHeight": "1080",
         "srcWidth": "2716",
         "gendaibun": "同じくば、今少し近き小屋に立替て下されなんや」とて、さもありぬべき所々、数多（あまた）記して参らせければ、御案（ごあん）あるべしとばかりうけ給はりて、過ぎにし秋の末つ方より、春も既に半ばになりぬるにや、愁（うれい）の涙も猶色添ふ心地すれば、沈み果てぬるにこそと、心細きままに、栄花なき身に、盛者必衰も知られ、又妻子珍宝もこの世、後の世の侶（とも）にあらずと聞きしかば、心強くも思ひなりて、さても果つべきならば、あらまほしくて、構えて三蜜の法水を汲みて、鎮めに五智の頂に灌べしとて、一人の子をば真言修行の霊場を尋ねて、遣はし置きぬ。然る程に憂かりし年（歳）は暮れて、新玉の春にも成りぬれば、いよいよ風も折知り、浪も時ありて、治まれる　御代は行く末久しく、栄えゆる国の、すめる恨みを、一人残すべきにあらねば、身づから（自ら）鳥の跡を告げつつ、微かに思ふ心を述ぶと雖（いえど）も、我道の業なれば、真の有様を後策（素　こうそ）に著はして、同洩らし申すなるべし。",
-        "kobun": "同じくば、今少し近き小屋に立替て下されなんや」とて、さもありぬべき所々、数多（あまた）記して参らせければ、御案（ごあん）あるべしとばかりうけ給はりて、過ぎにし秋の末つ方より、春も既に半ばになりぬるにや、愁（うれい）の涙も猶色添ふ心地すれば、沈み果てぬるにこそと、心細きままに、栄花なき身に、盛者必衰も知られ、又妻子珍宝もこの世、後の世の侶（とも）にあらずと聞きしかば、心強くも思ひなりて、さても果つべきならば、あらまほしくて、構えて三蜜の法水を汲みて、鎮めに五智の頂に灌べしとて、一人の子をば真言修行の霊場を尋ねて、遣はし置きぬ。然る程に憂かりし年（歳）は暮れて、新玉の春にも成りぬれば、いよいよ風も折知り、浪も時ありて、治まれる　御代は行く末久しく、栄えゆる国の、すめる恨みを、一人残すべきにあらねば、身づから（自ら）鳥の跡を告げつつ、微かに思ふ心を述ぶと雖（いえど）も、我道の業なれば、真の有様を後策（素　こうそ）に著はして、同洩らし申すなるべし。"
+        "kobun": "同じくば、今少し近き小屋に立替て下されなんや」とて、さもありぬべき所々、数多（あまた）記して参らせければ、御案（ごあん）あるべしとばかりうけ給はりて、過ぎにし秋の末つ方より、春も既に半ばになりぬるにや、愁（うれい）の涙も猶色添ふ心地すれば、沈み果てぬるにこそと、心細きままに、栄花なき身に、盛者必衰も知られ、又妻子珍宝もこの世、後の世の侶（とも）にあらずと聞きしかば、心強くも思ひなりて、さても果つべきならば、あらまほしくて、構えて三蜜の法水を汲みて、鎮めに五智の頂に灌べしとて、一人の子をば真言修行の霊場を尋ねて、遣はし置きぬ。然る程に憂かりし年（歳）は暮れて、新玉の春にも成りぬれば、いよいよ風も折知り、浪も時ありて、治まれる　御代は行く末久しく、栄えゆる国の、すめる恨みを、一人残すべきにあらねば、身づから（自ら）鳥の跡を告げつつ、微かに思ふ心を述ぶと雖（いえど）も、我道の業なれば、真の有様を後策（素　こうそ）に著はして、同洩らし申すなるべし。",
+        "desc": "絵師は、もとの地のかわりに、都に近い小さな小屋に住まわせてほしいと願います。詞書は、長く待たされるうちに希望が失われ、「盛者必衰」を悟り、妻子や財宝への執着を断ち、真言修行の霊場へ子を送る決意へと進みます。最後には、自分の芸道の真実を後世に残したいという、絵師としての矜持が述べられます。絵巻は、愁訴の物語を追いながらも、絵師の芸術への執念と、出家という結末への静かな諦念を描き出します。",
+        "descen": "The painter asks, instead of the distant fief, for only a small hut near the capital. As the caption unfolds, hope fades: he perceives the transience of all glory, cuts his attachments to family and possessions, and sends his son to a mountain retreat for Shingon practice. In the end he voices a craftsman's pride—a wish to leave the truth of his art to posterity. The scroll thus traces not only the story of a petition but also the painter's devotion to his art and his quiet resignation toward an ending in monastic life."
       },
       {
         "cat": "image",
@@ -10798,6 +10817,7 @@
       }
     ],
     "kotobagaki": true,
+    "sceneText": false,
     "favorite": false,
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-10942?locale=ja",
     "sourceImage": "地獄草紙（ColBase）",
@@ -10820,7 +10840,9 @@
         "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_01__01",
         "srcHeight": "1080",
         "srcWidth": "1524",
-        "gendaibun": "ここは、生前、殺生、偸盗・邪淫・妄語をおこない、また五戒を守っている人に、言葉巧みに酒の功徳を説いて、酒を飲ませた者が落ちる。<br><br>この地獄には、熱鉄の犬や鉄の嘴を持った鷲がいて、足を咬み、頭蓋骨に穴を開けて、脳髄を飲むという。"
+        "gendaibun": "ここは、生前、殺生、偸盗・邪淫・妄語をおこない、また五戒を守っている人に、言葉巧みに酒の功徳を説いて、酒を飲ませた者が落ちる。<br><br>        この地獄には、熱鉄の犬や鉄の嘴を持った鷲がいて、足を咬み、頭蓋骨に穴を開けて、脳髄を飲むという。",
+        "desc": "地獄草紙は、六道輪廻のうち地獄の責め苦を描いた絵巻です。この段は詞書の記述どおり、熱鉄の犬や鉄の嘴を持つ鷲が罪人を襲う場面を描いています。叫喚地獄は、生前の悪行（殺生・偸盗・邪淫・妄語など）に応じて堕ちる地獄で、経典ごとにその別所が細かく説かれました。詞書では、戒律を守る人に酒を勧めた者もここに堕ちるとされ、堕落の罪が強調されています。平安時代末期の絵巻に典型的な、時間が流れるように展開する構成が特徴です。",
+        "descen": "This is one of the Hell Scrolls that depict the torments of the hell realms in Buddhist cosmology. Following the caption, red-hot iron dogs and vultures with iron beaks attack the sinner. The screaming hell receives those guilty of killing, stealing, lust, and lies, with each subdivision described in detail in the sutras. The caption stresses the sin of leading others to drink and abandon the precepts. The composition unfolds in continuous time, as is typical of late-Heian scrolls."
       },
       {
         "cat": "image",
@@ -10839,7 +10861,9 @@
         "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_02__01",
         "srcHeight": "1080",
         "srcWidth": "1279",
-        "gendaibun": "ここは、生前、殺生、偸盗・邪淫をおこない、また酒の中に水増しをして売り、巨利を得た者が落ちる。<br><br>この地獄の住人は、みずからの身体から数多（あまた）の虫がわき、肉体や骨の髄までも食いさいなまれる。その苦しみは耐えがたく、叫ぶ声が耐えない。"
+        "gendaibun": "ここは、生前、殺生、偸盗・邪淫をおこない、また酒の中に水増しをして売り、巨利を得た者が落ちる。<br><br>        この地獄の住人は、みずからの身体から数多（あまた）の虫がわき、肉体や骨の髄までも食いさいなまれる。その苦しみは耐えがたく、叫ぶ声が耐えない。",
+        "desc": "この段の詞書は、酒に水を混ぜて売り、不当な利益を得た者が堕ちる地獄と説明します。身体から無数の虫がわき、肉や骨の髄まで食われるという描写は、仏教の「業（ごう）の応報」を視覚化したものです。地獄草紙群は平安時代末期に盛んに制作され、死後の世界を目に見える形で示すことで、現世の戒めとしました。詞書は経典の説話に基づいており、絵と文が一体となって教えを伝えています。",
+        "descen": "The caption explains that this hell awaits those who profited by diluting sake with water. The image of countless worms eating the flesh and bone marrow of the condemned visualizes the Buddhist law of karmic retribution. The Hell Scrolls were produced in quantity at the end of the Heian period to show the afterlife in visible form and admonish the living. Text and picture work together to convey the teaching."
       },
       {
         "cat": "image",
@@ -10858,7 +10882,9 @@
         "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_03__01",
         "srcHeight": "1080",
         "srcWidth": "1374",
-        "gendaibun": "ここは、生前、殺生、偸盗・邪淫をおこない、また五戒を守っている人に酒を飲ませて酔わせ、たわむれてもてあそび、それを見て喜ぶ者が落ちる。<br><br>この地獄には業火（ごうか）が燃え盛り、その炎の厚さは二百肘もあるという。獄卒が罪人をつかまえては、この火の中に投げ込む。罪人は足の先から頭の先まで、焼け切って消え失せ、また蘇る。蘇ればまた焼く。このようなことがやむことはない。叫ぶ声が天に響く。"
+        "gendaibun": "ここは、生前、殺生、偸盗・邪淫をおこない、また五戒を守っている人に酒を飲ませて酔わせ、たわむれてもてあそび、それを見て喜ぶ者が落ちる。<br><br>        この地獄には業火（ごうか）が燃え盛り、その炎の厚さは二百肘もあるという。獄卒が罪人をつかまえては、この火の中に投げ込む。罪人は足の先から頭の先まで、焼け切って消え失せ、また蘇る。蘇ればまた焼く。このようなことがやむことはない。叫ぶ声が天に響く。",
+        "desc": "詞書は、五戒を守る人に酒を飲ませて弄び、それを喜んだ者が堕ちる地獄と説きます。燃え盛る業火（ごうか）が二百肘の厚さに及ぶという表現は、経典由来の誇張で、地獄の恐ろしさを伝える定型句です。獄卒に火の中へ投げ込まれ、焼け切れては蘇り、また焼かれるという苦しみの繰り返しは、「焼けては再生する」という地獄思想の核心を描いています。叫び声が天に響くという結びは、文字では伝えきれない音の恐怖を想起させます。",
+        "descen": "The caption describes a hell for those who made others drink, toyed with them, and took pleasure in their ruin. The image of karmic fire two hundred cubits thick is a stock formula drawn from the sutras, heightening the horror of the hells. Cast into the flames by warders, the sinner is consumed, reborn, and burned again—an endless cycle that lies at the heart of Buddhist hell imagery. The closing image of cries resounding to heaven evokes a terror that words alone cannot carry."
       },
       {
         "cat": "image",
@@ -10877,7 +10903,9 @@
         "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_04__01",
         "srcHeight": "1080",
         "srcWidth": "1909",
-        "gendaibun": "ここは、生前、殺生、偸盗・邪淫をおこない、また酒を用意して、遠い広野を旅行する人にそれを飲ませて酔わせる。酔いつぶれたころを見計らって、所持する財物のいっさいを奪い、ときにはそれを殺した者が落ちる地獄である。<br><br>この地獄は、炎のある焼け石が天から降り注いで罪人を焼き、また熱沸河という河があって、銅（あかがね）の湯、白鑞（びゃくろう）の湯と熱い血が混じって流れている。罪人どもは、常にこの河の中を泳いで苦しみを受け、泣き叫ぶ声が絶えぬという。"
+        "gendaibun": "ここは、生前、殺生、偸盗・邪淫をおこない、また酒を用意して、遠い広野を旅行する人にそれを飲ませて酔わせる。酔いつぶれたころを見計らって、所持する財物のいっさいを奪い、ときにはそれを殺した者が落ちる地獄である。<br><br>        この地獄は、炎のある焼け石が天から降り注いで罪人を焼き、また熱沸河という河があって、銅（あかがね）の湯、白鑞（びゃくろう）の湯と熱い血が混じって流れている。罪人どもは、常にこの河の中を泳いで苦しみを受け、泣き叫ぶ声が絶えぬという。",
+        "desc": "この段の詞書は、旅人に酒を飲ませて酔わせ、財物を奪い、殺めた者が堕ちる地獄と説きます。燃える焼け石が降り注ぎ、熱沸河（ねっぷつか）という熱い湯と血の混じった川を泳がされるという描写は、経典に基づく「業火と業水」の象徴的な対比です。詞書には、酒にまつわる罪を特に重く扱う中世仏教の倫理観が表れています。責め苦を受ける罪人たちの叫びが聞こえてきそうな、緊迫した情景が描かれます。",
+        "descen": "The caption describes a hell for those who made travelers drunk, robbed their belongings, and murdered them. Burning stones rain down and the sinner is forced to swim a boiling river of molten copper, tin, and hot blood—an emblematic contrast of karmic fire and water drawn from the sutras. The text reflects the moral weight that medieval Buddhism placed on sins involving drink. The picture conveys an atmosphere of such tension that the screams of the tormented seem almost audible."
       },
       {
         "cat": "image",
@@ -10932,6 +10960,7 @@
       }
     ],
     "kotobagaki": true,
+    "sceneText": false,
     "favorite": false,
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-1555?locale=ja",
     "sourceImage": "地獄草紙（ColBase）",
@@ -10955,7 +10984,8 @@
         "srcHeight": "1080",
         "srcWidth": "2019",
         "gendaibun": "鐵圍山の北にあたる火象地獄（かぞうじごく）という所がある。<br>ここには、生前に殺生・偸盗・邪淫・妄語を犯し、また五戒を守る者に酒を飲ませて酔わせた僧侶が堕ちる。<br>この地獄には、火の象のような猛獣が現れ、罪人を噛み砕き、獄卒たちも罪人を責め苦にあわせる。",
-        "desc": "『馬頭羅刹経』に説かれる火象地獄を描く段（词書01 + 絵02）。"
+        "desc": "この段は、『馬頭羅刹経』に説かれる火象地獄（かぞうじごく）を描きます。沙門（僧侶）でありながら戒律を破った者が堕ちるとされ、火の象のような猛獣に噛み砕かれる苦しみが詞書に記されます。益田家甲本は、本来は一巻の絵巻だったものの断簡が残る作品で、現存する場面から、僧侶の堕落を戒める主題だったと考えられています。詞書と絵が交互に配される構成は、経典の教えを絵と文で説く絵説法の形式をとります。",
+        "descen": "This scene depicts the Fire Elephant Hell described in the Batō-rasha-kyō. Monks who broke the precepts fall here, crushed by beasts like elephants of fire as the caption describes. The Masuda family text survives only as fragments of an originally continuous scroll; from the remaining scenes it is thought to have admonished the corruption of the clergy. The alternating arrangement of captions and pictures follows the format of painting as a sermon."
       },
       {
         "cat": "image",
@@ -10975,7 +11005,8 @@
         "srcHeight": "1080",
         "srcWidth": "1555",
         "gendaibun": "鐵圍山北にあたれる咩穀地獄（めこくじごく）という所がある。<br>ここには、生前に殺生・偸盗・邪淫を犯した僧侶が堕ちる。<br>この地獄には、赤い鬼たちが罪人を追い立て、猛火の中へ投げ込む。罪人は叫び声を上げ、逃れる術もない。",
-        "desc": "『馬頭羅刹経』に説かれる咩声地獄を描く段（词書03 + 絵04）。"
+        "desc": "この段は、『馬頭羅刹経』に説かれる咩声地獄（めいしょうじごく）を描きます。こちらも、殺生・偸盗・邪淫を犯した僧侶が堕ちる地獄です。赤い鬼たちが罪人を追い立て、猛火の中へ投げ込む様子が詞書に記され、罪人は叫び声を上げるばかりで逃れる術もありません。「咩声」とは羊の鳴き声を表す字で、責め苦のうちにあげる叫びをたとえた名称とされます。詞書の語源と絵の迫真性が、経典説話を伝えるこの絵巻の性格をよく示しています。",
+        "descen": "This scene depicts the Sheep's Cry Hell of the Batō-rasha-kyō, likewise for monks who committed killing, stealing, and lust. Red demons drive the sinner into raging flames, leaving him nothing but screams and no escape. The name 'Meikō' literally writes the cry of a sheep, likening the shrieks of the tormented to an animal's bleat. The wordplay of the caption and the vividness of the painting together show the scroll's character as illustrated scripture-telling."
       },
       {
         "cat": "image",

@@ -378,6 +378,8 @@ def build_emaki_entry(config: dict, image_rows: list[dict], existing_entry: dict
         "typeen": meta.get("typeen", ""),
         "keyword": meta.get("keywords", []),
         "kotobagaki": meta.get("kotobagaki", False),
+        # 詞書を持たない巻でも、シーン別の解説テキスト（gendaibun/desc）を持つ場合は true
+        "sceneText": meta.get("sceneText", False),
         "favorite": meta.get("favorite", False),
         "sourceImageUrl": meta.get("sourceImageUrl", ""),
         "sourceImage": meta.get("sourceImage", ""),

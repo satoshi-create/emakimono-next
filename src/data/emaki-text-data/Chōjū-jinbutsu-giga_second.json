@@ -2,76 +2,136 @@
   {
     "chapter": "1",
     "title": "崇高なる馬",
-    "titleen": "The Noble Horse"
+    "titleen": "The Noble Horse",
+    "gendaibun": "たくましい馬が描かれています。たてがみをなびかせ、すっくと立つ姿は気品に満ちています。",
+    "kobun": "",
+    "desc": "乙巻は、馬・牛・鷹など動物の生態を一つずつ描いた「動物図鑑」のような構成です。馬は武力の象徴であるとともに、神事や儀礼に欠かせない動物でした。平安時代には牧（まき）で飼育され、貴族の馬への関心は競馬（くらべうま）などの行事にも表れています。",
+    "descen": "This volume of Chōjū-jinbutsu-giga works like an illustrated encyclopedia of animals, presenting each creature in turn. The horse symbolized military power and was indispensable to rites and ceremonies. In the Heian period horses were bred on imperial pastures, and aristocratic passion for them surfaced in events such as horse racing."
   },
   {
     "chapter": "2",
     "title": "神聖なる牛",
-    "titleen": "The Sacred Ox"
+    "titleen": "The Sacred Ox",
+    "gendaibun": "穏やかな表情の牛が、ゆったりとした姿勢で描かれています。角や毛並みまで丁寧に表現されています。",
+    "kobun": "",
+    "desc": "牛は農耕や荷物の運搬に欠かせない家畜で、貴族の牛車（ぎっしゃ）を引く役割も担いました。この絵巻の動物たちはどれも輪郭を太くし、内的な力強さを感じさせる描法で描かれています。実際の牛の観察に基づきながらも、神話や信仰のイメージが重ねられています。",
+    "descen": "The ox was an essential work animal for farming and hauling, and it also pulled the ox-drawn carriages of aristocrats. All of the animals in this scroll are rendered with bold outlines that convey inner strength. The ox combines careful observation with layers of mythic and religious association."
   },
   {
     "chapter": "3",
     "title": "皇鷹（すめたか）",
-    "titleen": "The Imperial Hawk"
+    "titleen": "The Imperial Hawk",
+    "gendaibun": "鋭い目つきの鷹が描かれています。翼を広げ、まさに飛び立とうとする瞬間の力強さが伝わってきます。",
+    "kobun": "",
+    "desc": "鷹は古くから狩りの道具として重視され、特に貴族の鷹狩りは武芸と遊興を兼ねた行事でした。鋭い鉤爪（かぎづめ）や曲がったくちばしが、実際の鷹の観察に基づいて正確に描かれています。鷹を飼いならす技術は、専門の「鷹飼」によって受け継がれました。",
+    "descen": "Hawks had long been prized for hunting, and aristocratic falconry blended martial skill with recreation. The hooked beak and sharp talons are rendered with accurate observation of real birds. The craft of training hawks was passed down by specialist falconers in the medieval period."
   },
   {
     "chapter": "4",
     "title": "忠義の犬",
-    "titleen": "The Loyal Hound"
+    "titleen": "The Loyal Hound",
+    "gendaibun": "耳を立て、警戒しながら歩く犬が描かれています。毛並みとしなやかな体つきが生き生きと表現されています。",
+    "kobun": "",
+    "desc": "犬は平安時代の貴族社会で狩猟や警護に用いられ、同時に身近な動物として親しまれました。この段の犬は、狩猟の相棒としての精悍さと、家に飼われる穏やかさの両方を備えて描かれています。絵巻の動物観は写実と類型化が交差しており、研究者の関心の的になっています。",
+    "descen": "In Heian aristocratic society dogs served for hunting and guarding while also being familiar household animals. This hound combines the sharpness of a hunting partner with the gentleness of a domestic pet. The scroll's depiction of animals sits at the intersection of realism and typology, a focus of scholarly interest."
   },
   {
     "chapter": "5",
     "title": "夜明けを告げる鶏",
-    "titleen": "The Dawn-Announcing Rooster"
+    "titleen": "The Dawn-Announcing Rooster",
+    "gendaibun": "朝を告げる雄鶏が、はりのある姿勢で描かれています。とさかと尾羽が大きく、美しく誇らしげです。",
+    "kobun": "",
+    "desc": "鶏はその鳴き声で夜明けを知らせることから、時間の守り手として親しまれました。中国の故事では、鶏の声に合わせて賢者が剣を磨いたともいわれ、勤勉の象徴にもなっています。平安時代の儀礼では、鶏の声が夜の明ける合図として用いられることもありました。",
+    "descen": "The rooster was cherished as a guardian of time, announcing the dawn with its cry. In Chinese tradition, sages were said to sharpen their swords at the rooster's call, making the bird a symbol of diligence. During Heian ceremonies the rooster's crow also served as the signal that night had ended."
   },
   {
     "chapter": "6",
     "title": "威厳の鷲と迅速の隼",
-    "titleen": "The Majestic Eagle and Swift Falcon"
+    "titleen": "The Majestic Eagle and Swift Falcon",
+    "gendaibun": "大きく羽を広げた鷲と、機敏に身構える隼が並んで描かれています。猛禽類の迫力が伝わってきます。",
+    "kobun": "",
+    "desc": "鷲と隼は、古くから王権や武力の象徴とされた猛禽類です。鷹狩り文化では、獲物の大きさや狩りの場面に応じて使い分けられました。並べて描くことで、それぞれの特徴の違いを際立たせる構成は、この絵巻の動物図鑑としての性格をよく示しています。",
+    "descen": "The eagle and the falcon, raptors long associated with kingship and military might, are shown side by side. In falconry culture each was used according to the size of the quarry and the terrain. Placing them together highlights their differences, revealing the encyclopedic character of this volume."
   },
   {
     "chapter": "7",
     "title": "北方守護 玄武",
-    "titleen": "Genbu: The Black Tortoise of the North"
+    "titleen": "Genbu: The Black Tortoise of the North",
+    "gendaibun": "亀と蛇が絡み合う姿の玄武（げんぶ）が描かれています。四神の一つとして北方を守護する神聖な姿です。",
+    "kobun": "",
+    "desc": "玄武は中国の方位思想で北方を守る四神の一つで、亀と蛇が組み合わさった姿をしています。日本では陰陽道（おんみょうどう）や都城の設計に取り入れられ、方位の吉凶を考える際に重要な存在でした。動物の生態とは別に、こうした神話的な生き物も同じ巻に収められている点が特徴的です。",
+    "descen": "Genbu, one of the Four Guardians of Chinese cosmology, protects the north and is depicted as a tortoise entwined with a serpent. In Japan it was adopted into onmyōdō and city design as a key figure for divining the auspiciousness of directions. Its presence here shows how the scroll mixes observed animals with mythic beasts."
   },
   {
     "chapter": "8",
     "title": "繁栄を告げる霊獣 麒麟",
-    "titleen": "Kirin: The Divine Harbinger of Prosperity"
+    "titleen": "Kirin: The Divine Harbinger of Prosperity",
+    "gendaibun": "鹿のような体に一本の角を持つ麒麟（きりん）が、優雅に描かれています。出現はめでたいしるしとされました。",
+    "kobun": "",
+    "desc": "麒麟は中国神話の霊獣で、仁徳ある君主の世に現れるとされ、その出現は天下太平の前兆と考えられました。角は一本で、体は鹿、尾は牛に似ると伝えられます。聖人が生まれるときにも現れるといわれ、平和や繁栄の象徴として絵画にもしばしば描かれました。",
+    "descen": "The kirin, a mythical beast of Chinese legend, is said to appear in the reigns of virtuous rulers, heralding peace throughout the realm. It bears a single horn, a deer-like body, and a bovine tail. Believed to appear at the birth of sages, it symbolizes peace and prosperity and appears frequently in East Asian painting."
   },
   {
     "chapter": "9",
     "title": "俊敏なる豹",
-    "titleen": "The Nimble Leopard"
+    "titleen": "The Nimble Leopard",
+    "gendaibun": "斑点の美しい豹が、しなやかな体をしならせて描かれています。素早さと気品を感じさせます。",
+    "kobun": "",
+    "desc": "豹は日本には生息しませんが、大陸からの文物や絵画を通じて知られた動物でした。唐や宋の絵画の影響を受け、武器や装飾の意匠にも豹の模様が用いられました。実物を直接見ずに描かれた可能性が高く、想像上のイメージが混ざっていると考えられています。",
+    "descen": "Leopards did not inhabit Japan, but they were known through continental artifacts and paintings. Leopard motifs appeared on weapons and ornaments under the influence of Tang and Song imagery. The leopard here was likely drawn from imagination rather than direct observation, and its portrayal probably mixes real and imagined features."
   },
   {
     "chapter": "10",
     "title": "山の使者 山羊",
-    "titleen": "The Mountain Goat"
+    "titleen": "The Mountain Goat",
+    "gendaibun": "険しい岩場に立つ山羊が描かれています。ねじれた角とたくましい脚が、山の動物らしさを伝えます。",
+    "kobun": "",
+    "desc": "山羊は山岳地帯に生息し、断崖を軽々と渡る姿から、冒険や不屈の象徴とされました。中国の山岳信仰では、山羊は山の神の使いとみなされることもありました。描かれた角やひづめには、岩場を自在に動く動物への関心がうかがえます。",
+    "descen": "A mountain goat stands on a rocky crag, its twisted horns and sturdy legs marking it as a creature of high places. Goats were admired for crossing sheer cliffs with ease and were sometimes seen as messengers of the mountain gods in Chinese mountain worship. The rendering of horns and hooves reflects genuine fascination with their agility."
   },
   {
     "chapter": "11",
     "title": "威猛なる虎",
-    "titleen": "The Formidable Tiger"
+    "titleen": "The Formidable Tiger",
+    "gendaibun": "大きな体を誇る虎が、鋭い目でこちらを見つめています。縞模様と牙が迫力を与えています。",
+    "kobun": "",
+    "desc": "虎も豹と同じく、日本では大陸の絵画や説話を通じて知られた動物でした。風水では西方を守る白虎（びゃっこ）として信仰され、武将の力の象徴ともなりました。この絵巻の虎は、実際の観察に基づくとは考えにくく、唐絵の影響を受けた図様であるとみられています。",
+    "descen": "Like the leopard, the tiger was known in Japan through continental painting and lore. In feng shui it guards the west as the White Tiger, and it served as a symbol of martial strength. This tiger was probably based on Tang-style models rather than direct observation."
   },
   {
     "chapter": "12",
     "title": "守護の獅子",
-    "titleen": "The Guardian Lion"
+    "titleen": "The Guardian Lion",
+    "gendaibun": "巻き毛を持つ獅子が、堂々とした姿で描かれています。神社や寺院を守るイメージが重ねられています。",
+    "kobun": "",
+    "desc": "獅子は、中国の宮殿や寺院の門前に置かれた石獅子などを通じて日本に伝わり、邪気を払う守護獣とされました。獅子舞は今も祭りで演じられ、その姿は信仰と芸能の両方に根付いています。この絵巻の獅子は、実際の動物というよりは図様として定着したイメージを描いています。",
+    "descen": "The lion reached Japan through images such as the stone lions guarding Chinese palaces and temples, and became a guardian beast that wards off evil. The lion dance survives today in festivals, showing how deeply the image rooted itself in both faith and performance. This lion follows the established iconography of the beast rather than direct observation."
   },
   {
     "chapter": "13",
     "title": "東方守護 青竜",
-    "titleen": "Seiryū: The Azure Dragon of the East"
+    "titleen": "Seiryū: The Azure Dragon of the East",
+    "gendaibun": "うねる体で空を舞う青竜（せいりゅう）が描かれています。四神の一つとして東方を守護します。",
+    "kobun": "",
+    "desc": "青竜は玄武・朱雀・白虎とともに四神の一つで、東方と春をつかさどります。竜は雨を呼ぶ存在として水の神と結びつき、王権の象徴にもなりました。絵巻の中で竜は、動きのある体のうねりとひげ・角の表現で、神獣らしい威厳をたたえています。",
+    "descen": "The Azure Dragon is one of the Four Guardians, ruling the east and the season of spring. Dragons were linked to water deities as bringers of rain and served as symbols of imperial authority. In the scroll the dragon's twisting body, horns, and whiskers convey the dignity of a divine beast."
   },
   {
     "chapter": "14",
     "title": "英知の象",
-    "titleen": "The Wise Elephant"
+    "titleen": "The Wise Elephant",
+    "gendaibun": "長い鼻と大きな耳を持つ象が、どっしりと描かれています。異国の動物への驚きと憧れが感じられます。",
+    "kobun": "",
+    "desc": "象は日本に実物がほとんどいなかったため、インドや中国の仏教美術を通じて知られた動物です。普賢菩薩（ふげんぼさつ）の乗り物として仏画に登場し、知恵と慈悲の象徴とされました。実物を見ないで描かれたと考えられる表現が、かえって独特の魅力を生んでいます。",
+    "descen": "Elephants, almost unknown in Japan, were encountered through the Buddhist art of India and China. As the mount of the bodhisattva Fugen, the elephant became a symbol of wisdom and compassion. The features drawn without access to a living specimen give this elephant an oddly charming character."
   },
   {
     "chapter": "15",
     "title": "夢を喰らう霊獣 獏",
-    "titleen": "Baku: The Mystical Devourer of Nightmares"
+    "titleen": "Baku: The Mystical Devourer of Nightmares",
+    "gendaibun": "鼻の長い不思議な姿の獏（ばく）が描かれています。悪夢を食べてくれると信じられた霊獣です。",
+    "kobun": "",
+    "desc": "獏は中国の伝説に登場する霊獣で、人の悪夢を食べると信じられていました。江戸時代には悪夢を見た朝に「獏よ、私の悪夢を食べておくれ」と唱える習慣があり、枕絵の図柄にも用いられました。象やサイを混ぜたような架空の姿は、夢と現実のあわいを思わせます。",
+    "descen": "The baku is a legendary beast from Chinese tradition believed to devour nightmares. In the Edo period, people who had bad dreams would recite a charm asking the baku to eat them, and the creature appeared on pillow prints. Its imaginary form, blending elephant and rhinoceros, seems to hover between dream and reality."
   }
 ]

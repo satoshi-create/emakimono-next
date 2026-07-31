@@ -46,6 +46,7 @@
       }
     ],
     "kotobagaki": false,
+    "sceneText": true,
     "favorite": true,
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-1530?locale=ja",
     "sourceImage": "鳥獣人戯画絵巻 摸本（ColBase）",
@@ -368,6 +369,7 @@
       }
     ],
     "kotobagaki": false,
+    "sceneText": true,
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-1530?locale=ja",
     "sourceImage": "鳥獣人戯画絵巻 摸本（ColBase）",
     "emakis": [
@@ -756,6 +758,7 @@
       }
     ],
     "kotobagaki": false,
+    "sceneText": true,
     "favorite": false,
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-1530?locale=ja",
     "sourceImage": "鳥獣人戯画絵巻 摸本（ColBase）",
@@ -1027,6 +1030,7 @@
       }
     ],
     "kotobagaki": false,
+    "sceneText": true,
     "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-1530?locale=ja",
     "sourceImage": "鳥獣人戯画絵巻 摸本（ColBase）",
     "emakis": [

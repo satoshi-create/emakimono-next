@@ -69,6 +69,7 @@ const EmakiLandscapContent = ({
     keyword,
     genjieslug,
     kotobagaki,
+    sceneText,
   } = data;
 
   // ランキング順位・閲覧数を検索
@@ -180,6 +181,7 @@ const EmakiLandscapContent = ({
                       index={idx}
                       ekotobaId={ekotobaId}
                       kotobagaki={kotobagaki}
+                      sceneText={sceneText}
                       iconType={"location"}
                       isActive={idx === activeEkotobaIndex}
                       scrollOnActive={true}
@@ -266,7 +268,7 @@ const EmakiLandscapContent = ({
                 {locale === "en" ? parse(descEn) : parse(descJa)}
               </div>
               {/* 各段の詞書・解説 */}
-              {kotobagaki && (
+              {(kotobagaki || sceneText) && (
                 <>
                   <h4
                     className={styles.metaBtitle}

@@ -31,6 +31,7 @@ const OverlayEkotoba = ({
     type,
     ekotobaId,
     kotobagaki,
+    sceneText,
     data,
     googlemap,
     uniqueIndex,
@@ -66,6 +67,9 @@ const OverlayEkotoba = ({
   useEffect(() => {
     setEkotobabody(gendaibun);
   }, [setEkotobabody, gendaibun]);
+
+  // src（詞書画像）の有無にかかわらず、シーンテキストがあればオーバーレイ本文として表示する
+  const gendaibunBody = ChaptersGendaibun(titleen, title, chapter, ekotobabody);
 
   useEffect(() => {
     if (!scroll) {
@@ -128,7 +132,7 @@ const OverlayEkotoba = ({
                 emakiId={titleen}
                 shareTitle={shareTitle}
               />
-              {(type === "浮世絵" && googlemap) || kotobagaki ? (
+              {(type === "浮世絵" && googlemap) || kotobagaki || sceneText ? (
                 <div className={styles.actionButtons}>
                   {type === "浮世絵" && googlemap && (
                     <button
@@ -145,7 +149,7 @@ const OverlayEkotoba = ({
                       />
                     </button>
                   )}
-                  {kotobagaki && (
+                  {(kotobagaki || sceneText) && (
                     <ActionButton
                       icon={
                         <FontAwesomeIcon
@@ -169,22 +173,22 @@ const OverlayEkotoba = ({
             </div>
           </div>
         )}
-        <p
-          // dangerouslySetInnerHTML={{ __html: src && ekotobabody }}
-          className={`${styles.gendaibun} ${
-            orientation === "portrait" ? styles.gendaibunPrt : styles.gendaibunLand
-          }`}
-          style={{
-            fontSize: `${
-              orientation === "portrait"
-                ? "var(--text-size-prt)"
-                : "var(--text-size)"
-            }`,
-          }}
-        >
-          {/* {ChaptersGendaibun(titleen, title, chapter, ekotobabody)} */}
-          {src && ChaptersGendaibun(titleen, title, chapter, ekotobabody)}
-        </p>
+        {gendaibunBody ? (
+          <p
+            className={`${styles.gendaibun} ${
+              orientation === "portrait" ? styles.gendaibunPrt : styles.gendaibunLand
+            }`}
+            style={{
+              fontSize: `${
+                orientation === "portrait"
+                  ? "var(--text-size-prt)"
+                  : "var(--text-size)"
+              }`,
+            }}
+          >
+            {gendaibunBody}
+          </p>
+        ) : null}
       </div>
       {src && (
         <div className={styles.ekotobaimagebox}>

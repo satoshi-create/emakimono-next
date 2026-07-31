@@ -98,7 +98,7 @@ const EmakiContainer = ({
     isScrollDetectedUpdateRef,
   } = useContext(AppContext);
 
-  const { backgroundImage, kotobagaki, type, genjieslug } = data;
+  const { backgroundImage, kotobagaki, sceneText, type, genjieslug } = data;
   const { t } = useTranslation("common");
   const { locale } = useRouter();
   const isMobileToggle = useBreakpointValue({ base: true, md: false });
@@ -1152,6 +1152,7 @@ const EmakiContainer = ({
                 src={src}
                 backgroundImage={backgroundImage}
                 kotobagaki={kotobagaki}
+                sceneText={sceneText}
                 type={type}
                 selectedRef={selectedRef}
                 navIndex={navIndex}

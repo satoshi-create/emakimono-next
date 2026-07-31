@@ -355,13 +355,19 @@ const ChaptersTitle = (titleen, title, chapter, text) => {
 
 const ChaptersGendaibun = (titleen, title, chapter, gendaibun) => {
   if (title.includes("九相")) {
-    return (
-      <>
-        {connectKusouzuChapters(chapter, "desc") &&
-          `${connectKusouzuChapters(chapter, "desc")}`}
-      </>
-    );
+    // 層1: 短い現代文（gendaibun）を優先。未整備の章は従来どおり desc にフォールバック
+    const kusouzuGendaibun = connectKusouzuChapters(chapter, "gendaibun");
+    const body =
+      kusouzuGendaibun || connectKusouzuChapters(chapter, "desc");
+    return <>{body && `${body}`}</>;
   } else if (title.includes("鳥獣") || title.includes("戯画")) {
+    if (gendaibun) {
+      return parse(gendaibun);
+    }
+    const fromJson = resolveChojugigaOrEmakiText(titleen, chapter, "gendaibun");
+    if (fromJson) {
+      return parse(fromJson);
+    }
     const chapterTitle = resolveChojugigaOrEmakiText(titleen, chapter, "title");
     return <>{chapterTitle && `${chapterTitle}`}</>;
   } else if (title.includes("源氏")) {
