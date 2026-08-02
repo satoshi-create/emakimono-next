@@ -2,46 +2,82 @@
   {
     "chapter": "1",
     "title": "兎と猿のせせらぎ遊び",
-    "titleen": "Rabbits and Monkeys Frolicking in the Stream"
+    "titleen": "Rabbits and Monkeys Frolicking in the Stream",
+    "gendaibun": "水のほとりで、兎たちと猿たちが水遊びに興じています。水しぶきをあげてはね回る姿が、生き生きと描かれています。",
+    "kobun": "",
+    "desc": "この段は巻頭に近い遊びの場面で、動物を人間のように立ち働かせる「擬人化」の魅力が最もよく出ています。水辺の植物や流れの描写も細やかで、平安時代の絵巻に共通する自然観察の深さがうかがえます。鳥獣人物戯画は詞書（説明文）を持たず、絵だけで物語を伝える点が大きな特徴です。",
+    "descen": "This opening scene shows rabbits and monkeys playing in a stream, a delightful example of the anthropomorphic style that defines the scroll. The careful rendering of plants and water reflects the keen observation of nature shared by Heian-period picture scrolls. Chōjū-jinbutsu-giga conveys its story purely through imagery, without written captions."
   },
   {
     "chapter": "2",
     "title": "兎と蛙の神事弓くらべ",
-    "titleen": "Rabbits and Frogs Competing in Ceremonial Archery"
+    "titleen": "Rabbits and Frogs Competing in Ceremonial Archery",
+    "gendaibun": "兎と蛙が、神事にまつわる弓の腕前を競っています。射手と標的（まと）を交互に務め、勝負はしだいに盛り上がっていきます。",
+    "kobun": "",
+    "desc": "平安時代には弓術が宮廷の年中行事として行われており、この段はその光景を動物に置きかえたものです。動物たちが弓を射る姿には、儀礼の厳かさと滑稽味が同居しています。鳥獣人物戯画は、こうした当時の行事や風俗を諷刺（ふうし）的に描くことで、時代の空気を今に伝えています。",
+    "descen": "Rabbits and frogs take turns as archer and target in a ceremonial archery contest. Archery was a fixed event in the Heian court calendar, and the scroll transposes that solemn ritual onto animals, balancing dignity with comedy. This is a typical example of how Chōjū-jinbutsu-giga satirizes contemporary customs and festivals."
   },
   {
     "chapter": "3",
     "title": "猿僧正、神供を賜る",
-    "titleen": "The Monkey High Priest Receiving Ritual Tributes"
+    "titleen": "The Monkey High Priest Receiving Ritual Tributes",
+    "gendaibun": "高僧の姿をした猿が、神事に供えられた品々を拝領しています。まわりの動物たちが、敬意と好奇のまなざしで見守っています。",
+    "kobun": "",
+    "desc": "猿を僧侶に見立てた段で、鳥獣人物戯画の「見立て」の面白さを代表する場面です。神供（じんぐ）とは神前に供える品のことで、これを僧が受け取るという図式に、当時の寺社と神事の関わりがうかがえます。写実性よりも、表情と動作のユーモアを追う描法が特徴的です。",
+    "descen": "A monkey posed as a high priest receives offerings brought before the deities, while other animals watch with reverence and curiosity. The scene is a masterpiece of the scroll's playful 'substitution' of animals for humans, and hints at the close ties between temples and Shinto rites in the period. The line work favors expressive humor over strict realism."
   },
   {
     "chapter": "4",
     "title": "猿と蛙の争い",
-    "titleen": "Quarrel Between Monkey and Frog"
+    "titleen": "Quarrel Between Monkey and Frog",
+    "gendaibun": "猿と蛙が激しく言い争い、ついに取っ組み合いの喧嘩になっています。まわりでは兎たちが慌てて止めようとする様子が描かれています。",
+    "kobun": "",
+    "desc": "この喧嘩の場面は鳥獣人物戯画を代表する有名な一コマで、墨の線だけで力強い動きを描き出しています。互いに相手を投げ倒そうとする四肢の動きや、とばされるしぶきの描写は、後世の漫画やアニメーションの先駆けとも評されます。詞書がないため、物語の解釈には諸説あります。",
+    "descen": "This famous brawl between a monkey and a frog is one of the most iconic moments in the entire scroll, rendered with vigorous brushwork using ink alone. The twisting limbs and flying spray anticipate the dynamic gestures of modern comics and animation. Because the scroll carries no text, interpretations of the episode vary among scholars."
   },
   {
     "chapter": "5",
     "title": "田楽神事を見守る",
-    "titleen": "Spectators at the Dengaku Agricultural Ritual"
+    "titleen": "Spectators at the Dengaku Agricultural Ritual",
+    "gendaibun": "動物たちが、豊作を願う田楽（でんがく）の神事を囲んで見守っています。軽やかに舞う演者の姿に、観客たちは夢中になっています。",
+    "kobun": "",
+    "desc": "田楽は農耕の神事に由来する芸能で、平安時代から鎌倉時代にかけて庶民の間で大いに流行しました。この段では、舞う姿とそれを見つめる観客の表情の対比が楽しめます。擬人化された動物の「観客」もまた人と同じように見入っており、当時の興行の熱気を伝えています。",
+    "descen": "The animals gather around a dengaku performance, a folk rite praying for good harvests that flourished from the Heian into the Kamakura period. The contrast between the dancers' movements and the absorbed faces of the audience captures the excitement of contemporary public entertainment, with the anthropomorphic spectators behaving exactly like human crowds."
   },
   {
     "chapter": "6",
     "title": "兎と蛙の神聖なる相撲",
-    "titleen": "The Sacred Sumo Contest Between Rabbit and Frog"
+    "titleen": "The Sacred Sumo Contest Between Rabbit and Frog",
+    "gendaibun": "兎と蛙が、神前で相撲の勝負を繰り広げています。がっぷり四つに組んだ姿と、見守る動物たちの真剣な表情が描かれています。",
+    "kobun": "",
+    "desc": "相撲はもともと神に奉納される神事であり、農作物の豊凶を占う意味を持っていました。兎と蛙という取り合わせは、力の大小ではなく勝負の面白さを強調しています。力士のふるまいをそっくりまねる動物たちの姿は、儀礼を写実ではなく「笑い」へ転換するこの絵巻の手法をよく示しています。",
+    "descen": "A rabbit and a frog face off in a sumo match held before the gods. Sumo originally served as a Shinto rite to divine the fortunes of the harvest, and the pairing of a rabbit and a frog stresses the delight of the contest rather than the balance of power. The animals perfectly mimic the formal postures of human wrestlers, turning ceremony into comedy—the very essence of this scroll."
   },
   {
     "chapter": "7",
     "title": "猿、双六盤を運ぶ",
-    "titleen": "Monkey Bearing the Sugoroku Game Board"
+    "titleen": "Monkey Bearing the Sugoroku Game Board",
+    "gendaibun": "大きな双六盤を背負った猿が、よろよろと運んでいます。盤の大きさに体が隠れてしまいそうな様子がおかしみを誘います。",
+    "kobun": "",
+    "desc": "双六（すごろく）は古代から行われていた盤上遊戯で、貴族から庶民まで親しまれていました。盤を運ぶという何気ない労働を猿に担わせることで、日常の雑事を滑稽な物語に変えています。こうした「動物に人間の仕事をさせる」発想の連続が、絵巻を時代を越えて楽しめるものにしています。",
+    "descen": "A monkey staggers under a huge sugoroku board nearly as large as himself. Sugoroku, a board game played from antiquity, was beloved by nobles and commoners alike. By assigning this mundane chore to a monkey, the artist turns everyday work into comedy—a running joke of the scroll in which animals perform human duties."
   },
   {
     "chapter": "8",
     "title": "猿僧正、年忌法要を司る",
-    "titleen": "The Monkey High Priest Conducting the Annual Memorial Rites"
+    "titleen": "The Monkey High Priest Conducting the Annual Memorial Rites",
+    "gendaibun": "猿の僧正が、亡き人の年忌法要を厳かに執り行っています。読経する姿と、手を合わせる動物たちの姿が静かに描かれています。",
+    "kobun": "",
+    "desc": "年忌法要は故人の命日に営まれる仏事で、平安時代の貴族社会では欠かせない年中行事でした。猿僧正が読経する姿には、形式を重んじる仏教儀礼と、その真剣な猿の姿がもたらす笑いが同居しています。鳥獣人物戯画は宗教・年中行事を題材にしつつ、人間社会を動物に置きかえて見せる諷刺画としての性格を持っています。",
+    "descen": "The monkey high priest solemnly conducts annual memorial rites for the dead while other animals join their hands in prayer. Memorial services were an essential event in Heian aristocratic life. The scroll places the dignified Buddhist ceremony in the paws of a monkey, fusing reverence with humor, and reveals its character as a satire that mirrors human society through animals."
   },
   {
     "chapter": "9",
     "title": "猿僧正へ奉げられた供物",
-    "titleen": "Sacred Offerings Presented to the Monkey High Priest"
+    "titleen": "Sacred Offerings Presented to the Monkey High Priest",
+    "gendaibun": "法要のあと、猿僧正のもとへたくさんの供物が運び込まれています。品々を見つめる猿僧正の目の輝きが、思わぬ結末を予感させます。",
+    "kobun": "",
+    "desc": "前段の法要に続くこの段は、供物への執着を見せる猿僧正の姿を描き、仏教の理想と動物の欲深さの落差で笑いを生んでいます。これは、僧侶や仏教を題材にした諷刺が当時すでに存在していたことを示す一例です。絵巻はこうした世俗的な視線を墨線のユーモアにのせて、後世に伝えました。",
+    "descen": "After the rites, lavish offerings are carried in before the monkey high priest, whose shining eyes betray a very un-monkish greed. The gap between Buddhist ideals and the animal's appetite creates the comedy of this episode, showing that satirical takes on the clergy already flourished in the medieval period. The scroll delivers this worldly viewpoint through the humor of pure ink line."
   }
 ]

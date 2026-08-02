@@ -1,4 +1,4 @@
-# scroll_config.yaml — 新規絵巻テンプレート
+﻿# scroll_config.yaml — 新規絵巻テンプレート
 # 詳細: docs/operations/scroll-pipeline.md
 
 scroll_id: "my-scroll-id"       # kebab-case。フォルダ名・Cloudinary ID に使用
@@ -28,6 +28,8 @@ metadata:
   encodeUrl: ""
   favorite: false
   kotobagaki: false
+  # kotobagaki: false でも各シーンに解説テキスト（gendaibun/desc）がある場合 true（例: 鳥獣人物戯画）
+  sceneText: false
   # kotobagaki_mode: "alternating"  # 地獄草紙型（词書・絵交互）。省略時=餓鬼草紙型。任意配置=explicit+slots（scroll-pipeline.md §4）
   readMore: false
   keywords:
@@ -51,3 +53,4 @@ scenes:
   #   title: "第2段"
   #   titleen: "Scene 2"
   #   range: [2, 3]
+

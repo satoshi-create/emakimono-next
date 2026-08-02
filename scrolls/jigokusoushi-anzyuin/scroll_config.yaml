@@ -43,33 +43,45 @@ scenes:
     range: [1, 2]
     text:
       gendaibun: |
-        ここは、生前、殺生、偸盗・邪淫・妄語をおこない、また五戒を守っている人に、言葉巧みに酒の功徳を説いて、酒を飲ませた者が落ちる。<br><br>この地獄には、熱鉄の犬や鉄の嘴を持った鷲がいて、足を咬み、頭蓋骨に穴を開けて、脳髄を飲むという。
+        ここは、生前、殺生、偸盗・邪淫・妄語をおこない、また五戒を守っている人に、言葉巧みに酒の功徳を説いて、酒を飲ませた者が落ちる。<br><br>        この地獄には、熱鉄の犬や鉄の嘴を持った鷲がいて、足を咬み、頭蓋骨に穴を開けて、脳髄を飲むという。
       kobun: ""
-      desc: ""
+      desc: |
+        地獄草紙は、六道輪廻のうち地獄の責め苦を描いた絵巻です。この段は詞書の記述どおり、熱鉄の犬や鉄の嘴を持つ鷲が罪人を襲う場面を描いています。叫喚地獄は、生前の悪行（殺生・偸盗・邪淫・妄語など）に応じて堕ちる地獄で、経典ごとにその別所が細かく説かれました。詞書では、戒律を守る人に酒を勧めた者もここに堕ちるとされ、堕落の罪が強調されています。平安時代末期の絵巻に典型的な、時間が流れるように展開する構成が特徴です。
+      descen: |
+        This is one of the Hell Scrolls that depict the torments of the hell realms in Buddhist cosmology. Following the caption, red-hot iron dogs and vultures with iron beaks attack the sinner. The screaming hell receives those guilty of killing, stealing, lust, and lies, with each subdivision described in detail in the sutras. The caption stresses the sin of leading others to drink and abandon the precepts. The composition unfolds in continuous time, as is typical of late-Heian scrolls.
   - id: 2
     title: "叫喚地獄第四別所・火末虫"
     titleen: "Kyokan Hell - 4th Bessho: Kamatsumushi"
     range: [3, 4]
     text:
       gendaibun: |
-        ここは、生前、殺生、偸盗・邪淫をおこない、また酒の中に水増しをして売り、巨利を得た者が落ちる。<br><br>この地獄の住人は、みずからの身体から数多（あまた）の虫がわき、肉体や骨の髄までも食いさいなまれる。その苦しみは耐えがたく、叫ぶ声が耐えない。
+        ここは、生前、殺生、偸盗・邪淫をおこない、また酒の中に水増しをして売り、巨利を得た者が落ちる。<br><br>        この地獄の住人は、みずからの身体から数多（あまた）の虫がわき、肉体や骨の髄までも食いさいなまれる。その苦しみは耐えがたく、叫ぶ声が耐えない。
       kobun: ""
-      desc: ""
+      desc: |
+        この段の詞書は、酒に水を混ぜて売り、不当な利益を得た者が堕ちる地獄と説明します。身体から無数の虫がわき、肉や骨の髄まで食われるという描写は、仏教の「業（ごう）の応報」を視覚化したものです。地獄草紙群は平安時代末期に盛んに制作され、死後の世界を目に見える形で示すことで、現世の戒めとしました。詞書は経典の説話に基づいており、絵と文が一体となって教えを伝えています。
+      descen: |
+        The caption explains that this hell awaits those who profited by diluting sake with water. The image of countless worms eating the flesh and bone marrow of the condemned visualizes the Buddhist law of karmic retribution. The Hell Scrolls were produced in quantity at the end of the Heian period to show the afterlife in visible form and admonish the living. Text and picture work together to convey the teaching.
   - id: 3
     title: "叫喚地獄第十五別所・雲火霧"
     titleen: "Kyokan Hell - 15th Bessho: Unkamu"
     range: [5, 6]
     text:
       gendaibun: |
-        ここは、生前、殺生、偸盗・邪淫をおこない、また五戒を守っている人に酒を飲ませて酔わせ、たわむれてもてあそび、それを見て喜ぶ者が落ちる。<br><br>この地獄には業火（ごうか）が燃え盛り、その炎の厚さは二百肘もあるという。獄卒が罪人をつかまえては、この火の中に投げ込む。罪人は足の先から頭の先まで、焼け切って消え失せ、また蘇る。蘇ればまた焼く。このようなことがやむことはない。叫ぶ声が天に響く。
+        ここは、生前、殺生、偸盗・邪淫をおこない、また五戒を守っている人に酒を飲ませて酔わせ、たわむれてもてあそび、それを見て喜ぶ者が落ちる。<br><br>        この地獄には業火（ごうか）が燃え盛り、その炎の厚さは二百肘もあるという。獄卒が罪人をつかまえては、この火の中に投げ込む。罪人は足の先から頭の先まで、焼け切って消え失せ、また蘇る。蘇ればまた焼く。このようなことがやむことはない。叫ぶ声が天に響く。
       kobun: ""
-      desc: ""
+      desc: |
+        詞書は、五戒を守る人に酒を飲ませて弄び、それを喜んだ者が堕ちる地獄と説きます。燃え盛る業火（ごうか）が二百肘の厚さに及ぶという表現は、経典由来の誇張で、地獄の恐ろしさを伝える定型句です。獄卒に火の中へ投げ込まれ、焼け切れては蘇り、また焼かれるという苦しみの繰り返しは、「焼けては再生する」という地獄思想の核心を描いています。叫び声が天に響くという結びは、文字では伝えきれない音の恐怖を想起させます。
+      descen: |
+        The caption describes a hell for those who made others drink, toyed with them, and took pleasure in their ruin. The image of karmic fire two hundred cubits thick is a stock formula drawn from the sutras, heightening the horror of the hells. Cast into the flames by warders, the sinner is consumed, reborn, and burned again—an endless cycle that lies at the heart of Buddhist hell imagery. The closing image of cries resounding to heaven evokes a terror that words alone cannot carry.
   - id: 4
     title: "叫喚地獄第六別所・雨炎火石"
     titleen: "Kyokan Hell - 6th Bessho: Uenkaseki"
     range: [7, 8]
     text:
       gendaibun: |
-        ここは、生前、殺生、偸盗・邪淫をおこない、また酒を用意して、遠い広野を旅行する人にそれを飲ませて酔わせる。酔いつぶれたころを見計らって、所持する財物のいっさいを奪い、ときにはそれを殺した者が落ちる地獄である。<br><br>この地獄は、炎のある焼け石が天から降り注いで罪人を焼き、また熱沸河という河があって、銅（あかがね）の湯、白鑞（びゃくろう）の湯と熱い血が混じって流れている。罪人どもは、常にこの河の中を泳いで苦しみを受け、泣き叫ぶ声が絶えぬという。
+        ここは、生前、殺生、偸盗・邪淫をおこない、また酒を用意して、遠い広野を旅行する人にそれを飲ませて酔わせる。酔いつぶれたころを見計らって、所持する財物のいっさいを奪い、ときにはそれを殺した者が落ちる地獄である。<br><br>        この地獄は、炎のある焼け石が天から降り注いで罪人を焼き、また熱沸河という河があって、銅（あかがね）の湯、白鑞（びゃくろう）の湯と熱い血が混じって流れている。罪人どもは、常にこの河の中を泳いで苦しみを受け、泣き叫ぶ声が絶えぬという。
       kobun: ""
-      desc: ""
+      desc: |
+        この段の詞書は、旅人に酒を飲ませて酔わせ、財物を奪い、殺めた者が堕ちる地獄と説きます。燃える焼け石が降り注ぎ、熱沸河（ねっぷつか）という熱い湯と血の混じった川を泳がされるという描写は、経典に基づく「業火と業水」の象徴的な対比です。詞書には、酒にまつわる罪を特に重く扱う中世仏教の倫理観が表れています。責め苦を受ける罪人たちの叫びが聞こえてきそうな、緊迫した情景が描かれます。
+      descen: |
+        The caption describes a hell for those who made travelers drunk, robbed their belongings, and murdered them. Burning stones rain down and the sinner is forced to swim a boiling river of molten copper, tin, and hot blood—an emblematic contrast of karmic fire and water drawn from the sutras. The text reflects the moral weight that medieval Buddhism placed on sins involving drink. The picture conveys an atmosphere of such tension that the screams of the tormented seem almost audible.

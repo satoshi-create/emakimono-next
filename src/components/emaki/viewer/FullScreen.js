@@ -36,6 +36,7 @@ const FullScreen = ({ isUIVisible = true }) => {
       description={description}
       onClick={() => handleFullScreen("landscape")}
       variant="fullscreen"
+      isFullscreen={toggleFullscreen}
       isUIVisible={isUIVisible}
     />
   );

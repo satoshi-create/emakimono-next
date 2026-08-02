@@ -88,8 +88,6 @@ function MyApp({ Component, pageProps, router }) {
   const [isMapModalOpen, setIsMapModalOpen] = useState(false);
   const [MapIndex, setMapIndex] = useState(0);
 
-  const [isDescModalOpen, setIsDescModalOpen] = useState(false);
-  const [DescIndex, setDescIndex] = useState({});
   const [stickyClass, setStickyClass] = useState("");
   const [isSidebarOpen, setisSidebarOpen] = useState(false);
   const [toggleFullscreen, setToggleFullscreen] = useState(false);
@@ -206,22 +204,6 @@ function MyApp({ Component, pageProps, router }) {
   const closeMapModal = () => {
     document.querySelector("html").classList.remove("open");
     setIsMapModalOpen(false);
-  };
-
-  const openDescModal = (ei, i) => {
-    setIsDescModalOpen(true);
-    const clientWidth = document.body.clientWidth;
-    document.querySelector("html").classList.add("open");
-    const noScrollBarWidth = document.body.clientWidth;
-    const diff = noScrollBarWidth - clientWidth;
-    if (diff > 0) {
-      document.body.style["padding-right"] = diff + "px";
-    }
-    setDescIndex(ei, i);
-  };
-  const closeDescModal = () => {
-    document.querySelector("html").classList.remove("open");
-    setIsDescModalOpen(false);
   };
 
   const openSearchModalOpen = () => {
@@ -595,11 +577,6 @@ function MyApp({ Component, pageProps, router }) {
         MapIndex,
         setMapIndex,
         isMapModalOpen,
-        openDescModal,
-        closeDescModal,
-        isDescModalOpen,
-        DescIndex,
-        setDescIndex,
         searchKeyword,
         setSearchKeyword,
         showData,

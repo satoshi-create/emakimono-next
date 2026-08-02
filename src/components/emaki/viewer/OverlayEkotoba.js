@@ -1,24 +1,18 @@
-import ActionButton from "@/components/emaki/viewer/ActionButton";
 import LazyImage from "@/components/emaki/viewer/LazyImage";
 import SceneLikeButton from "@/components/emaki/viewer/SceneLikeButton";
 import ShareButtons from "@/components/emaki/viewer/ShareButtons";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/OverlayEkotoba.module.css";
-import { ChaptersGendaibun, ChaptersTitle } from "@/utils/func";
-import {
-  faCircleQuestion,
-  faLocationDot,
-} from "@fortawesome/free-solid-svg-icons";
+import { ChaptersTitle } from "@/utils/func";
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
-import { useTranslation } from "next-i18next";
+import { useContext, useEffect } from "react";
 
 const OverlayEkotoba = ({
   item: {
-    gendaibun,
     src,
     config,
     name,
@@ -31,6 +25,7 @@ const OverlayEkotoba = ({
     type,
     ekotobaId,
     kotobagaki,
+    sceneText,
     data,
     googlemap,
     uniqueIndex,
@@ -44,11 +39,9 @@ const OverlayEkotoba = ({
     scrollDialog,
     orientation,
     openMapModal,
-    openDescModal,
     handleToId,
   } = useContext(AppContext);
   const { locale } = useRouter();
-  const { t } = useTranslation("common");
   const { title, titleen } = data;
 
   const shareTitle =
@@ -57,15 +50,6 @@ const OverlayEkotoba = ({
       : `${title ?? ""}`.trim();
 
   // TODO : 目次のフォントサイズをレスポンシブにする
-
-  // dangerouslySetInnerHTMLでgendaibunを描画使用するとHydration failedになる問題の対処のため、
-  // gendaibunを最初のレンダリング後に取得
-  // https://qiita.com/maaaashi/items/957bf8a949833151612b
-  const [ekotobabody, setEkotobabody] = useState("");
-
-  useEffect(() => {
-    setEkotobabody(gendaibun);
-  }, [setEkotobabody, gendaibun]);
 
   useEffect(() => {
     if (!scroll) {
@@ -128,7 +112,7 @@ const OverlayEkotoba = ({
                 emakiId={titleen}
                 shareTitle={shareTitle}
               />
-              {(type === "浮世絵" && googlemap) || kotobagaki ? (
+              {(type === "浮世絵" && googlemap) || kotobagaki || sceneText ? (
                 <div className={styles.actionButtons}>
                   {type === "浮世絵" && googlemap && (
                     <button
@@ -145,46 +129,11 @@ const OverlayEkotoba = ({
                       />
                     </button>
                   )}
-                  {kotobagaki && (
-                    <ActionButton
-                      icon={
-                        <FontAwesomeIcon
-                          icon={faCircleQuestion}
-                          style={{ fontSize: "1.5em" }}
-                        />
-                      }
-                      label={t("viewer.seeDetailsOfSection")}
-                      onClick={() =>
-                        openDescModal({
-                          ekotobaId,
-                          index,
-                        })
-                      }
-                      description={t("viewer.seeDetailsOfSection")}
-                      variant="emakipageicon"
-                    />
-                  )}
                 </div>
               ) : null}
             </div>
           </div>
         )}
-        <p
-          // dangerouslySetInnerHTML={{ __html: src && ekotobabody }}
-          className={`${styles.gendaibun} ${
-            orientation === "portrait" ? styles.gendaibunPrt : styles.gendaibunLand
-          }`}
-          style={{
-            fontSize: `${
-              orientation === "portrait"
-                ? "var(--text-size-prt)"
-                : "var(--text-size)"
-            }`,
-          }}
-        >
-          {/* {ChaptersGendaibun(titleen, title, chapter, ekotobabody)} */}
-          {src && ChaptersGendaibun(titleen, title, chapter, ekotobabody)}
-        </p>
       </div>
       {src && (
         <div className={styles.ekotobaimagebox}>

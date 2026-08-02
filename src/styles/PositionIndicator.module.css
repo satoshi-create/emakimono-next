@@ -2,7 +2,7 @@
   position: absolute;
   /* デスクトップ: EmakiNavigation の直上に配置 */
   /* EmakiNavigation.land は bottom: calc(4% + env(safe-area-inset-bottom)) */
-  bottom: calc(4% + 4rem + env(safe-area-inset-bottom, 0px));
+  bottom: calc(4% + 4rem + var(--commentary-bar-full-h, var(--commentary-bar-h, 0px)) + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
   z-index: 9; /* EmakiNavigation (z-index:10) より下層 */
@@ -15,6 +15,16 @@
 /* EmakiNavigation.prt は bottom: calc(2% + env(safe-area-inset-bottom)) */
 @media (max-width: 1023px) {
   .container {
+    bottom: calc(2% + 4rem + var(--commentary-bar-full-h, var(--commentary-bar-h, 0px)) + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* フルスクリーン時: バーは右下カードのため、ナビと同様に持ち上げを無効化 */
+:global(html.fullscreen-enabled) .container {
+  bottom: calc(4% + 4rem + env(safe-area-inset-bottom, 0px));
+}
+@media (max-width: 1023px) {
+  :global(html.fullscreen-enabled) .container {
     bottom: calc(2% + 4rem + env(safe-area-inset-bottom, 0px));
   }
 }

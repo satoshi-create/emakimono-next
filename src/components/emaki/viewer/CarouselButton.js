@@ -9,10 +9,20 @@ import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 
 const CarouselComponent = ({ articleRef, isAtStart, isAtEnd, isAutoScrolling, isUIVisible }) => {
-  const { orientation } = useContext(AppContext);
+  const { orientation, toggleFullscreen } = useContext(AppContext);
   const { t } = useTranslation("common");
 
   const con = articleRef.current;
+
+  // カルーセルボタンは絵巻（article）の縦中心に固定する。
+  // entry-container はコメントバーのシート展開で高さが変わるため top:50% ではズレる。
+  // article の高さは --vh-* 変数で決まるため、それ基準の calc で配置する。
+  // フルスクリーン時は article が 100vh いっぱいになる（バーは右下カードのオーバーレイ）。
+  const carouselTop = toggleFullscreen
+    ? "calc(var(--vh-100) / 2)"
+    : orientation === "landscape"
+      ? "calc(var(--vh-75) / 2)"
+      : "calc(var(--vh-45) / 2)";
 
   // 教育現場向けUI: 初回のみ「次へ進む」ボタンを強調表示
   const [highlightNext, setHighlightNext] = useState(true);
@@ -69,7 +79,7 @@ const CarouselComponent = ({ articleRef, isAtStart, isAtEnd, isAutoScrolling, is
           label={t("viewer.next")}
           description={t("viewer.next")}
           pos="absolute"
-          top="50%"
+          top={carouselTop}
           left="calc(10px + env(safe-area-inset-left, 0px))"
           zIndex="100"
           variant="carousel"
@@ -91,7 +101,7 @@ const CarouselComponent = ({ articleRef, isAtStart, isAtEnd, isAutoScrolling, is
           label={t("viewer.previous")}
           description={t("viewer.previous")}
           pos="absolute"
-          top="50%"
+          top={carouselTop}
           right="calc(10px + env(safe-area-inset-right, 0px))"
           zIndex="100"
           variant="carousel"

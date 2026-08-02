@@ -12,49 +12,26 @@
 .wrapper {
   display: grid;
   grid-template-columns: 65vw auto;
-  grid-template-rows: var(--vh-75) auto;
+  /* ボトムコメントバー分の高さ増を吸収するため minmax で可変にする */
+  grid-template-rows: minmax(var(--vh-75), auto) auto;
   row-gap: 1.5rem;
   column-gap: 2rem;
   margin-bottom: 4rem;
 }
 
-
-/* chapter */
-.chapter {
-  grid-row: 1;
-  grid-column: 2;
-  border: 1px solid rgb(209 209 209);
-  border-radius: 12px;
-  padding: 1rem;
-  font-family: var(--font-ui);
-  font-size: larger;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  overflow-y: auto;
+/* 段タイトルサイドバー撤去に伴い、ビューアを1行目全体に広げる */
+.wrapper > :first-child {
+  grid-column: 1 / -1;
 }
 
 
-.chapterTitle {
-  line-height: 2;
-  font-weight: 400;
-  /* color: var(--clr-grey); */
-}
+/* chapter（撤去済み: 段タイトルサイドバー） */
 
 .borderline {
   width: 100%;
   height: 1px;
   background-color: rgb(199, 199, 199);
   margin: 0.5rem auto;
-}
-
-.chapterlink {
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.chapterlink:hover {
-  opacity: 0.6;
 }
 
 /* metadata */
