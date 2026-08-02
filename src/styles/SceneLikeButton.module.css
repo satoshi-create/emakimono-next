@@ -45,11 +45,33 @@
   /* border-color: var(--clr-accent-02); */
 }
 
+/* ボトムコメントバー用: コンパクトなアイコンボタン（シェアボタンと同スケール） */
+.barButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--clr-text-muted, #666);
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.barButton:hover {
+  color: var(--clr-accent);
+  transform: scale(1.1);
+}
+.barLiked,
+.barLiked:hover {
+  color: var(--clr-accent);
+}
+
 .icon {
   width: 0.9em;
   height: 0.9em;
-  stroke: currentColor;
-  stroke-width: 2;
   transition: var(--transition);
 }
 

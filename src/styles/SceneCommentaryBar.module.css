@@ -34,16 +34,19 @@
   font-family: var(--font-ui);
 }
 
+/* SP（狭幅）: テキストを全幅表示するため縦積みにする。
+   本体（.body）を1行目いっぱいに広げ、操作アイコンは下段の専用行に分離する */
 .header {
-  position: relative; /* 右上の×・右端の展開トグルを絶対配置する基準点 */
+  position: relative; /* ポップオーバーの基準点 */
   display: flex;
+  flex-direction: column;
   align-items: stretch;
   /* 折りたたみ時の最小高さ。展開時は本文の長さに合わせてバーごと伸びる */
   min-height: var(--commentary-bar-h);
 }
 
 /* 本体（段タイトル＋現代文）。タップで解説シートを開閉。
-   右上の×（32px）と段一覧トグル（32px）と重ならないよう右側に余白を確保（テキスト表示を最大化） */
+   操作列（.sceneActions）は下段に分離するため、テキストは全幅を使用できる */
 .body {
   flex: 1 1 auto;
   min-width: 0;
@@ -52,8 +55,7 @@
   justify-content: center;
   align-items: flex-start;
   gap: 2px;
-  /* 右上の×と段一覧トグルを避けるため右側に余白を確保 */
-  padding: 6px 84px 6px 14px;
+  padding: 6px 14px;
   text-align: left;
   overflow: hidden;
 }
@@ -88,17 +90,15 @@
   overflow: visible;
 }
 
-/* ×（解説バーを閉じる）: 右上に固定 */
+/* ×（解説バーを閉じる）: 操作列の右端に配置 */
 .closeBtn {
-  position: absolute;
-  top: 4px;
-  right: 4px;
+  flex: 0 0 auto;
   width: 32px;
   height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #888;
+  color: var(--clr-text-muted, #666);
   font-size: 1rem;
   transition: color 0.2s ease, transform 0.2s ease;
   z-index: 1;
@@ -108,18 +108,43 @@
   transform: scale(1.1);
 }
 
-/* 段一覧トグル: 右上の×の左隣（right:40px）に配置。
+/* シーン操作（いいね・共有）＋段一覧＋閉じるを集約する操作列。
+   SP: テキスト下の専用行として全幅で右寄せ。PC: テキストの右隣に縦並び */
+.sceneActions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+  padding: 2px 6px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* PC（広幅）: テキストと操作アイコンを横並びに戻す */
+@media (min-width: 768px) {
+  .header {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .body {
+    padding: 6px 10px 6px 14px;
+  }
+  .sceneActions {
+    padding: 0 6px 0 0;
+    border-top: none;
+  }
+}
+
+/* 段一覧トグル: 操作列内の×の左隣に配置。
    クリックでバー直上に段一覧ポップオーバーを開く */
 .listBtn {
-  position: absolute;
-  top: 4px;
-  right: 40px;
+  flex: 0 0 auto;
   width: 32px;
   height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #888;
+  color: var(--clr-text-muted, #666);
   font-size: 1rem;
   transition: color 0.2s ease, transform 0.2s ease;
   z-index: 1;

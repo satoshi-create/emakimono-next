@@ -1,6 +1,6 @@
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/EmakiInfo.module.css";
-import { faCircleInfo, faEye, faTrophy } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faTrophy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -8,7 +8,7 @@ import { useContext, useMemo } from "react";
 
 // 教育現場向けUI: isUIVisible で静止UI耐性に対応
 const EmakiInfo = ({ value, isUIVisible = true }) => {
-  const { openModal, rankingData } = useContext(AppContext);
+  const { rankingData } = useContext(AppContext);
   const { type, title, typeen, era, eraen, keyword, edition, titleen } = value;
   const { locale } = useRouter();
 
@@ -59,9 +59,6 @@ const EmakiInfo = ({ value, isUIVisible = true }) => {
             </Link>
           );
         })}
-      <div onClick={() => openModal(0)} className={styles.question}>
-        <FontAwesomeIcon icon={faCircleInfo} />
-      </div>
     </div>
   );
 };

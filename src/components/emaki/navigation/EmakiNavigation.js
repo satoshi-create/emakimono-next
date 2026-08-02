@@ -2,6 +2,8 @@ import styles from "@/styles/EmakiNavigation.module.css";
 import {
   faAnglesLeft,
   faAnglesRight,
+  faChevronLeft,
+  faChevronRight,
   faCircleQuestion,
   faCommentDots,
   faPlay,
@@ -40,6 +42,18 @@ const EmakiNavigation = ({
 
   const { orientation, openHelpModal, navIndex } = useContext(AppContext);
 
+  // 前後の段（シーン）へ移動するためのターゲット特定。
+  // SceneCommentaryBar と同じ「現在の段」特定ロジックを利用する。
+  const ekotobas = (data.emakis || []).filter((item) => item.cat === "ekotoba");
+  const currentIdx = ekotobas.reduce(
+    (acc, item, i) => (item.linkId <= navIndex ? i : acc),
+    0
+  );
+  // 西洋絵画は左→右の読順のため、進行方向を反転する
+  const isLtr = data.type === "西洋絵画";
+  const nextScene = ekotobas[currentIdx + (isLtr ? -1 : 1)];
+  const prevScene = ekotobas[currentIdx + (isLtr ? 1 : -1)];
+
   const shareTitle =
     locale === "en"
       ? data.titleen || data.title
@@ -66,6 +80,21 @@ const EmakiNavigation = ({
         description={t("viewer.goToEnd")}
         isUIVisible={isUIVisible}
       />
+      {/* 次へ進む（前の段へ）: 末尾到達時は非表示 */}
+      {nextScene && (
+        <ActionButton
+          icon={
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              style={{ fontSize: "1.5em" }}
+            />
+          }
+          label={t("viewer.next")}
+          description={t("viewer.next")}
+          onClick={() => handleToId(nextScene.linkId)}
+          isUIVisible={isUIVisible}
+        />
+      )}
       <ActionButton
         icon={
           <FontAwesomeIcon
@@ -115,16 +144,30 @@ const EmakiNavigation = ({
         )
       )}
       <ToggleEkotoba data={data} isUIVisible={isUIVisible} />
-      {/* <FullScreen /> */}
       {character && <ToggleCharacter isUIVisible={isUIVisible} />}
       {ebiki && <ToggleEbiki isUIVisible={isUIVisible} />}
       <ShareButtons
-        variant="navigation"
+        variant="menu"
         navIndex={navIndex}
         emakiId={data.titleen}
         shareTitle={shareTitle}
         isUIVisible={isUIVisible}
       />
+      {/* 前に戻る（次の段へ）: 先頭到達時は非表示 */}
+      {prevScene && (
+        <ActionButton
+          icon={
+            <FontAwesomeIcon
+              icon={faChevronRight}
+              style={{ fontSize: "1.5em" }}
+            />
+          }
+          label={t("viewer.previous")}
+          description={t("viewer.previous")}
+          onClick={() => handleToId(prevScene.linkId)}
+          isUIVisible={isUIVisible}
+        />
+      )}
       <ActionButton
         icon={
           <FontAwesomeIcon icon={faAnglesRight} style={{ fontSize: "1.5em" }} />

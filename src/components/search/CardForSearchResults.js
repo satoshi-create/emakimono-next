@@ -4,15 +4,11 @@ import { eraColor } from "@/utils/func";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
 const CardForSearchResults = ({ emakis, columns, needdesc }) => {
-  const { setisModalOpen, closeSearchModal } = useContext(AppContext);
+  const { closeSearchModal } = useContext(AppContext);
   const { locale } = useRouter();
-
-  useEffect(() => {
-    setisModalOpen(false);
-  }, [setisModalOpen]);
 
   return (
     <div className={styles.searchbox}>

@@ -1,8 +1,6 @@
 import SingleCardA from "@/components/ui/SingleCardA";
 import Title from "@/components/ui/Title";
-import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/CardA.module.css";
-import { useContext, useEffect } from "react";
 
 const CardA = ({
   emakis,
@@ -14,12 +12,6 @@ const CardA = ({
   bcg,
   variant,
 }) => {
-  const { setisModalOpen } = useContext(AppContext);
-
-  useEffect(() => {
-    setisModalOpen(false);
-  }, [setisModalOpen]);
-
   return (
     <section
       className={columns !== "searchbox" && "section-grid section-padding"}

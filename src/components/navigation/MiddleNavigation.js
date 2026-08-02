@@ -6,7 +6,6 @@ import {
   Grid,
   GridItem,
   HStack,
-  IconButton,
   Text,
   useColorModeValue,
   useMediaQuery,
@@ -16,20 +15,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useMemo } from "react";
-import { FaBars } from "react-icons/fa";
-import { useTranslation } from "next-i18next";
 
 const MiddleNavigation = ({ title, titleen, edition, author }) => {
   const { locale } = useRouter();
-  const { t } = useTranslation("common");
   const bgColor = useColorModeValue("white", "gray.800");
   const iconColor = useColorModeValue("gray.600", "gray.300");
 
   const {
     stickyClass,
     setStickyClass,
-    openModal,
-    setisModalOpen,
     rankingData,
     toggleFullscreen,
     navIndex,
@@ -49,10 +43,6 @@ const MiddleNavigation = ({ title, titleen, edition, author }) => {
     };
     window.addEventListener("scroll", stickNavbar);
   }, [setStickyClass]);
-
-  useEffect(() => {
-    setisModalOpen(false);
-  }, [setisModalOpen]);
 
   // 画面幅が768px以上かを判定
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
@@ -130,13 +120,6 @@ const MiddleNavigation = ({ title, titleen, edition, author }) => {
             edition={edition}
             author={author}
             ort={"prt"}
-          />
-          <IconButton
-            aria-label={t("navigation.menu")}
-            icon={<FaBars />}
-            variant="ghost"
-            color={iconColor}
-            onClick={() => openModal(0)}
           />
         </GridItem>
       </Grid>

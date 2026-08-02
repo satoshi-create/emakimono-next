@@ -20,8 +20,6 @@
     "previous": "前へ",
     "readModernTranslation": "現代語訳を読む",
     "readClassicalText": "詞書を読む",
-    "openTableOfContents": "目次を開く",
-    "closeTableOfContents": "目次を閉じる",
     "showCharacterNames": "登場人物の名前を見る",
     "hideCharacterNames": "登場人物の名前を閉じる",
     "showPictureIndex": "絵引きを見る",
@@ -34,7 +32,6 @@
     "stop": "停止",
     "stopAutoPlay": "自動再生を停止",
     "autoPlay": "自動再生",
-    "copyUrl": "URLをコピー",
     "copied": "コピーしました",
     "copySceneUrl": "このシーンのURLをコピー",
     "enterFullscreen": "全画面で鑑賞する",
@@ -48,9 +45,7 @@
     "showCommentary": "解説を表示",
     "horizontalScrollHint": "横スクロールで移動します",
     "verticalScrollHint": "縦スクロール: 絵巻の外へカーソルを移動",
-    "fullscreeBtn": "フルスクリーンで絵巻を楽しむ",
-    "hideUI": "非表示にする",
-    "showUI": "表示する"
+    "fullscreeBtn": "フルスクリーンで絵巻を楽しむ"
   },
 
   "help": {
@@ -62,20 +57,6 @@
     "useMouseWheel": "ホイールで左右にスクロール",
     "useScrollbar": "横スクロールバーでも移動できます",
     "fullGuide": "くわしい使い方ガイド"
-  },
-
-  "navigation": {
-    "menu": "メニュー"
-  },
-
-  "modal": {
-    "description": "解説",
-    "modernSentence": "現代文",
-    "chapter": "段",
-    "title": "タイトル",
-    "bibliography": "書誌情報",
-    "references": "参照",
-    "createdByModifying": "以下を加工して作成"
   },
 
   "header": {

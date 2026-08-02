@@ -26,6 +26,7 @@ const ToggleEbiki = ({ isUIVisible = true }) => {
       description={description}
       onClick={handleEbikiToggle}
       isUIVisible={isUIVisible}
+      isOn={ebikiToggle}
     />
   );
 };

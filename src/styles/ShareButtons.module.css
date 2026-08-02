@@ -2,34 +2,6 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 0.25rem;
-}
-
-/* 詞書オーバーレイ: 縦書き帯の幅に合わせて縦積み（SceneLikeButton と同スケール） */
-.overlay {
-  flex-direction: column;
-  align-items: stretch;
-  gap: 0.2rem;
-  width: 100%;
-  min-width: 0;
-  font-size: 0.75rem;
-}
-
-@media (min-width: 768px) {
-  .overlay {
-    font-size: 0.85rem;
-    gap: 0.3rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .overlay {
-    font-size: 1rem;
-    gap: 0.3rem;
-  }
-}
-
-.inline {
   gap: 0.5rem;
 }
 
@@ -40,44 +12,14 @@
   padding: 0.35rem;
   border: none;
   background: transparent;
-  color: inherit;
+  color: var(--clr-text-muted, #666);
   cursor: pointer;
   transition: var(--transition);
   line-height: 0;
-}
-
-.overlay .iconBtn {
-  padding: 0.3rem 0.5rem;
-  color: rgba(255, 255, 255, 0.85);
-  background: rgba(0, 0, 0, 0.7);
-  width: 100%;
-  min-width: 0;
-  flex-shrink: 0;
-}
-
-@media (min-width: 768px) {
-  .overlay .iconBtn {
-    padding: 0.4rem 0.6rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .overlay .iconBtn {
-    padding: 0.5rem 0.8rem;
-  }
-}
-
-.overlay .iconBtn:hover {
-  color: #fff;
-  background: rgba(0, 0, 0, 0.85);
-}
-
-.inline .iconBtn {
-  color: var(--clr-text-muted, #666);
   border-radius: 4px;
 }
 
-.inline .iconBtn:hover {
+.iconBtn:hover {
   color: var(--clr-accent-02, #ff8c77);
   transform: scale(1.08);
 }
@@ -88,10 +30,6 @@
   fill: currentColor;
 }
 
-.brandIconLight {
-  filter: brightness(0) invert(1);
-}
-
 .lineLabel {
   font-size: 0.55rem;
   font-weight: 700;
@@ -99,30 +37,54 @@
   font-family: var(--font-ui, "Noto Sans JP", sans-serif);
 }
 
-.overlayLineLabel {
-  font-size: 0.55em;
+/* ナビ用の共有メニュー（共有1ボタン + ポップオーバー）。
+   aside の overflow にクリップされないよう body 直下に portal 表示し、
+   ボタン上端中央を基準に fixed 配置する */
+.menuWrap {
+  display: inline-flex;
 }
 
-.overlayIcon {
-  width: 0.9em;
-  height: 0.9em;
-  font-size: 1em;
+.menuPopover {
+  position: fixed;
+  transform: translate(-50%, calc(-100% - 8px));
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: max-content;
+  min-width: 180px;
+  padding: 6px;
+  background: rgba(255, 252, 246, 0.97);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
+  z-index: 60;
 }
 
-@media (min-width: 768px) {
-  .overlayIcon {
-    width: 1em;
-    height: 1em;
-  }
+.menuItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #444;
+  font-size: 0.85rem;
+  font-family: var(--font-ui, "Noto Sans JP", sans-serif);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  text-align: left;
 }
 
-@media (min-width: 1024px) {
-  .overlayIcon {
-    width: 1.1em;
-    height: 1.1em;
-  }
+.menuItem:hover {
+  background: rgba(255, 140, 119, 0.12);
+  color: var(--clr-accent);
 }
 
-.copied {
-  color: var(--clr-accent-02, #ff8c77);
+.menuItem .brandIcon {
+  width: 1em;
+  height: 1em;
 }

@@ -1,8 +1,9 @@
 import { postEmakiLike } from "@/libs/api/ugcApi";
 import * as gtag from "@/libs/api/gtag";
 import styles from "@/styles/LikeButton.module.css";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { Heart } from "react-feather";
 
 const LikeButton = ({ title, titleen, edition, author, ort }) => {
   const [isDisplay, setIsDisplay] = useState(false);
@@ -32,7 +33,8 @@ const LikeButton = ({ title, titleen, edition, author, ort }) => {
         onClick={() => postLike()}
         className={`${ort === "land" ? styles.land : styles.prt}`}
       >
-        <Heart
+        <FontAwesomeIcon
+          icon={faHeart}
           className={`${styles.icon} ${isDisplay && styles.activeicon} ${
             hasAnimated && styles.heartclr
           }`}

@@ -76,17 +76,12 @@ function MyApp({ Component, pageProps, router }) {
   }, []);
 
   const { t: emakisData } = useLocaleData();
-  const [ekotobaToggle, setekotobaToggle] = useState(false);
   const [characterToggle, setCharacterToggle] = useState(false);
   const [ebikiToggle, setEbikiToggle] = useState(false);
   const [oepnSidebar, setOepnSidebar] = useState(false);
   const [ekotobaImageToggle, setEkotobaImageToggle] = useState(true);
   const [query, setQuery] = useState("");
   const [fliterdEmakis, setfliterdEmakis] = useState(emakisData);
-  const [isModalOpen, setisModalOpen] = useState(false);
-  const [index, setIndex] = useState(0);
-  const [isMapModalOpen, setIsMapModalOpen] = useState(false);
-  const [MapIndex, setMapIndex] = useState(0);
 
   const [stickyClass, setStickyClass] = useState("");
   const [isSidebarOpen, setisSidebarOpen] = useState(false);
@@ -175,37 +170,6 @@ function MyApp({ Component, pageProps, router }) {
     document.querySelector("html").classList.remove("open");
   };
 
-  const openModal = (i) => {
-    setisModalOpen(true);
-    setIndex(i);
-  };
-
-  const closeModal = () => {
-    setisModalOpen(false);
-  };
-
-  const handleChapter = (index) => {
-    handleToId(index);
-    closeModal();
-  };
-
-  const openMapModal = (i) => {
-    setIsMapModalOpen(true);
-    const clientWidth = document.body.clientWidth;
-    document.querySelector("html").classList.add("open");
-    const noScrollBarWidth = document.body.clientWidth;
-    const diff = noScrollBarWidth - clientWidth;
-    if (diff > 0) {
-      document.body.style["padding-right"] = diff + "px";
-    }
-    setMapIndex(i);
-  };
-
-  const closeMapModal = () => {
-    document.querySelector("html").classList.remove("open");
-    setIsMapModalOpen(false);
-  };
-
   const openSearchModalOpen = () => {
     setIsSearchModalOpen(true);
     const clientWidth = document.body.clientWidth;
@@ -267,7 +231,6 @@ function MyApp({ Component, pageProps, router }) {
 
   const handleEkotobaImageToggle = () => {
     setEkotobaImageToggle(!ekotobaImageToggle);
-    setekotobaToggle(false);
   };
   const handleCharacterToggle = () => {
     setCharacterToggle(!characterToggle);
@@ -532,8 +495,6 @@ function MyApp({ Component, pageProps, router }) {
       </Head>
       <AppContext.Provider
         value={{
-        ekotobaToggle,
-        setekotobaToggle,
         oepnSidebar,
         setOepnSidebar,
         ekotobaImageToggle,
@@ -542,12 +503,6 @@ function MyApp({ Component, pageProps, router }) {
         setQuery,
         fliterdEmakis,
         setfliterdEmakis,
-        isModalOpen,
-        closeModal,
-        openModal,
-        setisModalOpen,
-        index,
-        setIndex,
         stickyClass,
         setStickyClass,
         isSidebarOpen,
@@ -572,11 +527,6 @@ function MyApp({ Component, pageProps, router }) {
         characterToggle,
         handleEbikiToggle,
         ebikiToggle,
-        openMapModal,
-        closeMapModal,
-        MapIndex,
-        setMapIndex,
-        isMapModalOpen,
         searchKeyword,
         setSearchKeyword,
         showData,
@@ -586,7 +536,6 @@ function MyApp({ Component, pageProps, router }) {
         closeSearchModal,
         loading,
         rankingData,
-        handleChapter,
         windowHeight,
         isHelpModalOpen,
         openHelpModal,

@@ -20,8 +20,6 @@
     "previous": "Previous",
     "readModernTranslation": "Read modern translation",
     "readClassicalText": "Read classical commentary",
-    "openTableOfContents": "Open table of contents",
-    "closeTableOfContents": "Close table of contents",
     "showCharacterNames": "Show character names",
     "hideCharacterNames": "Hide character names",
     "showPictureIndex": "Show picture index",
@@ -34,7 +32,6 @@
     "stop": "Stop",
     "stopAutoPlay": "Stop auto-play",
     "autoPlay": "Auto-play",
-    "copyUrl": "Copy URL",
     "copied": "Copied",
     "copySceneUrl": "Copy URL for this scene",
     "enterFullscreen": "Enter fullscreen",
@@ -48,9 +45,7 @@
     "showCommentary": "Show commentary",
     "horizontalScrollHint": "Scroll horizontally to navigate",
     "verticalScrollHint": "Vertical scroll: move cursor outside the scroll",
-    "fullscreeBtn": "Enjoy the picture scroll in full screen",
-    "hideUI": "Hide UI",
-    "showUI": "Show UI"
+    "fullscreeBtn": "Enjoy the picture scroll in full screen"
   },
 
   "help": {
@@ -62,20 +57,6 @@
     "useMouseWheel": "Use mouse wheel to scroll horizontally",
     "useScrollbar": "Or use the horizontal scrollbar",
     "fullGuide": "Full guide on this site"
-  },
-
-  "navigation": {
-    "menu": "Menu"
-  },
-
-  "modal": {
-    "description": "Description",
-    "modernSentence": "Modern text",
-    "chapter": "Chapter",
-    "title": "Title",
-    "bibliography": "Bibliography",
-    "references": "References",
-    "createdByModifying": "Created by modifying the following"
   },
 
   "header": {

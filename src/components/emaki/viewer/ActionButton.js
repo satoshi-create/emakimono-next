@@ -1,4 +1,3 @@
-import styles from "@/styles/ActionButton.module.css";
 import { IconButton, Tooltip, useBreakpointValue } from "@chakra-ui/react";
 import { forwardRef } from "react";
 
@@ -8,20 +7,15 @@ const ActionButton = forwardRef(
       icon,
       onClick,
       description,
-      top,
-      left,
-      right,
-      zIndex,
       variant = "default",
-      highlightNext,
       isUIVisible = true,
       isFullscreen = false,
+      isOn = false,
     },
     ref
   ) => {
     const isMobile = useBreakpointValue({ base: true, md: false });
 
-    const isCarouselButton = variant === "carousel"; // variantに基づいてスタイルを分岐
     const isFullscreenButton = variant === "fullscreen";
 
     return (
@@ -47,14 +41,6 @@ const ActionButton = forwardRef(
             // 教育現場向けUI: 静止UI耐性 - フェードイン/アウト
             opacity: isUIVisible ? 1 : 0,
             pointerEvents: isUIVisible ? "auto" : "none",
-            ...(isCarouselButton && {
-              backgroundColor: "rgba(0, 0, 0, 0.281);",
-              position: "absolute",
-              top: top || "50%",
-              left: left,
-              right: right,
-              zIndex: zIndex,
-            }),
             ...(isFullscreenButton && {
               position: "absolute",
               // ノッチ端末対応: safe-area-inset を加算して画面外に落ちるのを防止
@@ -79,12 +65,8 @@ const ActionButton = forwardRef(
               fontsize: "1em",
             }),
           }}
-          // className={highlightNext ? "highlight-animation" : ""}
-          className={`${highlightNext && styles.highlightAnimation}`}
-          // className={styles.highlightAnimation}
           size={{ base: "sm", md: "md" }}
-          // color={isEmakipageicon ? "#ff8c77" : "white"}
-          color="white"
+          color={isOn ? "#ff8c77" : "white"}
           _hover={
             !isMobile
               ? {
@@ -96,17 +78,6 @@ const ActionButton = forwardRef(
                 }
           }
         />
-        {/* {!isCarouselButton && (
-          <Text
-            fontSize="10px"
-            fontFamily={"Zen Maru Gothic, sans-serif"}
-            color={"var(--chakra-colors-gray-100)"}
-            whiteSpace={"nowrap"}
-            zIndex={zIndex}
-          >
-            {description}
-          </Text>
-        )} */}
       </Tooltip>
     );
   }

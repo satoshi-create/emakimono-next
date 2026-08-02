@@ -1,15 +1,17 @@
 import * as gtag from "@/libs/api/gtag";
 import { postSceneLike } from "@/libs/api/ugcApi";
 import styles from "@/styles/SceneLikeButton.module.css";
+import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { ThumbsUp } from "react-feather";
 import { useTranslation } from "next-i18next";
 
 /**
  * シーン別いいね（お気に入り）ボタン
  * ローカルストレージで状態を永続化
+ * variant: "overlay"（詞書帯） | "bar"（ボトムコメントバー）
  */
-const SceneLikeButton = ({ titleen, title, chapter, index }) => {
+const SceneLikeButton = ({ titleen, title, chapter, index, variant = "overlay" }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const { t } = useTranslation("common");
@@ -64,17 +66,22 @@ const SceneLikeButton = ({ titleen, title, chapter, index }) => {
     setIsAnimating(false);
   };
 
+  const isBar = variant === "bar";
+
   return (
     <button
       onClick={handleClick}
-      className={`${styles.button} ${isLiked ? styles.liked : ""}`}
+      className={`${isBar ? styles.barButton : styles.button} ${
+        isLiked ? (isBar ? styles.barLiked : styles.liked) : ""
+      }`}
       title={isLiked ? t("viewer.unlike") : t("viewer.like")}
       aria-label={isLiked ? t("viewer.unlike") : t("viewer.like")}
     >
-      <ThumbsUp
+      <FontAwesomeIcon
+        icon={faThumbsUp}
         className={`${styles.icon} ${isAnimating ? styles.animating : ""}`}
+        style={{ fontSize: isBar ? "1rem" : undefined }}
         onAnimationEnd={handleAnimationEnd}
-        fill={isLiked ? "currentColor" : "none"}
       />
     </button>
   );

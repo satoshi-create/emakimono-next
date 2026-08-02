@@ -26,6 +26,7 @@ const ToggleCharacter = ({ isUIVisible = true }) => {
       description={description}
       onClick={handleCharacterToggle}
       isUIVisible={isUIVisible}
+      isOn={characterToggle}
     />
   );
 };

@@ -16,6 +16,8 @@
 import * as gtag from "@/libs/api/gtag";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/SceneCommentaryBar.module.css";
+import SceneLikeButton from "@/components/emaki/viewer/SceneLikeButton";
+import ShareButtons from "@/components/emaki/viewer/ShareButtons";
 import {
   ChaptersGendaibun,
   ChaptersTitle,
@@ -120,6 +122,11 @@ const SceneCommentaryBar = ({ data, navIndex, isFullscreen = false }) => {
   const current = filterEkotobas[activeIndex];
 
   if (!current) return null;
+
+  const shareTitle =
+    locale === "en"
+      ? titleen || title
+      : `${title ?? ""}`.trim();
 
   // ×で閉じられた場合: バー本体の代わりに、小さな「解説を表示」ボタンのみを表示する。
   // 閉じ状態はアイドル時のUI非表示（isUIVisible）とは独立しているため、
@@ -269,36 +276,52 @@ const SceneCommentaryBar = ({ data, navIndex, isFullscreen = false }) => {
               )}
             </span>
           </button>
-          {/* 段一覧トグル: クリックでポップオーバーを開閉（複数段の絵巻のみ）。
-              バー内に段一覧を展開せず、解説文を圧迫しない */}
-          {hasMultipleSections && (
+          {/* シーン操作（いいね・共有）＋段一覧トグル＋閉じる: ヘッダー右側に集約 */}
+          <div className={styles.sceneActions}>
+            <SceneLikeButton
+              titleen={titleen}
+              title={title}
+              chapter={current.chapter}
+              index={current.linkId}
+              variant="bar"
+            />
+            <ShareButtons
+              variant="inline"
+              navIndex={current.linkId}
+              emakiId={titleen}
+              shareTitle={shareTitle}
+            />
+            {/* 段一覧トグル: クリックでポップオーバーを開閉（複数段の絵巻のみ）。
+                バー内に段一覧を展開せず、解説文を圧迫しない */}
+            {hasMultipleSections && (
+              <button
+                type="button"
+                className={`${styles.listBtn} ${
+                  listOpen ? styles.listBtnActive : ""
+                }`}
+                onClick={() => setListOpen((v) => !v)}
+                aria-label={t("viewer.sectionList")}
+                aria-expanded={listOpen}
+                title={t("viewer.sectionList")}
+              >
+                <FontAwesomeIcon icon={faList} />
+              </button>
+            )}
             <button
               type="button"
-              className={`${styles.listBtn} ${
-                listOpen ? styles.listBtnActive : ""
-              }`}
-              onClick={() => setListOpen((v) => !v)}
-              aria-label={t("viewer.sectionList")}
-              aria-expanded={listOpen}
-              title={t("viewer.sectionList")}
+              className={styles.closeBtn}
+              onClick={() => {
+                setListOpen(false);
+                setClosed(true);
+              }}
+              aria-label={t("viewer.closeCommentaryBar", {
+                defaultValue:
+                  locale === "en" ? "Close commentary bar" : "解説バーを閉じる",
+              })}
             >
-              <FontAwesomeIcon icon={faList} />
+              <FontAwesomeIcon icon={faXmark} />
             </button>
-          )}
-          <button
-            type="button"
-            className={styles.closeBtn}
-            onClick={() => {
-              setListOpen(false);
-              setClosed(true);
-            }}
-            aria-label={t("viewer.closeCommentaryBar", {
-              defaultValue:
-                locale === "en" ? "Close commentary bar" : "解説バーを閉じる",
-            })}
-          >
-            <FontAwesomeIcon icon={faXmark} />
-          </button>
+          </div>
         </div>
       </div>
       {/* 段一覧はバー内に置かず、バー直上に浮かぶポップオーバーとして表示する

@@ -1,8 +1,6 @@
 import ActionButton from "@/components/emaki/viewer/ActionButton";
 import { AppContext } from "@/context/AppContext";
 import {
-  faComment,
-  faCommentSlash,
   faKeyboard,
   faPaintBrush,
 } from "@fortawesome/free-solid-svg-icons";
@@ -10,70 +8,35 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
 import { useTranslation } from "next-i18next";
 
+// 詞書がある絵巻のみ表示（詞書の現代語訳⇄古典文の切替）。
+// 詞書の無い絵巻の目次移動は SceneCommentaryBar の段一覧（faList）が担う
 const ToggleEkotoba = ({ data, isUIVisible = true }) => {
   const { kotobagaki } = data;
-  const { ekotobaImageToggle, orientation, handleEkotobaImageToggle } =
+  const { ekotobaImageToggle, handleEkotobaImageToggle } =
     useContext(AppContext);
   const { t } = useTranslation("common");
 
-  // 詞書があるケース
-  const withEkotoba = (v) =>
-    v ? t("viewer.readModernTranslation") : t("viewer.readClassicalText");
-  const withEkotobaIcon = (v) =>
-    v ? (
-      <FontAwesomeIcon icon={faKeyboard} style={{ fontSize: "1.5em" }} />
-    ) : (
-      <FontAwesomeIcon icon={faPaintBrush} style={{ fontSize: "1.5em" }} />
-    );
-  // 詞書がないケース
-  const withoutEkotoba = (v) =>
-    v ? t("viewer.openTableOfContents") : t("viewer.closeTableOfContents");
-  const withoutEkotobaIcon = (v) =>
-    v ? (
-      <FontAwesomeIcon icon={faComment} style={{ fontSize: "1.5em" }} />
-    ) : (
-      <FontAwesomeIcon icon={faCommentSlash} style={{ fontSize: "1.5em" }} />
-    );
+  if (!kotobagaki) return null;
+
+  const description = ekotobaImageToggle
+    ? t("viewer.readModernTranslation")
+    : t("viewer.readClassicalText");
 
   return (
     <ActionButton
       icon={
-        kotobagaki
-          ? withEkotobaIcon(ekotobaImageToggle)
-          : withoutEkotobaIcon(ekotobaImageToggle)
+        ekotobaImageToggle ? (
+          <FontAwesomeIcon icon={faKeyboard} style={{ fontSize: "1.5em" }} />
+        ) : (
+          <FontAwesomeIcon icon={faPaintBrush} style={{ fontSize: "1.5em" }} />
+        )
       }
-      label={
-        kotobagaki
-          ? withEkotoba(ekotobaImageToggle)
-          : withoutEkotoba(ekotobaImageToggle)
-      }
-      description={
-        kotobagaki
-          ? withEkotoba(ekotobaImageToggle)
-          : withoutEkotoba(ekotobaImageToggle)
-      }
+      label={description}
+      description={description}
       onClick={handleEkotobaImageToggle}
       isUIVisible={isUIVisible}
+      isOn={ekotobaImageToggle}
     />
-    // <button
-    //   className={styled.button}
-    //   title={
-    //     kotobagaki
-    //       ? withEkotoba(ekotobaImageToggle)
-    //       : withoutEkotoba(ekotobaImageToggle)
-    //   }
-    //   onClick={handleEkotobaImageToggle}
-    // >
-    //   <i
-    //     style={{
-    //       fontSize: `${orientation === "portrait" ? "14px" : "20px"}`,
-    //     }}
-    //   >
-    //     {kotobagaki
-    //       ? withEkotobaIcon(ekotobaImageToggle)
-    //       : withoutEkotobaIcon(ekotobaImageToggle)}
-    //   </i>
-    // </button>
   );
 };
 
