@@ -1,0 +1,303 @@
+/* ボトムコメントバー
+   ビューア最下部に常駐するシーン解説バー（1本に統一）。
+   段タイトル＋解説文を折りたたみ表示し、タップで同じバー内に全文を展開する。
+   フルスクリーンのみ絵巻上にオーバーレイ。
+   関連: SceneCommentaryBar.js / EmakiConteiner.js */
+
+/* entry-container に付与: 下部UI（Navigation等）をバー高さぶん持ち上げる */
+.hasCommentaryBar {
+  --commentary-bar-h: 76px;
+  /* 実バー高さ（折りたたみ時は header のみ、展開時は全文ぶん伸びる）。
+     SceneCommentaryBar の ResizeObserver が動的に更新する。未計測時は折りたたみ高さにフォールバック */
+  --commentary-bar-full-h: var(--commentary-bar-h);
+}
+
+@media (min-width: 1024px) {
+  .hasCommentaryBar {
+    --commentary-bar-h: 88px;
+  }
+}
+
+.bar {
+  position: relative;
+  width: 100%;
+  z-index: 20;
+  /* 1本のバーとして縦に伸びる（折りたたみ時は header のみ、展開時は全文＋段一覧まで） */
+  display: flex;
+  flex-direction: column;
+  /* 絵巻画像上に和紙調の半透明ブラーで重ねる */
+  background: rgba(255, 252, 246, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.12);
+  color: var(--clr-text);
+  font-family: var(--font-ui);
+}
+
+.header {
+  position: relative; /* 右上の×・右端の展開トグルを絶対配置する基準点 */
+  display: flex;
+  align-items: stretch;
+  /* 折りたたみ時の最小高さ。展開時は本文の長さに合わせてバーごと伸びる */
+  min-height: var(--commentary-bar-h);
+}
+
+/* 本体（段タイトル＋現代文）。タップで解説シートを開閉。
+   右上の×（32px）と段一覧トグル（32px）と重ならないよう右側に余白を確保（テキスト表示を最大化） */
+.body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2px;
+  /* 右上の×と段一覧トグルを避けるため右側に余白を確保 */
+  padding: 6px 84px 6px 14px;
+  text-align: left;
+  overflow: hidden;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.gendaibun {
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: #333;
+  /* 詳細文と同じ字体にして「続きを読む」のように連続して読めるようにする */
+  font-family: var(--font-story);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 展開時: 行数制限を解除し、冒頭文＋続きを1段落のまま全文表示する */
+.bar[data-expanded="true"] .gendaibun {
+  display: block;
+  -webkit-line-clamp: unset;
+  -webkit-box-orient: unset;
+  overflow: visible;
+}
+
+/* ×（解説バーを閉じる）: 右上に固定 */
+.closeBtn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  font-size: 1rem;
+  transition: color 0.2s ease, transform 0.2s ease;
+  z-index: 1;
+}
+.closeBtn:hover {
+  color: var(--clr-accent);
+  transform: scale(1.1);
+}
+
+/* 段一覧トグル: 右上の×の左隣（right:40px）に配置。
+   クリックでバー直上に段一覧ポップオーバーを開く */
+.listBtn {
+  position: absolute;
+  top: 4px;
+  right: 40px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  font-size: 1rem;
+  transition: color 0.2s ease, transform 0.2s ease;
+  z-index: 1;
+}
+.listBtn:hover,
+.listBtnActive {
+  color: var(--clr-accent);
+  transform: scale(1.1);
+}
+
+/* 閉じた状態: バー本体の代わりに小さな「解説を表示」ボタンのみを表示する。
+   背景のバー枠（和紙調ストリップ）は出さず、ボタンだけをフローティング表示する */
+.reopenBar {
+  position: relative;
+  width: 100%;
+  z-index: 20;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 6px 12px;
+  /* 背景は透明。ボタン自体に白背景を持たせる */
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+.reopenBar[data-fullscreen="true"] {
+  position: absolute;
+  left: auto;
+  right: 1rem;
+  /* バー本体と同じく、全画面ボタンの上に浮かせる */
+  bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+  background: transparent;
+  box-shadow: none;
+}
+
+.reopenBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--clr-accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-family: var(--font-ui);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.reopenBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* バー本体と段一覧ポップオーバーの配置基準ラッパー。
+   フルスクリーン時の右下カード配置は .wrap が担う。
+   .bar に overflow-y:auto があるため、ポップオーバー（.sceneList）は
+   .bar の外（この .wrap 直下）に置き、カードでクリップされないようにする */
+.wrap {
+  position: relative;
+  width: 100%;
+  z-index: 20;
+}
+.wrap[data-fullscreen="true"] {
+  position: absolute;
+  left: auto;
+  right: 1rem;
+  /* 右下コーナー固定の全画面ボタンと重ならないよう、ボトムから浮かせる */
+  bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+  /* 正方形ではなく横長の長方形カードとして右下に表示する */
+  width: min(420px, 38vw, calc(100% - 2rem));
+  min-width: 260px;
+}
+
+/* フルスクリーン時: 絵巻鑑賞の邪魔をしないよう、右下に浮かぶカード型にする。
+   全幅バーではなく角に収め、絵巻全体（100%）が表示される。
+   展開時は max-height の範囲でカード内スクロールになり、絵巻上部が常に残る */
+.bar[data-fullscreen="true"] {
+  width: 100%;
+  /* ビューポート基準: wrap の高さは内容で決まるため % は使えない */
+  max-height: calc(100vh - 6.5rem - env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+}
+
+/* 「…詳細をみる」: プルダウンを意識させるボタン風ヒント。
+   クリックするとバー全体（.body）がトグルされて展開する */
+.moreHint {
+  display: inline-block;
+  vertical-align: baseline;
+  margin-left: 0.35rem;
+  padding: 2px 10px;
+  border: 1px solid var(--clr-accent);
+  border-radius: 999px;
+  background: rgba(255, 140, 119, 0.08);
+  color: var(--clr-accent);
+  font-weight: 700;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.moreHint:hover {
+  background: var(--clr-accent);
+  color: #fff;
+}
+
+/* シーンジャンプ用の段一覧（ポップオーバー）。
+   バーの直上（bottom:100%）に重ね、バーのレイアウトから分離して解説を圧迫しない。
+   アイコン（.listBtn）クリックでのみ開き、外側クリック / Esc / 選択で閉じる */
+.sceneList {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  margin-bottom: 8px;
+  width: min(380px, 100%);
+  max-height: min(60vh, 20rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  z-index: 25;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px;
+  background: rgba(255, 252, 246, 0.97);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
+}
+
+.sceneItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 999px;
+  padding: 3px 10px 3px 5px;
+  font-size: 0.78rem;
+  color: #444;
+  background: rgba(255, 255, 255, 0.75);
+  transition: all 0.2s ease;
+}
+.sceneItem:hover {
+  border-color: var(--clr-accent);
+  color: var(--clr-accent);
+}
+.sceneItemActive {
+  border-color: var(--clr-accent);
+  background: var(--clr-accent);
+  color: #fff;
+}
+
+.sceneNum {
+  flex: 0 0 auto;
+  min-width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.1);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+.sceneItemActive .sceneNum {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.sceneTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

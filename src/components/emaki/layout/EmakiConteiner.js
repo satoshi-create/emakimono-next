@@ -12,12 +12,13 @@ import HelpModal from "@/components/emaki/viewer/HelpModal";
 import ScrollFeedbackEndPrompt from "@/components/emaki/viewer/ScrollFeedbackEndPrompt";
 import ScrollFeedbackPanel from "@/components/emaki/viewer/ScrollFeedbackPanel";
 import Modal from "@/components/emaki/viewer/Modal";
-import ModalDesc from "@/components/emaki/viewer/ModalDesc";
+import SceneCommentaryBar from "@/components/emaki/viewer/SceneCommentaryBar";
 import PositionIndicator from "@/components/emaki/viewer/PositionIndicator";
 import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
 import WheelScrollIndicator from "@/components/emaki/viewer/WheelScrollIndicator";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/EmakiConteiner.module.css";
+import commentaryStyles from "@/styles/SceneCommentaryBar.module.css";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -92,13 +93,12 @@ const EmakiContainer = ({
     handleToId,
     toggleFullscreen,
     isMapModalOpen,
-    isDescModalOpen,
     isHelpModalOpen,
     setnavIndex,
     isScrollDetectedUpdateRef,
   } = useContext(AppContext);
 
-  const { backgroundImage, kotobagaki, sceneText, type, genjieslug } = data;
+  const { backgroundImage, kotobagaki, sceneText, type } = data;
   const { t } = useTranslation("common");
   const { locale } = useRouter();
   const isMobileToggle = useBreakpointValue({ base: true, md: false });
@@ -318,7 +318,9 @@ const EmakiContainer = ({
       idleStartTimeRef.current = Date.now(); // 計測用: タイマー開始時刻を記録
       const idleTimeout = getIdleTimeout();
       idleTimeoutRef.current = setTimeout(() => {
-        // 自動スクロール中は非表示にしない
+        // 初回ナッジ（自動スクロール）中は非表示にしない。
+        // 再生モード中はユーザー操作が発生しないため、マウス停止時と同じく
+        // 一定時間後にナビメニューを非表示にする。
         if (!isAutoScrolling) {
           // 計測: UI非表示
           trackUIHidden(data.id, idleTimeout);
@@ -351,11 +353,13 @@ const EmakiContainer = ({
     const handleClick = () => handleUserActivityWithType("click");
     const handleKeydown = () => handleUserActivityWithType("keydown");
 
-    // 自動スクロール中はタイマーを停止
+    // 初回ナッジ（自動スクロール）中はタイマーを停止してUIを表示したままにする。
+    // 再生モード（▶自動再生）中はアイドルタイマーを動かし、
+    // マウス停止時と同じく一定時間後にナビメニューを非表示にする。
     if (isAutoScrolling) {
       clearIdleTimer();
     } else {
-      // 自動スクロール終了後にタイマー開始
+      // 通常時・再生モード中はタイマー開始
       startIdleTimer();
     }
 
@@ -376,7 +380,7 @@ const EmakiContainer = ({
       window.removeEventListener("click", handleClick);
       window.removeEventListener("keydown", handleKeydown);
     };
-  }, [isAutoScrolling, data.id]); // 依存配列: 自動スクロール状態の変化を監視
+  }, [isAutoScrolling, isPlayMode, data.id]); // 依存配列: 自動スクロール・再生モード状態の変化を監視
 
   // パフォーマンス: scrollWidth/clientWidth のキャッシュ
   // 自動再生中は値が変化しないため、毎フレームのレイアウト読み取りを回避
@@ -956,6 +960,9 @@ const EmakiContainer = ({
     { result: [], imageCounter: 0, ekotobaCounter: 0 },
   ).result;
 
+  // ボトムコメントバー: 詞書画像かシーンテキストを持つ絵巻のみ表示
+  const showCommentaryBar = Boolean(scroll && (kotobagaki || sceneText));
+
   return (
     <div
       className={`${
@@ -963,7 +970,9 @@ const EmakiContainer = ({
       }`}
     >
       <div
-        className="js-scrollable entry-container"
+        className={`js-scrollable entry-container ${
+          showCommentaryBar ? commentaryStyles.hasCommentaryBar : ""
+        }`}
         style={{
           // 角丸クリップ: 通常表示時のみ（全画面時は overflow で UI はみ出しを防止）
           borderRadius:
@@ -976,6 +985,9 @@ const EmakiContainer = ({
           width: toggleFullscreen ? "100%" : undefined,
           height: toggleFullscreen ? "100%" : undefined,
           position: "relative", // 子要素の絶対配置の基準点
+          // ボトムコメントバーは block 要素として article の直後に配置する
+          // （entry-container を flex にすると article が min-content 幅に
+          //  伸びて横スクロールが壊れるため flex は使わない）
         }}
       >
         {scroll && <FullScreen isUIVisible={isUIVisible} />}
@@ -1051,14 +1063,21 @@ const EmakiContainer = ({
                 variant="unstyled"
                 size={{ base: "sm", md: "md" }}
                 color="white"
-                transition="all 0.3s linear"
+                // bottom は var(--commentary-bar-full-h) の増分で自動追従するため
+                // transition 対象から除外（シート開閉時の位置の滑り・跳ねを防止）
+                transition="opacity 0.3s linear, transform 0.2s ease"
                 sx={{
                   paddingInlineStart: "0 !important",
                   paddingInlineEnd: "0 !important",
                   position: "absolute",
+                  // フルスクリーン時: バーは右下カードのオーバーレイのため持ち上げ不要
                   bottom: !isMobileToggle
-                    ? "4%"
-                    : "calc(1% + env(safe-area-inset-bottom, 0px))",
+                    ? toggleFullscreen
+                      ? "1.5rem"
+                      : "calc(1.5rem + var(--commentary-bar-full-h, var(--commentary-bar-h, 0px)))"
+                    : toggleFullscreen
+                      ? "calc(0.75rem + env(safe-area-inset-bottom, 0px))"
+                      : "calc(0.75rem + var(--commentary-bar-full-h, var(--commentary-bar-h, 0px)) + env(safe-area-inset-bottom, 0px))",
                   left: !isMobileToggle
                     ? "1%"
                     : "calc(1% + env(safe-area-inset-left, 0px))",
@@ -1088,7 +1107,6 @@ const EmakiContainer = ({
         )}
         {scroll && isModalOpen && <Modal data={data} />}
         {/* {scroll && isMapModalOpen && <ModalMap data={data} />} */}
-        {!genjieslug && scroll && isDescModalOpen && <ModalDesc data={data} />}
         {scroll && isHelpModalOpen && <HelpModal />}
         {scroll && isScrollFeedbackOpen && (
           <ScrollFeedbackPanel
@@ -1107,9 +1125,6 @@ const EmakiContainer = ({
             onDismiss={() => setEndPromptDismissed(true)}
           />
         )}
-        {/* {genjieslug && scroll && isDescModalOpen && (
-          <ModalDescGenji data={data} />
-        )} */}
         <article
           className={`${styles.container} ${styles.rl} scrollbar`}
           style={{
@@ -1271,6 +1286,13 @@ const EmakiContainer = ({
             </div>
           )}
         </article>
+        {showCommentaryBar && (
+          <SceneCommentaryBar
+            data={data}
+            navIndex={navIndex}
+            isFullscreen={toggleFullscreen}
+          />
+        )}
       </div>
     </div>
   );

@@ -1,7 +1,5 @@
 ﻿import ToContactForm from "@/components/_archive_unused/ToContactForm";
 import EmakiConteiner from "@/components/emaki/layout/EmakiConteiner";
-import ChapterDesc from "@/components/emaki/metadata/ChapterDesc";
-import ChapterTimeline from "@/components/emaki/metadata/ChapterTimeline";
 import EditionLinks from "@/components/emaki/metadata/EditionLinks";
 import SourceAttribution from "@/components/emaki/metadata/SourceAttribution";
 import LikeButton from "@/components/emaki/metadata/LikeButton";
@@ -24,7 +22,6 @@ import {
 } from "@/utils/func";
 import { faEye, faTrophy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, VStack } from "@chakra-ui/react";
 import parse from "html-react-parser";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
@@ -40,7 +37,6 @@ const EmakiLandscapContent = ({
   viewerFullscreen = false,
 }) => {
   const { handleFullScreen, rankingData } = useContext(AppContext);
-  const { emakis } = data;
   const { locale } = useRouter();
   const { t: alldata } = useLocaleData();
   const { t } = useTranslation("common");
@@ -68,8 +64,6 @@ const EmakiLandscapContent = ({
     personname,
     keyword,
     genjieslug,
-    kotobagaki,
-    sceneText,
   } = data;
 
   // ランキング順位・閲覧数を検索
@@ -114,14 +108,6 @@ const EmakiLandscapContent = ({
   const isKusouzu = isKusouzuScroll(data);
   const isChojuGiga = isChojuGigaScroll(data);
 
-  const ekotobaIndices = emakis
-    .map((item, i) => (item.cat === "ekotoba" ? i : -1))
-    .filter((i) => i >= 0);
-  const activeEkotobaIndex = ekotobaIndices.reduce(
-    (prev, curr) => (curr <= navIndex ? curr : prev),
-    ekotobaIndices[0]
-  );
-
   return (
     <>
       <div
@@ -140,7 +126,11 @@ const EmakiLandscapContent = ({
             navIndex={navIndex}
             articleRef={articleRef}
             overflowX={"scroll"}
-            height={viewerFullscreen ? "var(--vh-100)" : "var(--vh-75)"}
+            height={
+              viewerFullscreen
+                ? "var(--vh-100)"
+                : "var(--vh-75)"
+            }
             editionLinks={[
               ...editionLinks,
               ...(isKusouzu ? LinksToKusouzu : []),
@@ -150,48 +140,6 @@ const EmakiLandscapContent = ({
           />
           {!viewerFullscreen && (
             <>
-          <div className={`${styles.chapter} scrollbar`}>
-            <h4 className={styles.chapterTitle}>
-              {/* {typeen === "emaki" ? "段タイトル" : "タイトル"} */}
-              {locale == "en" ? "Section Title" : "段タイトル"}
-            </h4>
-            <span className={styles.borderline}></span>
-            {/* タイムライン */}
-            <VStack alignItems="flex-start" spacing={6} position="relative">
-              {/* タイムラインの縦線 */}
-              <Box
-                position="absolute"
-                top={0}
-                bottom={0}
-                left={{ base: "12px", md: "18px" }} // レスポンシブで線の位置を変更
-                width={{ base: "1px", md: "2px" }} // レスポンシブで線の太さを変更
-                bg="gray.300"
-                zIndex={-1}
-              />
-              {emakis.map((item, idx) => {
-                const { cat, chapter, ekotobaId } = item;
-                if (cat === "ekotoba") {
-                  return (
-                    <ChapterTimeline
-                      key={idx}
-                      titleen={titleen}
-                      title={title}
-                      chapter={chapter}
-                      era={era}
-                      index={idx}
-                      ekotobaId={ekotobaId}
-                      kotobagaki={kotobagaki}
-                      sceneText={sceneText}
-                      iconType={"location"}
-                      isActive={idx === activeEkotobaIndex}
-                      scrollOnActive={true}
-                    />
-                  );
-                }
-              })}
-            </VStack>
-          </div>
-
           <div className={styles.metadata}>
             <div className={styles.metadataA}>
               <h1 className={styles.title}>
@@ -251,8 +199,7 @@ const EmakiLandscapContent = ({
                   </Link>
                 </div>
               )}
-              {isKusouzu && <KusouzuHubLink variant="tag" />}
-              {isChojuGiga && <ChojuGigaHubLink variant="tag" />}
+              {/* ハブリンクは metadataB のバナーで提示するため、ここには置かない */}
             </div>
             <div className={styles.metadataB}>
               {/* 絵巻の紹介 */}
@@ -267,22 +214,8 @@ const EmakiLandscapContent = ({
               <div className={styles.desc}>
                 {locale === "en" ? parse(descEn) : parse(descJa)}
               </div>
-              {/* 各段の詞書・解説 */}
-              {(kotobagaki || sceneText) && (
-                <>
-                  <h4
-                    className={styles.metaBtitle}
-                    style={{
-                      "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                    }}
-                  >
-                    {locale == "en" ? "Sectional Explanation" : "各段の解説"}
-                  </h4>
-                  {<ChapterDesc emakis={emakis} data={data} />}
-                </>
-              )}
-              {/* 他の巻を見る */}
-              {editionLinks.length > 0 && (
+              {/* 他の巻を見る（ChojuGiga はハブブロック側で同一の巻一覧を出すためスキップ） */}
+              {!isChojuGiga && editionLinks.length > 0 && (
                 <>
                   <h4
                     className={styles.metaBtitle}
@@ -301,14 +234,6 @@ const EmakiLandscapContent = ({
               )}
               {isKusouzu && (
                 <>
-                  <h4
-                    className={styles.metaBtitle}
-                    style={{
-                      "--border-color": eraColor(era) || "black",
-                    }}
-                  >
-                    {t("kusouzuHub.linkLabel")}
-                  </h4>
                   <KusouzuHubLink variant="banner" />
                   {LinksToKusouzu.length > 0 && (
                     <>
@@ -331,14 +256,6 @@ const EmakiLandscapContent = ({
               )}
               {isChojuGiga && (
                 <>
-                  <h4
-                    className={styles.metaBtitle}
-                    style={{
-                      "--border-color": eraColor(era) || "black",
-                    }}
-                  >
-                    {t("choujuGigaHub.linkLabel")}
-                  </h4>
                   <ChojuGigaHubLink variant="banner" />
                   {LinksToChojuGiga.length > 0 && (
                     <>

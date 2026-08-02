@@ -177,7 +177,9 @@ button {
 }
 
 .fullscreen-enabled article {
-  height: var(--vh-100);
+  /* ボトムコメントバーは全画面時、右下のカードとしてオーバーレイ表示するため、
+     article の高さ縮小は不要。絵巻全体を 100% で表示する */
+  height: 100%;
   width: 100%;
   max-width: 100%;
   /* ノッチ端末対応: 全画面時に safe-area を確保 */

@@ -4,6 +4,9 @@
   position: relative;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
+  /* グリッドアイテムの min-width: auto が絵巻コンテンツ幅まで
+     グリッドトラックを押し広げるのを防ぐ */
+  min-width: 0;
 }
 
 .prt {
@@ -13,6 +16,8 @@
   z-index: 10;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   background-color: white;
+  /* 同様にコンテンツ幅で親を押し広げない */
+  min-width: 0;
 }
 
 .container {

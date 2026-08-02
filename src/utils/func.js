@@ -418,6 +418,30 @@ const ChaptersDesc = (titleen, title, chapter, text, desc) => {
   }
 };
 
+// 段の解説を生テキスト（文字列）で返す。ChaptersDesc の文字列版。
+// ボトムコメントバーで「冒頭プレビュー + 詳細をみる」を出し分けるために使用する。
+const getChapterDescRaw = (titleen, title, chapter, text, desc) => {
+  if (title.includes("九相")) {
+    return connectKusouzuChapters(chapter, text) || "";
+  }
+  if (title.includes("鳥獣") || title.includes("戯画")) {
+    return resolveChojugigaOrEmakiText(titleen, chapter, text) || "";
+  }
+  if (title.includes("源氏")) {
+    return connectGenjiChapters(chapter, "summary") || "";
+  }
+  if (Number.isInteger(parseInt(chapter))) {
+    if (desc) return desc;
+    const field = text === "descen" ? "descen" : "desc";
+    return (
+      connectEmakiTextData(titleen, chapter, field) ||
+      connectEmakiTextSync(titleen, chapter, field) ||
+      ""
+    );
+  }
+  return desc || "";
+};
+
 // キーワード一覧とマッチする絵巻ページのタグをfindし、新たな配列を作成
 
 const filterdKeywords = (pageKey, allKey) =>
@@ -449,6 +473,7 @@ export {
   eraItem,
   filterdKeywords,
   genjieSlugItem,
+  getChapterDescRaw,
   keywordItem,
   kusouzuSlugItem,
   personnameItem,

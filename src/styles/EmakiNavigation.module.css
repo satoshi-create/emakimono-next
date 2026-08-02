@@ -25,7 +25,8 @@
 
 .prt {
   /* ノッチ端末対応: safe-area-inset-bottom を加算 */
-  bottom: calc(2% + env(safe-area-inset-bottom, 0px));
+  /* ボトムコメントバー表示時はバー実高さ（展開シート含む）ぶん持ち上げる */
+  bottom: calc(2% + var(--commentary-bar-full-h, var(--commentary-bar-h, 0px)) + env(safe-area-inset-bottom, 0px));
   column-gap: 0.5rem;
   border-radius: 2rem;
   /* padding: 0.5rem 1rem; */
@@ -34,13 +35,23 @@
 
 .land {
   /* ノッチ端末対応: safe-area-inset-bottom を加算 */
-  bottom: calc(4% + env(safe-area-inset-bottom, 0px));
+  /* ボトムコメントバー表示時はバー実高さ（展開シート含む）ぶん持ち上げる */
+  bottom: calc(4% + var(--commentary-bar-full-h, var(--commentary-bar-h, 0px)) + env(safe-area-inset-bottom, 0px));
   column-gap: .5rem;
   background: #b1b1b100;
   /* background-color: rgba(0, 0, 0, 0.281); */
   border-radius: 2rem;
   padding: 0.5rem 1rem;
   /* box-shadow: var(--shadow-1); */
+}
+
+/* フルスクリーン時: バーは右下カードとしてオーバーレイするため、
+   中央下部のナビはバー高さぶん持ち上げる必要がない（元の位置に戻す） */
+:global(html.fullscreen-enabled) .land {
+  bottom: calc(4% + env(safe-area-inset-bottom, 0px));
+}
+:global(html.fullscreen-enabled) .prt {
+  bottom: calc(2% + env(safe-area-inset-bottom, 0px));
 }
 
 .bcg {

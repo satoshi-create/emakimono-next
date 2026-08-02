@@ -1,7 +1,5 @@
 import ToContactForm from "@/components/_archive_unused/ToContactForm";
 import EmakiConteiner from "@/components/emaki/layout/EmakiConteiner";
-import ChapterDesc from "@/components/emaki/metadata/ChapterDesc";
-import ChapterTimeline from "@/components/emaki/metadata/ChapterTimeline";
 import EditionLinks from "@/components/emaki/metadata/EditionLinks";
 import SourceAttribution from "@/components/emaki/metadata/SourceAttribution";
 import LikeButton from "@/components/emaki/metadata/LikeButton";
@@ -24,7 +22,6 @@ import {
 } from "@/utils/func";
 import { faEye, faTrophy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Box, VStack } from "@chakra-ui/react";
 import parse from "html-react-parser";
 import Image from "next/image";
 import Link from "next/link";
@@ -50,7 +47,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     authoren,
     desc,
     descen,
-    emakis,
     sourceImage,
     sourceImageUrl,
     sourceAuthor,
@@ -58,8 +54,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
     reference,
     keyword,
     personname,
-    kotobagaki,
-    sceneText,
     titleen,
   } = data;
 
@@ -102,13 +96,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
   );
   const isKusouzu = isKusouzuScroll(data);
   const isChojuGiga = isChojuGigaScroll(data);
-  const ekotobaIndices = emakis
-    .map((item, i) => (item.cat === "ekotoba" ? i : -1))
-    .filter((i) => i >= 0);
-  const activeEkotobaIndex = ekotobaIndices.reduce(
-    (prev, curr) => (curr <= navIndex ? curr : prev),
-    ekotobaIndices[0]
-  );
 
   return (
     <>
@@ -196,71 +183,9 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             <div className={styles.desc}>
               {locale === "en" ? parse(descEn) : parse(descJa)}
             </div>
-            {isKusouzu && <KusouzuHubLink variant="tag" />}
-            {isChojuGiga && <ChojuGigaHubLink variant="tag" />}
-
-            {!(kotobagaki || sceneText) && (
-              <>
-                <h4
-                  className={styles.metaBtitle}
-                  style={{
-                    "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                  }}
-                >
-                  {locale == "en" ? "Section Title" : "段タイトル"}
-                </h4>
-                <VStack alignItems="flex-start" spacing={6} position="relative">
-                  {/* タイムラインの縦線 */}
-                  <Box
-                    position="absolute"
-                    top={0}
-                    bottom={0}
-                    left={{ base: "18px", md: "21px" }} // レスポンシブで線の位置を変更
-                    width={{ base: "1px", md: "2px" }} // レスポンシブで線の太さを変更
-                    bg="gray.300"
-                    zIndex={1}
-                  />
-                  {emakis.map((item, idx) => {
-                    const { cat, chapter, ekotobaId } = item;
-                    if (cat === "ekotoba") {
-                      return (
-                        <ChapterTimeline
-                          key={idx}
-                          titleen={titleen}
-                          title={title}
-                          chapter={chapter}
-                          era={era}
-                          index={idx}
-                          ekotobaId={ekotobaId}
-                          kotobagaki={kotobagaki}
-                          sceneText={sceneText}
-                          iconType={"location"}
-                          isActive={idx === activeEkotobaIndex}
-                        />
-                      );
-                    }
-                  })}
-                </VStack>
-              </>
-            )}
-
-            {/* 各段の詞書・解説 */}
-            {(kotobagaki || sceneText) && (
-              <>
-                <h4
-                  className={styles.metaBtitle}
-                  style={{
-                    "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                  }}
-                >
-                  {locale == "en" ? "Sectional Explanation" : "各段の解説"}
-                </h4>
-                {<ChapterDesc emakis={emakis} data={data} />}
-              </>
-            )}
-
-            {/* 他の巻を見る */}
-            {editionLinks.length > 0 && (
+            {/* ハブリンクは metadataB のバナーで提示するため、ここには置かない */}
+            {/* 他の巻を見る（ChojuGiga はハブブロック側で同一の巻一覧を出すためスキップ） */}
+            {!isChojuGiga && editionLinks.length > 0 && (
               <>
                 <h4
                   className={styles.metaBtitle}
@@ -279,14 +204,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             )}
             {isKusouzu && (
               <>
-                <h4
-                  className={styles.metaBtitle}
-                  style={{
-                    "--border-color": eraColor(era) || "black",
-                  }}
-                >
-                  {t("kusouzuHub.linkLabel")}
-                </h4>
                 <KusouzuHubLink variant="banner" />
                 {LinksToKusouzu.length > 0 && (
                   <>
@@ -309,14 +226,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
             )}
             {isChojuGiga && (
               <>
-                <h4
-                  className={styles.metaBtitle}
-                  style={{
-                    "--border-color": eraColor(era) || "black",
-                  }}
-                >
-                  {t("choujuGigaHub.linkLabel")}
-                </h4>
                 <ChojuGigaHubLink variant="banner" />
                 {LinksToChojuGiga.length > 0 && (
                   <>
