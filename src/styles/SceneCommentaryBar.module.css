@@ -6,7 +6,8 @@
 
 /* entry-container に付与: 下部UI（Navigation等）をバー高さぶん持ち上げる */
 .hasCommentaryBar {
-  --commentary-bar-h: 76px;
+  /* 縦積みレイアウト（テキスト行＋操作行）に合わせた高さ。未計測時はこの値にフォールバック */
+  --commentary-bar-h: 84px;
   /* 実バー高さ（折りたたみ時は header のみ、展開時は全文ぶん伸びる）。
      SceneCommentaryBar の ResizeObserver が動的に更新する。未計測時は折りたたみ高さにフォールバック */
   --commentary-bar-full-h: var(--commentary-bar-h);
@@ -34,8 +35,9 @@
   font-family: var(--font-ui);
 }
 
-/* SP（狭幅）: テキストを全幅表示するため縦積みにする。
-   本体（.body）を1行目いっぱいに広げ、操作アイコンは下段の専用行に分離する */
+/* 全モード共通の縦積みレイアウト: テキストを全幅表示するため縦積みにする。
+   本体（.body）を1行目いっぱいに広げ、操作アイコンは下段の専用行に分離する。
+   SP（portrait / landscape）・フルスクリーン・PC すべて同じレイアウトに統一 */
 .header {
   position: relative; /* ポップオーバーの基準点 */
   display: flex;
@@ -109,7 +111,7 @@
 }
 
 /* シーン操作（いいね・共有）＋段一覧＋閉じるを集約する操作列。
-   SP: テキスト下の専用行として全幅で右寄せ。PC: テキストの右隣に縦並び */
+   テキスト下の専用行として全幅で右寄せする（全モード共通） */
 .sceneActions {
   flex: 0 0 auto;
   display: flex;
@@ -118,21 +120,6 @@
   gap: 2px;
   padding: 2px 6px;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-/* PC（広幅）: テキストと操作アイコンを横並びに戻す */
-@media (min-width: 768px) {
-  .header {
-    flex-direction: row;
-    align-items: stretch;
-  }
-  .body {
-    padding: 6px 10px 6px 14px;
-  }
-  .sceneActions {
-    padding: 0 6px 0 0;
-    border-top: none;
-  }
 }
 
 /* 段一覧トグル: 操作列内の×の左隣に配置。
