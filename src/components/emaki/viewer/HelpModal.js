@@ -295,6 +295,70 @@ const HelpModal = () => {
                 </div>
                 <p className={styles.label}>{t("help.useScrollbar")}</p>
               </div>
+
+              <div className={styles.helpItem}>
+                <div className={styles.iconWrapper}>
+                  {/* 手のひらモードアイコン */}
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M12 5V14"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M9 7C9 5.89543 9.89543 5 11 5C12.1046 5 13 5.89543 13 7V12"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M13 11C13 9.89543 13.8954 9 15 9C16.1046 9 17 9.89543 17 11V14C17 17.3137 14.3137 20 11 20H9C6.79086 20 5 18.2091 5 16V14"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    {/* 左右矢印（動き） */}
+                    <path d="M4 13L7 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                      <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite" />
+                    </path>
+                    <path d="M5 11L3 13L5 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M20 13L17 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                      <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite" />
+                    </path>
+                    <path d="M19 11L21 13L19 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+                <p className={styles.label}>{t("help.palmModeHint")}</p>
+              </div>
+
+              <div className={styles.helpItem}>
+                <div className={styles.iconWrapper}>
+                  {/* Fキーアイコン */}
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                    <rect
+                      x="4"
+                      y="4"
+                      width="16"
+                      height="16"
+                      rx="3"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                    />
+                    <text
+                      x="12"
+                      y="16.5"
+                      textAnchor="middle"
+                      fontSize="12"
+                      fontWeight="600"
+                      fill="currentColor"
+                    >
+                      F
+                    </text>
+                  </svg>
+                </div>
+                <p className={styles.label}>{t("help.fullscreenShortcut")}</p>
+              </div>
             </>
           )}
         </div>

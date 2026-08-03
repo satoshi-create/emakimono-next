@@ -240,6 +240,10 @@ function MyApp({ Component, pageProps, router }) {
     setEbikiToggle(!ebikiToggle);
   };
 
+  // キーボードショートカット（F: 全画面入/切）用に最新の handleFullScreen を保持
+  // handleFullScreen は毎レンダーで再生成されるため、ref 経由で最新版を参照する
+  const handleFullScreenRef = useRef(null);
+
   const handleFullScreen = async (orientation) => {
     // P0改修: フルスクリーン切り替え開始時点でフラグを立てる
     // （scrollDialogの抑制を確実にするため、handleFullScreen内でも設定）
@@ -300,6 +304,30 @@ function MyApp({ Component, pageProps, router }) {
       isFullscreenTransitioningRef.current = false;
     }
   };
+
+  // レンダーごとに最新の handleFullScreen を ref へ反映
+  handleFullScreenRef.current = handleFullScreen;
+
+  // キーボードショートカット: Fキーで全画面入/切
+  // 絵巻ビューアページ（/[slug]）でのみ有効
+  useEffect(() => {
+    if (gRouter.pathname !== "/[slug]") return;
+
+    const handleFullscreenShortcut = (e) => {
+      // 素のFキーのみ（Ctrl/Cmd+F のブラウザ検索・テキスト入力とは競合しない）
+      if (e.key !== "f" && e.key !== "F") return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      // 検索欄・フォーム入力中は無効化
+      const tag = e.target?.tagName;
+      if (tag && /^(INPUT|TEXTAREA|SELECT)$/i.test(tag)) return;
+
+      e.preventDefault();
+      handleFullScreenRef.current?.("landscape");
+    };
+
+    document.addEventListener("keydown", handleFullscreenShortcut);
+    return () => document.removeEventListener("keydown", handleFullscreenShortcut);
+  }, [gRouter.pathname]);
 
   // P0改修: ブラウザ主導のフルスクリーン状態変化を監視
   // ESCキーやブラウザUIでのフルスクリーン解除時にstateを同期

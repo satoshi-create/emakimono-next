@@ -56,6 +56,8 @@
     "useArrowKeysAlso": "You can also use arrow keys to navigate",
     "useMouseWheel": "Use mouse wheel to scroll horizontally",
     "useScrollbar": "Or use the horizontal scrollbar",
+    "palmModeHint": "Grab and drag the scroll to move it",
+    "fullscreenShortcut": "Press F to toggle fullscreen",
     "fullGuide": "Full guide on this site"
   },
 

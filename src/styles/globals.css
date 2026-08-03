@@ -250,6 +250,31 @@ button {
   }
 }
 
+/* 全画面モード: 40px の太いスクロールバーが絵巻表示を邪魔しないよう
+   細く・半透明にして上部領域を覆わないようにする */
+.fullscreen-enabled .scrollbar {
+  /* Firefox向け: つまみ色のみ指定（scrollbar-width: thin は Chrome 121+ で
+     ::-webkit-scrollbar のカスタムスタイルが無視されるため使わない） */
+  scrollbar-color: rgba(140, 140, 140, 0.55) transparent;
+
+  &::-webkit-scrollbar,
+  &::-webkit-scrollbar-corner {
+    height: 8px;
+    width: 8px;
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border: none;
+    border-radius: 100px;
+    background-color: rgba(140, 140, 140, 0.55);
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(120, 120, 120, 0.7);
+  }
+}
+
 /* モバイルで隠す */
 .hide-on-mobile {
   @media (width <=768px) {

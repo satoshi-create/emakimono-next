@@ -85,6 +85,9 @@
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
+  /* 項目増加時もモーダルが画面外にはみ出さないようにする */
+  max-height: 50vh;
+  overflow-y: auto;
 }
 
 .helpItem {

@@ -56,6 +56,23 @@
   flex-direction: row;
 }
 
+/* 手のひらモード（PC限定）: マウス押下中に表示される「掴んで動かす」カーソル */
+.palmMode {
+  cursor: grab;
+  user-select: none;
+  -webkit-user-drag: none; /* 画像のネイティブドラッグを無効化 */
+}
+.palmMode:active {
+  cursor: grabbing;
+}
+/* -webkit-user-drag は継承されないため、子の画像にも直接適用する。
+   ネイティブドラッグが発動すると pointer イベントが届かず絵巻が動かない。
+   （JS側の dragstart preventDefault と重複するが、state反映前の抑止に有効） */
+.palmMode img {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
 .container::-webkit-scrollbar-track {
   /* background-image: url("/washi-pattern-01.webp"); */
   border-bottom-right-radius: 100px;
