@@ -124,6 +124,12 @@ const EmakiContainer = ({
   const playModeAnimationRef = useRef(null); // 再生モードのアニメーションID
   // prevDataIdはモジュールスコープに移動済み（絵巻切り替え検出用）
 
+  // 解説バー追従用のローカル state。
+  // 自動再生中は navIndex（グローバル）を止めて数十枚の next/image の再レンダーを避ける一方、
+  // SceneCommentaryBar の段タイトルはこの値で追従させる（画像ツリーへ波及させず軽量に更新）。
+  // 通常時は navIndex と同期する（下記の同期 effect）。
+  const [liveSceneIndex, setLiveSceneIndex] = useState(navIndex);
+
   // 教育現場向けUI: 静止UI耐性（Idle UI）- 長時間投影時の視覚的ノイズ軽減
   const [isUIVisible, setIsUIVisible] = useState(true); // UI表示状態
   const idleTimeoutRef = useRef(null); // 無操作タイマー
@@ -250,8 +256,13 @@ const EmakiContainer = ({
       lastDetectedSceneRef.current = closestId;
 
       // 自動再生中はツリー全体（数十枚の next/image）の再レンダーを避けるため
-      // navIndex を更新しない。停止時に lastDetectedSceneRef から同期する。
-      if (isAutoScrolling || playModeAnimationRef.current) return;
+      // navIndex は更新しない（停止時に lastDetectedSceneRef から同期）。
+      // ただし解説バー（SceneCommentaryBar）の段タイトルはローカル state
+      // liveSceneIndex で追従させる（画像ツリーへ再レンダーを波及させない）。
+      if (isAutoScrolling || playModeAnimationRef.current) {
+        setLiveSceneIndex(closestId);
+        return;
+      }
 
       // 絵巻ハイパーリンク: スクロール検出による更新であることをマーク
       // scrollDialog の自動スクロールを抑制するため
@@ -259,6 +270,8 @@ const EmakiContainer = ({
         isScrollDetectedUpdateRef.current = true;
       }
       setnavIndex(closestId);
+      // 解説バー追従値も同期（navIndex と同値に保つ）
+      setLiveSceneIndex(closestId);
       // フラグを解除（scrollDialog の処理が完了するまで少し待つ）
       setTimeout(() => {
         if (isScrollDetectedUpdateRef) {
@@ -269,6 +282,13 @@ const EmakiContainer = ({
     // isAutoScrolling: 初回ナッジ中のガード（return）を確実に反映するため依存に含める
     // （含めないとクロージャが古い値 false を捕捉し、ナッジ中も setnavIndex が走る）
   }, [setnavIndex, isScrollDetectedUpdateRef, data.id, isAutoScrolling]);
+
+  // 解説バー追従値: navIndex が外部（handleToId / hash / 停止時同期）で変化した場合も
+  // liveSceneIndex へ同期する。再生中は detectCurrentScene が liveSceneIndex を上書きし
+  // 続けるため、この effect は navIndex が変わらない限り再実行されない（競合なし）。
+  useEffect(() => {
+    setLiveSceneIndex(navIndex);
+  }, [navIndex]);
 
 
   // 教育現場向けUI: 静止UI耐性 - ユーザー操作検出とタイマー管理
@@ -1292,7 +1312,7 @@ const EmakiContainer = ({
         {showCommentaryBar && (
           <SceneCommentaryBar
             data={data}
-            navIndex={navIndex}
+            navIndex={isPlayMode || isAutoScrolling ? liveSceneIndex : navIndex}
             isFullscreen={toggleFullscreen}
           />
         )}
