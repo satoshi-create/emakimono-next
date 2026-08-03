@@ -134,13 +134,14 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
     } else if (ori === "portrait") {
       return (
         <>
-          <EmakiHeader />
-          <EmakiBreadcrumbs orientation={orientation} {...breadcrumbProps} />
+          {!full && <EmakiHeader />}
+          {!full && <EmakiBreadcrumbs orientation={orientation} {...breadcrumbProps} />}
           <EmakiPortraitContent
             data={data}
             scroll={true}
             selectedRef={selectedRef}
             navIndex={navIndex}
+            viewerFullscreen={full}
           />
         </>
       );

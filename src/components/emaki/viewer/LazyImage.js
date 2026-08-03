@@ -99,8 +99,10 @@ const LazyImage = ({
     let fallbackTimer = null;
     let observed = false;
 
-    // フルスクリーン時のeager判定: navIndex±2 または playMode
-    const isEagerInFullscreen = isPlayMode || Math.abs(uniqueIndex - navIndex) <= 2;
+    // フルスクリーン時のeager判定: navIndex±2 または 再生中は先読み8枚
+    const isEagerInFullscreen =
+      (isPlayMode && uniqueIndex <= navIndex + 8) ||
+      Math.abs(uniqueIndex - navIndex) <= 2;
 
     const startFallbackTimer = () => {
       loadStartTimeRef.current = Date.now();
@@ -163,7 +165,9 @@ const LazyImage = ({
     let observed = false;
 
     // eager画像（uniqueIndex < 3）はマウント時にすでにリクエスト開始済みなので即タイマー設定
-    const isEager = isPlayMode || uniqueIndex < 3;
+    // 再生中は先読み8枚のみ eager 扱い（一斉ロードを防ぐ）
+    const isEager =
+      uniqueIndex < 3 || (isPlayMode && uniqueIndex <= navIndex + 8);
 
     const startFallbackTimer = () => {
       // ロード開始時刻を「今」にリセット（ビューポート進入 = ロード開始）
@@ -218,15 +222,19 @@ const LazyImage = ({
   const PAPER_COLOR_BLUR_DATA_URL =
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect fill='%23f5f0e6' width='1' height='1'/%3E%3C/svg%3E";
 
-  const cloudinaryLoader = ({ src, width, quality }) => {
-    return `${baseUrl},f_jpg,w_${width},q_${quality || 75}/${src}`;
+  const cloudinaryLoader = ({ src, width }) => {
+    // f_auto/q_auto はスラッシュ区切りの別コンポーネントで指定する（Cloudinary 公式推奨。
+    // カンマ区切り f_auto,q_auto は推奨されず、画像によっては最適形式が選ばれない）
+    // dpr_auto は付けない: next/image の srcset が devicePixelRatio を考慮して候補を選ぶため、
+    // w_×dpr の二重拡大による過大な配信を防ぐ
+    return `${baseUrl},w_${width}/f_auto/q_auto/${src}`;
   };
 
   // CSS custom property を使用してモバイルブラウザの dvh に対応
   // dvh (dynamic viewport height) はモバイルの URL バー表示/非表示に追従
   const getResponsiveHeightVar = (full, ori) => {
-    if (full && ori === "landscape") {
-      return "var(--vh-100)";
+    if (full) {
+      return "var(--vh-100)"; // 全画面は向きを問わず 100vh（portrait でもヘッダー類を非表示にするため）
     } else if (ori === "landscape") {
       return "var(--vh-75)";
     } else if (ori === "portrait") {
@@ -272,20 +280,24 @@ const LazyImage = ({
         height={height}
         alt={alt}
         priority={uniqueIndex === 0} // 最初の画像は即時プリロード
-        // 再生モード時・最初の3枚は eager loading
+        // 再生モード時は現在位置から先読み8枚のみ eager（一斉ロードによる帯域逼迫を防ぐ）
         // フルスクリーン時は現在シーン付近（±2枚）のみ eager（同時リクエスト抑制）
         // 全画面切替時に IntersectionObserver が viewport 変化に追従しない問題への対策
         loading={(() => {
+          const lookahead = isPlayMode ? 8 : 2;
           const isEager =
-            isPlayMode ||
             uniqueIndex < 3 ||
+            (isPlayMode && uniqueIndex <= navIndex + lookahead) ||
             (toggleFullscreen && Math.abs(uniqueIndex - navIndex) <= 2);
           if (FB_DEBUG && uniqueIndex < 12) {
             console.log(`[FB-DEBUG] loading: idx=${uniqueIndex}, navIndex=${navIndex}, fullscreen=${toggleFullscreen}, playMode=${isPlayMode} → ${isEager ? "eager" : "lazy"}`);
           }
           return isEager ? "eager" : "lazy";
         })()}
-        lazyBoundary="800px" // ビューポートの800px手前から読み込み開始
+        // 自動再生中は先読みを広げてロード開始を早める（表示直前に完了させる）
+        // navIndex 固定（再生中はシーン検出の state 更新を止めている）でも、
+        // lazyBoundary を拡大することで lazy 画像が十分前にリクエストされる
+        lazyBoundary={isPlayMode ? "2400px" : "800px"} // ビューポートの手前から読み込み開始
         layout="responsive"
         sizes={imageSizes}
         placeholder={"blur"} // ぼかしプレースホルダーを適用
@@ -301,7 +313,11 @@ const LazyImage = ({
             // 計測: 遅延検出（fallback未到達だが閾値70%超の画像）
             const thresholdType = toggleFullscreen ? "fullscreen" : "universal";
             const threshold = getAdaptiveTimeout(thresholdType);
-            const isEager = isPlayMode || uniqueIndex < 3 || (toggleFullscreen && Math.abs(uniqueIndex - navIndex) <= 2);
+            const lookahead = isPlayMode ? 8 : 2;
+            const isEager =
+              uniqueIndex < 3 ||
+              (isPlayMode && uniqueIndex <= navIndex + lookahead) ||
+              (toggleFullscreen && Math.abs(uniqueIndex - navIndex) <= 2);
             trackImageLoadSlow(emakiId, uniqueIndex, loadTimeMs, threshold, toggleFullscreen, isEager ? "eager" : "lazy");
             hasTrackedRef.current = true;
           }
@@ -345,35 +361,17 @@ const LazyImage = ({
             background-position: 200% 0;
           }
         }
-        /* 初期状態：透明＆ぼかし */
+        /* 初期状態：透明（大型絵巻画像への blur はペイントコストが高く、
+           自動再生中に複数画像が同時ロード完了するとフレーム落ちの原因になるため
+           opacity フェードのみで表現する） */
         .image.loading {
-          filter: blur(5px); /* 初期はぼかしが強い */
-          // animation: fadeLoading 1s forwards;
+          opacity: 0;
         }
 
-        /* 読み込み完了後：なめらかにフェードイン＆ぼかし解除 */
+        /* 読み込み完了後：なめらかにフェードイン */
         .image.loaded {
-          animation: fadeLoaded 0.5s ease-in forwards;
-        }
-
-        @keyframes fadeLoading {
-          0% {
-            filter: blur(5px);
-          }
-
-          100% {
-            filter: blur(3px);
-          }
-        }
-
-        @keyframes fadeLoaded {
-          0% {
-            filter: blur(3px);
-          }
-
-          100% {
-            filter: blur(0);
-          }
+          opacity: 1;
+          transition: opacity 0.4s ease;
         }
       `}</style>
     </div>

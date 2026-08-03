@@ -17,10 +17,10 @@ export const connectEmakiText = async (
 ): Promise<string | undefined> => {
   try {
     // 動的インポートでJSONファイルを読み込む（importは非同期なのでawaitが必要）
-    const module = await import(`@/data/emaki-text-data/${titleen}.json`);
+    const jsonModule = await import(`@/data/emaki-text-data/${titleen}.json`);
 
     // JSONモジュールのdefaultエクスポート部分にアクセスし、型アサーションを適用
-    const emakiTextData = module.default as EmakiTextData[];
+    const emakiTextData = jsonModule.default as EmakiTextData[];
 
     // 指定されたchapterのデータを抽出し、対象のプロパティ（text）を取り出してjoin（複数ある場合は結合）
     const matched = emakiTextData

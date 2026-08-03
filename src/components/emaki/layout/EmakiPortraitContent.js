@@ -29,7 +29,7 @@ import { useRouter } from "next/router";
 import { useContext, useMemo } from "react";
 import { useTranslation } from "next-i18next";
 
-const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
+const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerFullscreen = false }) => {
   const { handleFullScreen, rankingData } = useContext(AppContext);
 
   const { locale } = useRouter();
@@ -106,7 +106,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
         selectedRef={selectedRef}
         navIndex={navIndex}
         articleRef={articleRef}
-        height={"var(--vh-45)"}
+        height={viewerFullscreen ? "var(--vh-100)" : "var(--vh-45)"}
         editionLinks={[
           ...editionLinks,
           ...(isKusouzu ? LinksToKusouzu : []),
@@ -114,6 +114,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
         showKusouzuHubLink={isKusouzu}
         showChojuGigaHubLink={isChojuGiga}
       />
+      {!viewerFullscreen && (
       <div className={`${styles.wrapper} section-grid`}>
         <div className={styles.container}>
           <div className={styles.metadataA}>
@@ -357,7 +358,8 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef }) => {
           <RecommendEmaki data={data} />
         </div>
       </div>
-      <Footer />
+      )}
+      {!viewerFullscreen && <Footer />}
     </>
   );
 };

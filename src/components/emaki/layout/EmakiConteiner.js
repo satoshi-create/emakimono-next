@@ -177,6 +177,13 @@ const EmakiContainer = ({
   // パフォーマンス: scrollRatio はReact stateではなくDOM直接操作で更新
   // スクロール中のEmakiConteiner再レンダリングを完全に排除
   const indicatorElRef = useRef(null); // PositionIndicatorのDOM要素への参照
+  // インジケーター更新の rAF 集約用: ペイントを1フレームに1回に制限
+  // （毎フレームの style 書き込みによる強制レイアウトを回避）
+  const indicatorRafRef = useRef(null);
+  const indicatorRatioRef = useRef(0); // 最新の進行度（rAFコールバックで参照）
+  const isDesktopRef = useRef(
+    typeof window !== "undefined" && window.innerWidth >= 1024
+  ); // セッション中ほぼ不変のためマウント時1回だけ計算
   const [isScrolling, setIsScrolling] = useState(false); // スクロール中か
   const isScrollingRef = useRef(false); // setIsScrolling呼び出し最適化用
   const scrollingTimerRef = useRef(null); // スクロール検出タイマー
@@ -241,6 +248,11 @@ const EmakiContainer = ({
       updateEngagementState(data.id, closestId, toggleFullscreen);
 
       lastDetectedSceneRef.current = closestId;
+
+      // 自動再生中はツリー全体（数十枚の next/image）の再レンダーを避けるため
+      // navIndex を更新しない。停止時に lastDetectedSceneRef から同期する。
+      if (isAutoScrolling || playModeAnimationRef.current) return;
+
       // 絵巻ハイパーリンク: スクロール検出による更新であることをマーク
       // scrollDialog の自動スクロールを抑制するため
       if (isScrollDetectedUpdateRef) {
@@ -254,7 +266,9 @@ const EmakiContainer = ({
         }
       }, 100);
     }
-  }, [setnavIndex, isScrollDetectedUpdateRef, data.id]);
+    // isAutoScrolling: 初回ナッジ中のガード（return）を確実に反映するため依存に含める
+    // （含めないとクロージャが古い値 false を捕捉し、ナッジ中も setnavIndex が走る）
+  }, [setnavIndex, isScrollDetectedUpdateRef, data.id, isAutoScrolling]);
 
 
   // 教育現場向けUI: 静止UI耐性 - ユーザー操作検出とタイマー管理
@@ -386,12 +400,21 @@ const EmakiContainer = ({
         const ratio = Math.abs(currentScrollX) / maxScrollLeft;
 
         // PositionIndicatorのDOM要素を直接更新（React stateを経由しない）
+        // rAFに集約し、毎フレームの style 書き込みを1フレーム1回に制限
         if (indicatorElRef.current) {
-          const isDesktop = window.innerWidth >= 1024;
-          const trackW = isDesktop ? 180 : 120;
-          const indSize = isDesktop ? 12 : 8;
-          const position = (1 - ratio) * (trackW - indSize);
-          indicatorElRef.current.style.transform = `translateX(${position}px) translateY(-50%)`;
+          indicatorRatioRef.current = ratio;
+          if (!indicatorRafRef.current) {
+            indicatorRafRef.current = requestAnimationFrame(() => {
+              indicatorRafRef.current = null;
+              const el = indicatorElRef.current;
+              if (!el) return;
+              const trackW = isDesktopRef.current ? 180 : 120;
+              const indSize = isDesktopRef.current ? 12 : 8;
+              const position =
+                (1 - indicatorRatioRef.current) * (trackW - indSize);
+              el.style.transform = `translateX(${position}px) translateY(-50%)`;
+            });
+          }
         }
 
         // isScrolling: 開始時に1回だけsetStateを呼ぶ（ref で重複呼び出しを防止）
@@ -545,13 +568,13 @@ const EmakiContainer = ({
       clearTimeout(fallbackTimer);
       scrollPositionStore.isTransitioning = false;
     };
-  }, [toggleFullscreen, data.id]);
+  }, [toggleFullscreen, orientation, data.id]);
 
-  // 全画面切替でビューポートサイズが変わるためシーン検出キャッシュを無効化
+  // 全画面切替や向き切替でビューポートサイズが変わるためシーン検出キャッシュを無効化
   useEffect(() => {
     sectionsCacheRef.current = null;
     scrollDimsRef.current = { w: 0, c: 0, ts: 0 };
-  }, [toggleFullscreen]);
+  }, [toggleFullscreen, orientation]);
 
   // 教育現場向けUI: 初回表示時のみ、横スクロール可能性を
   // 緩やかな自動スクロールで認知させるナッジ（操作説明なし）
@@ -607,6 +630,11 @@ const EmakiContainer = ({
         // 自動再生中に抑制していた端点 state を同期
         setIsAtStart(isAtStartRef.current);
         setIsAtEnd(isAtEndRef.current);
+
+        // 自動再生中は navIndex を止めていたため、停止時に現在シーンへ同期する
+        if (lastDetectedSceneRef.current !== navIndex) {
+          setnavIndex(lastDetectedSceneRef.current);
+        }
 
         // スクロール停止を通知（自動再生中はタイマーをスキップしているため明示的にリセット）
         isScrollingRef.current = false;
@@ -699,6 +727,12 @@ const EmakiContainer = ({
 
     setIsPlayMode(false);
 
+    // 自動再生中は navIndex を止めていたため、停止時に現在シーンへ同期する
+    // （解説バー・ナビの現在段表示を再生中の最終位置に合わせる）
+    if (lastDetectedSceneRef.current !== navIndex) {
+      setnavIndex(lastDetectedSceneRef.current);
+    }
+
     // スクロール停止を通知（自動再生中はタイマーをスキップしているため明示的にリセット）
     isScrollingRef.current = false;
     setIsScrolling(false);
@@ -743,6 +777,10 @@ const EmakiContainer = ({
         setIsUIVisible(true); // UI復帰
         setIsAtStart(isAtStartRef.current);
         setIsAtEnd(isAtEndRef.current);
+        // 末尾到達時も現在シーンへ同期（再生中の navIndex 抑制のため）
+        if (lastDetectedSceneRef.current !== navIndex) {
+          setnavIndex(lastDetectedSceneRef.current);
+        }
         el.style.scrollBehavior = originalScrollBehavior;
         playModeAnimationRef.current = null;
         return;

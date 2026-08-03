@@ -434,6 +434,9 @@ function MyApp({ Component, pageProps, router }) {
 
     // イベントリスナーのコールバック関数を定義する。
     function handleOrientationChange(evt) {
+      // 向き切替でビューアのレイアウト方式（sticky⇔通常フロー）が変わるため、
+      // 縦スクロール位置を先頭に戻す（残ったままだと landscape でビューアが画面外になる）
+      window.scrollTo({ top: 0, behavior: "instant" });
       if (evt.matches) {
         /* 現在ビューポートが縦長 */
         setOrientation("portrait");
