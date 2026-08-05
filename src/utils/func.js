@@ -6,11 +6,6 @@
  * Related: staticData.js, dataSiteMeta.js, image-metadata-cache.json.
  * Note: imports legacy genji data from _archive_unused_data — MVP uses choju/kusouzu.
  */
-import chapterkusouzu from "@/data/emaki-text-data/chapters-of-kusouzu.json";
-import chapterChojugigaFirst from "@/data/emaki-text-data/Chōjū-jinbutsu-giga_first.json";
-import chapterChojugigaSecond from "@/data/emaki-text-data/Chōjū-jinbutsu-giga_second.json";
-import chapterChojugigaThird from "@/data/emaki-text-data/Chōjū-jinbutsu-giga_third.json";
-import chapterChojugigaFourth from "@/data/emaki-text-data/Chōjū-jinbutsu-giga_fourth.json";
 import {
   default as enData,
   default as jaData,
@@ -212,34 +207,15 @@ const removeNestedEmakisObj = (obj) =>
 
 /* ================
 
-「九相図」の絵巻データとメタデータ（chapters-of-kusouzu）をマージする関数connectKusouzuChapters
+絵巻の章テキスト（emaki-text-data/{titleen}.json）を自動ロードするマップ
+
+sync_all.py が生成するファイルを require.context で読み込み、
+`connectEmakiTextData(titleen, chapter, field)` で引く。
 
 ================ */
 
-const connectKusouzuChapters = (chapter, text) => {
-  const chapterkusouzusummary = chapterkusouzu
-    .filter((item) => chapter === item.stage_en)
-    .map((item) => item[text])
-    .join();
-  return chapterkusouzusummary;
-};
-
-/* ================
-
-「鳥獣人物戯画」の絵巻データとメタデータをマージする関数connectChojugigaChapters
-
-================ */
-
-const chojugigaDataMap = {
-  "Chōjū-jinbutsu-giga_first": chapterChojugigaFirst,
-  "Chōjū-jinbutsu-giga_second": chapterChojugigaSecond,
-  "Chōjū-jinbutsu-giga_third": chapterChojugigaThird,
-  "Chōjū-jinbutsu-giga_fourth": chapterChojugigaFourth,
-};
-
-/** sync_all.py が生成する emaki-text-data/{titleen}.json を自動ロード */
+/** 章テキストとして読み込まないファイル（九相カタログは stage_en キーの共有カタログのため除外） */
 const EMAKI_TEXT_EXCLUDED_SLUGS = new Set(["chapters-of-kusouzu"]);
-const EMAKI_TEXT_EXCLUDED_PREFIXES = ["Chōjū-jinbutsu-giga_"];
 
 function buildEmakiTextDataMap() {
   const map = {};
@@ -247,9 +223,6 @@ function buildEmakiTextDataMap() {
   ctx.keys().forEach((key) => {
     const slug = key.replace(/^\.\//, "").replace(/\.json$/, "");
     if (EMAKI_TEXT_EXCLUDED_SLUGS.has(slug)) return;
-    if (EMAKI_TEXT_EXCLUDED_PREFIXES.some((prefix) => slug.startsWith(prefix))) {
-      return;
-    }
     const data = ctx(key);
     map[slug] = data?.default ?? data;
   });
@@ -271,26 +244,9 @@ const connectEmakiTextData = (titleen, chapter, field) => {
     .join();
 };
 
-const connectChojugigaChapters = (titleen, chapter, text) => {
-  const chapterData = chojugigaDataMap[titleen];
-  if (!chapterData) {
-    return "";
-  }
-  const chapterSummary = chapterData
-    .filter((item) => chapter === item.chapter)
-    .map((item) => item[text])
-    .join();
-  return chapterSummary;
-};
-
-/** 鳥獣戯画4巻 → それ以外は emaki-text-data にフォールバック */
-const resolveChojugigaOrEmakiText = (titleen, chapter, field) => {
-  const fromChoju = connectChojugigaChapters(titleen, chapter, field);
-  if (fromChoju) {
-    return fromChoju;
-  }
-  return connectEmakiTextData(titleen, chapter, field);
-};
+// emaki-text-data/{titleen}.json が存在すれば、その巻のテキストはファイルが正本。
+// チャプターキーはキャッシュ（ekotoba.chapter）と一致させる。
+const hasTextData = (titleen) => Boolean(emakiTextDataMap[titleen]);
 
 const connectGenjiChapters = (chapter, text) => {
   const chapterGenjisummary = chaptergenji
@@ -310,22 +266,8 @@ const connectGenjiChaptersScene = (chapter, scene) => {
   }
 };
 
-const connectEmakiTextSync = (titleen, chapter, field) => {
-  return connectEmakiTextData(titleen, chapter, field);
-};
-
 const ChaptersTitle = (titleen, title, chapter, text) => {
-  if (title.includes("九相")) {
-    return (
-      <>
-        {connectKusouzuChapters(chapter, text) &&
-          `${connectKusouzuChapters(chapter, text)}`}
-      </>
-    );
-  } else if (title.includes("鳥獣") || title.includes("戯画")) {
-    const chapterTitle = resolveChojugigaOrEmakiText(titleen, chapter, text);
-    return <>{chapterTitle && `${chapterTitle}`}</>;
-  } else if (title.includes("源氏")) {
+  if (title.includes("源氏")) {
     return (
       <>
         {connectGenjiChapters(chapter, "chapter_en") &&
@@ -342,102 +284,57 @@ const ChaptersTitle = (titleen, title, chapter, text) => {
         </ruby>
       </>
     );
-  } else if (Number.isInteger(parseInt(chapter))) {
-    const fromJson = connectEmakiTextData(titleen, chapter, text);
-    if (fromJson) {
-      return fromJson;
-    }
-    return connectEmakiTextSync(titleen, chapter, text);
-  } else {
-    return chapter && parse(chapter);
   }
+  if (hasTextData(titleen)) {
+    return connectEmakiTextData(titleen, chapter, text);
+  }
+  return chapter && parse(chapter);
 };
 
 const ChaptersGendaibun = (titleen, title, chapter, gendaibun) => {
-  if (title.includes("九相")) {
-    // 層1: 短い現代文（gendaibun）を優先。未整備の章は従来どおり desc にフォールバック
-    const kusouzuGendaibun = connectKusouzuChapters(chapter, "gendaibun");
-    const body =
-      kusouzuGendaibun || connectKusouzuChapters(chapter, "desc");
-    return <>{body && `${body}`}</>;
-  } else if (title.includes("鳥獣") || title.includes("戯画")) {
-    if (gendaibun) {
-      return parse(gendaibun);
-    }
-    const fromJson = resolveChojugigaOrEmakiText(titleen, chapter, "gendaibun");
-    if (fromJson) {
-      return parse(fromJson);
-    }
-    const chapterTitle = resolveChojugigaOrEmakiText(titleen, chapter, "title");
-    return <>{chapterTitle && `${chapterTitle}`}</>;
-  } else if (title.includes("源氏")) {
+  if (title.includes("源氏")) {
     return (
       <>
         {connectGenjiChapters(chapter, "summary") &&
           `${connectGenjiChapters(chapter, "summary")}`}
       </>
     );
-  } else if (Number.isInteger(parseInt(chapter))) {
-    if (gendaibun) {
-      return parse(gendaibun);
-    }
-    const fromJson = connectEmakiTextData(titleen, chapter, "gendaibun");
-    return fromJson ? parse(fromJson) : connectEmakiTextSync(titleen, chapter, "gendaibun");
-  } else {
-    return gendaibun && parse(gendaibun);
   }
+  if (hasTextData(titleen)) {
+    const gendaibunText = connectEmakiTextData(titleen, chapter, "gendaibun");
+    if (gendaibunText) return parse(gendaibunText);
+    const titleText = connectEmakiTextData(titleen, chapter, "title");
+    return titleText ? parse(titleText) : "";
+  }
+  return gendaibun && parse(gendaibun);
 };
 
 const ChaptersDesc = (titleen, title, chapter, text, desc) => {
-  if (title.includes("九相")) {
-    return (
-      <>
-        {connectKusouzuChapters(chapter, text) &&
-          `${connectKusouzuChapters(chapter, text)}`}
-      </>
-    );
-  } else if (title.includes("鳥獣") || title.includes("戯画")) {
-    const chapterDesc = resolveChojugigaOrEmakiText(titleen, chapter, text);
-    return <>{chapterDesc && parse(chapterDesc)}</>;
-  } else if (title.includes("源氏")) {
+  if (title.includes("源氏")) {
     return (
       <>
         {connectGenjiChapters(chapter, "summary") &&
           `${connectGenjiChapters(chapter, "summary")}`}
       </>
     );
-  } else if (Number.isInteger(parseInt(chapter))) {
-    if (desc) {
-      return parse(desc);
-    }
+  }
+  if (hasTextData(titleen)) {
     const field = text === "descen" ? "descen" : "desc";
     const fromJson = connectEmakiTextData(titleen, chapter, field);
-    return fromJson ? parse(fromJson) : connectEmakiTextSync(titleen, chapter, field);
-  } else {
-    return desc && parse(desc);
+    return fromJson ? parse(fromJson) : "";
   }
+  return desc && parse(desc);
 };
 
 // 段の解説を生テキスト（文字列）で返す。ChaptersDesc の文字列版。
 // ボトムコメントバーで「冒頭プレビュー + 詳細をみる」を出し分けるために使用する。
 const getChapterDescRaw = (titleen, title, chapter, text, desc) => {
-  if (title.includes("九相")) {
-    return connectKusouzuChapters(chapter, text) || "";
-  }
-  if (title.includes("鳥獣") || title.includes("戯画")) {
-    return resolveChojugigaOrEmakiText(titleen, chapter, text) || "";
-  }
   if (title.includes("源氏")) {
     return connectGenjiChapters(chapter, "summary") || "";
   }
-  if (Number.isInteger(parseInt(chapter))) {
-    if (desc) return desc;
+  if (hasTextData(titleen)) {
     const field = text === "descen" ? "descen" : "desc";
-    return (
-      connectEmakiTextData(titleen, chapter, field) ||
-      connectEmakiTextSync(titleen, chapter, field) ||
-      ""
-    );
+    return connectEmakiTextData(titleen, chapter, field) || "";
   }
   return desc || "";
 };
@@ -467,7 +364,6 @@ export {
   ChaptersTitle,
   connectGenjiChapters,
   connectGenjiChaptersScene,
-  connectKusouzuChapters,
   convertAuthor,
   eraColor,
   eraItem,

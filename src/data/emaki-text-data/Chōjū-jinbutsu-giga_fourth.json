@@ -3,10 +3,10 @@
     "chapter": "1",
     "title": "侏儒たちの脱出劇",
     "titleen": "The Dwarves' Escape from Captivity",
-    "gendaibun": "小さな侏儒（しゅじゅ）たちが、囲いからこっそり逃げ出そうとしています。にらみ合う顔つきに、にらみ合ううちに笑いが込み上げてきます。",
+    "gendaibun": "小さな侏儒（しゅじゅ）たちが、囲いからこっそり逃げ出そうとしています。真剣な顔つきの中にも、見ているこちらが思わず笑ってしまう滑稽さがあります。",
     "kobun": "",
-    "desc": "侏儒は中国の周代に、南方の国から貢がれたとされる背の低い人々で、その存在は『山海経』などの古典に記されます。絵巻では、彼らをめぐる滑稽な逸話が動物たちの物語として語り直されています。この段は、見た目の違いへの好奇と、そこに生まれる笑いを描いた一コマです。",
-    "descen": "According to classical Chinese texts such as the Shanhaijing, dwarves were brought as tribute from southern lands to the Zhou court. The scroll retells their humorous anecdotes through its animal cast. This scene plays on curiosity about physical difference and the laughter that arises from it."
+    "desc": "侏儒は中国の周代に、南方の国から貢がれたとされる背の低い人々で、その存在は『山海経』などの古典に記されます。丁巻は動物ではなく人物だけが登場するのが特徴で、この段は、彼らをめぐる滑稽な逸話をそのまま描いたものです。見た目の違いへの好奇と、そこに生まれる笑いを捉えた一コマです。",
+    "descen": "According to classical Chinese texts such as the Shanhaijing, dwarves were brought as tribute from southern lands to the Zhou court. This volume features only human figures, and this scene retells the humorous anecdotes about them as they are. It plays on curiosity about physical difference and the laughter that arises from it."
   },
   {
     "chapter": "2",
@@ -21,10 +21,10 @@
     "chapter": "3",
     "title": "供養に結ばれし縁者たち",
     "titleen": "The Spiritual Benefactors Bound Through Memorial Devotions",
-    "gendaibun": "動物たちが、故人の供養のために集まっています。読経や祈りの姿に、静かな連帯感がにじみ出ています。",
+    "gendaibun": "人々が、故人の供養のために集まっています。読経や祈りの姿に、静かな連帯感がにじみ出ています。",
     "kobun": "",
-    "desc": "供養は、亡くなった人の冥福を祈る仏教行事で、年忌法要や盂蘭盆（うらぼん）などさまざまな形があります。絵巻には、動物たちが人間と同じように供養に集う姿が描かれ、生死への思いが動物の姿を通して語られています。仏教と日常が深く結びついた時代の空気が感じられます。",
-    "descen": "Memorial rites, Buddhist services praying for the repose of the dead, took many forms from annual services to the Obon festival. The scroll shows animals gathering for such rites exactly as humans do, telling stories of life and death through its cast. It conveys an age in which Buddhism was woven tightly into everyday life."
+    "desc": "供養は、亡くなった人の冥福を祈る仏教行事で、年忌法要や盂蘭盆（うらぼん）などさまざまな形があります。絵巻には、人々が供養に集う姿が描かれ、生死への思いがそのままの姿で語られています。仏教と日常が深く結びついた時代の空気が感じられます。",
+    "descen": "Memorial rites, Buddhist services praying for the repose of the dead, took many forms from annual services to the Obon festival. The scroll shows people gathering for such rites, telling stories of life and death through their earnest figures. It conveys an age in which Buddhism was woven tightly into everyday life."
   },
   {
     "chapter": "4",
@@ -39,25 +39,25 @@
     "chapter": "5",
     "title": "田楽 ― 五穀豊穣を祝う舞",
     "titleen": "Dengaku: The Agricultural Rites of Celebratory Performance",
-    "gendaibun": "動物たちが、鈴や太鼓の音に合わせて田楽の舞を披露しています。豊作を願う祝いの雰囲気が広がっています。",
+    "gendaibun": "人々が、鈴や太鼓の音に合わせて田楽の舞を披露しています。豊作を願う祝いの雰囲気が広がっています。",
     "kobun": "",
-    "desc": "田楽は、田植えの頃に五穀豊穣を願って行われた芸能で、腰に太鼓をつけた演者が独特の動きで舞います。その熱狂は鎌倉時代に最高潮に達し、貴族も見物に訪れたと記録されています。動物たちが舞う姿には、祭りの高揚と祝福の気持ちが込められています。",
-    "descen": "Dengaku was a performance offered during the planting season to pray for bountiful harvests, danced by performers wearing drums at their hips. Its popularity peaked in the Kamakura period, when even aristocrats came to watch. The animals' dance is filled with festival excitement and a spirit of blessing."
+    "desc": "田楽は、田植えの頃に五穀豊穣を願って行われた芸能で、腰に太鼓をつけた演者が独特の動きで舞います。その熱狂は鎌倉時代に最高潮に達し、貴族も見物に訪れたと記録されています。舞う人々の姿には、祭りの高揚と祝福の気持ちが込められています。",
+    "descen": "Dengaku was a performance offered during the planting season to pray for bountiful harvests, danced by performers wearing drums at their hips. Its popularity peaked in the Kamakura period, when even aristocrats came to watch. The dancers are filled with festival excitement and a spirit of blessing."
   },
   {
     "chapter": "6",
     "title": "毬打 ― 優雅なる球戯",
     "titleen": "Kemari: The Elegant Art of Ball-Striking",
-    "gendaibun": "動物たちが輪になって、鞠を蹴り回しています。「アリ、ヤア」のかけ声が聞こえてきそうな優雅な遊びです。",
+    "gendaibun": "人々が輪になって、鞠を蹴り回しています。「アリ、ヤア」のかけ声が聞こえてきそうな優雅な遊びです。",
     "kobun": "",
-    "desc": "毬打（まりうち）、すなわち蹴鞠は、貴族の間で愛好された優雅な遊戯で、鞠を地面に落とさずに長く続けることを競います。この遊びは作法や精神性を重んじ、後の時代には武家の間にも広がりました。動物たちが蹴鞠に興じる姿は、貴族文化のゆとりと美学を伝えています。",
-    "descen": "Kemari, the elegant pastime of keeping a ball aloft among a circle of players, was beloved by the nobility and prized for its etiquette and spirit. It later spread among the warrior class as well. The animals' play conveys the leisure and aesthetics of aristocratic culture."
+    "desc": "毬打（まりうち）、すなわち蹴鞠は、貴族の間で愛好された優雅な遊戯で、鞠を地面に落とさずに長く続けることを競います。この遊びは作法や精神性を重んじ、後の時代には武家の間にも広がりました。蹴鞠に興じる人々の姿は、貴族文化のゆとりと美学を伝えています。",
+    "descen": "Kemari, the elegant pastime of keeping a ball aloft among a circle of players, was beloved by the nobility and prized for its etiquette and spirit. It later spread among the warrior class as well. Their play conveys the leisure and aesthetics of aristocratic culture."
   },
   {
     "chapter": "7",
     "title": "木遣り ― 韻律に乗せる力の歌",
     "titleen": "Kiyari: The Rhythmic Chants of Timber Bearers",
-    "gendaibun": "大木をかつぐ動物たちが、掛け声を合わせて運んでいます。リズムに合わせて歩く姿に、職人の心意気が感じられます。",
+    "gendaibun": "大木をかつぐ人々が、掛け声を合わせて運んでいます。リズムに合わせて歩く姿に、職人の心意気が感じられます。",
     "kobun": "",
     "desc": "木遣り（きやり）は、大きな木材を運ぶときに調子を合わせるために歌われる労作歌です。統率の取れた掛け声は、重い荷を運ぶ力を高める役割を果たしました。木遣りは今も建築現場や祭りで歌い継がれ、日本の仕事歌の代表となっています。",
     "descen": "Kiyari are work songs sung to synchronize the hauling of heavy timber. The coordinated chants helped the bearers exert strength in unison. Kiyari survives today at construction sites and festivals, making it a classic of Japanese work music."
@@ -66,16 +66,16 @@
     "chapter": "8",
     "title": "公卿たちの論議の座",
     "titleen": "The Noble Court Assembled for Debate",
-    "gendaibun": "貴人の姿をした動物たちが、議論の座についています。熱心に語り合う様子は、政の場の真剣さを伝えます。",
+    "gendaibun": "貴人たちが、議論の座についています。熱心に語り合う様子は、政の場の真剣さを伝えます。",
     "kobun": "",
-    "desc": "この段は、貴族の会議の場を動物たちに置きかえて描いています。公卿（くぎょう）たちが論じる姿は、儀礼や位階に縛られた宮廷社会の一面を諷刺しています。絵巻は、こうした政治の舞台を笑いの対象とすることで、権威の内側を覗き見せています。",
-    "descen": "This scene substitutes animals for nobles in an assembly of debate. The arguing courtiers satirize a court society bound by ritual and rank. By making politics the object of laughter, the scroll offers a peek inside the heart of authority."
+    "desc": "この段は、貴族の会議の場をそのまま描いています。公卿（くぎょう）たちが論じる姿は、儀礼や位階に縛られた宮廷社会の一面を諷刺しています。絵巻は、こうした政治の舞台を笑いの対象とすることで、権威の内側を覗き見せています。",
+    "descen": "This scene depicts nobles in an assembly of debate. The arguing courtiers satirize a court society bound by ritual and rank. By making politics the object of laughter, the scroll offers a peek inside the heart of authority."
   },
   {
     "chapter": "9",
     "title": "印地打ち ― 神事の石投げ合戦",
     "titleen": "Injiuchi: The Ceremonial Game of Stone-Casting",
-    "gendaibun": "二つの組に分かれた動物たちが、投げた石を笠や楯で受け止めて応戦しています。神事ならではの独特な勝負です。",
+    "gendaibun": "二つの組に分かれた人々が、投げた石を笠や楯で受け止めて応戦しています。神事ならではの独特な勝負です。",
     "kobun": "",
     "desc": "印地打ち（いんじうち）は、石を投げ合って戦いを模す神事で、寺社の祭礼で行われました。笠や楯で石を受ける所作は、古代の戦いの形を今に伝えるものです。危険をはらみつつも神聖な意味を持つ、この不思議な遊びが絵巻に残されています。",
     "descen": "Injiuchi is a ritual game imitating combat by hurling stones, performed at temple and shrine festivals. Catching stones with straw hats and shields preserves the form of ancient warfare. This strange yet sacred game, dangerous but laden with meaning, is preserved in the scroll."
@@ -84,9 +84,9 @@
     "chapter": "10",
     "title": "大臣、天子に拝賀す",
     "titleen": "The Minister's Formal New Year Tribute to the Emperor",
-    "gendaibun": "大臣の姿をした動物が、天子に新年の祝賀を述べています。改まった装束と低い姿勢に、儀礼の厳かさが表れています。",
+    "gendaibun": "大臣が、天子に新年の祝賀を述べています。改まった装束と低い姿勢に、儀礼の厳かさが表れています。",
     "kobun": "",
-    "desc": "新年の拝賀は、宮中で行われる最も重要な儀礼の一つで、諸臣が天子に祝いを述べました。この段は、その荘厳な場面を動物たちが忠実に演じています。国の最高の儀式が動物の姿で再現されることで、権威の威厳と、それを眺める視線の距離感が同時に生まれています。",
-    "descen": "The New Year's tribute was one of the most important court ceremonies, in which all officials offered congratulations to the emperor. Here the animals faithfully enact that solemn scene. Recreating the supreme national rite in animal form generates both the dignity of authority and the detachment of the viewer's gaze."
+    "desc": "新年の拝賀は、宮中で行われる最も重要な儀礼の一つで、諸臣が天子に祝いを述べました。この段は、その荘厳な場面を描いています。国の最高の儀式を描くことで、権威の威厳と、それを眺める視線の距離感が同時に生まれています。",
+    "descen": "The New Year's tribute was one of the most important court ceremonies, in which all officials offered congratulations to the emperor. Here the scroll depicts that solemn scene faithfully. Recreating the supreme national rite generates both the dignity of authority and the detachment of the viewer's gaze."
   }
 ]
