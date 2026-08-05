@@ -186,18 +186,6 @@ def write_text_json(config: dict, dry_run: bool = False) -> list[dict]:
     return entries
 
 
-def ekotoba_text_fields(scene: dict) -> dict:
-    """Optional gendaibun/kobun/desc fields for an ekotoba emakis slot."""
-    if not scene_has_text(scene):
-        return {}
-    text = scene.get("text") or {}
-    fields: dict = {}
-    for key in ("gendaibun", "kobun", "desc", "descen"):
-        if text.get(key):
-            fields[key] = _normalize_text_value(text[key])
-    return fields
-
-
 def _image_row_to_src(ir: dict) -> str:
     src = ir.get("src", "")
     if src and not str(src).startswith("/"):
@@ -233,7 +221,6 @@ def _build_ekotoba_emaki_slot(scene: dict, ir: dict | None = None) -> dict:
         ekotoba["name"] = ir["public_id"]
         ekotoba["srcHeight"] = str(ir["height"]) if ir.get("height") else ""
         ekotoba["srcWidth"] = str(ir["width"]) if ir.get("width") else ""
-    ekotoba.update(ekotoba_text_fields(scene))
     return ekotoba
 
 
