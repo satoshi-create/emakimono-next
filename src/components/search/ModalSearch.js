@@ -15,8 +15,6 @@ const Button = styled.button`
     background: ${(props) => eraColor(props.item)};
   }
 `;
-// 1回のロードで追加する件数
-const ITEMS_PER_PAGE = 10;
 
 // Reducer関数（データの更新を管理）
 const reducer = (state, action) => {
@@ -30,7 +28,7 @@ const reducer = (state, action) => {
     case "RESET_DATA": // データをリセット（初期状態に戻す）
       return {
         ...state,
-        showData: state.data.slice(0, ITEMS_PER_PAGE),
+        showData: state.data, // 全件表示
         page: 1,
       };
     default:
@@ -46,7 +44,7 @@ const ModalSearch = () => {
   // useReducerで状態を管理
   const [state, dispatch] = useReducer(reducer, {
     data: initialData, // 元データ
-    showData: initialData.slice(0, ITEMS_PER_PAGE), // 最初の10件のみ表示
+    showData: initialData, // 全件表示
     page: 1, // 現在のページ（ロードした回数）
   });
 
@@ -77,10 +75,10 @@ const ModalSearch = () => {
       return regx.test(title);
     });
 
-    // 検索結果を更新（最初の10件のみ表示）
+    // 検索結果を更新
     dispatch({
       type: "SET_FILTERED_DATA",
-      payload: filteredData.slice(0, ITEMS_PER_PAGE),
+      payload: filteredData,
     });
     if (updateDisplay) {
       setDisplayKeyword(keyword); // 手動入力時のみ更新
