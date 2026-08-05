@@ -79,6 +79,7 @@
   border-top-right-radius: var(--borderRadius);
   border-top-left-radius: var(--borderRadius);
   position: relative;
+  overflow: hidden;
   transition: var(--transition);
   background-color: #7c7c7cc9;
   aspect-ratio: 16/9;
