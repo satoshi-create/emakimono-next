@@ -166,9 +166,9 @@ py -3.14 scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml
 
 1. preflight（自動）
 2. Cloudinary へアップロード（`sync_scroll.py`）
-3. `dataEmakis.json` を upsert（`titleen` キー）
-4. `image-metadata-cache.json` を upsert（同 scroll のみ）
-5. `scenes[].text` から `emaki-text-data/{titleen}.json` を生成
+3. `scenes[].text` から `emaki-text-data/{titleen}.json` を生成
+4. `dataEmakis.json` を upsert（`titleen` キー）
+5. `image-metadata-cache.json` を upsert（同 scroll のみ）
 
 **禁止・非推奨:**
 
@@ -181,7 +181,8 @@ py -3.14 scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml
 成功後の更新物:
 
 - `src/data/json-data/dataEmakis.json`
-- `src/data/image-metadata-cache/image-metadata-cache.json`
+- `src/data/image-metadata-cache/image-metadata-cache.json`（構造のみ。テキストは埋め込まない）
+- `src/data/emaki-text-data/{titleen}.json`（`scenes[].text` から生成。表示はこのファイルが正本）
 - `scrolls/{scroll_id}/.upload-cache.json`（gitignore・再 sync 時のスキップ用）
 
 ### Phase 4: ローカル確認 → PR
@@ -280,7 +281,7 @@ scenes:
         …
 ```
 
-- `ekotoba` スロット: `cat: ekotoba` + 当該 scene の `text` + 词書画像 src
+- `ekotoba` スロット: `cat: ekotoba`（構造のみ。テキストは含めず、`emaki-text-data/{titleen}.json` が正本）+ 词書画像 src
 - `image` スロット: `cat: image`（絵画）
 - `range` / scene `id` は Cloudinary public_id（B 形式）の chapter 割当にそのまま使われるため、**layout 修正のみ**なら `--skip-upload` で JSON 再生成可
 
@@ -413,7 +414,7 @@ py -3.14 scripts/sync_all.py scrolls/my-scroll/scroll_config.yaml --skip-upload
 □ check_cloudinary_usage.py（--warn-at 18）OK
 □ sync は 1 回（--force-upload なし）
 □ ローカルで /[titleen] 確認
-□ dataEmakis.json + cache + YAML + images を同 PR
+□ dataEmakis.json + cache + emaki-text-data/{titleen}.json + YAML + images を同 PR
 □ PR で validate-scroll.yml が pass
 □ push では sync-scroll.yml は走らない（手動のみ）
 ```
