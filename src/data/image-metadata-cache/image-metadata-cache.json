@@ -987,6 +987,87 @@
         "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_11_02",
         "srcWidth": 1923,
         "srcHeight": 1080
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1785895545/emakimono/choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_11_03.jpg",
+        "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_11_03",
+        "srcWidth": 1522,
+        "srcHeight": 1080
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "12",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1785895546/emakimono/choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_12_01.jpg",
+        "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_12_01",
+        "srcWidth": 1688,
+        "srcHeight": 1080
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "13",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1785895548/emakimono/choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_13_01.jpg",
+        "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_13_01",
+        "srcWidth": 1908,
+        "srcHeight": 1080
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1785895549/emakimono/choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_13_02.jpg",
+        "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_13_02",
+        "srcWidth": 1973,
+        "srcHeight": 1080
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "14",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcWidth": "",
+        "srcHeight": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1785895551/emakimono/choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_14_01.jpg",
+        "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_14_01",
+        "srcWidth": 1896,
+        "srcHeight": 1080
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1785895552/emakimono/choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_14_02.jpg",
+        "name": "choju-giga-yamazaki-hei__choju-giga-yamazaki-hei_3_14_02",
+        "srcWidth": 653,
+        "srcHeight": 1080
       }
     ]
   },
