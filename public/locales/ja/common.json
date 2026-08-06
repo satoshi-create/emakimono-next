@@ -172,7 +172,10 @@
     "linkLabel": "九相図一覧",
     "linkDesc": "各場面の解説と、該当する絵巻一覧へ",
     "otherScrollsTitle": "他の九相図絵巻",
-    "hubNudgeLabel": "九相図一覧を見る"
+    "hubNudgeLabel": "九相図一覧を見る",
+    "peopleSectionTitle": "登場人物",
+    "peopleIntro": "九相図のモデルとされる人物の紹介ページへ。",
+    "modelLinkLabel": "この作品のモデル"
   },
 
   "choujuGigaHub": {
@@ -194,11 +197,19 @@
     "linkDescEn": "Browse all 4 scrolls of Chōjū-jinbutsu-giga"
   },
 
+  "personname": {
+    "worksTitle": "登場する絵巻",
+    "worksTitleEn": "Featured scrolls",
+    "noWorks": "この人物が登場する絵巻は準備中です。",
+    "noWorksEn": "Scrolls featuring this person are coming soon.",
+    "listPagetitle": "人物名一覧",
+    "listDesc": "絵巻物に登場する人物の紹介ページ。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。"
+  },
+
   "privacy": {
     "pagetitle": "プライバシーポリシー",
     "metaDesc": "emakimono.com における個人情報およびアクセスデータの取り扱いについて説明します。",
-    "breadcrumb": "プライバシーポリシー",
-    "sectionTitle": "プライバシーポリシー",
+    "breadcrumb": "プライバシーポリシー",    "sectionTitle": "プライバシーポリシー",
     "updated": "最終更新日：2026年7月25日",
     "intro": "emakimono.com（以下「当サイト」）は、利用者のプライバシーを尊重します。本ポリシーは、当サイトが取得する情報とその利用目的を説明するものです。",
     "sections": {

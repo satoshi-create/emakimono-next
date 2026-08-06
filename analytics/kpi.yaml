@@ -82,6 +82,19 @@ ga4_reports:
       value: image_load_fallback
     limit: 200
 
+  - id: fallback_by_reason
+    optional: true
+    requires_custom_dimension: fallback_reason
+    dimensions:
+      - customEvent:fallback_reason
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: image_load_fallback
+    limit: 50
+
 merge:
   insight_thresholds:
     low_ctr_vs_site_ratio: 0.7

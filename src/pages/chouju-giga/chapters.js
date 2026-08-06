@@ -1,8 +1,5 @@
+import HubPageShell from "@/components/layout/HubPageShell";
 import ChojuGigaScrollCard from "@/components/emaki/chouju-giga/ChojuGigaScrollCard";
-import Footer from "@/components/layout/Footer";
-import Header from "@/components/layout/Header";
-import Head from "@/components/meta/Meta";
-import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import Title from "@/components/ui/Title";
 import styles from "@/styles/ChoujuGigaHub.module.css";
 import { buildChojuGigaHubData } from "@/utils/buildChojuGigaHubData";
@@ -41,57 +38,63 @@ const ChoujuGigaHub = ({ hubData }) => {
     hubData,
   });
 
+  const hero = (
+    <section className={styles.hero}>
+      {(hubData.heroCloudinary || hubData.heroThumb) && (
+        <div className={styles.heroImageWrap}>
+          {hubData.heroCloudinary ? (
+            <Image
+              loader={heroLoader}
+              src={hubData.heroCloudinary}
+              alt="鳥獣人物戯画"
+              width={1600}
+              height={900}
+              sizes="100vw"
+              priority
+              className={styles.heroImage}
+            />
+          ) : (
+            <Image
+              src={hubData.heroThumb}
+              alt="鳥獣人物戯画"
+              width={800}
+              height={450}
+              sizes="100vw"
+              priority
+              className={styles.heroImage}
+            />
+          )}
+        </div>
+      )}
+      <div className={styles.heroText}>
+        <h1 className={styles.introTitle}>{t("choujuGigaHub.introTitle")}</h1>
+        <p className={styles.introLead}>{t("choujuGigaHub.intro")}</p>
+      </div>
+    </section>
+  );
+
+  const scrollsSection = (
+    <section className={`section-grid section-padding ${styles.scrollSection}`}>
+      <Title sectiontitle={t("choujuGigaHub.scrollSectionTitle")} />
+      <div className={styles.scrollGrid}>
+        {hubData.scrolls.map((scroll) => (
+          <ChojuGigaScrollCard key={scroll.titleen} scroll={scroll} />
+        ))}
+      </div>
+    </section>
+  );
+
   return (
-    <main>
-      <Head
-        pagetitle={t("choujuGigaHub.pagetitle")}
-        pageDesc={t("choujuGigaHub.metaDesc")}
-        jsonLd={jsonLd}
-      />
-      <Header />
-      <Breadcrumbs name={t("choujuGigaHub.breadcrumb")} />
-      <section className={styles.hero}>
-        {(hubData.heroCloudinary || hubData.heroThumb) && (
-          <div className={styles.heroImageWrap}>
-            {hubData.heroCloudinary ? (
-              <Image
-                loader={heroLoader}
-                src={hubData.heroCloudinary}
-                alt="鳥獣人物戯画"
-                width={1600}
-                height={900}
-                sizes="100vw"
-                priority
-                className={styles.heroImage}
-              />
-            ) : (
-              <Image
-                src={hubData.heroThumb}
-                alt="鳥獣人物戯画"
-                width={800}
-                height={450}
-                sizes="100vw"
-                priority
-                className={styles.heroImage}
-              />
-            )}
-          </div>
-        )}
-        <div className={styles.heroText}>
-          <h1 className={styles.introTitle}>{t("choujuGigaHub.introTitle")}</h1>
-          <p className={styles.introLead}>{t("choujuGigaHub.intro")}</p>
-        </div>
-      </section>
-      <section className={`section-grid section-padding ${styles.scrollSection}`}>
-        <Title sectiontitle={t("choujuGigaHub.scrollSectionTitle")} />
-        <div className={styles.scrollGrid}>
-          {hubData.scrolls.map((scroll) => (
-            <ChojuGigaScrollCard key={scroll.titleen} scroll={scroll} />
-          ))}
-        </div>
-      </section>
-      <Footer />
-    </main>
+    <HubPageShell
+      meta={{
+        pagetitle: t("choujuGigaHub.pagetitle"),
+        pageDesc: t("choujuGigaHub.metaDesc"),
+        jsonLd,
+      }}
+      breadcrumb={{ name: t("choujuGigaHub.breadcrumb") }}
+      hero={hero}
+      sections={[{ id: "scrolls", content: scrollsSection }]}
+    />
   );
 };
 

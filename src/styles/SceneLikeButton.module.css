@@ -60,6 +60,13 @@
   cursor: pointer;
   transition: color 0.2s ease, transform 0.2s ease;
 }
+/* タッチデバイス: タップターゲットを拡大 */
+@media (pointer: coarse) {
+  .barButton {
+    width: 44px;
+    height: 44px;
+  }
+}
 .barButton:hover {
   color: var(--clr-accent);
   transform: scale(1.1);

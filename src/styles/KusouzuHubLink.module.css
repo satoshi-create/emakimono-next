@@ -73,3 +73,44 @@
   line-height: 1.3;
   flex: 1;
 }
+
+.model {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  background: var(--clr-surface);
+  border: 1px dashed rgb(84 137 106 / 0.5);
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--clr-text);
+  max-width: 28rem;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.model:hover,
+.model:focus-visible {
+  border-color: var(--clr-accent-green);
+  border-style: solid;
+  background: rgb(84 137 106 / 0.06);
+}
+
+.modelLabel {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--clr-text-muted);
+}
+
+.modelName {
+  font-family: var(--font-story);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--clr-accent-green);
+}
+
+.modelArrow {
+  margin-left: auto;
+  font-size: 1rem;
+  color: var(--clr-accent-green);
+}

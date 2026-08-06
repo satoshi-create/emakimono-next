@@ -1,6 +1,7 @@
 import Button from "@/components/ui/Button";
 import Title from "@/components/ui/Title";
 import styles from "@/styles/PersonNameList.module.css";
+import { eraColor } from "@/utils/func";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -16,27 +17,49 @@ const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       <div className={`${styles.tags} ${locale === "ja" && styles.jatags}`}>
         {allTags.map((item, index) => {
-          const { name, id, slug, total, ruby, portrait } = item;
+          const { name, id, slug, total, ruby, era, eraen, portrait } = item;
+          const eraColorValue = eraColor(era);
 
           return (
             <Link href={`/personname/${slug}`} key={index}>
               <a className={styles.portrait}>
-                <Image
-                  src={portrait ? portrait : "/question-solid.svg"}
-                  width={130}
-                  height={130}
-                  objectFit="contain"
-                  className={styles.portraitImage}
-                  alt={name}
-                  loading="lazy"
-                  placeholder="blur"
-                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
-                />
-
+                <span className={styles.avatarWrap}>
+                  {portrait ? (
+                    <Image
+                      src={portrait}
+                      width={130}
+                      height={130}
+                      objectFit="contain"
+                      className={styles.portraitImage}
+                      alt={name}
+                      loading="lazy"
+                    />
+                  ) : (
+                    <span
+                      className={styles.monogram}
+                      style={
+                        eraColorValue
+                          ? { backgroundColor: eraColorValue }
+                          : undefined
+                      }
+                      aria-hidden="true"
+                    >
+                      {name.slice(0, 1)}
+                    </span>
+                  )}
+                </span>
                 <p className={styles.name}>
                   {locale === "en" ? id : name}
                   <span className={styles.totalcount}>{`(${total})`}</span>
                 </p>
+                {locale === "ja" && ruby && (
+                  <p className={styles.ruby}>{ruby}</p>
+                )}
+                {era && (
+                  <p className={styles.era}>
+                    {locale === "en" ? `${eraen} period` : `${era}時代`}
+                  </p>
+                )}
               </a>
             </Link>
           );

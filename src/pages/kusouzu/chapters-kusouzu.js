@@ -1,11 +1,8 @@
+import HubPageShell from "@/components/layout/HubPageShell";
 import KusouzuHubIntro from "@/components/emaki/kusouzu/KusouzuHubIntro";
+import KusouzuHubPeople from "@/components/emaki/kusouzu/KusouzuHubPeople";
 import KusouzuScrollCatalog from "@/components/emaki/kusouzu/KusouzuScrollCatalog";
 import KusouzuStageGrid from "@/components/emaki/kusouzu/KusouzuStageGrid";
-import Footer from "@/components/layout/Footer";
-import Header from "@/components/layout/Header";
-import Head from "@/components/meta/Meta";
-import Breadcrumbs from "@/components/navigation/Breadcrumbs";
-import hubStyles from "@/styles/KusouzuHub.module.css";
 import { buildKusouzuHubData } from "@/utils/buildKusouzuHubData";
 import { buildKusouzuHubJsonLd } from "@/utils/buildKusouzuHubJsonLd";
 import { useLocaleMeta } from "@/utils/func";
@@ -28,27 +25,33 @@ const ChaptersKusouzulist = ({ hubData }) => {
   });
 
   return (
-    <main>
-      <Head
-        pagetitle={t("kusouzuHub.pagetitle")}
-        pageDesc={t("kusouzuHub.metaDesc")}
-        jsonLd={jsonLd}
-      />
-      <Header />
-      <Breadcrumbs name={t("kusouzuHub.breadcrumb")} />
-      <KusouzuHubIntro heroThumb={hubData.heroThumb} heroCloudinary={hubData.heroCloudinary} />
-      <nav className={hubStyles.sectionNav}>
-        <a href="#stages">{t("kusouzuHub.stageSectionTitle")}</a>
-        <a href="#scrolls">{t("kusouzuHub.scrollSectionTitle")}</a>
-      </nav>
-      <div id="stages">
-        <KusouzuStageGrid stages={hubData.stages} />
-      </div>
-      <div id="scrolls">
-        <KusouzuScrollCatalog scrollEmakis={hubData.scrollEmakis} />
-      </div>
-      <Footer />
-    </main>
+    <HubPageShell
+      meta={{
+        pagetitle: t("kusouzuHub.pagetitle"),
+        pageDesc: t("kusouzuHub.metaDesc"),
+        jsonLd,
+      }}
+      breadcrumb={{ name: t("kusouzuHub.breadcrumb") }}
+      hero={
+        <KusouzuHubIntro
+          heroThumb={hubData.heroThumb}
+          heroCloudinary={hubData.heroCloudinary}
+        />
+      }
+      navItems={[
+        { id: "stages", label: t("kusouzuHub.stageSectionTitle") },
+        { id: "scrolls", label: t("kusouzuHub.scrollSectionTitle") },
+        { id: "people", label: t("kusouzuHub.peopleSectionTitle") },
+      ]}
+      sections={[
+        { id: "stages", content: <KusouzuStageGrid stages={hubData.stages} /> },
+        {
+          id: "scrolls",
+          content: <KusouzuScrollCatalog scrollEmakis={hubData.scrollEmakis} />,
+        },
+        { id: "people", content: <KusouzuHubPeople /> },
+      ]}
+    />
   );
 };
 

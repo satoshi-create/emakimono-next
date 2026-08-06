@@ -7608,9 +7608,9 @@
     "video": "",
     "thumb": "/nine-stages-of-decay-empress-danrin_honolulu_thumb.webp",
     "thumb2": "/nine-stages-of-decay-empress-danrin_honolulu_01-375.webp",
-    "desc": "檀林皇后（だんりんこうごう）の九相観を描いた平安時代の仏教絵巻。ホノルル美術館所蔵で、日本からハワイに渡った貴重な作品。皇后の肉体が朽ちていく9つの段階を、繊細な筆致で描き出します。横スクロールで全相鑑賞。",
-    "era": "平安",
-    "eraen": "heiann",
+    "desc": "檀林皇后（だんりんこうごう）の九相観を描いた18世紀・江戸時代の仏教絵巻。ホノルル美術館所蔵で、日本からハワイに渡った貴重な作品。皇后の肉体が朽ちていく9つの段階を、繊細な筆致で描き出します。横スクロールで全相鑑賞。",
+    "era": "江戸",
+    "eraen": "edo",
     "gif": "",
     "type": "絵巻",
     "typeen": "emaki",
@@ -7789,7 +7789,7 @@
     ],
     "sourceAuthor": "Hiart",
     "sourceCollection": "Honolulu Museum of Art (accession 2007.3)",
-    "descen": "The Nine Stages of Decay of Empress Danrin — a Heian-period Buddhist handscroll held by the Honolulu Museum of Art. This rare kusōzu portrays the empress's body through nine stages of decomposition with delicate brushwork. Scroll horizontally to explore every stage."
+    "descen": "The Nine Stages of Decay of Empress Danrin — an Edo-period Buddhist handscroll held by the Honolulu Museum of Art. This rare kusōzu portrays the empress's body through nine stages of decomposition with delicate brushwork. Scroll horizontally to explore every stage."
   },
   {
     "id": 49,

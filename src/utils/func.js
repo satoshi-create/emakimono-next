@@ -10,6 +10,7 @@ import {
   default as enData,
   default as jaData,
 } from "@/data/image-metadata-cache/image-metadata-cache.json";
+import personProfiles from "@/data/personname-data/personprofiles.json";
 import chaptergenji from "@/libs/_archive_unused_data/genji/chapters-of-genji.json";
 import { enMeta, jaMeta } from "@/libs/constants/dataSiteMeta";
 import { en, ja } from "@/libs/constants/staticData";
@@ -86,6 +87,35 @@ const personnameItem = (arr) =>
   convert(arr.flatMap((item) => item.personname).filter((item) => item)).sort(
     (a, b) => (a.total > b.total ? -1 : 1),
   );
+
+/**
+ * 人物プロフィール一覧。
+ * personprofiles.json を正本とし、arr（絵巻データ）から personname の登場数を集計して total を付与。
+ * 絵巻に未登場の人物（例: 小野小町）も含めて返す。
+ */
+const personProfileItem = (arr) => {
+  const counts = {};
+  arr.forEach((item) => {
+    (item.personname || []).forEach((p) => {
+      if (!p?.slug) return;
+      counts[p.slug] = (counts[p.slug] || 0) + 1;
+    });
+  });
+  return personProfiles
+    .map((profile) => ({
+      ...profile,
+      total: counts[profile.slug] || 0,
+    }))
+    .sort(
+      (a, b) =>
+        b.total - a.total ||
+        a.name.localeCompare(b.name, "ja"),
+    );
+};
+
+/** slug から人物プロフィールを1件取得（無ければ undefined） */
+const findPersonProfile = (slug) =>
+  personProfiles.find((p) => p.slug === slug);
 
 // 源氏絵
 const convertGenjiSlug = (arr) => {
@@ -368,11 +398,13 @@ export {
   eraColor,
   eraItem,
   filterdKeywords,
+  findPersonProfile,
   genjieSlugItem,
   getChapterDescRaw,
   keywordItem,
   kusouzuSlugItem,
   personnameItem,
+  personProfileItem,
   removeNestedEmakisObj,
   typeItem,
   useLocale,

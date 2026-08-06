@@ -115,6 +115,17 @@ def _index_ga4_emaki(rows: list[dict], metric_key: str = "eventCount") -> dict[s
     return out
 
 
+def _index_fallback_reason(rows: list[dict], dim_key: str = "customEvent:fallback_reason") -> dict[str, int]:
+    """fallback_reason 内訳（priority_timeout / fullscreen_timeout）を集計。"""
+    out: dict[str, int] = {}
+    for row in rows:
+        reason = row.get(dim_key) or row.get("fallback_reason") or ""
+        if not reason or reason == "(not set)":
+            continue
+        out[reason] = out.get(reason, 0) + int(row.get("eventCount") or 0)
+    return dict(sorted(out.items(), key=lambda kv: kv[1], reverse=True))
+
+
 def _find_previous_report_dir(current_dir: Path) -> Path | None:
     siblings = sorted(
         [p for p in REPORTS_DIR.iterdir() if p.is_dir() and p.name != current_dir.name],
@@ -172,6 +183,7 @@ def merge_report(report_dir: Path) -> dict:
     ga4_pages = _load_json(report_dir / "ga4_pages.json")
     viewer_by_emaki = _load_json(report_dir / "ga4_viewer_by_emaki.json")
     fallback_by_emaki = _load_json(report_dir / "ga4_fallback_by_emaki.json")
+    fallback_by_reason = _load_json(report_dir / "ga4_fallback_by_reason.json")
 
     gsc_page_by_slug = _index_gsc_pages(
         gsc_pages if isinstance(gsc_pages, list) else [], strip_prefixes
@@ -184,6 +196,9 @@ def merge_report(report_dir: Path) -> dict:
     )
     viewer_by_slug = _index_ga4_emaki(viewer_by_emaki if isinstance(viewer_by_emaki, list) else [])
     fallback_by_slug = _index_ga4_emaki(fallback_by_emaki if isinstance(fallback_by_emaki, list) else [])
+    fallback_reason_counts = _index_fallback_reason(
+        fallback_by_reason if isinstance(fallback_by_reason, list) else []
+    )
 
     all_slugs = sorted(
         set(gsc_page_by_slug)
@@ -248,6 +263,7 @@ def merge_report(report_dir: Path) -> dict:
         "site_avg_ctr": round(site_avg_ctr, 4),
         "row_count": len(merged),
         "previous_report": previous_dir.name if previous_dir else None,
+        "fallback_reason_breakdown": fallback_reason_counts,
         "rows": merged,
     }
     return payload

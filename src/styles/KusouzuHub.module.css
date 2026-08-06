@@ -156,30 +156,6 @@
   overflow: hidden;
 }
 
-.sectionNav {
-  padding: 0.75rem 0;
-  display: flex;
-  gap: 1.5rem;
-  font-family: var(--font-ui);
-  font-size: 0.875rem;
-  border-bottom: 1px solid rgb(211 211 211 / 0.4);
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-left: 5vw;
-  padding-right: 5vw;
-}
-
-.sectionNav a {
-  color: var(--clr-link);
-  text-decoration: none;
-  transition: opacity 0.2s ease;
-}
-
-.sectionNav a:hover {
-  opacity: 0.7;
-  text-decoration: underline;
-}
-
 .stageMeta {
   display: inline-block;
   align-self: flex-start;
@@ -319,4 +295,84 @@
   font-size: 0.6875rem;
   color: var(--clr-text-muted);
   padding: 0.15rem 0.3rem;
+}
+
+/* ── People section ── */
+
+.peopleSection {
+  background: var(--clr-bg);
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+  .peopleSection {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+.peopleIntro {
+  font-family: var(--font-story);
+  font-size: 0.9375rem;
+  color: var(--clr-text-muted);
+  line-height: 1.7;
+  max-width: 46rem;
+  margin-bottom: 1.5rem;
+}
+
+.peopleGrid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.peopleCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1.25rem 1rem;
+  background: var(--clr-surface);
+  border: 1px solid rgb(211 211 211 / 0.6);
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--clr-text);
+  text-align: center;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.peopleCard:hover,
+.peopleCard:focus-visible {
+  border-color: var(--clr-accent-green);
+  box-shadow: 0 2px 8px rgb(84 137 106 / 0.12);
+  transform: translateY(-2px);
+}
+
+.peopleAvatar {
+  width: 72px;
+  height: 72px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--clr-accent-green);
+  color: #fff;
+  font-family: var(--font-classical);
+  font-size: 1.875rem;
+}
+
+.peopleName {
+  font-family: var(--font-story);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.peopleRuby {
+  font-family: var(--font-story);
+  font-size: 0.75rem;
+  color: var(--clr-text-muted);
+  letter-spacing: 0.05em;
 }

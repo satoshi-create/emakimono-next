@@ -17,10 +17,27 @@
   place-items: center;
 }
 
+.avatarWrap {
+  display: grid;
+  place-items: center;
+}
+
 .portraitImage {
   border-radius: 50%;
   border: 3px solid white;
   background: gray;
+}
+
+.monogram {
+  width: 130px;
+  height: 130px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 3px solid white;
+  color: #fff;
+  font-family: var(--font-classical);
+  font-size: 3.25rem;
 }
 .noportrait {
   width: 130px;
@@ -50,6 +67,24 @@
 }
 .name:hover {
   color: var(--clr-accent-02);
+}
+
+.ruby {
+  font-family: var(--font-story);
+  font-size: 0.75rem;
+  color: var(--clr-text-muted);
+  letter-spacing: 0.05em;
+  margin-top: -0.25rem;
+}
+
+.era {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  color: var(--clr-text-muted);
+  border: 1px solid var(--clr-grey-light);
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  margin-top: -0.25rem;
 }
 
 @media screen and (min-width: 768px) {

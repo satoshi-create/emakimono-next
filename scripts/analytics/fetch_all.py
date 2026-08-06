@@ -91,6 +91,7 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
 
     merged_path = report_dir / "merged.json"
     top_findings: list[str] = []
+    fallback_reason_lines: list[str] = []
     if merged_path.is_file():
         merged = json.loads(merged_path.read_text(encoding="utf-8"))
         flagged = [r for r in merged.get("rows", []) if r.get("insight_flags")]
@@ -102,6 +103,15 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
                 f"- **{title}** (`/{row.get('slug')}`): {flags} "
                 f"(GSC imp {row.get('gsc_impressions')}, sessions {row.get('ga4_sessions')})"
             )
+        breakdown = merged.get("fallback_reason_breakdown") or {}
+        if breakdown:
+            total = sum(breakdown.values())
+            if total > 0:
+                fallback_reason_lines.append("| reason | events | % |")
+                fallback_reason_lines.append("|---|---|---|")
+                for reason, count in breakdown.items():
+                    pct = round(count / total * 100, 1)
+                    fallback_reason_lines.append(f"| `{reason}` | {count} | {pct}% |")
 
     below_gsc = gsc_rows < int(bootstrap.get("min_gsc_rows", 10))
     below_ga4 = ga4_sessions < int(bootstrap.get("min_ga4_sessions", 50))
@@ -136,6 +146,17 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
     else:
         lines.extend(["## Top findings (auto)", "- No insight flags in merged.json", ""])
 
+    if fallback_reason_lines:
+        lines.extend(
+            [
+                "## Fallback reasons (image_load_fallback)",
+                "",
+                "※ `fallback_reason` が GA4 に未登録の場合は空です。",
+                *fallback_reason_lines,
+                "",
+            ]
+        )
+
     lines.extend(
         [
             "## Files (read order for Cursor Agent)",
@@ -143,6 +164,7 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
             "2. `merged.json` — per-emaki GSC × GA4 join",
             "3. `gsc_queries.json` — query detail",
             "4. `ga4_events_summary.json` — event counts",
+            "5. `ga4_fallback_by_reason.json` — fallback reason breakdown",
             "",
             "## Next step",
             "Run the weekly review prompt from `docs/operations/cursor-analytics-prompt.md`.",

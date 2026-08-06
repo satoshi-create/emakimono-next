@@ -185,10 +185,21 @@ def generate(report_dir: Path) -> dict:
         )
     md_lines.append("")
 
+    breakdown = merged.get("fallback_reason_breakdown") or {}
+    if breakdown:
+        total = sum(breakdown.values())
+        if total > 0:
+            md_lines.extend(["", "## Fallback reasons (image_load_fallback)", ""])
+            for reason, count in breakdown.items():
+                pct = round(count / total * 100, 1)
+                md_lines.append(f"- `{reason}`: {count} ({pct}%)")
+            md_lines.append("")
+
     payload = {
         "report_date": report_dir.name,
         "period": period,
         "previous_report": merged.get("previous_report"),
+        "fallback_reason_breakdown": breakdown,
         "recommendations": recommendations,
     }
 

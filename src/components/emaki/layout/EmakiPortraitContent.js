@@ -7,6 +7,7 @@ import ShareButtons from "@/components/emaki/viewer/ShareButtons";
 import RecommendEmaki from "@/components/emaki/ranking/RecommendEmaki";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
 import KusouzuHubLink from "@/components/emaki/kusouzu/KusouzuHubLink";
+import KusouzuModelLink from "@/components/emaki/kusouzu/KusouzuModelLink";
 import ChojuGigaHubLink from "@/components/emaki/chouju-giga/ChojuGigaHubLink";
 import Footer from "@/components/layout/Footer";
 import { AppContext } from "@/context/AppContext";
@@ -23,7 +24,6 @@ import {
 import { faEye, faTrophy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import parse from "html-react-parser";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useMemo } from "react";
@@ -206,6 +206,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
             {isKusouzu && (
               <>
                 <KusouzuHubLink variant="banner" />
+                <KusouzuModelLink personname={personname} />
                 {LinksToKusouzu.length > 0 && (
                   <>
                     <h4
@@ -245,48 +246,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
                     />
                   </>
                 )}
-              </>
-            )}
-            {/* 登場人物 */}
-            {personname && (
-              <>
-                <h4
-                  className={styles.metaBtitle}
-                  style={{
-                    "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                  }}
-                >
-                  {locale == "en" ? "Person Name" : "登場人物"}
-                </h4>
-                <div
-                  className={`${styles.tags} ${
-                    locale === "ja" && styles.jatags
-                  }`}
-                >
-                  {personname?.map((item, index) => {
-                    const { name, id, slug, total, ruby, portrait } = item;
-
-                    return (
-                      <Link href={`./personname/${slug}`} key={index}>
-                        <a className={styles.portrait}>
-                          <Image
-                            src={portrait ? portrait : "/question-solid.svg"}
-                            width={80}
-                            height={80}
-                            className={styles.portraitImage}
-                            alt={name}
-                            loading="lazy"
-                            placeholder="blur"
-                            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
-                          />
-                          <p className={styles.name}>
-                            {locale === "en" ? id : name}
-                          </p>
-                        </a>
-                      </Link>
-                    );
-                  })}
-                </div>
               </>
             )}
             <span

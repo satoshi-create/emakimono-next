@@ -172,7 +172,10 @@
     "linkLabel": "Nine Stages of Decay — Hub",
     "linkDesc": "Explore each stage and related scrolls on emakimono.com",
     "otherScrollsTitle": "Other kusōzu scrolls",
-    "hubNudgeLabel": "View kusōzu hub"
+    "hubNudgeLabel": "View kusōzu hub",
+    "peopleSectionTitle": "Featured People",
+    "peopleIntro": "People traditionally identified as the models of kusōzu.",
+    "modelLinkLabel": "Model of this work"
   },
 
   "choujuGigaHub": {
@@ -192,6 +195,15 @@
     "linkLabel": "Chōjū-jinbutsu-giga — Hub",
     "linkDesc": "Browse all 4 scrolls of Chōjū-jinbutsu-giga",
     "linkDescEn": "Browse all 4 scrolls of Chōjū-jinbutsu-giga"
+  },
+
+  "personname": {
+    "worksTitle": "Featured Scrolls",
+    "worksTitleEn": "登場する絵巻",
+    "noWorks": "Scrolls featuring this person are coming soon.",
+    "noWorksEn": "この人物が登場する絵巻は準備中です。",
+    "listPagetitle": "Person Names List",
+    "listDesc": "Introductions to people who appear in emaki picture scrolls. This site pursues the enjoyment of picture scrolls by scrolling from right to left!"
   },
 
   "privacy": {

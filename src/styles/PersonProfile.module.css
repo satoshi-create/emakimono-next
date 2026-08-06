@@ -1,0 +1,126 @@
+.hero {
+  background: var(--clr-surface);
+}
+
+.heroImageWrap {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  line-height: 0;
+}
+
+@media (min-width: 768px) {
+  .heroImageWrap {
+    aspect-ratio: auto;
+    max-height: 35vh;
+  }
+}
+
+.heroImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+/* 九相図ハブと同一の左右余白: 中央 max-width 1200px + 5vw パディング */
+.heroText {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 5vw;
+  padding-right: 5vw;
+}
+
+@media (min-width: 768px) {
+  .heroText {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+  }
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  min-width: 0;
+  text-align: left;
+}
+
+.nameEn {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--clr-text-muted);
+}
+
+.name {
+  font-family: var(--font-story);
+  font-size: clamp(1.5rem, 3vw, 2.125rem);
+  font-weight: 700;
+  color: var(--clr-text);
+}
+
+.name rt {
+  font-size: 0.75em;
+  font-weight: 400;
+  color: var(--clr-text-muted);
+  letter-spacing: 0.05em;
+}
+
+.era {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--clr-text-muted);
+  border: 1px solid var(--clr-grey-light);
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.era:hover,
+.era:focus-visible {
+  border-color: var(--clr-accent-green);
+  color: var(--clr-accent-green);
+}
+
+.bio {
+  font-family: var(--font-story);
+  font-size: clamp(0.9375rem, 1.4vw, 1.0625rem);
+  line-height: 1.9;
+  color: var(--clr-text);
+  max-width: 46rem;
+}
+
+.hubLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: flex-start;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--clr-accent-green);
+  border: 1px solid rgb(84 137 106 / 0.4);
+  padding: 0.5rem 0.9rem;
+  border-radius: 4px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.hubLink:hover,
+.hubLink:focus-visible {
+  background: var(--clr-accent-green);
+  color: var(--clr-bg);
+}
+
+.hubArrow {
+  font-size: 1rem;
+}

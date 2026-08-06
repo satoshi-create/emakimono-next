@@ -105,6 +105,13 @@
   transition: color 0.2s ease, transform 0.2s ease;
   z-index: 1;
 }
+/* タッチデバイス: タップターゲットを拡大（WCAG 2.5.5 推奨 44px 目安） */
+@media (pointer: coarse) {
+  .closeBtn {
+    width: 44px;
+    height: 44px;
+  }
+}
 .closeBtn:hover {
   color: var(--clr-accent);
   transform: scale(1.1);
@@ -121,6 +128,13 @@
   padding: 2px 6px;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
+/* タッチデバイス: 拡大したボタン同士の間隔を広げる */
+@media (pointer: coarse) {
+  .sceneActions {
+    gap: 6px;
+    padding: 0 4px;
+  }
+}
 
 /* 段一覧トグル: 操作列内の×の左隣に配置。
    クリックでバー直上に段一覧ポップオーバーを開く */
@@ -135,6 +149,13 @@
   font-size: 1rem;
   transition: color 0.2s ease, transform 0.2s ease;
   z-index: 1;
+}
+/* タッチデバイス: タップターゲットを拡大 */
+@media (pointer: coarse) {
+  .listBtn {
+    width: 44px;
+    height: 44px;
+  }
 }
 .listBtn:hover,
 .listBtnActive {

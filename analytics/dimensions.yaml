@@ -76,3 +76,6 @@ custom_dimensions:
   - param: emaki_id
     ga4_scope: event
     notes: Must be registered in GA4 Admin before Data API reports work
+  - param: fallback_reason
+    ga4_scope: event
+    notes: "Values: priority_timeout | fullscreen_timeout. Register in GA4 Admin before fallback_by_reason works."

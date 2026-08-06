@@ -11,10 +11,11 @@ gsc:
 
 ga4:
   property_id: ${GOOGLE_APPLICATION_PROPERTY_ID}
-  # GA4 Admin でイベント param「emaki_id」をカスタムディメンション登録後に API 名を合わせる
-  # 未登録の場合 viewer_by_emaki / fallback_by_emaki はスキップされる
+  # GA4 Admin でイベント param「emaki_id」「fallback_reason」をカスタムディメンション登録後に API 名を合わせる
+  # 未登録の場合 viewer_by_emaki / fallback_by_emaki / fallback_by_reason はスキップされる
   custom_event_dimensions:
     emaki_id: customEvent:emaki_id
+    fallback_reason: customEvent:fallback_reason
 
 content:
   emakis_json: src/data/json-data/dataEmakis.json
