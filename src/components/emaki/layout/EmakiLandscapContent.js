@@ -1,4 +1,4 @@
-﻿import ToContactForm from "@/components/_archive_unused/ToContactForm";
+import ToContactForm from "@/components/_archive_unused/ToContactForm";
 import EmakiConteiner from "@/components/emaki/layout/EmakiConteiner";
 import EditionLinks from "@/components/emaki/metadata/EditionLinks";
 import SourceAttribution from "@/components/emaki/metadata/SourceAttribution";
@@ -60,6 +60,7 @@ const EmakiLandscapContent = ({
     sourceImageUrl,
     sourceAuthor,
     sourceCollection,
+    sourceLicense,
     reference,
     personname,
     keyword,
@@ -324,6 +325,7 @@ const EmakiLandscapContent = ({
                   sourceTitleen={titleen}
                   sourceAuthor={sourceAuthor}
                   sourceCollection={sourceCollection}
+                  license={sourceLicense}
                   linkClassName={styles.sourceLink}
                 />
                 {reference?.length > 0 && (

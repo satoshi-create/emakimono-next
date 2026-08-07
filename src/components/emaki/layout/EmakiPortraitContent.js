@@ -51,6 +51,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
     sourceImageUrl,
     sourceAuthor,
     sourceCollection,
+    sourceLicense,
     reference,
     keyword,
     personname,
@@ -287,6 +288,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
                 sourceTitleen={titleen}
                 sourceAuthor={sourceAuthor}
                 sourceCollection={sourceCollection}
+                license={sourceLicense}
                 linkClassName={styles.sourceLink}
               />
               {reference?.length > 0 && (

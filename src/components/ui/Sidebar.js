@@ -18,6 +18,7 @@ const Sidebar = ({ value, handleToId }) => {
     sourceImage,
     sourceAuthor,
     sourceCollection,
+    sourceLicense,
     reference,
     author,
   } = value;
@@ -79,6 +80,7 @@ const Sidebar = ({ value, handleToId }) => {
           sourceTitleen={titleen}
           sourceAuthor={sourceAuthor}
           sourceCollection={sourceCollection}
+          license={sourceLicense}
           linkClassName={styles.sourceLink}
         />
       );

@@ -11018,5 +11018,266 @@
         "srcWidth": "1155"
       }
     ]
+  },
+  {
+    "id": 59,
+    "title": "小野小町九相図（Wellcome コレクション）",
+    "titleen": "kusouzu_wellcome_noble_lady",
+    "author": "作者不詳",
+    "authoren": "unknown",
+    "edition": "",
+    "encodeUrl": "",
+    "backgroundImage": "",
+    "thumb": "/thumb/kusouzu_wellcome_noble_lady_thumb.webp",
+    "thumb2": "/thumb/kusouzu_wellcome_noble_lady_thumb.webp",
+    "video": "",
+    "era": "江戸",
+    "eraen": "edo",
+    "desc": "18世紀（1700〜1799年頃）に制作された、小野小町をモデルとする九相図。貴婦人の死と肉体の朽ちていく9つの段階を、水彩で繊細に描き出します。ロンドンの Wellcome Collection 所蔵。",
+    "descen": "An 18th-century (c. 1700-1799) kusōzu series modelled on the poetess Ono no Komachi, depicting the death of a noble lady and the decay of her body through nine stages in delicate watercolour. In the collection of the Wellcome Collection, London.",
+    "readMore": false,
+    "type": "絵巻",
+    "typeen": "emaki",
+    "keyword": [
+      {
+        "name": "小野小町",
+        "id": "ononokomachi",
+        "slug": "ononokomachi"
+      },
+      {
+        "name": "九相図",
+        "id": "kusouzu",
+        "slug": "kusouzu"
+      },
+      {
+        "name": "無常",
+        "id": "impermanence",
+        "slug": "impermanence"
+      },
+      {
+        "name": "仏教",
+        "id": "buddhism",
+        "slug": "buddhism"
+      },
+      {
+        "name": "死生観",
+        "id": "lifeandodeath",
+        "slug": "lifeandodeath"
+      }
+    ],
+    "kotobagaki": true,
+    "sceneText": true,
+    "favorite": false,
+    "sourceImageUrl": "https://commons.wikimedia.org/wiki/File:Kusozu;_the_death_of_a_noble_lady_and_the_decay_of_her_body._Wellcome_L0070288.jpg",
+    "sourceImage": "Kusōzu: the death of a noble lady and the decay of her body. Watercolours（Wikimedia Commons / Wellcome Collection）",
+    "metadesc": "",
+    "gif": "",
+    "sourceEkotoba": "",
+    "reference": [
+      {
+        "type": "ウェブサイト",
+        "url": "https://wellcomecollection.org/works/m4pnfgjd",
+        "title": "Kusōzu: the death of a noble lady and the decay of her body. Watercolours | Wellcome Collection"
+      }
+    ],
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "1",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/kusouzu-wellcome-noble-lady__kusouzu-wellcome-noble-lady_1_01__01.jpg",
+        "name": "kusouzu-wellcome-noble-lady__kusouzu-wellcome-noble-lady_1_01__01",
+        "srcHeight": "1080",
+        "srcWidth": "1479"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "2",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/kusouzu-wellcome-noble-lady__kusouzu-wellcome-noble-lady_1_02__01.jpg",
+        "name": "kusouzu-wellcome-noble-lady__kusouzu-wellcome-noble-lady_1_02__01",
+        "srcHeight": "1080",
+        "srcWidth": "1464"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "3",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/kusouzu-wellcome-noble-lady__kusouzu-wellcome-noble-lady_1_03__01.jpg",
+        "name": "kusouzu-wellcome-noble-lady__kusouzu-wellcome-noble-lady_1_03__01",
+        "srcHeight": "1080",
+        "srcWidth": "1576"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "4",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/kusouzu-wellcome-noble-lady__kusouzu-wellcome-noble-lady_1_04__01.jpg",
+        "name": "kusouzu-wellcome-noble-lady__kusouzu-wellcome-noble-lady_1_04__01",
+        "srcHeight": "1080",
+        "srcWidth": "1528"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "5",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/kusouzu-wellcome-noble-lady__kusouzu-wellcome-noble-lady_1_05__01.jpg",
+        "name": "kusouzu-wellcome-noble-lady__kusouzu-wellcome-noble-lady_1_05__01",
+        "srcHeight": "1080",
+        "srcWidth": "1505"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "6",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/kusouzu-wellcome-noble-lady__kusouzu-wellcome-noble-lady_1_06__01.jpg",
+        "name": "kusouzu-wellcome-noble-lady__kusouzu-wellcome-noble-lady_1_06__01",
+        "srcHeight": "1080",
+        "srcWidth": "1488"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "7",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/kusouzu-wellcome-noble-lady__kusouzu-wellcome-noble-lady_1_07__01.jpg",
+        "name": "kusouzu-wellcome-noble-lady__kusouzu-wellcome-noble-lady_1_07__01",
+        "srcHeight": "1080",
+        "srcWidth": "1494"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "8",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/kusouzu-wellcome-noble-lady__kusouzu-wellcome-noble-lady_1_08__01.jpg",
+        "name": "kusouzu-wellcome-noble-lady__kusouzu-wellcome-noble-lady_1_08__01",
+        "srcHeight": "1080",
+        "srcWidth": "1545"
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "9",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": "",
+        "srcWidth": ""
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "/emakimono/kusouzu-wellcome-noble-lady__kusouzu-wellcome-noble-lady_1_09__01.jpg",
+        "name": "kusouzu-wellcome-noble-lady__kusouzu-wellcome-noble-lady_1_09__01",
+        "srcHeight": "1080",
+        "srcWidth": "1344"
+      }
+    ],
+    "personname": [
+      {
+        "name": "小野小町",
+        "id": "ononokomachi",
+        "slug": "ononokomachi",
+        "ruby": "おののこまち",
+        "portrait": ""
+      }
+    ],
+    "kusouzuslug": [
+      {
+        "id": "0"
+      },
+      {
+        "id": "1"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "4"
+      },
+      {
+        "id": "6"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "8"
+      }
+    ],
+    "sourceAuthor": "Wellcome Collection",
+    "sourceCollection": "Wellcome Collection (reference 766666i)",
+    "sourceLicense": "CC BY 4.0"
   }
 ]

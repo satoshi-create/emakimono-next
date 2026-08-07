@@ -11,6 +11,8 @@
     "wikimediaSource": "Source: {{title}} ({{collection}}) — Photo: {{author}} / Wikimedia Commons ({{url}})",
     "wikimediaLicense": "License: CC0 1.0 ({{licenseUrl}})",
     "wikimediaModified": "Adaptation: Resized and converted (e.g. to WebP) from the above file.",
+    "byLicense": "License: {{license}} ({{licenseUrl}})",
+    "byModified": "Adaptation: Resized and converted (e.g. to WebP) from the above. Shared under {{license}}.",
     "genericSource": "Source: {{label}} ({{url}})",
     "genericModified": "Created by modifying images from {{label}} ({{url}})"
   },

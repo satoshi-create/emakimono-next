@@ -14,6 +14,10 @@ const LICENSE_URLS = {
     ja: "https://creativecommons.org/publicdomain/zero/1.0/deed.ja",
     en: "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
   },
+  "CC BY 4.0": {
+    ja: "https://creativecommons.org/licenses/by/4.0/deed.ja",
+    en: "https://creativecommons.org/licenses/by/4.0/deed.en",
+  },
 };
 
 /** @param {string | undefined} sourceImageUrl */
@@ -61,6 +65,7 @@ export function formatSourceAttribution({
   locale,
   t,
   modified = true,
+  license = "",
 }) {
   if (!sourceImageUrl) {
     return {
@@ -74,7 +79,10 @@ export function formatSourceAttribution({
   }
 
   const provider = getSourceProvider(sourceImageUrl);
-  const licenseUrl = getLicenseUrl(provider, locale);
+  const lang = locale === "en" ? "en" : "ja";
+  const explicitLicenseUrl = LICENSE_URLS[license]?.[lang];
+  // 明示的なライセンス指定（例: "CC BY 4.0"）をプロバイダ既定（Wikimedia = CC0 等）より優先
+  const licenseUrl = explicitLicenseUrl ?? getLicenseUrl(provider, locale);
   const title = sourceTitle || sourceImage;
   const i18nParams = {
     url: sourceImageUrl,
@@ -83,17 +91,28 @@ export function formatSourceAttribution({
     author: sourceAuthor || "Hiart",
     collection: sourceCollection,
     licenseUrl: licenseUrl || sourceImageUrl,
+    license,
   };
 
   const sourceLine = t(`sourceAttribution.${provider}Source`, i18nParams);
-  const licenseLine =
-    provider === SOURCE_PROVIDERS.britishMuseum ||
-    provider === SOURCE_PROVIDERS.wikimedia
-      ? t(`sourceAttribution.${provider}License`, i18nParams)
+
+  let licenseLine = null;
+  let modifiedLine = null;
+  if (explicitLicenseUrl) {
+    licenseLine = t("sourceAttribution.byLicense", i18nParams);
+    modifiedLine = modified
+      ? t("sourceAttribution.byModified", i18nParams)
       : null;
-  const modifiedLine = modified
-    ? t(`sourceAttribution.${provider}Modified`, i18nParams)
-    : null;
+  } else {
+    licenseLine =
+      provider === SOURCE_PROVIDERS.britishMuseum ||
+      provider === SOURCE_PROVIDERS.wikimedia
+        ? t(`sourceAttribution.${provider}License`, i18nParams)
+        : null;
+    modifiedLine = modified
+      ? t(`sourceAttribution.${provider}Modified`, i18nParams)
+      : null;
+  }
 
   return {
     sourceLine,

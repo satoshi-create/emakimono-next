@@ -23,6 +23,7 @@ import sync_scroll as ss
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DATA_EMAKIS_PATH = REPO_ROOT / "src/data/json-data/dataEmakis.json"
+PERSON_PROFILES_PATH = REPO_ROOT / "src/data/personname-data/personprofiles.json"
 
 # Cloudinary Free plan (see media_limits in usage API)
 MAX_IMAGE_BYTES = 10 * 1024 * 1024
@@ -49,6 +50,15 @@ def _load_data_emakis() -> list[dict]:
         return []
     with open(DATA_EMAKIS_PATH, "r", encoding="utf-8") as handle:
         return json.load(handle)
+
+
+def _known_person_slugs() -> set[str]:
+    """personprofiles.json に存在する人物 slug の集合（personname 展開先）。"""
+    if not PERSON_PROFILES_PATH.exists():
+        return set()
+    with open(PERSON_PROFILES_PATH, "r", encoding="utf-8") as handle:
+        profiles = json.load(handle)
+    return {str(p.get("slug")) for p in profiles if p.get("slug")}
 
 
 def _find_entry_by_titleen(entries: list[dict], titleen: str) -> dict | None:
@@ -105,6 +115,33 @@ def run_preflight(
         report.error("Missing metadata.titleen")
     if entry_id is None:
         report.error("Missing metadata.id")
+
+    # 任意の出典・人物・九相段フィールド（形状チェック）
+    for key in ("sourceAuthor", "sourceCollection", "sourceLicense"):
+        if meta.get(key) is not None and not isinstance(meta[key], str):
+            report.error(f"metadata.{key} must be a string (got {type(meta[key]).__name__})")
+
+    pn = meta.get("personname")
+    if pn is not None:
+        if not isinstance(pn, list) or not pn:
+            report.error("metadata.personname must be a non-empty list of slugs or profile dicts")
+        elif isinstance(pn[0], str):
+            unknown = sorted({s for s in pn if s not in _known_person_slugs()})
+            if unknown:
+                report.error(
+                    f"metadata.personname unknown slug(s) (not in personprofiles.json): "
+                    f"{', '.join(unknown)}"
+                )
+        elif not isinstance(pn[0], dict):
+            report.error(
+                "metadata.personname must be a list of slugs (str) or profile dicts "
+                f"(got {type(pn[0]).__name__})"
+            )
+
+    ks = meta.get("kusouzuslug")
+    if ks is not None:
+        if not isinstance(ks, list) or not all(isinstance(s, (str, int)) for s in ks):
+            report.error("metadata.kusouzuslug must be a list of stage ids (int or str)")
 
     scenes = ss.get_scenes_config(config)
     if not scenes:

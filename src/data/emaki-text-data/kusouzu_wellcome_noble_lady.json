@@ -1,0 +1,83 @@
+[
+  {
+    "chapter": "1",
+    "title": "第1段 生前の貴婦人",
+    "gendaibun": "小野小町と伝わる貴婦人が、室内で朱塗りの机に向かって座しています。左手には辞世の歌をしたためた和歌の巻物を持ち、顔色は青白く、その表情は死の訪れを予感しているかのようです。",
+    "kobun": "",
+    "desc": "九相図の第1段。小野小町とされる貴婦人が朱の机に向かい、左手に辞世の歌を書いた巻物を持って座す。顔色の青白さと沈んだ表情が、迫り来る死を予感させる。",
+    "descen": "The first painting in a series of nine. A court lady identified with Ono no Komachi sits indoors at a low red table, holding in her left hand a scroll on which she has written her farewell poem. She is pallid, and her expression is preoccupied.\n",
+    "titleen": "The Noble Lady in Her Lifetime"
+  },
+  {
+    "chapter": "2",
+    "title": "第2段 新死",
+    "gendaibun": "貴婦人は息を引き取り、肩まで布団を掛けられて床に横たえられています。側には婦人と男性が2人付き添い、静かに最期を見守っています。",
+    "kobun": "",
+    "desc": "第2段。貴婦人は亡くなり、肩まで布団を掛けられて床に横たわる。婦人と男性の2人が遺体に付き添う。",
+    "descen": "The second painting. She has died, and is laid out on the floor covered to her shoulders with a blanket, with a lady and a gentleman in attendance.\n",
+    "titleen": "The Newly Deceased, Attended by Two Mourners"
+  },
+  {
+    "chapter": "3",
+    "title": "第3段 膨張",
+    "gendaibun": "遺体は屋外に運び出され、ござの上に腰布一枚の姿で横たえられています。皮膚にはまだ肉色が残り、腐敗が始まる前の静かな佇まいです。",
+    "kobun": "",
+    "desc": "第3段。遺体は野外に運ばれ、ござの上に腰布一枚の姿で横たわる。皮膚は肉色を帯びており、腐敗初期の膨張が始まる前の段階を示す。",
+    "descen": "The third painting. Her body is out of doors, naked apart from a loincloth, laid on a mat, the lower part of which is folded up over her legs; her skin still has flesh tones.\n",
+    "titleen": "The Body Subject to Distension"
+  },
+  {
+    "chapter": "4",
+    "title": "第4段 血の滲出",
+    "gendaibun": "腐敗が始まり、肉体から血が滲み出ています。腰布は下腹部にわずかに残るだけ。死の進行をあらわに示す段です。",
+    "kobun": "",
+    "desc": "第4段。腐敗が進み、遺体から血が滲み出る。腰布は下腹部のみに残される。",
+    "descen": "The fourth painting. Putrefaction has set in and blood exudes from the body; her lower body is covered with a loincloth.\n",
+    "titleen": "The Body Subject to Exudation of Blood"
+  },
+  {
+    "chapter": "5",
+    "title": "第5段 腐敗",
+    "gendaibun": "腐敗はさらに進み、肉体は崩れ始めています。生前の美しい面影は消え、ただ朽ちゆく肉体のみがそこにあります。",
+    "kobun": "",
+    "desc": "第5段。腐敗がさらに進行し、肉体が崩れ始める。生前の面影は失われ、無常の姿があらわになる。",
+    "descen": "The fifth painting. Her body is decaying in the advanced stages of putrefaction, the flesh breaking down and the form of her lifetime lost.\n",
+    "titleen": "The Body in Advanced Putrefaction"
+  },
+  {
+    "chapter": "6",
+    "title": "第6段 鳥獣に啄ばまれる",
+    "gendaibun": "腐敗した遺体は、鳥や小動物が啄ばむ餌となっています。九相図はこの姿を観ずることで、肉体の儚さを思い知るためのものです。",
+    "kobun": "",
+    "desc": "第6段。腐敗した遺体は、鳥や小動物に啄ばまれる餌となる。輪廻と無常を観ずる段。",
+    "descen": "The sixth painting. The putrefying body has become carrion for scavenging birds and small animals.\n",
+    "titleen": "The Body Consumed by Birds and Animals"
+  },
+  {
+    "chapter": "7",
+    "title": "第7段 白骨化",
+    "gendaibun": "肉はほとんど朽ち果て、骨格があらわになっています。背景には藤の花が咲き、生と死の対照が印象的です。",
+    "kobun": "",
+    "desc": "第7段。肉はほぼ朽ち果て骨格があらわになる。背景に藤の花が咲き、生と死の対照を描く。",
+    "descen": "The seventh painting. The flesh has almost all decayed, revealing the skeleton; there are wistaria flowers in blossom in the background.\n",
+    "titleen": "The Body Reduced to a Skeleton"
+  },
+  {
+    "chapter": "8",
+    "title": "第8段 骨の散乱",
+    "gendaibun": "残っているのは頭骨や肋骨のかけら、手や椎骨といったわずかな骨片だけ。散り散りになった骨は、もはや人の形をとどめていません。",
+    "kobun": "",
+    "desc": "第8段。頭骨・肋骨・手・椎骨などわずかな骨片だけが残る。遺体は散り散りになり、原形を失う。",
+    "descen": "The eighth painting. Only a few fragments of bone — including the skull and fragments of rib, hand, and vertebrae — remain visible, scattered and losing their original form.\n",
+    "titleen": "The Disjointed Bones"
+  },
+  {
+    "chapter": "9",
+    "title": "第9段 墓標",
+    "gendaibun": "遺体の痕跡は完全に失われ、その地には戒名が梵字で記された卒塔婆が建てられています。美しい肉体も、朽ち果てた骨も、やがてすべては消えていく。九相図は、すべて無常であるという教えとともに幕を閉じます。",
+    "kobun": "",
+    "desc": "第9段。遺体は完全に失われ、戒名が梵字で記された卒塔婆が建てられる。九相図は、すべて無常であるという仏教の教えで結ばれる。",
+    "descen": "The final painting. The remains have vanished entirely; only a memorial structure remains, upon which her Buddhist death-name is inscribed in Sanskrit. The series closes with the Buddhist teaching of impermanence.\n",
+    "titleen": "The Memorial Structure"
+  }
+]

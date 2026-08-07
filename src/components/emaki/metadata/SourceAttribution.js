@@ -27,6 +27,7 @@ const SourceAttribution = ({
   sourceTitleen = "",
   sourceAuthor = "",
   sourceCollection = "",
+  license = "",
   modified = true,
   linkClassName = "",
   linkStyle,
@@ -62,6 +63,7 @@ const SourceAttribution = ({
     locale,
     t,
     modified,
+    license,
   });
 
   return (

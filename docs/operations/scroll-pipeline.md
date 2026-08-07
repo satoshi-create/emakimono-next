@@ -137,6 +137,19 @@ py -3.14 scripts/create-project.py my-new-scroll
 2. `scrolls/{scroll_id}/images/` に画像を配置
 3. 词書が必要なら `scenes[].text` を YAML に記述
 
+**外部ソース（Wikimedia Commons 等）から画像を用意する場合** — 元画像をダウンロードし、sharp で高さ 1080px に縮小して `_NN-1080.jpg` 形式で配置します:
+
+```powershell
+# ダウンロード（例: Wikimedia Commons）
+curl.exe -s -L -o "scrolls\{scroll_id}\images\src-01.jpg" "https://commons.wikimedia.org/wiki/Special:FilePath/XXX.jpg"
+
+# 1080px 高に縮小 → _01-1080.jpg（sync_scroll.py が自動検出）
+node -e "require('sharp')('scrolls/{scroll_id}/images/src-01.jpg').resize({height:1080}).jpeg({quality:85}).toFile('scrolls/{scroll_id}/images/_01-1080.jpg')"
+```
+
+- 対象物が **縦長（portrait）** の場合、16:9 サムネイルでは中央帯だけが使われるため、代表シーン選定時に考慮する（`docs/operations/thumb-workflow.md` 参照）
+- 枚数が多い場合は `scrolls/_tmp-*/` に一時ファイルを置いてから変換する
+
 YAML 草案: [`ai-scroll-config-prompt.md`](./ai-scroll-config-prompt.md)  
 命名規則: [`naming-convention.md`](./naming-convention.md)
 
@@ -185,12 +198,30 @@ py -3.14 scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml
 - `src/data/emaki-text-data/{titleen}.json`（`scenes[].text` から生成。表示はこのファイルが正本）
 - `scrolls/{scroll_id}/.upload-cache.json`（gitignore・再 sync 時のスキップ用）
 
+**再 sync の安全性（preserve 動作）:** `sync_all.py` は YAML 由来のフィールドのみを上書きし、既存 JSON にある**スクリプトが生成しないフィールド**（`personname` / `kusouzuslug` / `sourceAuthor` / `sourceCollection` / `sourceLicense` 等）は保持します。YAML・词書だけを直す再 sync（`--skip-upload`）で手編集フィールドが消えることはありません。
+
+新規にこのようなフィールドを追加するときは、**JSON を手編集せず YAML に追記して再 sync** するのが正（`personname` は slug 配列で personprofiles.json から自動展開、`kusouzuslug` は段 ID 配列）。
+
 ### Phase 4: ローカル確認 → PR
 
 1. `npm run dev` で `/[titleen]` を開く
 2. 横スクロール・词書・段数を目視
 3. YAML + images + JSON を **同一 PR** で commit
 4. PR 上で `validate-scroll.yml` が preflight + dry-run を自動実行
+
+### Phase 4b: サムネイル・OGP・人物ヒーロー（必要に応じて）
+
+絵巻をトップカード・九相図/鳥獣ハブ・人物ページに正しく表示するため、sync 後に以下を実施します（詳細: [`thumb-workflow.md`](./thumb-workflow.md)）。
+
+| 手順 | 内容 | 参照 |
+|------|------|------|
+| サムネイル | Figma で代表シーンを 1066×600 にクロップ → `generate-thumb-webp.js` → `public/thumb/{titleen}_thumb.webp` | `thumb-workflow.md` |
+| JSON thumb 統一 | `dataEmakis.json` + `image-metadata-cache.json` の `thumb` / `thumb2` を実パスに統一 | `thumb-workflow.md` |
+| OGP | `node src/script/generateOgImages.js` で SKIP 0 件に | `thumb-workflow.md` |
+| 出典ライセンス | YAML の `metadata.sourceLicense`（例: `CC BY 4.0`）。指定時は出典表示のライセンス URL が対応する CC deed になる | `formatSourceAttribution.js` |
+| 人物ヒーロー | `src/data/personname-data/personprofiles.json` の `heroCloudinary` で人物ページのヒーロー画像を個別指定 | `PersonProfile.js` |
+
+> 絵巻のシーン画像が **縦長（portrait）** の場合は、16:9 サムネイルで中央帯のみ使われるため、代表シーンの選定で考慮する。2026-08 の Wellcome 九相図では、ヒーロー画像が縦長構図で PC 幅のクリップにより顔が切れる事象があり、Figma で 21:9 にトリムして解決した。
 
 ### Phase 5: sync 後モニタリング
 
@@ -213,6 +244,31 @@ py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20
 | `metadata.titleen` | URL スラッグ（既存ページと一致させる） |
 | `metadata.id` | dataEmakis.json 内の数値 ID |
 | `scenes` | 段定義。`range: [開始, 終了]` は **2 点指定** |
+
+### 任意フィールド（出典・人物・ハブ連携）
+
+`sync_all.py` が `metadata` から `dataEmakis.json` / `image-metadata-cache.json` へ反映します（無指定なら既存値が保持され、JSON 手編集は不要）。
+
+| フィールド | 型 | 説明 |
+|-----------|-----|------|
+| `metadata.sourceAuthor` | string | 出典権利者（例: `Wellcome Collection`） |
+| `metadata.sourceCollection` | string | 所蔵・コレクション名 |
+| `metadata.sourceLicense` | string | ライセンス表記（例: `CC BY 4.0`）。指定時は出典表示のライセンス URL が対応 CC deed になる。未指定ならプロバイダ既定（Wikimedia = CC0 1.0） |
+| `metadata.personname` | string[] | 人物 slug 配列（例: `["ononokomachi"]`）。personprofiles.json から自動展開（name/id/slug/ruby/portrait）。dict の配列でも可 |
+| `metadata.kusouzuslug` | int[]/string[] | 九相段 ID 配列（例: `[0, 1, 3, 4, 6, 7, 8]`）。九相図ハブの段マッピングに使用 |
+
+例（Wellcome 九相図）:
+
+```yaml
+metadata:
+  sourceAuthor: "Wellcome Collection"
+  sourceCollection: "Wellcome Collection（reference 766666i）"
+  sourceLicense: "CC BY 4.0"
+  personname: ["ononokomachi"]
+  kusouzuslug: [0, 1, 3, 4, 6, 7, 8]
+```
+
+> preflight が `sourceLicense` の型・`personname` の slug 存在・`kusouzuslug` の型を検証します。
 
 ### 画像配置
 
@@ -414,6 +470,9 @@ py -3.14 scripts/sync_all.py scrolls/my-scroll/scroll_config.yaml --skip-upload
 □ check_cloudinary_usage.py（--warn-at 18）OK
 □ sync は 1 回（--force-upload なし）
 □ ローカルで /[titleen] 確認
+□ 出典ライセンス: sourceLicense（Wikimedia 既定 CC0。他は YAML で明示）
+□ personname / kusouzuslug: YAML で宣言（JSON 手編集をしない）
+□ サムネ・OGP 生成（thumb-workflow.md）/ 人物ヒーロー画像
 □ dataEmakis.json + cache + emaki-text-data/{titleen}.json + YAML + images を同 PR
 □ PR で validate-scroll.yml が pass
 □ push では sync-scroll.yml は走らない（手動のみ）

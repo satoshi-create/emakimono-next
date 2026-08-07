@@ -54,6 +54,10 @@ CACHE_DIR = REPO_ROOT / "src/data/image-metadata-cache"
 EMAKI_TEXT_DIR = REPO_ROOT / "src/data/emaki-text-data"
 GENERATE_CACHE_SCRIPT = REPO_ROOT / "src/script/generateImageMetadata.js"
 CACHE_PATH = CACHE_DIR / "image-metadata-cache.json"
+PERSON_PROFILES_PATH = REPO_ROOT / "src/data/personname-data/personprofiles.json"
+
+# スクリプトが YAML から生成しないフィールドは、再 sync 時も既存 JSON の値を保持する
+# （personname / kusouzuslug / sourceAuthor 等を手編集していても消えないようにする）
 
 
 def data_entry_to_cache_entry(entry: dict) -> dict:
@@ -322,6 +326,50 @@ def _merge_existing_image_src(emakis: list[dict], existing_entry: dict | None) -
     return merged
 
 
+def _load_person_profiles() -> list[dict]:
+    """personprofiles.json（人物プロフィール正本）。無ければ空リスト。"""
+    if not PERSON_PROFILES_PATH.exists():
+        return []
+    with open(PERSON_PROFILES_PATH, "r", encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def _build_personname(spec, profiles: list[dict]) -> list[dict]:
+    """metadata.personname を dataEmakis.json 形式へ変換する。
+
+    - 文字列スラッグの配列 ["ononokomachi", ...] → personprofiles.json から展開
+    - 既に dict の配列 → そのまま
+    """
+    if not isinstance(spec, list) or not spec:
+        return []
+    if isinstance(spec[0], dict):
+        return [dict(p) for p in spec]
+    by_slug = {str(p.get("slug")): p for p in profiles}
+    out: list[dict] = []
+    for slug in spec:
+        profile = by_slug.get(str(slug))
+        if not profile:
+            print(f"  Warning: personname slug '{slug}' not found in personprofiles.json")
+            continue
+        out.append(
+            {
+                "name": profile.get("name", ""),
+                "id": profile.get("id", ""),
+                "slug": profile.get("slug", ""),
+                "ruby": profile.get("ruby", ""),
+                "portrait": profile.get("portrait", ""),
+            }
+        )
+    return out
+
+
+def _build_kusouzuslug(spec) -> list[dict]:
+    """metadata.kusouzuslug を dataEmakis.json 形式（[{"id": "0"}, ...]）へ変換する。"""
+    if not isinstance(spec, list) or not spec:
+        return []
+    return [{"id": str(s)} for s in spec]
+
+
 # ---------------------------------------------------------------------------
 #  Build a dataEmakis.json entry from YAML + Cloudinary results
 # ---------------------------------------------------------------------------
@@ -344,7 +392,7 @@ def build_emaki_entry(config: dict, image_rows: list[dict], existing_entry: dict
     if skip_images and existing_entry:
         emakis = _merge_existing_image_src(emakis, existing_entry)
 
-    return {
+    entry = {
         "id": meta["id"],
         "title": meta["title"],
         "titleen": meta["titleen"],
@@ -376,6 +424,25 @@ def build_emaki_entry(config: dict, image_rows: list[dict], existing_entry: dict
         "reference": meta.get("reference", []),
         "emakis": emakis,
     }
+
+    # 出典・ライセンス（YAML に指定があるときのみ上書き。無ければ preserve が保持）
+    for key in ("sourceAuthor", "sourceCollection", "sourceLicense"):
+        if meta.get(key):
+            entry[key] = meta[key]
+
+    # 人物・九相段リンク（任意）
+    if meta.get("personname"):
+        entry["personname"] = _build_personname(meta["personname"], _load_person_profiles())
+    if meta.get("kusouzuslug"):
+        entry["kusouzuslug"] = _build_kusouzuslug(meta["kusouzuslug"])
+
+    # 既存エントリにある、本スクリプトが生成しないフィールドを保持する（再 sync で失わない）
+    if existing_entry:
+        for key, value in existing_entry.items():
+            if key not in entry:
+                entry[key] = value
+
+    return entry
 
 
 # ---------------------------------------------------------------------------
