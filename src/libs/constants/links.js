@@ -16,6 +16,7 @@ export const operatorSocialLinks = [
 
 export const legalLinks = [
   { name: "使い方ガイド", nameen: "Guide", path: "/guide" },
+  { name: "著作権・ライセンス", nameen: "Copyright", path: "/copyright" },
   { name: "プライバシー", nameen: "Privacy", path: "/privacy" },
   { name: "利用規約", nameen: "Terms", path: "/terms" },
 ];

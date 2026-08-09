@@ -7,9 +7,10 @@ About ページ（`staticData.js` の `about.intro`）の趣旨に沿った実�
 | Path | 役割 | 状態 |
 |------|------|------|
 | `/about` | Why — プロジェクト趣旨・OSS | 既存 |
-| `/guide` | How — 鑑賞の使い方 | 未実装 |
-| `/privacy` | プライバシーポリシー | 未実装 |
-| `/terms` | 利用規約 | 未実装 |
+| `/guide` | How — 鑑賞の使い方 | 既存 |
+| `/copyright` | 著作権・ライセンス / AI画像生成での利用ガイドライン | 既存 |
+| `/privacy` | プライバシーポリシー | 既存 |
+| `/terms` | 利用規約 | 既存 |
 
 ## `/guide` 構成（ハッシュリンク）
 
@@ -51,9 +52,20 @@ About ページ（`staticData.js` の `about.intro`）の趣旨に沿った実�
 2. サービス内容
 3. 禁止事項（無断転載・スクレイピング）
 4. 解説の正確性免責
-5. 著作権・出典（各絵巻書誌と整合）
-6. 九相図等の描写への注意
-7. 運営者情報
+5. 九相図等の描写への注意
+6. 運営者情報
+
+※ 著作権・出典の詳細は `/copyright` に移管（2026-08-09 削除）。
+
+## `/copyright` 構成（実装済み）
+
+著作権・ライセンス / AI画像生成での利用ガイドライン。著作権・CC 解説をメインとし、AI 画像生成への言及は AI ガイドラインセクションのみ。
+
+1. 著作権 — 古典絵巻の著作権状態（原作品 PD、画像は機関ライセンス）+ 公式ページ（文化庁）
+2. CCライセンス — CC0 / CC BY / CC BY-SA / CC BY-NC + CC 公式ページ（About CC Licenses / CC0 / CC BY 4.0 / License Chooser）
+3. AI画像生成での利用ガイドライン（Stable Diffusion / ControlNet / Midjourney）
+4. 主な所蔵機関のライセンス（ColBase / British Museum / Wellcome / MET / Wikimedia）
+5. 免責・お問い合わせ
 
 ## 共通 `LegalPageLayout`
 
@@ -74,6 +86,7 @@ About ページ（`staticData.js` の `about.intro`）の趣旨に沿った実�
 | Path | title 例 |
 |------|-----------|
 | `/guide` | 使い方ガイド \| 横スクロールで楽しむ絵巻物 |
+| `/copyright` | 著作権・ライセンス \| 横スクロールで楽しむ絵巻物 |
 | `/privacy` | プライバシーポリシー \| … |
 | `/terms` | 利用規約 \| … |
 | `/404` | noindex |

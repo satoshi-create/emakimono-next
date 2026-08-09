@@ -2,6 +2,41 @@
   margin: 0;
 }
 
+.badgeLine {
+  margin: 0 0 0.35rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.badge:hover {
+  opacity: 0.85;
+}
+
+.tone-cc0 {
+  background: var(--clr-accent-green);
+  color: var(--clr-bg);
+}
+
+.tone-cc {
+  background: var(--clr-accent);
+  color: var(--clr-bg);
+}
+
+.tone-terms {
+  background: var(--clr-surface);
+  color: var(--clr-text-muted);
+  border: 1px solid var(--clr-grey-light);
+}
+
 .sourceLine {
   margin: 0;
 }
@@ -12,6 +47,21 @@
 
 .modifiedLine {
   margin: 0.35rem 0 0;
+}
+
+.guideLine {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+}
+
+.guideLink {
+  color: var(--clr-link);
+  text-decoration: underline;
+}
+
+.guideLink:hover {
+  opacity: 0.7;
 }
 
 .link {

@@ -41,31 +41,6 @@ const Terms = () => {
         );
       })}
 
-      {sections?.copyright && (
-        <section>
-          <h3>{sections.copyright.title}</h3>
-          <p>{sections.copyright.body}</p>
-          {Array.isArray(sections.copyright.sources) && (
-            <ul>
-              {sections.copyright.sources.map((source, i) => (
-                <li key={i}>
-                  <a
-                    href={source.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {source.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          )}
-          {sections.copyright.note && (
-            <p className={styles.sectionNote}>{sections.copyright.note}</p>
-          )}
-        </section>
-      )}
-
       {sections?.sensitive && (
         <section>
           <h3>{sections.sensitive.title}</h3>

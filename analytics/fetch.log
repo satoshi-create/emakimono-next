@@ -1,0 +1,46 @@
+=== Analytics config check ===
+
+  OK     project: emakimono-next
+  OK     GA4 property: 325347782
+  OK     GSC site: sc-domain:emakimono.com
+  OK     phase: steady
+  OK     GSC reports: 2
+  OK     GA4 reports: 4
+  OK     GA4 API reachable
+  OK     GSC API reachable
+
+Analytics config check OK
+Skipped optional GA4 report 'viewer_by_emaki': Register emaki_id as a GA4 custom dimension (Event scope), then update analytics/project.yaml custom_event_dimensions.
+Skipped optional GA4 report 'fallback_by_emaki': Register emaki_id as a GA4 custom dimension (Event scope), then update analytics/project.yaml custom_event_dimensions.
+=== Analytics fetch - 2026-08-06 ===
+
+Output: analytics\reports\2026-08-06
+Wrote analytics\content-map.json (36 emaki)
+
+Wrote analytics\reports\2026-08-06\manifest.json
+Wrote analytics\reports\2026-08-06\summary.md
+
+Analytics fetch OK
+=== Analytics config check ===
+
+  OK     project: emakimono-next
+  OK     GA4 property: 325347782
+  OK     GSC site: sc-domain:emakimono.com
+  OK     phase: steady
+  OK     GSC reports: 2
+  OK     GA4 reports: 4
+  OK     GA4 API reachable
+  OK     GSC API reachable
+
+Analytics config check OK
+Skipped optional GA4 report 'viewer_by_emaki': Register emaki_id as a GA4 custom dimension (Event scope), then update analytics/project.yaml custom_event_dimensions.
+Skipped optional GA4 report 'fallback_by_emaki': Register emaki_id as a GA4 custom dimension (Event scope), then update analytics/project.yaml custom_event_dimensions.
+=== Analytics fetch - 2026-08-06 ===
+
+Output: analytics\reports\2026-08-06
+Content map up to date: analytics\content-map.json
+
+Wrote analytics\reports\2026-08-06\manifest.json
+Wrote analytics\reports\2026-08-06\summary.md
+
+Analytics fetch OK

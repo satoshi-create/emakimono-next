@@ -14,7 +14,16 @@
     "byLicense": "ライセンス：{{license}}（{{licenseUrl}}）",
     "byModified": "加工：上記画像を解像度調整・WebP 変換等して作成。加工画像は {{license}} に基づき公開。",
     "genericSource": "出典：{{label}}（{{url}}）",
-    "genericModified": "「{{label}}」（{{url}}）を加工して作成"
+    "genericModified": "「{{label}}」（{{url}}）を加工して作成",
+    "badgeLabels": {
+      "colbase": "国立文化財機構の利用規約"
+    },
+    "badgeTitles": {
+      "cc0": "条件なし・完全に自由に利用できます",
+      "cc": "出典表示など条件を守って利用できます",
+      "terms": "所蔵機関の利用規約に従って利用してください"
+    },
+    "seeGuide": "著作権・ライセンスの見方はこちら（/copyright）"
   },
 
   "viewer": {
@@ -278,25 +287,6 @@
         "title": "解説の正確性について",
         "body": "当サイトの解説は参考情報です。学術的な正確性・完全性を保証するものではありません。重要な判断には原典および専門文献をご参照ください。"
       },
-      "copyright": {
-        "title": "著作権・出典",
-        "body": "各絵巻の画像および解説には出典・書誌情報を記載しています。権利は各所蔵機関・権利者に帰属します。ColBase 等から取得した画像は、解像度調整・形式変換（WebP）等の加工を行い表示しています。各絵巻ページには出典と加工の記載を表示し、加工画像を所蔵機関の作成物であるかのように公表しません。",
-        "sources": [
-          {
-            "name": "ColBase（国立文化財機構所蔵品統合検索システム）",
-            "url": "https://colbase.nich.go.jp/?locale=ja"
-          },
-          {
-            "name": "The British Museum",
-            "url": "https://www.britishmuseum.org/terms-use/copyright-and-permissions"
-          },
-          {
-            "name": "Wikimedia Commons",
-            "url": "https://commons.wikimedia.org/"
-          }
-        ],
-        "note": "ColBase 利用時は当該所蔵品ページの URL を出典として記載しています（利用規約: https://colbase.nich.go.jp/pages/term?locale=ja）。各所蔵元の条件を尊重してください。"
-      },
       "sensitive": {
         "title": "描写内容への注意",
         "body": "九相図など、死や肉体の変容（腐敗・崩れなど）を描いた作品が含まれます。これらは宗教的・文化的な文脈で鑑賞される作品です。内容によっては負担を感じる場合がありますので、利用者の判断でご覧ください。"
@@ -304,6 +294,166 @@
       "operator": {
         "title": "運営者情報",
         "body": "当サイトの運営に関するお問い合わせは、下記ボタンよりご連絡ください。"
+      }
+    }
+  },
+
+  "copyright": {
+    "pagetitle": "著作権・ライセンス",
+    "metaDesc": "絵巻物画像の著作権・パブリックドメインとCCライセンスの違い、Stable DiffusionやMidjourneyでのAI画像生成利用ガイドラインを説明します。",
+    "breadcrumb": "著作権・ライセンス",
+    "sectionTitle": "著作権・ライセンス / AI 画像生成での利用ガイドライン",
+    "updated": "最終更新日：2026年8月9日",
+    "intro": "絵巻物の画像を使う際、「古典だから自由に使えるのか」「海外と国内のライセンスはどう違うのか」と迷われる方も多いのではないでしょうか。本ページでは、絵巻物画像の著作権・ライセンスの考え方と、安全な二次利用の目安を説明します。なお、本ページは情報提供を目的としており、法的助言ではありません。",
+    "tocTitle": "目次",
+    "toc": {
+      "copyright": "著作権",
+      "cc": "CCライセンス",
+      "ai": "AI画像生成での利用ガイドライン",
+      "sources": "主な所蔵機関のライセンス"
+    },
+    "sections": {
+      "copyright": {
+        "title": "著作権 — 古典絵巻はパブリックドメイン",
+        "body": "当サイトで扱う絵巻物は、多くが平安時代から江戸時代にかけて制作され、作者は数百年前に亡くなっています。日本では原則、作者の死後70年で著作権が消滅します。そのため、これらの絵巻の「原作品」はパブリックドメイン（公有領域）です。",
+        "points": [
+          "ただし重要なのは、作品そのものと「画像」は別物だということです。原作品を撮影・デジタル化した画像の利用条件は、現物を所蔵する各機関（美術館・博物館・デジタルアーカイブ）が定めるライセンスに従います。",
+          "つまり「作品がパブリックドメインだから、画像も自由に使える」とは限りません。実際の利用可否は、画像の出典となった機関のライセンスを確認してください。",
+          "当サイトでは、各絵巻ページに出典と加工（解像度調整・WebP変換など）の表示を行っています。画像を利用する際は、その出典情報をたどってください。"
+        ],
+        "official": {
+          "title": "関連する公式ページ",
+          "links": [
+            {
+              "name": "文化庁 — 著作権施策に関する総合案内ページ",
+              "url": "https://www.bunka.go.jp/seisaku/chosakuken/"
+            }
+          ]
+        }
+      },
+      "cc": {
+        "title": "CCライセンス（クリエイティブ・コモンズ）",
+        "body": "CC（クリエイティブ・コモンズ）ライセンスは、4つの条件の「組み合わせ」でできています。まず4つの条件を覚え、その次に組み合わせ表で、自分がやりたいことに該当するか確認しましょう。海外のデジタルアーカイブ（MET、Wellcome Collection など）が公開する画像では、この CC ライセンスが使われることが多いです。",
+        "conditionsTitle": "4つの条件（部品）",
+        "conditions": [
+          {
+            "code": "BY",
+            "label": "表示",
+            "desc": "出典（クレジット）を書けば利用OK"
+          },
+          {
+            "code": "NC",
+            "label": "非営利",
+            "desc": "お金を取る商用利用はNG"
+          },
+          {
+            "code": "ND",
+            "label": "改変禁止",
+            "desc": "加工・変えることはNG"
+          },
+          {
+            "code": "SA",
+            "label": "継承",
+            "desc": "改変したら同じ条件で公開"
+          }
+        ],
+        "tableTitle": "ライセンスの組み合わせ",
+        "columns": ["ライセンス", "出典表示", "商用利用", "改変", "ひとことで言うと"],
+        "rows": [
+          {
+            "name": "CC0",
+            "cells": ["不要", "◯", "◯"],
+            "summary": "条件なし・完全に自由"
+          },
+          {
+            "name": "CC BY",
+            "cells": ["必要", "◯", "◯"],
+            "summary": "表示だけ守れば自由"
+          },
+          {
+            "name": "CC BY-SA",
+            "cells": ["必要", "◯", "◯（同じ条件）"],
+            "summary": "シェア前提の自由"
+          },
+          {
+            "name": "CC BY-NC",
+            "cells": ["必要", "✕", "◯"],
+            "summary": "非営利なら自由"
+          },
+          {
+            "name": "CC BY-ND",
+            "cells": ["必要", "◯", "✕"],
+            "summary": "そのままの形のみ"
+          }
+        ],
+        "note": "クレジットは「作品名・作者・所蔵機関・出典 URL・ライセンス名（例: CC BY 4.0）」をセットで記載するのが基本です。ライセンスはバージョンごとに条件が異なるため、実際の利用前に該当ページのライセンス表記をご確認ください。",
+        "official": {
+          "title": "CC 公式ページ",
+          "links": [
+            {
+              "name": "Creative Commons — About CC Licenses（英語）",
+              "url": "https://creativecommons.org/about/cclicenses/"
+            },
+            {
+              "name": "CC0 1.0（全世界）",
+              "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+            },
+            {
+              "name": "CC BY 4.0（日本語訳）",
+              "url": "https://creativecommons.org/licenses/by/4.0/deed.ja"
+            },
+            {
+              "name": "ライセンスの選択（License Chooser）",
+              "url": "https://creativecommons.org/choose/"
+            }
+          ]
+        }
+      },
+      "ai": {
+        "title": "AI画像生成での利用ガイドライン",
+        "body": "Stable Diffusion、ControlNet、Midjourney などで二次創作する際の、区分ごとの目安です。",
+        "points": [
+          "パブリックドメイン・CC0 の画像：AI 学習・生成・公開・商用利用はいずれも可能です。生成元になった作品名・所蔵機関を notes に記載すると、二次創作の文化としても好ましいです。",
+          "CC BY の画像：生成・商用利用は可能ですが、条件のクレジット（出典表示）を生成物に付してください。",
+          "ColBase など機関規約型：利用規約の「商用利用・加工・転載」の条項を必ず確認してください。一部の機関は AI 学習を明示的に禁止しています。規約に従わない利用は、たとえ原作品がパブリックドメインでも認められません。",
+          "画像そのものの再配布：撮影画像やそのままの加工版を、学習データセットとして再配布・販売することは避けてください。各機関のライセンスに違反する可能性があります。",
+          "誤認させない：生成物が実在の所蔵品そのもの（あるいは所蔵機関の作成物）であるかのような表示は行わないでください。",
+          "AI ツールの規約も確認：各ツールの利用規約は頻繁に変更されます（例：Midjourney の商用利用条件、Adobe Firefly のトレーニングデータの扱い）。公開時点の規約を必ずご確認ください。"
+        ]
+      },
+      "sources": {
+        "title": "主な所蔵機関のライセンス",
+        "body": "当サイトで主に画像を参照している機関のライセンス情報です。利用前に必ず各機関の最新の利用規約を確認してください。",
+        "links": [
+          {
+            "name": "ColBase（国立文化財機構所蔵品統合検索システム）",
+            "url": "https://colbase.nich.go.jp/?locale=ja"
+          },
+          {
+            "name": "ColBase — 利用規約",
+            "url": "https://colbase.nich.go.jp/pages/term?locale=ja"
+          },
+          {
+            "name": "The British Museum — Copyright and Permissions",
+            "url": "https://www.britishmuseum.org/terms-use/copyright-and-permissions"
+          },
+          {
+            "name": "Wellcome Collection — Accessing our collections",
+            "url": "https://wellcomecollection.org/collections/accessing-our-collections"
+          },
+          {
+            "name": "The Metropolitan Museum of Art（MET）— Open Access",
+            "url": "https://www.metmuseum.org/about-the-met/policies-and-documents/open-access"
+          },
+          {
+            "name": "Wikimedia Commons",
+            "url": "https://commons.wikimedia.org/"
+          }
+        ]
+      },
+      "contact": {
+        "title": "免責・お問い合わせ",
+        "body": "本ページは一般的な情報提供であり、法的助言ではありません。個別の利用判断は、各所蔵機関の利用規約および必要に応じて専門家にご確認ください。本ページに関するお問い合わせは下記ボタンよりどうぞ。"
       }
     }
   }

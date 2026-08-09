@@ -19,6 +19,28 @@
   margin-top: 0;
 }
 
+.content h4 {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1.75rem 0 0.5rem;
+  scroll-margin-top: 5rem;
+}
+
+.officialLinks {
+  margin-top: 1.25rem;
+}
+
+.officialLinks h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.9375rem;
+  color: var(--clr-text-muted);
+}
+
+.officialLinks ul {
+  margin-bottom: 0;
+}
+
 .content p {
   margin-bottom: 1rem;
 }
@@ -111,6 +133,103 @@
   margin-top: 0.75rem;
   font-size: 0.9375rem;
   color: var(--clr-text-muted);
+}
+
+.licenseList {
+  margin: 0 0 1rem;
+}
+
+.licenseItem {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.25rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+  background: var(--clr-surface);
+  border-radius: var(--borderRadius);
+}
+
+.licenseItem dt {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.licenseItem dd {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--clr-text-muted);
+}
+
+.conditionList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+
+.conditionItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.conditionBadge {
+  flex-shrink: 0;
+  display: inline-block;
+  min-width: 2.5rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  background: var(--clr-accent);
+  color: var(--clr-bg);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+.licenseTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+}
+
+.licenseTable th,
+.licenseTable td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--clr-grey-light);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.licenseTable thead th {
+  background: var(--clr-surface);
+  font-weight: 600;
+}
+
+.licenseTable tbody th {
+  font-weight: 600;
+}
+
+.cellOk {
+  color: var(--clr-accent-green);
+  font-weight: 600;
+}
+
+.cellNg {
+  color: #c0392b;
+  font-weight: 600;
+}
+
+.cellSummary {
+  color: var(--clr-text-muted);
+  text-align: left;
 }
 
 .toc {

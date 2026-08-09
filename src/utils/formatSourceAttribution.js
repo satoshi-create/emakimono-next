@@ -6,6 +6,10 @@ export const SOURCE_PROVIDERS = {
 };
 
 const LICENSE_URLS = {
+  colbase: {
+    ja: "https://colbase.nich.go.jp/pages/term?locale=ja",
+    en: "https://colbase.nich.go.jp/pages/term?locale=en",
+  },
   britishMuseum: {
     ja: "https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja",
     en: "https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en",
@@ -17,6 +21,10 @@ const LICENSE_URLS = {
   "CC BY 4.0": {
     ja: "https://creativecommons.org/licenses/by/4.0/deed.ja",
     en: "https://creativecommons.org/licenses/by/4.0/deed.en",
+  },
+  "CC BY-NC-SA 4.0": {
+    ja: "https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja",
+    en: "https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en",
   },
 };
 
@@ -32,6 +40,41 @@ export function getSourceProvider(sourceImageUrl = "") {
 function getLicenseUrl(provider, locale) {
   const lang = locale === "en" ? "en" : "ja";
   return LICENSE_URLS[provider]?.[lang] ?? null;
+}
+
+/**
+ * ライセンスバッジの情報を返す。明示 license 優先 → プロバイダ既定。
+ * 判定不能（generic）は null。
+ * @param {{ provider: string, license?: string, locale?: string }} params
+ */
+export function getLicenseBadge({ provider, license = "", locale = "ja" }) {
+  const lang = locale === "en" ? "en" : "ja";
+  const explicitUrl = LICENSE_URLS[license]?.[lang];
+  if (explicitUrl) {
+    return { label: license, url: explicitUrl, tone: "cc" };
+  }
+  switch (provider) {
+    case SOURCE_PROVIDERS.colbase:
+      return {
+        labelKey: "colbase",
+        url: LICENSE_URLS.colbase[lang],
+        tone: "terms",
+      };
+    case SOURCE_PROVIDERS.britishMuseum:
+      return {
+        label: "CC BY-NC-SA 4.0",
+        url: LICENSE_URLS.britishMuseum[lang],
+        tone: "cc",
+      };
+    case SOURCE_PROVIDERS.wikimedia:
+      return {
+        label: "CC0 1.0",
+        url: LICENSE_URLS.wikimedia[lang],
+        tone: "cc0",
+      };
+    default:
+      return null;
+  }
 }
 
 /** @param {{ title?: string, titleen?: string, locale?: string }} params */

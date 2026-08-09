@@ -1,5 +1,9 @@
 import styles from "@/styles/SourceAttribution.module.css";
-import { formatSourceAttribution, getSourceDisplayTitle } from "@/utils/formatSourceAttribution";
+import {
+  formatSourceAttribution,
+  getLicenseBadge,
+  getSourceDisplayTitle,
+} from "@/utils/formatSourceAttribution";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
@@ -54,6 +58,7 @@ const SourceAttribution = ({
     modifiedLine,
     sourceLinkUrl,
     licenseLinkUrl,
+    provider,
   } = formatSourceAttribution({
     sourceImageUrl,
     sourceImage,
@@ -66,8 +71,23 @@ const SourceAttribution = ({
     license,
   });
 
+  const badge = getLicenseBadge({ provider, license, locale });
+
   return (
     <div className={`${styles.root} ${className}`.trim()}>
+      {badge && (
+        <p className={styles.badgeLine}>
+          <a
+            href={badge.url || sourceImageUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${styles.badge} ${styles[`tone-${badge.tone}`]}`}
+            title={t(`sourceAttribution.badgeTitles.${badge.tone}`)}
+          >
+            {badge.label ?? t(`sourceAttribution.badgeLabels.${badge.labelKey}`)}
+          </a>
+        </p>
+      )}
       <p className={styles.sourceLine}>
         <AttributionLink
           href={sourceLinkUrl}
@@ -89,6 +109,11 @@ const SourceAttribution = ({
         </p>
       )}
       {modifiedLine && <p className={styles.modifiedLine}>{modifiedLine}</p>}
+      <p className={styles.guideLine}>
+        <Link href="/copyright">
+          <a className={styles.guideLink}>{t("sourceAttribution.seeGuide")}</a>
+        </Link>
+      </p>
     </div>
   );
 };

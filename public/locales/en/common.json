@@ -14,7 +14,16 @@
     "byLicense": "License: {{license}} ({{licenseUrl}})",
     "byModified": "Adaptation: Resized and converted (e.g. to WebP) from the above. Shared under {{license}}.",
     "genericSource": "Source: {{label}} ({{url}})",
-    "genericModified": "Created by modifying images from {{label}} ({{url}})"
+    "genericModified": "Created by modifying images from {{label}} ({{url}})",
+    "badgeLabels": {
+      "colbase": "NICH terms of use"
+    },
+    "badgeTitles": {
+      "cc0": "Free to use for any purpose, no conditions",
+      "cc": "Free to use if you follow the conditions (e.g. attribution)",
+      "terms": "Follow the holding institution's terms of use"
+    },
+    "seeGuide": "How to read copyright & licenses (/copyright)"
   },
 
   "viewer": {
@@ -279,25 +288,6 @@
         "title": "Accuracy of descriptions",
         "body": "Descriptions are for reference only. We do not guarantee academic accuracy or completeness. Consult originals and scholarly sources for important decisions."
       },
-      "copyright": {
-        "title": "Copyright and sources",
-        "body": "Each scroll lists bibliographic and source information. Rights belong to holding institutions and rights holders. Images from ColBase and other sources are resized, converted (e.g. to WebP), and otherwise processed for display. Each scroll page shows source attribution and a processing notice; we do not present processed images as if they were created by the holding institution.",
-        "sources": [
-          {
-            "name": "ColBase (Integrated Collections Database of the National Institutes for Cultural Heritage)",
-            "url": "https://colbase.nich.go.jp/?locale=ja"
-          },
-          {
-            "name": "The British Museum",
-            "url": "https://www.britishmuseum.org/terms-use/copyright-and-permissions"
-          },
-          {
-            "name": "Wikimedia Commons",
-            "url": "https://commons.wikimedia.org/"
-          }
-        ],
-        "note": "For ColBase content we cite the specific collection item URL (terms: https://colbase.nich.go.jp/pages/term?locale=ja). Please respect each source’s conditions of use."
-      },
       "sensitive": {
         "title": "Sensitive content",
         "body": "Some works (e.g. Nine Stages of Decay) depict death and the physical decay of the body (corruption, dissolution, and similar stages). These are viewed in religious and cultural context. Some viewers may find them distressing — please use your discretion."
@@ -305,6 +295,166 @@
       "operator": {
         "title": "Operator",
         "body": "For operational inquiries, please contact us using the button below."
+      }
+    }
+  },
+
+  "copyright": {
+    "pagetitle": "Copyright & Licenses",
+    "metaDesc": "How copyright, public domain, and CC licenses apply to emaki images, plus guidelines for using them with AI image generators such as Stable Diffusion and Midjourney.",
+    "breadcrumb": "Copyright & Licenses",
+    "sectionTitle": "Copyright & Licenses — AI Image Generation Guidelines",
+    "updated": "Last updated: August 9, 2026",
+    "intro": "When using emaki images, many people wonder whether classical works are free to use, or how licenses differ between overseas and Japanese institutions. This page explains how copyright and licenses apply to emaki images and provides practical guidelines for safe reuse. This page is for information purposes only and is not legal advice.",
+    "tocTitle": "Contents",
+    "toc": {
+      "copyright": "Copyright",
+      "cc": "CC licenses",
+      "ai": "Guidelines for AI image generation",
+      "sources": "Licenses of major holding institutions"
+    },
+    "sections": {
+      "copyright": {
+        "title": "Copyright — classical emaki are in the public domain",
+        "body": "Most emaki on this site were created between the Heian and Edo periods, and their creators died centuries ago. In Japan, copyright generally expires 70 years after the author's death, so the original works of these scrolls are in the public domain.",
+        "points": [
+          "However, the important point is that the work itself and the image are different things. The conditions for using a photographed or digitized image are governed by the license set by the institution that holds the original (museum, library, or digital archive).",
+          "In other words, \"the work is public domain, therefore the image is free to use\" is not necessarily true. Please check the license of the institution that is the source of the image.",
+          "This site displays the source and processing information (resolution adjustment, WebP conversion, etc.) on each scroll page. When using an image, follow that source information."
+        ],
+        "official": {
+          "title": "Official pages",
+          "links": [
+            {
+              "name": "Agency for Cultural Affairs (Japan) — Copyright overview (Japanese)",
+              "url": "https://www.bunka.go.jp/seisaku/chosakuken/"
+            }
+          ]
+        }
+      },
+      "cc": {
+        "title": "CC licenses (Creative Commons)",
+        "body": "Creative Commons (CC) licenses are built from combinations of four conditions. First learn the four building blocks, then use the table below to see whether a license fits what you want to do. Images published by overseas digital archives (such as the MET and Wellcome Collection) often use CC licenses.",
+        "conditionsTitle": "The four conditions (building blocks)",
+        "conditions": [
+          {
+            "code": "BY",
+            "label": "Attribution",
+            "desc": "OK to use if you give credit"
+          },
+          {
+            "code": "NC",
+            "label": "NonCommercial",
+            "desc": "Commercial use is not allowed"
+          },
+          {
+            "code": "ND",
+            "label": "NoDerivatives",
+            "desc": "Modifying or remixing is not allowed"
+          },
+          {
+            "code": "SA",
+            "label": "ShareAlike",
+            "desc": "Modified works must be shared under the same license"
+          }
+        ],
+        "tableTitle": "License combinations",
+        "columns": ["License", "Attribution", "Commercial", "Modify", "In short"],
+        "rows": [
+          {
+            "name": "CC0",
+            "cells": ["No", "◯", "◯"],
+            "summary": "No conditions — completely free"
+          },
+          {
+            "name": "CC BY",
+            "cells": ["Yes", "◯", "◯"],
+            "summary": "Free with credit"
+          },
+          {
+            "name": "CC BY-SA",
+            "cells": ["Yes", "◯", "◯ (same license)"],
+            "summary": "Free, share under same license"
+          },
+          {
+            "name": "CC BY-NC",
+            "cells": ["Yes", "✕", "◯"],
+            "summary": "Free for non-commercial use"
+          },
+          {
+            "name": "CC BY-ND",
+            "cells": ["Yes", "◯", "✕"],
+            "summary": "Unmodified copies only"
+          }
+        ],
+        "note": "As a rule, credits should include the work name, author, holding institution, source URL, and license name (e.g. CC BY 4.0). Terms differ by license version, so always check the license notice on the relevant page before use.",
+        "official": {
+          "title": "Creative Commons official pages",
+          "links": [
+            {
+              "name": "Creative Commons — About CC Licenses",
+              "url": "https://creativecommons.org/about/cclicenses/"
+            },
+            {
+              "name": "CC0 1.0 Universal",
+              "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+            },
+            {
+              "name": "CC BY 4.0 (Japanese deed)",
+              "url": "https://creativecommons.org/licenses/by/4.0/deed.ja"
+            },
+            {
+              "name": "License Chooser",
+              "url": "https://creativecommons.org/choose/"
+            }
+          ]
+        }
+      },
+      "ai": {
+        "title": "Guidelines for AI image generation",
+        "body": "Guidelines by category for derivative works with Stable Diffusion, ControlNet, Midjourney, and similar tools.",
+        "points": [
+          "Public domain / CC0 images: AI training, generation, publication, and commercial use are all allowed. Listing the source work and institution in your notes is good practice for derivative-work culture.",
+          "CC BY images: Generation and commercial use are allowed, but the required credit (attribution) must be attached to the output.",
+          "Institution-terms images (e.g. ColBase): Always check the \"commercial use / modification / redistribution\" clauses. Some institutions explicitly prohibit AI training. Using images against the terms is not permitted even if the original work is public domain.",
+          "Do not redistribute the images themselves: Avoid redistributing or selling the photographs or their processed versions as training datasets, as this may violate the institutions' licenses.",
+          "Do not misrepresent: Do not present outputs as if they were the actual collection item (or an institution's creation).",
+          "Check the AI tool's own terms too: Tool terms change frequently (e.g. Midjourney's commercial-use conditions, Adobe Firefly's training-data policies). Always check the terms current at the time of use."
+        ]
+      },
+      "sources": {
+        "title": "Licenses of major holding institutions",
+        "body": "License information for the main institutions whose images this site references. Always check each institution's latest terms before use.",
+        "links": [
+          {
+            "name": "ColBase (Integrated Collections Database of the National Institutes for Cultural Heritage)",
+            "url": "https://colbase.nich.go.jp/?locale=en"
+          },
+          {
+            "name": "ColBase — Terms of Use",
+            "url": "https://colbase.nich.go.jp/pages/term?locale=en"
+          },
+          {
+            "name": "The British Museum — Copyright and Permissions",
+            "url": "https://www.britishmuseum.org/terms-use/copyright-and-permissions"
+          },
+          {
+            "name": "Wellcome Collection — Accessing our collections",
+            "url": "https://wellcomecollection.org/collections/accessing-our-collections"
+          },
+          {
+            "name": "The Metropolitan Museum of Art (MET) — Open Access",
+            "url": "https://www.metmuseum.org/about-the-met/policies-and-documents/open-access"
+          },
+          {
+            "name": "Wikimedia Commons",
+            "url": "https://commons.wikimedia.org/"
+          }
+        ]
+      },
+      "contact": {
+        "title": "Disclaimer & contact",
+        "body": "This page provides general information only and is not legal advice. For specific use, please consult each institution's terms and, if necessary, a professional. For questions about this page, use the button below."
       }
     }
   }
