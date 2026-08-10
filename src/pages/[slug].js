@@ -3,7 +3,6 @@ import EmakiLandscapContent from "@/components/emaki/layout/EmakiLandscapContent
 import EmakiPortraitContent from "@/components/emaki/layout/EmakiPortraitContent";
 import EmakiBreadcrumbs from "@/components/emaki/navigation/EmakiBreadcrumbs";
 import Head from "@/components/meta/Meta";
-import MiddleNavigation from "@/components/navigation/MiddleNavigation";
 import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
 import { default as enData, default as jaData } from "@/data/data";
 import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
@@ -159,12 +158,6 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
         pageImgH={630}
         pageType={data.type}
         jsonLd={jsonLd}
-      />
-      <MiddleNavigation
-        title={data.title}
-        titleen={data.titleen}
-        edition={data.edition}
-        author={data.author}
       />
       {matchMediaContainer(toggleFullscreen, orientation)}
     </>

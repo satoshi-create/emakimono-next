@@ -18,19 +18,24 @@ import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/SceneCommentaryBar.module.css";
 import SceneLikeButton from "@/components/emaki/viewer/SceneLikeButton";
 import ShareButtons from "@/components/emaki/viewer/ShareButtons";
+import EmakiEraTimeline from "@/components/chronology/EmakiEraTimeline";
 import {
   ChaptersGendaibun,
   ChaptersTitle,
   eraColor,
   getChapterDescRaw,
+  useLocaleData,
 } from "@/utils/func";
+import { getLiveSlugs } from "@/utils/getLiveSlugs";
 import {
   faBookOpen,
   faList,
+  faTimeline,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import {
   useContext,
   useEffect,
@@ -46,8 +51,10 @@ const SceneCommentaryBar = ({ data, navIndex, isFullscreen = false }) => {
   const { locale } = useRouter();
   const { t } = useTranslation("common");
 
-  const { title, titleen, era } = data;
+  const { title, titleen, era, eraen } = data;
   const emakis = data.emakis || [];
+  const { t: alldata } = useLocaleData();
+  const liveSlugs = getLiveSlugs(alldata);
 
   const filterEkotobas = useMemo(
     () => emakis.filter((item) => item.cat === "ekotoba"),
@@ -306,6 +313,38 @@ const SceneCommentaryBar = ({ data, navIndex, isFullscreen = false }) => {
               >
                 <FontAwesomeIcon icon={faList} />
               </button>
+            )}
+            {/* 時代の年表: 解説バーからモーダル表示（メタ欄の年表から移設） */}
+            {eraen && (
+              <EmakiEraTimeline
+                eraen={eraen}
+                liveSlugs={liveSlugs}
+                t={t}
+                trigger={(open) =>
+                  open ? (
+                    <button
+                      type="button"
+                      className={styles.timelineBtn}
+                      onClick={open}
+                      aria-haspopup="dialog"
+                      aria-label={t("timeline.embedTitle")}
+                      title={t("timeline.embedTitle")}
+                    >
+                      <FontAwesomeIcon icon={faTimeline} />
+                    </button>
+                  ) : (
+                    <Link href="/timeline">
+                      <a
+                        className={styles.timelineBtn}
+                        aria-label={t("timeline.embedTitle")}
+                        title={t("timeline.embedTitle")}
+                      >
+                        <FontAwesomeIcon icon={faTimeline} />
+                      </a>
+                    </Link>
+                  )
+                }
+              />
             )}
             <button
               type="button"

@@ -6,9 +6,15 @@ import { Box, Button, Link as ChakraLink } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const CustomTagCloud = ({ tags, emakiPage }) => {
+const CustomTagCloud = ({ tags, emakiPage, compact }) => {
   const { locale } = useRouter();
   const [hoveredTag, setHoveredTag] = useState(null);
+
+  // compact（SP等）ではフォントサイズの範囲を縮小して小さく表示する
+  const minFontSize = compact ? 12 : 20;
+  const maxFontSize = compact ? 28 : 50;
+  const minLargeSize = compact ? 16 : 30;
+  const maxLargeSize = compact ? 40 : 100;
 
   // 日本の伝統色のパレット
   const traditionalColors = [
@@ -90,14 +96,20 @@ const CustomTagCloud = ({ tags, emakiPage }) => {
 
   const customRenderer = (tag) => {
     const isHovered = hoveredTag === tag.name; // ホバー中のタグを確認
-    const fontSize = calculateFontSize(tag.total, minTotal, maxTotal, 30, 100); // サイズ範囲 20~50
+    const fontSize = calculateFontSize(
+      tag.total,
+      minTotal,
+      maxTotal,
+      minLargeSize,
+      maxLargeSize
+    );
     const fontSizeEmakiPage = calculateFontSize(
       tag.total,
       minTotal,
       maxTotal,
-      20,
-      50
-    ); // サイズ範囲 20~50
+      minFontSize,
+      maxFontSize
+    );
 
     return (
       <Link href={`/keyword/${tag.slug}`} key={tag.name}>

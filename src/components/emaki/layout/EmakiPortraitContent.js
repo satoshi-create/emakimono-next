@@ -1,7 +1,4 @@
-import ToContactForm from "@/components/_archive_unused/ToContactForm";
-import EmakiEraTimeline from "@/components/chronology/EmakiEraTimeline";
 import EmakiConteiner from "@/components/emaki/layout/EmakiConteiner";
-import EditionLinks from "@/components/emaki/metadata/EditionLinks";
 import SourceAttribution from "@/components/emaki/metadata/SourceAttribution";
 import LikeButton from "@/components/emaki/metadata/LikeButton";
 import ShareButtons from "@/components/emaki/viewer/ShareButtons";
@@ -22,7 +19,6 @@ import {
   keywordItem,
   useLocaleData,
 } from "@/utils/func";
-import { getLiveSlugs } from "@/utils/getLiveSlugs";
 import { faEye, faTrophy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import parse from "html-react-parser";
@@ -69,7 +65,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
 
   const removeNestedArrayObj = ExtractingListData();
   const allKeywords = keywordItem(removeNestedArrayObj);
-  const liveSlugs = getLiveSlugs(alldata);
 
   const descTemp = `「${title} ${edition ? edition : ""}」${
     author ? `（${author}）` : ""
@@ -188,84 +183,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
             <div className={styles.desc}>
               {locale === "en" ? parse(descEn) : parse(descJa)}
             </div>
-            {/* ハブリンクは metadataB のバナーで提示するため、ここには置かない */}
-            {/* 他の巻を見る（ChojuGiga はハブブロック側で同一の巻一覧を出すためスキップ） */}
-            {!isChojuGiga && editionLinks.length > 0 && (
-              <>
-                <h4
-                  className={styles.metaBtitle}
-                  style={{
-                    "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                  }}
-                >
-                  {locale == "en" ? "View Other Scrolls" : "他の巻を見る"}
-                </h4>
-                <EditionLinks
-                  title={title}
-                  edition={edition}
-                  editionLinks={editionLinks}
-                />
-              </>
-            )}
-            {isKusouzu && (
-              <>
-                <KusouzuHubLink variant="banner" />
-                <KusouzuModelLink personname={personname} />
-                {LinksToKusouzu.length > 0 && (
-                  <>
-                    <h4
-                      className={styles.metaBtitle}
-                      style={{
-                        "--border-color": eraColor(era) || "black",
-                      }}
-                    >
-                      {t("kusouzuHub.otherScrollsTitle")}
-                    </h4>
-                    <EditionLinks
-                      title={title}
-                      edition={edition}
-                      editionLinks={LinksToKusouzu}
-                    />
-                  </>
-                )}
-              </>
-            )}
-            {isChojuGiga && (
-              <>
-                <ChojuGigaHubLink variant="banner" />
-                {LinksToChojuGiga.length > 0 && (
-                  <>
-                    <h4
-                      className={styles.metaBtitle}
-                      style={{
-                        "--border-color": eraColor(era) || "black",
-                      }}
-                    >
-                      {locale === "ja" ? "他の巻を見る" : "Other Scrolls"}
-                    </h4>
-                    <EditionLinks
-                      title={title}
-                      edition={edition}
-                      editionLinks={LinksToChojuGiga}
-                    />
-                  </>
-                )}
-              </>
-            )}
-            <span
-              className={styles.borderline}
-              style={{ margin: "1rem 0 0.5rem 0" }}
-            ></span>
-            {/*タグクラウド */}
-            {keyword && (
-              <div className={styles.tagCloud}>
-                <CustomTagCloud
-                  tags={filterdKeywords(keyword, allKeywords)}
-                  emakiPage={true}
-                />
-              </div>
-            )}
-            {/*カテゴリー・時代タグ */}
+            {/*カテゴリー・時代タグ（紹介文の直後に置く）*/}
             <div className={styles.cat}>
               <Link href={`/era/${eraen}`}>
                 <a
@@ -282,16 +200,37 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
                 <a>{locale === "en" ? typeen : type}</a>
               </Link>
             </div>
-            {/*時代の年表（モーダル）*/}
-            {eraen && (
-              <EmakiEraTimeline
-                eraen={eraen}
-                liveSlugs={liveSlugs}
-                t={t}
-              />
+            <span
+              className={styles.borderline}
+              style={{ margin: "1rem 0 0.5rem 0" }}
+            ></span>
+            {/* ハブリンクは metadataB のバナーで提示するため、ここには置かない */}
+            {isKusouzu && (
+              <>
+                <KusouzuHubLink variant="banner" />
+                <KusouzuModelLink personname={personname} />
+              </>
             )}
-            {/*メタ情報*/}
-            <div className={styles.authority}>
+            {isChojuGiga && (
+              <>
+                <ChojuGigaHubLink variant="banner" />
+              </>
+            )}
+            {/*タグクラウド（SPでは compact で小さく表示）*/}
+            {keyword && (
+              <div className={styles.tagCloud}>
+                <CustomTagCloud
+                  tags={filterdKeywords(keyword, allKeywords)}
+                  emakiPage={true}
+                  compact
+                />
+              </div>
+            )}
+            {/*メタ情報（出典・参考文献は折りたたみ表示）*/}
+            <details className={styles.authority}>
+              <summary className={styles.authoritySummary}>
+                {locale === "en" ? "Source & References" : "出典・参考文献"}
+              </summary>
               <SourceAttribution
                 sourceImageUrl={sourceImageUrl}
                 sourceImage={sourceImage}
@@ -301,31 +240,35 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
                 sourceCollection={sourceCollection}
                 license={sourceLicense}
                 linkClassName={styles.sourceLink}
+                showGuide={false}
               />
               {reference?.length > 0 && (
-              <ul>
-                {locale == "en" ? "【reference】" : "【参考文献】"}
-                {reference.map((item, i) => {
-                  return (
-                    <li key={i}>
-                      <Link href={item.url ? item.url : "/"}>
-                        <a
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={styles.sourceLink}
-                        >
-                          {`　　${item.title}`}
-                        </a>
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
+                <>
+                  <p className={styles.refLabel}>
+                    {locale === "en" ? "References" : "参考文献"}
+                  </p>
+                  <ul>
+                    {reference.map((item, i) => {
+                      return (
+                        <li key={i}>
+                          <Link href={item.url ? item.url : "/"}>
+                            <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={styles.sourceLink}
+                            >
+                              {item.title}
+                            </a>
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </>
               )}
-            </div>
+            </details>
           </div>
 
-          <ToContactForm />
           {/* {(typeen === "seiyoukaiga" || keyword) && <CardC data={data} />} */}
           <RecommendEmaki data={data} />
         </div>

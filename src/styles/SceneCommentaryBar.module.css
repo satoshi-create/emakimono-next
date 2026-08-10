@@ -163,6 +163,32 @@
   transform: scale(1.1);
 }
 
+/* 時代の年表ボタン: 操作列内の段一覧トグルと同サイズのアイコン */
+.timelineBtn {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--clr-text-muted, #666);
+  font-size: 0.95rem;
+  transition: color 0.2s ease, transform 0.2s ease;
+  z-index: 1;
+  text-decoration: none;
+}
+/* タッチデバイス: タップターゲットを拡大 */
+@media (pointer: coarse) {
+  .timelineBtn {
+    width: 44px;
+    height: 44px;
+  }
+}
+.timelineBtn:hover {
+  color: var(--clr-accent);
+  transform: scale(1.1);
+}
+
 /* 閉じた状態: バー本体の代わりに小さな「解説を表示」ボタンのみを表示する。
    背景のバー枠（和紙調ストリップ）は出さず、ボタンだけをフローティング表示する */
 .reopenBar {

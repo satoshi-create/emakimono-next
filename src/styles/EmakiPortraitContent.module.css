@@ -191,6 +191,19 @@
   .actionGroup .linkedbutton {
     display: none;
   }
+
+  /* メタ情報の縦幅確保: 余白を圧縮 */
+  .wrapper {
+    margin: 1.25rem 0;
+  }
+
+  .metadataB {
+    padding: 0.75rem;
+  }
+
+  .metadataB .metaBtitle {
+    margin-top: 1rem;
+  }
 }
 
 .metadataB {
@@ -268,6 +281,35 @@
   font-size: 0.7rem;
   font-weight: 100;
   color: var(--clr-grey);
+}
+
+/* 参考文献のラベル */
+.refLabel {
+  margin: 0.5rem 0 0.25rem;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--clr-text-muted);
+}
+
+/* 出典・参考文献: 折りたたみの見出し */
+.authoritySummary {
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.8rem;
+  color: var(--clr-text-muted);
+  list-style: none;
+  margin-bottom: 0.25rem;
+}
+.authoritySummary::-webkit-details-marker {
+  display: none;
+}
+.authoritySummary::after {
+  content: "▾";
+  margin-left: 0.5rem;
+}
+.authority[open] .authoritySummary::after {
+  content: "▴";
 }
 
 .sourceLink {

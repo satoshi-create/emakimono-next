@@ -36,6 +36,7 @@ const SourceAttribution = ({
   linkClassName = "",
   linkStyle,
   className = "",
+  showGuide = true,
 }) => {
   const { locale } = useRouter();
   const { t } = useTranslation("common");
@@ -88,32 +89,48 @@ const SourceAttribution = ({
           </a>
         </p>
       )}
-      <p className={styles.sourceLine}>
-        <AttributionLink
-          href={sourceLinkUrl}
-          linkClassName={linkClassName}
-          linkStyle={linkStyle}
-        >
-          {sourceLine}
-        </AttributionLink>
-      </p>
-      {licenseLine && licenseLinkUrl && (
-        <p className={styles.licenseLine}>
-          <AttributionLink
-            href={licenseLinkUrl}
-            linkClassName={linkClassName}
-            linkStyle={linkStyle}
-          >
-            {licenseLine}
-          </AttributionLink>
+      <dl className={styles.list}>
+        <div className={styles.row}>
+          <dt className={styles.label}>{t("sourceAttribution.labelSource")}</dt>
+          <dd className={styles.value}>
+            <AttributionLink
+              href={sourceLinkUrl}
+              linkClassName={linkClassName}
+              linkStyle={linkStyle}
+            >
+              {sourceLine}
+            </AttributionLink>
+          </dd>
+        </div>
+        {/* ライセンスはバッジ表示時に統合する（重複を避ける） */}
+        {!badge && licenseLine && licenseLinkUrl && (
+          <div className={styles.row}>
+            <dt className={styles.label}>{t("sourceAttribution.labelLicense")}</dt>
+            <dd className={styles.value}>
+              <AttributionLink
+                href={licenseLinkUrl}
+                linkClassName={linkClassName}
+                linkStyle={linkStyle}
+              >
+                {licenseLine}
+              </AttributionLink>
+            </dd>
+          </div>
+        )}
+        {modifiedLine && (
+          <div className={styles.row}>
+            <dt className={styles.label}>{t("sourceAttribution.labelModified")}</dt>
+            <dd className={styles.value}>{modifiedLine}</dd>
+          </div>
+        )}
+      </dl>
+      {showGuide && (
+        <p className={styles.guideLine}>
+          <Link href="/copyright">
+            <a className={styles.guideLink}>{t("sourceAttribution.seeGuide")}</a>
+          </Link>
         </p>
       )}
-      {modifiedLine && <p className={styles.modifiedLine}>{modifiedLine}</p>}
-      <p className={styles.guideLine}>
-        <Link href="/copyright">
-          <a className={styles.guideLink}>{t("sourceAttribution.seeGuide")}</a>
-        </Link>
-      </p>
     </div>
   );
 };

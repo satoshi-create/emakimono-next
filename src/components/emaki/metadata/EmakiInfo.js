@@ -1,23 +1,13 @@
-import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/EmakiInfo.module.css";
-import { faEye, faTrophy } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext, useMemo } from "react";
 
 // 教育現場向けUI: isUIVisible で静止UI耐性に対応
+// 全画面ビューアの最小メタ表示（タイトル + 時代/種別）に絞り込む。
+// 順位/PV・キーワードはページ下部のメタ情報に集約するため表示しない。
 const EmakiInfo = ({ value, isUIVisible = true }) => {
-  const { rankingData } = useContext(AppContext);
-  const { type, title, typeen, era, eraen, keyword, edition, titleen } = value;
+  const { type, title, typeen, era, eraen, edition } = value;
   const { locale } = useRouter();
-
-  // ランキング順位・閲覧数を検索
-  const rankInfo = useMemo(() => {
-    const index = rankingData.findIndex((item) => item.titleen === titleen);
-    if (index < 0) return null;
-    return { rank: index + 1, pageView: rankingData[index].pageView };
-  }, [rankingData, titleen]);
 
   return (
     <div
@@ -39,26 +29,6 @@ const EmakiInfo = ({ value, isUIVisible = true }) => {
       <Link href={`/type/${typeen}`}>
         <a className={styles.tag}>{`${locale === "en" ? typeen : type}`}</a>
       </Link>
-      {rankInfo && (
-        <Link href="/ranking">
-          <a className={styles.rankTag}>
-            <FontAwesomeIcon icon={faTrophy} className={styles.rankIcon} />
-            {locale === "en" ? `#${rankInfo.rank}` : `${rankInfo.rank}位`}
-            <span className={styles.rankDivider}>|</span>
-            <FontAwesomeIcon icon={faEye} className={styles.rankViewIcon} />
-            {Number(rankInfo.pageView).toLocaleString()}
-          </a>
-        </Link>
-      )}
-      {keyword &&
-        keyword.map((item, index) => {
-          const { name, slug, id } = item;
-          return (
-            <Link href={`/keyword/${id}`} key={index}>
-              <a className={styles.tag}>{locale === "en" ? id : name}</a>
-            </Link>
-          );
-        })}
     </div>
   );
 };

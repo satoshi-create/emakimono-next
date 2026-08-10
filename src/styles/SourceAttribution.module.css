@@ -2,6 +2,25 @@
   margin: 0;
 }
 
+/* 定義リスト形式（出典 / ライセンス / 加工） */
+.list {
+  margin: 0;
+}
+.row {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0 0 0.35rem;
+}
+.label {
+  flex-shrink: 0;
+  font-weight: 600;
+  color: var(--clr-text-muted);
+}
+.value {
+  margin: 0;
+  word-break: break-all;
+}
+
 .badgeLine {
   margin: 0 0 0.35rem;
 }
