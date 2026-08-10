@@ -47,6 +47,13 @@ const links = [
     path: "/type/emaki",
     submenu: "",
   },
+  {
+    name: "年表",
+    nameen: "Timeline",
+    id: "timeline",
+    path: "/timeline",
+    submenu: "",
+  },
   // {
   //   name: "お問い合わせ",
   //   nameen: "Contact",

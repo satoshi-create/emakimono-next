@@ -106,15 +106,15 @@ data/data.js                                    ← 複数 category JSON の con
 | ファイル | 役割 |
 |----------|------|
 | `src/utils/getLiveSlugs.js` | 公開中（withdrawn 除外）の titleen 集合。live/準備中判定の共通ヘルパー |
-| `src/components/chronology/EmakiEraTimeline.js` | 1時代分の簡易年表の埋め込み。デスクトップは `<details>/<summary>` アコーディオン、スマホ（`max-width: 767px`）はボタン → モーダル表示。`eraen` に該当データが無ければ年表ページへのリンクのみ表示 |
+| `src/components/chronology/EmakiEraTimeline.js` | 1時代分の簡易年表の埋め込み。デスクトップ・モバイルともボタン → モーダル表示。`eraen` に該当データが無ければ年表ページへのリンクのみ表示 |
 | `src/components/emaki/layout/EmakiLandscapContent.js` | 横表示ビューアのメタ情報（時代/種別タグの直後）に埋め込み |
 | `src/components/emaki/layout/EmakiPortraitContent.js` | 縦表示ビューアのメタ情報に同様に埋め込み |
 | `src/pages/era/[slug].js` | 時代ページの Breadcrumbs 直後に年表セクション（`open` で展開表示） |
 
-- 絵巻ページ: `data.eraen` で該当時代を引き、デスクトップは `details` 初期クローズ（プルダウン）、スマホはモーダル。文言は `common.json` の `timeline.embedTitle` / `timeline.viewFull` / `timeline.close`
-- 時代ページ: `getStaticProps` で `timelineEraName`（簡易版の ja/en 時代名）を渡し、`timeline.embedEraTitle` で見出しを出す。表示形式（アコーディオン/モーダル）は絵巻ページと同じ
+- 絵巻ページ: `data.eraen` で該当時代を引き、ボタン → モーダル表示。文言は `common.json` の `timeline.embedTitle` / `timeline.viewFull` / `timeline.close`
+- 時代ページ: `getStaticProps` で `timelineEraName`（簡易版の ja/en 時代名）を渡し、`timeline.embedEraTitle` で見出しを出す。表示形式（モーダル）は絵巻ページと同じ
 - 年表ページへのリンクは常に `/timeline`（アンカーは `#simple-{eraen}` / `#eraen` を `timeline.js` 側で解決し、表示を切り替える）
-- モーダルは `EmakiEraTimeline.js` 内の `useState` + body スクロールロックで実装（`z-index: 500`）。デスクトップ/モバイルの切替は CSS メディアクエリのみで行う
+- モーダルは `EmakiEraTimeline.js` 内の `useState` + body スクロールロックで実装（`z-index: 500`）。PC は中央、モバイルはボトムシート表示（CSS メディアクエリで切替）
 
 ## Agent がデータを編集するとき
 

@@ -42,7 +42,7 @@ const Emaki = ({ name, nameen, posts, slug, liveSlugs, timelineEraName }) => {
         <Title
           sectiontitle={t("timeline.embedEraTitle", { era: timelineEraName })}
         />
-        <EmakiEraTimeline eraen={slug} liveSlugs={liveSlugs} t={t} open />
+        <EmakiEraTimeline eraen={slug} liveSlugs={liveSlugs} t={t} />
       </section>
       <CardA
         emakis={posts}

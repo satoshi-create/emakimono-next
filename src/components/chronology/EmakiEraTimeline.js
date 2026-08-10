@@ -11,10 +11,10 @@ import { useEffect, useState } from "react";
 
 /**
  * 絵巻ページ/時代ページに埋め込む、1時代分の年表。
- * デスクトップは details/summary のアコーディオン、スマホはモーダルで表示する。
+ * デスクトップ・モバイルともにボタン → モーダルで表示する。
  * eraen に対応する簡易年表が無い時代は、年表ページへのリンクのみ表示する。
  */
-const EmakiEraTimeline = ({ eraen, liveSlugs, t, open = false }) => {
+const EmakiEraTimeline = ({ eraen, liveSlugs, t }) => {
   const { locale } = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -54,32 +54,9 @@ const EmakiEraTimeline = ({ eraen, liveSlugs, t, open = false }) => {
 
   return (
     <>
-      {/* デスクトップ: アコーディオン */}
-      <details className={styles.details} open={open}>
-        <summary className={styles.summary}>
-          <span className={styles.summaryBadge} style={{ background: color }}>
-            {era.era}
-          </span>
-          <span className={styles.summaryTitle}>{t("timeline.embedTitle")}</span>
-          <span className={styles.chevron} aria-hidden>
-            ▾
-          </span>
-        </summary>
-        <div className={styles.body}>
-          <EmakiTimelineSimple rows={[era]} liveSlugs={liveSlugs} t={t} />
-          <Link href="/timeline">
-            <a className={styles.fullLink}>
-              <span>{t("timeline.viewFull")}</span>
-              <span aria-hidden>→</span>
-            </a>
-          </Link>
-        </div>
-      </details>
-
-      {/* モバイル: モーダルを開くボタン */}
       <button
         type="button"
-        className={styles.mobileTrigger}
+        className={styles.trigger}
         onClick={() => setIsModalOpen(true)}
         aria-haspopup="dialog"
         aria-expanded={isModalOpen}
@@ -93,7 +70,6 @@ const EmakiEraTimeline = ({ eraen, liveSlugs, t, open = false }) => {
         </span>
       </button>
 
-      {/* モバイル: モーダル */}
       {isModalOpen && (
         <div className={styles.modalOverlay}>
           <div

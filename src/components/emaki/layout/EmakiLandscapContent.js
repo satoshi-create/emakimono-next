@@ -319,7 +319,7 @@ const EmakiLandscapContent = ({
                   <a>{locale === "en" ? typeen : type}</a>
                 </Link>
               </div>
-              {/*時代の年表（プルダウン）*/}
+              {/*時代の年表（モーダル）*/}
               {eraen && (
                 <EmakiEraTimeline
                   eraen={eraen}
