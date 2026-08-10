@@ -23,6 +23,11 @@ export const legalLinks = [
 
 export const relatedSiteLinks = [
   { name: "About", nameen: "About", path: "/about" },
+  {
+    name: "絵巻物と日本史の年表",
+    nameen: "Emaki Timeline",
+    path: "/timeline",
+  },
   ...legalLinks,
 ];
 
@@ -59,6 +64,11 @@ export const sidebarExtraLinks = [
     name: "絵巻物ランキング",
     nameen: "Emaki Rankings",
     path: "/ranking",
+  },
+  {
+    name: "絵巻物と日本史の年表",
+    nameen: "Emaki Timeline",
+    path: "/timeline",
   },
   ...legalLinks,
 ];

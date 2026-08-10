@@ -1,0 +1,255 @@
+.lead {
+  font-family: var(--font-story);
+  color: var(--clr-text-muted);
+  margin-bottom: 2rem;
+}
+
+.viewToggle {
+  display: inline-flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-grey-light);
+  border-radius: 999px;
+  margin-bottom: 2rem;
+}
+
+.viewToggleButton {
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--clr-text-muted);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.viewToggleButton:hover {
+  color: var(--clr-text);
+}
+
+.viewToggleActive,
+.viewToggleActive:hover {
+  background: var(--clr-accent);
+  color: var(--clr-bg);
+}
+
+.toc {
+  background: var(--clr-surface);
+  border-radius: var(--borderRadius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.toc h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  font-family: var(--font-ui);
+}
+
+.tocList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+}
+
+.tocLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--clr-link);
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+}
+
+.tocLink:hover {
+  opacity: 0.7;
+}
+
+.dot {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.eraSection {
+  margin-bottom: 2.5rem;
+  scroll-margin-top: 6rem;
+}
+
+.eraHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-left: 0.25rem solid;
+  padding-left: 0.75rem;
+  margin: 0 0 1rem;
+  font-family: var(--font-ui);
+  font-size: clamp(1.15rem, 1.05rem + 0.4vw, 1.4rem);
+}
+
+.eraBadge {
+  display: inline-block;
+  padding: 0.125rem 0.75rem;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.7;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  border-radius: var(--borderRadius);
+  border: 1px solid var(--clr-grey-light);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+}
+
+.table th,
+.table td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--clr-grey-light);
+  vertical-align: top;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table thead th {
+  background: var(--clr-surface);
+  font-weight: 600;
+  white-space: nowrap;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background: #faf7f2;
+}
+
+.yearCell {
+  white-space: nowrap;
+}
+
+.year {
+  font-weight: 600;
+}
+
+.artsText {
+  margin: 0;
+}
+
+.emakiList {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--clr-link);
+  color: var(--clr-link);
+  font-size: 0.8rem;
+  background: var(--clr-bg);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a.chip:hover {
+  background: rgba(6, 95, 212, 0.08);
+  opacity: 1;
+}
+
+.chipSoon {
+  border-color: var(--clr-grey-light);
+  color: var(--clr-text-muted);
+  background: var(--clr-surface);
+}
+
+.soon {
+  font-size: 0.6875rem;
+  color: var(--clr-text-muted);
+}
+
+.note {
+  margin-top: 2rem;
+  font-size: 0.8125rem;
+  color: var(--clr-text-muted);
+  font-family: var(--font-ui);
+}
+
+@media (max-width: 767px) {
+  .tableWrap {
+    overflow: visible;
+    border: none;
+  }
+
+  .table,
+  .table tbody,
+  .table tr,
+  .table td {
+    display: block;
+    width: 100%;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table tr {
+    border: 1px solid var(--clr-grey-light);
+    border-radius: var(--borderRadius);
+    margin-bottom: 1rem;
+    padding: 0.5rem 0;
+  }
+
+  .table td {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    border-bottom: 1px dashed var(--clr-grey-light);
+    padding: 0.5rem 1rem;
+    white-space: normal;
+  }
+
+  .table td:last-child {
+    border-bottom: none;
+  }
+
+  .table td::before {
+    content: attr(data-label);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--clr-text-muted);
+    margin-bottom: 0.25rem;
+  }
+
+  .table tbody tr:hover {
+    background: transparent;
+  }
+}

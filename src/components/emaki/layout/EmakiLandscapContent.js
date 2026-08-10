@@ -1,4 +1,5 @@
 import ToContactForm from "@/components/_archive_unused/ToContactForm";
+import EmakiEraTimeline from "@/components/chronology/EmakiEraTimeline";
 import EmakiConteiner from "@/components/emaki/layout/EmakiConteiner";
 import EditionLinks from "@/components/emaki/metadata/EditionLinks";
 import SourceAttribution from "@/components/emaki/metadata/SourceAttribution";
@@ -21,6 +22,7 @@ import {
   keywordItem,
   useLocaleData,
 } from "@/utils/func";
+import { getLiveSlugs } from "@/utils/getLiveSlugs";
 import { faEye, faTrophy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import parse from "html-react-parser";
@@ -43,6 +45,7 @@ const EmakiLandscapContent = ({
 
   const removeNestedArrayObj = ExtractingListData();
   const allKeywords = keywordItem(removeNestedArrayObj);
+  const liveSlugs = getLiveSlugs(alldata);
 
   const {
     type,
@@ -316,6 +319,14 @@ const EmakiLandscapContent = ({
                   <a>{locale === "en" ? typeen : type}</a>
                 </Link>
               </div>
+              {/*時代の年表（プルダウン）*/}
+              {eraen && (
+                <EmakiEraTimeline
+                  eraen={eraen}
+                  liveSlugs={liveSlugs}
+                  t={t}
+                />
+              )}
               {/*メタ情報*/}
               <div className={styles.authority}>
                 <SourceAttribution

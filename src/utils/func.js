@@ -36,21 +36,27 @@ const useLocaleData = () => {
 const eraColor = (x) => {
   switch (x) {
     case "平安":
+    case "Heian":
       return "#ff8c77";
       break;
     case "鎌倉":
+    case "Kamakura":
       return "#54896a";
       break;
     case "室町":
+    case "Muromachi":
       return "purple";
       break;
     case "安土・桃山":
+    case "Azuchi–Momoyama":
       return "gold";
       break;
     case "江戸":
+    case "Edo":
       return "skyblue";
       break;
     case "明治":
+    case "Meiji":
       return "firebrick";
       break;
     default:

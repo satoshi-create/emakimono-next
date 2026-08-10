@@ -208,6 +208,36 @@
     "linkDescEn": "Browse all 4 scrolls of Chōjū-jinbutsu-giga"
   },
 
+  "timeline": {
+    "pagetitle": "Emaki & Japanese History Timeline",
+    "metaDesc": "A chronological table of Japanese historical events and the emaki (picture scrolls) created in each era. See how emaki relate to Japanese history.",
+    "breadcrumb": "Emaki & Japanese History Timeline",
+    "sectionTitle": "Emaki & Japanese History Timeline",
+    "lead": "Emaki were born in the midst of Japanese history. Compare them side by side with regnal years, emperors, and political events to see when and why they were painted.",
+    "eraJump": "Jump by era",
+    "comingSoon": "Coming soon",
+    "nextEra": "Next era ({{era}})",
+    "viewToggle": {
+      "label": "Timeline view",
+      "simple": "Quick view",
+      "full": "Full timeline"
+    },
+    "embedTitle": "Timeline of this era",
+    "embedEraTitle": "Timeline of the {{era}} period",
+    "viewFull": "See the full timeline",
+    "close": "Close",
+    "tableHead": {
+      "year": "Year",
+      "emperor": "Emperor",
+      "eraName": "Era name",
+      "politics": "History",
+      "arts": "Emaki & literature",
+      "regent": "Regent / Chancellor",
+      "culture": "Culture"
+    },
+    "note": "* Dates of origin may vary among scholars. Source: Emaki Timeline and historical reference works. See the Terms for the accuracy disclaimer."
+  },
+
   "personname": {
     "worksTitle": "Featured Scrolls",
     "worksTitleEn": "登場する絵巻",

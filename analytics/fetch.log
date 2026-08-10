@@ -44,3 +44,19 @@ Wrote analytics\reports\2026-08-06\manifest.json
 Wrote analytics\reports\2026-08-06\summary.md
 
 Analytics fetch OK
+
+Config files OK but API check failed.
+=== Analytics config check ===
+
+  OK     project: emakimono-next
+  OK     GA4 property: 325347782
+  OK     GSC site: sc-domain:emakimono.com
+  OK     phase: steady
+  OK     GSC reports: 2
+  OK     GA4 reports: 5
+  ERROR  503 errors resolving analyticsdata.googleapis.com:443: [field:hostname lookup error:Address lookup failed for analyticsdata.googleapis.com:443 os_error: UNAVAILABLE:getaddrinfo: WSA Error (No such host is known.
+ -- 11001)]
+  ERROR  Unable to find the server at oauth2.googleapis.com
+=== Analytics fetch - 2026-08-10 ===
+
+Output: analytics\reports\2026-08-10

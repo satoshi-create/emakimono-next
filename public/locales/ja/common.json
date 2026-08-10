@@ -208,6 +208,36 @@
     "linkDescEn": "Browse all 4 scrolls of Chōjū-jinbutsu-giga"
   },
 
+  "timeline": {
+    "pagetitle": "絵巻物と日本史の年表",
+    "metaDesc": "平安〜室町の歴史のできごとと、そこで生まれた絵巻物を時系列で対比。絵巻物と日本史の関係を一覧で把握できる年表ページ。",
+    "breadcrumb": "絵巻物と日本史の年表",
+    "sectionTitle": "絵巻物と日本史の年表",
+    "lead": "絵巻物は日本史のただなかで生まれました。年号や天皇、政治の動きと並べて、いつ・なぜ描かれたのかを見比べることができます。",
+    "eraJump": "時代からさがす",
+    "comingSoon": "準備中",
+    "nextEra": "次の時代（{{era}}）へ",
+    "viewToggle": {
+      "label": "年表の表示切替",
+      "simple": "さくっと見る",
+      "full": "詳細年表"
+    },
+    "embedTitle": "この時代の年表",
+    "embedEraTitle": "{{era}}時代の年表",
+    "viewFull": "年表ページで詳しく見る",
+    "close": "閉じる",
+    "tableHead": {
+      "year": "西暦",
+      "emperor": "天皇",
+      "eraName": "年号",
+      "politics": "一般史",
+      "arts": "絵巻・文学",
+      "regent": "摂政・関白",
+      "culture": "文化史"
+    },
+    "note": "※ 成立年代は諸説ある場合があります。出典は「絵巻関連年表」および歴史事典類。解説の正確性については利用規約をご参照ください。"
+  },
+
   "personname": {
     "worksTitle": "登場する絵巻",
     "worksTitleEn": "Featured scrolls",
