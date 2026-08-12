@@ -249,9 +249,9 @@ const EmakiContainer = ({
 
     if (closestId !== null && !isNaN(closestId) && closestId !== lastDetectedSceneRef.current) {
       // 計測: シーン遷移・滞在（スクロール検出による）
-      handleSceneChange(data.id, closestId, "scroll_detect");
+      handleSceneChange(emakiId, closestId, "scroll_detect");
       // 計測: セッション鑑賞サマリー用の状態更新
-      updateEngagementState(data.id, closestId, toggleFullscreen);
+      updateEngagementState(emakiId, closestId, toggleFullscreen);
 
       lastDetectedSceneRef.current = closestId;
 
@@ -281,7 +281,7 @@ const EmakiContainer = ({
     }
     // isAutoScrolling: 初回ナッジ中のガード（return）を確実に反映するため依存に含める
     // （含めないとクロージャが古い値 false を捕捉し、ナッジ中も setnavIndex が走る）
-  }, [setnavIndex, isScrollDetectedUpdateRef, data.id, isAutoScrolling]);
+  }, [setnavIndex, isScrollDetectedUpdateRef, data.id, emakiId, isAutoScrolling]);
 
   // 解説バー追従値: navIndex が外部（handleToId / hash / 停止時同期）で変化した場合も
   // liveSceneIndex へ同期する。再生中は detectCurrentScene が liveSceneIndex を上書きし
@@ -323,7 +323,7 @@ const EmakiContainer = ({
         // 一定時間後にナビメニューを非表示にする。
         if (!isAutoScrolling) {
           // 計測: UI非表示
-          trackUIHidden(data.id, idleTimeout);
+          trackUIHidden(emakiId, idleTimeout);
           wasUIHiddenRef.current = true;
           setIsUIVisible(false);
         }
@@ -334,7 +334,7 @@ const EmakiContainer = ({
     const handleUserActivityWithType = (triggerType) => {
       // 計測: UI再表示（非表示状態からの復帰時のみ）
       if (wasUIHiddenRef.current) {
-        trackUIRevealed(data.id, triggerType);
+        trackUIRevealed(emakiId, triggerType);
         wasUIHiddenRef.current = false;
       }
       // UIを即座に表示
@@ -377,7 +377,7 @@ const EmakiContainer = ({
       window.removeEventListener("click", handleClick);
       window.removeEventListener("keydown", handleKeydown);
     };
-  }, [isAutoScrolling, isPlayMode, data.id]); // 依存配列: 自動スクロール・再生モード状態の変化を監視
+  }, [isAutoScrolling, isPlayMode, data.id, emakiId]); // 依存配列: 自動スクロール・再生モード状態の変化を監視
 
   // パフォーマンス: scrollWidth/clientWidth のキャッシュ
   // 自動再生中は値が変化しないため、毎フレームのレイアウト読み取りを回避
@@ -510,7 +510,7 @@ const EmakiContainer = ({
     // 計測: マウスドラッグによるスクロール操作
     const handleMousedown = () => {
       if (!isAutoScrolling) {
-        trackManualScroll(data.id, "drag");
+        trackManualScroll(emakiId, "drag");
       }
     };
     el.addEventListener("mousedown", handleMousedown);
@@ -523,7 +523,7 @@ const EmakiContainer = ({
         clearTimeout(sceneDetectionTimerRef.current);
       }
     };
-  }, [detectCurrentScene, isAutoScrolling, data.id]);
+  }, [detectCurrentScene, isAutoScrolling, data.id, emakiId]);
 
   // 教育現場向けUI: 巻末ナッジ
   // isAtEnd 中は他巻カードを表示、離れると非表示
@@ -610,7 +610,7 @@ const EmakiContainer = ({
     if (hasHashInUrl && isFirstVisit) {
       const hashSceneIndex = parseInt(window.location.hash.replace("#", ""), 10);
       if (!isNaN(hashSceneIndex)) {
-        trackInitialLoadWithHash(data.id, hashSceneIndex);
+        trackInitialLoadWithHash(emakiId, hashSceneIndex);
       }
     }
 
@@ -640,7 +640,7 @@ const EmakiContainer = ({
           const clientWidth = el.clientWidth;
           const maxScrollLeft = scrollWidth - clientWidth;
           const scrollRatio = maxScrollLeft > 0 ? Math.abs(el.scrollLeft) / maxScrollLeft : 0;
-          trackAutoScrollInterrupted(data.id, interruptMethod, scrollRatio);
+          trackAutoScrollInterrupted(emakiId, interruptMethod, scrollRatio);
         }
 
         // 教育現場向けUI: 自動スクロール停止を通知
@@ -716,7 +716,7 @@ const EmakiContainer = ({
           setIsAutoScrolling(true);
 
           // 計測: 初回自動スクロール開始
-          trackAutoScrollStarted(data.id, getDeviceType());
+          trackAutoScrollStarted(emakiId, getDeviceType());
 
           sessionStorage.setItem(keyName, true);
 
@@ -735,7 +735,7 @@ const EmakiContainer = ({
         stopAutoScroll();
       };
     }
-  }, [data.id]);
+  }, [data.id, emakiId]);
 
   // 教育現場向けUI: 再生モード - 停止関数
   // playModeAnimationRef.currentをnullにすることでアニメーションループを終了させる
@@ -871,8 +871,8 @@ const EmakiContainer = ({
     prevDataId = data.id;
 
     // 計測: セッション環境コンテキスト（1セッション1回のみ送信される）
-    trackSessionContext(data.id, backgroundImage?.length || 0);
-  }, [data.id, backgroundImage]);
+    trackSessionContext(emakiId, backgroundImage?.length || 0);
+  }, [data.id, emakiId, backgroundImage]);
 
   useEffect(() => {
     const ref = articleRef.current;
@@ -897,7 +897,7 @@ const EmakiContainer = ({
         }
 
         // 計測: 手動スクロール操作（wheel）
-        trackManualScroll(data.id, "wheel");
+        trackManualScroll(emakiId, "wheel");
 
         // 教育現場向けUI: 再生モード中はホイール操作で停止
         if (playModeAnimationRef.current) {
@@ -953,7 +953,7 @@ const EmakiContainer = ({
         el.removeEventListener("wheel", MouseWheelHandler, false);
       };
     }
-  }, [scroll]);
+  }, [scroll, emakiId]);
 
   // 手のひらモード（PC限定）: マウス押下で表示 + ドラッグで絵巻を移動
   // Pointer Events の pointerType でマウスのみ判定（タッチ端末では無効）
@@ -1173,7 +1173,7 @@ const EmakiContainer = ({
             // 計測: 手動スクロール操作（touch）
             // 自動スクロール中でない場合のみ（自動スクロール中断は別で計測）
             if (!isAutoScrolling) {
-              trackManualScroll(data.id, "touch");
+              trackManualScroll(emakiId, "touch");
             }
           }}
           ref={articleRef}

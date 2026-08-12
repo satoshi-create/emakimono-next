@@ -100,6 +100,24 @@
   color: var(--clr-white);
 }
 
+.representativeLink {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--clr-accent-02);
+  border-radius: 5rem;
+  color: var(--clr-accent-02);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+
+.representativeLink:hover {
+  background: var(--clr-accent-02);
+  color: var(--clr-white);
+}
+
 .linkedbutton {
   align-self: center;
   background: var(--clr-accent-02);
@@ -247,6 +265,15 @@ background-color: var(--border-color, black);
 .desc {
   font-size: medium;
   color: var(--clr-black);
+}
+
+.desc p {
+  margin: 0 0 0.5rem;
+  line-height: 1.8;
+}
+
+.desc p:last-child {
+  margin-bottom: 0;
 }
 
 .genjieslugBox {

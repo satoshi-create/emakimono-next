@@ -92,6 +92,16 @@ const EmakiLandscapContent = ({
         authoren && `（${authoren}）`
       } " in vertical and right to left scrolling mode.`;
 
+  // 紹介文を「。」/「.」で段落分割して複数 <p> で表示（HTML を含む desc は分割しない）
+  const descToParagraphs = (text) => {
+    if (!text || text.includes("<")) return null;
+    return text
+      .split(/(?<=[。.])/)
+      .map((s) => s.trim())
+      .filter(Boolean)
+      .map((p, i) => <p key={i}>{p}</p>);
+  };
+
   const editionLinks = alldata.filter(
     (item) => item.title === title && item.edition !== edition,
   );
@@ -211,7 +221,8 @@ const EmakiLandscapContent = ({
                 {locale == "en" ? "Introduction to Emaki" : "絵巻の紹介"}
               </h4>
               <div className={styles.desc}>
-                {locale === "en" ? parse(descEn) : parse(descJa)}
+                {descToParagraphs(locale === "en" ? descEn : descJa) ??
+                  parse(locale === "en" ? descEn : descJa)}
               </div>
               {/*カテゴリー・時代タグ（紹介文の直後に置く）*/}
               <div className={styles.cat}>
@@ -239,6 +250,13 @@ const EmakiLandscapContent = ({
                 <>
                   <KusouzuHubLink variant="banner" />
                   <KusouzuModelLink personname={personname} />
+                  {titleen !== "kusouzumaki" && (
+                    <Link href="/kusouzumaki">
+                      <a className={styles.representativeLink}>
+                        {t("kusouzuHub.representativeLinkLabel")}
+                      </a>
+                    </Link>
+                  )}
                 </>
               )}
               {isChojuGiga && (

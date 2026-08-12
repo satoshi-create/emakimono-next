@@ -1379,8 +1379,8 @@
     "video": "",
     "thumb": "/thumb/kusouzumaki_thumb.webp",
     "thumb2": "/thumb/kusouzumaki_thumb.webp",
-    "desc": "九相図巻の一覧を、縦書き・横スクロールでご覧になることができます。美しい女の人が、死後朽ち果てるまでの変容を９つの相に分け、肉体の美醜が生々しく描かれています。煩悩を退けるための仏教の修行に使われたと言われています。",
-    "descen": "A list of the nine phases of the scroll can be viewed by scrolling horizontally. The transformation of a beautiful woman from death to decay is divided into nine phases, vividly depicting the beauty and ugliness of her physical body. It is said to have been used in Buddhist practices to dismiss vexations",
+    "desc": "九相図巻は、美しい女性が死後朽ち果てるまでを9つの段階で描いた仏教絵巻。鎌倉時代に制作され、肉体の美醜を生々しく表現し、修行者の無常観を促す目的を持ちました。本作は檀林皇后をモデルとした九相図の代表作で、全シーンを横スクロールでご覧いただけます。",
+    "descen": "Kusōzu-maki depicts the nine stages of decay of a beautiful woman after death in vivid Buddhist art from the Kamakura period. Created for meditative practice on impermanence, it portrays both beauty and ugliness of the human body. Based on Empress Danrin, this is one of the most celebrated kusōzu scrolls. Scroll horizontally through every scene.",
     "era": "鎌倉",
     "eraen": "kamakura",
     "gif": "",
@@ -1665,7 +1665,7 @@
     "video": "",
     "thumb": "/thumb/kusouzu_eitaku_thumb.webp",
     "thumb2": "/thumb/kusouzu_eitaku_thumb.webp",
-    "desc": "九相図の一覧を、横スクロールで楽しむことができます。明治時代の浮世絵師、小林永濯の作品です。多くの九相図は小野小町や檀林皇后がモデルとなっていますが、こちらは近世～近代の作品らしく、娼婦がモデルになっています。",
+    "desc": "明治の浮世絵師・小林永濯が描いた異色の九相図。他の作品と異なり、モデルは伝説上の美女ではなく近世の娼婦。生々しいリアリティとともに、肉体の衰えを9つの段階で描き出します。横スクロールで全相を鑑賞できます。",
     "era": "明治",
     "eraen": "meiji",
     "gif": "",
@@ -1906,7 +1906,8 @@
         "srcHeight": 1080,
         "test": "hoge"
       }
-    ]
+    ],
+    "descen": "A unique kusōzu (nine stages of decay) by Meiji-era ukiyo-e artist Kobayashi Eitaku. Unlike traditional kusōzu featuring legendary beauties, this scroll models a modern-era courtesan, offering a raw and realistic portrayal of bodily decay. Scroll horizontally through all nine stages."
   },
   {
     "id": 10,
@@ -1918,7 +1919,7 @@
     "video": "",
     "thumb": "/thumb/kusoushiemaki_thumb.webp",
     "thumb2": "/thumb/kusoushiemaki_thumb.webp",
-    "desc": "九相詩絵巻の一覧を、縦書き、横スクロールで楽しむことができます。九相図巻から時代が下った作品で、詞書や画中詞（和歌）、風景が添えられており、自然のうつろい、はかなさが重ねられています。",
+    "desc": "九相詩絵巻は、室町時代に描かれた九相図の一種。九相図巻の影響を受けつつ、詞書や画中詞（和歌）、風景描写を加え、自然のうつろいを通して無常観を表現。文学的要素の強い異色の九相図です。全シーンを縦書き・横スクロールで。",
     "era": "室町",
     "eraen": "muromachi",
     "gif": "",
@@ -2165,7 +2166,8 @@
         "srcHeight": 1080,
         "test": "hoge"
       }
-    ]
+    ],
+    "descen": "Kusōshi Emaki is a Muromachi-period variation of the nine stages of decay theme. Influenced by earlier kusōzu scrolls, it adds kotobagaki (inscriptions), waka poetry, and landscape elements, weaving impermanence with nature's beauty. A literary take on kusōzu — scroll through every scene."
   },
   {
     "id": 48,
@@ -2177,7 +2179,7 @@
     "video": "",
     "thumb": "/thumb/nine-stages-of-decay-empress-danrin_honolulu_thumb.webp",
     "thumb2": "/nine-stages-of-decay-empress-danrin_honolulu_01-375.webp",
-    "desc": "檀林皇后九相観の一覧を、横スクロールで楽しむことができます。ハワイのホノルル美術館所蔵の九相図です。リチャード・レイン氏のコレクションとして、日本からハワイに渡ったようです。",
+    "desc": "檀林皇后（だんりんこうごう）の九相観を描いた18世紀・江戸時代の仏教絵巻。ホノルル美術館所蔵で、日本からハワイに渡った貴重な作品。皇后の肉体が朽ちていく9つの段階を、繊細な筆致で描き出します。横スクロールで全相鑑賞。",
     "era": "江戸",
     "eraen": "edo",
     "gif": "",
@@ -2366,7 +2368,8 @@
       }
     ],
     "sourceAuthor": "Hiart",
-    "sourceCollection": "Honolulu Museum of Art (accession 2007.3)"
+    "sourceCollection": "Honolulu Museum of Art (accession 2007.3)",
+    "descen": "The Nine Stages of Decay of Empress Danrin — an Edo-period Buddhist handscroll held by the Honolulu Museum of Art. This rare kusōzu portrays the empress's body through nine stages of decomposition with delicate brushwork. Scroll horizontally to explore every stage."
   },
   {
     "id": 99,

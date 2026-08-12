@@ -4,7 +4,6 @@ import EmakiPortraitContent from "@/components/emaki/layout/EmakiPortraitContent
 import EmakiBreadcrumbs from "@/components/emaki/navigation/EmakiBreadcrumbs";
 import Head from "@/components/meta/Meta";
 import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
-import { default as enData, default as jaData } from "@/data/data";
 import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
 import { OGP_IMAGE_FALLBACKS } from "@/libs/constants/emakiOgImages";
 import { AppContext } from "@/context/AppContext";
@@ -55,10 +54,17 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
     return null;
   }
 
+  // 九相図巻（kusouzumaki）は概念語・情報系クエリ（九相図とは・一覧・順番）を
+  // title タグに含め、SERP クリック率の向上を図る。H1（data.title）は変えない。
+  const seoTitleSuffix =
+    isKusouzuScroll(data) && data.titleen === "kusouzumaki"
+      ? "｜九相図とは・一覧・順番"
+      : "";
+
   const pagetitle =
     locale === "en"
       ? data.titleen
-      : `${data.title ?? ""}${data.edition ? ` ${data.edition}` : ""}`.trim();
+      : `${data.title ?? ""}${data.edition ? ` ${data.edition}` : ""}${seoTitleSuffix}`.trim();
 
   const pageAuthor = locale === "en" ? data.authoren : data.author;
 
@@ -196,7 +202,7 @@ export const getStaticProps = async (context) => {
 
   const { slug } = context.params;
   const { locale, locales } = context;
-  const tEmakisData = locale === "en" ? enData : jaData;
+  const tEmakisData = emakisData;
   const filterdEmakisData = metadataCache.filter(
     (item, index) => item.titleen === slug
   );
@@ -243,7 +249,13 @@ export const getStaticProps = async (context) => {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
-      data: metaFromList ? { ...metaFromList, ...addObjEmakis } : addObjEmakis,
+      data: metaFromList
+        ? {
+            ...addObjEmakis,
+            ...metaFromList,
+            emakis: addObjEmakis.emakis,
+          }
+        : addObjEmakis,
       locales,
       locale,
       slug: slug,

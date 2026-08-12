@@ -1,8 +1,7 @@
 import HubPageShell from "@/components/layout/HubPageShell";
 import PersonProfile from "@/components/personname/PersonProfile";
 import CardA from "@/components/ui/CardA";
-import emakisData from "@/data/data";
-import { default as cacheData } from "@/data/image-metadata-cache/image-metadata-cache.json";
+import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
 import {
   findPersonProfile,
   personProfileItem,
@@ -84,7 +83,7 @@ export const getStaticProps = async (context) => {
     .filter((x) => x.personname?.some((y) => y.slug === personnameslug))
     .map((x) => x.titleen);
 
-  const posts = cacheData
+  const posts = emakisData
     .filter((x) => relatedTitleens.includes(x.titleen))
     .map((item) => removeNestedEmakisObj(item));
 

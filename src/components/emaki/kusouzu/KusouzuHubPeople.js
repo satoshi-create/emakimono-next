@@ -1,7 +1,7 @@
 import Title from "@/components/ui/Title";
 import hubStyles from "@/styles/KusouzuHub.module.css";
 import { personProfileItem } from "@/utils/func";
-import emakisData from "@/data/data";
+import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
