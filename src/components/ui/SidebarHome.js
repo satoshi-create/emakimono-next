@@ -1,7 +1,10 @@
 import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
 import SearchBoxButton from "@/components/search/SearchBoxButton";
 import SocialLinks from "@/components/social/SocialLinks";
-import links, { NOTION_CONTACT_URL, sidebarExtraLinks } from "@/libs/constants/links";
+import links, {
+  getContactUrl,
+  sidebarExtraLinks,
+} from "@/libs/constants/links";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/SidebarHome.module.css";
 import Link from "next/link";
@@ -51,7 +54,7 @@ const SidebarHome = () => {
           <LanguageSwitcher />
           <SearchBoxButton />
           <a
-            href={NOTION_CONTACT_URL}
+            href={getContactUrl(locale)}
             target="_blank"
             rel="noopener noreferrer"
             title={t("header.feedback")}

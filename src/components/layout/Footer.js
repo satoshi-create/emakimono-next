@@ -1,5 +1,8 @@
 import SocialLinks from "@/components/social/SocialLinks";
-import links, { legalLinks, NOTION_CONTACT_URL } from "@/libs/constants/links";
+import links, {
+  getContactUrl,
+  legalLinks,
+} from "@/libs/constants/links";
 import styles from "@/styles/Footer.module.css";
 import {
   Box,
@@ -38,7 +41,7 @@ const Footer = () => {
       })}
 
       <ChakraLink
-        href={NOTION_CONTACT_URL}
+        href={getContactUrl(locale)}
         isExternal
         fontWeight="medium"
         _hover={{

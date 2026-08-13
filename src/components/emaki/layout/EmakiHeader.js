@@ -2,19 +2,21 @@ import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
 import SearchBoxButton from "@/components/search/SearchBoxButton";
 import SocialLinks from "@/components/social/SocialLinks";
 import SidebarHome from "@/components/ui/SidebarHome";
-import { NOTION_CONTACT_URL } from "@/libs/constants/links";
+import { getContactUrl } from "@/libs/constants/links";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/EmakiPageHeader.module.css";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
 import { Mail } from "react-feather";
 import { useTranslation } from "next-i18next";
 
 const EmakiHeader = () => {
   const { t } = useTranslation("common");
+  const { locale } = useRouter();
 
   const { openSidebar, setStickyClass } = useContext(AppContext);
 
@@ -51,7 +53,7 @@ const EmakiHeader = () => {
           <SearchBoxButton />
         </div>
         <a
-          href={NOTION_CONTACT_URL}
+          href={getContactUrl(locale)}
           target="_blank"
           rel="noopener noreferrer"
           title={t("header.feedback")}

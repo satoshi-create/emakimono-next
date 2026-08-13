@@ -2,7 +2,7 @@
 
 絵巻メタデータ（JSON / YAML パイプライン）とは **別系統**。いいね・スクロール体験フィードバックのみ Turso に保存します。
 
-一般お問い合わせは Notion（`NOTION_CONTACT_URL`）を使用します。
+一般お問い合わせは Notion フォームを使用します（`NOTION_CONTACT_URL` = 日本語版 / `NOTION_CONTACT_URL_EN` = 英語版。`getContactUrl(locale)` で切替）。
 
 ## 環境変数
 

@@ -1,9 +1,9 @@
-import { NOTION_CONTACT_URL } from "@/libs/constants/links";
+import { getContactUrl } from "@/libs/constants/links";
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ locale }) {
   return {
     redirect: {
-      destination: NOTION_CONTACT_URL,
+      destination: getContactUrl(locale),
       permanent: false,
     },
   };

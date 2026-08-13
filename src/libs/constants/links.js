@@ -1,6 +1,14 @@
 export const NOTION_CONTACT_URL =
   "https://sour-brain-48f.notion.site/2f3994f0dfcd80409097f4cb44d2a80a?pvs=105";
 
+/** English contact form (Notion). */
+export const NOTION_CONTACT_URL_EN =
+  "https://sour-brain-48f.notion.site/cd0994f0dfcd83bca239819bbac61635?pvs=105";
+
+/** Select the contact form URL by locale (ja / en). */
+export const getContactUrl = (locale) =>
+  locale === "en" ? NOTION_CONTACT_URL_EN : NOTION_CONTACT_URL;
+
 export const GITHUB_REPO_URL =
   "https://github.com/satoshi-create/emakimono-next";
 
