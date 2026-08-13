@@ -1,12 +1,13 @@
 import styles from "@/styles/EmakiInfo.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { eraNameEn } from "@/utils/func";
 
 // 教育現場向けUI: isUIVisible で静止UI耐性に対応
 // 全画面ビューアの最小メタ表示（タイトル + 時代/種別）に絞り込む。
 // 順位/PV・キーワードはページ下部のメタ情報に集約するため表示しない。
 const EmakiInfo = ({ value, isUIVisible = true }) => {
-  const { type, title, typeen, era, eraen, edition } = value;
+  const { type, title, titleen, typeen, era, eraen, edition } = value;
   const { locale } = useRouter();
 
   return (
@@ -19,11 +20,13 @@ const EmakiInfo = ({ value, isUIVisible = true }) => {
       }}
     >
       <h1 className={styles.title}>
-        {title} {edition && edition}
+        {locale === "en"
+          ? titleen
+          : `${title}${edition ? ` ${edition}` : ""}`}
       </h1>
       <Link href={`/era/${eraen}`}>
         <a className={styles.tag}>{`${
-          locale === "en" ? eraen : `${era}時代`
+          locale === "en" ? eraNameEn(eraen) : `${era}時代`
         }`}</a>
       </Link>
       <Link href={`/type/${typeen}`}>

@@ -155,6 +155,31 @@ button {
   }
 }
 
+/* トップページ ヒーロー（H1 + 紹介文） */
+.hero {
+  text-align: center;
+}
+
+.heroTitle {
+  margin: 0 0 1rem;
+  font-family: var(--font-story);
+  font-size: clamp(1.8rem, 1.3955rem + 1.7257vw, 2.5rem);
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--clr-text);
+  word-break: auto-phrase;
+}
+
+.heroDesc {
+  margin: 0 auto 1rem;
+  font-family: var(--font-ui);
+  font-size: clamp(1rem, 0.8844rem + 0.4931vw, 1.2rem);
+  line-height: 1.8;
+  width: clamp(20rem, 2.6656rem + 73.9599vw, 50rem);
+  text-align: justify;
+  color: var(--clr-text-muted);
+}
+
 .fade-in {
   opacity: 0.3;
   transition: 1s;

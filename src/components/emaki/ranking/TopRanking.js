@@ -1,7 +1,7 @@
 import Title from "@/components/ui/Title";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/TopRanking.module.css";
-import { eraColor } from "@/utils/func";
+import { eraColor, eraNameEn } from "@/utils/func";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
@@ -50,7 +50,7 @@ const TopRanking = () => {
                         }}
                       >
                         {locale === "en"
-                          ? `${item.eraen} period`
+                          ? `${eraNameEn(item.eraen)} period`
                           : `${item.era}時代`}
                       </span>
                     </div>

@@ -64,6 +64,21 @@ const eraColor = (x) => {
   }
 };
 
+// eraen（内部コード: heiann / kamakura / muromachi / aduchimomoyama / edo / meiji）を
+// 英語表示名へ変換する。データの eraen は URL スラグ用途の小文字コードのため、
+// 表示にはこのマッピングを使う。
+const eraNameEn = (eraen) => {
+  const map = {
+    heiann: "Heian",
+    kamakura: "Kamakura",
+    muromachi: "Muromachi",
+    aduchimomoyama: "Azuchi–Momoyama",
+    edo: "Edo",
+    meiji: "Meiji",
+  };
+  return map[eraen] || eraen;
+};
+
 /* ================
 
 ダイナミックルーティングに使うパスを含んだ配列の作成
@@ -403,6 +418,7 @@ export {
   convertAuthor,
   eraColor,
   eraItem,
+  eraNameEn,
   filterdKeywords,
   findPersonProfile,
   genjieSlugItem,

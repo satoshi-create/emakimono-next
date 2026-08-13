@@ -15,10 +15,12 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 const Footer = () => {
   const year = new Date().getFullYear();
   const { locale } = useRouter();
+  const { t } = useTranslation("common");
 
   const navLinks = (
     <Stack direction="row" spacing={6} align="center" flexWrap="wrap">
@@ -100,11 +102,7 @@ const Footer = () => {
                   width={25}
                   height={25}
                 />
-                <Text ml={2}>
-                  {locale === "en"
-                    ? "EMAKIMONO!!"
-                    : "横スクロールで楽しむ絵巻物"}
-                </Text>
+                <Text ml={2}>{t("header.siteTitle")}</Text>
               </a>
             </Link>
           </Box>

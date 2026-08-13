@@ -23,6 +23,12 @@ const Home = () => {
     <main>
       <Head />
       <Header fixed={false} />
+      <section className="section-grid section-padding">
+        <div className="hero">
+          <h1 className="heroTitle">{t.top.title}</h1>
+          <p className="heroDesc">{t.top.desc}</p>
+        </div>
+      </section>
       <CardA
         emakis={cyouzyuuEmakis}
         columns={t.cyouzyuu.columns}

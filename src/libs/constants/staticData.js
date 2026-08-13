@@ -1,15 +1,20 @@
 const ja = {
+  top: {
+    title: "絵巻物を横スクロールで鑑賞",
+    titleen: "View Emaki with Horizontal Scrolling",
+    desc: "絵巻物（えまきもの）は、本来「読むもの」ではなく「繰り展げて追うもの」。平安〜鎌倉時代に描かれた鳥獣人物戯画や九相図などの名作絵巻を、横スクロールで全シーンにわたって鑑賞できます。",
+  },
   cyouzyuu: {
-    title: "鳥獣人物戯画絵巻全巻イッキ見！！",
-    titleen: "See all cyoujyu-jinbutsu-giga（Frog and rabbit）",
-    desc: "「鳥獣人物戯画絵巻」の甲巻から丁巻までを、横スクロールで一度に楽しむことができます。この絵巻は、平安時代から鎌倉時代にかけて描かれ、動物や人間が遊戯に興じる様子が、洒脱な筆致で表現されています。誰が描いたのかは不明な部分が多く、謎に包まれた絵巻です。全巻一気に観賞し、絵巻の謎に挑戦してみましょう。",
+    title: "鳥獣人物戯画とは — 日本最古のマンガを全4巻横スクロール",
+    titleen: "What is Chōjū-jinbutsu-giga? Japan's Oldest Manga",
+    desc: "鳥獣人物戯画（ちょうじゅうじんぶつぎが）は、平安〜鎌倉時代に描かれた戯画絵巻。兎や猿、蛙などが人間のように振る舞う滑稽な描写で知られ、「日本最古のマンガ」とも称されます。誰が描いたのかは不明な部分が多く、謎に包まれています。甲巻から丁巻までの全4巻を、横スクロールで一気に観賞してみましょう。",
     name: "cyouzyuu",
     columns: "four",
   },
   kusouzu: {
-    title: "九相図観想",
-    titleen: "contemplation of Nine stages of decay",
-    desc: "「九相図」の全図を描いた絵巻物を、横スクロールでご覧いただけます。美しい女性が死後、朽ち果てるまでの変容を9つの段階に分け、肉体の美しさと醜さが生々しく描かれています。全九相を一度に鑑賞し、仏教の修行者になった気分で浄土を観想してみましょう！",
+    title: "九相図とは — 全九相を横スクロールで観想",
+    titleen: "What is Kusōzu? Contemplate All Nine Stages",
+    desc: "九相図は、美しい女性が死後朽ち果てるまでを9つの段階で描いた仏教絵巻。鎌倉時代に制作され、肉体の美醜を生々しく表現し、修行者の無常観を促す目的を持ちました。本作は檀林皇后をモデルとした九相図の代表作で、全シーンを横スクロールでご覧いただけます。",
     name: "kusouzu",
     columns: "four",
   },
@@ -88,17 +93,22 @@ const ja = {
 };
 
 const en = {
+  top: {
+    title: "View Emaki with Horizontal Scrolling",
+    titleen: "絵巻物を横スクロールで鑑賞",
+    desc: "Emaki (picture scrolls) are meant to be slowly unrolled and followed — not read like a book. Enjoy masterpieces such as Chōjū-jinbutsu-giga and Kusōzu from the Heian–Kamakura periods, scene by scene, with horizontal scrolling.",
+  },
   kusouzu: {
-    title: "contemplation of Nine stages of decay",
-    titleen: "九相図観想",
-    desc: "All scenes of the nine phases of the scroll can be enjoyed by scrolling horizontally. The transformation of a beautiful woman from death to decay is divided into nine phases, vividly depicting the beauty and ugliness of the body. View all nine phases together and contemplate the Pure Land as if you were a Buddhist practitioner!",
+    title: "What is Kusōzu? — Nine Stages of Decay",
+    titleen: "九相図とは — 全九相を横スクロールで観想",
+    desc: "Kusōzu (Nine Stages of Decay) is a Buddhist picture scroll depicting a beautiful woman's body decaying through nine stages after death, created in the Kamakura period. It vividly portrays the beauty and ugliness of the human body to inspire meditation on impermanence. Based on Empress Danrin, it is one of the most celebrated kusōzu scrolls. Scroll horizontally through every scene.",
     name: "kusouzu",
     columns: "four",
   },
   cyouzyuu: {
-    title: "See all Chōjū-jinbutsu-giga",
-    titleen: "鳥獣人物戯画絵巻イッキ見！！",
-    desc: "You can enjoy all scrolls of the Birds, Beasts, and Humans Caricature Picture Scrolls from A to Ding scrolls in side-scrolling mode. These picture scrolls were painted between the Heian and Kamakura periods, and depict animals and humans playing games with a stylish touch. There are many mysteries in these picture scrolls, and it is not always known who painted them. Let's take a look at all the scrolls and try to solve the riddles.",
+    title: "What is Chōjū-jinbutsu-giga? See Japan's Oldest Manga in Horizontal Scrolling",
+    titleen: "鳥獣人物戯画とは — 日本最古のマンガを全4巻横スクロール",
+    desc: "Chōjū-jinbutsu-giga (Frolicking Animals and Humans) is a set of picture scrolls from the Heian–Kamakura period. Famous for humorous depictions of rabbits, monkeys, and frogs behaving like humans, it is often called Japan's oldest manga. The artist remains unknown, and the scrolls are full of mystery. Browse all four scrolls (A–D) horizontally.",
     name: "cyouzyuu",
     columns: "four",
   },

@@ -1,5 +1,5 @@
 import { AppContext } from "@/context/AppContext";
-import { eraColor } from "@/utils/func";
+import { eraColor, eraNameEn } from "@/utils/func";
 import { ArrowForwardIcon, ViewIcon } from "@chakra-ui/icons";
 import {
   Badge,
@@ -72,13 +72,22 @@ function Top3Hero({ items, locale }) {
                   textTransform="none"
                   borderRadius="full"
                   px={2}
+                  flexShrink={0}
+                  whiteSpace="nowrap"
                 >
                   {locale === "en"
-                    ? `${first.eraen} period`
+                    ? `${eraNameEn(first.eraen)} period`
                     : `${first.era}時代`}
                 </Badge>
               </HStack>
-              <Text fontSize="2xl" fontWeight="bold" color="white">
+              <Text
+                fontSize="2xl"
+                fontWeight="bold"
+                color="white"
+                noOfLines={2}
+                wordBreak="break-word"
+                overflowWrap="anywhere"
+              >
                 {locale === "en" ? first.titleen : first.title}
                 {locale === "ja" && first.edition && ` ${first.edition}`}
               </Text>
@@ -146,13 +155,22 @@ function Top3Hero({ items, locale }) {
                           borderRadius="full"
                           px={2}
                           fontSize="xs"
+                          flexShrink={0}
+                          whiteSpace="nowrap"
                         >
                           {locale === "en"
-                            ? `${item.eraen} period`
+                            ? `${eraNameEn(item.eraen)} period`
                             : `${item.era}時代`}
                         </Badge>
                       </HStack>
-                      <Text fontSize="lg" fontWeight="bold" color="white">
+                      <Text
+                        fontSize="lg"
+                        fontWeight="bold"
+                        color="white"
+                        noOfLines={2}
+                        wordBreak="break-word"
+                        overflowWrap="anywhere"
+                      >
                         {locale === "en" ? item.titleen : item.title}
                         {locale === "ja" && item.edition && ` ${item.edition}`}
                       </Text>
@@ -216,18 +234,21 @@ function RankingList({ items, startRank, maxPageView, locale }) {
                   height="50px"
                   flexShrink={0}
                 />
-                {/* タイトル + バー */}
+                {/* タイトル + 時代タグ（タグはタイトル下部に改行配置） */}
                 <Box flex={1} minW={0}>
-                  <Flex align="center" gap={2} mb={1}>
+                  <Box mb={1}>
                     <Text
                       fontSize="sm"
                       fontWeight="600"
                       noOfLines={1}
+                      wordBreak="break-word"
+                      overflowWrap="anywhere"
                     >
                       {locale === "en" ? item.titleen : item.title}
                       {locale === "ja" && item.edition && ` ${item.edition}`}
                     </Text>
                     <Badge
+                      mt={1}
                       bg={eraColor(item.era) || "gray.200"}
                       color={eraColor(item.era) ? "white" : "gray.600"}
                       textTransform="none"
@@ -235,12 +256,13 @@ function RankingList({ items, startRank, maxPageView, locale }) {
                       px={2}
                       fontSize="0.6rem"
                       flexShrink={0}
+                      whiteSpace="nowrap"
                     >
                       {locale === "en"
-                        ? `${item.eraen}`
+                        ? `${eraNameEn(item.eraen)}`
                         : `${item.era}`}
                     </Badge>
-                  </Flex>
+                  </Box>
                   {/* プログレスバー */}
                   <Flex align="center" gap={2}>
                     <Box
@@ -280,13 +302,13 @@ export default function RankingCard({ isCompact = false, rankingData: rankingDat
   const rankingData = rankingDataProp ?? contextRankingData;
   const [selectedEra, setSelectedEra] = useState(null);
 
-  // 時代一覧を抽出
+  // 時代一覧を抽出（英語表示用に eraen も保持）
   const eras = useMemo(() => {
-    const set = new Set();
+    const map = new Map();
     rankingData.forEach((item) => {
-      if (item.era) set.add(item.era);
+      if (item.era && !map.has(item.era)) map.set(item.era, item.eraen);
     });
-    return Array.from(set);
+    return Array.from(map, ([era, eraen]) => ({ era, eraen }));
   }, [rankingData]);
 
   // フィルタ適用
@@ -319,7 +341,7 @@ export default function RankingCard({ isCompact = false, rankingData: rankingDat
             {locale === "en" ? "All" : "すべて"}
           </Tag>
         </WrapItem>
-        {eras.map((era) => {
+        {eras.map(({ era, eraen }) => {
           const color = eraColor(era);
           const isActive = selectedEra === era;
           return (
@@ -339,7 +361,7 @@ export default function RankingCard({ isCompact = false, rankingData: rankingDat
                   color: "white",
                 }}
               >
-                {locale === "en" ? `${era}` : `${era}時代`}
+                {locale === "en" ? eraNameEn(eraen) : `${era}時代`}
               </Tag>
             </WrapItem>
           );
@@ -437,7 +459,7 @@ function CompactList({ data, locale }) {
                             borderRadius={10}
                           >
                             {locale === "en"
-                              ? `${eraen} period`
+                              ? `${eraNameEn(eraen)} period`
                               : `${era}時代`}
                           </Badge>
                         </HStack>
