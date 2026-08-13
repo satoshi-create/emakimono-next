@@ -6,6 +6,7 @@ import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { keywordItem, useLocaleData } from "@/utils/func";
 import "lazysizes";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const KeywordsComp = () => {
   const { locale } = useLocaleData();
@@ -33,6 +34,14 @@ const KeywordsComp = () => {
       <Footer />
     </>
   );
+};
+
+export const getStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
 };
 
 export default KeywordsComp;

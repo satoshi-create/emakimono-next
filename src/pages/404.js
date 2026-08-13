@@ -6,6 +6,7 @@ import Button from "@/components/ui/Button";
 import Title from "@/components/ui/Title";
 import "lazysizes";
 import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Custom404 = () => {
   const { locale } = useRouter();
@@ -26,6 +27,14 @@ const Custom404 = () => {
       <Footer />
     </>
   );
+};
+
+export const getStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
 };
 
 export default Custom404;

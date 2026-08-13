@@ -7,6 +7,7 @@ import { default as cacheData } from "@/data/image-metadata-cache/image-metadata
 import { personProfileItem } from "@/utils/func";
 import "lazysizes";
 import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 // 公開一覧に表示する人物。閲覧可能な絵巻（cache）に登場する人物のみを正とする。
 // 小野小町は未登場のため total=0 だが、Wellcome 絵巻追加を見据えて表示を維持する。
@@ -38,6 +39,14 @@ const PersonnamesComp = () => {
       <Footer />
     </>
   );
+};
+
+export const getStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
 };
 
 export default PersonnamesComp;

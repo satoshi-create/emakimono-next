@@ -47,6 +47,11 @@ const LanguageSwitcher = () => {
   const handleLanguageChange = (newLocale) => {
     if (newLocale === activeLocale) return;
 
+    // Next.js の i18n locale detection は Accept-Language / NEXT_LOCALE cookie
+    // の順で言語を決め、次のフルロード時にもブラウザ言語で上書きされるため、
+    // ユーザーの選択を NEXT_LOCALE cookie に永続化しておく。
+    document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=31536000;samesite=lax`;
+
     const pathWithoutLocale = stripLocalePrefix(router.asPath, locales);
     const href =
       newLocale === defaultLocale
