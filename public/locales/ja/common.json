@@ -490,5 +490,40 @@
         "body": "本ページは一般的な情報提供であり、法的助言ではありません。個別の利用判断は、各所蔵機関の利用規約および必要に応じて専門家にご確認ください。本ページに関するお問い合わせは下記ボタンよりどうぞ。"
       }
     }
+  },
+
+  "emakiHub": {
+    "pagetitle": "京都・鎌倉編 絵巻ハブ",
+    "pagetitleEn": "Emaki Hub — Kyoto & Kamakura",
+    "metaDesc": "京都ゆかりの絵巻（鳥獣人物戯画・地獄草紙・餓鬼草紙）と鎌倉ゆかりの絵巻（平治物語絵巻・土蜘蛛草紙・蒙古襲来絵詞）を、テーマ別フィルターと観光マップで巡るハブページ。",
+    "metaDescEn": "Explore emaki tied to Kyoto (Chōjū-jinbutsu-giga, Hell Scrolls, Hungry Ghosts Scrolls) and Kamakura (Tale of Heiji, Tsuchigumo, Mongol Invasion) with theme filters and an interactive map.",
+    "breadcrumb": "京都・鎌倉編",
+    "heroLead": "絵巻物を、場所とともに辿る。",
+    "heroLeadEn": "Follow the scrolls, and the places they came from.",
+    "viewerBtn": "横スクロールで見る",
+    "viewerBtnEn": "Unroll the scroll",
+    "comingSoon": "準備中",
+    "comingSoonDesc": "公開準備中です。もうしばらくお待ちください。",
+    "comingSoonDescEn": "Coming soon. Please stay tuned.",
+    "themeFilter": "テーマで絞り込む",
+    "themeFilterEn": "Filter by theme",
+    "viewToggle": "表示モード",
+    "grid": "カード",
+    "gridEn": "Cards",
+    "map": "マップ",
+    "mapEn": "Map",
+    "openMap": "Google マップで開く",
+    "openMapEn": "Open in Google Maps",
+    "spotLabel": "ゆかりの地",
+    "spotLabelEn": "Related site",
+    "feedbackTitle": "フィードバックを送る",
+    "feedbackTitleEn": "Send Feedback",
+    "feedbackDesc": "このハブページの感想や、次に載せてほしい絵巻・スポットを教えてください。",
+    "feedbackDescEn": "Tell us what you think, and which scrolls or spots you'd like to see next.",
+    "close": "閉じる",
+    "sectionTitle": "作品を巡る",
+    "sectionTitleEn": "Browse the scrolls",
+    "sectionDesc": "選択した地域ゆかりの絵巻を、カードまたはマップから探せます。",
+    "sectionDescEn": "Discover scrolls tied to the selected region, as cards or on the map."
   }
 }

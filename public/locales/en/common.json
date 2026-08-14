@@ -486,10 +486,45 @@
           }
         ]
       },
-      "contact": {
-        "title": "Disclaimer & contact",
-        "body": "This page provides general information only and is not legal advice. For specific use, please consult each institution's terms and, if necessary, a professional. For questions about this page, use the button below."
-      }
+    "contact": {
+      "title": "Disclaimer & contact",
+      "body": "This page provides general information only and is not legal advice. For specific use, please consult each institution's terms and, if necessary, a professional. For questions about this page, use the button below."
     }
+    }
+  },
+
+  "emakiHub": {
+    "pagetitle": "Emaki Hub — Kyoto & Kamakura",
+    "pagetitleEn": "Emaki Hub — Kyoto & Kamakura",
+    "metaDesc": "Explore emaki tied to Kyoto (Chōjū-jinbutsu-giga, Hell Scrolls, Hungry Ghosts Scrolls) and Kamakura (Tale of Heiji, Tsuchigumo, Mongol Invasion) with theme filters and an interactive map.",
+    "metaDescEn": "Explore emaki tied to Kyoto (Chōjū-jinbutsu-giga, Hell Scrolls, Hungry Ghosts Scrolls) and Kamakura (Tale of Heiji, Tsuchigumo, Mongol Invasion) with theme filters and an interactive map.",
+    "breadcrumb": "Kyoto & Kamakura",
+    "heroLead": "Follow the scrolls, and the places they came from.",
+    "heroLeadEn": "Follow the scrolls, and the places they came from.",
+    "viewerBtn": "Unroll the scroll",
+    "viewerBtnEn": "Unroll the scroll",
+    "comingSoon": "Coming soon",
+    "comingSoonDesc": "Coming soon. Please stay tuned.",
+    "comingSoonDescEn": "Coming soon. Please stay tuned.",
+    "themeFilter": "Filter by theme",
+    "themeFilterEn": "Filter by theme",
+    "viewToggle": "View mode",
+    "grid": "Cards",
+    "gridEn": "Cards",
+    "map": "Map",
+    "mapEn": "Map",
+    "openMap": "Open in Google Maps",
+    "openMapEn": "Open in Google Maps",
+    "spotLabel": "Related site",
+    "spotLabelEn": "Related site",
+    "feedbackTitle": "Send Feedback",
+    "feedbackTitleEn": "Send Feedback",
+    "feedbackDesc": "Tell us what you think, and which scrolls or spots you'd like to see next.",
+    "feedbackDescEn": "Tell us what you think, and which scrolls or spots you'd like to see next.",
+    "close": "Close",
+    "sectionTitle": "Browse the scrolls",
+    "sectionTitleEn": "Browse the scrolls",
+    "sectionDesc": "Discover scrolls tied to the selected region, as cards or on the map.",
+    "sectionDescEn": "Discover scrolls tied to the selected region, as cards or on the map."
   }
 }

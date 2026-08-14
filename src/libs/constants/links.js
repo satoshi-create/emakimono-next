@@ -9,6 +9,16 @@ export const NOTION_CONTACT_URL_EN =
 export const getContactUrl = (locale) =>
   locale === "en" ? NOTION_CONTACT_URL_EN : NOTION_CONTACT_URL;
 
+/** Feedback form (Notion) for the Emaki Hub page — one per locale. */
+export const NOTION_FEEDBACK_URL_JA =
+  "https://form.notion.so/xxxxxxx-ja";
+export const NOTION_FEEDBACK_URL_EN =
+  "https://form.notion.so/xxxxxxx-en";
+
+/** Select the feedback form URL by locale (ja / en). */
+export const getFeedbackUrl = (locale) =>
+  locale === "en" ? NOTION_FEEDBACK_URL_EN : NOTION_FEEDBACK_URL_JA;
+
 export const GITHUB_REPO_URL =
   "https://github.com/satoshi-create/emakimono-next";
 
@@ -60,6 +70,13 @@ const links = [
     nameen: "Timeline",
     id: "timeline",
     path: "/timeline",
+    submenu: "",
+  },
+  {
+    name: "京都・鎌倉編",
+    nameen: "Kyoto & Kamakura",
+    id: "emaki-hub",
+    path: "/emaki-hub",
     submenu: "",
   },
   // {
