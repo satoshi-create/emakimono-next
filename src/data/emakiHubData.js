@@ -1,7 +1,7 @@
 /**
  * 京都編 / 鎌倉編ハブページの追加メタデータ。
  *
- * 絵巻タイトル・サムネ・説明は正本（src/data/json-data/dataEmakis.json）から
+ * 絵巻タイトル・サムネ・説明は正本（src/data/image-metadata-cache/image-metadata-cache.json）から
  * titleen で JOIN する。ここにはハブ専用の追加情報のみを持つ。
  * ビューア URL は /{titleen}。
  */
@@ -50,7 +50,7 @@ export const THEMES = [
 
 /**
  * ハブ掲載作品。
- * titleen が実在する作品は dataEmakis.json と JOIN する。
+ * titleen が実在する作品は image-metadata-cache.json と JOIN する。
  * status: "coming-soon" の作品はビューア未公開のため準備中カードとして表示。
  */
 export const HUB_EMAKIS = [

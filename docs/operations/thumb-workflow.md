@@ -153,8 +153,8 @@ node scripts/generate-thumb-webp.js {titleen}
 
 | ファイル | 役割 |
 |----------|------|
-| `src/data/json-data/dataEmakis.json` | 一覧カード・SEO |
-| `src/data/image-metadata-cache/image-metadata-cache.json` | ビューア + `generateOgImages.js` の入力 |
+| `local-data/pipeline/dataEmakis.json` | 旧一覧データ（git 管理外・sync ツール用） |
+| `src/data/image-metadata-cache/image-metadata-cache.json` | ★本番正本。ビューア + `generateOgImages.js` の入力 |
 
 > 両ファイルとも `.cursorignore` 対象。編集時は一時的にコメントアウトするか、Shell の `node -e` または一時スクリプト（`$env:TEMP`）で実行する。
 

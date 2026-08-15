@@ -49,7 +49,7 @@ public/sitemap*.xml
 public/data/
 *.geojson
 *.xml
-src/data/json-data/
+local-data/
 src/data/image-metadata-cache/
 src/data/emaki-text-data/
 src/data/chronology/

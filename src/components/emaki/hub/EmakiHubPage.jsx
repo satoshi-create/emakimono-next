@@ -18,7 +18,7 @@ const DynamicEmakiHubMap = dynamic(
 
 /**
  * 京都編 / 鎌倉編ハブページ本体。
- * props: hubData = { regions, emakis }（dataEmakis.json と JOIN 済み）、 t = useTranslation("common")
+ * props: hubData = { regions, emakis }（image-metadata-cache.json と JOIN 済み）、 t = useTranslation("common")
  */
 const EmakiHubPage = ({ hubData, t }) => {
   const { locale } = useRouter();

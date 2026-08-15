@@ -413,7 +413,7 @@ def enrich_upload_cache_from_data_emakis(
     titleen = config.get("metadata", {}).get("titleen", "")
     if not titleen:
         return 0
-    data_path = REPO_ROOT / "src/data/json-data/dataEmakis.json"
+    data_path = REPO_ROOT / "local-data/pipeline/dataEmakis.json"
     if not data_path.exists():
         return 0
 

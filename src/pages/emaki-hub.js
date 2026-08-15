@@ -1,7 +1,7 @@
 import EmakiHubPage from "@/components/emaki/hub/EmakiHubPage";
 import HubPageShell from "@/components/layout/HubPageShell";
 import { HUB_EMAKIS, REGIONS } from "@/data/emakiHubData";
-import emakisData from "@/data/json-data/dataEmakis.json";
+import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
 import { buildLocaleUrl, SITE_ORIGIN } from "@/libs/constants/dataSiteMeta";
 import { useLocaleMeta } from "@/utils/func";
 import { useRouter } from "next/router";
@@ -59,7 +59,7 @@ const buildEmakiHubJsonLd = ({ locale, defaultLocale, t, meta, items }) => {
   );
 };
 
-/** dataEmakis.json と titleen で JOIN したハブデータを構築 */
+/** image-metadata-cache.json（正本）と titleen で JOIN したハブデータを構築 */
 const buildHubData = () => {
   const regions = Object.values(REGIONS);
   const emakis = HUB_EMAKIS.map((item) => {

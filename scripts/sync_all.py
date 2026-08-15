@@ -49,7 +49,7 @@ import sync_scroll as ss  # noqa: N812
 # ---------------------------------------------------------------------------
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-DATA_EMAKIS_PATH = REPO_ROOT / "src/data/json-data/dataEmakis.json"
+DATA_EMAKIS_PATH = REPO_ROOT / "local-data/pipeline/dataEmakis.json"
 CACHE_DIR = REPO_ROOT / "src/data/image-metadata-cache"
 EMAKI_TEXT_DIR = REPO_ROOT / "src/data/emaki-text-data"
 GENERATE_CACHE_SCRIPT = REPO_ROOT / "src/script/generateImageMetadata.js"
@@ -478,6 +478,7 @@ def upsert_data_emakis(new_entry: dict, dry_run: bool = False) -> tuple[list[dic
             print(f"  Added new entry titleen='{titleen}' (id={new_entry['id']})")
 
     if not dry_run:
+        DATA_EMAKIS_PATH.parent.mkdir(parents=True, exist_ok=True)
         with open(DATA_EMAKIS_PATH, "w", encoding="utf-8") as f:
             json.dump(entries, f, ensure_ascii=False, indent=2)
         print(f"  Wrote {len(entries)} entries to {DATA_EMAKIS_PATH}")
@@ -501,8 +502,7 @@ def regenerate_cache(dry_run: bool = False) -> None:
         return
 
     print("  Regenerating image-metadata-cache.json...", end=" ", flush=True)
-    # The script must be run from its parent directory (src/script/ or repo root?)
-    # generateImageMetadata.js uses relative paths like "../libs/json-data/"
+    # generateImageMetadata.js uses relative paths like "../../local-data/pipeline/"
     # so we must run it from the repo root
     result = subprocess.run(
         ["node", str(GENERATE_CACHE_SCRIPT.resolve())],

@@ -242,7 +242,7 @@ function main() {
 
   const siteMap = {};
   try {
-    const dataEmakis = require(path.join(ROOT, "src", "data", "json-data", "dataEmakis.json"));
+    const dataEmakis = require(path.join(ROOT, "local-data", "pipeline", "dataEmakis.json"));
     dataEmakis.forEach((item) => {
       siteMap[item.titleen] = item;
     });

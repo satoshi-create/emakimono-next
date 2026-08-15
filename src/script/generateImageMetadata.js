@@ -2,14 +2,14 @@ const fs = require("fs");
 const path = require("path");
 const sharp = require("sharp");
 
-// JSONデータをrequireで読み込む
-const dataByoubus = require("../data/json-data/dataByoubus.json");
-const dataEmakis = require("../data/json-data/dataEmakis.json");
-const dataSeiyoukaiga = require("../data/json-data/dataSeiyoukaiga.json");
-const dataSuibokuga = require("../data/json-data/dataSuibokuga.json");
-const dataUkiyoes = require("../data/json-data/dataUkiyoes.json");
-const dataKotenBungaku = require("../data/json-data/dataKotenBungaku.json");
-const dataSenmenga = require("../data/json-data/dataSenmenga.json");
+// JSONデータをrequireで読み込む（パイプライン入力。ローカル保持のため git/cursor 非管理）
+const dataByoubus = require("../../local-data/pipeline/dataByoubus.json");
+const dataEmakis = require("../../local-data/pipeline/dataEmakis.json");
+const dataSeiyoukaiga = require("../../local-data/pipeline/dataSeiyoukaiga.json");
+const dataSuibokuga = require("../../local-data/pipeline/dataSuibokuga.json");
+const dataUkiyoes = require("../../local-data/pipeline/dataUkiyoes.json");
+const dataKotenBungaku = require("../../local-data/pipeline/dataKotenBungaku.json");
+const dataSenmenga = require("../../local-data/pipeline/dataSenmenga.json");
 
 // データを結合
 const data = dataEmakis.concat(

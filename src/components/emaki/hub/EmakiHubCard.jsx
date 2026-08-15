@@ -2,7 +2,7 @@ import styles from "@/styles/EmakiHub.module.css";
 import Link from "next/link";
 
 /**
- * 絵巻カード。実在作品は dataEmakis.json と JOIN 済みの meta（title/thumb/desc）を持つ。
+ * 絵巻カード。実在作品は image-metadata-cache.json（正本）と JOIN 済みの meta（title/thumb/desc）を持つ。
  * status: "coming-soon" の作品はビューア未公開のため準備中カードとして表示。
  */
 const EmakiHubCard = ({ item, t }) => {
