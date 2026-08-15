@@ -7,6 +7,7 @@ import CustomTagCloud from "@/components/keyword/CustomTagCloud";
 import KusouzuHubLink from "@/components/emaki/kusouzu/KusouzuHubLink";
 import KusouzuModelLink from "@/components/emaki/kusouzu/KusouzuModelLink";
 import ChojuGigaHubLink from "@/components/emaki/chouju-giga/ChojuGigaHubLink";
+import SightseeingMapLink from "@/components/emaki/hub/SightseeingMapLink";
 import Footer from "@/components/layout/Footer";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/EmakiLandscapContent.module.css";
@@ -264,6 +265,7 @@ const EmakiLandscapContent = ({
                   <ChojuGigaHubLink variant="banner" />
                 </>
               )}
+              <SightseeingMapLink titleen={titleen} variant="banner" />
               {/*メタ情報（出典・参考文献は折りたたみ表示）*/}
               <details className={styles.authority}>
                 <summary className={styles.authoritySummary}>

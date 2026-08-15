@@ -522,6 +522,8 @@
     "sectionTitle": "Browse the scrolls",
     "sectionTitleEn": "Browse the scrolls",
     "sectionDesc": "Discover scrolls tied to the selected region, as cards or on the map.",
-    "sectionDescEn": "Discover scrolls tied to the selected region, as cards or on the map."
+    "sectionDescEn": "Discover scrolls tied to the selected region, as cards or on the map.",
+    "mapLinkLabel": "See this scroll's related places on the sightseeing map",
+    "mapLinkLabelEn": "See this scroll's related places on the sightseeing map"
   }
 }

@@ -346,6 +346,24 @@
   font-weight: 700;
 }
 
+.mapPinActive {
+  box-shadow: 0 0 0 6px rgb(255 140 119 / 0.35), 0 0 0 2px rgb(255 140 119 / 0.6),
+    0 2px 8px rgb(0 0 0 / 0.35);
+  animation: mapPinPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes mapPinPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 6px rgb(255 140 119 / 0.35), 0 0 0 2px rgb(255 140 119 / 0.6),
+      0 2px 8px rgb(0 0 0 / 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgb(255 140 119 / 0.15), 0 0 0 2px rgb(255 140 119 / 0.6),
+      0 2px 8px rgb(0 0 0 / 0.35);
+  }
+}
+
 .mapPopupCard {
   min-width: 200px;
   font-family: var(--font-ui);

@@ -26,7 +26,10 @@ const EmakiHubPage = ({ hubData, t }) => {
   const initialRegion = ["kyoto", "kamakura"].includes(router.query.region)
     ? router.query.region
     : "kyoto";
+  const initialScroll =
+    typeof router.query.scroll === "string" ? router.query.scroll : null;
   const [region, setRegion] = useState(initialRegion);
+  const [activeScroll, setActiveScroll] = useState(initialScroll);
   const [theme, setTheme] = useState("all");
   const [view, setView] = useState("map");
 
@@ -38,7 +41,10 @@ const EmakiHubPage = ({ hubData, t }) => {
       setRegion(router.query.region);
       setTheme("all");
     }
-  }, [router.query.region]);
+    setActiveScroll(
+      typeof router.query.scroll === "string" ? router.query.scroll : null
+    );
+  }, [router.query.region, router.query.scroll]);
 
   const handleRegionChange = (next) => {
     setRegion(next);
@@ -126,6 +132,7 @@ const EmakiHubPage = ({ hubData, t }) => {
             items={filteredItems}
             locale={locale}
             t={t}
+            activeScroll={activeScroll}
           />
         )}
       </section>

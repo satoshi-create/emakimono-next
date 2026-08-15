@@ -178,3 +178,10 @@ export const HUB_EMAKIS = [
     },
   },
 ];
+
+/** titleen から絵巻のゆかりの地（region + spot）を引く。ハブ未掲載なら null。 */
+export const getEmakiSpot = (titleen) => {
+  const hit = HUB_EMAKIS.find((e) => e.titleen === titleen);
+  if (!hit?.spot) return null;
+  return { region: hit.region, spot: hit.spot };
+};

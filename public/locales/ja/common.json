@@ -521,6 +521,8 @@
     "sectionTitle": "作品を巡る",
     "sectionTitleEn": "Browse the scrolls",
     "sectionDesc": "選択した地域ゆかりの絵巻を、カードまたはマップから探せます。",
-    "sectionDescEn": "Discover scrolls tied to the selected region, as cards or on the map."
+    "sectionDescEn": "Discover scrolls tied to the selected region, as cards or on the map.",
+    "mapLinkLabel": "この絵巻のゆかりの地を観光マップで見る",
+    "mapLinkLabelEn": "See this scroll's related places on the sightseeing map"
   }
 }

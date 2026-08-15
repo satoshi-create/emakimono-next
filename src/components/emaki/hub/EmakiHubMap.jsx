@@ -1,6 +1,6 @@
 import styles from "@/styles/EmakiHub.module.css";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import "leaflet/dist/leaflet.css";
 
 /**
@@ -9,8 +9,11 @@ import "leaflet/dist/leaflet.css";
  * （サーバーレンダリング時に window 未定義でクラッシュするのを防ぐ）。
  * リージョン変更時に flyTo で中心を移動する。
  */
-const EmakiHubMap = ({ region, items, locale, t }) => {
+const EmakiHubMap = ({ region, items, locale, t, activeScroll = null }) => {
   const [rl, setRl] = useState(null);
+  const markerRefs = useRef({});
+  // 自動フォーカス済みの作品を記憶し、テーマ切替等の再レンダーで再実行させない
+  const lastFocusedRef = useRef(null);
 
   useEffect(() => {
     let active = true;
@@ -66,10 +69,12 @@ const EmakiHubMap = ({ region, items, locale, t }) => {
 
   // 絵巻風のカスタムピン（デフォルトアイコンはバンドラーで壊れるため不使用）
   const pinColor = region.id === "kyoto" ? "#ff8c77" : "#54896a";
-  const makeIcon = (num) =>
+  const makeIcon = (num, isActive = false) =>
     L.divIcon({
       className: styles.mapPinWrap,
-      html: `<div class="${styles.mapPin}" style="background:${pinColor}"><span>${num}</span></div>`,
+      html: `<div class="${styles.mapPin}${
+        isActive ? " " + styles.mapPinActive : ""
+      }" style="background:${pinColor}"><span>${num}</span></div>`,
       iconSize: [34, 42],
       iconAnchor: [17, 40],
       popupAnchor: [0, -38],
@@ -81,6 +86,29 @@ const EmakiHubMap = ({ region, items, locale, t }) => {
     useEffect(() => {
       map.flyTo([lat, lng], zoom, { duration: 0.9 });
     }, [map, lat, lng, zoom]);
+    return null;
+  };
+
+  // ?scroll= 指定で対象となる作品（現在のリージョン内のみ）
+  const activeTarget =
+    activeScroll &&
+    positioned.find((it) => it.titleen === activeScroll && it.spot);
+
+  // 対象ピンへ移動し、ポップアップを自動オープンする制御コンポーネント
+  const FocusScroll = ({ target, zoom }) => {
+    const map = useMap();
+    useEffect(() => {
+      const key = target ? target.titleen || target.titleJa : null;
+      if (!target || lastFocusedRef.current === key) return;
+      lastFocusedRef.current = key;
+      const lat = target.pinLat ?? target.spot.lat;
+      const lng = target.pinLng ?? target.spot.lng;
+      map.flyTo([lat, lng], zoom, { duration: 1 });
+      const timer = setTimeout(() => {
+        markerRefs.current[key]?.openPopup();
+      }, 1200);
+      return () => clearTimeout(timer);
+    }, [target, map, zoom]);
     return null;
   };
 
@@ -101,6 +129,7 @@ const EmakiHubMap = ({ region, items, locale, t }) => {
           lng={region.center.lng}
           zoom={region.zoom}
         />
+        <FocusScroll target={activeTarget} zoom={Math.max(region.zoom, 15)} />
         {positioned.map((item) => {
           if (!item.spot) return null;
           const lat = item.pinLat ?? item.spot.lat;
@@ -110,7 +139,10 @@ const EmakiHubMap = ({ region, items, locale, t }) => {
             <Marker
               key={item.titleen || item.titleJa}
               position={[lat, lng]}
-              icon={makeIcon(item.pinNum)}
+              icon={makeIcon(item.pinNum, item.titleen === activeScroll)}
+              ref={(el) => {
+                if (el) markerRefs.current[item.titleen || item.titleJa] = el;
+              }}
             >
               <Popup className={styles.mapPopup} maxWidth={260}>
                 <div className={styles.mapPopupCard}>
