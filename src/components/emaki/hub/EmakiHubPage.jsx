@@ -1,10 +1,9 @@
 import RegionSwitcher from "@/components/emaki/hub/RegionSwitcher";
 import EmakiHubCard from "@/components/emaki/hub/EmakiHubCard";
 import EmakiHubMap from "@/components/emaki/hub/EmakiHubMap";
-import FeedbackFormModal from "@/components/emaki/hub/FeedbackFormModal";
 import { THEMES } from "@/data/emakiHubData";
 import styles from "@/styles/EmakiHub.module.css";
-import { faCommentDots, faMapMarkedAlt, faTh } from "@fortawesome/free-solid-svg-icons";
+import { faMapMarkedAlt, faTh } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -29,8 +28,7 @@ const EmakiHubPage = ({ hubData, t }) => {
     : "kyoto";
   const [region, setRegion] = useState(initialRegion);
   const [theme, setTheme] = useState("all");
-  const [view, setView] = useState("grid");
-  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const [view, setView] = useState("map");
 
   const currentRegion = hubData.regions.find((r) => r.id === region);
 
@@ -71,14 +69,6 @@ const EmakiHubPage = ({ hubData, t }) => {
             onChange={handleRegionChange}
             t={t}
           />
-          <button
-            type="button"
-            className={styles.feedbackBtn}
-            onClick={() => setIsFeedbackOpen(true)}
-          >
-            <FontAwesomeIcon icon={faCommentDots} className={styles.feedbackIcon} />
-            {t("emakiHub.feedbackTitle")}
-          </button>
         </div>
       </section>
 
@@ -106,20 +96,20 @@ const EmakiHubPage = ({ hubData, t }) => {
             <button
               type="button"
               className={`${styles.viewBtn} ${
-                view === "grid" ? styles.viewBtnActive : ""
-              }`}
-              onClick={() => setView("grid")}
-            >
-              <FontAwesomeIcon icon={faTh} /> {t("emakiHub.grid")}
-            </button>
-            <button
-              type="button"
-              className={`${styles.viewBtn} ${
                 view === "map" ? styles.viewBtnActive : ""
               }`}
               onClick={() => setView("map")}
             >
               <FontAwesomeIcon icon={faMapMarkedAlt} /> {t("emakiHub.map")}
+            </button>
+            <button
+              type="button"
+              className={`${styles.viewBtn} ${
+                view === "grid" ? styles.viewBtnActive : ""
+              }`}
+              onClick={() => setView("grid")}
+            >
+              <FontAwesomeIcon icon={faTh} /> {t("emakiHub.grid")}
             </button>
           </div>
         </div>
@@ -134,17 +124,11 @@ const EmakiHubPage = ({ hubData, t }) => {
           <DynamicEmakiHubMap
             region={currentRegion}
             items={filteredItems}
+            locale={locale}
             t={t}
           />
         )}
       </section>
-
-      <FeedbackFormModal
-        isOpen={isFeedbackOpen}
-        onClose={() => setIsFeedbackOpen(false)}
-        locale={locale}
-        t={t}
-      />
     </>
   );
 };

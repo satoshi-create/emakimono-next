@@ -48,7 +48,13 @@ const EmakiHubCard = ({ item, t }) => {
 
         {!isComingSoon && titleen ? (
           <Link href={`/${titleen}`}>
-            <a className={styles.cardBtn}>{t("emakiHub.viewerBtn")}</a>
+            <a
+              className={styles.cardBtn}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t("emakiHub.viewerBtn")}
+            </a>
           </Link>
         ) : (
           <span className={styles.cardBtnDisabled}>

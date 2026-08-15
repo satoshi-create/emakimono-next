@@ -65,6 +65,10 @@ export const HUB_EMAKIS = [
       nameEn: "Kōzan-ji",
       lat: 35.0601,
       lng: 135.6763,
+      desc: {
+        ja: "鳥獣人物戯画は高山寺の寺宝として伝来し、現在も同寺に所蔵されています。",
+        en: "Chōjū-jinbutsu-giga has been passed down as a treasure of Kōzan-ji and is still kept there today.",
+      },
     },
   },
   {
@@ -77,6 +81,10 @@ export const HUB_EMAKIS = [
       nameEn: "Kyoto National Museum",
       lat: 34.9902,
       lng: 135.7731,
+      desc: {
+        ja: "当館が所蔵する絵巻の一つ。地獄の責め苦の情景を迫力ある筆致で描きます。",
+        en: "One of the hell-scroll versions held by the museum, depicting torments with powerful brushwork.",
+      },
     },
   },
   {
@@ -89,6 +97,10 @@ export const HUB_EMAKIS = [
       nameEn: "Kyoto National Museum",
       lat: 34.9902,
       lng: 135.7731,
+      desc: {
+        ja: "同じく京都国立博物館の所蔵。独自の場面構成で、地獄の世界観を細部まで描き込んでいます。",
+        en: "Also held by the museum. This version arranges its scenes independently, detailing the underworld in minute brushwork.",
+      },
     },
   },
   {
@@ -101,6 +113,10 @@ export const HUB_EMAKIS = [
       nameEn: "Kyoto National Museum",
       lat: 34.9902,
       lng: 135.7731,
+      desc: {
+        ja: "飢えた亡者たちの姿を描く餓鬼草紙。本図は京都国立博物館が所蔵する作品です。",
+        en: "Hungry Ghosts Scroll depicts starving spirits in their torment. This version is held by the Kyoto National Museum.",
+      },
     },
   },
   // ---- 鎌倉編 ----
@@ -117,6 +133,10 @@ export const HUB_EMAKIS = [
       nameEn: "Kamakura Museum of National Treasures",
       lat: 35.326,
       lng: 139.5564,
+      desc: {
+        ja: "平治の乱を描いた合戦絵巻の現存断簡を、鎌倉国宝館が収蔵しています。",
+        en: "Surviving fragments of the battle scroll of the Heiji Rebellion are kept at the Kamakura Museum of National Treasures.",
+      },
     },
   },
   {
@@ -132,6 +152,10 @@ export const HUB_EMAKIS = [
       nameEn: "Kamakura Area",
       lat: 35.319,
       lng: 139.551,
+      desc: {
+        ja: "源頼光の土蜘蛛退治を描いた絵巻で、鎌倉ゆかりの武家文化を伝えます。",
+        en: "A scroll of Minamoto no Yorimitsu slaying the Tsuchigumo, carrying on the samurai culture of Kamakura.",
+      },
     },
   },
   {
@@ -147,6 +171,10 @@ export const HUB_EMAKIS = [
       nameEn: "Kamakura Area",
       lat: 35.32,
       lng: 139.553,
+      desc: {
+        ja: "元寇（蒙古襲来）の戦いを記録した絵詞で、当時の武士の活躍を伝えます。",
+        en: "An illustrated record of the Mongol invasions, telling of the samurai who fought in the era.",
+      },
     },
   },
 ];
