@@ -119,6 +119,22 @@ export const HUB_EMAKIS = [
       },
     },
   },
+  {
+    titleen: "kusouzumaki",
+    region: "kyoto",
+    theme: "dark-fantasy",
+    tags: ["Buddhism", "Impermanence", "Death"],
+    spot: {
+      nameJa: "檀林寺",
+      nameEn: "Danrin-ji",
+      lat: 35.0237,
+      lng: 135.6674,
+      desc: {
+        ja: "九相図巻のモデル・檀林皇后（橘嘉智子）が開いた禅宗最初の寺。皇后は自らの死後、遺体を風葬に付して無常を示したと伝えられ、その朽ちゆく姿は九相図に描かれました。",
+        en: "The first Zen temple in Japan, founded by Empress Danrin (Tachibana no Kachiko), the model of the Kusōzu Scroll. She is said to have left her own body to the elements after death to show impermanence—the theme depicted in the scroll.",
+      },
+    },
+  },
   // ---- 鎌倉編 ----
   {
     titleen: "",
@@ -278,6 +294,51 @@ export const ROUTES = [
         note: {
           ja: "東山随一の名所でルートを締めくくる。",
           en: "End the course at one of Kyoto's most famous sights.",
+        },
+      },
+    ],
+  },
+  {
+    id: "kyoto-sagano-kusouzu",
+    region: "kyoto",
+    titleJa: "嵯峨野の無常 九相図ルート",
+    titleEn: "Impermanence Walk: Sagano & the Kusōzu",
+    durationJa: "半日",
+    durationEn: "Half day",
+    summary: {
+      ja: "九相図巻のモデル・檀林皇后ゆかりの檀林寺から、平安の風葬地・化野念仏寺を経て、旧檀林寺跡に建つ天龍寺へ。無常と死生観の世界を嵯峨野で辿るコース。",
+      en: "From Danrin-ji, tied to Empress Danrin—model of the Kusōzu scroll—through Adashino Nenbutsu-ji, a Heian-era open-air burial ground, to Tenryū-ji, built on the old Danrin-ji site. A walk through impermanence in Sagano.",
+    },
+    stops: [
+      {
+        titleen: "kusouzumaki",
+        note: {
+          ja: "九相図巻のモデル・檀林皇后（橘嘉智子）が開いた、日本最初の禅の寺。",
+          en: "The first Zen temple in Japan, founded by Empress Danrin, model of the Kusōzu scroll.",
+        },
+      },
+      {
+        spot: {
+          nameJa: "化野念仏寺",
+          nameEn: "Adashino Nenbutsu-ji",
+          lat: 35.0268,
+          lng: 135.6645,
+        },
+        note: {
+          ja: "鳥辺野・蓮台野と並ぶ平安の風葬地。約8000体の石仏・石塔が無常を語る。",
+          en: "One of three Heian open-air burial grounds, with some 8,000 stone Buddhas bearing witness to impermanence.",
+        },
+      },
+      {
+        spot: {
+          nameJa: "天龍寺",
+          nameEn: "Tenryū-ji",
+          lat: 35.016,
+          lng: 135.6738,
+        },
+        note: {
+          ja: "旧檀林寺の跡地に建つ世界遺産。嵐山の竹林とともにルートを締めくくる。",
+          en: "A World Heritage temple on the former Danrin-ji site, ending the walk amid the Arashiyama bamboo groves.",
         },
       },
     ],
