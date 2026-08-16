@@ -12,7 +12,18 @@ const EmakiHubRouteCard = ({ route, t, locale, onViewOnMap }) => {
   const routeTitle = locale === "en" ? route.titleEn : route.titleJa;
 
   return (
-    <article className={styles.routeCard}>
+    <article
+      className={styles.routeCard}
+      onClick={() => onViewOnMap(route)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onViewOnMap(route);
+        }
+      }}
+    >
       <div className={styles.routeHeader}>
         <div>
           <h3 className={styles.routeTitle}>{routeTitle}</h3>
@@ -58,13 +69,9 @@ const EmakiHubRouteCard = ({ route, t, locale, onViewOnMap }) => {
         ))}
       </ol>
 
-      <button
-        type="button"
-        className={styles.routeBtn}
-        onClick={() => onViewOnMap(route)}
-      >
+      <span className={styles.routeBtn}>
         <FontAwesomeIcon icon={faMapMarkedAlt} /> {t("emakiHub.routeViewOnMap")}
-      </button>
+      </span>
     </article>
   );
 };

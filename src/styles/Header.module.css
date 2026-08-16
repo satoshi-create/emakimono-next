@@ -1,4 +1,7 @@
 .header {
+  /* ページ本文（地図オーバーレイ等）より上にヘッダーを重ねる（SP のハンバーガーボタンを守る） */
+  position: relative;
+  z-index: 1;
   background: var(--clr-white);
   gap: 10px;
 }

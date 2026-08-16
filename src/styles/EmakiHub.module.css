@@ -129,6 +129,8 @@
 /* --- マップ --- */
 .mapWrap {
   position: relative;
+  /* 地図内オーバーレイ（1100 等）をコンテキスト内に閉じ込め、ヘッダーより上に出ないようにする */
+  z-index: 0;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid rgb(211 211 211 / 0.6);
@@ -388,40 +390,6 @@
   scroll-margin-top: 6rem;
 }
 
-/* --- ルート選択中チップ（地図左下オーバーレイ） --- */
-.routeActiveChip {
-  position: absolute;
-  bottom: 0.75rem;
-  left: 0.75rem;
-  z-index: 1100;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  max-width: calc(100% - 1.5rem);
-  padding: 0.55rem 1rem;
-  border-radius: 999px;
-  background: rgb(255 255 255 / 0.94);
-  border: 1px solid rgb(255 140 119 / 0.5);
-  box-shadow: 0 2px 10px rgb(0 0 0 / 0.12);
-  font-family: var(--font-ui);
-  font-size: 0.85rem;
-  color: var(--clr-text);
-}
-
-.routeActiveClear {
-  margin-left: auto;
-  border: none;
-  background: transparent;
-  color: var(--clr-text-muted);
-  cursor: pointer;
-  padding: 0.2rem 0.4rem;
-  font-size: 0.85rem;
-}
-
-.routeActiveClear:hover {
-  color: var(--clr-accent);
-}
-
 /* --- おすすめルートパネル（地図右側・折りたたみ式オーバーレイ） --- */
 .routePanel {
   position: absolute;
@@ -552,6 +520,14 @@
 .routePanelToggle:hover {
   opacity: 0.88;
   background: var(--clr-accent);
+}
+
+/* ルート選択中のトグル（押すとルート解除） */
+.routePanelToggleActive {
+  background: var(--clr-accent);
+}
+.routePanelToggleActive:hover {
+  background: var(--clr-text);
 }
 
 .routeCard {
@@ -941,16 +917,17 @@
     white-space: nowrap;
   }
 
-  /* ルートパネルはボトムシート型（上半分に地図とピンを残す） */
+  /* SP: ルートパネルは「おすすめの観光ルート」ボタンの上に浮くプルダウン型 */
   .routePanel {
     top: auto;
     left: 0.5rem;
     right: 0.5rem;
-    bottom: 0.5rem;
+    bottom: 5rem; /* トグルボタンの上に重ねる */
     width: auto;
-    max-height: 46%;
+    max-height: 55%;
     max-width: none;
-    padding: 0.8rem 0.9rem;
+    padding: 0.6rem;
+    gap: 0.4rem;
   }
 
   .routePanelTitle {
@@ -962,28 +939,27 @@
   }
 
   .routePanelList {
-    gap: 0.7rem;
+    gap: 0.4rem;
   }
 
-  /* カードをコンパクト化してシート 1 枚あたりの高さを減らす */
+  /* ルートタイトルのみをプルダウン表示し、すべて見えるようにする */
   .routePanel .routeCard {
-    padding: 0.7rem;
-    gap: 0.5rem;
+    padding: 0.55rem 0.7rem;
+    gap: 0.4rem;
   }
 
-  .routePanel .routeStopImg {
+  .routePanel .routeSummary,
+  .routePanel .routeStops,
+  .routePanel .routeBtn,
+  .routePanel .routeDuration,
+  .routePanel .routeTitleEn {
     display: none;
   }
 
-  .routePanel .routeSummary {
-    display: block;
-    -webkit-line-clamp: none;
-    overflow: visible;
-  }
-
-  .routePanel .routeBtn {
-    font-size: 0.72rem;
-    padding: 0.4rem 0.7rem;
+  .routePanel .routeHeader {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   .routePanelToggle {
@@ -997,24 +973,6 @@
   }
 
   .routePanelToggle span {
-    min-width: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .routeActiveChip {
-    left: 0.5rem;
-    bottom: 0.5rem;
-    max-width: calc(100% - 1rem);
-    font-size: 0.68rem;
-    padding: 0.4rem 0.7rem;
-    gap: 0.45rem;
-    white-space: nowrap;
-  }
-
-  .routeActiveChip span {
-    flex: 1;
     min-width: 0;
     white-space: nowrap;
     overflow: hidden;

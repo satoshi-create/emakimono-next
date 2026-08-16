@@ -104,9 +104,15 @@ const EmakiHubPage = ({ hubData, t }) => {
     replaceUrlQuery(`?region=${route.region}&route=${route.id}`);
   };
 
-  const handleClearRoute = () => {
-    setActiveRouteId(null);
-    replaceUrlQuery(`?region=${region}`);
+  // ルートトグル：未選択ならパネル（プルダウン）を開き、選択中ならルートを解除する
+  const handleRouteToggle = () => {
+    if (activeRouteId) {
+      setActiveRouteId(null);
+      setRoutePanelOpen(false);
+      replaceUrlQuery(`?region=${region}`);
+    } else {
+      setRoutePanelOpen((v) => !v);
+    }
   };
 
   const activeRoute = useMemo(
@@ -211,26 +217,10 @@ const EmakiHubPage = ({ hubData, t }) => {
           </div>
 
           {/* アクティブルート表示（地図左下） */}
-          {activeRoute && (
-            <div className={styles.routeActiveChip}>
-              <FontAwesomeIcon icon={faRoute} />
-              <span>
-                {t("emakiHub.routesTitle")}:{" "}
-                {locale === "en" ? activeRoute.titleEn : activeRoute.titleJa}
-              </span>
-              <button
-                type="button"
-                className={styles.routeActiveClear}
-                onClick={handleClearRoute}
-                aria-label="Clear route"
-              >
-                <FontAwesomeIcon icon={faTimes} />
-              </button>
-            </div>
-          )}
+          {/* チップは廃止。「おすすめの観光ルート」ボタンで解除できる */}
 
           {/* おすすめルート（地図右側・折りたたみ式） */}
-          {routePanelOpen ? (
+          {routePanelOpen && !activeRoute ? (
             <aside className={styles.routePanel}>
               <div className={styles.routePanelHeader}>
                 <h3 className={styles.routePanelTitle}>
@@ -261,11 +251,19 @@ const EmakiHubPage = ({ hubData, t }) => {
           ) : (
             <button
               type="button"
-              className={styles.routePanelToggle}
-              onClick={() => setRoutePanelOpen(true)}
+              className={`${styles.routePanelToggle} ${
+                activeRoute ? styles.routePanelToggleActive : ""
+              }`}
+              onClick={handleRouteToggle}
             >
-              <FontAwesomeIcon icon={faRoute} />
-              <span>{t("emakiHub.routesTitle")}</span>
+              <FontAwesomeIcon icon={activeRoute ? faTimes : faRoute} />
+              <span>
+                {activeRoute
+                  ? `${t("emakiHub.routesTitle")}: ${
+                      locale === "en" ? activeRoute.titleEn : activeRoute.titleJa
+                    }`
+                  : t("emakiHub.routesTitle")}
+              </span>
             </button>
           )}
         </div>
