@@ -6,11 +6,15 @@ import CardA from "@/components/ui/CardA";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { useLocale } from "@/utils/func";
+import styles from "@/styles/EmakiHub.module.css";
 import "lazysizes";
+import { useTranslation } from "next-i18next";
+import Link from "next/link";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Home = () => {
   const { t } = useLocale();
+  const { t: tCommon } = useTranslation("common");
   const removeNestedArrayObj = ExtractingListData();
 
   const kusouzuEmakis = removeNestedArrayObj.filter(isKusouzuScroll);
@@ -23,6 +27,16 @@ const Home = () => {
     <main>
       <Head />
       <Header fixed={false} />
+      <Link href="/emaki-hub">
+        <a className={styles.topBanner}>
+          <span className={styles.topBannerTitle}>
+            {tCommon("emakiHub.topBannerTitle")}
+          </span>
+          <span className={styles.topBannerCta}>
+            {tCommon("emakiHub.topBannerCta")}
+          </span>
+        </a>
+      </Link>
       <section className="section-grid section-padding">
         <div className="hero">
           <h1 className="heroTitle">{t.top.title}</h1>

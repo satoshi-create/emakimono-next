@@ -1,0 +1,403 @@
+/**
+ * 京都編 / 鎌倉編ハブページの追加メタデータ。
+ *
+ * 絵巻タイトル・サムネ・説明は正本（src/data/image-metadata-cache/image-metadata-cache.json）から
+ * titleen で JOIN する。ここにはハブ専用の追加情報のみを持つ。
+ * ビューア URL は /{titleen}。
+ */
+
+/** リージョン定義（中心座標・キャッチコピー） */
+export const REGIONS = {
+  kyoto: {
+    id: "kyoto",
+    labelJa: "京都編",
+    labelEn: "Kyoto",
+    center: { lat: 35.0116, lng: 135.7681 },
+    zoom: 11,
+    copy: {
+      ja: "千年の物語絵巻とダークファンタジーを、京都で辿る。",
+      en: "Explore 1,000 Years of Visual Storytelling & Dark Fantasy in Kyoto",
+    },
+    lead: {
+      ja: "平安〜鎌倉の都・京都ゆかりの絵巻を、横スクロールで味わう。",
+      en: "Unroll picture scrolls tied to the ancient capital of Kyoto.",
+    },
+  },
+  kamakura: {
+    id: "kamakura",
+    labelJa: "鎌倉編",
+    labelEn: "Kamakura",
+    center: { lat: 35.3197, lng: 139.5515 },
+    zoom: 12,
+    copy: {
+      ja: "武士の合戦絵巻と妖怪退治を、鎌倉で体験する。",
+      en: "Experience the Epic Samurai Battles & Monster Hunts in Kamakura",
+    },
+    lead: {
+      ja: "武家の都・鎌倉ゆかりの絵巻を、横スクロールで体験する。",
+      en: "Unroll picture scrolls of the samurai capital, Kamakura.",
+    },
+  },
+};
+
+/** テーマフィルター定義（フィルタの表示順・日本語名） */
+export const THEMES = [
+  { id: "all", labelJa: "すべて", labelEn: "All" },
+  { id: "satire", labelJa: "風刺とユーモア", labelEn: "Satire & Humor" },
+  { id: "dark-fantasy", labelJa: "ダークファンタジー", labelEn: "Dark Fantasy & Curses" },
+  { id: "samurai", labelJa: "武士の活劇", labelEn: "Samurai & Action" },
+];
+
+/**
+ * ハブ掲載作品。
+ * titleen が実在する作品は image-metadata-cache.json と JOIN する。
+ * status: "coming-soon" の作品はビューア未公開のため準備中カードとして表示。
+ */
+export const HUB_EMAKIS = [
+  // ---- 京都編 ----
+  {
+    titleen: "Chōjū-jinbutsu-giga_first",
+    region: "kyoto",
+    theme: "satire",
+    tags: ["Manga", "Animals", "Humor"],
+    spot: {
+      nameJa: "高山寺",
+      nameEn: "Kōzan-ji",
+      lat: 35.0601,
+      lng: 135.6763,
+      desc: {
+        ja: "鳥獣人物戯画は高山寺の寺宝として伝来し、現在も同寺に所蔵されています。",
+        en: "Chōjū-jinbutsu-giga has been passed down as a treasure of Kōzan-ji and is still kept there today.",
+      },
+    },
+  },
+  {
+    titleen: "jigokusoushi_anzyuin",
+    region: "kyoto",
+    theme: "dark-fantasy",
+    tags: ["Curses", "Hell", "Buddhism"],
+    spot: {
+      nameJa: "京都国立博物館",
+      nameEn: "Kyoto National Museum",
+      lat: 34.9902,
+      lng: 135.7731,
+      desc: {
+        ja: "当館が所蔵する絵巻の一つ。地獄の責め苦の情景を迫力ある筆致で描きます。",
+        en: "One of the hell-scroll versions held by the museum, depicting torments with powerful brushwork.",
+      },
+    },
+  },
+  {
+    titleen: "jigokusoushi_masuda_kou",
+    region: "kyoto",
+    theme: "dark-fantasy",
+    tags: ["Curses", "Hell", "Buddhism"],
+    spot: {
+      nameJa: "京都国立博物館",
+      nameEn: "Kyoto National Museum",
+      lat: 34.9902,
+      lng: 135.7731,
+      desc: {
+        ja: "同じく京都国立博物館の所蔵。独自の場面構成で、地獄の世界観を細部まで描き込んでいます。",
+        en: "Also held by the museum. This version arranges its scenes independently, detailing the underworld in minute brushwork.",
+      },
+    },
+  },
+  {
+    titleen: "gakisoushi_kawamoto",
+    region: "kyoto",
+    theme: "dark-fantasy",
+    tags: ["Ghosts", "Hunger", "Buddhism"],
+    spot: {
+      nameJa: "京都国立博物館",
+      nameEn: "Kyoto National Museum",
+      lat: 34.9902,
+      lng: 135.7731,
+      desc: {
+        ja: "飢えた亡者たちの姿を描く餓鬼草紙。本図は京都国立博物館が所蔵する作品です。",
+        en: "Hungry Ghosts Scroll depicts starving spirits in their torment. This version is held by the Kyoto National Museum.",
+      },
+    },
+  },
+  {
+    titleen: "kusouzumaki",
+    region: "kyoto",
+    theme: "dark-fantasy",
+    tags: ["Buddhism", "Impermanence", "Death"],
+    spot: {
+      nameJa: "檀林寺",
+      nameEn: "Danrin-ji",
+      lat: 35.0237,
+      lng: 135.6674,
+      desc: {
+        ja: "九相図巻のモデル・檀林皇后（橘嘉智子）が開いた禅宗最初の寺。皇后は自らの死後、遺体を風葬に付して無常を示したと伝えられ、その朽ちゆく姿は九相図に描かれました。",
+        en: "The first Zen temple in Japan, founded by Empress Danrin (Tachibana no Kachiko), the model of the Kusōzu Scroll. She is said to have left her own body to the elements after death to show impermanence—the theme depicted in the scroll.",
+      },
+    },
+  },
+  // ---- 鎌倉編 ----
+  {
+    titleen: "",
+    titleJa: "平治物語絵巻",
+    titleEn: "Tale of Heiji",
+    region: "kamakura",
+    theme: "samurai",
+    tags: ["Samurai", "Battle", "History"],
+    status: "coming-soon",
+    spot: {
+      nameJa: "鎌倉国宝館",
+      nameEn: "Kamakura Museum of National Treasures",
+      lat: 35.326,
+      lng: 139.5564,
+      desc: {
+        ja: "平治の乱を描いた合戦絵巻の現存断簡を、鎌倉国宝館が収蔵しています。",
+        en: "Surviving fragments of the battle scroll of the Heiji Rebellion are kept at the Kamakura Museum of National Treasures.",
+      },
+    },
+  },
+  {
+    titleen: "",
+    titleJa: "土蜘蛛草紙",
+    titleEn: "Tsuchigumo Sōshi",
+    region: "kamakura",
+    theme: "samurai",
+    tags: ["Monster", "Yokai", "Sword"],
+    status: "coming-soon",
+    spot: {
+      nameJa: "鎌倉エリア",
+      nameEn: "Kamakura Area",
+      lat: 35.319,
+      lng: 139.551,
+      desc: {
+        ja: "源頼光の土蜘蛛退治を描いた絵巻で、鎌倉ゆかりの武家文化を伝えます。",
+        en: "A scroll of Minamoto no Yorimitsu slaying the Tsuchigumo, carrying on the samurai culture of Kamakura.",
+      },
+    },
+  },
+  {
+    titleen: "",
+    titleJa: "蒙古襲来絵詞",
+    titleEn: "Mōko Shūrai Ekotoba",
+    region: "kamakura",
+    theme: "samurai",
+    tags: ["History", "Invasion", "Samurai"],
+    status: "coming-soon",
+    spot: {
+      nameJa: "鎌倉エリア",
+      nameEn: "Kamakura Area",
+      lat: 35.32,
+      lng: 139.553,
+      desc: {
+        ja: "元寇（蒙古襲来）の戦いを記録した絵詞で、当時の武士の活躍を伝えます。",
+        en: "An illustrated record of the Mongol invasions, telling of the samurai who fought in the era.",
+      },
+    },
+  },
+];
+
+/**
+ * おすすめ観光ルート（手動キュレーション正本）。
+ * stops は絵巻由来（titleen → HUB_EMAKIS / image-metadata-cache と JOIN）と
+ * 単独スポット（spot 直書き）を混在できる。座標は HUB_EMAKIS と二重管理しない。
+ */
+export const ROUTES = [
+  {
+    id: "kyoto-takao-giga",
+    region: "kyoto",
+    titleJa: "鳥獣戯画の里・高雄 古道めぐり",
+    titleEn: "Chōjū-giga's Home: Takao Temple Walk",
+    durationJa: "半日",
+    durationEn: "Half day",
+    summary: {
+      ja: "「日本最古のマンガ」鳥獣人物戯画の伝来の地・高山寺を起点に、同じく高雄に残る古刹を歩きます。",
+      en: "Start at Kōzan-ji, home of Japan's oldest manga, and walk the ancient temples of Takao.",
+    },
+    stops: [
+      {
+        titleen: "Chōjū-jinbutsu-giga_first",
+        note: {
+          ja: "鳥獣人物戯画の寺宝を伝える高山寺。",
+          en: "Kōzan-ji, which has handed down Chōjū-jinbutsu-giga.",
+        },
+      },
+      {
+        spot: {
+          nameJa: "神護寺",
+          nameEn: "Jingo-ji",
+          lat: 35.0535,
+          lng: 135.6686,
+        },
+        note: {
+          ja: "空海ゆかりの古刹。紅葉の名所としても有名。",
+          en: "An ancient temple tied to Kūkai, famed for autumn leaves.",
+        },
+      },
+      {
+        spot: {
+          nameJa: "西明寺",
+          nameEn: "Saimyō-ji",
+          lat: 35.0505,
+          lng: 135.6657,
+        },
+        note: {
+          ja: "高雄山に残るもう一つの古刹。",
+          en: "Another ancient temple in the Takao mountains.",
+        },
+      },
+    ],
+  },
+  {
+    id: "kyoto-higashiyama-hell",
+    region: "kyoto",
+    titleJa: "東山のダークファンタジー 地獄絵巻ルート",
+    titleEn: "Dark Fantasy Walk: Higashiyama & the Museum",
+    durationJa: "1日",
+    durationEn: "Full day",
+    summary: {
+      ja: "地獄草紙・餓鬼草紙を所蔵する京都国立博物館を軸に、隣接する東山の名所を結ぶ一日コース。",
+      en: "A full-day course around the Kyoto National Museum and its hell scrolls, linked with Higashiyama landmarks.",
+    },
+    stops: [
+      {
+        spot: {
+          nameJa: "三十三間堂",
+          nameEn: "Sanjūsangendō",
+          lat: 34.9879,
+          lng: 135.7716,
+        },
+        note: {
+          ja: "1001体の千手観音像が並ぶ圧巻の仏堂。",
+          en: "The hall of 1,001 Kannon statues.",
+        },
+      },
+      {
+        titleen: "jigokusoushi_anzyuin",
+        note: {
+          ja: "地獄の責め苦を描いた地獄草紙を所蔵。",
+          en: "Holds a Hell Scroll depicting underworld torments.",
+        },
+      },
+      {
+        titleen: "gakisoushi_kawamoto",
+        note: {
+          ja: "飢えた亡者たちの餓鬼草紙も同館に。",
+          en: "Also holds a Hungry Ghosts Scroll.",
+        },
+      },
+      {
+        spot: {
+          nameJa: "清水寺",
+          nameEn: "Kiyomizu-dera",
+          lat: 34.9948,
+          lng: 135.785,
+        },
+        note: {
+          ja: "東山随一の名所でルートを締めくくる。",
+          en: "End the course at one of Kyoto's most famous sights.",
+        },
+      },
+    ],
+  },
+  {
+    id: "kyoto-sagano-kusouzu",
+    region: "kyoto",
+    titleJa: "嵯峨野の無常 九相図ルート",
+    titleEn: "Impermanence Walk: Sagano & the Kusōzu",
+    durationJa: "半日",
+    durationEn: "Half day",
+    summary: {
+      ja: "九相図巻のモデル・檀林皇后ゆかりの檀林寺から、平安の風葬地・化野念仏寺を経て、旧檀林寺跡に建つ天龍寺へ。無常と死生観の世界を嵯峨野で辿るコース。",
+      en: "From Danrin-ji, tied to Empress Danrin—model of the Kusōzu scroll—through Adashino Nenbutsu-ji, a Heian-era open-air burial ground, to Tenryū-ji, built on the old Danrin-ji site. A walk through impermanence in Sagano.",
+    },
+    stops: [
+      {
+        titleen: "kusouzumaki",
+        note: {
+          ja: "九相図巻のモデル・檀林皇后（橘嘉智子）が開いた、日本最初の禅の寺。",
+          en: "The first Zen temple in Japan, founded by Empress Danrin, model of the Kusōzu scroll.",
+        },
+      },
+      {
+        spot: {
+          nameJa: "化野念仏寺",
+          nameEn: "Adashino Nenbutsu-ji",
+          lat: 35.0268,
+          lng: 135.6645,
+        },
+        note: {
+          ja: "鳥辺野・蓮台野と並ぶ平安の風葬地。約8000体の石仏・石塔が無常を語る。",
+          en: "One of three Heian open-air burial grounds, with some 8,000 stone Buddhas bearing witness to impermanence.",
+        },
+      },
+      {
+        spot: {
+          nameJa: "天龍寺",
+          nameEn: "Tenryū-ji",
+          lat: 35.016,
+          lng: 135.6738,
+        },
+        note: {
+          ja: "旧檀林寺の跡地に建つ世界遺産。嵐山の竹林とともにルートを締めくくる。",
+          en: "A World Heritage temple on the former Danrin-ji site, ending the walk amid the Arashiyama bamboo groves.",
+        },
+      },
+    ],
+  },
+  {
+    id: "kamakura-samurai",
+    region: "kamakura",
+    titleJa: "鎌倉 武士の都ルート",
+    titleEn: "Kamakura: The Samurai Capital Walk",
+    durationJa: "半日",
+    durationEn: "Half day",
+    summary: {
+      ja: "武家の都・鎌倉の中心を、平治物語絵巻などの合戦絵巻に想いを馳せながら歩くコース。",
+      en: "Walk the heart of the samurai capital with battle scrolls such as the Tale of Heiji in mind.",
+    },
+    stops: [
+      {
+        spot: {
+          nameJa: "鶴岡八幡宮",
+          nameEn: "Tsurugaoka Hachimangū",
+          lat: 35.3266,
+          lng: 139.5566,
+        },
+        note: {
+          ja: "源氏ゆかりの武家守護の社。",
+          en: "The shrine guarding the Minamoto clan.",
+        },
+      },
+      {
+        spot: {
+          nameJa: "鎌倉国宝館",
+          nameEn: "Kamakura Museum of National Treasures",
+          lat: 35.326,
+          lng: 139.5564,
+        },
+        note: {
+          ja: "平治物語絵巻の現存断簡を収蔵。",
+          en: "Keeps surviving fragments of the Tale of Heiji scroll.",
+        },
+      },
+      {
+        spot: {
+          nameJa: "高徳院（鎌倉大仏）",
+          nameEn: "Kōtoku-in (Great Buddha)",
+          lat: 35.3167,
+          lng: 139.5357,
+        },
+        note: {
+          ja: "鎌倉を代表するシンボルで締めくくる。",
+          en: "End at the iconic Great Buddha of Kamakura.",
+        },
+      },
+    ],
+  },
+];
+
+/** titleen から絵巻のゆかりの地（region + spot）を引く。ハブ未掲載なら null。 */
+export const getEmakiSpot = (titleen) => {
+  const hit = HUB_EMAKIS.find((e) => e.titleen === titleen);
+  if (!hit?.spot) return null;
+  return { region: hit.region, spot: hit.spot };
+};

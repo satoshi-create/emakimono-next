@@ -180,7 +180,7 @@ py -3.14 scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml
 1. preflight（自動）
 2. Cloudinary へアップロード（`sync_scroll.py`）
 3. `scenes[].text` から `emaki-text-data/{titleen}.json` を生成
-4. `dataEmakis.json` を upsert（`titleen` キー）
+4. `dataEmakis.json` を upsert（`titleen` キー）— **保存先は `local-data/pipeline/`（gitignore + cursorignore 済み）。git commit 対象外**
 5. `image-metadata-cache.json` を upsert（同 scroll のみ）
 
 **禁止・非推奨:**
@@ -189,11 +189,12 @@ py -3.14 scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml
 |---------------|------|
 | `--force-upload` | 全件再アップロード。Admin API・クレジットを浪費 |
 | `--remote-check` | Admin API 増加。通常は `.upload-cache.json` で十分 |
+| `--regenerate-cache` | `generateImageMetadata.js` の全再生成は現行 cache の Cloudinary 移行後形式（`v1775033725/emakimono/...`）を旧形式に巻き戻す。**通常は upsert（`--skip-upload`）で対象 scroll のみ更新** |
 | 同じ絵巻の sync ループ | 二重処理・上限消費 |
 
 成功後の更新物:
 
-- `src/data/json-data/dataEmakis.json`
+- `local-data/pipeline/dataEmakis.json`
 - `src/data/image-metadata-cache/image-metadata-cache.json`（構造のみ。テキストは埋め込まない）
 - `src/data/emaki-text-data/{titleen}.json`（`scenes[].text` から生成。表示はこのファイルが正本）
 - `scrolls/{scroll_id}/.upload-cache.json`（gitignore・再 sync 時のスキップ用）

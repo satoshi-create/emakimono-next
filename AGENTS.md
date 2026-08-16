@@ -39,7 +39,8 @@
 ## MVP scope vs legacy
 
 - **現行 MVP:** 鳥獣人物戯画（Chōjū-jinbutsu-giga）・九相図（Kusōzu）
-- `src/data/json-data/dataEmakis.json` 等には他 category も含むが、トップは上記2系統に焦点
+- **本番データ正本:** `src/data/image-metadata-cache/image-metadata-cache.json`（本番コードはこれのみ参照）
+- `local-data/pipeline/`（旧 `json-data/`）は旧一覧データ。**本番コード・Cursor Agent から参照しない**（gitignore + cursorignore 済みのローカル保持。sync ツールが読むのみ）
 - `src/libs/_archive_unused_data/` / `src/components/_archive_unused/` — **参照・編集しない**
 - `func.js` が archive を import していてもレガシー
 
@@ -87,8 +88,8 @@ Scroll sync / analytics は `docs/operations/` を参照。
 
 These paths are excluded from Agent indexing by default:
 
-- `src/data/json-data/`
-- `src/data/image-metadata-cache/`
+- `local-data/pipeline/`（旧 `json-data/`。gitignore + cursorignore 済み。sync ツールのみ参照）
+- `src/data/image-metadata-cache/`（本番正本。参照は可・直接の大量編集は build 後確認）
 - `src/data/emaki-text-data/`
 
 When editing scroll metadata or text JSON, temporarily comment out the relevant lines in `.cursorignore` or open those files directly in the editor.

@@ -117,8 +117,8 @@ node scripts/generate-thumb-webp.js {titleen}
 
 `thumb` / `thumb2` → `/thumb/{titleen}_thumb.webp`
 
-- `src/data/json-data/dataEmakis.json`（一覧カード用）
-- `src/data/image-metadata-cache/image-metadata-cache.json`（`generateOgImages.js` が読む）
+- `local-data/pipeline/dataEmakis.json`（旧一覧データ。git 管理外・sync ツール用。編集時はパイプライン側にも反映されるよう注意）
+- `src/data/image-metadata-cache/image-metadata-cache.json`（本番正本。`generateOgImages.js` が読む）
 
 どちらも `.cursorignore` 対象のため、**編集時は一時コメントアウト**または Shell の `node -e` / 一時スクリプトで実行する。
 

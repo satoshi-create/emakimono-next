@@ -7,6 +7,7 @@ import CustomTagCloud from "@/components/keyword/CustomTagCloud";
 import KusouzuHubLink from "@/components/emaki/kusouzu/KusouzuHubLink";
 import KusouzuModelLink from "@/components/emaki/kusouzu/KusouzuModelLink";
 import ChojuGigaHubLink from "@/components/emaki/chouju-giga/ChojuGigaHubLink";
+import SightseeingMapLink from "@/components/emaki/hub/SightseeingMapLink";
 import Footer from "@/components/layout/Footer";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/EmakiPortraitContent.module.css";
@@ -216,6 +217,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
                 <ChojuGigaHubLink variant="banner" />
               </>
             )}
+            <SightseeingMapLink titleen={titleen} variant="banner" />
             {/*タグクラウド（SPでは compact で小さく表示）*/}
             {keyword && (
               <div className={styles.tagCloud}>

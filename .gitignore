@@ -33,6 +33,10 @@ cloudinary-usage.json
 # scroll workspace (local YAML + images; sync outputs go to src/data/)
 /scrolls
 
+# pipeline input data (legacy json-data). Kept locally only so sync tools keep
+# working; NOT tracked by git and NOT visible to Cursor agents.
+/local-data/
+
 # python cache (analytics + scroll scripts)
 scripts/__pycache__/
 scripts/analytics/__pycache__/

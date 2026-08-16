@@ -43,7 +43,7 @@
 
 ### Step 1: レビュー
 1. scroll_config.yaml の scroll_id がフォルダ名と一致するか
-2. metadata.titleen / metadata.id が src/data/json-data/dataEmakis.json と重複しないか
+2. metadata.titleen / metadata.id が local-data/pipeline/dataEmakis.json と重複しないか
 3. scenes[].range の合計枚数 = images/ 内の画像枚数か
 4. 词書ありなら scenes[].text の有無を確認
 
@@ -79,7 +79,7 @@ py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20 --no-save
 ```
 
 更新されたファイルを一覧で報告:
-- src/data/json-data/dataEmakis.json
+- local-data/pipeline/dataEmakis.json
 - src/data/image-metadata-cache/image-metadata-cache.json
 - src/data/emaki-text-data/{{titleen}}.json（词書ありの場合）
 - scrolls/{{scroll-id}}/.upload-cache.json（gitignore）
@@ -165,7 +165,7 @@ docs/operations/scroll-pipeline.md Phase 0〜2 と §8 チェックリストに�
 3. 同一 PR に含めるべきファイル:
    - scrolls/{{scroll-id}}/scroll_config.yaml
    - scrolls/{{scroll-id}}/images/*
-   - src/data/json-data/dataEmakis.json
+   - local-data/pipeline/dataEmakis.json
    - src/data/image-metadata-cache/image-metadata-cache.json
    - src/data/emaki-text-data/{{titleen}}.json（該当時）
 4. PR では .github/workflows/validate-scroll.yml が preflight + dry-run を自動実行することを確認

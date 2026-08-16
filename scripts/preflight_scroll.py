@@ -22,7 +22,7 @@ from pathlib import Path
 import sync_scroll as ss
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-DATA_EMAKIS_PATH = REPO_ROOT / "src/data/json-data/dataEmakis.json"
+DATA_EMAKIS_PATH = REPO_ROOT / "local-data/pipeline/dataEmakis.json"
 PERSON_PROFILES_PATH = REPO_ROOT / "src/data/personname-data/personprofiles.json"
 
 # Cloudinary Free plan (see media_limits in usage API)

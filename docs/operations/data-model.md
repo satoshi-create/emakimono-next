@@ -13,27 +13,32 @@
 
 **`scroll_id` ≠ `titleen`** — 同期パイプラインと URL は別命名体系。
 
+## 本番データの参照ルール（重要）
+
+**本番コード（`src/pages/`・`src/components/`）が参照してよい JSON は `src/data/image-metadata-cache/image-metadata-cache.json` のみ。**
+
+- ページ・コンポーネントから JSON を直接 import する場合も、**必ず image-metadata-cache.json（正本）** を使う
+- `local-data/pipeline/` 配下（旧 `json-data/`）は旧一覧データの**ローカル保持**（gitignore + cursorignore 済み）。sync ツールが読むのみで、本番コード・Cursor Agent から参照しない
+- 新規ページ実装時に cache の `titleen` フィールドに無いデータが必要な場合は、先に YAML へ追加して sync / cache を更新する（手作業での二重管理をしない）
+
 ## ファイルと役割
 
 ```
 pages/[slug].js
     │  slug = titleen
     ▼
-image-metadata-cache/image-metadata-cache.json  ← ビューアのシーン列（画像 URL, chapter, id）
+image-metadata-cache/image-metadata-cache.json  ← ★正本。本番コードが参照してよい唯一の JSON
     │
-data/json-data/dataEmakis.json                  ← 一覧カード用メタ（author, era, thumb, desc）
+local-data/pipeline/dataEmakis.json             ← 旧一覧データ（gitignore + cursorignore 済み）
     │
 data/emaki-text-data/*.json                     ← 詞書・章テキスト（Ekotoba, 目次）
-    │
-data/data.js                                    ← 複数 category JSON の concat（レガシー含む）
 ```
 
 | ファイル | 読者 | 内容 |
 |----------|------|------|
-| `image-metadata-cache.json` | ビューア | シーン画像・寸法・chapter |
-| `dataEmakis.json` | 一覧・SEO・カード | title, titleen, author, thumb, keyword |
+| `image-metadata-cache.json` | 本番コード（ビューア・一覧・カード・SEO） | ★正本。シーン画像・寸法・chapter・title/thumb/desc など全メタ |
+| `local-data/pipeline/dataEmakis.json` ほか | sync ツール（`sync_all.py` 等）のみ | 旧一覧データ。**git 管理外・Cursor 非表示**。本番コードから直接参照しない |
 | `emaki-text-data/` | 詞書オーバーレイ | 章ごとの classical / modern テキスト |
-| `data.js` | 旧一覧 API | emaki + 屏風・浮世絵等を結合 |
 
 ## 現行 MVP
 
@@ -118,6 +123,8 @@ data/data.js                                    ← 複数 category JSON の con
 
 ## Agent がデータを編集するとき
 
-1. `.cursorignore` から該当 JSON パスを一時的に外す
-2. 変更後 `npm run build` でビルド確認
-3. ビューア表示は `titleen`（slug）で `[slug].js` が解決
+1. **本番表示用の編集**は `src/data/image-metadata-cache/image-metadata-cache.json`（正本）を対象にする
+2. `.cursorignore` から該当 JSON パスを一時的に外す
+3. **YAML / パイプライン入力の編集**は、変更後 `python scripts/sync_all.py --skip-upload` で対象 scroll のみ cache を upsert する（`generateImageMetadata.js` の全再生成は Cloudinary 移行後形式を旧形式に巻き戻すため**非推奨**）
+4. 変更後 `npm run build` でビルド確認
+5. ビューア表示は `titleen`（slug）で `[slug].js` が解決

@@ -18,7 +18,7 @@ ga4:
     fallback_reason: customEvent:fallback_reason
 
 content:
-  emakis_json: src/data/json-data/dataEmakis.json
+  emakis_json: local-data/pipeline/dataEmakis.json
   content_map: analytics/content-map.json
   slug_field: titleen
 

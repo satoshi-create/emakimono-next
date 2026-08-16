@@ -486,10 +486,74 @@
           }
         ]
       },
-      "contact": {
-        "title": "Disclaimer & contact",
-        "body": "This page provides general information only and is not legal advice. For specific use, please consult each institution's terms and, if necessary, a professional. For questions about this page, use the button below."
-      }
+    "contact": {
+      "title": "Disclaimer & contact",
+      "body": "This page provides general information only and is not legal advice. For specific use, please consult each institution's terms and, if necessary, a professional. For questions about this page, use the button below."
     }
+    }
+  },
+
+  "emakiHub": {
+    "pagetitle": "Sightseeing Map — Kyoto & Kamakura",
+    "pagetitleEn": "Sightseeing Map — Kyoto & Kamakura",
+    "metaDesc": "Visit the places where emaki were created. Follow recommended sightseeing routes around Kyoto and Kamakura, explore Chōjū-jinbutsu-giga, Hell Scrolls, Hungry Ghosts Scrolls and more on a map, discover their ties to manga and anime, then unroll each scroll horizontally.",
+    "metaDescEn": "Visit the places where emaki were created. Explore Chōjū-jinbutsu-giga, Hell Scrolls, Hungry Ghosts Scrolls and more on a sightseeing map of Kyoto and Kamakura, then unroll each scroll horizontally.",
+    "breadcrumb": "Sightseeing Map",
+    "topBannerTitle": "Explore emaki on a sightseeing map",
+    "topBannerCta": "Explore the Kyoto & Kamakura map →",
+    "heroLead": "Follow the scrolls, and the places they came from.",
+    "heroLeadEn": "Follow the scrolls, and the places they came from.",
+    "viewerBtn": "Unroll the scroll",
+    "viewerBtnEn": "Unroll the scroll",
+    "comingSoon": "Coming soon",
+    "comingSoonDesc": "Coming soon. Please stay tuned.",
+    "comingSoonDescEn": "Coming soon. Please stay tuned.",
+    "themeFilter": "Filter by theme",
+    "themeFilterEn": "Filter by theme",
+    "viewToggle": "View mode",
+    "grid": "Cards",
+    "gridEn": "Cards",
+    "map": "Map",
+    "mapEn": "Map",
+    "openMap": "Open in Google Maps",
+    "openMapEn": "Open in Google Maps",
+    "spotLabel": "Related site",
+    "spotLabelEn": "Related site",
+    "sectionTitle": "Browse the scrolls",
+    "sectionTitleEn": "Browse the scrolls",
+    "sectionDesc": "Discover scrolls tied to the selected region, as cards or on the map.",
+    "sectionDescEn": "Discover scrolls tied to the selected region, as cards or on the map.",
+    "mapLinkLabel": "See this scroll's related places on the sightseeing map",
+    "mapLinkLabelEn": "See this scroll's related places on the sightseeing map",
+    "routesTitle": "Recommended Routes",
+    "routesTitleEn": "Recommended Routes",
+    "routesDesc": "Handpicked routes linking the places where emaki were kept and created.",
+    "routesDescEn": "Handpicked routes linking the places where emaki were kept and created.",
+    "routeDuration": "Duration",
+    "routeDurationEn": "Duration",
+    "routeViewOnMap": "View on map",
+    "routeViewOnMapEn": "View on map",
+    "mapFullscreenOpen": "Open map in fullscreen",
+    "mapFullscreenClose": "Close fullscreen",
+    "mapFullscreenOpenEn": "Open map in fullscreen",
+    "mapFullscreenCloseEn": "Close fullscreen",
+    "routesClose": "Close recommended routes",
+    "routesCloseEn": "Close recommended routes",
+    "routeStopEmaki": "Emaki-related site",
+    "routeStopEmakiEn": "Emaki-related site",
+    "routeStopSpot": "Sightseeing spot",
+    "routeStopSpotEn": "Sightseeing spot",
+    "mediaTitle": "Manga & Anime × Emaki",
+    "mediaTitleEn": "Manga & Anime × Emaki",
+    "mediaDesc": "The worldviews behind familiar stories often have their roots in Heian–Kamakura picture scrolls.",
+    "mediaDescEn": "The worldviews behind familiar stories often have their roots in Heian–Kamakura picture scrolls.",
+    "mediaViewEmaki": "Unroll this scroll",
+    "mediaViewEmakiEn": "Unroll this scroll",
+    "mediaOfficial": "Official site",
+    "mediaOfficialEn": "Official site",
+    "mediaTypeAnime": "Anime",
+    "mediaTypeAnimeEn": "Anime",
+    "mediaTypeManga": "Manga",
+    "mediaTypeMangaEn": "Manga"
   }
 }
