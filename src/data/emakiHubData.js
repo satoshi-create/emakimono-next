@@ -179,6 +179,161 @@ export const HUB_EMAKIS = [
   },
 ];
 
+/**
+ * おすすめ観光ルート（手動キュレーション正本）。
+ * stops は絵巻由来（titleen → HUB_EMAKIS / image-metadata-cache と JOIN）と
+ * 単独スポット（spot 直書き）を混在できる。座標は HUB_EMAKIS と二重管理しない。
+ */
+export const ROUTES = [
+  {
+    id: "kyoto-takao-giga",
+    region: "kyoto",
+    titleJa: "鳥獣戯画の里・高雄 古道めぐり",
+    titleEn: "Chōjū-giga's Home: Takao Temple Walk",
+    durationJa: "半日",
+    durationEn: "Half day",
+    summary: {
+      ja: "「日本最古のマンガ」鳥獣人物戯画の伝来の地・高山寺を起点に、同じく高雄に残る古刹を歩きます。",
+      en: "Start at Kōzan-ji, home of Japan's oldest manga, and walk the ancient temples of Takao.",
+    },
+    stops: [
+      {
+        titleen: "Chōjū-jinbutsu-giga_first",
+        note: {
+          ja: "鳥獣人物戯画の寺宝を伝える高山寺。",
+          en: "Kōzan-ji, which has handed down Chōjū-jinbutsu-giga.",
+        },
+      },
+      {
+        spot: {
+          nameJa: "神護寺",
+          nameEn: "Jingo-ji",
+          lat: 35.0535,
+          lng: 135.6686,
+        },
+        note: {
+          ja: "空海ゆかりの古刹。紅葉の名所としても有名。",
+          en: "An ancient temple tied to Kūkai, famed for autumn leaves.",
+        },
+      },
+      {
+        spot: {
+          nameJa: "西明寺",
+          nameEn: "Saimyō-ji",
+          lat: 35.0505,
+          lng: 135.6657,
+        },
+        note: {
+          ja: "高雄山に残るもう一つの古刹。",
+          en: "Another ancient temple in the Takao mountains.",
+        },
+      },
+    ],
+  },
+  {
+    id: "kyoto-higashiyama-hell",
+    region: "kyoto",
+    titleJa: "東山のダークファンタジー 地獄絵巻ルート",
+    titleEn: "Dark Fantasy Walk: Higashiyama & the Museum",
+    durationJa: "1日",
+    durationEn: "Full day",
+    summary: {
+      ja: "地獄草紙・餓鬼草紙を所蔵する京都国立博物館を軸に、隣接する東山の名所を結ぶ一日コース。",
+      en: "A full-day course around the Kyoto National Museum and its hell scrolls, linked with Higashiyama landmarks.",
+    },
+    stops: [
+      {
+        spot: {
+          nameJa: "三十三間堂",
+          nameEn: "Sanjūsangendō",
+          lat: 34.9879,
+          lng: 135.7716,
+        },
+        note: {
+          ja: "1001体の千手観音像が並ぶ圧巻の仏堂。",
+          en: "The hall of 1,001 Kannon statues.",
+        },
+      },
+      {
+        titleen: "jigokusoushi_anzyuin",
+        note: {
+          ja: "地獄の責め苦を描いた地獄草紙を所蔵。",
+          en: "Holds a Hell Scroll depicting underworld torments.",
+        },
+      },
+      {
+        titleen: "gakisoushi_kawamoto",
+        note: {
+          ja: "飢えた亡者たちの餓鬼草紙も同館に。",
+          en: "Also holds a Hungry Ghosts Scroll.",
+        },
+      },
+      {
+        spot: {
+          nameJa: "清水寺",
+          nameEn: "Kiyomizu-dera",
+          lat: 34.9948,
+          lng: 135.785,
+        },
+        note: {
+          ja: "東山随一の名所でルートを締めくくる。",
+          en: "End the course at one of Kyoto's most famous sights.",
+        },
+      },
+    ],
+  },
+  {
+    id: "kamakura-samurai",
+    region: "kamakura",
+    titleJa: "鎌倉 武士の都ルート",
+    titleEn: "Kamakura: The Samurai Capital Walk",
+    durationJa: "半日",
+    durationEn: "Half day",
+    summary: {
+      ja: "武家の都・鎌倉の中心を、平治物語絵巻などの合戦絵巻に想いを馳せながら歩くコース。",
+      en: "Walk the heart of the samurai capital with battle scrolls such as the Tale of Heiji in mind.",
+    },
+    stops: [
+      {
+        spot: {
+          nameJa: "鶴岡八幡宮",
+          nameEn: "Tsurugaoka Hachimangū",
+          lat: 35.3266,
+          lng: 139.5566,
+        },
+        note: {
+          ja: "源氏ゆかりの武家守護の社。",
+          en: "The shrine guarding the Minamoto clan.",
+        },
+      },
+      {
+        spot: {
+          nameJa: "鎌倉国宝館",
+          nameEn: "Kamakura Museum of National Treasures",
+          lat: 35.326,
+          lng: 139.5564,
+        },
+        note: {
+          ja: "平治物語絵巻の現存断簡を収蔵。",
+          en: "Keeps surviving fragments of the Tale of Heiji scroll.",
+        },
+      },
+      {
+        spot: {
+          nameJa: "高徳院（鎌倉大仏）",
+          nameEn: "Kōtoku-in (Great Buddha)",
+          lat: 35.3167,
+          lng: 139.5357,
+        },
+        note: {
+          ja: "鎌倉を代表するシンボルで締めくくる。",
+          en: "End at the iconic Great Buddha of Kamakura.",
+        },
+      },
+    ],
+  },
+];
+
 /** titleen から絵巻のゆかりの地（region + spot）を引く。ハブ未掲載なら null。 */
 export const getEmakiSpot = (titleen) => {
   const hit = HUB_EMAKIS.find((e) => e.titleen === titleen);

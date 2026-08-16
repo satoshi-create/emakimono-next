@@ -1,6 +1,7 @@
 import EmakiHubPage from "@/components/emaki/hub/EmakiHubPage";
 import HubPageShell from "@/components/layout/HubPageShell";
-import { HUB_EMAKIS, REGIONS } from "@/data/emakiHubData";
+import { HUB_EMAKIS, REGIONS, ROUTES } from "@/data/emakiHubData";
+import { MEDIA_ASSOCIATIONS } from "@/data/emakiRelatedMedia";
 import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
 import { buildLocaleUrl, SITE_ORIGIN } from "@/libs/constants/dataSiteMeta";
 import { useLocaleMeta } from "@/utils/func";
@@ -52,11 +53,66 @@ const buildEmakiHubJsonLd = ({ locale, defaultLocale, t, meta, items }) => {
     ],
   };
 
+  // 漫画・アニメ ↔ 絵巻 の関連付け（編集的言及。外部 URL は公式サイト）
+  const mediaItems = items
+    .filter((item) => item.media?.length)
+    .flatMap((item) =>
+      item.media.map((m, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: m.titleEn || m.titleJa,
+        item: m.officialUrl,
+      })),
+    );
+
+  const graph = [collectionPage, breadcrumbList];
+  if (mediaItems.length > 0) {
+    graph.push({
+      "@type": "ItemList",
+      name: t("emakiHub.mediaTitle"),
+      itemListElement: mediaItems,
+    });
+  }
+
   return JSON.stringify(
-    { "@context": "https://schema.org", "@graph": [collectionPage, breadcrumbList] },
+    { "@context": "https://schema.org", "@graph": graph },
     null,
     " "
   );
+};
+
+/**
+ * ルートの stops を JOIN する。
+ * - titleen 指定 stop: HUB_EMAKIS の spot と image-metadata-cache の thumb/title を付与
+ * - spot 直書き stop: そのまま
+ */
+const buildRoutes = () => {
+  return ROUTES.map((route) => ({
+    ...route,
+    stops: route.stops.map((stop) => {
+      if (!stop.titleen) return stop;
+      const meta = emakisData.find((m) => m.titleen === stop.titleen);
+      const hub = HUB_EMAKIS.find((h) => h.titleen === stop.titleen);
+      return {
+        ...stop,
+        title: meta?.title || stop.title,
+        thumb: meta?.thumb,
+        spot: hub?.spot,
+      };
+    }),
+  }));
+};
+
+/** メディア関連付けを emaki 側メタ（thumb/title）と JOIN する。 */
+const buildMediaAssociations = () => {
+  return MEDIA_ASSOCIATIONS.map((m) => ({
+    ...m,
+    emaki: {
+      titleen: m.emakiTitleen,
+      title: emakisData.find((e) => e.titleen === m.emakiTitleen)?.title || "",
+      thumb: emakisData.find((e) => e.titleen === m.emakiTitleen)?.thumb || "",
+    },
+  }));
 };
 
 /** image-metadata-cache.json（正本）と titleen で JOIN したハブデータを構築 */
@@ -65,8 +121,11 @@ const buildHubData = () => {
   const emakis = HUB_EMAKIS.map((item) => {
     const meta = emakisData.find((m) => m.titleen === item.titleen);
     return meta ? { ...item, ...meta } : item;
-  });
-  return { regions, emakis };
+  }).map((item) => ({
+    ...item,
+    media: MEDIA_ASSOCIATIONS.filter((m) => m.emakiTitleen === item.titleen),
+  }));
+  return { regions, emakis, routes: buildRoutes(), media: buildMediaAssociations() };
 };
 
 const EmakiHub = ({ hubData }) => {

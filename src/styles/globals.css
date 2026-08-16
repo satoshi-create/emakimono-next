@@ -131,7 +131,14 @@ button {
   grid-template-columns: 1fr min(calc(100vw - (5vw * 2)), 1200px) 1fr;
 }
 
-.section-grid>* {
+/* ワイド版（観光マップ等の地図・カード主体ページ用） */
+.section-grid-wide {
+  display: grid;
+  grid-template-columns: 1fr min(calc(100vw - (5vw * 2)), 1320px) 1fr;
+}
+
+.section-grid>*,
+.section-grid-wide>* {
   grid-column: 2;
 }
 

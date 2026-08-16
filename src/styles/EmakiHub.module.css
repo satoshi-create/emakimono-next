@@ -9,7 +9,7 @@
 }
 
 .heroInner {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
@@ -87,30 +87,31 @@
   margin-top: 0.5rem;
 }
 
-/* --- ツールバー（テーマフィルタ + 表示切替） --- */
-.toolbar {
+/* --- カテゴリーフィルタ（地図左上オーバーレイ） --- */
+.mapFilter {
+  position: absolute;
+  top: 0.75rem;
+  left: 3rem;
+  z-index: 1100;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin: 1.5rem 0 2rem;
-}
-
-.themeFilter {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.4rem;
+  max-width: calc(100% - 3.75rem);
+  padding: 0.4rem;
+  background: rgb(255 255 255 / 0.92);
+  border: 1px solid rgb(211 211 211 / 0.6);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.12);
 }
 
 .themeTab {
-  padding: 0.45rem 1.1rem;
+  padding: 0.4rem 0.9rem;
   border: 1px solid var(--clr-grey-light);
   border-radius: 999px;
   background: var(--clr-surface);
   color: var(--clr-text);
   font-family: var(--font-ui);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -125,186 +126,28 @@
   color: #fff;
 }
 
-.viewToggle {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.viewBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.45rem 1.1rem;
-  border: 1px solid var(--clr-grey-light);
-  border-radius: 8px;
-  background: var(--clr-surface);
-  color: var(--clr-text);
-  font-family: var(--font-ui);
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.viewBtn:hover {
-  border-color: var(--clr-accent);
-}
-
-.viewBtnActive {
-  background: var(--clr-text);
-  border-color: var(--clr-text);
-  color: #fff;
-}
-
-/* --- カードグリッド --- */
-.cardGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-}
-
-.card {
-  display: flex;
-  flex-direction: column;
-  background: var(--clr-surface);
-  border: 1px solid rgb(211 211 211 / 0.5);
-  border-radius: 12px;
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgb(0 0 0 / 0.08);
-}
-
-.cardComingSoon {
-  opacity: 0.92;
-}
-
-.cardThumb {
-  position: relative;
-  aspect-ratio: 16 / 10;
-  background: rgb(0 0 0 / 0.06);
-}
-
-.cardThumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.cardThumbPlaceholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  font-family: var(--font-story);
-  color: var(--clr-text-muted);
-  background: linear-gradient(135deg, #f0f2f5, #e2e6ea);
-  padding: 1rem;
-  text-align: center;
-}
-
-.comingSoonBadge {
-  position: absolute;
-  top: 0.6rem;
-  left: 0.6rem;
-  padding: 0.3rem 0.7rem;
-  border-radius: 999px;
-  background: var(--clr-accent);
-  color: #fff;
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-  font-weight: 700;
-}
-
-.cardBody {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 1.1rem;
-}
-
-.cardTitle {
-  font-family: var(--font-story);
-  font-size: 1.15rem;
-  color: var(--clr-text);
-}
-
-.cardTitleEn {
-  font-family: var(--font-ui);
-  font-size: 0.82rem;
-  color: var(--clr-text-muted);
-}
-
-.cardTags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.cardTag {
-  padding: 0.2rem 0.6rem;
-  border-radius: 999px;
-  background: rgb(255 140 119 / 0.14);
-  color: #b3503c;
-  font-family: var(--font-ui);
-  font-size: 0.72rem;
-}
-
-.cardSpot {
-  font-family: var(--font-ui);
-  font-size: 0.82rem;
-  color: var(--clr-accent-green);
-}
-
-.cardDesc {
-  font-family: var(--font-ui);
-  font-size: 0.85rem;
-  line-height: 1.7;
-  color: var(--clr-text-muted);
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.cardBtn {
-  margin-top: auto;
-  display: inline-block;
-  text-align: center;
-  padding: 0.6rem 1rem;
-  border-radius: 8px;
-  background: var(--clr-accent);
-  color: #fff;
-  font-family: var(--font-ui);
-  font-size: 0.88rem;
-  text-decoration: none;
-  transition: opacity 0.2s ease;
-}
-
-.cardBtn:hover {
-  opacity: 0.85;
-}
-
-.cardBtnDisabled {
-  margin-top: auto;
-  display: inline-block;
-  text-align: center;
-  padding: 0.6rem 1rem;
-  border-radius: 8px;
-  background: var(--clr-grey-light);
-  color: #fff;
-  font-family: var(--font-ui);
-  font-size: 0.88rem;
-  cursor: not-allowed;
-}
-
 /* --- マップ --- */
 .mapWrap {
+  position: relative;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid rgb(211 211 211 / 0.6);
+}
+
+/* 全画面表示時（mapWrap ごと固定配置でビューポートを覆う） */
+.mapWrapFullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  border-radius: 0;
+  border: none;
+}
+
+/* 内側の mapWrap（EmakiHubMap の外枠）と Leaflet コンテナも全体に伸ばす */
+.mapWrapFullscreen .mapWrap,
+.mapWrapFullscreen .map {
+  height: 100%;
+  min-height: 0;
 }
 
 .map {
@@ -321,6 +164,32 @@
   border: 1px solid rgb(211 211 211 / 0.6);
   color: var(--clr-text-muted);
   font-family: var(--font-ui);
+}
+
+/* --- 全画面表示トグル（地図右上） --- */
+.mapFullscreenBtn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 1150;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgb(211 211 211 / 0.6);
+  border-radius: 10px;
+  background: rgb(255 255 255 / 0.94);
+  color: var(--clr-text);
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.12);
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.mapFullscreenBtn:hover {
+  color: var(--clr-accent);
 }
 
 .mapPinWrap {
@@ -492,6 +361,495 @@
   white-space: nowrap;
 }
 
+/* --- セクションナビ --- */
+.sectionNav {
+  display: flex;
+  gap: 1.5rem;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0.75rem 5vw;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  border-bottom: 1px solid rgb(211 211 211 / 0.4);
+}
+
+.sectionNav a {
+  color: var(--clr-link);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.sectionNav a:hover {
+  opacity: 0.7;
+  text-decoration: underline;
+}
+
+.sectionAnchor {
+  scroll-margin-top: 6rem;
+}
+
+/* --- ルート選択中チップ（地図左下オーバーレイ） --- */
+.routeActiveChip {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: calc(100% - 1.5rem);
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.94);
+  border: 1px solid rgb(255 140 119 / 0.5);
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.12);
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  color: var(--clr-text);
+}
+
+.routeActiveClear {
+  margin-left: auto;
+  border: none;
+  background: transparent;
+  color: var(--clr-text-muted);
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  font-size: 0.85rem;
+}
+
+.routeActiveClear:hover {
+  color: var(--clr-accent);
+}
+
+/* --- おすすめルートパネル（地図右側・折りたたみ式オーバーレイ） --- */
+.routePanel {
+  position: absolute;
+  top: 3.5rem; /* 全画面トグルボタンの下から表示 */
+  right: 0.75rem;
+  bottom: 0.75rem;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 360px;
+  max-width: calc(100% - 1.5rem);
+  padding: 1rem;
+  background: rgb(255 255 255 / 0.97);
+  border: 1px solid rgb(211 211 211 / 0.6);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgb(0 0 0 / 0.16);
+  font-family: var(--font-ui);
+}
+
+.routePanelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.routePanelTitle {
+  font-family: var(--font-story);
+  font-size: 1.1rem;
+  color: var(--clr-text);
+  margin: 0;
+}
+
+.routePanelClose {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  background: var(--clr-surface);
+  color: var(--clr-text-muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+
+.routePanelClose:hover {
+  color: var(--clr-accent);
+  background: rgb(255 140 119 / 0.12);
+}
+
+.routePanelDesc {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: var(--clr-text-muted);
+  margin: 0;
+}
+
+.routePanelList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* パネル内のルートカードはコンパクト表示 */
+.routePanel .routeCard {
+  padding: 0.9rem;
+  gap: 0.6rem;
+  box-shadow: none;
+}
+
+.routePanel .routeCard:hover {
+  transform: none;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+}
+
+.routePanel .routeStopImg {
+  display: none;
+}
+
+.routePanel .routeSummary {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.routePanel .routeBtn {
+  font-size: 0.78rem;
+  padding: 0.45rem 0.8rem;
+}
+
+.routePanel .routeStopNote {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 閉状態のトグルボタン（地図右下・帰属表示の上） */
+.routePanelToggle {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 2.5rem;
+  z-index: 1100;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.1rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--clr-text);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgb(0 0 0 / 0.25);
+  transition: opacity 0.2s ease, background 0.2s ease;
+}
+
+.routePanelToggle:hover {
+  opacity: 0.88;
+  background: var(--clr-accent);
+}
+
+.routeCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  padding: 1.3rem;
+  background: var(--clr-surface);
+  border: 1px solid rgb(211 211 211 / 0.5);
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.routeCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.08);
+}
+
+.routeHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.routeTitle {
+  font-family: var(--font-story);
+  font-size: 1.1rem;
+  color: var(--clr-text);
+}
+
+.routeTitleEn {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  color: var(--clr-text-muted);
+  margin-top: 0.15rem;
+}
+
+.routeDuration {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: var(--clr-accent-green);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.routeSummary {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--clr-text-muted);
+}
+
+.routeStops {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.routeStop {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+}
+
+.routeStopNum {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--clr-accent);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-top: 0.15rem;
+}
+
+.routeStopImg {
+  flex-shrink: 0;
+  width: 56px;
+  height: 42px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: rgb(0 0 0 / 0.06);
+}
+
+.routeStopBody {
+  min-width: 0;
+}
+
+.routeStopLabels {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.stopBadgeEmaki,
+.stopBadgeSpot {
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: 0.66rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.stopBadgeEmaki {
+  background: rgb(255 140 119 / 0.16);
+  color: #b3503c;
+}
+
+.stopBadgeSpot {
+  background: rgb(84 137 106 / 0.16);
+  color: var(--clr-accent-green);
+}
+
+.routeStopName {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--clr-text);
+}
+
+.routeStopNote {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: var(--clr-text-muted);
+  margin-top: 0.2rem;
+}
+
+.routeBtn {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--clr-accent);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.routeBtn:hover {
+  opacity: 0.85;
+}
+
+/* --- 漫画・アニメ関連カード --- */
+.mediaGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.mediaCard {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--clr-surface);
+  border: 1px solid rgb(211 211 211 / 0.5);
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mediaCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.08);
+}
+
+.mediaThumb {
+  aspect-ratio: 16 / 9;
+  background: rgb(0 0 0 / 0.06);
+}
+
+.mediaThumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mediaThumbPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-family: var(--font-story);
+  color: var(--clr-text-muted);
+  background: linear-gradient(135deg, #f0f2f5, #e2e6ea);
+  padding: 1rem;
+  text-align: center;
+}
+
+.mediaBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.1rem;
+}
+
+.mediaTypeBadge {
+  align-self: flex-start;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: rgb(84 137 106 / 0.14);
+  color: var(--clr-accent-green);
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.mediaTitle {
+  font-family: var(--font-story);
+  font-size: 1.1rem;
+  color: var(--clr-text);
+}
+
+.mediaTitleEn {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--clr-text-muted);
+}
+
+.mediaRationale {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--clr-text);
+}
+
+.mediaEmakiName {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--clr-text-muted);
+}
+
+.mediaActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.3rem;
+}
+
+.mediaBtn {
+  display: inline-block;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  background: var(--clr-accent);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.mediaBtn:hover {
+  opacity: 0.85;
+}
+
+.mediaOfficial {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--clr-link);
+  text-decoration: none;
+}
+
+.mediaOfficial:hover {
+  text-decoration: underline;
+}
+
+/* --- ルート表示中のピン装飾 --- */
+.mapPinDim {
+  opacity: 0.35;
+}
+
+.mapPinRoute {
+  box-shadow: 0 0 0 3px rgb(255 255 255 / 0.9), 0 2px 8px rgb(0 0 0 / 0.35);
+}
+
 /* --- モバイル（768px 以下） --- */
 @media (max-width: 768px) {
   .hero {
@@ -502,30 +860,13 @@
     padding: 0.55rem 1.1rem;
   }
 
-  .toolbar {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .viewToggle {
-    justify-content: stretch;
-  }
-
-  .viewBtn {
-    flex: 1;
-    justify-content: center;
-  }
-
-  .cardGrid {
-    grid-template-columns: 1fr;
-  }
-
+  /* SP は地図の縦幅を伸長して見やすくする */
   .map {
-    min-height: 45vh;
+    min-height: 70vh;
   }
 
   .mapLoading {
-    min-height: 45vh;
+    min-height: 70vh;
   }
 
   .topBanner {
@@ -534,6 +875,15 @@
     gap: 0.3rem;
     margin-top: 1rem;
     padding: 0.9rem 1.1rem;
+  }
+
+  /* 全画面トグルは SP ではコンパクトに */
+  .mapFullscreenBtn {
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 36px;
+    height: 36px;
+    font-size: 0.85rem;
   }
 
   /* ピンポップアップをマップより大きくしない（SP） */
@@ -563,5 +913,125 @@
   .mapPopupBtn {
     font-size: 0.75rem;
     padding: 0.35rem 0.8rem;
+  }
+
+  .sectionNav {
+    gap: 1rem;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  /* カテゴリーフィルタは横スクロールチップに。ボタンは小さくして地図に収める */
+  .mapFilter {
+    left: 3rem;
+    top: 0.5rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-width: calc(100% - 3.5rem);
+    scrollbar-width: none;
+  }
+
+  .mapFilter::-webkit-scrollbar {
+    display: none;
+  }
+
+  .themeTab {
+    font-size: 0.66rem;
+    padding: 0.25rem 0.55rem;
+    white-space: nowrap;
+  }
+
+  /* ルートパネルはボトムシート型（上半分に地図とピンを残す） */
+  .routePanel {
+    top: auto;
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    width: auto;
+    max-height: 46%;
+    max-width: none;
+    padding: 0.8rem 0.9rem;
+  }
+
+  .routePanelTitle {
+    font-size: 0.95rem;
+  }
+
+  .routePanelDesc {
+    display: none;
+  }
+
+  .routePanelList {
+    gap: 0.7rem;
+  }
+
+  /* カードをコンパクト化してシート 1 枚あたりの高さを減らす */
+  .routePanel .routeCard {
+    padding: 0.7rem;
+    gap: 0.5rem;
+  }
+
+  .routePanel .routeStopImg {
+    display: none;
+  }
+
+  .routePanel .routeSummary {
+    display: block;
+    -webkit-line-clamp: none;
+    overflow: visible;
+  }
+
+  .routePanel .routeBtn {
+    font-size: 0.72rem;
+    padding: 0.4rem 0.7rem;
+  }
+
+  .routePanelToggle {
+    right: 0.5rem;
+    bottom: 2.5rem;
+    font-size: 0.7rem;
+    padding: 0.45rem 0.8rem;
+    gap: 0.3rem;
+    max-width: 60vw;
+    white-space: nowrap;
+  }
+
+  .routePanelToggle span {
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .routeActiveChip {
+    left: 0.5rem;
+    bottom: 0.5rem;
+    max-width: calc(100% - 1rem);
+    font-size: 0.68rem;
+    padding: 0.4rem 0.7rem;
+    gap: 0.45rem;
+    white-space: nowrap;
+  }
+
+  .routeActiveChip span {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mediaGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .routeHeader {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .routeStopImg {
+    width: 48px;
+    height: 36px;
   }
 }
