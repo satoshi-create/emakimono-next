@@ -1,13 +1,9 @@
 import EmakiConteiner from "@/components/emaki/layout/EmakiConteiner";
-import SourceAttribution from "@/components/emaki/metadata/SourceAttribution";
+import EmakiMetadataSection from "@/components/emaki/layout/EmakiMetadataSection";
 import LikeButton from "@/components/emaki/metadata/LikeButton";
 import ShareButtons from "@/components/emaki/viewer/ShareButtons";
 import RecommendEmaki from "@/components/emaki/ranking/RecommendEmaki";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
-import KusouzuHubLink from "@/components/emaki/kusouzu/KusouzuHubLink";
-import KusouzuModelLink from "@/components/emaki/kusouzu/KusouzuModelLink";
-import ChojuGigaHubLink from "@/components/emaki/chouju-giga/ChojuGigaHubLink";
-import SightseeingMapLink from "@/components/emaki/hub/SightseeingMapLink";
 import Footer from "@/components/layout/Footer";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/EmakiLandscapContent.module.css";
@@ -15,7 +11,6 @@ import ExtractingListData from "@/utils/ExtractingListData";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
 import {
-  eraColor,
   filterdKeywords,
   keywordItem,
   useLocaleData,
@@ -44,10 +39,7 @@ const EmakiLandscapContent = ({
   const allKeywords = keywordItem(removeNestedArrayObj);
 
   const {
-    type,
     typeen,
-    eraen,
-    era,
     title,
     titleen,
     edition,
@@ -55,13 +47,6 @@ const EmakiLandscapContent = ({
     authoren,
     desc,
     descen,
-    sourceImage,
-    sourceImageUrl,
-    sourceAuthor,
-    sourceCollection,
-    sourceLicense,
-    reference,
-    personname,
     keyword,
     genjieslug,
   } = data;
@@ -211,103 +196,17 @@ const EmakiLandscapContent = ({
               )}
               {/* ハブリンクは metadataB のバナーで提示するため、ここには置かない */}
             </div>
-            <div className={styles.metadataB}>
-              {/* 絵巻の紹介 */}
-              <h4
-                className={styles.metaBtitle}
-                style={{
-                  "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
-                }}
-              >
-                {locale == "en" ? "Introduction to Emaki" : "絵巻の紹介"}
-              </h4>
-              <div className={styles.desc}>
-                {descToParagraphs(locale === "en" ? descEn : descJa) ??
-                  parse(locale === "en" ? descEn : descJa)}
-              </div>
-              {/*カテゴリー・時代タグ（紹介文の直後に置く）*/}
-              <div className={styles.cat}>
-                <Link href={`/era/${eraen}`}>
-                  <a
-                    className={styles.era}
-                    style={{
-                      border: eraColor(era),
-                      backgroundColor: eraColor(era),
-                      color: eraColor(era) ? "white" : "black",
-                    }}
-                  >
-                    {locale === "en" ? `${eraen} period` : `${era}`}
-                  </a>
-                </Link>
-                <Link href={`/type/${typeen}`} className={styles.type}>
-                  <a>{locale === "en" ? typeen : type}</a>
-                </Link>
-              </div>
-              <span
-                className={styles.borderline}
-                style={{ margin: "1rem 0 0.5rem 0" }}
-              ></span>
-              {isKusouzu && (
-                <>
-                  <KusouzuHubLink variant="banner" />
-                  <KusouzuModelLink personname={personname} />
-                  {titleen !== "kusouzumaki" && (
-                    <Link href="/kusouzumaki">
-                      <a className={styles.representativeLink}>
-                        {t("kusouzuHub.representativeLinkLabel")}
-                      </a>
-                    </Link>
-                  )}
-                </>
-              )}
-              {isChojuGiga && (
-                <>
-                  <ChojuGigaHubLink variant="banner" />
-                </>
-              )}
-              <SightseeingMapLink titleen={titleen} variant="banner" />
-              {/*メタ情報（出典・参考文献は折りたたみ表示）*/}
-              <details className={styles.authority}>
-                <summary className={styles.authoritySummary}>
-                  {locale === "en" ? "Source & References" : "出典・参考文献"}
-                </summary>
-                <SourceAttribution
-                  sourceImageUrl={sourceImageUrl}
-                  sourceImage={sourceImage}
-                  sourceTitle={title}
-                  sourceTitleen={titleen}
-                  sourceAuthor={sourceAuthor}
-                  sourceCollection={sourceCollection}
-                  license={sourceLicense}
-                  linkClassName={styles.sourceLink}
-                  showGuide={false}
-                />
-                {reference?.length > 0 && (
-                  <>
-                    <p className={styles.refLabel}>
-                      {locale === "en" ? "References" : "参考文献"}
-                    </p>
-                    <ul>
-                      {reference.map((item, i) => {
-                        return (
-                          <li key={i}>
-                            <Link href={item.url ? item.url : "/"}>
-                              <a
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={styles.sourceLink}
-                              >
-                                {item.title}
-                              </a>
-                            </Link>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </>
-                )}
-              </details>
-            </div>
+            <EmakiMetadataSection
+              data={data}
+              locale={locale}
+              styles={styles}
+              descContent={
+                descToParagraphs(locale === "en" ? descEn : descJa) ??
+                parse(locale === "en" ? descEn : descJa)
+              }
+              eraTagTextColor
+              showRepresentativeLink={isKusouzu && titleen !== "kusouzumaki"}
+            />
           </div>
           <div className={styles.subgrid}>
             {/* おすすめの絵巻 */}

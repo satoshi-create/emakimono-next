@@ -60,3 +60,24 @@ Config files OK but API check failed.
 === Analytics fetch - 2026-08-10 ===
 
 Output: analytics\reports\2026-08-10
+=== Analytics config check ===
+
+  OK     project: emakimono-next
+  OK     GA4 property: 325347782
+  OK     GSC site: sc-domain:emakimono.com
+  OK     phase: steady
+  OK     GSC reports: 2
+  OK     GA4 reports: 5
+  OK     GA4 API reachable
+  OK     GSC API reachable
+
+Analytics config check OK
+=== Analytics fetch - 2026-08-17 ===
+
+Output: analytics\reports\2026-08-17
+Content map up to date: analytics\content-map.json
+
+Wrote analytics\reports\2026-08-17\manifest.json
+Wrote analytics\reports\2026-08-17\summary.md
+
+Analytics fetch OK

@@ -6,6 +6,7 @@
  */
 import EmakiInfo from "@/components/emaki/metadata/EmakiInfo";
 import EmakiNavigation from "@/components/emaki/navigation/EmakiNavigation";
+import EndNudgeCard from "@/components/emaki/viewer/EndNudgeCard";
 import FullScreen from "@/components/emaki/viewer/FullScreen";
 import HelpModal from "@/components/emaki/viewer/HelpModal";
 import ScrollFeedbackEndPrompt from "@/components/emaki/viewer/ScrollFeedbackEndPrompt";
@@ -15,30 +16,19 @@ import PositionIndicator from "@/components/emaki/viewer/PositionIndicator";
 import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
 import WheelScrollIndicator from "@/components/emaki/viewer/WheelScrollIndicator";
 import { AppContext } from "@/context/AppContext";
+import { assignUniqueIndex } from "@/utils/emakiItemIndexer";
+import useEmakiAutoPlay from "@/hooks/emaki/useEmakiAutoPlay";
+import useEmakiPalmDrag from "@/hooks/emaki/useEmakiPalmDrag";
+import useEmakiScroll from "@/hooks/emaki/useEmakiScroll";
+import useScrollPositionRestore from "@/hooks/emaki/useScrollPositionRestore";
 import styles from "@/styles/EmakiConteiner.module.css";
 import commentaryStyles from "@/styles/SceneCommentaryBar.module.css";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useTranslation } from "next-i18next";
-import Link from "next/link";
-import Image from "next/image";
-import { HUB_PATH } from "@/components/emaki/kusouzu/KusouzuHubLink";
-import { HUB_PATH as GIGA_HUB_PATH } from "@/components/emaki/chouju-giga/ChojuGigaHubLink";
-import nudgeStyles from "@/styles/KusouzuHubLink.module.css";
 import { useRouter } from "next/router";
 import {
-  trackAutoScrollStarted,
-  trackAutoScrollInterrupted,
-  trackManualScroll,
-  getDeviceType,
-  trackUIHidden,
-  trackUIRevealed,
-  resetAllTracking,
-  handleSceneChange,
-  trackInitialLoadWithHash,
   trackSessionContext,
-  updateEngagementState,
-  updateScrollProgress,
+  trackManualScroll,
+  resetAllTracking,
 } from "@/libs/api/measurementUtils";
 import {
   hasSubmittedScrollFeedback,
@@ -93,7 +83,6 @@ const EmakiContainer = ({
   } = useContext(AppContext);
 
   const { backgroundImage, kotobagaki, sceneText, type } = data;
-  const { t } = useTranslation("common");
   const { locale } = useRouter();
 
   const wrapperRef = useRef();
@@ -112,16 +101,11 @@ const EmakiContainer = ({
   const [isAtEnd, setIsAtEnd] = useState(false); // 終了位置（左端）にいるか
   const isAtStartRef = useRef(true); // scroll ハンドラ再登録回避用
   const isAtEndRef = useRef(false);
-  const [isAutoScrolling, setIsAutoScrolling] = useState(false); // 自動スクロール中か（初回ナッジ用）
 
   // 教育現場向けUI: 巻末ナッジ（次巻が存在する場合のみ）
   // 巻末到達中に他の巻へのカードを表示し、「続きがある」ことを伝える
   const hasNextVolume = editionLinks.length > 0 || showKusouzuHubLink || showChojuGigaHubLink;
 
-  // 教育現場向けUI: 再生モード（ユーザー任意の自動スクロール）
-  // 初回ナッジ（isAutoScrolling）とは独立した状態として管理
-  const [isPlayMode, setIsPlayMode] = useState(false);
-  const playModeAnimationRef = useRef(null); // 再生モードのアニメーションID
   // prevDataIdはモジュールスコープに移動済み（絵巻切り替え検出用）
 
   // 解説バー追従用のローカル state。
@@ -130,15 +114,69 @@ const EmakiContainer = ({
   // 通常時は navIndex と同期する（下記の同期 effect）。
   const [liveSceneIndex, setLiveSceneIndex] = useState(navIndex);
 
-  // 教育現場向けUI: 静止UI耐性（Idle UI）- 長時間投影時の視覚的ノイズ軽減
-  const [isUIVisible, setIsUIVisible] = useState(true); // UI表示状態
-  const idleTimeoutRef = useRef(null); // 無操作タイマー
-
   const [isScrollFeedbackOpen, setIsScrollFeedbackOpen] = useState(false);
   const [scrollFeedbackSubmitted, setScrollFeedbackSubmitted] = useState(false);
   const [endPromptDismissed, setEndPromptDismissed] = useState(false);
 
   const emakiId = data.titleen;
+
+  // 絵巻ハイパーリンク: 前回検出したシーン（不要な更新を防ぐ）
+  const lastDetectedSceneRef = useRef(navIndex);
+
+  // 教育現場向けUI: 静かな現在地インジケータ（PositionIndicator の DOM要素への参照）
+  const indicatorElRef = useRef(null);
+
+  const [isScrolling, setIsScrolling] = useState(false); // スクロール中か
+  const isScrollingRef = useRef(false); // setIsScrolling呼び出し最適化用
+
+  // 教育現場向けUI: 静止UI耐性 + 自動スクロール制御（初回ナッジ/再生モード）
+  // useEmakiAutoPlay が useEmakiIdleUI を内部合成する（両者の循環依存を解消）
+  const {
+    isAutoScrolling,
+    isPlayMode,
+    startPlayMode,
+    stopPlayMode,
+    playModeAnimationRef,
+    setIsPlayMode,
+    isUIVisible,
+    showUI,
+  } = useEmakiAutoPlay({
+    articleRef,
+    dataId: data.id,
+    emakiId,
+    navIndex,
+    setnavIndex,
+    lastDetectedSceneRef,
+    isAtStartRef,
+    isAtEndRef,
+    setIsAtStart,
+    setIsAtEnd,
+    isScrollingRef,
+    setIsScrolling,
+  });
+
+  // スクロール処理 + 現在シーン検出（useEmakiScroll が sectionsCacheRef / scrollDimsRef を管理）
+  const { sectionsCacheRef, scrollDimsRef } = useEmakiScroll({
+    articleRef,
+    dataId: data.id,
+    emakiId,
+    navIndex,
+    setnavIndex,
+    setLiveSceneIndex,
+    isScrollDetectedUpdateRef,
+    isAutoScrolling,
+    playModeAnimationRef,
+    lastDetectedSceneRef,
+    isAtStartRef,
+    isAtEndRef,
+    setIsAtStart,
+    setIsAtEnd,
+    isScrollingRef,
+    setIsScrolling,
+    indicatorElRef,
+    toggleFullscreen,
+    scrollPositionStore,
+  });
 
   useEffect(() => {
     if (emakiId) {
@@ -174,114 +212,14 @@ const EmakiContainer = ({
     !isScrollFeedbackOpen &&
     isUIVisible;
 
-  // 絵巻ハイパーリンク: シーン検出用の debounce タイマー + throttle
-  const sceneDetectionTimerRef = useRef(null);
-  const lastSceneDetectionTimeRef = useRef(0); // throttle用タイムスタンプ
-  const lastDetectedSceneRef = useRef(navIndex); // 前回検出したシーン（不要な更新を防ぐ）
-
-  // 教育現場向けUI: 静かな現在地インジケータ
-  // パフォーマンス: scrollRatio はReact stateではなくDOM直接操作で更新
-  // スクロール中のEmakiConteiner再レンダリングを完全に排除
-  const indicatorElRef = useRef(null); // PositionIndicatorのDOM要素への参照
-  // インジケーター更新の rAF 集約用: ペイントを1フレームに1回に制限
-  // （毎フレームの style 書き込みによる強制レイアウトを回避）
-  const indicatorRafRef = useRef(null);
-  const indicatorRatioRef = useRef(0); // 最新の進行度（rAFコールバックで参照）
-  const isDesktopRef = useRef(
-    typeof window !== "undefined" && window.innerWidth >= 1024
-  ); // セッション中ほぼ不変のためマウント時1回だけ計算
-  const [isScrolling, setIsScrolling] = useState(false); // スクロール中か
-  const isScrollingRef = useRef(false); // setIsScrolling呼び出し最適化用
-  const scrollingTimerRef = useRef(null); // スクロール検出タイマー
-
   // 手のひらモード（PC限定）: マウス押下で表示 + ドラッグで絵巻を移動
   // - 押した瞬間に手のひらアイコン・grabカーソルを表示
   // - 押したままドラッグで横スクロール（紙を掴んで動かす感覚）
   // - 離すと終了。スマホ（タッチ）では従来どおりスワイプ操作のため無効
-  const [isPalmMode, setIsPalmMode] = useState(false); // UI用: バッジ・カーソル表示
-  const palmActiveRef = useRef(false); // ハンドラ用: パン中フラグ（即時反映）
-  const dragRef = useRef(null); // { startX, startScrollLeft }
-  const didDragRef = useRef(false); // ドラッグ実行済みか
-  const suppressClickUntilRef = useRef(0); // ドラッグ直後のclick抑止期限（ms）
+  const { isPalmMode, suppressClickUntilRef } = useEmakiPalmDrag(articleRef);
 
   // 絵巻ハイパーリンク: スクロール位置から現在表示中のシーンを検出
-  // パフォーマンス: 初回のみ getBoundingClientRect でセクション位置を計算・キャッシュし、
-  // 以降は scrollLeft の算術演算のみでシーンを特定（DOM読み取り・レイアウト強制ゼロ）
-  const sectionsCacheRef = useRef(null);
-
-  const detectCurrentScene = useCallback(() => {
-    const el = articleRef.current;
-    if (!el) return;
-
-    // 初回: セクション位置をキャッシュ（getBoundingClientRect は1回だけ）
-    // items プロパティの存在もチェック（HMRで旧形式キャッシュが残る場合の対策）
-    if (!sectionsCacheRef.current?.items) {
-      const sections = Array.from(el.querySelectorAll("section[id]"));
-      if (sections.length === 0) return;
-
-      const containerRight = el.getBoundingClientRect().right;
-      const baseScrollLeft = el.scrollLeft;
-
-      sectionsCacheRef.current = {
-        baseScrollLeft,
-        items: sections.map((section) => ({
-          id: parseInt(section.id, 10),
-          // コンテナ右端からのオフセット（スクロール位置に依存しない定数）
-          offset: section.getBoundingClientRect().right - containerRight,
-        })),
-      };
-    }
-
-    // 2回目以降: scrollLeft の差分だけでシーンを特定（DOM読み取りなし）
-    const cache = sectionsCacheRef.current;
-    const scrollDelta = el.scrollLeft - cache.baseScrollLeft;
-
-    let closestId = null;
-    let closestDistance = Infinity;
-
-    cache.items.forEach(({ id, offset }) => {
-      const distance = Math.abs(offset - scrollDelta);
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestId = id;
-      }
-    });
-
-    if (closestId !== null && !isNaN(closestId) && closestId !== lastDetectedSceneRef.current) {
-      // 計測: シーン遷移・滞在（スクロール検出による）
-      handleSceneChange(emakiId, closestId, "scroll_detect");
-      // 計測: セッション鑑賞サマリー用の状態更新
-      updateEngagementState(emakiId, closestId, toggleFullscreen);
-
-      lastDetectedSceneRef.current = closestId;
-
-      // 自動再生中はツリー全体（数十枚の next/image）の再レンダーを避けるため
-      // navIndex は更新しない（停止時に lastDetectedSceneRef から同期）。
-      // ただし解説バー（SceneCommentaryBar）の段タイトルはローカル state
-      // liveSceneIndex で追従させる（画像ツリーへ再レンダーを波及させない）。
-      if (isAutoScrolling || playModeAnimationRef.current) {
-        setLiveSceneIndex(closestId);
-        return;
-      }
-
-      // 絵巻ハイパーリンク: スクロール検出による更新であることをマーク
-      // scrollDialog の自動スクロールを抑制するため
-      if (isScrollDetectedUpdateRef) {
-        isScrollDetectedUpdateRef.current = true;
-      }
-      setnavIndex(closestId);
-      // 解説バー追従値も同期（navIndex と同値に保つ）
-      setLiveSceneIndex(closestId);
-      // フラグを解除（scrollDialog の処理が完了するまで少し待つ）
-      setTimeout(() => {
-        if (isScrollDetectedUpdateRef) {
-          isScrollDetectedUpdateRef.current = false;
-        }
-      }, 100);
-    }
-    // isAutoScrolling: 初回ナッジ中のガード（return）を確実に反映するため依存に含める
-    // （含めないとクロージャが古い値 false を捕捉し、ナッジ中も setnavIndex が走る）
-  }, [setnavIndex, isScrollDetectedUpdateRef, data.id, emakiId, isAutoScrolling]);
+  // （useEmakiScroll 内の detectCurrentScene が sectionsCacheRef を管理）
 
   // 解説バー追従値: navIndex が外部（handleToId / hash / 停止時同期）で変化した場合も
   // liveSceneIndex へ同期する。再生中は detectCurrentScene が liveSceneIndex を上書きし
@@ -290,538 +228,25 @@ const EmakiContainer = ({
     setLiveSceneIndex(navIndex);
   }, [navIndex]);
 
-
-  // 教育現場向けUI: 静止UI耐性 - ユーザー操作検出とタイマー管理
-  // 計測用: タイマー開始時刻を記録
-  const idleStartTimeRef = useRef(Date.now());
-  const wasUIHiddenRef = useRef(false); // UI非表示状態だったかを記録
-
-  useEffect(() => {
-    // デバイス幅に応じた無操作タイムアウト時間
-    // PC (1024px以上): 5秒、Tablet/Mobile: 3秒
-    const getIdleTimeout = () => {
-      const width = window.innerWidth;
-      return width >= 1024 ? 5000 : 3000;
-    };
-
-    // タイマーのクリア
-    const clearIdleTimer = () => {
-      if (idleTimeoutRef.current) {
-        clearTimeout(idleTimeoutRef.current);
-        idleTimeoutRef.current = null;
-      }
-    };
-
-    // タイマーの開始
-    const startIdleTimer = () => {
-      clearIdleTimer();
-      idleStartTimeRef.current = Date.now(); // 計測用: タイマー開始時刻を記録
-      const idleTimeout = getIdleTimeout();
-      idleTimeoutRef.current = setTimeout(() => {
-        // 初回ナッジ（自動スクロール）中は非表示にしない。
-        // 再生モード中はユーザー操作が発生しないため、マウス停止時と同じく
-        // 一定時間後にナビメニューを非表示にする。
-        if (!isAutoScrolling) {
-          // 計測: UI非表示
-          trackUIHidden(emakiId, idleTimeout);
-          wasUIHiddenRef.current = true;
-          setIsUIVisible(false);
-        }
-      }, idleTimeout);
-    };
-
-    // ユーザー操作検出時の処理（トリガー種別付き）
-    const handleUserActivityWithType = (triggerType) => {
-      // 計測: UI再表示（非表示状態からの復帰時のみ）
-      if (wasUIHiddenRef.current) {
-        trackUIRevealed(emakiId, triggerType);
-        wasUIHiddenRef.current = false;
-      }
-      // UIを即座に表示
-      setIsUIVisible(true);
-      // タイマーをリセット
-      startIdleTimer();
-    };
-
-    // 各イベント種別のハンドラー
-    const handleMousemove = () => handleUserActivityWithType("mousemove");
-    const handleWheel = () => handleUserActivityWithType("wheel");
-    const handleTouchstart = () => handleUserActivityWithType("touch");
-    const handleClick = () => handleUserActivityWithType("click");
-    const handleKeydown = () => handleUserActivityWithType("keydown");
-
-    // 初回ナッジ（自動スクロール）中はタイマーを停止してUIを表示したままにする。
-    // 再生モード（▶自動再生）中はアイドルタイマーを動かし、
-    // マウス停止時と同じく一定時間後にナビメニューを非表示にする。
-    if (isAutoScrolling) {
-      clearIdleTimer();
-    } else {
-      // 通常時・再生モード中はタイマー開始
-      startIdleTimer();
-    }
-
-    // イベントリスナーの登録
-    // マウス移動、ホイール、タッチ、クリック、キーボード操作を検出
-    window.addEventListener("mousemove", handleMousemove);
-    window.addEventListener("wheel", handleWheel, { passive: true });
-    window.addEventListener("touchstart", handleTouchstart, { passive: true });
-    window.addEventListener("click", handleClick);
-    window.addEventListener("keydown", handleKeydown);
-
-    // クリーンアップ
-    return () => {
-      clearIdleTimer();
-      window.removeEventListener("mousemove", handleMousemove);
-      window.removeEventListener("wheel", handleWheel);
-      window.removeEventListener("touchstart", handleTouchstart);
-      window.removeEventListener("click", handleClick);
-      window.removeEventListener("keydown", handleKeydown);
-    };
-  }, [isAutoScrolling, isPlayMode, data.id, emakiId]); // 依存配列: 自動スクロール・再生モード状態の変化を監視
-
-  // パフォーマンス: scrollWidth/clientWidth のキャッシュ
-  // 自動再生中は値が変化しないため、毎フレームのレイアウト読み取りを回避
-  const scrollDimsRef = useRef({ w: 0, c: 0, ts: 0 });
-
-  useEffect(() => {
-    if (!articleRef.current) return;
-    const el = articleRef.current;
-    const handleScroll = () => {
-      const currentScrollX = el.scrollLeft;
-
-      // scrollWidth/clientWidth: 1秒間隔でキャッシュ更新
-      // 自動再生中はコンテンツサイズが不変のため、毎フレームの読み取りは不要
-      const now = Date.now();
-      if (now - scrollDimsRef.current.ts > 1000) {
-        scrollDimsRef.current = { w: el.scrollWidth, c: el.clientWidth, ts: now };
-      }
-      const scrollWidth = scrollDimsRef.current.w || el.scrollWidth;
-      const clientWidth = scrollDimsRef.current.c || el.clientWidth;
-
-      // 教育現場向けUI: 端点判定（操作手段に依存しない）
-      // RTL環境では scrollLeft が負の値になるため、絶対値で判定
-      const SCROLL_MARGIN = 5; // ピクセル誤差を許容
-      const maxScrollLeft = scrollWidth - clientWidth;
-
-      // P0改修: スクロール位置を常に保存（フルスクリーン切り替え時の復元用）
-      // ただし、復元中は保存をスキップ（上書き防止）
-      if (maxScrollLeft > 0 && !scrollPositionStore.isTransitioning) {
-        scrollPositionStore.scrollLeft = currentScrollX;
-        scrollPositionStore.scrollRatio = Math.abs(currentScrollX) / maxScrollLeft;
-        scrollPositionStore.emakiId = data.id;
-        scrollPositionStore.restored = false;
-        // 計測: セッション最大スクロール到達率を更新
-        updateScrollProgress(scrollPositionStore.scrollRatio);
-      }
-
-      // 教育現場向けUI: 現在地インジケータ用の進行度を計算
-      // パフォーマンス: DOM直接操作でReact再レンダリングを完全に回避
-      if (maxScrollLeft > 0) {
-        const ratio = Math.abs(currentScrollX) / maxScrollLeft;
-
-        // PositionIndicatorのDOM要素を直接更新（React stateを経由しない）
-        // rAFに集約し、毎フレームの style 書き込みを1フレーム1回に制限
-        if (indicatorElRef.current) {
-          indicatorRatioRef.current = ratio;
-          if (!indicatorRafRef.current) {
-            indicatorRafRef.current = requestAnimationFrame(() => {
-              indicatorRafRef.current = null;
-              const el = indicatorElRef.current;
-              if (!el) return;
-              const trackW = isDesktopRef.current ? 180 : 120;
-              const indSize = isDesktopRef.current ? 12 : 8;
-              const position =
-                (1 - indicatorRatioRef.current) * (trackW - indSize);
-              el.style.transform = `translateX(${position}px) translateY(-50%)`;
-            });
-          }
-        }
-
-        // isScrolling: 開始時に1回だけsetStateを呼ぶ（ref で重複呼び出しを防止）
-        if (!isScrollingRef.current) {
-          isScrollingRef.current = true;
-          setIsScrolling(true);
-        }
-      }
-
-      const isAutoPlay = isAutoScrolling || playModeAnimationRef.current;
-
-      // スクロール停止検出 + debounce: 自動再生中はタイマーチャーンを回避
-      // 自動再生中は毎フレーム clearTimeout+setTimeout（120回/秒）が不要
-      if (!isAutoPlay) {
-        // 手動スクロール: 停止検出タイマー（1.5秒後に isScrolling = false）
-        if (scrollingTimerRef.current) {
-          clearTimeout(scrollingTimerRef.current);
-        }
-        scrollingTimerRef.current = setTimeout(() => {
-          isScrollingRef.current = false;
-          setIsScrolling(false);
-        }, 1500);
-
-        // 手動スクロール: debounce で最終シーン検出（150ms後）
-        if (sceneDetectionTimerRef.current) {
-          clearTimeout(sceneDetectionTimerRef.current);
-        }
-        sceneDetectionTimerRef.current = setTimeout(() => {
-          lastSceneDetectionTimeRef.current = Date.now();
-          detectCurrentScene();
-        }, 150);
-      }
-
-      // 開始位置判定: scrollLeft が 0 または正の最大値（RTL環境考慮）
-      const atStart =
-        Math.abs(currentScrollX) < SCROLL_MARGIN ||
-        currentScrollX >= maxScrollLeft - SCROLL_MARGIN;
-
-      // 終了位置判定: scrollLeft が負の最大値または 0 付近（RTL環境考慮）
-      const atEnd =
-        Math.abs(currentScrollX) >= maxScrollLeft - SCROLL_MARGIN ||
-        (currentScrollX < 0 &&
-          Math.abs(currentScrollX) >= maxScrollLeft - SCROLL_MARGIN);
-
-      // 状態更新（変化がある場合のみ）
-      // 自動再生中は setState を抑制（リスナー再登録・再レンダーによるカクつき防止）
-      if (atStart !== isAtStartRef.current) {
-        isAtStartRef.current = atStart;
-        if (!isAutoPlay) {
-          setIsAtStart(atStart);
-        }
-      }
-      if (atEnd !== isAtEndRef.current) {
-        isAtEndRef.current = atEnd;
-        if (!isAutoPlay) {
-          setIsAtEnd(atEnd);
-        }
-      }
-
-      // 絵巻ハイパーリンク: 自動再生中のシーン検出（800ms間隔）
-      // スクロールハンドラ内で同期実行（rAFに遅延するとauto-playの
-      // scrollToと同一フレーム内で競合しレイアウトスラッシングが悪化するため）
-      if (isAutoPlay) {
-        if (now - lastSceneDetectionTimeRef.current > 800) {
-          lastSceneDetectionTimeRef.current = now;
-          detectCurrentScene();
-        }
-      }
-    };
-
-    el.addEventListener("scroll", handleScroll);
-
-    // 計測: マウスドラッグによるスクロール操作
-    const handleMousedown = () => {
-      if (!isAutoScrolling) {
-        trackManualScroll(emakiId, "drag");
-      }
-    };
-    el.addEventListener("mousedown", handleMousedown);
-
-    return () => {
-      el.removeEventListener("scroll", handleScroll);
-      el.removeEventListener("mousedown", handleMousedown);
-      // クリーンアップ: シーン検出タイマーもクリア
-      if (sceneDetectionTimerRef.current) {
-        clearTimeout(sceneDetectionTimerRef.current);
-      }
-    };
-  }, [detectCurrentScene, isAutoScrolling, data.id, emakiId]);
-
   // 教育現場向けUI: 巻末ナッジ
   // isAtEnd 中は他巻カードを表示、離れると非表示
   const showEndNudge = isAtEnd && hasNextVolume;
 
   // P0改修: フルスクリーン切り替え時のスクロール位置復元
   // toggleFullscreen state の変化を監視して復元処理を行う
-  useEffect(() => {
-    const el = articleRef.current;
-    if (!el) return;
-
-    // 初回マウント時はスキップ（スクロール位置が保存されていない）
-    if (scrollPositionStore.scrollRatio === 0) return;
-
-    // 別絵巻へ遷移中は復元しない（旧 scrollRatio の誤適用防止）
-    if (
-      scrollPositionStore.emakiId !== null &&
-      scrollPositionStore.emakiId !== data.id
-    ) {
-      return;
-    }
-
-    scrollPositionStore.restored = false;
-    scrollPositionStore.isTransitioning = true;
-
-    const restoreScrollPosition = () => {
-      if (scrollPositionStore.restored) return;
-
-      const scrollWidth = el.scrollWidth;
-      const clientWidth = el.clientWidth;
-      const maxScrollLeft = scrollWidth - clientWidth;
-
-      if (maxScrollLeft <= 0) return;
-
-      if (scrollPositionStore.scrollRatio > 0) {
-        el.scrollLeft = -(scrollPositionStore.scrollRatio * maxScrollLeft);
-        scrollPositionStore.restored = true;
-        scrollPositionStore.isTransitioning = false;
-      }
-    };
-
-    // レイアウト確定後に1回だけ復元（複数 setTimeout によるジャンプを防止）
-    const rafId = requestAnimationFrame(() => {
-      requestAnimationFrame(restoreScrollPosition);
-    });
-
-    const ro = new ResizeObserver(() => {
-      if (!scrollPositionStore.restored) {
-        restoreScrollPosition();
-      }
-    });
-    ro.observe(el);
-
-    const fallbackTimer = setTimeout(() => {
-      restoreScrollPosition();
-      scrollPositionStore.isTransitioning = false;
-    }, 300);
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      ro.disconnect();
-      clearTimeout(fallbackTimer);
-      scrollPositionStore.isTransitioning = false;
-    };
-  }, [toggleFullscreen, orientation, data.id]);
+  useScrollPositionRestore({
+    articleRef,
+    dataId: data.id,
+    toggleFullscreen,
+    orientation,
+    scrollPositionStore,
+  });
 
   // 全画面切替や向き切替でビューポートサイズが変わるためシーン検出キャッシュを無効化
   useEffect(() => {
     sectionsCacheRef.current = null;
     scrollDimsRef.current = { w: 0, c: 0, ts: 0 };
   }, [toggleFullscreen, orientation]);
-
-  // 教育現場向けUI: 初回表示時のみ、横スクロール可能性を
-  // 緩やかな自動スクロールで認知させるナッジ（操作説明なし）
-  useEffect(() => {
-    const keyName = `visited_${data.id}`;
-    const isFirstVisit = !sessionStorage.getItem(keyName);
-
-    // 絵巻ハイパーリンク: hash付きURL（シーン指定リンク）で開いた場合はナッジをスキップ
-    // ユーザーが特定シーンを共有した意図を尊重し、該当シーンから閲覧開始
-    const hasHashInUrl = typeof window !== "undefined" && window.location.hash;
-
-    // 計測: hash付きURLでの初期表示
-    if (hasHashInUrl && isFirstVisit) {
-      const hashSceneIndex = parseInt(window.location.hash.replace("#", ""), 10);
-      if (!isNaN(hashSceneIndex)) {
-        trackInitialLoadWithHash(emakiId, hashSceneIndex);
-      }
-    }
-
-    if (isFirstVisit && !hasHashInUrl) {
-      const el = articleRef.current;
-      if (!el) return;
-
-      // デバイスタイプに応じたスクロール速度を設定
-      // PC: 2.4px/frame, Tablet: 1.6px/frame, Mobile: 1.2px/frame
-      const width = window.innerWidth;
-      const scrollSpeed = width >= 1024 ? 2.4 : width >= 768 ? 1.6 : 1.2;
-
-      let animationId = null;
-      let stopped = false;
-
-      // CSS scroll-behavior の干渉を防ぐため一時的に無効化
-      const originalScrollBehavior = el.style.scrollBehavior;
-      el.style.scrollBehavior = "auto";
-
-      const stopAutoScroll = (interruptMethod = null) => {
-        if (stopped) return;
-        stopped = true;
-
-        // 計測: 自動スクロール中断（ユーザー操作による場合）
-        if (interruptMethod) {
-          const scrollWidth = el.scrollWidth;
-          const clientWidth = el.clientWidth;
-          const maxScrollLeft = scrollWidth - clientWidth;
-          const scrollRatio = maxScrollLeft > 0 ? Math.abs(el.scrollLeft) / maxScrollLeft : 0;
-          trackAutoScrollInterrupted(emakiId, interruptMethod, scrollRatio);
-        }
-
-        // 教育現場向けUI: 自動スクロール停止を通知
-        // これにより「戻る」ボタンが表示可能になる
-        setIsAutoScrolling(false);
-
-        // 自動再生中に抑制していた端点 state を同期
-        setIsAtStart(isAtStartRef.current);
-        setIsAtEnd(isAtEndRef.current);
-
-        // 自動再生中は navIndex を止めていたため、停止時に現在シーンへ同期する
-        if (lastDetectedSceneRef.current !== navIndex) {
-          setnavIndex(lastDetectedSceneRef.current);
-        }
-
-        // スクロール停止を通知（自動再生中はタイマーをスキップしているため明示的にリセット）
-        isScrollingRef.current = false;
-        setIsScrolling(false);
-
-        if (animationId) cancelAnimationFrame(animationId);
-        el.style.scrollBehavior = originalScrollBehavior;
-        el.removeEventListener("mousedown", handleMousedown);
-        el.removeEventListener("wheel", handleWheel);
-        el.removeEventListener("touchstart", handleTouchstart);
-        document.removeEventListener("click", handleClick);
-      };
-
-      // 計測用: 各操作種別のハンドラー
-      const handleMousedown = () => stopAutoScroll("mousedown");
-      const handleWheel = () => stopAutoScroll("wheel");
-      const handleTouchstart = () => stopAutoScroll("touch");
-      const handleClick = () => stopAutoScroll("click");
-
-      const autoScroll = () => {
-        if (stopped) return;
-
-        const currentScrollLeft = el.scrollLeft;
-        const newScrollLeft = currentScrollLeft - scrollSpeed;
-
-        // スクロール範囲の端（左端）に到達したら停止（毎フレーム再計算）
-        const minScrollLeft = -(el.scrollWidth - el.clientWidth);
-
-        if (newScrollLeft < minScrollLeft) {
-          stopAutoScroll();
-          return;
-        }
-
-        el.scrollLeft = newScrollLeft;
-        animationId = requestAnimationFrame(autoScroll);
-      };
-
-      // ユーザー操作（ドラッグ／ホイール／タッチ／クリック）で即座に停止
-      el.addEventListener("mousedown", handleMousedown, { once: true });
-      el.addEventListener("wheel", handleWheel, { once: true });
-      el.addEventListener("touchstart", handleTouchstart, { once: true });
-      document.addEventListener("click", handleClick, { once: true });
-
-      // 初期描画・レイアウト確定後に自動スクロール開始
-      const timerId = setTimeout(() => {
-        // 絵巻ハイパーリンク: ナッジ開始直前に再度hashをチェック
-        // SSG/hydration完了後にhashが正しく取得できるようになるため
-        // useEffect冒頭のチェックだけでは不十分
-        const hasHashNow = window.location.hash;
-        if (hasHashNow) {
-          stopped = true;
-          el.style.scrollBehavior = originalScrollBehavior;
-          return;
-        }
-
-        if (!stopped) {
-          // 教育現場向けUI: 自動スクロール開始を通知
-          // これにより「戻る」ボタンが非表示になる
-          setIsAutoScrolling(true);
-
-          // 計測: 初回自動スクロール開始
-          trackAutoScrollStarted(emakiId, getDeviceType());
-
-          sessionStorage.setItem(keyName, true);
-
-          // レイアウト確定を待ってから開始（画像 decode 前の scrollWidth 変動を軽減）
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              if (stopped) return;
-              animationId = requestAnimationFrame(autoScroll);
-            });
-          });
-        }
-      }, 500);
-
-      return () => {
-        clearTimeout(timerId);
-        stopAutoScroll();
-      };
-    }
-  }, [data.id, emakiId]);
-
-  // 教育現場向けUI: 再生モード - 停止関数
-  // playModeAnimationRef.currentをnullにすることでアニメーションループを終了させる
-  const stopPlayMode = () => {
-    if (playModeAnimationRef.current) {
-      cancelAnimationFrame(playModeAnimationRef.current);
-      playModeAnimationRef.current = null;
-    }
-
-    setIsPlayMode(false);
-
-    // 自動再生中は navIndex を止めていたため、停止時に現在シーンへ同期する
-    // （解説バー・ナビの現在段表示を再生中の最終位置に合わせる）
-    if (lastDetectedSceneRef.current !== navIndex) {
-      setnavIndex(lastDetectedSceneRef.current);
-    }
-
-    // スクロール停止を通知（自動再生中はタイマーをスキップしているため明示的にリセット）
-    isScrollingRef.current = false;
-    setIsScrolling(false);
-
-    // UI復帰: 静止UI耐性のタイマーに委ねる
-    setIsUIVisible(true);
-  };
-
-  // 教育現場向けUI: 再生モード - 開始関数
-  const startPlayMode = () => {
-    const el = articleRef.current;
-    if (!el) return;
-
-    // 既に再生中、または初回ナッジ中は開始しない
-    if (playModeAnimationRef.current || isAutoScrolling) return;
-
-    setIsPlayMode(true);
-
-    // デバイスタイプに応じたスクロール速度（初回ナッジと同じ）
-    const width = window.innerWidth;
-    const scrollSpeed = width >= 1024 ? 2.4 : width >= 768 ? 1.6 : 1.2;
-
-    // CSS scroll-behavior の干渉を防ぐため一時的に無効化
-    const originalScrollBehavior = el.style.scrollBehavior;
-    el.style.scrollBehavior = "auto";
-
-    const playScroll = () => {
-      // 停止されていたら終了（refがnullなら停止済み）
-      if (playModeAnimationRef.current === null) {
-        el.style.scrollBehavior = originalScrollBehavior;
-        return;
-      }
-
-      const currentScrollLeft = el.scrollLeft;
-      const newScrollLeft = currentScrollLeft - scrollSpeed;
-
-      // スクロール範囲の端（左端）に到達したら停止（毎フレーム再計算）
-      const minScrollLeft = -(el.scrollWidth - el.clientWidth);
-
-      if (newScrollLeft < minScrollLeft) {
-        setIsPlayMode(false);
-        setIsUIVisible(true); // UI復帰
-        setIsAtStart(isAtStartRef.current);
-        setIsAtEnd(isAtEndRef.current);
-        // 末尾到達時も現在シーンへ同期（再生中の navIndex 抑制のため）
-        if (lastDetectedSceneRef.current !== navIndex) {
-          setnavIndex(lastDetectedSceneRef.current);
-        }
-        el.style.scrollBehavior = originalScrollBehavior;
-        playModeAnimationRef.current = null;
-        return;
-      }
-
-      el.scrollLeft = newScrollLeft;
-      playModeAnimationRef.current = requestAnimationFrame(playScroll);
-    };
-
-    playModeAnimationRef.current = requestAnimationFrame(playScroll);
-  };
-
-  // 教育現場向けUI: 再生モード - クリーンアップ
-  useEffect(() => {
-    return () => {
-      if (playModeAnimationRef.current) {
-        cancelAnimationFrame(playModeAnimationRef.current);
-        playModeAnimationRef.current = null;
-      }
-    };
-  }, []);
 
   // 教育現場向けUI: 絵巻切り替え時のリセット処理
   // Chrome系でキャッシュが残る問題への対応
@@ -904,7 +329,7 @@ const EmakiContainer = ({
           cancelAnimationFrame(playModeAnimationRef.current);
           playModeAnimationRef.current = null;
           setIsPlayMode(false);
-          setIsUIVisible(true);
+          showUI();
           e.preventDefault();
           return;
         }
@@ -955,114 +380,12 @@ const EmakiContainer = ({
     }
   }, [scroll, emakiId]);
 
-  // 手のひらモード（PC限定）: マウス押下で表示 + ドラッグで絵巻を移動
-  // Pointer Events の pointerType でマウスのみ判定（タッチ端末では無効）
-  // リスナー再登録を避けるため依存配列は空で、判定はすべて ref 経由で行う
-  useEffect(() => {
-    const el = articleRef.current;
-    if (!el) return;
-
-    // ボタン・リンク上の押下は無効化（クリック操作を維持）
-    const isInteractive = (target) =>
-      target && target.closest && target.closest("a, button, [role='button']");
-
-    // 画像のネイティブドラッグを常時抑止（パン操作と競合するため）
-    // 押下ごとに draggable を切替えると、押下→再描画の間に
-    // ネイティブドラッグが発動する競合が起きる
-    const preventNativeDrag = (e) => e.preventDefault();
-    el.addEventListener("dragstart", preventNativeDrag);
-
-    const handlePointerDown = (e) => {
-      if (e.pointerType !== "mouse" || e.button !== 0) return;
-      if (isInteractive(e.target)) return;
-
-      didDragRef.current = false;
-      dragRef.current = { startX: e.clientX, startScrollLeft: el.scrollLeft };
-      palmActiveRef.current = true;
-      setIsPalmMode(true); // 手のひらアイコン・grabカーソルを表示
-      try {
-        el.setPointerCapture(e.pointerId); // ドラッグ中の要素外追従を保証
-      } catch {
-        /* ignore */
-      }
-    };
-
-    const handlePointerMove = (e) => {
-      if (!dragRef.current) return;
-
-      const dx = e.clientX - dragRef.current.startX;
-      if (Math.abs(dx) > 3) didDragRef.current = true;
-
-      // 押下中は常にパン。
-      // RTL（row-reverse）では scrollLeft が負値空間（0=右端/最初、負=先へ進む）。
-      // 紙を掴んで動かす直感（右ドラッグ=絵巻も右へ=進む）に合わせ、
-      // マウス変位を減算して scrollLeft を減少（より負へ）させる
-      el.scrollLeft = dragRef.current.startScrollLeft - dx;
-    };
-
-    const finishDrag = (e) => {
-      if (dragRef.current) {
-        try {
-          el.releasePointerCapture(e.pointerId);
-        } catch {
-          /* ignore */
-        }
-      }
-      dragRef.current = null;
-      palmActiveRef.current = false;
-      setIsPalmMode(false); // 手のひらアイコンを非表示
-
-      // ドラッグ実行後は click（sidebar を閉じる onClick）を短時間抑止。
-      // click が発火しないケース（pointercancel 等）でも期限で自然に解除される。
-      if (didDragRef.current) {
-        suppressClickUntilRef.current = Date.now() + 200;
-        didDragRef.current = false;
-      }
-    };
-
-    el.addEventListener("dragstart", preventNativeDrag);
-    el.addEventListener("pointerdown", handlePointerDown);
-    el.addEventListener("pointermove", handlePointerMove);
-    el.addEventListener("pointerup", finishDrag);
-    el.addEventListener("pointercancel", finishDrag);
-    return () => {
-      el.removeEventListener("dragstart", preventNativeDrag);
-      el.removeEventListener("pointerdown", handlePointerDown);
-      el.removeEventListener("pointermove", handlePointerMove);
-      el.removeEventListener("pointerup", finishDrag);
-      el.removeEventListener("pointercancel", finishDrag);
-    };
-  }, []);
-
   // 手のひらモード時: 画像のネイティブドラッグを抑止する。
   // パン effect 内の dragstart preventDefault で常時抑止しているため、
   // ここでの draggable 属性切替は不要（押下→再描画の競合も回避される）
 
-  // 配列を展開し、条件ごとに連番を付与
-  const processedEmakis = data.emakis.reduce(
-    (acc, item, index) => {
-      if (item.cat === "image") {
-        acc.imageCounter += 1; // 画像のカウンターをインクリメント
-        acc.result.push({
-          ...item,
-          uniqueIndex: acc.imageCounter - 1, // 独立した連番
-        });
-      } else if (item.cat === "ekotoba") {
-        acc.ekotobaCounter += 1; // エコトバのカウンターをインクリメント
-        acc.result.push({
-          ...item,
-          uniqueIndex: acc.ekotobaCounter - 1, // 独立した連番
-        });
-      } else {
-        acc.result.push({
-          ...item,
-          uniqueIndex: null, // その他の場合、連番なし
-        });
-      }
-      return acc;
-    },
-    { result: [], imageCounter: 0, ekotobaCounter: 0 },
-  ).result;
+  // 配列を展開し、条件ごとに連番を付与（emakiItemIndexer に切り出し済み）
+  const processedEmakis = assignUniqueIndex(data.emakis);
 
   // ボトムコメントバー: 詞書画像かシーンテキストを持つ絵巻のみ表示
   const showCommentaryBar = Boolean(scroll && (kotobagaki || sceneText));
@@ -1205,108 +528,12 @@ const EmakiContainer = ({
               row-reverse内の最終子要素 = 左端に配置
               position:sticky で左端ビューポートに固定 */}
           {hasNextVolume && (
-            <div
-              style={{
-                position: "sticky",
-                left: 0,
-                flexShrink: 0,
-                width: 0,
-                height: "100%",
-                pointerEvents: "none",
-                zIndex: 10,
-              }}
-            >
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: "12px",
-                  left: "12px",
-                  width: "180px",
-                  pointerEvents: showEndNudge ? "auto" : "none",
-                  opacity: showEndNudge ? 1 : 0,
-                  transform: showEndNudge
-                    ? "translateX(0)"
-                    : "translateX(-12px)",
-                  transition: "opacity 0.5s ease, transform 0.5s ease",
-                  background: "rgba(255,255,255,0.92)",
-                  backdropFilter: "blur(8px)",
-                  borderRadius: "10px",
-                  boxShadow: "0 2px 16px rgba(0,0,0,0.15)",
-                  overflow: "hidden",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "1px",
-                }}
-              >
-                {showKusouzuHubLink && (
-                  <Link href={HUB_PATH}>
-                    <a className={nudgeStyles.nudge}>
-                      <span className={nudgeStyles.nudgeLabel}>
-                        {t("kusouzuHub.hubNudgeLabel")}
-                      </span>
-                    </a>
-                  </Link>
-                )}
-                {showChojuGigaHubLink && (
-                  <Link href={GIGA_HUB_PATH}>
-                    <a className={nudgeStyles.nudge}>
-                      <span className={nudgeStyles.nudgeLabel}>
-                        {t("choujuGigaHub.hubNudgeLabel")}
-                      </span>
-                    </a>
-                  </Link>
-                )}
-                {editionLinks.map((item, i) => (
-                  <Link key={i} href={`/${item.titleen}`}>
-                    <a
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                        padding: "8px",
-                        textDecoration: "none",
-                        color: "#333",
-                        background:
-                          i > 0
-                            ? "linear-gradient(to bottom, rgba(0,0,0,0.04), transparent)"
-                            : "transparent",
-                        transition: "background 0.2s",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background =
-                          "rgba(255,140,100,0.1)";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background =
-                          i > 0
-                            ? "linear-gradient(to bottom, rgba(0,0,0,0.04), transparent)"
-                            : "transparent";
-                      }}
-                    >
-                      <Image
-                        src={item.thumb}
-                        width={48}
-                        height={27}
-                        alt={item.title}
-                        style={{ borderRadius: "4px", objectFit: "cover" }}
-                      />
-                      <span
-                        style={{
-                          fontSize: "12px",
-                          fontWeight: 600,
-                          lineHeight: 1.3,
-                          flex: 1,
-                        }}
-                      >
-                        {locale === "en"
-                          ? item.titleen
-                          : item.edition || item.title}
-                      </span>
-                    </a>
-                  </Link>
-                ))}
-              </div>
-            </div>
+            <EndNudgeCard
+              editionLinks={editionLinks}
+              showKusouzuHubLink={showKusouzuHubLink}
+              showChojuGigaHubLink={showChojuGigaHubLink}
+              showEndNudge={showEndNudge}
+            />
           )}
         </article>
         {showCommentaryBar && (
