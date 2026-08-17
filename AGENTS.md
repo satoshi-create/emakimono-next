@@ -15,10 +15,11 @@
 1. This file (`AGENTS.md`)
 2. `docs/operations/data-model.md` — JSON / slug / scroll_id の関係
 3. `src/pages/[slug].js` — 絵巻ページのエントリ
-4. `src/components/emaki/layout/EmakiConteiner.js` — ビューア本体
-5. `src/pages/_app.js` — `AppContext`（navIndex, fullscreen, modals）
-6. `src/components/meta/Meta.js` — SEO
-7. 編集対象の locales / constants（下記 i18n 表）
+4. `src/components/emaki/layout/EmakiConteiner.js` — ビューア本体（ロジックは下記フックに分離済み）
+5. `src/hooks/emaki/*.js` — ビューアロジック（scroll / autoplay / idle / palm / restore）
+6. `src/pages/_app.js` — `AppContext`（navIndex, fullscreen, modals）
+7. `src/components/meta/Meta.js` — SEO
+8. 編集対象の locales / constants（下記 i18n 表）
 
 ## Directory map
 
@@ -26,6 +27,8 @@
 |------|---------|
 | `src/pages/` | ルート定義（`/[slug]` が絵巻ビューア） |
 | `src/components/emaki/` | 絵巻ビューア UI |
+| `src/hooks/emaki/` | ビューアロジック（scroll / autoplay / idle / palm / restore） |
+| `src/types/` | ビューア・絵巻データ・analytics の型定義（`viewer.ts` / `emaki.ts` / `analytics.ts`） |
 | `src/components/layout/` | Header, Footer |
 | `src/components/meta/Meta.js` | SEO（next/head） |
 | `src/libs/constants/` | サイトメタ・ナビリンク・静的文案 |
@@ -42,7 +45,7 @@
 - **本番データ正本:** `src/data/image-metadata-cache/image-metadata-cache.json`（本番コードはこれのみ参照）
 - `local-data/pipeline/`（旧 `json-data/`）は旧一覧データ。**本番コード・Cursor Agent から参照しない**（gitignore + cursorignore 済みのローカル保持。sync ツールが読むのみ）
 - `src/libs/_archive_unused_data/` / `src/components/_archive_unused/` — **参照・編集しない**
-- `func.js` が archive を import していてもレガシー
+- `func.js` は **facade（re-export）化済み**。実装は `src/hooks/useLocale.js` / `src/utils/emakiEra.js` / `emakiList.js` / `emakiChapterText.js` に分割。genji archive の import は `emakiChapterText.js` のみ（レガシー）
 
 ## Legacy identifier typos (do not rename)
 

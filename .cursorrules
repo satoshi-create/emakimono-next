@@ -7,6 +7,8 @@ AI アシスタントの出力トークン削減と最小差分のコード生�
 - ファイル全体の再出力は禁止。
 - 変更対象の関数・JSX ブロックのみ出力し、変更なしの箇所は `// ... existing code ...` で省略する。
 - 関数内でも変更のない行・引数は出力しない。
+- 置換対象は「変更前の正確なテキスト」を提示する（新規ブロックとセットで Diff 形式にする）。
+- 1 回の編集で触る関数・ブロックは 1 〜 2 個までとする（重量コンポーネントはさらに厳守）。
 
 ## 2. 解説テキストの簡潔化
 
@@ -18,10 +20,17 @@ AI アシスタントの出力トークン削減と最小差分のコード生�
 
 - `src/components/emaki/layout/EmakiConteiner.js` などの重量コンポーネントは、一度に全体を書き換えない。
 - フック単位（スクロール制御・フルスクリーン制御・モーダル制御など）またはサブコンポーネント単位で、最小の修正差分を提示する。
-- 1 回の編集で触る関数・ブロックは 1 〜 2 個までとする。
+- フック化済みのロジック（`src/hooks/emaki/*.js`）を Conteiner へ再実装・再統合しない。修正はフック本体で行う。
 
 ## 4. 型定義と安全性の維持
 
 - Next.js / JavaScript / TypeScript の型安全性と既存挙動を損なわない。
 - 必要な import 文の追加のみを明示し、不要な import・未使用コードを追加しない。
 - 既存パターン（`@/` エイリアス、CSS Modules、`Meta` for SEO）に従う。
+- ビューアの Props / フック戻り値は実装を読む前に `src/types/viewer.ts` を参照する。型定義が足りない場合は `src/types/*.ts` へ追記する（実装内に型を埋め込まない）。
+- 既存フック（`useEmakiAutoPlay` / `useEmakiScroll` / `useEmakiIdleUI` / `useEmakiPalmDrag` / `useScrollPositionRestore`）のシグネチャ変更は、呼び出し側 `EmakiConteiner.js` と `src/types/viewer.ts` を必ず同期させる。
+
+## 5. 検証
+
+- 変更後は必ず `npm run lint`（エラー 0）と `npx tsc --noEmit`（エラー 0）を通す。
+- ビューアに影響する変更は `npm run build` も通す。手動チェックは `docs/operations/viewer-manual-check.md` に従う。

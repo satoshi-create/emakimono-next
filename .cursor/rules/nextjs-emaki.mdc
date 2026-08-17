@@ -28,6 +28,10 @@ alwaysApply: false
 - 横スクロール鑑賞がコア。`AppContext`（`_app.js`）で navIndex / fullscreen / help modal を管理
 - 操作ヘルプ: `HelpModal.js` + `common.json` の `viewer` / `help`
 - 計測: `src/libs/api/measurementUtils.js` — イベント追加時は `analytics/dimensions.yaml` も確認
+- ビューアロジックは `src/hooks/emaki/*.js` に分離済み。新規実装時は既存フック（`useEmakiAutoPlay` / `useEmakiScroll` / `useEmakiIdleUI` / `useEmakiPalmDrag` / `useScrollPositionRestore`）を再利用し、`EmakiConteiner.js` へ再実装しない
+- ビューアの Props / フック戻り値は `src/types/viewer.ts`、絵巻データ構造は `src/types/emaki.ts` を参照する
+- ロケールフックは `@/hooks/useLocale`、集計・表示ヘルパーは `@/utils/emakiList` / `emakiEra`、章テキストは `@/utils/emakiChapterText` を直接 import する（`@/utils/func` は facade のため新規利用は避ける）
+- フルスクリーン制御は `@/hooks/useEmakiFullscreen`（_app.js の AppContext が利用）
 
 ## Styling
 
