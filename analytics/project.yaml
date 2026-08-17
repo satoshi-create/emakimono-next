@@ -18,7 +18,8 @@ ga4:
     fallback_reason: customEvent:fallback_reason
 
 content:
-  emakis_json: local-data/pipeline/dataEmakis.json
+  # 本番正本 image-metadata-cache を使用（local-data/ は gitignore 済みで CI に存在しない）
+  emakis_json: src/data/image-metadata-cache/image-metadata-cache.json
   content_map: analytics/content-map.json
   slug_field: titleen
 
