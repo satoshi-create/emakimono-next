@@ -1,27 +1,15 @@
 import styles from "@/styles/PersonProfile.module.css";
-import { eraColor } from "@/utils/func";
+import { createCloudinaryHeroLoader } from "@/utils/cloudinaryUrl";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-const CLOUDINARY_BASE =
-  "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
+const heroLoader = createCloudinaryHeroLoader("g_face");
 
 // フォールバックヒーロー画像: 九相図ハブと同じ画像（kuso-zu-emaki）
 // personprofiles.json の person.heroCloudinary で個別指定できる
 const HERO_CLOUDINARY =
   "v1774936234/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_01_01.jpg";
-
-/**
- * Cloudinary loader for hero images.
- * Applies smart fill crop, auto format, quality, and a subtle dark
- * gradient overlay at the bottom for text readability.
- */
-const heroLoader = ({ src, width, quality }) => {
-  return `${CLOUDINARY_BASE},w_${width},ar_16:9,c_fill,g_face` +
-    `,f_auto,q_${quality || 75}` +
-    `,co_black,e_gradient_fade:y_-0.4/${src}`;
-};
 
 /**
  * 絵巻関連人物の紹介ヒーロー。

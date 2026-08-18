@@ -1,5 +1,6 @@
 import { AppContext } from "@/context/AppContext";
 import { trackImageLoaded, trackImageFallback, trackImageLoadSlow } from "@/libs/api/measurementUtils";
+import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
 import Image from "next/image";
 import { useContext, useEffect, useRef, useState } from "react";
 
@@ -255,19 +256,15 @@ const LazyImage = ({
     };
   }, [uniqueIndex, toggleFullscreen, isSkeletonVisible, emakiId, isPlayMode]);
 
-  const baseUrl =
-    "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
-
   // 絵巻の紙色（#f5f0e6）。Firefox の白背景フラッシュ対策（外部 blur URL は使わない）
   const PAPER_COLOR_BLUR_DATA_URL =
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect fill='%23f5f0e6' width='1' height='1'/%3E%3C/svg%3E";
 
   const cloudinaryLoader = ({ src, width }) => {
-    // f_auto/q_auto はスラッシュ区切りの別コンポーネントで指定する（Cloudinary 公式推奨。
-    // カンマ区切り f_auto,q_auto は推奨されず、画像によっては最適形式が選ばれない）
+    // 変換はスラッシュ区切りのみ（カンマは srcset を分割し相対パス 404 になる）
     // dpr_auto は付けない: next/image の srcset が devicePixelRatio を考慮して候補を選ぶため、
     // w_×dpr の二重拡大による過大な配信を防ぐ
-    return `${baseUrl},w_${width}/f_auto/q_auto:eco/${src}`;
+    return buildCloudinaryUrl(src, [`w_${width}`, "f_auto", "q_auto:eco"]);
   };
 
   // CSS custom property を使用してモバイルブラウザの dvh に対応

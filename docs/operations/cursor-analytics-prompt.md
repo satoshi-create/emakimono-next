@@ -14,6 +14,7 @@
 | データ少（bootstrap） | [§2 bootstrap チェック](#2-bootstrap-チェック) |
 | 特定絵巻深掘り | [§3 絵巻深掘り](#3-絵巻深掘り) |
 | **Cursor Automation** | [§4 Automation（週次）](#4-cursor-automation週次) |
+| ISR / Vercel / Cloudinary | [§6 Infra / cost](#6-infra--costisrvercelcloudinary) |
 
 ---
 
@@ -37,7 +38,8 @@
 1. summary.md と merged.json を読む
 2. 好調 Top 3 / 要改善 Top 3（前週比必須）
 3. 改善案は meta・内部リンク・ビューア UX（measurementUtils イベント）に分解
-4. 出力: analytics/reports/{最新}/actions.md
+4. Infra / cost（ISR・Vercel・Cloudinary）を actions.md に独立節で書く（Skill の Infra 節 / 本ファイル §6）
+5. 出力: analytics/reports/{最新}/actions.md
 ````
 
 ---
@@ -107,6 +109,7 @@ python scripts/analytics/fetch_all.py --skip-config-check
 - 1 つ前のフォルダがあれば前週比較
 - `summary.md`, `merged.json`, `kpi.yaml` を読む
 - `insight_flags` を起点に Top 3 / Needs 3 / P1–P3 を整理
+- Infra / cost: Skill の Infra 節および本ファイル §6。Cloudinary は `check_cloudinary_usage.py`。Vercel 数字がチャットに無ければ「未実施」
 
 ## 3. 出力
 
@@ -118,9 +121,11 @@ python scripts/analytics/fetch_all.py --skip-config-check
 ## Top performers (3)
 ## Needs improvement (3)
 ## Recommended actions (prioritized P1–P3)
+## Infra / cost (ISR · Vercel · Cloudinary)
 ```
 
 各 P 項目: slug、根拠数値、提案（meta / 内部リンク / viewer UX / CDN）。
+Infra は GSC Top 3 と混ぜない。Issue 化は credits ≥ 20 または ISR Reads 上限超過のときだけ。
 
 ## 4. GitHub Issues
 
@@ -152,10 +157,59 @@ google-calendar MCP で 1 週間後 30 分のイベントを作成:
 - actions.md パス
 - 作成した Issue URL 一覧
 - Calendar イベント日時
+- Infra: Cloudinary 実施 / 未実施、Vercel ISR 実施 / 未実施
 ````
 
 ---
 
 ## 5. 人間レビュー
 
-Automation 後: [`analytics-weekly-checklist.md`](./analytics-weekly-checklist.md)（15–30 分）
+Automation 後: [`analytics-weekly-checklist.md`](./analytics-weekly-checklist.md)（15–35 分。Vercel ISR 含む）
+
+---
+
+## 6. Infra / cost（ISR・Vercel・Cloudinary）
+
+週次の GSC/GA4 とは独立した定点。`actions.md` の **Infra / cost** 節に書く。
+
+### Cloudinary（スクリプト可）
+
+最新 `analytics/reports/{date}/` が用意できてから:
+
+```powershell
+py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20 --output analytics/reports/{date}/cloudinary-usage.json
+```
+
+| 記録 | 閾値 |
+|------|------|
+| `credits.usage` / limit / used_percent | warn ≥ 18、危険 ≥ 20（Free 上限 25） |
+| bandwidth, storage, transformations | 前週比で急増したら原因を一行 |
+
+`CLOUDINARY_URL` が無ければスキップし「未実施」。  
+`scripts/analyze_cloudinary_assets.py` は **transformations または storage が急増したときだけ**（毎週実行しない。Admin API 枠）。
+
+### Vercel / ISR（ダッシュボード）
+
+リポジトリに Vercel API はない。Observability / Usage の表・CSV・スクショを人が渡すか、checklist で貼る。
+
+| 見るもの | 注意 |
+|----------|------|
+| HTML ルートの Size Range | `/en` `/en/about` `/en/404` `/ja`。**`/_next/data/*` は除外**（pageProps） |
+| ISR Reads | 使用量 / 上限 1M。課金は **非圧縮** Size（8KB = 1 Unit）。転送 kB ではない |
+| Fast Data Transfer / Edge Requests | Usage の Last 7 days または billing cycle |
+
+数字が無ければ「未実施（checklist 待ち）」。
+
+### ISR 抑制の効果測定（2026-08-18 本番マージ）
+
+フォント CSS の HTML インライン停止。週次 7 日窓はデプロイ日をまたぐ。
+
+| 期間 | 目安 |
+|------|------|
+| 修正前（8/11–17 またはマージ直前） | Size Range 約 **800KB** |
+| 修正後（8/18 以降） | HTML ルート **約 60–130KB**。同じヒット数なら Reads は roughly 1/8 |
+
+**2026-08-24 の週次**は混在週になりうるので、必ず 8/18 で期間を割る。  
+2026-08-31 以降は通常の前週比でよい。
+
+Infra の GitHub Issue は credits ≥ 20 または ISR Reads 上限超過のときだけ。

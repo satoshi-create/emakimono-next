@@ -1,16 +1,10 @@
 import Image from "next/image";
 import Title from "@/components/ui/Title";
 import styles from "@/styles/KusouzuHub.module.css";
+import { cloudinaryThumbLoader } from "@/utils/cloudinaryUrl";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-
-const CLOUDINARY_BASE =
-  "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
-
-const cloudinaryLoader = ({ src, width, quality }) => {
-  return `${CLOUDINARY_BASE},f_auto,w_${width},q_${quality || 75}/${src}`;
-};
 
 const IMG_PROPS = { width: 533, height: 300, loading: "lazy" };
 const IMG_SIZES = "(max-width: 768px) 100vw, 280px";
@@ -21,7 +15,7 @@ const StageThumb = ({ stage }) => {
   if (stage.thumbCloudinary) {
     return (
       <Image
-        loader={cloudinaryLoader}
+        loader={cloudinaryThumbLoader}
         src={stage.thumbCloudinary}
         alt={alt}
         {...IMG_PROPS}

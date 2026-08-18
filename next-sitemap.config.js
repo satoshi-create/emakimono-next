@@ -10,6 +10,15 @@ const config = {
   siteUrl: process.env.SITE_URL || "https://emakimono.com",
   generateRobotsTxt: true,
   exclude: withdrawnExcludes,
+  robotsTxtOptions: {
+    policies: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/api/"],
+      },
+    ],
+  },
 };
 
 module.exports = config;

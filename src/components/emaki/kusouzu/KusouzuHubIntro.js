@@ -1,20 +1,9 @@
 import Image from "next/image";
 import styles from "@/styles/KusouzuHub.module.css";
+import { createCloudinaryHeroLoader } from "@/utils/cloudinaryUrl";
 import { useTranslation } from "next-i18next";
 
-const CLOUDINARY_BASE =
-  "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
-
-/**
- * Cloudinary loader for hero images.
- * Applies smart fill crop, auto format, quality, and a subtle dark
- * gradient overlay at the bottom for text readability.
- */
-const heroLoader = ({ src, width, quality }) => {
-  return `${CLOUDINARY_BASE},w_${width},ar_16:9,c_fill,g_face` +
-    `,f_auto,q_${quality || 75}` +
-    `,co_black,e_gradient_fade:y_-0.4/${src}`;
-};
+const heroLoader = createCloudinaryHeroLoader("g_face");
 
 const KusouzuHubIntro = ({ heroThumb, heroCloudinary }) => {
   const { t } = useTranslation("common");

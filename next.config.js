@@ -14,6 +14,7 @@ const {
 const {
   buildWithdrawnScrollRedirects,
 } = require("./src/libs/constants/withdrawnRedirects");
+const { buildSeoRedirects } = require("./src/libs/constants/seoRedirects");
 
 const nextConfig = {
   reactStrictMode: true,
@@ -52,6 +53,7 @@ const nextConfig = {
     return [
       ...buildKusouzuSlugRedirects(),
       ...buildWithdrawnScrollRedirects(),
+      ...buildSeoRedirects(),
     ];
   },
 };

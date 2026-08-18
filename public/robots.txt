@@ -1,6 +1,7 @@
 # *
 User-agent: *
 Allow: /
+Disallow: /api/
 
 # Host
 Host: https://emakimono.com

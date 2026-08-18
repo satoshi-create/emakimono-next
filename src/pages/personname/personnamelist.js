@@ -7,11 +7,8 @@ import { default as cacheData } from "@/data/image-metadata-cache/image-metadata
 import { personProfileItem } from "@/utils/func";
 import "lazysizes";
 import { useRouter } from "next/router";
+import { DISPLAY_PERSON_SLUGS } from "@/libs/constants/displayPersonSlugs";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-
-// 公開一覧に表示する人物。閲覧可能な絵巻（cache）に登場する人物のみを正とする。
-// 小野小町は未登場のため total=0 だが、Wellcome 絵巻追加を見据えて表示を維持する。
-const DISPLAY_PERSON_SLUGS = ["danrinkougou", "ononokomachi"];
 
 const PersonnamesComp = () => {
   const { locale } = useRouter();

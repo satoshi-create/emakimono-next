@@ -1,4 +1,4 @@
-# Analytics weekly review — human checklist (15–30 min)
+# Analytics weekly review — human checklist (15–35 min)
 
 Pattern C の**手動部分**だけ。fetch・分析・Issue 作成・Calendar 予約は自動。
 
@@ -28,6 +28,20 @@ Automation 実行ログまたは最新 artifact 内:
 1. `summary.md` — Period（直近 7 日）、Totals、Top findings
 2. `actions.md` — Top 3 / Needs 3 / P1–P3
 3. 前週フォルダがあれば前週比の変化
+4. `actions.md` の **Infra / cost**（Cloudinary。Vercel は次項）
+
+### 2b. Infra / cost — Vercel ISR（5 分）
+
+ダッシュボード数字は Agent が取れない。ここで記録するか、チャットに渡す。
+
+- [ ] Vercel → Observability → ISR。**HTML ルート**（`/_next/data` 以外）
+- [ ] `/en` `/en/about` `/en/404` `/ja` の Size Range（非圧縮。転送 kB ではない）
+- [ ] Usage: ISR Reads（/ 1M）、Fast Data Transfer、Edge Requests
+- [ ] **2026-08-24 前後:** 期間を **8/18 で分割**（修正前 約 800KB vs 修正後 約 60–130KB）
+- [ ] Cloudinary: Automation が未実施なら  
+      `py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20 --no-save`
+
+詳細: [`cursor-analytics-prompt.md`](./cursor-analytics-prompt.md) §6。
 
 ### 3. GitHub Issues（5–10 分）
 
@@ -74,5 +88,5 @@ gh label create analytics-p3 --color C5DEF5 --description "P3 action from analyt
 | ドキュメント | 内容 |
 |-------------|------|
 | [analytics-pipeline.md](./analytics-pipeline.md) | fetch・Secrets・Actions |
-| [cursor-analytics-prompt.md](./cursor-analytics-prompt.md) | Automation 用プロンプト |
+| [cursor-analytics-prompt.md](./cursor-analytics-prompt.md) | Automation 用プロンプト（§6 Infra） |
 | [analytics-automation-setup.md](./analytics-automation-setup.md) | Cursor Automation 設定 |

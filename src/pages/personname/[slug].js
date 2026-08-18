@@ -9,11 +9,8 @@ import {
 } from "@/utils/func";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { DISPLAY_PERSON_SLUGS } from "@/libs/constants/displayPersonSlugs";
 import { useTranslation } from "next-i18next";
-
-// 一覧ページ（personnamelist.js）と同期。閲覧可能な絵巻に登場しない人物は表示しない。
-// 小野小町は未登場だが Wellcome 九相図追加を見据えて維持。
-const DISPLAY_PERSON_SLUGS = ["danrinkougou", "ononokomachi"];
 
 const PersonnameDetail = ({ person, posts, slug }) => {
   const { locale } = useRouter();

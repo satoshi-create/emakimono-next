@@ -8,6 +8,7 @@
 | Cursor Agent 用プロンプト | [`cursor-analytics-prompt.md`](./cursor-analytics-prompt.md) |
 | **週次ループ（Pattern C）** | [`analytics-automation-setup.md`](./analytics-automation-setup.md) |
 | **人間 15 分チェックリスト** | [`analytics-weekly-checklist.md`](./analytics-weekly-checklist.md) |
+| ISR / Vercel / Cloudinary（週次） | [`cursor-analytics-prompt.md`](./cursor-analytics-prompt.md) §6 |
 | 絵巻 sync パイプライン | [`scroll-pipeline.md`](./scroll-pipeline.md) |
 
 ---

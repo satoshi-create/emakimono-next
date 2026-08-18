@@ -16,6 +16,12 @@
 /out/
 dist/
 
+# generated sitemap aliases (postbuild)
+/public/sitemap-index.xml
+/public/sitemap_index.xml
+/public/news_sitemap.xml
+/public/sitemap.html
+
 # production
 /build
 

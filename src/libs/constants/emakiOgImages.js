@@ -1,4 +1,4 @@
-const CLOUDINARY_BASE = "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
+import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
 
 /**
  * OGP画像フォールバック（ローカルサムネが存在しない絵巻）。
@@ -6,10 +6,14 @@ const CLOUDINARY_BASE = "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_pr
  * key: titleen（URLスラッグ）
  */
 const OGP_IMAGE_FALLBACKS = {
-  jigokusoushi_masuda_kou:
-    `${CLOUDINARY_BASE},f_jpg,w_1200,h_630,c_fill/emakimono/jigokusoushi_masuda_kou__jigokusoushi_masuda_kou_1_01__02.jpg`,
-  "eshi-no-soshi_tohaku":
-    `${CLOUDINARY_BASE},f_jpg,w_1200,h_630,c_fill/emakimono/eshi-no-soshi__eshi-no-soshi_1_01__04.jpg`,
+  jigokusoushi_masuda_kou: buildCloudinaryUrl(
+    "emakimono/jigokusoushi_masuda_kou__jigokusoushi_masuda_kou_1_01__02.jpg",
+    ["f_jpg", "w_1200", "h_630", "c_fill"]
+  ),
+  "eshi-no-soshi_tohaku": buildCloudinaryUrl(
+    "emakimono/eshi-no-soshi__eshi-no-soshi_1_01__04.jpg",
+    ["f_jpg", "w_1200", "h_630", "c_fill"]
+  ),
 };
 
 export { OGP_IMAGE_FALLBACKS };
