@@ -77,6 +77,9 @@
     "wanakana": "^5.3.1",
     "webp-loader": "^0.6.0"
   },
+  "overrides": {
+    "nanoid": "3.3.18"
+  },
   "devDependencies": {
     "@babel/eslint-parser": "^7.29.7",
     "@types/node": "^22.14.1",
