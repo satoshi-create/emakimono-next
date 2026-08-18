@@ -1,3 +1,4 @@
+import ClassicalFontLink from "@/components/meta/ClassicalFontLink";
 import Button from "@/components/ui/Button";
 import Title from "@/components/ui/Title";
 import styles from "@/styles/PersonNameList.module.css";
@@ -14,6 +15,7 @@ const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
       className={`section-grid section-padding`}
       style={{ background: bcg }}
     >
+      <ClassicalFontLink />
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
       <div className={`${styles.tags} ${locale === "ja" && styles.jatags}`}>
         {allTags.map((item, index) => {

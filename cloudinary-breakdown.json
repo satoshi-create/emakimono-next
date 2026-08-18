@@ -1,0 +1,161 @@
+{
+  "summary": {
+    "total_assets": 195,
+    "total_bytes": 101088617,
+    "total_mb": 96.41,
+    "total_gb": 0.0941,
+    "grouped_by": "prefix"
+  },
+  "groups": {
+    "emakimono/jigokusoushi-genke": {
+      "count": 13,
+      "total_mb": 21.82,
+      "avg_kb": 1719.1,
+      "max_kb": 2890.4,
+      "min_kb": 1239.0,
+      "formats": {
+        "jpg": 13
+      }
+    },
+    "emakimono/eshi-no-soshi": {
+      "count": 17,
+      "total_mb": 11.9,
+      "avg_kb": 716.8,
+      "max_kb": 1094.1,
+      "min_kb": 253.0,
+      "formats": {
+        "jpg": 17
+      }
+    },
+    "emakimono/choju-giga-yamazaki-kou": {
+      "count": 24,
+      "total_mb": 10.3,
+      "avg_kb": 439.5,
+      "max_kb": 703.3,
+      "min_kb": 220.2,
+      "formats": {
+        "jpg": 24
+      }
+    },
+    "emakimono/kusoushi-emaki": {
+      "count": 20,
+      "total_mb": 9.19,
+      "avg_kb": 470.6,
+      "max_kb": 825.9,
+      "min_kb": 374.8,
+      "formats": {
+        "jpg": 20
+      }
+    },
+    "emakimono/kuso-zu-emaki": {
+      "count": 10,
+      "total_mb": 8.19,
+      "avg_kb": 838.1,
+      "max_kb": 1103.1,
+      "min_kb": 572.8,
+      "formats": {
+        "jpg": 10
+      }
+    },
+    "emakimono/choju-giga-yamazaki-otu": {
+      "count": 22,
+      "total_mb": 6.58,
+      "avg_kb": 306.5,
+      "max_kb": 490.8,
+      "min_kb": 189.4,
+      "formats": {
+        "jpg": 22
+      }
+    },
+    "emakimono/gakisoushi-kawamoto": {
+      "count": 7,
+      "total_mb": 4.45,
+      "avg_kb": 651.4,
+      "max_kb": 1252.9,
+      "min_kb": 250.6,
+      "formats": {
+        "jpg": 7
+      }
+    },
+    "emakimono/kusouzu-eitaku": {
+      "count": 9,
+      "total_mb": 4.2,
+      "avg_kb": 477.5,
+      "max_kb": 539.4,
+      "min_kb": 385.9,
+      "formats": {
+        "jpg": 9
+      }
+    },
+    "emakimono/choju-giga-yamazaki-hei": {
+      "count": 20,
+      "total_mb": 3.9,
+      "avg_kb": 199.7,
+      "max_kb": 444.4,
+      "min_kb": 54.7,
+      "formats": {
+        "jpg": 20
+      }
+    },
+    "emakimono/kusouzu-wellcome-noble-lady": {
+      "count": 9,
+      "total_mb": 3.44,
+      "avg_kb": 391.1,
+      "max_kb": 472.3,
+      "min_kb": 344.8,
+      "formats": {
+        "jpg": 9
+      }
+    },
+    "emakimono/choju-giga-yamazaki-tei": {
+      "count": 18,
+      "total_mb": 3.38,
+      "avg_kb": 192.3,
+      "max_kb": 318.5,
+      "min_kb": 114.7,
+      "formats": {
+        "jpg": 18
+      }
+    },
+    "emakimono/jigokusoushi-anzyuin": {
+      "count": 8,
+      "total_mb": 3.24,
+      "avg_kb": 415.2,
+      "max_kb": 541.2,
+      "min_kb": 241.4,
+      "formats": {
+        "jpg": 8
+      }
+    },
+    "emakimono/frolicking-animals-and-tengu-goblins": {
+      "count": 8,
+      "total_mb": 3.11,
+      "avg_kb": 398.0,
+      "max_kb": 468.4,
+      "min_kb": 188.5,
+      "formats": {
+        "jpg": 8
+      }
+    },
+    "emakimono/kusouzu-honolulu": {
+      "count": 6,
+      "total_mb": 1.49,
+      "avg_kb": 254.1,
+      "max_kb": 306.5,
+      "min_kb": 215.6,
+      "formats": {
+        "jpg": 6
+      }
+    },
+    "emakimono/jigokusoushi_masuda_kou": {
+      "count": 4,
+      "total_mb": 1.21,
+      "avg_kb": 309.4,
+      "max_kb": 430.5,
+      "min_kb": 238.1,
+      "formats": {
+        "jpg": 4
+      }
+    }
+  }
+}

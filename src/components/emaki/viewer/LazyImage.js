@@ -9,12 +9,43 @@ const loadTimeSamples = []; // 直近の実測ロード時間（ms）
 const MAX_SAMPLES = 8;
 const TIMEOUT_MULTIPLIER = 2.5; // 平均ロード時間の2.5倍を閾値とする
 
-// 各フォールバック種別ごとの下限・上限（ms）
-const TIMEOUT_BOUNDS = {
-  priority:  { min: 1500, max: 6000, fallback: 2000 },
-  fullscreen: { min: 2000, max: 8000, fallback: 3000 },
-  universal:  { min: 3000, max: 10000, fallback: 5000 },
+// P3-c: 絵巻別タイムアウト倍率 — cloudinary-breakdown.json の avg_kb に基づく
+const PER_EMAKI_TIMEOUT = {
+  "jigokusoushi-genke": 1.5,   // avg 1719KB / max 2890KB — 重量級
+  "kuso-zu-emaki": 1.2,        // avg 838KB
+  "eshi-no-soshi": 1.2,        // avg 716KB
+  "gakisoushi-kawamoto": 1.2,  // avg 651KB
 };
+
+// P1-a: Fast Origin Transfer 逼迫を考慮し max を 1.3〜1.5倍に拡大
+const TIMEOUT_BOUNDS = {
+  priority:  { min: 1500, max: 8000, fallback: 2500 },
+  fullscreen: { min: 2000, max: 10000, fallback: 3500 },
+  universal:  { min: 3000, max: 12000, fallback: 5500 },
+};
+
+// P1-c: 接続種別による分岐 (navigator.connection?.effectiveType)
+const getConnectionMultiplier = () => {
+  if (typeof navigator === "undefined") return 1;
+  const conn = navigator.connection?.effectiveType;
+  if (!conn) return 1;
+  if (conn === "slow-2g") return 2.5;
+  if (conn === "2g") return 1.8;
+  if (conn === "3g") return 1.3;
+  return 1; // 4g / unknown
+};
+
+// P3-b: localStorage 永続化キー — ページ遷移後もサンプルを維持
+const STORAGE_KEY = "emaki_load_time_samples";
+try {
+  const raw = typeof localStorage !== "undefined" ? localStorage.getItem(STORAGE_KEY) : null;
+  if (raw) {
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) {
+      loadTimeSamples.push(...parsed.slice(-MAX_SAMPLES));
+    }
+  }
+} catch (e) { /* Storage 未対応環境は無視 */ }
 
 // デバッグフラグ: 検証完了後に false にするか、本ブロックごと削除
 const FB_DEBUG = false;
@@ -22,21 +53,30 @@ const FB_DEBUG = false;
 const recordLoadTime = (ms) => {
   loadTimeSamples.push(ms);
   if (loadTimeSamples.length > MAX_SAMPLES) loadTimeSamples.shift();
+  // P3-b: localStorage に永続化
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(loadTimeSamples));
+  } catch (e) { /* Storage 未対応環境は無視 */ }
   if (FB_DEBUG) {
     const avg = loadTimeSamples.reduce((a, b) => a + b, 0) / loadTimeSamples.length;
     console.log(`[FB-DEBUG] recordLoadTime: ${ms}ms | samples(${loadTimeSamples.length}): avg=${Math.round(avg)}ms`);
   }
 };
 
-const getAdaptiveTimeout = (type) => {
+const getAdaptiveTimeout = (type, emakiId) => {
   const bounds = TIMEOUT_BOUNDS[type];
+  const connMultiplier = getConnectionMultiplier();
+  const emakiMultiplier = PER_EMAKI_TIMEOUT[emakiId] || 1;
+  const combinedMultiplier = Math.min(connMultiplier * emakiMultiplier, 3);
   if (loadTimeSamples.length === 0) {
-    if (FB_DEBUG) console.log(`[FB-DEBUG] getAdaptiveTimeout(${type}): ${bounds.fallback}ms (no samples, using fallback)`);
-    return bounds.fallback;
+    const fallback = Math.round(bounds.fallback * combinedMultiplier);
+    if (FB_DEBUG) console.log(`[FB-DEBUG] getAdaptiveTimeout(${type}): ${fallback}ms (no samples, conn=${connMultiplier}x, emaki=${emakiMultiplier}x)`);
+    return fallback;
   }
   const avg = loadTimeSamples.reduce((a, b) => a + b, 0) / loadTimeSamples.length;
-  const timeout = Math.min(bounds.max, Math.max(bounds.min, Math.round(avg * TIMEOUT_MULTIPLIER)));
-  if (FB_DEBUG) console.log(`[FB-DEBUG] getAdaptiveTimeout(${type}): ${timeout}ms (avg=${Math.round(avg)}ms × ${TIMEOUT_MULTIPLIER})`);
+  const maxAdjusted = Math.round(bounds.max * combinedMultiplier);
+  const timeout = Math.min(maxAdjusted, Math.max(bounds.min, Math.round(avg * TIMEOUT_MULTIPLIER)));
+  if (FB_DEBUG) console.log(`[FB-DEBUG] getAdaptiveTimeout(${type}): ${timeout}ms (avg=${Math.round(avg)}ms, conn=${connMultiplier}x, emaki=${emakiMultiplier}x)`);
   return timeout;
 };
 
@@ -66,7 +106,7 @@ const LazyImage = ({
   // 再マウント時にキャッシュされた画像で onLoadingComplete が呼ばれない場合の対策
   useEffect(() => {
     if (uniqueIndex === 0) {
-      const timeout = getAdaptiveTimeout("priority");
+      const timeout = getAdaptiveTimeout("priority", emakiId);
       if (FB_DEBUG) console.log(`[FB-DEBUG] priority timer SET: idx=${uniqueIndex}, timeout=${timeout}ms`);
       const fallbackTimer = setTimeout(() => {
         if (isSkeletonVisible) {
@@ -101,12 +141,12 @@ const LazyImage = ({
 
     // フルスクリーン時のeager判定: navIndex±2 または 再生中は先読み8枚
     const isEagerInFullscreen =
-      (isPlayMode && uniqueIndex <= navIndex + 8) ||
+      (isPlayMode && uniqueIndex <= navIndex + 4) ||
       Math.abs(uniqueIndex - navIndex) <= 2;
 
     const startFallbackTimer = () => {
       loadStartTimeRef.current = Date.now();
-      const timeout = getAdaptiveTimeout("fullscreen");
+      const timeout = getAdaptiveTimeout("fullscreen", emakiId);
       if (FB_DEBUG) console.log(`[FB-DEBUG] fullscreen timer SET: idx=${uniqueIndex}, timeout=${timeout}ms, eager=${isEagerInFullscreen}`);
       fallbackTimer = setTimeout(() => {
         if (isSkeletonVisible) {
@@ -167,12 +207,12 @@ const LazyImage = ({
     // eager画像（uniqueIndex < 3）はマウント時にすでにリクエスト開始済みなので即タイマー設定
     // 再生中は先読み8枚のみ eager 扱い（一斉ロードを防ぐ）
     const isEager =
-      uniqueIndex < 3 || (isPlayMode && uniqueIndex <= navIndex + 8);
+      uniqueIndex < 3 || (isPlayMode && uniqueIndex <= navIndex + 4);
 
     const startFallbackTimer = () => {
       // ロード開始時刻を「今」にリセット（ビューポート進入 = ロード開始）
       loadStartTimeRef.current = Date.now();
-      const timeout = getAdaptiveTimeout("universal");
+      const timeout = getAdaptiveTimeout("universal", emakiId);
       if (FB_DEBUG) console.log(`[FB-DEBUG] universal timer SET (viewport enter): idx=${uniqueIndex}, timeout=${timeout}ms`);
       fallbackTimer = setTimeout(() => {
         if (isSkeletonVisible) {
@@ -227,7 +267,7 @@ const LazyImage = ({
     // カンマ区切り f_auto,q_auto は推奨されず、画像によっては最適形式が選ばれない）
     // dpr_auto は付けない: next/image の srcset が devicePixelRatio を考慮して候補を選ぶため、
     // w_×dpr の二重拡大による過大な配信を防ぐ
-    return `${baseUrl},w_${width}/f_auto/q_auto/${src}`;
+    return `${baseUrl},w_${width}/f_auto/q_auto:eco/${src}`;
   };
 
   // CSS custom property を使用してモバイルブラウザの dvh に対応
@@ -284,7 +324,7 @@ const LazyImage = ({
         // フルスクリーン時は現在シーン付近（±2枚）のみ eager（同時リクエスト抑制）
         // 全画面切替時に IntersectionObserver が viewport 変化に追従しない問題への対策
         loading={(() => {
-          const lookahead = isPlayMode ? 8 : 2;
+          const lookahead = isPlayMode ? 4 : 1;
           const isEager =
             uniqueIndex < 3 ||
             (isPlayMode && uniqueIndex <= navIndex + lookahead) ||
@@ -312,8 +352,8 @@ const LazyImage = ({
             trackImageLoaded(emakiId, uniqueIndex, loadTimeMs, "normal");
             // 計測: 遅延検出（fallback未到達だが閾値70%超の画像）
             const thresholdType = toggleFullscreen ? "fullscreen" : "universal";
-            const threshold = getAdaptiveTimeout(thresholdType);
-            const lookahead = isPlayMode ? 8 : 2;
+            const threshold = getAdaptiveTimeout(thresholdType, emakiId);
+            const lookahead = isPlayMode ? 4 : 1;
             const isEager =
               uniqueIndex < 3 ||
               (isPlayMode && uniqueIndex <= navIndex + lookahead) ||

@@ -11,10 +11,15 @@ const { i18n } = require("./next-i18next.config");
 const {
   buildKusouzuSlugRedirects,
 } = require("./src/libs/constants/kusouzuSlugRedirects");
+const {
+  buildWithdrawnScrollRedirects,
+} = require("./src/libs/constants/withdrawnRedirects");
 
 const nextConfig = {
   reactStrictMode: true,
   i18n,
+  // CJK Google Fonts CSS を各 HTML にインラインすると ISR が約 800KB になる
+  optimizeFonts: false,
   swcMinify: true,
   compiler: {
     styledComponents: true,
@@ -44,7 +49,10 @@ const nextConfig = {
     ];
   },
   async redirects() {
-    return buildKusouzuSlugRedirects();
+    return [
+      ...buildKusouzuSlugRedirects(),
+      ...buildWithdrawnScrollRedirects(),
+    ];
   },
 };
 

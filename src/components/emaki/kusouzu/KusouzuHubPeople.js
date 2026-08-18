@@ -1,3 +1,4 @@
+import ClassicalFontLink from "@/components/meta/ClassicalFontLink";
 import Title from "@/components/ui/Title";
 import hubStyles from "@/styles/KusouzuHub.module.css";
 import { personProfileItem } from "@/utils/func";
@@ -19,6 +20,7 @@ const KusouzuHubPeople = () => {
 
   return (
     <section className={`section-grid section-padding ${hubStyles.peopleSection}`}>
+      <ClassicalFontLink />
       <Title sectiontitle={t("kusouzuHub.peopleSectionTitle")} />
       <p className={hubStyles.peopleIntro}>{t("kusouzuHub.peopleIntro")}</p>
       <ul className={hubStyles.peopleGrid}>

@@ -2,6 +2,7 @@ import EmakiHeader from "@/components/emaki/layout/EmakiHeader";
 import EmakiLandscapContent from "@/components/emaki/layout/EmakiLandscapContent";
 import EmakiPortraitContent from "@/components/emaki/layout/EmakiPortraitContent";
 import EmakiBreadcrumbs from "@/components/emaki/navigation/EmakiBreadcrumbs";
+import ClassicalFontLink from "@/components/meta/ClassicalFontLink";
 import Head from "@/components/meta/Meta";
 import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
 import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
@@ -165,6 +166,7 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
         pageType={data.type}
         jsonLd={jsonLd}
       />
+      <ClassicalFontLink />
       {matchMediaContainer(toggleFullscreen, orientation)}
     </>
   );

@@ -6,7 +6,7 @@ Usage:
   py -3.14 scripts/check_cloudinary_usage.py
   py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20
   py -3.14 scripts/check_cloudinary_usage.py --no-save
-  py -3.14 scripts/check_cloudinary_usage.py --date 2026-07
+  py -3.14 scripts/check_cloudinary_usage.py --date 2026-07-15
 
 Exit codes:
   0 = OK (usage below --fail-at)
@@ -114,7 +114,8 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Fetch Cloudinary account usage")
     parser.add_argument(
         "--date",
-        help="Usage period (YYYY-MM or YYYY-MM-DD). Default: current billing period",
+        help="Usage period (YYYY-MM-DD for a specific day, or omit for current billing period). "
+        "NOTA: YYYY-MM (month only) causes API error 400.",
     )
     parser.add_argument(
         "--warn-at",
