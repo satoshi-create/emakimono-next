@@ -8,11 +8,11 @@ import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
 const OGP_IMAGE_FALLBACKS = {
   jigokusoushi_masuda_kou: buildCloudinaryUrl(
     "emakimono/jigokusoushi_masuda_kou__jigokusoushi_masuda_kou_1_01__02.jpg",
-    ["f_jpg", "w_1200", "h_630", "c_fill"]
+    ["f_jpg,w_1200,h_630,c_fill"]
   ),
   "eshi-no-soshi_tohaku": buildCloudinaryUrl(
     "emakimono/eshi-no-soshi__eshi-no-soshi_1_01__04.jpg",
-    ["f_jpg", "w_1200", "h_630", "c_fill"]
+    ["f_jpg,w_1200,h_630,c_fill"]
   ),
 };
 

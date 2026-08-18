@@ -1,14 +1,19 @@
 /**
- * Cloudinary 配信 URL。変換は必ずスラッシュ区切りにする。
- * カンマ区切りは next/image の srcset を分割し、
- * `/kusouzu/q_75/...` のような相対パス 404 をクローラーが踏む原因になる。
+ * Cloudinary 配信 URL。
+ * 同一変換ブロック内のカンマは %2C にエンコードする。
+ * リテラルのカンマは next/image の srcset を分割し、相対パス 404 になる。
+ * スラッシュは独立した変換チェーン（Cloudinary 公式の chained transformation）。
  */
 export const CLOUDINARY_UPLOAD_BASE =
   "https://res.cloudinary.com/dw2gjxrrf/image/upload";
 
 export function buildCloudinaryUrl(src, transforms = []) {
   const publicId = String(src || "").replace(/^\//, "");
-  const segs = ["fl_progressive", ...transforms.filter(Boolean), publicId];
+  const segs = [
+    "fl_progressive",
+    ...transforms.filter(Boolean).map((s) => String(s).replace(/,/g, "%2C")),
+    publicId,
+  ];
   return `${CLOUDINARY_UPLOAD_BASE}/${segs.join("/")}`;
 }
 
@@ -23,13 +28,9 @@ export function cloudinaryThumbLoader({ src, width, quality }) {
 export function createCloudinaryHeroLoader(gravity = "g_face") {
   return ({ src, width, quality }) =>
     buildCloudinaryUrl(src, [
-      `w_${width}`,
-      "ar_16:9",
-      "c_fill",
-      gravity,
+      `c_fill,w_${width},ar_16:9,${gravity}`,
       "f_auto",
       `q_${quality || 75}`,
-      "co_black",
-      "e_gradient_fade:y_-0.4",
+      "co_black,e_gradient_fade:y_-0.4",
     ]);
 }
