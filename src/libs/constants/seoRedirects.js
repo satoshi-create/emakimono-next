@@ -1,6 +1,7 @@
 /**
  * クローラー 404 対策の 301。next.config.js から require する（CJS）。
- * defaultLocale は `en` のため `/en/...` は正規 URL ではない。
+ * defaultLocale は `en` のため、Next.js i18n が自動的に locale ルーティングを処理する。
+ * 手動の locale リダイレクト（/en → / など）は _next/static 等と衝突し無限ループの原因となるため記述しない。
  */
 const personProfiles = require("../../data/personname-data/personprofiles.json");
 const { DISPLAY_PERSON_SLUGS } = require("./displayPersonSlugs");
@@ -49,18 +50,6 @@ function buildSeoRedirects() {
     {
       source: "/sitemap.html",
       destination: "/sitemap.xml",
-      permanent: true,
-      locale: false,
-    },
-    {
-      source: "/en",
-      destination: "/",
-      permanent: true,
-      locale: false,
-    },
-    {
-      source: "/en/:path*",
-      destination: "/:path*",
       permanent: true,
       locale: false,
     },
