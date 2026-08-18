@@ -11,6 +11,10 @@ import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 
+// 一覧ページ（personnamelist.js）と同期。閲覧可能な絵巻に登場しない人物は表示しない。
+// 小野小町は未登場だが Wellcome 九相図追加を見据えて維持。
+const DISPLAY_PERSON_SLUGS = ["danrinkougou", "ononokomachi"];
+
 const PersonnameDetail = ({ person, posts, slug }) => {
   const { locale } = useRouter();
   const { t } = useTranslation("common");
@@ -57,8 +61,10 @@ const PersonnameDetail = ({ person, posts, slug }) => {
 export default PersonnameDetail;
 
 export const getStaticPaths = async () => {
-  // プロフィールデータ（personprofiles.json）を正本に、絵巻データに登場しない人物（小野小町等）も含める
-  const allSlugs = personProfileItem(emakisData).map((p) => p.slug);
+  // 一覧掲載人物（DISPLAY_PERSON_SLUGS）または cache に登場する人物（total > 0）のみビルド
+  const allSlugs = personProfileItem(emakisData)
+    .filter((p) => p.total > 0 || DISPLAY_PERSON_SLUGS.includes(p.slug))
+    .map((p) => p.slug);
 
   const paths = allSlugs.map((slug) => ({
     params: { slug },
