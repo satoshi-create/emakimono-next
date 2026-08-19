@@ -34,3 +34,18 @@ export function createCloudinaryHeroLoader(gravity = "g_face") {
       "co_black,e_gradient_fade:y_-0.4",
     ]);
 }
+
+/**
+ * srcset 分割でサイト相対になった Cloudinary パスなら CDN 絶対 URL を返す。
+ * 本物の /kusouzu/[slug] は /v数字/emakimono/ を含まない。
+ * @param {string} pathname
+ * @returns {string | null}
+ */
+export function toCloudinaryUploadRedirect(pathname) {
+  const stripped = String(pathname || "").replace(/^\/(en|ja)(?=\/)/, "");
+  const match = stripped.match(
+    /^\/kusouzu\/((?:[a-z]{1,4}_[^/]+\/)+v\d+\/emakimono\/.+)$/i
+  );
+  if (!match) return null;
+  return `${CLOUDINARY_UPLOAD_BASE}/${match[1]}`;
+}
