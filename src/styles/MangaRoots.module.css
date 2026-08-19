@@ -1,0 +1,288 @@
+.hero {
+  background: linear-gradient(to right, #121212, #1f2326);
+  color: #fff;
+  padding: 4rem 5vw 5rem;
+  text-align: center;
+}
+
+.heroInner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.heroTitle {
+  font-family: var(--font-story);
+  font-size: clamp(1.45rem, 4vw, 2.5rem);
+  line-height: 1.4;
+  letter-spacing: 0.03em;
+}
+
+.heroLead {
+  font-family: var(--font-ui);
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  color: rgb(255 255 255 / 0.78);
+  margin-top: 1rem;
+  line-height: 1.7;
+}
+
+.heroCta {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 2rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  background: var(--clr-accent);
+  color: #fff;
+  text-decoration: none;
+  font-family: var(--font-ui);
+  font-weight: 700;
+}
+
+.heroCta:hover {
+  opacity: 0.9;
+  color: #fff;
+}
+
+.heroCtaSub {
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.section {
+  scroll-margin-top: 6rem;
+}
+
+.networkLoading {
+  width: 100%;
+  min-width: 0;
+  height: min(52vw, 560px);
+  background: var(--clr-surface);
+  border: 1px solid rgb(211 211 211 / 0.5);
+  border-radius: 12px;
+}
+
+.sectionTitle {
+  font-family: var(--font-story);
+  font-size: clamp(1.35rem, 3vw, 1.9rem);
+  color: var(--clr-text);
+}
+
+.sectionDesc {
+  font-family: var(--font-ui);
+  color: var(--clr-text-muted);
+  margin-top: 0.6rem;
+  line-height: 1.7;
+}
+
+.warning {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  color: var(--clr-text-muted);
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.85rem;
+  border-left: 3px solid var(--clr-accent);
+  background: var(--clr-surface);
+}
+
+.cardList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.75rem;
+}
+
+.card {
+  display: grid;
+  gap: 1rem;
+  background: var(--clr-surface);
+  border: 1px solid rgb(211 211 211 / 0.5);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.cardThumb {
+  min-height: 160px;
+  background: #ececec;
+}
+
+.cardThumb img {
+  display: block;
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.cardThumbPlaceholder {
+  height: 160px;
+}
+
+.cardBody {
+  padding: 0 1.1rem 1.25rem;
+}
+
+.cardTitle {
+  font-family: var(--font-story);
+  font-size: 1.15rem;
+  line-height: 1.45;
+  margin-bottom: 0.85rem;
+}
+
+.pairLabel {
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--clr-text-muted);
+  margin-top: 0.65rem;
+}
+
+.pairValue {
+  font-family: var(--font-story);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--clr-text);
+}
+
+.spot {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--clr-text-muted);
+  margin-top: 0.25rem;
+}
+
+.story {
+  font-family: var(--font-story);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-top: 0.9rem;
+  color: var(--clr-text);
+}
+
+.cardActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.1rem;
+}
+
+.cta {
+  display: inline-block;
+  padding: 0.55rem 0.95rem;
+  border-radius: 999px;
+  background: var(--clr-accent);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cta:hover {
+  opacity: 0.9;
+  color: #fff;
+}
+
+.spotList {
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.spotItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.75rem 1rem;
+  background: var(--clr-surface);
+  border-radius: 8px;
+}
+
+.spotName {
+  font-family: var(--font-ui);
+  font-weight: 700;
+}
+
+.spotAlt {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  color: var(--clr-text-muted);
+}
+
+.mapBanner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 1.25rem;
+  padding: 0.95rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid rgb(255 140 119 / 0.35);
+  background: linear-gradient(
+    to right,
+    rgb(255 140 119 / 0.12),
+    rgb(84 137 106 / 0.12)
+  );
+  text-decoration: none;
+}
+
+.mapBanner:hover {
+  border-color: var(--clr-accent);
+}
+
+.mapBannerTitle {
+  font-family: var(--font-story);
+  font-weight: 700;
+  color: var(--clr-text);
+}
+
+.mapBannerHint {
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  color: var(--clr-accent);
+}
+
+.feedbackCta {
+  display: inline-block;
+  margin-top: 1.1rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--clr-accent);
+  color: var(--clr-bg);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  border-radius: var(--borderRadius);
+  text-decoration: none;
+}
+
+.feedbackCta:hover {
+  opacity: 0.88;
+  color: var(--clr-bg);
+}
+
+@media (min-width: 768px) {
+  .card {
+    grid-template-columns: 280px 1fr;
+    align-items: stretch;
+  }
+
+  .cardThumb img,
+  .cardThumbPlaceholder {
+    height: 100%;
+    min-height: 220px;
+  }
+
+  .cardBody {
+    padding: 1.25rem 1.4rem 1.4rem 0.25rem;
+  }
+
+  .mapBanner {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
