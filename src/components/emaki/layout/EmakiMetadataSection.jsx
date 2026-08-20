@@ -15,6 +15,7 @@ import KusouzuModelLink from "@/components/emaki/kusouzu/KusouzuModelLink";
 import ChojuGigaHubLink from "@/components/emaki/chouju-giga/ChojuGigaHubLink";
 import SightseeingMapLink from "@/components/emaki/hub/SightseeingMapLink";
 import SourceAttribution from "@/components/emaki/metadata/SourceAttribution";
+import MangaRootsEmakiLink from "@/components/manga-roots/MangaRootsEmakiLink";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
 import { eraColor } from "@/utils/func";
@@ -101,6 +102,7 @@ const EmakiMetadataSection = ({
       )}
       {isChojuGiga && <ChojuGigaHubLink variant="banner" />}
       <SightseeingMapLink titleen={titleen} variant="banner" />
+      <MangaRootsEmakiLink titleen={titleen} locale={locale} />
       {tagCloud}
       {/*メタ情報（出典・参考文献は折りたたみ表示）*/}
       <details className={styles.authority}>

@@ -12,10 +12,26 @@ import {
 import "@xyflow/react/dist/style.css";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-const W = 1160;
-const ROW_EMAKE = 110;
-const ROW_TAG = 255;
-const ROW_MEDIA = 455;
+const LAYOUT = {
+  full: {
+    W: 1160,
+    yEmaki: 110,
+    yTag: 255,
+    yMedia: 455,
+    padEmaki: 170,
+    padTag: 280,
+    padMedia: 95,
+  },
+  ego: {
+    W: 720,
+    yEmaki: 70,
+    yTag: 170,
+    yMedia: 280,
+    padEmaki: 80,
+    padTag: 100,
+    padMedia: 50,
+  },
+};
 
 function placeX(count, index, minX, maxX) {
   if (count === 1) return (minX + maxX) / 2;
@@ -23,12 +39,15 @@ function placeX(count, index, minX, maxX) {
   return minX + step * index;
 }
 
-function graphToFlow(graph, locale, t) {
+function graphToFlow(graph, locale, t, variant, enlarged) {
+  // 全画面時は ego でも広いレイアウトで表示する
+  const L =
+    variant === "ego" && enlarged ? LAYOUT.full : LAYOUT[variant] || LAYOUT.full;
   const nodes = [
     ...graph.emakiNodes.map((n, i) => ({
       id: n.id,
       type: "emaki",
-      position: { x: placeX(graph.emakiNodes.length, i, 170, W - 170), y: ROW_EMAKE },
+      position: { x: placeX(graph.emakiNodes.length, i, L.padEmaki, L.W - L.padEmaki), y: L.yEmaki },
       data: {
         title: locale === "en" ? n.titleEn || n.titleen : n.title,
         titleen: n.titleen,
@@ -39,14 +58,14 @@ function graphToFlow(graph, locale, t) {
     ...graph.tagNodes.map((n, i) => ({
       id: n.id,
       type: "tag",
-      position: { x: placeX(graph.tagNodes.length, i, 280, W - 280), y: ROW_TAG },
+      position: { x: placeX(graph.tagNodes.length, i, L.padTag, L.W - L.padTag), y: L.yTag },
       data: { label: locale === "en" ? n.labelEn : n.labelJa, tags: [n.id] },
       draggable: false,
     })),
     ...graph.mediaNodes.map((n, i) => ({
       id: n.id,
       type: "media",
-      position: { x: placeX(graph.mediaNodes.length, i, 95, W - 95), y: ROW_MEDIA },
+      position: { x: placeX(graph.mediaNodes.length, i, L.padMedia, L.W - L.padMedia), y: L.yMedia },
       data: {
         title: locale === "en" ? n.titleEn : n.titleJa,
         typeLabel: n.type === "anime" ? t("mangaRoots.typeAnime") : t("mangaRoots.typeManga"),
@@ -104,12 +123,20 @@ const TagNode = ({ data }) => (
 
 const nodeTypes = { emaki: EmakiNode, media: MediaNode, tag: TagNode };
 
-const MangaRootsFlow = ({ graph, t, locale }) => {
+const MangaRootsFlow = ({ graph, t, locale, variant = "full", focusEmakiId = null }) => {
   const [activeTag, setActiveTag] = useState(null);
   const [enlarged, setEnlarged] = useState(false);
   const wrapRef = useRef(null);
   const { fitView } = useReactFlow();
-  const { nodes, edges } = useMemo(() => graphToFlow(graph, locale, t), [graph, locale, t]);
+  const isEgo = variant === "ego";
+  const { nodes, edges } = useMemo(
+    () => graphToFlow(graph, locale, t, variant, enlarged),
+    [graph, locale, t, variant, enlarged]
+  );
+  const focusTags = useMemo(() => {
+    if (!focusEmakiId) return null;
+    return graph.emakiNodes.find((n) => n.id === focusEmakiId)?.tags ?? null;
+  }, [graph, focusEmakiId]);
 
   const fitToPane = useCallback(() => {
     const el = wrapRef.current;
@@ -154,20 +181,35 @@ const MangaRootsFlow = ({ graph, t, locale }) => {
 
   const nodeClassName = useCallback(
     (node) => {
-      if (!activeTag) return undefined;
-      const related =
-        node.type === "tag" ? node.id === activeTag : node.data.tags?.includes(activeTag);
-      return related ? undefined : styles.nodeDim;
+      if (activeTag) {
+        const related =
+          node.type === "tag" ? node.id === activeTag : node.data.tags?.includes(activeTag);
+        return related ? undefined : styles.nodeDim;
+      }
+      if (focusTags) {
+        if (node.type === "emaki") return node.id === focusEmakiId ? undefined : styles.nodeDim;
+        if (node.type === "tag") return focusTags.includes(node.id) ? undefined : styles.nodeDim;
+        const related = node.data.tags?.some((id) => focusTags.includes(id));
+        return related ? undefined : styles.nodeDim;
+      }
+      return undefined;
     },
-    [activeTag]
+    [activeTag, focusTags, focusEmakiId]
   );
 
   const edgeClassName = useCallback(
     (edge) => {
-      if (!activeTag) return styles.edge;
-      return edge.data?.via === activeTag ? styles.edge : `${styles.edge} ${styles.edgeDim}`;
+      if (activeTag) {
+        return edge.data?.via === activeTag ? styles.edge : `${styles.edge} ${styles.edgeDim}`;
+      }
+      if (focusTags) {
+        return focusTags.includes(edge.data?.via)
+          ? styles.edge
+          : `${styles.edge} ${styles.edgeDim}`;
+      }
+      return styles.edge;
     },
-    [activeTag]
+    [activeTag, focusTags]
   );
 
   const onNodeClick = useCallback((_, node) => {
@@ -177,7 +219,7 @@ const MangaRootsFlow = ({ graph, t, locale }) => {
 
   return (
     <div className={styles.wrap}>
-      <div className={styles.stageSlot}>
+      <div className={`${styles.stageSlot} ${isEgo ? styles.stageSlotEgo : ""}`}>
         <div
           className={`${styles.stage} ${enlarged ? styles.stageFullscreen : ""}`}
           ref={wrapRef}
@@ -209,7 +251,9 @@ const MangaRootsFlow = ({ graph, t, locale }) => {
             className={styles.zoomIcon}
             onClick={() => setEnlarged((v) => !v)}
             aria-label={
-              enlarged ? t("mangaRoots.networkFullscreenClose") : t("mangaRoots.networkFullscreenOpen")
+              enlarged
+                ? t("mangaRoots.networkFullscreenClose")
+                : t("mangaRoots.networkFullscreenOpen")
             }
             aria-expanded={enlarged}
           >
@@ -217,18 +261,20 @@ const MangaRootsFlow = ({ graph, t, locale }) => {
           </button>
         </div>
       </div>
-      <p className={styles.hint}>
-        {locale === "en"
-          ? "Tap a keyword to trace connections."
-          : "キーワードをタップするとつながりを辿れます。"}
-      </p>
+      <p className={styles.hint}>{t("mangaRoots.networkHint")}</p>
     </div>
   );
 };
 
-const MangaRootsNetwork = ({ graph, t, locale }) => (
+const MangaRootsNetwork = ({ graph, t, locale, variant = "full", focusEmakiId = null }) => (
   <ReactFlowProvider>
-    <MangaRootsFlow graph={graph} t={t} locale={locale} />
+    <MangaRootsFlow
+      graph={graph}
+      t={t}
+      locale={locale}
+      variant={variant}
+      focusEmakiId={focusEmakiId}
+    />
   </ReactFlowProvider>
 );
 

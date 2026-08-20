@@ -31,7 +31,7 @@ export const MANGA_ROOTS_MEDIA = [
     titleEn: "Astro Boy",
     type: "manga",
     tags: ["animal"],
-    officialUrl: "https://tezukaosamu.net/",
+    officialUrl: "https://ja.wikipedia.org/wiki/鉄腕アトム",
   },
   {
     id: "pom-poko",
@@ -39,7 +39,7 @@ export const MANGA_ROOTS_MEDIA = [
     titleEn: "Pom Poko",
     type: "anime",
     tags: ["animal"],
-    officialUrl: "https://www.ghibli.jp/works/ponpoko/",
+    officialUrl: "https://ja.wikipedia.org/wiki/平成狸合戦ぽんぽこ",
   },
   {
     id: "beastars",
@@ -47,7 +47,7 @@ export const MANGA_ROOTS_MEDIA = [
     titleEn: "BEASTARS",
     type: "manga",
     tags: ["animal"],
-    officialUrl: "https://beastars.jp/",
+    officialUrl: "https://ja.wikipedia.org/wiki/BEASTARS",
   },
   {
     id: "odd-taxi",
@@ -55,7 +55,7 @@ export const MANGA_ROOTS_MEDIA = [
     titleEn: "ODDTAXI",
     type: "anime",
     tags: ["animal"],
-    officialUrl: "https://oddtaxi.jp/",
+    officialUrl: "https://ja.wikipedia.org/wiki/オッドタクシー",
   },
   {
     id: "chainsaw-man",
@@ -63,7 +63,7 @@ export const MANGA_ROOTS_MEDIA = [
     titleEn: "Chainsaw Man",
     type: "manga",
     tags: ["hell"],
-    officialUrl: "https://chainsawman.dog/",
+    officialUrl: "https://ja.wikipedia.org/wiki/チェンソーマン",
   },
   {
     id: "hells-paradise",
@@ -71,7 +71,7 @@ export const MANGA_ROOTS_MEDIA = [
     titleEn: "Hell's Paradise",
     type: "manga",
     tags: ["hell", "yokai"],
-    officialUrl: "https://www.shonenjump.com/j/rensai/hellsparadise.html",
+    officialUrl: "https://ja.wikipedia.org/wiki/地獄楽",
   },
   {
     id: "hozuki",
@@ -79,7 +79,7 @@ export const MANGA_ROOTS_MEDIA = [
     titleEn: "Hozuki's Coolheadedness",
     type: "manga",
     tags: ["hell"],
-    officialUrl: "https://kc.kodansha.co.jp/title?code=1000004091",
+    officialUrl: "https://ja.wikipedia.org/wiki/鬼灯の冷徹",
   },
   {
     id: "jujutsu-kaisen",
@@ -87,7 +87,7 @@ export const MANGA_ROOTS_MEDIA = [
     titleEn: "Jujutsu Kaisen",
     type: "anime",
     tags: ["yokai", "kusozu"],
-    officialUrl: "https://jujutsukaisen.jp/",
+    officialUrl: "https://ja.wikipedia.org/wiki/呪術廻戦",
   },
   {
     id: "berserk",
@@ -95,7 +95,7 @@ export const MANGA_ROOTS_MEDIA = [
     titleEn: "Berserk",
     type: "manga",
     tags: ["hell", "kusozu"],
-    officialUrl: "https://www.hakusensha.co.jp/special/berserk/",
+    officialUrl: "https://ja.wikipedia.org/wiki/ベルセルク_(漫画)",
   },
   {
     id: "tokyo-ghoul",
@@ -103,7 +103,7 @@ export const MANGA_ROOTS_MEDIA = [
     titleEn: "Tokyo Ghoul",
     type: "manga",
     tags: ["kusozu"],
-    officialUrl: "https://youngjump.jp/tokyoghoul/",
+    officialUrl: "https://ja.wikipedia.org/wiki/東京喰種トーキョーグール",
   },
 ];
 
@@ -164,8 +164,14 @@ const themeFromDef = (def, emakisData) => ({
     .filter(Boolean),
 });
 
+export const isMangaRootsEmaki = (titleen) =>
+  MANGA_ROOTS_EMAKE.some((e) => e.titleen === titleen);
+
+export const getMangaRootsEmakiId = (titleen) =>
+  MANGA_ROOTS_EMAKE.find((e) => e.titleen === titleen)?.id ?? null;
+
 /** グラフ構築: 絵巻ノード・現代作品ノード・タグノードと、タグを仲介する弱いエッジ */
-const buildGraph = (emakisData) => {
+export const buildGraph = (emakisData) => {
   const emakiNodes = MANGA_ROOTS_EMAKE.map((def) => {
     const meta = emakisData.find((item) => item.titleen === def.titleen);
     return {
@@ -202,6 +208,27 @@ const buildGraph = (emakisData) => {
   });
 
   return { emakiNodes, mediaNodes, tagNodes, edges: { emakiToTag, tagToMedia } };
+};
+
+/** 1絵巻を中心にした部分グラフ（その tags と、同じ tag を持つ media） */
+export const getMangaRootsEgoGraph = (titleen, emakisData) => {
+  const graph = buildGraph(emakisData);
+  const emaki = graph.emakiNodes.find((n) => n.titleen === titleen);
+  if (!emaki) return null;
+  const tagSet = new Set(emaki.tags);
+  const tagNodes = graph.tagNodes.filter((t) => tagSet.has(t.id));
+  const mediaNodes = graph.mediaNodes.filter((m) => m.tags.some((id) => tagSet.has(id)));
+  return {
+    emakiNodes: [emaki],
+    tagNodes,
+    mediaNodes,
+    edges: {
+      emakiToTag: graph.edges.emakiToTag.filter((e) => e.from === emaki.id),
+      tagToMedia: graph.edges.tagToMedia.filter(
+        (e) => tagSet.has(e.via) && mediaNodes.some((m) => m.id === e.to)
+      ),
+    },
+  };
 };
 
 /** ページ用データ（カード用テーマ + スポット + ネットワーク用グラフ） */

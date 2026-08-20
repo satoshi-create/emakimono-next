@@ -14,9 +14,14 @@
   height: min(52vw, 560px);
 }
 
+.stageSlotEgo {
+  height: min(36vw, 320px);
+}
+
 .stage,
 .stage :global(.react-flow) {
   position: absolute;
+  z-index: 1;
   inset: 0;
   width: auto;
   height: auto;
@@ -38,7 +43,7 @@
   position: absolute;
   top: 0.75rem;
   right: 0.75rem;
-  z-index: 10;
+  z-index: 1100;
   width: 2.5rem;
   height: 2.5rem;
   display: flex;
@@ -233,6 +238,10 @@
 @media (max-width: 640px) {
   .stageSlot {
     height: min(56vw, 280px);
+  }
+
+  .stageSlotEgo {
+    height: min(48vw, 240px);
   }
 
   .zoomIcon {

@@ -1,4 +1,5 @@
 import MangaRootsThemeCard from "@/components/manga-roots/MangaRootsThemeCard";
+import { getMangaRootsEmakiId } from "@/data/mangaRoots";
 import { getContactUrl } from "@/libs/constants/links";
 import styles from "@/styles/MangaRoots.module.css";
 import dynamic from "next/dynamic";
@@ -47,12 +48,19 @@ export const MangaRootsThemes = ({ themes, t }) => {
 };
 
 export const MangaRootsNetworkSection = ({ graph, t }) => {
-  const { locale } = useRouter();
+  const { locale, query } = useRouter();
+  const emakiParam = Array.isArray(query.emaki) ? query.emaki[0] : query.emaki;
+  const focusEmakiId = getMangaRootsEmakiId(emakiParam);
   return (
     <div className={`section-grid section-padding ${styles.section}`}>
       <h1 className={styles.sectionTitle}>{t("mangaRoots.networkTitle")}</h1>
       <p className={styles.sectionDesc}>{t("mangaRoots.networkDesc")}</p>
-      <DynamicMangaRootsNetwork graph={graph} t={t} locale={locale} />
+      <DynamicMangaRootsNetwork
+        graph={graph}
+        t={t}
+        locale={locale}
+        focusEmakiId={focusEmakiId}
+      />
     </div>
   );
 };
