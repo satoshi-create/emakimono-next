@@ -52,6 +52,7 @@ function graphToFlow(graph, locale, t, variant, enlarged) {
         title: locale === "en" ? n.titleEn || n.titleen : n.title,
         titleen: n.titleen,
         tags: n.tags,
+        locale,
       },
       draggable: false,
     })),
@@ -97,7 +98,10 @@ function graphToFlow(graph, locale, t, variant, enlarged) {
 const EmakiNode = ({ data }) => (
   <div className={styles.emakiBox}>
     <Handle type="source" position={Position.Bottom} className={styles.handle} />
-    <a href={`/${data.titleen}`} className={styles.nodeLink}>
+    <a
+      href={data.locale && data.locale !== "en" ? `/${data.locale}/${data.titleen}` : `/${data.titleen}`}
+      className={styles.nodeLink}
+    >
       <span className={styles.emakiName}>{data.title}</span>
     </a>
   </div>

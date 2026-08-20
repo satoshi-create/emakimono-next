@@ -245,10 +245,24 @@
   }
 
   .zoomIcon {
-    top: 0.5rem;
-    right: 0.5rem;
-    width: 2.25rem;
-    height: 2.25rem;
-    font-size: 0.85rem;
+    top: 0.375rem;
+    right: 0.375rem;
+    width: 1.9rem;
+    height: 1.9rem;
+    font-size: 0.75rem;
+  }
+
+  /* SP ではグラフの node にかぶらないよう、隅に寄せて縮小する */
+  .stage :global(.react-flow__controls) {
+    right: 0.25rem;
+    bottom: 0.25rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .stage :global(.react-flow__controls-button) {
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
   }
 }
