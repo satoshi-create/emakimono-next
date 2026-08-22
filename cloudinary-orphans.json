@@ -1,0 +1,52 @@
+{
+  "summary": {
+    "orphan_scroll_ids": 2,
+    "orphan_assets": 21,
+    "orphan_mb": 24.93,
+    "keep_public_ids": 173,
+    "targeted": false
+  },
+  "groups": {
+    "jigokusoushi-genke": {
+      "count": 13,
+      "total_mb": 21.82,
+      "title": "",
+      "titleen": "",
+      "still_in_cache": false,
+      "sample_public_id": "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_01__01",
+      "public_ids": [
+        "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_01__01",
+        "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_01__02",
+        "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_02__01",
+        "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_02__02",
+        "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_03__01",
+        "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_03__02",
+        "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_04__01",
+        "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_04__02",
+        "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_05__01",
+        "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_05__02",
+        "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_06__01",
+        "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_06__02",
+        "emakimono/jigokusoushi-genke__jigokusoushi-genke_1_07__01"
+      ]
+    },
+    "frolicking-animals-and-tengu-goblins": {
+      "count": 8,
+      "total_mb": 3.11,
+      "title": "",
+      "titleen": "",
+      "still_in_cache": false,
+      "sample_public_id": "emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_01__01",
+      "public_ids": [
+        "emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_01__01",
+        "emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_02__01",
+        "emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_03__01",
+        "emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_04__01",
+        "emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_05__01",
+        "emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_06__01",
+        "emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_07__01",
+        "emakimono/frolicking-animals-and-tengu-goblins__frolicking-animals-and-tengu-goblins_1_08__01"
+      ]
+    }
+  }
+}

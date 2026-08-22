@@ -556,6 +556,8 @@ py -3.14 scripts/sync_scroll.py scrolls/my-scroll/scroll_config.yaml
 | `scripts/sync_all.py` | 統合パイプライン（**主経路**） |
 | `scripts/preflight_scroll.py` | sync 前検証 |
 | `scripts/check_cloudinary_usage.py` | usage 取得・ゲート |
+| `scripts/analyze_cloudinary_assets.py` | 絵巻別ストレージ分析 |
+| `scripts/prune_cloudinary_assets.py` | cache 未参照アセットの一覧・削除（dry-run 既定） |
 | `scripts/sync_scroll.py` | Cloudinary アップロード |
 | `scripts/migrate_cache_to_cloudinary.py` | キャッシュ修復 |
 | `.github/workflows/validate-scroll.yml` | PR: preflight + dry-run |
