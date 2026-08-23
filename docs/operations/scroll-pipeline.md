@@ -123,7 +123,43 @@ py -3.14 scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml --prefligh
 | `scroll_id` = フォルダ名 | 自動 | `_template` 等は除外 |
 | `metadata.id` / `titleen` 重複なし | 自動 | `dataEmakis.json` と照合 |
 | 解像度 ≤ 25 MP | **手動** | preflight 未実装 |
-| 高さ 1080px 前後 | **手動** | `_01-1080.jpg` 形式で可 |
+| 高さ 1080px 前後 | **警告** | `normalize_scroll_images.py` / preflight |
+| `_NN-{height}` 連番 | **自動** | 未形式ファイルは error |
+| scenes range が 1..N を完全カバー | **自動** | 穴・重複・index 1 未包含を error |
+| 2 層テキスト（gendaibun / desc+descen） | **自動** | `scene-text-policy.md` 準拠 |
+| sources/ との類似度 | **自動** | `--skip-similarity` で下書き時省略可 |
+| CSV ↔ YAML scenes 一致 | **自動** | `build_scene_mapping.py --check` |
+
+### Phase 0.5: 上流ゲート（sync 前・Cloudinary 非使用）
+
+加工画像配置・段構成・解説文の反映後、**本番 sync の前**に実行します。
+
+```powershell
+$env:PYTHONIOENCODING = "utf-8"
+
+# 画像連番・ファイル名形式（--fix でリネーム）
+py -3.14 scripts/normalize_scroll_images.py scrolls/my-new-scroll/ --dry-run
+py -3.14 scripts/normalize_scroll_images.py scrolls/my-new-scroll/ --fix
+
+# 段構成: sources/scenes-summary.csv を正本 → YAML へ
+py -3.14 scripts/build_scene_mapping.py scrolls/my-new-scroll/ --write-yaml
+
+# 上流ゲート一式（normalize dry-run + CSV check + preflight）
+py -3.14 scripts/preflight_upstream.py scrolls/my-new-scroll/
+py -3.14 scripts/preflight_upstream.py scrolls/my-new-scroll/ --require-reviewed
+```
+
+| スクリプト | 役割 |
+|-----------|------|
+| `create-project.py` | `scrolls/{scroll_id}/` 雛形 + `sources/scenes-summary.csv` |
+| `normalize_scroll_images.py` | `_01-{height}.jpg` 形式へ正規化 |
+| `build_scene_mapping.py` | CSV → `scroll_config.yaml` scenes / 整合チェック |
+| `preflight_upstream.py` | 上記 + 拡張 preflight を順実行 |
+| `preflight_scroll.py` | 構造・画像・テキスト・著作権・CSV 整合（単体でも可） |
+
+**段構成 CSV（正本）:** `sources/scenes-summary.csv` — 列: `scene_id`, `title_ja`, `title_en`, `range_start`, `range_end`, `slot_types`, `confidence`（`draft` → 目視後 `reviewed`）。画像別メモは `sources/scene-mapping.csv` も可。
+
+**preflight 追加フラグ:** `--strict-text` / `--skip-similarity` / `--require-reviewed`
 
 ### Phase 1: ローカル準備（Cloudinary に触らない）
 
@@ -227,7 +263,25 @@ py -3.14 scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml
 ### Phase 5: sync 後モニタリング
 
 ```powershell
+py -3.14 scripts/postflight_sync.py scrolls/my-new-scroll/
+py -3.14 scripts/postflight_downstream.py scrolls/my-new-scroll/ --skip-build
 py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20
+```
+
+**下流ゲート（sync 後）:**
+
+| スクリプト | 役割 |
+|-----------|------|
+| `postflight_sync.py` | cache / emaki-text-data 整合（`sync_all.py` 末尾でも自動実行） |
+| `postflight_thumb.py` | `public/thumb/` 実ファイル + JSON パス |
+| `generate-thumb-from-scene.js` | Cloudinary シーンから非 Figma サムネ生成 |
+| `generateOgImages.js --check` | OGP 元サムネの存在確認（SKIP で exit 1） |
+| `postflight_downstream.py` | 上記 + OGP + `npm run build` |
+
+```powershell
+node scripts/generate-thumb-from-scene.js tsukumogami --public-id tsukumogami__tsukumogami_1_02__02 --crop west
+node src/script/generateOgImages.js --check tsukumogami
+py -3.14 scripts/postflight_downstream.py scrolls/tsukumogami/
 ```
 
 1 絵巻追加後の目安: credits +0.1〜0.3、storage +40〜80 MB。
@@ -465,7 +519,8 @@ py -3.14 scripts/sync_all.py scrolls/my-scroll/scroll_config.yaml --skip-upload
 □ kotobagaki あり: レイアウトに合った mode（alternating / 省略 / explicit+slots）
 □ scroll_id がフォルダ名と一致
 □ metadata.id / titleen が dataEmakis.json と重複しない
-□ preflight_scroll.py が OK
+□ postflight_sync.py が OK
+□ postflight_thumb.py + generateOgImages.js --check OK
 □ 画像 ≤ 10MB（25MP は手動確認）
 □ sync_all.py --dry-run OK
 □ check_cloudinary_usage.py（--warn-at 18）OK
@@ -554,7 +609,16 @@ py -3.14 scripts/sync_scroll.py scrolls/my-scroll/scroll_config.yaml
 | ファイル | 役割 |
 |---------|------|
 | `scripts/sync_all.py` | 統合パイプライン（**主経路**） |
-| `scripts/preflight_scroll.py` | sync 前検証 |
+| `scripts/preflight_scroll.py` | sync 前検証（構造・画像・テキスト・著作権） |
+| `scripts/preflight_upstream.py` | 上流ゲート一式（normalize + CSV + preflight） |
+| `scripts/normalize_scroll_images.py` | 画像連番・`_NN-{height}` 正規化 |
+| `scripts/build_scene_mapping.py` | CSV → YAML scenes / 整合チェック |
+| `scripts/scroll_image_utils.py` | 画像ファイル名解析（sync / preflight 共通） |
+| `scripts/create-project.py` | scroll 雛形生成 |
+| `scripts/postflight_sync.py` | sync 後 JSON 検証 |
+| `scripts/postflight_thumb.py` | サムネ実ファイル検証 |
+| `scripts/postflight_downstream.py` | 下流ゲート一式 |
+| `scripts/generate-thumb-from-scene.js` | Cloudinary シーン → webp サムネ |
 | `scripts/check_cloudinary_usage.py` | usage 取得・ゲート |
 | `scripts/analyze_cloudinary_assets.py` | 絵巻別ストレージ分析 |
 | `scripts/prune_cloudinary_assets.py` | cache 未参照アセットの一覧・削除（dry-run 既定） |

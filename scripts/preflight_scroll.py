@@ -5,6 +5,7 @@ preflight_scroll.py — Validate scroll_config.yaml before sync (no Cloudinary A
 Usage:
   python scripts/preflight_scroll.py scrolls/my-scroll/scroll_config.yaml
   python scripts/preflight_scroll.py scrolls/my-scroll/scroll_config.yaml --skip-upload
+  python scripts/preflight_scroll.py scrolls/my-scroll/scroll_config.yaml --strict-text --require-reviewed
 
 Exit codes:
   0 = all checks passed
@@ -16,10 +17,15 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from dataclasses import dataclass, field
 from pathlib import Path
 
 import sync_scroll as ss
+from scroll_checks.report import ValidationReport as PreflightReport
+from scroll_checks.images import check_image_heights, check_unindexed_files, max_image_index
+from scroll_checks.scene_mapping import check_scene_mapping_sync
+from scroll_checks.source_similarity import check_source_similarity
+from scroll_checks.structure import check_range_coverage
+from scroll_checks.text_layers import check_scene_text_layers
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DATA_EMAKIS_PATH = REPO_ROOT / "local-data/pipeline/dataEmakis.json"
@@ -27,22 +33,6 @@ PERSON_PROFILES_PATH = REPO_ROOT / "src/data/personname-data/personprofiles.json
 
 # Cloudinary Free plan (see media_limits in usage API)
 MAX_IMAGE_BYTES = 10 * 1024 * 1024
-
-
-@dataclass
-class PreflightReport:
-    errors: list[str] = field(default_factory=list)
-    warnings: list[str] = field(default_factory=list)
-
-    @property
-    def ok(self) -> bool:
-        return not self.errors
-
-    def error(self, message: str) -> None:
-        self.errors.append(message)
-
-    def warn(self, message: str) -> None:
-        self.warnings.append(message)
 
 
 def _load_data_emakis() -> list[dict]:
@@ -84,6 +74,10 @@ def run_preflight(
     *,
     repo_root: Path = REPO_ROOT,
     skip_upload: bool = False,
+    strict_text: bool = False,
+    skip_similarity: bool = False,
+    require_reviewed: bool = False,
+    skip_height_warn: bool = False,
 ) -> PreflightReport:
     report = PreflightReport()
 
@@ -175,8 +169,12 @@ def run_preflight(
         report.error(f"Images directory not found: {images_dir}")
         return report
 
+    check_unindexed_files(images_dir, report)
+
     index_to_paths = ss.collect_images_by_index(images_dir)
     planned = _planned_indices(config)
+    max_idx = max(max_image_index(images_dir), max(planned) if planned else 0)
+    check_range_coverage(scenes, max_idx, report)
 
     missing: list[int] = []
     oversized: list[str] = []
@@ -205,6 +203,28 @@ def run_preflight(
             f"Extra image index(es) not covered by scenes range (ignored by sync): "
             f"{', '.join(str(i) for i in extra_indices)}"
         )
+
+    if not skip_height_warn:
+        check_image_heights(images_dir, report)
+
+    kotobagaki = bool(meta.get("kotobagaki"))
+    check_scene_text_layers(
+        scenes,
+        kotobagaki=kotobagaki,
+        report=report,
+        strict=strict_text,
+        titleen=titleen,
+    )
+
+    sources_dir = config_path.parent / "sources"
+    if not skip_similarity:
+        check_source_similarity(scenes, sources_dir, report)
+    check_scene_mapping_sync(
+        scenes,
+        sources_dir,
+        report,
+        require_reviewed=require_reviewed,
+    )
 
     if titleen is not None and entry_id is not None:
         entries = _load_data_emakis()
@@ -262,6 +282,26 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Also validate --skip-upload safety (new scroll check)",
     )
+    parser.add_argument(
+        "--strict-text",
+        action="store_true",
+        help="Promote text-layer warnings to errors",
+    )
+    parser.add_argument(
+        "--skip-similarity",
+        action="store_true",
+        help="Skip sources/ similarity check (drafting)",
+    )
+    parser.add_argument(
+        "--require-reviewed",
+        action="store_true",
+        help="Require scene-mapping confidence != draft",
+    )
+    parser.add_argument(
+        "--skip-height-warn",
+        action="store_true",
+        help="Skip non-1080px height warnings",
+    )
     args = parser.parse_args(argv)
 
     config_path = ss.get_config_path(REPO_ROOT, args.config_path)
@@ -269,7 +309,14 @@ def main(argv: list[str] | None = None) -> int:
     scroll_id = config.get("scroll_id", "(unknown)")
     plan_len = len(ss.build_upload_plan(config)) if config else 0
 
-    report = run_preflight(config_path, skip_upload=args.skip_upload)
+    report = run_preflight(
+        config_path,
+        skip_upload=args.skip_upload,
+        strict_text=args.strict_text,
+        skip_similarity=args.skip_similarity,
+        require_reviewed=args.require_reviewed,
+        skip_height_warn=args.skip_height_warn,
+    )
     print_report(report, scroll_id=scroll_id, image_count=plan_len)
     return 0 if report.ok else 1
 

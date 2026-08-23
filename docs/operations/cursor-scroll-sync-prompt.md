@@ -49,6 +49,18 @@
 
 問題があれば YAML を修正してから次へ。
 
+### Step 1.5: 上流ゲート（sync 前必須）
+```powershell
+$env:PYTHONIOENCODING = "utf-8"
+py -3.14 scripts/normalize_scroll_images.py scrolls/{{scroll-id}}/ --dry-run
+py -3.14 scripts/build_scene_mapping.py scrolls/{{scroll-id}}/ --check
+py -3.14 scripts/preflight_upstream.py scrolls/{{scroll-id}}/ --skip-similarity
+```
+目視確認後（段構成 OK）:
+```powershell
+py -3.14 scripts/preflight_upstream.py scrolls/{{scroll-id}}/ --require-reviewed
+```
+
 ### Step 2: Phase 0〜2（検証のみ・upload なし）
 PowerShell で実行（python ではなく py -3.14）:
 
@@ -72,7 +84,18 @@ py -3.14 scripts/sync_all.py scrolls/{{scroll-id}}/scroll_config.yaml --dry-run
 py -3.14 scripts/sync_all.py scrolls/{{scroll-id}}/scroll_config.yaml
 ```
 
-### Step 4: 事後確認
+### Step 4: 事後確認（下流ゲート）
+
+```powershell
+py -3.14 scripts/postflight_sync.py scrolls/{{scroll-id}}/
+py -3.14 scripts/postflight_thumb.py {{titleen}}
+node src/script/generateOgImages.js --check {{titleen}}
+py -3.14 scripts/postflight_downstream.py scrolls/{{scroll-id}}/ --skip-build
+py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20 --no-save
+npm run build
+```
+
+### Step 5: 報告
 
 ```powershell
 py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20 --no-save

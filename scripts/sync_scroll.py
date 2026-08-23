@@ -52,8 +52,17 @@ try:
 except ImportError:
     pass
 
-# Regex to extract frame index from filenames like "_01-375.jpg" or "_01.jpg"
-INDEX_IN_FILENAME_RE = re.compile(r"_(\d+)[-.]", re.IGNORECASE)
+from scroll_image_utils import (  # noqa: E402
+    INDEX_IN_FILENAME_RE,
+    collect_images_by_index,
+    extract_index_from_path,
+    pick_file_for_index,
+    resolution_from_path,
+)
+
+# Backward-compatible aliases used within this module
+_extract_index_from_path = extract_index_from_path
+_resolution_from_path = resolution_from_path
 
 
 # ---------------------------------------------------------------------------
@@ -150,40 +159,6 @@ def find_image_file(images_dir: Path, base: str) -> Path | None:
         if p.exists():
             return p
     return None
-
-
-def _extract_index_from_path(file_path: Path) -> int | None:
-    m = INDEX_IN_FILENAME_RE.search(file_path.stem)
-    return int(m.group(1)) if m else None
-
-
-def _resolution_from_path(file_path: Path) -> int:
-    mm = re.findall(r"-(\d{2,5})(?:[-.]|$)", file_path.stem)
-    if mm:
-        try:
-            return int(mm[-1])
-        except ValueError:
-            pass
-    return 0
-
-
-def collect_images_by_index(images_dir: Path) -> dict[int, list[Path]]:
-    index_to_paths: dict[int, list[Path]] = {}
-    for ext in ("*.jpg", "*.jpeg", "*.png", "*.webp"):
-        for p in images_dir.rglob(ext):
-            if not p.is_file():
-                continue
-            idx = _extract_index_from_path(p)
-            if idx is not None:
-                index_to_paths.setdefault(idx, []).append(p)
-    for paths in index_to_paths.values():
-        paths.sort(key=lambda x: (-_resolution_from_path(x), x.name))
-    return index_to_paths
-
-
-def pick_file_for_index(index_to_paths: dict[int, list[Path]], global_index: int) -> Path | None:
-    paths = index_to_paths.get(global_index)
-    return paths[0] if paths else None
 
 
 # ---------------------------------------------------------------------------

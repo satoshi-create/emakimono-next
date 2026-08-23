@@ -26,7 +26,8 @@ Flags:
   --skip-text         Skip emaki-text-data JSON generation
   --regenerate-cache  Rebuild entire cache from all JSON (default: upsert one entry)
   --preflight         Run preflight checks only (no upload, no file writes)
-  --skip-preflight    Skip preflight validation (not recommended)
+  --skip-preflight    Skip preflight validation before sync
+  --skip-postflight   Skip post-sync JSON validation (not recommended)
 """
 
 from __future__ import annotations
@@ -589,6 +590,11 @@ def main() -> None:
         action="store_true",
         help="Skip preflight validation before sync",
     )
+    parser.add_argument(
+        "--skip-postflight",
+        action="store_true",
+        help="Skip post-sync JSON validation after sync",
+    )
     args = parser.parse_args()
 
     # 1. Load YAML
@@ -673,6 +679,14 @@ def main() -> None:
 
     if args.dry_run:
         print("\n  (dry-run: no files were written)")
+    elif not args.skip_postflight:
+        import postflight_sync as pfs
+
+        print("\n[Postflight] Validating sync outputs...")
+        post_report = pfs.run_postflight_sync(config_path)
+        pfs.print_report(post_report, titleen=meta.get("titleen", scroll_id))
+        if not post_report.ok:
+            raise SystemExit(1)
 
     print(f"\n=== Done: {scroll_id} ===\n")
 
