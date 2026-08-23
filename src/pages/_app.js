@@ -80,7 +80,6 @@ function MyApp({ Component, pageProps, router }) {
   const [characterToggle, setCharacterToggle] = useState(false);
   const [ebikiToggle, setEbikiToggle] = useState(false);
   const [oepnSidebar, setOepnSidebar] = useState(false);
-  const [ekotobaImageToggle, setEkotobaImageToggle] = useState(true);
   const [query, setQuery] = useState("");
   const [fliterdEmakis, setfliterdEmakis] = useState(emakisData);
 
@@ -216,9 +215,6 @@ function MyApp({ Component, pageProps, router }) {
     };
   }, [gRouter.events, setnavIndex, exitFullscreenForNavigation]);
 
-  const handleEkotobaImageToggle = () => {
-    setEkotobaImageToggle(!ekotobaImageToggle);
-  };
   const handleCharacterToggle = () => {
     setCharacterToggle(!characterToggle);
   };
@@ -366,8 +362,6 @@ function MyApp({ Component, pageProps, router }) {
         value={{
         oepnSidebar,
         setOepnSidebar,
-        ekotobaImageToggle,
-        setEkotobaImageToggle,
         query,
         setQuery,
         fliterdEmakis,
@@ -391,7 +385,6 @@ function MyApp({ Component, pageProps, router }) {
         orientation,
         setOrientation,
         handleToId,
-        handleEkotobaImageToggle,
         handleCharacterToggle,
         characterToggle,
         handleEbikiToggle,

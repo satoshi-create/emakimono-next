@@ -5,14 +5,13 @@ import { ChaptersTitle } from "@/utils/func";
 import "lazysizes";
 import "lazysizes/plugins/attrchange/ls.attrchange";
 import { useRouter } from "next/router";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 
 const OverlayEkotoba = ({
   item: {
     src,
     config,
     name,
-    scroll,
     srcWidth,
     srcHeight,
     chapter,
@@ -24,62 +23,38 @@ const OverlayEkotoba = ({
   },
   item,
 }) => {
-  const {
-    ekotobaImageToggle,
-    setEkotobaImageToggle,
-    scrollDialog,
-    orientation,
-    handleToId,
-  } = useContext(AppContext);
+  const { scrollDialog, orientation, handleToId } = useContext(AppContext);
   const { locale } = useRouter();
   const { title, titleen } = data;
-
-  // TODO : 目次のフォントサイズをレスポンシブにする
-
-  useEffect(() => {
-    if (!scroll) {
-      setEkotobaImageToggle(true);
-    } else {
-      setEkotobaImageToggle(false);
-    }
-  }, [setEkotobaImageToggle, scroll]);
 
   return (
     <div
       id={`${index}`}
       className={`section fade-in lazyload ${
         type === "西洋絵画" ? styles.ekotobalr : styles.ekotobarl
-      } ${
-        ekotobaImageToggle
-          ? `${styles.gendaibunclose}`
-          : `${styles.gendaibunopen}`
-      } ${styles.container}`}
+      } ${styles.container} ${!src ? styles.noEkotobaImage : ""}`}
       ref={navIndex === index ? scrollDialog : null}
     >
-      <div
-        className={`${styles.gendaibunbox} ${
-          !src && styles.noekotobaimage
-        } scrollbar`}
-      >
-        {chapter && (
-          <div
-            className={`${styles.chapterbox} ${
-              orientation === "portrait" ? styles.chapterboxPrt : styles.chapterboxLand
+      {chapter && (
+        <div
+          className={`${styles.chapterbox} ${
+            orientation === "portrait"
+              ? styles.chapterboxPrt
+              : styles.chapterboxLand
+          }`}
+        >
+          <h3
+            className={`${styles.chapter} ${
+              orientation === "portrait" ? styles.chapterPrt : styles.chapterLand
             }`}
+            onClick={() => handleToId(index)}
           >
-            <h3
-              className={`${styles.chapter} ${
-                orientation === "portrait" ? styles.chapterPrt : styles.chapterLand
-              }`}
-              onClick={() => handleToId(index)}
-            >
-              {locale == "en"
-                ? ChaptersTitle(titleen, title, chapter, "titleen")
-                : ChaptersTitle(titleen, title, chapter, "title")}
-            </h3>
-          </div>
-        )}
-      </div>
+            {locale == "en"
+              ? ChaptersTitle(titleen, title, chapter, "titleen")
+              : ChaptersTitle(titleen, title, chapter, "title")}
+          </h3>
+        </div>
+      )}
       {src && (
         <div className={styles.ekotobaimagebox}>
           <LazyImage

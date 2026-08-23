@@ -42,9 +42,6 @@ const defaultAppContext = {
   handleCharacterToggle: noop,
   ebikiToggle: false,
   handleEbikiToggle: noop,
-  ekotobaImageToggle: true,
-  setEkotobaImageToggle: noop,
-  handleEkotobaImageToggle: noop,
 
   // 検索 / モーダル
   query: "",

@@ -35,8 +35,6 @@
   "viewer": {
     "next": "Next",
     "previous": "Previous",
-    "readModernTranslation": "Read modern translation",
-    "readClassicalText": "Read classical commentary",
     "showCharacterNames": "Show character names",
     "hideCharacterNames": "Hide character names",
     "showPictureIndex": "Show picture index",
@@ -136,7 +134,7 @@
     },
     "features": {
       "title": "Viewer features",
-      "ekotoba": "Classical captions & modern translation — read commentary only when you need it.",
+      "ekotoba": "Captions & modern translation — read each section’s modern text and commentary in the bottom bar.",
       "nav": "Table of contents, character names, picture index — see where you are and who appears.",
       "playback": "Auto-play & fullscreen — for continuous viewing or full immersion.",
       "tips": "Viewing tips — pause at each section to take in the art. For Nine Stages of Decay scrolls, slow contemplative viewing is recommended."
@@ -162,7 +160,7 @@
       },
       {
         "q": "How do I show captions or modern translation?",
-        "a": "Use the viewer buttons to toggle classical captions (kotoba-gaki) or modern Japanese/English translation."
+        "a": "The bottom commentary bar shows the section title with modern text and commentary. Tap to expand the full text."
       }
     ]
   },

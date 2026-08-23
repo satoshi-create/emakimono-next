@@ -14,7 +14,6 @@ import { useContext } from "react";
 // import { ArrowRight, ChevronRight } from "react-feather";
 import ToggleCharacter from "@/components/emaki/viewer/ToggleCharacter";
 import ToggleEbiki from "@/components/emaki/viewer/ToggleEbiki";
-import ToggleEkotoba from "@/components/emaki/viewer/ToggleEkotoba";
 import ShareButtons from "@/components/emaki/viewer/ShareButtons";
 import ActionButton from "@/components/emaki/viewer/ActionButton";
 import { AppContext } from "@/context/AppContext";
@@ -143,7 +142,6 @@ const EmakiNavigation = ({
           />
         )
       )}
-      <ToggleEkotoba data={data} isUIVisible={isUIVisible} />
       {character && <ToggleCharacter isUIVisible={isUIVisible} />}
       {ebiki && <ToggleEbiki isUIVisible={isUIVisible} />}
       <ShareButtons
