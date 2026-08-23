@@ -3243,5 +3243,366 @@
       }
     ],
     "sourceLicense": "CC BY 4.0"
+  },
+  {
+    "id": 100,
+    "title": "付喪神絵巻",
+    "titleen": "tsukumogami",
+    "author": "作者不詳",
+    "authoren": "anonymous",
+    "edition": "国立国会図書館本（模本・上下合冊）",
+    "encodeUrl": "",
+    "backgroundImage": "",
+    "thumb": "/thumb/tsukumogami_thumb.webp",
+    "thumb2": "/thumb/tsukumogami_thumb.webp",
+    "video": "",
+    "era": "室町",
+    "eraen": "muromachi",
+    "desc": "国立国会図書館所蔵の付喪神絵巻。煤払いで捨てられた古道具が付喪神となり都を騒がすが、改心ののち仏門修行を経て成仏する物語絵巻。",
+    "descen": "Tsukumogami emaki (National Diet Library). Household objects discarded at year-end susuharai become tsukumogami spirits; after repentance they undertake Buddhist practice and attain enlightenment.",
+    "readMore": false,
+    "type": "絵巻",
+    "typeen": "emaki",
+    "keyword": [
+      {
+        "name": "付喪神",
+        "id": "tsukumogami",
+        "slug": "tsukumogami"
+      },
+      {
+        "name": "妖怪",
+        "id": "yokai",
+        "slug": "yokai"
+      },
+      {
+        "name": "仏教",
+        "id": "buddhism",
+        "slug": "buddhism"
+      },
+      {
+        "name": "御伽草子",
+        "id": "otogizoshi",
+        "slug": "otogizoshi"
+      },
+      {
+        "name": "絵巻",
+        "id": "emaki",
+        "slug": "emaki"
+      }
+    ],
+    "kotobagaki": true,
+    "sceneText": true,
+    "favorite": false,
+    "sourceImageUrl": "https://dl.ndl.go.jp/pid/2574271",
+    "sourceImage": "付喪神絵巻（国立国会図書館）",
+    "metadesc": "",
+    "gif": "",
+    "sourceEkotoba": "",
+    "reference": [
+      {
+        "type": "所蔵機関（上巻）",
+        "url": "https://dl.ndl.go.jp/pid/2574271",
+        "title": "付喪神絵巻（上）| 国立国会図書館デジタルコレクション"
+      },
+      {
+        "type": "転載条件",
+        "url": "https://www.ndl.go.jp/use/reproduction",
+        "title": "国立国会図書館ウェブサイトからのコンテンツの転載"
+      },
+      {
+        "type": "あらすじ参考",
+        "url": "https://rmda.kulib.kyoto-u.ac.jp/item/rb00013599/explanation/otogi_05",
+        "title": "挿絵とあらすじで楽しむお伽草子 第5話 付喪神 | 京都大学"
+      },
+      {
+        "type": "所蔵機関（下巻）",
+        "url": "https://dl.ndl.go.jp/pid/2574272",
+        "title": "付喪神絵巻（下）| 国立国会図書館デジタルコレクション"
+      }
+    ],
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "1",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_01__01.jpg",
+        "name": "tsukumogami__tsukumogami_1_01__01",
+        "srcHeight": "975",
+        "srcWidth": "2329"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_01__02.jpg",
+        "name": "tsukumogami__tsukumogami_1_01__02",
+        "srcHeight": 975,
+        "srcWidth": 7364
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "2",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_02__01.jpg",
+        "name": "tsukumogami__tsukumogami_1_02__01",
+        "srcHeight": "975",
+        "srcWidth": "4238"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_02__02.jpg",
+        "name": "tsukumogami__tsukumogami_1_02__02",
+        "srcHeight": 975,
+        "srcWidth": 2976
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "3",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_03__01.jpg",
+        "name": "tsukumogami__tsukumogami_1_03__01",
+        "srcHeight": "975",
+        "srcWidth": "2431"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_03__02.jpg",
+        "name": "tsukumogami__tsukumogami_1_03__02",
+        "srcHeight": 975,
+        "srcWidth": 3049
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "4",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_04__01.jpg",
+        "name": "tsukumogami__tsukumogami_1_04__01",
+        "srcHeight": "975",
+        "srcWidth": "1632"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_04__02.jpg",
+        "name": "tsukumogami__tsukumogami_1_04__02",
+        "srcHeight": 975,
+        "srcWidth": 6510
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "5",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_05__01.jpg",
+        "name": "tsukumogami__tsukumogami_1_05__01",
+        "srcHeight": "975",
+        "srcWidth": "2841"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_05__02.jpg",
+        "name": "tsukumogami__tsukumogami_1_05__02",
+        "srcHeight": 975,
+        "srcWidth": 2120
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "6",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_06__01.jpg",
+        "name": "tsukumogami__tsukumogami_1_06__01",
+        "srcHeight": "975",
+        "srcWidth": "2036"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_06__02.jpg",
+        "name": "tsukumogami__tsukumogami_1_06__02",
+        "srcHeight": 975,
+        "srcWidth": 6236
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_06__03.jpg",
+        "name": "tsukumogami__tsukumogami_1_06__03",
+        "srcHeight": 975,
+        "srcWidth": 8765
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_06__04.jpg",
+        "name": "tsukumogami__tsukumogami_1_06__04",
+        "srcHeight": 975,
+        "srcWidth": 9099
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "7",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_07__01.jpg",
+        "name": "tsukumogami__tsukumogami_1_07__01",
+        "srcHeight": "990",
+        "srcWidth": "4677"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_07__02.jpg",
+        "name": "tsukumogami__tsukumogami_1_07__02",
+        "srcHeight": 990,
+        "srcWidth": 8074
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "8",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_08__01.jpg",
+        "name": "tsukumogami__tsukumogami_1_08__01",
+        "srcHeight": "990",
+        "srcWidth": "1063"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_08__02.jpg",
+        "name": "tsukumogami__tsukumogami_1_08__02",
+        "srcHeight": 990,
+        "srcWidth": 3102
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "9",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_09__01.jpg",
+        "name": "tsukumogami__tsukumogami_1_09__01",
+        "srcHeight": "990",
+        "srcWidth": "1977"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_09__02.jpg",
+        "name": "tsukumogami__tsukumogami_1_09__02",
+        "srcHeight": 990,
+        "srcWidth": 4417
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "10",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_10__01.jpg",
+        "name": "tsukumogami__tsukumogami_1_10__01",
+        "srcHeight": "990",
+        "srcWidth": "2763"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_10__02.jpg",
+        "name": "tsukumogami__tsukumogami_1_10__02",
+        "srcHeight": 990,
+        "srcWidth": 6180
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "11",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_11__01.jpg",
+        "name": "tsukumogami__tsukumogami_1_11__01",
+        "srcHeight": "990",
+        "srcWidth": "4611"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_11__02.jpg",
+        "name": "tsukumogami__tsukumogami_1_11__02",
+        "srcHeight": 990,
+        "srcWidth": 3253
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "12",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_12__01.jpg",
+        "name": "tsukumogami__tsukumogami_1_12__01",
+        "srcHeight": "990",
+        "srcWidth": "2148"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_12__02.jpg",
+        "name": "tsukumogami__tsukumogami_1_12__02",
+        "srcHeight": 990,
+        "srcWidth": 2327
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_12__03.jpg",
+        "name": "tsukumogami__tsukumogami_1_12__03",
+        "srcHeight": 990,
+        "srcWidth": 3998
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "13",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_13__01.jpg",
+        "name": "tsukumogami__tsukumogami_1_13__01",
+        "srcHeight": "990",
+        "srcWidth": "1564"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_13__02.jpg",
+        "name": "tsukumogami__tsukumogami_1_13__02",
+        "srcHeight": 990,
+        "srcWidth": 1024
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_13__03.jpg",
+        "name": "tsukumogami__tsukumogami_1_13__03",
+        "srcHeight": 990,
+        "srcWidth": 2099
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/tsukumogami__tsukumogami_1_13__04.jpg",
+        "name": "tsukumogami__tsukumogami_1_13__04",
+        "srcHeight": 990,
+        "srcWidth": 3647
+      }
+    ],
+    "sourceAuthor": "National Diet Library, JAPAN",
+    "sourceCollection": "国立国会図書館（請求記号 す-36）",
+    "sourceLicense": ""
   }
 ]

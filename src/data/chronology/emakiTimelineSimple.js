@@ -135,6 +135,13 @@ const ja = [
           "九相図に詩を添えた九相詩絵巻が生まれ、絵画と文学が結びつきます。",
         emaki: [{ name: "九相詩絵巻", titleen: "kusoushiemaki" }],
       },
+      {
+        year: 1485,
+        event: "付喪神絵巻の存在",
+        story:
+          "三条西実隆の『実隆公記』に「付喪神絵」上下を見た記録があり、御伽草子系の付喪神絵巻が室町後期にはすでに存在していたことがわかります。",
+        emaki: [{ name: "付喪神絵巻", titleen: "tsukumogami" }],
+      },
     ],
   },
   {
@@ -359,6 +366,13 @@ const en = [
         story:
           "The kusōzu gained accompanying poems, giving rise to kusōshi scrolls that unite painting and literature.",
         emaki: [{ name: "Kusōshi Emaki", titleen: "kusoushiemaki" }],
+      },
+      {
+        year: 1485,
+        event: "Tsukumogami scrolls attested",
+        story:
+          "Sanjonishi Sanetaka's diary (1485) records viewing a two-scroll Tsukumogami painting, showing that otogizoshi-style Tsukumogami scrolls already existed in the late Muromachi period.",
+        emaki: [{ name: "Tsukumogami Emaki", titleen: "tsukumogami" }],
       },
     ],
   },

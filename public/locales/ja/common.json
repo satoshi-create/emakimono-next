@@ -18,8 +18,11 @@
     "byModified": "加工：上記画像を解像度調整・WebP 変換等して作成。加工画像は {{license}} に基づき公開。",
     "genericSource": "出典：{{label}}",
     "genericModified": "「{{label}}」を加工して作成",
+    "ndlSource": "出典：国立国会図書館デジタルコレクションより（{{label}}）",
+    "ndlModified": "国立国会図書館デジタルコレクションの画像を解像度調整・WebP 変換等して作成。公開範囲「インターネット公開（保護期間満了）」に基づき利用。",
     "badgeLabels": {
-      "colbase": "国立文化財機構の利用規約"
+      "colbase": "国立文化財機構の利用規約",
+      "ndl": "NDL 転載条件（保護期間満了）"
     },
     "badgeTitles": {
       "cc0": "条件なし・完全に自由に利用できます",

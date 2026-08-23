@@ -2,6 +2,7 @@ export const SOURCE_PROVIDERS = {
   colbase: "colbase",
   britishMuseum: "britishMuseum",
   wikimedia: "wikimedia",
+  ndl: "ndl",
   generic: "generic",
 };
 
@@ -17,6 +18,10 @@ const LICENSE_URLS = {
   wikimedia: {
     ja: "https://creativecommons.org/publicdomain/zero/1.0/deed.ja",
     en: "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  },
+  ndl: {
+    ja: "https://www.ndl.go.jp/use/reproduction",
+    en: "https://www.ndl.go.jp/en/use/reproduction",
   },
   "CC BY 4.0": {
     ja: "https://creativecommons.org/licenses/by/4.0/deed.ja",
@@ -34,6 +39,8 @@ export function getSourceProvider(sourceImageUrl = "") {
   if (url.includes("colbase.nich.go.jp")) return SOURCE_PROVIDERS.colbase;
   if (url.includes("britishmuseum.org")) return SOURCE_PROVIDERS.britishMuseum;
   if (url.includes("wikimedia.org")) return SOURCE_PROVIDERS.wikimedia;
+  if (url.includes("dl.ndl.go.jp") || url.includes("ndl.go.jp"))
+    return SOURCE_PROVIDERS.ndl;
   return SOURCE_PROVIDERS.generic;
 }
 
@@ -58,6 +65,12 @@ export function getLicenseBadge({ provider, license = "", locale = "ja" }) {
       return {
         labelKey: "colbase",
         url: LICENSE_URLS.colbase[lang],
+        tone: "terms",
+      };
+    case SOURCE_PROVIDERS.ndl:
+      return {
+        labelKey: "ndl",
+        url: LICENSE_URLS.ndl[lang],
         tone: "terms",
       };
     case SOURCE_PROVIDERS.britishMuseum:

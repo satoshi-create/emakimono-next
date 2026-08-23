@@ -18,8 +18,11 @@
     "byModified": "Adaptation: Resized and converted (e.g. to WebP) from the above. Shared under {{license}}.",
     "genericSource": "Source: {{label}}",
     "genericModified": "Created by modifying images from {{label}}",
+    "ndlSource": "Source: From the National Diet Library Digital Collections ({{label}})",
+    "ndlModified": "Adapted from NDL Digital Collections images (resized / WebP, etc.). Used under Internet availability: copyright expired.",
     "badgeLabels": {
-      "colbase": "NICH terms of use"
+      "colbase": "NICH terms of use",
+      "ndl": "NDL reproduction terms (copyright expired)"
     },
     "badgeTitles": {
       "cc0": "Free to use for any purpose, no conditions",
