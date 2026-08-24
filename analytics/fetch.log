@@ -81,3 +81,24 @@ Wrote analytics\reports\2026-08-17\manifest.json
 Wrote analytics\reports\2026-08-17\summary.md
 
 Analytics fetch OK
+=== Analytics config check ===
+
+  OK     project: emakimono-next
+  OK     GA4 property: 325347782
+  OK     GSC site: sc-domain:emakimono.com
+  OK     phase: steady
+  OK     GSC reports: 2
+  OK     GA4 reports: 5
+  OK     GA4 API reachable
+  OK     GSC API reachable
+
+Analytics config check OK
+=== Analytics fetch - 2026-08-24 ===
+
+Output: analytics\reports\2026-08-24
+Wrote analytics\content-map.json (14 emaki)
+
+Wrote analytics\reports\2026-08-24\manifest.json
+Wrote analytics\reports\2026-08-24\summary.md
+
+Analytics fetch OK

@@ -1,0 +1,47 @@
+[
+  {
+    "chapter": "1",
+    "title": "先駆けの妖怪たち",
+    "gendaibun": "",
+    "kobun": "",
+    "desc": "両手に持った骨から火炎を放ちながら駆ける鳥の妖怪（天狗）や、鉾を肩に担ぎ疾走する烏帽子の妖怪が、百鬼夜行の露払い（先導役）として飛び出す。続いて龍頭の亀に乗る烏帽子の蛙、如意の姿をしたトンボ、頭に貝をのせた妖怪の親子など、異様な先頭集団が勢いよく夜の通りを駆け抜けていく。",
+    "descen": "The procession begins with the vanguard: a winged, bird-like tengu breathing sparks of fire from handheld bones, and a demon in court headgear (eboshi) shouldering a halberd. They are closely followed by a frog riding a dragon-headed turtle, a dragonfly shaped like a Buddhist ritual scepter (nyoi), and shell-headed creatures, vigorously opening the night parade.",
+    "titleen": "Vanguard of Yokai"
+  },
+  {
+    "chapter": "2",
+    "title": "異形の行進と化生",
+    "gendaibun": "",
+    "kobun": "",
+    "desc": "長い白布を被って獣の手足を覗かせる得体の知れない妖怪や、紅の打袴を履いて耳まで裂けた口で叫ぶ半裸の女房妖怪が登場する。その後方では、笏（しゃく）の拍子木を手にした妖怪や、鏡を見ながら鬘（かつら）を被り、人間に化けようと身支度を整える狐の妖怪たちが続く。",
+    "descen": "The parade transitions to grotesque apparitions: a mysterious beast concealed under a long white cloth and a half-naked court lady specter in scarlet hakama shrieking with a mouth torn from ear to ear. Behind them follow a demon beating clappers and foxes grooming and putting on wigs before a mirror to disguise themselves as humans.",
+    "titleen": "Procession of Monstrous Forms"
+  },
+  {
+    "chapter": "3",
+    "title": "宴曲と器物の妖怪",
+    "gendaibun": "",
+    "kobun": "",
+    "desc": "全身を赤く染めた赤鬼に続き、角盥（つのだらい）に満たされた血のような酒を柄杓で汲んで陽気に踊る妖怪が現れる。さらに猪に似た獣の引く車に乗る黒い妖怪、御幣を手にして軽快に舞う骸骨、五輪塔を模した器物の妖怪（付喪神）、僧衣をまとって扇子を手にした虎と狼など、賑やかな酒宴と狂乱の行進が繰り広げられる。",
+    "descen": "A vibrant carnival of Tsukumogami (tool specters) and demons unfolds. Led by a ferocious red demon, a ladle-bearing creature dances merrily beside a basin of blood-like sake. An entity riding a boar-drawn cart, dancing skeletons holding sacred gohei wands, pagoda-shaped specters, and a tiger and wolf dressed in monastic robes revel across the scene.",
+    "titleen": "Revelry and Tsukumogami"
+  },
+  {
+    "chapter": "4",
+    "title": "忍び寄る黒雲と狼狽",
+    "gendaibun": "",
+    "kobun": "",
+    "desc": "進行方向の異変に気づいた赤鬼が額に手をかざし、烏帽子の蛙が驚いて振り返る。上空から不穏な黒い煙が立ち込め、やがて火を吐く巨大な異形（怪獣の先祖のような姿）へと変化する。驚愕した兎や猿の妖怪たちが烏帽子を落とし、這いつくばって逃げ惑う中、逃げ遅れた妖怪たちが猛烈な黒雲に呑み込まれていく。",
+    "descen": "The joyful atmosphere turns to sheer terror. A red demon shields its eyes and a frog looks back in alarm as dark smoke billows from the heavens, transforming into a massive, fire-breathing monster. Panic spreads rapidly; rabbit and monkey specters drop their hats and scramble away on all fours as the trailing creatures are engulfed by oppressive black clouds.",
+    "titleen": "Approaching Dark Clouds"
+  },
+  {
+    "chapter": "5",
+    "title": "雷光と終幕の渦",
+    "gendaibun": "",
+    "kobun": "",
+    "desc": "激しい電光が走り、轟音のような雷鳴が響く中、漆黒の雲が巨大な渦を巻いて画面全体を覆い尽くす。百鬼夜行の終幕を告げる圧倒的な怪異の力によって、夜の闇がすべて吹き飛ばされ、絵巻は劇的な結末を迎える。",
+    "descen": "Lightning flashes violently amid roaring thunder as a colossal, swirling black vortex engulfs the entire night sky. Representing the overpowering force of nature and the supernatural, the dark vortex sweeps away the demonic parade, bringing the scroll to its dramatic and abrupt finale.",
+    "titleen": "Lightning and the Final Vortex"
+  }
+]

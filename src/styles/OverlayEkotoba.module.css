@@ -7,10 +7,20 @@
   writing-mode: horizontal-tb;
 }
 
-/* 詞書画像が無い章マーカー: overflow で幅が潰れるのを防ぐ */
+/* 詞書画像なし章マーカー: フロー上の幅をゼロにし、タイトルは absolute で隣接絵に重ねる */
 .noEkotobaImage {
-  height: auto;
-  overflow-x: visible;
+  width: 0;
+  min-width: 0;
+  height: 100%;
+  overflow: visible;
+}
+
+.markerSection {
+  width: 0;
+  min-width: 0;
+  overflow: visible;
+  flex-shrink: 0;
+  height: 100%;
 }
 
 /* 画像上に重ねる（フロー外）— 横幅を取らず隣接セグメントに隙間を作らない */
@@ -27,11 +37,6 @@
   background-color: #000;
   max-width: 100%;
   overflow: hidden;
-}
-
-/* 詞書画像なし: タイトルだけがセクション幅になるのでフローに戻す */
-.noEkotobaImage .chapterbox {
-  position: relative;
 }
 
 /* ポートレート（縦向き）用の余白 */
@@ -137,11 +142,6 @@
   right: 1rem;
 }
 
-.noEkotobaImage.ekotobarl .chapterbox {
-  right: auto;
-  margin-right: 1rem;
-}
-
 /* ===========================
  * 左⇒右（lr）の設定
  * =========================== */
@@ -152,11 +152,6 @@
 
 .ekotobalr .chapterbox {
   left: 1rem;
-}
-
-.noEkotobaImage.ekotobalr .chapterbox {
-  left: auto;
-  margin-left: 1rem;
 }
 
 .container::-webkit-scrollbar {

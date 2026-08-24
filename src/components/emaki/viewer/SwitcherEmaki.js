@@ -1,5 +1,6 @@
 import EmakiImage from "@/components/emaki/viewer/EmakiImage";
 import OverlayEkotoba from "@/components/emaki/viewer/OverlayEkotoba";
+import ekotobaStyles from "@/styles/OverlayEkotoba.module.css";
 import { forwardRef } from "react";
 
 const SwitcherEmaki = forwardRef(
@@ -44,7 +45,11 @@ const SwitcherEmaki = forwardRef(
       }
       if (cat === "ekotoba") {
         return (
-          <section ref={ref} id={index}>
+          <section
+            ref={ref}
+            id={index}
+            className={!src ? ekotobaStyles.markerSection : undefined}
+          >
             <OverlayEkotoba
               key={index}
               item={{

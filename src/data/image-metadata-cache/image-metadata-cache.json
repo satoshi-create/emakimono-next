@@ -3604,5 +3604,156 @@
     "sourceAuthor": "National Diet Library, JAPAN",
     "sourceCollection": "国立国会図書館（請求記号 す-36）",
     "sourceLicense": ""
+  },
+  {
+    "id": 101,
+    "title": "百鬼ノ図（日文研所蔵）",
+    "titleen": "hyakki_no_zu_nichibun",
+    "author": "作者不詳",
+    "authoren": "anonymous",
+    "edition": "日文研所蔵",
+    "encodeUrl": "",
+    "backgroundImage": "",
+    "thumb": "/thumb/hyakki_no_zu_nichibun_thumb.webp",
+    "thumb2": "",
+    "video": "",
+    "era": "鎌倉",
+    "eraen": "kamakura",
+    "desc": "国際日本文化研究センター（日文研）所蔵の『百鬼ノ図』（別称：吉光百鬼ノ図）。紙本著色の絵巻で、百鬼夜行を描いたとされる作品。本紙料紙は金泥下絵、見返しは紙本金地著色草花図。",
+    "descen": "Hyakki no zu (Nichibunken collection), also known as Yoshimitsu Hyakki no zu. An ink-and-color handscroll depicting a procession of yokai; gold-underpainted decorated paper with a floral frontispiece.",
+    "readMore": false,
+    "type": "絵巻",
+    "typeen": "emaki",
+    "keyword": [
+      {
+        "name": "百鬼夜行",
+        "id": "hyakki-yakou",
+        "slug": "hyakki-yakou"
+      },
+      {
+        "name": "妖怪",
+        "id": "yokai",
+        "slug": "yokai"
+      },
+      {
+        "name": "絵巻",
+        "id": "emaki",
+        "slug": "emaki"
+      }
+    ],
+    "kotobagaki": false,
+    "sceneText": true,
+    "favorite": false,
+    "sourceImageUrl": "https://da.nichibun.ac.jp/item/004218673",
+    "sourceImage": "百鬼ノ図（日文研デジタルアーカイブ）",
+    "metadesc": "",
+    "gif": "",
+    "sourceEkotoba": "",
+    "reference": [
+      {
+        "type": "所蔵機関",
+        "url": "https://da.nichibun.ac.jp/item/004218673",
+        "title": "百鬼ノ圖 | 日文研デジタルアーカイブ"
+      },
+      {
+        "type": "利用規約",
+        "url": "https://da.nichibun.ac.jp/about",
+        "title": "このサイトについて | 日文研デジタルアーカイブ"
+      }
+    ],
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "1",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/hyakki-no-zu-nichibun__hyakki-no-zu-nichibun_1_01__01.jpg",
+        "name": "hyakki-no-zu-nichibun__hyakki-no-zu-nichibun_1_01__01",
+        "srcHeight": 1077,
+        "srcWidth": 5316
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "2",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/hyakki-no-zu-nichibun__hyakki-no-zu-nichibun_1_02__01.jpg",
+        "name": "hyakki-no-zu-nichibun__hyakki-no-zu-nichibun_1_02__01",
+        "srcHeight": 1077,
+        "srcWidth": 3772
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "3",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/hyakki-no-zu-nichibun__hyakki-no-zu-nichibun_1_03__01.jpg",
+        "name": "hyakki-no-zu-nichibun__hyakki-no-zu-nichibun_1_03__01",
+        "srcHeight": 1077,
+        "srcWidth": 5992
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "4",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/hyakki-no-zu-nichibun__hyakki-no-zu-nichibun_1_04__01.jpg",
+        "name": "hyakki-no-zu-nichibun__hyakki-no-zu-nichibun_1_04__01",
+        "srcHeight": 1077,
+        "srcWidth": 5646
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "5",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "emakimono/hyakki-no-zu-nichibun__hyakki-no-zu-nichibun_1_05__01.jpg",
+        "name": "hyakki-no-zu-nichibun__hyakki-no-zu-nichibun_1_05__01",
+        "srcHeight": 1074,
+        "srcWidth": 2954
+      }
+    ],
+    "sourceAuthor": "International Research Center for Japanese Studies (Nichibunken)",
+    "sourceCollection": "日文研所蔵（BB10030851 / YR/1/Hy）"
   }
 ]
