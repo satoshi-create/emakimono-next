@@ -5,6 +5,7 @@
 | 用途 | ドキュメント |
 |------|-------------|
 | 手順・CI・運用（本書） | `scroll-pipeline.md` |
+| Figma スライス書き出し → Python 後処理 | [`figma-slice-export.md`](./figma-slice-export.md) |
 | Cursor Agent 用 sync プロンプト | [`cursor-scroll-sync-prompt.md`](./cursor-scroll-sync-prompt.md) |
 | YAML 草案（汎用 AI プロンプト） | [`ai-scroll-config-prompt.md`](./ai-scroll-config-prompt.md) |
 | Cloudinary B 形式命名 | [`naming-convention.md`](./naming-convention.md) |
@@ -152,10 +153,23 @@ py -3.14 scripts/preflight_upstream.py scrolls/my-new-scroll/ --require-reviewed
 | スクリプト | 役割 |
 |-----------|------|
 | `create-project.py` | `scrolls/{scroll_id}/` 雛形 + `sources/scenes-summary.csv` |
+| `process_figma_slices.py` | Figma ラフ → 1080px / 補正 / 1MB JPEG / `_NN-1080.jpg` + YAML 骨格 |
 | `normalize_scroll_images.py` | `_01-{height}.jpg` 形式へ正規化 |
 | `build_scene_mapping.py` | CSV → `scroll_config.yaml` scenes / 整合チェック |
 | `preflight_upstream.py` | 上記 + 拡張 preflight を順実行 |
 | `preflight_scroll.py` | 構造・画像・テキスト・著作権・CSV 整合（単体でも可） |
+
+**Figma ラフ書き出し後（推奨）:**
+
+```powershell
+py -3.14 -m pip install -r scripts/requirements-scroll.txt
+py -3.14 scripts/process_figma_slices.py scrolls/my-new-scroll/ `
+  --input-dir scrolls/my-new-scroll/images/_raw `
+  --scene-text `
+  --force
+```
+
+手順の詳細: [`figma-slice-export.md`](./figma-slice-export.md)
 
 **段構成 CSV（正本）:** `sources/scenes-summary.csv` — 列: `scene_id`, `title_ja`, `title_en`, `range_start`, `range_end`, `slot_types`, `confidence`（`draft` → 目視後 `reviewed`）。画像別メモは `sources/scene-mapping.csv` も可。
 
@@ -173,18 +187,23 @@ py -3.14 scripts/create-project.py my-new-scroll
 2. `scrolls/{scroll_id}/images/` に画像を配置
 3. 词書が必要なら `scenes[].text` を YAML に記述
 
-**外部ソース（Wikimedia Commons 等）から画像を用意する場合** — 元画像をダウンロードし、sharp で高さ 1080px に縮小して `_NN-1080.jpg` 形式で配置します:
+**Figma スライスから用意する場合（推奨）** — ラフを `images/_raw/` に置き、`process_figma_slices.py` で `_NN-1080.jpg` を生成します（上表参照）。
+
+**外部ソース（Wikimedia Commons 等）から単枚を用意する場合** — ダウンロード後も同スクリプト、または sharp ワンライナーで高さ 1080px にできます:
 
 ```powershell
 # ダウンロード（例: Wikimedia Commons）
-curl.exe -s -L -o "scrolls\{scroll_id}\images\src-01.jpg" "https://commons.wikimedia.org/wiki/Special:FilePath/XXX.jpg"
+curl.exe -s -L -o "scrolls\{scroll_id}\images\_raw\src-01.jpg" "https://commons.wikimedia.org/wiki/Special:FilePath/XXX.jpg"
 
-# 1080px 高に縮小 → _01-1080.jpg（sync_scroll.py が自動検出）
-node -e "require('sharp')('scrolls/{scroll_id}/images/src-01.jpg').resize({height:1080}).jpeg({quality:85}).toFile('scrolls/{scroll_id}/images/_01-1080.jpg')"
+py -3.14 scripts/process_figma_slices.py scrolls/{scroll_id}/ `
+  --input-dir scrolls/{scroll_id}/images/_raw --force --skip-yaml
+
+# または sharp 単発:
+# node -e "require('sharp')('...').resize({height:1080}).jpeg({quality:85}).toFile('.../_01-1080.jpg')"
 ```
 
 - 対象物が **縦長（portrait）** の場合、16:9 サムネイルでは中央帯だけが使われるため、代表シーン選定時に考慮する（`docs/operations/thumb-workflow.md` 参照）
-- 枚数が多い場合は `scrolls/_tmp-*/` に一時ファイルを置いてから変換する
+- 枚数が多い場合は `images/_raw/` にまとめてから `process_figma_slices.py` を使う
 
 YAML 草案: [`ai-scroll-config-prompt.md`](./ai-scroll-config-prompt.md)  
 命名規則: [`naming-convention.md`](./naming-convention.md)

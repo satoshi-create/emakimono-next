@@ -14,6 +14,7 @@
 | 状況 | プロンプト |
 |------|-----------|
 | 新規絵巻を初めて sync | [§1 標準](#1-標準新規絵巻アップロード) または [§2 短縮版](#2-短縮版yaml画像は用意済み) |
+| Figma ラフだけ置いた（1080/連番未） | [§1](#1-標準新規絵巻アップロード) の **Step 0**（`process_figma_slices.py`） |
 | 词書・range だけ直した | [§3 YAML 修正のみ](#3-yaml-修正のみcloudinary-に触らない) |
 | upload 前に人間が確認したい | [§4 検証のみ](#4-検証のみupload-しない) |
 | sync 後に PR を出す | [§5 PR 前の最終確認](#5-pr-前の最終確認) |
@@ -32,6 +33,7 @@
 
 ## 参照ドキュメント（必読）
 - 正本: docs/operations/scroll-pipeline.md §3
+- Figma ラフ後処理: docs/operations/figma-slice-export.md
 - 命名: docs/operations/naming-convention.md
 - ワークスペース: scrolls/README.md
 
@@ -39,14 +41,35 @@
 - scroll_id: {{scroll-id}}（例: gakisoushi-kawamoto）
 - パス: scrolls/{{scroll-id}}/scroll_config.yaml
 - 画像: scrolls/{{scroll-id}}/images/
+- Figma ラフ（任意）: scrolls/{{scroll-id}}/images/_raw/
 
 ## やること（この順序を守る）
+
+### Step 0: Figma ラフがある場合のみ（images/_raw/）
+`_NN-1080.jpg` が未生成、またはラフを差し替えたとき。人間がスライス境界だけ Figma で決めた前提。
+
+```powershell
+$env:PYTHONIOENCODING = "utf-8"
+py -3.14 -m pip install -r scripts/requirements-scroll.txt
+py -3.14 scripts/process_figma_slices.py scrolls/{{scroll-id}}/ `
+  --input-dir scrolls/{{scroll-id}}/images/_raw `
+  --scene-text `
+  --force
+```
+
+確認:
+- `images/_01-1080.jpg` … が揃い、各ファイル 1MB 以下・高さ 1080
+- `scroll_config.yaml` の scenes range が画像枚数を被覆
+- 詞書なし解説バーなら `metadata.sceneText: true` と `scenes[].text`（直下の `desc` は不可）
+
+人間にコンタクトシートまたはファイル一覧を見せ、見た目 OK をもらってから Step 1 へ。
 
 ### Step 1: レビュー
 1. scroll_config.yaml の scroll_id がフォルダ名と一致するか
 2. metadata.titleen / metadata.id が local-data/pipeline/dataEmakis.json と重複しないか
 3. scenes[].range の合計枚数 = images/ 内の画像枚数か
 4. 词書ありなら scenes[].text の有無を確認
+5. thumb が `/{{titleen}}_thumb.webp` 形式か（scroll_id の kebab ではない）
 
 問題があれば YAML を修正してから次へ。
 
@@ -181,21 +204,23 @@ scrolls/{{scroll-id}}/ の画像を差し替え / YAML を増補しました。�
 - 画像が変わっていれば特別フラグなしで自動再 upload、destroy は不要
 
 ## 手順（この順）
-1. 画像ファイル名を正規化:
+1. Figma ラフ差し替えなら先に再処理:
    $env:PYTHONIOENCODING = "utf-8"
+   py -3.14 scripts/process_figma_slices.py scrolls/{{scroll-id}}/ --input-dir scrolls/{{scroll-id}}/images/_raw --scene-text --force
+2. 画像ファイル名を正規化:
    py -3.14 scripts/normalize_scroll_images.py scrolls/{{scroll-id}}/ --fix
-2. YAML の説明が scenes[].desc 直下になっていないか確認（正: scenes[].text.{desc,descen}）
+3. YAML の説明が scenes[].desc 直下になっていないか確認（正: scenes[].text.{desc,descen}）
    - 語書なしで下部解説バーを出すなら metadata.sceneText: true も付与
-3. preflight / usage / dry-run:
+4. preflight / usage / dry-run:
    py -3.14 scripts/preflight_scroll.py scrolls/{{scroll-id}}/scroll_config.yaml
    py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20 --no-save
    py -3.14 scripts/sync_all.py scrolls/{{scroll-id}}/scroll_config.yaml --dry-run
-4. すべて OK なら本番 sync を 1 回:
+5. すべて OK なら本番 sync を 1 回:
    py -3.14 scripts/sync_all.py scrolls/{{scroll-id}}/scroll_config.yaml
-5. 事後ゲート（§1 Step 4 相当）:
+6. 事後ゲート（§1 Step 4 相当）:
    py -3.14 scripts/postflight_sync.py scrolls/{{scroll-id}}/
    py -3.14 scripts/postflight_downstream.py scrolls/{{scroll-id}}/ --skip-build
-6. 更新 JSON（dataEmakis / image-metadata-cache / emaki-text-data）と usage を報告。commit はしない。
+7. 更新 JSON（dataEmakis / image-metadata-cache / emaki-text-data）と usage を報告。commit はしない。
 ````
 
 ---
