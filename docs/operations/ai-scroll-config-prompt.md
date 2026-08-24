@@ -186,9 +186,9 @@ Wikimedia Commons（CC0 等）:
 - 地獄草紙型（alternating）: 1 段 = 词書 + 絵画の 2 枚 → range: [1, 2], [3, 4], …
 - 絵師草紙型（explicit）: 各 scene に `slots: [image, ekotoba, …]`（range 内 index 順、長さ = 枚数）→ 例: `scrolls/_examples/eshi-no-soshi/`
 
-## scenes[].text（词書テキスト）
+## scenes[].text（词書テキスト）と解説バー
 
-`metadata.kotobagaki: true` のとき、各 scene に `text` ブロックを付ける。
+`metadata.kotobagaki: true`（词書あり）のとき、各 scene に `text` ブロックを付けて **現代語訳を表示**する。
 
 | フィールド | 必須 | 説明 |
 |-----------|------|------|
@@ -199,7 +199,13 @@ Wikimedia Commons（CC0 等）:
 
 - `text.title` は通常省略（`scenes.title` が使われる）
 - 文献・ColBase・解説本を参照し、推測は `# TODO:` で明記
-- `kotobagaki: false` の作品では `text` は不要
+
+**词書画像なし・絵のみでも、解説バー（下部バー）を出す場合:**
+
+- `kotobagaki: false` のままで `metadata.sceneText: true` にし、各 scene の `text` ブロック（`desc` / `descen`）を入れる
+- `text` ブロックは「词書の現代語訳」だけでなく「絵のみ作品のシーン解説」にも使う
+- バー表示条件は `kotobagaki || sceneText`（`EmakiConteiner.js`）— **`sceneText: true` + `text` があれば語書なしでも表示される**
+- `desc` を scene 直下に置いてもパイプラインは読まない（`scenes[].text` が正）
 
 ## 識別子のルール
 

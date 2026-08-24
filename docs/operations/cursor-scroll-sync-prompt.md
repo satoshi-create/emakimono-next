@@ -18,6 +18,7 @@
 | upload 前に人間が確認したい | [§4 検証のみ](#4-検証のみupload-しない) |
 | sync 後に PR を出す | [§5 PR 前の最終確認](#5-pr-前の最終確認) |
 | UI だけ直す（レーン B） | [§6 UI リファクタ](#6-ui-リファクタレーン-b) |
+| 既存絵巻の画像差し替え / YAML 増補 | [§3.5 再アップロード](#35-再アップロード画像差し替え) |
 
 ---
 
@@ -155,6 +156,46 @@ py -3.14 scripts/sync_all.py scrolls/{{scroll-id}}/scroll_config.yaml --skip-upl
 ```
 
 を実行し、更新された JSON ファイルを報告してください。commit はしない。
+````
+
+---
+
+## 3.5 再アップロード（画像差し替え）
+
+「既存絵巻の画像を差し替えた / YAML に解説や sceneText を足して再 sync したい」場合の専用シナリオ。§1 標準は「新規巻」前提で「同一巻の再 sync」が禁止に見えるため、本節を先に読むこと。
+
+### 前提（重要）
+
+- `sync_scroll.py` は **同じ `public_id` への `overwrite`** でアップロードする。
+- 再アップロード判定は `.upload-cache.json` の **bytes + mtime** による。→ **画像ファイルの中身（サイズ・更新日時）が変わっていれば、特別なフラグなしで自動上書き**される。
+- **`--force-upload` は不要・禁止のまま**（cache 差し替えで自然に再 upload されるため）。
+- **Cloudinary 側の `destroy` はやらない**。本番参照中の public_id を消すとビューアが壊れる。削除が必要なのは「キャッシュから外れた旧 ID」のみ（`prune_cloudinary_assets.py`）。
+
+### コピー用プロンプト
+
+````markdown
+scrolls/{{scroll-id}}/ の画像を差し替え / YAML を増補しました。再 sync してください。
+
+## 前提（変えなくてよい）
+- sync_scroll.py は .upload-cache の bytes+mtime で同一 public_id に overwrite する
+- 画像が変わっていれば特別フラグなしで自動再 upload、destroy は不要
+
+## 手順（この順）
+1. 画像ファイル名を正規化:
+   $env:PYTHONIOENCODING = "utf-8"
+   py -3.14 scripts/normalize_scroll_images.py scrolls/{{scroll-id}}/ --fix
+2. YAML の説明が scenes[].desc 直下になっていないか確認（正: scenes[].text.{desc,descen}）
+   - 語書なしで下部解説バーを出すなら metadata.sceneText: true も付与
+3. preflight / usage / dry-run:
+   py -3.14 scripts/preflight_scroll.py scrolls/{{scroll-id}}/scroll_config.yaml
+   py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20 --no-save
+   py -3.14 scripts/sync_all.py scrolls/{{scroll-id}}/scroll_config.yaml --dry-run
+4. すべて OK なら本番 sync を 1 回:
+   py -3.14 scripts/sync_all.py scrolls/{{scroll-id}}/scroll_config.yaml
+5. 事後ゲート（§1 Step 4 相当）:
+   py -3.14 scripts/postflight_sync.py scrolls/{{scroll-id}}/
+   py -3.14 scripts/postflight_downstream.py scrolls/{{scroll-id}}/ --skip-build
+6. 更新 JSON（dataEmakis / image-metadata-cache / emaki-text-data）と usage を報告。commit はしない。
 ````
 
 ---

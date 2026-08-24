@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -83,6 +84,15 @@ def apply_metadata(
     if title_en:
         content = content.replace('titleen: "my_scroll_slug"', f'titleen: "{title_en}"')
         content = content.replace(f'titleen: "{scroll_id.replace("-", "_")}"', f'titleen: "{title_en}"')
+
+    # thumb は URL スラッグ（titleen）形式に統一する（kebab の scroll_id は使わない）
+    titleen_value = title_en or scroll_id.replace("-", "_")
+    content = re.sub(
+        r'thumb:\s*"[^"]*_thumb\.webp"',
+        f'thumb: "/{titleen_value}_thumb.webp"',
+        content,
+        count=1,
+    )
 
     if ndl_pids:
         primary = f"https://dl.ndl.go.jp/pid/{ndl_pids[0]}"
