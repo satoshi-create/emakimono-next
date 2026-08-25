@@ -280,15 +280,32 @@ def _full_public_id(folder: str | None, public_id: str) -> str:
     return f"{folder}/{public_id}" if folder else public_id
 
 
+def _src_has_version(src: str | None) -> bool:
+    """True when cache src already embeds Cloudinary version (v123/... )."""
+    return bool(re.match(r"^v\d+/", str(src or "").lstrip("/")))
+
+
 def _upload_result_from_api(data: dict, file_path: Path | None = None) -> dict:
+    """Normalize Cloudinary upload/resource JSON into cache row fields.
+
+    ``src`` prefers versioned form required by naming-convention.md:
+    ``v{version}/{public_id}.{ext}`` so CDN derived URLs bust after overwrite.
+    """
     stored_public_id = data.get("public_id", "")
     ext = data.get("format") or (file_path.suffix.lstrip(".") if file_path else "jpg") or "jpg"
-    src_relative = f"{stored_public_id}.{ext}" if ext else stored_public_id
+    version = data.get("version")
+    if version and stored_public_id:
+        src_relative = f"v{version}/{stored_public_id}.{ext}"
+    elif stored_public_id:
+        src_relative = f"{stored_public_id}.{ext}" if ext else stored_public_id
+    else:
+        src_relative = ""
     return {
         "src": src_relative,
         "width": int(data.get("width") or 0),
         "height": int(data.get("height") or 0),
         "public_id": stored_public_id,
+        "version": int(version) if version is not None else None,
     }
 
 
@@ -297,17 +314,17 @@ def fetch_existing_resource(
     folder: str | None,
     public_id: str,
 ) -> dict | None:
-    """Return Cloudinary resource metadata if it exists, else None."""
+    """Return Cloudinary resource metadata if it exists, else None.
+
+    Admin API uses HTTP Basic auth (api_key / api_secret), not signed upload params.
+    """
     full_id = _full_public_id(folder, public_id)
-    ts = str(int(time.time()))
-    params = {"timestamp": ts}
-    sig = _cloudinary_signature(params, creds.api_secret)
     encoded_id = quote(full_id, safe="")
     url = f"https://api.cloudinary.com/v1_1/{creds.cloud_name}/resources/image/upload/{encoded_id}"
     try:
         response = requests.get(
             url,
-            params={**params, "api_key": creds.api_key, "signature": sig},
+            auth=(creds.api_key, creds.api_secret),
             timeout=int(os.environ.get("SYNC_UPLOAD_TIMEOUT", "30")),
         )
     except requests.RequestException as exc:
@@ -342,6 +359,8 @@ def upload_to_cloudinary(
         "timestamp": ts,
         "public_id": public_id,
         "overwrite": "true",
+        # Purge CDN derived transforms for the same public_id (must be signed).
+        "invalidate": "true",
     }
     if folder:
         params["folder"] = folder
@@ -447,7 +466,7 @@ def _resolve_upload_file(
 
 def _cache_entry_from_upload(file_path: Path, upload_result: dict) -> dict:
     size, mtime = _local_file_fingerprint(file_path)
-    return {
+    entry = {
         "bytes": size,
         "mtime": mtime,
         "src": upload_result["src"],
@@ -455,6 +474,9 @@ def _cache_entry_from_upload(file_path: Path, upload_result: dict) -> dict:
         "height": upload_result["height"],
         "public_id": upload_result["public_id"],
     }
+    if upload_result.get("version") is not None:
+        entry["version"] = upload_result["version"]
+    return entry
 
 
 def _row_from_cache_entry(
@@ -515,6 +537,18 @@ def _process_upload_task(
     if not force_upload:
         cached = _match_local_cache(cache, public_id, file_path)
         if cached is not None:
+            if not _src_has_version(cached.get("src")):
+                existing = fetch_existing_resource(creds, folder, public_id)
+                if existing is not None:
+                    print(
+                        f"  [{index:3d}] refresh version {public_id}",
+                        file=sys.stderr,
+                        flush=True,
+                    )
+                    upload_result = _upload_result_from_api(existing, file_path)
+                    with cache_lock:
+                        cache[public_id] = _cache_entry_from_upload(file_path, upload_result)
+                    return _row_from_cache_entry(task, cache[public_id], skipped=True)
             print(f"  [{index:3d}] skip (local cache) {public_id}", file=sys.stderr, flush=True)
             return _row_from_cache_entry(task, cached, skipped=True)
 

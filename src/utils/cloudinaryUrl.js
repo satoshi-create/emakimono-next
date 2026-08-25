@@ -3,6 +3,12 @@
  * 同一変換ブロック内のカンマは %2C にエンコードする。
  * リテラルのカンマは next/image の srcset を分割し、相対パス 404 になる。
  * スラッシュは独立した変換チェーン（Cloudinary 公式の chained transformation）。
+ *
+ * `src` はキャッシュ形式（naming-convention.md）:
+ *   - 推奨: `v{version}/emakimono/{public_id}.jpg`（overwrite 後の CDN バスティング）
+ *   - 旧: `emakimono/{public_id}.jpg`
+ * 変換は version / public_id の前に置く:
+ *   .../upload/{transforms}/v{version}/emakimono/{id}.jpg
  */
 export const CLOUDINARY_UPLOAD_BASE =
   "https://res.cloudinary.com/dw2gjxrrf/image/upload";

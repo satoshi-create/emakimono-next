@@ -29,11 +29,16 @@ Cloudinary 上のフルパス:
 emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__01.jpg
 ```
 
-キャッシュ `src` 形式:
+キャッシュ `src` 形式（**必須・CDN バスティング**）:
 
 ```
 v1775033725/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__01.jpg
 ```
+
+- `sync_scroll.py` は upload / resource 応答の `version` を `src` 先頭に埋め込む
+- ビューアは `buildCloudinaryUrl` で `.../upload/{transforms}/v{version}/emakimono/...` を組み立てる
+- **version なしの `emakimono/...` だけだと、overwrite 後も変換 CDN キャッシュが旧のまま残る**
+- upload 時は `overwrite=true` に加え **`invalidate=true`**（派生キャッシュ掃除）
 
 ## 識別子の役割
 

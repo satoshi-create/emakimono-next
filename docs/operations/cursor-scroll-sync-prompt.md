@@ -189,10 +189,11 @@ py -3.14 scripts/sync_all.py scrolls/{{scroll-id}}/scroll_config.yaml --skip-upl
 
 ### 前提（重要）
 
-- `sync_scroll.py` は **同じ `public_id` への `overwrite`** でアップロードする。
+- `sync_scroll.py` は **同じ `public_id` への `overwrite` + `invalidate`** でアップロードする。
 - 再アップロード判定は `.upload-cache.json` の **bytes + mtime** による。→ **画像ファイルの中身（サイズ・更新日時）が変わっていれば、特別なフラグなしで自動上書き**される。
 - **`--force-upload` は不要・禁止のまま**（cache 差し替えで自然に再 upload されるため）。
 - **Cloudinary 側の `destroy` はやらない**。本番参照中の public_id を消すとビューアが壊れる。削除が必要なのは「キャッシュから外れた旧 ID」のみ（`prune_cloudinary_assets.py`）。
+- 配信 `src` は **`v{version}/emakimono/{public_id}.jpg`**（`naming-convention.md`）。version 無しだと変換 CDN が旧画像を掴んだままになる。画像が変わっていなくても version 欠落時は Admin API で version を補完する。
 
 ### コピー用プロンプト
 
