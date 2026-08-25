@@ -80,7 +80,16 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
 
   const pageDesc = locale === "en" ? data.descen : data.desc;
 
-  const pageDescTemp = pageDesc ? pageDesc : tPageDesc;
+  // 九相図巻: シェア／SERP で「鑑賞できる」ことが伝わるよう横スクロール訴求を補完
+  let pageDescTemp = pageDesc ? pageDesc : tPageDesc;
+  if (
+    data.titleen === "kusouzumaki" &&
+    locale === "ja" &&
+    pageDescTemp &&
+    !pageDescTemp.includes("横スクロール")
+  ) {
+    pageDescTemp = `${pageDescTemp} 縦書き・横スクロールで全シーンを鑑賞できます。`;
+  }
 
   // OGP画像: 生成済みの /ogp/{titleen}.jpg を優先し、
   // ローカルサムネが存在しない絵巻は Cloudinary 変換URLを使用

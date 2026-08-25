@@ -23,10 +23,11 @@
   height: 100%;
 }
 
-/* 画像上に重ねる（フロー外）— 横幅を取らず隣接セグメントに隙間を作らない */
+/* レイアウトは横書き基準。タイトル文字だけ縦書きにして下にアイコンを積む */
 .chapterbox {
+  writing-mode: horizontal-tb;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   height: fit-content;
   letter-spacing: 0.1rem;
@@ -35,21 +36,51 @@
   position: absolute;
   top: 0;
   background-color: #000;
-  max-width: 100%;
-  overflow: hidden;
+  max-width: none;
+  width: max-content;
+  overflow: visible;
+}
+
+/* 縦書きタイトルの直下にアイコンを縦並び（余白は詰めてまとまりを出す） */
+.chapterActions {
+  writing-mode: horizontal-tb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  margin-top: 0.15rem;
+  flex-shrink: 0;
+}
+/* SP: タップ面は確保しつつ見た目の隙間を抑える */
+.chapterActions :global(button) {
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  min-height: 26px;
+  padding: 0;
+}
+@media (pointer: coarse) {
+  .chapterActions {
+    gap: 0;
+    margin-top: 0.1rem;
+  }
+  .chapterActions :global(button) {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    min-height: 28px;
+  }
 }
 
 /* ポートレート（縦向き）用の余白 */
-/* 縦書きモード(vertical-rl)ではpadding-blockが視覚的な左右余白になる */
 .chapterboxPrt {
-  padding-block: 1rem;
-  padding-inline: 0.4rem;
+  padding: 0.5rem 0.4rem 0.45rem;
 }
 
 /* ランドスケープ（横向き）用の余白 */
 .chapterboxLand {
-  padding-block: 0.8rem;
-  padding-inline: 0.4rem;
+  padding: 0.45rem 0.4rem 0.4rem;
 }
 
 /* タブレット以上 */
@@ -59,13 +90,11 @@
   }
 
   .chapterboxPrt {
-    padding-block: 1.2rem;
-    padding-inline: 0.5rem;
+    padding: 0.6rem 0.5rem 0.5rem;
   }
 
   .chapterboxLand {
-    padding-block: 1rem;
-    padding-inline: 0.5rem;
+    padding: 0.55rem 0.5rem 0.45rem;
   }
 }
 
@@ -76,13 +105,11 @@
   }
 
   .chapterboxPrt {
-    padding-block: 1.5rem;
-    padding-inline: 0.6rem;
+    padding: 0.75rem 0.6rem 0.55rem;
   }
 
   .chapterboxLand {
-    padding-block: 1.2rem;
-    padding-inline: 0.6rem;
+    padding: 0.65rem 0.6rem 0.5rem;
   }
 }
 
@@ -91,9 +118,18 @@
   font-family: var(--font-classical);
   white-space: normal;
   word-break: keep-all;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
   text-transform: capitalize;
   line-height: 1.3;
+  max-height: 85vh;
+}
+
+.ekotobarl .chapter {
+  writing-mode: vertical-rl;
+}
+
+.ekotobalr .chapter {
+  writing-mode: vertical-lr;
 }
 
 /* ポートレート（縦向き・スマホ）用 */
@@ -108,10 +144,6 @@
 
 /* タブレット以上 */
 @media (min-width: 768px) {
-  .chapter {
-    white-space: nowrap;
-  }
-
   .chapterPrt {
     font-size: clamp(0.875rem, 0.6rem + 1vw, 1.25rem);
   }

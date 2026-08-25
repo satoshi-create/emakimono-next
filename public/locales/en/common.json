@@ -41,6 +41,11 @@
     "hidePictureIndex": "Hide picture index",
     "like": "Like",
     "unlike": "Remove like",
+    "liked": "Liked",
+    "likeEmaki": "Like this scroll",
+    "likeScene": "Like this scene",
+    "likeSceneShort": "Scene",
+    "unlikeScene": "Unlike this scene",
     "goToEnd": "Go to end",
     "goToStart": "Go to start",
     "howToView": "How to view",
@@ -49,6 +54,7 @@
     "autoPlay": "Auto-play",
     "copied": "Copied",
     "copySceneUrl": "Copy URL for this scene",
+    "copySceneUrlShort": "Copy link",
     "enterFullscreen": "Enter fullscreen",
     "exitFullscreen": "Exit fullscreen",
     "viewImage": "View image",
@@ -94,8 +100,8 @@
   "scrollFeedback": {
     "buttonLabel": "Scroll experience",
     "prompt": "How was the scrolling experience?",
-    "endPrompt": "You reached the end. Tell us how it felt",
-    "open": "Respond",
+    "endPrompt": "You’ve reached the end of the scroll",
+    "open": "Tell us",
     "close": "Close",
     "dismiss": "Dismiss",
     "thanks": "Thank you",
@@ -107,6 +113,14 @@
       "confusing": "Confusing controls",
       "great": "Great experience"
     }
+  },
+
+  "pullPrompt": {
+    "shareText": "Copy this scene’s URL to share",
+    "shareAction": "Copy",
+    "midFeedbackText": "How does scrolling feel? One tap",
+    "midFeedbackAction": "Respond",
+    "dismiss": "Dismiss"
   },
 
   "legal": {

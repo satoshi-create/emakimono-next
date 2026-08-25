@@ -10,28 +10,7 @@
   transition: var(--transition);
   cursor: pointer;
   background: rgba(0, 0, 0, 0.7);
-  /* border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px; */
   font-size: 0.75rem;
-}
-
-/* タブレット以上 */
-@media (min-width: 768px) {
-  .button {
-    gap: 0.3rem;
-    padding: 0.4rem 0.6rem;
-    /* border-radius: 18px; */
-    font-size: 0.85rem;
-  }
-}
-
-/* デスクトップ */
-@media (min-width: 1024px) {
-  .button {
-    padding: 0.5rem 0.8rem;
-    /* border-radius: 20px; */
-    font-size: 1rem;
-  }
 }
 
 .button:hover {
@@ -42,17 +21,16 @@
 .liked {
   color: var(--clr-accent-02);
   background: rgba(0, 0, 0, 0.85);
-  /* border-color: var(--clr-accent-02); */
 }
 
-/* ボトムコメントバー用: コンパクトなアイコンボタン（シェアボタンと同スケール） */
+/* 解説バー用: アイコンのみ */
 .barButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   padding: 0;
   border: none;
   background: transparent;
@@ -60,11 +38,10 @@
   cursor: pointer;
   transition: color 0.2s ease, transform 0.2s ease;
 }
-/* タッチデバイス: タップターゲットを拡大 */
 @media (pointer: coarse) {
   .barButton {
-    width: 44px;
-    height: 44px;
+    width: 30px;
+    height: 30px;
   }
 }
 .barButton:hover {
@@ -76,24 +53,39 @@
   color: var(--clr-accent);
 }
 
+/* 縦書き段タイトル下部用 */
+.overlayButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+@media (pointer: coarse) {
+  .overlayButton {
+    width: 28px;
+    height: 28px;
+  }
+}
+.overlayButton:hover {
+  color: var(--clr-accent);
+  transform: scale(1.1);
+}
+.overlayLiked,
+.overlayLiked:hover {
+  color: var(--clr-accent);
+}
+
 .icon {
   width: 0.9em;
   height: 0.9em;
   transition: var(--transition);
-}
-
-@media (min-width: 768px) {
-  .icon {
-    width: 1em;
-    height: 1em;
-  }
-}
-
-@media (min-width: 1024px) {
-  .icon {
-    width: 1.1em;
-    height: 1.1em;
-  }
 }
 
 .animating {
@@ -104,11 +96,9 @@
   0% {
     transform: scale(1);
   }
-
   50% {
     transform: scale(1.2);
   }
-
   100% {
     transform: scale(1);
   }

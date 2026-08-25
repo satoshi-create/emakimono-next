@@ -28,12 +28,11 @@ const trackShare = ({ platform, emakiId, sceneIndex }) => {
 
 /**
  * Share controls: copy URL, X, LINE, and Web Share API (mobile).
- * @param {object} props
- * @param {number} [props.navIndex=0] - Scene index for hash (#n)
- * @param {string} [props.emakiId] - titleen for analytics
- * @param {string} [props.shareTitle] - Tweet / native share title
- * @param {"menu"|"inline"} [props.variant="inline"] - menu: ナビ用の共有1ボタン（ポップオーバー）
- * @param {boolean} [props.isUIVisible=true]
+ * @param {"menu"|"inline"|"iconCopy"|"share"} [props.variant="inline"]
+ *   - iconCopy: コピーのみ（アイコン）
+ *   - share: 共有のみ（コピーなし。ネイティブ or X/LINE）
+ *   - inline: コピー＋共有
+ *   - menu: ナビ用ポップオーバー（現行は未使用寄り）
  */
 const ShareButtons = ({
   navIndex = 0,
@@ -41,6 +40,7 @@ const ShareButtons = ({
   shareTitle = "",
   variant = "inline",
   isUIVisible = true,
+  tone = "default",
 }) => {
   const { locale, locales, asPath, defaultLocale } = useRouter();
   const { t } = useTranslation("common");
@@ -250,7 +250,67 @@ const ShareButtons = ({
     );
   }
 
-  // インライン用: アイコン列（ページ下部メタ等）
+  // コピーのみ（解説バー・縦書き段タイトル用・アイコンのみ）
+  if (variant === "iconCopy" || variant === "cta") {
+    return (
+      <button
+        type="button"
+        className={`${styles.iconBtn} ${
+          tone === "light" ? styles.iconBtnLight : ""
+        } ${isCopied ? styles.iconCopied : ""}`}
+        onClick={handleCopy}
+        title={copyLabel}
+        aria-label={copyLabel}
+      >
+        {renderCopyIcon()}
+      </button>
+    );
+  }
+
+  // 共有のみ（絵巻タイトル横・段タイトル・コピーなし）
+  if (variant === "share") {
+    const btnClass = `${styles.iconBtn} ${
+      tone === "light" ? styles.iconBtnLight : ""
+    }`;
+    return (
+      <div className={styles.row} role="group" aria-label={t("share.groupLabel")}>
+        {canNativeShare ? (
+          <button
+            type="button"
+            className={btnClass}
+            onClick={handleNativeShare}
+            title={t("share.nativeDesc")}
+            aria-label={t("share.nativeDesc")}
+          >
+            <FontAwesomeIcon icon={faShareNodes} />
+          </button>
+        ) : (
+          <>
+            <button
+              type="button"
+              className={btnClass}
+              onClick={handleTwitter}
+              title={t("share.xDesc")}
+              aria-label={t("share.xDesc")}
+            >
+              {renderXIcon()}
+            </button>
+            <button
+              type="button"
+              className={btnClass}
+              onClick={handleLine}
+              title={t("share.lineDesc")}
+              aria-label={t("share.lineDesc")}
+            >
+              {renderLineIcon()}
+            </button>
+          </>
+        )}
+      </div>
+    );
+  }
+
+  // インライン用: コピー＋共有（後方互換）
   return (
     <div className={styles.row} role="group" aria-label={t("share.groupLabel")}>
       <button

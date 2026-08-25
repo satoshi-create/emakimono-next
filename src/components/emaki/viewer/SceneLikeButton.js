@@ -7,19 +7,22 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 
 /**
- * シーン別いいね（お気に入り）ボタン
- * ローカルストレージで状態を永続化
- * variant: "overlay"（詞書帯） | "bar"（ボトムコメントバー）
+ * シーン別いいね（アイコンのみ）
+ * variant: "overlay"（縦書き段タイトル） | "bar"（解説バー）
  */
-const SceneLikeButton = ({ titleen, title, chapter, index, variant = "overlay" }) => {
+const SceneLikeButton = ({
+  titleen,
+  title,
+  chapter,
+  index,
+  variant = "overlay",
+}) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const { t } = useTranslation("common");
 
-  // ローカルストレージのキー
   const storageKey = `scene_like_${titleen}_${index}`;
 
-  // 初期化時にローカルストレージから状態を復元
   useEffect(() => {
     if (typeof window !== "undefined") {
       const saved = localStorage.getItem(storageKey);
@@ -29,16 +32,15 @@ const SceneLikeButton = ({ titleen, title, chapter, index, variant = "overlay" }
     }
   }, [storageKey]);
 
-  const handleClick = () => {
+  const handleClick = (e) => {
+    e.stopPropagation();
     const newLikedState = !isLiked;
     setIsLiked(newLikedState);
 
-    // アニメーション開始
     if (newLikedState) {
       setIsAnimating(true);
     }
 
-    // ローカルストレージに保存
     if (typeof window !== "undefined") {
       if (newLikedState) {
         localStorage.setItem(storageKey, "true");
@@ -67,20 +69,21 @@ const SceneLikeButton = ({ titleen, title, chapter, index, variant = "overlay" }
   };
 
   const isBar = variant === "bar";
+  const label = isLiked ? t("viewer.unlikeScene") : t("viewer.likeScene");
 
   return (
     <button
+      type="button"
       onClick={handleClick}
-      className={`${isBar ? styles.barButton : styles.button} ${
-        isLiked ? (isBar ? styles.barLiked : styles.liked) : ""
+      className={`${isBar ? styles.barButton : styles.overlayButton} ${
+        isLiked ? (isBar ? styles.barLiked : styles.overlayLiked) : ""
       }`}
-      title={isLiked ? t("viewer.unlike") : t("viewer.like")}
-      aria-label={isLiked ? t("viewer.unlike") : t("viewer.like")}
+      title={label}
+      aria-label={label}
     >
       <FontAwesomeIcon
         icon={faThumbsUp}
         className={`${styles.icon} ${isAnimating ? styles.animating : ""}`}
-        style={{ fontSize: isBar ? "1rem" : undefined }}
         onAnimationEnd={handleAnimationEnd}
       />
     </button>

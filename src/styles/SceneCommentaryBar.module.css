@@ -47,8 +47,7 @@
   min-height: var(--commentary-bar-h);
 }
 
-/* 本体（段タイトル＋現代文）。タップで解説シートを開閉。
-   操作列（.sceneActions）は下段に分離するため、テキストは全幅を使用できる */
+/* 本体（現代文）。タップで解説シートを開閉 */
 .body {
   flex: 1 1 auto;
   min-width: 0;
@@ -57,9 +56,57 @@
   justify-content: center;
   align-items: flex-start;
   gap: 2px;
-  padding: 6px 14px;
+  padding: 2px 14px 6px;
   text-align: left;
   overflow: hidden;
+  width: 100%;
+}
+
+/* 段タイトル行: タイトルのすぐ隣にいいね・コピー・共有 */
+.titleLine {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.15rem;
+  padding: 6px 14px 2px;
+  min-width: 0;
+  width: 100%;
+}
+.titleBtn {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: calc(100% - 5.5rem);
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.titleActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  flex: 0 0 auto;
+  margin-left: 0;
+}
+.titleActions :global(button) {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  padding: 0;
+}
+@media (pointer: coarse) {
+  .titleLine {
+    gap: 0.1rem;
+    padding: 6px 10px 2px;
+  }
+  .titleActions :global(button) {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+  }
 }
 
 .title {
@@ -70,6 +117,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  display: block;
 }
 
 .gendaibun {
@@ -117,22 +165,21 @@
   transform: scale(1.1);
 }
 
-/* シーン操作（いいね・共有）＋段一覧＋閉じるを集約する操作列。
-   テキスト下の専用行として全幅で右寄せする（全モード共通） */
-.sceneActions {
-  flex: 0 0 auto;
+/* ユーティリティ（段一覧・年表・閉じる）は解説文の下・右寄せ */
+.utilityActions {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 2px;
-  padding: 2px 6px;
+  flex: 0 0 auto;
+  width: 100%;
+  padding: 0 8px 4px;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
-/* タッチデバイス: 拡大したボタン同士の間隔を広げる */
 @media (pointer: coarse) {
-  .sceneActions {
-    gap: 6px;
-    padding: 0 4px;
+  .utilityActions {
+    gap: 4px;
+    padding: 2px 6px 6px;
   }
 }
 

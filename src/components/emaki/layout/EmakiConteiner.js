@@ -11,6 +11,7 @@ import FullScreen from "@/components/emaki/viewer/FullScreen";
 import HelpModal from "@/components/emaki/viewer/HelpModal";
 import ScrollFeedbackEndPrompt from "@/components/emaki/viewer/ScrollFeedbackEndPrompt";
 import ScrollFeedbackPanel from "@/components/emaki/viewer/ScrollFeedbackPanel";
+import ViewerPullPrompt from "@/components/emaki/viewer/ViewerPullPrompt";
 import SceneCommentaryBar from "@/components/emaki/viewer/SceneCommentaryBar";
 import PositionIndicator from "@/components/emaki/viewer/PositionIndicator";
 import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
@@ -33,7 +34,14 @@ import {
 import {
   hasSubmittedScrollFeedback,
 } from "@/libs/api/scrollFeedbackSession";
-
+import {
+  hasDismissedPullPrompt,
+  markPullPromptDismissed,
+} from "@/libs/api/viewerPullSession";
+import * as gtag from "@/libs/api/gtag";
+import {
+  buildShareUrl,
+} from "@/utils/buildShareUrl";
 // P0改修: フルスクリーン切り替え時のスクロール位置保存用
 // モジュールスコープに配置することで、コンポーネント再マウント時も値を保持
 const scrollPositionStore = {
@@ -83,7 +91,7 @@ const EmakiContainer = ({
   } = useContext(AppContext);
 
   const { backgroundImage, kotobagaki, sceneText, type } = data;
-  const { locale } = useRouter();
+  const { locale, locales, asPath, defaultLocale } = useRouter();
 
   const wrapperRef = useRef();
   const articleRef = useRef();
@@ -117,6 +125,9 @@ const EmakiContainer = ({
   const [isScrollFeedbackOpen, setIsScrollFeedbackOpen] = useState(false);
   const [scrollFeedbackSubmitted, setScrollFeedbackSubmitted] = useState(false);
   const [endPromptDismissed, setEndPromptDismissed] = useState(false);
+  const [sharePromptDismissed, setSharePromptDismissed] = useState(false);
+  const [midFeedbackDismissed, setMidFeedbackDismissed] = useState(false);
+  const [scrollRatioBucket, setScrollRatioBucket] = useState(0);
 
   const emakiId = data.titleen;
 
@@ -181,6 +192,9 @@ const EmakiContainer = ({
   useEffect(() => {
     if (emakiId) {
       setScrollFeedbackSubmitted(hasSubmittedScrollFeedback(emakiId));
+      setSharePromptDismissed(hasDismissedPullPrompt(emakiId, "share"));
+      setMidFeedbackDismissed(hasDismissedPullPrompt(emakiId, "mid_feedback"));
+      setScrollRatioBucket(0);
     }
   }, [emakiId]);
 
@@ -194,23 +208,111 @@ const EmakiContainer = ({
     const el = articleRef.current;
     if (!el) return null;
     const maxScroll = el.scrollWidth - el.clientWidth;
-    if (maxScroll <= 0) return 1;
+    // レイアウト未完了時は誤って 100% と判定しない
+    if (maxScroll <= 0) return null;
     // RTL 横スクロールでは scrollLeft が負になる
     return Math.round((Math.abs(el.scrollLeft) / maxScroll) * 1000) / 1000;
   }, []);
 
+  // 中間プロンプト用: スクロール停止〜400ms で進捗バケット更新（1.5s の isScrolling とは独立）
+  useEffect(() => {
+    if (!scroll) return;
+    const el = articleRef.current;
+    if (!el) return;
+
+    let timer = null;
+    const updateBucket = () => {
+      const r = getScrollRatio();
+      if (r == null) return;
+      if (r >= 0.55) setScrollRatioBucket((b) => Math.max(b, 0.55));
+      else if (r >= 0.3) setScrollRatioBucket((b) => Math.max(b, 0.3));
+    };
+    const onScroll = () => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(updateBucket, 400);
+    };
+
+    el.addEventListener("scroll", onScroll, { passive: true });
+    // シーンジャンプ直後など
+    updateBucket();
+
+    return () => {
+      if (timer) clearTimeout(timer);
+      el.removeEventListener("scroll", onScroll);
+    };
+  }, [scroll, getScrollRatio, emakiId, navIndex]);
+
   const handleScrollFeedbackSubmitted = useCallback(() => {
     setScrollFeedbackSubmitted(true);
     setEndPromptDismissed(true);
+    setMidFeedbackDismissed(true);
   }, []);
 
+  const shareTitle =
+    locale === "en"
+      ? data.titleen || data.title
+      : `${data.title ?? ""}${data.edition ? ` ${data.edition}` : ""}`.trim();
+
+  const handleSharePromptCopy = useCallback(async () => {
+    const url = buildShareUrl({
+      locale,
+      asPath,
+      locales,
+      defaultLocale,
+      navIndex,
+    });
+    try {
+      await navigator.clipboard.writeText(url);
+      gtag.event("sns_share_click", {
+        platform: "copy",
+        emaki_id: emakiId || "",
+        scene_index: navIndex ?? 0,
+        source: "mid_prompt",
+      });
+    } catch (err) {
+      console.error("Share prompt copy failed:", err);
+    }
+    markPullPromptDismissed(emakiId, "share");
+    setSharePromptDismissed(true);
+  }, [locale, asPath, locales, defaultLocale, navIndex, emakiId]);
+
+  const dismissSharePrompt = useCallback(() => {
+    markPullPromptDismissed(emakiId, "share");
+    setSharePromptDismissed(true);
+  }, [emakiId]);
+
+  const dismissMidFeedbackPrompt = useCallback(() => {
+    markPullPromptDismissed(emakiId, "mid_feedback");
+    setMidFeedbackDismissed(true);
+  }, [emakiId]);
+
+  const showSharePullPrompt =
+    scroll &&
+    !isAtEnd &&
+    !sharePromptDismissed &&
+    !isScrollFeedbackOpen &&
+    scrollRatioBucket >= 0.3 &&
+    isUIVisible;
+
+  const showMidFeedbackPrompt =
+    scroll &&
+    !isAtEnd &&
+    !scrollFeedbackSubmitted &&
+    !midFeedbackDismissed &&
+    !isScrollFeedbackOpen &&
+    !showSharePullPrompt &&
+    scrollRatioBucket >= 0.55 &&
+    isUIVisible;
+
+  // 巻末: フィードバック未回答でもいいね・共有は出す（回答済みなら feedback ボタンのみ隠す）
   const showScrollFeedbackEndPrompt =
     scroll &&
     isAtEnd &&
-    !scrollFeedbackSubmitted &&
     !endPromptDismissed &&
     !isScrollFeedbackOpen &&
-    isUIVisible;
+    isUIVisible &&
+    !showSharePullPrompt &&
+    !showMidFeedbackPrompt;
 
   // 手のひらモード（PC限定）: マウス押下で表示 + ドラッグで絵巻を移動
   // - 押した瞬間に手のひらアイコン・grabカーソルを表示
@@ -461,10 +563,34 @@ const EmakiContainer = ({
           />
         )}
         {scroll && (
+          <ViewerPullPrompt
+            mode="share"
+            isVisible={showSharePullPrompt}
+            onPrimary={handleSharePromptCopy}
+            onDismiss={dismissSharePrompt}
+          />
+        )}
+        {scroll && (
+          <ViewerPullPrompt
+            mode="mid_feedback"
+            isVisible={showMidFeedbackPrompt}
+            onPrimary={() => {
+              markPullPromptDismissed(emakiId, "mid_feedback");
+              setMidFeedbackDismissed(true);
+              setIsScrollFeedbackOpen(true);
+            }}
+            onDismiss={dismissMidFeedbackPrompt}
+          />
+        )}
+        {scroll && (
           <ScrollFeedbackEndPrompt
             isVisible={showScrollFeedbackEndPrompt}
-            onOpen={() => setIsScrollFeedbackOpen(true)}
+            onOpenFeedback={() => setIsScrollFeedbackOpen(true)}
             onDismiss={() => setEndPromptDismissed(true)}
+            emakiId={emakiId}
+            shareTitle={shareTitle}
+            navIndex={navIndex}
+            showFeedback={!scrollFeedbackSubmitted}
           />
         )}
         <article

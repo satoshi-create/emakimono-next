@@ -94,6 +94,7 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
     fallback_reason_lines: list[str] = []
     like_lines: list[str] = []
     feedback_lines: list[str] = []
+    share_lines: list[str] = []
     if merged_path.is_file():
         merged = json.loads(merged_path.read_text(encoding="utf-8"))
         flagged = [r for r in merged.get("rows", []) if r.get("insight_flags")]
@@ -138,7 +139,7 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
         # Scroll feedback（choice 別・絵巻別）: scroll_feedback のサマリ
         feedback_choice = merged.get("scroll_feedback_choice_breakdown") or {}
         feedback_by_emaki = merged.get("scroll_feedback_breakdown") or {}
-        feedback_total = sum(feedback_choice.values())
+        feedback_total = sum(feedback_choice.values()) or sum(feedback_by_emaki.values())
         if feedback_total > 0:
             feedback_lines.append(f"- **scroll_feedback** 計 **{feedback_total}** 回")
             if feedback_choice:
@@ -153,6 +154,23 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
                 for slug, count in top_feedback:
                     feedback_lines.append(f"| `{slug}` | {count} |")
 
+        # SNS share（platform 別・絵巻別）
+        share_by_emaki = merged.get("sns_share_breakdown") or {}
+        share_by_platform = merged.get("sns_share_platform_breakdown") or {}
+        share_total = sum(share_by_emaki.values()) or sum(share_by_platform.values())
+        if share_total > 0:
+            share_lines.append(f"- **sns_share_click** 計 **{share_total}** 回")
+            if share_by_platform:
+                share_lines.append("\n| platform | events |")
+                share_lines.append("|---|---|")
+                for platform, count in share_by_platform.items():
+                    share_lines.append(f"| `{platform}` | {count} |")
+            top_share = sorted(share_by_emaki.items(), key=lambda kv: kv[1], reverse=True)[:5]
+            if top_share:
+                share_lines.append("\n| 絵巻 | sns_share_click |")
+                share_lines.append("|---|---|")
+                for slug, count in top_share:
+                    share_lines.append(f"| `{slug}` | {count} |")
     below_gsc = gsc_rows < int(bootstrap.get("min_gsc_rows", 10))
     below_ga4 = ga4_sessions < int(bootstrap.get("min_ga4_sessions", 50))
     review_mode = "bootstrap" if phase == "bootstrap" or below_gsc or below_ga4 else "steady"
@@ -199,6 +217,9 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
 
     if like_lines:
         lines.extend(["## Like / engagement (scene_like · like_emaki)", "", *like_lines, ""])
+
+    if share_lines:
+        lines.extend(["## SNS share (sns_share_click)", "", *share_lines, ""])
 
     if feedback_lines:
         lines.extend(["## Scroll feedback (user choice)", "", *feedback_lines, ""])

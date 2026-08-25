@@ -1,6 +1,6 @@
 import EmakiConteiner from "@/components/emaki/layout/EmakiConteiner";
 import EmakiMetadataSection from "@/components/emaki/layout/EmakiMetadataSection";
-import LikeButton from "@/components/emaki/metadata/LikeButton";
+import EmakiLikeIcon from "@/components/emaki/metadata/EmakiLikeIcon";
 import ShareButtons from "@/components/emaki/viewer/ShareButtons";
 import RecommendEmaki from "@/components/emaki/ranking/RecommendEmaki";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
@@ -24,7 +24,7 @@ import { useContext, useMemo } from "react";
 import { useTranslation } from "next-i18next";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerFullscreen = false }) => {
-  const { handleFullScreen, rankingData } = useContext(AppContext);
+  const { rankingData } = useContext(AppContext);
 
   const { locale } = useRouter();
   const { t: alldata } = useLocaleData();
@@ -107,6 +107,23 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
               <h3 className={styles.title}>
                 {locale === "ja" ? title : titleen} {locale === "ja" && edition}
               </h3>
+              <div className={styles.titleActions}>
+                <EmakiLikeIcon
+                  title={title}
+                  titleen={titleen}
+                  edition={edition}
+                />
+                <ShareButtons
+                  variant="share"
+                  navIndex={0}
+                  emakiId={titleen}
+                  shareTitle={
+                    locale === "en"
+                      ? titleen || title
+                      : `${title ?? ""}${edition ? ` ${edition}` : ""}`.trim()
+                  }
+                />
+              </div>
               {rankInfo && (
                 <Link href="/ranking">
                   <a className={styles.rankTag}>
@@ -128,33 +145,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
                 </a>
               </Link>
             )}
-            <div className={styles.actionGroup}>
-              <button
-                type="button"
-                value="Lock Landscape"
-                onClick={() => handleFullScreen("landscape")}
-                className={styles.linkedbutton}
-              >
-                {locale === "en" ? "View FullScreen" : "全画面で見る"}
-              </button>
-              <LikeButton
-                title={title}
-                titleen={titleen}
-                edition={edition}
-                author={author}
-                ort={"prt"}
-              />
-              <ShareButtons
-                variant="inline"
-                navIndex={0}
-                emakiId={titleen}
-                shareTitle={
-                  locale === "en"
-                    ? titleen || title
-                    : `${title ?? ""}${edition ? ` ${edition}` : ""}`.trim()
-                }
-              />
-            </div>
           </div>
 
           <EmakiMetadataSection

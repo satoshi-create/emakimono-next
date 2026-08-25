@@ -116,10 +116,11 @@ def _index_ga4_emaki(rows: list[dict], metric_key: str = "eventCount") -> dict[s
 
 
 def _index_fallback_reason(rows: list[dict], dim_key: str = "customEvent:fallback_reason") -> dict[str, int]:
-    """fallback_reason 内訳（priority_timeout / fullscreen_timeout）を集計。"""
+    """カスタムディメンション内訳（fallback_reason / choice / platform 等）を集計。"""
+    short = dim_key.split(":")[-1] if ":" in dim_key else dim_key
     out: dict[str, int] = {}
     for row in rows:
-        reason = row.get(dim_key) or row.get("fallback_reason") or ""
+        reason = row.get(dim_key) or row.get(short) or row.get("fallback_reason") or ""
         if not reason or reason == "(not set)":
             continue
         out[reason] = out.get(reason, 0) + int(row.get("eventCount") or 0)
@@ -188,6 +189,8 @@ def merge_report(report_dir: Path) -> dict:
     like_emaki_by_emaki = _load_json(report_dir / "ga4_like_emaki_by_emaki.json")
     scroll_feedback_by_emaki = _load_json(report_dir / "ga4_scroll_feedback_by_emaki.json")
     scroll_feedback_by_choice = _load_json(report_dir / "ga4_scroll_feedback_by_choice.json")
+    sns_share_by_emaki = _load_json(report_dir / "ga4_sns_share_by_emaki.json")
+    sns_share_by_platform = _load_json(report_dir / "ga4_sns_share_by_platform.json")
 
     gsc_page_by_slug = _index_gsc_pages(
         gsc_pages if isinstance(gsc_pages, list) else [], strip_prefixes
@@ -216,6 +219,13 @@ def merge_report(report_dir: Path) -> dict:
         scroll_feedback_by_choice if isinstance(scroll_feedback_by_choice, list) else [],
         dim_key="customEvent:choice",
     )
+    sns_share_by_slug = _index_ga4_emaki(
+        sns_share_by_emaki if isinstance(sns_share_by_emaki, list) else []
+    )
+    sns_share_platform_counts = _index_fallback_reason(
+        sns_share_by_platform if isinstance(sns_share_by_platform, list) else [],
+        dim_key="customEvent:platform",
+    )
 
     all_slugs = sorted(
         set(gsc_page_by_slug)
@@ -225,6 +235,7 @@ def merge_report(report_dir: Path) -> dict:
         | set(scene_like_by_slug)
         | set(like_emaki_by_slug)
         | set(scroll_feedback_by_slug)
+        | set(sns_share_by_slug)
         | set(by_slug_meta or {})
     )
 
@@ -261,6 +272,7 @@ def merge_report(report_dir: Path) -> dict:
             "scene_like_events": scene_like_by_slug.get(slug, 0),
             "like_emaki_events": like_emaki_by_slug.get(slug, 0),
             "scroll_feedback_events": scroll_feedback_by_slug.get(slug, 0),
+            "sns_share_events": sns_share_by_slug.get(slug, 0),
         }
         record["insight_flags"] = _insight_flags(record, site_avg_ctr=site_avg_ctr, thresholds=thresholds)
         merged.append(record)
@@ -291,6 +303,8 @@ def merge_report(report_dir: Path) -> dict:
         "scene_like_breakdown": scene_like_by_slug,
         "scroll_feedback_breakdown": scroll_feedback_by_slug,
         "scroll_feedback_choice_breakdown": scroll_feedback_by_choice_counts,
+        "sns_share_breakdown": sns_share_by_slug,
+        "sns_share_platform_breakdown": sns_share_platform_counts,
         "rows": merged,
     }
     return payload

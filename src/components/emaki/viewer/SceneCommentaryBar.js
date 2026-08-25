@@ -250,20 +250,61 @@ const SceneCommentaryBar = ({ data, navIndex, isFullscreen = false }) => {
         data-expanded={expanded ? "true" : "false"}
       >
         <div className={styles.header}>
-          {/* 段タイトル＋解説文。タップで開閉。展開時は全文を1段落で表示し、
-              冒頭文と続きが改行なしに繋がる。プルダウンの手がかりは「…詳細をみる」のみ */}
+          {/* 段タイトル行: タイトル隣はいいね・コピー・共有のみ */}
+          <div className={styles.titleLine}>
+            <button
+              type="button"
+              className={styles.titleBtn}
+              onClick={toggleExpanded}
+              aria-expanded={expanded}
+              aria-label={
+                expanded
+                  ? t("viewer.closeDetails")
+                  : t("viewer.seeDetailsOfSection")
+              }
+            >
+              <span className={styles.title} style={{ color: accent }}>
+                {chapterTitle}
+              </span>
+            </button>
+            <div
+              className={styles.titleActions}
+              onClick={(e) => e.stopPropagation()}
+              onKeyDown={(e) => e.stopPropagation()}
+            >
+              <SceneLikeButton
+                titleen={titleen}
+                title={title}
+                chapter={current.chapter}
+                index={current.linkId}
+                variant="bar"
+              />
+              <ShareButtons
+                variant="iconCopy"
+                navIndex={current.linkId}
+                emakiId={titleen}
+                shareTitle={shareTitle}
+              />
+              <ShareButtons
+                variant="share"
+                navIndex={current.linkId}
+                emakiId={titleen}
+                shareTitle={shareTitle}
+              />
+            </div>
+          </div>
+          {/* 解説文。タップで開閉 */}
           <button
             type="button"
             className={styles.body}
             onClick={toggleExpanded}
             aria-expanded={expanded}
             aria-label={
-              expanded ? t("viewer.closeDetails") : t("viewer.seeDetailsOfSection")
+              expanded
+                ? t("viewer.closeDetails")
+                : t("viewer.seeDetailsOfSection")
             }
           >
-            <span className={styles.title} style={{ color: accent }}>
-              {chapterTitle}
-            </span>
             <span className={styles.gendaibun}>
               {hasDesc ? (
                 expanded ? (
@@ -283,23 +324,8 @@ const SceneCommentaryBar = ({ data, navIndex, isFullscreen = false }) => {
               )}
             </span>
           </button>
-          {/* シーン操作（いいね・共有）＋段一覧トグル＋閉じる: ヘッダー右側に集約 */}
-          <div className={styles.sceneActions}>
-            <SceneLikeButton
-              titleen={titleen}
-              title={title}
-              chapter={current.chapter}
-              index={current.linkId}
-              variant="bar"
-            />
-            <ShareButtons
-              variant="inline"
-              navIndex={current.linkId}
-              emakiId={titleen}
-              shareTitle={shareTitle}
-            />
-            {/* 段一覧トグル: クリックでポップオーバーを開閉（複数段の絵巻のみ）。
-                バー内に段一覧を展開せず、解説文を圧迫しない */}
+          {/* ユーティリティはバー下部（タイトル圧迫を避ける） */}
+          <div className={styles.utilityActions}>
             {hasMultipleSections && (
               <button
                 type="button"
@@ -314,7 +340,6 @@ const SceneCommentaryBar = ({ data, navIndex, isFullscreen = false }) => {
                 <FontAwesomeIcon icon={faList} />
               </button>
             )}
-            {/* 時代の年表: 解説バーからモーダル表示（メタ欄の年表から移設） */}
             {eraen && (
               <EmakiEraTimeline
                 eraen={eraen}
@@ -355,7 +380,9 @@ const SceneCommentaryBar = ({ data, navIndex, isFullscreen = false }) => {
               }}
               aria-label={t("viewer.closeCommentaryBar", {
                 defaultValue:
-                  locale === "en" ? "Close commentary bar" : "解説バーを閉じる",
+                  locale === "en"
+                    ? "Close commentary bar"
+                    : "解説バーを閉じる",
               })}
             >
               <FontAwesomeIcon icon={faXmark} />

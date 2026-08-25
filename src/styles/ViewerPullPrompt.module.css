@@ -3,17 +3,16 @@
   bottom: calc(12px + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
-  z-index: 400;
-  max-width: min(94vw, 420px);
+  z-index: 390;
+  max-width: min(92vw, 340px);
   background: rgba(255, 252, 246, 0.96);
   backdrop-filter: blur(8px);
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.16);
   padding: 0.625rem 0.75rem;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem 0.625rem;
+  gap: 0.625rem;
   animation: fadeIn 0.35s ease-out;
   transition: opacity 0.3s linear;
 }
@@ -35,20 +34,11 @@
 }
 
 .text {
-  flex: 1 1 100%;
+  flex: 1;
   font-family: var(--font-ui);
   font-size: 0.8125rem;
   color: var(--clr-text);
   line-height: 1.4;
-  margin: 0;
-}
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.4rem;
-  flex: 1;
 }
 
 .openBtn {
@@ -78,7 +68,6 @@
   line-height: 1;
   cursor: pointer;
   padding: 0.125rem 0.25rem;
-  margin-left: auto;
 }
 
 .closeBtn:hover {

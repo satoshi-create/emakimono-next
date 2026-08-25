@@ -54,7 +54,7 @@ events:
     priority: P1
 
   like_emaki:
-    source: LikeButton.js
+    source: EmakiLikeIcon.js
     params:
       - emaki_id
     priority: P2
@@ -70,6 +70,8 @@ events:
     source: ShareButtons.js
     params:
       - platform
+      - emaki_id
+      - scene_index
     priority: P2
 
   scroll_feedback:
@@ -93,3 +95,6 @@ custom_dimensions:
   - param: choice
     ga4_scope: event
     notes: scroll_feedback の選択肢。Values: smooth | laggy | hard_to_read | confusing | great.
+  - param: platform
+    ga4_scope: event
+    notes: sns_share_click の媒体。Values: copy | x | line | native. GA4 Admin 登録後に sns_share_by_platform が有効化。

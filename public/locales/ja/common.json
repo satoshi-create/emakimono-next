@@ -41,6 +41,11 @@
     "hidePictureIndex": "絵引きを閉じる",
     "like": "いいね",
     "unlike": "いいねを解除",
+    "liked": "いいね済み",
+    "likeEmaki": "この絵巻をいいね",
+    "likeScene": "この段をいいね",
+    "likeSceneShort": "この段",
+    "unlikeScene": "この段のいいねを解除",
     "goToEnd": "最後に進む",
     "goToStart": "先頭に戻る",
     "howToView": "絵巻の見方",
@@ -49,6 +54,7 @@
     "autoPlay": "自動再生",
     "copied": "コピーしました",
     "copySceneUrl": "このシーンのURLをコピー",
+    "copySceneUrlShort": "リンクをコピー",
     "enterFullscreen": "全画面で鑑賞する",
     "exitFullscreen": "全画面を閉じる",
     "viewImage": "の画像を見る",
@@ -94,8 +100,8 @@
   "scrollFeedback": {
     "buttonLabel": "スクロール体験",
     "prompt": "スクロール体験はいかがでしたか？",
-    "endPrompt": "巻末までご覧になりました。体験を教えてください",
-    "open": "回答する",
+    "endPrompt": "巻末までご覧になりました",
+    "open": "体験を教える",
     "close": "閉じる",
     "dismiss": "閉じる",
     "thanks": "ありがとうございます",
@@ -107,6 +113,14 @@
       "confusing": "操作がわかりにくい",
       "great": "とてもよい"
     }
+  },
+
+  "pullPrompt": {
+    "shareText": "このシーンのURLをコピーして共有できます",
+    "shareAction": "コピー",
+    "midFeedbackText": "スクロールの感触を1つ教えてください",
+    "midFeedbackAction": "答える",
+    "dismiss": "閉じる"
   },
 
   "legal": {

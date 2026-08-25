@@ -161,6 +161,32 @@ ga4_reports:
       value: scroll_feedback
     limit: 50
 
+  - id: sns_share_by_emaki
+    optional: true
+    requires_custom_dimension: emaki_id
+    dimensions:
+      - customEvent:emaki_id
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: sns_share_click
+    limit: 200
+
+  - id: sns_share_by_platform
+    optional: true
+    requires_custom_dimension: platform
+    dimensions:
+      - customEvent:platform
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: sns_share_click
+    limit: 50
+
 merge:
   insight_thresholds:
     low_ctr_vs_site_ratio: 0.7

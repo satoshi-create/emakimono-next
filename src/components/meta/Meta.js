@@ -56,12 +56,14 @@ const Meta = ({
       <meta property="og:locale" content={t.siteLocale} />
 
       <meta property="og:image" content={imgUrl} />
+      <meta property="og:image:alt" content={pagetitle || t.siteTitle} />
       <meta property="og:image:width" content={imgW} />
       <meta property="og:image:height" content={imgH} />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={pageDescAll} />
       <meta name="twitter:image" content={imgUrl} />
+      <meta name="twitter:image:alt" content={pagetitle || t.siteTitle} />
       {noindex && <meta name="robots" content="noindex, nofollow" />}
 
       <link rel="icon" href="/favicon.png" />
