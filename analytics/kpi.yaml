@@ -54,6 +54,7 @@ ga4_reports:
         - like_emaki
         - sns_share_click
         - scene_like
+        - scroll_feedback
     limit: 100
 
   - id: viewer_by_emaki
@@ -93,6 +94,71 @@ ga4_reports:
       field: eventName
       op: exact
       value: image_load_fallback
+    limit: 50
+
+  - id: scene_like_by_emaki
+    optional: true
+    requires_custom_dimension: emaki_id
+    dimensions:
+      - customEvent:emaki_id
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: scene_like
+    limit: 200
+
+  - id: scene_like_by_scene
+    optional: true
+    requires_custom_dimension: scene_index
+    dimensions:
+      - customEvent:scene_index
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: scene_like
+    limit: 200
+
+  - id: like_emaki_by_emaki
+    optional: true
+    requires_custom_dimension: emaki_id
+    dimensions:
+      - customEvent:emaki_id
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: like_emaki
+    limit: 200
+
+  - id: scroll_feedback_by_emaki
+    optional: true
+    requires_custom_dimension: emaki_id
+    dimensions:
+      - customEvent:emaki_id
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: scroll_feedback
+    limit: 200
+
+  - id: scroll_feedback_by_choice
+    optional: true
+    requires_custom_dimension: choice
+    dimensions:
+      - customEvent:choice
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: scroll_feedback
     limit: 50
 
 merge:

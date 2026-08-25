@@ -184,6 +184,10 @@ def merge_report(report_dir: Path) -> dict:
     viewer_by_emaki = _load_json(report_dir / "ga4_viewer_by_emaki.json")
     fallback_by_emaki = _load_json(report_dir / "ga4_fallback_by_emaki.json")
     fallback_by_reason = _load_json(report_dir / "ga4_fallback_by_reason.json")
+    scene_like_by_emaki = _load_json(report_dir / "ga4_scene_like_by_emaki.json")
+    like_emaki_by_emaki = _load_json(report_dir / "ga4_like_emaki_by_emaki.json")
+    scroll_feedback_by_emaki = _load_json(report_dir / "ga4_scroll_feedback_by_emaki.json")
+    scroll_feedback_by_choice = _load_json(report_dir / "ga4_scroll_feedback_by_choice.json")
 
     gsc_page_by_slug = _index_gsc_pages(
         gsc_pages if isinstance(gsc_pages, list) else [], strip_prefixes
@@ -199,12 +203,28 @@ def merge_report(report_dir: Path) -> dict:
     fallback_reason_counts = _index_fallback_reason(
         fallback_by_reason if isinstance(fallback_by_reason, list) else []
     )
+    scene_like_by_slug = _index_ga4_emaki(
+        scene_like_by_emaki if isinstance(scene_like_by_emaki, list) else []
+    )
+    like_emaki_by_slug = _index_ga4_emaki(
+        like_emaki_by_emaki if isinstance(like_emaki_by_emaki, list) else []
+    )
+    scroll_feedback_by_slug = _index_ga4_emaki(
+        scroll_feedback_by_emaki if isinstance(scroll_feedback_by_emaki, list) else []
+    )
+    scroll_feedback_by_choice_counts = _index_fallback_reason(
+        scroll_feedback_by_choice if isinstance(scroll_feedback_by_choice, list) else [],
+        dim_key="customEvent:choice",
+    )
 
     all_slugs = sorted(
         set(gsc_page_by_slug)
         | set(gsc_query_by_slug)
         | set(ga4_page_by_slug)
         | set(viewer_by_slug)
+        | set(scene_like_by_slug)
+        | set(like_emaki_by_slug)
+        | set(scroll_feedback_by_slug)
         | set(by_slug_meta or {})
     )
 
@@ -238,6 +258,9 @@ def merge_report(report_dir: Path) -> dict:
             "ga4_engagement_rate": ga4_page.get("engagementRate"),
             "viewer_engagement_events": viewer_by_slug.get(slug, 0),
             "image_load_fallback_events": fallback_by_slug.get(slug, 0),
+            "scene_like_events": scene_like_by_slug.get(slug, 0),
+            "like_emaki_events": like_emaki_by_slug.get(slug, 0),
+            "scroll_feedback_events": scroll_feedback_by_slug.get(slug, 0),
         }
         record["insight_flags"] = _insight_flags(record, site_avg_ctr=site_avg_ctr, thresholds=thresholds)
         merged.append(record)
@@ -264,6 +287,10 @@ def merge_report(report_dir: Path) -> dict:
         "row_count": len(merged),
         "previous_report": previous_dir.name if previous_dir else None,
         "fallback_reason_breakdown": fallback_reason_counts,
+        "like_emaki_breakdown": like_emaki_by_slug,
+        "scene_like_breakdown": scene_like_by_slug,
+        "scroll_feedback_breakdown": scroll_feedback_by_slug,
+        "scroll_feedback_choice_breakdown": scroll_feedback_by_choice_counts,
         "rows": merged,
     }
     return payload

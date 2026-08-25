@@ -92,6 +92,8 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
     merged_path = report_dir / "merged.json"
     top_findings: list[str] = []
     fallback_reason_lines: list[str] = []
+    like_lines: list[str] = []
+    feedback_lines: list[str] = []
     if merged_path.is_file():
         merged = json.loads(merged_path.read_text(encoding="utf-8"))
         flagged = [r for r in merged.get("rows", []) if r.get("insight_flags")]
@@ -112,6 +114,44 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
                 for reason, count in breakdown.items():
                     pct = round(count / total * 100, 1)
                     fallback_reason_lines.append(f"| `{reason}` | {count} | {pct}% |")
+
+        # Like 系（絵巻別）: scene_like / like_emaki のサマリ
+        scene_like_breakdown = merged.get("scene_like_breakdown") or {}
+        like_emaki_breakdown = merged.get("like_emaki_breakdown") or {}
+        scene_total = sum(scene_like_breakdown.values())
+        like_total = sum(like_emaki_breakdown.values())
+        if scene_total > 0 or like_total > 0:
+            like_lines.append(f"- **scene_like** 計 **{scene_total}** 回 / **like_emaki** 計 **{like_total}** 回")
+            top_scene = sorted(scene_like_breakdown.items(), key=lambda kv: kv[1], reverse=True)[:5]
+            if top_scene:
+                like_lines.append("\n| 絵巻 | scene_like |")
+                like_lines.append("|---|---|")
+                for slug, count in top_scene:
+                    like_lines.append(f"| `{slug}` | {count} |")
+            top_like = sorted(like_emaki_breakdown.items(), key=lambda kv: kv[1], reverse=True)[:5]
+            if top_like:
+                like_lines.append("\n| 絵巻 | like_emaki |")
+                like_lines.append("|---|---|")
+                for slug, count in top_like:
+                    like_lines.append(f"| `{slug}` | {count} |")
+
+        # Scroll feedback（choice 別・絵巻別）: scroll_feedback のサマリ
+        feedback_choice = merged.get("scroll_feedback_choice_breakdown") or {}
+        feedback_by_emaki = merged.get("scroll_feedback_breakdown") or {}
+        feedback_total = sum(feedback_choice.values())
+        if feedback_total > 0:
+            feedback_lines.append(f"- **scroll_feedback** 計 **{feedback_total}** 回")
+            if feedback_choice:
+                feedback_lines.append("\n| choice | events |")
+                feedback_lines.append("|---|---|")
+                for choice, count in feedback_choice.items():
+                    feedback_lines.append(f"| `{choice}` | {count} |")
+            top_feedback = sorted(feedback_by_emaki.items(), key=lambda kv: kv[1], reverse=True)[:5]
+            if top_feedback:
+                feedback_lines.append("\n| 絵巻 | scroll_feedback |")
+                feedback_lines.append("|---|---|")
+                for slug, count in top_feedback:
+                    feedback_lines.append(f"| `{slug}` | {count} |")
 
     below_gsc = gsc_rows < int(bootstrap.get("min_gsc_rows", 10))
     below_ga4 = ga4_sessions < int(bootstrap.get("min_ga4_sessions", 50))
@@ -156,6 +196,12 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
                 "",
             ]
         )
+
+    if like_lines:
+        lines.extend(["## Like / engagement (scene_like · like_emaki)", "", *like_lines, ""])
+
+    if feedback_lines:
+        lines.extend(["## Scroll feedback (user choice)", "", *feedback_lines, ""])
 
     lines.extend(
         [

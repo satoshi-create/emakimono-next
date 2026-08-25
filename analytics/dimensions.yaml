@@ -72,6 +72,14 @@ events:
       - platform
     priority: P2
 
+  scroll_feedback:
+    source: ScrollFeedbackPanel.js
+    params:
+      - emaki_id
+      - choice
+      - scene_index
+    priority: P2
+
 custom_dimensions:
   - param: emaki_id
     ga4_scope: event
@@ -79,3 +87,9 @@ custom_dimensions:
   - param: fallback_reason
     ga4_scope: event
     notes: "Values: priority_timeout | fullscreen_timeout. Register in GA4 Admin before fallback_by_reason works."
+  - param: scene_index
+    ga4_scope: event
+    notes: Values are numeric scene indices (0-based).
+  - param: choice
+    ga4_scope: event
+    notes: scroll_feedback の選択肢。Values: smooth | laggy | hard_to_read | confusing | great.

@@ -19,7 +19,11 @@ const PersonnameDetail = ({ person, posts, slug }) => {
 
   const tPageDesc =
     locale === "en"
-      ? `${person.id} — introduction to a person related to emaki picture scrolls. Discover the scrolls this person appears in.`
+      ? person.slug === "ononokomachi"
+        ? `Ono no Komachi — peerless beauty and model of kusōzu (the Nine Stages of Decay). Explore the Ono no Komachi kusōzu scroll and the works she appears in, browsing right to left.`
+        : `${person.id} — introduction to a person related to emaki picture scrolls. Discover the scrolls this person appears in.`
+      : person.slug === "ononokomachi"
+      ? `${person.name}（${person.ruby}）— 六歌仙の一の絶世の美女で、「小野小町九相図」のモデルとされる歌人。小野小町九相図（Wellcome コレクション）を中心に、本人が登場する絵巻を縦書き・横スクロールで楽しめます。`
       : `${person.name}（${person.ruby}）— 絵巻物に関連する人物の紹介ページ。この人物が登場する絵巻を、縦書き・横スクロールで楽しめます。`;
 
   return (

@@ -16,6 +16,8 @@ ga4:
   custom_event_dimensions:
     emaki_id: customEvent:emaki_id
     fallback_reason: customEvent:fallback_reason
+    scene_index: customEvent:scene_index
+    choice: customEvent:choice
 
 content:
   # 本番正本 image-metadata-cache を使用（local-data/ は gitignore 済みで CI に存在しない）
