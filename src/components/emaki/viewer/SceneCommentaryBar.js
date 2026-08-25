@@ -250,7 +250,7 @@ const SceneCommentaryBar = ({ data, navIndex, isFullscreen = false }) => {
         data-expanded={expanded ? "true" : "false"}
       >
         <div className={styles.header}>
-          {/* 段タイトル行: タイトル隣はいいね・コピー・共有のみ */}
+          {/* 段タイトル行: タイトル隣はいいね・共有のみ */}
           <div className={styles.titleLine}>
             <button
               type="button"
@@ -278,12 +278,6 @@ const SceneCommentaryBar = ({ data, navIndex, isFullscreen = false }) => {
                 chapter={current.chapter}
                 index={current.linkId}
                 variant="bar"
-              />
-              <ShareButtons
-                variant="iconCopy"
-                navIndex={current.linkId}
-                emakiId={titleen}
-                shareTitle={shareTitle}
               />
               <ShareButtons
                 variant="share"

@@ -1,7 +1,5 @@
 import EmakiConteiner from "@/components/emaki/layout/EmakiConteiner";
 import EmakiMetadataSection from "@/components/emaki/layout/EmakiMetadataSection";
-import EmakiLikeIcon from "@/components/emaki/metadata/EmakiLikeIcon";
-import ShareButtons from "@/components/emaki/viewer/ShareButtons";
 import RecommendEmaki from "@/components/emaki/ranking/RecommendEmaki";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
 import Footer from "@/components/layout/Footer";
@@ -104,37 +102,31 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
         <div className={styles.container}>
           <div className={styles.metadataA}>
             <div className={styles.titleRow}>
-              <h3 className={styles.title}>
-                {locale === "ja" ? title : titleen} {locale === "ja" && edition}
-              </h3>
-              <div className={styles.titleActions}>
-                <EmakiLikeIcon
-                  title={title}
-                  titleen={titleen}
-                  edition={edition}
-                />
-                <ShareButtons
-                  variant="share"
-                  navIndex={0}
-                  emakiId={titleen}
-                  shareTitle={
-                    locale === "en"
-                      ? titleen || title
-                      : `${title ?? ""}${edition ? ` ${edition}` : ""}`.trim()
-                  }
-                />
+              <div className={styles.titleLeading}>
+                <h3 className={styles.title}>
+                  {locale === "ja" ? title : titleen}{" "}
+                  {locale === "ja" && edition}
+                </h3>
+                {rankInfo && (
+                  <Link href="/ranking">
+                    <a className={styles.rankTag}>
+                      <FontAwesomeIcon
+                        icon={faTrophy}
+                        className={styles.rankIcon}
+                      />
+                      {locale === "en"
+                        ? `#${rankInfo.rank}`
+                        : `${rankInfo.rank}位`}
+                      <span className={styles.rankDivider}>|</span>
+                      <FontAwesomeIcon
+                        icon={faEye}
+                        className={styles.rankViewIcon}
+                      />
+                      {Number(rankInfo.pageView).toLocaleString()}
+                    </a>
+                  </Link>
+                )}
               </div>
-              {rankInfo && (
-                <Link href="/ranking">
-                  <a className={styles.rankTag}>
-                    <FontAwesomeIcon icon={faTrophy} className={styles.rankIcon} />
-                    {locale === "en" ? `#${rankInfo.rank}` : `${rankInfo.rank}位`}
-                    <span className={styles.rankDivider}>|</span>
-                    <FontAwesomeIcon icon={faEye} className={styles.rankViewIcon} />
-                    {Number(rankInfo.pageView).toLocaleString()}
-                  </a>
-                </Link>
-              )}
             </div>
             {author && (
               <Link href={`/author/${authoren}`}>

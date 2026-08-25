@@ -36,9 +36,10 @@ npm run db:push
 
 ## API
 
-| Method | Path |  body |
-|--------|------|-------|
+| Method | Path | body |
+|--------|------|------|
 | POST | `/api/likes/emaki` | `{ emakiId }` |
+| GET | `/api/likes/scene?emakiId=...` | - |
 | POST | `/api/likes/scene` | `{ emakiId, sceneIndex, action: "like" \| "unlike" }` |
 | POST | `/api/feedback/scroll` | `{ emakiId, choice, sceneIndex, scrollRatio?, locale? }` |
 

@@ -17,6 +17,17 @@ async function postJson(url, body) {
   return res.json().catch(() => ({}));
 }
 
+async function getJson(url) {
+  const res = await fetch(url);
+
+  if (!res.ok && res.status !== 503) {
+    const data = await res.json().catch(() => ({}));
+    throw new Error(data.message || `Request failed (${res.status})`);
+  }
+
+  return res.json().catch(() => ({}));
+}
+
 export async function postEmakiLike(emakiId) {
   try {
     return await postJson("/api/likes/emaki", { emakiId });
@@ -35,6 +46,17 @@ export async function postSceneLike({ emakiId, sceneIndex, action }) {
     });
   } catch (error) {
     console.warn("postSceneLike:", error.message);
+    return null;
+  }
+}
+
+export async function fetchSceneLikeCounts(emakiId) {
+  try {
+    return await getJson(
+      `/api/likes/scene?emakiId=${encodeURIComponent(emakiId)}`
+    );
+  } catch (error) {
+    console.warn("fetchSceneLikeCounts:", error.message);
     return null;
   }
 }

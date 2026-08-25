@@ -1,6 +1,5 @@
 import LazyImage from "@/components/emaki/viewer/LazyImage";
 import SceneLikeButton from "@/components/emaki/viewer/SceneLikeButton";
-import ShareButtons from "@/components/emaki/viewer/ShareButtons";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/OverlayEkotoba.module.css";
 import { ChaptersTitle } from "@/utils/func";
@@ -28,11 +27,6 @@ const OverlayEkotoba = ({
   const { scrollDialog, orientation, handleToId } = useContext(AppContext);
   const { locale } = useRouter();
   const { title, titleen } = data;
-
-  const shareTitle =
-    locale === "en"
-      ? titleen || title
-      : `${title ?? ""}`.trim();
 
   return (
     <div
@@ -67,20 +61,6 @@ const OverlayEkotoba = ({
               chapter={chapter}
               index={index}
               variant="overlay"
-            />
-            <ShareButtons
-              variant="iconCopy"
-              tone="light"
-              navIndex={index}
-              emakiId={titleen}
-              shareTitle={shareTitle}
-            />
-            <ShareButtons
-              variant="share"
-              tone="light"
-              navIndex={index}
-              emakiId={titleen}
-              shareTitle={shareTitle}
             />
           </div>
         </div>

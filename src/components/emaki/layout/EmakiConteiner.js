@@ -17,6 +17,7 @@ import PositionIndicator from "@/components/emaki/viewer/PositionIndicator";
 import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
 import WheelScrollIndicator from "@/components/emaki/viewer/WheelScrollIndicator";
 import { AppContext } from "@/context/AppContext";
+import { SceneLikeCountsProvider } from "@/context/SceneLikeCountsContext";
 import { assignUniqueIndex } from "@/utils/emakiItemIndexer";
 import useEmakiAutoPlay from "@/hooks/emaki/useEmakiAutoPlay";
 import useEmakiPalmDrag from "@/hooks/emaki/useEmakiPalmDrag";
@@ -493,32 +494,33 @@ const EmakiContainer = ({
   const showCommentaryBar = Boolean(scroll && (kotobagaki || sceneText));
 
   return (
-    <div
-      className={`${
-        orientation === "landscape" && scroll ? styles.land : styles.prt
-      }`}
-    >
+    <SceneLikeCountsProvider emakiId={emakiId}>
       <div
-        className={`js-scrollable entry-container ${
-          showCommentaryBar ? commentaryStyles.hasCommentaryBar : ""
+        className={`${
+          orientation === "landscape" && scroll ? styles.land : styles.prt
         }`}
-        style={{
-          // 角丸クリップ: 通常表示時のみ（全画面時は overflow で UI はみ出しを防止）
-          borderRadius:
-            orientation === "landscape" &&
-            scroll &&
-            toggleFullscreen === false &&
-            "12px",
-          overflow:
-            orientation === "landscape" && scroll && "hidden",
-          width: toggleFullscreen ? "100%" : undefined,
-          height: toggleFullscreen ? "100%" : undefined,
-          position: "relative", // 子要素の絶対配置の基準点
-          // ボトムコメントバーは block 要素として article の直後に配置する
-          // （entry-container を flex にすると article が min-content 幅に
-          //  伸びて横スクロールが壊れるため flex は使わない）
-        }}
       >
+        <div
+          className={`js-scrollable entry-container ${
+            showCommentaryBar ? commentaryStyles.hasCommentaryBar : ""
+          }`}
+          style={{
+            // 角丸クリップ: 通常表示時のみ（全画面時は overflow で UI はみ出しを防止）
+            borderRadius:
+              orientation === "landscape" &&
+              scroll &&
+              toggleFullscreen === false &&
+              "12px",
+            overflow:
+              orientation === "landscape" && scroll && "hidden",
+            width: toggleFullscreen ? "100%" : undefined,
+            height: toggleFullscreen ? "100%" : undefined,
+            position: "relative", // 子要素の絶対配置の基準点
+            // ボトムコメントバーは block 要素として article の直後に配置する
+            // （entry-container を flex にすると article が min-content 幅に
+            //  伸びて横スクロールが壊れるため flex は使わない）
+          }}
+        >
         {scroll && <FullScreen isUIVisible={isUIVisible} />}
         {scroll && (
           <WheelScrollIndicator
@@ -669,8 +671,9 @@ const EmakiContainer = ({
             isFullscreen={toggleFullscreen}
           />
         )}
+        </div>
       </div>
-    </div>
+    </SceneLikeCountsProvider>
   );
 };
 

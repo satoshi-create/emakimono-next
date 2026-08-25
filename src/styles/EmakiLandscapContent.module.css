@@ -210,18 +210,19 @@
   width: 100%;
 }
 
-.titleActions {
+/* 左: タイトル + ランキング */
+.titleLeading {
   display: inline-flex;
   align-items: center;
-  gap: 0.15rem;
-  flex-shrink: 0;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  min-width: 0;
 }
 
 .authorLink {
   cursor: pointer;
   transition: var(--transition);
-  width: 100%;
-  flex-basis: 100%;
+  min-width: 0;
 }
 
 .authorLink:hover {

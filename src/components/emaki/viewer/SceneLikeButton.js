@@ -1,14 +1,16 @@
 import * as gtag from "@/libs/api/gtag";
-import { postSceneLike } from "@/libs/api/ugcApi";
+import { useSceneLikeCounts } from "@/context/SceneLikeCountsContext";
 import styles from "@/styles/SceneLikeButton.module.css";
-import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
+import { FaThumbsUp } from "react-icons/fa";
+import { FiThumbsUp } from "react-icons/fi";
 
 /**
  * シーン別いいね（アイコンのみ）
  * variant: "overlay"（縦書き段タイトル） | "bar"（解説バー）
+ * 未押下: 縁のみ（outline）／押下後: 塗りつぶし
+ * 押下状態・件数は Context 共有（縦書きとバーで同期）
  */
 const SceneLikeButton = ({
   titleen,
@@ -17,51 +19,36 @@ const SceneLikeButton = ({
   index,
   variant = "overlay",
 }) => {
-  const [isLiked, setIsLiked] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const { t } = useTranslation("common");
+  const { getCount, isLiked, hydrateLiked, toggleLike } = useSceneLikeCounts();
 
-  const storageKey = `scene_like_${titleen}_${index}`;
+  const liked = isLiked(index);
+  const count = getCount(index);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem(storageKey);
-      if (saved === "true") {
-        setIsLiked(true);
-      }
-    }
-  }, [storageKey]);
+    hydrateLiked(index);
+  }, [hydrateLiked, index]);
 
-  const handleClick = (e) => {
+  const handleClick = async (e) => {
     e.stopPropagation();
-    const newLikedState = !isLiked;
-    setIsLiked(newLikedState);
 
-    if (newLikedState) {
+    const result = await toggleLike(index);
+    if (!result) return;
+
+    if (result.liked) {
       setIsAnimating(true);
     }
 
-    if (typeof window !== "undefined") {
-      if (newLikedState) {
-        localStorage.setItem(storageKey, "true");
-      } else {
-        localStorage.removeItem(storageKey);
-      }
+    if (result.ok) {
+      gtag.event("scene_like", {
+        action: result.liked ? "like" : "unlike",
+        emaki_title: title,
+        emaki_id: titleen,
+        scene_index: index,
+        scene_chapter: chapter,
+      });
     }
-
-    postSceneLike({
-      emakiId: titleen,
-      sceneIndex: index,
-      action: newLikedState ? "like" : "unlike",
-    });
-
-    gtag.event("scene_like", {
-      action: newLikedState ? "like" : "unlike",
-      emaki_title: title,
-      emaki_id: titleen,
-      scene_index: index,
-      scene_chapter: chapter,
-    });
   };
 
   const handleAnimationEnd = () => {
@@ -69,24 +56,48 @@ const SceneLikeButton = ({
   };
 
   const isBar = variant === "bar";
-  const label = isLiked ? t("viewer.unlikeScene") : t("viewer.likeScene");
+  const label = liked ? t("viewer.unlikeScene") : t("viewer.likeScene");
+  const ariaLabel = count > 0 ? `${label} (${count})` : label;
+  // Fi = strokeのみ（FA regular は袖が塗りつぶしのため使わない）
+  const ThumbIcon = liked ? FaThumbsUp : FiThumbsUp;
 
   return (
-    <button
-      type="button"
-      onClick={handleClick}
-      className={`${isBar ? styles.barButton : styles.overlayButton} ${
-        isLiked ? (isBar ? styles.barLiked : styles.overlayLiked) : ""
+    <span
+      className={`${
+        isBar ? styles.barLikeGroup : styles.overlayLikeGroup
+      } ${
+        count > 0 ? (isBar ? styles.barFramed : styles.overlayFramed) : ""
+      } ${
+        count > 0 && liked
+          ? isBar
+            ? styles.barLikedGroup
+            : styles.overlayLikedGroup
+          : ""
       }`}
-      title={label}
-      aria-label={label}
+      onClick={(e) => e.stopPropagation()}
+      onKeyDown={(e) => e.stopPropagation()}
     >
-      <FontAwesomeIcon
-        icon={faThumbsUp}
-        className={`${styles.icon} ${isAnimating ? styles.animating : ""}`}
-        onAnimationEnd={handleAnimationEnd}
-      />
-    </button>
+      <button
+        type="button"
+        onClick={handleClick}
+        className={`${isBar ? styles.barButton : styles.overlayButton} ${
+          liked ? (isBar ? styles.barLiked : styles.overlayLiked) : ""
+        }`}
+        title={ariaLabel}
+        aria-label={ariaLabel}
+      >
+        <ThumbIcon
+          className={`${styles.icon} ${isAnimating ? styles.animating : ""}`}
+          aria-hidden
+          onAnimationEnd={handleAnimationEnd}
+        />
+      </button>
+      {count > 0 && (
+        <span className={isBar ? styles.barCount : styles.overlayCount}>
+          {count.toLocaleString()}
+        </span>
+      )}
+    </span>
   );
 };
 

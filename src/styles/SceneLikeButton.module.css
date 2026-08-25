@@ -23,7 +23,52 @@
   background: rgba(0, 0, 0, 0.85);
 }
 
-/* 解説バー用: アイコンのみ */
+/* 解説バー: icon + 回数を横並び（枠は回数あり時のみ） */
+.barLikeGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  flex: 0 0 auto;
+  background: transparent;
+  transition: border-color 0.2s ease;
+}
+
+.barFramed {
+  padding: 0.1rem 0.35rem 0.1rem 0.15rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.barLikedGroup {
+  border-color: rgba(255, 140, 119, 0.45);
+}
+
+.barLikedGroup .barCount {
+  color: var(--clr-accent);
+}
+
+/* 縦書き段タイトル: icon + 回数を横並び（枠は回数あり時のみ） */
+.overlayLikeGroup {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.12em;
+  background: transparent;
+  transition: border-color 0.2s ease;
+}
+
+.overlayFramed {
+  padding: 0.12em 0.32em 0.12em 0.14em;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.overlayLikedGroup {
+  border-color: rgba(255, 140, 119, 0.55);
+}
+
+/* 解説バー用: outline アイコン（円枠なし） */
 .barButton {
   display: inline-flex;
   align-items: center;
@@ -53,25 +98,20 @@
   color: var(--clr-accent);
 }
 
-/* 縦書き段タイトル下部用 */
+/* 縦書き段タイトル下部用（outline・背景なし、親 font-size に追従） */
 .overlayButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
+  width: 1.15em;
+  height: 1.15em;
   padding: 0;
   border: none;
   background: transparent;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.95);
   cursor: pointer;
+  font-size: inherit;
   transition: color 0.2s ease, transform 0.2s ease;
-}
-@media (pointer: coarse) {
-  .overlayButton {
-    width: 28px;
-    height: 28px;
-  }
 }
 .overlayButton:hover {
   color: var(--clr-accent);
@@ -82,9 +122,29 @@
   color: var(--clr-accent);
 }
 
+.barCount {
+  min-width: 1ch;
+  color: var(--clr-text-muted, #666);
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.overlayCount {
+  min-width: 1ch;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 0.65em;
+  line-height: 1;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.overlayLikedGroup .overlayCount {
+  color: var(--clr-accent);
+}
+
 .icon {
-  width: 0.9em;
-  height: 0.9em;
+  width: 1em;
+  height: 1em;
   transition: var(--transition);
 }
 

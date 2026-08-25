@@ -15,7 +15,7 @@
   gap: 0.1rem;
 }
 
-/* タイトル + ランキングを横並びにしつつグリッド位置を維持 */
+/* 1行目: タイトル + ランキング */
 .titleRow {
   display: flex;
   align-items: center;
@@ -26,12 +26,14 @@
   min-width: 0;
 }
 
-.titleActions {
+.titleLeading {
   display: inline-flex;
   align-items: center;
-  gap: 0.15rem;
-  flex-shrink: 0;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  min-width: 0;
 }
+
 
 /* ランキング: 順位 + 閲覧数をタイトル横に表示 */
 .rankTag {
@@ -126,9 +128,10 @@
 
 .authorLink {
   cursor: pointer;
+  transition: var(--transition);
+  min-width: 0;
   grid-row: 2;
   grid-column: 1;
-  transition: var(--transition);
 }
 
 .authorLink:hover {
@@ -180,11 +183,6 @@
     grid-column: 1;
     grid-row: 1;
     flex-wrap: wrap;
-  }
-
-  .authorLink {
-    grid-row: 2;
-    grid-column: 1;
   }
 
   .actionGroup {

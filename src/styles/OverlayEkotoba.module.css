@@ -41,7 +41,7 @@
   overflow: visible;
 }
 
-/* 縦書きタイトルの直下にアイコンを縦並び（余白は詰めてまとまりを出す） */
+/* 縦書きタイトルの直下にアイコン（フォントサイズに追従） */
 .chapterActions {
   writing-mode: horizontal-tb;
   display: flex;
@@ -51,36 +51,44 @@
   gap: 0;
   margin-top: 0.15rem;
   flex-shrink: 0;
+  font-size: 1em;
 }
-/* SP: タップ面は確保しつつ見た目の隙間を抑える */
 .chapterActions :global(button) {
-  width: 26px;
-  height: 26px;
-  min-width: 26px;
-  min-height: 26px;
+  width: 1.15em;
+  height: 1.15em;
+  min-width: 1.15em;
+  min-height: 1.15em;
   padding: 0;
+  font-size: 1em;
 }
+.chapterActions :global(button svg) {
+  width: 1em;
+  height: 1em;
+}
+/* SP: タップ面の下限を確保 */
 @media (pointer: coarse) {
   .chapterActions {
     gap: 0;
     margin-top: 0.1rem;
   }
   .chapterActions :global(button) {
-    width: 28px;
-    height: 28px;
-    min-width: 28px;
-    min-height: 28px;
+    width: max(1.15em, 28px);
+    height: max(1.15em, 28px);
+    min-width: max(1.15em, 28px);
+    min-height: max(1.15em, 28px);
   }
 }
 
-/* ポートレート（縦向き）用の余白 */
+/* ポートレート（縦向き）用の余白・文字サイズ（アイコンも継承） */
 .chapterboxPrt {
   padding: 0.5rem 0.4rem 0.45rem;
+  font-size: clamp(0.75rem, 0.5rem + 1vw, 1rem);
 }
 
-/* ランドスケープ（横向き）用の余白 */
+/* ランドスケープ（横向き）用の余白・文字サイズ（アイコンも継承） */
 .chapterboxLand {
   padding: 0.45rem 0.4rem 0.4rem;
+  font-size: clamp(0.875rem, 0.7rem + 0.8vw, 1.25rem);
 }
 
 /* タブレット以上 */
@@ -91,10 +99,12 @@
 
   .chapterboxPrt {
     padding: 0.6rem 0.5rem 0.5rem;
+    font-size: clamp(0.875rem, 0.6rem + 1vw, 1.25rem);
   }
 
   .chapterboxLand {
     padding: 0.55rem 0.5rem 0.45rem;
+    font-size: clamp(1rem, 0.8rem + 1vw, 1.5rem);
   }
 }
 
@@ -110,6 +120,14 @@
 
   .chapterboxLand {
     padding: 0.65rem 0.6rem 0.5rem;
+    font-size: var(--title-size);
+  }
+
+  .chapterActions :global(button) {
+    width: 0.8em;
+    height: 0.8em;
+    min-width: 0.8em;
+    min-height: 0.8em;
   }
 }
 
@@ -132,32 +150,14 @@
   writing-mode: vertical-lr;
 }
 
-/* ポートレート（縦向き・スマホ）用 */
+/* ポートレート（縦向き・スマホ）用 — サイズは chapterbox から継承 */
 .chapterPrt {
-  font-size: clamp(0.75rem, 0.5rem + 1vw, 1rem);
+  font-size: 1em;
 }
 
 /* ランドスケープ（横向き・PC/タブレット）用 */
 .chapterLand {
-  font-size: clamp(0.875rem, 0.7rem + 0.8vw, 1.25rem);
-}
-
-/* タブレット以上 */
-@media (min-width: 768px) {
-  .chapterPrt {
-    font-size: clamp(0.875rem, 0.6rem + 1vw, 1.25rem);
-  }
-
-  .chapterLand {
-    font-size: clamp(1rem, 0.8rem + 1vw, 1.5rem);
-  }
-}
-
-/* デスクトップ */
-@media (min-width: 1024px) {
-  .chapterLand {
-    font-size: var(--title-size);
-  }
+  font-size: 1em;
 }
 
 /* ===========================
