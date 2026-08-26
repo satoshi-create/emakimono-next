@@ -1,128 +1,190 @@
-# Figma Slice Export Manual
+# Scroll Slice Export Manual（Figma 非依存）
 
-本書は、絵巻物デジタルアーカイブ制作において、高精細な絵巻パノラマ原画をFigmaに取り込み、セクション（段）ごとに分割して書き出したうえで、**ビューアー用アセット（`_01-1080.jpg` 等）と `scroll_config.yaml` 骨格を Python で自動生成する**標準作業手順です。
+高精細な絵巻パノラマ原画を **コードでトリム／段切り** し、ラフ切片（`images/_raw/`）を経てビューアー用アセット（`_01-1080.jpg` 等）と `scroll_config.yaml` 骨格を生成する標準手順です。
 
-Figma のメモリ制限によるボケを避けるため、取り込みにはプラグインを使います。**高さ統一・色調補正・1MB 圧縮・連番リネームは Python（`process_figma_slices.py`）側**で行います。
+**推奨経路は Figma 不要**です。旧 Figma 手順は末尾のレガシー節を参照。
 
----
-
-## 1. ワークフロー概要と使用ツール
-
-
-| ステップ | 使用機能 / ツール | 主な目的・作業内容 | 担当 |
-| -------- | ----------------- | ------------------ | ---- |
-| **事前準備** | 設計（段構成表） | 全セクションの境界を決定。`sources/scenes-summary.csv` に落とす | 人間 |
-| **Step 1** | **Insert Big Image** | Figma の自動ダウンサンプリングを回避して原画を取り込み | 人間 |
-| **Step 2** | Figma 標準ツール | 余計な余白・ノドのトリム（高さはおおよそで可） | 人間 |
-| **Step 3** | スライスツール（`S`） | 絵柄を切断しない境界でセクション枠を配置 | 人間 |
-| **Step 4** | Figma Export | スライスをラフな PNG/JPG として書き出し（任意ファイル名可） | 人間 |
-| **Step 4.5** | **`generate_contact_sheet.py`** | Brightness × Sharpen 比較シートで補正値を目視決定 | 人間 / Agent |
-| **Step 5** | **`process_figma_slices.py`** | 1080px・補正・1MB 未満 JPEG・`_NN-1080.jpg`・YAML 骨格 | Agent / 人間 |
-| **Step 6** | preflight → sync | 上流ゲート後に Cloudinary sync（別ドキュメント） | Agent |
-
-
-### 旧フローとの差分
-
-以前は Figma 上で Filter / Rename It / TinyImage Compressor まで行っていました。現在は **トリム＋スライス＋ラフ書き出しまでが Figma**、以降はスクリプトです。
-
-| 旧 Step（廃止・任意化） | 代替 |
-|-------------------------|------|
-| 高さ 1080px を Figma で厳密指定 | `process_figma_slices.py`（LANCZOS） |
-| Fill Exposure + Filter Sharpen | Brightness 1.05 + UnsharpMask |
-| Rename It（`_%N-1080`） | `_01-1080.jpg` 連番をスクリプトが付与 |
-| TinyImage Compressor（JPG 90%・1MB） | JPEG `quality` 自動低下で 1MB 保証 |
+中間正本: `scrolls/{scroll_id}/sources/geometry.yaml`（trim・cuts・status）。
 
 ---
 
+## 1. ワークフロー概要
 
 
-## 2. 詳細手順ガイド
+| ステップ | ツール | 目的 | 担当 |
+| -------- | ------ | ---- | ---- |
+| **事前** | 原画配置 | `sources/panorama.jpg` または `sources/tiles/*` | 人間 |
+| **Step A** | `scroll_slice_tool.py propose` | 結合・余白候補・カット候補 → `geometry.yaml`（draft） | Agent / 人間 |
+| **Step B** | `preview` または `review` | トリム／セクション境界の目視・微調整 → `status: reviewed` | **人間** |
+| **Step C** | `scroll_slice_tool.py export` | `images/_raw/slice_NN.jpg` へ切り出し | Agent / 人間 |
+| **Step 4.5** | `generate_contact_sheet.py` | Brightness × Sharpen 比較 | 人間 / Agent |
+| **Step 5** | `process_figma_slices.py` | 1080px・補正・1MB 未満 JPEG・YAML 骨格 | Agent / 人間 |
+| **Step 6** | preflight → sync | 上流ゲート後に Cloudinary sync | Agent |
 
 
+人間の本業は **Step B（境界の正しさ）** と解説文・本番許可です。
 
-### 【事前準備】セクション設計（段構成の確定）
+---
 
-- 絵巻全体の物語展開に合わせて、何枚の画像に分割するか設計します。
-- 妖怪の胴体、伸ばした尾、黒雲の筋など、重要なモチーフが中途半端に途切れない位置を境界とします。
-- 確定後は `scrolls/{scroll_id}/sources/scenes-summary.csv` に `range_start` / `range_end` を記入（推奨）。CSV が無い場合、スクリプトは **1 画像 = 1 段** の骨格を作ります。
+## 2. `geometry.yaml` スキーマ
 
+```yaml
+version: 1
+status: draft          # draft | reviewed（export は reviewed 推奨）
+order: rtl             # rtl: _01 = 画像右端（巻頭）。ltr も可
+panorama: sources/panorama.jpg
+# tiles:                 # 巻頭→巻末の閲覧順（NDL なら番号昇順）
+#   - sources/tiles/0005_0000.jpg
+#   - sources/tiles/0006_0000.jpg
+# stitch: horizontal-rtl # 既定。リスト先頭（巻頭）をキャンバス右へ貼る
+# stitch: horizontal     # リスト先頭を左へ貼る（LTR）
+# tile_overlaps:         # 閲覧順の隣接タイル間の重複幅(px)。結合時に除去
+#   - 280                  # tiles[0]–tiles[1]
+#   - 300                  # tiles[1]–tiles[2]
+# tile_y_offsets:        # 同ペアの縦ずれ。+ で paste 右側タイルを下へ
+#   - 0
+#   - -12
+trim:
+  x: 120
+  y: 40
+  width: 18000
+  height: 2100
+cuts:                  # パノラマ絶対 X。trim 内・昇順。区間境界
+  - 2500
+  - 4800
+notes: ""
+```
 
+- `cuts` が空 → トリム全体が 1 切片
+- セグメント数 = `len(cuts) + 1`
+- 目視後は必ず `status: reviewed`（CLI `export` は未 reviewed だと `--allow-draft` が必要）
 
-### Step 1: Insert Big Image による高画質取り込み
+---
 
-1. Figma 上部ツールバーのリソースアイコン（`Shift + I`）から「Plugins」タブを開き、**Insert Big Image** を起動します。
-2. 原画ファイルを指定して読み込みます。プラグインが自動的に画像を分割・結合してキャンバス上に配置するため、Figma 特有のダウンサンプリング（ぼやけ）を回避してオリジナル精細度を保持できます。
+## 3. 詳細手順
 
+### 事前: 原画の配置
 
+どちらか一方:
 
-### Step 2: 余白トリム（高さは厳密でなくてよい）
+1. **単一パノラマ** — `scrolls/{scroll_id}/sources/panorama.jpg`（PNG/WebP/TIFF 可。パスは YAML で上書き可）
+2. **タイル** — `sources/tiles/` に横並びスキャンを置く（ファイル名昇順 ＝ 巻頭→巻末）。`propose` が既定 `horizontal-rtl` で結合し、**右＝巻頭**のパノラマを作る
+3. **ページ間重複・上下ずれ（NDL 等）** — `tile_overlaps` / `tile_y_offsets`。preview の**緑線**が接合位置。横ドラッグ＝重複、縦ドラッグまたは **接合 ↑↓** で上下。`propose --estimate-overlaps` が初期値を推定
 
-1. 原画の余白や書籍のノド部分の影など、不要な領域をトリミングします。
-2. 高さはビューアー規格の **おおよそ 1080px 前後** で構いません。最終的な高さ統一は Step 5 のスクリプトが行います。
-3. （任意）Fill の露出調整は Figma で軽く触ってもよいですが、必須ではありません。
+向きを変え直すとき（既存 panorama を作り直す）:
 
+```powershell
+py -3.14 scripts/scroll_slice_tool.py propose scrolls/{scroll_id}/ --restitch --estimate-overlaps
+# 手動で overlap / y を直したあと再結合
+py -3.14 scripts/scroll_slice_tool.py propose scrolls/{scroll_id}/ --restitch --keep-overlaps --keep-cuts
+```
 
-
-### Step 3: スライス機能（S）による切り出し
-
-1. キーボードの `S` を押してスライスツールを起動します。
-2. 絵巻の右端（巻頭・第1段）から左端（巻末）に向かって、各セクションの切り出し枠をドラッグして作成します。
-3. 横幅は妖怪や雲が切れないよう自然な背景地に合わせて調整します（目安: 1200px〜1800px 相当）。
-4. スライス名は任意で構いません（連番リネームはスクリプト側）。
-
-
-
-### Step 4: ラフ書き出し
-
-1. すべてのスライスを選択し、Figma の Export で **PNG または JPG** を書き出します。
-2. 出力先は次のどちらかにします（**`images/` 直下には置かない**）:
-   - `scrolls/{scroll_id}/images/_raw/`
-   - 任意の一時フォルダ（後で `--input-dir` に渡す）
-3. この時点では 1MB 超過・非連番名・高さ不一致があって構いません。
-
-
-
-### Step 4.5: 補正パラメータのコンタクトシート（推奨）
-
-絵巻ごとに紙焼けや墨の濃淡が異なるため、本番 batch の前に代表1枚で Brightness × UnsharpMask を比較します。
+### Step A: 候補生成
 
 ```powershell
 $env:PYTHONIOENCODING = "utf-8"
+py -3.14 -m pip install -r scripts/requirements-scroll.txt
+
+py -3.14 scripts/scroll_slice_tool.py propose scrolls/{scroll_id}/
+# 段の目安幅を変える（高さに対するアスペクト、既定 1.4 ≒ 1500px @1080h）
+py -3.14 scripts/scroll_slice_tool.py propose scrolls/{scroll_id}/ --target-aspect 1.5
+```
+
+### Step B: 目視（どちらか）
+
+**B-1. 静的プレビュー（最短）**
+
+```powershell
+py -3.14 scripts/scroll_slice_tool.py preview scrolls/{scroll_id}/
+# → sources/geometry_preview.jpg を OS の画像ビューアで確認
+# 座標を直す場合は geometry.yaml を編集して preview 再実行
+```
+
+**B-2. ローカル確認 UI（推奨）**
+
+```powershell
+py -3.14 scripts/scroll_slice_tool.py review scrolls/{scroll_id}/
+# ブラウザ http://127.0.0.1:8765/
+# 赤線ドラッグ / ダブルクリックで cut 追加 / Mark reviewed + save
+```
+
+確認の観点:
+
+- 余白・ノド・結合継ぎ目が過剰に残っていないか
+- 妖怪・雲・道具が中途半端に切れていないか
+
+### Step C: `_raw` 書き出し
+
+```powershell
+py -3.14 scripts/scroll_slice_tool.py export scrolls/{scroll_id}/ --force
+```
+
+### Step 4.5〜6
+
+以降は従来どおり:
+
+```powershell
 py -3.14 scripts/generate_contact_sheet.py scrolls/{scroll_id}/
 
-# サンプルやマトリクスを明示
-py -3.14 scripts/generate_contact_sheet.py scrolls/{scroll_id}/ `
-  --input-file scrolls/{scroll_id}/images/_raw/slice_03.png `
-  --brightness 1.00,1.05,1.10 `
-  --sharpen 0,120,150
-```
-
-- 出力: `scrolls/{scroll_id}/images/_raw/contact_sheet.jpg`
-- 上段: フル幅縮小比較 / 下段: 中央等倍クロップ（墨線・顔の確認用）
-- 本番既定（Brightness `1.05` / Sharpen `130%`）のセルは赤枠 `*` で強調
-- `contact_sheet.jpg` / `preview.jpg` は Step 5 の入力から自動除外される
-
-
-
-### Step 5: `process_figma_slices.py`（必須）
-
-依存:
-
-```powershell
-py -3.14 -m pip install -r scripts/requirements-scroll.txt
-```
-
-実行例（詞書なし・解説バーあり）:
-
-```powershell
-$env:PYTHONIOENCODING = "utf-8"
 py -3.14 scripts/process_figma_slices.py scrolls/{scroll_id}/ `
   --input-dir scrolls/{scroll_id}/images/_raw `
-  --scene-text `
-  --force
+  --scene-text --force
+
+py -3.14 scripts/normalize_scroll_images.py scrolls/{scroll_id}/ --dry-run
+py -3.14 scripts/preflight_upstream.py scrolls/{scroll_id}/ --skip-similarity
 ```
 
-コンタクトシートで決めた値を渡す例:
+詳細オプションは従来の Step 4.5 / 5 節（下記レガシーと共通）を参照。
+
+---
+
+## 4. 人間 / Agent の分担
+
+
+| 人間 | Agent |
+|------|-------|
+| 原画配置、境界の目視・`reviewed`、補正 B/S、解説文、本番 OK | `propose` / `preview` / `export` / `process_*` / preflight / dry-run |
+| `review` UI での cut 微調整 | 結果報告（commit は指示時のみ） |
+
+
+---
+
+## 5. チェックリスト
+
+- [ ] `sources/panorama.jpg` または `tiles/` があるか
+- [ ] `propose` で `geometry.yaml` ができたか
+- [ ] preview または review で trim/cuts を確認し `status: reviewed` か
+- [ ] `export` で `images/_raw/slice_*.jpg` があるか（`images/` 直下と混在させない）
+- [ ] contact sheet で B/S を決めたか
+- [ ] `process_figma_slices.py` で `_NN-1080.jpg`・1MB 以下か
+- [ ] YAML の global index と枚数が一致するか
+- [ ] 上流ゲート後に sync するか
+
+---
+
+## 6. レガシー: Figma 経路（任意）
+
+プラグイン負荷を避けられない場合のみ。ラフを `images/_raw/` に置けば Step 4.5 以降は同一です。
+
+| 旧ステップ | 内容 |
+| ---------- | ---- |
+| Insert Big Image | ダウンサンプル回避の取り込み |
+| 手動トリム | 余白・ノド |
+| スライス（`S`） | セクション枠 |
+| Export | PNG/JPG → `_raw/` |
+
+旧フローでは Figma 上で Filter / Rename / TinyImage まで行っていました。現在それらは Python 側です。
+
+### Step 4.5: コンタクトシート
+
+```powershell
+py -3.14 scripts/generate_contact_sheet.py scrolls/{scroll_id}/
+```
+
+- 出力: `images/_raw/contact_sheet.jpg`
+- 本番既定: Brightness `1.05` / Sharpen `130%`（赤枠 `*`）
+
+### Step 5: `process_figma_slices.py`
 
 ```powershell
 py -3.14 scripts/process_figma_slices.py scrolls/{scroll_id}/ `
@@ -131,69 +193,13 @@ py -3.14 scripts/process_figma_slices.py scrolls/{scroll_id}/ `
   --scene-text --force
 ```
 
-スクリプトが行うこと:
-
 | 処理 | 内容 |
 |------|------|
-| リサイズ | 高さ **1080px**・縦横比維持・`LANCZOS` |
-| 補正 | Brightness（既定 `1.05`）、UnsharpMask `radius=1.5, percent=130, threshold=3`（`--brightness` / `--sharpen` で変更可） |
-| 出力 | JPEG（`optimize`）、各ファイル **1MB 以下**（quality を自動低下） |
-| 命名 | `_01-1080.jpg`, `_02-1080.jpg`, …（1 始まり・欠番なし） |
-| YAML | `scroll_config.yaml` の `scenes` 骨格。CSV があれば range を反映 |
+| リサイズ | 高さ 1080px・LANCZOS |
+| 補正 | Brightness / UnsharpMask（`--brightness` / `--sharpen`） |
+| 出力 | JPEG・各 1MB 以下・`_NN-1080.jpg` |
+| YAML | `scenes` 骨格（CSV があれば range 反映） |
 
-オプション:
+### Step 6
 
-| フラグ | 意味 |
-|--------|------|
-| `--dry-run` | 書き込まず処理結果だけ表示 |
-| `--force` | 既存の `_NN-*.jpg` を上書き |
-| `--scene-text` | `metadata.sceneText: true` + `text.desc/descen` 空欄 |
-| `--kotobagaki true\|false` | 既定 `false` |
-| `--skip-yaml` | 画像のみ |
-| `--scenes-csv PATH` | CSV パス明示 |
-| `--brightness FLOAT` | 明るさ係数（既定 `1.05`） |
-| `--sharpen INT` | UnsharpMask percent。`0` で無効（既定 `130`） |
-
-解説文は **`scenes[].text.desc` / `descen`** に書く（scene 直下の `desc` はパイプラインが読まない）。
-
-
-
-### Step 6: 上流ゲート → sync
-
-```powershell
-py -3.14 scripts/normalize_scroll_images.py scrolls/{scroll_id}/ --dry-run
-py -3.14 scripts/preflight_upstream.py scrolls/{scroll_id}/ --skip-similarity
-# 目視 OK 後
-py -3.14 scripts/sync_all.py scrolls/{scroll_id}/scroll_config.yaml --dry-run
-```
-
-詳細は [`docs/operations/scroll-pipeline.md`](operations/scroll-pipeline.md) と [`docs/operations/cursor-scroll-sync-prompt.md`](operations/cursor-scroll-sync-prompt.md) を参照。
-
----
-
-
-
-## 3. 人間 / Agent の分担
-
-| 人間 | Agent |
-|------|-------|
-| 段の切れ目・トリム・スライス・ラフ Export | `generate_contact_sheet.py` / `process_figma_slices.py` 実行 |
-| コンタクトシートで B/S 決定・段の見た目 OK | preflight / dry-run / sync |
-| 解説文の内容・校正 | YAML の `text.*` / `sceneText` 正規化 |
-| 本番 upload の許可 | 結果報告（commit は指示時のみ） |
-
----
-
-
-
-## 4. 次回制作時のチェックリスト
-
-- [ ] プラグイン **Insert Big Image** が Saved にあるか
-- [ ] 余白・ノドをトリムしたか
-- [ ] スライス枠で妖怪の身体や小道具が切れていないか
-- [ ] ラフを `images/_raw/`（または別 input-dir）に置いたか（`images/` 直下と混在させない）
-- [ ] `generate_contact_sheet.py` で補正（B/S）を目視決定したか
-- [ ] `process_figma_slices.py` で `_NN-1080.jpg` が揃い、各ファイル 1MB 以下か
-- [ ] `scroll_config.yaml` の global index（1 始まり・欠番なし）と画像枚数が一致するか
-- [ ] 詞書なしで解説バーを出す場合 `sceneText: true` と `scenes[].text` があるか
-- [ ] 上流ゲート通過後に sync するか
+[`scroll-pipeline.md`](./scroll-pipeline.md) / [`cursor-scroll-sync-prompt.md`](./cursor-scroll-sync-prompt.md) を参照。

@@ -45,11 +45,16 @@ def pick_file_for_index(index_to_paths: dict[int, list[Path]], global_index: int
 
 
 def list_image_files(images_dir: Path) -> list[Path]:
+    """List viewer images under images/. Skips images/_raw/ (pipeline scratch)."""
     files: list[Path] = []
     for ext in ("*.jpg", "*.jpeg", "*.png", "*.webp"):
         for path in images_dir.rglob(ext):
-            if path.is_file():
-                files.append(path)
+            if not path.is_file():
+                continue
+            # Ignore Figma-free / process scratch dir
+            if "_raw" in path.relative_to(images_dir).parts:
+                continue
+            files.append(path)
     return sorted(files, key=lambda item: item.name.lower())
 
 

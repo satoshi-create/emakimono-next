@@ -14,7 +14,7 @@
 | 状況 | プロンプト |
 |------|-----------|
 | 新規絵巻を初めて sync | [§1 標準](#1-標準新規絵巻アップロード) または [§2 短縮版](#2-短縮版yaml画像は用意済み) |
-| Figma ラフだけ置いた（1080/連番未） | [§1](#1-標準新規絵巻アップロード) の **Step 0**（`process_figma_slices.py`） |
+| パノラマ／`_raw` ラフだけ置いた（1080/連番未） | [§1](#1-標準新規絵巻アップロード) の **Step 0**（`scroll_slice_tool` / `process_figma_slices`） |
 | 词書・range だけ直した | [§3 YAML 修正のみ](#3-yaml-修正のみcloudinary-に触らない) |
 | upload 前に人間が確認したい | [§4 検証のみ](#4-検証のみupload-しない) |
 | sync 後に PR を出す | [§5 PR 前の最終確認](#5-pr-前の最終確認) |
@@ -33,7 +33,7 @@
 
 ## 参照ドキュメント（必読）
 - 正本: docs/operations/scroll-pipeline.md §3
-- Figma ラフ後処理: docs/operations/figma-slice-export.md
+- スライス（geometry / _raw）: docs/operations/figma-slice-export.md
 - 命名: docs/operations/naming-convention.md
 - ワークスペース: scrolls/README.md
 
@@ -41,12 +41,25 @@
 - scroll_id: {{scroll-id}}（例: gakisoushi-kawamoto）
 - パス: scrolls/{{scroll-id}}/scroll_config.yaml
 - 画像: scrolls/{{scroll-id}}/images/
-- Figma ラフ（任意）: scrolls/{{scroll-id}}/images/_raw/
+- パノラマ（任意）: scrolls/{{scroll-id}}/sources/panorama.jpg または sources/tiles/
+- ラフ切片（任意）: scrolls/{{scroll-id}}/images/_raw/
 
 ## やること（この順序を守る）
 
-### Step 0: Figma ラフがある場合のみ（images/_raw/）
-`_NN-1080.jpg` が未生成、またはラフを差し替えたとき。人間がスライス境界だけ Figma で決めた前提。
+### Step 0: パノラマまたは `_raw` ラフがある場合（1080 未生成時）
+`_NN-1080.jpg` が未生成、またはラフを差し替えたとき。
+
+**0a. パノラマから（推奨・Figma 不要）** — 人間が `review` で境界確定済み、または `geometry.yaml` が `reviewed` であること。
+
+```powershell
+$env:PYTHONIOENCODING = "utf-8"
+py -3.14 -m pip install -r scripts/requirements-scroll.txt
+py -3.14 scripts/scroll_slice_tool.py propose scrolls/{{scroll-id}}/
+# 人間: preview または review で status=reviewed
+py -3.14 scripts/scroll_slice_tool.py export scrolls/{{scroll-id}}/ --force
+```
+
+**0b. `_raw` が既にある場合**
 
 ```powershell
 $env:PYTHONIOENCODING = "utf-8"

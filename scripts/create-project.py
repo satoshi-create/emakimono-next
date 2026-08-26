@@ -19,11 +19,27 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = REPO_ROOT / "scrolls" / "_template"
 
-SOURCES_README = """# sources/ — 参考資料（sync には直接使わない）
+SOURCES_README = """# sources/ — 参考資料・幾何正本（sync には画像を直接使わない）
 
 - NDL manifest やあらすじ原文は **出典メタ・執筆参考** として保管する
 - manifest の canvas 枚数・サイズは **加工済み images/ と無関係**
 - 上下2巻など複数 PID があっても **scroll_id は 1 つ**（加工画像を 1 scroll に統合）
+
+## 画像スライス（Figma 非依存）
+
+| ファイル | 役割 |
+|---------|------|
+| `panorama.jpg`（または `tiles/`） | 原画。`propose` が tiles を横結合可（既定 `horizontal-rtl`＝巻頭を右へ） |
+| `geometry.yaml` | trim / cuts / stitch / status（draft→reviewed）の正本 |
+| `geometry_preview.jpg` | オーバーレイ確認用（任意） |
+
+```powershell
+py -3.14 scripts/scroll_slice_tool.py propose scrolls/{scroll_id}/
+py -3.14 scripts/scroll_slice_tool.py review scrolls/{scroll_id}/
+py -3.14 scripts/scroll_slice_tool.py export scrolls/{scroll_id}/ --force
+```
+
+手順: `docs/operations/figma-slice-export.md`
 
 ## 段構成の正本
 
@@ -169,8 +185,11 @@ def main() -> None:
     print(f"  Sources: {sources_dir}")
     print()
     print("  Next steps:")
-    print(f"    1. Place scroll images in scrolls/{scroll_id}/images/")
-    print(f"    2. py -3.14 scripts/normalize_scroll_images.py scrolls/{scroll_id}/ --fix")
+    print(f"    1. Place sources/panorama.jpg (or sources/tiles/) then:")
+    print(f"       py -3.14 scripts/scroll_slice_tool.py propose scrolls/{scroll_id}/")
+    print(f"       py -3.14 scripts/scroll_slice_tool.py review scrolls/{scroll_id}/")
+    print(f"       py -3.14 scripts/scroll_slice_tool.py export scrolls/{scroll_id}/ --force")
+    print(f"    2. py -3.14 scripts/process_figma_slices.py scrolls/{scroll_id}/ --input-dir scrolls/{scroll_id}/images/_raw --scene-text --force")
     print(f"    3. Edit sources/scenes-summary.csv (confidence=draft → reviewed)")
     print(f"    4. py -3.14 scripts/build_scene_mapping.py scrolls/{scroll_id}/ --write-yaml")
     print(f"    5. py -3.14 scripts/preflight_upstream.py scrolls/{scroll_id}/")
