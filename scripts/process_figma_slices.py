@@ -31,10 +31,15 @@ from scroll_image_utils import IMAGE_EXTENSIONS, canonical_filename
 REPO_ROOT = Path(__file__).resolve().parent.parent
 TARGET_HEIGHT = 1080
 MAX_BYTES = 1_048_576
-BRIGHTNESS = 1.05
-UNSHARP = {"radius": 1.5, "percent": 130, "threshold": 3}
+DEFAULT_BRIGHTNESS = 1.05
+DEFAULT_SHARPEN_PERCENT = 130
+UNSHARP_RADIUS = 1.5
+UNSHARP_THRESHOLD = 3
 JPEG_QUALITY_START = 90
 JPEG_QUALITY_FLOOR = 50
+SKIP_INPUT_NAMES = frozenset(
+    {"contact_sheet.jpg", "contact_sheet.jpeg", "preview.jpg", "preview.jpeg"}
+)
 
 
 def resolve_scroll_dir(arg: str) -> Path:
@@ -54,7 +59,9 @@ def collect_input_images(input_dir: Path) -> list[Path]:
     files = [
         p
         for p in input_dir.iterdir()
-        if p.is_file() and p.suffix.lower() in IMAGE_EXTENSIONS
+        if p.is_file()
+        and p.suffix.lower() in IMAGE_EXTENSIONS
+        and p.name.lower() not in SKIP_INPUT_NAMES
     ]
     files.sort(key=lambda p: p.name.lower())
     if not files:
@@ -92,7 +99,14 @@ def encode_jpeg_under_limit(img: Image.Image, dest: Path, *, dry_run: bool) -> t
     )
 
 
-def process_one_image(src: Path, dest: Path, *, dry_run: bool) -> dict:
+def process_one_image(
+    src: Path,
+    dest: Path,
+    *,
+    dry_run: bool,
+    brightness: float,
+    sharpen_percent: int,
+) -> dict:
     with Image.open(src) as opened:
         img = opened.convert("RGB")
         w, h = img.size
@@ -100,8 +114,15 @@ def process_one_image(src: Path, dest: Path, *, dry_run: bool) -> dict:
             raise SystemExit(f"Invalid image height: {src}")
         new_w = max(1, round(w * (TARGET_HEIGHT / h)))
         img = img.resize((new_w, TARGET_HEIGHT), Image.Resampling.LANCZOS)
-        img = ImageEnhance.Brightness(img).enhance(BRIGHTNESS)
-        img = img.filter(ImageFilter.UnsharpMask(**UNSHARP))
+        img = ImageEnhance.Brightness(img).enhance(brightness)
+        if sharpen_percent > 0:
+            img = img.filter(
+                ImageFilter.UnsharpMask(
+                    radius=UNSHARP_RADIUS,
+                    percent=sharpen_percent,
+                    threshold=UNSHARP_THRESHOLD,
+                )
+            )
         size, quality = encode_jpeg_under_limit(img, dest, dry_run=dry_run)
 
     return {
@@ -370,6 +391,18 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Only process images; do not touch scroll_config.yaml",
     )
+    parser.add_argument(
+        "--brightness",
+        type=float,
+        default=DEFAULT_BRIGHTNESS,
+        help=f"Brightness enhance factor (default: {DEFAULT_BRIGHTNESS})",
+    )
+    parser.add_argument(
+        "--sharpen",
+        type=int,
+        default=DEFAULT_SHARPEN_PERCENT,
+        help=f"UnsharpMask percent; 0 disables (default: {DEFAULT_SHARPEN_PERCENT})",
+    )
     args = parser.parse_args(argv)
 
     scroll_dir = resolve_scroll_dir(args.scroll_path)
@@ -399,6 +432,7 @@ def main(argv: list[str] | None = None) -> int:
     print(f"\n=== process_figma_slices: {scroll_id} ===")
     print(f"  input:  {input_dir} ({len(sources)} file(s))")
     print(f"  output: {output_dir}")
+    print(f"  correct: brightness={args.brightness} sharpen={args.sharpen}%")
     if args.dry_run:
         print("  mode:   dry-run")
 
@@ -410,7 +444,13 @@ def main(argv: list[str] | None = None) -> int:
     for index, src in enumerate(sources, start=1):
         dest_name = canonical_filename(index, TARGET_HEIGHT, ".jpg")
         dest = output_dir / dest_name
-        info = process_one_image(src, dest, dry_run=args.dry_run)
+        info = process_one_image(
+            src,
+            dest,
+            dry_run=args.dry_run,
+            brightness=args.brightness,
+            sharpen_percent=args.sharpen,
+        )
         results.append(info)
         print(
             f"  [{index:02d}] {info['src']} -> {info['dest']} "

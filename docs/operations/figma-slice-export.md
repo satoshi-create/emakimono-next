@@ -16,6 +16,7 @@ Figma のメモリ制限によるボケを避けるため、取り込みには�
 | **Step 2** | Figma 標準ツール | 余計な余白・ノドのトリム（高さはおおよそで可） | 人間 |
 | **Step 3** | スライスツール（`S`） | 絵柄を切断しない境界でセクション枠を配置 | 人間 |
 | **Step 4** | Figma Export | スライスをラフな PNG/JPG として書き出し（任意ファイル名可） | 人間 |
+| **Step 4.5** | **`generate_contact_sheet.py`** | Brightness × Sharpen 比較シートで補正値を目視決定 | 人間 / Agent |
 | **Step 5** | **`process_figma_slices.py`** | 1080px・補正・1MB 未満 JPEG・`_NN-1080.jpg`・YAML 骨格 | Agent / 人間 |
 | **Step 6** | preflight → sync | 上流ゲート後に Cloudinary sync（別ドキュメント） | Agent |
 
@@ -81,6 +82,28 @@ Figma のメモリ制限によるボケを避けるため、取り込みには�
 
 
 
+### Step 4.5: 補正パラメータのコンタクトシート（推奨）
+
+絵巻ごとに紙焼けや墨の濃淡が異なるため、本番 batch の前に代表1枚で Brightness × UnsharpMask を比較します。
+
+```powershell
+$env:PYTHONIOENCODING = "utf-8"
+py -3.14 scripts/generate_contact_sheet.py scrolls/{scroll_id}/
+
+# サンプルやマトリクスを明示
+py -3.14 scripts/generate_contact_sheet.py scrolls/{scroll_id}/ `
+  --input-file scrolls/{scroll_id}/images/_raw/slice_03.png `
+  --brightness 1.00,1.05,1.10 `
+  --sharpen 0,120,150
+```
+
+- 出力: `scrolls/{scroll_id}/images/_raw/contact_sheet.jpg`
+- 上段: フル幅縮小比較 / 下段: 中央等倍クロップ（墨線・顔の確認用）
+- 本番既定（Brightness `1.05` / Sharpen `130%`）のセルは赤枠 `*` で強調
+- `contact_sheet.jpg` / `preview.jpg` は Step 5 の入力から自動除外される
+
+
+
 ### Step 5: `process_figma_slices.py`（必須）
 
 依存:
@@ -99,12 +122,21 @@ py -3.14 scripts/process_figma_slices.py scrolls/{scroll_id}/ `
   --force
 ```
 
+コンタクトシートで決めた値を渡す例:
+
+```powershell
+py -3.14 scripts/process_figma_slices.py scrolls/{scroll_id}/ `
+  --input-dir scrolls/{scroll_id}/images/_raw `
+  --brightness 1.06 --sharpen 130 `
+  --scene-text --force
+```
+
 スクリプトが行うこと:
 
 | 処理 | 内容 |
 |------|------|
 | リサイズ | 高さ **1080px**・縦横比維持・`LANCZOS` |
-| 補正 | Brightness `1.05`、UnsharpMask `radius=1.5, percent=130, threshold=3` |
+| 補正 | Brightness（既定 `1.05`）、UnsharpMask `radius=1.5, percent=130, threshold=3`（`--brightness` / `--sharpen` で変更可） |
 | 出力 | JPEG（`optimize`）、各ファイル **1MB 以下**（quality を自動低下） |
 | 命名 | `_01-1080.jpg`, `_02-1080.jpg`, …（1 始まり・欠番なし） |
 | YAML | `scroll_config.yaml` の `scenes` 骨格。CSV があれば range を反映 |
@@ -119,6 +151,8 @@ py -3.14 scripts/process_figma_slices.py scrolls/{scroll_id}/ `
 | `--kotobagaki true\|false` | 既定 `false` |
 | `--skip-yaml` | 画像のみ |
 | `--scenes-csv PATH` | CSV パス明示 |
+| `--brightness FLOAT` | 明るさ係数（既定 `1.05`） |
+| `--sharpen INT` | UnsharpMask percent。`0` で無効（既定 `130`） |
 
 解説文は **`scenes[].text.desc` / `descen`** に書く（scene 直下の `desc` はパイプラインが読まない）。
 
@@ -143,8 +177,8 @@ py -3.14 scripts/sync_all.py scrolls/{scroll_id}/scroll_config.yaml --dry-run
 
 | 人間 | Agent |
 |------|-------|
-| 段の切れ目・トリム・スライス・ラフ Export | `process_figma_slices.py` 実行 |
-| コンタクトシート / 段の見た目 OK | preflight / dry-run / sync |
+| 段の切れ目・トリム・スライス・ラフ Export | `generate_contact_sheet.py` / `process_figma_slices.py` 実行 |
+| コンタクトシートで B/S 決定・段の見た目 OK | preflight / dry-run / sync |
 | 解説文の内容・校正 | YAML の `text.*` / `sceneText` 正規化 |
 | 本番 upload の許可 | 結果報告（commit は指示時のみ） |
 
@@ -158,6 +192,7 @@ py -3.14 scripts/sync_all.py scrolls/{scroll_id}/scroll_config.yaml --dry-run
 - [ ] 余白・ノドをトリムしたか
 - [ ] スライス枠で妖怪の身体や小道具が切れていないか
 - [ ] ラフを `images/_raw/`（または別 input-dir）に置いたか（`images/` 直下と混在させない）
+- [ ] `generate_contact_sheet.py` で補正（B/S）を目視決定したか
 - [ ] `process_figma_slices.py` で `_NN-1080.jpg` が揃い、各ファイル 1MB 以下か
 - [ ] `scroll_config.yaml` の global index（1 始まり・欠番なし）と画像枚数が一致するか
 - [ ] 詞書なしで解説バーを出す場合 `sceneText: true` と `scenes[].text` があるか
