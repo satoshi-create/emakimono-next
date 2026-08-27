@@ -205,13 +205,17 @@ button {
 .fullscreen-enabled .entry-container {
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  /* 全画面時は article 下端の横スクロールバーをクリップしないよう、
+     JS 側でも overflow:hidden を外す。ここは縦はみ出し防止のみ */
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .fullscreen-enabled article {
-  /* ボトムコメントバーは全画面時、右下のカードとしてオーバーレイ表示するため、
-     article の高さ縮小は不要。絵巻全体を 100% で表示する */
-  height: 100%;
+  /* ボトムコメントバーはオーバーレイのため、絵巻はビューポート高で表示。
+     横スクロールバーは border-box 内に収まる（外側に余白を作らない） */
+  height: var(--vh-100);
+  max-height: var(--vh-100);
   width: 100%;
   max-width: 100%;
   /* ノッチ端末対応: 全画面時に safe-area を確保 */
@@ -282,28 +286,11 @@ button {
   }
 }
 
-/* 全画面モード: 40px の太いスクロールバーが絵巻表示を邪魔しないよう
-   細く・半透明にして上部領域を覆わないようにする */
-.fullscreen-enabled .scrollbar {
-  /* Firefox向け: つまみ色のみ指定（scrollbar-width: thin は Chrome 121+ で
-     ::-webkit-scrollbar のカスタムスタイルが無視されるため使わない） */
-  scrollbar-color: rgba(140, 140, 140, 0.55) transparent;
-
-  &::-webkit-scrollbar,
-  &::-webkit-scrollbar-corner {
-    height: 8px;
-    width: 8px;
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    border: none;
-    border-radius: 100px;
-    background-color: rgba(140, 140, 140, 0.55);
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(120, 120, 120, 0.7);
+/* 全画面モード（PC）: 通常時と同じスクロールバー色を使う。
+   色・つまみは上記 .scrollbar を継承し、ここでの色上書きはしない */
+@media (pointer: fine) {
+  .fullscreen-enabled .scrollbar {
+    overflow-x: scroll;
   }
 }
 

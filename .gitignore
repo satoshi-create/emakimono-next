@@ -76,7 +76,3 @@ credentials.json
 .vercel
 .env*
 
-# docs: ignore all except operations/ (analytics + scroll pipelines)
-/docs/*
-!/docs/operations/
-!/docs/operations/**

@@ -79,6 +79,7 @@ function MyApp({ Component, pageProps, router }) {
   const { t: emakisData } = useLocaleData();
   const [characterToggle, setCharacterToggle] = useState(false);
   const [ebikiToggle, setEbikiToggle] = useState(false);
+  const [chapterToggle, setChapterToggle] = useState(true);
   const [oepnSidebar, setOepnSidebar] = useState(false);
   const [query, setQuery] = useState("");
   const [fliterdEmakis, setfliterdEmakis] = useState(emakisData);
@@ -221,6 +222,10 @@ function MyApp({ Component, pageProps, router }) {
 
   const handleEbikiToggle = () => {
     setEbikiToggle(!ebikiToggle);
+  };
+
+  const handleChapterToggle = () => {
+    setChapterToggle(!chapterToggle);
   };
 
   // スクロール実行を統合した handleToId
@@ -389,6 +394,8 @@ function MyApp({ Component, pageProps, router }) {
         characterToggle,
         handleEbikiToggle,
         ebikiToggle,
+        handleChapterToggle,
+        chapterToggle,
         searchKeyword,
         setSearchKeyword,
         showData,

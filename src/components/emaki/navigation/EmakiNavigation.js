@@ -12,6 +12,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
 import ToggleCharacter from "@/components/emaki/viewer/ToggleCharacter";
+import ToggleChapter from "@/components/emaki/viewer/ToggleChapter";
 import ToggleEbiki from "@/components/emaki/viewer/ToggleEbiki";
 import ActionButton from "@/components/emaki/viewer/ActionButton";
 import { AppContext } from "@/context/AppContext";
@@ -39,6 +40,7 @@ const EmakiNavigation = ({
   const { orientation, openHelpModal, navIndex } = useContext(AppContext);
 
   const ekotobas = (data.emakis || []).filter((item) => item.cat === "ekotoba");
+  const hasChapters = (data.emakis || []).some((item) => item.chapter);
   const currentIdx = ekotobas.reduce(
     (acc, item, i) => (item.linkId <= navIndex ? i : acc),
     0
@@ -128,7 +130,9 @@ const EmakiNavigation = ({
         />
       )}
       {character && <ToggleCharacter isUIVisible={isUIVisible} />}
-      {ebiki && <ToggleEbiki isUIVisible={isUIVisible} />}      {prevScene && (
+      {ebiki && <ToggleEbiki isUIVisible={isUIVisible} />}
+      {hasChapters && <ToggleChapter isUIVisible={isUIVisible} />}
+      {prevScene && (
         <ActionButton
           icon={
             <FontAwesomeIcon

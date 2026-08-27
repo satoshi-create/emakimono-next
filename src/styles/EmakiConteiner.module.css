@@ -9,6 +9,13 @@
   min-width: 0;
 }
 
+/* 全画面: 高さ連鎖を確定させ、article の横スクロールバーが
+   shell の overflow:hidden にクリップされないようにする */
+:global(html.fullscreen-enabled) .land {
+  height: 100%;
+  overflow: hidden;
+}
+
 .prt {
   position: sticky;
   top: 0;

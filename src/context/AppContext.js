@@ -42,6 +42,8 @@ const defaultAppContext = {
   handleCharacterToggle: noop,
   ebikiToggle: false,
   handleEbikiToggle: noop,
+  chapterToggle: true,
+  handleChapterToggle: noop,
 
   // 検索 / モーダル
   query: "",

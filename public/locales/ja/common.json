@@ -39,6 +39,8 @@
     "hideCharacterNames": "登場人物の名前を閉じる",
     "showPictureIndex": "絵引きを見る",
     "hidePictureIndex": "絵引きを閉じる",
+    "showChapterTitles": "段タイトルを表示",
+    "hideChapterTitles": "段タイトルを非表示",
     "like": "いいね",
     "unlike": "いいねを解除",
     "liked": "いいね済み",
@@ -78,7 +80,7 @@
     "useMouseWheel": "ホイールで左右にスクロール",
     "useScrollbar": "横スクロールバーでも移動できます",
     "palmModeHint": "絵巻を掴んでドラッグすると移動できます",
-    "fullscreenShortcut": "Fキーで全画面の切り替え",
+    "fullscreenShortcut": "Fキーまたはダブルクリックで全画面の切り替え",
     "fullGuide": "くわしい使い方ガイド"
   },
 

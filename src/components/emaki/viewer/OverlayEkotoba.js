@@ -24,7 +24,8 @@ const OverlayEkotoba = ({
   },
   item,
 }) => {
-  const { scrollDialog, orientation, handleToId } = useContext(AppContext);
+  const { scrollDialog, orientation, handleToId, chapterToggle } =
+    useContext(AppContext);
   const { locale } = useRouter();
   const { title, titleen } = data;
 
@@ -36,7 +37,7 @@ const OverlayEkotoba = ({
       } ${styles.container} ${!src ? styles.noEkotobaImage : ""}`}
       ref={navIndex === index ? scrollDialog : null}
     >
-      {chapter && (
+      {chapter && chapterToggle && (
         <div
           className={`${styles.chapterbox} ${
             orientation === "portrait"

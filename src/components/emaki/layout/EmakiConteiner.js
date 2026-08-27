@@ -86,6 +86,7 @@ const EmakiContainer = ({
     orientation,
     handleToId,
     toggleFullscreen,
+    handleFullScreen,
     isHelpModalOpen,
     setnavIndex,
     isScrollDetectedUpdateRef,
@@ -512,7 +513,10 @@ const EmakiContainer = ({
               toggleFullscreen === false &&
               "12px",
             overflow:
-              orientation === "landscape" && scroll && "hidden",
+              orientation === "landscape" &&
+              scroll &&
+              !toggleFullscreen &&
+              "hidden",
             width: toggleFullscreen ? "100%" : undefined,
             height: toggleFullscreen ? "100%" : undefined,
             position: "relative", // 子要素の絶対配置の基準点
@@ -615,6 +619,12 @@ const EmakiContainer = ({
             // 手のひらモードのドラッグ直後のclickは抑止（sidebarが閉じないように）
             if (Date.now() < suppressClickUntilRef.current) return;
             setOepnSidebar(false);
+          }}
+          onDoubleClick={(e) => {
+            // PC: ダブルクリックで全画面入/切（ボタン・リンク上は無視）
+            if (e.target.closest("button, a, [role='button']")) return;
+            if (Date.now() < suppressClickUntilRef.current) return;
+            handleFullScreen("landscape");
           }}
           onTouchStart={() => {
             // 再生モード中はタッチで停止

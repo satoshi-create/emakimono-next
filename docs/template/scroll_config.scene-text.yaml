@@ -1,0 +1,72 @@
+# scroll_config.yaml — sceneText 型（詞書なし・段解説 desc/descen）
+# 正本構成: scrolls/hyakki-yakou/hyakki-no-zu-nichibun/scroll_config.yaml（L1–93 相当）
+# 手順: docs/operations/scroll-pipeline.md
+# 配置先: scrolls/{scroll_id}/scroll_config.yaml（scroll_id はフォルダ名と一致）
+
+# --- 作品メモ（任意・コメント） ---
+# 出典: {所蔵機関・URL}
+# 画像: images/_01-1080.jpg …（global index 1 始まり・欠番なし）
+
+scroll_id: my-scroll-id          # kebab-case。フォルダ名と一致
+volume_num: 1
+theme_id: yokai                    # キーワード slug と揃える（例: yokai / hyakki）
+folder: emakimono
+
+metadata:
+  id: 99                           # dataEmakis.json で未使用の数値 ID
+  title: 絵巻タイトル（日本語）
+  titleen: my_scroll_slug          # URL スラッグ（/[titleen]）
+  author: 作者名
+  authoren: author-slug
+  edition: 版・所蔵の短い表記
+  era: 室町
+  eraen: Muromachi
+  type: 絵巻
+  typeen: emaki
+  desc: ""                         # 巻全体説明（ja）— カード・SEO
+  descen: ""                        # 巻全体説明（en）
+  thumb: /thumb/my_scroll_slug_thumb.webp
+  thumb2: ''
+  backgroundImage: ''
+  video: ''
+  sourceImageUrl: ""               # 原資料ページ URL（トップ URL 不可）
+  sourceImage: ""                  # 所蔵ラベル（表示用）
+  sourceAuthor: ""                 # 提供機関・撮影者
+  sourceCollection: ""             # コレクション名・請求記号
+  sourceLicense: ''
+  encodeUrl: ''
+  favorite: false
+  kotobagaki: false                # 詞書なし
+  readMore: false
+  reference:                       # 任意。type / url / title
+    - type: 所蔵機関
+      url: ""
+      title: ""
+  keywords:
+    - name: キーワード表示名
+      id: keyword-id
+      slug: keyword-id
+  sceneText: true                  # scenes[].text は desc / descen のみ（下記）
+
+scenes:
+  # 1 段 = 1 枚: range: [n, n]
+  # 1 段 = 複数枚: range: [n, m]（global index の連続範囲）
+  # scenes[].id は 1 から連番。全 range が images/ の index を被覆すること
+  - id: 1
+    title: 段タイトル（日本語）
+    titleen: Scene Title English
+    range: [1, 1]
+    text:
+      desc: ""
+      descen: ""
+
+  - id: 2
+    title: 段タイトル（日本語）
+    titleen: Scene Title English
+    range: [2, 2]
+    text:
+      desc: ""
+      descen: ""
+
+  # --- 以降、最終段まで id / range / title / text を追加 ---
+  # 例: 9 段なら id: 9, range: [9, 9]

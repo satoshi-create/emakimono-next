@@ -39,6 +39,8 @@
     "hideCharacterNames": "Hide character names",
     "showPictureIndex": "Show picture index",
     "hidePictureIndex": "Hide picture index",
+    "showChapterTitles": "Show chapter titles",
+    "hideChapterTitles": "Hide chapter titles",
     "like": "Like",
     "unlike": "Remove like",
     "liked": "Liked",
@@ -78,7 +80,7 @@
     "useMouseWheel": "Use mouse wheel to scroll horizontally",
     "useScrollbar": "Or use the horizontal scrollbar",
     "palmModeHint": "Grab and drag the scroll to move it",
-    "fullscreenShortcut": "Press F to toggle fullscreen",
+    "fullscreenShortcut": "Press F or double-click to toggle fullscreen",
     "fullGuide": "Full guide on this site"
   },
 
