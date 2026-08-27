@@ -3755,5 +3755,228 @@
     ],
     "sourceAuthor": "International Research Center for Japanese Studies (Nichibunken)",
     "sourceCollection": "日文研所蔵（BB10030851 / YR/1/Hy）"
+  },
+  {
+    "id": 102,
+    "title": "百鬼夜行絵巻（国会A本）",
+    "titleen": "hyakki_kokkai_a",
+    "author": "伝土佐光重",
+    "authoren": "tosa-mitsushige",
+    "edition": "国立国会図書館所蔵（玄本）",
+    "encodeUrl": "",
+    "backgroundImage": "",
+    "thumb": "/thumb/hyakki_kokkai_a_thumb.webp",
+    "thumb2": "/thumb/hyakki_kokkai_a_thumb.webp",
+    "video": "",
+    "era": "江戸",
+    "eraen": "edo",
+    "desc": "国立国会図書館所蔵の『百鬼夜行絵巻』（詞書なし・玄本）。室町時代の真珠庵本と同系統に属しながら、日文研B本と同一の普遍的な図像配列を保つ重要な伝本。冠を被り矛を持つ妖怪を先導に、女房たちの化粧、古葛籠や唐櫃から逃げ出る妖怪、法具や楽器などの器物妖怪が行進し、最後は出現した真っ赤な火の玉に驚いて退散するまでの怪異のパレードを描く。",
+    "descen": "The Night Parade of One Hundred Demons (Hyakki Yagyo Emaki) from the National Diet Library collection. Preserving an authentic iconographical sequence of the Shinju-an lineage without Kotobagaki, this version vividly depicts the eerie procession of demons and animated objects (tsukumogami)—from the spear-bearing vanguard and court-lady apparitions to awakening trunks, instruments, and ritual implements—culminating in their frantic flight from a fiery orb.",
+    "readMore": false,
+    "type": "絵巻",
+    "typeen": "emaki",
+    "keyword": [
+      {
+        "name": "百鬼夜行",
+        "id": "hyakki-yakou",
+        "slug": "hyakki-yakou"
+      },
+      {
+        "name": "妖怪",
+        "id": "yokai",
+        "slug": "yokai"
+      },
+      {
+        "name": "付喪神",
+        "id": "tsukumogami",
+        "slug": "tsukumogami"
+      },
+      {
+        "name": "絵巻",
+        "id": "emaki",
+        "slug": "emaki"
+      }
+    ],
+    "kotobagaki": false,
+    "sceneText": true,
+    "favorite": false,
+    "sourceImageUrl": "https://dl.ndl.go.jp/pid/2541003",
+    "sourceImage": "国立国会図書館デジタルコレクション",
+    "metadesc": "",
+    "gif": "",
+    "sourceEkotoba": "",
+    "reference": [
+      {
+        "type": "所蔵機関",
+        "url": "https://dl.ndl.go.jp/pid/2541003",
+        "title": "百鬼夜行絵巻 | 国立国会図書館デジタルコレクション"
+      }
+    ],
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "1",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1787810183/emakimono/hyakki-kokkai-a__hyakki-kokkai-a_1_01__01.jpg",
+        "name": "hyakki-kokkai-a__hyakki-kokkai-a_1_01__01",
+        "srcHeight": 1080,
+        "srcWidth": 2127
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "2",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1787810183/emakimono/hyakki-kokkai-a__hyakki-kokkai-a_1_02__01.jpg",
+        "name": "hyakki-kokkai-a__hyakki-kokkai-a_1_02__01",
+        "srcHeight": 1080,
+        "srcWidth": 1460
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "3",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1787810183/emakimono/hyakki-kokkai-a__hyakki-kokkai-a_1_03__01.jpg",
+        "name": "hyakki-kokkai-a__hyakki-kokkai-a_1_03__01",
+        "srcHeight": 1080,
+        "srcWidth": 1876
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "4",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1787810185/emakimono/hyakki-kokkai-a__hyakki-kokkai-a_1_04__01.jpg",
+        "name": "hyakki-kokkai-a__hyakki-kokkai-a_1_04__01",
+        "srcHeight": 1080,
+        "srcWidth": 2118
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "5",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1787810186/emakimono/hyakki-kokkai-a__hyakki-kokkai-a_1_05__01.jpg",
+        "name": "hyakki-kokkai-a__hyakki-kokkai-a_1_05__01",
+        "srcHeight": 1080,
+        "srcWidth": 2895
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "6",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1787810186/emakimono/hyakki-kokkai-a__hyakki-kokkai-a_1_06__01.jpg",
+        "name": "hyakki-kokkai-a__hyakki-kokkai-a_1_06__01",
+        "srcHeight": 1080,
+        "srcWidth": 3439
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "7",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1787810188/emakimono/hyakki-kokkai-a__hyakki-kokkai-a_1_07__01.jpg",
+        "name": "hyakki-kokkai-a__hyakki-kokkai-a_1_07__01",
+        "srcHeight": 1080,
+        "srcWidth": 3198
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "8",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1787810188/emakimono/hyakki-kokkai-a__hyakki-kokkai-a_1_08__01.jpg",
+        "name": "hyakki-kokkai-a__hyakki-kokkai-a_1_08__01",
+        "srcHeight": 1080,
+        "srcWidth": 2160
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "9",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1787810188/emakimono/hyakki-kokkai-a__hyakki-kokkai-a_1_09__01.jpg",
+        "name": "hyakki-kokkai-a__hyakki-kokkai-a_1_09__01",
+        "srcHeight": 1080,
+        "srcWidth": 2869
+      }
+    ],
+    "sourceAuthor": "国立国会図書館",
+    "sourceCollection": "亥-106"
   }
 ]
