@@ -81,6 +81,54 @@ class TestPostSync(unittest.TestCase):
 
         self.assertTrue(any("descen empty" in msg for msg in report.errors))
 
+    def test_thumb_path_mismatch_is_error(self) -> None:
+        report = ValidationReport()
+        config = {
+            "scroll_id": "demo-scroll",
+            "volume_num": 1,
+            "metadata": {
+                "titleen": "demo_scroll",
+                "thumb": "/demo_scroll_thumb.webp",
+                "sceneText": False,
+            },
+            "scenes": [{"id": 1, "title": "Scene", "range": [1, 1]}],
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            cache_path = root / "cache.json"
+            cache_path.write_text(
+                json.dumps(
+                    [
+                        {
+                            "titleen": "demo_scroll",
+                            "thumb": "/demo_scroll_thumb.webp",
+                            "emakis": [
+                                {
+                                    "name": "demo-scroll__demo-scroll_1_01__01",
+                                    "src": "emakimono/demo-scroll__demo-scroll_1_01__01.jpg",
+                                    "cat": "image",
+                                }
+                            ],
+                        }
+                    ]
+                ),
+                encoding="utf-8",
+            )
+            import scroll_checks.post_sync as ps
+
+            original_cache = ps.CACHE_PATH
+            original_text = ps.EMAKI_TEXT_DIR
+            ps.CACHE_PATH = cache_path
+            ps.EMAKI_TEXT_DIR = root / "text"
+            ps.EMAKI_TEXT_DIR.mkdir(exist_ok=True)
+            try:
+                check_post_sync(config, report=report, require_text_json=False)
+            finally:
+                ps.CACHE_PATH = original_cache
+                ps.EMAKI_TEXT_DIR = original_text
+
+        self.assertTrue(any("expected '/thumb/demo_scroll_thumb.webp'" in msg for msg in report.errors))
+
 
 class TestThumb(unittest.TestCase):
     def test_resolve_thumb_file(self) -> None:

@@ -14,7 +14,7 @@
 | 状況 | プロンプト |
 |------|-----------|
 | 新規絵巻を初めて sync | [§1 標準](#1-標準新規絵巻アップロード) または [§2 短縮版](#2-短縮版yaml画像は用意済み) |
-| Figma ラフだけ置いた（1080/連番未） | [§1](#1-標準新規絵巻アップロード) の **Step 0**（`process_figma_slices.py`） |
+| Figma ラフだけ置いた（1080/連番未） | [§1](#1-標準新規絵巻アップロード) の **Step 0a**（contact sheet → `process_figma_slices.py`） |
 | 词書・range だけ直した | [§3 YAML 修正のみ](#3-yaml-修正のみcloudinary-に触らない) |
 | upload 前に人間が確認したい | [§4 検証のみ](#4-検証のみupload-しない) |
 | sync 後に PR を出す | [§5 PR 前の最終確認](#5-pr-前の最終確認) |
@@ -45,24 +45,42 @@
 
 ## やること（この順序を守る）
 
-### Step 0: Figma ラフがある場合のみ（images/_raw/）
-`_NN-1080.jpg` が未生成、またはラフを差し替えたとき。人間がスライス境界だけ Figma で決めた前提。
+### Step 0a: Figma ラフがある場合（images/_raw/ にスライスがある）
+`_NN-1080.jpg` が未生成、ラフを差し替えた、または色調を見直すとき。人間がスライス境界だけ Figma で決めた前提。**Figma Export は `images/` 直下に置かず `images/_raw/` へ。**
+
+色調補正を飛ばさない。順序は **contact sheet → 人間 GO → process** のみ。
 
 ```powershell
 $env:PYTHONIOENCODING = "utf-8"
 py -3.14 -m pip install -r scripts/requirements-scroll.txt
+
+# 1) Brightness × Sharpen 比較シートを生成
+py -3.14 scripts/generate_contact_sheet.py scrolls/{{scroll-id}}/
+# 出力: images/_raw/contact_sheet.jpg をユーザーに見せ、B/S 値をもらう
+# 例: --brightness 1.00,1.05,1.10 --sharpen 0,120,150 / --input-file で代表枚指定可
+
+# 2) ユーザーが決めた値で本番 batch（プレースホルダを実値に置換）
 py -3.14 scripts/process_figma_slices.py scrolls/{{scroll-id}}/ `
   --input-dir scrolls/{{scroll-id}}/images/_raw `
+  --brightness {{brightness}} --sharpen {{sharpen}} `
   --scene-text `
   --force
 ```
 
-確認:
+確認（Step 1 へ進む前）:
+- ユーザーが `contact_sheet.jpg` を見て Brightness / Sharpen を明示したか
 - `images/_01-1080.jpg` … が揃い、各ファイル 1MB 以下・高さ 1080
 - `scroll_config.yaml` の scenes range が画像枚数を被覆
 - 詞書なし解説バーなら `metadata.sceneText: true` と `scenes[].text`（直下の `desc` は不可）
+- 最終画像の見た目 OK をもらってから Step 1 へ
 
-人間にコンタクトシートまたはファイル一覧を見せ、見た目 OK をもらってから Step 1 へ。
+### Step 0b: `_NN-1080.jpg` だけある場合（`_raw/` なし）
+色調補正を黙ってスキップしない。次のどちらかを必須にする:
+
+- **A（推奨）:** 既存画像を `images/_raw/` に移し（または Figma ラフを置き直し）、**Step 0a** を実行する
+- **B:** ユーザーがチャットで「補正スキップ承認」と明記したときだけ Step 1 へ進む
+
+`1_1080px.jpg` 等の非準拠名だけの状態も 0b 扱い。リネームだけで sync に進まない。
 
 ### Step 1: レビュー
 1. scroll_config.yaml の scroll_id がフォルダ名と一致するか
@@ -84,6 +102,9 @@ py -3.14 scripts/preflight_upstream.py scrolls/{{scroll-id}}/ --skip-similarity
 ```powershell
 py -3.14 scripts/preflight_upstream.py scrolls/{{scroll-id}}/ --require-reviewed
 ```
+
+preflight は次も ERROR にする: `scroll_id` 非 kebab / `eraen` 大文字・未知コード / `thumb` パス形式不一致 / `_raw` ありで contact sheet 無し。  
+補正スキップ承認時のみ: `--ack-no-color-correction` を preflight_upstream / sync_all に付与。
 
 ### Step 2: Phase 0〜2（検証のみ・upload なし）
 PowerShell で実行（python ではなく py -3.14）:
@@ -119,6 +140,8 @@ py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20 --no-save
 npm run build
 ```
 
+thumb（`/thumb/{{titleen}}_thumb.webp`）と OGP（`public/ogp/{{titleen}}.jpg`）欠落は **ERROR**（`--skip-thumb` / `--skip-ogp` でのみ回避）。
+
 ### Step 5: 報告
 
 ```powershell
@@ -138,6 +161,8 @@ py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20 --no-save
 - sync_scroll.py 単体ではなく sync_all.py を主経路とする
 - UI コード（LazyImage 等）は触らない
 - commit / push は指示があるまで行わない
+- images/_raw/ があるのに generate_contact_sheet.py を飛ばして process_figma_slices.py / sync しない
+- ユーザーの補正値 GO または「補正スキップ承認」無しで本番 sync しない
 
 ## 失敗時
 - preflight エラー → YAML / 画像 / ID 重複を修正して Step 2 から再実行
@@ -154,6 +179,9 @@ py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20 --no-save
 ```markdown
 scrolls/{{scroll-id}}/ を docs/operations/scroll-pipeline.md §3 に従い sync してください。
 
+0. 画像経路を確認する（色調を飛ばさない）:
+   - images/_raw/ にラフがある → generate_contact_sheet.py → ユーザーが B/S 決定 → process_figma_slices.py
+   - _NN-1080 のみ → _raw に戻して上記、またはユーザーの「補正スキップ承認」が無い限り sync しない
 1. scroll_config.yaml と images/ をレビュー（range 枚数・titleen/id 重複・scroll_id=フォルダ名）
 2. preflight → usage（--warn-at 18 --fail-at 20 --no-save）→ dry-run を py -3.14 で実行
 3. すべて OK なら sync_all.py 本番を 1 回（--force-upload 禁止）

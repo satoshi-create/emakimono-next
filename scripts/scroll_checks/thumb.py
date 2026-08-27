@@ -62,9 +62,17 @@ def check_thumb_assets(
         for key in ("thumb", "thumb2"):
             value = cache_entry.get(key) or ""
             if value and value != expected_path:
-                report.warn(f"cache.{key}='{value}' (expected '{expected_path}')")
+                msg = f"cache.{key}='{value}' (expected '{expected_path}')"
+                if key == "thumb":
+                    report.error(msg)
+                else:
+                    report.warn(msg)
             elif not value:
-                report.warn(f"cache.{key} is empty (expected '{expected_path}')")
+                msg = f"cache.{key} is empty (expected '{expected_path}')"
+                if key == "thumb":
+                    report.error(msg)
+                else:
+                    report.warn(msg)
 
     if DATA_EMAKIS_PATH.is_file():
         with DATA_EMAKIS_PATH.open("r", encoding="utf-8") as handle:
@@ -80,7 +88,7 @@ def check_thumb_assets(
     if check_ogp:
         ogp_path = OGP_DIR / f"{titleen}.jpg"
         if not ogp_path.is_file():
-            report.warn(
+            report.error(
                 f"Missing OGP file public/ogp/{titleen}.jpg "
                 "(run: node src/script/generateOgImages.js)"
             )

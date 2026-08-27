@@ -48,8 +48,16 @@ def list_image_files(images_dir: Path) -> list[Path]:
     files: list[Path] = []
     for ext in ("*.jpg", "*.jpeg", "*.png", "*.webp"):
         for path in images_dir.rglob(ext):
-            if path.is_file():
-                files.append(path)
+            if not path.is_file():
+                continue
+            try:
+                rel = path.relative_to(images_dir)
+            except ValueError:
+                continue
+            # Figma ラフ / contact sheet 作業ディレクトリは sync 対象外
+            if "_raw" in rel.parts:
+                continue
+            files.append(path)
     return sorted(files, key=lambda item: item.name.lower())
 
 

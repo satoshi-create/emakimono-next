@@ -591,6 +591,11 @@ def main() -> None:
         help="Skip preflight validation before sync",
     )
     parser.add_argument(
+        "--ack-no-color-correction",
+        action="store_true",
+        help="Acknowledge skipping contact-sheet color correction (passed to preflight)",
+    )
+    parser.add_argument(
         "--skip-postflight",
         action="store_true",
         help="Skip post-sync JSON validation after sync",
@@ -607,13 +612,21 @@ def main() -> None:
     print(f"\n=== Sync: scroll_id={scroll_id}, titleen={meta.get('titleen', '(no metadata)')} ===")
 
     if args.preflight:
-        report = pf.run_preflight(config_path, skip_upload=args.skip_upload)
+        report = pf.run_preflight(
+            config_path,
+            skip_upload=args.skip_upload,
+            ack_no_color_correction=args.ack_no_color_correction,
+        )
         pf.print_report(report, scroll_id=scroll_id, image_count=len(ss.build_upload_plan(config)))
         raise SystemExit(0 if report.ok else 1)
 
     if not args.skip_preflight:
         print("\n[Preflight] Validating scroll config...")
-        report = pf.run_preflight(config_path, skip_upload=args.skip_upload)
+        report = pf.run_preflight(
+            config_path,
+            skip_upload=args.skip_upload,
+            ack_no_color_correction=args.ack_no_color_correction,
+        )
         pf.print_report(report, scroll_id=scroll_id, image_count=len(ss.build_upload_plan(config)))
         if not report.ok:
             raise SystemExit(1)

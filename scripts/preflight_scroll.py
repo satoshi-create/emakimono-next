@@ -20,6 +20,8 @@ import sys
 from pathlib import Path
 
 import sync_scroll as ss
+from scroll_checks.color_correction import check_color_correction_gate
+from scroll_checks.metadata_conventions import check_metadata_conventions
 from scroll_checks.report import ValidationReport as PreflightReport
 from scroll_checks.images import check_image_heights, check_unindexed_files, max_image_index
 from scroll_checks.scene_mapping import check_scene_mapping_sync
@@ -78,6 +80,7 @@ def run_preflight(
     skip_similarity: bool = False,
     require_reviewed: bool = False,
     skip_height_warn: bool = False,
+    ack_no_color_correction: bool = False,
 ) -> PreflightReport:
     report = PreflightReport()
 
@@ -97,6 +100,8 @@ def run_preflight(
             f"Folder name '{folder_name}' does not match scroll_id '{scroll_id}' "
             f"(expected scrolls/{scroll_id}/scroll_config.yaml)"
         )
+
+    check_metadata_conventions(config, report=report, folder_name=folder_name)
 
     meta = config.get("metadata") or {}
     if not meta:
@@ -168,6 +173,12 @@ def run_preflight(
     if not images_dir.is_dir():
         report.error(f"Images directory not found: {images_dir}")
         return report
+
+    check_color_correction_gate(
+        config_path.parent,
+        report=report,
+        ack_no_color_correction=ack_no_color_correction,
+    )
 
     check_unindexed_files(images_dir, report)
 
@@ -302,6 +313,11 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Skip non-1080px height warnings",
     )
+    parser.add_argument(
+        "--ack-no-color-correction",
+        action="store_true",
+        help="Acknowledge skipping contact-sheet color correction (downgrades ERROR to WARN)",
+    )
     args = parser.parse_args(argv)
 
     config_path = ss.get_config_path(REPO_ROOT, args.config_path)
@@ -316,6 +332,7 @@ def main(argv: list[str] | None = None) -> int:
         skip_similarity=args.skip_similarity,
         require_reviewed=args.require_reviewed,
         skip_height_warn=args.skip_height_warn,
+        ack_no_color_correction=args.ack_no_color_correction,
     )
     print_report(report, scroll_id=scroll_id, image_count=plan_len)
     return 0 if report.ok else 1

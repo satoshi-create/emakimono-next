@@ -162,9 +162,9 @@ def check_post_sync(
     expected_thumb = expected_thumb_path(titleen)
     thumb = entry.get("thumb") or meta.get("thumb") or ""
     if thumb and thumb != expected_thumb:
-        report.warn(f"thumb path '{thumb}' (expected '{expected_thumb}')")
+        report.error(f"thumb path '{thumb}' (expected '{expected_thumb}')")
     elif not thumb:
-        report.warn(f"thumb not set (expected '{expected_thumb}')")
+        report.error(f"thumb not set (expected '{expected_thumb}')")
 
     if meta.get("sourceImageUrl") and not entry.get("sourceImageUrl"):
         report.warn("metadata.sourceImageUrl not reflected in cache entry")

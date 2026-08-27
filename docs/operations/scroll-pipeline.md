@@ -153,27 +153,44 @@ py -3.14 scripts/preflight_upstream.py scrolls/my-new-scroll/ --require-reviewed
 | スクリプト | 役割 |
 |-----------|------|
 | `create-project.py` | `scrolls/{scroll_id}/` 雛形 + `sources/scenes-summary.csv` |
+| `generate_contact_sheet.py` | 代表1枚で Brightness × Sharpen 比較シート（本番 batch 前に必須） |
 | `process_figma_slices.py` | Figma ラフ → 1080px / 補正 / 1MB JPEG / `_NN-1080.jpg` + YAML 骨格 |
 | `normalize_scroll_images.py` | `_01-{height}.jpg` 形式へ正規化 |
 | `build_scene_mapping.py` | CSV → `scroll_config.yaml` scenes / 整合チェック |
 | `preflight_upstream.py` | 上記 + 拡張 preflight を順実行 |
 | `preflight_scroll.py` | 構造・画像・テキスト・著作権・CSV 整合（単体でも可） |
 
-**Figma ラフ書き出し後（推奨）:**
+**Figma ラフ書き出し後（推奨）:** Export は **`images/_raw/` のみ**（`images/` 直下禁止）。順序は contact sheet → 人間が B/S 決定 → process。
 
 ```powershell
 py -3.14 -m pip install -r scripts/requirements-scroll.txt
+py -3.14 scripts/generate_contact_sheet.py scrolls/my-new-scroll/
+# → images/_raw/contact_sheet.jpg を目視し Brightness / Sharpen を決める
+
 py -3.14 scripts/process_figma_slices.py scrolls/my-new-scroll/ `
   --input-dir scrolls/my-new-scroll/images/_raw `
+  --brightness 1.05 --sharpen 130 `
   --scene-text `
   --force
 ```
 
-手順の詳細: [`figma-slice-export.md`](./figma-slice-export.md)
+手順の詳細: [`figma-slice-export.md`](./figma-slice-export.md)  
+Agent 用: [`cursor-scroll-sync-prompt.md`](./cursor-scroll-sync-prompt.md) Step 0a / 0b
 
 **段構成 CSV（正本）:** `sources/scenes-summary.csv` — 列: `scene_id`, `title_ja`, `title_en`, `range_start`, `range_end`, `slot_types`, `confidence`（`draft` → 目視後 `reviewed`）。画像別メモは `sources/scene-mapping.csv` も可。
 
-**preflight 追加フラグ:** `--strict-text` / `--skip-similarity` / `--require-reviewed`
+**preflight 追加フラグ:** `--strict-text` / `--skip-similarity` / `--require-reviewed` / `--ack-no-color-correction`
+
+**preflight が ERROR にする規約（抜粋）:**
+
+| 項目 | ルール |
+|------|--------|
+| `scroll_id` | kebab-case のみ（underscore 禁止） |
+| `metadata.eraen` | 小文字コード（`edo` / `heiann` 等）。`Edo` は不可 |
+| `metadata.thumb` | `/thumb/{titleen}_thumb.webp` 形式（値が空のときは WARN） |
+| 色調 | `images/_raw/` にスライスがあるのに `contact_sheet.jpg` が無い → ERROR（`--ack-no-color-correction` で WARN 化） |
+
+`process_figma_slices.py` は既定で input-dir 内の `contact_sheet.jpg` を要求（`--skip-contact-sheet-check` で回避）。
 
 ### Phase 1: ローカル準備（Cloudinary に触らない）
 
@@ -187,7 +204,7 @@ py -3.14 scripts/create-project.py my-new-scroll
 2. `scrolls/{scroll_id}/images/` に画像を配置
 3. 词書が必要なら `scenes[].text` を YAML に記述
 
-**Figma スライスから用意する場合（推奨）** — ラフを `images/_raw/` に置き、`process_figma_slices.py` で `_NN-1080.jpg` を生成します（上表参照）。
+**Figma スライスから用意する場合（推奨）** — ラフを `images/_raw/` に置き（**`images/` 直下禁止**）、`generate_contact_sheet.py` で補正値を決めてから `process_figma_slices.py` で `_NN-1080.jpg` を生成します（上表参照）。`_NN-1080` だけある場合は `_raw/` に戻すか、明示的な補正スキップ承認が必要（Agent プロンプト Step 0b）。
 
 **外部ソース（Wikimedia Commons 等）から単枚を用意する場合** — ダウンロード後も同スクリプト、または sharp ワンライナーで高さ 1080px にできます:
 
@@ -195,15 +212,17 @@ py -3.14 scripts/create-project.py my-new-scroll
 # ダウンロード（例: Wikimedia Commons）
 curl.exe -s -L -o "scrolls\{scroll_id}\images\_raw\src-01.jpg" "https://commons.wikimedia.org/wiki/Special:FilePath/XXX.jpg"
 
+py -3.14 scripts/generate_contact_sheet.py scrolls/{scroll_id}/
+# 目視後、決めた B/S を渡す
 py -3.14 scripts/process_figma_slices.py scrolls/{scroll_id}/ `
-  --input-dir scrolls/{scroll_id}/images/_raw --force --skip-yaml
+  --input-dir scrolls/{scroll_id}/images/_raw --brightness 1.05 --sharpen 130 --force --skip-yaml
 
 # または sharp 単発:
 # node -e "require('sharp')('...').resize({height:1080}).jpeg({quality:85}).toFile('.../_01-1080.jpg')"
 ```
 
 - 対象物が **縦長（portrait）** の場合、16:9 サムネイルでは中央帯だけが使われるため、代表シーン選定時に考慮する（`docs/operations/thumb-workflow.md` 参照）
-- 枚数が多い場合は `images/_raw/` にまとめてから `process_figma_slices.py` を使う
+- 枚数が多い場合は `images/_raw/` にまとめてから contact sheet → `process_figma_slices.py` を使う
 
 YAML 草案: [`ai-scroll-config-prompt.md`](./ai-scroll-config-prompt.md)  
 命名規則: [`naming-convention.md`](./naming-convention.md)
@@ -291,11 +310,11 @@ py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20
 
 | スクリプト | 役割 |
 |-----------|------|
-| `postflight_sync.py` | cache / emaki-text-data 整合（`sync_all.py` 末尾でも自動実行） |
+| `postflight_sync.py` | cache / emaki-text-data 整合（`sync_all.py` 末尾でも自動実行）。**thumb パス欠落・不一致は ERROR** |
 | `postflight_thumb.py` | `public/thumb/` 実ファイル + JSON パス |
 | `generate-thumb-from-scene.js` | Cloudinary シーンから非 Figma サムネ生成 |
 | `generateOgImages.js --check` | OGP 元サムネの存在確認（SKIP で exit 1） |
-| `postflight_downstream.py` | 上記 + OGP + `npm run build` |
+| `postflight_downstream.py` | 上記 + OGP + `npm run build`。**OGP 欠落は ERROR**（`--skip-thumb` / `--skip-ogp` で回避可） |
 
 ```powershell
 node scripts/generate-thumb-from-scene.js tsukumogami --public-id tsukumogami__tsukumogami_1_02__02 --crop west

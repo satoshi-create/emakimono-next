@@ -49,6 +49,11 @@ def main(argv: list[str] | None = None) -> int:
         help="Require scene-mapping confidence != draft",
     )
     parser.add_argument("--skip-mapping-check", action="store_true", help="Skip CSV vs YAML check")
+    parser.add_argument(
+        "--ack-no-color-correction",
+        action="store_true",
+        help="Acknowledge skipping contact-sheet color correction",
+    )
     args = parser.parse_args(argv)
 
     scroll_dir, config_path, images_dir = resolve_paths(args.scroll_dir)
@@ -85,6 +90,8 @@ def main(argv: list[str] | None = None) -> int:
         preflight_cmd.append("--skip-similarity")
     if args.require_reviewed:
         preflight_cmd.append("--require-reviewed")
+    if args.ack_no_color_correction:
+        preflight_cmd.append("--ack-no-color-correction")
     steps.append(("Preflight", preflight_cmd))
 
     for label, cmd in steps:

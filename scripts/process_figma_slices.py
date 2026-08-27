@@ -403,6 +403,11 @@ def main(argv: list[str] | None = None) -> int:
         default=DEFAULT_SHARPEN_PERCENT,
         help=f"UnsharpMask percent; 0 disables (default: {DEFAULT_SHARPEN_PERCENT})",
     )
+    parser.add_argument(
+        "--skip-contact-sheet-check",
+        action="store_true",
+        help="Allow process without images/_raw/contact_sheet.jpg (explicit skip)",
+    )
     args = parser.parse_args(argv)
 
     scroll_dir = resolve_scroll_dir(args.scroll_path)
@@ -425,6 +430,15 @@ def main(argv: list[str] | None = None) -> int:
             "input-dir and output-dir must differ "
             "(put Figma exports in images/_raw/)"
         )
+
+    if not args.skip_contact_sheet_check:
+        sheet_names = ("contact_sheet.jpg", "contact_sheet.jpeg")
+        if not any((input_dir / name).is_file() for name in sheet_names):
+            raise SystemExit(
+                f"Missing contact_sheet.jpg in {input_dir}. "
+                "Run generate_contact_sheet.py and decide Brightness/Sharpen first, "
+                "or pass --skip-contact-sheet-check to override."
+            )
 
     kotobagaki = args.kotobagaki == "true"
     sources = collect_input_images(input_dir)

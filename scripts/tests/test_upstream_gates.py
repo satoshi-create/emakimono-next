@@ -31,6 +31,19 @@ class TestImageUtils(unittest.TestCase):
         self.assertEqual(extract_index_from_path(Path("_31-975.jpg")), 31)
         self.assertIsNone(extract_index_from_path(Path("foo.jpg")))
 
+    def test_list_image_files_skips_raw(self) -> None:
+        from scroll_image_utils import list_image_files
+
+        with tempfile.TemporaryDirectory() as tmp:
+            images = Path(tmp)
+            (images / "_01-1080.jpg").write_bytes(b"x")
+            raw = images / "_raw"
+            raw.mkdir()
+            (raw / "slice.png").write_bytes(b"x")
+            (raw / "contact_sheet.jpg").write_bytes(b"x")
+            names = {p.name for p in list_image_files(images)}
+            self.assertEqual(names, {"_01-1080.jpg"})
+
 
 class TestRangeCoverage(unittest.TestCase):
     def test_missing_index(self) -> None:
@@ -77,6 +90,63 @@ class TestSimilarity(unittest.TestCase):
         source = "康保の頃、煤払いで捨てられた古道具たちが集まり、長年の奉公への報いもなく路傍に捨てられた。"
         generated = "康保の頃、煤払いで捨てられた古道具たちが集まり、長年の奉公への報いもなく路傍に捨てられた。"
         self.assertGreaterEqual(_similarity(generated, source), 0.9)
+
+
+class TestMetadataConventions(unittest.TestCase):
+    def test_scroll_id_rejects_underscore(self) -> None:
+        from scroll_checks.metadata_conventions import check_scroll_id_kebab
+        from scroll_checks.report import ValidationReport
+
+        report = ValidationReport()
+        check_scroll_id_kebab("hyakki_kokkai_a", report=report)
+        self.assertTrue(any("kebab-case" in msg for msg in report.errors))
+
+    def test_eraen_rejects_edo_titlecase(self) -> None:
+        from scroll_checks.metadata_conventions import check_eraen
+        from scroll_checks.report import ValidationReport
+
+        report = ValidationReport()
+        check_eraen("Edo", report=report)
+        self.assertTrue(any("lowercase" in msg for msg in report.errors))
+
+    def test_thumb_path_requires_prefix(self) -> None:
+        from scroll_checks.metadata_conventions import check_thumb_path
+        from scroll_checks.report import ValidationReport
+
+        report = ValidationReport()
+        check_thumb_path("/demo_scroll_thumb.webp", titleen="demo_scroll", report=report)
+        self.assertTrue(any("/thumb/demo_scroll_thumb.webp" in msg for msg in report.errors))
+
+
+class TestColorCorrectionGate(unittest.TestCase):
+    def test_raw_without_contact_sheet_errors(self) -> None:
+        from scroll_checks.color_correction import check_color_correction_gate
+        from scroll_checks.report import ValidationReport
+
+        with tempfile.TemporaryDirectory() as tmp:
+            scroll_dir = Path(tmp)
+            raw = scroll_dir / "images" / "_raw"
+            raw.mkdir(parents=True)
+            (raw / "slice_01.png").write_bytes(b"x")
+            report = ValidationReport()
+            check_color_correction_gate(scroll_dir, report=report)
+            self.assertTrue(any("contact_sheet.jpg" in msg for msg in report.errors))
+
+    def test_ack_downgrades_raw_error(self) -> None:
+        from scroll_checks.color_correction import check_color_correction_gate
+        from scroll_checks.report import ValidationReport
+
+        with tempfile.TemporaryDirectory() as tmp:
+            scroll_dir = Path(tmp)
+            raw = scroll_dir / "images" / "_raw"
+            raw.mkdir(parents=True)
+            (raw / "slice_01.png").write_bytes(b"x")
+            report = ValidationReport()
+            check_color_correction_gate(
+                scroll_dir, report=report, ack_no_color_correction=True
+            )
+            self.assertEqual(report.errors, [])
+            self.assertTrue(any("acknowledged" in msg for msg in report.warnings))
 
 
 class TestBuildSceneMappingYaml(unittest.TestCase):

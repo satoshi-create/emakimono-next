@@ -15,8 +15,8 @@ Figma のメモリ制限によるボケを避けるため、取り込みには�
 | **Step 1** | **Insert Big Image** | Figma の自動ダウンサンプリングを回避して原画を取り込み | 人間 |
 | **Step 2** | Figma 標準ツール | 余計な余白・ノドのトリム（高さはおおよそで可） | 人間 |
 | **Step 3** | スライスツール（`S`） | 絵柄を切断しない境界でセクション枠を配置 | 人間 |
-| **Step 4** | Figma Export | スライスをラフな PNG/JPG として書き出し（任意ファイル名可） | 人間 |
-| **Step 4.5** | **`generate_contact_sheet.py`** | Brightness × Sharpen 比較シートで補正値を目視決定 | 人間 / Agent |
+| **Step 4** | Figma Export | スライスをラフな PNG/JPG として書き出し（**`images/_raw/` のみ。`images/` 直下禁止**） | 人間 |
+| **Step 4.5** | **`generate_contact_sheet.py`** | Brightness × Sharpen 比較シートで補正値を目視決定（**本番 batch 前に必須**） | 人間 / Agent |
 | **Step 5** | **`process_figma_slices.py`** | 1080px・補正・1MB 未満 JPEG・`_NN-1080.jpg`・YAML 骨格 | Agent / 人間 |
 | **Step 6** | preflight → sync | 上流ゲート後に Cloudinary sync（別ドキュメント） | Agent |
 
@@ -75,16 +75,14 @@ Figma のメモリ制限によるボケを避けるため、取り込みには�
 ### Step 4: ラフ書き出し
 
 1. すべてのスライスを選択し、Figma の Export で **PNG または JPG** を書き出します。
-2. 出力先は次のどちらかにします（**`images/` 直下には置かない**）:
-   - `scrolls/{scroll_id}/images/_raw/`
-   - 任意の一時フォルダ（後で `--input-dir` に渡す）
-3. この時点では 1MB 超過・非連番名・高さ不一致があって構いません。
+2. 出力先は **`scrolls/{scroll_id}/images/_raw/` のみ** とします。
+   - **禁止:** `images/` 直下（`1_1080px.jpg` や `_01-1080.jpg` をここに置いて sync に進むと、Step 4.5 の色調比較がスキップされる）
+   - 一時フォルダに出した後も、必ず `_raw/` へ移してから次へ進む
+3. この時点では 1MB 超過・非連番名・高さ不一致があって構いません。手元で 1080px まで仕上げない（補正・リサイズは Step 5）。
 
+### Step 4.5: 補正パラメータのコンタクトシート（必須）
 
-
-### Step 4.5: 補正パラメータのコンタクトシート（推奨）
-
-絵巻ごとに紙焼けや墨の濃淡が異なるため、本番 batch の前に代表1枚で Brightness × UnsharpMask を比較します。
+絵巻ごとに紙焼けや墨の濃淡が異なるため、本番 batch の前に代表1枚で Brightness × UnsharpMask を比較します。**sync / `process_figma_slices.py` の前に必ず実施**（スキップはユーザーが明示承認した場合のみ。Agent は [`cursor-scroll-sync-prompt.md`](./cursor-scroll-sync-prompt.md) Step 0b）。
 
 ```powershell
 $env:PYTHONIOENCODING = "utf-8"
@@ -153,6 +151,7 @@ py -3.14 scripts/process_figma_slices.py scrolls/{scroll_id}/ `
 | `--scenes-csv PATH` | CSV パス明示 |
 | `--brightness FLOAT` | 明るさ係数（既定 `1.05`） |
 | `--sharpen INT` | UnsharpMask percent。`0` で無効（既定 `130`） |
+| `--skip-contact-sheet-check` | `contact_sheet.jpg` 無しでも process を許可（明示スキップ） |
 
 解説文は **`scenes[].text.desc` / `descen`** に書く（scene 直下の `desc` はパイプラインが読まない）。
 
@@ -191,9 +190,9 @@ py -3.14 scripts/sync_all.py scrolls/{scroll_id}/scroll_config.yaml --dry-run
 - [ ] プラグイン **Insert Big Image** が Saved にあるか
 - [ ] 余白・ノドをトリムしたか
 - [ ] スライス枠で妖怪の身体や小道具が切れていないか
-- [ ] ラフを `images/_raw/`（または別 input-dir）に置いたか（`images/` 直下と混在させない）
-- [ ] `generate_contact_sheet.py` で補正（B/S）を目視決定したか
-- [ ] `process_figma_slices.py` で `_NN-1080.jpg` が揃い、各ファイル 1MB 以下か
+- [ ] ラフを **`images/_raw/` のみ** に置いたか（`images/` 直下への配置・手元での 1080 仕上げは禁止）
+- [ ] `generate_contact_sheet.py` で補正（B/S）を目視決定したか（スキップする場合は明示承認）
+- [ ] 決めた B/S を渡して `process_figma_slices.py` を実行し、`_NN-1080.jpg` が揃い各ファイル 1MB 以下か
 - [ ] `scroll_config.yaml` の global index（1 始まり・欠番なし）と画像枚数が一致するか
 - [ ] 詞書なしで解説バーを出す場合 `sceneText: true` と `scenes[].text` があるか
 - [ ] 上流ゲート通過後に sync するか
