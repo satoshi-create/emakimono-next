@@ -9,6 +9,7 @@
 | **手順・CI・運用（正本）** | [`operations/scroll-pipeline.md`](./operations/scroll-pipeline.md) |
 | Cursor Agent 用 sync プロンプト | [`operations/cursor-scroll-sync-prompt.md`](./operations/cursor-scroll-sync-prompt.md) |
 | YAML 草案（汎用 AI プロンプト） | [`operations/ai-scroll-config-prompt.md`](./operations/ai-scroll-config-prompt.md) |
+| **scroll_config テンプレート（sceneText 型）** | [`template/scroll_config.scene-text.yaml`](./template/scroll_config.scene-text.yaml) |
 | Cloudinary B 形式命名 | [`operations/naming-convention.md`](./operations/naming-convention.md) |
 | ワークスペース入口 | [`scrolls/README.md`](../scrolls/README.md) |
 
@@ -25,6 +26,9 @@
 ```
 docs/
 ├── README.md                 ← このファイル（目次）
+├── template/                 ← scroll_config.yaml テンプレート
+│   ├── README.md
+│   └── scroll_config.scene-text.yaml
 ├── architecture/             ← システム設計・データスキーマ
 │   ├── viewer-architecture-analysis.md
 │   ├── zukan-overview.md

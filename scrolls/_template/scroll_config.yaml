@@ -1,5 +1,7 @@
-﻿# scroll_config.yaml — 新規絵巻テンプレート
+# scroll_config.yaml — 新規絵巻テンプレート
 # 詳細: docs/operations/scroll-pipeline.md
+# 完成例（词書なし・sceneText）: scrolls/hyakki-yakou/hyakki-no-zu-nichibun/
+# 完成例（词書あり）: scrolls/_examples/ および docs/operations/ai-scroll-config-prompt.md
 
 scroll_id: "my-scroll-id"       # kebab-case。フォルダ名・Cloudinary ID に使用
 volume_num: 1
@@ -19,19 +21,26 @@ metadata:
   typeen: "emaki"
   desc: ""
   descen: ""
-  thumb: "/my_scroll_slug_thumb.webp"
+  thumb: "/thumb/my_scroll_slug_thumb.webp"   # public/thumb/{titleen}_thumb.webp
   thumb2: ""
   backgroundImage: ""
   video: ""
-  sourceImageUrl: ""
-  sourceImage: ""
+  sourceImageUrl: ""             # 所蔵品ページ URL（トップ URL 不可）
+  sourceImage: ""                # 所蔵作品名（表示用ラベル）
+  sourceAuthor: ""               # 権利者・撮影者（必要な出典のみ）
+  sourceCollection: ""           # 所蔵・コレクション名
+  sourceLicense: ""              # 例: "CC BY 4.0"（空ならプロバイダ既定）
   encodeUrl: ""
   favorite: false
   kotobagaki: false
-  # kotobagaki: false でも各シーンに解説テキスト（gendaibun/desc）がある場合 true（例: 鳥獣人物戯画）
-  sceneText: false
   # kotobagaki_mode: "alternating"  # 地獄草紙型（词書・絵交互）。省略時=餓鬼草紙型。任意配置=explicit+slots（scroll-pipeline.md §4）
+  # kotobagaki: false でも各シーンに解説（desc/descen）がある場合は sceneText: true（例: 百鬼ノ図・鳥獣戯画）
+  sceneText: false
   readMore: false
+  # reference:                   # 任意。ビューア参考リンク（type / url / title）
+  #   - type: "所蔵機関"
+  #     url: "https://example.org/item/..."
+  #     title: "作品ページタイトル"
   keywords:
     - { name: "キーワード", id: "keyword", slug: "keyword" }
 
@@ -40,17 +49,23 @@ metadata:
 # - range: [開始, 終了] グローバル画像連番（1 から始まる）
 #   例: range: [1, 3] → 3 枚（ordinal 01, 02, 03）
 scenes:
+  # --- A) sceneText 型（词書なし・シーン解説）: metadata.sceneText: true ---
   - id: 1
     title: "第1段"
     titleen: "Scene 1"
     range: [1, 1]
-    text:                          # kotobagaki 作品では AI が生成（metadata.kotobagaki: true 時推奨）
-      gendaibun: |
-        現代語訳をここに書く。<br>HTML タグ可。
-      kobun: ""
-      desc: ""
+    text:
+      desc: "シーン解説（日本語）。"
+      descen: "Scene description (English)."
+
+  # --- B) kotobagaki 型（词書あり）: metadata.kotobagaki: true のとき ---
   # - id: 2
   #   title: "第2段"
   #   titleen: "Scene 2"
   #   range: [2, 3]
-
+  #   text:
+  #     gendaibun: |
+  #       現代語訳をここに書く。<br>HTML タグ可。
+  #     kobun: ""
+  #     desc: ""
+  #     descen: ""
