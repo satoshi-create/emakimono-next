@@ -3979,5 +3979,202 @@
     ],
     "sourceAuthor": "国立国会図書館",
     "sourceCollection": "亥-106"
+  },
+  {
+    "id": 103,
+    "title": "百鬼夜行図（東大本）",
+    "titleen": "hyakki_utokyo",
+    "author": "土佐行秀（蔭山源広迢写）",
+    "authoren": "tosa-yukihide-kageyama-copy",
+    "edition": "東京大学総合図書館所蔵",
+    "encodeUrl": "",
+    "backgroundImage": "",
+    "thumb": "/thumb/hyakki_utokyo_thumb.webp",
+    "thumb2": "/thumb/hyakki_utokyo_thumb.webp",
+    "video": "",
+    "era": "江戸",
+    "eraen": "edo",
+    "desc": "東京大学総合図書館所蔵の『百鬼夜行図』。江戸時代に土佐行秀の画を蔭山源広迢が写したもので、夜の行列に付喪神（古道具が化けた妖怪）や異形の妖怪が次々と登場し、巻末は朝日とともに百鬼が退散する場面で締めくくられます。",
+    "descen": "Hyakki Yagyō Zu held by the University of Tokyo General Library. An Edo-period copy by Kageyama Gen Kōchō after Tosa Yukihide, depicting a nocturnal parade of yōkai—including tsukumogami (animated household objects)—that dissolves at sunrise in the final scene.",
+    "readMore": false,
+    "type": "絵巻",
+    "typeen": "emaki",
+    "keyword": [
+      {
+        "name": "百鬼夜行",
+        "id": "hyakki-yakou",
+        "slug": "hyakki-yakou"
+      },
+      {
+        "name": "妖怪",
+        "id": "yokai",
+        "slug": "yokai"
+      },
+      {
+        "name": "付喪神",
+        "id": "tsukumogami",
+        "slug": "tsukumogami"
+      },
+      {
+        "name": "絵巻",
+        "id": "emaki",
+        "slug": "emaki"
+      }
+    ],
+    "kotobagaki": false,
+    "sceneText": true,
+    "favorite": false,
+    "sourceImageUrl": "https://da.dl.itc.u-tokyo.ac.jp/portal/assets/fbd0479b-dbb4-4eaa-95b8-f27e1c423e4b",
+    "sourceImage": "東京大学デジタルアーカイブポータル",
+    "metadesc": "",
+    "gif": "",
+    "sourceEkotoba": "",
+    "reference": [
+      {
+        "type": "所蔵機関",
+        "url": "https://da.dl.itc.u-tokyo.ac.jp/portal/assets/fbd0479b-dbb4-4eaa-95b8-f27e1c423e4b",
+        "title": "百鬼夜行図 | 東京大学デジタルアーカイブポータル"
+      }
+    ],
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "1",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1787901520/emakimono/hyakki-utokyo__hyakki-utokyo_1_01__01.jpg",
+        "name": "hyakki-utokyo__hyakki-utokyo_1_01__01",
+        "srcHeight": 1080,
+        "srcWidth": 2714
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1787901520/emakimono/hyakki-utokyo__hyakki-utokyo_1_01__02.jpg",
+        "name": "hyakki-utokyo__hyakki-utokyo_1_01__02",
+        "srcHeight": 1080,
+        "srcWidth": 2714
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "2",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1787901520/emakimono/hyakki-utokyo__hyakki-utokyo_1_02__01.jpg",
+        "name": "hyakki-utokyo__hyakki-utokyo_1_02__01",
+        "srcHeight": 1080,
+        "srcWidth": 2527
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1787901523/emakimono/hyakki-utokyo__hyakki-utokyo_1_02__02.jpg",
+        "name": "hyakki-utokyo__hyakki-utokyo_1_02__02",
+        "srcHeight": 1080,
+        "srcWidth": 2527
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "3",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1787901523/emakimono/hyakki-utokyo__hyakki-utokyo_1_03__01.jpg",
+        "name": "hyakki-utokyo__hyakki-utokyo_1_03__01",
+        "srcHeight": 1080,
+        "srcWidth": 3088
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1787901523/emakimono/hyakki-utokyo__hyakki-utokyo_1_03__02.jpg",
+        "name": "hyakki-utokyo__hyakki-utokyo_1_03__02",
+        "srcHeight": 1080,
+        "srcWidth": 3088
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1787901525/emakimono/hyakki-utokyo__hyakki-utokyo_1_03__03.jpg",
+        "name": "hyakki-utokyo__hyakki-utokyo_1_03__03",
+        "srcHeight": 1080,
+        "srcWidth": 3088
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1787901526/emakimono/hyakki-utokyo__hyakki-utokyo_1_03__04.jpg",
+        "name": "hyakki-utokyo__hyakki-utokyo_1_03__04",
+        "srcHeight": 1080,
+        "srcWidth": 3542
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "4",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1787901525/emakimono/hyakki-utokyo__hyakki-utokyo_1_04__01.jpg",
+        "name": "hyakki-utokyo__hyakki-utokyo_1_04__01",
+        "srcHeight": 1080,
+        "srcWidth": 3542
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "5",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1787901529/emakimono/hyakki-utokyo__hyakki-utokyo_1_05__01.jpg",
+        "name": "hyakki-utokyo__hyakki-utokyo_1_05__01",
+        "srcHeight": 1080,
+        "srcWidth": 4069
+      }
+    ],
+    "title_en": "Hyakki Yagyō Zu (UTokyo)",
+    "sourceAuthor": "東京大学総合図書館",
+    "sourceCollection": "A00:6275"
   }
 ]
