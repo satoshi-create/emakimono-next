@@ -1,4 +1,5 @@
 import styles from "@/styles/FullScreenComp.module.css";
+import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useFullScreenHandle } from "react-full-screen";
@@ -10,12 +11,15 @@ export default function FullScreenComp({
   edition,
   title,
   titleen,
+  title_en,
 }) {
   const handle = useFullScreenHandle();
   const { locale } = useRouter();
 
   const localeTitle =
-    locale === "en" ? `${titleen}` : `${title} ${edition ? edition : ""}`;
+    locale === "en"
+      ? emakiDisplayTitle({ title, titleen, title_en }, locale)
+      : `${title} ${edition ? edition : ""}`;
 
   return (
     <>

@@ -19,6 +19,7 @@ import WheelScrollIndicator from "@/components/emaki/viewer/WheelScrollIndicator
 import { AppContext } from "@/context/AppContext";
 import { SceneLikeCountsProvider } from "@/context/SceneLikeCountsContext";
 import { assignUniqueIndex } from "@/utils/emakiItemIndexer";
+import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import useEmakiAutoPlay from "@/hooks/emaki/useEmakiAutoPlay";
 import useEmakiPalmDrag from "@/hooks/emaki/useEmakiPalmDrag";
 import useEmakiScroll from "@/hooks/emaki/useEmakiScroll";
@@ -252,7 +253,7 @@ const EmakiContainer = ({
 
   const shareTitle =
     locale === "en"
-      ? data.titleen || data.title
+      ? emakiDisplayTitle(data, locale)
       : `${data.title ?? ""}${data.edition ? ` ${data.edition}` : ""}`.trim();
 
   const handleSharePromptCopy = useCallback(async () => {

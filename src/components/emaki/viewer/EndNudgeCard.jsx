@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { HUB_PATH } from "@/components/emaki/kusouzu/KusouzuHubLink";
 import { HUB_PATH as GIGA_HUB_PATH } from "@/components/emaki/chouju-giga/ChojuGigaHubLink";
 import nudgeStyles from "@/styles/KusouzuHubLink.module.css";
+import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 
 const EndNudgeCard = ({
   editionLinks = [],
@@ -112,7 +113,9 @@ const EndNudgeCard = ({
                   flex: 1,
                 }}
               >
-                {locale === "en" ? item.titleen : item.edition || item.title}
+                {locale === "en"
+                  ? emakiDisplayTitle(item, locale)
+                  : item.edition || item.title}
               </span>
             </a>
           </Link>

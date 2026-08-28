@@ -119,6 +119,8 @@ export type ScrollMetadata = {
   title: string;
   /** URL slug 兼一意ID（naming-convention.md 参照） */
   titleen: string;
+  /** English display title (optional). URL slug remains titleen. */
+  title_en?: string;
   author?: string;
   authoren?: string;
   /** レガシー typos（atuhoren）は rename しない方針（AGENTS.md） */

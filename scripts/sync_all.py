@@ -426,6 +426,10 @@ def build_emaki_entry(config: dict, image_rows: list[dict], existing_entry: dict
         "emakis": emakis,
     }
 
+    # 英語表示名（任意。URL slug の titleen とは別）
+    if meta.get("title_en"):
+        entry["title_en"] = meta["title_en"]
+
     # 出典・ライセンス（YAML に指定があるときのみ上書き。無ければ preserve が保持）
     for key in ("sourceAuthor", "sourceCollection", "sourceLicense"):
         if meta.get(key):

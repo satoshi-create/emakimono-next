@@ -11,6 +11,7 @@ import { AppContext } from "@/context/AppContext";
 import { buildEmakiJsonLd } from "@/utils/buildEmakiJsonLd";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
+import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import { useLocaleMeta } from "@/utils/func";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useRef } from "react";
@@ -64,7 +65,7 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
 
   const pagetitle =
     locale === "en"
-      ? data.titleen
+      ? emakiDisplayTitle(data, locale)
       : `${data.title ?? ""}${data.edition ? ` ${data.edition}` : ""}${seoTitleSuffix}`.trim();
 
   const pageAuthor = locale === "en" ? data.authoren : data.author;
@@ -113,22 +114,23 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
   const isKusouzu = isKusouzuScroll(data);
   const isChojuGiga = isChojuGigaScroll(data);
 
+  const displayTitle = emakiDisplayTitle(data, locale);
   const breadcrumbProps = isKusouzu
     ? {
         nameHub: tc("kusouzuHub.breadcrumb"),
         nameHubPath: "kusouzu/chapters-kusouzu",
-        nameB: locale === "en" ? data.titleen : data.title,
+        nameB: displayTitle,
       }
     : isChojuGiga
     ? {
         nameHub: tc("choujuGigaHub.breadcrumb"),
         nameHubPath: "chouju-giga/chapters",
-        nameB: locale === "en" ? data.titleen : data.title,
+        nameB: displayTitle,
       }
     : {
         nameA: locale === "en" ? data.typeen : data.type,
         nameAen: `type/${data.typeen}`,
-        nameB: locale === "en" ? data.titleen : data.title,
+        nameB: displayTitle,
       };
 
   const matchMediaContainer = (full, ori) => {

@@ -8,6 +8,7 @@ import styles from "@/styles/EmakiPortraitContent.module.css";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
+import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import {
   filterdKeywords,
   keywordItem,
@@ -64,7 +65,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
 
   const descEn = descen
     ? descen
-    : `You can enjoy all the scenes of the " ${titleen} ${
+    : `You can enjoy all the scenes of the " ${emakiDisplayTitle(data, "en")} ${
         authoren && `（${authoren}）`
       } " in vertical and right to left scrolling mode.`;
 
@@ -104,7 +105,7 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
             <div className={styles.titleRow}>
               <div className={styles.titleLeading}>
                 <h3 className={styles.title}>
-                  {locale === "ja" ? title : titleen}{" "}
+                  {emakiDisplayTitle(data, locale)}{" "}
                   {locale === "ja" && edition}
                 </h3>
                 {rankInfo && (

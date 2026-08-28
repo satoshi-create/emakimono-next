@@ -26,6 +26,7 @@ import {
   getChapterDescRaw,
   useLocaleData,
 } from "@/utils/func";
+import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import { getLiveSlugs } from "@/utils/getLiveSlugs";
 import {
   faBookOpen,
@@ -132,7 +133,7 @@ const SceneCommentaryBar = ({ data, navIndex, isFullscreen = false }) => {
 
   const shareTitle =
     locale === "en"
-      ? titleen || title
+      ? emakiDisplayTitle(data, locale)
       : `${title ?? ""}`.trim();
 
   // ×で閉じられた場合: バー本体の代わりに、小さな「解説を表示」ボタンのみを表示する。
