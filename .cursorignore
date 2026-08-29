@@ -30,6 +30,9 @@ public/data/
 *.jpg
 *.jpeg
 *.webp
+# scroll workspace images: allow Agent vision without commenting out globals above
+!scrolls/*/images/
+!scrolls/*/images/**
 *.gif
 *.svg
 *.mp4
@@ -42,7 +45,7 @@ public/data/
 public/sitemap*.xml
 
 # Large static metadata / tile data
-# NOTE: blanket `*.json` is intentionally NOT used — the following stay indexed:
+# NOTE: blanket `*.json` is intentionally NOT used  Ethe following stay indexed:
 #   - public/locales/{ja,en}/common.json (i18n UI strings)
 #   - config JSON (package.json, tsconfig.json, next.config.js, etc.)
 # Heavy data dirs are excluded explicitly instead (comment out when editing scroll metadata).
@@ -56,7 +59,16 @@ src/data/chronology/
 src/data/withdrawn/
 
 # Local scroll workspace and sync outputs
-scrolls/
+# Block scrolls/ by default; negations below keep pipeline YAML/sources + images readable
+scrolls/*
+!scrolls/*/
+!scrolls/README.md
+scrolls/*/*
+!scrolls/*/scroll_config.yaml
+!scrolls/*/sources/
+!scrolls/*/sources/**
+!scrolls/*/images/
+!scrolls/*/images/**
 analytics/reports/
 analytics/content-map.json
 

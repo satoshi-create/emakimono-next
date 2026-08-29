@@ -22,6 +22,7 @@ from pathlib import Path
 import sync_scroll as ss
 from scroll_checks.color_correction import check_color_correction_gate
 from scroll_checks.metadata_conventions import check_metadata_conventions
+from scroll_checks.metadata_desc import check_user_facing_desc
 from scroll_checks.report import ValidationReport as PreflightReport
 from scroll_checks.images import check_image_heights, check_unindexed_files, max_image_index
 from scroll_checks.scene_mapping import check_scene_mapping_sync
@@ -141,6 +142,8 @@ def run_preflight(
     if ks is not None:
         if not isinstance(ks, list) or not all(isinstance(s, (str, int)) for s in ks):
             report.error("metadata.kusouzuslug must be a list of stage ids (int or str)")
+
+    check_user_facing_desc(meta, report=report)
 
     scenes = ss.get_scenes_config(config)
     if not scenes:

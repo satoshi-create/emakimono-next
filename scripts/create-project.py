@@ -29,13 +29,17 @@ SOURCES_README = """# sources/ — 参考資料（sync には直接使わない�
 
 | ファイル | 役割 |
 |---------|------|
-| `scenes-summary.csv` | 段タイトル・range の正本（推奨） |
-| `scene-mapping.csv` | 画像ごとの目視メモ（任意） |
+| `scenes-summary.csv` | 段タイトル・range の正本（必須） |
+| `scene-mapping.md` | 画像ごとの目視メモ（任意。CSV ではなく Markdown） |
 
-CSV 更新後:
+**禁止:** `scene-mapping.csv` と `scenes-summary.csv` の共存（preflight ERROR）。
+
+CSV / YAML の同期:
 
 ```powershell
-py -3.14 scripts/build_scene_mapping.py scrolls/{scroll_id}/ --write-yaml
+py -3.14 scripts/build_scene_mapping.py scrolls/{scroll_id}/ --check
+py -3.14 scripts/build_scene_mapping.py scrolls/{scroll_id}/ --write-yaml   # CSV → YAML
+py -3.14 scripts/build_scene_mapping.py scrolls/{scroll_id}/ --write-csv    # YAML → CSV
 py -3.14 scripts/preflight_upstream.py scrolls/{scroll_id}/
 ```
 """

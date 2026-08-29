@@ -149,6 +149,152 @@ class TestColorCorrectionGate(unittest.TestCase):
             self.assertTrue(any("acknowledged" in msg for msg in report.warnings))
 
 
+class TestSceneMappingSync(unittest.TestCase):
+    def test_scenes_summary_preferred_over_mapping_csv(self) -> None:
+        from scroll_checks.scene_mapping import load_scene_rows, scene_rows_to_yaml_dicts
+
+        with tempfile.TemporaryDirectory() as tmp:
+            sources = Path(tmp) / "sources"
+            sources.mkdir()
+            (sources / "scenes-summary.csv").write_text(
+                "scene_id,title_ja,title_en,range_start,range_end,image_count,slot_types,confidence,notes\n"
+                "1,正本,Canonical,1,2,2,,draft,\n",
+                encoding="utf-8-sig",
+            )
+            (sources / "scene-mapping.csv").write_text(
+                "global_index,filename,slot_type,scene_id,scene_title_ja,scene_title_en,range_start,range_end,confidence,notes\n"
+                "1,_01-1080.jpg,onset,1,旧,Legacy,1,1,draft,\n",
+                encoding="utf-8-sig",
+            )
+            rows = load_scene_rows(sources)
+            scenes = scene_rows_to_yaml_dicts(rows)
+            self.assertEqual(scenes[0]["title"], "正本")
+            self.assertEqual(scenes[0]["range"], [1, 2])
+            self.assertNotIn("slots", scenes[0])
+
+    def test_dual_csv_conflict_errors(self) -> None:
+        from scroll_checks.scene_mapping import check_dual_csv_conflict
+        from scroll_checks.report import ValidationReport
+
+        with tempfile.TemporaryDirectory() as tmp:
+            sources = Path(tmp) / "sources"
+            sources.mkdir()
+            (sources / "scenes-summary.csv").write_text("scene_id\n", encoding="utf-8-sig")
+            (sources / "scene-mapping.csv").write_text("global_index\n", encoding="utf-8-sig")
+            report = ValidationReport()
+            check_dual_csv_conflict(sources, report)
+            self.assertTrue(any("both scene-mapping.csv" in msg for msg in report.errors))
+
+    def test_semantic_slot_types_not_written_to_yaml(self) -> None:
+        from scroll_checks.scene_mapping import SceneRow, scene_rows_to_yaml_dicts
+
+        rows = [
+            SceneRow(
+                scene_id=1,
+                title_ja="場面",
+                title_en="Scene",
+                range_start=1,
+                range_end=1,
+                slot_types=["onset", "image"],
+                confidence="draft",
+            )
+        ]
+        scenes = scene_rows_to_yaml_dicts(rows)
+        self.assertEqual(scenes[0]["slots"], ["image"])
+
+    def test_write_csv_from_yaml_preserves_notes(self) -> None:
+        from build_scene_mapping import write_csv_from_yaml
+        from scroll_checks.scene_mapping import load_scenes_summary_csv, read_scenes_summary_notes
+
+        with tempfile.TemporaryDirectory() as tmp:
+            scroll_dir = Path(tmp) / "demo-scroll"
+            sources = scroll_dir / "sources"
+            sources.mkdir(parents=True)
+            config_path = scroll_dir / "scroll_config.yaml"
+            config_path.write_text(
+                """
+scroll_id: demo-scroll
+volume_num: 1
+metadata:
+  titleen: demo_scroll
+scenes:
+  - id: 1
+    title: 新タイトル
+    titleen: New Title
+    range: [1, 2]
+""".strip(),
+                encoding="utf-8",
+            )
+            (sources / "scenes-summary.csv").write_text(
+                "scene_id,title_ja,title_en,range_start,range_end,image_count,slot_types,confidence,notes\n"
+                "1,旧,Old,1,1,1,,draft,メモ残す\n",
+                encoding="utf-8-sig",
+            )
+            write_csv_from_yaml(config_path, sources, dry_run=False)
+            rows = load_scenes_summary_csv(sources / "scenes-summary.csv")
+            notes = read_scenes_summary_notes(sources / "scenes-summary.csv")
+            self.assertEqual(rows[0].title_ja, "新タイトル")
+            self.assertEqual(rows[0].range_end, 2)
+            self.assertEqual(notes[1], "メモ残す")
+
+
+class TestMetadataDesc(unittest.TestCase):
+    def test_rejects_research_terms_in_desc(self) -> None:
+        from scroll_checks.metadata_desc import check_user_facing_desc
+        from scroll_checks.report import ValidationReport
+
+        report = ValidationReport()
+        check_user_facing_desc(
+            {"desc": "AC型のCモジュール脱落を示す。", "descen": "A scroll."},
+            report=report,
+        )
+        self.assertTrue(any("metadata.desc" in msg for msg in report.errors))
+        self.assertTrue(any("AC型" in msg for msg in report.errors))
+
+    def test_rejects_research_terms_in_descen(self) -> None:
+        from scroll_checks.metadata_desc import check_user_facing_desc
+        from scroll_checks.report import ValidationReport
+
+        report = ValidationReport()
+        check_user_facing_desc(
+            {"desc": "東大本の絵巻。", "descen": "AC-lineage C-module call number."},
+            report=report,
+        )
+        self.assertTrue(any("metadata.descen" in msg for msg in report.errors))
+
+    def test_accepts_user_facing_desc(self) -> None:
+        from scroll_checks.metadata_desc import check_user_facing_desc
+        from scroll_checks.report import ValidationReport
+
+        report = ValidationReport()
+        check_user_facing_desc(
+            {
+                "desc": "東京大学所蔵の百鬼夜行絵巻。平安末期の妖怪絵の代表作。",
+                "descen": "Hyakki yagyō emaki held at the University of Tokyo.",
+            },
+            report=report,
+        )
+        self.assertEqual(report.errors, [])
+
+
+class TestScrollAssets(unittest.TestCase):
+    def test_thumb_webp_path(self) -> None:
+        from scroll_assets import thumb_webp_path
+
+        path = thumb_webp_path("hyakki_utokyo")
+        self.assertEqual(path.name, "hyakki_utokyo_thumb.webp")
+        self.assertEqual(path.parent.name, "thumb")
+
+    def test_ensure_thumb_skips_existing(self) -> None:
+        from scroll_assets import ensure_thumb_webp, thumb_webp_path
+
+        with tempfile.TemporaryDirectory() as tmp:
+            # Patch paths via existing public thumb if any
+            existing = thumb_webp_path("hyakki_utokyo")
+            if existing.is_file():
+                self.assertTrue(ensure_thumb_webp("hyakki_utokyo", dry_run=False))
+
+
 class TestBuildSceneMappingYaml(unittest.TestCase):
     def test_text_block_nested_under_scene(self) -> None:
         block = build_scenes_yaml_block(

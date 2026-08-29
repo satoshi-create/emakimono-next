@@ -10,6 +10,9 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from preflight_scroll import PreflightReport
 
+# Viewer layout slots (絵師草紙 explicit). Not semantic tags like onset|music.
+VALID_LAYOUT_SLOTS = frozenset({"image", "ekotoba"})
+
 
 @dataclass(frozen=True)
 class SceneRow:
@@ -103,19 +106,79 @@ def derive_scenes_from_mapping_csv(path: Path) -> list[SceneRow]:
     return rows
 
 
-def load_scene_rows(sources_dir: Path) -> list[SceneRow]:
-    """Prefer per-image scene-mapping.csv (slots). Fall back to scenes-summary.csv."""
-    mapping = sources_dir / "scene-mapping.csv"
-    summary = sources_dir / "scenes-summary.csv"
+def dual_csv_paths(sources_dir: Path) -> bool:
+    """True when both canonical summary and legacy per-image CSV exist."""
+    return (sources_dir / "scene-mapping.csv").is_file() and (
+        sources_dir / "scenes-summary.csv"
+    ).is_file()
 
-    if mapping.is_file():
-        mapping_rows = derive_scenes_from_mapping_csv(mapping)
-        if mapping_rows:
-            return mapping_rows
+
+def check_dual_csv_conflict(sources_dir: Path, report: PreflightReport) -> None:
+    if not dual_csv_paths(sources_dir):
+        return
+    report.error(
+        "sources/ contains both scene-mapping.csv and scenes-summary.csv. "
+        "Canonical mapping is scenes-summary.csv only; per-image notes belong in "
+        "scene-mapping.md. Remove scene-mapping.csv."
+    )
+
+
+def load_scene_rows(sources_dir: Path) -> list[SceneRow]:
+    """Load scenes-summary.csv (canonical). Fall back to legacy scene-mapping.csv only."""
+    summary = sources_dir / "scenes-summary.csv"
+    mapping = sources_dir / "scene-mapping.csv"
 
     if summary.is_file():
         return load_scenes_summary_csv(summary)
+    if mapping.is_file():
+        return derive_scenes_from_mapping_csv(mapping)
     return []
+
+
+def _layout_slots(slot_types: list[str] | None) -> list[str] | None:
+    if not slot_types:
+        return None
+    valid = [slot for slot in slot_types if slot in VALID_LAYOUT_SLOTS]
+    return valid or None
+
+
+def yaml_scenes_to_scene_rows(
+    yaml_scenes: list[dict],
+    existing: list[SceneRow] | None = None,
+) -> list[SceneRow]:
+    """Build scenes-summary rows from scroll_config.yaml scenes (for --write-csv)."""
+    existing_by_id = {row.scene_id: row for row in (existing or [])}
+    rows: list[SceneRow] = []
+    for scene in sorted(yaml_scenes, key=lambda item: int(item["id"])):
+        scene_id = int(scene["id"])
+        start, end = scene["range"]
+        prev = existing_by_id.get(scene_id)
+        yaml_slots = _layout_slots(scene.get("slots"))
+        csv_slots = _layout_slots(prev.slot_types if prev else None)
+        rows.append(
+            SceneRow(
+                scene_id=scene_id,
+                title_ja=str(scene.get("title", "")),
+                title_en=str(scene.get("titleen", "")),
+                range_start=int(start),
+                range_end=int(end),
+                slot_types=yaml_slots if yaml_slots is not None else csv_slots,
+                confidence=prev.confidence if prev else "draft",
+            )
+        )
+    return rows
+
+
+def read_scenes_summary_notes(path: Path) -> dict[int, str]:
+    if not path.is_file():
+        return {}
+    notes: dict[int, str] = {}
+    with path.open("r", encoding="utf-8-sig", newline="") as handle:
+        reader = csv.DictReader(handle)
+        for raw in reader:
+            scene_id = int(_cell(raw, "scene_id"))
+            notes[scene_id] = _cell(raw, "notes")
+    return notes
 
 
 def scene_rows_to_yaml_dicts(rows: list[SceneRow]) -> list[dict]:
@@ -127,8 +190,9 @@ def scene_rows_to_yaml_dicts(rows: list[SceneRow]) -> list[dict]:
             "titleen": row.title_en,
             "range": [row.range_start, row.range_end],
         }
-        if row.slot_types:
-            scene["slots"] = row.slot_types
+        layout_slots = _layout_slots(row.slot_types)
+        if layout_slots:
+            scene["slots"] = layout_slots
         scenes.append(scene)
     return scenes
 
@@ -158,15 +222,19 @@ def check_scene_mapping_sync(
     *,
     require_reviewed: bool = False,
 ) -> None:
+    check_dual_csv_conflict(sources_dir, report)
+
     rows = load_scene_rows(sources_dir)
     if not rows:
         return
 
     csv_scenes = scene_rows_to_yaml_dicts(rows)
     if not scenes_equal(yaml_scenes, csv_scenes):
+        scroll_id = sources_dir.parent.name
         report.error(
-            "scroll_config.yaml scenes diverged from sources/scenes-summary.csv "
-            "(or scene-mapping.csv). Run: py -3.14 scripts/build_scene_mapping.py scrolls/{id}/ --write-yaml"
+            "scroll_config.yaml scenes diverged from sources/scenes-summary.csv. "
+            f"Sync with: py -3.14 scripts/build_scene_mapping.py scrolls/{scroll_id}/ "
+            "--write-yaml (CSV→YAML) or --write-csv (YAML→CSV)"
         )
 
     draft_ids = [str(row.scene_id) for row in rows if row.confidence.lower() == "draft"]

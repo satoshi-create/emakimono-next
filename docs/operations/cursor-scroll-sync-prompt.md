@@ -82,6 +82,13 @@ py -3.14 scripts/process_figma_slices.py scrolls/{{scroll-id}}/ `
 
 `1_1080px.jpg` 等の非準拠名だけの状態も 0b 扱い。リネームだけで sync に進まない。
 
+### Step 0v: 画像認識（段構成・scenes 確定前）
+`.cursorignore` で `scrolls/*/images/**` と `scrolls/*/sources/**` は **常時 Agent Read 可能**（毎回コメントアウト不要）。`scrolls/source/`（研究資料）と `public/thumb/` 等は引き続きブロック。
+
+1. ゲート: `scrolls/{{scroll-id}}/images/` の代表1枚を `Read` で開き、Permission denied でないこと
+2. 全スライスを目視同定し、`sources/scene-mapping.md` に記録してから `scroll_config.yaml` の scenes を書く
+3. PIL 色比率などの ad-hoc ヒューリスティックをナラティブ根拠にしない（ビジョン `Read` 必須）
+
 ### Step 1: レビュー
 1. scroll_config.yaml の scroll_id がフォルダ名と一致するか
 2. metadata.titleen / metadata.id が local-data/pipeline/dataEmakis.json と重複しないか
@@ -96,51 +103,40 @@ py -3.14 scripts/process_figma_slices.py scrolls/{{scroll-id}}/ `
 $env:PYTHONIOENCODING = "utf-8"
 py -3.14 scripts/normalize_scroll_images.py scrolls/{{scroll-id}}/ --dry-run
 py -3.14 scripts/build_scene_mapping.py scrolls/{{scroll-id}}/ --check
-py -3.14 scripts/preflight_upstream.py scrolls/{{scroll-id}}/ --skip-similarity
 ```
+不一致時: `--write-yaml`（CSV→YAML）または `--write-csv`（YAML→CSV、title/range 編集後）
+
 目視確認後（段構成 OK）:
 ```powershell
 py -3.14 scripts/preflight_upstream.py scrolls/{{scroll-id}}/ --require-reviewed
 ```
 
-preflight は次も ERROR にする: `scroll_id` 非 kebab / `eraen` 大文字・未知コード / `thumb` パス形式不一致 / `_raw` ありで contact sheet 無し。  
+preflight は次も ERROR にする: `scroll_id` 非 kebab / `eraen` 大文字・未知コード / `thumb` パス形式不一致 / `_raw` ありで contact sheet 無し / `metadata.desc`・`descen` に研究用分類語（AC型・Cモジュール・請求記号 等）。  
 補正スキップ承認時のみ: `--ack-no-color-correction` を preflight_upstream / sync_all に付与。
 
-### Step 2: Phase 0〜2（検証のみ・upload なし）
-PowerShell で実行（python ではなく py -3.14）:
+### Step 2〜4: sync（統合コマンド推奨）
 
 ```powershell
 $env:PYTHONIOENCODING = "utf-8"
+
+# 検証のみ
+py -3.14 scripts/scroll_upload.py scrolls/{{scroll-id}}/ --dry-run
+
+# 本番（preflight → sync → thumb webp → OGP → postflight）
+py -3.14 scripts/scroll_upload.py scrolls/{{scroll-id}}/ --ack-no-color-correction
+```
+
+`--ack-no-color-correction` は contact sheet 未作成時のみ付与。
+
+**個別コマンド（デバッグ用）:**
+
+```powershell
 py -3.14 scripts/preflight_scroll.py scrolls/{{scroll-id}}/scroll_config.yaml
 py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20 --no-save
 py -3.14 scripts/sync_all.py scrolls/{{scroll-id}}/scroll_config.yaml --dry-run
-```
-
-報告してほしい内容:
-- preflight が OK か（エラー内容）
-- usage の credits.usage / limit
-- dry-run の planned 枚数
-- public_id が B 形式か（{{scroll-id}}__{{scroll-id}}_1_01__01）
-
-### Step 3: 本番 sync（Step 2 がすべて OK のときのみ）
-.env.local に CLOUDINARY_URL があることを確認してから 1 回だけ:
-
-```powershell
 py -3.14 scripts/sync_all.py scrolls/{{scroll-id}}/scroll_config.yaml
-```
-
-### Step 4: 事後確認（下流ゲート）
-
-```powershell
-py -3.14 scripts/postflight_sync.py scrolls/{{scroll-id}}/
-py -3.14 scripts/postflight_thumb.py {{titleen}}
-node src/script/generateOgImages.js --check {{titleen}}
 py -3.14 scripts/postflight_downstream.py scrolls/{{scroll-id}}/ --skip-build
-py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20 --no-save
-npm run build
 ```
-
-thumb（`/thumb/{{titleen}}_thumb.webp`）と OGP（`public/ogp/{{titleen}}.jpg`）欠落は **ERROR**（`--skip-thumb` / `--skip-ogp` でのみ回避）。
 
 ### Step 5: 報告
 

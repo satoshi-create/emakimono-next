@@ -71,6 +71,15 @@ next-env.d.ts
 
 .history
 
+# Agent / scroll analysis temp artifacts (do not commit)
+/analytics/hyakki_view/
+/analytics/hyakki_analysis.json
+/analytics/hyakki_*.txt
+/public/_tmp_hyakki_analysis/
+/docs/operations/_hyakki_tmp/
+/scripts/_hyakki_*.py
+/src/utils/_hyakki_*
+
 credentials.json
 
 .vercel

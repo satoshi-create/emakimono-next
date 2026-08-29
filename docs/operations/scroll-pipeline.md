@@ -129,7 +129,11 @@ py -3.14 scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml --prefligh
 | scenes range が 1..N を完全カバー | **自動** | 穴・重複・index 1 未包含を error |
 | 2 層テキスト（gendaibun / desc+descen） | **自動** | `scene-text-policy.md` 準拠 |
 | sources/ との類似度 | **自動** | `--skip-similarity` で下書き時省略可 |
-| CSV ↔ YAML scenes 一致 | **自動** | `build_scene_mapping.py --check` |
+| CSV ↔ YAML scenes 一致 | **自動** | `build_scene_mapping.py --check`（不一致時 `--write-yaml` または `--write-csv`） |
+| `scene-mapping.csv` + `scenes-summary.csv` 共存 | **自動** | preflight ERROR（`scene-mapping.md` を使用） |
+| `metadata.desc` / `descen` | **自動** | 研究用分類語（AC型・Cモジュール・請求記号 等）→ ERROR。一般向け文案のみ |
+
+**Agent 画像認識:** `.cursorignore` で `scrolls/*/images/**` は常時 Read 可能（研究用 `scrolls/source/` はブロックのまま）。段構成前は `sources/scene-mapping.md` に目視同定を書く。詳細は [`cursor-scroll-sync-prompt.md`](./cursor-scroll-sync-prompt.md) Step 0v。
 
 ### Phase 0.5: 上流ゲート（sync 前・Cloudinary 非使用）
 
@@ -156,7 +160,8 @@ py -3.14 scripts/preflight_upstream.py scrolls/my-new-scroll/ --require-reviewed
 | `generate_contact_sheet.py` | 代表1枚で Brightness × Sharpen 比較シート（本番 batch 前に必須） |
 | `process_figma_slices.py` | Figma ラフ → 1080px / 補正 / 1MB JPEG / `_NN-1080.jpg` + YAML 骨格 |
 | `normalize_scroll_images.py` | `_01-{height}.jpg` 形式へ正規化 |
-| `build_scene_mapping.py` | CSV → `scroll_config.yaml` scenes / 整合チェック |
+| `build_scene_mapping.py` | CSV ↔ `scroll_config.yaml` scenes（`--write-yaml` / `--write-csv` / `--check`） |
+| `scroll_upload.py` | **統合オーケストレーター**（preflight → sync → thumb/OGP → postflight） |
 | `preflight_upstream.py` | 上記 + 拡張 preflight を順実行 |
 | `preflight_scroll.py` | 構造・画像・テキスト・著作権・CSV 整合（単体でも可） |
 
@@ -177,7 +182,15 @@ py -3.14 scripts/process_figma_slices.py scrolls/my-new-scroll/ `
 手順の詳細: [`figma-slice-export.md`](./figma-slice-export.md)  
 Agent 用: [`cursor-scroll-sync-prompt.md`](./cursor-scroll-sync-prompt.md) Step 0a / 0b
 
-**段構成 CSV（正本）:** `sources/scenes-summary.csv` — 列: `scene_id`, `title_ja`, `title_en`, `range_start`, `range_end`, `slot_types`, `confidence`（`draft` → 目視後 `reviewed`）。画像別メモは `sources/scene-mapping.csv` も可。
+**段構成 CSV（正本）:** `sources/scenes-summary.csv` — 列: `scene_id`, `title_ja`, `title_en`, `range_start`, `range_end`, `slot_types`（`image`/`ekotoba` のみ。絵師草紙型）, `confidence`（`draft` → 目視後 `reviewed`）。画像別メモは **`scene-mapping.md`**（`scene-mapping.csv` との共存は preflight ERROR）。
+
+**CSV ↔ YAML 同期:**
+
+```powershell
+py -3.14 scripts/build_scene_mapping.py scrolls/{scroll_id}/ --check
+py -3.14 scripts/build_scene_mapping.py scrolls/{scroll_id}/ --write-yaml   # CSV → YAML
+py -3.14 scripts/build_scene_mapping.py scrolls/{scroll_id}/ --write-csv    # YAML → CSV（title/range 編集後）
+```
 
 **preflight 追加フラグ:** `--strict-text` / `--skip-similarity` / `--require-reviewed` / `--ack-no-color-correction`
 
@@ -189,6 +202,8 @@ Agent 用: [`cursor-scroll-sync-prompt.md`](./cursor-scroll-sync-prompt.md) Step
 | `metadata.eraen` | 小文字コード（`edo` / `heiann` 等）。`Edo` は不可 |
 | `metadata.thumb` | `/thumb/{titleen}_thumb.webp` 形式（値が空のときは WARN） |
 | 色調 | `images/_raw/` にスライスがあるのに `contact_sheet.jpg` が無い → ERROR（`--ack-no-color-correction` で WARN 化） |
+| 段構成 CSV | `scene-mapping.csv` と `scenes-summary.csv` の共存 → ERROR |
+| `metadata.desc` / `descen` | 研究用分類語（`AC型` / `Cモジュール` / `請求記号` / `真珠庵系` / `系譜` / `AC-lineage` / `call number` 等）→ ERROR。モジュール分析は `sources/scene-mapping.md` のみ |
 
 `process_figma_slices.py` は既定で input-dir 内の `contact_sheet.jpg` を要求（`--skip-contact-sheet-check` で回避）。
 
@@ -227,7 +242,31 @@ py -3.14 scripts/process_figma_slices.py scrolls/{scroll_id}/ `
 YAML 草案: [`ai-scroll-config-prompt.md`](./ai-scroll-config-prompt.md)  
 命名規則: [`naming-convention.md`](./naming-convention.md)
 
-### Phase 2: ドライラン（必須）
+### Phase 2: ドライラン＋本番 sync（推奨: 統合コマンド）
+
+**1 コマンドで preflight → dry-run → sync → thumb/OGP → postflight まで実行:**
+
+```powershell
+$env:PYTHONIOENCODING = "utf-8"
+
+# 検証のみ（upload なし）
+py -3.14 scripts/scroll_upload.py scrolls/my-new-scroll/ --dry-run
+
+# 本番（thumb/OGP 自動生成込み）
+py -3.14 scripts/scroll_upload.py scrolls/my-new-scroll/
+
+# メタデータのみ（Cloudinary 再アップロードなし）
+py -3.14 scripts/scroll_upload.py scrolls/my-new-scroll/ --skip-upload
+```
+
+PowerShell ラッパー: `scripts/scroll_upload.ps1 scrolls/my-new-scroll/ --dry-run`
+
+**thumb 生成の順序（`--with-thumb` 既定 ON）:**
+1. `scrolls/_tmp-thumb/{titleen}_thumb.png` → webp
+2. `public/thumb/{titleen}_thumb.png` があればコピーして webp 化
+3. 上記が無ければ `generate-thumb-from-scene.js`（sync 後・`metadata.thumbScene` または `--thumb-public-id`）
+
+**個別コマンド（デバッグ用）:**
 
 ```powershell
 py -3.14 scripts/preflight_scroll.py scrolls/my-new-scroll/scroll_config.yaml
@@ -244,9 +283,14 @@ py -3.14 scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml --dry-run
 
 ### Phase 3: 本番 sync（1 回だけ）
 
+`scroll_upload.py` を使う場合は Phase 2 の本番コマンドで thumb/OGP/postflight まで完了します。個別実行する場合:
+
 ```powershell
 # .env.local に CLOUDINARY_URL を設定済みであること
 py -3.14 scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml
+node scripts/generate-thumb-webp.js {titleen}   # または generate-thumb-from-scene.js
+node src/script/generateOgImages.js {titleen}
+py -3.14 scripts/postflight_downstream.py scrolls/my-new-scroll/
 ```
 
 `sync_all.py` が実行する処理:
@@ -646,7 +690,8 @@ py -3.14 scripts/sync_scroll.py scrolls/my-scroll/scroll_config.yaml
 
 | ファイル | 役割 |
 |---------|------|
-| `scripts/sync_all.py` | 統合パイプライン（**主経路**） |
+| `scripts/sync_all.py` | 統合パイプライン（Cloudinary + JSON） |
+| `scripts/scroll_upload.py` | **オーケストレーター**（preflight → sync → thumb/OGP → postflight） |
 | `scripts/preflight_scroll.py` | sync 前検証（構造・画像・テキスト・著作権） |
 | `scripts/preflight_upstream.py` | 上流ゲート一式（normalize + CSV + preflight） |
 | `scripts/normalize_scroll_images.py` | 画像連番・`_NN-{height}` 正規化 |
@@ -665,6 +710,7 @@ py -3.14 scripts/sync_scroll.py scrolls/my-scroll/scroll_config.yaml
 | `.github/workflows/validate-scroll.yml` | PR: preflight + dry-run |
 | `.github/workflows/sync-scroll.yml` | 手動 sync（upload opt-in） |
 | `docs/operations/cursor-scroll-sync-prompt.md` | Cursor Agent 用 sync プロンプト |
+| `.cursor/skills/scroll-upload/SKILL.md` | Agent 用 scroll sync ワークフロー |
 | `scrolls/README.md` | ワークスペース入口 |
 
 ---

@@ -36,6 +36,7 @@
 | `public/locales/` | i18n 翻訳（`common.json`） |
 | `docs/operations/` | Analytics / Scroll sync / data-model |
 | `.cursor/skills/analytics-review/` | GSC/GA4 週次レビュー Skill |
+| `.cursor/skills/scroll-upload/` | 絵巻 sync オーケストレーション Skill |
 | `scripts/analytics/` | GA4/GSC 取得 Python |
 | `scrolls/` | ローカル絵巻 YAML（gitignore） |
 
@@ -104,6 +105,8 @@ When editing scroll metadata or text JSON, temporarily comment out the relevant 
 | `.cursor/rules/design-tokens.mdc` | 色・フォント・レイアウト・スタイル規約 |
 | `.cursor/rules/i18n-sources.mdc` | UI 文言の編集先 |
 | `.cursor/skills/analytics-review/` | Analytics 週次 Skill |
+| `.cursor/skills/scroll-upload/` | 絵巻 sync オーケストレーション Skill |
+| `.cursor/skills/emaki-thumb/` | サムネイル生成 Skill |
 | `docs/operations/cursor-analytics-prompt.md` | Analytics Agent プロンプト |
 | `docs/operations/cursor-scroll-sync-prompt.md` | Scroll sync Agent プロンプト |
 | `docs/operations/data-model.md` | JSON / slug データ正本 |
