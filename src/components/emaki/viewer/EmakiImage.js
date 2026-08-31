@@ -8,6 +8,7 @@ const EmakiImage = ({
   item: { config, index, navIndex, character, ebiki, uniqueIndex },
   item,
   isPlayMode, // 再生モード状態
+  sceneIndex, // 先読み用（再生中は liveSceneIndex）
   emakiId, // 計測用: 絵巻ID
 }) => {
   const {
@@ -173,6 +174,7 @@ const EmakiImage = ({
         config={config}
         uniqueIndex={uniqueIndex}
         navIndex={navIndex}
+        sceneIndex={sceneIndex}
         isPlayMode={isPlayMode}
         emakiId={emakiId}
       />

@@ -1,6 +1,7 @@
 import { AppContext } from "@/context/AppContext";
 import { trackImageLoaded, trackImageFallback, trackImageLoadSlow } from "@/libs/api/measurementUtils";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
+import { PLAYBACK_IMAGE_LOOKAHEAD } from "@/libs/constants/viewerPlayback";
 import Image from "next/image";
 import { useContext, useEffect, useRef, useState } from "react";
 
@@ -89,10 +90,12 @@ const LazyImage = ({
   config,
   uniqueIndex,
   navIndex, // 現在表示中のシーンインデックス（フルスクリーン時のeager制御用）
+  sceneIndex, // 先読み用（再生中は liveSceneIndex。未指定時は navIndex）
   isPlayMode, // 再生モード状態
   emakiId, // 計測用: 絵巻ID
 }) => {
   const { orientation, toggleFullscreen } = useContext(AppContext);
+  const prefetchIndex = sceneIndex ?? navIndex;
 
   const [isSkeletonVisible, setSkeletonVisible] = useState(true);
   const [isImageLoaded, setImageLoaded] = useState(false); // 画像読み込み完了状態（フェード用）
@@ -142,8 +145,9 @@ const LazyImage = ({
 
     // フルスクリーン時のeager判定: navIndex±2 または 再生中は先読み8枚
     const isEagerInFullscreen =
-      (isPlayMode && uniqueIndex <= navIndex + 4) ||
-      Math.abs(uniqueIndex - navIndex) <= 2;
+      (isPlayMode &&
+        uniqueIndex <= prefetchIndex + PLAYBACK_IMAGE_LOOKAHEAD) ||
+      Math.abs(uniqueIndex - prefetchIndex) <= 2;
 
     const startFallbackTimer = () => {
       loadStartTimeRef.current = Date.now();
@@ -188,7 +192,7 @@ const LazyImage = ({
     return () => {
       if (fallbackTimer) clearTimeout(fallbackTimer);
     };
-  }, [toggleFullscreen, isSkeletonVisible, emakiId, uniqueIndex, navIndex, isPlayMode]);
+  }, [toggleFullscreen, isSkeletonVisible, emakiId, uniqueIndex, prefetchIndex, isPlayMode]);
 
   // 全画像共通フォールバック: priority画像・全画面時以外の画像に対するセーフティネット
   // onLoadingComplete が発火しなかった場合（リクエストキャンセル、キャッシュ競合等）に
@@ -208,7 +212,9 @@ const LazyImage = ({
     // eager画像（uniqueIndex < 3）はマウント時にすでにリクエスト開始済みなので即タイマー設定
     // 再生中は先読み8枚のみ eager 扱い（一斉ロードを防ぐ）
     const isEager =
-      uniqueIndex < 3 || (isPlayMode && uniqueIndex <= navIndex + 4);
+      uniqueIndex < 3 ||
+      (isPlayMode &&
+        uniqueIndex <= prefetchIndex + PLAYBACK_IMAGE_LOOKAHEAD);
 
     const startFallbackTimer = () => {
       // ロード開始時刻を「今」にリセット（ビューポート進入 = ロード開始）
@@ -254,7 +260,7 @@ const LazyImage = ({
     return () => {
       if (fallbackTimer) clearTimeout(fallbackTimer);
     };
-  }, [uniqueIndex, toggleFullscreen, isSkeletonVisible, emakiId, isPlayMode]);
+  }, [uniqueIndex, toggleFullscreen, isSkeletonVisible, emakiId, isPlayMode, prefetchIndex]);
 
   // 絵巻の紙色（#f5f0e6）。Firefox の白背景フラッシュ対策（外部 blur URL は使わない）
   const PAPER_COLOR_BLUR_DATA_URL =
@@ -321,19 +327,17 @@ const LazyImage = ({
         // フルスクリーン時は現在シーン付近（±2枚）のみ eager（同時リクエスト抑制）
         // 全画面切替時に IntersectionObserver が viewport 変化に追従しない問題への対策
         loading={(() => {
-          const lookahead = isPlayMode ? 4 : 1;
           const isEager =
             uniqueIndex < 3 ||
-            (isPlayMode && uniqueIndex <= navIndex + lookahead) ||
-            (toggleFullscreen && Math.abs(uniqueIndex - navIndex) <= 2);
+            (isPlayMode &&
+              uniqueIndex <= prefetchIndex + PLAYBACK_IMAGE_LOOKAHEAD) ||
+            (toggleFullscreen && Math.abs(uniqueIndex - prefetchIndex) <= 2);
           if (FB_DEBUG && uniqueIndex < 12) {
-            console.log(`[FB-DEBUG] loading: idx=${uniqueIndex}, navIndex=${navIndex}, fullscreen=${toggleFullscreen}, playMode=${isPlayMode} → ${isEager ? "eager" : "lazy"}`);
+            console.log(`[FB-DEBUG] loading: idx=${uniqueIndex}, prefetchIndex=${prefetchIndex}, fullscreen=${toggleFullscreen}, playMode=${isPlayMode} → ${isEager ? "eager" : "lazy"}`);
           }
           return isEager ? "eager" : "lazy";
         })()}
-        // 自動再生中は先読みを広げてロード開始を早める（表示直前に完了させる）
-        // navIndex 固定（再生中はシーン検出の state 更新を止めている）でも、
-        // lazyBoundary を拡大することで lazy 画像が十分前にリクエストされる
+        // 自動再生中は先読みを広げてロード開始を早める
         lazyBoundary={isPlayMode ? "2400px" : "800px"} // ビューポートの手前から読み込み開始
         layout="responsive"
         sizes={imageSizes}
@@ -350,11 +354,11 @@ const LazyImage = ({
             // 計測: 遅延検出（fallback未到達だが閾値70%超の画像）
             const thresholdType = toggleFullscreen ? "fullscreen" : "universal";
             const threshold = getAdaptiveTimeout(thresholdType, emakiId);
-            const lookahead = isPlayMode ? 4 : 1;
             const isEager =
               uniqueIndex < 3 ||
-              (isPlayMode && uniqueIndex <= navIndex + lookahead) ||
-              (toggleFullscreen && Math.abs(uniqueIndex - navIndex) <= 2);
+              (isPlayMode &&
+                uniqueIndex <= prefetchIndex + PLAYBACK_IMAGE_LOOKAHEAD) ||
+              (toggleFullscreen && Math.abs(uniqueIndex - prefetchIndex) <= 2);
             trackImageLoadSlow(emakiId, uniqueIndex, loadTimeMs, threshold, toggleFullscreen, isEager ? "eager" : "lazy");
             hasTrackedRef.current = true;
           }

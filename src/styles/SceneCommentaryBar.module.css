@@ -246,6 +246,8 @@
   justify-content: flex-end;
   align-items: center;
   padding: 6px 12px;
+  /* 透明な全幅領域がナビ（z-index:10）のクリックを奪わないようにする */
+  pointer-events: none;
   /* 背景は透明。ボタン自体に白背景を持たせる */
   background: transparent;
   backdrop-filter: none;
@@ -267,6 +269,7 @@
   align-items: center;
   gap: 6px;
   padding: 7px 14px;
+  pointer-events: auto;
   border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 999px;
   background: #fff;

@@ -183,7 +183,7 @@ const MangaRootsFlow = ({ graph, t, locale, variant = "full", focusEmakiId = nul
     return () => window.removeEventListener("keydown", onKey);
   }, [enlarged]);
 
-  const nodeClassName = useCallback(
+  const getNodeClassName = useCallback(
     (node) => {
       if (activeTag) {
         const related =
@@ -201,7 +201,7 @@ const MangaRootsFlow = ({ graph, t, locale, variant = "full", focusEmakiId = nul
     [activeTag, focusTags, focusEmakiId]
   );
 
-  const edgeClassName = useCallback(
+  const getEdgeClassName = useCallback(
     (edge) => {
       if (activeTag) {
         return edge.data?.via === activeTag ? styles.edge : `${styles.edge} ${styles.edgeDim}`;
@@ -214,6 +214,24 @@ const MangaRootsFlow = ({ graph, t, locale, variant = "full", focusEmakiId = nul
       return styles.edge;
     },
     [activeTag, focusTags]
+  );
+
+  const styledNodes = useMemo(
+    () =>
+      nodes.map((node) => {
+        const className = getNodeClassName(node);
+        return className ? { ...node, className } : node;
+      }),
+    [nodes, getNodeClassName]
+  );
+
+  const styledEdges = useMemo(
+    () =>
+      edges.map((edge) => ({
+        ...edge,
+        className: getEdgeClassName(edge),
+      })),
+    [edges, getEdgeClassName]
   );
 
   const onNodeClick = useCallback((_, node) => {
@@ -229,8 +247,8 @@ const MangaRootsFlow = ({ graph, t, locale, variant = "full", focusEmakiId = nul
           ref={wrapRef}
         >
           <ReactFlow
-            nodes={nodes}
-            edges={edges}
+            nodes={styledNodes}
+            edges={styledEdges}
             nodeTypes={nodeTypes}
             nodeOrigin={[0.5, 0.5]}
             fitView
@@ -242,8 +260,6 @@ const MangaRootsFlow = ({ graph, t, locale, variant = "full", focusEmakiId = nul
             nodesConnectable={false}
             edgesFocusable={false}
             panOnScroll={false}
-            nodeClassName={nodeClassName}
-            edgeClassName={edgeClassName}
             onNodeClick={onNodeClick}
             proOptions={{ hideAttribution: true }}
             aria-label={t("mangaRoots.networkAria")}

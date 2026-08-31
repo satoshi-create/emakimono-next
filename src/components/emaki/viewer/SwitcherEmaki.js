@@ -20,6 +20,7 @@ const SwitcherEmaki = forwardRef(
       scroll,
       uniqueIndex,
       isPlayMode, // 再生モード状態
+      sceneIndex, // 先読み用（再生中は liveSceneIndex）
     },
     ref
   ) => {
@@ -38,6 +39,7 @@ const SwitcherEmaki = forwardRef(
                 uniqueIndex,
               }}
               isPlayMode={isPlayMode}
+              sceneIndex={sceneIndex}
               emakiId={data?.titleen}
             />
           </section>

@@ -98,6 +98,7 @@ const EmakiContainer = ({
 
   const wrapperRef = useRef();
   const articleRef = useRef();
+  const entryContainerRef = useRef(null);
   const scrollNextRef = useRef(null);
   const scrollPrevRef = useRef(null);
 
@@ -119,12 +120,6 @@ const EmakiContainer = ({
 
   // prevDataIdはモジュールスコープに移動済み（絵巻切り替え検出用）
 
-  // 解説バー追従用のローカル state。
-  // 自動再生中は navIndex（グローバル）を止めて数十枚の next/image の再レンダーを避ける一方、
-  // SceneCommentaryBar の段タイトルはこの値で追従させる（画像ツリーへ波及させず軽量に更新）。
-  // 通常時は navIndex と同期する（下記の同期 effect）。
-  const [liveSceneIndex, setLiveSceneIndex] = useState(navIndex);
-
   const [isScrollFeedbackOpen, setIsScrollFeedbackOpen] = useState(false);
   const [scrollFeedbackSubmitted, setScrollFeedbackSubmitted] = useState(false);
   const [endPromptDismissed, setEndPromptDismissed] = useState(false);
@@ -136,6 +131,7 @@ const EmakiContainer = ({
 
   // 絵巻ハイパーリンク: 前回検出したシーン（不要な更新を防ぐ）
   const lastDetectedSceneRef = useRef(navIndex);
+  const detectCurrentSceneRef = useRef(null);
 
   // 教育現場向けUI: 静かな現在地インジケータ（PositionIndicator の DOM要素への参照）
   const indicatorElRef = useRef(null);
@@ -167,6 +163,7 @@ const EmakiContainer = ({
     setIsAtEnd,
     isScrollingRef,
     setIsScrolling,
+    detectCurrentSceneRef,
   });
 
   // スクロール処理 + 現在シーン検出（useEmakiScroll が sectionsCacheRef / scrollDimsRef を管理）
@@ -176,7 +173,6 @@ const EmakiContainer = ({
     emakiId,
     navIndex,
     setnavIndex,
-    setLiveSceneIndex,
     isScrollDetectedUpdateRef,
     isAutoScrolling,
     playModeAnimationRef,
@@ -190,6 +186,7 @@ const EmakiContainer = ({
     indicatorElRef,
     toggleFullscreen,
     scrollPositionStore,
+    detectCurrentSceneRef,
   });
 
   useEffect(() => {
@@ -325,13 +322,6 @@ const EmakiContainer = ({
 
   // 絵巻ハイパーリンク: スクロール位置から現在表示中のシーンを検出
   // （useEmakiScroll 内の detectCurrentScene が sectionsCacheRef を管理）
-
-  // 解説バー追従値: navIndex が外部（handleToId / hash / 停止時同期）で変化した場合も
-  // liveSceneIndex へ同期する。再生中は detectCurrentScene が liveSceneIndex を上書きし
-  // 続けるため、この effect は navIndex が変わらない限り再実行されない（競合なし）。
-  useEffect(() => {
-    setLiveSceneIndex(navIndex);
-  }, [navIndex]);
 
   // 教育現場向けUI: 巻末ナッジ
   // isAtEnd 中は他巻カードを表示、離れると非表示
@@ -493,7 +483,9 @@ const EmakiContainer = ({
   const processedEmakis = assignUniqueIndex(data.emakis);
 
   // ボトムコメントバー: 詞書画像かシーンテキストを持つ絵巻のみ表示
-  const showCommentaryBar = Boolean(scroll && (kotobagaki || sceneText));
+  const hasCommentaryData = Boolean(scroll && (kotobagaki || sceneText));
+  // 再生中は navIndex を固定し sceneIndex 更新による画像ツリー再レンダーを抑止
+  const sceneIndexForPrefetch = navIndex;
 
   return (
     <SceneLikeCountsProvider emakiId={emakiId}>
@@ -503,8 +495,9 @@ const EmakiContainer = ({
         }`}
       >
         <div
+          ref={entryContainerRef}
           className={`js-scrollable entry-container ${
-            showCommentaryBar ? commentaryStyles.hasCommentaryBar : ""
+            hasCommentaryData ? commentaryStyles.hasCommentaryBar : ""
           }`}
           style={{
             // 角丸クリップ: 通常表示時のみ（全画面時は overflow で UI はみ出しを防止）
@@ -656,6 +649,7 @@ const EmakiContainer = ({
                 type={type}
                 selectedRef={selectedRef}
                 navIndex={navIndex}
+                sceneIndex={sceneIndexForPrefetch}
                 uniqueIndex={item.uniqueIndex} // 新しい連番を渡す
                 scroll={scroll}
                 isPlayMode={isPlayMode} // 再生モード時は全画像を eager loading
@@ -675,11 +669,13 @@ const EmakiContainer = ({
             />
           )}
         </article>
-        {showCommentaryBar && (
+        {hasCommentaryData && (
           <SceneCommentaryBar
             data={data}
-            navIndex={isPlayMode || isAutoScrolling ? liveSceneIndex : navIndex}
+            navIndex={navIndex}
             isFullscreen={toggleFullscreen}
+            isPlayMode={isPlayMode}
+            entryContainerRef={entryContainerRef}
           />
         )}
         </div>

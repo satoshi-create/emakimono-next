@@ -6,9 +6,8 @@
  * 1段落のまま展開する。絵巻画像の上部は常に残るため、絵巻と解説を
  * 見比べながら鑑賞できる。
  *
- * 表示制御はアイドル時のUI非表示（isUIVisible）とは独立している。
- * バーは常時表示され、×アイコンで閉じた場合は「解説を表示」ボタンのみを
- * 残す（再表示はそのボタンから）。
+ * 再生中（isPlayMode）かつ × で閉じた場合のみ「解説を表示」ボタンを非表示にする。
+ * バー本体が開いている場合は再生中も表示を維持する。
  *
  * GA: 旧 ModalDesc の scene_modal_open イベントを、シート展開時に移行。
  * 関連: EmakiConteiner.js（組み込み先）, func.js（ChaptersTitle/Gendaibun/Desc）
@@ -47,7 +46,13 @@ import {
 } from "react";
 import { useTranslation } from "next-i18next";
 
-const SceneCommentaryBar = ({ data, navIndex, isFullscreen = false }) => {
+const SceneCommentaryBar = ({
+  data,
+  navIndex,
+  isFullscreen = false,
+  isPlayMode = false,
+  entryContainerRef,
+}) => {
   const { handleToId, orientation } = useContext(AppContext);
   const { locale } = useRouter();
   const { t } = useTranslation("common");
@@ -106,26 +111,35 @@ const SceneCommentaryBar = ({ data, navIndex, isFullscreen = false }) => {
   // useLayoutEffect を使い「ペイント前」に変数を更新することで、
   // 展開/折りたたみ時に下部UIが一度下がってから跳ね上がる中間フレームを防ぐ。
   const barRef = useRef(null);
+  const hideReopenDuringPlayback = closed && isPlayMode;
+
   useLayoutEffect(() => {
+    const containerEl =
+      entryContainerRef?.current ?? barRef.current?.closest(".entry-container");
+
+    if (hideReopenDuringPlayback) {
+      if (containerEl) {
+        containerEl.style.setProperty("--commentary-bar-full-h", "0px");
+      }
+      return;
+    }
+
     const el = barRef.current;
     if (!el) return;
     const update = () => {
       const h = el.getBoundingClientRect().height;
-      // バーを .wrap で包んでも、下部UIの持ち上げ量は entry-container に
-      // 設定する必要があるため、closest で基準要素を特定する
-      const containerEl = el.closest(".entry-container");
-      if (containerEl) {
-        containerEl.style.setProperty("--commentary-bar-full-h", `${h}px`);
+      const c =
+        entryContainerRef?.current ?? el.closest(".entry-container");
+      if (c) {
+        c.style.setProperty("--commentary-bar-full-h", `${h}px`);
       }
     };
-  // ペイント前に同期計測（expanded / closed 変化時も effect が再実行されるため、
-  // 高さが反映された状態で変数が更新される）
-  update();
-  if (typeof ResizeObserver === "undefined") return;
-  const ro = new ResizeObserver(update);
-  ro.observe(el);
-  return () => ro.disconnect();
-  }, [expanded, closed]);
+    update();
+    if (typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [expanded, closed, hideReopenDuringPlayback, entryContainerRef]);
 
   const current = filterEkotobas[activeIndex];
 
@@ -136,9 +150,12 @@ const SceneCommentaryBar = ({ data, navIndex, isFullscreen = false }) => {
       ? emakiDisplayTitle(data, locale)
       : `${title ?? ""}`.trim();
 
-  // ×で閉じられた場合: バー本体の代わりに、小さな「解説を表示」ボタンのみを表示する。
-  // 閉じ状態はアイドル時のUI非表示（isUIVisible）とは独立しているため、
-  // ナビメニューのみが従来どおり非表示になる。
+  // ×で閉じ + 再生中: 「解説を表示」ボタンのみ非表示（絵巻鑑賞に集中）
+  if (hideReopenDuringPlayback) {
+    return null;
+  }
+
+  // ×で閉じ（通常時）: 小さな「解説を表示」ボタンのみ
   if (closed) {
     const showLabel = t("viewer.showCommentary", {
       defaultValue: locale === "en" ? "Show commentary" : "解説を表示",
