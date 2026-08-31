@@ -187,8 +187,77 @@ ga4_reports:
       value: sns_share_click
     limit: 50
 
+  # Geo / traffic quality (session scope)
+  - id: geo_country
+    dimensions:
+      - country
+    metrics:
+      - sessions
+      - engagedSessions
+      - engagementRate
+      - averageSessionDuration
+      - bounceRate
+      - totalUsers
+      - userEngagementDuration
+    limit: 100
+
+  - id: geo_japan_region
+    dimensions:
+      - region
+    metrics:
+      - sessions
+      - engagedSessions
+      - engagementRate
+      - averageSessionDuration
+      - bounceRate
+    dimension_filter:
+      field: country
+      op: exact
+      value: Japan
+    limit: 50
+
+  - id: geo_country_channel
+    dimensions:
+      - country
+      - sessionDefaultChannelGroup
+    metrics:
+      - sessions
+      - engagementRate
+      - averageSessionDuration
+    limit: 300
+
+  - id: geo_country_device
+    dimensions:
+      - country
+      - deviceCategory
+    metrics:
+      - sessions
+      - engagementRate
+      - averageSessionDuration
+    limit: 300
+
+  # Viewer events by country (bot / low-quality traffic detection)
+  - id: events_by_country
+    dimensions:
+      - country
+      - eventName
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: in_list
+      values:
+        - viewer_engagement
+        - scene_dwell
+        - image_load_fallback
+    limit: 500
+
 merge:
   insight_thresholds:
     low_ctr_vs_site_ratio: 0.7
     low_engagement_scroll_ratio: 0.5
     high_fallback_events: 50
+    geo_min_sessions: 20
+    geo_low_engagement_rate: 0.2
+    geo_short_session_seconds: 10
+    geo_low_viewer_ratio: 0.1

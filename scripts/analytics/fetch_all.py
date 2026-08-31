@@ -95,6 +95,7 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
     like_lines: list[str] = []
     feedback_lines: list[str] = []
     share_lines: list[str] = []
+    geo_lines: list[str] = []
     if merged_path.is_file():
         merged = json.loads(merged_path.read_text(encoding="utf-8"))
         flagged = [r for r in merged.get("rows", []) if r.get("insight_flags")]
@@ -171,6 +172,39 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
                 share_lines.append("|---|---|")
                 for slug, count in top_share:
                     share_lines.append(f"| `{slug}` | {count} |")
+
+        geo = merged.get("geo") or {}
+        countries = geo.get("countries") or []
+        if countries:
+            geo_lines.append("| country | sessions | eng% | avg dur(s) | viewer% | flags |")
+            geo_lines.append("|---|---:|---:|---:|---:|---|")
+            for row in countries[:10]:
+                flags = ", ".join(row.get("insight_flags") or []) or "—"
+                eng_pct = round(float(row.get("engagementRate") or 0) * 100, 1)
+                viewer_pct = round(float(row.get("viewer_engagement_ratio") or 0) * 100, 1)
+                geo_lines.append(
+                    f"| {row.get('country')} | {row.get('sessions')} | {eng_pct}% "
+                    f"| {row.get('averageSessionDuration')} | {viewer_pct}% | {flags} |"
+                )
+            low_quality = geo.get("low_quality_countries") or []
+            if low_quality:
+                geo_lines.append("")
+                geo_lines.append(
+                    f"- **low-quality traffic flags**: {len(low_quality)} countries "
+                    f"(sessions ≥ {kpi.get('merge', {}).get('insight_thresholds', {}).get('geo_min_sessions', 20)})"
+                )
+        japan_regions = geo.get("japan_regions") or []
+        if japan_regions:
+            geo_lines.append("")
+            geo_lines.append("### Japan regions (top 5)")
+            geo_lines.append("| region | sessions | eng% | avg dur(s) |")
+            geo_lines.append("|---|---:|---:|---:|")
+            for row in japan_regions[:5]:
+                eng_pct = round(float(row.get("engagementRate") or 0) * 100, 1)
+                geo_lines.append(
+                    f"| {row.get('region')} | {row.get('sessions')} | {eng_pct}% "
+                    f"| {row.get('averageSessionDuration')} |"
+                )
     below_gsc = gsc_rows < int(bootstrap.get("min_gsc_rows", 10))
     below_ga4 = ga4_sessions < int(bootstrap.get("min_ga4_sessions", 50))
     review_mode = "bootstrap" if phase == "bootstrap" or below_gsc or below_ga4 else "steady"
@@ -224,6 +258,9 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
     if feedback_lines:
         lines.extend(["## Scroll feedback (user choice)", "", *feedback_lines, ""])
 
+    if geo_lines:
+        lines.extend(["## Geo / traffic quality (GA4)", "", *geo_lines, ""])
+
     lines.extend(
         [
             "## Files (read order for Cursor Agent)",
@@ -232,6 +269,7 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
             "3. `gsc_queries.json` — query detail",
             "4. `ga4_events_summary.json` — event counts",
             "5. `ga4_fallback_by_reason.json` — fallback reason breakdown",
+            "6. `ga4_geo_country.json` / `ga4_geo_japan_region.json` — geo traffic quality",
             "",
             "## Next step",
             "Run the weekly review prompt from `docs/operations/cursor-analytics-prompt.md`.",

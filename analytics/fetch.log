@@ -102,3 +102,27 @@ Wrote analytics\reports\2026-08-24\manifest.json
 Wrote analytics\reports\2026-08-24\summary.md
 
 Analytics fetch OK
+=== Analytics config check ===
+
+  OK     project: emakimono-next
+  OK     GA4 property: 325347782
+  OK     GSC site: sc-domain:emakimono.com
+  OK     phase: steady
+  OK     GSC reports: 2
+  OK     GA4 reports: 12
+  OK     GA4 API reachable
+  OK     GSC API reachable
+
+Analytics config check OK
+Skipped optional GA4 report 'scene_like_by_scene': Register emaki_id as a GA4 custom dimension (Event scope), then update analytics/project.yaml custom_event_dimensions.
+Skipped optional GA4 report 'scroll_feedback_by_choice': Register emaki_id as a GA4 custom dimension (Event scope), then update analytics/project.yaml custom_event_dimensions.
+Skipped optional GA4 report 'sns_share_by_platform': Register emaki_id as a GA4 custom dimension (Event scope), then update analytics/project.yaml custom_event_dimensions.
+=== Analytics fetch - 2026-08-31 ===
+
+Output: analytics\reports\2026-08-31
+Wrote analytics\content-map.json (17 emaki)
+
+Wrote analytics\reports\2026-08-31\manifest.json
+Wrote analytics\reports\2026-08-31\summary.md
+
+Analytics fetch OK

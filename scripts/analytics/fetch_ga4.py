@@ -21,6 +21,32 @@ from _auth import get_credentials  # noqa: E402
 from _config import load_kpi_config, load_project_config  # noqa: E402
 from _util import normalize_slug  # noqa: E402
 
+_INT_METRICS = frozenset(
+    {"sessions", "screenPageViews", "eventCount", "engagedSessions", "totalUsers", "newUsers"}
+)
+_FLOAT_METRICS = frozenset(
+    {
+        "engagementRate",
+        "averageSessionDuration",
+        "bounceRate",
+        "userEngagementDuration",
+    }
+)
+
+
+def _parse_metric_value(name: str, raw: str):
+    if name in _INT_METRICS:
+        try:
+            return int(float(raw))
+        except ValueError:
+            return raw
+    if name in _FLOAT_METRICS:
+        try:
+            return float(raw)
+        except ValueError:
+            return raw
+    return raw
+
 
 def _build_dimension_filter(spec: dict | None):
     if not spec:
@@ -112,18 +138,7 @@ def run_ga4_report(
             item[name] = row.dimension_values[idx].value
         for idx, name in enumerate(metric_names):
             raw = row.metric_values[idx].value
-            if name in ("engagementRate", "averageSessionDuration"):
-                try:
-                    item[name] = float(raw)
-                except ValueError:
-                    item[name] = raw
-            elif name in ("sessions", "screenPageViews", "eventCount"):
-                try:
-                    item[name] = int(float(raw))
-                except ValueError:
-                    item[name] = raw
-            else:
-                item[name] = raw
+            item[name] = _parse_metric_value(name, raw)
         rows.append(item)
     return rows
 

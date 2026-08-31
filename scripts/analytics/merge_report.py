@@ -115,6 +115,166 @@ def _index_ga4_emaki(rows: list[dict], metric_key: str = "eventCount") -> dict[s
     return out
 
 
+def _pivot_events_by_country(rows: list[dict]) -> dict[str, dict[str, int]]:
+    out: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+    for row in rows:
+        country = row.get("country") or ""
+        event = row.get("eventName") or ""
+        if not country or country == "(not set)" or not event:
+            continue
+        out[country][event] = int(row.get("eventCount") or 0)
+    return {country: dict(events) for country, events in out.items()}
+
+
+def _geo_country_flags(record: dict, *, viewer_events: int, thresholds: dict) -> list[str]:
+    flags: list[str] = []
+    sessions = int(record.get("sessions") or 0)
+    min_sessions = int(thresholds.get("geo_min_sessions", 20))
+    if sessions < min_sessions:
+        return flags
+
+    engagement_rate = float(record.get("engagementRate") or 0)
+    avg_duration = float(record.get("averageSessionDuration") or 0)
+    if engagement_rate < float(thresholds.get("geo_low_engagement_rate", 0.2)):
+        flags.append("low_engagement_rate")
+    if avg_duration < float(thresholds.get("geo_short_session_seconds", 10)):
+        flags.append("short_session_duration")
+    viewer_ratio = viewer_events / sessions if sessions else 0.0
+    if viewer_ratio < float(thresholds.get("geo_low_viewer_ratio", 0.1)):
+        flags.append("low_viewer_engagement_ratio")
+    return flags
+
+
+def _build_geo_summary(report_dir: Path, thresholds: dict) -> dict:
+    geo_country = _load_json(report_dir / "ga4_geo_country.json")
+    geo_japan_region = _load_json(report_dir / "ga4_geo_japan_region.json")
+    geo_country_channel = _load_json(report_dir / "ga4_geo_country_channel.json")
+    geo_country_device = _load_json(report_dir / "ga4_geo_country_device.json")
+    events_by_country = _load_json(report_dir / "ga4_events_by_country.json")
+
+    if not isinstance(geo_country, list):
+        geo_country = []
+    if not isinstance(geo_japan_region, list):
+        geo_japan_region = []
+    if not isinstance(geo_country_channel, list):
+        geo_country_channel = []
+    if not isinstance(geo_country_device, list):
+        geo_country_device = []
+    if not isinstance(events_by_country, list):
+        events_by_country = []
+
+    events_by_country_map = _pivot_events_by_country(events_by_country)
+
+    countries: list[dict] = []
+    for row in geo_country:
+        if not isinstance(row, dict):
+            continue
+        country = row.get("country") or ""
+        if not country or country == "(not set)":
+            continue
+        sessions = int(row.get("sessions") or 0)
+        event_counts = events_by_country_map.get(country, {})
+        viewer_events = int(event_counts.get("viewer_engagement", 0))
+        record = {
+            "country": country,
+            "sessions": sessions,
+            "engagedSessions": int(row.get("engagedSessions") or 0),
+            "engagementRate": round(float(row.get("engagementRate") or 0), 4),
+            "averageSessionDuration": round(float(row.get("averageSessionDuration") or 0), 2),
+            "bounceRate": round(float(row.get("bounceRate") or 0), 4),
+            "totalUsers": int(row.get("totalUsers") or 0),
+            "userEngagementDuration": round(float(row.get("userEngagementDuration") or 0), 2),
+            "viewer_engagement_events": viewer_events,
+            "scene_dwell_events": int(event_counts.get("scene_dwell", 0)),
+            "image_load_fallback_events": int(event_counts.get("image_load_fallback", 0)),
+            "viewer_engagement_ratio": round(viewer_events / sessions, 4) if sessions else 0.0,
+        }
+        record["insight_flags"] = _geo_country_flags(
+            record, viewer_events=viewer_events, thresholds=thresholds
+        )
+        countries.append(record)
+
+    countries.sort(key=lambda r: r["sessions"], reverse=True)
+
+    japan_regions = []
+    for row in geo_japan_region:
+        if not isinstance(row, dict):
+            continue
+        region = row.get("region") or ""
+        if not region or region == "(not set)":
+            continue
+        japan_regions.append(
+            {
+                "region": region,
+                "sessions": int(row.get("sessions") or 0),
+                "engagedSessions": int(row.get("engagedSessions") or 0),
+                "engagementRate": round(float(row.get("engagementRate") or 0), 4),
+                "averageSessionDuration": round(float(row.get("averageSessionDuration") or 0), 2),
+                "bounceRate": round(float(row.get("bounceRate") or 0), 4),
+            }
+        )
+    japan_regions.sort(key=lambda r: r["sessions"], reverse=True)
+
+    country_channels = []
+    for row in geo_country_channel:
+        if not isinstance(row, dict):
+            continue
+        country = row.get("country") or ""
+        channel = row.get("sessionDefaultChannelGroup") or ""
+        if not country or country == "(not set)":
+            continue
+        country_channels.append(
+            {
+                "country": country,
+                "channel": channel,
+                "sessions": int(row.get("sessions") or 0),
+                "engagementRate": round(float(row.get("engagementRate") or 0), 4),
+                "averageSessionDuration": round(float(row.get("averageSessionDuration") or 0), 2),
+            }
+        )
+    country_channels.sort(key=lambda r: r["sessions"], reverse=True)
+
+    country_devices = []
+    for row in geo_country_device:
+        if not isinstance(row, dict):
+            continue
+        country = row.get("country") or ""
+        device = row.get("deviceCategory") or ""
+        if not country or country == "(not set)":
+            continue
+        country_devices.append(
+            {
+                "country": country,
+                "deviceCategory": device,
+                "sessions": int(row.get("sessions") or 0),
+                "engagementRate": round(float(row.get("engagementRate") or 0), 4),
+                "averageSessionDuration": round(float(row.get("averageSessionDuration") or 0), 2),
+            }
+        )
+    country_devices.sort(key=lambda r: r["sessions"], reverse=True)
+
+    low_quality = [
+        {
+            "country": row["country"],
+            "sessions": row["sessions"],
+            "engagementRate": row["engagementRate"],
+            "averageSessionDuration": row["averageSessionDuration"],
+            "viewer_engagement_ratio": row["viewer_engagement_ratio"],
+            "insight_flags": row["insight_flags"],
+        }
+        for row in countries
+        if row.get("insight_flags")
+    ]
+
+    return {
+        "countries": countries,
+        "japan_regions": japan_regions,
+        "country_channels": country_channels,
+        "country_devices": country_devices,
+        "low_quality_countries": low_quality,
+    }
+
+
 def _index_fallback_reason(rows: list[dict], dim_key: str = "customEvent:fallback_reason") -> dict[str, int]:
     """カスタムディメンション内訳（fallback_reason / choice / platform 等）を集計。"""
     short = dim_key.split(":")[-1] if ":" in dim_key else dim_key
@@ -305,6 +465,7 @@ def merge_report(report_dir: Path) -> dict:
         "scroll_feedback_choice_breakdown": scroll_feedback_by_choice_counts,
         "sns_share_breakdown": sns_share_by_slug,
         "sns_share_platform_breakdown": sns_share_platform_counts,
+        "geo": _build_geo_summary(report_dir, thresholds),
         "rows": merged,
     }
     return payload

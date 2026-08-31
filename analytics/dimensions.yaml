@@ -98,3 +98,23 @@ custom_dimensions:
   - param: platform
     ga4_scope: event
     notes: sns_share_click の媒体。Values: copy | x | line | native. GA4 Admin 登録後に sns_share_by_platform が有効化。
+
+geo_reports:
+  # analytics/kpi.yaml ga4_reports — session / event scope
+  session_dimensions:
+    - country
+    - region  # Japan filter で都道府県
+    - sessionDefaultChannelGroup
+    - deviceCategory
+  session_metrics:
+    - sessions
+    - engagedSessions
+    - engagementRate
+    - averageSessionDuration
+    - bounceRate
+    - totalUsers
+    - userEngagementDuration
+  event_by_country:
+    - viewer_engagement
+    - scene_dwell
+    - image_load_fallback
