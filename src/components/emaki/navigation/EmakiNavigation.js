@@ -10,7 +10,7 @@ import {
   faStop,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext } from "react";
+import { memo, useContext } from "react";
 import ToggleCharacter from "@/components/emaki/viewer/ToggleCharacter";
 import ToggleChapter from "@/components/emaki/viewer/ToggleChapter";
 import ToggleEbiki from "@/components/emaki/viewer/ToggleEbiki";
@@ -48,6 +48,7 @@ const EmakiNavigation = ({
   const isLtr = data.type === "西洋絵画";
   const nextScene = ekotobas[currentIdx + (isLtr ? -1 : 1)];
   const prevScene = ekotobas[currentIdx + (isLtr ? 1 : -1)];
+  const disableTooltip = isPlayMode || isAutoScrolling;
 
   return (
     <aside
@@ -68,6 +69,7 @@ const EmakiNavigation = ({
         onClick={() => handleToId(data.type === "西洋絵画" ? 0 : endIndex)}
         description={t("viewer.goToEnd")}
         isUIVisible={isUIVisible}
+        disableTooltip={disableTooltip}
       />
       {nextScene && (
         <ActionButton
@@ -81,6 +83,7 @@ const EmakiNavigation = ({
           description={t("viewer.next")}
           onClick={() => handleToId(nextScene.linkId)}
           isUIVisible={isUIVisible}
+          disableTooltip={disableTooltip}
         />
       )}
       <ActionButton
@@ -94,6 +97,7 @@ const EmakiNavigation = ({
         description={t("viewer.howToView")}
         onClick={openHelpModal}
         isUIVisible={isUIVisible}
+        disableTooltip={disableTooltip}
       />
       {(isPlayMode || isAutoScrolling) ? (
         <ActionButton
@@ -104,6 +108,7 @@ const EmakiNavigation = ({
           description={t("viewer.stopAutoPlay")}
           onClick={isPlayMode ? onStopPlayMode : undefined}
           isUIVisible={isUIVisible}
+          disableTooltip={disableTooltip}
         />
       ) : (
         onStartPlayMode && (
@@ -115,6 +120,7 @@ const EmakiNavigation = ({
             description={t("viewer.autoPlay")}
             onClick={onStartPlayMode}
             isUIVisible={isUIVisible}
+            disableTooltip={disableTooltip}
           />
         )
       )}
@@ -127,6 +133,7 @@ const EmakiNavigation = ({
           description={t("scrollFeedback.buttonLabel")}
           onClick={onOpenScrollFeedback}
           isUIVisible={isUIVisible}
+          disableTooltip={disableTooltip}
         />
       )}
       {character && <ToggleCharacter isUIVisible={isUIVisible} />}
@@ -144,6 +151,7 @@ const EmakiNavigation = ({
           description={t("viewer.previous")}
           onClick={() => handleToId(prevScene.linkId)}
           isUIVisible={isUIVisible}
+          disableTooltip={disableTooltip}
         />
       )}
       <ActionButton
@@ -154,9 +162,10 @@ const EmakiNavigation = ({
         description={t("viewer.goToStart")}
         onClick={() => handleToId(data.type === "西洋絵画" ? endIndex : 0)}
         isUIVisible={isUIVisible}
+        disableTooltip={disableTooltip}
       />
     </aside>
   );
 };
 
-export default EmakiNavigation;
+export default memo(EmakiNavigation);

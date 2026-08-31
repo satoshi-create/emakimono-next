@@ -11,6 +11,7 @@ const ActionButton = forwardRef(
       isUIVisible = true,
       isFullscreen = false,
       isOn = false,
+      disableTooltip = false,
     },
     ref
   ) => {
@@ -18,14 +19,7 @@ const ActionButton = forwardRef(
 
     const isFullscreenButton = variant === "fullscreen";
 
-    return (
-      <Tooltip
-        label={description}
-        aria-label={description}
-        hasArrow
-        isDisabled={isMobile || !isUIVisible} // UI非表示時はTooltipも無効化
-        isOpen={isUIVisible ? undefined : false} // UI非表示時はTooltipを強制的に閉じる
-      >
+    const iconButton = (
         <IconButton
           icon={icon}
           ref={ref} // refをIconButtonに適用
@@ -78,6 +72,21 @@ const ActionButton = forwardRef(
                 }
           }
         />
+    );
+
+    if (disableTooltip || isMobile) {
+      return iconButton;
+    }
+
+    return (
+      <Tooltip
+        label={description}
+        aria-label={description}
+        hasArrow
+        isDisabled={!isUIVisible}
+        isOpen={isUIVisible ? undefined : false}
+      >
+        {iconButton}
       </Tooltip>
     );
   }

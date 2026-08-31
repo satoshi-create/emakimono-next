@@ -20,6 +20,7 @@ import { AppContext } from "@/context/AppContext";
 import { SceneLikeCountsProvider } from "@/context/SceneLikeCountsContext";
 import { assignUniqueIndex } from "@/utils/emakiItemIndexer";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
+import { endTransformPlayback } from "@/utils/emakiTransformScroll";
 import useEmakiAutoPlay from "@/hooks/emaki/useEmakiAutoPlay";
 import useEmakiPalmDrag from "@/hooks/emaki/useEmakiPalmDrag";
 import useEmakiScroll from "@/hooks/emaki/useEmakiScroll";
@@ -98,6 +99,8 @@ const EmakiContainer = ({
 
   const wrapperRef = useRef();
   const articleRef = useRef();
+  const scrollTrackRef = useRef(null);
+  const virtualScrollLeftRef = useRef(null);
   const entryContainerRef = useRef(null);
   const scrollNextRef = useRef(null);
   const scrollPrevRef = useRef(null);
@@ -152,6 +155,8 @@ const EmakiContainer = ({
     showUI,
   } = useEmakiAutoPlay({
     articleRef,
+    scrollTrackRef,
+    virtualScrollLeftRef,
     dataId: data.id,
     emakiId,
     navIndex,
@@ -169,12 +174,14 @@ const EmakiContainer = ({
   // スクロール処理 + 現在シーン検出（useEmakiScroll が sectionsCacheRef / scrollDimsRef を管理）
   const { sectionsCacheRef, scrollDimsRef } = useEmakiScroll({
     articleRef,
+    virtualScrollLeftRef,
     dataId: data.id,
     emakiId,
     navIndex,
     setnavIndex,
     isScrollDetectedUpdateRef,
     isAutoScrolling,
+    isPlayMode,
     playModeAnimationRef,
     lastDetectedSceneRef,
     isAtStartRef,
@@ -215,8 +222,10 @@ const EmakiContainer = ({
   }, []);
 
   // 中間プロンプト用: スクロール停止〜400ms で進捗バケット更新（1.5s の isScrolling とは独立）
+  // 再生中は scroll リスナーを付けない（rAF の scrollLeft 更新で毎フレーム発火するため）
   useEffect(() => {
     if (!scroll) return;
+    if (isPlayMode || isAutoScrolling) return;
     const el = articleRef.current;
     if (!el) return;
 
@@ -240,7 +249,7 @@ const EmakiContainer = ({
       if (timer) clearTimeout(timer);
       el.removeEventListener("scroll", onScroll);
     };
-  }, [scroll, getScrollRatio, emakiId, navIndex]);
+  }, [scroll, getScrollRatio, emakiId, navIndex, isPlayMode, isAutoScrolling]);
 
   const handleScrollFeedbackSubmitted = useCallback(() => {
     setScrollFeedbackSubmitted(true);
@@ -367,6 +376,7 @@ const EmakiContainer = ({
       // DOM 横スクロールを先頭（右端）へリセット
       const el = articleRef.current;
       if (el) {
+        endTransformPlayback(el, scrollTrackRef.current, virtualScrollLeftRef);
         scrollPositionStore.isTransitioning = true;
         el.scrollTo({ left: 0, behavior: "auto" });
         isAtStartRef.current = true;
@@ -423,6 +433,7 @@ const EmakiContainer = ({
         if (playModeAnimationRef.current) {
           cancelAnimationFrame(playModeAnimationRef.current);
           playModeAnimationRef.current = null;
+          endTransformPlayback(el, scrollTrackRef.current, virtualScrollLeftRef);
           setIsPlayMode(false);
           showUI();
           e.preventDefault();
@@ -633,6 +644,7 @@ const EmakiContainer = ({
           }}
           ref={articleRef}
         >
+          <div ref={scrollTrackRef} className={styles.scrollTrack}>
           {processedEmakis.map((item, index) => {
             const { cat, src } = item;
             return (
@@ -668,6 +680,7 @@ const EmakiContainer = ({
               showEndNudge={showEndNudge}
             />
           )}
+          </div>
         </article>
         {hasCommentaryData && (
           <SceneCommentaryBar

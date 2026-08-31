@@ -3,7 +3,7 @@ import { trackImageLoaded, trackImageFallback, trackImageLoadSlow } from "@/libs
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
 import { PLAYBACK_IMAGE_LOOKAHEAD } from "@/libs/constants/viewerPlayback";
 import Image from "next/image";
-import { useContext, useEffect, useRef, useState } from "react";
+import { memo, useContext, useEffect, useRef, useState } from "react";
 
 // アダプティブタイムアウト: 直近の画像ロード時間からフォールバック閾値を動的算出
 // 教室一斉アクセス等の帯域逼迫時に閾値が自動的に緩和される
@@ -419,4 +419,12 @@ const LazyImage = ({
   );
 };
 
-export default LazyImage;
+const areLazyImagePropsEqual = (prev, next) =>
+  prev.uniqueIndex === next.uniqueIndex &&
+  prev.navIndex === next.navIndex &&
+  prev.sceneIndex === next.sceneIndex &&
+  prev.isPlayMode === next.isPlayMode &&
+  prev.emakiId === next.emakiId &&
+  prev.src === next.src;
+
+export default memo(LazyImage, areLazyImagePropsEqual);

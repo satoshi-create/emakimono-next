@@ -3,7 +3,7 @@
  *
  * - PC (1024px以上): 5秒 / Tablet/Mobile: 3秒で非表示
  * - マウス移動・ホイール・タッチ・クリック・キーボードで即座に復帰
- * - 初回ナッジ（自動スクロール）中は非表示にしない
+ * - 初回ナッジ・▶再生中は非表示にしない（再生中の React 再レンダーを避ける）
  * - 計測: trackUIHidden / trackUIRevealed を発火
  *
  * 抽出元: EmakiConteiner.js の「静止UI耐性」useEffect。
@@ -41,10 +41,7 @@ const useEmakiIdleUI = ({ emakiId, isAutoScrolling, isPlayMode }) => {
       idleStartTimeRef.current = Date.now(); // 計測用: タイマー開始時刻を記録
       const idleTimeout = getIdleTimeout();
       idleTimeoutRef.current = setTimeout(() => {
-        // 初回ナッジ（自動スクロール）中は非表示にしない。
-        // 再生モード中はユーザー操作が発生しないため、マウス停止時と同じく
-        // 一定時間後にナビメニューを非表示にする。
-        if (!isAutoScrolling) {
+        if (!isAutoScrolling && !isPlayMode) {
           // 計測: UI非表示
           trackUIHidden(emakiId, idleTimeout);
           wasUIHiddenRef.current = true;
@@ -73,13 +70,10 @@ const useEmakiIdleUI = ({ emakiId, isAutoScrolling, isPlayMode }) => {
     const handleClick = () => handleUserActivityWithType("click");
     const handleKeydown = () => handleUserActivityWithType("keydown");
 
-    // 初回ナッジ（自動スクロール）中はタイマーを停止してUIを表示したままにする。
-    // 再生モード（▶自動再生）中はアイドルタイマーを動かし、
-    // マウス停止時と同じく一定時間後にナビメニューを非表示にする。
-    if (isAutoScrolling) {
+    // 初回ナッジ・▶再生中はタイマーを止め UI を表示したままにする
+    if (isAutoScrolling || isPlayMode) {
       clearIdleTimer();
     } else {
-      // 通常時・再生モード中はタイマー開始
       startIdleTimer();
     }
 

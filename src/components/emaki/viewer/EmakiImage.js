@@ -2,7 +2,7 @@ import LazyImage from "@/components/emaki/viewer/LazyImage";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/EmakiImage.module.css";
 import Link from "next/link";
-import { useContext } from "react";
+import { memo, useContext } from "react";
 
 const EmakiImage = ({
   item: { config, index, navIndex, character, ebiki, uniqueIndex },
@@ -182,4 +182,12 @@ const EmakiImage = ({
   );
 };
 
-export default EmakiImage;
+const areEmakiImagePropsEqual = (prev, next) =>
+  prev.isPlayMode === next.isPlayMode &&
+  prev.sceneIndex === next.sceneIndex &&
+  prev.emakiId === next.emakiId &&
+  prev.item.uniqueIndex === next.item.uniqueIndex &&
+  prev.item.navIndex === next.item.navIndex &&
+  prev.item.index === next.item.index;
+
+export default memo(EmakiImage, areEmakiImagePropsEqual);

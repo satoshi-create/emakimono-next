@@ -59,6 +59,14 @@
   flex-direction: row-reverse;
 }
 
+/* 再生中は transform で横移動。article は flex、子は scrollTrack 1 本 */
+.scrollTrack {
+  display: flex;
+  flex-direction: row-reverse;
+  height: 100%;
+  flex-shrink: 0;
+}
+
 .lr {
   flex-direction: row;
 }

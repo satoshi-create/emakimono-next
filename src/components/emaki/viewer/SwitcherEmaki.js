@@ -1,7 +1,7 @@
 import EmakiImage from "@/components/emaki/viewer/EmakiImage";
 import OverlayEkotoba from "@/components/emaki/viewer/OverlayEkotoba";
 import ekotobaStyles from "@/styles/OverlayEkotoba.module.css";
-import { forwardRef } from "react";
+import { forwardRef, memo } from "react";
 
 const SwitcherEmaki = forwardRef(
   (
@@ -79,4 +79,13 @@ const SwitcherEmaki = forwardRef(
 
 SwitcherEmaki.displayName = "SwitcherEmaki";
 
-export default SwitcherEmaki;
+const areSwitcherPropsEqual = (prev, next) =>
+  prev.cat === next.cat &&
+  prev.index === next.index &&
+  prev.navIndex === next.navIndex &&
+  prev.sceneIndex === next.sceneIndex &&
+  prev.isPlayMode === next.isPlayMode &&
+  prev.uniqueIndex === next.uniqueIndex &&
+  prev.item === next.item;
+
+export default memo(SwitcherEmaki, areSwitcherPropsEqual);
