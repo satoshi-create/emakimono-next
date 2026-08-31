@@ -47,6 +47,7 @@ const useEmakiScroll = ({
   toggleFullscreen,
   scrollPositionStore,
   detectCurrentSceneRef,
+  sectionsCacheRef,
 }) => {
   const sceneDetectionTimerRef = useRef(null);
   const lastSceneDetectionTimeRef = useRef(0);
@@ -66,7 +67,6 @@ const useEmakiScroll = ({
   // 絵巻ハイパーリンク: スクロール位置から現在表示中のシーンを検出
   // パフォーマンス: 初回のみ getBoundingClientRect でセクション位置を計算・キャッシュし、
   // 以降は scrollLeft の算術演算のみでシーンを特定（DOM読み取り・レイアウト強制ゼロ）
-  const sectionsCacheRef = useRef(null);
 
   const detectCurrentScene = useCallback(() => {
     const el = articleRef.current;

@@ -19,8 +19,8 @@ export const SCENE_READING_POSITION_RATIO = 0.38;
 /** シーン切替ヒステリシス（px）— 現シーンからの優位がこれ未満なら維持 */
 export const SCENE_DETECTION_HYSTERESIS_PX = 80;
 
-/** 再生中の画像先読み（uniqueIndex ベース） */
-export const PLAYBACK_IMAGE_LOOKAHEAD = 10;
+/** 再生中の画像先読み（scene index ベース） */
+export const PLAYBACK_IMAGE_LOOKAHEAD = 6;
 
 /** 再生中: シーン検出間隔（ms）— rAF ループ側で実行 */
 export const PLAYBACK_SCENE_DETECT_MS = 1500;
@@ -33,7 +33,7 @@ export const PLAYBACK_SUPPRESS_IMAGE_VISUAL_UPDATE = true;
 
 /** next/image lazyBoundary（通常 / 再生中） */
 export const PLAYBACK_LAZY_BOUNDARY_NORMAL = "800px";
-export const PLAYBACK_LAZY_BOUNDARY_PLAY = "2400px";
+export const PLAYBACK_LAZY_BOUNDARY_PLAY = "1400px";
 
 /** @returns {number} px/秒 */
 export const getPlaybackSpeedPxPerSec = () => {

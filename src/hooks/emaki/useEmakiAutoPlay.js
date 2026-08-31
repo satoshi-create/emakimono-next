@@ -18,6 +18,7 @@ import {
   PLAYBACK_SCENE_DETECT_MS,
   PLAYBACK_SCROLL_LIMIT_NEAR_END_PX,
 } from "@/libs/constants/viewerPlayback";
+import { preloadPlaybackImages } from "@/libs/emakiImageLoading/playbackPreload";
 import {
   beginTransformPlayback,
   computeMinScrollLeft,
@@ -26,6 +27,7 @@ import {
   setPlaybackScrollLeft,
   syncEdgeRefsFromScrollLeft,
 } from "@/utils/emakiTransformScroll";
+import { getSceneIndexFromScrollCache } from "@/utils/emakiSceneFromScroll";
 import useEmakiIdleUI from "./useEmakiIdleUI";
 
 /** rAF ループ用: タブ切替等の dt スパイクを抑える上限（秒） */
@@ -36,6 +38,30 @@ const maybeRunSceneDetection = (detectCurrentSceneRef, lastDetectMsRef, nowMs) =
     lastDetectMsRef.current = nowMs;
     detectCurrentSceneRef.current?.();
   }
+};
+
+/** 再生 rAF 内: スクロール位置から先読み scene index を更新し imperative preload */
+const updatePlaybackPrefetch = ({
+  articleEl,
+  virtualScrollLeftRef,
+  sectionsCacheRef,
+  prefetchSceneIndexRef,
+  processedEmakisRef,
+}) => {
+  if (!prefetchSceneIndexRef || !sectionsCacheRef) return;
+
+  const newIdx = getSceneIndexFromScrollCache(
+    articleEl,
+    virtualScrollLeftRef,
+    sectionsCacheRef,
+    prefetchSceneIndexRef.current
+  );
+
+  if (newIdx === prefetchSceneIndexRef.current) return;
+
+  prefetchSceneIndexRef.current = newIdx;
+  const emakis = processedEmakisRef?.current;
+  if (emakis) preloadPlaybackImages(emakis, newIdx);
 };
 
 const useEmakiAutoPlay = ({
@@ -54,6 +80,9 @@ const useEmakiAutoPlay = ({
   isScrollingRef,
   setIsScrolling,
   detectCurrentSceneRef,
+  sectionsCacheRef,
+  prefetchSceneIndexRef,
+  processedEmakisRef,
 }) => {
   const [isAutoScrolling, setIsAutoScrolling] = useState(false);
   const [isPlayMode, setIsPlayMode] = useState(false);
@@ -233,6 +262,18 @@ const useEmakiAutoPlay = ({
     setIsPlayMode(true);
     beginTransformPlayback(el, trackEl, virtualScrollLeftRef);
 
+    updatePlaybackPrefetch({
+      articleEl: el,
+      virtualScrollLeftRef,
+      sectionsCacheRef,
+      prefetchSceneIndexRef,
+      processedEmakisRef,
+    });
+    const emakis = processedEmakisRef?.current;
+    if (emakis && prefetchSceneIndexRef) {
+      preloadPlaybackImages(emakis, prefetchSceneIndexRef.current);
+    }
+
     const scrollSpeedPxPerSec = getPlaybackSpeedPxPerSec();
     const playLastTsRef = { current: null };
     const lastDetectMsRef = { current: 0 };
@@ -278,6 +319,13 @@ const useEmakiAutoPlay = ({
         isAtEndRef
       );
       maybeRunSceneDetection(detectCurrentSceneRef, lastDetectMsRef, ts);
+      updatePlaybackPrefetch({
+        articleEl: el,
+        virtualScrollLeftRef,
+        sectionsCacheRef,
+        prefetchSceneIndexRef,
+        processedEmakisRef,
+      });
 
       playModeAnimationRef.current = requestAnimationFrame(playScroll);
     };

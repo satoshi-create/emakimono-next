@@ -22,6 +22,7 @@ import { EmakiViewerPlaybackContext } from "@/context/EmakiViewerPlaybackContext
 import { assignUniqueIndex } from "@/utils/emakiItemIndexer";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import { endTransformPlayback } from "@/utils/emakiTransformScroll";
+import { clearPlaybackPreloadCache } from "@/libs/emakiImageLoading/playbackPreload";
 import useEmakiAutoPlay from "@/hooks/emaki/useEmakiAutoPlay";
 import useEmakiPalmDrag from "@/hooks/emaki/useEmakiPalmDrag";
 import useEmakiScroll from "@/hooks/emaki/useEmakiScroll";
@@ -133,6 +134,19 @@ const EmakiContainer = ({
 
   const emakiId = data.titleen;
 
+  const processedEmakis = assignUniqueIndex(data.emakis);
+  const processedEmakisRef = useRef(processedEmakis);
+  processedEmakisRef.current = processedEmakis;
+
+  const sectionsCacheRef = useRef(null);
+  const prefetchSceneIndexRef = useRef(navIndex);
+  const isPlayModeRef = useRef(false);
+
+  const playbackContextValue = useRef({
+    isPlayModeRef,
+    prefetchSceneIndexRef,
+  }).current;
+
   // 絵巻ハイパーリンク: 前回検出したシーン（不要な更新を防ぐ）
   const lastDetectedSceneRef = useRef(navIndex);
   const detectCurrentSceneRef = useRef(null);
@@ -170,13 +184,15 @@ const EmakiContainer = ({
     isScrollingRef,
     setIsScrolling,
     detectCurrentSceneRef,
+    sectionsCacheRef,
+    prefetchSceneIndexRef,
+    processedEmakisRef,
   });
 
-  const isPlayModeRef = useRef(isPlayMode);
   isPlayModeRef.current = isPlayMode;
 
   // スクロール処理 + 現在シーン検出（useEmakiScroll が sectionsCacheRef / scrollDimsRef を管理）
-  const { sectionsCacheRef, scrollDimsRef } = useEmakiScroll({
+  const { scrollDimsRef } = useEmakiScroll({
     articleRef,
     virtualScrollLeftRef,
     dataId: data.id,
@@ -198,7 +214,14 @@ const EmakiContainer = ({
     toggleFullscreen,
     scrollPositionStore,
     detectCurrentSceneRef,
+    sectionsCacheRef,
   });
+
+  useEffect(() => {
+    if (!isPlayMode) {
+      prefetchSceneIndexRef.current = navIndex;
+    }
+  }, [navIndex, isPlayMode]);
 
   useEffect(() => {
     if (emakiId) {
@@ -396,6 +419,7 @@ const EmakiContainer = ({
       // キャッシュを無効化（新しい絵巻のセクション・サイズを再取得するため）
       sectionsCacheRef.current = null;
       scrollDimsRef.current = { w: 0, c: 0, ts: 0 };
+      clearPlaybackPreloadCache();
 
       // 計測: 全計測状態をリセット
       resetAllTracking();
@@ -494,17 +518,14 @@ const EmakiContainer = ({
   // パン effect 内の dragstart preventDefault で常時抑止しているため、
   // ここでの draggable 属性切替は不要（押下→再描画の競合も回避される）
 
-  // 配列を展開し、条件ごとに連番を付与（emakiItemIndexer に切り出し済み）
-  const processedEmakis = assignUniqueIndex(data.emakis);
+  // 配列を展開済み（processedEmakis は hook 呼び出し前に生成）
 
   // ボトムコメントバー: 詞書画像かシーンテキストを持つ絵巻のみ表示
   const hasCommentaryData = Boolean(scroll && (kotobagaki || sceneText));
-  // 再生中は navIndex を固定し sceneIndex 更新による画像ツリー再レンダーを抑止
-  const sceneIndexForPrefetch = navIndex;
 
   return (
     <SceneLikeCountsProvider emakiId={emakiId}>
-      <EmakiViewerPlaybackContext.Provider value={isPlayModeRef}>
+      <EmakiViewerPlaybackContext.Provider value={playbackContextValue}>
       <div
         className={`${
           orientation === "landscape" && scroll ? styles.land : styles.prt
@@ -667,7 +688,7 @@ const EmakiContainer = ({
                 type={type}
                 selectedRef={selectedRef}
                 navIndex={navIndex}
-                sceneIndex={sceneIndexForPrefetch}
+                sceneIndex={navIndex}
                 uniqueIndex={item.uniqueIndex} // 新しい連番を渡す
                 scroll={scroll}
               />

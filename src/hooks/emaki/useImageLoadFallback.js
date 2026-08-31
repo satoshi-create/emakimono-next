@@ -68,7 +68,7 @@ const observeViewportThenTimer = ({ containerEl, startFallbackTimer }) => {
 const useImageLoadFallback = ({
   containerRef,
   uniqueIndex,
-  prefetchIndex,
+  prefetchSceneIndexRef,
   isPlayModeRef,
   toggleFullscreen,
   isSkeletonVisible,
@@ -107,6 +107,7 @@ const useImageLoadFallback = ({
     emakiId,
     hasTrackedRef,
     isPlayModeRef,
+    prefetchSceneIndexRef,
     setImageLoaded,
     setSkeletonVisible,
   ]);
@@ -120,7 +121,7 @@ const useImageLoadFallback = ({
     let fallbackTimer = null;
     const eagerInFullscreen = isEagerInFullscreen({
       uniqueIndex,
-      prefetchIndex,
+      prefetchIndex: prefetchSceneIndexRef.current,
       isPlayMode: isPlayModeRef.current,
     });
 
@@ -163,7 +164,7 @@ const useImageLoadFallback = ({
     isSkeletonVisible,
     emakiId,
     uniqueIndex,
-    prefetchIndex,
+    prefetchSceneIndexRef,
     isPlayModeRef,
     containerRef,
     hasTrackedRef,
@@ -181,7 +182,7 @@ const useImageLoadFallback = ({
     let fallbackTimer = null;
     const isEager = isEagerForUniversalFallback({
       uniqueIndex,
-      prefetchIndex,
+      prefetchIndex: prefetchSceneIndexRef.current,
       isPlayMode: isPlayModeRef.current,
     });
 
@@ -225,7 +226,7 @@ const useImageLoadFallback = ({
     isSkeletonVisible,
     emakiId,
     isPlayModeRef,
-    prefetchIndex,
+    prefetchSceneIndexRef,
     containerRef,
     hasTrackedRef,
     loadStartTimeRef,
