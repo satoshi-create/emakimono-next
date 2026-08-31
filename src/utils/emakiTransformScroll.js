@@ -18,7 +18,8 @@ export const computeMinScrollLeft = (articleEl) =>
 /** row-reverse + 負 scrollLeft: ネイティブ scrollLeft=-N と同視覚は translateX(+N) */
 export const applyTransformScroll = (scrollTrackEl, scrollLeft) => {
   if (!scrollTrackEl) return;
-  scrollTrackEl.style.transform = `translate3d(${-scrollLeft}px, 0, 0)`;
+  const px = Math.round(scrollLeft);
+  scrollTrackEl.style.transform = `translate3d(${-px}px, 0, 0)`;
 };
 
 export const clearTransformScroll = (scrollTrackEl) => {
@@ -29,7 +30,7 @@ export const clearTransformScroll = (scrollTrackEl) => {
 
 export const beginTransformPlayback = (articleEl, scrollTrackEl, virtualScrollRef) => {
   if (!articleEl || !scrollTrackEl || !virtualScrollRef) return;
-  const left = articleEl.scrollLeft;
+  const left = Math.round(articleEl.scrollLeft);
   virtualScrollRef.current = left;
   // ネイティブ scroll と transform の二重オフセットを防ぐ
   articleEl.scrollLeft = 0;
@@ -54,8 +55,9 @@ export const setPlaybackScrollLeft = (
   scrollLeft
 ) => {
   if (!virtualScrollRef) return;
-  virtualScrollRef.current = scrollLeft;
-  applyTransformScroll(scrollTrackEl, scrollLeft);
+  const rounded = Math.round(scrollLeft);
+  virtualScrollRef.current = rounded;
+  applyTransformScroll(scrollTrackEl, rounded);
 };
 
 export const syncEdgeRefsFromScrollLeft = (

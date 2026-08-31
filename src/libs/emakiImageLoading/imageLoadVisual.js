@@ -6,7 +6,7 @@ export const shouldSuppressPlaybackImageVisual = (isPlayModeRef) =>
 
 /**
  * 画像ロード完了・fallback 時のスケルトン / フェード更新。
- * 再生中は setImageLoaded(true) のみ（スケルトン opacity 0）。setSkeletonVisible / fade はスキップ。
+ * 再生中は React state を触らず CSS（data-playback-active）のみ。停止時に playbackSyncTick で同期。
  */
 export const applyImageLoadVisualComplete = ({
   isPlayModeRef,
@@ -17,7 +17,6 @@ export const applyImageLoadVisualComplete = ({
   if (!isSkeletonVisible) return;
 
   if (shouldSuppressPlaybackImageVisual(isPlayModeRef)) {
-    setImageLoaded(true);
     return;
   }
 

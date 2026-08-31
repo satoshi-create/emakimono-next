@@ -17,7 +17,7 @@ import {
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
 import useImageLoadFallback from "@/hooks/emaki/useImageLoadFallback";
 import Image from "next/image";
-import { memo, useContext, useRef, useState } from "react";
+import { memo, useContext, useEffect, useRef, useState } from "react";
 
 const runWhenIdle = (fn) => {
   if (typeof window !== "undefined" && "requestIdleCallback" in window) {
@@ -39,7 +39,8 @@ const LazyImage = ({
   emakiId, // 計測用: 絵巻ID
 }) => {
   const { orientation, toggleFullscreen } = useContext(AppContext);
-  const { isPlayModeRef, prefetchSceneIndexRef } = useEmakiViewerPlayback();
+  const { isPlayModeRef, prefetchSceneIndexRef, playbackSyncTick } =
+    useEmakiViewerPlayback();
   const isPlayMode = isPlayModeRef.current;
   const prefetchIndex = isPlayMode
     ? prefetchSceneIndexRef.current
@@ -72,6 +73,15 @@ const LazyImage = ({
     setImageLoaded,
     setSkeletonVisible,
   });
+
+  // 再生停止時: 再生中にロード済みだった画像のスケルトン state を同期
+  useEffect(() => {
+    if (!isSkeletonVisible) return;
+    const img = containerRef.current?.querySelector("img");
+    if (!img?.complete || img.naturalWidth === 0) return;
+    setImageLoaded(true);
+    setSkeletonVisible(false);
+  }, [playbackSyncTick, isSkeletonVisible]);
 
   const PAPER_COLOR_BLUR_DATA_URL =
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect fill='%23f5f0e6' width='1' height='1'/%3E%3C/svg%3E";

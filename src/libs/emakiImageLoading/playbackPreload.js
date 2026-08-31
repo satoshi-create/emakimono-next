@@ -1,10 +1,47 @@
-import { PLAYBACK_IMAGE_LOOKAHEAD } from "@/libs/constants/viewerPlayback";
+import {
+  PLAYBACK_DECODE_BATCH_PER_IDLE,
+  PLAYBACK_IMAGE_LOOKAHEAD,
+} from "@/libs/constants/viewerPlayback";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
 
 /** 同一 URL の二重 preload を抑止（セッション内） */
 const preloadedUrls = new Set();
 
+const decodeQueue = [];
+let decodeIdleScheduled = false;
+
 const DEFAULT_WIDTH = 1200;
+
+const scheduleDecodeDrain = () => {
+  if (decodeIdleScheduled || decodeQueue.length === 0) return;
+  decodeIdleScheduled = true;
+
+  const drain = () => {
+    decodeIdleScheduled = false;
+    let batch = PLAYBACK_DECODE_BATCH_PER_IDLE;
+    while (batch > 0 && decodeQueue.length > 0) {
+      const job = decodeQueue.shift();
+      job?.();
+      batch -= 1;
+    }
+    if (decodeQueue.length > 0) scheduleDecodeDrain();
+  };
+
+  if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+    window.requestIdleCallback(drain, { timeout: 1000 });
+  } else {
+    setTimeout(drain, 16);
+  }
+};
+
+const enqueueDecode = (img) => {
+  decodeQueue.push(() => {
+    if (typeof img.decode === "function") {
+      img.decode().catch(() => {});
+    }
+  });
+  scheduleDecodeDrain();
+};
 
 /**
  * 再生中の先読み: scene index ベースで Cloudinary 画像を decode まで試行。
@@ -25,7 +62,7 @@ export const preloadPlaybackImages = (
 
   processedEmakis.forEach((item, sceneIndex) => {
     if (item.cat !== "image" || !item.src) return;
-    if (sceneIndex > maxScene) return;
+    if (sceneIndex < fromSceneIndex || sceneIndex > maxScene) return;
 
     const width = item.srcWidth
       ? Math.min(item.srcWidth, DEFAULT_WIDTH)
@@ -41,13 +78,13 @@ export const preloadPlaybackImages = (
 
     const img = new Image();
     img.src = url;
-    if (typeof img.decode === "function") {
-      img.decode().catch(() => {});
-    }
+    enqueueDecode(img);
   });
 };
 
 /** 絵巻切替時に preload キャッシュをクリア */
 export const clearPlaybackPreloadCache = () => {
   preloadedUrls.clear();
+  decodeQueue.length = 0;
+  decodeIdleScheduled = false;
 };

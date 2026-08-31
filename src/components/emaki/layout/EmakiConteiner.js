@@ -29,7 +29,7 @@ import useEmakiScroll from "@/hooks/emaki/useEmakiScroll";
 import useScrollPositionRestore from "@/hooks/emaki/useScrollPositionRestore";
 import styles from "@/styles/EmakiConteiner.module.css";
 import commentaryStyles from "@/styles/SceneCommentaryBar.module.css";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import {
   trackSessionContext,
@@ -141,11 +141,20 @@ const EmakiContainer = ({
   const sectionsCacheRef = useRef(null);
   const prefetchSceneIndexRef = useRef(navIndex);
   const isPlayModeRef = useRef(false);
+  const [playbackSyncTick, setPlaybackSyncTick] = useState(0);
 
-  const playbackContextValue = useRef({
-    isPlayModeRef,
-    prefetchSceneIndexRef,
-  }).current;
+  const bumpPlaybackSyncTick = useCallback(() => {
+    setPlaybackSyncTick((t) => t + 1);
+  }, []);
+
+  const playbackContextValue = useMemo(
+    () => ({
+      isPlayModeRef,
+      prefetchSceneIndexRef,
+      playbackSyncTick,
+    }),
+    [playbackSyncTick]
+  );
 
   // 絵巻ハイパーリンク: 前回検出したシーン（不要な更新を防ぐ）
   const lastDetectedSceneRef = useRef(navIndex);
@@ -187,6 +196,7 @@ const EmakiContainer = ({
     sectionsCacheRef,
     prefetchSceneIndexRef,
     processedEmakisRef,
+    onPlaybackEnded: bumpPlaybackSyncTick,
   });
 
   isPlayModeRef.current = isPlayMode;

@@ -83,6 +83,7 @@ const useEmakiAutoPlay = ({
   sectionsCacheRef,
   prefetchSceneIndexRef,
   processedEmakisRef,
+  onPlaybackEnded,
 }) => {
   const [isAutoScrolling, setIsAutoScrolling] = useState(false);
   const [isPlayMode, setIsPlayMode] = useState(false);
@@ -251,6 +252,7 @@ const useEmakiAutoPlay = ({
     isScrollingRef.current = false;
     setIsScrolling(false);
     showUI();
+    onPlaybackEnded?.();
   };
 
   const startPlayMode = () => {
@@ -308,6 +310,7 @@ const useEmakiAutoPlay = ({
           setnavIndex(lastDetectedSceneRef.current);
         }
         playModeAnimationRef.current = null;
+        onPlaybackEnded?.();
         return;
       }
 
