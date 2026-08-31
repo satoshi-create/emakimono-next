@@ -14,7 +14,7 @@ import { isEagerForNextImageLoading } from "@/libs/emakiImageLoading/eagerPolicy
 import {
   applyImageLoadVisualComplete,
 } from "@/libs/emakiImageLoading/imageLoadVisual";
-import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
+import { createEmakiCloudinaryLoader } from "@/libs/emakiImageLoading/deliveryUrl";
 import useImageLoadFallback from "@/hooks/emaki/useImageLoadFallback";
 import Image from "next/image";
 import { memo, useContext, useEffect, useRef, useState } from "react";
@@ -86,8 +86,9 @@ const LazyImage = ({
   const PAPER_COLOR_BLUR_DATA_URL =
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect fill='%23f5f0e6' width='1' height='1'/%3E%3C/svg%3E";
 
-  const cloudinaryLoader = ({ src, width: w }) =>
-    buildCloudinaryUrl(src, [`w_${w}`, "f_auto", "q_auto:eco"]);
+  const cloudinaryLoader =
+    config === "cloudinary" ? createEmakiCloudinaryLoader() : undefined;
+  const useBlurPlaceholder = uniqueIndex === 0;
 
   const getResponsiveHeightVar = (full, ori) => {
     if (full) return "var(--vh-100)";
@@ -122,7 +123,7 @@ const LazyImage = ({
         />
       )}
       <Image
-        loader={config === "cloudinary" ? cloudinaryLoader : undefined}
+        loader={cloudinaryLoader}
         src={src.src}
         width={width}
         height={height}
@@ -134,8 +135,8 @@ const LazyImage = ({
         }
         layout="responsive"
         sizes={imageSizes}
-        placeholder="blur"
-        blurDataURL={PAPER_COLOR_BLUR_DATA_URL}
+        placeholder={useBlurPlaceholder ? "blur" : "empty"}
+        blurDataURL={useBlurPlaceholder ? PAPER_COLOR_BLUR_DATA_URL : undefined}
         onLoadingComplete={() => {
           const loadTimeMs = Date.now() - loadStartTimeRef.current;
           if (FB_DEBUG) {

@@ -47,6 +47,7 @@ const updatePlaybackPrefetch = ({
   sectionsCacheRef,
   prefetchSceneIndexRef,
   processedEmakisRef,
+  playbackPreloadContextRef,
 }) => {
   if (!prefetchSceneIndexRef || !sectionsCacheRef) return;
 
@@ -61,7 +62,8 @@ const updatePlaybackPrefetch = ({
 
   prefetchSceneIndexRef.current = newIdx;
   const emakis = processedEmakisRef?.current;
-  if (emakis) preloadPlaybackImages(emakis, newIdx);
+  const viewport = playbackPreloadContextRef?.current;
+  if (emakis) preloadPlaybackImages(emakis, newIdx, viewport);
 };
 
 const useEmakiAutoPlay = ({
@@ -83,6 +85,7 @@ const useEmakiAutoPlay = ({
   sectionsCacheRef,
   prefetchSceneIndexRef,
   processedEmakisRef,
+  playbackPreloadContextRef,
   onPlaybackEnded,
 }) => {
   const [isAutoScrolling, setIsAutoScrolling] = useState(false);
@@ -270,10 +273,12 @@ const useEmakiAutoPlay = ({
       sectionsCacheRef,
       prefetchSceneIndexRef,
       processedEmakisRef,
+      playbackPreloadContextRef,
     });
     const emakis = processedEmakisRef?.current;
+    const viewport = playbackPreloadContextRef?.current;
     if (emakis && prefetchSceneIndexRef) {
-      preloadPlaybackImages(emakis, prefetchSceneIndexRef.current);
+      preloadPlaybackImages(emakis, prefetchSceneIndexRef.current, viewport);
     }
 
     const scrollSpeedPxPerSec = getPlaybackSpeedPxPerSec();
@@ -328,6 +333,7 @@ const useEmakiAutoPlay = ({
         sectionsCacheRef,
         prefetchSceneIndexRef,
         processedEmakisRef,
+        playbackPreloadContextRef,
       });
 
       playModeAnimationRef.current = requestAnimationFrame(playScroll);

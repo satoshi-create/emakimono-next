@@ -138,6 +138,15 @@ const EmakiContainer = ({
   const processedEmakisRef = useRef(processedEmakis);
   processedEmakisRef.current = processedEmakis;
 
+  const playbackPreloadContextRef = useRef({
+    toggleFullscreen: false,
+    orientation: "landscape",
+  });
+  playbackPreloadContextRef.current = {
+    toggleFullscreen,
+    orientation,
+  };
+
   const sectionsCacheRef = useRef(null);
   const prefetchSceneIndexRef = useRef(navIndex);
   const isPlayModeRef = useRef(false);
@@ -196,6 +205,7 @@ const EmakiContainer = ({
     sectionsCacheRef,
     prefetchSceneIndexRef,
     processedEmakisRef,
+    playbackPreloadContextRef,
     onPlaybackEnded: bumpPlaybackSyncTick,
   });
 

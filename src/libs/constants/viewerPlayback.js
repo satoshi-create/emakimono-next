@@ -38,6 +38,9 @@ export const PLAYBACK_LAZY_BOUNDARY_PLAY = "1400px";
 /** 再生先読み decode を requestIdleCallback で分散する枚数/回 */
 export const PLAYBACK_DECODE_BATCH_PER_IDLE = 2;
 
+/** 再生先読み時の Cloudinary 配信幅上限（decode/paint 軽量化） */
+export const PLAYBACK_MAX_DELIVERY_WIDTH = 1080;
+
 /** @returns {number} px/秒 */
 export const getPlaybackSpeedPxPerSec = () => {
   if (typeof window === "undefined") return PLAYBACK_SPEED_PX_PER_SEC.pc;

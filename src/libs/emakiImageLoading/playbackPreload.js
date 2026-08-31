@@ -2,15 +2,17 @@ import {
   PLAYBACK_DECODE_BATCH_PER_IDLE,
   PLAYBACK_IMAGE_LOOKAHEAD,
 } from "@/libs/constants/viewerPlayback";
-import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
+import {
+  buildEmakiCloudinaryImageUrl,
+  computeEmakiDeliveryWidth,
+} from "@/libs/emakiImageLoading/deliveryUrl";
 
 /** 同一 URL の二重 preload を抑止（セッション内） */
 const preloadedUrls = new Set();
+const preloadLinkEls = [];
 
 const decodeQueue = [];
 let decodeIdleScheduled = false;
-
-const DEFAULT_WIDTH = 1200;
 
 const scheduleDecodeDrain = () => {
   if (decodeIdleScheduled || decodeQueue.length === 0) return;
@@ -43,42 +45,58 @@ const enqueueDecode = (img) => {
   scheduleDecodeDrain();
 };
 
+const injectPreloadLink = (url) => {
+  if (typeof document === "undefined") return;
+  const link = document.createElement("link");
+  link.rel = "preload";
+  link.as = "image";
+  link.href = url;
+  document.head.appendChild(link);
+  preloadLinkEls.push(link);
+};
+
+const warmImageCache = (url) => {
+  const img = new Image();
+  img.src = url;
+  enqueueDecode(img);
+};
+
 /**
- * 再生中の先読み: scene index ベースで Cloudinary 画像を decode まで試行。
- * LazyImage の memo 再レンダーなしでキャッシュを温める。
+ * 再生中の先読み: LazyImage / next/image と同一 URL でキャッシュを温める。
  *
- * @param {Array<{ cat?: string; src?: string; srcWidth?: number }>} processedEmakis
+ * @param {Array<{ cat?: string; src?: string; srcWidth?: number; srcHeight?: number }>} processedEmakis
  * @param {number} fromSceneIndex
+ * @param {{ toggleFullscreen?: boolean; orientation?: string }} [viewport]
  * @param {number} [lookahead]
  */
 export const preloadPlaybackImages = (
   processedEmakis,
   fromSceneIndex,
+  viewport = {},
   lookahead = PLAYBACK_IMAGE_LOOKAHEAD
 ) => {
   if (!processedEmakis?.length || fromSceneIndex == null) return;
 
+  const { toggleFullscreen = false, orientation = "landscape" } = viewport;
   const maxScene = fromSceneIndex + lookahead;
 
   processedEmakis.forEach((item, sceneIndex) => {
     if (item.cat !== "image" || !item.src) return;
     if (sceneIndex < fromSceneIndex || sceneIndex > maxScene) return;
 
-    const width = item.srcWidth
-      ? Math.min(item.srcWidth, DEFAULT_WIDTH)
-      : DEFAULT_WIDTH;
-    const url = buildCloudinaryUrl(item.src, [
-      `w_${width}`,
-      "f_auto",
-      "q_auto:eco",
-    ]);
+    const deliveryWidth = computeEmakiDeliveryWidth({
+      srcWidth: item.srcWidth,
+      srcHeight: item.srcHeight,
+      toggleFullscreen,
+      orientation,
+    });
+    const url = buildEmakiCloudinaryImageUrl(item.src, deliveryWidth);
 
     if (preloadedUrls.has(url)) return;
     preloadedUrls.add(url);
 
-    const img = new Image();
-    img.src = url;
-    enqueueDecode(img);
+    injectPreloadLink(url);
+    warmImageCache(url);
   });
 };
 
@@ -87,4 +105,6 @@ export const clearPlaybackPreloadCache = () => {
   preloadedUrls.clear();
   decodeQueue.length = 0;
   decodeIdleScheduled = false;
+  preloadLinkEls.forEach((el) => el.remove());
+  preloadLinkEls.length = 0;
 };
