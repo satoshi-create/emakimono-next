@@ -19,8 +19,7 @@ const SwitcherEmaki = forwardRef(
       navIndex,
       scroll,
       uniqueIndex,
-      isPlayMode, // 再生モード状態
-      sceneIndex, // 先読み用（再生中は liveSceneIndex）
+      sceneIndex, // 先読み用
     },
     ref
   ) => {
@@ -38,7 +37,6 @@ const SwitcherEmaki = forwardRef(
                 navIndex,
                 uniqueIndex,
               }}
-              isPlayMode={isPlayMode}
               sceneIndex={sceneIndex}
               emakiId={data?.titleen}
             />
@@ -84,7 +82,6 @@ const areSwitcherPropsEqual = (prev, next) =>
   prev.index === next.index &&
   prev.navIndex === next.navIndex &&
   prev.sceneIndex === next.sceneIndex &&
-  prev.isPlayMode === next.isPlayMode &&
   prev.uniqueIndex === next.uniqueIndex &&
   prev.item === next.item;
 

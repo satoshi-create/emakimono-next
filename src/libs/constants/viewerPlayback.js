@@ -28,6 +28,13 @@ export const PLAYBACK_SCENE_DETECT_MS = 1500;
 /** 末尾付近で scrollWidth を再計測する余白（px） */
 export const PLAYBACK_SCROLL_LIMIT_NEAR_END_PX = 80;
 
+/** ▶ 再生中は LazyImage のフェード / setImageLoaded を抑止（スケルトン即非表示のみ） */
+export const PLAYBACK_SUPPRESS_IMAGE_VISUAL_UPDATE = true;
+
+/** next/image lazyBoundary（通常 / 再生中） */
+export const PLAYBACK_LAZY_BOUNDARY_NORMAL = "800px";
+export const PLAYBACK_LAZY_BOUNDARY_PLAY = "2400px";
+
 /** @returns {number} px/秒 */
 export const getPlaybackSpeedPxPerSec = () => {
   if (typeof window === "undefined") return PLAYBACK_SPEED_PX_PER_SEC.pc;

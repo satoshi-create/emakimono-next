@@ -1,14 +1,19 @@
 import { AppContext } from "@/context/AppContext";
+import { useIsPlayModeRef } from "@/context/EmakiViewerPlaybackContext";
 import {
   trackImageLoaded,
   trackImageLoadSlow,
 } from "@/libs/api/measurementUtils";
-import { recordLoadTime, getAdaptiveTimeout } from "@/libs/emakiImageLoading/adaptiveTimeout";
 import {
-  FB_DEBUG,
-  SKELETON_FADE_OUT_MS,
-} from "@/libs/emakiImageLoading/constants";
+  PLAYBACK_LAZY_BOUNDARY_NORMAL,
+  PLAYBACK_LAZY_BOUNDARY_PLAY,
+} from "@/libs/constants/viewerPlayback";
+import { recordLoadTime, getAdaptiveTimeout } from "@/libs/emakiImageLoading/adaptiveTimeout";
+import { FB_DEBUG } from "@/libs/emakiImageLoading/constants";
 import { isEagerForNextImageLoading } from "@/libs/emakiImageLoading/eagerPolicy";
+import {
+  applyImageLoadVisualComplete,
+} from "@/libs/emakiImageLoading/imageLoadVisual";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
 import useImageLoadFallback from "@/hooks/emaki/useImageLoadFallback";
 import Image from "next/image";
@@ -23,11 +28,12 @@ const LazyImage = ({
   uniqueIndex,
   navIndex, // 現在表示中のシーンインデックス（フルスクリーン時のeager制御用）
   sceneIndex, // 先読み用（未指定時は navIndex）
-  isPlayMode, // 再生モード状態
   emakiId, // 計測用: 絵巻ID
 }) => {
   const { orientation, toggleFullscreen } = useContext(AppContext);
+  const isPlayModeRef = useIsPlayModeRef();
   const prefetchIndex = sceneIndex ?? navIndex;
+  const isPlayMode = isPlayModeRef.current;
 
   const [isSkeletonVisible, setSkeletonVisible] = useState(true);
   const [isImageLoaded, setImageLoaded] = useState(false);
@@ -36,19 +42,18 @@ const LazyImage = ({
   const loadStartTimeRef = useRef(Date.now());
   const hasTrackedRef = useRef(false);
 
-  const eagerContext = {
+  const isEager = isEagerForNextImageLoading({
     uniqueIndex,
     prefetchIndex,
     isPlayMode,
     toggleFullscreen,
-  };
-  const isEager = isEagerForNextImageLoading(eagerContext);
+  });
 
   useImageLoadFallback({
     containerRef,
     uniqueIndex,
     prefetchIndex,
-    isPlayMode,
+    isPlayModeRef,
     toggleFullscreen,
     isSkeletonVisible,
     emakiId,
@@ -104,7 +109,9 @@ const LazyImage = ({
         alt={alt}
         priority={uniqueIndex === 0}
         loading={isEager ? "eager" : "lazy"}
-        lazyBoundary={isPlayMode ? "2400px" : "800px"}
+        lazyBoundary={
+          isPlayMode ? PLAYBACK_LAZY_BOUNDARY_PLAY : PLAYBACK_LAZY_BOUNDARY_NORMAL
+        }
         layout="responsive"
         sizes={imageSizes}
         placeholder="blur"
@@ -131,8 +138,12 @@ const LazyImage = ({
             );
             hasTrackedRef.current = true;
           }
-          setImageLoaded(true);
-          setTimeout(() => setSkeletonVisible(false), SKELETON_FADE_OUT_MS);
+          applyImageLoadVisualComplete({
+            isPlayModeRef,
+            isSkeletonVisible,
+            setImageLoaded,
+            setSkeletonVisible,
+          });
         }}
         className="image loaded"
       />
@@ -174,6 +185,13 @@ const LazyImage = ({
           opacity: 1;
           transition: opacity 0.4s ease;
         }
+        :global(article[data-playback-active]) .skeleton {
+          transition: none;
+        }
+        :global(article[data-playback-active]) .image.loaded {
+          opacity: 1;
+          transition: none;
+        }
       `}</style>
     </div>
   );
@@ -183,7 +201,6 @@ const areLazyImagePropsEqual = (prev, next) =>
   prev.uniqueIndex === next.uniqueIndex &&
   prev.navIndex === next.navIndex &&
   prev.sceneIndex === next.sceneIndex &&
-  prev.isPlayMode === next.isPlayMode &&
   prev.emakiId === next.emakiId &&
   prev.src === next.src;
 

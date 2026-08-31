@@ -18,6 +18,7 @@ import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
 import WheelScrollIndicator from "@/components/emaki/viewer/WheelScrollIndicator";
 import { AppContext } from "@/context/AppContext";
 import { SceneLikeCountsProvider } from "@/context/SceneLikeCountsContext";
+import { EmakiViewerPlaybackContext } from "@/context/EmakiViewerPlaybackContext";
 import { assignUniqueIndex } from "@/utils/emakiItemIndexer";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import { endTransformPlayback } from "@/utils/emakiTransformScroll";
@@ -170,6 +171,9 @@ const EmakiContainer = ({
     setIsScrolling,
     detectCurrentSceneRef,
   });
+
+  const isPlayModeRef = useRef(isPlayMode);
+  isPlayModeRef.current = isPlayMode;
 
   // スクロール処理 + 現在シーン検出（useEmakiScroll が sectionsCacheRef / scrollDimsRef を管理）
   const { sectionsCacheRef, scrollDimsRef } = useEmakiScroll({
@@ -500,6 +504,7 @@ const EmakiContainer = ({
 
   return (
     <SceneLikeCountsProvider emakiId={emakiId}>
+      <EmakiViewerPlaybackContext.Provider value={isPlayModeRef}>
       <div
         className={`${
           orientation === "landscape" && scroll ? styles.land : styles.prt
@@ -642,6 +647,7 @@ const EmakiContainer = ({
               trackManualScroll(emakiId, "touch");
             }
           }}
+          data-playback-active={isPlayMode ? true : undefined}
           ref={articleRef}
         >
           <div ref={scrollTrackRef} className={styles.scrollTrack}>
@@ -664,7 +670,6 @@ const EmakiContainer = ({
                 sceneIndex={sceneIndexForPrefetch}
                 uniqueIndex={item.uniqueIndex} // 新しい連番を渡す
                 scroll={scroll}
-                isPlayMode={isPlayMode} // 再生モード時は全画像を eager loading
               />
             );
           })}
@@ -693,6 +698,7 @@ const EmakiContainer = ({
         )}
         </div>
       </div>
+      </EmakiViewerPlaybackContext.Provider>
     </SceneLikeCountsProvider>
   );
 };

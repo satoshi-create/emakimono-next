@@ -7,8 +7,7 @@ import { memo, useContext } from "react";
 const EmakiImage = ({
   item: { config, index, navIndex, character, ebiki, uniqueIndex },
   item,
-  isPlayMode, // 再生モード状態
-  sceneIndex, // 先読み用（再生中は liveSceneIndex）
+  sceneIndex, // 先読み用
   emakiId, // 計測用: 絵巻ID
 }) => {
   const {
@@ -175,7 +174,6 @@ const EmakiImage = ({
         uniqueIndex={uniqueIndex}
         navIndex={navIndex}
         sceneIndex={sceneIndex}
-        isPlayMode={isPlayMode}
         emakiId={emakiId}
       />
     </div>
@@ -183,7 +181,6 @@ const EmakiImage = ({
 };
 
 const areEmakiImagePropsEqual = (prev, next) =>
-  prev.isPlayMode === next.isPlayMode &&
   prev.sceneIndex === next.sceneIndex &&
   prev.emakiId === next.emakiId &&
   prev.item.uniqueIndex === next.item.uniqueIndex &&

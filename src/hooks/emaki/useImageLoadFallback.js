@@ -7,8 +7,8 @@ import { getAdaptiveTimeout } from "@/libs/emakiImageLoading/adaptiveTimeout";
 import {
   FB_DEBUG,
   LAZY_IO_ROOT_MARGIN,
-  SKELETON_FADE_OUT_MS,
 } from "@/libs/emakiImageLoading/constants";
+import { applyImageLoadVisualComplete } from "@/libs/emakiImageLoading/imageLoadVisual";
 import {
   isEagerForUniversalFallback,
   isEagerInFullscreen,
@@ -21,6 +21,7 @@ const fireFallback = ({
   reason,
   isSkeletonVisible,
   hasTrackedRef,
+  isPlayModeRef,
   setImageLoaded,
   setSkeletonVisible,
 }) => {
@@ -34,8 +35,12 @@ const fireFallback = ({
     trackImageFallback(emakiId, uniqueIndex, reason);
     hasTrackedRef.current = true;
   }
-  setImageLoaded(true);
-  setTimeout(() => setSkeletonVisible(false), SKELETON_FADE_OUT_MS);
+  applyImageLoadVisualComplete({
+    isPlayModeRef,
+    isSkeletonVisible,
+    setImageLoaded,
+    setSkeletonVisible,
+  });
 };
 
 const observeViewportThenTimer = ({ containerEl, startFallbackTimer }) => {
@@ -64,7 +69,7 @@ const useImageLoadFallback = ({
   containerRef,
   uniqueIndex,
   prefetchIndex,
-  isPlayMode,
+  isPlayModeRef,
   toggleFullscreen,
   isSkeletonVisible,
   emakiId,
@@ -90,6 +95,7 @@ const useImageLoadFallback = ({
         reason: "priority_timeout",
         isSkeletonVisible,
         hasTrackedRef,
+        isPlayModeRef,
         setImageLoaded,
         setSkeletonVisible,
       });
@@ -100,6 +106,7 @@ const useImageLoadFallback = ({
     isSkeletonVisible,
     emakiId,
     hasTrackedRef,
+    isPlayModeRef,
     setImageLoaded,
     setSkeletonVisible,
   ]);
@@ -114,7 +121,7 @@ const useImageLoadFallback = ({
     const eagerInFullscreen = isEagerInFullscreen({
       uniqueIndex,
       prefetchIndex,
-      isPlayMode,
+      isPlayMode: isPlayModeRef.current,
     });
 
     const startFallbackTimer = () => {
@@ -132,6 +139,7 @@ const useImageLoadFallback = ({
           reason: "fullscreen_timeout",
           isSkeletonVisible,
           hasTrackedRef,
+          isPlayModeRef,
           setImageLoaded,
           setSkeletonVisible,
         });
@@ -156,7 +164,7 @@ const useImageLoadFallback = ({
     emakiId,
     uniqueIndex,
     prefetchIndex,
-    isPlayMode,
+    isPlayModeRef,
     containerRef,
     hasTrackedRef,
     loadStartTimeRef,
@@ -174,7 +182,7 @@ const useImageLoadFallback = ({
     const isEager = isEagerForUniversalFallback({
       uniqueIndex,
       prefetchIndex,
-      isPlayMode,
+      isPlayMode: isPlayModeRef.current,
     });
 
     const startFallbackTimer = () => {
@@ -192,6 +200,7 @@ const useImageLoadFallback = ({
           reason: "universal_timeout",
           isSkeletonVisible,
           hasTrackedRef,
+          isPlayModeRef,
           setImageLoaded,
           setSkeletonVisible,
         });
@@ -215,7 +224,7 @@ const useImageLoadFallback = ({
     toggleFullscreen,
     isSkeletonVisible,
     emakiId,
-    isPlayMode,
+    isPlayModeRef,
     prefetchIndex,
     containerRef,
     hasTrackedRef,
