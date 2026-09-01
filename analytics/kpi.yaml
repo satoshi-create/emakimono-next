@@ -252,6 +252,45 @@ ga4_reports:
         - image_load_fallback
     limit: 500
 
+  # Device / browser traffic quality (session scope)
+  - id: device_browser
+    dimensions:
+      - deviceCategory
+      - browser
+    metrics:
+      - sessions
+      - engagedSessions
+      - engagementRate
+      - averageSessionDuration
+      - bounceRate
+    limit: 200
+
+  - id: device_os
+    dimensions:
+      - deviceCategory
+      - operatingSystem
+    metrics:
+      - sessions
+      - engagementRate
+      - averageSessionDuration
+    limit: 200
+
+  - id: events_by_device_browser
+    dimensions:
+      - deviceCategory
+      - browser
+      - eventName
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: in_list
+      values:
+        - viewer_engagement
+        - scene_dwell
+        - image_load_fallback
+    limit: 500
+
 merge:
   insight_thresholds:
     low_ctr_vs_site_ratio: 0.7

@@ -176,6 +176,7 @@ const useImageLoadFallback = ({
   // universal — priority・全画面時以外のセーフティネット
   useEffect(() => {
     if (uniqueIndex === 0 || toggleFullscreen) return;
+    if (isPlayModeRef.current) return;
     const el = containerRef.current;
     if (!el) return;
 

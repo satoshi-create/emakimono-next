@@ -67,6 +67,16 @@
   flex-shrink: 0;
 }
 
+/* 再生中: 巨大合成レイヤー内の描画コストを局所化 */
+:global(article[data-playback-active]) .scrollTrack {
+  contain: layout style;
+}
+
+:global(article[data-playback-active]) .scrollTrack > :global(.emaki-scene-section) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 40vw;
+}
+
 .lr {
   flex-direction: row;
 }

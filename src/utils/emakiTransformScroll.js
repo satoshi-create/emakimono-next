@@ -34,7 +34,6 @@ export const beginTransformPlayback = (articleEl, scrollTrackEl, virtualScrollRe
   virtualScrollRef.current = left;
   // ネイティブ scroll と transform の二重オフセットを防ぐ
   articleEl.scrollLeft = 0;
-  scrollTrackEl.style.willChange = "transform";
   applyTransformScroll(scrollTrackEl, left);
 };
 

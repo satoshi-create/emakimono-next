@@ -48,6 +48,7 @@ const updatePlaybackPrefetch = ({
   prefetchSceneIndexRef,
   processedEmakisRef,
   playbackPreloadContextRef,
+  onPrefetchIndexChange,
 }) => {
   if (!prefetchSceneIndexRef || !sectionsCacheRef) return;
 
@@ -64,6 +65,9 @@ const updatePlaybackPrefetch = ({
   const emakis = processedEmakisRef?.current;
   const viewport = playbackPreloadContextRef?.current;
   if (emakis) preloadPlaybackImages(emakis, newIdx, viewport);
+  // 購読 LazyImage に通知: eager 窓の出入りを局部再描画のみで反映
+  // （Context 経由の全ツリー再レンダーは行わない）
+  onPrefetchIndexChange?.(newIdx);
 };
 
 const useEmakiAutoPlay = ({
@@ -87,6 +91,7 @@ const useEmakiAutoPlay = ({
   processedEmakisRef,
   playbackPreloadContextRef,
   onPlaybackEnded,
+  onPrefetchIndexChange,
 }) => {
   const [isAutoScrolling, setIsAutoScrolling] = useState(false);
   const [isPlayMode, setIsPlayMode] = useState(false);
@@ -274,6 +279,7 @@ const useEmakiAutoPlay = ({
       prefetchSceneIndexRef,
       processedEmakisRef,
       playbackPreloadContextRef,
+      onPrefetchIndexChange,
     });
     const emakis = processedEmakisRef?.current;
     const viewport = playbackPreloadContextRef?.current;
@@ -334,6 +340,7 @@ const useEmakiAutoPlay = ({
         prefetchSceneIndexRef,
         processedEmakisRef,
         playbackPreloadContextRef,
+        onPrefetchIndexChange,
       });
 
       playModeAnimationRef.current = requestAnimationFrame(playScroll);

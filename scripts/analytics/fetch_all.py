@@ -96,6 +96,7 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
     feedback_lines: list[str] = []
     share_lines: list[str] = []
     geo_lines: list[str] = []
+    device_lines: list[str] = []
     if merged_path.is_file():
         merged = json.loads(merged_path.read_text(encoding="utf-8"))
         flagged = [r for r in merged.get("rows", []) if r.get("insight_flags")]
@@ -205,6 +206,39 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
                     f"| {row.get('region')} | {row.get('sessions')} | {eng_pct}% "
                     f"| {row.get('averageSessionDuration')} |"
                 )
+
+        device = merged.get("device") or {}
+        browsers = device.get("browsers") or []
+        if browsers:
+            device_lines.append("| device | browser | sessions | eng% | avg dur(s) | viewer% | fb | flags |")
+            device_lines.append("|---|---|---:|---:|---:|---:|---:|---|")
+            for row in browsers[:12]:
+                flags = ", ".join(row.get("insight_flags") or []) or "—"
+                eng_pct = round(float(row.get("engagementRate") or 0) * 100, 1)
+                viewer_pct = round(float(row.get("viewer_engagement_ratio") or 0) * 100, 1)
+                device_lines.append(
+                    f"| {row.get('deviceCategory')} | {row.get('browser')} | {row.get('sessions')} "
+                    f"| {eng_pct}% | {row.get('averageSessionDuration')} | {viewer_pct}% "
+                    f"| {row.get('image_load_fallback_events')} | {flags} |"
+                )
+            low_quality_device = device.get("low_quality_segments") or []
+            if low_quality_device:
+                device_lines.append("")
+                device_lines.append(
+                    f"- **low-quality device/browser flags**: {len(low_quality_device)} segments"
+                )
+        os_rows = device.get("operating_systems") or []
+        if os_rows:
+            device_lines.append("")
+            device_lines.append("### OS (top 8)")
+            device_lines.append("| device | OS | sessions | eng% | avg dur(s) |")
+            device_lines.append("|---|---|---:|---:|---:|")
+            for row in os_rows[:8]:
+                eng_pct = round(float(row.get("engagementRate") or 0) * 100, 1)
+                device_lines.append(
+                    f"| {row.get('deviceCategory')} | {row.get('operatingSystem')} "
+                    f"| {row.get('sessions')} | {eng_pct}% | {row.get('averageSessionDuration')} |"
+                )
     below_gsc = gsc_rows < int(bootstrap.get("min_gsc_rows", 10))
     below_ga4 = ga4_sessions < int(bootstrap.get("min_ga4_sessions", 50))
     review_mode = "bootstrap" if phase == "bootstrap" or below_gsc or below_ga4 else "steady"
@@ -261,6 +295,9 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
     if geo_lines:
         lines.extend(["## Geo / traffic quality (GA4)", "", *geo_lines, ""])
 
+    if device_lines:
+        lines.extend(["## Device / browser (GA4)", "", *device_lines, ""])
+
     lines.extend(
         [
             "## Files (read order for Cursor Agent)",
@@ -270,6 +307,7 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
             "4. `ga4_events_summary.json` — event counts",
             "5. `ga4_fallback_by_reason.json` — fallback reason breakdown",
             "6. `ga4_geo_country.json` / `ga4_geo_japan_region.json` — geo traffic quality",
+            "7. `ga4_device_browser.json` / `ga4_device_os.json` — device & browser quality",
             "",
             "## Next step",
             "Run the weekly review prompt from `docs/operations/cursor-analytics-prompt.md`.",

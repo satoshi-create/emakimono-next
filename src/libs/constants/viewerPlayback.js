@@ -20,7 +20,17 @@ export const SCENE_READING_POSITION_RATIO = 0.38;
 export const SCENE_DETECTION_HYSTERESIS_PX = 80;
 
 /** 再生中の画像先読み（scene index ベース） */
-export const PLAYBACK_IMAGE_LOOKAHEAD = 6;
+export const PLAYBACK_IMAGE_LOOKAHEAD = 12;
+
+/** 再生中 DOM windowing: 現在シーンより手前に残す scene 数 */
+export const PLAYBACK_DOM_WINDOW_BEHIND = 3;
+
+/** 再生中 DOM windowing: lookahead 先の余白 scene 数 */
+export const PLAYBACK_DOM_WINDOW_AHEAD_MARGIN = 2;
+
+/** preload decode 範囲（DOM window 先端と揃える） */
+export const PLAYBACK_DOM_PRELOAD_LOOKAHEAD =
+  PLAYBACK_IMAGE_LOOKAHEAD + PLAYBACK_DOM_WINDOW_AHEAD_MARGIN;
 
 /** 再生中: シーン検出間隔（ms）— rAF ループ側で実行 */
 export const PLAYBACK_SCENE_DETECT_MS = 1500;
@@ -36,7 +46,7 @@ export const PLAYBACK_LAZY_BOUNDARY_NORMAL = "800px";
 export const PLAYBACK_LAZY_BOUNDARY_PLAY = "1400px";
 
 /** 再生先読み decode を requestIdleCallback で分散する枚数/回 */
-export const PLAYBACK_DECODE_BATCH_PER_IDLE = 2;
+export const PLAYBACK_DECODE_BATCH_PER_IDLE = 1;
 
 /** 再生先読み時の Cloudinary 配信幅上限（decode/paint 軽量化） */
 export const PLAYBACK_MAX_DELIVERY_WIDTH = 1080;

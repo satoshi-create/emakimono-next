@@ -1,5 +1,4 @@
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
-import { PLAYBACK_MAX_DELIVERY_WIDTH } from "@/libs/constants/viewerPlayback";
 
 /** next/image 12 デフォルト（next.config 未指定時） */
 const DEVICE_SIZES = [640, 750, 828, 1080, 1200, 1920, 2048, 3840];
@@ -29,7 +28,8 @@ export const computeEmakiDeliveryWidth = ({
   srcHeight,
   toggleFullscreen,
   orientation,
-  maxWidth = PLAYBACK_MAX_DELIVERY_WIDTH,
+  /** 数値指定時のみキャップ。未指定なら next/image と同じ DPR 幅 */
+  maxWidth,
 }) => {
   const heightPx = getEmakiDisplayHeightPx(toggleFullscreen, orientation);
   const aspect =
@@ -39,7 +39,7 @@ export const computeEmakiDeliveryWidth = ({
     typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1;
   let requested = Math.round(cssWidth * dpr);
   if (srcWidth) requested = Math.min(requested, srcWidth);
-  if (maxWidth) requested = Math.min(requested, maxWidth);
+  if (typeof maxWidth === "number") requested = Math.min(requested, maxWidth);
   return snapToDeviceSize(requested);
 };
 

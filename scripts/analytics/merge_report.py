@@ -275,6 +275,109 @@ def _build_geo_summary(report_dir: Path, thresholds: dict) -> dict:
     }
 
 
+def _device_browser_key(device: str, browser: str) -> str:
+    return f"{device}|{browser}"
+
+
+def _pivot_events_by_device_browser(rows: list[dict]) -> dict[str, dict[str, int]]:
+    out: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+    for row in rows:
+        device = row.get("deviceCategory") or ""
+        browser = row.get("browser") or ""
+        event = row.get("eventName") or ""
+        if not device or device == "(not set)" or not browser or browser == "(not set)" or not event:
+            continue
+        key = _device_browser_key(device, browser)
+        out[key][event] = int(row.get("eventCount") or 0)
+    return {key: dict(events) for key, events in out.items()}
+
+
+def _build_device_summary(report_dir: Path, thresholds: dict) -> dict:
+    device_browser = _load_json(report_dir / "ga4_device_browser.json")
+    device_os = _load_json(report_dir / "ga4_device_os.json")
+    events_by_device_browser = _load_json(report_dir / "ga4_events_by_device_browser.json")
+
+    if not isinstance(device_browser, list):
+        device_browser = []
+    if not isinstance(device_os, list):
+        device_os = []
+    if not isinstance(events_by_device_browser, list):
+        events_by_device_browser = []
+
+    events_map = _pivot_events_by_device_browser(events_by_device_browser)
+
+    browsers: list[dict] = []
+    for row in device_browser:
+        if not isinstance(row, dict):
+            continue
+        device = row.get("deviceCategory") or ""
+        browser = row.get("browser") or ""
+        if not device or device == "(not set)" or not browser or browser == "(not set)":
+            continue
+        sessions = int(row.get("sessions") or 0)
+        event_counts = events_map.get(_device_browser_key(device, browser), {})
+        viewer_events = int(event_counts.get("viewer_engagement", 0))
+        record = {
+            "deviceCategory": device,
+            "browser": browser,
+            "sessions": sessions,
+            "engagedSessions": int(row.get("engagedSessions") or 0),
+            "engagementRate": round(float(row.get("engagementRate") or 0), 4),
+            "averageSessionDuration": round(float(row.get("averageSessionDuration") or 0), 2),
+            "bounceRate": round(float(row.get("bounceRate") or 0), 4),
+            "viewer_engagement_events": viewer_events,
+            "scene_dwell_events": int(event_counts.get("scene_dwell", 0)),
+            "image_load_fallback_events": int(event_counts.get("image_load_fallback", 0)),
+            "viewer_engagement_ratio": round(viewer_events / sessions, 4) if sessions else 0.0,
+        }
+        record["insight_flags"] = _geo_country_flags(
+            record, viewer_events=viewer_events, thresholds=thresholds
+        )
+        browsers.append(record)
+
+    browsers.sort(key=lambda r: r["sessions"], reverse=True)
+
+    operating_systems = []
+    for row in device_os:
+        if not isinstance(row, dict):
+            continue
+        device = row.get("deviceCategory") or ""
+        os_name = row.get("operatingSystem") or ""
+        if not device or device == "(not set)" or not os_name or os_name == "(not set)":
+            continue
+        operating_systems.append(
+            {
+                "deviceCategory": device,
+                "operatingSystem": os_name,
+                "sessions": int(row.get("sessions") or 0),
+                "engagementRate": round(float(row.get("engagementRate") or 0), 4),
+                "averageSessionDuration": round(float(row.get("averageSessionDuration") or 0), 2),
+            }
+        )
+    operating_systems.sort(key=lambda r: r["sessions"], reverse=True)
+
+    low_quality = [
+        {
+            "deviceCategory": row["deviceCategory"],
+            "browser": row["browser"],
+            "sessions": row["sessions"],
+            "engagementRate": row["engagementRate"],
+            "averageSessionDuration": row["averageSessionDuration"],
+            "viewer_engagement_ratio": row["viewer_engagement_ratio"],
+            "image_load_fallback_events": row["image_load_fallback_events"],
+            "insight_flags": row["insight_flags"],
+        }
+        for row in browsers
+        if row.get("insight_flags")
+    ]
+
+    return {
+        "browsers": browsers,
+        "operating_systems": operating_systems,
+        "low_quality_segments": low_quality,
+    }
+
+
 def _index_fallback_reason(rows: list[dict], dim_key: str = "customEvent:fallback_reason") -> dict[str, int]:
     """カスタムディメンション内訳（fallback_reason / choice / platform 等）を集計。"""
     short = dim_key.split(":")[-1] if ":" in dim_key else dim_key
@@ -466,6 +569,7 @@ def merge_report(report_dir: Path) -> dict:
         "sns_share_breakdown": sns_share_by_slug,
         "sns_share_platform_breakdown": sns_share_platform_counts,
         "geo": _build_geo_summary(report_dir, thresholds),
+        "device": _build_device_summary(report_dir, thresholds),
         "rows": merged,
     }
     return payload

@@ -152,8 +152,34 @@ const EmakiContainer = ({
   const isPlayModeRef = useRef(false);
   const [playbackSyncTick, setPlaybackSyncTick] = useState(0);
 
+  // 再生停止時のスケルトン同期・表示モード切替用。シーン跨ぎの先読み更新は
+  // subscribePlaybackEager 経由の局所再描画のため tick を増やさない
+  // （全 LazyImage の Context 再レンダーを防ぐ）。
   const bumpPlaybackSyncTick = useCallback(() => {
     setPlaybackSyncTick((t) => t + 1);
+  }, []);
+
+  // 先読み index 変化時に LazyImage ごとに eager を再評価させる購読登録。
+  // 全ツリー再レンダー（Context tick）の代わりに、eager 判定が実際に変わった
+  // シーンだけを局部再描画する（かくつきの主因だった再生中の React 再レンダーを削減）。
+  const playbackEagerSubscribersRef = useRef(new Set());
+  const lastPrefetchIndexRef = useRef(prefetchSceneIndexRef.current);
+
+  const notifyPlaybackEagerSubscribers = useCallback((newPrefetchIndex) => {
+    const oldPrefetchIndex = lastPrefetchIndexRef.current;
+    if (oldPrefetchIndex !== newPrefetchIndex) {
+      playbackEagerSubscribersRef.current.forEach((sub) => {
+        sub(oldPrefetchIndex, newPrefetchIndex);
+      });
+      lastPrefetchIndexRef.current = newPrefetchIndex;
+    }
+  }, []);
+
+  const subscribePlaybackEager = useCallback((sub) => {
+    playbackEagerSubscribersRef.current.add(sub);
+    return () => {
+      playbackEagerSubscribersRef.current.delete(sub);
+    };
   }, []);
 
   const playbackContextValue = useMemo(
@@ -161,8 +187,9 @@ const EmakiContainer = ({
       isPlayModeRef,
       prefetchSceneIndexRef,
       playbackSyncTick,
+      subscribePlaybackEager,
     }),
-    [playbackSyncTick]
+    [playbackSyncTick, subscribePlaybackEager]
   );
 
   // 絵巻ハイパーリンク: 前回検出したシーン（不要な更新を防ぐ）
@@ -207,9 +234,15 @@ const EmakiContainer = ({
     processedEmakisRef,
     playbackPreloadContextRef,
     onPlaybackEnded: bumpPlaybackSyncTick,
+    onPrefetchIndexChange: notifyPlaybackEagerSubscribers,
   });
 
   isPlayModeRef.current = isPlayMode;
+
+  const handleStartPlayMode = useCallback(() => {
+    startPlayMode();
+    bumpPlaybackSyncTick();
+  }, [startPlayMode, bumpPlaybackSyncTick]);
 
   // スクロール処理 + 現在シーン検出（useEmakiScroll が sectionsCacheRef / scrollDimsRef を管理）
   const { scrollDimsRef } = useEmakiScroll({
@@ -598,7 +631,7 @@ const EmakiContainer = ({
               isUIVisible={isUIVisible}
               isPlayMode={isPlayMode}
               isAutoScrolling={isAutoScrolling}
-              onStartPlayMode={startPlayMode}
+              onStartPlayMode={handleStartPlayMode}
               onStopPlayMode={stopPlayMode}
               onOpenScrollFeedback={() => setIsScrollFeedbackOpen(true)}
               showScrollFeedbackButton={!scrollFeedbackSubmitted}

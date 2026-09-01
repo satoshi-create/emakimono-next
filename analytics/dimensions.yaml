@@ -118,3 +118,20 @@ geo_reports:
     - viewer_engagement
     - scene_dwell
     - image_load_fallback
+
+device_reports:
+  # analytics/kpi.yaml ga4_reports — session / event scope
+  session_dimensions:
+    - deviceCategory
+    - browser
+    - operatingSystem
+  session_metrics:
+    - sessions
+    - engagedSessions
+    - engagementRate
+    - averageSessionDuration
+    - bounceRate
+  event_by_device_browser:
+    - viewer_engagement
+    - scene_dwell
+    - image_load_fallback

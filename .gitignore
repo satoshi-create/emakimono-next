@@ -35,6 +35,7 @@ cloudinary-usage.json
 /analytics/reports/*/
 !/analytics/reports/.gitkeep
 /analytics/content-map.json
+/analytics/auto-scroll/
 
 # scroll workspace (local YAML + images; sync outputs go to src/data/)
 /scrolls
