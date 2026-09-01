@@ -23,11 +23,8 @@ import {
   SCENE_DETECTION_HYSTERESIS_PX,
   SCENE_READING_POSITION_RATIO,
 } from "@/libs/constants/viewerPlayback";
-import { getEffectiveScrollLeft } from "@/utils/emakiTransformScroll";
-
 const useEmakiScroll = ({
   articleRef,
-  virtualScrollLeftRef,
   dataId,
   emakiId,
   navIndex,
@@ -82,7 +79,7 @@ const useEmakiScroll = ({
       const readingX =
         containerRect.right -
         containerRect.width * SCENE_READING_POSITION_RATIO;
-      const baseScrollLeft = getEffectiveScrollLeft(el, virtualScrollLeftRef);
+      const baseScrollLeft = el.scrollLeft;
 
       sectionsCacheRef.current = {
         baseScrollLeft,
@@ -100,8 +97,7 @@ const useEmakiScroll = ({
 
     // 2回目以降: scrollLeft の差分だけでシーンを特定（DOM読み取りなし）
     const cache = sectionsCacheRef.current;
-    const scrollDelta =
-      getEffectiveScrollLeft(el, virtualScrollLeftRef) - cache.baseScrollLeft;
+    const scrollDelta = el.scrollLeft - cache.baseScrollLeft;
 
     let closestId = null;
     let closestDistance = Infinity;

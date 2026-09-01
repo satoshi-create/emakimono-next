@@ -52,7 +52,7 @@ export type UseEmakiScrollResult = {
 };
 
 /**
- * useEmakiAutoPlay — 初回ナッジ + 再生モードの rAF ループ。
+ * useEmakiAutoPlay — 初回ナッジ + 再生モードの rAF ループ（ネイティブ scrollLeft）。
  * useEmakiIdleUI を内部合成する（isUIVisible / showUI もここから提供）。
  * playModeAnimationRef は Conteiner 側（detectCurrentScene・ホイール停止・絵巻切替）が参照する。
  */

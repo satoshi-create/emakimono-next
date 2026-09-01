@@ -3,7 +3,7 @@
  *
  * - 初回ナッジ: 初回表示時のみ、横スクロール可能性を緩やかな自動スクロールで認知させる
  * - 再生モード: ユーザー任意の自動スクロール（▶/停止ボタン）
- * - rAF ループ内でシーン検出・端点 ref 更新（transform 移動で scroll イベントを出さない）
+ * - rAF ループ内でネイティブ scrollLeft を更新しシーン検出・端点 ref 更新
  * - scrollWidth は開始時1回 + 末尾付近のみ再計測
  */
 import { useEffect, useRef, useState } from "react";
@@ -20,11 +20,8 @@ import {
 } from "@/libs/constants/viewerPlayback";
 import { preloadPlaybackImages } from "@/libs/emakiImageLoading/playbackPreload";
 import {
-  beginTransformPlayback,
   computeMinScrollLeft,
-  endTransformPlayback,
-  getEffectiveScrollLeft,
-  setPlaybackScrollLeft,
+  setArticleScrollLeft,
   syncEdgeRefsFromScrollLeft,
 } from "@/utils/emakiTransformScroll";
 import { getSceneIndexFromScrollCache } from "@/utils/emakiSceneFromScroll";
@@ -43,7 +40,6 @@ const maybeRunSceneDetection = (detectCurrentSceneRef, lastDetectMsRef, nowMs) =
 /** 再生 rAF 内: スクロール位置から先読み scene index を更新し imperative preload */
 const updatePlaybackPrefetch = ({
   articleEl,
-  virtualScrollLeftRef,
   sectionsCacheRef,
   prefetchSceneIndexRef,
   processedEmakisRef,
@@ -54,7 +50,6 @@ const updatePlaybackPrefetch = ({
 
   const newIdx = getSceneIndexFromScrollCache(
     articleEl,
-    virtualScrollLeftRef,
     sectionsCacheRef,
     prefetchSceneIndexRef.current
   );
@@ -65,15 +60,11 @@ const updatePlaybackPrefetch = ({
   const emakis = processedEmakisRef?.current;
   const viewport = playbackPreloadContextRef?.current;
   if (emakis) preloadPlaybackImages(emakis, newIdx, viewport);
-  // 購読 LazyImage に通知: eager 窓の出入りを局部再描画のみで反映
-  // （Context 経由の全ツリー再レンダーは行わない）
   onPrefetchIndexChange?.(newIdx);
 };
 
 const useEmakiAutoPlay = ({
   articleRef,
-  scrollTrackRef,
-  virtualScrollLeftRef,
   dataId,
   emakiId,
   navIndex,
@@ -117,15 +108,13 @@ const useEmakiAutoPlay = ({
 
     if (isFirstVisit && !hasHashInUrl) {
       const el = articleRef.current;
-      const trackEl = scrollTrackRef.current;
-      if (!el || !trackEl) return;
+      if (!el) return;
 
       const scrollSpeedPxPerSec = getPlaybackSpeedPxPerSec();
       let animationId = null;
       let stopped = false;
       let lastScrollTs = null;
       let minScrollLeft = computeMinScrollLeft(el);
-      let transformActive = false;
       const lastDetectMsRef = { current: 0 };
 
       const stopAutoScroll = (interruptMethod = null) => {
@@ -136,15 +125,10 @@ const useEmakiAutoPlay = ({
           const scrollWidth = el.scrollWidth;
           const clientWidth = el.clientWidth;
           const maxScrollLeft = scrollWidth - clientWidth;
-          const scrollLeft = getEffectiveScrollLeft(el, virtualScrollLeftRef);
+          const scrollLeft = el.scrollLeft;
           const scrollRatio =
             maxScrollLeft > 0 ? Math.abs(scrollLeft) / maxScrollLeft : 0;
           trackAutoScrollInterrupted(emakiId, interruptMethod, scrollRatio);
-        }
-
-        if (transformActive) {
-          endTransformPlayback(el, trackEl, virtualScrollLeftRef);
-          transformActive = false;
         }
 
         setIsAutoScrolling(false);
@@ -178,7 +162,7 @@ const useEmakiAutoPlay = ({
         const dt = Math.min((ts - lastScrollTs) / 1000, MAX_SCROLL_DT_SEC);
         lastScrollTs = ts;
 
-        const currentScrollLeft = getEffectiveScrollLeft(el, virtualScrollLeftRef);
+        const currentScrollLeft = el.scrollLeft;
         const newScrollLeft = currentScrollLeft - scrollSpeedPxPerSec * dt;
 
         if (newScrollLeft < minScrollLeft + PLAYBACK_SCROLL_LIMIT_NEAR_END_PX) {
@@ -190,7 +174,7 @@ const useEmakiAutoPlay = ({
           return;
         }
 
-        setPlaybackScrollLeft(el, trackEl, virtualScrollLeftRef, newScrollLeft);
+        setArticleScrollLeft(el, newScrollLeft);
         syncEdgeRefsFromScrollLeft(
           newScrollLeft,
           minScrollLeft,
@@ -220,13 +204,9 @@ const useEmakiAutoPlay = ({
           sessionStorage.setItem(keyName, true);
 
           requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              if (stopped) return;
-              beginTransformPlayback(el, trackEl, virtualScrollLeftRef);
-              transformActive = true;
-              minScrollLeft = computeMinScrollLeft(el);
-              animationId = requestAnimationFrame(autoScroll);
-            });
+            if (stopped) return;
+            minScrollLeft = computeMinScrollLeft(el);
+            animationId = requestAnimationFrame(autoScroll);
           });
         }
       }, 500);
@@ -239,16 +219,9 @@ const useEmakiAutoPlay = ({
   }, [dataId, emakiId]);
 
   const stopPlayMode = () => {
-    const el = articleRef.current;
-    const trackEl = scrollTrackRef.current;
-
     if (playModeAnimationRef.current) {
       cancelAnimationFrame(playModeAnimationRef.current);
       playModeAnimationRef.current = null;
-    }
-
-    if (el && virtualScrollLeftRef.current != null) {
-      endTransformPlayback(el, trackEl, virtualScrollLeftRef);
     }
 
     setIsPlayMode(false);
@@ -265,16 +238,13 @@ const useEmakiAutoPlay = ({
 
   const startPlayMode = () => {
     const el = articleRef.current;
-    const trackEl = scrollTrackRef.current;
-    if (!el || !trackEl) return;
+    if (!el) return;
     if (playModeAnimationRef.current || isAutoScrolling) return;
 
     setIsPlayMode(true);
-    beginTransformPlayback(el, trackEl, virtualScrollLeftRef);
 
     updatePlaybackPrefetch({
       articleEl: el,
-      virtualScrollLeftRef,
       sectionsCacheRef,
       prefetchSceneIndexRef,
       processedEmakisRef,
@@ -293,18 +263,13 @@ const useEmakiAutoPlay = ({
     let minScrollLeft = computeMinScrollLeft(el);
 
     const playScroll = (ts) => {
-      if (playModeAnimationRef.current === null) {
-        if (virtualScrollLeftRef.current != null) {
-          endTransformPlayback(el, trackEl, virtualScrollLeftRef);
-        }
-        return;
-      }
+      if (playModeAnimationRef.current === null) return;
 
       if (playLastTsRef.current === null) playLastTsRef.current = ts;
       const dt = Math.min((ts - playLastTsRef.current) / 1000, MAX_SCROLL_DT_SEC);
       playLastTsRef.current = ts;
 
-      const currentScrollLeft = getEffectiveScrollLeft(el, virtualScrollLeftRef);
+      const currentScrollLeft = el.scrollLeft;
       const newScrollLeft = currentScrollLeft - scrollSpeedPxPerSec * dt;
 
       if (newScrollLeft < minScrollLeft + PLAYBACK_SCROLL_LIMIT_NEAR_END_PX) {
@@ -312,7 +277,6 @@ const useEmakiAutoPlay = ({
       }
 
       if (newScrollLeft < minScrollLeft) {
-        endTransformPlayback(el, trackEl, virtualScrollLeftRef);
         setIsPlayMode(false);
         showUI();
         setIsAtStart(isAtStartRef.current);
@@ -325,7 +289,7 @@ const useEmakiAutoPlay = ({
         return;
       }
 
-      setPlaybackScrollLeft(el, trackEl, virtualScrollLeftRef, newScrollLeft);
+      setArticleScrollLeft(el, newScrollLeft);
       syncEdgeRefsFromScrollLeft(
         newScrollLeft,
         minScrollLeft,
@@ -335,7 +299,6 @@ const useEmakiAutoPlay = ({
       maybeRunSceneDetection(detectCurrentSceneRef, lastDetectMsRef, ts);
       updatePlaybackPrefetch({
         articleEl: el,
-        virtualScrollLeftRef,
         sectionsCacheRef,
         prefetchSceneIndexRef,
         processedEmakisRef,
@@ -354,11 +317,6 @@ const useEmakiAutoPlay = ({
       if (playModeAnimationRef.current) {
         cancelAnimationFrame(playModeAnimationRef.current);
         playModeAnimationRef.current = null;
-      }
-      const el = articleRef.current;
-      const trackEl = scrollTrackRef.current;
-      if (el && virtualScrollLeftRef.current != null) {
-        endTransformPlayback(el, trackEl, virtualScrollLeftRef);
       }
     };
   }, []);

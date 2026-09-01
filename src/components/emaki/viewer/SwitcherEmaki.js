@@ -1,7 +1,5 @@
 import EmakiImage from "@/components/emaki/viewer/EmakiImage";
 import OverlayEkotoba from "@/components/emaki/viewer/OverlayEkotoba";
-import PlaybackSceneSpacer from "@/components/emaki/viewer/PlaybackSceneSpacer";
-import usePlaybackSceneMount from "@/hooks/emaki/usePlaybackSceneMount";
 import ekotobaStyles from "@/styles/OverlayEkotoba.module.css";
 import { forwardRef, memo } from "react";
 
@@ -25,32 +23,23 @@ const SwitcherEmaki = forwardRef(
     },
     ref
   ) => {
-    const readyToMount = usePlaybackSceneMount(uniqueIndex, item, cat);
-
     if (data.type !== "古典文学") {
       if (cat === "image") {
         return (
           <section ref={ref} id={index} className="emaki-scene-section">
-            {readyToMount ? (
-              <EmakiImage
-                key={index}
-                item={{
-                  ...item,
-                  index,
-                  scroll,
-                  selectedRef,
-                  navIndex,
-                  uniqueIndex,
-                }}
-                sceneIndex={sceneIndex}
-                emakiId={data?.titleen}
-              />
-            ) : (
-              <PlaybackSceneSpacer
-                srcWidth={item.srcWidth}
-                srcHeight={item.srcHeight}
-              />
-            )}
+            <EmakiImage
+              key={index}
+              item={{
+                ...item,
+                index,
+                scroll,
+                selectedRef,
+                navIndex,
+                uniqueIndex,
+              }}
+              sceneIndex={sceneIndex}
+              emakiId={data?.titleen}
+            />
           </section>
         );
       }

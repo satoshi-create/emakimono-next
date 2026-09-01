@@ -22,15 +22,8 @@ export const SCENE_DETECTION_HYSTERESIS_PX = 80;
 /** 再生中の画像先読み（scene index ベース） */
 export const PLAYBACK_IMAGE_LOOKAHEAD = 12;
 
-/** 再生中 DOM windowing: 現在シーンより手前に残す scene 数 */
-export const PLAYBACK_DOM_WINDOW_BEHIND = 3;
-
-/** 再生中 DOM windowing: lookahead 先の余白 scene 数 */
-export const PLAYBACK_DOM_WINDOW_AHEAD_MARGIN = 2;
-
-/** preload decode 範囲（DOM window 先端と揃える） */
-export const PLAYBACK_DOM_PRELOAD_LOOKAHEAD =
-  PLAYBACK_IMAGE_LOOKAHEAD + PLAYBACK_DOM_WINDOW_AHEAD_MARGIN;
+/** preload decode 範囲（eager 窓より先まで decode） */
+export const PLAYBACK_DOM_PRELOAD_LOOKAHEAD = 14;
 
 /** 再生中: シーン検出間隔（ms）— rAF ループ側で実行 */
 export const PLAYBACK_SCENE_DETECT_MS = 1500;

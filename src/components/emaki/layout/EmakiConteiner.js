@@ -21,7 +21,6 @@ import { SceneLikeCountsProvider } from "@/context/SceneLikeCountsContext";
 import { EmakiViewerPlaybackContext } from "@/context/EmakiViewerPlaybackContext";
 import { assignUniqueIndex } from "@/utils/emakiItemIndexer";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
-import { endTransformPlayback } from "@/utils/emakiTransformScroll";
 import { clearPlaybackPreloadCache } from "@/libs/emakiImageLoading/playbackPreload";
 import useEmakiAutoPlay from "@/hooks/emaki/useEmakiAutoPlay";
 import useEmakiPalmDrag from "@/hooks/emaki/useEmakiPalmDrag";
@@ -101,8 +100,6 @@ const EmakiContainer = ({
 
   const wrapperRef = useRef();
   const articleRef = useRef();
-  const scrollTrackRef = useRef(null);
-  const virtualScrollLeftRef = useRef(null);
   const entryContainerRef = useRef(null);
   const scrollNextRef = useRef(null);
   const scrollPrevRef = useRef(null);
@@ -215,8 +212,6 @@ const EmakiContainer = ({
     showUI,
   } = useEmakiAutoPlay({
     articleRef,
-    scrollTrackRef,
-    virtualScrollLeftRef,
     dataId: data.id,
     emakiId,
     navIndex,
@@ -247,7 +242,6 @@ const EmakiContainer = ({
   // スクロール処理 + 現在シーン検出（useEmakiScroll が sectionsCacheRef / scrollDimsRef を管理）
   const { scrollDimsRef } = useEmakiScroll({
     articleRef,
-    virtualScrollLeftRef,
     dataId: data.id,
     emakiId,
     navIndex,
@@ -456,7 +450,6 @@ const EmakiContainer = ({
       // DOM 横スクロールを先頭（右端）へリセット
       const el = articleRef.current;
       if (el) {
-        endTransformPlayback(el, scrollTrackRef.current, virtualScrollLeftRef);
         scrollPositionStore.isTransitioning = true;
         el.scrollTo({ left: 0, behavior: "auto" });
         isAtStartRef.current = true;
@@ -514,7 +507,6 @@ const EmakiContainer = ({
         if (playModeAnimationRef.current) {
           cancelAnimationFrame(playModeAnimationRef.current);
           playModeAnimationRef.current = null;
-          endTransformPlayback(el, scrollTrackRef.current, virtualScrollLeftRef);
           setIsPlayMode(false);
           showUI();
           e.preventDefault();
@@ -724,7 +716,7 @@ const EmakiContainer = ({
           data-playback-active={isPlayMode ? true : undefined}
           ref={articleRef}
         >
-          <div ref={scrollTrackRef} className={styles.scrollTrack}>
+          <div className={styles.scrollTrack}>
           {processedEmakis.map((item, index) => {
             const { cat, src } = item;
             return (
