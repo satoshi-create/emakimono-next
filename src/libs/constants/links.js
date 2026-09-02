@@ -1,3 +1,15 @@
+export const CHOUJU_GIGA_HUB_PATH = "/chouju-giga/chapters";
+export const KUSOUZU_HUB_PATH = "/kusouzu/chapters-kusouzu";
+
+/** トップ「最新の絵巻」キュレーション。新規公開時は先頭に追加。 */
+export const HOME_LATEST_SCROLLS = [
+  { titleen: "hyakki_utokyo", publishedAt: "2026-08-28", order: 1 },
+  { titleen: "hyakki_kokkai_a", publishedAt: "2026-08-27", order: 2 },
+  { titleen: "hyakki_no_zu_nichibun", publishedAt: "2026-08-24", order: 3 },
+];
+
+export const HOME_LATEST_TITLEEN = HOME_LATEST_SCROLLS.map((s) => s.titleen);
+
 export const NOTION_CONTACT_URL =
   "https://sour-brain-48f.notion.site/2f3994f0dfcd80409097f4cb44d2a80a?pvs=105";
 
@@ -46,8 +58,23 @@ export const navGroups = [
     labelKey: "nav.groupExplore",
     links: [
       { name: "絵巻一覧", nameen: "Emaki Gallery", path: "/type/emaki" },
+      {
+        name: "鳥獣人物戯画一覧",
+        nameen: "Chōjū-jinbutsu-giga",
+        path: CHOUJU_GIGA_HUB_PATH,
+      },
+      {
+        name: "九相図一覧",
+        nameen: "Kusōzu Gallery",
+        path: KUSOUZU_HUB_PATH,
+      },
       { name: "ランキング", nameen: "Rankings", path: "/ranking" },
       { name: "観光マップ", nameen: "Sightseeing Map", path: "/emaki-hub" },
+      {
+        name: "マンガのルーツ",
+        nameen: "Manga Roots",
+        path: "/manga-roots",
+      },
     ],
   },
   {
@@ -102,9 +129,6 @@ export const primaryNavLinks = [
     submenu: "",
   },
 ];
-
-export const CHOUJU_GIGA_HUB_PATH = "/chouju-giga/chapters";
-export const KUSOUZU_HUB_PATH = "/kusouzu/chapters-kusouzu";
 
 /** @deprecated Use navGroups in SidebarHome. */
 export const sidebarExtraLinks = navGroups.flatMap((g) => g.links);

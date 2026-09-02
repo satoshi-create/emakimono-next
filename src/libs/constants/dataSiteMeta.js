@@ -14,7 +14,7 @@ function buildLocaleUrl(locale, asPath, defaultLocale = "en") {
 const jaMeta = {
   siteTitle: "絵巻物ビューアー",
   siteDesc:
-    "縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。平安時代にはじまり鎌倉、室町、安土・桃山、江戸、そして明治まで、時代を超えて受け継がれてきた絵巻物を、ウェブの世界に一覧＆横スクロールで見えるようにし、現在によみがえらせることを目指しています。",
+    "平安〜鎌倉の絵巻物を横スクロールで鑑賞。鳥獣人物戯画・地獄草紙・餓鬼草紙・九相図など、テーマ別に作品を追加中の絵巻物ビューアーです。",
   siteUrl: SITE_ORIGIN,
   siteLang: "ja",
   siteLocale: "ja_JP",
@@ -24,7 +24,7 @@ const jaMeta = {
 const enMeta = {
   siteTitle: "Emakimono Viewer",
   siteDesc:
-    "This site pursues the enjoyment of picture scrolls by scrolling from right to left!",
+    "View Heian–Kamakura picture scrolls with horizontal scrolling — Chōjū-jinbutsu-giga, Hell Scrolls, Hungry Ghosts Scrolls, Kusōzu, and more.",
   siteUrl: SITE_ORIGIN,
   siteLang: "en",
   siteLocale: "en_EN",

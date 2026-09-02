@@ -1,58 +1,61 @@
-import { primaryNavLinks } from "@/libs/constants/links";
+import { getContactUrl, navGroups } from "@/libs/constants/links";
 import styles from "@/styles/NavLinks.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { useTranslation } from "next-i18next";
 
-const NavLinks = ({ footerstyle, slug }) => {
-  const [value, setValue] = useState(null);
+const NavLinks = ({ footerstyle }) => {
+  const [openGroupId, setOpenGroupId] = useState(null);
   const { locale } = useRouter();
-  const router = useRouter();
+  const { t } = useTranslation("common");
 
   return (
     <ul className={styles.links}>
-      {primaryNavLinks.map((link, index) => {
-        const { path, name, nameen, id, submenu } = link;
-        if (!submenu) {
-          return (
-            <li key={index}>
-              <Link href={path}>
-                <a
-                  className={`${styles.linksName} ${
-                    id === router.query.slug && styles.active
-                  }`}
-                  style={footerstyle}
-                >
-                  {locale === "en" ? nameen : name}
+      <li>
+        <Link href="/">
+          <a className={styles.linksName} style={footerstyle}>
+            {t("nav.home")}
+          </a>
+        </Link>
+      </li>
+      {navGroups.map((group) => (
+        <li
+          key={group.id}
+          className={styles.menu}
+          onMouseEnter={() => setOpenGroupId(group.id)}
+          onMouseLeave={() => setOpenGroupId(null)}
+        >
+          <span className={styles.linksNameAlpha} style={footerstyle}>
+            {t(group.labelKey)}
+          </span>
+          <div
+            className={styles.submenu}
+            style={{
+              display: openGroupId === group.id ? "flex" : "none",
+            }}
+          >
+            {group.links.map((link, index) => (
+              <Link href={link.path} key={`${link.path}-${index}`}>
+                <a style={footerstyle}>
+                  {locale === "en" ? link.nameen : link.name}
                 </a>
               </Link>
-            </li>
-          );
-        } else {
-          return (
-            <li
-              key={index}
-              className={styles.menu}
-              onClick={() => setValue(index)}
-            >
-              <div
-                className={`${styles.linksNameAlpha} ${
-                  id === router.query.slug && styles.active
-                }`}
-                style={footerstyle}
-              >
-                {locale === "en" ? nameen : name}
-              </div>
-              <div
-                className={styles.submenu}
-                style={
-                  index === value ? { display: "flex" } : { display: "none" }
-                }
-              ></div>
-            </li>
-          );
-        }
-      })}
+            ))}
+          </div>
+        </li>
+      ))}
+      <li>
+        <a
+          href={getContactUrl(locale)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.linksName}
+          style={footerstyle}
+        >
+          {t("nav.contact")}
+        </a>
+      </li>
     </ul>
   );
 };

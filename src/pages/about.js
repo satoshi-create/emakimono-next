@@ -2,22 +2,17 @@ import LegalPageLayout from "@/components/layout/LegalPageLayout";
 import { useLocale } from "@/utils/func";
 import parse from "html-react-parser";
 import "lazysizes";
-import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const About = () => {
-  const { locale } = useRouter();
   const { t } = useLocale();
-
-  const pageDesc =
-    locale === "en"
-      ? "About this project — enjoying emaki through horizontal scrolling."
-      : "Aboutページです。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。";
+  const { t: tCommon } = useTranslation("common");
 
   return (
     <LegalPageLayout
       pagetitle="About"
-      pageDesc={pageDesc}
+      pageDesc={tCommon("about.metaDesc")}
       breadcrumbName="About"
       sectionTitle={t.about.sectiontitle}
     >

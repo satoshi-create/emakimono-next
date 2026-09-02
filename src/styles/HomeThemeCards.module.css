@@ -1,0 +1,96 @@
+.section {
+  background: var(--clr-bg);
+}
+
+.sectionTitle {
+  font-family: var(--font-story);
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  margin-bottom: 1.5rem;
+  color: var(--clr-text);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  border-radius: 6px;
+  border: 1px solid rgb(20 20 20 / 0.08);
+  background: var(--clr-bg);
+  text-decoration: none;
+  color: var(--clr-text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  min-height: 100%;
+}
+
+.card:hover,
+.card:focus-visible {
+  border-color: var(--clr-accent);
+  box-shadow: 0 4px 16px rgb(255 140 119 / 0.15);
+}
+
+.cardTitle {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.cardDesc {
+  font-family: var(--font-story);
+  font-size: 0.875rem;
+  color: var(--clr-text-muted);
+  line-height: 1.55;
+  flex: 1;
+}
+
+.cardWarning {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--clr-text-muted);
+}
+
+.cardCta {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--clr-accent);
+  margin-top: 0.25rem;
+}
+
+.satire .cardCta {
+  color: var(--clr-accent);
+}
+
+.dark .cardCta {
+  color: #8b4513;
+}
+
+.kusouzu .cardCta {
+  color: var(--clr-accent-green);
+}
+
+.manga .cardCta {
+  color: #5a4a8a;
+}
+
+.dark {
+  border-left: 3px solid #8b4513;
+}
+
+.kusouzu {
+  border-left: 3px solid var(--clr-accent-green);
+}
+
+.satire {
+  border-left: 3px solid var(--clr-accent);
+}
+
+.manga {
+  border-left: 3px solid #5a4a8a;
+}

@@ -1,82 +1,33 @@
-import Title from "@/components/ui/Title";
+import CardA from "@/components/ui/CardA";
 import { AppContext } from "@/context/AppContext";
-import styles from "@/styles/TopRanking.module.css";
-import { eraColor, eraNameEn } from "@/utils/func";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Image from "next/image";
+import styles from "@/styles/HomeSectionLink.module.css";
+import sectionStyles from "@/styles/TopRanking.module.css";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useContext } from "react";
+import { useTranslation } from "next-i18next";
 
 const TopRanking = () => {
-  const { locale } = useRouter();
+  const { t } = useTranslation("common");
   const { rankingData, loading } = useContext(AppContext);
 
-  const top3 = rankingData.slice(0, 3);
+  const top4 = rankingData.slice(0, 4);
 
-  if (loading || top3.length === 0) return null;
+  if (loading || top4.length === 0) return null;
 
   return (
-    <section className="section-grid section-padding">
-      <Title
-        sectiontitle={locale === "en" ? "Popular Emaki" : "いま人気の絵巻"}
+    <section className={sectionStyles.popularSection}>
+      <CardA
+        emakis={top4}
+        columns="four"
+        sectiontitle={t("home.popularSectionTitle")}
+        sectiontitleen={t("home.popularSectionTitle")}
+        bcg="var(--clr-surface)"
       />
-      <div className={styles.grid}>
-        {top3.map((item, i) => {
-          const rank = i + 1;
-          return (
-            <Link href={`/${item.titleen}`} key={i}>
-              <a>
-                <div className={styles.card}>
-                  <Image
-                    src={item.thumb}
-                    alt={item.title}
-                    layout="fill"
-                    objectFit="cover"
-                    loading="lazy"
-                    placeholder="blur"
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
-                  />
-                  <div className={styles.overlay}>
-                    <div className={styles.rankRow}>
-                      <span className={styles.rank} data-rank={rank}>
-                        {locale === "en" ? `#${rank}` : `${rank}位`}
-                      </span>
-                      <span
-                        className={styles.eraBadge}
-                        style={{
-                          backgroundColor: eraColor(item.era) || "#888",
-                        }}
-                      >
-                        {locale === "en"
-                          ? `${eraNameEn(item.eraen)} period`
-                          : `${item.era}時代`}
-                      </span>
-                    </div>
-                    <span className={styles.cardTitle}>
-                      {locale === "en" ? item.titleen : item.title}
-                      {locale === "ja" && item.edition && ` ${item.edition}`}
-                    </span>
-                    <div className={styles.views}>
-                      <FontAwesomeIcon icon={faEye} className={styles.viewIcon} />
-                      {Number(item.pageView).toLocaleString()}
-                      {locale === "ja" && "回鑑賞"}
-                    </div>
-                  </div>
-                </div>
-              </a>
-            </Link>
-          );
-        })}
-      </div>
-      <div className={styles.moreLink}>
+      <div className={`section-grid ${styles.wrap} ${styles.wrapSurface}`}>
         <Link href="/ranking">
           <a>
-            <button className={styles.moreLinkBtn}>
-              {locale === "en"
-                ? "View All Rankings"
-                : "ランキングをもっと見る"}
+            <button type="button" className={styles.btn}>
+              {t("home.popularMoreLink")}
             </button>
           </a>
         </Link>

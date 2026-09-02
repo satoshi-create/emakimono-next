@@ -73,7 +73,7 @@ const Header = ({ slug, fixed }) => {
           <SidebarHome />
         </nav>
       </div>
-      <NavLinks slug={slug} />
+      <NavLinks />
     </header>
   );
 };

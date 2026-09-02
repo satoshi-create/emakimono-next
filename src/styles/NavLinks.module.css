@@ -59,8 +59,12 @@
   }
 
   .submenu > a {
+    display: block;
     transition: var(--transition);
-    padding: 0.4rem;
+    padding: 0.4rem 0.75rem;
+    text-decoration: none;
+    color: var(--clr-text);
+    white-space: nowrap;
   }
   .submenu > a:hover {
     background-color: var(--clr-grey-light);

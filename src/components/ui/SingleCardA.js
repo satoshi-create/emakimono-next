@@ -43,7 +43,7 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
     "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
 
   return (
-    <div onClick={closeSearchModal}>
+    <div className={styles.cardOuter} onClick={closeSearchModal}>
       {sectiontitle === "さまざまな絵巻" && (
         <h4 className={styles.subtype} id="alart" value="test">
           {sectiontitle === "さまざまな絵巻" && `${subtype}絵巻`}
@@ -53,13 +53,13 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
       <div className={styles.card}>
         <div className={styles.single}>
           <Link href={`/${titleen}`}>
-            <a>
+            <a className={styles.singleLink}>
               <Image
                 src={thumb}
-                width={533}
-                height={300}
-                sizes="100vw"
                 alt={title}
+                layout="fill"
+                objectFit="cover"
+                sizes="(max-width: 767px) 50vw, (max-width: 1200px) 25vw, 300px"
                 loading="lazy"
                 placeholder="blur"
                 blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkmF/vAwADMQFs4YXxygAAAABJRU5ErkJggg=="
@@ -93,24 +93,26 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
               </Link>
             )}
           </div>
-          <Link href={`/${titleen}`}>
-            <a>
-              <h3 className={styles.title}>
-                {locale === "ja" ? title : titleen} {locale === "ja" && edition}
-              </h3>
-            </a>
-          </Link>
-          {author ? (
-            <Link href={`/author/${authoren}`}>
-              <a className={styles.authorLink}>
-                <h4 className={styles.author}>
-                  {locale === "ja" ? author : authoren}
-                </h4>
+          <div className={styles.contentBlock}>
+            <Link href={`/${titleen}`}>
+              <a>
+                <h3 className={styles.title}>
+                  {locale === "ja" ? title : titleen} {locale === "ja" && edition}
+                </h3>
               </a>
             </Link>
-          ) : (
-            <br />
-          )}
+            {author ? (
+              <Link href={`/author/${authoren}`}>
+                <a className={styles.authorLink}>
+                  <h4 className={styles.author}>
+                    {locale === "ja" ? author : authoren}
+                  </h4>
+                </a>
+              </Link>
+            ) : (
+              <div className={styles.authorSpacer} aria-hidden="true" />
+            )}
+          </div>
           {needdesc && (
             <div className={styles.desc}>
               {desc ? `${filterDesc}...` : descTemp}

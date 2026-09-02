@@ -1,0 +1,30 @@
+.wrap {
+  display: flex;
+  justify-content: center;
+  padding-top: 0.5rem;
+  padding-bottom: 2rem;
+  background: var(--clr-bg);
+}
+
+.wrapSurface {
+  background: var(--clr-surface);
+  margin-top: -1rem;
+}
+
+.btn {
+  padding: 0.6rem 1.5rem;
+  border-radius: var(--borderRadius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: var(--transition);
+  font-family: var(--font-ui);
+  color: var(--clr-accent);
+  border: 1px solid var(--clr-accent);
+  background: var(--clr-bg);
+  cursor: pointer;
+}
+
+.btn:hover {
+  color: var(--clr-bg);
+  background-color: var(--clr-accent);
+}

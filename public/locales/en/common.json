@@ -95,7 +95,61 @@
     "groupExplore": "Explore",
     "groupLearn": "Learn",
     "groupSite": "Site",
-    "contact": "Contact"
+    "contact": "Contact",
+    "choujuHub": "Chōjū-jinbutsu-giga",
+    "kusouzuHub": "Kusōzu Gallery",
+    "mangaRoots": "Manga Roots"
+  },
+
+  "home": {
+    "metaTitle": "Emakimono Viewer",
+    "metaDesc": "View Heian–Kamakura picture scrolls with horizontal scrolling — Chōjū-jinbutsu-giga, Hell Scrolls, Hungry Ghosts Scrolls, Kusōzu, and more. Browse by theme.",
+    "themeSectionTitle": "Browse by theme",
+    "latestSectionTitle": "Latest scrolls",
+    "popularSectionTitle": "Popular emaki",
+    "popularMoreLink": "View more popular emaki",
+    "latestNewBadge": "NEW",
+    "latestOrderBadge": "#{{order}}",
+    "featuredSectionTitle": "More scrolls",
+    "galleryLink": "View emaki gallery",
+    "hubTeaserSectionTitle": "Classic hubs",
+    "themes": {
+      "satire": {
+        "title": "Satire & Humor",
+        "desc": "Chōjū-jinbutsu-giga — animals behaving like humans, often called Japan's oldest manga",
+        "cta": "View all 4 scrolls"
+      },
+      "darkFantasy": {
+        "title": "Hell & Dark Fantasy",
+        "desc": "Hell Scrolls & Hungry Ghosts — torments and grotesque visions",
+        "cta": "Explore on the Kyoto map",
+        "warning": "Contains depictions of torment. View at your own discretion."
+      },
+      "kusouzu": {
+        "title": "Impermanence",
+        "desc": "Kusōzu — follow all ten stages from life to ash",
+        "cta": "Kusōzu gallery"
+      },
+      "mangaRoots": {
+        "title": "Manga Roots",
+        "desc": "Visual lineage from medieval scrolls to modern anime & manga",
+        "cta": "Explore connections"
+      }
+    },
+    "choujuTeaser": {
+      "title": "Chōjū-jinbutsu-giga",
+      "desc": "All four scrolls (A–D) in horizontal scrolling",
+      "cta": "Chōjū-jinbutsu-giga gallery"
+    },
+    "kusouzuTeaser": {
+      "title": "Kusōzu",
+      "desc": "Ten stages explained, with related scrolls",
+      "cta": "Kusōzu gallery"
+    }
+  },
+
+  "about": {
+    "metaDesc": "An open-source project for viewing Heian–Kamakura emaki with horizontal scrolling. Expanding thematic collections including Chōjū-jinbutsu-giga, Hell Scrolls, and Kusōzu."
   },
 
   "share": {
@@ -153,7 +207,7 @@
     },
     "scroll": {
       "title": "Scroll horizontally",
-      "step1": "Choose a scroll from the home page or the gallery. New visitors may start with Chōjū-jinbutsu-giga (Scroll A).",
+      "step1": "Pick a scroll from the home page theme cards, gallery, or hub pages. New visitors may start with Chōjū-jinbutsu-giga (Scroll A) or a Hell Scroll.",
       "step2": "Move through the scroll by swiping left/right, arrow keys, mouse wheel, or the horizontal scrollbar — as if unrolling a handscroll.",
       "step3": "Each scroll is divided into sections (scenes). Use the table of contents, #number URLs, or Next/Previous to follow the story."
     },

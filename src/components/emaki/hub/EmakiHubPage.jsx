@@ -22,6 +22,10 @@ const DynamicEmakiHubMap = dynamic(
   { ssr: false, loading: () => <div className={styles.mapLoading}>Loading map…</div> }
 );
 
+const THEME_IDS = THEMES.map((th) => th.id);
+const getThemeFromQuery = (q) =>
+  typeof q === "string" && THEME_IDS.includes(q) ? q : "all";
+
 /**
  * 京都編 / 鎌倉編ハブページ本体。
  * props: hubData = { regions, emakis, routes, media }（image-metadata-cache.json と JOIN 済み）、 t = useTranslation("common")
@@ -41,7 +45,7 @@ const EmakiHubPage = ({ hubData, t }) => {
   const [region, setRegion] = useState(initialRegion);
   const [activeScroll, setActiveScroll] = useState(initialScroll);
   const [activeRouteId, setActiveRouteId] = useState(initialRoute);
-  const [theme, setTheme] = useState("all");
+  const [theme, setTheme] = useState(() => getThemeFromQuery(router.query.theme));
   const [routePanelOpen, setRoutePanelOpen] = useState(false);
   const [mapFullscreen, setMapFullscreen] = useState(false);
 
@@ -51,7 +55,6 @@ const EmakiHubPage = ({ hubData, t }) => {
   useEffect(() => {
     if (["kyoto", "kamakura"].includes(router.query.region)) {
       setRegion(router.query.region);
-      setTheme("all");
     }
     setActiveScroll(
       typeof router.query.scroll === "string" ? router.query.scroll : null
@@ -59,7 +62,13 @@ const EmakiHubPage = ({ hubData, t }) => {
     setActiveRouteId(
       typeof router.query.route === "string" ? router.query.route : null
     );
-  }, [router.query.region, router.query.scroll, router.query.route]);
+    setTheme(getThemeFromQuery(router.query.theme));
+  }, [
+    router.query.region,
+    router.query.scroll,
+    router.query.route,
+    router.query.theme,
+  ]);
 
   // 全画面表示中はページスクロールを止める
   useEffect(() => {
@@ -86,14 +95,21 @@ const EmakiHubPage = ({ hubData, t }) => {
     setTheme("all");
     setActiveRouteId(null);
     setRoutePanelOpen(false);
-    // URL クエリで状態を保持（シェア・GA 計測向き）。履歴を汚さない shallow replace
     router.replace(`/emaki-hub?region=${next}`, undefined, { shallow: true });
   };
 
-  // URL クエリのみ更新。Next.js ルーターを介さないためスクロールジャンプが起きない
   const replaceUrlQuery = (query) => {
     const basePath = router.asPath.split("?")[0];
     window.history.replaceState(null, "", `${basePath}${query}`);
+  };
+
+  const handleThemeChange = (nextTheme) => {
+    setTheme(nextTheme);
+    const params = new URLSearchParams();
+    if (region !== "kyoto") params.set("region", region);
+    if (nextTheme !== "all") params.set("theme", nextTheme);
+    const query = params.toString();
+    replaceUrlQuery(query ? `?${query}` : "");
   };
 
   // ルート選択：地図でルートをハイライトし、パネルを閉じて地図を見せる
@@ -209,7 +225,7 @@ const EmakiHubPage = ({ hubData, t }) => {
                 className={`${styles.themeTab} ${
                   theme === th.id ? styles.themeTabActive : ""
                 }`}
-                onClick={() => setTheme(th.id)}
+                onClick={() => handleThemeChange(th.id)}
               >
                 {locale === "en" ? th.labelEn : th.labelJa}
               </button>

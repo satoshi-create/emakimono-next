@@ -2,19 +2,19 @@ const ja = {
   top: {
     title: "絵巻物を横スクロールで鑑賞",
     titleen: "View Emaki with Horizontal Scrolling",
-    desc: "絵巻物（えまきもの）は、本来「読むもの」ではなく「繰り展げて追うもの」。平安〜鎌倉時代に描かれた鳥獣人物戯画や九相図などの名作絵巻を、横スクロールで全シーンにわたって鑑賞できます。",
+    desc: "絵巻物（えまきもの）は、本来「読むもの」ではなく「繰り展げて追うもの」。風刺・地獄・無常——平安〜鎌倉時代の絵巻を、横スクロールで全シーンにわたって追いかけられます。",
   },
   cyouzyuu: {
-    title: "鳥獣人物戯画とは — 日本最古のマンガを全4巻横スクロール",
-    titleen: "What is Chōjū-jinbutsu-giga? Japan's Oldest Manga",
-    desc: "鳥獣人物戯画（ちょうじゅうじんぶつぎが）は、平安〜鎌倉時代に描かれた戯画絵巻。兎や猿、蛙などが人間のように振る舞う滑稽な描写で知られ、「日本最古のマンガ」とも称されます。誰が描いたのかは不明な部分が多く、謎に包まれています。甲巻から丁巻までの全4巻を、横スクロールで一気に観賞してみましょう。",
+    title: "鳥獣人物戯画",
+    titleen: "Chōjū-jinbutsu-giga",
+    desc: "日本最古のマンガとも称される戯画絵巻。甲〜丁の全4巻を横スクロールで鑑賞できます。",
     name: "cyouzyuu",
     columns: "four",
   },
   kusouzu: {
-    title: "九相図とは — 全九相を横スクロールで観想",
-    titleen: "What is Kusōzu? Contemplate All Nine Stages",
-    desc: "九相図は、美しい女性が死後朽ち果てるまでを9つの段階で描いた仏教絵巻。鎌倉時代に制作され、肉体の美醜を生々しく表現し、修行者の無常観を促す目的を持ちました。本作は檀林皇后をモデルとした九相図の代表作で、全シーンを横スクロールでご覧いただけます。",
+    title: "九相図",
+    titleen: "Kusōzu",
+    desc: "生前相から灰相まで十相を追う仏教絵巻。関連する九相図絵巻も横スクロールで観想できます。",
     name: "kusouzu",
     columns: "four",
   },
@@ -41,20 +41,35 @@ const ja = {
         ことに挑戦しました。
       </p>
        <br/>
-      <p>このプロジェクトでは、まずアクセスの多かった2つの絵巻を収録しています：</p>
+      <p>
+        本サイトでは、平安〜鎌倉時代の絵巻をテーマ別に横スクロールで鑑賞できます。
+        鳥獣人物戯画・地獄草紙・餓鬼草紙・九相図など、
+        教科書では断片的にしか触れられない作品を、連続したシーンとして追えます。
+      </p>
        <br/>
       <ul>
         <li>
-        🐸 <strong>鳥獣人物戯画絵巻</strong>（Chōjū-jinbutsu-giga）
+          🐸 <strong>風刺とユーモア</strong> —
+          <a href="/chouju-giga/chapters">鳥獣人物戯画一覧</a>（Chōjū-jinbutsu-giga）
         </li>
-        <li>💀 <strong>九相図巻</strong>（Kusōzu – Nine Stages of a Decaying Corpse）</li>
+        <li>
+          🔥 <strong>地獄とダークファンタジー</strong> —
+          <a href="/emaki-hub?theme=dark-fantasy">地獄草紙・餓鬼草紙</a>（Hell &amp; Hungry Ghosts Scrolls）
+        </li>
+        <li>
+          💀 <strong>九相と無常</strong> —
+          <a href="/kusouzu/chapters-kusouzu">九相図一覧</a>（Kusōzu）
+        </li>
+        <li>
+          📺 <strong>マンガ・アニメのルーツ</strong> —
+          <a href="/manga-roots">現代作品とのつながり</a>
+        </li>
       </ul>
        <br/>
       <p>
-        これらは、教科書で断片的に紹介されることはあっても、
-        全体を連続的に見ることはなかなかできません。
         本サイトでは、横スクロールを使って一気に絵巻物を展開し、
         あたかもアニメを観るように物語を追いかけることができます。
+        コレクションは段階的に拡大中です。
       </p>
       <br/><br/>
   `,
@@ -72,8 +87,8 @@ const ja = {
       </ul>
         <br/>
       <p>
-        過去のバージョンでは多くの絵巻を扱っていましたが、
-        現在は「鳥獣人物戯画」と「九相図巻」に焦点を絞り、コードをシンプルに保っています。
+        MVP として鳥獣人物戯画と九相図から始め、
+        現在は地獄草紙・餓鬼草紙などへの拡張と、テーマ別ハブページの整備を進めています。
       </p>
         <br/>
       <p>
@@ -96,19 +111,19 @@ const en = {
   top: {
     title: "View Emaki with Horizontal Scrolling",
     titleen: "絵巻物を横スクロールで鑑賞",
-    desc: "Emaki (picture scrolls) are meant to be slowly unrolled and followed — not read like a book. Enjoy masterpieces such as Chōjū-jinbutsu-giga and Kusōzu from the Heian–Kamakura periods, scene by scene, with horizontal scrolling.",
+    desc: "Emaki are meant to be unrolled and followed — not read like a book. From satire and hell scrolls to kusōzu, explore Heian–Kamakura picture scrolls scene by scene with horizontal scrolling.",
   },
   kusouzu: {
-    title: "What is Kusōzu? — Nine Stages of Decay",
-    titleen: "九相図とは — 全九相を横スクロールで観想",
-    desc: "Kusōzu (Nine Stages of Decay) is a Buddhist picture scroll depicting a beautiful woman's body decaying through nine stages after death, created in the Kamakura period. It vividly portrays the beauty and ugliness of the human body to inspire meditation on impermanence. Based on Empress Danrin, it is one of the most celebrated kusōzu scrolls. Scroll horizontally through every scene.",
+    title: "Kusōzu",
+    titleen: "九相図",
+    desc: "Buddhist scrolls depicting all ten stages from life to ash. Contemplate related kusōzu works with horizontal scrolling.",
     name: "kusouzu",
     columns: "four",
   },
   cyouzyuu: {
-    title: "What is Chōjū-jinbutsu-giga? See Japan's Oldest Manga in Horizontal Scrolling",
-    titleen: "鳥獣人物戯画とは — 日本最古のマンガを全4巻横スクロール",
-    desc: "Chōjū-jinbutsu-giga (Frolicking Animals and Humans) is a set of picture scrolls from the Heian–Kamakura period. Famous for humorous depictions of rabbits, monkeys, and frogs behaving like humans, it is often called Japan's oldest manga. The artist remains unknown, and the scrolls are full of mystery. Browse all four scrolls (A–D) horizontally.",
+    title: "Chōjū-jinbutsu-giga",
+    titleen: "鳥獣人物戯画",
+    desc: "Often called Japan's oldest manga. Browse all four scrolls (A–D) horizontally.",
     name: "cyouzyuu",
     columns: "four",
   },
@@ -131,22 +146,33 @@ const en = {
     </p>
     <br/>
     <p>
-      This project currently focuses on two of the most accessed emaki scrolls:
+      This site lets you explore Heian–Kamakura emaki by theme with horizontal scrolling.
+      Works such as Chōjū-jinbutsu-giga, Hell Scrolls, Hungry Ghosts Scrolls, and Kusōzu
+      are rarely shown in full outside museums — here you can follow every scene in sequence.
     </p>
     <br/>
     <ul>
       <li>
-        🐸 <strong>Chōjū-jinbutsu-giga</strong> (Scrolls of Frolicking Animals and People)
+        🐸 <strong>Satire &amp; Humor</strong> —
+        <a href="/chouju-giga/chapters">Chōjū-jinbutsu-giga Gallery</a>
       </li>
       <li>
-        💀 <strong>Kusōzu</strong> – Nine Stages of a Decaying Corpse
+        🔥 <strong>Hell &amp; Dark Fantasy</strong> —
+        <a href="/emaki-hub?theme=dark-fantasy">Hell &amp; Hungry Ghosts Scrolls</a>
+      </li>
+      <li>
+        💀 <strong>Impermanence</strong> —
+        <a href="/kusouzu/chapters-kusouzu">Kusōzu Gallery</a>
+      </li>
+      <li>
+        📺 <strong>Manga &amp; Anime Roots</strong> —
+        <a href="/manga-roots">Connections to modern works</a>
       </li>
     </ul>
     <br/>
     <p>
-      These works are often introduced only in fragments in school textbooks and museums.
-      Here, you can experience them in full via smooth horizontal scrolling—
-      following the story as if you were watching a piece of animation.
+      Scroll horizontally through each work as if watching animation.
+      The collection is expanding over time.
     </p>
     <br/><br/>
   `,
@@ -164,8 +190,8 @@ const en = {
     </ul>
     <br/>
     <p>
-      The previous version included many emaki scrolls, but we have now narrowed our focus to
-      <strong>Chōjū-jinbutsu-giga</strong> and <strong>Kusōzu</strong> in order to keep the codebase clean and simple.
+      We started with Chōjū-jinbutsu-giga and Kusōzu as our MVP, and are now expanding
+      to Hell Scrolls, Hungry Ghosts Scrolls, and thematic hub pages.
     </p>
     <br/>
     <p>
