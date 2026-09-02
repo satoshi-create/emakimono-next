@@ -62,3 +62,32 @@ py -3.14 scripts/sync_all.py scrolls/my-new-scroll/scroll_config.yaml
 ```
 
 PR では `validate-scroll.yml` が preflight + dry-run を自動実行します。
+
+## トップ「最新の絵巻」の更新
+
+新規絵巻を **本番公開（sync + PR マージ）** するたびに、トップページの「最新の絵巻」セクション用キュレーションを更新します。
+
+**編集ファイル:** [`src/libs/constants/links.js`](../src/libs/constants/links.js) の `HOME_LATEST_SCROLLS`
+
+```javascript
+export const HOME_LATEST_SCROLLS = [
+  { titleen: "new_scroll_id", publishedAt: "2026-09-02", order: 1 }, // ← 今回追加した絵巻
+  { titleen: "previous_scroll", publishedAt: "2026-08-28", order: 2 },
+  { titleen: "older_scroll", publishedAt: "2026-08-24", order: 3 },
+];
+```
+
+| フィールド | 内容 |
+|-----------|------|
+| `titleen` | `scroll_config.yaml` の `metadata.titleen`（= `image-metadata-cache.json` のキー）と一致させる |
+| `publishedAt` | 公開日（`YYYY-MM-DD`）。metadata に未収録のため手動。初回 cache 追加日は `git log --follow -- src/data/image-metadata-cache/image-metadata-cache.json` 等で確認 |
+| `order` | 表示順。`1` が最新（NEW バッジ対象） |
+
+**ルール**
+
+1. **常に 3 件** — 先頭に新規を追加し、4 件目以降は削除する
+2. 既存行の `order` を `2`, `3` に繰り下げる
+3. `HOME_LATEST_TITLEEN` は自動生成のため編集不要（「その他の絵巻」から最新 3 件を除外するために使われる）
+4. sync PR に `links.js` の変更を **同梱** する（cache JSON とセットでマージ）
+
+表示コンポーネント: [`src/components/home/HomeLatestScrolls.js`](../src/components/home/HomeLatestScrolls.js)（thumb・タイトルは cache から取得）
