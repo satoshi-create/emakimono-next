@@ -101,8 +101,11 @@
 
 .cat {
   display: flex;
-  justify-content: left;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
   column-gap: 0.5rem;
+  row-gap: 0.25rem;
   font-size: 0.7rem;
   padding: 0.5rem 0;
   font-family: var(--title-font2);
@@ -117,6 +120,8 @@
   font-weight: 100;
   transition: var(--transition);
   cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .cat>.type:hover,
@@ -194,6 +199,8 @@
   color: #b8860b;
   transition: var(--transition);
   cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .rankBadge:hover {
   color: #daa520;
@@ -241,4 +248,56 @@
 
 .keywordLink:hover {
   opacity: 0.5;
+}
+
+@media screen and (max-width: 767px) {
+  .three {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .four {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .single {
+    aspect-ratio: 3 / 2;
+  }
+
+  .footer {
+    padding: 0.4rem 0.5rem;
+  }
+
+  .cat {
+    column-gap: 0.25rem;
+    row-gap: 0.2rem;
+    font-size: 0.6rem;
+    padding: 0.35rem 0;
+  }
+
+  .cat > * {
+    padding: 0.1rem 0.25rem 0;
+  }
+
+  .title {
+    font-size: 0.85rem;
+    line-height: 1.35;
+  }
+
+  .author {
+    font-size: 0.75rem;
+  }
+
+  .viewemaki {
+    display: none;
+  }
+
+  .keywordRow {
+    display: none;
+  }
+
+  .desc {
+    display: none;
+  }
 }

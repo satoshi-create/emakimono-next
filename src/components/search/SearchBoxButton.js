@@ -3,17 +3,22 @@ import styles from "@/styles/SearchBoxButton.module.css";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
 import { useContext } from "react";
 
-const SearchBoxButton = () => {
+const SearchBoxButton = ({ variant = "default" }) => {
   const { t } = useTranslation("common");
-  const { locale } = useRouter();
-  const { openSearchModalOpen, isSearchModalOpen } = useContext(AppContext);
+  const { openSearchModalOpen } = useContext(AppContext);
+  const isIconOnly = variant === "iconOnly";
+
   return (
-    <button className={styles.searchboxbtn} onClick={openSearchModalOpen}>
+    <button
+      className={`${styles.searchboxbtn} ${isIconOnly ? styles.iconOnly : ""}`}
+      onClick={openSearchModalOpen}
+      aria-label={t("search")}
+      type="button"
+    >
       <FontAwesomeIcon icon={faMagnifyingGlass} />
-      <span>{t("search")}</span>
+      {!isIconOnly && <span>{t("search")}</span>}
     </button>
   );
 };

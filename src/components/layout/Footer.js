@@ -1,7 +1,8 @@
 import SocialLinks from "@/components/social/SocialLinks";
-import links, {
+import {
   getContactUrl,
   legalLinks,
+  primaryNavLinks,
 } from "@/libs/constants/links";
 import styles from "@/styles/Footer.module.css";
 import {
@@ -23,8 +24,15 @@ const Footer = () => {
   const { t } = useTranslation("common");
 
   const navLinks = (
-    <Stack direction="row" spacing={6} align="center" flexWrap="wrap">
-      {links.map((link, i) => {
+    <Stack
+      direction="row"
+      spacing={6}
+      align="center"
+      justify="center"
+      flexWrap="wrap"
+      w="100%"
+    >
+      {primaryNavLinks.map((link, i) => {
         const { path, name, nameen } = link;
         return (
           <Link key={i} href={path} passHref>
@@ -52,7 +60,7 @@ const Footer = () => {
         }}
         transition="all 0.2s"
       >
-        {locale === "ja" ? "お問い合わせ" : "Contact"}
+        {t("nav.contact")}
       </ChakraLink>
     </Stack>
   );
@@ -77,20 +85,12 @@ const Footer = () => {
         gap={{ base: 6, md: 4 }}
       >
         <Flex
-          direction={{ base: "column", md: "row" }}
-          justify="space-between"
+          direction="column"
           align="center"
-          wrap="wrap"
-          textAlign="center"
           w="100%"
+          gap={{ base: 6, md: 4 }}
         >
-          <Box
-            flex="1"
-            mb={{ base: 6, md: 0 }}
-            display="flex"
-            justifyContent={{ base: "center", md: "flex-start" }}
-            alignItems="center"
-          >
+          <Box display="flex" justifyContent="center" alignItems="center" w="100%">
             <Link href="/" passHref>
               <a
                 className={styles.title}
@@ -107,20 +107,11 @@ const Footer = () => {
             </Link>
           </Box>
 
-          <Box
-            flex="1"
-            mb={{ base: 6, md: 0 }}
-            display="flex"
-            justifyContent="center"
-          >
+          <Box display="flex" justifyContent="center" alignItems="center" w="100%">
             {navLinks}
           </Box>
 
-          <Box
-            flex="1"
-            display={{ base: "none", md: "flex" }}
-            justifyContent="flex-end"
-          >
+          <Box display="flex" justifyContent="center" w="100%">
             <SocialLinks footerStyle iconStyle />
           </Box>
         </Flex>
@@ -155,13 +146,6 @@ const Footer = () => {
             maxW="800px"
             mx="auto"
           />
-          <Box
-            display={{ base: "flex", md: "none" }}
-            justifyContent="center"
-            mb={4}
-          >
-            <SocialLinks footerStyle iconStyle />
-          </Box>
           <Text className={styles.copyright} textAlign="center">
             {`© ${year} emakimono.com. All rights reserved.`}
           </Text>

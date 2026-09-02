@@ -6,13 +6,11 @@ import SidebarHome from "@/components/ui/SidebarHome";
 import { getContactUrl } from "@/libs/constants/links";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/Header.module.css";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext } from "react";
-import { Mail } from "react-feather";
+import { Mail, Menu } from "react-feather";
 import { useTranslation } from "next-i18next";
 
 const Header = ({ slug, fixed }) => {
@@ -46,8 +44,11 @@ const Header = ({ slug, fixed }) => {
         <div className={`${styles.sociallinks} ${styles.desktopOnly}`}>
           <SocialLinks />
         </div>
-        <div className={styles.desktopOnly}>
+        <div className={`${styles.searchDesktop} ${styles.desktopOnly}`}>
           <SearchBoxButton />
+        </div>
+        <div className={styles.searchMobile}>
+          <SearchBoxButton variant="iconOnly" />
         </div>
         <a
           href={getContactUrl(locale)}
@@ -64,8 +65,9 @@ const Header = ({ slug, fixed }) => {
             <button
               className={`${styles.openbtn} btn`}
               onClick={() => openSidebar()}
+              aria-label={t("nav.openMenu")}
             >
-              <FontAwesomeIcon icon={faBars} />
+              <Menu className={styles.menuIcon} />
             </button>
           </div>
           <SidebarHome />

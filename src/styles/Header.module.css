@@ -19,7 +19,7 @@
 .center {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 20px minmax(0, 1fr) auto;
+  grid-auto-columns: 20px minmax(0, 1fr) auto auto auto;
   align-items: center;
   gap: 8px;
   width: 100%;
@@ -52,8 +52,16 @@
 }
 
 .openbtn {
-  font-size: 1.5rem;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  font-size: unset;
+}
+
+.menuIcon {
+  width: 24px;
+  height: 24px;
+  stroke-width: 1.75;
 }
 
 .contacticon {
@@ -88,8 +96,24 @@
   display: none;
 }
 
+.searchMobile {
+  display: block;
+}
+
+.searchDesktop {
+  display: none;
+}
+
 @media screen and (min-width: 768px) {
   .desktopOnly {
+    display: block;
+  }
+
+  .searchMobile {
+    display: none;
+  }
+
+  .searchDesktop {
     display: block;
   }
 

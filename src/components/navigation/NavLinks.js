@@ -1,4 +1,4 @@
-import links from "@/libs/constants/links";
+import { primaryNavLinks } from "@/libs/constants/links";
 import styles from "@/styles/NavLinks.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -11,7 +11,7 @@ const NavLinks = ({ footerstyle, slug }) => {
 
   return (
     <ul className={styles.links}>
-      {links.map((link, index) => {
+      {primaryNavLinks.map((link, index) => {
         const { path, name, nameen, id, submenu } = link;
         if (!submenu) {
           return (

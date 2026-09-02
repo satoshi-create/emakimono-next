@@ -89,6 +89,15 @@
     "feedback": "ご意見をお寄せください"
   },
 
+  "nav": {
+    "home": "ホーム",
+    "openMenu": "メニューを開く",
+    "groupExplore": "鑑賞する",
+    "groupLearn": "知る",
+    "groupSite": "サイト情報",
+    "contact": "お問い合わせ"
+  },
+
   "share": {
     "groupLabel": "共有",
     "x": "Xで共有",

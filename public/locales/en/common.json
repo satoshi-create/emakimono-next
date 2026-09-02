@@ -89,6 +89,15 @@
     "feedback": "Send us your feedback"
   },
 
+  "nav": {
+    "home": "Home",
+    "openMenu": "Open menu",
+    "groupExplore": "Explore",
+    "groupLearn": "Learn",
+    "groupSite": "Site",
+    "contact": "Contact"
+  },
+
   "share": {
     "groupLabel": "Share",
     "x": "Share on X",
