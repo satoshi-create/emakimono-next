@@ -52,7 +52,7 @@ export type UseEmakiScrollResult = {
 };
 
 /**
- * useEmakiAutoPlay — 初回ナッジ + 再生モードの rAF ループ（ネイティブ scrollLeft）。
+ * useEmakiAutoPlay — 初回ナッジ + 再生モードの rAF ループ。
  * useEmakiIdleUI を内部合成する（isUIVisible / showUI もここから提供）。
  * playModeAnimationRef は Conteiner 側（detectCurrentScene・ホイール停止・絵巻切替）が参照する。
  */
@@ -64,6 +64,27 @@ export type UseEmakiAutoPlayResult = {
   playModeAnimationRef: RefObject<number | null>;
   isUIVisible: boolean;
   showUI: () => void;
+};
+
+export type PlaybackStripSlot = {
+  sceneIndex: number;
+  uniqueIndex: number | null;
+  widthPx: number;
+  imageUrl: string | null;
+  /** decode 済み URL（未完了時は直前フレーム or null） */
+  displayUrl?: string | null;
+  ready: boolean;
+};
+
+/** usePlaybackStrip — Playback Surface（Step 2） */
+export type UsePlaybackStripResult = {
+  slots: PlaybackStripSlot[];
+  stripTrackRef: RefObject<HTMLDivElement | null>;
+  isActive: boolean;
+  initFromScrollLeft: () => boolean;
+  syncScrollLeftFromOffset: () => void;
+  tick: (timestampMs: number) => { reachedEnd: boolean };
+  reset: () => void;
 };
 
 /** useEmakiPalmDrag — 手のひらモード（pointer events） */

@@ -18,17 +18,17 @@ import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
 import WheelScrollIndicator from "@/components/emaki/viewer/WheelScrollIndicator";
 import { AppContext } from "@/context/AppContext";
 import { SceneLikeCountsProvider } from "@/context/SceneLikeCountsContext";
-import { EmakiViewerPlaybackContext } from "@/context/EmakiViewerPlaybackContext";
 import { assignUniqueIndex } from "@/utils/emakiItemIndexer";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
-import { clearPlaybackPreloadCache } from "@/libs/emakiImageLoading/playbackPreload";
 import useEmakiAutoPlay from "@/hooks/emaki/useEmakiAutoPlay";
+import usePlaybackStrip from "@/hooks/emaki/usePlaybackStrip";
 import useEmakiPalmDrag from "@/hooks/emaki/useEmakiPalmDrag";
 import useEmakiScroll from "@/hooks/emaki/useEmakiScroll";
 import useScrollPositionRestore from "@/hooks/emaki/useScrollPositionRestore";
+import PlaybackSurface from "@/components/emaki/playback/PlaybackSurface";
 import styles from "@/styles/EmakiConteiner.module.css";
 import commentaryStyles from "@/styles/SceneCommentaryBar.module.css";
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import {
   trackSessionContext,
@@ -132,61 +132,9 @@ const EmakiContainer = ({
   const emakiId = data.titleen;
 
   const processedEmakis = assignUniqueIndex(data.emakis);
-  const processedEmakisRef = useRef(processedEmakis);
-  processedEmakisRef.current = processedEmakis;
 
-  const playbackPreloadContextRef = useRef({
-    toggleFullscreen: false,
-    orientation: "landscape",
-  });
-  playbackPreloadContextRef.current = {
-    toggleFullscreen,
-    orientation,
-  };
-
-  const sectionsCacheRef = useRef(null);
-  const prefetchSceneIndexRef = useRef(navIndex);
-  const isPlayModeRef = useRef(false);
-  const [playbackSyncTick, setPlaybackSyncTick] = useState(0);
-
-  // 再生停止時のスケルトン同期・表示モード切替用。シーン跨ぎの先読み更新は
-  // subscribePlaybackEager 経由の局所再描画のため tick を増やさない
-  // （全 LazyImage の Context 再レンダーを防ぐ）。
-  const bumpPlaybackSyncTick = useCallback(() => {
-    setPlaybackSyncTick((t) => t + 1);
-  }, []);
-
-  // 先読み index 変化時に LazyImage ごとに eager を再評価させる購読登録。
-  // 全ツリー再レンダー（Context tick）の代わりに、eager 判定が実際に変わった
-  // シーンだけを局部再描画する（かくつきの主因だった再生中の React 再レンダーを削減）。
-  const playbackEagerSubscribersRef = useRef(new Set());
-  const lastPrefetchIndexRef = useRef(prefetchSceneIndexRef.current);
-
-  const notifyPlaybackEagerSubscribers = useCallback((newPrefetchIndex) => {
-    const oldPrefetchIndex = lastPrefetchIndexRef.current;
-    if (oldPrefetchIndex !== newPrefetchIndex) {
-      playbackEagerSubscribersRef.current.forEach((sub) => {
-        sub(oldPrefetchIndex, newPrefetchIndex);
-      });
-      lastPrefetchIndexRef.current = newPrefetchIndex;
-    }
-  }, []);
-
-  const subscribePlaybackEager = useCallback((sub) => {
-    playbackEagerSubscribersRef.current.add(sub);
-    return () => {
-      playbackEagerSubscribersRef.current.delete(sub);
-    };
-  }, []);
-
-  const playbackContextValue = useMemo(
-    () => ({
-      isPlayModeRef,
-      prefetchSceneIndexRef,
-      playbackSyncTick,
-      subscribePlaybackEager,
-    }),
-    [playbackSyncTick, subscribePlaybackEager]
+  const isDesktopRef = useRef(
+    typeof window !== "undefined" && window.innerWidth >= 1024
   );
 
   // 絵巻ハイパーリンク: 前回検出したシーン（不要な更新を防ぐ）
@@ -198,6 +146,18 @@ const EmakiContainer = ({
 
   const [isScrolling, setIsScrolling] = useState(false); // スクロール中か
   const isScrollingRef = useRef(false); // setIsScrolling呼び出し最適化用
+  const [playheadSceneIndex, setPlayheadSceneIndex] = useState(navIndex);
+
+  const playbackStrip = usePlaybackStrip({
+    articleRef,
+    processedEmakis,
+    lastDetectedSceneRef,
+    isAtStartRef,
+    isAtEndRef,
+    indicatorElRef,
+    isDesktopRef,
+    onPlayheadSceneChange: setPlayheadSceneIndex,
+  });
 
   // 教育現場向けUI: 静止UI耐性 + 自動スクロール制御（初回ナッジ/再生モード）
   // useEmakiAutoPlay が useEmakiIdleUI を内部合成する（両者の循環依存を解消）
@@ -224,23 +184,11 @@ const EmakiContainer = ({
     isScrollingRef,
     setIsScrolling,
     detectCurrentSceneRef,
-    sectionsCacheRef,
-    prefetchSceneIndexRef,
-    processedEmakisRef,
-    playbackPreloadContextRef,
-    onPlaybackEnded: bumpPlaybackSyncTick,
-    onPrefetchIndexChange: notifyPlaybackEagerSubscribers,
+    playbackStrip,
   });
 
-  isPlayModeRef.current = isPlayMode;
-
-  const handleStartPlayMode = useCallback(() => {
-    startPlayMode();
-    bumpPlaybackSyncTick();
-  }, [startPlayMode, bumpPlaybackSyncTick]);
-
   // スクロール処理 + 現在シーン検出（useEmakiScroll が sectionsCacheRef / scrollDimsRef を管理）
-  const { scrollDimsRef } = useEmakiScroll({
+  const { sectionsCacheRef, scrollDimsRef } = useEmakiScroll({
     articleRef,
     dataId: data.id,
     emakiId,
@@ -248,7 +196,6 @@ const EmakiContainer = ({
     setnavIndex,
     isScrollDetectedUpdateRef,
     isAutoScrolling,
-    isPlayMode,
     playModeAnimationRef,
     lastDetectedSceneRef,
     isAtStartRef,
@@ -261,14 +208,7 @@ const EmakiContainer = ({
     toggleFullscreen,
     scrollPositionStore,
     detectCurrentSceneRef,
-    sectionsCacheRef,
   });
-
-  useEffect(() => {
-    if (!isPlayMode) {
-      prefetchSceneIndexRef.current = navIndex;
-    }
-  }, [navIndex, isPlayMode]);
 
   useEffect(() => {
     if (emakiId) {
@@ -296,10 +236,8 @@ const EmakiContainer = ({
   }, []);
 
   // 中間プロンプト用: スクロール停止〜400ms で進捗バケット更新（1.5s の isScrolling とは独立）
-  // 再生中は scroll リスナーを付けない（rAF の scrollLeft 更新で毎フレーム発火するため）
   useEffect(() => {
     if (!scroll) return;
-    if (isPlayMode || isAutoScrolling) return;
     const el = articleRef.current;
     if (!el) return;
 
@@ -323,7 +261,7 @@ const EmakiContainer = ({
       if (timer) clearTimeout(timer);
       el.removeEventListener("scroll", onScroll);
     };
-  }, [scroll, getScrollRatio, emakiId, navIndex, isPlayMode, isAutoScrolling]);
+  }, [scroll, getScrollRatio, emakiId, navIndex]);
 
   const handleScrollFeedbackSubmitted = useCallback(() => {
     setScrollFeedbackSubmitted(true);
@@ -465,7 +403,6 @@ const EmakiContainer = ({
       // キャッシュを無効化（新しい絵巻のセクション・サイズを再取得するため）
       sectionsCacheRef.current = null;
       scrollDimsRef.current = { w: 0, c: 0, ts: 0 };
-      clearPlaybackPreloadCache();
 
       // 計測: 全計測状態をリセット
       resetAllTracking();
@@ -563,14 +500,21 @@ const EmakiContainer = ({
   // パン effect 内の dragstart preventDefault で常時抑止しているため、
   // ここでの draggable 属性切替は不要（押下→再描画の競合も回避される）
 
-  // 配列を展開済み（processedEmakis は hook 呼び出し前に生成）
+  // 配列を展開し、条件ごとに連番を付与（emakiItemIndexer に切り出し済み）
+  // processedEmakis は hook 共有のため上部で生成済み
+
+  useEffect(() => {
+    if (!isPlayMode) {
+      setPlayheadSceneIndex(navIndex);
+    }
+  }, [isPlayMode, navIndex]);
 
   // ボトムコメントバー: 詞書画像かシーンテキストを持つ絵巻のみ表示
   const hasCommentaryData = Boolean(scroll && (kotobagaki || sceneText));
+  const sceneIndexForPrefetch = isPlayMode ? playheadSceneIndex : navIndex;
 
   return (
     <SceneLikeCountsProvider emakiId={emakiId}>
-      <EmakiViewerPlaybackContext.Provider value={playbackContextValue}>
       <div
         className={`${
           orientation === "landscape" && scroll ? styles.land : styles.prt
@@ -623,7 +567,7 @@ const EmakiContainer = ({
               isUIVisible={isUIVisible}
               isPlayMode={isPlayMode}
               isAutoScrolling={isAutoScrolling}
-              onStartPlayMode={handleStartPlayMode}
+              onStartPlayMode={startPlayMode}
               onStopPlayMode={stopPlayMode}
               onOpenScrollFeedback={() => setIsScrollFeedbackOpen(true)}
               showScrollFeedbackButton={!scrollFeedbackSubmitted}
@@ -675,15 +619,25 @@ const EmakiContainer = ({
             showFeedback={!scrollFeedbackSubmitted}
           />
         )}
+        {scroll && isPlayMode && (
+          <PlaybackSurface
+            slots={playbackStrip.slots}
+            stripTrackRef={playbackStrip.stripTrackRef}
+            screenHeight={height}
+            screenWidth={width}
+          />
+        )}
         <article
           className={`${styles.container} ${styles.rl} scrollbar ${
             isPalmMode ? styles.palmMode : ""
           }`}
+          aria-hidden={isPlayMode ? true : undefined}
           style={{
             "--screen-height": height,
             "--screen-width": width,
             "--overflow-x": overflowX,
             "--box-shadow": boxshadow,
+            visibility: isPlayMode ? "hidden" : undefined,
             // 角丸は外側ラッパー(entry-container)で管理するため、ここでは設定しない
           }}
           onClick={() => {
@@ -713,10 +667,8 @@ const EmakiContainer = ({
               trackManualScroll(emakiId, "touch");
             }
           }}
-          data-playback-active={isPlayMode ? true : undefined}
           ref={articleRef}
         >
-          <div className={styles.scrollTrack}>
           {processedEmakis.map((item, index) => {
             const { cat, src } = item;
             return (
@@ -733,9 +685,10 @@ const EmakiContainer = ({
                 type={type}
                 selectedRef={selectedRef}
                 navIndex={navIndex}
-                sceneIndex={navIndex}
+                sceneIndex={sceneIndexForPrefetch}
                 uniqueIndex={item.uniqueIndex} // 新しい連番を渡す
                 scroll={scroll}
+                isPlayMode={isPlayMode} // 再生モード時は全画像を eager loading
               />
             );
           })}
@@ -751,7 +704,6 @@ const EmakiContainer = ({
               showEndNudge={showEndNudge}
             />
           )}
-          </div>
         </article>
         {hasCommentaryData && (
           <SceneCommentaryBar
@@ -764,7 +716,6 @@ const EmakiContainer = ({
         )}
         </div>
       </div>
-      </EmakiViewerPlaybackContext.Provider>
     </SceneLikeCountsProvider>
   );
 };

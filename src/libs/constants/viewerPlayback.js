@@ -19,11 +19,8 @@ export const SCENE_READING_POSITION_RATIO = 0.38;
 /** シーン切替ヒステリシス（px）— 現シーンからの優位がこれ未満なら維持 */
 export const SCENE_DETECTION_HYSTERESIS_PX = 80;
 
-/** 再生中の画像先読み（scene index ベース） */
-export const PLAYBACK_IMAGE_LOOKAHEAD = 12;
-
-/** preload decode 範囲（eager 窓より先まで decode） */
-export const PLAYBACK_DOM_PRELOAD_LOOKAHEAD = 14;
+/** 再生中の画像先読み（uniqueIndex ベース） */
+export const PLAYBACK_IMAGE_LOOKAHEAD = 10;
 
 /** 再生中: シーン検出間隔（ms）— rAF ループ側で実行 */
 export const PLAYBACK_SCENE_DETECT_MS = 1500;
@@ -31,18 +28,14 @@ export const PLAYBACK_SCENE_DETECT_MS = 1500;
 /** 末尾付近で scrollWidth を再計測する余白（px） */
 export const PLAYBACK_SCROLL_LIMIT_NEAR_END_PX = 80;
 
-/** ▶ 再生中は LazyImage のフェード / setImageLoaded を抑止（スケルトン即非表示のみ） */
-export const PLAYBACK_SUPPRESS_IMAGE_VISUAL_UPDATE = true;
+/** Playback Surface: strip スロット数（prev / current / next） */
+export const PLAYBACK_SURFACE_SLOT_COUNT = 3;
 
-/** next/image lazyBoundary（通常 / 再生中） */
-export const PLAYBACK_LAZY_BOUNDARY_NORMAL = "800px";
-export const PLAYBACK_LAZY_BOUNDARY_PLAY = "1400px";
+/** 再生中 Surface 専用先読み（uniqueIndex ベース — Step 2 で使用） */
+export const PLAYBACK_SURFACE_LOOKAHEAD = 2;
 
-/** 再生先読み decode を requestIdleCallback で分散する枚数/回 */
-export const PLAYBACK_DECODE_BATCH_PER_IDLE = 1;
-
-/** 再生先読み時の Cloudinary 配信幅上限（decode/paint 軽量化） */
-export const PLAYBACK_MAX_DELIVERY_WIDTH = 1080;
+/** 裏 scrollLeft 同期間隔（ms）。0 = 停止時のみ */
+export const PLAYBACK_SCROLL_SYNC_INTERVAL_MS = 0;
 
 /** @returns {number} px/秒 */
 export const getPlaybackSpeedPxPerSec = () => {
