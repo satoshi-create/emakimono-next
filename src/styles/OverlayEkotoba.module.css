@@ -91,6 +91,19 @@
   font-size: clamp(0.875rem, 0.7rem + 0.8vw, 1.25rem);
 }
 
+/* SP / タッチ: 縦書き段タイトルの列数を抑え、絵巻閲覧の障害を軽減 */
+@media (max-width: 767px), (pointer: coarse) {
+  .chapterboxPrt,
+  .chapterboxLand {
+    max-width: 2.5em;
+    overflow: hidden;
+  }
+
+  .chapter {
+    max-height: 40vh;
+  }
+}
+
 /* タブレット以上 */
 @media (min-width: 768px) {
   .chapterbox {

@@ -49,6 +49,8 @@ export type UseEmakiScrollResult = {
   sectionsCacheRef: RefObject<{ baseScrollLeft: number; items: { id: number; offset: number }[] }>;
   /** scrollWidth/clientWidth キャッシュ。絵巻切替時に Conteiner がリセットする */
   scrollDimsRef: RefObject<{ w: number; c: number; ts: number }>;
+  /** 再生中の解説バー追従用シーン ID（navIndex は画像ツリー再レンダー抑制のため固定） */
+  liveSceneIndex: number;
 };
 
 /**

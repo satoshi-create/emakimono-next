@@ -167,7 +167,7 @@ const EmakiContainer = ({
   });
 
   // スクロール処理 + 現在シーン検出（useEmakiScroll が sectionsCacheRef / scrollDimsRef を管理）
-  const { sectionsCacheRef, scrollDimsRef } = useEmakiScroll({
+  const { sectionsCacheRef, scrollDimsRef, liveSceneIndex } = useEmakiScroll({
     articleRef,
     dataId: data.id,
     emakiId,
@@ -484,8 +484,9 @@ const EmakiContainer = ({
 
   // ボトムコメントバー: 詞書画像かシーンテキストを持つ絵巻のみ表示
   const hasCommentaryData = Boolean(scroll && (kotobagaki || sceneText));
-  // 再生中は navIndex を固定し sceneIndex 更新による画像ツリー再レンダーを抑止
-  const sceneIndexForPrefetch = navIndex;
+  // 再生中は liveSceneIndex で先読み・解説追従（navIndex は固定で画像ツリー再レンダー抑制）
+  const sceneIndexForPrefetch =
+    isPlayMode || isAutoScrolling ? liveSceneIndex : navIndex;
 
   return (
     <SceneLikeCountsProvider emakiId={emakiId}>
@@ -672,9 +673,8 @@ const EmakiContainer = ({
         {hasCommentaryData && (
           <SceneCommentaryBar
             data={data}
-            navIndex={navIndex}
+            navIndex={liveSceneIndex}
             isFullscreen={toggleFullscreen}
-            isPlayMode={isPlayMode}
             entryContainerRef={entryContainerRef}
           />
         )}

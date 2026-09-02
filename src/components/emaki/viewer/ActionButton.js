@@ -18,6 +18,11 @@ const ActionButton = forwardRef(
 
     const isFullscreenButton = variant === "fullscreen";
 
+    const handleClick = (e) => {
+      onClick?.(e);
+      e.currentTarget.blur();
+    };
+
     return (
       <Tooltip
         label={description}
@@ -29,7 +34,7 @@ const ActionButton = forwardRef(
         <IconButton
           icon={icon}
           ref={ref} // refをIconButtonに適用
-          onClick={onClick}
+          onClick={handleClick}
           aria-label={description}
           variant="unstyled" // 必要に応じて変更
           // bottom は var(--commentary-bar-full-h) の増分で自動追従するため
@@ -73,10 +78,15 @@ const ActionButton = forwardRef(
                   transform: "scale(1.4)",
                   color: "#ff8c77",
                 }
-              : {
-                  color: "#ff8c77",
-                }
+              : undefined
           }
+          _active={{
+            color: "#ff8c77",
+            transform: "scale(1.1)",
+          }}
+          _focusVisible={{
+            boxShadow: "0 0 0 2px #ff8c77",
+          }}
         />
       </Tooltip>
     );

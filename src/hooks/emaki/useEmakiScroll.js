@@ -5,14 +5,14 @@
  * - detectCurrentScene: 読取位置（コンテナ幅 38%）+ ヒステリシス 80px でシーン特定
  * - パフォーマンス: getBoundingClientRect は初回のみ、scrollWidth/clientWidth は1秒間隔でキャッシュ
  * - 自動再生中: scroll リスナーは no-op（シーン検出は useEmakiAutoPlay の rAF 側）
- * - 自動再生中は setnavIndex を抑制（lastDetectedSceneRef のみ更新）
+ * - 自動再生中は setnavIndex を抑制し liveSceneIndex のみ更新（解説バー追従用）
  *
  * 抽出元: EmakiConteiner.js の detectCurrentScene (useCallback) + handleScroll effect。
  * useEmakiSceneDetection と useEmakiScroll は共有 ref が多いため1つに統合。
  * sectionsCacheRef / scrollDimsRef は呼び出し側（絵巻切替リセット effect）で
  * 操作する必要があるため戻り値で公開する。
  */
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   trackManualScroll,
   handleSceneChange,
@@ -64,6 +64,13 @@ const useEmakiScroll = ({
   // パフォーマンス: 初回のみ getBoundingClientRect でセクション位置を計算・キャッシュし、
   // 以降は scrollLeft の算術演算のみでシーンを特定（DOM読み取り・レイアウト強制ゼロ）
   const sectionsCacheRef = useRef(null);
+
+  // 再生中の解説バー追従用（navIndex は画像ツリー再レンダー抑制のため固定）
+  const [liveSceneIndex, setLiveSceneIndex] = useState(navIndex);
+
+  useEffect(() => {
+    setLiveSceneIndex(navIndex);
+  }, [navIndex]);
 
   const detectCurrentScene = useCallback(() => {
     const el = articleRef.current;
@@ -128,8 +135,9 @@ const useEmakiScroll = ({
 
       lastDetectedSceneRef.current = closestId;
 
-      // 自動再生中は ref のみ更新（React 再描画なし。停止時に navIndex を同期）
+      // 自動再生中は liveSceneIndex のみ更新（解説バー追従。停止時に navIndex を同期）
       if (isAutoScrolling || playModeAnimationRef.current) {
+        setLiveSceneIndex(closestId);
         return;
       }
 
@@ -148,7 +156,14 @@ const useEmakiScroll = ({
     }
     // isAutoScrolling: 初回ナッジ中のガード（return）を確実に反映するため依存に含める
     // （含めないとクロージャが古い値 false を捕捉し、ナッジ中も setnavIndex が走る）
-  }, [setnavIndex, isScrollDetectedUpdateRef, emakiId, isAutoScrolling, toggleFullscreen]);
+  }, [
+    setnavIndex,
+    isScrollDetectedUpdateRef,
+    emakiId,
+    isAutoScrolling,
+    toggleFullscreen,
+    playModeAnimationRef,
+  ]);
 
   if (detectCurrentSceneRef) {
     detectCurrentSceneRef.current = detectCurrentScene;
@@ -276,7 +291,7 @@ const useEmakiScroll = ({
     };
   }, [detectCurrentScene, isAutoScrolling, dataId, emakiId]);
 
-  return { sectionsCacheRef, scrollDimsRef };
+  return { sectionsCacheRef, scrollDimsRef, liveSceneIndex };
 };
 
 export default useEmakiScroll;

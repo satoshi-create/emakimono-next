@@ -6,8 +6,7 @@
  * 1段落のまま展開する。絵巻画像の上部は常に残るため、絵巻と解説を
  * 見比べながら鑑賞できる。
  *
- * 再生中（isPlayMode）かつ × で閉じた場合のみ「解説を表示」ボタンを非表示にする。
- * バー本体が開いている場合は再生中も表示を維持する。
+ * 再生中も段タイトル・解説文は liveSceneIndex に追従する（EmakiConteiner から渡される）。
  *
  * GA: 旧 ModalDesc の scene_modal_open イベントを、シート展開時に移行。
  * 関連: EmakiConteiner.js（組み込み先）, func.js（ChaptersTitle/Gendaibun/Desc）
@@ -50,7 +49,6 @@ const SceneCommentaryBar = ({
   data,
   navIndex,
   isFullscreen = false,
-  isPlayMode = false,
   entryContainerRef,
 }) => {
   const { handleToId, orientation } = useContext(AppContext);
@@ -83,6 +81,16 @@ const SceneCommentaryBar = ({
   // 段一覧ポップオーバーの開閉（解説文の展開（expanded）とは独立）
   const [listOpen, setListOpen] = useState(false);
   const wrapRef = useRef(null);
+  const prevActiveIndexRef = useRef(activeIndex);
+
+  // 段が変わったら展開シート・段一覧を閉じる（再生中の自動追従含む）
+  useEffect(() => {
+    if (prevActiveIndexRef.current !== activeIndex) {
+      prevActiveIndexRef.current = activeIndex;
+      setExpanded(false);
+      setListOpen(false);
+    }
+  }, [activeIndex]);
 
   // 段一覧を開いている間は、外側クリック / Esc で閉じる
   useEffect(() => {
@@ -111,19 +119,8 @@ const SceneCommentaryBar = ({
   // useLayoutEffect を使い「ペイント前」に変数を更新することで、
   // 展開/折りたたみ時に下部UIが一度下がってから跳ね上がる中間フレームを防ぐ。
   const barRef = useRef(null);
-  const hideReopenDuringPlayback = closed && isPlayMode;
 
   useLayoutEffect(() => {
-    const containerEl =
-      entryContainerRef?.current ?? barRef.current?.closest(".entry-container");
-
-    if (hideReopenDuringPlayback) {
-      if (containerEl) {
-        containerEl.style.setProperty("--commentary-bar-full-h", "0px");
-      }
-      return;
-    }
-
     const el = barRef.current;
     if (!el) return;
     const update = () => {
@@ -139,7 +136,7 @@ const SceneCommentaryBar = ({
     const ro = new ResizeObserver(update);
     ro.observe(el);
     return () => ro.disconnect();
-  }, [expanded, closed, hideReopenDuringPlayback, entryContainerRef]);
+  }, [expanded, closed, entryContainerRef]);
 
   const current = filterEkotobas[activeIndex];
 
@@ -150,12 +147,7 @@ const SceneCommentaryBar = ({
       ? emakiDisplayTitle(data, locale)
       : `${title ?? ""}`.trim();
 
-  // ×で閉じ + 再生中: 「解説を表示」ボタンのみ非表示（絵巻鑑賞に集中）
-  if (hideReopenDuringPlayback) {
-    return null;
-  }
-
-  // ×で閉じ（通常時）: 小さな「解説を表示」ボタンのみ
+  // ×で閉じ: 小さな「解説を表示」ボタンのみ（再生中も再表示可能）
   if (closed) {
     const showLabel = t("viewer.showCommentary", {
       defaultValue: locale === "en" ? "Show commentary" : "解説を表示",
