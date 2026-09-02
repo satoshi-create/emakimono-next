@@ -92,6 +92,7 @@
   "nav": {
     "home": "Home",
     "openMenu": "Open menu",
+    "languageSwitch": "Language",
     "groupExplore": "Explore",
     "groupLearn": "Learn",
     "groupSite": "Site",

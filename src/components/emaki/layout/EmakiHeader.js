@@ -52,6 +52,9 @@ const EmakiHeader = () => {
         <div className={styles.desktopOnly}>
           <SearchBoxButton />
         </div>
+        <div className={styles.langMobile}>
+          <LanguageSwitcher />
+        </div>
         <a
           href={getContactUrl(locale)}
           target="_blank"

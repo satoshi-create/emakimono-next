@@ -19,7 +19,7 @@
 .center {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 20px minmax(0, 1fr) auto auto auto;
+  grid-auto-columns: 20px minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 8px;
   width: 100%;
@@ -96,8 +96,15 @@
   display: none;
 }
 
-.searchMobile {
-  display: block;
+.searchDesktop {
+  display: none;
+}
+
+.mobileToolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
 }
 
 .searchDesktop {
@@ -109,7 +116,7 @@
     display: block;
   }
 
-  .searchMobile {
+  .mobileToolbar {
     display: none;
   }
 

@@ -1,0 +1,37 @@
+.switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  color: inherit;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.langBtn {
+  border: none;
+  background: transparent;
+  padding: 0.25rem 0.15rem;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.45;
+  transition: var(--transition);
+  line-height: 1;
+}
+
+.langBtn:hover {
+  opacity: 0.7;
+}
+
+.langBtn.active {
+  opacity: 1;
+  font-weight: 600;
+}
+
+.sep {
+  opacity: 0.35;
+  user-select: none;
+  line-height: 1;
+}

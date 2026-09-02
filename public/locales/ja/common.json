@@ -92,6 +92,7 @@
   "nav": {
     "home": "ホーム",
     "openMenu": "メニューを開く",
+    "languageSwitch": "言語切り替え",
     "groupExplore": "鑑賞する",
     "groupLearn": "知る",
     "groupSite": "サイト情報",

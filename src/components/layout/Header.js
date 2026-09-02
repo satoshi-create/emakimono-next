@@ -47,7 +47,8 @@ const Header = ({ slug, fixed }) => {
         <div className={`${styles.searchDesktop} ${styles.desktopOnly}`}>
           <SearchBoxButton />
         </div>
-        <div className={styles.searchMobile}>
+        <div className={styles.mobileToolbar}>
+          <LanguageSwitcher />
           <SearchBoxButton variant="iconOnly" />
         </div>
         <a

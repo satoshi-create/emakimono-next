@@ -1,16 +1,7 @@
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import {
-  Button,
-  Icon,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  useBreakpointValue,
-} from "@chakra-ui/react";
+import styles from "@/styles/LanguageSwitcher.module.css";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { MdCheck, MdLanguage } from "react-icons/md";
+import { Fragment } from "react";
+import { useTranslation } from "next-i18next";
 
 const stripLocalePrefix = (asPath, locales) => {
   const [pathAndQuery, hash = ""] = asPath.split("#");
@@ -33,23 +24,18 @@ const stripLocalePrefix = (asPath, locales) => {
   return `${stripped}${queryPart}${hashPart}`;
 };
 
+const LOCALE_ORDER = ["en", "ja"];
+
 const LanguageSwitcher = () => {
   const router = useRouter();
+  const { t } = useTranslation("common");
   const { locales, locale: activeLocale, defaultLocale } = router;
 
-  const [isJapan, setIsJapan] = useState(false);
-
-  useEffect(() => {
-    const userLanguage = navigator.language || navigator.userLanguage;
-    setIsJapan(userLanguage.startsWith("ja"));
-  }, []);
+  const orderedLocales = LOCALE_ORDER.filter((loc) => locales?.includes(loc));
 
   const handleLanguageChange = (newLocale) => {
     if (newLocale === activeLocale) return;
 
-    // Next.js の i18n locale detection は Accept-Language / NEXT_LOCALE cookie
-    // の順で言語を決め、次のフルロード時にもブラウザ言語で上書きされるため、
-    // ユーザーの選択を NEXT_LOCALE cookie に永続化しておく。
     document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=31536000;samesite=lax`;
 
     const pathWithoutLocale = stripLocalePrefix(router.asPath, locales);
@@ -58,42 +44,36 @@ const LanguageSwitcher = () => {
         ? pathWithoutLocale
         : `/${newLocale}${pathWithoutLocale === "/" ? "" : pathWithoutLocale}`;
 
-    // Full navigation: next-i18next pageProps stay in sync on locale change.
     window.location.assign(href);
   };
 
-  const buttonSize = useBreakpointValue({ base: "sm", md: "md" });
-  const showText = useBreakpointValue({ base: false, lg: true });
-
   return (
-    <Menu>
-      <MenuButton
-        as={Button}
-        rightIcon={showText ? <ChevronDownIcon /> : undefined}
-        leftIcon={<Icon as={MdLanguage} />}
-        variant="outline"
-        colorScheme="blue"
-        size={buttonSize}
-      >
-        {showText ? (activeLocale === "en" ? "English" : "日本語") : null}
-      </MenuButton>
-      <MenuList>
-        {locales?.map((locale) => (
-          <MenuItem
-            key={locale}
+    <div
+      className={styles.switcher}
+      role="group"
+      aria-label={t("nav.languageSwitch")}
+    >
+      {orderedLocales.map((locale, index) => (
+        <Fragment key={locale}>
+          {index > 0 && (
+            <span className={styles.sep} aria-hidden="true">
+              /
+            </span>
+          )}
+          <button
+            type="button"
+            className={`${styles.langBtn} ${
+              locale === activeLocale ? styles.active : ""
+            }`}
             onClick={() => handleLanguageChange(locale)}
-            fontWeight={locale === activeLocale ? "bold" : "normal"}
-            bg={locale === activeLocale ? "blue.100" : "transparent"}
-            _hover={{ bg: "blue.50" }}
+            aria-pressed={locale === activeLocale}
+            aria-label={locale === "en" ? "English" : "日本語"}
           >
-            {locale === "en" ? "English" : "日本語"}
-            {locale === activeLocale && (
-              <Icon as={MdCheck} ml={2} color="green.500" />
-            )}
-          </MenuItem>
-        ))}
-      </MenuList>
-    </Menu>
+            {locale === "en" ? "EN" : "JA"}
+          </button>
+        </Fragment>
+      ))}
+    </div>
   );
 };
 

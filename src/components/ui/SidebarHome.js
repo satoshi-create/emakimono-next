@@ -1,4 +1,3 @@
-import LanguageSwitcher from "@/components/layout/LanguageSwitcher";
 import SocialLinks from "@/components/social/SocialLinks";
 import { getContactUrl, navGroups } from "@/libs/constants/links";
 import { AppContext } from "@/context/AppContext";
@@ -69,9 +68,6 @@ const SidebarHome = () => {
             </a>
           </li>
         </ul>
-        <div className={styles.sidebarActions}>
-          <LanguageSwitcher />
-        </div>
         <SocialLinks iconStyle />
       </aside>
     </div>
