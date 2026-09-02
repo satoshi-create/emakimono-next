@@ -65,47 +65,54 @@
   width: 1em;
   height: 1em;
 }
-/* SP: タップ面の下限を確保 */
+/* SP: タップは overlayFramed の padding で確保（親幅を超えないよう em 基準） */
 @media (pointer: coarse) {
   .chapterActions {
     gap: 0;
     margin-top: 0.1rem;
   }
   .chapterActions :global(button) {
-    width: max(1.15em, 28px);
-    height: max(1.15em, 28px);
-    min-width: max(1.15em, 28px);
-    min-height: max(1.15em, 28px);
+    width: 1.15em;
+    height: 1.15em;
+    min-width: 1.15em;
+    min-height: 1.15em;
   }
 }
 
-/* ポートレート（縦向き）用の余白・文字サイズ（アイコンも継承） */
+/* モバイルファースト: 縦横どちらも小さめの clamp（横画面でも 768px ブレークで大きくならない） */
 .chapterboxPrt {
-  padding: 0.5rem 0.4rem 0.45rem;
-  font-size: clamp(0.75rem, 0.5rem + 1vw, 1rem);
+  padding: 0.4rem 0.32rem 0.36rem;
+  font-size: clamp(0.68rem, 0.55rem + 0.65vw, 0.88rem);
 }
 
-/* ランドスケープ（横向き）用の余白・文字サイズ（アイコンも継承） */
 .chapterboxLand {
-  padding: 0.45rem 0.4rem 0.4rem;
-  font-size: clamp(0.875rem, 0.7rem + 0.8vw, 1.25rem);
+  padding: 0.38rem 0.32rem 0.34rem;
+  font-size: clamp(0.68rem, 0.55rem + 0.65vw, 0.88rem);
 }
 
-/* SP / タッチ: 縦書き段タイトルの列数を抑え、絵巻閲覧の障害を軽減 */
-@media (max-width: 767px), (pointer: coarse) {
+/* SP / タッチ: 縦書きタイトル列のみ幅制限（いいね行は別幅でクリップしない） */
+@media (max-width: 1023px), (pointer: coarse) {
   .chapterboxPrt,
   .chapterboxLand {
-    max-width: 2.5em;
-    overflow: hidden;
+    overflow: visible;
+    max-width: none;
   }
 
   .chapter {
+    max-width: 2.5em;
     max-height: 40vh;
+    overflow: hidden;
+  }
+
+  .chapterActions {
+    overflow: visible;
+    width: max-content;
+    align-self: center;
   }
 }
 
-/* タブレット以上 */
-@media (min-width: 768px) {
+/* タブレット（1024px 未満の横画面スマホは上のモバイルサイズのまま） */
+@media (min-width: 1024px) {
   .chapterbox {
     letter-spacing: 0.15rem;
   }
@@ -122,7 +129,7 @@
 }
 
 /* デスクトップ */
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
   .chapterbox {
     letter-spacing: 0.2rem;
   }

@@ -72,18 +72,6 @@ const ActionButton = forwardRef(
           }}
           size={{ base: "sm", md: "md" }}
           color={isOn ? "#ff8c77" : "white"}
-          _hover={
-            !isMobile
-              ? {
-                  transform: "scale(1.4)",
-                  color: "#ff8c77",
-                }
-              : undefined
-          }
-          _active={{
-            color: "#ff8c77",
-            transform: "scale(1.1)",
-          }}
           _focusVisible={{
             boxShadow: "0 0 0 2px #ff8c77",
           }}

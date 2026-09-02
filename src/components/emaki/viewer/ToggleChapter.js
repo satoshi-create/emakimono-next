@@ -26,8 +26,6 @@ const ToggleChapter = ({ isUIVisible = true }) => {
       description={description}
       onClick={handleChapterToggle}
       isUIVisible={isUIVisible}
-      // 非表示中だけアクセント（初期 true＝表示中は白。常時赤にならない）
-      isOn={!chapterToggle}
     />
   );
 };

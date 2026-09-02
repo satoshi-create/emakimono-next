@@ -79,11 +79,11 @@
   transition: var(--transition);
 }
 
-.button:hover {
-  transform: scale(1.4);
-}
-
 @media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    transform: scale(1.4);
+  }
+
   .button:hover.button > i {
     color: var(--clr-accent-02);
   }
