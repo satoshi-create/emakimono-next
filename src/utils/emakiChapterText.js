@@ -89,7 +89,13 @@ export const ChaptersTitle = (titleen, title, chapter, text) => {
   return chapter && parse(chapter);
 };
 
-export const ChaptersGendaibun = (titleen, title, chapter, gendaibun) => {
+export const ChaptersGendaibun = (
+  titleen,
+  title,
+  chapter,
+  gendaibun,
+  text = "gendaibun"
+) => {
   if (title.includes("源氏")) {
     return (
       <>
@@ -98,8 +104,13 @@ export const ChaptersGendaibun = (titleen, title, chapter, gendaibun) => {
       </>
     );
   }
+  const field = text === "gendaibunen" ? "gendaibunen" : "gendaibun";
   if (hasTextData(titleen)) {
-    const gendaibunText = connectEmakiTextData(titleen, chapter, "gendaibun");
+    const gendaibunText =
+      connectEmakiTextData(titleen, chapter, field) ||
+      (field === "gendaibunen"
+        ? connectEmakiTextData(titleen, chapter, "gendaibun")
+        : "");
     if (gendaibunText) return parse(gendaibunText);
     const titleText = connectEmakiTextData(titleen, chapter, "title");
     return titleText ? parse(titleText) : "";
@@ -124,15 +135,38 @@ export const ChaptersDesc = (titleen, title, chapter, text, desc) => {
   return desc && parse(desc);
 };
 
+/**
+ * 段テキストを生文字列で返す（HTML 含む場合あり）。
+ * field: desc / descen / gendaibun / gendaibunen / kobun / kobunen など。
+ * ファイル正本が無い巻は fallback（キャッシュ側の同フィールド）を返す。
+ */
+export const getChapterFieldRaw = (
+  titleen,
+  title,
+  chapter,
+  field,
+  fallback = ""
+) => {
+  if (title.includes("源氏")) {
+    if (
+      field === "desc" ||
+      field === "descen" ||
+      field === "gendaibun" ||
+      field === "gendaibunen"
+    ) {
+      return connectGenjiChapters(chapter, "summary") || fallback || "";
+    }
+    return fallback || "";
+  }
+  if (hasTextData(titleen)) {
+    return connectEmakiTextData(titleen, chapter, field) || fallback || "";
+  }
+  return fallback || "";
+};
+
 // 段の解説を生テキスト（文字列）で返す。ChaptersDesc の文字列版。
 // ボトムコメントバーで「冒頭プレビュー + 詳細をみる」を出し分けるために使用する。
 export const getChapterDescRaw = (titleen, title, chapter, text, desc) => {
-  if (title.includes("源氏")) {
-    return connectGenjiChapters(chapter, "summary") || "";
-  }
-  if (hasTextData(titleen)) {
-    const field = text === "descen" ? "descen" : "desc";
-    return connectEmakiTextData(titleen, chapter, field) || "";
-  }
-  return desc || "";
+  const field = text === "descen" ? "descen" : "desc";
+  return getChapterFieldRaw(titleen, title, chapter, field, desc || "");
 };

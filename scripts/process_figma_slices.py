@@ -204,7 +204,7 @@ def merge_scenes_preserve_text(
             scene["slots"] = old["slots"]
         text = dict(scene.get("text") or {})
         old_text = dict(old.get("text") or {})
-        for key in ("gendaibun", "kobun", "desc", "descen"):
+        for key in ("gendaibun", "gendaibunen", "kobun", "kobunen", "desc", "descen"):
             if old_text.get(key):
                 text[key] = old_text[key]
             elif old.get(key) and not text.get(key):

@@ -1,8 +1,13 @@
 /**
- * 人物詳細・一覧で SSG する slug。
- * 小野小町は cache 未登場だが Wellcome 九相図追加を見据えて維持。
- * seoRedirects の未公開人物 301 と同期すること。
+ * 人物詳細・一覧で SSG / 公開する slug。
+ * metadata.personname に載せた代表人物はここに追加すること
+ * （未掲載 slug は seoRedirects で personnamelist へ 301）。
  */
-const DISPLAY_PERSON_SLUGS = ["danrinkougou", "ononokomachi"];
+const DISPLAY_PERSON_SLUGS = [
+  "danrinkougou",
+  "ononokomachi",
+  "tachibananaomoto",
+  "fujiwarasaneyori",
+];
 
 module.exports = { DISPLAY_PERSON_SLUGS };

@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 GENDAIBUN_MAX_CHARS = 200
 GENDAIBUN_LONG_WARN = 120
-TEXT_KEYS = ("gendaibun", "kobun", "desc", "descen")
+TEXT_KEYS = ("gendaibun", "gendaibunen", "kobun", "kobunen", "desc", "descen")
 
 
 def _plain_text(value: str) -> str:

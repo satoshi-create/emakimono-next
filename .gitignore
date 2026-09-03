@@ -89,3 +89,5 @@ credentials.json
 /docs/*
 !/docs/operations/
 !/docs/operations/**
+
+/analytics/auto-scroll/ 

@@ -120,11 +120,54 @@
   display: block;
 }
 
+/* 解説 / 現代文 / 古文（2種以上あるときのみ表示） */
+.modeTabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 14px 4px;
+  width: 100%;
+}
+.modeTab {
+  flex: 0 0 auto;
+  padding: 2px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--clr-text-muted, #666);
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.modeTab:hover,
+.modeTab:focus-visible {
+  color: var(--clr-text);
+  border-color: rgba(0, 0, 0, 0.28);
+}
+.modeTabActive {
+  color: var(--clr-text);
+  border-color: var(--clr-accent, #ff8c77);
+  background: rgb(255 140 119 / 0.1);
+  font-weight: 600;
+}
+@media (pointer: coarse) {
+  .modeTabs {
+    padding: 0 10px 4px;
+    gap: 6px;
+  }
+  .modeTab {
+    padding: 4px 12px;
+    font-size: 0.75rem;
+  }
+}
+
+.bodyText,
 .gendaibun {
   font-size: 0.85rem;
   line-height: 1.45;
   color: #333;
-  /* 詳細文と同じ字体にして「続きを読む」のように連続して読めるようにする */
   font-family: var(--font-story);
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -132,12 +175,25 @@
   overflow: hidden;
 }
 
+.bodyTextClassical {
+  /* 古文も現代文・解説と同じストーリー体 */
+  font-family: var(--font-story);
+  line-height: 1.7;
+}
+
 /* 展開時: 行数制限を解除し、冒頭文＋続きを1段落のまま全文表示する */
+.bar[data-expanded="true"] .bodyText,
 .bar[data-expanded="true"] .gendaibun {
   display: block;
   -webkit-line-clamp: unset;
   -webkit-box-orient: unset;
   overflow: visible;
+}
+
+/* 古文展開時は長い詞書でも読めるよう少しスクロール可に */
+.bar[data-expanded="true"][data-text-mode="kobun"] .body {
+  max-height: min(42vh, 280px);
+  overflow-y: auto;
 }
 
 /* ×（解説バーを閉じる）: 操作列の右端に配置 */

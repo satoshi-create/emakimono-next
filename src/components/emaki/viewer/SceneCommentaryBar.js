@@ -1,15 +1,13 @@
 /**
  * ボトムコメントバー: ビューア最下部に常駐するシーン解説バー。
  *
- * 段タイトル＋解説文を1つのバーにまとめて表示する。折りたたみ時は冒頭文と
- * 「…詳細をみる」を表示し、タップで同じバー内に全文（冒頭＋続き）を
- * 1段落のまま展開する。絵巻画像の上部は常に残るため、絵巻と解説を
- * 見比べながら鑑賞できる。
+ * 段タイトル＋本文を1つのバーにまとめて表示する。詞書あり（kobun）では
+ * デフォルトは現代文。タブ順は現代文 → 古文 → 解説。詞書なしは解説のみ。
  *
- * 再生中も段タイトル・解説文は liveSceneIndex に追従する（EmakiConteiner から渡される）。
+ * 再生中も段タイトル・本文は liveSceneIndex に追従する（EmakiConteiner から渡される）。
  *
  * GA: 旧 ModalDesc の scene_modal_open イベントを、シート展開時に移行。
- * 関連: EmakiConteiner.js（組み込み先）, func.js（ChaptersTitle/Gendaibun/Desc）
+ * 関連: EmakiConteiner.js / emakiChapterText.js
  */
 import * as gtag from "@/libs/api/gtag";
 import { AppContext } from "@/context/AppContext";
@@ -17,13 +15,8 @@ import styles from "@/styles/SceneCommentaryBar.module.css";
 import SceneLikeButton from "@/components/emaki/viewer/SceneLikeButton";
 import ShareButtons from "@/components/emaki/viewer/ShareButtons";
 import EmakiEraTimeline from "@/components/chronology/EmakiEraTimeline";
-import {
-  ChaptersGendaibun,
-  ChaptersTitle,
-  eraColor,
-  getChapterDescRaw,
-  useLocaleData,
-} from "@/utils/func";
+import { ChaptersTitle, eraColor, useLocaleData } from "@/utils/func";
+import { getChapterFieldRaw } from "@/utils/emakiChapterText";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import { getLiveSlugs } from "@/utils/getLiveSlugs";
 import {
@@ -33,6 +26,7 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import parse from "html-react-parser";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import {
@@ -44,6 +38,19 @@ import {
   useState,
 } from "react";
 import { useTranslation } from "next-i18next";
+
+const TEXT_MODES = ["gendaibun", "kobun", "desc"];
+
+const stripHtml = (html) =>
+  (html || "")
+    .replace(/<[^>]+>/g, "")
+    .replace(/&nbsp;/gi, " ")
+    .replace(/&amp;/gi, "&")
+    .replace(/&lt;/gi, "<")
+    .replace(/&gt;/gi, ">")
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .trim();
 
 const SceneCommentaryBar = ({
   data,
@@ -80,6 +87,8 @@ const SceneCommentaryBar = ({
   const [closed, setClosed] = useState(false);
   // 段一覧ポップオーバーの開閉（解説文の展開（expanded）とは独立）
   const [listOpen, setListOpen] = useState(false);
+  // 現代文 / 古文 / 解説。詞書ありは現代文デフォルト。段変更でも維持（欠落時のみフォールバック）
+  const [textMode, setTextMode] = useState("gendaibun");
   const wrapRef = useRef(null);
   const prevActiveIndexRef = useRef(activeIndex);
 
@@ -136,9 +145,86 @@ const SceneCommentaryBar = ({
     const ro = new ResizeObserver(update);
     ro.observe(el);
     return () => ro.disconnect();
-  }, [expanded, closed, entryContainerRef]);
+  }, [expanded, closed, textMode, entryContainerRef]);
 
   const current = filterEkotobas[activeIndex];
+
+  // 章テキスト（ロケール別フィールド）。hooks は early return より前に置く。
+  const chapterTexts = useMemo(() => {
+    if (!current) {
+      return { desc: "", gendaibun: "", kobun: "", kobunHtml: "" };
+    }
+    const isEn = locale === "en";
+    const descRaw = getChapterFieldRaw(
+      titleen,
+      title,
+      current.chapter,
+      isEn ? "descen" : "desc",
+      current.desc
+    );
+    const gendaibunRaw =
+      getChapterFieldRaw(
+        titleen,
+        title,
+        current.chapter,
+        isEn ? "gendaibunen" : "gendaibun",
+        current.gendaibun
+      ) ||
+      (isEn
+        ? getChapterFieldRaw(
+            titleen,
+            title,
+            current.chapter,
+            "gendaibun",
+            current.gendaibun
+          )
+        : "");
+    const kobunHtml =
+      getChapterFieldRaw(
+        titleen,
+        title,
+        current.chapter,
+        isEn ? "kobunen" : "kobun",
+        current.kobun
+      ) ||
+      (isEn
+        ? getChapterFieldRaw(
+            titleen,
+            title,
+            current.chapter,
+            "kobun",
+            current.kobun
+          )
+        : "");
+    return {
+      desc: stripHtml(descRaw),
+      gendaibun: stripHtml(gendaibunRaw),
+      kobun: stripHtml(kobunHtml),
+      kobunHtml,
+    };
+  }, [current, locale, titleen, title]);
+
+  // 現代文・古文は詞書原文（kobun）がある段だけ。詞書なし巻の場面描写 gendaibun はタブに出さない。
+  const availableModes = useMemo(
+    () =>
+      TEXT_MODES.filter((mode) => {
+        if (mode === "desc") return chapterTexts.desc.length > 0;
+        if (mode === "gendaibun")
+          return (
+            chapterTexts.kobun.length > 0 && chapterTexts.gendaibun.length > 0
+          );
+        return chapterTexts.kobun.length > 0;
+      }),
+    [chapterTexts]
+  );
+
+  // 現モードが欠落したら availableModes 先頭へ（現代文 → 古文 → 解説）
+  useEffect(() => {
+    if (availableModes.length === 0) return;
+    if (!availableModes.includes(textMode)) {
+      setTextMode(availableModes[0]);
+    }
+  }, [availableModes, textMode]);
 
   if (!current) return null;
 
@@ -177,48 +263,23 @@ const SceneCommentaryBar = ({
       ? ChaptersTitle(titleen, title, current.chapter, "titleen")
       : ChaptersTitle(titleen, title, current.chapter, "title");
 
-  const gendaibunBody = ChaptersGendaibun(
-    titleen,
-    title,
-    current.chapter,
-    current.gendaibun
-  );
-
-  // 解説文の生テキスト（HTMLタグ除去）。desc を正本とし、未整備の段は現代文にフォールバック。
-  const rawCommentary = (
-    getChapterDescRaw(
-      titleen,
-      title,
-      current.chapter,
-      locale === "en" ? "descen" : "desc",
-      current.desc
-    ) || ""
-  )
-    .replace(/<[^>]+>/g, "")
-    .replace(/&nbsp;/gi, " ")
-    .replace(/&amp;/gi, "&")
-    .replace(/&lt;/gi, "<")
-    .replace(/&gt;/gi, ">")
-    .replace(/&quot;/gi, '"')
-    .replace(/&#39;/gi, "'")
-    .trim();
-
-  // 冒頭文と続きに分割する。タップで「続き」を同じバー内に展開して表示する。
-  // 例) バー: 「これは、…の姿です。…詳細をみる」 → 展開: 「肌には血色が宿り、…」
-  const hasDesc = rawCommentary.length > 0;
+  const activeMode = availableModes.includes(textMode)
+    ? textMode
+    : availableModes[0] || "desc";
+  const plainBody =
+    activeMode === "desc"
+      ? chapterTexts.desc
+      : activeMode === "gendaibun"
+        ? chapterTexts.gendaibun
+        : chapterTexts.kobun;
+  const hasBody = plainBody.length > 0;
   const splitAt =
-    locale === "en"
-      ? rawCommentary.search(/\.\s/)
-      : rawCommentary.indexOf("。");
-  const hasRest = hasDesc && splitAt >= 0 && splitAt < rawCommentary.length - 1;
-  const previewText = hasRest
-    ? rawCommentary.slice(0, splitAt + 1)
-    : rawCommentary;
-  // desc が無い段は現代文（gendaibun）を全文表示する（分割しない）
-  const fallbackBody = hasDesc ? null : gendaibunBody;
+    locale === "en" ? plainBody.search(/\.\s/) : plainBody.indexOf("。");
+  const hasRest = hasBody && splitAt >= 0 && splitAt < plainBody.length - 1;
+  const previewText = hasRest ? plainBody.slice(0, splitAt + 1) : plainBody;
+  const showModeTabs = availableModes.length >= 2;
 
   const accent = eraColor(era) || "#8a6d3b";
-  // 翻訳キー未解決時（開発サーバーキャッシュ等）でも正しい文言を表示する
   const seeMoreLabel = t("viewer.seeMore", {
     defaultValue: locale === "en" ? "See details" : "詳細をみる",
   });
@@ -226,15 +287,28 @@ const SceneCommentaryBar = ({
   const toggleExpanded = () => {
     const next = !expanded;
     if (next) {
-      // GA4: 解説シートを開いた時にイベント送信（旧 ModalDesc から移行）
       gtag.event("scene_modal_open", {
         emaki_title: title,
         emaki_id: titleen,
         scene_index: current.linkId,
         scene_chapter: current.chapter,
+        text_mode: activeMode,
       });
     }
     setExpanded(next);
+  };
+
+  const handleTextMode = (mode) => {
+    if (mode === activeMode) return;
+    setTextMode(mode);
+    setExpanded(false);
+    gtag.event("scene_text_mode_change", {
+      emaki_title: title,
+      emaki_id: titleen,
+      scene_index: current.linkId,
+      scene_chapter: current.chapter,
+      text_mode: mode,
+    });
   };
 
   const handleNavigate = (ekotobaIndex) => {
@@ -258,6 +332,7 @@ const SceneCommentaryBar = ({
         data-orientation={orientation}
         data-fullscreen={isFullscreen ? "true" : "false"}
         data-expanded={expanded ? "true" : "false"}
+        data-text-mode={activeMode}
       >
         <div className={styles.header}>
           {/* 段タイトル行: タイトル隣はいいね・共有のみ */}
@@ -297,7 +372,30 @@ const SceneCommentaryBar = ({
               />
             </div>
           </div>
-          {/* 解説文。タップで開閉 */}
+          {showModeTabs && (
+            <div
+              className={styles.modeTabs}
+              role="tablist"
+              aria-label={t("viewer.textMode.label")}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {availableModes.map((mode) => (
+                <button
+                  key={mode}
+                  type="button"
+                  role="tab"
+                  aria-selected={mode === activeMode}
+                  className={`${styles.modeTab} ${
+                    mode === activeMode ? styles.modeTabActive : ""
+                  }`}
+                  onClick={() => handleTextMode(mode)}
+                >
+                  {t(`viewer.textMode.${mode}`)}
+                </button>
+              ))}
+            </div>
+          )}
+          {/* 本文。タップで開閉。古文の展開時は ruby HTML を描画 */}
           <button
             type="button"
             className={styles.body}
@@ -309,10 +407,16 @@ const SceneCommentaryBar = ({
                 : t("viewer.seeDetailsOfSection")
             }
           >
-            <span className={styles.gendaibun}>
-              {hasDesc ? (
-                expanded ? (
-                  rawCommentary
+            <span
+              className={`${styles.bodyText} ${
+                activeMode === "kobun" ? styles.bodyTextClassical : ""
+              }`}
+            >
+              {hasBody ? (
+                expanded && activeMode === "kobun" && chapterTexts.kobunHtml ? (
+                  parse(chapterTexts.kobunHtml)
+                ) : expanded ? (
+                  plainBody
                 ) : (
                   <>
                     {previewText}
@@ -323,9 +427,7 @@ const SceneCommentaryBar = ({
                     )}
                   </>
                 )
-              ) : (
-                fallbackBody
-              )}
+              ) : null}
             </span>
           </button>
           {/* ユーティリティはバー下部（タイトル圧迫を避ける） */}

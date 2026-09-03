@@ -391,7 +391,7 @@ py -3.14 scripts/postflight_downstream.py scrolls/tsukumogami/
 | `metadata.sourceAuthor` | string | 出典権利者（例: `Wellcome Collection`） |
 | `metadata.sourceCollection` | string | 所蔵・コレクション名 |
 | `metadata.sourceLicense` | string | ライセンス表記（例: `CC BY 4.0`）。指定時は出典表示のライセンス URL が対応 CC deed になる。未指定ならプロバイダ既定（Wikimedia = CC0 1.0） |
-| `metadata.personname` | string[] | 人物 slug 配列（例: `["ononokomachi"]`）。personprofiles.json から自動展開（name/id/slug/ruby/portrait）。dict の配列でも可 |
+| `metadata.personname` | string[] | **代表人物のみ**（目安 1–3）。slug 配列（例: `["tachibananaomoto", "fujiwarasaneyori"]`）。`personprofiles.json` から展開。公開ページ用に `displayPersonSlugs.js` へも追加すること |
 | `metadata.kusouzuslug` | int[]/string[] | 九相段 ID 配列（例: `[0, 1, 3, 4, 6, 7, 8]`）。九相図ハブの段マッピングに使用 |
 
 例（Wellcome 九相図）:

@@ -137,6 +137,11 @@ def run_preflight(
                 "metadata.personname must be a list of slugs (str) or profile dicts "
                 f"(got {type(pn[0]).__name__})"
             )
+        if isinstance(pn, list) and len(pn) > 3:
+            report.warn(
+                f"metadata.personname has {len(pn)} entries; "
+                "prefer 1–3 representative people for the emaki intro links"
+            )
 
     ks = meta.get("kusouzuslug")
     if ks is not None:

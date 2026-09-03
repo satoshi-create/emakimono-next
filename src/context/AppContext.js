@@ -38,10 +38,6 @@ const defaultAppContext = {
   handleFullScreen: noop,
   toggleBtn: true,
   setToggleBtn: noop,
-  characterToggle: false,
-  handleCharacterToggle: noop,
-  ebikiToggle: false,
-  handleEbikiToggle: noop,
   chapterToggle: true,
   handleChapterToggle: noop,
 

@@ -11,9 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext } from "react";
-import ToggleCharacter from "@/components/emaki/viewer/ToggleCharacter";
 import ToggleChapter from "@/components/emaki/viewer/ToggleChapter";
-import ToggleEbiki from "@/components/emaki/viewer/ToggleEbiki";
 import ActionButton from "@/components/emaki/viewer/ActionButton";
 import { AppContext } from "@/context/AppContext";
 import { useTranslation } from "next-i18next";
@@ -33,7 +31,6 @@ const EmakiNavigation = ({
   onOpenScrollFeedback,
   showScrollFeedbackButton = true,
 }) => {
-  const { character, ebiki } = data;
   const endIndex = data.emakis.length - 1;
   const { t } = useTranslation("common");
 
@@ -129,8 +126,6 @@ const EmakiNavigation = ({
           isUIVisible={isUIVisible}
         />
       )}
-      {character && <ToggleCharacter isUIVisible={isUIVisible} />}
-      {ebiki && <ToggleEbiki isUIVisible={isUIVisible} />}
       {hasChapters && <ToggleChapter isUIVisible={isUIVisible} />}
       {prevScene && (
         <ActionButton

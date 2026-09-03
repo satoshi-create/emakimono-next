@@ -35,10 +35,6 @@
   "viewer": {
     "next": "Next",
     "previous": "Previous",
-    "showCharacterNames": "Show character names",
-    "hideCharacterNames": "Hide character names",
-    "showPictureIndex": "Show picture index",
-    "hidePictureIndex": "Hide picture index",
     "showChapterTitles": "Show chapter titles",
     "hideChapterTitles": "Hide chapter titles",
     "like": "Like",
@@ -66,6 +62,12 @@
     "seeMore": "See details",
     "closeCommentaryBar": "Close commentary bar",
     "showCommentary": "Show commentary",
+    "textMode": {
+      "desc": "Commentary",
+      "gendaibun": "Modern",
+      "kobun": "Classical",
+      "label": "Text type"
+    },
     "horizontalScrollHint": "Scroll horizontally to navigate",
     "verticalScrollHint": "Vertical scroll: move cursor outside the scroll",
     "fullscreeBtn": "Enjoy the picture scroll in full screen"
@@ -214,8 +216,8 @@
     },
     "features": {
       "title": "Viewer features",
-      "ekotoba": "Captions & modern translation — read each section’s modern text and commentary in the bottom bar.",
-      "nav": "Table of contents, character names, picture index — see where you are and who appears.",
+      "ekotoba": "Captions & translations — switch commentary, modern, and classical text in the bottom bar when available.",
+      "nav": "Table of contents — see where you are in the scroll.",
       "playback": "Auto-play & fullscreen — for continuous viewing or full immersion.",
       "tips": "Viewing tips — pause at each section to take in the art. For Nine Stages of Decay scrolls, slow contemplative viewing is recommended."
     },
@@ -240,7 +242,7 @@
       },
       {
         "q": "How do I show captions or modern translation?",
-        "a": "The bottom commentary bar shows the section title with modern text and commentary. Tap to expand the full text."
+        "a": "The bottom commentary bar shows the section title and commentary by default. Where available, switch Modern / Classical via tabs, and tap to expand the full text."
       }
     ]
   },
@@ -324,6 +326,7 @@
   },
 
   "personname": {
+    "emakiSectionTitle": "Featured people",
     "worksTitle": "Featured Scrolls",
     "worksTitleEn": "登場する絵巻",
     "noWorks": "Scrolls featuring this person are coming soon.",

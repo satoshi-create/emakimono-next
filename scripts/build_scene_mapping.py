@@ -54,7 +54,7 @@ def _yaml_escape(text: str) -> str:
 
 def _format_text_fields(text: dict) -> list[str]:
     lines = ["    text:"]
-    for key in ("gendaibun", "kobun", "desc", "descen"):
+    for key in ("gendaibun", "gendaibunen", "kobun", "kobunen", "desc", "descen"):
         value = text.get(key, "")
         if value:
             lines.append(f"      {key}: '{_yaml_escape(value)}'")

@@ -4176,5 +4176,261 @@
     "title_en": "Hyakki Yagyō Zu (UTokyo)",
     "sourceAuthor": "東京大学総合図書館",
     "sourceCollection": "A00:6275"
+  },
+  {
+    "id": 5,
+    "title": "直幹申文絵詞",
+    "titleen": "naomoto_moushibumi_ekotoba",
+    "author": "",
+    "authoren": "",
+    "edition": "",
+    "encodeUrl": "",
+    "backgroundImage": "/washi_green_03.webp",
+    "thumb": "/thumb/naomoto_moushibumi_ekotoba_thumb.webp",
+    "thumb2": "/thumb/naomoto_moushibumi_ekotoba_thumb.webp",
+    "video": "https://youtu.be/Qgc0lrTPkiY",
+    "era": "鎌倉",
+    "eraen": "kamakura",
+    "desc": "鎌倉時代の絵巻『直幹申文絵詞』。文章博士・橘直幹が民部大輔の兼官を願って申文を奉り、村上天皇がその文言に機嫌を損じたのち、天徳四年の内裏炎上で申文の安否が問われ、内侍所の神鏡が紫宸殿の左近桜にかかっていたという奇瑞を描く。国立国会図書館所蔵本の画像による。",
+    "descen": "A Kamakura-period handscroll on Tachibana no Naomoto, a scholar who petitions for a concurrent post; Emperor Murakami takes offense at the wording, then during the Tentoku 4 palace fire asks after the petition, while the sacred mirror is found on the Sakon cherry of the Shishinden. Images from the National Diet Library copy.",
+    "readMore": false,
+    "type": "絵巻",
+    "typeen": "emaki",
+    "keyword": [
+      {
+        "name": "説話",
+        "id": "story",
+        "slug": "story"
+      },
+      {
+        "name": "火事",
+        "id": "fire",
+        "slug": "fire"
+      },
+      {
+        "name": "市場",
+        "id": "market",
+        "slug": "market"
+      },
+      {
+        "name": "申文",
+        "id": "request",
+        "slug": "request"
+      }
+    ],
+    "kotobagaki": true,
+    "sceneText": false,
+    "favorite": false,
+    "sourceImageUrl": "https://dl.ndl.go.jp/info:ndljp/pid/2541034",
+    "sourceImage": "直幹申文絵詞（国立国会図書館）",
+    "metadesc": "",
+    "gif": "",
+    "sourceEkotoba": "",
+    "reference": [
+      {
+        "type": "書籍",
+        "url": "https://shorturl.at/nySUW",
+        "title": "『日本の絵巻十七 奈与竹物語絵巻 直幹申文絵詞』"
+      }
+    ],
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "1",
+        "config": "cloudinary",
+        "src": "v1788416517/emakimono/naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_01__01.jpg",
+        "name": "naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_01__01",
+        "srcHeight": "1080",
+        "srcWidth": "1316"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788416517/emakimono/naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_01__02.jpg",
+        "name": "naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_01__02",
+        "srcHeight": 1080,
+        "srcWidth": 1688
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788416517/emakimono/naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_01__03.jpg",
+        "name": "naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_01__03",
+        "srcHeight": 1080,
+        "srcWidth": 1626
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788416520/emakimono/naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_01__04.jpg",
+        "name": "naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_01__04",
+        "srcHeight": 1080,
+        "srcWidth": 2195
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788416520/emakimono/naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_01__05.jpg",
+        "name": "naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_01__05",
+        "srcHeight": 1080,
+        "srcWidth": 1884
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "2",
+        "config": "cloudinary",
+        "src": "v1788416520/emakimono/naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_02__01.jpg",
+        "name": "naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_02__01",
+        "srcHeight": "1080",
+        "srcWidth": "988"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788416523/emakimono/naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_02__02.jpg",
+        "name": "naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_02__02",
+        "srcHeight": 1080,
+        "srcWidth": 1918
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788416523/emakimono/naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_02__03.jpg",
+        "name": "naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_02__03",
+        "srcHeight": 1080,
+        "srcWidth": 2397
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "3",
+        "config": "cloudinary",
+        "src": "v1788416523/emakimono/naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_03__01.jpg",
+        "name": "naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_03__01",
+        "srcHeight": "1080",
+        "srcWidth": "1135"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788416526/emakimono/naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_03__02.jpg",
+        "name": "naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_03__02",
+        "srcHeight": 1080,
+        "srcWidth": 1860
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788416526/emakimono/naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_03__03.jpg",
+        "name": "naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_03__03",
+        "srcHeight": 1080,
+        "srcWidth": 2192
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788416526/emakimono/naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_03__04.jpg",
+        "name": "naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_03__04",
+        "srcHeight": 1080,
+        "srcWidth": 2097
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788416529/emakimono/naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_03__05.jpg",
+        "name": "naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_03__05",
+        "srcHeight": 1080,
+        "srcWidth": 2449
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "4",
+        "config": "cloudinary",
+        "src": "v1788416530/emakimono/naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_04__01.jpg",
+        "name": "naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_04__01",
+        "srcHeight": "1080",
+        "srcWidth": "2567"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788416529/emakimono/naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_04__02.jpg",
+        "name": "naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_04__02",
+        "srcHeight": 1080,
+        "srcWidth": 1650
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788416533/emakimono/naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_04__03.jpg",
+        "name": "naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_04__03",
+        "srcHeight": 1080,
+        "srcWidth": 1707
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788416532/emakimono/naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_04__04.jpg",
+        "name": "naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_04__04",
+        "srcHeight": 1080,
+        "srcWidth": 1747
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788416532/emakimono/naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_04__05.jpg",
+        "name": "naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_04__05",
+        "srcHeight": 1080,
+        "srcWidth": 1959
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788416537/emakimono/naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_04__06.jpg",
+        "name": "naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_04__06",
+        "srcHeight": 1080,
+        "srcWidth": 1924
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788416536/emakimono/naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_04__07.jpg",
+        "name": "naomoto-moushibumi-ekotoba__naomoto-moushibumi-ekotoba_1_04__07",
+        "srcHeight": 1080,
+        "srcWidth": 2068
+      }
+    ],
+    "sourceCollection": "国立国会図書館",
+    "personname": [
+      {
+        "name": "橘直幹",
+        "id": "tachibananaomoto",
+        "slug": "tachibananaomoto",
+        "ruby": "たちばななおもと",
+        "portrait": ""
+      },
+      {
+        "name": "藤原実頼",
+        "id": "fujiwarasaneyori",
+        "slug": "fujiwarasaneyori",
+        "ruby": "ふじわらさねより",
+        "portrait": ""
+      }
+    ]
   }
 ]

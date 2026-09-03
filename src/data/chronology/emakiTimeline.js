@@ -1090,7 +1090,7 @@ const ja = [
     "emaki": [
       {
         "name": "直幹申文絵詞",
-        "titleen": "naomotomousibumiekotoba",
+        "titleen": "naomoto_moushibumi_ekotoba",
         "href": ""
       }
     ],

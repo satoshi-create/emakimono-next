@@ -3,24 +3,6 @@
   position: relative;
 }
 
-.characterbox,
-.ebikibox {
-  z-index: 10;
-  position: absolute;
-  font-family: var(--font-ui);
-  background: #ffffff61;
-  padding: 1rem 0;
-  writing-mode: vertical-lr;
-  transition: var(--transition);
-  outline-offset: -4px;
-}
-/* .ebikibox {
-  outline: 1px solid var(--clr-black);
-} */
-.characterboxLink:hover,
-.ebikibox:hover {
-  opacity: 0.6;
-}
 .emakiImg {
   height: 100%;
   width: auto;

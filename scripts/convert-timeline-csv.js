@@ -73,7 +73,7 @@ const EMAKI_LINK_MAP = [
   },
   {
     match: "直幹申文絵詞",
-    links: [{ titleen: "naomotomousibumiekotoba" }],
+    links: [{ titleen: "naomoto_moushibumi_ekotoba" }],
   },
   {
     match: "長谷雄",

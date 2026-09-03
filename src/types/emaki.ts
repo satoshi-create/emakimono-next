@@ -45,7 +45,7 @@ export type KeywordTag = {
   slug: string;
 };
 
-/** 登場人物（personname[] の要素）。参照: KusouzuModelLink / personname ページ */
+/** 登場人物（personname[] の要素）。参照: EmakiPersonLinks / KusouzuModelLink / personname ページ */
 export type PersonName = {
   name: string;
   id: string;
@@ -64,24 +64,6 @@ export type ReferenceItem = {
 /** kusouzuslug: `[{ id: "1" }, ...]` の形。参照: func.js kusouzuSlugItem */
 export type KusouzuSlug = { id: string };
 
-/** 人物注釈（scene.character[]）。参照: EmakiImage.js の characterOuntline。実データでは未使用だが viewer は対応 */
-export type CharacterAnnotation = {
-  name: string;
-  top: string;
-  right: string;
-  gender: "man" | "woman" | "animal";
-  link?: string;
-};
-
-/** 絵引き注釈（scene.ebiki[]）。参照: EmakiImage.js の ebikiOutline。実データでは未使用だが viewer は対応 */
-export type EbikiAnnotation = {
-  name: string;
-  top: string;
-  right: string;
-  attr?: string;
-  path?: string;
-};
-
 /** シーン共通キー。linkId は [slug].js getStaticProps、ekotobaId は ekotoba のみ、uniqueIndex は EmakiConteiner 内で付与 */
 type EmakiSceneBase = {
   cat: string;
@@ -99,8 +81,6 @@ export type EmakiImageScene = EmakiSceneBase & {
   cat: "image";
   srcWidth?: number;
   srcHeight?: number;
-  character?: CharacterAnnotation[];
-  ebiki?: EbikiAnnotation[];
 };
 
 /** 詞書シーン（cat === "ekotoba"） */

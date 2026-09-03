@@ -76,8 +76,6 @@ function MyApp({ Component, pageProps, router }) {
   }, []);
 
   const { t: emakisData } = useLocaleData();
-  const [characterToggle, setCharacterToggle] = useState(false);
-  const [ebikiToggle, setEbikiToggle] = useState(false);
   const [chapterToggle, setChapterToggle] = useState(true);
   const [oepnSidebar, setOepnSidebar] = useState(false);
   const [query, setQuery] = useState("");
@@ -214,14 +212,6 @@ function MyApp({ Component, pageProps, router }) {
       gRouter.events.off("routeChangeStart", resetViewerStateOnNavigate);
     };
   }, [gRouter.events, setnavIndex, exitFullscreenForNavigation]);
-
-  const handleCharacterToggle = () => {
-    setCharacterToggle(!characterToggle);
-  };
-
-  const handleEbikiToggle = () => {
-    setEbikiToggle(!ebikiToggle);
-  };
 
   const handleChapterToggle = () => {
     setChapterToggle(!chapterToggle);
@@ -387,10 +377,6 @@ function MyApp({ Component, pageProps, router }) {
         orientation,
         setOrientation,
         handleToId,
-        handleCharacterToggle,
-        characterToggle,
-        handleEbikiToggle,
-        ebikiToggle,
         handleChapterToggle,
         chapterToggle,
         searchKeyword,

@@ -102,7 +102,7 @@ const ja = [
           "都に生きる絵師や男の物語を、軽妙な筆致で活写します。描かれる主役が広がった時代です。",
         emaki: [
           { name: "絵師草紙", titleen: "eshi-no-soshi_tohaku" },
-          { name: "直幹申文絵詞", titleen: "naomotomousibumiekotoba" },
+          { name: "直幹申文絵詞", titleen: "naomoto_moushibumi_ekotoba" },
         ],
       },
     ],
@@ -334,7 +334,7 @@ const en = [
           "The lives of a painter and a townsman in the capital were depicted with wit—the subjects of emaki expanded.",
         emaki: [
           { name: "Eshi no Sōshi", titleen: "eshi-no-soshi_tohaku" },
-          { name: "Naomoto Moshibumi Ekotoba", titleen: "naomotomousibumiekotoba" },
+          { name: "Naomoto Moshibumi Ekotoba", titleen: "naomoto_moushibumi_ekotoba" },
         ],
       },
     ],

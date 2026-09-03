@@ -122,7 +122,10 @@ def text_json_path(titleen: str) -> Path:
 
 def scene_has_text(scene: dict) -> bool:
     text = scene.get("text") or {}
-    return any(str(text.get(k, "")).strip() for k in ("gendaibun", "kobun", "desc", "descen"))
+    return any(
+        str(text.get(k, "")).strip()
+        for k in ("gendaibun", "gendaibunen", "kobun", "kobunen", "desc", "descen")
+    )
 
 
 def scene_includes_text_json_entry(scene: dict) -> bool:
@@ -150,6 +153,10 @@ def build_text_json(config: dict) -> list[dict]:
             "kobun": _normalize_text_value(text.get("kobun", "")),
             "desc": _normalize_text_value(text.get("desc", "")),
         }
+        if text.get("gendaibunen"):
+            entry["gendaibunen"] = text["gendaibunen"]
+        if text.get("kobunen"):
+            entry["kobunen"] = text["kobunen"]
         if text.get("descen"):
             entry["descen"] = text["descen"]
         if scene.get("titleen"):
@@ -442,9 +449,11 @@ def build_emaki_entry(config: dict, image_rows: list[dict], existing_entry: dict
         entry["kusouzuslug"] = _build_kusouzuslug(meta["kusouzuslug"])
 
     # 既存エントリにある、本スクリプトが生成しないフィールドを保持する（再 sync で失わない）
+    # character / ebiki は旧ビューア注釈フラグ（廃止）。preserve しない。
+    _drop_legacy = {"character", "ebiki"}
     if existing_entry:
         for key, value in existing_entry.items():
-            if key not in entry:
+            if key not in entry and key not in _drop_legacy:
                 entry[key] = value
 
     return entry

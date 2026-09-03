@@ -38,4 +38,5 @@ export {
   connectGenjiChapters,
   connectGenjiChaptersScene,
   getChapterDescRaw,
+  getChapterFieldRaw,
 } from "./emakiChapterText";
