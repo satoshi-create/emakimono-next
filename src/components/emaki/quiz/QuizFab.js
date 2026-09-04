@@ -1,20 +1,34 @@
 import styles from "@/styles/QuizModal.module.css";
-import { faLightbulb, faClose } from "@fortawesome/free-solid-svg-icons";
+import { AppContext } from "@/context/AppContext";
+import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useContext } from "react";
 import { useTranslation } from "next-i18next";
 
 /**
- * 観察力クイズ入口 / 再開（ナビと同系のアイコン）。
+ * 観察力クイズ入口 / 再開。
+ * @param {"float"|"bar"} [variant] float=PC・SP横 / bar=SP縦コメンタリーバー内
  * @param {"start"|"resume"} [mode]
  */
-const QuizFab = ({ onOpen, onHide, isUIVisible = true, mode = "start" }) => {
+const QuizFab = ({
+  onOpen,
+  isUIVisible = true,
+  mode = "start",
+  variant = "float",
+}) => {
   const { t } = useTranslation("common");
+  const { orientation } = useContext(AppContext);
   const label =
     mode === "resume" ? t("quiz.resumeLabel") : t("quiz.fabLabel");
 
+  // float（PC / SP横）はナビ idle に連動。bar（SP縦）は非連動
+  const hideWithIdle = variant === "float" && !isUIVisible;
+
   return (
     <div
-      className={`${styles.fabWrap} ${isUIVisible ? "" : styles.fabHidden}`}
+      className={`${styles.fabWrap} ${hideWithIdle ? styles.fabHidden : ""}`}
+      data-variant={variant}
+      data-orientation={orientation || "landscape"}
     >
       <button
         type="button"
@@ -30,20 +44,6 @@ const QuizFab = ({ onOpen, onHide, isUIVisible = true, mode = "start" }) => {
         />
         <span className={styles.fabLabel}>{label}</span>
       </button>
-      {typeof onHide === "function" && (
-        <button
-          type="button"
-          className={styles.fabDismiss}
-          onClick={(e) => {
-            e.stopPropagation();
-            onHide();
-          }}
-          aria-label={t("quiz.hideFab")}
-          title={t("quiz.hideFab")}
-        >
-          <FontAwesomeIcon icon={faClose} aria-hidden />
-        </button>
-      )}
     </div>
   );
 };

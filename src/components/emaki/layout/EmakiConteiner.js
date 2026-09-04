@@ -286,11 +286,6 @@ const EmakiContainer = ({
     pendingJumpAppliedRef.current = false;
   }, []);
 
-  const hideQuizFab = useCallback(() => {
-    setQuizFabHidden(true);
-    setQuizFabHiddenState(true);
-  }, []);
-
   const handleQuizSessionChange = useCallback((next) => {
     saveQuizSession(next);
     setQuizSession(next);
@@ -761,9 +756,9 @@ const EmakiContainer = ({
         {canShowQuizChrome && (
           <QuizFab
             onOpen={openQuizUi}
-            onHide={hideQuizFab}
             isUIVisible={isUIVisible}
             mode={fabMode}
+            variant="float"
           />
         )}
         {scroll && activeQuiz && quizSession && quizUi === "open" && (
@@ -902,6 +897,16 @@ const EmakiContainer = ({
             navIndex={liveSceneIndex}
             isFullscreen={toggleFullscreen}
             entryContainerRef={entryContainerRef}
+            quizFab={
+              canShowQuizChrome ? (
+                <QuizFab
+                  onOpen={openQuizUi}
+                  isUIVisible={isUIVisible}
+                  mode={fabMode}
+                  variant="bar"
+                />
+              ) : null
+            }
           />
         )}
         </div>

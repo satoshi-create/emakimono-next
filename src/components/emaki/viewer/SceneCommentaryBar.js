@@ -57,6 +57,7 @@ const SceneCommentaryBar = ({
   navIndex,
   isFullscreen = false,
   entryContainerRef,
+  quizFab = null,
 }) => {
   const { handleToId, orientation } = useContext(AppContext);
   const { locale } = useRouter();
@@ -268,6 +269,7 @@ const SceneCommentaryBar = ({
         data-orientation={orientation}
         data-fullscreen={isFullscreen ? "true" : "false"}
       >
+        {quizFab}
         <button
           type="button"
           className={styles.reopenBtn}
@@ -455,6 +457,8 @@ const SceneCommentaryBar = ({
           </button>
           {/* ユーティリティはバー下部（タイトル圧迫を避ける） */}
           <div className={styles.utilityActions}>
+            {quizFab}
+            <div className={styles.utilityActionsEnd}>
             {hasMultipleSections && (
               <button
                 type="button"
@@ -516,6 +520,7 @@ const SceneCommentaryBar = ({
             >
               <FontAwesomeIcon icon={faXmark} />
             </button>
+            </div>
           </div>
         </div>
       </div>

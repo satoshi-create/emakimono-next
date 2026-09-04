@@ -221,7 +221,7 @@
   transform: scale(1.1);
 }
 
-/* ユーティリティ（段一覧・年表・閉じる）は解説文の下・右寄せ */
+/* ユーティリティ（クイズ・段一覧・年表・閉じる）。クイズは左、他は右 */
 .utilityActions {
   display: flex;
   align-items: center;
@@ -237,6 +237,14 @@
     gap: 4px;
     padding: 2px 6px 6px;
   }
+}
+
+.utilityActionsEnd {
+  display: flex;
+  align-items: center;
+  gap: inherit;
+  flex: 0 0 auto;
+  margin-left: auto;
 }
 
 /* 段一覧トグル: 操作列内の×の左隣に配置。
@@ -301,7 +309,9 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  gap: 8px;
   padding: 6px 12px;
+  flex-wrap: wrap;
   /* 透明な全幅領域がナビ（z-index:10）のクリックを奪わないようにする */
   pointer-events: none;
   /* 背景は透明。ボタン自体に白背景を持たせる */
