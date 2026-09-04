@@ -18,7 +18,7 @@ const QuizResult = ({
 
   return (
     <>
-      <div className={styles.modalBody}>
+      <div className={styles.modalBody} data-quiz-scroll>
         <p className={styles.resultRank}>{rankLabel}</p>
         <p className={styles.resultScore}>
           {t("quiz.scoreLabel", { score, total })}

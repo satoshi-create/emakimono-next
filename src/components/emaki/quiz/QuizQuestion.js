@@ -20,7 +20,7 @@ const QuizQuestion = ({
 
   return (
     <>
-      <div className={styles.modalBody}>
+      <div className={styles.modalBody} data-quiz-scroll>
         <p className={styles.progress}>
           {t("quiz.questionProgress", {
             current: index + 1,

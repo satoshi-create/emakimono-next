@@ -73,23 +73,64 @@ const QuizModal = ({
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
 
+  // 背景の縦スクロールを止め、BottomNavigation（scrollY>80）が被らないようにする。
+  // モーダル内は [data-quiz-scroll] のみスクロール可（端では preventDefault）。
   useEffect(() => {
-    const inModal = (e) => e.target?.closest?.("[data-quiz-modal]");
-    const blockWheel = (e) => {
-      if (inModal(e)) return;
-      e.preventDefault();
-      e.stopPropagation();
+    const html = document.documentElement;
+    const body = document.body;
+    const prevHtmlOverflow = html.style.overflow;
+    const prevBodyOverflow = body.style.overflow;
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    window.scrollTo({ top: 0, behavior: "instant" });
+
+    let touchStartY = 0;
+    const onTouchStart = (e) => {
+      if (e.touches.length === 1) touchStartY = e.touches[0].clientY;
     };
+
     const blockArrowKeys = (e) => {
       if (["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) {
         e.preventDefault();
       }
     };
-    const blockTouch = (e) => {
-      if (inModal(e)) return;
+
+    const shouldBlockScroll = (scrollEl, deltaY) => {
+      if (!scrollEl) return true;
+      const { scrollTop, scrollHeight, clientHeight } = scrollEl;
+      if (scrollHeight <= clientHeight + 1) return true;
+      const atTop = scrollTop <= 0;
+      const atBottom = scrollTop + clientHeight >= scrollHeight - 1;
+      // deltaY > 0: 下方向へスクロールしようとしている（指は上へ / wheel 正）
+      if (atTop && deltaY < 0) return true;
+      if (atBottom && deltaY > 0) return true;
+      return false;
+    };
+
+    const blockWheel = (e) => {
+      const scrollEl = e.target?.closest?.("[data-quiz-scroll]");
+      if (scrollEl && !shouldBlockScroll(scrollEl, e.deltaY)) return;
       e.preventDefault();
       e.stopPropagation();
     };
+
+    const blockTouch = (e) => {
+      if (e.touches.length !== 1) {
+        e.preventDefault();
+        return;
+      }
+      const scrollEl = e.target?.closest?.("[data-quiz-scroll]");
+      const dy = e.touches[0].clientY - touchStartY;
+      // 指が下へ = コンテンツは上へ（deltaY 負）
+      if (scrollEl && !shouldBlockScroll(scrollEl, -dy)) return;
+      e.preventDefault();
+      e.stopPropagation();
+    };
+
+    document.addEventListener("touchstart", onTouchStart, {
+      passive: true,
+      capture: true,
+    });
     document.addEventListener("wheel", blockWheel, {
       passive: false,
       capture: true,
@@ -100,6 +141,9 @@ const QuizModal = ({
       capture: true,
     });
     return () => {
+      html.style.overflow = prevHtmlOverflow;
+      body.style.overflow = prevBodyOverflow;
+      document.removeEventListener("touchstart", onTouchStart, { capture: true });
       document.removeEventListener("wheel", blockWheel, { capture: true });
       document.removeEventListener("keydown", blockArrowKeys, { capture: true });
       document.removeEventListener("touchmove", blockTouch, { capture: true });
