@@ -9,6 +9,23 @@ import EmakiNavigation from "@/components/emaki/navigation/EmakiNavigation";
 import EndNudgeCard from "@/components/emaki/viewer/EndNudgeCard";
 import FullScreen from "@/components/emaki/viewer/FullScreen";
 import HelpModal from "@/components/emaki/viewer/HelpModal";
+import QuizFab from "@/components/emaki/quiz/QuizFab";
+import QuizModal from "@/components/emaki/quiz/QuizModal";
+import {
+  getQuizById,
+  getQuizForTitleen,
+} from "@/data/quiz/choujuGigaKouQuiz";
+import {
+  clearQuizSession,
+  createQuizSession,
+  loadQuizSession,
+  saveQuizSession,
+} from "@/libs/api/quizSessionStore";
+import {
+  isQuizFabHidden,
+  setQuizFabHidden,
+} from "@/libs/api/quizFabPrefs";
+import { resolveLinkIdByChapter } from "@/utils/resolveQuizJump";
 import ScrollFeedbackEndPrompt from "@/components/emaki/viewer/ScrollFeedbackEndPrompt";
 import ScrollFeedbackPanel from "@/components/emaki/viewer/ScrollFeedbackPanel";
 import ViewerPullPrompt from "@/components/emaki/viewer/ViewerPullPrompt";
@@ -100,7 +117,7 @@ const EmakiContainer = ({
   } = useContext(AppContext);
 
   const { backgroundImage, kotobagaki, sceneText, type } = data;
-  const { locale, locales, asPath, defaultLocale } = useRouter();
+  const { locale, locales, asPath, defaultLocale, query, push } = useRouter();
 
   const wrapperRef = useRef();
   const articleRef = useRef();
@@ -134,6 +151,12 @@ const EmakiContainer = ({
   const [scrollRatioBucket, setScrollRatioBucket] = useState(0);
 
   const emakiId = data.titleen;
+  const entryQuiz = getQuizForTitleen(data.titleen);
+  const [quizSession, setQuizSession] = useState(null);
+  const [quizUi, setQuizUi] = useState("closed"); // closed | open | minimized
+  const [quizFabHidden, setQuizFabHiddenState] = useState(false);
+  const quizHydratedRef = useRef(false);
+  const pendingJumpAppliedRef = useRef(false);
 
   // 絵巻ハイパーリンク: 前回検出したシーン（不要な更新を防ぐ）
   const lastDetectedSceneRef = useRef(navIndex);
@@ -172,6 +195,136 @@ const EmakiContainer = ({
     detectCurrentSceneRef,
     scrollPositionStore,
   });
+
+  const sessionQuiz = quizSession ? getQuizById(quizSession.quizId) : null;
+  const activeQuiz = entryQuiz || sessionQuiz;
+  const forceQuizFabForResume =
+    quizUi === "minimized" ||
+    (Boolean(quizSession) && !quizSession.done && quizUi !== "open");
+  const canShowQuizChrome = Boolean(
+    scroll &&
+      activeQuiz &&
+      (entryQuiz ||
+        (quizSession && !quizSession.done) ||
+        quizUi === "minimized") &&
+      (!quizFabHidden || forceQuizFabForResume)
+  );
+  const fabMode =
+    quizUi === "minimized" || (quizSession && quizUi === "closed" && !quizSession.done)
+      ? "resume"
+      : "start";
+
+  // sessionStorage から進行を復元（他巻ジャンプ・リロード対応）
+  useEffect(() => {
+    if (quizHydratedRef.current) return;
+    quizHydratedRef.current = true;
+    setQuizFabHiddenState(isQuizFabHidden());
+    const stored = loadQuizSession();
+    if (!stored || !getQuizById(stored.quizId)) return;
+    setQuizSession(stored);
+    setQuizUi("minimized");
+  }, []);
+
+  // Help などから「クイズボタンを再表示」
+  useEffect(() => {
+    const onShowFab = () => {
+      setQuizFabHidden(false);
+      setQuizFabHiddenState(false);
+    };
+    window.addEventListener("emaki-quiz-show-fab", onShowFab);
+    return () => window.removeEventListener("emaki-quiz-show-fab", onShowFab);
+  }, []);
+
+  // 他巻ジャンプの pendingJump を到着巻で適用
+  useEffect(() => {
+    if (!scroll || !quizSession?.pendingJump || pendingJumpAppliedRef.current) {
+      return;
+    }
+    const pj = quizSession.pendingJump;
+    if (pj.titleen !== data.titleen) return;
+    pendingJumpAppliedRef.current = true;
+    const linkId =
+      typeof pj.linkId === "number"
+        ? pj.linkId
+        : resolveLinkIdByChapter(data.emakis, pj.chapter);
+    const cleared = { ...quizSession, pendingJump: null };
+    saveQuizSession(cleared);
+    setQuizSession(cleared);
+    setQuizUi("minimized");
+    if (typeof linkId === "number") {
+      stopPlayMode();
+      requestAnimationFrame(() => handleToId(linkId));
+    }
+  }, [
+    scroll,
+    data.titleen,
+    data.emakis,
+    quizSession,
+    stopPlayMode,
+    handleToId,
+  ]);
+
+  const openQuizUi = useCallback(() => {
+    if (quizSession && getQuizById(quizSession.quizId)) {
+      setQuizUi("open");
+      return;
+    }
+    if (!entryQuiz) return;
+    setQuizSession(createQuizSession(entryQuiz, data.titleen));
+    setQuizUi("open");
+  }, [quizSession, entryQuiz, data.titleen]);
+
+  const closeQuizUi = useCallback(() => {
+    // 進行は保持（観察のために閉じても再開できる）
+    setQuizUi("minimized");
+  }, []);
+
+  const abandonQuizUi = useCallback(() => {
+    clearQuizSession();
+    setQuizSession(null);
+    setQuizUi("closed");
+    pendingJumpAppliedRef.current = false;
+  }, []);
+
+  const hideQuizFab = useCallback(() => {
+    setQuizFabHidden(true);
+    setQuizFabHiddenState(true);
+  }, []);
+
+  const handleQuizSessionChange = useCallback((next) => {
+    saveQuizSession(next);
+    setQuizSession(next);
+  }, []);
+
+  const handleQuizJumpLocal = useCallback(
+    (linkId) => {
+      stopPlayMode();
+      setQuizUi("minimized");
+      handleToId(linkId);
+    },
+    [stopPlayMode, handleToId]
+  );
+
+  const handleQuizJumpScroll = useCallback(
+    (titleen) => {
+      stopPlayMode();
+      setQuizUi("minimized");
+      pendingJumpAppliedRef.current = false;
+      // 進行は直前の onSessionChange で同期保存済み
+      push(`/${titleen}`);
+    },
+    [stopPlayMode, push]
+  );
+
+  // ?quiz=true / ?quiz=1 で観察力クイズを開く（エントリー巻 or 再開セッション）
+  const quizOpenedFromQueryRef = useRef(false);
+  useEffect(() => {
+    if (!scroll || !activeQuiz || quizOpenedFromQueryRef.current) return;
+    if (query.quiz === "true" || query.quiz === "1") {
+      quizOpenedFromQueryRef.current = true;
+      openQuizUi();
+    }
+  }, [scroll, activeQuiz, query.quiz, openQuizUi]);
 
   // スクロール処理 + 現在シーン検出（useEmakiScroll が sectionsCacheRef / scrollDimsRef を管理）
   const { sectionsCacheRef, scrollDimsRef, liveSceneIndex } = useEmakiScroll({
@@ -605,6 +758,27 @@ const EmakiContainer = ({
           <EmakiInfo value={data} isUIVisible={isUIVisible} />
         )}
         {scroll && isHelpModalOpen && <HelpModal />}
+        {canShowQuizChrome && (
+          <QuizFab
+            onOpen={openQuizUi}
+            onHide={hideQuizFab}
+            isUIVisible={isUIVisible}
+            mode={fabMode}
+          />
+        )}
+        {scroll && activeQuiz && quizSession && quizUi === "open" && (
+          <QuizModal
+            quiz={activeQuiz}
+            emakiId={emakiId}
+            emakis={data.emakis}
+            session={quizSession}
+            onSessionChange={handleQuizSessionChange}
+            onClose={closeQuizUi}
+            onAbandon={abandonQuizUi}
+            onMinimizeAndJumpLocal={handleQuizJumpLocal}
+            onMinimizeAndJumpScroll={handleQuizJumpScroll}
+          />
+        )}
         {scroll && isScrollFeedbackOpen && (
           <ScrollFeedbackPanel
             emakiId={emakiId}

@@ -472,3 +472,61 @@ export const resetAllTracking = () => {
   resetUIRevealedTracking();
   resetSceneTracking();
 };
+
+// =====================================================
+// 観察力クイズ計測
+// =====================================================
+
+/**
+ * @param {string} emakiId
+ * @param {string} quizId
+ * @param {number} quizVersion
+ */
+export const trackQuizStart = (emakiId, quizId, quizVersion) => {
+  sendEvent("quiz_start", {
+    emaki_id: emakiId,
+    quiz_id: quizId,
+    quiz_version: quizVersion,
+  });
+};
+
+/**
+ * @param {{ emakiId: string, quizId: string, questionId: string, order: number, choiceIndex: number, isCorrect: boolean }} p
+ */
+export const trackQuizAnswer = (p) => {
+  sendEvent("quiz_answer", {
+    emaki_id: p.emakiId,
+    quiz_id: p.quizId,
+    question_id: p.questionId,
+    question_order: p.order,
+    choice_index: p.choiceIndex,
+    is_correct: p.isCorrect,
+  });
+};
+
+/**
+ * @param {{ emakiId: string, quizId: string, questionId: string, toScene: number, toChapter?: string|number }} p
+ */
+export const trackQuizJumpToScene = (p) => {
+  sendEvent("quiz_jump_to_scene", {
+    emaki_id: p.emakiId,
+    quiz_id: p.quizId,
+    question_id: p.questionId,
+    to_scene: p.toScene,
+    ...(p.toChapter != null ? { to_chapter: p.toChapter } : {}),
+  });
+};
+
+/**
+ * @param {{ emakiId: string, quizId: string, score: number, total: number, rank: string, jumpCount: number }} p
+ */
+export const trackQuizComplete = (p) => {
+  sendEvent("quiz_complete", {
+    emaki_id: p.emakiId,
+    quiz_id: p.quizId,
+    score: p.score,
+    total: p.total,
+    rank: p.rank,
+    jump_count: p.jumpCount,
+  });
+};

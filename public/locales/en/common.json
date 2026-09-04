@@ -73,6 +73,25 @@
     "fullscreeBtn": "Enjoy the picture scroll in full screen"
   },
 
+  "quiz": {
+    "fabLabel": "Observation quiz (2 min)",
+    "resumeLabel": "Back to quiz",
+    "title": "Observation Quiz",
+    "close": "Close quiz",
+    "next": "Next",
+    "seeResult": "See results",
+    "retry": "Try again",
+    "backToViewer": "Back to viewer",
+    "correct": "Correct!",
+    "incorrect": "Not quite",
+    "scoreLabel": "{{score}} / {{total}} correct",
+    "questionProgress": "Question {{current}} / {{total}}",
+    "seeScene": "See this scene",
+    "exploreMore": "Explore more scrolls",
+    "hideFab": "Hide quiz button",
+    "showFab": "Show quiz button again"
+  },
+
   "help": {
     "title": "How to view the scroll",
     "closeHelp": "Close help",

@@ -73,6 +73,25 @@
     "fullscreeBtn": "フルスクリーンで絵巻を楽しむ"
   },
 
+  "quiz": {
+    "fabLabel": "観察力クイズ（2分）",
+    "resumeLabel": "クイズに戻る",
+    "title": "観察力クイズ",
+    "close": "クイズを閉じる",
+    "next": "次へ",
+    "seeResult": "結果を見る",
+    "retry": "もう一度挑戦する",
+    "backToViewer": "ビューアーに戻る",
+    "correct": "正解！",
+    "incorrect": "不正解",
+    "scoreLabel": "{{score}} / {{total}} 問正解",
+    "questionProgress": "{{current}} / {{total}} 問",
+    "seeScene": "その場面を見る",
+    "exploreMore": "ほかの絵巻も見てみよう",
+    "hideFab": "クイズボタンを非表示",
+    "showFab": "クイズボタンを再表示"
+  },
+
   "help": {
     "title": "絵巻の見方",
     "closeHelp": "ヘルプを閉じる",

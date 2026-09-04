@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { AppContext } from "@/context/AppContext";
+import { isQuizFabHidden, setQuizFabHidden } from "@/libs/api/quizFabPrefs";
 import { useTranslation } from "next-i18next";
 
 /**
@@ -27,6 +28,11 @@ const HelpModal = () => {
   // タッチデバイス判定（画面幅ではなくデバイスの能力で判定）
   // フルスクリーン時に横向きになっても、タッチデバイスならモバイル用UIを表示
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [quizFabIsHidden, setQuizFabIsHidden] = useState(false);
+
+  useEffect(() => {
+    setQuizFabIsHidden(isQuizFabHidden());
+  }, []);
 
   useEffect(() => {
     // タッチデバイスかどうかを判定
@@ -362,6 +368,23 @@ const HelpModal = () => {
             </>
           )}
         </div>
+
+        {quizFabIsHidden && (
+          <button
+            type="button"
+            className={styles.guideLink}
+            onClick={() => {
+              setQuizFabHidden(false);
+              setQuizFabIsHidden(false);
+              if (typeof window !== "undefined") {
+                window.dispatchEvent(new Event("emaki-quiz-show-fab"));
+              }
+              closeHelpModal();
+            }}
+          >
+            {t("quiz.showFab")}
+          </button>
+        )}
 
         <Link href="/guide" passHref>
           <a

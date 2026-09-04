@@ -1,0 +1,440 @@
+/**
+ * 観察力クイズ モーダル用スタイル（HelpModal と同系統）
+ * modal = header + scrollable body + sticky footer
+ */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 460;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 12vh;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  z-index: -1;
+}
+
+.modal {
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 16px;
+  padding: 0;
+  max-width: 420px;
+  width: min(92%, 420px);
+  max-height: min(78vh, 640px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  animation: slideUp 0.2s ease-out;
+  font-family: var(--font-ui);
+  color: var(--clr-text);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modalHeader {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 1rem 1.25rem 0.5rem;
+}
+
+.modalBody {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 1.25rem 1rem;
+}
+
+.modalFooter {
+  flex-shrink: 0;
+  padding: 0.75rem 1.25rem 1.15rem;
+  border-top: 1px solid rgba(20, 20, 20, 0.08);
+  background: rgba(255, 255, 255, 0.98);
+}
+
+.closeBtn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  font-size: 1.125rem;
+  cursor: pointer;
+  color: var(--clr-text-muted);
+  padding: 0.35rem 0.5rem;
+  line-height: 1;
+  border-radius: 4px;
+}
+
+.closeBtn:hover {
+  opacity: 0.6;
+}
+
+.closeBtn:focus-visible {
+  outline: 2px solid var(--clr-accent);
+  outline-offset: 2px;
+}
+
+.title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--clr-text-muted);
+  margin: 0;
+}
+
+.progress {
+  font-size: 0.75rem;
+  color: var(--clr-text-muted);
+  margin: 0 0 0.75rem;
+}
+
+.prompt {
+  font-family: var(--font-story);
+  font-size: 1rem;
+  line-height: 1.55;
+  margin: 0 0 1rem;
+  font-weight: 500;
+}
+
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.choice {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid rgba(20, 20, 20, 0.12);
+  background: var(--clr-surface);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.choice:hover:not(:disabled) {
+  border-color: var(--clr-accent);
+}
+
+.choice:focus-visible {
+  outline: 2px solid var(--clr-accent);
+  outline-offset: 2px;
+}
+
+.choice:disabled {
+  cursor: default;
+}
+
+.choiceCorrect {
+  border-color: var(--clr-accent-green);
+  background: rgba(84, 137, 106, 0.12);
+}
+
+.choiceWrong {
+  border-color: #c45c5c;
+  background: rgba(196, 92, 92, 0.1);
+}
+
+.choiceMuted {
+  opacity: 0.55;
+}
+
+.feedback {
+  margin: 0;
+  padding: 0.75rem 0.85rem;
+  border-radius: 10px;
+  background: var(--clr-surface);
+}
+
+.feedbackLabel {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  margin: 0 0 0.35rem;
+}
+
+.feedbackCorrect {
+  color: var(--clr-accent-green);
+}
+
+.feedbackWrong {
+  color: #c45c5c;
+}
+
+.explanation {
+  font-family: var(--font-story);
+  font-size: 0.875rem;
+  line-height: 1.55;
+  margin: 0;
+  color: var(--clr-text);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.btn {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  padding: 0.55rem 0.95rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  line-height: 1.2;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--clr-accent);
+  outline-offset: 2px;
+}
+
+.btnPrimary {
+  background: var(--clr-accent);
+  color: #fff;
+}
+
+.btnPrimary:hover {
+  filter: brightness(0.96);
+}
+
+.btnSecondary {
+  background: transparent;
+  color: var(--clr-text);
+  border: 1px solid rgba(20, 20, 20, 0.18);
+}
+
+.btnSecondary:hover {
+  border-color: var(--clr-accent);
+}
+
+.btnJump {
+  background: rgba(84, 137, 106, 0.14);
+  color: var(--clr-accent-green);
+  border: 1px solid rgba(84, 137, 106, 0.35);
+  margin-right: auto;
+}
+
+.resultLinks {
+  margin: 0 0 0.25rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: 10px;
+  background: var(--clr-surface);
+}
+
+.resultLinksTitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--clr-text-muted);
+  margin: 0 0 0.5rem;
+}
+
+.resultLinkList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.resultLink {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--clr-link);
+  text-decoration: none;
+  padding: 0.35rem 0;
+}
+
+.resultLink:hover {
+  text-decoration: underline;
+  color: var(--clr-accent);
+}
+
+.resultRank {
+  font-family: var(--font-story);
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0.25rem 0 0.35rem;
+  color: var(--clr-text);
+}
+
+.resultScore {
+  font-size: 0.9375rem;
+  color: var(--clr-text-muted);
+  margin: 0 0 1rem;
+}
+
+/* PC: 左下・ラベル付きチップ / SP: アクセント色アイコンのみ */
+.fabWrap {
+  position: absolute;
+  z-index: 11;
+  left: 1%;
+  bottom: calc(1.5rem + var(--commentary-bar-full-h, var(--commentary-bar-h, 0px)));
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  transition: opacity 0.3s linear;
+}
+
+.fab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.85rem;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);
+  color: var(--clr-text);
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.fabHidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fab:hover {
+  transform: translateY(-1px);
+}
+
+.fab:focus-visible {
+  outline: 2px solid var(--clr-accent);
+  outline-offset: 2px;
+}
+
+.fabIcon {
+  color: var(--clr-accent);
+  font-size: 0.95rem;
+}
+
+.fabLabel {
+  white-space: nowrap;
+}
+
+.fabDismiss {
+  display: none; /* PC では非表示。再表示はヘルプ「クイズボタンを再表示」 */
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--clr-text-muted);
+  opacity: 0.7;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.fabDismiss:hover {
+  opacity: 1;
+  color: var(--clr-text);
+}
+
+.fabDismiss:focus-visible {
+  outline: 2px solid var(--clr-accent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 767px) {
+  .overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .modal {
+    width: 100%;
+    max-width: none;
+    max-height: min(85dvh, 100%);
+    border-radius: 16px 16px 0 0;
+  }
+
+  .modalHeader {
+    padding: 0.9rem 1rem 0.4rem;
+  }
+
+  .modalBody {
+    padding: 0 1rem 0.75rem;
+  }
+
+  .modalFooter {
+    padding: 0.65rem 1rem calc(0.85rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .fabWrap {
+    left: calc(0.5rem + env(safe-area-inset-left, 0px));
+    bottom: calc(
+      0.5rem + var(--commentary-bar-full-h, var(--commentary-bar-h, 0px)) +
+        env(safe-area-inset-bottom, 0px)
+    );
+  }
+
+  /* SP: 背景なし・アクセント色の電球のみ */
+  .fab {
+    padding: 0.35rem;
+    background: transparent;
+    box-shadow: none;
+    gap: 0;
+  }
+
+  .fabIcon {
+    color: var(--clr-accent);
+    font-size: 1.35em;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+  }
+
+  .fabLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .fabDismiss {
+    display: inline-flex;
+    color: #fff;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
+  }
+}

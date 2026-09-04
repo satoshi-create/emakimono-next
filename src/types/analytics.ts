@@ -24,7 +24,8 @@ export type SceneChangeSource =
   | "navigation"
   | "modal"
   | "scroll_detect"
-  | "initial";
+  | "initial"
+  | "quiz";
 
 /** 画像ロード種別（trackImageLoaded） */
 export type ImageLoadType = "normal" | "fallback_priority" | "fallback_fullscreen";
@@ -140,4 +141,40 @@ export type ViewerEngagementEvent = EventParams & {
   fullscreen_used: boolean;
   fallback_count: number;
   slow_count: number;
+};
+
+/** 観察力クイズ開始 */
+export type QuizStartEvent = EventParams & {
+  emaki_id: string;
+  quiz_id: string;
+  quiz_version: number;
+};
+
+/** 観察力クイズ回答 */
+export type QuizAnswerEvent = EventParams & {
+  emaki_id: string;
+  quiz_id: string;
+  question_id: string;
+  question_order: number;
+  choice_index: number;
+  is_correct: boolean;
+};
+
+/** クイズから該当場面へジャンプ */
+export type QuizJumpToSceneEvent = EventParams & {
+  emaki_id: string;
+  quiz_id: string;
+  question_id: string;
+  to_scene: number;
+  to_chapter?: string | number;
+};
+
+/** 観察力クイズ完了 */
+export type QuizCompleteEvent = EventParams & {
+  emaki_id: string;
+  quiz_id: string;
+  score: number;
+  total: number;
+  rank: string;
+  jump_count: number;
 };

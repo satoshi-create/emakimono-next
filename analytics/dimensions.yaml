@@ -82,6 +82,46 @@ events:
       - scene_index
     priority: P2
 
+  quiz_start:
+    source: measurementUtils.js
+    params:
+      - emaki_id
+      - quiz_id
+      - quiz_version
+    priority: P2
+
+  quiz_answer:
+    source: measurementUtils.js
+    params:
+      - emaki_id
+      - quiz_id
+      - question_id
+      - question_order
+      - choice_index
+      - is_correct
+    priority: P2
+
+  quiz_jump_to_scene:
+    source: measurementUtils.js
+    params:
+      - emaki_id
+      - quiz_id
+      - question_id
+      - to_scene
+      - to_chapter
+    priority: P2
+
+  quiz_complete:
+    source: measurementUtils.js
+    params:
+      - emaki_id
+      - quiz_id
+      - score
+      - total
+      - rank
+      - jump_count
+    priority: P2
+
 custom_dimensions:
   - param: emaki_id
     ga4_scope: event
@@ -98,3 +138,9 @@ custom_dimensions:
   - param: platform
     ga4_scope: event
     notes: sns_share_click の媒体。Values: copy | x | line | native. GA4 Admin 登録後に sns_share_by_platform が有効化。
+  - param: quiz_id
+    ga4_scope: event
+    notes: 観察力クイズの安定 ID（例: chouju_giga_kou_observe_v1）
+  - param: question_id
+    ga4_scope: event
+    notes: クイズ設問 ID（例: q1..q5）
