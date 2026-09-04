@@ -4,8 +4,8 @@
  * - handleScroll: 端点判定・スクロール位置保存・インジケータ更新・シーン検出 debounce
  * - detectCurrentScene: 読取位置（コンテナ幅 38%）+ ヒステリシス 80px でシーン特定
  * - パフォーマンス: getBoundingClientRect は初回のみ、scrollWidth/clientWidth は1秒間隔でキャッシュ
- * - 自動再生中: scroll リスナーは no-op（シーン検出は useEmakiAutoPlay の rAF 側）
- * - 自動再生中は setnavIndex を抑制し liveSceneIndex のみ更新（解説バー追従用）
+ * - 自動再生中: scroll リスナーは位置保存のみ行い、シーン検出等は useEmakiAutoPlay の rAF 側
+ * - 自動再生中は setnavIndex を抑制し liveSceneIndex のみ更新（解説バー・URL hash・共有追従用）
  *
  * 抽出元: EmakiConteiner.js の detectCurrentScene (useCallback) + handleScroll effect。
  * useEmakiSceneDetection と useEmakiScroll は共有 ref が多いため1つに統合。
@@ -177,11 +177,6 @@ const useEmakiScroll = ({
     if (!articleRef.current) return;
     const el = articleRef.current;
     const handleScroll = () => {
-      // 自動再生中は rAF ループ側で端点・シーン検出を行う（scroll 毎フレームの処理を省略）
-      if (isAutoScrolling || playModeAnimationRef.current) {
-        return;
-      }
-
       const currentScrollX = el.scrollLeft;
       const now = Date.now();
       const SCROLL_MARGIN = 5;
@@ -192,15 +187,18 @@ const useEmakiScroll = ({
       const clientWidth = scrollDimsRef.current.c || el.clientWidth;
       const maxScrollLeft = scrollWidth - clientWidth;
 
-      // P0改修: スクロール位置を常に保存（フルスクリーン切り替え時の復元用）
-      // ただし、復元中は保存をスキップ（上書き防止）
+      // 向き・フルスクリーン復元用: 自動再生中も保存（programmatic scrollLeft でも scroll 発火）
       if (maxScrollLeft > 0 && !scrollPositionStore.isTransitioning) {
         scrollPositionStore.scrollLeft = currentScrollX;
         scrollPositionStore.scrollRatio = Math.abs(currentScrollX) / maxScrollLeft;
         scrollPositionStore.emakiId = dataId;
         scrollPositionStore.restored = false;
-        // 計測: セッション最大スクロール到達率を更新
         updateScrollProgress(scrollPositionStore.scrollRatio);
+      }
+
+      // 自動再生中は rAF 側で端点・シーン検出（それ以外の毎フレーム処理を省略）
+      if (isAutoScrolling || playModeAnimationRef.current) {
+        return;
       }
 
       // 教育現場向けUI: 現在地インジケータ

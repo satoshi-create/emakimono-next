@@ -102,6 +102,27 @@ const maybeRunSceneDetection = (detectCurrentSceneRef, lastDetectMsRef, nowMs) =
 
 
 
+/** 向き・フルスクリーン復元用。programmatic scroll で scroll が発火しない端末向け */
+const saveScrollPositionStore = (el, dataId, scrollPositionStore) => {
+
+  if (!el || !scrollPositionStore || scrollPositionStore.isTransitioning) return;
+
+  const maxScrollLeft = el.scrollWidth - el.clientWidth;
+
+  if (maxScrollLeft <= 0) return;
+
+  scrollPositionStore.scrollLeft = el.scrollLeft;
+
+  scrollPositionStore.scrollRatio = Math.abs(el.scrollLeft) / maxScrollLeft;
+
+  scrollPositionStore.emakiId = dataId;
+
+  scrollPositionStore.restored = false;
+
+};
+
+
+
 const useEmakiAutoPlay = ({
 
   articleRef,
@@ -129,6 +150,8 @@ const useEmakiAutoPlay = ({
   setIsScrolling,
 
   detectCurrentSceneRef,
+
+  scrollPositionStore,
 
 }) => {
 
@@ -228,6 +251,10 @@ const useEmakiAutoPlay = ({
 
 
 
+        saveScrollPositionStore(el, dataId, scrollPositionStore);
+
+
+
         setIsAutoScrolling(false);
 
         setIsAtStart(isAtStartRef.current);
@@ -317,6 +344,8 @@ const useEmakiAutoPlay = ({
         el.scrollLeft = newScrollLeft;
 
         syncEdgeRefsFromScroll(el, minScrollLeft, isAtStartRef, isAtEndRef);
+
+        saveScrollPositionStore(el, dataId, scrollPositionStore);
 
         maybeRunSceneDetection(detectCurrentSceneRef, lastDetectMsRef, ts);
 
@@ -410,6 +439,10 @@ const useEmakiAutoPlay = ({
 
 
 
+    saveScrollPositionStore(articleRef.current, dataId, scrollPositionStore);
+
+
+
     setIsPlayMode(false);
 
 
@@ -498,6 +531,8 @@ const useEmakiAutoPlay = ({
 
       if (newScrollLeft < minScrollLeft) {
 
+        saveScrollPositionStore(el, dataId, scrollPositionStore);
+
         setIsPlayMode(false);
 
         showUI();
@@ -525,6 +560,8 @@ const useEmakiAutoPlay = ({
       el.scrollLeft = newScrollLeft;
 
       syncEdgeRefsFromScroll(el, minScrollLeft, isAtStartRef, isAtEndRef);
+
+      saveScrollPositionStore(el, dataId, scrollPositionStore);
 
       maybeRunSceneDetection(detectCurrentSceneRef, lastDetectMsRef, ts);
 

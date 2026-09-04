@@ -255,70 +255,31 @@ function MyApp({ Component, pageProps, router }) {
   }, []);
 
   useEffect(() => {
-    // クエリーリストを作成する。
     const mediaQueryList = window.matchMedia("(orientation: portrait)");
 
-    // イベントリスナーのコールバック関数を定義する。
+    // 向きのみ反映。横スクロール位置は useScrollPositionRestore（scrollRatio）に委譲し、
+    // handleToId との二重駆動でシーンが飛ぶのを防ぐ。
     function handleOrientationChange(evt) {
-      // 向き切替でビューアのレイアウト方式（sticky⇔通常フロー）が変わるため、
-      // 縦スクロール位置を先頭に戻す（残ったままだと landscape でビューアが画面外になる）
       window.scrollTo({ top: 0, behavior: "instant" });
-      if (evt.matches) {
-        /* 現在ビューポートが縦長 */
-        setOrientation("portrait");
-        const fetchHashflag = () => {
-          const hashflag = Number(gRouter.asPath.split("#")[1]);
-          if (hashflag) {
-            handleToId(hashflag);
-          }
-        };
-        fetchHashflag();
-      } else {
-        /* 現在ビューポートが横長 */
-        setOrientation("landscape");
-        // ハッシュフラグを取得し、stringからnumbarに変換
-
-        // レンダリング完了時に発火
-        const fetchHashflag = () => {
-          const hashflag = Number(gRouter.asPath.split("#")[1]);
-          if (hashflag) {
-            handleToId(hashflag);
-          }
-        };
-        fetchHashflag();
-      }
+      setOrientation(evt.matches ? "portrait" : "landscape");
     }
 
-    // 向き変更時のハンドラーを一度実行する。
     handleOrientationChange(mediaQueryList);
 
-    // コールバック関数をリスナーとしてクエリーリストに追加する。
-    mediaQueryList.addEventListener("change", handleOrientationChange);
+    // 初回のみ: 入場時 hash へ移動（replaceState 済みの location.hash を正とする）
+    // gRouter.asPath は replaceState と同期しないため使わない
+    const hashflag = Number(String(window.location.hash || "").replace("#", ""));
+    if (hashflag) {
+      handleToId(hashflag);
+    }
 
+    mediaQueryList.addEventListener("change", handleOrientationChange);
     return () => {
       mediaQueryList.removeEventListener("change", handleOrientationChange);
     };
-  }, [setnavIndex, gRouter.asPath, handleToId]);
+  }, [handleToId]);
 
-  // 絵巻ハイパーリンク: navIndex変更時にURLのhashを更新
-  // replaceStateを使用して履歴を汚さない（戻るボタンが正常に機能）
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    // 絵巻ページ（/[slug]）でのみhashを更新
-    // トップページや他のページでは更新しない
-    const isEmakiPage = gRouter.pathname === "/[slug]";
-    if (!isEmakiPage) return;
-
-    const basePath = window.location.pathname;
-    if (navIndex > 0) {
-      const newUrl = `${basePath}#${navIndex}`;
-      window.history.replaceState(null, "", newUrl);
-    } else {
-      // navIndex === 0 のときはhashを削除
-      window.history.replaceState(null, "", basePath);
-    }
-  }, [navIndex, gRouter.pathname]);
+  // hash 同期は EmakiConteiner の liveSceneIndex 側（再生中も追従）
 
   useEffect(() => {
     const stickNavbar = () => {

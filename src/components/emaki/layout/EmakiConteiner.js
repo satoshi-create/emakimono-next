@@ -164,6 +164,7 @@ const EmakiContainer = ({
     isScrollingRef,
     setIsScrolling,
     detectCurrentSceneRef,
+    scrollPositionStore,
   });
 
   // スクロール処理 + 現在シーン検出（useEmakiScroll が sectionsCacheRef / scrollDimsRef を管理）
@@ -188,6 +189,28 @@ const EmakiContainer = ({
     scrollPositionStore,
     detectCurrentSceneRef,
   });
+
+  // 再生中も追従する liveSceneIndex を URL hash / 共有の正とする（navIndex は再生中固定）
+  // 入場時 hash 適用前に # を消し飛ばさないよう、未同期の間は既存 hash を維持する
+  const pendingInitialHashRef = useRef(
+    typeof window !== "undefined"
+      ? Number(String(window.location.hash || "").replace("#", "")) || 0
+      : 0
+  );
+  useEffect(() => {
+    if (typeof window === "undefined" || !scroll) return;
+    const pending = pendingInitialHashRef.current;
+    if (pending > 0 && liveSceneIndex !== pending && liveSceneIndex === 0) {
+      return;
+    }
+    pendingInitialHashRef.current = 0;
+    const basePath = window.location.pathname;
+    if (liveSceneIndex > 0) {
+      window.history.replaceState(null, "", `${basePath}#${liveSceneIndex}`);
+    } else {
+      window.history.replaceState(null, "", basePath);
+    }
+  }, [liveSceneIndex, scroll]);
 
   useEffect(() => {
     if (emakiId) {
@@ -259,14 +282,14 @@ const EmakiContainer = ({
       asPath,
       locales,
       defaultLocale,
-      navIndex,
+      navIndex: liveSceneIndex,
     });
     try {
       await navigator.clipboard.writeText(url);
       gtag.event("sns_share_click", {
         platform: "copy",
         emaki_id: emakiId || "",
-        scene_index: navIndex ?? 0,
+        scene_index: liveSceneIndex ?? 0,
         source: "mid_prompt",
       });
     } catch (err) {
@@ -274,7 +297,7 @@ const EmakiContainer = ({
     }
     markPullPromptDismissed(emakiId, "share");
     setSharePromptDismissed(true);
-  }, [locale, asPath, locales, defaultLocale, navIndex, emakiId]);
+  }, [locale, asPath, locales, defaultLocale, liveSceneIndex, emakiId]);
 
   const dismissSharePrompt = useCallback(() => {
     markPullPromptDismissed(emakiId, "share");
@@ -590,7 +613,7 @@ const EmakiContainer = ({
             onDismiss={() => setEndPromptDismissed(true)}
             emakiId={emakiId}
             shareTitle={shareTitle}
-            navIndex={navIndex}
+            navIndex={liveSceneIndex}
             showFeedback={!scrollFeedbackSubmitted}
           />
         )}
