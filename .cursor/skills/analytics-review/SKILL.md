@@ -52,8 +52,19 @@ After writing `actions.md`:
 ## Top performers (3)
 ## Needs improvement (3)
 ## Recommended actions (prioritized P1–P3)
+## Quiz (UI + education)
 ## Infra / cost (ISR · Vercel · Cloudinary)
 ```
+
+### Quiz（観察力・イベントのみ / DB なし）
+
+`summary.md` の **Quiz** 節と `merged.json` の `quiz_funnel` / `quiz_by_question` / `quiz_insight_flags` を読む。
+
+- ファネル: start → complete → jump（入口 UI / 完走 / 「場面を見る」）
+- 設問別 `correct_rate`: 正答率ワーストは教材・解説改善候補
+- SEO の insight_flags と混ぜない。Issue 本文に `quiz:` プレフィックス可
+- `quiz_low_sample` / データ空 → 計測健全性のみ（GA4 Admin で `question_id` / `is_correct` / `rank` 登録確認）
+- 件数は回答イベントベース（再挑戦で母数増）
 
 ## Infra / cost
 

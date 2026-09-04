@@ -140,7 +140,13 @@ custom_dimensions:
     notes: sns_share_click の媒体。Values: copy | x | line | native. GA4 Admin 登録後に sns_share_by_platform が有効化。
   - param: quiz_id
     ga4_scope: event
-    notes: 観察力クイズの安定 ID（例: chouju_giga_kou_observe_v1）
+    notes: 観察力クイズの安定 ID（例: chouju_giga_kou_observe_v1）。Register in GA4 Admin before quiz_*_by_* reports work.
   - param: question_id
     ga4_scope: event
-    notes: クイズ設問 ID（例: q1..q5）
+    notes: クイズ設問 ID（例: q1..q5）。設問別正答率に必須。
+  - param: is_correct
+    ga4_scope: event
+    notes: quiz_answer の正誤。Values: "true" | "false"（文字列）。Register before quiz_answer_by_question_correctness.
+  - param: rank
+    ga4_scope: event
+    notes: quiz_complete のランク ID（例: master | observer | beginner）。

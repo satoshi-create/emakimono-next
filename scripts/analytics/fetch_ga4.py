@@ -53,12 +53,28 @@ def _build_dimension_filter(spec: dict | None):
 
 
 def _resolve_dimensions(spec: dict, project: dict) -> list[str]:
-    """Apply project.yaml custom_event_dimensions overrides."""
+    """Apply project.yaml custom_event_dimensions overrides.
+
+    Prefer the dimensions list (supports multi-dim reports such as
+    question_id × is_correct). Each customEvent:param is remapped when
+    present in custom_event_dimensions. If dimensions is empty, fall back
+    to requires_custom_dimension as a single mapped dimension.
+    """
     mapping = (project.get("ga4") or {}).get("custom_event_dimensions") or {}
+    dims = list(spec.get("dimensions") or [])
+    if dims:
+        resolved: list[str] = []
+        for d in dims:
+            short = d.split(":", 1)[-1] if str(d).startswith("customEvent:") else d
+            if short in mapping:
+                resolved.append(mapping[short])
+            else:
+                resolved.append(d)
+        return resolved
     param_key = spec.get("requires_custom_dimension")
     if param_key and param_key in mapping:
         return [mapping[param_key]]
-    return list(spec.get("dimensions", []))
+    return []
 
 
 def run_ga4_report(

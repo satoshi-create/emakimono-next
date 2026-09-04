@@ -38,8 +38,9 @@
 1. summary.md と merged.json を読む
 2. 好調 Top 3 / 要改善 Top 3（前週比必須）
 3. 改善案は meta・内部リンク・ビューア UX（measurementUtils イベント）に分解
-4. Infra / cost（ISR・Vercel・Cloudinary）を actions.md に独立節で書く（Skill の Infra 節 / 本ファイル §6）
-5. 出力: analytics/reports/{最新}/actions.md
+4. Quiz 節（`quiz_funnel` / `quiz_by_question`）を actions.md に独立で書く
+5. Infra / cost（ISR・Vercel・Cloudinary）を actions.md に独立節で書く（Skill の Infra 節 / 本ファイル §6）
+6. 出力: analytics/reports/{最新}/actions.md
 ````
 
 ---
@@ -109,6 +110,7 @@ python scripts/analytics/fetch_all.py --skip-config-check
 - 1 つ前のフォルダがあれば前週比較
 - `summary.md`, `merged.json`, `kpi.yaml` を読む
 - `insight_flags` を起点に Top 3 / Needs 3 / P1–P3 を整理
+- `summary.md` の **Quiz** 節と `merged.json` の `quiz_funnel` / `quiz_by_question` を読み、actions.md に **Quiz (UI + education)** を独立節で書く（SEO と混ぜない）
 - Infra / cost: Skill の Infra 節および本ファイル §6。Cloudinary は `check_cloudinary_usage.py`。Vercel 数字がチャットに無ければ「未実施」
 
 ## 3. 出力
@@ -121,10 +123,12 @@ python scripts/analytics/fetch_all.py --skip-config-check
 ## Top performers (3)
 ## Needs improvement (3)
 ## Recommended actions (prioritized P1–P3)
+## Quiz (UI + education)
 ## Infra / cost (ISR · Vercel · Cloudinary)
 ```
 
 各 P 項目: slug、根拠数値、提案（meta / 内部リンク / viewer UX / CDN）。
+Quiz は設問正答率・ファネル根拠を付ける（イベント件数ベース）。
 Infra は GSC Top 3 と混ぜない。Issue 化は credits ≥ 20 または ISR Reads 上限超過のときだけ。
 
 ## 4. GitHub Issues

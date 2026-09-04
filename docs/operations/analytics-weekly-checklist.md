@@ -25,10 +25,11 @@ Pattern C の**手動部分**だけ。fetch・分析・Issue 作成・Calendar �
 
 Automation 実行ログまたは最新 artifact 内:
 
-1. `summary.md` — Period（直近 7 日）、Totals、Top findings
-2. `actions.md` — Top 3 / Needs 3 / P1–P3
+1. `summary.md` — Period（直近 7 日）、Totals、Top findings、**Quiz**
+2. `actions.md` — Top 3 / Needs 3 / P1–P3 / **Quiz (UI + education)**
 3. 前週フォルダがあれば前週比の変化
 4. `actions.md` の **Infra / cost**（Cloudinary。Vercel は次項）
+5. Quiz: start→complete→jump と正答率ワースト設問（GO/NO-GO）
 
 ### 2b. Infra / cost — Vercel ISR（5 分）
 

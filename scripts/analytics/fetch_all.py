@@ -95,6 +95,7 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
     like_lines: list[str] = []
     feedback_lines: list[str] = []
     share_lines: list[str] = []
+    quiz_lines: list[str] = []
     if merged_path.is_file():
         merged = json.loads(merged_path.read_text(encoding="utf-8"))
         flagged = [r for r in merged.get("rows", []) if r.get("insight_flags")]
@@ -171,6 +172,46 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
                 share_lines.append("|---|---|")
                 for slug, count in top_share:
                     share_lines.append(f"| `{slug}` | {count} |")
+
+        # 観察力クイズ（イベント集計・DB なし）
+        quiz_funnel = merged.get("quiz_funnel") or {}
+        quiz_by_question = merged.get("quiz_by_question") or []
+        quiz_ranks = merged.get("quiz_rank_breakdown") or {}
+        quiz_flags = merged.get("quiz_insight_flags") or []
+        quiz_start = int(quiz_funnel.get("start") or 0)
+        if quiz_start > 0 or quiz_by_question or quiz_flags:
+            completion = quiz_funnel.get("completion_rate")
+            jump_ratio = quiz_funnel.get("jump_per_complete")
+            completion_s = f"{round(completion * 100, 1)}%" if completion is not None else "n/a"
+            jump_s = f"{round(jump_ratio * 100, 1)}%" if jump_ratio is not None else "n/a"
+            quiz_lines.append(
+                f"- **funnel**: start **{quiz_start}** / complete **{quiz_funnel.get('complete', 0)}** "
+                f"({completion_s}) / jump **{quiz_funnel.get('jump', 0)}** "
+                f"(jump÷complete {jump_s}) / answer **{quiz_funnel.get('answer', 0)}**"
+            )
+            quiz_lines.append(
+                "- ※ 件数は回答イベントベース（再挑戦で母数増）。ユニークユーザーではない。"
+            )
+            if quiz_flags:
+                quiz_lines.append(f"- **insight_flags**: {', '.join(f'`{f}`' for f in quiz_flags)}")
+            if quiz_ranks:
+                quiz_lines.append("\n| rank | completes |")
+                quiz_lines.append("|---|---|")
+                for rank, count in quiz_ranks.items():
+                    quiz_lines.append(f"| `{rank}` | {count} |")
+            if quiz_by_question:
+                quiz_lines.append("\n| question_id | answers | correct | rate | jumps |")
+                quiz_lines.append("|---|---|---|---|---|")
+                for row in quiz_by_question:
+                    rate = row.get("correct_rate")
+                    rate_s = f"{round(rate * 100, 1)}%" if rate is not None else "n/a"
+                    quiz_lines.append(
+                        f"| `{row.get('question_id')}` | {row.get('answers', 0)} | "
+                        f"{row.get('correct', 0)} | {rate_s} | {row.get('jumps', 0)} |"
+                    )
+            quiz_lines.append(
+                "\n※ `question_id` / `is_correct` / `rank` が GA4 未登録の場合、設問表・rank は空です。"
+            )
     below_gsc = gsc_rows < int(bootstrap.get("min_gsc_rows", 10))
     below_ga4 = ga4_sessions < int(bootstrap.get("min_ga4_sessions", 50))
     review_mode = "bootstrap" if phase == "bootstrap" or below_gsc or below_ga4 else "steady"
@@ -224,14 +265,25 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
     if feedback_lines:
         lines.extend(["## Scroll feedback (user choice)", "", *feedback_lines, ""])
 
+    if quiz_lines:
+        lines.extend(
+            [
+                "## Quiz (observe / education)",
+                "",
+                *quiz_lines,
+                "",
+            ]
+        )
+
     lines.extend(
         [
             "## Files (read order for Cursor Agent)",
             "1. `summary.md` — this file",
-            "2. `merged.json` — per-emaki GSC × GA4 join",
+            "2. `merged.json` — per-emaki GSC × GA4 join（`quiz_funnel` / `quiz_by_question` 含む）",
             "3. `gsc_queries.json` — query detail",
             "4. `ga4_events_summary.json` — event counts",
             "5. `ga4_fallback_by_reason.json` — fallback reason breakdown",
+            "6. `ga4_quiz_*.json` — quiz optional breakdowns（Admin 登録後）",
             "",
             "## Next step",
             "Run the weekly review prompt from `docs/operations/cursor-analytics-prompt.md`.",

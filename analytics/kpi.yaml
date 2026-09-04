@@ -55,6 +55,10 @@ ga4_reports:
         - sns_share_click
         - scene_like
         - scroll_feedback
+        - quiz_start
+        - quiz_answer
+        - quiz_jump_to_scene
+        - quiz_complete
     limit: 100
 
   - id: viewer_by_emaki
@@ -187,8 +191,105 @@ ga4_reports:
       value: sns_share_click
     limit: 50
 
+  # 観察力クイズ（DB なし・イベント集計のみ）
+  - id: quiz_start_by_emaki
+    optional: true
+    requires_custom_dimension: emaki_id
+    dimensions:
+      - customEvent:emaki_id
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: quiz_start
+    limit: 200
+
+  - id: quiz_complete_by_emaki
+    optional: true
+    requires_custom_dimension: emaki_id
+    dimensions:
+      - customEvent:emaki_id
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: quiz_complete
+    limit: 200
+
+  - id: quiz_jump_by_emaki
+    optional: true
+    requires_custom_dimension: emaki_id
+    dimensions:
+      - customEvent:emaki_id
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: quiz_jump_to_scene
+    limit: 200
+
+  - id: quiz_answer_by_question
+    optional: true
+    requires_custom_dimension: question_id
+    dimensions:
+      - customEvent:question_id
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: quiz_answer
+    limit: 50
+
+  - id: quiz_answer_by_question_correctness
+    optional: true
+    requires_custom_dimension: question_id
+    dimensions:
+      - customEvent:question_id
+      - customEvent:is_correct
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: quiz_answer
+    limit: 100
+
+  - id: quiz_complete_by_rank
+    optional: true
+    requires_custom_dimension: rank
+    dimensions:
+      - customEvent:rank
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: quiz_complete
+    limit: 20
+
+  - id: quiz_jump_by_question
+    optional: true
+    requires_custom_dimension: question_id
+    dimensions:
+      - customEvent:question_id
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: quiz_jump_to_scene
+    limit: 50
+
 merge:
   insight_thresholds:
     low_ctr_vs_site_ratio: 0.7
     low_engagement_scroll_ratio: 0.5
     high_fallback_events: 50
+    # 観察力クイズ（event 件数ベース。ユニークユーザーではない）
+    min_quiz_starts_for_ratio: 20
+    low_quiz_completion_ratio: 0.4
+    low_quiz_jump_ratio: 0.2

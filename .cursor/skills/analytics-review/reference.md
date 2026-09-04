@@ -18,6 +18,16 @@
 | `high_image_fallback` | Many `image_load_fallback` events |
 | `impressions_no_clicks` | Visible but no clicks |
 
+## Quiz insight flags (`merged.json` top-level)
+
+| Flag | Meaning |
+|------|---------|
+| `quiz_low_sample` | `quiz_start` below `min_quiz_starts_for_ratio`（計測健全性のみ） |
+| `low_quiz_completion` | complete÷start below threshold |
+| `low_quiz_jump` | jump÷complete below threshold |
+
+`quiz_by_question[].correct_rate` = correct answers ÷ answer events（DB 不要）。
+
 ## Infra / cost（週次）
 
 | Source | How to get | Notes |

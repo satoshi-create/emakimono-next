@@ -127,6 +127,94 @@ def _index_fallback_reason(rows: list[dict], dim_key: str = "customEvent:fallbac
     return dict(sorted(out.items(), key=lambda kv: kv[1], reverse=True))
 
 
+def _event_count_from_summary(rows: list, event_name: str) -> int:
+    for row in rows if isinstance(rows, list) else []:
+        if not isinstance(row, dict):
+            continue
+        if row.get("eventName") == event_name:
+            return int(row.get("eventCount") or 0)
+    return 0
+
+
+def _parse_boolish(value: object) -> bool | None:
+    s = str(value).strip().lower()
+    if s in ("true", "1", "yes"):
+        return True
+    if s in ("false", "0", "no"):
+        return False
+    return None
+
+
+def _dim_value(row: dict, *keys: str) -> str:
+    for key in keys:
+        val = row.get(key)
+        if val is not None and str(val) and str(val) != "(not set)":
+            return str(val)
+    return ""
+
+
+def _quiz_by_question(
+    answer_rows: list,
+    correctness_rows: list,
+    jump_by_question: dict[str, int],
+) -> list[dict]:
+    """設問別の回答数・正答率（イベント件数ベース。DB 不要）。"""
+    totals: dict[str, int] = {}
+    for row in answer_rows if isinstance(answer_rows, list) else []:
+        if not isinstance(row, dict):
+            continue
+        qid = _dim_value(row, "customEvent:question_id", "question_id")
+        if not qid:
+            continue
+        totals[qid] = totals.get(qid, 0) + int(row.get("eventCount") or 0)
+
+    correct: dict[str, int] = {}
+    for row in correctness_rows if isinstance(correctness_rows, list) else []:
+        if not isinstance(row, dict):
+            continue
+        qid = _dim_value(row, "customEvent:question_id", "question_id")
+        if not qid:
+            continue
+        flag = _parse_boolish(_dim_value(row, "customEvent:is_correct", "is_correct"))
+        if flag is True:
+            correct[qid] = correct.get(qid, 0) + int(row.get("eventCount") or 0)
+
+    qids = sorted(set(totals) | set(correct) | set(jump_by_question))
+    out: list[dict] = []
+    for qid in qids:
+        answers = int(totals.get(qid) or 0)
+        ok = int(correct.get(qid) or 0)
+        rate = round(ok / answers, 4) if answers > 0 else None
+        out.append(
+            {
+                "question_id": qid,
+                "answers": answers,
+                "correct": ok,
+                "correct_rate": rate,
+                "jumps": int(jump_by_question.get(qid) or 0),
+            }
+        )
+    out.sort(key=lambda r: (r["correct_rate"] is None, r["correct_rate"] if r["correct_rate"] is not None else 1.0, -r["answers"]))
+    return out
+
+
+def _quiz_insights(funnel: dict, thresholds: dict) -> list[str]:
+    flags: list[str] = []
+    start = int(funnel.get("start") or 0)
+    min_starts = int(thresholds.get("min_quiz_starts_for_ratio", 20))
+    if start < min_starts:
+        if start > 0:
+            flags.append("quiz_low_sample")
+        return flags
+    completion = funnel.get("completion_rate")
+    jump_ratio = funnel.get("jump_per_complete")
+    if completion is not None and completion < float(thresholds.get("low_quiz_completion_ratio", 0.4)):
+        flags.append("low_quiz_completion")
+    if jump_ratio is not None and jump_ratio < float(thresholds.get("low_quiz_jump_ratio", 0.2)):
+        flags.append("low_quiz_jump")
+    return flags
+
+
 def _find_previous_report_dir(current_dir: Path) -> Path | None:
     siblings = sorted(
         [p for p in REPORTS_DIR.iterdir() if p.is_dir() and p.name != current_dir.name],
@@ -191,6 +279,16 @@ def merge_report(report_dir: Path) -> dict:
     scroll_feedback_by_choice = _load_json(report_dir / "ga4_scroll_feedback_by_choice.json")
     sns_share_by_emaki = _load_json(report_dir / "ga4_sns_share_by_emaki.json")
     sns_share_by_platform = _load_json(report_dir / "ga4_sns_share_by_platform.json")
+    events_summary = _load_json(report_dir / "ga4_events_summary.json")
+    quiz_start_by_emaki = _load_json(report_dir / "ga4_quiz_start_by_emaki.json")
+    quiz_complete_by_emaki = _load_json(report_dir / "ga4_quiz_complete_by_emaki.json")
+    quiz_jump_by_emaki = _load_json(report_dir / "ga4_quiz_jump_by_emaki.json")
+    quiz_answer_by_question = _load_json(report_dir / "ga4_quiz_answer_by_question.json")
+    quiz_answer_by_question_correctness = _load_json(
+        report_dir / "ga4_quiz_answer_by_question_correctness.json"
+    )
+    quiz_complete_by_rank = _load_json(report_dir / "ga4_quiz_complete_by_rank.json")
+    quiz_jump_by_question = _load_json(report_dir / "ga4_quiz_jump_by_question.json")
 
     gsc_page_by_slug = _index_gsc_pages(
         gsc_pages if isinstance(gsc_pages, list) else [], strip_prefixes
@@ -226,6 +324,55 @@ def merge_report(report_dir: Path) -> dict:
         sns_share_by_platform if isinstance(sns_share_by_platform, list) else [],
         dim_key="customEvent:platform",
     )
+    quiz_start_by_slug = _index_ga4_emaki(
+        quiz_start_by_emaki if isinstance(quiz_start_by_emaki, list) else []
+    )
+    quiz_complete_by_slug = _index_ga4_emaki(
+        quiz_complete_by_emaki if isinstance(quiz_complete_by_emaki, list) else []
+    )
+    quiz_jump_by_slug = _index_ga4_emaki(
+        quiz_jump_by_emaki if isinstance(quiz_jump_by_emaki, list) else []
+    )
+    quiz_jump_by_qid = _index_fallback_reason(
+        quiz_jump_by_question if isinstance(quiz_jump_by_question, list) else [],
+        dim_key="customEvent:question_id",
+    )
+    quiz_rank_counts = _index_fallback_reason(
+        quiz_complete_by_rank if isinstance(quiz_complete_by_rank, list) else [],
+        dim_key="customEvent:rank",
+    )
+    quiz_by_question = _quiz_by_question(
+        quiz_answer_by_question if isinstance(quiz_answer_by_question, list) else [],
+        quiz_answer_by_question_correctness
+        if isinstance(quiz_answer_by_question_correctness, list)
+        else [],
+        quiz_jump_by_qid,
+    )
+    quiz_start_total = _event_count_from_summary(events_summary, "quiz_start") or sum(
+        quiz_start_by_slug.values()
+    )
+    quiz_complete_total = _event_count_from_summary(events_summary, "quiz_complete") or sum(
+        quiz_complete_by_slug.values()
+    )
+    quiz_jump_total = _event_count_from_summary(events_summary, "quiz_jump_to_scene") or sum(
+        quiz_jump_by_slug.values()
+    )
+    quiz_answer_total = _event_count_from_summary(events_summary, "quiz_answer") or sum(
+        int(r.get("answers") or 0) for r in quiz_by_question
+    )
+    quiz_funnel = {
+        "start": quiz_start_total,
+        "complete": quiz_complete_total,
+        "jump": quiz_jump_total,
+        "answer": quiz_answer_total,
+        "completion_rate": round(quiz_complete_total / quiz_start_total, 4)
+        if quiz_start_total > 0
+        else None,
+        "jump_per_complete": round(quiz_jump_total / quiz_complete_total, 4)
+        if quiz_complete_total > 0
+        else None,
+    }
+    quiz_insight_flags = _quiz_insights(quiz_funnel, thresholds)
 
     all_slugs = sorted(
         set(gsc_page_by_slug)
@@ -236,6 +383,7 @@ def merge_report(report_dir: Path) -> dict:
         | set(like_emaki_by_slug)
         | set(scroll_feedback_by_slug)
         | set(sns_share_by_slug)
+        | set(quiz_start_by_slug)
         | set(by_slug_meta or {})
     )
 
@@ -273,6 +421,9 @@ def merge_report(report_dir: Path) -> dict:
             "like_emaki_events": like_emaki_by_slug.get(slug, 0),
             "scroll_feedback_events": scroll_feedback_by_slug.get(slug, 0),
             "sns_share_events": sns_share_by_slug.get(slug, 0),
+            "quiz_start_events": quiz_start_by_slug.get(slug, 0),
+            "quiz_complete_events": quiz_complete_by_slug.get(slug, 0),
+            "quiz_jump_events": quiz_jump_by_slug.get(slug, 0),
         }
         record["insight_flags"] = _insight_flags(record, site_avg_ctr=site_avg_ctr, thresholds=thresholds)
         merged.append(record)
@@ -305,6 +456,13 @@ def merge_report(report_dir: Path) -> dict:
         "scroll_feedback_choice_breakdown": scroll_feedback_by_choice_counts,
         "sns_share_breakdown": sns_share_by_slug,
         "sns_share_platform_breakdown": sns_share_platform_counts,
+        "quiz_funnel": quiz_funnel,
+        "quiz_by_question": quiz_by_question,
+        "quiz_rank_breakdown": quiz_rank_counts,
+        "quiz_start_breakdown": quiz_start_by_slug,
+        "quiz_complete_breakdown": quiz_complete_by_slug,
+        "quiz_jump_breakdown": quiz_jump_by_slug,
+        "quiz_insight_flags": quiz_insight_flags,
         "rows": merged,
     }
     return payload

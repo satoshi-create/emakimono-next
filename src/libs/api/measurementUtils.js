@@ -500,7 +500,8 @@ export const trackQuizAnswer = (p) => {
     question_id: p.questionId,
     question_order: p.order,
     choice_index: p.choiceIndex,
-    is_correct: p.isCorrect,
+    // GA4 カスタムディメンション向けに文字列化（"true" | "false"）
+    is_correct: p.isCorrect ? "true" : "false",
   });
 };
 

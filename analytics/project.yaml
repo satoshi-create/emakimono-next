@@ -19,6 +19,11 @@ ga4:
     scene_index: customEvent:scene_index
     choice: customEvent:choice
     platform: customEvent:platform
+    # 観察力クイズ — GA4 Admin（イベントスコープ）登録後に有効
+    quiz_id: customEvent:quiz_id
+    question_id: customEvent:question_id
+    is_correct: customEvent:is_correct
+    rank: customEvent:rank
 
 content:
   # 本番正本 image-metadata-cache を使用（local-data/ は gitignore 済みで CI に存在しない）

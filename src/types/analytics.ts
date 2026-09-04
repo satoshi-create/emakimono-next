@@ -150,14 +150,14 @@ export type QuizStartEvent = EventParams & {
   quiz_version: number;
 };
 
-/** 観察力クイズ回答 */
+/** 観察力クイズ回答（is_correct は GA4 次元用に "true"|"false"） */
 export type QuizAnswerEvent = EventParams & {
   emaki_id: string;
   quiz_id: string;
   question_id: string;
   question_order: number;
   choice_index: number;
-  is_correct: boolean;
+  is_correct: "true" | "false";
 };
 
 /** クイズから該当場面へジャンプ */

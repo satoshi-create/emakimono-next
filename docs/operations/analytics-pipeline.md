@@ -145,6 +145,7 @@ Workflow: `.github/workflows/analytics-weekly.yml`
 
 ```
 □ GA4 カスタムディメンション（emaki_id 等）登録済み（任意）
+□ 観察力クイズ用: question_id / is_correct / rank（イベントスコープ）登録（設問別正答率）
 □ GSC にサービスアカウント追加済み
 □ GitHub Secrets 3 件登録
 □ check_analytics_config.py OK
