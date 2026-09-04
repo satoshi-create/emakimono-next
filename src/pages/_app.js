@@ -219,54 +219,74 @@ function MyApp({ Component, pageProps, router }) {
   };
 
   // スクロール実行を統合した handleToId
-  // ボタン操作・hash指定など、すべての「意図的なスクロール」はこの関数を経由する
-  // DOM / 画像幅が揃うまでリトライ（共有リンク入場・向き変更フォールバック用）
+  // DOM / 画像幅が揃うまで rAF + ResizeObserver で再整列（共有リンク入場用）
   const handleToId = useCallback((id) => {
     setnavIndex(id);
 
     if (isFullscreenTransitioningRef.current) return;
 
-    const maxAttempts = 40;
-    const tryScroll = (attempt) => {
-      if (isFullscreenTransitioningRef.current) return;
+    let ro = null;
+    const pinWindowTop = () => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    };
 
+    const apply = (behavior = "auto") => {
+      if (isFullscreenTransitioningRef.current) return false;
       const targetSection = querySceneSection(id);
-      if (!targetSection) {
-        if (attempt < maxAttempts) {
-          requestAnimationFrame(() => tryScroll(attempt + 1));
-        }
-        return;
-      }
-
+      if (!targetSection) return false;
       const scrollContainer = targetSection.closest("article");
-      if (!scrollContainer) return;
-
+      if (!scrollContainer) return false;
       const maxScroll =
         scrollContainer.scrollWidth - scrollContainer.clientWidth;
-      if (maxScroll <= 0 && attempt < maxAttempts) {
-        requestAnimationFrame(() => tryScroll(attempt + 1));
-        return;
-      }
+      if (maxScroll <= 0) return false;
 
       const containerRect = scrollContainer.getBoundingClientRect();
       const nodeRect = targetSection.getBoundingClientRect();
       const scrollLeft =
         scrollContainer.scrollLeft + (nodeRect.right - containerRect.right);
+      scrollContainer.scrollTo({ left: scrollLeft, behavior });
+      return true;
+    };
 
-      scrollContainer.scrollTo({
-        left: scrollLeft,
-        behavior: attempt === 0 ? "smooth" : "auto",
+    const watchLayout = () => {
+      const targetSection = querySceneSection(id);
+      const scrollContainer = targetSection?.closest("article");
+      if (!scrollContainer) return;
+      if (ro) ro.disconnect();
+      const startedAt = Date.now();
+      ro = new ResizeObserver(() => {
+        if (Date.now() - startedAt > 2500) {
+          ro.disconnect();
+          ro = null;
+          return;
+        }
+        apply("auto");
+        pinWindowTop();
       });
+      ro.observe(scrollContainer);
+      window.setTimeout(() => {
+        if (ro) {
+          ro.disconnect();
+          ro = null;
+        }
+        apply("auto");
+        pinWindowTop();
+      }, 2500);
+    };
 
-      // 画像幅確定後の再整列（初回成功時のみスケジュール）
-      if (attempt === 0) {
-        [200, 600, 1200].forEach((ms) => {
-          window.setTimeout(() => tryScroll(maxAttempts), ms);
-        });
+    const tryUntilReady = (attempt) => {
+      const ok = apply(attempt === 0 ? "smooth" : "auto");
+      if (ok) {
+        pinWindowTop();
+        watchLayout();
+        return;
+      }
+      if (attempt < 60) {
+        requestAnimationFrame(() => tryUntilReady(attempt + 1));
       }
     };
 
-    requestAnimationFrame(() => tryScroll(0));
+    requestAnimationFrame(() => tryUntilReady(0));
   }, [setnavIndex]);
 
   // scrollDialog: スクロール実行は handleToId に統合したため無効化
@@ -291,17 +311,13 @@ function MyApp({ Component, pageProps, router }) {
 
     handleOrientationChange(mediaQueryList);
 
-    // 初回のみ: 入場時 hash へ移動（section id は scene-N のためブラウザ縦スクロールは発生しない）
-    const hashflag = Number(String(window.location.hash || "").replace("#", ""));
-    if (hashflag) {
-      handleToId(hashflag);
-    }
+    // 入場 hash は EmakiConteiner マウント後に処理（article 未作成での失敗を避ける）
 
     mediaQueryList.addEventListener("change", handleOrientationChange);
     return () => {
       mediaQueryList.removeEventListener("change", handleOrientationChange);
     };
-  }, [handleToId]);
+  }, []);
 
   // hash 同期は EmakiConteiner の liveSceneIndex 側（再生中も追従）
 

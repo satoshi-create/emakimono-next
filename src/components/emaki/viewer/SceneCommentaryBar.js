@@ -84,13 +84,36 @@ const SceneCommentaryBar = ({
 
   const [expanded, setExpanded] = useState(false);
   // バー自体を閉じる状態（×アイコンで操作）。アイドル時のUI非表示（isUIVisible）とは独立
-  const [closed, setClosed] = useState(false);
+  // スマホ横画面は画像隠れ防止のためデフォルトで閉じる
+  const [closed, setClosed] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return (
+      orientation === "landscape" &&
+      window.matchMedia("(max-width: 1023px)").matches
+    );
+  });
   // 段一覧ポップオーバーの開閉（解説文の展開（expanded）とは独立）
   const [listOpen, setListOpen] = useState(false);
   // 現代文 / 古文 / 解説。詞書ありは現代文デフォルト。段変更でも維持（欠落時のみフォールバック）
   const [textMode, setTextMode] = useState("gendaibun");
   const wrapRef = useRef(null);
   const prevActiveIndexRef = useRef(activeIndex);
+  const prevOrientationRef = useRef(orientation);
+
+  // スマホ: 縦→横で閉じる / 横→縦で開く（PC は触らない）
+  useEffect(() => {
+    if (prevOrientationRef.current === orientation) return;
+    prevOrientationRef.current = orientation;
+    if (typeof window === "undefined") return;
+    if (!window.matchMedia("(max-width: 1023px)").matches) return;
+    if (orientation === "landscape") {
+      setClosed(true);
+      setExpanded(false);
+      setListOpen(false);
+    } else if (orientation === "portrait") {
+      setClosed(false);
+    }
+  }, [orientation]);
 
   // 段が変わったら展開シート・段一覧を閉じる（再生中の自動追従含む）
   useEffect(() => {

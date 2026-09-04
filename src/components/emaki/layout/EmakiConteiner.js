@@ -218,6 +218,27 @@ const EmakiContainer = ({
     }
   }, [liveSceneIndex, scroll]);
 
+  // 共有リンク入場: article マウント後に hash シーンへ移動＋縦位置を先頭に固定（ヘッダー切れ防止）
+  // 向き変更の再マウントでは navIndex が既に一致するため handleToId を再実行しない
+  const didApplyEntryHashRef = useRef(false);
+  useEffect(() => {
+    if (!scroll || didApplyEntryHashRef.current) return;
+    const hashflag = Number(
+      String(window.location.hash || "").replace("#", "")
+    );
+    if (!hashflag) return;
+    didApplyEntryHashRef.current = true;
+    const pin = () => window.scrollTo({ top: 0, behavior: "instant" });
+    if (navIndex === hashflag) {
+      pin();
+      return;
+    }
+    handleToId(hashflag);
+    pin();
+    const timers = [50, 200, 500, 1000].map((ms) => setTimeout(pin, ms));
+    return () => timers.forEach(clearTimeout);
+  }, [scroll, data.id, handleToId, navIndex]);
+
   useEffect(() => {
     if (emakiId) {
       setScrollFeedbackSubmitted(hasSubmittedScrollFeedback(emakiId));

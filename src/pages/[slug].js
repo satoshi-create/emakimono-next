@@ -45,11 +45,16 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
   }, [setToggleFullscreen]);
 
   useEffect(() => {
-    // https: qiita.com/7280ayubihs/items/0d359c3a3b5bc8a4b6fd
     // 別絵巻へ遷移した際に、縦スクロール・navIndex をリセット
+    // hash 付き共有リンク入場では navIndex を消さない（handleToId と競合して先頭に戻る）
     window.scrollTo({ top: 0, behavior: "instant" });
-    setnavIndex(0);
-    setHash(0);
+    const hashScene = Number(
+      String(window.location.hash || "").replace("#", "")
+    );
+    if (!hashScene) {
+      setnavIndex(0);
+      setHash(0);
+    }
   }, [slug, setnavIndex, setHash]);
 
   if (!data) {
