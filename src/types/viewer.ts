@@ -82,11 +82,13 @@ export type UseEmakiIdleUIResult = {
   showUI: () => void;
 };
 
-/** useScrollPositionRestore — フルスクリーン切り替え時のスクロール位置復元（副作用のみ・戻り値なし） */
+/** useScrollPositionRestore — フルスクリーン / 向き切替時のスクロール位置復元（副作用のみ） */
 export type UseScrollPositionRestoreParams = {
   dataId: string;
   toggleFullscreen: boolean;
   orientation: string;
+  navIndex?: number;
+  handleToId?: (id: number) => void;
   scrollPositionStore: {
     scrollLeft: number;
     scrollRatio: number;

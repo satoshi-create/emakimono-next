@@ -31,7 +31,6 @@ const OverlayEkotoba = ({
 
   return (
     <div
-      id={`${index}`}
       className={`section fade-in lazyload ${
         type === "西洋絵画" ? styles.ekotobalr : styles.ekotobarl
       } ${styles.container} ${!src ? styles.noEkotobaImage : ""}`}

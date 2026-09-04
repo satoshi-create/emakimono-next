@@ -15,7 +15,6 @@ const EmakiImage = ({
   return (
     <div
       className={`section ${styles.emakiimage}`}
-      id={`${index}`}
       ref={navIndex === index ? scrollDialog : null}
     >
       <LazyImage

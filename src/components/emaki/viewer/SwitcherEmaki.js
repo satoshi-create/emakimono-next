@@ -1,6 +1,7 @@
 import EmakiImage from "@/components/emaki/viewer/EmakiImage";
 import OverlayEkotoba from "@/components/emaki/viewer/OverlayEkotoba";
 import ekotobaStyles from "@/styles/OverlayEkotoba.module.css";
+import { sceneSectionId } from "@/utils/emakiSceneDom";
 import { forwardRef } from "react";
 
 const SwitcherEmaki = forwardRef(
@@ -27,7 +28,7 @@ const SwitcherEmaki = forwardRef(
     if (data.type !== "古典文学") {
       if (cat === "image") {
         return (
-          <section ref={ref} id={index}>
+          <section ref={ref} id={sceneSectionId(index)}>
             <EmakiImage
               key={index}
               item={{
@@ -49,7 +50,7 @@ const SwitcherEmaki = forwardRef(
         return (
           <section
             ref={ref}
-            id={index}
+            id={sceneSectionId(index)}
             className={!src ? ekotobaStyles.markerSection : undefined}
           >
             <OverlayEkotoba

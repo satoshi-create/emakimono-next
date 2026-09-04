@@ -1,16 +1,15 @@
 /**
- * フルスクリーン切り替え時のスクロール位置復元。
+ * フルスクリーン / 向き切替時のスクロール位置復元。
  *
- * toggleFullscreen / orientation 変化時に、保存済みの scrollRatio を使って
- * スクロール位置を復元する（フルスクリーン切替で再マウントしても位置を維持）。
- *
- * - 初回マウント時・別絵巻へ遷移中はスキップ
- * - rAF 2回でレイアウト確定後に1回だけ復元、ResizeObserver で画像読込後の再試行、
- *   300ms フォールバックタイマーで必ず終了
- *
- * 抽出元: EmakiConteiner.js の「フルスクリーン切り替え時のスクロール位置復元」useEffect。
+ * - 向き変更前に beginScrollRestore() で isTransitioning を立て、再マウント中の ratio 上書きを防ぐ
+ * - 画像読込で scrollWidth が伸びる間（RESTORE_WINDOW_MS）は ResizeObserver で ratio を再適用
+ * - unmount cleanup では isTransitioning を落とさない（新旧インスタンスのレース防止）
+ * - ratio が無い／復元失敗時は navIndex へ handleToId フォールバック
+ * - navIndex 変化では再実行しない（ref で最新値のみ参照）
  */
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+
+const RESTORE_WINDOW_MS = 2000;
 
 const useScrollPositionRestore = ({
   articleRef,
@@ -18,65 +17,74 @@ const useScrollPositionRestore = ({
   toggleFullscreen,
   orientation,
   scrollPositionStore,
+  navIndex = 0,
+  handleToId,
 }) => {
+  const navIndexRef = useRef(navIndex);
+  const handleToIdRef = useRef(handleToId);
+  navIndexRef.current = navIndex;
+  handleToIdRef.current = handleToId;
+
   useEffect(() => {
     const el = articleRef.current;
     if (!el) return;
 
-    // 初回マウント時はスキップ（スクロール位置が保存されていない）
-    if (scrollPositionStore.scrollRatio === 0) return;
+    const hasRatio = scrollPositionStore.scrollRatio > 0;
+    const sameEmaki =
+      scrollPositionStore.emakiId === null ||
+      scrollPositionStore.emakiId === dataId;
 
-    // 別絵巻へ遷移中は復元しない（旧 scrollRatio の誤適用防止）
-    if (
-      scrollPositionStore.emakiId !== null &&
-      scrollPositionStore.emakiId !== dataId
-    ) {
-      return;
-    }
+    // 初回マウントかつ保存なし → スキップ（入場 hash は handleToId 側）
+    if (!hasRatio && !scrollPositionStore.isTransitioning) return;
+    if (!sameEmaki) return;
 
     scrollPositionStore.restored = false;
     scrollPositionStore.isTransitioning = true;
 
-    const restoreScrollPosition = () => {
-      if (scrollPositionStore.restored) return;
-
-      const scrollWidth = el.scrollWidth;
-      const clientWidth = el.clientWidth;
-      const maxScrollLeft = scrollWidth - clientWidth;
-
-      if (maxScrollLeft <= 0) return;
-
-      if (scrollPositionStore.scrollRatio > 0) {
-        el.scrollLeft = -(scrollPositionStore.scrollRatio * maxScrollLeft);
-        scrollPositionStore.restored = true;
-        scrollPositionStore.isTransitioning = false;
+    const applyRatio = () => {
+      const maxScrollLeft = el.scrollWidth - el.clientWidth;
+      if (maxScrollLeft <= 0 || scrollPositionStore.scrollRatio <= 0) {
+        return false;
       }
+      el.scrollLeft = -(scrollPositionStore.scrollRatio * maxScrollLeft);
+      return true;
     };
 
-    // レイアウト確定後に1回だけ復元（複数 setTimeout によるジャンプを防止）
+    const startedAt = Date.now();
+
     const rafId = requestAnimationFrame(() => {
-      requestAnimationFrame(restoreScrollPosition);
+      requestAnimationFrame(() => {
+        applyRatio();
+      });
     });
 
     const ro = new ResizeObserver(() => {
-      if (!scrollPositionStore.restored) {
-        restoreScrollPosition();
-      }
+      if (Date.now() - startedAt > RESTORE_WINDOW_MS) return;
+      applyRatio();
     });
     ro.observe(el);
 
-    const fallbackTimer = setTimeout(() => {
-      restoreScrollPosition();
+    const doneTimer = setTimeout(() => {
+      const ok = applyRatio();
+      scrollPositionStore.restored = true;
       scrollPositionStore.isTransitioning = false;
-    }, 300);
+
+      const sceneId = navIndexRef.current;
+      const toId = handleToIdRef.current;
+      const stuckAtStart =
+        scrollPositionStore.scrollRatio > 0.05 && Math.abs(el.scrollLeft) < 8;
+      if (typeof toId === "function" && sceneId > 0 && (!ok || stuckAtStart)) {
+        toId(sceneId);
+      }
+    }, RESTORE_WINDOW_MS);
 
     return () => {
       cancelAnimationFrame(rafId);
       ro.disconnect();
-      clearTimeout(fallbackTimer);
-      scrollPositionStore.isTransitioning = false;
+      clearTimeout(doneTimer);
+      // isTransitioning は落とさない（次インスタンスの begin〜restore に引き継ぐ）
     };
-  }, [toggleFullscreen, orientation, dataId]);
+  }, [toggleFullscreen, orientation, dataId, articleRef, scrollPositionStore]);
 };
 
 export default useScrollPositionRestore;

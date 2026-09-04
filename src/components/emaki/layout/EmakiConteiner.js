@@ -63,6 +63,12 @@ export const resetScrollPositionStore = () => {
   scrollPositionStore.emakiId = null;
 };
 
+/** 向き変更前に呼び、再マウント中の ratio=0 上書きを防ぐ */
+export const beginScrollRestore = () => {
+  scrollPositionStore.restored = false;
+  scrollPositionStore.isTransitioning = true;
+};
+
 // 教育現場向けUI: 絵巻切り替え検出用
 // モジュールスコープに配置することで、コンポーネント再マウント時も前回値を保持
 let prevDataId = null;
@@ -358,6 +364,8 @@ const EmakiContainer = ({
     toggleFullscreen,
     orientation,
     scrollPositionStore,
+    navIndex,
+    handleToId,
   });
 
   // 全画面切替や向き切替でビューポートサイズが変わるためシーン検出キャッシュを無効化

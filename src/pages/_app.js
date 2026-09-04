@@ -7,7 +7,7 @@
  * Edit targeted blocks only — do not split this file without a plan.
  */
 import BottomNavigation from "@/components/navigation/BottomNavigation";
-import { resetScrollPositionStore } from "@/components/emaki/layout/EmakiConteiner";
+import { resetScrollPositionStore, beginScrollRestore } from "@/components/emaki/layout/EmakiConteiner";
 import ModalSearch from "@/components/search/ModalSearch";
 import * as gtag from "@/libs/api/gtag";
 import { initEngagementTracking } from "@/libs/api/measurementUtils";
@@ -15,6 +15,7 @@ import ExtractingListData from "@/utils/ExtractingListData";
 import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
 import { useLocaleData } from "@/hooks/useLocale";
 import useEmakiFullscreen from "@/hooks/useEmakiFullscreen";
+import { querySceneSection } from "@/utils/emakiSceneDom";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
@@ -219,33 +220,53 @@ function MyApp({ Component, pageProps, router }) {
 
   // スクロール実行を統合した handleToId
   // ボタン操作・hash指定など、すべての「意図的なスクロール」はこの関数を経由する
+  // DOM / 画像幅が揃うまでリトライ（共有リンク入場・向き変更フォールバック用）
   const handleToId = useCallback((id) => {
     setnavIndex(id);
 
-    // スクロール実行（scrollDialogから責務を移管）
-    // フルスクリーン切り替え中は抑制（既存仕様を維持）
     if (isFullscreenTransitioningRef.current) return;
 
-    requestAnimationFrame(() => {
-      // フルスクリーン切り替え中なら再度チェック
+    const maxAttempts = 40;
+    const tryScroll = (attempt) => {
       if (isFullscreenTransitioningRef.current) return;
 
-      // DOM から対象セクションを検索
-      const targetSection = document.querySelector(`section[id="${id}"]`);
-      if (!targetSection) return;
+      const targetSection = querySceneSection(id);
+      if (!targetSection) {
+        if (attempt < maxAttempts) {
+          requestAnimationFrame(() => tryScroll(attempt + 1));
+        }
+        return;
+      }
 
       const scrollContainer = targetSection.closest("article");
       if (!scrollContainer) return;
 
+      const maxScroll =
+        scrollContainer.scrollWidth - scrollContainer.clientWidth;
+      if (maxScroll <= 0 && attempt < maxAttempts) {
+        requestAnimationFrame(() => tryScroll(attempt + 1));
+        return;
+      }
+
       const containerRect = scrollContainer.getBoundingClientRect();
       const nodeRect = targetSection.getBoundingClientRect();
-
-      // RTL環境: ノードの右端をコンテナの右端に合わせる
       const scrollLeft =
         scrollContainer.scrollLeft + (nodeRect.right - containerRect.right);
 
-      scrollContainer.scrollTo({ left: scrollLeft, behavior: "smooth" });
-    });
+      scrollContainer.scrollTo({
+        left: scrollLeft,
+        behavior: attempt === 0 ? "smooth" : "auto",
+      });
+
+      // 画像幅確定後の再整列（初回成功時のみスケジュール）
+      if (attempt === 0) {
+        [200, 600, 1200].forEach((ms) => {
+          window.setTimeout(() => tryScroll(maxAttempts), ms);
+        });
+      }
+    };
+
+    requestAnimationFrame(() => tryScroll(0));
   }, [setnavIndex]);
 
   // scrollDialog: スクロール実行は handleToId に統合したため無効化
@@ -256,18 +277,21 @@ function MyApp({ Component, pageProps, router }) {
 
   useEffect(() => {
     const mediaQueryList = window.matchMedia("(orientation: portrait)");
+    let hasAppliedOrientation = false;
 
-    // 向きのみ反映。横スクロール位置は useScrollPositionRestore（scrollRatio）に委譲し、
-    // handleToId との二重駆動でシーンが飛ぶのを防ぐ。
     function handleOrientationChange(evt) {
       window.scrollTo({ top: 0, behavior: "instant" });
+      // 初回以外: 再マウント前に ratio を凍結（scrollLeft=0 での上書き防止）
+      if (hasAppliedOrientation) {
+        beginScrollRestore();
+      }
+      hasAppliedOrientation = true;
       setOrientation(evt.matches ? "portrait" : "landscape");
     }
 
     handleOrientationChange(mediaQueryList);
 
-    // 初回のみ: 入場時 hash へ移動（replaceState 済みの location.hash を正とする）
-    // gRouter.asPath は replaceState と同期しないため使わない
+    // 初回のみ: 入場時 hash へ移動（section id は scene-N のためブラウザ縦スクロールは発生しない）
     const hashflag = Number(String(window.location.hash || "").replace("#", ""));
     if (hashflag) {
       handleToId(hashflag);

@@ -23,6 +23,7 @@ import {
   SCENE_DETECTION_HYSTERESIS_PX,
   SCENE_READING_POSITION_RATIO,
 } from "@/libs/constants/viewerPlayback";
+import { parseSceneSectionId } from "@/utils/emakiSceneDom";
 
 const useEmakiScroll = ({
   articleRef,
@@ -94,11 +95,11 @@ const useEmakiScroll = ({
           const rect = section.getBoundingClientRect();
           const sectionCenter = rect.left + rect.width / 2;
           return {
-            id: parseInt(section.id, 10),
+            id: parseSceneSectionId(section.id),
             // 読取位置からのオフセット（scrollLeft 差分のみで追跡）
             offset: sectionCenter - readingX,
           };
-        }),
+        }).filter((item) => !isNaN(item.id)),
       };
     }
 
