@@ -22,7 +22,7 @@ export type EmakiContainerProps = {
 
 /** EmakiNavigation.js の props */
 export type EmakiNavigationProps = {
-  handleToId: (id: number) => void;
+  handleToId: (id: number, opts?: { realign?: boolean }) => void;
   data: ScrollMetadata;
   isUIVisible?: boolean;
   isPlayMode?: boolean;
@@ -88,7 +88,7 @@ export type UseScrollPositionRestoreParams = {
   toggleFullscreen: boolean;
   orientation: string;
   navIndex?: number;
-  handleToId?: (id: number) => void;
+  handleToId?: (id: number, opts?: { realign?: boolean }) => void;
   scrollPositionStore: {
     scrollLeft: number;
     scrollRatio: number;

@@ -381,7 +381,7 @@ const EmakiContainer = ({
       pin();
       return;
     }
-    handleToId(hashflag);
+    handleToId(hashflag, { realign: true });
     pin();
     const timers = [50, 200, 500, 1000].map((ms) => setTimeout(pin, ms));
     return () => timers.forEach(clearTimeout);

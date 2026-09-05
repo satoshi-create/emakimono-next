@@ -219,8 +219,8 @@ function MyApp({ Component, pageProps, router }) {
   };
 
   // スクロール実行を統合した handleToId
-  // DOM / 画像幅が揃うまで rAF + ResizeObserver で再整列（共有リンク入場用）
-  const handleToId = useCallback((id) => {
+  // realign: 共有 hash 入場のみ。ResizeObserver の apply("auto") は smooth を潰すため段クリック等では使わない
+  const handleToId = useCallback((id, { realign = false } = {}) => {
     setnavIndex(id);
 
     if (isFullscreenTransitioningRef.current) return;
@@ -278,7 +278,7 @@ function MyApp({ Component, pageProps, router }) {
       const ok = apply(attempt === 0 ? "smooth" : "auto");
       if (ok) {
         pinWindowTop();
-        watchLayout();
+        if (realign) watchLayout();
         return;
       }
       if (attempt < 60) {
