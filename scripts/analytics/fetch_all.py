@@ -96,6 +96,8 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
     feedback_lines: list[str] = []
     share_lines: list[str] = []
     quiz_lines: list[str] = []
+    education_geo_lines: list[str] = []
+    env_lines: list[str] = []
     if merged_path.is_file():
         merged = json.loads(merged_path.read_text(encoding="utf-8"))
         flagged = [r for r in merged.get("rows", []) if r.get("insight_flags")]
@@ -212,6 +214,83 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
             quiz_lines.append(
                 "\n※ `question_id` / `is_correct` / `rank` が GA4 未登録の場合、設問表・rank は空です。"
             )
+
+        # 教育利用の地域クラスタ（弱い代理）
+        geo_clusters = merged.get("education_geo_clusters") or []
+        geo_flags = merged.get("education_geo_insight_flags") or []
+        region_top = merged.get("geo_region_top") or []
+        day_breakdown = merged.get("day_of_week_breakdown") or {}
+        if geo_clusters or region_top or geo_flags:
+            education_geo_lines.append(
+                "- ※ 地域セッション塊は教育利用の**弱い代理**。確定ではない。"
+                " 閾値: region/city ≥ `min_*_cluster_sessions`（kpi.yaml）。"
+            )
+            if geo_flags:
+                education_geo_lines.append(
+                    f"- **insight_flags**: {', '.join(f'`{f}`' for f in geo_flags)}"
+                )
+            if geo_clusters:
+                education_geo_lines.append(
+                    f"- **clusters (≥閾値)**: **{len(geo_clusters)}** 件"
+                )
+                education_geo_lines.append("\n| level | name | region | country | sessions | devices |")
+                education_geo_lines.append("|---|---|---|---|---|---|")
+                for c in geo_clusters[:10]:
+                    devices = c.get("device_breakdown") or {}
+                    device_s = ", ".join(f"{k}:{v}" for k, v in list(devices.items())[:3]) or "—"
+                    education_geo_lines.append(
+                        f"| `{c.get('level')}` | {c.get('name')} | {c.get('region') or '—'} | "
+                        f"{c.get('country') or '—'} | {c.get('sessions', 0)} | {device_s} |"
+                    )
+            elif region_top:
+                education_geo_lines.append("- 閾値超えクラスタなし。地域 Top:")
+                education_geo_lines.append("\n| region | country | sessions |")
+                education_geo_lines.append("|---|---|---|")
+                for r in region_top[:8]:
+                    education_geo_lines.append(
+                        f"| {r.get('name')} | {r.get('country') or '—'} | {r.get('sessions', 0)} |"
+                    )
+            if day_breakdown:
+                education_geo_lines.append("\n| dayOfWeek | sessions |")
+                education_geo_lines.append("|---|---|")
+                for day, count in day_breakdown.items():
+                    education_geo_lines.append(f"| {day} | {count} |")
+
+        # デバイス・通信・遅延（ビューア改善）
+        device_cat = merged.get("device_category_breakdown") or {}
+        sess_device = merged.get("session_context_device_breakdown") or {}
+        sess_conn = merged.get("session_context_connection_breakdown") or {}
+        slow_breakdown = merged.get("image_load_slow_breakdown") or {}
+        if device_cat or sess_device or sess_conn or slow_breakdown:
+            if device_cat:
+                env_lines.append("\n| deviceCategory (GA4) | sessions |")
+                env_lines.append("|---|---|")
+                for device, count in device_cat.items():
+                    env_lines.append(f"| `{device}` | {count} |")
+            if sess_device:
+                env_lines.append("\n| session_context device_type | events |")
+                env_lines.append("|---|---|")
+                for device, count in sess_device.items():
+                    env_lines.append(f"| `{device}` | {count} |")
+            elif not device_cat:
+                env_lines.append(
+                    "- `device_type` 未登録の場合 `session_context_by_device` は空です。"
+                )
+            if sess_conn:
+                env_lines.append("\n| session_context connection_type | events |")
+                env_lines.append("|---|---|")
+                for conn, count in sess_conn.items():
+                    env_lines.append(f"| `{conn}` | {count} |")
+            else:
+                env_lines.append(
+                    "- `connection_type` 未登録の場合 `session_context_by_connection` は空です。"
+                )
+            if slow_breakdown:
+                top_slow = sorted(slow_breakdown.items(), key=lambda kv: kv[1], reverse=True)[:8]
+                env_lines.append("\n| 絵巻 | image_load_slow |")
+                env_lines.append("|---|---|")
+                for slug, count in top_slow:
+                    env_lines.append(f"| `{slug}` | {count} |")
     below_gsc = gsc_rows < int(bootstrap.get("min_gsc_rows", 10))
     below_ga4 = ga4_sessions < int(bootstrap.get("min_ga4_sessions", 50))
     review_mode = "bootstrap" if phase == "bootstrap" or below_gsc or below_ga4 else "steady"
@@ -275,15 +354,36 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
             ]
         )
 
+    if education_geo_lines:
+        lines.extend(
+            [
+                "## Education geo clusters (weak proxy)",
+                "",
+                *education_geo_lines,
+                "",
+            ]
+        )
+
+    if env_lines:
+        lines.extend(
+            [
+                "## Viewer environment (device · connection · slow)",
+                "",
+                *env_lines,
+                "",
+            ]
+        )
+
     lines.extend(
         [
             "## Files (read order for Cursor Agent)",
             "1. `summary.md` — this file",
-            "2. `merged.json` — per-emaki GSC × GA4 join（`quiz_funnel` / `quiz_by_question` 含む）",
+            "2. `merged.json` — per-emaki GSC × GA4 join（`quiz_funnel` / `education_geo_clusters` 含む）",
             "3. `gsc_queries.json` — query detail",
             "4. `ga4_events_summary.json` — event counts",
             "5. `ga4_fallback_by_reason.json` — fallback reason breakdown",
-            "6. `ga4_quiz_*.json` — quiz optional breakdowns（Admin 登録後）",
+            "6. `ga4_sessions_by_region.json` / `ga4_sessions_by_city.json` — geo",
+            "7. `ga4_quiz_*.json` — quiz optional breakdowns（Admin 登録後）",
             "",
             "## Next step",
             "Run the weekly review prompt from `docs/operations/cursor-analytics-prompt.md`.",

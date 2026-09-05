@@ -58,7 +58,7 @@ CACHE_PATH = CACHE_DIR / "image-metadata-cache.json"
 PERSON_PROFILES_PATH = REPO_ROOT / "src/data/personname-data/personprofiles.json"
 
 # スクリプトが YAML から生成しないフィールドは、再 sync 時も既存 JSON の値を保持する
-# （personname / kusouzuslug / sourceAuthor 等を手編集していても消えないようにする）
+# （personname / kusouzuslug / genjieslug / sourceAuthor 等を手編集していても消えないようにする）
 
 
 def data_entry_to_cache_entry(entry: dict) -> dict:
@@ -139,28 +139,41 @@ def _normalize_text_value(value: str) -> str:
     return value.strip() if isinstance(value, str) else value
 
 
+def _text_json_chapter_key(scene: dict) -> str:
+    """Viewer lookup key: always scene id (1 entry per scene; matches ekotoba.chapter)."""
+    return str(scene["id"])
+
+
 def build_text_json(config: dict) -> list[dict]:
-    """Build emaki-text-data JSON array from scenes[].text in scroll_config.yaml."""
+    """Build emaki-text-data JSON array from scenes[].text in scroll_config.yaml.
+
+    One entry per scene (``chapter`` = scene id). Optional ``genji_chapter`` is
+    stored for 54帖マスター title lookup; it is not the text-JSON key.
+    """
     entries: list[dict] = []
     for scene in ss.get_scenes_config(config):
         if not scene_includes_text_json_entry(scene):
             continue
         text = scene.get("text") or {}
         entry: dict = {
-            "chapter": str(scene["id"]),
-            "title": _normalize_text_value(text.get("title") or scene.get("title", "")),
+            "chapter": _text_json_chapter_key(scene),
+            "title": _normalize_text_value(
+                text.get("title") or scene.get("title", "")
+            ),
             "gendaibun": _normalize_text_value(text.get("gendaibun", "")),
             "kobun": _normalize_text_value(text.get("kobun", "")),
             "desc": _normalize_text_value(text.get("desc", "")),
         }
-        if text.get("gendaibunen"):
-            entry["gendaibunen"] = text["gendaibunen"]
-        if text.get("kobunen"):
-            entry["kobunen"] = text["kobunen"]
-        if text.get("descen"):
-            entry["descen"] = text["descen"]
         if scene.get("titleen"):
             entry["titleen"] = scene["titleen"]
+        if scene.get("genji_chapter") is not None:
+            entry["genji_chapter"] = str(scene["genji_chapter"])
+        if text.get("gendaibunen"):
+            entry["gendaibunen"] = _normalize_text_value(text["gendaibunen"])
+        if text.get("kobunen"):
+            entry["kobunen"] = _normalize_text_value(text["kobunen"])
+        if text.get("descen"):
+            entry["descen"] = _normalize_text_value(text["descen"])
         entries.append(entry)
     return entries
 
@@ -218,6 +231,7 @@ def _build_image_emaki_slot(ir: dict) -> dict:
 
 
 def _build_ekotoba_emaki_slot(scene: dict, ir: dict | None = None) -> dict:
+    # chapter = scene id（emaki-text-data と一致）。源氏帖番号は genji_chapter に分離。
     ekotoba: dict = {
         "cat": "ekotoba",
         "chapter": str(scene["id"]),
@@ -227,6 +241,8 @@ def _build_ekotoba_emaki_slot(scene: dict, ir: dict | None = None) -> dict:
         "srcHeight": "",
         "srcWidth": "",
     }
+    if scene.get("genji_chapter") is not None:
+        ekotoba["genji_chapter"] = str(scene["genji_chapter"])
     if ir is not None:
         ekotoba["config"] = "cloudinary" if ir.get("src") else ""
         ekotoba["src"] = _image_row_to_src(ir)
@@ -253,6 +269,9 @@ def _build_emakis_explicit(config: dict, image_rows: list[dict]) -> list[dict]:
 
     Preserves scene range / chapter ids for upload public_ids while allowing
     non-alternating kotobagaki patterns (e.g. 絵師草紙: 絵→词書→絵×n).
+
+    When a scene has no ``ekotoba`` slot (painting-only), prepend a text-only
+    ekotoba marker so the commentary bar / chapter nav still get ``chapter``.
     """
     emakis: list[dict] = []
     for scene in ss.get_scenes_config(config):
@@ -269,6 +288,8 @@ def _build_emakis_explicit(config: dict, image_rows: list[dict]) -> list[dict]:
                 f"Scene id={scene['id']} range [{start_global}, {end_global}]: "
                 f"slots length {len(slots)} != image count {len(scene_rows)}"
             )
+        if "ekotoba" not in slots:
+            emakis.append(_build_ekotoba_emaki_slot(scene, None))
         for slot_type, ir in zip(slots, scene_rows, strict=True):
             if slot_type == "ekotoba":
                 emakis.append(_build_ekotoba_emaki_slot(scene, ir))
@@ -378,6 +399,28 @@ def _build_kusouzuslug(spec) -> list[dict]:
     return [{"id": str(s)} for s in spec]
 
 
+def _build_genjieslug(spec) -> list[dict]:
+    """metadata.genjieslug を dataEmakis.json 形式へ変換する。
+
+    - 文字列/数値の配列 ["15", 16] → [{"id": "15"}, ...]
+    - dict の配列 → id/title/ruby/path を文字列化して保持
+    """
+    if not isinstance(spec, list) or not spec:
+        return []
+    out: list[dict] = []
+    for item in spec:
+        if isinstance(item, dict):
+            entry = {"id": str(item.get("id", ""))}
+            for key in ("title", "ruby", "path"):
+                if item.get(key) is not None:
+                    entry[key] = str(item[key])
+            if entry["id"]:
+                out.append(entry)
+        else:
+            out.append({"id": str(item)})
+    return out
+
+
 # ---------------------------------------------------------------------------
 #  Build a dataEmakis.json entry from YAML + Cloudinary results
 # ---------------------------------------------------------------------------
@@ -442,11 +485,17 @@ def build_emaki_entry(config: dict, image_rows: list[dict], existing_entry: dict
         if meta.get(key):
             entry[key] = meta[key]
 
-    # 人物・九相段リンク（任意）
-    if meta.get("personname"):
-        entry["personname"] = _build_personname(meta["personname"], _load_person_profiles())
+    # 人物・九相段リンク（任意）。personname: [] は明示クリア（preserve しない）
+    if "personname" in meta:
+        pn = meta.get("personname")
+        if isinstance(pn, list) and pn:
+            entry["personname"] = _build_personname(pn, _load_person_profiles())
+        else:
+            entry["personname"] = []
     if meta.get("kusouzuslug"):
         entry["kusouzuslug"] = _build_kusouzuslug(meta["kusouzuslug"])
+    if meta.get("genjieslug"):
+        entry["genjieslug"] = _build_genjieslug(meta["genjieslug"])
 
     # 既存エントリにある、本スクリプトが生成しないフィールドを保持する（再 sync で失わない）
     # character / ebiki は旧ビューア注釈フラグ（廃止）。preserve しない。

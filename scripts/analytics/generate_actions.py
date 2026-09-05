@@ -195,11 +195,35 @@ def generate(report_dir: Path) -> dict:
                 md_lines.append(f"- `{reason}`: {count} ({pct}%)")
             md_lines.append("")
 
+    geo_clusters = merged.get("education_geo_clusters") or []
+    geo_flags = merged.get("education_geo_insight_flags") or []
+    md_lines.extend(["", "## Education geo clusters (weak proxy)", ""])
+    if geo_flags:
+        md_lines.append(f"- flags: {', '.join(f'`{f}`' for f in geo_flags)}")
+    if geo_clusters:
+        for c in geo_clusters[:5]:
+            md_lines.append(
+                f"- `{c.get('level')}` **{c.get('name')}** "
+                f"({c.get('country') or '—'}): {c.get('sessions', 0)} sessions"
+            )
+        md_lines.append("- ※ 教育利用の弱い代理。確定ではない。")
+    else:
+        md_lines.append("- No region/city clusters above threshold\n")
+
+    slow = merged.get("image_load_slow_breakdown") or {}
+    if slow:
+        md_lines.extend(["", "## image_load_slow (by emaki)", ""])
+        for slug, count in sorted(slow.items(), key=lambda kv: kv[1], reverse=True)[:5]:
+            md_lines.append(f"- `{slug}`: {count}")
+        md_lines.append("")
+
     payload = {
         "report_date": report_dir.name,
         "period": period,
         "previous_report": merged.get("previous_report"),
         "fallback_reason_breakdown": breakdown,
+        "education_geo_clusters": geo_clusters,
+        "education_geo_insight_flags": geo_flags,
         "recommendations": recommendations,
     }
 

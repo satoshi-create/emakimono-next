@@ -3,9 +3,9 @@ export const KUSOUZU_HUB_PATH = "/kusouzu/chapters-kusouzu";
 
 /** トップ「最新の絵巻」キュレーション。新規公開時は先頭に追加。 */
 export const HOME_LATEST_SCROLLS = [
-  { titleen: "naomoto_moushibumi_ekotoba", publishedAt: "2026-09-03", order: 1 },
-  { titleen: "hyakki_utokyo", publishedAt: "2026-08-28", order: 2 },
-  { titleen: "hyakki_kokkai_a", publishedAt: "2026-08-27", order: 3 },
+  { titleen: "genjimonogatari-emaki-tokugawa", publishedAt: "2026-09-05", order: 1 },
+  { titleen: "naomoto_moushibumi_ekotoba", publishedAt: "2026-09-03", order: 2 },
+  { titleen: "hyakki_utokyo", publishedAt: "2026-08-28", order: 3 },
 ];
 
 export const HOME_LATEST_TITLEEN = HOME_LATEST_SCROLLS.map((s) => s.titleen);

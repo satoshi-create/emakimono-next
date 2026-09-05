@@ -44,7 +44,26 @@ events:
       - image_index
       - load_time_ms
       - threshold_ms
+      - is_fullscreen
+      - loading_type
     priority: P2
+
+  session_context:
+    source: measurementUtils.js
+    params:
+      - emaki_id
+      - device_type
+      - viewport_width
+      - viewport_height
+      - connection_type
+      - downlink_mbps
+      - arrival_time
+      - total_images
+    priority: P1
+    notes: >-
+      1セッション1回。教育現場のデバイス・通信の代理。
+      device_type は画面幅ベース（pc/tablet/mobile）。
+      connection_type は Network Information API（Safari 等は unknown）。
 
   scene_modal_open:
     source: ModalDesc.js
@@ -150,3 +169,13 @@ custom_dimensions:
   - param: rank
     ga4_scope: event
     notes: quiz_complete のランク ID（例: master | observer | beginner）。
+  - param: device_type
+    ga4_scope: event
+    notes: >-
+      session_context / auto_scroll_started。Values: pc | tablet | mobile（viewport 幅）。
+      Register in GA4 Admin before session_context_by_device works.
+  - param: connection_type
+    ga4_scope: event
+    notes: >-
+      session_context。Values: slow-2g | 2g | 3g | 4g | unknown。
+      Register in GA4 Admin before session_context_by_connection works.

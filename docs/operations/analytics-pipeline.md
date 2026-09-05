@@ -146,6 +146,8 @@ Workflow: `.github/workflows/analytics-weekly.yml`
 ```
 □ GA4 カスタムディメンション（emaki_id 等）登録済み（任意）
 □ 観察力クイズ用: question_id / is_correct / rank（イベントスコープ）登録（設問別正答率）
+□ ビューア環境用: device_type / connection_type（session_context）登録（任意）
+□ 地域クラスタ: `ga4_sessions_by_region.json` 等が週次 artifact に出ること（標準次元・登録不要）
 □ GSC にサービスアカウント追加済み
 □ GitHub Secrets 3 件登録
 □ check_analytics_config.py OK
@@ -168,3 +170,5 @@ Workflow: `.github/workflows/analytics-weekly.yml`
 | GA4 403 | Data API 有効化・プロパティ ID 確認 |
 | merged で slug 重複 | URL エンコード差 — `_util.normalize_slug` で統合済み。レガシー slug は別行のまま |
 | Actions 失敗 Issue | Secrets / API 有効化を確認し workflow_dispatch で再実行 |
+| `education_geo_clusters` が空 | 週次セッションが閾値未満（kpi.yaml `min_region_cluster_sessions` / `min_city_cluster_sessions`、既定 30）。`geo_region_top` で分布を確認 |
+| `session_context_by_*` が skipped | GA4 Admin で `device_type` / `connection_type` をイベントスコープ登録 |

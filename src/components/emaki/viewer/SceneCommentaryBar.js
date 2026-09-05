@@ -179,37 +179,33 @@ const SceneCommentaryBar = ({
       return { desc: "", gendaibun: "", kobun: "", kobunHtml: "" };
     }
     const isEn = locale === "en";
+    const genjiCh = current.genji_chapter;
     const descRaw = getChapterFieldRaw(
       titleen,
       title,
       current.chapter,
       isEn ? "descen" : "desc",
-      current.desc
+      current.desc,
+      genjiCh
     );
-    const gendaibunRaw =
-      getChapterFieldRaw(
-        titleen,
-        title,
-        current.chapter,
-        isEn ? "gendaibunen" : "gendaibun",
-        current.gendaibun
-      ) ||
-      (isEn
-        ? getChapterFieldRaw(
-            titleen,
-            title,
-            current.chapter,
-            "gendaibun",
-            current.gendaibun
-          )
-        : "");
+    // 現代文 EN は gendaibunen のみ（未整備なら空）
+    const gendaibunRaw = getChapterFieldRaw(
+      titleen,
+      title,
+      current.chapter,
+      isEn ? "gendaibunen" : "gendaibun",
+      isEn ? "" : current.gendaibun,
+      genjiCh
+    );
+    // 詞書: kobunen 優先。無ければ古典原文 kobun（言語非依存の原文として EN でも表示）
     const kobunHtml =
       getChapterFieldRaw(
         titleen,
         title,
         current.chapter,
         isEn ? "kobunen" : "kobun",
-        current.kobun
+        isEn ? "" : current.kobun,
+        genjiCh
       ) ||
       (isEn
         ? getChapterFieldRaw(
@@ -217,7 +213,8 @@ const SceneCommentaryBar = ({
             title,
             current.chapter,
             "kobun",
-            current.kobun
+            current.kobun,
+            genjiCh
           )
         : "");
     return {
@@ -285,8 +282,20 @@ const SceneCommentaryBar = ({
 
   const chapterTitle =
     locale === "en"
-      ? ChaptersTitle(titleen, title, current.chapter, "titleen")
-      : ChaptersTitle(titleen, title, current.chapter, "title");
+      ? ChaptersTitle(
+          titleen,
+          title,
+          current.chapter,
+          "titleen",
+          current.genji_chapter
+        )
+      : ChaptersTitle(
+          titleen,
+          title,
+          current.chapter,
+          "title",
+          current.genji_chapter
+        );
 
   const activeMode = availableModes.includes(textMode)
     ? textMode
@@ -539,9 +548,21 @@ const SceneCommentaryBar = ({
             >
               <span className={styles.sceneNum}>{i + 1}</span>
               <span className={styles.sceneTitle}>
-                {locale === "en"
-                  ? ChaptersTitle(titleen, title, item.chapter, "titleen")
-                  : ChaptersTitle(titleen, title, item.chapter, "title")}
+                {                  locale === "en"
+                  ? ChaptersTitle(
+                      titleen,
+                      title,
+                      item.chapter,
+                      "titleen",
+                      item.genji_chapter
+                    )
+                  : ChaptersTitle(
+                      titleen,
+                      title,
+                      item.chapter,
+                      "title",
+                      item.genji_chapter
+                    )}
               </span>
             </button>
           ))}

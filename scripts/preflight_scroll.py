@@ -123,8 +123,10 @@ def run_preflight(
 
     pn = meta.get("personname")
     if pn is not None:
-        if not isinstance(pn, list) or not pn:
-            report.error("metadata.personname must be a non-empty list of slugs or profile dicts")
+        if not isinstance(pn, list):
+            report.error("metadata.personname must be a list of slugs or profile dicts")
+        elif not pn:
+            pass  # [] = 登場人物なし（既存 JSON の personname を消す）
         elif isinstance(pn[0], str):
             unknown = sorted({s for s in pn if s not in _known_person_slugs()})
             if unknown:

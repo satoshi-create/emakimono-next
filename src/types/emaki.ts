@@ -67,7 +67,10 @@ export type KusouzuSlug = { id: string };
 /** シーン共通キー。linkId は [slug].js getStaticProps、ekotobaId は ekotoba のみ、uniqueIndex は EmakiConteiner 内で付与 */
 type EmakiSceneBase = {
   cat: string;
-  chapter: number;
+  /** emaki-text-data の章キー（scene id）。源氏帖番号ではない */
+  chapter: number | string;
+  /** 源氏絵のみ。54帖マスター参照用の帖番号 */
+  genji_chapter?: number | string;
   config: string;
   src: string;
   name: string;
@@ -122,7 +125,9 @@ export type ScrollMetadata = {
   typeen?: string;
   subtype?: string;
   keyword?: KeywordTag[];
+  /** @deprecated UI は参照しない。sync 互換のため JSON に残る場合あり */
   kotobagaki?: boolean;
+  /** @deprecated UI は参照しない。解説バーは scroll 時常時。タブは kobun 有無 */
   sceneText?: boolean;
   favorite?: boolean;
   sourceImage?: string;

@@ -46,7 +46,7 @@
 - **本番データ正本:** `src/data/image-metadata-cache/image-metadata-cache.json`（本番コードはこれのみ参照）
 - `local-data/pipeline/`（旧 `json-data/`）は旧一覧データ。**本番コード・Cursor Agent から参照しない**（gitignore + cursorignore 済みのローカル保持。sync ツールが読むのみ）
 - `src/libs/_archive_unused_data/` / `src/components/_archive_unused/` — **参照・編集しない**
-- `func.js` は **facade（re-export）化済み**。実装は `src/hooks/useLocale.js` / `src/utils/emakiEra.js` / `emakiList.js` / `emakiChapterText.js` に分割。genji archive の import は `emakiChapterText.js` のみ（レガシー）
+- `func.js` は **facade（re-export）化済み**。実装は `src/hooks/useLocale.js` / `src/utils/emakiEra.js` / `emakiList.js` / `emakiChapterText.js` に分割。源氏54帖マスターは `src/data/emaki-text-data/chapters-of-genji.json`（研究用コピー: `scrolls/source/genjimonogatari/`）
 
 ## Legacy identifier typos (do not rename)
 

@@ -16,6 +16,7 @@ const OverlayEkotoba = ({
     srcWidth,
     srcHeight,
     chapter,
+    genji_chapter: genjiChapter,
     index,
     navIndex,
     type,
@@ -51,8 +52,8 @@ const OverlayEkotoba = ({
             onClick={() => handleToId(index)}
           >
             {locale == "en"
-              ? ChaptersTitle(titleen, title, chapter, "titleen")
-              : ChaptersTitle(titleen, title, chapter, "title")}
+              ? ChaptersTitle(titleen, title, chapter, "titleen", genjiChapter)
+              : ChaptersTitle(titleen, title, chapter, "title", genjiChapter)}
           </h3>
           <div className={styles.chapterActions}>
             <SceneLikeButton

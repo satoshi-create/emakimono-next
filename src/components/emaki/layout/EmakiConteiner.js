@@ -116,7 +116,7 @@ const EmakiContainer = ({
     isScrollDetectedUpdateRef,
   } = useContext(AppContext);
 
-  const { backgroundImage, kotobagaki, sceneText, type } = data;
+  const { backgroundImage, type } = data;
   const { locale, locales, asPath, defaultLocale, query, push } = useRouter();
 
   const wrapperRef = useRef();
@@ -682,8 +682,9 @@ const EmakiContainer = ({
   // 配列を展開し、条件ごとに連番を付与（emakiItemIndexer に切り出し済み）
   const processedEmakis = assignUniqueIndex(data.emakis);
 
-  // ボトムコメントバー: 詞書画像かシーンテキストを持つ絵巻のみ表示
-  const hasCommentaryData = Boolean(scroll && (kotobagaki || sceneText));
+  // ボトムコメントバー: 横スクロール鑑賞時は常に表示（中身の有無は SceneCommentaryBar 側）
+  // metadata.kotobagaki / sceneText は UI ゲートに使わない（タブ出しは kobun 有無）
+  const hasCommentaryData = Boolean(scroll);
   // 再生中は liveSceneIndex で先読み・解説追従（navIndex は固定で画像ツリー再レンダー抑制）
   const sceneIndexForPrefetch =
     isPlayMode || isAutoScrolling ? liveSceneIndex : navIndex;
@@ -866,8 +867,6 @@ const EmakiContainer = ({
                 index={index}
                 src={src}
                 backgroundImage={backgroundImage}
-                kotobagaki={kotobagaki}
-                sceneText={sceneText}
                 type={type}
                 selectedRef={selectedRef}
                 navIndex={navIndex}

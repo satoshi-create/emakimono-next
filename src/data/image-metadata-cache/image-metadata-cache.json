@@ -4432,5 +4432,413 @@
         "portrait": ""
       }
     ]
+  },
+  {
+    "id": 42,
+    "title": "源氏物語絵巻（徳川美術館本）",
+    "titleen": "genjimonogatari-emaki-tokugawa",
+    "author": "",
+    "authoren": "",
+    "edition": "徳川美術館本",
+    "encodeUrl": "",
+    "backgroundImage": "/washi-pattern-01.webp",
+    "thumb": "/thumb/genjimonogatari-emaki-tokugawa_thumb.webp",
+    "thumb2": "/thumb/genjimonogatari-emaki-tokugawa_thumb.webp",
+    "video": "",
+    "era": "平安",
+    "eraen": "heiann",
+    "desc": "平安時代に制作された国宝・源氏物語絵巻の諸段を横スクロールで鑑賞できます。徳川美術館伝来の絵画・詞書（実画像がある段のみ詞書画像を収録）に加え、東京国立博物館所蔵の若紫断簡を含みます（蓬生・関屋・柏木一〜二・横笛・竹河・橋姫・早蕨・宿木・東屋）。柏木（三）の絵・詞は未収録です。",
+    "descen": "Browse surviving sections of the National Treasure Tale of Genji Scrolls. Includes Tokugawa Art Museum paintings and kotobagaki where image files exist, plus the Wakamurasaki fragment at Tokyo National Museum (Yomogifu, Sekiya, Kashiwagi I–II, Yokobue, Takekawa, Hashihime, Sawarabi, Yadorigi, Azumaya). Kashiwagi III is not included.",
+    "readMore": false,
+    "type": "絵巻",
+    "typeen": "emaki",
+    "keyword": [
+      {
+        "name": "源氏絵",
+        "id": "picture-of-the-genji-monogatari",
+        "slug": "picture-of-the-genji-monogatari"
+      },
+      {
+        "name": "源氏物語",
+        "id": "genji-monogatari",
+        "slug": "genji-monogatari"
+      }
+    ],
+    "kotobagaki": true,
+    "sceneText": false,
+    "favorite": false,
+    "sourceImageUrl": "https://dl.ndl.go.jp/pid/1685003",
+    "sourceImage": "源氏物語絵巻（徳川美術館・国立国会図書館ほか／若紫断簡は東京国立博物館）",
+    "metadesc": "",
+    "gif": "",
+    "sourceEkotoba": "",
+    "reference": [
+      {
+        "type": "所蔵機関",
+        "url": "https://dl.ndl.go.jp/pid/1685003",
+        "title": "源氏物語絵巻（国立国会図書館デジタルコレクション）"
+      },
+      {
+        "type": "ウェブサイト",
+        "url": "http://www.meijigakuin.ac.jp/~pmjs/resources/genji/genjichapters.pdf",
+        "title": "Chapters of Genji monogatari (The Tale of Genji)"
+      },
+      {
+        "type": "論文",
+        "url": "",
+        "title": "秋山光和「源氏物語繪卷についての新知見」（『美術研究』第174号、1954年3月）"
+      }
+    ],
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "1",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0,
+        "genji_chapter": "5"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788594922/emakimono/genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_01__01.jpg",
+        "name": "genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_01__01",
+        "srcHeight": 1080,
+        "srcWidth": 1094
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "2",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0,
+        "genji_chapter": "15"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788594922/emakimono/genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_02__01.jpg",
+        "name": "genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_02__01",
+        "srcHeight": 1080,
+        "srcWidth": 2586
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "3",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0,
+        "genji_chapter": "16"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788594922/emakimono/genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_03__01.jpg",
+        "name": "genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_03__01",
+        "srcHeight": 1080,
+        "srcWidth": 2560
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "4",
+        "config": "cloudinary",
+        "src": "v1788594926/emakimono/genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_04__01.jpg",
+        "name": "genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_04__01",
+        "srcHeight": "1080",
+        "srcWidth": "2457",
+        "genji_chapter": "36"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788594927/emakimono/genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_04__02.jpg",
+        "name": "genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_04__02",
+        "srcHeight": 1080,
+        "srcWidth": 2422
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "5",
+        "config": "cloudinary",
+        "src": "v1788594927/emakimono/genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_05__01.jpg",
+        "name": "genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_05__01",
+        "srcHeight": "1080",
+        "srcWidth": "2367",
+        "genji_chapter": "36"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788594930/emakimono/genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_05__02.jpg",
+        "name": "genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_05__02",
+        "srcHeight": 1080,
+        "srcWidth": 2428
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "6",
+        "config": "cloudinary",
+        "src": "v1788594930/emakimono/genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_06__01.jpg",
+        "name": "genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_06__01",
+        "srcHeight": "1080",
+        "srcWidth": "2402",
+        "genji_chapter": "37"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788594930/emakimono/genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_06__02.jpg",
+        "name": "genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_06__02",
+        "srcHeight": 1080,
+        "srcWidth": 1984
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "7",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0,
+        "genji_chapter": "44"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788594934/emakimono/genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_07__01.jpg",
+        "name": "genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_07__01",
+        "srcHeight": 1080,
+        "srcWidth": 2399
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "8",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0,
+        "genji_chapter": "44"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788594934/emakimono/genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_08__01.jpg",
+        "name": "genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_08__01",
+        "srcHeight": 1080,
+        "srcWidth": 2445
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "9",
+        "config": "cloudinary",
+        "src": "v1788594936/emakimono/genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_09__01.jpg",
+        "name": "genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_09__01",
+        "srcHeight": "1080",
+        "srcWidth": "2373",
+        "genji_chapter": "45"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788594938/emakimono/genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_09__02.jpg",
+        "name": "genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_09__02",
+        "srcHeight": 1080,
+        "srcWidth": 2399
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "10",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0,
+        "genji_chapter": "48"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788594938/emakimono/genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_10__01.jpg",
+        "name": "genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_10__01",
+        "srcHeight": 1080,
+        "srcWidth": 2013
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "11",
+        "config": "cloudinary",
+        "src": "v1788594942/emakimono/genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_11__01.jpg",
+        "name": "genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_11__01",
+        "srcHeight": "1080",
+        "srcWidth": "2436",
+        "genji_chapter": "49"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788594943/emakimono/genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_11__02.jpg",
+        "name": "genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_11__02",
+        "srcHeight": 1080,
+        "srcWidth": 1921
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "12",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0,
+        "genji_chapter": "49"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788594942/emakimono/genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_12__01.jpg",
+        "name": "genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_12__01",
+        "srcHeight": 1080,
+        "srcWidth": 1912
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "13",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0,
+        "genji_chapter": "49"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788594946/emakimono/genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_13__01.jpg",
+        "name": "genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_13__01",
+        "srcHeight": 1080,
+        "srcWidth": 2537
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "14",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0,
+        "genji_chapter": "50"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788594947/emakimono/genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_14__01.jpg",
+        "name": "genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_14__01",
+        "srcHeight": 1080,
+        "srcWidth": 2022
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "15",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0,
+        "genji_chapter": "50"
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1788594953/emakimono/genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_15__01.jpg",
+        "name": "genji-monogatari-emaki-tokugawa__genji-monogatari-emaki-tokugawa_1_15__01",
+        "srcHeight": 1080,
+        "srcWidth": 2460
+      }
+    ],
+    "sourceCollection": "徳川美術館 / 国立国会図書館 / 東京国立博物館（若紫）",
+    "personname": [],
+    "genjieslug": [
+      {
+        "id": "5",
+        "title": "若紫",
+        "ruby": "わかむらさき",
+        "path": "wakamurasaki"
+      },
+      {
+        "id": "15",
+        "title": "蓬生",
+        "ruby": "よもぎふ",
+        "path": "yomogifu"
+      },
+      {
+        "id": "16",
+        "title": "関屋",
+        "ruby": "せきや",
+        "path": "sekiya"
+      },
+      {
+        "id": "36",
+        "title": "柏木",
+        "ruby": "かしはぎ",
+        "path": "kashihagi"
+      },
+      {
+        "id": "37",
+        "title": "横笛",
+        "ruby": "よこぶえ",
+        "path": "yokobue"
+      },
+      {
+        "id": "44",
+        "title": "竹河",
+        "ruby": "たけかわ",
+        "path": "takekawa"
+      },
+      {
+        "id": "45",
+        "title": "橋姫",
+        "ruby": "はしひめ",
+        "path": "hashihime"
+      },
+      {
+        "id": "48",
+        "title": "早蕨",
+        "ruby": "さわらび",
+        "path": "sawarabi"
+      },
+      {
+        "id": "49",
+        "title": "宿木",
+        "ruby": "やどりぎ",
+        "path": "yadorigi"
+      },
+      {
+        "id": "50",
+        "title": "東屋",
+        "ruby": "あづまや",
+        "path": "azumaya"
+      }
+    ]
   }
 ]

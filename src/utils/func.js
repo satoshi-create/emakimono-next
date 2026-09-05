@@ -39,4 +39,6 @@ export {
   connectGenjiChaptersScene,
   getChapterDescRaw,
   getChapterFieldRaw,
+  isGenjiWork,
+  withTateChuYoko,
 } from "./emakiChapterText";

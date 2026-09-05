@@ -45,7 +45,6 @@ const EmakiLandscapContent = ({
     desc,
     descen,
     keyword,
-    genjieslug,
   } = data;
 
   // ランキング順位・閲覧数を検索
@@ -169,13 +168,6 @@ const EmakiLandscapContent = ({
                     </h2>
                   </a>
                 </Link>
-              )}
-              {genjieslug && (
-                <div className={`${styles.genjieslugBox}`}>
-                  <Link href={`/genjie/chapters-genji`}>
-                    <a className={styles.genjieslugTitle}>源氏物語54帖一覧</a>
-                  </Link>
-                </div>
               )}
               {/* ハブリンクは metadataB のバナーで提示するため、ここには置かない */}
             </div>

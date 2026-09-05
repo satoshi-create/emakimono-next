@@ -465,3 +465,9 @@ button {
     --safe-area-right: env(safe-area-inset-right, 0px);
   }
 }
+
+/* 縦書きタイトル内のアラビア数字を縦中横（正立）に */
+.tate-chu-yoko {
+  text-combine-upright: all;
+  -webkit-text-combine: horizontal;
+}

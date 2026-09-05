@@ -215,6 +215,136 @@ def _quiz_insights(funnel: dict, thresholds: dict) -> list[str]:
     return flags
 
 
+def _geo_sessions_list(
+    rows: list[dict],
+    *,
+    level: str,
+    name_keys: tuple[str, ...],
+    region_keys: tuple[str, ...] = ("region",),
+    country_keys: tuple[str, ...] = ("country",),
+    metric_key: str = "sessions",
+) -> list[dict]:
+    """Normalize GA4 geo rows into {level, name, region?, country?, sessions}."""
+    out: list[dict] = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        name = _dim_value(row, *name_keys)
+        if not name or name in ("(not set)", "(other)"):
+            continue
+        sessions = int(row.get(metric_key) or 0)
+        if sessions <= 0:
+            continue
+        entry: dict = {"level": level, "name": name, "sessions": sessions}
+        region = _dim_value(row, *region_keys)
+        country = _dim_value(row, *country_keys)
+        if region:
+            entry["region"] = region
+        if country:
+            entry["country"] = country
+        out.append(entry)
+    out.sort(key=lambda r: r["sessions"], reverse=True)
+    return out
+
+
+def _device_breakdown_by_region(rows: list[dict]) -> dict[str, dict[str, int]]:
+    """region -> {deviceCategory: sessions}."""
+    by_region: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        region = _dim_value(row, "region")
+        device = _dim_value(row, "deviceCategory", "device_category")
+        if not region or region in ("(not set)", "(other)"):
+            continue
+        if not device:
+            device = "unknown"
+        by_region[region][device] += int(row.get("sessions") or 0)
+    return {
+        r: dict(sorted(devs.items(), key=lambda kv: kv[1], reverse=True))
+        for r, devs in by_region.items()
+    }
+
+
+def _education_geo_clusters(
+    region_rows: list[dict],
+    city_rows: list[dict],
+    region_device_rows: list[dict],
+    thresholds: dict,
+) -> tuple[list[dict], list[str]]:
+    """Detect region/city session clusters as weak education-use proxies.
+
+    Returns (clusters, insight_flags). Not a definitive school detector.
+    """
+    min_region = int(thresholds.get("min_region_cluster_sessions", 30))
+    min_city = int(thresholds.get("min_city_cluster_sessions", 30))
+    devices = _device_breakdown_by_region(region_device_rows)
+    clusters: list[dict] = []
+
+    for entry in _geo_sessions_list(
+        region_rows, level="region", name_keys=("region",), country_keys=("country",)
+    ):
+        if entry["sessions"] < min_region:
+            continue
+        region_name = entry["name"]
+        clusters.append(
+            {
+                **entry,
+                "device_breakdown": devices.get(region_name) or {},
+                "flag": "possible_education_cluster",
+                "note": "地域セッション塊。教育利用の弱い代理指標（確定ではない）",
+            }
+        )
+
+    for entry in _geo_sessions_list(
+        city_rows,
+        level="city",
+        name_keys=("city",),
+        region_keys=("region",),
+        country_keys=("country",),
+    ):
+        if entry["sessions"] < min_city:
+            continue
+        clusters.append(
+            {
+                **entry,
+                "device_breakdown": devices.get(entry.get("region") or "") or {},
+                "flag": "possible_education_cluster",
+                "note": "都市セッション塊。教育利用の弱い代理指標（確定ではない）",
+            }
+        )
+
+    clusters.sort(key=lambda c: c["sessions"], reverse=True)
+    flags: list[str] = []
+    if clusters:
+        flags.append("possible_education_geo_cluster")
+    return clusters, flags
+
+
+def _index_day_of_week(rows: list[dict]) -> dict[str, int]:
+    out: dict[str, int] = {}
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        day = _dim_value(row, "dayOfWeekName", "day_of_week_name")
+        if not day:
+            continue
+        out[day] = int(row.get("sessions") or 0)
+    return out
+
+
+def _index_device_category(rows: list[dict]) -> dict[str, int]:
+    out: dict[str, int] = {}
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        device = _dim_value(row, "deviceCategory", "device_category")
+        if not device:
+            continue
+        out[device] = int(row.get("sessions") or 0)
+    return dict(sorted(out.items(), key=lambda kv: kv[1], reverse=True))
+
+
 def _find_previous_report_dir(current_dir: Path) -> Path | None:
     siblings = sorted(
         [p for p in REPORTS_DIR.iterdir() if p.is_dir() and p.name != current_dir.name],
@@ -289,6 +419,14 @@ def merge_report(report_dir: Path) -> dict:
     )
     quiz_complete_by_rank = _load_json(report_dir / "ga4_quiz_complete_by_rank.json")
     quiz_jump_by_question = _load_json(report_dir / "ga4_quiz_jump_by_question.json")
+    sessions_by_region = _load_json(report_dir / "ga4_sessions_by_region.json")
+    sessions_by_city = _load_json(report_dir / "ga4_sessions_by_city.json")
+    sessions_by_region_device = _load_json(report_dir / "ga4_sessions_by_region_device.json")
+    sessions_by_device = _load_json(report_dir / "ga4_sessions_by_device.json")
+    sessions_by_day_of_week = _load_json(report_dir / "ga4_sessions_by_day_of_week.json")
+    slow_by_emaki = _load_json(report_dir / "ga4_slow_by_emaki.json")
+    session_context_by_device = _load_json(report_dir / "ga4_session_context_by_device.json")
+    session_context_by_connection = _load_json(report_dir / "ga4_session_context_by_connection.json")
 
     gsc_page_by_slug = _index_gsc_pages(
         gsc_pages if isinstance(gsc_pages, list) else [], strip_prefixes
@@ -374,6 +512,34 @@ def merge_report(report_dir: Path) -> dict:
     }
     quiz_insight_flags = _quiz_insights(quiz_funnel, thresholds)
 
+    education_geo_clusters, education_geo_flags = _education_geo_clusters(
+        sessions_by_region if isinstance(sessions_by_region, list) else [],
+        sessions_by_city if isinstance(sessions_by_city, list) else [],
+        sessions_by_region_device if isinstance(sessions_by_region_device, list) else [],
+        thresholds,
+    )
+    device_category_breakdown = _index_device_category(
+        sessions_by_device if isinstance(sessions_by_device, list) else []
+    )
+    day_of_week_breakdown = _index_day_of_week(
+        sessions_by_day_of_week if isinstance(sessions_by_day_of_week, list) else []
+    )
+    slow_by_slug = _index_ga4_emaki(slow_by_emaki if isinstance(slow_by_emaki, list) else [])
+    session_device_breakdown = _index_fallback_reason(
+        session_context_by_device if isinstance(session_context_by_device, list) else [],
+        dim_key="customEvent:device_type",
+    )
+    session_connection_breakdown = _index_fallback_reason(
+        session_context_by_connection if isinstance(session_context_by_connection, list) else [],
+        dim_key="customEvent:connection_type",
+    )
+    region_top = _geo_sessions_list(
+        sessions_by_region if isinstance(sessions_by_region, list) else [],
+        level="region",
+        name_keys=("region",),
+        country_keys=("country",),
+    )[:15]
+
     all_slugs = sorted(
         set(gsc_page_by_slug)
         | set(gsc_query_by_slug)
@@ -417,6 +583,7 @@ def merge_report(report_dir: Path) -> dict:
             "ga4_engagement_rate": ga4_page.get("engagementRate"),
             "viewer_engagement_events": viewer_by_slug.get(slug, 0),
             "image_load_fallback_events": fallback_by_slug.get(slug, 0),
+            "image_load_slow_events": slow_by_slug.get(slug, 0),
             "scene_like_events": scene_like_by_slug.get(slug, 0),
             "like_emaki_events": like_emaki_by_slug.get(slug, 0),
             "scroll_feedback_events": scroll_feedback_by_slug.get(slug, 0),
@@ -463,6 +630,14 @@ def merge_report(report_dir: Path) -> dict:
         "quiz_complete_breakdown": quiz_complete_by_slug,
         "quiz_jump_breakdown": quiz_jump_by_slug,
         "quiz_insight_flags": quiz_insight_flags,
+        "education_geo_clusters": education_geo_clusters,
+        "education_geo_insight_flags": education_geo_flags,
+        "geo_region_top": region_top,
+        "device_category_breakdown": device_category_breakdown,
+        "day_of_week_breakdown": day_of_week_breakdown,
+        "session_context_device_breakdown": session_device_breakdown,
+        "session_context_connection_breakdown": session_connection_breakdown,
+        "image_load_slow_breakdown": slow_by_slug,
         "rows": merged,
     }
     return payload

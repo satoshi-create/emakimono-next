@@ -183,6 +183,9 @@ def get_scenes_config(config: dict) -> list[dict]:
             scene["ekotoba_src"] = s["ekotoba_src"]
         if s.get("slots"):
             scene["slots"] = s["slots"]
+        # 源氏帖番号など、Cloudinary scene id と別のビューア用 chapter キー
+        if s.get("genji_chapter") is not None:
+            scene["genji_chapter"] = s["genji_chapter"]
         scenes.append(scene)
     return scenes
 

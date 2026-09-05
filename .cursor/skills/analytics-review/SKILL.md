@@ -53,6 +53,7 @@ After writing `actions.md`:
 ## Needs improvement (3)
 ## Recommended actions (prioritized P1–P3)
 ## Quiz (UI + education)
+## Education geo (weak proxy)
 ## Infra / cost (ISR · Vercel · Cloudinary)
 ```
 
@@ -65,6 +66,14 @@ After writing `actions.md`:
 - SEO の insight_flags と混ぜない。Issue 本文に `quiz:` プレフィックス可
 - `quiz_low_sample` / データ空 → 計測健全性のみ（GA4 Admin で `question_id` / `is_correct` / `rank` 登録確認）
 - 件数は回答イベントベース（再挑戦で母数増）
+
+### Education geo（弱い代理）
+
+`summary.md` の **Education geo clusters** と `merged.json` の `education_geo_clusters` / `education_geo_insight_flags` を読む。
+
+- region/city で sessions ≥ 30（kpi.yaml）の塊 → 教育一斉利用の**候補**（確定ではない）
+- `day_of_week_breakdown`・`device_category_breakdown`・`session_context_*`・`image_load_slow` と併記してビューア改善に使う
+- SEO / Quiz 節と混ぜない。Issue 化は遅延・fallback が明確なときのみ
 
 ## Infra / cost
 

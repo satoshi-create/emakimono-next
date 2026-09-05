@@ -50,6 +50,7 @@ ga4_reports:
         - scene_dwell
         - image_load_fallback
         - image_load_slow
+        - session_context
         - scene_modal_open
         - like_emaki
         - sns_share_click
@@ -60,6 +61,46 @@ ga4_reports:
         - quiz_jump_to_scene
         - quiz_complete
     limit: 100
+
+  # 地域・デバイス（教育利用クラスタの弱い代理指標）
+  - id: sessions_by_region
+    dimensions:
+      - region
+      - country
+    metrics:
+      - sessions
+    limit: 100
+
+  - id: sessions_by_city
+    dimensions:
+      - city
+      - region
+      - country
+    metrics:
+      - sessions
+    limit: 200
+
+  - id: sessions_by_region_device
+    dimensions:
+      - region
+      - deviceCategory
+    metrics:
+      - sessions
+    limit: 200
+
+  - id: sessions_by_device
+    dimensions:
+      - deviceCategory
+    metrics:
+      - sessions
+    limit: 10
+
+  - id: sessions_by_day_of_week
+    dimensions:
+      - dayOfWeekName
+    metrics:
+      - sessions
+    limit: 10
 
   - id: viewer_by_emaki
     optional: true
@@ -99,6 +140,46 @@ ga4_reports:
       op: exact
       value: image_load_fallback
     limit: 50
+
+  - id: slow_by_emaki
+    optional: true
+    requires_custom_dimension: emaki_id
+    dimensions:
+      - customEvent:emaki_id
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: image_load_slow
+    limit: 200
+
+  # session_context（device_type / connection_type）。GA4 Admin 登録後に有効
+  - id: session_context_by_device
+    optional: true
+    requires_custom_dimension: device_type
+    dimensions:
+      - customEvent:device_type
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: session_context
+    limit: 20
+
+  - id: session_context_by_connection
+    optional: true
+    requires_custom_dimension: connection_type
+    dimensions:
+      - customEvent:connection_type
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: session_context
+    limit: 20
 
   - id: scene_like_by_emaki
     optional: true
@@ -293,3 +374,6 @@ merge:
     min_quiz_starts_for_ratio: 20
     low_quiz_completion_ratio: 0.4
     low_quiz_jump_ratio: 0.2
+    # 地域クラスタ（教育利用の弱い代理。確定ではない）
+    min_region_cluster_sessions: 30
+    min_city_cluster_sessions: 30

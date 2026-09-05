@@ -111,6 +111,7 @@ python scripts/analytics/fetch_all.py --skip-config-check
 - `summary.md`, `merged.json`, `kpi.yaml` を読む
 - `insight_flags` を起点に Top 3 / Needs 3 / P1–P3 を整理
 - `summary.md` の **Quiz** 節と `merged.json` の `quiz_funnel` / `quiz_by_question` を読み、actions.md に **Quiz (UI + education)** を独立節で書く（SEO と混ぜない）
+- `summary.md` の **Education geo clusters** と `merged.json` の `education_geo_clusters` を読み、地域セッション塊（教育利用の弱い代理）を actions.md に **Education geo** 節で書く。確定扱いしない。device / connection / `image_load_slow` と併記
 - Infra / cost: Skill の Infra 節および本ファイル §6。Cloudinary は `check_cloudinary_usage.py`。Vercel 数字がチャットに無ければ「未実施」
 
 ## 3. 出力
@@ -124,11 +125,13 @@ python scripts/analytics/fetch_all.py --skip-config-check
 ## Needs improvement (3)
 ## Recommended actions (prioritized P1–P3)
 ## Quiz (UI + education)
+## Education geo (weak proxy)
 ## Infra / cost (ISR · Vercel · Cloudinary)
 ```
 
 各 P 項目: slug、根拠数値、提案（meta / 内部リンク / viewer UX / CDN）。
 Quiz は設問正答率・ファネル根拠を付ける（イベント件数ベース）。
+Education geo は region/city クラスタ＋曜日・デバイス。教育確定にはしない。
 Infra は GSC Top 3 と混ぜない。Issue 化は credits ≥ 20 または ISR Reads 上限超過のときだけ。
 
 ## 4. GitHub Issues

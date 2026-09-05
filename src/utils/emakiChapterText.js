@@ -2,18 +2,65 @@
  * 絵巻の章テキスト接続ヘルパー。
  *
  * - emaki-text-data/{titleen}.json を require.context で自動ロード（sync_all.py 生成）
- * - 源氏絵（_archive_unused_data/genji）の章データ接続
- * - ChaptersTitle / ChaptersGendaibun / ChaptersDesc / getChapterDescRaw:
- *   「源氏優先 → ファイル正本 → キャッシュ desc フォールバック」の順で表示テキストを解決
+ * - 源氏絵: chapters-of-genji.json（54帖マスター）を参照
+ * - 巻別 JSON があるとき gendaibun/kobun は巻別のみ（マスターあらすじへフォールバックしない）
+ * - 章キー: emaki-text-data / ekotoba.chapter = scene id。帖番号は genji_chapter
  *
  * 抽出元: src/utils/func.js（旧 func.js は re-export のみに縮小済み）。
- * 注意: 源氏関連はレガシー archive データに依存（MVP 対象外のため、現行絵巻では通らない）。
  */
-import chaptergenji from "@/libs/_archive_unused_data/genji/chapters-of-genji.json";
+import chaptergenji from "@/data/emaki-text-data/chapters-of-genji.json";
 import parse from "html-react-parser";
 
-/** 章テキストとして読み込まないファイル（九相カタログは stage_en キーの共有カタログのため除外） */
-const EMAKI_TEXT_EXCLUDED_SLUGS = new Set(["chapters-of-kusouzu"]);
+/** 縦書き内の連続アラビア数字を縦中横用 span で囲む */
+export function withTateChuYoko(text) {
+  if (text == null || text === false) return null;
+  const s = String(text);
+  if (!s) return s;
+  const parts = s.split(/(\d+)/);
+  if (parts.length === 1) return s;
+  return parts.map((part, i) =>
+    /^\d+$/.test(part) ? (
+      <span key={i} className="tate-chu-yoko">
+        {part}
+      </span>
+    ) : (
+      part
+    )
+  );
+}
+
+/** 章テキストとして読み込まない共有カタログ */
+const EMAKI_TEXT_EXCLUDED_SLUGS = new Set([
+  "chapters-of-kusouzu",
+  "chapters-of-genji",
+]);
+
+/**
+ * 巻別 JSON があるときマスターへ落とさないフィールド。
+ * gendaibun 空 = 意図的（帖あらすじを詞書現代文として出さない）。
+ */
+const GENJI_SCROLL_OWNED_FIELDS = new Set([
+  "gendaibun",
+  "gendaibunen",
+  "kobun",
+  "kobunen",
+]);
+
+/** ビューア field → マスター JSON で試すキー（先頭優先） */
+const GENJI_FIELD_KEYS = {
+  title: ["title"],
+  titleen: ["titleen", "path"],
+  chapter_en: ["chapter_en"],
+  chapter_ch: ["chapter_ch"],
+  ruby: ["ruby"],
+  summary: ["summary"],
+  gendaibun: ["gendaibun"],
+  gendaibunen: ["gendaibunen"],
+  desc: ["desc", "summary"],
+  descen: ["descen", "desc"],
+  kobun: ["kobun"],
+  kobunen: ["kobunen"],
+};
 
 function buildEmakiTextDataMap() {
   const map = {};
@@ -42,41 +89,101 @@ export const connectEmakiTextData = (titleen, chapter, field) => {
     .join();
 };
 
-// emaki-text-data/{titleen}.json が存在すれば、その巻のテキストはファイルが正本。
-// チャプターキーはキャッシュ（ekotoba.chapter）と一致させる。
 export const hasTextData = (titleen) => Boolean(emakiTextDataMap[titleen]);
 
-export const connectGenjiChapters = (chapter, text) => {
-  const chapterGenjisummary = chaptergenji
-    .filter((item) => chapter === item.chapter_en)
-    .map((item) => item[text])
-    .join();
-  return chapterGenjisummary;
+/** タイトルまたは titleen から源氏絵かどうかを判定 */
+export const isGenjiWork = (titleen, title) => {
+  if (typeof title === "string" && title.includes("源氏")) return true;
+  if (typeof titleen === "string" && titleen.toLowerCase().includes("genji"))
+    return true;
+  return false;
 };
+
+/** 帖番号（マスター参照用）。hint → 巻別 JSON の genji_chapter → chapter そのもの */
+export const resolveGenjiMasterChapter = (
+  titleen,
+  chapter,
+  genjiChapterHint
+) => {
+  if (genjiChapterHint != null && String(genjiChapterHint).trim() !== "") {
+    return String(genjiChapterHint);
+  }
+  const rows = emakiTextDataMap[titleen];
+  if (rows) {
+    const row = rows.find((item) => String(item.chapter) === String(chapter));
+    if (row?.genji_chapter != null && String(row.genji_chapter).trim() !== "") {
+      return String(row.genji_chapter);
+    }
+  }
+  return String(chapter);
+};
+
+export const connectGenjiChapters = (chapter, text) => {
+  const keys = GENJI_FIELD_KEYS[text] || [text];
+  const chapterStr = String(chapter);
+  const rows = chaptergenji.filter(
+    (item) => chapterStr === String(item.chapter_en)
+  );
+  for (const key of keys) {
+    const joined = rows
+      .map((item) => item[key])
+      .filter(Boolean)
+      .join();
+    if (joined) return joined;
+  }
+  return "";
+};
+
 export const connectGenjiChaptersScene = (chapter, scene) => {
   if (scene) {
-    const chapterGenjisummary = chaptergenji
-      .filter((item) => chapter === item.chapter_en)
-      .flatMap((item) => item.scene)
-      .filter((item) => scene === item.sceneId)
+    const chapterStr = String(chapter);
+    return chaptergenji
+      .filter((item) => chapterStr === String(item.chapter_en))
+      .flatMap((item) => item.scene || [])
+      .filter((item) => String(scene) === String(item.sceneId))
       .map((item) => item.content);
-    return chapterGenjisummary;
   }
 };
 
-export const ChaptersTitle = (titleen, title, chapter, text) => {
-  if (title.includes("源氏")) {
+export const ChaptersTitle = (
+  titleen,
+  title,
+  chapter,
+  text,
+  genjiChapter
+) => {
+  if (isGenjiWork(titleen, title)) {
+    const masterCh = resolveGenjiMasterChapter(titleen, chapter, genjiChapter);
+    if (text === "titleen") {
+      const fromFile =
+        hasTextData(titleen) &&
+        connectEmakiTextData(titleen, chapter, "titleen");
+      if (fromFile) return <>{withTateChuYoko(fromFile)}</>;
+      const num = connectGenjiChapters(masterCh, "chapter_en");
+      const path = connectGenjiChapters(masterCh, "titleen");
+      if (!num && !path) return null;
+      if (num && path)
+        return <>{withTateChuYoko(`Chapter ${num}: ${path}`)}</>;
+      if (num) return <>{withTateChuYoko(`Chapter ${num}`)}</>;
+      return <>{withTateChuYoko(path)}</>;
+    }
+    // 日本語: 巻別 title を優先（柏木（一）等の段番号を含める）
+    const fromFile =
+      hasTextData(titleen) && connectEmakiTextData(titleen, chapter, "title");
+    if (fromFile) return <>{withTateChuYoko(fromFile)}</>;
     return (
       <>
-        {connectGenjiChapters(chapter, "chapter_en") &&
-          `【第${connectGenjiChapters(chapter, "chapter_ch")}帖】`}
+        {connectGenjiChapters(masterCh, "chapter_en") &&
+          withTateChuYoko(
+            `【第${connectGenjiChapters(masterCh, "chapter_ch")}帖】`
+          )}
         <ruby>
-          {connectGenjiChapters(chapter, "chapter_en") &&
-            `${connectGenjiChapters(chapter, "title")}`}
+          {connectGenjiChapters(masterCh, "chapter_en") &&
+            `${connectGenjiChapters(masterCh, "title")}`}
           <rp>(</rp>
           <rt>
-            {connectGenjiChapters(chapter, "chapter_en") &&
-              `${connectGenjiChapters(chapter, "ruby")}`}
+            {connectGenjiChapters(masterCh, "chapter_en") &&
+              `${connectGenjiChapters(masterCh, "ruby")}`}
           </rt>
           <rp>)</rp>
         </ruby>
@@ -84,9 +191,43 @@ export const ChaptersTitle = (titleen, title, chapter, text) => {
     );
   }
   if (hasTextData(titleen)) {
-    return connectEmakiTextData(titleen, chapter, text);
+    const t = connectEmakiTextData(titleen, chapter, text);
+    return t ? <>{withTateChuYoko(t)}</> : "";
   }
   return chapter && parse(chapter);
+};
+
+/**
+ * 段テキストを生文字列で返す（HTML 含む場合あり）。
+ * field: desc / descen / gendaibun / gendaibunen / kobun / kobunen など。
+ */
+export const getChapterFieldRaw = (
+  titleen,
+  title,
+  chapter,
+  field,
+  fallback = "",
+  genjiChapter
+) => {
+  if (isGenjiWork(titleen, title)) {
+    const hasFile = hasTextData(titleen);
+    const override = hasFile
+      ? connectEmakiTextData(titleen, chapter, field)
+      : "";
+    if (GENJI_SCROLL_OWNED_FIELDS.has(field)) {
+      if (hasFile) return override || fallback || "";
+    } else if (override) {
+      return override;
+    }
+    const masterCh = resolveGenjiMasterChapter(titleen, chapter, genjiChapter);
+    const fromMaster = connectGenjiChapters(masterCh, field);
+    if (fromMaster) return fromMaster;
+    return fallback || "";
+  }
+  if (hasTextData(titleen)) {
+    return connectEmakiTextData(titleen, chapter, field) || fallback || "";
+  }
+  return fallback || "";
 };
 
 export const ChaptersGendaibun = (
@@ -96,13 +237,10 @@ export const ChaptersGendaibun = (
   gendaibun,
   text = "gendaibun"
 ) => {
-  if (title.includes("源氏")) {
-    return (
-      <>
-        {connectGenjiChapters(chapter, "summary") &&
-          `${connectGenjiChapters(chapter, "summary")}`}
-      </>
-    );
+  if (isGenjiWork(titleen, title)) {
+    const field = text === "gendaibunen" ? "gendaibunen" : "gendaibun";
+    const raw = getChapterFieldRaw(titleen, title, chapter, field, "");
+    return raw ? <>{raw}</> : null;
   }
   const field = text === "gendaibunen" ? "gendaibunen" : "gendaibun";
   if (hasTextData(titleen)) {
@@ -119,13 +257,10 @@ export const ChaptersGendaibun = (
 };
 
 export const ChaptersDesc = (titleen, title, chapter, text, desc) => {
-  if (title.includes("源氏")) {
-    return (
-      <>
-        {connectGenjiChapters(chapter, "summary") &&
-          `${connectGenjiChapters(chapter, "summary")}`}
-      </>
-    );
+  if (isGenjiWork(titleen, title)) {
+    const field = text === "descen" ? "descen" : "desc";
+    const raw = getChapterFieldRaw(titleen, title, chapter, field, desc || "");
+    return raw ? <>{raw}</> : null;
   }
   if (hasTextData(titleen)) {
     const field = text === "descen" ? "descen" : "desc";
@@ -135,37 +270,7 @@ export const ChaptersDesc = (titleen, title, chapter, text, desc) => {
   return desc && parse(desc);
 };
 
-/**
- * 段テキストを生文字列で返す（HTML 含む場合あり）。
- * field: desc / descen / gendaibun / gendaibunen / kobun / kobunen など。
- * ファイル正本が無い巻は fallback（キャッシュ側の同フィールド）を返す。
- */
-export const getChapterFieldRaw = (
-  titleen,
-  title,
-  chapter,
-  field,
-  fallback = ""
-) => {
-  if (title.includes("源氏")) {
-    if (
-      field === "desc" ||
-      field === "descen" ||
-      field === "gendaibun" ||
-      field === "gendaibunen"
-    ) {
-      return connectGenjiChapters(chapter, "summary") || fallback || "";
-    }
-    return fallback || "";
-  }
-  if (hasTextData(titleen)) {
-    return connectEmakiTextData(titleen, chapter, field) || fallback || "";
-  }
-  return fallback || "";
-};
-
 // 段の解説を生テキスト（文字列）で返す。ChaptersDesc の文字列版。
-// ボトムコメントバーで「冒頭プレビュー + 詳細をみる」を出し分けるために使用する。
 export const getChapterDescRaw = (titleen, title, chapter, text, desc) => {
   const field = text === "descen" ? "descen" : "desc";
   return getChapterFieldRaw(titleen, title, chapter, field, desc || "");

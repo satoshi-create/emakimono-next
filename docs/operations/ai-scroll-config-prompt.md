@@ -202,9 +202,10 @@ Wikimedia Commons（CC0 等）:
 
 **词書画像なし・絵のみでも、解説バー（下部バー）を出す場合:**
 
-- `kotobagaki: false` のままで `metadata.sceneText: true` にし、各 scene の `text` ブロック（`desc` / `descen`）を入れる
+- 詞書なしで解説だけ出す場合も `scenes[].text` の `desc` / `descen` を入れる
 - `text` ブロックは「词書の現代語訳」だけでなく「絵のみ作品のシーン解説」にも使う
-- バー表示条件は `kotobagaki || sceneText`（`EmakiConteiner.js`）— **`sceneText: true` + `text` があれば語書なしでも表示される**
+- バー表示: 横スクロール鑑賞時は常時（`EmakiConteiner`）。`kotobagaki` / `sceneText` は UI ゲートに使わない。古文・現代文タブは段に `kobun` があるときのみ
+- sync の段レイアウトは引き続き `kotobagaki_mode`（alternating / explicit / 省略）で制御
 - `desc` を scene 直下に置いてもパイプラインは読まない（`scenes[].text` が正）
 
 ## 識別子のルール

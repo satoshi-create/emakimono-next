@@ -28,6 +28,20 @@
 
 `quiz_by_question[].correct_rate` = correct answers ÷ answer events（DB 不要）。
 
+## Education geo (`merged.json` top-level)
+
+| Field / flag | Meaning |
+|--------------|---------|
+| `education_geo_clusters` | region/city で sessions ≥ `min_*_cluster_sessions`（既定 30）の塊 |
+| `education_geo_insight_flags` | `possible_education_geo_cluster` があれば候補あり |
+| `geo_region_top` | 閾値未満でも地域 Top（分布確認用） |
+| `device_category_breakdown` | GA4 標準 `deviceCategory` |
+| `day_of_week_breakdown` | 曜日別 sessions（平日偏り確認） |
+| `session_context_*_breakdown` | `device_type` / `connection_type`（Admin 登録後） |
+| `image_load_slow_breakdown` | 絵巻別 `image_load_slow` |
+
+地域塊は**教育利用の弱い代理**。学校確定には使わない。actions.md の **Education geo** 節へ。
+
 ## Infra / cost（週次）
 
 | Source | How to get | Notes |

@@ -24,6 +24,9 @@ ga4:
     question_id: customEvent:question_id
     is_correct: customEvent:is_correct
     rank: customEvent:rank
+    # session_context — GA4 Admin（イベントスコープ）登録後に有効
+    device_type: customEvent:device_type
+    connection_type: customEvent:connection_type
 
 content:
   # 本番正本 image-metadata-cache を使用（local-data/ は gitignore 済みで CI に存在しない）
