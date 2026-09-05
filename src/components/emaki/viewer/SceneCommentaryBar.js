@@ -197,26 +197,15 @@ const SceneCommentaryBar = ({
       isEn ? "" : current.gendaibun,
       genjiCh
     );
-    // 詞書: kobunen 優先。無ければ古典原文 kobun（言語非依存の原文として EN でも表示）
-    const kobunHtml =
-      getChapterFieldRaw(
-        titleen,
-        title,
-        current.chapter,
-        isEn ? "kobunen" : "kobun",
-        isEn ? "" : current.kobun,
-        genjiCh
-      ) ||
-      (isEn
-        ? getChapterFieldRaw(
-            titleen,
-            title,
-            current.chapter,
-            "kobun",
-            current.kobun,
-            genjiCh
-          )
-        : "");
+    // EN は kobunen のみ（未整備なら空。日本語 kobun へ落とさない）
+    const kobunHtml = getChapterFieldRaw(
+      titleen,
+      title,
+      current.chapter,
+      isEn ? "kobunen" : "kobun",
+      isEn ? "" : current.kobun,
+      genjiCh
+    );
     return {
       desc: stripHtml(descRaw),
       gendaibun: stripHtml(gendaibunRaw),
@@ -311,7 +300,8 @@ const SceneCommentaryBar = ({
     locale === "en" ? plainBody.search(/\.\s/) : plainBody.indexOf("。");
   const hasRest = hasBody && splitAt >= 0 && splitAt < plainBody.length - 1;
   const previewText = hasRest ? plainBody.slice(0, splitAt + 1) : plainBody;
-  const showModeTabs = availableModes.length >= 2;
+  // 1モードでもタブを出す（EN で Classical 欠落時も Commentary ラベルを残す）
+  const showModeTabs = availableModes.length >= 1;
 
   const accent = eraColor(era) || "#8a6d3b";
   const seeMoreLabel = t("viewer.seeMore", {

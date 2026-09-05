@@ -190,6 +190,11 @@
   overflow: visible;
 }
 
+/* 展開時は上寄せ（center だと長い古文で先頭が枠外に隠れる） */
+.bar[data-expanded="true"] .body {
+  justify-content: flex-start;
+}
+
 /* 古文展開時は長い詞書でも読めるよう少しスクロール可に */
 .bar[data-expanded="true"][data-text-mode="kobun"] .body {
   max-height: min(42vh, 280px);

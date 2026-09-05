@@ -37,6 +37,7 @@
     "desc": "柏木第一段。病の女三の宮を見舞う朱雀院と源氏。宮は尼になりたいと願います。",
     "titleen": "Chapter 36 Kashiwagi I",
     "genji_chapter": "36",
+    "kobunen": "(Earlier omitted.) Her illness is not, after all, a heavy lingering disease. Yet her weakened body strangely refuses even ordinary food, and word of this reaches him. (Genji:) \"Though this place is awkward for me,\" he says, and a cushion is brought before the curtains for him to enter. The attendants rearrange things and lower her from the raised bed. Pushing aside the standing screen a little, (Retired Emperor Suzaku:) \"When I think of the monks performing rites for her, their austerities have not yet brought clear effect—how painful. You should see for yourself how uncertain she feels,\" he says, wiping his eyes. The Princess, looking very frail, weeps and says, (Onna San no Miya:) \"I no longer feel I can live; since you have come, please let me take the tonsure and become a nun.\" (Later omitted.)",
     "descen": "Kashiwagi I: Retired Emperor Suzaku and Genji visit the ailing Third Princess, who asks to take the tonsure."
   },
   {
@@ -47,6 +48,7 @@
     "desc": "柏木第二段。見舞いに来た夕霧に、病の柏木が後事を託す場面です。",
     "titleen": "Chapter 36 Kashiwagi II",
     "genji_chapter": "36",
+    "kobunen": "(Earlier omitted.) From early on they had been close without reserve, exchanging words and growing intimate, so Yūgiri's grief is no less than that of parents or siblings; even thinking this visit might cheer Kashiwagi feels bitterly futile. (Yūgiri:) \"Why have you become so helpless? Today I had hoped this joyous occasion might strengthen you a little,\" he says, weeping bitterly. (Later omitted.)",
     "descen": "Kashiwagi II: The dying Kashiwagi confides his last wishes to his friend Yūgiri."
   },
   {
@@ -57,6 +59,7 @@
     "desc": "横笛。夜更けに児君が泣き騒ぎ、夕霧と雲井の雁が物怪をたわむれに語らう閨中の一段です。",
     "titleen": "Chapter 37 Yokobue",
     "genji_chapter": "37",
+    "kobunen": "The little prince is badly frightened and cries; both the wet nurse and his mother rise in alarm. Opening her plump, lovely breast, she soothes him by nursing him with her white, soft milk. Because the child is so charmingly lovely, the gentleman also sits up and asks, (Yūgiri:) \"What happened?\" Amid the bustle, the pathos of his dream fades. The lady (Kumoi no Kari), with a very youthful face, says knowingly with a smile: \"You must have longed for a fashionable outing and gone moon-viewing late at night—and one of those usual spirits followed you in.\" (Yūgiri:) \"What a strange guide for spirits I am! If I had not raised the lattice, they truly would have had no way in. Now that you are mother to many, you speak with such deep care,\" he says; but her glance makes him feel ashamed, and he says nothing more. (Kumoi no Kari:) \"Please leave. It looks unsightly,\" she says, shy of the bright lamplight—not unlovable.",
     "descen": "Yokobue: At night the child cries; Yūgiri and Kumoi no Kari trade teasing words about a wandering spirit."
   },
   {
@@ -83,10 +86,11 @@
     "chapter": "9",
     "title": "第45帖 橋姫",
     "gendaibun": "",
-    "kobun": "",
+    "kobun": "あなたに通ふべかめる透垣の戸を、少し押し開けて見たまへば、月をかしきほどに霧りわたれるをながめて、簾を低く巻き上げて人々ゐたり。簀子に、いと寒げに、身細く萎えばめる童一人、同じさまなる大人などゐたり。内なる人、一人は柱に少しゐ隠れて、琵琶を前に置きて、撥を手まさぐりにしつつゐたるに、雲隠れたりつる月のにはかにいと明かくさし出でたれば、（中の君）「扇ならで、これしても月は招きつべかりけり」とて、さしのぞきたる顔、いみじくらうたげににほひやかなるべし。添ひ臥したる人は、琴の上にかたぶきかかりて、（大君）「入る日をかへす撥こそありけれ、さま異にも思ひおよびたまふ御心かな」とて、うち笑ひたるけはひ、いま少し重りかによしづきたり。",
     "desc": "橋姫。晩秋の宇治、薫が透垣から大君・中の君の合奏を垣間見る段です。",
     "titleen": "Chapter 45 Hashihime",
     "genji_chapter": "45",
+    "kobunen": "Opening a little the lattice gate that seemed to lead to the sisters' rooms, Kaoru looks out: through mist that makes the moonlight lovely, the blinds are rolled up and attendants sit there. On the veranda, a thin, cold-looking child and an older woman in similar dress. Inside, one sits partly hidden by a pillar, a biwa before her, idly turning the plectrum—when the moon, which had been behind clouds, suddenly shines bright. (Naka no Kimi:) \"Not with a fan, but even with this I could summon the moon,\" she says, peering out with a face of exquisite, radiant charm. Her companion, leaning over the koto, smiles: (Ōigimi:) \"There is a plectrum said to bring back the setting sun—what an unusual turn of mind.\" Her manner is a little more composed and elegant.",
     "descen": "Hashihime: On a late-autumn night at Uji, Kaoru peeps through a fence to see the sisters making music."
   },
   {
@@ -103,10 +107,11 @@
     "chapter": "11",
     "title": "第49帖 宿木（一）",
     "gendaibun": "",
-    "kobun": "",
+    "kobun": "（前略）「中納言の朝臣こなたへ」と仰せ言ありて、参りたまへり。げに、かくとり分きて召し出づるもかひありて、遠くよりかをれる匂ひよりはじめ、人に異なるさましたまへり。（略）碁盤召し出でて、御碁の敵に召し寄す。いつもかやうに、け近くならしまつはしたまふにならひにたれば、さにこそはと思ふに、さて打たせたまふに、三番に数一つ負けさせたまひぬ。（後略）",
     "desc": "宿木第一段。帝が清涼殿で薫を碁の相手に召し、女二の宮降嫁の意を菊に託してほのめかします。",
     "titleen": "Chapter 49 Yadorigi I",
     "genji_chapter": "49",
+    "kobunen": "(Earlier omitted.) \"Come here, Lord Middle Counselor,\" the Emperor commands, and Kaoru presents himself. Indeed there is reason to single him out: from the fragrance that reaches even from afar, his whole presence is unlike any other. (Passage omitted.) A go board is brought out and he is summoned as the Emperor's opponent. Accustomed to being kept so close, he takes it as usual—and when they play, the Emperor loses by one game in three. (Later omitted.)",
     "descen": "Yadorigi I: At the Seiryōden the emperor plays go with Kaoru and hints at marrying him to the Second Princess."
   },
   {

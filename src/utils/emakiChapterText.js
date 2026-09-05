@@ -155,17 +155,17 @@ export const ChaptersTitle = (
   if (isGenjiWork(titleen, title)) {
     const masterCh = resolveGenjiMasterChapter(titleen, chapter, genjiChapter);
     if (text === "titleen") {
+      // EN は縦中横なし（半角数字の横倒しの方がレイアウトが安定）
       const fromFile =
         hasTextData(titleen) &&
         connectEmakiTextData(titleen, chapter, "titleen");
-      if (fromFile) return <>{withTateChuYoko(fromFile)}</>;
+      if (fromFile) return <>{fromFile}</>;
       const num = connectGenjiChapters(masterCh, "chapter_en");
       const path = connectGenjiChapters(masterCh, "titleen");
       if (!num && !path) return null;
-      if (num && path)
-        return <>{withTateChuYoko(`Chapter ${num}: ${path}`)}</>;
-      if (num) return <>{withTateChuYoko(`Chapter ${num}`)}</>;
-      return <>{withTateChuYoko(path)}</>;
+      if (num && path) return <>{`Chapter ${num}: ${path}`}</>;
+      if (num) return <>{`Chapter ${num}`}</>;
+      return <>{path}</>;
     }
     // 日本語: 巻別 title を優先（柏木（一）等の段番号を含める）
     const fromFile =
