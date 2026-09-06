@@ -33,7 +33,7 @@ import useEmakiScroll from "@/hooks/emaki/useEmakiScroll";
 import useScrollPositionRestore from "@/hooks/emaki/useScrollPositionRestore";
 import styles from "@/styles/EmakiConteiner.module.css";
 import commentaryStyles from "@/styles/SceneCommentaryBar.module.css";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import {
@@ -53,6 +53,7 @@ import {
   buildShareUrl,
 } from "@/utils/buildShareUrl";
 import { scrollPositionStore } from "@/hooks/emaki/scrollPositionStore";
+import { runAfterPaint } from "@/utils/runAfterPaint";
 
 // 開いたとき／必要時だけ chunk を読む（/[slug] 初回コンパイル・初期 JS 軽減）
 const HelpModal = dynamic(
@@ -234,15 +235,18 @@ const EmakiContainer = ({
       ? "resume"
       : "start";
 
-  // sessionStorage から進行を復元（他巻ジャンプ・リロード対応）
+  // sessionStorage から進行を復元（他巻ジャンプ・リロード対応）— paint 後
   useEffect(() => {
     if (!quizModule || quizHydratedRef.current) return;
-    quizHydratedRef.current = true;
-    setQuizFabHiddenState(isQuizFabHidden());
-    const stored = loadQuizSession();
-    if (!stored || !quizModule.getQuizById(stored.quizId)) return;
-    setQuizSession(stored);
-    setQuizUi("minimized");
+    return runAfterPaint(() => {
+      if (quizHydratedRef.current) return;
+      quizHydratedRef.current = true;
+      setQuizFabHiddenState(isQuizFabHidden());
+      const stored = loadQuizSession();
+      if (!stored || !quizModule.getQuizById(stored.quizId)) return;
+      setQuizSession(stored);
+      setQuizUi("minimized");
+    });
   }, [quizModule]);
 
   // Help などから「クイズボタンを再表示」
@@ -409,12 +413,13 @@ const EmakiContainer = ({
   }, [scroll, data.id, handleToId, navIndex]);
 
   useEffect(() => {
-    if (emakiId) {
+    if (!emakiId) return;
+    return runAfterPaint(() => {
       setScrollFeedbackSubmitted(hasSubmittedScrollFeedback(emakiId));
       setSharePromptDismissed(hasDismissedPullPrompt(emakiId, "share"));
       setMidFeedbackDismissed(hasDismissedPullPrompt(emakiId, "mid_feedback"));
       setScrollRatioBucket(0);
-    }
+    });
   }, [emakiId]);
 
   useEffect(() => {
@@ -611,14 +616,11 @@ const EmakiContainer = ({
     // 前回のdata.idを更新（初回マウント時も含む）
     prevDataId = data.id;
 
-    // 計測: セッション環境コンテキスト（1セッション1回のみ送信される）
-    trackSessionContext(emakiId, backgroundImage?.length || 0);
+    // 計測: セッション環境コンテキスト（paint 後・1セッション1回のみ送信される）
+    return runAfterPaint(() => {
+      trackSessionContext(emakiId, backgroundImage?.length || 0);
+    });
   }, [data.id, emakiId, backgroundImage]);
-
-  useEffect(() => {
-    const ref = articleRef.current;
-    const coordinate = ref.getBoundingClientRect();
-  }, [articleRef]);
 
   useEffect(() => {
     if (scroll) {
@@ -700,8 +702,11 @@ const EmakiContainer = ({
   // パン effect 内の dragstart preventDefault で常時抑止しているため、
   // ここでの draggable 属性切替は不要（押下→再描画の競合も回避される）
 
-  // 配列を展開し、条件ごとに連番を付与（emakiItemIndexer に切り出し済み）
-  const processedEmakis = assignUniqueIndex(data.emakis);
+  // 配列を展開し、条件ごとに連番を付与（再レンダー時の reduce＋コピーを避ける）
+  const processedEmakis = useMemo(
+    () => assignUniqueIndex(data.emakis || []),
+    [data.emakis]
+  );
 
   // ボトムコメントバー: 横スクロール鑑賞時は常に表示（中身の有無は SceneCommentaryBar 側）
   // metadata.kotobagaki / sceneText は UI ゲートに使わない（タブ出しは kobun 有無）
