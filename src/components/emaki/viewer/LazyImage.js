@@ -53,6 +53,9 @@ try {
 // デバッグフラグ: 検証完了後に false にするか、本ブロックごと削除
 const FB_DEBUG = false;
 
+// 一度 onLoadingComplete した画像キー。描画窓 remount 時の blur/skeleton 再発を抑止
+const hydratedImageKeys = new Set();
+
 const recordLoadTime = (ms) => {
   loadTimeSamples.push(ms);
   if (loadTimeSamples.length > MAX_SAMPLES) loadTimeSamples.shift();
@@ -101,11 +104,19 @@ const LazyImage = ({
   isPlayMode, // 再生モード状態
   emakiId, // 計測用: 絵巻ID
 }) => {
-  const { orientation, toggleFullscreen } = useContext(AppContext);
+  const { toggleFullscreen } = useContext(AppContext);
   const prefetchIndex = sceneIndex ?? navIndex;
 
-  const [isSkeletonVisible, setSkeletonVisible] = useState(true);
-  const [isImageLoaded, setImageLoaded] = useState(false); // 画像読み込み完了状態（フェード用）
+  const hydrateKey =
+    emakiId != null && uniqueIndex != null
+      ? `${emakiId}:${uniqueIndex}`
+      : src?.src || null;
+  const alreadyHydrated = Boolean(
+    hydrateKey && hydratedImageKeys.has(hydrateKey)
+  );
+
+  const [isSkeletonVisible, setSkeletonVisible] = useState(!alreadyHydrated);
+  const [isImageLoaded, setImageLoaded] = useState(alreadyHydrated);
 
   const containerRef = useRef(null);
 
@@ -276,19 +287,6 @@ const LazyImage = ({
     return buildCloudinaryUrl(src, [`w_${width}`, "f_auto", "q_auto:eco"]);
   };
 
-  // CSS custom property を使用してモバイルブラウザの dvh に対応
-  // dvh (dynamic viewport height) はモバイルの URL バー表示/非表示に追従
-  const getResponsiveHeightVar = (full, ori) => {
-    if (full) {
-      return "var(--vh-100)"; // 全画面は向きを問わず 100vh（portrait でもヘッダー類を非表示にするため）
-    } else if (ori === "landscape") {
-      return "var(--vh-75)";
-    } else if (ori === "portrait") {
-      return "var(--vh-45)";
-    }
-    return "var(--vh-75)"; // fallback
-  };
-
   // sizes 属性: ブラウザの srcSet 選択を実際の表示幅に一致させる
   // sizes 未指定時のデフォルト "100vw" では、横スクロール内の各画像の実幅と乖離し、
   // 不要なリクエストキャンセル（HAR: status 0）や二重フェッチの原因となる
@@ -298,13 +296,13 @@ const LazyImage = ({
     ? `calc(${ratioStr} * 100vh)`
     : `(orientation: portrait) calc(${ratioStr} * 45vh), calc(${ratioStr} * 75vh)`;
 
+  // 幅は親 section（buildSceneShellStyle）が担う。ここは 100% 充填のみ（差し替え時の幅揺れ防止）
   return (
     <div
       className={styles.wrapper}
       style={{
-        width: `calc(${width / height} * ${getResponsiveHeightVar(toggleFullscreen, orientation)})`,
+        width: "100%",
         height: "100%",
-        aspectRatio: `${width} / ${height}`,
       }}
       ref={containerRef}
     >
@@ -341,11 +339,12 @@ const LazyImage = ({
         lazyBoundary={isPlayMode ? "2400px" : "800px"}
         layout="responsive"
         sizes={imageSizes}
-        placeholder={"blur"}
-        blurDataURL={PAPER_COLOR_BLUR_DATA_URL}
+        placeholder={alreadyHydrated ? "empty" : "blur"}
+        blurDataURL={alreadyHydrated ? undefined : PAPER_COLOR_BLUR_DATA_URL}
         onLoadingComplete={() => {
           const loadTimeMs = Date.now() - loadStartTimeRef.current;
           if (FB_DEBUG) console.log(`[FB-DEBUG] ✓ onLoadingComplete: idx=${uniqueIndex}, loadTime=${loadTimeMs}ms`);
+          if (hydrateKey) hydratedImageKeys.add(hydrateKey);
           recordLoadTime(loadTimeMs);
           if (!hasTrackedRef.current && emakiId) {
             trackImageLoaded(emakiId, uniqueIndex, loadTimeMs, "normal");

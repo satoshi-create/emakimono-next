@@ -179,7 +179,7 @@ const EmakiContainer = ({
   // 教育現場向けUI: 静かな現在地インジケータ（PositionIndicator の DOM要素への参照）
   const indicatorElRef = useRef(null);
 
-  // 描画窓 Phase 1: 中身マウント集合（ヒステリシス用）+ 絵巻切替リセット
+  // 描画窓 Phase 1: 中身マウント集合（sticky）+ 絵巻切替リセット
   const contentWindowMountedRef = useRef(new Set());
   const contentWindowEmakiRef = useRef(data.id);
 
@@ -347,10 +347,16 @@ const EmakiContainer = ({
   }, [scroll, activeQuiz, query.quiz, openQuizUi]);
 
   // スクロール処理 + 現在シーン検出（useEmakiScroll が sectionsCacheRef / scrollDimsRef を管理）
-  const { sectionsCacheRef, scrollDimsRef, liveSceneIndex } = useEmakiScroll({
+  const {
+    sectionsCacheRef,
+    scrollDimsRef,
+    liveSceneIndex,
+    contentWindowCenter,
+  } = useEmakiScroll({
     articleRef,
     dataId: data.id,
     emakiId,
+    emakis: data.emakis,
     navIndex,
     setnavIndex,
     isScrollDetectedUpdateRef,
@@ -715,14 +721,17 @@ const EmakiContainer = ({
   const sceneIndexForPrefetch =
     isPlayMode || isAutoScrolling ? liveSceneIndex : navIndex;
 
-  // 描画窓 Phase 1: section 殻は常置、中身だけ配列 index 付近（ヒステリシス付き）
+  // 描画窓 Phase 1: section 殻は常置、中身は sticky mount（一度載せたら外さない）
   if (contentWindowEmakiRef.current !== data.id) {
     contentWindowEmakiRef.current = data.id;
     contentWindowMountedRef.current = new Set();
   }
-  const windowCenter = Number.isFinite(sceneIndexForPrefetch)
-    ? sceneIndexForPrefetch
-    : 0;
+  // 窓中心は scrollLeft 追従（contentWindowCenter）。navIndex debounce には依存しない
+  const windowCenter = Number.isFinite(contentWindowCenter)
+    ? contentWindowCenter
+    : Number.isFinite(sceneIndexForPrefetch)
+      ? sceneIndexForPrefetch
+      : 0;
   const windowIsPlaying = isPlayMode || isAutoScrolling;
   // 共有 hash 入場: navIndex 反映前でも着地先付近の中身を先に載せる
   const pendingHashCenter =

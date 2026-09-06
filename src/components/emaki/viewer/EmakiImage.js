@@ -15,6 +15,7 @@ const EmakiImage = ({
   return (
     <div
       className={`section ${styles.emakiimage}`}
+      style={{ width: "100%", height: "100%" }}
       ref={navIndex === index ? scrollDialog : null}
     >
       <LazyImage

@@ -32,6 +32,7 @@ const OverlayEkotoba = ({
       className={`section ${styles.ekotobarl} ${styles.container} ${
         !src ? styles.noEkotobaImage : ""
       }`}
+      style={src ? { width: "100%", height: "100%" } : undefined}
       ref={navIndex === index ? scrollDialog : null}
     >
       {chapter && chapterToggle && (
