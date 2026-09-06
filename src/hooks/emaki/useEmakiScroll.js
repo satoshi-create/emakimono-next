@@ -77,30 +77,50 @@ const useEmakiScroll = ({
     const el = articleRef.current;
     if (!el) return;
 
-    // 初回: セクション位置をキャッシュ（getBoundingClientRect は1回だけ）
-    // items プロパティの存在もチェック（HMRで旧形式キャッシュが残る場合の対策）
+    // 初回: セクション位置キャッシュは idle まで遅延（マウント直後の Forced reflow を避ける）
     if (!sectionsCacheRef.current?.items) {
-      const sections = Array.from(el.querySelectorAll("section[id]"));
-      if (sections.length === 0) return;
+      if (sectionsCacheRef.current?.pending) return;
+      sectionsCacheRef.current = { pending: true };
 
-      const containerRect = el.getBoundingClientRect();
-      const readingX =
-        containerRect.right -
-        containerRect.width * SCENE_READING_POSITION_RATIO;
-      const baseScrollLeft = el.scrollLeft;
+      const buildCache = () => {
+        const node = articleRef.current;
+        if (!node) {
+          sectionsCacheRef.current = null;
+          return;
+        }
+        const sections = Array.from(node.querySelectorAll("section[id]"));
+        if (sections.length === 0) {
+          sectionsCacheRef.current = null;
+          return;
+        }
 
-      sectionsCacheRef.current = {
-        baseScrollLeft,
-        items: sections.map((section) => {
-          const rect = section.getBoundingClientRect();
-          const sectionCenter = rect.left + rect.width / 2;
-          return {
-            id: parseSceneSectionId(section.id),
-            // 読取位置からのオフセット（scrollLeft 差分のみで追跡）
-            offset: sectionCenter - readingX,
-          };
-        }).filter((item) => !isNaN(item.id)),
+        const containerRect = node.getBoundingClientRect();
+        const readingX =
+          containerRect.right -
+          containerRect.width * SCENE_READING_POSITION_RATIO;
+        const baseScrollLeft = node.scrollLeft;
+
+        sectionsCacheRef.current = {
+          baseScrollLeft,
+          items: sections
+            .map((section) => {
+              const rect = section.getBoundingClientRect();
+              const sectionCenter = rect.left + rect.width / 2;
+              return {
+                id: parseSceneSectionId(section.id),
+                offset: sectionCenter - readingX,
+              };
+            })
+            .filter((item) => !isNaN(item.id)),
+        };
       };
+
+      if (typeof requestIdleCallback !== "undefined") {
+        requestIdleCallback(buildCache, { timeout: 400 });
+      } else {
+        requestAnimationFrame(() => requestAnimationFrame(buildCache));
+      }
+      return;
     }
 
     // 2回目以降: scrollLeft の差分だけでシーンを特定（DOM読み取りなし）
@@ -270,7 +290,7 @@ const useEmakiScroll = ({
       }
     };
 
-    el.addEventListener("scroll", handleScroll);
+    el.addEventListener("scroll", handleScroll, { passive: true });
 
     // 計測: マウスドラッグによるスクロール操作
     const handleMousedown = () => {

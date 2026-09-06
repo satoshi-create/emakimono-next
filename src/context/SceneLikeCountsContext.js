@@ -1,4 +1,5 @@
 import { fetchSceneLikeCounts, postSceneLike } from "@/libs/api/ugcApi";
+import { runAfterPaint } from "@/utils/runAfterPaint";
 import {
   createContext,
   useCallback,
@@ -44,19 +45,23 @@ export function SceneLikeCountsProvider({ emakiId, children }) {
     setLiked({});
     likedRef.current = {};
     pendingRef.current = {};
+    setIsLoading(true);
 
     async function loadCounts() {
-      setIsLoading(true);
       const data = await fetchSceneLikeCounts(emakiId);
       if (!isMounted) return;
       setCounts(data?.counts ?? {});
       setIsLoading(false);
     }
 
-    loadCounts();
+    // 初回 paint 後に likes API（画像 decode とメインスレッドを奪わない）
+    const cancel = runAfterPaint(() => {
+      if (isMounted) loadCounts();
+    });
 
     return () => {
       isMounted = false;
+      cancel();
     };
   }, [emakiId]);
 

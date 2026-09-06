@@ -3,11 +3,12 @@ import {
   en as enTimelineSimple,
   ja as jaTimelineSimple,
 } from "@/data/chronology/emakiTimelineSimple";
+import { getLiveSlugs } from "@/utils/getLiveSlugs";
 import styles from "@/styles/EmakiEraTimeline.module.css";
 import { eraColor } from "@/utils/func";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
 /**
@@ -21,6 +22,11 @@ import { createPortal } from "react-dom";
 const EmakiEraTimeline = ({ eraen, liveSlugs, t, trigger }) => {
   const { locale } = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  // liveSlugs 未指定時はモーダル用チャンク側で解決（解説バー初回バンドルを太らせない）
+  const resolvedLiveSlugs = useMemo(
+    () => liveSlugs ?? getLiveSlugs(),
+    [liveSlugs]
+  );
 
   const source = locale === "en" ? enTimelineSimple : jaTimelineSimple;
   const rows = source.length ? source : jaTimelineSimple;
@@ -118,7 +124,7 @@ const EmakiEraTimeline = ({ eraen, liveSlugs, t, trigger }) => {
                 </button>
               </div>
               <div className={styles.modalBody}>
-                <EmakiTimelineSimple rows={[era]} liveSlugs={liveSlugs} t={t} />
+                <EmakiTimelineSimple rows={[era]} liveSlugs={resolvedLiveSlugs} t={t} />
                 <Link href="/timeline">
                   <a
                     className={styles.modalFullLink}

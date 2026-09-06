@@ -6,15 +6,7 @@
  */
 import EmakiInfo from "@/components/emaki/metadata/EmakiInfo";
 import EmakiNavigation from "@/components/emaki/navigation/EmakiNavigation";
-import EndNudgeCard from "@/components/emaki/viewer/EndNudgeCard";
 import FullScreen from "@/components/emaki/viewer/FullScreen";
-import HelpModal from "@/components/emaki/viewer/HelpModal";
-import QuizFab from "@/components/emaki/quiz/QuizFab";
-import QuizModal from "@/components/emaki/quiz/QuizModal";
-import {
-  getQuizById,
-  getQuizForTitleen,
-} from "@/data/quiz/choujuGigaKouQuiz";
 import {
   clearQuizSession,
   createQuizSession,
@@ -26,9 +18,6 @@ import {
   setQuizFabHidden,
 } from "@/libs/api/quizFabPrefs";
 import { resolveLinkIdByChapter } from "@/utils/resolveQuizJump";
-import ScrollFeedbackEndPrompt from "@/components/emaki/viewer/ScrollFeedbackEndPrompt";
-import ScrollFeedbackPanel from "@/components/emaki/viewer/ScrollFeedbackPanel";
-import ViewerPullPrompt from "@/components/emaki/viewer/ViewerPullPrompt";
 import SceneCommentaryBar from "@/components/emaki/viewer/SceneCommentaryBar";
 import PositionIndicator from "@/components/emaki/viewer/PositionIndicator";
 import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
@@ -36,6 +25,7 @@ import WheelScrollIndicator from "@/components/emaki/viewer/WheelScrollIndicator
 import { AppContext } from "@/context/AppContext";
 import { SceneLikeCountsProvider } from "@/context/SceneLikeCountsContext";
 import { assignUniqueIndex } from "@/utils/emakiItemIndexer";
+import { shouldMountSceneContent } from "@/utils/emakiContentWindow";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import useEmakiAutoPlay from "@/hooks/emaki/useEmakiAutoPlay";
 import useEmakiPalmDrag from "@/hooks/emaki/useEmakiPalmDrag";
@@ -43,7 +33,8 @@ import useEmakiScroll from "@/hooks/emaki/useEmakiScroll";
 import useScrollPositionRestore from "@/hooks/emaki/useScrollPositionRestore";
 import styles from "@/styles/EmakiConteiner.module.css";
 import commentaryStyles from "@/styles/SceneCommentaryBar.module.css";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import {
   trackSessionContext,
@@ -61,30 +52,38 @@ import * as gtag from "@/libs/api/gtag";
 import {
   buildShareUrl,
 } from "@/utils/buildShareUrl";
-// P0改修: フルスクリーン切り替え時のスクロール位置保存用
-// モジュールスコープに配置することで、コンポーネント再マウント時も値を保持
-const scrollPositionStore = {
-  scrollLeft: 0,
-  scrollRatio: 0,
-  restored: false,      // 復元完了フラグ（複数回の復元によるジャンプ防止）
-  isTransitioning: false, // 復元中フラグ（保存の上書きを防止）
-  emakiId: null,        // 保存時の絵巻ID（別絵巻への誤復元防止）
-};
+import { scrollPositionStore } from "@/hooks/emaki/scrollPositionStore";
+import { runAfterPaint } from "@/utils/runAfterPaint";
 
-/** 絵巻ページ遷移時に _app.js から呼び出す */
-export const resetScrollPositionStore = () => {
-  scrollPositionStore.scrollLeft = 0;
-  scrollPositionStore.scrollRatio = 0;
-  scrollPositionStore.restored = false;
-  scrollPositionStore.isTransitioning = false;
-  scrollPositionStore.emakiId = null;
-};
-
-/** 向き変更前に呼び、再マウント中の ratio=0 上書きを防ぐ */
-export const beginScrollRestore = () => {
-  scrollPositionStore.restored = false;
-  scrollPositionStore.isTransitioning = true;
-};
+// 開いたとき／必要時だけ chunk を読む（/[slug] 初回コンパイル・初期 JS 軽減）
+const HelpModal = dynamic(
+  () => import("@/components/emaki/viewer/HelpModal"),
+  { ssr: false }
+);
+const QuizFab = dynamic(
+  () => import("@/components/emaki/quiz/QuizFab"),
+  { ssr: false }
+);
+const QuizModal = dynamic(
+  () => import("@/components/emaki/quiz/QuizModal"),
+  { ssr: false }
+);
+const ScrollFeedbackPanel = dynamic(
+  () => import("@/components/emaki/viewer/ScrollFeedbackPanel"),
+  { ssr: false }
+);
+const ViewerPullPrompt = dynamic(
+  () => import("@/components/emaki/viewer/ViewerPullPrompt"),
+  { ssr: false }
+);
+const ScrollFeedbackEndPrompt = dynamic(
+  () => import("@/components/emaki/viewer/ScrollFeedbackEndPrompt"),
+  { ssr: false }
+);
+const EndNudgeCard = dynamic(
+  () => import("@/components/emaki/viewer/EndNudgeCard"),
+  { ssr: false }
+);
 
 // 教育現場向けUI: 絵巻切り替え検出用
 // モジュールスコープに配置することで、コンポーネント再マウント時も前回値を保持
@@ -116,7 +115,7 @@ const EmakiContainer = ({
     isScrollDetectedUpdateRef,
   } = useContext(AppContext);
 
-  const { backgroundImage, type } = data;
+  const { backgroundImage } = data;
   const { locale, locales, asPath, defaultLocale, query, push } = useRouter();
 
   const wrapperRef = useRef();
@@ -151,12 +150,27 @@ const EmakiContainer = ({
   const [scrollRatioBucket, setScrollRatioBucket] = useState(0);
 
   const emakiId = data.titleen;
-  const entryQuiz = getQuizForTitleen(data.titleen);
+  // Quiz データは静的 import せず遅延（未使用巻でもチャンクに載せない）
+  const [quizModule, setQuizModule] = useState(null);
   const [quizSession, setQuizSession] = useState(null);
   const [quizUi, setQuizUi] = useState("closed"); // closed | open | minimized
   const [quizFabHidden, setQuizFabHiddenState] = useState(false);
   const quizHydratedRef = useRef(false);
   const pendingJumpAppliedRef = useRef(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    import("@/data/quiz/choujuGigaKouQuiz").then((mod) => {
+      if (!cancelled) setQuizModule(mod);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const entryQuiz = quizModule
+    ? quizModule.getQuizForTitleen(data.titleen)
+    : null;
 
   // 絵巻ハイパーリンク: 前回検出したシーン（不要な更新を防ぐ）
   const lastDetectedSceneRef = useRef(navIndex);
@@ -164,6 +178,10 @@ const EmakiContainer = ({
 
   // 教育現場向けUI: 静かな現在地インジケータ（PositionIndicator の DOM要素への参照）
   const indicatorElRef = useRef(null);
+
+  // 描画窓 Phase 1: 中身マウント集合（ヒステリシス用）+ 絵巻切替リセット
+  const contentWindowMountedRef = useRef(new Set());
+  const contentWindowEmakiRef = useRef(data.id);
 
   const [isScrolling, setIsScrolling] = useState(false); // スクロール中か
   const isScrollingRef = useRef(false); // setIsScrolling呼び出し最適化用
@@ -196,7 +214,10 @@ const EmakiContainer = ({
     scrollPositionStore,
   });
 
-  const sessionQuiz = quizSession ? getQuizById(quizSession.quizId) : null;
+  const sessionQuiz =
+    quizModule && quizSession
+      ? quizModule.getQuizById(quizSession.quizId)
+      : null;
   const activeQuiz = entryQuiz || sessionQuiz;
   const forceQuizFabForResume =
     quizUi === "minimized" ||
@@ -214,16 +235,19 @@ const EmakiContainer = ({
       ? "resume"
       : "start";
 
-  // sessionStorage から進行を復元（他巻ジャンプ・リロード対応）
+  // sessionStorage から進行を復元（他巻ジャンプ・リロード対応）— paint 後
   useEffect(() => {
-    if (quizHydratedRef.current) return;
-    quizHydratedRef.current = true;
-    setQuizFabHiddenState(isQuizFabHidden());
-    const stored = loadQuizSession();
-    if (!stored || !getQuizById(stored.quizId)) return;
-    setQuizSession(stored);
-    setQuizUi("minimized");
-  }, []);
+    if (!quizModule || quizHydratedRef.current) return;
+    return runAfterPaint(() => {
+      if (quizHydratedRef.current) return;
+      quizHydratedRef.current = true;
+      setQuizFabHiddenState(isQuizFabHidden());
+      const stored = loadQuizSession();
+      if (!stored || !quizModule.getQuizById(stored.quizId)) return;
+      setQuizSession(stored);
+      setQuizUi("minimized");
+    });
+  }, [quizModule]);
 
   // Help などから「クイズボタンを再表示」
   useEffect(() => {
@@ -265,14 +289,15 @@ const EmakiContainer = ({
   ]);
 
   const openQuizUi = useCallback(() => {
-    if (quizSession && getQuizById(quizSession.quizId)) {
+    if (!quizModule) return;
+    if (quizSession && quizModule.getQuizById(quizSession.quizId)) {
       setQuizUi("open");
       return;
     }
     if (!entryQuiz) return;
     setQuizSession(createQuizSession(entryQuiz, data.titleen));
     setQuizUi("open");
-  }, [quizSession, entryQuiz, data.titleen]);
+  }, [quizModule, quizSession, entryQuiz, data.titleen]);
 
   const closeQuizUi = useCallback(() => {
     // 進行は保持（観察のために閉じても再開できる）
@@ -388,12 +413,13 @@ const EmakiContainer = ({
   }, [scroll, data.id, handleToId, navIndex]);
 
   useEffect(() => {
-    if (emakiId) {
+    if (!emakiId) return;
+    return runAfterPaint(() => {
       setScrollFeedbackSubmitted(hasSubmittedScrollFeedback(emakiId));
       setSharePromptDismissed(hasDismissedPullPrompt(emakiId, "share"));
       setMidFeedbackDismissed(hasDismissedPullPrompt(emakiId, "mid_feedback"));
       setScrollRatioBucket(0);
-    }
+    });
   }, [emakiId]);
 
   useEffect(() => {
@@ -590,14 +616,11 @@ const EmakiContainer = ({
     // 前回のdata.idを更新（初回マウント時も含む）
     prevDataId = data.id;
 
-    // 計測: セッション環境コンテキスト（1セッション1回のみ送信される）
-    trackSessionContext(emakiId, backgroundImage?.length || 0);
+    // 計測: セッション環境コンテキスト（paint 後・1セッション1回のみ送信される）
+    return runAfterPaint(() => {
+      trackSessionContext(emakiId, backgroundImage?.length || 0);
+    });
   }, [data.id, emakiId, backgroundImage]);
-
-  useEffect(() => {
-    const ref = articleRef.current;
-    const coordinate = ref.getBoundingClientRect();
-  }, [articleRef]);
 
   useEffect(() => {
     if (scroll) {
@@ -679,8 +702,11 @@ const EmakiContainer = ({
   // パン effect 内の dragstart preventDefault で常時抑止しているため、
   // ここでの draggable 属性切替は不要（押下→再描画の競合も回避される）
 
-  // 配列を展開し、条件ごとに連番を付与（emakiItemIndexer に切り出し済み）
-  const processedEmakis = assignUniqueIndex(data.emakis);
+  // 配列を展開し、条件ごとに連番を付与（再レンダー時の reduce＋コピーを避ける）
+  const processedEmakis = useMemo(
+    () => assignUniqueIndex(data.emakis || []),
+    [data.emakis]
+  );
 
   // ボトムコメントバー: 横スクロール鑑賞時は常に表示（中身の有無は SceneCommentaryBar 側）
   // metadata.kotobagaki / sceneText は UI ゲートに使わない（タブ出しは kobun 有無）
@@ -688,6 +714,40 @@ const EmakiContainer = ({
   // 再生中は liveSceneIndex で先読み・解説追従（navIndex は固定で画像ツリー再レンダー抑制）
   const sceneIndexForPrefetch =
     isPlayMode || isAutoScrolling ? liveSceneIndex : navIndex;
+
+  // 描画窓 Phase 1: section 殻は常置、中身だけ配列 index 付近（ヒステリシス付き）
+  if (contentWindowEmakiRef.current !== data.id) {
+    contentWindowEmakiRef.current = data.id;
+    contentWindowMountedRef.current = new Set();
+  }
+  const windowCenter = Number.isFinite(sceneIndexForPrefetch)
+    ? sceneIndexForPrefetch
+    : 0;
+  const windowIsPlaying = isPlayMode || isAutoScrolling;
+  // 共有 hash 入場: navIndex 反映前でも着地先付近の中身を先に載せる
+  const pendingHashCenter =
+    typeof window !== "undefined"
+      ? Number(String(window.location.hash || "").replace("#", "")) || 0
+      : 0;
+  const nextContentMounted = new Set();
+  for (let i = 0; i < processedEmakis.length; i += 1) {
+    const wasMounted = contentWindowMountedRef.current.has(i);
+    const nearCenter = shouldMountSceneContent(
+      i,
+      windowCenter,
+      wasMounted,
+      { isPlayMode: windowIsPlaying }
+    );
+    const nearHash =
+      pendingHashCenter > 0 &&
+      shouldMountSceneContent(i, pendingHashCenter, false, {
+        isPlayMode: false,
+      });
+    if (nearCenter || nearHash) {
+      nextContentMounted.add(i);
+    }
+  }
+  contentWindowMountedRef.current = nextContentMounted;
 
   return (
     <SceneLikeCountsProvider emakiId={emakiId}>
@@ -785,18 +845,18 @@ const EmakiContainer = ({
             onSubmitted={handleScrollFeedbackSubmitted}
           />
         )}
-        {scroll && (
+        {scroll && showSharePullPrompt && (
           <ViewerPullPrompt
             mode="share"
-            isVisible={showSharePullPrompt}
+            isVisible
             onPrimary={handleSharePromptCopy}
             onDismiss={dismissSharePrompt}
           />
         )}
-        {scroll && (
+        {scroll && showMidFeedbackPrompt && (
           <ViewerPullPrompt
             mode="mid_feedback"
-            isVisible={showMidFeedbackPrompt}
+            isVisible
             onPrimary={() => {
               markPullPromptDismissed(emakiId, "mid_feedback");
               setMidFeedbackDismissed(true);
@@ -805,9 +865,9 @@ const EmakiContainer = ({
             onDismiss={dismissMidFeedbackPrompt}
           />
         )}
-        {scroll && (
+        {scroll && showScrollFeedbackEndPrompt && (
           <ScrollFeedbackEndPrompt
-            isVisible={showScrollFeedbackEndPrompt}
+            isVisible
             onOpenFeedback={() => setIsScrollFeedbackOpen(true)}
             onDismiss={() => setEndPromptDismissed(true)}
             emakiId={emakiId}
@@ -867,13 +927,13 @@ const EmakiContainer = ({
                 index={index}
                 src={src}
                 backgroundImage={backgroundImage}
-                type={type}
                 selectedRef={selectedRef}
                 navIndex={navIndex}
                 sceneIndex={sceneIndexForPrefetch}
                 uniqueIndex={item.uniqueIndex} // 新しい連番を渡す
                 scroll={scroll}
                 isPlayMode={isPlayMode} // 再生モード時は全画像を eager loading
+                mountContent={nextContentMounted.has(index)}
               />
             );
           })}
@@ -881,12 +941,12 @@ const EmakiContainer = ({
               次巻が存在する場合に巻末到達中にカードを表示
               row-reverse内の最終子要素 = 左端に配置
               position:sticky で左端ビューポートに固定 */}
-          {hasNextVolume && (
+          {hasNextVolume && showEndNudge && (
             <EndNudgeCard
               editionLinks={editionLinks}
               showKusouzuHubLink={showKusouzuHubLink}
               showChojuGigaHubLink={showChojuGigaHubLink}
-              showEndNudge={showEndNudge}
+              showEndNudge
             />
           )}
         </article>

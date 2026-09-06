@@ -1,18 +1,18 @@
 import CardA from "@/components/ui/CardA";
-import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/HomeSectionLink.module.css";
 import sectionStyles from "@/styles/TopRanking.module.css";
 import Link from "next/link";
-import { useContext } from "react";
 import { useTranslation } from "next-i18next";
 
-const TopRanking = () => {
+/**
+ * ホーム「いま人気の絵巻」。
+ * emakis は index getStaticProps（ISR）から渡し、初回 HTML に載せて CLS を防ぐ。
+ */
+const TopRanking = ({ emakis = [] }) => {
   const { t } = useTranslation("common");
-  const { rankingData, loading } = useContext(AppContext);
+  const top4 = emakis.slice(0, 4);
 
-  const top4 = rankingData.slice(0, 4);
-
-  if (loading || top4.length === 0) return null;
+  if (top4.length === 0) return null;
 
   return (
     <section className={sectionStyles.popularSection}>

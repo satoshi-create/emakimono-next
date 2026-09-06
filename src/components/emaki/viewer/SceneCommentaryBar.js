@@ -14,11 +14,9 @@ import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/SceneCommentaryBar.module.css";
 import SceneLikeButton from "@/components/emaki/viewer/SceneLikeButton";
 import ShareButtons from "@/components/emaki/viewer/ShareButtons";
-import EmakiEraTimeline from "@/components/chronology/EmakiEraTimeline";
-import { ChaptersTitle, eraColor, useLocaleData } from "@/utils/func";
+import { ChaptersTitle, eraColor } from "@/utils/func";
 import { getChapterFieldRaw } from "@/utils/emakiChapterText";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
-import { getLiveSlugs } from "@/utils/getLiveSlugs";
 import {
   faBookOpen,
   faList,
@@ -26,7 +24,7 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import parse from "html-react-parser";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import {
@@ -38,6 +36,11 @@ import {
   useState,
 } from "react";
 import { useTranslation } from "next-i18next";
+
+const EmakiEraTimeline = dynamic(
+  () => import("@/components/chronology/EmakiEraTimeline"),
+  { ssr: false }
+);
 
 const TEXT_MODES = ["gendaibun", "kobun", "desc"];
 
@@ -65,8 +68,6 @@ const SceneCommentaryBar = ({
 
   const { title, titleen, era, eraen } = data;
   const emakis = data.emakis || [];
-  const { t: alldata } = useLocaleData();
-  const liveSlugs = getLiveSlugs(alldata);
 
   const filterEkotobas = useMemo(
     () => emakis.filter((item) => item.cat === "ekotoba"),
@@ -438,7 +439,11 @@ const SceneCommentaryBar = ({
             >
               {hasBody ? (
                 expanded && activeMode === "kobun" && chapterTexts.kobunHtml ? (
-                  parse(chapterTexts.kobunHtml)
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: chapterTexts.kobunHtml,
+                    }}
+                  />
                 ) : expanded ? (
                   plainBody
                 ) : (
@@ -475,7 +480,6 @@ const SceneCommentaryBar = ({
             {eraen && (
               <EmakiEraTimeline
                 eraen={eraen}
-                liveSlugs={liveSlugs}
                 t={t}
                 trigger={(open) =>
                   open ? (
