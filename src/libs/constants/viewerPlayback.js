@@ -22,6 +22,16 @@ export const SCENE_DETECTION_HYSTERESIS_PX = 80;
 /** 再生中の画像先読み（uniqueIndex ベース）— 帯域逼迫抑制のため控えめに */
 export const PLAYBACK_IMAGE_LOOKAHEAD = 6;
 
+/**
+ * 描画窓（Phase 1）: section 殻は常置し、中身（LazyImage 等）だけ配列 index 付近に限定。
+ * uniqueIndex では ekotoba 混在で壊れるため、窓は配列 index 基準。
+ */
+export const CONTENT_WINDOW_ENTER_RADIUS = 3;
+/** 窓から出てもしばらく残す（チラつき防止） */
+export const CONTENT_WINDOW_EXIT_RADIUS = 5;
+/** 再生・自動スクロール中は先読みを広げる（配列 index） */
+export const CONTENT_WINDOW_PLAY_ENTER_RADIUS = 6;
+
 /** 再生中: シーン検出間隔（ms）— rAF ループ側で実行 */
 export const PLAYBACK_SCENE_DETECT_MS = 1500;
 
