@@ -42,15 +42,15 @@ const EmakiNavigation = ({
     (acc, item, i) => (item.linkId <= navIndex ? i : acc),
     0
   );
-  const isLtr = data.type === "西洋絵画";
-  const nextScene = ekotobas[currentIdx + (isLtr ? -1 : 1)];
-  const prevScene = ekotobas[currentIdx + (isLtr ? 1 : -1)];
+  // 絵巻は右起・RTL 横スクロール（旧「西洋絵画」LTR 分岐は廃止）
+  const nextScene = ekotobas[currentIdx + 1];
+  const prevScene = ekotobas[currentIdx - 1];
 
   return (
     <aside
       className={`${styles.container} ${
         orientation === "landscape" ? styles.land : styles.prt
-      } ${data.type === "古典文学" && styles.bcg}`}
+      }`}
       style={{
         opacity: isUIVisible ? 1 : 0,
         pointerEvents: isUIVisible ? "auto" : "none",
@@ -62,7 +62,7 @@ const EmakiNavigation = ({
           <FontAwesomeIcon icon={faAnglesLeft} style={{ fontSize: "1.5em" }} />
         }
         label={t("viewer.goToEnd")}
-        onClick={() => handleToId(data.type === "西洋絵画" ? 0 : endIndex)}
+        onClick={() => handleToId(endIndex)}
         description={t("viewer.goToEnd")}
         isUIVisible={isUIVisible}
       />
@@ -147,7 +147,7 @@ const EmakiNavigation = ({
         }
         label={t("viewer.goToStart")}
         description={t("viewer.goToStart")}
-        onClick={() => handleToId(data.type === "西洋絵画" ? endIndex : 0)}
+        onClick={() => handleToId(0)}
         isUIVisible={isUIVisible}
       />
     </aside>

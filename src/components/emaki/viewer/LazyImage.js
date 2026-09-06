@@ -2,6 +2,7 @@ import { AppContext } from "@/context/AppContext";
 import { trackImageLoaded, trackImageFallback, trackImageLoadSlow } from "@/libs/api/measurementUtils";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
 import { PLAYBACK_IMAGE_LOOKAHEAD } from "@/libs/constants/viewerPlayback";
+import styles from "@/styles/LazyImage.module.css";
 import Image from "next/image";
 import { useContext, useEffect, useRef, useState } from "react";
 
@@ -81,6 +82,12 @@ const getAdaptiveTimeout = (type, emakiId) => {
   if (FB_DEBUG) console.log(`[FB-DEBUG] getAdaptiveTimeout(${type}): ${timeout}ms (avg=${Math.round(avg)}ms, conn=${connMultiplier}x, emaki=${emakiMultiplier}x)`);
   return timeout;
 };
+
+/** 初回は priority 1枚のみ eager。帯域競合とデコード負荷を抑える */
+const isEagerLoad = (uniqueIndex, prefetchIndex, isPlayMode, toggleFullscreen) =>
+  uniqueIndex === 0 ||
+  (isPlayMode && uniqueIndex <= prefetchIndex + PLAYBACK_IMAGE_LOOKAHEAD) ||
+  (toggleFullscreen && Math.abs(uniqueIndex - prefetchIndex) <= 2);
 
 const LazyImage = ({
   src,
@@ -209,12 +216,8 @@ const LazyImage = ({
     let fallbackTimer = null;
     let observed = false;
 
-    // eager画像（uniqueIndex < 3）はマウント時にすでにリクエスト開始済みなので即タイマー設定
-    // 再生中は先読み8枚のみ eager 扱い（一斉ロードを防ぐ）
-    const isEager =
-      uniqueIndex < 3 ||
-      (isPlayMode &&
-        uniqueIndex <= prefetchIndex + PLAYBACK_IMAGE_LOOKAHEAD);
+    // eager画像はマウント時にすでにリクエスト開始済みなので即タイマー設定
+    const isEager = isEagerLoad(uniqueIndex, prefetchIndex, isPlayMode, false);
 
     const startFallbackTimer = () => {
       // ロード開始時刻を「今」にリセット（ビューポート進入 = ロード開始）
@@ -297,124 +300,71 @@ const LazyImage = ({
 
   return (
     <div
-      className={`image-wrapper`}
+      className={styles.wrapper}
       style={{
         width: `calc(${width / height} * ${getResponsiveHeightVar(toggleFullscreen, orientation)})`,
-        height: "100%", // 高さを明示的に設定（白背景対策）
-        position: "relative",
-        backgroundColor: "#f5f0e6", // 絵巻の紙色（白背景対策フォールバック）
+        height: "100%",
+        aspectRatio: `${width} / ${height}`,
       }}
       ref={containerRef}
     >
-      {/* スケルトン: 画像がロードされるまで表示、読み込み完了後フェードアウト */}
       {isSkeletonVisible && (
         <div
-          className="skeleton"
+          className={styles.skeleton}
           style={{
             opacity: isImageLoaded ? 0 : 1,
             transition: "opacity 0.3s ease-out",
+            aspectRatio: `${width} / ${height}`,
           }}
         />
       )}
       <Image
-        loader={config === "cloudinary" ? cloudinaryLoader : undefined} // Cloudinaryが有効な場合のみローダー適用
-        src={src.src} // Cloudinaryの画像ID
+        loader={config === "cloudinary" ? cloudinaryLoader : undefined}
+        src={src.src}
         width={width}
         height={height}
         alt={alt}
-        priority={uniqueIndex === 0} // 最初の画像は即時プリロード
-        // 再生モード時は現在位置から先読み8枚のみ eager（一斉ロードによる帯域逼迫を防ぐ）
-        // フルスクリーン時は現在シーン付近（±2枚）のみ eager（同時リクエスト抑制）
-        // 全画面切替時に IntersectionObserver が viewport 変化に追従しない問題への対策
+        priority={uniqueIndex === 0}
+        // 初回は 1枚のみ eager。再生/フルスクリーン時のみ先読みを広げる
         loading={(() => {
-          const isEager =
-            uniqueIndex < 3 ||
-            (isPlayMode &&
-              uniqueIndex <= prefetchIndex + PLAYBACK_IMAGE_LOOKAHEAD) ||
-            (toggleFullscreen && Math.abs(uniqueIndex - prefetchIndex) <= 2);
+          const isEager = isEagerLoad(
+            uniqueIndex,
+            prefetchIndex,
+            isPlayMode,
+            toggleFullscreen
+          );
           if (FB_DEBUG && uniqueIndex < 12) {
             console.log(`[FB-DEBUG] loading: idx=${uniqueIndex}, prefetchIndex=${prefetchIndex}, fullscreen=${toggleFullscreen}, playMode=${isPlayMode} → ${isEager ? "eager" : "lazy"}`);
           }
           return isEager ? "eager" : "lazy";
         })()}
-        // 自動再生中は先読みを広げてロード開始を早める
-        lazyBoundary={isPlayMode ? "2400px" : "800px"} // ビューポートの手前から読み込み開始
+        lazyBoundary={isPlayMode ? "2400px" : "800px"}
         layout="responsive"
         sizes={imageSizes}
-        placeholder={"blur"} // ぼかしプレースホルダーを適用
-        blurDataURL={PAPER_COLOR_BLUR_DATA_URL} // 絵巻の紙色（Firefox 白背景対策）
+        placeholder={"blur"}
+        blurDataURL={PAPER_COLOR_BLUR_DATA_URL}
         onLoadingComplete={() => {
-          // 計測: 正常読み込み完了
           const loadTimeMs = Date.now() - loadStartTimeRef.current;
           if (FB_DEBUG) console.log(`[FB-DEBUG] ✓ onLoadingComplete: idx=${uniqueIndex}, loadTime=${loadTimeMs}ms`);
-          // アダプティブタイムアウト: 実測ロード時間を記録（次回以降の閾値算出に使用）
           recordLoadTime(loadTimeMs);
           if (!hasTrackedRef.current && emakiId) {
             trackImageLoaded(emakiId, uniqueIndex, loadTimeMs, "normal");
-            // 計測: 遅延検出（fallback未到達だが閾値70%超の画像）
             const thresholdType = toggleFullscreen ? "fullscreen" : "universal";
             const threshold = getAdaptiveTimeout(thresholdType, emakiId);
-            const isEager =
-              uniqueIndex < 3 ||
-              (isPlayMode &&
-                uniqueIndex <= prefetchIndex + PLAYBACK_IMAGE_LOOKAHEAD) ||
-              (toggleFullscreen && Math.abs(uniqueIndex - prefetchIndex) <= 2);
+            const isEager = isEagerLoad(
+              uniqueIndex,
+              prefetchIndex,
+              isPlayMode,
+              toggleFullscreen
+            );
             trackImageLoadSlow(emakiId, uniqueIndex, loadTimeMs, threshold, toggleFullscreen, isEager ? "eager" : "lazy");
             hasTrackedRef.current = true;
           }
-          // 画像読み込み完了 → フェードアウト開始
           setImageLoaded(true);
-          // フェードアウト完了後にスケルトンを非表示
           setTimeout(() => setSkeletonVisible(false), 300);
         }}
-        className="image loaded" // Next.js標準の遅延読み込みに依存
+        className={isImageLoaded ? styles.imageLoaded : styles.imageLoading}
       />
-      <style jsx global>{`
-        .imageWrapper {
-          position: relative; /* Imageの親要素として必要 */
-          flex-shrink: 0; /* 子要素が縮小されないようにする */
-          height: 100%; /* コンテナの高さに合わせる */
-          width: ${width}px;
-          height: ${height}px;
-          overflow: hidden;
-        }
-        .skeleton {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 2; /* next/image の上に表示 */
-          /* 絵巻の紙色に馴染む静的な淡いベージュ（シマーアニメーションは視覚ノイズになるため削除） */
-          background-color: #f5f0e6;
-          aspect-ratio: ${width} / ${height};
-        }
-        /* next/image の内部 span/img 要素にも背景色を適用（白背景対策） */
-        .image-wrapper > span,
-        .image-wrapper > div {
-          background-color: #f5f0e6 !important;
-        }
-        @keyframes shimmer {
-          0% {
-            background-position: -200% 0;
-          }
-          100% {
-            background-position: 200% 0;
-          }
-        }
-        /* 初期状態：透明（大型絵巻画像への blur はペイントコストが高く、
-           自動再生中に複数画像が同時ロード完了するとフレーム落ちの原因になるため
-           opacity フェードのみで表現する） */
-        .image.loading {
-          opacity: 0;
-        }
-
-        /* 読み込み完了後：なめらかにフェードイン */
-        .image.loaded {
-          opacity: 1;
-          transition: opacity 0.4s ease;
-        }
-      `}</style>
     </div>
   );
 };

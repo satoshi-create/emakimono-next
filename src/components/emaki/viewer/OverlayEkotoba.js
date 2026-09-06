@@ -3,8 +3,6 @@ import SceneLikeButton from "@/components/emaki/viewer/SceneLikeButton";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/OverlayEkotoba.module.css";
 import { ChaptersTitle } from "@/utils/func";
-import "lazysizes";
-import "lazysizes/plugins/attrchange/ls.attrchange";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 
@@ -19,7 +17,6 @@ const OverlayEkotoba = ({
     genji_chapter: genjiChapter,
     index,
     navIndex,
-    type,
     data,
     uniqueIndex,
   },
@@ -32,9 +29,9 @@ const OverlayEkotoba = ({
 
   return (
     <div
-      className={`section fade-in lazyload ${
-        type === "西洋絵画" ? styles.ekotobalr : styles.ekotobarl
-      } ${styles.container} ${!src ? styles.noEkotobaImage : ""}`}
+      className={`section ${styles.ekotobarl} ${styles.container} ${
+        !src ? styles.noEkotobaImage : ""
+      }`}
       ref={navIndex === index ? scrollDialog : null}
     >
       {chapter && chapterToggle && (

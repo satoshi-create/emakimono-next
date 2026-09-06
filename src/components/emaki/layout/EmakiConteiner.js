@@ -61,30 +61,7 @@ import * as gtag from "@/libs/api/gtag";
 import {
   buildShareUrl,
 } from "@/utils/buildShareUrl";
-// P0改修: フルスクリーン切り替え時のスクロール位置保存用
-// モジュールスコープに配置することで、コンポーネント再マウント時も値を保持
-const scrollPositionStore = {
-  scrollLeft: 0,
-  scrollRatio: 0,
-  restored: false,      // 復元完了フラグ（複数回の復元によるジャンプ防止）
-  isTransitioning: false, // 復元中フラグ（保存の上書きを防止）
-  emakiId: null,        // 保存時の絵巻ID（別絵巻への誤復元防止）
-};
-
-/** 絵巻ページ遷移時に _app.js から呼び出す */
-export const resetScrollPositionStore = () => {
-  scrollPositionStore.scrollLeft = 0;
-  scrollPositionStore.scrollRatio = 0;
-  scrollPositionStore.restored = false;
-  scrollPositionStore.isTransitioning = false;
-  scrollPositionStore.emakiId = null;
-};
-
-/** 向き変更前に呼び、再マウント中の ratio=0 上書きを防ぐ */
-export const beginScrollRestore = () => {
-  scrollPositionStore.restored = false;
-  scrollPositionStore.isTransitioning = true;
-};
+import { scrollPositionStore } from "@/hooks/emaki/scrollPositionStore";
 
 // 教育現場向けUI: 絵巻切り替え検出用
 // モジュールスコープに配置することで、コンポーネント再マウント時も前回値を保持
@@ -116,7 +93,7 @@ const EmakiContainer = ({
     isScrollDetectedUpdateRef,
   } = useContext(AppContext);
 
-  const { backgroundImage, type } = data;
+  const { backgroundImage } = data;
   const { locale, locales, asPath, defaultLocale, query, push } = useRouter();
 
   const wrapperRef = useRef();
@@ -867,7 +844,6 @@ const EmakiContainer = ({
                 index={index}
                 src={src}
                 backgroundImage={backgroundImage}
-                type={type}
                 selectedRef={selectedRef}
                 navIndex={navIndex}
                 sceneIndex={sceneIndexForPrefetch}

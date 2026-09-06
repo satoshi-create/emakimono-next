@@ -4,6 +4,7 @@ import ekotobaStyles from "@/styles/OverlayEkotoba.module.css";
 import { sceneSectionId } from "@/utils/emakiSceneDom";
 import { forwardRef } from "react";
 
+/** 絵巻シーンを cat に応じて image / ekotoba に振り分け（現行 type は絵巻のみ） */
 const SwitcherEmaki = forwardRef(
   (
     {
@@ -13,62 +14,58 @@ const SwitcherEmaki = forwardRef(
       index,
       src,
       backgroundImage,
-      type,
       selectedRef,
       navIndex,
       scroll,
       uniqueIndex,
-      isPlayMode, // 再生モード状態
-      sceneIndex, // 先読み用（再生中は liveSceneIndex）
+      isPlayMode,
+      sceneIndex,
     },
     ref
   ) => {
-    if (data.type !== "古典文学") {
-      if (cat === "image") {
-        return (
-          <section ref={ref} id={sceneSectionId(index)}>
-            <EmakiImage
-              key={index}
-              item={{
-                ...item,
-                index,
-                scroll,
-                selectedRef,
-                navIndex,
-                uniqueIndex,
-              }}
-              isPlayMode={isPlayMode}
-              sceneIndex={sceneIndex}
-              emakiId={data?.titleen}
-            />
-          </section>
-        );
-      }
-      if (cat === "ekotoba") {
-        return (
-          <section
-            ref={ref}
-            id={sceneSectionId(index)}
-            className={!src ? ekotobaStyles.markerSection : undefined}
-          >
-            <OverlayEkotoba
-              key={index}
-              item={{
-                ...item,
-                cat,
-                index,
-                backgroundImage,
-                type,
-                scroll,
-                selectedRef,
-                navIndex,
-                data,
-                uniqueIndex,
-              }}
-            />
-          </section>
-        );
-      }
+    if (cat === "image") {
+      return (
+        <section ref={ref} id={sceneSectionId(index)}>
+          <EmakiImage
+            key={index}
+            item={{
+              ...item,
+              index,
+              scroll,
+              selectedRef,
+              navIndex,
+              uniqueIndex,
+            }}
+            isPlayMode={isPlayMode}
+            sceneIndex={sceneIndex}
+            emakiId={data?.titleen}
+          />
+        </section>
+      );
+    }
+    if (cat === "ekotoba") {
+      return (
+        <section
+          ref={ref}
+          id={sceneSectionId(index)}
+          className={!src ? ekotobaStyles.markerSection : undefined}
+        >
+          <OverlayEkotoba
+            key={index}
+            item={{
+              ...item,
+              cat,
+              index,
+              backgroundImage,
+              scroll,
+              selectedRef,
+              navIndex,
+              data,
+              uniqueIndex,
+            }}
+          />
+        </section>
+      );
     }
     return null;
   }

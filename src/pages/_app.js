@@ -7,19 +7,20 @@
  * Edit targeted blocks only — do not split this file without a plan.
  */
 import BottomNavigation from "@/components/navigation/BottomNavigation";
-import { resetScrollPositionStore, beginScrollRestore } from "@/components/emaki/layout/EmakiConteiner";
-import ModalSearch from "@/components/search/ModalSearch";
+import {
+  resetScrollPositionStore,
+  beginScrollRestore,
+} from "@/hooks/emaki/scrollPositionStore";
 import * as gtag from "@/libs/api/gtag";
 import { initEngagementTracking } from "@/libs/api/measurementUtils";
-import ExtractingListData from "@/utils/ExtractingListData";
 import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
-import { useLocaleData } from "@/hooks/useLocale";
 import useEmakiFullscreen from "@/hooks/useEmakiFullscreen";
 import { querySceneSection } from "@/utils/emakiSceneDom";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import Head from "next/head";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import Script from "next/script";
 import { AppContext } from "@/context/AppContext";
@@ -29,32 +30,35 @@ import { appWithTranslation } from "next-i18next";
 
 config.autoAddCss = false;
 
+const ModalSearch = dynamic(
+  () => import("@/components/search/ModalSearch"),
+  { ssr: false }
+);
+
+// Chakra theme はモジュールスコープ（毎レンダー extendTheme しない）
+const theme = extendTheme({
+  styles: {
+    global: {
+      "*, *::before, *::after": {
+        boxSizing: "border-box",
+        margin: 0,
+        padding: 0,
+        fontFamily: "inherit",
+      },
+      body: {
+        margin: 0,
+      },
+      img: {
+        maxWidth: "none",
+        height: "auto",
+      },
+    },
+  },
+});
+
 export { AppContext };
 
 function MyApp({ Component, pageProps, router }) {
-  const removeNestedArrayObj = ExtractingListData();
-
-  // Chakra UI のデフォルトの CSSReset を無効化
-  const theme = extendTheme({
-    styles: {
-      global: {
-        // デフォルトリセットを上書きする
-        "*, *::before, *::after": {
-          boxSizing: "border-box",
-          margin: 0,
-          padding: 0,
-          fontFamily: "inherit",
-        },
-        body: {
-          margin: 0,
-        },
-        img: {
-          maxWidth: "none", // Chakra UI のデフォルトスタイルを無効化
-          height: "auto", // 必要に応じて変更
-        },
-      },
-    },
-  });
 
   // ページ遷移を認識させるコード
   // https://zenn.dev/rh820/articles/8af90011c573fe
@@ -76,11 +80,11 @@ function MyApp({ Component, pageProps, router }) {
     initEngagementTracking();
   }, []);
 
-  const { t: emakisData } = useLocaleData();
   const [chapterToggle, setChapterToggle] = useState(true);
   const [oepnSidebar, setOepnSidebar] = useState(false);
   const [query, setQuery] = useState("");
-  const [fliterdEmakis, setfliterdEmakis] = useState(emakisData);
+  // 未使用レガシー state（コンテキスト互換のため空配列で維持）
+  const [fliterdEmakis, setfliterdEmakis] = useState([]);
 
   const [stickyClass, setStickyClass] = useState("");
   const [isSidebarOpen, setisSidebarOpen] = useState(false);
@@ -100,34 +104,12 @@ function MyApp({ Component, pageProps, router }) {
     exitFullscreenForNavigation,
   } = useEmakiFullscreen(navIndex);
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [showData, setShowdData] = useState(emakisData);
+  const [showData, setShowdData] = useState([]);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isHelpModalOpen, setIsHelpModalOpen] = useState(false);
-  const [data, setData] = useState([]);
+  const [rankingData, setRankingData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [windowHeight, setWindowHeight] = useState(0);
-
-  const newData = data?.map((item, i) => {
-    const { pathName, pageView } = item;
-    const connectData = removeNestedArrayObj
-      .filter((item) => item.titleen === pathName)
-      .map((item) => ({ ...item, pathName, pageView }));
-    if (connectData.length) {
-      return connectData;
-    }
-  });
-
-  function flattenAndRemoveNullAndUndefined(arr) {
-    if (!Array.isArray(arr)) return []; // 配列でない場合は空の配列を返す
-    return arr.flatMap((item) => {
-      if (Array.isArray(item)) {
-        return flattenAndRemoveNullAndUndefined(item); // 再帰的に処理
-      }
-      return item !== null && item !== undefined ? [item] : [];
-    });
-  }
-
-  const rankingData = flattenAndRemoveNullAndUndefined(newData).slice(0, 30);
 
   async function fetchData() {
     setLoading(true);
@@ -150,7 +132,9 @@ function MyApp({ Component, pageProps, router }) {
         .map(([pathName, pageView]) => ({ pathName, pageView }))
         .sort((a, b) => b.pageView - a.pageView);
 
-      setData(encodeURL);
+      // metadata JSON はランキング構築時だけ遅延ロード（_app 初回バンドルから外す）
+      const { buildRankingData } = await import("@/utils/buildRankingData");
+      setRankingData(buildRankingData(encodeURL));
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {

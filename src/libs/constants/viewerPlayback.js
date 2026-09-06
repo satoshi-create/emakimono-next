@@ -19,8 +19,8 @@ export const SCENE_READING_POSITION_RATIO = 0.38;
 /** シーン切替ヒステリシス（px）— 現シーンからの優位がこれ未満なら維持 */
 export const SCENE_DETECTION_HYSTERESIS_PX = 80;
 
-/** 再生中の画像先読み（uniqueIndex ベース） */
-export const PLAYBACK_IMAGE_LOOKAHEAD = 10;
+/** 再生中の画像先読み（uniqueIndex ベース）— 帯域逼迫抑制のため控えめに */
+export const PLAYBACK_IMAGE_LOOKAHEAD = 6;
 
 /** 再生中: シーン検出間隔（ms）— rAF ループ側で実行 */
 export const PLAYBACK_SCENE_DETECT_MS = 1500;
