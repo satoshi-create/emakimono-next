@@ -14,6 +14,8 @@ import {
   HOME_LATEST_TITLEEN,
   KUSOUZU_HUB_PATH,
 } from "@/libs/constants/links";
+import { fetchRankingPageViews } from "@/libs/api/fetchRankingPageViews";
+import { buildRankingData } from "@/utils/buildRankingData";
 import { useLocale, useLocaleMeta } from "@/utils/func";
 import "lazysizes";
 import { useTranslation } from "next-i18next";
@@ -94,7 +96,7 @@ const buildHomeJsonLd = ({
   );
 };
 
-const Home = () => {
+const Home = ({ popularEmakis = [] }) => {
   const { t } = useLocale();
   const { t: tCommon } = useTranslation("common");
   const { t: meta } = useLocaleMeta();
@@ -136,7 +138,7 @@ const Home = () => {
         </div>
       </section>
       <HomeLatestScrolls />
-      <TopRanking />
+      <TopRanking emakis={popularEmakis} />
       <HomeThemeCards />
       {featuredEmakis.length > 0 && (
         <>
@@ -156,10 +158,21 @@ const Home = () => {
 };
 
 export const getStaticProps = async ({ locale }) => {
+  let popularEmakis = [];
+  try {
+    const pageViews = await fetchRankingPageViews();
+    popularEmakis = buildRankingData(pageViews, 4);
+  } catch (error) {
+    console.warn("Home getStaticProps: GA ranking fetch failed", error.message);
+  }
+
   return {
     props: {
+      popularEmakis,
       ...(await serverSideTranslations(locale ?? "ja", ["common"])),
     },
+    // /ranking と同様。人気枠を初回 HTML に載せ CLS を防ぐ
+    revalidate: 86400,
   };
 };
 
