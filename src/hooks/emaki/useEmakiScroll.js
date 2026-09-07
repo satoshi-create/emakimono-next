@@ -36,6 +36,7 @@ const useEmakiScroll = ({
   isScrollDetectedUpdateRef,
   isAutoScrolling,
   playModeAnimationRef,
+  palmActiveRef,
   lastDetectedSceneRef,
   isAtStartRef,
   isAtEndRef,
@@ -76,6 +77,8 @@ const useEmakiScroll = ({
   const [contentWindowCenter, setContentWindowCenter] = useState(navIndex);
   const contentWindowCenterRef = useRef(navIndex);
   const windowCenterRafRef = useRef(null);
+  // スクロール中の state 反映を idle へ集約するためのハンドル（1回にまとめる）
+  const windowCenterIdleRef = useRef(null);
 
   useEffect(() => {
     setLiveSceneIndex(navIndex);
@@ -176,6 +179,13 @@ const useEmakiScroll = ({
         }
       }
 
+      // パームドラッグ中はシーン確定を保留する（指で位置を選んでいる最中に navIndex を
+      // 更新すると EmakiConteiner 全体の再レンダー→「角ばり」や、hash 追従を介した
+      // 巻き戻し連鎖を招く）。ドラッグ終了時（EmakiConteiner 側）に最終1回だけ検出する。
+      if (palmActiveRef?.current) {
+        return;
+      }
+
       // 計測: シーン遷移・滞在（スクロール検出による）
       handleSceneChange(emakiId, closestId, "scroll_detect");
       // 計測: セッション鑑賞サマリー用の状態更新
@@ -211,6 +221,7 @@ const useEmakiScroll = ({
     isAutoScrolling,
     toggleFullscreen,
     playModeAnimationRef,
+    palmActiveRef,
   ]);
 
   if (detectCurrentSceneRef) {
@@ -226,6 +237,28 @@ const useEmakiScroll = ({
     const el = articleRef.current;
 
     /** 描画窓用: ヒステリシスなしで最寄りシーンを rAF 1回に集約して更新 */
+    // スクロール中は state を更新せず ref のみ進め、idle 時に1回へ集約して反映する。
+    // パンフレーム内で EmakiConteiner の再レンダー（殻→中身マウント・eager 再評価）が
+    // 走ると入力→描画の追いつきで巻き戻り/ジャンプに見えるため、ここで非同期化する。
+    const flushWindowCenterToState = () => {
+      windowCenterIdleRef.current = null;
+      const latest = contentWindowCenterRef.current;
+      // functional update: 反映時点で最新値と変わっていなければ再レンダーしない
+      setContentWindowCenter((prev) => (prev === latest ? prev : latest));
+    };
+    const scheduleWindowCenterStateSync = () => {
+      if (windowCenterIdleRef.current) return; // 既に反映予約済み
+      if (typeof requestIdleCallback !== "undefined") {
+        windowCenterIdleRef.current = requestIdleCallback(
+          flushWindowCenterToState,
+          { timeout: 250 }
+        );
+      } else {
+        // requestIdleCallback 非対応（旧 Safari 等）: 短遅延で同様に集約
+        windowCenterIdleRef.current = setTimeout(flushWindowCenterToState, 200);
+      }
+    };
+
     const scheduleContentWindowCenter = () => {
       if (windowCenterRafRef.current) return;
       windowCenterRafRef.current = requestAnimationFrame(() => {
@@ -234,14 +267,11 @@ const useEmakiScroll = ({
         if (!node) return;
 
         const applyCenter = (closestId) => {
-          if (
-            closestId !== null &&
-            !isNaN(closestId) &&
-            closestId !== contentWindowCenterRef.current
-          ) {
-            contentWindowCenterRef.current = closestId;
-            setContentWindowCenter(closestId);
-          }
+          if (closestId === null || isNaN(closestId)) return;
+          if (closestId === contentWindowCenterRef.current) return;
+          // ref は即時・state は idle 反映（連続スクロール中は最新の中心だけを1回で適用）
+          contentWindowCenterRef.current = closestId;
+          scheduleWindowCenterStateSync();
         };
 
         const cache = sectionsCacheRef.current;
@@ -393,6 +423,14 @@ const useEmakiScroll = ({
       if (windowCenterRafRef.current) {
         cancelAnimationFrame(windowCenterRafRef.current);
         windowCenterRafRef.current = null;
+      }
+      if (windowCenterIdleRef.current) {
+        if (typeof cancelIdleCallback !== "undefined") {
+          cancelIdleCallback(windowCenterIdleRef.current);
+        } else {
+          clearTimeout(windowCenterIdleRef.current);
+        }
+        windowCenterIdleRef.current = null;
       }
     };
   }, [detectCurrentScene, isAutoScrolling, dataId, emakiId]);

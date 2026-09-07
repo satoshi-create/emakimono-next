@@ -75,6 +75,8 @@ export type UseEmakiAutoPlayResult = {
 export type UseEmakiPalmDragResult = {
   isPalmMode: boolean;
   suppressClickUntilRef: RefObject<number>;
+  /** ドラッグ実行中フラグ。useEmakiScroll がシーン確定を保留するために参照する */
+  palmActiveRef: RefObject<boolean>;
 };
 
 /** useEmakiIdleUI — 静止UI耐性（idle timer）。useEmakiAutoPlay が内部合成して利用 */
