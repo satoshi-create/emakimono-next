@@ -120,6 +120,7 @@
     "contact": "Contact",
     "choujuHub": "Chōjū-jinbutsu-giga",
     "kusouzuHub": "Kusōzu Gallery",
+    "genjiHub": "Genji — 54 Chapters",
     "mangaRoots": "Manga Roots"
   },
 
@@ -293,6 +294,35 @@
     "peopleIntro": "People traditionally identified as the models of kusōzu.",
     "modelLinkLabel": "Model of this work",
     "representativeLinkLabel": "View the representative scroll — Kusōzu-maki (Kamakura)"
+  },
+
+  "genjiHub": {
+    "pagetitle": "The Tale of Genji — 54 Chapters",
+    "metaDesc": "Short summaries of all 54 chapters of The Tale of Genji, with links to classical and modern public-domain texts, plus related Genji picture scrolls.",
+    "breadcrumb": "Genji — 54 Chapters",
+    "introTitle": "The 54 chapters of Genji",
+    "intro": "The Tale of Genji unfolds across 54 chapters. This hub offers a short synopsis for each chapter and links to classical Japanese and modern Japanese public editions. On this site you can also unroll Genji picture scrolls horizontally.",
+    "tips": "Full texts live on external archives. Here we only provide entry-level synopses and brief excerpts.",
+    "chapterSectionTitle": "All 54 chapters",
+    "scrollSectionTitle": "Genji picture scrolls",
+    "sourcesSectionTitle": "Text sources",
+    "sourcesNote": "Classical text: Wikisource (Shibuya edition). Modern Japanese: Aozora Bunko (Yosano Akiko translation). Excerpts are short quotations for orientation only.",
+    "chapterNumber": "Chapter {{num}}",
+    "chapterScrollCount": "Available in {{count}} scroll(s)",
+    "chapterNoScrolls": "No scrolls on this site",
+    "chapterPagetitle": "Genji Chapter {{num}}: {{title}}",
+    "chapterMetaDesc": "Synopsis and sources for Chapter {{num}} ({{title}}) of The Tale of Genji, with links to related picture scrolls.",
+    "excerptKobunLabel": "Classical Japanese (excerpt)",
+    "excerptGendaibunLabel": "Modern Japanese (excerpt)",
+    "excerptEmpty": "An excerpt for this chapter is not ready yet. Use the link below for the full text.",
+    "readFullKobun": "Read the full classical text (Wikisource)",
+    "readFullGendaibun": "Read the full modern translation (Aozora Bunko)",
+    "relatedScrollsTitle": "Picture scrolls for this chapter",
+    "hubNudgeLabel": "Back to Genji — 54 Chapters",
+    "mainCharacter": "Main characters: {{name}}",
+    "age": "Genji's age: {{age}}",
+    "linkLabel": "Genji — 54 Chapters",
+    "linkDesc": "Synopses of all 54 chapters and related Genji scrolls"
   },
 
   "choujuGigaHub": {

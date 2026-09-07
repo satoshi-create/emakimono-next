@@ -1,5 +1,6 @@
 export const CHOUJU_GIGA_HUB_PATH = "/chouju-giga/chapters";
 export const KUSOUZU_HUB_PATH = "/kusouzu/chapters-kusouzu";
+export const GENJI_HUB_PATH = "/genji/chapters-genji";
 
 /** トップ「最新の絵巻」キュレーション。新規公開時は先頭に追加。 */
 export const HOME_LATEST_SCROLLS = [
@@ -67,6 +68,11 @@ export const navGroups = [
         name: "九相図一覧",
         nameen: "Kusōzu Gallery",
         path: KUSOUZU_HUB_PATH,
+      },
+      {
+        name: "源氏物語54帖",
+        nameen: "Genji — 54 Chapters",
+        path: GENJI_HUB_PATH,
       },
       { name: "ランキング", nameen: "Rankings", path: "/ranking" },
       { name: "観光マップ", nameen: "Sightseeing Map", path: "/emaki-hub" },

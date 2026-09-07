@@ -53,6 +53,16 @@ function buildSeoRedirects() {
       permanent: true,
       locale: false,
     },
+    {
+      source: "/genjie",
+      destination: "/genji/chapters-genji",
+      permanent: true,
+    },
+    {
+      source: "/genjie/:path*",
+      destination: "/genji/:path*",
+      permanent: true,
+    },
   ];
 }
 

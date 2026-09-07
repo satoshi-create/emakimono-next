@@ -120,6 +120,7 @@
     "contact": "お問い合わせ",
     "choujuHub": "鳥獣人物戯画一覧",
     "kusouzuHub": "九相図一覧",
+    "genjiHub": "源氏物語54帖",
     "mangaRoots": "マンガのルーツ"
   },
 
@@ -293,6 +294,35 @@
     "peopleIntro": "九相図のモデルとされる人物の紹介ページへ。",
     "modelLinkLabel": "この作品のモデル",
     "representativeLinkLabel": "代表作「九相図巻（鎌倉）」を見る"
+  },
+
+  "genjiHub": {
+    "pagetitle": "源氏物語54帖一覧",
+    "metaDesc": "源氏物語全54帖のあらすじと出典への案内。関連する源氏絵巻を横スクロールで鑑賞できます。",
+    "breadcrumb": "源氏物語54帖",
+    "introTitle": "源氏物語の54帖",
+    "intro": "『源氏物語』は全54帖からなる長編物語です。各帖の短いあらすじと、古文・現代語訳の出典へのリンクをまとめています。当サイトでは、源氏物語を描いた絵巻物を横スクロールで鑑賞できます。",
+    "tips": "全文は外部の公開テキストへ。ここでは入口としてのあらすじと短い抜粋のみを掲載しています。",
+    "chapterSectionTitle": "54帖一覧",
+    "scrollSectionTitle": "源氏物語の絵巻",
+    "sourcesSectionTitle": "本文・現代語訳の出典",
+    "sourcesNote": "古文は Wikisource「源氏物語（渋谷栄一校訂）」、現代文は青空文庫「源氏物語（與謝野晶子訳）」を参照しています。抜粋は入口用のごく短い引用です。",
+    "chapterNumber": "第{{num}}帖",
+    "chapterScrollCount": "{{count}}巻で鑑賞可",
+    "chapterNoScrolls": "収録絵巻なし",
+    "chapterPagetitle": "源氏物語 第{{num}}帖「{{title}}」",
+    "chapterMetaDesc": "源氏物語 第{{num}}帖「{{title}}」のあらすじと出典案内。関連する源氏絵巻へ。",
+    "excerptKobunLabel": "古文（抜粋）",
+    "excerptGendaibunLabel": "現代文（抜粋）",
+    "excerptEmpty": "この帖の抜粋は準備中です。全文は下のリンクから読めます。",
+    "readFullKobun": "古文の全文を読む（Wikisource）",
+    "readFullGendaibun": "現代語訳の全文を読む（青空文庫）",
+    "relatedScrollsTitle": "この帖が描かれた絵巻",
+    "hubNudgeLabel": "源氏物語54帖一覧へ戻る",
+    "mainCharacter": "主な登場人物: {{name}}",
+    "age": "源氏の年齢: {{age}}",
+    "linkLabel": "源氏物語54帖",
+    "linkDesc": "全54帖のあらすじと源氏絵巻への案内"
   },
 
   "choujuGigaHub": {

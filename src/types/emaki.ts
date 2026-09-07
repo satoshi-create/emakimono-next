@@ -139,7 +139,31 @@ export type ScrollMetadata = {
   reference?: ReferenceItem[];
   personname?: PersonName[];
   kusouzuslug?: KusouzuSlug[];
-  /** 源氏絵用。実データでは未使用 */
-  genjieslug?: { id?: string }[];
+  /** 源氏絵用。帖 path / title / ruby。ビューアから /genji/[path] へ */
+  genjieslug?: { id?: string; title?: string; ruby?: string; path?: string }[];
   emakis: EmakiScene[];
+};
+
+/** 源氏物語54帖マスター（chapters-of-genji.json）。ハブ専用フィールド含む */
+export type GenjiChapterMaster = {
+  chapter_en: string;
+  chapter_ch: string;
+  title: string;
+  titleen: string;
+  ruby: string;
+  path: string;
+  "main-character"?: string;
+  age?: string;
+  summary?: string;
+  /** ハブ用: 現代文抜粋（與謝野訳）。あらすじは summary */
+  gendaibun?: string;
+  /** ハブ用: 現代文抜粋の英訳（パイロットのみ） */
+  gendaibunen?: string;
+  /** ハブ用: 古文抜粋（Wikisource） */
+  kobun?: string;
+  /** ハブ用: 古文抜粋の英訳（パイロットのみ） */
+  kobunen?: string;
+  scene?: { sceneId: string; content: string }[];
+  source_kobun_url?: string;
+  source_gendaibun_url?: string;
 };

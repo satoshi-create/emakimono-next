@@ -33,7 +33,7 @@ export default function FullScreenComp({
             {genjieslug.flatMap((item, i) => [
               ...(i ? ["　　"] : []),
               <h4 className={`${styles.genjieslugTitle}`} key={i}>
-                <Link href={`/genjie/${item.path}`}>
+                <Link href={`/genji/${item.path}`}>
                   <a>
                     <ruby>
                       {item.title} <rp>(</rp>

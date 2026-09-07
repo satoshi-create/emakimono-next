@@ -9,12 +9,10 @@
     "main-character": "源氏",
     "age": "1-12歳",
     "summary": "帝（桐壺帝）はそれほど身分が高くない桐壺更衣を寵愛し皇子を儲けるが、更衣はやがて病死する。これを深く嘆く帝を慰めるために亡き更衣に生き写しの藤壺が入内し、新たな寵愛を得る。一方で皇子は帝の元で育てられ、亡き母・桐壺更衣に似るという藤壺をことに慕うようになる。帝は元服した皇子を臣籍降下させて源姓を与える。彼はその光り輝くような美貌から光源氏と呼ばれるようになり、左大臣家娘葵の上の婿に迎えられる。",
-    "gendaibun": "帝（桐壺帝）はそれほど身分が高くない桐壺更衣を寵愛し皇子を儲けるが、更衣はやがて病死する。これを深く嘆く帝を慰めるために亡き更衣に生き写しの藤壺が入内し、新たな寵愛を得る。一方で皇子は帝の元で育てられ、亡き母・桐壺更衣に似るという藤壺をことに慕うようになる。帝は元服した皇子を臣籍降下させて源姓を与える。彼はその光り輝くような美貌から光源氏と呼ばれるようになり、左大臣家娘葵の上の婿に迎えられる。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "帝（桐壺帝）はそれほど身分が高くない桐壺更衣を寵愛し皇子を儲けるが、更衣はやがて病死する。これを深く嘆く帝を慰めるために亡き更衣に生き写しの藤壺が入内し、新たな寵愛を得る。一方で皇子は帝の元で育てられ、亡き母・桐壺更衣に似るという藤壺をことに慕うようになる。帝は元服した皇子を臣籍降下させて源姓を与える。彼はその光り輝くような美貌から光源氏と呼ばれるようになり、左大臣家娘葵の上の婿に迎えられる。",
-    "descen": "",
+    "gendaibun": "どの帝の御代であったか、女御や更衣たちが大勢お仕えしている中に、たいして高い身分ではなかったが、だれよりも帝の寵愛を一身に集めていらした方があった。最初から自分こそはとプライドを持っていられた他の御方々は、目ざわりな者として扱い、ますます意地悪くなってゆく。……",
+    "gendaibunen": "In which emperor's reign was it? Among the many Consorts and Intimates serving at court, there was one who was not of especially high birth, yet she alone received the Emperor's fullest favor. The other ladies, who had prided themselves from the start, treated her as an eyesore and grew ever more spiteful. …",
+    "kobun": "いづれの御時にか、女御、更衣あまたさぶらひたまひける中に、いとやむごとなき際にはあらぬが、すぐれて時めきたまふありけり。はじめより我はと思ひあがりたまへる御方がた、めざましきものに推しなして、いとどあつしくなりゆき、殿上人なども、あんなりの人の御忍びありきや、心づきなしと思いつつ、怨じの心を加へたる。……",
+    "kobunen": "In which reign was it? Among the many Consorts and Intimates in service, there was one who, though not of the very highest rank, enjoyed exceptional favor. Ladies who from the first had thought highly of themselves treated her as an affront and grew ever more spiteful; even the courtiers, hearing of the Emperor's secret visits, felt displeased and added their resentment. …",
     "scene": [
       {
         "sceneId": "1",
@@ -36,7 +34,9 @@
         "sceneId": "5",
         "content": "源氏の加冠の禄として左大臣に帝より物を賜う。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E6%A1%90%E5%A3%BA",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5016.html"
   },
   {
     "chapter_en": "2",
@@ -49,11 +49,9 @@
     "age": "17歳夏",
     "summary": "五月雨のある夜、宮中に宿直する源氏のもとに若い公達が集って「雨夜の品定め」を行う。翌日、物忌みに出向いた邸で、源氏は伊予介の妻・空蝉と関係を持つ。源氏は手なずけた彼女の弟を通じてその後も度々逢瀬を求めるが、空蝉はこれを頑なに拒み続ける。",
     "gendaibun": "五月雨のある夜、宮中に宿直する源氏のもとに若い公達が集って「雨夜の品定め」を行う。翌日、物忌みに出向いた邸で、源氏は伊予介の妻・空蝉と関係を持つ。源氏は手なずけた彼女の弟を通じてその後も度々逢瀬を求めるが、空蝉はこれを頑なに拒み続ける。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "五月雨のある夜、宮中に宿直する源氏のもとに若い公達が集って「雨夜の品定め」を行う。翌日、物忌みに出向いた邸で、源氏は伊予介の妻・空蝉と関係を持つ。源氏は手なずけた彼女の弟を通じてその後も度々逢瀬を求めるが、空蝉はこれを頑なに拒み続ける。",
-    "descen": "",
+    "gendaibunen": "One rainy night in early summer, young courtiers gather around Genji on night duty and debate the virtues of women. The next day, while away for ritual abstinence, Genji becomes involved with Utsusemi, wife of the Governor of Iyo. …",
+    "kobun": "五月雨のころ、宮中に宿直したまへる源氏の君のもとに、若き公達あまた集ひて、雨夜の品定めといふことをしける。……",
+    "kobunen": "On a night of early-summer rain, young nobles gathered where Genji kept night duty at the palace and held their famous “ranking of women on a rainy night.” …",
     "scene": [
       {
         "sceneId": "1",
@@ -75,7 +73,9 @@
         "sceneId": "5",
         "content": "空蝉と一夜を明かした源氏、夜明けに空蝉を障子口まで送る。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E5%B8%9A%E6%9C%A8",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5017.html"
   },
   {
     "chapter_en": "3",
@@ -88,11 +88,9 @@
     "age": "17歳夏",
     "summary": "夏の夕暮、源氏は空蝉と義理の娘・軒端荻が碁を打つのを垣間見て、いよいよ慕情を掻き立てられる。夜に入って源氏が寝間に忍びこむと、空蝉はそれと察して衣だけを脱ぎ捨てて逃げる。蝉の抜殻のごとき着物を抱いて源氏は帰途につく。",
     "gendaibun": "夏の夕暮、源氏は空蝉と義理の娘・軒端荻が碁を打つのを垣間見て、いよいよ慕情を掻き立てられる。夜に入って源氏が寝間に忍びこむと、空蝉はそれと察して衣だけを脱ぎ捨てて逃げる。蝉の抜殻のごとき着物を抱いて源氏は帰途につく。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "夏の夕暮、源氏は空蝉と義理の娘・軒端荻が碁を打つのを垣間見て、いよいよ慕情を掻き立てられる。夜に入って源氏が寝間に忍びこむと、空蝉はそれと察して衣だけを脱ぎ捨てて逃げる。蝉の抜殻のごとき着物を抱いて源氏は帰途につく。",
-    "descen": "",
+    "gendaibunen": "On a summer evening Genji spies Utsusemi and her stepdaughter playing go, and his desire deepens. When he slips into her chamber at night, she senses him, escapes, and leaves only a discarded robe—like a cicada's empty shell—in his arms. …",
+    "kobun": "寝られたまはぬままには、「我は、かくなむ」と思ひつづけたまひて、空蝉の抜けがらのごとき衣を抱きて、いとど恋ひしきこと限りなし。……",
+    "kobunen": "Unable to sleep, he thought, “So this is how I am”—and his longing for the lady who had fled like a cicada leaving its shell only grew sharper. …",
     "scene": [
       {
         "sceneId": "1",
@@ -114,7 +112,9 @@
         "sceneId": "5",
         "content": "源氏、 空蝉の脱ぎ捨てた薄い衣を取って侘しく部屋を出る。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E7%A9%BA%E8%9D%89",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5018.html"
   },
   {
     "chapter_en": "4",
@@ -127,11 +127,9 @@
     "age": "17歳夏-冬",
     "summary": "源氏は身分を隠したまま五条辺りに住う夕顔と関係を持つ。夕顔は親友・頭中将の元恋人で、行方知れずになっていた人であった。源氏は可憐で素直な夕顔を深く愛するが、ある逢瀬の最中に六条御息所が嫉妬のあまり生霊となって、これをとり殺す。源氏は夕顔の死を深く嘆く。",
     "gendaibun": "源氏は身分を隠したまま五条辺りに住う夕顔と関係を持つ。夕顔は親友・頭中将の元恋人で、行方知れずになっていた人であった。源氏は可憐で素直な夕顔を深く愛するが、ある逢瀬の最中に六条御息所が嫉妬のあまり生霊となって、これをとり殺す。源氏は夕顔の死を深く嘆く。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "源氏は身分を隠したまま五条辺りに住う夕顔と関係を持つ。夕顔は親友・頭中将の元恋人で、行方知れずになっていた人であった。源氏は可憐で素直な夕顔を深く愛するが、ある逢瀬の最中に六条御息所が嫉妬のあまり生霊となって、これをとり殺す。源氏は夕顔の死を深く嘆く。",
-    "descen": "",
+    "gendaibunen": "While concealing his rank, Genji falls in love with Yūgao near Gojō—once the lost lover of his friend Tō no Chūjō. Their affair ends in terror when the living spirit of Lady Rokujō appears in jealousy during a rendezvous. …",
+    "kobun": "六条わたりの御忍び歩きのころ、五条の辺に、夕顔といふ女の住まひけるを見つけて、源氏の君、心ひかれたまひける。……",
+    "kobunen": "In the days of his secret wanderings about the Sixth Avenue district, Genji came to know a fragile woman called Yūgao, living modestly near Gojō. …",
     "scene": [
       {
         "sceneId": "1",
@@ -149,7 +147,9 @@
         "sceneId": "4",
         "content": "夕顔の宿に泊まった源氏、変わらぬ愛を誓う。砧の音や祈る年老いた声などが聞こえる。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E5%A4%95%E9%A1%94",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5019.html"
   },
   {
     "chapter_en": "5",
@@ -161,12 +161,10 @@
     "main-character": "源氏",
     "age": "18歳3月-冬",
     "summary": "翌年の春、傷心の源氏は病気の加療のため北山に赴き、そこで祖母の尼君とともに住まう美貌の幼女を見かける。藤壺の姪にあたる彼女に源氏は執心し、引き取って手元で育てたいと申し入れるが尼君は応じない。夏、藤壺が病気のため宿下りする。源氏は二度目の密会を行い、直後に彼女の妊娠が発覚する。冬、源氏は北山の幼女を半ば拐うようにして手元に引き取る。若紫と呼ばれる彼女こそ、のちの紫の上である。",
-    "gendaibun": "翌年の春、傷心の源氏は病気の加療のため北山に赴き、そこで祖母の尼君とともに住まう美貌の幼女を見かける。藤壺の姪にあたる彼女に源氏は執心し、引き取って手元で育てたいと申し入れるが尼君は応じない。夏、藤壺が病気のため宿下りする。源氏は二度目の密会を行い、直後に彼女の妊娠が発覚する。冬、源氏は北山の幼女を半ば拐うようにして手元に引き取る。若紫と呼ばれる彼女こそ、のちの紫の上である。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "翌年の春、傷心の源氏は病気の加療のため北山に赴き、そこで祖母の尼君とともに住まう美貌の幼女を見かける。藤壺の姪にあたる彼女に源氏は執心し、引き取って手元で育てたいと申し入れるが尼君は応じない。夏、藤壺が病気のため宿下りする。源氏は二度目の密会を行い、直後に彼女の妊娠が発覚する。冬、源氏は北山の幼女を半ば拐うようにして手元に引き取る。若紫と呼ばれる彼女こそ、のちの紫の上である。",
-    "descen": "",
+    "gendaibun": "翌年の春、傷心の源氏は病気の加療のため北山に赴き、そこで祖母の尼君とともに住まう美貌の幼女を見かける。藤壺の姪にあたる彼女に源氏は執心し、引き取って手元で育てたいと申し入れるが尼君は応じない。夏、藤壺が病気のため宿下りする。源氏は二度目の密会を行い、直後に彼女の妊娠が発覚する。……",
+    "gendaibunen": "The next spring, still grieving, Genji seeks treatment in the northern hills and sees a lovely child raised by her grandmother. She is Fujitsubo's niece; Genji longs to bring her up himself, though the nun will not yet agree. …",
+    "kobun": "瘧病にわづらひたまひて、北山に加療したまふほどに、尼君のもとに美しくおはする幼き女御子を見たてまつりて、いとど執心深うなりたまひぬ。……",
+    "kobunen": "Suffering from ague in the spring of the following year, Genji went up to the northern hills for treatment—and there he glimpsed a beautiful little girl living with her grandmother, a nun. …",
     "scene": [
       {
         "sceneId": "1",
@@ -200,7 +198,9 @@
         "sceneId": "8",
         "content": "源氏、二条院に引き取った紫の君とともに手習いや雛遊びをして過ごす。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E8%8B%A5%E7%B4%AB",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5020.html"
   },
   {
     "chapter_en": "6",
@@ -213,11 +213,9 @@
     "age": "18歳春-19歳正月",
     "summary": "常陸宮の姫君が廃邸にひっそりと暮しているという噂に源氏と頭中将が心惹かれ、競って言い寄る。源氏が一足早く彼女と関係してみると、前評判を裏切る長く垂れた鼻の醜女で源氏は閉口する。鼻の先が紅花で染めたように赤かったことに掛けて、彼女を末摘花という。",
     "gendaibun": "常陸宮の姫君が廃邸にひっそりと暮しているという噂に源氏と頭中将が心惹かれ、競って言い寄る。源氏が一足早く彼女と関係してみると、前評判を裏切る長く垂れた鼻の醜女で源氏は閉口する。鼻の先が紅花で染めたように赤かったことに掛けて、彼女を末摘花という。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "常陸宮の姫君が廃邸にひっそりと暮しているという噂に源氏と頭中将が心惹かれ、競って言い寄る。源氏が一足早く彼女と関係してみると、前評判を裏切る長く垂れた鼻の醜女で源氏は閉口する。鼻の先が紅花で染めたように赤かったことに掛けて、彼女を末摘花という。",
-    "descen": "",
+    "gendaibunen": "Rumor says the Hitachi Princess lives alone in a decaying house. Genji and Tō no Chūjō both pursue her; when Genji first becomes intimate, he finds her far from the graceful beauty he imagined—and is dismayed by her long, hanging nose. …",
+    "kobun": "常陸の宮の姫君、廃れたる邸にひそかに住みたまふと聞こえて、源氏の君も頭中将も、競ひて文通ひたまひける。……",
+    "kobunen": "Word spread that a princess of Hitachi lived in quiet decline in a ruined mansion; Genji and Tō no Chūjō, drawn by the rumor, competed in their advances. …",
     "scene": [
       {
         "sceneId": "1",
@@ -243,7 +241,9 @@
         "sceneId": "6",
         "content": "源氏、二条院に戻り、紫の君と絵を描き、さらに自分の鼻に紅を塗ってみて紫の君を驚かせる。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E6%9C%AB%E6%91%98%E8%8A%B1",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5021.html"
   },
   {
     "chapter_en": "7",
@@ -256,11 +256,9 @@
     "age": "18歳10月-19歳7月",
     "summary": "帝が上皇の長寿のお祝いを紅葉賀と銘打って主催し、源氏はこれに舞を舞う。その舞姿は宮中でも試楽され、藤壺を始め大宮人はその姿に賛嘆する。翌年の春、藤壺が男子を出産する。帝はみずからの子と信じて疑わず、これを現東宮の次の東宮にすえたいと考える。",
     "gendaibun": "帝が上皇の長寿のお祝いを紅葉賀と銘打って主催し、源氏はこれに舞を舞う。その舞姿は宮中でも試楽され、藤壺を始め大宮人はその姿に賛嘆する。翌年の春、藤壺が男子を出産する。帝はみずからの子と信じて疑わず、これを現東宮の次の東宮にすえたいと考える。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "帝が上皇の長寿のお祝いを紅葉賀と銘打って主催し、源氏はこれに舞を舞う。その舞姿は宮中でも試楽され、藤壺を始め大宮人はその姿に賛嘆する。翌年の春、藤壺が男子を出産する。帝はみずからの子と信じて疑わず、これを現東宮の次の東宮にすえたいと考える。",
-    "descen": "",
+    "gendaibunen": "At a maple-viewing feast for the retired emperor's longevity, Genji's dance dazzles the court. The next spring Fujitsubo bears a son; the Emperor believes the child his own, though Genji knows the secret. …",
+    "kobun": "朱雀院の行幸は、神無月の十日あまりなりけり。紅葉賀と名づけて、源氏の君舞ひたまへる姿、宮中にも試楽せられ、藤壺を始め、人々感嘆したまひけり。……",
+    "kobunen": "The Emperor held a maple-viewing celebration for the retired sovereign's longevity, and Genji danced—his figure so radiant that even the rehearsal at court left Fujitsubo and the great ladies in wonder. …",
     "scene": [
       {
         "sceneId": "1",
@@ -282,7 +280,9 @@
         "sceneId": "5",
         "content": "源氏、温明殿の辺りを歩き、琵琶を弾く源内侍と戯れる。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E7%B4%85%E8%91%89%E8%B3%80",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5022.html"
   },
   {
     "chapter_en": "8",
@@ -295,11 +295,9 @@
     "age": "20歳春",
     "summary": "翌年の春、宮中の観桜の宴の後、源氏はさる姫君と関係を持つ。春の末、政敵・右大臣家の宴に招かれた源氏は、彼女がまもなくみずからの兄の元に入内する右大臣の娘・朧月夜の君であることを知る。",
     "gendaibun": "翌年の春、宮中の観桜の宴の後、源氏はさる姫君と関係を持つ。春の末、政敵・右大臣家の宴に招かれた源氏は、彼女がまもなくみずからの兄の元に入内する右大臣の娘・朧月夜の君であることを知る。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "翌年の春、宮中の観桜の宴の後、源氏はさる姫君と関係を持つ。春の末、政敵・右大臣家の宴に招かれた源氏は、彼女がまもなくみずからの兄の元に入内する右大臣の娘・朧月夜の君であることを知る。",
-    "descen": "",
+    "gendaibunen": "After a spring cherry-viewing banquet at court, Genji becomes involved with a young lady. Later, invited to a feast at the house of his political rivals, he learns she is Oborozukiyo—daughter of the Minister of the Right, soon to enter service at the palace. …",
+    "kobun": "如月の二十日あまり、南殿の桜の宴せさせたまひて後、源氏の君、ある姫君と逢ひたまひけるが、やがて朧月夜の君なりけり。……",
+    "kobunen": "Past the twentieth of the Second Month, a cherry-blossom banquet was held at the Southern Hall; afterward Genji found himself drawn into an unexpected encounter with a certain lady. …",
     "scene": [
       {
         "sceneId": "1",
@@ -317,7 +315,9 @@
         "sceneId": "4",
         "content": "女(朧月夜)を捜し当てた源氏、几帳ごしに手を取り歌を交わす。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E8%8A%B1%E5%AE%B4",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5023.html"
   },
   {
     "chapter_en": "9",
@@ -330,11 +330,9 @@
     "age": "22歳4月-23歳正月",
     "summary": "二年後。桐壺帝はすでに退位し、源氏の兄・朱雀帝が即位している。賀茂祭の折、車の場所争いのことで六条御息所は葵の上によって辱めを受け、これを深く恨む。折から妊娠していた葵の上は産褥で御息所の生霊に苦しめられ、無事男子（夕霧）を出産するものの亡くなる。夏の終わり、源氏は紫の上と新枕を交わす。",
     "gendaibun": "二年後。桐壺帝はすでに退位し、源氏の兄・朱雀帝が即位している。賀茂祭の折、車の場所争いのことで六条御息所は葵の上によって辱めを受け、これを深く恨む。折から妊娠していた葵の上は産褥で御息所の生霊に苦しめられ、無事男子（夕霧）を出産するものの亡くなる。夏の終わり、源氏は紫の上と新枕を交わす。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "二年後。桐壺帝はすでに退位し、源氏の兄・朱雀帝が即位している。賀茂祭の折、車の場所争いのことで六条御息所は葵の上によって辱めを受け、これを深く恨む。折から妊娠していた葵の上は産褥で御息所の生霊に苦しめられ、無事男子（夕霧）を出産するものの亡くなる。夏の終わり、源氏は紫の上と新枕を交わす。",
-    "descen": "",
+    "gendaibunen": "Two years later the Kiritsubo Emperor has abdicated and Suzaku reigns. At the Kamo Festival a quarrel over carriage places humiliates Lady Rokujō before Aoi; her living spirit then torments the pregnant Aoi in childbed. …",
+    "kobun": "世の中かはりて後、よろづもの憂く思され、賀茂の祭の車争いにより、六条御息所、葵の上に辱められたまひて、深く恨みたまひける。……",
+    "kobunen": "After the world had changed, everything felt wearisome; two years on, the Kiritsubo Emperor had already abdicated, and Genji's elder brother reigned as Emperor Suzaku. …",
     "scene": [
       {
         "sceneId": "1",
@@ -348,7 +346,9 @@
         "sceneId": "3",
         "content": "秋の朝、六条御息所から届いた、菊の枝につけられた見舞いの文に返歌をしたためる源氏。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E8%91%B5",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5024.html"
   },
   {
     "chapter_en": "10",
@@ -360,12 +360,10 @@
     "main-character": "源氏",
     "age": "23歳9月-25歳夏",
     "summary": "六条御息所はみずからの生霊の恐ろしさに怯え、娘が伊勢斎宮となったのを機に、ともに伊勢に下ることを決意して嵯峨野の野宮に籠もって潔斎する。秋の終わり、源氏は彼女を訪い、名残を惜しむ。冬、桐壺帝崩御。藤壺も源氏との関係を思い悩み、出家する。源氏と朧月夜は彼女の入内後も関係を続けていたために、翌年夏、密会の場を右大臣に見つけられる。これを口実に、桐壺帝の死で激化しつつあった政争で、右大臣派は源氏を陥れようとする。",
-    "gendaibun": "六条御息所はみずからの生霊の恐ろしさに怯え、娘が伊勢斎宮となったのを機に、ともに伊勢に下ることを決意して嵯峨野の野宮に籠もって潔斎する。秋の終わり、源氏は彼女を訪い、名残を惜しむ。冬、桐壺帝崩御。藤壺も源氏との関係を思い悩み、出家する。源氏と朧月夜は彼女の入内後も関係を続けていたために、翌年夏、密会の場を右大臣に見つけられる。これを口実に、桐壺帝の死で激化しつつあった政争で、右大臣派は源氏を陥れようとする。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "六条御息所はみずからの生霊の恐ろしさに怯え、娘が伊勢斎宮となったのを機に、ともに伊勢に下ることを決意して嵯峨野の野宮に籠もって潔斎する。秋の終わり、源氏は彼女を訪い、名残を惜しむ。冬、桐壺帝崩御。藤壺も源氏との関係を思い悩み、出家する。源氏と朧月夜は彼女の入内後も関係を続けていたために、翌年夏、密会の場を右大臣に見つけられる。これを口実に、桐壺帝の死で激化しつつあった政争で、右大臣派は源氏を陥れようとする。",
-    "descen": "",
+    "gendaibun": "六条御息所はみずからの生霊の恐ろしさに怯え、娘が伊勢斎宮となったのを機に、ともに伊勢に下ることを決意して嵯峨野の野宮に籠もって潔斎する。秋の終わり、源氏は彼女を訪い、名残を惜しむ。冬、桐壺帝崩御。藤壺も源氏との関係を思い悩み、出家する。……",
+    "gendaibunen": "Lady Rokujō, frightened by her own spirit's violence, decides to accompany her daughter—the new Ise Priestess—and enters ritual seclusion at the Field Palace. Late in autumn Genji visits to take leave; that winter the Kiritsubo Emperor dies. …",
+    "kobun": "斎宮の御下り近うなりゆくままに、六条御息所、みづからの生霊の恐ろしさに怯え、娘とともに伊勢へ下らむとて、嵯峨野の野宮に籠もりたまひけり。……",
+    "kobunen": "Terrified by the horror of her own living spirit, Lady Rokujō resolved to withdraw with her daughter, now chosen as Ise Priestess, and entered purification at the Field Palace in Sagano. …",
     "scene": [
       {
         "sceneId": "1",
@@ -387,7 +385,9 @@
         "sceneId": "5",
         "content": "桐壺院の一周忌の後まもなく藤壺出家。驚いた源氏、命婦を介して悲しみを訴える。雪に月、くまなく照る。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E8%B3%A2%E6%9C%A8",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5025.html"
   },
   {
     "chapter_en": "11",
@@ -400,11 +400,9 @@
     "age": "25歳5月",
     "summary": "五月雨の晴れ間、源氏は故桐壺院の女御の一人・麗景殿女御のもとを訪れる。ひっそりと物静かな、昔語りのゆかしい風情に住みなしている人のもとで、源氏は父帝在世の頃をしのぶ。後に妻の一人となる女御の妹・花散里との出会いは作中に記述されておらず、この巻で久々の再会と言うかたちをとる。",
     "gendaibun": "五月雨の晴れ間、源氏は故桐壺院の女御の一人・麗景殿女御のもとを訪れる。ひっそりと物静かな、昔語りのゆかしい風情に住みなしている人のもとで、源氏は父帝在世の頃をしのぶ。後に妻の一人となる女御の妹・花散里との出会いは作中に記述されておらず、この巻で久々の再会と言うかたちをとる。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "五月雨の晴れ間、源氏は故桐壺院の女御の一人・麗景殿女御のもとを訪れる。ひっそりと物静かな、昔語りのゆかしい風情に住みなしている人のもとで、源氏は父帝在世の頃をしのぶ。後に妻の一人となる女御の妹・花散里との出会いは作中に記述されておらず、この巻で久々の再会と言うかたちをとる。",
-    "descen": "",
+    "gendaibunen": "Between showers of the rainy season, Genji visits a former consort of his late father at Reikeiden. In that quiet, nostalgic household he remembers the old reign; her sister, Hanachirusato, will later become one of his wives. …",
+    "kobun": "五月雨の晴れ間、源氏の君、故桐壺院の女御の住まひたる麗景殿を訪ひたまひて、ひそかなる昔語りの風情に、父帝の御代をしのびたまひける。……",
+    "kobunen": "In a break of the early-summer rains, Genji visited one of the late Kiritsubo Emperor's consorts at Reikeiden—a quiet house fragrant with old stories. …",
     "scene": [
       {
         "sceneId": "1",
@@ -414,7 +412,9 @@
         "sceneId": "2",
         "content": "源氏、麗景殿女御 (花散里の姉)のもとでも時鳥を聞き、昔話をしてから、花散里に逢う。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E8%8A%B1%E6%95%A3%E9%87%8C",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5026.html"
   },
   {
     "chapter_en": "12",
@@ -427,11 +427,9 @@
     "age": "26歳3月-27歳3月",
     "summary": "罪せられそうな気配を敏感に察し、源氏は先手を打って須磨に隠遁する。関わりのある女君たちに別れを告げ、紫の上の身上を心配しつつ京を去る源氏の姿は、あわれぶかい。翌年春、海辺に源氏が上巳の禊を行うと天に嵐がおこる。一方で隣国の明石入道は、須磨に源氏が仮寓することを知って娘との結婚を画策する。",
     "gendaibun": "罪せられそうな気配を敏感に察し、源氏は先手を打って須磨に隠遁する。関わりのある女君たちに別れを告げ、紫の上の身上を心配しつつ京を去る源氏の姿は、あわれぶかい。翌年春、海辺に源氏が上巳の禊を行うと天に嵐がおこる。一方で隣国の明石入道は、須磨に源氏が仮寓することを知って娘との結婚を画策する。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "罪せられそうな気配を敏感に察し、源氏は先手を打って須磨に隠遁する。関わりのある女君たちに別れを告げ、紫の上の身上を心配しつつ京を去る源氏の姿は、あわれぶかい。翌年春、海辺に源氏が上巳の禊を行うと天に嵐がおこる。一方で隣国の明石入道は、須磨に源氏が仮寓することを知って娘との結婚を画策する。",
-    "descen": "",
+    "gendaibunen": "Foreseeing disgrace, Genji goes into exile at Suma of his own will. Parting from the women he loves and worrying for Murasaki, he leaves the capital in deep pathos. The next spring a storm rises as he performs a seaside purification. …",
+    "kobun": "罪せられむ気配を察し、源氏の君、先手を打ちて須磨に隠遁したまふ。女君たちに別れを告げ、紫の上の身上を案じつつ、京を出でたまひける。……",
+    "kobunen": "Sensing that punishment might soon fall, Genji took the initiative and withdrew into exile at Suma, bidding farewell to the women bound to him and fretting over Murasaki's fate as he left the capital. …",
     "scene": [
       {
         "sceneId": "1",
@@ -465,7 +463,9 @@
         "sceneId": "8",
         "content": "三月朔日上巳の日、源氏、浜で御禊、天変突発して暴風雨となる。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E9%A0%88%E7%A3%A8",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5027.html"
   },
   {
     "chapter_en": "13",
@@ -478,11 +478,9 @@
     "age": "27歳3月-28歳8月",
     "summary": "父帝の夢告により源氏は須磨を離れ、明石入道がこれを迎え入れる。入道の娘・明石の御方と源氏は関係し、やがて妊娠の兆候があらわれる。一方都では朱雀帝の夢に桐壺帝があらわれ、源氏は無実の旨を告げて叱責する。帝は源氏追放を悔いて勅旨によって帰京を命じる。源氏は明石の御方に心を残しつつ、京へと戻る。",
     "gendaibun": "父帝の夢告により源氏は須磨を離れ、明石入道がこれを迎え入れる。入道の娘・明石の御方と源氏は関係し、やがて妊娠の兆候があらわれる。一方都では朱雀帝の夢に桐壺帝があらわれ、源氏は無実の旨を告げて叱責する。帝は源氏追放を悔いて勅旨によって帰京を命じる。源氏は明石の御方に心を残しつつ、京へと戻る。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "父帝の夢告により源氏は須磨を離れ、明石入道がこれを迎え入れる。入道の娘・明石の御方と源氏は関係し、やがて妊娠の兆候があらわれる。一方都では朱雀帝の夢に桐壺帝があらわれ、源氏は無実の旨を告げて叱責する。帝は源氏追放を悔いて勅旨によって帰京を命じる。源氏は明石の御方に心を残しつつ、京へと戻る。",
-    "descen": "",
+    "gendaibunen": "After a dream-message from his father, Genji leaves Suma and is welcomed by the Akashi Novice. He becomes involved with the Novice's daughter, the Lady of Akashi, who soon shows signs of pregnancy. In the capital, Emperor Suzaku dreams of rebuke for Genji's unjust exile. …",
+    "kobun": "父帝の夢告により、源氏の君須磨を立ちて、明石入道これに迎え入れたてまつる。入道の娘・明石の御方と逢ひたまひて、やがて懐妊のけしき見えけり。……",
+    "kobunen": "Warned in a dream by his father the late Emperor, Genji left Suma; the Akashi Novice received him, and in time Genji became intimate with the Novice's daughter. …",
     "scene": [
       {
         "sceneId": "1",
@@ -508,7 +506,9 @@
         "sceneId": "6",
         "content": "琴の音に堪えられず、 入道、箏を娘に促し、御簾の内へと差し入れる。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E6%98%8E%E7%9F%B3",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5028.html"
   },
   {
     "chapter_en": "14",
@@ -520,12 +520,10 @@
     "main-character": "源氏",
     "age": "28歳10月-29歳冬",
     "summary": "帰京後、源氏は順調に政界に復帰し、栄耀の道を歩みはじめる。年変わって、朱雀帝が退位する。実は源氏と藤壺の子でありながら東宮であった冷泉帝が即位する。秋、源氏は須磨明石の流浪を守護した住吉明神に詣でる。明石の御方もたまたまこれに来合わせていたが再会はできなかった。また新帝即位により斎宮が交替し、六条御息所とその娘の斎宮が帰京。間もなく御息所は病死する。源氏は御息所の遺言にしたがって彼女を養女とし、冷泉帝に入内させて斎宮女御とする。",
-    "gendaibun": "帰京後、源氏は順調に政界に復帰し、栄耀の道を歩みはじめる。年変わって、朱雀帝が退位する。実は源氏と藤壺の子でありながら東宮であった冷泉帝が即位する。秋、源氏は須磨明石の流浪を守護した住吉明神に詣でる。明石の御方もたまたまこれに来合わせていたが再会はできなかった。また新帝即位により斎宮が交替し、六条御息所とその娘の斎宮が帰京。間もなく御息所は病死する。源氏は御息所の遺言にしたがって彼女を養女とし、冷泉帝に入内させて斎宮女御とする。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "帰京後、源氏は順調に政界に復帰し、栄耀の道を歩みはじめる。年変わって、朱雀帝が退位する。実は源氏と藤壺の子でありながら東宮であった冷泉帝が即位する。秋、源氏は須磨明石の流浪を守護した住吉明神に詣でる。明石の御方もたまたまこれに来合わせていたが再会はできなかった。また新帝即位により斎宮が交替し、六条御息所とその娘の斎宮が帰京。間もなく御息所は病死する。源氏は御息所の遺言にしたがって彼女を養女とし、冷泉帝に入内させて斎宮女御とする。",
-    "descen": "",
+    "gendaibun": "帰京後、源氏は順調に政界に復帰し、栄耀の道を歩みはじめる。年変わって、朱雀帝が退位する。実は源氏と藤壺の子でありながら東宮であった冷泉帝が即位する。秋、源氏は須磨明石の流浪を守護した住吉明神に詣でる。明石の御方もたまたまこれに来合わせていたが再会はできなかった。……",
+    "gendaibunen": "Back in the capital, Genji returns to power. Suzaku abdicates; Reizei—secretly Genji and Fujitsubo's son—ascends the throne. In autumn Genji makes pilgrimage to Sumiyoshi, grateful for protection during his wanderings at Suma and Akashi. …",
+    "kobun": "帰京の後、源氏の君、政界に復帰したまひて栄えゆく。年改まりて朱雀帝退位し、冷泉帝即位したまふ。秋、住吉の明神に詣でたまひける。……",
+    "kobunen": "After his return, Genji rose again in politics and walked the path of glory; the year turned, and Emperor Suzaku abdicated. …",
     "scene": [
       {
         "sceneId": "1",
@@ -551,7 +549,9 @@
         "sceneId": "6",
         "content": "病のため出家した六条御息所を見舞った源氏、几帳の隙間より斎宮を垣間見る。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E6%BE%AA%E6%A8%99",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5029.html"
   },
   {
     "chapter_en": "15",
@@ -564,11 +564,9 @@
     "age": "28歳秋-29歳4月",
     "summary": "源氏逼塞の間、ほかに頼るものとてない末摘花は一途に彼を待ち続け、落魄の生活にも耐えていた。帰京した源氏は彼女を訪れ、その純情に心を動かされる。",
     "gendaibun": "源氏逼塞の間、ほかに頼るものとてない末摘花は一途に彼を待ち続け、落魄の生活にも耐えていた。帰京した源氏は彼女を訪れ、その純情に心を動かされる。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "源氏逼塞の間、ほかに頼るものとてない末摘花は一途に彼を待ち続け、落魄の生活にも耐えていた。帰京した源氏は彼女を訪れ、その純情に心を動かされる。",
-    "descen": "",
+    "gendaibunen": "During Genji's disgrace, Suetsumuhana has no other protector and waits for him through hardship. When he returns to the capital and visits her, her steadfast devotion moves him. …",
+    "kobun": "源氏の君の逼塞のほど、末摘花、ほかに頼む方なく、ひたすら待ち続けて、落魄の住居にも耐へたまひける。……",
+    "kobunen": "While Genji lay low in exile, Suetsumuhana, with no one else to rely on, waited for him alone and endured a life of ruinous poverty. …",
     "scene": [
       {
         "sceneId": "1",
@@ -594,7 +592,9 @@
         "sceneId": "6",
         "content": "末摘花と再会した源氏、松(待つ)にことよせて歌を詠み、慰める。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E8%93%AC%E7%94%9F",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5030.html"
   },
   {
     "chapter_en": "16",
@@ -607,11 +607,9 @@
     "age": "29歳9月",
     "summary": "夫に従って常陸に下っていた空蝉が帰京する。石山寺参詣の途次、その行列に行合わせた源氏は思わず歌の贈答を行う。",
     "gendaibun": "夫に従って常陸に下っていた空蝉が帰京する。石山寺参詣の途次、その行列に行合わせた源氏は思わず歌の贈答を行う。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "夫に従って常陸に下っていた空蝉が帰京する。石山寺参詣の途次、その行列に行合わせた源氏は思わず歌の贈答を行う。",
-    "descen": "",
+    "gendaibunen": "Utsusemi returns from Hitachi with her husband. On a pilgrimage toward Ishiyamadera her party meets Genji's; before they know it they exchange poems. …",
+    "kobun": "夫に従ひて常陸に下りたまひし空蝉、帰京の途次、石山寺参詣の源氏の君の行列と行き合ひて、思はず歌の贈答ありけり。……",
+    "kobunen": "Utsusemi, who had gone down to Hitachi with her husband, was returning to the capital; on the road to Ishiyama Temple her procession crossed Genji's, and they could not help exchanging poems. …",
     "scene": [
       {
         "sceneId": "1",
@@ -625,7 +623,9 @@
         "sceneId": "3",
         "content": "石山より戻った源氏、左衛門佐に会い、空蝉への文を託す。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E9%96%A2%E5%B1%8B",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5031.html"
   },
   {
     "chapter_en": "17",
@@ -637,12 +637,10 @@
     "main-character": "源氏",
     "age": "31歳春",
     "summary": "冷泉帝の後宮に時めく六条御息所の娘・斎宮女御（梅壺女御。のちの秋好中宮）と権中納言の姫君・弘徽殿女御は、それぞれかつての親友であった源氏と頭中将（ここでは権中納言）が後盾となって寵を競っている。宮中に絵合が行われることになり、二人はおのおのみずからの姫君を勝たせるべく絵巻の収集に余念がない。絵合の当日、源氏が須磨流浪の折の自筆の絵巻が藤壺と冷泉帝に賞賛され、斎宮女御方の勝ちとなる。",
-    "gendaibun": "冷泉帝の後宮に時めく六条御息所の娘・斎宮女御（梅壺女御。のちの秋好中宮）と権中納言の姫君・弘徽殿女御は、それぞれかつての親友であった源氏と頭中将（ここでは権中納言）が後盾となって寵を競っている。宮中に絵合が行われることになり、二人はおのおのみずからの姫君を勝たせるべく絵巻の収集に余念がない。絵合の当日、源氏が須磨流浪の折の自筆の絵巻が藤壺と冷泉帝に賞賛され、斎宮女御方の勝ちとなる。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "冷泉帝の後宮に時めく六条御息所の娘・斎宮女御（梅壺女御。のちの秋好中宮）と権中納言の姫君・弘徽殿女御は、それぞれかつての親友であった源氏と頭中将（ここでは権中納言）が後盾となって寵を競っている。宮中に絵合が行われることになり、二人はおのおのみずからの姫君を勝たせるべく絵巻の収集に余念がない。絵合の当日、源氏が須磨流浪の折の自筆の絵巻が藤壺と冷泉帝に賞賛され、斎宮女御方の勝ちとなる。",
-    "descen": "",
+    "gendaibun": "冷泉帝の後宮に時めく六条御息所の娘・斎宮女御（梅壺女御。のちの秋好中宮）と権中納言の姫君・弘徽殿女御は、それぞれかつての親友であった源氏と頭中将（ここでは権中納言）が後盾となって寵を競っている。宮中に絵合が行われることになり、二人はおのおのみずからの姫君を勝たせるべく絵巻の収集に余念がない。……",
+    "gendaibunen": "At Reizei's court, the former Ise Priestess (Lady Rokujō's daughter) and the Kokiden Consort compete for favor, backed respectively by Genji and Tō no Chūjō. A picture contest at the palace becomes the stage for their rivalry. …",
+    "kobun": "冷泉帝の後宮に、斎宮女御と弘徽殿女御、寵を競ひたまふ。源氏の君と権中納言、それぞれ後見として、絵合の場に臨みたまひける。……",
+    "kobunen": "In Emperor Reizei's court, the Ise Consort—daughter of Lady Rokujō—and the Kokiden Consort vied for favor, each backed by Genji and by Tō no Chūjō, once the closest of friends. …",
     "scene": [
       {
         "sceneId": "1",
@@ -664,7 +662,9 @@
         "sceneId": "5",
         "content": "絵合せ後の竟宴。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E7%B5%B5%E5%90%88",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5032.html"
   },
   {
     "chapter_en": "18",
@@ -677,11 +677,9 @@
     "age": "31歳秋",
     "summary": "源氏は明石の御方に上洛をうながすが、身分を恥じる彼女はなかなか肯んじえない。入道の薦めによりやっと大堰川あたりの別邸へ忍んで上京した彼女を源氏は喜び迎え、姫君とも親子の対面を果たす。源氏に事情を聞いた紫の上はみずからに子のないことに引きくらべ嫉妬を覚えるが、ゆくゆくは姫君を紫の上の養女としようという源氏の言葉に喜ぶ。",
     "gendaibun": "源氏は明石の御方に上洛をうながすが、身分を恥じる彼女はなかなか肯んじえない。入道の薦めによりやっと大堰川あたりの別邸へ忍んで上京した彼女を源氏は喜び迎え、姫君とも親子の対面を果たす。源氏に事情を聞いた紫の上はみずからに子のないことに引きくらべ嫉妬を覚えるが、ゆくゆくは姫君を紫の上の養女としようという源氏の言葉に喜ぶ。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "源氏は明石の御方に上洛をうながすが、身分を恥じる彼女はなかなか肯んじえない。入道の薦めによりやっと大堰川あたりの別邸へ忍んで上京した彼女を源氏は喜び迎え、姫君とも親子の対面を果たす。源氏に事情を聞いた紫の上はみずからに子のないことに引きくらべ嫉妬を覚えるが、ゆくゆくは姫君を紫の上の養女としようという源氏の言葉に喜ぶ。",
-    "descen": "",
+    "gendaibunen": "Genji presses the Lady of Akashi to move to the capital; shy of her status, she hesitates. Encouraged by her father, she finally comes quietly to a villa by the Ōi; Genji rejoices and is reunited with their little daughter. …",
+    "kobun": "源氏の君、明石の御方に上洛をすすめ給へど、身分を恥ぢてなかなかに受けがたし。入道のすすめで大堰の辺へ忍び上りたまひしを、喜び迎へたまひける。……",
+    "kobunen": "Genji urged the Lady of Akashi to come up to the capital, yet ashamed of her birth she long refused; at last, by her father's counsel, she slipped north to a villa by the Ōi River. …",
     "scene": [
       {
         "sceneId": "1",
@@ -703,7 +701,9 @@
         "sceneId": "5",
         "content": "夜更け、紫の上のところにいる源氏のもとへ、明石の君の文が届く。源氏、読んでから紫の上にも見せ、脇息によって明石の君を想う。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E6%9D%BE%E9%A2%A8",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5033.html"
   },
   {
     "chapter_en": "19",
@@ -716,11 +716,9 @@
     "age": "31歳冬-32歳秋",
     "summary": "明石の姫君が源氏のもとへ引きとられ、大堰の別邸では親子の悲しい別れが繰り広げられる。翌年の春、藤壺が崩御し、源氏の悲哀はかぎりない。一方で冷泉帝はふとしたことからみずからの出生の秘密を知り、実の父である源氏を皇位につけようとするが、源氏はこれを諌め、秘密を守りつづける。",
     "gendaibun": "明石の姫君が源氏のもとへ引きとられ、大堰の別邸では親子の悲しい別れが繰り広げられる。翌年の春、藤壺が崩御し、源氏の悲哀はかぎりない。一方で冷泉帝はふとしたことからみずからの出生の秘密を知り、実の父である源氏を皇位につけようとするが、源氏はこれを諌め、秘密を守りつづける。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "明石の姫君が源氏のもとへ引きとられ、大堰の別邸では親子の悲しい別れが繰り広げられる。翌年の春、藤壺が崩御し、源氏の悲哀はかぎりない。一方で冷泉帝はふとしたことからみずからの出生の秘密を知り、実の父である源氏を皇位につけようとするが、源氏はこれを諌め、秘密を守りつづける。",
-    "descen": "",
+    "gendaibunen": "The Akashi daughter is brought to Genji; mother and child part in tears at the Ōi villa. The next spring Fujitsubo dies, and Genji's sorrow is endless. Reizei meanwhile learns the secret of his birth. …",
+    "kobun": "明石の姫君、源氏の君のもとに引きとられ、大堰にて親子の悲しい別れあり。翌年の春、藤壺崩御したまひて、源氏の君の悲哀かぎりなし。……",
+    "kobunen": "The Akashi princess was taken into Genji's household, and at the Ōi villa a sorrowful parting of mother and child unfolded; the next spring Fujitsubo passed away, and Genji's grief knew no bounds. …",
     "scene": [
       {
         "sceneId": "1",
@@ -742,7 +740,9 @@
         "sceneId": "5",
         "content": "嵯峨の念仏にかこつけて大堰に明石の君を訪れた源氏、篝火の見え隠れする大堰川の風情を眺め、悲しむ明石の君を慰める。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E8%96%84%E9%9B%B2",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5034.html"
   },
   {
     "chapter_en": "20",
@@ -755,11 +755,9 @@
     "age": "32歳秋-冬",
     "summary": "かつて源氏が深い思いを寄せていた朝顔の斎院が退下する。世人の噂が高いために、紫の上は不安の色を隠せなかったが、朝顔は源氏の求婚を拒み通す。源氏は紫の上に女君たちのことを語るが、その夜夢に藤壺が現れ、罪が知れたと言って源氏を恨む。",
     "gendaibun": "かつて源氏が深い思いを寄せていた朝顔の斎院が退下する。世人の噂が高いために、紫の上は不安の色を隠せなかったが、朝顔は源氏の求婚を拒み通す。源氏は紫の上に女君たちのことを語るが、その夜夢に藤壺が現れ、罪が知れたと言って源氏を恨む。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "かつて源氏が深い思いを寄せていた朝顔の斎院が退下する。世人の噂が高いために、紫の上は不安の色を隠せなかったが、朝顔は源氏の求婚を拒み通す。源氏は紫の上に女君たちのことを語るが、その夜夢に藤壺が現れ、罪が知れたと言って源氏を恨む。",
-    "descen": "",
+    "gendaibunen": "The Asagao Priestess retires from her shrine. Worldly rumor troubles Murasaki, yet Asagao rejects Genji's proposals. That night Fujitsubo's spirit appears in Genji's dream, speaking of their sin. …",
+    "kobun": "朝顔の斎院、退下したまふ。世人の噂高く、紫の上安からず思しけれど、朝顔は源氏の求婚を拒み通したまひけり。……",
+    "kobunen": "The Asagao Priestess, to whom Genji had once given his deepest thoughts, stepped down from office; rumors ran high, and though Murasaki could not hide her unease, Asagao refused Genji's suit to the end. …",
     "scene": [
       {
         "sceneId": "1",
@@ -781,7 +779,9 @@
         "sceneId": "5",
         "content": "源氏と紫の上、童女たちを庭に下ろし、雪転しに興じるさまを見る。池に鴛鴦が鳴く。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E6%9C%9D%E9%A1%94",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5035.html"
   },
   {
     "chapter_en": "21",
@@ -793,12 +793,10 @@
     "main-character": "源氏",
     "age": "33歳4月-35歳10月",
     "summary": "葵の上との子・夕霧が元服する。源氏は思うところあって、彼を大学に学ばせるが、貴顕の子弟として夕霧はこれを恥じる。恋仲の幼馴染・雲居雁の父はかつての頭中将であるが、今や内大臣であり源氏の政敵として、彼女との仲を塞えており、夕霧は鬱々とする。翌々年、源氏の邸宅・六条院が完成する。院は四季の町に分けられており、春に紫の上、夏に花散里やその他の人びと、秋は斎宮女御の宿下りの町（このために秋好中宮と呼ばれる）、冬に明石の上が住まいする。末尾に、紫の上と秋好中宮の春秋の争い歌がある。",
-    "gendaibun": "葵の上との子・夕霧が元服する。源氏は思うところあって、彼を大学に学ばせるが、貴顕の子弟として夕霧はこれを恥じる。恋仲の幼馴染・雲居雁の父はかつての頭中将であるが、今や内大臣であり源氏の政敵として、彼女との仲を塞えており、夕霧は鬱々とする。翌々年、源氏の邸宅・六条院が完成する。院は四季の町に分けられており、春に紫の上、夏に花散里やその他の人びと、秋は斎宮女御の宿下りの町（このために秋好中宮と呼ばれる）、冬に明石の上が住まいする。末尾に、紫の上と秋好中宮の春秋の争い歌がある。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "葵の上との子・夕霧が元服する。源氏は思うところあって、彼を大学に学ばせるが、貴顕の子弟として夕霧はこれを恥じる。恋仲の幼馴染・雲居雁の父はかつての頭中将であるが、今や内大臣であり源氏の政敵として、彼女との仲を塞えており、夕霧は鬱々とする。翌々年、源氏の邸宅・六条院が完成する。院は四季の町に分けられており、春に紫の上、夏に花散里やその他の人びと、秋は斎宮女御の宿下りの町（このために秋好中宮と呼ばれる）、冬に明石の上が住まいする。末尾に、紫の上と秋好中宮の春秋の争い歌がある。",
-    "descen": "",
+    "gendaibun": "葵の上との子・夕霧が元服する。源氏は思うところあって、彼を大学に学ばせるが、貴顕の子弟として夕霧はこれを恥じる。恋仲の幼馴染・雲居雁の父はかつての頭中将であるが、今や内大臣であり源氏の政敵として、彼女との仲を塞えており、夕霧は鬱々とする。翌々年、源氏の邸宅・六条院が完成する。……",
+    "gendaibunen": "Yūgiri, Genji's son by Aoi, comes of age. Genji has him study at the university, which the young noble finds humiliating. His childhood love Kumoinokari is daughter of Tō no Chūjō—now Minister of the Interior and Genji's rival. …",
+    "kobun": "葵の上の御子・夕霧、元服したまふ。源氏の君、思ふところありて大学に学ばせ給へど、貴顕の子弟として夕霧はこれを恥ぢたまふ。……",
+    "kobunen": "Yūgiri, Genji's son by Aoi, came of age; Genji, with thoughts of his own, sent him to the university—a path a young noble found hard to bear with pride. …",
     "scene": [
       {
         "sceneId": "1",
@@ -816,7 +814,9 @@
         "sceneId": "4",
         "content": "六条院で、秋好中宮、箱の蓋に秋の花・紅葉を載せ、美しい童女に持たせて、紫の上に贈る。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E4%B9%99%E5%A5%B3",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5036.html"
   },
   {
     "chapter_en": "22",
@@ -829,11 +829,9 @@
     "age": "35歳3月-12月",
     "summary": "夕顔の死により、玉鬘は乳母に連れられて大宰府へ移り、美しく成人する。父・内大臣に一目逢わせたいと願う乳母と共に初瀬に参籠した折、かつての夕顔から今は源氏に仕えていた女房・右近と偶然めぐり逢い、源氏に養女として引き取られる。",
     "gendaibun": "夕顔の死により、玉鬘は乳母に連れられて大宰府へ移り、美しく成人する。父・内大臣に一目逢わせたいと願う乳母と共に初瀬に参籠した折、かつての夕顔から今は源氏に仕えていた女房・右近と偶然めぐり逢い、源氏に養女として引き取られる。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "夕顔の死により、玉鬘は乳母に連れられて大宰府へ移り、美しく成人する。父・内大臣に一目逢わせたいと願う乳母と共に初瀬に参籠した折、かつての夕顔から今は源氏に仕えていた女房・右近と偶然めぐり逢い、源氏に養女として引き取られる。",
-    "descen": "",
+    "gendaibunen": "After Yūgao's death, Tamakazura is raised in Dazaifu. Hoping to reunite her with her father, her nurse takes her to Hatsuse; by chance they meet Ukon, once Yūgao's attendant and now in Genji's service, and Genji takes Tamakazura into his care. …",
+    "kobun": "夕顔の死後、玉鬘は乳母に連れられて大宰府へ移り、美しく成人したまふ。初瀬に参籠の折、右近とめぐり逢ひて、源氏の君の養女となりたまひける。……",
+    "kobunen": "After Yūgao's death, Tamakazura was taken by her nurse to Dazaifu and grew into beauty; wishing only to show her once to her father, they came to pray at Hatsuse—and there met an old companion of Yūgao's now serving Genji. …",
     "scene": [
       {
         "sceneId": "1",
@@ -859,7 +857,9 @@
         "sceneId": "6",
         "content": "歳の暮れ、源氏と紫の上、とりどりの衣裳を婦人たちに配るため、 選び整える。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E7%8E%89%E9%AC%98",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5037.html"
   },
   {
     "chapter_en": "23",
@@ -872,11 +872,9 @@
     "age": "36歳正月",
     "summary": "年明けて六条院の優雅な初春の情景が描かれる。しかし源氏の元に年賀に来る若公達は、玉鬘の噂に気もそぞろである。",
     "gendaibun": "年明けて六条院の優雅な初春の情景が描かれる。しかし源氏の元に年賀に来る若公達は、玉鬘の噂に気もそぞろである。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "年明けて六条院の優雅な初春の情景が描かれる。しかし源氏の元に年賀に来る若公達は、玉鬘の噂に気もそぞろである。",
-    "descen": "",
+    "gendaibunen": "At New Year the Rokujō mansion is filled with graceful spring scenes. Young nobles who come to pay Genji their respects can think of little but rumors of Tamakazura. …",
+    "kobun": "年明けて六条院の優雅なる初春のさま。源氏の君のもとに年賀に参る若公達は、玉鬘の噂に心もそぞろなり。……",
+    "kobunen": "With the New Year, elegant scenes of early spring unfolded at Rokujō-in; yet the young nobles who came to offer greetings to Genji had their minds already elsewhere—on rumors of Tamakazura. …",
     "scene": [
       {
         "sceneId": "1",
@@ -894,7 +892,9 @@
         "sceneId": "4",
         "content": "男踏歌の翌日、源氏、みごとな袋に収めてあった琴を数多く取り出して、調弦し、婦人たちを集めて内々の後宴をしようと考える。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E5%88%9D%E9%9F%B3",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5038.html"
   },
   {
     "chapter_en": "24",
@@ -907,11 +907,9 @@
     "age": "36歳3月-4月",
     "summary": "三月、秋好中宮の宿下りにあわせて六条院では船遊びが行われ、その後もさまざまな行事が続く。玉鬘のあまりの魅力に、源氏までが冗談めいた思いを打ち明ける。",
     "gendaibun": "三月、秋好中宮の宿下りにあわせて六条院では船遊びが行われ、その後もさまざまな行事が続く。玉鬘のあまりの魅力に、源氏までが冗談めいた思いを打ち明ける。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "三月、秋好中宮の宿下りにあわせて六条院では船遊びが行われ、その後もさまざまな行事が続く。玉鬘のあまりの魅力に、源氏までが冗談めいた思いを打ち明ける。",
-    "descen": "",
+    "gendaibunen": "In the Third Month, boat parties and celebrations fill Rokujō-in when the autumn consort returns. Tamakazura's beauty so moves Genji that even he half-jokingly reveals an improper feeling. …",
+    "kobun": "三月、秋好中宮の宿下りに合わせて、六条院に船遊びなどあり。玉鬘のあまりの魅力に、源氏の君まで冗談めかして思ひを打ち明けたまふ。……",
+    "kobunen": "In the Third Month, timed with the autumn consort's return to her apartments, boat parties were held at Rokujō-in, and festivities continued; even Genji found himself confessing, half in jest, a feeling stirred by Tamakazura's charm. …",
     "scene": [
       {
         "sceneId": "1",
@@ -933,7 +931,9 @@
         "sceneId": "5",
         "content": "夕暮れ、源氏、玉鬘のもとで、箱の蓋に菓子とともに盛られた橘の実をもてあそびながら、愛を打ち明けた歌を詠む。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E8%83%A1%E8%9D%B6",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5039.html"
   },
   {
     "chapter_en": "25",
@@ -946,11 +946,9 @@
     "age": "36歳5月",
     "summary": "玉鬘は鬱々として楽しまないが、源氏は彼女に好意を持つ公達をからかって楽しむ。弟・兵部卿宮が来訪すると、源氏は御簾の中に蛍を放って、玉鬘の美貌を彼に見せつける。六条院では五月雨のつれづれに絵物語がはやり、源氏と玉鬘が物語論を交わす。",
     "gendaibun": "玉鬘は鬱々として楽しまないが、源氏は彼女に好意を持つ公達をからかって楽しむ。弟・兵部卿宮が来訪すると、源氏は御簾の中に蛍を放って、玉鬘の美貌を彼に見せつける。六条院では五月雨のつれづれに絵物語がはやり、源氏と玉鬘が物語論を交わす。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "玉鬘は鬱々として楽しまないが、源氏は彼女に好意を持つ公達をからかって楽しむ。弟・兵部卿宮が来訪すると、源氏は御簾の中に蛍を放って、玉鬘の美貌を彼に見せつける。六条院では五月雨のつれづれに絵物語がはやり、源氏と玉鬘が物語論を交わす。",
-    "descen": "",
+    "gendaibunen": "Tamakazura is unhappy; Genji toys with her suitors. When his brother visits, Genji releases fireflies behind the blinds to display her beauty. In the rainy season, illustrated tales become the fashion at Rokujō-in. …",
+    "kobun": "玉鬘は鬱々として楽しまず、源氏の君は彼女に好意を寄せる公達をからかひて楽しむ。蛍を御簾のうちに放ちて、その美貌を見せたまひける。……",
+    "kobunen": "Tamakazura took little pleasure in her days, while Genji amused himself by teasing the young nobles who admired her; when his brother the Minister of War visited, Genji released fireflies beneath the blinds to show him her beauty. …",
     "scene": [
       {
         "sceneId": "1",
@@ -968,7 +966,9 @@
         "sceneId": "4",
         "content": "源氏、紫の上がくまの、物語の絵など見ているところに来合わせ、明石の姫君が読む物語について配慮するように注意する。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E8%9B%8D",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5040.html"
   },
   {
     "chapter_en": "26",
@@ -981,11 +981,9 @@
     "age": "36歳6月",
     "summary": "夏のある日、源氏は夕霧や若公達を招き、内大臣が玉鬘に対抗して最近引き取った娘・近江の君の悪趣味や無風流を揶揄し、その後撫子（常夏）の咲き乱れる御殿に玉鬘を訪ねる。",
     "gendaibun": "夏のある日、源氏は夕霧や若公達を招き、内大臣が玉鬘に対抗して最近引き取った娘・近江の君の悪趣味や無風流を揶揄し、その後撫子（常夏）の咲き乱れる御殿に玉鬘を訪ねる。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "夏のある日、源氏は夕霧や若公達を招き、内大臣が玉鬘に対抗して最近引き取った娘・近江の君の悪趣味や無風流を揶揄し、その後撫子（常夏）の咲き乱れる御殿に玉鬘を訪ねる。",
-    "descen": "",
+    "gendaibunen": "One summer day Genji invites Yūgiri and young nobles, ridicules the tasteless Lady of Ōmi whom the Minister has recently taken in as a rival to Tamakazura, then visits Tamakazura among halls of blooming pinks (tokonatsu). …",
+    "kobun": "夏のある日、源氏の君、夕霧らを招き、近江の君の無風流を揶揄したまひて後、撫子（常夏）の咲き乱るる殿に玉鬘を訪ひたまふ。……",
+    "kobunen": "On a summer day Genji invited Yūgiri and other young nobles, mocked the vulgar tastes of the Minister of the Interior's newly adopted daughter—the Lady of Ōmi—and afterward visited Tamakazura in halls bright with blooming pinks. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1007,7 +1005,9 @@
         "sceneId": "5",
         "content": "近江の君が五節の君と双六をするところを内大臣覗く。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E5%B8%B8%E5%A4%8F",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5041.html"
   },
   {
     "chapter_en": "27",
@@ -1020,11 +1020,9 @@
     "age": "36歳7月",
     "summary": "秋のはじめのある夜、源氏は玉鬘に琴を教え、庭に篝火を焚かせて添臥する。しかし男女の関係にはならない。",
     "gendaibun": "秋のはじめのある夜、源氏は玉鬘に琴を教え、庭に篝火を焚かせて添臥する。しかし男女の関係にはならない。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "秋のはじめのある夜、源氏は玉鬘に琴を教え、庭に篝火を焚かせて添臥する。しかし男女の関係にはならない。",
-    "descen": "",
+    "gendaibunen": "Early in autumn Genji teaches Tamakazura the koto and has brushwood fires lit in the garden as they rest side by side—but they do not become lovers. …",
+    "kobun": "秋の初めのある夜、源氏の君、玉鬘に琴を教へ、庭に篝火を焚かせて添ひ臥したまふ。されど男女の関係には至らず。……",
+    "kobunen": "Early one autumn night Genji taught Tamakazura the koto and had brushwood fires lit in the garden as they lay side by side—yet they did not become lovers. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1038,7 +1036,9 @@
         "sceneId": "3",
         "content": "源氏、夕霧・柏木らを玉鬘の方に招き、合奏。源氏は琴を弾く。 御簾の奥に玉鬘。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E7%AF%9D%E7%81%AB",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5042.html"
   },
   {
     "chapter_en": "28",
@@ -1051,11 +1051,9 @@
     "age": "36歳8月",
     "summary": "野分（台風）の翌朝、夕霧は源氏の妻妾を見舞いに六条院に行き、偶然紫の上を見て心を惹かれる。また玉鬘に戯れる父の姿に、不審を抱く。",
     "gendaibun": "野分（台風）の翌朝、夕霧は源氏の妻妾を見舞いに六条院に行き、偶然紫の上を見て心を惹かれる。また玉鬘に戯れる父の姿に、不審を抱く。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "野分（台風）の翌朝、夕霧は源氏の妻妾を見舞いに六条院に行き、偶然紫の上を見て心を惹かれる。また玉鬘に戯れる父の姿に、不審を抱く。",
-    "descen": "",
+    "gendaibunen": "The morning after a typhoon, Yūgiri visits Rokujō-in to check on Genji's ladies. He glimpses Murasaki and is drawn to her; seeing his father toy with Tamakazura also fills him with suspicion. …",
+    "kobun": "野分の翌朝、夕霧、六条院に見舞ひに参りて、偶然紫の上を見たてまつり心ひかれ、また玉鬘に戯るる父の姿に不審を抱きたまふ。……",
+    "kobunen": "On the morning after a typhoon, Yūgiri went to Rokujō-in to inquire after Genji's ladies and by chance glimpsed Murasaki—his heart was stirred—and he also saw his father sporting with Tamakazura, which left him uneasy. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1073,7 +1071,9 @@
         "sceneId": "4",
         "content": "夕霧、明石の姫君のもとで、女房に料紙をもらい雲居雁へ手紙を書く。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E9%87%8E%E5%88%86",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5043.html"
   },
   {
     "chapter_en": "29",
@@ -1086,11 +1086,9 @@
     "age": "36歳12月-37歳2月",
     "summary": "冬、大原野の行幸で玉鬘に執心する冷泉帝を垣間見た彼女も、にくからず思う。源氏は内大臣に真相を打ち明け、入内に向けてまずは玉鬘の裳着（古代女性の成年式）を行うことを話し合う。年明けて春、玉鬘は裳着を行い、内大臣と親子の対面を果たす。",
     "gendaibun": "冬、大原野の行幸で玉鬘に執心する冷泉帝を垣間見た彼女も、にくからず思う。源氏は内大臣に真相を打ち明け、入内に向けてまずは玉鬘の裳着（古代女性の成年式）を行うことを話し合う。年明けて春、玉鬘は裳着を行い、内大臣と親子の対面を果たす。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "冬、大原野の行幸で玉鬘に執心する冷泉帝を垣間見た彼女も、にくからず思う。源氏は内大臣に真相を打ち明け、入内に向けてまずは玉鬘の裳着（古代女性の成年式）を行うことを話し合う。年明けて春、玉鬘は裳着を行い、内大臣と親子の対面を果たす。",
-    "descen": "",
+    "gendaibunen": "In winter, during an imperial outing to Ōhara-no, Tamakazura glimpses Emperor Reizei, who desires her, and does not dislike him. Genji tells the Minister the truth and discusses her coming-of-age rite before she enters palace service. …",
+    "kobun": "冬、大原野の行幸にて、玉鬘に執心したまふ冷泉帝を垣間見て、彼女もにくからず思ふ。源氏の君、内大臣に真相を打ち明きたまひける。……",
+    "kobunen": "In winter, at the imperial progress to Ōhara-no, Tamakazura caught sight of Emperor Reizei—who longed for her—and did not find him unpleasing; Genji then spoke frankly with the Minister about presenting her at court. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1104,7 +1102,9 @@
         "sceneId": "3",
         "content": "玉鬘の裳着にあたって諸方より祝い物届く。末摘花よりの古風な祝いに添えられた歌を見て源氏赤面する。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E8%A1%8C%E5%B9%B8",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5044.html"
   },
   {
     "chapter_en": "30",
@@ -1117,11 +1117,9 @@
     "age": "37歳秋",
     "summary": "秋、内大臣の母・大宮が物故し、孫にあたる夕霧や玉鬘らは服喪する。玉鬘入内の噂が高くなるにつれて求婚者たちの思いは乱れ、玉鬘の出自を知った夕霧も藤袴一枝を御簾に差入れて彼女に意中をあかす。",
     "gendaibun": "秋、内大臣の母・大宮が物故し、孫にあたる夕霧や玉鬘らは服喪する。玉鬘入内の噂が高くなるにつれて求婚者たちの思いは乱れ、玉鬘の出自を知った夕霧も藤袴一枝を御簾に差入れて彼女に意中をあかす。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "秋、内大臣の母・大宮が物故し、孫にあたる夕霧や玉鬘らは服喪する。玉鬘入内の噂が高くなるにつれて求婚者たちの思いは乱れ、玉鬘の出自を知った夕霧も藤袴一枝を御簾に差入れて彼女に意中をあかす。",
-    "descen": "",
+    "gendaibunen": "In autumn the Minister's mother dies; Yūgiri and Tamakazura mourn. Rumors of Tamakazura's palace entry agitate her suitors. Yūgiri, now knowing her parentage, places a branch of fujibakama in her blinds to reveal his feelings. …",
+    "kobun": "秋、内大臣の母・大宮物故し、夕霧・玉鬘ら服喪す。玉鬘入内の噂高くなるにつれ、夕霧も藤袴一枝を御簾に差し入れて意中をあかす。……",
+    "kobunen": "In autumn the Minister's mother, the Ōmiya, passed away; Yūgiri and Tamakazura, her grandchildren, went into mourning. As talk of Tamakazura's entry to court grew louder, suitors' hearts grew wild—and Yūgiri, learning her birth, set a spray of purple trousers in her blinds to declare himself. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1131,7 +1129,9 @@
         "sceneId": "2",
         "content": "出仕まぢかの玉鬘のもとに諸方より懸想の文が届くが、玉鬘は見ようともしない。螢兵部卿宮よりも霜を置いた笹の枝につけた文が届く。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E8%97%A4%E8%A2%B4",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5045.html"
   },
   {
     "chapter_en": "31",
@@ -1143,12 +1143,10 @@
     "main-character": "源氏",
     "age": "37歳冬-38歳11月",
     "summary": "秋の末、かねてより玉鬘に思いをかけていた髭黒大将が女房の手引きにより、玉鬘と強引に関係を持つ。源氏や冷泉帝の落胆は言うまでもない。玉鬘に夢中の髭黒はもとの北の方や彼女との子供たちをまったく顧みず、怒った舅・式部卿宮は娘と孫を引き取ると決める。姫君は父との別れを悲しんで歌を詠み、真木の柱の割目に挟んで残す。翌年の秋、玉鬘は髭黒の子を生む。",
-    "gendaibun": "秋の末、かねてより玉鬘に思いをかけていた髭黒大将が女房の手引きにより、玉鬘と強引に関係を持つ。源氏や冷泉帝の落胆は言うまでもない。玉鬘に夢中の髭黒はもとの北の方や彼女との子供たちをまったく顧みず、怒った舅・式部卿宮は娘と孫を引き取ると決める。姫君は父との別れを悲しんで歌を詠み、真木の柱の割目に挟んで残す。翌年の秋、玉鬘は髭黒の子を生む。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "秋の末、かねてより玉鬘に思いをかけていた髭黒大将が女房の手引きにより、玉鬘と強引に関係を持つ。源氏や冷泉帝の落胆は言うまでもない。玉鬘に夢中の髭黒はもとの北の方や彼女との子供たちをまったく顧みず、怒った舅・式部卿宮は娘と孫を引き取ると決める。姫君は父との別れを悲しんで歌を詠み、真木の柱の割目に挟んで残す。翌年の秋、玉鬘は髭黒の子を生む。",
-    "descen": "",
+    "gendaibun": "秋の末、かねてより玉鬘に思いをかけていた髭黒大将が女房の手引きにより、玉鬘と強引に関係を持つ。源氏や冷泉帝の落胆は言うまでもない。玉鬘に夢中の髭黒はもとの北の方や彼女との子供たちをまったく顧みず、怒った舅・式部卿宮は娘と孫を引き取ると決める。姫君は父との別れを悲しんで歌を詠み、真木の柱の割目に挟んで残す。……",
+    "gendaibunen": "Late in autumn Higekuro, long in love with Tamakazura, forces an intimacy with a lady-in-waiting's help. Genji and Reizei are crushed. Obsessed, Higekuro neglects his first wife and children until she leaves in anger, taking the children and the “true-wood pillar.” …",
+    "kobun": "秋の末、髭黒大将、女房の手引きにより玉鬘と強引に逢ひたまふ。源氏の君・冷泉帝の落胆いうまでもなし。……",
+    "kobunen": "Late in autumn, Higekuro—who had long desired Tamakazura—forced his way to her with a gentlewoman's help; the disappointment of Genji and Emperor Reizei need hardly be told. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1166,7 +1164,9 @@
         "sceneId": "4",
         "content": "玉鬘の去ったあと、主なき西の対に立ち寄った源氏、山吹の咲く春の庭を見て、玉鬘を想う。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E7%9C%9F%E6%9C%A8%E6%9F%B1",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5046.html"
   },
   {
     "chapter_en": "32",
@@ -1179,11 +1179,9 @@
     "age": "39歳春",
     "summary": "明石の姫君の入内が近づき、源氏は贅を尽くした準備を整える。その一環として名香の調合がひろく諸家に呼びかけられ、梅の咲く春のある日薫物合が行われる。晩春、明石の姫君の裳着が盛大に行われる。",
     "gendaibun": "明石の姫君の入内が近づき、源氏は贅を尽くした準備を整える。その一環として名香の調合がひろく諸家に呼びかけられ、梅の咲く春のある日薫物合が行われる。晩春、明石の姫君の裳着が盛大に行われる。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "明石の姫君の入内が近づき、源氏は贅を尽くした準備を整える。その一環として名香の調合がひろく諸家に呼びかけられ、梅の咲く春のある日薫物合が行われる。晩春、明石の姫君の裳着が盛大に行われる。",
-    "descen": "",
+    "gendaibunen": "As the Akashi daughter's entry to court approaches, Genji spares no expense. Houses are invited to blend fine incense; on a plum-blossom spring day an incense contest is held, and later her coming-of-age rite is celebrated in grandeur. …",
+    "kobun": "明石の姫君の入内近づき、源氏の君、贅を尽くしたる用意を整ふ。梅の咲く春の日、薫物合せありて、裳着も盛大に行われける。……",
+    "kobunen": "As the Akashi princess's entry to court drew near, Genji prepared with every luxury; houses were called to blend famous incense, and one spring day of plum blossom an incense contest was held. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1205,7 +1203,9 @@
         "sceneId": "5",
         "content": "姫君入内のため、源氏、寝殿で女房たちに墨をすらせて草子を書く。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E6%A2%85%E6%9E%9D",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5047.html"
   },
   {
     "chapter_en": "33",
@@ -1218,11 +1218,9 @@
     "age": "39歳3月-10月",
     "summary": "夕霧と雲居雁の結婚を遂に内大臣が許し、明石の姫君は東宮（朱雀帝の子）に入内する。さらに冷泉帝は翌年が源氏四十の賀であることを知って、彼を准太上天皇に進める旨を勅する。冬、冷泉帝が六条院に行幸し、源氏の栄華はここに極まる。少年の日、高麗の人相見が彼に告げた「その身は帝王にあらず、臣下にあらず」という予言は的中する。",
     "gendaibun": "夕霧と雲居雁の結婚を遂に内大臣が許し、明石の姫君は東宮（朱雀帝の子）に入内する。さらに冷泉帝は翌年が源氏四十の賀であることを知って、彼を准太上天皇に進める旨を勅する。冬、冷泉帝が六条院に行幸し、源氏の栄華はここに極まる。少年の日、高麗の人相見が彼に告げた「その身は帝王にあらず、臣下にあらず」という予言は的中する。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "夕霧と雲居雁の結婚を遂に内大臣が許し、明石の姫君は東宮（朱雀帝の子）に入内する。さらに冷泉帝は翌年が源氏四十の賀であることを知って、彼を准太上天皇に進める旨を勅する。冬、冷泉帝が六条院に行幸し、源氏の栄華はここに極まる。少年の日、高麗の人相見が彼に告げた「その身は帝王にあらず、臣下にあらず」という予言は的中する。",
-    "descen": "",
+    "gendaibunen": "The Minister finally permits Yūgiri's marriage to Kumoinokari; the Akashi daughter enters the Crown Prince's household. Reizei, noting Genji's coming fortieth year, raises him toward the rank of a retired emperor; in winter the emperor visits Rokujō-in. …",
+    "kobun": "夕霧と雲居雁の結婚、内大臣ようやく許し、明石の姫君は東宮に入内したまふ。冷泉帝、源氏の君を准太上天皇に進めむ旨を勅したまひける。……",
+    "kobunen": "At last the Minister allowed Yūgiri to marry Kumoinokari; the Akashi princess entered the household of the Crown Prince, and learning that the next year would mark Genji's fortieth, Emperor Reizei announced he would raise Genji to quasi-retired-emperor rank. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1240,7 +1238,9 @@
         "sceneId": "4",
         "content": "紅葉の六条院に行幸。反橋・渡殿に錦を敷き、東の池では鵜飼。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E8%97%A4%E8%A3%8F%E8%91%89",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5048.html"
   },
   {
     "chapter_en": "34",
@@ -1252,12 +1252,10 @@
     "main-character": "源氏",
     "age": "39歳冬-41歳3月",
     "summary": "源氏の四十歳を祝い、正月に玉鬘が若菜を献じる。一方で朱雀院は出家に際して末娘女三宮の行末を案じ、これを源氏に嫁がせる。紫の上の憂慮はひとかたならず、源氏自身もほんの少女にすぎない彼女に対して愛情を感じられないが、兄帝の皇女を無下には扱えない。秋、源氏四十の賀が盛大に行われる。さらに翌年の春には明石女御が東宮の子を出産し、源氏の権勢はいよいよ高まりつつあるが、その陰で、六条院の蹴鞠の催しに女三の宮を垣間見た内大臣の子息・柏木は彼女へのひそかな思慕をつのらせる。",
-    "gendaibun": "源氏の四十歳を祝い、正月に玉鬘が若菜を献じる。一方で朱雀院は出家に際して末娘女三宮の行末を案じ、これを源氏に嫁がせる。紫の上の憂慮はひとかたならず、源氏自身もほんの少女にすぎない彼女に対して愛情を感じられないが、兄帝の皇女を無下には扱えない。秋、源氏四十の賀が盛大に行われる。さらに翌年の春には明石女御が東宮の子を出産し、源氏の権勢はいよいよ高まりつつあるが、その陰で、六条院の蹴鞠の催しに女三の宮を垣間見た内大臣の子息・柏木は彼女へのひそかな思慕をつのらせる。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "源氏の四十歳を祝い、正月に玉鬘が若菜を献じる。一方で朱雀院は出家に際して末娘女三宮の行末を案じ、これを源氏に嫁がせる。紫の上の憂慮はひとかたならず、源氏自身もほんの少女にすぎない彼女に対して愛情を感じられないが、兄帝の皇女を無下には扱えない。秋、源氏四十の賀が盛大に行われる。さらに翌年の春には明石女御が東宮の子を出産し、源氏の権勢はいよいよ高まりつつあるが、その陰で、六条院の蹴鞠の催しに女三の宮を垣間見た内大臣の子息・柏木は彼女へのひそかな思慕をつのらせる。",
-    "descen": "",
+    "gendaibun": "源氏の四十歳を祝い、正月に玉鬘が若菜を献じる。一方で朱雀院は出家に際して末娘女三宮の行末を案じ、これを源氏に嫁がせる。紫の上の憂慮はひとかたならず、源氏自身もほんの少女にすぎない彼女に対して愛情を感じられないが、兄帝の皇女を無下には扱えない。秋、源氏四十の賀が盛大に行われる。……",
+    "gendaibunen": "At New Year Tamakazura offers young herbs for Genji's fortieth celebration. Retired Emperor Suzaku, preparing to take Buddhist vows, worries for his youngest—the Third Princess—and marries her to Genji. Murasaki's distress is great; Genji himself feels little true love for the girl. …",
+    "kobun": "源氏四十の賀に、玉鬘若菜を献ず。朱雀院、出家に際して女三の宮を源氏に嫁がせたまふ。紫の上の憂へ、ひとかたならず。……",
+    "kobunen": "To celebrate Genji's fortieth year, Tamakazura presented young herbs at the New Year; meanwhile Retired Emperor Suzaku, about to take orders, fretted over his youngest daughter the Third Princess and gave her in marriage to Genji. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1287,7 +1285,9 @@
         "sceneId": "7",
         "content": "桜の下で蹴鞠に興じる貴公子たちを見ていた女三の宮、猫が偶然に引き開けた御簾の隙間より柏木にその姿を見られる。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E8%8B%A5%E8%8F%9C%E4%B8%8A",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5049.html"
   },
   {
     "chapter_en": "35",
@@ -1299,12 +1299,10 @@
     "main-character": "源氏",
     "age": "41歳3月-47歳12月 　 ",
     "summary": "朱雀院五十の賀に際して女楽が催され、源氏は女三の宮に琴を教える。女楽の直後、紫の上が病に臥しそのときは六条御息所の死霊が物怪となって取り憑いていた、源氏はその看護に余念がない。その間に柏木は小侍従女三の宮の乳姉妹の手引きでかねてよりの思いを遂げ、その後も何度かの密会と契りを経て女三宮を懐妊させる。柏木が女三宮に送った手紙を手にして事情を知った源氏は、懊悩する。一方で源氏の遠まわしな諷諌に、柏木は恐怖のあまり病を発し、そのまま重態に陥る。",
-    "gendaibun": "朱雀院五十の賀に際して女楽が催され、源氏は女三の宮に琴を教える。女楽の直後、紫の上が病に臥しそのときは六条御息所の死霊が物怪となって取り憑いていた、源氏はその看護に余念がない。その間に柏木は小侍従女三の宮の乳姉妹の手引きでかねてよりの思いを遂げ、その後も何度かの密会と契りを経て女三宮を懐妊させる。柏木が女三宮に送った手紙を手にして事情を知った源氏は、懊悩する。一方で源氏の遠まわしな諷諌に、柏木は恐怖のあまり病を発し、そのまま重態に陥る。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "朱雀院五十の賀に際して女楽が催され、源氏は女三の宮に琴を教える。女楽の直後、紫の上が病に臥しそのときは六条御息所の死霊が物怪となって取り憑いていた、源氏はその看護に余念がない。その間に柏木は小侍従女三の宮の乳姉妹の手引きでかねてよりの思いを遂げ、その後も何度かの密会と契りを経て女三宮を懐妊させる。柏木が女三宮に送った手紙を手にして事情を知った源氏は、懊悩する。一方で源氏の遠まわしな諷諌に、柏木は恐怖のあまり病を発し、そのまま重態に陥る。",
-    "descen": "",
+    "gendaibun": "朱雀院五十の賀に際して女楽が催され、源氏は女三の宮に琴を教える。女楽の直後、紫の上が病に臥しそのときは六条御息所の死霊が物怪となって取り憑いていた、源氏はその看護に余念がない。その間に柏木は小侍従女三の宮の乳姉妹の手引きでかねてよりの思いを遂げ、その後も何度かの密会と契りを経て女三宮を懐妊させる。……",
+    "gendaibunen": "At Suzaku's fiftieth celebration Genji teaches the Third Princess the koto. Soon after, Murasaki falls ill, haunted by Lady Rokujō's spirit; while Genji nurses her, Kashiwagi, guided by a waiting-woman, becomes intimate with the Third Princess. …",
+    "kobun": "朱雀院五十の賀に女楽あり、源氏の君、女三の宮に琴を教ふ。その直後、紫の上病に臥し、六条御息所の死霊の物怪と見えたり。……",
+    "kobunen": "For Suzaku's fiftieth celebration a concert of women's music was held, and Genji taught the Third Princess the koto; right afterward Murasaki fell ill—possessed, it seemed, by the dead spirit of Lady Rokujō—and Genji devoted himself to nursing her. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1330,7 +1328,9 @@
         "sceneId": "6",
         "content": "源氏、女三の宮のもとで柏木よりの恋文を発見。小侍従慌てる。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E8%8B%A5%E8%8F%9C%E4%B8%8B",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5050.html"
   },
   {
     "chapter_en": "36",
@@ -1342,12 +1342,10 @@
     "main-character": "源氏",
     "age": "48歳正月-秋",
     "summary": "年明けて、女三の宮は男の子・薫を生むが、柏木は病篤くして亡くなり、女三の宮も罪の意識深く、また産後の肥立ちの悪さから出家する（実際の原因としては、既に亡くなった六条御息所の物怪が女三の宮に取り憑いて出家を促させたことが背景である）。源氏は薫出生の秘密を守り通すことを決意する。一方で柏木に後事を託された親友・夕霧は、残された柏木の妻女・二宮（落葉の宮）を見舞ううちに彼女に惹かれてゆく。",
-    "gendaibun": "年明けて、女三の宮は男の子・薫を生むが、柏木は病篤くして亡くなり、女三の宮も罪の意識深く、また産後の肥立ちの悪さから出家する（実際の原因としては、既に亡くなった六条御息所の物怪が女三の宮に取り憑いて出家を促させたことが背景である）。源氏は薫出生の秘密を守り通すことを決意する。一方で柏木に後事を託された親友・夕霧は、残された柏木の妻女・二宮（落葉の宮）を見舞ううちに彼女に惹かれてゆく。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "年明けて、女三の宮は男の子・薫を生むが、柏木は病篤くして亡くなり、女三の宮も罪の意識深く、また産後の肥立ちの悪さから出家する（実際の原因としては、既に亡くなった六条御息所の物怪が女三の宮に取り憑いて出家を促させたことが背景である）。源氏は薫出生の秘密を守り通すことを決意する。一方で柏木に後事を託された親友・夕霧は、残された柏木の妻女・二宮（落葉の宮）を見舞ううちに彼女に惹かれてゆく。",
-    "descen": "",
+    "gendaibun": "女三の宮のご病気のことは、世間の噂もいまいましく、内裏でもどのようにお聞きになっているのか、お気の毒にと思ってお言葉をくださるときがある。……",
+    "gendaibunen": "Word of the Third Princess's illness was still more distressing in the world's gossip; even at the palace, he wondered how they had heard of it, and there were times when he offered words of sympathy, feeling for her. …",
+    "kobun": "女三の宮の御事は、まして人の聞こえもゆゆしく、内裏にも、いかにと聞こし召したるにや、いとほしう思しのたまはするをりをりあり。……",
+    "kobunen": "As for the Third Princess, the talk of others was all the more ominous; even at the palace, he seemed to hear how things stood and would from time to time speak words of pity. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1369,7 +1367,9 @@
         "sceneId": "5",
         "content": "夕霧、春の日に故柏木の妻、落葉の宮を一条宮に訪ね、応対に出た母御息女と語り合う、夕霧、涙を拭い鼻をかむ。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E6%9F%8F%E6%9C%A8",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5051.html"
   },
   {
     "chapter_en": "37",
@@ -1382,11 +1382,9 @@
     "age": "49歳春-秋",
     "summary": "秋、柏木の一周忌が営まれる。落葉の宮の後見をする夕霧はその礼として宮の母から柏木遺愛の横笛を贈られるが、その夜、夢に柏木があらわれて、自分が笛を贈りたいのは別人である（薫を示唆）と言う。夕霧は源氏にこのことを相談するが、源氏は言を左右にしてはっきりと答えないまま横笛を預かる。",
     "gendaibun": "秋、柏木の一周忌が営まれる。落葉の宮の後見をする夕霧はその礼として宮の母から柏木遺愛の横笛を贈られるが、その夜、夢に柏木があらわれて、自分が笛を贈りたいのは別人である（薫を示唆）と言う。夕霧は源氏にこのことを相談するが、源氏は言を左右にしてはっきりと答えないまま横笛を預かる。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "秋、柏木の一周忌が営まれる。落葉の宮の後見をする夕霧はその礼として宮の母から柏木遺愛の横笛を贈られるが、その夜、夢に柏木があらわれて、自分が笛を贈りたいのは別人である（薫を示唆）と言う。夕霧は源氏にこのことを相談するが、源氏は言を左右にしてはっきりと答えないまま横笛を預かる。",
-    "descen": "",
+    "gendaibunen": "In autumn Kashiwagi's first anniversary is held. Yūgiri, guardian of the Fallen Leaves Princess, receives Kashiwagi's beloved flute from her mother; that night Kashiwagi appears in a dream and says the flute is meant for someone else—hinting at Kaoru. …",
+    "kobun": "秋、柏木の一周忌営まる。夕霧、落葉の宮の母より柏木遺愛の横笛を贈らるるに、その夜夢に柏木現れ、「この笛は別人に」と言ひたまひける。……",
+    "kobunen": "In autumn the first anniversary of Kashiwagi was observed; Yūgiri, watching over the Fallen Leaves Princess, received Kashiwagi's treasured flute from her mother—and that night Kashiwagi appeared in a dream, saying the flute was meant for another. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1412,7 +1410,9 @@
         "sceneId": "6",
         "content": "雲居雁、夜中におびえて泣く幼児を抱く。 夕霧も起きて来る。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E6%A8%AA%E7%AC%9B",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5052.html"
   },
   {
     "chapter_en": "38",
@@ -1425,11 +1425,9 @@
     "age": "50歳夏-秋",
     "summary": "夏、出家した女三宮の持仏・開眼供養が行われる。秋、その御殿の庭に鈴虫を放って、源氏らが宴を行う。その夜、秋好中宮が死霊となって苦しむ母・六条御息所の慰霊のため出家したいと源氏に打ち明けるが、源氏はこれを諌める。",
     "gendaibun": "夏、出家した女三宮の持仏・開眼供養が行われる。秋、その御殿の庭に鈴虫を放って、源氏らが宴を行う。その夜、秋好中宮が死霊となって苦しむ母・六条御息所の慰霊のため出家したいと源氏に打ち明けるが、源氏はこれを諌める。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "夏、出家した女三宮の持仏・開眼供養が行われる。秋、その御殿の庭に鈴虫を放って、源氏らが宴を行う。その夜、秋好中宮が死霊となって苦しむ母・六条御息所の慰霊のため出家したいと源氏に打ち明けるが、源氏はこれを諌める。",
-    "descen": "",
+    "gendaibunen": "In summer a ceremony is held for the Third Princess's Buddhist image after she takes the tonsure. In autumn bell-crickets are released in her garden for a banquet. That night Akikonomu tells Genji she wishes to take orders to quiet her mother Rokujō's spirit—but Genji refuses. …",
+    "kobun": "夏、出家したる女三の宮の持仏開眼の供養あり。秋、庭に鈴虫を放ちて宴あり。秋好中宮、母の慰霊のため出家したしと打ち明く。……",
+    "kobunen": "In summer the consecration of the Third Princess's personal Buddha image was held after her tonsure; in autumn bell-crickets were released in her garden and Genji and others made a banquet. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1451,7 +1449,9 @@
         "sceneId": "5",
         "content": "同夜、源氏や集まっていた公達ら、冷泉院の月見の宴に招かれる。源氏と冷泉院、月光の下で語り合う。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E9%88%B4%E8%99%AB",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5053.html"
   },
   {
     "chapter_en": "39",
@@ -1463,12 +1463,10 @@
     "main-character": "源氏",
     "age": "50歳秋-冬",
     "summary": "秋、思いを抑えきれない夕霧は人目を忍んで落葉の宮に意中を明かすが、彼女はこれを受け入れない。しかし世上による両人の噂は高く、落葉の宮の母御息所はこれを苦にして病死する。落葉の宮はいっそう夕霧を厭うが、夕霧は強引に彼女との契りを結び、妻とする。雲居雁は嫉妬のあまり父・致仕太政大臣（かつての頭中将）のもとへ帰って、夕霧の弁明をも聞きつけない。末尾に夕霧の行末とその一門の繁栄が語られる。",
-    "gendaibun": "秋、思いを抑えきれない夕霧は人目を忍んで落葉の宮に意中を明かすが、彼女はこれを受け入れない。しかし世上による両人の噂は高く、落葉の宮の母御息所はこれを苦にして病死する。落葉の宮はいっそう夕霧を厭うが、夕霧は強引に彼女との契りを結び、妻とする。雲居雁は嫉妬のあまり父・致仕太政大臣（かつての頭中将）のもとへ帰って、夕霧の弁明をも聞きつけない。末尾に夕霧の行末とその一門の繁栄が語られる。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "秋、思いを抑えきれない夕霧は人目を忍んで落葉の宮に意中を明かすが、彼女はこれを受け入れない。しかし世上による両人の噂は高く、落葉の宮の母御息所はこれを苦にして病死する。落葉の宮はいっそう夕霧を厭うが、夕霧は強引に彼女との契りを結び、妻とする。雲居雁は嫉妬のあまり父・致仕太政大臣（かつての頭中将）のもとへ帰って、夕霧の弁明をも聞きつけない。末尾に夕霧の行末とその一門の繁栄が語られる。",
-    "descen": "",
+    "gendaibun": "秋、思いを抑えきれない夕霧は人目を忍んで落葉の宮に意中を明かすが、彼女はこれを受け入れない。しかし世上による両人の噂は高く、落葉の宮の母御息所はこれを苦にして病死する。落葉の宮はいっそう夕霧を厭うが、夕霧は強引に彼女との契りを結び、妻とする。……",
+    "gendaibunen": "In autumn Yūgiri can no longer hold back and secretly confesses to the Fallen Leaves Princess; she refuses, but rumor spreads and her mother dies of worry. The princess shuns him still more, yet Yūgiri's passion only deepens. …",
+    "kobun": "秋、夕霧、人目を忍びて落葉の宮に意を明かすも、受けられず。世上の噂高く、母御息所はこれを苦にして病死したまふ。……",
+    "kobunen": "In autumn Yūgiri, no longer able to restrain himself, slipped unseen to the Fallen Leaves Princess and declared his love; she would not accept him, yet worldly rumor rose high, and her mother the consort fell ill and died of the distress. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1490,7 +1488,9 @@
         "sceneId": "5",
         "content": "致仕の大臣の文を持ち、蔵人少将(柏木の弟)、 落葉の宮を訪れる。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E5%A4%95%E9%9C%A7",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5054.html"
   },
   {
     "chapter_en": "40",
@@ -1503,11 +1503,9 @@
     "age": "51歳春-秋",
     "summary": "「若菜」の大病から紫の上の健康は優れず、たびたび出家を願うが源氏はこれを許さず、紫の上はせめて仏事によって後世を願う。春から秋に掛けての、六条院最後の栄華と紫の上の病状が描かれる。秋、紫の上は病死し、源氏は深い悲嘆にくれる。",
     "gendaibun": "「若菜」の大病から紫の上の健康は優れず、たびたび出家を願うが源氏はこれを許さず、紫の上はせめて仏事によって後世を願う。春から秋に掛けての、六条院最後の栄華と紫の上の病状が描かれる。秋、紫の上は病死し、源氏は深い悲嘆にくれる。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "「若菜」の大病から紫の上の健康は優れず、たびたび出家を願うが源氏はこれを許さず、紫の上はせめて仏事によって後世を願う。春から秋に掛けての、六条院最後の栄華と紫の上の病状が描かれる。秋、紫の上は病死し、源氏は深い悲嘆にくれる。",
-    "descen": "",
+    "gendaibunen": "After her long illness, Murasaki never fully recovers. She repeatedly asks to take Buddhist vows; Genji refuses. From spring to autumn the last glory of Rokujō-in unfolds beside her decline; in autumn she dies, and Genji's grief is beyond measure. …",
+    "kobun": "紫の上、健康すぐれず、たびたび出家を願へども源氏許さず。春から秋にかけ、六条院最後の栄華と病状描かる。秋、紫の上病死したまふ。……",
+    "kobunen": "After the great illness of the Wakana years, Murasaki's strength never fully returned; again and again she asked to take orders, yet Genji would not permit it, and she sought at least to secure the next life through Buddhist rites. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1521,7 +1519,9 @@
         "sceneId": "3",
         "content": "秋の夕暮れ、重病の紫の上、風に吹かれる前栽を見て、源氏・明石の中宮と歌を交わす。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E5%BE%A1%E6%B3%95",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5056.html"
   },
   {
     "chapter_en": "41",
@@ -1534,11 +1534,9 @@
     "age": "52歳正月-年末",
     "summary": "紫の上亡き後の源氏の一年を四季の風物を主として叙情的に描く。年末に源氏は出家の意志をかため、女君たちとの手紙を焼き捨てる。",
     "gendaibun": "紫の上亡き後の源氏の一年を四季の風物を主として叙情的に描く。年末に源氏は出家の意志をかため、女君たちとの手紙を焼き捨てる。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "紫の上亡き後の源氏の一年を四季の風物を主として叙情的に描く。年末に源氏は出家の意志をかため、女君たちとの手紙を焼き捨てる。",
-    "descen": "",
+    "gendaibunen": "After Murasaki's death, Genji's mourning is told through the year's seasons. At year's end he resolves to take Buddhist orders and burns the women's letters. …",
+    "kobun": "紫の上亡き後の源氏の君の悲しみを、四季の風物に寄せて描く。年末、出家の志を固め、女君たちの文を焼き捨てたまふ。……",
+    "kobunen": "After Murasaki's death, Genji's sorrow was told through the seasons; at year's end he resolved to leave the world and burned the letters of the women he had loved. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1560,7 +1558,9 @@
         "sceneId": "5",
         "content": "御仏名の導師の僧を、源氏ねぎらう。咲き始めた梅の花に雪。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E5%B9%BB",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5057.html"
   },
   {
     "chapter_en": "42",
@@ -1573,11 +1573,9 @@
     "age": "14歳-20歳正月",
     "summary": "物語は源氏の死の数年後から始まる。源氏一門の繁栄は明石中宮と朱雀帝の子・今上帝の皇子たちを中心にゆるぎない。ことに明石中宮腹の三宮は色好みで名高く、薫と並んで世にもてはやされている。天然の薫香が身から発するために「薫」、それに対抗して名香を常に焚きしめているために「匂宮」と二人は呼ばれる。",
     "gendaibun": "物語は源氏の死の数年後から始まる。源氏一門の繁栄は明石中宮と朱雀帝の子・今上帝の皇子たちを中心にゆるぎない。ことに明石中宮腹の三宮は色好みで名高く、薫と並んで世にもてはやされている。天然の薫香が身から発するために「薫」、それに対抗して名香を常に焚きしめているために「匂宮」と二人は呼ばれる。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "物語は源氏の死の数年後から始まる。源氏一門の繁栄は明石中宮と朱雀帝の子・今上帝の皇子たちを中心にゆるぎない。ことに明石中宮腹の三宮は色好みで名高く、薫と並んで世にもてはやされている。天然の薫香が身から発するために「薫」、それに対抗して名香を常に焚きしめているために「匂宮」と二人は呼ばれる。",
-    "descen": "",
+    "gendaibunen": "Years after Genji's death, his house still flourishes around the Akashi Empress and the emperor's sons. The Third Prince (Niou), noted for amorous charm, is paired in fame with Kaoru, from whose person a natural fragrance rises. …",
+    "kobun": "源氏の君亡き数年の後。明石中宮と今上帝の皇子たちを中心に一門栄ゆ。匂宮と薫、世にもてはやされける。……",
+    "kobunen": "The tale resumes some years after Genji's death. The prosperity of his line stands firm around the Akashi Empress and the sons of the present emperor; among them the Third Prince, famed for love affairs, is celebrated alongside Kaoru—from whose body a natural fragrance rises. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1591,7 +1589,9 @@
         "sceneId": "3",
         "content": "梅薫る下で六条院の還饗。女房ら物陰より覗き見る。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E5%8C%82%E5%85%B5%E9%83%A8%E5%8D%BF",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5059.html"
   },
   {
     "chapter_en": "43",
@@ -1604,11 +1604,9 @@
     "age": "24歳春",
     "summary": "柏木没後の頭中将家の物語。致仕太政大臣（頭中将）の孫娘・中の君と匂宮との結婚が画策されるが、真木柱の姫君と蛍兵部卿宮の娘に心惹かれる匂宮は相手にしない。後人の偽作説が濃厚。",
     "gendaibun": "柏木没後の頭中将家の物語。致仕太政大臣（頭中将）の孫娘・中の君と匂宮との結婚が画策されるが、真木柱の姫君と蛍兵部卿宮の娘に心惹かれる匂宮は相手にしない。後人の偽作説が濃厚。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "柏木没後の頭中将家の物語。致仕太政大臣（頭中将）の孫娘・中の君と匂宮との結婚が画策されるが、真木柱の姫君と蛍兵部卿宮の娘に心惹かれる匂宮は相手にしない。後人の偽作説が濃厚。",
-    "descen": "",
+    "gendaibunen": "After Kashiwagi's death, the story turns to Tō no Chūjō's family. A match is planned between his granddaughter and Niou, but Niou prefers other women and ignores it. (Often judged a later interpolation.) …",
+    "kobun": "柏木没後の頭中将家の物語。中の君と匂宮の縁組画策さるれど、匂宮は他の姫君に心ありて相手にせず。……",
+    "kobunen": "This is the tale of Tō no Chūjō's house after Kashiwagi's death: a marriage is plotted between his granddaughter Naka no Kimi and Prince Niou, yet Niou, drawn to other ladies, will not take the bait. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1622,7 +1620,9 @@
         "sceneId": "3",
         "content": "若君、明石の中宮のもとにいる匂宮に、文と紅梅の枝を渡す。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E7%B4%85%E6%A2%85",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5060.html"
   },
   {
     "chapter_en": "44",
@@ -1635,11 +1635,9 @@
     "age": "14歳-23歳",
     "summary": "鬚黒没後の一家の物語。玉鬘の二人の娘は、大君が冷泉院に嫁し、中の君が宮中に出仕することになる。夕霧はこの一家と親しく、彼女たちから好感を持たれている。後人の偽作説が濃厚。",
     "gendaibun": "鬚黒没後の一家の物語。玉鬘の二人の娘は、大君が冷泉院に嫁し、中の君が宮中に出仕することになる。夕霧はこの一家と親しく、彼女たちから好感を持たれている。後人の偽作説が濃厚。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "鬚黒没後の一家の物語。玉鬘の二人の娘は、大君が冷泉院に嫁し、中の君が宮中に出仕することになる。夕霧はこの一家と親しく、彼女たちから好感を持たれている。後人の偽作説が濃厚。",
-    "descen": "",
+    "gendaibunen": "After Higekuro's death, Tamakazura's two daughters find their paths: one marries Reizei, the other enters court service. Yūgiri grows close to the household and is well liked. (Often judged a later interpolation.) …",
+    "kobun": "髭黒没後の一家。玉鬘の娘、大君は冷泉院に、中の君は宮中に出仕す。夕霧、この一家と親しく交はりたまふ。……",
+    "kobunen": "This is the tale of Higekuro's house after his death: Tamakazura's two daughters—the elder married to Retired Emperor Reizei, the younger entering palace service—grow close to Yūgiri, who is warmly received by the family. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1657,7 +1655,9 @@
         "sceneId": "4",
         "content": "晩春の夕、冷泉院の庭で松にかかる藤を、薫、藤侍従とともに眺める。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E7%AB%B9%E6%B2%B3",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5061.html"
   },
   {
     "chapter_en": "45",
@@ -1669,12 +1669,10 @@
     "main-character": "薫",
     "age": "20-22歳10月",
     "summary": "源氏の弟・八の宮は二人の娘とともに宇治に隠棲し、仏道三昧の生活を送る。みずからの出生に悩む薫は八の宮の生き方を理想としてしばしば邸を訪れるうちに、ふとしたことから長女・大君に深く心を引かれるようになる。都に戻って薫が宇治の有様を語ると、匂宮もこれに興味をそそられる。",
-    "gendaibun": "源氏の弟・八の宮は二人の娘とともに宇治に隠棲し、仏道三昧の生活を送る。みずからの出生に悩む薫は八の宮の生き方を理想としてしばしば邸を訪れるうちに、ふとしたことから長女・大君に深く心を引かれるようになる。都に戻って薫が宇治の有様を語ると、匂宮もこれに興味をそそられる。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "源氏の弟・八の宮は二人の娘とともに宇治に隠棲し、仏道三昧の生活を送る。みずからの出生に悩む薫は八の宮の生き方を理想としてしばしば邸を訪れるうちに、ふとしたことから長女・大君に深く心を引かれるようになる。都に戻って薫が宇治の有様を語ると、匂宮もこれに興味をそそられる。",
-    "descen": "",
+    "gendaibun": "そのころ、世間であまり顧みられなかった古い宮がいらした。母宮に先立たれ、中将の君と呼ばれる御子たちを連れて、宇治の山庄に引きこもっていられた。……",
+    "gendaibunen": "In those days there was an old prince whom the world little regarded. After his mother the princess died, he took the young men called the Middle Captain's sons and shut himself away in a mountain villa at Uji. …",
+    "kobun": "そのころ、世にかずまへられたまはぬ古宮おはしけり。母宮に後れたまひて、中将の君と聞ゆる御子たちを率て、宇治の山庄にこもりゐたまへり。……",
+    "kobunen": "In those days there was an aged prince whom the world scarcely counted among its number. Having lost his mother the princess, he withdrew with the young men known as the Middle Captain's sons to a mountain villa at Uji. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1696,7 +1694,9 @@
         "sceneId": "5",
         "content": "八の宮、 暁の勤行に立ったあと、薫、弁の御許より柏木と女三の宮の秘密を聞き、文反故を受け取る。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E6%A9%8B%E5%A7%AB",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5062.html"
   },
   {
     "chapter_en": "46",
@@ -1709,11 +1709,9 @@
     "age": "23歳2月-24歳夏",
     "summary": "春、匂宮は宇治に立寄り、次女・中君と歌の贈答をする。秋、八の宮が薨去。二人の姫君たちは薫に托された。薫は中君と匂宮の結婚を計画し、自らはを大君に思いを告げるが彼女の返答はつれない。しかし薫の慕情はいっそうつのる。",
     "gendaibun": "春、匂宮は宇治に立寄り、次女・中君と歌の贈答をする。秋、八の宮が薨去。二人の姫君たちは薫に托された。薫は中君と匂宮の結婚を計画し、自らはを大君に思いを告げるが彼女の返答はつれない。しかし薫の慕情はいっそうつのる。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "春、匂宮は宇治に立寄り、次女・中君と歌の贈答をする。秋、八の宮が薨去。二人の姫君たちは薫に托された。薫は中君と匂宮の結婚を計画し、自らはを大君に思いを告げるが彼女の返答はつれない。しかし薫の慕情はいっそうつのる。",
-    "descen": "",
+    "gendaibunen": "In spring Niou visits Uji and exchanges poems with the younger sister. In autumn the Eighth Prince dies; the two sisters are entrusted to Kaoru. He plans to marry Naka no Kimi to Niou and confesses his love to the elder sister, who answers coldly—yet his longing only grows. …",
+    "kobun": "春、匂宮宇治に立ち寄り、中君と歌の贈答あり。秋、八の宮薨去し、二人の姫君、薫に託さる。薫、大君に思いを告ぐれど、返事つれなし。……",
+    "kobunen": "In spring Prince Niou stopped at Uji and exchanged poems with the younger sister Naka no Kimi; in autumn the Eighth Prince died, and the two princesses were entrusted to Kaoru. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1735,7 +1733,9 @@
         "sceneId": "5",
         "content": "薫、故八の宮の仏間に入り宮の生前を回想して柱にもたれ歌を詠む。女房ら、その姿を覗き見る。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E6%A4%8E%E6%9C%AC",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5063.html"
   },
   {
     "chapter_en": "47",
@@ -1748,11 +1748,9 @@
     "age": "24歳8月-年末",
     "summary": "薫は再び大君に語らうが思いは受け入れられず、むしろ大君は中君と薫の結婚を望む。秋の終わり、大君により中君と薫が一つ閨に取り残されるが、薫は彼女に手を触れようとしない。やがて当初の計画通りに薫は匂宮と中君の結婚を果たすが、匂宮の訪れは途絶えがちで、これを恨んだ大君は病に臥し、ついには薫の腕のなかではかなくなる。",
     "gendaibun": "薫は再び大君に語らうが思いは受け入れられず、むしろ大君は中君と薫の結婚を望む。秋の終わり、大君により中君と薫が一つ閨に取り残されるが、薫は彼女に手を触れようとしない。やがて当初の計画通りに薫は匂宮と中君の結婚を果たすが、匂宮の訪れは途絶えがちで、これを恨んだ大君は病に臥し、ついには薫の腕のなかではかなくなる。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "薫は再び大君に語らうが思いは受け入れられず、むしろ大君は中君と薫の結婚を望む。秋の終わり、大君により中君と薫が一つ閨に取り残されるが、薫は彼女に手を触れようとしない。やがて当初の計画通りに薫は匂宮と中君の結婚を果たすが、匂宮の訪れは途絶えがちで、これを恨んだ大君は病に臥し、ついには薫の腕のなかではかなくなる。",
-    "descen": "",
+    "gendaibunen": "Kaoru again courts the elder sister; she refuses and hopes he will marry the younger. Late in autumn she leaves Kaoru and Naka no Kimi alone together, but he will not touch her. As planned, Kaoru later brings Niou and Naka no Kimi together; the elder sister dies of illness. …",
+    "kobun": "薫、再び大君に語らへども受けられず。秋の終わり、中君と薫一つ閨に残さるるも、薫は手触れず。やがて大君、病にて亡くなりたまふ。……",
+    "kobunen": "Again Kaoru spoke his love to the elder sister; she would not accept him, and rather wished him married to her younger sister. Late in autumn she left Kaoru and Naka no Kimi alone in one chamber—yet he would not touch her. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1770,7 +1768,9 @@
         "sceneId": "4",
         "content": "十月、匂宮と薫ら、宇治川に舟を浮かべて紅葉狩り。 八の宮の山荘より女たちそのさまを眺める"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E7%B7%8F%E8%A7%92",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5064.html"
   },
   {
     "chapter_en": "48",
@@ -1783,11 +1783,9 @@
     "age": "25歳春",
     "summary": "翌年、大君の喪が明けて中君は匂宮の元に引き取られる。薫は後見として彼女のために尽くすが、それがかえって匂宮に疑われる。",
     "gendaibun": "翌年、大君の喪が明けて中君は匂宮の元に引き取られる。薫は後見として彼女のために尽くすが、それがかえって匂宮に疑われる。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "翌年、大君の喪が明けて中君は匂宮の元に引き取られる。薫は後見として彼女のために尽くすが、それがかえって匂宮に疑われる。",
-    "descen": "",
+    "gendaibunen": "The next year, after mourning ends, Naka no Kimi is taken into Niou's household. Kaoru helps as her guardian—yet that very devotion makes Niou jealous. …",
+    "kobun": "翌年、大君の喪明けて、中君は匂宮のもとに引き取らる。薫、後見として尽くすが、かえって匂宮に疑はる。……",
+    "kobunen": "The next year, when mourning for the elder sister ended, Naka no Kimi was taken into Niou's household; Kaoru served as her guardian, yet that very care made Niou suspicious. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1805,7 +1803,9 @@
         "sceneId": "4",
         "content": "中の君、上洛を前に弁の尼との別れを悲しむ。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E6%97%A9%E8%95%A8",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5065.html"
   },
   {
     "chapter_en": "49",
@@ -1818,11 +1818,9 @@
     "age": "24歳春-26歳4月",
     "summary": "匂宮と夕霧の娘・六の君が結婚し、懐妊中の中君は行末を不安に思う。それを慰めるうちに彼女に恋情を抱き始めた薫に中君は当惑するが、無事男子を出産して安定した地位を得る。一方で薫は今上帝の皇女・女二宮と結婚するが傷心は癒されない。しかし初瀬詣の折に、故大君に生き写しである中君の異母妹・浮舟を垣間見て、心を動かされる。",
     "gendaibun": "匂宮と夕霧の娘・六の君が結婚し、懐妊中の中君は行末を不安に思う。それを慰めるうちに彼女に恋情を抱き始めた薫に中君は当惑するが、無事男子を出産して安定した地位を得る。一方で薫は今上帝の皇女・女二宮と結婚するが傷心は癒されない。しかし初瀬詣の折に、故大君に生き写しである中君の異母妹・浮舟を垣間見て、心を動かされる。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "匂宮と夕霧の娘・六の君が結婚し、懐妊中の中君は行末を不安に思う。それを慰めるうちに彼女に恋情を抱き始めた薫に中君は当惑するが、無事男子を出産して安定した地位を得る。一方で薫は今上帝の皇女・女二宮と結婚するが傷心は癒されない。しかし初瀬詣の折に、故大君に生き写しである中君の異母妹・浮舟を垣間見て、心を動かされる。",
-    "descen": "",
+    "gendaibunen": "Niou marries Yūgiri's sixth daughter; pregnant Naka no Kimi fears for her future. While comforting her, Kaoru falls in love, to her dismay—until she bears a son and her standing stabilizes. Kaoru meanwhile marries the emperor's Second Princess, yet his heart remains unsettled. …",
+    "kobun": "匂宮、夕霧の六の君と結婚し、懐妊中の中君は行末を憂ふ。薫、これを慰むるうち恋情を抱き、中君当惑す。男子出産の後、薫は女二宮と結婚す。……",
+    "kobunen": "Niou married Yūgiri's Sixth Daughter; Naka no Kimi, already with child, feared for her future. Comforting her, Kaoru began to feel desire, which distressed her—until she safely bore a son and her position grew secure. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1844,7 +1842,9 @@
         "sceneId": "5",
         "content": "匂宮、晩秋の庭を肌に琵琶を弾き、中の君は脇息によって思い悩む。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E5%AE%BF%E6%9C%A8",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5066.html"
   },
   {
     "chapter_en": "50",
@@ -1857,11 +1857,9 @@
     "age": "26歳秋",
     "summary": "浮舟は母の再婚により田舎受領・常陸介の継娘として育てられ、父の財力のために求婚者は多い。しかし母は高貴の男性との婚姻を望んで、彼女を中君のもとに預ける。母の意中は薫にあったが、ある夜、匂宮が見つけて強引に契りを結ぼうとしたためにあわてて浮舟を引き取り、後に薫と相談して宇治に移す。",
     "gendaibun": "浮舟は母の再婚により田舎受領・常陸介の継娘として育てられ、父の財力のために求婚者は多い。しかし母は高貴の男性との婚姻を望んで、彼女を中君のもとに預ける。母の意中は薫にあったが、ある夜、匂宮が見つけて強引に契りを結ぼうとしたためにあわてて浮舟を引き取り、後に薫と相談して宇治に移す。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "浮舟は母の再婚により田舎受領・常陸介の継娘として育てられ、父の財力のために求婚者は多い。しかし母は高貴の男性との婚姻を望んで、彼女を中君のもとに預ける。母の意中は薫にあったが、ある夜、匂宮が見つけて強引に契りを結ぼうとしたためにあわてて浮舟を引き取り、後に薫と相談して宇治に移す。",
-    "descen": "",
+    "gendaibunen": "Ukifune is raised as a provincial official's stepdaughter; suitors come for her father's wealth, but her mother wants a noble marriage and places her with Naka no Kimi. Her mother hopes for Kaoru—yet one night Niou finds Ukifune and forces himself upon her. …",
+    "kobun": "浮舟、母の再婚により常陸介の継娘として育つ。母、高貴の縁を望み、中君のもとに預く。ある夜、匂宮見つけ、強引に逢ひたまふ。……",
+    "kobunen": "Ukifune, raised as stepdaughter of a provincial governor after her mother's remarriage, had many suitors for her father's wealth; yet her mother wished a noble match and placed her in Naka no Kimi's care. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1879,7 +1877,9 @@
         "sceneId": "4",
         "content": "三条の隠れ家で一夜を明かした薫、車を妻戸に寄せて浮舟を乗せ宇治に移そうとする。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E6%9D%B1%E5%B1%8B",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5067.html"
   },
   {
     "chapter_en": "51",
@@ -1891,12 +1891,10 @@
     "main-character": "薫",
     "age": "27歳春",
     "summary": "浮舟への執心やまぬ匂宮は、中君への手紙から彼女の居所を察し、薫を装って宇治に赴き、強引に浮舟との関係を結ぶ。やがて浮舟も宮を憎からず思うようになるが、何も知らない薫は彼女を京に移そうと準備を始め、匂宮もこれに対抗してみずからのもとに彼女を連れ去る計画を立てる。その結果、匂宮とのことは薫の知るところとなり、裏切りをなじる歌を贈られた浮舟は二人の男のあいだで懊悩する。",
-    "gendaibun": "浮舟への執心やまぬ匂宮は、中君への手紙から彼女の居所を察し、薫を装って宇治に赴き、強引に浮舟との関係を結ぶ。やがて浮舟も宮を憎からず思うようになるが、何も知らない薫は彼女を京に移そうと準備を始め、匂宮もこれに対抗してみずからのもとに彼女を連れ去る計画を立てる。その結果、匂宮とのことは薫の知るところとなり、裏切りをなじる歌を贈られた浮舟は二人の男のあいだで懊悩する。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "浮舟への執心やまぬ匂宮は、中君への手紙から彼女の居所を察し、薫を装って宇治に赴き、強引に浮舟との関係を結ぶ。やがて浮舟も宮を憎からず思うようになるが、何も知らない薫は彼女を京に移そうと準備を始め、匂宮もこれに対抗してみずからのもとに彼女を連れ去る計画を立てる。その結果、匂宮とのことは薫の知るところとなり、裏切りをなじる歌を贈られた浮舟は二人の男のあいだで懊悩する。",
-    "descen": "",
+    "gendaibun": "浮舟への執心やまぬ匂宮は、中君への手紙から彼女の居所を察し、薫を装って宇治に赴き、強引に浮舟との関係を結ぶ。やがて浮舟も宮を憎からず思うようになるが、何も知らない薫は彼女を京に移そうと準備を始め、匂宮もこれに対抗してみずからのもとに彼女を連れ去る計画を立てる。……",
+    "gendaibunen": "Still obsessed, Niou finds Ukifune at Uji by posing as Kaoru and forces an affair. Ukifune comes to care for him, while Kaoru—unaware—prepares to bring her to the capital. Torn between them, Ukifune falls into despair. …",
+    "kobun": "匂宮、薫を装ひて宇治に赴き、浮舟と強引に関係す。浮舟もやがて宮を憎からず思ふ。知らぬ薫は、彼女を京へ移さむと支度す。……",
+    "kobunen": "Niou, still obsessed with Ukifune, guessed her hiding place from a letter to Naka no Kimi, went to Uji disguised as Kaoru, and forced a relationship; in time Ukifune came not to hate him—while Kaoru, knowing nothing, prepared to move her to the capital. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1918,7 +1916,9 @@
         "sceneId": "5",
         "content": "夜、宇治に忍んだ匂宮、薫の命で警戒が厳しく邸に入れず、野原に侍従を呼び出して逢う。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E6%B5%AE%E8%88%9F",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5068.html"
   },
   {
     "chapter_en": "52",
@@ -1931,11 +1931,9 @@
     "age": "27歳春-秋",
     "summary": "浮舟は行方不明になり、後に残された女房たちは入水自殺を図ったと悟って嘆き悲しみながらも、真相を隠すために急遽葬儀を行う。薫もこのことを知って悲嘆にくれる。夏になって、薫は新たに妻の姉・女一宮に心惹かれるものを感じる。",
     "gendaibun": "浮舟は行方不明になり、後に残された女房たちは入水自殺を図ったと悟って嘆き悲しみながらも、真相を隠すために急遽葬儀を行う。薫もこのことを知って悲嘆にくれる。夏になって、薫は新たに妻の姉・女一宮に心惹かれるものを感じる。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "浮舟は行方不明になり、後に残された女房たちは入水自殺を図ったと悟って嘆き悲しみながらも、真相を隠すために急遽葬儀を行う。薫もこのことを知って悲嘆にくれる。夏になって、薫は新たに妻の姉・女一宮に心惹かれるものを感じる。",
-    "descen": "",
+    "gendaibunen": "Ukifune disappears. The women left behind think she drowned herself; they grieve yet hold a hasty funeral to conceal the truth. Kaoru, hearing of it, is devastated. In summer his heart turns toward his wife's elder sister. …",
+    "kobun": "浮舟行方不明となり、女房たち入水と悟りて嘆くも、急遽葬儀を営む。薫もこれを知りて悲嘆す。……",
+    "kobunen": "Ukifune vanished; the women left behind, believing she had thrown herself into the river, mourned yet hastily held a funeral to hide the truth—and Kaoru, learning of it, was also lost in grief. …",
     "scene": [
       {
         "sceneId": "1",
@@ -1957,7 +1955,9 @@
         "sceneId": "5",
         "content": "薫、夕暮れに飛び交う蜻蛉を見て、大君や浮舟とのはかない縁を思う。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E8%9C%BB%E8%9B%89",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5069.html"
   },
   {
     "chapter_en": "53",
@@ -1970,11 +1970,9 @@
     "age": "27歳3月-28歳夏",
     "summary": "実は浮舟は、横川の僧都によって入水自殺後に助けられていた。やがて健康が回復した彼女はみずからの名を明かさないまま、入道の志を僧都に告げて髪を下ろす。やがて、明石中宮の加持僧である僧都が浮舟のことを彼女に語ったため、このことが薫の知るところとなる。",
     "gendaibun": "実は浮舟は、横川の僧都によって入水自殺後に助けられていた。やがて健康が回復した彼女はみずからの名を明かさないまま、入道の志を僧都に告げて髪を下ろす。やがて、明石中宮の加持僧である僧都が浮舟のことを彼女に語ったため、このことが薫の知るところとなる。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "実は浮舟は、横川の僧都によって入水自殺後に助けられていた。やがて健康が回復した彼女はみずからの名を明かさないまま、入道の志を僧都に告げて髪を下ろす。やがて、明石中宮の加持僧である僧都が浮舟のことを彼女に語ったため、このことが薫の知るところとなる。",
-    "descen": "",
+    "gendaibunen": "Ukifune was saved after her suicide attempt by the Bishop of Yokawa. Recovered, she keeps her name secret, declares her wish for the religious life, and has her hair cut. Later the bishop, serving the Akashi Empress, speaks of her—and Kaoru begins to suspect she lives. …",
+    "kobun": "浮舟は横川の僧都に助けられけり。健康回復の後、名を明かさず出家の志を告げて髪下ろす。僧都の話より、薫、生存を疑ひはじむ。……",
+    "kobunen": "In fact Ukifune had been saved after her attempt to drown by the Bishop of Yokawa; when her strength returned, without giving her name, she told him of her wish to leave the world and had her hair cut. …",
     "scene": [
       {
         "sceneId": "1",
@@ -2000,7 +1998,9 @@
         "sceneId": "6",
         "content": "髪を下ろした浮舟、一人硯に向かい手習いをする。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E6%89%8B%E7%BF%92",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5070.html"
   },
   {
     "chapter_en": "54",
@@ -2013,11 +2013,9 @@
     "age": "28歳夏",
     "summary": "薫は横川に赴き、浮舟に対面を求めるが僧都に断られ、浮舟の弟・小君に還俗を求める手紙を託す。しかし浮舟は一切を拒んで仏道に専心することのみを思い、返事すらもない。薫は浮舟に心を残しつつ横川を去る。",
     "gendaibun": "薫は横川に赴き、浮舟に対面を求めるが僧都に断られ、浮舟の弟・小君に還俗を求める手紙を託す。しかし浮舟は一切を拒んで仏道に専心することのみを思い、返事すらもない。薫は浮舟に心を残しつつ横川を去る。",
-    "gendaibunen": "",
-    "kobun": "",
-    "kobunen": "",
-    "desc": "薫は横川に赴き、浮舟に対面を求めるが僧都に断られ、浮舟の弟・小君に還俗を求める手紙を託す。しかし浮舟は一切を拒んで仏道に専心することのみを思い、返事すらもない。薫は浮舟に心を残しつつ横川を去る。",
-    "descen": "",
+    "gendaibunen": "Kaoru goes to Yokawa and asks to see Ukifune; the bishop refuses. He sends a letter through her brother urging her to return to ordinary life, but Ukifune refuses everything, intent only on Buddhist practice, and gives no reply. Kaoru leaves Yokawa with his heart still bound to her. …",
+    "kobun": "薫、横川に赴き浮舟に対面を求むるも僧都に断らる。弟・小君に還俗を勧むる文を託すも、浮舟すべて拒みて返事なし。薫、心を残しつつ横川を去る。……",
+    "kobunen": "Kaoru went to Yokawa and sought an audience with Ukifune; the bishop refused, and Kaoru entrusted her younger brother with a letter asking her to return to lay life—yet Ukifune rejected all, thinking only of the Buddha's path, and sent no answer. …",
     "scene": [
       {
         "sceneId": "1",
@@ -2031,6 +2029,8 @@
         "sceneId": "3",
         "content": "小君、薫の文を小野の庵室に届け、尼君開いて浮舟にみせる。"
       }
-    ]
+    ],
+    "source_kobun_url": "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E/%E5%A4%A2%E6%B5%AE%E6%A9%8B",
+    "source_gendaibun_url": "https://www.aozora.gr.jp/cards/000052/card5071.html"
   }
 ]

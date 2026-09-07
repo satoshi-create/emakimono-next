@@ -40,6 +40,19 @@ data/emaki-text-data/*.json                     ← 詞書・章テキスト（E
 | `local-data/pipeline/dataEmakis.json` ほか | sync ツール（`sync_all.py` 等）のみ | 旧一覧データ。**git 管理外・Cursor 非表示**。本番コードから直接参照しない |
 | `emaki-text-data/` | 詞書オーバーレイ | 章ごとの classical / modern テキスト |
 
+## 源氏物語54帖ハブ
+
+| 項目 | 内容 |
+|------|------|
+| ルート | `/genji/chapters-genji`（一覧）、`/genji/[path]`（帖） |
+| マスター | `src/data/emaki-text-data/chapters-of-genji.json` |
+| 出典定数 | `src/libs/constants/genjiSources.js` |
+| ハブ専用キー | `source_*_url`。抜粋は `kobun`/`gendaibun`（JA・全54）、`kobunen`/`gendaibunen`（EN・全54）。あらすじは `summary` |
+| 注意 | マスターの `kobun`/`gendaibun` はハブ抜粋用。絵巻ビューアは巻別 JSON の owned フィールドを優先。`desc`/`descen` はマスターに持たない。再生成: `scripts/fill_genji_ja_excerpts.py` / `scripts/fill_genji_en_excerpts.py` |
+| `source_kobun_url` | Wikisource `源氏物語/{帖名}`（少女→乙女、匂宮→匂兵部卿）。索引は渋谷校訂ページ |
+| `source_gendaibun_url` | 青空・與謝野訳の帖別カード（`AOZORA_YOSANO_CARD_BY_CHAPTER`）。`card362` は作品案内のみ |
+| 旧 URL | `/genjie/*` → `/genji/*`（301） |
+
 ## 現行 MVP
 
 サイトの主眼は **鳥獣人物戯画** と **九相図** の2系統。`data.js` が結合する他 category（`dataByoubus` 等）はレガシーで、トップ UI は一部のみ使用。
