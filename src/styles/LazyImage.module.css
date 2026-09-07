@@ -28,11 +28,7 @@
   max-width: 100% !important;
 }
 
-.imageLoading {
-  opacity: 0;
-}
-
-.imageLoaded {
+/* 画像自体は常時表示。未完了時は skeleton（紙色）が覆うのでフェードイン不要 */
+.imageReady {
   opacity: 1;
-  transition: opacity 0.4s ease;
 }

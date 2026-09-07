@@ -32,6 +32,10 @@ import {
 
   getPlaybackSpeedPxPerSec,
 
+  INITIAL_NUDGE_DELAY_MS,
+
+  INITIAL_NUDGE_SPEED_FACTOR,
+
   PLAYBACK_SCENE_DETECT_MS,
 
   PLAYBACK_SCROLL_LIMIT_NEAR_END_PX,
@@ -207,7 +211,7 @@ const useEmakiAutoPlay = ({
 
 
 
-      const scrollSpeedPxPerSec = getPlaybackSpeedPxPerSec();
+      const scrollSpeedPxPerSec = getPlaybackSpeedPxPerSec() * INITIAL_NUDGE_SPEED_FACTOR;
 
       let animationId = null;
 
@@ -409,7 +413,7 @@ const useEmakiAutoPlay = ({
 
         }
 
-      }, 500);
+      }, INITIAL_NUDGE_DELAY_MS);
 
 
 

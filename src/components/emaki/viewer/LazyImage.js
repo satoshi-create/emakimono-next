@@ -1,7 +1,10 @@
 import { AppContext } from "@/context/AppContext";
 import { trackImageLoaded, trackImageFallback, trackImageLoadSlow } from "@/libs/api/measurementUtils";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
-import { PLAYBACK_IMAGE_LOOKAHEAD } from "@/libs/constants/viewerPlayback";
+import {
+  MANUAL_IMAGE_LOOKAHEAD,
+  PLAYBACK_IMAGE_LOOKAHEAD,
+} from "@/libs/constants/viewerPlayback";
 import styles from "@/styles/LazyImage.module.css";
 import Image from "next/image";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -86,11 +89,21 @@ const getAdaptiveTimeout = (type, emakiId) => {
   return timeout;
 };
 
-/** 初回は priority 1枚のみ eager。帯域競合とデコード負荷を抑える */
-const isEagerLoad = (uniqueIndex, prefetchIndex, isPlayMode, toggleFullscreen) =>
-  uniqueIndex === 0 ||
-  (isPlayMode && uniqueIndex <= prefetchIndex + PLAYBACK_IMAGE_LOOKAHEAD) ||
-  (toggleFullscreen && Math.abs(uniqueIndex - prefetchIndex) <= 2);
+/**
+ * マウント済みシーンは視線より先にネット開始する。
+ * 描画窓が枚数を制限するので、前方 eager を厚くして二重 lazy ゲートを避ける。
+ */
+const isEagerLoad = (uniqueIndex, prefetchIndex, isPlayMode, toggleFullscreen) => {
+  if (uniqueIndex === 0) return true;
+  const center = Number.isFinite(prefetchIndex) ? prefetchIndex : 0;
+  const delta = uniqueIndex - center;
+  if (toggleFullscreen && Math.abs(delta) <= 2) return true;
+  if (isPlayMode) {
+    return delta >= -2 && delta <= PLAYBACK_IMAGE_LOOKAHEAD;
+  }
+  // 手動: 後方1・前方 MANUAL_IMAGE_LOOKAHEAD
+  return delta >= -1 && delta <= MANUAL_IMAGE_LOOKAHEAD;
+};
 
 const LazyImage = ({
   src,
@@ -139,7 +152,7 @@ const LazyImage = ({
             hasTrackedRef.current = true;
           }
           setImageLoaded(true);
-          setTimeout(() => setSkeletonVisible(false), 300);
+          setSkeletonVisible(false);
         }
       }, timeout);
       return () => clearTimeout(fallbackTimer);
@@ -161,11 +174,13 @@ const LazyImage = ({
     let fallbackTimer = null;
     let observed = false;
 
-    // フルスクリーン時のeager判定: navIndex±2 または 再生中は先読み8枚
-    const isEagerInFullscreen =
-      (isPlayMode &&
-        uniqueIndex <= prefetchIndex + PLAYBACK_IMAGE_LOOKAHEAD) ||
-      Math.abs(uniqueIndex - prefetchIndex) <= 2;
+    // フルスクリーン時のeager判定は isEagerLoad と同じ基準
+    const isEagerInFullscreen = isEagerLoad(
+      uniqueIndex,
+      prefetchIndex,
+      isPlayMode,
+      true
+    );
 
     const startFallbackTimer = () => {
       loadStartTimeRef.current = Date.now();
@@ -180,7 +195,7 @@ const LazyImage = ({
             hasTrackedRef.current = true;
           }
           setImageLoaded(true);
-          setTimeout(() => setSkeletonVisible(false), 300);
+          setSkeletonVisible(false);
         }
       }, timeout);
     };
@@ -243,7 +258,7 @@ const LazyImage = ({
             hasTrackedRef.current = true;
           }
           setImageLoaded(true);
-          setTimeout(() => setSkeletonVisible(false), 300);
+          setSkeletonVisible(false);
         }
       }, timeout);
     };
@@ -308,12 +323,10 @@ const LazyImage = ({
       }}
       ref={containerRef}
     >
-      {isSkeletonVisible && (
+      {isSkeletonVisible && !isImageLoaded && (
         <div
           className={styles.skeleton}
           style={{
-            opacity: isImageLoaded ? 0 : 1,
-            transition: "opacity 0.3s ease-out",
             aspectRatio: `${width} / ${height}`,
           }}
         />
@@ -338,7 +351,7 @@ const LazyImage = ({
           }
           return isEager ? "eager" : "lazy";
         })()}
-        lazyBoundary={isPlayMode ? "2400px" : "800px"}
+        lazyBoundary={isPlayMode ? "2400px" : "1600px"}
         layout="responsive"
         sizes={imageSizes}
         placeholder={alreadyHydrated ? "empty" : "blur"}
@@ -362,9 +375,10 @@ const LazyImage = ({
             hasTrackedRef.current = true;
           }
           setImageLoaded(true);
-          setTimeout(() => setSkeletonVisible(false), 300);
+          // skeleton は紙色のまま短く外す（長いフェードで「読み込み」を意識させない）
+          setSkeletonVisible(false);
         }}
-        className={isImageLoaded ? styles.imageLoaded : styles.imageLoading}
+        className={styles.imageReady}
       />
     </div>
   );

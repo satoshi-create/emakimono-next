@@ -938,10 +938,10 @@ const EmakiContainer = ({
                 backgroundImage={backgroundImage}
                 selectedRef={selectedRef}
                 navIndex={navIndex}
-                sceneIndex={sceneIndexForPrefetch}
+                sceneIndex={windowCenter}
                 uniqueIndex={item.uniqueIndex} // 新しい連番を渡す
                 scroll={scroll}
-                isPlayMode={isPlayMode} // 再生モード時は全画像を eager loading
+                isPlayMode={windowIsPlaying} // ナッジ/再生中も前方 eager・描画窓と揃える
                 mountContent={nextContentMounted.has(index)}
               />
             );

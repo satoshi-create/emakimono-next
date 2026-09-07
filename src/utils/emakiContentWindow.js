@@ -2,8 +2,10 @@
  * 描画窓 Phase 1: レイアウト幅を保ったまま、遠いシーンの中身だけ間引く。
  */
 import {
-  CONTENT_WINDOW_ENTER_RADIUS,
-  CONTENT_WINDOW_PLAY_ENTER_RADIUS,
+  CONTENT_WINDOW_AHEAD,
+  CONTENT_WINDOW_BEHIND,
+  CONTENT_WINDOW_PLAY_AHEAD,
+  CONTENT_WINDOW_PLAY_BEHIND,
   SCENE_READING_POSITION_RATIO,
 } from "@/libs/constants/viewerPlayback";
 
@@ -22,10 +24,16 @@ export function shouldMountSceneContent(
   // sticky: 一度載せた中身は外さない（remount による blur 再発・幅揺れを防ぐ）
   if (wasMounted) return true;
   const center = Number.isFinite(centerIndex) ? centerIndex : 0;
-  const enter = opts.isPlayMode
-    ? CONTENT_WINDOW_PLAY_ENTER_RADIUS
-    : CONTENT_WINDOW_ENTER_RADIUS;
-  return Math.abs(index - center) <= enter;
+  const ahead = opts.isPlayMode
+    ? CONTENT_WINDOW_PLAY_AHEAD
+    : CONTENT_WINDOW_AHEAD;
+  const behind = opts.isPlayMode
+    ? CONTENT_WINDOW_PLAY_BEHIND
+    : CONTENT_WINDOW_BEHIND;
+  // index 大 = 巻の先（RTL で進む方向）。前方を厚く先読みする
+  const delta = index - center;
+  if (delta >= 0) return delta <= ahead;
+  return -delta <= behind;
 }
 
 /**
