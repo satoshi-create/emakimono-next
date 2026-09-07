@@ -3,6 +3,9 @@
 .wrapper {
   position: relative;
   flex-shrink: 0;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   height: 100%;
   overflow: hidden;
   background-color: #f5f0e6;
@@ -18,10 +21,11 @@
   background-color: #f5f0e6;
 }
 
-/* next/image 内部の白背景対策 */
+/* next/image 内部の白背景対策 + 固有幅で親 flex を押し広げない */
 .wrapper :global(> span),
 .wrapper :global(> div) {
   background-color: #f5f0e6 !important;
+  max-width: 100% !important;
 }
 
 .imageLoading {

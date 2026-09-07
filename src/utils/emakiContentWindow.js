@@ -93,10 +93,14 @@ export function buildSceneShellStyle(item, ctx = {}) {
     };
   }
   if (!srcWidth || !srcHeight) {
+    const fallbackW = "20vh";
     return {
-      width: "20vh",
+      width: fallbackW,
+      minWidth: fallbackW,
+      maxWidth: fallbackW,
       height: "100%",
       flexShrink: 0,
+      overflow: "hidden",
       backgroundColor: "#f5f0e6",
     };
   }
@@ -106,10 +110,15 @@ export function buildSceneShellStyle(item, ctx = {}) {
   else if (orientation === "portrait") heightVar = "var(--vh-45)";
   else if (orientation === "landscape") heightVar = "var(--vh-75)";
 
+  const width = `calc(${srcWidth / srcHeight} * ${heightVar})`;
   return {
-    width: `calc(${srcWidth / srcHeight} * ${heightVar})`,
+    width,
+    // flex の min-width:auto が next/image 固有サイズで section を押し広げるのを防ぐ
+    minWidth: width,
+    maxWidth: width,
     height: "100%",
     flexShrink: 0,
+    overflow: "hidden",
     aspectRatio: `${srcWidth} / ${srcHeight}`,
     backgroundColor: "#f5f0e6",
   };
