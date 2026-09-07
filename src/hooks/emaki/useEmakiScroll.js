@@ -23,17 +23,20 @@ import {
   SCENE_DETECTION_HYSTERESIS_PX,
   SCENE_READING_POSITION_RATIO,
 } from "@/libs/constants/viewerPlayback";
+import { estimateSceneIndexFromScrollLeft } from "@/utils/emakiContentWindow";
 import { parseSceneSectionId } from "@/utils/emakiSceneDom";
 
 const useEmakiScroll = ({
   articleRef,
   dataId,
   emakiId,
+  emakis,
   navIndex,
   setnavIndex,
   isScrollDetectedUpdateRef,
   isAutoScrolling,
   playModeAnimationRef,
+  palmActiveRef,
   lastDetectedSceneRef,
   isAtStartRef,
   isAtEndRef,
@@ -48,6 +51,8 @@ const useEmakiScroll = ({
 }) => {
   const sceneDetectionTimerRef = useRef(null);
   const lastSceneDetectionTimeRef = useRef(0);
+  const emakisRef = useRef(emakis);
+  emakisRef.current = emakis;
 
   // 教育現場向けUI: 静かな現在地インジケータ
   // パフォーマンス: scrollRatio はReact stateではなくDOM直接操作で更新
@@ -68,10 +73,35 @@ const useEmakiScroll = ({
 
   // 再生中の解説バー追従用（navIndex は画像ツリー再レンダー抑制のため固定）
   const [liveSceneIndex, setLiveSceneIndex] = useState(navIndex);
+  // 描画窓中心: navIndex の 150ms debounce を待たず scrollLeft から rAF 追従
+  const [contentWindowCenter, setContentWindowCenter] = useState(navIndex);
+  const contentWindowCenterRef = useRef(navIndex);
+  const windowCenterRafRef = useRef(null);
+  // スクロール中の state 反映を idle へ集約するためのハンドル（1回にまとめる）
+  const windowCenterIdleRef = useRef(null);
 
   useEffect(() => {
     setLiveSceneIndex(navIndex);
   }, [navIndex]);
+
+  // hash / 目次ジャンプ: 大きく離れた navIndex のみ窓へ反映（150ms debounce 追従で窓を巻き戻さない）
+  useEffect(() => {
+    if (!Number.isFinite(navIndex)) return;
+    if (navIndex === contentWindowCenterRef.current) return;
+    const delta = Math.abs(navIndex - contentWindowCenterRef.current);
+    if (delta < 5) return;
+    contentWindowCenterRef.current = navIndex;
+    setContentWindowCenter(navIndex);
+  }, [navIndex]);
+
+  // 再生中 liveSceneIndex は窓の先読み中心にも使う（手動スクロール時は rAF のみ＝巻き戻し防止）
+  useEffect(() => {
+    if (!(isAutoScrolling || playModeAnimationRef.current)) return;
+    if (!Number.isFinite(liveSceneIndex)) return;
+    if (liveSceneIndex === contentWindowCenterRef.current) return;
+    contentWindowCenterRef.current = liveSceneIndex;
+    setContentWindowCenter(liveSceneIndex);
+  }, [liveSceneIndex, isAutoScrolling, playModeAnimationRef]);
 
   const detectCurrentScene = useCallback(() => {
     const el = articleRef.current;
@@ -149,6 +179,13 @@ const useEmakiScroll = ({
         }
       }
 
+      // パームドラッグ中はシーン確定を保留する（指で位置を選んでいる最中に navIndex を
+      // 更新すると EmakiConteiner 全体の再レンダー→「角ばり」や、hash 追従を介した
+      // 巻き戻し連鎖を招く）。ドラッグ終了時（EmakiConteiner 側）に最終1回だけ検出する。
+      if (palmActiveRef?.current) {
+        return;
+      }
+
       // 計測: シーン遷移・滞在（スクロール検出による）
       handleSceneChange(emakiId, closestId, "scroll_detect");
       // 計測: セッション鑑賞サマリー用の状態更新
@@ -184,6 +221,7 @@ const useEmakiScroll = ({
     isAutoScrolling,
     toggleFullscreen,
     playModeAnimationRef,
+    palmActiveRef,
   ]);
 
   if (detectCurrentSceneRef) {
@@ -197,6 +235,78 @@ const useEmakiScroll = ({
   useEffect(() => {
     if (!articleRef.current) return;
     const el = articleRef.current;
+
+    /** 描画窓用: ヒステリシスなしで最寄りシーンを rAF 1回に集約して更新 */
+    // スクロール中は state を更新せず ref のみ進め、idle 時に1回へ集約して反映する。
+    // パンフレーム内で EmakiConteiner の再レンダー（殻→中身マウント・eager 再評価）が
+    // 走ると入力→描画の追いつきで巻き戻り/ジャンプに見えるため、ここで非同期化する。
+    const flushWindowCenterToState = () => {
+      windowCenterIdleRef.current = null;
+      const latest = contentWindowCenterRef.current;
+      // functional update: 反映時点で最新値と変わっていなければ再レンダーしない
+      setContentWindowCenter((prev) => (prev === latest ? prev : latest));
+    };
+    const scheduleWindowCenterStateSync = () => {
+      if (windowCenterIdleRef.current) return; // 既に反映予約済み
+      if (typeof requestIdleCallback !== "undefined") {
+        windowCenterIdleRef.current = requestIdleCallback(
+          flushWindowCenterToState,
+          { timeout: 250 }
+        );
+      } else {
+        // requestIdleCallback 非対応（旧 Safari 等）: 短遅延で同様に集約
+        windowCenterIdleRef.current = setTimeout(flushWindowCenterToState, 200);
+      }
+    };
+
+    const scheduleContentWindowCenter = () => {
+      if (windowCenterRafRef.current) return;
+      windowCenterRafRef.current = requestAnimationFrame(() => {
+        windowCenterRafRef.current = null;
+        const node = articleRef.current;
+        if (!node) return;
+
+        const applyCenter = (closestId) => {
+          if (closestId === null || isNaN(closestId)) return;
+          if (closestId === contentWindowCenterRef.current) return;
+          // ref は即時・state は idle 反映（連続スクロール中は最新の中心だけを1回で適用）
+          contentWindowCenterRef.current = closestId;
+          scheduleWindowCenterStateSync();
+        };
+
+        const cache = sectionsCacheRef.current;
+        if (!cache?.items) {
+          // DOM キャッシュ未構築でもメタデータ幅で窓を進める（初回スクロールの殻バースト遅延防止）
+          const list = emakisRef.current;
+          if (list?.length) {
+            applyCenter(
+              estimateSceneIndexFromScrollLeft(
+                list,
+                node.scrollLeft,
+                node.clientWidth,
+                node.clientHeight
+              )
+            );
+          }
+          // 併せて idle キャッシュ構築を起動
+          detectCurrentScene();
+          return;
+        }
+        const scrollDelta = node.scrollLeft - cache.baseScrollLeft;
+        let closestId = null;
+        let closestDistance = Infinity;
+        for (let i = 0; i < cache.items.length; i += 1) {
+          const { id, offset } = cache.items[i];
+          const distance = Math.abs(offset - scrollDelta);
+          if (distance < closestDistance) {
+            closestDistance = distance;
+            closestId = id;
+          }
+        }
+        applyCenter(closestId);
+      });
+    };
+
     const handleScroll = () => {
       const currentScrollX = el.scrollLeft;
       const now = Date.now();
@@ -216,6 +326,9 @@ const useEmakiScroll = ({
         scrollPositionStore.restored = false;
         updateScrollProgress(scrollPositionStore.scrollRatio);
       }
+
+      // 描画窓は debounce せず追従（自動再生中の programmatic scroll も含む）
+      scheduleContentWindowCenter();
 
       // 自動再生中は rAF 側で端点・シーン検出（それ以外の毎フレーム処理を省略）
       if (isAutoScrolling || playModeAnimationRef.current) {
@@ -307,10 +420,53 @@ const useEmakiScroll = ({
       if (sceneDetectionTimerRef.current) {
         clearTimeout(sceneDetectionTimerRef.current);
       }
+      if (windowCenterRafRef.current) {
+        cancelAnimationFrame(windowCenterRafRef.current);
+        windowCenterRafRef.current = null;
+      }
+      if (windowCenterIdleRef.current) {
+        if (typeof cancelIdleCallback !== "undefined") {
+          cancelIdleCallback(windowCenterIdleRef.current);
+        } else {
+          clearTimeout(windowCenterIdleRef.current);
+        }
+        windowCenterIdleRef.current = null;
+      }
     };
   }, [detectCurrentScene, isAutoScrolling, dataId, emakiId]);
 
-  return { sectionsCacheRef, scrollDimsRef, liveSceneIndex };
+  // 中身マウント等で scrollWidth が変わったらシーン位置キャッシュを破棄し再構築
+  useEffect(() => {
+    const el = articleRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    let lastW = el.scrollWidth;
+    let timer = null;
+    const ro = new ResizeObserver(() => {
+      const w = el.scrollWidth;
+      if (Math.abs(w - lastW) < 2) return;
+      lastW = w;
+      if (sectionsCacheRef.current?.items) {
+        sectionsCacheRef.current = null;
+      }
+      scrollDimsRef.current = { w: 0, c: 0, ts: 0 };
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        detectCurrentScene();
+      }, 120);
+    });
+    ro.observe(el);
+    return () => {
+      ro.disconnect();
+      if (timer) clearTimeout(timer);
+    };
+  }, [articleRef, dataId, detectCurrentScene]);
+
+  return {
+    sectionsCacheRef,
+    scrollDimsRef,
+    liveSceneIndex,
+    contentWindowCenter,
+  };
 };
 
 export default useEmakiScroll;

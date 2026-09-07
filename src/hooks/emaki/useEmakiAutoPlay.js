@@ -32,6 +32,10 @@ import {
 
   getPlaybackSpeedPxPerSec,
 
+  INITIAL_NUDGE_DELAY_MS,
+
+  INITIAL_NUDGE_SPEED_FACTOR,
+
   PLAYBACK_SCENE_DETECT_MS,
 
   PLAYBACK_SCROLL_LIMIT_NEAR_END_PX,
@@ -47,6 +51,9 @@ import useEmakiIdleUI from "./useEmakiIdleUI";
 const MAX_SCROLL_DT_SEC = 0.05;
 
 const SCROLL_MARGIN = 5;
+
+/** ナッジ(初回自動スクロール)が最後に自分で書いた位置からの許容ズレ(px)。超過は手動スクロールとみなし即停止 */
+const NUDGE_MANUAL_OVERRIDE_PX = 8;
 
 
 
@@ -207,13 +214,15 @@ const useEmakiAutoPlay = ({
 
 
 
-      const scrollSpeedPxPerSec = getPlaybackSpeedPxPerSec();
+      const scrollSpeedPxPerSec = getPlaybackSpeedPxPerSec() * INITIAL_NUDGE_SPEED_FACTOR;
 
       let animationId = null;
 
       let stopped = false;
 
       let lastScrollTs = null;
+
+      let lastSelfScrollLeft = null;
 
       let minScrollLeft = computeMinScrollLeft(el);
 
@@ -246,6 +255,7 @@ const useEmakiAutoPlay = ({
           const scrollRatio = maxScrollLeft > 0 ? Math.abs(el.scrollLeft) / maxScrollLeft : 0;
 
           trackAutoScrollInterrupted(emakiId, interruptMethod, scrollRatio);
+          sessionStorage.setItem(keyName, true);
 
         }
 
@@ -289,6 +299,8 @@ const useEmakiAutoPlay = ({
 
         document.removeEventListener("click", handleClick);
 
+        el.removeEventListener("scroll", handleScroll);
+
       };
 
 
@@ -300,6 +312,28 @@ const useEmakiAutoPlay = ({
       const handleTouchstart = () => stopAutoScroll("touch");
 
       const handleClick = () => stopAutoScroll("click");
+
+      const handleScroll = () => {
+
+        if (stopped) return;
+
+        // 自分(autoScroll)の代入は scroll イベントでズレ≒0。手動変更（スクロールバー・
+        // 矢印キー・慣性など discrete イベントでは検知できない操作）は最後の自己位置から
+        // 大きく離れるため、ここで検知して即停止する（自動と手動の「取り合い」を解消）。
+        const currentScrollLeft = el.scrollLeft;
+
+        if (lastSelfScrollLeft === null) return;
+
+        if (
+          Math.abs(currentScrollLeft - lastSelfScrollLeft) >
+          NUDGE_MANUAL_OVERRIDE_PX
+        ) {
+
+          stopAutoScroll("scrollbar");
+
+        }
+
+      };
 
 
 
@@ -343,6 +377,9 @@ const useEmakiAutoPlay = ({
 
         el.scrollLeft = newScrollLeft;
 
+        // 自分が書いた実位置を記録（クランプ後も含む）。手動スクロール検知の基準にする
+        lastSelfScrollLeft = el.scrollLeft;
+
         syncEdgeRefsFromScroll(el, minScrollLeft, isAtStartRef, isAtEndRef);
 
         saveScrollPositionStore(el, dataId, scrollPositionStore);
@@ -364,6 +401,8 @@ const useEmakiAutoPlay = ({
       el.addEventListener("touchstart", handleTouchstart, { once: true });
 
       document.addEventListener("click", handleClick, { once: true });
+
+      el.addEventListener("scroll", handleScroll);
 
 
 
@@ -388,7 +427,6 @@ const useEmakiAutoPlay = ({
           setIsAutoScrolling(true);
 
           trackAutoScrollStarted(emakiId, getDeviceType());
-
           sessionStorage.setItem(keyName, true);
 
 
@@ -409,7 +447,7 @@ const useEmakiAutoPlay = ({
 
         }
 
-      }, 500);
+      }, INITIAL_NUDGE_DELAY_MS);
 
 
 

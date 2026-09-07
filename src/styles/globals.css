@@ -444,14 +444,17 @@ button {
   }
 }
 
-/* ポートレート時のレイアウト安定化 */
-/* svh (small viewport height) を使用することで、アドレスバーの表示/非表示による高さ変化を防止 */
-/* これにより縦スクロール時の絵巻コンテナの高さ変動（レイアウト崩れ）を解消 */
+/* アドレスバー出し入れによるレイアウト安定化（svh = small viewport） */
+/* シーン幅は ratio * --vh-* なので dvh 変動は横 scrollWidth 揺れ＝巻き戻り感の原因になる */
 @supports (height: 100svh) {
   @media (orientation: portrait) {
     :root {
-      /* ポートレート時のみ svh を使用（アドレスバー最大表示時の高さで固定） */
       --vh-45: 45svh;
+    }
+  }
+  @media (orientation: landscape) {
+    :root {
+      --vh-75: 75svh;
     }
   }
 }

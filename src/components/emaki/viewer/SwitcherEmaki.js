@@ -6,7 +6,7 @@ import { buildSceneShellStyle } from "@/utils/emakiContentWindow";
 import { sceneSectionId } from "@/utils/emakiSceneDom";
 import { forwardRef, useContext } from "react";
 
-/** 絵巻シーンを cat に応じて image / ekotoba に振り分け。殻は常置・中身は mountContent。 */
+/** 絵巻シーンを cat に応じて image / ekotoba に振り分け。幅は section 常置・中身は mountContent。 */
 const SwitcherEmaki = forwardRef(
   (
     {
@@ -34,25 +34,32 @@ const SwitcherEmaki = forwardRef(
 
     const sectionClass =
       cat === "ekotoba" && !src ? ekotobaStyles.markerSection : undefined;
+    // 殻↔中身差し替えで flex 幅が変わらないよう、幅は常に section に載せる
+    const sectionStyle = buildSceneShellStyle(item, {
+      toggleFullscreen,
+      orientation,
+    });
 
     if (!mountContent) {
       return (
-        <section ref={ref} id={sceneSectionId(index)} className={sectionClass}>
-          <div
-            className="section"
-            style={buildSceneShellStyle(item, {
-              toggleFullscreen,
-              orientation,
-            })}
-            aria-hidden
-          />
+        <section
+          ref={ref}
+          id={sceneSectionId(index)}
+          className={sectionClass}
+          style={sectionStyle}
+        >
+          <div className="section" style={{ width: "100%", height: "100%" }} aria-hidden />
         </section>
       );
     }
 
     if (cat === "image") {
       return (
-        <section ref={ref} id={sceneSectionId(index)}>
+        <section
+          ref={ref}
+          id={sceneSectionId(index)}
+          style={sectionStyle}
+        >
           <EmakiImage
             key={index}
             item={{
@@ -76,6 +83,7 @@ const SwitcherEmaki = forwardRef(
         ref={ref}
         id={sceneSectionId(index)}
         className={sectionClass}
+        style={sectionStyle}
       >
         <OverlayEkotoba
           key={index}

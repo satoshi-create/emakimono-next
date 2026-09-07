@@ -13,7 +13,7 @@ import { useEffect, useRef, useState } from "react";
 const useEmakiPalmDrag = (articleRef) => {
   const [isPalmMode, setIsPalmMode] = useState(false); // UI用: バッジ・カーソル表示
   const palmActiveRef = useRef(false); // ハンドラ用: パン中フラグ（即時反映）
-  const dragRef = useRef(null); // { startX, startScrollLeft }
+  const dragRef = useRef(null); // { startX, lastClientX }
   const didDragRef = useRef(false); // ドラッグ実行済みか
   const suppressClickUntilRef = useRef(0); // ドラッグ直後のclick抑止期限（ms）
 
@@ -36,7 +36,7 @@ const useEmakiPalmDrag = (articleRef) => {
       if (isInteractive(e.target)) return;
 
       didDragRef.current = false;
-      dragRef.current = { startX: e.clientX, startScrollLeft: el.scrollLeft };
+      dragRef.current = { startX: e.clientX, lastClientX: e.clientX };
       palmActiveRef.current = true;
       setIsPalmMode(true); // 手のひらアイコン・grabカーソルを表示
       try {
@@ -55,8 +55,13 @@ const useEmakiPalmDrag = (articleRef) => {
       // 押下中は常にパン。
       // RTL（row-reverse）では scrollLeft が負値空間（0=右端/最初、負=先へ進む）。
       // 紙を掴んで動かす直感（右ドラッグ=絵巻も右へ=進む）に合わせ、
-      // マウス変位を減算して scrollLeft を減少（より負へ）させる
-      el.scrollLeft = dragRef.current.startScrollLeft - dx;
+      // マウス変位を減算して scrollLeft を減少（より負へ）させる。
+      // 毎回の変位を加算する方式にすることで、pointerdown 時点の scrollLeft が
+      // 古い場合（直前の慣性・画像ロード等で動いた後）でも基準値へ飛ばず、
+      // 巻き戻りの原因となるスナップバックを防ぐ。
+      const deltaX = e.clientX - dragRef.current.lastClientX;
+      dragRef.current.lastClientX = e.clientX;
+      el.scrollLeft -= deltaX;
     };
 
     const finishDrag = (e) => {
@@ -93,7 +98,7 @@ const useEmakiPalmDrag = (articleRef) => {
     };
   }, []);
 
-  return { isPalmMode, suppressClickUntilRef };
+  return { isPalmMode, suppressClickUntilRef, palmActiveRef };
 };
 
 export default useEmakiPalmDrag;

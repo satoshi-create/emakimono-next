@@ -51,6 +51,8 @@ export type UseEmakiScrollResult = {
   scrollDimsRef: RefObject<{ w: number; c: number; ts: number }>;
   /** 再生中の解説バー追従用シーン ID（navIndex は画像ツリー再レンダー抑制のため固定） */
   liveSceneIndex: number;
+  /** 描画窓の中心シーン（scrollLeft から rAF 追従。DOM キャッシュ前はメタデータ幅で推定） */
+  contentWindowCenter: number;
 };
 
 /**
@@ -73,6 +75,8 @@ export type UseEmakiAutoPlayResult = {
 export type UseEmakiPalmDragResult = {
   isPalmMode: boolean;
   suppressClickUntilRef: RefObject<number>;
+  /** ドラッグ実行中フラグ。useEmakiScroll がシーン確定を保留するために参照する */
+  palmActiveRef: RefObject<boolean>;
 };
 
 /** useEmakiIdleUI — 静止UI耐性（idle timer）。useEmakiAutoPlay が内部合成して利用 */

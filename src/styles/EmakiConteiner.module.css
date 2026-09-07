@@ -34,6 +34,9 @@
   /* overflow-y: auto; */
   overflow-x: var(--overflow-x, auto);
   /* position: relative; */
+  /* 殻→中身のマウントや画像デコードでブラウザが scrollLeft を自動調整すると
+     RTL 横スクロールでは「巻き戻り」として知覚される。自動調整を無効化 */
+  overflow-anchor: none;
 }
 
 .EmakiConteiner_container__A_oLx {

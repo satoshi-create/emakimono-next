@@ -179,7 +179,7 @@ const EmakiContainer = ({
   // 教育現場向けUI: 静かな現在地インジケータ（PositionIndicator の DOM要素への参照）
   const indicatorElRef = useRef(null);
 
-  // 描画窓 Phase 1: 中身マウント集合（ヒステリシス用）+ 絵巻切替リセット
+  // 描画窓 Phase 1: 中身マウント集合（sticky）+ 絵巻切替リセット
   const contentWindowMountedRef = useRef(new Set());
   const contentWindowEmakiRef = useRef(data.id);
 
@@ -347,15 +347,22 @@ const EmakiContainer = ({
   }, [scroll, activeQuiz, query.quiz, openQuizUi]);
 
   // スクロール処理 + 現在シーン検出（useEmakiScroll が sectionsCacheRef / scrollDimsRef を管理）
-  const { sectionsCacheRef, scrollDimsRef, liveSceneIndex } = useEmakiScroll({
+  const {
+    sectionsCacheRef,
+    scrollDimsRef,
+    liveSceneIndex,
+    contentWindowCenter,
+  } = useEmakiScroll({
     articleRef,
     dataId: data.id,
     emakiId,
+    emakis: data.emakis,
     navIndex,
     setnavIndex,
     isScrollDetectedUpdateRef,
     isAutoScrolling,
     playModeAnimationRef,
+    palmActiveRef,
     lastDetectedSceneRef,
     isAtStartRef,
     isAtEndRef,
@@ -396,11 +403,15 @@ const EmakiContainer = ({
   const didApplyEntryHashRef = useRef(false);
   useEffect(() => {
     if (!scroll || didApplyEntryHashRef.current) return;
+    // 初回実行で「入場 hash の処理は完了」と確定する。URL hash はこの時点のものだけを
+    // 共有リンク入場として扱い、以後 navIndex が変わっても再実行しない。
+    // （再実行すると、スクロール検出で自分が書いた hash=#N と新しい navIndex のズレから
+    //   handleToId(realign) が走り、ユーザーの到達位置を古い hash シーンへ巻き戻す。）
+    didApplyEntryHashRef.current = true;
     const hashflag = Number(
       String(window.location.hash || "").replace("#", "")
     );
     if (!hashflag) return;
-    didApplyEntryHashRef.current = true;
     const pin = () => window.scrollTo({ top: 0, behavior: "instant" });
     if (navIndex === hashflag) {
       pin();
@@ -542,7 +553,27 @@ const EmakiContainer = ({
   // - 押した瞬間に手のひらアイコン・grabカーソルを表示
   // - 押したままドラッグで横スクロール（紙を掴んで動かす感覚）
   // - 離すと終了。スマホ（タッチ）では従来どおりスワイプ操作のため無効
-  const { isPalmMode, suppressClickUntilRef } = useEmakiPalmDrag(articleRef);
+  const { isPalmMode, suppressClickUntilRef, palmActiveRef } =
+    useEmakiPalmDrag(articleRef);
+
+  // パームドラッグ終了: ドラッグ中はシーン確定を保留しているため、離した直後に
+  // 最終シーンを1回だけ確定する（150ms debounce はドラッグ中の長押しで発火済みのため
+  // 最後の scroll イベント後に必ずしも走らない）
+  const wasPalmActiveRef = useRef(false);
+  useEffect(() => {
+    if (isPalmMode) {
+      wasPalmActiveRef.current = true;
+      return undefined;
+    }
+    if (!wasPalmActiveRef.current) return undefined;
+    wasPalmActiveRef.current = false;
+    const t = setTimeout(() => {
+      if (typeof detectCurrentSceneRef.current === "function") {
+        detectCurrentSceneRef.current();
+      }
+    }, 120);
+    return () => clearTimeout(t);
+  }, [isPalmMode]);
 
   // 絵巻ハイパーリンク: スクロール位置から現在表示中のシーンを検出
   // （useEmakiScroll 内の detectCurrentScene が sectionsCacheRef を管理）
@@ -715,14 +746,17 @@ const EmakiContainer = ({
   const sceneIndexForPrefetch =
     isPlayMode || isAutoScrolling ? liveSceneIndex : navIndex;
 
-  // 描画窓 Phase 1: section 殻は常置、中身だけ配列 index 付近（ヒステリシス付き）
+  // 描画窓 Phase 1: section 殻は常置、中身は sticky mount（一度載せたら外さない）
   if (contentWindowEmakiRef.current !== data.id) {
     contentWindowEmakiRef.current = data.id;
     contentWindowMountedRef.current = new Set();
   }
-  const windowCenter = Number.isFinite(sceneIndexForPrefetch)
-    ? sceneIndexForPrefetch
-    : 0;
+  // 窓中心は scrollLeft 追従（contentWindowCenter）。navIndex debounce には依存しない
+  const windowCenter = Number.isFinite(contentWindowCenter)
+    ? contentWindowCenter
+    : Number.isFinite(sceneIndexForPrefetch)
+      ? sceneIndexForPrefetch
+      : 0;
   const windowIsPlaying = isPlayMode || isAutoScrolling;
   // 共有 hash 入場: navIndex 反映前でも着地先付近の中身を先に載せる
   const pendingHashCenter =
@@ -929,10 +963,10 @@ const EmakiContainer = ({
                 backgroundImage={backgroundImage}
                 selectedRef={selectedRef}
                 navIndex={navIndex}
-                sceneIndex={sceneIndexForPrefetch}
+                sceneIndex={windowCenter}
                 uniqueIndex={item.uniqueIndex} // 新しい連番を渡す
                 scroll={scroll}
-                isPlayMode={isPlayMode} // 再生モード時は全画像を eager loading
+                isPlayMode={windowIsPlaying} // ナッジ/再生中も前方 eager・描画窓と揃える
                 mountContent={nextContentMounted.has(index)}
               />
             );
