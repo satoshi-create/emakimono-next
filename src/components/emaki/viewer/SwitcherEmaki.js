@@ -23,6 +23,8 @@ const SwitcherEmaki = forwardRef(
       isPlayMode,
       sceneIndex,
       mountContent = true,
+      // 解説カードのフローティング化（非全画面 md+横）: 画像高基準を実キャンバス高へ
+      floatLandscape = false,
     },
     ref
   ) => {
@@ -38,6 +40,7 @@ const SwitcherEmaki = forwardRef(
     const sectionStyle = buildSceneShellStyle(item, {
       toggleFullscreen,
       orientation,
+      floatLandscape,
     });
 
     if (!mountContent) {

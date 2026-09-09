@@ -88,3 +88,17 @@
   border-bottom-right-radius: 100px;
   border-bottom-left-radius: 100px;
 }
+
+/* フローティング解説カード時（非全画面 md+横）: 下部バーを廃止して
+   カードをキャンバス右下へオーバーレイするため、キャンバスは下から持ち上げない。
+   キャンバス高は従来どおり var(--vh-75)（article の --screen-height 指定と同値）。
+   --vh-float も 75vh と同値にし、シーン画像幅（AR × 基準）を article 実高と一致させる
+   （基準を縮めると画像が短くなり下部に紙色の余白が出るため、必ず同値に保つ）。
+   全画面時は globals.css の .fullscreen-enabled article（100% 固定）が優先される。
+   ※ :global のみのセレクタは CSS Modules の Pure selector 制約に違反するため、
+     article（ローカル .container）でルールを閉じる。--vh-float は .container 内で
+     定義し、子 section の幅計算（emakiContentWindow）へ継承させる */
+:global(html:not(.fullscreen-enabled)) :global(.entry-container[data-commentary-float]) .container {
+  --vh-float: var(--vh-75);
+  height: var(--vh-75);
+}

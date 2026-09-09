@@ -10,6 +10,7 @@ const ActionButton = forwardRef(
       variant = "default",
       isUIVisible = true,
       isFullscreen = false,
+      isBarFloating = false,
       isOn = false,
     },
     ref
@@ -17,6 +18,9 @@ const ActionButton = forwardRef(
     const isMobile = useBreakpointValue({ base: true, md: false });
 
     const isFullscreenButton = variant === "fullscreen";
+    // 解説バーがフローティングカード化している間は、カード実高さの分だけ
+    // 下から持ち上げず、全画面時と同じコーナー固定に戻す
+    const barFloatsOverCanvas = isFullscreen || isBarFloating;
 
     const handleClick = (e) => {
       onClick?.(e);
@@ -53,17 +57,17 @@ const ActionButton = forwardRef(
               // % 基準だとシート展開でコンテナ高が伸びたときに位置がずれるため固定値を使用
               // フルスクリーン時: バーは右下のカードとして浮くため持ち上げ不要。右下コーナーに固定
               bottom: !isMobile
-                ? isFullscreen
+                ? barFloatsOverCanvas
                   ? "1.5rem"
                   : "calc(1.5rem + var(--commentary-bar-full-h, var(--commentary-bar-h, 0px)))"
-                : isFullscreen
+                : barFloatsOverCanvas
                   ? "calc(0.75rem + env(safe-area-inset-bottom, 0px))"
                   : "calc(0.75rem + var(--commentary-bar-full-h, var(--commentary-bar-h, 0px)) + env(safe-area-inset-bottom, 0px))",
               right: !isMobile
-                ? isFullscreen
+                ? barFloatsOverCanvas
                   ? "1rem"
                   : "1%"
-                : isFullscreen
+                : barFloatsOverCanvas
                   ? "calc(1rem + env(safe-area-inset-right, 0px))"
                   : "calc(1% + env(safe-area-inset-right, 0px))",
               zIndex: "10",

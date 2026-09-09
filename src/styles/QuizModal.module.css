@@ -307,6 +307,24 @@
   transition: opacity 0.3s linear;
 }
 
+/* 全画面: 解説は右下カード（独立 absolute）なので、FAB は左下固定。
+   --commentary-bar-full-h（カード実高さ）に追従させるとカード展開時に
+   FAB が上方へ浮くため、通常画面用の追従値から分離する */
+.fabWrap[data-variant="float"][data-fullscreen="true"] {
+  left: calc(1% + env(safe-area-inset-left, 0px));
+  bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+/* md+ 横（通常表示でも右下フローティングカード化）: 全画面と同じく左下固定。
+   カード実高さ var(--commentary-bar-full-h) の追従から分離する。
+   モバイル（〜1023px）の配置は下の media ブロックが優先されるよう維持 */
+@media (min-width: 1024px) {
+  :global(.entry-container[data-commentary-float]) .fabWrap[data-variant="float"] {
+    left: calc(1% + env(safe-area-inset-left, 0px));
+    bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 /* SP: コメンタリーバー utility 列用（PC では非表示） */
 .fabWrap[data-variant="bar"] {
   display: none;
