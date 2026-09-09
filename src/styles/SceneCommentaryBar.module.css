@@ -481,3 +481,29 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* フローティングカードのドラッグ＆ドロップ移動（全画面 or md+横）:
+   既定位置（右下）へ戻るときは transform を軽くアニメーション。
+   ドラッグ中は transition を切り、ポインターに追従させる */
+.wrap[data-fullscreen="true"] {
+  transition: transform 0.2s ease-out;
+}
+.wrap.dragging {
+  transition: none;
+}
+/* ドラッグハンドルは段タイトル行。選択開始・タッチスクロールを止める。
+   操作ボタン（いいね・共有等）上では JS 側でドラッグを開始しないため pointer 表示 */
+.bar[data-fullscreen="true"] .header {
+  -webkit-user-select: none;
+  user-select: none;
+}
+.bar[data-fullscreen="true"] .titleLine {
+  cursor: grab;
+  touch-action: none;
+}
+.bar[data-fullscreen="true"] .titleLine :global(button) {
+  cursor: pointer;
+}
+.wrap.dragging .header {
+  cursor: grabbing;
+}

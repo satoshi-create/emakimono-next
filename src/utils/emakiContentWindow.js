@@ -87,7 +87,9 @@ export function estimateSceneIndexFromScrollLeft(
 /**
  * section に常置する幅スタイル（殻／中身差し替えで flex 幅を変えない）。
  * @param {{ cat?: string, src?: string, srcWidth?: number, srcHeight?: number }} item
- * @param {{ toggleFullscreen?: boolean, orientation?: string }} ctx
+ * @param {{ toggleFullscreen?: boolean, orientation?: string, floatLandscape?: boolean }} ctx
+ *   floatLandscape: 非全画面でも解説カードがフローティング化された md+ 横画面。
+ *   article が画面下端まで広がるため、画像高基準を実キャンバス高（--vh-float）にする
  */
 export function buildSceneShellStyle(item, ctx = {}) {
   const { cat, src, srcWidth, srcHeight } = item || {};
@@ -112,11 +114,14 @@ export function buildSceneShellStyle(item, ctx = {}) {
       backgroundColor: "#f5f0e6",
     };
   }
-  const { toggleFullscreen, orientation } = ctx;
+  const { toggleFullscreen, orientation, floatLandscape } = ctx;
   let heightVar = "var(--vh-75)";
   if (toggleFullscreen) heightVar = "var(--vh-100)";
   else if (orientation === "portrait") heightVar = "var(--vh-45)";
-  else if (orientation === "landscape") heightVar = "var(--vh-75)";
+  else if (orientation === "landscape")
+    // フローティングカード化（非全画面 md+横）: 実キャンバス高基準でシーンを充填。
+    // vh-75 固定だと広がった実キャンバス高（--vh-float）より短く、下部に余白が出る
+    heightVar = floatLandscape ? "var(--vh-float)" : "var(--vh-75)";
 
   const width = `calc(${srcWidth / srcHeight} * ${heightVar})`;
   return {

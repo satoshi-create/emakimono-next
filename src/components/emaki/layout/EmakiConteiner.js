@@ -33,7 +33,7 @@ import useEmakiScroll from "@/hooks/emaki/useEmakiScroll";
 import useScrollPositionRestore from "@/hooks/emaki/useScrollPositionRestore";
 import styles from "@/styles/EmakiConteiner.module.css";
 import commentaryStyles from "@/styles/SceneCommentaryBar.module.css";
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import {
@@ -148,6 +148,51 @@ const EmakiContainer = ({
   const [sharePromptDismissed, setSharePromptDismissed] = useState(false);
   const [midFeedbackDismissed, setMidFeedbackDismissed] = useState(false);
   const [scrollRatioBucket, setScrollRatioBucket] = useState(0);
+
+  // 解説バーの「右下フローティングカード」化（PC / タブレット横 md+）。
+  // 全画面（toggleFullscreen）または 768px 以上の横画面では、下部バーを廃止して
+  // カードをキャンバス右下へオーバーレイ配置する（モバイル縦は従来のボトムシート維持）。
+  const [isMdLandscape, setIsMdLandscape] = useState(false);
+  const commentaryFloating = Boolean(toggleFullscreen) || isMdLandscape;
+
+  // ペイント前に確定させる（useLayoutEffect）: 下部バーが一瞬出てから
+  // フローティングカードへ切り替わるチラつきと SSR hydration 不一致を防ぐ
+  useLayoutEffect(() => {
+    if (typeof window === "undefined") return undefined;
+    const mq = window.matchMedia("(min-width: 768px)");
+    const update = () => {
+      setIsMdLandscape(orientation === "landscape" && mq.matches);
+    };
+    update();
+    mq.addEventListener?.("change", update);
+    window.addEventListener("orientationchange", update);
+    return () => {
+      mq.removeEventListener?.("change", update);
+      window.removeEventListener("orientationchange", update);
+    };
+  }, [orientation]);
+
+  // フローティングカード時（非全画面）はキャンバスを画面下端まで広げるため、
+  // entry-container 上端（ヘッダー＋パンくず）の実測高を --emaki-top-inset に反映。
+  // カードが下部UIを押し上げなくなった分をキャンバス高に転化する。
+  const [viewerTopInset, setViewerTopInset] = useState(null);
+  useLayoutEffect(() => {
+    if (!commentaryFloating || toggleFullscreen) return undefined;
+    const el = entryContainerRef.current;
+    if (!el) return undefined;
+    const measure = () => {
+      if (typeof window === "undefined") return;
+      const top = Math.round(el.getBoundingClientRect().top + window.scrollY);
+      setViewerTopInset((prev) => (prev === top ? prev : top));
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    const timers = [200, 800].map((ms) => setTimeout(measure, ms));
+    return () => {
+      window.removeEventListener("resize", measure);
+      timers.forEach((t) => clearTimeout(t));
+    };
+  }, [commentaryFloating, toggleFullscreen]);
 
   const emakiId = data.titleen;
   // Quiz データは静的 import せず遅延（未使用巻でもチャンクに載せない）
@@ -792,6 +837,7 @@ const EmakiContainer = ({
       >
         <div
           ref={entryContainerRef}
+          data-commentary-float={commentaryFloating ? "true" : undefined}
           className={`js-scrollable entry-container ${
             hasCommentaryData ? commentaryStyles.hasCommentaryBar : ""
           }`}
@@ -810,12 +856,16 @@ const EmakiContainer = ({
             width: toggleFullscreen ? "100%" : undefined,
             height: toggleFullscreen ? "100%" : undefined,
             position: "relative", // 子要素の絶対配置の基準点
+            // フローティングカード時のキャンバス下端までの高さ基準（上端クローム実測値）
+            ...(viewerTopInset != null
+              ? { "--emaki-top-inset": `${viewerTopInset}px` }
+              : null),
             // ボトムコメントバーは block 要素として article の直後に配置する
             // （entry-container を flex にすると article が min-content 幅に
             //  伸びて横スクロールが壊れるため flex は使わない）
           }}
         >
-        {scroll && <FullScreen isUIVisible={isUIVisible} />}
+        {scroll && <FullScreen isUIVisible={isUIVisible} isBarFloating={commentaryFloating} />}
         {scroll && (
           <WheelScrollIndicator
             showToast={showWheelToast}
@@ -967,6 +1017,7 @@ const EmakiContainer = ({
                 uniqueIndex={item.uniqueIndex} // 新しい連番を渡す
                 scroll={scroll}
                 isPlayMode={windowIsPlaying} // ナッジ/再生中も前方 eager・描画窓と揃える
+                floatLandscape={commentaryFloating && !toggleFullscreen}
                 mountContent={nextContentMounted.has(index)}
               />
             );
@@ -989,6 +1040,7 @@ const EmakiContainer = ({
             data={data}
             navIndex={liveSceneIndex}
             isFullscreen={toggleFullscreen}
+            commentaryFloating={commentaryFloating}
             entryContainerRef={entryContainerRef}
             quizFab={
               canShowQuizChrome ? (

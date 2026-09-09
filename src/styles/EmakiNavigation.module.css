@@ -45,12 +45,12 @@
   /* box-shadow: var(--shadow-1); */
 }
 
-/* フルスクリーン時: バーは右下カードとしてオーバーレイするため、
+/* フローティングカード時（全画面 or md+横）: バーは右下カードとしてオーバーレイするため、
    中央下部のナビはバー高さぶん持ち上げる必要がない（元の位置に戻す） */
-:global(html.fullscreen-enabled) .land {
+:global(.entry-container[data-commentary-float]) .land {
   bottom: calc(4% + env(safe-area-inset-bottom, 0px));
 }
-:global(html.fullscreen-enabled) .prt {
+:global(.entry-container[data-commentary-float]) .prt {
   bottom: calc(2% + env(safe-area-inset-bottom, 0px));
 }
 

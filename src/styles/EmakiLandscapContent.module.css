@@ -19,6 +19,15 @@
   margin-bottom: 4rem;
 }
 
+/* フローティング解説カード時（非全画面 md+横）: キャンバス高をビューポート比率へ
+   制限する（EmakiConteiner.module.css の --vh-float）。このとき 1 行目の最小高
+   var(--vh-75) を残すとキャンバス下に空白ができ、作品タイトル等のメタ情報（2行目）が
+   押し下がってファーストビューから外れるため、最小高を外して article 実高に追従させる。
+   カードが絶対配置（オーバーレイ）になった分、行高は article 高のみで決まる */
+.wrapper:has(.entry-container[data-commentary-float]) {
+  grid-template-rows: auto auto;
+}
+
 /* 段タイトルサイドバー撤去に伴い、ビューアを1行目全体に広げる */
 .wrapper > :first-child {
   grid-column: 1 / -1;

@@ -17,7 +17,7 @@ const QuizFab = ({
   variant = "float",
 }) => {
   const { t } = useTranslation("common");
-  const { orientation } = useContext(AppContext);
+  const { orientation, toggleFullscreen } = useContext(AppContext);
   const label =
     mode === "resume" ? t("quiz.resumeLabel") : t("quiz.fabLabel");
 
@@ -29,6 +29,7 @@ const QuizFab = ({
       className={`${styles.fabWrap} ${hideWithIdle ? styles.fabHidden : ""}`}
       data-variant={variant}
       data-orientation={orientation || "landscape"}
+      data-fullscreen={toggleFullscreen ? "true" : "false"}
     >
       <button
         type="button"

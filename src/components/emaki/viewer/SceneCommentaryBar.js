@@ -59,6 +59,9 @@ const SceneCommentaryBar = ({
   data,
   navIndex,
   isFullscreen = false,
+  // md+（768px以上）横画面で通常表示でも右下フローティングカード化する
+  // （全画面＝true 相当のオーバーレイ配置にする。EmakiConteiner 側で算出）
+  commentaryFloating = false,
   entryContainerRef,
   quizFab = null,
 }) => {
@@ -125,6 +128,130 @@ const SceneCommentaryBar = ({
       setListOpen(false);
     }
   }, [activeIndex]);
+
+  // フローティングカード（全画面 or md+横）のドラッグ＆ドロップ移動。
+  // ヘッダー（段タイトル行）を掴んでビューポート内の任意位置へ移動できる。
+  // 初期位置は右下固定で、カードのダブルクリックで初期位置へ戻す。
+  const cardFloats = isFullscreen || commentaryFloating;
+  // 既定位置（右下）からの移動量 px。null は既定位置
+  const [cardPos, setCardPos] = useState(null);
+  const cardPosRef = useRef(null);
+  const [isCardDragging, setIsCardDragging] = useState(false);
+  const dragAnchorRef = useRef(null); // {pointerId, startX, startY, baseDx, baseDy, defLeft, defTop, w, h, moved}
+  const suppressCardClickRef = useRef(false);
+
+  // コンテナ（entry-container）内に収まるよう境界クランプ
+  const clampCardDelta = (dx, dy, anchor) => {
+    const c = entryContainerRef?.current;
+    if (!c || !anchor) return { x: dx, y: dy };
+    const maxX = c.clientWidth - anchor.w - anchor.defLeft;
+    const maxY = c.clientHeight - anchor.h - anchor.defTop;
+    return {
+      x: Math.min(Math.max(dx, -anchor.defLeft), maxX),
+      y: Math.min(Math.max(dy, -anchor.defTop), maxY),
+    };
+  };
+
+  const onCardPointerDown = (e) => {
+    if (!cardFloats) return;
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    // ドラッグ面は「段タイトル行」（ヘッダー内のハンドル相当）。
+    // いいね・共有・閉じる等の操作ボタン上ではドラッグ開始しない
+    if (!e.target.closest(`.${styles.titleLine}`)) return;
+    if (
+      e.target.closest(
+        `a, [role='button'], .${styles.titleActions}, button:not(.${styles.titleBtn})`
+      )
+    ) {
+      return;
+    }
+    const wrap = wrapRef.current;
+    const c = entryContainerRef?.current;
+    if (!wrap || !c) return;
+    const wrapRect = wrap.getBoundingClientRect();
+    const cRect = c.getBoundingClientRect();
+    const base = cardPosRef.current;
+    const baseDx = base ? base.x : 0;
+    const baseDy = base ? base.y : 0;
+    dragAnchorRef.current = {
+      pointerId: e.pointerId,
+      startX: e.clientX,
+      startY: e.clientY,
+      baseDx,
+      baseDy,
+      // 既定位置（DnD 前）のコンテナ左上からの座標
+      defLeft: wrapRect.left - cRect.left - baseDx,
+      defTop: wrapRect.top - cRect.top - baseDy,
+      w: wrapRect.width,
+      h: wrapRect.height,
+      moved: false,
+    };
+    // 絵巻本体の横スクロール・パームドラッグが誤発火しないよう伝播を止め、
+    // ポインターをカード側で捕捉し続ける
+    e.stopPropagation();
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch (err) {
+      /* capture 不可環境では move/up が外れても矩形クランプで復帰する */
+    }
+  };
+
+  const onCardPointerMove = (e) => {
+    const a = dragAnchorRef.current;
+    if (!a || a.pointerId !== e.pointerId) return;
+    e.stopPropagation();
+    const dx = a.baseDx + (e.clientX - a.startX);
+    const dy = a.baseDy + (e.clientY - a.startY);
+    // 誤タップ対策のしきい値。未満ならドラッグ扱いしない（クリックで展開は維持）
+    if (!a.moved && Math.abs(dx - a.baseDx) + Math.abs(dy - a.baseDy) < 6) {
+      return;
+    }
+    if (!a.moved) {
+      a.moved = true;
+      setIsCardDragging(true);
+    }
+    if (e.cancelable) e.preventDefault();
+    const p = clampCardDelta(dx, dy, a);
+    cardPosRef.current = p;
+    setCardPos(p);
+  };
+
+  const endCardDrag = (e, { suppressClick }) => {
+    const a = dragAnchorRef.current;
+    if (!a || a.pointerId !== e.pointerId) return;
+    e.stopPropagation();
+    if (a.moved && suppressClick) {
+      // ドラッグ直後の click（展開トグル等）を抑止する
+      suppressCardClickRef.current = true;
+      setTimeout(() => {
+        suppressCardClickRef.current = false;
+      }, 0);
+    }
+    try {
+      e.currentTarget.releasePointerCapture?.(e.pointerId);
+    } catch (err) {
+      /* noop */
+    }
+    dragAnchorRef.current = null;
+    setIsCardDragging(false);
+  };
+
+  const onCardPointerUp = (e) => endCardDrag(e, { suppressClick: true });
+  const onCardPointerCancel = (e) => endCardDrag(e, { suppressClick: false });
+
+  const onCardClickCapture = (e) => {
+    if (!suppressCardClickRef.current) return;
+    e.preventDefault();
+    e.stopPropagation();
+    suppressCardClickRef.current = false;
+  };
+
+  const onCardDoubleClick = (e) => {
+    if (!cardFloats) return;
+    e.stopPropagation();
+    cardPosRef.current = null;
+    setCardPos(null);
+  };
 
   // 段一覧を開いている間は、外側クリック / Esc で閉じる
   useEffect(() => {
@@ -254,7 +381,7 @@ const SceneCommentaryBar = ({
         ref={barRef}
         className={styles.reopenBar}
         data-orientation={orientation}
-        data-fullscreen={isFullscreen ? "true" : "false"}
+        data-fullscreen={cardFloats ? "true" : "false"}
       >
         {quizFab}
         <button
@@ -348,18 +475,31 @@ const SceneCommentaryBar = ({
   return (
     <div
       ref={wrapRef}
-      className={styles.wrap}
-      data-fullscreen={isFullscreen ? "true" : "false"}
+      className={`${styles.wrap} ${isCardDragging ? styles.dragging : ""}`}
+      data-fullscreen={cardFloats ? "true" : "false"}
+      style={
+        cardFloats && cardPos
+          ? { transform: `translate3d(${cardPos.x}px, ${cardPos.y}px, 0)` }
+          : undefined
+      }
+      onDoubleClick={onCardDoubleClick}
     >
       <div
         ref={barRef}
         className={styles.bar}
         data-orientation={orientation}
-        data-fullscreen={isFullscreen ? "true" : "false"}
+        data-fullscreen={cardFloats ? "true" : "false"}
         data-expanded={expanded ? "true" : "false"}
         data-text-mode={activeMode}
       >
-        <div className={styles.header}>
+        <div
+          className={styles.header}
+          onPointerDown={onCardPointerDown}
+          onPointerMove={onCardPointerMove}
+          onPointerUp={onCardPointerUp}
+          onPointerCancel={onCardPointerCancel}
+          onClickCapture={onCardClickCapture}
+        >
           {/* 段タイトル行: タイトル隣はいいね・共有のみ */}
           <div className={styles.titleLine}>
             <button
