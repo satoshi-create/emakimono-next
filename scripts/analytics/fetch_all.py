@@ -98,6 +98,7 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
     quiz_lines: list[str] = []
     education_geo_lines: list[str] = []
     env_lines: list[str] = []
+    severity_lines: list[str] = []
     if merged_path.is_file():
         merged = json.loads(merged_path.read_text(encoding="utf-8"))
         flagged = [r for r in merged.get("rows", []) if r.get("insight_flags")]
@@ -291,6 +292,41 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
                 env_lines.append("|---|---|")
                 for slug, count in top_slow:
                     env_lines.append(f"| `{slug}` | {count} |")
+
+        # 致命度切り分け: deviceCategory × reason × 閲覧継続（fallback_crosstab / continuity_crosstab）
+        fb_dev = merged.get("fallback_crosstab_by_device_reason") or {}
+        slow_dev = merged.get("slow_crosstab_by_device_emaki") or {}
+        cont_dev = merged.get("continuity_by_device_event") or {}
+        if fb_dev or slow_dev or cont_dev:
+            severity_lines.append(
+                "- ※ 未登録ディメンションがあると crosstab は空。GA4 Admin で "
+                "`emaki_id` / `fallback_reason` / `connection_type`（イベントスコープ）を登録後に有効。"
+            )
+            devices = sorted(set(fb_dev) | set(slow_dev) | set(cont_dev))
+            if fb_dev:
+                severity_lines.append("\n| deviceCategory | reason | fallback events | % |")
+                severity_lines.append("|---|---|---|---|")
+                for device in devices:
+                    total = sum(fb_dev[device].values()) if fb_dev.get(device) else 0
+                    for reason, count in (fb_dev.get(device) or {}).items():
+                        pct = round(count / total * 100, 1) if total else 0.0
+                        severity_lines.append(f"| `{device}` | `{reason}` | {count} | {pct}% |")
+            if cont_dev:
+                severity_lines.append("\n| deviceCategory | fallback | viewer_engagement | scene_dwell | eng÷fallback |")
+                severity_lines.append("|---|---|---|---|---|")
+                for device in devices:
+                    c = cont_dev.get(device) or {}
+                    fb = int(c.get("image_load_fallback") or 0)
+                    eng = int(c.get("viewer_engagement") or 0)
+                    dwell = int(c.get("scene_dwell") or 0)
+                    ratio = round(eng / fb, 2) if fb else "—"
+                    severity_lines.append(f"| `{device}` | {fb} | {eng} | {dwell} | {ratio} |")
+            if slow_dev:
+                severity_lines.append("\n| deviceCategory | 絵巻 | image_load_slow |")
+                severity_lines.append("|---|---|---|")
+                for device in devices:
+                    for emaki, count in (slow_dev.get(device) or {}).items():
+                        severity_lines.append(f"| `{device}` | `{emaki}` | {count} |")
     below_gsc = gsc_rows < int(bootstrap.get("min_gsc_rows", 10))
     below_ga4 = ga4_sessions < int(bootstrap.get("min_ga4_sessions", 50))
     review_mode = "bootstrap" if phase == "bootstrap" or below_gsc or below_ga4 else "steady"
@@ -374,6 +410,18 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
             ]
         )
 
+    if severity_lines:
+        lines.extend(
+            [
+                "## Image load severity (device × reason × continuation)",
+                "",
+                "※ 教育現場（低速回線・タブレット一斉アクセス）での致命的障害かを切り分けるためのクロス集計。",
+                "",
+                *severity_lines,
+                "",
+            ]
+        )
+
     lines.extend(
         [
             "## Files (read order for Cursor Agent)",
@@ -384,6 +432,8 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
             "5. `ga4_fallback_by_reason.json` — fallback reason breakdown",
             "6. `ga4_sessions_by_region.json` / `ga4_sessions_by_city.json` — geo",
             "7. `ga4_quiz_*.json` — quiz optional breakdowns（Admin 登録後）",
+            "8. `ga4_fallback_crosstab.json` / `ga4_slow_crosstab.json` — device × emaki × reason",
+            "9. `ga4_continuity_crosstab.json` — 閲覧継続の並列集計（Admin 登録後）",
             "",
             "## Next step",
             "Run the weekly review prompt from `docs/operations/cursor-analytics-prompt.md`.",

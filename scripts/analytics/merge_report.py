@@ -345,6 +345,27 @@ def _index_device_category(rows: list[dict]) -> dict[str, int]:
     return dict(sorted(out.items(), key=lambda kv: kv[1], reverse=True))
 
 
+def _index_device_group(rows: list[dict], inner_keys: tuple[str, ...]) -> dict[str, dict[str, int]]:
+    """クロス集計行を {deviceCategory: {内訳ラベル: eventCount}} に集約。
+
+    fallback_crosstab（fallback_reason） / slow_crosstab（emaki_id） /
+    continuity_crosstab（eventName）の内訳ディメンションを inner_keys で指定する。
+    """
+    out: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        device = _dim_value(row, "deviceCategory", "device_category")
+        if not device:
+            continue
+        label = _dim_value(row, *inner_keys) or "(not set)"
+        out[device][label] += int(row.get("eventCount") or 0)
+    return {
+        device: dict(sorted(items.items(), key=lambda kv: kv[1], reverse=True))
+        for device, items in out.items()
+    }
+
+
 def _find_previous_report_dir(current_dir: Path) -> Path | None:
     siblings = sorted(
         [p for p in REPORTS_DIR.iterdir() if p.is_dir() and p.name != current_dir.name],
@@ -427,6 +448,9 @@ def merge_report(report_dir: Path) -> dict:
     slow_by_emaki = _load_json(report_dir / "ga4_slow_by_emaki.json")
     session_context_by_device = _load_json(report_dir / "ga4_session_context_by_device.json")
     session_context_by_connection = _load_json(report_dir / "ga4_session_context_by_connection.json")
+    fallback_crosstab = _load_json(report_dir / "ga4_fallback_crosstab.json")
+    slow_crosstab = _load_json(report_dir / "ga4_slow_crosstab.json")
+    continuity_crosstab = _load_json(report_dir / "ga4_continuity_crosstab.json")
 
     gsc_page_by_slug = _index_gsc_pages(
         gsc_pages if isinstance(gsc_pages, list) else [], strip_prefixes
@@ -525,6 +549,16 @@ def merge_report(report_dir: Path) -> dict:
         sessions_by_day_of_week if isinstance(sessions_by_day_of_week, list) else []
     )
     slow_by_slug = _index_ga4_emaki(slow_by_emaki if isinstance(slow_by_emaki, list) else [])
+    fallback_device_reason = _index_device_group(
+        fallback_crosstab if isinstance(fallback_crosstab, list) else [],
+        ("customEvent:fallback_reason", "fallback_reason"),
+    )
+    slow_device_emaki = _index_device_group(
+        slow_crosstab if isinstance(slow_crosstab, list) else [], ("emaki_id",)
+    )
+    continuity_device_event = _index_device_group(
+        continuity_crosstab if isinstance(continuity_crosstab, list) else [], ("eventName",)
+    )
     session_device_breakdown = _index_fallback_reason(
         session_context_by_device if isinstance(session_context_by_device, list) else [],
         dim_key="customEvent:device_type",
@@ -638,6 +672,9 @@ def merge_report(report_dir: Path) -> dict:
         "session_context_device_breakdown": session_device_breakdown,
         "session_context_connection_breakdown": session_connection_breakdown,
         "image_load_slow_breakdown": slow_by_slug,
+        "fallback_crosstab_by_device_reason": fallback_device_reason,
+        "slow_crosstab_by_device_emaki": slow_device_emaki,
+        "continuity_by_device_event": continuity_device_event,
         "rows": merged,
     }
     return payload

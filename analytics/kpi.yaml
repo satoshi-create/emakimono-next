@@ -56,6 +56,9 @@ ga4_reports:
         - sns_share_click
         - scene_like
         - scroll_feedback
+        - scene_transition
+        - manual_scroll_detected
+        - auto_scroll_interrupted
         - quiz_start
         - quiz_answer
         - quiz_jump_to_scene
@@ -154,6 +157,38 @@ ga4_reports:
       value: image_load_slow
     limit: 200
 
+  # ── 教育現場・致命度切り分け用クロス集計（deviceCategory は GA4 標準。要カスタムディメンション登録）──
+  # 「どの端末種別でどの理由のフォールバックが多発しているか」を1テーブルで出す
+  - id: fallback_crosstab
+    optional: true
+    requires_custom_dimension: emaki_id
+    dimensions:
+      - deviceCategory
+      - customEvent:emaki_id
+      - customEvent:fallback_reason
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: image_load_fallback
+    limit: 2000
+
+  # image_load_slow の deviceCategory × 絵巻
+  - id: slow_crosstab
+    optional: true
+    requires_custom_dimension: emaki_id
+    dimensions:
+      - deviceCategory
+      - customEvent:emaki_id
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: image_load_slow
+    limit: 2000
+
   # session_context（device_type / connection_type）。GA4 Admin 登録後に有効
   - id: session_context_by_device
     optional: true
@@ -180,6 +215,44 @@ ga4_reports:
       op: exact
       value: session_context
     limit: 20
+
+  # session_context × deviceCategory × date。connection_type param には effectiveType 値
+  # （slow-2g/2g/3g/4g 等）が入る。カスタムディメンション未登録なら optional でスキップ
+  - id: session_context_crosstab
+    optional: true
+    requires_custom_dimension: connection_type
+    dimensions:
+      - deviceCategory
+      - customEvent:connection_type
+      - date
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: session_context
+    limit: 2000
+
+  # 閲覧継続性: viewer_engagement / scene_dwell / image_load_fallback を
+  # deviceCategory × emaki_id × date の同粒度で並列集計（fallback 後の継続閲覧を突き合わせ）
+  - id: continuity_crosstab
+    optional: true
+    requires_custom_dimension: emaki_id
+    dimensions:
+      - eventName
+      - deviceCategory
+      - customEvent:emaki_id
+      - date
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: in_list
+      values:
+        - viewer_engagement
+        - scene_dwell
+        - image_load_fallback
+    limit: 5000
 
   - id: scene_like_by_emaki
     optional: true
