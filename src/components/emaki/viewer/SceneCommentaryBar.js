@@ -496,7 +496,6 @@ const SceneCommentaryBar = ({
   const handleTextMode = (mode) => {
     if (mode === activeMode) return;
     setTextMode(mode);
-    setExpanded(false);
     gtag.event("scene_text_mode_change", {
       emaki_title: title,
       emaki_id: titleen,
