@@ -41,12 +41,33 @@ const useScrollPositionRestore = ({
     scrollPositionStore.restored = false;
     scrollPositionStore.isTransitioning = true;
 
+    // 切替後のユーザー操作で復元を中断する。2秒ウインドウ中は isTransitioning のため
+    // handleScroll が store の ratio を更新せず、ratio は切替前の値で凍結される。
+    // 中断しないと凍結 ratio の再適用が、切替後の左スクロール位置を巻き戻す。
+    let aborted = false;
+    const abortRestore = () => {
+      aborted = true;
+    };
+    const interactionEvents = ["pointerdown", "touchstart", "wheel"];
+    interactionEvents.forEach((type) =>
+      el.addEventListener(type, abortRestore, { passive: true, once: true })
+    );
+    window.addEventListener("keydown", abortRestore, { once: true });
+
+    let lastApplied = null;
     const applyRatio = () => {
+      if (aborted) return false;
       const maxScrollLeft = el.scrollWidth - el.clientWidth;
       if (maxScrollLeft <= 0 || scrollPositionStore.scrollRatio <= 0) {
         return false;
       }
-      el.scrollLeft = -(scrollPositionStore.scrollRatio * maxScrollLeft);
+      // 直前の適用位置から動いていればユーザー操作（慣性含む）とみなし中断
+      if (lastApplied !== null && Math.abs(el.scrollLeft - lastApplied) > 8) {
+        aborted = true;
+        return false;
+      }
+      lastApplied = -(scrollPositionStore.scrollRatio * maxScrollLeft);
+      el.scrollLeft = lastApplied;
       return true;
     };
 
@@ -59,13 +80,13 @@ const useScrollPositionRestore = ({
     });
 
     const ro = new ResizeObserver(() => {
-      if (Date.now() - startedAt > RESTORE_WINDOW_MS) return;
+      if (aborted || Date.now() - startedAt > RESTORE_WINDOW_MS) return;
       applyRatio();
     });
     ro.observe(el);
 
     const doneTimer = setTimeout(() => {
-      const ok = applyRatio();
+      const ok = aborted ? true : applyRatio();
       scrollPositionStore.restored = true;
       scrollPositionStore.isTransitioning = false;
 
@@ -73,7 +94,12 @@ const useScrollPositionRestore = ({
       const toId = handleToIdRef.current;
       const stuckAtStart =
         scrollPositionStore.scrollRatio > 0.05 && Math.abs(el.scrollLeft) < 8;
-      if (typeof toId === "function" && sceneId > 0 && (!ok || stuckAtStart)) {
+      if (
+        !aborted &&
+        typeof toId === "function" &&
+        sceneId > 0 &&
+        (!ok || stuckAtStart)
+      ) {
         toId(sceneId);
       }
     }, RESTORE_WINDOW_MS);
@@ -82,6 +108,10 @@ const useScrollPositionRestore = ({
       cancelAnimationFrame(rafId);
       ro.disconnect();
       clearTimeout(doneTimer);
+      interactionEvents.forEach((type) =>
+        el.removeEventListener(type, abortRestore)
+      );
+      window.removeEventListener("keydown", abortRestore);
       // isTransitioning は落とさない（次インスタンスの begin〜restore に引き継ぐ）
     };
   }, [toggleFullscreen, orientation, dataId, articleRef, scrollPositionStore]);
