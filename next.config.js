@@ -74,6 +74,8 @@ const nextConfig = {
     path: "/_next/image", // デフォルトパス
   },
   async headers() {
+    // dev では 86400s キャッシュを付けない（HMR が古い chunk を掴んで崩れる）
+    if (process.env.NODE_ENV !== "production") return [];
     return [
       {
         source: "/_next/data/:path*",

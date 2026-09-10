@@ -356,10 +356,8 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* バー本体と段一覧ポップオーバーの配置基準ラッパー。
-   フルスクリーン時の右下カード配置は .wrap が担う。
-   .bar に overflow-y:auto があるため、ポップオーバー（.sceneList）は
-   .bar の外（この .wrap 直下）に置き、カードでクリップされないようにする */
+/* バー本体と段一覧（バー内スワップ）の配置基準ラッパー。
+   フルスクリーン時の右下カード配置は .wrap が担う */
 .wrap {
   position: relative;
   width: 100%;
@@ -412,74 +410,84 @@
   color: #fff;
 }
 
-/* シーンジャンプ用の段一覧（ポップオーバー）。
-   バーの直上（bottom:100%）に重ね、バーのレイアウトから分離して解説を圧迫しない。
-   アイコン（.listBtn）クリックでのみ開き、外側クリック / Esc / 選択で閉じる */
-.sceneList {
-  position: absolute;
-  bottom: 100%;
-  right: 0;
-  margin-bottom: 8px;
-  width: min(380px, 100%);
-  max-height: min(60vh, 20rem);
+/* バー内スワップ: 段構成一覧（サムネイル付き縦リスト）。
+   ポップオーバーではなく、解説バー内部の本文とスワップして表示する。
+   下部ナビの持ち上がりを抑えるため高さ上限は 32vh */
+.sectionIndex {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 8px 4px;
   overflow-y: auto;
   overscroll-behavior: contain;
-  z-index: 25;
+  max-height: min(280px, 32vh);
+}
+
+.indexItem {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 10px;
-  background: rgba(255, 252, 246, 0.97);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 12px;
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
-}
-
-.sceneItem {
-  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  max-width: 100%;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 999px;
-  padding: 3px 10px 3px 5px;
-  font-size: 0.78rem;
-  color: #444;
-  background: rgba(255, 255, 255, 0.75);
-  transition: all 0.2s ease;
+  gap: 10px;
+  width: 100%;
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
 }
-.sceneItem:hover {
-  border-color: var(--clr-accent);
-  color: var(--clr-accent);
+.indexItem:hover {
+  border-color: rgba(0, 0, 0, 0.12);
 }
-.sceneItemActive {
+.indexItemActive {
   border-color: var(--clr-accent);
-  background: var(--clr-accent);
-  color: #fff;
+  background: rgb(255 140 119 / 0.08);
 }
 
-.sceneNum {
+.indexThumb {
   flex: 0 0 auto;
-  min-width: 18px;
-  height: 18px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.1);
-  font-size: 0.7rem;
-  font-weight: 700;
-}
-.sceneItemActive .sceneNum {
-  background: rgba(255, 255, 255, 0.25);
+  width: 56px;
+  height: 40px;
+  object-fit: cover;
+  object-position: left center;
+  border-radius: 6px;
+  background: #f0ece6;
 }
 
-.sceneTitle {
+.indexText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.indexTitle {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--clr-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.indexDesc {
+  font-size: 0.72rem;
+  color: var(--clr-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.indexCurrent {
+  flex: 0 0 auto;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--clr-accent);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+/* フローティングカード時はカード自体がスクロールするため二重スクロールを防ぐ */
+.wrap[data-fullscreen="true"] .sectionIndex {
+  max-height: none;
+  overflow: visible;
 }
 
 /* フローティングカードのドラッグ＆ドロップ移動（全画面 or md+横）:

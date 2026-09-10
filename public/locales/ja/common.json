@@ -62,6 +62,8 @@
     "seeMore": "詳細をみる",
     "closeCommentaryBar": "解説バーを閉じる",
     "showCommentary": "解説を表示",
+    "backToCommentary": "解説に戻す",
+    "currentSection": "現在地",
     "textMode": {
       "desc": "解説",
       "gendaibun": "現代文",

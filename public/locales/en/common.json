@@ -62,6 +62,8 @@
     "seeMore": "See details",
     "closeCommentaryBar": "Close commentary bar",
     "showCommentary": "Show commentary",
+    "backToCommentary": "Back to commentary",
+    "currentSection": "Now",
     "textMode": {
       "desc": "Commentary",
       "gendaibun": "Modern",

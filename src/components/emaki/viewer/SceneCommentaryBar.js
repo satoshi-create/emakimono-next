@@ -17,6 +17,7 @@ import ShareButtons from "@/components/emaki/viewer/ShareButtons";
 import { ChaptersTitle, eraColor } from "@/utils/func";
 import { getChapterFieldRaw } from "@/utils/emakiChapterText";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
+import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
 import {
   faBookOpen,
   faList,
@@ -77,6 +78,28 @@ const SceneCommentaryBar = ({
     [emakis]
   );
 
+  // 段サムネイル: 画像シーンは chapter が空("") のため、直前の ekotoba 章へ出現順で紐付ける
+  const chapterThumbMap = useMemo(() => {
+    const map = new Map();
+    let currentChapter = null;
+    let leadingSrc = null; // 先頭が画像の巻用
+    emakis.forEach((item) => {
+      if (item.cat === "ekotoba") {
+        if (currentChapter === null && leadingSrc) {
+          map.set(item.chapter, leadingSrc);
+        }
+        currentChapter = item.chapter;
+      } else if (item.cat === "image" && item.src) {
+        if (currentChapter === null) {
+          if (!leadingSrc) leadingSrc = item.src;
+        } else if (!map.has(currentChapter)) {
+          map.set(currentChapter, item.src); // 各章の先頭画像を1枚採用
+        }
+      }
+    });
+    return map;
+  }, [emakis]);
+
   // 現在の段: navIndex（スクロール検出のセクションID）以前で最後のekotoba
   const activeIndex = useMemo(() => {
     if (filterEkotobas.length === 0) return -1;
@@ -97,8 +120,37 @@ const SceneCommentaryBar = ({
       window.matchMedia("(max-width: 1023px)").matches
     );
   });
-  // 段一覧ポップオーバーの開閉（解説文の展開（expanded）とは独立）
-  const [listOpen, setListOpen] = useState(false);
+  // バー内スワップ: "commentary"（解説）| "index"（段構成一覧）
+  const [viewMode, setViewMode] = useState("commentary");
+
+  // 一覧を開いた時のみ行データ（title / desc / thumb）を生成する
+  const indexRows = useMemo(() => {
+    if (viewMode !== "index") return [];
+    const isEn = locale === "en";
+    return filterEkotobas.map((item) => ({
+      linkId: item.linkId,
+      title: isEn
+        ? ChaptersTitle(titleen, title, item.chapter, "titleen", item.genji_chapter)
+        : ChaptersTitle(titleen, title, item.chapter, "title", item.genji_chapter),
+      desc: stripHtml(
+        getChapterFieldRaw(
+          titleen,
+          title,
+          item.chapter,
+          isEn ? "descen" : "desc",
+          item.desc,
+          item.genji_chapter
+        )
+      ),
+      thumb: chapterThumbMap.has(item.chapter)
+        ? buildCloudinaryUrl(chapterThumbMap.get(item.chapter), [
+            "w_160",
+            "f_auto",
+            "q_auto:eco",
+          ])
+        : null,
+    }));
+  }, [viewMode, filterEkotobas, chapterThumbMap, locale, titleen, title]);
   // 現代文 / 古文 / 解説。詞書ありは現代文デフォルト。段変更でも維持（欠落時のみフォールバック）
   const [textMode, setTextMode] = useState("gendaibun");
   const wrapRef = useRef(null);
@@ -114,7 +166,7 @@ const SceneCommentaryBar = ({
     if (orientation === "landscape") {
       setClosed(true);
       setExpanded(false);
-      setListOpen(false);
+      setViewMode("commentary");
     } else if (orientation === "portrait") {
       setClosed(false);
     }
@@ -125,7 +177,7 @@ const SceneCommentaryBar = ({
   useEffect(() => {
     if (prevActiveIndexRef.current !== activeIndex) {
       prevActiveIndexRef.current = activeIndex;
-      setListOpen(false);
+      setViewMode("commentary");
     }
   }, [activeIndex]);
 
@@ -253,24 +305,15 @@ const SceneCommentaryBar = ({
     setCardPos(null);
   };
 
-  // 段一覧を開いている間は、外側クリック / Esc で閉じる
+  // 一覧表示中の Esc で解説へ戻す
   useEffect(() => {
-    if (!listOpen) return;
-    const handlePointerDown = (e) => {
-      if (wrapRef.current && !wrapRef.current.contains(e.target)) {
-        setListOpen(false);
-      }
-    };
+    if (viewMode !== "index") return;
     const handleKeyDown = (e) => {
-      if (e.key === "Escape") setListOpen(false);
+      if (e.key === "Escape") setViewMode("commentary");
     };
-    document.addEventListener("mousedown", handlePointerDown);
     document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("mousedown", handlePointerDown);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [listOpen]);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [viewMode]);
 
   // 実バー高さ（折りたたみ時は header のみ、展開時は全文ぶん、閉じた時は再表示ボタン分）を
   // 親の entry-container に --commentary-bar-full-h として反映する。
@@ -467,7 +510,7 @@ const SceneCommentaryBar = ({
     const target = filterEkotobas[ekotobaIndex];
     if (!target) return;
     handleToId(target.linkId);
-    setListOpen(false); // 選択後はポップオーバーを閉じる
+    setViewMode("commentary"); // 選択後は解説ビューへ戻す
   };
 
   const hasMultipleSections = filterEkotobas.length > 1;
@@ -537,68 +580,112 @@ const SceneCommentaryBar = ({
               />
             </div>
           </div>
-          {showModeTabs && (
-            <div
-              className={styles.modeTabs}
-              role="tablist"
-              aria-label={t("viewer.textMode.label")}
-              onClick={(e) => e.stopPropagation()}
+          {viewMode === "index" ? (
+            <nav
+              className={styles.sectionIndex}
+              aria-label={t("viewer.sectionList")}
             >
-              {availableModes.map((mode) => (
+              {indexRows.map((row, i) => (
                 <button
-                  key={mode}
+                  key={row.linkId}
                   type="button"
-                  role="tab"
-                  aria-selected={mode === activeMode}
-                  className={`${styles.modeTab} ${
-                    mode === activeMode ? styles.modeTabActive : ""
+                  className={`${styles.indexItem} ${
+                    i === activeIndex ? styles.indexItemActive : ""
                   }`}
-                  onClick={() => handleTextMode(mode)}
+                  onClick={() => handleNavigate(i)}
                 >
-                  {t(`viewer.textMode.${mode}`)}
+                  {row.thumb ? (
+                    <img
+                      className={styles.indexThumb}
+                      src={row.thumb}
+                      alt=""
+                      loading="lazy"
+                    />
+                  ) : (
+                    <span className={styles.indexThumb} aria-hidden="true" />
+                  )}
+                  <span className={styles.indexText}>
+                    <span className={styles.indexTitle}>{row.title}</span>
+                    {row.desc ? (
+                      <span className={styles.indexDesc}>{row.desc}</span>
+                    ) : null}
+                  </span>
+                  {i === activeIndex && (
+                    <span className={styles.indexCurrent}>
+                      {t("viewer.currentSection")}
+                    </span>
+                  )}
                 </button>
               ))}
-            </div>
+            </nav>
+          ) : (
+            <>
+              {showModeTabs && (
+                <div
+                  className={styles.modeTabs}
+                  role="tablist"
+                  aria-label={t("viewer.textMode.label")}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {availableModes.map((mode) => (
+                    <button
+                      key={mode}
+                      type="button"
+                      role="tab"
+                      aria-selected={mode === activeMode}
+                      className={`${styles.modeTab} ${
+                        mode === activeMode ? styles.modeTabActive : ""
+                      }`}
+                      onClick={() => handleTextMode(mode)}
+                    >
+                      {t(`viewer.textMode.${mode}`)}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {/* 本文。タップで開閉。古文の展開時は ruby HTML を描画 */}
+              <button
+                type="button"
+                className={styles.body}
+                onClick={toggleExpanded}
+                aria-expanded={expanded}
+                aria-label={
+                  expanded
+                    ? t("viewer.closeDetails")
+                    : t("viewer.seeDetailsOfSection")
+                }
+              >
+                <span
+                  className={`${styles.bodyText} ${
+                    activeMode === "kobun" ? styles.bodyTextClassical : ""
+                  }`}
+                >
+                  {hasBody ? (
+                    expanded &&
+                    activeMode === "kobun" &&
+                    chapterTexts.kobunHtml ? (
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: chapterTexts.kobunHtml,
+                        }}
+                      />
+                    ) : expanded ? (
+                      plainBody
+                    ) : (
+                      <>
+                        {previewText}
+                        {hasRest && (
+                          <span className={styles.moreHint}>
+                            …{seeMoreLabel}
+                          </span>
+                        )}
+                      </>
+                    )
+                  ) : null}
+                </span>
+              </button>
+            </>
           )}
-          {/* 本文。タップで開閉。古文の展開時は ruby HTML を描画 */}
-          <button
-            type="button"
-            className={styles.body}
-            onClick={toggleExpanded}
-            aria-expanded={expanded}
-            aria-label={
-              expanded
-                ? t("viewer.closeDetails")
-                : t("viewer.seeDetailsOfSection")
-            }
-          >
-            <span
-              className={`${styles.bodyText} ${
-                activeMode === "kobun" ? styles.bodyTextClassical : ""
-              }`}
-            >
-              {hasBody ? (
-                expanded && activeMode === "kobun" && chapterTexts.kobunHtml ? (
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: chapterTexts.kobunHtml,
-                    }}
-                  />
-                ) : expanded ? (
-                  plainBody
-                ) : (
-                  <>
-                    {previewText}
-                    {hasRest && (
-                      <span className={styles.moreHint}>
-                        …{seeMoreLabel}
-                      </span>
-                    )}
-                  </>
-                )
-              ) : null}
-            </span>
-          </button>
           {/* ユーティリティはバー下部（タイトル圧迫を避ける） */}
           <div className={styles.utilityActions}>
             {quizFab}
@@ -607,12 +694,22 @@ const SceneCommentaryBar = ({
               <button
                 type="button"
                 className={`${styles.listBtn} ${
-                  listOpen ? styles.listBtnActive : ""
+                  viewMode === "index" ? styles.listBtnActive : ""
                 }`}
-                onClick={() => setListOpen((v) => !v)}
-                aria-label={t("viewer.sectionList")}
-                aria-expanded={listOpen}
-                title={t("viewer.sectionList")}
+                onClick={() =>
+                  setViewMode((v) => (v === "index" ? "commentary" : "index"))
+                }
+                aria-label={
+                  viewMode === "index"
+                    ? t("viewer.backToCommentary")
+                    : t("viewer.sectionList")
+                }
+                aria-expanded={viewMode === "index"}
+                title={
+                  viewMode === "index"
+                    ? t("viewer.backToCommentary")
+                    : t("viewer.sectionList")
+                }
               >
                 <FontAwesomeIcon icon={faList} />
               </button>
@@ -651,7 +748,7 @@ const SceneCommentaryBar = ({
               type="button"
               className={styles.closeBtn}
               onClick={() => {
-                setListOpen(false);
+                setViewMode("commentary");
                 setClosed(true);
               }}
               aria-label={t("viewer.closeCommentaryBar", {
@@ -667,41 +764,6 @@ const SceneCommentaryBar = ({
           </div>
         </div>
       </div>
-      {/* 段一覧はバー内に置かず、バー直上に浮かぶポップオーバーとして表示する
-          （解説文の展開とは独立して、アイコンクリックでのみ開く） */}
-      {listOpen && hasMultipleSections && (
-        <nav className={styles.sceneList} aria-label={t("viewer.sectionList")}>
-          {filterEkotobas.map((item, i) => (
-            <button
-              key={item.linkId}
-              type="button"
-              className={`${styles.sceneItem} ${
-                i === activeIndex ? styles.sceneItemActive : ""
-              }`}
-              onClick={() => handleNavigate(i)}
-            >
-              <span className={styles.sceneNum}>{i + 1}</span>
-              <span className={styles.sceneTitle}>
-                {                  locale === "en"
-                  ? ChaptersTitle(
-                      titleen,
-                      title,
-                      item.chapter,
-                      "titleen",
-                      item.genji_chapter
-                    )
-                  : ChaptersTitle(
-                      titleen,
-                      title,
-                      item.chapter,
-                      "title",
-                      item.genji_chapter
-                    )}
-              </span>
-            </button>
-          ))}
-        </nav>
-      )}
     </div>
   );
 };
