@@ -120,11 +120,11 @@ const SceneCommentaryBar = ({
     }
   }, [orientation]);
 
-  // 段が変わったら展開シート・段一覧を閉じる（再生中の自動追従含む）
+  // 段が変わったら段一覧のみ閉じる。展開状態(expanded)は維持し、
+  // 次段の解説を開いたまま閲覧できるようにする。
   useEffect(() => {
     if (prevActiveIndexRef.current !== activeIndex) {
       prevActiveIndexRef.current = activeIndex;
-      setExpanded(false);
       setListOpen(false);
     }
   }, [activeIndex]);
