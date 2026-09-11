@@ -2,6 +2,7 @@ import styles from "@/styles/EmakiInfo.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { eraNameEn } from "@/utils/func";
+import GenjiHubLink from "@/components/genji/GenjiHubLink";
 
 // 教育現場向けUI: isUIVisible で静止UI耐性に対応
 // 全画面ビューアの最小メタ表示（タイトル + 時代/種別）に絞り込む。
@@ -9,6 +10,10 @@ import { eraNameEn } from "@/utils/func";
 const EmakiInfo = ({ value, isUIVisible = true }) => {
   const { type, title, titleen, typeen, era, eraen, edition } = value;
   const { locale } = useRouter();
+  // 源氏物語系の絵巻のみハブリンクを表示
+  const isGenji =
+    typeof titleen === "string" &&
+    (titleen === "genjimonogatari-emaki-tokugawa" || titleen.includes("genji"));
 
   return (
     <div
@@ -32,6 +37,7 @@ const EmakiInfo = ({ value, isUIVisible = true }) => {
       <Link href={`/type/${typeen}`}>
         <a className={styles.tag}>{`${locale === "en" ? typeen : type}`}</a>
       </Link>
+      {isGenji && <GenjiHubLink />}
     </div>
   );
 };

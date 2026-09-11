@@ -94,3 +94,11 @@
 .manga {
   border-left: 3px solid #5a4a8a;
 }
+
+.genji .cardCta {
+  color: #7058a3;
+}
+
+.genji {
+  border-left: 3px solid #7058a3;
+}

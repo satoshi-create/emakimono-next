@@ -1,0 +1,587 @@
+.hero {
+  background: var(--clr-surface);
+}
+
+.heroImageWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  line-height: 0;
+}
+
+@media (min-width: 768px) {
+  .heroImageWrap {
+    aspect-ratio: auto;
+    max-height: 35vh;
+    height: 35vh;
+  }
+}
+
+.heroImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 5vw;
+  padding-right: 5vw;
+}
+
+@media (min-width: 768px) {
+  .heroText {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+  }
+}
+
+.introTitle {
+  font-family: var(--font-ui);
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  color: var(--clr-text);
+  line-height: 1.4;
+}
+
+.introLead {
+  font-family: var(--font-story);
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  color: var(--clr-text);
+  line-height: 1.8;
+  max-width: 48rem;
+  text-align: justify;
+}
+
+.introTips {
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  color: var(--clr-text-muted);
+  line-height: 1.6;
+  max-width: 48rem;
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--clr-accent-green);
+}
+
+/* ── Intro section ── */
+
+.introSection {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 5vw 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .introSection {
+    padding-top: 2.5rem;
+  }
+}
+
+.introText {
+  font-family: var(--font-story);
+  font-size: clamp(0.9375rem, 0.9rem + 0.2vw, 1rem);
+  color: var(--clr-text);
+  line-height: 1.9;
+  max-width: 48rem;
+  text-align: justify;
+  margin: 0;
+}
+
+.introNote {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--clr-text-muted);
+  line-height: 1.6;
+  max-width: 48rem;
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--clr-accent-green);
+  margin: 0;
+}
+
+/* ── Chapter grid section ── */
+
+.chapterSection {
+  background: var(--clr-bg);
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+  .chapterSection {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+.chapterGrid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+}
+
+.chapterCard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--clr-surface);
+  border: 1px solid rgb(211 211 211 / 0.6);
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--clr-text);
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.chapterCard:hover,
+.chapterCard:focus-visible {
+  border-color: var(--clr-accent-green);
+  box-shadow: 0 2px 8px rgb(84 137 106 / 0.12);
+  transform: translateY(-2px);
+}
+
+.chapterThumbWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: rgb(0 0 0 / 0.04);
+}
+
+.chapterThumb {
+  object-fit: cover;
+}
+
+.chapterCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  flex: 1;
+}
+
+.chapterNumberBadge {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--clr-accent-green);
+  background: rgb(84 137 106 / 0.1);
+  padding: 0.15rem 0.55rem;
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+}
+
+.chapterNumberBadgeEn {
+  color: var(--clr-text-muted);
+  background: rgb(114 114 114 / 0.08);
+}
+
+.chapterTitle {
+  font-family: var(--font-ui);
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.chapterRuby {
+  font-family: var(--font-story);
+  font-size: 0.75rem;
+  color: var(--clr-text-muted);
+  letter-spacing: 0.05em;
+}
+
+.chapterDesc {
+  font-family: var(--font-story);
+  font-size: 0.875rem;
+  color: var(--clr-text-muted);
+  line-height: 1.65;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.chapterMeta {
+  display: inline-block;
+  align-self: flex-start;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--clr-accent-green);
+  background: rgb(84 137 106 / 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+  margin-top: auto;
+}
+
+.chapterMetaEmpty {
+  composes: chapterMeta;
+  color: var(--clr-text-muted);
+  background: rgb(114 114 114 / 0.08);
+}
+
+/* ── Scroll catalog section ── */
+
+.scrollSection {
+  background: var(--clr-surface);
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+  .scrollSection {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+.scrollGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.scrollCard {
+  background: var(--clr-bg);
+  border: 1px solid rgb(211 211 211 / 0.6);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.scrollCard:hover,
+.scrollCard:focus-within {
+  border-color: var(--clr-accent-green);
+  box-shadow: 0 2px 8px rgb(84 137 106 / 0.12);
+  transform: translateY(-2px);
+}
+
+.scrollCardInner {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: var(--clr-text);
+  height: 100%;
+}
+
+.scrollCardThumbWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: rgb(0 0 0 / 0.04);
+}
+
+.scrollCardThumb {
+  object-fit: cover;
+}
+
+.scrollCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem;
+  flex: 1;
+}
+
+.scrollCardTitle {
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.scrollCardMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--clr-text-muted);
+}
+
+.scrollCardChapters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.scrollCardChapterTag {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  color: var(--clr-accent-green);
+  background: rgb(84 137 106 / 0.1);
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.scrollCardChapterMore {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  color: var(--clr-text-muted);
+  padding: 0.15rem 0.3rem;
+}
+
+/* ── Chapter detail page ── */
+
+.chapterDetail {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 5vw;
+}
+
+.chapterDetailHead {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.chapterDetailTitle {
+  font-family: var(--font-ui);
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.chapterDetailRuby {
+  font-family: var(--font-story);
+  font-size: 0.875rem;
+  color: var(--clr-text-muted);
+  letter-spacing: 0.1em;
+}
+
+.chapterDetailSummary {
+  font-family: var(--font-story);
+  font-size: 1rem;
+  line-height: 1.9;
+  color: var(--clr-text);
+  max-width: 48rem;
+  text-align: justify;
+}
+
+.chapterDetailFacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--clr-text-muted);
+}
+
+.chapterDetailFactValue {
+  color: var(--clr-text);
+}
+
+.sceneList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 48rem;
+}
+
+.sceneItem {
+  display: flex;
+  gap: 0.75rem;
+  font-family: var(--font-story);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--clr-text);
+}
+
+.sceneIndex {
+  flex: 0 0 auto;
+  font-family: var(--font-classical);
+  font-size: 1rem;
+  color: var(--clr-accent-green);
+}
+
+.sourceLink {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--clr-link);
+  text-decoration: underline;
+  align-self: flex-start;
+}
+
+.sectionTitle {
+  font-family: var(--font-ui);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem;
+}
+
+/* ── Chapter detail tabs ── */
+
+.chapterTabWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.chapterTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chapterTab {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--clr-text-muted);
+  background: var(--clr-surface);
+  border: 1px solid rgb(211 211 211 / 0.6);
+  border-radius: 3px;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.chapterTab:hover,
+.chapterTab:focus-visible {
+  border-color: var(--clr-accent-green);
+  color: var(--clr-accent-green);
+}
+
+.chapterTabActive {
+  color: var(--clr-accent-green);
+  border-color: var(--clr-accent-green);
+  background: rgb(84 137 106 / 0.1);
+}
+
+.relatedScrollsSection {
+  display: block;
+}
+
+/* ── Chapter list toolbar ── */
+
+.chapterToolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.chapterViewTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chapterViewTab {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--clr-text-muted);
+  background: var(--clr-surface);
+  border: 1px solid rgb(211 211 211 / 0.6);
+  border-radius: 3px;
+  padding: 0.45rem 1.1rem;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.chapterViewTab:hover,
+.chapterViewTab:focus-visible {
+  border-color: var(--clr-accent-green);
+  color: var(--clr-accent-green);
+}
+
+.chapterViewTabActive {
+  color: var(--clr-accent-green);
+  border-color: var(--clr-accent-green);
+  background: rgb(84 137 106 / 0.1);
+}
+
+.chapterSearchRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.chapterSearchInput {
+  flex: 1 1 16rem;
+  min-width: 0;
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  color: var(--clr-text);
+  background: var(--clr-bg);
+  border: 1px solid rgb(211 211 211 / 0.6);
+  border-radius: 3px;
+  padding: 0.55rem 0.75rem;
+}
+
+.chapterSearchInput:focus {
+  outline: none;
+  border-color: var(--clr-accent-green);
+  box-shadow: 0 0 0 2px rgb(84 137 106 / 0.15);
+}
+
+.chapterSortGroup {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.chapterSortSelect {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--clr-text);
+  background: var(--clr-bg);
+  border: 1px solid rgb(211 211 211 / 0.6);
+  border-radius: 3px;
+  padding: 0.55rem 0.6rem;
+}
+
+.chapterSortDirButton {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--clr-accent-green);
+  background: rgb(84 137 106 / 0.1);
+  border: 1px solid var(--clr-accent-green);
+  border-radius: 3px;
+  padding: 0.55rem 0.85rem;
+  cursor: pointer;
+}
+
+.chapterResultCount {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--clr-text-muted);
+  margin: 0;
+}
+
+.chapterEmpty {
+  font-family: var(--font-story);
+  font-size: 1rem;
+  color: var(--clr-text-muted);
+  padding: 2rem 0;
+}

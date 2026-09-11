@@ -7,6 +7,7 @@ const THEME_ITEMS = [
   { key: "darkFantasy", href: "/emaki-hub?theme=dark-fantasy", accent: "dark" },
   { key: "kusouzu", href: "/kusouzu/chapters-kusouzu", accent: "kusouzu" },
   { key: "mangaRoots", href: "/manga-roots", accent: "manga" },
+  { key: "genji", href: "/genji/chapters-genji", accent: "genji" },
 ];
 
 const HomeThemeCards = () => {

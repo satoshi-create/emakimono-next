@@ -14,8 +14,12 @@ import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/SceneCommentaryBar.module.css";
 import SceneLikeButton from "@/components/emaki/viewer/SceneLikeButton";
 import ShareButtons from "@/components/emaki/viewer/ShareButtons";
+import GenjiHubLink from "@/components/genji/GenjiHubLink";
 import { ChaptersTitle, eraColor } from "@/utils/func";
-import { getChapterFieldRaw } from "@/utils/emakiChapterText";
+import {
+  connectGenjiChapters,
+  getChapterFieldRaw,
+} from "@/utils/emakiChapterText";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
 import {
@@ -71,6 +75,7 @@ const SceneCommentaryBar = ({
   const { t } = useTranslation("common");
 
   const { title, titleen, era, eraen } = data;
+  const isGenji = typeof titleen === "string" && titleen.includes("genji");
   const emakis = data.emakis || [];
 
   const filterEkotobas = useMemo(
@@ -577,6 +582,15 @@ const SceneCommentaryBar = ({
                 emakiId={titleen}
                 shareTitle={shareTitle}
               />
+              {isGenji && current?.genji_chapter ? (
+                <GenjiHubLink
+                  genjieslug={
+                    connectGenjiChapters(current.genji_chapter, "path") ||
+                    undefined
+                  }
+                  variant="tag"
+                />
+              ) : null}
             </div>
           </div>
           {viewMode === "index" ? (
