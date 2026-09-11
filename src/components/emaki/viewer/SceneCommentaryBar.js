@@ -582,15 +582,6 @@ const SceneCommentaryBar = ({
                 emakiId={titleen}
                 shareTitle={shareTitle}
               />
-              {isGenji && current?.genji_chapter ? (
-                <GenjiHubLink
-                  genjieslug={
-                    connectGenjiChapters(current.genji_chapter, "path") ||
-                    undefined
-                  }
-                  variant="tag"
-                />
-              ) : null}
             </div>
           </div>
           {viewMode === "index" ? (
@@ -703,6 +694,16 @@ const SceneCommentaryBar = ({
           <div className={styles.utilityActions}>
             {quizFab}
             <div className={styles.utilityActionsEnd}>
+            {isGenji && current?.genji_chapter ? (
+              <GenjiHubLink
+                genjieslug={
+                  connectGenjiChapters(current.genji_chapter, "path") ||
+                  undefined
+                }
+                variant="icon"
+                sceneTitle={chapterTitle}
+              />
+            ) : null}
             {hasMultipleSections && (
               <button
                 type="button"

@@ -230,7 +230,8 @@
 .utilityActions {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  /* 左にハブリンク、右にアイコン群（段一覧・年表・閉じる）を分離して配置 */
+  justify-content: space-between;
   gap: 2px;
   flex: 0 0 auto;
   width: 100%;
