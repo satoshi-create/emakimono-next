@@ -8,6 +8,7 @@ import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
 import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
 import { OGP_IMAGE_FALLBACKS } from "@/libs/constants/emakiOgImages";
 import { AppContext } from "@/context/AppContext";
+import { SceneLikeCountsProvider } from "@/context/SceneLikeCountsContext";
 import { buildEmakiJsonLd } from "@/utils/buildEmakiJsonLd";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
@@ -183,7 +184,9 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
         jsonLd={jsonLd}
       />
       <ClassicalFontLink />
-      {matchMediaContainer(toggleFullscreen, orientation)}
+      <SceneLikeCountsProvider emakiId={data.titleen}>
+        {matchMediaContainer(toggleFullscreen, orientation)}
+      </SceneLikeCountsProvider>
     </>
   );
 };

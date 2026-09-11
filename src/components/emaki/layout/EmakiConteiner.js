@@ -23,7 +23,6 @@ import PositionIndicator from "@/components/emaki/viewer/PositionIndicator";
 import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
 import WheelScrollIndicator from "@/components/emaki/viewer/WheelScrollIndicator";
 import { AppContext } from "@/context/AppContext";
-import { SceneLikeCountsProvider } from "@/context/SceneLikeCountsContext";
 import { assignUniqueIndex } from "@/utils/emakiItemIndexer";
 import { shouldMountSceneContent } from "@/utils/emakiContentWindow";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
@@ -829,7 +828,6 @@ const EmakiContainer = ({
   contentWindowMountedRef.current = nextContentMounted;
 
   return (
-    <SceneLikeCountsProvider emakiId={emakiId}>
       <div
         className={`${
           orientation === "landscape" && scroll ? styles.land : styles.prt
@@ -1056,7 +1054,6 @@ const EmakiContainer = ({
         )}
         </div>
       </div>
-    </SceneLikeCountsProvider>
   );
 };
 

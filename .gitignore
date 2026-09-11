@@ -32,6 +32,7 @@ dist/
 cloudinary-usage.json
 
 # analytics (generated locally or via CI)
+/analytics
 /analytics/reports/*/
 !/analytics/reports/.gitkeep
 /analytics/content-map.json

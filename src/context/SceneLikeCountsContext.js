@@ -19,6 +19,7 @@ const defaultSceneLikeCountsContext = {
   hydrateLiked: noop,
   toggleLike: asyncNoop,
   isLoading: false,
+  totalCount: 0,
 };
 
 export const SceneLikeCountsContext = createContext(
@@ -165,6 +166,16 @@ export function SceneLikeCountsProvider({ emakiId, children }) {
     [emakiId]
   );
 
+  // 絵巻全体のいいね総計（全シーンの合算・閲覧用カウンター）
+  const totalCount = useMemo(
+    () =>
+      Object.values(counts || {}).reduce(
+        (acc, cur) => acc + (Number(cur) || 0),
+        0
+      ),
+    [counts]
+  );
+
   const value = useMemo(
     () => ({
       getCount: (sceneIndex) => Number(counts[sceneIndex] ?? 0),
@@ -172,8 +183,9 @@ export function SceneLikeCountsProvider({ emakiId, children }) {
       hydrateLiked,
       toggleLike,
       isLoading,
+      totalCount,
     }),
-    [counts, liked, hydrateLiked, toggleLike, isLoading]
+    [counts, liked, hydrateLiked, toggleLike, isLoading, totalCount]
   );
 
   return (

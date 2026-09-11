@@ -63,6 +63,25 @@
   color: var(--clr-grey-light);
 }
 
+/* 絵巻全体のいいね総計（タイトル横・順位バッジの左） */
+.totalLikesBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: rgb(255 140 119 / 0.12);
+  color: var(--clr-accent, #ff8c77);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.totalLikesBadge svg {
+  font-size: 0.65rem;
+}
+
 .tags {
   display: flex;
   flex-direction: row;

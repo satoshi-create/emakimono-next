@@ -4,6 +4,7 @@ import RecommendEmaki from "@/components/emaki/ranking/RecommendEmaki";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
 import Footer from "@/components/layout/Footer";
 import { AppContext } from "@/context/AppContext";
+import { useSceneLikeCounts } from "@/context/SceneLikeCountsContext";
 import styles from "@/styles/EmakiPortraitContent.module.css";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
@@ -14,7 +15,7 @@ import {
   keywordItem,
   useLocaleData,
 } from "@/utils/func";
-import { faEye, faTrophy } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faHeart, faTrophy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import parse from "html-react-parser";
 import Link from "next/link";
@@ -24,6 +25,7 @@ import { useTranslation } from "next-i18next";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerFullscreen = false }) => {
   const { rankingData } = useContext(AppContext);
+  const { totalCount } = useSceneLikeCounts();
 
   const { locale } = useRouter();
   const { t: alldata } = useLocaleData();
@@ -110,6 +112,16 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
                   {emakiDisplayTitle(data, locale)}{" "}
                   {locale === "ja" && edition}
                 </h3>
+                {totalCount > 0 && (
+                  <span
+                    className={styles.totalLikesBadge}
+                    aria-label={locale === "en" ? "Total likes" : "いいね総計"}
+                    title={locale === "en" ? "Total likes" : "いいね総計"}
+                  >
+                    <FontAwesomeIcon icon={faHeart} aria-hidden />
+                    {totalCount.toLocaleString()}
+                  </span>
+                )}
                 {rankInfo && (
                   <Link href="/ranking">
                     <a className={styles.rankTag}>
