@@ -114,6 +114,10 @@ export type UseEmakiZoomPanResult = {
   panY: number;
   /** ZoomLayer のルート要素に付与する ref（wheel のネイティブ登録に使う） */
   zoomRef: RefObject<HTMLDivElement>;
+  /** 可視ビューポート（.stage）の実測用 ref（可動域 clamp に使う） */
+  stageRef: RefObject<HTMLDivElement>;
+  /** 画像帯（.strip）の実測用 ref（可動域 clamp に使う） */
+  stripRef: RefObject<HTMLDivElement>;
   openZoom: () => void;
   resetZoom: () => void;
   zoomIn: () => void;

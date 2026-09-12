@@ -612,6 +612,8 @@ const EmakiContainer = ({
     panX,
     panY,
     zoomRef,
+    stageRef: zoomStageRef,
+    stripRef: zoomStripRef,
     openZoom,
     resetZoom,
     zoomIn,
@@ -812,7 +814,9 @@ const EmakiContainer = ({
   // ズーム表示は現在ビューポート中央（rAF追従の contentWindowCenter）の最近傍画像を採用
   const zoomCenterIndex = Number.isFinite(contentWindowCenter)
     ? contentWindowCenter
-    : sceneIndexForPrefetch;
+    : Number.isFinite(sceneIndexForPrefetch)
+      ? sceneIndexForPrefetch
+      : 0;
 
   const ZOOM_NEIGHBOR_COUNT = 1;
 
@@ -821,7 +825,10 @@ const EmakiContainer = ({
     if (!processedEmakis.length) return [];
     const c = Math.max(
       0,
-      Math.min(processedEmakis.length - 1, Math.round(zoomCenterIndex))
+      Math.min(
+        processedEmakis.length - 1,
+        Math.round(Number.isFinite(zoomCenterIndex) ? zoomCenterIndex : 0)
+      )
     );
     const from = Math.max(0, c - ZOOM_NEIGHBOR_COUNT);
     const to = Math.min(processedEmakis.length - 1, c + ZOOM_NEIGHBOR_COUNT);
@@ -1101,6 +1108,8 @@ const EmakiContainer = ({
           panX={panX}
           panY={panY}
           zoomRef={zoomRef}
+          stageRef={zoomStageRef}
+          stripRef={zoomStripRef}
           zoomIn={zoomIn}
           zoomOut={zoomOut}
           resetZoom={resetZoom}

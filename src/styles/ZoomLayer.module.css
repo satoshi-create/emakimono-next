@@ -5,7 +5,8 @@
   inset: 0;
   z-index: 40;
   overflow: hidden;
-  background: rgba(0, 0, 0, 0.92);
+  /* 絵巻の台紙・余白に馴染む和紙系オフホワイト（黒画面を露出させない） */
+  background: #f8f7f2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -24,15 +25,23 @@
   inset: 0;
   pointer-events: none;
   overflow: hidden;
+  /* 画像帯を中央基準で配置（可動域計算は center center 前提） */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .strip {
   display: flex;
   flex-direction: row-reverse; /* RTLスクロールと同一の並び */
   align-items: center;
-  justify-content: center;
+  /* 実際のコンテンツ幅（画像合計）を保持し、縮小されないようにする */
+  width: max-content;
+  flex: 0 0 auto;
   height: 100%;
   transform-origin: center center;
+  /* ドラッグ / ホイール操作と競合するトランジションを明示的に無効化 */
+  transition: none;
   will-change: transform;
 }
 
