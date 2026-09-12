@@ -7,6 +7,7 @@
 import EmakiInfo from "@/components/emaki/metadata/EmakiInfo";
 import EmakiNavigation from "@/components/emaki/navigation/EmakiNavigation";
 import FullScreen from "@/components/emaki/viewer/FullScreen";
+import ZoomLayer from "@/components/emaki/viewer/ZoomLayer";
 import {
   clearQuizSession,
   createQuizSession,
@@ -28,9 +29,11 @@ import { shouldMountSceneContent } from "@/utils/emakiContentWindow";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import useEmakiAutoPlay from "@/hooks/emaki/useEmakiAutoPlay";
 import useEmakiPalmDrag from "@/hooks/emaki/useEmakiPalmDrag";
+import useEmakiZoomPan from "@/hooks/emaki/useEmakiZoomPan";
 import useEmakiScroll from "@/hooks/emaki/useEmakiScroll";
 import useScrollPositionRestore from "@/hooks/emaki/useScrollPositionRestore";
 import styles from "@/styles/EmakiConteiner.module.css";
+import zoomStyles from "@/styles/ZoomLayer.module.css";
 import commentaryStyles from "@/styles/SceneCommentaryBar.module.css";
 import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
@@ -53,6 +56,7 @@ import {
 } from "@/utils/buildShareUrl";
 import { scrollPositionStore } from "@/hooks/emaki/scrollPositionStore";
 import { runAfterPaint } from "@/utils/runAfterPaint";
+import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
 
 // 開いたとき／必要時だけ chunk を読む（/[slug] 初回コンパイル・初期 JS 軽減）
 const HelpModal = dynamic(
@@ -600,6 +604,21 @@ const EmakiContainer = ({
   const { isPalmMode, suppressClickUntilRef, palmActiveRef } =
     useEmakiPalmDrag(articleRef);
 
+  // ズーム＆パン（兄弟オーバーレイ方式）: 既存スクロール系フックとは独立して動作する。
+  // ズーム進入時は自動再生を止めて背後の自動移動を防ぐ。
+  const {
+    isZoomed,
+    scale: zoomScale,
+    panX,
+    panY,
+    zoomRef,
+    openZoom,
+    resetZoom,
+    zoomIn,
+    zoomOut,
+    handlers: zoomHandlers,
+  } = useEmakiZoomPan({ onOpen: stopPlayMode });
+
   // パームドラッグ終了: ドラッグ中はシーン確定を保留しているため、離した直後に
   // 最終シーンを1回だけ確定する（150ms debounce はドラッグ中の長押しで発火済みのため
   // 最後の scroll イベント後に必ずしも走らない）
@@ -790,6 +809,39 @@ const EmakiContainer = ({
   const sceneIndexForPrefetch =
     isPlayMode || isAutoScrolling ? liveSceneIndex : navIndex;
 
+  // ズーム表示は現在ビューポート中央（rAF追従の contentWindowCenter）の最近傍画像を採用
+  const zoomCenterIndex = Number.isFinite(contentWindowCenter)
+    ? contentWindowCenter
+    : sceneIndexForPrefetch;
+
+  const ZOOM_NEIGHBOR_COUNT = 1;
+
+  // 中央スライスを基準に前後 N 枚（計3枚）を帯として収集する
+  const zoomSlices = useMemo(() => {
+    if (!processedEmakis.length) return [];
+    const c = Math.max(
+      0,
+      Math.min(processedEmakis.length - 1, Math.round(zoomCenterIndex))
+    );
+    const from = Math.max(0, c - ZOOM_NEIGHBOR_COUNT);
+    const to = Math.min(processedEmakis.length - 1, c + ZOOM_NEIGHBOR_COUNT);
+    const list = [];
+    for (let i = from; i <= to; i += 1) {
+      const item = processedEmakis[i];
+      if (!item?.src) continue;
+      list.push({
+        key: i,
+        src: buildCloudinaryUrl(item.src, [
+          `w_${Math.round((item.srcWidth || 1200) * 1.5)}`,
+          "f_auto",
+          "q_auto:eco",
+        ]),
+        ratio: (item.srcWidth || 1) / (item.srcHeight || 1),
+      });
+    }
+    return list;
+  }, [processedEmakis, zoomCenterIndex]);
+
   // 描画窓 Phase 1: section 殻は常置、中身は sticky mount（一度載せたら外さない）
   if (contentWindowEmakiRef.current !== data.id) {
     contentWindowEmakiRef.current = data.id;
@@ -876,6 +928,16 @@ const EmakiContainer = ({
             isScrolling={isScrolling}
             isUIVisible={isUIVisible}
           />
+        )}
+        {scroll && !isZoomed && (
+          <button
+            type="button"
+            className={zoomStyles.trigger}
+            onClick={openZoom}
+            aria-label="Zoom in on scene"
+          >
+            <span aria-hidden="true">🔍</span>
+          </button>
         )}
         {scroll && (
           <>
@@ -1033,6 +1095,18 @@ const EmakiContainer = ({
             />
           )}
         </article>
+        <ZoomLayer
+          isZoomed={isZoomed}
+          scale={zoomScale}
+          panX={panX}
+          panY={panY}
+          zoomRef={zoomRef}
+          zoomIn={zoomIn}
+          zoomOut={zoomOut}
+          resetZoom={resetZoom}
+          handlers={zoomHandlers}
+          slices={zoomSlices}
+        />
         {hasCommentaryData && (
           <SceneCommentaryBar
             data={data}

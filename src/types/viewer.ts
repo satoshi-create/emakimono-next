@@ -101,3 +101,28 @@ export type UseScrollPositionRestoreParams = {
     emakiId: string | null;
   };
 };
+
+/**
+ * useEmakiZoomPan — ズーム＆パン（兄弟オーバーレイ方式）。
+ * ZoomLayer（src/components/emaki/viewer/ZoomLayer.jsx）が消費する。
+ * scale は 1.0〜3.0、初期値 1.8。
+ */
+export type UseEmakiZoomPanResult = {
+  isZoomed: boolean;
+  scale: number;
+  panX: number;
+  panY: number;
+  /** ZoomLayer のルート要素に付与する ref（wheel のネイティブ登録に使う） */
+  zoomRef: RefObject<HTMLDivElement>;
+  openZoom: () => void;
+  resetZoom: () => void;
+  zoomIn: () => void;
+  zoomOut: () => void;
+  /** ZoomLayer のルートに spread する pointer ハンドラ */
+  handlers: {
+    onPointerDown: (event: React.PointerEvent<HTMLDivElement>) => void;
+    onPointerMove: (event: React.PointerEvent<HTMLDivElement>) => void;
+    onPointerUp: (event: React.PointerEvent<HTMLDivElement>) => void;
+    onPointerCancel: (event: React.PointerEvent<HTMLDivElement>) => void;
+  };
+};

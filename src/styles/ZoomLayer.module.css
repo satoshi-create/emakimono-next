@@ -1,0 +1,116 @@
+/* ZoomLayer — ズーム＆パンの兄弟オーバーレイ（design-tokens.mdc の --clr-* に準拠） */
+
+.layer {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  overscroll-behavior: contain;
+}
+
+.layer:active {
+  cursor: grabbing;
+}
+
+.stage {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.strip {
+  display: flex;
+  flex-direction: row-reverse; /* RTLスクロールと同一の並び */
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.image {
+  height: 100%;
+  width: auto;
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+  flex: 0 0 auto;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.controls {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: 999px;
+  background: var(--clr-surface);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 25%);
+  font-family: var(--font-ui);
+}
+
+.controlButton {
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--clr-text);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.controlButton:hover {
+  background: var(--clr-accent);
+  color: #fff;
+}
+
+.scaleLabel {
+  min-width: 2.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--clr-text-muted);
+}
+
+.trigger {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 20;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 85%);
+  color: var(--clr-text);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+}
+
+.trigger:hover {
+  background: var(--clr-accent);
+  color: #fff;
+}
