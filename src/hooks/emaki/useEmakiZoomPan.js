@@ -40,6 +40,16 @@ export default function useEmakiZoomPan({ onOpen } = {}) {
   const cursorRef = useRef({ x: null, y: null });
   // ダブルクリック判定（拡大中にダブルクリックで横スクロールへ戻す）
   const lastTapRef = useRef({ time: 0, x: 0, y: 0 });
+  // タッチ（SP）: 1本指パン / 2本指ピンチの進行状態
+  const touchRef = useRef({
+    mode: null, // null | "pan" | "pinch"
+    lastX: 0,
+    lastY: 0,
+    startDist: 0,
+    startScale: DEFAULT_SCALE,
+    prevCenterX: 0,
+    prevCenterY: 0,
+  });
 
   // 縦幅がコンテナに収まる倍率（これ以上縮小させない = 上下の背景露出を防ぐ）
   const getFitScale = useCallback(() => {
@@ -135,6 +145,8 @@ export default function useEmakiZoomPan({ onOpen } = {}) {
     setPanX(0);
     setPanY(0);
     dragRef.current = null;
+    touchRef.current.mode = null;
+    touchRef.current.startDist = 0;
   }, []);
 
   // focusX / focusY（clientX / clientY）を渡すと、その点を基準に拡大を開始する。
@@ -230,10 +242,149 @@ export default function useEmakiZoomPan({ onOpen } = {}) {
     return () => el.removeEventListener("wheel", onWheel);
   }, [isZoomed, applyScaleAtPoint]);
 
+  // タッチ（SP）: 1本指ドラッグでパン、2本指ピンチで拡大縮小。
+  // React 合成イベントは passive のため、wheel と同様にネイティブ登録で preventDefault する。
+  useEffect(() => {
+    const el = zoomRef.current;
+    if (!isZoomed || !el) return undefined;
+
+    const onTouchStart = (event) => {
+      if (event.target.closest?.("button, a, [role='button']")) return;
+      const touches = event.touches;
+      const t = touchRef.current;
+      if (touches.length >= 2) {
+        const [a, b] = [touches[0], touches[1]];
+        const dist = Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
+        t.mode = "pinch";
+        t.startDist = dist > 0 ? dist : 1;
+        t.startScale = scaleRef.current;
+        t.prevCenterX = (a.clientX + b.clientX) / 2;
+        t.prevCenterY = (a.clientY + b.clientY) / 2;
+        cursorRef.current = { x: t.prevCenterX, y: t.prevCenterY };
+        event.preventDefault();
+        return;
+      }
+      if (touches.length === 1) {
+        const p = touches[0];
+        cursorRef.current = { x: p.clientX, y: p.clientY };
+        // 拡大表示中のダブルタップ: 横スクロール画像の表示へ戻す
+        const now = Date.now();
+        const prev = lastTapRef.current;
+        if (
+          now - prev.time < 320 &&
+          Math.abs(p.clientX - prev.x) < 24 &&
+          Math.abs(p.clientY - prev.y) < 24
+        ) {
+          lastTapRef.current = { time: 0, x: 0, y: 0 };
+          t.mode = null;
+          event.preventDefault();
+          resetZoom();
+          return;
+        }
+        lastTapRef.current = { time: now, x: p.clientX, y: p.clientY };
+        t.mode = "pan";
+        t.lastX = p.clientX;
+        t.lastY = p.clientY;
+        event.preventDefault();
+      }
+    };
+
+    const onTouchMove = (event) => {
+      const touches = event.touches;
+      const t = touchRef.current;
+      if (touches.length >= 2) {
+        const [a, b] = [touches[0], touches[1]];
+        const dist = Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
+        const cx = (a.clientX + b.clientX) / 2;
+        const cy = (a.clientY + b.clientY) / 2;
+        if (t.mode !== "pinch") {
+          // 2本目が後から触れた場合はこのフレームを基準にする
+          t.mode = "pinch";
+          t.startDist = dist > 0 ? dist : 1;
+          t.startScale = scaleRef.current;
+          t.prevCenterX = cx;
+          t.prevCenterY = cy;
+          return;
+        }
+        const ratio = dist > 0 && t.startDist > 0 ? dist / t.startDist : 1;
+        const target = clamp(t.startScale * ratio, getFitScale(), MAX_SCALE);
+        // ピンチ中心を基準に拡大縮小し、指の移動分は平行移動として加算する
+        applyScaleAtPoint(target, t.prevCenterX, t.prevCenterY);
+        const [nextX, nextY] = clampPan(
+          panRef.current.x + (cx - t.prevCenterX),
+          panRef.current.y + (cy - t.prevCenterY),
+          scaleRef.current
+        );
+        panRef.current = { x: nextX, y: nextY };
+        setPanX(nextX);
+        setPanY(nextY);
+        t.prevCenterX = cx;
+        t.prevCenterY = cy;
+        cursorRef.current = { x: cx, y: cy };
+        event.preventDefault();
+        return;
+      }
+      if (touches.length === 1) {
+        const p = touches[0];
+        if (t.mode !== "pan") {
+          // ピンチ → 1本指へ移行: パン基準をリセット
+          t.mode = "pan";
+          t.lastX = p.clientX;
+          t.lastY = p.clientY;
+          return;
+        }
+        const dx = p.clientX - t.lastX;
+        const dy = p.clientY - t.lastY;
+        t.lastX = p.clientX;
+        t.lastY = p.clientY;
+        const [nextX, nextY] = clampPan(
+          panRef.current.x + dx,
+          panRef.current.y + dy,
+          scaleRef.current
+        );
+        panRef.current = { x: nextX, y: nextY };
+        setPanX(nextX);
+        setPanY(nextY);
+        cursorRef.current = { x: p.clientX, y: p.clientY };
+        event.preventDefault();
+      }
+    };
+
+    const onTouchEnd = (event) => {
+      const touches = event.touches;
+      const t = touchRef.current;
+      if (touches.length === 1) {
+        // ピンチ → 1本指パンへ移行
+        t.mode = "pan";
+        t.lastX = touches[0].clientX;
+        t.lastY = touches[0].clientY;
+        return;
+      }
+      if (touches.length === 0) {
+        t.mode = null;
+        t.startDist = 0;
+      }
+    };
+
+    el.addEventListener("touchstart", onTouchStart, { passive: false });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    el.addEventListener("touchend", onTouchEnd, { passive: false });
+    el.addEventListener("touchcancel", onTouchEnd, { passive: false });
+    return () => {
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove", onTouchMove);
+      el.removeEventListener("touchend", onTouchEnd);
+      el.removeEventListener("touchcancel", onTouchEnd);
+    };
+  }, [isZoomed, applyScaleAtPoint, clampPan, getFitScale, resetZoom]);
+
   const onPointerDown = useCallback(
     (event) => {
       // コントロールUI（ボタン）上の押下時はドラッグを開始せず、通常のclickを通す
       if (event.target.closest?.("button, a, [role='button']")) return;
+
+      // タッチはネイティブの onTouch*（パン/ピンチ）で処理するため pointer では扱わない
+      if (event.pointerType === "touch") return;
 
       cursorRef.current = { x: event.clientX, y: event.clientY };
 

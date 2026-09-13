@@ -1033,7 +1033,7 @@ const EmakiContainer = ({
             type="button"
             className={`${zoomStyles.trigger}${
               commentaryFloating ? ` ${zoomStyles.triggerFloating}` : ""
-            }`}
+            }${isUIVisible ? "" : ` ${zoomStyles.triggerHidden}`}`}
             onClick={(event) => {
               // カーソル位置を基準に拡大する（中心スライスと初期 pan は
               // openZoomAtPoint が同一コミットで事前確定する）
