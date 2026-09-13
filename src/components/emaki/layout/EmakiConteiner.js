@@ -853,33 +853,74 @@ const EmakiContainer = ({
   const ZOOM_NEIGHBOR_COUNT = 1;
 
   // 中央スライスを基準に前後 N 枚（計3枚）を帯として収集する
-  const zoomSlices = useMemo(() => {
-    if (!processedEmakis.length) return [];
-    const c = Math.max(
-      0,
-      Math.min(
-        processedEmakis.length - 1,
-        Math.round(Number.isFinite(zoomCenterIndex) ? zoomCenterIndex : 0)
-      )
-    );
-    const from = Math.max(0, c - ZOOM_NEIGHBOR_COUNT);
-    const to = Math.min(processedEmakis.length - 1, c + ZOOM_NEIGHBOR_COUNT);
-    const list = [];
-    for (let i = from; i <= to; i += 1) {
-      const item = processedEmakis[i];
-      if (!item?.src) continue;
-      list.push({
-        key: i,
-        src: buildCloudinaryUrl(item.src, [
-          `w_${Math.round((item.srcWidth || 1200) * 1.5)}`,
-          "f_auto",
-          "q_auto:eco",
-        ]),
-        ratio: (item.srcWidth || 1) / (item.srcHeight || 1),
-      });
-    }
-    return list;
-  }, [processedEmakis, zoomCenterIndex]);
+  const collectZoomSlices = useCallback(
+    (centerIndex) => {
+      if (!processedEmakis.length) return [];
+      const c = Math.max(
+        0,
+        Math.min(
+          processedEmakis.length - 1,
+          Math.round(Number.isFinite(centerIndex) ? centerIndex : 0)
+        )
+      );
+      const from = Math.max(0, c - ZOOM_NEIGHBOR_COUNT);
+      const to = Math.min(processedEmakis.length - 1, c + ZOOM_NEIGHBOR_COUNT);
+      const list = [];
+      for (let i = from; i <= to; i += 1) {
+        const item = processedEmakis[i];
+        if (!item?.src) continue;
+        list.push({
+          key: i,
+          src: buildCloudinaryUrl(item.src, [
+            `w_${Math.round((item.srcWidth || 1200) * 1.5)}`,
+            "f_auto",
+            "q_auto:eco",
+          ]),
+          ratio: (item.srcWidth || 1) / (item.srcHeight || 1),
+        });
+      }
+      return list;
+    },
+    [processedEmakis]
+  );
+
+  const zoomSlices = useMemo(
+    () => collectZoomSlices(zoomCenterIndex),
+    [collectZoomSlices, zoomCenterIndex]
+  );
+
+  // 拡大開始前にスライス画像のデコード完了を待つ（未デコード描画によるちらつき防止）。
+  // 失敗時も解決し、呼び出し側のタイムアウトと race させて必ず開けるようにする。
+  const preloadZoomSlices = useCallback(
+    (centerIndex) => {
+      if (typeof window === "undefined") return Promise.resolve();
+      const srcs = collectZoomSlices(centerIndex).map((s) => s.src);
+      if (!srcs.length) return Promise.resolve();
+      return Promise.all(
+        srcs.map(
+          (src) =>
+            new Promise((resolve) => {
+              const img = new window.Image();
+              let settled = false;
+              const finish = () => {
+                if (settled) return;
+                settled = true;
+                if (typeof img.decode === "function") {
+                  img.decode().catch(() => {}).finally(resolve);
+                  return;
+                }
+                resolve();
+              };
+              img.onload = finish;
+              img.onerror = finish;
+              img.src = src;
+              if (img.complete) finish();
+            })
+        )
+      );
+    },
+    [collectZoomSlices]
+  );
 
   // 初期 pan アライメント補正（P1）: article のビューポート中央にある内容
   // （|scrollLeft| + clientWidth / 2）と、オーバーレイ strip 中央（前後スライス帯の
@@ -916,6 +957,9 @@ const EmakiContainer = ({
 
   // ダブルクリック / 拡大ボタン: 中心スライスと初期 pan を openZoom と同一コミットで
   // 事前確定してから開く（P2: 古いスライス基準の補正を防ぐ）。
+  // 連打時に古いプリロード結果で開かないためのトークン
+  const zoomOpenTokenRef = useRef(0);
+
   const openZoomAtPoint = useCallback(
     (clientX, clientY) => {
       const el = articleRef.current;
@@ -936,9 +980,26 @@ const EmakiContainer = ({
         centerIndex,
         el ? el.clientHeight : 0
       );
-      openZoom(clientX, clientY, initialPanX);
+      // 初期スライス（画像・pan/scale）が確定してから開く。未デコードのまま
+      // layer を描画すると背景が一瞬露出するため、最大 200ms だけ待つ。
+      zoomOpenTokenRef.current += 1;
+      const token = zoomOpenTokenRef.current;
+      const open = () => {
+        if (token !== zoomOpenTokenRef.current) return;
+        openZoom(clientX, clientY, initialPanX);
+      };
+      Promise.race([
+        preloadZoomSlices(centerIndex),
+        new Promise((resolve) => setTimeout(resolve, 200)),
+      ]).then(open);
     },
-    [data.emakis, zoomCenterIndex, computeZoomAlignPanX, openZoom]
+    [
+      data.emakis,
+      zoomCenterIndex,
+      computeZoomAlignPanX,
+      preloadZoomSlices,
+      openZoom,
+    ]
   );
 
   // 描画窓 Phase 1: section 殻は常置、中身は sticky mount（一度載せたら外さない）

@@ -5,8 +5,9 @@
   inset: 0;
   z-index: 40;
   overflow: hidden;
-  /* 絵巻の台紙・余白に馴染む和紙系オフホワイト（黒画面を露出させない） */
-  background: #f8f7f2;
+  /* 背景は透明のまま保つ: 下層の <article> を遮らないため、マウント直後に
+     画像が未描画でも白フレームが露出しない（不透明な背景色は白飛びの原因になる） */
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,6 +15,25 @@
   touch-action: none;
   user-select: none;
   overscroll-behavior: contain;
+  /* 下層の絵巻からシームレスに重なるようフェードイン（ちらつき防止） */
+  animation: zoomLayerFadeIn 180ms ease-out both;
+  will-change: opacity;
+}
+
+@keyframes zoomLayerFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layer {
+    animation: none;
+  }
 }
 
 .layer:active {
@@ -101,9 +121,9 @@
 
 .trigger {
   position: absolute;
-  /* 絵巻コンテナの右上へ配置 */
-  top: 1rem;
-  right: 1rem;
+  /* 全画面アイコンの左隣へ配置（重なり解消）。右端基準は全画面ボタンと同じ 1% */
+  right: calc(1% + 3.5rem);
+  bottom: calc(1.5rem + var(--commentary-bar-full-h, var(--commentary-bar-h, 0px)));
   z-index: 20;
   display: inline-flex;
   align-items: center;
@@ -121,10 +141,10 @@
   filter: drop-shadow(0 1px 3px rgb(0 0 0 / 45%));
 }
 
-/* 解説バーがフローティング（全画面 or md+横）のときも右上基準を維持 */
+/* 解説バーがフローティング（全画面 or md+横）のときは全画面ボタンと同じコーナー基準 */
 .triggerFloating {
-  top: 1rem;
-  right: 1rem;
+  right: calc(1rem + 3.5rem);
+  bottom: 1.5rem;
 }
 
 /* ナビメニュー（useEmakiIdleUI）の自動非表示と連動してフェードアウト */

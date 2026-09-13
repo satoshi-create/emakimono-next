@@ -155,8 +155,8 @@ export default function useEmakiZoomPan({ onOpen } = {}) {
   // useLayoutEffect でカーソル基準の倍率・パンへ（ペイント前に）補正する。
   const openZoom = useCallback(
     (focusX, focusY, initialPanX) => {
-      isZoomedRef.current = true;
-      setIsZoomed(true);
+      // 先に pan/scale を確定してから isZoomed を立てる。
+      // （レイヤーは isZoomed=true で初描画されるため、未初期化値の描画＝ちらつきを防ぐ）
       focusPointRef.current = {
         x: isFiniteNumber(focusX) ? focusX : null,
         y: isFiniteNumber(focusY) ? focusY : null,
@@ -167,6 +167,9 @@ export default function useEmakiZoomPan({ onOpen } = {}) {
       setScale(FALLBACK_MIN_SCALE);
       setPanX(initialPan);
       setPanY(0);
+      // 実測後（useLayoutEffect・ペイント前）にカーソル基準の最終倍率・パンへ補正する
+      isZoomedRef.current = true;
+      setIsZoomed(true);
       if (typeof onOpen === "function") onOpen();
     },
     [onOpen]
