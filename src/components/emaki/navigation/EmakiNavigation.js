@@ -5,7 +5,6 @@ import {
   faChevronLeft,
   faChevronRight,
   faCircleQuestion,
-  faMagnifyingGlass,
   faPlay,
   faStop,
 } from "@fortawesome/free-solid-svg-icons";
@@ -28,8 +27,6 @@ const EmakiNavigation = ({
   isAutoScrolling = false,
   onStartPlayMode,
   onStopPlayMode,
-  onOpenZoom,
-  isZoomed = false,
 }) => {
   const endIndex = data.emakis.length - 1;
   const { t } = useTranslation("common");
@@ -114,20 +111,6 @@ const EmakiNavigation = ({
             isUIVisible={isUIVisible}
           />
         )
-      )}
-      {!isZoomed && onOpenZoom && (
-        <ActionButton
-          icon={
-            <FontAwesomeIcon
-              icon={faMagnifyingGlass}
-              style={{ fontSize: "1.5em" }}
-            />
-          }
-          label={t("viewer.zoomIn")}
-          description={t("viewer.zoomIn")}
-          onClick={onOpenZoom}
-          isUIVisible={isUIVisible}
-        />
       )}
       {hasChapters && <ToggleChapter isUIVisible={isUIVisible} />}
       {prevScene && (

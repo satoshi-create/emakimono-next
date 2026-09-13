@@ -30,6 +30,8 @@ import {
   sceneWidthPx,
   shouldMountSceneContent,
 } from "@/utils/emakiContentWindow";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import useEmakiAutoPlay from "@/hooks/emaki/useEmakiAutoPlay";
 import useEmakiPalmDrag from "@/hooks/emaki/useEmakiPalmDrag";
@@ -37,6 +39,7 @@ import useEmakiZoomPan from "@/hooks/emaki/useEmakiZoomPan";
 import useEmakiScroll from "@/hooks/emaki/useEmakiScroll";
 import useScrollPositionRestore from "@/hooks/emaki/useScrollPositionRestore";
 import styles from "@/styles/EmakiConteiner.module.css";
+import zoomStyles from "@/styles/ZoomLayer.module.css";
 import commentaryStyles from "@/styles/SceneCommentaryBar.module.css";
 import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
@@ -999,17 +1002,6 @@ const EmakiContainer = ({
     ]
   );
 
-  // ナビの虫眼鏡: ボタン位置ではなく絵巻ビューポート中央を基準に拡大開始する
-  const handleZoomFromNav = useCallback(() => {
-    const el = articleRef.current;
-    if (el && el.clientWidth > 0 && el.clientHeight > 0) {
-      const rect = el.getBoundingClientRect();
-      openZoomAtPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
-      return;
-    }
-    openZoomAtPoint(undefined, undefined);
-  }, [openZoomAtPoint]);
-
   // 描画窓 Phase 1: section 殻は常置、中身は sticky mount（一度載せたら外さない）
   if (contentWindowEmakiRef.current !== data.id) {
     contentWindowEmakiRef.current = data.id;
@@ -1097,6 +1089,25 @@ const EmakiContainer = ({
             isUIVisible={isUIVisible}
           />
         )}
+        {scroll && !isZoomed && (
+          <button
+            type="button"
+            className={`${zoomStyles.trigger}${
+              isUIVisible ? "" : ` ${zoomStyles.triggerHidden}`
+            }`}
+            onClick={(event) => {
+              // カーソル位置を基準に拡大する（中心スライスと初期 pan は
+              // openZoomAtPoint が同一コミットで事前確定する）
+              openZoomAtPoint(event.clientX, event.clientY);
+            }}
+            aria-label="Zoom in on scene"
+          >
+            <FontAwesomeIcon
+              icon={faMagnifyingGlass}
+              style={{ fontSize: "1.5em" }}
+            />
+          </button>
+        )}
         {scroll && (
           <>
             <EmakiNavigation
@@ -1107,8 +1118,6 @@ const EmakiContainer = ({
               isAutoScrolling={isAutoScrolling}
               onStartPlayMode={startPlayMode}
               onStopPlayMode={stopPlayMode}
-              onOpenZoom={handleZoomFromNav}
-              isZoomed={isZoomed}
             />
           </>
         )}
