@@ -53,6 +53,8 @@ export type UseEmakiScrollResult = {
   liveSceneIndex: number;
   /** 描画窓の中心シーン（scrollLeft から rAF 追従。DOM キャッシュ前はメタデータ幅で推定） */
   contentWindowCenter: number;
+  /** 同期値（idle 反映前の最新中心）。ズーム開始時のスライス確定など即時参照用 */
+  contentWindowCenterRef: RefObject<number>;
 };
 
 /**
@@ -118,7 +120,8 @@ export type UseEmakiZoomPanResult = {
   stageRef: RefObject<HTMLDivElement>;
   /** 画像帯（.strip）の実測用 ref（可動域 clamp に使う） */
   stripRef: RefObject<HTMLDivElement>;
-  openZoom: () => void;
+  /** 拡大開始。focusX / focusY（clientX / clientY）指定時はカーソル点を基準にズームする */
+  openZoom: (focusX?: number, focusY?: number) => void;
   resetZoom: () => void;
   zoomIn: () => void;
   zoomOut: () => void;

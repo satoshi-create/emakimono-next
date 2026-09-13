@@ -92,6 +92,12 @@ const EndNudgeCard = dynamic(
 // モジュールスコープに配置することで、コンポーネント再マウント時も前回値を保持
 let prevDataId = null;
 
+// デスクトップ（精密ポインタ + ホバー可）判定。SP／タッチのみの端末では全画面切替を維持する
+const isDesktopPointerDevice = () =>
+  typeof window !== "undefined" &&
+  typeof window.matchMedia === "function" &&
+  window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
 
 const EmakiContainer = ({
   data,
@@ -400,6 +406,7 @@ const EmakiContainer = ({
     scrollDimsRef,
     liveSceneIndex,
     contentWindowCenter,
+    contentWindowCenterRef,
   } = useEmakiScroll({
     articleRef,
     dataId: data.id,
@@ -811,12 +818,11 @@ const EmakiContainer = ({
   const sceneIndexForPrefetch =
     isPlayMode || isAutoScrolling ? liveSceneIndex : navIndex;
 
-  // ズーム表示は現在ビューポート中央（rAF追従の contentWindowCenter）の最近傍画像を採用
-  const zoomCenterIndex = Number.isFinite(contentWindowCenter)
-    ? contentWindowCenter
-    : Number.isFinite(sceneIndexForPrefetch)
-      ? sceneIndexForPrefetch
-      : 0;
+  // ズーム表示の中心は「開始時に凍結」したシーンを使う。
+  // contentWindowCenter（state）は idle へ遅延反映されるため、開いた瞬間に参照すると
+  // 一瞬前の位置のスライスが描画され、直後に現在位置へ切り替わる（ちらつき）原因になる。
+  // 開く時点の同期値（contentWindowCenterRef）を確定して以降は固定する。
+  const [zoomCenterIndex, setZoomCenterIndex] = useState(0);
 
   const ZOOM_NEIGHBOR_COUNT = 1;
 
@@ -939,8 +945,22 @@ const EmakiContainer = ({
         {scroll && !isZoomed && (
           <button
             type="button"
-            className={zoomStyles.trigger}
-            onClick={openZoom}
+            className={`${zoomStyles.trigger}${
+              commentaryFloating ? ` ${zoomStyles.triggerFloating}` : ""
+            }`}
+            onClick={(event) => {
+              // 最新の中心を同期値から凍結してから開く（開始時のスライスずれ防止）
+              const latest = contentWindowCenterRef.current;
+              setZoomCenterIndex(
+                Number.isFinite(latest)
+                  ? latest
+                  : Number.isFinite(sceneIndexForPrefetch)
+                    ? sceneIndexForPrefetch
+                    : 0
+              );
+              // カーソル位置を基準に拡大する
+              openZoom(event.clientX, event.clientY);
+            }}
             aria-label="Zoom in on scene"
           >
             <span aria-hidden="true">🔍</span>
@@ -1049,9 +1069,23 @@ const EmakiContainer = ({
             setOepnSidebar(false);
           }}
           onDoubleClick={(e) => {
-            // PC: ダブルクリックで全画面入/切（ボタン・リンク上は無視）
+            // ボタン・リンク上は無視
             if (e.target.closest("button, a, [role='button']")) return;
             if (Date.now() < suppressClickUntilRef.current) return;
+            if (isDesktopPointerDevice()) {
+              // PC: ダブルクリック位置（マウスカーソル座標）を基準にズーム開始
+              const latest = contentWindowCenterRef.current;
+              setZoomCenterIndex(
+                Number.isFinite(latest)
+                  ? latest
+                  : Number.isFinite(sceneIndexForPrefetch)
+                    ? sceneIndexForPrefetch
+                    : 0
+              );
+              openZoom(e.clientX, e.clientY);
+              return;
+            }
+            // SP（タッチデバイス）: 従来どおり全画面 ⇔ 通常表示の切り替え
             handleFullScreen("landscape");
           }}
           onTouchStart={() => {

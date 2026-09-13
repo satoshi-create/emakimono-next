@@ -466,6 +466,8 @@ const useEmakiScroll = ({
     scrollDimsRef,
     liveSceneIndex,
     contentWindowCenter,
+    // state は idle 反映（defer）のため、ズーム開始時など同期値が必要な箇所は ref を参照する
+    contentWindowCenterRef,
   };
 };
 
