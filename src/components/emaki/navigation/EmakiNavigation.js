@@ -5,7 +5,7 @@ import {
   faChevronLeft,
   faChevronRight,
   faCircleQuestion,
-  faCommentDots,
+  faMagnifyingGlass,
   faPlay,
   faStop,
 } from "@fortawesome/free-solid-svg-icons";
@@ -17,7 +17,7 @@ import { AppContext } from "@/context/AppContext";
 import { useTranslation } from "next-i18next";
 
 /**
- * ナビ: 端移動・前後・見方・【大】自動再生・スクロール体験・トグル
+ * ナビ: 端移動・前後・見方・【大】自動再生・ズーム・トグル
  * いいね／共有はタイトル横・段タイトル側
  */
 const EmakiNavigation = ({
@@ -28,8 +28,8 @@ const EmakiNavigation = ({
   isAutoScrolling = false,
   onStartPlayMode,
   onStopPlayMode,
-  onOpenScrollFeedback,
-  showScrollFeedbackButton = true,
+  onOpenZoom,
+  isZoomed = false,
 }) => {
   const endIndex = data.emakis.length - 1;
   const { t } = useTranslation("common");
@@ -115,14 +115,17 @@ const EmakiNavigation = ({
           />
         )
       )}
-      {showScrollFeedbackButton && onOpenScrollFeedback && (
+      {!isZoomed && onOpenZoom && (
         <ActionButton
           icon={
-            <FontAwesomeIcon icon={faCommentDots} style={{ fontSize: "1.35em" }} />
+            <FontAwesomeIcon
+              icon={faMagnifyingGlass}
+              style={{ fontSize: "1.5em" }}
+            />
           }
-          label={t("scrollFeedback.buttonLabel")}
-          description={t("scrollFeedback.buttonLabel")}
-          onClick={onOpenScrollFeedback}
+          label={t("viewer.zoomIn")}
+          description={t("viewer.zoomIn")}
+          onClick={onOpenZoom}
           isUIVisible={isUIVisible}
         />
       )}
