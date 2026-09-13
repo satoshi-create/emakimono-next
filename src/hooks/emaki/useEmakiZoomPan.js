@@ -138,20 +138,22 @@ export default function useEmakiZoomPan({ onOpen } = {}) {
   }, []);
 
   // focusX / focusY（clientX / clientY）を渡すと、その点を基準に拡大を開始する。
-  // 実測前の初期フレームは等倍中央で描画し、レイアウト確定後の useLayoutEffect で
-  // カーソル基準の倍率・パンへ（ペイント前に）補正する。
+  // initialPanX: article の表示原点とオーバーレイ strip 原点を一致させる初期補正（P1）。
+  // 実測前の初期フレームは等倍・補正済みパンで描画し、レイアウト確定後の
+  // useLayoutEffect でカーソル基準の倍率・パンへ（ペイント前に）補正する。
   const openZoom = useCallback(
-    (focusX, focusY) => {
+    (focusX, focusY, initialPanX) => {
       isZoomedRef.current = true;
       setIsZoomed(true);
       focusPointRef.current = {
         x: isFiniteNumber(focusX) ? focusX : null,
         y: isFiniteNumber(focusY) ? focusY : null,
       };
+      const initialPan = isFiniteNumber(initialPanX) ? initialPanX : 0;
       scaleRef.current = FALLBACK_MIN_SCALE;
-      panRef.current = { x: 0, y: 0 };
+      panRef.current = { x: initialPan, y: 0 };
       setScale(FALLBACK_MIN_SCALE);
-      setPanX(0);
+      setPanX(initialPan);
       setPanY(0);
       if (typeof onOpen === "function") onOpen();
     },

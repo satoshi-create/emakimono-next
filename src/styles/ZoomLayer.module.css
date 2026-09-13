@@ -105,19 +105,20 @@
   right: calc(1% + 3.5rem);
   bottom: calc(1.5rem + var(--commentary-bar-full-h, var(--commentary-bar-h, 0px)));
   z-index: 20;
-  width: 2.5rem;
-  height: 2.5rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  padding: 0.35rem;
   border: none;
-  border-radius: 999px;
-  background: rgb(255 255 255 / 85%);
-  color: var(--clr-text);
-  font-size: 1.1rem;
+  background: transparent;
+  /* ナビ（EmakiNavigation / FullScreen）と同じトーン: 白アイコン + hover でアクセント色 */
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 1rem;
   line-height: 1;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 20%);
+  transition: var(--transition);
+  filter: drop-shadow(0 1px 3px rgb(0 0 0 / 45%));
 }
 
 /* 解説バーがフローティング（全画面 or md+横）のときは全画面ボタンと同じコーナー基準 */
@@ -126,7 +127,9 @@
   bottom: 1.5rem;
 }
 
-.trigger:hover {
-  background: var(--clr-accent);
-  color: #fff;
+@media (hover: hover) and (pointer: fine) {
+  .trigger:hover {
+    transform: scale(1.4);
+    color: var(--clr-accent-02);
+  }
 }

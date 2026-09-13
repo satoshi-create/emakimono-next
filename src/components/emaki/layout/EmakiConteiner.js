@@ -25,7 +25,13 @@ import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
 import WheelScrollIndicator from "@/components/emaki/viewer/WheelScrollIndicator";
 import { AppContext } from "@/context/AppContext";
 import { assignUniqueIndex } from "@/utils/emakiItemIndexer";
-import { shouldMountSceneContent } from "@/utils/emakiContentWindow";
+import {
+  estimateSceneIndexFromScrollLeft,
+  sceneWidthPx,
+  shouldMountSceneContent,
+} from "@/utils/emakiContentWindow";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import useEmakiAutoPlay from "@/hooks/emaki/useEmakiAutoPlay";
 import useEmakiPalmDrag from "@/hooks/emaki/useEmakiPalmDrag";
@@ -824,6 +830,26 @@ const EmakiContainer = ({
   // 開く時点の同期値（contentWindowCenterRef）を確定して以降は固定する。
   const [zoomCenterIndex, setZoomCenterIndex] = useState(0);
 
+  // 拡大再開時（isZoomed が true になった直後・ペイント前）に、現在のスクロール位置から
+  // 中心スライスを同期確定する。contentWindowCenter は idle へ遅延反映されるため、
+  // 拡大解除→横スクロール→再拡大のときに前回位置のスライスが一瞬描画される（ちらつき）のを防ぐ。
+  useLayoutEffect(() => {
+    if (!isZoomed) return undefined;
+    const el = articleRef.current;
+    const next =
+      el && el.clientWidth > 0 && el.clientHeight > 0
+        ? estimateSceneIndexFromScrollLeft(
+            data.emakis,
+            el.scrollLeft,
+            el.clientWidth,
+            el.clientHeight,
+            0.5 // ズーム中心はビューポート中央（readingRatio と揃える / P3）
+          )
+        : contentWindowCenterRef.current;
+    if (Number.isFinite(next)) setZoomCenterIndex(next);
+    return undefined;
+  }, [isZoomed, data.emakis, contentWindowCenterRef]);
+
   const ZOOM_NEIGHBOR_COUNT = 1;
 
   // 中央スライスを基準に前後 N 枚（計3枚）を帯として収集する
@@ -854,6 +880,66 @@ const EmakiContainer = ({
     }
     return list;
   }, [processedEmakis, zoomCenterIndex]);
+
+  // 初期 pan アライメント補正（P1）: article のビューポート中央にある内容
+  // （|scrollLeft| + clientWidth / 2）と、オーバーレイ strip 中央（前後スライス帯の
+  // 中央）が指す内容との差分。これで strip の原点が article の表示原点に一致し、
+  // ダブルクリック位置と拡大位置のズレを解消する。
+  const computeZoomAlignPanX = useCallback(
+    (centerIndex, rowHeightPx) => {
+      const el = articleRef.current;
+      const items = processedEmakis;
+      if (!el || !items.length || !(rowHeightPx > 0)) return 0;
+      const c = Math.max(
+        0,
+        Math.min(
+          items.length - 1,
+          Math.round(Number.isFinite(centerIndex) ? centerIndex : 0)
+        )
+      );
+      const from = Math.max(0, c - ZOOM_NEIGHBOR_COUNT);
+      const to = Math.min(items.length - 1, c + ZOOM_NEIGHBOR_COUNT);
+      let offsetFrom = 0;
+      for (let i = 0; i < from; i += 1) {
+        offsetFrom += sceneWidthPx(items[i], rowHeightPx);
+      }
+      let stripWidth = 0;
+      for (let i = from; i <= to; i += 1) {
+        stripWidth += sceneWidthPx(items[i], rowHeightPx);
+      }
+      const viewportCenterFromStart =
+        Math.abs(el.scrollLeft) + el.clientWidth / 2;
+      return viewportCenterFromStart - offsetFrom - stripWidth / 2;
+    },
+    [processedEmakis]
+  );
+
+  // ダブルクリック / 拡大ボタン: 中心スライスと初期 pan を openZoom と同一コミットで
+  // 事前確定してから開く（P2: 古いスライス基準の補正を防ぐ）。
+  const openZoomAtPoint = useCallback(
+    (clientX, clientY) => {
+      const el = articleRef.current;
+      let centerIndex = zoomCenterIndex;
+      if (el && el.clientWidth > 0 && el.clientHeight > 0) {
+        // ズーム中心はビューポート中央（0.5 / P3）
+        const estimated = estimateSceneIndexFromScrollLeft(
+          data.emakis,
+          el.scrollLeft,
+          el.clientWidth,
+          el.clientHeight,
+          0.5
+        );
+        if (Number.isFinite(estimated)) centerIndex = estimated;
+      }
+      setZoomCenterIndex(centerIndex);
+      const initialPanX = computeZoomAlignPanX(
+        centerIndex,
+        el ? el.clientHeight : 0
+      );
+      openZoom(clientX, clientY, initialPanX);
+    },
+    [data.emakis, zoomCenterIndex, computeZoomAlignPanX, openZoom]
+  );
 
   // 描画窓 Phase 1: section 殻は常置、中身は sticky mount（一度載せたら外さない）
   if (contentWindowEmakiRef.current !== data.id) {
@@ -949,21 +1035,16 @@ const EmakiContainer = ({
               commentaryFloating ? ` ${zoomStyles.triggerFloating}` : ""
             }`}
             onClick={(event) => {
-              // 最新の中心を同期値から凍結してから開く（開始時のスライスずれ防止）
-              const latest = contentWindowCenterRef.current;
-              setZoomCenterIndex(
-                Number.isFinite(latest)
-                  ? latest
-                  : Number.isFinite(sceneIndexForPrefetch)
-                    ? sceneIndexForPrefetch
-                    : 0
-              );
-              // カーソル位置を基準に拡大する
-              openZoom(event.clientX, event.clientY);
+              // カーソル位置を基準に拡大する（中心スライスと初期 pan は
+              // openZoomAtPoint が同一コミットで事前確定する）
+              openZoomAtPoint(event.clientX, event.clientY);
             }}
             aria-label="Zoom in on scene"
           >
-            <span aria-hidden="true">🔍</span>
+            <FontAwesomeIcon
+              icon={faMagnifyingGlass}
+              style={{ fontSize: "1.5em" }}
+            />
           </button>
         )}
         {scroll && (
@@ -1074,15 +1155,8 @@ const EmakiContainer = ({
             if (Date.now() < suppressClickUntilRef.current) return;
             if (isDesktopPointerDevice()) {
               // PC: ダブルクリック位置（マウスカーソル座標）を基準にズーム開始
-              const latest = contentWindowCenterRef.current;
-              setZoomCenterIndex(
-                Number.isFinite(latest)
-                  ? latest
-                  : Number.isFinite(sceneIndexForPrefetch)
-                    ? sceneIndexForPrefetch
-                    : 0
-              );
-              openZoom(e.clientX, e.clientY);
+              // （中心スライスと初期 pan は openZoomAtPoint が同一コミットで事前確定する）
+              openZoomAtPoint(e.clientX, e.clientY);
               return;
             }
             // SP（タッチデバイス）: 従来どおり全画面 ⇔ 通常表示の切り替え
