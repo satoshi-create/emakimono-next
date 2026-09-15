@@ -72,6 +72,8 @@ const nextConfig = {
   images: {
     domains: ["res.cloudinary.com"], // Cloudinaryのドメイン
     path: "/_next/image", // デフォルトパス
+    // デスクトップ横画面（75vh × DPR2）で 2048 → 3840 に跳ね上がるのを防ぐ中間段
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 2560, 3840],
   },
   async headers() {
     // dev では 86400s キャッシュを付けない（HMR が古い chunk を掴んで崩れる）

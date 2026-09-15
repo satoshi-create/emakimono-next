@@ -726,10 +726,14 @@ const EmakiContainer = ({
     prevDataId = data.id;
 
     // 計測: セッション環境コンテキスト（paint 後・1セッション1回のみ送信される）
+    // 第2引数は絵巻の総画像枚数（URL 文字列長を渡すと次元が壊れる）
     return runAfterPaint(() => {
-      trackSessionContext(emakiId, backgroundImage?.length || 0);
+      const imageCount = (data.emakis || []).filter(
+        (scene) => scene.cat === "image"
+      ).length;
+      trackSessionContext(emakiId, imageCount);
     });
-  }, [data.id, emakiId, backgroundImage]);
+  }, [data.id, data.emakis, emakiId, backgroundImage]);
 
   useEffect(() => {
     if (scroll) {

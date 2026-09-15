@@ -25,6 +25,8 @@ export function buildCloudinaryUrl(src, transforms = []) {
 
 export function cloudinaryThumbLoader({ src, width, quality }) {
   return buildCloudinaryUrl(src, [
+    // c_limit: 要求幅が原寸を超えても拡大しない（過大配信の抑止）
+    "c_limit",
     "f_auto",
     `w_${width}`,
     `q_${quality || 75}`,

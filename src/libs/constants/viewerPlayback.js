@@ -19,14 +19,14 @@ export const SCENE_READING_POSITION_RATIO = 0.38;
 /** シーン切替ヒステリシス（px）— 現シーンからの優位がこれ未満なら維持 */
 export const SCENE_DETECTION_HYSTERESIS_PX = 80;
 
-/** 再生中の画像先読み（uniqueIndex ベース）— 帯域逼迫抑制のため控えめに */
-export const PLAYBACK_IMAGE_LOOKAHEAD = 8;
+/** 再生中の画像先読み（uniqueIndex ベース）— eager 同時発火を抑え、帯域を可視近傍へ集中 */
+export const PLAYBACK_IMAGE_LOOKAHEAD = 3;
 
 /**
  * 手動スクロール時の画像 eager 先読み（uniqueIndex 差分・前方寄り）。
  * 描画窓に載っただけでは lazy のままなので、マウント＝ロード開始に近づける。
  */
-export const MANUAL_IMAGE_LOOKAHEAD = 6;
+export const MANUAL_IMAGE_LOOKAHEAD = 2;
 
 /**
  * 描画窓（Phase 1）: section 殻は常置し、中身（LazyImage 等）だけ配列 index 付近に限定。
@@ -34,7 +34,7 @@ export const MANUAL_IMAGE_LOOKAHEAD = 6;
  * 一度マウントした中身は sticky（unmount しない）。前方を厚く・後方は薄く（繰り広げ UX）。
  */
 export const CONTENT_WINDOW_BEHIND = 2;
-export const CONTENT_WINDOW_AHEAD = 10;
+export const CONTENT_WINDOW_AHEAD = 6;
 /** @deprecated 対称半径互換。新規は BEHIND/AHEAD を使う */
 export const CONTENT_WINDOW_ENTER_RADIUS = 5;
 /** @deprecated sticky mount 後は未使用（互換のため残置） */

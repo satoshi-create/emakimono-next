@@ -45,6 +45,9 @@ class MyDocument extends Document {
             `,
             }}
           />
+          {/* 絵巻ページ直接流入時の DNS/TLS 遅延削減（一次着地のコールドスタート対策） */}
+          <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+          <link rel="dns-prefetch" href="https://res.cloudinary.com" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
             rel="preconnect"
