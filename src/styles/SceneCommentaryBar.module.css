@@ -516,3 +516,134 @@
 .wrap.dragging .header {
   cursor: grabbing;
 }
+
+/* ===========================
+ * 各帖ダイジェストモーダル（GenjiHubLink variant="icon" から portal 表示）
+ * 絵巻を背景に残したまま帖の概要を読み、必要なら詳細ページへ遷移する
+ * =========================== */
+.genjiModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(20, 20, 20, 0.45);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+
+.genjiModal {
+  width: min(520px, 100%);
+  max-height: min(78vh, 620px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.9rem 1.1rem 1.1rem;
+  border-radius: 14px;
+  background: #fffdf9;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.24);
+  color: var(--clr-text);
+  font-family: var(--font-ui);
+}
+
+.genjiModalHead {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.genjiModalTitle {
+  flex: 0 1 auto;
+  min-width: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--clr-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.genjiModalBadge {
+  flex: 0 0 auto;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--clr-accent);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+.genjiModalClose {
+  flex: 0 0 auto;
+  margin-left: auto;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--clr-text-muted, #666);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.genjiModalClose:hover {
+  color: var(--clr-accent);
+}
+@media (pointer: coarse) {
+  .genjiModalClose {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+.genjiModalRuby {
+  display: block;
+  margin-top: 0.1rem;
+  font-size: 0.72rem;
+  color: var(--clr-text-muted, #666);
+}
+
+.genjiModalFacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--clr-text-muted, #666);
+}
+.genjiModalFactValue {
+  color: var(--clr-text);
+  font-weight: 600;
+}
+
+.genjiModalSummary {
+  margin: 0.65rem 0 0.9rem;
+  font-family: var(--font-story);
+  font-size: 0.86rem;
+  line-height: 1.7;
+  color: #333;
+}
+
+.genjiModalDetailLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  border: 1px solid var(--clr-accent);
+  border-radius: 999px;
+  background: rgba(255, 140, 119, 0.08);
+  color: var(--clr-accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.genjiModalDetailLink:hover {
+  background: var(--clr-accent);
+  color: #fff;
+}

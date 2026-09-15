@@ -1,5 +1,92 @@
 // TypeScriptの型だけをインポートします（ランタイムには影響しない）
+import chaptergenji from "@/data/emaki-text-data/chapters-of-genji.json";
 import type { EmakiTextData } from "@/types/emaki.ts";
+
+/** 源氏54帖マスター（chapters-of-genji.json）の1帖ぶんの形 */
+type GenjiChapterRecord = {
+  path?: string;
+  titleen?: string;
+  title?: string;
+  ruby?: string;
+  chapter_en?: string | number;
+  chapter_ch?: string;
+  age?: string;
+  ageen?: string;
+  "main-character"?: string;
+  mainCharacteren?: string;
+  "main-character-en"?: string;
+  summary?: string;
+  summaryen?: string;
+  gendaibun?: string;
+  gendaibunen?: string;
+  kobun?: string;
+  kobunen?: string;
+};
+
+const genjiChapters = chaptergenji as GenjiChapterRecord[];
+
+/**
+ * genji_chapter（帖番号）または帖スラグ（path）から帖マスターを引く。
+ * 該当がなければ undefined（呼び出し側は空表示へ安全にフォールバックする）。
+ */
+export const findGenjiChapter = (
+  genjiChapter: string | number | null | undefined
+): GenjiChapterRecord | undefined => {
+  const key = String(genjiChapter ?? "").trim();
+  if (!key) return undefined;
+  return genjiChapters.find(
+    (item) => key === String(item.chapter_en) || key === String(item.path)
+  );
+};
+
+/**
+ * 詞書がない段（絵単独の段）へバインドする帖テキスト。
+ * ロケール別に分けて返し、未整備のフィールドは空のまま（日本語へ落とさない）。
+ */
+export const connectGenjiChapterFallback = (
+  genjiChapter: string | number | null | undefined
+) => {
+  const row = findGenjiChapter(genjiChapter);
+  if (!row) return null;
+  return {
+    summary: row.summary || "",
+    summaryen: row.summaryen || "",
+    gendaibun: row.gendaibun || "",
+    gendaibunen: row.gendaibunen || "",
+    kobun: row.kobun || "",
+    kobunen: row.kobunen || "",
+  };
+};
+
+/**
+ * 帖ダイジェストモーダル用の表示データ（タイトル・巻立・主な人物・あらすじ）。
+ * locale が en のときは英語フィールドを優先し、無ければ日本語へフォールバックする。
+ */
+export const getGenjiChapterDigest = (
+  genjiChapter: string | number | null | undefined,
+  locale?: string
+) => {
+  const row = findGenjiChapter(genjiChapter);
+  if (!row) return null;
+  const isEn = locale === "en";
+  const pick = (ja?: string, en?: string) => (isEn ? en || ja : ja) || "";
+  return {
+    path: row.path || row.titleen || "",
+    title: row.title || "",
+    titleen: row.titleen || row.path || "",
+    ruby: row.ruby || "",
+    chapterEn: row.chapter_en ?? "",
+    chapterCh: row.chapter_ch || "",
+    age: pick(row.age, row.ageen),
+    mainCharacter: pick(
+      row["main-character"],
+      row.mainCharacteren || row["main-character-en"]
+    ),
+    summary: pick(row.summary, row.summaryen),
+    gendaibun: pick(row.gendaibun, row.gendaibunen),
+    kobun: pick(row.kobun, row.kobunen),
+  };
+};
 
 /**
  * 絵巻テキストデータ（JSON）を動的に読み込み、

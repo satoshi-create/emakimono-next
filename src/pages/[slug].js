@@ -9,6 +9,7 @@ import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
 import { OGP_IMAGE_FALLBACKS } from "@/libs/constants/emakiOgImages";
 import { AppContext } from "@/context/AppContext";
 import { SceneLikeCountsProvider } from "@/context/SceneLikeCountsContext";
+import { connectGenjiChapterFallback } from "@/utils/connectEmakiText";
 import { buildEmakiJsonLd } from "@/utils/buildEmakiJsonLd";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
@@ -191,6 +192,24 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
   );
 };
 
+// 詞書がない段（絵単独の段）でも、帖番号（genji_chapter）があれば
+// chapters-of-genji.json の「あらすじ/現代文/古文」をテキスト表示へバインドする。
+// 巻別 JSON に既値がある場合はそちらを優先し、該当帖が無ければ元の item をそのまま返す。
+const withGenjiChapterText = (item) => {
+  if (!item.genji_chapter) return item;
+  const fallback = connectGenjiChapterFallback(item.genji_chapter);
+  if (!fallback) return item;
+  return {
+    ...item,
+    desc: item.desc || fallback.summary,
+    descen: item.descen || fallback.summaryen,
+    gendaibun: item.gendaibun || fallback.gendaibun,
+    gendaibunen: item.gendaibunen || fallback.gendaibunen,
+    kobun: item.kobun || fallback.kobun,
+    kobunen: item.kobunen || fallback.kobunen,
+  };
+};
+
 export const getStaticPaths = async () => {
   const activeEmakis = emakisData.filter(
     (item) => !isWithdrawnScroll(item.titleen)
@@ -257,7 +276,7 @@ export const getStaticProps = async (context) => {
         (a, b) => (a.linkId > b.linkId ? 1 : -1)
       );
 
-      return { ...item, emakis: sortConcatFilterAddObjEmakis };
+      return { ...item, emakis: sortConcatFilterAddObjEmakis.map(withGenjiChapterText) };
     })
     .find((item) => item);
 
