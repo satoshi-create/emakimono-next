@@ -11,6 +11,7 @@ import {
 } from "@/data/image-metadata-cache/image-metadata-cache.json";
 import styles from "@/styles/GenjiHub.module.css";
 import { removeNestedEmakisObj } from "@/utils/func";
+import { genjiChapterHref } from "@/utils/buildGenjiHubData";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -32,6 +33,8 @@ const GenjiChapter = ({
   mainCharacteren,
   scenes = [],
   sourceUrl,
+  sourceKobunUrl,
+  sourceGendaibunUrl,
   posts,
 }) => {
   const { locale } = useRouter();
@@ -48,11 +51,13 @@ const GenjiChapter = ({
       id: "gendaibun",
       label: isEn ? "Modern Japanese" : "現代文",
       body: isEn ? gendaibunen || gendaibun : gendaibun,
+      source: sourceGendaibunUrl,
     },
     {
       id: "kobun",
       label: isEn ? "Classical Japanese" : "古文",
       body: isEn ? kobunen || kobun : kobun,
+      source: sourceKobunUrl,
     },
   ];
   const availableTabs = tabDefs.filter((tab) => Boolean(tab.body));
@@ -131,6 +136,22 @@ const GenjiChapter = ({
               ))}
             </div>
             <p className={styles.chapterDetailSummary}>{currentTab.body}</p>
+            {currentTab.source && (
+              <a
+                className={styles.sourceLink}
+                href={currentTab.source}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {currentTab.id === "kobun"
+                  ? isEn
+                    ? "Open the classical text (source) ↗"
+                    : "出典・底本（古文）を開く ↗"
+                  : isEn
+                  ? "Open the modern translation (source) ↗"
+                  : "出典・底本（現代文）を開く ↗"}
+              </a>
+            )}
           </div>
         )}
         {sourceUrl && (
@@ -221,7 +242,8 @@ export const getStaticProps = async (context) => {
   );
 
   const removeNestedArrayObj = filterdEmakisData.map((item) => {
-    return removeNestedEmakisObj(item);
+    const viewerHref = genjiChapterHref(item, chapterGenji.chapter_en);
+    return { ...removeNestedEmakisObj(item), viewerHref };
   });
 
   return {
@@ -251,6 +273,10 @@ export const getStaticProps = async (context) => {
         null,
       scenes: chapterGenji.scene || [],
       sourceUrl: chapterGenji.url || chapterGenji.source || null,
+      // 古文は 404 回避のため渋谷栄一校訂版（Wikisource）へ一律固定
+      sourceKobunUrl:
+        "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E_(%E6%B8%8B%E8%B0%B7%E6%A0%84%E4%B8%80%E6%A0%A1%E8%A8%82)",
+      sourceGendaibunUrl: chapterGenji.source_gendaibun_url || null,
       posts: removeNestedArrayObj,
     },
   };

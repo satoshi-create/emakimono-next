@@ -34,6 +34,7 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
     return { rank: index + 1, pageView: rankingData[index].pageView };
   }, [rankingData, titleen]);
 
+  const viewerHref = item.viewerHref || `/${titleen}`;
   const filterDesc = desc.substring(0, 40);
   const descTemp = `${title} ${
     author && `（${author}）`
@@ -52,7 +53,7 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
       )}
       <div className={styles.card}>
         <div className={styles.single}>
-          <Link href={`/${titleen}`}>
+          <Link href={viewerHref}>
             <a className={styles.singleLink}>
               <Image
                 src={thumb}
@@ -94,7 +95,7 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
             )}
           </div>
           <div className={styles.contentBlock}>
-            <Link href={`/${titleen}`}>
+            <Link href={viewerHref}>
               <a>
                 <h3 className={styles.title}>
                   {locale === "ja" ? title : titleen} {locale === "ja" && edition}
@@ -120,7 +121,7 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
           )}
           {variant !== "editionlink" && (
             <div className={styles.viewemaki}>
-              <Link href={`/${titleen}`}>
+              <Link href={viewerHref}>
                 <a>
                   <button className={styles.viewemakiBtn}>
                     {locale === "en"

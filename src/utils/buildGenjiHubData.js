@@ -66,6 +66,47 @@ export function scrollHasGenjiChapter(scroll, chapter) {
 }
 
 /**
+ * Viewer scene index (linkId) of a Genji chapter inside one scroll.
+ * src/pages/[slug].js は image 群＋ekotoba 群を concat 後に linkId で再ソートするため、
+ * 最終順序＝メタデータ `emakis` の元配列順。よってアンカーは元インデックスを返す。
+ */
+export function genjiChapterSceneHash(scroll, chapterKey) {
+  const key = chapterKey == null ? null : String(chapterKey);
+  if (!key || !Array.isArray(scroll?.emakis)) return null;
+
+  const scenes = scroll.emakis;
+
+  // 詞書 (ekotoba) が帖を明示する → その元インデックスがビューアーの linkId
+  const ekotobaIndex = scenes.findIndex(
+    (s) =>
+      s.cat === "ekotoba" &&
+      String(s.genji_chapter || s.chapter || "") === key
+  );
+  if (ekotobaIndex >= 0) return ekotobaIndex;
+
+  // 詞書が無い帖: 直前の詞書を継承した絵の元インデックスへフォールバック
+  let currentChapter = null;
+  for (let i = 0; i < scenes.length; i += 1) {
+    const scene = scenes[i];
+    if (scene.cat === "ekotoba") {
+      const c = scene.genji_chapter || scene.chapter;
+      if (c) currentChapter = String(c);
+      continue;
+    }
+    if (scene.cat === "image" && currentChapter === key) return i;
+  }
+
+  return null;
+}
+
+/** Deep link to the scene of `chapterKey` in `scroll` (falls back to scroll top). */
+export function genjiChapterHref(scroll, chapterKey) {
+  if (!scroll?.titleen) return null;
+  const hash = genjiChapterSceneHash(scroll, chapterKey);
+  return hash == null ? `/${scroll.titleen}` : `/${scroll.titleen}#${hash}`;
+}
+
+/**
  * Hub data for /genji/chapters-genji — 54 chapters, scroll columns, and mappings.
  * Keys scrolls by titleen (stable across locales).
  */
@@ -89,10 +130,24 @@ export function buildGenjiHubData() {
     chapterPaths: emaki.genjieslug.map((s) => s.path),
   }));
 
+  // Raw scrolls (emakis kept) for chapter → scene deep links
+  const rawScrollByTitleen = {};
+  emakisMetadata
+    .filter((emaki) => isGenjiScroll(emaki) && !isWithdrawnScroll(emaki.titleen))
+    .forEach((emaki) => {
+      rawScrollByTitleen[emaki.titleen] = emaki;
+    });
+
   const chapterList = chapters.map((chapter) => {
     const scrollTitleens = scrolls
       .filter((scroll) => scroll.chapterPaths.includes(chapter.path))
       .map((scroll) => scroll.titleen);
+
+    // Viewer deep link per scroll: /{titleen}#{sceneIndex}
+    const viewerHrefs = scrollTitleens.map((titleen) => ({
+      titleen,
+      href: genjiChapterHref(rawScrollByTitleen[titleen], chapter.chapter_en),
+    }));
 
     // Representative thumbnail: first scroll that covers this chapter
     const thumb = scrollTitleens.map((t) => thumbMap[t]).find(Boolean) ?? null;
@@ -118,6 +173,9 @@ export function buildGenjiHubData() {
       descen: chapter.descen ?? null,
       scenes: chapter.scene ?? [],
       sourceUrl: chapter.url ?? chapter.source ?? null,
+      sourceKobunUrl: chapter.source_kobun_url ?? null,
+      sourceGendaibunUrl: chapter.source_gendaibun_url ?? null,
+      viewerHrefs,
       scrollTitleens,
       hasScroll: scrollTitleens.length > 0,
       thumb,
