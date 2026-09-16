@@ -5,23 +5,37 @@
  * ZoomLayer 内で完結して scale / panX / panY を管理する。RTL の横スクロール座標系や
  * 背後の <article> のイベントには一切干渉しない。
  *
+ * ジェスチャ（2本指ピンチ / Ctrl・⌘+ホイール / ズーム中のホイール）は
+ * entry-container（containerRef）へ常時登録し、通常スクロールからズーム状態へ
+ * モードレスに移行する。等倍（1.0）まで縮小すると通常スクロールへ自動復帰する。
+ *
  * pan はコンテンツ実寸（.strip）と可視領域（.stage）から算出した可動域へ
  * 常にクランプする。縮小時の最小倍率は「画像の縦幅がコンテナ縦幅に収まる fit」
  * を下限とし、上下に背景（黒帯）が露出しないようにする。
  */
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
-const DEFAULT_SCALE = 1.8;
+const DEFAULT_SCALE = 2;
 const MAX_SCALE = 3;
 const ZOOM_STEP = 0.2;
 const WHEEL_ZOOM_RATE = 0.002;
-const FALLBACK_MIN_SCALE = 1;
+const FALLBACK_MIN_SCALE = 1; // 等倍（これ以下は通常スクロールへ復帰）
+// ピンチイン / ホイール縮小が等倍まで戻ったときの復帰判定閾値
+const MIN_SCALE_EPSILON = 0.001;
+// ジェスチャ中に一度でもこの値以上まで拡大した場合のみ「ピンチイン復帰」を有効にする
+// （等倍で始まるピンチアウト開始直後に誤って即復帰しないためのガード）
+const PINCH_PEAK_EPSILON = 0.05;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const isFiniteNumber = (value) =>
   typeof value === "number" && Number.isFinite(value);
 
-export default function useEmakiZoomPan({ onOpen } = {}) {
+export default function useEmakiZoomPan({
+  onOpen,
+  onDoubleTap,
+  containerRef,
+  requestZoomRef,
+} = {}) {
   const [isZoomed, setIsZoomed] = useState(false);
   const [scale, setScale] = useState(DEFAULT_SCALE);
   const [panX, setPanX] = useState(0);
@@ -34,8 +48,8 @@ export default function useEmakiZoomPan({ onOpen } = {}) {
   const isZoomedRef = useRef(false);
   const scaleRef = useRef(DEFAULT_SCALE);
   const panRef = useRef({ x: 0, y: 0 });
-  // 拡大開始時に基準とするカーソル座標（viewport 座標）。null なら中央基準
-  const focusPointRef = useRef({ x: null, y: null });
+  // 拡大開始時に基準とするカーソル座標（viewport 座標）と初期倍率。null なら中央基準
+  const focusPointRef = useRef({ x: null, y: null, scale: DEFAULT_SCALE });
   // 直近のカーソル位置（+/- ボタン・ホイールでのズーム基準）
   const cursorRef = useRef({ x: null, y: null });
   // ダブルクリック判定（拡大中にダブルクリックで横スクロールへ戻す）
@@ -49,7 +63,13 @@ export default function useEmakiZoomPan({ onOpen } = {}) {
     startScale: DEFAULT_SCALE,
     prevCenterX: 0,
     prevCenterY: 0,
+    peakScale: DEFAULT_SCALE, // このジェスチャで到達した最大倍率（ピンチイン復帰判定）
+    exited: false, // 等倍へ復帰済み（指を離すまで再進入しない）
   });
+
+  // ダブルタップ（全画面切替）は毎レンダー再生成されるため ref 経由で最新版を参照する
+  const onDoubleTapRef = useRef(onDoubleTap);
+  onDoubleTapRef.current = onDoubleTap;
 
   // 縦幅がコンテナに収まる倍率（これ以上縮小させない = 上下の背景露出を防ぐ）
   const getFitScale = useCallback(() => {
@@ -139,7 +159,7 @@ export default function useEmakiZoomPan({ onOpen } = {}) {
     setIsZoomed(false);
     scaleRef.current = DEFAULT_SCALE;
     panRef.current = { x: 0, y: 0 };
-    focusPointRef.current = { x: null, y: null };
+    focusPointRef.current = { x: null, y: null, scale: DEFAULT_SCALE };
     lastTapRef.current = { time: 0, x: 0, y: 0 };
     setScale(DEFAULT_SCALE);
     setPanX(0);
@@ -147,6 +167,8 @@ export default function useEmakiZoomPan({ onOpen } = {}) {
     dragRef.current = null;
     touchRef.current.mode = null;
     touchRef.current.startDist = 0;
+    // 等倍復帰: 指を離すまでピンチで再進入しない
+    touchRef.current.exited = true;
   }, []);
 
   // focusX / focusY（clientX / clientY）を渡すと、その点を基準に拡大を開始する。
@@ -154,17 +176,22 @@ export default function useEmakiZoomPan({ onOpen } = {}) {
   // 実測前の初期フレームは等倍・補正済みパンで描画し、レイアウト確定後の
   // useLayoutEffect でカーソル基準の倍率・パンへ（ペイント前に）補正する。
   const openZoom = useCallback(
-    (focusX, focusY, initialPanX) => {
+    (focusX, focusY, initialPanX, initialScale) => {
       // 先に pan/scale を確定してから isZoomed を立てる。
       // （レイヤーは isZoomed=true で初描画されるため、未初期化値の描画＝ちらつきを防ぐ）
+      // initialScale: ボタン/ダブルクリックは既定倍率、ピンチ/ホイールは等倍から開始する
+      const startScale = isFiniteNumber(initialScale)
+        ? clamp(initialScale, FALLBACK_MIN_SCALE, MAX_SCALE)
+        : DEFAULT_SCALE;
       focusPointRef.current = {
         x: isFiniteNumber(focusX) ? focusX : null,
         y: isFiniteNumber(focusY) ? focusY : null,
+        scale: startScale,
       };
       const initialPan = isFiniteNumber(initialPanX) ? initialPanX : 0;
-      scaleRef.current = FALLBACK_MIN_SCALE;
+      scaleRef.current = startScale;
       panRef.current = { x: initialPan, y: 0 };
-      setScale(FALLBACK_MIN_SCALE);
+      setScale(startScale);
       setPanX(initialPan);
       setPanY(0);
       // 実測後（useLayoutEffect・ペイント前）にカーソル基準の最終倍率・パンへ補正する
@@ -184,21 +211,37 @@ export default function useEmakiZoomPan({ onOpen } = {}) {
       ),
     [applyScaleAtPoint]
   );
-  const zoomOut = useCallback(
-    () =>
-      applyScaleAtPoint(
-        scaleRef.current - ZOOM_STEP,
-        cursorRef.current.x,
-        cursorRef.current.y
-      ),
-    [applyScaleAtPoint]
+  const zoomOut = useCallback(() => {
+    const applied = applyScaleAtPoint(
+      scaleRef.current - ZOOM_STEP,
+      cursorRef.current.x,
+      cursorRef.current.y
+    );
+    // 等倍まで縮小したら通常スクロール状態へ自動復帰する（モードレス）
+    if (applied <= getFitScale() + MIN_SCALE_EPSILON) resetZoom();
+    return applied;
+  }, [applyScaleAtPoint, getFitScale, resetZoom]);
+
+  // 右下ズームボタン: 等倍（FALLBACK_MIN_SCALE）⇔ 既定倍率（DEFAULT_SCALE）をトグルする。
+  // focusX / focusY 未指定なら表示中央基準で拡大する。
+  const toggleZoom = useCallback(
+    (focusX, focusY) => {
+      if (isZoomedRef.current) {
+        resetZoom();
+        return;
+      }
+      if (typeof requestZoomRef?.current === "function") {
+        requestZoomRef.current(focusX, focusY, DEFAULT_SCALE);
+      }
+    },
+    [requestZoomRef, resetZoom]
   );
 
   // ズーム進入直後（ref 実測後・ペイント前）にカーソル基準の初期倍率・パンを確定する
   useLayoutEffect(() => {
     if (!isZoomed) return undefined;
-    const { x, y } = focusPointRef.current;
-    applyScaleAtPoint(DEFAULT_SCALE, x, y);
+    const { x, y, scale: focusScale } = focusPointRef.current;
+    applyScaleAtPoint(focusScale, x, y);
     return undefined;
   }, [isZoomed, applyScaleAtPoint]);
 
@@ -222,34 +265,49 @@ export default function useEmakiZoomPan({ onOpen } = {}) {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [isZoomed, resetZoom]);
 
-  // ホイール: React の合成 onWheel は passive のためネイティブ登録で preventDefault する。
-  // 背後の <article>（useEmakiScroll の wheel ハンドラ）へは stopPropagation で透過させない。
+  // ホイール / タッチ（SP・TB）: entry-container へ常時ネイティブ登録する。
+  // ZoomLayer は isZoomed のときだけ描画されるため、レイヤー単体では
+  // 「通常スクロール → ピンチ/ホイールでシームレスにズームへ」を拾えない。
+  //  - 2本指ピンチアウト（タッチ）: 触れた瞬間に等倍でズーム状態へ入る（モードレス移行）
+  //  - 2本指ピンチイン: 等倍まで縮小した時点で通常スクロール状態へ自動復帰
+  //  - Ctrl/⌘ + ホイール（トラックパッドのピンチ）: カーソル位置基準で拡大
+  //  - ズーム中のホイール: カーソル位置基準で拡大縮小
+  //  通常のホイール回転は横スクロール（article のハンドラ）へ委ねる。
   useEffect(() => {
-    const el = zoomRef.current;
-    if (!isZoomed || !el) return undefined;
+    const el = containerRef?.current;
+    if (!el) return undefined;
+
     const onWheel = (event) => {
+      if (!event.deltaY) return;
+      const zooming = isZoomedRef.current;
+      if (!zooming && !(event.ctrlKey || event.metaKey)) return;
       event.stopPropagation();
       event.preventDefault();
-      if (!event.deltaY) return;
-      cursorRef.current = { x: event.clientX, y: event.clientY };
       // Firefox 等の deltaMode（1: line, 2: page）を px 相当へ正規化
       const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? 100 : 1;
       const delta = event.deltaY * unit;
-      applyScaleAtPoint(
-        scaleRef.current - delta * WHEEL_ZOOM_RATE,
-        event.clientX,
-        event.clientY
-      );
+      cursorRef.current = { x: event.clientX, y: event.clientY };
+      if (!zooming) {
+        // 等倍以下へ縮小する向きではズーム状態へ入らない
+        if (delta >= 0) return;
+        if (typeof requestZoomRef?.current === "function") {
+          requestZoomRef.current(
+            event.clientX,
+            event.clientY,
+            FALLBACK_MIN_SCALE
+          );
+        }
+      }
+      const next = scaleRef.current - delta * WHEEL_ZOOM_RATE;
+      focusPointRef.current = {
+        x: event.clientX,
+        y: event.clientY,
+        scale: next,
+      };
+      const applied = applyScaleAtPoint(next, event.clientX, event.clientY);
+      // 等倍まで縮小したら通常スクロール状態へ自動復帰する（モードレス）
+      if (applied <= getFitScale() + MIN_SCALE_EPSILON) resetZoom();
     };
-    el.addEventListener("wheel", onWheel, { passive: false });
-    return () => el.removeEventListener("wheel", onWheel);
-  }, [isZoomed, applyScaleAtPoint]);
-
-  // タッチ（SP）: 1本指ドラッグでパン、2本指ピンチで拡大縮小。
-  // React 合成イベントは passive のため、wheel と同様にネイティブ登録で preventDefault する。
-  useEffect(() => {
-    const el = zoomRef.current;
-    if (!isZoomed || !el) return undefined;
 
     const onTouchStart = (event) => {
       if (event.target.closest?.("button, a, [role='button']")) return;
@@ -258,26 +316,51 @@ export default function useEmakiZoomPan({ onOpen } = {}) {
       if (touches.length >= 2) {
         const [a, b] = [touches[0], touches[1]];
         const dist = Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
+        const cx = (a.clientX + b.clientX) / 2;
+        const cy = (a.clientY + b.clientY) / 2;
+        t.exited = false;
+        lastTapRef.current = { time: 0, x: 0, y: 0 };
+        // モードレス移行: 触れた瞬間に等倍でズーム状態へ入る
+        if (
+          !isZoomedRef.current &&
+          typeof requestZoomRef?.current === "function"
+        ) {
+          requestZoomRef.current(cx, cy, FALLBACK_MIN_SCALE);
+        }
         t.mode = "pinch";
         t.startDist = dist > 0 ? dist : 1;
         t.startScale = scaleRef.current;
-        t.prevCenterX = (a.clientX + b.clientX) / 2;
-        t.prevCenterY = (a.clientY + b.clientY) / 2;
-        cursorRef.current = { x: t.prevCenterX, y: t.prevCenterY };
+        t.peakScale = scaleRef.current;
+        t.prevCenterX = cx;
+        t.prevCenterY = cy;
+        cursorRef.current = { x: cx, y: cy };
         event.preventDefault();
         return;
       }
       if (touches.length === 1) {
         const p = touches[0];
         cursorRef.current = { x: p.clientX, y: p.clientY };
-        // 拡大表示中のダブルタップ: 横スクロール画像の表示へ戻す
         const now = Date.now();
         const prev = lastTapRef.current;
-        if (
+        const isDoubleTap =
           now - prev.time < 320 &&
           Math.abs(p.clientX - prev.x) < 24 &&
-          Math.abs(p.clientY - prev.y) < 24
-        ) {
+          Math.abs(p.clientY - prev.y) < 24;
+        if (!isZoomedRef.current) {
+          // 通常スクロール中: ダブルタップは全画面切替（ズームは発火させない）
+          if (isDoubleTap) {
+            lastTapRef.current = { time: 0, x: 0, y: 0 };
+            if (typeof onDoubleTapRef.current === "function") {
+              onDoubleTapRef.current();
+            }
+            return;
+          }
+          lastTapRef.current = { time: now, x: p.clientX, y: p.clientY };
+          t.mode = null;
+          return; // 1本指スワイプはネイティブの横スクロールへ委ねる
+        }
+        // 拡大表示中のダブルタップ: 等倍へ戻して通常スクロールへ復帰
+        if (isDoubleTap) {
           lastTapRef.current = { time: 0, x: 0, y: 0 };
           t.mode = null;
           event.preventDefault();
@@ -300,18 +383,49 @@ export default function useEmakiZoomPan({ onOpen } = {}) {
         const dist = Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
         const cx = (a.clientX + b.clientX) / 2;
         const cy = (a.clientY + b.clientY) / 2;
+        // 等倍まで縮小して通常スクロールへ復帰済み: 指を離すまで再進入しない
+        if (t.exited) {
+          event.preventDefault();
+          return;
+        }
+        if (!isZoomedRef.current) {
+          // 等倍へ戻した直後に再び広げた場合は再度ズーム状態へ入る（モードレス）
+          if (typeof requestZoomRef?.current !== "function") return;
+          requestZoomRef.current(cx, cy, FALLBACK_MIN_SCALE);
+        }
         if (t.mode !== "pinch") {
           // 2本目が後から触れた場合はこのフレームを基準にする
           t.mode = "pinch";
           t.startDist = dist > 0 ? dist : 1;
           t.startScale = scaleRef.current;
+          t.peakScale = scaleRef.current;
           t.prevCenterX = cx;
           t.prevCenterY = cy;
+          event.preventDefault();
           return;
         }
         const ratio = dist > 0 && t.startDist > 0 ? dist / t.startDist : 1;
-        const target = clamp(t.startScale * ratio, getFitScale(), MAX_SCALE);
+        const minScale = getFitScale();
+        const rawTarget = t.startScale * ratio;
+        if (rawTarget > t.peakScale) t.peakScale = rawTarget;
+        // ピンチイン: 等倍まで縮小した時点で通常スクロール状態へ自動復帰する
+        if (
+          rawTarget <= minScale + MIN_SCALE_EPSILON &&
+          t.peakScale > minScale + PINCH_PEAK_EPSILON
+        ) {
+          t.mode = "pinch";
+          t.exited = true;
+          event.preventDefault();
+          resetZoom();
+          return;
+        }
+        const target = clamp(rawTarget, minScale, MAX_SCALE);
         // ピンチ中心を基準に拡大縮小し、指の移動分は平行移動として加算する
+        focusPointRef.current = {
+          x: t.prevCenterX,
+          y: t.prevCenterY,
+          scale: target,
+        };
         applyScaleAtPoint(target, t.prevCenterX, t.prevCenterY);
         const [nextX, nextY] = clampPan(
           panRef.current.x + (cx - t.prevCenterX),
@@ -329,6 +443,7 @@ export default function useEmakiZoomPan({ onOpen } = {}) {
       }
       if (touches.length === 1) {
         const p = touches[0];
+        if (!isZoomedRef.current) return; // 通常スクロールはネイティブに委ねる
         if (t.mode !== "pan") {
           // ピンチ → 1本指へ移行: パン基準をリセット
           t.mode = "pan";
@@ -366,20 +481,23 @@ export default function useEmakiZoomPan({ onOpen } = {}) {
       if (touches.length === 0) {
         t.mode = null;
         t.startDist = 0;
+        t.exited = false;
       }
     };
 
+    el.addEventListener("wheel", onWheel, { passive: false });
     el.addEventListener("touchstart", onTouchStart, { passive: false });
     el.addEventListener("touchmove", onTouchMove, { passive: false });
     el.addEventListener("touchend", onTouchEnd, { passive: false });
     el.addEventListener("touchcancel", onTouchEnd, { passive: false });
     return () => {
+      el.removeEventListener("wheel", onWheel);
       el.removeEventListener("touchstart", onTouchStart);
       el.removeEventListener("touchmove", onTouchMove);
       el.removeEventListener("touchend", onTouchEnd);
       el.removeEventListener("touchcancel", onTouchEnd);
     };
-  }, [isZoomed, applyScaleAtPoint, clampPan, getFitScale, resetZoom]);
+  }, [containerRef, applyScaleAtPoint, clampPan, getFitScale, resetZoom]);
 
   const onPointerDown = useCallback(
     (event) => {
@@ -462,6 +580,7 @@ export default function useEmakiZoomPan({ onOpen } = {}) {
     resetZoom,
     zoomIn,
     zoomOut,
+    toggleZoom,
     handlers: {
       onPointerDown,
       onPointerMove,

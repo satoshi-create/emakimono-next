@@ -79,8 +79,10 @@
 
 .controls {
   position: absolute;
-  right: 1rem;
-  bottom: 1rem;
+  /* 右下は「ズームトグル + 全画面」ボタンが並ぶため、中央下部のコントロールバーへ置く */
+  left: 50%;
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
   z-index: 1;
   display: flex;
   align-items: center;
@@ -119,37 +121,20 @@
   color: var(--clr-text-muted);
 }
 
-.trigger {
+/* 右下の全画面ボタンの左隣に置くズームトグル。
+   ActionButton（variant="fullscreen"）の配置をそのまま流用し、アンカーごと左へずらす */
+.toggleAnchor {
   position: absolute;
-  /* 絵巻コンテナ右上（左下のナビ／右下の全画面と重ならないコーナー） */
-  top: calc(1% + env(safe-area-inset-top, 0px));
-  right: calc(1% + env(safe-area-inset-right, 0px));
-  z-index: 20;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.35rem;
-  border: none;
-  background: transparent;
-  /* ナビ（EmakiNavigation / FullScreen）と同じトーン: 白アイコン + hover でアクセント色 */
-  color: #fff;
-  font-family: var(--font-ui);
-  font-size: 1rem;
-  line-height: 1;
-  cursor: pointer;
-  transition: var(--transition), opacity 0.25s ease;
-  filter: drop-shadow(0 1px 3px rgb(0 0 0 / 45%));
-}
-
-/* ナビメニュー（useEmakiIdleUI）の自動非表示と連動してフェードアウト */
-.triggerHidden {
-  opacity: 0;
+  inset: 0;
+  /* ズームレイヤー（z-index: 40）より前面: 拡大中もトグルで等倍へ戻せる */
+  z-index: 50;
   pointer-events: none;
+  transform: translateX(-3rem);
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .trigger:hover {
-    transform: scale(1.4);
-    color: var(--clr-accent-02);
+@media (max-width: 767.98px) {
+  .toggleAnchor {
+    /* SP/TB はボタンサイズが sm のため控えめにずらす */
+    transform: translateX(-2.5rem);
   }
 }

@@ -6,6 +6,7 @@
  */
 import EmakiInfo from "@/components/emaki/metadata/EmakiInfo";
 import EmakiNavigation from "@/components/emaki/navigation/EmakiNavigation";
+import ActionButton from "@/components/emaki/viewer/ActionButton";
 import FullScreen from "@/components/emaki/viewer/FullScreen";
 import ZoomLayer from "@/components/emaki/viewer/ZoomLayer";
 import {
@@ -30,7 +31,10 @@ import {
   sceneWidthPx,
   shouldMountSceneContent,
 } from "@/utils/emakiContentWindow";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMagnifyingGlass,
+  faMagnifyingGlassMinus,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import useEmakiAutoPlay from "@/hooks/emaki/useEmakiAutoPlay";
@@ -98,13 +102,6 @@ const EndNudgeCard = dynamic(
 // モジュールスコープに配置することで、コンポーネント再マウント時も前回値を保持
 let prevDataId = null;
 
-// デスクトップ（精密ポインタ + ホバー可）判定。SP／タッチのみの端末では全画面切替を維持する
-const isDesktopPointerDevice = () =>
-  typeof window !== "undefined" &&
-  typeof window.matchMedia === "function" &&
-  window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-
-
 const EmakiContainer = ({
   data,
   height,
@@ -136,6 +133,10 @@ const EmakiContainer = ({
   const wrapperRef = useRef();
   const articleRef = useRef();
   const entryContainerRef = useRef(null);
+  // ピンチ / Ctrl+ホイール（トラックパッド）からの即時ズーム進入（実体は下部で配線）
+  const enterZoomRef = useRef(null);
+  // タッチのダブルタップで全画面切替した直後の synthetic dblclick を無視する
+  const touchDoubleTapAtRef = useRef(0);
   const scrollNextRef = useRef(null);
   const scrollPrevRef = useRef(null);
 
@@ -617,8 +618,17 @@ const EmakiContainer = ({
   const { isPalmMode, suppressClickUntilRef, palmActiveRef } =
     useEmakiPalmDrag(articleRef);
 
+  // タッチのダブルタップ（通常スクロール中）: 全画面表示のトグルへ一本化する。
+  // その直後に発火しうる synthetic dblclick はタイムスタンプで無視する。
+  const handleViewerDoubleTap = useCallback(() => {
+    touchDoubleTapAtRef.current = Date.now();
+    handleFullScreen("landscape");
+  }, [handleFullScreen]);
+
   // ズーム＆パン（兄弟オーバーレイ方式）: 既存スクロール系フックとは独立して動作する。
   // ズーム進入時は自動再生を止めて背後の自動移動を防ぐ。
+  // containerRef: ジェスチャ（ピンチ / Ctrl+ホイール）を常時受ける entry-container。
+  // requestZoomRef: 等倍からズーム状態へ入るための同期進入関数（下部で配線）。
   const {
     isZoomed,
     scale: zoomScale,
@@ -631,8 +641,14 @@ const EmakiContainer = ({
     resetZoom,
     zoomIn,
     zoomOut,
+    toggleZoom,
     handlers: zoomHandlers,
-  } = useEmakiZoomPan({ onOpen: stopPlayMode });
+  } = useEmakiZoomPan({
+    onOpen: stopPlayMode,
+    onDoubleTap: handleViewerDoubleTap,
+    containerRef: entryContainerRef,
+    requestZoomRef: enterZoomRef,
+  });
 
   // パームドラッグ終了: ドラッグ中はシーン確定を保留しているため、離した直後に
   // 最終シーンを1回だけ確定する（150ms debounce はドラッグ中の長押しで発火済みのため
@@ -740,6 +756,8 @@ const EmakiContainer = ({
       let scrollSpeed = 30;
       const el = articleRef.current;
       const MouseWheelHandler = (e) => {
+        // トラックパッドのピンチ（Ctrl/⌘+ホイール）は useEmakiZoomPan がズームへ引き継ぐ
+        if (e.ctrlKey || e.metaKey) return;
         // block if e.deltaY==0
         // 垂直方向のスクロールがゼロならばリターン
         if (!e.deltaY) return;
@@ -893,39 +911,6 @@ const EmakiContainer = ({
     [collectZoomSlices, zoomCenterIndex]
   );
 
-  // 拡大開始前にスライス画像のデコード完了を待つ（未デコード描画によるちらつき防止）。
-  // 失敗時も解決し、呼び出し側のタイムアウトと race させて必ず開けるようにする。
-  const preloadZoomSlices = useCallback(
-    (centerIndex) => {
-      if (typeof window === "undefined") return Promise.resolve();
-      const srcs = collectZoomSlices(centerIndex).map((s) => s.src);
-      if (!srcs.length) return Promise.resolve();
-      return Promise.all(
-        srcs.map(
-          (src) =>
-            new Promise((resolve) => {
-              const img = new window.Image();
-              let settled = false;
-              const finish = () => {
-                if (settled) return;
-                settled = true;
-                if (typeof img.decode === "function") {
-                  img.decode().catch(() => {}).finally(resolve);
-                  return;
-                }
-                resolve();
-              };
-              img.onload = finish;
-              img.onerror = finish;
-              img.src = src;
-              if (img.complete) finish();
-            })
-        )
-      );
-    },
-    [collectZoomSlices]
-  );
-
   // 初期 pan アライメント補正（P1）: article のビューポート中央にある内容
   // （|scrollLeft| + clientWidth / 2）と、オーバーレイ strip 中央（前後スライス帯の
   // 中央）が指す内容との差分。これで strip の原点が article の表示原点に一致し、
@@ -959,13 +944,16 @@ const EmakiContainer = ({
     [processedEmakis]
   );
 
-  // ダブルクリック / 拡大ボタン: 中心スライスと初期 pan を openZoom と同一コミットで
+  // ズーム進入: 表示中央の中心スライスと初期 pan を openZoom と同一コミットで
   // 事前確定してから開く（P2: 古いスライス基準の補正を防ぐ）。
-  // 連打時に古いプリロード結果で開かないためのトークン
+  // 連打時に古い進入処理で開かないためのトークン
   const zoomOpenTokenRef = useRef(0);
 
-  const openZoomAtPoint = useCallback(
-    (clientX, clientY) => {
+  // ピンチ / Ctrl+ホイール（トラックパッド）からの即時進入:
+  // ジェスチャに追従させるため、画像プリロードを待たず同期でズーム状態へ入る。
+  // initialScale 未指定なら既定倍率、等倍（1）指定なら指の広がりに応じて拡大する。
+  const enterZoomAtPoint = useCallback(
+    (clientX, clientY, initialScale) => {
       const el = articleRef.current;
       let centerIndex = zoomCenterIndex;
       if (el && el.clientWidth > 0 && el.clientHeight > 0) {
@@ -984,27 +972,19 @@ const EmakiContainer = ({
         centerIndex,
         el ? el.clientHeight : 0
       );
-      // 初期スライス（画像・pan/scale）が確定してから開く。未デコードのまま
-      // layer を描画すると背景が一瞬露出するため、最大 200ms だけ待つ。
       zoomOpenTokenRef.current += 1;
-      const token = zoomOpenTokenRef.current;
-      const open = () => {
-        if (token !== zoomOpenTokenRef.current) return;
-        openZoom(clientX, clientY, initialPanX);
-      };
-      Promise.race([
-        preloadZoomSlices(centerIndex),
-        new Promise((resolve) => setTimeout(resolve, 200)),
-      ]).then(open);
+      openZoom(clientX, clientY, initialPanX, initialScale);
     },
     [
       data.emakis,
       zoomCenterIndex,
       computeZoomAlignPanX,
-      preloadZoomSlices,
       openZoom,
     ]
   );
+
+  // useEmakiZoomPan（ジェスチャ側）から同期進入できるよう配線する
+  enterZoomRef.current = enterZoomAtPoint;
 
   // 描画窓 Phase 1: section 殻は常置、中身は sticky mount（一度載せたら外さない）
   if (contentWindowEmakiRef.current !== data.id) {
@@ -1093,24 +1073,35 @@ const EmakiContainer = ({
             isUIVisible={isUIVisible}
           />
         )}
-        {scroll && !isZoomed && (
-          <button
-            type="button"
-            className={`${zoomStyles.trigger}${
-              isUIVisible ? "" : ` ${zoomStyles.triggerHidden}`
-            }`}
-            onClick={(event) => {
-              // カーソル位置を基準に拡大する（中心スライスと初期 pan は
-              // openZoomAtPoint が同一コミットで事前確定する）
-              openZoomAtPoint(event.clientX, event.clientY);
-            }}
-            aria-label="Zoom in on scene"
-          >
-            <FontAwesomeIcon
-              icon={faMagnifyingGlass}
-              style={{ fontSize: "1.5em" }}
+        {scroll && (
+          // 右下の全画面ボタンの左隣: 等倍 ⇔ 既定倍率のズームトグル
+          // （段タイトル札と重ならないよう、右上から移設）
+          <div className={zoomStyles.toggleAnchor}>
+            <ActionButton
+              icon={
+                <FontAwesomeIcon
+                  icon={isZoomed ? faMagnifyingGlassMinus : faMagnifyingGlass}
+                  style={{ fontSize: "1.5em" }}
+                />
+              }
+              description={
+                isZoomed ? "Zoom out to 100%" : "Zoom in on the current scene"
+              }
+              onClick={() => {
+                // 表示中央を基準に中心スライスと初期 pan を事前確定して開く
+                const rect = entryContainerRef.current?.getBoundingClientRect();
+                toggleZoom(
+                  rect ? rect.left + rect.width / 2 : null,
+                  rect ? rect.top + rect.height / 2 : null
+                );
+              }}
+              variant="fullscreen"
+              isOn={isZoomed}
+              isFullscreen={toggleFullscreen}
+              isBarFloating={commentaryFloating}
+              isUIVisible={isUIVisible}
             />
-          </button>
+          </div>
         )}
         {scroll && (
           <>
@@ -1216,13 +1207,10 @@ const EmakiContainer = ({
             // ボタン・リンク上は無視
             if (e.target.closest("button, a, [role='button']")) return;
             if (Date.now() < suppressClickUntilRef.current) return;
-            if (isDesktopPointerDevice()) {
-              // PC: ダブルクリック位置（マウスカーソル座標）を基準にズーム開始
-              // （中心スライスと初期 pan は openZoomAtPoint が同一コミットで事前確定する）
-              openZoomAtPoint(e.clientX, e.clientY);
-              return;
-            }
-            // SP（タッチデバイス）: 従来どおり全画面 ⇔ 通常表示の切り替え
+            // タッチのダブルタップは useEmakiZoomPan 側で検出済み（二重発火を防ぐ）
+            if (Date.now() - touchDoubleTapAtRef.current < 600) return;
+            // PC（ダブルクリック）/ SP・TB（ダブルタップ）共通:
+            // 全画面表示のトグル切り替えに一本化する（ズームは発火させない）
             handleFullScreen("landscape");
           }}
           onTouchStart={() => {

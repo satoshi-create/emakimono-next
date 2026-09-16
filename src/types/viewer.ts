@@ -107,24 +107,31 @@ export type UseScrollPositionRestoreParams = {
 /**
  * useEmakiZoomPan — ズーム＆パン（兄弟オーバーレイ方式）。
  * ZoomLayer（src/components/emaki/viewer/ZoomLayer.jsx）が消費する。
- * scale は 1.0〜3.0、初期値 1.8。
+ * scale は 1.0〜3.0、初期値 2.0（等倍 1.0 まで縮小すると通常スクロールへ復帰）。
  */
 export type UseEmakiZoomPanResult = {
   isZoomed: boolean;
   scale: number;
   panX: number;
   panY: number;
-  /** ZoomLayer のルート要素に付与する ref（wheel のネイティブ登録に使う） */
+  /** ルート要素（.layer）に付与する ref */
   zoomRef: RefObject<HTMLDivElement>;
   /** 可視ビューポート（.stage）の実測用 ref（可動域 clamp に使う） */
   stageRef: RefObject<HTMLDivElement>;
   /** 画像帯（.strip）の実測用 ref（可動域 clamp に使う） */
   stripRef: RefObject<HTMLDivElement>;
   /** 拡大開始。focusX / focusY（clientX / clientY）指定時はカーソル点を基準にズームする */
-  openZoom: (focusX?: number, focusY?: number) => void;
+  openZoom: (
+    focusX?: number,
+    focusY?: number,
+    initialPanX?: number,
+    initialScale?: number
+  ) => void;
   resetZoom: () => void;
   zoomIn: () => void;
   zoomOut: () => void;
+  /** 右下ボタン: 等倍（1.0）⇔ 既定倍率のトグル */
+  toggleZoom: (focusX?: number, focusY?: number) => void;
   /** ZoomLayer のルートに spread する pointer ハンドラ */
   handlers: {
     onPointerDown: (event: React.PointerEvent<HTMLDivElement>) => void;
