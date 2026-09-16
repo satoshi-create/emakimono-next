@@ -1,0 +1,56 @@
+[
+  {
+    "chapter": "1",
+    "title": "右隻 第一・二扇（東山・清水寺〜五条大橋）",
+    "gendaibun": "",
+    "kobun": "",
+    "desc": "清水寺の参詣道と鴨川にかかる五条大橋。橋の上を行き交う多様な階層の人々や大道芸人が細密に描かれています。<br>【ズーム注目】五条大橋のたもとにいる犬や、道行く町人の生き生きとした表情。",
+    "titleen": "Right Screen: Kiyomizu-dera & Gojo Bridge",
+    "descen": "The pilgrimage path to Kiyomizu-dera and Gojo Bridge over the Kamo River. Features diverse townsfolk and street performers in lively detail."
+  },
+  {
+    "chapter": "2",
+    "title": "右隻 第三・四扇（方広寺大仏殿〜豊国廟）",
+    "gendaibun": "",
+    "kobun": "",
+    "desc": "豊臣秀吉ゆかりの方広寺大仏殿と豊国廟。巨大な建築物の偉容と、門前の茶屋で憩う参詣者たち。<br>【ズーム注目】大仏殿の巨大な屋根構造と、門前町の賑わい。",
+    "titleen": "Right Screen: Great Buddha & Toyokuni Shrine",
+    "descen": "The Great Buddha Hall of Hoko-ji and Toyokuni Shrine, reflecting the grandeur of the Toyotomi clan."
+  },
+  {
+    "chapter": "3",
+    "title": "右隻 第五・六扇（祇園祭と四条河原の遊楽）",
+    "gendaibun": "",
+    "kobun": "",
+    "desc": "壮麗な山鉾が巡行する祇園祭の熱気と、四条河原に立ち並ぶ小屋・遊興の風景。<br>【ズーム注目】山鉾を取り囲む熱気あふれる群衆と、芝居小屋の舞台。",
+    "titleen": "Right Screen: Gion Festival & Shijo Riverbed",
+    "descen": "The bustling procession of the Gion Festival floats and lively entertainment quarters along the Shijo riverbed."
+  },
+  {
+    "chapter": "4",
+    "title": "左隻 第一・二扇（二条城と武家行列）",
+    "gendaibun": "",
+    "kobun": "",
+    "desc": "徳川権力の拠点である二条城と、城門を出入りする格式高い武家行列。<br>【ズーム注目】厳格な行列の一方で描かれる門番の油断した表情や牛車の細部装飾。",
+    "titleen": "Left Screen: Nijo Castle & Samurai Procession",
+    "descen": "Nijo Castle, symbolizing Tokugawa authority, accompanied by formal samurai processions and ornate ox-drawn carriages."
+  },
+  {
+    "chapter": "5",
+    "title": "左隻 第三・四扇（内裏・御所と町屋の風俗）",
+    "gendaibun": "",
+    "kobun": "",
+    "desc": "静謐な佇まいの内裏（御所）と、軒を連ねる町屋で繰り広げられる庶民の日常生活。<br>【ズーム注目】店先で食事をする人々、路地裏での取っ組み合いの喧嘩。",
+    "titleen": "Left Screen: Imperial Palace & Machiya Life",
+    "descen": "The serene Imperial Palace grounds juxtaposed with vibrant everyday life and squabbles in the townhouses."
+  },
+  {
+    "chapter": "6",
+    "title": "左隻 第五・六扇（北野天満宮と洛北の山並み）",
+    "gendaibun": "",
+    "kobun": "",
+    "desc": "参詣客や茶屋で賑わう北野天満宮の境内と、金雲の彼方に広がる洛北の山並み。<br>【ズーム注目】境内の茶屋で酒宴を楽しむ人々の仕草や、木々の細密な描写。",
+    "titleen": "Left Screen: Kitano Tenmangu & Northern Hills",
+    "descen": "Kitano Tenmangu Shrine bustling with visitors and teahouses, framed by the scenic northern hills of Kyoto."
+  }
+]

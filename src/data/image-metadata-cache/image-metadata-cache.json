@@ -4840,5 +4840,215 @@
         "path": "azumaya"
       }
     ]
+  },
+  {
+    "id": 104,
+    "title": "洛中洛外図屏風（舟木本）",
+    "titleen": "rakuchu_rakugai_funaki",
+    "author": "岩佐又兵衛筆",
+    "authoren": "iwasa-matabe",
+    "edition": "舟木家旧蔵",
+    "encodeUrl": "",
+    "backgroundImage": "",
+    "thumb": "/thumb/rakuchu_rakugai_funaki_thumb.webp",
+    "thumb2": "/thumb/rakuchu_rakugai_funaki_thumb.webp",
+    "video": "",
+    "era": "江戸",
+    "eraen": "edo",
+    "desc": "東京国立博物館所蔵、国宝。滋賀・舟木家に伝来したことから「舟木本」と呼ばれる洛中洛外図屏風です。六曲一双の画面に、方広寺大仏殿から二条城まで、鴨川をはさんだ京の町並みと、そこに暮らす約2500人の人々の姿を途切れることなく描いています。",
+    "descen": "A National Treasure in the Tokyo National Museum, known as the Funaki version after the Funaki family of Shiga who once owned it. Across a pair of six-panel folding screens it presents a continuous view of Kyoto, from the Great Buddha Hall of Hoko-ji to Nijo Castle, filled with some 2,500 people going about their lives along the Kamo River.",
+    "readMore": false,
+    "type": "屏風",
+    "typeen": "byobu",
+    "keyword": [],
+    "kotobagaki": false,
+    "sceneText": true,
+    "favorite": false,
+    "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-11168?locale=ja",
+    "sourceImage": "洛中洛外図屏風（ColBase）",
+    "metadesc": "",
+    "gif": "",
+    "sourceEkotoba": "",
+    "reference": [
+      {
+        "type": "所蔵機関",
+        "url": "https://colbase.nich.go.jp/collection_items/tnm/A-11168?locale=ja",
+        "title": "洛中洛外図屏風（舟木本）| ColBase（国立文化財機構所蔵品統合検索システム）"
+      },
+      {
+        "type": "解説",
+        "url": "https://emuseum.nich.go.jp/detail?content_base_id=100318",
+        "title": "洛中洛外図屏風（舟木本）| e国宝（国立文化財機構）"
+      },
+      {
+        "type": "指定文化財",
+        "url": "https://kunishitei.bunka.go.jp/heritage/detail/201/00011697",
+        "title": "紙本金地著色洛中洛外図（岩佐勝以筆／六曲屏風）| 国指定文化財等データベース"
+      }
+    ],
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "1",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564437/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_01__01.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_01__01",
+        "srcHeight": 3642,
+        "srcWidth": 1328
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564437/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_01__02.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_01__02",
+        "srcHeight": 3642,
+        "srcWidth": 1328
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "2",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564437/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_02__01.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_02__01",
+        "srcHeight": 3642,
+        "srcWidth": 1328
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564441/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_02__02.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_02__02",
+        "srcHeight": 3642,
+        "srcWidth": 1328
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "3",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564442/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_03__01.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_03__01",
+        "srcHeight": 3642,
+        "srcWidth": 1328
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564441/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_03__02.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_03__02",
+        "srcHeight": 3642,
+        "srcWidth": 1330
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "4",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564446/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_04__01.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_04__01",
+        "srcHeight": 3642,
+        "srcWidth": 1328
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564446/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_04__02.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_04__02",
+        "srcHeight": 3642,
+        "srcWidth": 1328
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "5",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564446/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_05__01.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_05__01",
+        "srcHeight": 3642,
+        "srcWidth": 1328
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564450/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_05__02.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_05__02",
+        "srcHeight": 3642,
+        "srcWidth": 1328
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "6",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564450/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_06__01.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_06__01",
+        "srcHeight": 3642,
+        "srcWidth": 1328
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564450/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_06__02.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_06__02",
+        "srcHeight": 3642,
+        "srcWidth": 1330
+      }
+    ]
   }
 ]
