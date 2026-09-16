@@ -43,6 +43,7 @@ docs/
 │   ├── sync-workflow.md      ← → scroll-pipeline.md へ
 │   ├── sustainable-content-and-ui-workflow.md  ← → scroll-pipeline.md へ
 │   ├── sync-scroll.md        ← → scroll-pipeline.md 付録 A へ
+│   ├── viewer-scroll-issues/ ← ビューア回帰防止（画像ロード / 巻き戻り）
 │   └── github-actions-sync-manual.md  ← → archive へ
 ├── content/                  ← 作品解説コンテンツ（.md + .pdf）
 │   ├── genji-emaki-hikime.md
@@ -54,6 +55,15 @@ docs/
     ├── genji-source.md
     └── github-actions-sync-manual.md  ← 旧 Supabase 時代（非推奨）
 ```
+
+## ビューア回帰防止（改修前に必読）
+
+| ドキュメント | 内容 |
+|------|------|
+| [`operations/viewer-scroll-issues/viewer-image-fallback-hardening.md`](./operations/viewer-scroll-issues/viewer-image-fallback-hardening.md) | 先読み並列度・タイムアウト再設計、空白化バグ（フォールバック 84% が甲巻集中 / `eng÷fallback = 0.48`） |
+| [`operations/viewer-scroll-issues/retrospective.md`](./operations/viewer-scroll-issues/retrospective.md) | RTL 横スクロールの巻き戻り（共有ハッシュ effect 再実行が主因） |
+
+不変条件: オフスクリーンにフォールバック計時を置かない / スケルトン解除は `onLoadingComplete` のみ / `cat:"ekotoba"` スロットを配列から削除しない / RTL は `scrollLeft` 負値空間。
 
 ## 移動元マッピング
 

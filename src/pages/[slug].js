@@ -25,7 +25,8 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 const Emaki = ({ data, locale, locales, slug, test }) => {
   const { t } = useLocaleMeta();
   const { t: tc } = useTranslation("common");
-  const { defaultLocale } = useRouter();
+  const router = useRouter();
+  const { defaultLocale } = router;
   const selectedRef = useRef(null);
   const {
     navIndex,
@@ -58,6 +59,23 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
       setHash(0);
     }
   }, [slug, setnavIndex, setHash]);
+
+  // 逆引きクエリ `?scene={sceneId}`（/genji/[slug] の「この段を絵巻で観る」）:
+  // マウント後、該当段（emakis[].chapter = scene id）の linkId へスクロール位置を合わせる。
+  // ハッシュ共有リンク（#linkId）と同じく navIndex 経由で段送りする。
+  useEffect(() => {
+    const sceneParam = router.query?.scene;
+    if (!sceneParam || !data?.emakis) return;
+    const key = String(
+      Array.isArray(sceneParam) ? sceneParam[0] : sceneParam
+    ).trim();
+    if (!key) return;
+    const target =
+      data.emakis.find((item) => String(item.chapter ?? "") === key) ??
+      (/^\d+$/.test(key) ? data.emakis[Number(key)] : undefined);
+    if (!target || typeof target.linkId !== "number") return;
+    setnavIndex(target.linkId);
+  }, [router.query?.scene, data, setnavIndex]);
 
   if (!data) {
     return null;

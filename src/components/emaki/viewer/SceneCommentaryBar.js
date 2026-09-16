@@ -564,6 +564,17 @@ const SceneCommentaryBar = ({
                 {chapterTitle}
               </span>
             </button>
+            {/* 帖ガイド（源氏物語）: 帖タイトルのすぐ右隣に小さなピルリンクを置く */}
+            {isGenji && current?.genji_chapter ? (
+              <GenjiHubLink
+                genjieslug={
+                  connectGenjiChapters(current.genji_chapter, "path") ||
+                  undefined
+                }
+                variant="icon"
+                linkClassName={styles.genjiGuidePill}
+              />
+            ) : null}
             <div
               className={styles.titleActions}
               onClick={(e) => e.stopPropagation()}
@@ -694,16 +705,6 @@ const SceneCommentaryBar = ({
           <div className={styles.utilityActions}>
             {quizFab}
             <div className={styles.utilityActionsEnd}>
-            {isGenji && current?.genji_chapter ? (
-              <GenjiHubLink
-                genjieslug={
-                  connectGenjiChapters(current.genji_chapter, "path") ||
-                  undefined
-                }
-                variant="icon"
-                sceneTitle={chapterTitle}
-              />
-            ) : null}
             {hasMultipleSections && (
               <button
                 type="button"

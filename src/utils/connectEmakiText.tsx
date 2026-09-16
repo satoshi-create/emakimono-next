@@ -21,7 +21,15 @@ type GenjiChapterRecord = {
   gendaibunen?: string;
   kobun?: string;
   kobunen?: string;
+  url?: string;
+  source?: string;
+  source_gendaibun_url?: string;
+  source_kobun_url?: string;
 };
+
+/** 古文の既定典拠（渋谷栄一校訂・Wikisource）。404 回避のため一律固定。 */
+export const GENJI_KOBUN_SOURCE_URL =
+  "https://ja.wikisource.org/wiki/%E6%BA%90%E6%B0%8F%E7%89%A9%E8%AA%9E_(%E6%B8%8B%E8%B0%B7%E6%A0%84%E4%B8%80%E6%A0%A1%E8%A8%82)";
 
 const genjiChapters = chaptergenji as GenjiChapterRecord[];
 
@@ -85,6 +93,39 @@ export const getGenjiChapterDigest = (
     summary: pick(row.summary, row.summaryen),
     gendaibun: pick(row.gendaibun, row.gendaibunen),
     kobun: pick(row.kobun, row.kobunen),
+  };
+};
+
+/**
+ * GenjiChapterDrawer（右スライドイン）用の帖詳細。
+ * あらすじに加え、完全な現代語訳（与謝野晶子訳）・古文（渋谷栄一校訂）と
+ * 典拠元URLを返す。該当帖が無ければ null（呼び出し側は非表示にする）。
+ */
+export const getGenjiChapterDrawer = (
+  genjiChapter: string | number | null | undefined,
+  locale?: string
+) => {
+  const row = findGenjiChapter(genjiChapter);
+  if (!row) return null;
+  const isEn = locale === "en";
+  const pick = (ja?: string, en?: string) => (isEn ? en || ja : ja) || "";
+  return {
+    path: row.path || row.titleen || "",
+    title: row.title || "",
+    titleen: row.titleen || row.path || "",
+    ruby: row.ruby || "",
+    chapterEn: row.chapter_en ?? "",
+    chapterCh: row.chapter_ch || "",
+    age: pick(row.age, row.ageen),
+    mainCharacter: pick(
+      row["main-character"],
+      row.mainCharacteren || row["main-character-en"]
+    ),
+    summary: pick(row.summary, row.summaryen),
+    gendaibun: pick(row.gendaibun, row.gendaibunen),
+    kobun: pick(row.kobun, row.kobunen),
+    sourceGendaibunUrl: row.source_gendaibun_url || row.url || row.source || "",
+    sourceKobunUrl: row.source_kobun_url || GENJI_KOBUN_SOURCE_URL,
   };
 };
 

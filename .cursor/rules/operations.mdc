@@ -11,6 +11,7 @@ alwaysApply: false
 1. 該当する `docs/operations/*.md` を読む
 2. Analytics: `.cursor/skills/analytics-review/SKILL.md` を読む
 3. Scroll sync: `docs/operations/cursor-scroll-sync-prompt.md` のプロンプトに従う
+4. ビューア改修: `docs/operations/viewer-scroll-issues/` を読む（画像ロード / スクロールの不変条件）
 
 ## Analytics
 

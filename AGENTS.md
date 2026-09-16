@@ -17,9 +17,10 @@
 3. `src/pages/[slug].js` — 絵巻ページのエントリ
 4. `src/components/emaki/layout/EmakiConteiner.js` — ビューア本体（ロジックは下記フックに分離済み）
 5. `src/hooks/emaki/*.js` — ビューアロジック（scroll / autoplay / idle / palm / restore）
-6. `src/pages/_app.js` — `AppContext`（navIndex, fullscreen, modals）
-7. `src/components/meta/Meta.js` — SEO
-8. 編集対象の locales / constants（下記 i18n 表）
+6. `docs/operations/viewer-scroll-issues/` — ビューア回帰防止（**ビューア改修前に必読**）
+7. `src/pages/_app.js` — `AppContext`（navIndex, fullscreen, modals）
+8. `src/components/meta/Meta.js` — SEO
+9. 編集対象の locales / constants（下記 i18n 表）
 
 ## Directory map
 
@@ -35,6 +36,7 @@
 | `src/data/` | 絵巻 JSON メタデータ |
 | `public/locales/` | i18n 翻訳（`common.json`） |
 | `docs/operations/` | Analytics / Scroll sync / data-model |
+| `docs/operations/viewer-scroll-issues/` | ビューア回帰防止（画像ロード / スクロール）の振り返り・不変条件 |
 | `.cursor/skills/analytics-review/` | GSC/GA4 週次レビュー Skill |
 | `.cursor/skills/scroll-upload/` | 絵巻 sync オーケストレーション Skill |
 | `scripts/analytics/` | GA4/GSC 取得 Python |

@@ -1,0 +1,203 @@
+/* 源氏物語絵巻ビューアー: 右スライドイン・ドロワー（GenjiChapterDrawer.js）
+   中央モーダルに代わり、絵巻の横スクロールを止めずに帖の詳細
+   （あらすじ / 完全な現代語訳 / 完全な古文）を読むためのパネル。
+   全面オーバーレイは敷かない（閉じる = × / ESC / 外側クリック）。
+   モバイル（<=767px）は画面下部からのボトムシート。 */
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1300;
+  display: flex;
+  flex-direction: column;
+  width: min(440px, 92vw);
+  height: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.9rem 1.1rem 1.2rem;
+  background: #fffdf9;
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.18);
+  color: var(--clr-text);
+  font-family: var(--font-ui);
+  transform: translateX(105%);
+  transition: transform 0.28s ease-out;
+  will-change: transform;
+}
+.drawer[data-open="true"] {
+  transform: translateX(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drawer {
+    transition: none;
+  }
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.headText {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--clr-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ruby {
+  display: block;
+  margin-top: 0.1rem;
+  font-size: 0.72rem;
+  color: var(--clr-text-muted, #666);
+}
+
+.badge {
+  flex: 0 0 auto;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--clr-accent);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+.close {
+  flex: 0 0 auto;
+  margin-left: auto;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--clr-text-muted, #666);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.close:hover {
+  color: var(--clr-accent);
+}
+@media (pointer: coarse) {
+  .close {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--clr-text-muted, #666);
+}
+.factValue {
+  color: var(--clr-text);
+  font-weight: 600;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 0.9rem;
+}
+.tab {
+  flex: 0 0 auto;
+  padding: 3px 12px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--clr-text-muted, #666);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.tab:hover,
+.tab:focus-visible {
+  color: var(--clr-text);
+  border-color: rgba(0, 0, 0, 0.28);
+}
+.tabActive {
+  color: var(--clr-text);
+  border-color: var(--clr-accent, #ff8c77);
+  background: rgb(255 140 119 / 0.1);
+  font-weight: 600;
+}
+
+.body {
+  margin-top: 0.7rem;
+}
+
+.bodyText {
+  margin: 0 0 0.9rem;
+  font-family: var(--font-story);
+  font-size: 0.86rem;
+  line-height: 1.75;
+  color: #333;
+  white-space: pre-line;
+}
+
+.sourceLink,
+.detailLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  border: 1px solid var(--clr-accent);
+  border-radius: 999px;
+  background: rgba(255, 140, 119, 0.08);
+  color: var(--clr-accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.sourceLink:hover,
+.detailLink:hover {
+  background: var(--clr-accent);
+  color: #fff;
+}
+
+.foot {
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+/* モバイル: 画面下部からのボトムシート */
+@media (max-width: 767px) {
+  .drawer {
+    top: auto;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    max-height: min(78vh, 640px);
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.18);
+    transform: translateY(105%);
+  }
+  .drawer[data-open="true"] {
+    transform: translateY(0);
+  }
+}

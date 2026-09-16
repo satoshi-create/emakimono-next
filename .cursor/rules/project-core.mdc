@@ -32,3 +32,4 @@ Design tokens: `.cursor/rules/design-tokens.mdc` → `src/styles/globals.css`.
 - ビューア: `src/pages/[slug].js`, `src/components/emaki/`
 - 定数: `src/libs/constants/dataSiteMeta.js`, `links.js`
 - 運用: `docs/operations/`, `.cursor/skills/analytics-review/`
+- ビューア回帰防止: `docs/operations/viewer-scroll-issues/`（ビューア改修前に必読）
