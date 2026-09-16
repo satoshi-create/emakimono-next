@@ -140,8 +140,15 @@ export default function useEmakiZoomPan({
         return commitScale(targetScale, panRef.current.x, panRef.current.y);
       }
       const rect = stage.getBoundingClientRect();
-      const fx = focusX - (rect.left + rect.width / 2);
-      const fy = focusY - (rect.top + rect.height / 2);
+      const stripRect = stripRef.current?.getBoundingClientRect();
+      const originX = stripRect
+        ? stripRect.left + stripRect.width / 2 - panRef.current.x
+        : rect.left + rect.width / 2;
+      const originY = stripRect
+        ? stripRect.top + stripRect.height / 2 - panRef.current.y
+        : rect.top + rect.height / 2;
+      const fx = focusX - originX;
+      const fy = focusY - originY;
       const prevScale =
         isFiniteNumber(scaleRef.current) && scaleRef.current > 0
           ? scaleRef.current
@@ -359,12 +366,14 @@ export default function useEmakiZoomPan({
           t.mode = null;
           return; // 1本指スワイプはネイティブの横スクロールへ委ねる
         }
-        // 拡大表示中のダブルタップ: 等倍へ戻して通常スクロールへ復帰
+        // 拡大表示中のダブルタップ: 等倍時と同様に全画面表示をトグル（等倍復帰はピンチインのみ）
         if (isDoubleTap) {
           lastTapRef.current = { time: 0, x: 0, y: 0 };
           t.mode = null;
           event.preventDefault();
-          resetZoom();
+          if (typeof onDoubleTapRef.current === "function") {
+            onDoubleTapRef.current();
+          }
           return;
         }
         lastTapRef.current = { time: now, x: p.clientX, y: p.clientY };
