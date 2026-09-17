@@ -6,7 +6,9 @@ import {
   CONTENT_WINDOW_BEHIND,
   CONTENT_WINDOW_PLAY_AHEAD,
   CONTENT_WINDOW_PLAY_BEHIND,
-  SCENE_READING_POSITION_RATIO,
+  SCENE_DETECTION_HYSTERESIS_SHARE,
+  SCENE_DETECTION_TIE_TOLERANCE,
+  ZOOM_STRIP_MIN_SLICES,
 } from "@/libs/constants/viewerPlayback";
 
 /**
@@ -50,38 +52,199 @@ export function sceneWidthPx(item, rowHeightPx) {
 }
 
 /**
- * DOM キャッシュ前でも描画窓を進められるよう、メタデータ幅から読取中心シーンを推定。
- * RTL（row-reverse）: |scrollLeft| が進むほど巻の「先」へ。
- * @param {Array<{ cat?: string, src?: string, srcWidth?: number, srcHeight?: number }>} emakis
- * @param {number} scrollLeft
+ * シーン配置レイアウト（RTL のコンテンツ先頭＝右端からの開始座標 start と幅 width）。
+ * DOM 実測（buildSceneLayout）とメタデータ推定（buildSceneLayoutFromEmakis）で同じ形に揃え、
+ * シーン判定を DOM / メタデータで別挙動にしないための共通土台。
+ * @param {Array<{ index: number, start: number, width: number }>} hits
+ * @returns {{ starts: number[], widths: number[], total: number }}
+ */
+export function buildSceneLayout(hits) {
+  const list = Array.isArray(hits)
+    ? hits.filter((h) => h && Number.isFinite(h.index) && h.index >= 0)
+    : [];
+  const count = list.reduce((max, h) => Math.max(max, h.index + 1), 0);
+  const starts = new Array(count).fill(0);
+  const widths = new Array(count).fill(0);
+  let total = 0;
+  list.forEach(({ index, start, width }) => {
+    const s = Number.isFinite(start) ? Math.max(0, start) : 0;
+    const w = Number.isFinite(width) ? Math.max(0, width) : 0;
+    starts[index] = s;
+    widths[index] = w;
+    if (s + w > total) total = s + w;
+  });
+  return { starts, widths, total };
+}
+
+/** メタデータ幅から同じ形のレイアウトを組み立てる（DOM キャッシュ前の推定用） */
+export function buildSceneLayoutFromEmakis(emakis, rowHeightPx) {
+  const list = Array.isArray(emakis) ? emakis : [];
+  let acc = 0;
+  const hits = list.map((item, index) => {
+    const width = sceneWidthPx(item, rowHeightPx);
+    const hit = { index, start: acc, width };
+    acc += width;
+    return hit;
+  });
+  return buildSceneLayout(hits);
+}
+
+/** レイアウト index を [0, count-1] へ丸める */
+function clampSceneLayoutIndex(index, count) {
+  const i = Number.isFinite(index) ? Math.round(index) : 0;
+  return Math.max(0, Math.min(count - 1, i));
+}
+
+/** ビューポート内の可視幅 / コンテナ幅（幅0の ekotoba マーカーは 0） */
+function sceneShare(layout, index, viewStart, viewEnd, clientWidth) {
+  const width = layout.widths[index];
+  if (!(width > 0)) return 0;
+  const start = layout.starts[index];
+  const visible = Math.max(
+    0,
+    Math.min(start + width, viewEnd) - Math.max(start, viewStart)
+  );
+  return visible / clientWidth;
+}
+
+/**
+ * 改修A: ビューポート占有率が最大のシーンを返す純関数（固定読取点を使わない）。
+ * - 同率（占有率差が SCENE_DETECTION_TIE_TOLERANCE 以内）は右端（RTL 起点＝
+ *   start が小さい index）を優先 → 初期表示は必ず巻頭側
+ * - currentIndex が可視なら、挑戦者がヒステリシス分を上回るまで現シーンを維持
+ * @param {{ starts: number[], widths: number[] }} layout
+ * @param {number} scrollLeft RTL の負値空間（絶対値で先頭からの距離）
  * @param {number} clientWidth
- * @param {number} rowHeightPx
- * @param {number} [readingRatio]
+ * @param {number | null} [currentIndex] 現在のシーン（null ならヒステリシスなし）
+ */
+export function pickSceneIndexByShare(
+  layout,
+  scrollLeft,
+  clientWidth,
+  currentIndex = null
+) {
+  const count = layout?.widths?.length || 0;
+  if (!count || !(clientWidth > 0)) {
+    return Number.isFinite(currentIndex) ? currentIndex : 0;
+  }
+  const viewStart = Math.abs(Number.isFinite(scrollLeft) ? scrollLeft : 0);
+  const viewEnd = viewStart + clientWidth;
+  let best = 0;
+  let bestShare = -1;
+  for (let i = 0; i < count; i += 1) {
+    const share = sceneShare(layout, i, viewStart, viewEnd, clientWidth);
+    // 許容幅を超えて大きい場合のみ更新 = 同率は index 小（右端）優先
+    if (share > bestShare + SCENE_DETECTION_TIE_TOLERANCE) {
+      bestShare = share;
+      best = i;
+    }
+  }
+  const current = Number.isFinite(currentIndex) ? currentIndex : null;
+  if (current === null || current === best || current < 0 || current >= count) {
+    return best;
+  }
+  const currentShare = sceneShare(
+    layout,
+    current,
+    viewStart,
+    viewEnd,
+    clientWidth
+  );
+  // 現シーンが不可視（幅0マーカー含む）なら維持しない
+  if (currentShare <= 0) return best;
+  // 同率なら右端優先で選ばれた best を採用（巻頭へ戻ったとき等）
+  if (bestShare - currentShare <= SCENE_DETECTION_TIE_TOLERANCE) return best;
+  return bestShare >= currentShare * (1 + SCENE_DETECTION_HYSTERESIS_SHARE)
+    ? best
+    : current;
+}
+
+/**
+ * DOM キャッシュ前でも描画窓を進められるよう、メタデータ幅から支配シーンを推定。
+ * RTL（row-reverse）: |scrollLeft| が進むほど巻の「先」へ。
  */
 export function estimateSceneIndexFromScrollLeft(
   emakis,
   scrollLeft,
   clientWidth,
-  rowHeightPx,
-  readingRatio = SCENE_READING_POSITION_RATIO
+  rowHeightPx
 ) {
   if (!emakis?.length || !(rowHeightPx > 0) || !(clientWidth > 0)) return 0;
-  const readingFromStart =
-    Math.abs(scrollLeft) + clientWidth * readingRatio;
-  let acc = 0;
-  let best = 0;
-  let bestDist = Infinity;
-  for (let i = 0; i < emakis.length; i += 1) {
-    const w = sceneWidthPx(emakis[i], rowHeightPx);
-    const center = acc + w * 0.5;
-    const dist = Math.abs(center - readingFromStart);
-    if (dist < bestDist) {
-      bestDist = dist;
-      best = i;
+  return pickSceneIndexByShare(
+    buildSceneLayoutFromEmakis(emakis, rowHeightPx),
+    scrollLeft,
+    clientWidth,
+    null
+  );
+}
+
+/**
+ * 改修B: カーソル下のコンテンツ座標を含むシーン index（ズームのピボット特定）。
+ * 幅0マーカーは包含しない。どの区間にも入らない場合は中心が最も近いシーン。
+ */
+export function sceneIndexAtContentX(emakis, contentX, rowHeightPx) {
+  if (!emakis?.length || !(rowHeightPx > 0)) return 0;
+  const layout = buildSceneLayoutFromEmakis(emakis, rowHeightPx);
+  const x = Number.isFinite(contentX) ? contentX : 0;
+  let nearest = 0;
+  let nearestDist = Infinity;
+  for (let i = 0; i < layout.widths.length; i += 1) {
+    const width = layout.widths[i];
+    if (!(width > 0)) continue;
+    const start = layout.starts[i];
+    if (x >= start && x < start + width) return i;
+    const dist = Math.abs(start + width / 2 - x);
+    if (dist < nearestDist) {
+      nearestDist = dist;
+      nearest = i;
     }
-    acc += w;
   }
-  return best;
+  return nearest;
+}
+
+/**
+ * 改修B: ズームストリップとして収集するスライス範囲 [from, to]。
+ * 最小 ZOOM_STRIP_MIN_SLICES 枚を確保しつつ、ストリップ幅が最小倍率（fit）で
+ * ステージ幅を満たすまで中心から左右交互に広げる（端では反対側へ枠を伸ばす）。
+ * @returns {{ from: number, to: number, width: number }}
+ */
+export function computeZoomStripRange(
+  emakis,
+  centerIndex,
+  rowHeightPx,
+  stageWidthPx
+) {
+  const items = Array.isArray(emakis) ? emakis : [];
+  const count = items.length;
+  if (!count) return { from: 0, to: -1, width: 0 };
+  const c = clampSceneLayoutIndex(centerIndex, count);
+  const rowH = rowHeightPx > 0 ? rowHeightPx : 0;
+  const stageW = stageWidthPx > 0 ? stageWidthPx : 0;
+  // ストリップ高さはステージ高さに一致するため fit 倍率は 1（横幅条件のみ効く）
+  const requiredW = stageW;
+  const canCover = rowH > 0 && stageW > 0;
+  const widthOf = (i) => sceneWidthPx(items[i], rowH);
+  const minCount = Math.min(ZOOM_STRIP_MIN_SLICES, count);
+  let from = c;
+  let to = c;
+  let width = widthOf(c);
+  const covered = () => (to - from + 1 >= minCount && width >= requiredW);
+  for (let d = 1; d < count; d += 1) {
+    if (canCover && covered()) break;
+    if (!canCover && to - from + 1 >= minCount) break;
+    const forward = c + d;
+    const backward = c - d;
+    if (forward <= count - 1) {
+      to = Math.max(to, forward);
+      width += widthOf(forward);
+    }
+    if (canCover && covered()) break;
+    if (backward >= 0) {
+      from = Math.min(from, backward);
+      width += widthOf(backward);
+    }
+  }
+  return { from, to, width };
 }
 
 /**

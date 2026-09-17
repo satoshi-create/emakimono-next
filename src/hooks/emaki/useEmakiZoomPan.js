@@ -71,15 +71,25 @@ export default function useEmakiZoomPan({
   const onDoubleTapRef = useRef(onDoubleTap);
   onDoubleTapRef.current = onDoubleTap;
 
-  // 縦幅がコンテナに収まる倍率（これ以上縮小させない = 上下の背景露出を防ぐ）
+  // 最小倍率（これ以上縮小させない = 背景露出を防ぐ）。
+  // 縦幅の fit に加え、ストリップ幅がステージ幅に満たない場合の横幅カバーも考慮する
+  // （改修Bで収集枚数を動的化しても、巻頭・巻末や極端な狭幅では不足しうるため）。
   const getFitScale = useCallback(() => {
     const stage = stageRef.current;
     const strip = stripRef.current;
     if (!stage || !strip) return FALLBACK_MIN_SCALE;
     const stageH = stage.clientHeight || 0;
+    const stageW = stage.clientWidth || 0;
     const contentH = strip.offsetHeight || 0;
+    const contentW = strip.offsetWidth || 0;
     if (!stageH || !contentH) return FALLBACK_MIN_SCALE;
-    return Math.max(FALLBACK_MIN_SCALE, stageH / contentH);
+    const heightFit = stageH / contentH;
+    const widthFit = contentW > 0 ? stageW / contentW : FALLBACK_MIN_SCALE;
+    return clamp(
+      Math.max(FALLBACK_MIN_SCALE, heightFit, widthFit),
+      FALLBACK_MIN_SCALE,
+      MAX_SCALE
+    );
   }, []);
 
   // scale 倍時の可動域（transform-origin: center center 前提）
@@ -179,8 +189,10 @@ export default function useEmakiZoomPan({
   }, []);
 
   // focusX / focusY（clientX / clientY）を渡すと、その点を基準に拡大を開始する。
-  // initialPanX: article の表示原点とオーバーレイ strip 原点を一致させる初期補正（P1）。
-  // 実測前の初期フレームは等倍・補正済みパンで描画し、レイアウト確定後の
+  // initialPanX: article の表示中心とオーバーレイ strip 中心が指す内容の差分（P1）。
+  //   コンテンツ座標系の値で受け取り、スクリーン px へは開始倍率を乗じて変換する
+  //   （translate は scale の外側で適用されるため、倍率を掛けないと突入直後に位置が飛ぶ）。
+  // 実測前の初期フレームは補正済みパンで描画し、レイアウト確定後の
   // useLayoutEffect でカーソル基準の倍率・パンへ（ペイント前に）補正する。
   const openZoom = useCallback(
     (focusX, focusY, initialPanX, initialScale) => {
@@ -195,7 +207,8 @@ export default function useEmakiZoomPan({
         y: isFiniteNumber(focusY) ? focusY : null,
         scale: startScale,
       };
-      const initialPan = isFiniteNumber(initialPanX) ? initialPanX : 0;
+      const initialPan =
+        (isFiniteNumber(initialPanX) ? initialPanX : 0) * startScale;
       scaleRef.current = startScale;
       panRef.current = { x: initialPan, y: 0 };
       setScale(startScale);

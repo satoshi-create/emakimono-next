@@ -45,8 +45,15 @@ export type EmakiNavigationProps = {
  * 絵巻切替リセット effect から操作するために公開している。
  */
 export type UseEmakiScrollResult = {
-  /** シーン検出キャッシュ。絵巻切替時に Conteiner が null 化する */
-  sectionsCacheRef: RefObject<{ baseScrollLeft: number; items: { id: number; offset: number }[] }>;
+  /**
+   * シーン検出キャッシュ（改修A: 面積ベース）。
+   * layout.starts / layout.widths はコンテンツ先頭（RTL の右端）からの開始座標と幅。
+   * 絵巻切替時に Conteiner が null 化する。
+   */
+  sectionsCacheRef: RefObject<{
+    pending?: boolean;
+    layout?: { starts: number[]; widths: number[]; total: number };
+  }>;
   /** scrollWidth/clientWidth キャッシュ。絵巻切替時に Conteiner がリセットする */
   scrollDimsRef: RefObject<{ w: number; c: number; ts: number }>;
   /** 再生中の解説バー追従用シーン ID（navIndex は画像ツリー再レンダー抑制のため固定） */

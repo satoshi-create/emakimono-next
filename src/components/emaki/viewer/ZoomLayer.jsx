@@ -56,6 +56,13 @@ const ZoomLayer = ({
               alt=""
               draggable={false}
               loading="eager"
+              // 実描画幅を明示: 画像ロード前でも strip.offsetWidth が確定し、
+              // 可動域クランプ（clampPan）が 0 へ握り潰されない
+              style={
+                Number.isFinite(s.width) && s.width > 0
+                  ? { width: `${s.width}px` }
+                  : undefined
+              }
             />
           ))}
         </div>

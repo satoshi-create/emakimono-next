@@ -27,7 +27,8 @@ import WheelScrollIndicator from "@/components/emaki/viewer/WheelScrollIndicator
 import { AppContext } from "@/context/AppContext";
 import { assignUniqueIndex } from "@/utils/emakiItemIndexer";
 import {
-  estimateSceneIndexFromScrollLeft,
+  computeZoomStripRange,
+  sceneIndexAtContentX,
   sceneWidthPx,
   shouldMountSceneContent,
 } from "@/utils/emakiContentWindow";
@@ -852,44 +853,23 @@ const EmakiContainer = ({
   // 開く時点の同期値（contentWindowCenterRef）を確定して以降は固定する。
   const [zoomCenterIndex, setZoomCenterIndex] = useState(0);
 
-  // 拡大再開時（isZoomed が true になった直後・ペイント前）に、現在のスクロール位置から
-  // 中心スライスを同期確定する。contentWindowCenter は idle へ遅延反映されるため、
-  // 拡大解除→横スクロール→再拡大のときに前回位置のスライスが一瞬描画される（ちらつき）のを防ぐ。
-  useLayoutEffect(() => {
-    if (!isZoomed) return undefined;
-    const el = articleRef.current;
-    const next =
-      el && el.clientWidth > 0 && el.clientHeight > 0
-        ? estimateSceneIndexFromScrollLeft(
-            data.emakis,
-            el.scrollLeft,
-            el.clientWidth,
-            el.clientHeight,
-            0.5 // ズーム中心はビューポート中央（readingRatio と揃える / P3）
-          )
-        : contentWindowCenterRef.current;
-    if (Number.isFinite(next)) setZoomCenterIndex(next);
-    return undefined;
-  }, [isZoomed, data.emakis, contentWindowCenterRef]);
-
-  const ZOOM_NEIGHBOR_COUNT = 1;
-
-  // 中央スライスを基準に前後 N 枚（計3枚）を帯として収集する
+  // 改修B: スライス枚数は固定せず、ストリップ幅がステージ幅を満たすよう動的に収集する。
+  // 狭幅スライス（舟木本 等）は片側2〜3枚へ自動拡張、通常幅は最小3枚に落ち着く。
   const collectZoomSlices = useCallback(
     (centerIndex) => {
-      if (!processedEmakis.length) return [];
-      const c = Math.max(
-        0,
-        Math.min(
-          processedEmakis.length - 1,
-          Math.round(Number.isFinite(centerIndex) ? centerIndex : 0)
-        )
+      const items = processedEmakis;
+      if (!items.length) return [];
+      const el = articleRef.current;
+      const rowHeightPx = el?.clientHeight || 0;
+      const { from, to } = computeZoomStripRange(
+        items,
+        centerIndex,
+        rowHeightPx,
+        el?.clientWidth || 0
       );
-      const from = Math.max(0, c - ZOOM_NEIGHBOR_COUNT);
-      const to = Math.min(processedEmakis.length - 1, c + ZOOM_NEIGHBOR_COUNT);
       const list = [];
       for (let i = from; i <= to; i += 1) {
-        const item = processedEmakis[i];
+        const item = items[i];
         if (!item?.src) continue;
         list.push({
           key: i,
@@ -898,6 +878,8 @@ const EmakiContainer = ({
             "f_auto",
             "q_auto:eco",
           ]),
+          // 画像ロード前でも strip.offsetWidth（= pan 可動域の基準）を確定させる
+          width: sceneWidthPx(item, rowHeightPx),
           ratio: (item.srcWidth || 1) / (item.srcHeight || 1),
         });
       }
@@ -912,23 +894,20 @@ const EmakiContainer = ({
   );
 
   // 初期 pan アライメント補正（P1）: article のビューポート中央にある内容
-  // （|scrollLeft| + clientWidth / 2）と、オーバーレイ strip 中央（前後スライス帯の
-  // 中央）が指す内容との差分。これで strip の原点が article の表示原点に一致し、
-  // ダブルクリック位置と拡大位置のズレを解消する。
+  // （|scrollLeft| + clientWidth / 2）と、オーバーレイ strip 中央が指す内容との差分。
+  // 収集範囲は collectZoomSlices と同じ computeZoomStripRange で求め、必ず一致させる。
+  // 戻り値はコンテンツ座標系の差分（openZoom 側で表示倍率を乗じてスクリーン px にする）。
   const computeZoomAlignPanX = useCallback(
     (centerIndex, rowHeightPx) => {
       const el = articleRef.current;
       const items = processedEmakis;
       if (!el || !items.length || !(rowHeightPx > 0)) return 0;
-      const c = Math.max(
-        0,
-        Math.min(
-          items.length - 1,
-          Math.round(Number.isFinite(centerIndex) ? centerIndex : 0)
-        )
+      const { from, to } = computeZoomStripRange(
+        items,
+        centerIndex,
+        rowHeightPx,
+        el.clientWidth
       );
-      const from = Math.max(0, c - ZOOM_NEIGHBOR_COUNT);
-      const to = Math.min(items.length - 1, c + ZOOM_NEIGHBOR_COUNT);
       let offsetFrom = 0;
       for (let i = 0; i < from; i += 1) {
         offsetFrom += sceneWidthPx(items[i], rowHeightPx);
@@ -955,15 +934,21 @@ const EmakiContainer = ({
   const enterZoomAtPoint = useCallback(
     (clientX, clientY, initialScale) => {
       const el = articleRef.current;
-      let centerIndex = zoomCenterIndex;
+      let centerIndex = Number.isFinite(contentWindowCenterRef.current)
+        ? contentWindowCenterRef.current
+        : zoomCenterIndex;
       if (el && el.clientWidth > 0 && el.clientHeight > 0) {
-        // ズーム中心はビューポート中央（0.5 / P3）
-        const estimated = estimateSceneIndexFromScrollLeft(
+        // 改修B: ピボットはビューポート中央ではなくカーソル下のコンテンツ座標。
+        // contentAt(X) = |scrollLeft| + (containerRect.right - X)
+        const rect = el.getBoundingClientRect();
+        const focusX = Number.isFinite(clientX)
+          ? clientX
+          : rect.left + rect.width / 2;
+        const contentX = Math.abs(el.scrollLeft) + (rect.right - focusX);
+        const estimated = sceneIndexAtContentX(
           data.emakis,
-          el.scrollLeft,
-          el.clientWidth,
-          el.clientHeight,
-          0.5
+          contentX,
+          el.clientHeight
         );
         if (Number.isFinite(estimated)) centerIndex = estimated;
       }
@@ -979,6 +964,7 @@ const EmakiContainer = ({
       data.emakis,
       zoomCenterIndex,
       computeZoomAlignPanX,
+      contentWindowCenterRef,
       openZoom,
     ]
   );
