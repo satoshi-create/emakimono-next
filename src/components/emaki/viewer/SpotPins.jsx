@@ -11,11 +11,18 @@
  */
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/SpotPins.module.css";
+import { useRouter } from "next/router";
 import { useContext } from "react";
 
 const SpotPins = ({ spots, linkId }) => {
   const { handleToId } = useContext(AppContext);
+  // 英語ロケールでは nameen を優先表示（未設定なら日本語 name へフォールバック）。
+  // useLocale は重量データ（staticData / metadata-cache）を引き込むため router を直接参照する。
+  const { locale } = useRouter();
   if (!spots?.length) return null;
+
+  const spotLabel = (spot) =>
+    locale === "en" && spot.nameen ? spot.nameen : spot.name;
 
   const goToScene = (e) => {
     e.stopPropagation();
@@ -29,26 +36,29 @@ const SpotPins = ({ spots, linkId }) => {
 
   return (
     <div className={styles.layer}>
-      {spots.map((spot) => (
-        <button
-          key={spot.id}
-          type="button"
-          className={styles.pin}
-          style={{
-            left: `${spot.x}%`,
-            top: `${spot.y}%`,
-            "--pin-tx": pinTx(spot.x),
-          }}
-          title={spot.name}
-          aria-label={spot.name}
-          draggable={false}
-          onPointerDown={(e) => e.stopPropagation()}
-          onClick={goToScene}
-        >
-          <span className={styles.dot} aria-hidden="true" />
-          <span className={styles.label}>{spot.name}</span>
-        </button>
-      ))}
+      {spots.map((spot) => {
+        const label = spotLabel(spot);
+        return (
+          <button
+            key={spot.id}
+            type="button"
+            className={styles.pin}
+            style={{
+              left: `${spot.x}%`,
+              top: `${spot.y}%`,
+              "--pin-tx": pinTx(spot.x),
+            }}
+            title={label}
+            aria-label={label}
+            draggable={false}
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={goToScene}
+          >
+            <span className={styles.dot} aria-hidden="true" />
+            <span className={styles.label}>{label}</span>
+          </button>
+        );
+      })}
     </div>
   );
 };

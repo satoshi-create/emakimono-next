@@ -55,6 +55,14 @@ export const CONTENT_WINDOW_EXIT_RADIUS = 5;
 /** 再生・自動スクロール中 */
 export const CONTENT_WINDOW_PLAY_BEHIND = 3;
 export const CONTENT_WINDOW_PLAY_AHEAD = 12;
+/**
+ * 屏風（typeen === "byobu"）専用の描画窓。
+ * スライスのアスペクト比が約 0.365 と極端に細く、通常の前後数枚では横長ビューポートを
+ * 埋めきれず左側が空白になる。舟木本は全 12 スライスと少ないため、中身を常時全枚マウント
+ * しても問題ない（通常絵巻の描画窓には影響させない）。
+ */
+export const CONTENT_WINDOW_BYOBU_BEHIND = 64;
+export const CONTENT_WINDOW_BYOBU_AHEAD = 64;
 /** @deprecated */
 export const CONTENT_WINDOW_PLAY_ENTER_RADIUS = 8;
 

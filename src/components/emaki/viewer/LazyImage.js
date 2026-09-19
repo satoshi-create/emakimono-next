@@ -108,6 +108,7 @@ const LazyImage = ({
   sceneIndex, // 先読み用（再生中は liveSceneIndex。未指定時は navIndex）
   isPlayMode, // 再生モード状態
   emakiId, // 計測用: 絵巻ID
+  isByobu, // 屏風（typeen === "byobu"）: sizes の過小評価を防ぐ
 }) => {
   const { toggleFullscreen } = useContext(AppContext);
   const prefetchIndex = sceneIndex ?? navIndex;
@@ -204,9 +205,19 @@ const LazyImage = ({
   // 不要なリクエストキャンセル（HAR: status 0）や二重フェッチの原因となる
   // media query を使用して SSR/クライアント間の hydration mismatch を防止
   const ratioStr = (width / height).toFixed(4);
+  // 屏風（舟木本 等）は ratio ≈ 0.365 と極端に細く、SP（375〜420px）では
+  // calc(ratio * 45vh) が約 130px となり、極小候補（w_256 / w_384）が選ばれて
+  // 拡大時にモザイク状にぼける。屏風のみ下限幅を設けて高解像度側へ寄せる
+  // （通常絵巻は従来式のまま＝配信量・レイアウトのリグレッションなし）。
+  const portraitSizes = isByobu
+    ? `max(calc(${ratioStr} * 45vh), 320px)`
+    : `calc(${ratioStr} * 45vh)`;
+  const landscapeSizes = isByobu
+    ? `max(calc(${ratioStr} * 75vh), 480px)`
+    : `calc(${ratioStr} * 75vh)`;
   const imageSizes = toggleFullscreen
     ? `calc(${ratioStr} * 100vh)`
-    : `(orientation: portrait) calc(${ratioStr} * 45vh), calc(${ratioStr} * 75vh)`;
+    : `(orientation: portrait) ${portraitSizes}, ${landscapeSizes}`;
 
   // 幅は親 section（buildSceneShellStyle）が担う。ここは 100% 充填のみ（差し替え時の幅揺れ防止）
   return (

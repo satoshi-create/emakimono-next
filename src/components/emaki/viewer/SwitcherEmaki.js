@@ -94,6 +94,7 @@ const SwitcherEmaki = forwardRef(
             isPlayMode={isPlayMode}
             sceneIndex={sceneIndex}
             emakiId={data?.titleen}
+            isByobu={isByobu}
           />
           {spots?.length ? <SpotPins spots={spots} linkId={item.linkId} /> : null}
         </section>

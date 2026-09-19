@@ -83,6 +83,8 @@ type EmakiSceneBase = {
 export type EmakiSpot = {
   id: string;
   name: string;
+  /** 英語ロケール表示用のスポット名（未設定なら name へフォールバック） */
+  nameen?: string;
   x: number;
   y: number;
 };

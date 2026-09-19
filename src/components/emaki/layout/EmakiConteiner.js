@@ -1001,6 +1001,12 @@ const EmakiContainer = ({
     typeof window !== "undefined"
       ? Number(String(window.location.hash || "").replace("#", "")) || 0
       : 0;
+  // 屏風（typeen === "byobu"）: スライス幅が約 0.365 と極端に細く、通常の描画窓
+  // （画面内＋前後数枚）では PC の横長ビューポートを埋めきれず左側が空白になる。
+  // 舟木本は全 12 スライスと少ないため、中身のマウントを全スライスへ広げる
+  // （通常絵巻は isByobu=false のまま＝従来の描画窓でリグレッションなし）。
+  const isByobu = isByobuScroll(data);
+  const mountWindowOpts = { isPlayMode: windowIsPlaying, isByobu };
   const nextContentMounted = new Set();
   for (let i = 0; i < processedEmakis.length; i += 1) {
     const wasMounted = contentWindowMountedRef.current.has(i);
@@ -1008,12 +1014,13 @@ const EmakiContainer = ({
       i,
       windowCenter,
       wasMounted,
-      { isPlayMode: windowIsPlaying }
+      mountWindowOpts
     );
     const nearHash =
       pendingHashCenter > 0 &&
       shouldMountSceneContent(i, pendingHashCenter, false, {
         isPlayMode: false,
+        isByobu,
       });
     if (nearCenter || nearHash) {
       nextContentMounted.add(i);

@@ -9,6 +9,7 @@ const EmakiImage = ({
   isPlayMode,
   sceneIndex,
   emakiId,
+  isByobu,
 }) => {
   const { scrollDialog } = useContext(AppContext);
 
@@ -29,6 +30,7 @@ const EmakiImage = ({
         sceneIndex={sceneIndex}
         isPlayMode={isPlayMode}
         emakiId={emakiId}
+        isByobu={isByobu}
       />
     </div>
   );

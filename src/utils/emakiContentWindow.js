@@ -4,6 +4,8 @@
 import {
   CONTENT_WINDOW_AHEAD,
   CONTENT_WINDOW_BEHIND,
+  CONTENT_WINDOW_BYOBU_AHEAD,
+  CONTENT_WINDOW_BYOBU_BEHIND,
   CONTENT_WINDOW_PLAY_AHEAD,
   CONTENT_WINDOW_PLAY_BEHIND,
   SCENE_DETECTION_HYSTERESIS_SHARE,
@@ -15,7 +17,9 @@ import {
  * @param {number} index 配列 index（section[id] / linkId）
  * @param {number} centerIndex 読取中心（scrollLeft 追従の contentWindowCenter 等）
  * @param {boolean} wasMounted 直前フレームで中身を載せていたか
- * @param {{ isPlayMode?: boolean }} [opts]
+ * @param {{ isPlayMode?: boolean, isByobu?: boolean }} [opts]
+ *   isByobu: 屏風（typeen === "byobu"）。狭幅スライスで画面幅を埋めきれないため、
+ *   描画窓を全スライスへ広げる（通常絵巻の判定は不変）。
  */
 export function shouldMountSceneContent(
   index,
@@ -26,10 +30,14 @@ export function shouldMountSceneContent(
   // sticky: 一度載せた中身は外さない（remount による blur 再発・幅揺れを防ぐ）
   if (wasMounted) return true;
   const center = Number.isFinite(centerIndex) ? centerIndex : 0;
-  const ahead = opts.isPlayMode
+  const ahead = opts.isByobu
+    ? CONTENT_WINDOW_BYOBU_AHEAD
+    : opts.isPlayMode
     ? CONTENT_WINDOW_PLAY_AHEAD
     : CONTENT_WINDOW_AHEAD;
-  const behind = opts.isPlayMode
+  const behind = opts.isByobu
+    ? CONTENT_WINDOW_BYOBU_BEHIND
+    : opts.isPlayMode
     ? CONTENT_WINDOW_PLAY_BEHIND
     : CONTENT_WINDOW_BEHIND;
   // index 大 = 巻の先（RTL で進む方向）。前方を厚く先読みする

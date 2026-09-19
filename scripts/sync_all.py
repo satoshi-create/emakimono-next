@@ -261,7 +261,8 @@ def _scene_spot_map(scene: dict, image_slot_rows: list[dict]) -> dict[int, list[
 
     - spot.index でスライス（扇）を指定。未指定は段の先頭スライスへ寄せる
     - 1段 = 複数スライス（屏風の 1段 = 2扇 等）でも扇単位でピンを置ける
-    - ビューアへ渡すキーは id / name / x / y のみ（index は振り分け専用）
+    - ビューアへ渡すキーは id / name / nameen（任意）/ x / y（index は振り分け専用）
+    - nameen: 英語ロケール表示用のスポット名。未指定ならビューア側で name へフォールバック
     - 画像スロットに存在しない index は誤ピン防止のためエラーで止める
     """
     raw_spots = scene.get("spots") or []
@@ -294,9 +295,11 @@ def _scene_spot_map(scene: dict, image_slot_rows: list[dict]) -> dict[int, list[
                 f"Scene id={scene['id']}: spot {spot_id!r} index {target} is not an "
                 f"image slot (expected one of {sorted(valid_indexes)})"
             )
-        out.setdefault(target, []).append(
-            {"id": str(spot_id), "name": str(name), "x": x, "y": y}
-        )
+        spot_entry = {"id": str(spot_id), "name": str(name), "x": x, "y": y}
+        name_en = spot.get("nameen")
+        if isinstance(name_en, str) and name_en.strip():
+            spot_entry["nameen"] = name_en.strip()
+        out.setdefault(target, []).append(spot_entry)
     return out
 
 

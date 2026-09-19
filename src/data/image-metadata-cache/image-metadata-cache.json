@@ -4909,19 +4909,22 @@
             "id": "toyokunisha",
             "name": "豊国社",
             "x": 56,
-            "y": 16
+            "y": 16,
+            "nameen": "Toyokuni Shrine"
           },
           {
             "id": "toyokunitebutai",
             "name": "豊国定舞台",
             "x": 62,
-            "y": 54
+            "y": 54,
+            "nameen": "Toyokuni Stage"
           },
           {
             "id": "sanjuusangendo",
             "name": "三十三間堂",
             "x": 66,
-            "y": 86
+            "y": 86,
+            "nameen": "Sanjusangen-do"
           }
         ]
       },
@@ -4938,13 +4941,15 @@
             "id": "daibutsuden",
             "name": "方広寺大仏殿",
             "x": 57,
-            "y": 44
+            "y": 44,
+            "nameen": "Great Buddha Hall (Hoko-ji)"
           },
           {
             "id": "myohoin",
             "name": "妙法院",
             "x": 94,
-            "y": 24
+            "y": 24,
+            "nameen": "Myoho-in"
           }
         ]
       },
@@ -4970,25 +4975,29 @@
             "id": "kiyomizudera",
             "name": "清水寺",
             "x": 71,
-            "y": 11
+            "y": 11,
+            "nameen": "Kiyomizu-dera"
           },
           {
             "id": "rokuharamitsuji",
             "name": "六波羅蜜寺",
             "x": 88,
-            "y": 40
+            "y": 40,
+            "nameen": "Rokuharamitsu-ji"
           },
           {
             "id": "gojodori",
             "name": "五条通",
             "x": 18,
-            "y": 60
+            "y": 60,
+            "nameen": "Gojo Street"
           },
           {
             "id": "shichijo-kawara",
             "name": "七条河原",
             "x": 76.0,
-            "y": 84.5
+            "y": 84.5,
+            "nameen": "Shichijo Riverbed"
           }
         ]
       },
@@ -5005,13 +5014,15 @@
             "id": "gionsha",
             "name": "祇園社",
             "x": 89,
-            "y": 11
+            "y": 11,
+            "nameen": "Gion Shrine (Yasaka)"
           },
           {
             "id": "kenninji",
             "name": "建仁寺",
             "x": 58,
-            "y": 35
+            "y": 35,
+            "nameen": "Kennin-ji"
           }
         ]
       },
@@ -5037,13 +5048,15 @@
             "id": "chionin",
             "name": "知恩院",
             "x": 69,
-            "y": 10
+            "y": 10,
+            "nameen": "Chion-in"
           },
           {
             "id": "gojobashi",
             "name": "五条大橋",
             "x": 56,
-            "y": 50
+            "y": 50,
+            "nameen": "Gojo Bridge"
           }
         ]
       },
@@ -5060,25 +5073,29 @@
             "id": "sanjobashi",
             "name": "三条大橋",
             "x": 10,
-            "y": 11
+            "y": 11,
+            "nameen": "Sanjo Bridge"
           },
           {
             "id": "shijokawara",
             "name": "四条河原",
             "x": 60,
-            "y": 23
+            "y": 23,
+            "nameen": "Shijo Riverbed"
           },
           {
             "id": "gojoteramachi",
             "name": "五条寺町",
             "x": 61,
-            "y": 50
+            "y": 50,
+            "nameen": "Gojo Teramachi"
           },
           {
             "id": "rokujosanjyomachi",
             "name": "六条三筋町",
             "x": 82,
-            "y": 89
+            "y": 89,
+            "nameen": "Rokujo Sanjomachi"
           }
         ]
       },
@@ -5104,31 +5121,36 @@
             "id": "sanjobashi",
             "name": "三条大橋",
             "x": 36,
-            "y": 11
+            "y": 11,
+            "nameen": "Sanjo Bridge"
           },
           {
             "id": "kamogawa",
             "name": "賀茂川",
             "x": 84,
-            "y": 10
+            "y": 10,
+            "nameen": "Kamo River"
           },
           {
             "id": "gionryosho",
             "name": "祇園旅所",
             "x": 51,
-            "y": 31
+            "y": 31,
+            "nameen": "Gion Shrine Resting Place"
           },
           {
             "id": "rokujosanjyomachi",
             "name": "六条三筋町",
             "x": 91,
-            "y": 89
+            "y": 89,
+            "nameen": "Rokujo Sanjomachi"
           },
           {
             "id": "higashi-honganji",
             "name": "東本願寺",
             "x": 31.0,
-            "y": 71.5
+            "y": 71.5,
+            "nameen": "Higashi Hongan-ji"
           }
         ]
       },
@@ -5145,25 +5167,29 @@
             "id": "teramachi",
             "name": "寺町通",
             "x": 18,
-            "y": 17
+            "y": 17,
+            "nameen": "Teramachi Street"
           },
           {
             "id": "shijodori",
             "name": "四条通",
             "x": 21,
-            "y": 35
+            "y": 35,
+            "nameen": "Shijo Street"
           },
           {
             "id": "muromachidori",
             "name": "室町通",
             "x": 59,
-            "y": 49
+            "y": 49,
+            "nameen": "Muromachi Street"
           },
           {
             "id": "toji",
             "name": "東寺",
             "x": 94,
-            "y": 81
+            "y": 81,
+            "nameen": "To-ji"
           }
         ]
       },
@@ -5189,19 +5215,22 @@
             "id": "rokkakudo",
             "name": "六角堂",
             "x": 29,
-            "y": 17
+            "y": 17,
+            "nameen": "Rokkaku-do"
           },
           {
             "id": "shinmachidori",
             "name": "新町通",
             "x": 34,
-            "y": 43
+            "y": 43,
+            "nameen": "Shinmachi Street"
           },
           {
             "id": "nishihonganji",
             "name": "西本願寺",
             "x": 81,
-            "y": 78
+            "y": 78,
+            "nameen": "Nishi Hongan-ji"
           }
         ]
       },
@@ -5218,19 +5247,22 @@
             "id": "nijodori",
             "name": "二条通",
             "x": 49,
-            "y": 53
+            "y": 53,
+            "nameen": "Nijo Street"
           },
           {
             "id": "shimodachiuridori",
             "name": "下立売通",
             "x": 68,
-            "y": 46
+            "y": 46,
+            "nameen": "Shimodachiuri Street"
           },
           {
             "id": "kodaiin",
             "name": "高台院",
             "x": 83,
-            "y": 5
+            "y": 5,
+            "nameen": "Kodai-in"
           }
         ]
       },
@@ -5256,19 +5288,22 @@
             "id": "shishinden",
             "name": "紫宸殿",
             "x": 58,
-            "y": 5
+            "y": 5,
+            "nameen": "Shishinden Hall"
           },
           {
             "id": "minamimon",
             "name": "南門",
             "x": 41,
-            "y": 22
+            "y": 22,
+            "nameen": "South Gate"
           },
           {
             "id": "horikawadori",
             "name": "堀川通",
             "x": 49,
-            "y": 50
+            "y": 50,
+            "nameen": "Horikawa Street"
           }
         ]
       },
@@ -5285,19 +5320,22 @@
             "id": "nijocastle",
             "name": "二条城",
             "x": 32,
-            "y": 38
+            "y": 38,
+            "nameen": "Nijo Castle"
           },
           {
             "id": "seiryoden",
             "name": "清涼殿",
             "x": 81,
-            "y": 5
+            "y": 5,
+            "nameen": "Seiryoden Hall"
           },
           {
             "id": "higashinotoindori",
             "name": "東洞院通",
             "x": 22,
-            "y": 12
+            "y": 12,
+            "nameen": "Higashinotoin Street"
           }
         ]
       }
