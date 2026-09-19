@@ -23,6 +23,8 @@ const ZoomLayer = ({
   resetZoom,
   handlers,
   slices = [],
+  // 中心スライスの key（＝絵巻 index）。eager 読み込みの判定に使う
+  centerKey,
 }) => {
   if (!isZoomed) return null;
 
@@ -55,7 +57,7 @@ const ZoomLayer = ({
               src={s.src}
               alt=""
               draggable={false}
-              loading="eager"
+              loading={s.key === centerKey ? "eager" : "lazy"}
               onLoad={(e) =>
                 console.log(
                   "[zoom-slice-loaded]",

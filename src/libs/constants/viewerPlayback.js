@@ -34,11 +34,12 @@ export const ZOOM_STRIP_MIN_SLICES = 3;
 
 /**
  * 屏風（typeen === "byobu"）のズームストリップ最小スライス枚数。
- * 1スライスのアスペクト比が約 0.365 と極端に細く、前後1枚（計3枚）では
- * ステージ幅を埋めきれず左右に空白が出て低解像度のままに見えるため、
- * 最低5枚を収集して横幅を確保する。
+ * 高解像度スライスはデコード後 約19MB/枚。5枚同時常駐は iOS のメモリガード
+ * （256MB 制限）に触れ、低解像度プレビューモードへ落ちてぼやける原因になる。
+ * 650〜800% 拡大時に画面内へ見えるのは1スライスのごく一部（約60px 幅）のため、
+ * 中心＋前後1枚の3枚でもパン領域は確保でき、GPU 常駐を 97MB → 58MB へ削減できる。
  */
-export const ZOOM_STRIP_MIN_SLICES_BYOBU = 5;
+export const ZOOM_STRIP_MIN_SLICES_BYOBU = 3;
 
 /** 再生中の画像先読み（uniqueIndex ベース）— eager 同時発火を抑え、帯域を可視近傍へ集中 */
 export const PLAYBACK_IMAGE_LOOKAHEAD = 3;

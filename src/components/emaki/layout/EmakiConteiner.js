@@ -1319,6 +1319,7 @@ const EmakiContainer = ({
           resetZoom={resetZoom}
           handlers={zoomHandlers}
           slices={zoomSlices}
+          centerKey={zoomCenterIndex}
         />
         {hasCommentaryData && (
           <SceneCommentaryBar
