@@ -32,6 +32,14 @@ export const SCENE_DETECTION_TIE_TOLERANCE = 0.005;
 /** ズームストリップの最小スライス枚数（前後1枚＝計3枚。端では反対側へ枠を伸ばして確保） */
 export const ZOOM_STRIP_MIN_SLICES = 3;
 
+/**
+ * 屏風（typeen === "byobu"）のズームストリップ最小スライス枚数。
+ * 1スライスのアスペクト比が約 0.365 と極端に細く、前後1枚（計3枚）では
+ * ステージ幅を埋めきれず左右に空白が出て低解像度のままに見えるため、
+ * 最低5枚を収集して横幅を確保する。
+ */
+export const ZOOM_STRIP_MIN_SLICES_BYOBU = 5;
+
 /** 再生中の画像先読み（uniqueIndex ベース）— eager 同時発火を抑え、帯域を可視近傍へ集中 */
 export const PLAYBACK_IMAGE_LOOKAHEAD = 3;
 

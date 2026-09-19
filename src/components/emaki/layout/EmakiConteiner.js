@@ -66,6 +66,10 @@ import {
   buildShareUrl,
 } from "@/utils/buildShareUrl";
 import { isByobuScroll } from "@/utils/isByobuScroll";
+import {
+  ZOOM_STRIP_MIN_SLICES,
+  ZOOM_STRIP_MIN_SLICES_BYOBU,
+} from "@/libs/constants/viewerPlayback";
 import { scrollPositionStore } from "@/hooks/emaki/scrollPositionStore";
 import { runAfterPaint } from "@/utils/runAfterPaint";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
@@ -857,19 +861,41 @@ const EmakiContainer = ({
   // 開く時点の同期値（contentWindowCenterRef）を確定して以降は固定する。
   const [zoomCenterIndex, setZoomCenterIndex] = useState(0);
 
+  // ズーム起動時に実測した article 実寸。collectZoomSlices の useMemo 依存に入れ、
+  // 同値 centerIndex（巻頭 0 番等）で開いても最新実寸でスライスを再評価させる。
+  const [zoomStageMetrics, setZoomStageMetrics] = useState({
+    height: 0,
+    width: 0,
+  });
+
+  // 屏風は1スライスが極端に細く、通常の最小3枚ではステージ幅を埋めきれないため5枚を保証
+  const zoomMinSlices = isByobuScroll(data)
+    ? ZOOM_STRIP_MIN_SLICES_BYOBU
+    : ZOOM_STRIP_MIN_SLICES;
+
   // 改修B: スライス枚数は固定せず、ストリップ幅がステージ幅を満たすよう動的に収集する。
   // 狭幅スライス（舟木本 等）は片側2〜3枚へ自動拡張、通常幅は最小3枚に落ち着く。
   const collectZoomSlices = useCallback(
-    (centerIndex) => {
+    (centerIndex, metrics = {}) => {
       const items = processedEmakis;
       if (!items.length) return [];
       const el = articleRef.current;
-      const rowHeightPx = el?.clientHeight || 0;
+      // 初回コミット直後は clientHeight = 0 のことがある。0 のまま sceneWidthPx へ渡すと
+      // 1px 基準に潰れ、舟木本では約 0.36px のサブピクセル幅スライスが生成されて
+      // 倍率が最大へ張り付き低解像度のまま固定される。実測 → viewport 高の順で代用する
+      let rowHeightPx = metrics.height || el?.clientHeight || 0;
+      if (!(rowHeightPx > 0) && typeof window !== "undefined") {
+        rowHeightPx = window.innerHeight || 0;
+      }
+      // 実寸が取れない（非表示・SSR）場合はスライスを作らない
+      if (!(rowHeightPx > 0)) return [];
+      const stageWidthPx = metrics.width || el?.clientWidth || 0;
       const { from, to } = computeZoomStripRange(
         items,
         centerIndex,
         rowHeightPx,
-        el?.clientWidth || 0
+        stageWidthPx,
+        zoomMinSlices
       );
       const list = [];
       for (let i = from; i <= to; i += 1) {
@@ -890,19 +916,19 @@ const EmakiContainer = ({
             "f_auto",
             "q_auto:best",
           ]),
-          // 画像ロード前でも strip.offsetWidth（= pan 可動域の基準）を確定させる
-          width: sceneWidthPx(item, rowHeightPx),
-          ratio: (item.srcWidth || 1) / (item.srcHeight || 1),
+          // CSS 側の aspect-ratio で幅を算出させるため、実寸比だけを渡す
+          srcWidth: item.srcWidth || 0,
+          srcHeight: item.srcHeight || 0,
         });
       }
       return list;
     },
-    [processedEmakis]
+    [processedEmakis, zoomMinSlices]
   );
 
   const zoomSlices = useMemo(
-    () => collectZoomSlices(zoomCenterIndex),
-    [collectZoomSlices, zoomCenterIndex]
+    () => collectZoomSlices(zoomCenterIndex, zoomStageMetrics),
+    [collectZoomSlices, zoomCenterIndex, zoomStageMetrics]
   );
 
   // 初期 pan アライメント補正（P1）: article のビューポート中央にある内容
@@ -918,7 +944,8 @@ const EmakiContainer = ({
         items,
         centerIndex,
         rowHeightPx,
-        el.clientWidth
+        el.clientWidth,
+        zoomMinSlices
       );
       let offsetFrom = 0;
       for (let i = 0; i < from; i += 1) {
@@ -932,7 +959,7 @@ const EmakiContainer = ({
         Math.abs(el.scrollLeft) + el.clientWidth / 2;
       return viewportCenterFromStart - offsetFrom - stripWidth / 2;
     },
-    [processedEmakis]
+    [processedEmakis, zoomMinSlices]
   );
 
   // ズーム進入: 表示中央の中心スライスと初期 pan を openZoom と同一コミットで
@@ -964,11 +991,20 @@ const EmakiContainer = ({
         );
         if (Number.isFinite(estimated)) centerIndex = estimated;
       }
+      // ズーム起動時に article の実寸を直接実測して確定する。初回レンダー時などに
+      // clientHeight = 0 のまま確定したスライス寸法を、同値 centerIndex の useMemo が
+      // 抱え続けて解像度が上がらない（＝ボケたまま固定）のを防ぐ。
+      const measuredHeight = el?.clientHeight || 0;
+      const measuredWidth = el?.clientWidth || 0;
+      if (measuredHeight > 0 || measuredWidth > 0) {
+        setZoomStageMetrics((prev) =>
+          prev.height === measuredHeight && prev.width === measuredWidth
+            ? prev
+            : { height: measuredHeight, width: measuredWidth }
+        );
+      }
       setZoomCenterIndex(centerIndex);
-      const initialPanX = computeZoomAlignPanX(
-        centerIndex,
-        el ? el.clientHeight : 0
-      );
+      const initialPanX = computeZoomAlignPanX(centerIndex, measuredHeight);
       zoomOpenTokenRef.current += 1;
       openZoom(clientX, clientY, initialPanX, initialScale);
     },

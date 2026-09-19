@@ -56,11 +56,25 @@ const ZoomLayer = ({
               alt=""
               draggable={false}
               loading="eager"
-              // 実描画幅を明示: 画像ロード前でも strip.offsetWidth が確定し、
-              // 可動域クランプ（clampPan）が 0 へ握り潰されない
+              onLoad={(e) =>
+                console.log(
+                  "[zoom-slice-loaded]",
+                  e.currentTarget.naturalWidth,
+                  e.currentTarget.currentSrc
+                )
+              }
+              onError={(e) =>
+                console.warn("[zoom-slice-err]", e.currentTarget.currentSrc)
+              }
+              // 実幅のインライン指定は廃止。CSS の height:100% + width:auto に
+              // aspect-ratio を渡し、レンダリング側で正確な幅を自動計算させる
+              // （ロード前でも幅が確定し、strip.offsetWidth が 0 へ潰れない）。
               style={
-                Number.isFinite(s.width) && s.width > 0
-                  ? { width: `${s.width}px` }
+                Number.isFinite(s.srcWidth) &&
+                s.srcWidth > 0 &&
+                Number.isFinite(s.srcHeight) &&
+                s.srcHeight > 0
+                  ? { aspectRatio: `${s.srcWidth} / ${s.srcHeight}` }
                   : undefined
               }
             />

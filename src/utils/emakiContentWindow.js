@@ -306,13 +306,15 @@ export function sceneIndexAtContentX(emakis, contentX, rowHeightPx) {
  * 改修B: ズームストリップとして収集するスライス範囲 [from, to]。
  * 最小 ZOOM_STRIP_MIN_SLICES 枚を確保しつつ、ストリップ幅が最小倍率（fit）で
  * ステージ幅を満たすまで中心から左右交互に広げる（端では反対側へ枠を伸ばす）。
+ * @param {number} [minSlices] 最低収集枚数（屏風は ZOOM_STRIP_MIN_SLICES_BYOBU を渡す）
  * @returns {{ from: number, to: number, width: number }}
  */
 export function computeZoomStripRange(
   emakis,
   centerIndex,
   rowHeightPx,
-  stageWidthPx
+  stageWidthPx,
+  minSlices = ZOOM_STRIP_MIN_SLICES
 ) {
   const items = Array.isArray(emakis) ? emakis : [];
   const count = items.length;
@@ -324,7 +326,12 @@ export function computeZoomStripRange(
   const requiredW = stageW;
   const canCover = rowH > 0 && stageW > 0;
   const widthOf = (i) => sceneWidthPx(items[i], rowH);
-  const minCount = Math.min(ZOOM_STRIP_MIN_SLICES, count);
+  // 屏風は minSlices を 5 に引き上げる。不正値は既定枚数へフォールバック
+  const requested =
+    Number.isFinite(minSlices) && minSlices > 0
+      ? Math.floor(minSlices)
+      : ZOOM_STRIP_MIN_SLICES;
+  const minCount = Math.min(Math.max(1, requested), count);
   let from = c;
   let to = c;
   let width = widthOf(c);
