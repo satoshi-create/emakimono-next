@@ -114,8 +114,22 @@ export type UseScrollPositionRestoreParams = {
 /**
  * useEmakiZoomPan — ズーム＆パン（兄弟オーバーレイ方式）。
  * ZoomLayer（src/components/emaki/viewer/ZoomLayer.jsx）が消費する。
- * scale は 1.0〜3.0、初期値 2.0（等倍 1.0 まで縮小すると通常スクロールへ復帰）。
+ * scale は 1.0〜maxScale、初期値 2.0（等倍 1.0 まで縮小すると通常スクロールへ復帰）。
+ * maxScale は既定 6.0（600%）。屏風（typeen === "byobu"）は狭幅スライス向けに 8.0（800%）。
  */
+export type UseEmakiZoomPanParams = {
+  onOpen?: () => void;
+  onDoubleTap?: () => void;
+  /** ジェスチャ（ピンチ / Ctrl+ホイール）を常時受ける entry-container */
+  containerRef?: RefObject<HTMLElement>;
+  /** 等倍からズーム状態へ同期進入するための進入関数 ref */
+  requestZoomRef?: RefObject<
+    (focusX?: number, focusY?: number, initialScale?: number) => void
+  >;
+  /** ズーム上限倍率（未指定 = 6.0）。1.0〜10.0 にクランプされる */
+  maxScale?: number;
+};
+
 export type UseEmakiZoomPanResult = {
   isZoomed: boolean;
   scale: number;

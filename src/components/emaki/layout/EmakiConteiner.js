@@ -65,6 +65,7 @@ import * as gtag from "@/libs/api/gtag";
 import {
   buildShareUrl,
 } from "@/utils/buildShareUrl";
+import { isByobuScroll } from "@/utils/isByobuScroll";
 import { scrollPositionStore } from "@/hooks/emaki/scrollPositionStore";
 import { runAfterPaint } from "@/utils/runAfterPaint";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
@@ -649,6 +650,9 @@ const EmakiContainer = ({
     onDoubleTap: handleViewerDoubleTap,
     containerRef: entryContainerRef,
     requestZoomRef: enterZoomRef,
+    // 屏風（舟木本 等）はスライス幅が狭く 300% では人物が小さいため 800% まで拡大可能にする。
+    // 絵巻（鳥獣戯画 等）は既定の 600% のまま（maxScale 未指定 = フック既定値）。
+    maxScale: isByobuScroll(data) ? 8 : undefined,
   });
 
   // パームドラッグ終了: ドラッグ中はシーン確定を保留しているため、離した直後に
@@ -874,9 +878,13 @@ const EmakiContainer = ({
         list.push({
           key: i,
           src: buildCloudinaryUrl(item.src, [
-            `w_${Math.round((item.srcWidth || 1200) * 1.5)}`,
+            "c_limit",
+            // 600〜800% 拡大時もスライス原寸（舟木本 = 1328px 幅）を使い切る。
+            // 2000px 以上かつ原寸以上を要求し、c_limit が原寸でキャップする
+            // （要求幅が原寸を下回ると、拡大時に Cloudinary 側で縮小されてぼやける）。
+            `w_${Math.max(2000, Math.round(item.srcWidth || 0))}`,
             "f_auto",
-            "q_auto:eco",
+            "q_auto:best",
           ]),
           // 画像ロード前でも strip.offsetWidth（= pan 可動域の基準）を確定させる
           width: sceneWidthPx(item, rowHeightPx),

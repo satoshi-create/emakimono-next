@@ -186,7 +186,7 @@ const LazyImage = ({
   const PAPER_COLOR_BLUR_DATA_URL =
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect fill='%23f5f0e6' width='1' height='1'/%3E%3C/svg%3E";
 
-  const cloudinaryLoader = ({ src, width }) => {
+  const cloudinaryLoader = ({ src, width, quality }) => {
     // 変換はスラッシュ区切りのみ（カンマは srcset を分割し相対パス 404 になる）
     // dpr_auto は付けない: next/image の srcset が devicePixelRatio を考慮して候補を選ぶため、
     // w_×dpr の二重拡大による過大な配信を防ぐ
@@ -195,7 +195,7 @@ const LazyImage = ({
       "c_limit",
       `w_${width}`,
       "f_auto",
-      "q_auto:eco",
+      quality ? `q_${quality}` : "q_auto:good",
     ]);
   };
 
@@ -251,6 +251,7 @@ const LazyImage = ({
         lazyBoundary={isPlayMode ? "2400px" : "1600px"}
         layout="responsive"
         sizes={imageSizes}
+        quality={toggleFullscreen ? 92 : 85}
         placeholder={alreadyHydrated ? "empty" : "blur"}
         blurDataURL={alreadyHydrated ? undefined : PAPER_COLOR_BLUR_DATA_URL}
         onLoadingComplete={() => {

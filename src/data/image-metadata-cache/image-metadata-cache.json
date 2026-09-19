@@ -4903,7 +4903,27 @@
         "src": "v1789564437/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_01__01.jpg",
         "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_01__01",
         "srcHeight": 3642,
-        "srcWidth": 1328
+        "srcWidth": 1328,
+        "spots": [
+          {
+            "id": "toyokunisha",
+            "name": "豊国社",
+            "x": 56,
+            "y": 16
+          },
+          {
+            "id": "toyokunitebutai",
+            "name": "豊国定舞台",
+            "x": 62,
+            "y": 54
+          },
+          {
+            "id": "sanjuusangendo",
+            "name": "三十三間堂",
+            "x": 66,
+            "y": 86
+          }
+        ]
       },
       {
         "cat": "image",
@@ -4912,7 +4932,21 @@
         "src": "v1789564437/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_01__02.jpg",
         "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_01__02",
         "srcHeight": 3642,
-        "srcWidth": 1328
+        "srcWidth": 1328,
+        "spots": [
+          {
+            "id": "daibutsuden",
+            "name": "方広寺大仏殿",
+            "x": 57,
+            "y": 44
+          },
+          {
+            "id": "myohoin",
+            "name": "妙法院",
+            "x": 94,
+            "y": 24
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -4930,7 +4964,33 @@
         "src": "v1789564437/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_02__01.jpg",
         "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_02__01",
         "srcHeight": 3642,
-        "srcWidth": 1328
+        "srcWidth": 1328,
+        "spots": [
+          {
+            "id": "kiyomizudera",
+            "name": "清水寺",
+            "x": 71,
+            "y": 11
+          },
+          {
+            "id": "rokuharamitsuji",
+            "name": "六波羅蜜寺",
+            "x": 88,
+            "y": 40
+          },
+          {
+            "id": "gojodori",
+            "name": "五条通",
+            "x": 18,
+            "y": 60
+          },
+          {
+            "id": "shichijo-kawara",
+            "name": "七条河原",
+            "x": 76.0,
+            "y": 84.5
+          }
+        ]
       },
       {
         "cat": "image",
@@ -4939,7 +4999,21 @@
         "src": "v1789564441/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_02__02.jpg",
         "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_02__02",
         "srcHeight": 3642,
-        "srcWidth": 1328
+        "srcWidth": 1328,
+        "spots": [
+          {
+            "id": "gionsha",
+            "name": "祇園社",
+            "x": 89,
+            "y": 11
+          },
+          {
+            "id": "kenninji",
+            "name": "建仁寺",
+            "x": 58,
+            "y": 35
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -4957,7 +5031,21 @@
         "src": "v1789564442/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_03__01.jpg",
         "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_03__01",
         "srcHeight": 3642,
-        "srcWidth": 1328
+        "srcWidth": 1328,
+        "spots": [
+          {
+            "id": "chionin",
+            "name": "知恩院",
+            "x": 69,
+            "y": 10
+          },
+          {
+            "id": "gojobashi",
+            "name": "五条大橋",
+            "x": 56,
+            "y": 50
+          }
+        ]
       },
       {
         "cat": "image",
@@ -4966,7 +5054,33 @@
         "src": "v1789564441/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_03__02.jpg",
         "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_03__02",
         "srcHeight": 3642,
-        "srcWidth": 1330
+        "srcWidth": 1330,
+        "spots": [
+          {
+            "id": "sanjobashi",
+            "name": "三条大橋",
+            "x": 10,
+            "y": 11
+          },
+          {
+            "id": "shijokawara",
+            "name": "四条河原",
+            "x": 60,
+            "y": 23
+          },
+          {
+            "id": "gojoteramachi",
+            "name": "五条寺町",
+            "x": 61,
+            "y": 50
+          },
+          {
+            "id": "rokujosanjyomachi",
+            "name": "六条三筋町",
+            "x": 82,
+            "y": 89
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -4984,7 +5098,39 @@
         "src": "v1789564446/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_04__01.jpg",
         "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_04__01",
         "srcHeight": 3642,
-        "srcWidth": 1328
+        "srcWidth": 1328,
+        "spots": [
+          {
+            "id": "sanjobashi",
+            "name": "三条大橋",
+            "x": 36,
+            "y": 11
+          },
+          {
+            "id": "kamogawa",
+            "name": "賀茂川",
+            "x": 84,
+            "y": 10
+          },
+          {
+            "id": "gionryosho",
+            "name": "祇園旅所",
+            "x": 51,
+            "y": 31
+          },
+          {
+            "id": "rokujosanjyomachi",
+            "name": "六条三筋町",
+            "x": 91,
+            "y": 89
+          },
+          {
+            "id": "higashi-honganji",
+            "name": "東本願寺",
+            "x": 31.0,
+            "y": 71.5
+          }
+        ]
       },
       {
         "cat": "image",
@@ -4993,7 +5139,33 @@
         "src": "v1789564446/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_04__02.jpg",
         "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_04__02",
         "srcHeight": 3642,
-        "srcWidth": 1328
+        "srcWidth": 1328,
+        "spots": [
+          {
+            "id": "teramachi",
+            "name": "寺町通",
+            "x": 18,
+            "y": 17
+          },
+          {
+            "id": "shijodori",
+            "name": "四条通",
+            "x": 21,
+            "y": 35
+          },
+          {
+            "id": "muromachidori",
+            "name": "室町通",
+            "x": 59,
+            "y": 49
+          },
+          {
+            "id": "toji",
+            "name": "東寺",
+            "x": 94,
+            "y": 81
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -5011,7 +5183,27 @@
         "src": "v1789564446/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_05__01.jpg",
         "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_05__01",
         "srcHeight": 3642,
-        "srcWidth": 1328
+        "srcWidth": 1328,
+        "spots": [
+          {
+            "id": "rokkakudo",
+            "name": "六角堂",
+            "x": 29,
+            "y": 17
+          },
+          {
+            "id": "shinmachidori",
+            "name": "新町通",
+            "x": 34,
+            "y": 43
+          },
+          {
+            "id": "nishihonganji",
+            "name": "西本願寺",
+            "x": 81,
+            "y": 78
+          }
+        ]
       },
       {
         "cat": "image",
@@ -5020,7 +5212,27 @@
         "src": "v1789564450/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_05__02.jpg",
         "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_05__02",
         "srcHeight": 3642,
-        "srcWidth": 1328
+        "srcWidth": 1328,
+        "spots": [
+          {
+            "id": "nijodori",
+            "name": "二条通",
+            "x": 49,
+            "y": 53
+          },
+          {
+            "id": "shimodachiuridori",
+            "name": "下立売通",
+            "x": 68,
+            "y": 46
+          },
+          {
+            "id": "kodaiin",
+            "name": "高台院",
+            "x": 83,
+            "y": 5
+          }
+        ]
       },
       {
         "cat": "ekotoba",
@@ -5038,7 +5250,27 @@
         "src": "v1789564450/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_06__01.jpg",
         "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_06__01",
         "srcHeight": 3642,
-        "srcWidth": 1328
+        "srcWidth": 1328,
+        "spots": [
+          {
+            "id": "shishinden",
+            "name": "紫宸殿",
+            "x": 58,
+            "y": 5
+          },
+          {
+            "id": "minamimon",
+            "name": "南門",
+            "x": 41,
+            "y": 22
+          },
+          {
+            "id": "horikawadori",
+            "name": "堀川通",
+            "x": 49,
+            "y": 50
+          }
+        ]
       },
       {
         "cat": "image",
@@ -5047,7 +5279,27 @@
         "src": "v1789564450/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_06__02.jpg",
         "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_06__02",
         "srcHeight": 3642,
-        "srcWidth": 1330
+        "srcWidth": 1330,
+        "spots": [
+          {
+            "id": "nijocastle",
+            "name": "二条城",
+            "x": 32,
+            "y": 38
+          },
+          {
+            "id": "seiryoden",
+            "name": "清涼殿",
+            "x": 81,
+            "y": 5
+          },
+          {
+            "id": "higashinotoindori",
+            "name": "東洞院通",
+            "x": 22,
+            "y": 12
+          }
+        ]
       }
     ]
   }

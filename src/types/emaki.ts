@@ -79,11 +79,21 @@ type EmakiSceneBase = {
   uniqueIndex?: number | null;
 };
 
+/** 名所スポットピン（屏風のみ）。x / y はスライス内の百分率（左上原点） */
+export type EmakiSpot = {
+  id: string;
+  name: string;
+  x: number;
+  y: number;
+};
+
 /** 絵画シーン（cat === "image"）。srcWidth/srcHeight は image のみに存在 */
 export type EmakiImageScene = EmakiSceneBase & {
   cat: "image";
   srcWidth?: number;
   srcHeight?: number;
+  /** 屏風の名所スポット（sync が scenes[].spots を扇 index へ振り分けて付与） */
+  spots?: EmakiSpot[];
 };
 
 /** 詞書シーン（cat === "ekotoba"） */

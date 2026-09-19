@@ -16,7 +16,10 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const DEFAULT_SCALE = 2;
-const MAX_SCALE = 3;
+// ズーム上限。屏風（舟木本など）はスライス幅が狭く 300% では人物が小さいため、
+// 既定を 600% とし、maxScale prop（屏風 = 800%）で作品特性に応じて引き上げられる。
+const MAX_SCALE = 6;
+const HARD_MAX_SCALE = 10; // maxScale prop の安全上限（UI 表示・配信解像度の破綻防止）
 const ZOOM_STEP = 0.2;
 const WHEEL_ZOOM_RATE = 0.002;
 const FALLBACK_MIN_SCALE = 1; // 等倍（これ以下は通常スクロールへ復帰）
@@ -35,7 +38,13 @@ export default function useEmakiZoomPan({
   onDoubleTap,
   containerRef,
   requestZoomRef,
+  maxScale: maxScaleProp,
 } = {}) {
+  // 作品特性に応じたズーム上限（未指定 = 600%、屏風 = 800%）。不正値は既定へ戻す。
+  const maxScale = isFiniteNumber(maxScaleProp)
+    ? clamp(maxScaleProp, FALLBACK_MIN_SCALE, HARD_MAX_SCALE)
+    : MAX_SCALE;
+
   const [isZoomed, setIsZoomed] = useState(false);
   const [scale, setScale] = useState(DEFAULT_SCALE);
   const [panX, setPanX] = useState(0);
@@ -88,9 +97,9 @@ export default function useEmakiZoomPan({
     return clamp(
       Math.max(FALLBACK_MIN_SCALE, heightFit, widthFit),
       FALLBACK_MIN_SCALE,
-      MAX_SCALE
+      maxScale
     );
-  }, []);
+  }, [maxScale]);
 
   // scale 倍時の可動域（transform-origin: center center 前提）
   const getPanBounds = useCallback((nextScale) => {
@@ -122,7 +131,7 @@ export default function useEmakiZoomPan({
   const commitScale = useCallback(
     (nextScale, nextX, nextY) => {
       const raw = isFiniteNumber(nextScale) ? nextScale : DEFAULT_SCALE;
-      const safeScale = clamp(raw, getFitScale(), MAX_SCALE);
+      const safeScale = clamp(raw, getFitScale(), maxScale);
       const [x, y] = clampPan(nextX, nextY, safeScale);
       scaleRef.current = safeScale;
       panRef.current = { x, y };
@@ -131,7 +140,7 @@ export default function useEmakiZoomPan({
       setPanY(y);
       return safeScale;
     },
-    [clampPan, getFitScale]
+    [clampPan, getFitScale, maxScale]
   );
 
   const applyScale = useCallback(
@@ -144,7 +153,7 @@ export default function useEmakiZoomPan({
   const applyScaleAtPoint = useCallback(
     (nextScale, focusX, focusY) => {
       const raw = isFiniteNumber(nextScale) ? nextScale : DEFAULT_SCALE;
-      const targetScale = clamp(raw, getFitScale(), MAX_SCALE);
+      const targetScale = clamp(raw, getFitScale(), maxScale);
       const stage = stageRef.current;
       if (!stage || !isFiniteNumber(focusX) || !isFiniteNumber(focusY)) {
         return commitScale(targetScale, panRef.current.x, panRef.current.y);
@@ -168,7 +177,7 @@ export default function useEmakiZoomPan({
       const nextY = fy - ((fy - panRef.current.y) / prevScale) * targetScale;
       return commitScale(targetScale, nextX, nextY);
     },
-    [commitScale, getFitScale]
+    [commitScale, getFitScale, maxScale]
   );
 
   const resetZoom = useCallback(() => {
@@ -200,7 +209,7 @@ export default function useEmakiZoomPan({
       // （レイヤーは isZoomed=true で初描画されるため、未初期化値の描画＝ちらつきを防ぐ）
       // initialScale: ボタン/ダブルクリックは既定倍率、ピンチ/ホイールは等倍から開始する
       const startScale = isFiniteNumber(initialScale)
-        ? clamp(initialScale, FALLBACK_MIN_SCALE, MAX_SCALE)
+        ? clamp(initialScale, FALLBACK_MIN_SCALE, maxScale)
         : DEFAULT_SCALE;
       focusPointRef.current = {
         x: isFiniteNumber(focusX) ? focusX : null,
@@ -219,7 +228,7 @@ export default function useEmakiZoomPan({
       setIsZoomed(true);
       if (typeof onOpen === "function") onOpen();
     },
-    [onOpen]
+    [onOpen, maxScale]
   );
 
   const zoomIn = useCallback(
@@ -441,7 +450,7 @@ export default function useEmakiZoomPan({
           resetZoom();
           return;
         }
-        const target = clamp(rawTarget, minScale, MAX_SCALE);
+        const target = clamp(rawTarget, minScale, maxScale);
         // ピンチ中心を基準に拡大縮小し、指の移動分は平行移動として加算する
         focusPointRef.current = {
           x: t.prevCenterX,
@@ -519,7 +528,7 @@ export default function useEmakiZoomPan({
       el.removeEventListener("touchend", onTouchEnd);
       el.removeEventListener("touchcancel", onTouchEnd);
     };
-  }, [containerRef, applyScaleAtPoint, clampPan, getFitScale, resetZoom]);
+  }, [containerRef, applyScaleAtPoint, clampPan, getFitScale, resetZoom, maxScale]);
 
   const onPointerDown = useCallback(
     (event) => {

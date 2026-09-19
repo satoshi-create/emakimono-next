@@ -21,6 +21,9 @@ const OverlayEkotoba = ({
     uniqueIndex,
   },
   item,
+  // 屏風（typeen === "byobu"）: 縦長黒帯（段タイトルバー）の見た目のみ非表示にする。
+  // 幅0マーカーのラッパー要素・DOM 構造・navIndex/scrollDialog ref は一切変更しない。
+  hideChapterTitle = false,
 }) => {
   const { scrollDialog, orientation, handleToId, chapterToggle } =
     useContext(AppContext);
@@ -35,7 +38,7 @@ const OverlayEkotoba = ({
       style={src ? { width: "100%", height: "100%" } : undefined}
       ref={navIndex === index ? scrollDialog : null}
     >
-      {chapter && chapterToggle && (
+      {chapter && chapterToggle && !hideChapterTitle && (
         <div
           className={`${styles.chapterbox} ${
             orientation === "portrait"

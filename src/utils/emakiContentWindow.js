@@ -95,33 +95,81 @@ function clampSceneLayoutIndex(index, count) {
   return Math.max(0, Math.min(count - 1, i));
 }
 
-/** ビューポート内の可視幅 / コンテナ幅（幅0の ekotoba マーカーは 0） */
-function sceneShare(layout, index, viewStart, viewEnd, clientWidth) {
+/**
+ * 巻頭・巻末で占有率計算をバイパスする端しきい値（px）。
+ * 狭幅スライス（舟木本 等）は端まで送っても手前の段が画面内に残り続け、
+ * 相対ヒステリシスでは最終段の占有率が勝ちきれない。物理限界では面積計算を
+ * 行わず端の段を確定させる。
+ */
+export const SCENE_EDGE_SNAP_PX = 16;
+
+/** ビューポート内の可視幅（幅0の ekotoba マーカーは 0） */
+function sliceVisibleWidth(layout, index, viewStart, viewEnd) {
   const width = layout.widths[index];
   if (!(width > 0)) return 0;
   const start = layout.starts[index];
-  const visible = Math.max(
+  return Math.max(
     0,
     Math.min(start + width, viewEnd) - Math.max(start, viewStart)
   );
-  return visible / clientWidth;
+}
+
+/** 段に属するスライスの可視幅を合算した占有率（Σ visibleWidth / clientWidth） */
+function sceneRangeShare(layout, range, viewStart, viewEnd, clientWidth) {
+  const count = layout.widths.length;
+  const from = Math.max(0, range.from);
+  const to = Math.min(count - 1, range.to);
+  let sum = 0;
+  for (let i = from; i <= to; i += 1) {
+    sum += sliceVisibleWidth(layout, i, viewStart, viewEnd);
+  }
+  return sum / clientWidth;
 }
 
 /**
- * 改修A: ビューポート占有率が最大のシーンを返す純関数（固定読取点を使わない）。
+ * 解説バーの単位「段（Scene）」の範囲（配列 index・両端含む）を emakis から組む。
+ * 段は ekotoba マーカー（章見出し）で区切られ、画像スライスは直前の ekotoba 章に
+ * 属する（画像スライスは chapter を持たない）。舟木本は 1段 = 2扇 = スライス2枚。
+ * ekotoba が無い巻では [] を返し、呼び出し側はスライス単位判定へフォールバックする。
+ * @param {Array<{ cat?: string }>} emakis
+ * @returns {Array<{ from: number, to: number }>}
+ */
+export function buildSceneRanges(emakis) {
+  const list = Array.isArray(emakis) ? emakis : [];
+  const anchors = [];
+  list.forEach((item, i) => {
+    if (item?.cat === "ekotoba") anchors.push(i);
+  });
+  if (!anchors.length) return [];
+  // 先頭 ekotoba より前の画像は最初の段に含める（解説バーの章紐付けと同じ解釈）
+  anchors[0] = 0;
+  return anchors.map((from, k) => ({
+    from,
+    to: (k + 1 < anchors.length ? anchors[k + 1] : list.length) - 1,
+  }));
+}
+
+/**
+ * 改修A: ビューポート占有率が最大の段を返す純関数（固定読取点を使わない）。
+ * - 段（Scene）単位で可視幅を合算して比較する。スライス個別比較だと、1段 = 複数スライス
+ *   （舟木本は 1段 = 2扇）の作品で、左端から入ってきた次段の1枚目が単独で現段の
+ *   スライスを上回った時点で誤判定してしまう
+ * - 巻頭・巻末の物理限界では面積計算をバイパスし、端の段を確実に返す
  * - 同率（占有率差が SCENE_DETECTION_TIE_TOLERANCE 以内）は右端（RTL 起点＝
- *   start が小さい index）を優先 → 初期表示は必ず巻頭側
+ *   start が小さい段）を優先 → 初期表示・前後ナビ直後は段の先頭側が維持される
  * - currentIndex が可視なら、挑戦者がヒステリシス分を上回るまで現シーンを維持
- * @param {{ starts: number[], widths: number[] }} layout
+ * @param {{ starts: number[], widths: number[], total?: number }} layout
  * @param {number} scrollLeft RTL の負値空間（絶対値で先頭からの距離）
  * @param {number} clientWidth
  * @param {number | null} [currentIndex] 現在のシーン（null ならヒステリシスなし）
+ * @param {Array<{ from: number, to: number }> | null} [sceneRanges] 段の範囲（配列 index）
  */
 export function pickSceneIndexByShare(
   layout,
   scrollLeft,
   clientWidth,
-  currentIndex = null
+  currentIndex = null,
+  sceneRanges = null
 ) {
   const count = layout?.widths?.length || 0;
   if (!count || !(clientWidth > 0)) {
@@ -129,28 +177,71 @@ export function pickSceneIndexByShare(
   }
   const viewStart = Math.abs(Number.isFinite(scrollLeft) ? scrollLeft : 0);
   const viewEnd = viewStart + clientWidth;
-  let best = 0;
-  let bestShare = -1;
-  for (let i = 0; i < count; i += 1) {
-    const share = sceneShare(layout, i, viewStart, viewEnd, clientWidth);
-    // 許容幅を超えて大きい場合のみ更新 = 同率は index 小（右端）優先
-    if (share > bestShare + SCENE_DETECTION_TIE_TOLERANCE) {
-      bestShare = share;
-      best = i;
-    }
+  const total = Number.isFinite(layout.total)
+    ? layout.total
+    : layout.starts[count - 1] + layout.widths[count - 1];
+
+  // 巻頭・巻末エッジ: 物理限界では占有率を計算せず端の段を返す
+  const maxScroll = total - clientWidth;
+  if (maxScroll > SCENE_EDGE_SNAP_PX) {
+    if (viewStart <= SCENE_EDGE_SNAP_PX) return 0; // 右端 = 巻頭（最初の段）
+    if (viewStart >= maxScroll - SCENE_EDGE_SNAP_PX) return count - 1; // 左端 = 巻末（最後の段）
   }
+
+  // sceneRanges 未指定（ekotoba 無しの巻）はスライス単位へフォールバック
+  const ranges =
+    Array.isArray(sceneRanges) && sceneRanges.length
+      ? sceneRanges
+      : layout.widths.map((_, i) => ({ from: i, to: i }));
+
+  let best = -1;
+  let bestShare = -1;
+  for (let g = 0; g < ranges.length; g += 1) {
+    const range = ranges[g];
+    const from = Math.max(0, range.from);
+    const to = Math.min(count - 1, range.to);
+    const share = sceneRangeShare(
+      layout,
+      range,
+      viewStart,
+      viewEnd,
+      clientWidth
+    );
+    // 許容幅を超えて大きい場合のみ更新 = 同率は index 小（右端）優先
+    if (share <= bestShare + SCENE_DETECTION_TIE_TOLERANCE) continue;
+    // 代表 index は段内で最も見えているスライス（段判定・共有位置に使う）
+    let slice = from;
+    let sliceMax = -1;
+    for (let i = from; i <= to; i += 1) {
+      const visible = sliceVisibleWidth(layout, i, viewStart, viewEnd);
+      if (visible > sliceMax) {
+        sliceMax = visible;
+        slice = i;
+      }
+    }
+    bestShare = share;
+    best = slice;
+  }
+  if (best < 0) {
+    return Number.isFinite(currentIndex) ? currentIndex : 0;
+  }
+
   const current = Number.isFinite(currentIndex) ? currentIndex : null;
   if (current === null || current === best || current < 0 || current >= count) {
     return best;
   }
-  const currentShare = sceneShare(
+  // 現シーンが属する段を特定（見つからなければスライス単独で判定）
+  const currentRange = ranges.find(
+    (r) => current >= r.from && current <= r.to
+  ) || { from: current, to: current };
+  const currentShare = sceneRangeShare(
     layout,
-    current,
+    currentRange,
     viewStart,
     viewEnd,
     clientWidth
   );
-  // 現シーンが不可視（幅0マーカー含む）なら維持しない
+  // 現シーンが属する段が不可視（幅0マーカー含む）なら維持しない
   if (currentShare <= 0) return best;
   // 同率なら右端優先で選ばれた best を採用（巻頭へ戻ったとき等）
   if (bestShare - currentShare <= SCENE_DETECTION_TIE_TOLERANCE) return best;
@@ -174,7 +265,8 @@ export function estimateSceneIndexFromScrollLeft(
     buildSceneLayoutFromEmakis(emakis, rowHeightPx),
     scrollLeft,
     clientWidth,
-    null
+    null,
+    buildSceneRanges(emakis)
   );
 }
 

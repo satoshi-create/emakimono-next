@@ -2,7 +2,8 @@
  * スクロール処理 + 現在シーン検出。
  *
  * - handleScroll: 端点判定・スクロール位置保存・インジケータ更新・シーン検出 debounce
- * - detectCurrentScene: ビューポート占有率（可視幅 / clientWidth）が最大の段 + 占有率ヒステリシスで特定
+ * - detectCurrentScene: 段（Scene）単位の合算占有率（Σ 可視幅 / clientWidth）が最大の段
+ *   + 占有率ヒステリシスで特定。巻頭・巻末の物理限界では面積計算をバイパスして端の段を確定
  * - パフォーマンス: getBoundingClientRect は初回のみ、以降は各段の開始座標・幅の算術だけで判定
  * - 自動再生中: scroll リスナーは位置保存のみ行い、シーン検出等は useEmakiAutoPlay の rAF 側
  * - 自動再生中は setnavIndex を抑制し liveSceneIndex のみ更新（解説バー・URL hash・共有追従用）
@@ -21,6 +22,7 @@ import {
 } from "@/libs/api/measurementUtils";
 import {
   buildSceneLayout,
+  buildSceneRanges,
   estimateSceneIndexFromScrollLeft,
   pickSceneIndexByShare,
 } from "@/utils/emakiContentWindow";
@@ -160,7 +162,8 @@ const useEmakiScroll = ({
       cache.layout,
       el.scrollLeft,
       el.clientWidth,
-      lastDetectedSceneRef.current
+      lastDetectedSceneRef.current,
+      buildSceneRanges(emakisRef.current)
     );
 
     if (closestId !== lastDetectedSceneRef.current) {
@@ -283,7 +286,8 @@ const useEmakiScroll = ({
             cache.layout,
             node.scrollLeft,
             node.clientWidth,
-            null
+            null,
+            buildSceneRanges(emakisRef.current)
           )
         );
       });

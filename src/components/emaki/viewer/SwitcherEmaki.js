@@ -1,8 +1,10 @@
 import EmakiImage from "@/components/emaki/viewer/EmakiImage";
 import OverlayEkotoba from "@/components/emaki/viewer/OverlayEkotoba";
+import SpotPins from "@/components/emaki/viewer/SpotPins";
 import { AppContext } from "@/context/AppContext";
 import ekotobaStyles from "@/styles/OverlayEkotoba.module.css";
 import { buildSceneShellStyle } from "@/utils/emakiContentWindow";
+import { isByobuScroll } from "@/utils/isByobuScroll";
 import { sceneSectionId } from "@/utils/emakiSceneDom";
 import { forwardRef, useContext } from "react";
 
@@ -42,6 +44,22 @@ const SwitcherEmaki = forwardRef(
       orientation,
       floatLandscape,
     });
+    // 屏風のみ: 段タイトルバー（黒帯）を非表示化（マーカー要素・DOM 構造は不変）
+    const isByobu = isByobuScroll(data);
+    // 名所スポットピンの基準座標系を section に固定する（spots がある時だけ付与）
+    const spots = cat === "image" ? item.spots : null;
+    // buildSceneShellStyle は画像スライスに overflow:hidden を返すため、
+    // スポットピンが扇の境界をはみ出せるよう spots 保持スライスだけ visible に上書きする。
+    // 併せて独立スタッキングコンテキスト化（zIndex:1）し、後段 DOM の隣接スライス画像が
+    // 上に描かれてもピンが潜り込まないようにする（.prt の sticky よりは下に留まる）。
+    const imageSectionStyle = spots?.length
+      ? {
+          ...sectionStyle,
+          position: "relative",
+          overflow: "visible",
+          zIndex: 1,
+        }
+      : sectionStyle;
 
     if (!mountContent) {
       return (
@@ -61,7 +79,7 @@ const SwitcherEmaki = forwardRef(
         <section
           ref={ref}
           id={sceneSectionId(index)}
-          style={sectionStyle}
+          style={imageSectionStyle}
         >
           <EmakiImage
             key={index}
@@ -77,6 +95,7 @@ const SwitcherEmaki = forwardRef(
             sceneIndex={sceneIndex}
             emakiId={data?.titleen}
           />
+          {spots?.length ? <SpotPins spots={spots} linkId={item.linkId} /> : null}
         </section>
       );
     }
@@ -101,6 +120,7 @@ const SwitcherEmaki = forwardRef(
             data,
             uniqueIndex,
           }}
+          hideChapterTitle={isByobu}
         />
       </section>
     );

@@ -1,0 +1,94 @@
+/**
+ * SpotPins — 屏風の名所スポットピン（資料風: 白地＋黒枠＋墨文字）。
+ * 親 section は position: relative（SwitcherEmaki が保証）。
+ * レイヤ自体は pointer-events: none（画像パンを邪魔しない）、ピンのみ auto。
+ */
+.layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* ピンが自スライスの境界をはみ出しても親 section に合わせて切らない */
+  overflow: visible;
+  z-index: 20;
+}
+
+.pin {
+  position: absolute;
+  /* --pin-tx は画面端のピンを扇の内側へ寄せるための X オフセット（既定 -50%） */
+  transform: translate(var(--pin-tx, -50%), -50%);
+  z-index: 10;
+  overflow: visible;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0.12rem 0.4rem 0.12rem 0.3rem;
+  pointer-events: auto;
+  cursor: pointer;
+  touch-action: manipulation;
+  color: rgb(20 20 20);
+  background-color: rgb(255 255 255 / 92%);
+  border: 1px solid rgb(20 20 20);
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 35%);
+  font-family: var(--font-classical);
+  font-size: clamp(0.62rem, 0.5rem + 0.5vw, 0.85rem);
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  transition: background-color 0.15s linear, transform 0.15s ease-out,
+    box-shadow 0.15s linear;
+}
+
+.pin:hover,
+.pin:focus-visible {
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 45%);
+  transform: translate(var(--pin-tx, -50%), -50%) scale(1.06);
+  z-index: 30;
+}
+
+.pin:focus-visible {
+  outline: 2px solid var(--clr-accent);
+  outline-offset: 1px;
+}
+
+.pin:active {
+  transform: translate(var(--pin-tx, -50%), -50%) scale(0.98);
+}
+
+/* 墨の丸印。ホバーでアクセント色に寄せる */
+.dot {
+  flex-shrink: 0;
+  width: 0.45em;
+  height: 0.45em;
+  border-radius: 50%;
+  background-color: rgb(20 20 20);
+}
+
+.pin:hover .dot,
+.pin:focus-visible .dot {
+  background-color: var(--clr-accent);
+}
+
+.label {
+  display: block;
+}
+
+/* SP: ピン同士・画像端での重なりを抑えるため小さめに固定 */
+@media (max-width: 767px) {
+  .pin {
+    padding: 0.1rem 0.3rem 0.1rem 0.24rem;
+    font-size: 0.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pin,
+  .pin:hover,
+  .pin:focus-visible,
+  .pin:active {
+    transition: none;
+    transform: translate(var(--pin-tx, -50%), -50%);
+  }
+}
