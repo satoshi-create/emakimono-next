@@ -379,6 +379,8 @@ export default function useEmakiZoomPan({
           // 通常スクロール中: ダブルタップは全画面切替（ズームは発火させない）
           if (isDoubleTap) {
             lastTapRef.current = { time: 0, x: 0, y: 0 };
+            // ブラウザ標準のダブルタップズーム（ページ拡大）を明示的に抑止
+            event.preventDefault();
             if (typeof onDoubleTapRef.current === "function") {
               onDoubleTapRef.current();
             }
@@ -516,13 +518,24 @@ export default function useEmakiZoomPan({
       }
     };
 
+    // iOS Safari はピンチを独自の gesture* イベントでも処理する。
+    // touch-action: pan-x pan-y が効く iOS13+ では原則不要だが、旧 iOS の保険として
+    // コンテナ内のネイティブピンチを明示的に抑止する（touch 側の処理は維持される）。
+    const onGesture = (event) => {
+      event.preventDefault();
+    };
+
     el.addEventListener("wheel", onWheel, { passive: false });
+    el.addEventListener("gesturestart", onGesture, { passive: false });
+    el.addEventListener("gesturechange", onGesture, { passive: false });
     el.addEventListener("touchstart", onTouchStart, { passive: false });
     el.addEventListener("touchmove", onTouchMove, { passive: false });
     el.addEventListener("touchend", onTouchEnd, { passive: false });
     el.addEventListener("touchcancel", onTouchEnd, { passive: false });
     return () => {
       el.removeEventListener("wheel", onWheel);
+      el.removeEventListener("gesturestart", onGesture);
+      el.removeEventListener("gesturechange", onGesture);
       el.removeEventListener("touchstart", onTouchStart);
       el.removeEventListener("touchmove", onTouchMove);
       el.removeEventListener("touchend", onTouchEnd);

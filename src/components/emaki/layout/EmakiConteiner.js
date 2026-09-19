@@ -1091,6 +1091,10 @@ const EmakiContainer = ({
             width: toggleFullscreen ? "100%" : undefined,
             height: toggleFullscreen ? "100%" : undefined,
             position: "relative", // 子要素の絶対配置の基準点
+            // ビューア全域でブラウザ標準のピンチ/ダブルタップズームを無効化する。
+            // 1本指パン（横スクロール / 縦ページスクロール）はネイティブのまま維持し、
+            // 2本指ピンチのみ useEmakiZoomPan が拾って ZoomLayer を展開する。
+            touchAction: "pan-x pan-y",
             // フローティングカード時のキャンバス下端までの高さ基準（上端クローム実測値）
             ...(viewerTopInset != null
               ? { "--emaki-top-inset": `${viewerTopInset}px` }
