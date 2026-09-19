@@ -883,6 +883,10 @@ const EmakiContainer = ({
             // 2000px 以上かつ原寸以上を要求し、c_limit が原寸でキャップする
             // （要求幅が原寸を下回ると、拡大時に Cloudinary 側で縮小されてぼやける）。
             `w_${Math.max(2000, Math.round(item.srcWidth || 0))}`,
+            // 拡大時に墨の輪郭や着物の柄が甘くならないようCDN側でエッジ強調。
+            // e_sharpen はダウン/アップスケール後に適用されるため、
+            // ブラウザの補間ぼけと二重にならず輪郭だけを引き締める。
+            "e_sharpen:80",
             "f_auto",
             "q_auto:best",
           ]),

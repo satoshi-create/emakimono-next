@@ -75,6 +75,12 @@
   pointer-events: none;
   user-select: none;
   -webkit-user-drag: none;
+  /* 拡大時のバイリニア補間によるぼかしを抑える。
+     -webkit-optimize-contrast（Chromium/Safari）はエッジを保つ高コントラスト
+     スケーリング、crisp-edges は対応ブラウザ（Firefox 等）向けのフォールバック。
+     未対応ブラウザは auto のままなので後段の宣言が無視されても破綻しない。 */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
 .controls {
