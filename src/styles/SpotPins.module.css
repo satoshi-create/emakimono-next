@@ -11,6 +11,9 @@
   overflow: visible;
   z-index: 20;
   transition: opacity 0.2s linear;
+  /* 端ピンのセーフマージン（px）。JS 側 SpotPins.jsx の EDGE_MARGIN と同値に保つこと。
+     はみ出し判定・クランプは実測 px を行う JS が担い、この値だけ枠内に残す。 */
+  --spot-edge-inset: 4px;
 }
 
 /* 段タイトル非表示トグル連動（屏風）。ピン個別の pointer-events:auto を打ち消す */
