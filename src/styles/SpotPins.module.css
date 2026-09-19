@@ -10,6 +10,16 @@
   /* ピンが自スライスの境界をはみ出しても親 section に合わせて切らない */
   overflow: visible;
   z-index: 20;
+  transition: opacity 0.2s linear;
+}
+
+/* 段タイトル非表示トグル連動（屏風）。ピン個別の pointer-events:auto を打ち消す */
+.hidden {
+  opacity: 0;
+}
+
+.hidden .pin {
+  pointer-events: none;
 }
 
 .pin {

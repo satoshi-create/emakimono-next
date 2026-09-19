@@ -15,7 +15,10 @@ import { useRouter } from "next/router";
 import { useContext } from "react";
 
 const SpotPins = ({ spots, linkId }) => {
-  const { handleToId } = useContext(AppContext);
+  // chapterToggle はフッターの「段タイトルを非表示」トグル（AppContext 正本）。
+  // 屏風では段タイトル枠が無いため、このフラグを名所スポットピンの表示に流用する。
+  // SpotPins は spots 保持スライス（＝屏風）にのみ描画されるので通常絵巻に影響しない。
+  const { handleToId, chapterToggle } = useContext(AppContext);
   // 英語ロケールでは nameen を優先表示（未設定なら日本語 name へフォールバック）。
   // useLocale は重量データ（staticData / metadata-cache）を引き込むため router を直接参照する。
   const { locale } = useRouter();
@@ -31,11 +34,13 @@ const SpotPins = ({ spots, linkId }) => {
 
   // 扇の左右端のピンは、ラベルが自分のスライス（=スクロール枠の端）から
   // はみ出すとクリップされるため、transform の X 成分だけ内側へ寄せる。
-  // 中央（10 < x < 90）は従来どおり -50%（点をアンカーに中央寄せ）。
-  const pinTx = (x) => (x <= 10 ? "-15%" : x >= 90 ? "-85%" : "-50%");
+  // 端付近（x < 15 / x > 85）は基点を完全に内側へ切り替え、負方向のはみ出しを防ぐ。
+  // 中央（15 <= x <= 85）は従来どおり -50%（点をアンカーに中央寄せ）。
+  const pinTx = (x) => (x < 15 ? "0" : x > 85 ? "-100%" : "-50%");
 
   return (
-    <div className={styles.layer}>
+    // chapterToggle=false（段タイトル非表示）でピンをフェードアウト＋操作不可にする。
+    <div className={`${styles.layer}${chapterToggle ? "" : ` ${styles.hidden}`}`}>
       {spots.map((spot) => {
         const label = spotLabel(spot);
         return (
