@@ -880,10 +880,15 @@ const EmakiContainer = ({
       const items = processedEmakis;
       if (!items.length) return [];
       const el = articleRef.current;
+      // ズームレイヤーの strip は entry-container（解説バー込み）実高へ充填されるため、
+      // スライス幅の基準も article（45svh / 75svh）ではなく実際に描画される
+      // コンテナ実高に揃える（ズーム層と背景層でスライス幅がズレるのを防ぐ）。
+      const heightEl = entryContainerRef.current;
       // 初回コミット直後は clientHeight = 0 のことがある。0 のまま sceneWidthPx へ渡すと
       // 1px 基準に潰れ、舟木本では約 0.36px のサブピクセル幅スライスが生成されて
       // 倍率が最大へ張り付き低解像度のまま固定される。実測 → viewport 高の順で代用する
-      let rowHeightPx = metrics.height || el?.clientHeight || 0;
+      let rowHeightPx =
+        metrics.height || heightEl?.clientHeight || el?.clientHeight || 0;
       if (!(rowHeightPx > 0) && typeof window !== "undefined") {
         rowHeightPx = window.innerHeight || 0;
       }
@@ -973,6 +978,11 @@ const EmakiContainer = ({
   const enterZoomAtPoint = useCallback(
     (clientX, clientY, initialScale) => {
       const el = articleRef.current;
+      // ズームレイヤーの strip 高は entry-container（解説バー込み）実高に充填される。
+      // スライス幅・初期 pan の基準を article（45svh / 75svh）ではなく実描画
+      // コンテナ高へ統一する（collectZoomSlices / computeZoomAlignPanX と同基準）。
+      const containerHeight =
+        entryContainerRef.current?.clientHeight || el?.clientHeight || 0;
       let centerIndex = Number.isFinite(contentWindowCenterRef.current)
         ? contentWindowCenterRef.current
         : zoomCenterIndex;
@@ -987,14 +997,15 @@ const EmakiContainer = ({
         const estimated = sceneIndexAtContentX(
           data.emakis,
           contentX,
-          el.clientHeight
+          containerHeight
         );
         if (Number.isFinite(estimated)) centerIndex = estimated;
       }
-      // ズーム起動時に article の実寸を直接実測して確定する。初回レンダー時などに
-      // clientHeight = 0 のまま確定したスライス寸法を、同値 centerIndex の useMemo が
-      // 抱え続けて解像度が上がらない（＝ボケたまま固定）のを防ぐ。
-      const measuredHeight = el?.clientHeight || 0;
+      // ズーム起動時に article（＝entry-container）の実寸を直接実測して確定する。
+      // 初回レンダー時などに clientHeight = 0 のまま確定したスライス寸法を、
+      // 同値 centerIndex の useMemo が抱え続けて解像度が上がらない（＝ボケたまま固定）
+      // のを防ぐ。高さはズーム層の描画実高（entry-container）を基準にする。
+      const measuredHeight = containerHeight;
       const measuredWidth = el?.clientWidth || 0;
       if (measuredHeight > 0 || measuredWidth > 0) {
         setZoomStageMetrics((prev) =>

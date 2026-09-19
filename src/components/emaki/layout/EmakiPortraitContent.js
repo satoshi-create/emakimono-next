@@ -9,6 +9,7 @@ import styles from "@/styles/EmakiPortraitContent.module.css";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
+import { isByobuScroll } from "@/utils/isByobuScroll";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import {
   filterdKeywords,
@@ -84,6 +85,10 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
   );
   const isKusouzu = isKusouzuScroll(data);
   const isChojuGiga = isChojuGigaScroll(data);
+  // 屏風（舟木本 等）は縦持ちでスライス幅が極小（約116px）になり、拡大時の
+  // ラスタ解像度が不足する。高さにフロア（480px）を設けて初期レイアウト寸法を
+  // 底上げする。buildSceneShellStyle 側の section 幅計算と必ず同値に保つこと。
+  const isByobu = isByobuScroll(data);
 
   return (
     <>
@@ -94,7 +99,13 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
         selectedRef={selectedRef}
         navIndex={navIndex}
         articleRef={articleRef}
-        height={viewerFullscreen ? "var(--vh-100)" : "var(--vh-45)"}
+        height={
+          viewerFullscreen
+            ? "var(--vh-100)"
+            : isByobu
+            ? "max(var(--vh-45), 480px)"
+            : "var(--vh-45)"
+        }
         editionLinks={[
           ...editionLinks,
           ...(isKusouzu ? LinksToKusouzu : []),

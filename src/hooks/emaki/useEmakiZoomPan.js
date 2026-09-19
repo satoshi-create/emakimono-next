@@ -127,6 +127,100 @@ export default function useEmakiZoomPan({
     [getPanBounds]
   );
 
+  // --- Android Chrome ラスタ固着対策 -------------------------------------------
+  // 拡大時にコンポジタが等倍テクスチャを保持したまま GPU で引き伸ばす現象
+  // （ラスタ固着）への対策。操作セッション中だけ will-change: transform を strip へ
+  // 付与して合成レイヤーを作り直させ、確定時にサブピクセルの transform 変化を与えて
+  // 現在倍率での再ラスタライズを強制する。
+  // 常時付与は iOS WebKit の固着・GPU メモリ圧迫を招くため行わない。
+  const rasterActiveRef = useRef(false); // ピンチ / ドラッグ / ホイール継続中
+  const rasterStagingRafRef = useRef(0);
+  const rasterRestoreRafRef = useRef(0);
+  const rasterPendingRef = useRef(null); // { base, nudged } 一時的なサブピクセル変化
+  const wheelSettleTimerRef = useRef(0);
+
+  // 未実行のサブピクセル変化を即座に戻す（復元予約も破棄）
+  const flushRasterNudge = useCallback(() => {
+    const pending = rasterPendingRef.current;
+    const el = stripRef.current;
+    if (pending && el && el.style.transform === pending.nudged) {
+      el.style.transform = pending.base;
+    }
+    rasterPendingRef.current = null;
+    cancelAnimationFrame(rasterStagingRafRef.current);
+    rasterStagingRafRef.current = 0;
+    cancelAnimationFrame(rasterRestoreRafRef.current);
+  }, []);
+
+  // transform へ微小なスケール変化（+0.01%）を与える（肉眼では不可視・レイアウト影響なし）。
+  // 平行移動だけではコンポジタのテクスチャ解像度が再計算されないため、
+  // ラスタスケールの再計算を誘発する scale の変化を用いる。
+  // React の再レンダーで transform が更新済みの場合は触らない。
+  const applyRasterNudge = useCallback(() => {
+    const strip = stripRef.current;
+    if (!strip) return;
+    const base = strip.style.transform;
+    if (!base) return;
+    const nudged = `${base} scale(1.0001)`;
+    strip.style.transform = nudged;
+    rasterPendingRef.current = { base, nudged };
+    rasterRestoreRafRef.current = requestAnimationFrame(() => {
+      const target = stripRef.current;
+      const pending = rasterPendingRef.current;
+      rasterPendingRef.current = null;
+      if (!target || !pending) return;
+      if (target.style.transform === pending.nudged) {
+        target.style.transform = pending.base;
+      }
+      // ジェスチャ継続中でなければ合成レイヤーを解放する
+      if (!rasterActiveRef.current) target.style.willChange = "";
+    });
+  }, []);
+
+  // 二重 rAF: React の再レンダー（transform 反映）後にサブピクセル変化を与え、
+  // コンポジタにキャッシュ破棄 → 現在倍率での再ラスタライズを行わせる。
+  const scheduleRasterRefresh = useCallback(() => {
+    const el = stripRef.current;
+    if (!el) return;
+    el.style.willChange = "transform";
+    flushRasterNudge();
+    rasterStagingRafRef.current = requestAnimationFrame(() => {
+      rasterStagingRafRef.current = requestAnimationFrame(() => {
+        rasterStagingRafRef.current = 0;
+        applyRasterNudge();
+      });
+    });
+  }, [applyRasterNudge, flushRasterNudge]);
+
+  // ジェスチャ中の連続 commit では nudge 実行中をスキップして間引く
+  const requestRasterRefresh = useCallback(() => {
+    if (rasterStagingRafRef.current || rasterPendingRef.current) return;
+    scheduleRasterRefresh();
+  }, [scheduleRasterRefresh]);
+
+  // ジェスチャ開始: セッション中は will-change を維持して再ラスタライズを促す
+  const beginRasterSession = useCallback(() => {
+    rasterActiveRef.current = true;
+    const el = stripRef.current;
+    if (el) el.style.willChange = "transform";
+  }, []);
+
+  // ジェスチャ終了: 最終倍率で再ラスタライズしてから will-change を外す
+  const endRasterSession = useCallback(() => {
+    rasterActiveRef.current = false;
+    scheduleRasterRefresh();
+  }, [scheduleRasterRefresh]);
+
+  // アンマウント時: 予約中の再ラスタライズとホイール停止タイマーを破棄
+  useEffect(
+    () => () => {
+      cancelAnimationFrame(rasterStagingRafRef.current);
+      cancelAnimationFrame(rasterRestoreRafRef.current);
+      if (wheelSettleTimerRef.current) clearTimeout(wheelSettleTimerRef.current);
+    },
+    []
+  );
+
   // scale と pan を同時に確定へ反映する（NaN / 極端値・可動域を常に補正）
   const commitScale = useCallback(
     (nextScale, nextX, nextY) => {
@@ -138,9 +232,11 @@ export default function useEmakiZoomPan({
       setScale(safeScale);
       setPanX(x);
       setPanY(y);
+      // 確定直後に再ラスタライズを促す（Android Chrome の等倍テクスチャ固着対策）
+      requestRasterRefresh();
       return safeScale;
     },
-    [clampPan, getFitScale, maxScale]
+    [clampPan, getFitScale, maxScale, requestRasterRefresh]
   );
 
   const applyScale = useCallback(
@@ -195,7 +291,11 @@ export default function useEmakiZoomPan({
     touchRef.current.startDist = 0;
     // 等倍復帰: 指を離すまでピンチで再進入しない
     touchRef.current.exited = true;
-  }, []);
+    // ラスタセッションを終了し、未実行の再ラスタライズ予約を破棄する
+    rasterActiveRef.current = false;
+    flushRasterNudge();
+    if (stripRef.current) stripRef.current.style.willChange = "";
+  }, [flushRasterNudge]);
 
   // focusX / focusY（clientX / clientY）を渡すと、その点を基準に拡大を開始する。
   // initialPanX: article の表示中心とオーバーレイ strip 中心が指す内容の差分（P1）。
@@ -327,6 +427,13 @@ export default function useEmakiZoomPan({
           );
         }
       }
+      // ズーム操作セッション: ホイールが止まるまで will-change を維持する
+      beginRasterSession();
+      if (wheelSettleTimerRef.current) clearTimeout(wheelSettleTimerRef.current);
+      wheelSettleTimerRef.current = setTimeout(() => {
+        wheelSettleTimerRef.current = 0;
+        endRasterSession();
+      }, 160);
       const next = scaleRef.current - delta * WHEEL_ZOOM_RATE;
       focusPointRef.current = {
         x: event.clientX,
@@ -363,6 +470,8 @@ export default function useEmakiZoomPan({
         t.prevCenterX = cx;
         t.prevCenterY = cy;
         cursorRef.current = { x: cx, y: cy };
+        // ピンチ中は will-change を維持して再ラスタライズを促す
+        beginRasterSession();
         event.preventDefault();
         return;
       }
@@ -404,6 +513,8 @@ export default function useEmakiZoomPan({
         t.mode = "pan";
         t.lastX = p.clientX;
         t.lastY = p.clientY;
+        // パンドラッグ中も will-change を維持して再ラスタライズを促す
+        beginRasterSession();
         event.preventDefault();
       }
     };
@@ -515,6 +626,8 @@ export default function useEmakiZoomPan({
         t.mode = null;
         t.startDist = 0;
         t.exited = false;
+        // 操作確定: 最終倍率で再ラスタライズしてから will-change を外す
+        endRasterSession();
       }
     };
 
@@ -541,7 +654,7 @@ export default function useEmakiZoomPan({
       el.removeEventListener("touchend", onTouchEnd);
       el.removeEventListener("touchcancel", onTouchEnd);
     };
-  }, [containerRef, applyScaleAtPoint, clampPan, getFitScale, resetZoom, maxScale]);
+  }, [containerRef, applyScaleAtPoint, clampPan, getFitScale, resetZoom, maxScale, beginRasterSession, endRasterSession]);
 
   const onPointerDown = useCallback(
     (event) => {
@@ -577,9 +690,11 @@ export default function useEmakiZoomPan({
         x: event.clientX,
         y: event.clientY,
       };
+      // ドラッグ中は will-change を維持して再ラスタライズを促す
+      beginRasterSession();
       event.currentTarget.setPointerCapture?.(event.pointerId);
     },
-    [resetZoom]
+    [beginRasterSession, resetZoom]
   );
 
   const onPointerMove = useCallback(
@@ -604,13 +719,18 @@ export default function useEmakiZoomPan({
     [clampPan]
   );
 
-  const onPointerEnd = useCallback((event) => {
-    const drag = dragRef.current;
-    if (!drag || drag.pointerId !== event.pointerId) return;
-    event.stopPropagation();
-    dragRef.current = null;
-    event.currentTarget.releasePointerCapture?.(event.pointerId);
-  }, []);
+  const onPointerEnd = useCallback(
+    (event) => {
+      const drag = dragRef.current;
+      if (!drag || drag.pointerId !== event.pointerId) return;
+      event.stopPropagation();
+      dragRef.current = null;
+      event.currentTarget.releasePointerCapture?.(event.pointerId);
+      // 操作確定: 最終倍率で再ラスタライズしてから will-change を外す
+      endRasterSession();
+    },
+    [endRasterSession]
+  );
 
   return {
     isZoomed,

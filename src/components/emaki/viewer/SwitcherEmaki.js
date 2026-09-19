@@ -38,14 +38,16 @@ const SwitcherEmaki = forwardRef(
 
     const sectionClass =
       cat === "ekotoba" && !src ? ekotobaStyles.markerSection : undefined;
+    // 屏風のみ: 段タイトルバー（黒帯）を非表示化（マーカー要素・DOM 構造は不変）
+    const isByobu = isByobuScroll(data);
     // 殻↔中身差し替えで flex 幅が変わらないよう、幅は常に section に載せる
+    // （isByobu: 縦持ち時の画像高基準フロアを EmakiPortraitContent と同期させる）
     const sectionStyle = buildSceneShellStyle(item, {
       toggleFullscreen,
       orientation,
       floatLandscape,
+      isByobu,
     });
-    // 屏風のみ: 段タイトルバー（黒帯）を非表示化（マーカー要素・DOM 構造は不変）
-    const isByobu = isByobuScroll(data);
     // 名所スポットピンの基準座標系を section に固定する（spots がある時だけ付与）
     const spots = cat === "image" ? item.spots : null;
     // buildSceneShellStyle は画像スライスに overflow:hidden を返すため、
