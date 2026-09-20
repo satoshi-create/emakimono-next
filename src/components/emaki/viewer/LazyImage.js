@@ -196,7 +196,8 @@ const LazyImage = ({
       "c_limit",
       `w_${width}`,
       "f_auto",
-      quality ? `q_${quality}` : "q_auto:good",
+      // 屏風(舟木本)のみ指定品質(85/92)を適用し、通常絵巻は最軽量の q_auto:eco で配信
+      isByobu && quality ? `q_${quality}` : "q_auto:eco",
     ]);
   };
 
