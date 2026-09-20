@@ -171,14 +171,24 @@ export function buildSceneRanges(emakis) {
  * @param {number} clientWidth
  * @param {number | null} [currentIndex] 現在のシーン（null ならヒステリシスなし）
  * @param {Array<{ from: number, to: number }> | null} [sceneRanges] 段の範囲（配列 index）
+ * @param {{ hysteresis?: number, tiePreferRight?: boolean }} [opts]
+ *   hysteresis: 現シーン維持に必要な相対優位（既定 SCENE_DETECTION_HYSTERESIS_SHARE）。
+ *   tiePreferRight: 同率時に index 小（RTL 起点＝手前）を優先するか（既定 true）。
+ *   幅がほぼ等しいスライスが並ぶ通常絵巻では false にし、同率なら現在段を維持する
+ *   （手前固定による切替遅延を防ぐ）。舟木本は true のまま。
  */
 export function pickSceneIndexByShare(
   layout,
   scrollLeft,
   clientWidth,
   currentIndex = null,
-  sceneRanges = null
+  sceneRanges = null,
+  opts = {}
 ) {
+  const {
+    hysteresis = SCENE_DETECTION_HYSTERESIS_SHARE,
+    tiePreferRight = true,
+  } = opts;
   const count = layout?.widths?.length || 0;
   if (!count || !(clientWidth > 0)) {
     return Number.isFinite(currentIndex) ? currentIndex : 0;
@@ -215,8 +225,19 @@ export function pickSceneIndexByShare(
       viewEnd,
       clientWidth
     );
-    // 許容幅を超えて大きい場合のみ更新 = 同率は index 小（右端）優先
-    if (share <= bestShare + SCENE_DETECTION_TIE_TOLERANCE) continue;
+    // 明確に大きい場合のみ更新。同率（許容幅内）は tiePreferRight なら index 小
+    // （右端＝手前）を優先して据え置く。false のときは現在の段を含む候補のみ採用する
+    const diff = share - bestShare;
+    if (diff <= SCENE_DETECTION_TIE_TOLERANCE) {
+      const tied = diff >= -SCENE_DETECTION_TIE_TOLERANCE;
+      const keepsCurrent =
+        !tiePreferRight &&
+        tied &&
+        Number.isFinite(currentIndex) &&
+        currentIndex >= from &&
+        currentIndex <= to;
+      if (!keepsCurrent) continue;
+    }
     // 代表 index は段内で最も見えているスライス（段判定・共有位置に使う）
     let slice = from;
     let sliceMax = -1;
@@ -253,9 +274,7 @@ export function pickSceneIndexByShare(
   if (currentShare <= 0) return best;
   // 同率なら右端優先で選ばれた best を採用（巻頭へ戻ったとき等）
   if (bestShare - currentShare <= SCENE_DETECTION_TIE_TOLERANCE) return best;
-  return bestShare >= currentShare * (1 + SCENE_DETECTION_HYSTERESIS_SHARE)
-    ? best
-    : current;
+  return bestShare >= currentShare * (1 + hysteresis) ? best : current;
 }
 
 /**

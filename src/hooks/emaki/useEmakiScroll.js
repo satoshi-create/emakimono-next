@@ -33,6 +33,7 @@ const useEmakiScroll = ({
   dataId,
   emakiId,
   emakis,
+  isByobu = false,
   navIndex,
   setnavIndex,
   isScrollDetectedUpdateRef,
@@ -55,6 +56,9 @@ const useEmakiScroll = ({
   const lastSceneDetectionTimeRef = useRef(0);
   const emakisRef = useRef(emakis);
   emakisRef.current = emakis;
+  // 屏風（舟木本）判定: シーン判定のヒステリシス／同率優先を作品別に切り替える
+  const isByobuRef = useRef(isByobu);
+  isByobuRef.current = isByobu;
 
   // 教育現場向けUI: 静かな現在地インジケータ
   // パフォーマンス: scrollRatio はReact stateではなくDOM直接操作で更新
@@ -85,6 +89,20 @@ const useEmakiScroll = ({
   useEffect(() => {
     setLiveSceneIndex(navIndex);
   }, [navIndex]);
+
+  // 段ジャンプ（目次・チャプターナビ）: navIndex を検出基準へ同期する。
+  // 同期しないと旧段が 12% 以上占有されない限り古い段が返り続けて解説バーが固まる。
+  // 自動再生中はリアルタイム追従（liveSceneIndex）を優先し、同期しない
+  useEffect(() => {
+    if (isAutoScrolling || playModeAnimationRef.current) return;
+    if (!Number.isFinite(navIndex)) return;
+    lastDetectedSceneRef.current = navIndex;
+  }, [
+    navIndex,
+    isAutoScrolling,
+    playModeAnimationRef,
+    lastDetectedSceneRef,
+  ]);
 
   // hash / 目次ジャンプ: 大きく離れた navIndex のみ窓へ反映（150ms debounce 追従で窓を巻き戻さない）
   useEffect(() => {
@@ -146,6 +164,10 @@ const useEmakiScroll = ({
         }
 
         sectionsCacheRef.current = { layout: buildSceneLayout(hits) };
+        // キャッシュ構築で pending が解けた直後に1回判定する。これが無いと
+        // 復元後もスクロールイベントが発火せずコメンタリーバーが固まる
+        // （buildCache は非同期実行のため、この時点で再入しても再帰は1段のみ）
+        detectCurrentScene();
       };
 
       if (typeof requestIdleCallback !== "undefined") {
@@ -158,12 +180,16 @@ const useEmakiScroll = ({
 
     // 2回目以降: 各段の開始座標・幅の算術だけで占有率最大の段を特定（DOM読み取りなし）
     const cache = sectionsCacheRef.current;
+    // 屏風（舟木本）は従来どおり 12% ヒステリシス＋同率は手前優先。通常絵巻は
+    // ヒステリシスを極小化し、同率時は現在段を維持する（手前固定による切替遅延を防ぐ）
+    const byobu = isByobuRef.current;
     const closestId = pickSceneIndexByShare(
       cache.layout,
       el.scrollLeft,
       el.clientWidth,
       lastDetectedSceneRef.current,
-      buildSceneRanges(emakisRef.current)
+      buildSceneRanges(emakisRef.current),
+      byobu ? undefined : { hysteresis: 0.02, tiePreferRight: false }
     );
 
     if (closestId !== lastDetectedSceneRef.current) {

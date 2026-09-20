@@ -43,6 +43,8 @@ export type EmakiNavigationProps = {
  * useEmakiSceneDetection は共有 ref が多いため統合した。
  * 戻り値の sectionsCacheRef / scrollDimsRef は Conteiner 側の
  * 絵巻切替リセット effect から操作するために公開している。
+ * 引数 isByobu（屏風 = 舟木本）はシーン判定のヒステリシス／同率優先を作品別に
+ * 切り替える（通常絵巻は hysteresis 極小 + 同率は現在段維持）。
  */
 export type UseEmakiScrollResult = {
   /**
@@ -102,6 +104,11 @@ export type UseScrollPositionRestoreParams = {
   orientation: string;
   navIndex?: number;
   handleToId?: (id: number, opts?: { realign?: boolean }) => void;
+  /**
+   * 復元確定後の現在段再同期。キャッシュ再構築後に再判定が呼ばれず
+   * コメンタリーバーが固まるのを防ぐ（未指定なら再同期しない）。
+   */
+  detectCurrentSceneRef?: RefObject<(() => void) | null>;
   scrollPositionStore: {
     scrollLeft: number;
     scrollRatio: number;

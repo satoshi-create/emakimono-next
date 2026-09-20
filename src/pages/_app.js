@@ -204,10 +204,27 @@ function MyApp({ Component, pageProps, router }) {
 
   // スクロール実行を統合した handleToId
   // realign: 共有 hash 入場のみ。ResizeObserver の apply("auto") は smooth を潰すため段クリック等では使わない
+  const handleToIdRef = useRef(null);
   const handleToId = useCallback((id, { realign = false } = {}) => {
     setnavIndex(id);
 
-    if (isFullscreenTransitioningRef.current) return;
+    if (isFullscreenTransitioningRef.current) {
+      // 全画面遷移中は握り潰さず、遷移完了を待って保留ジャンプする
+      // （即 return すると着地しないまま navIndex だけ進み、解説バーと段がズレる）
+      let tries = 0;
+      const runDeferred = () => {
+        if (isFullscreenTransitioningRef.current) {
+          if (tries < 6) {
+            tries += 1;
+            window.setTimeout(runDeferred, 200);
+          }
+          return;
+        }
+        handleToIdRef.current(id, { realign });
+      };
+      window.setTimeout(runDeferred, 500);
+      return;
+    }
 
     let ro = null;
     const pinWindowTop = () => {
@@ -272,6 +289,9 @@ function MyApp({ Component, pageProps, router }) {
 
     requestAnimationFrame(() => tryUntilReady(0));
   }, [setnavIndex]);
+
+  // 全画面遷移中の保留ジャンプ実行用（handleToId の自己参照）
+  handleToIdRef.current = handleToId;
 
   // scrollDialog: スクロール実行は handleToId に統合したため無効化
   // ref callback としての機能は維持（他コンポーネントでの参照互換性のため）

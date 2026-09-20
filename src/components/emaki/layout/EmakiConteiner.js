@@ -428,6 +428,7 @@ const EmakiContainer = ({
     dataId: data.id,
     emakiId,
     emakis: data.emakis,
+    isByobu: isByobuScroll(data),
     navIndex,
     setnavIndex,
     isScrollDetectedUpdateRef,
@@ -702,12 +703,21 @@ const EmakiContainer = ({
     scrollPositionStore,
     navIndex,
     handleToId,
+    detectCurrentSceneRef,
   });
 
   // 全画面切替や向き切替でビューポートサイズが変わるためシーン検出キャッシュを無効化
   useEffect(() => {
     sectionsCacheRef.current = null;
     scrollDimsRef.current = { w: 0, c: 0, ts: 0 };
+    // キャッシュ再構築（requestIdleCallback）完了後に再判定する。これが無いと
+    // 復元完了後もスクロールイベントが発火せず解説バーが固まる
+    const t = setTimeout(() => {
+      if (typeof detectCurrentSceneRef.current === "function") {
+        detectCurrentSceneRef.current();
+      }
+    }, 150);
+    return () => clearTimeout(t);
   }, [toggleFullscreen, orientation]);
 
   // 教育現場向けUI: 絵巻切り替え時のリセット処理

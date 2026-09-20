@@ -19,6 +19,7 @@ const useScrollPositionRestore = ({
   scrollPositionStore,
   navIndex = 0,
   handleToId,
+  detectCurrentSceneRef,
 }) => {
   const navIndexRef = useRef(navIndex);
   const handleToIdRef = useRef(handleToId);
@@ -89,6 +90,11 @@ const useScrollPositionRestore = ({
       const ok = aborted ? true : applyRatio();
       scrollPositionStore.restored = true;
       scrollPositionStore.isTransitioning = false;
+
+      // 復元確定後に現在段を再同期する（キャッシュ再構築後の再判定漏れ対策。
+      // これが無いと復元後もスクロールイベントが発火せず解説バーが固まる）
+      const detect = detectCurrentSceneRef?.current;
+      if (typeof detect === "function") detect();
 
       const sceneId = navIndexRef.current;
       const toId = handleToIdRef.current;
