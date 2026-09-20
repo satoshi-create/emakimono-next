@@ -101,15 +101,18 @@ export default function useEmakiZoomPan({
     );
   }, [maxScale]);
 
-  // scale 倍時の可動域（transform-origin: center center 前提）
+  // scale 倍時の可動域（transform-origin: center center 前提）。
+  // 未マウント / 未実測（幅 0）は「可動域 0」ではなく null（未知）を返し、
+  // 呼び出し側で pan を温存できるようにする。
   const getPanBounds = useCallback((nextScale) => {
     const stage = stageRef.current;
     const strip = stripRef.current;
-    if (!stage || !strip) return { maxX: 0, maxY: 0 };
+    if (!stage || !strip) return null;
     const stageW = stage.clientWidth || 0;
     const stageH = stage.clientHeight || 0;
     const contentW = strip.offsetWidth || 0;
     const contentH = strip.offsetHeight || 0;
+    if (!(stageW > 0) || !(contentW > 0)) return null;
     return {
       maxX: Math.max(0, (contentW * nextScale - stageW) / 2),
       maxY: Math.max(0, (contentH * nextScale - stageH) / 2),
@@ -118,10 +121,13 @@ export default function useEmakiZoomPan({
 
   const clampPan = useCallback(
     (nextX, nextY, nextScale) => {
-      const { maxX, maxY } = getPanBounds(nextScale);
+      const x = isFiniteNumber(nextX) ? nextX : 0;
+      const y = isFiniteNumber(nextY) ? nextY : 0;
+      const bounds = getPanBounds(nextScale);
+      if (!bounds) return [x, y]; // 実測不能時は現在の値を温存
       return [
-        isFiniteNumber(nextX) ? clamp(nextX, -maxX, maxX) : 0,
-        isFiniteNumber(nextY) ? clamp(nextY, -maxY, maxY) : 0,
+        clamp(x, -bounds.maxX, bounds.maxX),
+        clamp(y, -bounds.maxY, bounds.maxY),
       ];
     },
     [getPanBounds]
@@ -250,7 +256,9 @@ export default function useEmakiZoomPan({
     (nextScale, focusX, focusY) => {
       const raw = isFiniteNumber(nextScale) ? nextScale : DEFAULT_SCALE;
       const targetScale = clamp(raw, getFitScale(), maxScale);
-      const stage = stageRef.current;
+      // ズームレイヤー未マウント（wheel 進入と同一タスク）でも基準点を取れるよう、
+      // entry-container をフォールバックに使う。
+      const stage = stageRef.current || containerRef?.current;
       if (!stage || !isFiniteNumber(focusX) || !isFiniteNumber(focusY)) {
         return commitScale(targetScale, panRef.current.x, panRef.current.y);
       }
@@ -273,7 +281,7 @@ export default function useEmakiZoomPan({
       const nextY = fy - ((fy - panRef.current.y) / prevScale) * targetScale;
       return commitScale(targetScale, nextX, nextY);
     },
-    [commitScale, getFitScale, maxScale]
+    [commitScale, containerRef, getFitScale, maxScale]
   );
 
   const resetZoom = useCallback(() => {

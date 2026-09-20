@@ -953,6 +953,13 @@ const EmakiContainer = ({
     [collectZoomSlices, zoomCenterIndex, zoomStageMetrics]
   );
 
+  // article（横スクロール面）のスライス幅基準高 = calc(AR * var(--screen-height))。
+  // offsetHeight が --screen-height 実寸と一致する。
+  const getArticleUnitHeight = useCallback(
+    (el) => (el ? el.offsetHeight || el.clientHeight || 0 : 0),
+    []
+  );
+
   // 初期 pan アライメント補正（P1）: article のビューポート中央にある内容
   // （|scrollLeft| + clientWidth / 2）と、オーバーレイ strip 中央が指す内容との差分。
   // 収集範囲は collectZoomSlices と同じ computeZoomStripRange で求め、必ず一致させる。
@@ -977,11 +984,15 @@ const EmakiContainer = ({
       for (let i = from; i <= to; i += 1) {
         stripWidth += sceneWidthPx(items[i], rowHeightPx);
       }
+      // article の content px（scrollLeft / clientWidth）は articleUnit 基準のため、
+      // overlay 基準（rowHeightPx）へ比率 k で換算してから中央ピン位置を求める。
+      const articleUnit = getArticleUnitHeight(el);
+      const k = articleUnit > 0 ? rowHeightPx / articleUnit : 1;
       const viewportCenterFromStart =
-        Math.abs(el.scrollLeft) + el.clientWidth / 2;
+        (Math.abs(el.scrollLeft) + el.clientWidth / 2) * k;
       return viewportCenterFromStart - offsetFrom - stripWidth / 2;
     },
-    [processedEmakis, zoomMinSlices]
+    [processedEmakis, zoomMinSlices, getArticleUnitHeight]
   );
 
   // ズーム進入: 表示中央の中心スライスと初期 pan を openZoom と同一コミットで
@@ -1014,7 +1025,7 @@ const EmakiContainer = ({
         const estimated = sceneIndexAtContentX(
           data.emakis,
           contentX,
-          containerHeight
+          getArticleUnitHeight(el) || containerHeight
         );
         if (Number.isFinite(estimated)) centerIndex = estimated;
       }
@@ -1040,6 +1051,7 @@ const EmakiContainer = ({
       data.emakis,
       zoomCenterIndex,
       computeZoomAlignPanX,
+      getArticleUnitHeight,
       contentWindowCenterRef,
       openZoom,
     ]
