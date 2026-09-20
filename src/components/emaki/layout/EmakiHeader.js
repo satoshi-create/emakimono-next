@@ -54,6 +54,8 @@ const EmakiHeader = () => {
         </div>
         <div className={styles.langMobile}>
           <LanguageSwitcher />
+          {/* SP: EN/JA 切替の隣に検索トリガーを並べる（デスクトップは上の SearchBoxButton） */}
+          <SearchBoxButton variant="iconOnly" />
         </div>
         <a
           href={getContactUrl(locale)}

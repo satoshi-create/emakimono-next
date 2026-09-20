@@ -72,7 +72,9 @@
     },
     "horizontalScrollHint": "横スクロールで移動します",
     "verticalScrollHint": "縦スクロール: 絵巻の外へカーソルを移動",
-    "fullscreeBtn": "フルスクリーンで絵巻を楽しむ"
+    "fullscreeBtn": "フルスクリーンで絵巻を楽しむ",
+    "zoomToggleIn": "クリックで拡大（または Ctrl + ホイール / 2本指ピンチで拡大）",
+    "zoomToggleOut": "クリックで等倍に戻す（Ctrl + ホイール / 2本指ピンチでも拡大縮小できます）"
   },
 
   "quiz": {
@@ -600,6 +602,22 @@
         "body": "本ページは一般的な情報提供であり、法的助言ではありません。個別の利用判断は、各所蔵機関の利用規約および必要に応じて専門家にご確認ください。本ページに関するお問い合わせは下記ボタンよりどうぞ。"
       }
     }
+  },
+
+  "byobuHub": {
+    "pagetitle": "屏風一覧",
+    "pagetitleEn": "Byōbu — Folding Screens",
+    "metaDesc": "屏風（びょうぶ）に描かれた名作を一覧で鑑賞できるページ。国宝・洛中洛外図屏風（舟木本）など、六曲一双の大画面に描かれた都市と人々の姿を横スクロールでご覧いただけます。",
+    "metaDescEn": "Browse byōbu (folding screens) as a list: the National Treasure Rakuchū-Rakugai-zu Byōbu (Funaki version) and other masterworks painted across pairs of six-panel screens.",
+    "breadcrumb": "屏風",
+    "introTitle": "屏風を鑑賞する",
+    "introTitleEn": "Byōbu — Folding Screens",
+    "intro": "屏風は、六曲一双の画面を折りたたみ、広げて鑑賞する日本独自の大画面形式です。移動させながら眺められるため、都市の全景や四季の景物が緻密に描き込まれました。ここでは屏風に描かれた作品を一覧でご覧いただけます。",
+    "introEn": "Byōbu are Japanese folding screens — pairs of six-panel surfaces that can be folded away or opened wide. Because they could be moved and viewed from any angle, artists filled them with sweeping cityscapes and seasonal scenery. Browse the folding-screen works in our collection.",
+    "scrollSectionTitle": "屏風に描かれた作品",
+    "scrollSectionTitleEn": "Works on folding screens",
+    "galleryLinkLabel": "絵巻一覧も見る",
+    "galleryLinkLabelEn": "Browse the emaki gallery"
   },
 
   "emakiHub": {

@@ -1,5 +1,6 @@
 export const CHOUJU_GIGA_HUB_PATH = "/chouju-giga/chapters";
 export const KUSOUZU_HUB_PATH = "/kusouzu/chapters-kusouzu";
+export const BYOBU_HUB_PATH = "/byobu";
 
 /** トップ「最新の絵巻」キュレーション。新規公開時は先頭に追加。 */
 export const HOME_LATEST_SCROLLS = [
@@ -68,6 +69,7 @@ export const navGroups = [
         nameen: "Kusōzu Gallery",
         path: KUSOUZU_HUB_PATH,
       },
+      { name: "屏風一覧", nameen: "Byōbu Screens", path: BYOBU_HUB_PATH },
       { name: "ランキング", nameen: "Rankings", path: "/ranking" },
       { name: "観光マップ", nameen: "Sightseeing Map", path: "/emaki-hub" },
       {

@@ -49,6 +49,7 @@ import commentaryStyles from "@/styles/SceneCommentaryBar.module.css";
 import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import {
   trackSessionContext,
   trackManualScroll,
@@ -138,6 +139,7 @@ const EmakiContainer = ({
 
   const { backgroundImage } = data;
   const { locale, locales, asPath, defaultLocale, query, push } = useRouter();
+  const { t } = useTranslation("common");
 
   const wrapperRef = useRef();
   const articleRef = useRef();
@@ -1170,7 +1172,9 @@ const EmakiContainer = ({
                 />
               }
               description={
-                isZoomed ? "Zoom out to 100%" : "Zoom in on the current scene"
+                isZoomed
+                  ? t("viewer.zoomToggleOut")
+                  : t("viewer.zoomToggleIn")
               }
               onClick={() => {
                 // 表示中央を基準に中心スライスと初期 pan を事前確定して開く
