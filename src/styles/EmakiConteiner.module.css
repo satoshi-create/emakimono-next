@@ -37,6 +37,13 @@
   /* 殻→中身のマウントや画像デコードでブラウザが scrollLeft を自動調整すると
      RTL 横スクロールでは「巻き戻り」として知覚される。自動調整を無効化 */
   overflow-anchor: none;
+  /* ブラウザ標準のピンチズーム / ダブルタップズームを無効化する。
+     ピンチ（2本指）は useEmakiZoomPan が専有して ZoomLayer を展開するため、
+     JS 側へ touchmove を届かせる必要がある（touch-action: auto だと
+     ブラウザが先にネイティブズームを確定し、preventDefault が効かない）。
+     none にすると1本指の横スクロールまで失われるので pan-x pan-y とし、
+     横スクロール（RTL 負値 scrollLeft）と縦のページスクロールは残す。 */
+  touch-action: pan-x pan-y;
 }
 
 .EmakiConteiner_container__A_oLx {

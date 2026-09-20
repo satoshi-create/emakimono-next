@@ -4840,5 +4840,505 @@
         "path": "azumaya"
       }
     ]
+  },
+  {
+    "id": 104,
+    "title": "洛中洛外図屏風（舟木本）",
+    "titleen": "rakuchu_rakugai_funaki",
+    "author": "岩佐又兵衛筆",
+    "authoren": "iwasa-matabe",
+    "edition": "舟木家旧蔵",
+    "encodeUrl": "",
+    "backgroundImage": "",
+    "thumb": "/thumb/rakuchu_rakugai_funaki_thumb.webp",
+    "thumb2": "/thumb/rakuchu_rakugai_funaki_thumb.webp",
+    "video": "",
+    "era": "江戸",
+    "eraen": "edo",
+    "desc": "東京国立博物館所蔵、国宝。滋賀・舟木家に伝来したことから「舟木本」と呼ばれる洛中洛外図屏風です。六曲一双の画面に、方広寺大仏殿から二条城まで、鴨川をはさんだ京の町並みと、そこに暮らす約2500人の人々の姿を途切れることなく描いています。",
+    "descen": "A National Treasure in the Tokyo National Museum, known as the Funaki version after the Funaki family of Shiga who once owned it. Across a pair of six-panel folding screens it presents a continuous view of Kyoto, from the Great Buddha Hall of Hoko-ji to Nijo Castle, filled with some 2,500 people going about their lives along the Kamo River.",
+    "readMore": false,
+    "type": "屏風",
+    "typeen": "byobu",
+    "keyword": [],
+    "kotobagaki": false,
+    "sceneText": true,
+    "favorite": false,
+    "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-11168?locale=ja",
+    "sourceImage": "洛中洛外図屏風（ColBase）",
+    "metadesc": "",
+    "gif": "",
+    "sourceEkotoba": "",
+    "reference": [
+      {
+        "type": "所蔵機関",
+        "url": "https://colbase.nich.go.jp/collection_items/tnm/A-11168?locale=ja",
+        "title": "洛中洛外図屏風（舟木本）| ColBase（国立文化財機構所蔵品統合検索システム）"
+      },
+      {
+        "type": "解説",
+        "url": "https://emuseum.nich.go.jp/detail?content_base_id=100318",
+        "title": "洛中洛外図屏風（舟木本）| e国宝（国立文化財機構）"
+      },
+      {
+        "type": "指定文化財",
+        "url": "https://kunishitei.bunka.go.jp/heritage/detail/201/00011697",
+        "title": "紙本金地著色洛中洛外図（岩佐勝以筆／六曲屏風）| 国指定文化財等データベース"
+      }
+    ],
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "1",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564437/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_01__01.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_01__01",
+        "srcHeight": 3642,
+        "srcWidth": 1328,
+        "spots": [
+          {
+            "id": "toyokunisha",
+            "name": "豊国社",
+            "x": 56,
+            "y": 16,
+            "nameen": "Toyokuni Shrine"
+          },
+          {
+            "id": "toyokunitebutai",
+            "name": "豊国定舞台",
+            "x": 62,
+            "y": 54,
+            "nameen": "Toyokuni Stage"
+          },
+          {
+            "id": "sanjuusangendo",
+            "name": "三十三間堂",
+            "x": 66,
+            "y": 86,
+            "nameen": "Sanjusangen-do"
+          }
+        ]
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564437/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_01__02.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_01__02",
+        "srcHeight": 3642,
+        "srcWidth": 1328,
+        "spots": [
+          {
+            "id": "daibutsuden",
+            "name": "方広寺大仏殿",
+            "x": 57,
+            "y": 44,
+            "nameen": "Great Buddha Hall (Hoko-ji)"
+          },
+          {
+            "id": "myohoin",
+            "name": "妙法院",
+            "x": 94,
+            "y": 24,
+            "nameen": "Myoho-in"
+          }
+        ]
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "2",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564437/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_02__01.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_02__01",
+        "srcHeight": 3642,
+        "srcWidth": 1328,
+        "spots": [
+          {
+            "id": "kiyomizudera",
+            "name": "清水寺",
+            "x": 71,
+            "y": 11,
+            "nameen": "Kiyomizu-dera"
+          },
+          {
+            "id": "rokuharamitsuji",
+            "name": "六波羅蜜寺",
+            "x": 88,
+            "y": 40,
+            "nameen": "Rokuharamitsu-ji"
+          },
+          {
+            "id": "gojodori",
+            "name": "五条通",
+            "x": 18,
+            "y": 60,
+            "nameen": "Gojo Street"
+          },
+          {
+            "id": "shichijo-kawara",
+            "name": "七条河原",
+            "x": 76.0,
+            "y": 84.5,
+            "nameen": "Shichijo Riverbed"
+          }
+        ]
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564441/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_02__02.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_02__02",
+        "srcHeight": 3642,
+        "srcWidth": 1328,
+        "spots": [
+          {
+            "id": "gionsha",
+            "name": "祇園社",
+            "x": 89,
+            "y": 11,
+            "nameen": "Gion Shrine (Yasaka)"
+          },
+          {
+            "id": "kenninji",
+            "name": "建仁寺",
+            "x": 58,
+            "y": 35,
+            "nameen": "Kennin-ji"
+          }
+        ]
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "3",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564442/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_03__01.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_03__01",
+        "srcHeight": 3642,
+        "srcWidth": 1328,
+        "spots": [
+          {
+            "id": "chionin",
+            "name": "知恩院",
+            "x": 69,
+            "y": 10,
+            "nameen": "Chion-in"
+          },
+          {
+            "id": "gojobashi",
+            "name": "五条大橋",
+            "x": 56,
+            "y": 50,
+            "nameen": "Gojo Bridge"
+          }
+        ]
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564441/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_03__02.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_03__02",
+        "srcHeight": 3642,
+        "srcWidth": 1330,
+        "spots": [
+          {
+            "id": "sanjobashi",
+            "name": "三条大橋",
+            "x": 10,
+            "y": 11,
+            "nameen": "Sanjo Bridge"
+          },
+          {
+            "id": "shijokawara",
+            "name": "四条河原",
+            "x": 60,
+            "y": 23,
+            "nameen": "Shijo Riverbed"
+          },
+          {
+            "id": "gojoteramachi",
+            "name": "五条寺町",
+            "x": 61,
+            "y": 50,
+            "nameen": "Gojo Teramachi"
+          },
+          {
+            "id": "rokujosanjyomachi",
+            "name": "六条三筋町",
+            "x": 82,
+            "y": 89,
+            "nameen": "Rokujo Sanjomachi"
+          }
+        ]
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "4",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564446/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_04__01.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_04__01",
+        "srcHeight": 3642,
+        "srcWidth": 1328,
+        "spots": [
+          {
+            "id": "sanjobashi",
+            "name": "三条大橋",
+            "x": 36,
+            "y": 11,
+            "nameen": "Sanjo Bridge"
+          },
+          {
+            "id": "kamogawa",
+            "name": "賀茂川",
+            "x": 84,
+            "y": 10,
+            "nameen": "Kamo River"
+          },
+          {
+            "id": "gionryosho",
+            "name": "祇園旅所",
+            "x": 51,
+            "y": 31,
+            "nameen": "Gion Shrine Resting Place"
+          },
+          {
+            "id": "rokujosanjyomachi",
+            "name": "六条三筋町",
+            "x": 91,
+            "y": 89,
+            "nameen": "Rokujo Sanjomachi"
+          },
+          {
+            "id": "higashi-honganji",
+            "name": "東本願寺",
+            "x": 31.0,
+            "y": 71.5,
+            "nameen": "Higashi Hongan-ji"
+          }
+        ]
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564446/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_04__02.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_04__02",
+        "srcHeight": 3642,
+        "srcWidth": 1328,
+        "spots": [
+          {
+            "id": "teramachi",
+            "name": "寺町通",
+            "x": 18,
+            "y": 17,
+            "nameen": "Teramachi Street"
+          },
+          {
+            "id": "shijodori",
+            "name": "四条通",
+            "x": 21,
+            "y": 35,
+            "nameen": "Shijo Street"
+          },
+          {
+            "id": "muromachidori",
+            "name": "室町通",
+            "x": 59,
+            "y": 49,
+            "nameen": "Muromachi Street"
+          },
+          {
+            "id": "toji",
+            "name": "東寺",
+            "x": 94,
+            "y": 81,
+            "nameen": "To-ji"
+          }
+        ]
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "5",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564446/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_05__01.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_05__01",
+        "srcHeight": 3642,
+        "srcWidth": 1328,
+        "spots": [
+          {
+            "id": "rokkakudo",
+            "name": "六角堂",
+            "x": 29,
+            "y": 17,
+            "nameen": "Rokkaku-do"
+          },
+          {
+            "id": "shinmachidori",
+            "name": "新町通",
+            "x": 34,
+            "y": 43,
+            "nameen": "Shinmachi Street"
+          },
+          {
+            "id": "nishihonganji",
+            "name": "西本願寺",
+            "x": 81,
+            "y": 78,
+            "nameen": "Nishi Hongan-ji"
+          }
+        ]
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564450/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_05__02.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_05__02",
+        "srcHeight": 3642,
+        "srcWidth": 1328,
+        "spots": [
+          {
+            "id": "nijodori",
+            "name": "二条通",
+            "x": 49,
+            "y": 53,
+            "nameen": "Nijo Street"
+          },
+          {
+            "id": "shimodachiuridori",
+            "name": "下立売通",
+            "x": 68,
+            "y": 46,
+            "nameen": "Shimodachiuri Street"
+          },
+          {
+            "id": "kodaiin",
+            "name": "高台院",
+            "x": 83,
+            "y": 5,
+            "nameen": "Kodai-in"
+          }
+        ]
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "6",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564450/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_06__01.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_06__01",
+        "srcHeight": 3642,
+        "srcWidth": 1328,
+        "spots": [
+          {
+            "id": "shishinden",
+            "name": "紫宸殿",
+            "x": 58,
+            "y": 5,
+            "nameen": "Shishinden Hall"
+          },
+          {
+            "id": "minamimon",
+            "name": "南門",
+            "x": 41,
+            "y": 22,
+            "nameen": "South Gate"
+          },
+          {
+            "id": "horikawadori",
+            "name": "堀川通",
+            "x": 49,
+            "y": 50,
+            "nameen": "Horikawa Street"
+          }
+        ]
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1789564450/emakimono/rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_06__02.jpg",
+        "name": "rakuchu-rakugai-funaki__rakuchu-rakugai-funaki_1_06__02",
+        "srcHeight": 3642,
+        "srcWidth": 1330,
+        "spots": [
+          {
+            "id": "nijocastle",
+            "name": "二条城",
+            "x": 32,
+            "y": 38,
+            "nameen": "Nijo Castle"
+          },
+          {
+            "id": "seiryoden",
+            "name": "清涼殿",
+            "x": 81,
+            "y": 5,
+            "nameen": "Seiryoden Hall"
+          },
+          {
+            "id": "higashinotoindori",
+            "name": "東洞院通",
+            "x": 22,
+            "y": 12,
+            "nameen": "Higashinotoin Street"
+          }
+        ]
+      }
+    ]
   }
 ]

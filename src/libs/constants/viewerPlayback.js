@@ -13,11 +13,33 @@ export const PLAYBACK_SPEED_PX_PER_SEC = {
 export const DEVICE_BREAKPOINT_TABLET = 768;
 export const DEVICE_BREAKPOINT_PC = 1024;
 
-/** コンテナ幅に対する読取位置（右端からの割合。0.38 ≒ 画面中央寄り） */
-export const SCENE_READING_POSITION_RATIO = 0.38;
+/**
+ * シーン切替ヒステリシス（ビューポート占有率の相対優位）。
+ * 挑戦者の占有率が現シーンの占有率をこの割合だけ上回るまで現シーンを維持し、
+ * 境界でのチャタリングを防ぐ。
+ * 絶対差にすると、狭幅スライス（舟木本 等）で最大占有率自体が小さくしきい値に
+ * 到達できないため、巻頭へ戻っても切替不能になる点に注意。
+ */
+export const SCENE_DETECTION_HYSTERESIS_SHARE = 0.12;
 
-/** シーン切替ヒステリシス（px）— 現シーンからの優位がこれ未満なら維持 */
-export const SCENE_DETECTION_HYSTERESIS_PX = 80;
+/**
+ * 占有率の同率許容幅（ビューポート占有率の差）。
+ * この範囲内は「同率」とみなし、右端（RTL 起点＝start が小さい方）を優先する。
+ * 幅がほぼ等しいスライスが複数同時に見えている初期表示で、選択が定まらないのを防ぐ。
+ */
+export const SCENE_DETECTION_TIE_TOLERANCE = 0.005;
+
+/** ズームストリップの最小スライス枚数（前後1枚＝計3枚。端では反対側へ枠を伸ばして確保） */
+export const ZOOM_STRIP_MIN_SLICES = 3;
+
+/**
+ * 屏風（typeen === "byobu"）のズームストリップ最小スライス枚数。
+ * 高解像度スライスはデコード後 約19MB/枚。5枚同時常駐は iOS のメモリガード
+ * （256MB 制限）に触れ、低解像度プレビューモードへ落ちてぼやける原因になる。
+ * 650〜800% 拡大時に画面内へ見えるのは1スライスのごく一部（約60px 幅）のため、
+ * 中心＋前後1枚の3枚でもパン領域は確保でき、GPU 常駐を 97MB → 58MB へ削減できる。
+ */
+export const ZOOM_STRIP_MIN_SLICES_BYOBU = 3;
 
 /** 再生中の画像先読み（uniqueIndex ベース）— eager 同時発火を抑え、帯域を可視近傍へ集中 */
 export const PLAYBACK_IMAGE_LOOKAHEAD = 3;
@@ -42,6 +64,14 @@ export const CONTENT_WINDOW_EXIT_RADIUS = 5;
 /** 再生・自動スクロール中 */
 export const CONTENT_WINDOW_PLAY_BEHIND = 3;
 export const CONTENT_WINDOW_PLAY_AHEAD = 12;
+/**
+ * 屏風（typeen === "byobu"）専用の描画窓。
+ * スライスのアスペクト比が約 0.365 と極端に細く、通常の前後数枚では横長ビューポートを
+ * 埋めきれず左側が空白になる。舟木本は全 12 スライスと少ないため、中身を常時全枚マウント
+ * しても問題ない（通常絵巻の描画窓には影響させない）。
+ */
+export const CONTENT_WINDOW_BYOBU_BEHIND = 64;
+export const CONTENT_WINDOW_BYOBU_AHEAD = 64;
 /** @deprecated */
 export const CONTENT_WINDOW_PLAY_ENTER_RADIUS = 8;
 

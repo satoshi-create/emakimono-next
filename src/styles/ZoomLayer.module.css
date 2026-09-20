@@ -15,9 +15,12 @@
   touch-action: none;
   user-select: none;
   overscroll-behavior: contain;
-  /* 下層の絵巻からシームレスに重なるようフェードイン（ちらつき防止） */
-  animation: zoomLayerFadeIn 180ms ease-out both;
-  will-change: opacity;
+  /* 下層の絵巻からシームレスに重なるようフェードイン（ちらつき防止）。
+     fill-mode の both は付けない: アニメ終了後も要素が恒常的な合成レイヤーとして
+     残ると、iOS WebKit が子の transform: scale() を等倍テクスチャ（約231px幅）の
+     まま GPU で引き伸ばし、激しくぼやける（WebKit Bug 27684 / テクスチャ解像度固着）。
+     will-change: opacity も同じ固着と GPU メモリ圧迫を招くため付与しない。 */
+  animation: zoomLayerFadeIn 180ms ease-out;
 }
 
 @keyframes zoomLayerFadeIn {
@@ -62,7 +65,8 @@
   transform-origin: center center;
   /* ドラッグ / ホイール操作と競合するトランジションを明示的に無効化 */
   transition: none;
-  will-change: transform;
+  /* will-change: transform は常時付与しない: モバイル GPU が拡大前の解像度の
+     テクスチャを保持したまま引き伸ばし、ズームしても画像が甘いまま固定される。 */
 }
 
 .image {
@@ -75,6 +79,12 @@
   pointer-events: none;
   user-select: none;
   -webkit-user-drag: none;
+  /* iOS WebKit の -webkit-optimize-contrast は解像度不足時にバイリニア補間を止め、
+     拡大時にピクセル（ブロック状のモザイク）を際立たせる。既定の auto
+     （高品質バイリニア/バイキュービック）で滑らかに拡大させる。
+     なお translateZ(0) / backface-visibility 等の 3D 昇格は新たな合成レイヤー
+     固着を招くため付与しない。 */
+  image-rendering: auto;
 }
 
 .controls {

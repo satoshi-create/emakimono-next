@@ -16,7 +16,10 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const DEFAULT_SCALE = 2;
-const MAX_SCALE = 3;
+// ズーム上限。屏風（舟木本など）はスライス幅が狭く 300% では人物が小さいため、
+// 既定を 600% とし、maxScale prop（屏風 = 800%）で作品特性に応じて引き上げられる。
+const MAX_SCALE = 6;
+const HARD_MAX_SCALE = 10; // maxScale prop の安全上限（UI 表示・配信解像度の破綻防止）
 const ZOOM_STEP = 0.2;
 const WHEEL_ZOOM_RATE = 0.002;
 const FALLBACK_MIN_SCALE = 1; // 等倍（これ以下は通常スクロールへ復帰）
@@ -35,7 +38,13 @@ export default function useEmakiZoomPan({
   onDoubleTap,
   containerRef,
   requestZoomRef,
+  maxScale: maxScaleProp,
 } = {}) {
+  // 作品特性に応じたズーム上限（未指定 = 600%、屏風 = 800%）。不正値は既定へ戻す。
+  const maxScale = isFiniteNumber(maxScaleProp)
+    ? clamp(maxScaleProp, FALLBACK_MIN_SCALE, HARD_MAX_SCALE)
+    : MAX_SCALE;
+
   const [isZoomed, setIsZoomed] = useState(false);
   const [scale, setScale] = useState(DEFAULT_SCALE);
   const [panX, setPanX] = useState(0);
@@ -71,16 +80,26 @@ export default function useEmakiZoomPan({
   const onDoubleTapRef = useRef(onDoubleTap);
   onDoubleTapRef.current = onDoubleTap;
 
-  // 縦幅がコンテナに収まる倍率（これ以上縮小させない = 上下の背景露出を防ぐ）
+  // 最小倍率（これ以上縮小させない = 背景露出を防ぐ）。
+  // 縦幅の fit に加え、ストリップ幅がステージ幅に満たない場合の横幅カバーも考慮する
+  // （改修Bで収集枚数を動的化しても、巻頭・巻末や極端な狭幅では不足しうるため）。
   const getFitScale = useCallback(() => {
     const stage = stageRef.current;
     const strip = stripRef.current;
     if (!stage || !strip) return FALLBACK_MIN_SCALE;
     const stageH = stage.clientHeight || 0;
+    const stageW = stage.clientWidth || 0;
     const contentH = strip.offsetHeight || 0;
+    const contentW = strip.offsetWidth || 0;
     if (!stageH || !contentH) return FALLBACK_MIN_SCALE;
-    return Math.max(FALLBACK_MIN_SCALE, stageH / contentH);
-  }, []);
+    const heightFit = stageH / contentH;
+    const widthFit = contentW > 0 ? stageW / contentW : FALLBACK_MIN_SCALE;
+    return clamp(
+      Math.max(FALLBACK_MIN_SCALE, heightFit, widthFit),
+      FALLBACK_MIN_SCALE,
+      maxScale
+    );
+  }, [maxScale]);
 
   // scale 倍時の可動域（transform-origin: center center 前提）
   const getPanBounds = useCallback((nextScale) => {
@@ -108,20 +127,116 @@ export default function useEmakiZoomPan({
     [getPanBounds]
   );
 
+  // --- Android Chrome ラスタ固着対策 -------------------------------------------
+  // 拡大時にコンポジタが等倍テクスチャを保持したまま GPU で引き伸ばす現象
+  // （ラスタ固着）への対策。操作セッション中だけ will-change: transform を strip へ
+  // 付与して合成レイヤーを作り直させ、確定時にサブピクセルの transform 変化を与えて
+  // 現在倍率での再ラスタライズを強制する。
+  // 常時付与は iOS WebKit の固着・GPU メモリ圧迫を招くため行わない。
+  const rasterActiveRef = useRef(false); // ピンチ / ドラッグ / ホイール継続中
+  const rasterStagingRafRef = useRef(0);
+  const rasterRestoreRafRef = useRef(0);
+  const rasterPendingRef = useRef(null); // { base, nudged } 一時的なサブピクセル変化
+  const wheelSettleTimerRef = useRef(0);
+
+  // 未実行のサブピクセル変化を即座に戻す（復元予約も破棄）
+  const flushRasterNudge = useCallback(() => {
+    const pending = rasterPendingRef.current;
+    const el = stripRef.current;
+    if (pending && el && el.style.transform === pending.nudged) {
+      el.style.transform = pending.base;
+    }
+    rasterPendingRef.current = null;
+    cancelAnimationFrame(rasterStagingRafRef.current);
+    rasterStagingRafRef.current = 0;
+    cancelAnimationFrame(rasterRestoreRafRef.current);
+  }, []);
+
+  // transform へ微小なスケール変化（+0.01%）を与える（肉眼では不可視・レイアウト影響なし）。
+  // 平行移動だけではコンポジタのテクスチャ解像度が再計算されないため、
+  // ラスタスケールの再計算を誘発する scale の変化を用いる。
+  // React の再レンダーで transform が更新済みの場合は触らない。
+  const applyRasterNudge = useCallback(() => {
+    const strip = stripRef.current;
+    if (!strip) return;
+    const base = strip.style.transform;
+    if (!base) return;
+    const nudged = `${base} scale(1.0001)`;
+    strip.style.transform = nudged;
+    rasterPendingRef.current = { base, nudged };
+    rasterRestoreRafRef.current = requestAnimationFrame(() => {
+      const target = stripRef.current;
+      const pending = rasterPendingRef.current;
+      rasterPendingRef.current = null;
+      if (!target || !pending) return;
+      if (target.style.transform === pending.nudged) {
+        target.style.transform = pending.base;
+      }
+      // ジェスチャ継続中でなければ合成レイヤーを解放する
+      if (!rasterActiveRef.current) target.style.willChange = "";
+    });
+  }, []);
+
+  // 二重 rAF: React の再レンダー（transform 反映）後にサブピクセル変化を与え、
+  // コンポジタにキャッシュ破棄 → 現在倍率での再ラスタライズを行わせる。
+  const scheduleRasterRefresh = useCallback(() => {
+    const el = stripRef.current;
+    if (!el) return;
+    el.style.willChange = "transform";
+    flushRasterNudge();
+    rasterStagingRafRef.current = requestAnimationFrame(() => {
+      rasterStagingRafRef.current = requestAnimationFrame(() => {
+        rasterStagingRafRef.current = 0;
+        applyRasterNudge();
+      });
+    });
+  }, [applyRasterNudge, flushRasterNudge]);
+
+  // ジェスチャ中の連続 commit では nudge 実行中をスキップして間引く
+  const requestRasterRefresh = useCallback(() => {
+    if (rasterStagingRafRef.current || rasterPendingRef.current) return;
+    scheduleRasterRefresh();
+  }, [scheduleRasterRefresh]);
+
+  // ジェスチャ開始: セッション中は will-change を維持して再ラスタライズを促す
+  const beginRasterSession = useCallback(() => {
+    rasterActiveRef.current = true;
+    const el = stripRef.current;
+    if (el) el.style.willChange = "transform";
+  }, []);
+
+  // ジェスチャ終了: 最終倍率で再ラスタライズしてから will-change を外す
+  const endRasterSession = useCallback(() => {
+    rasterActiveRef.current = false;
+    scheduleRasterRefresh();
+  }, [scheduleRasterRefresh]);
+
+  // アンマウント時: 予約中の再ラスタライズとホイール停止タイマーを破棄
+  useEffect(
+    () => () => {
+      cancelAnimationFrame(rasterStagingRafRef.current);
+      cancelAnimationFrame(rasterRestoreRafRef.current);
+      if (wheelSettleTimerRef.current) clearTimeout(wheelSettleTimerRef.current);
+    },
+    []
+  );
+
   // scale と pan を同時に確定へ反映する（NaN / 極端値・可動域を常に補正）
   const commitScale = useCallback(
     (nextScale, nextX, nextY) => {
       const raw = isFiniteNumber(nextScale) ? nextScale : DEFAULT_SCALE;
-      const safeScale = clamp(raw, getFitScale(), MAX_SCALE);
+      const safeScale = clamp(raw, getFitScale(), maxScale);
       const [x, y] = clampPan(nextX, nextY, safeScale);
       scaleRef.current = safeScale;
       panRef.current = { x, y };
       setScale(safeScale);
       setPanX(x);
       setPanY(y);
+      // 確定直後に再ラスタライズを促す（Android Chrome の等倍テクスチャ固着対策）
+      requestRasterRefresh();
       return safeScale;
     },
-    [clampPan, getFitScale]
+    [clampPan, getFitScale, maxScale, requestRasterRefresh]
   );
 
   const applyScale = useCallback(
@@ -134,7 +249,7 @@ export default function useEmakiZoomPan({
   const applyScaleAtPoint = useCallback(
     (nextScale, focusX, focusY) => {
       const raw = isFiniteNumber(nextScale) ? nextScale : DEFAULT_SCALE;
-      const targetScale = clamp(raw, getFitScale(), MAX_SCALE);
+      const targetScale = clamp(raw, getFitScale(), maxScale);
       const stage = stageRef.current;
       if (!stage || !isFiniteNumber(focusX) || !isFiniteNumber(focusY)) {
         return commitScale(targetScale, panRef.current.x, panRef.current.y);
@@ -158,7 +273,7 @@ export default function useEmakiZoomPan({
       const nextY = fy - ((fy - panRef.current.y) / prevScale) * targetScale;
       return commitScale(targetScale, nextX, nextY);
     },
-    [commitScale, getFitScale]
+    [commitScale, getFitScale, maxScale]
   );
 
   const resetZoom = useCallback(() => {
@@ -176,11 +291,17 @@ export default function useEmakiZoomPan({
     touchRef.current.startDist = 0;
     // 等倍復帰: 指を離すまでピンチで再進入しない
     touchRef.current.exited = true;
-  }, []);
+    // ラスタセッションを終了し、未実行の再ラスタライズ予約を破棄する
+    rasterActiveRef.current = false;
+    flushRasterNudge();
+    if (stripRef.current) stripRef.current.style.willChange = "";
+  }, [flushRasterNudge]);
 
   // focusX / focusY（clientX / clientY）を渡すと、その点を基準に拡大を開始する。
-  // initialPanX: article の表示原点とオーバーレイ strip 原点を一致させる初期補正（P1）。
-  // 実測前の初期フレームは等倍・補正済みパンで描画し、レイアウト確定後の
+  // initialPanX: article の表示中心とオーバーレイ strip 中心が指す内容の差分（P1）。
+  //   コンテンツ座標系の値で受け取り、スクリーン px へは開始倍率を乗じて変換する
+  //   （translate は scale の外側で適用されるため、倍率を掛けないと突入直後に位置が飛ぶ）。
+  // 実測前の初期フレームは補正済みパンで描画し、レイアウト確定後の
   // useLayoutEffect でカーソル基準の倍率・パンへ（ペイント前に）補正する。
   const openZoom = useCallback(
     (focusX, focusY, initialPanX, initialScale) => {
@@ -188,14 +309,15 @@ export default function useEmakiZoomPan({
       // （レイヤーは isZoomed=true で初描画されるため、未初期化値の描画＝ちらつきを防ぐ）
       // initialScale: ボタン/ダブルクリックは既定倍率、ピンチ/ホイールは等倍から開始する
       const startScale = isFiniteNumber(initialScale)
-        ? clamp(initialScale, FALLBACK_MIN_SCALE, MAX_SCALE)
+        ? clamp(initialScale, FALLBACK_MIN_SCALE, maxScale)
         : DEFAULT_SCALE;
       focusPointRef.current = {
         x: isFiniteNumber(focusX) ? focusX : null,
         y: isFiniteNumber(focusY) ? focusY : null,
         scale: startScale,
       };
-      const initialPan = isFiniteNumber(initialPanX) ? initialPanX : 0;
+      const initialPan =
+        (isFiniteNumber(initialPanX) ? initialPanX : 0) * startScale;
       scaleRef.current = startScale;
       panRef.current = { x: initialPan, y: 0 };
       setScale(startScale);
@@ -206,7 +328,7 @@ export default function useEmakiZoomPan({
       setIsZoomed(true);
       if (typeof onOpen === "function") onOpen();
     },
-    [onOpen]
+    [onOpen, maxScale]
   );
 
   const zoomIn = useCallback(
@@ -305,6 +427,13 @@ export default function useEmakiZoomPan({
           );
         }
       }
+      // ズーム操作セッション: ホイールが止まるまで will-change を維持する
+      beginRasterSession();
+      if (wheelSettleTimerRef.current) clearTimeout(wheelSettleTimerRef.current);
+      wheelSettleTimerRef.current = setTimeout(() => {
+        wheelSettleTimerRef.current = 0;
+        endRasterSession();
+      }, 160);
       const next = scaleRef.current - delta * WHEEL_ZOOM_RATE;
       focusPointRef.current = {
         x: event.clientX,
@@ -341,6 +470,8 @@ export default function useEmakiZoomPan({
         t.prevCenterX = cx;
         t.prevCenterY = cy;
         cursorRef.current = { x: cx, y: cy };
+        // ピンチ中は will-change を維持して再ラスタライズを促す
+        beginRasterSession();
         event.preventDefault();
         return;
       }
@@ -357,6 +488,8 @@ export default function useEmakiZoomPan({
           // 通常スクロール中: ダブルタップは全画面切替（ズームは発火させない）
           if (isDoubleTap) {
             lastTapRef.current = { time: 0, x: 0, y: 0 };
+            // ブラウザ標準のダブルタップズーム（ページ拡大）を明示的に抑止
+            event.preventDefault();
             if (typeof onDoubleTapRef.current === "function") {
               onDoubleTapRef.current();
             }
@@ -380,6 +513,8 @@ export default function useEmakiZoomPan({
         t.mode = "pan";
         t.lastX = p.clientX;
         t.lastY = p.clientY;
+        // パンドラッグ中も will-change を維持して再ラスタライズを促す
+        beginRasterSession();
         event.preventDefault();
       }
     };
@@ -428,7 +563,7 @@ export default function useEmakiZoomPan({
           resetZoom();
           return;
         }
-        const target = clamp(rawTarget, minScale, MAX_SCALE);
+        const target = clamp(rawTarget, minScale, maxScale);
         // ピンチ中心を基準に拡大縮小し、指の移動分は平行移動として加算する
         focusPointRef.current = {
           x: t.prevCenterX,
@@ -491,22 +626,35 @@ export default function useEmakiZoomPan({
         t.mode = null;
         t.startDist = 0;
         t.exited = false;
+        // 操作確定: 最終倍率で再ラスタライズしてから will-change を外す
+        endRasterSession();
       }
     };
 
+    // iOS Safari はピンチを独自の gesture* イベントでも処理する。
+    // touch-action: pan-x pan-y が効く iOS13+ では原則不要だが、旧 iOS の保険として
+    // コンテナ内のネイティブピンチを明示的に抑止する（touch 側の処理は維持される）。
+    const onGesture = (event) => {
+      event.preventDefault();
+    };
+
     el.addEventListener("wheel", onWheel, { passive: false });
+    el.addEventListener("gesturestart", onGesture, { passive: false });
+    el.addEventListener("gesturechange", onGesture, { passive: false });
     el.addEventListener("touchstart", onTouchStart, { passive: false });
     el.addEventListener("touchmove", onTouchMove, { passive: false });
     el.addEventListener("touchend", onTouchEnd, { passive: false });
     el.addEventListener("touchcancel", onTouchEnd, { passive: false });
     return () => {
       el.removeEventListener("wheel", onWheel);
+      el.removeEventListener("gesturestart", onGesture);
+      el.removeEventListener("gesturechange", onGesture);
       el.removeEventListener("touchstart", onTouchStart);
       el.removeEventListener("touchmove", onTouchMove);
       el.removeEventListener("touchend", onTouchEnd);
       el.removeEventListener("touchcancel", onTouchEnd);
     };
-  }, [containerRef, applyScaleAtPoint, clampPan, getFitScale, resetZoom]);
+  }, [containerRef, applyScaleAtPoint, clampPan, getFitScale, resetZoom, maxScale, beginRasterSession, endRasterSession]);
 
   const onPointerDown = useCallback(
     (event) => {
@@ -542,9 +690,11 @@ export default function useEmakiZoomPan({
         x: event.clientX,
         y: event.clientY,
       };
+      // ドラッグ中は will-change を維持して再ラスタライズを促す
+      beginRasterSession();
       event.currentTarget.setPointerCapture?.(event.pointerId);
     },
-    [resetZoom]
+    [beginRasterSession, resetZoom]
   );
 
   const onPointerMove = useCallback(
@@ -569,13 +719,18 @@ export default function useEmakiZoomPan({
     [clampPan]
   );
 
-  const onPointerEnd = useCallback((event) => {
-    const drag = dragRef.current;
-    if (!drag || drag.pointerId !== event.pointerId) return;
-    event.stopPropagation();
-    dragRef.current = null;
-    event.currentTarget.releasePointerCapture?.(event.pointerId);
-  }, []);
+  const onPointerEnd = useCallback(
+    (event) => {
+      const drag = dragRef.current;
+      if (!drag || drag.pointerId !== event.pointerId) return;
+      event.stopPropagation();
+      dragRef.current = null;
+      event.currentTarget.releasePointerCapture?.(event.pointerId);
+      // 操作確定: 最終倍率で再ラスタライズしてから will-change を外す
+      endRasterSession();
+    },
+    [endRasterSession]
+  );
 
   return {
     isZoomed,

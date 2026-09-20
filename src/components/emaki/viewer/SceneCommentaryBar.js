@@ -151,7 +151,7 @@ const SceneCommentaryBar = ({
         ? buildCloudinaryUrl(chapterThumbMap.get(item.chapter), [
             "w_160",
             "f_auto",
-            "q_auto:eco",
+            "q_auto:good",
           ])
         : null,
     }));

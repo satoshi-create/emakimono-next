@@ -2,8 +2,9 @@
  * スクロール処理 + 現在シーン検出。
  *
  * - handleScroll: 端点判定・スクロール位置保存・インジケータ更新・シーン検出 debounce
- * - detectCurrentScene: 読取位置（コンテナ幅 38%）+ ヒステリシス 80px でシーン特定
- * - パフォーマンス: getBoundingClientRect は初回のみ、scrollWidth/clientWidth は1秒間隔でキャッシュ
+ * - detectCurrentScene: 段（Scene）単位の合算占有率（Σ 可視幅 / clientWidth）が最大の段
+ *   + 占有率ヒステリシスで特定。巻頭・巻末の物理限界では面積計算をバイパスして端の段を確定
+ * - パフォーマンス: getBoundingClientRect は初回のみ、以降は各段の開始座標・幅の算術だけで判定
  * - 自動再生中: scroll リスナーは位置保存のみ行い、シーン検出等は useEmakiAutoPlay の rAF 側
  * - 自動再生中は setnavIndex を抑制し liveSceneIndex のみ更新（解説バー・URL hash・共有追従用）
  *
@@ -20,10 +21,11 @@ import {
   updateScrollProgress,
 } from "@/libs/api/measurementUtils";
 import {
-  SCENE_DETECTION_HYSTERESIS_PX,
-  SCENE_READING_POSITION_RATIO,
-} from "@/libs/constants/viewerPlayback";
-import { estimateSceneIndexFromScrollLeft } from "@/utils/emakiContentWindow";
+  buildSceneLayout,
+  buildSceneRanges,
+  estimateSceneIndexFromScrollLeft,
+  pickSceneIndexByShare,
+} from "@/utils/emakiContentWindow";
 import { parseSceneSectionId } from "@/utils/emakiSceneDom";
 
 const useEmakiScroll = ({
@@ -108,7 +110,7 @@ const useEmakiScroll = ({
     if (!el) return;
 
     // 初回: セクション位置キャッシュは idle まで遅延（マウント直後の Forced reflow を避ける）
-    if (!sectionsCacheRef.current?.items) {
+    if (!sectionsCacheRef.current?.layout) {
       if (sectionsCacheRef.current?.pending) return;
       sectionsCacheRef.current = { pending: true };
 
@@ -125,24 +127,25 @@ const useEmakiScroll = ({
         }
 
         const containerRect = node.getBoundingClientRect();
-        const readingX =
-          containerRect.right -
-          containerRect.width * SCENE_READING_POSITION_RATIO;
-        const baseScrollLeft = node.scrollLeft;
+        const hits = [];
+        sections.forEach((section) => {
+          const id = parseSceneSectionId(section.id);
+          if (isNaN(id)) return;
+          const rect = section.getBoundingClientRect();
+          // 改修A: コンテンツ先頭（RTL の右端 = index 0 の右端）からの開始座標。
+          // containerRect.right 基準なので scrollLeft に依存せず、判定は算術のみで完結する
+          hits.push({
+            index: id,
+            start: containerRect.right - rect.right,
+            width: rect.width,
+          });
+        });
+        if (hits.length === 0) {
+          sectionsCacheRef.current = null;
+          return;
+        }
 
-        sectionsCacheRef.current = {
-          baseScrollLeft,
-          items: sections
-            .map((section) => {
-              const rect = section.getBoundingClientRect();
-              const sectionCenter = rect.left + rect.width / 2;
-              return {
-                id: parseSceneSectionId(section.id),
-                offset: sectionCenter - readingX,
-              };
-            })
-            .filter((item) => !isNaN(item.id)),
-        };
+        sectionsCacheRef.current = { layout: buildSceneLayout(hits) };
       };
 
       if (typeof requestIdleCallback !== "undefined") {
@@ -153,32 +156,17 @@ const useEmakiScroll = ({
       return;
     }
 
-    // 2回目以降: scrollLeft の差分だけでシーンを特定（DOM読み取りなし）
+    // 2回目以降: 各段の開始座標・幅の算術だけで占有率最大の段を特定（DOM読み取りなし）
     const cache = sectionsCacheRef.current;
-    const scrollDelta = el.scrollLeft - cache.baseScrollLeft;
+    const closestId = pickSceneIndexByShare(
+      cache.layout,
+      el.scrollLeft,
+      el.clientWidth,
+      lastDetectedSceneRef.current,
+      buildSceneRanges(emakisRef.current)
+    );
 
-    let closestId = null;
-    let closestDistance = Infinity;
-
-    cache.items.forEach(({ id, offset }) => {
-      const distance = Math.abs(offset - scrollDelta);
-      if (distance < closestDistance) {
-        closestDistance = distance;
-        closestId = id;
-      }
-    });
-
-    if (closestId !== null && !isNaN(closestId) && closestId !== lastDetectedSceneRef.current) {
-      const currentItem = cache.items.find(
-        (item) => item.id === lastDetectedSceneRef.current
-      );
-      if (currentItem) {
-        const currentDist = Math.abs(currentItem.offset - scrollDelta);
-        if (closestDistance >= currentDist - SCENE_DETECTION_HYSTERESIS_PX) {
-          return;
-        }
-      }
-
+    if (closestId !== lastDetectedSceneRef.current) {
       // パームドラッグ中はシーン確定を保留する（指で位置を選んでいる最中に navIndex を
       // 更新すると EmakiConteiner 全体の再レンダー→「角ばり」や、hash 追従を介した
       // 巻き戻し連鎖を招く）。ドラッグ終了時（EmakiConteiner 側）に最終1回だけ検出する。
@@ -275,7 +263,7 @@ const useEmakiScroll = ({
         };
 
         const cache = sectionsCacheRef.current;
-        if (!cache?.items) {
+        if (!cache?.layout) {
           // DOM キャッシュ未構築でもメタデータ幅で窓を進める（初回スクロールの殻バースト遅延防止）
           const list = emakisRef.current;
           if (list?.length) {
@@ -292,18 +280,16 @@ const useEmakiScroll = ({
           detectCurrentScene();
           return;
         }
-        const scrollDelta = node.scrollLeft - cache.baseScrollLeft;
-        let closestId = null;
-        let closestDistance = Infinity;
-        for (let i = 0; i < cache.items.length; i += 1) {
-          const { id, offset } = cache.items[i];
-          const distance = Math.abs(offset - scrollDelta);
-          if (distance < closestDistance) {
-            closestDistance = distance;
-            closestId = id;
-          }
-        }
-        applyCenter(closestId);
+        // 窓中心はヒステリシスなしの支配シーン（解説バー用の navIndex とは別経路）
+        applyCenter(
+          pickSceneIndexByShare(
+            cache.layout,
+            node.scrollLeft,
+            node.clientWidth,
+            null,
+            buildSceneRanges(emakisRef.current)
+          )
+        );
       });
     };
 
@@ -445,7 +431,7 @@ const useEmakiScroll = ({
       const w = el.scrollWidth;
       if (Math.abs(w - lastW) < 2) return;
       lastW = w;
-      if (sectionsCacheRef.current?.items) {
+      if (sectionsCacheRef.current?.layout) {
         sectionsCacheRef.current = null;
       }
       scrollDimsRef.current = { w: 0, c: 0, ts: 0 };

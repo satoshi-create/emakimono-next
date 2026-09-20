@@ -23,6 +23,8 @@ const ZoomLayer = ({
   resetZoom,
   handlers,
   slices = [],
+  // 中心スライスの key（＝絵巻 index）。eager 読み込みの判定に使う
+  centerKey,
 }) => {
   if (!isZoomed) return null;
 
@@ -55,7 +57,28 @@ const ZoomLayer = ({
               src={s.src}
               alt=""
               draggable={false}
-              loading="eager"
+              loading={s.key === centerKey ? "eager" : "lazy"}
+              onLoad={(e) =>
+                console.log(
+                  "[zoom-slice-loaded]",
+                  e.currentTarget.naturalWidth,
+                  e.currentTarget.currentSrc
+                )
+              }
+              onError={(e) =>
+                console.warn("[zoom-slice-err]", e.currentTarget.currentSrc)
+              }
+              // 実幅のインライン指定は廃止。CSS の height:100% + width:auto に
+              // aspect-ratio を渡し、レンダリング側で正確な幅を自動計算させる
+              // （ロード前でも幅が確定し、strip.offsetWidth が 0 へ潰れない）。
+              style={
+                Number.isFinite(s.srcWidth) &&
+                s.srcWidth > 0 &&
+                Number.isFinite(s.srcHeight) &&
+                s.srcHeight > 0
+                  ? { aspectRatio: `${s.srcWidth} / ${s.srcHeight}` }
+                  : undefined
+              }
             />
           ))}
         </div>

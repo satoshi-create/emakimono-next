@@ -45,8 +45,15 @@ export type EmakiNavigationProps = {
  * 絵巻切替リセット effect から操作するために公開している。
  */
 export type UseEmakiScrollResult = {
-  /** シーン検出キャッシュ。絵巻切替時に Conteiner が null 化する */
-  sectionsCacheRef: RefObject<{ baseScrollLeft: number; items: { id: number; offset: number }[] }>;
+  /**
+   * シーン検出キャッシュ（改修A: 面積ベース）。
+   * layout.starts / layout.widths はコンテンツ先頭（RTL の右端）からの開始座標と幅。
+   * 絵巻切替時に Conteiner が null 化する。
+   */
+  sectionsCacheRef: RefObject<{
+    pending?: boolean;
+    layout?: { starts: number[]; widths: number[]; total: number };
+  }>;
   /** scrollWidth/clientWidth キャッシュ。絵巻切替時に Conteiner がリセットする */
   scrollDimsRef: RefObject<{ w: number; c: number; ts: number }>;
   /** 再生中の解説バー追従用シーン ID（navIndex は画像ツリー再レンダー抑制のため固定） */
@@ -107,8 +114,22 @@ export type UseScrollPositionRestoreParams = {
 /**
  * useEmakiZoomPan — ズーム＆パン（兄弟オーバーレイ方式）。
  * ZoomLayer（src/components/emaki/viewer/ZoomLayer.jsx）が消費する。
- * scale は 1.0〜3.0、初期値 2.0（等倍 1.0 まで縮小すると通常スクロールへ復帰）。
+ * scale は 1.0〜maxScale、初期値 2.0（等倍 1.0 まで縮小すると通常スクロールへ復帰）。
+ * maxScale は既定 6.0（600%）。屏風（typeen === "byobu"）は狭幅スライス向けに 8.0（800%）。
  */
+export type UseEmakiZoomPanParams = {
+  onOpen?: () => void;
+  onDoubleTap?: () => void;
+  /** ジェスチャ（ピンチ / Ctrl+ホイール）を常時受ける entry-container */
+  containerRef?: RefObject<HTMLElement>;
+  /** 等倍からズーム状態へ同期進入するための進入関数 ref */
+  requestZoomRef?: RefObject<
+    (focusX?: number, focusY?: number, initialScale?: number) => void
+  >;
+  /** ズーム上限倍率（未指定 = 6.0）。1.0〜10.0 にクランプされる */
+  maxScale?: number;
+};
+
 export type UseEmakiZoomPanResult = {
   isZoomed: boolean;
   scale: number;

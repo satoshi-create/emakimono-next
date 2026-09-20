@@ -22,7 +22,7 @@ function resolveSceneImage(scene) {
   if (!src) return null;
   if (/^https?:\/\//.test(src)) return src;
   if (scene.config === "cloudinary" || /^v\d+\//.test(src)) {
-    return buildCloudinaryUrl(src, ["w_800", "f_auto", "q_auto:eco"]);
+    return buildCloudinaryUrl(src, ["c_limit", "w_800", "f_auto", "q_auto:good"]);
   }
   return src.startsWith("/") ? src : `/${src}`;
 }

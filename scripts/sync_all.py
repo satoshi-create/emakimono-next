@@ -218,8 +218,8 @@ def _image_row_to_src(ir: dict) -> str:
     return src or ""
 
 
-def _build_image_emaki_slot(ir: dict) -> dict:
-    return {
+def _build_image_emaki_slot(ir: dict, spots: list[dict] | None = None) -> dict:
+    slot = {
         "cat": "image",
         "chapter": "",
         "config": "cloudinary" if ir.get("src") else "",
@@ -228,6 +228,10 @@ def _build_image_emaki_slot(ir: dict) -> dict:
         "srcHeight": str(ir["height"]) if ir.get("height") else "",
         "srcWidth": str(ir["width"]) if ir.get("width") else "",
     }
+    # 名所スポットピン（屏風等）。空なら鍵自体を付けない（絵巻の JSON を汚さない）
+    if spots:
+        slot["spots"] = spots
+    return slot
 
 
 def _build_ekotoba_emaki_slot(scene: dict, ir: dict | None = None) -> dict:
@@ -252,15 +256,68 @@ def _build_ekotoba_emaki_slot(scene: dict, ir: dict | None = None) -> dict:
     return ekotoba
 
 
+def _scene_spot_map(scene: dict, image_slot_rows: list[dict]) -> dict[int, list[dict]]:
+    """scene の spots を global index ごとに振り分ける（YAML → emakis[].spots）。
+
+    - spot.index でスライス（扇）を指定。未指定は段の先頭スライスへ寄せる
+    - 1段 = 複数スライス（屏風の 1段 = 2扇 等）でも扇単位でピンを置ける
+    - ビューアへ渡すキーは id / name / nameen（任意）/ x / y（index は振り分け専用）
+    - nameen: 英語ロケール表示用のスポット名。未指定ならビューア側で name へフォールバック
+    - 画像スロットに存在しない index は誤ピン防止のためエラーで止める
+    """
+    raw_spots = scene.get("spots") or []
+    if not raw_spots or not image_slot_rows:
+        return {}
+    valid_indexes = {ir["index"] for ir in image_slot_rows}
+    first_index = image_slot_rows[0]["index"]
+    out: dict[int, list[dict]] = {}
+    for spot in raw_spots:
+        if not isinstance(spot, dict):
+            continue
+        spot_id = spot.get("id")
+        name = spot.get("name")
+        x, y = spot.get("x"), spot.get("y")
+        if not spot_id or not name:
+            continue
+        if not isinstance(x, (int, float)) or not isinstance(y, (int, float)):
+            raise ValueError(
+                f"Scene id={scene['id']}: spot {spot_id!r} needs numeric x / y (%)"
+            )
+        raw_index = spot.get("index")
+        try:
+            target = int(raw_index) if raw_index is not None else first_index
+        except (TypeError, ValueError) as exc:
+            raise ValueError(
+                f"Scene id={scene['id']}: spot {spot_id!r} has non-numeric index {raw_index!r}"
+            ) from exc
+        if target not in valid_indexes:
+            raise ValueError(
+                f"Scene id={scene['id']}: spot {spot_id!r} index {target} is not an "
+                f"image slot (expected one of {sorted(valid_indexes)})"
+            )
+        spot_entry = {"id": str(spot_id), "name": str(name), "x": x, "y": y}
+        name_en = spot.get("nameen")
+        if isinstance(name_en, str) and name_en.strip():
+            spot_entry["nameen"] = name_en.strip()
+        out.setdefault(target, []).append(spot_entry)
+    return out
+
+
 def _build_emakis_default(config: dict, image_rows: list[dict]) -> list[dict]:
     """Standard layout: empty ekotoba per scene + all range images as image slots."""
     emakis: list[dict] = []
     for scene in ss.get_scenes_config(config):
         start_global, end_global = scene["range"]
+        scene_rows = sorted(
+            (ir for ir in image_rows if start_global <= ir["index"] <= end_global),
+            key=lambda x: x["index"],
+        )
         emakis.append(_build_ekotoba_emaki_slot(scene))
-        for ir in image_rows:
-            if start_global <= ir["index"] <= end_global:
-                emakis.append(_build_image_emaki_slot(ir))
+        spots_by_index = _scene_spot_map(scene, scene_rows)
+        for ir in scene_rows:
+            emakis.append(
+                _build_image_emaki_slot(ir, spots_by_index.get(ir["index"]))
+            )
     return emakis
 
 
@@ -290,11 +347,17 @@ def _build_emakis_explicit(config: dict, image_rows: list[dict]) -> list[dict]:
             )
         if "ekotoba" not in slots:
             emakis.append(_build_ekotoba_emaki_slot(scene, None))
+        image_slot_rows = [
+            ir for slot_type, ir in zip(slots, scene_rows, strict=True) if slot_type == "image"
+        ]
+        spots_by_index = _scene_spot_map(scene, image_slot_rows)
         for slot_type, ir in zip(slots, scene_rows, strict=True):
             if slot_type == "ekotoba":
                 emakis.append(_build_ekotoba_emaki_slot(scene, ir))
             elif slot_type == "image":
-                emakis.append(_build_image_emaki_slot(ir))
+                emakis.append(
+                    _build_image_emaki_slot(ir, spots_by_index.get(ir["index"]))
+                )
             else:
                 raise ValueError(
                     f"Scene id={scene['id']}: invalid slot {slot_type!r} "
@@ -320,16 +383,27 @@ def _build_emakis_alternating(config: dict, image_rows: list[dict]) -> list[dict
             continue
         if scene.get("ekotoba_src") is False:
             emakis.append(_build_ekotoba_emaki_slot(scene, None))
+            spots_by_index = _scene_spot_map(scene, scene_rows)
             for ir in scene_rows:
-                emakis.append(_build_image_emaki_slot(ir))
+                emakis.append(
+                    _build_image_emaki_slot(ir, spots_by_index.get(ir["index"]))
+                )
             continue
         start_odd = scene_rows[0]["index"] % 2 == 1
+        image_slot_rows = [
+            ir
+            for i, ir in enumerate(scene_rows)
+            if not ((start_odd and i % 2 == 0) or (not start_odd and i % 2 == 1))
+        ]
+        spots_by_index = _scene_spot_map(scene, image_slot_rows)
         for i, ir in enumerate(scene_rows):
             is_ekotoba = (start_odd and i % 2 == 0) or (not start_odd and i % 2 == 1)
             if is_ekotoba:
                 emakis.append(_build_ekotoba_emaki_slot(scene, ir))
             else:
-                emakis.append(_build_image_emaki_slot(ir))
+                emakis.append(
+                    _build_image_emaki_slot(ir, spots_by_index.get(ir["index"]))
+                )
     return emakis
 
 

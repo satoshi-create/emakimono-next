@@ -183,6 +183,9 @@ def get_scenes_config(config: dict) -> list[dict]:
             scene["ekotoba_src"] = s["ekotoba_src"]
         if s.get("slots"):
             scene["slots"] = s["slots"]
+        # 名所スポットピン（屏風等）。本文は持たず x/y% とリンク先だけをビューアへ渡す
+        if s.get("spots"):
+            scene["spots"] = s["spots"]
         # 源氏帖番号など、Cloudinary scene id と別のビューア用 chapter キー
         if s.get("genji_chapter") is not None:
             scene["genji_chapter"] = s["genji_chapter"]

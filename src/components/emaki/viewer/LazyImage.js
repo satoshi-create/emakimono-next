@@ -108,6 +108,7 @@ const LazyImage = ({
   sceneIndex, // 先読み用（再生中は liveSceneIndex。未指定時は navIndex）
   isPlayMode, // 再生モード状態
   emakiId, // 計測用: 絵巻ID
+  isByobu, // 屏風（typeen === "byobu"）: sizes の過小評価を防ぐ
 }) => {
   const { toggleFullscreen } = useContext(AppContext);
   const prefetchIndex = sceneIndex ?? navIndex;
@@ -186,7 +187,7 @@ const LazyImage = ({
   const PAPER_COLOR_BLUR_DATA_URL =
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect fill='%23f5f0e6' width='1' height='1'/%3E%3C/svg%3E";
 
-  const cloudinaryLoader = ({ src, width }) => {
+  const cloudinaryLoader = ({ src, width, quality }) => {
     // 変換はスラッシュ区切りのみ（カンマは srcset を分割し相対パス 404 になる）
     // dpr_auto は付けない: next/image の srcset が devicePixelRatio を考慮して候補を選ぶため、
     // w_×dpr の二重拡大による過大な配信を防ぐ
@@ -195,7 +196,7 @@ const LazyImage = ({
       "c_limit",
       `w_${width}`,
       "f_auto",
-      "q_auto:eco",
+      quality ? `q_${quality}` : "q_auto:good",
     ]);
   };
 
@@ -204,9 +205,19 @@ const LazyImage = ({
   // 不要なリクエストキャンセル（HAR: status 0）や二重フェッチの原因となる
   // media query を使用して SSR/クライアント間の hydration mismatch を防止
   const ratioStr = (width / height).toFixed(4);
+  // 屏風（舟木本 等）は ratio ≈ 0.365 と極端に細く、SP（375〜420px）では
+  // calc(ratio * 45vh) が約 130px となり、極小候補（w_256 / w_384）が選ばれて
+  // 拡大時にモザイク状にぼける。屏風のみ下限幅を設けて高解像度側へ寄せる
+  // （通常絵巻は従来式のまま＝配信量・レイアウトのリグレッションなし）。
+  const portraitSizes = isByobu
+    ? `max(calc(${ratioStr} * 45vh), 320px)`
+    : `calc(${ratioStr} * 45vh)`;
+  const landscapeSizes = isByobu
+    ? `max(calc(${ratioStr} * 75vh), 480px)`
+    : `calc(${ratioStr} * 75vh)`;
   const imageSizes = toggleFullscreen
     ? `calc(${ratioStr} * 100vh)`
-    : `(orientation: portrait) calc(${ratioStr} * 45vh), calc(${ratioStr} * 75vh)`;
+    : `(orientation: portrait) ${portraitSizes}, ${landscapeSizes}`;
 
   // 幅は親 section（buildSceneShellStyle）が担う。ここは 100% 充填のみ（差し替え時の幅揺れ防止）
   return (
@@ -251,6 +262,7 @@ const LazyImage = ({
         lazyBoundary={isPlayMode ? "2400px" : "1600px"}
         layout="responsive"
         sizes={imageSizes}
+        quality={toggleFullscreen ? 92 : 85}
         placeholder={alreadyHydrated ? "empty" : "blur"}
         blurDataURL={alreadyHydrated ? undefined : PAPER_COLOR_BLUR_DATA_URL}
         onLoadingComplete={() => {

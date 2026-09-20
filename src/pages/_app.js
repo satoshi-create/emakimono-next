@@ -390,7 +390,10 @@ function MyApp({ Component, pageProps, router }) {
             function gtag(){window.dataLayer.push(arguments);}
             gtag('js', new Date());
 
-            gtag('config', '${gtag.GA_MEASURAMENT_ID}');
+            // Vercel プレビュー / localhost では自動 page_view を送信しない
+            if (/(^|\\.)emakimono\\.com$/.test(window.location.hostname)) {
+              gtag('config', '${gtag.GA_MEASURAMENT_ID}');
+            }
           `}
       </Script>
       <ChakraProvider theme={theme}>
