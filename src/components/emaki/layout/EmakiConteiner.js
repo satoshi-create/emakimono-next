@@ -55,7 +55,10 @@ import {
   resetAllTracking,
 } from "@/libs/api/measurementUtils";
 import {
+  dismissFeedback,
+  getScrollEndFeedbackKey,
   hasSubmittedScrollFeedback,
+  isFeedbackDismissed,
 } from "@/libs/api/scrollFeedbackSession";
 import {
   hasDismissedPullPrompt,
@@ -497,15 +500,11 @@ const EmakiContainer = ({
       setScrollFeedbackSubmitted(hasSubmittedScrollFeedback(emakiId));
       setSharePromptDismissed(hasDismissedPullPrompt(emakiId, "share"));
       setMidFeedbackDismissed(hasDismissedPullPrompt(emakiId, "mid_feedback"));
+      // 巻末プロンプトも sessionStorage の閉じ状態を復元（再表示しない）
+      setEndPromptDismissed(isFeedbackDismissed(getScrollEndFeedbackKey(emakiId)));
       setScrollRatioBucket(0);
     });
   }, [emakiId]);
-
-  useEffect(() => {
-    if (!isAtEnd) {
-      setEndPromptDismissed(false);
-    }
-  }, [isAtEnd]);
 
   const getScrollRatio = useCallback(() => {
     const el = articleRef.current;
@@ -546,10 +545,11 @@ const EmakiContainer = ({
   }, [scroll, getScrollRatio, emakiId, navIndex]);
 
   const handleScrollFeedbackSubmitted = useCallback(() => {
+    dismissFeedback(getScrollEndFeedbackKey(emakiId));
     setScrollFeedbackSubmitted(true);
     setEndPromptDismissed(true);
     setMidFeedbackDismissed(true);
-  }, []);
+  }, [emakiId]);
 
   const shareTitle =
     locale === "en"
@@ -589,6 +589,11 @@ const EmakiContainer = ({
     setMidFeedbackDismissed(true);
   }, [emakiId]);
 
+  const dismissEndPrompt = useCallback(() => {
+    dismissFeedback(getScrollEndFeedbackKey(emakiId));
+    setEndPromptDismissed(true);
+  }, [emakiId]);
+
   const showSharePullPrompt =
     scroll &&
     !isAtEnd &&
@@ -608,10 +613,12 @@ const EmakiContainer = ({
     isUIVisible;
 
   // 巻末: フィードバック未回答でもいいね・共有は出す（回答済みなら feedback ボタンのみ隠す）
+  // 一度閉じた通知はセッション中は再表示しない（sessionStorage の閉じ状態を尊重）
   const showScrollFeedbackEndPrompt =
     scroll &&
     isAtEnd &&
     !endPromptDismissed &&
+    !isFeedbackDismissed(getScrollEndFeedbackKey(emakiId)) &&
     !isScrollFeedbackOpen &&
     isUIVisible &&
     !showSharePullPrompt &&
@@ -1231,7 +1238,7 @@ const EmakiContainer = ({
           <ScrollFeedbackEndPrompt
             isVisible
             onOpenFeedback={() => setIsScrollFeedbackOpen(true)}
-            onDismiss={() => setEndPromptDismissed(true)}
+            onDismiss={dismissEndPrompt}
             emakiId={emakiId}
             shareTitle={shareTitle}
             navIndex={liveSceneIndex}

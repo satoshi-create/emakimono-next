@@ -1,4 +1,8 @@
 import ShareButtons from "@/components/emaki/viewer/ShareButtons";
+import {
+  dismissFeedback,
+  getScrollEndFeedbackKey,
+} from "@/libs/api/scrollFeedbackSession";
 import styles from "@/styles/ScrollFeedbackEndPrompt.module.css";
 import { useTranslation } from "next-i18next";
 
@@ -15,6 +19,11 @@ const ScrollFeedbackEndPrompt = ({
   showFeedback = true,
 }) => {
   const { t } = useTranslation("common");
+
+  const handleDismiss = () => {
+    dismissFeedback(getScrollEndFeedbackKey(emakiId));
+    onDismiss?.();
+  };
 
   return (
     <div
@@ -39,7 +48,7 @@ const ScrollFeedbackEndPrompt = ({
       <button
         type="button"
         className={styles.closeBtn}
-        onClick={onDismiss}
+        onClick={handleDismiss}
         aria-label={t("scrollFeedback.dismiss")}
       >
         ×

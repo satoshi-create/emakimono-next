@@ -1,5 +1,9 @@
 import { postScrollFeedback } from "@/libs/api/ugcApi";
-import { markScrollFeedbackSubmitted } from "@/libs/api/scrollFeedbackSession";
+import {
+  dismissFeedback,
+  getScrollEndFeedbackKey,
+  markScrollFeedbackSubmitted,
+} from "@/libs/api/scrollFeedbackSession";
 import { SCROLL_FEEDBACK_CHOICES } from "@/libs/constants/scrollFeedback";
 import * as gtag from "@/libs/api/gtag";
 import styles from "@/styles/ScrollFeedbackPanel.module.css";
@@ -21,13 +25,23 @@ const ScrollFeedbackPanel = ({
   const [isThanks, setIsThanks] = useState(false);
   const [error, setError] = useState("");
 
+  // ×/背景/Esc で閉じた通知は、セッション中は再トリガー・再表示しない
+  const handleClose = () => {
+    if (isSubmitting) return;
+    dismissFeedback(getScrollEndFeedbackKey(emakiId));
+    onClose?.();
+  };
+
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "Escape" && !isSubmitting) onClose();
+      if (e.key === "Escape" && !isSubmitting) {
+        dismissFeedback(getScrollEndFeedbackKey(emakiId));
+        onClose?.();
+      }
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [onClose, isSubmitting]);
+  }, [onClose, isSubmitting, emakiId]);
 
   useEffect(() => {
     const blockWheel = (e) => {
@@ -82,7 +96,8 @@ const ScrollFeedbackPanel = ({
       onSubmitted?.();
 
       setTimeout(() => {
-        onClose();
+        dismissFeedback(getScrollEndFeedbackKey(emakiId));
+        onClose?.();
       }, 1200);
     } catch (err) {
       setError(err.message || t("scrollFeedback.error"));
@@ -92,12 +107,12 @@ const ScrollFeedbackPanel = ({
 
   return (
     <div className={styles.overlay}>
-      <div className={styles.backdrop} onClick={isSubmitting ? undefined : onClose} />
+      <div className={styles.backdrop} onClick={isSubmitting ? undefined : handleClose} />
       <div className={styles.modal}>
         <button
           type="button"
           className={styles.closeBtn}
-          onClick={onClose}
+          onClick={handleClose}
           disabled={isSubmitting}
           aria-label={t("scrollFeedback.close")}
         >
