@@ -147,12 +147,25 @@
     "eraen": "heiann",
     "portrait": "",
     "bio": "檀林皇后こと橘嘉智子は、嵯峨天皇の皇后です。死後、遺体を風葬に付して無常を示したと伝えられ、九相図のモデルとして広く知られています。",
-    "bioen": "Danrin Kōgō, known as Tachibana no Kachiko, was the consort of Emperor Saga. Legend holds that she chose to have her own body exposed to the elements after death to illustrate impermanence, and she is widely known as the model of kusōzu.",
+    "bioen": "Empress Danrin (Tachibana no Kachiko), consort of Emperor Saga, is the legendary model of kusōzu — the Nine Stages of Decay in Buddhist art. Tradition holds that she chose exposure burial to teach impermanence. Explore her Edo-period Nine Stages of Decay scroll and compare every stage across eras.",
     "hub": {
       "path": "/kusouzu/chapters-kusouzu",
-      "labelJa": "九相図一覧",
-      "labelEn": "Kusōzu Hub"
-    }
+      "labelJa": "九相図一覧・見比べハブ",
+      "labelEn": "Nine Stages of Decay Hub"
+    },
+    "nameen": "Empress Danrin",
+    "featuredLinks": [
+      {
+        "path": "/nine-stages-of-decay-empress-danrin",
+        "labelJa": "本作品「檀林皇后九相観」を鑑賞する",
+        "labelEn": "View Empress Danrin Nine Stages of Decay scroll"
+      },
+      {
+        "path": "/kusouzu/chapters-kusouzu",
+        "labelJa": "九相図の全場面一覧・見比べハブ",
+        "labelEn": "Nine Stages of Decay hub — compare all scenes"
+      }
+    ]
   },
   {
     "slug": "saigyo",

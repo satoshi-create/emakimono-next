@@ -1,7 +1,6 @@
 {
   "search": "Search",
   "source": "Source",
-
   "sourceAttribution": {
     "labelSource": "Source",
     "labelLicense": "License",
@@ -31,7 +30,6 @@
     },
     "seeGuide": "How to read copyright & licenses (/copyright)"
   },
-
   "viewer": {
     "next": "Next",
     "previous": "Previous",
@@ -76,7 +74,6 @@
     "zoomToggleIn": "Click to zoom (or Ctrl + scroll / pinch to zoom)",
     "zoomToggleOut": "Click to reset to 100% (or Ctrl + scroll / pinch to zoom)"
   },
-
   "quiz": {
     "fabLabel": "Observation quiz (2 min)",
     "resumeLabel": "Back to quiz",
@@ -95,7 +92,6 @@
     "hideFab": "Hide quiz button",
     "showFab": "Show quiz button again"
   },
-
   "help": {
     "title": "How to view the scroll",
     "closeHelp": "Close help",
@@ -108,12 +104,10 @@
     "fullscreenShortcut": "Press F or double-click to toggle fullscreen",
     "fullGuide": "Full guide on this site"
   },
-
   "header": {
     "siteTitle": "Emakimono Viewer",
     "feedback": "Send us your feedback"
   },
-
   "nav": {
     "home": "Home",
     "openMenu": "Open menu",
@@ -126,7 +120,6 @@
     "kusouzuHub": "Kusōzu Gallery",
     "mangaRoots": "Manga Roots"
   },
-
   "home": {
     "metaTitle": "Emakimono Viewer",
     "metaDesc": "View Heian–Kamakura picture scrolls with horizontal scrolling — Chōjū-jinbutsu-giga, Hell Scrolls, Hungry Ghosts Scrolls, Kusōzu, and more. Browse by theme.",
@@ -178,11 +171,9 @@
       "cta": "Kusōzu gallery"
     }
   },
-
   "about": {
     "metaDesc": "An open-source project for viewing Heian–Kamakura emaki with horizontal scrolling. Expanding thematic collections including Chōjū-jinbutsu-giga, Hell Scrolls, and Kusōzu."
   },
-
   "share": {
     "groupLabel": "Share",
     "x": "Share on X",
@@ -192,7 +183,6 @@
     "native": "Share",
     "nativeDesc": "Share via apps"
   },
-
   "scrollFeedback": {
     "buttonLabel": "Scroll experience",
     "prompt": "How was the scrolling experience?",
@@ -210,7 +200,6 @@
       "great": "Great experience"
     }
   },
-
   "pullPrompt": {
     "shareText": "Copy this scene’s URL to share",
     "shareAction": "Copy",
@@ -218,13 +207,11 @@
     "midFeedbackAction": "Respond",
     "dismiss": "Dismiss"
   },
-
   "legal": {
     "relatedLinks": "Related pages",
     "contactButton": "Contact form",
     "socialLinksTitle": "Operator links"
   },
-
   "guide": {
     "pagetitle": "How to Use",
     "metaDesc": "Learn how to enjoy picture scrolls with horizontal scrolling: choosing a scroll, navigation, viewer features, and sharing.",
@@ -274,17 +261,15 @@
       }
     ]
   },
-
   "ranking": {
     "pagetitle": "Ranking of EMAKIMONO",
     "metaDesc": "Browse picture scrolls ranked by popularity. Discover emaki to enjoy through horizontal scrolling on emakimono.com.",
     "breadcrumb": "Ranking of EMAKIMONO",
     "sectionTitle": "Ranking of EMAKIMONO"
   },
-
   "kusouzuHub": {
-    "pagetitle": "Nine Stages of Decay (Kusōzu) — Hub",
-    "metaDesc": "Explore the stages of kusōzu (Nine Stages of Decay) and browse picture scrolls that depict each stage, viewable through horizontal scrolling on emakimono.com.",
+    "pagetitle": "Nine Stages of Decay (Kusouzu) Explained: Scene List & Interactive Scrolls",
+    "metaDesc": "Explore all 9 stages of bodily decomposition in Buddhist art. Compare masterpieces from the Kamakura, Edo, and Meiji periods in high resolution.",
     "breadcrumb": "Nine Stages of Decay",
     "introTitle": "What is Kusōzu?",
     "intro": "Kusōzu (Nine Stages of Decay) is Buddhist art depicting nine stages of a corpse plus the living form — ten scenes from life to ashes. These works contrast beauty with impermanence and support meditative contemplation. On this site you can unroll kusōzu picture scrolls horizontally, scene by scene.",
@@ -295,15 +280,18 @@
     "stageScrollCount": "Available in {{count}} scroll(s)",
     "stageNoScrolls": "No scrolls on this site",
     "linkLabel": "Nine Stages of Decay — Hub",
+    "hubGuide": "Kusouzu Hub",
+    "hubGuideTitle": "Nine Stages of Decay hub — compare all scenes",
     "linkDesc": "Explore each stage and related scrolls on emakimono.com",
     "otherScrollsTitle": "Other kusōzu scrolls",
-    "hubNudgeLabel": "View kusōzu hub",
+    "hubNudgeLabel": "Back to Nine Stages of Decay hub — compare all scenes",
     "peopleSectionTitle": "Featured People",
     "peopleIntro": "People traditionally identified as the models of kusōzu.",
     "modelLinkLabel": "Model of this work",
-    "representativeLinkLabel": "View the representative scroll — Kusōzu-maki (Kamakura)"
+    "representativeLinkLabel": "View the representative scroll — Kusōzu-maki (Kamakura)",
+    "stageViewIn": "View in {{scroll}}",
+    "hubNudgeDesc": "Compare Kamakura, Edo, and Meiji kusōzu side by side"
   },
-
   "choujuGigaHub": {
     "pagetitle": "Chōjū-jinbutsu-giga — Hub",
     "pagetitleEn": "Chōjū-jinbutsu-giga — Hub",
@@ -322,7 +310,6 @@
     "linkDesc": "Browse all 4 scrolls of Chōjū-jinbutsu-giga",
     "linkDescEn": "Browse all 4 scrolls of Chōjū-jinbutsu-giga"
   },
-
   "timeline": {
     "pagetitle": "Emaki & Japanese History Timeline",
     "metaDesc": "A chronological table of Japanese historical events and the emaki (picture scrolls) created in each era. See how emaki relate to Japanese history.",
@@ -352,7 +339,6 @@
     },
     "note": "* Dates of origin may vary among scholars. Source: Emaki Timeline and historical reference works. See the Terms for the accuracy disclaimer."
   },
-
   "personname": {
     "emakiSectionTitle": "Featured people",
     "worksTitle": "Featured Scrolls",
@@ -362,7 +348,6 @@
     "listPagetitle": "Person Names List",
     "listDesc": "Introductions to people who appear in emaki picture scrolls. This site pursues the enjoyment of picture scrolls by scrolling from right to left!"
   },
-
   "privacy": {
     "pagetitle": "Privacy Policy",
     "metaDesc": "How emakimono.com handles personal and access data.",
@@ -403,7 +388,6 @@
       }
     }
   },
-
   "terms": {
     "pagetitle": "Terms of Use",
     "metaDesc": "Terms of use, prohibited conduct, and disclaimers for emakimono.com.",
@@ -444,7 +428,6 @@
       }
     }
   },
-
   "copyright": {
     "pagetitle": "Copyright & Licenses",
     "metaDesc": "How copyright, public domain, and CC licenses apply to emaki images, plus guidelines for using them with AI image generators such as Stable Diffusion and Midjourney.",
@@ -505,31 +488,57 @@
           }
         ],
         "tableTitle": "License combinations",
-        "columns": ["License", "Attribution", "Commercial", "Modify", "In short"],
+        "columns": [
+          "License",
+          "Attribution",
+          "Commercial",
+          "Modify",
+          "In short"
+        ],
         "rows": [
           {
             "name": "CC0",
-            "cells": ["No", "◯", "◯"],
+            "cells": [
+              "No",
+              "◯",
+              "◯"
+            ],
             "summary": "No conditions — completely free"
           },
           {
             "name": "CC BY",
-            "cells": ["Yes", "◯", "◯"],
+            "cells": [
+              "Yes",
+              "◯",
+              "◯"
+            ],
             "summary": "Free with credit"
           },
           {
             "name": "CC BY-SA",
-            "cells": ["Yes", "◯", "◯ (same license)"],
+            "cells": [
+              "Yes",
+              "◯",
+              "◯ (same license)"
+            ],
             "summary": "Free, share under same license"
           },
           {
             "name": "CC BY-NC",
-            "cells": ["Yes", "✕", "◯"],
+            "cells": [
+              "Yes",
+              "✕",
+              "◯"
+            ],
             "summary": "Free for non-commercial use"
           },
           {
             "name": "CC BY-ND",
-            "cells": ["Yes", "◯", "✕"],
+            "cells": [
+              "Yes",
+              "◯",
+              "✕"
+            ],
             "summary": "Unmodified copies only"
           }
         ],
@@ -598,13 +607,12 @@
           }
         ]
       },
-    "contact": {
-      "title": "Disclaimer & contact",
-      "body": "This page provides general information only and is not legal advice. For specific use, please consult each institution's terms and, if necessary, a professional. For questions about this page, use the button below."
-    }
+      "contact": {
+        "title": "Disclaimer & contact",
+        "body": "This page provides general information only and is not legal advice. For specific use, please consult each institution's terms and, if necessary, a professional. For questions about this page, use the button below."
+      }
     }
   },
-
   "byobuHub": {
     "pagetitle": "Byōbu — Folding Screens",
     "pagetitleEn": "Byōbu — Folding Screens",
@@ -620,7 +628,6 @@
     "galleryLinkLabel": "Browse the emaki gallery",
     "galleryLinkLabelEn": "Browse the emaki gallery"
   },
-
   "emakiHub": {
     "pagetitle": "Sightseeing Map — Kyoto & Kamakura",
     "pagetitleEn": "Sightseeing Map — Kyoto & Kamakura",
@@ -684,7 +691,6 @@
     "mediaTypeManga": "Manga",
     "mediaTypeMangaEn": "Manga"
   },
-
   "mangaRoots": {
     "pagetitle": "The Ancient Roots of Manga & Anime",
     "metaDesc": "Explore how 12th-century Kyoto picture scrolls laid the foundation for modern anime like Jujutsu Kaisen, Ghibli, and Berserk.",

@@ -56,9 +56,12 @@ const EndNudgeCard = ({
       >
         {showKusouzuHubLink && (
           <Link href={HUB_PATH}>
-            <a className={nudgeStyles.nudge}>
+            <a className={`${nudgeStyles.nudge} ${nudgeStyles.nudgePrimary}`}>
               <span className={nudgeStyles.nudgeLabel}>
                 {t("kusouzuHub.hubNudgeLabel")}
+              </span>
+              <span className={nudgeStyles.nudgeDesc}>
+                {t("kusouzuHub.hubNudgeDesc")}
               </span>
             </a>
           </Link>

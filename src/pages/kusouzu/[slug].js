@@ -8,6 +8,7 @@ import {
   default as enData,
   default as jaData,
 } from "@/data/image-metadata-cache/image-metadata-cache.json";
+import { kusouzuStageHref } from "@/utils/buildKusouzuHubData";
 import { removeNestedEmakisObj } from "@/utils/func";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -85,11 +86,12 @@ export const getStaticProps = async (context) => {
   }
 
   const filterdEmakisData = tEmakisData.filter((item) =>
-    item.kusouzuslug?.some((y) => y.id === chapterkusouzu.stage_en)
+    Boolean(kusouzuStageHref(item, chapterkusouzu.stage_en))
   );
 
   const removeNestedArrayObj = filterdEmakisData.map((item) => {
-    return removeNestedEmakisObj(item);
+    const viewerHref = kusouzuStageHref(item, chapterkusouzu.stage_en);
+    return { ...removeNestedEmakisObj(item), viewerHref };
   });
 
   return {
@@ -97,8 +99,6 @@ export const getStaticProps = async (context) => {
       ...(await serverSideTranslations(locale, ["common"])),
       title: chapterkusouzu.title || null,
       titleen: chapterkusouzu.titleen || null,
-      // title: chapterkusouzu?.title || null,
-      // titleen: chapterkusouzu?.titleen || null,
       posts: removeNestedArrayObj,
       slug: kusouzuslugname || null,
     },

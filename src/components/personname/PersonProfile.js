@@ -18,11 +18,18 @@ const HERO_CLOUDINARY =
  */
 const PersonProfile = ({ person }) => {
   const { locale } = useRouter();
-  const { name, id, ruby, era, eraen, bio, bioen, hub } = person;
+  const { name, id, nameen, ruby, era, eraen, bio, bioen, hub, featuredLinks } =
+    person;
 
-  const displayName = locale === "en" ? id : name;
+  const displayName = locale === "en" ? nameen || id : name;
   const displayBio = locale === "en" ? bioen : bio;
   const heroSrc = person.heroCloudinary || HERO_CLOUDINARY;
+  const links =
+    Array.isArray(featuredLinks) && featuredLinks.length > 0
+      ? featuredLinks
+      : hub
+        ? [{ path: hub.path, labelJa: hub.labelJa, labelEn: hub.labelEn }]
+        : [];
 
   return (
     <section className={styles.hero}>
@@ -40,7 +47,7 @@ const PersonProfile = ({ person }) => {
       </div>
       <div className={styles.heroText}>
         <div className={styles.headerText}>
-          <p className={styles.nameEn}>{id}</p>
+          <p className={styles.nameEn}>{nameen || id}</p>
           <h1 className={styles.name}>
             {locale === "ja" ? (
               <ruby>
@@ -64,15 +71,25 @@ const PersonProfile = ({ person }) => {
 
         {displayBio && <p className={styles.bio}>{displayBio}</p>}
 
-        {hub && (
-          <Link href={hub.path}>
-            <a className={styles.hubLink}>
-              <span className={styles.hubLabel}>
-                {locale === "en" ? hub.labelEn : hub.labelJa}
-              </span>
-              <span className={styles.hubArrow}>→</span>
-            </a>
-          </Link>
+        {links.length > 0 && (
+          <div className={styles.linkStack}>
+            {links.map((link) => (
+              <Link key={link.path} href={link.path}>
+                <a
+                  className={
+                    link.path.includes("chapters-kusouzu")
+                      ? styles.hubLink
+                      : styles.workLink
+                  }
+                >
+                  <span className={styles.hubLabel}>
+                    {locale === "en" ? link.labelEn : link.labelJa}
+                  </span>
+                  <span className={styles.hubArrow}>→</span>
+                </a>
+              </Link>
+            ))}
+          </div>
         )}
       </div>
     </section>

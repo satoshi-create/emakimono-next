@@ -1,3 +1,29 @@
+/* コメンタリーバー内フォールバック（通常は SceneCommentaryBar.genjiGuidePill を渡す） */
+.hubIconBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+  padding: 3px 10px;
+  border: 1px solid var(--clr-accent, #ff8c77);
+  border-radius: 999px;
+  background: rgb(255 140 119 / 0.08);
+  color: var(--clr-accent, #ff8c77);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.5;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.hubIconBtn:hover,
+.hubIconBtn:focus-visible {
+  background: var(--clr-accent, #ff8c77);
+  color: #fff;
+}
+
 .tag {
   display: inline-block;
   font-family: var(--font-ui);
@@ -67,11 +93,42 @@
   background: rgba(84, 137, 106, 0.12);
 }
 
+.nudgePrimary {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 10px 8px;
+  background: linear-gradient(
+    to bottom,
+    rgba(84, 137, 106, 0.18),
+    rgba(84, 137, 106, 0.06)
+  );
+  border-left: 3px solid var(--clr-accent-green);
+}
+
+.nudgePrimary:hover,
+.nudgePrimary:focus-visible {
+  background: rgba(84, 137, 106, 0.22);
+}
+
 .nudgeLabel {
   font-size: 12px;
   font-weight: 600;
   line-height: 1.3;
   flex: 1;
+}
+
+.nudgePrimary .nudgeLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--clr-accent-green);
+}
+
+.nudgeDesc {
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: #666;
 }
 
 .model {
