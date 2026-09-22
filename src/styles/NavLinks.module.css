@@ -8,10 +8,10 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: clamp(0.3125rem, -1.3542rem + 3.4722vw, 1.25rem);
-    grid-row:2;
-   grid-column: 1 / 5;
-   font-family: var(--title-font3);
-   font-size:var(--mokuji-size);
+    grid-row: 2;
+    grid-column: 1 / 5;
+    font-family: var(--title-font3);
+    font-size: var(--mokuji-size);
   }
   .links a {
     transition: var(--transition);
@@ -28,10 +28,19 @@
     display: flex;
     align-items: center;
     column-gap: 5px;
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
   }
   .linksNameAlpha::after {
     content: "▼";
     font-size: 15px;
+  }
+  .linksNameAlphaOpen::after {
+    content: "▲";
   }
 
   .active {
@@ -43,19 +52,21 @@
   }
   .menu {
     position: relative;
-    cursor: pointer;
   }
   .submenu {
-    flex-direction: row;
+    display: none;
+    flex-direction: column;
     box-shadow: var(--shadow-1);
     position: absolute;
     top: 2rem;
     left: 0;
     width: max-content;
-    flex-direction: column;
     line-height: 2;
     background-color: var(--clr-white);
     z-index: 10;
+  }
+  .submenuOpen {
+    display: flex;
   }
 
   .submenu > a {

@@ -28,7 +28,6 @@
   display: grid;
   grid-template-columns: 1fr auto;
   margin-bottom: 1.5rem;
-  /* border-bottom: 0.1rem solid #ddd; */
 }
 .header h3 {
   font-family: var(--title-font);
@@ -44,9 +43,6 @@
   grid-area: 2/2;
   justify-self: flex-end;
 }
-/* .desc {
-  font-family: var(--text-font);
-} */
 .type {
   position: absolute;
   bottom: 0;
@@ -54,6 +50,87 @@
   font-size: 0.8rem;
   color: var(--clr-white);
   padding: 0.1rem 0.8rem;
+}
+
+.listHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.viewToggle {
+  display: inline-flex;
+  border: 1px solid var(--clr-text-muted, rgb(114 114 114));
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.viewToggleButton {
+  border: none;
+  background: transparent;
+  padding: 0.35rem 0.85rem;
+  font-family: var(--font-ui, inherit);
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: var(--clr-text-muted, rgb(114 114 114));
+}
+
+.viewToggleActive {
+  background: var(--clr-accent, #ff8c77);
+  color: var(--clr-white, #fff);
+}
+
+.listView {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* SingleCardA DOM: cardOuter > card > (single | footer) */
+.listView > div {
+  margin: 0;
+}
+
+.listView > div > div {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 0.75rem;
+  box-shadow: var(--shadow);
+  background: var(--clr-white, #fff);
+  margin-bottom: 0;
+  transition: var(--transition);
+}
+
+.listView > div > div:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  transform: none;
+}
+
+.listView > div > div > div:first-child {
+  position: relative;
+  flex: 0 0 7.5rem;
+  width: 7.5rem;
+  min-height: 4.5rem;
+  aspect-ratio: 16 / 9;
+  align-self: center;
+}
+
+.listView > div > div > div:last-child {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem 0.5rem 0;
+}
+
+.listView > div > div > div:last-child > div {
+  margin: 0;
 }
 
 @media screen and (min-width: 768px) {
@@ -64,6 +141,11 @@
   }
   .card {
     flex: 0 0 calc(50% - 2rem);
+  }
+
+  .listView > div > div > div:first-child {
+    flex-basis: 10rem;
+    width: 10rem;
   }
 }
 @media screen and (min-width: 1024px) {

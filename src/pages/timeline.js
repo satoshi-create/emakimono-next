@@ -17,7 +17,6 @@ import { buildTimelineJsonLd } from "@/utils/buildTimelineJsonLd";
 import { getLiveSlugs } from "@/utils/getLiveSlugs";
 import { useLocaleMeta } from "@/utils/func";
 import styles from "@/styles/EmakiTimeline.module.css";
-import { useMediaQuery } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
@@ -28,17 +27,8 @@ const Timeline = ({ rows, simpleRows, liveSlugs }) => {
   const { t: meta } = useLocaleMeta();
   const { locale, defaultLocale } = useRouter();
 
-  // モバイルでは「さくっと見る」を初期表示。デスクトップは自動で「詳細年表」に切替。
-  // ユーザーが手動で切替えたら自動切替は止める（SSR のハイドレーションずれも回避）。
+  // デフォルトは「サクッと見る」。ハッシュ指定時のみ詳細へ切替。
   const [viewMode, setViewMode] = useState("simple");
-  const [userTouched, setUserTouched] = useState(false);
-  const [isDesktop] = useMediaQuery("(min-width: 768px)");
-
-  useEffect(() => {
-    if (!userTouched && isDesktop) {
-      setViewMode("full");
-    }
-  }, [isDesktop, userTouched]);
 
   // 絵巻ページ/時代ページからのアンカーリンク（#simple-{eraen} = 簡易版, #eraen = 詳細版）
   useEffect(() => {
@@ -49,8 +39,6 @@ const Timeline = ({ rows, simpleRows, liveSlugs }) => {
     } else if (/^#(heiann|kamakura|muromachi|aduchimomoyama|edo|meiji)$/.test(hash)) {
       setViewMode("full");
     }
-    // デスクトップの自動切替に上書きされないよう、明示指定扱いにする
-    setUserTouched(true);
   }, []);
 
   // 表示切替後にアンカー先へスクロール
@@ -64,7 +52,6 @@ const Timeline = ({ rows, simpleRows, liveSlugs }) => {
   }, [viewMode]);
 
   const switchMode = (mode) => {
-    setUserTouched(true);
     setViewMode(mode);
   };
 

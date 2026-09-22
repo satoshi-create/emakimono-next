@@ -5,7 +5,9 @@ import TopRanking from "@/components/emaki/ranking/TopRanking";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import Head from "@/components/meta/Meta";
+import CustomTagCloud from "@/components/keyword/CustomTagCloud";
 import CardA from "@/components/ui/CardA";
+import Title from "@/components/ui/Title";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { buildLocaleUrl, SITE_ORIGIN } from "@/libs/constants/dataSiteMeta";
@@ -16,7 +18,7 @@ import {
 } from "@/libs/constants/links";
 import { fetchRankingPageViews } from "@/libs/api/fetchRankingPageViews";
 import { buildRankingData } from "@/utils/buildRankingData";
-import { useLocale, useLocaleMeta } from "@/utils/func";
+import { keywordItem, useLocale, useLocaleMeta } from "@/utils/func";
 import "lazysizes";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -114,6 +116,11 @@ const Home = ({ popularEmakis = [] }) => {
     [removeNestedArrayObj]
   );
 
+  const allKeywords = useMemo(
+    () => keywordItem(removeNestedArrayObj),
+    [removeNestedArrayObj]
+  );
+
   const pageDesc = tCommon("home.metaDesc");
   const jsonLd = buildHomeJsonLd({
     locale,
@@ -140,6 +147,17 @@ const Home = ({ popularEmakis = [] }) => {
       <HomeLatestScrolls />
       <TopRanking emakis={popularEmakis} />
       <HomeThemeCards />
+      {allKeywords.length > 0 && (
+        <section className="section-grid section-padding">
+          <Title
+            sectiontitle={
+              locale === "en" ? "Keywords" : "キーワード一覧"
+            }
+            sectiontitleen="Keywords"
+          />
+          <CustomTagCloud tags={allKeywords} emakiPage compact />
+        </section>
+      )}
       {featuredEmakis.length > 0 && (
         <>
           <CardA
