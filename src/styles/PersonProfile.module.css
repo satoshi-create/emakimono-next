@@ -121,6 +121,31 @@
   color: var(--clr-bg);
 }
 
+.workLink {
+  composes: hubLink;
+  color: var(--clr-text);
+  border-color: rgb(211 211 211 / 0.9);
+  background: var(--clr-bg);
+}
+
+.workLink:hover,
+.workLink:focus-visible {
+  border-color: var(--clr-accent-green);
+  background: rgb(84 137 106 / 0.08);
+  color: var(--clr-accent-green);
+}
+
+.linkStack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+
+.hubLabel {
+  flex: 1;
+}
+
 .hubArrow {
   font-size: 1rem;
 }

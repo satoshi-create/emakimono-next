@@ -15,20 +15,30 @@ import { useTranslation } from "next-i18next";
 const PersonnameDetail = ({ person, posts, slug }) => {
   const { locale } = useRouter();
   const { t } = useTranslation("common");
-  const displayName = locale === "en" ? person.id : person.name;
+  const displayName =
+    locale === "en" ? person.nameen || person.id : person.name;
 
   const tPageDesc =
     locale === "en"
-      ? person.slug === "ononokomachi"
+      ? person.slug === "danrinkougou"
+        ? `Empress Danrin & Nine Stages of Decay (kusōzu). Explore the Edo-period Nine Stages of Decay of Empress Danrin scroll in high resolution, and compare every stage across eras.`
+        : person.slug === "ononokomachi"
         ? `Ono no Komachi — peerless beauty and model of kusōzu (the Nine Stages of Decay). Explore the Ono no Komachi kusōzu scroll and the works she appears in, browsing right to left.`
-        : `${person.id} — introduction to a person related to emaki picture scrolls. Discover the scrolls this person appears in.`
+        : `${person.nameen || person.id} — introduction to a person related to emaki picture scrolls. Discover the scrolls this person appears in.`
+      : person.slug === "danrinkougou"
+      ? `${person.name}（${person.ruby}）— 九相図のモデルとして知られる嵯峨天皇の皇后。江戸期の「檀林皇后九相観」と九相図ハブから、各相を比較鑑賞できます。`
       : person.slug === "ononokomachi"
       ? `${person.name}（${person.ruby}）— 六歌仙の一の絶世の美女で、「小野小町九相図」のモデルとされる歌人。小野小町九相図（Wellcome コレクション）を中心に、本人が登場する絵巻を縦書き・横スクロールで楽しめます。`
       : `${person.name}（${person.ruby}）— 絵巻物に関連する人物の紹介ページ。この人物が登場する絵巻を、縦書き・横スクロールで楽しめます。`;
 
+  const pageTitle =
+    locale === "en" && person.slug === "danrinkougou"
+      ? "Empress Danrin & Nine Stages of Decay"
+      : displayName;
+
   return (
     <HubPageShell
-      meta={{ pagetitle: displayName, pageDesc: tPageDesc }}
+      meta={{ pagetitle: pageTitle, pageDesc: tPageDesc }}
       headerSlug={`personname/${slug}`}
       breadcrumb={{
         name: displayName,
@@ -46,7 +56,7 @@ const PersonnameDetail = ({ person, posts, slug }) => {
                 columns={"three"}
                 sectionname={"recommend"}
                 sectiontitle={t("personname.worksTitle")}
-                sectiontitleen={locale === "en" ? person.id : person.name}
+                sectiontitleen={locale === "en" ? displayName : person.name}
               />
             ) : (
               <section className="section-grid section-padding">

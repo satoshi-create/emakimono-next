@@ -13,6 +13,67 @@ export function scrollHasKusouzuStage(scroll, stageEn) {
   return scroll.kusouzuslug?.some((s) => s.id === stageEn) ?? false;
 }
 
+/** Map ekotoba `chapter` labels (numeric or JP/EN title) → stage_en ("0"–"9"). */
+const STAGE_LABEL_TO_EN = (() => {
+  const map = {};
+  chapters.forEach((c) => {
+    map[String(c.stage_en)] = String(c.stage_en);
+    if (c.title) map[c.title] = String(c.stage_en);
+    if (c.titleen) map[c.titleen] = String(c.stage_en);
+  });
+  return map;
+})();
+
+function normalizeStageKey(chapterValue) {
+  const raw = String(chapterValue ?? "").trim();
+  if (!raw) return null;
+  return STAGE_LABEL_TO_EN[raw] ?? null;
+}
+
+/**
+ * Viewer scene index (linkId) of a kusōzu stage inside one scroll.
+ * Prefer the painting panel (`cat: "image"`) that follows the stage's 詞書,
+ * so CTA landings match scene_likes keyed by image linkId.
+ * Returns null when the stage is absent (欠相).
+ */
+export function kusouzuStageSceneHash(scroll, stageEn) {
+  const key = stageEn == null ? null : String(stageEn);
+  if (!key || !Array.isArray(scroll?.emakis)) return null;
+
+  const scenes = scroll.emakis;
+
+  for (let i = 0; i < scenes.length; i += 1) {
+    const scene = scenes[i];
+    if (scene.cat !== "ekotoba") continue;
+    if (normalizeStageKey(scene.chapter) !== key) continue;
+
+    for (let j = i + 1; j < scenes.length; j += 1) {
+      if (scenes[j].cat === "image") return j;
+      if (scenes[j].cat === "ekotoba") break;
+    }
+    return i;
+  }
+
+  let currentStage = null;
+  for (let i = 0; i < scenes.length; i += 1) {
+    const scene = scenes[i];
+    if (scene.cat === "ekotoba") {
+      currentStage = normalizeStageKey(scene.chapter);
+      continue;
+    }
+    if (scene.cat === "image" && currentStage === key) return i;
+  }
+
+  return null;
+}
+
+/** Deep link to the painting panel of `stageEn` in `scroll` (null if 欠相). */
+export function kusouzuStageHref(scroll, stageEn) {
+  if (!scroll?.titleen) return null;
+  const hash = kusouzuStageSceneHash(scroll, stageEn);
+  return hash == null ? null : `/${scroll.titleen}#${hash}`;
+}
+
 /**
  * Hub data for /kusouzu/chapters-kusouzu — stages, scroll columns, and mappings.
  * Keys scrolls by titleen (stable across locales).
@@ -22,11 +83,17 @@ export function buildKusouzuHubData() {
     .filter((emaki) => isKusouzuScroll(emaki) && !isWithdrawnScroll(emaki.titleen))
     .map((emaki) => removeNestedEmakisObj(emaki));
 
-  // Build titleen → thumb lookup from ALL scrolls (not just kusouzu)
   const thumbMap = {};
   emakisMetadata.forEach((emaki) => {
     if (emaki.thumb) thumbMap[emaki.titleen] = emaki.thumb;
   });
+
+  const rawScrollByTitleen = {};
+  emakisMetadata
+    .filter((emaki) => isKusouzuScroll(emaki) && !isWithdrawnScroll(emaki.titleen))
+    .forEach((emaki) => {
+      rawScrollByTitleen[emaki.titleen] = emaki;
+    });
 
   const scrolls = scrollEmakis.map((emaki) => ({
     titleen: emaki.titleen,
@@ -35,11 +102,23 @@ export function buildKusouzuHubData() {
   }));
 
   const stages = chapters.map((chapter) => {
-    const scrollTitleens = scrolls
-      .filter((scroll) => scroll.stageIds.includes(chapter.stage_en))
-      .map((scroll) => scroll.titleen);
+    const editions = scrolls
+      .map((scroll) => {
+        const href = kusouzuStageHref(
+          rawScrollByTitleen[scroll.titleen],
+          chapter.stage_en
+        );
+        if (!href) return null;
+        return {
+          titleen: scroll.titleen,
+          title: scroll.title,
+          href,
+        };
+      })
+      .filter(Boolean);
 
-    // Representative thumbnail: first scroll that covers this stage
+    const scrollTitleens = editions.map((e) => e.titleen);
+
     const thumb =
       scrollTitleens
         .map((t) => thumbMap[t])
@@ -56,6 +135,7 @@ export function buildKusouzuHubData() {
       descen: chapter.descen ?? null,
       gendaibun: chapter.gendaibun ?? null,
       scrollTitleens,
+      editions,
       thumb,
       thumbCloudinary: chapter.thumbCloudinary ?? null,
     };

@@ -81,17 +81,25 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
     return null;
   }
 
-  // 九相図巻（kusouzumaki）は概念語・情報系クエリ（九相図とは・一覧・順番）を
-  // title タグに含め、SERP クリック率の向上を図る。H1（data.title）は変えない。
-  const seoTitleSuffix =
-    isKusouzuScroll(data) && data.titleen === "kusouzumaki"
-      ? "｜九相図とは・一覧・順番"
-      : "";
-
-  const pagetitle =
-    locale === "en"
-      ? emakiDisplayTitle(data, locale)
-      : `${data.title ?? ""}${data.edition ? ` ${data.edition}` : ""}${seoTitleSuffix}`.trim();
+  // 九相図クラスタ SEO: 代表巻・檀林皇后版は SERP 向け title/desc を個別最適化。
+  // H1（data.title）は変えない。
+  let pagetitle;
+  if (data.titleen === "kusouzumaki") {
+    pagetitle =
+      locale === "en"
+        ? "Kusōzu-maki (Nine Stages of Decay) — Scene List & Interactive Scroll"
+        : "九相図巻｜九相図とは・一覧・順番を横スクロールで鑑賞";
+  } else if (data.titleen === "nine-stages-of-decay-empress-danrin") {
+    pagetitle =
+      locale === "en"
+        ? "Nine Stages of Decay of Empress Danrin — Interactive High-Res Emakimono Scroll"
+        : `${data.title ?? ""}${data.edition ? ` ${data.edition}` : ""}`.trim();
+  } else {
+    pagetitle =
+      locale === "en"
+        ? emakiDisplayTitle(data, locale)
+        : `${data.title ?? ""}${data.edition ? ` ${data.edition}` : ""}`.trim();
+  }
 
   const pageAuthor = locale === "en" ? data.authoren : data.author;
 
@@ -106,15 +114,22 @@ const Emaki = ({ data, locale, locales, slug, test }) => {
 
   const pageDesc = locale === "en" ? data.descen : data.desc;
 
-  // 九相図巻: シェア／SERP で「鑑賞できる」ことが伝わるよう横スクロール訴求を補完
   let pageDescTemp = pageDesc ? pageDesc : tPageDesc;
-  if (
-    data.titleen === "kusouzumaki" &&
-    locale === "ja" &&
-    pageDescTemp &&
-    !pageDescTemp.includes("横スクロール")
+  if (data.titleen === "kusouzumaki") {
+    if (locale === "ja") {
+      pageDescTemp =
+        "九相図（くそうず）とは何か、全場面の一覧と変遷の順番を、鎌倉時代の代表作「九相図巻」で横スクロール鑑賞。生前相から灰相まで高精細ビューアーで辿れます。";
+    } else if (!pageDescTemp?.toLowerCase().includes("nine stages")) {
+      pageDescTemp = `What is kusōzu (Nine Stages of Decay)? Explore the full scene list in order on the Kamakura-period Kusōzu-maki — high-resolution horizontal scrolling. ${
+        pageDescTemp || ""
+      }`.trim();
+    }
+  } else if (
+    data.titleen === "nine-stages-of-decay-empress-danrin" &&
+    locale === "en"
   ) {
-    pageDescTemp = `${pageDescTemp} 縦書き・横スクロールで全シーンを鑑賞できます。`;
+    pageDescTemp =
+      "Nine Stages of Decay (9 stages of decay) of Empress Danrin — an interactive high-res emakimono scroll from the Honolulu Museum of Art. Unroll every surviving stage right to left.";
   }
 
   // OGP画像: 生成済みの /ogp/{titleen}.jpg を優先し、

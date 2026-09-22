@@ -10,7 +10,6 @@
  * - showRepresentativeLink: Landscape のみ（九相図代表巻リンク）
  * - tagCloud: Portrait のみ（metadataB 内 compact タグクラウド。Landscape は subgrid 側に配置）
  */
-import KusouzuHubLink from "@/components/emaki/kusouzu/KusouzuHubLink";
 import KusouzuModelLink from "@/components/emaki/kusouzu/KusouzuModelLink";
 import EmakiPersonLinks from "@/components/emaki/metadata/EmakiPersonLinks";
 import ChojuGigaHubLink from "@/components/emaki/chouju-giga/ChojuGigaHubLink";
@@ -90,7 +89,7 @@ const EmakiMetadataSection = ({
       ></span>
       {isKusouzu && (
         <>
-          <KusouzuHubLink variant="banner" />
+          {/* ハブ主導線はコメンタリーバー内ピルへ移設。下部はモデル・代表作のみ */}
           <KusouzuModelLink personname={personname} />
           {showRepresentativeLink && (
             <Link href="/kusouzumaki">

@@ -15,7 +15,9 @@ import styles from "@/styles/SceneCommentaryBar.module.css";
 import SceneLikeButton from "@/components/emaki/viewer/SceneLikeButton";
 import ShareButtons from "@/components/emaki/viewer/ShareButtons";
 import GenjiHubLink from "@/components/genji/GenjiHubLink";
+import KusouzuHubLink from "@/components/emaki/kusouzu/KusouzuHubLink";
 import { ChaptersTitle, eraColor } from "@/utils/func";
+import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import {
   connectGenjiChapters,
   getChapterFieldRaw,
@@ -76,6 +78,7 @@ const SceneCommentaryBar = ({
 
   const { title, titleen, era, eraen } = data;
   const isGenji = typeof titleen === "string" && titleen.includes("genji");
+  const isKusouzu = isKusouzuScroll(data);
   const emakis = data.emakis || [];
 
   const filterEkotobas = useMemo(
@@ -564,13 +567,19 @@ const SceneCommentaryBar = ({
                 {chapterTitle}
               </span>
             </button>
-            {/* 帖ガイド（源氏物語）: 帖タイトルのすぐ右隣に小さなピルリンクを置く */}
+            {/* 帖ガイド / 九相図一覧: 段タイトルのすぐ右隣に小さなピルリンクを置く */}
             {isGenji && current?.genji_chapter ? (
               <GenjiHubLink
                 genjieslug={
                   connectGenjiChapters(current.genji_chapter, "path") ||
                   undefined
                 }
+                variant="icon"
+                linkClassName={styles.genjiGuidePill}
+              />
+            ) : null}
+            {isKusouzu ? (
+              <KusouzuHubLink
                 variant="icon"
                 linkClassName={styles.genjiGuidePill}
               />

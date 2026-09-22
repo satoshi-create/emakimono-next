@@ -1,7 +1,6 @@
 {
   "search": "検索",
   "source": "出典",
-
   "sourceAttribution": {
     "labelSource": "出典",
     "labelLicense": "ライセンス",
@@ -31,7 +30,6 @@
     },
     "seeGuide": "著作権・ライセンスの見方はこちら（/copyright）"
   },
-
   "viewer": {
     "next": "次へ",
     "previous": "前へ",
@@ -76,7 +74,6 @@
     "zoomToggleIn": "クリックで拡大（または Ctrl + ホイール / 2本指ピンチで拡大）",
     "zoomToggleOut": "クリックで等倍に戻す（Ctrl + ホイール / 2本指ピンチでも拡大縮小できます）"
   },
-
   "quiz": {
     "fabLabel": "観察力クイズ（2分）",
     "resumeLabel": "クイズに戻る",
@@ -95,7 +92,6 @@
     "hideFab": "クイズボタンを非表示",
     "showFab": "クイズボタンを再表示"
   },
-
   "help": {
     "title": "絵巻の見方",
     "closeHelp": "ヘルプを閉じる",
@@ -108,12 +104,10 @@
     "fullscreenShortcut": "Fキーまたはダブルクリックで全画面の切り替え",
     "fullGuide": "くわしい使い方ガイド"
   },
-
   "header": {
     "siteTitle": "絵巻物ビューアー",
     "feedback": "ご意見をお寄せください"
   },
-
   "nav": {
     "home": "ホーム",
     "openMenu": "メニューを開く",
@@ -126,7 +120,6 @@
     "kusouzuHub": "九相図一覧",
     "mangaRoots": "マンガのルーツ"
   },
-
   "home": {
     "metaTitle": "絵巻物ビューアー",
     "metaDesc": "鳥獣人物戯画・地獄草紙・餓鬼草紙・九相図など、平安〜鎌倉の絵巻物を横スクロールで鑑賞できるサイト。テーマ別ハブから作品を選べます。",
@@ -178,11 +171,9 @@
       "cta": "九相図一覧へ"
     }
   },
-
   "about": {
     "metaDesc": "平安〜鎌倉の絵巻物を横スクロールで鑑賞するオープンソースプロジェクト。鳥獣人物戯画・地獄草紙・九相図など、テーマ別コレクションを段階的に拡大中。"
   },
-
   "share": {
     "groupLabel": "共有",
     "x": "Xで共有",
@@ -192,7 +183,6 @@
     "native": "共有",
     "nativeDesc": "アプリで共有"
   },
-
   "scrollFeedback": {
     "buttonLabel": "スクロール体験",
     "prompt": "スクロール体験はいかがでしたか？",
@@ -210,7 +200,6 @@
       "great": "とてもよい"
     }
   },
-
   "pullPrompt": {
     "shareText": "このシーンのURLをコピーして共有できます",
     "shareAction": "コピー",
@@ -218,13 +207,11 @@
     "midFeedbackAction": "答える",
     "dismiss": "閉じる"
   },
-
   "legal": {
     "relatedLinks": "関連ページ",
     "contactButton": "お問い合わせフォームへ",
     "socialLinksTitle": "運営者リンク"
   },
-
   "guide": {
     "pagetitle": "使い方ガイド",
     "metaDesc": "絵巻物を横スクロールで楽しむための操作ガイド。絵巻の選び方、スクロール操作、ビューア機能、共有方法を説明します。",
@@ -274,17 +261,15 @@
       }
     ]
   },
-
   "ranking": {
     "pagetitle": "絵巻物ランキング",
     "metaDesc": "絵巻物ランキングのページです。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。",
     "breadcrumb": "絵巻物ランキング",
     "sectionTitle": "絵巻物ランキング"
   },
-
   "kusouzuHub": {
-    "pagetitle": "九相図一覧（全十場面）",
-    "metaDesc": "九相図（くそうず）の各場面を解説し、各相が描かれた絵巻物へ横スクロールで鑑賞できます。仏教の観想における肉体の変容を、絵巻物のハブページからたどれます。",
+    "pagetitle": "九相図（くそうず）とは？全9段階の意味・一覧と現代語訳｜各時代の絵巻を見比べ鑑賞",
+    "metaDesc": "九相図の全10場面（生前相〜灰相）の意味や死体の変遷順を解説。鎌倉時代の九相図巻、明治の小林永濯版、江戸の檀林皇后九相観など、異なる時代の絵巻を高精細ビューアーで比較鑑賞できます。",
     "breadcrumb": "九相図一覧",
     "introTitle": "九相図（くそうず）とは",
     "intro": "九相図は、九つの死体図に生前の姿を加えた全十場面（生前相から灰相まで）を描いた仏教美術です。美しさと無常、生命のはかなさを対比させ、修行者の観想を助ける作品として広く親しまれてきました。当サイトでは、九相図を描いた絵巻物を横スクロールで鑑賞できます。",
@@ -295,15 +280,18 @@
     "stageScrollCount": "{{count}}巻で鑑賞可",
     "stageNoScrolls": "収録絵巻なし",
     "linkLabel": "九相図一覧",
+    "hubGuide": "九相図一覧",
+    "hubGuideTitle": "九相図の全場面一覧・見比べハブ",
     "linkDesc": "各場面の解説と、該当する絵巻一覧へ",
     "otherScrollsTitle": "他の九相図絵巻",
-    "hubNudgeLabel": "九相図一覧を見る",
+    "hubNudgeLabel": "九相図の全場面一覧・見比べハブへ戻る",
     "peopleSectionTitle": "登場人物",
     "peopleIntro": "九相図のモデルとされる人物の紹介ページへ。",
     "modelLinkLabel": "この作品のモデル",
-    "representativeLinkLabel": "代表作「九相図巻（鎌倉）」を見る"
+    "representativeLinkLabel": "代表作「九相図巻（鎌倉）」を見る",
+    "stageViewIn": "{{scroll}}でこの相を鑑賞",
+    "hubNudgeDesc": "鎌倉・江戸・明治の九相図を並べて比較"
   },
-
   "choujuGigaHub": {
     "pagetitle": "鳥獣人物戯画一覧",
     "pagetitleEn": "Chōjū-jinbutsu-giga — Hub",
@@ -322,7 +310,6 @@
     "linkDesc": "鳥獣人物戯画 全4巻（甲・乙・丙・丁）を横スクロールで鑑賞する",
     "linkDescEn": "Browse all 4 scrolls of Chōjū-jinbutsu-giga"
   },
-
   "timeline": {
     "pagetitle": "絵巻物と日本史の年表",
     "metaDesc": "平安〜室町の歴史のできごとと、そこで生まれた絵巻物を時系列で対比。絵巻物と日本史の関係を一覧で把握できる年表ページ。",
@@ -352,7 +339,6 @@
     },
     "note": "※ 成立年代は諸説ある場合があります。出典は「絵巻関連年表」および歴史事典類。解説の正確性については利用規約をご参照ください。"
   },
-
   "personname": {
     "emakiSectionTitle": "登場人物",
     "worksTitle": "登場する絵巻",
@@ -362,11 +348,11 @@
     "listPagetitle": "人物名一覧",
     "listDesc": "絵巻物に登場する人物の紹介ページ。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。"
   },
-
   "privacy": {
     "pagetitle": "プライバシーポリシー",
     "metaDesc": "emakimono.com における個人情報およびアクセスデータの取り扱いについて説明します。",
-    "breadcrumb": "プライバシーポリシー",    "sectionTitle": "プライバシーポリシー",
+    "breadcrumb": "プライバシーポリシー",
+    "sectionTitle": "プライバシーポリシー",
     "updated": "最終更新日：2026年7月25日",
     "intro": "emakimono.com（以下「当サイト」）は、利用者のプライバシーを尊重します。本ポリシーは、当サイトが取得する情報とその利用目的を説明するものです。",
     "sections": {
@@ -402,7 +388,6 @@
       }
     }
   },
-
   "terms": {
     "pagetitle": "利用規約",
     "metaDesc": "emakimono.com の利用条件、禁止事項、免責事項について説明します。",
@@ -443,7 +428,6 @@
       }
     }
   },
-
   "copyright": {
     "pagetitle": "著作権・ライセンス",
     "metaDesc": "絵巻物画像の著作権・パブリックドメインとCCライセンスの違い、Stable DiffusionやMidjourneyでのAI画像生成利用ガイドラインを説明します。",
@@ -504,31 +488,57 @@
           }
         ],
         "tableTitle": "ライセンスの組み合わせ",
-        "columns": ["ライセンス", "出典表示", "商用利用", "改変", "ひとことで言うと"],
+        "columns": [
+          "ライセンス",
+          "出典表示",
+          "商用利用",
+          "改変",
+          "ひとことで言うと"
+        ],
         "rows": [
           {
             "name": "CC0",
-            "cells": ["不要", "◯", "◯"],
+            "cells": [
+              "不要",
+              "◯",
+              "◯"
+            ],
             "summary": "条件なし・完全に自由"
           },
           {
             "name": "CC BY",
-            "cells": ["必要", "◯", "◯"],
+            "cells": [
+              "必要",
+              "◯",
+              "◯"
+            ],
             "summary": "表示だけ守れば自由"
           },
           {
             "name": "CC BY-SA",
-            "cells": ["必要", "◯", "◯（同じ条件）"],
+            "cells": [
+              "必要",
+              "◯",
+              "◯（同じ条件）"
+            ],
             "summary": "シェア前提の自由"
           },
           {
             "name": "CC BY-NC",
-            "cells": ["必要", "✕", "◯"],
+            "cells": [
+              "必要",
+              "✕",
+              "◯"
+            ],
             "summary": "非営利なら自由"
           },
           {
             "name": "CC BY-ND",
-            "cells": ["必要", "◯", "✕"],
+            "cells": [
+              "必要",
+              "◯",
+              "✕"
+            ],
             "summary": "そのままの形のみ"
           }
         ],
@@ -603,7 +613,6 @@
       }
     }
   },
-
   "byobuHub": {
     "pagetitle": "屏風一覧",
     "pagetitleEn": "Byōbu — Folding Screens",
@@ -619,7 +628,6 @@
     "galleryLinkLabel": "絵巻一覧も見る",
     "galleryLinkLabelEn": "Browse the emaki gallery"
   },
-
   "emakiHub": {
     "pagetitle": "観光マップ 京都・鎌倉編",
     "pagetitleEn": "Sightseeing Map — Kyoto & Kamakura",
@@ -683,7 +691,6 @@
     "mediaTypeManga": "マンガ",
     "mediaTypeMangaEn": "Manga"
   },
-
   "mangaRoots": {
     "pagetitle": "マンガ・アニメのルーツとなる京都の絵巻",
     "metaDesc": "12世紀の京都の絵巻が、呪術廻戦・ジブリ・ベルセルクなど現代アニメの視覚的な土台になった系譜を、横スクロールで辿ります。",
