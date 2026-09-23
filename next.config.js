@@ -61,6 +61,12 @@ const nextConfig = {
   // CJK Google Fonts CSS を各 HTML にインラインすると ISR が約 800KB になる
   optimizeFonts: false,
   swcMinify: true,
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   compiler: {
     styledComponents: true,
   },

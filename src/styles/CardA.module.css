@@ -226,6 +226,156 @@
   text-align: center;
 }
 
+/* リスト表示モード */
+.listItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  padding: 10px 14px;
+  width: 100%;
+  margin-bottom: 12px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: var(--clr-white, #fff);
+  position: static;
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.listItem:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transform: none;
+}
+
+.listThumb {
+  flex-shrink: 0;
+  width: 112px;
+  height: 68px;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.listThumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.listBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  align-items: flex-start;
+  position: static;
+}
+
+.listRowTags {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.badgeType,
+.badgeEra,
+.badgeRank {
+  padding: 0.1rem 0.4rem 0;
+  border-radius: var(--borderRadius);
+  border: 1px solid var(--clr-grey-light);
+  font-family: var(--title-font2);
+  font-weight: 100;
+  white-space: nowrap;
+}
+
+.badgeRank {
+  border: none;
+  color: #b8860b;
+  font-weight: 500;
+}
+
+.listRowTitle {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+  min-width: 0;
+  width: 100%;
+}
+
+.listRowMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.8rem;
+  color: #666;
+  position: static;
+  flex-wrap: wrap;
+}
+
+.listScrollButton,
+.listAction {
+  display: none !important;
+}
+
+.listViewCount {
+  position: static;
+  font-size: 0.8rem;
+  font-family: var(--title-font2);
+  color: #666;
+  white-space: nowrap;
+}
+
+.listKeywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+  position: static;
+}
+
+.keywordChip {
+  color: #666;
+  font-size: 0.8rem;
+  font-family: var(--title-font2);
+}
+
+.listTitle {
+  font-weight: 600;
+  font-size: 0.95rem;
+  font-family: var(--title-font2);
+  line-height: 1.3;
+  margin: 0;
+}
+
+.listAuthor {
+  font-size: 0.8rem;
+  font-family: var(--title-font2);
+  color: var(--clr-text-muted, #666);
+  margin: 0;
+}
+
+.listFooterMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  position: static;
+}
+
 .viewemakiBtn {
   padding: 0.5rem;
   border-radius: var(--borderRadius);
