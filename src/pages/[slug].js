@@ -22,7 +22,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 // TODO:スマホ版横向きのページにタイトルと絵師名を追加する
 
-const Emaki = ({ data, locale, locales, slug, test }) => {
+const Emaki = ({ data, locale, locales, slug }) => {
   const { t } = useLocaleMeta();
   const { t: tc } = useTranslation("common");
   const router = useRouter();
@@ -332,7 +332,6 @@ export const getStaticProps = async (context) => {
       locales,
       locale,
       slug: slug,
-      test: addObjEmakis,
     },
   };
 };
