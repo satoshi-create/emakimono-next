@@ -61,6 +61,8 @@
     "closeCommentaryBar": "Close commentary bar",
     "showCommentary": "Show commentary",
     "backToCommentary": "Back to commentary",
+    "folkloreToggle": "Folklore tags (daily life & tools)",
+    "folkloreToggleCount": "Folklore tags ({{count}})",
     "currentSection": "Now",
     "textMode": {
       "desc": "Commentary",
@@ -739,5 +741,25 @@
     "feedbackTitle": "Share your impressions",
     "feedbackDesc": "Tell us what felt familiar — or surprising — in these thousand-year-old images.",
     "feedbackCta": "Share your impressions"
+  },
+  "ebikiHub": {
+    "pagetitle": "Ebiki — Everyday Life in Emaki",
+    "metaDesc": "Explore folk tools and customs in picture scrolls, linking Miyamoto Tsuneichi’s social history with the Kanagawa University Ebiki drawing database.",
+    "breadcrumb": "Ebiki",
+    "introTitle": "Everyday life in emaki — Miyamoto’s social history × Shibusawa’s Ebiki database",
+    "intro": "Follow shop stalls, carrying, play, and care of the body as drawn in emaki. Open a card to jump to the matching scene and read Miyamoto’s notes with Ebiki bibliography.",
+    "filterLabel": "Filter by activity",
+    "empty": "No matching items.",
+    "attribution": "Sources: Miyamoto Tsuneichi, Emakimono ni miru Nihon jōmin seikatsushi; Kanagawa University Institute for the Study of Japanese Folk Culture, Ebiki database.",
+    "filters": {
+      "all": "All",
+      "labor_trade": "Trade",
+      "dwell": "Dwelling",
+      "carry": "Carry",
+      "eat": "Eat",
+      "play_ritual": "Play",
+      "body_life": "Body & life",
+      "wear": "Wear"
+    }
   }
 }

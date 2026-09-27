@@ -10,6 +10,7 @@ import BottomNavigation from "@/components/navigation/BottomNavigation";
 import {
   resetScrollPositionStore,
   beginScrollRestore,
+  scrollPositionStore,
 } from "@/hooks/emaki/scrollPositionStore";
 import * as gtag from "@/libs/api/gtag";
 import { initEngagementTracking } from "@/libs/api/measurementUtils";
@@ -205,8 +206,13 @@ function MyApp({ Component, pageProps, router }) {
   // スクロール実行を統合した handleToId
   // realign: 共有 hash 入場のみ。ResizeObserver の apply("auto") は smooth を潰すため段クリック等では使わない
   const handleToIdRef = useRef(null);
-  const handleToId = useCallback((id, { realign = false } = {}) => {
+  const handleToId = useCallback((id, { realign = false, offsetPercent = 0 } = {}) => {
+    // 目次・ハブ・絵引ジャンプ: 連番拘束を一時解除し着地先を正本にする
+    scrollPositionStore.isProgrammaticScroll = true;
     setnavIndex(id);
+    window.setTimeout(() => {
+      scrollPositionStore.isProgrammaticScroll = false;
+    }, 1000);
 
     if (isFullscreenTransitioningRef.current) {
       // 全画面遷移中は握り潰さず、遷移完了を待って保留ジャンプする
@@ -220,7 +226,7 @@ function MyApp({ Component, pageProps, router }) {
           }
           return;
         }
-        handleToIdRef.current(id, { realign });
+        handleToIdRef.current(id, { realign, offsetPercent });
       };
       window.setTimeout(runDeferred, 500);
       return;
@@ -243,9 +249,17 @@ function MyApp({ Component, pageProps, router }) {
 
       const containerRect = scrollContainer.getBoundingClientRect();
       const nodeRect = targetSection.getBoundingClientRect();
-      const scrollLeft =
+      // RTL: 対象コマの中央をビューポート中央へ（hash 正本と着地を一致）
+      const base =
         scrollContainer.scrollLeft + (nodeRect.right - containerRect.right);
-      scrollContainer.scrollTo({ left: scrollLeft, behavior });
+      const centerLeft =
+        base - scrollContainer.clientWidth / 2 + nodeRect.width / 2;
+      // 読み進み方向（左）へ offset_percent 分オフセット（絵引ディープリンク用）
+      const t = Math.min(1, Math.max(0, (Number(offsetPercent) || 0) / 100));
+      scrollContainer.scrollTo({
+        left: centerLeft - nodeRect.width * t,
+        behavior,
+      });
       return true;
     };
 

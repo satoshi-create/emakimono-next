@@ -1,0 +1,85 @@
+/* 絵引リスト（段一覧 .sectionIndex と同型）。SceneCommentaryBar 内スワップ用 */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 8px 4px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  max-height: min(280px, 32vh);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+.item:hover {
+  border-color: rgba(0, 0, 0, 0.12);
+  background: rgb(255 140 119 / 0.06);
+}
+
+.thumb {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 40px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 6px;
+  background: #f0ece6;
+  aspect-ratio: 7 / 5;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--clr-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--font-ui);
+}
+
+.tag {
+  flex: 0 0 auto;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--clr-accent);
+  background: rgb(255 140 119 / 0.12);
+  border-radius: 999px;
+  padding: 1px 7px;
+  white-space: nowrap;
+  font-family: var(--font-ui);
+}
+
+.summary {
+  font-size: 0.72rem;
+  color: var(--clr-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--font-story);
+}

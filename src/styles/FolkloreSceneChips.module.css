@@ -1,0 +1,67 @@
+/* 絵引チップ: 1行横スクロール（縦幅を取らないコンパクト設計） */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 4px;
+  flex-wrap: nowrap;
+  font-family: var(--font-ui);
+  animation: folkloreChipsIn 0.18s ease-out;
+}
+
+@keyframes folkloreChipsIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.label {
+  flex: 0 0 auto;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--clr-text-muted);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.chip {
+  appearance: none;
+  flex: 0 0 auto;
+  border: 1px solid rgba(84, 137, 106, 0.35);
+  background: rgba(84, 137, 106, 0.08);
+  color: var(--clr-text);
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  line-height: 1.2;
+  padding: 3px 8px;
+  border-radius: 999px;
+  cursor: pointer;
+  max-width: 14rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.chip:hover,
+.chip:focus-visible {
+  background: rgba(84, 137, 106, 0.18);
+  border-color: var(--clr-accent-green);
+  outline: none;
+}

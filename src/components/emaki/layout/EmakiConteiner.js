@@ -20,6 +20,7 @@ import {
   setQuizFabHidden,
 } from "@/libs/api/quizFabPrefs";
 import { resolveLinkIdByChapter } from "@/utils/resolveQuizJump";
+import { getFolkloreItemById } from "@/data/folklore/folkloreIndex";
 import SceneCommentaryBar from "@/components/emaki/viewer/SceneCommentaryBar";
 import PositionIndicator from "@/components/emaki/viewer/PositionIndicator";
 import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
@@ -258,6 +259,9 @@ const EmakiContainer = ({
   const [isScrolling, setIsScrolling] = useState(false); // スクロール中か
   const isScrollingRef = useRef(false); // setIsScrolling呼び出し最適化用
 
+  // 絵引チップ／詳細シート操作中はアイドル非表示を一時停止
+  const [idlePaused, setIdlePaused] = useState(false);
+
   // 教育現場向けUI: 静止UI耐性 + 自動スクロール制御（初回ナッジ/再生モード）
   // useEmakiAutoPlay が useEmakiIdleUI を内部合成する（両者の循環依存を解消）
   const {
@@ -269,6 +273,7 @@ const EmakiContainer = ({
     setIsPlayMode,
     isUIVisible,
     showUI,
+    resetIdleTimer,
   } = useEmakiAutoPlay({
     articleRef,
     dataId: data.id,
@@ -282,6 +287,7 @@ const EmakiContainer = ({
     setIsAtEnd,
     isScrollingRef,
     setIsScrolling,
+    idlePaused,
     detectCurrentSceneRef,
     scrollPositionStore,
   });
@@ -418,9 +424,8 @@ const EmakiContainer = ({
     }
   }, [scroll, activeQuiz, query.quiz, openQuizUi]);
 
-  // スクロール処理 + 現在シーン検出（useEmakiScroll が sectionsCacheRef / scrollDimsRef を管理）
+  // スクロール処理 + 現在シーン検出（DOM 中央プローブ。仮想幅キャッシュは使わない）
   const {
-    sectionsCacheRef,
     scrollDimsRef,
     liveSceneIndex,
     contentWindowCenter,
@@ -450,27 +455,82 @@ const EmakiContainer = ({
     detectCurrentSceneRef,
   });
 
-  // 再生中も追従する liveSceneIndex を URL hash / 共有の正とする（navIndex は再生中固定）
-  // 入場時 hash 適用前に # を消し飛ばさないよう、未同期の間は既存 hash を維持する
-  const pendingInitialHashRef = useRef(
-    typeof window !== "undefined"
-      ? Number(String(window.location.hash || "").replace("#", "")) || 0
-      : 0
-  );
+  // 再生中も追従する liveSceneIndex を URL hash / 共有の正とする（中央コマ DOM プローブ）
+  // SSR では window.hash が読めないため追従は初期 false。クライアントで確定する。
+  // 入場 hash / ?ebiki がある間はユーザー横スクロールまで URL を書き換えない。
+  const pendingInitialHashRef = useRef(0);
+  const [hashFollowEnabled, setHashFollowEnabled] = useState(false);
+
+  // クライアント専用: 入場 hash / 絵引の有無で追従可否を確定（絵巻切替時も再実行）
+  useEffect(() => {
+    if (!scroll) return;
+    setHashFollowEnabled(false);
+    const ebikiRaw = query?.ebiki;
+    if (ebikiRaw) {
+      const id = String(Array.isArray(ebikiRaw) ? ebikiRaw[0] : ebikiRaw).trim();
+      const found = id ? getFolkloreItemById(id) : null;
+      pendingInitialHashRef.current =
+        typeof found?.link_id === "number" ? found.link_id : 0;
+      return;
+    }
+    const hash =
+      Number(String(window.location.hash || "").replace("#", "")) || 0;
+    pendingInitialHashRef.current = hash;
+    if (hash <= 0) setHashFollowEnabled(true);
+  }, [scroll, data.id, query?.ebiki]);
+
   useEffect(() => {
     if (typeof window === "undefined" || !scroll) return;
     const pending = pendingInitialHashRef.current;
+    if (!hashFollowEnabled) {
+      if (pending > 0) {
+        const basePath = window.location.pathname;
+        const search = window.location.search || "";
+        window.history.replaceState(null, "", `${basePath}${search}#${pending}`);
+      }
+      return;
+    }
     if (pending > 0 && liveSceneIndex !== pending && liveSceneIndex === 0) {
       return;
     }
     pendingInitialHashRef.current = 0;
     const basePath = window.location.pathname;
+    const search = window.location.search || "";
     if (liveSceneIndex > 0) {
-      window.history.replaceState(null, "", `${basePath}#${liveSceneIndex}`);
+      window.history.replaceState(
+        null,
+        "",
+        `${basePath}${search}#${liveSceneIndex}`
+      );
     } else {
-      window.history.replaceState(null, "", basePath);
+      window.history.replaceState(null, "", `${basePath}${search}`);
     }
-  }, [liveSceneIndex, scroll]);
+  }, [liveSceneIndex, scroll, hashFollowEnabled]);
+
+  // 入場 hash 凍結解除: 非プログラム的な scroll（scrollLeft 有意変化）で解除
+  // スクロールバーは content へ pointer が届かないため、scroll イベントを正とする
+  // handleToId の programmatic scroll では解除しない
+  useEffect(() => {
+    if (!scroll || hashFollowEnabled) return;
+    const el = articleRef?.current;
+    if (!el) return;
+    let lastLeft = el.scrollLeft;
+    const onScroll = () => {
+      const left = el.scrollLeft;
+      if (
+        !scrollPositionStore.isProgrammaticScroll &&
+        Math.abs(left - lastLeft) > 1
+      ) {
+        pendingInitialHashRef.current = 0;
+        setHashFollowEnabled(true);
+      }
+      lastLeft = left;
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+    };
+  }, [scroll, data.id, articleRef, hashFollowEnabled]);
 
   // 共有リンク入場: article マウント後に hash シーンへ移動＋縦位置を先頭に固定（ヘッダー切れ防止）
   // 向き変更の再マウントでは navIndex が既に一致するため handleToId を再実行しない
@@ -482,6 +542,8 @@ const EmakiContainer = ({
     // （再実行すると、スクロール検出で自分が書いた hash=#N と新しい navIndex のズレから
     //   handleToId(realign) が走り、ユーザーの到達位置を古い hash シーンへ巻き戻す。）
     didApplyEntryHashRef.current = true;
+    // 絵引ディープリンクは SceneCommentaryBar が offset 付きで担当（#N フォールバック抑止）
+    if (query?.ebiki) return;
     const hashflag = Number(
       String(window.location.hash || "").replace("#", "")
     );
@@ -495,7 +557,7 @@ const EmakiContainer = ({
     pin();
     const timers = [50, 200, 500, 1000].map((ms) => setTimeout(pin, ms));
     return () => timers.forEach(clearTimeout);
-  }, [scroll, data.id, handleToId, navIndex]);
+  }, [scroll, data.id, handleToId, navIndex, query?.ebiki]);
 
   useEffect(() => {
     if (!emakiId) return;
@@ -689,7 +751,7 @@ const EmakiContainer = ({
   }, [isPalmMode]);
 
   // 絵巻ハイパーリンク: スクロール位置から現在表示中のシーンを検出
-  // （useEmakiScroll 内の detectCurrentScene が sectionsCacheRef を管理）
+  // （useEmakiScroll 内の detectCurrentScene が DOM 中央プローブ）
 
   // 教育現場向けUI: 巻末ナッジ
   // isAtEnd 中は他巻カードを表示、離れると非表示
@@ -708,12 +770,9 @@ const EmakiContainer = ({
     detectCurrentSceneRef,
   });
 
-  // 全画面切替や向き切替でビューポートサイズが変わるためシーン検出キャッシュを無効化
+  // 全画面切替や向き切替でビューポートサイズが変わるため寸法キャッシュを無効化
   useEffect(() => {
-    sectionsCacheRef.current = null;
     scrollDimsRef.current = { w: 0, c: 0, ts: 0 };
-    // キャッシュ再構築（requestIdleCallback）完了後に再判定する。これが無いと
-    // 復元完了後もスクロールイベントが発火せず解説バーが固まる
     const t = setTimeout(() => {
       if (typeof detectCurrentSceneRef.current === "function") {
         detectCurrentSceneRef.current();
@@ -758,8 +817,7 @@ const EmakiContainer = ({
         }, 100);
       }
 
-      // キャッシュを無効化（新しい絵巻のセクション・サイズを再取得するため）
-      sectionsCacheRef.current = null;
+      // 寸法キャッシュを無効化（新しい絵巻のサイズを再取得するため）
       scrollDimsRef.current = { w: 0, c: 0, ts: 0 };
 
       // 計測: 全計測状態をリセット
@@ -1372,6 +1430,9 @@ const EmakiContainer = ({
             isFullscreen={toggleFullscreen}
             commentaryFloating={commentaryFloating}
             entryContainerRef={entryContainerRef}
+            isPlayMode={isPlayMode}
+            onIdlePauseChange={setIdlePaused}
+            onIdleActivity={resetIdleTimer}
             quizFab={
               canShowQuizChrome ? (
                 <QuizFab

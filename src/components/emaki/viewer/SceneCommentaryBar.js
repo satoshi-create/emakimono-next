@@ -12,10 +12,14 @@
 import * as gtag from "@/libs/api/gtag";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/SceneCommentaryBar.module.css";
+import FolkloreDetailSheet from "@/components/emaki/folklore/FolkloreDetailSheet";
+import FolkloreSceneList from "@/components/emaki/folklore/FolkloreSceneList";
+import FolkloreToggleButton from "@/components/emaki/folklore/FolkloreToggleButton";
 import SceneLikeButton from "@/components/emaki/viewer/SceneLikeButton";
 import ShareButtons from "@/components/emaki/viewer/ShareButtons";
 import GenjiHubLink from "@/components/genji/GenjiHubLink";
 import KusouzuHubLink from "@/components/emaki/kusouzu/KusouzuHubLink";
+import useFolkloreForScroll from "@/hooks/emaki/useFolkloreForScroll";
 import { ChaptersTitle, eraColor } from "@/utils/func";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import {
@@ -24,6 +28,8 @@ import {
 } from "@/utils/emakiChapterText";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
+import { querySceneSection } from "@/utils/emakiSceneDom";
+import { resolveLinkIdByChapter } from "@/utils/resolveQuizJump";
 import {
   faBookOpen,
   faList,
@@ -71,15 +77,66 @@ const SceneCommentaryBar = ({
   commentaryFloating = false,
   entryContainerRef,
   quizFab = null,
+  isPlayMode = false,
+  onIdlePauseChange,
+  onIdleActivity,
 }) => {
   const { handleToId, orientation } = useContext(AppContext);
-  const { locale } = useRouter();
+  const router = useRouter();
+  const { locale } = router;
   const { t } = useTranslation("common");
 
   const { title, titleen, era, eraen } = data;
+  const { getItemsForChapter, getItemById, hasFolklore } =
+    useFolkloreForScroll(titleen);
+  const [folkloreItem, setFolkloreItem] = useState(null);
+  // 絵引リストはデフォルト非表示（鑑賞優先）。トグルでバー内スワップ
+  const [isFolkloreOpen, setIsFolkloreOpen] = useState(false);
+
   const isGenji = typeof titleen === "string" && titleen.includes("genji");
   const isKusouzu = isKusouzuScroll(data);
   const emakis = data.emakis || [];
+  const ebikiAppliedRef = useRef(null);
+
+  // ディープリンク `?ebiki={item_id}`: offset 付きスクロール → 一時ハイライト → シート自動オープン
+  useEffect(() => {
+    const raw = router.query?.ebiki;
+    if (!raw || !hasFolklore) return undefined;
+    const id = String(Array.isArray(raw) ? raw[0] : raw).trim();
+    if (!id) return undefined;
+    const found = getItemById(id);
+    if (!found) return undefined;
+
+    setFolkloreItem(found);
+    if (ebikiAppliedRef.current === id) return undefined;
+
+    // link_id 明示が最優先、なければ章ベース推定にフォールバック
+    const targetLinkId =
+      typeof found.link_id === "number"
+        ? found.link_id
+        : resolveLinkIdByChapter(emakis, found.scene_id, { preferImage: true });
+    if (typeof targetLinkId !== "number") return undefined;
+
+    ebikiAppliedRef.current = id;
+    const offsetPercent = found.offset_percent ?? 0;
+    handleToId(targetLinkId, { realign: true, offsetPercent });
+
+    let clearTimer = null;
+    const highlightTimer = window.setTimeout(() => {
+      const section = querySceneSection(targetLinkId);
+      if (!section) return;
+      section.classList.add("ebiki-highlight");
+      clearTimer = window.setTimeout(() => {
+        section.classList.remove("ebiki-highlight");
+      }, 2200);
+    }, 450);
+
+    return () => {
+      window.clearTimeout(highlightTimer);
+      if (clearTimer) window.clearTimeout(clearTimer);
+      querySceneSection(targetLinkId)?.classList.remove("ebiki-highlight");
+    };
+  }, [router.query?.ebiki, hasFolklore, getItemById, emakis, handleToId]);
 
   const filterEkotobas = useMemo(
     () => emakis.filter((item) => item.cat === "ekotoba"),
@@ -175,19 +232,28 @@ const SceneCommentaryBar = ({
       setClosed(true);
       setExpanded(false);
       setViewMode("commentary");
+      setIsFolkloreOpen(false);
     } else if (orientation === "portrait") {
       setClosed(false);
     }
   }, [orientation]);
 
-  // 段が変わったら段一覧のみ閉じる。展開状態(expanded)は維持し、
+  // 段が変わったら段一覧・絵引リストを閉じる。展開状態(expanded)は維持し、
   // 次段の解説を開いたまま閲覧できるようにする。
   useEffect(() => {
     if (prevActiveIndexRef.current !== activeIndex) {
       prevActiveIndexRef.current = activeIndex;
       setViewMode("commentary");
+      setIsFolkloreOpen(false);
     }
   }, [activeIndex]);
+
+  // 絵引リスト展開中 or 詳細シート表示中はアイドル非表示を一時停止
+  useEffect(() => {
+    const paused = isFolkloreOpen || Boolean(folkloreItem);
+    onIdlePauseChange?.(paused);
+    return () => onIdlePauseChange?.(false);
+  }, [isFolkloreOpen, folkloreItem, onIdlePauseChange]);
 
   // フローティングカード（全画面 or md+横）のドラッグ＆ドロップ移動。
   // ヘッダー（段タイトル行）を掴んでビューポート内の任意位置へ移動できる。
@@ -313,15 +379,18 @@ const SceneCommentaryBar = ({
     setCardPos(null);
   };
 
-  // 一覧表示中の Esc で解説へ戻す
+  // 一覧・絵引リスト表示中の Esc で解説へ戻す
   useEffect(() => {
-    if (viewMode !== "index") return;
+    if (viewMode !== "index" && !isFolkloreOpen) return;
     const handleKeyDown = (e) => {
-      if (e.key === "Escape") setViewMode("commentary");
+      if (e.key === "Escape") {
+        setViewMode("commentary");
+        setIsFolkloreOpen(false);
+      }
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [viewMode]);
+  }, [viewMode, isFolkloreOpen]);
 
   // 実バー高さ（折りたたみ時は header のみ、展開時は全文ぶん、閉じた時は再表示ボタン分）を
   // 親の entry-container に --commentary-bar-full-h として反映する。
@@ -348,7 +417,7 @@ const SceneCommentaryBar = ({
     const ro = new ResizeObserver(update);
     ro.observe(el);
     return () => ro.disconnect();
-  }, [expanded, closed, textMode, entryContainerRef]);
+  }, [expanded, closed, textMode, isFolkloreOpen, entryContainerRef]);
 
   const current = filterEkotobas[activeIndex];
 
@@ -444,6 +513,12 @@ const SceneCommentaryBar = ({
           <FontAwesomeIcon icon={faBookOpen} />
           <span>{showLabel}</span>
         </button>
+        <FolkloreDetailSheet
+          item={folkloreItem}
+          open={Boolean(folkloreItem)}
+          onClose={() => setFolkloreItem(null)}
+          onActivity={onIdleActivity}
+        />
       </div>
     );
   }
@@ -502,7 +577,11 @@ const SceneCommentaryBar = ({
   };
 
   const handleTextMode = (mode) => {
-    if (mode === activeMode) return;
+    if (mode === activeMode && !isFolkloreOpen && viewMode === "commentary") {
+      return;
+    }
+    setIsFolkloreOpen(false);
+    setViewMode("commentary");
     setTextMode(mode);
     gtag.event("scene_text_mode_change", {
       emaki_title: title,
@@ -518,9 +597,53 @@ const SceneCommentaryBar = ({
     if (!target) return;
     handleToId(target.linkId);
     setViewMode("commentary"); // 選択後は解説ビューへ戻す
+    setIsFolkloreOpen(false);
+  };
+
+  const handleFolkloreSelect = (item) => {
+    if (!item) return;
+    const targetLinkId =
+      typeof item.link_id === "number"
+        ? item.link_id
+        : resolveLinkIdByChapter(emakis, item.scene_id, { preferImage: true });
+    if (typeof targetLinkId === "number") {
+      handleToId(targetLinkId, {
+        realign: true,
+        offsetPercent: item.offset_percent ?? 0,
+      });
+    }
+    setFolkloreItem(item);
   };
 
   const hasMultipleSections = filterEkotobas.length > 1;
+  const chapterFolkloreItems = hasFolklore
+    ? getItemsForChapter(current.chapter)
+    : [];
+  const folkloreCount = chapterFolkloreItems.length;
+  // トグル開かつ再生モード外のみリスト表示（デフォルトは非表示で鑑賞優先）
+  const showFolkloreList = isFolkloreOpen && !isPlayMode && folkloreCount > 0;
+  const sceneThumbSrc = chapterThumbMap.has(current.chapter)
+    ? buildCloudinaryUrl(chapterThumbMap.get(current.chapter), [
+        "w_160",
+        "f_auto",
+        "q_auto:good",
+      ])
+    : null;
+  const folkloreToggleLabel =
+    folkloreCount > 0
+      ? t("viewer.folkloreToggleCount", {
+          count: folkloreCount,
+          defaultValue:
+            locale === "en"
+              ? `Folklore tags (${folkloreCount})`
+              : `絵引（${folkloreCount}件）`,
+        })
+      : t("viewer.folkloreToggle", {
+          defaultValue:
+            locale === "en"
+              ? "Folklore tags (daily life & tools)"
+              : "絵引（生活誌・民具）",
+        });
 
   return (
     <div
@@ -598,7 +721,7 @@ const SceneCommentaryBar = ({
               />
               <ShareButtons
                 variant="share"
-                navIndex={current.linkId}
+                navIndex={navIndex}
                 emakiId={titleen}
                 shareTitle={shareTitle}
               />
@@ -642,6 +765,37 @@ const SceneCommentaryBar = ({
                 </button>
               ))}
             </nav>
+          ) : showFolkloreList ? (
+            <>
+              {showModeTabs && (
+                <div
+                  className={styles.modeTabs}
+                  role="tablist"
+                  aria-label={t("viewer.textMode.label")}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {availableModes.map((mode) => (
+                    <button
+                      key={mode}
+                      type="button"
+                      role="tab"
+                      aria-selected={false}
+                      className={styles.modeTab}
+                      onClick={() => handleTextMode(mode)}
+                    >
+                      {t(`viewer.textMode.${mode}`)}
+                    </button>
+                  ))}
+                </div>
+              )}
+              <FolkloreSceneList
+                items={chapterFolkloreItems}
+                sceneThumb={sceneThumbSrc}
+                onSelect={handleFolkloreSelect}
+                onActivity={onIdleActivity}
+                ariaLabel={folkloreToggleLabel}
+              />
+            </>
           ) : (
             <>
               {showModeTabs && (
@@ -714,15 +868,30 @@ const SceneCommentaryBar = ({
           <div className={styles.utilityActions}>
             {quizFab}
             <div className={styles.utilityActionsEnd}>
+            <FolkloreToggleButton
+              count={folkloreCount}
+              open={isFolkloreOpen}
+              disabled={isPlayMode}
+              label={folkloreToggleLabel}
+              onToggle={() => {
+                onIdleActivity?.();
+                setIsFolkloreOpen((v) => {
+                  const next = !v;
+                  if (next) setViewMode("commentary");
+                  return next;
+                });
+              }}
+            />
             {hasMultipleSections && (
               <button
                 type="button"
                 className={`${styles.listBtn} ${
                   viewMode === "index" ? styles.listBtnActive : ""
                 }`}
-                onClick={() =>
-                  setViewMode((v) => (v === "index" ? "commentary" : "index"))
-                }
+                onClick={() => {
+                  setIsFolkloreOpen(false);
+                  setViewMode((v) => (v === "index" ? "commentary" : "index"));
+                }}
                 aria-label={
                   viewMode === "index"
                     ? t("viewer.backToCommentary")
@@ -788,6 +957,12 @@ const SceneCommentaryBar = ({
           </div>
         </div>
       </div>
+      <FolkloreDetailSheet
+        item={folkloreItem}
+        open={Boolean(folkloreItem)}
+        onClose={() => setFolkloreItem(null)}
+        onActivity={onIdleActivity}
+      />
     </div>
   );
 };

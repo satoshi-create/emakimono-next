@@ -3,13 +3,36 @@
  */
 
 /**
- * @param {{ chapter?: string|number, linkId: number }[]} emakis
+ * @param {{ chapter?: string|number, linkId: number, cat?: string }[]} emakis
  * @param {string|number} chapter
+ * @param {{ preferImage?: boolean }} [opts]
  * @returns {number|null}
  */
-export function resolveLinkIdByChapter(emakis, chapter) {
+export function resolveLinkIdByChapter(emakis, chapter, opts = {}) {
   if (!Array.isArray(emakis) || chapter == null || chapter === "") return null;
   const key = String(chapter);
+  const { preferImage = false } = opts;
+  if (preferImage) {
+    const img = emakis.find(
+      (s) => String(s.chapter) === key && s.cat === "image"
+    );
+    if (img && typeof img.linkId === "number") return img.linkId;
+    // 画像の chapter が空の巻: 該当詞書の直後の image を絵引オフセットの着地先にする
+    const ekIdx = emakis.findIndex(
+      (s) => String(s.chapter) === key && s.cat === "ekotoba"
+    );
+    if (ekIdx >= 0) {
+      for (let i = ekIdx + 1; i < emakis.length; i += 1) {
+        if (emakis[i].cat === "ekotoba") break;
+        if (
+          emakis[i].cat === "image" &&
+          typeof emakis[i].linkId === "number"
+        ) {
+          return emakis[i].linkId;
+        }
+      }
+    }
+  }
   const hit = emakis.find((s) => String(s.chapter) === key);
   return hit && typeof hit.linkId === "number" ? hit.linkId : null;
 }

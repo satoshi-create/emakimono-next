@@ -278,7 +278,36 @@ export function pickSceneIndexByShare(
 }
 
 /**
- * DOM キャッシュ前でも描画窓を進められるよう、メタデータ幅から支配シーンを推定。
+ * URL hash / 共有 / navIndex の正本: ビューポート水平中央が載るスライス index。
+ * 段合算占有率は使わない（共有とアドレスバーの分裂防止）。
+ * @param {{ starts: number[], widths: number[] }} layout
+ * @param {number} scrollLeft RTL の負値空間
+ * @param {number} clientWidth
+ * @returns {number}
+ */
+export function pickSceneIndexAtViewportCenter(layout, scrollLeft, clientWidth) {
+  const count = layout?.widths?.length || 0;
+  if (!count || !(clientWidth > 0)) return 0;
+  const viewCenter =
+    Math.abs(Number.isFinite(scrollLeft) ? scrollLeft : 0) + clientWidth / 2;
+  let nearest = 0;
+  let nearestDist = Infinity;
+  for (let i = 0; i < count; i += 1) {
+    const width = layout.widths[i];
+    if (!(width > 0)) continue;
+    const start = layout.starts[i];
+    if (viewCenter >= start && viewCenter < start + width) return i;
+    const dist = Math.abs(start + width / 2 - viewCenter);
+    if (dist < nearestDist) {
+      nearestDist = dist;
+      nearest = i;
+    }
+  }
+  return nearest;
+}
+
+/**
+ * DOM キャッシュ前でも描画窓を進められるよう、メタデータ幅から中央コマを推定。
  * RTL（row-reverse）: |scrollLeft| が進むほど巻の「先」へ。
  */
 export function estimateSceneIndexFromScrollLeft(
@@ -288,12 +317,10 @@ export function estimateSceneIndexFromScrollLeft(
   rowHeightPx
 ) {
   if (!emakis?.length || !(rowHeightPx > 0) || !(clientWidth > 0)) return 0;
-  return pickSceneIndexByShare(
+  return pickSceneIndexAtViewportCenter(
     buildSceneLayoutFromEmakis(emakis, rowHeightPx),
     scrollLeft,
-    clientWidth,
-    null,
-    buildSceneRanges(emakis)
+    clientWidth
   );
 }
 

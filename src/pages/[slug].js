@@ -14,7 +14,9 @@ import { buildEmakiJsonLd } from "@/utils/buildEmakiJsonLd";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
+import { getFolkloreItemById } from "@/data/folklore/folkloreIndex";
 import { useLocaleMeta } from "@/utils/func";
+import { resolveLinkIdByChapter } from "@/utils/resolveQuizJump";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useRef } from "react";
 import { useTranslation } from "next-i18next";
@@ -50,7 +52,10 @@ const Emaki = ({ data, locale, locales, slug }) => {
   useEffect(() => {
     // 別絵巻へ遷移した際に、縦スクロール・navIndex をリセット
     // hash 付き共有リンク入場では navIndex を消さない（handleToId と競合して先頭に戻る）
+    // ?scene / ?ebiki ディープリンクも先頭リセットしない（#1 フォールバック防止）
     window.scrollTo({ top: 0, behavior: "instant" });
+    const params = new URLSearchParams(window.location.search || "");
+    if (params.has("ebiki") || params.has("scene")) return;
     const hashScene = Number(
       String(window.location.hash || "").replace("#", "")
     );
@@ -60,22 +65,52 @@ const Emaki = ({ data, locale, locales, slug }) => {
     }
   }, [slug, setnavIndex, setHash]);
 
-  // 逆引きクエリ `?scene={sceneId}`（/genji/[slug] の「この段を絵巻で観る」）:
-  // マウント後、該当段（emakis[].chapter = scene id）の linkId へスクロール位置を合わせる。
-  // ハッシュ共有リンク（#linkId）と同じく navIndex 経由で段送りする。
+  // 逆引きクエリ:
+  // - ?ebiki={item_id}: link_id 明示を最優先（なければ scene_id 推定）。
+  //   粗い setnavIndex の後、SceneCommentaryBar が offset 付き handleToId。
+  // - ?scene={sceneId}: 段先頭（絵画優先）へ合わせる。
   useEffect(() => {
+    if (!data?.emakis) return;
+
+    const ebikiParam = router.query?.ebiki;
+    if (ebikiParam) {
+      const id = String(
+        Array.isArray(ebikiParam) ? ebikiParam[0] : ebikiParam
+      ).trim();
+      if (!id) return;
+      const found = getFolkloreItemById(id);
+      if (!found) return;
+      const targetLinkId =
+        typeof found.link_id === "number"
+          ? found.link_id
+          : resolveLinkIdByChapter(data.emakis, found.scene_id, {
+              preferImage: true,
+            });
+      if (typeof targetLinkId === "number") {
+        setnavIndex(targetLinkId);
+      }
+      return;
+    }
+
     const sceneParam = router.query?.scene;
-    if (!sceneParam || !data?.emakis) return;
+    if (!sceneParam) return;
     const key = String(
       Array.isArray(sceneParam) ? sceneParam[0] : sceneParam
     ).trim();
     if (!key) return;
+    const byChapter = (cat) =>
+      data.emakis.find(
+        (item) =>
+          String(item.chapter ?? "") === key &&
+          (cat ? item.cat === cat : true)
+      );
     const target =
-      data.emakis.find((item) => String(item.chapter ?? "") === key) ??
+      byChapter("image") ??
+      byChapter(null) ??
       (/^\d+$/.test(key) ? data.emakis[Number(key)] : undefined);
     if (!target || typeof target.linkId !== "number") return;
     setnavIndex(target.linkId);
-  }, [router.query?.scene, data, setnavIndex]);
+  }, [router.query?.scene, router.query?.ebiki, data, setnavIndex]);
 
   if (!data) {
     return null;

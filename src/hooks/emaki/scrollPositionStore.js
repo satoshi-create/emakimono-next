@@ -9,6 +9,8 @@ export const scrollPositionStore = {
   restored: false,
   isTransitioning: false,
   emakiId: null,
+  /** handleToId ジャンプ中は連番拘束を一時解除 */
+  isProgrammaticScroll: false,
 };
 
 /** Call from _app on emaki page transitions */
@@ -18,6 +20,7 @@ export const resetScrollPositionStore = () => {
   scrollPositionStore.restored = false;
   scrollPositionStore.isTransitioning = false;
   scrollPositionStore.emakiId = null;
+  scrollPositionStore.isProgrammaticScroll = false;
 };
 
 /** Call before orientation change to avoid ratio=0 overwrite during remount */

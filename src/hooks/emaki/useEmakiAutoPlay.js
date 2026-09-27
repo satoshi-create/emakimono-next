@@ -160,6 +160,8 @@ const useEmakiAutoPlay = ({
 
   scrollPositionStore,
 
+  idlePaused = false,
+
 }) => {
 
   const [isAutoScrolling, setIsAutoScrolling] = useState(false);
@@ -170,13 +172,15 @@ const useEmakiAutoPlay = ({
 
 
 
-  const { isUIVisible, showUI } = useEmakiIdleUI({
+  const { isUIVisible, showUI, resetIdleTimer } = useEmakiIdleUI({
 
     emakiId,
 
     isAutoScrolling,
 
     isPlayMode,
+
+    idlePaused,
 
   });
 
@@ -652,6 +656,8 @@ const useEmakiAutoPlay = ({
     isUIVisible,
 
     showUI,
+
+    resetIdleTimer,
 
   };
 

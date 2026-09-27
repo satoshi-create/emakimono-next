@@ -41,26 +41,16 @@ export type EmakiNavigationProps = {
 /**
  * useEmakiScroll — スクロール処理 + 現在シーン検出（統合版）。
  * useEmakiSceneDetection は共有 ref が多いため統合した。
- * 戻り値の sectionsCacheRef / scrollDimsRef は Conteiner 側の
- * 絵巻切替リセット effect から操作するために公開している。
- * 引数 isByobu（屏風 = 舟木本）はシーン判定のヒステリシス／同率優先を作品別に
- * 切り替える（通常絵巻は hysteresis 極小 + 同率は現在段維持）。
+ * 戻り値の scrollDimsRef は Conteiner 側の絵巻切替リセット effect から操作するために公開。
+ * 現在地（navIndex / liveSceneIndex / hash）はビューポート中央の実測 DOM プローブ。
+ * 手動スクロール時は連番拘束（±1）。handleToId は isProgrammaticScroll で拘束解除。
  */
 export type UseEmakiScrollResult = {
-  /**
-   * シーン検出キャッシュ（改修A: 面積ベース）。
-   * layout.starts / layout.widths はコンテンツ先頭（RTL の右端）からの開始座標と幅。
-   * 絵巻切替時に Conteiner が null 化する。
-   */
-  sectionsCacheRef: RefObject<{
-    pending?: boolean;
-    layout?: { starts: number[]; widths: number[]; total: number };
-  }>;
   /** scrollWidth/clientWidth キャッシュ。絵巻切替時に Conteiner がリセットする */
   scrollDimsRef: RefObject<{ w: number; c: number; ts: number }>;
-  /** 再生中の解説バー追従用シーン ID（navIndex は画像ツリー再レンダー抑制のため固定） */
+  /** 再生中の解説バー追従用・URL hash / 共有の正本（ビューポート中央コマ index。navIndex は画像ツリー再レンダー抑制のため固定） */
   liveSceneIndex: number;
-  /** 描画窓の中心シーン（scrollLeft から rAF 追従。DOM キャッシュ前はメタデータ幅で推定） */
+  /** 描画窓の中心コマ（メタデータ幅推定。URL 正本とは独立） */
   contentWindowCenter: number;
   /** 同期値（idle 反映前の最新中心）。ズーム開始時のスライス確定など即時参照用 */
   contentWindowCenterRef: RefObject<number>;
@@ -80,6 +70,8 @@ export type UseEmakiAutoPlayResult = {
   playModeAnimationRef: RefObject<number | null>;
   isUIVisible: boolean;
   showUI: () => void;
+  /** 絵引チップ操作などからのアイドルタイマー再スタート */
+  resetIdleTimer: () => void;
 };
 
 /** useEmakiPalmDrag — 手のひらモード（pointer events） */
@@ -95,6 +87,8 @@ export type UseEmakiIdleUIResult = {
   isUIVisible: boolean;
   /** 再生モード停止・ホイール操作時の UI 復帰に使う（Conteiner 側の setIsUIVisible(true) 呼び出しを置換） */
   showUI: () => void;
+  /** 絵引チップ／シート操作時にタイマーをリセットして UI を維持する */
+  resetIdleTimer: () => void;
 };
 
 /** useScrollPositionRestore — フルスクリーン / 向き切替時のスクロール位置復元（副作用のみ） */

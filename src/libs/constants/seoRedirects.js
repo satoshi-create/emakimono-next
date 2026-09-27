@@ -53,6 +53,16 @@ function buildSeoRedirects() {
       permanent: true,
       locale: false,
     },
+    {
+      source: "/folklore",
+      destination: "/ebiki",
+      permanent: true,
+    },
+    {
+      source: "/folklore/:path*",
+      destination: "/ebiki",
+      permanent: true,
+    },
   ];
 }
 

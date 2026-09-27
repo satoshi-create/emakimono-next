@@ -61,6 +61,8 @@
     "closeCommentaryBar": "解説バーを閉じる",
     "showCommentary": "解説を表示",
     "backToCommentary": "解説に戻す",
+    "folkloreToggle": "絵引（生活誌・民具）",
+    "folkloreToggleCount": "絵引（{{count}}件）",
     "currentSection": "現在地",
     "textMode": {
       "desc": "解説",
@@ -739,5 +741,25 @@
     "feedbackTitle": "Share your impressions",
     "feedbackDesc": "見慣れた映像に近いと感じたところ、意外だったところがあればお聞かせください。",
     "feedbackCta": "Share your impressions"
+  },
+  "ebikiHub": {
+    "pagetitle": "絵引 ― 絵巻でたどる常民のくらし",
+    "metaDesc": "宮本常一『絵巻物に見る日本常民生活誌』と神奈川大学『絵引』原画データベースを結びつけ、絵巻の段から民具・習俗をたどる。",
+    "breadcrumb": "絵引",
+    "introTitle": "絵巻でたどる常民のくらし ― 宮本常一の生活史 × 渋沢敬三『絵引』データベース",
+    "intro": "絵巻に描かれた見世棚・運搬・あそび・いのちの営みを、宮本常一の生活史分析と『絵巻物による日本常民生活絵引』の書誌で読み解きます。カードから絵巻の該当段へ飛び、解説シートで詳細を開けます。",
+    "filterLabel": "行為で絞り込む",
+    "empty": "該当する項目がありません。",
+    "attribution": "出典: 宮本常一『絵巻物に見る日本常民生活誌』／神奈川大学日本常民文化研究所『絵巻物による日本常民生活絵引』データベース",
+    "filters": {
+      "all": "すべて",
+      "labor_trade": "あきなう",
+      "dwell": "すまう",
+      "carry": "になう・はこぶ",
+      "eat": "たべる",
+      "play_ritual": "あそぶ",
+      "body_life": "からだ・いのち",
+      "wear": "きる・はく"
+    }
   }
 }
