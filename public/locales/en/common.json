@@ -111,6 +111,7 @@
   "nav": {
     "home": "Home",
     "openMenu": "Open menu",
+    "closeMenu": "Close menu",
     "languageSwitch": "Language",
     "groupExplore": "Explore",
     "groupLearn": "Learn",

@@ -111,6 +111,7 @@
   "nav": {
     "home": "ホーム",
     "openMenu": "メニューを開く",
+    "closeMenu": "メニューを閉じる",
     "languageSwitch": "言語切り替え",
     "groupExplore": "鑑賞する",
     "groupLearn": "知る",

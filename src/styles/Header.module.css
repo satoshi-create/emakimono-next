@@ -129,12 +129,8 @@
     display: block;
   }
 
-  .nav {
-    display: none;
-  }
-
   .center {
-    grid-auto-columns: 30px minmax(0, 1fr) auto auto auto auto;
+    grid-auto-columns: 30px minmax(0, 1fr) auto auto auto auto auto;
   }
 
   .title {

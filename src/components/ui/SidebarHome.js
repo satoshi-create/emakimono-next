@@ -33,14 +33,19 @@ const SidebarHome = () => {
           ? `${styles.wrapper} ${styles.active}`
           : ` ${styles.wrapper} `
       }
+      onClick={() => closeSidebar()}
     >
-      <button
-        className={`btn ${styles.closebtn}`}
-        onClick={() => closeSidebar()}
+      <aside
+        className={styles.aside}
+        onClick={(e) => e.stopPropagation()}
       >
-        <X className={styles.closeIcon} />
-      </button>
-      <aside className={styles.aside}>
+        <button
+          className={`btn ${styles.closebtn}`}
+          onClick={() => closeSidebar()}
+          aria-label={t("nav.closeMenu")}
+        >
+          <X className={styles.closeIcon} />
+        </button>
         <ul className={styles.navLinks}>
           <li className={styles.navLink}>
             <Link href="/">
@@ -68,7 +73,9 @@ const SidebarHome = () => {
             </a>
           </li>
         </ul>
-        <SocialLinks iconStyle />
+        <div className={styles.sidebarActions}>
+          <SocialLinks iconStyle />
+        </div>
       </aside>
     </div>
   );
