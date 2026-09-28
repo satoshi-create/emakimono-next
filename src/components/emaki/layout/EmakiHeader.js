@@ -72,6 +72,7 @@ const EmakiHeader = () => {
             <button
               className={`${styles.openbtn} btn`}
               onClick={() => openSidebar()}
+              aria-label={t("nav.openMenu")}
             >
               <FontAwesomeIcon
                 icon={faBars}
