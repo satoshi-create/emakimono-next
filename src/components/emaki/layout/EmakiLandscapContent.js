@@ -9,6 +9,7 @@ import styles from "@/styles/EmakiLandscapContent.module.css";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
+import { isHyakkiClusterScroll } from "@/utils/buildHyakkiHubData";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import {
   filterdKeywords,
@@ -98,8 +99,13 @@ const EmakiLandscapContent = ({
     (item) => isChojuGigaScroll(item) && item.titleen !== titleen,
   );
 
+  const LinksToHyakki = alldata.filter(
+    (item) => isHyakkiClusterScroll(item) && item.titleen !== titleen,
+  );
+
   const isKusouzu = isKusouzuScroll(data);
   const isChojuGiga = isChojuGigaScroll(data);
+  const isHyakki = isHyakkiClusterScroll(data);
 
   return (
     <>
@@ -127,9 +133,11 @@ const EmakiLandscapContent = ({
             editionLinks={[
               ...editionLinks,
               ...(isKusouzu ? LinksToKusouzu : []),
+              ...(isHyakki ? LinksToHyakki : []),
             ]}
             showKusouzuHubLink={isKusouzu}
             showChojuGigaHubLink={isChojuGiga}
+            showHyakkiHubLink={isHyakki}
           />
           {!viewerFullscreen && (
             <>

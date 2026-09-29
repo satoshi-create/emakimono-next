@@ -2,6 +2,7 @@ import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import Head from "@/components/meta/Meta";
 import Breadcrumbs from "@/components/navigation/Breadcrumbs";
+import DiscoverySpotlight from "@/components/discovery/DiscoverySpotlight";
 import CardA from "@/components/ui/CardA";
 import {
   default as enData,
@@ -26,6 +27,7 @@ const Type = ({ name, nameen, posts, slug }) => {
       />
       <Header />
       <Breadcrumbs name={locale === "en" ? nameen : name} />
+      {slug === "emaki" && <DiscoverySpotlight />}
       <CardA
         emakis={posts}
         columns={"three"}

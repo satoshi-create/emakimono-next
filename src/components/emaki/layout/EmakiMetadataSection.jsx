@@ -13,11 +13,13 @@
 import KusouzuModelLink from "@/components/emaki/kusouzu/KusouzuModelLink";
 import EmakiPersonLinks from "@/components/emaki/metadata/EmakiPersonLinks";
 import ChojuGigaHubLink from "@/components/emaki/chouju-giga/ChojuGigaHubLink";
+import HyakkiHubLink from "@/components/emaki/hyakki/HyakkiHubLink";
 import SightseeingMapLink from "@/components/emaki/hub/SightseeingMapLink";
 import SourceAttribution from "@/components/emaki/metadata/SourceAttribution";
 import MangaRootsEmakiLink from "@/components/manga-roots/MangaRootsEmakiLink";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
+import { isHyakkiClusterScroll } from "@/utils/buildHyakkiHubData";
 import { eraColor } from "@/utils/func";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
@@ -50,6 +52,7 @@ const EmakiMetadataSection = ({
 
   const isKusouzu = isKusouzuScroll(data);
   const isChojuGiga = isChojuGigaScroll(data);
+  const isHyakki = isHyakkiClusterScroll(data);
 
   return (
     <div className={styles.metadataB}>
@@ -102,6 +105,7 @@ const EmakiMetadataSection = ({
       )}
       {!isKusouzu && <EmakiPersonLinks personname={personname} />}
       {isChojuGiga && <ChojuGigaHubLink variant="banner" />}
+      {isHyakki && <HyakkiHubLink variant="banner" />}
       <SightseeingMapLink titleen={titleen} variant="banner" />
       <MangaRootsEmakiLink titleen={titleen} locale={locale} />
       {tagCloud}

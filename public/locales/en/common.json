@@ -119,6 +119,7 @@
     "contact": "Contact",
     "choujuHub": "Chōjū-jinbutsu-giga",
     "kusouzuHub": "Kusōzu Gallery",
+    "hyakkiHub": "Hyakki Yagyō & Tsukumogami",
     "mangaRoots": "Manga Roots"
   },
   "home": {
@@ -310,6 +311,28 @@
     "linkLabel": "Chōjū-jinbutsu-giga — Hub",
     "linkDesc": "Browse all 4 scrolls of Chōjū-jinbutsu-giga",
     "linkDescEn": "Browse all 4 scrolls of Chōjū-jinbutsu-giga"
+  },
+  "hyakkiHub": {
+    "pagetitle": "Hyakki Yagyō & Tsukumogami",
+    "metaDesc": "Browse Night Parade of One Hundred Demons scrolls (University of Tokyo, NDL A, Nichibunken) and the Tsukumogami emaki in horizontal scroll.",
+    "introTitle": "Hyakki Yagyō & Tsukumogami",
+    "intro": "Picture scrolls of the Night Parade of One Hundred Demons and of discarded tools turned spirit (tsukumogami). Compare versions side by side and scroll right to left.",
+    "breadcrumb": "Hyakki Yagyō & Tsukumogami",
+    "scrollSectionTitle": "Browse scrolls",
+    "hubNudgeLabel": "View Hyakki & Tsukumogami hub",
+    "linkLabel": "Hyakki Yagyō & Tsukumogami",
+    "linkDesc": "Browse hyakki yagyō and tsukumogami scrolls horizontally"
+  },
+  "discovery": {
+    "sectionTitle": "Featured scrolls to watch",
+    "sectionLead": "From the gallery and rankings, jump into theme clusters. Experience the original right-to-left scroll view.",
+    "watchHint": "Watch in horizontal scroll",
+    "groupYokai": "Hyakki Yagyō & Tsukumogami",
+    "groupRokudo": "Six Realms & contemplation (Hell, Hungry Ghosts, Kusōzu)",
+    "groupMonogatari": "Narrative scrolls",
+    "ctaHyakkiHub": "Hyakki hub",
+    "ctaKusouzuHub": "Kusōzu hub",
+    "ctaGenjiHub": "Genji hub"
   },
   "timeline": {
     "pagetitle": "Emaki & Japanese History Timeline",
