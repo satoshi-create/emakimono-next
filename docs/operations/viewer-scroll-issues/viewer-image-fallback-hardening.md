@@ -141,9 +141,13 @@ export const CONTENT_WINDOW_AHEAD = 6;     // 10 → 6（section 殻は維持、
 ### 4-4. インフラ・解像度最適化と計測修正
 
 - `src/pages/_document.js`: `res.cloudinary.com` への `<link rel="preconnect" ... />` を追加（一次着地の DNS/TLS 遅延解消）。
-- `next.config.js`: `images.deviceSizes` に `2560` を追加（デスクトップでの 3840px 跳ね上がり防止）。
+- `next.config.js`: `images.deviceSizes` に `2560` を追加（デスクトップでの 3840px 跳ね上がり防止）。**後続:** `3840` を除外し上限を 2560 に固定。
 - `src/utils/cloudinaryUrl.js`: loader に `c_limit` を明示。
 - `src/components/emaki/layout/EmakiConteiner.js`: `trackSessionContext` に URL 文字列長ではなく `cat === "image"` の実配列長を渡すよう修正。
+- **2026-09-29 追加（教室 desktop slow 対策）**:
+  - `EMAKI_IMAGE_MAX_WIDTH = 2048` で通常絵巻の Cloudinary `w_` をキャップ（フルスクリーン含む・屏風除外）
+  - 甲巻 / 3g 以下は `MANUAL_IMAGE_LOOKAHEAD_CONSTRAINED = 1`
+  - フルスクリーン時の通常絵巻 `sizes` を横画面相当に戻し、同時 eager も lookahead に連動
 
 ---
 
