@@ -2,7 +2,9 @@ import { AppContext } from "@/context/AppContext";
 import { trackImageLoaded, trackImageFallback, trackImageLoadSlow } from "@/libs/api/measurementUtils";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
 import {
+  EMAKI_IMAGE_MAX_WIDTH,
   MANUAL_IMAGE_LOOKAHEAD,
+  MANUAL_IMAGE_LOOKAHEAD_CONSTRAINED,
   PLAYBACK_IMAGE_LOOKAHEAD,
 } from "@/libs/constants/viewerPlayback";
 import styles from "@/styles/LazyImage.module.css";
@@ -47,6 +49,19 @@ const getConnectionMultiplier = () => {
   return 1; // 4g / unknown
 };
 
+/** 3g 以下、または甲巻着地は先読みを 1 枚に絞る（API 欠落の desktop は通常枠のまま） */
+const getManualLookahead = (emakiId) => {
+  if (emakiId === "Chōjū-jinbutsu-giga_first") {
+    return MANUAL_IMAGE_LOOKAHEAD_CONSTRAINED;
+  }
+  if (typeof navigator === "undefined") return MANUAL_IMAGE_LOOKAHEAD;
+  const conn = navigator.connection?.effectiveType;
+  if (conn === "slow-2g" || conn === "2g" || conn === "3g") {
+    return MANUAL_IMAGE_LOOKAHEAD_CONSTRAINED;
+  }
+  return MANUAL_IMAGE_LOOKAHEAD;
+};
+
 // デバッグフラグ: 検証完了後に false にするか、本ブロックごと削除
 const FB_DEBUG = false;
 
@@ -85,16 +100,25 @@ const getAdaptiveTimeout = (type, emakiId) => {
  * マウント済みシーンは視線より先にネット開始する。
  * 描画窓が枚数を制限するので、前方 eager を厚くして二重 lazy ゲートを避ける。
  */
-const isEagerLoad = (uniqueIndex, prefetchIndex, isPlayMode, toggleFullscreen) => {
+const isEagerLoad = (
+  uniqueIndex,
+  prefetchIndex,
+  isPlayMode,
+  toggleFullscreen,
+  manualLookahead = MANUAL_IMAGE_LOOKAHEAD
+) => {
   if (uniqueIndex === 0) return true;
   const center = Number.isFinite(prefetchIndex) ? prefetchIndex : 0;
   const delta = uniqueIndex - center;
-  if (toggleFullscreen && Math.abs(delta) <= 2) return true;
+  // フルスクリーンでも前方は manualLookahead まで（一斉投影時の同時取得を抑える）
+  if (toggleFullscreen) {
+    return delta >= -1 && delta <= Math.max(manualLookahead, 1);
+  }
   if (isPlayMode) {
     return delta >= -2 && delta <= PLAYBACK_IMAGE_LOOKAHEAD;
   }
-  // 手動: 後方1・前方 MANUAL_IMAGE_LOOKAHEAD
-  return delta >= -1 && delta <= MANUAL_IMAGE_LOOKAHEAD;
+  // 手動: 後方1・前方 manualLookahead
+  return delta >= -1 && delta <= manualLookahead;
 };
 
 const LazyImage = ({
@@ -192,11 +216,15 @@ const LazyImage = ({
     // dpr_auto は付けない: next/image の srcset が devicePixelRatio を考慮して候補を選ぶため、
     // w_×dpr の二重拡大による過大な配信を防ぐ
     // c_limit: 要求幅が原寸を超えても拡大しない（無駄な原寸超え配信の抑止）
+    // 通常絵巻は EMAKI_IMAGE_MAX_WIDTH でキャップ（フルスクリーン含む）。屏風は拡大鑑賞のため据え置き
+    const requestWidth = isByobu
+      ? width
+      : Math.min(width, EMAKI_IMAGE_MAX_WIDTH);
     return buildCloudinaryUrl(src, [
       "c_limit",
-      `w_${width}`,
+      `w_${requestWidth}`,
       "f_auto",
-      // 屏風(舟木本)のみ指定品質(85/92)を適用し、通常絵巻は最軽量の q_auto:eco で配信
+      // 屏風(舟木本)のみ指定品質。通常絵巻はフルスクリーンでも q_auto:eco（投影時の過大配信防止）
       isByobu && quality ? `q_${quality}` : "q_auto:eco",
     ]);
   };
@@ -217,7 +245,10 @@ const LazyImage = ({
     ? `max(calc(${ratioStr} * 75vh), 480px)`
     : `calc(${ratioStr} * 75vh)`;
   const imageSizes = toggleFullscreen
-    ? `calc(${ratioStr} * 100vh)`
+    ? // フルスクリーン投影でも 100vh×DPR の過大候補を避け、通常横画面相当に寄せる（屏風は従来）
+      isByobu
+      ? `calc(${ratioStr} * 100vh)`
+      : `(orientation: portrait) ${portraitSizes}, ${landscapeSizes}`
     : `(orientation: portrait) ${portraitSizes}, ${landscapeSizes}`;
 
   // 幅は親 section（buildSceneShellStyle）が担う。ここは 100% 充填のみ（差し替え時の幅揺れ防止）
@@ -253,7 +284,8 @@ const LazyImage = ({
             uniqueIndex,
             prefetchIndex,
             isPlayMode,
-            toggleFullscreen
+            toggleFullscreen,
+            getManualLookahead(emakiId)
           );
           if (FB_DEBUG && uniqueIndex < 12) {
             console.log(`[FB-DEBUG] loading: idx=${uniqueIndex}, prefetchIndex=${prefetchIndex}, fullscreen=${toggleFullscreen}, playMode=${isPlayMode} → ${isEager ? "eager" : "lazy"}`);
@@ -281,7 +313,8 @@ const LazyImage = ({
               uniqueIndex,
               prefetchIndex,
               isPlayMode,
-              toggleFullscreen
+              toggleFullscreen,
+              getManualLookahead(emakiId)
             );
             trackImageLoadSlow(emakiId, uniqueIndex, loadTimeMs, threshold, toggleFullscreen, isEager ? "eager" : "lazy");
             hasTrackedRef.current = true;

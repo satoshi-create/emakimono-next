@@ -51,6 +51,19 @@ export const PLAYBACK_IMAGE_LOOKAHEAD = 3;
 export const MANUAL_IMAGE_LOOKAHEAD = 2;
 
 /**
+ * 帯域逼迫・重量級着地向けの手動先読み。
+ * 3g 以下、または甲巻（一次着地・横長スライス）で同時リクエストをさらに絞る。
+ */
+export const MANUAL_IMAGE_LOOKAHEAD_CONSTRAINED = 1;
+
+/**
+ * 通常絵巻の Cloudinary 要求幅上限（px）。
+ * 教室 desktop / 高 DPR / フルスクリーンで next/image が 2560–3840 を選んでも
+ * 転送をここでキャップする。屏風（byobu）は対象外。
+ */
+export const EMAKI_IMAGE_MAX_WIDTH = 2048;
+
+/**
  * 描画窓（Phase 1）: section 殻は常置し、中身（LazyImage 等）だけ配列 index 付近に限定。
  * uniqueIndex では ekotoba 混在で壊れるため、窓は配列 index 基準。
  * 一度マウントした中身は sticky（unmount しない）。前方を厚く・後方は薄く（繰り広げ UX）。
