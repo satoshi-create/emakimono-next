@@ -332,7 +332,14 @@
     "groupMonogatari": "物語絵巻",
     "ctaHyakkiHub": "百鬼ハブへ",
     "ctaKusouzuHub": "九相図ハブへ",
-    "ctaGenjiHub": "源氏ハブへ"
+    "ctaGenjiHub": "源氏ハブへ",
+    "groupChoju": "鳥獣人物戯画",
+    "ctaChojuHub": "鳥獣ハブへ",
+    "railTitle": "次に見る絵巻",
+    "railLead": "同じテーマや新着から、横スクロールで続けて鑑賞できます。",
+    "railEmpty": "おすすめがありません。",
+    "ctaGallery": "絵巻一覧へ",
+    "ctaRanking": "ランキングを見る"
   },
   "timeline": {
     "pagetitle": "絵巻物と日本史の年表",

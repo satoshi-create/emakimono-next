@@ -332,7 +332,14 @@
     "groupMonogatari": "Narrative scrolls",
     "ctaHyakkiHub": "Hyakki hub",
     "ctaKusouzuHub": "Kusōzu hub",
-    "ctaGenjiHub": "Genji hub"
+    "ctaGenjiHub": "Genji hub",
+    "groupChoju": "Chōjū-jinbutsu-giga",
+    "ctaChojuHub": "Chōjū hub",
+    "railTitle": "Watch next",
+    "railLead": "Continue with related themes or recent scrolls — right to left.",
+    "railEmpty": "No suggestions yet.",
+    "ctaGallery": "Emaki gallery",
+    "ctaRanking": "View rankings"
   },
   "timeline": {
     "pagetitle": "Emaki & Japanese History Timeline",

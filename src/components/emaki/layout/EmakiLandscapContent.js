@@ -1,6 +1,6 @@
 import EmakiConteiner from "@/components/emaki/layout/EmakiConteiner";
 import EmakiMetadataSection from "@/components/emaki/layout/EmakiMetadataSection";
-import RecommendEmaki from "@/components/emaki/ranking/RecommendEmaki";
+import ViewerDiscoveryRail from "@/components/discovery/ViewerDiscoveryRail";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
 import Footer from "@/components/layout/Footer";
 import { AppContext } from "@/context/AppContext";
@@ -117,28 +117,35 @@ const EmakiLandscapContent = ({
         <div
           className={viewerFullscreen ? styles.fullscreenViewer : styles.wrapper}
         >
-          <EmakiConteiner
-            key={data.id}
-            data={{ ...data }}
-            scroll={true}
-            selectedRef={selectedRef}
-            navIndex={navIndex}
-            articleRef={articleRef}
-            overflowX={"scroll"}
-            height={
-              viewerFullscreen
-                ? "var(--vh-100)"
-                : "var(--vh-75)"
-            }
-            editionLinks={[
-              ...editionLinks,
-              ...(isKusouzu ? LinksToKusouzu : []),
-              ...(isHyakki ? LinksToHyakki : []),
-            ]}
-            showKusouzuHubLink={isKusouzu}
-            showChojuGigaHubLink={isChojuGiga}
-            showHyakkiHubLink={isHyakki}
-          />
+          <div className={viewerFullscreen ? null : styles.viewerCell}>
+            <EmakiConteiner
+              key={data.id}
+              data={{ ...data }}
+              scroll={true}
+              selectedRef={selectedRef}
+              navIndex={navIndex}
+              articleRef={articleRef}
+              overflowX={"scroll"}
+              height={
+                viewerFullscreen
+                  ? "var(--vh-100)"
+                  : "var(--vh-75)"
+              }
+              editionLinks={[
+                ...editionLinks,
+                ...(isKusouzu ? LinksToKusouzu : []),
+                ...(isHyakki ? LinksToHyakki : []),
+              ]}
+              showKusouzuHubLink={isKusouzu}
+              showChojuGigaHubLink={isChojuGiga}
+              showHyakkiHubLink={isHyakki}
+            />
+          </div>
+          {!viewerFullscreen && (
+            <aside className={`${styles.discoveryRail} scrollbar`}>
+              <ViewerDiscoveryRail data={data} />
+            </aside>
+          )}
           {!viewerFullscreen && (
             <>
           <div className={styles.metadata}>
@@ -189,7 +196,6 @@ const EmakiLandscapContent = ({
                   </a>
                 </Link>
               )}
-              {/* ハブリンクは metadataB のバナーで提示するため、ここには置かない */}
             </div>
             <EmakiMetadataSection
               data={data}
@@ -201,24 +207,18 @@ const EmakiLandscapContent = ({
               }
               eraTagTextColor
               showRepresentativeLink={isKusouzu && titleen !== "kusouzumaki"}
+              tagCloud={
+                keyword ? (
+                  <div className={styles.tagCloud}>
+                    <CustomTagCloud
+                      tags={filterdKeywords(keyword, allKeywords)}
+                      emakiPage={true}
+                    />
+                  </div>
+                ) : null
+              }
             />
           </div>
-          <div className={styles.subgrid}>
-            {/* おすすめの絵巻 */}
-            {keyword && (
-              <div className={styles.tagCloud}>
-                <CustomTagCloud
-                  tags={filterdKeywords(keyword, allKeywords)}
-                  emakiPage={true}
-                />
-              </div>
-            )}
-            <aside className={`${styles.recommendEmaki} scrollbar`}>
-              <RecommendEmaki data={data} />
-              {/* {(typeen === "seiyoukaiga" || keyword) && <CardC data={result} />} */}
-            </aside>
-          </div>
-          {/* <RankingCard /> */}
             </>
           )}
         </div>

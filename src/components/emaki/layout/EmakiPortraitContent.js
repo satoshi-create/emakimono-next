@@ -1,6 +1,6 @@
 import EmakiConteiner from "@/components/emaki/layout/EmakiConteiner";
 import EmakiMetadataSection from "@/components/emaki/layout/EmakiMetadataSection";
-import RecommendEmaki from "@/components/emaki/ranking/RecommendEmaki";
+import ViewerDiscoveryRail from "@/components/discovery/ViewerDiscoveryRail";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
 import Footer from "@/components/layout/Footer";
 import { AppContext } from "@/context/AppContext";
@@ -191,7 +191,9 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
           />
 
           {/* {(typeen === "seiyoukaiga" || keyword) && <CardC data={data} />} */}
-          <RecommendEmaki data={data} />
+          <div className={styles.discoveryBelow}>
+            <ViewerDiscoveryRail data={data} />
+          </div>
         </div>
       </div>
       )}
