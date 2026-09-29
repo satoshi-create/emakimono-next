@@ -338,6 +338,8 @@
     "railTitle": "次に見る絵巻",
     "railLead": "同じテーマや新着から、横スクロールで続けて鑑賞できます。",
     "railEmpty": "おすすめがありません。",
+    "railCollapse": "レールを閉じる",
+    "railExpand": "レールを開く",
     "ctaGallery": "絵巻一覧へ",
     "ctaRanking": "ランキングを見る"
   },

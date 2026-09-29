@@ -20,6 +20,15 @@
   align-items: start;
 }
 
+/* レール閉じ: 横だけ全幅（高さは --vh-75 のまま） */
+.wrapper.theater {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.wrapper.theater .discoveryRail {
+  display: none;
+}
+
 /* フローティング解説時: 1行目最小高を外してメタが押し下がらないようにする */
 .wrapper:has(.entry-container[data-commentary-float]) {
   grid-template-rows: auto auto;
@@ -29,6 +38,30 @@
   grid-column: 1;
   grid-row: 1;
   min-width: 0;
+  position: relative;
+}
+
+.railExpandBtn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 20;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid rgb(20 20 20 / 0.12);
+  border-radius: 6px;
+  background: rgb(255 255 255 / 0.92);
+  color: var(--clr-text);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.08);
+}
+
+.railExpandBtn:hover,
+.railExpandBtn:focus-visible {
+  border-color: var(--clr-accent);
+  color: var(--clr-link);
 }
 
 .discoveryRail {
@@ -49,9 +82,21 @@
     grid-template-columns: 1fr;
   }
 
+  .wrapper.theater {
+    grid-template-columns: 1fr;
+  }
+
+  .wrapper.theater .discoveryRail {
+    display: block;
+  }
+
   .viewerCell {
     grid-column: 1;
     grid-row: 1;
+  }
+
+  .railExpandBtn {
+    display: none;
   }
 
   .discoveryRail {

@@ -13,7 +13,7 @@ import { useTranslation } from "next-i18next";
 /**
  * YouTube 風「次に見る」レール。クラスター／最新を優先（累計ランキングではない）。
  */
-const ViewerDiscoveryRail = ({ data }) => {
+const ViewerDiscoveryRail = ({ data, onClose }) => {
   const { t } = useTranslation("common");
   const { locale } = useRouter();
   const all = ExtractingListData();
@@ -32,11 +32,23 @@ const ViewerDiscoveryRail = ({ data }) => {
     <div className={styles.rail}>
       <div className={styles.head}>
         <h2 className={styles.title}>{t(plan.titleKey)}</h2>
-        {plan.ctaHref && (
-          <Link href={plan.ctaHref}>
-            <a className={styles.hubCta}>{t(plan.ctaKey)} →</a>
-          </Link>
-        )}
+        <div className={styles.headActions}>
+          {plan.ctaHref && (
+            <Link href={plan.ctaHref}>
+              <a className={styles.hubCta}>{t(plan.ctaKey)} →</a>
+            </Link>
+          )}
+          {onClose && (
+            <button
+              type="button"
+              className={styles.closeBtn}
+              onClick={onClose}
+              aria-label={t("discovery.railCollapse")}
+            >
+              {t("discovery.railCollapse")}
+            </button>
+          )}
+        </div>
       </div>
       <p className={styles.lead}>{t("discovery.railLead")}</p>
       {items.length === 0 ? (

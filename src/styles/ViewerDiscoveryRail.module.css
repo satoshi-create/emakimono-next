@@ -19,6 +19,37 @@
   gap: 0.35rem 0.75rem;
 }
 
+.headActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.closeBtn {
+  padding: 0.2rem 0.55rem;
+  border: 1px solid rgb(20 20 20 / 0.12);
+  border-radius: 4px;
+  background: var(--clr-bg);
+  color: var(--clr-text-muted);
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.closeBtn:hover,
+.closeBtn:focus-visible {
+  border-color: var(--clr-accent);
+  color: var(--clr-link);
+}
+
+@media screen and (max-width: 1100px) {
+  .closeBtn {
+    display: none;
+  }
+}
+
 .title {
   font-family: var(--font-ui);
   font-size: 0.9375rem;
