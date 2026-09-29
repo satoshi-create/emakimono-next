@@ -152,6 +152,7 @@ const EmakiLandscapContent = ({
                 type="button"
                 className={styles.railExpandBtn}
                 onClick={() => setRailOpen(true)}
+                aria-label={t("discovery.railExpandAria")}
               >
                 {t("discovery.railExpand")}
               </button>

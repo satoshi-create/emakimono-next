@@ -43,7 +43,7 @@ const ViewerDiscoveryRail = ({ data, onClose }) => {
               type="button"
               className={styles.closeBtn}
               onClick={onClose}
-              aria-label={t("discovery.railCollapse")}
+              aria-label={t("discovery.railCollapseAria")}
             >
               {t("discovery.railCollapse")}
             </button>

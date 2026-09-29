@@ -338,8 +338,10 @@
     "railTitle": "Watch next",
     "railLead": "Continue with related themes or recent scrolls — right to left.",
     "railEmpty": "No suggestions yet.",
-    "railCollapse": "Hide rail",
-    "railExpand": "Show rail",
+    "railCollapse": "Close",
+    "railExpand": "Works",
+    "railCollapseAria": "Close works list",
+    "railExpandAria": "Open works list",
     "ctaGallery": "Emaki gallery",
     "ctaRanking": "View rankings"
   },
