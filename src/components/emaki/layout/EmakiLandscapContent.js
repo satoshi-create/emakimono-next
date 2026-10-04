@@ -1,6 +1,6 @@
 import EmakiConteiner from "@/components/emaki/layout/EmakiConteiner";
 import EmakiMetadataSection from "@/components/emaki/layout/EmakiMetadataSection";
-import RecommendEmaki from "@/components/emaki/ranking/RecommendEmaki";
+import ViewerDiscoveryRail from "@/components/discovery/ViewerDiscoveryRail";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
 import Footer from "@/components/layout/Footer";
 import { AppContext } from "@/context/AppContext";
@@ -9,6 +9,7 @@ import styles from "@/styles/EmakiLandscapContent.module.css";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
+import { isHyakkiClusterScroll } from "@/utils/buildHyakkiHubData";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import {
   filterdKeywords,
@@ -20,7 +21,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import parse from "html-react-parser";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, useState } from "react";
+import { useTranslation } from "next-i18next";
 
 const EmakiLandscapContent = ({
   data,
@@ -32,7 +34,9 @@ const EmakiLandscapContent = ({
   const { rankingData } = useContext(AppContext);
   const { totalCount } = useSceneLikeCounts();
   const { locale } = useRouter();
+  const { t } = useTranslation("common");
   const { t: alldata } = useLocaleData();
+  const [railOpen, setRailOpen] = useState(true);
 
   const removeNestedArrayObj = ExtractingListData();
   const allKeywords = keywordItem(removeNestedArrayObj);
@@ -98,8 +102,13 @@ const EmakiLandscapContent = ({
     (item) => isChojuGigaScroll(item) && item.titleen !== titleen,
   );
 
+  const LinksToHyakki = alldata.filter(
+    (item) => isHyakkiClusterScroll(item) && item.titleen !== titleen,
+  );
+
   const isKusouzu = isKusouzuScroll(data);
   const isChojuGiga = isChojuGigaScroll(data);
+  const isHyakki = isHyakkiClusterScroll(data);
 
   return (
     <>
@@ -109,28 +118,54 @@ const EmakiLandscapContent = ({
         }
       >
         <div
-          className={viewerFullscreen ? styles.fullscreenViewer : styles.wrapper}
+          className={
+            viewerFullscreen
+              ? styles.fullscreenViewer
+              : `${styles.wrapper}${railOpen ? "" : ` ${styles.theater}`}`
+          }
         >
-          <EmakiConteiner
-            key={data.id}
-            data={{ ...data }}
-            scroll={true}
-            selectedRef={selectedRef}
-            navIndex={navIndex}
-            articleRef={articleRef}
-            overflowX={"scroll"}
-            height={
-              viewerFullscreen
-                ? "var(--vh-100)"
-                : "var(--vh-75)"
-            }
-            editionLinks={[
-              ...editionLinks,
-              ...(isKusouzu ? LinksToKusouzu : []),
-            ]}
-            showKusouzuHubLink={isKusouzu}
-            showChojuGigaHubLink={isChojuGiga}
-          />
+          <div className={viewerFullscreen ? null : styles.viewerCell}>
+            <EmakiConteiner
+              key={data.id}
+              data={{ ...data }}
+              scroll={true}
+              selectedRef={selectedRef}
+              navIndex={navIndex}
+              articleRef={articleRef}
+              overflowX={"scroll"}
+              height={
+                viewerFullscreen
+                  ? "var(--vh-100)"
+                  : "var(--vh-75)"
+              }
+              editionLinks={[
+                ...editionLinks,
+                ...(isKusouzu ? LinksToKusouzu : []),
+                ...(isHyakki ? LinksToHyakki : []),
+              ]}
+              showKusouzuHubLink={isKusouzu}
+              showChojuGigaHubLink={isChojuGiga}
+              showHyakkiHubLink={isHyakki}
+            />
+            {!viewerFullscreen && !railOpen && (
+              <button
+                type="button"
+                className={styles.railExpandBtn}
+                onClick={() => setRailOpen(true)}
+                aria-label={t("discovery.railExpandAria")}
+              >
+                {t("discovery.railExpand")}
+              </button>
+            )}
+          </div>
+          {!viewerFullscreen && (
+            <aside className={`${styles.discoveryRail} scrollbar`}>
+              <ViewerDiscoveryRail
+                data={data}
+                onClose={() => setRailOpen(false)}
+              />
+            </aside>
+          )}
           {!viewerFullscreen && (
             <>
           <div className={styles.metadata}>
@@ -181,7 +216,6 @@ const EmakiLandscapContent = ({
                   </a>
                 </Link>
               )}
-              {/* ハブリンクは metadataB のバナーで提示するため、ここには置かない */}
             </div>
             <EmakiMetadataSection
               data={data}
@@ -193,24 +227,18 @@ const EmakiLandscapContent = ({
               }
               eraTagTextColor
               showRepresentativeLink={isKusouzu && titleen !== "kusouzumaki"}
+              tagCloud={
+                keyword ? (
+                  <div className={styles.tagCloud}>
+                    <CustomTagCloud
+                      tags={filterdKeywords(keyword, allKeywords)}
+                      emakiPage={true}
+                    />
+                  </div>
+                ) : null
+              }
             />
           </div>
-          <div className={styles.subgrid}>
-            {/* おすすめの絵巻 */}
-            {keyword && (
-              <div className={styles.tagCloud}>
-                <CustomTagCloud
-                  tags={filterdKeywords(keyword, allKeywords)}
-                  emakiPage={true}
-                />
-              </div>
-            )}
-            <aside className={`${styles.recommendEmaki} scrollbar`}>
-              <RecommendEmaki data={data} />
-              {/* {(typeen === "seiyoukaiga" || keyword) && <CardC data={result} />} */}
-            </aside>
-          </div>
-          {/* <RankingCard /> */}
             </>
           )}
         </div>

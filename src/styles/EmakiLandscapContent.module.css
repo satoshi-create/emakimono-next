@@ -11,26 +11,106 @@
 
 .wrapper {
   display: grid;
-  grid-template-columns: 65vw auto;
-  /* ボトムコメントバー分の高さ増を吸収するため minmax で可変にする */
-  grid-template-rows: minmax(var(--vh-75), auto) auto;
+  /* YouTube 風: ビューア + 右レール（狭い画面は後述メディアクエリで1列） */
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
+  grid-template-rows: auto auto;
   row-gap: 1.5rem;
-  column-gap: 2rem;
+  column-gap: 1.25rem;
   margin-bottom: 4rem;
+  align-items: start;
 }
 
-/* フローティング解説カード時（非全画面 md+横）: キャンバス高をビューポート比率へ
-   制限する（EmakiConteiner.module.css の --vh-float）。このとき 1 行目の最小高
-   var(--vh-75) を残すとキャンバス下に空白ができ、作品タイトル等のメタ情報（2行目）が
-   押し下がってファーストビューから外れるため、最小高を外して article 実高に追従させる。
-   カードが絶対配置（オーバーレイ）になった分、行高は article 高のみで決まる */
+/* レール閉じ: 横だけ全幅（高さは --vh-75 のまま） */
+.wrapper.theater {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.wrapper.theater .discoveryRail {
+  display: none;
+}
+
+/* フローティング解説時: 1行目最小高を外してメタが押し下がらないようにする */
 .wrapper:has(.entry-container[data-commentary-float]) {
   grid-template-rows: auto auto;
 }
 
-/* 段タイトルサイドバー撤去に伴い、ビューアを1行目全体に広げる */
-.wrapper > :first-child {
-  grid-column: 1 / -1;
+.viewerCell {
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 0;
+  position: relative;
+}
+
+.railExpandBtn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 20;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid rgb(20 20 20 / 0.12);
+  border-radius: 6px;
+  background: rgb(255 255 255 / 0.92);
+  color: var(--clr-text);
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.08);
+}
+
+.railExpandBtn:hover,
+.railExpandBtn:focus-visible {
+  border-color: var(--clr-accent);
+  color: var(--clr-link);
+}
+
+.discoveryRail {
+  /* ビューアと同じ --vh-75 に揃え、縦幅変動時も余白を残さない */
+  grid-column: 2;
+  grid-row: 1;
+  position: sticky;
+  top: 0.75rem;
+  align-self: stretch;
+  height: var(--vh-75);
+  max-height: var(--vh-75);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+@media screen and (max-width: 1100px) {
+  .wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .wrapper.theater {
+    grid-template-columns: 1fr;
+  }
+
+  .wrapper.theater .discoveryRail {
+    display: block;
+  }
+
+  .viewerCell {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .railExpandBtn {
+    display: none;
+  }
+
+  .discoveryRail {
+    grid-column: 1;
+    grid-row: 2;
+    position: static;
+    height: auto;
+    max-height: none;
+  }
+
+  .metadata {
+    grid-row: 3;
+    grid-column: 1;
+  }
 }
 
 
@@ -50,6 +130,7 @@
   display: flex;
   flex-direction: column;
   row-gap: 1.5rem;
+  min-width: 0;
 }
 
 .metadataA {
@@ -379,34 +460,17 @@ background-color: var(--border-color, black);
   opacity: 0.6;
 }
 
-.relationemaki {
-  grid-row: 2;
-  grid-column: 2;
-}
-
 .subgrid {
-  display: grid;
-  grid-template-rows: auto 1fr;
-  grid-template-columns: subgrid;
-  align-items: flex-start;
-  row-gap: 1rem;
+  display: none;
 }
 
 .tagCloud {
-  grid-row: 1;
-  grid-column: 2;
   border: 1px solid rgb(209 209 209);
   border-radius: 12px;
   padding: 1rem;
+  margin-top: 0.5rem;
 }
 
 .recommendEmaki {
-  grid-row: 2;
-  grid-column: 2;
-  display: flex;
-  flex-direction: column;
-  row-gap: 1rem;
-  height: 600px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  display: none;
 }

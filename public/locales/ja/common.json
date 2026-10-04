@@ -121,6 +121,7 @@
     "contact": "お問い合わせ",
     "choujuHub": "鳥獣人物戯画一覧",
     "kusouzuHub": "九相図一覧",
+    "hyakkiHub": "百鬼夜行・付喪神一覧",
     "mangaRoots": "マンガのルーツ"
   },
   "home": {
@@ -312,6 +313,39 @@
     "linkLabel": "鳥獣人物戯画一覧",
     "linkDesc": "鳥獣人物戯画 全4巻（甲・乙・丙・丁）を横スクロールで鑑賞する",
     "linkDescEn": "Browse all 4 scrolls of Chōjū-jinbutsu-giga"
+  },
+  "hyakkiHub": {
+    "pagetitle": "百鬼夜行・付喪神一覧",
+    "metaDesc": "百鬼夜行絵巻（東大本・国会A本・日文研本）と付喪神絵巻を横スクロールで鑑賞。妖怪行列の絵巻を伝本ごとに見比べられます。",
+    "introTitle": "百鬼夜行と付喪神",
+    "intro": "夜の行列に異形が連なる百鬼夜行絵巻と、古道具が妖怪となる付喪神絵巻。伝本ごとの図像を横スクロールでご覧ください。",
+    "breadcrumb": "百鬼夜行・付喪神一覧",
+    "scrollSectionTitle": "作品を鑑賞",
+    "hubNudgeLabel": "百鬼夜行・付喪神一覧を見る",
+    "linkLabel": "百鬼夜行・付喪神一覧",
+    "linkDesc": "百鬼夜行絵巻と付喪神絵巻を横スクロールで鑑賞する"
+  },
+  "discovery": {
+    "sectionTitle": "注目の絵巻を見る",
+    "sectionLead": "一覧やランキングから、テーマ別の絵巻へ。横スクロールで原本の眺め方を体験できます。",
+    "watchHint": "横スクロールで見る",
+    "groupYokai": "百鬼夜行・付喪神",
+    "groupRokudo": "六道・観想（地獄・餓鬼・九相図）",
+    "groupMonogatari": "物語絵巻",
+    "ctaHyakkiHub": "百鬼ハブへ",
+    "ctaKusouzuHub": "九相図ハブへ",
+    "ctaGenjiHub": "源氏ハブへ",
+    "groupChoju": "鳥獣人物戯画",
+    "ctaChojuHub": "鳥獣ハブへ",
+    "railTitle": "次に見る絵巻",
+    "railLead": "同じテーマや新着から、横スクロールで続けて鑑賞できます。",
+    "railEmpty": "おすすめがありません。",
+    "railCollapse": "閉じる",
+    "railExpand": "作品一覧",
+    "railCollapseAria": "作品一覧を閉じる",
+    "railExpandAria": "作品一覧を開く",
+    "ctaGallery": "絵巻一覧へ",
+    "ctaRanking": "ランキングを見る"
   },
   "timeline": {
     "pagetitle": "絵巻物と日本史の年表",

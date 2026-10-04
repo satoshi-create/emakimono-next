@@ -129,6 +129,7 @@ const EmakiContainer = ({
   editionLinks = [],
   showKusouzuHubLink = false,
   showChojuGigaHubLink = false,
+  showHyakkiHubLink = false,
 }) => {
   const {
     setOepnSidebar,
@@ -170,7 +171,7 @@ const EmakiContainer = ({
 
   // 教育現場向けUI: 巻末ナッジ（次巻が存在する場合のみ）
   // 巻末到達中に他の巻へのカードを表示し、「続きがある」ことを伝える
-  const hasNextVolume = editionLinks.length > 0 || showKusouzuHubLink || showChojuGigaHubLink;
+  const hasNextVolume = editionLinks.length > 0 || showKusouzuHubLink || showChojuGigaHubLink || showHyakkiHubLink;
 
   // prevDataIdはモジュールスコープに移動済み（絵巻切り替え検出用）
 
@@ -1418,6 +1419,7 @@ const EmakiContainer = ({
               editionLinks={editionLinks}
               showKusouzuHubLink={showKusouzuHubLink}
               showChojuGigaHubLink={showChojuGigaHubLink}
+              showHyakkiHubLink={showHyakkiHubLink}
               showEndNudge
             />
           )}

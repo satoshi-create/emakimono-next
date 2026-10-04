@@ -9,6 +9,10 @@
   gap: 1rem;
 }
 
+.discoveryBelow {
+  margin-top: 0.5rem;
+}
+
 .metadataA {
   display: grid;
   grid-template-columns: auto 1fr;

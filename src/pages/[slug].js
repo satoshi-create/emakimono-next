@@ -13,6 +13,7 @@ import { connectGenjiChapterFallback } from "@/utils/connectEmakiText";
 import { buildEmakiJsonLd } from "@/utils/buildEmakiJsonLd";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
+import { isHyakkiClusterScroll } from "@/utils/buildHyakkiHubData";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import { getFolkloreItemById } from "@/data/folklore/folkloreIndex";
 import { useLocaleMeta } from "@/utils/func";
@@ -188,6 +189,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
   // 教育現場向けUI: 巻末ナッジ用 - 兄弟巻は EmakiLandscapContent 内で取得
   const isKusouzu = isKusouzuScroll(data);
   const isChojuGiga = isChojuGigaScroll(data);
+  const isHyakki = isHyakkiClusterScroll(data);
 
   const displayTitle = emakiDisplayTitle(data, locale);
   const breadcrumbProps = isKusouzu
@@ -200,6 +202,12 @@ const Emaki = ({ data, locale, locales, slug }) => {
     ? {
         nameHub: tc("choujuGigaHub.breadcrumb"),
         nameHubPath: "chouju-giga/chapters",
+        nameB: displayTitle,
+      }
+    : isHyakki
+    ? {
+        nameHub: tc("hyakkiHub.breadcrumb"),
+        nameHubPath: "hyakki/chapters",
         nameB: displayTitle,
       }
     : {

@@ -1,4 +1,5 @@
 import RankingCard from "@/components/emaki/ranking/RankingCard";
+import DiscoverySpotlight from "@/components/discovery/DiscoverySpotlight";
 import Header from "@/components/layout/Header";
 import Head from "@/components/meta/Meta";
 import Breadcrumbs from "@/components/navigation/Breadcrumbs";
@@ -18,6 +19,7 @@ const Ranking = ({ rankingData }) => {
       />
       <Header fixed={false} />
       <Breadcrumbs name={t("ranking.breadcrumb")} />
+      <DiscoverySpotlight />
       <section className={"section-grid section-padding"}>
         <Title sectiontitle={t("ranking.sectionTitle")} />
         <RankingCard rankingData={rankingData} />

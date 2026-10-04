@@ -1,12 +1,15 @@
 export const CHOUJU_GIGA_HUB_PATH = "/chouju-giga/chapters";
 export const KUSOUZU_HUB_PATH = "/kusouzu/chapters-kusouzu";
+export const HYAKKI_HUB_PATH = "/hyakki/chapters";
 export const BYOBU_HUB_PATH = "/byobu";
 
-/** トップ「最新の絵巻」キュレーション。新規公開時は先頭に追加。 */
+/** トップ「最新の絵巻」キュレーション。新規公開時は先頭に追加（最大5枠）。 */
 export const HOME_LATEST_SCROLLS = [
   { titleen: "genjimonogatari-emaki-tokugawa", publishedAt: "2026-09-05", order: 1 },
   { titleen: "naomoto_moushibumi_ekotoba", publishedAt: "2026-09-03", order: 2 },
   { titleen: "hyakki_utokyo", publishedAt: "2026-08-28", order: 3 },
+  { titleen: "hyakki_kokkai_a", publishedAt: "2026-08-28", order: 4 },
+  { titleen: "hyakki_no_zu_nichibun", publishedAt: "2026-08-28", order: 5 },
 ];
 
 export const HOME_LATEST_TITLEEN = HOME_LATEST_SCROLLS.map((s) => s.titleen);
@@ -68,6 +71,11 @@ export const navGroups = [
         name: "九相図一覧",
         nameen: "Kusōzu Gallery",
         path: KUSOUZU_HUB_PATH,
+      },
+      {
+        name: "百鬼夜行・付喪神一覧",
+        nameen: "Hyakki Yagyō & Tsukumogami",
+        path: HYAKKI_HUB_PATH,
       },
       { name: "屏風一覧", nameen: "Byōbu Screens", path: BYOBU_HUB_PATH },
       { name: "ランキング", nameen: "Rankings", path: "/ranking" },

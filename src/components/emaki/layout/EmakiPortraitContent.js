@@ -1,6 +1,6 @@
 import EmakiConteiner from "@/components/emaki/layout/EmakiConteiner";
 import EmakiMetadataSection from "@/components/emaki/layout/EmakiMetadataSection";
-import RecommendEmaki from "@/components/emaki/ranking/RecommendEmaki";
+import ViewerDiscoveryRail from "@/components/discovery/ViewerDiscoveryRail";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
 import Footer from "@/components/layout/Footer";
 import { AppContext } from "@/context/AppContext";
@@ -9,6 +9,7 @@ import styles from "@/styles/EmakiPortraitContent.module.css";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
+import { isHyakkiClusterScroll } from "@/utils/buildHyakkiHubData";
 import { isByobuScroll } from "@/utils/isByobuScroll";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import {
@@ -83,8 +84,12 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
   const LinksToChojuGiga = alldata.filter(
     (item) => isChojuGigaScroll(item) && item.titleen !== titleen
   );
+  const LinksToHyakki = alldata.filter(
+    (item) => isHyakkiClusterScroll(item) && item.titleen !== titleen
+  );
   const isKusouzu = isKusouzuScroll(data);
   const isChojuGiga = isChojuGigaScroll(data);
+  const isHyakki = isHyakkiClusterScroll(data);
   // 屏風（舟木本 等）は縦持ちでスライス幅が極小（約116px）になり、拡大時の
   // ラスタ解像度が不足する。高さにフロア（480px）を設けて初期レイアウト寸法を
   // 底上げする。buildSceneShellStyle 側の section 幅計算と必ず同値に保つこと。
@@ -109,9 +114,11 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
         editionLinks={[
           ...editionLinks,
           ...(isKusouzu ? LinksToKusouzu : []),
+          ...(isHyakki ? LinksToHyakki : []),
         ]}
         showKusouzuHubLink={isKusouzu}
         showChojuGigaHubLink={isChojuGiga}
+        showHyakkiHubLink={isHyakki}
       />
       {!viewerFullscreen && (
       <div className={`${styles.wrapper} section-grid`}>
@@ -184,7 +191,9 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
           />
 
           {/* {(typeen === "seiyoukaiga" || keyword) && <CardC data={data} />} */}
-          <RecommendEmaki data={data} />
+          <div className={styles.discoveryBelow}>
+            <ViewerDiscoveryRail data={data} />
+          </div>
         </div>
       </div>
       )}
