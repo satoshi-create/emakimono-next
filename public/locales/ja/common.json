@@ -63,6 +63,11 @@
     "backToCommentary": "解説に戻す",
     "folkloreToggle": "絵引（生活誌・民具）",
     "folkloreToggleCount": "絵引（{{count}}件）",
+    "folkloreOverview": "概要",
+    "folklorePortalLink": "絵引ポータルで詳細・論考を見る →",
+    "folkloreClose": "閉じる",
+    "folkloreListAria": "絵引（民俗・生活誌）",
+    "folkloreChipLabel": "絵引",
     "currentSection": "現在地",
     "textMode": {
       "desc": "解説",

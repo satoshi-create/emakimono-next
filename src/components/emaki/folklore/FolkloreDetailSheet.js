@@ -7,7 +7,9 @@
 import styles from "@/styles/FolkloreDetailSheet.module.css";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -21,6 +23,10 @@ const SCROLL_THUMB_FALLBACK = {
 };
 
 const FolkloreDetailSheet = ({ item, open, onClose, onActivity }) => {
+  const { t } = useTranslation("common");
+  const { locale } = useRouter();
+  const isEn = locale === "en";
+
   const fallback =
     SCROLL_THUMB_FALLBACK[item?.titleen] ||
     "/thumb/naomoto_moushibumi_ekotoba_thumb.webp";
@@ -184,6 +190,15 @@ const FolkloreDetailSheet = ({ item, open, onClose, onActivity }) => {
     ? `/ebiki?item=${encodeURIComponent(item.item_id)}`
     : "/ebiki";
 
+  const displayName =
+    isEn && item.name_en ? item.name_en : item.name;
+  const displayActLabel =
+    isEn && item.act_label_en ? item.act_label_en : item.act_label;
+  const displayEra = isEn && item.era_en ? item.era_en : item.era;
+  const displaySummary =
+    isEn && item.summary_en ? item.summary_en : item.summary;
+  const closeLabel = t("viewer.folkloreClose");
+
   return createPortal(
     <div
       className={styles.root}
@@ -194,7 +209,7 @@ const FolkloreDetailSheet = ({ item, open, onClose, onActivity }) => {
       <button
         type="button"
         className={styles.backdrop}
-        aria-label="閉じる"
+        aria-label={closeLabel}
         onClick={onClose}
       />
       <aside
@@ -223,9 +238,9 @@ const FolkloreDetailSheet = ({ item, open, onClose, onActivity }) => {
         >
           <div className={styles.titleBlock}>
             <h2 id="folklore-sheet-title" className={styles.title}>
-              {item.name}
+              {displayName}
             </h2>
-            {item.reading ? (
+            {!isEn && item.reading ? (
               <p className={styles.reading}>{item.reading}</p>
             ) : null}
           </div>
@@ -233,7 +248,7 @@ const FolkloreDetailSheet = ({ item, open, onClose, onActivity }) => {
             type="button"
             className={styles.closeBtn}
             onClick={onClose}
-            aria-label="閉じる"
+            aria-label={closeLabel}
           >
             <FontAwesomeIcon icon={faXmark} />
           </button>
@@ -259,29 +274,33 @@ const FolkloreDetailSheet = ({ item, open, onClose, onActivity }) => {
           ) : null}
 
           <div className={styles.meta}>
-            {item.act_label && item.act_category ? (
+            {displayActLabel && item.act_category ? (
               <Link href={`/ebiki?category=${encodeURIComponent(item.act_category)}`}>
                 <a className={styles.tagLink} onClick={onClose}>
-                  {item.act_label}
+                  {displayActLabel}
                 </a>
               </Link>
-            ) : item.act_label ? (
-              <span className={styles.tag}>{item.act_label}</span>
+            ) : displayActLabel ? (
+              <span className={styles.tag}>{displayActLabel}</span>
             ) : null}
-            {item.era ? <span className={styles.tagMuted}>{item.era}</span> : null}
+            {displayEra ? (
+              <span className={styles.tagMuted}>{displayEra}</span>
+            ) : null}
           </div>
 
-          {item.summary ? (
+          {displaySummary ? (
             <section className={styles.summarySection}>
-              <h3 className={styles.sectionTitle}>概要</h3>
-              <p className={styles.summaryText}>{item.summary}</p>
+              <h3 className={styles.sectionTitle}>
+                {t("viewer.folkloreOverview")}
+              </h3>
+              <p className={styles.summaryText}>{displaySummary}</p>
             </section>
           ) : null}
 
           <div className={styles.footerLink}>
             <Link href={portalHref}>
               <a className={styles.hubLink} onClick={onClose}>
-                絵引ポータルで詳細・論考を見る →
+                {t("viewer.folklorePortalLink")}
               </a>
             </Link>
           </div>

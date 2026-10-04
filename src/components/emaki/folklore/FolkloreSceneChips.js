@@ -3,6 +3,8 @@
  * isFolkloreOpen 時のみ SceneCommentaryBar 直上に展開する。
  */
 import styles from "@/styles/FolkloreSceneChips.module.css";
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 
 const FolkloreSceneChips = ({
   items = [],
@@ -10,6 +12,10 @@ const FolkloreSceneChips = ({
   hidden = false,
   onActivity,
 }) => {
+  const { t } = useTranslation("common");
+  const { locale } = useRouter();
+  const isEn = locale === "en";
+
   if (hidden || !items.length) return null;
 
   const bump = () => onActivity?.();
@@ -18,12 +24,12 @@ const FolkloreSceneChips = ({
     <div
       className={styles.row}
       role="list"
-      aria-label="絵引（民俗・生活誌）"
+      aria-label={t("viewer.folkloreListAria")}
       onMouseEnter={bump}
       onTouchStart={bump}
     >
       <span className={styles.label} aria-hidden="true">
-        絵引
+        {t("viewer.folkloreChipLabel")}
       </span>
       <div className={styles.chips}>
         {items.map((item) => (
@@ -38,7 +44,7 @@ const FolkloreSceneChips = ({
               onSelect?.(item);
             }}
           >
-            {item.name}
+            {isEn && item.name_en ? item.name_en : item.name}
           </button>
         ))}
       </div>

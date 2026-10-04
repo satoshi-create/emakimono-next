@@ -63,6 +63,11 @@
     "backToCommentary": "Back to commentary",
     "folkloreToggle": "Folklore tags (daily life & tools)",
     "folkloreToggleCount": "Folklore tags ({{count}})",
+    "folkloreOverview": "Overview",
+    "folklorePortalLink": "View details & commentary on Ebiki Portal →",
+    "folkloreClose": "Close",
+    "folkloreListAria": "Folklore tags (daily life & tools)",
+    "folkloreChipLabel": "Ebiki",
     "currentSection": "Now",
     "textMode": {
       "desc": "Commentary",

@@ -37,13 +37,21 @@ export type FolkloreEbikiRef = {
 export type FolkloreItem = {
   item_id: string;
   name: string;
+  /** 英語タイトル（locale=en 時に優先） */
+  name_en?: string;
   reading: string;
   act_category: FolkloreActCategory;
   act_label: string;
+  /** 英語カテゴリ名（locale=en 時に優先） */
+  act_label_en?: string;
   target_subject: string;
   era: string;
+  /** 英語時代名（locale=en 時に優先） */
+  era_en?: string;
   keywords: string[];
   summary: string;
+  /** 英語概要（locale=en 時に優先） */
+  summary_en?: string;
   miyamoto: FolkloreMiyamoto;
   /** ビューア URL スラッグ（正規化済み） */
   titleen: string;

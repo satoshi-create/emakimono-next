@@ -3,6 +3,8 @@
  * SceneCommentaryBar 内で viewMode === "ebiki" のとき本文とスワップ表示する。
  */
 import styles from "@/styles/FolkloreSceneList.module.css";
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 
 const SCROLL_THUMB_FALLBACK = {
@@ -23,7 +25,7 @@ const normalizeThumbSrc = (src) => {
   return trimmed;
 };
 
-const FolkloreItemThumb = ({ item, sceneThumb }) => {
+const FolkloreItemThumb = ({ item, sceneThumb, alt }) => {
   const candidates = useMemo(() => {
     const scrollFb =
       SCROLL_THUMB_FALLBACK[item.titleen] ||
@@ -52,7 +54,7 @@ const FolkloreItemThumb = ({ item, sceneThumb }) => {
     <img
       className={styles.thumb}
       src={src}
-      alt={item.name || ""}
+      alt={alt || ""}
       loading="lazy"
       onError={() => {
         setIdx((i) => (i + 1 < candidates.length ? i + 1 : i));
@@ -66,45 +68,63 @@ const FolkloreSceneList = ({
   sceneThumb = null,
   onSelect,
   onActivity,
-  ariaLabel = "絵引（民俗・生活誌）",
+  ariaLabel,
 }) => {
+  const { t } = useTranslation("common");
+  const { locale } = useRouter();
+  const isEn = locale === "en";
+
   if (!items.length) return null;
 
   const bump = () => onActivity?.();
+  const listAria = ariaLabel || t("viewer.folkloreListAria");
 
   return (
     <nav
       className={styles.list}
-      aria-label={ariaLabel}
+      aria-label={listAria}
       onMouseEnter={bump}
       onTouchStart={bump}
     >
-      {items.map((item) => (
-        <button
-          key={item.item_id}
-          type="button"
-          className={styles.item}
-          onClick={(e) => {
-            e.stopPropagation();
-            bump();
-            // スクロール＋シート表示は親 handleFolkloreSelect（handleToId）に委譲
-            onSelect?.(item);
-          }}
-        >
-          <FolkloreItemThumb item={item} sceneThumb={sceneThumb} />
-          <span className={styles.text}>
-            <span className={styles.titleRow}>
-              <span className={styles.name}>{item.name}</span>
-              {item.act_label ? (
-                <span className={styles.tag}>{item.act_label}</span>
+      {items.map((item) => {
+        const displayName =
+          isEn && item.name_en ? item.name_en : item.name;
+        const displayActLabel =
+          isEn && item.act_label_en ? item.act_label_en : item.act_label;
+        const displaySummary =
+          isEn && item.summary_en ? item.summary_en : item.summary;
+
+        return (
+          <button
+            key={item.item_id}
+            type="button"
+            className={styles.item}
+            onClick={(e) => {
+              e.stopPropagation();
+              bump();
+              // スクロール＋シート表示は親 handleFolkloreSelect（handleToId）に委譲
+              onSelect?.(item);
+            }}
+          >
+            <FolkloreItemThumb
+              item={item}
+              sceneThumb={sceneThumb}
+              alt={displayName}
+            />
+            <span className={styles.text}>
+              <span className={styles.titleRow}>
+                <span className={styles.name}>{displayName}</span>
+                {displayActLabel ? (
+                  <span className={styles.tag}>{displayActLabel}</span>
+                ) : null}
+              </span>
+              {displaySummary ? (
+                <span className={styles.summary}>{displaySummary}</span>
               ) : null}
             </span>
-            {item.summary ? (
-              <span className={styles.summary}>{item.summary}</span>
-            ) : null}
-          </span>
-        </button>
-      ))}
+          </button>
+        );
+      })}
     </nav>
   );
 };

@@ -109,6 +109,12 @@ function parseLinkId(raw) {
   return n;
 }
 
+/** 任意の英語カラム。空なら undefined（JA フォールバック用） */
+function optionalEn(raw) {
+  const s = String(raw ?? "").trim();
+  return s || undefined;
+}
+
 function rowToItem(obj) {
   const scrollIdRaw = String(obj.scroll_id ?? "").trim();
   const keywordsRaw = String(obj.keywords ?? "").trim();
@@ -117,15 +123,19 @@ function rowToItem(obj) {
   return {
     item_id: String(obj.item_id ?? "").trim(),
     name: String(obj.name ?? "").trim(),
+    name_en: optionalEn(obj.name_en),
     reading: String(obj.reading ?? "").trim(),
     act_category: String(obj.act_category ?? "").trim(),
     act_label: String(obj.act_label ?? "").trim(),
+    act_label_en: optionalEn(obj.act_label_en),
     target_subject: String(obj.target_subject ?? "").trim(),
     era: String(obj.era ?? "").trim(),
+    era_en: optionalEn(obj.era_en),
     keywords: keywordsRaw
       ? keywordsRaw.split("|").map((k) => k.trim()).filter(Boolean)
       : [],
     summary: String(obj.summary ?? "").trim(),
+    summary_en: optionalEn(obj.summary_en),
     miyamoto: {
       chapter_title: String(obj.miyamoto_chapter ?? "").trim(),
       insight: String(obj.miyamoto_insight ?? "").trim(),
