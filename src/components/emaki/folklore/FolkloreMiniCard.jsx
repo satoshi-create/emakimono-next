@@ -6,6 +6,7 @@ import styles from "@/styles/FolkloreMiniCard.module.css";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { useTranslation } from "next-i18next";
 
 const SCROLL_THUMB_FALLBACK = {
@@ -40,7 +41,13 @@ const FolkloreMiniCard = ({ selectedItem, onOpenDetail, onClose, onActivity }) =
     };
   }, [selectedItem?.item_id, selectedItem?.crop_thumb, fallback]);
 
-  if (!selectedItem) return null;
+  const [portalTarget, setPortalTarget] = useState(null);
+  useEffect(() => {
+    if (typeof document === "undefined") return undefined;
+    setPortalTarget(document.querySelector(".entry-container"));
+  }, [selectedItem?.item_id]);
+
+  if (!selectedItem || !portalTarget) return null;
 
   const bump = () => onActivity?.();
   const readMoreLabel = t("viewer.folkloreReadMore", {
@@ -50,7 +57,7 @@ const FolkloreMiniCard = ({ selectedItem, onOpenDetail, onClose, onActivity }) =
     defaultValue: isEn ? "Close" : "閉じる",
   });
 
-  return (
+  return createPortal(
     <div
       className={styles.root}
       role="status"
@@ -104,7 +111,8 @@ const FolkloreMiniCard = ({ selectedItem, onOpenDetail, onClose, onActivity }) =
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    portalTarget
   );
 };
 

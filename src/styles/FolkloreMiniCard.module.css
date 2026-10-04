@@ -1,13 +1,14 @@
 /* 絵引ミニカード: 暗幕なし・鑑賞優先のフローティングスナック */
 
+/* .entry-container 内配置想定。下端はコメンタリーバー実測余白に準拠 */
 .root {
-  position: fixed;
-  bottom: 72px;
+  position: absolute;
+  bottom: var(--folklore-sheet-bottom, 460px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 40;
   pointer-events: none;
-  width: min(420px, calc(100vw - 24px));
+  width: min(420px, calc(100% - 24px));
   animation: miniCardIn 220ms ease-out;
 }
 
@@ -142,8 +143,8 @@
 
 @media (max-width: 480px) {
   .root {
-    bottom: 64px;
-    width: calc(100vw - 16px);
+    bottom: var(--folklore-sheet-bottom, 460px);
+    width: calc(100% - 16px);
   }
 
   .detailBtn {

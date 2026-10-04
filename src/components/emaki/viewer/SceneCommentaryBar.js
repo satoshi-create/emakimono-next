@@ -378,32 +378,36 @@ const SceneCommentaryBar = ({
   }, [viewMode, isFolkloreOpen]);
 
   // 実バー高さ（折りたたみ時は header のみ、展開時は全文ぶん、閉じた時は再表示ボタン分）を
-  // 親の entry-container に --commentary-bar-full-h として反映する。
-  // あわせて body Portal の FolkloreDetailSheet 向けに、バー上端までのクリアランスを
-  // :root の --folklore-sheet-bottom へ公開する（entry-container 変数は Portal から見えない）。
+  // 親の entry-container に --commentary-bar-full-h / --folklore-sheet-bottom として反映する。
+  // FolkloreDetailSheet は .entry-container 内 Portal＋absolute のため、コンテナ下端基準の余白を渡す。
   //
   // useLayoutEffect を使い「ペイント前」に変数を更新することで、
   // 展開/折りたたみ時に下部UIが一度下がってから跳ね上がる中間フレームを防ぐ。
+  // cleanup では remove せず安全余白 460px を残す（一瞬の全高伸展防止）。
   const barRef = useRef(null);
+  const SAFE_SHEET_BOTTOM = "460px";
 
   useLayoutEffect(() => {
     const el = barRef.current;
     if (!el) return undefined;
     const GAP = 12;
+    const resolveContainer = () =>
+      entryContainerRef?.current ?? el.closest(".entry-container");
     const update = () => {
       const h = el.getBoundingClientRect().height;
-      const c =
-        entryContainerRef?.current ?? el.closest(".entry-container");
-      if (c) {
-        c.style.setProperty("--commentary-bar-full-h", `${h}px`);
-      }
-      // フローティング時の bottom:4.5rem や DnD 後も、上端実測でシート下端を拘束する
+      const c = resolveContainer();
+      if (!c) return;
+      c.style.setProperty("--commentary-bar-full-h", `${h}px`);
+      // フローティング時の bottom:4.5rem や DnD 後も、バー上端実測でシート下端を拘束
       const chrome = wrapRef.current ?? el;
       const top = chrome.getBoundingClientRect().top;
-      document.documentElement.style.setProperty(
+      const cBottom = c.getBoundingClientRect().bottom;
+      c.style.setProperty(
         "--folklore-sheet-bottom",
-        `${Math.max(0, Math.round(window.innerHeight - top + GAP))}px`
+        `${Math.max(0, Math.round(cBottom - top + GAP))}px`
       );
+      // 旧 viewport 基準の :root 値が残ると absolute 余白と競合するため除去
+      document.documentElement.style.removeProperty("--folklore-sheet-bottom");
     };
     update();
     window.addEventListener("resize", update);
@@ -418,7 +422,10 @@ const SceneCommentaryBar = ({
     return () => {
       window.removeEventListener("resize", update);
       ro?.disconnect();
-      document.documentElement.style.removeProperty("--folklore-sheet-bottom");
+      resolveContainer()?.style.setProperty(
+        "--folklore-sheet-bottom",
+        SAFE_SHEET_BOTTOM
+      );
     };
   }, [
     expanded,
