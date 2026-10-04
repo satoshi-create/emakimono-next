@@ -28,8 +28,8 @@ import {
 } from "@/utils/emakiChapterText";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
-import { querySceneSection } from "@/utils/emakiSceneDom";
-import { resolveLinkIdByChapter } from "@/utils/resolveQuizJump";
+import { resolveEbikiScrollTarget } from "@/utils/resolveQuizJump";
+import { triggerEbikiSpotlight } from "@/utils/triggerEbikiSpotlight";
 import {
   faBookOpen,
   faList,
@@ -98,7 +98,7 @@ const SceneCommentaryBar = ({
   const emakis = data.emakis || [];
   const ebikiAppliedRef = useRef(null);
 
-  // ディープリンク `?ebiki={item_id}`: offset 付きスクロール → 一時ハイライト → シート自動オープン
+  // ディープリンク `?ebiki={item_id}`: 即時スクロール → スポットライト → 詳細シート
   useEffect(() => {
     const raw = router.query?.ebiki;
     if (!raw || !hasFolklore) return undefined;
@@ -107,35 +107,20 @@ const SceneCommentaryBar = ({
     const found = getItemById(id);
     if (!found) return undefined;
 
-    setFolkloreItem(found);
     if (ebikiAppliedRef.current === id) return undefined;
 
-    // link_id 明示が最優先、なければ章ベース推定にフォールバック
-    const targetLinkId =
-      typeof found.link_id === "number"
-        ? found.link_id
-        : resolveLinkIdByChapter(emakis, found.scene_id, { preferImage: true });
-    if (typeof targetLinkId !== "number") return undefined;
+    // link_id 明示が最優先、なければ章画像列への offset 分解
+    const target = resolveEbikiScrollTarget(emakis, found);
+    if (!target) return undefined;
 
     ebikiAppliedRef.current = id;
-    const offsetPercent = found.offset_percent ?? 0;
-    handleToId(targetLinkId, { realign: true, offsetPercent });
-
-    let clearTimer = null;
-    const highlightTimer = window.setTimeout(() => {
-      const section = querySceneSection(targetLinkId);
-      if (!section) return;
-      section.classList.add("ebiki-highlight");
-      clearTimer = window.setTimeout(() => {
-        section.classList.remove("ebiki-highlight");
-      }, 2200);
-    }, 450);
-
-    return () => {
-      window.clearTimeout(highlightTimer);
-      if (clearTimer) window.clearTimeout(clearTimer);
-      querySceneSection(targetLinkId)?.classList.remove("ebiki-highlight");
-    };
+    handleToId(target.linkId, {
+      realign: false,
+      offsetPercent: target.offsetPercent,
+      behavior: "smooth",
+    });
+    triggerEbikiSpotlight(target.linkId, target.offsetPercent);
+    setFolkloreItem(found);
   }, [router.query?.ebiki, hasFolklore, getItemById, emakis, handleToId]);
 
   const filterEkotobas = useMemo(
@@ -248,7 +233,7 @@ const SceneCommentaryBar = ({
     }
   }, [activeIndex]);
 
-  // 絵引リスト展開中 or 詳細シート表示中はアイドル非表示を一時停止
+  // 絵引リスト / 詳細シート表示中はアイドル非表示を一時停止
   useEffect(() => {
     const paused = isFolkloreOpen || Boolean(folkloreItem);
     onIdlePauseChange?.(paused);
@@ -394,8 +379,8 @@ const SceneCommentaryBar = ({
 
   // 実バー高さ（折りたたみ時は header のみ、展開時は全文ぶん、閉じた時は再表示ボタン分）を
   // 親の entry-container に --commentary-bar-full-h として反映する。
-  // バーが縦に伸びたり閉じたりしても、Navigation / PositionIndicator / 全画面ボタン等の
-  // 下部UIがバーに隠れず、常にバーの上に持ち上がるようにする。
+  // あわせて body Portal の FolkloreDetailSheet 向けに、バー上端までのクリアランスを
+  // :root の --folklore-sheet-bottom へ公開する（entry-container 変数は Portal から見えない）。
   //
   // useLayoutEffect を使い「ペイント前」に変数を更新することで、
   // 展開/折りたたみ時に下部UIが一度下がってから跳ね上がる中間フレームを防ぐ。
@@ -403,7 +388,8 @@ const SceneCommentaryBar = ({
 
   useLayoutEffect(() => {
     const el = barRef.current;
-    if (!el) return;
+    if (!el) return undefined;
+    const GAP = 12;
     const update = () => {
       const h = el.getBoundingClientRect().height;
       const c =
@@ -411,13 +397,38 @@ const SceneCommentaryBar = ({
       if (c) {
         c.style.setProperty("--commentary-bar-full-h", `${h}px`);
       }
+      // フローティング時の bottom:4.5rem や DnD 後も、上端実測でシート下端を拘束する
+      const chrome = wrapRef.current ?? el;
+      const top = chrome.getBoundingClientRect().top;
+      document.documentElement.style.setProperty(
+        "--folklore-sheet-bottom",
+        `${Math.max(0, Math.round(window.innerHeight - top + GAP))}px`
+      );
     };
     update();
-    if (typeof ResizeObserver === "undefined") return;
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [expanded, closed, textMode, isFolkloreOpen, entryContainerRef]);
+    window.addEventListener("resize", update);
+    let ro;
+    if (typeof ResizeObserver !== "undefined") {
+      ro = new ResizeObserver(update);
+      ro.observe(el);
+      if (wrapRef.current && wrapRef.current !== el) {
+        ro.observe(wrapRef.current);
+      }
+    }
+    return () => {
+      window.removeEventListener("resize", update);
+      ro?.disconnect();
+      document.documentElement.style.removeProperty("--folklore-sheet-bottom");
+    };
+  }, [
+    expanded,
+    closed,
+    textMode,
+    isFolkloreOpen,
+    viewMode,
+    cardPos,
+    entryContainerRef,
+  ]);
 
   const current = filterEkotobas[activeIndex];
 
@@ -491,6 +502,15 @@ const SceneCommentaryBar = ({
       ? emakiDisplayTitle(data, locale)
       : `${title ?? ""}`.trim();
 
+  const folkloreChrome = (
+    <FolkloreDetailSheet
+      item={folkloreItem}
+      open={Boolean(folkloreItem)}
+      onClose={() => setFolkloreItem(null)}
+      onActivity={onIdleActivity}
+    />
+  );
+
   // ×で閉じ: 小さな「解説を表示」ボタンのみ（再生中も再表示可能）
   if (closed) {
     const showLabel = t("viewer.showCommentary", {
@@ -513,12 +533,7 @@ const SceneCommentaryBar = ({
           <FontAwesomeIcon icon={faBookOpen} />
           <span>{showLabel}</span>
         </button>
-        <FolkloreDetailSheet
-          item={folkloreItem}
-          open={Boolean(folkloreItem)}
-          onClose={() => setFolkloreItem(null)}
-          onActivity={onIdleActivity}
-        />
+        {folkloreChrome}
       </div>
     );
   }
@@ -602,16 +617,25 @@ const SceneCommentaryBar = ({
 
   const handleFolkloreSelect = (item) => {
     if (!item) return;
-    const targetLinkId =
-      typeof item.link_id === "number"
-        ? item.link_id
-        : resolveLinkIdByChapter(emakis, item.scene_id, { preferImage: true });
-    if (typeof targetLinkId === "number") {
-      handleToId(targetLinkId, {
-        realign: true,
-        offsetPercent: item.offset_percent ?? 0,
+    const target = resolveEbikiScrollTarget(emakis, item);
+    if (!target || typeof handleToId !== "function") {
+      console.warn("[Ebiki] handleToId または targetLinkId が無効です:", {
+        target,
+        hasHandleToId: typeof handleToId === "function",
+        link_id: item.link_id,
+        scene_id: item.scene_id,
       });
+      return;
     }
+    // 1. 目的の民具へ即時スクロール
+    handleToId(target.linkId, {
+      realign: false,
+      offsetPercent: target.offsetPercent,
+      behavior: "smooth",
+    });
+    // 2. 画面中央にスポットライト
+    triggerEbikiSpotlight(target.linkId, target.offsetPercent);
+    // 3. 右上に詳細シートを即時表示（中央視界を塞がない）
     setFolkloreItem(item);
   };
 
@@ -957,12 +981,7 @@ const SceneCommentaryBar = ({
           </div>
         </div>
       </div>
-      <FolkloreDetailSheet
-        item={folkloreItem}
-        open={Boolean(folkloreItem)}
-        onClose={() => setFolkloreItem(null)}
-        onActivity={onIdleActivity}
-      />
+      {folkloreChrome}
     </div>
   );
 };

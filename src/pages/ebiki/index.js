@@ -5,7 +5,8 @@ import FolkloreCard from "@/components/emaki/folklore/FolkloreCard";
 import HubPageShell from "@/components/layout/HubPageShell";
 import { folkloreItems } from "@/data/folklore/folkloreIndex";
 import styles from "@/styles/EbikiHub.module.css";
-import { useMemo, useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -20,9 +21,22 @@ const FILTERS = [
   { id: "wear", category: "wear" },
 ];
 
+const VALID_FILTER_IDS = new Set(FILTERS.map((f) => f.id));
+
 const EbikiHubPage = () => {
   const { t } = useTranslation("common");
+  const router = useRouter();
   const [active, setActive] = useState("all");
+
+  // `/ebiki?category=labor_trade` 等で初期フィルタを同期
+  useEffect(() => {
+    const raw = router.query?.category;
+    if (!raw) return;
+    const cat = String(Array.isArray(raw) ? raw[0] : raw).trim();
+    if (VALID_FILTER_IDS.has(cat) && cat !== "all") {
+      setActive(cat);
+    }
+  }, [router.query?.category]);
 
   const filtered = useMemo(() => {
     if (active === "all") return folkloreItems;

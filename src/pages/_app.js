@@ -206,13 +206,16 @@ function MyApp({ Component, pageProps, router }) {
   // スクロール実行を統合した handleToId
   // realign: 共有 hash 入場のみ。ResizeObserver の apply("auto") は smooth を潰すため段クリック等では使わない
   const handleToIdRef = useRef(null);
-  const handleToId = useCallback((id, { realign = false, offsetPercent = 0 } = {}) => {
+  const handleToId = useCallback((id, { realign = false, offsetPercent = 0, behavior } = {}) => {
     // 目次・ハブ・絵引ジャンプ: 連番拘束を一時解除し着地先を正本にする
     scrollPositionStore.isProgrammaticScroll = true;
     setnavIndex(id);
     window.setTimeout(() => {
       scrollPositionStore.isProgrammaticScroll = false;
     }, 1000);
+
+    // 絵引シート等の同時 mount は smooth をキャンセルしやすい → 明示 auto を優先
+    const initialBehavior = behavior === "auto" ? "auto" : "smooth";
 
     if (isFullscreenTransitioningRef.current) {
       // 全画面遷移中は握り潰さず、遷移完了を待って保留ジャンプする
@@ -226,7 +229,7 @@ function MyApp({ Component, pageProps, router }) {
           }
           return;
         }
-        handleToIdRef.current(id, { realign, offsetPercent });
+        handleToIdRef.current(id, { realign, offsetPercent, behavior });
       };
       window.setTimeout(runDeferred, 500);
       return;
@@ -237,7 +240,7 @@ function MyApp({ Component, pageProps, router }) {
       window.scrollTo({ top: 0, behavior: "instant" });
     };
 
-    const apply = (behavior = "auto") => {
+    const apply = (scrollBehavior = "auto") => {
       if (isFullscreenTransitioningRef.current) return false;
       const targetSection = querySceneSection(id);
       if (!targetSection) return false;
@@ -247,18 +250,18 @@ function MyApp({ Component, pageProps, router }) {
         scrollContainer.scrollWidth - scrollContainer.clientWidth;
       if (maxScroll <= 0) return false;
 
-      const containerRect = scrollContainer.getBoundingClientRect();
       const nodeRect = targetSection.getBoundingClientRect();
-      // RTL: 対象コマの中央をビューポート中央へ（hash 正本と着地を一致）
-      const base =
-        scrollContainer.scrollLeft + (nodeRect.right - containerRect.right);
-      const centerLeft =
-        base - scrollContainer.clientWidth / 2 + nodeRect.width / 2;
-      // 読み進み方向（左）へ offset_percent 分オフセット（絵引ディープリンク用）
+      // offsetPercent: 0=右端, 50=中央, 100=左端（ピッカー / CSV と同じ）
+      // RTL 負値 scrollLeft: 画面座標は ΔscrollLeft と逆向きに動く
+      // → .ebikiSpot（window 中央）へ吸着: sl + (pointVX - centerVX)
       const t = Math.min(1, Math.max(0, (Number(offsetPercent) || 0) / 100));
+      const pointVX = nodeRect.right - nodeRect.width * t;
+      const centerVX = window.innerWidth / 2;
+      const targetScrollLeft =
+        scrollContainer.scrollLeft + (pointVX - centerVX);
       scrollContainer.scrollTo({
-        left: centerLeft - nodeRect.width * t,
-        behavior,
+        left: targetScrollLeft,
+        behavior: scrollBehavior,
       });
       return true;
     };
@@ -290,7 +293,7 @@ function MyApp({ Component, pageProps, router }) {
     };
 
     const tryUntilReady = (attempt) => {
-      const ok = apply(attempt === 0 ? "smooth" : "auto");
+      const ok = apply(attempt === 0 ? initialBehavior : "auto");
       if (ok) {
         pinWindowTop();
         if (realign) watchLayout();

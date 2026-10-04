@@ -1,3 +1,4 @@
+import { EbikiPickerOverlay } from "@/components/emaki/dev/EbikiCoordinatePicker";
 import EmakiImage from "@/components/emaki/viewer/EmakiImage";
 import OverlayEkotoba from "@/components/emaki/viewer/OverlayEkotoba";
 import SpotPins from "@/components/emaki/viewer/SpotPins";
@@ -27,6 +28,9 @@ const SwitcherEmaki = forwardRef(
       mountContent = true,
       // 解説カードのフローティング化（非全画面 md+横）: 画像高基準を実キャンバス高へ
       floatLandscape = false,
+      /** 開発専用: 絵引座標ピッカー（?dev=ebiki） */
+      ebikiPickerEnabled = false,
+      onEbikiPick,
     },
     ref
   ) => {
@@ -50,16 +54,18 @@ const SwitcherEmaki = forwardRef(
     });
     // 名所スポットピンの基準座標系を section に固定する（spots がある時だけ付与）
     const spots = cat === "image" ? item.spots : null;
+    // 絵引ピッカー時も absolute オーバーレイ基準が必要なので relative を付与
+    const needsRelativeLayer = Boolean(spots?.length || ebikiPickerEnabled);
     // buildSceneShellStyle は画像スライスに overflow:hidden を返すため、
     // スポットピンが扇の境界をはみ出せるよう spots 保持スライスだけ visible に上書きする。
     // 併せて独立スタッキングコンテキスト化（zIndex:1）し、後段 DOM の隣接スライス画像が
     // 上に描かれてもピンが潜り込まないようにする（.prt の sticky よりは下に留まる）。
-    const imageSectionStyle = spots?.length
+    const imageSectionStyle = needsRelativeLayer
       ? {
           ...sectionStyle,
           position: "relative",
-          overflow: "visible",
-          zIndex: 1,
+          overflow: spots?.length ? "visible" : sectionStyle?.overflow,
+          zIndex: spots?.length ? 1 : sectionStyle?.zIndex,
         }
       : sectionStyle;
 
@@ -99,6 +105,12 @@ const SwitcherEmaki = forwardRef(
             isByobu={isByobu}
           />
           {spots?.length ? <SpotPins spots={spots} linkId={item.linkId} /> : null}
+          {ebikiPickerEnabled ? (
+            <EbikiPickerOverlay
+              linkId={item.linkId ?? index}
+              onPick={onEbikiPick}
+            />
+          ) : null}
         </section>
       );
     }

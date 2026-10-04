@@ -4,6 +4,10 @@
  * Consumes AppContext (_app.js). Renders portrait/landscape via child layouts.
  * Data: image-metadata-cache.json per slug. Do not split without a plan.
  */
+import {
+  EbikiCoordinatePickerHud,
+  useEbikiCoordinatePicker,
+} from "@/components/emaki/dev/EbikiCoordinatePicker";
 import EmakiInfo from "@/components/emaki/metadata/EmakiInfo";
 import EmakiNavigation from "@/components/emaki/navigation/EmakiNavigation";
 import ActionButton from "@/components/emaki/viewer/ActionButton";
@@ -731,6 +735,14 @@ const EmakiContainer = ({
     maxScale: isByobuScroll(data) ? 8 : undefined,
   });
 
+  // 開発専用: 絵引座標ピッカー（?dev=ebiki / ?ebikiPicker=1、非ズーム時のみ）
+  const {
+    enabled: ebikiPickerEnabled,
+    onPick: onEbikiPick,
+    hudData: ebikiPickerHud,
+    clearHud: clearEbikiPickerHud,
+  } = useEbikiCoordinatePicker({ handleToId, isZoomed });
+
   // パームドラッグ終了: ドラッグ中はシーン確定を保留しているため、離した直後に
   // 最終シーンを1回だけ確定する（150ms debounce はドラッグ中の長押しで発火済みのため
   // 最後の scroll イベント後に必ずしも走らない）
@@ -1392,6 +1404,8 @@ const EmakiContainer = ({
                 isPlayMode={windowIsPlaying} // ナッジ/再生中も前方 eager・描画窓と揃える
                 floatLandscape={commentaryFloating && !toggleFullscreen}
                 mountContent={nextContentMounted.has(index)}
+                ebikiPickerEnabled={ebikiPickerEnabled}
+                onEbikiPick={onEbikiPick}
               />
             );
           })}
@@ -1423,7 +1437,14 @@ const EmakiContainer = ({
           slices={zoomSlices}
           centerKey={zoomCenterIndex}
         />
-        {hasCommentaryData && (
+        {ebikiPickerEnabled && (
+          <EbikiCoordinatePickerHud
+            hudData={ebikiPickerHud}
+            onClose={clearEbikiPickerHud}
+          />
+        )}
+        {/* 座標ピッカー中は絵引シート／解説バーが画像に重なるため一時非表示 */}
+        {hasCommentaryData && !ebikiPickerEnabled && (
           <SceneCommentaryBar
             data={data}
             navIndex={liveSceneIndex}

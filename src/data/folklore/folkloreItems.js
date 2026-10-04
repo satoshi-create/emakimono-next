@@ -30,7 +30,7 @@ const folkloreItems = [
     "scene_id": "1",
     "scene_title": "直幹の申文に、村上天皇機嫌を損ずる",
     "scene_desc": "板葺き町屋の店先に見世棚を出し川魚や団子を並べる情景。女性が箸で桶から皿へと盛り分けている。",
-    "offset_percent": 15,
+    "offset_percent": 64,
     "link_id": 4,
     "crop_thumb": "/assets/folklore/folklore-naomoto-misedana-563.webp",
     "ebiki": {
@@ -71,7 +71,8 @@ const folkloreItems = [
     "scene_id": "1",
     "scene_title": "直幹の申文に、村上天皇機嫌を損ずる",
     "scene_desc": "曲物の桶を置いた女と話す店先。棹に掛けられた布にとめ石が下がり上の棹には棒状の松脂蝋燭が連なる。",
-    "offset_percent": 35,
+    "offset_percent": 91.4,
+    "link_id": 4,
     "crop_thumb": "/assets/folklore/folklore-naomoto-tomeishi-564.webp",
     "ebiki": {
       "title": "店",
@@ -111,7 +112,8 @@ const folkloreItems = [
     "scene_id": "1",
     "scene_title": "直幹の申文に、村上天皇機嫌を損ずる",
     "scene_desc": "見世棚を構える町屋の足もと。柱が地面直接ではなく礎石（柱石）の上に据えられている細部。",
-    "offset_percent": 48,
+    "offset_percent": 49.5,
+    "link_id": 2,
     "crop_thumb": "/assets/folklore/folklore-naomoto-chushiseki-557.webp",
     "ebiki": {
       "title": "上げ土門",
@@ -151,7 +153,8 @@ const folkloreItems = [
     "scene_id": "1",
     "scene_title": "直幹の申文に、村上天皇機嫌を損ずる",
     "scene_desc": "見世棚の右側の土間。敷かれた薦の上に臼を置き2人の女性が交互に竪杵を振り下ろして穀物を搗く。",
-    "offset_percent": 60,
+    "offset_percent": 36,
+    "link_id": 4,
     "crop_thumb": "/assets/folklore/folklore-naomoto-usu-566.webp",
     "ebiki": {
       "title": "臼搗き",
@@ -192,7 +195,8 @@ const folkloreItems = [
     "scene_id": "1",
     "scene_title": "直幹の申文に、村上天皇機嫌を損ずる",
     "scene_desc": "画面左手。板塀や屋根が描かれる街道で頭の上に荷や皿籠を載せて避難する女性や裸の童子たちの姿。",
-    "offset_percent": 75,
+    "offset_percent": 37,
+    "link_id": 3,
     "crop_thumb": "/assets/folklore/folklore-naomoto-unpan-562-1.webp",
     "ebiki": {
       "title": "運搬",
@@ -231,7 +235,8 @@ const folkloreItems = [
     "scene_id": "1",
     "scene_title": "直幹の申文に、村上天皇機嫌を損ずる",
     "scene_desc": "逃げ惑う人々の中で棒に荷を括り付けて肩に担いだり脇に抱えたりして走る男性たちの姿。",
-    "offset_percent": 88,
+    "offset_percent": 71.2,
+    "link_id": 3,
     "crop_thumb": "/assets/folklore/folklore-naomoto-unpan-562-2.webp",
     "ebiki": {
       "title": "運搬",

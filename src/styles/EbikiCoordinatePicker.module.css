@@ -1,0 +1,95 @@
+/* Dev-only 絵引座標ピッカー（本番ではマウントされない） */
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  cursor: crosshair;
+  background: transparent;
+  border: 1px dashed rgba(255, 140, 119, 0.4);
+  box-sizing: border-box;
+  pointer-events: auto;
+}
+
+.overlay:hover {
+  background: rgba(255, 140, 119, 0.06);
+}
+
+.badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  font-family: var(--font-ui), monospace;
+  font-size: 11px;
+  line-height: 1.4;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+
+.overlay:hover .badge {
+  opacity: 1;
+}
+
+.hud {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 9999;
+  min-width: 220px;
+  max-width: min(360px, calc(100vw - 48px));
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.88);
+  color: #fff;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  pointer-events: auto;
+}
+
+.hudTitle {
+  margin-bottom: 4px;
+  font-weight: 700;
+  color: var(--clr-accent, #ff8c77);
+}
+
+.hudRow strong {
+  font-weight: 700;
+}
+
+.hudCsv {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.85);
+  word-break: break-all;
+}
+
+.hudHint {
+  margin-top: 4px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.hudClose {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 2px 4px;
+}
+
+.hudClose:hover {
+  color: #fff;
+}

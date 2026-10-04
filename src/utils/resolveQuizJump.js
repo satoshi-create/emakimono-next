@@ -38,6 +38,96 @@ export function resolveLinkIdByChapter(emakis, chapter, opts = {}) {
 }
 
 /**
+ * 絵引アイテム → 着地 linkId + セクション内 offset_percent。
+ * - link_id 明示時: そのスライス内オフセット
+ * - 未指定時: scene_id 章の画像列に対する相対位置（0〜100）をスライスへ分解
+ * @param {{ chapter?: string|number, linkId: number, cat?: string, srcWidth?: number, srcHeight?: number }[]} emakis
+ * @param {{ link_id?: number|string, scene_id?: string|number, offset_percent?: number }} item
+ * @returns {{ linkId: number, offsetPercent: number }|null}
+ */
+export function resolveEbikiScrollTarget(emakis, item) {
+  if (!item || !Array.isArray(emakis)) return null;
+
+  const rawOffset = Number(item.offset_percent);
+  const offset = Number.isFinite(rawOffset)
+    ? Math.min(100, Math.max(0, rawOffset))
+    : 0;
+
+  const rawLink = item.link_id;
+  const explicit =
+    typeof rawLink === "number"
+      ? rawLink
+      : rawLink != null && String(rawLink).trim() !== ""
+        ? Number(rawLink)
+        : NaN;
+  if (Number.isFinite(explicit)) {
+    return { linkId: explicit, offsetPercent: offset };
+  }
+
+  const key = String(item.scene_id ?? "");
+  if (!key) return null;
+
+  /** @type {{ linkId: number, srcWidth?: number, srcHeight?: number }[]} */
+  const images = [];
+  const ekIdx = emakis.findIndex(
+    (s) => String(s.chapter) === key && s.cat === "ekotoba"
+  );
+  if (ekIdx >= 0) {
+    for (let i = ekIdx + 1; i < emakis.length; i += 1) {
+      if (emakis[i].cat === "ekotoba") break;
+      if (
+        emakis[i].cat === "image" &&
+        typeof emakis[i].linkId === "number"
+      ) {
+        images.push(emakis[i]);
+      }
+    }
+  } else {
+    emakis.forEach((s) => {
+      if (
+        String(s.chapter) === key &&
+        s.cat === "image" &&
+        typeof s.linkId === "number"
+      ) {
+        images.push(s);
+      }
+    });
+  }
+
+  if (!images.length) {
+    const fallback = resolveLinkIdByChapter(emakis, item.scene_id, {
+      preferImage: true,
+    });
+    return typeof fallback === "number"
+      ? { linkId: fallback, offsetPercent: offset }
+      : null;
+  }
+
+  if (images.length === 1) {
+    return { linkId: images[0].linkId, offsetPercent: offset };
+  }
+
+  const widths = images.map((img) =>
+    img.srcWidth > 0 && img.srcHeight > 0 ? img.srcWidth / img.srcHeight : 1
+  );
+  const total = widths.reduce((a, b) => a + b, 0) || 1;
+  const target = (offset / 100) * total;
+  let acc = 0;
+  for (let i = 0; i < images.length; i += 1) {
+    const w = widths[i];
+    if (acc + w >= target || i === images.length - 1) {
+      const local = w > 0 ? ((target - acc) / w) * 100 : 0;
+      return {
+        linkId: images[i].linkId,
+        offsetPercent: Math.min(100, Math.max(0, local)),
+      };
+    }
+    acc += w;
+  }
+  return { linkId: images[0].linkId, offsetPercent: offset };
+}
+
+/**
  * @typedef {{
  *   kind: "local",
  *   linkId: number,

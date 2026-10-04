@@ -22,7 +22,15 @@ export type EmakiContainerProps = {
 
 /** EmakiNavigation.js の props */
 export type EmakiNavigationProps = {
-  handleToId: (id: number, opts?: { realign?: boolean }) => void;
+  handleToId: (
+    id: number,
+    opts?: {
+      realign?: boolean;
+      offsetPercent?: number;
+      /** 絵引シート同時表示時は "auto"（smooth が mount でキャンセルされるため） */
+      behavior?: ScrollBehavior;
+    }
+  ) => void;
   data: ScrollMetadata;
   isUIVisible?: boolean;
   isPlayMode?: boolean;
@@ -97,7 +105,14 @@ export type UseScrollPositionRestoreParams = {
   toggleFullscreen: boolean;
   orientation: string;
   navIndex?: number;
-  handleToId?: (id: number, opts?: { realign?: boolean }) => void;
+  handleToId?: (
+    id: number,
+    opts?: {
+      realign?: boolean;
+      offsetPercent?: number;
+      behavior?: ScrollBehavior;
+    }
+  ) => void;
   /**
    * 復元確定後の現在段再同期。キャッシュ再構築後に再判定が呼ばれず
    * コメンタリーバーが固まるのを防ぐ（未指定なら再同期しない）。
@@ -129,6 +144,22 @@ export type UseEmakiZoomPanParams = {
   >;
   /** ズーム上限倍率（未指定 = 6.0）。1.0〜10.0 にクランプされる */
   maxScale?: number;
+};
+
+/** 絵引座標ピッカー（開発専用・?dev=ebiki）の 1 クリック結果 */
+export type EbikiPickerPickResult = {
+  linkId: number;
+  offsetPercent: number;
+  leftPct: number;
+  csvLine?: string;
+  labelLine?: string;
+};
+
+export type UseEbikiCoordinatePickerResult = {
+  enabled: boolean;
+  onPick: (result: EbikiPickerPickResult) => void;
+  hudData: EbikiPickerPickResult | null;
+  clearHud: () => void;
 };
 
 export type UseEmakiZoomPanResult = {

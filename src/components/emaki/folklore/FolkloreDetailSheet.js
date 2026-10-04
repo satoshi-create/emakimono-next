@@ -1,11 +1,14 @@
 /**
- * 絵引詳細シート（ハーフモーダル／ボトムシート）。
- * 宮本常一の論考 + 神奈川大学『絵引』DB 書誌を表示する。
+ * 絵引詳細シート（画面右上フローティング・スリム版）。
+ * 暗幕なし・pointer-events 分離で絵巻鑑賞を妨げない。
+ * 鑑賞中は要点のみ表示し、論考・DB詳細は絵引ポータルへ誘導する。
  */
 import styles from "@/styles/FolkloreDetailSheet.module.css";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 const SCROLL_THUMB_FALLBACK = {
   naomoto_moushibumi_ekotoba: "/thumb/naomoto_moushibumi_ekotoba_thumb.webp",
@@ -21,11 +24,9 @@ const FolkloreDetailSheet = ({ item, open, onClose, onActivity }) => {
     SCROLL_THUMB_FALLBACK[item?.titleen] ||
     "/thumb/naomoto_moushibumi_ekotoba_thumb.webp";
   const [thumbSrc, setThumbSrc] = useState(fallback);
-  const [cropExpanded, setCropExpanded] = useState(false);
 
   useEffect(() => {
     setThumbSrc(fallback);
-    setCropExpanded(false);
     const crop = item?.crop_thumb;
     if (!crop || crop === fallback) return undefined;
     let cancelled = false;
@@ -49,12 +50,15 @@ const FolkloreDetailSheet = ({ item, open, onClose, onActivity }) => {
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose, onActivity]);
 
-  if (!open || !item) return null;
+  if (!open || !item || typeof document === "undefined") return null;
 
-  const { miyamoto, ebiki } = item;
   const bump = () => onActivity?.();
+  const portalHref = item.item_id
+    ? `/ebiki?item=${encodeURIComponent(item.item_id)}`
+    : "/ebiki";
 
-  return (
+  // SceneCommentaryBar の transform 配下だと fixed 基準がずれるため body へ退避
+  return createPortal(
     <div
       className={styles.root}
       role="presentation"
@@ -70,10 +74,11 @@ const FolkloreDetailSheet = ({ item, open, onClose, onActivity }) => {
       <aside
         className={styles.sheet}
         role="dialog"
-        aria-modal="true"
+        aria-modal="false"
         aria-labelledby="folklore-sheet-title"
         onMouseEnter={bump}
         onTouchStart={bump}
+        onWheel={(e) => e.stopPropagation()}
       >
         <header className={styles.header}>
           <div className={styles.titleBlock}>
@@ -94,121 +99,56 @@ const FolkloreDetailSheet = ({ item, open, onClose, onActivity }) => {
           </button>
         </header>
 
-        {thumbSrc ? (
-          <div className={styles.cropWrap}>
-            <button
-              type="button"
-              className={styles.cropBtn}
-              onClick={() => setCropExpanded((v) => !v)}
-              aria-expanded={cropExpanded}
-              aria-label={cropExpanded ? "サムネイルを縮小" : "サムネイルを拡大"}
-            >
+        <div
+          className={styles.sheetContent}
+          onWheel={(e) => e.stopPropagation()}
+        >
+          {thumbSrc ? (
+            <div className={styles.cropWrap}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={thumbSrc}
                 alt=""
-                className={`${styles.cropImg} ${
-                  cropExpanded ? styles.cropImgExpanded : ""
-                }`}
+                className={styles.compactThumb}
                 loading="lazy"
                 onError={() => {
                   if (thumbSrc !== fallback) setThumbSrc(fallback);
                 }}
               />
-            </button>
-            <p className={styles.cropCaption}>絵巻上のこの場所</p>
-          </div>
-        ) : null}
-
-        <div className={styles.meta}>
-          {item.act_label ? (
-            <span className={styles.tag}>{item.act_label}</span>
-          ) : null}
-          {item.era ? <span className={styles.tagMuted}>{item.era}</span> : null}
-        </div>
-
-        <div className={styles.body}>
-          {item.summary ? (
-            <section className={styles.section}>
-              <h3 className={styles.sectionTitle}>概要</h3>
-              <p className={styles.prose}>{item.summary}</p>
-            </section>
+            </div>
           ) : null}
 
-          {miyamoto?.insight ? (
-            <section className={styles.section}>
-              <h3 className={styles.sectionTitle}>宮本常一の論考</h3>
-              {miyamoto.chapter_title ? (
-                <p className={styles.citeTitle}>{miyamoto.chapter_title}</p>
-              ) : null}
-              <blockquote className={styles.quote}>{miyamoto.insight}</blockquote>
-              {miyamoto.page_ref ? (
-                <p className={styles.source}>出典: {miyamoto.page_ref}</p>
-              ) : null}
-            </section>
-          ) : null}
-
-          <section className={styles.section}>
-            <h3 className={styles.sectionTitle}>絵引データベース</h3>
-            <dl className={styles.dl}>
-              {ebiki?.title ? (
-                <>
-                  <dt>項目</dt>
-                  <dd>{ebiki.title}</dd>
-                </>
-              ) : null}
-              {ebiki?.original_emaki ? (
-                <>
-                  <dt>原画絵巻</dt>
-                  <dd>{ebiki.original_emaki}</dd>
-                </>
-              ) : null}
-              {ebiki?.volume || ebiki?.page || ebiki?.number ? (
-                <>
-                  <dt>巻・頁・番号</dt>
-                  <dd>
-                    {[
-                      ebiki.volume ? `巻${ebiki.volume}` : null,
-                      ebiki.page ? `p.${ebiki.page}` : null,
-                      ebiki.number ? `No.${ebiki.number}` : null,
-                    ]
-                      .filter(Boolean)
-                      .join(" / ")}
-                  </dd>
-                </>
-              ) : null}
-              {ebiki?.artist ? (
-                <>
-                  <dt>絵師</dt>
-                  <dd>{ebiki.artist}</dd>
-                </>
-              ) : null}
-              {ebiki?.location ? (
-                <>
-                  <dt>地域</dt>
-                  <dd>{ebiki.location}</dd>
-                </>
-              ) : null}
-            </dl>
-            {ebiki?.url ? (
-              <p className={styles.extLinkWrap}>
-                <a
-                  href={ebiki.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.extLink}
-                >
-                  神奈川大学日本常民文化研究所『絵引』原画DBで見る
+          <div className={styles.meta}>
+            {item.act_label && item.act_category ? (
+              <Link href={`/ebiki?category=${encodeURIComponent(item.act_category)}`}>
+                <a className={styles.tagLink} onClick={onClose}>
+                  {item.act_label}
                 </a>
-                <span className={styles.attribution}>
-                  出典: 神奈川大学日本常民文化研究所『絵巻物による日本常民生活絵引』データベース
-                </span>
-              </p>
+              </Link>
+            ) : item.act_label ? (
+              <span className={styles.tag}>{item.act_label}</span>
             ) : null}
-          </section>
+            {item.era ? <span className={styles.tagMuted}>{item.era}</span> : null}
+          </div>
+
+          {item.summary ? (
+            <section className={styles.summarySection}>
+              <h3 className={styles.sectionTitle}>概要</h3>
+              <p className={styles.summaryText}>{item.summary}</p>
+            </section>
+          ) : null}
+
+          <div className={styles.footerLink}>
+            <Link href={portalHref}>
+              <a className={styles.hubLink} onClick={onClose}>
+                絵引ポータルで詳細・論考を見る →
+              </a>
+            </Link>
+          </div>
         </div>
       </aside>
-    </div>
+    </div>,
+    document.body
   );
 };
 
