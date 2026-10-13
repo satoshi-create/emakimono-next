@@ -422,6 +422,36 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
             ]
         )
 
+    # 2026-10-13 main: /emaki-assets プロキシ（甲巻のみ）。混在週の before/after 指示
+    # 2026-10-27 以降のレポートでは通常の前週比に戻す（この節を出さない）
+    proxy_verify_until = date(2026, 10, 27)
+    try:
+        report_day = date.fromisoformat(str(report_name))
+    except ValueError:
+        report_day = date.today()
+    if report_day < proxy_verify_until:
+        lines.extend(
+            [
+                "## Infra verification (Vercel CDN proxy — Choju first)",
+                "",
+                "**Change:** 2026-10-13 main merge — `/emaki-assets` → Cloudinary（甲巻 `choju-giga-yamazaki-kou` のみ）。",
+                "**Agent instruction:** 7 日窓がマージ日をまたぐときは **10/13 で before/after を分割**し、",
+                "`actions.md` の **Infra / cost** に短表で記録すること（SEO / Quiz と混ぜない）。",
+                "",
+                "| Period | Compare |",
+                "|--------|---------|",
+                "| **Before**（〜10/12） | Cloudinary credits / bandwidth / transformations。"
+                " GA4 `image_load_fallback` / `image_load_slow`（特に `Chōjū-jinbutsu-giga_first`）。"
+                " Education geo スパイク週の 429・load_error 有無 |",
+                "| **After**（10/13〜） | 同指標。期待: 甲巻オリジン負荷の伸び抑制、甲巻 fallback/slow の悪化なし。"
+                " 他作品は直 Cloudinary のため全体 credits は部分効果 |",
+                "",
+                "詳細手順: `docs/operations/cursor-analytics-prompt.md` §6 / analytics-review Skill Infra §4。",
+                "2026-10-27 以降の週次では本節は出ない（通常の前週比へ）。",
+                "",
+            ]
+        )
+
     lines.extend(
         [
             "## Files (read order for Cursor Agent)",

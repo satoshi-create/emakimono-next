@@ -219,4 +219,18 @@ py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20 --output an
 **2026-08-24 の週次**は混在週になりうるので、必ず 8/18 で期間を割る。  
 2026-08-31 以降は通常の前週比でよい。
 
+### Vercel CDN プロキシ効果測定（2026-10-13 本番マージ・甲巻のみ）
+
+`/emaki-assets` External Rewrite（`choju-giga-yamazaki-kou` のみ）。学校一斉アクセス時の Cloudinary 429 緩和が目的。
+
+`summary.md` の **Infra verification (Vercel CDN proxy)** 節に従って before/after を書く。混在週は **10/13 で期間分割**。
+
+| 期間 | 見るもの |
+|------|----------|
+| Before（〜10/12） | Cloudinary credits / bandwidth / transformations。GA4 `image_load_fallback` / `image_load_slow`（甲巻）。Education geo スパイク時の障害有無 |
+| After（10/13〜） | 同指標。期待: 甲巻起因のオリジン負荷・load_error の抑制（全体 credits は部分効果） |
+
+記録は `actions.md` **Infra / cost**。Issue 化はしない（credits ≥ 20 など既存閾値のみ）。  
+**2026-10-27 以降**は通常の前週比でよい。
+
 Infra の GitHub Issue は credits ≥ 20 または ISR Reads 上限超過のときだけ。

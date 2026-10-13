@@ -42,6 +42,8 @@ Automation 実行ログまたは最新 artifact 内:
 - [ ] **2026-08-24 前後:** 期間を **8/18 で分割**（修正前 約 800KB vs 修正後 約 60–130KB）
 - [ ] Cloudinary: Automation が未実施なら  
       `py -3.14 scripts/check_cloudinary_usage.py --warn-at 18 --fail-at 20 --no-save`
+- [ ] **2026-10-13〜10/26:** Vercel CDN プロキシ（甲巻 `/emaki-assets`）を **10/13 で before/after 分割**  
+      credits・bandwidth・甲巻の `image_load_fallback` / `image_load_slow` を `summary.md` 指示どおり記録
 
 詳細: [`cursor-analytics-prompt.md`](./cursor-analytics-prompt.md) §6。
 

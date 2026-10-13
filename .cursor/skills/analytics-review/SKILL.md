@@ -102,7 +102,15 @@ GSC Top 3 とは独立。詳細手順: `docs/operations/cursor-analytics-prompt.
    判定: Size Range が約 800KB 帯 → 約 60–130KB。Reads が同じヒット数なら roughly 1/8。  
    2026-08-31 以降の週次は通常の前週比でよい。
 
-Infra の GitHub Issue は **credits ≥ 20 または ISR Reads が上限超過** のときだけ P1。フォント修正の経過観察だけなら Issue にしない。
+4. **Vercel CDN プロキシ効果測定（2026-10-13 本番マージ・甲巻のみ）**  
+   `/emaki-assets` → Cloudinary External Rewrite（鳥獣戯画甲巻 `choju-giga-yamazaki-kou` のみ）。  
+   週次 7 日窓がマージ日をまたぐときは **10/13 で期間を割る**（summary.md の同節も参照）:
+   - **Before（〜10/12）**: Cloudinary credits / bandwidth / transformations。GA4 の `image_load_fallback`・`image_load_slow`（特に `Chōjū-jinbutsu-giga_first`）。Education geo スパイク週の 429 / load_error 有無
+   - **After（10/13〜）**: 同指標の前週比。期待: 甲巻オリジン負荷減（credits/bandwidth の伸び抑制）、甲巻の fallback/slow 悪化なし。他作品 URL は `res.cloudinary.com` のままなので全体 credits は部分効果
+   - 記録先: `actions.md` **Infra / cost** に before/after 表（1 短表で可）
+   - **2026-10-27 以降**の週次は通常の前週比でよい（この before/after 節は経過観察終了）
+
+Infra の GitHub Issue は **credits ≥ 20 または ISR Reads が上限超過** のときだけ P1。フォント修正・CDN プロキシの経過観察だけなら Issue にしない。
 
 ## Bootstrap mode
 
