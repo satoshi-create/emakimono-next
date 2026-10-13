@@ -85,6 +85,30 @@ const nextConfig = {
     // dev では 86400s キャッシュを付けない（HMR が古い chunk を掴んで崩れる）
     if (process.env.NODE_ENV !== "production") return [];
     return [
+      // External Rewrite キャッシュ用。catch-all より手前に置くこと
+      {
+        source: "/emaki-assets/:path*",
+        locale: false,
+        headers: [
+          {
+            key: "Cache-Control",
+            value:
+              "public, max-age=2592000, s-maxage=31536000, stale-while-revalidate=86400",
+          },
+          {
+            key: "CDN-Cache-Control",
+            value: "public, max-age=31536000, stale-while-revalidate=86400",
+          },
+          {
+            key: "Vercel-CDN-Cache-Control",
+            value: "public, max-age=31536000, stale-while-revalidate=86400",
+          },
+          {
+            key: "x-vercel-enable-rewrite-caching",
+            value: "1",
+          },
+        ],
+      },
       {
         source: "/_next/data/:path*",
         locale: false,
@@ -116,7 +140,15 @@ const nextConfig = {
   },
   async rewrites() {
     return {
-      beforeFiles: buildStaleNextDataRewrites(),
+      beforeFiles: [
+        {
+          source: "/emaki-assets/:path*",
+          destination:
+            "https://res.cloudinary.com/dw2gjxrrf/image/upload/:path*",
+          locale: false, // i18n プレフィックス付与を防ぐため必須
+        },
+        ...buildStaleNextDataRewrites(),
+      ],
     };
   },
 };

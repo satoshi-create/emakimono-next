@@ -13,6 +13,24 @@
 export const CLOUDINARY_UPLOAD_BASE =
   "https://res.cloudinary.com/dw2gjxrrf/image/upload";
 
+/** Vercel CDN 経由のキャッシュプロキシ（案A）。段階導入: 甲巻のみ */
+export const PROXY_UPLOAD_BASE = "/emaki-assets";
+
+/**
+ * 鳥獣人物戯画（甲巻）のみプロキシ対象。
+ * Cloudinary public_id: choju-giga-yamazaki-kou__…
+ * titleen 表記・略称も含めて誤爆を防ぐ。
+ */
+function shouldUseVercelCacheProxy(publicId) {
+  const id = String(publicId || "").toLowerCase();
+  return (
+    id.includes("choju-giga-yamazaki-kou") ||
+    id.includes("choju-first") ||
+    id.includes("chōjū-jinbutsu-giga_first") ||
+    id.includes("choju-jinbutsu-giga_first")
+  );
+}
+
 export function buildCloudinaryUrl(src, transforms = []) {
   const publicId = String(src || "").replace(/^\//, "");
   const segs = [
@@ -20,7 +38,10 @@ export function buildCloudinaryUrl(src, transforms = []) {
     ...transforms.filter(Boolean).map((s) => String(s).replace(/,/g, "%2C")),
     publicId,
   ];
-  return `${CLOUDINARY_UPLOAD_BASE}/${segs.join("/")}`;
+  const base = shouldUseVercelCacheProxy(publicId)
+    ? PROXY_UPLOAD_BASE
+    : CLOUDINARY_UPLOAD_BASE;
+  return `${base}/${segs.join("/")}`;
 }
 
 export function cloudinaryThumbLoader({ src, width, quality }) {
