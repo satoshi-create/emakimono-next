@@ -10,6 +10,11 @@ const withPWA = require("next-pwa")({
   disable: process.env.NODE_ENV === "development",
   // 先頭一致が勝つ。旧 buildId の data JSON / HTML を SW に残さない
   runtimeCaching: [
+    // Vercel rewrite プロキシ。SW が 404 を CacheFirst で固着させない
+    {
+      urlPattern: /\/emaki-assets\/.*/i,
+      handler: "NetworkOnly",
+    },
     {
       urlPattern: /\/_next\/data\/.+\/.+\.json$/i,
       handler: "NetworkOnly",
@@ -84,30 +89,36 @@ const nextConfig = {
   async headers() {
     // dev では 86400s キャッシュを付けない（HMR が古い chunk を掴んで崩れる）
     if (process.env.NODE_ENV !== "production") return [];
+    // External Rewrite キャッシュ用。catch-all より手前 + ロケール両対応
+    const emakiAssetCacheHeaders = [
+      {
+        key: "Cache-Control",
+        value:
+          "public, max-age=2592000, s-maxage=31536000, stale-while-revalidate=86400",
+      },
+      {
+        key: "CDN-Cache-Control",
+        value: "public, max-age=31536000, stale-while-revalidate=86400",
+      },
+      {
+        key: "Vercel-CDN-Cache-Control",
+        value: "public, max-age=31536000, stale-while-revalidate=86400",
+      },
+      {
+        key: "x-vercel-enable-rewrite-caching",
+        value: "1",
+      },
+    ];
     return [
-      // External Rewrite キャッシュ用。catch-all より手前に置くこと
       {
         source: "/emaki-assets/:path*",
         locale: false,
-        headers: [
-          {
-            key: "Cache-Control",
-            value:
-              "public, max-age=2592000, s-maxage=31536000, stale-while-revalidate=86400",
-          },
-          {
-            key: "CDN-Cache-Control",
-            value: "public, max-age=31536000, stale-while-revalidate=86400",
-          },
-          {
-            key: "Vercel-CDN-Cache-Control",
-            value: "public, max-age=31536000, stale-while-revalidate=86400",
-          },
-          {
-            key: "x-vercel-enable-rewrite-caching",
-            value: "1",
-          },
-        ],
+        headers: emakiAssetCacheHeaders,
+      },
+      {
+        source: "/:locale(en|ja)/emaki-assets/:path*",
+        locale: false,
+        headers: emakiAssetCacheHeaders,
       },
       {
         source: "/_next/data/:path*",
@@ -120,7 +131,8 @@ const nextConfig = {
         ],
       },
       {
-        source: "/((?!_next/data/).*)",
+        // emaki-assets を除外し、プロキシ 404 を短命キャッシュで汚染しない
+        source: "/((?!_next/data/|emaki-assets/|(?:en|ja)/emaki-assets/).*)",
         headers: [
           {
             key: "Cache-Control",
@@ -139,16 +151,25 @@ const nextConfig = {
     ];
   },
   async rewrites() {
+    // i18n: locale:false 時はロケールなし/ありを両方明示する
+    // beforeFiles が拾えない場合に備え fallback にも同ルールを置く
+    const emakiAssetRewrites = [
+      {
+        source: "/emaki-assets/:path*",
+        destination:
+          "https://res.cloudinary.com/dw2gjxrrf/image/upload/:path*",
+        locale: false,
+      },
+      {
+        source: "/:locale(en|ja)/emaki-assets/:path*",
+        destination:
+          "https://res.cloudinary.com/dw2gjxrrf/image/upload/:path*",
+        locale: false,
+      },
+    ];
     return {
-      beforeFiles: [
-        {
-          source: "/emaki-assets/:path*",
-          destination:
-            "https://res.cloudinary.com/dw2gjxrrf/image/upload/:path*",
-          locale: false, // i18n プレフィックス付与を防ぐため必須
-        },
-        ...buildStaleNextDataRewrites(),
-      ],
+      beforeFiles: [...emakiAssetRewrites, ...buildStaleNextDataRewrites()],
+      fallback: emakiAssetRewrites,
     };
   },
 };

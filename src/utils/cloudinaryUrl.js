@@ -33,15 +33,18 @@ function shouldUseVercelCacheProxy(publicId) {
 
 export function buildCloudinaryUrl(src, transforms = []) {
   const publicId = String(src || "").replace(/^\//, "");
-  const segs = [
+  // upload 以降は直 URL / プロキシで同一。rewrites の :path* にそのまま載る
+  // 例: /emaki-assets/{transforms}/v{ver}/emakimono/{id}.jpg
+  //  → …/image/upload/{transforms}/v{ver}/emakimono/{id}.jpg
+  const uploadPath = [
     "fl_progressive",
     ...transforms.filter(Boolean).map((s) => String(s).replace(/,/g, "%2C")),
     publicId,
-  ];
+  ].join("/");
   const base = shouldUseVercelCacheProxy(publicId)
     ? PROXY_UPLOAD_BASE
     : CLOUDINARY_UPLOAD_BASE;
-  return `${base}/${segs.join("/")}`;
+  return `${base}/${uploadPath}`;
 }
 
 export function cloudinaryThumbLoader({ src, width, quality }) {
