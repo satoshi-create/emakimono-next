@@ -1,3 +1,14 @@
 {
-  "regions": ["hnd1"]
+  "regions": ["hnd1"],
+  "headers": [
+    {
+      "source": "/emaki-assets/(.*)",
+      "headers": [
+        {
+          "key": "Vary",
+          "value": "Accept"
+        }
+      ]
+    }
+  ]
 }
