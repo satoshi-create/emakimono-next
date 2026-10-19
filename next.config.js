@@ -108,6 +108,10 @@ const nextConfig = {
         key: "x-vercel-enable-rewrite-caching",
         value: "1",
       },
+      {
+        key: "Vary",
+        value: "Accept",
+      },
     ];
     return [
       {
