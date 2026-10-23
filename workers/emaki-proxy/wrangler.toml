@@ -1,0 +1,8 @@
+# workers/emaki-proxy/wrangler.toml
+name = "emaki-assets-proxy"
+main = "src/index.js"
+compatibility_date = "2024-04-01"
+
+[[r2_buckets]]
+binding = "EMAKI_BUCKET"
+bucket_name = "emaki-assets"
