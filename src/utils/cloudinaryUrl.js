@@ -13,14 +13,9 @@
 export const CLOUDINARY_UPLOAD_BASE =
   "https://res.cloudinary.com/dw2gjxrrf/image/upload";
 
-  // ★ 1. 先ほど検証成功した R2 のベースURLを設定
+// Cloudflare Worker (R2 プロキシ) のベース URL
 export const R2_UPLOAD_BASE =
-"https://emaki-assets-proxy.mimizunobouken.workers.dev";
-
-
-
-/** Vercel CDN 経由のキャッシュプロキシ（案A）。段階導入: 甲巻のみ */
-export const PROXY_UPLOAD_BASE = "/emaki-assets";
+  "https://emaki-assets-proxy.mimizunobouken.workers.dev";
 
 /**
  * 山崎本 甲巻かどうかを判定
@@ -29,26 +24,10 @@ function isYamazakiKou(publicId) {
   return publicId.includes("choju-giga-yamazaki-kou");
 }
 
-/**
- * 鳥獣人物戯画（甲巻）のみプロキシ対象。
- * Cloudinary public_id: choju-giga-yamazaki-kou__…
- * titleen 表記・略称も含めて誤爆を防ぐ。
- */
-function shouldUseVercelCacheProxy(publicId) {
-  const id = String(publicId || "").toLowerCase();
-  return (
-    id.includes("choju-giga-yamazaki-kou") ||
-    id.includes("choju-first") ||
-    id.includes("chōjū-jinbutsu-giga_first") ||
-    id.includes("choju-jinbutsu-giga_first")
-  );
-}
-
-
 export function buildCloudinaryUrl(src, transforms = []) {
   let publicId = String(src || "").replace(/^\//, "");
 
-  // 山崎本 甲巻の場合: Worker 経由でキャッシュ付き WebP を配信
+  // 山崎本 甲巻: Cloudflare Worker 経由でキャッシュ付き WebP を直接配信
   if (isYamazakiKou(publicId)) {
     const r2Key = publicId
       .replace(/^v\d+\//, "")
@@ -64,17 +43,11 @@ export function buildCloudinaryUrl(src, transforms = []) {
     publicId,
   ].join("/");
 
-  const base = shouldUseVercelCacheProxy(publicId)
-    ? PROXY_UPLOAD_BASE
-    : CLOUDINARY_UPLOAD_BASE;
-
-  return `${base}/${uploadPath}`;
+  return `${CLOUDINARY_UPLOAD_BASE}/${uploadPath}`;
 }
-
 
 export function cloudinaryThumbLoader({ src, width, quality }) {
   return buildCloudinaryUrl(src, [
-    // c_limit: 要求幅が原寸を超えても拡大しない（過大配信の抑止）
     "c_limit",
     "f_auto",
     `w_${width}`,

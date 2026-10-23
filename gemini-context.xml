@@ -1,0 +1,2734 @@
+This file is a merged representation of a subset of the codebase, containing specifically included files and files not matching ignore patterns, combined into a single document by Repomix.
+The content has been processed where content has been compressed (code blocks are separated by ⋮---- delimiter).
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of a subset of the repository's contents that is considered the most important context.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+
+- Pay special attention to the Repository Instruction. These contain important context and guidelines specific to this project.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Only files matching these patterns are included: .cursor/rules/design-tokens.mdc, .cursor/rules/nextjs-emaki.mdc, .cursor/rules/i18n-sources.mdc, .cursorrules, package.json, tsconfig.json, src/types/emaki.ts, src/types/viewer.ts, src/types/folklore.ts, src/hooks/emaki/*.js, src/components/emaki/viewer/EmakiImage.js, src/components/emaki/viewer/LazyImage.js, src/components/emaki/viewer/OverlayEkotoba.js, src/components/emaki/viewer/SceneCommentaryBar.js, src/components/emaki/layout/EmakiConteiner.js, src/components/emaki/layout/EmakiHeader.js, src/components/emaki/folklore/FolkloreDetailSheet.js, src/pages/[slug].js, src/pages/_app.js, src/styles/globals.css, src/utils/cloudinaryUrl.js
+- Files matching these patterns are excluded: public/**, scripts/**, docs/**, drizzle/**, scrolls/**, local-data/**, src/components/_archive_unused/**, src/libs/_archive_unused_data/**, src/styles/_archive_unused_styles/**, src/data/emaki-text-data/**, src/data/image-metadata-cache/**, src/data/zukan/**, *.sql, *.csv, *.png, *.jpg, *.webp, *.svg, *.py, *.log, .next/**
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Content has been compressed - code blocks are separated by ⋮---- delimiter
+- Long base64 data strings (e.g., data:image/png;base64,...) have been truncated to reduce token count
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.cursor/
+  rules/
+    design-tokens.mdc
+    i18n-sources.mdc
+    nextjs-emaki.mdc
+src/
+  components/
+    emaki/
+      folklore/
+        FolkloreDetailSheet.js
+      layout/
+        EmakiConteiner.js
+        EmakiHeader.js
+      viewer/
+        EmakiImage.js
+        LazyImage.js
+        OverlayEkotoba.js
+        SceneCommentaryBar.js
+  hooks/
+    emaki/
+      scrollPositionStore.js
+      useEmakiAutoPlay.js
+      useEmakiIdleUI.js
+      useEmakiPalmDrag.js
+      useEmakiScroll.js
+      useEmakiZoomPan.js
+      useFolkloreForScroll.js
+      useScrollPositionRestore.js
+  pages/
+    _app.js
+    [slug].js
+  styles/
+    globals.css
+  types/
+    emaki.ts
+    folklore.ts
+    viewer.ts
+  utils/
+    cloudinaryUrl.js
+.cursorrules
+package.json
+tsconfig.json
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path=".cursor/rules/design-tokens.mdc">
+---
+description: Design tokens, layout, typography, and styling conventions
+globs: src/styles/**/*,src/components/**/*,src/pages/**/*
+alwaysApply: false
+---
+
+# Design system (emakimono-next)
+
+**Canonical source:** `src/styles/globals.css` (`:root` + layout classes).  
+**Do not** introduce Tailwind utility classes. Use CSS Modules + existing CSS variables.
+
+**Mode:** Single light palette only — no portal/viewer color switching.
+
+## Stack
+
+- Global tokens + layout: `globals.css`
+- Component styles: `src/styles/{Component}.module.css` (co-located by component name)
+- Partial Chakra UI: Footer, some viewer controls — prefer `var(--clr-*)` when adding colors
+- Fonts loaded in `src/pages/_document.js` (Google Fonts: Noto Sans JP, Zen Maru Gothic, Hina Mincho)
+- PWA / browser chrome: `theme-color` `#ff8c77` (`_document.js`)
+
+## Semantic colors (preferred for new code)
+
+| Token | Value | Use |
+|-------|-------|-----|
+| `--clr-bg` | `#fff` | Page background |
+| `--clr-surface` | `#f9fbff` | Section bands, header |
+| `--clr-text` | `rgb(20 20 20)` | Body text |
+| `--clr-text-muted` | `rgb(114 114 114)` | Secondary text, viewer chrome |
+| `--clr-accent` | `#ff8c77` | Primary accent, hover, theme-color |
+| `--clr-accent-green` | `#54896a` | Secondary accent (e.g. kusōzu) |
+| `--clr-link` | `#065fd4` | Links |
+
+Legacy aliases (`--clr-black`, `--clr-white`, `--clr-bcg`, `--clr-accent-02`, `--clr-green-01`, etc.) remain for existing CSS Modules — map to the semantic tokens above.
+
+Chakra inline hover often uses `rgb(255, 140, 119)` — same as `#ff8c77`.
+
+## Era accent colors (`eraColor()` in `src/utils/func.js`)
+
+| Era | Color |
+|-----|-------|
+| 平安 | `#ff8c77` |
+| 鎌倉 | `#54896a` |
+| 室町 | `purple` |
+| 安土・桃山 | `gold` |
+| 江戸 | `skyblue` |
+| 明治 | `firebrick` |
+
+New era UI: use `eraColor(era)` — do not duplicate hex in components.
+
+## Typography — 3 font stacks (JTBD)
+
+| Token | Stack | Use |
+|-------|-------|-----|
+| `--font-ui` | Noto Sans JP | Body default, nav, buttons, viewer chrome, metadata |
+| `--font-story` | Zen Maru Gothic | Portal cards, descriptions, modern 詞書 translation text |
+| `--font-classical` | Hina Mincho | Classical 詞書 overlay only (Ekotoba, OverlayEkotoba, koten blocks) |
+
+**Do not** add decorative fonts (Caveat, Dancing Script, Klee One, 游明朝 on body, etc.).
+
+Legacy aliases map to the three stacks:
+
+- `--my-font`, `--title-font*`, `--emaki-title-font` → `--font-ui`
+- `--text-font`, `--emaki-kotobagki-font`, `--handwriting-font-*` → `--font-story`
+- `--text-font-koten*` → `--font-classical`
+
+Responsive sizes: `--title-size-prt`, `--text-size-prt`, `--mokuji-size` (viewer TOC).
+
+## Viewer immersion (without dark mode)
+
+- Keep light backgrounds; reduce chrome prominence via smaller/muted `--font-ui` + `--clr-text-muted`
+- Classical font only where user opts into 詞書 overlay
+- Footer dark gradient (`#121212` → `#000`) is page anchor only — not a site-wide dark theme
+
+## Layout classes (globals.css)
+
+| Class | Purpose |
+|-------|---------|
+| `.section-grid` | Max width 1200px, centered content column |
+| `.section-padding` | Vertical section spacing (2rem / 4rem md+) |
+| `.emaki-page-landscape-grid` | Viewer: 5vw side margins |
+| `.hide-on-mobile` / `.show-on-mobile` | Breakpoint 768px |
+| `.scrollbar` | Custom horizontal scroll thumb (desktop) |
+| `.open` on `html` | Lock scroll when sidebar/modal open |
+
+General pages pattern: `className="section-grid section-padding"`.
+
+## New UI checklist
+
+1. Prefer `--clr-*` semantic tokens and `--font-ui` / `--font-story` / `--font-classical` before legacy names or hardcoded hex
+2. Add component styles in `{Name}.module.css`, not inline (except Chakra props where already used)
+3. Match existing Footer gradient: `linear(to-r, #121212, #000)` for dark bands
+4. Viewer work: read `EmakiConteiner.module.css`, `HelpModal.module.css` first
+</file>
+
+<file path=".cursor/rules/i18n-sources.mdc">
+---
+description: Where to edit UI text and translations (ja/en)
+globs: public/locales/**/*,src/libs/constants/**/*,src/components/**/*
+alwaysApply: false
+---
+
+# i18n text sources
+
+Do not add strings to random files. Use the correct source:
+
+| What | Edit |
+|------|------|
+| Viewer buttons, help modal, search | `public/locales/{ja,en}/common.json` |
+| Home sections, About HTML body | `src/libs/constants/staticData.js` (`ja` / `en` objects) |
+| Site-wide SEO defaults | `src/libs/constants/dataSiteMeta.js` |
+| Per-page title / meta description | Page file + `Meta` component |
+
+## Rules
+
+- Always update **both** `ja` and `en`
+- Prefer `next-i18next` `t("key")` for new viewer UI; use `staticData` only for long HTML blocks
+- First mention of terms: 詞書（絵巻の説明文） style gloss — see `site-pages-plan.md`
+- Avoid contradicting About mission: emaki are **unrolled and followed**, not "read" like a book
+</file>
+
+<file path=".cursor/rules/nextjs-emaki.mdc">
+---
+description: Next.js pages, components, and emaki viewer patterns
+globs: src/pages/**/*,src/components/**/*
+alwaysApply: false
+---
+
+# Next.js & emaki UI
+
+## Pages
+
+- ルート = `src/pages/` のファイル名。react-router は使わない
+- ナビゲーション: `next/link` または `useRouter().push()`
+- 絵巻ページは専用 `EmakiHeader`；一般ページは `Header` + `Footer`
+
+## Layout pattern
+
+```jsx
+<>
+  <Head pagetitle="..." pageDesc="..." />
+  <Header fixed={false} />
+  {/* content */}
+  <Footer />
+</>
+```
+
+## Emaki viewer
+
+- 横スクロール鑑賞がコア。`AppContext`（`_app.js`）で navIndex / fullscreen / help modal を管理
+- 操作ヘルプ: `HelpModal.js` + `common.json` の `viewer` / `help`
+- 計測: `src/libs/api/measurementUtils.js` — イベント追加時は `analytics/dimensions.yaml` も確認
+- ビューアロジックは `src/hooks/emaki/*.js` に分離済み。新規実装時は既存フック（`useEmakiAutoPlay` / `useEmakiScroll` / `useEmakiIdleUI` / `useEmakiPalmDrag` / `useScrollPositionRestore`）を再利用し、`EmakiConteiner.js` へ再実装しない
+- ビューアの Props / フック戻り値は `src/types/viewer.ts`、絵巻データ構造は `src/types/emaki.ts` を参照する
+- ロケールフックは `@/hooks/useLocale`、集計・表示ヘルパーは `@/utils/emakiList` / `emakiEra`、章テキストは `@/utils/emakiChapterText` を直接 import する（`@/utils/func` は facade のため新規利用は避ける）
+- フルスクリーン制御は `@/hooks/useEmakiFullscreen`（_app.js の AppContext が利用）
+
+## Styling
+
+See **`.cursor/rules/design-tokens.mdc`** for colors, fonts, layout classes, and era colors.
+
+- Chakra UI（Footer 等）と CSS Modules を混在。Tailwind クラスを無秩序に増やさない
+
+## SEO
+
+- `src/components/meta/Meta.js` を各ページで使用
+- JSON-LD: 絵巻ページは `VisualArtwork` パターン（`[slug].js` 参照）
+</file>
+
+<file path="tsconfig.json">
+{
+  // "compilerOptions": {
+  //   "baseUrl": "./src/",
+  //   "paths": {
+  //     "@/*": ["./*"]
+  //   },
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve"
+  },
+  // "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/utils/func.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+
+  "exclude": ["node_modules"]
+}
+</file>
+
+<file path="src/hooks/emaki/useEmakiIdleUI.js">
+/**
+ * 静止UI耐性（Idle UI）: 長時間無操作時にナビUIを非表示にする。
+ *
+ * - PC (1024px以上): 5秒 / Tablet/Mobile: 3秒で非表示
+ * - マウス移動・ホイール・タッチ・クリック・キーボードで即座に復帰
+ * - 初回ナッジ（自動スクロール）中は非表示にしない
+ * - idlePaused（絵引チップ／詳細シート操作中）はタイマー停止＋UI維持
+ * - 計測: trackUIHidden / trackUIRevealed を発火
+ *
+ * 抽出元: EmakiConteiner.js の「静止UI耐性」useEffect。
+ * 戻り値の showUI は、再生モード停止・ホイール操作による停止時の UI 復帰に使う。
+ * resetIdleTimer は外部（絵引チップ操作など）からのタイマー再スタート用。
+ */
+⋮----
+const useEmakiIdleUI = ({
+  emakiId,
+  isAutoScrolling,
+  isPlayMode,
+  idlePaused = false,
+}) =>
+⋮----
+const getIdleTimeout = () =>
+⋮----
+const clearIdleTimer = () =>
+⋮----
+const startIdleTimer = () =>
+⋮----
+// 絵引開閉・詳細シート中 / 初回ナッジ中はタイマーを動かさない
+⋮----
+const handleUserActivityWithType = (triggerType) =>
+⋮----
+const handleMousemove = ()
+const handleWheel = ()
+const handleTouchstart = ()
+const handleClick = ()
+const handleKeydown = ()
+⋮----
+const showUI = ()
+⋮----
+/** 絵引チップ操作など、外部からの明示的なアイドルリセット */
+</file>
+
+<file path="src/hooks/emaki/useEmakiPalmDrag.js">
+/**
+ * 手のひらモード（PC限定）: マウス押下で手のひらアイコン・grabカーソルを表示し、
+ * ドラッグで絵巻を横スクロール（パン）させる。
+ *
+ * - Pointer Events の pointerType でマウスのみ判定（タッチ端末では無効）
+ * - リスナー再登録を避けるため依存配列は空で、判定はすべて ref 経由
+ * - suppressClickUntilRef: ドラッグ直後の click（sidebar を閉じる onClick）を短時間抑止する期限
+ *
+ * 抽出元: EmakiConteiner.js の「手のひらモード」useEffect。
+ */
+⋮----
+const useEmakiPalmDrag = (articleRef) =>
+⋮----
+const [isPalmMode, setIsPalmMode] = useState(false); // UI用: バッジ・カーソル表示
+const palmActiveRef = useRef(false); // ハンドラ用: パン中フラグ（即時反映）
+const dragRef = useRef(null); // { startX, lastClientX }
+const didDragRef = useRef(false); // ドラッグ実行済みか
+const suppressClickUntilRef = useRef(0); // ドラッグ直後のclick抑止期限（ms）
+⋮----
+// ボタン・リンク上の押下は無効化（クリック操作を維持）
+const isInteractive = (target)
+⋮----
+// 画像のネイティブドラッグを常時抑止（パン操作と競合するため）
+// 押下ごとに draggable を切替えると、押下→再描画の間に
+// ネイティブドラッグが発動する競合が起きる
+const preventNativeDrag = (e)
+⋮----
+const handlePointerDown = (e) =>
+⋮----
+setIsPalmMode(true); // 手のひらアイコン・grabカーソルを表示
+⋮----
+el.setPointerCapture(e.pointerId); // ドラッグ中の要素外追従を保証
+⋮----
+/* ignore */
+⋮----
+const handlePointerMove = (e) =>
+⋮----
+// 押下中は常にパン。
+// RTL（row-reverse）では scrollLeft が負値空間（0=右端/最初、負=先へ進む）。
+// 紙を掴んで動かす直感（右ドラッグ=絵巻も右へ=進む）に合わせ、
+// マウス変位を減算して scrollLeft を減少（より負へ）させる。
+// 毎回の変位を加算する方式にすることで、pointerdown 時点の scrollLeft が
+// 古い場合（直前の慣性・画像ロード等で動いた後）でも基準値へ飛ばず、
+// 巻き戻りの原因となるスナップバックを防ぐ。
+⋮----
+const finishDrag = (e) =>
+⋮----
+/* ignore */
+⋮----
+setIsPalmMode(false); // 手のひらアイコンを非表示
+⋮----
+// ドラッグ実行後は click（sidebar を閉じる onClick）を短時間抑止。
+// click が発火しないケース（pointercancel 等）でも期限で自然に解除される。
+</file>
+
+<file path="src/hooks/emaki/useFolkloreForScroll.js">
+/**
+ * 絵巻 titleen に紐づく絵引（民俗）データを提供する。
+ * 段単位（chapter = CSV scene_id）でアイテムを抽出する。
+ */
+⋮----
+/**
+ * @param {string} titleen
+ */
+export default function useFolkloreForScroll(titleen)
+⋮----
+/**
+   * @param {string|number} chapter
+   */
+const getItemsForChapter = (chapter)
+</file>
+
+<file path=".cursorrules">
+# Cursor Rules — emakimono-next（トークン最適化・外科手術的編集 v3.0）
+
+AI アシスタントの自律多重往復（Tool Callループ）を物理遮断し、最小トークン・最小差分での適用を強制する。
+
+---
+
+## 1. 自律実行・探索の厳格な制限（Hard Guardrails）
+
+- **ステップ上限（最大3往復）:** 1回の指示に対するツールの自律実行（Tool Call）は最大「3ステップ」まで。3手以内に完了しない試行錯誤は即座に停止し、現状を報告すること。
+- **ターミナル自律実行の全面禁止:** `npm run build`, `npm run lint`, `tsc` 等の検証コマンドを勝手にバックグラウンド実行しないこと。エラー検知による自動修正ループを防ぐため、検証はすべてユーザーが手動で行う。
+- **再帰的・全体探索の厳禁:** `grep`, `find`, コードベース全域のスキャン、ポート調査、ヘッドレスブラウザ起動は禁止。指示文で明示された対象ファイル、または該当コンポーネントのみを開くこと。
+
+---
+
+## 2. 出力トークンの極小化（Surgical Edits）
+
+- ファイル全体の再出力は厳禁。
+- 変更対象の関数・JSX ブロックのみ出力し、変更のない箇所は `// ... existing code ...` で省略する。
+- 1回の編集で触るブロックは 1 〜 2 個までに限定する（重量コンポーネントは特に厳守）。
+- 挨拶、前置き（"Sure!", "Based on..."等）、長文のコード解説は一切不要。変更箇所の差分概要のみを出力して直ちに終了すること。
+
+---
+
+## 3. スコープの局所化（重量コンポーネント・フック）
+
+- `src/components/emaki/layout/EmakiConteiner.js` などの巨大ファイルは、一度に全体を書き換えない。
+- フック化済みのロジック（`src/hooks/emaki/*.js`）を Conteiner 側へ再実装・インライン展開しない。ロジック修正は必ず該当フック単体で行う。
+- フック（`useEmakiAutoPlay` / `useEmakiScroll` / `useEmakiIdleUI` / `useEmakiPalmDrag` / `useScrollPositionRestore`）のシグネチャ変更時は、`src/types/viewer.ts` の型定義と Conteiner 側の配線のみをピンポイントで同期させる。
+
+---
+
+## 4. 型定義と実装パターンの遵守
+
+- ビューアの Props やフック戻り値の型確認は、実装コードを広く読む前に `src/types/viewer.ts` を直接参照する。
+- 必要な import 文の追加のみを最小限で行い、未使用コードや不要な依存を追加しない。
+- 既存の RTL（右→左スクロール・負値空間 `scrollLeft`）の前提を破壊しないこと。
+- インライン型定義の乱造を禁止し、型の追加・更新は `src/types/*.ts` に集約する。
+
+---
+
+## 5. 検証（手動運用の徹底）
+
+- AI側での自動ビルド・検証は行わない（トークン浪費防止）。
+- 修正完了通知後、ユーザーが手元で `npm run lint` / `npx tsc --noEmit` を実行する前提でコードの整合性を担保すること。
+</file>
+
+<file path="src/hooks/emaki/scrollPositionStore.js">
+/**
+ * Module-scope scroll position for fullscreen / orientation remount.
+ * Kept out of EmakiConteiner so _app can reset without pulling the viewer graph.
+ */
+⋮----
+/** handleToId ジャンプ中は連番拘束を一時解除 */
+⋮----
+/** Call from _app on emaki page transitions */
+export const resetScrollPositionStore = () =>
+⋮----
+/** Call before orientation change to avoid ratio=0 overwrite during remount */
+export const beginScrollRestore = () =>
+</file>
+
+<file path="src/types/folklore.ts">
+/**
+ * 絵引（民俗・生活誌）オーバーレイの型定義。
+ * 正本は scrolls/source/ebiki/ebiki.csv → scripts/convert-ebiki-csv.js → src/data/folklore/
+ * 既存の emaki-text-data / image-metadata-cache には埋め込まない。
+ */
+⋮----
+/** 行為カテゴリ（CSV act_category） */
+export type FolkloreActCategory =
+  | "labor_trade"
+  | "dwell"
+  | "carry"
+  | "eat"
+  | "body_life"
+  | "play_ritual"
+  | "wear";
+⋮----
+/** 宮本常一『絵巻物に見る日本常民生活誌』の参照 */
+export type FolkloreMiyamoto = {
+  chapter_title: string;
+  insight: string;
+  page_ref: string;
+};
+⋮----
+/** 神奈川大学『絵引』原画DB の書誌 */
+export type FolkloreEbikiRef = {
+  title: string;
+  original_emaki: string;
+  volume: string;
+  page: string;
+  number: string;
+  artist: string;
+  location: string;
+  url: string;
+};
+⋮----
+/** 民具・生活誌アイテム 1 件 */
+export type FolkloreItem = {
+  item_id: string;
+  name: string;
+  /** 英語タイトル（locale=en 時に優先） */
+  name_en?: string;
+  reading: string;
+  act_category: FolkloreActCategory;
+  act_label: string;
+  /** 英語カテゴリ名（locale=en 時に優先） */
+  act_label_en?: string;
+  target_subject: string;
+  era: string;
+  /** 英語時代名（locale=en 時に優先） */
+  era_en?: string;
+  keywords: string[];
+  summary: string;
+  /** 英語概要（locale=en 時に優先） */
+  summary_en?: string;
+  miyamoto: FolkloreMiyamoto;
+  /** ビューア URL スラッグ（正規化済み） */
+  titleen: string;
+  /** CSV 生の scroll_id */
+  scroll_id_raw: string;
+  /** 段 ID（CSV scene_id）。ビューア chapter と対応 */
+  scene_id: string;
+  scene_title: string;
+  scene_desc: string;
+  /**
+   * 段コンテナ内の相対位置（0〜100）。
+   * 0 = 段の右端（開始）、50 = 中央、100 = 左端（末尾）。RTL 読み進み方向へオフセット。
+   */
+  offset_percent?: number;
+  /** 対象画像スライスの linkId（未指定時は scene_id から推定） */
+  link_id?: number;
+  /** 切り抜きサムネイル（例: /assets/folklore/{item_id}.webp） */
+  crop_thumb?: string;
+  ebiki: FolkloreEbikiRef;
+};
+⋮----
+/** 英語タイトル（locale=en 時に優先） */
+⋮----
+/** 英語カテゴリ名（locale=en 時に優先） */
+⋮----
+/** 英語時代名（locale=en 時に優先） */
+⋮----
+/** 英語概要（locale=en 時に優先） */
+⋮----
+/** ビューア URL スラッグ（正規化済み） */
+⋮----
+/** CSV 生の scroll_id */
+⋮----
+/** 段 ID（CSV scene_id）。ビューア chapter と対応 */
+⋮----
+/**
+   * 段コンテナ内の相対位置（0〜100）。
+   * 0 = 段の右端（開始）、50 = 中央、100 = 左端（末尾）。RTL 読み進み方向へオフセット。
+   */
+⋮----
+/** 対象画像スライスの linkId（未指定時は scene_id から推定） */
+⋮----
+/** 切り抜きサムネイル（例: /assets/folklore/{item_id}.webp） */
+⋮----
+/**
+ * titleen → chapter(scene_id) → item_id[]
+ * 段単位でチップ表示するための逆引き。
+ */
+export type FolkloreByTitleen = Record<string, Record<string, string[]>>;
+</file>
+
+<file path="src/hooks/emaki/useScrollPositionRestore.js">
+/**
+ * フルスクリーン / 向き切替時のスクロール位置復元。
+ *
+ * - 向き変更前に beginScrollRestore() で isTransitioning を立て、再マウント中の ratio 上書きを防ぐ
+ * - 画像読込で scrollWidth が伸びる間（RESTORE_WINDOW_MS）は ResizeObserver で ratio を再適用
+ * - unmount cleanup では isTransitioning を落とさない（新旧インスタンスのレース防止）
+ * - ratio が無い／復元失敗時は navIndex へ handleToId フォールバック
+ * - navIndex 変化では再実行しない（ref で最新値のみ参照）
+ */
+⋮----
+const useScrollPositionRestore = ({
+  articleRef,
+  dataId,
+  toggleFullscreen,
+  orientation,
+  scrollPositionStore,
+  navIndex = 0,
+  handleToId,
+  detectCurrentSceneRef,
+}) =>
+⋮----
+// 初回マウントかつ保存なし → スキップ（入場 hash は handleToId 側）
+⋮----
+// 切替後のユーザー操作で復元を中断する。2秒ウインドウ中は isTransitioning のため
+// handleScroll が store の ratio を更新せず、ratio は切替前の値で凍結される。
+// 中断しないと凍結 ratio の再適用が、切替後の左スクロール位置を巻き戻す。
+⋮----
+const abortRestore = () =>
+⋮----
+const applyRatio = () =>
+⋮----
+// 直前の適用位置から動いていればユーザー操作（慣性含む）とみなし中断
+⋮----
+// 復元確定後に現在段を再同期する（キャッシュ再構築後の再判定漏れ対策。
+// これが無いと復元後もスクロールイベントが発火せず解説バーが固まる）
+⋮----
+// isTransitioning は落とさない（次インスタンスの begin〜restore に引き継ぐ）
+</file>
+
+<file path="src/utils/cloudinaryUrl.js">
+/**
+ * Cloudinary 配信 URL。
+ * 同一変換ブロック内のカンマは %2C にエンコードする。
+ * リテラルのカンマは next/image の srcset を分割し、相対パス 404 になる。
+ * スラッシュは独立した変換チェーン（Cloudinary 公式の chained transformation）。
+ *
+ * `src` はキャッシュ形式（naming-convention.md）:
+ *   - 推奨: `v{version}/emakimono/{public_id}.jpg`（overwrite 後の CDN バスティング）
+ *   - 旧: `emakimono/{public_id}.jpg`
+ * 変換は version / public_id の前に置く:
+ *   .../upload/{transforms}/v{version}/emakimono/{id}.jpg
+ */
+⋮----
+/** Vercel CDN 経由のキャッシュプロキシ（案A）。段階導入: 甲巻のみ */
+⋮----
+/**
+ * 鳥獣人物戯画（甲巻）のみプロキシ対象。
+ * Cloudinary public_id: choju-giga-yamazaki-kou__…
+ * titleen 表記・略称も含めて誤爆を防ぐ。
+ */
+function shouldUseVercelCacheProxy(publicId)
+⋮----
+export function buildCloudinaryUrl(src, transforms = [])
+⋮----
+// upload 以降は直 URL / プロキシで同一。rewrites の :path* にそのまま載る
+// 例: /emaki-assets/{transforms}/v{ver}/emakimono/{id}.jpg
+//  → …/image/upload/{transforms}/v{ver}/emakimono/{id}.jpg
+⋮----
+export function cloudinaryThumbLoader(
+⋮----
+// c_limit: 要求幅が原寸を超えても拡大しない（過大配信の抑止）
+⋮----
+export function createCloudinaryHeroLoader(gravity = "g_face")
+⋮----
+/**
+ * srcset 分割でサイト相対になった Cloudinary パスなら CDN 絶対 URL を返す。
+ * 本物の /kusouzu/[slug] は /v数字/emakimono/ を含まない。
+ * @param {string} pathname
+ * @returns {string | null}
+ */
+export function toCloudinaryUploadRedirect(pathname)
+</file>
+
+<file path="package.json">
+{
+  "name": "emakimono-next",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "dev": "next dev -H 0.0.0.0",
+    "build": "next build",
+    "postbuild": "next-sitemap && node scripts/copy-sitemap-aliases.js",
+    "start": "next start",
+    "lint": "next lint",
+    "generate:ogp": "node src/script/generateOgImages.js",
+    "build:folklore": "node scripts/convert-ebiki-csv.js",
+    "db:generate": "drizzle-kit generate --config drizzle.config.cjs",
+    "db:push": "drizzle-kit push --config drizzle.config.cjs",
+    "db:studio": "drizzle-kit studio --config drizzle.config.cjs"
+  },
+  "dependencies": {
+    "@chakra-ui/button": "^2.0.14",
+    "@chakra-ui/icons": "^2.2.4",
+    "@chakra-ui/react": "^2.10.4",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@fortawesome/fontawesome-svg-core": "^6.1.2",
+    "@fortawesome/free-brands-svg-icons": "^6.1.2",
+    "@fortawesome/free-solid-svg-icons": "^6.1.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@google-analytics/data": "^4.10.0",
+    "@libsql/client": "^0.17.4",
+    "@tailwindcss/postcss": "^4.1.3",
+    "@xyflow/react": "^12.11.3",
+    "axios": "^1.7.9",
+    "cloudinary": "^2.5.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.45.2",
+    "express": "^4.21.2",
+    "flag-icons": "^6.6.6",
+    "framer-motion": "^8.5.5",
+    "google-map-react": "^2.2.0",
+    "html-react-parser": "^5.1.18",
+    "i18next": "^23.16.8",
+    "image-size": "^1.2.1",
+    "image-trace-loader": "^1.0.2",
+    "imagemin": "^8.0.1",
+    "imagemin-mozjpeg": "9.0.0",
+    "imagemin-webp": "^7.0.0",
+    "jimp": "^0.16.2",
+    "jquery": "^3.6.1",
+    "lazysizes": "^5.3.2",
+    "leaflet": "^1.9.4",
+    "lqip-loader": "^2.2.1",
+    "next": "12.2.5",
+    "next-compose-plugins": "^2.2.1",
+    "next-i18next": "14.0.3",
+    "next-optimized-images": "^2.6.2",
+    "next-pwa": "^5.6.0",
+    "next-sitemap": "^3.1.21",
+    "nextjs-breadcrumbs": "^1.1.9",
+    "nodemailer": "^6.8.0",
+    "path": "^0.12.7",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-dropdown": "^1.11.0",
+    "react-feather": "^2.0.10",
+    "react-flagkit": "^2.0.4",
+    "react-full-screen": "^1.1.1",
+    "react-i18next": "^13.5.0",
+    "react-icons": "^5.3.0",
+    "react-lazy-load": "^3.1.14",
+    "react-lazysizes": "^1.0.0",
+    "react-leaflet": "^4.2.1",
+    "react-tagcloud": "^2.3.3",
+    "responsive-loader": "^3.1.1",
+    "scroll-hint": "^1.2.5",
+    "sharp": "^0.33.5",
+    "styled-components": "^5.3.6",
+    "svg-sprite-loader": "^6.0.11",
+    "uuid": "^11.0.3",
+    "wanakana": "^5.3.1",
+    "webp-loader": "^0.6.0"
+  },
+  "overrides": {
+    "nanoid": "3.3.18"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.29.7",
+    "@types/node": "^22.14.1",
+    "@types/react": "^19.1.2",
+    "autoprefixer": "^10.4.21",
+    "drizzle-kit": "^0.31.10",
+    "eslint": "8.23.0",
+    "eslint-config-next": "12.2.5",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.1.3",
+    "typescript": "^5.8.3"
+  }
+}
+</file>
+
+<file path="src/components/emaki/folklore/FolkloreDetailSheet.js">
+/**
+ * 絵引詳細シート（画面右上フローティング・スリム版）。
+ * 暗幕なし・pointer-events 分離で絵巻鑑賞を妨げない。
+ * 鑑賞中は要点のみ表示し、論考・DB詳細は絵引ポータルへ誘導する。
+ * ヘッダー左クリックドラッグで .entry-container 内を移動可能（解説バーと同方式）。
+ */
+⋮----
+const FolkloreDetailSheet = (
+⋮----
+probe.onload = () =>
+⋮----
+const onKey = (e) =>
+⋮----
+// 絵巻コンテナ内へ Portal（viewport fixed だと通常画面で白帯へはみ出す）
+⋮----
+// 閉じる／アイテム切替で既定位置へ戻す
+⋮----
+const clampSheetDelta = (dx, dy, anchor) =>
+⋮----
+const onSheetPointerDown = (e) =>
+⋮----
+// 閉じるボタン上ではドラッグ開始しない
+⋮----
+/* capture 不可環境では move/up が外れても矩形クランプで復帰する */
+⋮----
+const onSheetPointerMove = (e) =>
+⋮----
+const endSheetDrag = (e,
+⋮----
+/* noop */
+⋮----
+const onSheetPointerUp = (e) => endSheetDrag(e,
+const onSheetPointerCancel = (e)
+⋮----
+const onSheetClickCapture = (e) =>
+⋮----
+const onSheetDoubleClick = (e) =>
+⋮----
+const bump = ()
+⋮----
+{/* eslint-disable-next-line @next/next/no-img-element */}
+</file>
+
+<file path="src/components/emaki/layout/EmakiHeader.js">
+const EmakiHeader = () =>
+⋮----
+const stickNavbar = () =>
+⋮----
+{/* SP: EN/JA 切替の隣に検索トリガーを並べる（デスクトップは上の SearchBoxButton） */}
+</file>
+
+<file path="src/components/emaki/viewer/EmakiImage.js">
+const EmakiImage = ({
+  item: { config, index, navIndex, uniqueIndex },
+  item,
+  isPlayMode,
+  sceneIndex,
+  emakiId,
+  isByobu,
+}) =>
+</file>
+
+<file path="src/hooks/emaki/useEmakiAutoPlay.js">
+/**
+
+ * 自動スクロール制御（初回ナッジ + 再生モード）。
+
+ *
+
+ * - 初回ナッジ: 初回表示時のみ、横スクロール可能性を緩やかな自動スクロールで認知させる
+
+ * - 再生モード: ユーザー任意の自動スクロール（▶/停止ボタン）
+
+ * - rAF ループ内でシーン検出・端点 ref 更新（scroll リスナーは自動再生中 no-op）
+
+ * - scrollWidth は開始時1回 + 末尾付近のみ再計測
+
+ */
+⋮----
+/** rAF ループ用: タブ切替等の dt スパイクを抑える上限（秒） */
+⋮----
+/** ナッジ(初回自動スクロール)が最後に自分で書いた位置からの許容ズレ(px)。超過は手動スクロールとみなし即停止 */
+⋮----
+const computeMinScrollLeft = (el)
+⋮----
+const syncEdgeRefsFromScroll = (el, minScrollLeft, isAtStartRef, isAtEndRef) =>
+⋮----
+const maybeRunSceneDetection = (detectCurrentSceneRef, lastDetectMsRef, nowMs) =>
+⋮----
+/** 向き・フルスクリーン復元用。programmatic scroll で scroll が発火しない端末向け */
+const saveScrollPositionStore = (el, dataId, scrollPositionStore) =>
+⋮----
+const useEmakiAutoPlay = ({
+
+  articleRef,
+
+  dataId,
+
+  emakiId,
+
+  navIndex,
+
+  setnavIndex,
+
+  lastDetectedSceneRef,
+
+  isAtStartRef,
+
+  isAtEndRef,
+
+  setIsAtStart,
+
+  setIsAtEnd,
+
+  isScrollingRef,
+
+  setIsScrolling,
+
+  detectCurrentSceneRef,
+
+  scrollPositionStore,
+
+  idlePaused = false,
+
+}) =>
+⋮----
+const stopAutoScroll = (interruptMethod = null) =>
+⋮----
+const handleMousedown = ()
+⋮----
+const handleWheel = ()
+⋮----
+const handleTouchstart = ()
+⋮----
+const handleClick = ()
+⋮----
+const handleScroll = () =>
+⋮----
+// 自分(autoScroll)の代入は scroll イベントでズレ≒0。手動変更（スクロールバー・
+// 矢印キー・慣性など discrete イベントでは検知できない操作）は最後の自己位置から
+// 大きく離れるため、ここで検知して即停止する（自動と手動の「取り合い」を解消）。
+⋮----
+const autoScroll = (ts) =>
+⋮----
+// 自分が書いた実位置を記録（クランプ後も含む）。手動スクロール検知の基準にする
+⋮----
+const stopPlayMode = () =>
+⋮----
+const startPlayMode = () =>
+⋮----
+const playScroll = (ts) =>
+</file>
+
+<file path="src/styles/globals.css">
+/* Tailwind v3 directives removed: incompatible with @tailwindcss/postcss v4 plugin */
+/* Tailwind utility classes are not used in this project (CSS Modules + Chakra UI) */
+⋮----
+*,
+⋮----
+:root {
+⋮----
+/* Viewport height with dvh fallback for mobile browsers */
+/* dvh (dynamic viewport height) adjusts for mobile URL bar */
+⋮----
+/* Semantic colors (single light mode) */
+⋮----
+/* Legacy color tokens (keep for existing CSS Modules) */
+⋮----
+/* Typography — 3 font stacks (JTBD: UI / story / classical overlay) */
+⋮----
+/* Legacy font aliases */
+⋮----
+/* ワイドディスプレイ対応: 高さと横幅の両方を考慮した可変フォントサイズ */
+/* 高さベースの計算と横幅ベースの計算の大きい方を採用 */
+⋮----
+body {
+⋮----
+/* Sticky footer: short pages keep footer at viewport bottom */
+.site-shell {
+⋮----
+.site-shell > main {
+⋮----
+.site-shell > footer,
+⋮----
+h1,
+⋮----
+ul {
+⋮----
+a {
+⋮----
+button {
+⋮----
+.section-grid {
+⋮----
+/* ワイド版（観光マップ等の地図・カード主体ページ用） */
+.section-grid-wide {
+⋮----
+.section-grid>*,
+⋮----
+.emaki-page-landscape-grid {
+⋮----
+/* ワイドディスプレイ対応: 最大幅制限を削除し、左右5vwマージンを維持 */
+⋮----
+.emaki-page-landscape-grid>* {
+⋮----
+.section-padding {
+⋮----
+/* トップページ ヒーロー（H1 + 紹介文） */
+.hero {
+⋮----
+.heroTitle {
+⋮----
+.heroDesc {
+⋮----
+.fade-in {
+⋮----
+.fade-in.lazyloaded {
+⋮----
+.fullscreen-enabled {
+⋮----
+.fullscreen-enabled .entry-container {
+⋮----
+/* 全画面時は article 下端の横スクロールバーをクリップしないよう、
+     JS 側でも overflow:hidden を外す。ここは縦はみ出し防止のみ */
+⋮----
+.fullscreen-enabled article {
+⋮----
+/* ボトムコメントバーはオーバーレイのため、絵巻はビューポート高で表示。
+     横スクロールバーは border-box 内に収まる（外側に余白を作らない） */
+⋮----
+/* ノッチ端末対応: 全画面時に safe-area を確保 */
+⋮----
+/* ハンバーガーメニュー＆モーダル画面を固定 */
+.open html,
+⋮----
+/* twitter wedgids */
+.twitter-container {
+⋮----
+.twitter-timeline {
+⋮----
+/* スクロールバー */
+⋮----
+.scrollbar {
+⋮----
+/* Firefox向け: つまみの色とトラックの色を指定 */
+/* トラックを透過にして「つまみだけが浮いて見える」表現を実現 */
+⋮----
+/* スクロールバーの太さと背景色 (WebKit系: Chrome, Safari, Edge) */
+&::-webkit-scrollbar,
+⋮----
+/* 矢印ボタンのスペースを削除 */
+&::-webkit-scrollbar-button {
+⋮----
+/*  */
+/* ハンドルの最小の長さ、色、角丸半径 */
+&::-webkit-scrollbar-thumb {
+⋮----
+&::-webkit-scrollbar-thumb:hover {
+⋮----
+/* 全画面モード（PC）: 通常時と同じスクロールバー色を使う。
+   色・つまみは上記 .scrollbar を継承し、ここでの色上書きはしない */
+⋮----
+.fullscreen-enabled .scrollbar {
+⋮----
+/* モバイルで隠す */
+.hide-on-mobile {
+⋮----
+/* モバイルで表示 */
+.show-on-mobile {
+⋮----
+/* scroll-hint */
+⋮----
+.scroll-hint.is-right-scrollable {
+⋮----
+.scroll-hint.is-right-scrollable.is-left-scrollable {
+⋮----
+.scroll-hint.is-left-scrollable {
+⋮----
+.scroll-hint-icon {
+⋮----
+.scroll-hint-icon-wrap {
+⋮----
+.scroll-hint-text {
+⋮----
+.scroll-hint-icon-wrap.is-active .scroll-hint-icon {
+⋮----
+.scroll-hint-icon:before {
+⋮----
+.scroll-hint-icon:after {
+⋮----
+.scroll-hint-icon-wrap.is-active .scroll-hint-icon:after {
+⋮----
+.scroll-hint-icon-wrap.is-active .scroll-hint-icon:before {
+⋮----
+.scroll-hint-icon-white {
+⋮----
+.scroll-hint-icon-white:before {
+⋮----
+.scroll-hint-icon-white:after {
+⋮----
+.scroll-hint-icon-white .scroll-hint-text {
+⋮----
+/* react-tagcloud */
+.tag-cloud {
+⋮----
+/* Dynamic viewport height support for mobile browsers */
+/* dvh adjusts automatically when mobile URL bar shows/hides */
+⋮----
+/* アドレスバー出し入れによるレイアウト安定化（svh = small viewport） */
+/* シーン幅は ratio * --vh-* なので dvh 変動は横 scrollWidth 揺れ＝巻き戻り感の原因になる */
+⋮----
+/* Safe area inset support for notched devices */
+⋮----
+/* 縦書きタイトル内のアラビア数字を縦中横（正立）に */
+.tate-chu-yoko {
+⋮----
+/* 絵引着地: ビューポート中央固定スポットライト（pointer-events なし・一時注入） */
+⋮----
+.ebikiSpot {
+</file>
+
+<file path="src/types/emaki.ts">
+// TypeScript type definitions for Emaki scroll viewer JSON data
+⋮----
+/**
+ * Represents the metadata for an image in the Emaki scroll viewer.
+ */
+export type ImageMetadata = {
+  /** Unique identifier for the image */
+  id: string;
+  /** Width of the image in pixels */
+  width: number;
+  /** Height of the image in pixels */
+  height: number;
+  /** URL of the image */
+  url: string;
+  /** Chapter number associated with the image */
+  chapter: number;
+};
+⋮----
+/** Unique identifier for the image */
+⋮----
+/** Width of the image in pixels */
+⋮----
+/** Height of the image in pixels */
+⋮----
+/** URL of the image */
+⋮----
+/** Chapter number associated with the image */
+⋮----
+/**
+ * Represents the text data for a specific Emaki scroll.
+ * 参照: src/utils/connectEmakiText.tsx
+ */
+export type EmakiTextData = {
+  /** Title of the scroll */
+  title: string;
+  /** English title of the scroll (optional) */
+  title_en?: string;
+  /** Main text content of the scroll */
+  text: string;
+  /** Chapter number of the scroll */
+  chapter: number;
+};
+⋮----
+/** Title of the scroll */
+⋮----
+/** English title of the scroll (optional) */
+⋮----
+/** Main text content of the scroll */
+⋮----
+/** Chapter number of the scroll */
+⋮----
+// =====================================================
+// データ正本の型 — image-metadata-cache.json の実キーを機械的に写したもの
+// 正本: src/data/image-metadata-cache/image-metadata-cache.json
+// 参照: src/pages/[slug].js / src/utils/func.js / src/components/emaki/layout/*.js
+// 注: 正本 JSON は .cursorignore のため、本ファイルが唯一の機械的スキーマ
+// =====================================================
+⋮----
+/** キーワードタグ（keyword[] の要素）。参照: EmakiLandscapContent / EmakiPortraitContent */
+export type KeywordTag = {
+  name: string;
+  id: string;
+  slug: string;
+};
+⋮----
+/** 登場人物（personname[] の要素）。参照: EmakiPersonLinks / KusouzuModelLink / personname ページ */
+export type PersonName = {
+  name: string;
+  id: string;
+  slug: string;
+  ruby?: string;
+  portrait?: string;
+};
+⋮----
+/** 参考文献（reference[] の要素）。参照: EmakiLandscapContent / EmakiPortraitContent の details 節 */
+export type ReferenceItem = {
+  type: string;
+  url: string;
+  title: string;
+};
+⋮----
+/** kusouzuslug: `[{ id: "1" }, ...]` の形。参照: func.js kusouzuSlugItem */
+export type KusouzuSlug = { id: string };
+⋮----
+/** シーン共通キー。linkId は [slug].js getStaticProps、ekotobaId は ekotoba のみ、uniqueIndex は EmakiConteiner 内で付与 */
+type EmakiSceneBase = {
+  cat: string;
+  /** emaki-text-data の章キー（scene id）。源氏帖番号ではない */
+  chapter: number | string;
+  /** 源氏絵のみ。54帖マスター参照用の帖番号 */
+  genji_chapter?: number | string;
+  config: string;
+  src: string;
+  name: string;
+  linkId: number;
+  ekotobaId?: number;
+  uniqueIndex?: number | null;
+};
+⋮----
+/** emaki-text-data の章キー（scene id）。源氏帖番号ではない */
+⋮----
+/** 源氏絵のみ。54帖マスター参照用の帖番号 */
+⋮----
+/** 名所スポットピン（屏風のみ）。x / y はスライス内の百分率（左上原点） */
+export type EmakiSpot = {
+  id: string;
+  name: string;
+  /** 英語ロケール表示用のスポット名（未設定なら name へフォールバック） */
+  nameen?: string;
+  x: number;
+  y: number;
+};
+⋮----
+/** 英語ロケール表示用のスポット名（未設定なら name へフォールバック） */
+⋮----
+/** 絵画シーン（cat === "image"）。srcWidth/srcHeight は image のみに存在 */
+export type EmakiImageScene = EmakiSceneBase & {
+  cat: "image";
+  srcWidth?: number;
+  srcHeight?: number;
+  /** 屏風の名所スポット（sync が scenes[].spots を扇 index へ振り分けて付与） */
+  spots?: EmakiSpot[];
+};
+⋮----
+/** 屏風の名所スポット（sync が scenes[].spots を扇 index へ振り分けて付与） */
+⋮----
+/** 詞書シーン（cat === "ekotoba"） */
+export type EmakiEkotobaScene = EmakiSceneBase & {
+  cat: "ekotoba";
+};
+⋮----
+export type EmakiScene = EmakiImageScene | EmakiEkotobaScene;
+⋮----
+/**
+ * 絵巻1巻分のメタデータ（image-metadata-cache.json の1要素）。
+ * 参照: [slug].js / EmakiLandscapContent / EmakiPortraitContent / EmakiConteiner
+ */
+export type ScrollMetadata = {
+  id: string;
+  title: string;
+  /** URL slug 兼一意ID（naming-convention.md 参照） */
+  titleen: string;
+  /** English display title (optional). URL slug remains titleen. */
+  title_en?: string;
+  author?: string;
+  authoren?: string;
+  /** レガシー typos（atuhoren）は rename しない方針（AGENTS.md） */
+  atuhoren?: string;
+  edition?: string;
+  encodeUrl?: string;
+  backgroundImage?: string[];
+  thumb?: string;
+  thumb2?: string;
+  video?: string;
+  gif?: string;
+  era?: string;
+  eraen?: string;
+  desc?: string;
+  descen?: string;
+  metadesc?: string;
+  readMore?: boolean;
+  type?: string;
+  typeen?: string;
+  subtype?: string;
+  keyword?: KeywordTag[];
+  /** @deprecated UI は参照しない。sync 互換のため JSON に残る場合あり */
+  kotobagaki?: boolean;
+  /** @deprecated UI は参照しない。解説バーは scroll 時常時。タブは kobun 有無 */
+  sceneText?: boolean;
+  favorite?: boolean;
+  sourceImage?: string;
+  sourceImageUrl?: string;
+  sourceAuthor?: string;
+  sourceCollection?: string;
+  sourceLicense?: string;
+  sourceEkotoba?: string;
+  reference?: ReferenceItem[];
+  personname?: PersonName[];
+  kusouzuslug?: KusouzuSlug[];
+  /** 源氏絵用。実データでは未使用 */
+  genjieslug?: { id?: string }[];
+  emakis: EmakiScene[];
+};
+⋮----
+/** URL slug 兼一意ID（naming-convention.md 参照） */
+⋮----
+/** English display title (optional). URL slug remains titleen. */
+⋮----
+/** レガシー typos（atuhoren）は rename しない方針（AGENTS.md） */
+⋮----
+/** @deprecated UI は参照しない。sync 互換のため JSON に残る場合あり */
+⋮----
+/** @deprecated UI は参照しない。解説バーは scroll 時常時。タブは kobun 有無 */
+⋮----
+/** 源氏絵用。実データでは未使用 */
+</file>
+
+<file path="src/components/emaki/viewer/OverlayEkotoba.js">
+const OverlayEkotoba = ({
+  item: {
+    src,
+    config,
+    name,
+    srcWidth,
+    srcHeight,
+    chapter,
+    genji_chapter: genjiChapter,
+    index,
+    navIndex,
+    data,
+    uniqueIndex,
+  },
+  item,
+  // 屏風（typeen === "byobu"）: 縦長黒帯（段タイトルバー）の見た目のみ非表示にする。
+  // 幅0マーカーのラッパー要素・DOM 構造・navIndex/scrollDialog ref は一切変更しない。
+  hideChapterTitle = false,
+}) =>
+⋮----
+// 屏風（typeen === "byobu"）: 縦長黒帯（段タイトルバー）の見た目のみ非表示にする。
+// 幅0マーカーのラッパー要素・DOM 構造・navIndex/scrollDialog ref は一切変更しない。
+</file>
+
+<file path="src/pages/[slug].js">
+// TODO:スマホ版横向きのページにタイトルと絵師名を追加する
+⋮----
+const Emaki = (
+⋮----
+// 別絵巻へ遷移した際に、縦スクロール・navIndex をリセット
+// hash 付き共有リンク入場では navIndex を消さない（handleToId と競合して先頭に戻る）
+// ?scene / ?ebiki ディープリンクも先頭リセットしない（#1 フォールバック防止）
+⋮----
+// 逆引きクエリ:
+// - ?ebiki={item_id}: link_id 明示を最優先（なければ scene_id 推定）。
+//   粗い setnavIndex の後、SceneCommentaryBar が offset 付き handleToId。
+// - ?scene={sceneId}: 段先頭（絵画優先）へ合わせる。
+⋮----
+const byChapter = (cat)
+⋮----
+// 九相図クラスタ SEO: 代表巻・檀林皇后版は SERP 向け title/desc を個別最適化。
+// H1（data.title）は変えない。
+⋮----
+// OGP画像: 生成済みの /ogp/{titleen}.jpg を優先し、
+// ローカルサムネが存在しない絵巻は Cloudinary 変換URLを使用
+⋮----
+// 教育現場向けUI: 巻末ナッジ用 - 兄弟巻は EmakiLandscapContent 内で取得
+⋮----
+const matchMediaContainer = (full, ori) =>
+⋮----
+// 詞書がない段（絵単独の段）でも、帖番号（genji_chapter）があれば
+// chapters-of-genji.json の「あらすじ/現代文/古文」をテキスト表示へバインドする。
+// 巻別 JSON に既値がある場合はそちらを優先し、該当帖が無ければ元の item をそのまま返す。
+const withGenjiChapterText = (item) =>
+⋮----
+export const getStaticPaths = async () =>
+⋮----
+export const getStaticProps = async (context) =>
+⋮----
+// キャッシュファイルが存在しない場合のエラー処理
+⋮----
+// キャッシュファイルを読み込む
+</file>
+
+<file path="src/components/emaki/viewer/LazyImage.js">
+// アダプティブタイムアウト: 直近の画像ロード時間からフォールバック閾値を動的算出
+// 教室一斉アクセス等の帯域逼迫時に閾値が自動的に緩和される
+// セッション内（メモリ）限定。localStorage 永続化は前回セッションの速い/遅いサンプルが
+// 混入し（生存バイアス・汚染）、閾値が下限に張り付く原因になるため廃止。
+const loadTimeSamples = []; // 直近の実測ロード時間（ms）
+⋮----
+const TIMEOUT_MULTIPLIER = 2.5; // 平均ロード時間の2.5倍を閾値とする
+// キャッシュヒット / decode 済みの即時完了はネットワーク指標として無効なので除外
+⋮----
+// P3-c: 絵巻別タイムアウト倍率 — cloudinary-breakdown.json の avg_kb に基づく
+// キーは `data.titleen`（emakiId）。scroll_id とは別体系のため混在させない
+⋮----
+"Chōjū-jinbutsu-giga_first": 1.3, // 甲巻: 横長・高解像度で1枚あたりの転送量が大きい
+"jigokusoushi_anzyuin": 1.5,      // avg 1719KB / max 2890KB — 重量級
+"kusouzumaki": 1.2,               // avg 838KB
+"eshi-no-soshi_tohaku": 1.2,      // avg 716KB
+"gakisoushi_kawamoto": 1.2,       // avg 651KB
+⋮----
+// 下限・フォールバック値を引き上げ、デスクトップの帯域競合時に誤発火しないようにする
+⋮----
+// P1-c: 接続種別による分岐 (navigator.connection?.effectiveType)
+const getConnectionMultiplier = () =>
+⋮----
+return 1; // 4g / unknown
+⋮----
+/** 3g 以下、または甲巻着地は先読みを 1 枚に絞る（API 欠落の desktop は通常枠のまま） */
+const getManualLookahead = (emakiId) =>
+⋮----
+// デバッグフラグ: 検証完了後に false にするか、本ブロックごと削除
+⋮----
+// 一度 onLoadingComplete した画像キー。描画窓 remount 時の blur/skeleton 再発を抑止
+⋮----
+const recordLoadTime = (ms) =>
+⋮----
+// 即時完了（キャッシュ/decode）はサンプルから除外し、閾値の下限張り付きを防ぐ
+⋮----
+const getAdaptiveTimeout = (type, emakiId) =>
+⋮----
+/**
+ * マウント済みシーンは視線より先にネット開始する。
+ * 描画窓が枚数を制限するので、前方 eager を厚くして二重 lazy ゲートを避ける。
+ */
+const isEagerLoad = (
+  uniqueIndex,
+  prefetchIndex,
+  isPlayMode,
+  toggleFullscreen,
+  manualLookahead = MANUAL_IMAGE_LOOKAHEAD
+) =>
+⋮----
+// フルスクリーンでも前方は manualLookahead まで（一斉投影時の同時取得を抑える）
+⋮----
+// 手動: 後方1・前方 manualLookahead
+⋮----
+const LazyImage = ({
+  src,
+  alt,
+  width,
+  height,
+  config,
+  uniqueIndex,
+  navIndex, // 現在表示中のシーンインデックス（フルスクリーン時のeager制御用）
+  sceneIndex, // 先読み用（再生中は liveSceneIndex。未指定時は navIndex）
+  isPlayMode, // 再生モード状態
+  emakiId, // 計測用: 絵巻ID
+  isByobu, // 屏風（typeen === "byobu"）: sizes の過小評価を防ぐ
+}) =>
+⋮----
+navIndex, // 現在表示中のシーンインデックス（フルスクリーン時のeager制御用）
+sceneIndex, // 先読み用（再生中は liveSceneIndex。未指定時は navIndex）
+isPlayMode, // 再生モード状態
+emakiId, // 計測用: 絵巻ID
+isByobu, // 屏風（typeen === "byobu"）: sizes の過小評価を防ぐ
+⋮----
+// 計測用: 読み込み開始時刻
+⋮----
+const hasTrackedRef = useRef(false); // 重複計測防止
+⋮----
+// フォールバック計時（タイムアウト型は priority / fullscreen / universal の3種）
+//
+// 重要: eager 画像でもマウント時には計時を開始しない。描画窓内の eager は画面外に
+// あることが多く、リクエスト開始前からカウントすると誤発火（image_load_fallback 多発）になる。
+// rootMargin: "200px" の進入圏内に入った時点（≒実ロード開始）から計時を始める。
+⋮----
+const startFallbackTimer = () =>
+⋮----
+// ロード開始時刻を「今」にリセット（ビューポート進入 = ロード開始）
+⋮----
+// プレースホルダーは外さない（実画像到着前の空白化＝即離脱の原因）。
+// ここでは計測のみ行い、スケルトンは onLoadingComplete / onError まで維持する。
+⋮----
+// 絵巻の紙色（#f5f0e6）。Firefox の白背景フラッシュ対策（外部 blur URL は使わない）
+⋮----
+const cloudinaryLoader = (
+⋮----
+// 変換はスラッシュ区切りのみ（カンマは srcset を分割し相対パス 404 になる）
+// dpr_auto は付けない: next/image の srcset が devicePixelRatio を考慮して候補を選ぶため、
+// w_×dpr の二重拡大による過大な配信を防ぐ
+// c_limit: 要求幅が原寸を超えても拡大しない（無駄な原寸超え配信の抑止）
+// 通常絵巻は EMAKI_IMAGE_MAX_WIDTH でキャップ（フルスクリーン含む）。屏風は拡大鑑賞のため据え置き
+⋮----
+// 屏風(舟木本)のみ指定品質。通常絵巻はフルスクリーンでも q_auto:eco（投影時の過大配信防止）
+⋮----
+// sizes 属性: ブラウザの srcSet 選択を実際の表示幅に一致させる
+// sizes 未指定時のデフォルト "100vw" では、横スクロール内の各画像の実幅と乖離し、
+// 不要なリクエストキャンセル（HAR: status 0）や二重フェッチの原因となる
+// media query を使用して SSR/クライアント間の hydration mismatch を防止
+⋮----
+// 屏風（舟木本 等）は ratio ≈ 0.365 と極端に細く、SP（375〜420px）では
+// calc(ratio * 45vh) が約 130px となり、極小候補（w_256 / w_384）が選ばれて
+// 拡大時にモザイク状にぼける。屏風のみ下限幅を設けて高解像度側へ寄せる
+// （通常絵巻は従来式のまま＝配信量・レイアウトのリグレッションなし）。
+⋮----
+? // フルスクリーン投影でも 100vh×DPR の過大候補を避け、通常横画面相当に寄せる（屏風は従来）
+⋮----
+// 幅は親 section（buildSceneShellStyle）が担う。ここは 100% 充填のみ（差し替え時の幅揺れ防止）
+⋮----
+// 初回は 1枚のみ eager。再生/フルスクリーン時のみ先読みを広げる
+⋮----
+// emakiId 未指定（詞書オーバーレイ等）のロード時間はネットワーク指標として
+// 混ぜない。150ms 未満（キャッシュ/decode 済み）も recordLoadTime 側で除外される
+⋮----
+// skeleton は紙色のまま短く外す（長いフェードで「読み込み」を意識させない）
+⋮----
+// 取得失敗のみ計測。スケルトンは維持し、空白化・レイアウト崩れを避ける
+</file>
+
+<file path="src/hooks/emaki/useEmakiScroll.js">
+/**
+ * スクロール処理 + 現在シーン検出。
+ *
+ * - handleScroll: 端点判定・スクロール位置保存・インジケータ更新・シーン検出 debounce
+ * - detectCurrentScene: ビューポート中央の実測 DOM（findSceneIndexAtViewportCenter）が正本
+ * - 手動スクロール: 停止 debounce 後にのみ hash/navIndex 更新（DOM 中央を正本採用）
+ * - handleToId: scrollPositionStore.isProgrammaticScroll で着地中の誤検出を抑制
+ * - 自動再生中: scroll リスナーは位置保存のみ。シーンは useEmakiAutoPlay の rAF 側＋本検出
+ * - 描画窓中心: メタデータ幅推定（URL 正本とは分離）
+ *
+ * 抽出元: EmakiConteiner.js の detectCurrentScene + handleScroll effect。
+ */
+⋮----
+const useEmakiScroll = ({
+  articleRef,
+  dataId,
+  emakiId,
+  emakis,
+  isByobu = false,
+  navIndex,
+  setnavIndex,
+  isScrollDetectedUpdateRef,
+  isAutoScrolling,
+  playModeAnimationRef,
+  palmActiveRef,
+  lastDetectedSceneRef,
+  isAtStartRef,
+  isAtEndRef,
+  setIsAtStart,
+  setIsAtEnd,
+  isScrollingRef,
+  setIsScrolling,
+  indicatorElRef,
+  toggleFullscreen,
+  scrollPositionStore = defaultScrollStore,
+  detectCurrentSceneRef,
+}) =>
+⋮----
+// 段ジャンプ（目次・チャプターナビ）: navIndex を検出基準へ同期
+⋮----
+// hash / 目次ジャンプ: 大きく離れた navIndex のみ窓へ反映
+⋮----
+// 停止 debounce 後の DOM 中央プローブを正本とする（±1 連番拘束はデッドロック源のため撤廃）
+⋮----
+const flushWindowCenterToState = () =>
+const scheduleWindowCenterStateSync = () =>
+⋮----
+/** 描画窓のみ: メタデータ幅で推定（URL 正本とは独立） */
+const scheduleContentWindowCenter = () =>
+⋮----
+const handleScroll = () =>
+⋮----
+// スクロール停止後にのみ DOM 中央プローブ → hash / navIndex
+⋮----
+const handleMousedown = () =>
+⋮----
+// 中身マウント等で scrollWidth が変わったら再プローブ
+</file>
+
+<file path="src/pages/_app.js">
+/**
+ * App shell: AppContext provider, global viewer state, GA, modals.
+ *
+ * Key exports: AppContext, default MyApp (withTranslation).
+ * State: navIndex, fullscreen, sidebar, search/help modals, ranking fetch.
+ * Related: EmakiConteiner.js (consumer), measurementUtils.js (events).
+ * Edit targeted blocks only — do not split this file without a plan.
+ */
+⋮----
+// Chakra theme はモジュールスコープ（毎レンダー extendTheme しない）
+⋮----
+function MyApp(
+⋮----
+// ページ遷移を認識させるコード
+// https://zenn.dev/rh820/articles/8af90011c573fe
+⋮----
+const handleRouteChange = (url) =>
+⋮----
+// セッション鑑賞サマリー: beforeunload/visibilitychange リスナー登録
+⋮----
+// 未使用レガシー state（コンテキスト互換のため空配列で維持）
+⋮----
+// 絵巻ハイパーリンク: スクロール検出による navIndex 更新時は scrollDialog を抑制
+⋮----
+// フルスクリーン制御（入/切・Fキー・ブラウザ主導の状態同期・遷移時解除）
+⋮----
+async function fetchData()
+⋮----
+// /ja/xxx と /xxx のPVを同一スラグとして合算
+⋮----
+// ロケールプレフィックス(/ja/)を除去し、先頭の/を除去してスラグを取得
+⋮----
+if (!pathName || isWithdrawnScroll(pathName)) return; // "/" や "/ja" は除外
+⋮----
+// metadata JSON はランキング構築時だけ遅延ロード（_app 初回バンドルから外す）
+⋮----
+const openSidebar = () =>
+const closeSidebar = () =>
+⋮----
+const openSearchModalOpen = () =>
+⋮----
+const closeSearchModal = () =>
+⋮----
+const openHelpModal = () =>
+⋮----
+const closeHelpModal = () =>
+⋮----
+const resetViewerStateOnNavigate = () =>
+⋮----
+// 別絵巻遷移前に navIndex / 横スクロール保存状態をリセット
+// （フルスクリーン復元 effect より先にクリアして競合を防ぐ）
+⋮----
+// フルスクリーン解除（useEmakiFullscreen が担当）
+⋮----
+const handleChapterToggle = () =>
+⋮----
+// スクロール実行を統合した handleToId
+// realign: 共有 hash 入場のみ。ResizeObserver の apply("auto") は smooth を潰すため段クリック等では使わない
+⋮----
+// 目次・ハブ・絵引ジャンプ: 連番拘束を一時解除し着地先を正本にする
+⋮----
+// 絵引シート等の同時 mount は smooth をキャンセルしやすい → 明示 auto を優先
+⋮----
+// 全画面遷移中は握り潰さず、遷移完了を待って保留ジャンプする
+// （即 return すると着地しないまま navIndex だけ進み、解説バーと段がズレる）
+⋮----
+const runDeferred = () =>
+⋮----
+const pinWindowTop = () =>
+⋮----
+const apply = (scrollBehavior = "auto") =>
+⋮----
+// offsetPercent: 0=右端, 50=中央, 100=左端（ピッカー / CSV と同じ）
+// RTL 負値 scrollLeft: 画面座標は ΔscrollLeft と逆向きに動く
+// → .ebikiSpot（window 中央）へ吸着: sl + (pointVX - centerVX)
+⋮----
+const watchLayout = () =>
+⋮----
+const tryUntilReady = (attempt) =>
+⋮----
+// 全画面遷移中の保留ジャンプ実行用（handleToId の自己参照）
+⋮----
+// scrollDialog: スクロール実行は handleToId に統合したため無効化
+// ref callback としての機能は維持（他コンポーネントでの参照互換性のため）
+⋮----
+// 何もしない（スクロール実行は handleToId が担当）
+⋮----
+function handleOrientationChange(evt)
+⋮----
+// 初回以外: 再マウント前に ratio を凍結（scrollLeft=0 での上書き防止）
+⋮----
+// 入場 hash は EmakiConteiner マウント後に処理（article 未作成での失敗を避ける）
+⋮----
+// hash 同期は EmakiConteiner の liveSceneIndex 側（再生中も追従）
+⋮----
+const stickNavbar = () =>
+⋮----
+// ウィンドウの高さを取得
+⋮----
+const updateHeight = () =>
+⋮----
+updateHeight(); // 初期高さを設定
+window.addEventListener("resize", updateHeight); // ウィンドウリサイズ時に高さを更新
+⋮----
+{/* viewport meta: モバイルブラウザ対応 + ノッチ端末の safe-area 有効化 */}
+{/* _app.js で next/head を使用することで Next.js のデフォルト viewport を確実に上書き */}
+⋮----
+{/* google analytics */}
+</file>
+
+<file path="src/hooks/emaki/useEmakiZoomPan.js">
+/**
+ * useEmakiZoomPan — ズーム＆パン状態管理（兄弟オーバーレイ方式）。
+ *
+ * 既存の useEmakiScroll / useEmakiPalmDrag / useScrollPositionRestore には触れず、
+ * ZoomLayer 内で完結して scale / panX / panY を管理する。RTL の横スクロール座標系や
+ * 背後の <article> のイベントには一切干渉しない。
+ *
+ * ジェスチャ（2本指ピンチ / Ctrl・⌘+ホイール / ズーム中のホイール）は
+ * entry-container（containerRef）へ常時登録し、通常スクロールからズーム状態へ
+ * モードレスに移行する。等倍（1.0）まで縮小すると通常スクロールへ自動復帰する。
+ *
+ * pan はコンテンツ実寸（.strip）と可視領域（.stage）から算出した可動域へ
+ * 常にクランプする。縮小時の最小倍率は「画像の縦幅がコンテナ縦幅に収まる fit」
+ * を下限とし、上下に背景（黒帯）が露出しないようにする。
+ */
+⋮----
+// ズーム上限。屏風（舟木本など）はスライス幅が狭く 300% では人物が小さいため、
+// 既定を 600% とし、maxScale prop（屏風 = 800%）で作品特性に応じて引き上げられる。
+⋮----
+const HARD_MAX_SCALE = 10; // maxScale prop の安全上限（UI 表示・配信解像度の破綻防止）
+⋮----
+const FALLBACK_MIN_SCALE = 1; // 等倍（これ以下は通常スクロールへ復帰）
+// ピンチイン / ホイール縮小が等倍まで戻ったときの復帰判定閾値
+⋮----
+// ジェスチャ中に一度でもこの値以上まで拡大した場合のみ「ピンチイン復帰」を有効にする
+// （等倍で始まるピンチアウト開始直後に誤って即復帰しないためのガード）
+⋮----
+const clamp = (value, min, max)
+const isFiniteNumber = (value)
+⋮----
+export default function useEmakiZoomPan({
+  onOpen,
+  onDoubleTap,
+  containerRef,
+  requestZoomRef,
+  maxScale: maxScaleProp,
+} =
+⋮----
+// 作品特性に応じたズーム上限（未指定 = 600%、屏風 = 800%）。不正値は既定へ戻す。
+⋮----
+const zoomRef = useRef(null); // .layer（wheel ネイティブ登録・イベント委譲先）
+const stageRef = useRef(null); // .stage（可視ビューポート実寸）
+const stripRef = useRef(null); // .strip（画像帯 = コンテンツ実寸）
+⋮----
+// 拡大開始時に基準とするカーソル座標（viewport 座標）と初期倍率。null なら中央基準
+⋮----
+// 直近のカーソル位置（+/- ボタン・ホイールでのズーム基準）
+⋮----
+// ダブルクリック判定（拡大中にダブルクリックで横スクロールへ戻す）
+⋮----
+// タッチ（SP）: 1本指パン / 2本指ピンチの進行状態
+⋮----
+mode: null, // null | "pan" | "pinch"
+⋮----
+peakScale: DEFAULT_SCALE, // このジェスチャで到達した最大倍率（ピンチイン復帰判定）
+exited: false, // 等倍へ復帰済み（指を離すまで再進入しない）
+⋮----
+// ダブルタップ（全画面切替）は毎レンダー再生成されるため ref 経由で最新版を参照する
+⋮----
+// 最小倍率（これ以上縮小させない = 背景露出を防ぐ）。
+// 縦幅の fit に加え、ストリップ幅がステージ幅に満たない場合の横幅カバーも考慮する
+// （改修Bで収集枚数を動的化しても、巻頭・巻末や極端な狭幅では不足しうるため）。
+⋮----
+// scale 倍時の可動域（transform-origin: center center 前提）。
+// 未マウント / 未実測（幅 0）は「可動域 0」ではなく null（未知）を返し、
+// 呼び出し側で pan を温存できるようにする。
+⋮----
+if (!bounds) return [x, y]; // 実測不能時は現在の値を温存
+⋮----
+// --- Android Chrome ラスタ固着対策 -------------------------------------------
+// 拡大時にコンポジタが等倍テクスチャを保持したまま GPU で引き伸ばす現象
+// （ラスタ固着）への対策。操作セッション中だけ will-change: transform を strip へ
+// 付与して合成レイヤーを作り直させ、確定時にサブピクセルの transform 変化を与えて
+// 現在倍率での再ラスタライズを強制する。
+// 常時付与は iOS WebKit の固着・GPU メモリ圧迫を招くため行わない。
+const rasterActiveRef = useRef(false); // ピンチ / ドラッグ / ホイール継続中
+⋮----
+const rasterPendingRef = useRef(null); // { base, nudged } 一時的なサブピクセル変化
+⋮----
+// 未実行のサブピクセル変化を即座に戻す（復元予約も破棄）
+⋮----
+// transform へ微小なスケール変化（+0.01%）を与える（肉眼では不可視・レイアウト影響なし）。
+// 平行移動だけではコンポジタのテクスチャ解像度が再計算されないため、
+// ラスタスケールの再計算を誘発する scale の変化を用いる。
+// React の再レンダーで transform が更新済みの場合は触らない。
+⋮----
+// ジェスチャ継続中でなければ合成レイヤーを解放する
+⋮----
+// 二重 rAF: React の再レンダー（transform 反映）後にサブピクセル変化を与え、
+// コンポジタにキャッシュ破棄 → 現在倍率での再ラスタライズを行わせる。
+⋮----
+// ジェスチャ中の連続 commit では nudge 実行中をスキップして間引く
+⋮----
+// ジェスチャ開始: セッション中は will-change を維持して再ラスタライズを促す
+⋮----
+// ジェスチャ終了: 最終倍率で再ラスタライズしてから will-change を外す
+⋮----
+// アンマウント時: 予約中の再ラスタライズとホイール停止タイマーを破棄
+⋮----
+// scale と pan を同時に確定へ反映する（NaN / 極端値・可動域を常に補正）
+⋮----
+// 確定直後に再ラスタライズを促す（Android Chrome の等倍テクスチャ固着対策）
+⋮----
+// カーソル位置（clientX / clientY）を固定したまま拡大縮小する。
+// transform-origin を動かす代わりに pan を逆算し、カーソル直下のコンテンツ座標を保つ。
+⋮----
+// ズームレイヤー未マウント（wheel 進入と同一タスク）でも基準点を取れるよう、
+// entry-container をフォールバックに使う。
+⋮----
+// カーソル直下のコンテンツ座標 p = (focus - pan) / prevScale を固定する pan
+⋮----
+// 等倍復帰: 指を離すまでピンチで再進入しない
+⋮----
+// ラスタセッションを終了し、未実行の再ラスタライズ予約を破棄する
+⋮----
+// focusX / focusY（clientX / clientY）を渡すと、その点を基準に拡大を開始する。
+// initialPanX: article の表示中心とオーバーレイ strip 中心が指す内容の差分（P1）。
+//   コンテンツ座標系の値で受け取り、スクリーン px へは開始倍率を乗じて変換する
+//   （translate は scale の外側で適用されるため、倍率を掛けないと突入直後に位置が飛ぶ）。
+// 実測前の初期フレームは補正済みパンで描画し、レイアウト確定後の
+// useLayoutEffect でカーソル基準の倍率・パンへ（ペイント前に）補正する。
+⋮----
+// 先に pan/scale を確定してから isZoomed を立てる。
+// （レイヤーは isZoomed=true で初描画されるため、未初期化値の描画＝ちらつきを防ぐ）
+// initialScale: ボタン/ダブルクリックは既定倍率、ピンチ/ホイールは等倍から開始する
+⋮----
+// 実測後（useLayoutEffect・ペイント前）にカーソル基準の最終倍率・パンへ補正する
+⋮----
+// 等倍まで縮小したら通常スクロール状態へ自動復帰する（モードレス）
+⋮----
+// 右下ズームボタン: 等倍（FALLBACK_MIN_SCALE）⇔ 既定倍率（DEFAULT_SCALE）をトグルする。
+// focusX / focusY 未指定なら表示中央基準で拡大する。
+⋮----
+// ズーム進入直後（ref 実測後・ペイント前）にカーソル基準の初期倍率・パンを確定する
+⋮----
+// リサイズ / 向き変更で可動域が変わるため再補正
+⋮----
+const onResize = ()
+⋮----
+// Escape キーでズーム解除（背後の UI へ伝播させない）
+⋮----
+const onKeyDown = (event) =>
+⋮----
+// ホイール / タッチ（SP・TB）: entry-container へ常時ネイティブ登録する。
+// ZoomLayer は isZoomed のときだけ描画されるため、レイヤー単体では
+// 「通常スクロール → ピンチ/ホイールでシームレスにズームへ」を拾えない。
+//  - 2本指ピンチアウト（タッチ）: 触れた瞬間に等倍でズーム状態へ入る（モードレス移行）
+//  - 2本指ピンチイン: 等倍まで縮小した時点で通常スクロール状態へ自動復帰
+//  - Ctrl/⌘ + ホイール（トラックパッドのピンチ）: カーソル位置基準で拡大
+//  - ズーム中のホイール: カーソル位置基準で拡大縮小
+//  通常のホイール回転は横スクロール（article のハンドラ）へ委ねる。
+⋮----
+const onWheel = (event) =>
+⋮----
+// Firefox 等の deltaMode（1: line, 2: page）を px 相当へ正規化
+⋮----
+// 等倍以下へ縮小する向きではズーム状態へ入らない
+⋮----
+// ズーム操作セッション: ホイールが止まるまで will-change を維持する
+⋮----
+// 等倍まで縮小したら通常スクロール状態へ自動復帰する（モードレス）
+⋮----
+const onTouchStart = (event) =>
+⋮----
+// モードレス移行: 触れた瞬間に等倍でズーム状態へ入る
+⋮----
+// ピンチ中は will-change を維持して再ラスタライズを促す
+⋮----
+// 通常スクロール中: ダブルタップは全画面切替（ズームは発火させない）
+⋮----
+// ブラウザ標準のダブルタップズーム（ページ拡大）を明示的に抑止
+⋮----
+return; // 1本指スワイプはネイティブの横スクロールへ委ねる
+⋮----
+// 拡大表示中のダブルタップ: 等倍時と同様に全画面表示をトグル（等倍復帰はピンチインのみ）
+⋮----
+// パンドラッグ中も will-change を維持して再ラスタライズを促す
+⋮----
+const onTouchMove = (event) =>
+⋮----
+// 等倍まで縮小して通常スクロールへ復帰済み: 指を離すまで再進入しない
+⋮----
+// 等倍へ戻した直後に再び広げた場合は再度ズーム状態へ入る（モードレス）
+⋮----
+// 2本目が後から触れた場合はこのフレームを基準にする
+⋮----
+// ピンチイン: 等倍まで縮小した時点で通常スクロール状態へ自動復帰する
+⋮----
+// ピンチ中心を基準に拡大縮小し、指の移動分は平行移動として加算する
+⋮----
+if (!isZoomedRef.current) return; // 通常スクロールはネイティブに委ねる
+⋮----
+// ピンチ → 1本指へ移行: パン基準をリセット
+⋮----
+const onTouchEnd = (event) =>
+⋮----
+// ピンチ → 1本指パンへ移行
+⋮----
+// 操作確定: 最終倍率で再ラスタライズしてから will-change を外す
+⋮----
+// iOS Safari はピンチを独自の gesture* イベントでも処理する。
+// touch-action: pan-x pan-y が効く iOS13+ では原則不要だが、旧 iOS の保険として
+// コンテナ内のネイティブピンチを明示的に抑止する（touch 側の処理は維持される）。
+const onGesture = (event) =>
+⋮----
+// コントロールUI（ボタン）上の押下時はドラッグを開始せず、通常のclickを通す
+⋮----
+// タッチはネイティブの onTouch*（パン/ピンチ）で処理するため pointer では扱わない
+⋮----
+// 拡大表示中のダブルクリック: 横スクロール画像の表示へ戻す
+⋮----
+// ブラウザ標準の画像ドラッグ／テキスト選択によるパン中断を防止
+⋮----
+// ドラッグ中は will-change を維持して再ラスタライズを促す
+⋮----
+// 操作確定: 最終倍率で再ラスタライズしてから will-change を外す
+</file>
+
+<file path="src/types/viewer.ts">
+// ビューアUIの Props 型と Custom Hook 戻り値型（forward declaration）
+// 目的: AI / LLM が実装を読まなくても型だけで対話できるようにする。
+// 参照: src/components/emaki/layout/EmakiConteiner.js（Step 3 でフック抽出後は本ファイルが契約）
+import type { RefObject } from "react";
+import type { ScrollMetadata } from "./emaki";
+⋮----
+/** EmakiConteiner.js の props。destructure をそのまま機械的に写したもの */
+export type EmakiContainerProps = {
+  data: ScrollMetadata;
+  height?: string;
+  width?: string;
+  scroll?: boolean;
+  overflowX?: string;
+  boxshadow?: string;
+  selectedRef: RefObject<HTMLElement>;
+  navIndex: number;
+  /** 巻末ナッジに表示する他巻カード。EmakiLandscapContent / EmakiPortraitContent から渡される */
+  editionLinks?: ScrollMetadata[];
+  showKusouzuHubLink?: boolean;
+  showChojuGigaHubLink?: boolean;
+};
+⋮----
+/** 巻末ナッジに表示する他巻カード。EmakiLandscapContent / EmakiPortraitContent から渡される */
+⋮----
+/** EmakiNavigation.js の props */
+export type EmakiNavigationProps = {
+  handleToId: (
+    id: number,
+    opts?: {
+      realign?: boolean;
+      offsetPercent?: number;
+      /** 絵引シート同時表示時は "auto"（smooth が mount でキャンセルされるため） */
+      behavior?: ScrollBehavior;
+    }
+  ) => void;
+  data: ScrollMetadata;
+  isUIVisible?: boolean;
+  isPlayMode?: boolean;
+  isAutoScrolling?: boolean;
+  onStartPlayMode?: () => void;
+  onStopPlayMode?: () => void;
+  onOpenScrollFeedback?: () => void;
+  showScrollFeedbackButton?: boolean;
+};
+⋮----
+/** 絵引シート同時表示時は "auto"（smooth が mount でキャンセルされるため） */
+⋮----
+// =====================================================
+// Step 3 で実装した Custom Hook の型定義
+// 実装: src/hooks/emaki/*.js
+// =====================================================
+⋮----
+/**
+ * useEmakiScroll — スクロール処理 + 現在シーン検出（統合版）。
+ * useEmakiSceneDetection は共有 ref が多いため統合した。
+ * 戻り値の scrollDimsRef は Conteiner 側の絵巻切替リセット effect から操作するために公開。
+ * 現在地（navIndex / liveSceneIndex / hash）はビューポート中央の実測 DOM プローブ。
+ * 手動スクロール時は連番拘束（±1）。handleToId は isProgrammaticScroll で拘束解除。
+ */
+export type UseEmakiScrollResult = {
+  /** scrollWidth/clientWidth キャッシュ。絵巻切替時に Conteiner がリセットする */
+  scrollDimsRef: RefObject<{ w: number; c: number; ts: number }>;
+  /** 再生中の解説バー追従用・URL hash / 共有の正本（ビューポート中央コマ index。navIndex は画像ツリー再レンダー抑制のため固定） */
+  liveSceneIndex: number;
+  /** 描画窓の中心コマ（メタデータ幅推定。URL 正本とは独立） */
+  contentWindowCenter: number;
+  /** 同期値（idle 反映前の最新中心）。ズーム開始時のスライス確定など即時参照用 */
+  contentWindowCenterRef: RefObject<number>;
+};
+⋮----
+/** scrollWidth/clientWidth キャッシュ。絵巻切替時に Conteiner がリセットする */
+⋮----
+/** 再生中の解説バー追従用・URL hash / 共有の正本（ビューポート中央コマ index。navIndex は画像ツリー再レンダー抑制のため固定） */
+⋮----
+/** 描画窓の中心コマ（メタデータ幅推定。URL 正本とは独立） */
+⋮----
+/** 同期値（idle 反映前の最新中心）。ズーム開始時のスライス確定など即時参照用 */
+⋮----
+/**
+ * useEmakiAutoPlay — 初回ナッジ + 再生モードの rAF ループ。
+ * useEmakiIdleUI を内部合成する（isUIVisible / showUI もここから提供）。
+ * playModeAnimationRef は Conteiner 側（detectCurrentScene・ホイール停止・絵巻切替）が参照する。
+ * scrollPositionStore は向き・フルスクリーン復元用（再生中も ratio を更新）。
+ */
+export type UseEmakiAutoPlayResult = {
+  isAutoScrolling: boolean;
+  isPlayMode: boolean;
+  startPlayMode: () => void;
+  stopPlayMode: () => void;
+  playModeAnimationRef: RefObject<number | null>;
+  isUIVisible: boolean;
+  showUI: () => void;
+  /** 絵引チップ操作などからのアイドルタイマー再スタート */
+  resetIdleTimer: () => void;
+};
+⋮----
+/** 絵引チップ操作などからのアイドルタイマー再スタート */
+⋮----
+/** useEmakiPalmDrag — 手のひらモード（pointer events） */
+export type UseEmakiPalmDragResult = {
+  isPalmMode: boolean;
+  suppressClickUntilRef: RefObject<number>;
+  /** ドラッグ実行中フラグ。useEmakiScroll がシーン確定を保留するために参照する */
+  palmActiveRef: RefObject<boolean>;
+};
+⋮----
+/** ドラッグ実行中フラグ。useEmakiScroll がシーン確定を保留するために参照する */
+⋮----
+/** useEmakiIdleUI — 静止UI耐性（idle timer）。useEmakiAutoPlay が内部合成して利用 */
+export type UseEmakiIdleUIResult = {
+  isUIVisible: boolean;
+  /** 再生モード停止・ホイール操作時の UI 復帰に使う（Conteiner 側の setIsUIVisible(true) 呼び出しを置換） */
+  showUI: () => void;
+  /** 絵引チップ／シート操作時にタイマーをリセットして UI を維持する */
+  resetIdleTimer: () => void;
+};
+⋮----
+/** 再生モード停止・ホイール操作時の UI 復帰に使う（Conteiner 側の setIsUIVisible(true) 呼び出しを置換） */
+⋮----
+/** 絵引チップ／シート操作時にタイマーをリセットして UI を維持する */
+⋮----
+/** useScrollPositionRestore — フルスクリーン / 向き切替時のスクロール位置復元（副作用のみ） */
+export type UseScrollPositionRestoreParams = {
+  dataId: string;
+  toggleFullscreen: boolean;
+  orientation: string;
+  navIndex?: number;
+  handleToId?: (
+    id: number,
+    opts?: {
+      realign?: boolean;
+      offsetPercent?: number;
+      behavior?: ScrollBehavior;
+    }
+  ) => void;
+  /**
+   * 復元確定後の現在段再同期。キャッシュ再構築後に再判定が呼ばれず
+   * コメンタリーバーが固まるのを防ぐ（未指定なら再同期しない）。
+   */
+  detectCurrentSceneRef?: RefObject<(() => void) | null>;
+  scrollPositionStore: {
+    scrollLeft: number;
+    scrollRatio: number;
+    restored: boolean;
+    isTransitioning: boolean;
+    emakiId: string | null;
+  };
+};
+⋮----
+/**
+   * 復元確定後の現在段再同期。キャッシュ再構築後に再判定が呼ばれず
+   * コメンタリーバーが固まるのを防ぐ（未指定なら再同期しない）。
+   */
+⋮----
+/**
+ * useEmakiZoomPan — ズーム＆パン（兄弟オーバーレイ方式）。
+ * ZoomLayer（src/components/emaki/viewer/ZoomLayer.jsx）が消費する。
+ * scale は 1.0〜maxScale、初期値 2.0（等倍 1.0 まで縮小すると通常スクロールへ復帰）。
+ * maxScale は既定 6.0（600%）。屏風（typeen === "byobu"）は狭幅スライス向けに 8.0（800%）。
+ */
+export type UseEmakiZoomPanParams = {
+  onOpen?: () => void;
+  onDoubleTap?: () => void;
+  /** ジェスチャ（ピンチ / Ctrl+ホイール）を常時受ける entry-container */
+  containerRef?: RefObject<HTMLElement>;
+  /** 等倍からズーム状態へ同期進入するための進入関数 ref */
+  requestZoomRef?: RefObject<
+    (focusX?: number, focusY?: number, initialScale?: number) => void
+  >;
+  /** ズーム上限倍率（未指定 = 6.0）。1.0〜10.0 にクランプされる */
+  maxScale?: number;
+};
+⋮----
+/** ジェスチャ（ピンチ / Ctrl+ホイール）を常時受ける entry-container */
+⋮----
+/** 等倍からズーム状態へ同期進入するための進入関数 ref */
+⋮----
+/** ズーム上限倍率（未指定 = 6.0）。1.0〜10.0 にクランプされる */
+⋮----
+/** 絵引座標ピッカー（開発専用・?dev=ebiki）の 1 クリック結果 */
+export type EbikiPickerPickResult = {
+  linkId: number;
+  offsetPercent: number;
+  leftPct: number;
+  csvLine?: string;
+  labelLine?: string;
+};
+⋮----
+export type UseEbikiCoordinatePickerResult = {
+  enabled: boolean;
+  onPick: (result: EbikiPickerPickResult) => void;
+  hudData: EbikiPickerPickResult | null;
+  clearHud: () => void;
+};
+⋮----
+export type UseEmakiZoomPanResult = {
+  isZoomed: boolean;
+  scale: number;
+  panX: number;
+  panY: number;
+  /** ルート要素（.layer）に付与する ref */
+  zoomRef: RefObject<HTMLDivElement>;
+  /** 可視ビューポート（.stage）の実測用 ref（可動域 clamp に使う） */
+  stageRef: RefObject<HTMLDivElement>;
+  /** 画像帯（.strip）の実測用 ref（可動域 clamp に使う） */
+  stripRef: RefObject<HTMLDivElement>;
+  /** 拡大開始。focusX / focusY（clientX / clientY）指定時はカーソル点を基準にズームする */
+  openZoom: (
+    focusX?: number,
+    focusY?: number,
+    initialPanX?: number,
+    initialScale?: number
+  ) => void;
+  resetZoom: () => void;
+  zoomIn: () => void;
+  zoomOut: () => void;
+  /** 右下ボタン: 等倍（1.0）⇔ 既定倍率のトグル */
+  toggleZoom: (focusX?: number, focusY?: number) => void;
+  /** ZoomLayer のルートに spread する pointer ハンドラ */
+  handlers: {
+    onPointerDown: (event: React.PointerEvent<HTMLDivElement>) => void;
+    onPointerMove: (event: React.PointerEvent<HTMLDivElement>) => void;
+    onPointerUp: (event: React.PointerEvent<HTMLDivElement>) => void;
+    onPointerCancel: (event: React.PointerEvent<HTMLDivElement>) => void;
+  };
+};
+⋮----
+/** ルート要素（.layer）に付与する ref */
+⋮----
+/** 可視ビューポート（.stage）の実測用 ref（可動域 clamp に使う） */
+⋮----
+/** 画像帯（.strip）の実測用 ref（可動域 clamp に使う） */
+⋮----
+/** 拡大開始。focusX / focusY（clientX / clientY）指定時はカーソル点を基準にズームする */
+⋮----
+/** 右下ボタン: 等倍（1.0）⇔ 既定倍率のトグル */
+⋮----
+/** ZoomLayer のルートに spread する pointer ハンドラ */
+</file>
+
+<file path="src/components/emaki/viewer/SceneCommentaryBar.js">
+/**
+ * ボトムコメントバー: ビューア最下部に常駐するシーン解説バー。
+ *
+ * 段タイトル＋本文を1つのバーにまとめて表示する。詞書あり（kobun）では
+ * デフォルトは現代文。タブ順は現代文 → 古文 → 解説。詞書なしは解説のみ。
+ *
+ * 再生中も段タイトル・本文は liveSceneIndex に追従する（EmakiConteiner から渡される）。
+ *
+ * GA: 旧 ModalDesc の scene_modal_open イベントを、シート展開時に移行。
+ * 関連: EmakiConteiner.js / emakiChapterText.js
+ */
+⋮----
+const stripHtml = (html)
+⋮----
+const SceneCommentaryBar = ({
+  data,
+  navIndex,
+  isFullscreen = false,
+  // md+（768px以上）横画面で通常表示でも右下フローティングカード化する
+  // （全画面＝true 相当のオーバーレイ配置にする。EmakiConteiner 側で算出）
+  commentaryFloating = false,
+  entryContainerRef,
+  quizFab = null,
+  isPlayMode = false,
+  onIdlePauseChange,
+  onIdleActivity,
+}) =>
+⋮----
+// md+（768px以上）横画面で通常表示でも右下フローティングカード化する
+// （全画面＝true 相当のオーバーレイ配置にする。EmakiConteiner 側で算出）
+⋮----
+// 絵引リストはデフォルト非表示（鑑賞優先）。トグルでバー内スワップ
+⋮----
+// ディープリンク `?ebiki={item_id}`: 即時スクロール → スポットライト → 詳細シート
+⋮----
+// link_id 明示が最優先、なければ章画像列への offset 分解
+⋮----
+// 段サムネイル: 画像シーンは chapter が空("") のため、直前の ekotoba 章へ出現順で紐付ける
+⋮----
+let leadingSrc = null; // 先頭が画像の巻用
+⋮----
+map.set(currentChapter, item.src); // 各章の先頭画像を1枚採用
+⋮----
+// 現在の段: navIndex（スクロール検出のセクションID）以前で最後のekotoba
+⋮----
+// バー自体を閉じる状態（×アイコンで操作）。アイドル時のUI非表示（isUIVisible）とは独立
+// スマホ横画面は画像隠れ防止のためデフォルトで閉じる
+⋮----
+// バー内スワップ: "commentary"（解説）| "index"（段構成一覧）
+⋮----
+// 一覧を開いた時のみ行データ（title / desc / thumb）を生成する
+⋮----
+// 現代文 / 古文 / 解説。詞書ありは現代文デフォルト。段変更でも維持（欠落時のみフォールバック）
+⋮----
+// スマホ: 縦→横で閉じる / 横→縦で開く（PC は触らない）
+⋮----
+// 段が変わったら段一覧・絵引リストを閉じる。展開状態(expanded)は維持し、
+// 次段の解説を開いたまま閲覧できるようにする。
+⋮----
+// 絵引リスト / 詳細シート表示中はアイドル非表示を一時停止
+⋮----
+// フローティングカード（全画面 or md+横）のドラッグ＆ドロップ移動。
+// ヘッダー（段タイトル行）を掴んでビューポート内の任意位置へ移動できる。
+// 初期位置は右下固定で、カードのダブルクリックで初期位置へ戻す。
+⋮----
+// 既定位置（右下）からの移動量 px。null は既定位置
+⋮----
+const dragAnchorRef = useRef(null); // {pointerId, startX, startY, baseDx, baseDy, defLeft, defTop, w, h, moved}
+⋮----
+// コンテナ（entry-container）内に収まるよう境界クランプ
+const clampCardDelta = (dx, dy, anchor) =>
+⋮----
+const onCardPointerDown = (e) =>
+⋮----
+// ドラッグ面は「段タイトル行」（ヘッダー内のハンドル相当）。
+// いいね・共有・閉じる等の操作ボタン上ではドラッグ開始しない
+⋮----
+// 既定位置（DnD 前）のコンテナ左上からの座標
+⋮----
+// 絵巻本体の横スクロール・パームドラッグが誤発火しないよう伝播を止め、
+// ポインターをカード側で捕捉し続ける
+⋮----
+/* capture 不可環境では move/up が外れても矩形クランプで復帰する */
+⋮----
+const onCardPointerMove = (e) =>
+⋮----
+// 誤タップ対策のしきい値。未満ならドラッグ扱いしない（クリックで展開は維持）
+⋮----
+const endCardDrag = (e,
+⋮----
+// ドラッグ直後の click（展開トグル等）を抑止する
+⋮----
+/* noop */
+⋮----
+const onCardPointerUp = (e) => endCardDrag(e,
+const onCardPointerCancel = (e) => endCardDrag(e,
+⋮----
+const onCardClickCapture = (e) =>
+⋮----
+const onCardDoubleClick = (e) =>
+⋮----
+// 一覧・絵引リスト表示中の Esc で解説へ戻す
+⋮----
+const handleKeyDown = (e) =>
+⋮----
+// 実バー高さ（折りたたみ時は header のみ、展開時は全文ぶん、閉じた時は再表示ボタン分）を
+// 親の entry-container に --commentary-bar-full-h / --folklore-sheet-bottom として反映する。
+// FolkloreDetailSheet は .entry-container 内 Portal＋absolute のため、コンテナ下端基準の余白を渡す。
+//
+// useLayoutEffect を使い「ペイント前」に変数を更新することで、
+// 展開/折りたたみ時に下部UIが一度下がってから跳ね上がる中間フレームを防ぐ。
+// cleanup では remove せず安全余白 460px を残す（一瞬の全高伸展防止）。
+⋮----
+const resolveContainer = ()
+const update = () =>
+⋮----
+// フローティング時の bottom:4.5rem や DnD 後も、バー上端実測でシート下端を拘束
+⋮----
+// 旧 viewport 基準の :root 値が残ると absolute 余白と競合するため除去
+⋮----
+// 章テキスト（ロケール別フィールド）。hooks は early return より前に置く。
+⋮----
+// 現代文 EN は gendaibunen のみ（未整備なら空）
+⋮----
+// EN は kobunen のみ（未整備なら空。日本語 kobun へ落とさない）
+⋮----
+// 現代文・古文は詞書原文（kobun）がある段だけ。詞書なし巻の場面描写 gendaibun はタブに出さない。
+⋮----
+// 現モードが欠落したら availableModes 先頭へ（現代文 → 古文 → 解説）
+⋮----
+// ×で閉じ: 小さな「解説を表示」ボタンのみ（再生中も再表示可能）
+⋮----
+// 1モードでもタブを出す（EN で Classical 欠落時も Commentary ラベルを残す）
+⋮----
+const toggleExpanded = () =>
+⋮----
+const handleTextMode = (mode) =>
+⋮----
+const handleNavigate = (ekotobaIndex) =>
+⋮----
+setViewMode("commentary"); // 選択後は解説ビューへ戻す
+⋮----
+const handleFolkloreSelect = (item) =>
+⋮----
+// 1. 目的の民具へ即時スクロール
+⋮----
+// 2. 画面中央にスポットライト
+⋮----
+// 3. 右上に詳細シートを即時表示（中央視界を塞がない）
+⋮----
+// トグル開かつ再生モード外のみリスト表示（デフォルトは非表示で鑑賞優先）
+⋮----
+{/* 段タイトル行: タイトル隣はいいね・共有のみ */}
+⋮----
+{/* 帖ガイド / 九相図一覧: 段タイトルのすぐ右隣に小さなピルリンクを置く */}
+⋮----
+{/* 本文。タップで開閉。古文の展開時は ruby HTML を描画 */}
+⋮----
+{/* ユーティリティはバー下部（タイトル圧迫を避ける） */}
+</file>
+
+<file path="src/components/emaki/layout/EmakiConteiner.js">
+/**
+ * Emaki viewer shell: horizontal scroll, auto-play, hash navigation, analytics.
+ *
+ * Consumes AppContext (_app.js). Renders portrait/landscape via child layouts.
+ * Data: image-metadata-cache.json per slug. Do not split without a plan.
+ */
+⋮----
+// 開いたとき／必要時だけ chunk を読む（/[slug] 初回コンパイル・初期 JS 軽減）
+⋮----
+// 教育現場向けUI: 絵巻切り替え検出用
+// モジュールスコープに配置することで、コンポーネント再マウント時も前回値を保持
+⋮----
+const EmakiContainer = ({
+  data,
+  height,
+  width,
+  scroll,
+  overflowX,
+  boxshadow,
+  selectedRef,
+  navIndex,
+  editionLinks = [],
+  showKusouzuHubLink = false,
+  showChojuGigaHubLink = false,
+  showHyakkiHubLink = false,
+}) =>
+⋮----
+// ピンチ / Ctrl+ホイール（トラックパッド）からの即時ズーム進入（実体は下部で配線）
+⋮----
+// タッチのダブルタップで全画面切替した直後の synthetic dblclick を無視する
+⋮----
+// P0改修: scrollPositionStore はモジュールスコープに移動済み
+// （コンポーネント再マウント時も値を保持するため）
+⋮----
+// 教育現場向けUI: ホイール操作時のトースト表示
+⋮----
+// 教育現場向けUI: スクロール端点の状態管理（操作手段に依存しない）
+const [isAtStart, setIsAtStart] = useState(true); // 開始位置（右端）にいるか
+const [isAtEnd, setIsAtEnd] = useState(false); // 終了位置（左端）にいるか
+const isAtStartRef = useRef(true); // scroll ハンドラ再登録回避用
+⋮----
+// 教育現場向けUI: 巻末ナッジ（次巻が存在する場合のみ）
+// 巻末到達中に他の巻へのカードを表示し、「続きがある」ことを伝える
+⋮----
+// prevDataIdはモジュールスコープに移動済み（絵巻切り替え検出用）
+⋮----
+// 解説バーの「右下フローティングカード」化（PC / タブレット横 md+）。
+// 全画面（toggleFullscreen）または 768px 以上の横画面では、下部バーを廃止して
+// カードをキャンバス右下へオーバーレイ配置する（モバイル縦は従来のボトムシート維持）。
+⋮----
+// ペイント前に確定させる（useLayoutEffect）: 下部バーが一瞬出てから
+// フローティングカードへ切り替わるチラつきと SSR hydration 不一致を防ぐ
+⋮----
+const update = () =>
+⋮----
+// フローティングカード時（非全画面）はキャンバスを画面下端まで広げるため、
+// entry-container 上端（ヘッダー＋パンくず）の実測高を --emaki-top-inset に反映。
+// カードが下部UIを押し上げなくなった分をキャンバス高に転化する。
+⋮----
+const measure = () =>
+⋮----
+// Quiz データは静的 import せず遅延（未使用巻でもチャンクに載せない）
+⋮----
+const [quizUi, setQuizUi] = useState("closed"); // closed | open | minimized
+⋮----
+// 絵巻ハイパーリンク: 前回検出したシーン（不要な更新を防ぐ）
+⋮----
+// 教育現場向けUI: 静かな現在地インジケータ（PositionIndicator の DOM要素への参照）
+⋮----
+// 描画窓 Phase 1: 中身マウント集合（sticky）+ 絵巻切替リセット
+⋮----
+const [isScrolling, setIsScrolling] = useState(false); // スクロール中か
+const isScrollingRef = useRef(false); // setIsScrolling呼び出し最適化用
+⋮----
+// 絵引チップ／詳細シート操作中はアイドル非表示を一時停止
+⋮----
+// 教育現場向けUI: 静止UI耐性 + 自動スクロール制御（初回ナッジ/再生モード）
+// useEmakiAutoPlay が useEmakiIdleUI を内部合成する（両者の循環依存を解消）
+⋮----
+// sessionStorage から進行を復元（他巻ジャンプ・リロード対応）— paint 後
+⋮----
+// Help などから「クイズボタンを再表示」
+⋮----
+const onShowFab = () =>
+⋮----
+// 他巻ジャンプの pendingJump を到着巻で適用
+⋮----
+// 進行は保持（観察のために閉じても再開できる）
+⋮----
+// 進行は直前の onSessionChange で同期保存済み
+⋮----
+// ?quiz=true / ?quiz=1 で観察力クイズを開く（エントリー巻 or 再開セッション）
+⋮----
+// スクロール処理 + 現在シーン検出（DOM 中央プローブ。仮想幅キャッシュは使わない）
+⋮----
+// 再生中も追従する liveSceneIndex を URL hash / 共有の正とする（中央コマ DOM プローブ）
+// SSR では window.hash が読めないため追従は初期 false。クライアントで確定する。
+// 入場 hash / ?ebiki がある間はユーザー横スクロールまで URL を書き換えない。
+⋮----
+// クライアント専用: 入場 hash / 絵引の有無で追従可否を確定（絵巻切替時も再実行）
+⋮----
+// 入場 hash 凍結解除: 非プログラム的な scroll（scrollLeft 有意変化）で解除
+// スクロールバーは content へ pointer が届かないため、scroll イベントを正とする
+// handleToId の programmatic scroll では解除しない
+⋮----
+const onScroll = () =>
+⋮----
+// 共有リンク入場: article マウント後に hash シーンへ移動＋縦位置を先頭に固定（ヘッダー切れ防止）
+// 向き変更の再マウントでは navIndex が既に一致するため handleToId を再実行しない
+⋮----
+// 初回実行で「入場 hash の処理は完了」と確定する。URL hash はこの時点のものだけを
+// 共有リンク入場として扱い、以後 navIndex が変わっても再実行しない。
+// （再実行すると、スクロール検出で自分が書いた hash=#N と新しい navIndex のズレから
+//   handleToId(realign) が走り、ユーザーの到達位置を古い hash シーンへ巻き戻す。）
+⋮----
+// 絵引ディープリンクは SceneCommentaryBar が offset 付きで担当（#N フォールバック抑止）
+⋮----
+const pin = () => window.scrollTo(
+⋮----
+// 巻末プロンプトも sessionStorage の閉じ状態を復元（再表示しない）
+⋮----
+// レイアウト未完了時は誤って 100% と判定しない
+⋮----
+// RTL 横スクロールでは scrollLeft が負になる
+⋮----
+// 中間プロンプト用: スクロール停止〜400ms で進捗バケット更新（1.5s の isScrolling とは独立）
+⋮----
+const updateBucket = () =>
+⋮----
+// シーンジャンプ直後など
+⋮----
+// 巻末: フィードバック未回答でもいいね・共有は出す（回答済みなら feedback ボタンのみ隠す）
+// 一度閉じた通知はセッション中は再表示しない（sessionStorage の閉じ状態を尊重）
+⋮----
+// 手のひらモード（PC限定）: マウス押下で表示 + ドラッグで絵巻を移動
+// - 押した瞬間に手のひらアイコン・grabカーソルを表示
+// - 押したままドラッグで横スクロール（紙を掴んで動かす感覚）
+// - 離すと終了。スマホ（タッチ）では従来どおりスワイプ操作のため無効
+⋮----
+// タッチのダブルタップ（通常スクロール中）: 全画面表示のトグルへ一本化する。
+// その直後に発火しうる synthetic dblclick はタイムスタンプで無視する。
+⋮----
+// ズーム＆パン（兄弟オーバーレイ方式）: 既存スクロール系フックとは独立して動作する。
+// ズーム進入時は自動再生を止めて背後の自動移動を防ぐ。
+// containerRef: ジェスチャ（ピンチ / Ctrl+ホイール）を常時受ける entry-container。
+// requestZoomRef: 等倍からズーム状態へ入るための同期進入関数（下部で配線）。
+⋮----
+// 屏風（舟木本 等）はスライス幅が狭く 300% では人物が小さいため 800% まで拡大可能にする。
+// 絵巻（鳥獣戯画 等）は既定の 600% のまま（maxScale 未指定 = フック既定値）。
+⋮----
+// 開発専用: 絵引座標ピッカー（?dev=ebiki / ?ebikiPicker=1、非ズーム時のみ）
+⋮----
+// パームドラッグ終了: ドラッグ中はシーン確定を保留しているため、離した直後に
+// 最終シーンを1回だけ確定する（150ms debounce はドラッグ中の長押しで発火済みのため
+// 最後の scroll イベント後に必ずしも走らない）
+⋮----
+// 絵巻ハイパーリンク: スクロール位置から現在表示中のシーンを検出
+// （useEmakiScroll 内の detectCurrentScene が DOM 中央プローブ）
+⋮----
+// 教育現場向けUI: 巻末ナッジ
+// isAtEnd 中は他巻カードを表示、離れると非表示
+⋮----
+// P0改修: フルスクリーン切り替え時のスクロール位置復元
+// toggleFullscreen state の変化を監視して復元処理を行う
+⋮----
+// 全画面切替や向き切替でビューポートサイズが変わるため寸法キャッシュを無効化
+⋮----
+// 教育現場向けUI: 絵巻切り替え時のリセット処理
+// Chrome系でキャッシュが残る問題への対応
+// フルスクリーン切り替え（再マウント）時はリセットしない
+⋮----
+// 実際に絵巻が切り替わった場合のみリセット
+// prevDataIdはモジュールスコープなので再マウントでも値が保持される
+⋮----
+// 再生モードを停止
+⋮----
+// スクロール位置ストアをリセット（フルスクリーン復元用）
+⋮----
+// DOM 横スクロールを先頭（右端）へリセット
+⋮----
+// 寸法キャッシュを無効化（新しい絵巻のサイズを再取得するため）
+⋮----
+// 計測: 全計測状態をリセット
+⋮----
+// 前回のdata.idを更新（初回マウント時も含む）
+⋮----
+// 計測: セッション環境コンテキスト（paint 後・1セッション1回のみ送信される）
+// 第2引数は絵巻の総画像枚数（URL 文字列長を渡すと次元が壊れる）
+⋮----
+const MouseWheelHandler = (e) =>
+⋮----
+// トラックパッドのピンチ（Ctrl/⌘+ホイール）は useEmakiZoomPan がズームへ引き継ぐ
+⋮----
+// block if e.deltaY==0
+// 垂直方向のスクロールがゼロならばリターン
+⋮----
+// 教育現場向けUI: 初回ホイール操作時にトースト表示
+// セッション内で1回のみ表示（sessionStorageで管理）
+⋮----
+// 計測: 手動スクロール操作（wheel）
+⋮----
+// 教育現場向けUI: 再生モード中はホイール操作で停止
+⋮----
+// Set scrollDirection (-1 = up // 1 = down)
+⋮----
+// RTL環境考慮: scrollLeft と端点判定
+⋮----
+// 教育現場向けUI: 端点判定（handleScroll と同じロジック）
+// RTL環境では scrollLeft が負の値になるため、絶対値で判定
+const SCROLL_MARGIN = 5; // ピクセル誤差を許容
+⋮----
+// 開始位置判定: scrollLeft が 0 または正の最大値（RTL環境考慮）
+⋮----
+// 終了位置判定: scrollLeft が負の最大値または 0 付近（RTL環境考慮）
+⋮----
+// スクロール実行（端点でなければ）
+⋮----
+(scrollDirection === -1 && !atEnd) ||   // 上回転（左進行） かつ 終了位置でない
+(scrollDirection === 1 && !atStart)     // 下回転（右進行） かつ 開始位置でない
+⋮----
+// convert vertical scroll into horizontal
+// 縦スクロールを横スクロールに変換
+⋮----
+// 教育現場向けUI: 絵巻コンテナ上では横スクロールとして扱う
+⋮----
+// クロスブラウザ対応: 標準の wheel イベントを使用（Firefox対応）
+⋮----
+// クリーンアップ処理
+⋮----
+// 手のひらモード時: 画像のネイティブドラッグを抑止する。
+// パン effect 内の dragstart preventDefault で常時抑止しているため、
+// ここでの draggable 属性切替は不要（押下→再描画の競合も回避される）
+⋮----
+// 配列を展開し、条件ごとに連番を付与（再レンダー時の reduce＋コピーを避ける）
+⋮----
+// ボトムコメントバー: 横スクロール鑑賞時は常に表示（中身の有無は SceneCommentaryBar 側）
+// metadata.kotobagaki / sceneText は UI ゲートに使わない（タブ出しは kobun 有無）
+⋮----
+// 再生中は liveSceneIndex で先読み・解説追従（navIndex は固定で画像ツリー再レンダー抑制）
+⋮----
+// ズーム表示の中心は「開始時に凍結」したシーンを使う。
+// contentWindowCenter（state）は idle へ遅延反映されるため、開いた瞬間に参照すると
+// 一瞬前の位置のスライスが描画され、直後に現在位置へ切り替わる（ちらつき）原因になる。
+// 開く時点の同期値（contentWindowCenterRef）を確定して以降は固定する。
+⋮----
+// ズーム起動時に実測した article 実寸。collectZoomSlices の useMemo 依存に入れ、
+// 同値 centerIndex（巻頭 0 番等）で開いても最新実寸でスライスを再評価させる。
+⋮----
+// 屏風は1スライスが極端に細く、通常の最小3枚ではステージ幅を埋めきれないため5枚を保証
+⋮----
+// 改修B: スライス枚数は固定せず、ストリップ幅がステージ幅を満たすよう動的に収集する。
+// 狭幅スライス（舟木本 等）は片側2〜3枚へ自動拡張、通常幅は最小3枚に落ち着く。
+⋮----
+// ズームレイヤーの strip は entry-container（解説バー込み）実高へ充填されるため、
+// スライス幅の基準も article（45svh / 75svh）ではなく実際に描画される
+// コンテナ実高に揃える（ズーム層と背景層でスライス幅がズレるのを防ぐ）。
+⋮----
+// 初回コミット直後は clientHeight = 0 のことがある。0 のまま sceneWidthPx へ渡すと
+// 1px 基準に潰れ、舟木本では約 0.36px のサブピクセル幅スライスが生成されて
+// 倍率が最大へ張り付き低解像度のまま固定される。実測 → viewport 高の順で代用する
+⋮----
+// 実寸が取れない（非表示・SSR）場合はスライスを作らない
+⋮----
+// 600〜800% 拡大時もスライス原寸（舟木本 = 1328px 幅）を使い切る。
+// 2000px 以上かつ原寸以上を要求し、c_limit が原寸でキャップする
+// （要求幅が原寸を下回ると、拡大時に Cloudinary 側で縮小されてぼやける）。
+⋮----
+// 拡大時に墨の輪郭や着物の柄が甘くならないようCDN側でエッジ強調。
+// e_sharpen はダウン/アップスケール後に適用されるため、
+// ブラウザの補間ぼけと二重にならず輪郭だけを引き締める。
+⋮----
+// CSS 側の aspect-ratio で幅を算出させるため、実寸比だけを渡す
+⋮----
+// article（横スクロール面）のスライス幅基準高 = calc(AR * var(--screen-height))。
+// offsetHeight が --screen-height 実寸と一致する。
+⋮----
+// 初期 pan アライメント補正（P1）: article のビューポート中央にある内容
+// （|scrollLeft| + clientWidth / 2）と、オーバーレイ strip 中央が指す内容との差分。
+// 収集範囲は collectZoomSlices と同じ computeZoomStripRange で求め、必ず一致させる。
+// 戻り値はコンテンツ座標系の差分（openZoom 側で表示倍率を乗じてスクリーン px にする）。
+⋮----
+// article の content px（scrollLeft / clientWidth）は articleUnit 基準のため、
+// overlay 基準（rowHeightPx）へ比率 k で換算してから中央ピン位置を求める。
+⋮----
+// ズーム進入: 表示中央の中心スライスと初期 pan を openZoom と同一コミットで
+// 事前確定してから開く（P2: 古いスライス基準の補正を防ぐ）。
+// 連打時に古い進入処理で開かないためのトークン
+⋮----
+// ピンチ / Ctrl+ホイール（トラックパッド）からの即時進入:
+// ジェスチャに追従させるため、画像プリロードを待たず同期でズーム状態へ入る。
+// initialScale 未指定なら既定倍率、等倍（1）指定なら指の広がりに応じて拡大する。
+⋮----
+// ズームレイヤーの strip 高は entry-container（解説バー込み）実高に充填される。
+// スライス幅・初期 pan の基準を article（45svh / 75svh）ではなく実描画
+// コンテナ高へ統一する（collectZoomSlices / computeZoomAlignPanX と同基準）。
+⋮----
+// 改修B: ピボットはビューポート中央ではなくカーソル下のコンテンツ座標。
+// contentAt(X) = |scrollLeft| + (containerRect.right - X)
+⋮----
+// ズーム起動時に article（＝entry-container）の実寸を直接実測して確定する。
+// 初回レンダー時などに clientHeight = 0 のまま確定したスライス寸法を、
+// 同値 centerIndex の useMemo が抱え続けて解像度が上がらない（＝ボケたまま固定）
+// のを防ぐ。高さはズーム層の描画実高（entry-container）を基準にする。
+⋮----
+// useEmakiZoomPan（ジェスチャ側）から同期進入できるよう配線する
+⋮----
+// 描画窓 Phase 1: section 殻は常置、中身は sticky mount（一度載せたら外さない）
+⋮----
+// 窓中心は scrollLeft 追従（contentWindowCenter）。navIndex debounce には依存しない
+⋮----
+// 共有 hash 入場: navIndex 反映前でも着地先付近の中身を先に載せる
+⋮----
+// 屏風（typeen === "byobu"）: スライス幅が約 0.365 と極端に細く、通常の描画窓
+// （画面内＋前後数枚）では PC の横長ビューポートを埋めきれず左側が空白になる。
+// 舟木本は全 12 スライスと少ないため、中身のマウントを全スライスへ広げる
+// （通常絵巻は isByobu=false のまま＝従来の描画窓でリグレッションなし）。
+⋮----
+// 角丸クリップ: 通常表示時のみ（全画面時は overflow で UI はみ出しを防止）
+⋮----
+position: "relative", // 子要素の絶対配置の基準点
+// ビューア全域でブラウザ標準のピンチ/ダブルタップズームを無効化する。
+// 1本指パン（横スクロール / 縦ページスクロール）はネイティブのまま維持し、
+// 2本指ピンチのみ useEmakiZoomPan が拾って ZoomLayer を展開する。
+⋮----
+// フローティングカード時のキャンバス下端までの高さ基準（上端クローム実測値）
+⋮----
+// ボトムコメントバーは block 要素として article の直後に配置する
+// （entry-container を flex にすると article が min-content 幅に
+//  伸びて横スクロールが壊れるため flex は使わない）
+⋮----
+// 右下の全画面ボタンの左隣: 等倍 ⇔ 既定倍率のズームトグル
+// （段タイトル札と重ならないよう、右上から移設）
+⋮----
+// 表示中央を基準に中心スライスと初期 pan を事前確定して開く
+⋮----
+// 角丸は外側ラッパー(entry-container)で管理するため、ここでは設定しない
+⋮----
+// 再生モード中はクリックで停止
+⋮----
+// 手のひらモードのドラッグ直後のclickは抑止（sidebarが閉じないように）
+⋮----
+// ボタン・リンク上は無視
+⋮----
+// タッチのダブルタップは useEmakiZoomPan 側で検出済み（二重発火を防ぐ）
+⋮----
+// PC（ダブルクリック）/ SP・TB（ダブルタップ）共通:
+// 全画面表示のトグル切り替えに一本化する（ズームは発火させない）
+⋮----
+// 再生モード中はタッチで停止
+⋮----
+// 計測: 手動スクロール操作（touch）
+// 自動スクロール中でない場合のみ（自動スクロール中断は別で計測）
+⋮----
+uniqueIndex={item.uniqueIndex} // 新しい連番を渡す
+⋮----
+isPlayMode={windowIsPlaying} // ナッジ/再生中も前方 eager・描画窓と揃える
+⋮----
+{/* 教育現場向けUI: 巻末ナッジ
+              次巻が存在する場合に巻末到達中にカードを表示
+              row-reverse内の最終子要素 = 左端に配置
+              position:sticky で左端ビューポートに固定 */}
+⋮----
+{/* 座標ピッカー中は絵引シート／解説バーが画像に重なるため一時非表示 */}
+</file>
+
+</files>
+
+
+
+<instruction>
+# セッション運用前提ルール（Session Rules）
+
+- **プロジェクト**: emakimono-next
+- **用途**: AI（Gemini / Claude）新規スレッド開始時、および Cursor 連携時のコード選定・編集方針の統一
+- **基本原則**: 横スクロール絵巻ビューア（Pages Router）、単一ライトパレット、詞書（ekotoba）オーバーレイ、民俗学データセット連携。画像バイナリ・全巻テキスト辞書・同期スクリプトは遮断し、実装の正本はリポジトリ上の実ファイルとする。
+
+---
+
+## 1. デザイン＆コーディング規約（.cursorrules要約）
+
+1. **デザイン方針（単一ライトパレット・紙色）**:
+   - 背景は単一ライトパレット（`--clr-bg: #fff` / 紙色 `#f5f0e6`）。ダークモードへの切り替えは行わない。
+   - アクセントカラーは時代別定義（平安 `#ff8c77`、鎌倉 `#54896a`、室町 `purple` 等、`eraColor()` 準拠）。
+   - フォントスタック3系統の厳守: `--font-ui`（Noto Sans JP）、`--font-story`（Zen Maru Gothic）、`--font-classical`（Hina Mincho）。
+2. **ビューア設計の掟**:
+   - ビューアロジックは `src/hooks/emaki/*.js`（`useEmakiScroll`, `useEmakiAutoPlay`, `useEmakiPalmDrag` 等）に分離済み。`EmakiConteiner.js` に直書き再実装しない。
+   - `src/types/viewer.ts` および `src/types/emaki.ts` の型契約を厳守する。
+3. **データ参照の掟**:
+   - 本番コードが参照する正本は `src/data/image-metadata-cache/image-metadata-cache.json`。
+   - 巨大辞書や生画像は Cursor の `@` 参照を避け、局所スニペット（10〜20行）で適用する。
+
+---
+
+## 2. 編集対象マップ（主要エントリ）
+
+### ① 絵巻ビューア・コンテナ
+- **Page**: `src/pages/[slug].js`
+- **Container**: `src/components/emaki/layout/EmakiConteiner.js` / `EmakiHeader.js`
+- **Viewer Parts**:
+  - `src/components/emaki/viewer/EmakiImage.js` / `LazyImage.js`
+  - `src/components/emaki/viewer/OverlayEkotoba.js` / `SceneCommentaryBar.js`
+- **Hooks**: `src/hooks/emaki/` (`useEmakiScroll.js`, `useEmakiAutoPlay.js`, `useEmakiPalmDrag.js` 等)
+- **Types**: `src/types/viewer.ts` / `src/types/emaki.ts`
+
+### ② 民俗学・関連連携
+- **Sheet / Cards**: `src/components/emaki/folklore/FolkloreDetailSheet.js`
+- **Types**: `src/types/folklore.ts`
+
+### ③ スタイル・共通設定
+- **Tokens / Global**: `src/styles/globals.css` / `.cursor/rules/design-tokens.mdc`
+- **App Shell**: `src/pages/_app.js`
+
+---
+
+## 3. Cursor 依頼テンプレート（Minimal-Tokens v3.3 準拠）
+
+AI と方針確定後、Cursor へ投入する際は以下のフォーマットを使用してください。
+
+```markdown
+以下を実行してください。
+指定パスのディレクトリ階層に軽微なズレがある場合は近傍の該当ファイルを柔軟に特定して構いませんが、【編集対象は指定された1ファイルのみ】とし、プロジェクト全体の広範な探索や無関係なファイルへの連鎖編集は行わないでください。
+
+### Task
+<作業概要を簡潔に記載（1〜2文）>
+
+### Edit File (only this)
+- path/to/target-file.js
+※ファイル全体の全行読み込みを防ぐため @ は付けないこと。
+
+### Reference Type（準拠すべき型定義 ※必要な場合のみ）
+```ts
+// 該当の型やインターフェースを数行抜粋
+```
+
+### Target Snippet（外科手術的置換）
+以下の対象箇所のみをピンポイントで特定し、ファイルの全行読み込みを行わずに置き換えてください：
+
+```javascript
+// 置換前の既存コード（前後の行を含める）
+...
+↓
+// 置換後のコード
+...
+```
+
+### 厳守制約（コンテキスト保護 ＆ 整合性維持 v3.3）
+- 【最大ツールコール数 3回以内】で必ず完了すること。超える場合は中断して残タスクを出力すること。
+- プロジェクト全体の広範な探索（`codebase_search` や大規模Grep）は禁止。
+- ファイル全体の Write（全行再生成）は禁止。必ず提示箇所の StrReplace（局所差分）で適用すること。
+- 提示された「Target Snippet」との文字列一致を軸に、ピンポイントで差分を適用すること。
+- `EmakiConteiner.js` へのロジック肥大化は禁止（`src/hooks/emaki/` のカスタムフックへ分離）。
+- 既存デザインシステム（単一ライトパレット、紙色 `#f5f0e6`、3大フォントスタック）を勝手に崩さないこと。
+- ターミナルコマンドの自律実行は禁止（ローカル検証は手動で行う）。
+- 挨拶、思考ログ、コード解説は出力不要。修正適用のみを行い、完了メッセージ1行で直ちに終了すること。
+```
+</instruction>

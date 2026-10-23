@@ -1,0 +1,89 @@
+{
+    "$schema": "https://repomix.com/schemas/latest/schema.json",
+    "input": {
+      "maxFileSize": 52428800
+    },
+    "output": {
+      "filePath": "gemini-context.xml",
+      "style": "xml",
+      "filePathStyle": "target-relative",
+      "parsableStyle": false,
+      "fileSummary": true,
+      "directoryStructure": true,
+      "files": true,
+      "removeComments": false,
+      "removeEmptyLines": false,
+      "compress": true,
+      "topFilesLength": 10,
+      "showLineNumbers": false,
+      "truncateBase64": true,
+      "copyToClipboard": false,
+      "includeFullDirectoryStructure": false,
+      "tokenCountTree": true,
+      "instructionFilePath": "docs/ai/session-rules.md",
+      "git": {
+        "sortByChanges": true,
+        "sortByChangesMaxCommits": 100,
+        "includeDiffs": false,
+        "includeLogs": false,
+        "includeLogsCount": 50
+      }
+    },
+    "include": [
+      ".cursor/rules/design-tokens.mdc",
+      ".cursor/rules/nextjs-emaki.mdc",
+      ".cursor/rules/i18n-sources.mdc",
+      ".cursorrules",
+      "package.json",
+      "tsconfig.json",
+      "src/types/emaki.ts",
+      "src/types/viewer.ts",
+      "src/types/folklore.ts",
+      "src/hooks/emaki/*.js",
+      "src/components/emaki/viewer/EmakiImage.js",
+      "src/components/emaki/viewer/LazyImage.js",
+      "src/components/emaki/viewer/OverlayEkotoba.js",
+      "src/components/emaki/viewer/SceneCommentaryBar.js",
+      "src/components/emaki/layout/EmakiConteiner.js",
+      "src/components/emaki/layout/EmakiHeader.js",
+      "src/components/emaki/folklore/FolkloreDetailSheet.js",
+      "src/pages/[slug].js",
+      "src/pages/_app.js",
+      "src/styles/globals.css",
+      "src/utils/cloudinaryUrl.js"
+    ],
+    "ignore": {
+      "useGitignore": true,
+      "useDotIgnore": true,
+      "useDefaultPatterns": true,
+      "customPatterns": [
+        "public/**",
+        "scripts/**",
+        "docs/**",
+        "drizzle/**",
+        "scrolls/**",
+        "local-data/**",
+        "src/components/_archive_unused/**",
+        "src/libs/_archive_unused_data/**",
+        "src/styles/_archive_unused_styles/**",
+        "src/data/emaki-text-data/**",
+        "src/data/image-metadata-cache/**",
+        "src/data/zukan/**",
+        "*.sql",
+        "*.csv",
+        "*.png",
+        "*.jpg",
+        "*.webp",
+        "*.svg",
+        "*.py",
+        "*.log",
+        ".next/**"
+      ]
+    },
+    "security": {
+      "enableSecurityCheck": true
+    },
+    "tokenCount": {
+      "encoding": "o200k_base"
+    }
+  }

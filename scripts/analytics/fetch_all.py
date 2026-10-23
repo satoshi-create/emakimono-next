@@ -426,7 +426,7 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
     # 2026-10-27 以降のレポートでは通常の前週比に戻す（この節を出さない）
     proxy_verify_until = date(2026, 10, 27)
     try:
-        report_day = date.fromisoformat(str(report_name))
+        report_day = date.fromisoformat(report_dir.name)
     except ValueError:
         report_day = date.today()
     if report_day < proxy_verify_until:
