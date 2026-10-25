@@ -15,7 +15,7 @@ export const CLOUDINARY_UPLOAD_BASE =
 
 // Cloudflare Worker (R2 プロキシ) のベース URL
 export const R2_UPLOAD_BASE =
-  "https://emaki-assets-proxy.mimizunobouken.workers.dev";
+  "https://assets.emakimono.com";
 
 /**
  * 山崎本 甲巻かどうかを判定

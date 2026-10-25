@@ -81,7 +81,7 @@ const nextConfig = {
   //   // localeDetection: true,
   // },
   images: {
-    domains: ["res.cloudinary.com"], // Cloudinaryのドメイン
+    domains: ["res.cloudinary.com", "assets.emakimono.com"], // Cloudinaryのドメイン
     path: "/_next/image", // デフォルトパス
     // デスクトップ横画面（75vh × DPR2）の上限は 2560。3840 は教室一斉時の過大配信になるため除外
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 2560],
