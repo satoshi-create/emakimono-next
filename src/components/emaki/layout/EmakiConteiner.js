@@ -59,6 +59,8 @@ import {
   trackSessionContext,
   trackManualScroll,
   resetAllTracking,
+  trackZoomOpen,
+  trackZoomClose,
 } from "@/libs/api/measurementUtils";
 import {
   dismissFeedback,
@@ -714,6 +716,28 @@ const EmakiContainer = ({
   // ズーム進入時は自動再生を止めて背後の自動移動を防ぐ。
   // containerRef: ジェスチャ（ピンチ / Ctrl+ホイール）を常時受ける entry-container。
   // requestZoomRef: 等倍からズーム状態へ入るための同期進入関数（下部で配線）。
+  const zoomStartTimeRef = useRef(null);
+  const zoomMaxScaleRef = useRef(1);
+
+  const handleZoomOpenWithTrack = useCallback(
+    (source = "unknown") => {
+      stopPlayMode();
+      if (zoomStartTimeRef.current != null) return;
+      zoomStartTimeRef.current = Date.now();
+      zoomMaxScaleRef.current = 1;
+      trackZoomOpen(emakiId, source);
+    },
+    [stopPlayMode, emakiId]
+  );
+
+  const handleZoomCloseWithTrack = useCallback(() => {
+    if (zoomStartTimeRef.current) {
+      const durationSec = (Date.now() - zoomStartTimeRef.current) / 1000;
+      trackZoomClose(emakiId, durationSec, zoomMaxScaleRef.current);
+      zoomStartTimeRef.current = null;
+    }
+  }, [emakiId]);
+
   const {
     isZoomed,
     scale: zoomScale,
@@ -723,13 +747,13 @@ const EmakiContainer = ({
     stageRef: zoomStageRef,
     stripRef: zoomStripRef,
     openZoom,
-    resetZoom,
+    resetZoom: originalResetZoom,
     zoomIn,
     zoomOut,
-    toggleZoom,
+    toggleZoom: originalToggleZoom,
     handlers: zoomHandlers,
   } = useEmakiZoomPan({
-    onOpen: stopPlayMode,
+    onOpen: () => handleZoomOpenWithTrack("unknown"),
     onDoubleTap: handleViewerDoubleTap,
     containerRef: entryContainerRef,
     requestZoomRef: enterZoomRef,
@@ -737,6 +761,35 @@ const EmakiContainer = ({
     // 絵巻（鳥獣戯画 等）は既定の 600% のまま（maxScale 未指定 = フック既定値）。
     maxScale: isByobuScroll(data) ? 8 : undefined,
   });
+
+  useEffect(() => {
+    if (isZoomed && zoomScale > zoomMaxScaleRef.current) {
+      zoomMaxScaleRef.current = zoomScale;
+    }
+  }, [isZoomed, zoomScale]);
+
+  useEffect(() => {
+    if (!isZoomed) {
+      handleZoomCloseWithTrack();
+    }
+  }, [isZoomed, handleZoomCloseWithTrack]);
+
+  const resetZoom = useCallback(() => {
+    handleZoomCloseWithTrack();
+    originalResetZoom();
+  }, [handleZoomCloseWithTrack, originalResetZoom]);
+
+  const toggleZoom = useCallback(
+    (e) => {
+      if (!isZoomed) {
+        handleZoomOpenWithTrack("button");
+      } else {
+        handleZoomCloseWithTrack();
+      }
+      originalToggleZoom(e);
+    },
+    [isZoomed, handleZoomOpenWithTrack, handleZoomCloseWithTrack, originalToggleZoom]
+  );
 
   // 開発専用: 絵引座標ピッカー（?dev=ebiki / ?ebikiPicker=1、非ズーム時のみ）
   const {

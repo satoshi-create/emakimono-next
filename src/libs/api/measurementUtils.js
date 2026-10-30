@@ -531,3 +531,29 @@ export const trackQuizComplete = (p) => {
     jump_count: p.jumpCount,
   });
 };
+
+/**
+ * ズーム開始イベントの送信
+ * @param {string} emakiId - 絵巻ID
+ * @param {"button" | "wheel" | "pinch" | "unknown"} source - 開始トリガー
+ */
+export const trackZoomOpen = (emakiId, source = "unknown") => {
+  sendEvent("emaki_zoom_open", {
+    emaki_id: emakiId,
+    source,
+  });
+};
+
+/**
+ * ズーム終了イベントの送信
+ * @param {string} emakiId - 絵巻ID
+ * @param {number} durationSec - ズーム滞在秒数
+ * @param {number} maxScale - 到達した最大倍率
+ */
+export const trackZoomClose = (emakiId, durationSec = 0, maxScale = 1) => {
+  sendEvent("emaki_zoom_close", {
+    emaki_id: emakiId,
+    duration_sec: Math.round(durationSec),
+    max_scale: Number(maxScale.toFixed(2)),
+  });
+};
