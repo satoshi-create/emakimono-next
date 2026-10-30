@@ -9,6 +9,8 @@
  * 測らせるための実測用 ref。
  */
 import styles from "@/styles/ZoomLayer.module.css";
+import { useTranslation } from "next-i18next";
+import { useEffect, useState } from "react";
 
 const ZoomLayer = ({
   isZoomed,
@@ -26,6 +28,16 @@ const ZoomLayer = ({
   // 中心スライスの key（＝絵巻 index）。eager 読み込みの判定に使う
   centerKey,
 }) => {
+  const { t } = useTranslation("common");
+  const [showHint, setShowHint] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowHint(false);
+    }, 3200);
+    return () => clearTimeout(timer);
+  }, []);
+
   if (!isZoomed) return null;
 
   // 初期フレーム等で NaN / 0 が混入しても黒画面・消失にならないよう補正する
@@ -83,21 +95,39 @@ const ZoomLayer = ({
           ))}
         </div>
       </div>
-      <div className={styles.controls}>
+      <div
+        className={styles.controls}
+        onMouseDown={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+        onPointerDown={(e) => e.stopPropagation()}
+      >
+        {showHint && (
+          <div className={styles.hintBubble}>
+            {t("viewer.zoomWheelHint")}
+          </div>
+        )}
         <button
           type="button"
           className={styles.controlButton}
           onClick={zoomOut}
           aria-label="Zoom out"
+          title={t("viewer.zoomOutTitle")}
         >
           −
         </button>
-        <span className={styles.scaleLabel}>{Math.round(safeScale * 100)}%</span>
+        <span
+          className={styles.scaleLabel}
+          title={t("viewer.zoomWheelHint")}
+          style={{ cursor: "help" }}
+        >
+          {Math.round(safeScale * 100)}%
+        </span>
         <button
           type="button"
           className={styles.controlButton}
           onClick={zoomIn}
           aria-label="Zoom in"
+          title={t("viewer.zoomInTitle")}
         >
           ＋
         </button>
@@ -106,6 +136,7 @@ const ZoomLayer = ({
           className={styles.controlButton}
           onClick={resetZoom}
           aria-label="Reset zoom"
+          title={t("viewer.zoomResetTitle")}
         >
           ×
         </button>

@@ -340,6 +340,47 @@ const HelpModal = () => {
 
               <div className={styles.helpItem}>
                 <div className={styles.iconWrapper}>
+                  {/* Ctrl + マウスホイール複合アイコン */}
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 28 28"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className={styles.icon}
+                    style={{ overflow: "visible" }}
+                  >
+                    {/* Ctrl キーキャップ風バッジ */}
+                    <rect x="1" y="7" width="13" height="14" rx="2.5" stroke="currentColor" fill="none" />
+                    <text
+                      x="7.5"
+                      y="16.5"
+                      fontSize="6.2"
+                      fontWeight="bold"
+                      fill="currentColor"
+                      stroke="none"
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      fontFamily="var(--font-ui), sans-serif"
+                    >
+                      Ctrl
+                    </text>
+                    {/* プラス記号 */}
+                    <path d="M15.5 14h2.5M16.75 12.75v2.5" strokeWidth="1.4" />
+                    {/* マウス本体 */}
+                    <rect x="19.5" y="4" width="7.5" height="13" rx="3.75" />
+                    {/* マウスのホイール線 */}
+                    <line x1="23.25" y1="6.5" x2="23.25" y2="8.5" strokeWidth="2" />
+                  </svg>
+                </div>
+                <p className={styles.label}>{t("help.useZoom")}</p>
+              </div>
+
+              <div className={styles.helpItem}>
+                <div className={styles.iconWrapper}>
                   {/* Fキーアイコン */}
                   <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
                     <rect

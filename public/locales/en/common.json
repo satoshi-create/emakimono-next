@@ -79,7 +79,11 @@
     "verticalScrollHint": "Vertical scroll: move cursor outside the scroll",
     "fullscreeBtn": "Enjoy the picture scroll in full screen",
     "zoomToggleIn": "Click to zoom (or Ctrl + scroll / pinch to zoom)",
-    "zoomToggleOut": "Click to reset to 100% (or Ctrl + scroll / pinch to zoom)"
+    "zoomToggleOut": "Click to reset to 100% (or Ctrl + scroll / pinch to zoom)",
+    "zoomInTitle": "Zoom in (Ctrl + Wheel up)",
+    "zoomOutTitle": "Zoom out (Ctrl + Wheel down)",
+    "zoomResetTitle": "Reset zoom and exit",
+    "zoomWheelHint": "You can also zoom with Ctrl + wheel or pinch"
   },
   "quiz": {
     "fabLabel": "Observation quiz (2 min)",
@@ -109,6 +113,7 @@
     "useScrollbar": "Or use the horizontal scrollbar",
     "palmModeHint": "Grab and drag the scroll to move it",
     "fullscreenShortcut": "Press F or double-click to toggle fullscreen",
+    "useZoom": "Zoom with Ctrl + wheel or pinch",
     "fullGuide": "Full guide on this site"
   },
   "header": {
@@ -243,6 +248,7 @@
       "ekotoba": "Captions & translations — switch commentary, modern, and classical text in the bottom bar when available.",
       "nav": "Table of contents — see where you are in the scroll.",
       "playback": "Auto-play & fullscreen — for continuous viewing or full immersion.",
+      "zoom": "Zoom & Detail View — Click the magnifying glass icon (or use Ctrl + wheel / pinch gesture) to zoom in on delicate brushwork and expressions. Adjust or reset magnification via the floating bar.",
       "tips": "Viewing tips — pause at each section to take in the art. For Nine Stages of Decay scrolls, slow contemplative viewing is recommended."
     },
     "share": {

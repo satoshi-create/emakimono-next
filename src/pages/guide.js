@@ -49,8 +49,9 @@ const Guide = () => {
         <ul>
           <li>{t("guide.features.ekotoba")}</li>
           <li>{t("guide.features.nav")}</li>
-          <li>{t("guide.features.playback")}</li>
-          <li>{t("guide.features.tips")}</li>
+            <li>{t("guide.features.playback")}</li>
+            <li>{t("guide.features.zoom")}</li>
+            <li>{t("guide.features.tips")}</li>
         </ul>
       </section>
 
