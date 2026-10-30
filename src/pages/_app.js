@@ -7,6 +7,7 @@
  * Edit targeted blocks only — do not split this file without a plan.
  */
 import BottomNavigation from "@/components/navigation/BottomNavigation";
+
 import {
   resetScrollPositionStore,
   beginScrollRestore,

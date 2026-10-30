@@ -501,7 +501,9 @@ const EmakiContainer = ({
     pendingInitialHashRef.current = 0;
     const basePath = window.location.pathname;
     const search = window.location.search || "";
-    if (liveSceneIndex > 0) {
+    // 第1シーン（先頭）はハッシュなしのクリーンなURLを維持（初期ナッジの誤停止を防止）
+    // 第2シーン以降に進んだ場合のみ #2, #3 と追従させる
+    if (liveSceneIndex > 1) {
       window.history.replaceState(
         null,
         "",

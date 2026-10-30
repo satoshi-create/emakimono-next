@@ -264,40 +264,6 @@ See **`.cursor/rules/design-tokens.mdc`** for colors, fonts, layout classes, and
 - JSON-LD: 絵巻ページは `VisualArtwork` パターン（`[slug].js` 参照）
 </file>
 
-<file path="tsconfig.json">
-{
-  // "compilerOptions": {
-  //   "baseUrl": "./src/",
-  //   "paths": {
-  //     "@/*": ["./*"]
-  //   },
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    },
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "incremental": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve"
-  },
-  // "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/utils/func.js"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
-
-  "exclude": ["node_modules"]
-}
-</file>
-
 <file path="src/hooks/emaki/useEmakiIdleUI.js">
 /**
  * 静止UI耐性（Idle UI）: 長時間無操作時にナビUIを非表示にする。
@@ -461,6 +427,32 @@ AI アシスタントの自律多重往復（Tool Callループ）を物理遮�
 - 修正完了通知後、ユーザーが手元で `npm run lint` / `npx tsc --noEmit` を実行する前提でコードの整合性を担保すること。
 </file>
 
+<file path="tsconfig.json">
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve"
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+  "exclude": ["node_modules"]
+}
+</file>
+
 <file path="src/hooks/emaki/scrollPositionStore.js">
 /**
  * Module-scope scroll position for fullscreen / orientation remount.
@@ -622,153 +614,6 @@ const applyRatio = () =>
 // isTransitioning は落とさない（次インスタンスの begin〜restore に引き継ぐ）
 </file>
 
-<file path="src/utils/cloudinaryUrl.js">
-/**
- * Cloudinary 配信 URL。
- * 同一変換ブロック内のカンマは %2C にエンコードする。
- * リテラルのカンマは next/image の srcset を分割し、相対パス 404 になる。
- * スラッシュは独立した変換チェーン（Cloudinary 公式の chained transformation）。
- *
- * `src` はキャッシュ形式（naming-convention.md）:
- *   - 推奨: `v{version}/emakimono/{public_id}.jpg`（overwrite 後の CDN バスティング）
- *   - 旧: `emakimono/{public_id}.jpg`
- * 変換は version / public_id の前に置く:
- *   .../upload/{transforms}/v{version}/emakimono/{id}.jpg
- */
-⋮----
-/** Vercel CDN 経由のキャッシュプロキシ（案A）。段階導入: 甲巻のみ */
-⋮----
-/**
- * 鳥獣人物戯画（甲巻）のみプロキシ対象。
- * Cloudinary public_id: choju-giga-yamazaki-kou__…
- * titleen 表記・略称も含めて誤爆を防ぐ。
- */
-function shouldUseVercelCacheProxy(publicId)
-⋮----
-export function buildCloudinaryUrl(src, transforms = [])
-⋮----
-// upload 以降は直 URL / プロキシで同一。rewrites の :path* にそのまま載る
-// 例: /emaki-assets/{transforms}/v{ver}/emakimono/{id}.jpg
-//  → …/image/upload/{transforms}/v{ver}/emakimono/{id}.jpg
-⋮----
-export function cloudinaryThumbLoader(
-⋮----
-// c_limit: 要求幅が原寸を超えても拡大しない（過大配信の抑止）
-⋮----
-export function createCloudinaryHeroLoader(gravity = "g_face")
-⋮----
-/**
- * srcset 分割でサイト相対になった Cloudinary パスなら CDN 絶対 URL を返す。
- * 本物の /kusouzu/[slug] は /v数字/emakimono/ を含まない。
- * @param {string} pathname
- * @returns {string | null}
- */
-export function toCloudinaryUploadRedirect(pathname)
-</file>
-
-<file path="package.json">
-{
-  "name": "emakimono-next",
-  "version": "0.1.0",
-  "private": true,
-  "engines": {
-    "node": "24.x"
-  },
-  "scripts": {
-    "dev": "next dev -H 0.0.0.0",
-    "build": "next build",
-    "postbuild": "next-sitemap && node scripts/copy-sitemap-aliases.js",
-    "start": "next start",
-    "lint": "next lint",
-    "generate:ogp": "node src/script/generateOgImages.js",
-    "build:folklore": "node scripts/convert-ebiki-csv.js",
-    "db:generate": "drizzle-kit generate --config drizzle.config.cjs",
-    "db:push": "drizzle-kit push --config drizzle.config.cjs",
-    "db:studio": "drizzle-kit studio --config drizzle.config.cjs"
-  },
-  "dependencies": {
-    "@chakra-ui/button": "^2.0.14",
-    "@chakra-ui/icons": "^2.2.4",
-    "@chakra-ui/react": "^2.10.4",
-    "@emotion/react": "^11.13.3",
-    "@emotion/styled": "^11.13.0",
-    "@fortawesome/fontawesome-svg-core": "^6.1.2",
-    "@fortawesome/free-brands-svg-icons": "^6.1.2",
-    "@fortawesome/free-solid-svg-icons": "^6.1.2",
-    "@fortawesome/react-fontawesome": "^0.2.0",
-    "@google-analytics/data": "^4.10.0",
-    "@libsql/client": "^0.17.4",
-    "@tailwindcss/postcss": "^4.1.3",
-    "@xyflow/react": "^12.11.3",
-    "axios": "^1.7.9",
-    "cloudinary": "^2.5.1",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "drizzle-orm": "^0.45.2",
-    "express": "^4.21.2",
-    "flag-icons": "^6.6.6",
-    "framer-motion": "^8.5.5",
-    "google-map-react": "^2.2.0",
-    "html-react-parser": "^5.1.18",
-    "i18next": "^23.16.8",
-    "image-size": "^1.2.1",
-    "image-trace-loader": "^1.0.2",
-    "imagemin": "^8.0.1",
-    "imagemin-mozjpeg": "9.0.0",
-    "imagemin-webp": "^7.0.0",
-    "jimp": "^0.16.2",
-    "jquery": "^3.6.1",
-    "lazysizes": "^5.3.2",
-    "leaflet": "^1.9.4",
-    "lqip-loader": "^2.2.1",
-    "next": "12.2.5",
-    "next-compose-plugins": "^2.2.1",
-    "next-i18next": "14.0.3",
-    "next-optimized-images": "^2.6.2",
-    "next-pwa": "^5.6.0",
-    "next-sitemap": "^3.1.21",
-    "nextjs-breadcrumbs": "^1.1.9",
-    "nodemailer": "^6.8.0",
-    "path": "^0.12.7",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-dropdown": "^1.11.0",
-    "react-feather": "^2.0.10",
-    "react-flagkit": "^2.0.4",
-    "react-full-screen": "^1.1.1",
-    "react-i18next": "^13.5.0",
-    "react-icons": "^5.3.0",
-    "react-lazy-load": "^3.1.14",
-    "react-lazysizes": "^1.0.0",
-    "react-leaflet": "^4.2.1",
-    "react-tagcloud": "^2.3.3",
-    "responsive-loader": "^3.1.1",
-    "scroll-hint": "^1.2.5",
-    "sharp": "^0.33.5",
-    "styled-components": "^5.3.6",
-    "svg-sprite-loader": "^6.0.11",
-    "uuid": "^11.0.3",
-    "wanakana": "^5.3.1",
-    "webp-loader": "^0.6.0"
-  },
-  "overrides": {
-    "nanoid": "3.3.18"
-  },
-  "devDependencies": {
-    "@babel/eslint-parser": "^7.29.7",
-    "@types/node": "^22.14.1",
-    "@types/react": "^19.1.2",
-    "autoprefixer": "^10.4.21",
-    "drizzle-kit": "^0.31.10",
-    "eslint": "8.23.0",
-    "eslint-config-next": "12.2.5",
-    "postcss": "^8.5.3",
-    "tailwindcss": "^4.1.3",
-    "typescript": "^5.8.3"
-  }
-}
-</file>
-
 <file path="src/components/emaki/folklore/FolkloreDetailSheet.js">
 /**
  * 絵引詳細シート（画面右上フローティング・スリム版）。
@@ -819,108 +664,6 @@ const EmakiHeader = () =>
 const stickNavbar = () =>
 ⋮----
 {/* SP: EN/JA 切替の隣に検索トリガーを並べる（デスクトップは上の SearchBoxButton） */}
-</file>
-
-<file path="src/components/emaki/viewer/EmakiImage.js">
-const EmakiImage = ({
-  item: { config, index, navIndex, uniqueIndex },
-  item,
-  isPlayMode,
-  sceneIndex,
-  emakiId,
-  isByobu,
-}) =>
-</file>
-
-<file path="src/hooks/emaki/useEmakiAutoPlay.js">
-/**
-
- * 自動スクロール制御（初回ナッジ + 再生モード）。
-
- *
-
- * - 初回ナッジ: 初回表示時のみ、横スクロール可能性を緩やかな自動スクロールで認知させる
-
- * - 再生モード: ユーザー任意の自動スクロール（▶/停止ボタン）
-
- * - rAF ループ内でシーン検出・端点 ref 更新（scroll リスナーは自動再生中 no-op）
-
- * - scrollWidth は開始時1回 + 末尾付近のみ再計測
-
- */
-⋮----
-/** rAF ループ用: タブ切替等の dt スパイクを抑える上限（秒） */
-⋮----
-/** ナッジ(初回自動スクロール)が最後に自分で書いた位置からの許容ズレ(px)。超過は手動スクロールとみなし即停止 */
-⋮----
-const computeMinScrollLeft = (el)
-⋮----
-const syncEdgeRefsFromScroll = (el, minScrollLeft, isAtStartRef, isAtEndRef) =>
-⋮----
-const maybeRunSceneDetection = (detectCurrentSceneRef, lastDetectMsRef, nowMs) =>
-⋮----
-/** 向き・フルスクリーン復元用。programmatic scroll で scroll が発火しない端末向け */
-const saveScrollPositionStore = (el, dataId, scrollPositionStore) =>
-⋮----
-const useEmakiAutoPlay = ({
-
-  articleRef,
-
-  dataId,
-
-  emakiId,
-
-  navIndex,
-
-  setnavIndex,
-
-  lastDetectedSceneRef,
-
-  isAtStartRef,
-
-  isAtEndRef,
-
-  setIsAtStart,
-
-  setIsAtEnd,
-
-  isScrollingRef,
-
-  setIsScrolling,
-
-  detectCurrentSceneRef,
-
-  scrollPositionStore,
-
-  idlePaused = false,
-
-}) =>
-⋮----
-const stopAutoScroll = (interruptMethod = null) =>
-⋮----
-const handleMousedown = ()
-⋮----
-const handleWheel = ()
-⋮----
-const handleTouchstart = ()
-⋮----
-const handleClick = ()
-⋮----
-const handleScroll = () =>
-⋮----
-// 自分(autoScroll)の代入は scroll イベントでズレ≒0。手動変更（スクロールバー・
-// 矢印キー・慣性など discrete イベントでは検知できない操作）は最後の自己位置から
-// 大きく離れるため、ここで検知して即停止する（自動と手動の「取り合い」を解消）。
-⋮----
-const autoScroll = (ts) =>
-⋮----
-// 自分が書いた実位置を記録（クランプ後も含む）。手動スクロール検知の基準にする
-⋮----
-const stopPlayMode = () =>
-⋮----
-const startPlayMode = () =>
-⋮----
-const playScroll = (ts) =>
 </file>
 
 <file path="src/styles/globals.css">
@@ -1089,6 +832,238 @@ button {
 /* 絵引着地: ビューポート中央固定スポットライト（pointer-events なし・一時注入） */
 ⋮----
 .ebikiSpot {
+</file>
+
+<file path="package.json">
+{
+  "name": "emakimono-next",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "dev": "next dev -p 3005",
+    "check": "npx tsc --noEmit && npm run lint",
+    "clean:build": "rm -rf .next && npm run build",
+    "build": "next build",
+    "postbuild": "next-sitemap && node scripts/copy-sitemap-aliases.js",
+    "start": "next start",
+    "lint": "next lint",
+    "generate:ogp": "node src/script/generateOgImages.js",
+    "build:folklore": "node scripts/convert-ebiki-csv.js",
+    "db:generate": "drizzle-kit generate --config drizzle.config.cjs",
+    "db:push": "drizzle-kit push --config drizzle.config.cjs",
+    "db:studio": "drizzle-kit studio --config drizzle.config.cjs"
+  },
+  "dependencies": {
+    "@chakra-ui/button": "^2.0.14",
+    "@chakra-ui/icons": "^2.2.4",
+    "@chakra-ui/react": "^2.10.4",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@fortawesome/fontawesome-svg-core": "^6.1.2",
+    "@fortawesome/free-brands-svg-icons": "^6.1.2",
+    "@fortawesome/free-solid-svg-icons": "^6.1.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@google-analytics/data": "^4.10.0",
+    "@libsql/client": "^0.17.4",
+    "@tailwindcss/postcss": "^4.1.3",
+    "@xyflow/react": "^12.11.3",
+    "axios": "^1.7.9",
+    "cloudinary": "^2.5.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.45.2",
+    "express": "^4.21.2",
+    "flag-icons": "^6.6.6",
+    "framer-motion": "^8.5.5",
+    "google-map-react": "^2.2.0",
+    "html-react-parser": "^5.1.18",
+    "i18next": "^23.16.8",
+    "image-size": "^1.2.1",
+    "image-trace-loader": "^1.0.2",
+    "imagemin": "^8.0.1",
+    "imagemin-mozjpeg": "9.0.0",
+    "imagemin-webp": "^7.0.0",
+    "jimp": "^0.16.2",
+    "jquery": "^3.6.1",
+    "lazysizes": "^5.3.2",
+    "leaflet": "^1.9.4",
+    "lqip-loader": "^2.2.1",
+    "next": "12.2.5",
+    "next-compose-plugins": "^2.2.1",
+    "next-i18next": "14.0.3",
+    "next-optimized-images": "^2.6.2",
+    "next-pwa": "^5.6.0",
+    "next-sitemap": "^3.1.21",
+    "nextjs-breadcrumbs": "^1.1.9",
+    "nodemailer": "^6.8.0",
+    "path": "^0.12.7",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-dropdown": "^1.11.0",
+    "react-feather": "^2.0.10",
+    "react-flagkit": "^2.0.4",
+    "react-full-screen": "^1.1.1",
+    "react-i18next": "^13.5.0",
+    "react-icons": "^5.3.0",
+    "react-lazy-load": "^3.1.14",
+    "react-lazysizes": "^1.0.0",
+    "react-leaflet": "^4.2.1",
+    "react-tagcloud": "^2.3.3",
+    "responsive-loader": "^3.1.1",
+    "scroll-hint": "^1.2.5",
+    "sharp": "^0.33.5",
+    "styled-components": "^5.3.6",
+    "svg-sprite-loader": "^6.0.11",
+    "uuid": "^11.0.3",
+    "wanakana": "^5.3.1",
+    "webp-loader": "^0.6.0"
+  },
+  "overrides": {
+    "nanoid": "3.3.18"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.29.7",
+    "@types/node": "^22.14.1",
+    "@types/react": "^19.1.2",
+    "autoprefixer": "^10.4.21",
+    "drizzle-kit": "^0.31.10",
+    "eslint": "8.23.0",
+    "eslint-config-next": "12.2.5",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.1.3",
+    "typescript": "^5.8.3"
+  }
+}
+</file>
+
+<file path="src/components/emaki/viewer/EmakiImage.js">
+const EmakiImage = ({
+  item: { config, index, navIndex, uniqueIndex },
+  item,
+  isPlayMode,
+  sceneIndex,
+  emakiId,
+  isByobu,
+}) =>
+</file>
+
+<file path="src/components/emaki/viewer/OverlayEkotoba.js">
+const OverlayEkotoba = ({
+  item: {
+    src,
+    config,
+    name,
+    srcWidth,
+    srcHeight,
+    chapter,
+    genji_chapter: genjiChapter,
+    index,
+    navIndex,
+    data,
+    uniqueIndex,
+  },
+  item,
+  // 屏風（typeen === "byobu"）: 縦長黒帯（段タイトルバー）の見た目のみ非表示にする。
+  // 幅0マーカーのラッパー要素・DOM 構造・navIndex/scrollDialog ref は一切変更しない。
+  hideChapterTitle = false,
+}) =>
+⋮----
+// 屏風（typeen === "byobu"）: 縦長黒帯（段タイトルバー）の見た目のみ非表示にする。
+// 幅0マーカーのラッパー要素・DOM 構造・navIndex/scrollDialog ref は一切変更しない。
+</file>
+
+<file path="src/hooks/emaki/useEmakiAutoPlay.js">
+/**
+
+ * 自動スクロール制御（初回ナッジ + 再生モード）。
+
+ *
+
+ * - 初回ナッジ: 初回表示時のみ、横スクロール可能性を緩やかな自動スクロールで認知させる
+
+ * - 再生モード: ユーザー任意の自動スクロール（▶/停止ボタン）
+
+ * - rAF ループ内でシーン検出・端点 ref 更新（scroll リスナーは自動再生中 no-op）
+
+ * - scrollWidth は開始時1回 + 末尾付近のみ再計測
+
+ */
+⋮----
+/** rAF ループ用: タブ切替等の dt スパイクを抑える上限（秒） */
+⋮----
+/** ナッジ(初回自動スクロール)が最後に自分で書いた位置からの許容ズレ(px)。超過は手動スクロールとみなし即停止 */
+⋮----
+const computeMinScrollLeft = (el)
+⋮----
+const syncEdgeRefsFromScroll = (el, minScrollLeft, isAtStartRef, isAtEndRef) =>
+⋮----
+const maybeRunSceneDetection = (detectCurrentSceneRef, lastDetectMsRef, nowMs) =>
+⋮----
+/** 向き・フルスクリーン復元用。programmatic scroll で scroll が発火しない端末向け */
+const saveScrollPositionStore = (el, dataId, scrollPositionStore) =>
+⋮----
+const useEmakiAutoPlay = ({
+
+  articleRef,
+
+  dataId,
+
+  emakiId,
+
+  navIndex,
+
+  setnavIndex,
+
+  lastDetectedSceneRef,
+
+  isAtStartRef,
+
+  isAtEndRef,
+
+  setIsAtStart,
+
+  setIsAtEnd,
+
+  isScrollingRef,
+
+  setIsScrolling,
+
+  detectCurrentSceneRef,
+
+  scrollPositionStore,
+
+  idlePaused = false,
+
+}) =>
+⋮----
+const stopAutoScroll = (interruptMethod = null) =>
+⋮----
+const handleMousedown = ()
+⋮----
+const handleWheel = ()
+⋮----
+const handleTouchstart = ()
+⋮----
+const handleClick = ()
+⋮----
+const handleScroll = () =>
+⋮----
+// 自分(autoScroll)の代入は scroll イベントでズレ≒0。手動変更（スクロールバー・
+// 矢印キー・慣性など discrete イベントでは検知できない操作）は最後の自己位置から
+// 大きく離れるため、ここで検知して即停止する（自動と手動の「取り合い」を解消）。
+⋮----
+const autoScroll = (ts) =>
+⋮----
+// 自分が書いた実位置を記録（クランプ後も含む）。手動スクロール検知の基準にする
+⋮----
+const stopPlayMode = () =>
+⋮----
+const startPlayMode = () =>
+⋮----
+const playScroll = (ts) =>
 </file>
 
 <file path="src/types/emaki.ts">
@@ -1289,29 +1264,44 @@ export type ScrollMetadata = {
 /** 源氏絵用。実データでは未使用 */
 </file>
 
-<file path="src/components/emaki/viewer/OverlayEkotoba.js">
-const OverlayEkotoba = ({
-  item: {
-    src,
-    config,
-    name,
-    srcWidth,
-    srcHeight,
-    chapter,
-    genji_chapter: genjiChapter,
-    index,
-    navIndex,
-    data,
-    uniqueIndex,
-  },
-  item,
-  // 屏風（typeen === "byobu"）: 縦長黒帯（段タイトルバー）の見た目のみ非表示にする。
-  // 幅0マーカーのラッパー要素・DOM 構造・navIndex/scrollDialog ref は一切変更しない。
-  hideChapterTitle = false,
-}) =>
+<file path="src/utils/cloudinaryUrl.js">
+/**
+ * Cloudinary 配信 URL。
+ * 同一変換ブロック内のカンマは %2C にエンコードする。
+ * リテラルのカンマは next/image の srcset を分割し、相対パス 404 になる。
+ * スラッシュは独立した変換チェーン（Cloudinary 公式の chained transformation）。
+ *
+ * `src` はキャッシュ形式（naming-convention.md）:
+ *   - 推奨: `v{version}/emakimono/{public_id}.jpg`（overwrite 後の CDN バスティング）
+ *   - 旧: `emakimono/{public_id}.jpg`
+ * 変換は version / public_id の前に置く:
+ *   .../upload/{transforms}/v{version}/emakimono/{id}.jpg
+ */
 ⋮----
-// 屏風（typeen === "byobu"）: 縦長黒帯（段タイトルバー）の見た目のみ非表示にする。
-// 幅0マーカーのラッパー要素・DOM 構造・navIndex/scrollDialog ref は一切変更しない。
+// Cloudflare Worker (R2 プロキシ) のベース URL
+⋮----
+/**
+ * 山崎本 甲巻かどうかを判定
+ */
+function isYamazakiKou(publicId)
+⋮----
+export function buildCloudinaryUrl(src, transforms = [])
+⋮----
+// 山崎本 甲巻: Cloudflare Worker 経由でキャッシュ付き WebP を直接配信
+⋮----
+// それ以外の絵巻: 従来の Cloudinary 配信を維持
+⋮----
+export function cloudinaryThumbLoader(
+⋮----
+export function createCloudinaryHeroLoader(gravity = "g_face")
+⋮----
+/**
+ * srcset 分割でサイト相対になった Cloudinary パスなら CDN 絶対 URL を返す。
+ * 本物の /kusouzu/[slug] は /v数字/emakimono/ を含まない。
+ * @param {string} pathname
+ * @returns {string | null}
+ */
+export function toCloudinaryUploadRedirect(pathname)
 </file>
 
 <file path="src/pages/[slug].js">
@@ -1482,66 +1472,6 @@ const cloudinaryLoader = (
 // 取得失敗のみ計測。スケルトンは維持し、空白化・レイアウト崩れを避ける
 </file>
 
-<file path="src/hooks/emaki/useEmakiScroll.js">
-/**
- * スクロール処理 + 現在シーン検出。
- *
- * - handleScroll: 端点判定・スクロール位置保存・インジケータ更新・シーン検出 debounce
- * - detectCurrentScene: ビューポート中央の実測 DOM（findSceneIndexAtViewportCenter）が正本
- * - 手動スクロール: 停止 debounce 後にのみ hash/navIndex 更新（DOM 中央を正本採用）
- * - handleToId: scrollPositionStore.isProgrammaticScroll で着地中の誤検出を抑制
- * - 自動再生中: scroll リスナーは位置保存のみ。シーンは useEmakiAutoPlay の rAF 側＋本検出
- * - 描画窓中心: メタデータ幅推定（URL 正本とは分離）
- *
- * 抽出元: EmakiConteiner.js の detectCurrentScene + handleScroll effect。
- */
-⋮----
-const useEmakiScroll = ({
-  articleRef,
-  dataId,
-  emakiId,
-  emakis,
-  isByobu = false,
-  navIndex,
-  setnavIndex,
-  isScrollDetectedUpdateRef,
-  isAutoScrolling,
-  playModeAnimationRef,
-  palmActiveRef,
-  lastDetectedSceneRef,
-  isAtStartRef,
-  isAtEndRef,
-  setIsAtStart,
-  setIsAtEnd,
-  isScrollingRef,
-  setIsScrolling,
-  indicatorElRef,
-  toggleFullscreen,
-  scrollPositionStore = defaultScrollStore,
-  detectCurrentSceneRef,
-}) =>
-⋮----
-// 段ジャンプ（目次・チャプターナビ）: navIndex を検出基準へ同期
-⋮----
-// hash / 目次ジャンプ: 大きく離れた navIndex のみ窓へ反映
-⋮----
-// 停止 debounce 後の DOM 中央プローブを正本とする（±1 連番拘束はデッドロック源のため撤廃）
-⋮----
-const flushWindowCenterToState = () =>
-const scheduleWindowCenterStateSync = () =>
-⋮----
-/** 描画窓のみ: メタデータ幅で推定（URL 正本とは独立） */
-const scheduleContentWindowCenter = () =>
-⋮----
-const handleScroll = () =>
-⋮----
-// スクロール停止後にのみ DOM 中央プローブ → hash / navIndex
-⋮----
-const handleMousedown = () =>
-⋮----
-// 中身マウント等で scrollWidth が変わったら再プローブ
-</file>
-
 <file path="src/pages/_app.js">
 /**
  * App shell: AppContext provider, global viewer state, GA, modals.
@@ -1651,6 +1581,66 @@ window.addEventListener("resize", updateHeight); // ウィンドウリサイズ�
 {/* _app.js で next/head を使用することで Next.js のデフォルト viewport を確実に上書き */}
 ⋮----
 {/* google analytics */}
+</file>
+
+<file path="src/hooks/emaki/useEmakiScroll.js">
+/**
+ * スクロール処理 + 現在シーン検出。
+ *
+ * - handleScroll: 端点判定・スクロール位置保存・インジケータ更新・シーン検出 debounce
+ * - detectCurrentScene: ビューポート中央の実測 DOM（findSceneIndexAtViewportCenter）が正本
+ * - 手動スクロール: 停止 debounce 後にのみ hash/navIndex 更新（DOM 中央を正本採用）
+ * - handleToId: scrollPositionStore.isProgrammaticScroll で着地中の誤検出を抑制
+ * - 自動再生中: scroll リスナーは位置保存のみ。シーンは useEmakiAutoPlay の rAF 側＋本検出
+ * - 描画窓中心: メタデータ幅推定（URL 正本とは分離）
+ *
+ * 抽出元: EmakiConteiner.js の detectCurrentScene + handleScroll effect。
+ */
+⋮----
+const useEmakiScroll = ({
+  articleRef,
+  dataId,
+  emakiId,
+  emakis,
+  isByobu = false,
+  navIndex,
+  setnavIndex,
+  isScrollDetectedUpdateRef,
+  isAutoScrolling,
+  playModeAnimationRef,
+  palmActiveRef,
+  lastDetectedSceneRef,
+  isAtStartRef,
+  isAtEndRef,
+  setIsAtStart,
+  setIsAtEnd,
+  isScrollingRef,
+  setIsScrolling,
+  indicatorElRef,
+  toggleFullscreen,
+  scrollPositionStore = defaultScrollStore,
+  detectCurrentSceneRef,
+}) =>
+⋮----
+// 段ジャンプ（目次・チャプターナビ）: navIndex を検出基準へ同期
+⋮----
+// hash / 目次ジャンプ: 大きく離れた navIndex のみ窓へ反映
+⋮----
+// 停止 debounce 後の DOM 中央プローブを正本とする（±1 連番拘束はデッドロック源のため撤廃）
+⋮----
+const flushWindowCenterToState = () =>
+const scheduleWindowCenterStateSync = () =>
+⋮----
+/** 描画窓のみ: メタデータ幅で推定（URL 正本とは独立） */
+const scheduleContentWindowCenter = () =>
+⋮----
+const handleScroll = () =>
+⋮----
+// スクロール停止後にのみ DOM 中央プローブ → hash / navIndex
+⋮----
+const handleMousedown = () =>
+⋮----
+// 中身マウント等で scrollWidth が変わったら再プローブ
 </file>
 
 <file path="src/hooks/emaki/useEmakiZoomPan.js">
