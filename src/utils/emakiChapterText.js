@@ -155,36 +155,35 @@ export const ChaptersTitle = (
   if (isGenjiWork(titleen, title)) {
     const masterCh = resolveGenjiMasterChapter(titleen, chapter, genjiChapter);
     if (text === "titleen") {
-      // EN は縦中横なし（半角数字の横倒しの方がレイアウトが安定）
       const fromFile =
         hasTextData(titleen) &&
         connectEmakiTextData(titleen, chapter, "titleen");
-      if (fromFile) return <>{fromFile}</>;
+      if (fromFile) return fromFile;
       const num = connectGenjiChapters(masterCh, "chapter_en");
       const path = connectGenjiChapters(masterCh, "titleen");
-      if (!num && !path) return null;
-      if (num && path) return <>{`Chapter ${num}: ${path}`}</>;
-      if (num) return <>{`Chapter ${num}`}</>;
-      return <>{path}</>;
+      if (num && path) return `Chapter ${num}: ${path}`;
+      if (num) return `Chapter ${num}`;
+      return path || "";
     }
     // 日本語: 巻別 title を優先（柏木（一）等の段番号を含める）
     const fromFile =
       hasTextData(titleen) && connectEmakiTextData(titleen, chapter, "title");
-    if (fromFile) return <>{withTateChuYoko(fromFile)}</>;
+    if (fromFile) return withTateChuYoko(fromFile);
+
+    const chEn = connectGenjiChapters(masterCh, "chapter_en");
+    if (!chEn) return "";
+
+    const chNum = connectGenjiChapters(masterCh, "chapter_ch");
+    const genjiTitle = connectGenjiChapters(masterCh, "title");
+    const ruby = connectGenjiChapters(masterCh, "ruby");
+
     return (
       <>
-        {connectGenjiChapters(masterCh, "chapter_en") &&
-          withTateChuYoko(
-            `【第${connectGenjiChapters(masterCh, "chapter_ch")}帖】`
-          )}
+        {chNum && withTateChuYoko(`【第${chNum}帖】`)}
         <ruby>
-          {connectGenjiChapters(masterCh, "chapter_en") &&
-            `${connectGenjiChapters(masterCh, "title")}`}
+          {genjiTitle}
           <rp>(</rp>
-          <rt>
-            {connectGenjiChapters(masterCh, "chapter_en") &&
-              `${connectGenjiChapters(masterCh, "ruby")}`}
-          </rt>
+          <rt>{ruby}</rt>
           <rp>)</rp>
         </ruby>
       </>
@@ -192,9 +191,9 @@ export const ChaptersTitle = (
   }
   if (hasTextData(titleen)) {
     const t = connectEmakiTextData(titleen, chapter, text);
-    return t ? <>{withTateChuYoko(t)}</> : "";
+    return t ? withTateChuYoko(t) : "";
   }
-  return chapter && parse(chapter);
+  return chapter ? parse(String(chapter)) : "";
 };
 
 /**

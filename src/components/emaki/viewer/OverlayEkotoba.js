@@ -30,40 +30,55 @@ const OverlayEkotoba = ({
   const { locale } = useRouter();
   const { title, titleen } = data;
 
+  // 正式な章名 → スライス個別タイトル → シーン番号の順で解決
+  const chapterTitle =
+    (locale === "en"
+      ? ChaptersTitle(titleen, title, chapter, "titleen", genjiChapter)
+      : ChaptersTitle(titleen, title, chapter, "title", genjiChapter)) ||
+    item?.title ||
+    (chapter != null && chapter !== ""
+      ? locale === "en"
+        ? `Scene ${chapter}`
+        : `第${chapter}段`
+      : typeof index === "number"
+      ? locale === "en"
+        ? `Scene ${index + 1}`
+        : `第${index + 1}場面`
+      : "");
+
   return (
     <div
-      className={`section ${styles.ekotobarl} ${styles.container} ${
-        !src ? styles.noEkotobaImage : ""
-      }`}
-      style={src ? { width: "100%", height: "100%" } : undefined}
+      className={`section ${styles.ekotobarl} ${styles.container}`}
       ref={navIndex === index ? scrollDialog : null}
     >
-      {chapter && chapterToggle && !hideChapterTitle && (
+      {chapterTitle && chapterToggle && !hideChapterTitle && (
         <div
           className={`${styles.chapterbox} ${
             orientation === "portrait"
               ? styles.chapterboxPrt
               : styles.chapterboxLand
-          }`}
+          } ${locale === "en" ? styles.chapterboxEn : ""}`}
         >
           <h3
             className={`${styles.chapter} ${
               orientation === "portrait" ? styles.chapterPrt : styles.chapterLand
-            }`}
+            } ${locale === "en" ? styles.chapterEn : ""}`}
             onClick={() => handleToId(index)}
+            style={{
+              fontFamily:
+                locale === "en"
+                  ? "var(--font-ui)"
+                  : "var(--font-classical)",
+            }}
           >
-            {locale == "en"
-              ? ChaptersTitle(titleen, title, chapter, "titleen", genjiChapter)
-              : ChaptersTitle(titleen, title, chapter, "title", genjiChapter)}
+            {chapterTitle}
           </h3>
-          <div className={styles.chapterActions}>
-            <SceneLikeButton
-              titleen={titleen}
-              title={title}
-              chapter={chapter}
-              index={index}
-              variant="overlay"
-            />
+          <div
+            className={`${styles.chapterActions} ${
+              locale === "en" ? styles.chapterActionsEn : ""
+            }`}
+          >
+            <SceneLikeButton emakiId={titleen} sceneIndex={index} variant="overlay"/>
           </div>
         </div>
       )}

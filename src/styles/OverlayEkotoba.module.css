@@ -1,4 +1,5 @@
 .container {
+  width: 100%;
   height: 100%;
   position: relative;
 }
@@ -11,63 +12,94 @@
   min-width: 0;
 }
 
-/* 詞書画像なし章マーカー: フロー上の幅をゼロにし、タイトルは absolute で隣接絵に重ねる */
-.noEkotobaImage {
-  width: 0;
-  min-width: 0;
-  height: 100%;
-  overflow: visible;
-}
-
-.markerSection {
-  width: 0;
-  min-width: 0;
-  overflow: visible;
-  flex-shrink: 0;
-  height: 100%;
-}
-
 /* レイアウトは横書き基準。タイトル文字だけ縦書きにして下にアイコンを積む */
 .chapterbox {
-  writing-mode: horizontal-tb;
+  background: rgba(255, 252, 246, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
-  height: fit-content;
-  letter-spacing: 0.1rem;
-  z-index: 10;
-  color: var(--clr-white);
   position: absolute;
   top: 0;
-  background-color: #000;
-  max-width: none;
-  width: max-content;
-  overflow: visible;
+  right: 0;
+  z-index: 10;
+  color: var(--clr-text);
+  padding: 0.75rem 0.4rem;
+  border-bottom-left-radius: 8px;
+  writing-mode: horizontal-tb;
 }
 
-/* 縦書きタイトルの直下にアイコン（フォントサイズに追従） */
+/* 英語時の横書きピル型短冊スタイル */
+.chapterboxEn {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.45rem;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.3rem 0.65rem 0.3rem 0.85rem;
+  border-radius: 999px;
+  width: max-content;
+  max-width: min(80vw, 420px);
+}
+
+/* 縦書きタイトルの直下にアイコン（落款のようなアクセント） */
 .chapterActions {
   writing-mode: horizontal-tb;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 0;
-  margin-top: 0.15rem;
+  margin-top: 0.45rem;
+  padding-top: 0.35rem;
+  border-top: 1px dashed rgba(0, 0, 0, 0.12);
   flex-shrink: 0;
-  font-size: 1em;
+  font-size: 0.85em;
+  color: var(--clr-text);
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
 }
+
+.chapterActions:hover {
+  opacity: 1;
+}
+
+/* 英語時の横並びいいねボタンスタイル（極細ディバイダー付き） */
+.chapterActionsEn {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+  padding-left: 0.45rem;
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .chapterActions :global(button) {
-  width: 1.15em;
-  height: 1.15em;
-  min-width: 1.15em;
-  min-height: 1.15em;
+  width: 1.2em;
+  height: 1.2em;
+  min-width: 1.2em;
+  min-height: 1.2em;
   padding: 0;
   font-size: 1em;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
 }
+
 .chapterActions :global(button svg) {
   width: 1em;
   height: 1em;
+  stroke: currentColor;
 }
 /* SP: タップは overlayFramed の padding で確保（親幅を超えないよう em 基準） */
 @media (pointer: coarse) {
@@ -168,6 +200,20 @@
 
 .ekotobarl .chapter {
   writing-mode: vertical-rl;
+}
+
+/* 英語タイトルは横書き・1行省略表示 */
+.ekotobarl .chapterEn {
+  writing-mode: horizontal-tb;
+  text-orientation: mixed;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  display: block;
+  width: auto;
+  flex-shrink: 0;
 }
 
 .ekotobalr .chapter {

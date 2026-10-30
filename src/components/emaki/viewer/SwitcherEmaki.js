@@ -3,7 +3,6 @@ import EmakiImage from "@/components/emaki/viewer/EmakiImage";
 import OverlayEkotoba from "@/components/emaki/viewer/OverlayEkotoba";
 import SpotPins from "@/components/emaki/viewer/SpotPins";
 import { AppContext } from "@/context/AppContext";
-import ekotobaStyles from "@/styles/OverlayEkotoba.module.css";
 import { buildSceneShellStyle } from "@/utils/emakiContentWindow";
 import { isByobuScroll } from "@/utils/isByobuScroll";
 import { sceneSectionId } from "@/utils/emakiSceneDom";
@@ -40,8 +39,7 @@ const SwitcherEmaki = forwardRef(
       return null;
     }
 
-    const sectionClass =
-      cat === "ekotoba" && !src ? ekotobaStyles.markerSection : undefined;
+    const sectionClass = undefined;
     // 屏風のみ: 段タイトルバー（黒帯）を非表示化（マーカー要素・DOM 構造は不変）
     const isByobu = isByobuScroll(data);
     // 殻↔中身差し替えで flex 幅が変わらないよう、幅は常に section に載せる
