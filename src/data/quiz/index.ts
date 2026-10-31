@@ -6,6 +6,37 @@ import { CHOJU_GIGA_TEI_QUIZ } from "./choujuGigaTeiQuiz";
 
 export { getQuizRank } from "./choujuGigaKouQuiz";
 
+export { getQuizNavigation } from "./recommendation";
+
+// 各巻にシリーズメタデータを注入
+CHOJU_GIGA_KOU_QUIZ.seriesId = "choju-giga";
+CHOJU_GIGA_KOU_QUIZ.seriesTitleJa = "鳥獣戯画シリーズ";
+CHOJU_GIGA_KOU_QUIZ.seriesTitleEn = "Chōjū-giga Series";
+CHOJU_GIGA_KOU_QUIZ.seriesOrder = 1;
+CHOJU_GIGA_KOU_QUIZ.shortTitleJa = "甲巻";
+CHOJU_GIGA_KOU_QUIZ.shortTitleEn = "Scroll I";
+
+CHOJU_GIGA_OTSU_QUIZ.seriesId = "choju-giga";
+CHOJU_GIGA_OTSU_QUIZ.seriesTitleJa = "鳥獣戯画シリーズ";
+CHOJU_GIGA_OTSU_QUIZ.seriesTitleEn = "Chōjū-giga Series";
+CHOJU_GIGA_OTSU_QUIZ.seriesOrder = 2;
+CHOJU_GIGA_OTSU_QUIZ.shortTitleJa = "乙巻";
+CHOJU_GIGA_OTSU_QUIZ.shortTitleEn = "Scroll II";
+
+CHOJU_GIGA_HEI_QUIZ.seriesId = "choju-giga";
+CHOJU_GIGA_HEI_QUIZ.seriesTitleJa = "鳥獣戯画シリーズ";
+CHOJU_GIGA_HEI_QUIZ.seriesTitleEn = "Chōjū-giga Series";
+CHOJU_GIGA_HEI_QUIZ.seriesOrder = 3;
+CHOJU_GIGA_HEI_QUIZ.shortTitleJa = "丙巻";
+CHOJU_GIGA_HEI_QUIZ.shortTitleEn = "Scroll III";
+
+CHOJU_GIGA_TEI_QUIZ.seriesId = "choju-giga";
+CHOJU_GIGA_TEI_QUIZ.seriesTitleJa = "鳥獣戯画シリーズ";
+CHOJU_GIGA_TEI_QUIZ.seriesTitleEn = "Chōjū-giga Series";
+CHOJU_GIGA_TEI_QUIZ.seriesOrder = 4;
+CHOJU_GIGA_TEI_QUIZ.shortTitleJa = "丁巻";
+CHOJU_GIGA_TEI_QUIZ.shortTitleEn = "Scroll IV";
+
 export const ALL_QUIZZES: QuizDefinition[] = [
   CHOJU_GIGA_KOU_QUIZ,
   CHOJU_GIGA_OTSU_QUIZ,

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "@/styles/QuizModal.module.css";
 import { trackQuizShareChallenge } from "@/libs/api/measurementUtils";
+import { getQuizNavigation } from "@/data/quiz";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
@@ -14,7 +15,10 @@ const QuizResult = ({
   onClose,
   onAbandon,
   quiz,
+  quizDef,
   quizSession,
+  hostTitleen,
+  completedQuizIds = [],
 }) => {
   const { t } = useTranslation("common");
   const { locale } = useRouter();
@@ -92,30 +96,129 @@ const QuizResult = ({
               : "結果をシェア / 友達に挑戦状を送る"}
           </button>
         </div>
-        {resultLinks.length > 0 && (
-          <div className={styles.resultLinks}>
-            <p className={styles.resultLinksTitle}>{t("quiz.exploreMore")}</p>
-            <ul className={styles.resultLinkList}>
-              {resultLinks.map((link) => {
-                const label = isEn ? link.labelEn : link.labelJa;
-                const href =
-                  link.type === "scroll" ? `/${link.titleen}` : link.path;
-                return (
-                  <li key={href}>
-                    <Link href={href}>
+        {(() => {
+          // props の命名ゆらぎ（quiz, quizDef, quizSession, hostTitleen）を安全に吸収
+          const currentDef = quiz || quizDef;
+          const activeQuizId = currentDef?.id || quizSession?.quizId;
+          const currentTargetScroll = currentDef?.targetScrollTitleen || currentDef?.titleen || hostTitleen;
+          const nav = getQuizNavigation(activeQuizId);
+          const scrollTitleen =
+            currentTargetScroll || quizSession?.hostTitleen;
+          return (
+            <div className={styles.resultNavigationContainer}>
+              <div className={styles.seriesSection}>
+                <p className={styles.resultLinksTitle}>
+                  {isEn ? nav.seriesTitleEn : nav.seriesTitleJa}
+                </p>
+                <div className={styles.seriesPillGrid}>
+                  {nav.seriesQuizzes.map((sq) => {
+                    const targetSlug = sq.targetScrollTitleen || sq.titleen;
+                    const isCurrent =
+                      (activeQuizId && sq.id === activeQuizId) ||
+                      (currentTargetScroll && targetSlug === currentTargetScroll);
+                    const isCompleted = completedQuizIds.includes(sq.id);
+
+                    const label = isEn
+                      ? sq.shortTitleEn || sq.titleEn
+                      : sq.shortTitleJa || sq.titleJa;
+
+                    if (isCurrent) {
+                      return (
+                        <span
+                          key={sq.id}
+                          className={`${styles.seriesPill} ${styles.seriesPillActive}`}
+                        >
+                          ✓ {label}
+                        </span>
+                      );
+                    }
+
+                    if (isCompleted) {
+                      return (
+                        <Link
+                          key={sq.id}
+                          href={`/${targetSlug}?quiz=1`}
+                        >
+                          <a
+                            className={`${styles.seriesPill} ${styles.seriesPillCompleted}`}
+                            onClick={() => onAbandon?.()}
+                          >
+                            ✓ {label} ▶
+                          </a>
+                        </Link>
+                      );
+                    }
+
+                    return (
+                      <Link
+                        key={sq.id}
+                        href={`/${targetSlug}?quiz=1`}
+                      >
+                        <a
+                          className={styles.seriesPill}
+                          onClick={() => onAbandon?.()}
+                        >
+                          {label} {isEn ? "Challenge ▶" : "に挑戦 ▶"}
+                        </a>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {nav.recommendedQuizzes.length > 0 && (
+                <div className={styles.recommendSection}>
+                  <p className={styles.resultLinksTitle}>
+                    {isEn ? "Other Quizzes" : "別の絵巻クイズに挑戦"}
+                  </p>
+                  <div className={styles.recommendGrid}>
+                    {nav.recommendedQuizzes.map((rq) => (
+                      <Link
+                        key={rq.id}
+                        href={`/${rq.targetScrollTitleen || rq.titleen}?quiz=1`}
+                      >
+                        <a
+                          className={styles.recommendCard}
+                          onClick={() => onAbandon?.()}
+                        >
+                          <span className={styles.recommendCardTitle}>
+                            {isEn ? rq.titleEn : rq.titleJa}
+                          </span>
+                        </a>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className={styles.subNavigationLinks}>
+                {scrollTitleen && (
+                  <>
+                    <Link href={`/${scrollTitleen}`}>
                       <a
-                        className={styles.resultLink}
+                        className={styles.subNavLink}
                         onClick={() => onAbandon?.()}
                       >
-                        {label}
+                        {isEn
+                          ? "View this scroll in reader"
+                          : "この絵巻を鑑賞する"}
                       </a>
                     </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        )}
+                    <span className={styles.subNavDivider}>・</span>
+                  </>
+                )}
+                <Link href="/type/emaki">
+                  <a
+                    className={styles.subNavLink}
+                    onClick={() => onAbandon?.()}
+                  >
+                    {isEn ? "All Emaki" : "絵巻物一覧へ"}
+                  </a>
+                </Link>
+              </div>
+            </div>
+          );
+        })()}
       </div>
       <div className={styles.modalFooter}>
         <div className={styles.actions}>

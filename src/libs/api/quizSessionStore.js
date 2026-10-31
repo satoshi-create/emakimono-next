@@ -7,13 +7,22 @@ export const QUIZ_SESSION_KEY = "emaki_quiz_session_v1";
 /**
  * @returns {import("@/types/quiz").QuizSessionState|null}
  */
-export function loadQuizSession() {
+export function loadQuizSession(filter = {}) {
   if (typeof window === "undefined") return null;
   try {
     const raw = window.sessionStorage.getItem(QUIZ_SESSION_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw);
-    if (!parsed || typeof parsed.quizId !== "string") return null;
+    if (!parsed || typeof parsed !== "object") return null;
+    if (typeof parsed.quizId !== "string") return null;
+
+    if (filter.hostTitleen && parsed.hostTitleen && parsed.hostTitleen !== filter.hostTitleen) {
+      return null;
+    }
+    if (filter.quizId && parsed.quizId !== filter.quizId) {
+      return null;
+    }
+
     return parsed;
   } catch {
     return null;

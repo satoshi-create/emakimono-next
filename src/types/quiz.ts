@@ -68,6 +68,12 @@ export type QuizDefinition = {
   /** クイズ開始を出す titleen（エントリー巻） */
   titleen: string;
   version: number;
+  seriesId?: string;          // 例: "choju-giga"
+  seriesTitleJa?: string;     // 例: "鳥獣戯画シリーズ"
+  seriesTitleEn?: string;     // 例: "Chōjū-giga Series"
+  seriesOrder?: number;       // 例: 1 (甲), 2 (乙), 3 (丙), 4 (丁)
+  shortTitleJa?: string;      // 例: "甲巻", "乙巻"
+  shortTitleEn?: string;      // 例: "Scroll I", "Scroll II"
   questions: QuizQuestion[];
   ranks: QuizRankRule[];
   resultLinks?: QuizResultLink[];

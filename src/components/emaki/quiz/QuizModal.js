@@ -7,13 +7,17 @@ import {
   trackQuizJumpToScene,
   trackQuizStart,
 } from "@/libs/api/measurementUtils";
+import {
+  loadCompletedQuizIds,
+  markQuizCompleted,
+} from "@/libs/api/quizCompletionStore";
 import styles from "@/styles/QuizModal.module.css";
 import { resolveQuizJump } from "@/utils/resolveQuizJump";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * 観察力クイズモーダル。
@@ -35,6 +39,20 @@ const QuizModal = ({
   const { locale } = useRouter();
   const isEn = locale === "en";
   const startedRef = useRef(false);
+  const [completedQuizIds, setCompletedQuizIds] = useState([]);
+
+  useEffect(() => {
+    setCompletedQuizIds(loadCompletedQuizIds());
+  }, []);
+
+  // session 復元等で done: true が直表示された場合も確実に localStorage に保存・同期
+  useEffect(() => {
+    if (!session?.done) return;
+    const quizId = quiz?.id || session?.quizId;
+    if (!quizId) return;
+    const updated = markQuizCompleted(quizId);
+    setCompletedQuizIds(updated);
+  }, [session?.done, quiz?.id, session?.quizId]);
 
   const index = session.index;
   const selectedIndex = session.selectedIndex;
@@ -230,6 +248,11 @@ const QuizModal = ({
         jumpCount,
       });
       patchSession({ done: true });
+      const quizId = quiz?.id || session?.quizId;
+      if (quizId) {
+        const updated = markQuizCompleted(quizId);
+        setCompletedQuizIds(updated);
+      }
       return;
     }
     patchSession({
@@ -281,6 +304,10 @@ const QuizModal = ({
         </div>
         {done ? (
           <QuizResult
+            completedQuizIds={completedQuizIds}
+            hostTitleen={emakiId}
+            quiz={quiz}
+            quizSession={session}
             rankLabel={rankLabel}
             score={score}
             total={total}

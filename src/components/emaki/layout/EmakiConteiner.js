@@ -304,21 +304,22 @@ const EmakiContainer = ({
       ? quizModule.getQuizById(quizSession.quizId)
       : null;
   const activeQuiz = entryQuiz || sessionQuiz;
-  const forceQuizFabForResume =
-    quizUi === "minimized" ||
-    (Boolean(quizSession) && !quizSession.done && quizUi !== "open");
+  const isSessionForCurrentScroll =
+    quizSession &&
+    (!quizSession.hostTitleen || quizSession.hostTitleen === data?.titleen);
+  const forceQuizFabForResume = Boolean(
+    isSessionForCurrentScroll && !quizSession?.done
+  );
   const canShowQuizChrome = Boolean(
     scroll &&
       activeQuiz &&
       (entryQuiz ||
-        (quizSession && !quizSession.done) ||
+        (isSessionForCurrentScroll && !quizSession?.done) ||
         quizUi === "minimized") &&
       (!quizFabHidden || forceQuizFabForResume)
   );
   const fabMode =
-    quizUi === "minimized" || (quizSession && quizUi === "closed" && !quizSession.done)
-      ? "resume"
-      : "start";
+    isSessionForCurrentScroll && !quizSession?.done ? "resume" : "start";
 
   // sessionStorage から進行を復元（他巻ジャンプ・リロード対応）— paint 後
   useEffect(() => {
@@ -327,12 +328,23 @@ const EmakiContainer = ({
       if (quizHydratedRef.current) return;
       quizHydratedRef.current = true;
       setQuizFabHiddenState(isQuizFabHidden());
-      const stored = loadQuizSession();
-      if (!stored || !quizModule.getQuizById(stored.quizId)) return;
+      const stored = loadQuizSession({ hostTitleen: data?.titleen });
+      if (!stored) {
+        setQuizSession(null);
+        return;
+      }
+      if (!quizModule.getQuizById(stored.quizId)) return;
       setQuizSession(stored);
-      setQuizUi("minimized");
+
+      // URLクエリで明示的にクイズ起動が要求されている場合（?quiz=1 等）や、
+      // セッションが既に完了している（done: true）場合は minimized への上書きを行わない
+      const isExplicitQuizQuery =
+        query.quiz === "1" || query.quiz === "true";
+      if (!isExplicitQuizQuery && !stored.done) {
+        setQuizUi("minimized");
+      }
     });
-  }, [quizModule]);
+  }, [quizModule, data?.titleen, query.quiz]);
 
   // Help などから「クイズボタンを再表示」
   useEffect(() => {
@@ -375,14 +387,22 @@ const EmakiContainer = ({
 
   const openQuizUi = useCallback(() => {
     if (!quizModule) return;
-    if (quizSession && quizModule.getQuizById(quizSession.quizId)) {
+    if (!activeQuiz) return;
+    if (
+      quizSession &&
+      !quizSession.done &&
+      quizSession.quizId === activeQuiz.id &&
+      (!quizSession.hostTitleen || quizSession.hostTitleen === data?.titleen)
+    ) {
       setQuizUi("open");
       return;
     }
     if (!entryQuiz) return;
-    setQuizSession(createQuizSession(entryQuiz, data.titleen));
+    const nextSession = createQuizSession(entryQuiz, data?.titleen);
+    saveQuizSession(nextSession);
+    setQuizSession(nextSession);
     setQuizUi("open");
-  }, [quizModule, quizSession, entryQuiz, data.titleen]);
+  }, [quizModule, quizSession, entryQuiz, activeQuiz, data?.titleen]);
 
   const closeQuizUi = useCallback(() => {
     // 進行は保持（観察のために閉じても再開できる）
