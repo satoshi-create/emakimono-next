@@ -182,7 +182,13 @@ const QuizResult = ({
                           onClick={() => onAbandon?.()}
                         >
                           <span className={styles.recommendCardTitle}>
-                            {isEn ? rq.titleEn : rq.titleJa}
+                            {isEn
+                              ? rq.seriesTitleEn && rq.shortTitleEn
+                                ? `${rq.seriesTitleEn} (${rq.shortTitleEn})`
+                                : rq.shortTitleEn || rq.seriesTitleEn || ""
+                              : rq.seriesTitleJa && rq.shortTitleJa
+                                ? `${rq.seriesTitleJa}（${rq.shortTitleJa}）`
+                                : rq.shortTitleJa || rq.seriesTitleJa || ""}
                           </span>
                         </a>
                       </Link>

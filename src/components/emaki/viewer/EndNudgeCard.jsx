@@ -39,7 +39,7 @@ const EndNudgeCard = ({
       <div
         style={{
           position: "absolute",
-          bottom: "12px",
+          bottom: "56px",
           left: "12px",
           width: "180px",
           pointerEvents: showEndNudge ? "auto" : "none",

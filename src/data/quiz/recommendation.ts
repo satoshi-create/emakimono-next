@@ -13,22 +13,32 @@ export interface QuizNavigationData {
  */
 export function getQuizNavigation(currentQuizId?: string): QuizNavigationData {
   const currentQuiz = ALL_QUIZZES.find((q) => q.id === currentQuizId);
-  const currentSeriesId = currentQuiz?.seriesId ?? "choju-giga";
+  const currentSeriesId = currentQuiz?.seriesId;
 
   // 1. 同一シリーズのクイズを巻順（seriesOrder）で抽出（アプローチ2用）
-  const seriesQuizzes = ALL_QUIZZES.filter(
-    (q) => (q.seriesId ?? "choju-giga") === currentSeriesId
-  ).sort((a, b) => (a.seriesOrder ?? 0) - (b.seriesOrder ?? 0));
+  const seriesQuizzes = currentSeriesId
+    ? ALL_QUIZZES.filter((q) => q.seriesId === currentSeriesId).sort(
+        (a, b) => (a.seriesOrder ?? 0) - (b.seriesOrder ?? 0)
+      )
+    : currentQuiz
+    ? [currentQuiz]
+    : [];
 
-  // 2. 他シリーズのクイズを動的抽出（アプローチ3用: 将来の別作品用）
-  const otherQuizzes = ALL_QUIZZES.filter(
-    (q) => (q.seriesId ?? "choju-giga") !== currentSeriesId && q.id !== currentQuizId
-  );
+  // 現在のシリーズ以外のシリーズから代表クイズ（各シリーズ1件）を抽出
+  const seenSeries = new Set<string>();
+  const distinctRecommended: QuizDefinition[] = [];
+
+  for (const q of ALL_QUIZZES) {
+    if (q.seriesId && q.seriesId !== currentSeriesId && !seenSeries.has(q.seriesId)) {
+      seenSeries.add(q.seriesId);
+      distinctRecommended.push(q);
+    }
+  }
 
   return {
-    seriesTitleJa: currentQuiz?.seriesTitleJa ?? "鳥獣戯画シリーズ",
-    seriesTitleEn: currentQuiz?.seriesTitleEn ?? "Chōjū-giga Series",
+    seriesTitleJa: currentQuiz?.seriesTitleJa ?? "",
+    seriesTitleEn: currentQuiz?.seriesTitleEn ?? "",
     seriesQuizzes,
-    recommendedQuizzes: otherQuizzes.slice(0, 2),
+    recommendedQuizzes: distinctRecommended.slice(0, 3),
   };
 }

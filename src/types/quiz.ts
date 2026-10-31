@@ -4,7 +4,13 @@ export type QuizId =
   | "chouju_giga_kou_observe_v1"
   | "chouju-giga-otsu"
   | "chouju-giga-hei"
-  | "chouju-giga-tei";
+  | "chouju-giga-tei"
+  | "hyakki-yagyo-utokyo"
+  | "hyakki-kokkai-a"
+  | "hyakki-no-zu-nichibun"
+  | "kusouzumaki"
+  | "kusouzu-kobayasieieitaku"
+  | "genji-monogatari-tokugawa";
 
 export type QuizChoice = {
   id: string;
