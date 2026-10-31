@@ -50,18 +50,18 @@
   {
     "chapter": "6",
     "title": "噉相",
-    "titleen": "The Feast of Beasts",
-    "gendaibun": "狐や狼、鳥たちが遺体をついばんでいます。ひとつの命が、他の命の糧になっていく場面です。",
-    "desc": "生命を終えた身体は、他の生き物たちの糧となります。狐、狼、鳥たちが肉片を奪い合い、引き裂かれていきます。「噉相（たんそう）」は、自己と考えていたものが自然の大きな循環に還っていくことを静かに教えます。",
-    "descen": "Now the body becomes sustenance for other beings—foxes, wolves, and kites contend for portions of what was once zealously protected as 'self.' This 'Tansō' stage illustrates the great cycle of interdependence, as the matter we claim as our own returns to the web of life. The body that was once an object of attachment now nourishes other sentient beings in the continuous flow of existence."
+    "titleen": "The Dissolution and Decay",
+    "gendaibun": "身体の崩壊が進み、肉が融け落ちていきます。生前の面影はなく、崩れゆく姿を静かに見つめる場面です。",
+    "desc": "腐敗が極限に達し、肉体は崩壊を深めていきます。「噉相（たんそう）」は、形あるものが崩れ、やがてすべてが失われていく無常の現実を静かに示しています。",
+    "descen": "As decay reaches a critical phase, the flesh breaks down and loses coherence. This 'Tansō' stage reveals the uncompromising reality of impermanence, as the once-cherished physical form continues its irreversible dissolution."
   },
   {
     "chapter": "7",
     "title": "散相",
-    "titleen": "The Scattering of Form",
-    "gendaibun": "身体はばらばらになり、頭や手足が離れて散らばっています。ひとつの形をとどめない姿です。",
-    "desc": "身体はばらばらになり、頭も手足も元の姿には戻りません。内臓も散らばり、統一された形は失われます。「散相（さんそう）」は、私たちが自己と錯覚してきた存在が、要素に還る過程を映し出します。",
-    "descen": "The once-unified form now lies in disarray—head, limbs, and viscera scattered beyond recognition or reassembly. This 'Sansō' phase reveals the ultimate truth of physical impermanence: that which we perceive as a coherent self is merely a temporary arrangement of elements, destined to return to their separate states. The meditation teaches that our conception of bodily integrity is but a fleeting condition."
+    "titleen": "The Feast of Beasts and Scattering",
+    "gendaibun": "烏や犬、狼などの鳥獣が遺体に群がり、肉片をついばんでいます。ひとつの命が、他の生き物たちの糧へと還っていく場面です。",
+    "desc": "引き裂かれた遺体は野生の鳥獣たちの糧となります。烏や犬・狼が肉片を奪い合い、骨肉が散乱していきます。「散相（さんそう）」は、自己と執着していた肉体が他の命を養い、自然の循環へと還っていく様を映し出します。",
+    "descen": "Wild beasts and scavengers—crows, dogs, and wolves—gather around the remains to tear away and feast upon the flesh. In this 'Sansō' phase, the body that was once jealously guarded as 'self' is dismembered and scattered, returning as sustenance to the great cycle of nature."
   },
   {
     "chapter": "8",
