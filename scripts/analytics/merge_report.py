@@ -427,6 +427,8 @@ def merge_report(report_dir: Path) -> dict:
     scene_like_by_emaki = _load_json(report_dir / "ga4_scene_like_by_emaki.json")
     like_emaki_by_emaki = _load_json(report_dir / "ga4_like_emaki_by_emaki.json")
     scroll_feedback_by_emaki = _load_json(report_dir / "ga4_scroll_feedback_by_emaki.json")
+    zoom_open_by_emaki = _load_json(report_dir / "ga4_zoom_open_by_emaki.json")
+    zoom_close_by_emaki = _load_json(report_dir / "ga4_zoom_close_by_emaki.json")
     scroll_feedback_by_choice = _load_json(report_dir / "ga4_scroll_feedback_by_choice.json")
     sns_share_by_emaki = _load_json(report_dir / "ga4_sns_share_by_emaki.json")
     sns_share_by_platform = _load_json(report_dir / "ga4_sns_share_by_platform.json")
@@ -475,6 +477,12 @@ def merge_report(report_dir: Path) -> dict:
     scroll_feedback_by_slug = _index_ga4_emaki(
         scroll_feedback_by_emaki if isinstance(scroll_feedback_by_emaki, list) else []
     )
+    zoom_open_by_slug = _index_ga4_emaki(
+        zoom_open_by_emaki if isinstance(zoom_open_by_emaki, list) else []
+    )
+    zoom_close_by_slug = _index_ga4_emaki(
+        zoom_close_by_emaki if isinstance(zoom_close_by_emaki, list) else []
+    )
     scroll_feedback_by_choice_counts = _index_fallback_reason(
         scroll_feedback_by_choice if isinstance(scroll_feedback_by_choice, list) else [],
         dim_key="customEvent:choice",
@@ -522,6 +530,8 @@ def merge_report(report_dir: Path) -> dict:
     quiz_answer_total = _event_count_from_summary(events_summary, "quiz_answer") or sum(
         int(r.get("answers") or 0) for r in quiz_by_question
     )
+    zoom_open_total = _event_count_from_summary(events_summary, "emaki_zoom_open")
+    zoom_close_total = _event_count_from_summary(events_summary, "emaki_zoom_close")
     quiz_funnel = {
         "start": quiz_start_total,
         "complete": quiz_complete_total,
@@ -582,6 +592,8 @@ def merge_report(report_dir: Path) -> dict:
         | set(scene_like_by_slug)
         | set(like_emaki_by_slug)
         | set(scroll_feedback_by_slug)
+        | set(zoom_open_by_slug)
+        | set(zoom_close_by_slug)
         | set(sns_share_by_slug)
         | set(quiz_start_by_slug)
         | set(by_slug_meta or {})
@@ -655,6 +667,10 @@ def merge_report(report_dir: Path) -> dict:
         "scene_like_breakdown": scene_like_by_slug,
         "scroll_feedback_breakdown": scroll_feedback_by_slug,
         "scroll_feedback_choice_breakdown": scroll_feedback_by_choice_counts,
+        "zoom_open_total": zoom_open_total,
+        "zoom_close_total": zoom_close_total,
+        "zoom_open_breakdown": zoom_open_by_slug,
+        "zoom_close_breakdown": zoom_close_by_slug,
         "sns_share_breakdown": sns_share_by_slug,
         "sns_share_platform_breakdown": sns_share_platform_counts,
         "quiz_funnel": quiz_funnel,

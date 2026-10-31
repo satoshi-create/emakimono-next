@@ -56,6 +56,8 @@ ga4_reports:
         - sns_share_click
         - scene_like
         - scroll_feedback
+        - emaki_zoom_open
+        - emaki_zoom_close
         - scene_transition
         - manual_scroll_detected
         - auto_scroll_interrupted
@@ -291,6 +293,32 @@ ga4_reports:
       field: eventName
       op: exact
       value: like_emaki
+    limit: 200
+
+  - id: zoom_open_by_emaki
+    optional: true
+    requires_custom_dimension: emaki_id
+    dimensions:
+      - customEvent:emaki_id
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: emaki_zoom_open
+    limit: 200
+
+  - id: zoom_close_by_emaki
+    optional: true
+    requires_custom_dimension: emaki_id
+    dimensions:
+      - customEvent:emaki_id
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: emaki_zoom_close
     limit: 200
 
   - id: scroll_feedback_by_emaki

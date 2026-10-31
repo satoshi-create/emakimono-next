@@ -257,11 +257,15 @@ const QuizModal = ({
     <div
       className={styles.overlay}
       role="dialog"
-      aria-modal="true"
+      aria-modal
       aria-labelledby="quiz-modal-title"
     >
       <div className={styles.backdrop} onClick={onClose} aria-hidden />
-      <div className={styles.modal} data-quiz-modal>
+      <div
+        className={styles.modal}
+        data-quiz-modal
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className={styles.modalHeader}>
           <h2 id="quiz-modal-title" className={styles.title}>
             {t("quiz.title")}

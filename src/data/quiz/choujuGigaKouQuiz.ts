@@ -1,5 +1,5 @@
 import { CHOUJU_GIGA_HUB_PATH } from "@/libs/constants/links";
-import type { QuizDefinition, QuizId } from "@/types/quiz";
+import type { QuizDefinition } from "@/types/quiz";
 
 /** 鳥獣人物戯画 甲巻（first）向け観察力クイズ。jump.chapter は emaki-text-data の段番号と一致 */
 export const CHOJU_GIGA_KOU_QUIZ: QuizDefinition = {
@@ -30,6 +30,12 @@ export const CHOJU_GIGA_KOU_QUIZ: QuizDefinition = {
     },
   ],
   resultLinks: [
+    {
+      type: "path",
+      path: "/Chōjū-jinbutsu-giga_second?quiz=1",
+      labelJa: "鳥獣戯画 乙巻クイズに挑戦する",
+      labelEn: "Try Chōjū-jinbutsu-giga Scroll 2 Quiz",
+    },
     {
       type: "scroll",
       titleen: "Chōjū-jinbutsu-giga_second",
@@ -169,36 +175,25 @@ export const CHOJU_GIGA_KOU_QUIZ: QuizDefinition = {
         "本物の甲巻は全長約11.5mもあります。昔の人は肩幅（約60cm）ずつ広げては巻き戻しながら楽しんでいました。乙巻では馬や牛など別の動物たちが登場します。",
       explanationEn:
         "The real Scroll I is about 11.5 m long. Viewers traditionally opened about a shoulder-width (≈60 cm) at a time. Scroll II features other animals such as horses and oxen.",
-      jump: {
-        type: "scroll",
-        titleen: "Chōjū-jinbutsu-giga_second",
-        chapter: 1,
-      },
-      jumpLabelJa: "乙巻の冒頭（馬）を見る",
-      jumpLabelEn: "See Scroll II opening (horse)",
     },
   ],
 };
 
-const QUIZ_BY_ID: Record<QuizId, QuizDefinition> = {
-  [CHOJU_GIGA_KOU_QUIZ.id]: CHOJU_GIGA_KOU_QUIZ,
-};
+export function getQuizRank(score: number, ranksOrQuizDef?: any) {
+  // ranks 配列を解決（配列直接、quizDef.ranks、または甲巻のデフォルト定義）
+  const ranks = Array.isArray(ranksOrQuizDef)
+    ? ranksOrQuizDef
+    : ranksOrQuizDef?.ranks ?? CHOJU_GIGA_KOU_QUIZ.ranks ?? [];
 
-export const QUIZ_BY_TITLEEN: Record<string, QuizDefinition> = {
-  [CHOJU_GIGA_KOU_QUIZ.titleen]: CHOJU_GIGA_KOU_QUIZ,
-};
+  if (!ranks || ranks.length === 0) {
+    return {
+      rankId: "master",
+      titleJa: "絵巻マスター",
+      titleEn: "Scroll Master",
+      descJa: "素晴らしい観察力です！",
+      descEn: "Outstanding observation skills!"
+    };
+  }
 
-export function getQuizById(quizId: string): QuizDefinition | null {
-  return QUIZ_BY_ID[quizId as QuizId] ?? null;
-}
-
-export function getQuizForTitleen(titleen: string): QuizDefinition | null {
-  return QUIZ_BY_TITLEEN[titleen] ?? null;
-}
-
-export function getQuizRank(quiz: QuizDefinition, score: number) {
-  return (
-    quiz.ranks.find((r) => score >= r.minCorrect && score <= r.maxCorrect) ??
-    quiz.ranks[quiz.ranks.length - 1]
-  );
+  return ranks.find((r: any) => score >= r.minScore) ?? ranks[ranks.length - 1];
 }

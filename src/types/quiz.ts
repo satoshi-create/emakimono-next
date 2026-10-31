@@ -1,6 +1,10 @@
 /** 観察力クイズ — 型の正本。実装: src/data/quiz/, src/components/emaki/quiz/ */
 
-export type QuizId = "chouju_giga_kou_observe_v1";
+export type QuizId =
+  | "chouju_giga_kou_observe_v1"
+  | "chouju-giga-otsu"
+  | "chouju-giga-hei"
+  | "chouju-giga-tei";
 
 export type QuizChoice = {
   id: string;

@@ -380,6 +380,29 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
     if feedback_lines:
         lines.extend(["## Scroll feedback (user choice)", "", *feedback_lines, ""])
 
+    _summary_merged: dict = {}
+    if merged_path.is_file():
+        _summary_merged = json.loads(merged_path.read_text(encoding="utf-8"))
+    zoom_open_total = _summary_merged.get("zoom_open_total", 0)
+    zoom_close_total = _summary_merged.get("zoom_close_total", 0)
+    zoom_breakdown = _summary_merged.get("zoom_open_breakdown") or {}
+    zoom_lines: list[str] = []
+    if zoom_breakdown:
+        zoom_lines.append("\n| 絵巻 | zoom_open |")
+        zoom_lines.append("|---|---|")
+        for slug, count in sorted(zoom_breakdown.items(), key=lambda kv: kv[1], reverse=True)[:10]:
+            zoom_lines.append(f"| `{slug}` | {count} |")
+    lines.extend(
+        [
+            "## Zoom engagement (emaki_zoom_open · emaki_zoom_close)",
+            "",
+            f"- **emaki_zoom_open** 計 **{zoom_open_total}** 回 / **emaki_zoom_close** 計 **{zoom_close_total}** 回",
+            "",
+            *zoom_lines,
+            "",
+        ]
+    )
+
     if quiz_lines:
         lines.extend(
             [

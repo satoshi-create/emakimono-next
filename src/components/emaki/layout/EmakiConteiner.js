@@ -240,7 +240,7 @@ const EmakiContainer = ({
 
   useEffect(() => {
     let cancelled = false;
-    import("@/data/quiz/choujuGigaKouQuiz").then((mod) => {
+    import("@/data/quiz").then((mod) => {
       if (!cancelled) setQuizModule(mod);
     });
     return () => {

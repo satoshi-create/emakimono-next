@@ -48,6 +48,7 @@ cloudinary-usage.json
 scripts/__pycache__/
 scripts/analytics/__pycache__/
 *.pyc
+scripts/analytics/
 
 # image-metadata-cache backups
 src/data/image-metadata-cache/*.bak

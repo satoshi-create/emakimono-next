@@ -532,6 +532,16 @@ export const trackQuizComplete = (p) => {
   });
 };
 
+export const trackQuizShareChallenge = (p) => {
+  sendEvent("quiz_share_challenge", {
+    quiz_id: p.quizId,
+    emaki_id: p.emakiId,
+    score: p.score,
+    rank: p.rank,
+    method: p.method,
+  });
+};
+
 /**
  * ズーム開始イベントの送信
  * @param {string} emakiId - 絵巻ID
