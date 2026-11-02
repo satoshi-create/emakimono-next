@@ -93,3 +93,6 @@ credentials.json
 !/docs/operations/**
 
 /analytics/auto-scroll/ 
+
+
+temp_emaki_download/
