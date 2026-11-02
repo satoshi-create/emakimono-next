@@ -85,6 +85,7 @@
 /* カルーセル用スタイルを削除し、3枚パノラマ連結用コンテナを定義 */
 .panoramaStrip {
   display: flex;
+  align-items: center;
   flex-direction: row;
   position: absolute;
   left: 50%;
@@ -99,6 +100,65 @@
   pointer-events: none;
   user-select: none;
   -webkit-user-drag: none;
+}
+
+/* 写真枠直下の作品・段情報表示帯 */
+/* 写真枠直下の作品・段情報・解説文表示帯 */
+.metaRow {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex-shrink: 0;
+  padding: 4px 2px 0;
+}
+
+.siteBrand {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.675rem;
+  letter-spacing: 0.05em;
+  color: var(--clr-text-muted);
+}
+
+.siteFavicon {
+  width: 12px;
+  height: 12px;
+  object-fit: contain;
+  opacity: 0.85;
+}
+
+.sceneTitleLine {
+  font-family: var(--font-classical);
+  font-size: 0.85rem;
+  line-height: 1.35;
+  color: var(--clr-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.emakiTitleText {
+  font-weight: 600;
+  margin-right: 6px;
+}
+
+.sceneTitleText {
+  color: var(--clr-accent-02, #b25d38);
+  font-weight: 500;
+}
+
+.sceneDescText {
+  font-family: var(--font-ui);
+  font-size: 0.725rem;
+  line-height: 1.45;
+  color: var(--clr-text-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
 }
 
 .messageInput {

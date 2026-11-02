@@ -10,6 +10,7 @@ import {
   faCheck,
   faLink,
   faShareNodes,
+  faCamera,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
@@ -185,9 +186,7 @@ const ShareButtons = ({
         title={polaroidLabel}
         aria-label={polaroidLabel}
       >
-        <span role="img" aria-hidden="true">
-          📸
-        </span>
+        <FontAwesomeIcon icon={faCamera} />
       </button>
     ) : null;
 
@@ -271,9 +270,7 @@ const ShareButtons = ({
                   }}
                   role="menuitem"
                 >
-                  <span role="img" aria-hidden="true">
-                    📸
-                  </span>
+                  <FontAwesomeIcon className={styles.menuIcon} icon={faCamera} />
                   <span>{polaroidLabel}</span>
                 </button>
               )}

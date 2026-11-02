@@ -1,6 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import styles from "@/styles/PolaroidModal.module.css";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
+import { ChaptersTitle } from "@/utils/func";
 
 const CANVAS_W = 800;
 const CANVAS_H = 1000;
@@ -67,9 +69,43 @@ export function PolaroidModal({ isOpen, onClose, scenes = [], initialIndex = 0, 
     if (isOpen) setSelectedIndex(initialIndex);
   }, [isOpen, initialIndex]);
 
+  const router = useRouter();
+  const scrollTitleen = typeof router.query?.slug === "string" ? router.query.slug : "";
+  const scrollTitle = emakiTitle ?? "";
+
   const currentScene = scenes[selectedIndex] || scenes[0];
+  const currentLinkId = currentScene?.linkId ?? 0;
   const rawSrc = currentScene?.src ?? "";
   const src = rawSrc ? buildCloudinaryUrl(rawSrc) : "";
+
+  const { resolvedChapterTitle, resolvedChapterDesc } = useMemo(() => {
+    let ekotoba = null;
+    for (let i = 0; i < scenes.length; i++) {
+      const item = scenes[i];
+      if (item?.cat === "ekotoba" && item.linkId <= currentLinkId) ekotoba = item;
+    }
+    if (!ekotoba) return { resolvedChapterTitle: "", resolvedChapterDesc: "" };
+
+    const chapterTitle =
+      ChaptersTitle(
+        scrollTitleen,
+        scrollTitle,
+        ekotoba.chapter,
+        "title",
+        ekotoba.genji_chapter
+      ) ||
+      (ekotoba.title != null && ekotoba.title !== "" ? String(ekotoba.title) : "") ||
+      (ekotoba.chapter != null && ekotoba.chapter !== "" ? String(ekotoba.chapter) : "");
+
+    const rawDesc = ekotoba.desc ?? "";
+    const resolvedChapterDesc =
+      typeof rawDesc === "string" ? rawDesc.replace(/<[^>]+>/g, "").trim() : "";
+
+    return {
+      resolvedChapterTitle: chapterTitle.trim(),
+      resolvedChapterDesc,
+    };
+  }, [scenes, currentLinkId, scrollTitleen, scrollTitle]);
 
   const updatePanLimits = useCallback((img, z, prevImg, nextImg) => {
     if (!img?.naturalWidth) {
@@ -228,7 +264,7 @@ export function PolaroidModal({ isOpen, onClose, scenes = [], initialIndex = 0, 
   };
 
   const drawPhoto = useCallback(
-    (ctx) => {
+    (ctx, faviconImg) => {
       const { prev, current: img, next } = loadedImagesRef.current;
       if (!img?.naturalWidth) return;
       const cs = coverScale;
@@ -257,8 +293,57 @@ export function PolaroidModal({ isOpen, onClose, scenes = [], initialIndex = 0, 
         ctx.drawImage(prev, curX + curW, cy - ph / 2, pw, ph);
       }
       ctx.restore();
+
+      // --- 写真下部エリア（美術館キャプション風中央揃え） ---
+      ctx.textAlign = "center";
+
+      // 1. 段タイトル（主役・中央配置）
+      const centerCenterX = CANVAS_W / 2;
+      let currentY = PHOTO_DY + PHOTO_DH + 48;
+
+      if (resolvedChapterTitle) {
+        ctx.font = 'bold 24px "Zen Old Mincho", "Hina Mincho", serif';
+        ctx.fillStyle = "#111111";
+        ctx.fillText(`―  ${resolvedChapterTitle}  ―`, centerCenterX, currentY);
+        currentY += 32;
+      }
+
+      // 2. 絵巻物タイトル（副題・落ち着いた薄墨色）
+      if (emakiTitle) {
+        ctx.font = '16px "Zen Old Mincho", "Hina Mincho", serif';
+        ctx.fillStyle = "#555555";
+        ctx.fillText(`『${emakiTitle}』`, centerCenterX, currentY);
+        currentY += 40;
+      }
+
+      // 3. ユーザーのひとこと（存在する場合のみ描画）
+      if (message && message.trim()) {
+        ctx.font = 'italic 18px "Zen Old Mincho", "Hina Mincho", serif';
+        ctx.fillStyle = "#333333";
+        ctx.fillText(`“ ${message.trim()} ”`, centerCenterX, currentY);
+      }
+
+      // 4. 最下部クレジット（サイトアイコン + テキストの一体中央揃え）
+      const footerY = CANVAS_H - 36;
+      const footerText = "絵巻物ビューアー  |  emakimono.com";
+      ctx.font = '12px sans-serif';
+      ctx.fillStyle = "#999999";
+
+      const textMetrics = ctx.measureText(footerText);
+      const textWidth = textMetrics.width;
+      const iconSize = 16;
+      const iconGap = 6;
+      const totalWidth = (faviconImg ? iconSize + iconGap : 0) + textWidth;
+      const startX = (CANVAS_W - totalWidth) / 2;
+
+      if (faviconImg && faviconImg.complete && faviconImg.naturalWidth > 0) {
+        ctx.drawImage(faviconImg, startX, footerY - 12, iconSize, iconSize);
+      }
+
+      ctx.textAlign = "left";
+      ctx.fillText(footerText, startX + (faviconImg ? iconSize + iconGap : 0), footerY);
     },
-    [coverScale, pan.x, pan.y, zoom]
+    [coverScale, pan.x, pan.y, zoom, emakiTitle, resolvedChapterTitle, message]
   );
 
   const handleSave = useCallback(async () => {
@@ -268,9 +353,19 @@ export function PolaroidModal({ isOpen, onClose, scenes = [], initialIndex = 0, 
       if (!img) return;
       loadedImagesRef.current = { ...loadedImagesRef.current, current: img };
     }
-    const curIdx = selectedIndex;
-    const prevIdx = curIdx > 0 ? curIdx - 1 : null;
-    const nextIdx = curIdx < scenes.length - 1 ? curIdx + 1 : null;
+    const isPanoramaSlice = (item) => Boolean(item?.src) && item?.cat !== "ekotoba";
+    const findPanoramaIndex = (startIdx, step) => {
+      for (let i = startIdx; i >= 0 && i < scenes.length; i += step) {
+        if (isPanoramaSlice(scenes[i])) return i;
+      }
+      return null;
+    };
+    let curIdx = selectedIndex;
+    if (!isPanoramaSlice(scenes[curIdx])) {
+      curIdx = findPanoramaIndex(curIdx, -1) ?? findPanoramaIndex(curIdx, 1);
+    }
+    const prevIdx = findPanoramaIndex(curIdx - 1, -1);
+    const nextIdx = findPanoramaIndex(curIdx + 1, 1);
     if (prevIdx != null && !prev?.naturalWidth) {
       const prevUrl = scenes[prevIdx]?.src ? buildCloudinaryUrl(scenes[prevIdx].src) : null;
       prev = await loadCrossOriginImage(prevUrl);
@@ -290,39 +385,20 @@ export function PolaroidModal({ isOpen, onClose, scenes = [], initialIndex = 0, 
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
 
-    drawPhoto(ctx);
-
-    const textTop = PHOTO_DY + PHOTO_DH + 36;
-    ctx.fillStyle = "rgb(20 20 20)";
-    ctx.font = '28px "Hina Mincho", "Zen Maru Gothic", serif';
-    ctx.textAlign = "center";
-    const lines = message.split(/\n/).slice(0, 3);
-    lines.forEach((line, i) => {
-      ctx.fillText(line, CANVAS_W / 2, textTop + i * 36);
+    const favicon = await new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => resolve(null);
+      img.src = "/favicon.ico";
     });
-
-    const creditY = CANVAS_H - 48;
-    ctx.font = '18px "Noto Sans JP", sans-serif';
-    ctx.fillStyle = "rgb(114 114 114)";
-    ctx.textAlign = "right";
-    const titleLine = emakiTitle || "";
-    ctx.fillText(titleLine, CANVAS_W - 56, creditY - 8);
-    ctx.fillText("emakimono-next", CANVAS_W - 56, creditY + 16);
-
-    const sealSize = 28;
-    ctx.fillStyle = SEAL_COLOR;
-    ctx.fillRect(CANVAS_W - 48 - sealSize, CANVAS_H - 52 - sealSize, sealSize, sealSize);
-    ctx.fillStyle = "#fff";
-    ctx.font = '14px "Hina Mincho", serif';
-    ctx.textAlign = "center";
-    ctx.fillText("巻", CANVAS_W - 48 - sealSize / 2, CANVAS_H - 52 - sealSize / 2 + 5);
+    drawPhoto(ctx, favicon);
 
     const dataUrl = canvas.toDataURL("image/png");
     const link = document.createElement("a");
     link.download = `emakimono-polaroid-${Date.now()}.png`;
     link.href = dataUrl;
     link.click();
-  }, [drawPhoto, emakiTitle, message, src]);
+  }, [drawPhoto, scenes.length, selectedIndex, src]);
 
   if (!isOpen) return null;
 
@@ -393,6 +469,30 @@ export function PolaroidModal({ isOpen, onClose, scenes = [], initialIndex = 0, 
           ) : (
             <div className={styles.photoPlaceholder}>画像がありません</div>
           )}
+        </div>
+        <div className={styles.metaRow}>
+          <a
+            href="/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.siteBrand}
+            style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}
+            title="絵巻物ビューアー トップページを開く"
+          >
+            <img src="/favicon.ico" alt="" className={styles.siteFavicon} />
+            <span>絵巻物ビューアー</span>
+          </a>
+          <div className={styles.sceneTitleLine} title={`${emakiTitle || ""} ${resolvedChapterTitle || ""}`}>
+            <span className={styles.emakiTitleText}>{emakiTitle || "絵巻物"}</span>
+            {resolvedChapterTitle && (
+              <span className={styles.sceneTitleText}>{resolvedChapterTitle}</span>
+            )}
+          </div>
+          {resolvedChapterDesc ? (
+            <p className={styles.sceneDescText} title={resolvedChapterDesc}>
+              {resolvedChapterDesc}
+            </p>
+          ) : null}
         </div>
         <textarea
           className={styles.messageInput}
