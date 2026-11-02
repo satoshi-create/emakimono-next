@@ -18,17 +18,22 @@ export const R2_UPLOAD_BASE =
   "https://assets.emakimono.com";
 
 /**
- * 山崎本 甲巻かどうかを判定
+ * 山崎本 甲巻・乙巻・丙巻・丁巻かどうかを判定（R2 / Worker 配信）
  */
-function isYamazakiKou(publicId) {
-  return publicId.includes("choju-giga-yamazaki-kou");
+function isYamazakiR2Scroll(publicId) {
+  return (
+    publicId.includes("choju-giga-yamazaki-kou") ||
+    publicId.includes("choju-giga-yamazaki-otu") ||
+    publicId.includes("choju-giga-yamazaki-hei") ||
+    publicId.includes("choju-giga-yamazaki-tei")
+  );
 }
 
 export function buildCloudinaryUrl(src, transforms = []) {
   let publicId = String(src || "").replace(/^\//, "");
 
-  // 山崎本 甲巻: Cloudflare Worker 経由でキャッシュ付き WebP を直接配信
-  if (isYamazakiKou(publicId)) {
+  // 山崎本 甲・乙巻: Cloudflare Worker 経由でキャッシュ付き WebP を直接配信
+  if (isYamazakiR2Scroll(publicId)) {
     const r2Key = publicId
       .replace(/^v\d+\//, "")
       .replace(/\.jpg$/, ".webp");
