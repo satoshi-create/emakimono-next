@@ -363,6 +363,7 @@ export function PolaroidModal({ isOpen, onClose, scenes = [], initialIndex = 0, 
             <div className={styles.panoramaStrip} style={stripTransform}>
               {nextSlot ? (
                 <img
+                  crossOrigin="anonymous"
                   src={nextSlot.src}
                   alt=""
                   className={styles.photoImage}
@@ -371,6 +372,7 @@ export function PolaroidModal({ isOpen, onClose, scenes = [], initialIndex = 0, 
                 />
               ) : null}
               <img
+                crossOrigin="anonymous"
                 src={curSlot.src}
                 alt={currentScene?.name || currentScene?.title || "Emaki Scene"}
                 className={styles.photoImage}
@@ -379,6 +381,7 @@ export function PolaroidModal({ isOpen, onClose, scenes = [], initialIndex = 0, 
               />
               {prevSlot ? (
                 <img
+                  crossOrigin="anonymous"
                   src={prevSlot.src}
                   alt=""
                   className={styles.photoImage}
