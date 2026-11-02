@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "@/styles/QuizModal.module.css";
+import quizStats from "@/data/quiz/quizStats.json";
 import { trackQuizShareChallenge } from "@/libs/api/measurementUtils";
 import { getQuizNavigation } from "@/data/quiz";
 import Link from "next/link";
@@ -75,6 +76,92 @@ const QuizResult = ({
         <p className={styles.resultScore}>
           {t("quiz.scoreLabel", { score, total })}
         </p>
+
+        {(() => {
+          const statGroup =
+            quizStats?.quizzes?.[quiz?.id] ||
+            quizStats?.quizzes?.[quiz?.titleen] ||
+            quizStats?.quizzes?.["choju-giga-ko"];
+          const summary = statGroup?.summary;
+          const dist = summary?.scoreDistribution;
+          const totalCompletions = summary?.totalCompletions ?? 0;
+
+          if (!dist || totalCompletions < 5) return null;
+
+          let betterOrEqualCount = 0;
+          let totalScoreSum = 0;
+          for (let s = 0; s <= total; s++) {
+            const count = dist[String(s)] ?? 0;
+            totalScoreSum += s * count;
+            if (s >= score) {
+              betterOrEqualCount += count;
+            }
+          }
+          const topPercentage = Math.max(
+            1,
+            Math.round((betterOrEqualCount / totalCompletions) * 100)
+          );
+          const averageScore = (totalScoreSum / totalCompletions).toFixed(1);
+
+          return (
+            <div className={styles.distributionContainer}>
+              <div className={styles.distributionTopText}>
+                {topPercentage <= 50 ? (
+                  isEn ? (
+                    <>
+                      Top <strong>{topPercentage}%</strong> among all
+                      challengers
+                    </>
+                  ) : (
+                    <>
+                      全挑戦者のうち <strong>上位 {topPercentage}%</strong>{" "}
+                      の成績です
+                    </>
+                  )
+                ) : isEn ? (
+                  <>
+                    The overall average is <strong>{averageScore}</strong>{" "}
+                    correct
+                  </>
+                ) : (
+                  <>
+                    全体の平均は <strong>{averageScore}問</strong> です
+                  </>
+                )}
+              </div>
+              <div className={styles.distributionBarWrapper}>
+                {Array.from({ length: total + 1 }, (_, idx) => {
+                  const count = dist[String(idx)] ?? 0;
+                  const pct = Math.round((count / totalCompletions) * 100);
+                  const isUserScore = idx === score;
+                  return (
+                    <div
+                      key={idx}
+                      className={`${styles.distributionCol} ${isUserScore ? styles.distributionColUser : ""}`}
+                    >
+                      <span className={styles.distributionColPct}>{pct}%</span>
+                      <div className={styles.distributionBarTrack}>
+                        <div
+                          className={styles.distributionBarFill}
+                          style={{
+                            height: `${Math.min(100, pct * 2.2 + 8)}%`,
+                          }}
+                        />
+                      </div>
+                      <span className={styles.distributionColLabel}>
+                        {idx}問
+                        {isUserScore && (
+                          <span className={styles.userScorePin}>★</span>
+                        )}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })()}
+
         <div style={{ margin: "16px 0", textAlign: "center" }}>
           <button
             type="button"

@@ -12,6 +12,7 @@ import {
   markQuizCompleted,
 } from "@/libs/api/quizCompletionStore";
 import styles from "@/styles/QuizModal.module.css";
+import quizStats from "@/data/quiz/quizStats.json";
 import { resolveQuizJump } from "@/utils/resolveQuizJump";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -318,6 +319,27 @@ const QuizModal = ({
           />
         ) : (
           question && (
+            <>
+          <div className={styles.questionMetaHeader}>
+            <div className={styles.questionCounter}>
+              {index + 1} / {total}問
+            </div>
+            {(() => {
+              const statGroup =
+                quizStats?.quizzes?.[quiz?.id] ||
+                quizStats?.quizzes?.[quiz?.titleen] ||
+                quizStats?.quizzes?.["choju-giga-ko"];
+              const qStat = statGroup?.questions?.[question?.id];
+              if (qStat && typeof qStat.correctRate === "number" && (qStat.attempts ?? 0) >= 5) {
+                return (
+                  <span className={styles.correctRateBadge}>
+                    {isEn ? `Pass rate: ${qStat.correctRate}%` : `正答率 ${qStat.correctRate}%`}
+                  </span>
+                );
+              }
+              return null;
+            })()}
+          </div>
             <QuizQuestion
               question={question}
               index={index}
@@ -328,6 +350,7 @@ const QuizModal = ({
               onNext={handleNext}
               onJump={handleJump}
             />
+            </>
           )
         )}
       </div>

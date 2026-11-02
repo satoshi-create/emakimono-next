@@ -9,6 +9,7 @@ import { HYAKKI_NO_ZU_NICHIBUN_QUIZ } from "./hyakkiNoZuNichibunQuiz";
 import { KUSOUZUMAKI_QUIZ } from "./kusouzumakiQuiz";
 import { KUSOUZU_KOBAYASIEIEITAKU_QUIZ } from "./kusouzuKobayasieieitakuQuiz";
 import { GENJI_MONOGATARI_TOKUGAWA_QUIZ } from "./genjiMonogatariTokugawaQuiz";
+import { TSUKUMOGAMI_QUIZ } from "./tsukumogamiQuiz";
 
 export { getQuizRank } from "./choujuGigaKouQuiz";
 
@@ -83,6 +84,15 @@ export const ALL_QUIZZES: QuizDefinition[] = [
     seriesTitleEn: "Hyakki Yagyo Series",
   },
   {
+    ...TSUKUMOGAMI_QUIZ,
+    seriesId: "hyakki-yagyo",
+    seriesOrder: 4,
+    shortTitleJa: "付喪神絵巻",
+    shortTitleEn: "Tsukumogami",
+    seriesTitleJa: "百鬼夜行絵巻シリーズ",
+    seriesTitleEn: "Hyakki Yagyo Series",
+  },
+  {
     ...KUSOUZUMAKI_QUIZ,
     seriesId: "kusouzu",
     seriesOrder: 1,
@@ -119,6 +129,7 @@ export const QUIZ_BY_ID: Record<QuizId, QuizDefinition> = {
   "hyakki-yagyo-utokyo": HYAKKI_YAGYO_QUIZ,
   "hyakki-kokkai-a": HYAKKI_KOKKAI_A_QUIZ,
   "hyakki-no-zu-nichibun": HYAKKI_NO_ZU_NICHIBUN_QUIZ,
+  tsukumogami: TSUKUMOGAMI_QUIZ,
   kusouzumaki: KUSOUZUMAKI_QUIZ,
   "kusouzu-kobayasieieitaku": KUSOUZU_KOBAYASIEIEITAKU_QUIZ,
   "genji-monogatari-tokugawa": GENJI_MONOGATARI_TOKUGAWA_QUIZ,
@@ -135,6 +146,7 @@ export const QUIZ_BY_TITLEEN: Record<string, QuizDefinition> = {
   kusouzumaki: KUSOUZUMAKI_QUIZ,
   kusouzu_kobayasieieitaku: KUSOUZU_KOBAYASIEIEITAKU_QUIZ,
   "genjimonogatari-emaki-tokugawa": GENJI_MONOGATARI_TOKUGAWA_QUIZ,
+  tsukumogami: TSUKUMOGAMI_QUIZ,
 };
 
 export function getQuizForTitleen(

@@ -9,6 +9,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 :root {
   /* Viewport height with dvh fallback for mobile browsers */
   /* dvh (dynamic viewport height) adjusts for mobile URL bar */

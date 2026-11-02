@@ -10,7 +10,8 @@ export type QuizId =
   | "hyakki-no-zu-nichibun"
   | "kusouzumaki"
   | "kusouzu-kobayasieieitaku"
-  | "genji-monogatari-tokugawa";
+  | "genji-monogatari-tokugawa"
+  | "tsukumogami";
 
 export type QuizChoice = {
   id: string;

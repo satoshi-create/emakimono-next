@@ -21,12 +21,12 @@ const QuizQuestion = ({
   return (
     <>
       <div className={styles.modalBody} data-quiz-scroll>
-        <p className={styles.progress}>
+        {/* <p className={styles.progress}>
           {t("quiz.questionProgress", {
             current: index + 1,
             total,
           })}
-        </p>
+        </p> */}
         <h3 className={styles.prompt}>{prompt}</h3>
         <ul className={styles.choices}>
           {question.choices.map((choice, i) => {

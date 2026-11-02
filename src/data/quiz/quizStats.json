@@ -1,0 +1,45 @@
+{
+  "_comment": "クイズ設問別統計データ（週次集計バッチによって更新される静的JSON）",
+  "version": 1,
+  "quizzes": {
+    "choju-giga-ko": {
+      "summary": {
+        "totalCompletions": 105,
+        "scoreDistribution": { "0": 3, "1": 7, "2": 16, "3": 31, "4": 28, "5": 20 }
+      },
+      "questions": {
+        "q1": { "attempts": 120, "correctRate": 78 },
+        "q2": { "attempts": 115, "correctRate": 64 },
+        "q3": { "attempts": 110, "correctRate": 52 },
+        "q4": { "attempts": 108, "correctRate": 41 },
+        "q5": { "attempts": 105, "correctRate": 85 }
+      }
+    },
+    "chojujinbutsugiga_first": {
+      "summary": {
+        "totalCompletions": 105,
+        "scoreDistribution": { "0": 3, "1": 7, "2": 16, "3": 31, "4": 28, "5": 20 }
+      },
+      "questions": {
+        "q1": { "attempts": 120, "correctRate": 78 },
+        "q2": { "attempts": 115, "correctRate": 64 },
+        "q3": { "attempts": 110, "correctRate": 52 },
+        "q4": { "attempts": 108, "correctRate": 41 },
+        "q5": { "attempts": 105, "correctRate": 85 }
+      }
+    },
+    "tsukumogami": {
+      "summary": {
+        "totalCompletions": 37,
+        "scoreDistribution": { "0": 1, "1": 3, "2": 7, "3": 12, "4": 9, "5": 5 }
+      },
+      "questions": {
+        "q1": { "attempts": 42, "correctRate": 81 },
+        "q2": { "attempts": 40, "correctRate": 68 },
+        "q3": { "attempts": 39, "correctRate": 46 },
+        "q4": { "attempts": 38, "correctRate": 58 },
+        "q5": { "attempts": 37, "correctRate": 73 }
+      }
+    }
+  }
+}
