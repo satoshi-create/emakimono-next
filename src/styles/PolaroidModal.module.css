@@ -1,0 +1,183 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  z-index: -1;
+}
+
+.card {
+  position: relative;
+  width: min(92vw, 360px);
+  aspect-ratio: 4 / 5;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.22),
+    0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 14px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: var(--font-ui);
+  color: var(--clr-text);
+  animation: polaroidIn 0.22s ease-out;
+}
+
+@keyframes polaroidIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.photoFrame {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  aspect-ratio: 720 / 560;
+  overflow: hidden;
+  background: rgb(20 20 20 / 0.06);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.photoFrame:active {
+  cursor: grabbing;
+}
+
+.photoImage {
+  position: static;
+  display: block;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.photoPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  color: var(--clr-text-muted);
+}
+
+/* カルーセル用スタイルを削除し、3枚パノラマ連結用コンテナを定義 */
+.panoramaStrip {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.panoramaStrip img {
+  display: block;
+  flex-shrink: 0;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.messageInput {
+  flex-shrink: 0;
+  width: 100%;
+  min-height: 3.25rem;
+  resize: none;
+  border: none;
+  border-bottom: 1px solid rgb(20 20 20 / 0.12);
+  background: transparent;
+  font-family: var(--font-classical);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--clr-text);
+  padding: 0.25rem 0.15rem;
+}
+
+.messageInput:focus {
+  outline: none;
+  border-bottom-color: var(--clr-accent);
+}
+
+.messageInput::placeholder {
+  color: var(--clr-text-muted);
+}
+
+.footer {
+  flex-shrink: 0;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: auto;
+}
+
+.saveBtn,
+.closeBtn {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.saveBtn {
+  background: var(--clr-accent);
+  color: #fff;
+}
+
+.saveBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.closeBtn {
+  background: transparent;
+  color: var(--clr-text);
+  border-color: rgb(20 20 20 / 0.15);
+}
+
+.hiddenCanvas {
+  position: fixed;
+  left: -9999px;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

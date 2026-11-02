@@ -41,6 +41,7 @@ const ShareButtons = ({
   variant = "inline",
   isUIVisible = true,
   tone = "default",
+  openPolaroidModal,
 }) => {
   const { locale, locales, asPath, defaultLocale } = useRouter();
   const { t } = useTranslation("common");
@@ -173,6 +174,23 @@ const ShareButtons = ({
     </span>
   );
 
+  const polaroidLabel = t("polaroid.title");
+
+  const renderPolaroidButton = (className) =>
+    openPolaroidModal ? (
+      <button
+        type="button"
+        onClick={openPolaroidModal}
+        className={className}
+        title={polaroidLabel}
+        aria-label={polaroidLabel}
+      >
+        <span role="img" aria-hidden="true">
+          📸
+        </span>
+      </button>
+    ) : null;
+
   // ナビ用: 「共有」1ボタン + クリックでポップオーバー展開
   // ナビ aside は overflow-y:hidden のため、ポップオーバーは body 直下に portal 表示する
   if (variant === "menu") {
@@ -243,6 +261,22 @@ const ShareButtons = ({
                   <span>{t("share.line")}</span>
                 </button>
               )}
+              {openPolaroidModal && (
+                <button
+                  type="button"
+                  className={styles.menuItem}
+                  onClick={() => {
+                    openPolaroidModal();
+                    setIsMenuOpen(false);
+                  }}
+                  role="menuitem"
+                >
+                  <span role="img" aria-hidden="true">
+                    📸
+                  </span>
+                  <span>{polaroidLabel}</span>
+                </button>
+              )}
             </div>,
             document.body
           )}
@@ -306,6 +340,7 @@ const ShareButtons = ({
             </button>
           </>
         )}
+        {renderPolaroidButton(btnClass)}
       </div>
     );
   }
@@ -354,6 +389,7 @@ const ShareButtons = ({
           </button>
         </>
       )}
+      {renderPolaroidButton(styles.iconBtn)}
     </div>
   );
 };

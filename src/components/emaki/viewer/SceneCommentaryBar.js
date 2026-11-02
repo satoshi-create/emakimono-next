@@ -80,6 +80,7 @@ const SceneCommentaryBar = ({
   isPlayMode = false,
   onIdlePauseChange,
   onIdleActivity,
+  openPolaroidModal,
 }) => {
   const { handleToId, orientation } = useContext(AppContext);
   const router = useRouter();
@@ -755,6 +756,7 @@ const SceneCommentaryBar = ({
                 navIndex={navIndex}
                 emakiId={titleen}
                 shareTitle={shareTitle}
+                openPolaroidModal={openPolaroidModal}
               />
             </div>
           </div>

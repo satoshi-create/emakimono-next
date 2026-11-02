@@ -807,5 +807,15 @@
       "body_life": "からだ・いのち",
       "wear": "きる・はく"
     }
+  },
+  "polaroid": {
+    "title": "シーンを切り抜く",
+    "adjustNotice": "写真を左右にドラッグして位置を調整できます",
+    "commentPlaceholder": "ひとことメッセージを入力（40文字以内）...",
+    "creditSuffix": "emakimono-next",
+    "saveButton": "画像を保存",
+    "closeButton": "閉じる",
+    "generating": "画像生成中...",
+    "downloadSuccess": "画像を保存しました"
   }
 }

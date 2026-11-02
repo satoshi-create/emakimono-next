@@ -37,6 +37,7 @@ import {
   sceneWidthPx,
   shouldMountSceneContent,
 } from "@/utils/emakiContentWindow";
+import { findSceneIndexAtViewportCenter } from "@/utils/emakiSceneDom";
 import {
   faMagnifyingGlass,
   faMagnifyingGlassMinus,
@@ -96,6 +97,10 @@ const QuizFab = dynamic(
 );
 const QuizModal = dynamic(
   () => import("@/components/emaki/quiz/QuizModal"),
+  { ssr: false }
+);
+const PolaroidModal = dynamic(
+  () => import("@/components/emaki/viewer/PolaroidModal"),
   { ssr: false }
 );
 const ScrollFeedbackPanel = dynamic(
@@ -181,6 +186,19 @@ const EmakiContainer = ({
   const [scrollFeedbackSubmitted, setScrollFeedbackSubmitted] = useState(false);
   const [endPromptDismissed, setEndPromptDismissed] = useState(false);
   const [sharePromptDismissed, setSharePromptDismissed] = useState(false);
+  const [isPolaroidModalOpen, setIsPolaroidModalOpen] = useState(false);
+  const [polaroidSceneIndex, setPolaroidSceneIndex] = useState(0);
+
+  const handleOpenPolaroidModal = () => {
+    const el = articleRef.current;
+    const probed = el ? findSceneIndexAtViewportCenter(el) : null;
+    const targetIndex =
+      probed !== null && !Number.isNaN(probed) ? probed : liveSceneIndex;
+
+    setPolaroidSceneIndex(targetIndex);
+    setIsPolaroidModalOpen(true);
+  };
+  const handleClosePolaroidModal = () => setIsPolaroidModalOpen(false);
   const [midFeedbackDismissed, setMidFeedbackDismissed] = useState(false);
   const [scrollRatioBucket, setScrollRatioBucket] = useState(0);
 
@@ -1355,6 +1373,16 @@ const EmakiContainer = ({
           <EmakiInfo value={data} isUIVisible={isUIVisible} />
         )}
         {scroll && isHelpModalOpen && <HelpModal />}
+        {scroll && isPolaroidModalOpen && (
+          <PolaroidModal
+            scenes={processedEmakis ?? []}
+            emakiTitle={data?.title}
+            initialIndex={polaroidSceneIndex}
+            isOpen={isPolaroidModalOpen}
+            key={`${isPolaroidModalOpen}-${polaroidSceneIndex}`}
+            onClose={handleClosePolaroidModal}
+          />
+        )}
         {canShowQuizChrome && (
           <QuizFab
             onOpen={openQuizUi}
@@ -1531,6 +1559,7 @@ const EmakiContainer = ({
             isPlayMode={isPlayMode}
             onIdlePauseChange={setIdlePaused}
             onIdleActivity={resetIdleTimer}
+            openPolaroidModal={handleOpenPolaroidModal}
             quizFab={
               canShowQuizChrome ? (
                 <QuizFab

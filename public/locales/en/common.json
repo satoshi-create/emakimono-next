@@ -807,5 +807,15 @@
       "body_life": "Body & life",
       "wear": "Wear"
     }
+  },
+  "polaroid": {
+    "title": "Capture Scene",
+    "adjustNotice": "Drag horizontally to adjust frame",
+    "commentPlaceholder": "Add a short message (max 40 chars)...",
+    "creditSuffix": "emakimono-next",
+    "saveButton": "Download Image",
+    "closeButton": "Close",
+    "generating": "Generating...",
+    "downloadSuccess": "Image saved successfully"
   }
 }
