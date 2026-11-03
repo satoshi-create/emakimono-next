@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import QRCode from "qrcode";
 import styles from "@/styles/PolaroidModal.module.css";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
 import {
@@ -67,6 +68,7 @@ export function PolaroidModal({
   const [panoramaSlots, setPanoramaSlots] = useState({ prev: null, current: null, next: null });
   const [frameW, setFrameW] = useState(PHOTO_DW);
   const [dragging, setDragging] = useState(false);
+  const [copiedStep, setCopiedStep] = useState(null); // null | "image" | "text"
   const dragStart = useRef({ x: 0, y: 0, pan: { x: 0, y: 0 } });
   const pointersRef = useRef(new Map());
   const pinchRef = useRef(null);
@@ -325,7 +327,7 @@ export function PolaroidModal({
   };
 
   const drawPhoto = useCallback(
-    (ctx, faviconImg) => {
+    (ctx, faviconImg, qrImg, sceneUrlText) => {
       const { prev, current: img, next } = loadedImagesRef.current;
       if (!img?.naturalWidth) return;
       const cs = coverScale;
@@ -388,25 +390,42 @@ export function PolaroidModal({
         ctx.fillText(`“ ${cleanMsg} ”`, centerCenterX, currentY);
       }
 
-      // 4. 最下部クレジット（サイトアイコン + テキストの一体中央揃え）
-      const footerY = CANVAS_H - 36;
+      // 4. 最下部クレジット（サイト名 + シーンURL を中央揃え2段で整然配置）
+      const brandY = CANVAS_H - 40;
+      const urlY = CANVAS_H - 22;
       const footerText = "絵巻物ビューアー  |  emakimono.com";
+
       ctx.font = '12px sans-serif';
-      ctx.fillStyle = "#999999";
+      ctx.fillStyle = "#777777";
 
       const textMetrics = ctx.measureText(footerText);
       const textWidth = textMetrics.width;
-      const iconSize = 16;
+      const iconSize = 15;
       const iconGap = 6;
       const totalWidth = (faviconImg ? iconSize + iconGap : 0) + textWidth;
       const startX = (CANVAS_W - totalWidth) / 2;
 
       if (faviconImg && faviconImg.complete && faviconImg.naturalWidth > 0) {
-        ctx.drawImage(faviconImg, startX, footerY - 12, iconSize, iconSize);
+        ctx.drawImage(faviconImg, startX, brandY - 11, iconSize, iconSize);
       }
 
       ctx.textAlign = "left";
-      ctx.fillText(footerText, startX + (faviconImg ? iconSize + iconGap : 0), footerY);
+      ctx.fillText(footerText, startX + (faviconImg ? iconSize + iconGap : 0), brandY);
+
+      if (sceneUrlText) {
+        ctx.font = '10px sans-serif';
+        ctx.fillStyle = "#999999";
+        ctx.textAlign = "center";
+        ctx.fillText(sceneUrlText, centerCenterX, urlY);
+      }
+
+      // 5. 該当シーン直通 QRコード（右下隅）
+      if (qrImg && qrImg.complete && qrImg.naturalWidth > 0) {
+        const qrSize = 46;
+        const qrX = CANVAS_W - PHOTO_DX - qrSize;
+        const qrY = CANVAS_H - qrSize - 18;
+        ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
+      }
     },
     [coverScale, pan.x, pan.y, zoom, emakiTitle, resolvedChapterTitle, message]
   );
@@ -456,7 +475,17 @@ export function PolaroidModal({
       img.onerror = () => resolve(null);
       img.src = "/favicon.ico";
     });
-    drawPhoto(ctx, favicon);
+
+    const pageUrl = typeof window !== "undefined" ? window.location.href : "https://emakimono.com";
+    const qrDataUrl = await QRCode.toDataURL(pageUrl, {
+      margin: 1,
+      width: 120,
+      color: { dark: "#333333", light: "#ffffff" },
+    }).catch(() => null);
+    const qrImg = qrDataUrl ? await loadCrossOriginImage(qrDataUrl) : null;
+
+    const displayUrl = pageUrl.replace(/^https?:\/\//, "");
+    drawPhoto(ctx, favicon, qrImg, displayUrl);
 
     const dataUrl = canvas.toDataURL("image/png");
     const link = document.createElement("a");
@@ -465,7 +494,107 @@ export function PolaroidModal({
     link.click();
   }, [drawPhoto, scenes.length, selectedIndex, src]);
 
-  const handleShare = useCallback(async () => {
+  // 拡散用メタテキスト生成ヘルパー
+  const getShareTextPayload = useCallback(() => {
+    const cleanTitle = typeof resolvedChapterTitle === "string" ? resolvedChapterTitle.trim() : "";
+    const cleanEmaki = typeof emakiTitle === "string" ? emakiTitle.trim() : "絵巻物";
+    const cleanMsg = typeof message === "string" ? message.trim() : "";
+    const pageUrl = typeof window !== "undefined" ? window.location.href : "https://emakimono.com";
+    return `${cleanTitle ? `【${cleanTitle}】` : ""}『${cleanEmaki}』\n${cleanMsg ? `"${cleanMsg}"\n` : ""}\n#絵巻物ビューアー #日本美術\n${pageUrl}`;
+  }, [emakiTitle, message, resolvedChapterTitle]);
+
+  // 1回目で画像コピー、2回目でテキストコピーを実行するスマートハンドラー
+  const handleCopyAndShare = useCallback(async () => {
+    // すでに画像コピー済みの場合: 本文テキストをコピー
+    if (copiedStep === "image") {
+      const text = getShareTextPayload();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          await navigator.clipboard.writeText(text);
+          setCopiedStep("text");
+          return;
+        } catch (e) {
+          console.error("Text copy failed:", e);
+        }
+      }
+      return;
+    }
+
+    // 初回: 画像をクリップボードにコピー
+    let { prev, current: img, next } = loadedImagesRef.current;
+    if (!img?.complete || !img.naturalWidth) {
+      img = await loadCrossOriginImage(src);
+      if (!img) return;
+      loadedImagesRef.current = { ...loadedImagesRef.current, current: img };
+    }
+    const isPanoramaSlice = (item) => Boolean(item?.src) && item?.cat !== "ekotoba";
+    const findPanoramaIndex = (startIdx, step) => {
+      for (let i = startIdx; i >= 0 && i < scenes.length; i += step) {
+        if (isPanoramaSlice(scenes[i])) return i;
+      }
+      return null;
+    };
+    let curIdx = selectedIndex;
+    if (!isPanoramaSlice(scenes[curIdx])) {
+      curIdx = findPanoramaIndex(curIdx, -1) ?? findPanoramaIndex(curIdx, 1);
+    }
+    const prevIdx = findPanoramaIndex(curIdx - 1, -1);
+    const nextIdx = findPanoramaIndex(curIdx + 1, 1);
+    if (prevIdx != null && !prev?.naturalWidth) {
+      const prevUrl = scenes[prevIdx]?.src ? buildCloudinaryUrl(scenes[prevIdx].src) : null;
+      prev = await loadCrossOriginImage(prevUrl);
+    }
+    if (nextIdx != null && !next?.naturalWidth) {
+      const nextUrl = scenes[nextIdx]?.src ? buildCloudinaryUrl(scenes[nextIdx].src) : null;
+      next = await loadCrossOriginImage(nextUrl);
+    }
+    loadedImagesRef.current = { prev, current: img, next };
+
+    const canvas = canvasRef.current ?? document.createElement("canvas");
+    canvas.width = CANVAS_W;
+    canvas.height = CANVAS_H;
+    if (!canvasRef.current) canvasRef.current = canvas;
+
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+
+    const favicon = await new Promise((resolve) => {
+      const imgFav = new Image();
+      imgFav.onload = () => resolve(imgFav);
+      imgFav.onerror = () => resolve(null);
+      imgFav.src = "/favicon.ico";
+    });
+
+    const pageUrl = typeof window !== "undefined" ? window.location.href : "https://emakimono.com";
+    const qrDataUrl = await QRCode.toDataURL(pageUrl, {
+      margin: 1,
+      width: 120,
+      color: { dark: "#333333", light: "#ffffff" },
+    }).catch(() => null);
+    const qrImg = qrDataUrl ? await loadCrossOriginImage(qrDataUrl) : null;
+    const displayUrl = pageUrl.replace(/^https?:\/\//, "");
+
+    drawPhoto(ctx, favicon, qrImg, displayUrl);
+
+    canvas.toBlob(async (blob) => {
+      if (!blob) return;
+      if (navigator.clipboard && window.ClipboardItem) {
+        try {
+          const item = new ClipboardItem({ [blob.type]: blob });
+          await navigator.clipboard.write([item]);
+          setCopiedStep("image");
+          return;
+        } catch (e) {
+          console.error("Clipboard write failed:", e);
+        }
+      }
+      alert("クリップボードへの画像コピーに対応していません。「保存」をご利用ください。");
+    }, "image/png");
+  }, [copiedStep, drawPhoto, getShareTextPayload, scenes.length, selectedIndex, src]);
+
+  // Web Share API を利用した汎用 SNS シェア
+  const handleShareSNS = useCallback(async () => {
     let { prev, current: img, next } = loadedImagesRef.current;
     if (!img?.complete || !img.naturalWidth) {
       img = await loadCrossOriginImage(src);
@@ -514,52 +643,52 @@ export function PolaroidModal({
 
     const cleanTitle = typeof resolvedChapterTitle === "string" ? resolvedChapterTitle.trim() : "";
     const cleanEmaki = typeof emakiTitle === "string" ? emakiTitle.trim() : "絵巻物";
-    const shareText = `【${cleanEmaki}】${cleanTitle ? `${cleanTitle}\n` : ""}${message ? `"${message}"\n` : ""}絵巻物ビューアーで鑑賞中！`;
-    const shareUrl = typeof window !== "undefined" ? window.location.href : "https://emakimono.com";
+    const cleanMsg = typeof message === "string" ? message.trim() : "";
+    const pageUrl = typeof window !== "undefined" ? window.location.href : "https://emakimono.com";
+    const shareText = `${cleanTitle ? `【${cleanTitle}】` : ""}『${cleanEmaki}』\n${cleanMsg ? `"${cleanMsg}"\n` : ""}\n#絵巻物ビューアー #日本美術`;
 
     canvas.toBlob(async (blob) => {
       if (!blob) return;
+      const file = new File([blob], `emakimono-polaroid-${Date.now()}.png`, { type: "image/png" });
 
-      const isMobile =
-        typeof navigator !== "undefined" &&
-        /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "");
-
-      // 1. モバイル端末（スマホ・タブレット）: ネイティブ画像共有を最優先実行
-      if (isMobile) {
-        const file = new File([blob], `emakimono-${Date.now()}.png`, { type: "image/png" });
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-          try {
-            await navigator.share({
-              files: [file],
-              title: `${cleanEmaki} - 絵巻物ビューアー`,
-              text: shareText,
-              url: shareUrl,
-            });
-            return;
-          } catch (err) {
-            if (err.name === "AbortError") return;
-          }
+      // 1. 画像ファイル対応の Web Share API
+      if (typeof navigator !== "undefined" && navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({
+            files: [file],
+            title: `${cleanEmaki} - 絵巻物ビューアー`,
+            text: shareText,
+            url: pageUrl,
+          });
+          return;
+        } catch (err) {
+          if (err.name === "AbortError") return;
         }
       }
 
-      // 2. PC（デスクトップ）環境: 画像をクリップボードにコピーしてお好みのSNSへの貼り付けを促す
+      // 2. テキスト/URL のみの Web Share API
+      if (typeof navigator !== "undefined" && navigator.share) {
+        try {
+          await navigator.share({
+            title: `${cleanEmaki} - 絵巻物ビューアー`,
+            text: shareText,
+            url: pageUrl,
+          });
+          return;
+        } catch (err) {
+          if (err.name === "AbortError") return;
+        }
+      }
+
+      // 3. 非対応環境フォールバック: 画像コピー ＋ 案内
       if (navigator.clipboard && window.ClipboardItem) {
         try {
           await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
-          alert("画像をクリップボードにコピーしました！\nお好きなSNS（X, Threads, Discordなど）の投稿画面で「Ctrl + V（貼り付け）」して共有してください。");
-          return;
+          alert("お使いの環境では共有シートを起動できないため、画像をクリップボードにコピーしました！\nお好みのSNSへ貼り付けて共有してください。");
         } catch (e) {
-          console.warn("Clipboard write failed:", e);
+          alert("共有機能に対応していないブラウザです。「保存」ボタンからダウンロードしてください。");
         }
       }
-
-      // クリップボード非対応ブラウザ向けフォールバック: 画像保存を実行
-      const dataUrl = canvas.toDataURL("image/png");
-      const link = document.createElement("a");
-      link.download = `emakimono-polaroid-${Date.now()}.png`;
-      link.href = dataUrl;
-      link.click();
-      alert("画像を保存しました。お好みのSNSに画像を添付して共有してください。");
     }, "image/png");
   }, [drawPhoto, emakiTitle, message, resolvedChapterTitle, scenes.length, selectedIndex, src]);
 
@@ -665,12 +794,48 @@ export function PolaroidModal({
           onChange={(e) => setMessage(e.target.value)}
           rows={2}
         />
-        <div className={styles.footer}>
+
+        {copiedStep && (
+          <p
+            style={{
+              margin: "0.4rem 0 0",
+              fontSize: "0.75rem",
+              textAlign: "center",
+              color: copiedStep === "text" ? "#16a34a" : "#2563eb",
+              transition: "all 0.2s ease",
+            }}
+          >
+            {copiedStep === "image"
+              ? "✓ 画像をコピーしました（投稿欄に Ctrl+V で貼付後、もう一度押すと本文もコピー）"
+              : "✓ 本文・URLもコピーしました！"}
+          </p>
+        )}
+
+        <div className={styles.footer} style={{ marginTop: copiedStep ? "0.4rem" : "0.75rem" }}>
           <button type="button" className={styles.saveBtn} onClick={handleSave} disabled={!src}>
-            画像を保存
+            保存
           </button>
-          <button type="button" className={styles.shareBtn} onClick={handleShare} disabled={!src}>
-            {isMobileDevice ? "シェア" : "画像をコピー"}
+          <button
+            type="button"
+            className={styles.shareBtn}
+            onClick={handleCopyAndShare}
+            disabled={!src}
+            style={{
+              backgroundColor:
+                copiedStep === "text"
+                  ? "#16a34a"
+                  : copiedStep === "image"
+                  ? "#2563eb"
+                  : "#2c3e50",
+              minWidth: "160px",
+              justifyContent: "center",
+            }}
+          >
+            {copiedStep === "text"
+              ? "✓ 本文コピー完了"
+              : copiedStep === "image"
+              ? "続けて本文をコピー"
+              : "画像をコピーして共有"}
           </button>
           <button type="button" className={styles.closeBtn} onClick={onClose}>
             閉じる
