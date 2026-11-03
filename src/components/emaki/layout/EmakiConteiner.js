@@ -1579,9 +1579,7 @@ const EmakiContainer = ({
             navIndex={liveSceneIndex}
             isFullscreen={toggleFullscreen}
             commentaryFloating={commentaryFloating}
-            openPolaroidModal={
-              !commentaryFloating ? handleOpenPolaroidModal : undefined
-            }
+            openPolaroidModal={handleOpenPolaroidModal}
             entryContainerRef={entryContainerRef}
             isPlayMode={isPlayMode}
             onIdlePauseChange={setIdlePaused}
