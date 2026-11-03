@@ -59,18 +59,14 @@ const ActionButton = forwardRef(
               bottom: !isMobile
                 ? barFloatsOverCanvas
                   ? "1.5rem"
-                  : "calc(1.5rem + var(--commentary-bar-full-h, var(--commentary-bar-h, 0px)))"
+                  : "calc(1.5rem + var(--commentary-bar-full-h, 0px))"
                 : barFloatsOverCanvas
-                  ? "calc(0.75rem + env(safe-area-inset-bottom, 0px))"
-                  : "calc(0.75rem + var(--commentary-bar-full-h, var(--commentary-bar-h, 0px)) + env(safe-area-inset-bottom, 0px))",
-              right: !isMobile
-                ? barFloatsOverCanvas
-                  ? "1rem"
-                  : "1%"
-                : barFloatsOverCanvas
-                  ? "calc(1rem + env(safe-area-inset-right, 0px))"
-                  : "calc(1% + env(safe-area-inset-right, 0px))",
+                  ? "0.75rem"
+                  : "calc(0.75rem + var(--commentary-bar-full-h, 0px))",
+              right: !isMobile ? (barFloatsOverCanvas ? "1rem" : "1%") : "0.5rem",
               zIndex: "10",
+              display: "flex",
+              alignItems: "center",
               fontsize: "1em",
             }),
           }}

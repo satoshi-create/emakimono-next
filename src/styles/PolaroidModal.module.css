@@ -330,19 +330,25 @@
 .footer {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
+  justify-content: space-between;
+  gap: 6px;
   margin-top: 8px;
   width: 100%;
 }
 
 .saveBtn,
 .closeBtn {
+  flex: 1;
+  padding: 8px 6px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   font-family: var(--font-ui);
-  font-size: 0.875rem;
   font-weight: 500;
-  padding: 0.45rem 0.85rem;
-  border-radius: 8px;
   cursor: pointer;
   border: 1px solid transparent;
 }
@@ -358,17 +364,21 @@
 }
 
 .shareBtn {
+  flex: 2;
+  padding: 8px 6px;
+  font-size: 0.775rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   background-color: #2c3e50;
   color: #fff;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
   transition: opacity 0.15s ease;
-  display: inline-flex;
-  align-items: center;
   gap: 6px;
 }
 
@@ -385,6 +395,18 @@
   background: transparent;
   color: var(--clr-text);
   border-color: rgb(20 20 20 / 0.15);
+}
+
+@media (max-width: 400px) {
+  .saveBtn,
+  .closeBtn {
+    font-size: 0.75rem;
+    padding: 7px 4px;
+  }
+  .shareBtn {
+    font-size: 0.725rem;
+    padding: 7px 4px;
+  }
 }
 
 .hiddenCanvas {

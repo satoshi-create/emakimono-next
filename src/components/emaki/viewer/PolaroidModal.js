@@ -1075,8 +1075,6 @@ export function PolaroidModal({
                   : copiedStep === "image"
                   ? "#2563eb"
                   : (currentTheme === "sumi" ? "#383533" : "#2c3e50"),
-              minWidth: "150px",
-              justifyContent: "center",
             }}
           >
             {copiedStep === "text"

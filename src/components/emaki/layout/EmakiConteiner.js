@@ -41,6 +41,7 @@ import { findSceneIndexAtViewportCenter } from "@/utils/emakiSceneDom";
 import {
   faMagnifyingGlass,
   faMagnifyingGlassMinus,
+  faCamera,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
@@ -1325,36 +1326,57 @@ const EmakiContainer = ({
           />
         )}
         {scroll && (
-          // 右下の全画面ボタンの左隣: 等倍 ⇔ 既定倍率のズームトグル
-          // （段タイトル札と重ならないよう、右上から移設）
-          <div className={zoomStyles.toggleAnchor}>
-            <ActionButton
-              icon={
-                <FontAwesomeIcon
-                  icon={isZoomed ? faMagnifyingGlassMinus : faMagnifyingGlass}
-                  style={{ fontSize: "1.5em" }}
+          <>
+            {/* ズームボタン（全画面の左） */}
+            <div className={zoomStyles.toggleAnchor}>
+              <ActionButton
+                icon={
+                  <FontAwesomeIcon
+                    icon={isZoomed ? faMagnifyingGlassMinus : faMagnifyingGlass}
+                    style={{ fontSize: "1.5em" }}
+                  />
+                }
+                description={
+                  isZoomed
+                    ? t("viewer.zoomToggleOut")
+                    : t("viewer.zoomToggleIn")
+                }
+                onClick={() => {
+                  // 表示中央を基準に中心スライスと初期 pan を事前確定して開く
+                  const rect = entryContainerRef.current?.getBoundingClientRect();
+                  toggleZoom(
+                    rect ? rect.left + rect.width / 2 : null,
+                    rect ? rect.top + rect.height / 2 : null
+                  );
+                }}
+                variant="fullscreen"
+                isOn={isZoomed}
+                isFullscreen={toggleFullscreen}
+                isBarFloating={commentaryFloating}
+                isUIVisible={isUIVisible}
+              />
+            </div>
+
+            {/* ポラロイド切り抜きボタン（PC横画面 / 全画面時のみ右下に表示し、モバイル縦ナビとの重複を防ぐ） */}
+            {commentaryFloating && (
+              <div className={zoomStyles.polaroidAnchor}>
+                <ActionButton
+                  icon={
+                    <FontAwesomeIcon
+                      icon={faCamera}
+                      style={{ fontSize: "1.5em" }}
+                    />
+                  }
+                  description="ポラロイド風画像を作成・共有"
+                  onClick={handleOpenPolaroidModal}
+                  variant="fullscreen"
+                  isFullscreen={toggleFullscreen}
+                  isBarFloating={commentaryFloating}
+                  isUIVisible={isUIVisible}
                 />
-              }
-              description={
-                isZoomed
-                  ? t("viewer.zoomToggleOut")
-                  : t("viewer.zoomToggleIn")
-              }
-              onClick={() => {
-                // 表示中央を基準に中心スライスと初期 pan を事前確定して開く
-                const rect = entryContainerRef.current?.getBoundingClientRect();
-                toggleZoom(
-                  rect ? rect.left + rect.width / 2 : null,
-                  rect ? rect.top + rect.height / 2 : null
-                );
-              }}
-              variant="fullscreen"
-              isOn={isZoomed}
-              isFullscreen={toggleFullscreen}
-              isBarFloating={commentaryFloating}
-              isUIVisible={isUIVisible}
-            />
-          </div>
+              </div>
+            )}
+          </>
         )}
         {scroll && (
           <>
@@ -1557,11 +1579,13 @@ const EmakiContainer = ({
             navIndex={liveSceneIndex}
             isFullscreen={toggleFullscreen}
             commentaryFloating={commentaryFloating}
+            openPolaroidModal={
+              !commentaryFloating ? handleOpenPolaroidModal : undefined
+            }
             entryContainerRef={entryContainerRef}
             isPlayMode={isPlayMode}
             onIdlePauseChange={setIdlePaused}
             onIdleActivity={resetIdleTimer}
-            openPolaroidModal={handleOpenPolaroidModal}
             quizFab={
               canShowQuizChrome ? (
                 <QuizFab

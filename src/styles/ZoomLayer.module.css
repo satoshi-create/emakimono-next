@@ -189,9 +189,20 @@
   transform: translateX(-3rem);
 }
 
-@media (max-width: 767.98px) {
+.polaroidAnchor {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  transform: translateX(-6rem);
+}
+
+@media (max-width: 768px) {
   .toggleAnchor {
-    /* SP/TB はボタンサイズが sm のため控えめにずらす */
+    /* モバイル時は全画面ボタンの左側にピッタリ寄せて中央ナビとの干渉を防ぐ */
     transform: translateX(-2.5rem);
+  }
+  .polaroidAnchor {
+    transform: translateX(-5rem);
   }
 }

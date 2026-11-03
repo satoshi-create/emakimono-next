@@ -29,8 +29,23 @@
   bottom: calc(2% + var(--commentary-bar-full-h, var(--commentary-bar-h, 0px)) + env(safe-area-inset-bottom, 0px));
   column-gap: 0.5rem;
   border-radius: 2rem;
+  display: flex;
+  align-items: center;
   /* padding: 0.5rem 1rem; */
   /* box-shadow: var(--shadow-1); */
+}
+
+@media (max-width: 480px) {
+  .prt {
+    /* モバイル表示時は幅をコンパクトに抑えて右下ボタン群との干渉を防ぐ */
+    gap: 4px;
+    padding: 2px 6px;
+  }
+  .prt button {
+    padding: 4px;
+    min-width: 28px;
+    height: 28px;
+  }
 }
 
 .land {

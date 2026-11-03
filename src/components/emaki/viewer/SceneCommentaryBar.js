@@ -755,8 +755,8 @@ const SceneCommentaryBar = ({
                 variant="share"
                 navIndex={navIndex}
                 emakiId={titleen}
-                shareTitle={shareTitle}
                 openPolaroidModal={openPolaroidModal}
+                shareTitle={shareTitle}
               />
             </div>
           </div>
