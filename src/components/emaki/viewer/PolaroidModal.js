@@ -23,6 +23,191 @@ const ZOOM_MIN = 1;
 const ZOOM_MAX = 3;
 const ZOOM_DEFAULT = 1.5;
 
+const THEMES = {
+  white: {
+    id: "white",
+    name: "白",
+    bg: "#ffffff",
+    cardBg: "#ffffff",
+    titleColor: "#111111",
+    subColor: "#555555",
+    msgColor: "#333333",
+    creditColor: "#777777",
+    urlColor: "#999999",
+    qrDark: "#222222",
+    qrLight: "#ffffff",
+    border: "#e5e7eb",
+  },
+  washi: {
+    id: "washi",
+    name: "和紙",
+    bg: "#f5eee1",
+    cardBg: "#f5eee1",
+    titleColor: "#241c16",
+    subColor: "#614f43",
+    msgColor: "#33261c",
+    creditColor: "#736052",
+    urlColor: "#877263",
+    qrDark: "#33261c",
+    qrLight: "#f5eee1",
+    border: "#cfbe9b",
+  },
+  sumi: {
+    id: "sumi",
+    name: "墨",
+    bg: "#141312",
+    cardBg: "#141312",
+    titleColor: "#f7f1e6",
+    subColor: "#b8ada0",
+    msgColor: "#ebe3d8",
+    creditColor: "#948a7d",
+    urlColor: "#948a7d",
+    qrDark: "#141312",
+    qrLight: "#f7f1e6",
+    border: "#423d38",
+  },
+  miyabi: {
+    id: "miyabi",
+    name: "雅",
+    bg: "#faf4e3",
+    cardBg: "#faf4e3",
+    titleColor: "#2b1e11",
+    subColor: "#805e26",
+    msgColor: "#3d2813",
+    creditColor: "#8c6b32",
+    urlColor: "#a37f41",
+    qrDark: "#4a3514",
+    qrLight: "#faf4e3",
+    border: "#cfa554",
+  },
+};
+
+// Canvas上にプログラマティックに各テーマのテクスチャを強調描画するヘルパー
+function drawCanvasTexture(ctx, width, height, themeId) {
+  ctx.save();
+
+  if (themeId === "washi") {
+    // 和紙: 生成りの柔らかな陰影 ＋ 繊細で明瞭な楮繊維
+    const paperGrad = ctx.createLinearGradient(0, 0, width, height);
+    paperGrad.addColorStop(0, "rgba(218, 202, 176, 0.14)");
+    paperGrad.addColorStop(0.5, "rgba(255, 255, 255, 0.08)");
+    paperGrad.addColorStop(1, "rgba(208, 192, 164, 0.16)");
+    ctx.fillStyle = paperGrad;
+    ctx.fillRect(0, 0, width, height);
+
+    // 楮繊維（細さは0.5〜0.9pxに保ち、不透明度と本数を適度に引き上げ）
+    for (let i = 0; i < 380; i++) {
+      const rx = (Math.sin(i * 997) * 0.5 + 0.5) * width;
+      const ry = (Math.cos(i * 353) * 0.5 + 0.5) * height;
+      const len = 6 + (Math.sin(i * 41) * 0.5 + 0.5) * 18;
+      const angle = (Math.cos(i * 73) * 0.5 + 0.5) * Math.PI;
+
+      ctx.beginPath();
+      ctx.moveTo(rx, ry);
+      const cpx = rx + Math.cos(angle + 0.25) * (len * 0.5);
+      const cpy = ry + Math.sin(angle + 0.25) * (len * 0.5);
+      const edx = rx + Math.cos(angle) * len;
+      const edy = ry + Math.sin(angle) * len;
+      ctx.quadraticCurveTo(cpx, cpy, edx, edy);
+
+      ctx.lineWidth = 0.5 + (i % 3) * 0.3;
+      if (i % 3 === 0) {
+        ctx.strokeStyle = "rgba(100, 72, 45, 0.17)"; // 楮の主繊維
+      } else if (i % 3 === 1) {
+        ctx.strokeStyle = "rgba(135, 102, 70, 0.12)"; // 淡い中間繊維
+      } else {
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.48)"; // 白い繊維の浮き上がり
+      }
+      ctx.stroke();
+    }
+
+    // 和紙の微細チリ（点ではなく極小の繊維くずとして自然に散らす）
+    for (let j = 0; j < 120; j++) {
+      const px = (Math.sin(j * 613) * 0.5 + 0.5) * width;
+      const py = (Math.cos(j * 827) * 0.5 + 0.5) * height;
+      const size = 0.5 + (Math.sin(j * 31) * 0.5 + 0.5) * 0.9;
+      ctx.fillStyle = "rgba(95, 68, 42, 0.15)";
+      ctx.beginPath();
+      ctx.arc(px, py, size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  } else if (themeId === "miyabi") {
+    // 雅: 金色の温かみあるベース ＋ 上品な切箔 ＋ 雲母金粉
+    const grad = ctx.createLinearGradient(0, 0, width, height);
+    grad.addColorStop(0, "rgba(218, 165, 32, 0.11)");
+    grad.addColorStop(0.4, "rgba(255, 235, 140, 0.05)");
+    grad.addColorStop(1, "rgba(190, 140, 20, 0.12)");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, width, height);
+
+    // 小さな切箔（2.0〜4.5px・不透明度0.48で黄金色を美しく発色）
+    for (let k = 0; k < 65; k++) {
+      const fx = (Math.sin(k * 733) * 0.5 + 0.5) * width;
+      const fy = (Math.cos(k * 409) * 0.5 + 0.5) * height;
+      const fsize = 2.0 + (Math.sin(k * 17) * 0.5 + 0.5) * 3.2;
+      const frot = (Math.cos(k * 29) * 0.5 + 0.5) * Math.PI;
+
+      ctx.save();
+      ctx.translate(fx, fy);
+      ctx.rotate(frot);
+      ctx.fillStyle = k % 2 === 0 ? "rgba(218, 165, 32, 0.52)" : "rgba(238, 203, 113, 0.44)";
+      ctx.fillRect(-fsize / 2, -fsize / 2, fsize, fsize * 0.75);
+      ctx.restore();
+    }
+
+    // 金砂子（粒径0.8〜2.0px・密度260粒で料紙らしい華やかさを付与）
+    for (let i = 0; i < 260; i++) {
+      const px = (Math.sin(i * 577) * 0.5 + 0.5) * width;
+      const py = (Math.cos(i * 883) * 0.5 + 0.5) * height;
+      const size = 0.8 + (Math.sin(i * 19) * 0.5 + 0.5) * 1.8;
+      ctx.fillStyle = i % 2 === 0 ? "rgba(212, 165, 45, 0.55)" : "rgba(245, 215, 110, 0.42)";
+      ctx.beginPath();
+      ctx.arc(px, py, size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  } else if (themeId === "sumi") {
+    // 墨: 硯墨の深みグラデーション ＋ 静かな星屑
+    const radGrad = ctx.createRadialGradient(width / 2, height / 2, width * 0.2, width / 2, height / 2, width * 0.85);
+    radGrad.addColorStop(0, "rgba(38, 35, 32, 0.35)");
+    radGrad.addColorStop(1, "rgba(10, 9, 8, 0.55)");
+    ctx.fillStyle = radGrad;
+    ctx.fillRect(0, 0, width, height);
+
+    ctx.fillStyle = "rgba(240, 230, 215, 0.25)";
+    for (let i = 0; i < 110; i++) {
+      const sx = (Math.sin(i * 439) * 0.5 + 0.5) * width;
+      const sy = (Math.cos(i * 641) * 0.5 + 0.5) * height;
+      ctx.beginPath();
+      ctx.arc(sx, sy, 0.9, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  ctx.restore();
+}
+
+// モーダル背景用にテクスチャ画像をDataURLとして生成する軽量キャッシュ関数
+const textureCache = {};
+function getThemeTextureUrl(themeId) {
+  if (typeof document === "undefined") return null;
+  if (themeId === "white") return null;
+  if (textureCache[themeId]) return textureCache[themeId];
+
+  const w = 600;
+  const h = 750;
+  const c = document.createElement("canvas");
+  c.width = w;
+  c.height = h;
+  const ctx = c.getContext("2d");
+  const th = THEMES[themeId] || THEMES.white;
+  ctx.fillStyle = th.bg;
+  ctx.fillRect(0, 0, w, h);
+  drawCanvasTexture(ctx, w, h, themeId);
+  const dataUrl = c.toDataURL("image/png");
+  textureCache[themeId] = dataUrl;
+  return dataUrl;
+}
+
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
@@ -59,6 +244,7 @@ export function PolaroidModal({
   title,
 }) {
   const [selectedIndex, setSelectedIndex] = useState(initialIndex);
+  const [currentTheme, setCurrentTheme] = useState("white");
   const [message, setMessage] = useState("");
   const [zoom, setZoom] = useState(ZOOM_DEFAULT);
   const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -357,6 +543,24 @@ export function PolaroidModal({
       }
       ctx.restore();
 
+      const theme = THEMES[currentTheme] || THEMES.white;
+
+      // 1. 各テーマ固有の質感テクスチャを描画
+      drawCanvasTexture(ctx, CANVAS_W, CANVAS_H, currentTheme);
+
+      // 2. 枠線（二重線や繊細な縁取りで工芸品のような仕上がりに）
+      if (theme.border) {
+        ctx.strokeStyle = theme.border;
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(18, 18, CANVAS_W - 36, CANVAS_H - 36);
+
+        if (currentTheme === "miyabi") {
+          // 雅テーマは内側に極細の二重枠
+          ctx.lineWidth = 0.8;
+          ctx.strokeRect(22, 22, CANVAS_W - 44, CANVAS_H - 44);
+        }
+      }
+
       // --- 写真下部エリア（美術館キャプション風中央揃え） ---
       ctx.textAlign = "center";
 
@@ -370,23 +574,23 @@ export function PolaroidModal({
 
       if (cleanTitle) {
         ctx.font = 'bold 24px "Zen Old Mincho", "Hina Mincho", serif';
-        ctx.fillStyle = "#111111";
+        ctx.fillStyle = theme.titleColor;
         ctx.fillText(`―  ${cleanTitle}  ―`, centerCenterX, currentY);
         currentY += 32;
       }
 
-      // 2. 絵巻物タイトル（副題・落ち着いた薄墨色）
+      // 2. 絵巻物タイトル（副題）
       if (cleanEmaki) {
         ctx.font = '16px "Zen Old Mincho", "Hina Mincho", serif';
-        ctx.fillStyle = "#555555";
+        ctx.fillStyle = theme.subColor;
         ctx.fillText(`『${cleanEmaki}』`, centerCenterX, currentY);
         currentY += 40;
       }
 
-      // 3. ユーザーのひとこと（存在する場合のみ描画）
+      // 3. ユーザーのひとこと
       if (cleanMsg) {
         ctx.font = 'italic 18px "Zen Old Mincho", "Hina Mincho", serif';
-        ctx.fillStyle = "#333333";
+        ctx.fillStyle = theme.msgColor;
         ctx.fillText(`“ ${cleanMsg} ”`, centerCenterX, currentY);
       }
 
@@ -396,7 +600,7 @@ export function PolaroidModal({
       const footerText = "絵巻物ビューアー  |  emakimono.com";
 
       ctx.font = '12px sans-serif';
-      ctx.fillStyle = "#777777";
+      ctx.fillStyle = theme.creditColor;
 
       const textMetrics = ctx.measureText(footerText);
       const textWidth = textMetrics.width;
@@ -414,7 +618,7 @@ export function PolaroidModal({
 
       if (sceneUrlText) {
         ctx.font = '10px sans-serif';
-        ctx.fillStyle = "#999999";
+        ctx.fillStyle = theme.urlColor;
         ctx.textAlign = "center";
         ctx.fillText(sceneUrlText, centerCenterX, urlY);
       }
@@ -427,7 +631,7 @@ export function PolaroidModal({
         ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
       }
     },
-    [coverScale, pan.x, pan.y, zoom, emakiTitle, resolvedChapterTitle, message]
+    [coverScale, pan.x, pan.y, zoom, emakiTitle, resolvedChapterTitle, message, currentTheme]
   );
 
   const handleSave = useCallback(async () => {
@@ -465,8 +669,9 @@ export function PolaroidModal({
     canvas.height = CANVAS_H;
     if (!canvasRef.current) canvasRef.current = canvas;
 
+    const activeTheme = THEMES[currentTheme] || THEMES.white;
     const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#ffffff";
+    ctx.fillStyle = activeTheme.bg;
     ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
 
     const favicon = await new Promise((resolve) => {
@@ -480,11 +685,19 @@ export function PolaroidModal({
     const qrDataUrl = await QRCode.toDataURL(pageUrl, {
       margin: 1,
       width: 120,
-      color: { dark: "#333333", light: "#ffffff" },
+      color: { dark: activeTheme.qrDark, light: activeTheme.qrLight },
     }).catch(() => null);
     const qrImg = qrDataUrl ? await loadCrossOriginImage(qrDataUrl) : null;
 
-    const displayUrl = pageUrl.replace(/^https?:\/\//, "");
+    // URLデコード（%C5%8D等を本来の文字に戻す）＋ 表示用ドメイン整理
+    let displayUrl = pageUrl;
+    try {
+      displayUrl = decodeURIComponent(pageUrl);
+    } catch (e) {
+      // noop
+    }
+    // プロトコル除去。プレビュー環境やローカル時は emakimono.com 基準のパスに整形
+    displayUrl = displayUrl.replace(/^https?:\/\/[^/]+/, "emakimono.com");
     drawPhoto(ctx, favicon, qrImg, displayUrl);
 
     const dataUrl = canvas.toDataURL("image/png");
@@ -492,7 +705,7 @@ export function PolaroidModal({
     link.download = `emakimono-polaroid-${Date.now()}.png`;
     link.href = dataUrl;
     link.click();
-  }, [drawPhoto, scenes.length, selectedIndex, src]);
+  }, [drawPhoto, scenes.length, selectedIndex, src, currentTheme]);
 
   // 拡散用メタテキスト生成ヘルパー
   const getShareTextPayload = useCallback(() => {
@@ -555,8 +768,9 @@ export function PolaroidModal({
     canvas.height = CANVAS_H;
     if (!canvasRef.current) canvasRef.current = canvas;
 
+    const activeTheme = THEMES[currentTheme] || THEMES.white;
     const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#ffffff";
+    ctx.fillStyle = activeTheme.bg;
     ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
 
     const favicon = await new Promise((resolve) => {
@@ -570,10 +784,18 @@ export function PolaroidModal({
     const qrDataUrl = await QRCode.toDataURL(pageUrl, {
       margin: 1,
       width: 120,
-      color: { dark: "#333333", light: "#ffffff" },
+      color: { dark: activeTheme.qrDark, light: activeTheme.qrLight },
     }).catch(() => null);
     const qrImg = qrDataUrl ? await loadCrossOriginImage(qrDataUrl) : null;
-    const displayUrl = pageUrl.replace(/^https?:\/\//, "");
+
+    // URLデコード（%C5%8D等を本来の文字に戻す）＋ 表示用ドメイン整理
+    let displayUrl = pageUrl;
+    try {
+      displayUrl = decodeURIComponent(pageUrl);
+    } catch (e) {
+      // noop
+    }
+    displayUrl = displayUrl.replace(/^https?:\/\/[^/]+/, "emakimono.com");
 
     drawPhoto(ctx, favicon, qrImg, displayUrl);
 
@@ -591,7 +813,7 @@ export function PolaroidModal({
       }
       alert("クリップボードへの画像コピーに対応していません。「保存」をご利用ください。");
     }, "image/png");
-  }, [copiedStep, drawPhoto, getShareTextPayload, scenes.length, selectedIndex, src]);
+  }, [copiedStep, drawPhoto, getShareTextPayload, scenes.length, selectedIndex, src, currentTheme]);
 
   // Web Share API を利用した汎用 SNS シェア
   const handleShareSNS = useCallback(async () => {
@@ -715,10 +937,20 @@ export function PolaroidModal({
   return (
     <div className={styles.overlay} role="dialog" aria-modal="true" aria-labelledby="polaroid-modal-title">
       <button type="button" className={styles.backdrop} aria-label="閉じる" onClick={onClose} />
-      <div className={styles.card} onClick={(e) => e.stopPropagation()}>
+      <div
+        className={styles.card}
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          backgroundColor: THEMES[currentTheme]?.bg || "#ffffff",
+          backgroundImage: getThemeTextureUrl(currentTheme) ? `url(${getThemeTextureUrl(currentTheme)})` : "none",
+          color: THEMES[currentTheme]?.titleColor || "#111111",
+          border: THEMES[currentTheme]?.border ? `1.5px solid ${THEMES[currentTheme].border}` : "1px solid #e5e7eb",
+        }}
+      >
         <h2 id="polaroid-modal-title" className={styles.srOnly}>
           ポラロイド切り抜き
         </h2>
+
         <div
           ref={frameRef}
           className={styles.photoFrame}
@@ -761,57 +993,73 @@ export function PolaroidModal({
           ) : (
             <div className={styles.photoPlaceholder}>画像がありません</div>
           )}
+          <div className={styles.zoomHint}>ドラッグで位置調整・ホイールで拡大縮小</div>
         </div>
-        <div className={styles.metaRow}>
-          <a
-            href="/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.siteBrand}
-            style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}
-            title="絵巻物ビューアー トップページを開く"
-          >
-            <img src="/favicon.ico" alt="" className={styles.siteFavicon} />
-            <span>絵巻物ビューアー</span>
-          </a>
-          <div className={styles.sceneTitleLine} title={`${emakiTitle || ""} ${resolvedChapterTitle || ""}`}>
-            <span className={styles.emakiTitleText}>{emakiTitle || "絵巻物"}</span>
-            {resolvedChapterTitle && (
-              <span className={styles.sceneTitleText}>{resolvedChapterTitle}</span>
-            )}
-          </div>
-          {resolvedChapterDesc ? (
-            <p className={styles.sceneDescText} title={resolvedChapterDesc}>
-              {resolvedChapterDesc}
+
+        <div className={styles.themeSelector} role="radiogroup" aria-label="テーマ選択">
+          {Object.values(THEMES).map((th) => (
+            <button
+              key={th.id}
+              type="button"
+              className={`${styles.themeDot} ${currentTheme === th.id ? styles.themeDotActive : ""}`}
+              style={{
+                backgroundColor: th.bg,
+                borderColor: currentTheme === th.id ? (th.id === "sumi" ? "#cfa554" : "#2c3e50") : (th.border || "#d1d5db"),
+              }}
+              onClick={() => setCurrentTheme(th.id)}
+              title={`${th.name}テーマ`}
+              aria-label={`${th.name}テーマ`}
+            />
+          ))}
+        </div>
+
+        <div className={styles.captionArea}>
+          {resolvedChapterTitle && (
+            <h3 className={styles.captionTitle} style={{ color: THEMES[currentTheme]?.titleColor }}>
+              ― {resolvedChapterTitle} ―
+            </h3>
+          )}
+          {emakiTitle && (
+            <p className={styles.captionSubtitle} style={{ color: THEMES[currentTheme]?.subColor }}>
+              『{emakiTitle}』
             </p>
-          ) : null}
+          )}
+
+          <input
+            type="text"
+            className={styles.messageInputUnderline}
+            placeholder="ひとこと添える（40文字まで・リアルタイム反映）"
+            maxLength={MESSAGE_MAX}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            style={{
+              color: THEMES[currentTheme]?.msgColor,
+              borderBottomColor: THEMES[currentTheme]?.border || "rgba(100, 100, 100, 0.35)",
+            }}
+          />
         </div>
-        <textarea
-          className={styles.messageInput}
-          placeholder="ひとこと（40文字まで）"
-          maxLength={MESSAGE_MAX}
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          rows={2}
-        />
+
+        <div className={styles.cardFooterLine} style={{ color: THEMES[currentTheme]?.creditColor }}>
+          <img src="/favicon.ico" alt="" width={12} height={12} style={{ borderRadius: 2, marginRight: 4 }} />
+          絵巻物ビューアー | emakimono.com
+        </div>
 
         {copiedStep && (
           <p
             style={{
-              margin: "0.4rem 0 0",
-              fontSize: "0.75rem",
+              margin: "4px 0 0",
+              fontSize: "0.725rem",
               textAlign: "center",
               color: copiedStep === "text" ? "#16a34a" : "#2563eb",
-              transition: "all 0.2s ease",
             }}
           >
             {copiedStep === "image"
-              ? "✓ 画像をコピーしました（投稿欄に Ctrl+V で貼付後、もう一度押すと本文もコピー）"
+              ? "✓ 画像をコピーしました（投稿欄に Ctrl+V 貼付後、もう一度押すと本文コピー）"
               : "✓ 本文・URLもコピーしました！"}
           </p>
         )}
 
-        <div className={styles.footer} style={{ marginTop: copiedStep ? "0.4rem" : "0.75rem" }}>
+        <div className={styles.footer}>
           <button type="button" className={styles.saveBtn} onClick={handleSave} disabled={!src}>
             保存
           </button>
@@ -826,8 +1074,8 @@ export function PolaroidModal({
                   ? "#16a34a"
                   : copiedStep === "image"
                   ? "#2563eb"
-                  : "#2c3e50",
-              minWidth: "160px",
+                  : (currentTheme === "sumi" ? "#383533" : "#2c3e50"),
+              minWidth: "150px",
               justifyContent: "center",
             }}
           >

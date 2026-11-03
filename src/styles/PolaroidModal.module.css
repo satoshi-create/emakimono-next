@@ -17,22 +17,160 @@
   z-index: -1;
 }
 
-.card {
-  position: relative;
-  width: min(92vw, 360px);
-  aspect-ratio: 4 / 5;
-  background: #fff;
-  border-radius: 4px;
-  box-shadow:
-    0 12px 40px rgba(0, 0, 0, 0.22),
-    0 2px 8px rgba(0, 0, 0, 0.08);
-  padding: 14px 14px 12px;
+.modalContent {
+  width: 100%;
+  max-width: 420px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  font-family: var(--font-ui);
-  color: var(--clr-text);
-  animation: polaroidIn 0.22s ease-out;
+  align-items: center;
+}
+
+.card {
+  position: relative;
+  border-radius: 8px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+  width: 100%;
+  max-width: 420px;
+  padding: 14px 14px 14px 14px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background-size: cover;
+  background-position: center;
+  overflow: visible;
+}
+
+.themeSelector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 8px 0 4px;
+}
+
+.themeDot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  outline: none;
+}
+
+.themeDot:hover {
+  transform: scale(1.15);
+}
+
+.themeDotActive {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 2px rgba(44, 62, 80, 0.3);
+}
+
+.captionArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 4px;
+}
+
+.captionTitle {
+  font-family: "Zen Old Mincho", "Hina Mincho", serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.captionSubtitle {
+  font-family: "Zen Old Mincho", "Hina Mincho", serif;
+  font-size: 0.8rem;
+  margin: 2px 0 0;
+  opacity: 0.8;
+}
+
+.messageInputUnderline {
+  width: 90%;
+  border: none;
+  border-bottom: 1px dashed rgba(100, 100, 100, 0.35);
+  background: transparent;
+  padding: 4px 6px;
+  font-size: 0.825rem;
+  font-family: "Zen Old Mincho", "Hina Mincho", serif;
+  font-style: italic;
+  text-align: center;
+  margin: 6px auto 0;
+  outline: none;
+  display: block;
+}
+
+.messageInputUnderline:focus {
+  border-bottom-color: rgba(40, 40, 40, 0.7);
+}
+
+.cardFooterLine {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 6px;
+  padding-top: 4px;
+  font-size: 0.65rem;
+  opacity: 0.8;
+}
+
+.captionMessage {
+  font-family: "Zen Old Mincho", "Hina Mincho", serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  margin: 8px 0 0;
+  word-break: break-all;
+}
+
+.cardFooter {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: auto;
+  padding-top: 8px;
+}
+
+.brandText {
+  font-size: 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+}
+
+.urlText {
+  font-size: 0.55rem;
+  margin: 2px 0 0;
+  opacity: 0.75;
+}
+
+.qrPreview {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.controlsArea {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0;
+  margin-top: 6px;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  width: 100%;
 }
 
 @keyframes polaroidIn {
@@ -162,23 +300,27 @@
 }
 
 .messageInput {
-  flex-shrink: 0;
-  width: 100%;
-  min-height: 3.25rem;
+  width: 85%;
+  min-height: auto;
   resize: none;
   border: none;
-  border-bottom: 1px solid rgb(20 20 20 / 0.12);
+  border-bottom: 1px dashed rgba(100, 100, 100, 0.35);
   background: transparent;
-  font-family: var(--font-classical);
-  font-size: 0.95rem;
-  line-height: 1.5;
+  padding: 4px 6px;
+  font-size: 0.825rem;
+  font-family: "Zen Old Mincho", "Hina Mincho", serif;
+  font-style: italic;
+  text-align: center;
+  margin: 6px auto 0;
+  outline: none;
+  display: block;
+  line-height: 1.4;
   color: var(--clr-text);
-  padding: 0.25rem 0.15rem;
 }
 
 .messageInput:focus {
   outline: none;
-  border-bottom-color: var(--clr-accent);
+  border-bottom-color: rgba(40, 40, 40, 0.7);
 }
 
 .messageInput::placeholder {
@@ -186,11 +328,12 @@
 }
 
 .footer {
-  flex-shrink: 0;
   display: flex;
-  gap: 0.5rem;
-  justify-content: flex-end;
-  margin-top: auto;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+  width: 100%;
 }
 
 .saveBtn,
