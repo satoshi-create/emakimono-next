@@ -1381,6 +1381,8 @@ const EmakiContainer = ({
             isOpen={isPolaroidModalOpen}
             key={`${isPolaroidModalOpen}-${polaroidSceneIndex}`}
             onClose={handleClosePolaroidModal}
+            title={data?.title}
+            titleen={data?.titleen}
           />
         )}
         {canShowQuizChrome && (

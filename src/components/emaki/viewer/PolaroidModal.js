@@ -2,7 +2,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import styles from "@/styles/PolaroidModal.module.css";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
-import { ChaptersTitle } from "@/utils/func";
+import {
+  ChaptersTitle,
+  connectEmakiTextData,
+  isGenjiWork,
+  resolveGenjiMasterChapter,
+  connectGenjiChapters,
+} from "@/utils/emakiChapterText";
 
 const CANVAS_W = 800;
 const CANVAS_H = 1000;
@@ -42,7 +48,15 @@ function loadCrossOriginImage(url) {
   });
 }
 
-export function PolaroidModal({ isOpen, onClose, scenes = [], initialIndex = 0, emakiTitle }) {
+export function PolaroidModal({
+  isOpen,
+  onClose,
+  scenes = [],
+  initialIndex = 0,
+  emakiTitle,
+  titleen,
+  title,
+}) {
   const [selectedIndex, setSelectedIndex] = useState(initialIndex);
   const [message, setMessage] = useState("");
   const [zoom, setZoom] = useState(ZOOM_DEFAULT);
@@ -70,13 +84,31 @@ export function PolaroidModal({ isOpen, onClose, scenes = [], initialIndex = 0, 
   }, [isOpen, initialIndex]);
 
   const router = useRouter();
-  const scrollTitleen = typeof router.query?.slug === "string" ? router.query.slug : "";
-  const scrollTitle = emakiTitle ?? "";
+  const locale = router.locale ?? "ja";
+  const [isMobileDevice, setIsMobileDevice] = useState(false);
+
+  useEffect(() => {
+    if (typeof navigator !== "undefined") {
+      setIsMobileDevice(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent || ""));
+    }
+  }, []);
+
+  const scrollId =
+    typeof titleen === "string" && titleen
+      ? titleen
+      : typeof router.query?.slug === "string"
+        ? router.query.slug
+        : "";
+  const scrollTitle =
+    (typeof title === "string" ? title : "") || emakiTitle || "";
 
   const currentScene = scenes[selectedIndex] || scenes[0];
   const currentLinkId = currentScene?.linkId ?? 0;
   const rawSrc = currentScene?.src ?? "";
   const src = rawSrc ? buildCloudinaryUrl(rawSrc) : "";
+
+  const safeString = (val) =>
+    typeof val === "string" ? val.trim() : typeof val === "number" ? String(val) : "";
 
   const { resolvedChapterTitle, resolvedChapterDesc } = useMemo(() => {
     let ekotoba = null;
@@ -86,26 +118,55 @@ export function PolaroidModal({ isOpen, onClose, scenes = [], initialIndex = 0, 
     }
     if (!ekotoba) return { resolvedChapterTitle: "", resolvedChapterDesc: "" };
 
-    const chapterTitle =
-      ChaptersTitle(
-        scrollTitleen,
-        scrollTitle,
+    let chapterTitleStr = "";
+
+    // A. 巻別テキストデータからのタイトル（例: 柏木（一）など）
+    const fromJson = connectEmakiTextData(scrollId, ekotoba.chapter, "title");
+    if (typeof fromJson === "string" && fromJson.trim()) {
+      chapterTitleStr = fromJson.trim();
+    }
+
+    // B. 源氏物語の場合: 帖マスターから「第XX帖 帖名」を生成
+    if (!chapterTitleStr && isGenjiWork(scrollId, scrollTitle)) {
+      const masterCh = resolveGenjiMasterChapter(
+        scrollId,
         ekotoba.chapter,
-        "title",
         ekotoba.genji_chapter
-      ) ||
-      (ekotoba.title != null && ekotoba.title !== "" ? String(ekotoba.title) : "") ||
-      (ekotoba.chapter != null && ekotoba.chapter !== "" ? String(ekotoba.chapter) : "");
+      );
+      const chNum = connectGenjiChapters(masterCh, "chapter_ch");
+      const genjiTitle = connectGenjiChapters(masterCh, "title");
+      if (genjiTitle) {
+        chapterTitleStr = chNum ? `第${chNum}帖 ${genjiTitle}` : genjiTitle;
+      }
+    }
+
+    // C. 一般絵巻のフォールバック
+    if (!chapterTitleStr) {
+      if (typeof ekotoba.title === "string" && ekotoba.title.trim()) {
+        chapterTitleStr = ekotoba.title.trim();
+      } else {
+        const rawTitle = ChaptersTitle(
+          scrollId,
+          scrollTitle,
+          ekotoba.chapter,
+          locale === "en" ? "titleen" : "title",
+          ekotoba.genji_chapter
+        );
+        if (typeof rawTitle === "string") {
+          chapterTitleStr = rawTitle.trim();
+        }
+      }
+    }
 
     const rawDesc = ekotoba.desc ?? "";
     const resolvedChapterDesc =
       typeof rawDesc === "string" ? rawDesc.replace(/<[^>]+>/g, "").trim() : "";
 
     return {
-      resolvedChapterTitle: chapterTitle.trim(),
+      resolvedChapterTitle: safeString(chapterTitleStr),
       resolvedChapterDesc,
     };
-  }, [scenes, currentLinkId, scrollTitleen, scrollTitle]);
+  }, [scenes, currentLinkId, scrollId, scrollTitle, locale]);
 
   const updatePanLimits = useCallback((img, z, prevImg, nextImg) => {
     if (!img?.naturalWidth) {
@@ -301,26 +362,30 @@ export function PolaroidModal({ isOpen, onClose, scenes = [], initialIndex = 0, 
       const centerCenterX = CANVAS_W / 2;
       let currentY = PHOTO_DY + PHOTO_DH + 48;
 
-      if (resolvedChapterTitle) {
+      const cleanTitle = typeof resolvedChapterTitle === "string" ? resolvedChapterTitle.trim() : "";
+      const cleanEmaki = typeof emakiTitle === "string" ? emakiTitle.trim() : "";
+      const cleanMsg = typeof message === "string" ? message.trim() : "";
+
+      if (cleanTitle) {
         ctx.font = 'bold 24px "Zen Old Mincho", "Hina Mincho", serif';
         ctx.fillStyle = "#111111";
-        ctx.fillText(`―  ${resolvedChapterTitle}  ―`, centerCenterX, currentY);
+        ctx.fillText(`―  ${cleanTitle}  ―`, centerCenterX, currentY);
         currentY += 32;
       }
 
       // 2. 絵巻物タイトル（副題・落ち着いた薄墨色）
-      if (emakiTitle) {
+      if (cleanEmaki) {
         ctx.font = '16px "Zen Old Mincho", "Hina Mincho", serif';
         ctx.fillStyle = "#555555";
-        ctx.fillText(`『${emakiTitle}』`, centerCenterX, currentY);
+        ctx.fillText(`『${cleanEmaki}』`, centerCenterX, currentY);
         currentY += 40;
       }
 
       // 3. ユーザーのひとこと（存在する場合のみ描画）
-      if (message && message.trim()) {
+      if (cleanMsg) {
         ctx.font = 'italic 18px "Zen Old Mincho", "Hina Mincho", serif';
         ctx.fillStyle = "#333333";
-        ctx.fillText(`“ ${message.trim()} ”`, centerCenterX, currentY);
+        ctx.fillText(`“ ${cleanMsg} ”`, centerCenterX, currentY);
       }
 
       // 4. 最下部クレジット（サイトアイコン + テキストの一体中央揃え）
@@ -399,6 +464,104 @@ export function PolaroidModal({ isOpen, onClose, scenes = [], initialIndex = 0, 
     link.href = dataUrl;
     link.click();
   }, [drawPhoto, scenes.length, selectedIndex, src]);
+
+  const handleShare = useCallback(async () => {
+    let { prev, current: img, next } = loadedImagesRef.current;
+    if (!img?.complete || !img.naturalWidth) {
+      img = await loadCrossOriginImage(src);
+      if (!img) return;
+      loadedImagesRef.current = { ...loadedImagesRef.current, current: img };
+    }
+    const isPanoramaSlice = (item) => Boolean(item?.src) && item?.cat !== "ekotoba";
+    const findPanoramaIndex = (startIdx, step) => {
+      for (let i = startIdx; i >= 0 && i < scenes.length; i += step) {
+        if (isPanoramaSlice(scenes[i])) return i;
+      }
+      return null;
+    };
+    let curIdx = selectedIndex;
+    if (!isPanoramaSlice(scenes[curIdx])) {
+      curIdx = findPanoramaIndex(curIdx, -1) ?? findPanoramaIndex(curIdx, 1);
+    }
+    const prevIdx = findPanoramaIndex(curIdx - 1, -1);
+    const nextIdx = findPanoramaIndex(curIdx + 1, 1);
+    if (prevIdx != null && !prev?.naturalWidth) {
+      const prevUrl = scenes[prevIdx]?.src ? buildCloudinaryUrl(scenes[prevIdx].src) : null;
+      prev = await loadCrossOriginImage(prevUrl);
+    }
+    if (nextIdx != null && !next?.naturalWidth) {
+      const nextUrl = scenes[nextIdx]?.src ? buildCloudinaryUrl(scenes[nextIdx].src) : null;
+      next = await loadCrossOriginImage(nextUrl);
+    }
+    loadedImagesRef.current = { prev, current: img, next };
+
+    const canvas = canvasRef.current ?? document.createElement("canvas");
+    canvas.width = CANVAS_W;
+    canvas.height = CANVAS_H;
+    if (!canvasRef.current) canvasRef.current = canvas;
+
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+
+    const favicon = await new Promise((resolve) => {
+      const imgFav = new Image();
+      imgFav.onload = () => resolve(imgFav);
+      imgFav.onerror = () => resolve(null);
+      imgFav.src = "/favicon.ico";
+    });
+    drawPhoto(ctx, favicon);
+
+    const cleanTitle = typeof resolvedChapterTitle === "string" ? resolvedChapterTitle.trim() : "";
+    const cleanEmaki = typeof emakiTitle === "string" ? emakiTitle.trim() : "絵巻物";
+    const shareText = `【${cleanEmaki}】${cleanTitle ? `${cleanTitle}\n` : ""}${message ? `"${message}"\n` : ""}絵巻物ビューアーで鑑賞中！`;
+    const shareUrl = typeof window !== "undefined" ? window.location.href : "https://emakimono.com";
+
+    canvas.toBlob(async (blob) => {
+      if (!blob) return;
+
+      const isMobile =
+        typeof navigator !== "undefined" &&
+        /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "");
+
+      // 1. モバイル端末（スマホ・タブレット）: ネイティブ画像共有を最優先実行
+      if (isMobile) {
+        const file = new File([blob], `emakimono-${Date.now()}.png`, { type: "image/png" });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({
+              files: [file],
+              title: `${cleanEmaki} - 絵巻物ビューアー`,
+              text: shareText,
+              url: shareUrl,
+            });
+            return;
+          } catch (err) {
+            if (err.name === "AbortError") return;
+          }
+        }
+      }
+
+      // 2. PC（デスクトップ）環境: 画像をクリップボードにコピーしてお好みのSNSへの貼り付けを促す
+      if (navigator.clipboard && window.ClipboardItem) {
+        try {
+          await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+          alert("画像をクリップボードにコピーしました！\nお好きなSNS（X, Threads, Discordなど）の投稿画面で「Ctrl + V（貼り付け）」して共有してください。");
+          return;
+        } catch (e) {
+          console.warn("Clipboard write failed:", e);
+        }
+      }
+
+      // クリップボード非対応ブラウザ向けフォールバック: 画像保存を実行
+      const dataUrl = canvas.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.download = `emakimono-polaroid-${Date.now()}.png`;
+      link.href = dataUrl;
+      link.click();
+      alert("画像を保存しました。お好みのSNSに画像を添付して共有してください。");
+    }, "image/png");
+  }, [drawPhoto, emakiTitle, message, resolvedChapterTitle, scenes.length, selectedIndex, src]);
 
   if (!isOpen) return null;
 
@@ -505,6 +668,9 @@ export function PolaroidModal({ isOpen, onClose, scenes = [], initialIndex = 0, 
         <div className={styles.footer}>
           <button type="button" className={styles.saveBtn} onClick={handleSave} disabled={!src}>
             画像を保存
+          </button>
+          <button type="button" className={styles.shareBtn} onClick={handleShare} disabled={!src}>
+            {isMobileDevice ? "シェア" : "画像をコピー"}
           </button>
           <button type="button" className={styles.closeBtn} onClick={onClose}>
             閉じる
