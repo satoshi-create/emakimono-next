@@ -24,8 +24,11 @@ import { ChaptersTitle, eraColor } from "@/utils/func";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import {
   connectGenjiChapters,
+  getChapterCustomData,
   getChapterFieldRaw,
 } from "@/utils/emakiChapterText";
+import { resolveReferenceUrl } from "@/utils/amazonUrl";
+import { getMotifDefinition, findRelatedScenesByMotif } from "@/utils/motifNetwork";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
 import { resolveEbikiScrollTarget } from "@/utils/resolveQuizJump";
@@ -55,7 +58,7 @@ const EmakiEraTimeline = dynamic(
   { ssr: false }
 );
 
-const TEXT_MODES = ["gendaibun", "kobun", "desc"];
+const TEXT_MODES = ["gendaibun", "kobun", "desc", "sou"];
 
 const stripHtml = (html) =>
   (html || "")
@@ -204,6 +207,7 @@ const SceneCommentaryBar = ({
   }, [viewMode, filterEkotobas, chapterThumbMap, locale, titleen, title]);
   // 現代文 / 古文 / 解説。詞書ありは現代文デフォルト。段変更でも維持（欠落時のみフォールバック）
   const [textMode, setTextMode] = useState("gendaibun");
+  const [selectedMotifId, setSelectedMotifId] = useState(null);
   const wrapRef = useRef(null);
   const prevActiveIndexRef = useRef(activeIndex);
   const prevOrientationRef = useRef(orientation);
@@ -481,18 +485,41 @@ const SceneCommentaryBar = ({
     };
   }, [current, locale, titleen, title]);
 
+  const souData = useMemo(() => {
+    if (!current) return null;
+    return getChapterCustomData(titleen, current.chapter, "sou");
+  }, [current, titleen]);
+
+  // 章が切り替わった際に先頭モチーフを選択
+  useEffect(() => {
+    if (souData && Array.isArray(souData.motifs) && souData.motifs.length > 0) {
+      setSelectedMotifId(souData.motifs[0]);
+    } else {
+      setSelectedMotifId(null);
+    }
+  }, [souData]);
+
+  // 選択されたモチーフに紐づく関連シーンを抽出
+  const relatedScenes = useMemo(() => {
+    if (!selectedMotifId) return [];
+    const chapterVal = current?.chapter;
+    if (chapterVal == null) return [];
+    return findRelatedScenesByMotif(titleen, chapterVal, selectedMotifId);
+  }, [selectedMotifId, current, titleen]);
+
   // 現代文・古文は詞書原文（kobun）がある段だけ。詞書なし巻の場面描写 gendaibun はタブに出さない。
   const availableModes = useMemo(
     () =>
       TEXT_MODES.filter((mode) => {
         if (mode === "desc") return chapterTexts.desc.length > 0;
+        if (mode === "sou") return Boolean(souData);
         if (mode === "gendaibun")
           return (
             chapterTexts.kobun.length > 0 && chapterTexts.gendaibun.length > 0
           );
         return chapterTexts.kobun.length > 0;
       }),
-    [chapterTexts]
+    [chapterTexts, souData]
   );
 
   // 現モードが欠落したら availableModes 先頭へ（現代文 → 古文 → 解説）
@@ -571,8 +598,19 @@ const SceneCommentaryBar = ({
       ? chapterTexts.desc
       : activeMode === "gendaibun"
         ? chapterTexts.gendaibun
-        : chapterTexts.kobun;
-  const hasBody = plainBody.length > 0;
+        : activeMode === "sou"
+          ? stripHtml(souData?.summary || "")
+          : chapterTexts.kobun;
+  const hasBody =
+    activeMode === "sou"
+      ? Boolean(
+          souData &&
+            (souData.prompt ||
+              (Array.isArray(souData.motifs) && souData.motifs.length > 0) ||
+              souData.motif ||
+              souData.summary)
+        )
+      : plainBody.length > 0;
   const splitAt =
     locale === "en" ? plainBody.search(/\.\s/) : plainBody.indexOf("。");
   const hasRest = hasBody && splitAt >= 0 && splitAt < plainBody.length - 1;
@@ -871,7 +909,237 @@ const SceneCommentaryBar = ({
                     activeMode === "kobun" ? styles.bodyTextClassical : ""
                   }`}
                 >
-                  {hasBody ? (
+                  {activeMode === "sou" && souData
+                    ? (() => {
+                        const activeMotif = getMotifDefinition(selectedMotifId);
+
+                        return (
+                          <>
+                            {souData.prompt && (
+                              <div
+                                style={{
+                                  fontSize: "0.875rem",
+                                  fontWeight: 600,
+                                  color: "var(--accent-color, #92400e)",
+                                  marginBottom: "0.6rem",
+                                  lineHeight: 1.5,
+                                }}
+                              >
+                                💡 {souData.prompt}
+                              </div>
+                            )}
+
+                            {Array.isArray(souData.motifs) &&
+                              souData.motifs.length > 0 && (
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexWrap: "wrap",
+                                    gap: "0.4rem",
+                                    marginBottom: "0.75rem",
+                                  }}
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  {souData.motifs.map((mId) => {
+                                    const def = getMotifDefinition(mId);
+                                    const label = def ? def.label : mId;
+                                    const isActive = selectedMotifId === mId;
+                                    return (
+                                      <span
+                                        key={mId}
+                                        role="button"
+                                        tabIndex={0}
+                                        onClick={() => setSelectedMotifId(mId)}
+                                        onKeyDown={(e) => {
+                                          if (
+                                            e.key === "Enter" ||
+                                            e.key === " "
+                                          ) {
+                                            e.preventDefault();
+                                            setSelectedMotifId(mId);
+                                          }
+                                        }}
+                                        style={{
+                                          fontSize: "0.75rem",
+                                          padding: "3px 8px",
+                                          borderRadius: "9999px",
+                                          border: "1px solid",
+                                          borderColor: isActive
+                                            ? "#b45309"
+                                            : "rgba(0,0,0,0.15)",
+                                          backgroundColor: isActive
+                                            ? "#fef3c7"
+                                            : "rgba(255,255,255,0.7)",
+                                          color: isActive
+                                            ? "#92400e"
+                                            : "inherit",
+                                          fontWeight: isActive ? 600 : 400,
+                                          cursor: "pointer",
+                                          userSelect: "none",
+                                          display: "inline-block",
+                                          transition: "all 0.15s ease",
+                                        }}
+                                      >
+                                        #{label}
+                                      </span>
+                                    );
+                                  })}
+                                </div>
+                              )}
+
+                            {activeMotif && (
+                              <div
+                                style={{
+                                  padding: "0.6rem 0.75rem",
+                                  backgroundColor: "rgba(0,0,0,0.03)",
+                                  borderRadius: "6px",
+                                  fontSize: "0.825rem",
+                                }}
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <p
+                                  style={{
+                                    margin: "0 0 0.5rem 0",
+                                    lineHeight: 1.5,
+                                    opacity: 0.9,
+                                  }}
+                                >
+                                  {activeMotif.description}
+                                </p>
+
+                                {relatedScenes.length > 0 && (
+                                  <div
+                                    style={{
+                                      marginBottom: "0.5rem",
+                                      borderTop:
+                                        "1px dashed rgba(0,0,0,0.1)",
+                                      paddingTop: "0.4rem",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        fontSize: "0.75rem",
+                                        color: "#6b7280",
+                                        marginBottom: "0.25rem",
+                                      }}
+                                    >
+                                      🔗 同じモチーフが描かれたシーン:
+                                    </div>
+                                    <ul
+                                      style={{
+                                        listStyle: "none",
+                                        padding: 0,
+                                        margin: 0,
+                                      }}
+                                    >
+                                      {relatedScenes.map((sc, scIdx) => {
+                                        const isSameEmaki =
+                                          sc.titleen === titleen;
+                                        return (
+                                          <li
+                                            key={scIdx}
+                                            style={{ marginBottom: "0.25rem" }}
+                                          >
+                                            {isSameEmaki ? (
+                                              <span
+                                                role="button"
+                                                tabIndex={0}
+                                                onClick={(e) => {
+                                                  e.stopPropagation();
+                                                  const targetIdx =
+                                                    filterEkotobas.findIndex(
+                                                      (item) =>
+                                                        String(item.chapter) ===
+                                                        String(sc.chapter)
+                                                    );
+                                                  if (targetIdx !== -1) {
+                                                    handleNavigate(targetIdx);
+                                                  }
+                                                }}
+                                                style={{
+                                                  color: "#2563eb",
+                                                  textDecoration: "underline",
+                                                  fontSize: "0.8rem",
+                                                  cursor: "pointer",
+                                                  display: "inline-block",
+                                                }}
+                                              >
+                                                📜 {sc.title}
+                                                （この絵巻の別段へ移動）
+                                              </span>
+                                            ) : (
+                                              <Link
+                                                href={`/${sc.titleen}`}
+                                                passHref
+                                              >
+                                                <a
+                                                  onClick={(e) =>
+                                                    e.stopPropagation()
+                                                  }
+                                                  style={{
+                                                    color: "#2563eb",
+                                                    textDecoration: "underline",
+                                                    fontSize: "0.8rem",
+                                                  }}
+                                                >
+                                                  📜 {sc.title} →
+                                                </a>
+                                              </Link>
+                                            )}
+                                          </li>
+                                        );
+                                      })}
+                                    </ul>
+                                  </div>
+                                )}
+
+                                {activeMotif.amazonSearch && (
+                                  <div
+                                    style={{
+                                      borderTop:
+                                        "1px dashed rgba(0,0,0,0.1)",
+                                      paddingTop: "0.4rem",
+                                    }}
+                                  >
+                                    <a
+                                      href={resolveReferenceUrl(
+                                        activeMotif.amazonSearch
+                                      )}
+                                      target="_blank"
+                                      rel="noopener noreferrer sponsored"
+                                      style={{
+                                        display: "inline-block",
+                                        color: "#2563eb",
+                                        fontWeight: 500,
+                                        textDecoration: "underline",
+                                        fontSize: "0.8rem",
+                                      }}
+                                    >
+                                      🔍 {activeMotif.amazonSearch.title}
+                                      <span
+                                        aria-label="PR"
+                                        style={{
+                                          fontSize: "0.65rem",
+                                          color: "#b45309",
+                                          backgroundColor: "#fef3c7",
+                                          padding: "1px 4px",
+                                          borderRadius: "3px",
+                                          marginLeft: "6px",
+                                          verticalAlign: "middle",
+                                          display: "inline-block",
+                                        }}
+                                      >
+                                        [PR]
+                                      </span>
+                                    </a>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </>
+                        );
+                      })()
+                    : hasBody ? (
                     expanded &&
                     activeMode === "kobun" &&
                     chapterTexts.kobunHtml ? (

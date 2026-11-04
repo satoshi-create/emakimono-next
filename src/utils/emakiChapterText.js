@@ -89,6 +89,17 @@ export const connectEmakiTextData = (titleen, chapter, field) => {
     .join();
 };
 
+/**
+ * 章に紐づく構造化データ（オブジェクトや配列）を文字列結合せずにそのまま取得する
+ */
+export const getChapterCustomData = (titleen, chapter, field) => {
+  const chapterData = emakiTextDataMap[titleen];
+  if (!chapterData) return null;
+  const chapterStr = String(chapter);
+  const found = chapterData.find((item) => chapterStr === String(item.chapter));
+  return found ? found[field] || null : null;
+};
+
 export const hasTextData = (titleen) => Boolean(emakiTextDataMap[titleen]);
 
 /** タイトルまたは titleen から源氏絵かどうかを判定 */

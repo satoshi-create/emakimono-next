@@ -1,0 +1,42 @@
+{
+  "corpse_decay": {
+    "id": "corpse_decay",
+    "label": "人体の変容・腐敗",
+    "description": "肉体が形を崩していく過程を直視する視線。中世の解剖学的観察と病態記録。",
+    "amazonSearch": {
+      "type": "amazon",
+      "query": "中世 身体観",
+      "title": "「中世の身体観」関連書籍を探す"
+    }
+  },
+  "predatory_animals": {
+    "id": "predatory_animals",
+    "label": "鳥獣のリアルと生態",
+    "description": "死肉に群がるカラスや野犬などの動物描写。擬人化にとどまらない中世絵師の鋭い写実スケッチ。",
+    "amazonSearch": {
+      "type": "amazon",
+      "query": "鳥獣戯画 動物",
+      "title": "「絵巻の動物表現」関連書籍を探す"
+    }
+  },
+  "fujokan": {
+    "id": "fujokan",
+    "label": "死生観・不浄観",
+    "description": "煩悩を断ち無常を観想するための仏教儀礼・思想的背景。",
+    "amazonSearch": {
+      "type": "amazon",
+      "query": "九相図 山本聡美",
+      "title": "『九相図をよむ』など死生観書籍を探す"
+    }
+  },
+  "medieval_cemetery": {
+    "id": "medieval_cemetery",
+    "label": "中世の葬送・墓制",
+    "description": "風葬・野晒しや無縁の死者たち。共同体の境界と中世の空間認識。",
+    "amazonSearch": {
+      "type": "amazon",
+      "query": "中世 葬送",
+      "title": "「中世の葬送文化」関連書籍を探す"
+    }
+  }
+}

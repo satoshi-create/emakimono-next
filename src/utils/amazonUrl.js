@@ -29,5 +29,5 @@ export function resolveReferenceUrl(item) {
   // 3. 検索キーワード（query）または書籍タイトルから検索結果URLを生成（確実・安全）
   const searchKeyword = item.query || item.searchQuery || item.title || "";
   const cleanKeyword = searchKeyword.replace(/[『』「」]/g, "").trim();
-  return `https://www.amazon.co.jp/s?k=${encodeURIComponent(cleanKeyword)}&tag=${ASSOCIATE_TAG}`;
+  return `https://www.amazon.co.jp/s?k=${encodeURIComponent(cleanKeyword)}&i=stripbooks&tag=${ASSOCIATE_TAG}`;
 }

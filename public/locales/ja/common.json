@@ -73,6 +73,7 @@
       "desc": "解説",
       "gendaibun": "現代文",
       "kobun": "古文",
+      "sou": "想",
       "label": "本文の種類"
     },
     "horizontalScrollHint": "横スクロールで移動します",

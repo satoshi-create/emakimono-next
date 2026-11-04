@@ -12,6 +12,10 @@
     "title": "脹相",
     "titleen": "The Swelling Stage",
     "gendaibun": "死んだあと、身体がふくらみはじめました。みずみずしかった肌が、異様に張りつめていきます。",
+    "sou": {
+      "prompt": "なぜ中世の人々は、死体の膨張・腐敗をここまで生々しく描いたのか？",
+      "motifs": ["corpse_decay", "fujokan"]
+    },
     "desc": "生命が途絶えた後、身体は変容を始めます。内部にガスが溜まり、かつて親しんだ姿は不自然に膨らみます。「脹相（ちょうそう）」は、肉体の無常の第一歩を示し、生前抱いていた執着がやがて崩れ去ることを静かに告げています。",
     "descen": "After life departs, the vessel begins its transformation as gases accumulate within, causing the once-familiar form to distend unnaturally. This first stage of corporeal impermanence, 'Chōsō,' marks the beginning of the body's return to the elements—a stark reminder that what we cherish in life soon becomes unrecognizable."
   },
@@ -52,6 +56,10 @@
     "title": "噉相",
     "titleen": "The Dissolution and Decay",
     "gendaibun": "身体の崩壊が進み、肉が融け落ちていきます。生前の面影はなく、崩れゆく姿を静かに見つめる場面です。",
+    "sou": {
+      "prompt": "死肉に群がるカラスや野犬。なぜ中世絵師は動物の生態をこれほどリアルに描けたのか？",
+      "motifs": ["predatory_animals", "corpse_decay", "medieval_cemetery"]
+    },
     "desc": "腐敗が極限に達し、肉体は崩壊を深めていきます。「噉相（たんそう）」は、形あるものが崩れ、やがてすべてが失われていく無常の現実を静かに示しています。",
     "descen": "As decay reaches a critical phase, the flesh breaks down and loses coherence. This 'Tansō' stage reveals the uncompromising reality of impermanence, as the once-cherished physical form continues its irreversible dissolution."
   },
