@@ -21,6 +21,7 @@ import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
 import { isHyakkiClusterScroll } from "@/utils/buildHyakkiHubData";
 import { eraColor } from "@/utils/func";
+import { resolveReferenceUrl } from "@/utils/amazonUrl";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
 
@@ -131,19 +132,46 @@ const EmakiMetadataSection = ({
               {locale === "en" ? "References" : "参考文献"}
             </p>
             <ul>
-              {reference.map((item, i) => (
-                <li key={i}>
-                  <Link href={item.url ? item.url : "/"}>
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.sourceLink}
-                    >
-                      {item.title}
-                    </a>
-                  </Link>
-                </li>
-              ))}
+              {reference.map((item, i) => {
+                const isAmazon =
+                  item.type === "amazon" ||
+                  /amazon\.(co\.jp|com)/i.test(item.url ?? "");
+                return (
+                  <li key={i}>
+                    <Link href={resolveReferenceUrl(item) || "/"}>
+                      <a
+                        target="_blank"
+                        rel={
+                          isAmazon
+                            ? "noopener noreferrer sponsored"
+                            : "noopener noreferrer"
+                        }
+                        className={styles.sourceLink}
+                      >
+                        {item.title}
+                        {isAmazon && (
+                          <span
+                            className={styles.refPr}
+                            aria-label="PR"
+                            style={{
+                              fontSize: "0.75rem",
+                              color: "#b45309",
+                              backgroundColor: "#fef3c7",
+                              padding: "1px 4px",
+                              borderRadius: "3px",
+                              marginLeft: "6px",
+                              verticalAlign: "middle",
+                              display: "inline-block",
+                            }}
+                          >
+                            [PR]
+                          </span>
+                        )}
+                      </a>
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </>
         )}

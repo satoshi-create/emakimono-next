@@ -5,6 +5,7 @@ import EmakiBreadcrumbs from "@/components/emaki/navigation/EmakiBreadcrumbs";
 import ClassicalFontLink from "@/components/meta/ClassicalFontLink";
 import Head from "@/components/meta/Meta";
 import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
+import referencesData from "@/data/references.json";
 import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
 import { OGP_IMAGE_FALLBACKS } from "@/libs/constants/emakiOgImages";
 import { AppContext } from "@/context/AppContext";
@@ -362,16 +363,21 @@ export const getStaticProps = async (context) => {
 
   const metaFromList = tEmakisData.find((item) => item.titleen === slug);
 
+  const currentData = metaFromList
+    ? {
+        ...addObjEmakis,
+        ...metaFromList,
+        emakis: addObjEmakis.emakis,
+      }
+    : addObjEmakis;
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
-      data: metaFromList
-        ? {
-            ...addObjEmakis,
-            ...metaFromList,
-            emakis: addObjEmakis.emakis,
-          }
-        : addObjEmakis,
+      data: {
+        ...currentData,
+        reference: referencesData[slug] || currentData.reference || [],
+      },
       locales,
       locale,
       slug: slug,
