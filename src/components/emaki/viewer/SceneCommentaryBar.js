@@ -61,7 +61,7 @@ const EmakiEraTimeline = dynamic(
   { ssr: false }
 );
 
-const TEXT_MODES = ["gendaibun", "kobun", "desc", "sou"];
+const TEXT_MODES = ["gendaibun", "kobun", "desc", "tansaku"];
 
 const stripHtml = (html) =>
   (html || "")
@@ -488,10 +488,17 @@ const SceneCommentaryBar = ({
     };
   }, [current, locale, titleen, title]);
 
-  const souData = useMemo(() => {
+  const tansakuData = useMemo(() => {
     if (!current) return null;
-    return getChapterCustomData(titleen, current.chapter, "sou");
+    return (
+      getChapterCustomData(titleen, current.chapter, "tansaku") ||
+      getChapterCustomData(titleen, current.chapter, "sou") ||
+      current.tansaku ||
+      current.sou ||
+      null
+    );
   }, [current, titleen]);
+  const souData = tansakuData; // 内部互換エイリアス
 
   // 章が切り替わった際に先頭モチーフを選択
   useEffect(() => {
@@ -515,14 +522,14 @@ const SceneCommentaryBar = ({
     () =>
       TEXT_MODES.filter((mode) => {
         if (mode === "desc") return chapterTexts.desc.length > 0;
-        if (mode === "sou") return Boolean(souData);
+        if (mode === "tansaku") return Boolean(tansakuData);
         if (mode === "gendaibun")
           return (
             chapterTexts.kobun.length > 0 && chapterTexts.gendaibun.length > 0
           );
         return chapterTexts.kobun.length > 0;
       }),
-    [chapterTexts, souData]
+    [chapterTexts, tansakuData]
   );
 
   // 現モードが欠落したら availableModes 先頭へ（現代文 → 古文 → 解説）
@@ -535,7 +542,7 @@ const SceneCommentaryBar = ({
 
   if (!current) return null;
 
-  const shareTitle =
+  const baseShareTitle =
     locale === "en"
       ? emakiDisplayTitle(data, locale)
       : `${title ?? ""}`.trim();
@@ -601,17 +608,17 @@ const SceneCommentaryBar = ({
       ? chapterTexts.desc
       : activeMode === "gendaibun"
         ? chapterTexts.gendaibun
-        : activeMode === "sou"
-          ? stripHtml(souData?.summary || "")
+        : activeMode === "tansaku" || activeMode === "sou"
+          ? stripHtml(tansakuData?.summary || "")
           : chapterTexts.kobun;
   const hasBody =
-    activeMode === "sou"
+    activeMode === "tansaku" || activeMode === "sou"
       ? Boolean(
-        souData &&
-        (souData.prompt ||
-          (Array.isArray(souData.motifs) && souData.motifs.length > 0) ||
-          souData.motif ||
-          souData.summary)
+        tansakuData &&
+        (tansakuData.prompt ||
+          (Array.isArray(tansakuData.motifs) && tansakuData.motifs.length > 0) ||
+          tansakuData.motif ||
+          tansakuData.summary)
       )
       : plainBody.length > 0;
   const splitAt =
@@ -791,13 +798,44 @@ const SceneCommentaryBar = ({
                 index={current.linkId}
                 variant="bar"
               />
-              <ShareButtons
-                variant="share"
-                navIndex={navIndex}
-                emakiId={titleen}
-                openPolaroidModal={openPolaroidModal}
-                shareTitle={shareTitle}
-              />
+              {(() => {
+                let currentShareTitle = baseShareTitle;
+
+                if ((activeMode === "tansaku" || activeMode === "sou") && tansakuData) {
+                  const activeMotif = getMotifDefinition(selectedMotifId);
+                  let prompt = null;
+
+                  if (souData?.prompts && selectedMotifId && souData.prompts[selectedMotifId]) {
+                    prompt = String(souData.prompts[selectedMotifId]).replace(/[\s\.…・]+$/, "");
+                  } else if (activeMotif?.prompt) {
+                    // カルーセルで現在選択中のモチーフの共通問いかけ文を優先
+                    prompt = String(activeMotif.prompt).replace(/[\s\.…・]+$/, "");
+                  } else if (souData?.prompt) {
+                    prompt = String(souData.prompt).replace(/[\s\.…・]+$/, "");
+                  } else if (activeMotif?.label) {
+                    prompt = `「${activeMotif.label}」の描写から読み解く、絵師の意図とは？`;
+                  }
+
+                  const tag = activeMotif?.label ? `#${activeMotif.label}` : "";
+                  const sceneName = current?.title ? `【${current.title}】` : "";
+
+                  if (prompt) {
+                    currentShareTitle = `💡 ${prompt}${tag ? ` ── ${tag}` : ""}\n${sceneName} ${baseShareTitle}`.trim();
+                  } else if (tag) {
+                    currentShareTitle = `${tag}\n${sceneName} ${baseShareTitle}`.trim();
+                  }
+                }
+
+                return (
+                  <ShareButtons
+                    variant="share"
+                    navIndex={navIndex}
+                    emakiId={titleen}
+                    openPolaroidModal={openPolaroidModal}
+                    shareTitle={currentShareTitle}
+                  />
+                );
+              })()}
             </div>
           </div>
           {viewMode === "index" ? (
@@ -857,7 +895,7 @@ const SceneCommentaryBar = ({
                         }`}
                       onClick={() => handleTextMode(mode)}
                     >
-                      {mode === "sou"
+                      {mode === "tansaku" || mode === "sou"
                         ? (locale === "en" ? "Explore" : "探索")
                         : t(`viewer.textMode.${mode}`)}
                     </button>
@@ -880,7 +918,7 @@ const SceneCommentaryBar = ({
                   className={`${styles.bodyText} ${activeMode === "kobun" ? styles.bodyTextClassical : ""
                     }`}
                 >
-                  {activeMode === "sou" && souData
+                  {(activeMode === "tansaku" || activeMode === "sou") && tansakuData
                     ? (() => {
                       const activeMotif = getMotifDefinition(selectedMotifId);
 

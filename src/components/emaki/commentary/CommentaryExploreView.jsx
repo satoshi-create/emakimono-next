@@ -53,15 +53,19 @@ const CommentaryExploreView = ({
 
   // 選択中モチーフに応じた動的な問いかけ文を解決
   const activePrompt = React.useMemo(() => {
+    // 1. チャプター側のモチーフ個別指定（個別オーバーライド）
     if (souData?.prompts && selectedMotifId && souData.prompts[selectedMotifId]) {
       return String(souData.prompts[selectedMotifId]).replace(/[\s\.…・]+$/, "");
     }
+    // 2. カルーセルで現在選択されているモチーフの共通問いかけ文（スライド連動）
     if (activeMotif?.prompt) {
       return String(activeMotif.prompt).replace(/[\s\.…・]+$/, "");
     }
+    // 3. 段固有の全体 prompt（モチーフ prompt が無い場合のフォールバック）
     if (souData?.prompt) {
       return String(souData.prompt).replace(/[\s\.…・]+$/, "");
     }
+    // 4. モチーフ名からの自動生成フォールバック
     if (currentMotif?.nameJa) {
       return `「${currentMotif.nameJa}」の描写から読み解く、絵師の意図とは？`;
     }

@@ -47,6 +47,7 @@ const ShareButtons = ({
   const { locale, locales, asPath, defaultLocale } = useRouter();
   const { t } = useTranslation("common");
   const [isCopied, setIsCopied] = useState(false);
+  const [isTextLinkCopied, setIsTextLinkCopied] = useState(false);
   const [canNativeShare, setCanNativeShare] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [menuPos, setMenuPos] = useState(null);
@@ -138,10 +139,27 @@ const ShareButtons = ({
     setIsMenuOpen(false);
   };
 
+  const handleCopyTextAndUrl = async () => {
+    try {
+      const shareContent = shareTitle
+        ? `${shareTitle}\n${shareUrl}`
+        : shareUrl;
+      await navigator.clipboard.writeText(shareContent);
+      setIsTextLinkCopied(true);
+      setTimeout(() => {
+        setIsTextLinkCopied(false);
+        setIsMenuOpen(false);
+      }, 1500);
+    } catch (err) {
+      console.error("Clipboard copy error:", err);
+    }
+  };
+
   const handleNativeShare = async () => {
     try {
       await navigator.share({
         title: shareTitle || t("header.siteTitle"),
+        text: shareTitle || t("header.siteTitle"),
         url: shareUrl,
       });
       trackShare({ platform: "native", emakiId, sceneIndex: navIndex });
@@ -238,6 +256,39 @@ const ShareButtons = ({
                   <span>{t("share.native")}</span>
                 </button>
               )}
+              <button
+                type="button"
+                onClick={handleCopyTextAndUrl}
+                role="menuitem"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  width: "100%",
+                  padding: "0.5rem 0.75rem",
+                  fontSize: "0.75rem",
+                  color: isTextLinkCopied ? "#15803d" : "#374151",
+                  backgroundColor: isTextLinkCopied
+                    ? "rgba(34, 197, 94, 0.08)"
+                    : "transparent",
+                  border: "none",
+                  borderRadius: "0.25rem",
+                  cursor: "pointer",
+                  textAlign: "left",
+                  transition: "background-color 0.15s ease",
+                }}
+              >
+                <span>{isTextLinkCopied ? "✓" : "📋"}</span>
+                <span>
+                  {isTextLinkCopied
+                    ? locale === "en"
+                      ? "Copied!"
+                      : "コピーしました！"
+                    : locale === "en"
+                      ? "Copy text & link"
+                      : "文面とリンクをコピー"}
+                </span>
+              </button>
               {!canNativeShare && (
                 <button
                   type="button"

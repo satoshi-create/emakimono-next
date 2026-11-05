@@ -5,6 +5,10 @@
     "titleen": "Go: The Ancient Game of Strategic Encirclement",
     "gendaibun": "人々が囲碁の盤を挟んで対局しています。石を打つ手つきや、盤をじっと見つめる様子が真剣そのものです。",
     "kobun": "",
+    "tansaku": {
+      "prompt": "盤上を見つめ静かに石を打つ人々。貴族の教養とされた囲碁の駆け引きを、絵師はどう描き出したのか？",
+      "motifs": ["contests_and_games"]
+    },
     "desc": "囲碁は中国で発達した盤上遊戯で、日本には奈良時代以前に伝わったとされます。貴族の間では教養の一つとして重んじられ、宮中にも碁の名手がいました。対局する人々の姿は、静かな勝負の駆け引きをユーモラスに描き出しています。",
     "descen": "Go developed in China and reached Japan before the Nara period, where it was prized among aristocrats as a mark of cultivation, with famous players at court. The players' concentrated play renders the quiet tension of the game with gentle humor."
   },
@@ -14,6 +18,10 @@
     "titleen": "Sugoroku: The Path of Fortune and Fate",
     "gendaibun": "人々が双六（すごろく）の盤を囲んでいます。さいころの目に一喜一憂する姿が、にぎやかに描かれています。",
     "kobun": "",
+    "tansaku": {
+      "prompt": "賽の目に一喜一憂する人々。運と駆け引きが交錯する大衆娯楽の熱気と滑稽味とは？",
+      "motifs": ["contests_and_games", "satire_and_parody"]
+    },
     "desc": "双六はさいころの目で駒を進める遊戯で、運を左右に振り分ける面白さから広く親しまれました。宮廷では賭け事としても行われ、時に興行や儀礼にも結びつきました。運命という概念を遊びにした双六は、絵巻の時代から続く大衆娯楽の代表といえます。",
     "descen": "Sugoroku is a dice game in which pieces advance by the roll of the die, beloved for the thrill of chance. At court it was also played as gambling and was occasionally tied to performances and ceremonies. A game that turns fate into play, sugoroku was a leading pastime from the scroll's era onward."
   },
@@ -23,6 +31,10 @@
     "titleen": "Shogi: The General's Board of Tactical Warfare",
     "gendaibun": "将棋盤をはさんで、人々が戦略を練っています。駒を進めるたびに、勝負はますます緊迫していきます。",
     "kobun": "",
+    "tansaku": {
+      "prompt": "軍略の訓練に由来する将棋の盤上戦。相手の王を狙う緊迫した攻防に、当時の人々はどう熱中したのか？",
+      "motifs": ["contests_and_games"]
+    },
     "desc": "将棋は駒を動かして相手の王を取る盤上遊戯で、もともとは軍略の訓練に由来するとされます。平安時代にはすでに貴族の間で行われていたことが、この絵巻の存在からもうかがえます。盤上の攻防に夢中になる人々の様子は、勝負の熱中ぶりをそのまま伝えています。",
     "descen": "Shogi, a board game in which pieces are moved to capture the opponent's king, is thought to derive from military strategy training. This scroll shows that it was already played among aristocrats in the Heian period. The players absorbed in the game display the intensity of the contest vividly."
   },
@@ -32,6 +44,10 @@
     "titleen": "The Ear-Pulling Contest of Strength",
     "gendaibun": "向かい合った人々が、互いの耳を引っ張って力比べをしています。痛そうな表情と真剣な顔が笑いを誘います。",
     "kobun": "",
+    "tansaku": {
+      "prompt": "互いの耳を引っ張り合う素朴な競技。痛みに耐える苦悶の表情から伝わる庶民のエネルギーとは？",
+      "motifs": ["contests_and_games", "annual_events_rites"]
+    },
     "desc": "耳引きは二人が向かい合い、相手の耳を引いて体を動かした方の勝ちとする競技です。平安時代の宮廷や寺社の祭りで行われた庶民的な力比べで、文献に記録が残っています。苦悶の表情に、当時の遊びの素朴な活気が込められています。",
     "descen": "In the ear-pulling contest, two opponents pull each other's ears until one is forced to move. This folk test of strength was held at court and temple festivals in the Heian period and is recorded in contemporary documents. The pained expressions carry the plain vitality of the era's pastimes."
   },
@@ -41,6 +57,10 @@
     "titleen": "The Neck-Pulling Trial of Endurance",
     "gendaibun": "人々が首を引っ張り合い、踏ん張り合っています。どちらが先に音を上げるか、見ているこちらも力が入ります。",
     "kobun": "",
+    "tansaku": {
+      "prompt": "踏ん張り合う体勢と根気の勝負。祭りの余興として親しまれた力比べの笑いと緊張感とは？",
+      "motifs": ["contests_and_games", "annual_events_rites"]
+    },
     "desc": "首引きは腕や首の力で相手を引きずる競技で、祭りの余興として行われました。勝負の行方には筋肉の強さだけでなく、体勢や根気も大きく影響します。絵巻は、ひたすら踏ん張る姿を描くことで、単純な競技の笑いと緊張を巧みに表現しています。",
     "descen": "Neck-pulling is a contest of pulling the opponent by strength of arms and neck, performed as festival entertainment. Victory depends not only on muscle but also on stance and endurance. The scroll captures both the comedy and tension of two people straining against each other."
   },
@@ -50,6 +70,10 @@
     "titleen": "The Spiritual Contest of Unwavering Gazes",
     "gendaibun": "人々がじっと目を見つめ合っています。わずかな動きも許されない、精神の勝負です。",
     "kobun": "",
+    "tansaku": {
+      "prompt": "瞬きも許されない睨めっこ。静寂の中に張り詰める我慢比べの表情を、墨線はどう捉えたのか？",
+      "motifs": ["contests_and_games"]
+    },
     "desc": "目比べ（めくらべ）は先に笑ったり目をそらしたりした方が負けという、精神力を試す遊びです。一見静かな遊びながら、我慢の限界を探る緊張感があります。じっと見つめ合う姿の描写は、表情豊かな人物たちの画力を最もストレートに示しています。",
     "descen": "The staring contest, where the first to laugh or look away loses, tests mental endurance. Though outwardly still, it carries the tension of probing the limit of one's patience. The unbroken gaze is a direct showcase of the scroll's expressive character drawing."
   },
@@ -59,6 +83,10 @@
     "titleen": "The Hip-Pulling Test of Fortitude",
     "gendaibun": "相手の腰帯をつかんで引く、腰引きの勝負が繰り広げられています。重心を低くして踏ん張る姿が力強いです。",
     "kobun": "",
+    "tansaku": {
+      "prompt": "相手の帯をつかみ重心を低く落とす腰引き。相撲にも通じる純粋な身体勝負に込められた娯楽性とは？",
+      "motifs": ["contests_and_games", "annual_events_rites"]
+    },
     "desc": "腰引きは相手の帯や腰の部分をつかんで引っ張り、体勢を崩した方が負けとなる競技です。相撲のような立ち合いと、純粋な力の勝負が組み合わさっています。この絵巻にはこうした力比べの遊びが多く描かれており、当時の民衆の娯楽の広がりをうかがわせます。",
     "descen": "In the hip-pulling contest, opponents grasp each other's belts and pull until one loses balance. It combines the clash of sumo with a pure test of strength. This volume depicts many such contests, revealing the breadth of popular entertainment at the time."
   },
@@ -68,6 +96,10 @@
     "titleen": "The Ceremonial Battle of Roosters",
     "gendaibun": "二羽の雄鶏が、勢いよく飛びかかって戦っています。まわりでは観客の動物たちが声援を送っています。",
     "kobun": "",
+    "tansaku": {
+      "prompt": "飛びかかり爪を交わす二羽の雄鶏。神前儀礼から貴族の熱狂へと広がった闘鶏の躍動美とは？",
+      "motifs": ["contests_and_games", "annual_events_rites"]
+    },
     "desc": "闘鶏は、二羽の雄鶏を戦わせる行事で、宮中や神社の祭礼で行われました。戦いに備えて鶏を育てる人も現れ、その熱狂は貴族にも広がりました。この段は、鶏同士の躍動感と、それを見守る観客たちの熱気をいきいきと描いています。",
     "descen": "Cockfighting, in which two roosters are pitted against each other, was held at court and shrine festivals. Dedicated breeders emerged, and the craze spread even to aristocrats. This scene vividly captures the roosters' dynamism and the excitement of the crowd around them."
   },
@@ -77,6 +109,10 @@
     "titleen": "The Ritual Combat of Hounds",
     "gendaibun": "犬同士が立ち向かい合い、噛み合う場面が描かれています。周囲では人々が興味深そうに見守っています。",
     "kobun": "",
+    "tansaku": {
+      "prompt": "噛み合い力比べをする犬たち。豊作祈願や神事の余興として祝われた動物の闘争心とは？",
+      "motifs": ["domestic_animals", "annual_events_rites"]
+    },
     "desc": "闘犬も祭礼の余興として行われ、地方によっては豊作祈願などの意味を帯びました。犬はもともと狩猟に使われていましたが、その闘争心を娯楽に転用したものです。絵巻に描かれた闘犬は、動物の力を祭りの中で祝う当時の風習を伝えています。",
     "descen": "Dog fighting was also performed as festival entertainment and sometimes carried wishes for good harvests. Dogs, originally used for hunting, had their fighting spirit turned to amusement. The scene records a custom in which animal strength was celebrated within festivals."
   },
@@ -86,6 +122,10 @@
     "titleen": "The Monkeys' Grand Equestrian Tournament",
     "gendaibun": "猿たちが馬にまたがり、草原を駆け抜けています。風を切って走る姿に、競馬の興奮が伝わってきます。",
     "kobun": "",
+    "tansaku": {
+      "prompt": "馬を駆る猿たちの競馬。宮廷の厳粛な行事を動物に見立てて笑いへと転換した絵師の意図とは？",
+      "motifs": ["anthropomorphic_animals", "annual_events_rites"]
+    },
     "desc": "競馬（くらべうま）は宮廷の行事で、貴族たちが馬の速さを競う見せ場でした。この段では、それを猿たちが行うという見立てで、真剣な競技が喜劇に変わっています。走る馬の姿勢や毛流れの表現には、画家の観察力が発揮されています。",
     "descen": "Horse racing was a court event in which nobles competed for speed, a highlight of the calendar. Here the monkeys stage their own version, turning a serious competition into comedy. The galloping postures and flowing manes display the artist's powers of observation."
   },
@@ -95,6 +135,10 @@
     "titleen": "The Sacred Musicians of the Festival Procession",
     "gendaibun": "山車の上で、動物たちが笛や太鼓の祭囃子（まつりばやし）を奏でています。祝祭のにぎわいが音まで聞こえてきそうです。",
     "kobun": "",
+    "tansaku": {
+      "prompt": "笛や太鼓を打ち鳴らし山車を進める動物たち。神と人とが共に祝う祭礼芸能の原風景とは？",
+      "motifs": ["annual_events_rites", "anthropomorphic_animals"]
+    },
     "desc": "祭囃子は神事や祭礼で奏でられる音楽で、笛・太鼓・鉦（かね）などで構成されます。山車に乗って街を巡る形態は、後の祭礼文化へとつながります。動物たちの奏楽の姿は、神と人とが共に祝う祭りの原風景を思わせます。",
     "descen": "Festival music, played on flutes, drums, and gongs, accompanied Shinto rites and festivals. Floats carrying musicians through the streets connect directly to later festival culture. The animals' performance evokes the primal image of gods and people celebrating together."
   },
@@ -104,6 +148,10 @@
     "titleen": "The Noble Kemari Match Between Monkey and Frog",
     "gendaibun": "猿と蛙が、足で鞠を高く蹴り上げています。優雅な蹴鞠（けまり）の技を、気品を保って演じています。",
     "kobun": "",
+    "tansaku": {
+      "prompt": "鞠を落とさず優雅に蹴り上げる猿と蛙。勝敗を超えた貴族の美意識を動物が演じるパロディとは？",
+      "motifs": ["contests_and_games", "satire_and_parody"]
+    },
     "desc": "蹴鞠は貴族の間で行われた遊戯で、革の鞠を足で蹴って落とさないよう回し合うものです。勝ち負けよりも、いかに美しく鞠を続けられるかが重視されました。動物たちがその優雅な作法をまねる姿は、貴族文化への憧れをユーモラスに描き出しています。",
     "descen": "Kemari was a pastime of the nobility in which players keep a leather ball aloft with their feet. Grace mattered more than winning. The animals mimicking the elegant etiquette of the game humorously reflect the allure of aristocratic culture."
   },
@@ -113,6 +161,10 @@
     "titleen": "The Mystical Duel of Spiritual Powers Between Monkey and Frog",
     "gendaibun": "猿と蛙が、術を競う験（げん）くらべに臨んでいます。不思議な技を繰り出す姿は、神話の世界を思わせます。",
     "kobun": "",
+    "tansaku": {
+      "prompt": "超常の術や験力を競い合う猿と蛙。寺社説話の神聖な奇跡をユーモアへと変える視線とは？",
+      "motifs": ["satire_and_parody", "fujokan"]
+    },
     "desc": "験くらべは、呪術や超常の力の優劣を競うことで、寺社の説話や物語によく登場します。この段では、その神秘的な勝負を動物たちが演じることで、神話と滑稽が交錯しています。絵巻の全体を通じて、こうした「神聖なものを笑いに変える」視線が一貫しています。",
     "descen": "A contest of mystical powers, trials of supernatural ability appear frequently in temple legends and tales. Here the animals perform such a mysterious duel, weaving myth together with comedy. Throughout the scroll, this gaze that turns the sacred into laughter remains consistent."
   },
@@ -122,6 +174,10 @@
     "titleen": "The Auspicious Manifestation of the Serpent",
     "gendaibun": "長い体をくねらせた蛇が現れています。その出現に、まわりの動物たちが驚きと期待の表情を見せています。",
     "kobun": "",
+    "tansaku": {
+      "prompt": "脱皮を重ね不死や再生を象徴する蛇の出現。祝祭の場に現れた水神・豊穣の吉兆とは？",
+      "motifs": ["mythical_beasts", "fujokan"]
+    },
     "desc": "蛇は脱皮を繰り返して生まれ変わることから、再生や不死の象徴とされてきました。また水の神や豊穣の神として祀られることも多く、その出現は吉兆として語られることがありました。この段で蛇が登場することで、前段までの祝祭の物語に神話的な深みが加わります。",
     "descen": "Because it sheds its skin and is reborn, the serpent has long symbolized renewal and immortality. It was also worshipped as a deity of water and fertility, and its appearance was often narrated as an auspicious omen. The serpent's arrival here lends a mythic depth to the festive narrative that precedes it."
   }
