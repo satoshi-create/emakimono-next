@@ -805,15 +805,28 @@ const SceneCommentaryBar = ({
                   const activeMotif = getMotifDefinition(selectedMotifId);
                   let prompt = null;
 
-                  if (souData?.prompts && selectedMotifId && souData.prompts[selectedMotifId]) {
+                  const isEn = router.locale === "en";
+                  if (isEn && souData?.promptsEn && selectedMotifId && souData.promptsEn[selectedMotifId]) {
+                    prompt = String(souData.promptsEn[selectedMotifId]).replace(/[\s\.…・]+$/, "");
+                  } else if (!isEn && souData?.prompts && selectedMotifId && souData.prompts[selectedMotifId]) {
                     prompt = String(souData.prompts[selectedMotifId]).replace(/[\s\.…・]+$/, "");
-                  } else if (activeMotif?.prompt) {
-                    // カルーセルで現在選択中のモチーフの共通問いかけ文を優先
-                    prompt = String(activeMotif.prompt).replace(/[\s\.…・]+$/, "");
-                  } else if (souData?.prompt) {
-                    prompt = String(souData.prompt).replace(/[\s\.…・]+$/, "");
-                  } else if (activeMotif?.label) {
-                    prompt = `「${activeMotif.label}」の描写から読み解く、絵師の意図とは？`;
+                  } else if (activeMotif) {
+                    const motifPrompt = isEn ? (activeMotif.promptEn || activeMotif.prompt) : activeMotif.prompt;
+                    if (motifPrompt) {
+                      prompt = String(motifPrompt).replace(/[\s\.…・]+$/, "");
+                    }
+                  } else if (souData) {
+                    const scenePrompt = isEn ? (souData.promptEn || souData.prompt) : souData.prompt;
+                    if (scenePrompt) {
+                      prompt = String(scenePrompt).replace(/[\s\.…・]+$/, "");
+                    }
+                  } else if (activeMotif) {
+                    const label = isEn ? (activeMotif.labelEn || activeMotif.label) : activeMotif.label;
+                    if (label) {
+                      prompt = isEn
+                        ? `What was the artist's intent behind the depiction of "${label}"?`
+                        : `「${label}」の描写から読み解く、絵師の意図とは？`;
+                    }
                   }
 
                   const tag = activeMotif?.label ? `#${activeMotif.label}` : "";

@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/router";
 import { getMotifDefinition } from "@/utils/motifNetwork";
 import { resolveReferenceUrl } from "@/utils/amazonUrl";
 
@@ -9,6 +10,8 @@ const CommentaryExploreView = ({
   onSelectMotif,
 }) => {
   const [fadeOpacity, setFadeOpacity] = React.useState(1);
+  const router = useRouter();
+  const isEn = router.locale === "en";
 
   if (!souData) return null;
 
@@ -19,6 +22,7 @@ const CommentaryExploreView = ({
       return {
         id: mId,
         nameJa: def ? def.label : mId,
+        nameEn: def ? (def.labelEn || def.label) : mId,
       };
     });
   }, [souData.motifs]);
@@ -53,24 +57,41 @@ const CommentaryExploreView = ({
 
   // 選択中モチーフに応じた動的な問いかけ文を解決
   const activePrompt = React.useMemo(() => {
-    // 1. チャプター側のモチーフ個別指定（個別オーバーライド）
-    if (souData?.prompts && selectedMotifId && souData.prompts[selectedMotifId]) {
+    // 1. 章側のモチーフ別 prompt（英語時は promptsEn を優先、無ければ motifs.json へ流す）
+    if (isEn && souData?.promptsEn && selectedMotifId && souData.promptsEn[selectedMotifId]) {
+      return String(souData.promptsEn[selectedMotifId]).replace(/[\s\.…・]+$/, "");
+    }
+    if (!isEn && souData?.prompts && selectedMotifId && souData.prompts[selectedMotifId]) {
       return String(souData.prompts[selectedMotifId]).replace(/[\s\.…・]+$/, "");
     }
-    // 2. カルーセルで現在選択されているモチーフの共通問いかけ文（スライド連動）
-    if (activeMotif?.prompt) {
-      return String(activeMotif.prompt).replace(/[\s\.…・]+$/, "");
+
+    // 2. motifs.json の共通 prompt（英語時は promptEn、日本語時は prompt）
+    if (activeMotif) {
+      const motifPrompt = isEn ? (activeMotif.promptEn || activeMotif.prompt) : activeMotif.prompt;
+      if (motifPrompt) {
+        return String(motifPrompt).replace(/[\s\.…・]+$/, "");
+      }
     }
-    // 3. 段固有の全体 prompt（モチーフ prompt が無い場合のフォールバック）
-    if (souData?.prompt) {
-      return String(souData.prompt).replace(/[\s\.…・]+$/, "");
+
+    // 3. 章全体の共通 prompt（英語時は promptEn、日本語時は prompt）
+    if (souData) {
+      const scenePrompt = isEn ? souData.promptEn : souData.prompt;
+      if (scenePrompt) {
+        return String(scenePrompt).replace(/[\s\.…・]+$/, "");
+      }
     }
+
     // 4. モチーフ名からの自動生成フォールバック
-    if (currentMotif?.nameJa) {
-      return `「${currentMotif.nameJa}」の描写から読み解く、絵師の意図とは？`;
+    if (activeMotif) {
+      const label = isEn ? (activeMotif.labelEn || activeMotif.label) : activeMotif.label;
+      if (label) {
+        return isEn
+          ? `What was the artist's intent behind the depiction of "${label}"?`
+          : `「${label}」の描写から読み解く、絵師の意図とは？`;
+      }
     }
     return null;
-  }, [souData, selectedMotifId, activeMotif, currentMotif]);
+  }, [souData, selectedMotifId, activeMotif, isEn]);
 
   const handleSelectIndex = (idx) => {
     if (idx === currentIndex || !availableMotifs[idx]) return;
@@ -142,7 +163,12 @@ const CommentaryExploreView = ({
                   opacity: 0.9,
                 }}
               >
-                <span>── #{currentMotif.nameJa}</span>
+                <span>
+                  ── #
+                  {isEn
+                    ? (activeMotif?.labelEn || currentMotif?.nameEn || activeMotif?.label || currentMotif?.nameJa)
+                    : (activeMotif?.label || currentMotif?.nameJa)}
+                </span>
                 {availableMotifs.length > 1 && (
                   <span style={{ fontSize: "0.5625rem", opacity: 0.8 }}></span>
                 )}
@@ -185,7 +211,9 @@ const CommentaryExploreView = ({
                   color: "#2563eb",
                 }}
               >
-                {activeMotif.amazonSearch.title}
+                {isEn
+                  ? activeMotif.amazonSearch.titleEn || activeMotif.amazonSearch.title
+                  : activeMotif.amazonSearch.title}
               </span>
               <span
                 style={{
@@ -235,7 +263,7 @@ const CommentaryExploreView = ({
                     handleSelectIndex(idx);
                   }
                 }}
-                title={motif.nameJa}
+                title={isEn ? (motif.nameEn || motif.nameJa) : motif.nameJa}
                 style={{
                   cursor: "pointer",
                   width: isActive ? "14px" : "5px",
