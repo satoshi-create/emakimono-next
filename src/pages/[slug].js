@@ -57,7 +57,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
     // ?scene / ?ebiki ディープリンクも先頭リセットしない（#1 フォールバック防止）
     window.scrollTo({ top: 0, behavior: "instant" });
     const params = new URLSearchParams(window.location.search || "");
-    if (params.has("ebiki") || params.has("scene")) return;
+    if (params.has("ebiki") || params.has("scene") || params.has("chapter")) return;
     const hashScene = Number(
       String(window.location.hash || "").replace("#", "")
     );
@@ -67,52 +67,14 @@ const Emaki = ({ data, locale, locales, slug }) => {
     }
   }, [slug, setnavIndex, setHash]);
 
-  // 逆引きクエリ:
-  // - ?ebiki={item_id}: link_id 明示を最優先（なければ scene_id 推定）。
-  //   粗い setnavIndex の後、SceneCommentaryBar が offset 付き handleToId。
-  // - ?scene={sceneId}: 段先頭（絵画優先）へ合わせる。
+  // ebiki / scene / chapter の初期位置解決は EmakiConteiner 側のマウント時 handleToId に集約。
+  // クエリが存在する場合は EmakiConteiner 側の着地処理に委ね、ここでの setnavIndex 競合を防ぐ。
   useEffect(() => {
-    if (!data?.emakis) return;
-
-    const ebikiParam = router.query?.ebiki;
-    if (ebikiParam) {
-      const id = String(
-        Array.isArray(ebikiParam) ? ebikiParam[0] : ebikiParam
-      ).trim();
-      if (!id) return;
-      const found = getFolkloreItemById(id);
-      if (!found) return;
-      const targetLinkId =
-        typeof found.link_id === "number"
-          ? found.link_id
-          : resolveLinkIdByChapter(data.emakis, found.scene_id, {
-              preferImage: true,
-            });
-      if (typeof targetLinkId === "number") {
-        setnavIndex(targetLinkId);
-      }
+    const targetChapter = router.query?.scene ?? router.query?.chapter;
+    if (router.query?.ebiki || targetChapter !== undefined) {
       return;
     }
-
-    const sceneParam = router.query?.scene;
-    if (!sceneParam) return;
-    const key = String(
-      Array.isArray(sceneParam) ? sceneParam[0] : sceneParam
-    ).trim();
-    if (!key) return;
-    const byChapter = (cat) =>
-      data.emakis.find(
-        (item) =>
-          String(item.chapter ?? "") === key &&
-          (cat ? item.cat === cat : true)
-      );
-    const target =
-      byChapter("image") ??
-      byChapter(null) ??
-      (/^\d+$/.test(key) ? data.emakis[Number(key)] : undefined);
-    if (!target || typeof target.linkId !== "number") return;
-    setnavIndex(target.linkId);
-  }, [router.query?.scene, router.query?.ebiki, data, setnavIndex]);
+  }, [router.query?.scene, router.query?.chapter, router.query?.ebiki, data, setnavIndex]);
 
   if (!data) {
     return null;

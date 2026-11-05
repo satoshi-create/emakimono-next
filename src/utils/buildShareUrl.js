@@ -33,11 +33,20 @@ export function buildShareUrl({
   locales,
   defaultLocale = "en",
   navIndex = 0,
+  chapter,
 }) {
   const pathWithoutLocale = stripLocalePrefix(asPath, locales).split("#")[0];
   const prefix = locale === defaultLocale ? "" : `/${locale}`;
-  const hash = navIndex > 0 ? `#${navIndex}` : "";
-  return `${SITE_ORIGIN}${prefix}${pathWithoutLocale}${hash}`;
+  // chapter 指定時は ?scene= を優先、無ければ 0始まり navIndex を 1始まり ?scene=N に統一
+  const sceneNum =
+    navIndex !== undefined && navIndex !== null ? Number(navIndex) + 1 : 1;
+  const query =
+    chapter !== undefined && chapter !== null
+      ? `?scene=${encodeURIComponent(chapter)}`
+      : sceneNum > 1
+        ? `?scene=${sceneNum}`
+        : "";
+  return `${SITE_ORIGIN}${prefix}${pathWithoutLocale}${query}`;
 }
 
 export function buildTwitterShareUrl(url, text) {

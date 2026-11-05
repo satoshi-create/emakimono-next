@@ -1082,7 +1082,7 @@ const SceneCommentaryBar = ({
                                             <Link
                                               href={
                                                 sc.chapter !== undefined && sc.chapter !== null
-                                                  ? `/${sc.titleen}?chapter=${encodeURIComponent(sc.chapter)}`
+                                                  ? `/${sc.titleen}?scene=${encodeURIComponent(sc.chapter)}`
                                                   : `/${sc.titleen}`
                                               }
                                               passHref

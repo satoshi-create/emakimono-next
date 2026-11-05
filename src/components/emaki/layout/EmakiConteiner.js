@@ -87,6 +87,33 @@ import { scrollPositionStore } from "@/hooks/emaki/scrollPositionStore";
 import { runAfterPaint } from "@/utils/runAfterPaint";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
 
+// 鑑賞者向け通し番号（1始まり）の算出: 詞書ありは段数(activeIndex+1)、詞書なしはスライス通し番号
+function getVisitorSceneNumber(emakis, navIndex) {
+  if (!Array.isArray(emakis) || emakis.length === 0) return 1;
+  const ekotobas = emakis.filter((item) => item.cat === "ekotoba");
+  if (ekotobas.length > 0) {
+    let segment = 0;
+    ekotobas.forEach((item, i) => {
+      if (item.linkId <= navIndex) segment = i;
+    });
+    return segment + 1;
+  }
+  const n = Number(navIndex);
+  return Number.isFinite(n) && n >= 0 ? n + 1 : 1;
+}
+
+// ?scene=N 入場時にジャンプすべき linkId の逆引き
+function getLinkIdForVisitorScene(emakis, sceneNum) {
+  if (!Array.isArray(emakis) || emakis.length === 0) return 0;
+  const n = Math.max(1, Math.floor(Number(sceneNum) || 1));
+  const ekotobas = emakis.filter((item) => item.cat === "ekotoba");
+  if (ekotobas.length > 0) {
+    const idx = Math.min(n - 1, ekotobas.length - 1);
+    return ekotobas[idx].linkId;
+  }
+  return n - 1;
+}
+
 // 開いたとき／必要時だけ chunk を読む（/[slug] 初回コンパイル・初期 JS 軽減）
 const HelpModal = dynamic(
   () => import("@/components/emaki/viewer/HelpModal"),
@@ -530,9 +557,10 @@ const EmakiContainer = ({
     const pending = pendingInitialHashRef.current;
     if (!hashFollowEnabled) {
       if (pending > 0) {
-        const basePath = window.location.pathname;
-        const search = window.location.search || "";
-        window.history.replaceState(null, "", `${basePath}${search}#${pending}`);
+        const url = new URL(window.location.href);
+        url.searchParams.set("scene", String(pending));
+        url.hash = "";
+        window.history.replaceState(null, "", url.pathname + url.search);
       }
       return;
     }
@@ -540,20 +568,14 @@ const EmakiContainer = ({
       return;
     }
     pendingInitialHashRef.current = 0;
-    const basePath = window.location.pathname;
-    const search = window.location.search || "";
-    // 第1シーン（先頭）はハッシュなしのクリーンなURLを維持（初期ナッジの誤停止を防止）
-    // 第2シーン以降に進んだ場合のみ #2, #3 と追従させる
-    if (liveSceneIndex > 1) {
-      window.history.replaceState(
-        null,
-        "",
-        `${basePath}${search}#${liveSceneIndex}`
-      );
-    } else {
-      window.history.replaceState(null, "", `${basePath}${search}`);
-    }
-  }, [liveSceneIndex, scroll, hashFollowEnabled]);
+    // 通し番号（1始まり）で ?scene= を URL の正として追従（詞書ありは段、詞書なしはスライス）
+    const currentEmakis = data?.emakis || [];
+    const url = new URL(window.location.href);
+    const currentSceneNum = getVisitorSceneNumber(currentEmakis, liveSceneIndex);
+    url.searchParams.set("scene", String(currentSceneNum));
+    url.hash = "";
+    window.history.replaceState(null, "", url.pathname + url.search);
+  }, [liveSceneIndex, scroll, hashFollowEnabled, data?.emakis]);
 
   // 入場 hash 凍結解除: 非プログラム的な scroll（scrollLeft 有意変化）で解除
   // スクロールバーは content へ pointer が届かないため、scroll イベントを正とする
@@ -592,16 +614,35 @@ const EmakiContainer = ({
     didApplyEntryHashRef.current = true;
     // 絵引ディープリンクは SceneCommentaryBar が offset 付きで担当（#N フォールバック抑止）
     if (query?.ebiki) return;
-    const hashflag = Number(
-      String(window.location.hash || "").replace("#", "")
-    );
-    if (!hashflag) return;
+    // ディープリンク入場: ?scene=N（1始まり）から該当段またはスライスの linkId を解決
+    const queryScene = query?.scene;
+    let targetIndex = null;
+
+    if (queryScene !== undefined && queryScene !== null) {
+      const parsed = Number(queryScene);
+      if (!Number.isNaN(parsed) && parsed >= 1) {
+        targetIndex = getLinkIdForVisitorScene(data?.emakis || [], parsed);
+      }
+    }
+
+    if (targetIndex === null) {
+      const hashflag = Number(
+        String(
+          typeof window !== "undefined" ? window.location.hash || "" : ""
+        ).replace("#", "")
+      );
+      if (!Number.isNaN(hashflag) && hashflag > 0) {
+        targetIndex = hashflag;
+      }
+    }
+
+    if (targetIndex === null || targetIndex === undefined) return;
     const pin = () => window.scrollTo({ top: 0, behavior: "instant" });
-    if (navIndex === hashflag) {
+    if (navIndex === targetIndex) {
       pin();
       return;
     }
-    handleToId(hashflag, { realign: true });
+    handleToId(targetIndex, { realign: true });
     pin();
     const timers = [50, 200, 500, 1000].map((ms) => setTimeout(pin, ms));
     return () => timers.forEach(clearTimeout);
