@@ -22,6 +22,10 @@
     "title": "女房の化粧と袋持ち",
     "gendaibun": "",
     "kobun": "",
+    "sou": {
+      "prompt": "なぜ平安末期の絵師は、これほど生き生きと動物たちを擬人化して描いたのか？",
+      "motifs": ["anthropomorphic_animals", "predatory_animals"]
+    },
     "desc": "大きな袋を担いだ妖怪の視線の先では、物陰に集まった女房姿の妖怪たちが、鏡を覗き込みお歯黒をつけて身づくろいに余念がない。幕の陰からは、その様子を楽しげに窺う女型の妖怪も描かれる。",
     "descen": "Ahead of a yokai carrying a large sack over its shoulder, court lady yokai gathered in the shadows diligently groom themselves, peering into mirrors to apply black tooth dye (ohaguro). From behind a curtain, a female-form yokai is depicted curiously and playfully peeking out at them.",
     "titleen": "Court Ladies' Toilette and the Sack Carrier"

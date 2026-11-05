@@ -2,6 +2,7 @@
   "corpse_decay": {
     "id": "corpse_decay",
     "label": "人体の変容・腐敗",
+    "prompt": "なぜ中世の絵師は、肉体の崩壊と腐敗の過程をここまで冷徹に直視したのか？",
     "description": "肉体が形を崩していく過程を直視する視線。中世の解剖学的観察と病態記録。",
     "amazonSearch": {
       "type": "amazon",
@@ -12,6 +13,7 @@
   "predatory_animals": {
     "id": "predatory_animals",
     "label": "鳥獣のリアルと生態",
+    "prompt": "死肉を漁る野犬から水辺の小動物まで、中世の絵師が見つめた「生き物の生と死」とは？",
     "description": "身近な動物たちの骨格や仕草を捉えた鋭い写実スケッチ。死肉を貪る野犬から擬人化された鳥獣まで、中世絵師が持っていた独自の動物観察眼。",
     "amazonSearch": {
       "type": "amazon",
@@ -22,6 +24,7 @@
   "fujokan": {
     "id": "fujokan",
     "label": "死生観・仏教儀礼",
+    "prompt": "無常観や弔いの儀礼を通じて、人々はいかにして「死」と向き合おうとしたのか？",
     "description": "死者への弔いや法要、無常観といった中世の宗教文化。厳粛な儀礼であると同時に、絵巻においては観想やパロディの対象ともなった。",
     "amazonSearch": {
       "type": "amazon",
@@ -32,6 +35,7 @@
   "medieval_cemetery": {
     "id": "medieval_cemetery",
     "label": "中世の葬送・墓制",
+    "prompt": "野晒しや境界の墓所に、当時の人々はどのような他界の気配を感じ取っていたのか？",
     "description": "風葬・野晒しや無縁の死者たち。共同体の境界と中世の空間認識。",
     "amazonSearch": {
       "type": "amazon",
@@ -42,6 +46,7 @@
   "anthropomorphic_animals": {
     "id": "anthropomorphic_animals",
     "label": "動物の擬人化",
+    "prompt": "なぜ動物に人間の所作や感情を託したのか？ 絵師が込めた擬人化の意図とは？",
     "description": "動物に人間の所作や感情を託す表現。平安・鎌倉の絵巻に見る擬人化の系譜と漫画のルーツ。",
     "amazonSearch": {
       "type": "amazon",
@@ -52,6 +57,7 @@
   "annual_events_rites": {
     "id": "annual_events_rites",
     "label": "年中行事と神事",
+    "prompt": "弓くらべや相撲など、豊凶を占う神前儀礼は当時の人々にどう捉えられていたのか？",
     "description": "弓くらべや相撲など、豊凶を占う宮廷・神前儀礼。神聖な儀礼を笑いへ転換する中世の視線。",
     "amazonSearch": {
       "type": "amazon",
@@ -62,6 +68,7 @@
   "satire_and_parody": {
     "id": "satire_and_parody",
     "label": "中世の諷刺とパロディ",
+    "prompt": "動物の見立てや世俗のパロディを通して、絵師は何を笑い飛ばそうとしたのか？",
     "description": "僧侶の堕落や権威の空洞化を動物の見立てで笑い飛ばす、中世社会の世俗的リアリズム。",
     "amazonSearch": {
       "type": "amazon",
@@ -72,6 +79,7 @@
   "contests_and_games": {
     "id": "contests_and_games",
     "label": "勝負と遊戯",
+    "prompt": "貴族から庶民まで熱狂した勝負事。その躍動する身体動作に込められた勝負観とは？",
     "description": "相撲や双六など、貴族から庶民まで熱狂した勝負事。身体動作の躍動感を捉えた墨線。",
     "amazonSearch": {
       "type": "amazon",

@@ -14,6 +14,9 @@ import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/SceneCommentaryBar.module.css";
 import FolkloreDetailSheet from "@/components/emaki/folklore/FolkloreDetailSheet";
 import FolkloreSceneList from "@/components/emaki/folklore/FolkloreSceneList";
+import CommentaryExploreView from "@/components/emaki/commentary/CommentaryExploreView";
+import CommentaryTextView from "@/components/emaki/commentary/CommentaryTextView";
+import CommentarySectionIndex from "@/components/emaki/commentary/CommentarySectionIndex";
 import FolkloreToggleButton from "@/components/emaki/folklore/FolkloreToggleButton";
 import SceneLikeButton from "@/components/emaki/viewer/SceneLikeButton";
 import ShareButtons from "@/components/emaki/viewer/ShareButtons";
@@ -99,7 +102,7 @@ const SceneCommentaryBar = ({
 
   const isGenji = typeof titleen === "string" && titleen.includes("genji");
   const isKusouzu = isKusouzuScroll(data);
-  const emakis = data.emakis || [];
+  const emakis = useMemo(() => data.emakis || [], [data.emakis]);
   const ebikiAppliedRef = useRef(null);
 
   // ディープリンク `?ebiki={item_id}`: 即時スクロール → スポットライト → 詳細シート
@@ -798,42 +801,12 @@ const SceneCommentaryBar = ({
             </div>
           </div>
           {viewMode === "index" ? (
-            <nav
-              className={styles.sectionIndex}
-              aria-label={t("viewer.sectionList")}
-            >
-              {indexRows.map((row, i) => (
-                <button
-                  key={row.linkId}
-                  type="button"
-                  className={`${styles.indexItem} ${i === activeIndex ? styles.indexItemActive : ""
-                    }`}
-                  onClick={() => handleNavigate(i)}
-                >
-                  {row.thumb ? (
-                    <img
-                      className={styles.indexThumb}
-                      src={row.thumb}
-                      alt=""
-                      loading="lazy"
-                    />
-                  ) : (
-                    <span className={styles.indexThumb} aria-hidden="true" />
-                  )}
-                  <span className={styles.indexText}>
-                    <span className={styles.indexTitle}>{row.title}</span>
-                    {row.desc ? (
-                      <span className={styles.indexDesc}>{row.desc}</span>
-                    ) : null}
-                  </span>
-                  {i === activeIndex && (
-                    <span className={styles.indexCurrent}>
-                      {t("viewer.currentSection")}
-                    </span>
-                  )}
-                </button>
-              ))}
-            </nav>
+            <CommentarySectionIndex
+              activeIndex={activeIndex}
+              indexRows={indexRows}
+              onNavigate={handleNavigate}
+              t={t}
+            />
           ) : showFolkloreList ? (
             <>
               {showModeTabs && (
@@ -912,278 +885,34 @@ const SceneCommentaryBar = ({
                       const activeMotif = getMotifDefinition(selectedMotifId);
 
                       return (
-                        <>
-                          {souData.prompt && (
-                            <div
-                              style={{
-                                fontSize: "0.875rem",
-                                fontWeight: 600,
-                                color: "var(--accent-color, #92400e)",
-                                marginBottom: expanded ? "0.6rem" : "0",
-                                lineHeight: 1.5,
-                              }}
-                            >
-                              💡 {String(souData.prompt).replace(/[\s\.…・]+$/, "")}
-                              {!expanded && (
-                                <span
-                                  style={{
-                                    display: "inline",
-                                    fontSize: "0.75rem",
-                                    color: "rgba(0, 0, 0, 0.45)",
-                                    fontWeight: 400,
-                                    marginLeft: "8px",
-                                  }}
-                                >
-                                  …{readMoreLabel}
-                                </span>
-                              )}
-                            </div>
-                          )}
-
-                          {expanded && Array.isArray(souData.motifs) &&
-                            souData.motifs.length > 0 && (
-                              <div
-                                style={{
-                                  display: "flex",
-                                  flexWrap: "wrap",
-                                  gap: "0.4rem",
-                                  marginBottom: "0.75rem",
-                                }}
-                                onClick={(e) => e.stopPropagation()}
-                              >
-                                {souData.motifs.map((mId) => {
-                                  const def = getMotifDefinition(mId);
-                                  const label = def ? def.label : mId;
-                                  const isActive = selectedMotifId === mId;
-                                  return (
-                                    <span
-                                      key={mId}
-                                      role="button"
-                                      tabIndex={0}
-                                      onClick={() => setSelectedMotifId(mId)}
-                                      onKeyDown={(e) => {
-                                        if (
-                                          e.key === "Enter" ||
-                                          e.key === " "
-                                        ) {
-                                          e.preventDefault();
-                                          setSelectedMotifId(mId);
-                                        }
-                                      }}
-                                      style={{
-                                        fontSize: "0.75rem",
-                                        padding: "3px 8px",
-                                        borderRadius: "9999px",
-                                        border: "1px solid",
-                                        borderColor: isActive
-                                          ? "#b45309"
-                                          : "rgba(0,0,0,0.15)",
-                                        backgroundColor: isActive
-                                          ? "#fef3c7"
-                                          : "rgba(255,255,255,0.7)",
-                                        color: isActive
-                                          ? "#92400e"
-                                          : "inherit",
-                                        fontWeight: isActive ? 600 : 400,
-                                        cursor: "pointer",
-                                        userSelect: "none",
-                                        display: "inline-block",
-                                        transition: "all 0.15s ease",
-                                      }}
-                                    >
-                                      #{label}
-                                    </span>
-                                  );
-                                })}
-                              </div>
-                            )}
-
-                          {expanded && activeMotif && (
-                            <div
-                              style={{
-                                padding: "0.6rem 0.75rem",
-                                backgroundColor: "rgba(0,0,0,0.03)",
-                                borderRadius: "6px",
-                                fontSize: "0.825rem",
-                              }}
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              <p
-                                style={{
-                                  margin: "0 0 0.5rem 0",
-                                  lineHeight: 1.5,
-                                  opacity: 0.9,
-                                }}
-                              >
-                                {activeMotif.description}
-                              </p>
-
-                              {relatedScenes.length > 0 && (
-                                <div
-                                  style={{
-                                    marginBottom: "0.5rem",
-                                    borderTop:
-                                      "1px dashed rgba(0,0,0,0.1)",
-                                    paddingTop: "0.4rem",
-                                  }}
-                                >
-                                  <div
-                                    style={{
-                                      fontSize: "0.75rem",
-                                      color: "#6b7280",
-                                      marginBottom: "0.25rem",
-                                    }}
-                                  >
-                                    🔗 同じモチーフが描かれたシーン:
-                                  </div>
-                                  <ul
-                                    style={{
-                                      listStyle: "none",
-                                      padding: 0,
-                                      margin: 0,
-                                    }}
-                                  >
-                                    {relatedScenes.map((sc, scIdx) => {
-                                      const isSameEmaki =
-                                        sc.titleen === titleen;
-                                      return (
-                                        <li
-                                          key={scIdx}
-                                          style={{ marginBottom: "0.25rem" }}
-                                        >
-                                          {isSameEmaki ? (
-                                            <span
-                                              role="button"
-                                              tabIndex={0}
-                                              onClick={(e) => {
-                                                e.stopPropagation();
-                                                const targetIdx =
-                                                  filterEkotobas.findIndex(
-                                                    (item) =>
-                                                      String(item.chapter) ===
-                                                      String(sc.chapter)
-                                                  );
-                                                if (targetIdx !== -1) {
-                                                  handleNavigate(targetIdx);
-                                                }
-                                              }}
-                                              style={{
-                                                color: "#2563eb",
-                                                textDecoration: "underline",
-                                                fontSize: "0.8rem",
-                                                cursor: "pointer",
-                                                display: "inline-block",
-                                              }}
-                                            >
-                                              📜 {sc.title}
-                                              （この絵巻の別段へ移動）
-                                            </span>
-                                          ) : (
-                                            <Link
-                                              href={
-                                                sc.chapter !== undefined && sc.chapter !== null
-                                                  ? `/${sc.titleen}?scene=${encodeURIComponent(sc.chapter)}`
-                                                  : `/${sc.titleen}`
-                                              }
-                                              passHref
-                                            >
-                                              <a
-                                                onClick={(e) =>
-                                                  e.stopPropagation()
-                                                }
-                                                style={{
-                                                  color: "#2563eb",
-                                                  textDecoration: "underline",
-                                                  fontSize: "0.8rem",
-                                                }}
-                                              >
-                                                📜 {sc.title} →
-                                              </a>
-                                            </Link>
-                                          )}
-                                        </li>
-                                      );
-                                    })}
-                                  </ul>
-                                </div>
-                              )}
-
-                              {activeMotif.amazonSearch && (
-                                <div
-                                  style={{
-                                    borderTop:
-                                      "1px dashed rgba(0,0,0,0.1)",
-                                    paddingTop: "0.4rem",
-                                  }}
-                                >
-                                  <a
-                                    href={resolveReferenceUrl(
-                                      activeMotif.amazonSearch
-                                    )}
-                                    target="_blank"
-                                    rel="noopener noreferrer sponsored"
-                                    style={{
-                                      display: "inline-block",
-                                      color: "#2563eb",
-                                      fontWeight: 500,
-                                      textDecoration: "underline",
-                                      fontSize: "0.8rem",
-                                    }}
-                                  >
-                                    🔍 {activeMotif.amazonSearch.title}
-                                    <span
-                                      aria-label="PR"
-                                      style={{
-                                        fontSize: "0.65rem",
-                                        color: "#b45309",
-                                        backgroundColor: "#fef3c7",
-                                        padding: "1px 4px",
-                                        borderRadius: "3px",
-                                        marginLeft: "6px",
-                                        verticalAlign: "middle",
-                                        display: "inline-block",
-                                      }}
-                                    >
-                                      [PR]
-                                    </span>
-                                  </a>
-                                </div>
-                              )}
-                            </div>
-                          )}
-                        </>
+                        <CommentaryExploreView
+                          activeMotif={activeMotif}
+                          currentEmakiSlug={titleen}
+                          onNavigateSameEmaki={(chapter) => {
+                            const targetIdx = filterEkotobas.findIndex(
+                              (item) =>
+                                String(item.chapter) === String(chapter)
+                            );
+                            if (targetIdx !== -1) {
+                              handleNavigate(targetIdx);
+                            }
+                          }}
+                          onSelectMotif={setSelectedMotifId}
+                          relatedScenes={relatedScenes}
+                          selectedMotifId={selectedMotifId}
+                          souData={souData}
+                        />
                       );
                     })()
-                    : hasBody ? (
-                      expanded &&
-                        activeMode === "kobun" &&
-                        chapterTexts.kobunHtml ? (
-                        <span
-                          dangerouslySetInnerHTML={{
-                            __html: chapterTexts.kobunHtml,
-                          }}
-                        />
-                      ) : expanded ? (
-                        plainBody
-                      ) : (
-                        <>
-                          {previewText}
-                          {hasRest && (
-                            <span
-                              style={{
-                                display: "inline",
-                                fontSize: "0.75rem",
-                                color: "rgba(0, 0, 0, 0.45)",
-                                fontWeight: 400,
-                                marginLeft: "6px",
-                              }}
-                            >
-                              …{readMoreLabel}
-                            </span>
-                          )}
-                        </>
-                      )
-                    ) : null}
+                    : (
+                      <CommentaryTextView
+                        activeMode={activeMode}
+                        chapterTexts={chapterTexts}
+                        expanded={expanded}
+                        locale={locale}
+                        readMoreLabel={readMoreLabel}
+                      />
+                    )}
                 </span>
               </button>
             </>

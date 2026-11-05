@@ -1,12 +1,5 @@
 import motifsMaster from "@/data/motifs.json";
-import kusouzumakiData from "@/data/emaki-text-data/kusouzumaki.json";
-import chojuGigaFirstData from "@/data/emaki-text-data/Chōjū-jinbutsu-giga_first.json";
-
-// 横断検索対象の絵巻テキストデータマップ（絵巻追加時にここに追記）
-const textDataMap = {
-  kusouzumaki: kusouzumakiData,
-  "Chōjū-jinbutsu-giga_first": chojuGigaFirstData,
-};
+import generatedMotifIndex from "@/data/generated-motif-index.json";
 
 /**
  * モチーフIDからマスター定義を取得
@@ -26,33 +19,13 @@ export function getMotifDefinition(motifId) {
 export function findRelatedScenesByMotif(currentTitleen, currentChapter, motifId) {
   if (!motifId) return [];
 
-  const matches = [];
+  const rawMatches = (generatedMotifIndex && generatedMotifIndex[motifId]) || [];
 
-  Object.entries(textDataMap).forEach(([titleen, chapters]) => {
-    if (!Array.isArray(chapters)) return;
-
-    chapters.forEach((item) => {
-      // 現在見ている全く同じシーン（同一絵巻 かつ 同一章）は除外
-      const isCurrentScene =
-        titleen === currentTitleen &&
-        String(item.chapter).trim() === String(currentChapter).trim();
-
-      if (isCurrentScene) return;
-
-      if (
-        item.sou &&
-        Array.isArray(item.sou.motifs) &&
-        item.sou.motifs.includes(motifId)
-      ) {
-        matches.push({
-          titleen,
-          chapter: item.chapter,
-          title: item.title || `${titleen}（第${item.chapter}段）`,
-          prompt: item.sou.prompt || null,
-        });
-      }
-    });
+  // 現在見ている全く同じシーン（同一絵巻 かつ 同一章）は除外して返す
+  return rawMatches.filter((item) => {
+    const isCurrentScene =
+      item.titleen === currentTitleen &&
+      String(item.chapter).trim() === String(currentChapter).trim();
+    return !isCurrentScene;
   });
-
-  return matches;
 }

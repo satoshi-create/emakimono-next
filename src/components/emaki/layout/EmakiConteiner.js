@@ -548,8 +548,10 @@ const EmakiContainer = ({
     }
     const hash =
       Number(String(window.location.hash || "").replace("#", "")) || 0;
+    const hasQueryScene = Boolean(query?.scene);
     pendingInitialHashRef.current = hash;
-    if (hash <= 0) setHashFollowEnabled(true);
+    // #hash も ?scene も指定されていない場合のみ即時 URL 追従を有効化
+    if (hash <= 0 && !hasQueryScene) setHashFollowEnabled(true);
   }, [scroll, data.id, query?.ebiki]);
 
   useEffect(() => {
@@ -642,7 +644,13 @@ const EmakiContainer = ({
       pin();
       return;
     }
-    handleToId(targetIndex, { realign: true });
+    // 段タイトル看板が画面右端（絵巻先頭位置）に来るよう、通常のシーンクリックと同等の配置引数を適用
+    handleToId(targetIndex, {
+      realign: true,
+      scrollBehavior: "auto",
+      align: "right",
+      offsetPercent: -50,
+    });
     pin();
     const timers = [50, 200, 500, 1000].map((ms) => setTimeout(pin, ms));
     return () => timers.forEach(clearTimeout);

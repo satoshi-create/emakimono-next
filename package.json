@@ -6,6 +6,9 @@
     "node": "24.x"
   },
   "scripts": {
+    "generate:motifs": "node scripts/generate-motif-index.mjs",
+    "predev": "npm run generate:motifs",
+    "prebuild": "npm run generate:motifs",
     "dev": "next dev -p 3005",
     "check": "npx tsc --noEmit && npm run lint",
     "clean:build": "rm -rf .next && npm run build",

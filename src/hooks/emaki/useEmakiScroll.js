@@ -104,6 +104,11 @@ const useEmakiScroll = ({
     const el = articleRef.current;
     if (!el) return;
 
+    // プログラム制御スクロール中は誤検知による巻き戻りを防ぐため判定をスキップ
+    if (scrollPositionStore.isProgrammaticScroll) {
+      return;
+    }
+
     const closestId = findSceneIndexAtViewportCenter(el);
     if (closestId === null || isNaN(closestId)) return;
 
