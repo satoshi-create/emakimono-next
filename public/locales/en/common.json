@@ -403,7 +403,7 @@
     "metaDesc": "How emakimono.com handles personal and access data.",
     "breadcrumb": "Privacy Policy",
     "sectionTitle": "Privacy Policy",
-    "updated": "Last updated: July 25, 2026",
+    "updated": "Last updated: November 6, 2026",
     "intro": "emakimono.com (\"this site\") respects your privacy. This policy explains what information we collect and how we use it.",
     "sections": {
       "collected": {
@@ -425,7 +425,8 @@
         "items": [
           "Cloudinary — image delivery",
           "Notion — contact form",
-          "Google Analytics / Microsoft Clarity — analytics"
+          "Google Analytics / Microsoft Clarity — analytics",
+          "Amazon Associates — As an Amazon Associate, this site earns from qualifying purchases."
         ]
       },
       "purpose": {

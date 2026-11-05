@@ -403,7 +403,7 @@
     "metaDesc": "emakimono.com における個人情報およびアクセスデータの取り扱いについて説明します。",
     "breadcrumb": "プライバシーポリシー",
     "sectionTitle": "プライバシーポリシー",
-    "updated": "最終更新日：2026年7月25日",
+    "updated": "最終更新日：2026年11月6日",
     "intro": "emakimono.com（以下「当サイト」）は、利用者のプライバシーを尊重します。本ポリシーは、当サイトが取得する情報とその利用目的を説明するものです。",
     "sections": {
       "collected": {
@@ -425,7 +425,8 @@
         "items": [
           "Cloudinary — 絵巻画像の配信",
           "Notion — お問い合わせフォーム",
-          "Google Analytics / Microsoft Clarity — アクセス解析"
+          "Google Analytics / Microsoft Clarity — アクセス解析",
+          "Amazon アソシエイト — 当サイトは、Amazon.co.jpを宣伝しリンクすることによってサイトが紹介料を獲得できる手段を提供することを目的に設定されたアフィリエイトプログラムである、Amazonアソシエイト・プログラムの参加者です。"
         ]
       },
       "purpose": {
