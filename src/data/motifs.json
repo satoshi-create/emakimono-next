@@ -12,7 +12,7 @@
   "predatory_animals": {
     "id": "predatory_animals",
     "label": "鳥獣のリアルと生態",
-    "description": "死肉に群がるカラスや野犬などの動物描写。擬人化にとどまらない中世絵師の鋭い写実スケッチ。",
+    "description": "身近な動物たちの骨格や仕草を捉えた鋭い写実スケッチ。死肉を貪る野犬から擬人化された鳥獣まで、中世絵師が持っていた独自の動物観察眼。",
     "amazonSearch": {
       "type": "amazon",
       "query": "鳥獣戯画 動物",
@@ -21,12 +21,12 @@
   },
   "fujokan": {
     "id": "fujokan",
-    "label": "死生観・不浄観",
-    "description": "煩悩を断ち無常を観想するための仏教儀礼・思想的背景。",
+    "label": "死生観・仏教儀礼",
+    "description": "死者への弔いや法要、無常観といった中世の宗教文化。厳粛な儀礼であると同時に、絵巻においては観想やパロディの対象ともなった。",
     "amazonSearch": {
       "type": "amazon",
-      "query": "九相図 山本聡美",
-      "title": "『九相図をよむ』など死生観書籍を探す"
+      "query": "中世 仏教 儀礼",
+      "title": "「中世の仏教文化と儀礼」関連書籍を探す"
     }
   },
   "medieval_cemetery": {
@@ -37,6 +37,46 @@
       "type": "amazon",
       "query": "中世 葬送",
       "title": "「中世の葬送文化」関連書籍を探す"
+    }
+  },
+  "anthropomorphic_animals": {
+    "id": "anthropomorphic_animals",
+    "label": "動物の擬人化",
+    "description": "動物に人間の所作や感情を託す表現。平安・鎌倉の絵巻に見る擬人化の系譜と漫画のルーツ。",
+    "amazonSearch": {
+      "type": "amazon",
+      "query": "鳥獣戯画 擬人化",
+      "title": "「鳥獣戯画と擬人化表現」関連書籍を探す"
+    }
+  },
+  "annual_events_rites": {
+    "id": "annual_events_rites",
+    "label": "年中行事と神事",
+    "description": "弓くらべや相撲など、豊凶を占う宮廷・神前儀礼。神聖な儀礼を笑いへ転換する中世の視線。",
+    "amazonSearch": {
+      "type": "amazon",
+      "query": "平安時代 年中行事",
+      "title": "「平安時代の年中行事・神事」関連書籍を探す"
+    }
+  },
+  "satire_and_parody": {
+    "id": "satire_and_parody",
+    "label": "中世の諷刺とパロディ",
+    "description": "僧侶の堕落や権威の空洞化を動物の見立てで笑い飛ばす、中世社会の世俗的リアリズム。",
+    "amazonSearch": {
+      "type": "amazon",
+      "query": "絵巻 中世 諷刺",
+      "title": "「中世絵巻の諷刺と笑い」関連書籍を探す"
+    }
+  },
+  "contests_and_games": {
+    "id": "contests_and_games",
+    "label": "勝負と遊戯",
+    "description": "相撲や双六など、貴族から庶民まで熱狂した勝負事。身体動作の躍動感を捉えた墨線。",
+    "amazonSearch": {
+      "type": "amazon",
+      "query": "中世 遊戯",
+      "title": "「中世の遊戯・勝負事」関連書籍を探す"
     }
   }
 }

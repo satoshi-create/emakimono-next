@@ -183,7 +183,8 @@
 
 /* 展開時: 行数制限を解除し、冒頭文＋続きを1段落のまま全文表示する */
 .bar[data-expanded="true"] .bodyText,
-.bar[data-expanded="true"] .gendaibun {
+.bar[data-expanded="true"] .gendaibun,
+.bar[data-expanded="false"][data-text-mode="sou"] .bodyText {
   display: block;
   -webkit-line-clamp: unset;
   -webkit-box-orient: unset;

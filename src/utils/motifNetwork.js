@@ -1,9 +1,11 @@
 import motifsMaster from "@/data/motifs.json";
 import kusouzumakiData from "@/data/emaki-text-data/kusouzumaki.json";
+import chojuGigaFirstData from "@/data/emaki-text-data/Chōjū-jinbutsu-giga_first.json";
 
 // 横断検索対象の絵巻テキストデータマップ（絵巻追加時にここに追記）
 const textDataMap = {
   kusouzumaki: kusouzumakiData,
+  "Chōjū-jinbutsu-giga_first": chojuGigaFirstData,
 };
 
 /**
