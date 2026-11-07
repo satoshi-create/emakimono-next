@@ -56,7 +56,7 @@ export function buildCloudinaryUrl(src, transforms = []) {
   return `${CLOUDINARY_UPLOAD_BASE}/${uploadPath}`;
 }
 
-export function cloudinaryThumbLoader({ src, width, quality }) {c
+export function cloudinaryThumbLoader({ src, width, quality }) {
   return buildCloudinaryUrl(src, [
     "c_limit",
     "f_auto",

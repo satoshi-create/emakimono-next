@@ -417,6 +417,7 @@ ga4_reports:
     optional: true
     requires_custom_dimension: question_id
     dimensions:
+      - customEvent:emaki_id
       - customEvent:question_id
     metrics:
       - eventCount
@@ -430,6 +431,7 @@ ga4_reports:
     optional: true
     requires_custom_dimension: question_id
     dimensions:
+      - customEvent:emaki_id
       - customEvent:question_id
       - customEvent:is_correct
     metrics:
