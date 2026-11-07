@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import QRCode from "qrcode";
 import styles from "@/styles/PolaroidModal.module.css";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
+import { recordEmakiLoopVideo } from "@/utils/emakiVideoRecorder";
 import {
   ChaptersTitle,
   connectEmakiTextData,
@@ -11,12 +12,34 @@ import {
   connectGenjiChapters,
 } from "@/utils/emakiChapterText";
 
-const CANVAS_W = 800;
-const CANVAS_H = 1000;
-const PHOTO_DX = 40;
-const PHOTO_DY = 40;
-const PHOTO_DW = 720;
-const PHOTO_DH = 560;
+// プレビューおよびポラロイド保存用（4:5 カード）
+const FORMATS = {
+  polaroid: {
+    canvasW: 800,
+    canvasH: 1000,
+    photoDx: 40,
+    photoDy: 40,
+    photoDw: 720,
+    photoDh: 560,
+    captionY: 648,
+    qrSize: 64,
+  },
+  reel: {
+    canvasW: 1080,
+    canvasH: 1920,
+    photoDx: 80,
+    photoDy: 260,
+    photoDw: 920,
+    photoDh: 1150,
+    captionY: 1480,
+    qrSize: 96,
+  },
+};
+const PREVIEW_FMT = FORMATS.polaroid;
+const PHOTO_DX = PREVIEW_FMT.photoDx;
+const PHOTO_DY = PREVIEW_FMT.photoDy;
+const PHOTO_DW = PREVIEW_FMT.photoDw;
+const PHOTO_DH = PREVIEW_FMT.photoDh;
 const MESSAGE_MAX = 40;
 const SEAL_COLOR = "#c0392b";
 const ZOOM_MIN = 1;
@@ -212,8 +235,8 @@ function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
 
-function coverScaleFor(img) {
-  return Math.max(PHOTO_DW / img.naturalWidth, PHOTO_DH / img.naturalHeight);
+function coverScaleFor(img, photoDw, photoDh) {
+  return Math.max(photoDw / img.naturalWidth, photoDh / img.naturalHeight);
 }
 
 function maxPanForAxis(natural, photoDim, coverScale, zoom) {
@@ -241,6 +264,8 @@ export function PolaroidModal({
   initialIndex = 0,
   emakiTitle,
   titleen,
+  titleEn,
+  scrollTitleEn,
   title,
 }) {
   const [selectedIndex, setSelectedIndex] = useState(initialIndex);
@@ -255,6 +280,12 @@ export function PolaroidModal({
   const [frameW, setFrameW] = useState(PHOTO_DW);
   const [dragging, setDragging] = useState(false);
   const [copiedStep, setCopiedStep] = useState(null); // null | "image" | "text"
+  const [isShareSheetOpen, setIsShareSheetOpen] = useState(false);
+  const [sheetMode, setSheetMode] = useState("share"); // "share" | "save"
+  const [shareStep, setShareStep] = useState("select"); // "select" | "textCopy"
+  const [feedbackMessage, setFeedbackMessage] = useState(null);
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordingProgress, setRecordingProgress] = useState(0);
   const dragStart = useRef({ x: 0, y: 0, pan: { x: 0, y: 0 } });
   const pointersRef = useRef(new Map());
   const pinchRef = useRef(null);
@@ -273,6 +304,7 @@ export function PolaroidModal({
 
   const router = useRouter();
   const locale = router.locale ?? "ja";
+  const isEn = locale === "en";
   const [isMobileDevice, setIsMobileDevice] = useState(false);
 
   useEffect(() => {
@@ -280,6 +312,11 @@ export function PolaroidModal({
       setIsMobileDevice(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent || ""));
     }
   }, []);
+
+  const canShareFiles =
+    typeof navigator !== "undefined" &&
+    isMobileDevice &&
+    typeof navigator.share === "function";
 
   const scrollId =
     typeof titleen === "string" && titleen
@@ -309,7 +346,7 @@ export function PolaroidModal({
     let chapterTitleStr = "";
 
     // A. 巻別テキストデータからのタイトル（例: 柏木（一）など）
-    const fromJson = connectEmakiTextData(scrollId, ekotoba.chapter, "title");
+    const fromJson = connectEmakiTextData(scrollId, ekotoba.chapter, isEn ? "titleen" : "title");
     if (typeof fromJson === "string" && fromJson.trim()) {
       chapterTitleStr = fromJson.trim();
     }
@@ -322,7 +359,7 @@ export function PolaroidModal({
         ekotoba.genji_chapter
       );
       const chNum = connectGenjiChapters(masterCh, "chapter_ch");
-      const genjiTitle = connectGenjiChapters(masterCh, "title");
+      const genjiTitle = connectGenjiChapters(masterCh, isEn ? "titleen" : "title");
       if (genjiTitle) {
         chapterTitleStr = chNum ? `第${chNum}帖 ${genjiTitle}` : genjiTitle;
       }
@@ -330,14 +367,23 @@ export function PolaroidModal({
 
     // C. 一般絵巻のフォールバック
     if (!chapterTitleStr) {
-      if (typeof ekotoba.title === "string" && ekotoba.title.trim()) {
+      if (isEn) {
+        if (typeof ekotoba.titleen === "string" && ekotoba.titleen.trim()) {
+          chapterTitleStr = ekotoba.titleen.trim();
+        } else if (typeof ekotoba.chapterTitleEn === "string" && ekotoba.chapterTitleEn.trim()) {
+          chapterTitleStr = ekotoba.chapterTitleEn.trim();
+        } else if (typeof ekotoba.chapteren === "string" && ekotoba.chapteren.trim()) {
+          chapterTitleStr = ekotoba.chapteren.trim();
+        }
+      }
+      if (!chapterTitleStr && typeof ekotoba.title === "string" && ekotoba.title.trim()) {
         chapterTitleStr = ekotoba.title.trim();
-      } else {
+      } else if (!chapterTitleStr) {
         const rawTitle = ChaptersTitle(
           scrollId,
           scrollTitle,
           ekotoba.chapter,
-          locale === "en" ? "titleen" : "title",
+          isEn ? "titleen" : "title",
           ekotoba.genji_chapter
         );
         if (typeof rawTitle === "string") {
@@ -354,7 +400,30 @@ export function PolaroidModal({
       resolvedChapterTitle: safeString(chapterTitleStr),
       resolvedChapterDesc,
     };
-  }, [scenes, currentLinkId, scrollId, scrollTitle, locale]);
+  }, [scenes, currentLinkId, scrollId, scrollTitle, locale, isEn]);
+
+  const rawTitleEn =
+    safeString(titleen) ||
+    safeString(titleEn) ||
+    safeString(scrollTitleEn) ||
+    safeString(currentScene?.titleen) ||
+    safeString(currentScene?.titleEn) ||
+    safeString(currentScene?.scrollTitleEn) ||
+    "";
+
+  const rawTitleJa =
+    safeString(title) ||
+    safeString(currentScene?.title) ||
+    safeString(emakiTitle) ||
+    safeString(scrollTitle);
+
+  const displayTitle = isEn && rawTitleEn ? rawTitleEn : rawTitleJa;
+
+  const displayChapter = isEn
+    ? safeString(currentScene?.chapterTitleEn) ||
+      safeString(currentScene?.chapteren) ||
+      safeString(resolvedChapterTitle)
+    : safeString(resolvedChapterTitle);
 
   const updatePanLimits = useCallback((img, z, prevImg, nextImg) => {
     if (!img?.naturalWidth) {
@@ -362,7 +431,7 @@ export function PolaroidModal({
       setMaxPan({ x: 0, y: 0 });
       return;
     }
-    const cs = coverScaleFor(img);
+    const cs = coverScaleFor(img, PHOTO_DW, PHOTO_DH);
     setCoverScale(cs);
     const baseX = maxPanForAxis(img.naturalWidth, PHOTO_DW, cs, z);
     const prevW = prevImg?.naturalWidth ? prevImg.naturalWidth * cs * z : 0;
@@ -371,10 +440,17 @@ export function PolaroidModal({
       x: baseX + (prevW + nextW) / 2,
       y: maxPanForAxis(img.naturalHeight, PHOTO_DH, cs, z),
     });
-  }, []);
+  }, [PHOTO_DW, PHOTO_DH]);
 
   useEffect(() => {
     if (!isOpen) {
+      setCopiedStep(null);
+      setFeedbackMessage(null);
+      setIsRecording(false);
+      setRecordingProgress(0);
+      setIsShareSheetOpen(false);
+      setShareStep("select");
+      setSheetMode("share");
       setMessage("");
       setZoom(ZOOM_DEFAULT);
       setPan({ x: 0, y: 0 });
@@ -513,21 +589,27 @@ export function PolaroidModal({
   };
 
   const drawPhoto = useCallback(
-    (ctx, faviconImg, qrImg, sceneUrlText) => {
+    (ctx, faviconImg, qrImg, sceneUrlText, format = "polaroid") => {
+      const fmt = FORMATS[format] || FORMATS.polaroid;
       const { prev, current: img, next } = loadedImagesRef.current;
       if (!img?.naturalWidth) return;
-      const cs = coverScale;
+      const cs =
+        format === "polaroid" ? coverScale : coverScaleFor(img, fmt.photoDw, fmt.photoDh);
       const z = zoom;
+      const panScaleX = fmt.photoDw / PHOTO_DW;
+      const panScaleY = fmt.photoDh / PHOTO_DH;
+      const panX = pan.x * panScaleX;
+      const panY = pan.y * panScaleY;
       const curW = img.naturalWidth * cs * z;
       const curH = img.naturalHeight * cs * z;
-      const cx = PHOTO_DX + PHOTO_DW / 2 + pan.x;
-      const cy = PHOTO_DY + PHOTO_DH / 2 + pan.y;
+      const cx = fmt.photoDx + fmt.photoDw / 2 + panX;
+      const cy = fmt.photoDy + fmt.photoDh / 2 + panY;
       const curX = cx - curW / 2;
       const curY = cy - curH / 2;
 
       ctx.save();
       ctx.beginPath();
-      ctx.rect(PHOTO_DX, PHOTO_DY, PHOTO_DW, PHOTO_DH);
+      ctx.rect(fmt.photoDx, fmt.photoDy, fmt.photoDw, fmt.photoDh);
       ctx.clip();
 
       ctx.drawImage(img, curX, curY, curW, curH);
@@ -546,18 +628,18 @@ export function PolaroidModal({
       const theme = THEMES[currentTheme] || THEMES.white;
 
       // 1. 各テーマ固有の質感テクスチャを描画
-      drawCanvasTexture(ctx, CANVAS_W, CANVAS_H, currentTheme);
+      drawCanvasTexture(ctx, fmt.canvasW, fmt.canvasH, currentTheme);
 
       // 2. 枠線（二重線や繊細な縁取りで工芸品のような仕上がりに）
       if (theme.border) {
         ctx.strokeStyle = theme.border;
         ctx.lineWidth = 1.5;
-        ctx.strokeRect(18, 18, CANVAS_W - 36, CANVAS_H - 36);
+        ctx.strokeRect(18, 18, fmt.canvasW - 36, fmt.canvasH - 36);
 
         if (currentTheme === "miyabi") {
           // 雅テーマは内側に極細の二重枠
           ctx.lineWidth = 0.8;
-          ctx.strokeRect(22, 22, CANVAS_W - 44, CANVAS_H - 44);
+          ctx.strokeRect(22, 22, fmt.canvasW - 44, fmt.canvasH - 44);
         }
       }
 
@@ -565,17 +647,17 @@ export function PolaroidModal({
       ctx.textAlign = "center";
 
       // 1. 段タイトル（主役・中央配置）
-      const centerCenterX = CANVAS_W / 2;
-      let currentY = PHOTO_DY + PHOTO_DH + 48;
+      const centerCenterX = fmt.canvasW / 2;
+      let currentY = fmt.captionY;
 
-      const cleanTitle = typeof resolvedChapterTitle === "string" ? resolvedChapterTitle.trim() : "";
-      const cleanEmaki = typeof emakiTitle === "string" ? emakiTitle.trim() : "";
+      const cleanTitle = typeof displayChapter === "string" ? displayChapter.trim() : "";
+      const cleanEmaki = typeof displayTitle === "string" ? displayTitle.trim() : "";
       const cleanMsg = typeof message === "string" ? message.trim() : "";
 
       if (cleanTitle) {
         ctx.font = 'bold 24px "Zen Old Mincho", "Hina Mincho", serif';
         ctx.fillStyle = theme.titleColor;
-        ctx.fillText(`―  ${cleanTitle}  ―`, centerCenterX, currentY);
+        ctx.fillText(isEn ? `— ${cleanTitle} —` : `―  ${cleanTitle}  ―`, centerCenterX, currentY);
         currentY += 32;
       }
 
@@ -583,7 +665,7 @@ export function PolaroidModal({
       if (cleanEmaki) {
         ctx.font = '16px "Zen Old Mincho", "Hina Mincho", serif';
         ctx.fillStyle = theme.subColor;
-        ctx.fillText(`『${cleanEmaki}』`, centerCenterX, currentY);
+        ctx.fillText(isEn ? `"${cleanEmaki}"` : `『${cleanEmaki}』`, centerCenterX, currentY);
         currentY += 40;
       }
 
@@ -595,8 +677,8 @@ export function PolaroidModal({
       }
 
       // 4. 最下部クレジット（サイト名 + シーンURL を中央揃え2段で整然配置）
-      const brandY = CANVAS_H - 40;
-      const urlY = CANVAS_H - 22;
+      const brandY = fmt.canvasH - 40;
+      const urlY = fmt.canvasH - 22;
       const footerText = "絵巻物ビューアー  |  emakimono.com";
 
       ctx.font = '12px sans-serif';
@@ -607,7 +689,7 @@ export function PolaroidModal({
       const iconSize = 15;
       const iconGap = 6;
       const totalWidth = (faviconImg ? iconSize + iconGap : 0) + textWidth;
-      const startX = (CANVAS_W - totalWidth) / 2;
+      const startX = (fmt.canvasW - totalWidth) / 2;
 
       if (faviconImg && faviconImg.complete && faviconImg.naturalWidth > 0) {
         ctx.drawImage(faviconImg, startX, brandY - 11, iconSize, iconSize);
@@ -625,16 +707,17 @@ export function PolaroidModal({
 
       // 5. 該当シーン直通 QRコード（右下隅）
       if (qrImg && qrImg.complete && qrImg.naturalWidth > 0) {
-        const qrSize = 46;
-        const qrX = CANVAS_W - PHOTO_DX - qrSize;
-        const qrY = CANVAS_H - qrSize - 18;
+        const qrSize = fmt.qrSize;
+        const qrX = fmt.canvasW - fmt.photoDx - qrSize;
+        const qrY = fmt.canvasH - qrSize - 18;
         ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
       }
     },
-    [coverScale, pan.x, pan.y, zoom, emakiTitle, resolvedChapterTitle, message, currentTheme]
+    [coverScale, pan.x, pan.y, zoom, displayTitle, displayChapter, message, currentTheme, isEn]
   );
 
-  const handleSave = useCallback(async () => {
+  const handleDownload = useCallback(async (format = "polaroid") => {
+    const fmt = FORMATS[format] || FORMATS.polaroid;
     let { prev, current: img, next } = loadedImagesRef.current;
     if (!img?.complete || !img.naturalWidth) {
       img = await loadCrossOriginImage(src);
@@ -665,14 +748,14 @@ export function PolaroidModal({
     loadedImagesRef.current = { prev, current: img, next };
 
     const canvas = canvasRef.current ?? document.createElement("canvas");
-    canvas.width = CANVAS_W;
-    canvas.height = CANVAS_H;
+    canvas.width = fmt.canvasW;
+    canvas.height = fmt.canvasH;
     if (!canvasRef.current) canvasRef.current = canvas;
 
     const activeTheme = THEMES[currentTheme] || THEMES.white;
     const ctx = canvas.getContext("2d");
-    ctx.fillStyle = activeTheme.bg;
-    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+    ctx.fillStyle = activeTheme.cardBg || activeTheme.bg;
+    ctx.fillRect(0, 0, fmt.canvasW, fmt.canvasH);
 
     const favicon = await new Promise((resolve) => {
       const img = new Image();
@@ -698,23 +781,31 @@ export function PolaroidModal({
     }
     // プロトコル除去。プレビュー環境やローカル時は emakimono.com 基準のパスに整形
     displayUrl = displayUrl.replace(/^https?:\/\/[^/]+/, "emakimono.com");
-    drawPhoto(ctx, favicon, qrImg, displayUrl);
+    drawPhoto(ctx, favicon, qrImg, displayUrl, format);
 
     const dataUrl = canvas.toDataURL("image/png");
     const link = document.createElement("a");
-    link.download = `emakimono-polaroid-${Date.now()}.png`;
+    link.download = `emakimono-${format}-${Date.now()}.png`;
     link.href = dataUrl;
     link.click();
   }, [drawPhoto, scenes.length, selectedIndex, src, currentTheme]);
 
   // 拡散用メタテキスト生成ヘルパー
   const getShareTextPayload = useCallback(() => {
-    const cleanTitle = typeof resolvedChapterTitle === "string" ? resolvedChapterTitle.trim() : "";
-    const cleanEmaki = typeof emakiTitle === "string" ? emakiTitle.trim() : "絵巻物";
+    const cleanTitle = typeof displayChapter === "string" ? displayChapter.trim() : "";
+    const cleanEmaki = typeof displayTitle === "string" ? displayTitle.trim() : "";
+    const chapter = cleanTitle ? (isEn ? `[${cleanTitle}]` : `【${cleanTitle}】`) : "";
+    const mainTitle = cleanEmaki ? (isEn ? `"${cleanEmaki}"` : `『${cleanEmaki}』`) : "";
+    const titleLines = [chapter, mainTitle].filter(Boolean).join("\n");
     const cleanMsg = typeof message === "string" ? message.trim() : "";
-    const pageUrl = typeof window !== "undefined" ? window.location.href : "https://emakimono.com";
-    return `${cleanTitle ? `【${cleanTitle}】` : ""}『${cleanEmaki}』\n${cleanMsg ? `"${cleanMsg}"\n` : ""}\n#絵巻物ビューアー #日本美術\n${pageUrl}`;
-  }, [emakiTitle, message, resolvedChapterTitle]);
+    const customLine = cleanMsg ? cleanMsg : "";
+    const tags = "#絵巻物ビューアー #日本美術";
+    const url = typeof window !== "undefined" ? window.location.href : "";
+
+    return [titleLines, customLine, tags, url]
+      .filter((line) => line !== "")
+      .join("\n\n");
+  }, [displayTitle, displayChapter, message, isEn]);
 
   // 1回目で画像コピー、2回目でテキストコピーを実行するスマートハンドラー
   const handleCopyAndShare = useCallback(async () => {
@@ -763,15 +854,16 @@ export function PolaroidModal({
     }
     loadedImagesRef.current = { prev, current: img, next };
 
+    const copyFmt = FORMATS.polaroid;
     const canvas = canvasRef.current ?? document.createElement("canvas");
-    canvas.width = CANVAS_W;
-    canvas.height = CANVAS_H;
+    canvas.width = copyFmt.canvasW;
+    canvas.height = copyFmt.canvasH;
     if (!canvasRef.current) canvasRef.current = canvas;
 
     const activeTheme = THEMES[currentTheme] || THEMES.white;
     const ctx = canvas.getContext("2d");
-    ctx.fillStyle = activeTheme.bg;
-    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+    ctx.fillStyle = activeTheme.cardBg || activeTheme.bg;
+    ctx.fillRect(0, 0, copyFmt.canvasW, copyFmt.canvasH);
 
     const favicon = await new Promise((resolve) => {
       const imgFav = new Image();
@@ -797,7 +889,7 @@ export function PolaroidModal({
     }
     displayUrl = displayUrl.replace(/^https?:\/\/[^/]+/, "emakimono.com");
 
-    drawPhoto(ctx, favicon, qrImg, displayUrl);
+    drawPhoto(ctx, favicon, qrImg, displayUrl, "polaroid");
 
     canvas.toBlob(async (blob) => {
       if (!blob) return;
@@ -846,14 +938,15 @@ export function PolaroidModal({
     }
     loadedImagesRef.current = { prev, current: img, next };
 
+    const shareFmt = FORMATS.polaroid;
     const canvas = canvasRef.current ?? document.createElement("canvas");
-    canvas.width = CANVAS_W;
-    canvas.height = CANVAS_H;
+    canvas.width = shareFmt.canvasW;
+    canvas.height = shareFmt.canvasH;
     if (!canvasRef.current) canvasRef.current = canvas;
 
     const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+    ctx.fillStyle = THEMES[currentTheme]?.cardBg || "#ffffff";
+    ctx.fillRect(0, 0, shareFmt.canvasW, shareFmt.canvasH);
 
     const favicon = await new Promise((resolve) => {
       const imgFav = new Image();
@@ -861,13 +954,13 @@ export function PolaroidModal({
       imgFav.onerror = () => resolve(null);
       imgFav.src = "/favicon.ico";
     });
-    drawPhoto(ctx, favicon);
+    drawPhoto(ctx, favicon, null, null, "polaroid");
 
-    const cleanTitle = typeof resolvedChapterTitle === "string" ? resolvedChapterTitle.trim() : "";
-    const cleanEmaki = typeof emakiTitle === "string" ? emakiTitle.trim() : "絵巻物";
+    const cleanTitle = typeof displayChapter === "string" ? displayChapter.trim() : "";
+    const cleanEmaki = typeof displayTitle === "string" ? displayTitle.trim() : isEn ? "Emaki scroll" : "絵巻物";
     const cleanMsg = typeof message === "string" ? message.trim() : "";
     const pageUrl = typeof window !== "undefined" ? window.location.href : "https://emakimono.com";
-    const shareText = `${cleanTitle ? `【${cleanTitle}】` : ""}『${cleanEmaki}』\n${cleanMsg ? `"${cleanMsg}"\n` : ""}\n#絵巻物ビューアー #日本美術`;
+    const shareText = `${cleanTitle ? (isEn ? `[${cleanTitle}]` : `【${cleanTitle}】`) : ""}${cleanEmaki ? (isEn ? `"${cleanEmaki}"` : `『${cleanEmaki}』`) : ""}\n${cleanMsg ? `"${cleanMsg}"\n` : ""}\n#絵巻物ビューアー #日本美術`;
 
     canvas.toBlob(async (blob) => {
       if (!blob) return;
@@ -912,7 +1005,310 @@ export function PolaroidModal({
         }
       }
     }, "image/png");
-  }, [drawPhoto, emakiTitle, message, resolvedChapterTitle, scenes.length, selectedIndex, src]);
+  }, [drawPhoto, displayTitle, displayChapter, message, isEn, scenes.length, selectedIndex, src]);
+
+  const ensureLoadedForExport = useCallback(async () => {
+    let { prev, current: img, next } = loadedImagesRef.current;
+    if (!img?.complete || !img.naturalWidth) {
+      img = await loadCrossOriginImage(src);
+      if (!img) return null;
+      loadedImagesRef.current = { ...loadedImagesRef.current, current: img };
+    }
+    const isPanoramaSlice = (item) => Boolean(item?.src) && item?.cat !== "ekotoba";
+    const findPanoramaIndex = (startIdx, step) => {
+      for (let i = startIdx; i >= 0 && i < scenes.length; i += step) {
+        if (isPanoramaSlice(scenes[i])) return i;
+      }
+      return null;
+    };
+    let curIdx = selectedIndex;
+    if (!isPanoramaSlice(scenes[curIdx])) {
+      curIdx = findPanoramaIndex(curIdx, -1) ?? findPanoramaIndex(curIdx, 1);
+    }
+    const prevIdx = findPanoramaIndex(curIdx - 1, -1);
+    const nextIdx = findPanoramaIndex(curIdx + 1, 1);
+    if (prevIdx != null && !prev?.naturalWidth) {
+      const prevUrl = scenes[prevIdx]?.src ? buildCloudinaryUrl(scenes[prevIdx].src) : null;
+      prev = await loadCrossOriginImage(prevUrl);
+    }
+    if (nextIdx != null && !next?.naturalWidth) {
+      const nextUrl = scenes[nextIdx]?.src ? buildCloudinaryUrl(scenes[nextIdx].src) : null;
+      next = await loadCrossOriginImage(nextUrl);
+    }
+    loadedImagesRef.current = { prev, current: img, next };
+    return img;
+  }, [scenes, selectedIndex, src]);
+
+  const handleGenerateVideo = useCallback(async () => {
+    if (isRecording) return;
+    try {
+      setIsRecording(true);
+      setRecordingProgress(0);
+      const img = await ensureLoadedForExport();
+      if (!img?.naturalWidth) throw new Error("Image not loaded");
+      const scale = coverScale * zoom;
+      const centerPoint = {
+        x: img.naturalWidth / 2 - pan.x / scale,
+        y: img.naturalHeight / 2 - pan.y / scale,
+      };
+      const currentUrl = typeof window !== "undefined" ? window.location.href : "";
+      const qrElement = document.querySelector("#polaroid-qr-code canvas") || null;
+      const logoElement = document.querySelector("#polaroid-logo-img") || null;
+
+      await recordEmakiLoopVideo({
+        image: img,
+        centerPoint,
+        zoom,
+        title: isEn ? `"${displayTitle}"` : `『${displayTitle}』`,
+        chapterTitle: displayChapter,
+        customComment: message || "",
+        pageUrl: currentUrl,
+        qrCodeImage: qrElement,
+        logoImage: logoElement,
+        onProgress: (p) => setRecordingProgress(p),
+      });
+      setFeedbackMessage(isEn ? "5-second loop video saved!" : "5秒ループ動画を保存しました！");
+      setIsShareSheetOpen(false);
+    } catch (err) {
+      console.error("Failed to record video:", err);
+      setFeedbackMessage(isEn ? "Video generation failed" : "動画の生成に失敗しました");
+    } finally {
+      setIsRecording(false);
+      setRecordingProgress(0);
+    }
+  }, [
+    isRecording,
+    ensureLoadedForExport,
+    coverScale,
+    zoom,
+    pan.x,
+    pan.y,
+    displayTitle,
+    displayChapter,
+    message,
+    isEn,
+  ]);
+
+  const handleShareVideo = useCallback(async () => {
+    if (isRecording) return;
+    try {
+      setIsRecording(true);
+      setRecordingProgress(0);
+      const img = await ensureLoadedForExport();
+      if (!img?.naturalWidth) throw new Error("Image not loaded");
+      const scale = coverScale * zoom;
+      const centerPoint = {
+        x: img.naturalWidth / 2 - pan.x / scale,
+        y: img.naturalHeight / 2 - pan.y / scale,
+      };
+      const currentUrl = typeof window !== "undefined" ? window.location.href : "";
+      const qrElement = document.querySelector("#polaroid-qr-code canvas") || null;
+      const logoElement = document.querySelector("#polaroid-logo-img") || null;
+
+      const videoBlob = await recordEmakiLoopVideo({
+        image: img,
+        centerPoint,
+        zoom,
+        title: isEn ? `"${displayTitle}"` : `『${displayTitle}』`,
+        chapterTitle: displayChapter,
+        customComment: message || "",
+        pageUrl: currentUrl,
+        qrCodeImage: qrElement,
+        logoImage: logoElement,
+        onProgress: (p) => setRecordingProgress(p),
+      });
+      const ext = videoBlob.type.includes("mp4") ? "mp4" : "webm";
+      const videoFile = new File([videoBlob], `emakimono-short-${Date.now()}.${ext}`, {
+        type: videoBlob.type,
+      });
+      let sharedViaApi = false;
+
+      // モバイル実機であり、かつファイルのWeb共有をサポートしている場合のみ共有ダイアログを起動
+      if (canShareFiles && navigator.canShare && navigator.canShare({ files: [videoFile] })) {
+        try {
+          await navigator.share({
+            files: [videoFile],
+            title: displayTitle,
+            text: getShareTextPayload ? getShareTextPayload() : `${displayTitle} | 絵巻物ビューアー`,
+          });
+          sharedViaApi = true;
+          setIsShareSheetOpen(false);
+        } catch (shareErr) {
+          if (shareErr.name === "AbortError") {
+            return;
+          }
+          console.warn("navigator.share failed, fallback to download + copy:", shareErr);
+        }
+      }
+
+      // デスクトップ環境、またはWeb Share非対応/失敗時のフォールバック
+      if (!sharedViaApi) {
+        if (getShareTextPayload) {
+          try {
+            await navigator.clipboard.writeText(getShareTextPayload());
+          } catch (clipErr) {
+            console.warn("Clipboard text copy failed:", clipErr);
+          }
+        }
+        setFeedbackMessage(
+          isEn ? "Video saved and caption copied!" : "動画を保存し、投稿用本文をコピーしました！"
+        );
+        setIsShareSheetOpen(false);
+      }
+    } catch (err) {
+      if (err.name !== "AbortError") {
+        console.error("Failed to share video:", err);
+        setFeedbackMessage(isEn ? "Video share failed" : "動画の共有に失敗しました");
+      }
+    } finally {
+      setIsRecording(false);
+      setRecordingProgress(0);
+    }
+  }, [
+    isRecording,
+    ensureLoadedForExport,
+    coverScale,
+    zoom,
+    pan.x,
+    pan.y,
+    displayTitle,
+    displayChapter,
+    message,
+    getShareTextPayload,
+    isEn,
+  ]);
+
+  const copyFormattedImage = useCallback(
+    async (format, { trackWebFlow = false } = {}) => {
+      const img = await ensureLoadedForExport();
+      if (!img) return;
+      const copyFmt = FORMATS[format] || FORMATS.polaroid;
+      const canvas = canvasRef.current ?? document.createElement("canvas");
+      canvas.width = copyFmt.canvasW;
+      canvas.height = copyFmt.canvasH;
+      if (!canvasRef.current) canvasRef.current = canvas;
+      const activeTheme = THEMES[currentTheme] || THEMES.white;
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = activeTheme.cardBg || activeTheme.bg;
+      ctx.fillRect(0, 0, copyFmt.canvasW, copyFmt.canvasH);
+      const favicon = await new Promise((resolve) => {
+        const imgFav = new Image();
+        imgFav.onload = () => resolve(imgFav);
+        imgFav.onerror = () => resolve(null);
+        imgFav.src = "/favicon.ico";
+      });
+      const pageUrl = typeof window !== "undefined" ? window.location.href : "https://emakimono.com";
+      const qrDataUrl = await QRCode.toDataURL(pageUrl, {
+        margin: 1,
+        width: 120,
+        color: { dark: activeTheme.qrDark, light: activeTheme.qrLight },
+      }).catch(() => null);
+      const qrImg = qrDataUrl ? await loadCrossOriginImage(qrDataUrl) : null;
+      let displayUrl = pageUrl;
+      try {
+        displayUrl = decodeURIComponent(pageUrl);
+      } catch (e) {
+        // noop
+      }
+      displayUrl = displayUrl.replace(/^https?:\/\/[^/]+/, "emakimono.com");
+      drawPhoto(ctx, favicon, qrImg, displayUrl, format);
+      return new Promise((resolve) => {
+        canvas.toBlob(async (blob) => {
+          if (!blob) {
+            resolve(false);
+            return;
+          }
+          if (navigator.clipboard && window.ClipboardItem) {
+            try {
+              await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
+              if (trackWebFlow) setCopiedStep("image");
+              else setCopiedStep(null);
+              resolve(true);
+              return;
+            } catch (e) {
+              console.error("Clipboard write failed:", e);
+            }
+          }
+          alert("クリップボードへの画像コピーに対応していません。「保存」をご利用ください。");
+          resolve(false);
+        }, "image/png");
+      });
+    },
+    [currentTheme, drawPhoto, ensureLoadedForExport]
+  );
+
+  const handleShareCopy = useCallback(
+    async (type = "x") => {
+      try {
+        const isReel = type === "reel";
+        const format = isReel ? "reel" : "polaroid";
+        const img = await ensureLoadedForExport();
+        if (!img) return;
+        const copyFmt = FORMATS[format] || FORMATS.polaroid;
+        const canvas = canvasRef.current ?? document.createElement("canvas");
+        canvas.width = copyFmt.canvasW;
+        canvas.height = copyFmt.canvasH;
+        if (!canvasRef.current) canvasRef.current = canvas;
+        const activeTheme = THEMES[currentTheme] || THEMES.white;
+        const ctx = canvas.getContext("2d");
+        ctx.fillStyle = activeTheme.cardBg || activeTheme.bg;
+        ctx.fillRect(0, 0, copyFmt.canvasW, copyFmt.canvasH);
+        const favicon = await new Promise((resolve) => {
+          const imgFav = new Image();
+          imgFav.onload = () => resolve(imgFav);
+          imgFav.onerror = () => resolve(null);
+          imgFav.src = "/favicon.ico";
+        });
+        const pageUrl = typeof window !== "undefined" ? window.location.href : "https://emakimono.com";
+        const qrDataUrl = await QRCode.toDataURL(pageUrl, {
+          margin: 1,
+          width: 120,
+          color: { dark: activeTheme.qrDark, light: activeTheme.qrLight },
+        }).catch(() => null);
+        const qrImg = qrDataUrl ? await loadCrossOriginImage(qrDataUrl) : null;
+        let displayUrl = pageUrl;
+        try {
+          displayUrl = decodeURIComponent(pageUrl);
+        } catch (e) {
+          // noop
+        }
+        displayUrl = displayUrl.replace(/^https?:\/\/[^/]+/, "emakimono.com");
+        drawPhoto(ctx, favicon, qrImg, displayUrl, format);
+        canvas.toBlob(async (blob) => {
+          if (!blob) return;
+          if (!navigator.clipboard || !window.ClipboardItem) {
+            alert("クリップボードへの画像コピーに対応していません。「保存」をご利用ください。");
+            return;
+          }
+          try {
+            if (isReel) {
+              await navigator.clipboard.write([
+                new ClipboardItem({
+                  "image/png": blob,
+                }),
+              ]);
+              setIsShareSheetOpen(false);
+              setFeedbackMessage(
+                isEn ? "Reels image (9:16) copied to clipboard!" : "リール用画像(9:16)をコピーしました"
+              );
+            } else {
+              await navigator.clipboard.write([
+                new ClipboardItem({
+                  "image/png": blob,
+                }),
+              ]);
+              setShareStep("textCopy");
+            }
+          } catch (err) {
+            console.error("Clipboard copy failed:", err);
+          }
+        }, "image/png");
+      } catch (error) {
+        console.error("Failed to generate share content:", error);
+      }
+    },
+    [currentTheme, drawPhoto, ensureLoadedForExport, displayTitle, displayChapter, message, isEn]
+  );
 
   if (!isOpen) return null;
 
@@ -951,9 +1347,85 @@ export function PolaroidModal({
           ポラロイド切り抜き
         </h2>
 
+        {/* 対応プラットフォーム案内バッジ列（1行固定・コンパクト表示） */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "5px",
+            padding: "6px 8px 8px",
+            fontSize: "10px",
+            color: "#555",
+            flexWrap: "nowrap",
+            whiteSpace: "nowrap",
+            overflowX: "auto",
+          }}
+        >
+          <span style={{ fontSize: "10px", color: "#888", fontWeight: "600", marginRight: "1px" }}>
+            {isEn ? "Export for:" : "対応:"}
+          </span>
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "2px",
+              background: "#f0f2f5",
+              padding: "2px 6px",
+              borderRadius: "10px",
+              fontWeight: "600",
+            }}
+          >
+            𝕏
+          </span>
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "2px",
+              background: "#fcefe9",
+              color: "#c13584",
+              padding: "2px 6px",
+              borderRadius: "10px",
+              fontWeight: "600",
+            }}
+          >
+            {isEn ? "📸 Reels" : "📸 リール"}
+          </span>
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "2px",
+              background: "#ffebee",
+              color: "#d32f2f",
+              padding: "2px 6px",
+              borderRadius: "10px",
+              fontWeight: "600",
+            }}
+          >
+            ▶️ Shorts
+          </span>
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "2px",
+              background: "#f0f0f0",
+              color: "#111",
+              padding: "2px 6px",
+              borderRadius: "10px",
+              fontWeight: "600",
+            }}
+          >
+            TikTok
+          </span>
+        </div>
+
         <div
           ref={frameRef}
           className={styles.photoFrame}
+          style={{ aspectRatio: "720 / 560" }}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
@@ -1014,29 +1486,100 @@ export function PolaroidModal({
         </div>
 
         <div className={styles.captionArea}>
-          {resolvedChapterTitle && (
+          {displayChapter && (
             <h3 className={styles.captionTitle} style={{ color: THEMES[currentTheme]?.titleColor }}>
-              ― {resolvedChapterTitle} ―
+              {isEn ? `— ${displayChapter} —` : `― ${displayChapter} ―`}
             </h3>
           )}
-          {emakiTitle && (
+          {displayTitle && (
             <p className={styles.captionSubtitle} style={{ color: THEMES[currentTheme]?.subColor }}>
-              『{emakiTitle}』
+              {isEn ? `"${displayTitle}"` : `『${displayTitle}』`}
             </p>
           )}
 
-          <input
-            type="text"
-            className={styles.messageInputUnderline}
-            placeholder="ひとこと添える（40文字まで・リアルタイム反映）"
-            maxLength={MESSAGE_MAX}
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
+          <div
             style={{
-              color: THEMES[currentTheme]?.msgColor,
-              borderBottomColor: THEMES[currentTheme]?.border || "rgba(100, 100, 100, 0.35)",
+              margin: "10px auto 4px",
+              maxWidth: "360px",
+              width: "90%",
+              position: "relative",
             }}
-          />
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                background: message ? "rgba(255, 255, 255, 0.85)" : "#f7f6f2",
+                border: message ? "1px solid #d0ccc0" : "1.5px dashed #b8b2a5",
+                borderRadius: "8px",
+                padding: "5px 10px",
+                transition: "all 0.2s ease",
+                boxShadow: "inset 0 1px 2px rgba(0, 0, 0, 0.04)",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "13px",
+                  marginRight: "6px",
+                  opacity: 0.65,
+                  userSelect: "none",
+                  flexShrink: 0,
+                }}
+              >
+                ✏️
+              </span>
+              <input
+                type="text"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder={isEn ? "Add a note (e.g. Favorite scene)" : "ひとこと添える（例: お気に入りのシーン）"}
+                maxLength={MESSAGE_MAX}
+                style={{
+                  flex: 1,
+                  border: "none",
+                  outline: "none",
+                  background: "transparent",
+                  fontFamily: "'Noto Serif JP', serif",
+                  fontSize: "13px",
+                  color: THEMES[currentTheme]?.msgColor || "#333",
+                  textAlign: "center",
+                  fontStyle: message ? "italic" : "normal",
+                }}
+              />
+              {message && (
+                <button
+                  type="button"
+                  onClick={() => setMessage("")}
+                  style={{
+                    border: "none",
+                    background: "transparent",
+                    cursor: "pointer",
+                    fontSize: "12px",
+                    color: "#999",
+                    padding: "0 2px",
+                    lineHeight: 1,
+                  }}
+                  title="クリア"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+            {!message && (
+              <div
+                style={{
+                  fontSize: "10px",
+                  color: "#999",
+                  textAlign: "center",
+                  marginTop: "2px",
+                }}
+              >
+                {isEn
+                  ? "※ Included as a caption in the image/video (max 40 chars)"
+                  : "※画像・動画内に手書きキャプションとして反映されます（最大40文字）"}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className={styles.cardFooterLine} style={{ color: THEMES[currentTheme]?.creditColor }}>
@@ -1044,7 +1587,7 @@ export function PolaroidModal({
           絵巻物ビューアー | emakimono.com
         </div>
 
-        {copiedStep && (
+        {(copiedStep || feedbackMessage) && (
           <p
             style={{
               margin: "4px 0 0",
@@ -1053,42 +1596,279 @@ export function PolaroidModal({
               color: copiedStep === "text" ? "#16a34a" : "#2563eb",
             }}
           >
-            {copiedStep === "image"
-              ? "✓ 画像をコピーしました（投稿欄に Ctrl+V 貼付後、もう一度押すと本文コピー）"
-              : "✓ 本文・URLもコピーしました！"}
+            {feedbackMessage ||
+              (copiedStep === "image"
+                ? isEn
+                  ? "✓ Image copied (paste with Ctrl+V, then tap again to copy caption)"
+                  : "✓ 画像をコピーしました（投稿欄に Ctrl+V 貼付後、もう一度押すと本文コピー）"
+                : isEn
+                ? "✓ Caption and URL copied!"
+                : "✓ 本文・URLもコピーしました！")}
           </p>
         )}
 
         <div className={styles.footer}>
-          <button type="button" className={styles.saveBtn} onClick={handleSave} disabled={!src}>
-            保存
+          <button
+            type="button"
+            className={styles.saveBtn}
+            onClick={() => {
+              setSheetMode("save");
+              setShareStep("select");
+              setIsShareSheetOpen(true);
+            }}
+            disabled={!src}
+          >
+            {isEn ? "Save" : "保存"}
           </button>
           <button
             type="button"
             className={styles.shareBtn}
-            onClick={handleCopyAndShare}
+            onClick={() => {
+              setFeedbackMessage(null);
+              setSheetMode("share");
+              setShareStep("select");
+              setIsShareSheetOpen(true);
+            }}
             disabled={!src}
             style={{
-              backgroundColor:
-                copiedStep === "text"
-                  ? "#16a34a"
-                  : copiedStep === "image"
-                  ? "#2563eb"
-                  : (currentTheme === "sumi" ? "#383533" : "#2c3e50"),
+              backgroundColor: currentTheme === "sumi" ? "#383533" : "#2c3e50",
             }}
           >
-            {copiedStep === "text"
-              ? "✓ 本文コピー完了"
-              : copiedStep === "image"
-              ? "続けて本文をコピー"
-              : "画像をコピーして共有"}
+            {isEn ? "Share to SNS / Shorts" : "SNS・Shortsに共有"}
           </button>
           <button type="button" className={styles.closeBtn} onClick={onClose}>
-            閉じる
+            {isEn ? "Close" : "閉じる"}
           </button>
         </div>
+
+        {isShareSheetOpen && (
+          <div className={styles.shareSheetOverlay}>
+            <div className={styles.shareSheetContent}>
+              {shareStep === "select" ? (
+                <>
+                  <div className={styles.shareSheetTitle}>
+                    {sheetMode === "save"
+                      ? isEn
+                        ? "Select Save Format"
+                        : "保存の形式を選択"
+                      : isEn
+                      ? "Select Export Target"
+                      : "共有の用途を選択"}
+                  </div>
+                  {sheetMode === "save" ? (
+                    <>
+                      <button
+                        type="button"
+                        className={styles.shareOptionButton}
+                        disabled={!src}
+                        onClick={() => {
+                          handleDownload("polaroid");
+                          setIsShareSheetOpen(false);
+                        }}
+                      >
+                        <span className={styles.shareOptionLabel}>
+                          {isEn ? "🖼️ Polaroid Image (4:5)" : "🖼️ ポラロイド画像（4:5）"}
+                        </span>
+                        <span className={styles.shareOptionDesc}>
+                          {isEn ? "Standard aspect ratio for 𝕏 & feed posts" : "X / フィード投稿向け標準比率"}
+                        </span>
+                      </button>
+                      <button
+                        type="button"
+                        className={styles.shareOptionButton}
+                        disabled={!src || isRecording}
+                        onClick={() => {
+                          handleDownload("reel");
+                          setIsShareSheetOpen(false);
+                        }}
+                      >
+                        <span className={styles.shareOptionLabel}>
+                          {isEn ? "📱 Full Screen (9:16 Photo)" : "📱 縦型フル画面（9:16 静止画）"}
+                        </span>
+                        <span className={styles.shareOptionDesc}>
+                          {isEn ? "For Instagram Reels & Stories" : "Instagram リール・ストーリーズ用"}
+                        </span>
+                      </button>
+                      <button
+                        type="button"
+                        className={styles.shareOptionButton}
+                        disabled={!src || isRecording}
+                        onClick={handleGenerateVideo}
+                        style={{
+                          background: isRecording ? "#f0f7ff" : undefined,
+                          borderColor: isRecording ? "#90caf9" : undefined,
+                        }}
+                      >
+                        <span className={styles.shareOptionLabel}>
+                          {isRecording
+                            ? isEn
+                              ? `🎥 Generating video... (${recordingProgress}%)`
+                              : `🎥 動画生成中... (${recordingProgress}%)`
+                            : isEn
+                            ? "▶️ 5-Sec Loop Video (9:16)"
+                            : "▶️ 5秒ループ動画（9:16）"}
+                        </span>
+                        <span className={styles.shareOptionDesc}>
+                          {isEn ? "For YouTube Shorts, Reels & TikTok" : "YouTube Shorts / リール / TikTok用"}
+                        </span>
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        type="button"
+                        className={styles.shareOptionButton}
+                        disabled={!src}
+                        onClick={() => handleShareCopy("x")}
+                      >
+                        <span className={styles.shareOptionLabel}>
+                          {isEn
+                            ? "𝕏 For X (4:5 image + caption)"
+                            : "𝕏 X (Twitter) 用（4:5 画像＋本文）"}
+                        </span>
+                        <span className={styles.shareOptionDesc}>
+                          {isEn
+                            ? "Copy polaroid image + caption instructions"
+                            : "ポラロイド画像コピー ＋ 投稿テキスト案内"}
+                        </span>
+                      </button>
+                      <button
+                        type="button"
+                        className={styles.shareOptionButton}
+                        disabled={!src || isRecording}
+                        onClick={() => handleShareCopy("reel")}
+                      >
+                        <span className={styles.shareOptionLabel}>
+                          {isEn
+                            ? "📸 Instagram Reels / Stories (still image)"
+                            : "📸 Instagram リール / ストーリーズ（静止画）"}
+                        </span>
+                        <span className={styles.shareOptionDesc}>
+                          {isEn
+                            ? "Copy 9:16 vertical image to clipboard"
+                            : "9:16 縦型画像のみをクリップボードにコピー"}
+                        </span>
+                      </button>
+                      <button
+                        type="button"
+                        className={styles.shareOptionButton}
+                        disabled={!src || isRecording}
+                        onClick={handleShareVideo}
+                        style={{
+                          background: isRecording ? "#f0f7ff" : undefined,
+                          borderColor: isRecording ? "#90caf9" : undefined,
+                        }}
+                      >
+                        <span className={styles.shareOptionLabel}>
+                          {isRecording
+                            ? isEn
+                              ? `🎥 Generating video... (${recordingProgress}%)`
+                              : `🎥 動画生成中... (${recordingProgress}%)`
+                            : canShareFiles
+                            ? isEn
+                              ? "▶️ YouTube Shorts / Reels / TikTok (share video)"
+                              : "▶️ YouTube Shorts / リール / TikTok（動画共有）"
+                            : isEn
+                            ? "▶️ YouTube Shorts / Reels / TikTok (save + caption)"
+                            : "▶️ YouTube Shorts / リール / TikTok（動画保存＋本文）"}
+                        </span>
+                        <span className={styles.shareOptionDesc}>
+                          {canShareFiles
+                            ? isEn
+                              ? "Share 9:16 loop video directly to apps"
+                              : "9:16 ループ動画を各アプリへ直接共有"
+                            : isEn
+                            ? "Save 9:16 loop video and copy caption"
+                            : "9:16 ループ動画を保存し、投稿文をコピー"}
+                        </span>
+                      </button>
+                    </>
+                  )}
+                  <button
+                    type="button"
+                    className={styles.shareCancelButton}
+                    onClick={() => {
+                      setIsShareSheetOpen(false);
+                      setShareStep("select");
+                    }}
+                  >
+                    {isEn ? "Cancel" : "キャンセル"}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <div className={styles.shareSheetTitle} style={{ color: "#2e7d32" }}>
+                    {isEn ? "✓ Image copied to clipboard" : "✓ 画像をコピーしました"}
+                  </div>
+                  <p style={{ fontSize: "12px", color: "#666", margin: "4px 0 8px", lineHeight: "1.4" }}>
+                    {isEn ? (
+                      <>
+                        ① Paste the image into your post (Ctrl + V)
+                        <br />
+                        ② Use the button below to copy and paste the caption
+                      </>
+                    ) : (
+                      <>
+                        ① 投稿欄に画像を貼り付け（Ctrl + V）<br />
+                        ② 下のボタンで本文をコピーして貼り付けてください
+                      </>
+                    )}
+                  </p>
+                  <div
+                    style={{
+                      background: "#f8f9fa",
+                      border: "1px solid #e9ecef",
+                      padding: "12px 14px",
+                      borderRadius: "8px",
+                      fontSize: "13px",
+                      lineHeight: "1.6",
+                      color: "#212529",
+                      maxHeight: "160px",
+                      overflowY: "auto",
+                      whiteSpace: "pre-wrap",
+                      wordBreak: "break-all",
+                      textAlign: "left",
+                    }}
+                  >
+                    {getShareTextPayload()}
+                  </div>
+                  <button
+                    type="button"
+                    className={styles.shareOptionButton}
+                    style={{ justifyContent: "center", background: "#1976d2", color: "#fff", fontWeight: "bold" }}
+                    onClick={async () => {
+                      const text = getShareTextPayload();
+                      await navigator.clipboard.writeText(text);
+                      setFeedbackMessage(isEn ? "Caption copied!" : "本文をコピーしました！");
+                      setIsShareSheetOpen(false);
+                      setShareStep("select");
+                    }}
+                  >
+                    {isEn ? "Copy caption & close" : "本文をコピーして閉じる"}
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.shareCancelButton}
+                    onClick={() => {
+                      setIsShareSheetOpen(false);
+                      setShareStep("select");
+                    }}
+                  >
+                    {isEn ? "Close" : "閉じる"}
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        )}
       </div>
-      <canvas ref={canvasRef} className={styles.hiddenCanvas} width={CANVAS_W} height={CANVAS_H} aria-hidden="true" />
+      <canvas
+        ref={canvasRef}
+        className={styles.hiddenCanvas}
+        width={FORMATS.reel.canvasW}
+        height={FORMATS.reel.canvasH}
+        aria-hidden="true"
+      />
     </div>
   );
 }
