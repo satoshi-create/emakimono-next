@@ -18,14 +18,19 @@ export const R2_UPLOAD_BASE =
   "https://assets.emakimono.com";
 
 /**
- * 山崎本 甲巻・乙巻・丙巻・丁巻かどうかを判定（R2 / Worker 配信）
+ * Cloudflare R2 / Worker 配信対象かどうかを判定
+ * 鳥獣人物戯画（山崎本 全巻）および 九相図関連絵巻
  */
-function isYamazakiR2Scroll(publicId) {
+function isR2DeliveryTarget(publicId) {
   return (
     publicId.includes("choju-giga-yamazaki-kou") ||
     publicId.includes("choju-giga-yamazaki-otu") ||
     publicId.includes("choju-giga-yamazaki-hei") ||
-    publicId.includes("choju-giga-yamazaki-tei")
+    publicId.includes("choju-giga-yamazaki-tei") ||
+    publicId.includes("kuso-zu") ||
+    publicId.includes("kusoushi") ||
+    publicId.includes("kusouzu") ||
+    publicId.includes("nine-stages-of-decay-empress-danrin")
   );
 }
 
@@ -33,7 +38,7 @@ export function buildCloudinaryUrl(src, transforms = []) {
   let publicId = String(src || "").replace(/^\//, "");
 
   // 山崎本 甲・乙巻: Cloudflare Worker 経由でキャッシュ付き WebP を直接配信
-  if (isYamazakiR2Scroll(publicId)) {
+  if (isR2DeliveryTarget(publicId)) {
     const r2Key = publicId
       .replace(/^v\d+\//, "")
       .replace(/\.jpg$/, ".webp");
@@ -51,7 +56,7 @@ export function buildCloudinaryUrl(src, transforms = []) {
   return `${CLOUDINARY_UPLOAD_BASE}/${uploadPath}`;
 }
 
-export function cloudinaryThumbLoader({ src, width, quality }) {
+export function cloudinaryThumbLoader({ src, width, quality }) {c
   return buildCloudinaryUrl(src, [
     "c_limit",
     "f_auto",

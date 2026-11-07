@@ -98,6 +98,22 @@ jobs:
           fi
           python scripts/analytics/run_weekly_review.py "${ARGS[@]}"
 
+      - name: Dispatch Weekly Summary Issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REPORT_DIR="analytics/reports/${{ steps.dates.outputs.report_date }}"
+          SUMMARY_FILE="$REPORT_DIR/summary.md"
+          
+          if [ -f "$SUMMARY_FILE" ]; then
+            TITLE="【週次アナリティクス】定期レポート (${{ steps.dates.outputs.report_date }})"
+            gh issue create \
+              --title "$TITLE" \
+              --body-file "$SUMMARY_FILE"
+          else
+            echo "Summary file not found: $SUMMARY_FILE"
+          fi
+
       - name: Upload review artifact
         uses: actions/upload-artifact@v4
         with:
