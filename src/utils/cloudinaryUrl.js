@@ -19,7 +19,7 @@ export const R2_UPLOAD_BASE =
 
 /**
  * Cloudflare R2 / Worker 配信対象かどうかを判定
- * 鳥獣人物戯画（山崎本 全巻）および 九相図関連絵巻
+ * 鳥獣人物戯画（山崎本 全巻）、九相図関連絵巻、および 洛中洛外図屏風
  */
 function isR2DeliveryTarget(publicId) {
   return (
@@ -30,7 +30,8 @@ function isR2DeliveryTarget(publicId) {
     publicId.includes("kuso-zu") ||
     publicId.includes("kusoushi") ||
     publicId.includes("kusouzu") ||
-    publicId.includes("nine-stages-of-decay-empress-danrin")
+    publicId.includes("nine-stages-of-decay-empress-danrin") ||
+    publicId.includes("rakuchu")
   );
 }
 

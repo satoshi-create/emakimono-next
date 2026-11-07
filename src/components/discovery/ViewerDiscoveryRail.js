@@ -22,9 +22,16 @@ const ViewerDiscoveryRail = ({ data, onClose }) => {
     const p = resolveViewerDiscoveryPlan(data);
     const titleens = expandDiscoveryTitleens(p.titleens, data?.titleen, 6);
     const byTitleen = new Map(all.map((item) => [item.titleen, item]));
+    const FUNAKI_TITLEEN = "rakuchu_rakugai_funaki";
+    const planned = titleens
+      .map((id) => byTitleen.get(id))
+      .filter(Boolean)
+      .filter((item) => item.titleen !== FUNAKI_TITLEEN);
+    const funaki = byTitleen.get(FUNAKI_TITLEEN);
+    const items = funaki ? [funaki, ...planned] : planned;
     return {
       plan: p,
-      items: titleens.map((id) => byTitleen.get(id)).filter(Boolean),
+      items,
     };
   }, [all, data]);
 
