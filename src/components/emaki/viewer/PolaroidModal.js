@@ -1425,7 +1425,12 @@ export function PolaroidModal({
         <div
           ref={frameRef}
           className={styles.photoFrame}
-          style={{ aspectRatio: "720 / 560" }}
+          style={{
+            aspectRatio: "720 / 560",
+            position: "relative",
+            cursor: dragging ? "grabbing" : "grab",
+            userSelect: "none",
+          }}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
@@ -1463,8 +1468,68 @@ export function PolaroidModal({
               ) : null}
             </div>
           ) : (
-            <div className={styles.photoPlaceholder}>画像がありません</div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+                minHeight: "240px",
+                gap: "12px",
+                color: "#888",
+                fontSize: "13px",
+                fontFamily: "'Noto Serif JP', serif",
+              }}
+            >
+              <div
+                style={{
+                  width: "28px",
+                  height: "28px",
+                  border: "3px solid #e0ded9",
+                  borderTopColor: "#b8b2a5",
+                  borderRadius: "50%",
+                  animation: "spin 0.8s linear infinite",
+                }}
+              />
+              <span>{isEn ? "Loading..." : "読み込み中..."}</span>
+              <style jsx>{`
+                @keyframes spin {
+                  to {
+                    transform: rotate(360deg);
+                  }
+                }
+              `}</style>
+            </div>
           )}
+          {src && curSlot ? (
+            <div
+              style={{
+                position: "absolute",
+                bottom: "8px",
+                right: "8px",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "4px",
+                background: dragging ? "rgba(0, 0, 0, 0.72)" : "rgba(0, 0, 0, 0.55)",
+                color: "#ffffff",
+                padding: "3px 8px",
+                borderRadius: "14px",
+                fontSize: "10px",
+                fontWeight: "500",
+                pointerEvents: "none",
+                backdropFilter: "blur(2px)",
+                boxShadow: dragging
+                  ? "0 2px 6px rgba(0, 0, 0, 0.35)"
+                  : "0 1px 3px rgba(0, 0, 0, 0.2)",
+                transition: "background 0.15s ease, box-shadow 0.15s ease",
+                zIndex: 2,
+              }}
+            >
+              <span style={{ fontSize: "11px" }}>✥</span>
+              <span>{isEn ? "Drag to move" : "ドラッグで移動"}</span>
+            </div>
+          ) : null}
           <div className={styles.zoomHint}>ドラッグで位置調整・ホイールで拡大縮小</div>
         </div>
 
