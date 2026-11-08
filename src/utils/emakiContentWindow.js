@@ -435,10 +435,7 @@ export function buildSceneShellStyle(item, ctx = {}) {
   let heightVar = "var(--vh-75)";
   if (toggleFullscreen) heightVar = "var(--vh-100)";
   else if (orientation === "portrait")
-    // 屏風（舟木本 等）は縦持ちでスライス幅が極小になり、拡大時のラスタ解像度が
-    // 足りなくなる。高さにフロア（480px）を設けて初期レイアウト寸法を底上げする
-    // （EmakiPortraitContent の --screen-height と必ず同値に保つ）。
-    heightVar = isByobu ? "max(var(--vh-45), 480px)" : "var(--vh-45)";
+    heightVar = "var(--vh-45)";
   else if (orientation === "landscape")
     // フローティングカード化（非全画面 md+横）: 実キャンバス高基準でシーンを充填。
     // vh-75 固定だと広がった実キャンバス高（--vh-float）より短く、下部に余白が出る

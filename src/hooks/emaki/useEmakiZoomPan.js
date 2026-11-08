@@ -39,7 +39,10 @@ export default function useEmakiZoomPan({
   containerRef,
   requestZoomRef,
   maxScale: maxScaleProp,
+  isPaused = false,
 } = {}) {
+  const isPausedRef = useRef(isPaused);
+  isPausedRef.current = isPaused;
   // 作品特性に応じたズーム上限（未指定 = 600%、屏風 = 800%）。不正値は既定へ戻す。
   const maxScale = isFiniteNumber(maxScaleProp)
     ? clamp(maxScaleProp, FALLBACK_MIN_SCALE, HARD_MAX_SCALE)
@@ -415,11 +418,25 @@ export default function useEmakiZoomPan({
     if (!el) return undefined;
 
     const onWheel = (event) => {
-      if (!event.deltaY) return;
+      if (isPausedRef.current) return;
+      // ポラロイドモーダル等の外部ダイアログ内操作のみを除外（自前の ZoomLayer は除外しない）
+      const dialogEl = event.target.closest?.('[role="dialog"], [aria-modal="true"]');
+      if (dialogEl && !zoomRef.current?.contains(dialogEl) && !event.target.closest?.(".ZoomLayer_layer__5nAV7")) {
+        return;
+      }
+
       const zooming = isZoomedRef.current;
-      if (!zooming && !(event.ctrlKey || event.metaKey)) return;
-      event.stopPropagation();
-      event.preventDefault();
+      const isModifierZoom = Boolean(event.ctrlKey || event.metaKey);
+
+      // ピンチ相当（Ctrl/⌘+wheel）またはズーム中の操作は、deltaY の有無に関わらず先頭でブラウザズームを即時抑止
+      if (zooming || isModifierZoom) {
+        event.stopPropagation();
+        event.preventDefault();
+      } else {
+        return;
+      }
+
+      if (!event.deltaY) return;
       // Firefox 等の deltaMode（1: line, 2: page）を px 相当へ正規化
       const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? 100 : 1;
       const delta = event.deltaY * unit;
