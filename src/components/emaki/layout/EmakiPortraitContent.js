@@ -107,8 +107,6 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
         height={
           viewerFullscreen
             ? "var(--vh-100)"
-            : isByobu
-            ? "max(var(--vh-45), 480px)"
             : "var(--vh-45)"
         }
         editionLinks={[

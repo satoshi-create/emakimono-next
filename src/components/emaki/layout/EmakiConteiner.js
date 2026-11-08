@@ -32,12 +32,8 @@ import WheelScrollIndicator from "@/components/emaki/viewer/WheelScrollIndicator
 import { AppContext } from "@/context/AppContext";
 import { assignUniqueIndex } from "@/utils/emakiItemIndexer";
 import {
-  computeZoomStripRange,
-  sceneIndexAtContentX,
-  sceneWidthPx,
   shouldMountSceneContent,
 } from "@/utils/emakiContentWindow";
-import { findSceneIndexAtViewportCenter } from "@/utils/emakiSceneDom";
 import {
   faMagnifyingGlass,
   faMagnifyingGlassMinus,
@@ -48,6 +44,7 @@ import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import useEmakiAutoPlay from "@/hooks/emaki/useEmakiAutoPlay";
 import useEmakiPalmDrag from "@/hooks/emaki/useEmakiPalmDrag";
 import useEmakiZoomPan from "@/hooks/emaki/useEmakiZoomPan";
+import useEmakiZoomBridge from "@/hooks/emaki/useEmakiZoomBridge";
 import useEmakiScroll from "@/hooks/emaki/useEmakiScroll";
 import useScrollPositionRestore from "@/hooks/emaki/useScrollPositionRestore";
 import styles from "@/styles/EmakiConteiner.module.css";
@@ -214,19 +211,7 @@ const EmakiContainer = ({
   const [scrollFeedbackSubmitted, setScrollFeedbackSubmitted] = useState(false);
   const [endPromptDismissed, setEndPromptDismissed] = useState(false);
   const [sharePromptDismissed, setSharePromptDismissed] = useState(false);
-  const [isPolaroidModalOpen, setIsPolaroidModalOpen] = useState(false);
-  const [polaroidSceneIndex, setPolaroidSceneIndex] = useState(0);
-
-  const handleOpenPolaroidModal = () => {
-    const el = articleRef.current;
-    const probed = el ? findSceneIndexAtViewportCenter(el) : null;
-    const targetIndex =
-      probed !== null && !Number.isNaN(probed) ? probed : liveSceneIndex;
-
-    setPolaroidSceneIndex(targetIndex);
-    setIsPolaroidModalOpen(true);
-  };
-  const handleClosePolaroidModal = () => setIsPolaroidModalOpen(false);
+  // ズーム・ポラロイド連携は useEmakiZoomBridge へ集約
   const [midFeedbackDismissed, setMidFeedbackDismissed] = useState(false);
   const [scrollRatioBucket, setScrollRatioBucket] = useState(0);
 
@@ -862,23 +847,6 @@ const EmakiContainer = ({
     }
   }, [isZoomed, handleZoomCloseWithTrack]);
 
-  const resetZoom = useCallback(() => {
-    handleZoomCloseWithTrack();
-    originalResetZoom();
-  }, [handleZoomCloseWithTrack, originalResetZoom]);
-
-  const toggleZoom = useCallback(
-    (e) => {
-      if (!isZoomed) {
-        handleZoomOpenWithTrack("button");
-      } else {
-        handleZoomCloseWithTrack();
-      }
-      originalToggleZoom(e);
-    },
-    [isZoomed, handleZoomOpenWithTrack, handleZoomCloseWithTrack, originalToggleZoom]
-  );
-
   // 開発専用: 絵引座標ピッカー（?dev=ebiki / ?ebikiPicker=1、非ズーム時のみ）
   const {
     enabled: ebikiPickerEnabled,
@@ -1062,11 +1030,11 @@ const EmakiContainer = ({
       };
 
       // クロスブラウザ対応: 標準の wheel イベントを使用（Firefox対応）
-      el.addEventListener("wheel", MouseWheelHandler, false);
+      el.addEventListener("wheel", MouseWheelHandler, { passive: false });
 
       // クリーンアップ処理
       return () => {
-        el.removeEventListener("wheel", MouseWheelHandler, false);
+        el.removeEventListener("wheel", MouseWheelHandler, { passive: false });
       };
     }
   }, [scroll, emakiId]);
@@ -1081,6 +1049,39 @@ const EmakiContainer = ({
     [data.emakis]
   );
 
+  const {
+    zoomSlices,
+    zoomCenterIndex,
+    enterZoomAtPoint,
+    handleCaptureFromZoom,
+    handleOpenPolaroidModal,
+    handleClosePolaroidModal,
+    resetZoom,
+    toggleZoom,
+    isPolaroidModalOpen,
+    polaroidSceneIndex,
+    polaroidInitialZoom,
+    polaroidInitialPan,
+    polaroidModalKey,
+  } = useEmakiZoomBridge({
+    data,
+    processedEmakis,
+    articleRef,
+    entryContainerRef,
+    contentWindowCenterRef,
+    liveSceneIndex,
+    isZoomed,
+    zoomScale,
+    panX,
+    panY,
+    openZoom,
+    resetZoom: originalResetZoom,
+    toggleZoom: originalToggleZoom,
+    enterZoomRef,
+    onZoomOpenTrack: handleZoomOpenWithTrack,
+    onZoomCloseTrack: handleZoomCloseWithTrack,
+  });
+
   // ボトムコメントバー: 横スクロール鑑賞時は常に表示（中身の有無は SceneCommentaryBar 側）
   // metadata.kotobagaki / sceneText は UI ゲートに使わない（タブ出しは kobun 有無）
   const hasCommentaryData = Boolean(scroll);
@@ -1088,193 +1089,7 @@ const EmakiContainer = ({
   const sceneIndexForPrefetch =
     isPlayMode || isAutoScrolling ? liveSceneIndex : navIndex;
 
-  // ズーム表示の中心は「開始時に凍結」したシーンを使う。
-  // contentWindowCenter（state）は idle へ遅延反映されるため、開いた瞬間に参照すると
-  // 一瞬前の位置のスライスが描画され、直後に現在位置へ切り替わる（ちらつき）原因になる。
-  // 開く時点の同期値（contentWindowCenterRef）を確定して以降は固定する。
-  const [zoomCenterIndex, setZoomCenterIndex] = useState(0);
-
-  // ズーム起動時に実測した article 実寸。collectZoomSlices の useMemo 依存に入れ、
-  // 同値 centerIndex（巻頭 0 番等）で開いても最新実寸でスライスを再評価させる。
-  const [zoomStageMetrics, setZoomStageMetrics] = useState({
-    height: 0,
-    width: 0,
-  });
-
-  // 屏風は1スライスが極端に細く、通常の最小3枚ではステージ幅を埋めきれないため5枚を保証
-  const zoomMinSlices = isByobuScroll(data)
-    ? ZOOM_STRIP_MIN_SLICES_BYOBU
-    : ZOOM_STRIP_MIN_SLICES;
-
-  // 改修B: スライス枚数は固定せず、ストリップ幅がステージ幅を満たすよう動的に収集する。
-  // 狭幅スライス（舟木本 等）は片側2〜3枚へ自動拡張、通常幅は最小3枚に落ち着く。
-  const collectZoomSlices = useCallback(
-    (centerIndex, metrics = {}) => {
-      const items = processedEmakis;
-      if (!items.length) return [];
-      const el = articleRef.current;
-      // ズームレイヤーの strip は entry-container（解説バー込み）実高へ充填されるため、
-      // スライス幅の基準も article（45svh / 75svh）ではなく実際に描画される
-      // コンテナ実高に揃える（ズーム層と背景層でスライス幅がズレるのを防ぐ）。
-      const heightEl = entryContainerRef.current;
-      // 初回コミット直後は clientHeight = 0 のことがある。0 のまま sceneWidthPx へ渡すと
-      // 1px 基準に潰れ、舟木本では約 0.36px のサブピクセル幅スライスが生成されて
-      // 倍率が最大へ張り付き低解像度のまま固定される。実測 → viewport 高の順で代用する
-      let rowHeightPx =
-        metrics.height || heightEl?.clientHeight || el?.clientHeight || 0;
-      if (!(rowHeightPx > 0) && typeof window !== "undefined") {
-        rowHeightPx = window.innerHeight || 0;
-      }
-      // 実寸が取れない（非表示・SSR）場合はスライスを作らない
-      if (!(rowHeightPx > 0)) return [];
-      const stageWidthPx = metrics.width || el?.clientWidth || 0;
-      const { from, to } = computeZoomStripRange(
-        items,
-        centerIndex,
-        rowHeightPx,
-        stageWidthPx,
-        zoomMinSlices
-      );
-      const list = [];
-      for (let i = from; i <= to; i += 1) {
-        const item = items[i];
-        if (!item?.src) continue;
-        list.push({
-          key: i,
-          src: buildCloudinaryUrl(item.src, [
-            "c_limit",
-            // 600〜800% 拡大時もスライス原寸（舟木本 = 1328px 幅）を使い切る。
-            // 2000px 以上かつ原寸以上を要求し、c_limit が原寸でキャップする
-            // （要求幅が原寸を下回ると、拡大時に Cloudinary 側で縮小されてぼやける）。
-            `w_${Math.max(2000, Math.round(item.srcWidth || 0))}`,
-            // 拡大時に墨の輪郭や着物の柄が甘くならないようCDN側でエッジ強調。
-            // e_sharpen はダウン/アップスケール後に適用されるため、
-            // ブラウザの補間ぼけと二重にならず輪郭だけを引き締める。
-            "e_sharpen:80",
-            "f_auto",
-            "q_auto:best",
-          ]),
-          // CSS 側の aspect-ratio で幅を算出させるため、実寸比だけを渡す
-          srcWidth: item.srcWidth || 0,
-          srcHeight: item.srcHeight || 0,
-        });
-      }
-      return list;
-    },
-    [processedEmakis, zoomMinSlices]
-  );
-
-  const zoomSlices = useMemo(
-    () => collectZoomSlices(zoomCenterIndex, zoomStageMetrics),
-    [collectZoomSlices, zoomCenterIndex, zoomStageMetrics]
-  );
-
-  // article（横スクロール面）のスライス幅基準高 = calc(AR * var(--screen-height))。
-  // offsetHeight が --screen-height 実寸と一致する。
-  const getArticleUnitHeight = useCallback(
-    (el) => (el ? el.offsetHeight || el.clientHeight || 0 : 0),
-    []
-  );
-
-  // 初期 pan アライメント補正（P1）: article のビューポート中央にある内容
-  // （|scrollLeft| + clientWidth / 2）と、オーバーレイ strip 中央が指す内容との差分。
-  // 収集範囲は collectZoomSlices と同じ computeZoomStripRange で求め、必ず一致させる。
-  // 戻り値はコンテンツ座標系の差分（openZoom 側で表示倍率を乗じてスクリーン px にする）。
-  const computeZoomAlignPanX = useCallback(
-    (centerIndex, rowHeightPx) => {
-      const el = articleRef.current;
-      const items = processedEmakis;
-      if (!el || !items.length || !(rowHeightPx > 0)) return 0;
-      const { from, to } = computeZoomStripRange(
-        items,
-        centerIndex,
-        rowHeightPx,
-        el.clientWidth,
-        zoomMinSlices
-      );
-      let offsetFrom = 0;
-      for (let i = 0; i < from; i += 1) {
-        offsetFrom += sceneWidthPx(items[i], rowHeightPx);
-      }
-      let stripWidth = 0;
-      for (let i = from; i <= to; i += 1) {
-        stripWidth += sceneWidthPx(items[i], rowHeightPx);
-      }
-      // article の content px（scrollLeft / clientWidth）は articleUnit 基準のため、
-      // overlay 基準（rowHeightPx）へ比率 k で換算してから中央ピン位置を求める。
-      const articleUnit = getArticleUnitHeight(el);
-      const k = articleUnit > 0 ? rowHeightPx / articleUnit : 1;
-      const viewportCenterFromStart =
-        (Math.abs(el.scrollLeft) + el.clientWidth / 2) * k;
-      return viewportCenterFromStart - offsetFrom - stripWidth / 2;
-    },
-    [processedEmakis, zoomMinSlices, getArticleUnitHeight]
-  );
-
-  // ズーム進入: 表示中央の中心スライスと初期 pan を openZoom と同一コミットで
-  // 事前確定してから開く（P2: 古いスライス基準の補正を防ぐ）。
-  // 連打時に古い進入処理で開かないためのトークン
-  const zoomOpenTokenRef = useRef(0);
-
-  // ピンチ / Ctrl+ホイール（トラックパッド）からの即時進入:
-  // ジェスチャに追従させるため、画像プリロードを待たず同期でズーム状態へ入る。
-  // initialScale 未指定なら既定倍率、等倍（1）指定なら指の広がりに応じて拡大する。
-  const enterZoomAtPoint = useCallback(
-    (clientX, clientY, initialScale) => {
-      const el = articleRef.current;
-      // ズームレイヤーの strip 高は entry-container（解説バー込み）実高に充填される。
-      // スライス幅・初期 pan の基準を article（45svh / 75svh）ではなく実描画
-      // コンテナ高へ統一する（collectZoomSlices / computeZoomAlignPanX と同基準）。
-      const containerHeight =
-        entryContainerRef.current?.clientHeight || el?.clientHeight || 0;
-      let centerIndex = Number.isFinite(contentWindowCenterRef.current)
-        ? contentWindowCenterRef.current
-        : zoomCenterIndex;
-      if (el && el.clientWidth > 0 && el.clientHeight > 0) {
-        // 改修B: ピボットはビューポート中央ではなくカーソル下のコンテンツ座標。
-        // contentAt(X) = |scrollLeft| + (containerRect.right - X)
-        const rect = el.getBoundingClientRect();
-        const focusX = Number.isFinite(clientX)
-          ? clientX
-          : rect.left + rect.width / 2;
-        const contentX = Math.abs(el.scrollLeft) + (rect.right - focusX);
-        const estimated = sceneIndexAtContentX(
-          data.emakis,
-          contentX,
-          getArticleUnitHeight(el) || containerHeight
-        );
-        if (Number.isFinite(estimated)) centerIndex = estimated;
-      }
-      // ズーム起動時に article（＝entry-container）の実寸を直接実測して確定する。
-      // 初回レンダー時などに clientHeight = 0 のまま確定したスライス寸法を、
-      // 同値 centerIndex の useMemo が抱え続けて解像度が上がらない（＝ボケたまま固定）
-      // のを防ぐ。高さはズーム層の描画実高（entry-container）を基準にする。
-      const measuredHeight = containerHeight;
-      const measuredWidth = el?.clientWidth || 0;
-      if (measuredHeight > 0 || measuredWidth > 0) {
-        setZoomStageMetrics((prev) =>
-          prev.height === measuredHeight && prev.width === measuredWidth
-            ? prev
-            : { height: measuredHeight, width: measuredWidth }
-        );
-      }
-      setZoomCenterIndex(centerIndex);
-      const initialPanX = computeZoomAlignPanX(centerIndex, measuredHeight);
-      zoomOpenTokenRef.current += 1;
-      openZoom(clientX, clientY, initialPanX, initialScale);
-    },
-    [
-      data.emakis,
-      zoomCenterIndex,
-      computeZoomAlignPanX,
-      getArticleUnitHeight,
-      contentWindowCenterRef,
-      openZoom,
-    ]
-  );
-
-  // useEmakiZoomPan（ジェスチャ側）から同期進入できるよう配線する
-  enterZoomRef.current = enterZoomAtPoint;
+  // ズーム進入・スライス収集・初期アライメントは useEmakiZoomBridge へ委譲済み
 
   // 描画窓 Phase 1: section 殻は常置、中身は sticky mount（一度載せたら外さない）
   if (contentWindowEmakiRef.current !== data.id) {
@@ -1401,30 +1216,11 @@ const EmakiContainer = ({
                 variant="fullscreen"
                 isOn={isZoomed}
                 isFullscreen={toggleFullscreen}
-                isBarFloating={commentaryFloating}
+                isBarFloating={commentaryFloating || isZoomed}
                 isUIVisible={isUIVisible}
               />
             </div>
 
-            {/* ポラロイド切り抜きボタン（PC横画面 / 全画面時のみ右下に表示し、モバイル縦ナビとの重複を防ぐ） */}
-            {commentaryFloating && (
-              <div className={zoomStyles.polaroidAnchor}>
-                <ActionButton
-                  icon={
-                    <FontAwesomeIcon
-                      icon={faCamera}
-                      style={{ fontSize: "1.5em" }}
-                    />
-                  }
-                  description="ポラロイド風画像を作成・共有"
-                  onClick={handleOpenPolaroidModal}
-                  variant="fullscreen"
-                  isFullscreen={toggleFullscreen}
-                  isBarFloating={commentaryFloating}
-                  isUIVisible={isUIVisible}
-                />
-              </div>
-            )}
           </>
         )}
         {scroll && (
@@ -1449,8 +1245,10 @@ const EmakiContainer = ({
             scenes={processedEmakis ?? []}
             emakiTitle={data?.title}
             initialIndex={polaroidSceneIndex}
+            initialZoom={polaroidInitialZoom}
+            initialPan={polaroidInitialPan}
             isOpen={isPolaroidModalOpen}
-            key={`${isPolaroidModalOpen}-${polaroidSceneIndex}`}
+            key={polaroidModalKey}
             onClose={handleClosePolaroidModal}
             title={data?.title}
             titleen={data?.titleen}
@@ -1602,6 +1400,7 @@ const EmakiContainer = ({
         </article>
         <ZoomLayer
           isZoomed={isZoomed}
+          onCapture={handleCaptureFromZoom}
           scale={zoomScale}
           panX={panX}
           panY={panY}
