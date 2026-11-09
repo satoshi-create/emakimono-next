@@ -22,7 +22,7 @@ import { findSceneIndexAtViewportCenter } from "@/utils/emakiSceneDom";
 // デバッグスイッチ
 // 検証完了後は false にすることで、すべてのコンソール出力を一括で停止できます。
 // =============================================================================
-const DEBUG_BRIDGE = true;
+const DEBUG_BRIDGE = false;
 
 function logBridge(tag, ...args) {
   if (!DEBUG_BRIDGE) return;

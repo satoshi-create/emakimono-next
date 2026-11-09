@@ -11,7 +11,7 @@
 // デバッグスイッチ
 // 検証完了後は false にすることで、すべてのコンソール出力を一括で停止できます。
 // =============================================================================
-const DEBUG_SCENE_DOM = true;
+const DEBUG_SCENE_DOM = false;
 
 function logSceneDom(tag, ...args) {
   if (!DEBUG_SCENE_DOM) return;
