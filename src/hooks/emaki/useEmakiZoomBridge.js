@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback, useRef } from "react";
+import { trackPolaroidOpen } from "@/libs/api/measurementUtils";
 import {
   computeZoomStripRange,
   sceneIndexAtContentX,
@@ -340,6 +341,12 @@ export default function useEmakiZoomBridge({
     setPolaroidInitialPan(initialPan);
     setCaptureRevision((rev) => rev + 1);
     setIsPolaroidModalOpen(true);
+
+    trackPolaroidOpen({
+      source: "zoom_capture",
+      scrollId: typeof titleen === "string" ? titleen : "",
+      sceneIndex: targetIndex,
+    });
   }, [
     processedEmakis,
     zoomScale,
@@ -433,6 +440,12 @@ export default function useEmakiZoomBridge({
     setPolaroidInitialPan(initialPan);
     setCaptureRevision((rev) => rev + 1);
     setIsPolaroidModalOpen(true);
+
+    trackPolaroidOpen({
+      source: "commentary",
+      scrollId: typeof titleen === "string" ? titleen : "",
+      sceneIndex: targetIndex,
+    });
   }, [articleRef, liveSceneIndex, processedEmakis]);
 
   // ---------------------------------------------------------------------------

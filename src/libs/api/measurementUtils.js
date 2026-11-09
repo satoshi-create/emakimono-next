@@ -567,3 +567,57 @@ export const trackZoomClose = (emakiId, durationSec = 0, maxScale = 1) => {
     max_scale: Number(maxScale.toFixed(2)),
   });
 };
+
+/**
+ * ポラロイドモーダル起動計測
+ * @param {Object} params
+ * @param {"commentary" | "zoom_capture"} params.source - 起動元（コメンタリーバー or ズーム画面）
+ * @param {string} [params.scrollId] - 絵巻物識別子
+ * @param {number} [params.sceneIndex] - 対象スライス番号
+ */
+export const trackPolaroidOpen = ({ source, scrollId, sceneIndex }) => {
+  sendEvent("polaroid_modal_open", {
+    trigger_source: source,
+    scroll_id: scrollId || "",
+    scene_index: typeof sceneIndex === "number" ? sceneIndex : null,
+  });
+};
+
+/**
+ * ポラロイドモーダル終了計測
+ * @param {Object} params
+ * @param {string} [params.scrollId] - 絵巻物識別子
+ */
+export const trackPolaroidClose = ({ scrollId } = {}) => {
+  sendEvent("polaroid_modal_close", {
+    scroll_id: scrollId || "",
+  });
+};
+
+/**
+ * ポラロイドテーマ変更計測
+ * @param {Object} params
+ * @param {string} params.theme - 選択されたテーマ名（white, washi, sumi等）
+ * @param {string} [params.scrollId] - 絵巻物識別子
+ */
+export const trackPolaroidThemeChange = ({ theme, scrollId }) => {
+  sendEvent("polaroid_theme_change", {
+    theme_name: theme,
+    scroll_id: scrollId || "",
+  });
+};
+
+/**
+ * ポラロイド書き出し・共有成功計測
+ * @param {Object} params
+ * @param {"polaroid" | "reel" | "video" | "x_copy" | "reel_copy"} params.exportType - 出力形式
+ * @param {string} [params.scrollId] - 絵巻物識別子
+ * @param {boolean} [params.hasMessage] - ユーザーキャプション入力の有無
+ */
+export const trackPolaroidExportSuccess = ({ exportType, scrollId, hasMessage }) => {
+  sendEvent("polaroid_export_success", {
+    export_type: exportType,
+    scroll_id: scrollId || "",
+    has_message: Boolean(hasMessage),
+  });
+};

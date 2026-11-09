@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from "react";
+import { trackPolaroidExportSuccess } from "@/libs/api/measurementUtils";
 import QRCode from "qrcode";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
 import { recordEmakiLoopVideo } from "@/utils/emakiVideoRecorder";
@@ -23,6 +24,7 @@ export function usePolaroidExport({
   message,
   isEn,
   canShareFiles,
+  scrollId,
 }) {
   const [copiedStep, setCopiedStep] = useState(null); // null | "image" | "text"
   const [isShareSheetOpen, setIsShareSheetOpen] = useState(false);
@@ -169,8 +171,14 @@ export function usePolaroidExport({
       link.download = `emakimono-${format}-${Date.now()}.png`;
       link.href = dataUrl;
       link.click();
+
+      trackPolaroidExportSuccess({
+        exportType: format === "reel" ? "reel" : "polaroid",
+        scrollId: typeof scrollId === "string" ? scrollId : "",
+        hasMessage: Boolean(message && message.trim()),
+      });
     },
-    [drawPhoto, ensureLoadedForExport, currentTheme]
+    [drawPhoto, ensureLoadedForExport, currentTheme, message, scrollId]
   );
 
   const handleShareCopy = useCallback(
@@ -227,6 +235,12 @@ export function usePolaroidExport({
               setFeedbackMessage(
                 isEn ? "Reels image (9:16) copied to clipboard!" : "リール用画像(9:16)をコピーしました"
               );
+
+              trackPolaroidExportSuccess({
+                exportType: "reel_copy",
+                scrollId: typeof scrollId === "string" ? scrollId : "",
+                hasMessage: Boolean(message && message.trim()),
+              });
             } else {
               await navigator.clipboard.write([
                 new ClipboardItem({
@@ -234,6 +248,12 @@ export function usePolaroidExport({
                 }),
               ]);
               setShareStep("textCopy");
+
+              trackPolaroidExportSuccess({
+                exportType: "x_copy",
+                scrollId: typeof scrollId === "string" ? scrollId : "",
+                hasMessage: Boolean(message && message.trim()),
+              });
             }
           } catch (err) {
             console.error("Clipboard copy failed:", err);
@@ -243,7 +263,7 @@ export function usePolaroidExport({
         console.error("Failed to generate share content:", error);
       }
     },
-    [currentTheme, drawPhoto, ensureLoadedForExport, isEn]
+    [currentTheme, drawPhoto, ensureLoadedForExport, isEn, message, scrollId]
   );
 
   const handleGenerateVideo = useCallback(async () => {
@@ -276,6 +296,12 @@ export function usePolaroidExport({
       });
       setFeedbackMessage(isEn ? "5-second loop video saved!" : "5秒ループ動画を保存しました！");
       setIsShareSheetOpen(false);
+
+      trackPolaroidExportSuccess({
+        exportType: "video",
+        scrollId: typeof scrollId === "string" ? scrollId : "",
+        hasMessage: Boolean(message && message.trim()),
+      });
     } catch (err) {
       console.error("Failed to record video:", err);
       setFeedbackMessage(isEn ? "Video generation failed" : "動画の生成に失敗しました");
@@ -294,6 +320,7 @@ export function usePolaroidExport({
     displayChapter,
     message,
     isEn,
+    scrollId,
   ]);
 
   const handleShareVideo = useCallback(async () => {
@@ -339,6 +366,12 @@ export function usePolaroidExport({
           });
           sharedViaApi = true;
           setIsShareSheetOpen(false);
+
+          trackPolaroidExportSuccess({
+            exportType: "video",
+            scrollId: typeof scrollId === "string" ? scrollId : "",
+            hasMessage: Boolean(message && message.trim()),
+          });
         } catch (shareErr) {
           if (shareErr.name === "AbortError") return;
           console.warn("navigator.share failed, fallback to download + copy:", shareErr);
@@ -380,6 +413,7 @@ export function usePolaroidExport({
     getShareTextPayload,
     canShareFiles,
     isEn,
+    scrollId,
   ]);
 
   return {

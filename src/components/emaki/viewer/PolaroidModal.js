@@ -41,6 +41,10 @@ import { usePolaroidScrollLock } from "./polaroid/usePolaroidScrollLock";
 
 // --- サブUIコンポーネント ---
 import { PolaroidShareSheet } from "./polaroid/PolaroidShareSheet";
+import {
+  trackPolaroidClose,
+  trackPolaroidThemeChange,
+} from "@/libs/api/measurementUtils";
 
 export function PolaroidModal({
   isOpen,
@@ -86,6 +90,12 @@ export function PolaroidModal({
         : "";
   const scrollTitle =
     (typeof title === "string" ? title : "") || emakiTitle || "";
+
+  // モーダルクローズ時の計測イベント発火
+  const handleModalClose = () => {
+    trackPolaroidClose({ scrollId });
+    onClose();
+  };
 
   // クライアントマウント後のみ Portal 描画（SSR ハイドレーション回避）
   const [mounted, setMounted] = useState(false);
@@ -241,7 +251,7 @@ export function PolaroidModal({
         type="button"
         className={styles.backdrop}
         aria-label="閉じる"
-        onClick={onClose}
+        onClick={handleModalClose}
         style={{ zIndex: 1 }}
       />
 
@@ -423,7 +433,12 @@ export function PolaroidModal({
                 backgroundColor: th.bg,
                 borderColor: currentTheme === th.id ? (th.id === "sumi" ? "#cfa554" : "#2c3e50") : (th.border || "#d1d5db"),
               }}
-              onClick={() => setCurrentTheme(th.id)}
+              onClick={() => {
+                if (currentTheme !== th.id) {
+                  trackPolaroidThemeChange({ theme: th.id, scrollId });
+                  setCurrentTheme(th.id);
+                }
+              }}
               title={`${th.name}テーマ`}
               aria-label={`${th.name}テーマ`}
             />
@@ -586,7 +601,7 @@ export function PolaroidModal({
           >
             {isEn ? "Share to SNS / Shorts" : "SNS・Shortsに共有"}
           </button>
-          <button type="button" className={styles.closeBtn} onClick={onClose}>
+          <button type="button" className={styles.closeBtn} onClick={handleModalClose}>
             {isEn ? "Close" : "閉じる"}
           </button>
         </div>
