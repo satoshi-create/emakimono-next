@@ -1,5 +1,5 @@
-/* Tailwind v3 directives removed: incompatible with @tailwindcss/postcss v4 plugin */
-/* Tailwind utility classes are not used in this project (CSS Modules + Chakra UI) */
+/* Tailwind utility classes are enabled without Preflight to prevent breaking existing CSS Modules / Chakra UI styles */
+@import "tailwindcss/utilities" layer(utilities);
 
 *,
 ::after,

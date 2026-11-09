@@ -1,15 +1,29 @@
-import { useMemo, useState, useEffect } from "react";
+/**
+ * =============================================================================
+ * File: PolaroidModal.js
+ * 
+ * 【責務】
+ * ポラロイド写真風の切り抜きビューアを表示するUIシェルコンポーネント。
+ * 低レイヤーの幾何計算・エクスポート・メタデータ解決・スクロールロックは
+ * それぞれ専用のカスタムフックに委譲し、本ファイルはUIツリーの構成と
+ * スタイリングに特化しています。
+ * 
+ * 【主要な委譲先フック・コンポーネント】
+ * - usePolaroidPanZoom: 前後3スライス読み込み、ドラッグ/ホイールによるPan・Zoom制御
+ * - usePolaroidChapterMetadata: 詞書・章タイトル・作品名などのメタデータ逆引き解決
+ * - usePolaroidExport: Canvasオフスクリーン描画、画像保存、動画生成、SNS共有
+ * - usePolaroidScrollLock: モーダル表示中の背面スクロール固定とwheelイベント漏洩防止
+ * - PolaroidShareSheet: 共有・保存のフォーマット選択ボトムシートUI
+ * =============================================================================
+ */
+
+import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/router";
 import styles from "@/styles/PolaroidModal.module.css";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
-import {
-  ChaptersTitle,
-  connectEmakiTextData,
-  isGenjiWork,
-  resolveGenjiMasterChapter,
-  connectGenjiChapters,
-} from "@/utils/emakiChapterText";
+
+// --- レンダリング定数・カラーテーマ ---
 import {
   THEMES,
   FORMATS,
@@ -18,8 +32,15 @@ import {
   MESSAGE_MAX,
   getThemeTextureUrl,
 } from "./polaroid/polaroidCanvasRenderer";
+
+// --- 分割・抽出された責務別カスタムフック ---
 import { usePolaroidPanZoom } from "./polaroid/usePolaroidPanZoom";
 import { usePolaroidExport } from "./polaroid/usePolaroidExport";
+import { usePolaroidChapterMetadata } from "./polaroid/usePolaroidChapterMetadata";
+import { usePolaroidScrollLock } from "./polaroid/usePolaroidScrollLock";
+
+// --- サブUIコンポーネント ---
+import { PolaroidShareSheet } from "./polaroid/PolaroidShareSheet";
 
 export function PolaroidModal({
   isOpen,
@@ -34,14 +55,18 @@ export function PolaroidModal({
   scrollTitleEn,
   title,
 }) {
-  const [currentTheme, setCurrentTheme] = useState("white");
-  const [message, setMessage] = useState("");
-  const [isMobileDevice, setIsMobileDevice] = useState(false);
+  // ---------------------------------------------------------------------------
+  // 1. ローカルUIステート & ルーター情報
+  // ---------------------------------------------------------------------------
+  const [currentTheme, setCurrentTheme] = useState("white"); // ポラロイド台紙テーマ（和紙、墨、雅など）
+  const [message, setMessage] = useState("");                // 手書き風キャプションメッセージ
+  const [isMobileDevice, setIsMobileDevice] = useState(false); // モバイル端末判定（ネイティブ共有用）
 
   const router = useRouter();
   const locale = router.locale ?? "ja";
   const isEn = locale === "en";
 
+  // モバイル端末判定（navigator.share を利用可能か判断）
   useEffect(() => {
     if (typeof navigator !== "undefined") {
       setIsMobileDevice(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent || ""));
@@ -62,11 +87,21 @@ export function PolaroidModal({
   const scrollTitle =
     (typeof title === "string" ? title : "") || emakiTitle || "";
 
-  // 1. Pan/Zoom & 画像ロードフック
+  // クライアントマウント後のみ Portal 描画（SSR ハイドレーション回避）
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
+
+  const frameDomReady = mounted && isOpen;
+
+  // ---------------------------------------------------------------------------
+  // 2. Pan / Zoom & パノラマ画像ロード（usePolaroidPanZoom）
+  // ---------------------------------------------------------------------------
   const {
     selectedIndex,
     zoom,
-    setZoom,
     pan,
     coverScale,
     panoramaSlots,
@@ -77,106 +112,40 @@ export function PolaroidModal({
     handlePointerDown,
     handlePointerMove,
     handlePointerUp,
+    handleFrameWheel,
   } = usePolaroidPanZoom({
     isOpen,
     scenes,
     initialIndex,
     initialZoom,
     initialPan,
+    frameDomReady,
   });
 
   const currentScene = scenes[selectedIndex] || scenes[0];
-  const currentLinkId = currentScene?.linkId ?? 0;
   const rawSrc = currentScene?.src ?? "";
   const src = rawSrc ? buildCloudinaryUrl(rawSrc) : "";
 
-  const safeString = (val) =>
-    typeof val === "string" ? val.trim() : typeof val === "number" ? String(val) : "";
+  // ---------------------------------------------------------------------------
+  // 3. メタデータ解決（usePolaroidChapterMetadata）
+  //    - 詞書（ekotoba）から最も近い章タイトルや源氏物語の帖名を逆引き
+  // ---------------------------------------------------------------------------
+  const { displayTitle, displayChapter } = usePolaroidChapterMetadata({
+    scenes,
+    currentScene,
+    scrollId,
+    scrollTitle,
+    title,
+    emakiTitle,
+    titleen,
+    titleEn,
+    scrollTitleEn,
+    isEn,
+  });
 
-  // 詞書・章タイトル解決
-  const { resolvedChapterTitle } = useMemo(() => {
-    let ekotoba = null;
-    for (let i = 0; i < scenes.length; i++) {
-      const item = scenes[i];
-      if (item?.cat === "ekotoba" && item.linkId <= currentLinkId) ekotoba = item;
-    }
-    if (!ekotoba) return { resolvedChapterTitle: "" };
-
-    let chapterTitleStr = "";
-
-    const fromJson = connectEmakiTextData(scrollId, ekotoba.chapter, isEn ? "titleen" : "title");
-    if (typeof fromJson === "string" && fromJson.trim()) {
-      chapterTitleStr = fromJson.trim();
-    }
-
-    if (!chapterTitleStr && isGenjiWork(scrollId, scrollTitle)) {
-      const masterCh = resolveGenjiMasterChapter(
-        scrollId,
-        ekotoba.chapter,
-        ekotoba.genji_chapter
-      );
-      const chNum = connectGenjiChapters(masterCh, "chapter_ch");
-      const genjiTitle = connectGenjiChapters(masterCh, isEn ? "titleen" : "title");
-      if (genjiTitle) {
-        chapterTitleStr = chNum ? `第${chNum}帖 ${genjiTitle}` : genjiTitle;
-      }
-    }
-
-    if (!chapterTitleStr) {
-      if (isEn) {
-        if (typeof ekotoba.titleen === "string" && ekotoba.titleen.trim()) {
-          chapterTitleStr = ekotoba.titleen.trim();
-        } else if (typeof ekotoba.chapterTitleEn === "string" && ekotoba.chapterTitleEn.trim()) {
-          chapterTitleStr = ekotoba.chapterTitleEn.trim();
-        } else if (typeof ekotoba.chapteren === "string" && ekotoba.chapteren.trim()) {
-          chapterTitleStr = ekotoba.chapteren.trim();
-        }
-      }
-      if (!chapterTitleStr && typeof ekotoba.title === "string" && ekotoba.title.trim()) {
-        chapterTitleStr = ekotoba.title.trim();
-      } else if (!chapterTitleStr) {
-        const rawTitle = ChaptersTitle(
-          scrollId,
-          scrollTitle,
-          ekotoba.chapter,
-          isEn ? "titleen" : "title",
-          ekotoba.genji_chapter
-        );
-        if (typeof rawTitle === "string") {
-          chapterTitleStr = rawTitle.trim();
-        }
-      }
-    }
-
-    return {
-      resolvedChapterTitle: safeString(chapterTitleStr),
-    };
-  }, [scenes, currentLinkId, scrollId, scrollTitle, isEn]);
-
-  const rawTitleEn =
-    safeString(titleen) ||
-    safeString(titleEn) ||
-    safeString(scrollTitleEn) ||
-    safeString(currentScene?.titleen) ||
-    safeString(currentScene?.titleEn) ||
-    safeString(currentScene?.scrollTitleEn) ||
-    "";
-
-  const rawTitleJa =
-    safeString(title) ||
-    safeString(currentScene?.title) ||
-    safeString(emakiTitle) ||
-    safeString(scrollTitle);
-
-  const displayTitle = isEn && rawTitleEn ? rawTitleEn : rawTitleJa;
-
-  const displayChapter = isEn
-    ? safeString(currentScene?.chapterTitleEn) ||
-      safeString(currentScene?.chapteren) ||
-      safeString(resolvedChapterTitle)
-    : safeString(resolvedChapterTitle);
-
-  // 2. 書き出し・共有フック
+  // ---------------------------------------------------------------------------
+  // 4. 書き出し・保存・SNS共有制御（usePolaroidExport）
+  // ---------------------------------------------------------------------------
   const {
     copiedStep,
     feedbackMessage,
@@ -212,6 +181,7 @@ export function PolaroidModal({
     canShareFiles,
   });
 
+  // モーダルが閉じられた際のエクスポート状態初期化
   useEffect(() => {
     if (!isOpen) {
       setMessage("");
@@ -219,60 +189,35 @@ export function PolaroidModal({
     }
   }, [isOpen, resetExportStates]);
 
-  // モーダル表示中: body スクロールロックおよび不要な wheel 漏れを遮断
-  useEffect(() => {
-    if (!isOpen) return;
+  // ---------------------------------------------------------------------------
+  // 5. 背面スクロールロック & wheel 漏洩防止（usePolaroidScrollLock）
+  // ---------------------------------------------------------------------------
+  usePolaroidScrollLock({ isOpen, frameRef });
 
-    // 背景ページの縦スクロールを物理的にロック
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    const handleDocumentWheel = (e) => {
-      const isInsidePhoto = frameRef?.current && frameRef.current.contains(e.target);
-      // photoFrame 内のホイール操作（ズーム用）以外は、モーダル内外問わずスクロール漏れを抑止
-      if (!isInsidePhoto) {
-        // カード内テキスト等の縦スクロールを妨げないため、.card 内のスクロール可能要素以外は preventDefault
-        const isScrollableCard = e.target.closest?.(`.${styles.card}`);
-        if (!isScrollableCard || e.ctrlKey || e.metaKey) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-      }
-    };
-
-    document.addEventListener("wheel", handleDocumentWheel, {
-      capture: true,
-      passive: false,
-    });
-
-    return () => {
-      document.body.style.overflow = originalOverflow;
-      document.removeEventListener("wheel", handleDocumentWheel, {
-        capture: true,
-      });
-    };
-  }, [isOpen, frameRef]);
-
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-    return () => setMounted(false);
-  }, []);
-
+  // 非表示またはSSR時は何もレンダリングしない
   if (!isOpen || !mounted) return null;
 
+  // ---------------------------------------------------------------------------
+  // 6. パノラマストリップの物理寸法 & Transform 計算
+  // ---------------------------------------------------------------------------
+  // 基準幅（PHOTO_DW: 960px）に対する現在の写真枠幅のスケール比
   const r = frameW / PHOTO_DW;
   const { prev: prevSlot, current: curSlot, next: nextSlot } = panoramaSlots;
   const cs = coverScale;
   const z = zoom;
+
+  // 各スライスの実描画ピクセル幅・高さ
   const prevDw = prevSlot?.naturalWidth ? prevSlot.naturalWidth * cs * z * r : 0;
   const curDw = curSlot?.naturalWidth ? curSlot.naturalWidth * cs * z * r : 0;
   const nextDw = nextSlot?.naturalWidth ? nextSlot.naturalWidth * cs * z * r : 0;
   const curDh = curSlot?.naturalHeight ? curSlot.naturalHeight * cs * z * r : 0;
   const prevDh = prevSlot?.naturalHeight ? prevSlot.naturalHeight * cs * z * r : 0;
   const nextDh = nextSlot?.naturalHeight ? nextSlot.naturalHeight * cs * z * r : 0;
+
+  // 前後画像の幅差による中央補正量（絵巻は右から左に進むため）
   const stripNudgeX = (prevDw - nextDw) / 2;
 
+  // ストリップ全体の配置（中央基準 + Pan移動 + 幅差補正）
   const stripTransform =
     curSlot && r > 0
       ? {
@@ -280,6 +225,9 @@ export function PolaroidModal({
         }
       : undefined;
 
+  // ---------------------------------------------------------------------------
+  // 7. モーダル本体の JSX 構造
+  // ---------------------------------------------------------------------------
   const modalContent = (
     <div
       className={styles.overlay}
@@ -288,8 +236,18 @@ export function PolaroidModal({
       aria-labelledby="polaroid-modal-title"
       style={{ position: "fixed", inset: 0, zIndex: 99999, pointerEvents: "auto" }}
     >
-      <button type="button" className={styles.backdrop} aria-label="閉じる" onClick={onClose} style={{ zIndex: 1 }} />
+      {/* 背景クリック用バックドロップ */}
+      <button
+        type="button"
+        className={styles.backdrop}
+        aria-label="閉じる"
+        onClick={onClose}
+        style={{ zIndex: 1 }}
+      />
+
+      {/* ポラロイドカード本体 */}
       <div
+        data-polaroid-card="true"
         className={styles.card}
         onClick={(e) => e.stopPropagation()}
         style={{
@@ -305,7 +263,7 @@ export function PolaroidModal({
           ポラロイド切り抜き
         </h2>
 
-        {/* プラットフォーム案内バッジ */}
+        {/* --- A. プラットフォーム案内バッジ --- */}
         <div
           style={{
             display: "flex",
@@ -337,30 +295,23 @@ export function PolaroidModal({
           </span>
         </div>
 
-        {/* 写真表示フレーム */}
+        {/* --- B. 写真表示フレーム（ドラッグ/ホイール操作対象） --- */}
         <div
           ref={frameRef}
-          className={styles.photoFrame}
-          style={{
-            aspectRatio: `${PHOTO_DW} / ${PHOTO_DH}`,
-            position: "relative",
-            cursor: dragging ? "grabbing" : "grab",
-            userSelect: "none",
-            touchAction: "none",
-          }}
+          data-polaroid-frame
+          className={`relative aspect-[960/1280] max-h-[52vh] w-full flex-1 min-h-0 overflow-hidden bg-neutral-900/5 select-none touch-none ${
+            dragging ? "cursor-grabbing" : "cursor-grab"
+          }`}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
-          onWheel={(e) => {
-            e.stopPropagation();
-            const delta = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
-            const zoomFactor = delta < 0 ? 1.08 : 0.92;
-            setZoom((prev) => Math.min(Math.max(prev * zoomFactor, 0.8), 3.0));
-          }}
+          onWheel={handleFrameWheel}
         >
           {src && curSlot && curDw > 0 ? (
+            /* パノラマストリップ（RTL順: next -> cur -> prev） */
             <div className={styles.panoramaStrip} style={stripTransform}>
+              {/* 絵巻の進行方向（左側: 次スライス） */}
               {nextSlot ? (
                 <img
                   crossOrigin="anonymous"
@@ -371,6 +322,7 @@ export function PolaroidModal({
                   draggable={false}
                 />
               ) : null}
+              {/* 中央スライス */}
               <img
                 crossOrigin="anonymous"
                 src={curSlot.src}
@@ -379,6 +331,7 @@ export function PolaroidModal({
                 style={{ width: `${curDw}px`, height: `${curDh}px`, flexShrink: 0, pointerEvents: "none" }}
                 draggable={false}
               />
+              {/* 絵巻の進行方向（右側: 前スライス） */}
               {prevSlot ? (
                 <img
                   crossOrigin="anonymous"
@@ -391,6 +344,7 @@ export function PolaroidModal({
               ) : null}
             </div>
           ) : (
+            /* ローディングスピナー */
             <div
               style={{
                 display: "flex",
@@ -426,6 +380,7 @@ export function PolaroidModal({
             </div>
           )}
 
+          {/* ドラッグ操作ヒントバッジ */}
           {src && curSlot ? (
             <div
               style={{
@@ -457,7 +412,7 @@ export function PolaroidModal({
           <div className={styles.zoomHint}>ドラッグで位置調整・ホイールで拡大縮小</div>
         </div>
 
-        {/* テーマ選択 */}
+        {/* --- C. 和紙・墨・雅などのテーマセレクタ --- */}
         <div className={styles.themeSelector} role="radiogroup" aria-label="テーマ選択">
           {Object.values(THEMES).map((th) => (
             <button
@@ -475,7 +430,7 @@ export function PolaroidModal({
           ))}
         </div>
 
-        {/* キャプションエリア */}
+        {/* --- D. キャプション & ひとこと入力エリア --- */}
         <div className={styles.captionArea}>
           {displayChapter && (
             <h3 className={styles.captionTitle} style={{ color: THEMES[currentTheme]?.titleColor }}>
@@ -488,6 +443,7 @@ export function PolaroidModal({
             </p>
           )}
 
+          {/* メッセージ入力フォーム */}
           <div
             style={{
               margin: "10px auto 4px",
@@ -573,11 +529,13 @@ export function PolaroidModal({
           </div>
         </div>
 
+        {/* --- E. クレジット表記 --- */}
         <div className={styles.cardFooterLine} style={{ color: THEMES[currentTheme]?.creditColor }}>
           <img src="/favicon.ico" alt="" width={12} height={12} style={{ borderRadius: 2, marginRight: 4 }} />
           絵巻物ビューアー | emakimono.com
         </div>
 
+        {/* コピー結果通知トースト */}
         {(copiedStep || feedbackMessage) && (
           <p
             style={{
@@ -598,7 +556,7 @@ export function PolaroidModal({
           </p>
         )}
 
-        {/* フッター操作ボタン */}
+        {/* --- F. フッター操作ボタン（保存 / 共有 / 閉じる） --- */}
         <div className={styles.footer}>
           <button
             type="button"
@@ -633,228 +591,28 @@ export function PolaroidModal({
           </button>
         </div>
 
-        {/* 共有・保存シート */}
-        {isShareSheetOpen && (
-          <div className={styles.shareSheetOverlay}>
-            <div className={styles.shareSheetContent}>
-              {shareStep === "select" ? (
-                <>
-                  <div className={styles.shareSheetTitle}>
-                    {sheetMode === "save"
-                      ? isEn
-                        ? "Select Save Format"
-                        : "保存の形式を選択"
-                      : isEn
-                      ? "Select Export Target"
-                      : "共有の用途を選択"}
-                  </div>
-                  {sheetMode === "save" ? (
-                    <>
-                      <button
-                        type="button"
-                        className={styles.shareOptionButton}
-                        disabled={!src}
-                        onClick={() => {
-                          handleDownload("polaroid");
-                          setIsShareSheetOpen(false);
-                        }}
-                      >
-                        <span className={styles.shareOptionLabel}>
-                          {isEn ? "🖼️ Polaroid Image (4:5)" : "🖼️ ポラロイド画像（4:5）"}
-                        </span>
-                        <span className={styles.shareOptionDesc}>
-                          {isEn ? "Standard aspect ratio for 𝕏 & feed posts" : "X / フィード投稿向け標準比率"}
-                        </span>
-                      </button>
-                      <button
-                        type="button"
-                        className={styles.shareOptionButton}
-                        disabled={!src || isRecording}
-                        onClick={() => {
-                          handleDownload("reel");
-                          setIsShareSheetOpen(false);
-                        }}
-                      >
-                        <span className={styles.shareOptionLabel}>
-                          {isEn ? "📱 Full Screen (9:16 Photo)" : "📱 縦型フル画面（9:16 静止画）"}
-                        </span>
-                        <span className={styles.shareOptionDesc}>
-                          {isEn ? "For Instagram Reels & Stories" : "Instagram リール・ストーリーズ用"}
-                        </span>
-                      </button>
-                      <button
-                        type="button"
-                        className={styles.shareOptionButton}
-                        disabled={!src || isRecording}
-                        onClick={handleGenerateVideo}
-                        style={{
-                          background: isRecording ? "#f0f7ff" : undefined,
-                          borderColor: isRecording ? "#90caf9" : undefined,
-                        }}
-                      >
-                        <span className={styles.shareOptionLabel}>
-                          {isRecording
-                            ? isEn
-                              ? `🎥 Generating video... (${recordingProgress}%)`
-                              : `🎥 動画生成中... (${recordingProgress}%)`
-                            : isEn
-                            ? "▶️ 5-Sec Loop Video (9:16)"
-                            : "▶️ 5秒ループ動画（9:16）"}
-                        </span>
-                        <span className={styles.shareOptionDesc}>
-                          {isEn ? "For YouTube Shorts, Reels & TikTok" : "YouTube Shorts / リール / TikTok用"}
-                        </span>
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <button
-                        type="button"
-                        className={styles.shareOptionButton}
-                        disabled={!src}
-                        onClick={() => handleShareCopy("x")}
-                      >
-                        <span className={styles.shareOptionLabel}>
-                          {isEn
-                            ? "𝕏 For X (4:5 image + caption)"
-                            : "𝕏 X (Twitter) 用（4:5 画像＋本文）"}
-                        </span>
-                        <span className={styles.shareOptionDesc}>
-                          {isEn
-                            ? "Copy polaroid image + caption instructions"
-                            : "ポラロイド画像コピー ＋ 投稿テキスト案内"}
-                        </span>
-                      </button>
-                      <button
-                        type="button"
-                        className={styles.shareOptionButton}
-                        disabled={!src || isRecording}
-                        onClick={() => handleShareCopy("reel")}
-                      >
-                        <span className={styles.shareOptionLabel}>
-                          {isEn
-                            ? "📸 Instagram Reels / Stories (still image)"
-                            : "📸 Instagram リール / ストーリーズ（静止画）"}
-                        </span>
-                        <span className={styles.shareOptionDesc}>
-                          {isEn
-                            ? "Copy 9:16 vertical image to clipboard"
-                            : "9:16 縦型画像のみをクリップボードにコピー"}
-                        </span>
-                      </button>
-                      <button
-                        type="button"
-                        className={styles.shareOptionButton}
-                        disabled={!src || isRecording}
-                        onClick={handleShareVideo}
-                        style={{
-                          background: isRecording ? "#f0f7ff" : undefined,
-                          borderColor: isRecording ? "#90caf9" : undefined,
-                        }}
-                      >
-                        <span className={styles.shareOptionLabel}>
-                          {isRecording
-                            ? isEn
-                              ? `🎥 Generating video... (${recordingProgress}%)`
-                              : `🎥 動画生成中... (${recordingProgress}%)`
-                            : canShareFiles
-                            ? isEn
-                              ? "▶️ YouTube Shorts / Reels / TikTok (share video)"
-                              : "▶️ YouTube Shorts / リール / TikTok（動画共有）"
-                            : isEn
-                            ? "▶️ YouTube Shorts / Reels / TikTok (save + caption)"
-                            : "▶️ YouTube Shorts / リール / TikTok（動画保存＋本文）"}
-                        </span>
-                        <span className={styles.shareOptionDesc}>
-                          {canShareFiles
-                            ? isEn
-                              ? "Share 9:16 loop video directly to apps"
-                              : "9:16 ループ動画を各アプリへ直接共有"
-                            : isEn
-                            ? "Save 9:16 loop video and copy caption"
-                            : "9:16 ループ動画を保存し、投稿文をコピー"}
-                        </span>
-                      </button>
-                    </>
-                  )}
-                  <button
-                    type="button"
-                    className={styles.shareCancelButton}
-                    onClick={() => {
-                      setIsShareSheetOpen(false);
-                      setShareStep("select");
-                    }}
-                  >
-                    {isEn ? "Cancel" : "キャンセル"}
-                  </button>
-                </>
-              ) : (
-                <>
-                  <div className={styles.shareSheetTitle} style={{ color: "#2e7d32" }}>
-                    {isEn ? "✓ Image copied to clipboard" : "✓ 画像をコピーしました"}
-                  </div>
-                  <p style={{ fontSize: "12px", color: "#666", margin: "4px 0 8px", lineHeight: "1.4" }}>
-                    {isEn ? (
-                      <>
-                        ① Paste the image into your post (Ctrl + V)
-                        <br />
-                        ② Use the button below to copy and paste the caption
-                      </>
-                    ) : (
-                      <>
-                        ① 投稿欄に画像を貼り付け（Ctrl + V）<br />
-                        ② 下のボタンで本文をコピーして貼り付けてください
-                      </>
-                    )}
-                  </p>
-                  <div
-                    style={{
-                      background: "#f8f9fa",
-                      border: "1px solid #e9ecef",
-                      padding: "12px 14px",
-                      borderRadius: "8px",
-                      fontSize: "13px",
-                      lineHeight: "1.6",
-                      color: "#212529",
-                      maxHeight: "160px",
-                      overflowY: "auto",
-                      whiteSpace: "pre-wrap",
-                      wordBreak: "break-all",
-                      textAlign: "left",
-                    }}
-                  >
-                    {getShareTextPayload()}
-                  </div>
-                  <button
-                    type="button"
-                    className={styles.shareOptionButton}
-                    style={{ justifyContent: "center", background: "#1976d2", color: "#fff", fontWeight: "bold" }}
-                    onClick={async () => {
-                      const text = getShareTextPayload();
-                      await navigator.clipboard.writeText(text);
-                      setFeedbackMessage(isEn ? "Caption copied!" : "本文をコピーしました！");
-                      setIsShareSheetOpen(false);
-                      setShareStep("select");
-                    }}
-                  >
-                    {isEn ? "Copy caption & close" : "本文をコピーして閉じる"}
-                  </button>
-                  <button
-                    type="button"
-                    className={styles.shareCancelButton}
-                    onClick={() => {
-                      setIsShareSheetOpen(false);
-                      setShareStep("select");
-                    }}
-                  >
-                    {isEn ? "Close" : "閉じる"}
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-        )}
+        {/* --- G. 共有・保存ボトムシート（切り出しコンポーネント） --- */}
+        <PolaroidShareSheet
+          isOpen={isShareSheetOpen}
+          onClose={() => setIsShareSheetOpen(false)}
+          sheetMode={sheetMode}
+          shareStep={shareStep}
+          setShareStep={setShareStep}
+          src={src}
+          isEn={isEn}
+          isRecording={isRecording}
+          recordingProgress={recordingProgress}
+          canShareFiles={canShareFiles}
+          handleDownload={handleDownload}
+          handleShareCopy={handleShareCopy}
+          handleGenerateVideo={handleGenerateVideo}
+          handleShareVideo={handleShareVideo}
+          getShareTextPayload={getShareTextPayload}
+          setFeedbackMessage={setFeedbackMessage}
+        />
       </div>
+
+      {/* --- H. Canvas描画用（非表示 Offscreen Canvas） --- */}
       <canvas
         ref={canvasRef}
         className={styles.hiddenCanvas}
@@ -865,6 +623,7 @@ export function PolaroidModal({
     </div>
   );
 
+  // React Portal を使って document.body 直下にレンダリング
   return typeof document !== "undefined"
     ? createPortal(modalContent, document.body)
     : null;

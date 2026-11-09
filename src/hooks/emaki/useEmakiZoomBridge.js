@@ -18,6 +18,18 @@ import {
 } from "@/libs/constants/viewerPlayback";
 import { findSceneIndexAtViewportCenter } from "@/utils/emakiSceneDom";
 
+// =============================================================================
+// デバッグスイッチ
+// 検証完了後は false にすることで、すべてのコンソール出力を一括で停止できます。
+// =============================================================================
+const DEBUG_BRIDGE = true;
+
+function logBridge(tag, ...args) {
+  if (!DEBUG_BRIDGE) return;
+  const time = performance.now().toFixed(1);
+  console.log(`%c[${time}ms][Bridge:${tag}]`, "color: #10b981; font-weight: bold;", ...args);
+}
+
 export default function useEmakiZoomBridge({
   data,
   processedEmakis,
@@ -36,9 +48,13 @@ export default function useEmakiZoomBridge({
   onZoomOpenTrack,
   onZoomCloseTrack,
 }) {
+  // ---------------------------------------------------------------------------
+  // 1. 状態管理（State）
+  // ---------------------------------------------------------------------------
   const [zoomCenterIndex, setZoomCenterIndex] = useState(0);
   const [zoomStageMetrics, setZoomStageMetrics] = useState({ height: 0, width: 0 });
 
+  // ポラロイドモーダル（子コンポーネント）へ渡す Props の大元ステート
   const [isPolaroidModalOpen, setIsPolaroidModalOpen] = useState(false);
   const [polaroidSceneIndex, setPolaroidSceneIndex] = useState(0);
   const [polaroidInitialZoom, setPolaroidInitialZoom] = useState(undefined);
@@ -54,7 +70,10 @@ export default function useEmakiZoomBridge({
     []
   );
 
-  // 1. スライス収集（純粋なモデル幅で生成）
+  // ---------------------------------------------------------------------------
+  // [フロー 1] ズームストリップ用のスライス抽出
+  // centerIndex を中心に、前後の必要なスライス範囲（from 〜 to）を特定
+  // ---------------------------------------------------------------------------
   const collectZoomSlices = useCallback(
     (centerIndex, metrics = {}) => {
       const items = processedEmakis;
@@ -102,7 +121,9 @@ export default function useEmakiZoomBridge({
     [collectZoomSlices, zoomCenterIndex, zoomStageMetrics]
   );
 
-  // 2. ズーム突入時の中央合わせ
+  // ---------------------------------------------------------------------------
+  // [フロー 2] ズーム突入時の中央合わせ（PanX 計算）
+  // ---------------------------------------------------------------------------
   const computeZoomAlignPanX = useCallback(
     (centerIndex, rowHeightPx) => {
       const el = articleRef.current;
@@ -132,7 +153,9 @@ export default function useEmakiZoomBridge({
     [processedEmakis, zoomMinSlices, getArticleUnitHeight, articleRef]
   );
 
-  // 3. ズーム突入ハンドラ
+  // ---------------------------------------------------------------------------
+  // [フロー 3] ズーム突入ハンドラ
+  // ---------------------------------------------------------------------------
   const enterZoomAtPoint = useCallback(
     (clientX, clientY, initialScale) => {
       const el = articleRef.current;
@@ -181,7 +204,10 @@ export default function useEmakiZoomBridge({
     enterZoomRef.current = enterZoomAtPoint;
   }
 
-  // 4. パノラマ連番解決
+  // ---------------------------------------------------------------------------
+  // [フロー 4] パノラマ連番解決
+  // 詞書（ekotoba）を除外し、有効な画像スライス番号を探す
+  // ---------------------------------------------------------------------------
   const resolvePanoramaSliceIndex = (items, idx) => {
     const isPanoramaSlice = (item) => Boolean(item?.src) && item?.cat !== "ekotoba";
     for (let i = idx; i >= 0; i -= 1) {
@@ -193,7 +219,10 @@ export default function useEmakiZoomBridge({
     return idx;
   };
 
-  // 5. ズームからのキャプチャ（方針A: DOM 1点サンプリング方式）
+  // ---------------------------------------------------------------------------
+  // [フロー 5] ズーム中からのポラロイド撮影（DOM 1点サンプリング方式）
+  // ズームレイヤー上の画面中央 (cx, cy) にある img を物理座標でサンプリング
+  // ---------------------------------------------------------------------------
   const handleCaptureFromZoom = useCallback(() => {
     const items = processedEmakis || [];
     const currentScale = Number.isFinite(zoomScale) && zoomScale > 0 ? zoomScale : 1;
@@ -213,9 +242,21 @@ export default function useEmakiZoomBridge({
     const cx = stageRect.left + stageRect.width / 2;
     const cy = stageRect.top + stageRect.height / 2;
 
+    logBridge("CaptureFromZoom:StageCenter", {
+      cx: cx.toFixed(1),
+      cy: cy.toFixed(1),
+      stageRect: { left: stageRect.left.toFixed(1), width: stageRect.width.toFixed(1) },
+    });
+
     // 2. data-zoom-strip 内で画面中央 (cx, cy) と交差している img を直接サンプリング
     const stripEl = typeof document !== "undefined" ? document.querySelector('[data-zoom-strip="true"]') : null;
     const imgs = stripEl ? Array.from(stripEl.querySelectorAll("img[data-scene-index]")) : [];
+
+    logBridge("CaptureFromZoom:StripFound", {
+      hasStripEl: Boolean(stripEl),
+      imgCount: imgs.length,
+      sceneIndices: imgs.map((img) => img.dataset.sceneIndex),
+    });
 
     let hitImg = null;
     let hitRect = null;
@@ -228,6 +269,7 @@ export default function useEmakiZoomBridge({
 
       // 境界や余白で交差判定が外れた場合は中央に最も近い画像を採用
       if (!hitImg) {
+        logBridge("CaptureFromZoom:ExactHitFailed", "中央最近接の画像を探索します");
         let minDistance = Infinity;
         imgs.forEach((img) => {
           const r = img.getBoundingClientRect();
@@ -247,7 +289,15 @@ export default function useEmakiZoomBridge({
       if (!Number.isNaN(rawIdx) && rawIdx >= 0 && rawIdx < items.length) {
         targetIndex = rawIdx;
       }
-      targetIndex = resolvePanoramaSliceIndex(items, targetIndex);
+      const resolvedIdx = resolvePanoramaSliceIndex(items, targetIndex);
+
+      logBridge("CaptureFromZoom:HitResult", {
+        rawIdx,
+        resolvedIdx,
+        hitRect: { left: hitRect.left.toFixed(1), right: hitRect.right.toFixed(1), width: hitRect.width.toFixed(1) },
+      });
+
+      targetIndex = resolvedIdx;
 
       const targetItem = items[targetIndex];
       if (targetItem && hitRect.width > 0 && hitRect.height > 0) {
@@ -265,8 +315,25 @@ export default function useEmakiZoomBridge({
           x: (0.5 - u) * renderedSliceW,
           y: (0.5 - v) * renderedSliceH,
         };
+
+        logBridge("CaptureFromZoom:CalculatedPan", {
+          u: u.toFixed(3),
+          v: v.toFixed(3),
+          renderedSliceW: renderedSliceW.toFixed(1),
+          initialPan,
+        });
       }
+    } else {
+      logBridge("CaptureFromZoom:NoHitWarning", "サンプリング画像が見つからず、デフォルト index を採用", {
+        fallbackTargetIndex: targetIndex,
+      });
     }
+
+    logBridge("CaptureFromZoom:FinalPropsEmitted", {
+      polaroidSceneIndex: targetIndex,
+      polaroidInitialZoom: clampedZoom,
+      polaroidInitialPan: initialPan,
+    });
 
     setPolaroidSceneIndex(targetIndex);
     setPolaroidInitialZoom(clampedZoom);
@@ -283,28 +350,104 @@ export default function useEmakiZoomBridge({
     captureRevision,
   ]);
 
-  // 6. 通常表示時のポラロイド起動
+  // ---------------------------------------------------------------------------
+  // [フロー 6] 通常表示時（非ズーム時）のポラロイド起動
+  // ★バグ1（コンテナ外の画像が出る）の最重要容疑ルート★
+  // ---------------------------------------------------------------------------
+  
+  // const handleOpenPolaroidModal = useCallback(() => {
+  //   const el = articleRef.current;
+    
+  //   // findSceneIndexAtViewportCenter で現在の横スクロール位置から中央スライスを算出
+  //   const probed = el ? findSceneIndexAtViewportCenter(el) : null;
+  //   const targetIndex =
+  //     probed !== null && !Number.isNaN(probed) ? probed : liveSceneIndex;
+
+  //   logBridge("NormalOpen:Triggered", {
+  //     scrollLeft: el?.scrollLeft,
+  //     clientWidth: el?.clientWidth,
+  //     probedCenterIndex: probed,
+  //     liveSceneIndexFallback: liveSceneIndex,
+  //     finalTargetIndex: targetIndex,
+  //   });
+
+  //   setPolaroidSceneIndex(targetIndex);
+  //   setPolaroidInitialZoom(undefined);
+  //   setPolaroidInitialPan(undefined);
+  //   setCaptureRevision((rev) => rev + 1);
+  //   setIsPolaroidModalOpen(true);
+  // }, [articleRef, liveSceneIndex]);
+
+
   const handleOpenPolaroidModal = useCallback(() => {
     const el = articleRef.current;
+    const items = processedEmakis || [];
+    
+    // findSceneIndexAtViewportCenter で現在の横スクロール位置から中央スライスを算出
     const probed = el ? findSceneIndexAtViewportCenter(el) : null;
     const targetIndex =
       probed !== null && !Number.isNaN(probed) ? probed : liveSceneIndex;
 
+    let initialPan = { x: 0, y: 0 };
+    const cx = typeof window !== "undefined" ? window.innerWidth / 2 : 0;
+    const cy = typeof window !== "undefined" ? window.innerHeight / 2 : 0;
+
+    // 画面中央と交差している section 内の img を取得してオフセット (u, v) を計算
+    const targetSection = el ? el.querySelector(`section#scene-${targetIndex}`) : null;
+    const hitImg = targetSection ? targetSection.querySelector("img") : null;
+
+    if (hitImg) {
+      const hitRect = hitImg.getBoundingClientRect();
+      const targetItem = items[targetIndex];
+
+      if (hitRect.width > 0 && hitRect.height > 0) {
+        const u = Math.min(Math.max((cx - hitRect.left) / hitRect.width, 0), 1);
+        const v = Math.min(Math.max((cy - hitRect.top) / hitRect.height, 0), 1);
+
+        const iw = hitImg.naturalWidth || targetItem?.srcWidth || hitRect.width;
+        const ih = hitImg.naturalHeight || targetItem?.srcHeight || hitRect.height;
+        // ポラロイド内の初期ズーム（ZOOM_DEFAULT = 1.5 等）に合わせた展開幅を計算
+        const cs = Math.max(PHOTO_DW / iw, PHOTO_DH / ih);
+        const openZoom = 1.5; // polaroidCanvasRenderer の ZOOM_DEFAULT
+        const renderedSliceW = iw * cs * openZoom;
+        const renderedSliceH = ih * cs * openZoom;
+
+        initialPan = {
+          x: (0.5 - u) * renderedSliceW,
+          y: (0.5 - v) * renderedSliceH,
+        };
+      }
+    }
+
+    logBridge("NormalOpen:Triggered", {
+      scrollLeft: el?.scrollLeft,
+      clientWidth: el?.clientWidth,
+      probedCenterIndex: probed,
+      liveSceneIndexFallback: liveSceneIndex,
+      finalTargetIndex: targetIndex,
+      calculatedInitialPan: initialPan,
+    });
+
     setPolaroidSceneIndex(targetIndex);
     setPolaroidInitialZoom(undefined);
-    setPolaroidInitialPan(undefined);
+    setPolaroidInitialPan(initialPan);
     setCaptureRevision((rev) => rev + 1);
     setIsPolaroidModalOpen(true);
-  }, [articleRef, liveSceneIndex]);
+  }, [articleRef, liveSceneIndex, processedEmakis]);
 
-  // 7. モーダル閉鎖時のクリーンアップ
+  // ---------------------------------------------------------------------------
+  // [フロー 7] モーダル閉鎖時のクリーンアップ
+  // ---------------------------------------------------------------------------
   const handleClosePolaroidModal = useCallback(() => {
+    logBridge("ModalClosed");
     setIsPolaroidModalOpen(false);
     setPolaroidInitialZoom(undefined);
     setPolaroidInitialPan(undefined);
   }, []);
 
-  // 8. ズームリセット時の状態初期化
+  // ---------------------------------------------------------------------------
+  // [フロー 8] ズームリセット時の状態初期化
+  // ---------------------------------------------------------------------------
   const resetZoom = useCallback(() => {
     if (onZoomCloseTrack) onZoomCloseTrack();
     setZoomCenterIndex(0);

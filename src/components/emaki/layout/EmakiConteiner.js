@@ -125,7 +125,7 @@ const QuizModal = dynamic(
   { ssr: false }
 );
 const PolaroidModal = dynamic(
-  () => import("@/components/emaki/viewer/PolaroidModal"),
+  () => import("@/components/emaki/viewer/PolaroidModal").then((mod) => mod.PolaroidModal || mod.default || mod),
   { ssr: false }
 );
 const ScrollFeedbackPanel = dynamic(

@@ -1,0 +1,28 @@
+/* Share sheet entrance */
+@keyframes polaroidFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes polaroidSlideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.polaroidShareOverlay {
+  animation: polaroidFadeIn 0.15s ease-out;
+}
+
+.polaroidShareContent {
+  animation: polaroidSlideUp 0.2s ease-out;
+}

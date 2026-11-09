@@ -9,12 +9,69 @@ import {
   coverScaleFor,
 } from "./polaroidCanvasRenderer";
 
+// =============================================================================
+// デバッグスイッチ
+// 検証完了後は false にすることで、すべてのコンソール出力を一括で停止できます。
+// =============================================================================
+const DEBUG_PAN_ZOOM = true;
+
+function logDebug(tag, ...args) {
+  if (!DEBUG_PAN_ZOOM) return;
+  const time = performance.now().toFixed(1);
+  console.log(`%c[${time}ms][${tag}]`, "color: #3b82f6; font-weight: bold;", ...args);
+}
+
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
 }
 
 function maxPanForAxis(natural, photoDim, coverScale, zoom) {
   return Math.max(0, (natural * coverScale * zoom - photoDim) / 2);
+}
+
+function panoramaNudgeX(prevImg, nextImg, coverScale, zoom) {
+  const prevW = prevImg?.naturalWidth ? prevImg.naturalWidth * coverScale * zoom : 0;
+  const nextW = nextImg?.naturalWidth ? nextImg.naturalWidth * coverScale * zoom : 0;
+  return (prevW - nextW) / 2;
+}
+
+function computeMaxPanLimits(img, z, prevImg, nextImg) {
+  if (!img?.naturalWidth) return { x: 0, y: 0 };
+  const cs = coverScaleFor(img, PHOTO_DW, PHOTO_DH);
+  const baseX = maxPanForAxis(img.naturalWidth, PHOTO_DW, cs, z);
+  const prevW = prevImg?.naturalWidth ? prevImg.naturalWidth * cs * z : 0;
+  const nextW = nextImg?.naturalWidth ? nextImg.naturalWidth * cs * z : 0;
+  return {
+    x: baseX + (prevW + nextW) / 2,
+    y: maxPanForAxis(img.naturalHeight, PHOTO_DH, cs, z),
+  };
+}
+
+/** 枠中心基準のクライアント座標 → PHOTO_DW 論理座標（pan と同じ空間） */
+function clientFocalToLogical(frameEl, clientX, clientY, frameW) {
+  const r = frameW / PHOTO_DW;
+  if (!frameEl || r <= 0) return { x: 0, y: 0 };
+  const rect = frameEl.getBoundingClientRect();
+  return {
+    x: (clientX - (rect.left + rect.width / 2)) / r,
+    y: (clientY - (rect.top + rect.height / 2)) / r,
+  };
+}
+
+function resolvePanAfterZoom(prevZ, nextZ, pan, focal, loadedImages) {
+  const { prev, current, next } = loadedImages;
+  if (!current?.naturalWidth || prevZ <= 0 || Math.abs(nextZ - prevZ) < 1e-9) return pan;
+  const cs = coverScaleFor(current, PHOTO_DW, PHOTO_DH);
+  const nudge0 = panoramaNudgeX(prev, next, cs, prevZ);
+  const nudge1 = panoramaNudgeX(prev, next, cs, nextZ);
+  const ratio = nextZ / prevZ;
+  const effX = (pan.x + nudge0) * ratio + focal.x * (1 - ratio);
+  const effY = pan.y * ratio + focal.y * (1 - ratio);
+  const limits = computeMaxPanLimits(current, nextZ, prev, next);
+  return {
+    x: clamp(effX - nudge1, -limits.x, limits.x),
+    y: clamp(effY, -limits.y, limits.y),
+  };
 }
 
 export function loadCrossOriginImage(url) {
@@ -37,7 +94,12 @@ export function usePolaroidPanZoom({
   initialIndex = 0,
   initialZoom,
   initialPan,
+  /** 写真枠が DOM に載った後（PolaroidModal の mounted 等） */
+  frameDomReady = true,
 }) {
+  // ---------------------------------------------------------------------------
+  // 1. 状態管理（State）
+  // ---------------------------------------------------------------------------
   const [selectedIndex, setSelectedIndex] = useState(initialIndex);
   const [zoom, setZoom] = useState(ZOOM_DEFAULT);
   const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -48,20 +110,38 @@ export function usePolaroidPanZoom({
   const [frameW, setFrameW] = useState(PHOTO_DW);
   const [dragging, setDragging] = useState(false);
 
+  // ---------------------------------------------------------------------------
+  // 2. 参照管理（Refs）- 再レンダリングをトリガーしない値の保持
+  // ---------------------------------------------------------------------------
   const dragStart = useRef({ x: 0, y: 0, pan: { x: 0, y: 0 } });
   const pointersRef = useRef(new Map());
   const pinchRef = useRef(null);
   const loadedImagesRef = useRef({ prev: null, current: null, next: null });
   const loadIdRef = useRef(0);
   const frameRef = useRef(null);
+  const zoomRef = useRef(zoom);
+  const panRef = useRef(pan);
+  const lastWheelStampRef = useRef(null);
+  useEffect(() => {
+    zoomRef.current = zoom;
+  }, [zoom]);
+  useEffect(() => {
+    panRef.current = pan;
+  }, [pan]);
 
+  // 2点間のユークリッド距離（ピンチ操作用）
   function pointerDistance(a, b) {
     return Math.hypot(a.x - b.x, a.y - b.y);
   }
 
-  // isOpen 遷移時同期リセット
+  // ---------------------------------------------------------------------------
+  // [フロー 1] モーダルオープン時の同期初期化
+  // isOpen が true になった瞬間、初期 Props を反映して以前のキャッシュをリセット
+  // ---------------------------------------------------------------------------
   useEffect(() => {
     if (isOpen) {
+      lastWheelStampRef.current = null;
+      logDebug("ModalOpen:Reset", { initialIndex, initialZoom, initialPan });
       setSelectedIndex(initialIndex);
       setZoom(typeof initialZoom === "number" ? initialZoom : ZOOM_DEFAULT);
       setPan(initialPan && typeof initialPan.x === "number" ? initialPan : { x: 0, y: 0 });
@@ -70,6 +150,9 @@ export function usePolaroidPanZoom({
       setImgSize(null);
     }
   }, [isOpen, initialIndex, initialZoom, initialPan]);
+
+  // ---------------------------------------------------------------------------
+  // [計算関数] ズームや画像寸法に応じた Pan 可動域（maxPan）の再計算
 
   const updatePanLimits = useCallback((img, z, prevImg, nextImg) => {
     if (!img?.naturalWidth) {
@@ -82,13 +165,21 @@ export function usePolaroidPanZoom({
     const baseX = maxPanForAxis(img.naturalWidth, PHOTO_DW, cs, z);
     const prevW = prevImg?.naturalWidth ? prevImg.naturalWidth * cs * z : 0;
     const nextW = nextImg?.naturalWidth ? nextImg.naturalWidth * cs * z : 0;
-    setMaxPan({
+
+    const nextMax = {
       x: baseX + (prevW + nextW) / 2,
       y: maxPanForAxis(img.naturalHeight, PHOTO_DH, cs, z),
-    });
+    };
+    logDebug("UpdatePanLimits", { zoom: z, nextMaxPan: nextMax });
+    setMaxPan(nextMax);
   }, []);
 
-  // 画像の非同期ロード
+ 
+
+  // ---------------------------------------------------------------------------
+  // [フロー 2] 画像の非同期ロード＆スライス抽出
+  // 選択されたインデックスを中心に、前後のパノラマスライスをロード
+  // ---------------------------------------------------------------------------
   useEffect(() => {
     if (!isOpen) {
       setZoom(ZOOM_DEFAULT);
@@ -132,15 +223,23 @@ export function usePolaroidPanZoom({
     setImgSize(null);
 
     const loadId = ++loadIdRef.current;
+    logDebug("ImageLoad:Start", { curIdx, prevIdx, nextIdx, loadId });
+
     Promise.all([
       loadCrossOriginImage(prevUrl),
       loadCrossOriginImage(curUrl),
       loadCrossOriginImage(nextUrl),
     ]).then(([prev, current, next]) => {
-      if (loadId !== loadIdRef.current) return;
+      // 連続切り替え時のレースコンディション防止
+      if (loadId !== loadIdRef.current) {
+        logDebug("ImageLoad:SkippedStale", { loadId });
+        return;
+      }
       loadedImagesRef.current = { prev, current, next };
       setPanoramaSlots({ prev, current, next });
+
       if (current?.naturalWidth) {
+        logDebug("ImageLoad:Success", { w: current.naturalWidth, h: current.naturalHeight });
         setImgSize({ w: current.naturalWidth, h: current.naturalHeight });
         const openZoom = typeof initialZoom === "number" ? initialZoom : ZOOM_DEFAULT;
         updatePanLimits(current, openZoom, prev, next);
@@ -153,56 +252,134 @@ export function usePolaroidPanZoom({
     });
   }, [isOpen, selectedIndex, scenes, initialPan, initialZoom, updatePanLimits]);
 
-  // フレーム幅の測定
+  // ---------------------------------------------------------------------------
+  // [フロー 3] 写真枠（DOM）寸法の監視
+  // ---------------------------------------------------------------------------
+  // useEffect(() => {
+  //   if (!isOpen || !frameRef.current) return;
+  //   const el = frameRef.current;
+  //   const measure = () => {
+  //     const nextW = el.clientWidth || PHOTO_DW;
+  //     logDebug("FrameMeasure", { clientWidth: el.clientWidth, nextW });
+  //     setFrameW(nextW);
+  //   };
+  //   measure();
+  //   const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(measure) : null;
+  //   ro?.observe(el);
+  //   return () => ro?.disconnect();
+  // }, [isOpen]);
+
   useEffect(() => {
-    if (!isOpen || !frameRef.current) return;
+    if (!isOpen || !frameDomReady || !frameRef.current) return;
     const el = frameRef.current;
-    const measure = () => setFrameW(el.clientWidth || PHOTO_DW);
+    const measure = () => {
+      const nextW = el.clientWidth || PHOTO_DW;
+      setFrameW((prev) => {
+        if (Math.abs(prev - nextW) < 1) return prev; // 1px未満の変動は無視して再レンダリングを遮断
+        logDebug("FrameMeasure", { clientWidth: el.clientWidth, prevW: prev, nextW });
+        return nextW;
+      });
+    };
     measure();
     const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(measure) : null;
     ro?.observe(el);
     return () => ro?.disconnect();
-  }, [isOpen]);
+  }, [isOpen, frameDomReady]);
 
-  // ホイールズーム（Portal 展開後の frameRef マウントを確実に拾うため frameW / isOpen に連動）
-  useEffect(() => {
-    if (!isOpen || !frameRef.current) return;
-    const el = frameRef.current;
-    const onWheel = (e) => {
+  // zoom / pan を同期適用（setZoom updater 内の副作用を避ける）
+  const applyZoomWithPan = useCallback((nextZ, focal) => {
+    const prevZ = zoomRef.current;
+    const clampedZ = clamp(nextZ, ZOOM_MIN, ZOOM_MAX);
+    if (Math.abs(clampedZ - prevZ) < 1e-9) return null;
+
+    const nextPan = resolvePanAfterZoom(
+      prevZ,
+      clampedZ,
+      panRef.current,
+      focal,
+      loadedImagesRef.current
+    );
+    zoomRef.current = clampedZ;
+    panRef.current = nextPan;
+    setZoom(clampedZ);
+    setPan(nextPan);
+    return { prevZ, nextZ: clampedZ };
+  }, []);
+
+  // ---------------------------------------------------------------------------
+  // [フロー 4] マウスホイールズーム操作（DOM 接続後に React onWheel で受ける）
+  // ---------------------------------------------------------------------------
+  const handleFrameWheel = useCallback(
+    (e) => {
+      if (!isOpen) return;
+      if (e.timeStamp === lastWheelStampRef.current) return;
+      lastWheelStampRef.current = e.timeStamp;
+
       e.preventDefault();
       e.stopPropagation();
       const delta = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
       const zoomFactor = delta < 0 ? 1.08 : 0.92;
-      setZoom((prev) => Math.min(Math.max(prev * zoomFactor, ZOOM_MIN), ZOOM_MAX));
-    };
-    el.addEventListener("wheel", onWheel, { passive: false });
-    return () => el.removeEventListener("wheel", onWheel);
-  }, [isOpen, frameW]);
 
-  // ズーム更新時の可動域再計算
+      const r = frameW / PHOTO_DW;
+      if (r <= 0) return;
+      const el = frameRef.current;
+      const focal = clientFocalToLogical(el, e.clientX, e.clientY, frameW);
+
+      const prevZ = zoomRef.current;
+      const nextZ = prevZ * zoomFactor;
+      const applied = applyZoomWithPan(nextZ, focal);
+      if (applied) {
+        logDebug("Wheel:Zoom", {
+          prevZoom: applied.prevZ.toFixed(3),
+          nextZoom: applied.nextZ.toFixed(3),
+          deltaY: e.deltaY,
+        });
+      }
+    },
+    [isOpen, frameW, applyZoomWithPan]
+  );
+
+  // ---------------------------------------------------------------------------
+  // [フロー 5] ズーム値変更による maxPan（可動域）の再計算
+  // ---------------------------------------------------------------------------
   useEffect(() => {
     const { prev, current, next } = loadedImagesRef.current;
-    if (current?.naturalWidth) updatePanLimits(current, zoom, prev, next);
+    if (current?.naturalWidth) {
+      logDebug("Effect:ZoomChanged -> updatePanLimits", { zoom });
+      updatePanLimits(current, zoom, prev, next);
+    }
   }, [zoom, updatePanLimits]);
 
-  // パン位置のクランプ制限
+
+  // ---------------------------------------------------------------------------
+  // [フロー 6] 可動域変更による pan のクランプ制限
+  // ※ズーム操作中の座標破壊を防ぐため、Effect での強制上書きをバイパス
+  // ---------------------------------------------------------------------------
   useEffect(() => {
+    // ズーム操作時の Effect:Clamp OVERWRITE を遮断
+    /*
     if (!imgSize?.w || (maxPan.x === 0 && maxPan.y === 0)) return;
-    setPan((prev) => ({
-      x: clamp(prev.x, -maxPan.x, maxPan.x),
-      y: clamp(prev.y, -maxPan.y, maxPan.y),
-    }));
+
+    setPan((prev) => {
+      const nextX = clamp(prev.x, -maxPan.x, maxPan.x);
+      const nextY = clamp(prev.y, -maxPan.y, maxPan.y);
+      return { x: nextX, y: nextY };
+    });
+    */
   }, [maxPan.x, maxPan.y, imgSize]);
 
-  // ポインタ操作ハンドラー
+  // ---------------------------------------------------------------------------
+  // [フロー 7] ポインタ操作（ドラッグ＆ピンチズーム）
+  // ---------------------------------------------------------------------------
   const handlePointerDown = (e) => {
-    // ブラウザ標準の画像ドラッグやテキスト選択によるポインタ剥奪を無条件に防止
     e.preventDefault();
     e.stopPropagation();
 
     pointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
     e.currentTarget.setPointerCapture?.(e.pointerId);
     const pts = pointersRef.current;
+
+    logDebug("Pointer:Down", { pointerId: e.pointerId, totalPointers: pts.size });
 
     if (pts.size === 2) {
       setDragging(false);
@@ -233,33 +410,45 @@ export function usePolaroidPanZoom({
       const [a, b] = [...pts.values()];
       const d = pointerDistance(a, b);
       const { d0, zoom0 } = pinchRef.current;
-      if (d0 > 0) setZoom(clamp(zoom0 * (d / d0), ZOOM_MIN, ZOOM_MAX));
+      if (d0 > 0) {
+        const prevZ = zoomRef.current;
+        const nextZ = clamp(zoom0 * (d / d0), ZOOM_MIN, ZOOM_MAX);
+        if (Math.abs(nextZ - prevZ) >= 1e-9) {
+          const midX = (a.x + b.x) / 2;
+          const midY = (a.y + b.y) / 2;
+          const focal = clientFocalToLogical(frameRef.current, midX, midY, frameW);
+          applyZoomWithPan(nextZ, focal);
+        }
+      }
       return;
     }
 
     if (!dragging || pts.size !== 1) return;
 
-    // Ctrl + ドラッグ（または押下時にCtrlが押されていた場合）: 上ドラッグで拡大、下ドラッグで縮小
+    // Ctrl + ドラッグによるズーム
     if (e.ctrlKey || e.metaKey || dragStart.current.isCtrlZoom) {
       const dy = dragStart.current.y - e.clientY;
       const baseZoom = dragStart.current.zoom0 || zoom;
       const nextZoom = baseZoom * Math.exp(dy * 0.006);
-      setZoom(clamp(nextZoom, ZOOM_MIN, ZOOM_MAX));
+      applyZoomWithPan(nextZoom, { x: 0, y: 0 });
       return;
     }
 
-    // 通常の1本指パン移動
+    // 通常の1本指パン（ドラッグ）移動
     const r = frameW / PHOTO_DW;
     if (r <= 0) return;
     const deltaX = (e.clientX - dragStart.current.x) / r;
     const deltaY = (e.clientY - dragStart.current.y) / r;
-    setPan({
+
+    const nextPan = {
       x: clamp(dragStart.current.pan.x + deltaX, -maxPan.x, maxPan.x),
       y: clamp(dragStart.current.pan.y + deltaY, -maxPan.y, maxPan.y),
-    });
+    };
+    setPan(nextPan);
   };
 
   const handlePointerUp = (e) => {
+    logDebug("Pointer:Up", { pointerId: e.pointerId });
     pointersRef.current.delete(e.pointerId);
     if (pointersRef.current.size < 2) pinchRef.current = null;
     if (pointersRef.current.size === 0) setDragging(false);
@@ -284,5 +473,6 @@ export function usePolaroidPanZoom({
     handlePointerDown,
     handlePointerMove,
     handlePointerUp,
+    handleFrameWheel,
   };
 }
