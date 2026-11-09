@@ -112,12 +112,13 @@ export function PolaroidShareSheet({
                 {/* 9:16 5秒ループ動画生成・保存 */}
                 <button
                   type="button"
-                  style={optionBtnStyle}
                   disabled={!src || isRecording}
                   onClick={handleGenerateVideo}
                   style={{
-                    background: isRecording ? "#f0f7ff" : undefined,
-                    borderColor: isRecording ? "#90caf9" : undefined,
+                    ...optionBtnStyle,
+                    ...(isRecording
+                      ? { background: "#f0f7ff", borderColor: "#90caf9" }
+                      : {}),
                   }}
                 >
                   <span style={{ fontWeight: 600 }}>
@@ -175,12 +176,13 @@ export function PolaroidShareSheet({
                 {/* ショート動画向け動画生成＆共有/保存 */}
                 <button
                   type="button"
-                  style={optionBtnStyle}
                   disabled={!src || isRecording}
                   onClick={handleShareVideo}
                   style={{
-                    background: isRecording ? "#f0f7ff" : undefined,
-                    borderColor: isRecording ? "#90caf9" : undefined,
+                    ...optionBtnStyle,
+                    ...(isRecording
+                      ? { background: "#f0f7ff", borderColor: "#90caf9" }
+                      : {}),
                   }}
                 >
                   <span style={{ fontWeight: 600 }}>
@@ -259,8 +261,13 @@ export function PolaroidShareSheet({
             </div>
             <button
               type="button"
-              style={optionBtnStyle}
-              style={{ justifyContent: "center", background: "#1976d2", color: "#fff", fontWeight: "bold" }}
+              style={{
+                ...optionBtnStyle,
+                justifyContent: "center",
+                background: "#1976d2",
+                color: "#fff",
+                fontWeight: "bold",
+              }}
               onClick={async () => {
                 const text = getShareTextPayload();
                 await navigator.clipboard.writeText(text);
