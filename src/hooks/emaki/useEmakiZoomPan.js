@@ -16,10 +16,9 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const DEFAULT_SCALE = 2;
-// ズーム上限。屏風（舟木本など）はスライス幅が狭く 300% では人物が小さいため、
-// 既定を 600% とし、maxScale prop（屏風 = 800%）で作品特性に応じて引き上げられる。
+// ズーム上限。屏風は 800%、細密画（洛中洛外図等）は 1200〜1600% まで拡張可能。
 const MAX_SCALE = 6;
-const HARD_MAX_SCALE = 10; // maxScale prop の安全上限（UI 表示・配信解像度の破綻防止）
+const HARD_MAX_SCALE = 16; // maxScale prop の安全上限（細密画向けに 1600% まで許容）
 const ZOOM_STEP = 0.2;
 const WHEEL_ZOOM_RATE = 0.002;
 const FALLBACK_MIN_SCALE = 1; // 等倍（これ以下は通常スクロールへ復帰）

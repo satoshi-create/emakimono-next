@@ -830,9 +830,21 @@ const EmakiContainer = ({
     onDoubleTap: handleViewerDoubleTap,
     containerRef: entryContainerRef,
     requestZoomRef: enterZoomRef,
-    // 屏風（舟木本 等）はスライス幅が狭く 300% では人物が小さいため 800% まで拡大可能にする。
-    // 絵巻（鳥獣戯画 等）は既定の 600% のまま（maxScale 未指定 = フック既定値）。
-    maxScale: isByobuScroll(data) ? 8 : undefined,
+    // 作品特性に応じた最大ズーム倍率の決定:
+    // 1. data.maxScale または data.maxZoom が直接指定されていればそれを優先
+    // 2. 洛中洛外図（舟木本や今後の rakuchu_rakugai_*）などの細密画は 1200%（scale: 12）
+    // 3. 一般屏風は 800%（scale: 8）
+    // 4. 一般絵巻は既定の 600%（undefined ➔ フック規定値 6）
+    maxScale:
+      typeof data?.maxScale === "number"
+        ? data.maxScale
+        : typeof data?.maxZoom === "number"
+        ? data.maxZoom / 100
+        : typeof data?.titleen === "string" && data.titleen.startsWith("rakuchu_rakugai")
+        ? 12
+        : isByobuScroll(data)
+        ? 8
+        : undefined,
   });
 
   useEffect(() => {

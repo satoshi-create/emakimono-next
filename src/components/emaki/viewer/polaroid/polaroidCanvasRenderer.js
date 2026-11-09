@@ -28,7 +28,7 @@ export const PHOTO_DW = PREVIEW_FMT.photoDw;
 export const PHOTO_DH = PREVIEW_FMT.photoDh;
 export const MESSAGE_MAX = 40;
 export const ZOOM_MIN = 1;
-export const ZOOM_MAX = 3;
+export const ZOOM_MAX = 8;
 export const ZOOM_DEFAULT = 1.5;
 
 export const THEMES = {
