@@ -20,13 +20,45 @@
   align-items: start;
 }
 
-/* レール閉じ: 横だけ全幅（高さは --vh-75 のまま） */
+/* シアターモード: ビューアー全幅化 */
 .wrapper.theater {
   grid-template-columns: minmax(0, 1fr);
 }
 
 .wrapper.theater .discoveryRail {
   display: none;
+}
+
+/* シアターモード時に右端に表示されるサイドバー復帰フローティングタブ */
+.railOpenFloatingBtn {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.75rem 0.5rem 0.75rem 0.75rem;
+  background: rgba(30, 41, 59, 0.85);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  box-shadow: -2px 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(4px);
+  transition: background 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+  opacity: 0.75;
+  writing-mode: vertical-rl;
+  letter-spacing: 0.1em;
+}
+
+.railOpenFloatingBtn:hover {
+  opacity: 1;
+  background: rgba(15, 23, 42, 0.95);
+  transform: translateY(-50%) translateX(-2px);
 }
 
 /* フローティング解説時: 1行目最小高を外してメタが押し下がらないようにする */

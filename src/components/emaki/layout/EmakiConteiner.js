@@ -162,6 +162,8 @@ const EmakiContainer = ({
   showKusouzuHubLink = false,
   showChojuGigaHubLink = false,
   showHyakkiHubLink = false,
+  onUserScrollStart,
+  onReachBoundary,
 }) => {
   const {
     setOepnSidebar,
@@ -778,6 +780,133 @@ const EmakiContainer = ({
   const { isPalmMode, suppressClickUntilRef, palmActiveRef } =
     useEmakiPalmDrag(articleRef);
 
+  // 端にいる前回の状態を追跡（境界への突入瞬間だけを判定する）
+  const prevBoundaryRef = useRef({ isAtStart, isAtEnd });
+  const endZoneLatchRef = useRef(false);
+
+  // 初回自動スクロール（ナッジ）や再生モード中ではないユーザー自発スクロールを親へ通知
+  const notifyUserScroll = (e) => {
+    if (isAutoScrolling || isPlayMode) return;
+
+    const el = articleRef?.current;
+    const currentScrollLeft = el ? el.scrollLeft : 0;
+    const wheelDelta = (e?.deltaX || 0) + (e?.deltaY || 0);
+    const maxScrollLeft = el ? el.scrollWidth - el.clientWidth : 0;
+    const scrollRatio =
+      maxScrollLeft > 0 ? Math.abs(currentScrollLeft) / maxScrollLeft : 0;
+    const END_MARGIN = 20;
+    const nearEnd =
+      maxScrollLeft > 0 &&
+      Math.abs(currentScrollLeft) >= maxScrollLeft - END_MARGIN;
+    const ratioNearEnd = scrollRatio >= 0.96;
+    const atEndZone =
+      isAtEnd || nearEnd || ratioNearEnd || endZoneLatchRef.current;
+
+    console.log("[NotifyScroll:Input]", {
+      type: e?.type,
+      deltaX: e?.deltaX,
+      deltaY: e?.deltaY,
+      wheelDelta,
+      currentScrollLeft,
+      isAtStart,
+      isAtEnd,
+      nearEnd,
+      ratioNearEnd,
+      scrollRatio,
+      endZoneLatch: endZoneLatchRef.current,
+      maxScrollLeft,
+      clientWidth: el?.clientWidth,
+      scrollWidth: el?.scrollWidth
+    });
+
+    // 1. 先頭での進行方向と逆の操作（RTL では scrollLeft<=0 は常に真になり得るため isAtStart のみ）
+    if (isAtStart) {
+      if (wheelDelta >= 0) {
+        console.log("[NotifyScroll:StartReverse] Calling onReachBoundary");
+        if (onReachBoundary) onReachBoundary();
+        return;
+      }
+    }
+
+    // 2. 末尾付近（状態フラグがレイアウト直後に揺れても live max で判定）
+    if (atEndZone) {
+      if (wheelDelta <= 0) {
+        endZoneLatchRef.current = true;
+        console.log("[NotifyScroll:EndReverse] Calling onReachBoundary");
+        if (onReachBoundary) onReachBoundary();
+        return;
+      }
+      if (wheelDelta > 0 && scrollRatio < 0.94) {
+        endZoneLatchRef.current = false;
+      }
+    }
+
+    console.log("[NotifyScroll:TriggerClose] Calling onUserScrollStart");
+    if (onUserScrollStart) {
+      onUserScrollStart();
+    }
+  };
+
+  // 端到達時のサイドバー復帰と、幅縮小に伴うスクロールバーのジャンプ（ドリフト）防止
+  useEffect(() => {
+    const el = articleRef?.current;
+    const effectivelyAtStart = isAtStart;
+
+    const becameStart = !prevBoundaryRef.current.isAtStart && effectivelyAtStart;
+    const becameEnd = !prevBoundaryRef.current.isAtEnd && isAtEnd;
+
+    console.log("[Boundary:Effect]", {
+      isAtStart,
+      effectivelyAtStart,
+      isAtEnd,
+      prev: prevBoundaryRef.current,
+      becameStart,
+      becameEnd,
+      scrollLeft: el?.scrollLeft,
+      clientWidth: el?.clientWidth
+    });
+
+    if (isAutoScrolling || isPlayMode || !onReachBoundary) {
+      prevBoundaryRef.current = { isAtStart: effectivelyAtStart, isAtEnd };
+      return;
+    }
+
+    if (becameStart || becameEnd) {
+      console.log("[Boundary:OpenFired]", { becameStart, becameEnd });
+      if (becameStart) {
+        endZoneLatchRef.current = false;
+      }
+      if (becameEnd && el) {
+        endZoneLatchRef.current = true;
+        const maxBefore = el.scrollWidth - el.clientWidth;
+        const preserveRatio = Math.min(
+          1,
+          Math.max(
+            scrollPositionStore.scrollRatio,
+            maxBefore > 0 ? Math.abs(el.scrollLeft) / maxBefore : 0
+          )
+        );
+        onReachBoundary();
+        if (preserveRatio >= 0.96) {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              const max = el.scrollWidth - el.clientWidth;
+              if (max <= 0) return;
+              const target = -preserveRatio * max;
+              if (Math.abs(el.scrollLeft - target) > 2) {
+                el.scrollLeft = target;
+              }
+            });
+          });
+        }
+      } else {
+        onReachBoundary();
+      }
+    }
+
+    prevBoundaryRef.current = { isAtStart: effectivelyAtStart, isAtEnd };
+  }, [isAtStart, isAtEnd, isAutoScrolling, isPlayMode, onReachBoundary]);
+
   // タッチのダブルタップ（通常スクロール中）: 全画面表示のトグルへ一本化する。
   // その直後に発火しうる synthetic dblclick はタイムスタンプで無視する。
   const handleViewerDoubleTap = useCallback(() => {
@@ -1339,6 +1468,12 @@ const EmakiContainer = ({
             "--box-shadow": boxshadow,
             // 角丸は外側ラッパー(entry-container)で管理するため、ここでは設定しない
           }}
+          onPointerDown={(e) => {
+            // 先頭または末尾ですでに静止しているときの誤爆を防ぐ
+            if (!isAtStart && !isAtEnd) {
+              notifyUserScroll(e);
+            }
+          }}
           onClick={() => {
             // 再生モード中はクリックで停止
             if (isPlayMode) {
@@ -1359,7 +1494,8 @@ const EmakiContainer = ({
             // 全画面表示のトグル切り替えに一本化する（ズームは発火させない）
             handleFullScreen("landscape");
           }}
-          onTouchStart={() => {
+          onTouchStart={(e) => {
+            notifyUserScroll(e);
             // 再生モード中はタッチで停止
             if (isPlayMode) {
               stopPlayMode();
@@ -1369,6 +1505,9 @@ const EmakiContainer = ({
             if (!isAutoScrolling) {
               trackManualScroll(emakiId, "touch");
             }
+          }}
+          onWheel={(e) => {
+            notifyUserScroll(e);
           }}
           ref={articleRef}
         >

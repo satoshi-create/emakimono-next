@@ -320,11 +320,14 @@ const useEmakiScroll = ({
     const el = articleRef.current;
     if (!el || typeof ResizeObserver === "undefined") return;
     let lastW = el.scrollWidth;
+    let lastC = el.clientWidth;
     let timer = null;
     const ro = new ResizeObserver(() => {
       const w = el.scrollWidth;
-      if (Math.abs(w - lastW) < 2) return;
+      const c = el.clientWidth;
+      if (Math.abs(w - lastW) < 2 && Math.abs(c - lastC) < 2) return;
       lastW = w;
+      lastC = c;
       scrollDimsRef.current = { w: 0, c: 0, ts: 0 };
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => {

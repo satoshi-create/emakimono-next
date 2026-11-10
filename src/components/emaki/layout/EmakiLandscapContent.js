@@ -124,7 +124,9 @@ const EmakiLandscapContent = ({
               : `${styles.wrapper}${railOpen ? "" : ` ${styles.theater}`}`
           }
         >
-          <div className={viewerFullscreen ? null : styles.viewerCell}>
+          <div
+            className={viewerFullscreen ? null : styles.viewerCell}
+          >
             <EmakiConteiner
               key={data.id}
               data={{ ...data }}
@@ -132,11 +134,25 @@ const EmakiLandscapContent = ({
               selectedRef={selectedRef}
               navIndex={navIndex}
               articleRef={articleRef}
+              onUserScrollStart={() => {
+                // スクロール操作開始時はサイドバーを閉じる（シアター化）
+                if (railOpen && !viewerFullscreen) {
+                  setRailOpen(false);
+                }
+              }}
+              onReachBoundary={() => {
+                // 先頭または末尾到達時はサイドバーを自動再表示
+                if (!railOpen && !viewerFullscreen) {
+                  setRailOpen(true);
+                }
+              }}
               overflowX={"scroll"}
               height={
                 viewerFullscreen
                   ? "var(--vh-100)"
-                  : "var(--vh-75)"
+                  : railOpen
+                    ? "var(--vh-75)"
+                    : "var(--vh-85)"
               }
               editionLinks={[
                 ...editionLinks,
@@ -158,7 +174,7 @@ const EmakiLandscapContent = ({
               </button>
             )}
           </div>
-          {!viewerFullscreen && (
+          {!viewerFullscreen && railOpen && (
             <aside className={`${styles.discoveryRail} scrollbar`}>
               <ViewerDiscoveryRail
                 data={data}
