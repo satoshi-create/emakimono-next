@@ -68,6 +68,8 @@ const Footer = () => {
   return (
     <Box
       as="footer"
+      position="relative"
+      zIndex={20}
       bgGradient="linear(to-r, #121212, #000)"
       color="white"
       px={6}

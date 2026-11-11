@@ -21,12 +21,13 @@
   column-gap: 1.25rem;
   margin-bottom: 4rem;
   align-items: start;
+  position: relative; /* シアター時 absolute 配置の基準コンテナ */
 }
 
 /* シアターモード: 行1ビューア全幅、行2はメタ左 + レール右（通常時と同一の幅を維持して潰れを防止） */
 .wrapper.theater {
   --discovery-rail-peek: 3.5rem;
-  /* シアター時ビューア高 --vh-85。チラ見え translate は --vh-75 基準（FV で .head のみ） */
+  /* シアター時ビューア高 --vh-85。チラ見えは内側 .discoveryRailSlide の transform */
   --discovery-theater-viewer-h: var(--vh-85);
   --discovery-theater-slide: var(--vh-75);
   grid-template-columns: minmax(0, 1fr) clamp(260px, 22vw, 420px);
@@ -39,38 +40,55 @@
   width: 100%;
 }
 
-/* 通常時（2列表示）: ファーストビュー外まで伸ばして縦スクロールを誘導 */
+/* 【外枠: discoveryRail】位置決め・防壁の責務（transform は持たない） */
 .discoveryRail {
   grid-column: 2;
-  grid-row: 1; /* 行1に固定してレイアウトシフトを防止 */
+  grid-row: 1 / -1; /* 行1に固定してレイアウトシフトを防止 */
   position: sticky;
   top: 0.75rem;
   align-self: stretch;
-  height: var(--vh-75); /* 絵巻ビューアと完全一致する高さ */
-  max-height: var(--vh-75);
+  /* height: var(--vh-75); 絵巻ビューアと完全一致する高さ */
+  /* max-height: var(--vh-75); */
   overflow-y: auto;
   overflow-x: hidden;
-  will-change: transform;
-  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.25s ease;
-  transform: translateY(0);
+  transition: box-shadow 0.25s ease;
   z-index: 10;
 }
 
-/* シアターモード時: ビューア高 --vh-85 の底辺まで滑らかに退避スライド（絵巻面への被さりを防止） */
+/* 【内枠: discoveryRailSlide】アニメーション・変形の責務（全カード保持） */
+.discoveryRailSlide {
+  height: 100%;
+  min-height: 0;
+  will-change: transform;
+  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(0);
+}
+
+/* シアターモード時: 外枠は絶対にはみ出さない防壁となり、内枠のみが滑らかにスライド */
+/* シアターモード時: sticky 追従を完全廃止し、ビューア底辺に貼り付く絶対配置にして突き抜けを遮断 */
+/* シアターモード時: 行2（メタデータ領域の右列）へ自然配置し、絵巻の紹介ブロックと高さを連動 */
 .wrapper.theater .discoveryRail {
   grid-column: 2;
-  grid-row: 1;
+  grid-row: 2;
   position: sticky;
   top: 0.75rem;
-  /* 85vh の下端を基準にスライドさせ、絵巻本文ではなく最下部のチラ見えバー位置にピタリと退避 */
-  transform: translateY(calc(var(--vh-85) - var(--discovery-rail-peek, 3.5rem)));
-  cursor: pointer;
-  overflow: hidden;
+  align-self: stretch;
+  height: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transform: none;
+  cursor: default;
+  z-index: 10;
+}
+
+.wrapper.theater .discoveryRailSlide {
+  height: 100%;
+  transform: none;
 }
 
 .wrapper.theater .discoveryRail:hover {
-  /* translateY の移動によるポインター判定外れ・チャタリング振動を防止 */
+  /* 内側 transform 退避時のホバー */
   box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.18);
   filter: brightness(1.03);
 }
@@ -143,6 +161,9 @@
     position: static;
     height: auto;
     max-height: none;
+  }
+
+  .wrapper.theater .discoveryRailSlide {
     transform: none;
   }
 

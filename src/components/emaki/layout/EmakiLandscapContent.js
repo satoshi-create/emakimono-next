@@ -234,7 +234,7 @@ const EmakiLandscapContent = ({
             />
           </div>
 
-          {/* Discoveryレール（サイドバー / 列2 / 行1〜2スパン） */}
+          {/* Discoveryレール（外枠: sticky・防壁 / 内枠: transform スライド） */}
           {!viewerFullscreen && (
             <aside
               className={`${styles.discoveryRail} scrollbar`}
@@ -244,8 +244,10 @@ const EmakiLandscapContent = ({
               tabIndex={!railOpen ? 0 : undefined}
               aria-label={!railOpen ? t("discovery.railExpandAria") : undefined}
             >
-              {/* onClose を渡さないことでサイドバー右上の「閉じる」ボタンを非表示化 */}
-              <ViewerDiscoveryRail data={data} />
+              {/* 内枠ラッパーを配線して責務を物理分離 */}
+              <div className={styles.discoveryRailSlide}>
+                <ViewerDiscoveryRail data={data} />
+              </div>
             </aside>
           )}
 
