@@ -21,11 +21,7 @@ function logDebug(tag, hypothesis, ...args) {
       : hypothesis === "B"
       ? "#3b82f6" // 青: クールダウン・境界復帰
       : "#10b981"; // 緑: 状態変更（D）
-  console.log(
-    `%c[${time}ms][RailState:${tag}][Hypothesis:${hypothesis}]`,
-    `color: ${badgeColor}; font-weight: bold;`,
-    ...args
-  );
+  // デバッグ用 console.log をクリーンアップ
 }
 
 /**

@@ -33,7 +33,7 @@
   grid-template-rows: auto auto;
 }
 
-/* シアター時: 暗黙トラックの発生を防ぎビューアーを確実に画面全幅（100%）へ展開 */
+/* シアター時: ビューアーを確実に画面全幅（100%）へ展開 */
 .wrapper.theater .viewerCell {
   grid-column: 1 / -1;
   width: 100%;
@@ -42,7 +42,7 @@
 /* 通常時（2列表示）: ファーストビュー外まで伸ばして縦スクロールを誘導 */
 .discoveryRail {
   grid-column: 2;
-  grid-row: 1; /* 行1（ビューア行）と上下ラインを一致 */
+  grid-row: 1; /* 行1に固定してレイアウトシフトを防止 */
   position: sticky;
   top: 0.75rem;
   align-self: stretch;
@@ -54,16 +54,17 @@
   transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.25s ease;
   transform: translateY(0);
+  z-index: 10;
 }
 
-/* シアターモード時: ビューアー高（--vh-85）の外側直下へスライドし、絵巻面への被りを完全に防止 */
-
+/* シアターモード時: ビューア高 --vh-85 の底辺まで滑らかに退避スライド（絵巻面への被さりを防止） */
 .wrapper.theater .discoveryRail {
   grid-column: 2;
-  grid-row: 2;
+  grid-row: 1;
   position: sticky;
-  top: calc(var(--vh-85) - var(--discovery-rail-peek, 3.5rem));
-  transform: none;
+  top: 0.75rem;
+  /* 85vh の下端を基準にスライドさせ、絵巻本文ではなく最下部のチラ見えバー位置にピタリと退避 */
+  transform: translateY(calc(var(--vh-85) - var(--discovery-rail-peek, 3.5rem)));
   cursor: pointer;
   overflow: hidden;
 }

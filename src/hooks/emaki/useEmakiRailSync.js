@@ -23,11 +23,7 @@ function logDebug(tag, hypothesis, ...args) {
       : hypothesis === "C"
       ? "#10b981" // 緑: 境界判定
       : "#8b5cf6"; // 紫: 端点状態
-  console.log(
-    `%c[${time}ms][${tag}][Hypothesis:${hypothesis}]`,
-    `color: ${badgeColor}; font-weight: bold;`,
-    ...args
-  );
+  // デバッグ用 console.log をクリーンアップ
 }
 
 /**
