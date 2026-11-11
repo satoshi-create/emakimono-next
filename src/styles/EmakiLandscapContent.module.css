@@ -11,11 +11,11 @@
 
 .wrapper {
   display: grid;
-  /* YouTube 風: ビューア + 右レール（狭い画面は後述メディアクエリで1列） */
+  /* YouTube 風: ビューア + 右レール（画面幅に応じてサイドバーも20〜25vw程度でレスポンシブに追従） */
   --emaki-wrapper-row-gap: 1.5rem;
   /* ViewerDiscoveryRail .rail padding-top と一致（.head を .titleLeading 上端に揃える） */
   --discovery-rail-inset-top: 0.75rem;
-  grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
+  grid-template-columns: minmax(0, 1fr) clamp(260px, 22vw, 420px);
   grid-template-rows: auto auto;
   row-gap: var(--emaki-wrapper-row-gap);
   column-gap: 1.25rem;
@@ -23,13 +23,13 @@
   align-items: start;
 }
 
-/* シアターモード: 行1ビューア全幅、行2はメタ左 + レール右（2列維持） */
+/* シアターモード: 行1ビューア全幅、行2はメタ左 + レール右（通常時と同一の幅を維持して潰れを防止） */
 .wrapper.theater {
   --discovery-rail-peek: 3.5rem;
   /* シアター時ビューア高 --vh-85。チラ見え translate は --vh-75 基準（FV で .head のみ） */
   --discovery-theater-viewer-h: var(--vh-85);
   --discovery-theater-slide: var(--vh-75);
-  grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
+  grid-template-columns: minmax(0, 1fr) clamp(260px, 22vw, 420px);
   grid-template-rows: auto auto;
 }
 
@@ -42,12 +42,12 @@
 /* 通常時（2列表示）: ファーストビュー外まで伸ばして縦スクロールを誘導 */
 .discoveryRail {
   grid-column: 2;
-  grid-row: 1 / span 2; /* グリッド行を固定して行ジャンプによるレイアウトシフトを防止 */
+  grid-row: 1; /* 行1（ビューア行）と上下ラインを一致 */
   position: sticky;
   top: 0.75rem;
-  align-self: start;
-  height: fit-content;
-  max-height: calc(100vh - 1.5rem);
+  align-self: stretch;
+  height: var(--vh-75); /* 絵巻ビューアと完全一致する高さ */
+  max-height: var(--vh-75);
   overflow-y: auto;
   overflow-x: hidden;
   will-change: transform;
