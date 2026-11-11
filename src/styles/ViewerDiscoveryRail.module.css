@@ -17,6 +17,8 @@
   align-items: baseline;
   justify-content: space-between;
   gap: 0.35rem 0.75rem;
+  min-height: var(--discovery-rail-peek, 2.75rem);
+  box-sizing: border-box;
 }
 
 .headActions {
@@ -52,7 +54,7 @@
 
 .title {
   font-family: var(--font-ui);
-  font-size: 0.9375rem;
+  font-size: clamp(0.9375rem, 1.1vw, 1.125rem);
   font-weight: 700;
   margin: 0;
   color: var(--clr-text);
@@ -96,6 +98,52 @@
   overflow-y: auto;
 }
 
+.metaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: 0.1rem;
+}
+
+.viewCount {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.6875rem;
+  color: var(--color-muted, #6b7280);
+  font-feature-settings: "tnum";
+}
+
+.viewIcon {
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
+/* ノートPC（縦640px等）でも強制非表示にせず、内部スクロールで閲覧可能にする */
+@media (max-height: 740px) {
+  .card {
+    padding: 0.3rem;
+    gap: 0.5rem;
+  }
+}
+
+/* セクション区切りヘッダー */
+.sectionHeader {
+  list-style: none;
+  margin: 0.75rem 0 0.25rem 0;
+  padding: 0.4rem 0.25rem 0.2rem;
+  border-top: 1px dashed var(--color-border, #e5e7eb);
+}
+
+.sectionTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-muted, #6b7280);
+  letter-spacing: 0.03em;
+  display: block;
+}
+
 .card {
   display: flex;
   gap: 0.625rem;
@@ -116,8 +164,9 @@
 
 .thumbWrap {
   flex-shrink: 0;
-  width: 96px;
-  height: 54px;
+  width: clamp(96px, 7.5vw, 136px);
+  aspect-ratio: 16 / 9;
+  height: auto;
   border-radius: 4px;
   overflow: hidden;
   background: #7c7c7cc9;
@@ -133,20 +182,20 @@
 .body {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: 0.35rem;
   min-width: 0;
 }
 
 .itemTitle {
   font-family: var(--font-ui);
-  font-size: 0.8125rem;
+  font-size: clamp(0.8125rem, 0.95vw, 0.9375rem);
   font-weight: 600;
   line-height: 1.35;
 }
 
 .hint {
   font-family: var(--font-story);
-  font-size: 0.6875rem;
+  font-size: clamp(0.6875rem, 0.8vw, 0.8125rem);
   color: var(--clr-text-muted);
 }
 

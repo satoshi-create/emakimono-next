@@ -11,28 +11,112 @@
 
 .wrapper {
   display: grid;
-  /* YouTube 風: ビューア + 右レール（狭い画面は後述メディアクエリで1列） */
-  grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
+  /* YouTube 風: ビューア + 右レール（画面幅に応じてサイドバーも20〜25vw程度でレスポンシブに追従） */
+  --emaki-wrapper-row-gap: 1.5rem;
+  /* ViewerDiscoveryRail .rail padding-top と一致（.head を .titleLeading 上端に揃える） */
+  --discovery-rail-inset-top: 0.75rem;
+  grid-template-columns: minmax(0, 1fr) clamp(260px, 22vw, 420px);
   grid-template-rows: auto auto;
-  row-gap: 1.5rem;
+  row-gap: var(--emaki-wrapper-row-gap);
   column-gap: 1.25rem;
   margin-bottom: 4rem;
   align-items: start;
 }
 
-/* レール閉じ: 横だけ全幅（高さは --vh-75 のまま） */
+/* シアターモード: 行1ビューア全幅、行2はメタ左 + レール右（通常時と同一の幅を維持して潰れを防止） */
 .wrapper.theater {
-  grid-template-columns: minmax(0, 1fr);
+  --discovery-rail-peek: 3.5rem;
+  /* シアター時ビューア高 --vh-85。チラ見え translate は --vh-75 基準（FV で .head のみ） */
+  --discovery-theater-viewer-h: var(--vh-85);
+  --discovery-theater-slide: var(--vh-75);
+  grid-template-columns: minmax(0, 1fr) clamp(260px, 22vw, 420px);
+  grid-template-rows: auto auto;
 }
 
+/* シアター時: ビューアーを確実に画面全幅（100%）へ展開 */
+.wrapper.theater .viewerCell {
+  grid-column: 1 / -1;
+  width: 100%;
+}
+
+/* 通常時（2列表示）: ファーストビュー外まで伸ばして縦スクロールを誘導 */
+.discoveryRail {
+  grid-column: 2;
+  grid-row: 1; /* 行1に固定してレイアウトシフトを防止 */
+  position: sticky;
+  top: 0.75rem;
+  align-self: stretch;
+  height: var(--vh-75); /* 絵巻ビューアと完全一致する高さ */
+  max-height: var(--vh-75);
+  overflow-y: auto;
+  overflow-x: hidden;
+  will-change: transform;
+  transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s ease;
+  transform: translateY(0);
+  z-index: 10;
+}
+
+/* シアターモード時: ビューア高 --vh-85 の底辺まで滑らかに退避スライド（絵巻面への被さりを防止） */
 .wrapper.theater .discoveryRail {
-  display: none;
+  grid-column: 2;
+  grid-row: 1;
+  position: sticky;
+  top: 0.75rem;
+  /* 85vh の下端を基準にスライドさせ、絵巻本文ではなく最下部のチラ見えバー位置にピタリと退避 */
+  transform: translateY(calc(var(--vh-85) - var(--discovery-rail-peek, 3.5rem)));
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.wrapper.theater .discoveryRail:hover {
+  /* translateY の移動によるポインター判定外れ・チャタリング振動を防止 */
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.18);
+  filter: brightness(1.03);
+}
+
+.wrapper.theater .metadata {
+  grid-row: 2;
+  grid-column: 1;
+}
+
+/* シアターモード時に右端に表示されるサイドバー復帰フローティングタブ */
+.railOpenFloatingBtn {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.75rem 0.5rem 0.75rem 0.75rem;
+  background: rgba(30, 41, 59, 0.85);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  box-shadow: -2px 4px 12px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(4px);
+  transition: background 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+  opacity: 0.75;
+  writing-mode: vertical-rl;
+  letter-spacing: 0.1em;
+}
+
+.railOpenFloatingBtn:hover {
+  opacity: 1;
+  background: rgba(15, 23, 42, 0.95);
+  transform: translateY(-50%) translateX(-2px);
 }
 
 /* フローティング解説時: 1行目最小高を外してメタが押し下がらないようにする */
 .wrapper:has(.entry-container[data-commentary-float]) {
   grid-template-rows: auto auto;
 }
+
 
 .viewerCell {
   grid-column: 1;
@@ -41,41 +125,7 @@
   position: relative;
 }
 
-.railExpandBtn {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  z-index: 20;
-  padding: 0.35rem 0.7rem;
-  border: 1px solid rgb(20 20 20 / 0.12);
-  border-radius: 6px;
-  background: rgb(255 255 255 / 0.92);
-  color: var(--clr-text);
-  font-family: var(--font-ui);
-  font-size: 0.75rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 1px 4px rgb(0 0 0 / 0.08);
-}
-
-.railExpandBtn:hover,
-.railExpandBtn:focus-visible {
-  border-color: var(--clr-accent);
-  color: var(--clr-link);
-}
-
-.discoveryRail {
-  /* ビューアと同じ --vh-75 に揃え、縦幅変動時も余白を残さない */
-  grid-column: 2;
-  grid-row: 1;
-  position: sticky;
-  top: 0.75rem;
-  align-self: stretch;
-  height: var(--vh-75);
-  max-height: var(--vh-75);
-  overflow-y: auto;
-  overflow-x: hidden;
-}
+/* discoveryRail の重複定義を削除（先頭ブロックへ一本化） */
 
 @media screen and (max-width: 1100px) {
   .wrapper {
@@ -84,19 +134,26 @@
 
   .wrapper.theater {
     grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
   }
 
   .wrapper.theater .discoveryRail {
-    display: block;
+    grid-column: 1;
+    grid-row: 2;
+    position: static;
+    height: auto;
+    max-height: none;
+    transform: none;
+  }
+
+  .wrapper.theater .metadata {
+    grid-row: 3;
+    grid-column: 1;
   }
 
   .viewerCell {
     grid-column: 1;
     grid-row: 1;
-  }
-
-  .railExpandBtn {
-    display: none;
   }
 
   .discoveryRail {

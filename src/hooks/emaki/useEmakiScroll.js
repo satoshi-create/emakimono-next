@@ -1,14 +1,13 @@
 /**
- * スクロール処理 + 現在シーン検出。
- *
- * - handleScroll: 端点判定・スクロール位置保存・インジケータ更新・シーン検出 debounce
- * - detectCurrentScene: ビューポート中央の実測 DOM（findSceneIndexAtViewportCenter）が正本
- * - 手動スクロール: 停止 debounce 後にのみ hash/navIndex 更新（DOM 中央を正本採用）
- * - handleToId: scrollPositionStore.isProgrammaticScroll で着地中の誤検出を抑制
- * - 自動再生中: scroll リスナーは位置保存のみ。シーンは useEmakiAutoPlay の rAF 側＋本検出
- * - 描画窓中心: メタデータ幅推定（URL 正本とは分離）
- *
- * 抽出元: EmakiConteiner.js の detectCurrentScene + handleScroll effect。
+ * useEmakiScroll
+ * 
+ * 【責務】
+ * 絵巻の物理スクロール処理（DOM 実測）および現在シーン検出を担当。
+ * 
+ * 【バグ1・2との関連】
+ * - SCROLL_MARGIN（5px）に基づき、スクロール位置から isAtStart（先頭右端）/ isAtEnd（末尾左端）を算出
+ * - isAtStart の切り替わりが useEmakiRailSync の becameStart をトリガーし、レールの自動展開へ連動する
+ * - レールの開閉による clientWidth / clientHeight の変化（ResizeObserver）を拾い、寸法キャッシュを再計算
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -21,6 +20,7 @@ import { estimateSceneIndexFromScrollLeft } from "@/utils/emakiContentWindow";
 import { findSceneIndexAtViewportCenter } from "@/utils/emakiSceneDom";
 import { scrollPositionStore as defaultScrollStore } from "@/hooks/emaki/scrollPositionStore";
 
+// シーン検出のデバウンス時間（ミリ秒）
 const SCENE_DETECT_DEBOUNCE_MS = 180;
 
 const useEmakiScroll = ({
@@ -60,6 +60,7 @@ const useEmakiScroll = ({
   );
   const scrollingTimerRef = useRef(null);
 
+  // 表示中・中央プローブ中のシーンインデックス
   const [liveSceneIndex, setLiveSceneIndex] = useState(navIndex);
   const [contentWindowCenter, setContentWindowCenter] = useState(navIndex);
   const contentWindowCenterRef = useRef(navIndex);
@@ -70,7 +71,7 @@ const useEmakiScroll = ({
     setLiveSceneIndex(navIndex);
   }, [navIndex]);
 
-  // 段ジャンプ（目次・チャプターナビ）: navIndex を検出基準へ同期
+  // チャプターナビ等による navIndex 変更を検出基準へ同期
   useEffect(() => {
     if (isAutoScrolling || playModeAnimationRef.current) return;
     if (!Number.isFinite(navIndex)) return;
@@ -82,7 +83,7 @@ const useEmakiScroll = ({
     lastDetectedSceneRef,
   ]);
 
-  // hash / 目次ジャンプ: 大きく離れた navIndex のみ窓へ反映
+  // 目次ジャンプ等で大きく移動した場合のみ描画窓中心を更新
   useEffect(() => {
     if (!Number.isFinite(navIndex)) return;
     if (navIndex === contentWindowCenterRef.current) return;
@@ -100,24 +101,24 @@ const useEmakiScroll = ({
     setContentWindowCenter(liveSceneIndex);
   }, [liveSceneIndex, isAutoScrolling, playModeAnimationRef]);
 
+  /**
+   * DOM中央プローブによる現在シーンの検出処理
+   */
   const detectCurrentScene = useCallback(() => {
     const el = articleRef.current;
     if (!el) return;
 
-    // プログラム制御スクロール中は誤検知による巻き戻りを防ぐため判定をスキップ
+    // プログラム制御の移動中は誤判定を防止
     if (scrollPositionStore.isProgrammaticScroll) {
       return;
     }
 
     const closestId = findSceneIndexAtViewportCenter(el);
     if (closestId === null || isNaN(closestId)) return;
-
     if (closestId === lastDetectedSceneRef.current) return;
-
     if (palmActiveRef?.current) return;
 
     const playing = isAutoScrolling || playModeAnimationRef.current;
-    // 停止 debounce 後の DOM 中央プローブを正本とする（±1 連番拘束はデッドロック源のため撤廃）
 
     handleSceneChange(emakiId, closestId, "scroll_detect");
     updateEngagementState(emakiId, closestId, toggleFullscreen);
@@ -154,6 +155,7 @@ const useEmakiScroll = ({
     detectCurrentSceneRef.current = detectCurrentScene;
   }
 
+  // 寸法キャッシュ（リサイズ・レイアウトシフト監視用）
   const scrollDimsRef = useRef({ w: 0, c: 0, ts: 0 });
 
   useEffect(() => {
@@ -165,6 +167,7 @@ const useEmakiScroll = ({
       const latest = contentWindowCenterRef.current;
       setContentWindowCenter((prev) => (prev === latest ? prev : latest));
     };
+
     const scheduleWindowCenterStateSync = () => {
       if (windowCenterIdleRef.current) return;
       if (typeof requestIdleCallback !== "undefined") {
@@ -177,7 +180,6 @@ const useEmakiScroll = ({
       }
     };
 
-    /** 描画窓のみ: メタデータ幅で推定（URL 正本とは独立） */
     const scheduleContentWindowCenter = () => {
       if (windowCenterRafRef.current) return;
       windowCenterRafRef.current = requestAnimationFrame(() => {
@@ -199,9 +201,14 @@ const useEmakiScroll = ({
       });
     };
 
+    /**
+     * スクロールイベントリスナー（物理計算・端点判定）
+     */
     const handleScroll = () => {
       const currentScrollX = el.scrollLeft;
       const now = Date.now();
+
+      // 1秒ごとに寸法キャッシュを更新
       if (now - scrollDimsRef.current.ts > 1000) {
         scrollDimsRef.current = { w: el.scrollWidth, c: el.clientWidth, ts: now };
       }
@@ -224,6 +231,7 @@ const useEmakiScroll = ({
         return;
       }
 
+      // インジケータ更新
       if (maxScrollLeft > 0) {
         const ratio = Math.abs(currentScrollX) / maxScrollLeft;
 
@@ -257,7 +265,7 @@ const useEmakiScroll = ({
         setIsScrolling(false);
       }, 1500);
 
-      // スクロール停止後にのみ DOM 中央プローブ → hash / navIndex
+      // シーン判定のデバウンス
       if (sceneDetectionTimerRef.current) {
         clearTimeout(sceneDetectionTimerRef.current);
       }
@@ -266,6 +274,7 @@ const useEmakiScroll = ({
         detectCurrentScene();
       }, SCENE_DETECT_DEBOUNCE_MS);
 
+      // 【物理端点判定】RTLスクロールの誤差を考慮
       const atStart =
         Math.abs(currentScrollX) < SCROLL_MARGIN ||
         currentScrollX >= maxScrollLeft - SCROLL_MARGIN;
@@ -275,6 +284,7 @@ const useEmakiScroll = ({
         (currentScrollX < 0 &&
           Math.abs(currentScrollX) >= maxScrollLeft - SCROLL_MARGIN);
 
+      // 端点ステートの変更通知（useEmakiRailSyncへ渡る）
       if (atStart !== isAtStartRef.current) {
         isAtStartRef.current = atStart;
         setIsAtStart(atStart);
@@ -315,22 +325,29 @@ const useEmakiScroll = ({
     };
   }, [detectCurrentScene, isAutoScrolling, dataId, emakiId, scrollPositionStore]);
 
-  // 中身マウント等で scrollWidth が変わったら再プローブ
+  /**
+   * レイアウトシフト（シアター切り替えによる幅・高さ変更）を監視
+   */
   useEffect(() => {
     const el = articleRef.current;
     if (!el || typeof ResizeObserver === "undefined") return;
     let lastW = el.scrollWidth;
+    let lastC = el.clientWidth;
     let timer = null;
+
     const ro = new ResizeObserver(() => {
       const w = el.scrollWidth;
-      if (Math.abs(w - lastW) < 2) return;
+      const c = el.clientWidth;
+      if (Math.abs(w - lastW) < 2 && Math.abs(c - lastC) < 2) return;
       lastW = w;
+      lastC = c;
       scrollDimsRef.current = { w: 0, c: 0, ts: 0 };
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => {
         detectCurrentScene();
       }, 120);
     });
+
     ro.observe(el);
     return () => {
       ro.disconnect();

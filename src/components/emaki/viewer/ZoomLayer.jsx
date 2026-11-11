@@ -27,8 +27,7 @@ const DEBUG_ZOOM_LAYER = true;
 
 function logZoomLayer(tag, ...args) {
   if (!DEBUG_ZOOM_LAYER) return;
-  const time = performance.now().toFixed(1);
-  console.log(`%c[${time}ms][ZoomLayer:${tag}]`, "color: #0ea5e9; font-weight: bold;", ...args);
+  // デバッグログ出力をクリーンアップ
 }
 
 const ZoomLayer = ({
