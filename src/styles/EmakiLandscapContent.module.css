@@ -46,7 +46,7 @@
   position: sticky;
   top: 0.75rem;
   align-self: start;
-  min-height: calc(var(--vh-75) + 260px);
+  height: fit-content;
   max-height: calc(100vh - 1.5rem);
   overflow-y: auto;
   overflow-x: hidden;
@@ -57,29 +57,21 @@
 }
 
 /* シアターモード時: ビューアー高（--vh-85）の外側直下へスライドし、絵巻面への被りを完全に防止 */
+
 .wrapper.theater .discoveryRail {
   grid-column: 2;
-  grid-row: 1 / span 2;
+  grid-row: 2;
   position: sticky;
-  top: 0.75rem;
-  transform: translateY(
-    calc(
-      var(--discovery-theater-slide) + var(--emaki-wrapper-row-gap) -
-        var(--discovery-rail-inset-top)
-    )
-  );
+  top: calc(var(--vh-85) - var(--discovery-rail-peek, 3.5rem));
+  transform: none;
   cursor: pointer;
   overflow: hidden;
 }
 
 .wrapper.theater .discoveryRail:hover {
-  transform: translateY(
-    calc(
-      var(--discovery-theater-viewer-h) + var(--emaki-wrapper-row-gap) -
-        var(--discovery-rail-inset-top) - 0.35rem
-    )
-  ); /* ホバー時に少し浮き上がらせる */
-  box-shadow: 0 -6px 16px rgba(0, 0, 0, 0.1);
+  /* translateY の移動によるポインター判定外れ・チャタリング振動を防止 */
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.18);
+  filter: brightness(1.03);
 }
 
 .wrapper.theater .metadata {

@@ -1,8 +1,11 @@
 /**
- * Emaki viewer shell: horizontal scroll, auto-play, hash navigation, analytics.
- *
- * Consumes AppContext (_app.js). Renders portrait/landscape via child layouts.
- * Data: image-metadata-cache.json per slug. Do not split without a plan.
+ * EmakiConteiner.js
+ * 
+ * 【責務（Phase 1 責務分離後）】
+ * - 絵巻本体の横スクロール描画コンテナ（<article>）の管理
+ * - スライス画像の描画窓制御（仮想化）
+ * - 自動再生、ズーム＆パン、クイズモーダル、解説バーのホスト
+ * - 【分離完了】Discoveryレールとのスクロール同期ロジックは useEmakiRailSync フックへ完全委譲
  */
 import {
   EbikiCoordinatePickerHud,
@@ -47,6 +50,7 @@ import useEmakiZoomPan from "@/hooks/emaki/useEmakiZoomPan";
 import useEmakiZoomBridge from "@/hooks/emaki/useEmakiZoomBridge";
 import useEmakiScroll from "@/hooks/emaki/useEmakiScroll";
 import useScrollPositionRestore from "@/hooks/emaki/useScrollPositionRestore";
+import useEmakiRailSync from "@/hooks/emaki/useEmakiRailSync";
 import styles from "@/styles/EmakiConteiner.module.css";
 import zoomStyles from "@/styles/ZoomLayer.module.css";
 import commentaryStyles from "@/styles/SceneCommentaryBar.module.css";
@@ -111,7 +115,7 @@ function getLinkIdForVisitorScene(emakis, sceneNum) {
   return n - 1;
 }
 
-// 開いたとき／必要時だけ chunk を読む（/[slug] 初回コンパイル・初期 JS 軽減）
+// 動的インポート（初期チャンク軽量化）
 const HelpModal = dynamic(
   () => import("@/components/emaki/viewer/HelpModal"),
   { ssr: false }
@@ -145,8 +149,7 @@ const EndNudgeCard = dynamic(
   { ssr: false }
 );
 
-// 教育現場向けUI: 絵巻切り替え検出用
-// モジュールスコープに配置することで、コンポーネント再マウント時も前回値を保持
+// 教育現場向けUI: 絵巻切り替え検出用（モジュールスコープ）
 let prevDataId = null;
 
 const EmakiContainer = ({
@@ -187,47 +190,31 @@ const EmakiContainer = ({
   const wrapperRef = useRef();
   const articleRef = useRef();
   const entryContainerRef = useRef(null);
-  // ピンチ / Ctrl+ホイール（トラックパッド）からの即時ズーム進入（実体は下部で配線）
   const enterZoomRef = useRef(null);
-  // タッチのダブルタップで全画面切替した直後の synthetic dblclick を無視する
   const touchDoubleTapAtRef = useRef(0);
   const scrollNextRef = useRef(null);
   const scrollPrevRef = useRef(null);
 
-  // P0改修: scrollPositionStore はモジュールスコープに移動済み
-  // （コンポーネント再マウント時も値を保持するため）
-
-  // 教育現場向けUI: ホイール操作時のトースト表示
   const [showWheelToast, setShowWheelToast] = useState(false);
 
-  // 教育現場向けUI: スクロール端点の状態管理（操作手段に依存しない）
-  const [isAtStart, setIsAtStart] = useState(true); // 開始位置（右端）にいるか
-  const [isAtEnd, setIsAtEnd] = useState(false); // 終了位置（左端）にいるか
-  const isAtStartRef = useRef(true); // scroll ハンドラ再登録回避用
+  // 端点状態管理（useEmakiScroll が更新）
+  const [isAtStart, setIsAtStart] = useState(true);
+  const [isAtEnd, setIsAtEnd] = useState(false);
+  const isAtStartRef = useRef(true);
   const isAtEndRef = useRef(false);
 
-  // 教育現場向けUI: 巻末ナッジ（次巻が存在する場合のみ）
-  // 巻末到達中に他の巻へのカードを表示し、「続きがある」ことを伝える
   const hasNextVolume = editionLinks.length > 0 || showKusouzuHubLink || showChojuGigaHubLink || showHyakkiHubLink;
-
-  // prevDataIdはモジュールスコープに移動済み（絵巻切り替え検出用）
 
   const [isScrollFeedbackOpen, setIsScrollFeedbackOpen] = useState(false);
   const [scrollFeedbackSubmitted, setScrollFeedbackSubmitted] = useState(false);
   const [endPromptDismissed, setEndPromptDismissed] = useState(false);
   const [sharePromptDismissed, setSharePromptDismissed] = useState(false);
-  // ズーム・ポラロイド連携は useEmakiZoomBridge へ集約
   const [midFeedbackDismissed, setMidFeedbackDismissed] = useState(false);
   const [scrollRatioBucket, setScrollRatioBucket] = useState(0);
 
-  // 解説バーの「右下フローティングカード」化（PC / タブレット横 md+）。
-  // 全画面（toggleFullscreen）または 768px 以上の横画面では、下部バーを廃止して
-  // カードをキャンバス右下へオーバーレイ配置する（モバイル縦は従来のボトムシート維持）。
   const [isMdLandscape, setIsMdLandscape] = useState(false);
   const commentaryFloating = Boolean(toggleFullscreen) || isMdLandscape;
 
-  // ペイント前に確定させる（useLayoutEffect）: 下部バーが一瞬出てから
-  // フローティングカードへ切り替わるチラつきと SSR hydration 不一致を防ぐ
   useLayoutEffect(() => {
     if (typeof window === "undefined") return undefined;
     const mq = window.matchMedia("(min-width: 768px)");
@@ -243,9 +230,6 @@ const EmakiContainer = ({
     };
   }, [orientation]);
 
-  // フローティングカード時（非全画面）はキャンバスを画面下端まで広げるため、
-  // entry-container 上端（ヘッダー＋パンくず）の実測高を --emaki-top-inset に反映。
-  // カードが下部UIを押し上げなくなった分をキャンバス高に転化する。
   const [viewerTopInset, setViewerTopInset] = useState(null);
   useLayoutEffect(() => {
     if (!commentaryFloating || toggleFullscreen) return undefined;
@@ -266,10 +250,9 @@ const EmakiContainer = ({
   }, [commentaryFloating, toggleFullscreen]);
 
   const emakiId = data.titleen;
-  // Quiz データは静的 import せず遅延（未使用巻でもチャンクに載せない）
   const [quizModule, setQuizModule] = useState(null);
   const [quizSession, setQuizSession] = useState(null);
-  const [quizUi, setQuizUi] = useState("closed"); // closed | open | minimized
+  const [quizUi, setQuizUi] = useState("closed");
   const [quizFabHidden, setQuizFabHiddenState] = useState(false);
   const quizHydratedRef = useRef(false);
   const pendingJumpAppliedRef = useRef(false);
@@ -288,25 +271,18 @@ const EmakiContainer = ({
     ? quizModule.getQuizForTitleen(data.titleen)
     : null;
 
-  // 絵巻ハイパーリンク: 前回検出したシーン（不要な更新を防ぐ）
   const lastDetectedSceneRef = useRef(navIndex);
   const detectCurrentSceneRef = useRef(null);
-
-  // 教育現場向けUI: 静かな現在地インジケータ（PositionIndicator の DOM要素への参照）
   const indicatorElRef = useRef(null);
 
-  // 描画窓 Phase 1: 中身マウント集合（sticky）+ 絵巻切替リセット
   const contentWindowMountedRef = useRef(new Set());
   const contentWindowEmakiRef = useRef(data.id);
 
-  const [isScrolling, setIsScrolling] = useState(false); // スクロール中か
-  const isScrollingRef = useRef(false); // setIsScrolling呼び出し最適化用
-
-  // 絵引チップ／詳細シート操作中はアイドル非表示を一時停止
+  const [isScrolling, setIsScrolling] = useState(false);
+  const isScrollingRef = useRef(false);
   const [idlePaused, setIdlePaused] = useState(false);
 
-  // 教育現場向けUI: 静止UI耐性 + 自動スクロール制御（初回ナッジ/再生モード）
-  // useEmakiAutoPlay が useEmakiIdleUI を内部合成する（両者の循環依存を解消）
+  // 自動スクロール・UI可視性制御
   const {
     isAutoScrolling,
     isPlayMode,
@@ -357,7 +333,6 @@ const EmakiContainer = ({
   const fabMode =
     isSessionForCurrentScroll && !quizSession?.done ? "resume" : "start";
 
-  // sessionStorage から進行を復元（他巻ジャンプ・リロード対応）— paint 後
   useEffect(() => {
     if (!quizModule || quizHydratedRef.current) return;
     return runAfterPaint(() => {
@@ -372,8 +347,6 @@ const EmakiContainer = ({
       if (!quizModule.getQuizById(stored.quizId)) return;
       setQuizSession(stored);
 
-      // URLクエリで明示的にクイズ起動が要求されている場合（?quiz=1 等）や、
-      // セッションが既に完了している（done: true）場合は minimized への上書きを行わない
       const isExplicitQuizQuery =
         query.quiz === "1" || query.quiz === "true";
       if (!isExplicitQuizQuery && !stored.done) {
@@ -382,7 +355,6 @@ const EmakiContainer = ({
     });
   }, [quizModule, data?.titleen, query.quiz]);
 
-  // Help などから「クイズボタンを再表示」
   useEffect(() => {
     const onShowFab = () => {
       setQuizFabHidden(false);
@@ -392,7 +364,6 @@ const EmakiContainer = ({
     return () => window.removeEventListener("emaki-quiz-show-fab", onShowFab);
   }, []);
 
-  // 他巻ジャンプの pendingJump を到着巻で適用
   useEffect(() => {
     if (!scroll || !quizSession?.pendingJump || pendingJumpAppliedRef.current) {
       return;
@@ -441,7 +412,6 @@ const EmakiContainer = ({
   }, [quizModule, quizSession, entryQuiz, activeQuiz, data?.titleen]);
 
   const closeQuizUi = useCallback(() => {
-    // 進行は保持（観察のために閉じても再開できる）
     setQuizUi("minimized");
   }, []);
 
@@ -471,13 +441,11 @@ const EmakiContainer = ({
       stopPlayMode();
       setQuizUi("minimized");
       pendingJumpAppliedRef.current = false;
-      // 進行は直前の onSessionChange で同期保存済み
       push(`/${titleen}`);
     },
     [stopPlayMode, push]
   );
 
-  // ?quiz=true / ?quiz=1 で観察力クイズを開く（エントリー巻 or 再開セッション）
   const quizOpenedFromQueryRef = useRef(false);
   useEffect(() => {
     if (!scroll || !activeQuiz || quizOpenedFromQueryRef.current) return;
@@ -487,7 +455,7 @@ const EmakiContainer = ({
     }
   }, [scroll, activeQuiz, query.quiz, openQuizUi]);
 
-  // スクロール処理 + 現在シーン検出（DOM 中央プローブ。仮想幅キャッシュは使わない）
+  // 物理スクロール制御フック
   const {
     scrollDimsRef,
     liveSceneIndex,
@@ -518,13 +486,9 @@ const EmakiContainer = ({
     detectCurrentSceneRef,
   });
 
-  // 再生中も追従する liveSceneIndex を URL hash / 共有の正とする（中央コマ DOM プローブ）
-  // SSR では window.hash が読めないため追従は初期 false。クライアントで確定する。
-  // 入場 hash / ?ebiki がある間はユーザー横スクロールまで URL を書き換えない。
   const pendingInitialHashRef = useRef(0);
   const [hashFollowEnabled, setHashFollowEnabled] = useState(false);
 
-  // クライアント専用: 入場 hash / 絵引の有無で追従可否を確定（絵巻切替時も再実行）
   useEffect(() => {
     if (!scroll) return;
     setHashFollowEnabled(false);
@@ -540,7 +504,6 @@ const EmakiContainer = ({
       Number(String(window.location.hash || "").replace("#", "")) || 0;
     const hasQueryScene = Boolean(query?.scene);
     pendingInitialHashRef.current = hash;
-    // #hash も ?scene も指定されていない場合のみ即時 URL 追従を有効化
     if (hash <= 0 && !hasQueryScene) setHashFollowEnabled(true);
   }, [scroll, data.id, query?.ebiki]);
 
@@ -560,7 +523,6 @@ const EmakiContainer = ({
       return;
     }
     pendingInitialHashRef.current = 0;
-    // 通し番号（1始まり）で ?scene= を URL の正として追従（詞書ありは段、詞書なしはスライス）
     const currentEmakis = data?.emakis || [];
     const url = new URL(window.location.href);
     const currentSceneNum = getVisitorSceneNumber(currentEmakis, liveSceneIndex);
@@ -569,9 +531,6 @@ const EmakiContainer = ({
     window.history.replaceState(null, "", url.pathname + url.search);
   }, [liveSceneIndex, scroll, hashFollowEnabled, data?.emakis]);
 
-  // 入場 hash 凍結解除: 非プログラム的な scroll（scrollLeft 有意変化）で解除
-  // スクロールバーは content へ pointer が届かないため、scroll イベントを正とする
-  // handleToId の programmatic scroll では解除しない
   useEffect(() => {
     if (!scroll || hashFollowEnabled) return;
     const el = articleRef?.current;
@@ -594,19 +553,11 @@ const EmakiContainer = ({
     };
   }, [scroll, data.id, articleRef, hashFollowEnabled]);
 
-  // 共有リンク入場: article マウント後に hash シーンへ移動＋縦位置を先頭に固定（ヘッダー切れ防止）
-  // 向き変更の再マウントでは navIndex が既に一致するため handleToId を再実行しない
   const didApplyEntryHashRef = useRef(false);
   useEffect(() => {
     if (!scroll || didApplyEntryHashRef.current) return;
-    // 初回実行で「入場 hash の処理は完了」と確定する。URL hash はこの時点のものだけを
-    // 共有リンク入場として扱い、以後 navIndex が変わっても再実行しない。
-    // （再実行すると、スクロール検出で自分が書いた hash=#N と新しい navIndex のズレから
-    //   handleToId(realign) が走り、ユーザーの到達位置を古い hash シーンへ巻き戻す。）
     didApplyEntryHashRef.current = true;
-    // 絵引ディープリンクは SceneCommentaryBar が offset 付きで担当（#N フォールバック抑止）
     if (query?.ebiki) return;
-    // ディープリンク入場: ?scene=N（1始まり）から該当段またはスライスの linkId を解決
     const queryScene = query?.scene;
     let targetIndex = null;
 
@@ -634,7 +585,6 @@ const EmakiContainer = ({
       pin();
       return;
     }
-    // 段タイトル看板が画面右端（絵巻先頭位置）に来るよう、通常のシーンクリックと同等の配置引数を適用
     handleToId(targetIndex, {
       realign: true,
       scrollBehavior: "auto",
@@ -652,7 +602,6 @@ const EmakiContainer = ({
       setScrollFeedbackSubmitted(hasSubmittedScrollFeedback(emakiId));
       setSharePromptDismissed(hasDismissedPullPrompt(emakiId, "share"));
       setMidFeedbackDismissed(hasDismissedPullPrompt(emakiId, "mid_feedback"));
-      // 巻末プロンプトも sessionStorage の閉じ状態を復元（再表示しない）
       setEndPromptDismissed(isFeedbackDismissed(getScrollEndFeedbackKey(emakiId)));
       setScrollRatioBucket(0);
     });
@@ -662,13 +611,10 @@ const EmakiContainer = ({
     const el = articleRef.current;
     if (!el) return null;
     const maxScroll = el.scrollWidth - el.clientWidth;
-    // レイアウト未完了時は誤って 100% と判定しない
     if (maxScroll <= 0) return null;
-    // RTL 横スクロールでは scrollLeft が負になる
     return Math.round((Math.abs(el.scrollLeft) / maxScroll) * 1000) / 1000;
   }, []);
 
-  // 中間プロンプト用: スクロール停止〜400ms で進捗バケット更新（1.5s の isScrolling とは独立）
   useEffect(() => {
     if (!scroll) return;
     const el = articleRef.current;
@@ -687,7 +633,6 @@ const EmakiContainer = ({
     };
 
     el.addEventListener("scroll", onScroll, { passive: true });
-    // シーンジャンプ直後など
     updateBucket();
 
     return () => {
@@ -764,8 +709,6 @@ const EmakiContainer = ({
     scrollRatioBucket >= 0.55 &&
     isUIVisible;
 
-  // 巻末: フィードバック未回答でもいいね・共有は出す（回答済みなら feedback ボタンのみ隠す）
-  // 一度閉じた通知はセッション中は再表示しない（sessionStorage の閉じ状態を尊重）
   const showScrollFeedbackEndPrompt =
     scroll &&
     isAtEnd &&
@@ -776,16 +719,14 @@ const EmakiContainer = ({
     !showSharePullPrompt &&
     !showMidFeedbackPrompt;
 
-  // 手のひらモード（PC限定）: マウス押下で表示 + ドラッグで絵巻を移動
-  // - 押した瞬間に手のひらアイコン・grabカーソルを表示
-  // - 押したままドラッグで横スクロール（紙を掴んで動かす感覚）
-  // - 離すと終了。スマホ（タッチ）では従来どおりスワイプ操作のため無効
   const { isPalmMode, suppressClickUntilRef, palmActiveRef } =
     useEmakiPalmDrag(articleRef);
 
-  const prevAtStartRef = useRef(isAtStart);
-
   // #region agent log
+  /**
+   * デバッグ用ログ送出関数（Container層）
+   * 調査セッション: 1249f1 / 仮説ID（A:サプレス・ピン留め, B:先頭到達復帰, C:境界判定, E:端点状態）
+   */
   const dbgRailContainer = (location, message, data, hypothesisId) => {
     fetch("http://127.0.0.1:7862/ingest/f3f35754-fbbd-48fc-af61-63ae1db56704", {
       method: "POST",
@@ -806,122 +747,32 @@ const EmakiContainer = ({
   };
   // #endregion
 
-  // 初回自動スクロール（ナッジ）や再生モード中ではないユーザー自発スクロールを親へ通知
-  const notifyUserScroll = (e, source = "unknown") => {
-    if (isAutoScrolling || isPlayMode) return;
+  // 【責務分離】Discoveryレールとのスクロール同期ロジックを抽出したフックへ委譲
+  const {
+    handlePointerDown: handleRailPointerDown,
+    handleTouchStart: handleRailTouchStart,
+    handleWheel: handleRailWheel,
+  } = useEmakiRailSync({
+    articleRef,
+    isAtStart,
+    isAtStartRef,
+    isAtEnd,
+    isAtEndRef,
+    isAutoScrolling,
+    isPlayMode,
+    onUserScrollStart,
+    onReachStartBoundary,
+    theaterSuppressRef,
+    railPinFromExpandRef,
+    railPinScrollLeftRef,
+    onLog: (loc, msg, d, hyp) => dbgRailContainer(`EmakiConteiner:${loc}`, msg, d, hyp),
+  });
 
-    const suppressed =
-      theaterSuppressRef?.current &&
-      Date.now() < theaterSuppressRef.current;
-    if (suppressed) {
-      // #region agent log
-      dbgRailContainer(
-        "EmakiConteiner:notifyUserScroll",
-        "theater-suppress-skip",
-        {
-          source,
-          remainMs: Math.max(
-            0,
-            (theaterSuppressRef?.current || 0) - Date.now()
-          ),
-        },
-        "A"
-      );
-      // #endregion
-      return;
-    }
-
-    if (
-      railPinFromExpandRef?.current &&
-      (source === "pointerdown" || source === "touchstart")
-    ) {
-      // #region agent log
-      dbgRailContainer(
-        "EmakiConteiner:notifyUserScroll",
-        "rail-pin-skip-pointer-touch",
-        { source },
-        "A"
-      );
-      // #endregion
-      return;
-    }
-
-    const wheelDelta = (e?.deltaX || 0) + (e?.deltaY || 0);
-    const atStart = isAtStartRef.current;
-    const reachBranch =
-      atStart && wheelDelta >= 0 && Boolean(onReachStartBoundary);
-  // #region agent log
-    dbgRailContainer(
-      "EmakiConteiner:notifyUserScroll",
-      reachBranch ? "notify-reach-boundary" : "notify-scroll-start",
-      {
-        source,
-        eventType: e?.type,
-        wheelDelta,
-        atStart,
-        isAtEnd: isAtEndRef.current,
-        reachBranch,
-      },
-      reachBranch ? "C" : "A"
-    );
-  // #endregion
-    // 先頭での進行方向と逆の操作（RTL では scrollLeft<=0 は常に真になり得るため isAtStart のみ）
-    if (reachBranch) {
-      onReachStartBoundary();
-      return;
-    }
-
-    if (onUserScrollStart) {
-      onUserScrollStart();
-    }
-  };
-
-  // 先頭到達時のみ Discovery レールを親へ復帰依頼（巻末は EndNudgeCard に集約）
-  useEffect(() => {
-    const becameStart = !prevAtStartRef.current && isAtStart;
-
-    if (isAutoScrolling || isPlayMode || !onReachStartBoundary) {
-      prevAtStartRef.current = isAtStart;
-      return;
-    }
-
-    if (becameStart) {
-      // #region agent log
-      dbgRailContainer(
-        "EmakiConteiner:isAtStart-effect",
-        "becameStart-onReachStartBoundary",
-        { isAtStart, isAutoScrolling, isPlayMode },
-        "B"
-      );
-      // #endregion
-      onReachStartBoundary();
-    }
-
-    prevAtStartRef.current = isAtStart;
-  }, [isAtStart, isAutoScrolling, isPlayMode, onReachStartBoundary]);
-
-  useEffect(() => {
-    // #region agent log
-    dbgRailContainer(
-      "EmakiConteiner:isAtStart-state",
-      "isAtStart-isAtEnd-updated",
-      { isAtStart, isAtEnd },
-      "E"
-    );
-    // #endregion
-  }, [isAtStart, isAtEnd]);
-
-  // タッチのダブルタップ（通常スクロール中）: 全画面表示のトグルへ一本化する。
-  // その直後に発火しうる synthetic dblclick はタイムスタンプで無視する。
   const handleViewerDoubleTap = useCallback(() => {
     touchDoubleTapAtRef.current = Date.now();
     handleFullScreen("landscape");
   }, [handleFullScreen]);
 
-  // ズーム＆パン（兄弟オーバーレイ方式）: 既存スクロール系フックとは独立して動作する。
-  // ズーム進入時は自動再生を止めて背後の自動移動を防ぐ。
-  // containerRef: ジェスチャ（ピンチ / Ctrl+ホイール）を常時受ける entry-container。
-  // requestZoomRef: 等倍からズーム状態へ入るための同期進入関数（下部で配線）。
   const zoomStartTimeRef = useRef(null);
   const zoomMaxScaleRef = useRef(1);
 
@@ -963,11 +814,6 @@ const EmakiContainer = ({
     onDoubleTap: handleViewerDoubleTap,
     containerRef: entryContainerRef,
     requestZoomRef: enterZoomRef,
-    // 作品特性に応じた最大ズーム倍率の決定:
-    // 1. data.maxScale または data.maxZoom が直接指定されていればそれを優先
-    // 2. 洛中洛外図（舟木本や今後の rakuchu_rakugai_*）などの細密画は 1200%（scale: 12）
-    // 3. 一般屏風は 800%（scale: 8）
-    // 4. 一般絵巻は既定の 600%（undefined ➔ フック規定値 6）
     maxScale:
       typeof data?.maxScale === "number"
         ? data.maxScale
@@ -992,7 +838,6 @@ const EmakiContainer = ({
     }
   }, [isZoomed, handleZoomCloseWithTrack]);
 
-  // 開発専用: 絵引座標ピッカー（?dev=ebiki / ?ebikiPicker=1、非ズーム時のみ）
   const {
     enabled: ebikiPickerEnabled,
     onPick: onEbikiPick,
@@ -1000,9 +845,6 @@ const EmakiContainer = ({
     clearHud: clearEbikiPickerHud,
   } = useEbikiCoordinatePicker({ handleToId, isZoomed });
 
-  // パームドラッグ終了: ドラッグ中はシーン確定を保留しているため、離した直後に
-  // 最終シーンを1回だけ確定する（150ms debounce はドラッグ中の長押しで発火済みのため
-  // 最後の scroll イベント後に必ずしも走らない）
   const wasPalmActiveRef = useRef(false);
   useEffect(() => {
     if (isPalmMode) {
@@ -1019,15 +861,8 @@ const EmakiContainer = ({
     return () => clearTimeout(t);
   }, [isPalmMode]);
 
-  // 絵巻ハイパーリンク: スクロール位置から現在表示中のシーンを検出
-  // （useEmakiScroll 内の detectCurrentScene が DOM 中央プローブ）
-
-  // 教育現場向けUI: 巻末ナッジ
-  // isAtEnd 中は他巻カードを表示、離れると非表示
   const showEndNudge = isAtEnd && hasNextVolume;
 
-  // P0改修: フルスクリーン切り替え時のスクロール位置復元
-  // toggleFullscreen state の変化を監視して復元処理を行う
   useScrollPositionRestore({
     articleRef,
     dataId: data.id,
@@ -1039,7 +874,6 @@ const EmakiContainer = ({
     detectCurrentSceneRef,
   });
 
-  // 全画面切替や向き切替でビューポートサイズが変わるため寸法キャッシュを無効化
   useEffect(() => {
     scrollDimsRef.current = { w: 0, c: 0, ts: 0 };
     const t = setTimeout(() => {
@@ -1050,28 +884,20 @@ const EmakiContainer = ({
     return () => clearTimeout(t);
   }, [toggleFullscreen, orientation]);
 
-  // 教育現場向けUI: 絵巻切り替え時のリセット処理
-  // Chrome系でキャッシュが残る問題への対応
-  // フルスクリーン切り替え（再マウント）時はリセットしない
   useEffect(() => {
-    // 実際に絵巻が切り替わった場合のみリセット
-    // prevDataIdはモジュールスコープなので再マウントでも値が保持される
     if (prevDataId !== null && prevDataId !== data.id) {
-      // 再生モードを停止
       if (playModeAnimationRef.current) {
         cancelAnimationFrame(playModeAnimationRef.current);
         playModeAnimationRef.current = null;
       }
       setIsPlayMode(false);
 
-      // スクロール位置ストアをリセット（フルスクリーン復元用）
       scrollPositionStore.scrollLeft = 0;
       scrollPositionStore.scrollRatio = 0;
       scrollPositionStore.restored = false;
       scrollPositionStore.isTransitioning = false;
       scrollPositionStore.emakiId = null;
 
-      // DOM 横スクロールを先頭（右端）へリセット
       const el = articleRef.current;
       if (el) {
         scrollPositionStore.isTransitioning = true;
@@ -1086,18 +912,12 @@ const EmakiContainer = ({
         }, 100);
       }
 
-      // 寸法キャッシュを無効化（新しい絵巻のサイズを再取得するため）
       scrollDimsRef.current = { w: 0, c: 0, ts: 0 };
-
-      // 計測: 全計測状態をリセット
       resetAllTracking();
     }
 
-    // 前回のdata.idを更新（初回マウント時も含む）
     prevDataId = data.id;
 
-    // 計測: セッション環境コンテキスト（paint 後・1セッション1回のみ送信される）
-    // 第2引数は絵巻の総画像枚数（URL 文字列長を渡すと次元が壊れる）
     return runAfterPaint(() => {
       const imageCount = (data.emakis || []).filter(
         (scene) => scene.cat === "image"
@@ -1111,24 +931,17 @@ const EmakiContainer = ({
       let scrollSpeed = 30;
       const el = articleRef.current;
       const MouseWheelHandler = (e) => {
-        // トラックパッドのピンチ（Ctrl/⌘+ホイール）は useEmakiZoomPan がズームへ引き継ぐ
         if (e.ctrlKey || e.metaKey) return;
-        // block if e.deltaY==0
-        // 垂直方向のスクロールがゼロならばリターン
         if (!e.deltaY) return;
 
-        // 教育現場向けUI: 初回ホイール操作時にトースト表示
-        // セッション内で1回のみ表示（sessionStorageで管理）
         const toastKey = "wheel_toast_shown";
         if (!sessionStorage.getItem(toastKey)) {
           sessionStorage.setItem(toastKey, "true");
           setShowWheelToast(true);
         }
 
-        // 計測: 手動スクロール操作（wheel）
         trackManualScroll(emakiId, "wheel");
 
-        // 教育現場向けUI: 再生モード中はホイール操作で停止
         if (playModeAnimationRef.current) {
           cancelAnimationFrame(playModeAnimationRef.current);
           playModeAnimationRef.current = null;
@@ -1138,57 +951,37 @@ const EmakiContainer = ({
           return;
         }
 
-        // Set scrollDirection (-1 = up // 1 = down)
         let scrollDirection = e.deltaY > 0 ? 1 : -1;
-
-        // RTL環境考慮: scrollLeft と端点判定
         let scrollLeft = el.scrollLeft;
         let scrollWidth = el.scrollWidth;
         let clientWidth = el.clientWidth;
         let maxScrollLeft = scrollWidth - clientWidth;
+        const SCROLL_MARGIN = 5;
 
-        // 教育現場向けUI: 端点判定（handleScroll と同じロジック）
-        // RTL環境では scrollLeft が負の値になるため、絶対値で判定
-        const SCROLL_MARGIN = 5; // ピクセル誤差を許容
-
-        // 開始位置判定: scrollLeft が 0 または正の最大値（RTL環境考慮）
         const atStart = Math.abs(scrollLeft) < SCROLL_MARGIN ||
                         scrollLeft >= maxScrollLeft - SCROLL_MARGIN;
 
-        // 終了位置判定: scrollLeft が負の最大値または 0 付近（RTL環境考慮）
         const atEnd = Math.abs(scrollLeft) >= maxScrollLeft - SCROLL_MARGIN ||
                       (scrollLeft < 0 && Math.abs(scrollLeft) >= maxScrollLeft - SCROLL_MARGIN);
 
-        // スクロール実行（端点でなければ）
         if (
-          (scrollDirection === -1 && !atEnd) ||   // 上回転（左進行） かつ 終了位置でない
-          (scrollDirection === 1 && !atStart)     // 下回転（右進行） かつ 開始位置でない
+          (scrollDirection === -1 && !atEnd) ||
+          (scrollDirection === 1 && !atStart)
         ) {
-          // convert vertical scroll into horizontal
-          // 縦スクロールを横スクロールに変換
           el.scrollLeft += scrollSpeed * scrollDirection;
         }
 
-        // 教育現場向けUI: 絵巻コンテナ上では横スクロールとして扱う
         e.preventDefault();
         return true;
       };
 
-      // クロスブラウザ対応: 標準の wheel イベントを使用（Firefox対応）
       el.addEventListener("wheel", MouseWheelHandler, { passive: false });
-
-      // クリーンアップ処理
       return () => {
         el.removeEventListener("wheel", MouseWheelHandler, { passive: false });
       };
     }
   }, [scroll, emakiId]);
 
-  // 手のひらモード時: 画像のネイティブドラッグを抑止する。
-  // パン effect 内の dragstart preventDefault で常時抑止しているため、
-  // ここでの draggable 属性切替は不要（押下→再描画の競合も回避される）
-
-  // 配列を展開し、条件ごとに連番を付与（再レンダー時の reduce＋コピーを避ける）
   const processedEmakis = useMemo(
     () => assignUniqueIndex(data.emakis || []),
     [data.emakis]
@@ -1227,36 +1020,26 @@ const EmakiContainer = ({
     onZoomCloseTrack: handleZoomCloseWithTrack,
   });
 
-  // ボトムコメントバー: 横スクロール鑑賞時は常に表示（中身の有無は SceneCommentaryBar 側）
-  // metadata.kotobagaki / sceneText は UI ゲートに使わない（タブ出しは kobun 有無）
   const hasCommentaryData = Boolean(scroll);
-  // 再生中は liveSceneIndex で先読み・解説追従（navIndex は固定で画像ツリー再レンダー抑制）
   const sceneIndexForPrefetch =
     isPlayMode || isAutoScrolling ? liveSceneIndex : navIndex;
 
-  // ズーム進入・スライス収集・初期アライメントは useEmakiZoomBridge へ委譲済み
-
-  // 描画窓 Phase 1: section 殻は常置、中身は sticky mount（一度載せたら外さない）
   if (contentWindowEmakiRef.current !== data.id) {
     contentWindowEmakiRef.current = data.id;
     contentWindowMountedRef.current = new Set();
   }
-  // 窓中心は scrollLeft 追従（contentWindowCenter）。navIndex debounce には依存しない
+
   const windowCenter = Number.isFinite(contentWindowCenter)
     ? contentWindowCenter
     : Number.isFinite(sceneIndexForPrefetch)
       ? sceneIndexForPrefetch
       : 0;
   const windowIsPlaying = isPlayMode || isAutoScrolling;
-  // 共有 hash 入場: navIndex 反映前でも着地先付近の中身を先に載せる
   const pendingHashCenter =
     typeof window !== "undefined"
       ? Number(String(window.location.hash || "").replace("#", "")) || 0
       : 0;
-  // 屏風（typeen === "byobu"）: スライス幅が約 0.365 と極端に細く、通常の描画窓
-  // （画面内＋前後数枚）では PC の横長ビューポートを埋めきれず左側が空白になる。
-  // 舟木本は全 12 スライスと少ないため、中身のマウントを全スライスへ広げる
-  // （通常絵巻は isByobu=false のまま＝従来の描画窓でリグレッションなし）。
+
   const isByobu = isByobuScroll(data);
   const mountWindowOpts = { isPlayMode: windowIsPlaying, isByobu };
   const nextContentMounted = new Set();
@@ -1293,7 +1076,6 @@ const EmakiContainer = ({
             hasCommentaryData ? commentaryStyles.hasCommentaryBar : ""
           }`}
           style={{
-            // 角丸クリップ: 通常表示時のみ（全画面時は overflow で UI はみ出しを防止）
             borderRadius:
               orientation === "landscape" &&
               scroll &&
@@ -1306,18 +1088,11 @@ const EmakiContainer = ({
               "hidden",
             width: toggleFullscreen ? "100%" : undefined,
             height: toggleFullscreen ? "100%" : undefined,
-            position: "relative", // 子要素の絶対配置の基準点
-            // ビューア全域でブラウザ標準のピンチ/ダブルタップズームを無効化する。
-            // 1本指パン（横スクロール / 縦ページスクロール）はネイティブのまま維持し、
-            // 2本指ピンチのみ useEmakiZoomPan が拾って ZoomLayer を展開する。
+            position: "relative",
             touchAction: "pan-x pan-y",
-            // フローティングカード時のキャンバス下端までの高さ基準（上端クローム実測値）
             ...(viewerTopInset != null
               ? { "--emaki-top-inset": `${viewerTopInset}px` }
               : null),
-            // ボトムコメントバーは block 要素として article の直後に配置する
-            // （entry-container を flex にすると article が min-content 幅に
-            //  伸びて横スクロールが壊れるため flex は使わない）
           }}
         >
         {scroll && <FullScreen isUIVisible={isUIVisible} isBarFloating={commentaryFloating} />}
@@ -1336,7 +1111,6 @@ const EmakiContainer = ({
         )}
         {scroll && (
           <>
-            {/* ズームボタン（全画面の左） */}
             <div className={zoomStyles.toggleAnchor}>
               <ActionButton
                 icon={
@@ -1351,7 +1125,6 @@ const EmakiContainer = ({
                     : t("viewer.zoomToggleIn")
                 }
                 onClick={() => {
-                  // 表示中央を基準に中心スライスと初期 pan を事前確定して開く
                   const rect = entryContainerRef.current?.getBoundingClientRect();
                   toggleZoom(
                     rect ? rect.left + rect.width / 2 : null,
@@ -1365,7 +1138,6 @@ const EmakiContainer = ({
                 isUIVisible={isUIVisible}
               />
             </div>
-
           </>
         )}
         {scroll && (
@@ -1461,6 +1233,8 @@ const EmakiContainer = ({
             showFeedback={!scrollFeedbackSubmitted}
           />
         )}
+
+        {/* 絵巻横スクロールコンテナ本体 */}
         <article
           className={`${styles.container} ${styles.rl} scrollbar ${
             isPalmMode ? styles.palmMode : ""
@@ -1470,82 +1244,33 @@ const EmakiContainer = ({
             "--screen-width": width,
             "--overflow-x": overflowX,
             "--box-shadow": boxshadow,
-            // 角丸は外側ラッパー(entry-container)で管理するため、ここでは設定しない
           }}
-          onPointerDown={(e) => {
-            // 先頭または末尾ですでに静止しているときの誤爆を防ぐ
-            if (!isAtStart && !isAtEnd) {
-              notifyUserScroll(e, "pointerdown");
-            }
-          }}
+          /* 【分離完了】ポインター・タッチ・ホイールイベントを useEmakiRailSync のハンドラへ直接バインド */
+          onPointerDown={handleRailPointerDown}
           onClick={() => {
-            // 再生モード中はクリックで停止
             if (isPlayMode) {
               stopPlayMode();
               return;
             }
-            // 手のひらモードのドラッグ直後のclickは抑止（sidebarが閉じないように）
             if (Date.now() < suppressClickUntilRef.current) return;
             setOepnSidebar(false);
           }}
           onDoubleClick={(e) => {
-            // ボタン・リンク上は無視
             if (e.target.closest("button, a, [role='button']")) return;
             if (Date.now() < suppressClickUntilRef.current) return;
-            // タッチのダブルタップは useEmakiZoomPan 側で検出済み（二重発火を防ぐ）
             if (Date.now() - touchDoubleTapAtRef.current < 600) return;
-            // PC（ダブルクリック）/ SP・TB（ダブルタップ）共通:
-            // 全画面表示のトグル切り替えに一本化する（ズームは発火させない）
             handleFullScreen("landscape");
           }}
           onTouchStart={(e) => {
-            notifyUserScroll(e, "touchstart");
-            // 再生モード中はタッチで停止
+            handleRailTouchStart(e);
             if (isPlayMode) {
               stopPlayMode();
             }
-            // 計測: 手動スクロール操作（touch）
-            // 自動スクロール中でない場合のみ（自動スクロール中断は別で計測）
             if (!isAutoScrolling) {
               trackManualScroll(emakiId, "touch");
             }
           }}
-          onWheel={(e) => {
-            if (railPinFromExpandRef?.current) {
-              const el = articleRef.current;
-              const current = el?.scrollLeft ?? 0;
-              const baseline = railPinScrollLeftRef?.current ?? 0;
-              const moved = Math.abs(current - baseline);
-              // ログ: scroll リスナで pin 解除→次 wheel で即閉じ。展開基準から閾値以上だけ解除
-              if (moved < 80) {
-                // #region agent log
-                dbgRailContainer(
-                  "EmakiConteiner:onWheel",
-                  "rail-pin-below-threshold-skip",
-                  {
-                    deltaX: e.deltaX,
-                    deltaY: e.deltaY,
-                    current,
-                    baseline,
-                    moved,
-                  },
-                  "A"
-                );
-                // #endregion
-                return;
-              }
-              railPinFromExpandRef.current = false;
-              // #region agent log
-              dbgRailContainer(
-                "EmakiConteiner:onWheel",
-                "rail-pin-threshold-met-close",
-                { current, baseline, moved },
-                "A"
-              );
-              // #endregion
-            }
-            notifyUserScroll(e, "wheel");
-          }}
+          onWheel={handleRailWheel}
           ref={articleRef}
         >
           {processedEmakis.map((item, index) => {
@@ -1562,9 +1287,9 @@ const EmakiContainer = ({
                 selectedRef={selectedRef}
                 navIndex={navIndex}
                 sceneIndex={windowCenter}
-                uniqueIndex={item.uniqueIndex} // 新しい連番を渡す
+                uniqueIndex={item.uniqueIndex}
                 scroll={scroll}
-                isPlayMode={windowIsPlaying} // ナッジ/再生中も前方 eager・描画窓と揃える
+                isPlayMode={windowIsPlaying}
                 floatLandscape={commentaryFloating && !toggleFullscreen}
                 mountContent={nextContentMounted.has(index)}
                 ebikiPickerEnabled={ebikiPickerEnabled}
@@ -1572,10 +1297,6 @@ const EmakiContainer = ({
               />
             );
           })}
-          {/* 教育現場向けUI: 巻末ナッジ
-              次巻が存在する場合に巻末到達中にカードを表示
-              row-reverse内の最終子要素 = 左端に配置
-              position:sticky で左端ビューポートに固定 */}
           {hasNextVolume && showEndNudge && (
             <EndNudgeCard
               editionLinks={editionLinks}
@@ -1608,7 +1329,6 @@ const EmakiContainer = ({
             onClose={clearEbikiPickerHud}
           />
         )}
-        {/* 座標ピッカー中は絵引シート／解説バーが画像に重なるため一時非表示 */}
         {hasCommentaryData && !ebikiPickerEnabled && (
           <SceneCommentaryBar
             data={data}

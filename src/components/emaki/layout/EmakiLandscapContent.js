@@ -1,3 +1,17 @@
+/**
+ * EmakiLandscapContent.js
+ * 
+ * 【責務（Phase 1 責務分離後）】
+ * - ランドスケープ表示時の全体レイアウト（2列グリッド／シアターモード）の構築
+ * - タイトル、いいね数、ランキング、メタデータ、タグクラウド、フッター等の描画
+ * - Discoveryレール（サイドバー）の開閉・排他制御ロジックは useViewerDiscoveryRailState フックへ完全委譲
+ * 
+ * 【バグとの関連】
+ * - バグ1（開閉ループ）: useViewerDiscoveryRailState が提供する railOpen フラグに基づき、
+ *   ビューアの高さ（--vh-75 vs --vh-85）とグリッドクラス（.theater）を切り替える。
+ * - バグ2（フッター突き抜け）: 本コンポーネント内の .wrapper グリッド内で aside.discoveryRail が
+ *   position: sticky として描画される（CSSの境界制約に依存）。
+ */
 import EmakiConteiner from "@/components/emaki/layout/EmakiConteiner";
 import EmakiMetadataSection from "@/components/emaki/layout/EmakiMetadataSection";
 import ViewerDiscoveryRail from "@/components/discovery/ViewerDiscoveryRail";
@@ -6,6 +20,7 @@ import Footer from "@/components/layout/Footer";
 import { AppContext } from "@/context/AppContext";
 import { useSceneLikeCounts } from "@/context/SceneLikeCountsContext";
 import styles from "@/styles/EmakiLandscapContent.module.css";
+import useViewerDiscoveryRailState from "@/hooks/emaki/useViewerDiscoveryRailState";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
@@ -32,6 +47,10 @@ import {
 import { useTranslation } from "next-i18next";
 
 // #region agent log
+/**
+ * デバッグ用ログ送出関数（Landscape層）
+ * 調査セッション: 1249f1 / 仮説ID（A:サプレス・ピン留め, B:クールダウン・復帰, D:状態変更）
+ */
 const dbgRailLandscape = (location, message, data, hypothesisId) => {
   fetch("http://127.0.0.1:7862/ingest/f3f35754-fbbd-48fc-af61-63ae1db56704", {
     method: "POST",
@@ -64,98 +83,33 @@ const EmakiLandscapContent = ({
   const { locale } = useRouter();
   const { t } = useTranslation("common");
   const { t: alldata } = useLocaleData();
-  const [railOpen, setRailOpen] = useState(true);
-  /** transform 0.42s + レイアウト落ち着き（チラ見えクリック後の開閉チャタリング防止） */
-  const RAIL_THEATER_SUPPRESS_MS = 1200;
-  /** スクロールでシアター化した直後は境界到達での自動再開を抑止 */
-  const RAIL_DISMISS_REOPEN_COOLDOWN_MS = 1200;
-  const suppressRailTheaterRef = useRef(0);
-  /** チラ見えクリック展開後、展開時 scrollLeft から閾値以上動くまでシアター閉じを無視 */
-  const railPinFromExpandRef = useRef(false);
-  const railPinScrollLeftRef = useRef(0);
-  const railOpenRef = useRef(railOpen);
-  const theaterDismissedAtRef = useRef(0);
-  const lastScrollCloseNotifyRef = useRef(0);
 
+  // 【責務分離】サイドバーの開閉状態・クールダウン・ハンドラを専用フックから取得
+  const {
+    railOpen,
+    suppressRailTheaterRef,
+    railPinFromExpandRef,
+    railPinScrollLeftRef,
+    onUserScrollStart,
+    onReachStartBoundary,
+    handleRailPointerDown,
+    handleRailClick,
+  } = useViewerDiscoveryRailState({
+    viewerFullscreen,
+    articleRef,
+    onLog: (loc, msg, d, hyp) => dbgRailLandscape(`EmakiLandscapContent:${loc}`, msg, d, hyp),
+  });
+
+  // 【仮説D: レール開閉状態の追跡】
   useEffect(() => {
-    railOpenRef.current = railOpen;
-  }, [railOpen]);
-
-  const armRailTheaterSuppress = useCallback(() => {
-    suppressRailTheaterRef.current = Date.now() + RAIL_THEATER_SUPPRESS_MS;
-  }, []);
-
-  const onUserScrollStart = useCallback(() => {
-    const suppressed = Date.now() < suppressRailTheaterRef.current;
-    const now = Date.now();
-  // #region agent log
-    dbgRailLandscape(
-      "EmakiLandscapContent:onUserScrollStart",
-      suppressed ? "scroll-close-suppressed" : "scroll-close-attempt",
-      {
-        railOpen: railOpenRef.current,
-        suppressed,
-        suppressRemainMs: Math.max(
-          0,
-          suppressRailTheaterRef.current - Date.now()
-        ),
-        debounceRemainMs: Math.max(
-          0,
-          120 - (now - lastScrollCloseNotifyRef.current)
-        ),
-      },
-      "A"
-    );
-  // #endregion
-    if (suppressed) return;
-    if (!railOpenRef.current || viewerFullscreen) return;
-    if (now - lastScrollCloseNotifyRef.current < 120) return;
-    lastScrollCloseNotifyRef.current = now;
-    theaterDismissedAtRef.current = now;
-    railPinFromExpandRef.current = false;
-    setRailOpen(false);
-  }, [viewerFullscreen]);
-
-  const onReachStartBoundary = useCallback(() => {
-    const suppressed = Date.now() < suppressRailTheaterRef.current;
-    const dismissCooldown =
-      Date.now() - theaterDismissedAtRef.current <
-      RAIL_DISMISS_REOPEN_COOLDOWN_MS;
-  // #region agent log
-    dbgRailLandscape(
-      "EmakiLandscapContent:onReachStartBoundary",
-      suppressed
-        ? "boundary-open-suppressed"
-        : dismissCooldown
-          ? "boundary-open-dismiss-cooldown"
-          : "boundary-open-attempt",
-      {
-        railOpen: railOpenRef.current,
-        suppressed,
-        dismissCooldown,
-        suppressRemainMs: Math.max(
-          0,
-          suppressRailTheaterRef.current - Date.now()
-        ),
-      },
-      "B"
-    );
-  // #endregion
-    if (suppressed || dismissCooldown) return;
-    if (!railOpenRef.current && !viewerFullscreen) {
-      setRailOpen(true);
-    }
-  }, [viewerFullscreen]);
-
-  useEffect(() => {
-  // #region agent log
+    // #region agent log
     dbgRailLandscape(
       "EmakiLandscapContent:railOpen",
       "railOpen-changed",
       { railOpen, viewerFullscreen },
       "D"
     );
-  // #endregion
+    // #endregion
   }, [railOpen, viewerFullscreen]);
 
   const removeNestedArrayObj = ExtractingListData();
@@ -237,6 +191,7 @@ const EmakiLandscapContent = ({
           viewerFullscreen ? styles.fullscreenShell : "emaki-page-landscape-grid"
         }
       >
+        {/* レール開閉状態（railOpen）に応じて .theater クラスを付与しグリッド構造を変更 */}
         <div
           className={
             viewerFullscreen
@@ -244,6 +199,7 @@ const EmakiLandscapContent = ({
               : `${styles.wrapper}${railOpen ? "" : ` ${styles.theater}`}`
           }
         >
+          {/* ビューア領域（行1 / 列1）。シアター時は全幅へ拡張 */}
           <div
             className={viewerFullscreen ? null : styles.viewerCell}
           >
@@ -277,44 +233,13 @@ const EmakiLandscapContent = ({
               showHyakkiHubLink={isHyakki}
             />
           </div>
+
+          {/* Discoveryレール（サイドバー / 列2 / 行1〜2スパン） */}
           {!viewerFullscreen && (
             <aside
               className={`${styles.discoveryRail} scrollbar`}
-              onPointerDown={() => {
-                if (!railOpen) {
-                  armRailTheaterSuppress();
-                  // #region agent log
-                  dbgRailLandscape(
-                    "EmakiLandscapContent:aside",
-                    "aside-pointerdown-expand",
-                    { railOpen },
-                    "A"
-                  );
-                  // #endregion
-                }
-              }}
-              onClick={() => {
-                // シアター中（下に沈んでいる時）にクリックされたら上へスライド復帰
-                if (!railOpen) {
-                  armRailTheaterSuppress();
-                  theaterDismissedAtRef.current = 0;
-                  railPinFromExpandRef.current = true;
-                  railPinScrollLeftRef.current =
-                    articleRef?.current?.scrollLeft ?? 0;
-                  // #region agent log
-                  dbgRailLandscape(
-                    "EmakiLandscapContent:aside",
-                    "aside-click-expand",
-                    {
-                      railOpen,
-                      pinScrollLeft: railPinScrollLeftRef.current,
-                    },
-                    "A"
-                  );
-                  // #endregion
-                  setRailOpen(true);
-                }
-              }}
+              onPointerDown={handleRailPointerDown}
+              onClick={handleRailClick}
               role={!railOpen ? "button" : undefined}
               tabIndex={!railOpen ? 0 : undefined}
               aria-label={!railOpen ? t("discovery.railExpandAria") : undefined}
@@ -323,83 +248,86 @@ const EmakiLandscapContent = ({
               <ViewerDiscoveryRail data={data} />
             </aside>
           )}
+
+          {/* メタデータ領域（行2 / 列1） */}
           {!viewerFullscreen && (
             <>
-          <div className={styles.metadata}>
-            <div className={styles.metadataA}>
-              <div className={styles.titleRow}>
-                <div className={styles.titleLeading}>
-                  <h1 className={styles.title}>
-                    {emakiDisplayTitle(data, locale)}{" "}
-                    {locale === "ja" && edition}
-                  </h1>
-                  {totalCount > 0 && (
-                    <span
-                      className={styles.totalLikesBadge}
-                      aria-label={locale === "en" ? "Total likes" : "いいね総計"}
-                      title={locale === "en" ? "Total likes" : "いいね総計"}
-                    >
-                      <FontAwesomeIcon icon={faHeart} aria-hidden />
-                      {totalCount.toLocaleString()}
-                    </span>
-                  )}
-                  {rankInfo && (
-                    <Link href="/ranking">
-                      <a className={styles.rankTag}>
-                        <FontAwesomeIcon
-                          icon={faTrophy}
-                          className={styles.rankIcon}
-                        />
-                        {locale === "en"
-                          ? `#${rankInfo.rank}`
-                          : `${rankInfo.rank}位`}
-                        <span className={styles.rankDivider}>|</span>
-                        <FontAwesomeIcon
-                          icon={faEye}
-                          className={styles.rankViewIcon}
-                        />
-                        {Number(rankInfo.pageView).toLocaleString()}
+              <div className={styles.metadata}>
+                <div className={styles.metadataA}>
+                  <div className={styles.titleRow}>
+                    <div className={styles.titleLeading}>
+                      <h1 className={styles.title}>
+                        {emakiDisplayTitle(data, locale)}{" "}
+                        {locale === "ja" && edition}
+                      </h1>
+                      {totalCount > 0 && (
+                        <span
+                          className={styles.totalLikesBadge}
+                          aria-label={locale === "en" ? "Total likes" : "いいね総計"}
+                          title={locale === "en" ? "Total likes" : "いいね総計"}
+                        >
+                          <FontAwesomeIcon icon={faHeart} aria-hidden />
+                          {totalCount.toLocaleString()}
+                        </span>
+                      )}
+                      {rankInfo && (
+                        <Link href="/ranking">
+                          <a className={styles.rankTag}>
+                            <FontAwesomeIcon
+                              icon={faTrophy}
+                              className={styles.rankIcon}
+                            />
+                            {locale === "en"
+                              ? `#${rankInfo.rank}`
+                              : `${rankInfo.rank}位`}
+                            <span className={styles.rankDivider}>|</span>
+                            <FontAwesomeIcon
+                              icon={faEye}
+                              className={styles.rankViewIcon}
+                            />
+                            {Number(rankInfo.pageView).toLocaleString()}
+                          </a>
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                  {author && (
+                    <Link href={`/author/${authoren}`}>
+                      <a className={styles.authorLink}>
+                        <h2 className={styles.author}>
+                          {locale === "ja" ? author : authoren}
+                        </h2>
                       </a>
                     </Link>
                   )}
                 </div>
+                <EmakiMetadataSection
+                  data={data}
+                  locale={locale}
+                  styles={styles}
+                  descContent={
+                    descToParagraphs(locale === "en" ? descEn : descJa) ??
+                    parse(locale === "en" ? descEn : descJa)
+                  }
+                  eraTagTextColor
+                  showRepresentativeLink={isKusouzu && titleen !== "kusouzumaki"}
+                  tagCloud={
+                    keyword ? (
+                      <div className={styles.tagCloud}>
+                        <CustomTagCloud
+                          tags={filterdKeywords(keyword, allKeywords)}
+                          emakiPage={true}
+                        />
+                      </div>
+                    ) : null
+                  }
+                />
               </div>
-              {author && (
-                <Link href={`/author/${authoren}`}>
-                  <a className={styles.authorLink}>
-                    <h2 className={styles.author}>
-                      {locale === "ja" ? author : authoren}
-                    </h2>
-                  </a>
-                </Link>
-              )}
-            </div>
-            <EmakiMetadataSection
-              data={data}
-              locale={locale}
-              styles={styles}
-              descContent={
-                descToParagraphs(locale === "en" ? descEn : descJa) ??
-                parse(locale === "en" ? descEn : descJa)
-              }
-              eraTagTextColor
-              showRepresentativeLink={isKusouzu && titleen !== "kusouzumaki"}
-              tagCloud={
-                keyword ? (
-                  <div className={styles.tagCloud}>
-                    <CustomTagCloud
-                      tags={filterdKeywords(keyword, allKeywords)}
-                      emakiPage={true}
-                    />
-                  </div>
-                ) : null
-              }
-            />
-          </div>
             </>
           )}
         </div>
       </div>
+      {/* フッター領域（wrapper グリッドの外側） */}
       {!viewerFullscreen && <Footer />}
     </>
   );
