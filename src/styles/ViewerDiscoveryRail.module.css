@@ -17,6 +17,8 @@
   align-items: baseline;
   justify-content: space-between;
   gap: 0.35rem 0.75rem;
+  min-height: var(--discovery-rail-peek, 2.75rem);
+  box-sizing: border-box;
 }
 
 .headActions {

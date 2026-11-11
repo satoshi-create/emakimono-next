@@ -35,6 +35,10 @@ const ViewerDiscoveryRail = ({ data, onClose }) => {
     };
   }, [all, data]);
 
+  const stopRailAsideBubble = (e) => {
+    e.stopPropagation();
+  };
+
   return (
     <div className={styles.rail}>
       <div className={styles.head}>
@@ -42,7 +46,9 @@ const ViewerDiscoveryRail = ({ data, onClose }) => {
         <div className={styles.headActions}>
           {plan.ctaHref && (
             <Link href={plan.ctaHref}>
-              <a className={styles.hubCta}>{t(plan.ctaKey)} →</a>
+              <a className={styles.hubCta} onClick={stopRailAsideBubble}>
+                {t(plan.ctaKey)} →
+              </a>
             </Link>
           )}
           {onClose && (
@@ -65,7 +71,7 @@ const ViewerDiscoveryRail = ({ data, onClose }) => {
           {items.map((item) => (
             <li key={item.titleen}>
               <Link href={`/${item.titleen}`}>
-                <a className={styles.card}>
+                <a className={styles.card} onClick={stopRailAsideBubble}>
                   {item.thumb && (
                     <span className={styles.thumbWrap}>
                       <Image
@@ -96,7 +102,9 @@ const ViewerDiscoveryRail = ({ data, onClose }) => {
         </ul>
       )}
       <Link href="/ranking">
-        <a className={styles.rankingLink}>{t("discovery.ctaRanking")}</a>
+        <a className={styles.rankingLink} onClick={stopRailAsideBubble}>
+          {t("discovery.ctaRanking")}
+        </a>
       </Link>
     </div>
   );

@@ -17,6 +17,7 @@ html {
   /* Viewport height with dvh fallback for mobile browsers */
   /* dvh (dynamic viewport height) adjusts for mobile URL bar */
   --vh-100: 100vh;
+  --vh-85: 85vh;
   --vh-75: 75vh;
   --vh-45: 45vh;
 
@@ -443,6 +444,7 @@ button {
 @supports (height: 100dvh) {
   :root {
     --vh-100: 100dvh;
+    --vh-85: 85dvh;
     --vh-75: 75dvh;
     --vh-45: 45dvh;
   }
@@ -458,6 +460,7 @@ button {
   }
   @media (orientation: landscape) {
     :root {
+      --vh-85: 85svh;
       --vh-75: 75svh;
     }
   }

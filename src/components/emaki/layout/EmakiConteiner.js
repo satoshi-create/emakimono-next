@@ -163,7 +163,10 @@ const EmakiContainer = ({
   showChojuGigaHubLink = false,
   showHyakkiHubLink = false,
   onUserScrollStart,
-  onReachBoundary,
+  onReachStartBoundary,
+  theaterSuppressRef,
+  railPinFromExpandRef,
+  railPinScrollLeftRef,
 }) => {
   const {
     setOepnSidebar,
@@ -780,132 +783,133 @@ const EmakiContainer = ({
   const { isPalmMode, suppressClickUntilRef, palmActiveRef } =
     useEmakiPalmDrag(articleRef);
 
-  // 端にいる前回の状態を追跡（境界への突入瞬間だけを判定する）
-  const prevBoundaryRef = useRef({ isAtStart, isAtEnd });
-  const endZoneLatchRef = useRef(false);
+  const prevAtStartRef = useRef(isAtStart);
+
+  // #region agent log
+  const dbgRailContainer = (location, message, data, hypothesisId) => {
+    fetch("http://127.0.0.1:7862/ingest/f3f35754-fbbd-48fc-af61-63ae1db56704", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Debug-Session-Id": "1249f1",
+      },
+      body: JSON.stringify({
+        sessionId: "1249f1",
+        location,
+        message,
+        data,
+        timestamp: Date.now(),
+        hypothesisId,
+        runId: "post-fix",
+      }),
+    }).catch(() => {});
+  };
+  // #endregion
 
   // 初回自動スクロール（ナッジ）や再生モード中ではないユーザー自発スクロールを親へ通知
-  const notifyUserScroll = (e) => {
+  const notifyUserScroll = (e, source = "unknown") => {
     if (isAutoScrolling || isPlayMode) return;
 
-    const el = articleRef?.current;
-    const currentScrollLeft = el ? el.scrollLeft : 0;
+    const suppressed =
+      theaterSuppressRef?.current &&
+      Date.now() < theaterSuppressRef.current;
+    if (suppressed) {
+      // #region agent log
+      dbgRailContainer(
+        "EmakiConteiner:notifyUserScroll",
+        "theater-suppress-skip",
+        {
+          source,
+          remainMs: Math.max(
+            0,
+            (theaterSuppressRef?.current || 0) - Date.now()
+          ),
+        },
+        "A"
+      );
+      // #endregion
+      return;
+    }
+
+    if (
+      railPinFromExpandRef?.current &&
+      (source === "pointerdown" || source === "touchstart")
+    ) {
+      // #region agent log
+      dbgRailContainer(
+        "EmakiConteiner:notifyUserScroll",
+        "rail-pin-skip-pointer-touch",
+        { source },
+        "A"
+      );
+      // #endregion
+      return;
+    }
+
     const wheelDelta = (e?.deltaX || 0) + (e?.deltaY || 0);
-    const maxScrollLeft = el ? el.scrollWidth - el.clientWidth : 0;
-    const scrollRatio =
-      maxScrollLeft > 0 ? Math.abs(currentScrollLeft) / maxScrollLeft : 0;
-    const END_MARGIN = 20;
-    const nearEnd =
-      maxScrollLeft > 0 &&
-      Math.abs(currentScrollLeft) >= maxScrollLeft - END_MARGIN;
-    const ratioNearEnd = scrollRatio >= 0.96;
-    const atEndZone =
-      isAtEnd || nearEnd || ratioNearEnd || endZoneLatchRef.current;
-
-    console.log("[NotifyScroll:Input]", {
-      type: e?.type,
-      deltaX: e?.deltaX,
-      deltaY: e?.deltaY,
-      wheelDelta,
-      currentScrollLeft,
-      isAtStart,
-      isAtEnd,
-      nearEnd,
-      ratioNearEnd,
-      scrollRatio,
-      endZoneLatch: endZoneLatchRef.current,
-      maxScrollLeft,
-      clientWidth: el?.clientWidth,
-      scrollWidth: el?.scrollWidth
-    });
-
-    // 1. 先頭での進行方向と逆の操作（RTL では scrollLeft<=0 は常に真になり得るため isAtStart のみ）
-    if (isAtStart) {
-      if (wheelDelta >= 0) {
-        console.log("[NotifyScroll:StartReverse] Calling onReachBoundary");
-        if (onReachBoundary) onReachBoundary();
-        return;
-      }
+    const atStart = isAtStartRef.current;
+    const reachBranch =
+      atStart && wheelDelta >= 0 && Boolean(onReachStartBoundary);
+  // #region agent log
+    dbgRailContainer(
+      "EmakiConteiner:notifyUserScroll",
+      reachBranch ? "notify-reach-boundary" : "notify-scroll-start",
+      {
+        source,
+        eventType: e?.type,
+        wheelDelta,
+        atStart,
+        isAtEnd: isAtEndRef.current,
+        reachBranch,
+      },
+      reachBranch ? "C" : "A"
+    );
+  // #endregion
+    // 先頭での進行方向と逆の操作（RTL では scrollLeft<=0 は常に真になり得るため isAtStart のみ）
+    if (reachBranch) {
+      onReachStartBoundary();
+      return;
     }
 
-    // 2. 末尾付近（状態フラグがレイアウト直後に揺れても live max で判定）
-    if (atEndZone) {
-      if (wheelDelta <= 0) {
-        endZoneLatchRef.current = true;
-        console.log("[NotifyScroll:EndReverse] Calling onReachBoundary");
-        if (onReachBoundary) onReachBoundary();
-        return;
-      }
-      if (wheelDelta > 0 && scrollRatio < 0.94) {
-        endZoneLatchRef.current = false;
-      }
-    }
-
-    console.log("[NotifyScroll:TriggerClose] Calling onUserScrollStart");
     if (onUserScrollStart) {
       onUserScrollStart();
     }
   };
 
-  // 端到達時のサイドバー復帰と、幅縮小に伴うスクロールバーのジャンプ（ドリフト）防止
+  // 先頭到達時のみ Discovery レールを親へ復帰依頼（巻末は EndNudgeCard に集約）
   useEffect(() => {
-    const el = articleRef?.current;
-    const effectivelyAtStart = isAtStart;
+    const becameStart = !prevAtStartRef.current && isAtStart;
 
-    const becameStart = !prevBoundaryRef.current.isAtStart && effectivelyAtStart;
-    const becameEnd = !prevBoundaryRef.current.isAtEnd && isAtEnd;
-
-    console.log("[Boundary:Effect]", {
-      isAtStart,
-      effectivelyAtStart,
-      isAtEnd,
-      prev: prevBoundaryRef.current,
-      becameStart,
-      becameEnd,
-      scrollLeft: el?.scrollLeft,
-      clientWidth: el?.clientWidth
-    });
-
-    if (isAutoScrolling || isPlayMode || !onReachBoundary) {
-      prevBoundaryRef.current = { isAtStart: effectivelyAtStart, isAtEnd };
+    if (isAutoScrolling || isPlayMode || !onReachStartBoundary) {
+      prevAtStartRef.current = isAtStart;
       return;
     }
 
-    if (becameStart || becameEnd) {
-      console.log("[Boundary:OpenFired]", { becameStart, becameEnd });
-      if (becameStart) {
-        endZoneLatchRef.current = false;
-      }
-      if (becameEnd && el) {
-        endZoneLatchRef.current = true;
-        const maxBefore = el.scrollWidth - el.clientWidth;
-        const preserveRatio = Math.min(
-          1,
-          Math.max(
-            scrollPositionStore.scrollRatio,
-            maxBefore > 0 ? Math.abs(el.scrollLeft) / maxBefore : 0
-          )
-        );
-        onReachBoundary();
-        if (preserveRatio >= 0.96) {
-          requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              const max = el.scrollWidth - el.clientWidth;
-              if (max <= 0) return;
-              const target = -preserveRatio * max;
-              if (Math.abs(el.scrollLeft - target) > 2) {
-                el.scrollLeft = target;
-              }
-            });
-          });
-        }
-      } else {
-        onReachBoundary();
-      }
+    if (becameStart) {
+      // #region agent log
+      dbgRailContainer(
+        "EmakiConteiner:isAtStart-effect",
+        "becameStart-onReachStartBoundary",
+        { isAtStart, isAutoScrolling, isPlayMode },
+        "B"
+      );
+      // #endregion
+      onReachStartBoundary();
     }
 
-    prevBoundaryRef.current = { isAtStart: effectivelyAtStart, isAtEnd };
-  }, [isAtStart, isAtEnd, isAutoScrolling, isPlayMode, onReachBoundary]);
+    prevAtStartRef.current = isAtStart;
+  }, [isAtStart, isAutoScrolling, isPlayMode, onReachStartBoundary]);
+
+  useEffect(() => {
+    // #region agent log
+    dbgRailContainer(
+      "EmakiConteiner:isAtStart-state",
+      "isAtStart-isAtEnd-updated",
+      { isAtStart, isAtEnd },
+      "E"
+    );
+    // #endregion
+  }, [isAtStart, isAtEnd]);
 
   // タッチのダブルタップ（通常スクロール中）: 全画面表示のトグルへ一本化する。
   // その直後に発火しうる synthetic dblclick はタイムスタンプで無視する。
@@ -1471,7 +1475,7 @@ const EmakiContainer = ({
           onPointerDown={(e) => {
             // 先頭または末尾ですでに静止しているときの誤爆を防ぐ
             if (!isAtStart && !isAtEnd) {
-              notifyUserScroll(e);
+              notifyUserScroll(e, "pointerdown");
             }
           }}
           onClick={() => {
@@ -1495,7 +1499,7 @@ const EmakiContainer = ({
             handleFullScreen("landscape");
           }}
           onTouchStart={(e) => {
-            notifyUserScroll(e);
+            notifyUserScroll(e, "touchstart");
             // 再生モード中はタッチで停止
             if (isPlayMode) {
               stopPlayMode();
@@ -1507,7 +1511,40 @@ const EmakiContainer = ({
             }
           }}
           onWheel={(e) => {
-            notifyUserScroll(e);
+            if (railPinFromExpandRef?.current) {
+              const el = articleRef.current;
+              const current = el?.scrollLeft ?? 0;
+              const baseline = railPinScrollLeftRef?.current ?? 0;
+              const moved = Math.abs(current - baseline);
+              // ログ: scroll リスナで pin 解除→次 wheel で即閉じ。展開基準から閾値以上だけ解除
+              if (moved < 80) {
+                // #region agent log
+                dbgRailContainer(
+                  "EmakiConteiner:onWheel",
+                  "rail-pin-below-threshold-skip",
+                  {
+                    deltaX: e.deltaX,
+                    deltaY: e.deltaY,
+                    current,
+                    baseline,
+                    moved,
+                  },
+                  "A"
+                );
+                // #endregion
+                return;
+              }
+              railPinFromExpandRef.current = false;
+              // #region agent log
+              dbgRailContainer(
+                "EmakiConteiner:onWheel",
+                "rail-pin-threshold-met-close",
+                { current, baseline, moved },
+                "A"
+              );
+              // #endregion
+            }
+            notifyUserScroll(e, "wheel");
           }}
           ref={articleRef}
         >

@@ -21,8 +21,36 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import parse from "html-react-parser";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext, useMemo, useState } from "react";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useTranslation } from "next-i18next";
+
+// #region agent log
+const dbgRailLandscape = (location, message, data, hypothesisId) => {
+  fetch("http://127.0.0.1:7862/ingest/f3f35754-fbbd-48fc-af61-63ae1db56704", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Debug-Session-Id": "1249f1",
+    },
+    body: JSON.stringify({
+      sessionId: "1249f1",
+      location,
+      message,
+      data,
+      timestamp: Date.now(),
+      hypothesisId,
+      runId: "post-fix",
+    }),
+  }).catch(() => {});
+};
+// #endregion
 
 const EmakiLandscapContent = ({
   data,
@@ -37,6 +65,98 @@ const EmakiLandscapContent = ({
   const { t } = useTranslation("common");
   const { t: alldata } = useLocaleData();
   const [railOpen, setRailOpen] = useState(true);
+  /** transform 0.42s + レイアウト落ち着き（チラ見えクリック後の開閉チャタリング防止） */
+  const RAIL_THEATER_SUPPRESS_MS = 1200;
+  /** スクロールでシアター化した直後は境界到達での自動再開を抑止 */
+  const RAIL_DISMISS_REOPEN_COOLDOWN_MS = 1200;
+  const suppressRailTheaterRef = useRef(0);
+  /** チラ見えクリック展開後、展開時 scrollLeft から閾値以上動くまでシアター閉じを無視 */
+  const railPinFromExpandRef = useRef(false);
+  const railPinScrollLeftRef = useRef(0);
+  const railOpenRef = useRef(railOpen);
+  const theaterDismissedAtRef = useRef(0);
+  const lastScrollCloseNotifyRef = useRef(0);
+
+  useEffect(() => {
+    railOpenRef.current = railOpen;
+  }, [railOpen]);
+
+  const armRailTheaterSuppress = useCallback(() => {
+    suppressRailTheaterRef.current = Date.now() + RAIL_THEATER_SUPPRESS_MS;
+  }, []);
+
+  const onUserScrollStart = useCallback(() => {
+    const suppressed = Date.now() < suppressRailTheaterRef.current;
+    const now = Date.now();
+  // #region agent log
+    dbgRailLandscape(
+      "EmakiLandscapContent:onUserScrollStart",
+      suppressed ? "scroll-close-suppressed" : "scroll-close-attempt",
+      {
+        railOpen: railOpenRef.current,
+        suppressed,
+        suppressRemainMs: Math.max(
+          0,
+          suppressRailTheaterRef.current - Date.now()
+        ),
+        debounceRemainMs: Math.max(
+          0,
+          120 - (now - lastScrollCloseNotifyRef.current)
+        ),
+      },
+      "A"
+    );
+  // #endregion
+    if (suppressed) return;
+    if (!railOpenRef.current || viewerFullscreen) return;
+    if (now - lastScrollCloseNotifyRef.current < 120) return;
+    lastScrollCloseNotifyRef.current = now;
+    theaterDismissedAtRef.current = now;
+    railPinFromExpandRef.current = false;
+    setRailOpen(false);
+  }, [viewerFullscreen]);
+
+  const onReachStartBoundary = useCallback(() => {
+    const suppressed = Date.now() < suppressRailTheaterRef.current;
+    const dismissCooldown =
+      Date.now() - theaterDismissedAtRef.current <
+      RAIL_DISMISS_REOPEN_COOLDOWN_MS;
+  // #region agent log
+    dbgRailLandscape(
+      "EmakiLandscapContent:onReachStartBoundary",
+      suppressed
+        ? "boundary-open-suppressed"
+        : dismissCooldown
+          ? "boundary-open-dismiss-cooldown"
+          : "boundary-open-attempt",
+      {
+        railOpen: railOpenRef.current,
+        suppressed,
+        dismissCooldown,
+        suppressRemainMs: Math.max(
+          0,
+          suppressRailTheaterRef.current - Date.now()
+        ),
+      },
+      "B"
+    );
+  // #endregion
+    if (suppressed || dismissCooldown) return;
+    if (!railOpenRef.current && !viewerFullscreen) {
+      setRailOpen(true);
+    }
+  }, [viewerFullscreen]);
+
+  useEffect(() => {
+  // #region agent log
+    dbgRailLandscape(
+      "EmakiLandscapContent:railOpen",
+      "railOpen-changed",
+      { railOpen, viewerFullscreen },
+      "D"
+    );
+  // #endregion
+  }, [railOpen, viewerFullscreen]);
 
   const removeNestedArrayObj = ExtractingListData();
   const allKeywords = keywordItem(removeNestedArrayObj);
@@ -134,18 +254,11 @@ const EmakiLandscapContent = ({
               selectedRef={selectedRef}
               navIndex={navIndex}
               articleRef={articleRef}
-              onUserScrollStart={() => {
-                // スクロール操作開始時はサイドバーを閉じる（シアター化）
-                if (railOpen && !viewerFullscreen) {
-                  setRailOpen(false);
-                }
-              }}
-              onReachBoundary={() => {
-                // 先頭または末尾到達時はサイドバーを自動再表示
-                if (!railOpen && !viewerFullscreen) {
-                  setRailOpen(true);
-                }
-              }}
+              onUserScrollStart={onUserScrollStart}
+              onReachStartBoundary={onReachStartBoundary}
+              theaterSuppressRef={suppressRailTheaterRef}
+              railPinFromExpandRef={railPinFromExpandRef}
+              railPinScrollLeftRef={railPinScrollLeftRef}
               overflowX={"scroll"}
               height={
                 viewerFullscreen
@@ -163,23 +276,51 @@ const EmakiLandscapContent = ({
               showChojuGigaHubLink={isChojuGiga}
               showHyakkiHubLink={isHyakki}
             />
-            {!viewerFullscreen && !railOpen && (
-              <button
-                type="button"
-                className={styles.railExpandBtn}
-                onClick={() => setRailOpen(true)}
-                aria-label={t("discovery.railExpandAria")}
-              >
-                {t("discovery.railExpand")}
-              </button>
-            )}
           </div>
-          {!viewerFullscreen && railOpen && (
-            <aside className={`${styles.discoveryRail} scrollbar`}>
-              <ViewerDiscoveryRail
-                data={data}
-                onClose={() => setRailOpen(false)}
-              />
+          {!viewerFullscreen && (
+            <aside
+              className={`${styles.discoveryRail} scrollbar`}
+              onPointerDown={() => {
+                if (!railOpen) {
+                  armRailTheaterSuppress();
+                  // #region agent log
+                  dbgRailLandscape(
+                    "EmakiLandscapContent:aside",
+                    "aside-pointerdown-expand",
+                    { railOpen },
+                    "A"
+                  );
+                  // #endregion
+                }
+              }}
+              onClick={() => {
+                // シアター中（下に沈んでいる時）にクリックされたら上へスライド復帰
+                if (!railOpen) {
+                  armRailTheaterSuppress();
+                  theaterDismissedAtRef.current = 0;
+                  railPinFromExpandRef.current = true;
+                  railPinScrollLeftRef.current =
+                    articleRef?.current?.scrollLeft ?? 0;
+                  // #region agent log
+                  dbgRailLandscape(
+                    "EmakiLandscapContent:aside",
+                    "aside-click-expand",
+                    {
+                      railOpen,
+                      pinScrollLeft: railPinScrollLeftRef.current,
+                    },
+                    "A"
+                  );
+                  // #endregion
+                  setRailOpen(true);
+                }
+              }}
+              role={!railOpen ? "button" : undefined}
+              tabIndex={!railOpen ? 0 : undefined}
+              aria-label={!railOpen ? t("discovery.railExpandAria") : undefined}
+            >
+              {/* onClose を渡さないことでサイドバー右上の「閉じる」ボタンを非表示化 */}
+              <ViewerDiscoveryRail data={data} />
             </aside>
           )}
           {!viewerFullscreen && (
