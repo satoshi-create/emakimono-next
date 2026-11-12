@@ -452,6 +452,11 @@ export const initEngagementTracking = () => {
 // デバイスタイプ判定ヘルパー
 // =====================================================
 
+/** SSR 安全なタッチ主体デバイス判定 */
+export const isTouchPrimaryDevice = () =>
+  typeof window !== "undefined" &&
+  (window.matchMedia?.("(pointer: coarse)")?.matches || navigator.maxTouchPoints > 0);
+
 /**
  * 画面幅からデバイスタイプを判定
  * @returns {"pc" | "tablet" | "mobile"}
@@ -459,7 +464,8 @@ export const initEngagementTracking = () => {
 export const getDeviceType = () => {
   if (typeof window === "undefined") return "pc";
   const width = window.innerWidth;
-  if (width >= 1024) return "pc";
+  const isTouch = isTouchPrimaryDevice();
+  if (width >= 1024) return isTouch ? "tablet" : "pc";
   if (width >= 768) return "tablet";
   return "mobile";
 };

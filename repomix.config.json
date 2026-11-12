@@ -42,7 +42,6 @@
       "src/hooks/emaki/*.js",
       "src/components/emaki/viewer/EmakiImage.js",
       "src/components/emaki/viewer/LazyImage.js",
-      "src/components/emaki/viewer/OverlayEkotoba.js",
       "src/components/emaki/viewer/SceneCommentaryBar.js",
       "src/components/emaki/layout/EmakiConteiner.js",
       "src/components/emaki/layout/EmakiHeader.js",

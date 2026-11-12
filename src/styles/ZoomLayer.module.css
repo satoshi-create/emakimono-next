@@ -197,6 +197,21 @@
   transform: translateX(-6rem);
 }
 
+/* ズームトグルの左隣: 2カラム ↔ シアターモード手動切替（タブレット以上） */
+.theaterAnchor {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  transform: translateX(-6rem);
+}
+
+@media (max-width: 1023px) {
+  .theaterAnchor {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   .toggleAnchor {
     /* モバイル時は全画面ボタンの左側にピッタリ寄せて中央ナビとの干渉を防ぐ */

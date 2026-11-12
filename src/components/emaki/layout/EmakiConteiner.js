@@ -87,6 +87,7 @@ import {
 import { scrollPositionStore } from "@/hooks/emaki/scrollPositionStore";
 import { runAfterPaint } from "@/utils/runAfterPaint";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
+import { TbRectangle } from "react-icons/tb";
 
 // 鑑賞者向け通し番号（1始まり）の算出: 詞書ありは段数(activeIndex+1)、詞書なしはスライス通し番号
 function getVisitorSceneNumber(emakis, navIndex) {
@@ -167,6 +168,8 @@ const EmakiContainer = ({
   showHyakkiHubLink = false,
   onUserScrollStart,
   onReachStartBoundary,
+  isTheaterMode,
+  onToggleTheater,
   theaterSuppressRef,
   railPinFromExpandRef,
   railPinScrollLeftRef,
@@ -722,35 +725,11 @@ const EmakiContainer = ({
   const { isPalmMode, suppressClickUntilRef, palmActiveRef } =
     useEmakiPalmDrag(articleRef);
 
-  // #region agent log
-  /**
-   * デバッグ用ログ送出関数（Container層）
-   * 調査セッション: 1249f1 / 仮説ID（A:サプレス・ピン留め, B:先頭到達復帰, C:境界判定, E:端点状態）
-   */
-  const dbgRailContainer = (location, message, data, hypothesisId) => {
-    fetch("http://127.0.0.1:7862/ingest/f3f35754-fbbd-48fc-af61-63ae1db56704", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Debug-Session-Id": "1249f1",
-      },
-      body: JSON.stringify({
-        sessionId: "1249f1",
-        location,
-        message,
-        data,
-        timestamp: Date.now(),
-        hypothesisId,
-        runId: "post-fix",
-      }),
-    }).catch(() => {});
-  };
-  // #endregion
-
   // 【責務分離】Discoveryレールとのスクロール同期ロジックを抽出したフックへ委譲
   const {
     handlePointerDown: handleRailPointerDown,
     handleTouchStart: handleRailTouchStart,
+    handleTouchEnd: handleRailTouchEnd,
     handleWheel: handleRailWheel,
   } = useEmakiRailSync({
     articleRef,
@@ -765,7 +744,6 @@ const EmakiContainer = ({
     theaterSuppressRef,
     railPinFromExpandRef,
     railPinScrollLeftRef,
-    onLog: (loc, msg, d, hyp) => dbgRailContainer(`EmakiConteiner:${loc}`, msg, d, hyp),
   });
 
   const handleViewerDoubleTap = useCallback(() => {
@@ -1109,6 +1087,24 @@ const EmakiContainer = ({
             isUIVisible={isUIVisible}
           />
         )}
+        {scroll && onToggleTheater && (
+          <div className={zoomStyles.theaterAnchor}>
+            <ActionButton
+              icon={<TbRectangle style={{ fontSize: "1.5em" }} aria-hidden />}
+              description={
+                isTheaterMode
+                  ? t("discovery.railExpand")
+                  : t("discovery.railCollapse")
+              }
+              onClick={onToggleTheater}
+              variant="fullscreen"
+              isOn={isTheaterMode}
+              isFullscreen={toggleFullscreen}
+              isBarFloating={commentaryFloating || isZoomed}
+              isUIVisible={isUIVisible}
+            />
+          </div>
+        )}
         {scroll && (
           <>
             <div className={zoomStyles.toggleAnchor}>
@@ -1269,6 +1265,9 @@ const EmakiContainer = ({
             if (!isAutoScrolling) {
               trackManualScroll(emakiId, "touch");
             }
+          }}
+          onTouchEnd={(e) => {
+            handleRailTouchEnd(e);
           }}
           onWheel={handleRailWheel}
           ref={articleRef}

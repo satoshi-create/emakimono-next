@@ -58,6 +58,7 @@ export const useEmakiRailSync = ({
   // ---------------------------------------------------------------------------
   // 前回レンダリング時の開始位置フラグ（先頭到達 transition 検出用）
   const prevAtStartRef = useRef(isAtStart);
+  const touchStartPosRef = useRef(null);
 
   // ---------------------------------------------------------------------------
   // [フロー 1] ユーザー自発スクロール判定・通知関数
@@ -224,9 +225,48 @@ export const useEmakiRailSync = ({
   const handlePointerDown = () => {};
 
   /**
-   * article 上の touchstart ハンドラ（レールスライドは誘発させない）
+   * article 上の touchstart ハンドラ（開始座標のみ記録。touchmove ではレイアウトを変えない）
    */
-  const handleTouchStart = () => {};
+  const handleTouchStart = (e) => {
+    const t0 = e?.touches?.[0];
+    if (!t0) {
+      touchStartPosRef.current = null;
+      return;
+    }
+    touchStartPosRef.current = { x: t0.clientX, y: t0.clientY };
+  };
+
+  /**
+   * 指離し時のみ、RTL 進行方向への意図的横スワイプでシアター化を通知
+   */
+  const handleTouchEnd = (e) => {
+    const start = touchStartPosRef.current;
+    touchStartPosRef.current = null;
+
+    if (isAutoScrolling || isPlayMode || !start) return;
+
+    const suppressed =
+      theaterSuppressRef?.current && Date.now() < theaterSuppressRef.current;
+    if (suppressed) return;
+
+    const end = e?.changedTouches?.[0];
+    if (!end) return;
+
+    const dx = end.clientX - start.x;
+    const dy = end.clientY - start.y;
+    const isForwardSwipe =
+      dx < -30 && Math.abs(dx) > Math.abs(dy) * 1.2;
+
+    if (!isForwardSwipe) return;
+
+    logDebug("TouchEnd:ForwardSwipe -> onUserScrollStart", "A", {
+      dx,
+      dy,
+      atStart: isAtStartRef.current,
+    });
+
+    onUserScrollStart?.();
+  };
 
   /**
    * article 上の wheel ハンドラ
@@ -284,6 +324,7 @@ export const useEmakiRailSync = ({
     notifyUserScroll,
     handlePointerDown,
     handleTouchStart,
+    handleTouchEnd,
     handleWheel,
   };
 };
