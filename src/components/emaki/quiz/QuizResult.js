@@ -7,8 +7,31 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
+function resolveQuizStatGroup(quiz, emakiId) {
+  const quizzes = quizStats?.quizzes;
+  if (!quizzes) return null;
+  if (quiz?.id && quizzes[quiz.id]) return quizzes[quiz.id];
+  if (quiz?.titleen && quizzes[quiz.titleen]) return quizzes[quiz.titleen];
+  if (emakiId && quizzes[emakiId]) return quizzes[emakiId];
+  const aliasMap = quizStats?.canonicalQuizStatKeys;
+  for (const key of [quiz?.id, quiz?.titleen, emakiId]) {
+    if (!key || !aliasMap?.[key]) continue;
+    const mapped = quizzes[aliasMap[key]];
+    if (mapped) return mapped;
+  }
+  const isKou =
+    quiz?.id === "chouju_giga_kou_observe_v1" ||
+    quiz?.titleen === "Chōjū-jinbutsu-giga_first" ||
+    emakiId === "Chōjū-jinbutsu-giga_first";
+  if (isKou) {
+    return quizzes["choju-giga-ko"] ?? quizzes["chojujinbutsugiga_first"] ?? null;
+  }
+  return null;
+}
+
 const QuizResult = ({
   rankLabel,
+  rankId,
   score,
   total,
   resultLinks = [],
@@ -44,7 +67,7 @@ const QuizResult = ({
           quizId: activeQuizId,
           emakiId: activeEmakiId,
           score,
-          rank: rankLabel,
+          rank: rankId,
           method: "web_share",
         });
         return;
@@ -61,7 +84,7 @@ const QuizResult = ({
         quizId: activeQuizId,
         emakiId: activeEmakiId,
         score,
-        rank: rankLabel,
+        rank: rankId,
         method: "clipboard",
       });
     } catch (err) {
@@ -78,10 +101,7 @@ const QuizResult = ({
         </p>
 
         {(() => {
-          const statGroup =
-            quizStats?.quizzes?.[quiz?.id] ||
-            quizStats?.quizzes?.[quiz?.titleen] ||
-            quizStats?.quizzes?.["choju-giga-ko"];
+          const statGroup = resolveQuizStatGroup(quiz, hostTitleen);
           const summary = statGroup?.summary;
           const dist = summary?.scoreDistribution;
           const totalCompletions = summary?.totalCompletions ?? 0;

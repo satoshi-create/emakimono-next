@@ -198,6 +198,68 @@ def _quiz_by_question(
     return out
 
 
+def _quiz_by_emaki_question(
+    answer_rows: list,
+    correctness_rows: list,
+) -> list[dict]:
+    """作品別・設問別の回答数・正答率（イベント件数ベース）。"""
+    totals: dict[tuple[str, str], int] = {}
+    for row in answer_rows if isinstance(answer_rows, list) else []:
+        if not isinstance(row, dict):
+            continue
+        emaki = _dim_value(row, "customEvent:emaki_id", "emaki_id") or "unknown"
+        qid = _dim_value(row, "customEvent:question_id", "question_id")
+        if not qid:
+            continue
+        key = (emaki, qid)
+        totals[key] = totals.get(key, 0) + int(row.get("eventCount") or 0)
+
+    correct: dict[tuple[str, str], int] = {}
+    for row in correctness_rows if isinstance(correctness_rows, list) else []:
+        if not isinstance(row, dict):
+            continue
+        emaki = _dim_value(row, "customEvent:emaki_id", "emaki_id") or "unknown"
+        qid = _dim_value(row, "customEvent:question_id", "question_id")
+        if not qid:
+            continue
+        flag = _parse_boolish(_dim_value(row, "customEvent:is_correct", "is_correct"))
+        if flag is True:
+            key = (emaki, qid)
+            correct[key] = correct.get(key, 0) + int(row.get("eventCount") or 0)
+
+    keys = sorted(set(totals) | set(correct))
+    out: list[dict] = []
+    for emaki, qid in keys:
+        answers = int(totals.get((emaki, qid)) or 0)
+        ok = int(correct.get((emaki, qid)) or 0)
+        acc = round(ok / answers, 4) if answers > 0 else None
+        out.append(
+            {
+                "emaki_id": emaki,
+                "question_id": qid,
+                "answers": answers,
+                "correct": ok,
+                "accuracy": acc,
+            }
+        )
+    out.sort(key=lambda r: (r["emaki_id"], r["question_id"]))
+    return out
+
+
+def _quiz_rank_by_emaki(rows: list) -> dict[str, dict[str, int]]:
+    out: dict[str, dict[str, int]] = {}
+    for row in rows if isinstance(rows, list) else []:
+        if not isinstance(row, dict):
+            continue
+        emaki = _dim_value(row, "customEvent:emaki_id", "emaki_id") or "unknown"
+        rank = _dim_value(row, "customEvent:rank", "rank")
+        if not rank:
+            continue
+        bucket = out.setdefault(emaki, {})
+        bucket[rank] = bucket.get(rank, 0) + int(row.get("eventCount") or 0)
+    return out
+
+
 def _quiz_insights(funnel: dict, thresholds: dict) -> list[str]:
     flags: list[str] = []
     start = int(funnel.get("start") or 0)
@@ -550,6 +612,9 @@ def merge_report(report_dir: Path) -> dict:
         report_dir / "ga4_quiz_answer_by_question_correctness.json"
     )
     quiz_complete_by_rank = _load_json(report_dir / "ga4_quiz_complete_by_rank.json")
+    quiz_complete_by_emaki_rank = _load_json(
+        report_dir / "ga4_quiz_complete_by_emaki_rank.json"
+    )
     quiz_jump_by_question = _load_json(report_dir / "ga4_quiz_jump_by_question.json")
     sessions_by_region = _load_json(report_dir / "ga4_sessions_by_region.json")
     sessions_by_city = _load_json(report_dir / "ga4_sessions_by_city.json")
@@ -626,6 +691,15 @@ def merge_report(report_dir: Path) -> dict:
         if isinstance(quiz_answer_by_question_correctness, list)
         else [],
         quiz_jump_by_qid,
+    )
+    quiz_by_emaki_question = _quiz_by_emaki_question(
+        quiz_answer_by_question if isinstance(quiz_answer_by_question, list) else [],
+        quiz_answer_by_question_correctness
+        if isinstance(quiz_answer_by_question_correctness, list)
+        else [],
+    )
+    quiz_rank_by_emaki = _quiz_rank_by_emaki(
+        quiz_complete_by_emaki_rank if isinstance(quiz_complete_by_emaki_rank, list) else []
     )
     quiz_start_total = _event_count_from_summary(events_summary, "quiz_start") or sum(
         quiz_start_by_slug.values()
@@ -812,6 +886,8 @@ def merge_report(report_dir: Path) -> dict:
         "sns_share_platform_breakdown": sns_share_platform_counts,
         "quiz_funnel": quiz_funnel,
         "quiz_by_question": quiz_by_question,
+        "quiz_by_emaki_question": quiz_by_emaki_question,
+        "quiz_rank_by_emaki": quiz_rank_by_emaki,
         "quiz_rank_breakdown": quiz_rank_counts,
         "quiz_start_breakdown": quiz_start_by_slug,
         "quiz_complete_breakdown": quiz_complete_by_slug,

@@ -187,13 +187,17 @@ export function getQuizRank(score: number, ranksOrQuizDef?: any) {
 
   if (!ranks || ranks.length === 0) {
     return {
-      rankId: "master",
-      titleJa: "絵巻マスター",
-      titleEn: "Scroll Master",
-      descJa: "素晴らしい観察力です！",
-      descEn: "Outstanding observation skills!"
+      id: "beginner",
+      labelJa: "見習い",
+      labelEn: "Beginner",
     };
   }
 
-  return ranks.find((r: any) => score >= r.minScore) ?? ranks[ranks.length - 1];
+  const hit = ranks.find(
+    (r: any) =>
+      typeof r.minCorrect === "number" &&
+      score >= r.minCorrect &&
+      (typeof r.maxCorrect !== "number" || score <= r.maxCorrect)
+  );
+  return hit ?? ranks[ranks.length - 1];
 }

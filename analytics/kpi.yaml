@@ -425,7 +425,7 @@ ga4_reports:
       field: eventName
       op: exact
       value: quiz_answer
-    limit: 50
+    limit: 250
 
   - id: quiz_answer_by_question_correctness
     optional: true
@@ -440,7 +440,7 @@ ga4_reports:
       field: eventName
       op: exact
       value: quiz_answer
-    limit: 100
+    limit: 250
 
   - id: quiz_complete_by_rank
     optional: true
@@ -454,6 +454,20 @@ ga4_reports:
       op: exact
       value: quiz_complete
     limit: 20
+
+  - id: quiz_complete_by_emaki_rank
+    optional: true
+    requires_custom_dimension: rank
+    dimensions:
+      - customEvent:emaki_id
+      - customEvent:rank
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: quiz_complete
+    limit: 200
 
   - id: quiz_jump_by_question
     optional: true

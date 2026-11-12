@@ -287,6 +287,41 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
                         f"| `{row.get('question_id')}` | {row.get('answers', 0)} | "
                         f"{row.get('correct', 0)} | {rate_s} | {row.get('jumps', 0)} |"
                     )
+
+            quiz_by_emaki_question = merged.get("quiz_by_emaki_question") or []
+            quiz_rank_by_emaki = merged.get("quiz_rank_by_emaki") or {}
+            emaki_ids: set[str] = set()
+            for row in quiz_by_emaki_question:
+                eid = row.get("emaki_id")
+                if eid:
+                    emaki_ids.add(str(eid))
+            emaki_ids.update(quiz_rank_by_emaki.keys())
+            for emaki_id in sorted(emaki_ids):
+                ranks = quiz_rank_by_emaki.get(emaki_id) or {}
+                rows_eq = [r for r in quiz_by_emaki_question if r.get("emaki_id") == emaki_id]
+                if not ranks and not rows_eq:
+                    continue
+                quiz_lines.append(f"\n#### `{emaki_id}`")
+                if ranks:
+                    quiz_lines.append("\n達成ランク内訳:")
+                    quiz_lines.append("\n| rank | completes |")
+                    quiz_lines.append("|---|---|")
+                    for rank in ("master", "observer", "beginner"):
+                        if rank in ranks:
+                            quiz_lines.append(f"| `{rank}` | {ranks[rank]} |")
+                    for rank, count in ranks.items():
+                        if rank not in ("master", "observer", "beginner"):
+                            quiz_lines.append(f"| `{rank}` | {count} |")
+                if rows_eq:
+                    quiz_lines.append("\n| question_id | answers | correct | accuracy |")
+                    quiz_lines.append("|---|---|---|---|")
+                    for row in sorted(rows_eq, key=lambda r: str(r.get("question_id") or "")):
+                        acc = row.get("accuracy")
+                        acc_s = f"{round(acc * 100, 1)}%" if acc is not None else "n/a"
+                        quiz_lines.append(
+                            f"| `{row.get('question_id')}` | {row.get('answers', 0)} | "
+                            f"{row.get('correct', 0)} | {acc_s} |"
+                        )
             quiz_lines.append(
                 "\n※ `question_id` / `is_correct` / `rank` が GA4 未登録の場合、設問表・rank は空です。"
             )

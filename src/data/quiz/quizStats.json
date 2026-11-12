@@ -1,6 +1,10 @@
 {
   "_comment": "クイズ設問別統計データ（週次集計バッチによって更新される静的JSON）",
   "version": 1,
+  "canonicalQuizStatKeys": {
+    "chouju_giga_kou_observe_v1": "choju-giga-ko",
+    "Chōjū-jinbutsu-giga_first": "choju-giga-ko"
+  },
   "quizzes": {
     "choju-giga-ko": {
       "summary": {

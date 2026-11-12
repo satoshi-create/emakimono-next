@@ -20,6 +20,28 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { useEffect, useRef, useState } from "react";
 
+function resolveQuizStatGroup(quiz, emakiId) {
+  const quizzes = quizStats?.quizzes;
+  if (!quizzes) return null;
+  if (quiz?.id && quizzes[quiz.id]) return quizzes[quiz.id];
+  if (quiz?.titleen && quizzes[quiz.titleen]) return quizzes[quiz.titleen];
+  if (emakiId && quizzes[emakiId]) return quizzes[emakiId];
+  const aliasMap = quizStats?.canonicalQuizStatKeys;
+  for (const key of [quiz?.id, quiz?.titleen, emakiId]) {
+    if (!key || !aliasMap?.[key]) continue;
+    const mapped = quizzes[aliasMap[key]];
+    if (mapped) return mapped;
+  }
+  const isKou =
+    quiz?.id === "chouju_giga_kou_observe_v1" ||
+    quiz?.titleen === "Chōjū-jinbutsu-giga_first" ||
+    emakiId === "Chōjū-jinbutsu-giga_first";
+  if (isKou) {
+    return quizzes["choju-giga-ko"] ?? quizzes["chojujinbutsugiga_first"] ?? null;
+  }
+  return null;
+}
+
 /**
  * 観察力クイズモーダル。
  * 進行は session props で制御（親が sessionStorage と同期）。
@@ -64,7 +86,7 @@ const QuizModal = ({
   const question = quiz.questions[index];
   const total = quiz.questions.length;
   const score = answers.filter((a) => a.correct).length;
-  const rank = getQuizRank(quiz, score);
+  const rank = getQuizRank(score, quiz);
   const rankLabel = isEn ? rank.labelEn : rank.labelJa;
 
   useEffect(() => {
@@ -239,7 +261,7 @@ const QuizModal = ({
 
   const handleNext = () => {
     if (index >= total - 1) {
-      const finalRank = getQuizRank(quiz, score);
+      const finalRank = getQuizRank(score, quiz);
       trackQuizComplete({
         emakiId,
         quizId: quiz.id,
@@ -310,6 +332,7 @@ const QuizModal = ({
             quiz={quiz}
             quizSession={session}
             rankLabel={rankLabel}
+            rankId={rank?.id}
             score={score}
             total={total}
             resultLinks={quiz.resultLinks}
@@ -325,10 +348,7 @@ const QuizModal = ({
               {index + 1} / {total}問
             </div>
             {(() => {
-              const statGroup =
-                quizStats?.quizzes?.[quiz?.id] ||
-                quizStats?.quizzes?.[quiz?.titleen] ||
-                quizStats?.quizzes?.["choju-giga-ko"];
+              const statGroup = resolveQuizStatGroup(quiz, emakiId);
               const qStat = statGroup?.questions?.[question?.id];
               if (qStat && typeof qStat.correctRate === "number" && (qStat.attempts ?? 0) >= 5) {
                 return (
