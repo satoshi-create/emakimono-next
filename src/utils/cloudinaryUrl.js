@@ -10,6 +10,11 @@
  * 変換は version / public_id の前に置く:
  *   .../upload/{transforms}/v{version}/emakimono/{id}.jpg
  */
+import {
+  ENABLE_R2_DELIVERY,
+  R2_CANARY_WORK_TITLES,
+} from "@/config/r2MigrationConfig";
+
 export const CLOUDINARY_UPLOAD_BASE =
   "https://res.cloudinary.com/dw2gjxrrf/image/upload";
 
@@ -18,33 +23,45 @@ export const R2_UPLOAD_BASE =
   "https://assets.emakimono.com";
 
 /**
- * Cloudflare R2 / Worker 配信対象かどうかを判定
- * 鳥獣人物戯画（山崎本 全巻）、九相図関連絵巻、洛中洛外図屏風、百鬼夜行関連絵巻、および 付喪神絵巻
+ * R2 配信対象かどうかを判定する（作品単位カナリア判定・部分一致禁止）
  */
-function isR2DeliveryTarget(publicId) {
+function isR2DeliveryTarget(publicId, options = {}) {
+  if (!ENABLE_R2_DELIVERY) return false;
+
+  // 1. 明示指定（フォールバック時の "cloudinary" 強制やメタデータ上の "r2" 指定）を最優先
+  if (options?.delivery === "r2") return true;
+  if (options?.delivery === "cloudinary") return false;
+
+  // 2. 作品の titleen が渡されている場合は完全一致で判定
+  if (options?.workTitleEn && R2_CANARY_WORK_TITLES.has(options.workTitleEn)) {
+    return true;
+  }
+
+  // 3. 後方互換（options 未指定の既存2引数呼び出し向け）:
+  //    "emakimono/{slug}__" の {slug} 部分のみを厳密抽出して完全一致照合
+  const normalized = String(publicId || "").replace(/^v\d+\//, "");
+  const match = normalized.match(/^emakimono\/([^_]+?)__/);
+  if (!match) return false;
+
+  const slugHyphen = match[1];
+  const slugUnderscore = slugHyphen.replace(/-/g, "_");
   return (
-    publicId.includes("choju-giga-yamazaki-kou") ||
-    publicId.includes("choju-giga-yamazaki-otu") ||
-    publicId.includes("choju-giga-yamazaki-hei") ||
-    publicId.includes("choju-giga-yamazaki-tei") ||
-    publicId.includes("kuso-zu") ||
-    publicId.includes("kusoushi") ||
-    publicId.includes("kusouzu") ||
-    publicId.includes("nine-stages-of-decay-empress-danrin") ||
-    publicId.includes("rakuchu") ||
-    publicId.includes("hyakki") ||
-    publicId.includes("tsukumogami")
+    R2_CANARY_WORK_TITLES.has(slugHyphen) ||
+    R2_CANARY_WORK_TITLES.has(slugUnderscore)
   );
 }
 
-export function buildCloudinaryUrl(src, transforms = []) {
+export function buildCloudinaryUrl(src, transforms = [], options = {}) {
   let publicId = String(src || "").replace(/^\//, "");
 
-  // 山崎本 甲・乙巻: Cloudflare Worker 経由でキャッシュ付き WebP を直接配信
-  if (isR2DeliveryTarget(publicId)) {
+  // Cloudflare Worker / R2 経由でキャッシュ付き WebP を直接配信
+  if (isR2DeliveryTarget(publicId, options)) {
+    if (options?.r2Key) {
+      return `${R2_UPLOAD_BASE}/${String(options.r2Key).replace(/^\//, "")}`;
+    }
     const r2Key = publicId
       .replace(/^v\d+\//, "")
-      .replace(/\.jpg$/, ".webp");
+      .replace(/\.(jpg|jpeg|png)$/i, ".webp");
 
     return `${R2_UPLOAD_BASE}/${r2Key}`;
   }

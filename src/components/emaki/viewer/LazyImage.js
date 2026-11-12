@@ -78,6 +78,7 @@ const LazyImage = ({
   const [isSkeletonVisible, setSkeletonVisible] = useState(!alreadyHydrated);
   const [isImageLoaded, setImageLoaded] = useState(alreadyHydrated);
   const [retryCount, setRetryCount] = useState(0);
+  const [forceCloudinary, setForceCloudinary] = useState(false);
 
   // ---------------------------------------------------------------------------
   // 2. 参照管理（Refs）- 再レンダリングをトリガーしない値の保持
@@ -241,12 +242,19 @@ const LazyImage = ({
     const requestWidth = isByobu
       ? loaderWidth
       : Math.min(loaderWidth, EMAKI_IMAGE_MAX_WIDTH);
-    return buildCloudinaryUrl(loaderSrc, [
-      "c_limit",
-      `w_${requestWidth}`,
-      "f_auto",
-      isByobu && quality ? `q_${quality}` : "q_auto:eco",
-    ]);
+    return buildCloudinaryUrl(
+      loaderSrc,
+      [
+        "c_limit",
+        `w_${requestWidth}`,
+        "f_auto",
+        isByobu && quality ? `q_${quality}` : "q_auto:eco",
+      ],
+      {
+        delivery: forceCloudinary ? "cloudinary" : src?.delivery,
+        r2Key: src?.r2Key,
+      }
+    );
   };
 
   const ratioStr = (width / height).toFixed(4);
@@ -284,7 +292,7 @@ const LazyImage = ({
         />
       )}
       <Image
-        key={`${hydrateKey ?? imageUrl}:${retryCount}`}
+        key={`${hydrateKey ?? imageUrl}:${retryCount}:${forceCloudinary}`}
         loader={config === "cloudinary" ? cloudinaryLoader : undefined}
         src={src.src}
         width={width}
@@ -350,6 +358,10 @@ const LazyImage = ({
           // -------------------------------------------------------------------
           // [フロー 4] エラー（onError）— 1回自動リトライ後のみフォールバック計測
           // -------------------------------------------------------------------
+          if (!forceCloudinary && config === "cloudinary") {
+            setForceCloudinary(true);
+            return;
+          }
           if (retryCount < 1) {
             if (retryTimerRef.current) clearTimeout(retryTimerRef.current);
             resetLoadStartTime();
