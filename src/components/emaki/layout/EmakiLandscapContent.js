@@ -39,37 +39,11 @@ import { useRouter } from "next/router";
 import {
   useCallback,
   useContext,
-  useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
 import { useTranslation } from "next-i18next";
-
-// #region agent log
-/**
- * デバッグ用ログ送出関数（Landscape層）
- * 調査セッション: 1249f1 / 仮説ID（A:サプレス・ピン留め, B:クールダウン・復帰, D:状態変更）
- */
-const dbgRailLandscape = (location, message, data, hypothesisId) => {
-  fetch("http://127.0.0.1:7862/ingest/f3f35754-fbbd-48fc-af61-63ae1db56704", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Debug-Session-Id": "1249f1",
-    },
-    body: JSON.stringify({
-      sessionId: "1249f1",
-      location,
-      message,
-      data,
-      timestamp: Date.now(),
-      hypothesisId,
-      runId: "post-fix",
-    }),
-  }).catch(() => {});
-};
-// #endregion
 
 const EmakiLandscapContent = ({
   data,
@@ -94,23 +68,11 @@ const EmakiLandscapContent = ({
     onReachStartBoundary,
     handleRailPointerDown,
     handleRailClick,
+    toggleRail,
   } = useViewerDiscoveryRailState({
     viewerFullscreen,
     articleRef,
-    onLog: (loc, msg, d, hyp) => dbgRailLandscape(`EmakiLandscapContent:${loc}`, msg, d, hyp),
   });
-
-  // 【仮説D: レール開閉状態の追跡】
-  useEffect(() => {
-    // #region agent log
-    dbgRailLandscape(
-      "EmakiLandscapContent:railOpen",
-      "railOpen-changed",
-      { railOpen, viewerFullscreen },
-      "D"
-    );
-    // #endregion
-  }, [railOpen, viewerFullscreen]);
 
   const removeNestedArrayObj = ExtractingListData();
   const allKeywords = keywordItem(removeNestedArrayObj);
@@ -212,6 +174,8 @@ const EmakiLandscapContent = ({
               articleRef={articleRef}
               onUserScrollStart={onUserScrollStart}
               onReachStartBoundary={onReachStartBoundary}
+              isTheaterMode={!railOpen}
+              onToggleTheater={toggleRail}
               theaterSuppressRef={suppressRailTheaterRef}
               railPinFromExpandRef={railPinFromExpandRef}
               railPinScrollLeftRef={railPinScrollLeftRef}

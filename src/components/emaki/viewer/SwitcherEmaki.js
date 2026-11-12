@@ -2,9 +2,12 @@ import { EbikiPickerOverlay } from "@/components/emaki/dev/EbikiCoordinatePicker
 import EmakiImage from "@/components/emaki/viewer/EmakiImage";
 import SpotPins from "@/components/emaki/viewer/SpotPins";
 import { AppContext } from "@/context/AppContext";
+import styles from "@/styles/SwitcherEmaki.module.css";
+import { ChaptersTitle } from "@/utils/emakiChapterText";
 import { buildSceneShellStyle } from "@/utils/emakiContentWindow";
 import { isByobuScroll } from "@/utils/isByobuScroll";
 import { sceneSectionId } from "@/utils/emakiSceneDom";
+import { useRouter } from "next/router";
 import { forwardRef, useContext } from "react";
 
 /** 絵巻シーンを cat に応じて image / ekotoba に振り分け。幅は section 常置・中身は mountContent。 */
@@ -32,11 +35,33 @@ const SwitcherEmaki = forwardRef(
     },
     ref
   ) => {
-    const { orientation, toggleFullscreen } = useContext(AppContext);
+    const { orientation, toggleFullscreen, chapterToggle, handleToId } =
+      useContext(AppContext);
+    const { locale } = useRouter();
 
-    if ((cat !== "image" && cat !== "ekotoba") || !item?.src) {
+    if (cat !== "image" && cat !== "ekotoba") {
       return null;
     }
+
+    const { chapter, genji_chapter: genjiChapter, title: itemTitle } = item ?? {};
+    const chapterTitle =
+      (locale === "en"
+        ? ChaptersTitle(
+            data?.titleen,
+            data?.title,
+            chapter,
+            "titleen",
+            genjiChapter
+          )
+        : ChaptersTitle(
+            data?.titleen,
+            data?.title,
+            chapter,
+            "title",
+            genjiChapter
+          )) ||
+      itemTitle ||
+      "";
 
     const sectionClass = undefined;
     // 屏風のみ: 段タイトルバー（黒帯）を非表示化（マーカー要素・DOM 構造は不変）
@@ -52,7 +77,12 @@ const SwitcherEmaki = forwardRef(
     // 名所スポットピンの基準座標系を section に固定する（spots がある時だけ付与）
     const spots = cat === "image" ? item.spots : null;
     // 絵引ピッカー時も absolute オーバーレイ基準が必要なので relative を付与
-    const needsRelativeLayer = Boolean(spots?.length || ebikiPickerEnabled);
+    const showChapterTitle = Boolean(
+      chapterTitle && chapterToggle && !isByobu
+    );
+    const needsRelativeLayer = Boolean(
+      spots?.length || ebikiPickerEnabled || showChapterTitle
+    );
     // buildSceneShellStyle は画像スライスに overflow:hidden を返すため、
     // スポットピンが扇の境界をはみ出せるよう spots 保持スライスだけ visible に上書きする。
     // 併せて独立スタッキングコンテキスト化（zIndex:1）し、後段 DOM の隣接スライス画像が
@@ -80,29 +110,57 @@ const SwitcherEmaki = forwardRef(
     }
 
     const isImage = cat === "image";
+    const activeSectionStyle = isImage ? imageSectionStyle : sectionStyle;
+    const sectionWithChapterStyle = showChapterTitle
+      ? { ...activeSectionStyle, position: "relative" }
+      : activeSectionStyle;
 
     return (
       <section
         ref={ref}
         id={sceneSectionId(index)}
         className={sectionClass}
-        style={isImage ? imageSectionStyle : sectionStyle}
+        style={sectionWithChapterStyle}
       >
-        <EmakiImage
-          key={index}
-          item={{
-            ...item,
-            index,
-            scroll,
-            selectedRef,
-            navIndex,
-            uniqueIndex,
-          }}
-          isPlayMode={isPlayMode}
-          sceneIndex={sceneIndex}
-          emakiId={data?.titleen}
-          isByobu={isByobu}
-        />
+        {item?.src ? (
+          <EmakiImage
+            key={index}
+            item={{
+              ...item,
+              index,
+              scroll,
+              selectedRef,
+              navIndex,
+              uniqueIndex,
+            }}
+            isPlayMode={isPlayMode}
+            sceneIndex={sceneIndex}
+            emakiId={data?.titleen}
+            isByobu={isByobu}
+          />
+        ) : null}
+        {showChapterTitle ? (
+          <div
+            className={`${styles.chapterbox} ${
+              orientation === "portrait"
+                ? styles.chapterboxPrt
+                : styles.chapterboxLand
+            } ${locale === "en" ? styles.chapterboxEn : ""}`}
+          >
+            <h3
+              className={`${styles.chapter} ${
+                orientation === "portrait" ? styles.chapterPrt : styles.chapterLand
+              } ${locale === "en" ? styles.chapterEn : ""}`}
+              onClick={() => handleToId?.(index)}
+              style={{
+                fontFamily:
+                  locale === "en" ? "var(--font-ui)" : "var(--font-classical)",
+              }}
+            >
+              {chapterTitle}
+            </h3>
+          </div>
+        ) : null}
         {isImage && spots?.length ? (
           <SpotPins spots={spots} linkId={item.linkId} />
         ) : null}

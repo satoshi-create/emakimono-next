@@ -239,6 +239,17 @@ export const useViewerDiscoveryRailState = ({
     [triggerExpand]
   );
 
+  const toggleRail = useCallback(() => {
+    if (railOpenRef.current) {
+      armRailTheaterSuppress();
+      theaterDismissedAtRef.current = Date.now();
+      railPinFromExpandRef.current = false;
+      setRailOpen(false);
+    } else {
+      triggerExpand("Toggle");
+    }
+  }, [armRailTheaterSuppress, triggerExpand, railPinFromExpandRef]);
+
   return {
     railOpen,
     setRailOpen,
@@ -249,6 +260,7 @@ export const useViewerDiscoveryRailState = ({
     onReachStartBoundary,
     handleRailPointerDown,
     handleRailClick,
+    toggleRail,
   };
 };
 

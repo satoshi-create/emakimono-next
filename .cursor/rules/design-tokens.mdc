@@ -54,7 +54,7 @@ New era UI: use `eraColor(era)` — do not duplicate hex in components.
 |-------|-------|-----|
 | `--font-ui` | Noto Sans JP | Body default, nav, buttons, viewer chrome, metadata |
 | `--font-story` | Zen Maru Gothic | Portal cards, descriptions, modern 詞書 translation text |
-| `--font-classical` | Hina Mincho | Classical 詞書 overlay only (Ekotoba, OverlayEkotoba, koten blocks) |
+| `--font-classical` | Hina Mincho | Classical 詞書 overlay only (Ekotoba, koten blocks) |
 
 **Do not** add decorative fonts (Caveat, Dancing Script, Klee One, 游明朝 on body, etc.).
 
