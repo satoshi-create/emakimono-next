@@ -1,5 +1,10 @@
 import { AppContext } from "@/context/AppContext";
-import { trackImageLoaded, trackImageFallback, trackImageLoadSlow } from "@/libs/api/measurementUtils";
+import {
+  getDeviceType,
+  trackImageFallback,
+  trackImageLoaded,
+  trackImageLoadSlow,
+} from "@/libs/api/measurementUtils";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
 import {
   EMAKI_IMAGE_MAX_WIDTH,
@@ -64,6 +69,63 @@ const getManualLookahead = (emakiId) => {
 
 // デバッグフラグ: 検証完了後に false にするか、本ブロックごと削除
 const FB_DEBUG = false;
+
+// 画像ロード遅延の実測観測（console のみ。ロジックは変更しない）
+const IMAGE_LOAD_DEBUG = true;
+let imageLoadInFlightCount = 0;
+/** ロード開始済み・未完了（先読み/eager 滞留の目安） */
+const imagePreloadQueue = new Set();
+
+const logImageLoadQueue = () => {
+  if (!IMAGE_LOAD_DEBUG) return;
+  console.log("[ImageLoad:Queue]", {
+    queueBacklog: imagePreloadQueue.size,
+    deviceCategory: getDeviceType(),
+    viewportWidth: typeof window !== "undefined" ? window.innerWidth : null,
+  });
+};
+
+const logImageLoadStart = (emakiId, imageIndex, url, queueKey) => {
+  if (!IMAGE_LOAD_DEBUG) return;
+  imageLoadInFlightCount += 1;
+  if (queueKey) imagePreloadQueue.add(queueKey);
+  console.log("[ImageLoad:Start]", {
+    emakiId,
+    imageIndex,
+    url,
+    inFlightCount: imageLoadInFlightCount,
+  });
+  logImageLoadQueue();
+};
+
+const logImageLoadEnd = ({
+  emakiId,
+  imageIndex,
+  url,
+  loadTimeMs,
+  status,
+  fallbackReason = null,
+  queueKey,
+  releaseInFlight = true,
+}) => {
+  if (!IMAGE_LOAD_DEBUG) return;
+  if (releaseInFlight && imageLoadInFlightCount > 0) {
+    imageLoadInFlightCount -= 1;
+  }
+  if (queueKey && (status === "success" || status === "slow" || fallbackReason === "load_error")) {
+    imagePreloadQueue.delete(queueKey);
+  }
+  console.log("[ImageLoad:End]", {
+    emakiId,
+    imageIndex,
+    url,
+    loadTimeMs,
+    status,
+    ...(fallbackReason ? { fallbackReason } : {}),
+    inFlightCount: imageLoadInFlightCount,
+  });
+  logImageLoadQueue();
+};
 
 // 一度 onLoadingComplete した画像キー。描画窓 remount 時の blur/skeleton 再発を抑止
 const hydratedImageKeys = new Set();
@@ -153,6 +215,48 @@ const LazyImage = ({
   // 計測用: 読み込み開始時刻
   const loadStartTimeRef = useRef(Date.now());
   const hasTrackedRef = useRef(false); // 重複計測防止
+  const loadStartLoggedRef = useRef(false);
+
+  const imageUrl = src?.src ?? null;
+  const manualLookahead = getManualLookahead(emakiId);
+
+  const markLoadStart = () => {
+    if (loadStartLoggedRef.current) return;
+    loadStartLoggedRef.current = true;
+    loadStartTimeRef.current = Date.now();
+    if (emakiId) {
+      logImageLoadStart(emakiId, uniqueIndex, imageUrl, hydrateKey);
+    }
+  };
+
+  // priority（idx=0）はビューポート進入を待たず即ロード開始
+  useEffect(() => {
+    if (uniqueIndex !== 0 || !isSkeletonVisible || !emakiId) return;
+    markLoadStart();
+  }, [uniqueIndex, isSkeletonVisible, emakiId]);
+
+  // 先読みウィンドウ変化時のキュー滞留（プリロード対象の eager 枚数）
+  useEffect(() => {
+    if (!IMAGE_LOAD_DEBUG || !emakiId) return;
+    const isEager = isEagerLoad(
+      uniqueIndex,
+      prefetchIndex,
+      isPlayMode,
+      toggleFullscreen,
+      manualLookahead
+    );
+    if (isEager && isSkeletonVisible) {
+      logImageLoadQueue();
+    }
+  }, [
+    emakiId,
+    uniqueIndex,
+    prefetchIndex,
+    isPlayMode,
+    toggleFullscreen,
+    manualLookahead,
+    isSkeletonVisible,
+  ]);
 
   // フォールバック計時（タイムアウト型は priority / fullscreen / universal の3種）
   //
@@ -176,7 +280,7 @@ const LazyImage = ({
 
     const startFallbackTimer = () => {
       // ロード開始時刻を「今」にリセット（ビューポート進入 = ロード開始）
-      loadStartTimeRef.current = Date.now();
+      markLoadStart();
       const timeout = getAdaptiveTimeout(timeoutType, emakiId);
       if (FB_DEBUG) console.log(`[FB-DEBUG] ${timeoutType} timer SET (viewport enter): idx=${uniqueIndex}, timeout=${timeout}ms`);
       fallbackTimer = setTimeout(() => {
@@ -186,6 +290,19 @@ const LazyImage = ({
         if (!hasTrackedRef.current && emakiId) {
           trackImageFallback(emakiId, uniqueIndex, fallbackReason);
           hasTrackedRef.current = true;
+        }
+        if (emakiId) {
+          const loadTimeMs = Math.max(0, Date.now() - loadStartTimeRef.current);
+          logImageLoadEnd({
+            emakiId,
+            imageIndex: uniqueIndex,
+            url: imageUrl,
+            loadTimeMs,
+            status: "fallback",
+            fallbackReason,
+            queueKey: hydrateKey,
+            releaseInFlight: false,
+          });
         }
       }, timeout);
     };
@@ -314,10 +431,28 @@ const LazyImage = ({
               prefetchIndex,
               isPlayMode,
               toggleFullscreen,
-              getManualLookahead(emakiId)
+              manualLookahead
             );
             trackImageLoadSlow(emakiId, uniqueIndex, loadTimeMs, threshold, toggleFullscreen, isEager ? "eager" : "lazy");
             hasTrackedRef.current = true;
+          }
+          if (emakiId) {
+            const thresholdType =
+              uniqueIndex === 0
+                ? "priority"
+                : toggleFullscreen
+                ? "fullscreen"
+                : "universal";
+            const threshold = getAdaptiveTimeout(thresholdType, emakiId);
+            const debugStatus = loadTimeMs >= threshold * 0.7 ? "slow" : "success";
+            logImageLoadEnd({
+              emakiId,
+              imageIndex: uniqueIndex,
+              url: imageUrl,
+              loadTimeMs,
+              status: debugStatus,
+              queueKey: hydrateKey,
+            });
           }
           setImageLoaded(true);
           // skeleton は紙色のまま短く外す（長いフェードで「読み込み」を意識させない）
@@ -329,6 +464,18 @@ const LazyImage = ({
           if (!hasTrackedRef.current && emakiId) {
             trackImageFallback(emakiId, uniqueIndex, "load_error");
             hasTrackedRef.current = true;
+          }
+          if (emakiId) {
+            const loadTimeMs = Math.max(0, Date.now() - loadStartTimeRef.current);
+            logImageLoadEnd({
+              emakiId,
+              imageIndex: uniqueIndex,
+              url: imageUrl,
+              loadTimeMs,
+              status: "fallback",
+              fallbackReason: "load_error",
+              queueKey: hydrateKey,
+            });
           }
         }}
         className={styles.imageReady}
