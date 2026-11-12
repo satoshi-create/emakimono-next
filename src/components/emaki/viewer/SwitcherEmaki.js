@@ -1,6 +1,5 @@
 import { EbikiPickerOverlay } from "@/components/emaki/dev/EbikiCoordinatePicker";
 import EmakiImage from "@/components/emaki/viewer/EmakiImage";
-import OverlayEkotoba from "@/components/emaki/viewer/OverlayEkotoba";
 import SpotPins from "@/components/emaki/viewer/SpotPins";
 import { AppContext } from "@/context/AppContext";
 import { buildSceneShellStyle } from "@/utils/emakiContentWindow";
@@ -35,7 +34,7 @@ const SwitcherEmaki = forwardRef(
   ) => {
     const { orientation, toggleFullscreen } = useContext(AppContext);
 
-    if (cat !== "image" && cat !== "ekotoba") {
+    if ((cat !== "image" && cat !== "ekotoba") || !item?.src) {
       return null;
     }
 
@@ -80,61 +79,39 @@ const SwitcherEmaki = forwardRef(
       );
     }
 
-    if (cat === "image") {
-      return (
-        <section
-          ref={ref}
-          id={sceneSectionId(index)}
-          style={imageSectionStyle}
-        >
-          <EmakiImage
-            key={index}
-            item={{
-              ...item,
-              index,
-              scroll,
-              selectedRef,
-              navIndex,
-              uniqueIndex,
-            }}
-            isPlayMode={isPlayMode}
-            sceneIndex={sceneIndex}
-            emakiId={data?.titleen}
-            isByobu={isByobu}
-          />
-          {spots?.length ? <SpotPins spots={spots} linkId={item.linkId} /> : null}
-          {ebikiPickerEnabled ? (
-            <EbikiPickerOverlay
-              linkId={item.linkId ?? index}
-              onPick={onEbikiPick}
-            />
-          ) : null}
-        </section>
-      );
-    }
+    const isImage = cat === "image";
 
     return (
       <section
         ref={ref}
         id={sceneSectionId(index)}
         className={sectionClass}
-        style={sectionStyle}
+        style={isImage ? imageSectionStyle : sectionStyle}
       >
-        <OverlayEkotoba
+        <EmakiImage
           key={index}
           item={{
             ...item,
-            cat,
             index,
-            backgroundImage,
             scroll,
             selectedRef,
             navIndex,
-            data,
             uniqueIndex,
           }}
-          hideChapterTitle={isByobu}
+          isPlayMode={isPlayMode}
+          sceneIndex={sceneIndex}
+          emakiId={data?.titleen}
+          isByobu={isByobu}
         />
+        {isImage && spots?.length ? (
+          <SpotPins spots={spots} linkId={item.linkId} />
+        ) : null}
+        {isImage && ebikiPickerEnabled ? (
+          <EbikiPickerOverlay
+            linkId={item.linkId ?? index}
+            onPick={onEbikiPick}
+          />
+        ) : null}
       </section>
     );
   }

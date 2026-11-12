@@ -2,6 +2,7 @@
  * ビューア自動再生・シーン検出の定数。
  * getDeviceType()（measurementUtils）と同じ 768 / 1024 ブレークポイント。
  */
+import { isTouchPrimaryDevice } from "@/libs/api/measurementUtils";
 
 /** 60fps 換算: PC 2.4px/f, Tablet 1.6px/f, Mobile 1.2px/f */
 export const PLAYBACK_SPEED_PX_PER_SEC = {
@@ -103,7 +104,10 @@ export const PLAYBACK_SCROLL_LIMIT_NEAR_END_PX = 80;
 export const getPlaybackSpeedPxPerSec = () => {
   if (typeof window === "undefined") return PLAYBACK_SPEED_PX_PER_SEC.pc;
   const width = window.innerWidth;
-  if (width >= DEVICE_BREAKPOINT_PC) return PLAYBACK_SPEED_PX_PER_SEC.pc;
+  const isTouch = isTouchPrimaryDevice();
+  if (width >= DEVICE_BREAKPOINT_PC) {
+    return isTouch ? PLAYBACK_SPEED_PX_PER_SEC.tablet : PLAYBACK_SPEED_PX_PER_SEC.pc;
+  }
   if (width >= DEVICE_BREAKPOINT_TABLET) return PLAYBACK_SPEED_PX_PER_SEC.tablet;
   return PLAYBACK_SPEED_PX_PER_SEC.mobile;
 };
