@@ -1,6 +1,6 @@
 # 絵巻ビューア・プルプロンプト仕様（中盤 / 巻末）
 
-中盤の `ViewerPullPrompt`（共有・中盤フィードバック）と巻末の `ScrollFeedbackEndPrompt` の責務境界とデータフローを定義する。現行挙動を維持し、自動消去タイマー等の UX 変更は本書のスコープ外とする。
+中盤の `ViewerPullPrompt`（共有・中盤フィードバック）と巻末の `ScrollFeedbackEndPrompt` の責務境界とデータフローを定義する。いずれかのプロンプト表示後は **5 秒経過** または **表示開始から 300ms 以降に検知した再スクロール** で自動消去し、各 `dismiss*` ハンドラ経由で `sessionStorage` と同期する。
 
 ## 1. 全体アーキテクチャと親子階層マップ
 
@@ -40,7 +40,7 @@ graph TD
   SFEP:::bugZone
 ```
 
-**警戒ゾーン（bugZone）:** 一度表示条件を満たすと、現行実装では自動消去タイマーがなく、ユーザーが × またはプライマリアクションを実行するまで UI が残留しうる。`dismiss` フラグと `sessionStorage` が同期されるまで再トリガーは抑止されるが、表示中の長時間滞留は既知の観測ポイントとする。
+**警戒ゾーン（bugZone）:** 一度表示条件を満たすと、5 秒タイムアウトまたは再スクロール連動の自動消去（`useEmakiPrompts` の `[Prompt:AutoDismiss]`）が動作する。表示直後 300ms 以内の慣性スクロールはグレースとして無視する。× / プライマリ CTA による明示 dismiss と同様、`dismiss` 同期後は同一セッションで再トリガーは抑止される。自動消去と手動操作の競合（同 tick で二重 dismiss）は観測ポイントとする。
 
 ## 2. 外部・内部モジュールの責務一覧
 
@@ -77,6 +77,18 @@ sequenceDiagram
   UEP->>UEP: scrollRatioBucket >= 0.3
   Note over UEP: showSharePullPrompt = true
   EC->>VPP: mode=share 表示
+
+  opt 自動消去（5s または 300ms 以降の再スクロール）
+    alt 5秒タイムアウト
+      UEP->>UEP: dismissSharePrompt / dismissMidFeedbackPrompt / dismissEndPrompt
+      UEP->>SS: markPullPromptDismissed / dismissFeedback
+      Note over UEP: [Prompt:AutoDismiss] reason=timeout
+    else 再スクロール
+      User->>EC: scroll（グレース後）
+      UEP->>UEP: 同上 dismiss
+      Note over UEP: [Prompt:AutoDismiss] reason=scroll
+    end
+  end
 
   User->>VPP: 共有 CTA
   VPP->>UEP: handleSharePromptCopy

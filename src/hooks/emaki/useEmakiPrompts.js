@@ -21,7 +21,10 @@ import { runAfterPaint } from "@/utils/runAfterPaint";
 // デバッグスイッチ
 // 検証完了後は false にすることで、すべてのコンソール出力を一括で停止できます。
 // =============================================================================
-const DEBUG_EMAKI_PROMPTS = true;
+const DEBUG_EMAKI_PROMPTS = false;
+
+const AUTO_DISMISS_DELAY_MS = 5000;
+const SCROLL_DISMISS_GRACE_MS = 300;
 
 function logDebug(tag, ...args) {
   if (!DEBUG_EMAKI_PROMPTS) return;
@@ -212,6 +215,91 @@ export function useEmakiPrompts({
     scrollFeedbackSubmitted,
   ]);
 
+  const dismissSharePrompt = useCallback(() => {
+    logDebug("Prompt:Action", { action: "share_dismiss", emakiId });
+    markPullPromptDismissed(emakiId, "share");
+    setSharePromptDismissed(true);
+  }, [emakiId]);
+
+  const dismissMidFeedbackPrompt = useCallback(() => {
+    logDebug("Prompt:Action", { action: "mid_feedback_dismiss", emakiId });
+    markPullPromptDismissed(emakiId, "mid_feedback");
+    setMidFeedbackDismissed(true);
+  }, [emakiId]);
+
+  const dismissEndPrompt = useCallback(() => {
+    logDebug("Prompt:Action", { action: "end_dismiss", emakiId });
+    dismissFeedback(getScrollEndFeedbackKey(emakiId));
+    setEndPromptDismissed(true);
+  }, [emakiId]);
+
+  // 5秒経過による自動消去（オートディスミス）
+  useEffect(() => {
+    let target = null;
+    let onDismiss = null;
+    if (showSharePullPrompt) {
+      target = "share";
+      onDismiss = dismissSharePrompt;
+    } else if (showMidFeedbackPrompt) {
+      target = "mid_feedback";
+      onDismiss = dismissMidFeedbackPrompt;
+    } else if (showScrollFeedbackEndPrompt) {
+      target = "end";
+      onDismiss = dismissEndPrompt;
+    }
+    if (!onDismiss) return undefined;
+    const timerId = window.setTimeout(() => {
+      logDebug("Prompt:AutoDismiss", { reason: "timeout", target });
+      onDismiss();
+    }, AUTO_DISMISS_DELAY_MS);
+    return () => clearTimeout(timerId);
+  }, [
+    showSharePullPrompt,
+    showMidFeedbackPrompt,
+    showScrollFeedbackEndPrompt,
+    dismissSharePrompt,
+    dismissMidFeedbackPrompt,
+    dismissEndPrompt,
+  ]);
+
+  // 再スクロール検知による即座消去（表示直後 300ms はグレース）
+  useEffect(() => {
+    const el = articleRef?.current;
+    if (!el) return undefined;
+
+    let target = null;
+    let onDismiss = null;
+    if (showSharePullPrompt) {
+      target = "share";
+      onDismiss = dismissSharePrompt;
+    } else if (showMidFeedbackPrompt) {
+      target = "mid_feedback";
+      onDismiss = dismissMidFeedbackPrompt;
+    } else if (showScrollFeedbackEndPrompt) {
+      target = "end";
+      onDismiss = dismissEndPrompt;
+    }
+    if (!onDismiss) return undefined;
+
+    const shownAt = Date.now();
+    const onScroll = () => {
+      if (Date.now() - shownAt < SCROLL_DISMISS_GRACE_MS) return;
+      logDebug("Prompt:AutoDismiss", { reason: "scroll", target });
+      onDismiss();
+    };
+
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, [
+    showSharePullPrompt,
+    showMidFeedbackPrompt,
+    showScrollFeedbackEndPrompt,
+    articleRef,
+    dismissSharePrompt,
+    dismissMidFeedbackPrompt,
+    dismissEndPrompt,
+  ]);
+
   // ---------------------------------------------------------------------------
   // 4. イベントハンドラ（Handlers）
   // ---------------------------------------------------------------------------
@@ -247,30 +335,12 @@ export function useEmakiPrompts({
     setSharePromptDismissed(true);
   }, [locale, asPath, locales, defaultLocale, liveSceneIndex, emakiId]);
 
-  const dismissSharePrompt = useCallback(() => {
-    logDebug("Prompt:Action", { action: "share_dismiss", emakiId });
-    markPullPromptDismissed(emakiId, "share");
-    setSharePromptDismissed(true);
-  }, [emakiId]);
-
-  const dismissMidFeedbackPrompt = useCallback(() => {
-    logDebug("Prompt:Action", { action: "mid_feedback_dismiss", emakiId });
-    markPullPromptDismissed(emakiId, "mid_feedback");
-    setMidFeedbackDismissed(true);
-  }, [emakiId]);
-
   const handleMidFeedbackPrimary = useCallback(() => {
     logDebug("Prompt:Action", { action: "mid_feedback_primary", emakiId });
     markPullPromptDismissed(emakiId, "mid_feedback");
     setMidFeedbackDismissed(true);
     setIsScrollFeedbackOpen(true);
   }, [emakiId, setIsScrollFeedbackOpen]);
-
-  const dismissEndPrompt = useCallback(() => {
-    logDebug("Prompt:Action", { action: "end_dismiss", emakiId });
-    dismissFeedback(getScrollEndFeedbackKey(emakiId));
-    setEndPromptDismissed(true);
-  }, [emakiId]);
 
   return {
     getScrollRatio,
