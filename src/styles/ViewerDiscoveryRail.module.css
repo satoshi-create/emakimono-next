@@ -40,7 +40,6 @@
   cursor: pointer;
 }
 
-.closeBtn:hover,
 .closeBtn:focus-visible {
   border-color: var(--clr-accent);
   color: var(--clr-link);
@@ -67,7 +66,6 @@
   text-decoration: none;
 }
 
-.hubCta:hover,
 .hubCta:focus-visible {
   text-decoration: underline;
 }
@@ -156,7 +154,6 @@
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 
-.card:hover,
 .card:focus-visible {
   border-color: var(--clr-accent);
   background: var(--clr-bg);
@@ -208,8 +205,28 @@
   margin-top: 0.25rem;
 }
 
-.rankingLink:hover,
 .rankingLink:focus-visible {
   color: var(--clr-link);
   text-decoration: underline;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .closeBtn:hover {
+    border-color: var(--clr-accent);
+    color: var(--clr-link);
+  }
+
+  .hubCta:hover {
+    text-decoration: underline;
+  }
+
+  .card:hover {
+    border-color: var(--clr-accent);
+    background: var(--clr-bg);
+  }
+
+  .rankingLink:hover {
+    color: var(--clr-link);
+    text-decoration: underline;
+  }
 }

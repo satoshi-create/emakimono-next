@@ -63,6 +63,7 @@ export const useViewerDiscoveryRailState = ({
   const railOpenRef = useRef(railOpen);
   const theaterDismissedAtRef = useRef(0);
   const lastScrollCloseNotifyRef = useRef(0);
+  const expandClickGuardUntilRef = useRef(0);
 
   // レンダリング間での最新 state の参照同期
   useEffect(() => {
@@ -187,6 +188,7 @@ export const useViewerDiscoveryRailState = ({
       });
 
       armRailTheaterSuppress();
+      expandClickGuardUntilRef.current = Date.now() + 550;
       theaterDismissedAtRef.current = 0;
       railPinFromExpandRef.current = true;
       railPinScrollLeftRef.current = currentLeft;
@@ -220,6 +222,8 @@ export const useViewerDiscoveryRailState = ({
 
       logDebug("DOM:PointerDown", "A", { railOpen: railOpenRef.current });
       if (!railOpenRef.current) {
+        e?.preventDefault?.();
+        e?.stopPropagation?.();
         triggerExpand("PointerDown");
       }
     },
@@ -233,6 +237,8 @@ export const useViewerDiscoveryRailState = ({
     (e) => {
       if (e?.target?.closest("a, button")) return;
       if (!railOpenRef.current) {
+        e?.preventDefault?.();
+        e?.stopPropagation?.();
         triggerExpand("Click");
       }
     },
@@ -254,6 +260,7 @@ export const useViewerDiscoveryRailState = ({
     railOpen,
     setRailOpen,
     suppressRailTheaterRef,
+    expandClickGuardUntilRef,
     railPinFromExpandRef,
     railPinScrollLeftRef,
     onUserScrollStart,

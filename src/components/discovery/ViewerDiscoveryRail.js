@@ -14,7 +14,7 @@ import { AppContext } from "@/pages/_app";
 /**
  * YouTube 風「次に見る」レール。クラスター／最新を優先（累計ランキングではない）。
  */
-const ViewerDiscoveryRail = ({ data, onClose }) => {
+const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
   const { t } = useTranslation("common");
   const { locale } = useRouter();
   const all = ExtractingListData();
@@ -70,6 +70,14 @@ const ViewerDiscoveryRail = ({ data, onClose }) => {
   }, [all, data, rankingList]);
 
   const stopRailAsideBubble = (e) => {
+    if (
+      expandClickGuardUntilRef?.current &&
+      Date.now() < expandClickGuardUntilRef.current
+    ) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
     e.stopPropagation();
   };
 

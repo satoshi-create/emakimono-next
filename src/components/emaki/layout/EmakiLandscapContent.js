@@ -62,6 +62,7 @@ const EmakiLandscapContent = ({
   const {
     railOpen,
     suppressRailTheaterRef,
+    expandClickGuardUntilRef,
     railPinFromExpandRef,
     railPinScrollLeftRef,
     onUserScrollStart,
@@ -210,7 +211,10 @@ const EmakiLandscapContent = ({
             >
               {/* 内枠ラッパーを配線して責務を物理分離 */}
               <div className={styles.discoveryRailSlide}>
-                <ViewerDiscoveryRail data={data} />
+                <ViewerDiscoveryRail
+                  data={data}
+                  expandClickGuardUntilRef={expandClickGuardUntilRef}
+                />
               </div>
             </aside>
           )}

@@ -76,6 +76,81 @@ def _find_previous_report_dir(current_dir: Path) -> Path | None:
     return None
 
 
+
+
+def _fmt_wow_delta_count(delta: int | None) -> str:
+    if delta is None:
+        return "—"
+    return f"+{delta}" if delta >= 0 else str(delta)
+
+
+def _fmt_wow_delta_pct(delta_pct: float | None) -> str:
+    if delta_pct is None:
+        return "—"
+    sign = "+" if delta_pct >= 0 else ""
+    return f"{sign}{delta_pct}%"
+
+
+def _fmt_engagement_rate(rate: float | None) -> str:
+    if rate is None:
+        return "—"
+    return f"{rate * 100:.1f}%"
+
+
+def _fmt_wow_delta_pp(delta_pp: float | None) -> str:
+    if delta_pp is None:
+        return "—"
+    sign = "+" if delta_pp >= 0 else ""
+    return f"{sign}{delta_pp}pp"
+
+
+def _week_over_week_summary_lines(merged_path: Path) -> list[str]:
+    lines = ["## Week-over-week (load_error · GA4 engagement)", ""]
+    if not merged_path.is_file():
+        lines.append("- 前週比較データなし（merged.json 未生成）")
+        lines.append("")
+        return lines
+
+    merged = json.loads(merged_path.read_text(encoding="utf-8"))
+    wow = merged.get("week_over_week")
+    site_kpis = merged.get("site_kpis") or {}
+    if wow:
+        prev_label = wow.get("previous_label", "—")
+        prev_period = wow.get("previous_period")
+        if prev_period:
+            lines.append(f"- Previous report: `{prev_label}` ({prev_period})")
+        else:
+            lines.append(f"- Previous report: `{prev_label}`")
+        lines.append("")
+        lines.append("| metric | current | previous | Δ | Δ% / Δpp |")
+        lines.append("|---|---|---|---|---|")
+
+        let = wow.get("load_error_total") or {}
+        lines.append(
+            f"| load_error (all) | {let.get('current', '—')} | {let.get('previous', '—')} | "
+            f"{_fmt_wow_delta_count(let.get('delta'))} | {_fmt_wow_delta_pct(let.get('delta_pct'))} |"
+        )
+        lt = wow.get("load_error_tablet") or {}
+        lines.append(
+            f"| load_error (tablet) | {lt.get('current', '—')} | {lt.get('previous', '—')} | "
+            f"{_fmt_wow_delta_count(lt.get('delta'))} | {_fmt_wow_delta_pct(lt.get('delta_pct'))} |"
+        )
+        eng = wow.get("engagement_rate_weighted") or {}
+        lines.append(
+            f"| GA4 engagementRate (session-weighted) | {_fmt_engagement_rate(eng.get('current'))} | "
+            f"{_fmt_engagement_rate(eng.get('previous'))} | {_fmt_wow_delta_pp(eng.get('delta_pp'))} | — |"
+        )
+    else:
+        lines.append("- 前週比較データなし")
+        if site_kpis:
+            lines.append(
+                f"- 今週: load_error 全体 **{site_kpis.get('load_error_total', '—')}** / "
+                f"tablet **{site_kpis.get('load_error_tablet', '—')}** / "
+                f"engagementRate（セッション加重） **{_fmt_engagement_rate(site_kpis.get('engagement_rate_weighted'))}**"
+            )
+    lines.append("")
+    return lines
+
 def write_summary(report_dir: Path, manifest: dict) -> Path:
     kpi = load_kpi_config()
     project = load_project_config()
@@ -345,6 +420,8 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
         f"- GA4 sessions (pages report sum): {ga4_sessions}",
         "",
     ]
+
+    lines.extend(_week_over_week_summary_lines(merged_path))
 
     if previous_dir:
         lines.extend(

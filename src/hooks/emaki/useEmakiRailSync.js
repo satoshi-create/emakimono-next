@@ -254,12 +254,12 @@ export const useEmakiRailSync = ({
 
     const dx = end.clientX - start.x;
     const dy = end.clientY - start.y;
-    const isForwardSwipe =
-      dx < -30 && Math.abs(dx) > Math.abs(dy) * 1.2;
+    const isHorizontalSwipe =
+      Math.abs(dx) > 30 && Math.abs(dx) > Math.abs(dy) * 1.2;
 
-    if (!isForwardSwipe) return;
+    if (!isHorizontalSwipe) return;
 
-    logDebug("TouchEnd:ForwardSwipe -> onUserScrollStart", "A", {
+    logDebug("TouchEnd:HorizontalSwipe -> onUserScrollStart", "A", {
       dx,
       dy,
       atStart: isAtStartRef.current,

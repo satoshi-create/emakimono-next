@@ -366,6 +366,115 @@ def _index_device_group(rows: list[dict], inner_keys: tuple[str, ...]) -> dict[s
     }
 
 
+def calc_site_kpis(
+    fallback_reason_breakdown: dict,
+    fallback_crosstab_by_device_reason: dict,
+    ga4_pages_rows: list | None,
+) -> dict:
+    breakdown = fallback_reason_breakdown if isinstance(fallback_reason_breakdown, dict) else {}
+    crosstab = (
+        fallback_crosstab_by_device_reason
+        if isinstance(fallback_crosstab_by_device_reason, dict)
+        else {}
+    )
+    load_error_total = int(breakdown.get("load_error", 0) or 0)
+    if load_error_total == 0 and crosstab:
+        load_error_total = sum(
+            int((counts or {}).get("load_error", 0) or 0) for counts in crosstab.values()
+        )
+    load_error_tablet = int((crosstab.get("tablet") or {}).get("load_error", 0) or 0)
+
+    rows = ga4_pages_rows if isinstance(ga4_pages_rows, list) else []
+    session_sum = 0
+    weighted_sum = 0.0
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        sessions = int(row.get("sessions") or 0)
+        rate = row.get("engagementRate")
+        if rate is None or sessions <= 0:
+            continue
+        session_sum += sessions
+        weighted_sum += float(rate) * sessions
+    engagement_rate_weighted = (
+        round(weighted_sum / session_sum, 4) if session_sum > 0 else None
+    )
+    return {
+        "load_error_total": load_error_total,
+        "load_error_tablet": load_error_tablet,
+        "engagement_rate_weighted": engagement_rate_weighted,
+    }
+
+
+def _report_period_from_manifest(report_dir: Path) -> str | None:
+    manifest = _load_json(report_dir / "manifest.json")
+    if not isinstance(manifest, dict):
+        return None
+    gsc = manifest.get("sources", {}).get("gsc") if isinstance(manifest.get("sources"), dict) else {}
+    if not isinstance(gsc, dict):
+        return None
+    start = gsc.get("start_date")
+    end = gsc.get("end_date")
+    if start and end:
+        return f"{start} .. {end}"
+    return None
+
+
+def _site_kpis_from_report_dir(report_dir: Path) -> dict | None:
+    merged_path = report_dir / "merged.json"
+    if merged_path.is_file():
+        merged_data = _load_json(merged_path)
+        if isinstance(merged_data, dict) and merged_data.get("site_kpis"):
+            return merged_data["site_kpis"]
+
+    fallback_by_reason = _load_json(report_dir / "ga4_fallback_by_reason.json")
+    fallback_crosstab = _load_json(report_dir / "ga4_fallback_crosstab.json")
+    ga4_pages = _load_json(report_dir / "ga4_pages.json")
+    if not isinstance(fallback_by_reason, list) and not isinstance(ga4_pages, list):
+        return None
+
+    fallback_reason_breakdown = _index_fallback_reason(
+        fallback_by_reason if isinstance(fallback_by_reason, list) else []
+    )
+    fallback_crosstab_by_device_reason = _index_device_group(
+        fallback_crosstab if isinstance(fallback_crosstab, list) else [],
+        ("customEvent:fallback_reason", "fallback_reason"),
+    )
+    return calc_site_kpis(
+        fallback_reason_breakdown,
+        fallback_crosstab_by_device_reason,
+        ga4_pages if isinstance(ga4_pages, list) else [],
+    )
+
+
+def _wow_count_metric(current: int | None, previous: int | None) -> dict:
+    delta = None
+    delta_pct = None
+    if current is not None and previous is not None:
+        delta = current - previous
+        if previous != 0:
+            delta_pct = round((current - previous) / previous * 100, 1)
+        elif current == 0:
+            delta_pct = 0.0
+    return {
+        "current": current,
+        "previous": previous,
+        "delta": delta,
+        "delta_pct": delta_pct,
+    }
+
+
+def _wow_engagement_metric(current: float | None, previous: float | None) -> dict:
+    delta_pp = None
+    if current is not None and previous is not None:
+        delta_pp = round((current - previous) * 100, 1)
+    return {
+        "current": current,
+        "previous": previous,
+        "delta_pp": delta_pp,
+    }
+
+
 def _find_previous_report_dir(current_dir: Path) -> Path | None:
     siblings = sorted(
         [p for p in REPORTS_DIR.iterdir() if p.is_dir() and p.name != current_dir.name],
@@ -657,6 +766,34 @@ def merge_report(report_dir: Path) -> dict:
                 "ga4_sessions": record["ga4_sessions"] - int(prev.get("ga4_sessions") or 0),
             }
 
+    ga4_pages_rows = ga4_pages if isinstance(ga4_pages, list) else []
+    site_kpis = calc_site_kpis(
+        fallback_reason_counts,
+        fallback_device_reason,
+        ga4_pages_rows,
+    )
+
+    week_over_week: dict | None = None
+    if previous_dir:
+        prev_site_kpis = _site_kpis_from_report_dir(previous_dir)
+        if prev_site_kpis:
+            week_over_week = {
+                "previous_label": previous_dir.name,
+                "previous_period": _report_period_from_manifest(previous_dir),
+                "load_error_total": _wow_count_metric(
+                    site_kpis.get("load_error_total"),
+                    prev_site_kpis.get("load_error_total"),
+                ),
+                "load_error_tablet": _wow_count_metric(
+                    site_kpis.get("load_error_tablet"),
+                    prev_site_kpis.get("load_error_tablet"),
+                ),
+                "engagement_rate_weighted": _wow_engagement_metric(
+                    site_kpis.get("engagement_rate_weighted"),
+                    prev_site_kpis.get("engagement_rate_weighted"),
+                ),
+            }
+
     payload = {
         "report_dir": report_dir.name,
         "site_avg_ctr": round(site_avg_ctr, 4),
@@ -691,6 +828,8 @@ def merge_report(report_dir: Path) -> dict:
         "fallback_crosstab_by_device_reason": fallback_device_reason,
         "slow_crosstab_by_device_emaki": slow_device_emaki,
         "continuity_by_device_event": continuity_device_event,
+        "site_kpis": site_kpis,
+        "week_over_week": week_over_week,
         "rows": merged,
     }
     return payload
