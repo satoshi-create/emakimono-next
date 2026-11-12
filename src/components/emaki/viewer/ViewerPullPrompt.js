@@ -1,6 +1,11 @@
 import styles from "@/styles/ViewerPullPrompt.module.css";
 import { useTranslation } from "next-i18next";
 
+// ---------------------------------------------------------------------------
+// 1. プレゼンテーション（Presentation）
+// ---------------------------------------------------------------------------
+// 中盤プル: 共有コピー / 中盤フィードバック誘導。永続化・表示条件は useEmakiPrompts 側。
+
 /**
  * Mid-session / end pull CTAs (share copy, mid feedback).
  * @param {"share"|"mid_feedback"} props.mode
@@ -14,6 +19,9 @@ const ViewerPullPrompt = ({
 }) => {
   const { t } = useTranslation("common");
 
+  // ---------------------------------------------------------------------------
+  // 2. 文言・ラベル（Derived copy）
+  // ---------------------------------------------------------------------------
   const text =
     mode === "share"
       ? t("pullPrompt.shareText")

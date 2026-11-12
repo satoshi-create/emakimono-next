@@ -65,20 +65,7 @@ import {
   trackZoomOpen,
   trackZoomClose,
 } from "@/libs/api/measurementUtils";
-import {
-  dismissFeedback,
-  getScrollEndFeedbackKey,
-  hasSubmittedScrollFeedback,
-  isFeedbackDismissed,
-} from "@/libs/api/scrollFeedbackSession";
-import {
-  hasDismissedPullPrompt,
-  markPullPromptDismissed,
-} from "@/libs/api/viewerPullSession";
-import * as gtag from "@/libs/api/gtag";
-import {
-  buildShareUrl,
-} from "@/utils/buildShareUrl";
+import { useEmakiPrompts } from "@/hooks/emaki/useEmakiPrompts";
 import { isByobuScroll } from "@/utils/isByobuScroll";
 import {
   ZOOM_STRIP_MIN_SLICES,
@@ -208,12 +195,8 @@ const EmakiContainer = ({
 
   const hasNextVolume = editionLinks.length > 0 || showKusouzuHubLink || showChojuGigaHubLink || showHyakkiHubLink;
 
+  // フィードバックパネル開閉のみ親が保持（プロンプト本体は useEmakiPrompts）
   const [isScrollFeedbackOpen, setIsScrollFeedbackOpen] = useState(false);
-  const [scrollFeedbackSubmitted, setScrollFeedbackSubmitted] = useState(false);
-  const [endPromptDismissed, setEndPromptDismissed] = useState(false);
-  const [sharePromptDismissed, setSharePromptDismissed] = useState(false);
-  const [midFeedbackDismissed, setMidFeedbackDismissed] = useState(false);
-  const [scrollRatioBucket, setScrollRatioBucket] = useState(0);
 
   const [isMdLandscape, setIsMdLandscape] = useState(false);
   const commentaryFloating = Boolean(toggleFullscreen) || isMdLandscape;
@@ -599,128 +582,41 @@ const EmakiContainer = ({
     return () => timers.forEach(clearTimeout);
   }, [scroll, data.id, handleToId, navIndex, query?.ebiki]);
 
-  useEffect(() => {
-    if (!emakiId) return;
-    return runAfterPaint(() => {
-      setScrollFeedbackSubmitted(hasSubmittedScrollFeedback(emakiId));
-      setSharePromptDismissed(hasDismissedPullPrompt(emakiId, "share"));
-      setMidFeedbackDismissed(hasDismissedPullPrompt(emakiId, "mid_feedback"));
-      setEndPromptDismissed(isFeedbackDismissed(getScrollEndFeedbackKey(emakiId)));
-      setScrollRatioBucket(0);
-    });
-  }, [emakiId]);
-
-  const getScrollRatio = useCallback(() => {
-    const el = articleRef.current;
-    if (!el) return null;
-    const maxScroll = el.scrollWidth - el.clientWidth;
-    if (maxScroll <= 0) return null;
-    return Math.round((Math.abs(el.scrollLeft) / maxScroll) * 1000) / 1000;
-  }, []);
-
-  useEffect(() => {
-    if (!scroll) return;
-    const el = articleRef.current;
-    if (!el) return;
-
-    let timer = null;
-    const updateBucket = () => {
-      const r = getScrollRatio();
-      if (r == null) return;
-      if (r >= 0.55) setScrollRatioBucket((b) => Math.max(b, 0.55));
-      else if (r >= 0.3) setScrollRatioBucket((b) => Math.max(b, 0.3));
-    };
-    const onScroll = () => {
-      if (timer) clearTimeout(timer);
-      timer = setTimeout(updateBucket, 400);
-    };
-
-    el.addEventListener("scroll", onScroll, { passive: true });
-    updateBucket();
-
-    return () => {
-      if (timer) clearTimeout(timer);
-      el.removeEventListener("scroll", onScroll);
-    };
-  }, [scroll, getScrollRatio, emakiId, navIndex]);
-
-  const handleScrollFeedbackSubmitted = useCallback(() => {
-    dismissFeedback(getScrollEndFeedbackKey(emakiId));
-    setScrollFeedbackSubmitted(true);
-    setEndPromptDismissed(true);
-    setMidFeedbackDismissed(true);
-  }, [emakiId]);
-
   const shareTitle =
     locale === "en"
       ? emakiDisplayTitle(data, locale)
       : `${data.title ?? ""}${data.edition ? ` ${data.edition}` : ""}`.trim();
 
-  const handleSharePromptCopy = useCallback(async () => {
-    const url = buildShareUrl({
-      locale,
-      asPath,
-      locales,
-      defaultLocale,
-      navIndex: liveSceneIndex,
-    });
-    try {
-      await navigator.clipboard.writeText(url);
-      gtag.event("sns_share_click", {
-        platform: "copy",
-        emaki_id: emakiId || "",
-        scene_index: liveSceneIndex ?? 0,
-        source: "mid_prompt",
-      });
-    } catch (err) {
-      console.error("Share prompt copy failed:", err);
-    }
-    markPullPromptDismissed(emakiId, "share");
-    setSharePromptDismissed(true);
-  }, [locale, asPath, locales, defaultLocale, liveSceneIndex, emakiId]);
-
-  const dismissSharePrompt = useCallback(() => {
-    markPullPromptDismissed(emakiId, "share");
-    setSharePromptDismissed(true);
-  }, [emakiId]);
-
-  const dismissMidFeedbackPrompt = useCallback(() => {
-    markPullPromptDismissed(emakiId, "mid_feedback");
-    setMidFeedbackDismissed(true);
-  }, [emakiId]);
-
-  const dismissEndPrompt = useCallback(() => {
-    dismissFeedback(getScrollEndFeedbackKey(emakiId));
-    setEndPromptDismissed(true);
-  }, [emakiId]);
-
-  const showSharePullPrompt =
-    scroll &&
-    !isAtEnd &&
-    !sharePromptDismissed &&
-    !isScrollFeedbackOpen &&
-    scrollRatioBucket >= 0.3 &&
-    isUIVisible;
-
-  const showMidFeedbackPrompt =
-    scroll &&
-    !isAtEnd &&
-    !scrollFeedbackSubmitted &&
-    !midFeedbackDismissed &&
-    !isScrollFeedbackOpen &&
-    !showSharePullPrompt &&
-    scrollRatioBucket >= 0.55 &&
-    isUIVisible;
-
-  const showScrollFeedbackEndPrompt =
-    scroll &&
-    isAtEnd &&
-    !endPromptDismissed &&
-    !isFeedbackDismissed(getScrollEndFeedbackKey(emakiId)) &&
-    !isScrollFeedbackOpen &&
-    isUIVisible &&
-    !showSharePullPrompt &&
-    !showMidFeedbackPrompt;
+  // ---------------------------------------------------------------------------
+  // 中盤・巻末プルプロンプト（状態 / sessionStorage / 表示条件 → useEmakiPrompts）
+  // UI は scroll フラグと isScrollFeedbackOpen のみ EmakiConteiner が配線する。
+  // ---------------------------------------------------------------------------
+  const {
+    getScrollRatio,
+    scrollFeedbackSubmitted,
+    showSharePullPrompt,
+    showMidFeedbackPrompt,
+    showScrollFeedbackEndPrompt,
+    handleScrollFeedbackSubmitted,
+    handleSharePromptCopy,
+    dismissSharePrompt,
+    dismissMidFeedbackPrompt,
+    handleMidFeedbackPrimary,
+    dismissEndPrompt,
+  } = useEmakiPrompts({
+    emakiId,
+    scroll,
+    articleRef,
+    isAtEnd,
+    isUIVisible,
+    isScrollFeedbackOpen,
+    setIsScrollFeedbackOpen,
+    locale,
+    asPath,
+    locales,
+    defaultLocale,
+    liveSceneIndex,
+  });
 
   const { isPalmMode, suppressClickUntilRef, palmActiveRef } =
     useEmakiPalmDrag(articleRef);
@@ -1210,11 +1106,7 @@ const EmakiContainer = ({
           <ViewerPullPrompt
             mode="mid_feedback"
             isVisible
-            onPrimary={() => {
-              markPullPromptDismissed(emakiId, "mid_feedback");
-              setMidFeedbackDismissed(true);
-              setIsScrollFeedbackOpen(true);
-            }}
+            onPrimary={handleMidFeedbackPrimary}
             onDismiss={dismissMidFeedbackPrompt}
           />
         )}

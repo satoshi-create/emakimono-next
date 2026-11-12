@@ -1,10 +1,12 @@
 import ShareButtons from "@/components/emaki/viewer/ShareButtons";
-import {
-  dismissFeedback,
-  getScrollEndFeedbackKey,
-} from "@/libs/api/scrollFeedbackSession";
 import styles from "@/styles/ScrollFeedbackEndPrompt.module.css";
 import { useTranslation } from "next-i18next";
+
+// ---------------------------------------------------------------------------
+// 1. プレゼンテーション（Presentation）
+// ---------------------------------------------------------------------------
+// 巻末プル: 共有・フィードバック導線。sessionStorage への dismiss 書き込みは
+// useEmakiPrompts.dismissEndPrompt に一本化（× クリックで二重 dismiss しない）。
 
 /**
  * 巻末プル導線: 共有・フィードバック（巻いいねはナビに集約）
@@ -20,8 +22,10 @@ const ScrollFeedbackEndPrompt = ({
 }) => {
   const { t } = useTranslation("common");
 
+  // ---------------------------------------------------------------------------
+  // 2. イベントハンドラ（Handlers）
+  // ---------------------------------------------------------------------------
   const handleDismiss = () => {
-    dismissFeedback(getScrollEndFeedbackKey(emakiId));
     onDismiss?.();
   };
 
