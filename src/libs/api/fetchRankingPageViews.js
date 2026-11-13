@@ -17,13 +17,16 @@ export async function fetchRankingPageViews() {
   );
   const analyticsDataClient = new BetaAnalyticsDataClient({ credentials });
 
-  const [response] = await analyticsDataClient.runReport({
-    property: `properties/${propertyId}`,
-    dateRanges: [{ startDate: "2024-01-01", endDate: "today" }],
-    dimensions: [{ name: "pagePath" }],
-    metrics: [{ name: "screenPageViews" }],
-    orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }],
-  });
+  const [response] = await analyticsDataClient.runReport(
+    {
+      property: `properties/${propertyId}`,
+      dateRanges: [{ startDate: "2024-01-01", endDate: "today" }],
+      dimensions: [{ name: "pagePath" }],
+      metrics: [{ name: "screenPageViews" }],
+      orderBys: [{ metric: { metricName: "screenPageViews" }, desc: true }],
+    },
+    { timeout: 5000 }
+  );
 
   const pvMap = {};
   (response.rows || []).forEach((row) => {
