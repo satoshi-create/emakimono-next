@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Spot Picker — CSV coordinate tool</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      font-size: 14px;
+      background: #1a1a1a;
+      color: #e8e8e8;
+      padding: 1rem;
+    }
+    h1 { font-size: 1.1rem; margin: 0 0 1rem; font-weight: 600; }
+    .row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-start; }
+    .panel { background: #252525; border: 1px solid #404040; border-radius: 8px; padding: 1rem; }
+    .form-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 0.75rem;
+      align-items: center;
+      min-width: 280px;
+    }
+    label { color: #aaa; }
+    input, select, textarea {
+      background: #111;
+      border: 1px solid #555;
+      color: #eee;
+      padding: 0.35rem 0.5rem;
+      border-radius: 4px;
+      width: 100%;
+    }
+    .slice-tabs { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.75rem 0; }
+    .slice-tabs button {
+      background: #333;
+      border: 1px solid #555;
+      color: #ccc;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .slice-tabs button.active {
+      background: #5c3d2e;
+      border-color: #c49a6c;
+      color: #fff;
+    }
+    .canvas-wrap {
+      position: relative;
+      display: inline-block;
+      max-width: 100%;
+      cursor: crosshair;
+    }
+    .canvas-wrap img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      user-select: none;
+    }
+    .pin {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      margin: -7px 0 0 -7px;
+      background: #e53935;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      pointer-events: none;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.6);
+    }
+  textarea#output {
+    width: 100%;
+    min-height: 140px;
+    font-family: ui-monospace, monospace;
+    font-size: 12px;
+    margin-top: 0.5rem;
+    }
+    .hint { color: #888; font-size: 12px; margin-top: 0.5rem; }
+    .status { color: #7cb87c; font-size: 12px; min-height: 1.2em; margin-top: 0.25rem; }
+  </style>
+</head>
+<body>
+  <h1>Spot Picker</h1>
+  <div class="row">
+    <p class="panel form-grid" style="grid-template-columns: 1fr;">
+      <label for="files">Slice images (multiple)</label>
+      <input type="file" id="files" multiple accept="image/*" />
+    </p>
+  </div>
+  <div class="panel" style="margin-top: 1rem;">
+    <div class="form-grid">
+      <label for="scroll_id">scroll_id</label>
+      <input type="text" id="scroll_id" value="rakuchu-rakugai-met" />
+      <label for="spot_id">spot_id</label>
+      <input type="text" id="spot_id" placeholder="e.g. kiyomizu-dera" />
+      <label for="name">name</label>
+      <input type="text" id="name" placeholder="日本語名" />
+      <label for="nameen">nameen</label>
+      <input type="text" id="nameen" placeholder="English name" />
+      <label for="category">category</label>
+      <select id="category">
+        <option value="temple">temple</option>
+        <option value="shrine">shrine</option>
+        <option value="castle">castle</option>
+        <option value="palace">palace</option>
+        <option value="bridge">bridge</option>
+        <option value="river">river</option>
+        <option value="street">street</option>
+        <option value="building">building</option>
+      </select>
+    </div>
+    <p class="hint">Click on the image to set x,y (%), copy CSV line to clipboard, and append below.</p>
+    <div class="status" id="status"></div>
+    <div class="slice-tabs" id="sliceTabs"></div>
+    <div class="canvas-wrap" id="canvasWrap" hidden>
+      <img id="preview" alt="slice" />
+    </div>
+  </div>
+  <div class="panel" style="margin-top: 1rem;">
+    <label for="output">Accumulated CSV lines</label>
+    <textarea id="output" readonly></textarea>
+  </div>
+  <script>
+    const slices = new Map();
+    let currentSlice = null;
+    const pins = [];
+
+    function parseSliceNum(filename) {
+      const base = filename.replace(/^.*[\\/]/, "");
+      const m = base.match(/_(\d{1,2})[-_.]/);
+      if (m) return parseInt(m[1], 10);
+      const m2 = base.match(/_(\d{1,2})\./);
+      if (m2) return parseInt(m2[1], 10);
+      return null;
+    }
+
+    function escapeCsvField(s) {
+      if (s == null) return '""';
+      const str = String(s);
+      if (/[",\n\r]/.test(str)) return '"' + str.replace(/"/g, '""') + '"';
+      return '"' + str + '"';
+    }
+
+    function buildCsvLine(scrollId, sliceNum, spotId, name, nameen, x, y, category) {
+      const parts = [
+        scrollId,
+        sliceNum,
+        spotId,
+        escapeCsvField(name),
+        escapeCsvField(nameen),
+        x,
+        y,
+        category
+      ];
+      return parts.join(",");
+    }
+
+    const filesInput = document.getElementById("files");
+    const sliceTabs = document.getElementById("sliceTabs");
+    const canvasWrap = document.getElementById("canvasWrap");
+    const preview = document.getElementById("preview");
+    const output = document.getElementById("output");
+    const statusEl = document.getElementById("status");
+
+    filesInput.addEventListener("change", () => {
+      slices.clear();
+      sliceTabs.innerHTML = "";
+      pins.forEach((p) => p.remove());
+      pins.length = 0;
+      const fileList = Array.from(filesInput.files || []);
+      fileList.forEach((file) => {
+        const num = parseSliceNum(file.name);
+        if (num == null) return;
+        const url = URL.createObjectURL(file);
+        slices.set(num, { url, name: file.name });
+      });
+      const nums = Array.from(slices.keys()).sort((a, b) => a - b);
+      nums.forEach((n) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = "slice " + n;
+        btn.dataset.slice = String(n);
+        btn.addEventListener("click", () => selectSlice(n));
+        sliceTabs.appendChild(btn);
+      });
+      if (nums.length) selectSlice(nums[0]);
+      else {
+        canvasWrap.hidden = true;
+        currentSlice = null;
+      }
+    });
+
+    function selectSlice(n) {
+      currentSlice = n;
+      const data = slices.get(n);
+      if (!data) return;
+      sliceTabs.querySelectorAll("button").forEach((b) => {
+        b.classList.toggle("active", b.dataset.slice === String(n));
+      });
+      preview.src = data.url;
+      canvasWrap.hidden = false;
+      pins.forEach((p) => p.remove());
+      pins.length = 0;
+    }
+
+    preview.addEventListener("click", (e) => {
+      if (currentSlice == null) return;
+      const rect = preview.getBoundingClientRect();
+      const naturalW = preview.naturalWidth;
+      const naturalH = preview.naturalHeight;
+      if (!naturalW || !naturalH) return;
+
+      const relX = (e.clientX - rect.left) / rect.width;
+      const relY = (e.clientY - rect.top) / rect.height;
+      const x = (relX * 100).toFixed(1);
+      const y = (relY * 100).toFixed(1);
+
+      const pin = document.createElement("span");
+      pin.className = "pin";
+      pin.style.left = relX * 100 + "%";
+      pin.style.top = relY * 100 + "%";
+      canvasWrap.appendChild(pin);
+      pins.push(pin);
+
+      const scrollId = document.getElementById("scroll_id").value.trim();
+      const spotId = document.getElementById("spot_id").value.trim();
+      const name = document.getElementById("name").value.trim();
+      const nameen = document.getElementById("nameen").value.trim();
+      const category = document.getElementById("category").value;
+
+      const line = buildCsvLine(scrollId, currentSlice, spotId, name, nameen, x, y, category);
+      const prev = output.value;
+      output.value = prev ? prev + "\n" + line : line;
+
+      navigator.clipboard.writeText(line).then(
+        () => {
+          statusEl.textContent = "Copied: " + line;
+        },
+        () => {
+          statusEl.textContent = "Clipboard failed — line appended to textarea.";
+        }
+      );
+    });
+  </script>
+</body>
+</html>

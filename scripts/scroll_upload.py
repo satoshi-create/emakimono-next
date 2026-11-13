@@ -67,6 +67,12 @@ def main(argv: list[str] | None = None) -> int:
         help="Pass --skip-upload to sync_all (metadata/JSON only)",
     )
     parser.add_argument(
+        "--storage",
+        choices=["cloudinary", "r2"],
+        default="r2",
+        help="Image storage backend (default: r2)",
+    )
+    parser.add_argument(
         "--force-upload",
         action="store_true",
         help="Pass --force-upload to sync_all",
@@ -158,26 +164,34 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     # --- Phase 2: Cloudinary usage ---
-    usage_cmd = [
-        PYTHON,
-        "scripts/check_cloudinary_usage.py",
-        "--warn-at",
-        "18",
-        "--fail-at",
-        "20",
-        "--no-save",
-    ]
-    usage_code = run_step("Cloudinary usage", usage_cmd)
-    if usage_code != 0 and production and not args.skip_upload:
-        print("\nScroll upload FAILED at: Cloudinary usage")
-        return usage_code
+    if args.storage == "cloudinary":
+        usage_cmd = [
+            PYTHON,
+            "scripts/check_cloudinary_usage.py",
+            "--warn-at",
+            "18",
+            "--fail-at",
+            "20",
+            "--no-save",
+        ]
+        usage_code = run_step("Cloudinary usage", usage_cmd)
+        if usage_code != 0 and production and not args.skip_upload:
+            print("\nScroll upload FAILED at: Cloudinary usage")
+            return usage_code
 
     if args.preflight_only:
         print("\nScroll upload OK (preflight-only)")
         return 0
 
     # --- Phase 3: sync dry-run ---
-    dry_cmd = [PYTHON, "scripts/sync_all.py", str(config_path), "--dry-run"]
+    dry_cmd = [
+        PYTHON,
+        "scripts/sync_all.py",
+        str(config_path),
+        "--dry-run",
+        "--storage",
+        args.storage,
+    ]
     if args.skip_upload:
         dry_cmd.append("--skip-upload")
     if args.ack_no_color_correction:
@@ -190,7 +204,7 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     # --- Phase 4: production sync ---
-    sync_cmd = [PYTHON, "scripts/sync_all.py", str(config_path)]
+    sync_cmd = [PYTHON, "scripts/sync_all.py", str(config_path), "--storage", args.storage]
     if args.skip_upload:
         sync_cmd.append("--skip-upload")
     if args.force_upload:
@@ -225,10 +239,11 @@ def main(argv: list[str] | None = None) -> int:
     if run_step("Postflight downstream", downstream_cmd) != 0:
         return 1
 
-    run_step(
-        "Cloudinary usage (post)",
-        usage_cmd,
-    )
+    if args.storage == "cloudinary":
+        run_step(
+            "Cloudinary usage (post)",
+            usage_cmd,
+        )
 
     print("\nScroll upload OK")
     return 0

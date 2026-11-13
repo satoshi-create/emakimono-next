@@ -67,7 +67,13 @@ def data_entry_to_cache_entry(entry: dict) -> dict:
     for emaki in entry.get("emakis", []):
         cached = dict(emaki)
         src = cached.get("src", "")
-        if isinstance(src, str) and src.startswith("/") and cached.get("config") == "cloudinary":
+        storage = cached.get("storage") or entry.get("storage")
+        is_r2_webp = isinstance(src, str) and src.endswith(".webp")
+        if isinstance(src, str) and src.startswith("/") and (
+            cached.get("config") == "cloudinary"
+            or storage == "r2"
+            or is_r2_webp
+        ):
             cached["src"] = src.lstrip("/")
         if cached.get("srcWidth") == "":
             cached["srcWidth"] = 0
@@ -705,6 +711,12 @@ def main() -> None:
         default=int(os.environ.get("SYNC_UPLOAD_WORKERS", "3")),
         help="Parallel upload threads (default: 3)",
     )
+    parser.add_argument(
+        "--storage",
+        choices=["cloudinary", "r2"],
+        default="r2",
+        help="Image upload storage backend (default: r2)",
+    )
     parser.add_argument("--skip-cache", action="store_true", help="Skip cache update")
     parser.add_argument(
         "--regenerate-cache",
@@ -789,6 +801,7 @@ def main() -> None:
         if args.remote_check:
             upload_args.append("--remote-check")
         upload_args.extend(["--workers", str(max(1, args.workers))])
+        upload_args.extend(["--storage", args.storage])
         image_rows = ss.main(upload_args)
         print(f"  Processed {len(image_rows)} image(s)")
 

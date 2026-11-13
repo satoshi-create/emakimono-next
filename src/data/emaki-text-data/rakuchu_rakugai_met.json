@@ -1,0 +1,56 @@
+[
+  {
+    "chapter": "1",
+    "title": "右隻 第一・二扇（伏見城・豊国廟〜方広寺大仏殿）",
+    "gendaibun": "",
+    "kobun": "",
+    "desc": "右上隅の伏見城から豊国廟、巨大な方広寺大仏殿と耳塚、三十三間堂へと連なる豊臣ゆかりのモニュメント群です。<br>【ズーム注目】大仏殿前に築かれた耳塚の石造卒塔婆と、高瀬川・鴨川沿いの町並み。",
+    "titleen": "Right Screen: Fushimi Castle, Toyokuni Mausoleum & Hoko-ji",
+    "descen": "Monumental structures associated with Toyotomi Hideyoshi, including Fushimi Castle, Toyokuni Mausoleum, Hoko-ji Great Buddha Hall, and Mimizuka."
+  },
+  {
+    "chapter": "2",
+    "title": "右隻 第三・四扇（東山の春・清水寺〜祇園祭）",
+    "gendaibun": "",
+    "kobun": "",
+    "desc": "桜咲く東山の清水寺・八坂神社・知恩院の春の景観と、下京の通りを練り歩く夏の祇園祭の山鉾巡行が同居しています。<br>【ズーム注目】舞台造りの清水寺本堂と、山鉾を見物するため店先から身を乗り出す町衆の姿。",
+    "titleen": "Right Screen: Spring in Higashiyama & Gion Festival",
+    "descen": "Cherry blossoms dotting Kiyomizu-dera and Yasaka Shrine in the eastern hills, contrasted with the summer Gion Festival procession below."
+  },
+  {
+    "chapter": "3",
+    "title": "右隻 第五・六扇（四条・五条河原の芸能と御所）",
+    "gendaibun": "",
+    "kobun": "",
+    "desc": "鴨川河原で賑わうお吉歌舞伎（若衆歌舞伎）と能舞台、そして北端（左端）の御所で披露される伊勢踊りの華やかな群舞です。<br>【ズーム注目】五条河原の芝居小屋に集まる観客と、御所内で輪になって踊る伊勢踊り。",
+    "titleen": "Right Screen: Kamo River Entertainment & Imperial Palace",
+    "descen": "Okichi Kabuki and Noh performances along the Kamo River, alongside lively Ise odori dances at the Imperial Palace."
+  },
+  {
+    "chapter": "4",
+    "title": "左隻 第一・二扇（上賀茂神社・北野社とお国歌舞伎）",
+    "gendaibun": "",
+    "kobun": "",
+    "desc": "右端の上賀茂神社の競馬（くらべうま）から、北野天満宮の門前で大観衆を集めるお国歌舞伎の劇場が描かれています。<br>【ズーム注目】囲いの中で囃子方に合わせて演じられるお国歌舞伎の舞台と観客の熱気。",
+    "titleen": "Left Screen: Kamigamo Shrine & Okuni Kabuki at Kitano",
+    "descen": "The traditional horse race at Kamigamo Shrine and a large crowd gathered at the Okuni Kabuki theater next to Kitano Shrine."
+  },
+  {
+    "chapter": "5",
+    "title": "左隻 第三・四扇（二条城と将軍参内行列）",
+    "gendaibun": "",
+    "kobun": "",
+    "desc": "1626年改修前の姿をとどめる二条城と、大手門を出て御所へと向かう徳川将軍（秀忠）の壮麗な牛車・参内行列です。<br>【ズーム注目】堀の周囲に張り巡らされた幔幕の警備と、牛車に続く輿の行列、向かいの京都所司代屋敷。",
+    "titleen": "Left Screen: Nijo Castle & Shogunal Procession",
+    "descen": "Nijo Castle prior to its 1626 renovation, with a grand Tokugawa shogunal procession in an ox-drawn carriage heading toward the Imperial Palace."
+  },
+  {
+    "chapter": "6",
+    "title": "左隻 第五・六扇（紅葉の西山・嵐山と東寺・桂離宮）",
+    "gendaibun": "",
+    "kobun": "",
+    "desc": "秋の紅葉に染まる嵐山・大堰川と法輪寺（虚空蔵堂）、南端の東寺五重塔、茅葺き屋根の初期桂離宮と思われる建物群です。<br>【ズーム注目】法輪寺参道の麓で大きな掛け軸を掲げて仏教説話を語る女性の「絵解き師」。",
+    "titleen": "Left Screen: Autumn in Arashiyama, To-ji & Katsura Villa",
+    "descen": "Autumn maple leaves along the Oi River and western hills, featuring Kokuzo temple with a picture-explainer (e-toki), To-ji's pagoda, and early Katsura Villa."
+  }
+]

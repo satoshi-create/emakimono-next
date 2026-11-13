@@ -25,7 +25,9 @@ import argparse
 import json
 import os
 import re
+import subprocess
 import sys
+import tempfile
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -42,6 +44,11 @@ try:
 except ImportError:
     cloudinary = None  # type: ignore[assignment]
     cloudinary.utils = None  # type: ignore[assignment]
+
+try:
+    from PIL import Image
+except ImportError:
+    Image = None  # type: ignore[assignment,misc]
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -403,6 +410,58 @@ def upload_to_cloudinary(
     ) from last_error
 
 
+def upload_to_r2(file_path: Path, public_id: str) -> dict:
+    """Convert to WebP (max long edge 1920) and upload to Cloudflare R2 via wrangler."""
+    if Image is None:
+        raise SystemExit("Pillow (PIL) required for R2 uploads: pip install Pillow")
+
+    base_id = strip_cloudinary_folder(public_id)
+    with Image.open(file_path) as img:
+        width, height = img.size
+        max_edge = 1920
+        if max(width, height) > max_edge:
+            if width >= height:
+                new_w = max_edge
+                new_h = max(round(height * max_edge / width), 1)
+            else:
+                new_h = max_edge
+                new_w = max(round(width * max_edge / height), 1)
+            img = img.resize((new_w, new_h), Image.Resampling.LANCZOS)
+            width, height = new_w, new_h
+        if img.mode in ("RGBA", "P"):
+            img = img.convert("RGB")
+
+        fd, tmp_name = tempfile.mkstemp(suffix=".webp")
+        os.close(fd)
+        tmp_path = Path(tmp_name)
+        try:
+            img.save(tmp_path, "WEBP", quality=80)
+            subprocess.run(
+                [
+                    "npx",
+                    "wrangler",
+                    "r2",
+                    "object",
+                    "put",
+                    f"emaki-assets/emakimono/{base_id}.webp",
+                    f"--file={tmp_path}",
+                    "--content-type=image/webp",
+                    "--remote",
+                ],
+                check=True,
+            )
+        finally:
+            if tmp_path.exists():
+                tmp_path.unlink()
+
+    return {
+        "public_id": f"emakimono/{base_id}",
+        "src": f"{base_id}.webp",
+        "width": width,
+        "height": height,
+    }
+
+
 def enrich_upload_cache_from_data_emakis(
     config: dict,
     cache: dict,
@@ -508,13 +567,14 @@ def _row_from_cache_entry(
 
 def _process_upload_task(
     task: dict,
-    creds: CloudinaryCredentials,
+    creds: CloudinaryCredentials | None,
     folder: str | None,
     cache: dict[str, dict],
     cache_lock: threading.Lock,
     *,
     force_upload: bool,
     remote_check: bool,
+    storage: str = "r2",
 ) -> dict:
     """Upload one planned image (or skip if unchanged on Cloudinary)."""
     index = task["index"]
@@ -543,7 +603,7 @@ def _process_upload_task(
     if not force_upload:
         cached = _match_local_cache(cache, public_id, file_path)
         if cached is not None:
-            if not _src_has_version(cached.get("src")):
+            if not _src_has_version(cached.get("src")) and storage != "r2":
                 existing = fetch_existing_resource(creds, folder, public_id)
                 if existing is not None:
                     print(
@@ -558,7 +618,7 @@ def _process_upload_task(
             print(f"  [{index:3d}] skip (local cache) {public_id}", file=sys.stderr, flush=True)
             return _row_from_cache_entry(task, cached, skipped=True)
 
-        if remote_check:
+        if remote_check and storage != "r2":
             local_bytes = file_path.stat().st_size
             existing = fetch_existing_resource(creds, folder, public_id)
             if existing is not None and existing.get("bytes") == local_bytes:
@@ -569,7 +629,10 @@ def _process_upload_task(
                 return _row_from_cache_entry(task, cache[public_id], skipped=True)
 
     print(f"  [{index:3d}] uploading {file_path.name} -> {public_id}", file=sys.stderr, flush=True)
-    upload_result = upload_to_cloudinary(file_path, public_id, creds, folder=folder)
+    if storage == "r2":
+        upload_result = upload_to_r2(file_path, public_id)
+    else:
+        upload_result = upload_to_cloudinary(file_path, public_id, creds, folder=folder)
     with cache_lock:
         cache[public_id] = _cache_entry_from_upload(file_path, upload_result)
     return {
@@ -627,6 +690,12 @@ def main(args: argparse.Namespace | None = None) -> list[dict]:
         help="Query Cloudinary Admin API when local cache misses (slower; optional)",
     )
     parser.add_argument(
+        "--storage",
+        choices=["cloudinary", "r2"],
+        default="r2",
+        help="Upload storage backend (default: r2)",
+    )
+    parser.add_argument(
         "--workers",
         type=int,
         default=int(os.environ.get("SYNC_UPLOAD_WORKERS", "3")),
@@ -672,7 +741,7 @@ def main(args: argparse.Namespace | None = None) -> list[dict]:
                 "sort_key": (item["chapter"] * 100) + ordinal,
             })
     else:
-        creds = get_cloudinary_credentials()
+        creds = None if parsed.storage == "r2" else get_cloudinary_credentials()
         upload_cache = load_upload_cache(config_path)
         seeded = enrich_upload_cache_from_data_emakis(
             config, upload_cache, images_dir, index_to_paths
@@ -718,6 +787,7 @@ def main(args: argparse.Namespace | None = None) -> list[dict]:
                     cache_lock,
                     force_upload=parsed.force_upload,
                     remote_check=parsed.remote_check,
+                    storage=parsed.storage,
                 ): task
                 for task in tasks
             }

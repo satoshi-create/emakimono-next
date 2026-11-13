@@ -5183,5 +5183,405 @@
         ]
       }
     ]
+  },
+  {
+    "id": 105,
+    "title": "洛中洛外図屏風（バーク・コレクション）",
+    "titleen": "rakuchu_rakugai_met",
+    "author": "不詳（狩野派系）",
+    "authoren": "kano-school",
+    "edition": "メトロポリタン美術館蔵（バーク・コレクション旧蔵）",
+    "encodeUrl": "",
+    "backgroundImage": "",
+    "thumb": "/thumb/rakuchu_rakugai_met_thumb.webp",
+    "thumb2": "/thumb/rakuchu_rakugai_met_thumb.webp",
+    "video": "",
+    "era": "江戸",
+    "eraen": "edo",
+    "desc": "アメリカ・メトロポリタン美術館所蔵（バーク・コレクション旧蔵）。油小路通を境に京の都を東西に二分する第2形式の洛中洛外図屏風です。右隻には春の東山と方広寺大仏殿・祇園祭、左隻には秋の西山と二条城・将軍参内行列が端正な鳥瞰パノラマで描かれています。",
+    "descen": "A pair of six-panel folding screens in the Metropolitan Museum of Art (formerly Mary and Jackson Burke Collection). Separating Kyoto into east and west along Abura-koji Street, the right screen depicts the eastern hills, Hoko-ji Great Buddha Hall, and the Gion Festival, while the left screen features Nijo Castle and a Tokugawa shogunal procession.",
+    "readMore": false,
+    "type": "屏風",
+    "typeen": "byobu",
+    "keyword": [],
+    "kotobagaki": false,
+    "sceneText": true,
+    "favorite": false,
+    "sourceImageUrl": "https://www.metmuseum.org/art/collection/search/53428",
+    "sourceImage": "Scenes in and around the Capital (The Met Open Access)",
+    "metadesc": "",
+    "gif": "",
+    "sourceEkotoba": "",
+    "reference": [
+      {
+        "type": "所蔵機関",
+        "url": "https://www.metmuseum.org/art/collection/search/53428",
+        "title": "Scenes in and around the Capital (Rakuchū rakugai zu) | The Metropolitan Museum of Art"
+      }
+    ],
+    "emakis": [
+      {
+        "cat": "ekotoba",
+        "chapter": "1",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1794560207/emakimono/rakuchu-rakugai-met__rakuchu-rakugai-met_1_01__01.jpg",
+        "name": "rakuchu-rakugai-met__rakuchu-rakugai-met_1_01__01",
+        "srcHeight": 2562,
+        "srcWidth": 956,
+        "spots": [
+          {
+            "id": "fushimijo",
+            "name": "伏見城",
+            "x": 67.2,
+            "y": 3.4,
+            "nameen": "Fushimi Castle"
+          },
+          {
+            "id": "tofukuji",
+            "name": "東福寺",
+            "x": 43.2,
+            "y": 28.3,
+            "nameen": "Tofuku-ji"
+          }
+        ]
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1794560207/emakimono/rakuchu-rakugai-met__rakuchu-rakugai-met_1_01__02.jpg",
+        "name": "rakuchu-rakugai-met__rakuchu-rakugai-met_1_01__02",
+        "srcHeight": 2562,
+        "srcWidth": 956,
+        "spots": [
+          {
+            "id": "hokoku-mausoleum",
+            "name": "豊国廟",
+            "x": 11.3,
+            "y": 5.6,
+            "nameen": "Hokoku Mausoleum"
+          },
+          {
+            "id": "sanjusangendo",
+            "name": "三十三間堂",
+            "x": 93.5,
+            "y": 28.4,
+            "nameen": "Sanjusangen-do"
+          },
+          {
+            "id": "mimizuka",
+            "name": "耳塚",
+            "x": 29.1,
+            "y": 41.1,
+            "nameen": "Mimizuka (Ear Burial Mound)"
+          },
+          {
+            "id": "gion-festival",
+            "name": "祇園祭（山鉾巡行）",
+            "x": 86.6,
+            "y": 66.5,
+            "nameen": "Gion Festival Procession"
+          }
+        ]
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "2",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1794560207/emakimono/rakuchu-rakugai-met__rakuchu-rakugai-met_1_02__01.jpg",
+        "name": "rakuchu-rakugai-met__rakuchu-rakugai-met_1_02__01",
+        "srcHeight": 2562,
+        "srcWidth": 956,
+        "spots": [
+          {
+            "id": "daibutsuden",
+            "name": "方広寺大仏殿",
+            "x": 55.2,
+            "y": 30.3,
+            "nameen": "Great Buddha Hall of Hoko-ji"
+          }
+        ]
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1794560209/emakimono/rakuchu-rakugai-met__rakuchu-rakugai-met_1_02__02.jpg",
+        "name": "rakuchu-rakugai-met__rakuchu-rakugai-met_1_02__02",
+        "srcHeight": 2562,
+        "srcWidth": 956,
+        "spots": [
+          {
+            "id": "kiyomizudera",
+            "name": "清水寺",
+            "x": 36.6,
+            "y": 4.3,
+            "nameen": "Kiyomizu-dera"
+          },
+          {
+            "id": "kamogawa",
+            "name": "鴨川",
+            "x": 49.7,
+            "y": 46.2,
+            "nameen": "Kamo River"
+          },
+          {
+            "id": "takasegawa",
+            "name": "高瀬川",
+            "x": 57.6,
+            "y": 67.5,
+            "nameen": "Takase River"
+          }
+        ]
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "3",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1794560209/emakimono/rakuchu-rakugai-met__rakuchu-rakugai-met_1_03__01.jpg",
+        "name": "rakuchu-rakugai-met__rakuchu-rakugai-met_1_03__01",
+        "srcHeight": 2562,
+        "srcWidth": 956,
+        "spots": [
+          {
+            "id": "gionsha",
+            "name": "八坂神社（祇園社）",
+            "x": 29.1,
+            "y": 19.9,
+            "nameen": "Yasaka Shrine"
+          },
+          {
+            "id": "hidetsugu-mound",
+            "name": "豊臣秀次一族の墓",
+            "x": 51.8,
+            "y": 49.2,
+            "nameen": "Mound of Hidetsugu's Concubines"
+          }
+        ]
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1794560209/emakimono/rakuchu-rakugai-met__rakuchu-rakugai-met_1_03__02.jpg",
+        "name": "rakuchu-rakugai-met__rakuchu-rakugai-met_1_03__02",
+        "srcHeight": 2562,
+        "srcWidth": 960,
+        "spots": [
+          {
+            "id": "chionin",
+            "name": "知恩院",
+            "x": 47.0,
+            "y": 12.2,
+            "nameen": "Chion-in"
+          }
+        ]
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "4",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1794560212/emakimono/rakuchu-rakugai-met__rakuchu-rakugai-met_1_04__01.jpg",
+        "name": "rakuchu-rakugai-met__rakuchu-rakugai-met_1_04__01",
+        "srcHeight": 2562,
+        "srcWidth": 956,
+        "spots": [
+          {
+            "id": "kamigamo-shrine",
+            "name": "上賀茂神社",
+            "x": 67.6,
+            "y": 24.1,
+            "nameen": "Kamigamo Shrine"
+          }
+        ]
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1794560212/emakimono/rakuchu-rakugai-met__rakuchu-rakugai-met_1_04__02.jpg",
+        "name": "rakuchu-rakugai-met__rakuchu-rakugai-met_1_04__02",
+        "srcHeight": 2562,
+        "srcWidth": 956,
+        "spots": [
+          {
+            "id": "daitokuji",
+            "name": "大徳寺",
+            "x": 41.1,
+            "y": 17.1,
+            "nameen": "Daitoku-ji"
+          }
+        ]
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "5",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1794560212/emakimono/rakuchu-rakugai-met__rakuchu-rakugai-met_1_05__01.jpg",
+        "name": "rakuchu-rakugai-met__rakuchu-rakugai-met_1_05__01",
+        "srcHeight": 2562,
+        "srcWidth": 956,
+        "spots": [
+          {
+            "id": "kinkakuji",
+            "name": "金閣寺",
+            "x": 28.1,
+            "y": 4.9,
+            "nameen": "Kinkaku-ji"
+          },
+          {
+            "id": "kitano-shrine",
+            "name": "北野天満宮",
+            "x": 44.4,
+            "y": 17.1,
+            "nameen": "Kitano Shrine"
+          },
+          {
+            "id": "shoshidai-residence",
+            "name": "京都所司代屋敷",
+            "x": 75.2,
+            "y": 36.6,
+            "nameen": "Residence of the Kyoto Governor"
+          }
+        ]
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1794560215/emakimono/rakuchu-rakugai-met__rakuchu-rakugai-met_1_05__02.jpg",
+        "name": "rakuchu-rakugai-met__rakuchu-rakugai-met_1_05__02",
+        "srcHeight": 2562,
+        "srcWidth": 956,
+        "spots": [
+          {
+            "id": "okuni-kabuki",
+            "name": "お国歌舞伎",
+            "x": 58.5,
+            "y": 26.4,
+            "nameen": "Okuni Kabuki Theater"
+          },
+          {
+            "id": "nijocastle",
+            "name": "二条城",
+            "x": 74.2,
+            "y": 35.3,
+            "nameen": "Nijo Castle"
+          }
+        ]
+      },
+      {
+        "cat": "ekotoba",
+        "chapter": "6",
+        "config": "",
+        "src": "",
+        "name": "",
+        "srcHeight": 0,
+        "srcWidth": 0
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1794560215/emakimono/rakuchu-rakugai-met__rakuchu-rakugai-met_1_06__01.jpg",
+        "name": "rakuchu-rakugai-met__rakuchu-rakugai-met_1_06__01",
+        "srcHeight": 2562,
+        "srcWidth": 956,
+        "spots": [
+          {
+            "id": "tenryuji",
+            "name": "天龍寺",
+            "x": 22.3,
+            "y": 8.1,
+            "nameen": "Tenryu-ji"
+          }
+        ]
+      },
+      {
+        "cat": "image",
+        "chapter": "",
+        "config": "cloudinary",
+        "src": "v1794560215/emakimono/rakuchu-rakugai-met__rakuchu-rakugai-met_1_06__02.jpg",
+        "name": "rakuchu-rakugai-met__rakuchu-rakugai-met_1_06__02",
+        "srcHeight": 2562,
+        "srcWidth": 960,
+        "spots": [
+          {
+            "id": "kokuzodo",
+            "name": "法輪寺（虚空蔵堂）",
+            "x": 22.0,
+            "y": 6.3,
+            "nameen": "Kokuzo Temple (Horin-ji)"
+          },
+          {
+            "id": "oi-river",
+            "name": "大堰川",
+            "x": 26.6,
+            "y": 31.9,
+            "nameen": "Oi River"
+          },
+          {
+            "id": "katsura-villa",
+            "name": "桂離宮",
+            "x": 5.0,
+            "y": 39.3,
+            "nameen": "Katsura Villa"
+          },
+          {
+            "id": "toji",
+            "name": "東寺",
+            "x": 19.9,
+            "y": 53.1,
+            "nameen": "To-ji"
+          }
+        ]
+      }
+    ],
+    "sourceLicense": "CC0"
   }
 ]
