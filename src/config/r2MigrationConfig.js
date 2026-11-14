@@ -25,5 +25,7 @@ export const R2_CANARY_WORK_TITLES = new Set([
   "rakuchu_rakugai_funaki",
   "rakuchu-rakugai-met",
   "rakuchu_rakugai_met",
+  "rakuchu-rakugai-fukuoka",
+  "rakuchu_rakugai_fukuoka",
   "tsukumogami",
 ]);

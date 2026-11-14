@@ -40,7 +40,7 @@ function isR2DeliveryTarget(publicId, options = {}) {
   // 3. 後方互換（options 未指定の既存2引数呼び出し向け）:
   //    "emakimono/{slug}__" の {slug} 部分のみを厳密抽出して完全一致照合
   const normalized = String(publicId || "").replace(/^v\d+\//, "");
-  const match = normalized.match(/^emakimono\/([^_]+?)__/);
+  const match = normalized.match(/^(?:emakimono\/)?([^/_]+?)__/);
   if (!match) return false;
 
   const slugHyphen = match[1];
@@ -59,9 +59,12 @@ export function buildCloudinaryUrl(src, transforms = [], options = {}) {
     if (options?.r2Key) {
       return `${R2_UPLOAD_BASE}/${String(options.r2Key).replace(/^\//, "")}`;
     }
-    const r2Key = publicId
+    let r2Key = publicId
       .replace(/^v\d+\//, "")
       .replace(/\.(jpg|jpeg|png)$/i, ".webp");
+    if (!r2Key.startsWith("emakimono/")) {
+      r2Key = `emakimono/${r2Key}`;
+    }
 
     return `${R2_UPLOAD_BASE}/${r2Key}`;
   }

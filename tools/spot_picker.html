@@ -100,16 +100,23 @@
       <label for="nameen">nameen</label>
       <input type="text" id="nameen" placeholder="English name" />
       <label for="category">category</label>
-      <select id="category">
-        <option value="temple">temple</option>
-        <option value="shrine">shrine</option>
-        <option value="castle">castle</option>
-        <option value="palace">palace</option>
-        <option value="bridge">bridge</option>
-        <option value="river">river</option>
-        <option value="street">street</option>
-        <option value="building">building</option>
-      </select>
+      <input id="category" type="text" list="categoryList" value="temple" placeholder="選択または新規入力" />
+      <datalist id="categoryList">
+        <option value="temple"></option>
+        <option value="shrine"></option>
+        <option value="castle"></option>
+        <option value="palace"></option>
+        <option value="bridge"></option>
+        <option value="river"></option>
+        <option value="street"></option>
+        <option value="building"></option>
+        <option value="landmark"></option>
+        <option value="culture"></option>
+        <option value="town"></option>
+        <option value="garden"></option>
+        <option value="mountain"></option>
+        <option value="gate"></option>
+      </datalist>
     </div>
     <p class="hint">Click on the image to set x,y (%), copy CSV line to clipboard, and append below.</p>
     <div class="status" id="status"></div>
@@ -163,6 +170,56 @@
     const preview = document.getElementById("preview");
     const output = document.getElementById("output");
     const statusEl = document.getElementById("status");
+
+    const CATEGORY_STORAGE_KEY = "spot_picker_custom_categories";
+
+    function getKnownCategories() {
+      const list = document.getElementById("categoryList");
+      return new Set(Array.from(list.options).map((o) => o.value));
+    }
+
+    function loadCustomCategories() {
+      try {
+        const raw = localStorage.getItem(CATEGORY_STORAGE_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed)
+          ? parsed.filter((s) => typeof s === "string" && s.trim())
+          : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveCustomCategories(categories) {
+      try {
+        localStorage.setItem(CATEGORY_STORAGE_KEY, JSON.stringify(categories));
+      } catch { /* ignore */ }
+    }
+
+    function addCategoryOption(value) {
+      const v = value.trim();
+      if (!v || getKnownCategories().has(v)) return;
+      const opt = document.createElement("option");
+      opt.value = v;
+      document.getElementById("categoryList").appendChild(opt);
+    }
+
+    function ensureCategoryInList(category) {
+      const v = category.trim();
+      if (!v) return v;
+      if (!getKnownCategories().has(v)) {
+        addCategoryOption(v);
+        const custom = loadCustomCategories();
+        if (!custom.includes(v)) {
+          custom.push(v);
+          saveCustomCategories(custom);
+        }
+      }
+      return v;
+    }
+
+    loadCustomCategories().forEach(addCategoryOption);
 
     filesInput.addEventListener("change", () => {
       slices.clear();
@@ -228,7 +285,7 @@
       const spotId = document.getElementById("spot_id").value.trim();
       const name = document.getElementById("name").value.trim();
       const nameen = document.getElementById("nameen").value.trim();
-      const category = document.getElementById("category").value;
+      const category = ensureCategoryInList(document.getElementById("category").value);
 
       const line = buildCsvLine(scrollId, currentSlice, spotId, name, nameen, x, y, category);
       const prev = output.value;

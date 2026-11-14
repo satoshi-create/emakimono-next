@@ -26,6 +26,7 @@ import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
 import { isHyakkiClusterScroll } from "@/utils/buildHyakkiHubData";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
+import { isByobuScroll } from "@/utils/isByobuScroll";
 import {
   filterdKeywords,
   keywordItem,
@@ -73,6 +74,7 @@ const EmakiLandscapContent = ({
   } = useViewerDiscoveryRailState({
     viewerFullscreen,
     articleRef,
+    stickyTheater: isByobuScroll(data),
   });
 
   const removeNestedArrayObj = ExtractingListData();

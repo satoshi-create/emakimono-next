@@ -39,6 +39,7 @@ export const useViewerDiscoveryRailState = ({
   viewerFullscreen = false,
   articleRef,
   onLog,
+  stickyTheater = false,
 }) => {
   // ---------------------------------------------------------------------------
   // 1. 状態管理（State）
@@ -132,6 +133,7 @@ export const useViewerDiscoveryRailState = ({
   // シアターモードである場合、レールを再展開（railOpen: true）
   // ---------------------------------------------------------------------------
   const onReachStartBoundary = useCallback(() => {
+    if (stickyTheater) return;
     const suppressed = Date.now() < suppressRailTheaterRef.current;
     const now = Date.now();
     const dismissCooldown = now - theaterDismissedAtRef.current < RAIL_DISMISS_REOPEN_COOLDOWN_MS;
@@ -169,7 +171,7 @@ export const useViewerDiscoveryRailState = ({
       logDebug("Action:OpenRail -> ReopenFromBoundary", "B");
       setRailOpen(true);
     }
-  }, [viewerFullscreen, RAIL_DISMISS_REOPEN_COOLDOWN_MS, onLog]);
+  }, [stickyTheater, viewerFullscreen, RAIL_DISMISS_REOPEN_COOLDOWN_MS, onLog]);
 
   // ---------------------------------------------------------------------------
   // [フロー 3] aside（レール要素）のイベントハンドラ群
