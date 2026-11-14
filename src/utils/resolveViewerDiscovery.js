@@ -1,16 +1,19 @@
 import {
   DISCOVERY_SPOTLIGHT_GROUPS,
   HYAKKI_CLUSTER_TITLEEN,
+  RAKUCHU_RAKUGAI_CLUSTER_TITLEEN,
 } from "@/libs/constants/discoveryLinks";
 import {
   CHOUJU_GIGA_HUB_PATH,
   HOME_LATEST_SCROLLS,
   HYAKKI_HUB_PATH,
   KUSOUZU_HUB_PATH,
+  RAKUCHU_RAKUGAI_HUB_PATH,
 } from "@/libs/constants/links";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
 import { isHyakkiClusterScroll } from "@/utils/buildHyakkiHubData";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
+import { isRakuchuRakugaiClusterScroll } from "@/utils/buildRakuchuRakugaiHubData";
 
 const CHOJU_TITLEENS = [
   "Chōjū-jinbutsu-giga_first",
@@ -40,6 +43,16 @@ export function resolveViewerDiscoveryPlan(emaki) {
       ctaHref: HYAKKI_HUB_PATH,
       ctaKey: "discovery.ctaHyakkiHub",
       titleens: HYAKKI_CLUSTER_TITLEEN.filter((t) => t !== current),
+    };
+  }
+
+  if (isRakuchuRakugaiClusterScroll(emaki)) {
+    return {
+      titleKey: "rakuchuRakugaiHub.linkLabel",
+      ctaHref: RAKUCHU_RAKUGAI_HUB_PATH,
+      ctaKey: "rakuchuRakugaiHub.hubNudgeLabel",
+      titleens: RAKUCHU_RAKUGAI_CLUSTER_TITLEEN.filter((t) => t !== current),
+      noExpand: true,
     };
   }
 
@@ -86,7 +99,19 @@ export function resolveViewerDiscoveryPlan(emaki) {
 }
 
 /** プランの titleens に最新枠を足して上限まで埋める（重複除外） */
-export function expandDiscoveryTitleens(planTitleens, currentTitleen, limit = 6) {
+export function expandDiscoveryTitleens(
+  planTitleens,
+  currentTitleen,
+  limit = 6,
+  noExpand = false
+) {
+  const skipLatestFill =
+    noExpand ||
+    (currentTitleen &&
+      RAKUCHU_RAKUGAI_CLUSTER_TITLEEN.includes(currentTitleen));
+  if (skipLatestFill) {
+    return [...(planTitleens || [])].slice(0, limit);
+  }
   const seen = new Set([currentTitleen, ...(planTitleens || [])]);
   const out = [...(planTitleens || [])];
   for (const { titleen } of HOME_LATEST_SCROLLS) {

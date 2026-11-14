@@ -153,6 +153,7 @@ const EmakiContainer = ({
   showKusouzuHubLink = false,
   showChojuGigaHubLink = false,
   showHyakkiHubLink = false,
+  showRakuchuRakugaiHubLink = false,
   onUserScrollStart,
   onReachStartBoundary,
   isTheaterMode,
@@ -193,7 +194,7 @@ const EmakiContainer = ({
   const isAtStartRef = useRef(true);
   const isAtEndRef = useRef(false);
 
-  const hasNextVolume = editionLinks.length > 0 || showKusouzuHubLink || showChojuGigaHubLink || showHyakkiHubLink;
+  const hasNextVolume = editionLinks.length > 0 || showKusouzuHubLink || showChojuGigaHubLink || showHyakkiHubLink || showRakuchuRakugaiHubLink;
 
   // フィードバックパネル開閉のみ親が保持（プロンプト本体は useEmakiPrompts）
   const [isScrollFeedbackOpen, setIsScrollFeedbackOpen] = useState(false);
@@ -1194,6 +1195,7 @@ const EmakiContainer = ({
               showKusouzuHubLink={showKusouzuHubLink}
               showChojuGigaHubLink={showChojuGigaHubLink}
               showHyakkiHubLink={showHyakkiHubLink}
+              showRakuchuRakugaiHubLink={showRakuchuRakugaiHubLink}
               showEndNudge
             />
           )}

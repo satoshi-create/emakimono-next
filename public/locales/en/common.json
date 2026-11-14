@@ -134,6 +134,7 @@
     "choujuHub": "Chōjū-jinbutsu-giga",
     "kusouzuHub": "Kusōzu Gallery",
     "hyakkiHub": "Hyakki Yagyō & Tsukumogami",
+    "rakuchuHub": "Rakuchū-rakugai-zu",
     "mangaRoots": "Manga Roots"
   },
   "home": {
@@ -337,6 +338,17 @@
     "hubNudgeLabel": "View Hyakki & Tsukumogami hub",
     "linkLabel": "Hyakki Yagyō & Tsukumogami",
     "linkDesc": "Browse hyakki yagyō and tsukumogami scrolls horizontally"
+  },
+  "rakuchuRakugaiHub": {
+    "pagetitle": "Rakuchū-rakugai-zu Folding Screens | Compare 3 Masterpieces",
+    "metaDesc": "Explore panoramic folding screens depicting Kyoto's cityscape, festivals, and daily life. Compare the Funaki, Burke, and Fukuoka versions in high-resolution horizontal scroll.",
+    "introTitle": "Rakuchū-rakugai-zu (Scenes In and Around Kyoto)",
+    "intro": "Panoramic folding screens capturing the seasonal beauty, grand festivals, and vibrant street life of Kyoto (Rakuchū) and its surroundings (Rakugai). Compare three distinct masterpieces in horizontal scroll.",
+    "breadcrumb": "Rakuchū-rakugai-zu",
+    "scrollSectionTitle": "Explore the Screens",
+    "hubNudgeLabel": "Explore Other Rakuchū-rakugai-zu Screens",
+    "linkLabel": "Rakuchū-rakugai-zu (3 Versions)",
+    "linkDesc": "Compare the Funaki, Burke, and Fukuoka screens"
   },
   "discovery": {
     "sectionTitle": "Featured scrolls to watch",

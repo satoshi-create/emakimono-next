@@ -15,6 +15,7 @@ import { buildEmakiJsonLd } from "@/utils/buildEmakiJsonLd";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
 import { isHyakkiClusterScroll } from "@/utils/buildHyakkiHubData";
+import { isRakuchuRakugaiClusterScroll } from "@/utils/buildRakuchuRakugaiHubData";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import { getFolkloreItemById } from "@/data/folklore/folkloreIndex";
 import { useLocaleMeta } from "@/utils/func";
@@ -153,6 +154,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
   const isKusouzu = isKusouzuScroll(data);
   const isChojuGiga = isChojuGigaScroll(data);
   const isHyakki = isHyakkiClusterScroll(data);
+  const isRakuchuRakugai = isRakuchuRakugaiClusterScroll(data);
 
   const displayTitle = emakiDisplayTitle(data, locale);
   const breadcrumbProps = isKusouzu
@@ -173,6 +175,12 @@ const Emaki = ({ data, locale, locales, slug }) => {
         nameHubPath: "hyakki/chapters",
         nameB: displayTitle,
       }
+    : isRakuchuRakugai
+    ? {
+        nameHub: tc("rakuchuRakugaiHub.breadcrumb"),
+        nameHubPath: "rakuchu-rakugai/chapters",
+        nameB: displayTitle,
+      }
     : {
         nameA: locale === "en" ? data.typeen : data.type,
         nameAen: `type/${data.typeen}`,
@@ -191,6 +199,8 @@ const Emaki = ({ data, locale, locales, slug }) => {
             selectedRef={selectedRef}
             navIndex={navIndex}
             viewerFullscreen={full}
+            showHyakkiHubLink={isHyakki}
+            showRakuchuRakugaiHubLink={isRakuchuRakugai}
           />
         </>
       );
@@ -205,6 +215,8 @@ const Emaki = ({ data, locale, locales, slug }) => {
             selectedRef={selectedRef}
             navIndex={navIndex}
             viewerFullscreen={full}
+            showHyakkiHubLink={isHyakki}
+            showRakuchuRakugaiHubLink={isRakuchuRakugai}
           />
         </>
       );

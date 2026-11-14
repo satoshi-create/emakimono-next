@@ -11,6 +11,12 @@ export const HYAKKI_CLUSTER_TITLEEN = [
   "tsukumogami",
 ];
 
+export const RAKUCHU_RAKUGAI_CLUSTER_TITLEEN = [
+  "rakuchu_rakugai_funaki",
+  "rakuchu_rakugai_met",
+  "rakuchu_rakugai_fukuoka",
+];
+
 /** /type/emaki・/ranking の「注目」ブロック用グループ */
 export const DISCOVERY_SPOTLIGHT_GROUPS = [
   {

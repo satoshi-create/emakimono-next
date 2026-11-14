@@ -24,22 +24,26 @@ const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
   const { plan, items, splitIndex } = useMemo(() => {
     const p = resolveViewerDiscoveryPlan(data);
     const TARGET_LIMIT = 10;
-    const titleens = expandDiscoveryTitleens(p.titleens, data?.titleen, TARGET_LIMIT);
+    const titleens = expandDiscoveryTitleens(
+      p.titleens,
+      data?.titleen,
+      TARGET_LIMIT,
+      Boolean(p.noExpand)
+    );
     const byTitleen = new Map(all.map((item) => [item.titleen, item]));
-    const FUNAKI_TITLEEN = "rakuchu_rakugai_funaki";
 
     // 解決済みアイテムを収集
-    const seen = new Set([data?.titleen, FUNAKI_TITLEEN, ...titleens]);
+    const seen = new Set([data?.titleen, ...titleens]);
     const planned = titleens
       .map((id) => byTitleen.get(id))
-      .filter(Boolean)
-      .filter((item) => item.titleen !== FUNAKI_TITLEEN);
+      .filter(Boolean);
 
+    const relatedCount = Math.min(planned.length, 4);
     // 補充プール: AppContext のランキング（PV降順）を最優先し、無ければ all を使用
     const candidatePool = rankingList.length > 0 ? rankingList : (Array.isArray(all) ? all : []);
 
     // 枠が空いている場合、ランキング 1 位から順に重複のない作品を補充
-    if (planned.length < TARGET_LIMIT - 1) {
+    if (planned.length < TARGET_LIMIT) {
       for (const item of candidatePool) {
         const titleen = item?.titleen || item?.pathName;
         if (!titleen || seen.has(titleen)) continue;
@@ -51,20 +55,13 @@ const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
             : baseItem;
         seen.add(titleen);
         planned.push(matchedItem);
-        if (planned.length >= TARGET_LIMIT - 1) break;
+        if (planned.length >= TARGET_LIMIT) break;
       }
     }
 
-    const funaki = byTitleen.get(FUNAKI_TITLEEN);
-    const relatedList = funaki ? [funaki, ...planned] : planned;
-    // ノートPC画面（縦幅が狭い環境）でもおすすめセクションが確実に視認できるよう、
-    // 関連作品の初期枠を最大4件に抑えて早めにおすすめへ繋ぐ
-    const maxRelatedOnRail = Math.min(4, titleens.length + (funaki ? 1 : 0));
-    const relatedCount = Math.min(relatedList.length, maxRelatedOnRail);
-
     return {
       plan: p,
-      items: relatedList.slice(0, TARGET_LIMIT),
+      items: planned.slice(0, TARGET_LIMIT),
       splitIndex: relatedCount,
     };
   }, [all, data, rankingList]);

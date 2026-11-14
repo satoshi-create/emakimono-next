@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { HUB_PATH } from "@/components/emaki/kusouzu/KusouzuHubLink";
 import { HUB_PATH as GIGA_HUB_PATH } from "@/components/emaki/chouju-giga/ChojuGigaHubLink";
 import { HUB_PATH as HYAKKI_HUB_PATH } from "@/components/emaki/hyakki/HyakkiHubLink";
+import { RAKUCHU_RAKUGAI_HUB_PATH } from "@/libs/constants/links";
 import nudgeStyles from "@/styles/KusouzuHubLink.module.css";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 
@@ -19,6 +20,7 @@ const EndNudgeCard = ({
   showKusouzuHubLink = false,
   showChojuGigaHubLink = false,
   showHyakkiHubLink = false,
+  showRakuchuRakugaiHubLink = false,
   showEndNudge,
 }) => {
   const { t } = useTranslation("common");
@@ -82,6 +84,15 @@ const EndNudgeCard = ({
             <a className={nudgeStyles.nudge}>
               <span className={nudgeStyles.nudgeLabel}>
                 {t("hyakkiHub.hubNudgeLabel")}
+              </span>
+            </a>
+          </Link>
+        )}
+        {showRakuchuRakugaiHubLink && (
+          <Link href={RAKUCHU_RAKUGAI_HUB_PATH}>
+            <a className={nudgeStyles.nudge}>
+              <span className={nudgeStyles.nudgeLabel}>
+                {t("rakuchuRakugaiHub.hubNudgeLabel")}
               </span>
             </a>
           </Link>

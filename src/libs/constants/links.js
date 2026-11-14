@@ -1,6 +1,7 @@
 export const CHOUJU_GIGA_HUB_PATH = "/chouju-giga/chapters";
 export const KUSOUZU_HUB_PATH = "/kusouzu/chapters-kusouzu";
 export const HYAKKI_HUB_PATH = "/hyakki/chapters";
+export const RAKUCHU_RAKUGAI_HUB_PATH = "/rakuchu-rakugai/chapters";
 export const BYOBU_HUB_PATH = "/byobu";
 
 /** トップ「最新の絵巻」キュレーション。新規公開時は先頭に追加（最大5枠）。 */
@@ -76,6 +77,11 @@ export const navGroups = [
         name: "百鬼夜行・付喪神一覧",
         nameen: "Hyakki Yagyō & Tsukumogami",
         path: HYAKKI_HUB_PATH,
+      },
+      {
+        name: "洛中洛外図一覧",
+        nameen: "Rakuchū-rakugai-zu",
+        path: RAKUCHU_RAKUGAI_HUB_PATH,
       },
       { name: "屏風一覧", nameen: "Byōbu Screens", path: BYOBU_HUB_PATH },
       { name: "ランキング", nameen: "Rankings", path: "/ranking" },
