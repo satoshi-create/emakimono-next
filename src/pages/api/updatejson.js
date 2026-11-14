@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 5000;
 // JSONファイルのパス
 const jsonFilePath = path.resolve(
   __dirname,
-  "../../libs/image-metadata-cache/image-metadata-cache.json"
+  "../../libs/scroll-metadata/scroll-metadata.json"
 );
 
 // Cloudinaryからメタデータを取得する関数

@@ -1,5 +1,5 @@
 import MangaRootsThemeCard from "@/components/manga-roots/MangaRootsThemeCard";
-import { getMangaRootsEmakiId } from "@/data/mangaRoots";
+import { getMangaRootsEmakiId } from "@/data/features/mangaRoots";
 import { getContactUrl } from "@/libs/constants/links";
 import styles from "@/styles/MangaRoots.module.css";
 import dynamic from "next/dynamic";

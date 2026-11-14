@@ -1,8 +1,8 @@
 import EmakiHubPage from "@/components/emaki/hub/EmakiHubPage";
 import HubPageShell from "@/components/layout/HubPageShell";
-import { HUB_EMAKIS, REGIONS, ROUTES } from "@/data/emakiHubData";
-import { MEDIA_ASSOCIATIONS } from "@/data/emakiRelatedMedia";
-import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
+import { HUB_EMAKIS, REGIONS, ROUTES } from "@/data/hub/hubData";
+import { MEDIA_ASSOCIATIONS } from "@/data/hub/relatedMedia";
+import emakisData from "@/data/scroll-metadata";
 import { buildLocaleUrl, SITE_ORIGIN } from "@/libs/constants/dataSiteMeta";
 import { useLocaleMeta } from "@/utils/func";
 import { useRouter } from "next/router";
@@ -83,7 +83,7 @@ const buildEmakiHubJsonLd = ({ locale, defaultLocale, t, meta, items }) => {
 
 /**
  * ルートの stops を JOIN する。
- * - titleen 指定 stop: HUB_EMAKIS の spot と image-metadata-cache の thumb/title を付与
+ * - titleen 指定 stop: HUB_EMAKIS の spot と scroll-metadata の thumb/title を付与
  * - spot 直書き stop: そのまま
  */
 const buildRoutes = () => {
@@ -115,7 +115,7 @@ const buildMediaAssociations = () => {
   }));
 };
 
-/** image-metadata-cache.json（正本）と titleen で JOIN したハブデータを構築 */
+/** scroll-metadata.json（正本）と titleen で JOIN したハブデータを構築 */
 const buildHubData = () => {
   const regions = Object.values(REGIONS);
   const emakis = HUB_EMAKIS.map((item) => {

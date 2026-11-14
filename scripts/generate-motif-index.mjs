@@ -5,8 +5,8 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const DATA_DIR = path.resolve(__dirname, "../src/data/emaki-text-data");
-const OUTPUT_FILE = path.resolve(__dirname, "../src/data/generated-motif-index.json");
+const DATA_DIR = path.resolve(__dirname, "../src/data/scroll-texts");
+const OUTPUT_FILE = path.resolve(__dirname, "../src/data/master/generated-motif-index.json");
 
 function buildMotifIndex() {
   if (!fs.existsSync(DATA_DIR)) {

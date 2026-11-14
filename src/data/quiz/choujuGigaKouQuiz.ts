@@ -1,7 +1,7 @@
 import { CHOUJU_GIGA_HUB_PATH } from "@/libs/constants/links";
 import type { QuizDefinition } from "@/types/quiz";
 
-/** 鳥獣人物戯画 甲巻（first）向け観察力クイズ。jump.chapter は emaki-text-data の段番号と一致 */
+/** 鳥獣人物戯画 甲巻（first）向け観察力クイズ。jump.chapter は scroll-texts の段番号と一致 */
 export const CHOJU_GIGA_KOU_QUIZ: QuizDefinition = {
   id: "chouju_giga_kou_observe_v1",
   titleen: "Chōjū-jinbutsu-giga_first",

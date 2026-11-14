@@ -1,7 +1,7 @@
 /**
  * 京都編 / 鎌倉編ハブページの追加メタデータ。
  *
- * 絵巻タイトル・サムネ・説明は正本（src/data/image-metadata-cache/image-metadata-cache.json）から
+ * 絵巻タイトル・サムネ・説明は正本（src/data/scroll-metadata/scrolls/{titleen}.json）から
  * titleen で JOIN する。ここにはハブ専用の追加情報のみを持つ。
  * ビューア URL は /{titleen}。
  */
@@ -50,7 +50,7 @@ export const THEMES = [
 
 /**
  * ハブ掲載作品。
- * titleen が実在する作品は image-metadata-cache.json と JOIN する。
+ * titleen が実在する作品は scroll-metadata/scrolls/{titleen}.json と JOIN する。
  * status: "coming-soon" の作品はビューア未公開のため準備中カードとして表示。
  */
 export const HUB_EMAKIS = [
@@ -197,7 +197,7 @@ export const HUB_EMAKIS = [
 
 /**
  * おすすめ観光ルート（手動キュレーション正本）。
- * stops は絵巻由来（titleen → HUB_EMAKIS / image-metadata-cache と JOIN）と
+ * stops は絵巻由来（titleen → HUB_EMAKIS / scroll-metadata/scrolls/{titleen}.json と JOIN）と
  * 単独スポット（spot 直書き）を混在できる。座標は HUB_EMAKIS と二重管理しない。
  */
 export const ROUTES = [

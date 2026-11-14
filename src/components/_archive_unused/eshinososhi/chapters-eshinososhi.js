@@ -1,4 +1,4 @@
-import AllEshiChapters from "@/libs/emaki-text-data/eshi-no-soshi_tohaku.json";
+import AllEshiChapters from "@/libs/scroll-texts/eshi-no-soshi_tohaku.json";
 import styles from "@/styles/ChaptersTable.module.css";
 import parse from "html-react-parser";
 import Title from "../../ui/Title";

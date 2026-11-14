@@ -1,4 +1,4 @@
-import chapters from "@/data/emaki-text-data/chapters-of-kusouzu.json";
+import chapters from "@/data/scroll-texts/kusouzu-chapters.json";
 import styles from "@/styles/KusouzuHub.module.css";
 import Image from "next/image";
 import Link from "next/link";

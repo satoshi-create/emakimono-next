@@ -17,7 +17,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 THUMB_DIR = REPO_ROOT / "public/thumb"
 OGP_DIR = REPO_ROOT / "public/ogp"
 DATA_EMAKIS_PATH = REPO_ROOT / "local-data/pipeline/dataEmakis.json"
-CACHE_PATH = REPO_ROOT / "src/data/image-metadata-cache/image-metadata-cache.json"
+CACHE_PATH = REPO_ROOT / "src/data/scroll-metadata/scroll-metadata.json"
 
 THUMB_WIDTH = 1066
 THUMB_HEIGHT = 600

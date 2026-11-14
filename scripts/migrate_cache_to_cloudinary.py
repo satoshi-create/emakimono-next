@@ -1,4 +1,4 @@
-"""Migrate image-metadata-cache.json to new Cloudinary emakimono/ public_ids."""
+"""Migrate scroll-metadata.json to new Cloudinary emakimono/ public_ids."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from collections import defaultdict
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-CACHE_PATH = REPO_ROOT / "src/data/image-metadata-cache/image-metadata-cache.json"
+CACHE_PATH = REPO_ROOT / "src/data/scroll-metadata/scroll-metadata.json"
 ENV_PATH = REPO_ROOT / ".env.local"
 
 TITLEEN_TO_PREFIX = {

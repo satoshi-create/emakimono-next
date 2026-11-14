@@ -64,7 +64,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--allow-missing-text",
         action="store_true",
-        help="Do not error when emaki-text-data JSON is missing",
+        help="Do not error when scroll-texts JSON is missing",
     )
     args = parser.parse_args(argv)
 

@@ -1,14 +1,14 @@
 /**
  * 絵巻の章テキスト接続ヘルパー。
  *
- * - emaki-text-data/{titleen}.json を require.context で自動ロード（sync_all.py 生成）
- * - 源氏絵: chapters-of-genji.json（54帖マスター）を参照
+ * - scroll-texts/{titleen}.json を require.context で自動ロード（sync_all.py 生成）
+ * - 源氏絵: genji-chapters.json（54帖マスター）を参照
  * - 巻別 JSON があるとき gendaibun/kobun は巻別のみ（マスターあらすじへフォールバックしない）
- * - 章キー: emaki-text-data / ekotoba.chapter = scene id。帖番号は genji_chapter
+ * - 章キー: scroll-texts / ekotoba.chapter = scene id。帖番号は genji_chapter
  *
  * 抽出元: src/utils/func.js（旧 func.js は re-export のみに縮小済み）。
  */
-import chaptergenji from "@/data/emaki-text-data/chapters-of-genji.json";
+import chaptergenji from "@/data/scroll-texts/genji-chapters.json";
 import parse from "html-react-parser";
 
 /** 縦書き内の連続アラビア数字を縦中横用 span で囲む */
@@ -29,10 +29,16 @@ export function withTateChuYoko(text) {
   );
 }
 
+// ---------------------------------------------------------------------------
+// 1. 境界定義・定数（YAML自動アップロード契約）
+// scroll-texts/*.json は sync_all.py が scroll_config.yaml の scenes[].text から生成。
+// ビルド時 require.context で巻別 JSON を自動登録（新規 titleen 追加時に import 追記不要）。
+// ---------------------------------------------------------------------------
+
 /** 章テキストとして読み込まない共有カタログ */
 const EMAKI_TEXT_EXCLUDED_SLUGS = new Set([
-  "chapters-of-kusouzu",
-  "chapters-of-genji",
+  "kusouzu-chapters",
+  "genji-chapters",
 ]);
 
 /**
@@ -62,9 +68,13 @@ const GENJI_FIELD_KEYS = {
   kobunen: ["kobunen"],
 };
 
+// ---------------------------------------------------------------------------
+// 2. データ読み込み・フィルタリング処理（require.context → titleen マップ）
+// ---------------------------------------------------------------------------
+
 function buildEmakiTextDataMap() {
   const map = {};
-  const ctx = require.context("../data/emaki-text-data", false, /\.json$/);
+  const ctx = require.context("../data/scroll-texts", false, /\.json$/);
   ctx.keys().forEach((key) => {
     const slug = key.replace(/^\.\//, "").replace(/\.json$/, "");
     if (EMAKI_TEXT_EXCLUDED_SLUGS.has(slug)) return;

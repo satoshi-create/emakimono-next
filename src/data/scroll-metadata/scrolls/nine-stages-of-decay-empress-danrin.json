@@ -1,0 +1,190 @@
+{
+  "id": 48,
+  "title": "檀林皇后九相観",
+  "titleen": "nine-stages-of-decay-empress-danrin",
+  "author": "",
+  "authoren": "",
+  "backgroundImage": "/washi-pattern-01.webp",
+  "video": "",
+  "thumb": "/thumb/nine-stages-of-decay-empress-danrin_honolulu_thumb.webp",
+  "thumb2": "/nine-stages-of-decay-empress-danrin_honolulu_01-375.webp",
+  "desc": "檀林皇后（だんりんこうごう）の九相観を描いた18世紀・江戸時代の仏教絵巻。ホノルル美術館所蔵で、日本からハワイに渡った貴重な作品。皇后の肉体が朽ちていく9つの段階を、繊細な筆致で描き出します。横スクロールで全相鑑賞。",
+  "era": "江戸",
+  "eraen": "edo",
+  "gif": "",
+  "type": "絵巻",
+  "typeen": "emaki",
+  "subtype": "仏典",
+  "favorite": true,
+  "kusouzuslug": [
+    {
+      "id": "2"
+    },
+    {
+      "id": "3"
+    },
+    {
+      "id": "7"
+    },
+    {
+      "id": "8"
+    },
+    {
+      "id": "0"
+    }
+  ],
+  "keyword": [
+    {
+      "name": "無常",
+      "id": "impermanence",
+      "slug": "impermanence"
+    },
+    {
+      "name": "仏教",
+      "id": "buddhism",
+      "slug": "buddhism"
+    },
+    {
+      "name": "死生観",
+      "id": "lifeandodeath",
+      "slug": "lifeandodeath"
+    },
+    {
+      "name": "解剖学",
+      "id": "anatomy",
+      "slug": "anatomy"
+    }
+  ],
+  "personname": [
+    {
+      "name": "檀林皇后",
+      "id": "danrinkougou",
+      "slug": "danrinkougou",
+      "ruby": "たちばなのかちこ",
+      "portrait": "/portrait_tachibananokachiko.webp"
+    }
+  ],
+  "kotobagaki": true,
+  "sourceImageUrl": "https://commons.wikimedia.org/wiki/File:Nine_Stages_of_Decomposition_of_the_Heian_Period_Empress_Danrin,_Honolulu_Museum_of_Art_I.JPG",
+  "sourceImage": "Nine Stages of Decomposition of the Heian Period Empress Danrin（Wikimedia Commons）",
+  "sourceEkotoba": "",
+  "emakis": [
+    {
+      "cat": "ekotoba",
+      "config": "cloudinary",
+      "chapter": "生前相",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "config": "cloudinary",
+      "chapter": "",
+      "src": "v1774936452/emakimono/kusouzu-honolulu__kusouzu-honolulu_1_01_01.jpg",
+      "name": "kusouzu-honolulu__kusouzu-honolulu_1_01_01",
+      "srcWidth": 1665,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "config": "cloudinary",
+      "chapter": "新死相",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "config": "cloudinary",
+      "chapter": "",
+      "src": "v1774936454/emakimono/kusouzu-honolulu__kusouzu-honolulu_1_02_01.jpg",
+      "name": "kusouzu-honolulu__kusouzu-honolulu_1_02_01",
+      "srcWidth": 1832,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "config": "cloudinary",
+      "chapter": "2",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "config": "cloudinary",
+      "chapter": "",
+      "src": "v1774936455/emakimono/kusouzu-honolulu__kusouzu-honolulu_1_03_01.jpg",
+      "name": "kusouzu-honolulu__kusouzu-honolulu_1_03_01",
+      "srcWidth": 1823,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "config": "cloudinary",
+      "chapter": "3",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "config": "cloudinary",
+      "chapter": "",
+      "src": "v1774936456/emakimono/kusouzu-honolulu__kusouzu-honolulu_1_04_01.jpg",
+      "name": "kusouzu-honolulu__kusouzu-honolulu_1_04_01",
+      "srcWidth": 1708,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "config": "cloudinary",
+      "chapter": "7",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "config": "cloudinary",
+      "chapter": "",
+      "src": "v1774936457/emakimono/kusouzu-honolulu__kusouzu-honolulu_1_05_01.jpg",
+      "name": "kusouzu-honolulu__kusouzu-honolulu_1_05_01",
+      "srcWidth": 2157,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "config": "cloudinary",
+      "chapter": "8",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "config": "cloudinary",
+      "chapter": "",
+      "src": "v1774936459/emakimono/kusouzu-honolulu__kusouzu-honolulu_1_06_01.jpg",
+      "name": "kusouzu-honolulu__kusouzu-honolulu_1_06_01",
+      "srcWidth": 3597,
+      "srcHeight": 1080,
+      "test": "hoge"
+    }
+  ],
+  "sourceAuthor": "Hiart",
+  "sourceCollection": "Honolulu Museum of Art (accession 2007.3)",
+  "descen": "The Nine Stages of Decay of Empress Danrin — an Edo-period Buddhist handscroll held by the Honolulu Museum of Art. This rare kusōzu portrays the empress's body through nine stages of decomposition with delicate brushwork. Scroll horizontally to explore every stage."
+}

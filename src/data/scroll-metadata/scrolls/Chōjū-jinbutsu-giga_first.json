@@ -1,0 +1,324 @@
+{
+  "id": 1,
+  "title": "鳥獣人物戯画絵巻",
+  "titleen": "Chōjū-jinbutsu-giga_first",
+  "author": "鳥羽僧正覚猷",
+  "authoren": "toba-sojo-kakuyu",
+  "edition": "甲巻",
+  "encodeUrl": "https://emakimono.com/cyoujyujinbutsugiga_kou",
+  "backgroundImage": "/110310200304.webp",
+  "thumb": "/thumb/cyoujyuu_yamazaki_kou_thumb.webp",
+  "thumb2": "/cyoujyuu_yamazaki_kou_thumb2.webp",
+  "video": "https://youtu.be/Si8NzY2drSg",
+  "era": "平安",
+  "eraen": "heiann",
+  "desc": "平安時代（12世紀）に描かれた「鳥獣人物戯画絵巻」の甲巻の摸本です。猿と蛙の喧嘩や兎と蛙の相撲をはじめ、田楽や賭弓など、当時の京都で流行していたさまざまな遊びに動物たちが興じる様子が、豊かな表情で描かれています。元々はもっと長大な絵巻だったと考えられています。誰もが知る有名なシーンが、絵巻のどの場面に描かれているかを想像しながら、絵巻を広げて楽しんでみましょう。",
+  "descen": "This is a copy of the Chōjū-Jinbutsu-Giga（Chojugiga）in the Heian period (12th century） first volumn. In addition to the famous fight between a monkey and a frog and a sumo match between a rabbit and a frog, animals are depicted expressively playing various games popular in Miyako at the time, such as dengaku and betting bows. In the imoribons and facsimiles, games such as horse racing, Sugoroku (a Japanese board game of Sugoroku), and high jumping are depicted, which are different motifs from those in the currently known picture scrolls. It seems that the original picture scroll was much longer than this.",
+  "readMore": false,
+  "type": "絵巻",
+  "typeen": "emaki",
+  "keyword": [
+    {
+      "name": "戯画",
+      "id": "caricature",
+      "slug": "caricature"
+    },
+    {
+      "name": "動物",
+      "id": "animal",
+      "slug": "animal"
+    },
+    {
+      "name": "鳥羽絵",
+      "id": "tobae",
+      "slug": "tobae"
+    },
+    {
+      "name": "年中行事",
+      "id": "annualevent",
+      "slug": "annualevent"
+    },
+    {
+      "name": "仏教",
+      "id": "buddhism",
+      "slug": "buddhism"
+    }
+  ],
+  "kotobagaki": false,
+  "sceneText": true,
+  "favorite": true,
+  "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-1530?locale=ja",
+  "sourceImage": "鳥獣人戯画絵巻 摸本（ColBase）",
+  "emakis": [
+    {
+      "cat": "ekotoba",
+      "chapter": "1",
+      "config": "",
+      "src": "",
+      "name": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033725/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__01.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__01",
+      "srcWidth": 1804,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033725/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__02.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__02",
+      "srcWidth": 2228,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033726/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__03.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__03",
+      "srcWidth": 2436,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033726/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__04.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_01__04",
+      "srcWidth": 2279,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "2",
+      "config": "",
+      "src": "",
+      "name": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033727/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__01.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__01",
+      "srcWidth": 1617,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033728/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__02.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__02",
+      "srcWidth": 1860,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033728/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__03.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__03",
+      "srcWidth": 1845,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033729/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__04.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__04",
+      "srcWidth": 1845,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033729/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__05.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__05",
+      "srcWidth": 1860,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033730/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__06.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_02__06",
+      "srcWidth": 1709,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "3",
+      "config": "",
+      "src": "",
+      "name": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033731/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_03__01.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_03__01",
+      "srcWidth": 1065,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033732/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_03__02.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_03__02",
+      "srcWidth": 1902,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "4",
+      "config": "",
+      "src": "",
+      "name": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033732/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_04__01.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_04__01",
+      "srcWidth": 1878,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033733/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_04__02.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_04__02",
+      "srcWidth": 2196,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "5",
+      "config": "",
+      "src": "",
+      "name": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033734/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_05__01.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_05__01",
+      "srcWidth": 1350,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033734/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_05__02.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_05__02",
+      "srcWidth": 1252,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "6",
+      "config": "",
+      "src": "",
+      "name": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033735/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_06__01.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_06__01",
+      "srcWidth": 2015,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033735/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_06__02.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_06__02",
+      "srcWidth": 1899,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "7",
+      "config": "",
+      "src": "",
+      "name": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033736/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_07__01.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_07__01",
+      "srcWidth": 1380,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "8",
+      "config": "",
+      "src": "",
+      "name": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033737/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_08__01.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_08__01",
+      "srcWidth": 1685,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033737/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_08__02.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_08__02",
+      "srcWidth": 1887,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "9",
+      "config": "",
+      "src": "",
+      "name": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033738/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_09__01.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_09__01",
+      "srcWidth": 1881,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1775033739/emakimono/choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_09__02.jpg",
+      "name": "choju-giga-yamazaki-kou__choju-giga-yamazaki-kou_1_09__02",
+      "srcWidth": 1216,
+      "srcHeight": 1080
+    }
+  ]
+}

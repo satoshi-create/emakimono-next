@@ -1,0 +1,303 @@
+{
+  "id": 106,
+  "title": "洛中洛外図屏風（福岡市博物館蔵）",
+  "titleen": "rakuchu_rakugai_fukuoka",
+  "author": "狩野孝信",
+  "authoren": "kano-takanobu",
+  "edition": "福岡本（黒田家伝来）",
+  "encodeUrl": "",
+  "backgroundImage": "",
+  "thumb": "/thumb/rakuchu_rakugai_fukuoka_thumb.webp",
+  "thumb2": "",
+  "video": "",
+  "era": "江戸",
+  "eraen": "edo",
+  "desc": "桃山時代から江戸時代初期（慶長年間半ば頃）の京の市中と郊外を大観的構図で描いた六曲一双の洛中洛外図屏風（重要文化財・黒田家伝来）。狩野永徳の次男・狩野孝信筆とされ、向かって右隻に五条橋・寺町通・清水寺・祇園社などを、左隻に室町通・誓願寺・内裏御所までをおさめる。小型ながら町屋や往来する人々の風俗表現に焦点が置かれ、ポルトガル人や黒人など南蛮風俗の姿も生き生きと描かれている。",
+  "descen": "A pair of six-panel folding screens (Important Cultural Property, formerly in the Kuroda family collection) depicting the cityscape and suburbs of Kyoto during the Momoyama to early Edo period (around the mid-Keicho era), attributed to Kano Takanobu. The right screen captures Gojo Bridge, Teramachi Street, Kiyomizu-dera, and Gion Shrine, while the left screen spans Muromachi Street, Seigan-ji Temple, and the Kyoto Imperial Palace. Notable for its lively genre scenes of townspeople, merchants, and Nanban (Portuguese and African) visitors.",
+  "readMore": false,
+  "type": "屏風",
+  "typeen": "byobu",
+  "keyword": [
+    {
+      "name": "洛中洛外図",
+      "id": "rakuchu-rakugai",
+      "slug": "rakuchu-rakugai"
+    },
+    {
+      "name": "狩野孝信",
+      "id": "kano-takanobu",
+      "slug": "kano-takanobu"
+    },
+    {
+      "name": "京都",
+      "id": "kyoto",
+      "slug": "kyoto"
+    },
+    {
+      "name": "南蛮風俗",
+      "id": "nanban",
+      "slug": "nanban"
+    }
+  ],
+  "kotobagaki": false,
+  "sceneText": true,
+  "favorite": false,
+  "sourceImageUrl": "https://commons.wikimedia.org/wiki/File:Rakuchu_rakugai_zu_byobu_(Fukuoka_City_Museum).jpg",
+  "sourceImage": "洛中洛外図屏風（福岡本）",
+  "metadesc": "",
+  "gif": "",
+  "sourceEkotoba": "",
+  "reference": [
+    {
+      "type": "所蔵機関",
+      "url": "https://museum.city.fukuoka.jp/",
+      "title": "福岡市博物館（ID Number 1993B03008 / 参考文献『福岡市博物館名品図録』）"
+    },
+    {
+      "type": "鑑賞ガイド",
+      "url": "https://fcmuseum.blogspot.com/2020/10/de.html",
+      "title": "福岡市博物館「【ふくおかの名宝】鑑賞ガイド⑥ おうちde京都観光 ─洛中洛外図屏風─」"
+    }
+  ],
+  "emakis": [
+    {
+      "cat": "ekotoba",
+      "chapter": "1",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_01__01.webp",
+      "name": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_01__01",
+      "srcHeight": 1920,
+      "srcWidth": 1044,
+      "spots": [
+        {
+          "id": "kanjin-zumo-teahouse",
+          "name": "五条大橋付近の勧進相撲と茶屋",
+          "x": 62,
+          "y": 35.7,
+          "nameen": "Kanjin-zumo Wrestling and Teahouse"
+        }
+      ]
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_01__02.webp",
+      "name": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_01__02",
+      "srcHeight": 1920,
+      "srcWidth": 1043
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "2",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_02__01.webp",
+      "name": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_02__01",
+      "srcHeight": 1920,
+      "srcWidth": 1044,
+      "spots": [
+        {
+          "id": "gojo-bridge-barber",
+          "name": "五条大橋と西詰の床屋",
+          "x": 77.6,
+          "y": 73,
+          "nameen": "Gojo Bridge and Barber Shop"
+        },
+        {
+          "id": "kiyomizu-dera",
+          "name": "清水寺",
+          "x": 55.1,
+          "y": 15.1,
+          "nameen": "Kiyomizu-dera Temple"
+        },
+        {
+          "id": "teramachi-armor-shops",
+          "name": "寺町通の刀研ぎ屋・武具屋",
+          "x": 30.2,
+          "y": 68.8,
+          "nameen": "Sword Polisher and Armor Shop on Teramachi Street"
+        }
+      ]
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_02__02.webp",
+      "name": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_02__02",
+      "srcHeight": 1920,
+      "srcWidth": 1044
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "3",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_03__01.webp",
+      "name": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_03__01",
+      "srcHeight": 1920,
+      "srcWidth": 1043,
+      "spots": [
+        {
+          "id": "yasaka-shrine",
+          "name": "八坂神社（祇園社）",
+          "x": 7.3,
+          "y": 35.9,
+          "nameen": "Yasaka Shrine (Gion Shrine)"
+        }
+      ]
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_03__02.webp",
+      "name": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_03__02",
+      "srcHeight": 1920,
+      "srcWidth": 1044
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "4",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_04__01.webp",
+      "name": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_04__01",
+      "srcHeight": 1920,
+      "srcWidth": 1038,
+      "spots": [
+        {
+          "id": "seigan-ji",
+          "name": "誓願寺",
+          "x": 31.4,
+          "y": 28.8,
+          "nameen": "Seigan-ji Temple"
+        },
+        {
+          "id": "nanban-oharame-monkey-trainer",
+          "name": "南蛮人・大原女・猿曳",
+          "x": 23.5,
+          "y": 87.2,
+          "nameen": "Nanban Visitors, Oharame, and Monkey Trainer"
+        }
+      ]
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_04__02.webp",
+      "name": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_04__02",
+      "srcHeight": 1920,
+      "srcWidth": 1038
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "5",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_05__01.webp",
+      "name": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_05__01",
+      "srcHeight": 1920,
+      "srcWidth": 1038,
+      "spots": [
+        {
+          "id": "artisan-shops-townspeople",
+          "name": "職人の店々と町衆の賑わい",
+          "x": 72.7,
+          "y": 72.8,
+          "nameen": "Artisan Shops and Townspeople"
+        }
+      ]
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_05__02.webp",
+      "name": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_05__02",
+      "srcHeight": 1920,
+      "srcWidth": 1038
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "6",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_06__01.webp",
+      "name": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_06__01",
+      "srcHeight": 1920,
+      "srcWidth": 1038,
+      "spots": [
+        {
+          "id": "imperial-palace-shishinden",
+          "name": "御所・紫宸殿の雅な花見",
+          "x": 41.3,
+          "y": 37,
+          "nameen": "Cherry Blossom Viewing at the Imperial Palace (Shishinden)"
+        }
+      ]
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_06__02.webp",
+      "name": "rakuchu-rakugai-fukuoka__rakuchu-rakugai-fukuoka_1_06__02",
+      "srcHeight": 1920,
+      "srcWidth": 1038
+    }
+  ],
+  "sourceCollection": "福岡市博物館",
+  "sourceLicense": "Public Domain"
+}

@@ -1,0 +1,182 @@
+{
+  "id": 14,
+  "title": "餓鬼草紙（河本家本）",
+  "titleen": "gakisoushi_kawamoto",
+  "author": "",
+  "authoren": "",
+  "edition": "河本家旧蔵",
+  "encodeUrl": "",
+  "backgroundImage": "/washi-pattern-01.webp",
+  "thumb": "/thumb/gakisoushi_kawamoto_thumb.webp",
+  "thumb2": "/thumb/gakisoushi_kawamoto_thumb.webp",
+  "video": "",
+  "era": "平安",
+  "eraen": "heiann",
+  "desc": "東京国立博物館所蔵の河本家旧蔵本『餓鬼草紙』。词書を欠く絵のみの絵巻で、『正法念処経』に説かれる諸餓鬼の業苦を、現世の風俗場面に織り込んで描く。",
+  "descen": "The Kawamoto family text of Gaki Zoshi (Scroll of Hungry Ghosts), preserved at the Tokyo National Museum. A painting-only emaki without kotobagaki, depicting various hungry ghosts from the Shōbōnenjō-kyō amid scenes of Heian-period life.",
+  "readMore": false,
+  "type": "絵巻",
+  "typeen": "emaki",
+  "keyword": [
+    {
+      "name": "仏教",
+      "id": "buddhism",
+      "slug": "buddhism"
+    },
+    {
+      "name": "鬼",
+      "id": "demon",
+      "slug": "demon"
+    },
+    {
+      "name": "巫女",
+      "id": "shrinemaiden",
+      "slug": "shrinemaiden"
+    },
+    {
+      "name": "双六",
+      "id": "sugoroku",
+      "slug": "sugoroku"
+    },
+    {
+      "name": "出産",
+      "id": "childbirth",
+      "slug": "childbirth"
+    }
+  ],
+  "kotobagaki": true,
+  "favorite": false,
+  "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-10476?locale=ja",
+  "sourceImage": "餓鬼草紙（ColBase）",
+  "metadesc": "",
+  "gif": "",
+  "sourceEkotoba": "",
+  "emakis": [
+    {
+      "cat": "ekotoba",
+      "chapter": "1",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/gakisoushi-kawamoto__gakisoushi-kawamoto_1_01__01.jpg",
+      "name": "gakisoushi-kawamoto__gakisoushi-kawamoto_1_01__01",
+      "srcHeight": 1080,
+      "srcWidth": 2978
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "2",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/gakisoushi-kawamoto__gakisoushi-kawamoto_1_02__01.jpg",
+      "name": "gakisoushi-kawamoto__gakisoushi-kawamoto_1_02__01",
+      "srcHeight": 1080,
+      "srcWidth": 1950
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "3",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/gakisoushi-kawamoto__gakisoushi-kawamoto_1_03__01.jpg",
+      "name": "gakisoushi-kawamoto__gakisoushi-kawamoto_1_03__01",
+      "srcHeight": 1080,
+      "srcWidth": 1970
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "4",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/gakisoushi-kawamoto__gakisoushi-kawamoto_1_04__01.jpg",
+      "name": "gakisoushi-kawamoto__gakisoushi-kawamoto_1_04__01",
+      "srcHeight": 1080,
+      "srcWidth": 1976
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "5",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/gakisoushi-kawamoto__gakisoushi-kawamoto_1_05__01.jpg",
+      "name": "gakisoushi-kawamoto__gakisoushi-kawamoto_1_05__01",
+      "srcHeight": 1080,
+      "srcWidth": 1932
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "6",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/gakisoushi-kawamoto__gakisoushi-kawamoto_1_06__01.jpg",
+      "name": "gakisoushi-kawamoto__gakisoushi-kawamoto_1_06__01",
+      "srcHeight": 1080,
+      "srcWidth": 976
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "7",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/gakisoushi-kawamoto__gakisoushi-kawamoto_1_07__01.jpg",
+      "name": "gakisoushi-kawamoto__gakisoushi-kawamoto_1_07__01",
+      "srcHeight": 1080,
+      "srcWidth": 4922
+    }
+  ]
+}

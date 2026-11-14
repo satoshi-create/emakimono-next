@@ -1,4 +1,4 @@
-import emakisMetadata from "@/data/image-metadata-cache/image-metadata-cache.json";
+import emakisMetadata from "@/data/scroll-metadata";
 import { HYAKKI_CLUSTER_TITLEEN } from "@/libs/constants/discoveryLinks";
 import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
 import { removeNestedEmakisObj } from "@/utils/func";

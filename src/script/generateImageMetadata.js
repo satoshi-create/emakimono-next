@@ -2,6 +2,14 @@ const fs = require("fs");
 const path = require("path");
 const sharp = require("sharp");
 
+// ---------------------------------------------------------------------------
+// 1. 境界定義・定数（YAML自動アップロード契約）
+// local-data/pipeline/*.json（dataEmakis 等）を結合し、フロント正本
+// src/data/scroll-metadata/scroll-metadata.json を全件再生成する。
+// 通常の scroll 同期は sync_all.py の upsert_cache_entry（1巻差し替え）。
+// --regenerate-cache 実行時のみ本スクリプトを subprocess 起動する。
+// ---------------------------------------------------------------------------
+
 // JSONデータをrequireで読み込む（パイプライン入力。ローカル保持のため git/cursor 非管理）
 const dataByoubus = require("../../local-data/pipeline/dataByoubus.json");
 const dataEmakis = require("../../local-data/pipeline/dataEmakis.json");
@@ -24,15 +32,16 @@ const data = dataEmakis.concat(
 // node script/generateImageMetadata.js
 
 (async () => {
-  // 保存先ディレクトリを指定
-  const cacheDir = path.join(process.cwd(), "src/data/image-metadata-cache");
+  // ---------------------------------------------------------------------------
+  // 2. データ読み込み・寸法補完・キャッシュ書き込み
+  // Cloudinary/R2 画像は srcWidth/srcHeight をパイプライン側で保持。ローカル public 画像のみ sharp 計測。
+  // ---------------------------------------------------------------------------
 
-  // 保存先ファイルパスを指定
-  const cacheFilePath = path.join(cacheDir, "image-metadata-cache.json");
+  const cacheDir = path.join(process.cwd(), "src/data/scroll-metadata");
+  const scrollsDir = path.join(cacheDir, "scrolls");
 
-  // 保存先ディレクトリが存在しない場合は作成
-  if (!fs.existsSync(cacheDir)) {
-    fs.mkdirSync(cacheDir);
+  if (!fs.existsSync(scrollsDir)) {
+    fs.mkdirSync(scrollsDir, { recursive: true });
   }
 
   // JSONデータを処理
@@ -77,7 +86,18 @@ const data = dataEmakis.concat(
     })
   );
 
-  // 更新されたデータをキャッシュファイルとして保存
-  fs.writeFileSync(cacheFilePath, JSON.stringify(updatedJsonData, null, 2));
-  // console.log(`Image metadata cache saved to ${cacheFilePath}`);
+  const order = [];
+  for (const item of updatedJsonData) {
+    const titleen = item?.titleen;
+    if (!titleen) {
+      console.warn("Skipping cache item without titleen");
+      continue;
+    }
+    order.push(titleen);
+    const scrollPath = path.join(scrollsDir, `${titleen}.json`);
+    fs.writeFileSync(scrollPath, `${JSON.stringify(item, null, 2)}\n`);
+  }
+
+  const orderPath = path.join(scrollsDir, "_order.json");
+  fs.writeFileSync(orderPath, `${JSON.stringify(order, null, 2)}\n`);
 })();

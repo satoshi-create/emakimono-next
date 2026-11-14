@@ -3,9 +3,9 @@
  *
  * データは「ノード（絵巻・現代作品・キーワードタグ）＋ 弱いエッジ（タグ）」で構成する。
  * 絵巻 ⇔ 漫画 を直接つなぐのではなく、キーワードタグが仲介する弱いつながりを表現する。
- * 絵巻のサムネ・タイトルは image-metadata-cache.json を titleen で JOIN する（現代作品の画像は使わない）。
+ * 絵巻のサムネ・タイトルは scroll-metadata.json を titleen で JOIN する（現代作品の画像は使わない）。
  */
-import { getEmakiSpot } from "@/data/emakiHubData";
+import { getEmakiSpot } from "@/data/hub/hubData";
 
 /** キーワードタグ＝媒介ノード。絵巻側の keyword[] と同系のゆかり語 */
 export const MANGA_ROOTS_TAGS = [

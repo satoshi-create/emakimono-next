@@ -40,16 +40,15 @@ drizzle/
 *.tsbuildinfo
 
 # 巨大テキスト辞書・メタデータキャッシュ実体（型定義 src/types/ で代用）
-src/data/image-metadata-cache/
-src/data/emaki-text-data/
-src/data/chronology/
-src/data/zukan/
-src/data/withdrawn/
-src/data/folklore/
+# src/data/emaki-text-data/
+# src/data/chronology/
+# src/data/zukan/
+# src/data/withdrawn/
+# src/data/folklore/
 
 # メタデータバックアップ
-src/data/image-metadata-cache/*.bak
-**/*.pre-migrate*.bak
+# src/data/image-metadata-cache/*.bak
+# **/*.pre-migrate*.bak
 
 # ==============================================================================
 # 4. グローバル静的メディア・バイナリアセット（public 配下）

@@ -32,8 +32,8 @@ export type EmakiTextData = {
 };
 
 // =====================================================
-// データ正本の型 — image-metadata-cache.json の実キーを機械的に写したもの
-// 正本: src/data/image-metadata-cache/image-metadata-cache.json
+// データ正本の型 — scroll-metadata.json の実キーを機械的に写したもの
+// 正本: src/data/scroll-metadata/scroll-metadata.json
 // 参照: src/pages/[slug].js / src/utils/func.js / src/components/emaki/layout/*.js
 // 注: 正本 JSON は .cursorignore のため、本ファイルが唯一の機械的スキーマ
 // =====================================================
@@ -67,7 +67,7 @@ export type KusouzuSlug = { id: string };
 /** シーン共通キー。linkId は [slug].js getStaticProps、ekotobaId は ekotoba のみ、uniqueIndex は EmakiConteiner 内で付与 */
 type EmakiSceneBase = {
   cat: string;
-  /** emaki-text-data の章キー（scene id）。源氏帖番号ではない */
+  /** scroll-texts の章キー（scene id）。源氏帖番号ではない */
   chapter: number | string;
   /** 源氏絵のみ。54帖マスター参照用の帖番号 */
   genji_chapter?: number | string;
@@ -106,7 +106,7 @@ export type EmakiEkotobaScene = EmakiSceneBase & {
 export type EmakiScene = EmakiImageScene | EmakiEkotobaScene;
 
 /**
- * 絵巻1巻分のメタデータ（image-metadata-cache.json の1要素）。
+ * 絵巻1巻分のメタデータ（scroll-metadata.json の1要素）。
  * 参照: [slug].js / EmakiLandscapContent / EmakiPortraitContent / EmakiConteiner
  */
 export type ScrollMetadata = {

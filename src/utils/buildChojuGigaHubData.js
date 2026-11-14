@@ -1,4 +1,4 @@
-import emakisMetadata from "@/data/image-metadata-cache/image-metadata-cache.json";
+import emakisMetadata from "@/data/scroll-metadata";
 import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
 import { removeNestedEmakisObj } from "@/utils/func";
 
@@ -27,22 +27,22 @@ export function buildChojuGigaHubData() {
   // We use a static lookup because webpack needs to resolve them at build time.
   const chapterData = {};
   try {
-    chapterData._first = require("@/data/emaki-text-data/Chōjū-jinbutsu-giga_first.json");
+    chapterData._first = require("@/data/scroll-texts/Chōjū-jinbutsu-giga_first.json");
   } catch (_) {
     chapterData._first = [];
   }
   try {
-    chapterData._second = require("@/data/emaki-text-data/Chōjū-jinbutsu-giga_second.json");
+    chapterData._second = require("@/data/scroll-texts/Chōjū-jinbutsu-giga_second.json");
   } catch (_) {
     chapterData._second = [];
   }
   try {
-    chapterData._third = require("@/data/emaki-text-data/Chōjū-jinbutsu-giga_third.json");
+    chapterData._third = require("@/data/scroll-texts/Chōjū-jinbutsu-giga_third.json");
   } catch (_) {
     chapterData._third = [];
   }
   try {
-    chapterData._fourth = require("@/data/emaki-text-data/Chōjū-jinbutsu-giga_fourth.json");
+    chapterData._fourth = require("@/data/scroll-texts/Chōjū-jinbutsu-giga_fourth.json");
   } catch (_) {
     chapterData._fourth = [];
   }

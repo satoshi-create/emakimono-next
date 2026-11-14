@@ -7,7 +7,7 @@
  *
  * 抽出元: src/utils/func.js（旧 func.js は re-export のみに縮小済み）。
  */
-import personProfiles from "@/data/personname-data/personprofiles.json";
+import personProfiles from "@/data/persons/profiles.json";
 
 // キーワード
 const convert = (arr) => {

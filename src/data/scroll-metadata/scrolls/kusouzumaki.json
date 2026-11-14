@@ -1,0 +1,279 @@
+{
+  "id": 8,
+  "title": "九相図巻",
+  "titleen": "kusouzumaki",
+  "author": "",
+  "authoren": "",
+  "backgroundImage": "/washi-pattern-01.webp",
+  "video": "",
+  "thumb": "/thumb/kusouzumaki_thumb.webp",
+  "thumb2": "/thumb/kusouzumaki_thumb.webp",
+  "desc": "九相図巻は、美しい女性が死後朽ち果てるまでを9つの段階で描いた仏教絵巻。鎌倉時代に制作され、肉体の美醜を生々しく表現し、修行者の無常観を促す目的を持ちました。本作は檀林皇后をモデルとした九相図の代表作で、全シーンを横スクロールでご覧いただけます。",
+  "descen": "Kusōzu-maki depicts the nine stages of decay of a beautiful woman after death in vivid Buddhist art from the Kamakura period. Created for meditative practice on impermanence, it portrays both beauty and ugliness of the human body. Based on Empress Danrin, this is one of the most celebrated kusōzu scrolls. Scroll horizontally through every scene.",
+  "era": "鎌倉",
+  "eraen": "kamakura",
+  "gif": "",
+  "type": "絵巻",
+  "typeen": "emaki",
+  "subtype": "仏典",
+  "kusouzuslug": [
+    {
+      "id": "1"
+    },
+    {
+      "id": "2"
+    },
+    {
+      "id": "3"
+    },
+    {
+      "id": "4"
+    },
+    {
+      "id": "5"
+    },
+    {
+      "id": "6"
+    },
+    {
+      "id": "7"
+    },
+    {
+      "id": "8"
+    },
+    {
+      "id": "0"
+    },
+    {
+      "id": "9"
+    }
+  ],
+  "favorite": true,
+  "keyword": [
+    {
+      "name": "無常",
+      "id": "impermanence",
+      "slug": "impermanence"
+    },
+    {
+      "name": "仏教",
+      "id": "buddhism",
+      "slug": "buddhism"
+    },
+    {
+      "name": "死生観",
+      "id": "lifeandodeath",
+      "slug": "lifeandodeath"
+    },
+    {
+      "name": "解剖学",
+      "id": "anatomy",
+      "slug": "anatomy"
+    }
+  ],
+  "personname": [
+    {
+      "name": "檀林皇后",
+      "id": "danrinkougou",
+      "slug": "danrinkougou",
+      "ruby": "たちばなのかちこ",
+      "portrait": "/portrait_tachibananokachiko.webp"
+    }
+  ],
+  "kotobagaki": true,
+  "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/kyuhaku/A70?locale=ja",
+  "sourceImage": "九相図巻（九州国立博物館）",
+  "sourceEkotoba": "",
+  "emakis": [
+    {
+      "cat": "ekotoba",
+      "chapter": "0",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774936234/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_01_01.jpg",
+      "name": "kuso-zu-emaki__kuso-zu-emaki_1_01_01",
+      "srcWidth": 1757,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "1",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774936236/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_02_01.jpg",
+      "name": "kuso-zu-emaki__kuso-zu-emaki_1_02_01",
+      "srcWidth": 1693,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "2",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774936237/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_03_01.jpg",
+      "name": "kuso-zu-emaki__kuso-zu-emaki_1_03_01",
+      "srcWidth": 1708,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "3",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774936237/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_04_01.jpg",
+      "name": "kuso-zu-emaki__kuso-zu-emaki_1_04_01",
+      "srcWidth": 1685,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "4",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774936238/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_05_01.jpg",
+      "name": "kuso-zu-emaki__kuso-zu-emaki_1_05_01",
+      "srcWidth": 1682,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "5",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774936239/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_06_01.jpg",
+      "name": "kuso-zu-emaki__kuso-zu-emaki_1_06_01",
+      "srcWidth": 1705,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "6",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774936240/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_07_01.jpg",
+      "name": "kuso-zu-emaki__kuso-zu-emaki_1_07_01",
+      "srcWidth": 1711,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "7",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774936241/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_08_01.jpg",
+      "name": "kuso-zu-emaki__kuso-zu-emaki_1_08_01",
+      "srcWidth": 2180,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "8",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774936242/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_09_01.jpg",
+      "name": "kuso-zu-emaki__kuso-zu-emaki_1_09_01",
+      "srcWidth": 1221,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "9",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774935516/emakimono/kuso-zu-emaki__kuso-zu-emaki_1_10_01.jpg",
+      "name": "kuso-zu-emaki__kuso-zu-emaki_1_10_01",
+      "srcWidth": 1771,
+      "srcHeight": 1080,
+      "test": "hoge"
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "id": 99,
+  "title": "地獄草紙（安住院本）",
+  "titleen": "jigokusoushi_anzyuin",
+  "author": "",
+  "authoren": "",
+  "edition": "安住院本",
+  "encodeUrl": "",
+  "backgroundImage": "",
+  "thumb": "/thumb/jigokusoushi_anzyuin_thumb.webp",
+  "thumb2": "/thumb/jigokusoushi_anzyuin_thumb.webp",
+  "video": "",
+  "era": "平安",
+  "eraen": "heiann",
+  "desc": "東京国立博物館所蔵の安住院本『地獄草紙』。叫喚地獄の諸別所における過酷な責め苦を描いた絵巻物。",
+  "descen": "An-ju-in text of Jigoku Soshi (Paper of Hells), preserved at the Tokyo National Museum.",
+  "readMore": false,
+  "type": "絵巻",
+  "typeen": "emaki",
+  "keyword": [
+    {
+      "name": "地獄",
+      "id": "jigoku",
+      "slug": "jigoku"
+    },
+    {
+      "name": "地獄草紙",
+      "id": "jigokusoushi",
+      "slug": "jigokusoushi"
+    },
+    {
+      "name": "仏教美術",
+      "id": "buddhism",
+      "slug": "buddhism"
+    }
+  ],
+  "kotobagaki": true,
+  "favorite": false,
+  "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-10942?locale=ja",
+  "sourceImage": "地獄草紙（ColBase）",
+  "metadesc": "",
+  "gif": "",
+  "sourceEkotoba": "",
+  "emakis": [
+    {
+      "cat": "ekotoba",
+      "chapter": "1",
+      "config": "cloudinary",
+      "src": "emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_01__01.jpg",
+      "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_01__01",
+      "srcHeight": "1080",
+      "srcWidth": "1524"
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_01__02.jpg",
+      "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_01__02",
+      "srcHeight": 1080,
+      "srcWidth": 775
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "2",
+      "config": "cloudinary",
+      "src": "emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_02__01.jpg",
+      "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_02__01",
+      "srcHeight": "1080",
+      "srcWidth": "1279"
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_02__02.jpg",
+      "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_02__02",
+      "srcHeight": 1080,
+      "srcWidth": 1103
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "3",
+      "config": "cloudinary",
+      "src": "emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_03__01.jpg",
+      "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_03__01",
+      "srcHeight": "1080",
+      "srcWidth": "1374"
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_03__02.jpg",
+      "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_03__02",
+      "srcHeight": 1080,
+      "srcWidth": 1103
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "4",
+      "config": "cloudinary",
+      "src": "emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_04__01.jpg",
+      "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_04__01",
+      "srcHeight": "1080",
+      "srcWidth": "1909"
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_04__02.jpg",
+      "name": "jigokusoushi-anzyuin__jigokusoushi-anzyuin_1_04__02",
+      "srcHeight": 1080,
+      "srcWidth": 1561
+    }
+  ]
+}

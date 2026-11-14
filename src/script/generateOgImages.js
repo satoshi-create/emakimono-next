@@ -5,7 +5,7 @@ const sharp = require("sharp");
 const OGP_WIDTH = 1200;
 const OGP_HEIGHT = 630;
 
-const metadataCache = require("../data/image-metadata-cache/image-metadata-cache.json");
+const metadataCache = require("../data/scroll-metadata/scroll-metadata.json");
 const withdrawn = require("../libs/constants/withdrawnTitleen.json");
 
 const outDir = path.join(process.cwd(), "public", "ogp");

@@ -1,5 +1,5 @@
-import { getMangaRootsEgoGraph, isMangaRootsEmaki } from "@/data/mangaRoots";
-import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
+import { getMangaRootsEgoGraph, isMangaRootsEmaki } from "@/data/features/mangaRoots";
+import emakisData from "@/data/scroll-metadata";
 import styles from "@/styles/MangaRootsEmakiLink.module.css";
 import dynamic from "next/dynamic";
 import Link from "next/link";

@@ -1,8 +1,8 @@
 // TypeScriptの型だけをインポートします（ランタイムには影響しない）
-import chaptergenji from "@/data/emaki-text-data/chapters-of-genji.json";
+import chaptergenji from "@/data/scroll-texts/genji-chapters.json";
 import type { EmakiTextData } from "@/types/emaki.ts";
 
-/** 源氏54帖マスター（chapters-of-genji.json）の1帖ぶんの形 */
+/** 源氏54帖マスター（genji-chapters.json）の1帖ぶんの形 */
 type GenjiChapterRecord = {
   path?: string;
   titleen?: string;
@@ -145,7 +145,7 @@ export const connectEmakiText = async (
 ): Promise<string | undefined> => {
   try {
     // 動的インポートでJSONファイルを読み込む（importは非同期なのでawaitが必要）
-    const jsonModule = await import(`@/data/emaki-text-data/${titleen}.json`);
+    const jsonModule = await import(`@/data/scroll-texts/${titleen}.json`);
 
     // JSONモジュールのdefaultエクスポート部分にアクセスし、型アサーションを適用
     const emakiTextData = jsonModule.default as EmakiTextData[];

@@ -3,11 +3,11 @@ import Header from "@/components/layout/Header";
 import Head from "@/components/meta/Meta";
 import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import CardA from "@/components/ui/CardA";
-import AllKusouzuChapters from "@/data/emaki-text-data/chapters-of-kusouzu.json";
+import AllKusouzuChapters from "@/data/scroll-texts/kusouzu-chapters.json";
 import {
   default as enData,
   default as jaData,
-} from "@/data/image-metadata-cache/image-metadata-cache.json";
+} from "@/data/scroll-metadata";
 import { kusouzuStageHref } from "@/utils/buildKusouzuHubData";
 import { removeNestedEmakisObj } from "@/utils/func";
 import { useRouter } from "next/router";

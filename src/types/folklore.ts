@@ -1,7 +1,7 @@
 /**
  * 絵引（民俗・生活誌）オーバーレイの型定義。
  * 正本は scrolls/source/ebiki/ebiki.csv → scripts/convert-ebiki-csv.js → src/data/folklore/
- * 既存の emaki-text-data / image-metadata-cache には埋め込まない。
+ * 既存の scroll-texts / scroll-metadata には埋め込まない。
  */
 
 /** 行為カテゴリ（CSV act_category） */

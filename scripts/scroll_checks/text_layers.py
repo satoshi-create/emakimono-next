@@ -72,7 +72,7 @@ def check_scene_text_layers(
         if titleen and _text_json_has_content(titleen):
             report.warn(
                 f"kotobagaki=true but scenes[].text is empty in YAML "
-                f"(emaki-text-data/{titleen}.json exists — run build_scene_mapping --write-yaml or sync)"
+                f"(scroll-texts/{titleen}.json exists — run build_scene_mapping --write-yaml or sync)"
             )
         else:
             report.error("metadata.kotobagaki=true but no scenes[].text content found")

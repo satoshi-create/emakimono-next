@@ -60,8 +60,8 @@ export const getStaticProps = async () => {
   const fs = require("fs");
   const path = require("path");
 
-  const cacheDir = path.join(process.cwd(), "libs/image-metadata-cache");
-  const cacheFilePath = path.join(cacheDir, "image-metadata-cache.json");
+  const cacheDir = path.join(process.cwd(), "libs/scroll-metadata");
+  const cacheFilePath = path.join(cacheDir, "scroll-metadata.json");
 
   // キャッシュファイルが存在しない場合のエラー処理
   if (!fs.existsSync(cacheFilePath)) {

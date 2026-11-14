@@ -32,7 +32,7 @@ from scroll_checks.scene_mapping import (
 from scroll_checks.report import ValidationReport
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-EMAKI_TEXT_DIR = REPO_ROOT / "src/data/emaki-text-data"
+EMAKI_TEXT_DIR = REPO_ROOT / "src/data/scroll-texts"
 
 
 def resolve_scroll_dir(arg: str) -> tuple[Path, Path]:
@@ -226,7 +226,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--merge-text-json",
         action="store_true",
-        help="Merge scenes[].text from src/data/emaki-text-data/{titleen}.json",
+        help="Merge scenes[].text from src/data/scroll-texts/{titleen}.json",
     )
     args = parser.parse_args(argv)
 

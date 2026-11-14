@@ -1,4 +1,4 @@
-import { getEmakiSpot } from "@/data/emakiHubData";
+import { getEmakiSpot } from "@/data/hub/hubData";
 import styles from "@/styles/SightseeingMapLink.module.css";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";

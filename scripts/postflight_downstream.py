@@ -47,7 +47,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--allow-missing-text",
         action="store_true",
-        help="Allow missing emaki-text-data JSON in postflight_sync",
+        help="Allow missing scroll-texts JSON in postflight_sync",
     )
     args = parser.parse_args(argv)
 

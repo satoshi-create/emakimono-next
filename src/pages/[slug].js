@@ -4,8 +4,8 @@ import EmakiPortraitContent from "@/components/emaki/layout/EmakiPortraitContent
 import EmakiBreadcrumbs from "@/components/emaki/navigation/EmakiBreadcrumbs";
 import ClassicalFontLink from "@/components/meta/ClassicalFontLink";
 import Head from "@/components/meta/Meta";
-import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
-import referencesData from "@/data/references.json";
+import emakisData from "@/data/scroll-metadata";
+import referencesData from "@/data/master/references.json";
 import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
 import { OGP_IMAGE_FALLBACKS } from "@/libs/constants/emakiOgImages";
 import { AppContext } from "@/context/AppContext";
@@ -232,7 +232,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
 };
 
 // 詞書がない段（絵単独の段）でも、帖番号（genji_chapter）があれば
-// chapters-of-genji.json の「あらすじ/現代文/古文」をテキスト表示へバインドする。
+// genji-chapters.json の「あらすじ/現代文/古文」をテキスト表示へバインドする。
 // 巻別 JSON に既値がある場合はそちらを優先し、該当帖が無ければ元の item をそのまま返す。
 const withGenjiChapterText = (item) => {
   if (!item.genji_chapter) return item;
@@ -264,20 +264,8 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async (context) => {
-  const fs = require("fs");
-  const path = require("path");
-  const cacheDir = path.join(process.cwd(), "src/data/image-metadata-cache");
-  const cacheFilePath = path.join(cacheDir, "image-metadata-cache.json");
-
-  // キャッシュファイルが存在しない場合のエラー処理
-  if (!fs.existsSync(cacheFilePath)) {
-    throw new Error(
-      "Image metadata cache not found. Run the generateImageMetadata script."
-    );
-  }
-
-  // キャッシュファイルを読み込む
-  const metadataCache = JSON.parse(fs.readFileSync(cacheFilePath, "utf-8"));
+  const { loadEmakiMetadataFresh } = require("@/data/scroll-metadata/loadFresh");
+  const metadataCache = loadEmakiMetadataFresh();
 
   const { slug } = context.params;
   const { locale, locales } = context;

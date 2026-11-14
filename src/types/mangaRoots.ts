@@ -1,4 +1,4 @@
-/** マンガのルーツ特設（/manga-roots）のグラフ。正本: src/data/mangaRoots.js */
+/** マンガのルーツ特設（/manga-roots）のグラフ。正本: src/data/features/mangaRoots.js */
 
 export type MangaRootsTagId = "animal" | "hell" | "yokai" | "kusozu";
 

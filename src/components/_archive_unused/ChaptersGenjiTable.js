@@ -1,4 +1,4 @@
-import AllGenjiChapters from "@/libs/genji/chapters-of-genji.json";
+import AllGenjiChapters from "@/libs/genji/genji-chapters.json";
 import styles from "@/styles/ChaptersTable.module.css";
 import { faCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

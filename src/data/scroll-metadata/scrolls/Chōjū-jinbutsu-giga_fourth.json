@@ -1,0 +1,298 @@
+{
+  "id": 4,
+  "title": "鳥獣人物戯画絵巻",
+  "titleen": "Chōjū-jinbutsu-giga_fourth",
+  "author": "",
+  "atuhoren": "",
+  "edition": "丁巻",
+  "backgroundImage": "/110310200304.webp",
+  "video": "https://youtu.be/Qgc0lrTPkiY",
+  "thumb": "/thumb/cyoujyuu_yamazaki_tei_thumb.webp",
+  "thumb2": "/cyoujyuu_yamazaki_tei_thumb2.webp",
+  "desc": "鎌倉時代に描かれた「鳥獣人物戯画絵巻」丁巻の摸本です。甲巻、乙巻、丙巻とはまったく異なるタッチで描かれ、タイトル通り「鳥獣戯画」と言いながらも、人間しか登場しません。腕の立つ絵師が、酔った勢いで一気に描き上げたかのような、勢いのある筆致が特徴的です。「番論義に着座した公卿たち」では、座っている4人の公卿のうち、1人だけがリアルな顔（似絵）で描かれているなど、謎めいた部分も多い一巻です。",
+  "descen": "This is a copy of the Chōjū-Jinbutsu-Giga（Chojugiga volumn four. The touch is completely different from that of scrolls A, B, and C. Although it is called a caricature of birds, beasts, and humans, only humans appear in the painting. The vigorous brushwork is characteristic of a skillful painter, who seems to have painted it in a single stroke in a drunken stupor.",
+  "era": "鎌倉",
+  "eraen": "kamakura",
+  "type": "絵巻",
+  "typeen": "emaki",
+  "keyword": [
+    {
+      "name": "戯画",
+      "id": "caricature",
+      "slug": "caricature"
+    },
+    {
+      "name": "遊戯",
+      "id": "game",
+      "slug": "game"
+    },
+    {
+      "name": "鳥羽絵",
+      "id": "tobae",
+      "slug": "tobae"
+    },
+    {
+      "name": "仏教",
+      "id": "buddhism",
+      "slug": "buddhism"
+    }
+  ],
+  "kotobagaki": false,
+  "sceneText": true,
+  "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-1530?locale=ja",
+  "sourceImage": "鳥獣人戯画絵巻 摸本（ColBase）",
+  "emakis": [
+    {
+      "cat": "ekotoba",
+      "chapter": "1",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774934533/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_01_01.jpg",
+      "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_01_01",
+      "srcWidth": 1619,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "2",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774934534/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_02_01.jpg",
+      "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_02_01",
+      "srcWidth": 2301,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774934535/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_02_02.jpg",
+      "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_02_02",
+      "srcWidth": 1696,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "3",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774934537/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_03_01.jpg",
+      "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_03_01",
+      "srcWidth": 2604,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774934538/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_03_02.jpg",
+      "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_03_02",
+      "srcWidth": 1138,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "4",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774934540/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_04_01.jpg",
+      "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_04_01",
+      "srcWidth": 1740,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774934541/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_04_02.jpg",
+      "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_04_02",
+      "srcWidth": 1601,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "5",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774934543/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_05_01.jpg",
+      "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_05_01",
+      "srcWidth": 1840,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "6",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774934544/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_06_01.jpg",
+      "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_06_01",
+      "srcWidth": 2655,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "7",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774934545/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_07_01.jpg",
+      "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_07_01",
+      "srcWidth": 1558,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774934546/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_07_02.jpg",
+      "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_07_02",
+      "srcWidth": 1140,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774934547/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_07_03.jpg",
+      "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_07_03",
+      "srcWidth": 1812,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "8",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774934549/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_08_01.jpg",
+      "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_08_01",
+      "srcWidth": 2062,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "9",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774934550/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_09_01.jpg",
+      "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_09_01",
+      "srcWidth": 2200,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "10",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774934551/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_10_01.jpg",
+      "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_10_01",
+      "srcWidth": 1117,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774934552/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_10_02.jpg",
+      "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_10_02",
+      "srcWidth": 1797,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774934554/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_10_03.jpg",
+      "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_10_03",
+      "srcWidth": 1734,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774934556/emakimono/choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_10_04.jpg",
+      "name": "choju-giga-yamazaki-tei__choju-giga-yamazaki-tei_4_10_04",
+      "srcWidth": 1639,
+      "srcHeight": 1080
+    }
+  ]
+}

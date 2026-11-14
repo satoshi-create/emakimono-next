@@ -1,9 +1,9 @@
 /**
  * 漫画・アニメ ↔ 絵巻の関連付け（手動キュレーション正本）。
  *
- * - 画像は絵巻側（image-metadata-cache.json）を使う。アニメ・漫画の画像は使わない
+ * - 画像は絵巻側（scroll-metadata.json）を使う。アニメ・漫画の画像は使わない
  * - 外部リンクは公式サイトのみ記載（編集的言及に留める）
- * - emakiTitleen は image-metadata-cache.json に存在する slug を指定する
+ * - emakiTitleen は scroll-metadata.json に存在する slug を指定する
  */
 export const MEDIA_ASSOCIATIONS = [
   {

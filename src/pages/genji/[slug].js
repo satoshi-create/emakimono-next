@@ -4,11 +4,11 @@ import Header from "@/components/layout/Header";
 import Head from "@/components/meta/Meta";
 import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import CardA from "@/components/ui/CardA";
-import AllGenjiChapters from "@/data/emaki-text-data/chapters-of-genji.json";
+import AllGenjiChapters from "@/data/scroll-texts/genji-chapters.json";
 import {
   default as enData,
   default as jaData,
-} from "@/data/image-metadata-cache/image-metadata-cache.json";
+} from "@/data/scroll-metadata";
 import styles from "@/styles/GenjiHub.module.css";
 import { removeNestedEmakisObj } from "@/utils/func";
 import { genjiChapterHref } from "@/utils/buildGenjiHubData";

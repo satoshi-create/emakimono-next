@@ -1,6 +1,6 @@
 import HubPageShell from "@/components/layout/HubPageShell";
 import CardA from "@/components/ui/CardA";
-import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
+import emakisData from "@/data/scroll-metadata";
 import { useLocaleMeta } from "@/hooks/useLocale";
 import { buildLocaleUrl, SITE_ORIGIN } from "@/libs/constants/dataSiteMeta";
 import styles from "@/styles/ByobuHub.module.css";
@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-/** 屏風の識別子。データ正本（image-metadata-cache）の typeen と一致させる */
+/** 屏風の識別子。データ正本（scroll-metadata）の typeen と一致させる */
 const BYOBU_TYPEEN = "byobu";
 
 /** 正本データから屏風のみを抽出し、ネストした emakis（シーン配列）を除去する */

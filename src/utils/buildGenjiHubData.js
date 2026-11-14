@@ -1,5 +1,5 @@
-import chapters from "@/data/emaki-text-data/chapters-of-genji.json";
-import emakisMetadata from "@/data/image-metadata-cache/image-metadata-cache.json";
+import chapters from "@/data/scroll-texts/genji-chapters.json";
+import emakisMetadata from "@/data/scroll-metadata";
 import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
 import { removeNestedEmakisObj } from "@/utils/func";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";

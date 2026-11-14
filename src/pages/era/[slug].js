@@ -12,7 +12,7 @@ import {
 import {
   default as enData,
   default as jaData,
-} from "@/data/image-metadata-cache/image-metadata-cache.json";
+} from "@/data/scroll-metadata";
 import { eraItem, removeNestedEmakisObj } from "@/utils/func";
 import { getLiveSlugs } from "@/utils/getLiveSlugs";
 import { useRouter } from "next/router";

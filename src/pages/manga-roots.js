@@ -1,7 +1,7 @@
 import { MangaRootsNetworkSection } from "@/components/manga-roots/MangaRootsPage";
 import HubPageShell from "@/components/layout/HubPageShell";
-import { buildMangaRootsPageData } from "@/data/mangaRoots";
-import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
+import { buildMangaRootsPageData } from "@/data/features/mangaRoots";
+import emakisData from "@/data/scroll-metadata";
 import { buildMangaRootsJsonLd } from "@/utils/buildMangaRootsJsonLd";
 import { useLocaleMeta } from "@/utils/func";
 import { useRouter } from "next/router";

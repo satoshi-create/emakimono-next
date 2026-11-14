@@ -1,7 +1,7 @@
 import HubPageShell from "@/components/layout/HubPageShell";
 import PersonProfile from "@/components/personname/PersonProfile";
 import CardA from "@/components/ui/CardA";
-import emakisData from "@/data/image-metadata-cache/image-metadata-cache.json";
+import emakisData from "@/data/scroll-metadata";
 import {
   findPersonProfile,
   personProfileItem,

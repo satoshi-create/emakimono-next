@@ -1,5 +1,5 @@
-import motifsMaster from "@/data/motifs.json";
-import generatedMotifIndex from "@/data/generated-motif-index.json";
+import motifsMaster from "@/data/master/motifs.json";
+import generatedMotifIndex from "@/data/master/generated-motif-index.json";
 
 /**
  * モチーフIDからマスター定義を取得

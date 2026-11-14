@@ -3,7 +3,7 @@
  *
  * - useLocale: staticData（トップ/About の長文静的 HTML）
  * - useLocaleMeta: dataSiteMeta（SEO サイトメタ）
- * - useLocaleData: image-metadata-cache（絵巻データ）
+ * - useLocaleData: scroll-metadata（絵巻データ）
  *
  * 抽出元: src/utils/func.js（旧 func.js は re-export のみに縮小済み）。
  */
@@ -13,7 +13,7 @@ import { en, ja } from "@/libs/constants/staticData";
 import {
   default as enData,
   default as jaData,
-} from "@/data/image-metadata-cache/image-metadata-cache.json";
+} from "@/data/scroll-metadata";
 
 export const useLocale = () => {
   const { locale } = useRouter();

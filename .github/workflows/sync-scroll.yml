@@ -75,8 +75,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # dataEmakis.json (pipeline input) is kept only in local-data/ (gitignored),
-          # so CI commits only the source-of-truth image-metadata-cache.
-          git add src/data/image-metadata-cache/
+          # so CI commits only the source-of-truth scroll-metadata.
+          git add src/data/scroll-metadata/
           if git diff --staged --quiet; then
             echo "No JSON changes to commit"
           else

@@ -1,0 +1,199 @@
+{
+  "id": 56,
+  "title": "絵師草紙",
+  "titleen": "eshi-no-soshi_tohaku",
+  "author": "藤原信実（緑栄斉道模）",
+  "authoren": "",
+  "edition": "",
+  "encodeUrl": "",
+  "backgroundImage": "/washi-pattern-01.webp",
+  "thumb": "/thumb/eshi-no-soshi_tohaku_thumb.webp",
+  "thumb2": "/thumb/eshi-no-soshi_tohaku_thumb.webp",
+  "video": "",
+  "era": "鎌倉",
+  "eraen": "kamakura",
+  "desc": "",
+  "descen": "",
+  "readMore": false,
+  "type": "絵巻",
+  "typeen": "emaki",
+  "keyword": [
+    {
+      "name": "絵師",
+      "id": "artist",
+      "slug": "artist"
+    },
+    {
+      "name": "説話",
+      "id": "story",
+      "slug": "story"
+    },
+    {
+      "name": "申文",
+      "id": "request",
+      "slug": "request"
+    }
+  ],
+  "kotobagaki": true,
+  "favorite": true,
+  "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-1601",
+  "sourceImage": "絵師草紙（東京国立博物館）",
+  "metadesc": "",
+  "gif": "",
+  "sourceEkotoba": "",
+  "emakis": [
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/eshi-no-soshi__eshi-no-soshi_1_01__01.jpg",
+      "name": "eshi-no-soshi__eshi-no-soshi_1_01__01",
+      "srcHeight": 1080,
+      "srcWidth": 789
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "1",
+      "config": "cloudinary",
+      "src": "emakimono/eshi-no-soshi__eshi-no-soshi_1_01__02.jpg",
+      "name": "eshi-no-soshi__eshi-no-soshi_1_01__02",
+      "srcHeight": "1080",
+      "srcWidth": "2874"
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/eshi-no-soshi__eshi-no-soshi_1_01__03.jpg",
+      "name": "eshi-no-soshi__eshi-no-soshi_1_01__03",
+      "srcHeight": 1080,
+      "srcWidth": 1639
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/eshi-no-soshi__eshi-no-soshi_1_01__04.jpg",
+      "name": "eshi-no-soshi__eshi-no-soshi_1_01__04",
+      "srcHeight": 1080,
+      "srcWidth": 1708
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/eshi-no-soshi__eshi-no-soshi_1_01__05.jpg",
+      "name": "eshi-no-soshi__eshi-no-soshi_1_01__05",
+      "srcHeight": 1080,
+      "srcWidth": 1452
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/eshi-no-soshi__eshi-no-soshi_1_01__06.jpg",
+      "name": "eshi-no-soshi__eshi-no-soshi_1_01__06",
+      "srcHeight": 1080,
+      "srcWidth": 1454
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "2",
+      "config": "cloudinary",
+      "src": "emakimono/eshi-no-soshi__eshi-no-soshi_1_02__01.jpg",
+      "name": "eshi-no-soshi__eshi-no-soshi_1_02__01",
+      "srcHeight": "1080",
+      "srcWidth": "1901"
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/eshi-no-soshi__eshi-no-soshi_1_02__02.jpg",
+      "name": "eshi-no-soshi__eshi-no-soshi_1_02__02",
+      "srcHeight": 1080,
+      "srcWidth": 1552
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/eshi-no-soshi__eshi-no-soshi_1_02__03.jpg",
+      "name": "eshi-no-soshi__eshi-no-soshi_1_02__03",
+      "srcHeight": 1080,
+      "srcWidth": 1045
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/eshi-no-soshi__eshi-no-soshi_1_02__04.jpg",
+      "name": "eshi-no-soshi__eshi-no-soshi_1_02__04",
+      "srcHeight": 1080,
+      "srcWidth": 484
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "3",
+      "config": "cloudinary",
+      "src": "emakimono/eshi-no-soshi__eshi-no-soshi_1_03__01.jpg",
+      "name": "eshi-no-soshi__eshi-no-soshi_1_03__01",
+      "srcHeight": "1080",
+      "srcWidth": "2301"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "4",
+      "config": "cloudinary",
+      "src": "emakimono/eshi-no-soshi__eshi-no-soshi_1_04__01.jpg",
+      "name": "eshi-no-soshi__eshi-no-soshi_1_04__01",
+      "srcHeight": "1080",
+      "srcWidth": "2477"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "5",
+      "config": "cloudinary",
+      "src": "emakimono/eshi-no-soshi__eshi-no-soshi_1_05__01.jpg",
+      "name": "eshi-no-soshi__eshi-no-soshi_1_05__01",
+      "srcHeight": "1080",
+      "srcWidth": "2716"
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/eshi-no-soshi__eshi-no-soshi_1_05__02.jpg",
+      "name": "eshi-no-soshi__eshi-no-soshi_1_05__02",
+      "srcHeight": 1080,
+      "srcWidth": 1552
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/eshi-no-soshi__eshi-no-soshi_1_05__03.jpg",
+      "name": "eshi-no-soshi__eshi-no-soshi_1_05__03",
+      "srcHeight": 1080,
+      "srcWidth": 1662
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/eshi-no-soshi__eshi-no-soshi_1_05__04.jpg",
+      "name": "eshi-no-soshi__eshi-no-soshi_1_05__04",
+      "srcHeight": 1080,
+      "srcWidth": 1745
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "emakimono/eshi-no-soshi__eshi-no-soshi_1_05__05.jpg",
+      "name": "eshi-no-soshi__eshi-no-soshi_1_05__05",
+      "srcHeight": 1080,
+      "srcWidth": 1829
+    }
+  ]
+}

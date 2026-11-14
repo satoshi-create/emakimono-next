@@ -1,0 +1,253 @@
+{
+  "id": 10,
+  "title": "九相詩絵巻",
+  "titleen": "kusoushiemaki",
+  "author": "",
+  "authoren": "",
+  "backgroundImage": "/washi-pattern-01.webp",
+  "video": "",
+  "thumb": "/thumb/kusoushiemaki_thumb.webp",
+  "thumb2": "/thumb/kusoushiemaki_thumb.webp",
+  "desc": "九相詩絵巻は、室町時代に描かれた九相図の一種。九相図巻の影響を受けつつ、詞書や画中詞（和歌）、風景描写を加え、自然のうつろいを通して無常観を表現。文学的要素の強い異色の九相図です。全シーンを縦書き・横スクロールで。",
+  "era": "室町",
+  "eraen": "muromachi",
+  "gif": "",
+  "type": "絵巻",
+  "typeen": "emaki",
+  "favorite": true,
+  "kusouzuslug": [
+    {
+      "id": "3"
+    },
+    {
+      "id": "5"
+    },
+    {
+      "id": "7"
+    }
+  ],
+  "keyword": [
+    {
+      "name": "無常",
+      "id": "impermanence",
+      "slug": "impermanence"
+    },
+    {
+      "name": "仏教",
+      "id": "buddhism",
+      "slug": "buddhism"
+    },
+    {
+      "name": "死生観",
+      "id": "lifeandodeath",
+      "slug": "lifeandodeath"
+    },
+    {
+      "name": "解剖学",
+      "id": "anatomy",
+      "slug": "anatomy"
+    },
+    {
+      "name": "和歌",
+      "id": "waka",
+      "slug": "waka"
+    }
+  ],
+  "kotobagaki": true,
+  "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/kyuhaku/A56?locale=ja",
+  "sourceImage": "九相詩絵巻（九州国立博物館）",
+  "sourceEkotoba": "",
+  "emakis": [
+    {
+      "cat": "ekotoba",
+      "chapter": "九相詩序 ",
+      "config": "cloudinary",
+      "src": "v1774935721/emakimono/kusoushi-emaki__kusoushi-emaki_1_01_01.jpg",
+      "name": "kusoushi-emaki__kusoushi-emaki_1_01_01",
+      "srcWidth": 2883,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "1",
+      "config": "cloudinary",
+      "src": "v1774935723/emakimono/kusoushi-emaki__kusoushi-emaki_1_02_01.jpg",
+      "name": "kusoushi-emaki__kusoushi-emaki_1_02_01",
+      "srcWidth": 1685,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774935724/emakimono/kusoushi-emaki__kusoushi-emaki_1_02_02.jpg",
+      "name": "kusoushi-emaki__kusoushi-emaki_1_02_02",
+      "test": "hoge",
+      "srcWidth": 1725,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "2",
+      "config": "cloudinary",
+      "src": "v1774935726/emakimono/kusoushi-emaki__kusoushi-emaki_1_03_01.jpg",
+      "name": "kusoushi-emaki__kusoushi-emaki_1_03_01",
+      "srcWidth": 1659,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774935727/emakimono/kusoushi-emaki__kusoushi-emaki_1_03_02.jpg",
+      "name": "kusoushi-emaki__kusoushi-emaki_1_03_02",
+      "srcWidth": 1725,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "3",
+      "config": "cloudinary",
+      "src": "v1774935728/emakimono/kusoushi-emaki__kusoushi-emaki_1_04_01.jpg",
+      "name": "kusoushi-emaki__kusoushi-emaki_1_04_01",
+      "srcWidth": 1696,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774935730/emakimono/kusoushi-emaki__kusoushi-emaki_1_04_02.jpg",
+      "name": "kusoushi-emaki__kusoushi-emaki_1_04_02",
+      "srcWidth": 1728,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "4",
+      "config": "cloudinary",
+      "src": "v1774935731/emakimono/kusoushi-emaki__kusoushi-emaki_1_05_01.jpg",
+      "name": "kusoushi-emaki__kusoushi-emaki_1_05_01",
+      "srcWidth": 1783,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774935732/emakimono/kusoushi-emaki__kusoushi-emaki_1_05_02.jpg",
+      "name": "kusoushi-emaki__kusoushi-emaki_1_05_02",
+      "srcWidth": 1714,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "5",
+      "config": "cloudinary",
+      "src": "v1774935734/emakimono/kusoushi-emaki__kusoushi-emaki_1_06_01.jpg",
+      "name": "kusoushi-emaki__kusoushi-emaki_1_06_01",
+      "srcWidth": 1745,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774935735/emakimono/kusoushi-emaki__kusoushi-emaki_1_06_02.jpg",
+      "name": "kusoushi-emaki__kusoushi-emaki_1_06_02",
+      "srcWidth": 1716,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "6",
+      "config": "cloudinary",
+      "src": "v1774935736/emakimono/kusoushi-emaki__kusoushi-emaki_1_07_01.jpg",
+      "name": "kusoushi-emaki__kusoushi-emaki_1_07_01",
+      "srcWidth": 1751,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774935738/emakimono/kusoushi-emaki__kusoushi-emaki_1_07_02.jpg",
+      "name": "kusoushi-emaki__kusoushi-emaki_1_07_02",
+      "srcWidth": 1751,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "7",
+      "config": "cloudinary",
+      "src": "v1774935739/emakimono/kusoushi-emaki__kusoushi-emaki_1_08_01.jpg",
+      "name": "kusoushi-emaki__kusoushi-emaki_1_08_01",
+      "srcWidth": 1714,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774935740/emakimono/kusoushi-emaki__kusoushi-emaki_1_08_02.jpg",
+      "name": "kusoushi-emaki__kusoushi-emaki_1_08_02",
+      "srcWidth": 1745,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "8",
+      "config": "cloudinary",
+      "src": "v1774935742/emakimono/kusoushi-emaki__kusoushi-emaki_1_09_01.jpg",
+      "name": "kusoushi-emaki__kusoushi-emaki_1_09_01",
+      "srcWidth": 1668,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774935743/emakimono/kusoushi-emaki__kusoushi-emaki_1_09_02.jpg",
+      "name": "kusoushi-emaki__kusoushi-emaki_1_09_02",
+      "srcWidth": 1731,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "9",
+      "config": "cloudinary",
+      "src": "v1774935744/emakimono/kusoushi-emaki__kusoushi-emaki_1_10_01.jpg",
+      "name": "kusoushi-emaki__kusoushi-emaki_1_10_01",
+      "srcWidth": 1630,
+      "srcHeight": 1080
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774935745/emakimono/kusoushi-emaki__kusoushi-emaki_1_10_02.jpg",
+      "name": "kusoushi-emaki__kusoushi-emaki_1_10_02",
+      "srcWidth": 1731,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774935747/emakimono/kusoushi-emaki__kusoushi-emaki_1_10_03.jpg",
+      "name": "kusoushi-emaki__kusoushi-emaki_1_10_03",
+      "srcWidth": 1863,
+      "srcHeight": 1080,
+      "test": "hoge"
+    }
+  ],
+  "descen": "Kusōshi Emaki is a Muromachi-period variation of the nine stages of decay theme. Influenced by earlier kusōzu scrolls, it adds kotobagaki (inscriptions), waka poetry, and landscape elements, weaving impermanence with nature's beauty. A literary take on kusōzu — scroll through every scene."
+}

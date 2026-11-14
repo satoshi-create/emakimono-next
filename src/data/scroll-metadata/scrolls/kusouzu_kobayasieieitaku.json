@@ -1,0 +1,247 @@
+{
+  "id": 9,
+  "title": "九相図",
+  "titleen": "kusouzu_kobayasieieitaku",
+  "author": "小林永濯",
+  "authoren": "kobayashi-eitaku",
+  "backgroundImage": "/washi-pattern-01.webp",
+  "video": "",
+  "thumb": "/thumb/kusouzu_eitaku_thumb.webp",
+  "thumb2": "/thumb/kusouzu_eitaku_thumb.webp",
+  "desc": "明治の浮世絵師・小林永濯が描いた異色の九相図。他の作品と異なり、モデルは伝説上の美女ではなく近世の娼婦。生々しいリアリティとともに、肉体の衰えを9つの段階で描き出します。横スクロールで全相を鑑賞できます。",
+  "era": "明治",
+  "eraen": "meiji",
+  "gif": "",
+  "type": "絵巻",
+  "typeen": "emaki",
+  "favorite": true,
+  "kusouzuslug": [
+    {
+      "id": "1"
+    },
+    {
+      "id": "2"
+    },
+    {
+      "id": "3"
+    },
+    {
+      "id": "4"
+    },
+    {
+      "id": "5"
+    },
+    {
+      "id": "6"
+    },
+    {
+      "id": "7"
+    },
+    {
+      "id": "8"
+    },
+    {
+      "id": "0"
+    }
+  ],
+  "keyword": [
+    {
+      "name": "無常",
+      "id": "impermanence",
+      "slug": "impermanence"
+    },
+    {
+      "name": "仏教",
+      "id": "buddhism",
+      "slug": "buddhism"
+    },
+    {
+      "name": "死生観",
+      "id": "lifeandodeath",
+      "slug": "lifeandodeath"
+    },
+    {
+      "name": "解剖学",
+      "id": "anatomy",
+      "slug": "anatomy"
+    }
+  ],
+  "kotobagaki": true,
+  "sourceImageUrl": "https://www.britishmuseum.org/collection/object/A_2008-3033-1",
+  "sourceImage": "九相図（The British Museum）",
+  "sourceEkotoba": "",
+  "emakis": [
+    {
+      "cat": "ekotoba",
+      "chapter": "生前相",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774936334/emakimono/kusouzu-eitaku__kusouzu-eitaku_1_01_01.jpg",
+      "name": "kusouzu-eitaku__kusouzu-eitaku_1_01_01",
+      "srcWidth": 2143,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "新死相",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774936335/emakimono/kusouzu-eitaku__kusouzu-eitaku_1_02_01.jpg",
+      "name": "kusouzu-eitaku__kusouzu-eitaku_1_02_01",
+      "srcWidth": 2359,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "1",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774936336/emakimono/kusouzu-eitaku__kusouzu-eitaku_1_03_01.jpg",
+      "name": "kusouzu-eitaku__kusouzu-eitaku_1_03_01",
+      "srcWidth": 2422,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "2",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774936337/emakimono/kusouzu-eitaku__kusouzu-eitaku_1_04_01.jpg",
+      "name": "kusouzu-eitaku__kusouzu-eitaku_1_04_01",
+      "srcWidth": 2376,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "3",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774936338/emakimono/kusouzu-eitaku__kusouzu-eitaku_1_05_01.jpg",
+      "name": "kusouzu-eitaku__kusouzu-eitaku_1_05_01",
+      "srcWidth": 2396,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "4",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774936339/emakimono/kusouzu-eitaku__kusouzu-eitaku_1_06_01.jpg",
+      "name": "kusouzu-eitaku__kusouzu-eitaku_1_06_01",
+      "srcWidth": 2442,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "6",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774936340/emakimono/kusouzu-eitaku__kusouzu-eitaku_1_07_01.jpg",
+      "name": "kusouzu-eitaku__kusouzu-eitaku_1_07_01",
+      "srcWidth": 2350,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "7",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774936341/emakimono/kusouzu-eitaku__kusouzu-eitaku_1_08_01.jpg",
+      "name": "kusouzu-eitaku__kusouzu-eitaku_1_08_01",
+      "srcWidth": 2203,
+      "srcHeight": 1080,
+      "test": "hoge"
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "8",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcWidth": "",
+      "srcHeight": ""
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "v1774936343/emakimono/kusouzu-eitaku__kusouzu-eitaku_1_09_01.jpg",
+      "name": "kusouzu-eitaku__kusouzu-eitaku_1_09_01",
+      "srcWidth": 2483,
+      "srcHeight": 1080,
+      "test": "hoge"
+    }
+  ],
+  "descen": "A unique kusōzu (nine stages of decay) by Meiji-era ukiyo-e artist Kobayashi Eitaku. Unlike traditional kusōzu featuring legendary beauties, this scroll models a modern-era courtesan, offering a raw and realistic portrayal of bodily decay. Scroll horizontally through all nine stages."
+}

@@ -3,7 +3,7 @@ import EmakiHubMap from "@/components/emaki/hub/EmakiHubMap";
 import EmakiHubRouteCard from "@/components/emaki/hub/EmakiHubRouteCard";
 // 漫画・アニメと絵巻セクションは非表示のため一時コメントアウト（あとで再利用）
 // import EmakiRelatedMediaCard from "@/components/emaki/hub/EmakiRelatedMediaCard";
-import { THEMES } from "@/data/emakiHubData";
+import { THEMES } from "@/data/hub/hubData";
 import styles from "@/styles/EmakiHub.module.css";
 import {
   faCompress,
@@ -28,7 +28,7 @@ const getThemeFromQuery = (q) =>
 
 /**
  * 京都編 / 鎌倉編ハブページ本体。
- * props: hubData = { regions, emakis, routes, media }（image-metadata-cache.json と JOIN 済み）、 t = useTranslation("common")
+ * props: hubData = { regions, emakis, routes, media }（scroll-metadata.json と JOIN 済み）、 t = useTranslation("common")
  * カテゴリーフィルタとおすすめルートは地図内オーバーレイとして配置する。
  */
 const EmakiHubPage = ({ hubData, t }) => {

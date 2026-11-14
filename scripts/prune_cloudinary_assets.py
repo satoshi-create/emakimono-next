@@ -2,7 +2,7 @@
 """
 prune_cloudinary_assets.py — Find and delete Cloudinary assets not referenced in production.
 
-Compares emakimono/ uploads against image-metadata-cache.json (+ optional code refs).
+Compares emakimono/ uploads against scroll-metadata.json (+ optional code refs).
 Default is dry-run; pass --confirm to delete.
 
 Usage:
@@ -28,7 +28,7 @@ from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_CACHE = ROOT / "src/data/image-metadata-cache/image-metadata-cache.json"
+DEFAULT_CACHE = ROOT / "src/data/scroll-metadata/scroll-metadata.json"
 
 EMAKI_PATH_RE = re.compile(r"emakimono/[^\s\"'`,)]+")
 
@@ -120,7 +120,7 @@ def load_code_ref_public_ids(repo_root: Path) -> set[str]:
     """Collect hardcoded emakimono paths from src (OGP, hub heroes, person profiles)."""
     paths = [
         repo_root / "src/libs/constants/emakiOgImages.js",
-        repo_root / "src/data/personname-data/personprofiles.json",
+        repo_root / "src/data/persons/profiles.json",
         repo_root / "src/utils/buildChojuGigaHubData.js",
         repo_root / "src/utils/buildKusouzuHubData.js",
         repo_root / "src/components/personname/PersonProfile.js",
@@ -328,7 +328,7 @@ def warn_cache_hits(report: dict) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Find/delete Cloudinary emakimono assets not in image-metadata-cache"
+        description="Find/delete Cloudinary emakimono assets not in scroll-metadata"
     )
     parser.add_argument(
         "--prefix",
@@ -339,7 +339,7 @@ def main(argv: list[str] | None = None) -> int:
         "--cache-path",
         type=Path,
         default=DEFAULT_CACHE,
-        help="Path to image-metadata-cache.json",
+        help="Path to scroll-metadata.json",
     )
     parser.add_argument(
         "--max-results",

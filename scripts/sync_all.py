@@ -5,8 +5,8 @@ sync_all.py — Unified pipeline for emakimono-next.
 Reads an extended scroll_config.yaml and:
   1. Uploads images to Cloudinary  (via sync_scroll.py)
   2. Updates dataEmakis.json with new metadata + Cloudinary URLs
-  3. Upserts image-metadata-cache.json for this scroll (or full rebuild with --regenerate-cache)
-  4. Generates emaki-text-data/{titleen}.json from scenes[].text (when present)
+  3. Upserts scroll-metadata.json for this scroll (or full rebuild with --regenerate-cache)
+  4. Generates scroll-texts/{titleen}.json from scenes[].text (when present)
 
 Usage:
   python scripts/sync_all.py [path/to/scroll_config.yaml]
@@ -22,8 +22,8 @@ Flags:
   --force-upload      Re-upload all images even if unchanged on Cloudinary
   --remote-check      Query Cloudinary when local .upload-cache.json misses
   --workers N         Parallel upload threads (default: 3)
-  --skip-cache        Skip image-metadata-cache update
-  --skip-text         Skip emaki-text-data JSON generation
+  --skip-cache        Skip scroll-metadata update
+  --skip-text         Skip scroll-texts JSON generation
   --regenerate-cache  Rebuild entire cache from all JSON (default: upsert one entry)
   --preflight         Run preflight checks only (no upload, no file writes)
   --skip-preflight    Skip preflight validation before sync
@@ -46,23 +46,34 @@ import preflight_scroll as pf
 import sync_scroll as ss  # noqa: N812
 
 # ---------------------------------------------------------------------------
-#  Paths (relative to repo root)
+# 1. 境界定義・定数（YAML自動アップロード契約）
+# scroll_config.yaml → sync_all.py が local-data/pipeline/dataEmakis.json を更新し、
+# フロント正本 scroll-metadata.json へ upsert（既定）または regenerate_cache 経由で全件再生成。
+# scroll-texts/{titleen}.json も同一パイプラインで scenes[].text から出力する。
 # ---------------------------------------------------------------------------
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 DATA_EMAKIS_PATH = REPO_ROOT / "local-data/pipeline/dataEmakis.json"
-CACHE_DIR = REPO_ROOT / "src/data/image-metadata-cache"
-EMAKI_TEXT_DIR = REPO_ROOT / "src/data/emaki-text-data"
+CACHE_DIR = REPO_ROOT / "src/data/scroll-metadata"
+SCROLLS_CACHE_DIR = CACHE_DIR / "scrolls"
+ORDER_JSON_PATH = SCROLLS_CACHE_DIR / "_order.json"
+EMAKI_TEXT_DIR = REPO_ROOT / "src/data/scroll-texts"
 GENERATE_CACHE_SCRIPT = REPO_ROOT / "src/script/generateImageMetadata.js"
-CACHE_PATH = CACHE_DIR / "image-metadata-cache.json"
-PERSON_PROFILES_PATH = REPO_ROOT / "src/data/personname-data/personprofiles.json"
+CACHE_PATH = CACHE_DIR / "scroll-metadata.json"
+PERSON_PROFILES_PATH = REPO_ROOT / "src/data/persons/profiles.json"
 
 # スクリプトが YAML から生成しないフィールドは、再 sync 時も既存 JSON の値を保持する
 # （personname / kusouzuslug / genjieslug / sourceAuthor 等を手編集していても消えないようにする）
 
 
+# ---------------------------------------------------------------------------
+# 2. scroll-metadata 書き込み（dataEmakis エントリ → キャッシュ形式・upsert）
+# フロントは @/data/scroll-metadata/scroll-metadata.json を静的 import するため、
+# キー構造（titleen / emakis[] / srcWidth 等）を変えないこと。
+# ---------------------------------------------------------------------------
+
 def data_entry_to_cache_entry(entry: dict) -> dict:
-    """Convert a dataEmakis entry to image-metadata-cache format."""
+    """Convert a dataEmakis entry to scroll-metadata format."""
     emakis = []
     for emaki in entry.get("emakis", []):
         cached = dict(emaki)
@@ -86,40 +97,50 @@ def data_entry_to_cache_entry(entry: dict) -> dict:
     return {**entry, "emakis": emakis}
 
 
+def _read_order_list() -> list[str]:
+    if not ORDER_JSON_PATH.is_file():
+        return []
+    with ORDER_JSON_PATH.open("r", encoding="utf-8") as handle:
+        data = json.load(handle)
+    return data if isinstance(data, list) else []
+
+
+def _write_order_list(order: list[str]) -> None:
+    SCROLLS_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    with ORDER_JSON_PATH.open("w", encoding="utf-8") as handle:
+        json.dump(order, handle, ensure_ascii=False, indent=2)
+        handle.write("\n")
+
+
 def upsert_cache_entry(new_entry: dict, dry_run: bool = False) -> None:
-    """Insert or replace one scroll in image-metadata-cache.json by titleen."""
+    """Insert or replace one scroll in scrolls/{titleen}.json; append titleen to _order.json if new."""
     cache_entry = data_entry_to_cache_entry(new_entry)
     titleen = cache_entry["titleen"]
-
-    if CACHE_PATH.exists():
-        with open(CACHE_PATH, "r", encoding="utf-8") as f:
-            cache = json.load(f)
-    else:
-        cache = []
-
-    replaced = False
-    for i, entry in enumerate(cache):
-        if entry.get("titleen") == titleen:
-            cache[i] = cache_entry
-            replaced = True
-            break
-    if not replaced:
-        cache.append(cache_entry)
+    scroll_path = SCROLLS_CACHE_DIR / f"{titleen}.json"
+    replaced = scroll_path.is_file()
+    order = _read_order_list()
+    order_append = titleen not in order
 
     if dry_run:
-        action = "replace" if replaced else "append"
-        print(f"  [dry-run] Would {action} cache entry titleen='{titleen}' ({len(cache)} total)")
+        action = "replace" if replaced else "write"
+        order_note = " and append _order.json" if order_append else ""
+        print(f"  [dry-run] Would {action} scrolls/{titleen}.json{order_note}")
         return
 
-    CACHE_DIR.mkdir(parents=True, exist_ok=True)
-    with open(CACHE_PATH, "w", encoding="utf-8") as f:
-        json.dump(cache, f, ensure_ascii=False, indent=2)
-    action = "Replaced" if replaced else "Added"
-    print(f"  {action} cache entry titleen='{titleen}' ({len(cache)} total)")
+    SCROLLS_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    with scroll_path.open("w", encoding="utf-8") as handle:
+        json.dump(cache_entry, handle, ensure_ascii=False, indent=2)
+        handle.write("\n")
+
+    if order_append:
+        _write_order_list([*order, titleen])
+
+    action = "Replaced" if replaced else "Wrote"
+    print(f"  {action} scrolls/{titleen}.json")
 
 
 # ---------------------------------------------------------------------------
-#  emaki-text-data from scenes[].text
+#  scroll-texts from scenes[].text
 # ---------------------------------------------------------------------------
 
 def text_json_path(titleen: str) -> Path:
@@ -135,7 +156,7 @@ def scene_has_text(scene: dict) -> bool:
 
 
 def scene_includes_text_json_entry(scene: dict) -> bool:
-    """True when a scene should appear in emaki-text-data (body text and/or chapter title)."""
+    """True when a scene should appear in scroll-texts (body text and/or chapter title)."""
     if scene_has_text(scene):
         return True
     return bool(str(scene.get("title", "")).strip() or str(scene.get("titleen", "")).strip())
@@ -151,7 +172,7 @@ def _text_json_chapter_key(scene: dict) -> str:
 
 
 def build_text_json(config: dict) -> list[dict]:
-    """Build emaki-text-data JSON array from scenes[].text in scroll_config.yaml.
+    """Build scroll-texts JSON array from scenes[].text in scroll_config.yaml.
 
     One entry per scene (``chapter`` = scene id). Optional ``genji_chapter`` is
     stored for 54帖マスター title lookup; it is not the text-JSON key.
@@ -185,7 +206,7 @@ def build_text_json(config: dict) -> list[dict]:
 
 
 def write_text_json(config: dict, dry_run: bool = False) -> list[dict]:
-    """Write emaki-text-data/{titleen}.json from YAML scenes[].text."""
+    """Write scroll-texts/{titleen}.json from YAML scenes[].text."""
     meta = config.get("metadata", {})
     titleen = meta.get("titleen", "")
     if not titleen:
@@ -200,7 +221,7 @@ def write_text_json(config: dict, dry_run: bool = False) -> list[dict]:
         if kotobagaki:
             print(f"  Warning: kotobagaki=true but no scenes[].text found for '{titleen}'")
         else:
-            print(f"  No scenes[].text — skipped emaki-text-data for '{titleen}'")
+            print(f"  No scenes[].text — skipped scroll-texts for '{titleen}'")
         return []
 
     if dry_run:
@@ -241,7 +262,7 @@ def _build_image_emaki_slot(ir: dict, spots: list[dict] | None = None) -> dict:
 
 
 def _build_ekotoba_emaki_slot(scene: dict, ir: dict | None = None) -> dict:
-    # chapter = scene id（emaki-text-data と一致）。源氏帖番号は genji_chapter に分離。
+    # chapter = scene id（scroll-texts と一致）。源氏帖番号は genji_chapter に分離。
     ekotoba: dict = {
         "cat": "ekotoba",
         "chapter": str(scene["id"]),
@@ -632,11 +653,11 @@ def upsert_data_emakis(new_entry: dict, dry_run: bool = False) -> tuple[list[dic
 
 
 # ---------------------------------------------------------------------------
-#  Regenerate image-metadata-cache.json via Node.js
+#  Regenerate scroll-metadata.json via Node.js
 # ---------------------------------------------------------------------------
 
 def regenerate_cache(dry_run: bool = False) -> None:
-    """Run generateImageMetadata.js to rebuild image-metadata-cache.json."""
+    """Run generateImageMetadata.js to rebuild scroll-metadata.json."""
     if not GENERATE_CACHE_SCRIPT.exists():
         print(f"  Warning: {GENERATE_CACHE_SCRIPT} not found, skipping cache regeneration")
         return
@@ -644,7 +665,7 @@ def regenerate_cache(dry_run: bool = False) -> None:
         print(f"  [dry-run] Would run: node {GENERATE_CACHE_SCRIPT}")
         return
 
-    print("  Regenerating image-metadata-cache.json...", end=" ", flush=True)
+    print("  Regenerating scroll-metadata.json...", end=" ", flush=True)
     # generateImageMetadata.js uses relative paths like "../../local-data/pipeline/"
     # so we must run it from the repo root
     result = subprocess.run(
@@ -726,7 +747,7 @@ def main() -> None:
     parser.add_argument(
         "--skip-text",
         action="store_true",
-        help="Skip emaki-text-data JSON generation",
+        help="Skip scroll-texts JSON generation",
     )
     parser.add_argument(
         "--preflight",
@@ -805,11 +826,11 @@ def main() -> None:
         image_rows = ss.main(upload_args)
         print(f"  Processed {len(image_rows)} image(s)")
 
-    # 4. Generate emaki-text-data JSON from scenes[].text
+    # 4. Generate scroll-texts JSON from scenes[].text
     if args.skip_text:
         print("\n[TextData] SKIPPED (--skip-text)")
     else:
-        print("\n[TextData] Generating emaki-text-data JSON...")
+        print("\n[TextData] Generating scroll-texts JSON...")
         write_text_json(config, dry_run=args.dry_run)
 
     # 5. Update dataEmakis.json
@@ -829,7 +850,7 @@ def main() -> None:
     new_entry = build_emaki_entry(config, image_rows, existing_entry, skip_images=skip_images)
     upsert_data_emakis(new_entry, dry_run=args.dry_run)
 
-    # 6. Update image-metadata-cache.json
+    # 6. Update scroll-metadata.json
     if args.skip_cache:
         print("\n[Cache] SKIPPED (--skip-cache)")
     elif args.regenerate_cache:

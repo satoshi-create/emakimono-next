@@ -1,4 +1,4 @@
-import emakisMetadata from "@/data/image-metadata-cache/image-metadata-cache.json";
+import emakisMetadata from "@/data/scroll-metadata";
 import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
 import { removeNestedEmakisObj } from "@/utils/func";
 

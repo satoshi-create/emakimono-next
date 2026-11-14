@@ -1,8 +1,8 @@
 import {
   default as enData,
   default as jaData,
-} from "@/data/image-metadata-cache/image-metadata-cache.json";
-import AllGenjiChapters from "@/libs/genji/chapters-of-genji.json";
+} from "@/data/scroll-metadata/scroll-metadata.json";
+import AllGenjiChapters from "@/libs/genji/genji-chapters.json";
 import { removeNestedEmakisObj } from "@/utils/func";
 import { useRouter } from "next/router";
 import Footer from "../../layout/Footer";

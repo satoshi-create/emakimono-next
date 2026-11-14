@@ -1,5 +1,5 @@
-import chapters from "@/data/emaki-text-data/chapters-of-kusouzu.json";
-import emakisMetadata from "@/data/image-metadata-cache/image-metadata-cache.json";
+import chapters from "@/data/scroll-texts/kusouzu-chapters.json";
+import emakisMetadata from "@/data/scroll-metadata";
 import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
 import { removeNestedEmakisObj } from "@/utils/func";
 
