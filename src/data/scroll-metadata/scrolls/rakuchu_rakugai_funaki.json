@@ -103,9 +103,13 @@
         {
           "id": "toyokunitebutai",
           "name": "豊国定舞台",
-          "x": 62,
-          "y": 54,
-          "nameen": "Toyokuni Stage"
+          "x": 70,
+          "y": 53.7,
+          "nameen": "Toyokuni Stage",
+          "rect": {
+            "w": 58,
+            "h": 17.8
+          }
         },
         {
           "id": "sanjusangendo",
@@ -128,15 +132,19 @@
         {
           "id": "daibutsuden",
           "name": "方広寺大仏殿",
-          "x": 57,
-          "y": 44,
-          "nameen": "Great Buddha Hall (Hoko-ji)"
+          "x": 92.5,
+          "y": 51.1,
+          "nameen": "Great Buddha Hall (Hoko-ji)",
+          "rect": {
+            "w": 65.2,
+            "h": 23.2
+          }
         },
         {
           "id": "myohoin",
           "name": "妙法院",
-          "x": 94,
-          "y": 24,
+          "x": 81,
+          "y": 30.4,
           "nameen": "Myoho-in"
         }
       ]
@@ -162,16 +170,28 @@
         {
           "id": "kiyomizudera",
           "name": "清水寺",
-          "x": 71,
-          "y": 11,
-          "nameen": "Kiyomizu-dera"
+          "x": 100,
+          "y": 6.6,
+          "nameen": "Kiyomizu-dera",
+          "rect": {
+            "w": 84.8,
+            "h": 11.8
+          },
+          "badgePos": {
+            "x": 61.1,
+            "y": 1.7
+          }
         },
         {
           "id": "rokuharamitsuji",
           "name": "六波羅蜜寺",
-          "x": 88,
-          "y": 40,
-          "nameen": "Rokuharamitsu-ji"
+          "x": 98.8,
+          "y": 39.7,
+          "nameen": "Rokuharamitsu-ji",
+          "rect": {
+            "w": 60,
+            "h": 20.2
+          }
         },
         {
           "id": "gojodori",
@@ -208,9 +228,13 @@
         {
           "id": "kenninji",
           "name": "建仁寺",
-          "x": 58,
-          "y": 35,
-          "nameen": "Kennin-ji"
+          "x": 51.8,
+          "y": 35.1,
+          "nameen": "Kennin-ji",
+          "rect": {
+            "w": 4,
+            "h": 4
+          }
         }
       ]
     },
@@ -507,8 +531,8 @@
         {
           "id": "nijocastle",
           "name": "二条城",
-          "x": 32,
-          "y": 38,
+          "x": 23,
+          "y": 44.6,
           "nameen": "Nijo Castle"
         },
         {

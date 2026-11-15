@@ -20,6 +20,8 @@ function toMotifImageUrl(image) {
 
 /** @type {Record<string, { preferredSpotId?: string, dx?: number, dy?: number, zoom?: number }>} */
 const MOTIF_VISUAL_OVERRIDES = {
+  "hokoji_daibutsu:rakuchu_rakugai_met": { preferredSpotId: "daibutsuden" },
+  "nijo_castle:rakuchu_rakugai_met": { preferredSpotId: "nijocastle" },
   "imperial_palace:rakuchu_rakugai_funaki": { preferredSpotId: "shishinden" },
   "imperial_palace:rakuchu_rakugai_fukuoka": {
     preferredSpotId: "imperial-palace-shishinden",
@@ -38,18 +40,37 @@ const MOTIF_VISUAL_OVERRIDES = {
 function resolveMotifVisualForScroll(emakis, aliasSpotIds, preferredSpotId) {
   if (!Array.isArray(emakis) || !aliasSpotIds?.length) return null;
   const aliasSet = new Set(aliasSpotIds);
+
+  if (preferredSpotId) {
+    let sliceIndex = -1;
+    for (const slice of emakis) {
+      if (slice?.cat !== "image") continue;
+      sliceIndex += 1;
+      const spots = slice.spots;
+      if (!Array.isArray(spots)) continue;
+      const spot = spots.find((s) => s?.id === preferredSpotId);
+      if (!spot) continue;
+      const image = slice.image ?? slice.src ?? null;
+      if (!image) return null;
+      return {
+        image,
+        x: spot.x,
+        y: spot.y,
+        rect: spot.rect ?? null,
+        spotNameJa: spot.name ?? "",
+        spotNameEn: spot.nameen ?? spot.nameEn ?? "",
+        sliceIndex,
+      };
+    }
+  }
+
   let sliceIndex = -1;
   for (const slice of emakis) {
     if (slice?.cat !== "image") continue;
     sliceIndex += 1;
     const spots = slice.spots;
     if (!Array.isArray(spots)) continue;
-    let spot = preferredSpotId
-      ? spots.find((s) => s?.id === preferredSpotId)
-      : undefined;
-    if (!spot) {
-      spot = spots.find((s) => s?.id && aliasSet.has(s.id));
-    }
+    const spot = spots.find((s) => s?.id && aliasSet.has(s.id));
     if (!spot) continue;
     const image = slice.image ?? slice.src ?? null;
     if (!image) return null;
@@ -57,6 +78,7 @@ function resolveMotifVisualForScroll(emakis, aliasSpotIds, preferredSpotId) {
       image,
       x: spot.x,
       y: spot.y,
+      rect: spot.rect ?? null,
       spotNameJa: spot.name ?? "",
       spotNameEn: spot.nameen ?? spot.nameEn ?? "",
       sliceIndex,
@@ -84,9 +106,10 @@ function buildMotifVisuals(rawByTitleen) {
             image: toMotifImageUrl(resolved.image),
             x: resolved.x,
             y: resolved.y,
+            rect: resolved.rect ?? null,
             dx: override?.dx ?? 0,
             dy: override?.dy ?? 0,
-            zoom: override?.zoom ?? 1.35,
+            ...(typeof override?.zoom === "number" ? { zoom: override.zoom } : {}),
           }
         : null;
     }

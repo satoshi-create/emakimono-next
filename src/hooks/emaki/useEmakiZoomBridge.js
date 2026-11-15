@@ -110,6 +110,8 @@ export default function useEmakiZoomBridge({
           ]),
           srcWidth: item.srcWidth || 0,
           srcHeight: item.srcHeight || 0,
+          spots: item.spots || [],
+          linkId: item.linkId,
         });
       }
       return list;

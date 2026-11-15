@@ -111,9 +111,13 @@
         {
           "id": "hokoku-mausoleum",
           "name": "豊国廟",
-          "x": 11.3,
-          "y": 5.6,
-          "nameen": "Hokoku Mausoleum"
+          "x": 3.7,
+          "y": 8.3,
+          "nameen": "Hokoku Mausoleum",
+          "rect": {
+            "w": 33.2,
+            "h": 5.2
+          }
         },
         {
           "id": "sanjusangendo",
@@ -125,9 +129,17 @@
         {
           "id": "mimizuka",
           "name": "耳塚",
-          "x": 29.1,
-          "y": 41.1,
-          "nameen": "Mimizuka (Ear Burial Mound)"
+          "x": 45.4,
+          "y": 41.9,
+          "nameen": "Mimizuka (Ear Burial Mound)",
+          "rect": {
+            "w": 24,
+            "h": 20
+          },
+          "badgePos": {
+            "x": 27.4,
+            "y": 40.3
+          }
         },
         {
           "id": "gion-festival",
@@ -159,9 +171,17 @@
         {
           "id": "daibutsuden",
           "name": "方広寺大仏殿",
-          "x": 55.2,
-          "y": 30.3,
-          "nameen": "Great Buddha Hall of Hoko-ji"
+          "x": 88.8,
+          "y": 27.8,
+          "nameen": "Great Buddha Hall of Hoko-ji",
+          "rect": {
+            "w": 67.6,
+            "h": 20.8
+          },
+          "badgePos": {
+            "x": 60.5,
+            "y": 21.9
+          }
         }
       ]
     },
@@ -177,9 +197,17 @@
         {
           "id": "kiyomizudera",
           "name": "清水寺",
-          "x": 36.6,
-          "y": 4.3,
-          "nameen": "Kiyomizu-dera"
+          "x": 45.6,
+          "y": 10.6,
+          "nameen": "Kiyomizu-dera",
+          "rect": {
+            "w": 90.6,
+            "h": 17
+          },
+          "badgePos": {
+            "x": 8.5,
+            "y": 5.5
+          }
         },
         {
           "id": "kamogawa",
@@ -225,9 +253,17 @@
         {
           "id": "hidetsugu-mound",
           "name": "豊臣秀次一族の墓",
-          "x": 51.8,
-          "y": 49.2,
-          "nameen": "Mound of Hidetsugu's Concubines"
+          "x": 41.6,
+          "y": 50.3,
+          "nameen": "Mound of Hidetsugu's Concubines",
+          "rect": {
+            "w": 29.4,
+            "h": 11.4
+          },
+          "badgePos": {
+            "x": 56.5,
+            "y": 46.7
+          }
         }
       ]
     },
@@ -354,9 +390,13 @@
         {
           "id": "nijocastle",
           "name": "二条城",
-          "x": 74.2,
-          "y": 35.3,
-          "nameen": "Nijo Castle"
+          "x": 92.4,
+          "y": 43.6,
+          "nameen": "Nijo Castle",
+          "rect": {
+            "w": 24,
+            "h": 20
+          }
         }
       ]
     },

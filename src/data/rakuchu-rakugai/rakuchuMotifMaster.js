@@ -110,7 +110,7 @@ export const RAKUCHU_SPOT_MASTERS = [
     summaryJa: "天皇・朝廷の中枢。形式を問わず洛中政治・儀礼の象徴として描かれる。",
     summaryEn: "Core of imperial rule; depicted across all composition lineages as the symbol of court ritual and authority.",
     aliasSpotIds: ["shishinden", "seiryoden", "minamimon", "imperial-palace-shishinden"],
-    presentIn: ["rakuchu_rakugai_funaki", "rakuchu_rakugai_fukuoka"],
+    presentIn: ["rakuchu_rakugai_funaki", "rakuchu_rakugai_fukuoka", "rakuchu_rakugai_met"],
   },
   {
     masterId: "toyokuni_shrine",

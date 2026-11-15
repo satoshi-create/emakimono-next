@@ -18,6 +18,7 @@ import { useTranslation } from "next-i18next";
 import { useEffect, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
+import SpotPins from "./SpotPins";
 
 // =============================================================================
 // デバッグスイッチ
@@ -49,7 +50,96 @@ const ZoomLayer = ({
 }) => {
   const { t } = useTranslation("common");
   const [showHint, setShowHint] = useState(true);
+  const [isSpotEditMode, setIsSpotEditMode] = useState(false);
+  const [pickedSpot, setPickedSpot] = useState(null);
+  const [spotIdDraft, setSpotIdDraft] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [dragPreview, setDragPreview] = useState(null);
+  const dragSpotRef = useRef(null);
   const prevTransformRef = useRef({ scale: null, panX: null, panY: null });
+
+  const roundPct = (n) => Math.round(n * 10) / 10;
+
+  const pctFromPointer = (e, el) => {
+    const rect = el.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return { x: 0, y: 0 };
+    const x = roundPct(((e.clientX - rect.left) / rect.width) * 100);
+    const y = roundPct(((e.clientY - rect.top) / rect.height) * 100);
+    return {
+      x: Math.min(100, Math.max(0, x)),
+      y: Math.min(100, Math.max(0, y)),
+    };
+  };
+
+  const commitDragRect = (sliceKey, x0, y0, x1, y1) => {
+    const w = roundPct(Math.abs(x1 - x0));
+    const h = roundPct(Math.abs(y1 - y0));
+    if (w < 1.5 && h < 1.5) {
+      setPickedSpot({
+        sliceKey,
+        x: roundPct(x0),
+        y: roundPct(y0),
+        w: 24,
+        h: 20,
+        id: spotIdDraft,
+      });
+      return;
+    }
+    const x = roundPct((x0 + x1) / 2);
+    const y = roundPct((y0 + y1) / 2);
+    setPickedSpot({ sliceKey, x, y, w, h, id: spotIdDraft });
+  };
+
+  const copyPickedSpotJson = async () => {
+    if (!pickedSpot) return;
+    const text = JSON.stringify(
+      {
+        id: spotIdDraft || pickedSpot.id || "spot-id",
+        x: pickedSpot.x,
+        y: pickedSpot.y,
+        rect: { w: pickedSpot.w, h: pickedSpot.h },
+      },
+      null,
+      2
+    );
+
+    const fallbackCopy = () => {
+      if (typeof document === "undefined") return false;
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      ta.style.top = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      ta.setSelectionRange(0, text.length);
+      let ok = false;
+      try {
+        ok = document.execCommand("copy");
+      } finally {
+        document.body.removeChild(ta);
+      }
+      return ok;
+    };
+
+    let success = false;
+    try {
+      if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        success = true;
+      }
+    } catch {
+      /* fallback */
+    }
+    if (!success) {
+      success = fallbackCopy();
+    }
+    if (success) {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   // ---------------------------------------------------------------------------
   // [フロー 1] 操作ヒントバブルの自動消去タイマー（3.2秒）
@@ -60,6 +150,13 @@ const ZoomLayer = ({
     }, 3200);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    setIsSpotEditMode(
+      new URLSearchParams(window.location.search).get("editSpots") === "1"
+    );
+  }, [isZoomed, scale]);
 
   // ---------------------------------------------------------------------------
   // [フロー 2] ズーム表示状態および Transform の変化監視ログ
@@ -134,35 +231,183 @@ const ZoomLayer = ({
             transform: `translate(${safePanX}px, ${safePanY}px) scale(${safeScale})`,
           }}
         >
-          {slices.map((s) => (
-            <img
-              key={s.key}
-              data-scene-index={s.key}
-              className={styles.image}
-              src={s.src}
-              alt=""
-              draggable={false}
-              loading={s.key === centerKey ? "eager" : "lazy"}
-              onError={() => {
-                logZoomLayer("ImageLoadError", { key: s.key, src: s.src });
-              }}
-              /*
-                実幅のインライン指定は廃止。CSS の height:100% + width:auto に
-                aspect-ratio を渡し、レンダリング側で正確な幅を自動計算させる
-                （ロード前でも幅が確定し、strip.offsetWidth が 0 へ潰れない）。
-              */
-              style={
-                Number.isFinite(s.srcWidth) &&
-                s.srcWidth > 0 &&
-                Number.isFinite(s.srcHeight) &&
-                s.srcHeight > 0
-                  ? { aspectRatio: `${s.srcWidth} / ${s.srcHeight}` }
-                  : undefined
-              }
-            />
-          ))}
+          {slices.map((s) => {
+            const aspectStyle =
+              Number.isFinite(s.srcWidth) &&
+              s.srcWidth > 0 &&
+              Number.isFinite(s.srcHeight) &&
+              s.srcHeight > 0
+                ? { aspectRatio: `${s.srcWidth} / ${s.srcHeight}` }
+                : undefined;
+
+            const preview =
+              dragPreview?.sliceKey === s.key ? dragPreview : null;
+            const boxFrom = (x0, y0, x1, y1) => ({
+              left: Math.min(x0, x1),
+              top: Math.min(y0, y1),
+              w: Math.abs(x1 - x0),
+              h: Math.abs(y1 - y0),
+            });
+            const previewBox = preview ? boxFrom(preview.x0, preview.y0, preview.x1, preview.y1) : null;
+            const pickedOnSlice =
+              pickedSpot?.sliceKey === s.key ? pickedSpot : null;
+            const pickedBox = pickedOnSlice
+              ? boxFrom(
+                  pickedOnSlice.x - pickedOnSlice.w / 2,
+                  pickedOnSlice.y - pickedOnSlice.h / 2,
+                  pickedOnSlice.x + pickedOnSlice.w / 2,
+                  pickedOnSlice.y + pickedOnSlice.h / 2
+                )
+              : null;
+
+            return (
+              <div
+                key={s.key}
+                data-scene-index={s.key}
+                style={{
+                  position: "relative",
+                  display: "inline-block",
+                  height: "100%",
+                  pointerEvents: "auto",
+                  ...aspectStyle,
+                }}
+              >
+                <img
+                  data-scene-index={s.key}
+                  className={styles.image}
+                  src={s.src}
+                  alt=""
+                  draggable={false}
+                  loading={s.key === centerKey ? "eager" : "lazy"}
+                  onError={() => {
+                    logZoomLayer("ImageLoadError", { key: s.key, src: s.src });
+                  }}
+                  style={{
+                    display: "block",
+                    height: "100%",
+                    width: "auto",
+                    ...aspectStyle,
+                  }}
+                />
+                {s.spots?.length > 0 && (
+                  <SpotPins
+                    spots={s.spots}
+                    linkId={s.linkId}
+                    zoomScale={safeScale}
+                  />
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
+
+      {isSpotEditMode && (
+        <div
+          style={{
+            position: "fixed",
+            top: 12,
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: 10050,
+            background: "rgba(20, 20, 20, 0.92)",
+            color: "#fff",
+            padding: "12px 16px",
+            borderRadius: 8,
+            fontSize: 13,
+            lineHeight: 1.5,
+            minWidth: 280,
+            boxShadow: "0 4px 24px rgba(0,0,0,0.35)",
+          }}
+          onPointerDown={(e) => e.stopPropagation()}
+          onMouseDown={(e) => e.stopPropagation()}
+        >
+          {!pickedSpot ? (
+            <div style={{ fontWeight: 600 }}>
+              【Spot ドラッグ編集モード】スポットバッジをドラッグして移動するとJSONが自動保存されます
+            </div>
+          ) : (
+            <>
+              <div style={{ fontWeight: 600, marginBottom: 6 }}>
+                Spot picker — slice {pickedSpot.sliceKey}
+              </div>
+              <div style={{ fontFamily: "monospace", marginBottom: 8 }}>
+                x: {pickedSpot.x} · y: {pickedSpot.y} · w: {pickedSpot.w} · h:{" "}
+                {pickedSpot.h}
+              </div>
+              <label style={{ display: "block", marginBottom: 8 }}>
+                <span
+                  style={{ display: "block", marginBottom: 4, opacity: 0.85 }}
+                >
+                  Spot id
+                </span>
+                <input
+                  type="text"
+                  value={spotIdDraft}
+                  onChange={(e) => setSpotIdDraft(e.target.value)}
+                  placeholder="spot-id"
+                  style={{
+                    width: "100%",
+                    boxSizing: "border-box",
+                    padding: "6px 8px",
+                    borderRadius: 4,
+                    border: "1px solid #555",
+                    background: "#111",
+                    color: "#fff",
+                  }}
+                />
+              </label>
+              <label style={{ display: "block", marginBottom: 8 }}>
+                <span
+                  style={{ display: "block", marginBottom: 4, opacity: 0.85 }}
+                >
+                  JSON
+                </span>
+                <input
+                  readOnly
+                  value={JSON.stringify(
+                    {
+                      id: spotIdDraft || pickedSpot.id || "spot-id",
+                      x: pickedSpot.x,
+                      y: pickedSpot.y,
+                      rect: { w: pickedSpot.w, h: pickedSpot.h },
+                    },
+                    null,
+                    2
+                  )}
+                  onFocus={(e) => e.target.select()}
+                  style={{
+                    width: "100%",
+                    boxSizing: "border-box",
+                    padding: "6px 8px",
+                    borderRadius: 4,
+                    border: "1px solid #555",
+                    background: "#111",
+                    color: "#fff",
+                    fontFamily: "monospace",
+                    fontSize: 11,
+                  }}
+                />
+              </label>
+              <button
+                type="button"
+                onClick={copyPickedSpotJson}
+                style={{
+                  padding: "6px 12px",
+                  borderRadius: 4,
+                  border: "none",
+                  background: "#ff8c77",
+                  color: "#141414",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                }}
+              >
+                {copied ? "コピー済！" : "JSONをコピー"}
+              </button>
+            </>
+          )}
+        </div>
+      )}
 
       {/* ズーム操作用フローティングコントロールバー */}
       <div

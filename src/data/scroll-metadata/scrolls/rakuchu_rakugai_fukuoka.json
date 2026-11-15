@@ -124,9 +124,17 @@
         {
           "id": "kiyomizudera",
           "name": "清水寺",
-          "x": 55.1,
-          "y": 15.1,
-          "nameen": "Kiyomizu-dera Temple"
+          "x": 51.4,
+          "y": 9.4,
+          "nameen": "Kiyomizu-dera Temple",
+          "rect": {
+            "w": 96.2,
+            "h": 18.2
+          },
+          "badgePos": {
+            "x": 21.4,
+            "y": 2.7
+          }
         },
         {
           "id": "teramachi-armor-shops",
@@ -282,8 +290,8 @@
         {
           "id": "imperial-palace-shishinden",
           "name": "御所・紫宸殿の雅な花見",
-          "x": 41.3,
-          "y": 37,
+          "x": 6.1,
+          "y": 16,
           "nameen": "Cherry Blossom Viewing at the Imperial Palace (Shishinden)"
         }
       ]

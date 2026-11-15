@@ -45,26 +45,31 @@ function getMotifVisual(motifVisuals, masterId, titleen) {
   const y = typeof entry.y === "number" ? entry.y : 50;
   const dx = typeof entry.dx === "number" ? entry.dx : 0;
   const dy = typeof entry.dy === "number" ? entry.dy : 0;
-  const zoom =
-    typeof entry.zoom === "number" ? Math.max(1.6, entry.zoom) : 1.85;
+  const spotRect = entry.rect;
+  const autoZoom =
+    spotRect &&
+    typeof spotRect.w === "number" &&
+    typeof spotRect.h === "number"
+      ? Math.min(2.2, Math.max(1.25, 65 / Math.max(spotRect.w, spotRect.h)))
+      : 1.45;
+  const zoom = entry.zoom ?? autoZoom;
   const rawFx = Math.min(100, Math.max(0, x + dx));
   const rawFy = Math.min(100, Math.max(0, y + dy));
-  const halfSpanX = 50 / zoom;
-  const clampedFx = Math.min(100 - halfSpanX, Math.max(halfSpanX, rawFx));
-  const clampedFy = Math.min(82, Math.max(18, rawFy));
   return {
     image: entry.image,
     x,
     y,
     fx: rawFx,
     fy: rawFy,
-    clampedFx,
-    clampedFy,
     zoom,
   };
 }
 
+const BOX_ASPECT = 16 / 10;
+
 function MotifCropCard({ visual, href, children, style = {} }) {
+  const [aspect, setAspect] = useState(0.45);
+
   if (!visual) {
     return (
       <div
@@ -92,6 +97,14 @@ function MotifCropCard({ visual, href, children, style = {} }) {
     );
   }
 
+  const heightRatio = BOX_ASPECT / aspect;
+  const halfSpanX = 50 / visual.zoom;
+  const halfSpanY = Math.min(48, 50 / (visual.zoom * heightRatio));
+  const rawFx = visual.fx;
+  const rawFy = visual.fy;
+  const clampedFx = Math.min(100 - halfSpanX, Math.max(halfSpanX, rawFx));
+  const clampedFy = Math.min(100 - halfSpanY, Math.max(halfSpanY, rawFy));
+
   const inner = (
     <div
       style={{
@@ -108,6 +121,12 @@ function MotifCropCard({ visual, href, children, style = {} }) {
       <img
         src={visual.image}
         alt=""
+        onLoad={(e) => {
+          const img = e.currentTarget;
+          if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+            setAspect(img.naturalWidth / img.naturalHeight);
+          }
+        }}
         style={{
           position: "absolute",
           left: "50%",
@@ -115,8 +134,8 @@ function MotifCropCard({ visual, href, children, style = {} }) {
           width: "100%",
           height: "auto",
           maxWidth: "none",
-          transform: `translate(-${visual.clampedFx}%, -${visual.clampedFy}%) scale(${visual.zoom})`,
-          transformOrigin: `${visual.clampedFx}% ${visual.clampedFy}%`,
+          transform: `translate(-${clampedFx}%, -${clampedFy}%) scale(${visual.zoom})`,
+          transformOrigin: `${clampedFx}% ${clampedFy}%`,
         }}
       />
     </div>
