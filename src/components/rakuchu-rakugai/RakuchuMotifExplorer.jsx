@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import {
   RAKUCHU_COMPOSITION_FORMS,
   RAKUCHU_SPOT_MASTERS,
+  getSpotVisualKind,
 } from "@/data/rakuchu-rakugai/rakuchuMotifMaster";
 
 const FORM_TAB_IDS = ["first", "second", "second_variant"];
@@ -357,6 +358,71 @@ export function RakuchuCompositionSection({ motifVisuals, locale = "ja" }) {
   );
 }
 
+const SPOT_KIND_THEME = {
+  power: {
+    borderColor: "#4b2e83",
+    accentColor: "#4b2e83",
+    textColor: "#361f63",
+    bg: "rgba(252, 250, 255, 0.96)",
+    pillBg: "#efeaf9",
+    dotStyle: {
+      width: 8,
+      height: 8,
+      borderRadius: 1,
+      backgroundColor: "#4b2e83",
+    },
+  },
+  temple: {
+    borderColor: "#b83227",
+    accentColor: "#b83227",
+    textColor: "#8f2219",
+    bg: "rgba(255, 251, 250, 0.96)",
+    pillBg: "#fbeae8",
+    dotStyle: {
+      width: 8,
+      height: 8,
+      borderRadius: "50%",
+      backgroundColor: "#b83227",
+    },
+  },
+  water: {
+    borderColor: "#1d6fa5",
+    accentColor: "#1d6fa5",
+    textColor: "#12486b",
+    bg: "rgba(243, 250, 255, 0.96)",
+    pillBg: "#e4f2fb",
+    dotStyle: {
+      width: 10,
+      height: 6,
+      borderRadius: 999,
+      backgroundColor: "#1d6fa5",
+    },
+  },
+  town: {
+    borderColor: "#9c6615",
+    accentColor: "#c58b2a",
+    textColor: "#7a4f0e",
+    bg: "rgba(255, 252, 242, 0.96)",
+    pillBg: "#f8efd9",
+    dotStyle: {
+      width: 7,
+      height: 7,
+      borderRadius: 1,
+      transform: "rotate(45deg)",
+      backgroundColor: "#c58b2a",
+    },
+  },
+};
+
+function themeForKind(kind) {
+  return SPOT_KIND_THEME[kind] || SPOT_KIND_THEME.town;
+}
+
+function categoryFilterTheme(filterId) {
+  if (filterId === "all") return SPOT_KIND_THEME.town;
+  return themeForKind(filterId);
+}
+
 const CATEGORY_FILTERS = [
   { id: "all", labelJa: "すべて", labelEn: "All" },
   { id: "power", labelJa: "権力・城郭", labelEn: "Power & Castles" },
@@ -417,6 +483,13 @@ function MotifCarouselCard({ motif, motifVisuals, locale }) {
   const edition = availableScrolls[scrollIndex];
   const visual = getMotifVisual(motifVisuals, motif.masterId, edition.titleen);
   const pillLabels = isJa ? SCROLL_PILL_LABELS.ja : SCROLL_PILL_LABELS.en;
+  const visualKind =
+    (typeof getSpotVisualKind === "function"
+      ? getSpotVisualKind(motif.masterId)
+      : null) ||
+    motif.category ||
+    "town";
+  const theme = themeForKind(visualKind);
   const catLabel = MOTIF_CATEGORY_LABELS[motif.category];
   const categoryText = catLabel
     ? isJa
@@ -443,20 +516,41 @@ function MotifCarouselCard({ motif, motifVisuals, locale }) {
         flexDirection: "column",
         gap: 12,
         padding: 16,
-        borderRadius: 12,
-        border: "1px solid #dfd6c7",
-        background: "rgba(252, 249, 244, 0.95)",
+        borderRadius: 6,
+        border: `1px solid ${theme.borderColor}`,
+        borderLeft: `4px solid ${theme.accentColor}`,
+        background: theme.bg,
+        boxShadow: "0 1px 4px rgba(0, 0, 0, 0.08)",
       }}
     >
       <div>
-        <div style={{ fontSize: 15, fontWeight: 700, color: "#1f1a14", marginBottom: 4 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 7,
+            fontSize: 15,
+            fontWeight: 700,
+            color: "#1f1a14",
+            marginBottom: 4,
+            fontFamily: "var(--font-classical)",
+          }}
+        >
+          <span
+            aria-hidden="true"
+            style={{
+              flexShrink: 0,
+              display: "inline-block",
+              ...theme.dotStyle,
+            }}
+          />
           {isJa ? motif.nameJa : motif.nameEn}
         </div>
         <div
           style={{
             fontSize: 11,
             fontWeight: 600,
-            color: "#8a7355",
+            color: theme.textColor,
             marginBottom: 6,
           }}
         >
@@ -488,10 +582,10 @@ function MotifCarouselCard({ motif, motifVisuals, locale }) {
                   padding: "5px 10px",
                   borderRadius: 999,
                   border: active
-                    ? "1px solid #c59b27"
+                    ? `1px solid ${theme.borderColor}`
                     : "1px solid #d8d0c3",
-                  background: active ? "#f3e6c8" : "#f4f1ea",
-                  color: active ? "#5c4200" : "#3b3228",
+                  background: active ? theme.pillBg : "#f4f1ea",
+                  color: active ? theme.textColor : "#3b3228",
                   fontSize: 11,
                   fontWeight: active ? 600 : 500,
                   cursor: "pointer",
@@ -563,6 +657,7 @@ export function RakuchuMotifSection({ motifVisuals, locale = "ja" }) {
       >
         {CATEGORY_FILTERS.map((cat) => {
           const active = selectedCategory === cat.id;
+          const filterTheme = categoryFilterTheme(cat.id);
           return (
             <button
               key={cat.id}
@@ -571,16 +666,29 @@ export function RakuchuMotifSection({ motifVisuals, locale = "ja" }) {
               aria-selected={active}
               onClick={() => setSelectedCategory(cat.id)}
               style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 7,
                 padding: "8px 14px",
-                borderRadius: 8,
-                border: active ? "1px solid #c59b27" : "1px solid #d8d0c3",
-                background: active ? "#f3e6c8" : "#f4f1ea",
-                color: active ? "#5c4200" : "#3b3228",
+                borderRadius: 6,
+                border: active
+                  ? `1px solid ${filterTheme.borderColor}`
+                  : "1px solid #d8d0c3",
+                background: active ? filterTheme.pillBg : "#f4f1ea",
+                color: active ? filterTheme.textColor : "#3b3228",
                 fontSize: 13,
                 fontWeight: active ? 600 : 500,
                 cursor: "pointer",
               }}
             >
+              <span
+                aria-hidden="true"
+                style={{
+                  flexShrink: 0,
+                  display: "inline-block",
+                  ...filterTheme.dotStyle,
+                }}
+              />
               {isJa ? cat.labelJa : cat.labelEn}
             </button>
           );

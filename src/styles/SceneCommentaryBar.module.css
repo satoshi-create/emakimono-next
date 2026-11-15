@@ -22,7 +22,7 @@
 .bar {
   position: relative;
   width: 100%;
-  z-index: 20;
+  z-index: 60;
   /* 1本のバーとして縦に伸びる（折りたたみ時は header のみ、展開時は全文＋段一覧まで） */
   display: flex;
   flex-direction: column;
@@ -312,14 +312,14 @@
 .reopenBar {
   position: relative;
   width: 100%;
-  z-index: 20;
+  z-index: 60;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   gap: 8px;
   padding: 6px 12px;
   flex-wrap: wrap;
-  /* 透明な全幅領域がナビ（z-index:10）のクリックを奪わないようにする */
+  /* 透明な全幅領域がナビ（z-index:60）のクリックを奪わないようにする */
   pointer-events: none;
   /* 背景は透明。ボタン自体に白背景を持たせる */
   background: transparent;
@@ -363,7 +363,7 @@
 .wrap {
   position: relative;
   width: 100%;
-  z-index: 20;
+  z-index: 60;
 }
 .wrap[data-fullscreen="true"] {
   position: absolute;

@@ -1,4 +1,6 @@
 import styles from "@/styles/ViewerDiscoveryRail.module.css";
+import { RAKUCHU_RAKUGAI_CLUSTER_TITLEEN } from "@/libs/constants/discoveryLinks";
+import { HOME_LATEST_SCROLLS } from "@/libs/constants/links";
 import {
   expandDiscoveryTitleens,
   resolveViewerDiscoveryPlan,
@@ -21,49 +23,82 @@ const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
   const context = useContext(AppContext);
   const rankingList = context?.rankingData || [];
 
-  const { plan, items, splitIndex } = useMemo(() => {
+  const { plan, relatedItems, byobuItems, scrollItems } = useMemo(() => {
     const p = resolveViewerDiscoveryPlan(data);
-    const TARGET_LIMIT = 10;
-    const titleens = expandDiscoveryTitleens(
-      p.titleens,
-      data?.titleen,
-      TARGET_LIMIT,
-      Boolean(p.noExpand)
-    );
     const byTitleen = new Map(all.map((item) => [item.titleen, item]));
 
-    // 解決済みアイテムを収集
-    const seen = new Set([data?.titleen, ...titleens]);
-    const planned = titleens
+    const relatedItems = (p.titleens || [])
       .map((id) => byTitleen.get(id))
       .filter(Boolean);
 
-    const relatedCount = Math.min(planned.length, 4);
-    // 補充プール: AppContext のランキング（PV降順）を最優先し、無ければ all を使用
-    const candidatePool = rankingList.length > 0 ? rankingList : (Array.isArray(all) ? all : []);
+    const isCurrentRakuchu = Boolean(
+      data?.titleen && RAKUCHU_RAKUGAI_CLUSTER_TITLEEN.includes(data.titleen)
+    );
 
-    // 枠が空いている場合、ランキング 1 位から順に重複のない作品を補充
-    if (planned.length < TARGET_LIMIT) {
-      for (const item of candidatePool) {
-        const titleen = item?.titleen || item?.pathName;
-        if (!titleen || seen.has(titleen)) continue;
-        const baseItem = byTitleen.get(titleen) || item;
-        // rankingData 由来の pageView を確実に保持したオブジェクトを生成
-        const matchedItem =
-          typeof item?.pageView === "number"
-            ? { ...baseItem, pageView: item.pageView }
-            : baseItem;
-        seen.add(titleen);
-        planned.push(matchedItem);
-        if (planned.length >= TARGET_LIMIT) break;
+    const byobuItems = !isCurrentRakuchu
+      ? RAKUCHU_RAKUGAI_CLUSTER_TITLEEN.map((id) => byTitleen.get(id)).filter(
+          Boolean
+        )
+      : [];
+
+    const exclude = new Set([
+      data?.titleen,
+      ...relatedItems.map((i) => i.titleen),
+      ...RAKUCHU_RAKUGAI_CLUSTER_TITLEEN,
+    ]);
+
+    const candidatePool =
+      rankingList.length > 0
+        ? rankingList
+        : Array.isArray(all)
+          ? all
+          : [];
+
+    const scrollTitleenCandidates = [];
+    const pushTitleen = (titleen) => {
+      if (!titleen || exclude.has(titleen)) return;
+      if (scrollTitleenCandidates.includes(titleen)) return;
+      scrollTitleenCandidates.push(titleen);
+    };
+
+    for (const s of HOME_LATEST_SCROLLS) {
+      pushTitleen(s.titleen);
+      if (scrollTitleenCandidates.length >= 6) break;
+    }
+
+    if (scrollTitleenCandidates.length < 6) {
+      const expanded = expandDiscoveryTitleens(
+        p.titleens,
+        data?.titleen,
+        10,
+        Boolean(p.noExpand)
+      );
+      for (const id of expanded) {
+        pushTitleen(id);
+        if (scrollTitleenCandidates.length >= 6) break;
       }
     }
 
-    return {
-      plan: p,
-      items: planned.slice(0, TARGET_LIMIT),
-      splitIndex: relatedCount,
-    };
+    if (scrollTitleenCandidates.length < 6) {
+      for (const item of candidatePool) {
+        pushTitleen(item?.titleen || item?.pathName);
+        if (scrollTitleenCandidates.length >= 6) break;
+      }
+    }
+
+    const scrollItems = scrollTitleenCandidates.slice(0, 6).map((id) => {
+      const fromPool = candidatePool.find(
+        (item) => (item?.titleen || item?.pathName) === id
+      );
+      const baseItem = byTitleen.get(id) || fromPool;
+      if (!baseItem) return null;
+      if (fromPool && typeof fromPool.pageView === "number") {
+        return { ...baseItem, pageView: fromPool.pageView };
+      }
+      return baseItem;
+    }).filter(Boolean);
+
+    return { plan: p, relatedItems, byobuItems, scrollItems };
   }, [all, data, rankingList]);
 
   const stopRailAsideBubble = (e) => {
@@ -103,36 +138,28 @@ const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
         </div>
       </div>
       <p className={styles.lead}>{t("discovery.railLead")}</p>
-      {items.length === 0 ? (
+      {relatedItems.length === 0 &&
+      byobuItems.length === 0 &&
+      scrollItems.length === 0 ? (
         <p className={styles.empty}>{t("discovery.railEmpty")}</p>
       ) : (
         <ul className={styles.list}>
-          {items.map((item, idx) => (
-            <React.Fragment key={item.titleen}>
-              {idx === splitIndex && idx < items.length && (
-                <li className={styles.sectionHeader} aria-hidden="true">
-                  <span className={styles.sectionTitle}>
-                    {locale === "en"
-                      ? "Recommended Scrolls"
-                      : "おすすめ・人気の絵巻"}
-                  </span>
-                </li>
-              )}
-              <li>
-                <Link href={`/${item.titleen}`}>
-                  <a className={styles.card} onClick={stopRailAsideBubble}>
-                    {item.thumb && (
-                      <span className={styles.thumbWrap}>
-                        <Image
-                          src={item.thumb}
-                          alt=""
-                          width={112}
-                          height={63}
-                          sizes="112px"
-                          loading="lazy"
-                        />
-                      </span>
-                    )}
+          {relatedItems.map((item) => (
+            <li key={item.titleen}>
+              <Link href={`/${item.titleen}`}>
+                <a className={styles.card} onClick={stopRailAsideBubble}>
+                  {item.thumb && (
+                    <span className={styles.thumbWrap}>
+                      <Image
+                        src={item.thumb}
+                        alt=""
+                        width={112}
+                        height={63}
+                        sizes="112px"
+                        loading="lazy"
+                      />
+                    </span>
+                  )}
                   <span className={styles.body}>
                     <span className={styles.itemTitle}>
                       {locale === "en" ? item.titleen : item.title}
@@ -146,17 +173,128 @@ const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
                       </span>
                       {typeof item.pageView === "number" && (
                         <span className={styles.viewCount}>
-                          <span className={styles.viewIcon} aria-hidden="true">👁</span>
+                          <span className={styles.viewIcon} aria-hidden="true">
+                            👁
+                          </span>
                           {item.pageView.toLocaleString()}
                         </span>
                       )}
                     </div>
                   </span>
-                  </a>
-                </Link>
-              </li>
-            </React.Fragment>
+                </a>
+              </Link>
+            </li>
           ))}
+          {byobuItems.length > 0 && (
+            <>
+              <li className={styles.sectionHeader} aria-hidden="true">
+                <span className={styles.sectionTitle}>
+                  {locale === "en"
+                    ? "Rakuchū Rakugai Screens"
+                    : "洛中洛外図屏風（特集）"}
+                </span>
+              </li>
+              {byobuItems.map((item) => (
+                <li key={item.titleen}>
+                  <Link href={`/${item.titleen}`}>
+                    <a className={styles.card} onClick={stopRailAsideBubble}>
+                      {item.thumb && (
+                        <span className={styles.thumbWrap}>
+                          <Image
+                            src={item.thumb}
+                            alt=""
+                            width={112}
+                            height={63}
+                            sizes="112px"
+                            loading="lazy"
+                          />
+                        </span>
+                      )}
+                      <span className={styles.body}>
+                        <span className={styles.itemTitle}>
+                          {locale === "en" ? item.titleen : item.title}
+                          {locale === "ja" && item.edition
+                            ? ` ${item.edition}`
+                            : ""}
+                        </span>
+                        <div className={styles.metaRow}>
+                          <span className={styles.hint}>
+                            {t("discovery.watchHint")}
+                          </span>
+                          {typeof item.pageView === "number" && (
+                            <span className={styles.viewCount}>
+                              <span
+                                className={styles.viewIcon}
+                                aria-hidden="true"
+                              >
+                                👁
+                              </span>
+                              {item.pageView.toLocaleString()}
+                            </span>
+                          )}
+                        </div>
+                      </span>
+                    </a>
+                  </Link>
+                </li>
+              ))}
+            </>
+          )}
+          {scrollItems.length > 0 && (
+            <>
+              <li className={styles.sectionHeader} aria-hidden="true">
+                <span className={styles.sectionTitle}>
+                  {locale === "en"
+                    ? "Recommended Scrolls"
+                    : "おすすめ・人気の絵巻"}
+                </span>
+              </li>
+              {scrollItems.map((item) => (
+                <li key={item.titleen}>
+                  <Link href={`/${item.titleen}`}>
+                    <a className={styles.card} onClick={stopRailAsideBubble}>
+                      {item.thumb && (
+                        <span className={styles.thumbWrap}>
+                          <Image
+                            src={item.thumb}
+                            alt=""
+                            width={112}
+                            height={63}
+                            sizes="112px"
+                            loading="lazy"
+                          />
+                        </span>
+                      )}
+                      <span className={styles.body}>
+                        <span className={styles.itemTitle}>
+                          {locale === "en" ? item.titleen : item.title}
+                          {locale === "ja" && item.edition
+                            ? ` ${item.edition}`
+                            : ""}
+                        </span>
+                        <div className={styles.metaRow}>
+                          <span className={styles.hint}>
+                            {t("discovery.watchHint")}
+                          </span>
+                          {typeof item.pageView === "number" && (
+                            <span className={styles.viewCount}>
+                              <span
+                                className={styles.viewIcon}
+                                aria-hidden="true"
+                              >
+                                👁
+                              </span>
+                              {item.pageView.toLocaleString()}
+                            </span>
+                          )}
+                        </div>
+                      </span>
+                    </a>
+                  </Link>
+                </li>
+              ))}
+            </>
+          )}
         </ul>
       )}
       <Link href="/ranking">

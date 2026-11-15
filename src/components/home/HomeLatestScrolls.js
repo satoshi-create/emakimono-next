@@ -1,5 +1,6 @@
 import HomeGalleryLink from "@/components/home/HomeGalleryLink";
 import Title from "@/components/ui/Title";
+import { RAKUCHU_RAKUGAI_CLUSTER_TITLEEN } from "@/libs/constants/discoveryLinks";
 import { HOME_LATEST_SCROLLS } from "@/libs/constants/links";
 import styles from "@/styles/HomeLatestScrolls.module.css";
 import ExtractingListData from "@/utils/ExtractingListData";
@@ -39,11 +40,15 @@ const HomeLatestScrolls = () => {
   return (
     <section className={`section-grid section-padding ${styles.section}`}>
       <Title
-        sectiontitle={t("home.latestSectionTitle")}
-        sectiontitleen={t("home.latestSectionTitle")}
+        sectiontitle={locale === "en" ? "Latest Releases" : "最新の公開作品"}
+        sectiontitleen="Latest Releases"
       />
       <div className={styles.track}>
-        {latestItems.map((item) => (
+        {latestItems.map((item) => {
+          const isByobu =
+            RAKUCHU_RAKUGAI_CLUSTER_TITLEEN.includes(item.titleen) ||
+            item.type === "byobu";
+          return (
           <Link href={`/${item.titleen}`} key={item.titleen}>
             <a className={styles.card}>
               <div className={styles.thumbWrap}>
@@ -74,15 +79,52 @@ const HomeLatestScrolls = () => {
                   {locale === "en" ? item.titleen : item.title}
                   {locale === "ja" && item.edition ? ` ${item.edition}` : ""}
                 </h3>
-                <span className={styles.era}>
-                  {locale === "en"
-                    ? `${item.eraen} period`
-                    : `${item.era}時代`}
-                </span>
+                <div
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                  }}
+                >
+                  <span className={styles.era}>
+                    {locale === "en"
+                      ? `${item.eraen} period`
+                      : `${item.era}時代`}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: "0.65rem",
+                      lineHeight: 1.2,
+                      padding: "2px 8px",
+                      borderRadius: 999,
+                      fontWeight: 600,
+                      ...(isByobu
+                        ? {
+                            color: "#c9a227",
+                            background: "rgba(15, 23, 42, 0.92)",
+                            border: "1px solid rgba(201, 162, 39, 0.45)",
+                          }
+                        : {
+                            color: "#5c5348",
+                            background: "#f5f0e6",
+                            border: "1px solid rgba(92, 83, 72, 0.25)",
+                          }),
+                    }}
+                  >
+                    {isByobu
+                      ? locale === "en"
+                        ? "Byobu"
+                        : "屏風"
+                      : locale === "en"
+                        ? "Emaki"
+                        : "絵巻"}
+                  </span>
+                </div>
               </div>
             </a>
           </Link>
-        ))}
+          );
+        })}
       </div>
       <HomeGalleryLink />
     </section>

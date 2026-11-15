@@ -6,11 +6,14 @@ export const BYOBU_HUB_PATH = "/byobu";
 
 /** トップ「最新の絵巻」キュレーション。新規公開時は先頭に追加（最大5枠）。 */
 export const HOME_LATEST_SCROLLS = [
-  { titleen: "genjimonogatari-emaki-tokugawa", publishedAt: "2026-09-05", order: 1 },
-  { titleen: "naomoto_moushibumi_ekotoba", publishedAt: "2026-09-03", order: 2 },
-  { titleen: "hyakki_utokyo", publishedAt: "2026-08-28", order: 3 },
-  { titleen: "hyakki_kokkai_a", publishedAt: "2026-08-28", order: 4 },
-  { titleen: "hyakki_no_zu_nichibun", publishedAt: "2026-08-28", order: 5 },
+  { titleen: "rakuchu_rakugai_funaki", publishedAt: "2026-11-15", order: 1 },
+  { titleen: "rakuchu_rakugai_met", publishedAt: "2026-11-15", order: 2 },
+  { titleen: "rakuchu_rakugai_fukuoka", publishedAt: "2026-11-15", order: 3 },
+  { titleen: "genjimonogatari-emaki-tokugawa", publishedAt: "2026-09-05", order: 4 },
+  { titleen: "naomoto_moushibumi_ekotoba", publishedAt: "2026-09-03", order: 5 },
+  { titleen: "hyakki_utokyo", publishedAt: "2026-08-28", order: 6 },
+  { titleen: "hyakki_kokkai_a", publishedAt: "2026-08-28", order: 7 },
+  { titleen: "hyakki_no_zu_nichibun", publishedAt: "2026-08-28", order: 8 },
 ];
 
 export const HOME_LATEST_TITLEEN = HOME_LATEST_SCROLLS.map((s) => s.titleen);
