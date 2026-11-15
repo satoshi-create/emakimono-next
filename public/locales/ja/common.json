@@ -348,7 +348,17 @@
     "scrollSectionTitle": "作品を鑑賞",
     "hubNudgeLabel": "他の洛中洛外図屏風も見る",
     "linkLabel": "洛中洛外図屏風（3伝本）",
-    "linkDesc": "舟木本・バーク本・福岡本を比較鑑賞"
+    "linkDesc": "舟木本・バーク本・福岡本を比較鑑賞",
+    "motifsSectionTitle": "構図形式と主要モチーフ",
+    "motifsSectionDesc": "洛中洛外図屏風は時代や発注背景によって構図の形式が異なります。各伝本にどの名所・風俗が描かれているかを比較できます。",
+    "filterAll": "すべて表示",
+    "filterFirstForm": "第一形式（戦国期・初期型）",
+    "filterSecondForm": "第二形式（江戸期定型）",
+    "filterSecondVariant": "第二形式（初期系譜・定型外）",
+    "wingRight": "右隻（東側）",
+    "wingLeft": "左隻（西側）",
+    "presentLabel": "描かれている伝本",
+    "absentLabel": "描写なし"
   },
   "discovery": {
     "sectionTitle": "注目の絵巻を見る",

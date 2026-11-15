@@ -24,6 +24,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useMemo } from "react";
 import { useTranslation } from "next-i18next";
+import { getScrollCompositionForm } from "@/data/rakuchu-rakugai/rakuchuMotifMaster";
+import { RAKUCHU_RAKUGAI_HUB_PATH } from "@/libs/constants/links";
 
 const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerFullscreen = false }) => {
   const { rankingData } = useContext(AppContext);
@@ -154,6 +156,25 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
                         className={styles.rankViewIcon}
                       />
                       {Number(rankInfo.pageView).toLocaleString()}
+                    </a>
+                  </Link>
+                )}
+                {getScrollCompositionForm(data?.titleen) && (
+                  <Link href={`${RAKUCHU_RAKUGAI_HUB_PATH}#motifs`}>
+                    <a
+                      className={styles.compositionBadge}
+                      title={
+                        locale === "en"
+                          ? "View Rakuchū-rakugai-zu composition & motifs"
+                          : "洛中洛外図の構図形式と主要モチーフを見る"
+                      }
+                    >
+                      <span>
+                        {locale === "en"
+                          ? getScrollCompositionForm(data?.titleen).badgeEn
+                          : getScrollCompositionForm(data?.titleen).badgeJa}
+                      </span>
+                      <span aria-hidden="true">↗</span>
                     </a>
                   </Link>
                 )}

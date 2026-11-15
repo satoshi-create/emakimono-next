@@ -348,7 +348,17 @@
     "scrollSectionTitle": "Explore the Screens",
     "hubNudgeLabel": "Explore Other Rakuchū-rakugai-zu Screens",
     "linkLabel": "Rakuchū-rakugai-zu (3 Versions)",
-    "linkDesc": "Compare the Funaki, Burke, and Fukuoka screens"
+    "linkDesc": "Compare the Funaki, Burke, and Fukuoka screens",
+    "motifsSectionTitle": "Composition Forms & Key Motifs",
+    "motifsSectionDesc": "Rakuchū-rakugai-zu screens follow distinct compositional traditions depending on their era and patronage. Compare which landmarks and street scenes appear in each version.",
+    "filterAll": "All Forms",
+    "filterFirstForm": "First Form (Sengoku / Early)",
+    "filterSecondForm": "Second Form (Edo Standard)",
+    "filterSecondVariant": "Second Form (Early-Lineage Variant)",
+    "wingRight": "Right Screen (East)",
+    "wingLeft": "Left Screen (West)",
+    "presentLabel": "Depicted in",
+    "absentLabel": "Not depicted"
   },
   "discovery": {
     "sectionTitle": "Featured scrolls to watch",

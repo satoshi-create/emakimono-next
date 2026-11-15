@@ -10,6 +10,7 @@
  * - onPointerDown でも stopPropagation（親側ハンドラへの伝播を抑止）
  */
 import { AppContext } from "@/context/AppContext";
+import { getSpotVisualKind } from "@/data/rakuchu-rakugai/rakuchuMotifMaster";
 import styles from "@/styles/SpotPins.module.css";
 import { useRouter } from "next/router";
 import {
@@ -106,6 +107,15 @@ const SpotPins = ({ spots, linkId }) => {
     >
       {spots.map((spot) => {
         const label = spotLabel(spot);
+        const kind = getSpotVisualKind(spot.id);
+        const kindClass =
+          kind === "power"
+            ? styles.pinPower
+            : kind === "temple"
+              ? styles.pinTemple
+              : kind === "water"
+                ? styles.pinWater
+                : styles.pinTown;
         return (
           <button
             key={spot.id}
@@ -114,7 +124,7 @@ const SpotPins = ({ spots, linkId }) => {
               else pinRefs.current.delete(spot.id);
             }}
             type="button"
-            className={styles.pin}
+            className={`${styles.pin} ${kindClass}`}
             style={{
               left: `${spot.x}%`,
               top: `${spot.y}%`,

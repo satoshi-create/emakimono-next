@@ -1,4 +1,8 @@
 import HubPageShell from "@/components/layout/HubPageShell";
+import {
+  RakuchuCompositionSection,
+  RakuchuMotifSection,
+} from "@/components/rakuchu-rakugai/RakuchuMotifExplorer";
 import Title from "@/components/ui/Title";
 import { RAKUCHU_RAKUGAI_HUB_PATH } from "@/libs/constants/links";
 import styles from "@/styles/ChoujuGigaHub.module.css";
@@ -9,6 +13,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+function scrollLabelForTitleen(scroll, locale) {
+  if (!scroll) return "";
+  return locale === "ja"
+    ? `${scroll.title}${scroll.edition ? ` ${scroll.edition}` : ""}`
+    : scroll.titleen;
+}
 
 function firstSentence(text) {
   if (!text) return "";
@@ -81,6 +91,10 @@ const RakuchuRakugaiHub = ({ hubData }) => {
   const { t: meta } = useLocaleMeta();
   const { locale, defaultLocale } = useRouter();
 
+  const scrollByTitleen = Object.fromEntries(
+    hubData.scrolls.map((s) => [s.titleen, s])
+  );
+
   const pageUrl =
     locale === defaultLocale
       ? `https://emakimono.com${RAKUCHU_RAKUGAI_HUB_PATH}`
@@ -140,6 +154,66 @@ const RakuchuRakugaiHub = ({ hubData }) => {
     </section>
   );
 
+  const compositionSection = (
+    <section
+      id="composition"
+      className={`section-grid section-padding ${styles.scrollSection}`}
+    >
+      <Title
+        sectiontitle={
+          locale === "en" ? "Composition Lineages" : "構図形式の比較"
+        }
+      />
+      <p
+        className={styles.introLead}
+        style={{
+          textAlign: "center",
+          maxWidth: "42rem",
+          margin: "0 auto 2.25rem",
+          lineHeight: 1.85,
+        }}
+      >
+        {locale === "en"
+          ? "Screen layout shifts by period and patron: compare the spatial pairing of the Right (East) and Left (West) screens."
+          : "時代や発注背景によって屏風全体の構図形式が異なります。右隻（東側）と左隻（西側）の主役の対比を比較できます。"}
+      </p>
+      <RakuchuCompositionSection
+        motifVisuals={hubData.motifVisuals}
+        locale={locale}
+      />
+    </section>
+  );
+
+  const motifsSection = (
+    <section
+      id="motifs"
+      className={`section-grid section-padding ${styles.scrollSection}`}
+    >
+      <Title
+        sectiontitle={
+          locale === "en" ? "Key Motifs Across Scrolls" : "主要モチーフの比較"
+        }
+      />
+      <p
+        className={styles.introLead}
+        style={{
+          textAlign: "center",
+          maxWidth: "42rem",
+          margin: "0 auto 2.25rem",
+          lineHeight: 1.85,
+        }}
+      >
+        {locale === "en"
+          ? "Compare how iconic Kyoto landmarks, rivers, and festivals are depicted across the three screens."
+          : "京都を代表する名所・河川・祭礼が、3つの伝本それぞれにどのように描かれているかを図像で見比べられます。"}
+      </p>
+      <RakuchuMotifSection
+        motifVisuals={hubData.motifVisuals}
+        locale={locale}
+      />
+    </section>
+  );
+
   return (
     <HubPageShell
       meta={{
@@ -149,7 +223,11 @@ const RakuchuRakugaiHub = ({ hubData }) => {
       }}
       breadcrumb={{ name: t("rakuchuRakugaiHub.breadcrumb") }}
       hero={hero}
-      sections={[{ id: "scrolls", content: scrollsSection }]}
+      sections={[
+        { id: "scrolls", content: scrollsSection },
+        { id: "composition", content: compositionSection },
+        { id: "motifs", content: motifsSection },
+      ]}
     />
   );
 };

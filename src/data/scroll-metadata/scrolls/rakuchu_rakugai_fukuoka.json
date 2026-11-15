@@ -122,7 +122,7 @@
           "nameen": "Gojo Bridge and Barber Shop"
         },
         {
-          "id": "kiyomizu-dera",
+          "id": "kiyomizudera",
           "name": "清水寺",
           "x": 55.1,
           "y": 15.1,
@@ -165,7 +165,7 @@
       "srcWidth": 1043,
       "spots": [
         {
-          "id": "yasaka-shrine",
+          "id": "gionsha",
           "name": "八坂神社（祇園社）",
           "x": 7.3,
           "y": 35.9,

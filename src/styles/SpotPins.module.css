@@ -73,8 +73,8 @@
 /* 墨の丸印。ホバーでアクセント色に寄せる */
 .dot {
   flex-shrink: 0;
-  width: 0.45em;
-  height: 0.45em;
+  width: 0.48em;
+  height: 0.48em;
   border-radius: 50%;
   background-color: rgb(20 20 20);
 }
@@ -82,6 +82,50 @@
 .pin:hover .dot,
 .pin:focus-visible .dot {
   background-color: var(--clr-accent);
+}
+
+/* スポット性質別の視覚差別化（城郭・御所 / 寺社 / 河川・橋 / 町並み・祭礼） */
+.pinPower {
+  border-color: #4b2e83;
+  border-left: 3px solid #4b2e83;
+  background-color: rgb(252 250 255 / 95%);
+}
+.pinPower .dot {
+  background-color: #4b2e83;
+  border-radius: 1px;
+}
+
+.pinTemple {
+  border-color: #b83227;
+  border-left: 3px solid #b83227;
+  background-color: rgb(255 251 250 / 95%);
+}
+.pinTemple .dot {
+  background-color: #b83227;
+}
+
+.pinWater {
+  border-color: #1d6fa5;
+  border-left: 3px solid #1d6fa5;
+  background-color: rgb(243 250 255 / 95%);
+  color: #12486b;
+}
+.pinWater .dot {
+  background-color: #1d6fa5;
+  width: 0.55em;
+  height: 0.32em;
+  border-radius: 999px;
+}
+
+.pinTown {
+  border-color: #9c6615;
+  border-left: 3px solid #c58b2a;
+  background-color: rgb(255 252 242 / 95%);
+}
+.pinTown .dot {
+  background-color: #c58b2a;
+  transform: rotate(45deg);
+  border-radius: 1px;
 }
 
 .label {
