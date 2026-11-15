@@ -24,16 +24,34 @@ import {
   useRef,
   useState,
 } from "react";
-import { createPortal } from "react-dom";
 
-// 端ピンがスライス境界から離す最低セーフマージン（px）。
-// CSS .layer の --spot-edge-inset と同値に保つこと。
-const EDGE_MARGIN = 4;
-const BADGE_GAP = 10;
+import SpotPlaceNamePopup from "./spotPins/SpotPlaceNamePopup";
+import SpotPinsEditSaveBar from "./spotPins/SpotPinsEditSaveBar";
+import {
+  BADGE_GAP,
+  EDGE_MARGIN,
+  extractSliceImageName,
+  fallbackOffset,
+  getSlugFromPath,
+  transformOriginFor,
+} from "./spotPins/spotPinsGeometry";
+import {
+  getAddedSpotsForSlug,
+  getPlaceModeEnabled,
+  getPlacedSpotIdsForSlug,
+  mergePendingUpdate,
+  registerNewSpot,
+  registerSliceSpotIds,
+  setPlaceModeEnabled,
+  subscribeDiscard,
+  subscribePendingUpdates,
+  subscribePlaceMode,
+} from "./spotPins/spotPinsEditStore";
 
 // =============================================================================
-// デバッグスイッチ（検証完了後は false にして一括停止）
+// 1. オーケストレータ層 — スライス画像名解決・開発用ログ（ジオメトリは spotPinsGeometry へ委譲）
 // =============================================================================
+
 const DEBUG_SPOT_ADD = false;
 
 function logDebug(tag, ...args) {
@@ -42,49 +60,8 @@ function logDebug(tag, ...args) {
   console.log(`%c[${time}ms][${tag}]`, "color: #3b82f6; font-weight: bold;", ...args);
 }
 
-// 未測定時のフォールバック（CLS 回避）。原則左上配置、端寄りは反対側へ。
-const fallbackOffset = (x, y) => ({
-  offsetX:
-    x <= 30 ? `calc(0% + ${BADGE_GAP}px)` : `calc(-100% - ${BADGE_GAP}px)`,
-  offsetY:
-    y <= 30 ? `calc(0% + ${BADGE_GAP}px)` : `calc(-100% - ${BADGE_GAP}px)`,
-});
-
-const transformOriginFor = (offsetX, offsetY) =>
-  `${String(offsetX).includes("-100%") ? "100%" : "0%"} ${String(offsetY).includes("-100%") ? "100%" : "0%"}`;
-
-const pendingUpdatesBySlug = new Map();
-/** @type {Map<string, Array<{ spotId: string, sliceIndex?: number, sliceImageName: string, name: string, nameen: string, x: number, y: number, rect: { w: number, h: number }, badgePos: object|null, isNew: true }>>} */
-const addedSpotsBySlug = new Map();
-/** @type {Map<string, Map<number, string[]>>} */
-const sliceSpotIdsBySlug = new Map();
-const currentEditSliceRef = { sliceIndex: 0 };
-const pendingListeners = new Set();
-const discardListeners = new Set();
-const placeModeListeners = new Set();
-let placeModeEnabled = false;
-const editBarHostRef = { taken: false };
-
-const notifyPlaceMode = () => {
-  placeModeListeners.forEach((fn) => {
-    fn();
-  });
-};
-
-const setPlaceModeEnabled = (next) => {
-  placeModeEnabled = Boolean(next);
-  notifyPlaceMode();
-};
-
-const getSlugFromPath = () => {
-  if (typeof window === "undefined") return "";
-  return window.location.pathname.split("/").filter(Boolean).pop() || "";
-};
-
-const IMAGE_FILE_EXT_RE = /\.(webp|jpe?g|png)$/i;
-
-/** layer の親ラッパー内の <img> src からスライス画像識別名（拡張子・クエリ除去）を得る */
-function getSliceImageName(layerEl) {
+/** layer の親ラッパー内の <img> からスライス識別名を得る */
+function getSliceImageNameFromLayer(layerEl) {
   if (!layerEl) return null;
   let el = layerEl;
   let img = null;
@@ -93,539 +70,36 @@ function getSliceImageName(layerEl) {
     if (img) break;
     el = el.parentElement;
   }
-  if (!img) return null;
-  let raw = img.currentSrc || img.src || "";
-  if (!raw) return null;
-  try {
-    const parsed = new URL(raw, window.location.href);
-    const nestedUrl = parsed.searchParams.get("url");
-    if (nestedUrl) raw = nestedUrl;
-  } catch {
-  }
-  let path = raw;
-  try {
-    path = new URL(raw, window.location.href).pathname;
-  } catch {
-    path = raw.split("?")[0].split("#")[0];
-  }
-  const base = path.split("/").pop() || "";
-  const name = base.replace(IMAGE_FILE_EXT_RE, "");
-  return name || null;
+  const baseHref =
+    typeof window !== "undefined" ? window.location.href : "";
+  return extractSliceImageName(img, baseHref);
 }
 
-const getPlacedSpotIdsForSlug = (slug) => {
-  const ids = new Set();
-  const bySlice = sliceSpotIdsBySlug.get(slug);
-  if (bySlice) {
-    bySlice.forEach((list) => list.forEach((id) => ids.add(id)));
-  }
-  (addedSpotsBySlug.get(slug) || []).forEach((a) => ids.add(a.spotId));
-  return ids;
-};
-
-const isMasterSpotPlaced = (master, placedIds) => {
-  const keys = [master.masterId, ...(master.aliasSpotIds || [])];
-  return keys.some((id) => placedIds.has(id));
-};
-
-const notifyPending = () => {
-  pendingListeners.forEach((fn) => {
-    fn();
-  });
-};
-
-const mergePendingUpdate = (slug, spotId, patch) => {
-  if (!slug || !spotId) return;
-  let bySpot = pendingUpdatesBySlug.get(slug);
-  if (!bySpot) {
-    bySpot = new Map();
-    pendingUpdatesBySlug.set(slug, bySpot);
-  }
-  const prev = bySpot.get(spotId) || {};
-  const merged = { spotId, ...prev, ...patch };
-  const preserveKeys = ["isNew", "sliceImageName", "sliceIndex", "name", "nameen"];
-  preserveKeys.forEach((key) => {
-    if (!(key in patch) && key in prev) merged[key] = prev[key];
-  });
-  bySpot.set(spotId, merged);
-  notifyPending();
-};
-
-const clearPendingForSlug = (slug) => {
-  if (slug) pendingUpdatesBySlug.delete(slug);
-  notifyPending();
-};
-
-const registerNewSpot = (
-  slug,
-  {
-    spotId,
-    sliceIndex,
-    sliceImageName,
-    name,
-    nameen,
-    x = 50,
-    y = 50,
-  },
-) => {
-  if (!slug || !spotId || !sliceImageName) return;
-  const entry = {
-    spotId,
-    ...(Number.isInteger(sliceIndex) ? { sliceIndex } : {}),
-    sliceImageName,
-    name,
-    nameen,
-    x,
-    y,
-    rect: { w: 24, h: 20 },
-    badgePos: null,
-    isNew: true,
-  };
-  let list = addedSpotsBySlug.get(slug);
-  if (!list) {
-    list = [];
-    addedSpotsBySlug.set(slug, list);
-  }
-  list.push(entry);
-  mergePendingUpdate(slug, spotId, {
-    ...(Number.isInteger(sliceIndex) ? { sliceIndex } : {}),
-    sliceImageName,
-    name,
-    nameen,
-    x,
-    y,
-    rect: { w: 24, h: 20 },
-    isNew: true,
-  });
-};
-
-function SpotPlaceNamePopup({
-  x,
-  y,
-  invZoom,
-  placedSpotIds,
-  onConfirm,
-  onCancel,
-}) {
-  const searchRef = useRef(null);
-  const nameInputRef = useRef(null);
-  const [mode, setMode] = useState("master");
-  const [query, setQuery] = useState("");
-  const [name, setName] = useState("");
-  const [nameen, setNameen] = useState("");
-  const [customId, setCustomId] = useState("");
-
-  useEffect(() => {
-    if (mode === "master") searchRef.current?.focus();
-    else nameInputRef.current?.focus();
-  }, [mode]);
-
-  const shellStyle = {
-    position: "absolute",
-    left: `${x}%`,
-    top: `${y}%`,
-    transform: `translate(10px, 10px) scale(${invZoom})`,
-    transformOrigin: "0 0",
-    zIndex: 200,
-    pointerEvents: "auto",
-    display: "flex",
-    flexDirection: "column",
-    gap: 6,
-    padding: "8px 10px",
-    minWidth: mode === "master" ? 240 : 160,
-    background: "rgb(20 20 20 / 0.96)",
-    color: "#fff",
-    fontSize: 12,
-    borderRadius: 8,
-    boxShadow: "0 4px 16px rgb(0 0 0 / 0.4)",
-    border: "1px solid #666",
-  };
-
-  const inputStyle = {
-    padding: "4px 6px",
-    borderRadius: 4,
-    border: "1px solid #666",
-    background: "#222",
-    color: "#fff",
-  };
-
-  const pickMaster = (master) => {
-    const id = master.aliasSpotIds?.[0] || master.masterId;
-    onConfirm({
-      id,
-      name: master.nameJa,
-      nameen: master.nameEn || "",
-    });
-  };
-
-  const filteredMasters = RAKUCHU_SPOT_MASTERS.filter((master) => {
-    const q = query.trim().toLowerCase();
-    if (!q) return true;
-    return (
-      master.nameJa.toLowerCase().includes(q) ||
-      (master.nameEn || "").toLowerCase().includes(q) ||
-      master.masterId.toLowerCase().includes(q)
-    );
-  });
-
-  const onSubmitManual = () => {
-    const trimmed = name.trim();
-    if (!trimmed) return;
-    const idTrim = customId.trim();
-    onConfirm({
-      id: idTrim || undefined,
-      name: trimmed,
-      nameen: nameen.trim(),
-    });
-  };
-
-  return (
-    <div
-      role="dialog"
-      aria-label={mode === "master" ? "マスターからスポット選択" : "新規スポット名"}
-      onPointerDown={(e) => e.stopPropagation()}
-      onClick={(e) => e.stopPropagation()}
-      style={shellStyle}
-    >
-      {mode === "master" ? (
-        <>
-          <input
-            ref={searchRef}
-            type="search"
-            placeholder="絞り込み（日本語・英語・id）"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Escape") onCancel();
-            }}
-            style={inputStyle}
-          />
-          <ul
-            style={{
-              margin: 0,
-              padding: 0,
-              listStyle: "none",
-              maxHeight: 220,
-              overflowY: "auto",
-              display: "flex",
-              flexDirection: "column",
-              gap: 2,
-            }}
-          >
-            {filteredMasters.map((master) => {
-              const placed = isMasterSpotPlaced(master, placedSpotIds);
-              return (
-                <li key={master.masterId}>
-                  <button
-                    type="button"
-                    onClick={() => pickMaster(master)}
-                    style={{
-                      width: "100%",
-                      textAlign: "left",
-                      padding: "5px 6px",
-                      borderRadius: 4,
-                      border: "1px solid #444",
-                      background: "#2a2a2a",
-                      color: "#fff",
-                      cursor: "pointer",
-                      fontSize: 12,
-                      lineHeight: 1.35,
-                    }}
-                  >
-                    <span style={{ fontWeight: 600 }}>{master.nameJa}</span>
-                    {master.nameEn ? (
-                      <span style={{ display: "block", color: "#aaa", fontSize: 11 }}>
-
-    padding: "4px 6px",
-              background: "transparent",
-              color: "#9cf",
-              border: "none",
-              cursor: "pointer",
-              fontSize: 11,
-              textAlign: "left",
-            }}
-          >
-            マスターにない個別スポットを手入力 →
-          </button>
-          <button
-            type="button"
-            onClick={onCancel}
-            style={{
-              padding: "4px 8px",
-              background: "transparent",
-              color: "#aaa",
-              border: "1px solid #555",
-              borderRadius: 6,
-              cursor: "pointer",
-            }}
-          >
-            キャンセル
-          </button>
-        </>
-      ) : (
-        <>
-          <input
-            ref={nameInputRef}
-            type="text"
-            placeholder="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") onSubmitManual();
-              if (e.key === "Escape") onCancel();
-            }}
-            style={inputStyle}
-          />
-          <input
-            type="text"
-            placeholder="nameen（任意）"
-            value={nameen}
-            onChange={(e) => setNameen(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") onSubmitManual();
-              if (e.key === "Escape") onCancel();
-            }}
-            style={inputStyle}
-          />
-          <input
-            type="text"
-            placeholder="id（任意・空欄なら自動採番）"
-            value={customId}
-            onChange={(e) => setCustomId(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") onSubmitManual();
-              if (e.key === "Escape") onCancel();
-            }}
-            style={inputStyle}
-          />
-          <button
-            type="button"
-            disabled={!name.trim()}
-            onClick={onSubmitManual}
-            style={{
-              padding: "5px 8px",
-              background: "#54896a",
-              color: "#fff",
-              border: "none",
-              borderRadius: 6,
-              fontWeight: 600,
-              cursor: "pointer",
-            }}
-          >
-            確定
-          </button>
-          <button
-            type="button"
-            onClick={() => setMode("master")}
-            style={{
-              padding: "4px 6px",
-              background: "transparent",
-              color: "#9cf",
-              border: "none",
-              cursor: "pointer",
-              fontSize: 11,
-              textAlign: "left",
-            }}
-          >
-            ← マスターから選択
-          </button>
-        </>
-      )}
-    </div>
-  );
+/** getSpotVisualKind 未使用時の洛中洛外デフォルト見た目 */
+function defaultSpotKindClass(spotId, styleTokens) {
+  const kind = getSpotVisualKind(spotId);
+  if (kind === "power") return styleTokens.pinPower;
+  if (kind === "temple") return styleTokens.pinTemple;
+  if (kind === "water") return styleTokens.pinWater;
+  if (kind === "town") return styleTokens.pinTown;
+  return "";
 }
 
-const discardPendingForSlug = (slug) => {
-  clearPendingForSlug(slug);
-  if (slug) addedSpotsBySlug.delete(slug);
-  discardListeners.forEach((fn) => {
-    fn(slug);
-  });
-};
 
-function SpotPinsEditSaveBar() {
-  const router = useRouter();
-  const isEditMode =
-    process.env.NODE_ENV === "development" && router.query.editSpots === "1";
-  const [isHost, setIsHost] = useState(false);
-  const [, bump] = useState(0);
-  const [saveStatus, setSaveStatus] = useState(null);
-  const [saving, setSaving] = useState(false);
-  const [, placeModeBump] = useState(0);
+// =============================================================================
+// 2. SpotPins 本体 — 表示・同期オーケストレータ（ピン DOM / 編集操作は従来どおり）
+// =============================================================================
 
-  useEffect(() => {
-    if (!isEditMode) return undefined;
-    if (editBarHostRef.taken) return undefined;
-    editBarHostRef.taken = true;
-    setIsHost(true);
-    return () => {
-      editBarHostRef.taken = false;
-    };
-  }, [isEditMode]);
-
-  useEffect(() => {
-    if (!isEditMode || !isHost) return undefined;
-    const fn = () => bump((n) => n + 1);
-    pendingListeners.add(fn);
-    return () => pendingListeners.delete(fn);
-  }, [isEditMode, isHost]);
-
-  useEffect(() => {
-    if (!isEditMode || !isHost) return undefined;
-    const fn = () => placeModeBump((n) => n + 1);
-    placeModeListeners.add(fn);
-    return () => placeModeListeners.delete(fn);
-  }, [isEditMode, isHost]);
-
-  useEffect(() => {
-    if (!saveStatus) return undefined;
-    const t = setTimeout(() => setSaveStatus(null), 4000);
-    return () => clearTimeout(t);
-  }, [saveStatus]);
-
-  if (!isEditMode || !isHost) return null;
-
-  const slug = getSlugFromPath();
-  const bySpot = pendingUpdatesBySlug.get(slug);
-  const count = bySpot ? bySpot.size : 0;
-
-  const onSaveAll = () => {
-    if (!slug || !bySpot?.size || saving) return;
-    const updates = Array.from(bySpot.values());
-    const n = updates.length;
-    setSaving(true);
-    logDebug("SAVE_ALL_REQUEST", { slug, updates });
-    fetch("/api/dev/update-spot", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ slug, updates }),
-    })
-      .then(async (res) => {
-        const body = await res.clone().json().catch(() => null);
-        logDebug("SAVE_ALL_RESPONSE", { status: res.status, ok: res.ok, body });
-        return res;
-      })
-      .then((res) => {
-        if (!res.ok) {
-          setSaveStatus(`一括保存失敗 (${res.status})`);
-          return null;
-        }
-        return res.json();
-      })
-      .then((data) => {
-        if (data === null) return;
-        clearPendingForSlug(slug);
-        addedSpotsBySlug.delete(slug);
-        setSaveStatus(`一括保存完了（${n}件）`);
-      })
-      .catch(() => setSaveStatus("一括保存失敗"))
-      .finally(() => setSaving(false));
-  };
-
-  const onDiscard = () => {
-    if (saving) return;
-    discardPendingForSlug(slug);
-    setPlaceModeEnabled(false);
-    setSaveStatus(null);
-  };
-
-  const onTogglePlaceMode = () => {
-    setPlaceModeEnabled(!placeModeEnabled);
-  };
-
-  return typeof document !== "undefined"
-    ? createPortal(
-        <div
-      role="toolbar"
-      aria-label="スポット編集の一括保存"
-      style={{
-        position: "fixed",
-        top: 12,
-        left: "50%",
-        transform: "translateX(-50%)",
-        zIndex: 20000,
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-        padding: "10px 14px",
-        background: "rgb(20 20 20 / 0.94)",
-        color: "#fff",
-        fontSize: 13,
-        borderRadius: 10,
-        boxShadow: "0 4px 20px rgb(0 0 0 / 0.35)",
-      }}
-    >
-      {saveStatus ? (
-        <span role="status" aria-live="polite">
-          {saveStatus}
-        </span>
-      ) : (
-        <>
-          <button
-            type="button"
-            disabled={saving}
-            onClick={onTogglePlaceMode}
-            aria-pressed={placeModeEnabled}
-            style={{
-              padding: "6px 12px",
-              background: placeModeEnabled ? "#54896a" : "transparent",
-              color: "#fff",
-              border: placeModeEnabled
-                ? "1px solid #54896a"
-                : "1px solid #888",
-              borderRadius: 6,
-              cursor: "pointer",
-              fontWeight: 600,
-            }}
-          >
-            ＋ クリックで配置（{placeModeEnabled ? "ON" : "OFF"}）
-          </button>
-          {placeModeEnabled ? (
-            <span style={{ fontSize: 12, color: "#ccc", maxWidth: 220 }}>
-              絵巻上の追加したい場所をクリックしてください
-            </span>
-          ) : null}
-          <button
-            type="button"
-            disabled={saving || count === 0}
-            onClick={onSaveAll}
-            style={{
-              padding: "6px 12px",
-              background: "#ff8c77",
-              color: "#111",
-              border: "none",
-              borderRadius: 6,
-              fontWeight: 600,
-              cursor: saving ? "wait" : "pointer",
-              opacity: count === 0 ? 0.5 : 1,
-            }}
-          >
-            すべてJSONに保存（{count}件）
-          </button>
-          <button
-            type="button"
-            disabled={saving || count === 0}
-            onClick={onDiscard}
-            style={{
-              padding: "6px 12px",
-              background: "transparent",
-              color: "#ccc",
-              border: "1px solid #666",
-              borderRadius: 6,
-              cursor: "pointer",
-            }}
-          >
-            変更を破棄
-          </button>
-        </>
-      )}
-    </div>,
-        document.body,
-      )
-    : null;
-}
-
-const SpotPins = ({ spots, linkId, zoomScale = 1, sliceIndex }) => {
+const SpotPins = ({
+  spots,
+  linkId,
+  zoomScale = 1,
+  sliceIndex,
+  masterSpots = RAKUCHU_SPOT_MASTERS,
+  getSpotKindClass,
+  slugOverride,
+  apiEndpoint = "/api/dev/update-spot",
+}) => {
   // chapterToggle はフッターの「段タイトルを非表示」トグル（AppContext 正本）。
   // 屏風では段タイトル枠が無いため、このフラグを名所スポットピンの表示に流用する。
   // SpotPins は spots 保持スライス（＝屏風）にのみ描画されるので通常絵巻に影響しない。
@@ -634,6 +108,14 @@ const SpotPins = ({ spots, linkId, zoomScale = 1, sliceIndex }) => {
   // useLocale は重量データ（staticData / metadata-cache）を引き込むため router を直接参照する。
   const router = useRouter();
   const { locale } = router;
+  const resolveSlug = useCallback(() => {
+    if (slugOverride) return slugOverride;
+    if (typeof window !== "undefined") {
+      return getSlugFromPath(window.location.pathname);
+    }
+    return getSlugFromPath(String(router.asPath || "").split("?")[0]);
+  }, [slugOverride, router.asPath]);
+
   const isEditMode =
     process.env.NODE_ENV === "development" && router.query.editSpots === "1";
   // 実測用: layer（=スライス幅 W）と各ピン button（=ラベル実幅 w）
@@ -649,28 +131,23 @@ const SpotPins = ({ spots, linkId, zoomScale = 1, sliceIndex }) => {
   const resizingRef = useRef(null);
   const suppressClickRef = useRef(false);
   const [, pendingBump] = useState(0);
-  const [placeModeOn, setPlaceModeOn] = useState(placeModeEnabled);
+  const [placeModeOn, setPlaceModeOn] = useState(() => getPlaceModeEnabled());
   const [placeDraft, setPlaceDraft] = useState(null);
 
   useEffect(() => {
     const layer = layerRef.current;
     if (!layer) return;
-    const name = getSliceImageName(layer);
+    const name = getSliceImageNameFromLayer(layer);
     if (name) setSliceImageName(name);
   }, [sliceIndex, spots]);
 
   const effectiveSliceIndex = Number.isInteger(sliceIndex) ? sliceIndex : null;
 
-  useEffect(() => {
-    if (isEditMode && Number.isInteger(effectiveSliceIndex))
-      currentEditSliceRef.sliceIndex = effectiveSliceIndex;
-  }, [isEditMode, effectiveSliceIndex]);
 
   useEffect(() => {
     if (!isEditMode) return undefined;
-    const syncPlace = () => setPlaceModeOn(placeModeEnabled);
-    placeModeListeners.add(syncPlace);
-    return () => placeModeListeners.delete(syncPlace);
+    const syncPlace = () => setPlaceModeOn(getPlaceModeEnabled());
+    return subscribePlaceMode(syncPlace);
   }, [isEditMode]);
 
   useEffect(() => {
@@ -680,32 +157,25 @@ const SpotPins = ({ spots, linkId, zoomScale = 1, sliceIndex }) => {
   useEffect(() => {
     if (!isEditMode) return undefined;
     const fn = () => pendingBump((n) => n + 1);
-    pendingListeners.add(fn);
-    return () => pendingListeners.delete(fn);
+    return subscribePendingUpdates(fn);
   }, [isEditMode]);
 
   useEffect(() => {
     if (!isEditMode) return undefined;
-    const slug = getSlugFromPath();
     const fn = (s) => {
-      if (s !== slug) return;
+      if (s !== resolveSlug()) return;
       setDragOverrides({});
       pendingBump((n) => n + 1);
     };
-    discardListeners.add(fn);
-    return () => discardListeners.delete(fn);
-  }, [isEditMode]);
+    return subscribeDiscard(fn);
+  }, [isEditMode, resolveSlug]);
 
-  const editSlug = isEditMode ? getSlugFromPath() : "";
+  const editSlug = isEditMode ? resolveSlug() : "";
 
   useEffect(() => {
     if (!editSlug || !Number.isInteger(effectiveSliceIndex)) return;
-    let bySlice = sliceSpotIdsBySlug.get(editSlug);
-    if (!bySlice) {
-      bySlice = new Map();
-      sliceSpotIdsBySlug.set(editSlug, bySlice);
-    }
-    bySlice.set(
+    registerSliceSpotIds(
+      editSlug,
       effectiveSliceIndex,
       (spots || []).map((s) => s.id).filter(Boolean),
     );
@@ -713,7 +183,7 @@ const SpotPins = ({ spots, linkId, zoomScale = 1, sliceIndex }) => {
 
   const addedForSlice =
     isEditMode && editSlug && sliceImageName
-      ? (addedSpotsBySlug.get(editSlug) || []).filter(
+      ? getAddedSpotsForSlug(editSlug).filter(
           (a) => a.sliceImageName && a.sliceImageName === sliceImageName,
         )
       : [];
@@ -841,7 +311,12 @@ const SpotPins = ({ spots, linkId, zoomScale = 1, sliceIndex }) => {
     anchorDraggingRef.current?.spotId != null;
   return (
     <>
-      {isEditMode ? <SpotPinsEditSaveBar /> : null}
+      {isEditMode ? (
+        <SpotPinsEditSaveBar
+          slugOverride={slugOverride}
+          apiEndpoint={apiEndpoint}
+        />
+      ) : null}
       {/* chapterToggle=false（段タイトル非表示）でピンをフェードアウト＋操作不可にする。 */}
       <div
         ref={layerRef}
@@ -868,17 +343,18 @@ const SpotPins = ({ spots, linkId, zoomScale = 1, sliceIndex }) => {
             x={placeDraft.x}
             y={placeDraft.y}
             invZoom={invZoom}
+            masterSpots={masterSpots}
             placedSpotIds={getPlacedSpotIdsForSlug(editSlug)}
             onCancel={() => setPlaceDraft(null)}
             onConfirm={(item) => {
               const { id, name, nameen } = item;
               logDebug("ADD_MASTER_SPOT", {
-                slug: getSlugFromPath(),
+                slug: resolveSlug(),
                 sliceIndexProp: sliceIndex,
                 sliceImageName,
                 item,
               });
-              const slug = getSlugFromPath();
+              const slug = resolveSlug();
               if (!slug || !name || !sliceImageName) return;
               const spotId = id || `spot-${Date.now()}`;
               registerNewSpot(slug, {
@@ -898,15 +374,12 @@ const SpotPins = ({ spots, linkId, zoomScale = 1, sliceIndex }) => {
         ) : null}
         {mergedSpots.map((spot) => {
           const label = spotLabel(spot);
-          const kind = getSpotVisualKind(spot.id);
           const kindClass =
-            kind === "power"
-              ? styles.pinPower
-              : kind === "temple"
-                ? styles.pinTemple
-                : kind === "water"
-                  ? styles.pinWater
-                  : styles.pinTown;
+            getSpotKindClass === null
+              ? ""
+              : typeof getSpotKindClass === "function"
+                ? getSpotKindClass(spot, styles) || ""
+                : defaultSpotKindClass(spot.id, styles);
           const currentX = dragOverrides[spot.id]?.x ?? spot.x;
           const currentY = dragOverrides[spot.id]?.y ?? spot.y;
           const currentRect =
@@ -1051,7 +524,7 @@ const SpotPins = ({ spots, linkId, zoomScale = 1, sliceIndex }) => {
                     badgePos: nextBadgePos,
                   },
                 }));
-                mergePendingUpdate(getSlugFromPath(), spot.id, {
+                mergePendingUpdate(resolveSlug(), spot.id, {
                   x: saveX,
                   y: saveY,
                   rect: saveRect,
@@ -1168,7 +641,7 @@ const SpotPins = ({ spots, linkId, zoomScale = 1, sliceIndex }) => {
                             ...patch,
                           },
                         }));
-                        mergePendingUpdate(getSlugFromPath(), spot.id, patch);
+                        mergePendingUpdate(resolveSlug(), spot.id, patch);
                       }}
                       onPointerCancel={(e) => {
                         if (anchorDraggingRef.current?.spotId === spot.id) {
@@ -1386,7 +859,7 @@ const SpotPins = ({ spots, linkId, zoomScale = 1, sliceIndex }) => {
                         ...(saveBadgePos ? { badgePos: saveBadgePos } : null),
                       },
                     }));
-                    mergePendingUpdate(getSlugFromPath(), spot.id, {
+                    mergePendingUpdate(resolveSlug(), spot.id, {
                       x: currentX,
                       y: currentY,
                       rect: finalRect,
