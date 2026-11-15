@@ -33,6 +33,13 @@ const useEmakiPalmDrag = (articleRef) => {
 
     const handlePointerDown = (e) => {
       if (e.pointerType !== "mouse" || e.button !== 0) return;
+      if (
+        process.env.NODE_ENV === "development" &&
+        typeof window !== "undefined" &&
+        new URLSearchParams(window.location.search).get("editSpots") === "1"
+      ) {
+        return;
+      }
       if (isInteractive(e.target)) return;
 
       didDragRef.current = false;

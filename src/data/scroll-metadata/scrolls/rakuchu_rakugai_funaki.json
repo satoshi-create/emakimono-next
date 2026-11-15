@@ -96,27 +96,47 @@
         {
           "id": "toyokunisha",
           "name": "豊国社",
-          "x": 56,
-          "y": 16,
-          "nameen": "Toyokuni Shrine"
+          "x": 56.4,
+          "y": 15.1,
+          "nameen": "Toyokuni Shrine",
+          "rect": {
+            "w": 72.4,
+            "h": 22
+          },
+          "badgePos": {
+            "x": 38.4,
+            "y": 9.1
+          }
         },
         {
           "id": "toyokunitebutai",
           "name": "豊国定舞台",
-          "x": 70,
-          "y": 53.7,
+          "x": 70.9,
+          "y": 56.2,
           "nameen": "Toyokuni Stage",
           "rect": {
-            "w": 58,
-            "h": 17.8
+            "w": 56.6,
+            "h": 29.8
+          },
+          "badgePos": {
+            "x": 62.8,
+            "y": 50.9
           }
         },
         {
           "id": "sanjusangendo",
           "name": "三十三間堂",
-          "x": 66,
-          "y": 86,
-          "nameen": "Sanjusangen-do"
+          "x": 54.7,
+          "y": 86.6,
+          "nameen": "Sanjusangen-do",
+          "rect": {
+            "w": 100,
+            "h": 25.6
+          },
+          "badgePos": {
+            "x": 50.8,
+            "y": 92.7
+          }
         }
       ]
     },
@@ -132,20 +152,32 @@
         {
           "id": "daibutsuden",
           "name": "方広寺大仏殿",
-          "x": 92.5,
-          "y": 51.1,
+          "x": 100,
+          "y": 55.3,
           "nameen": "Great Buddha Hall (Hoko-ji)",
           "rect": {
-            "w": 65.2,
-            "h": 23.2
+            "w": 100,
+            "h": 46.8
+          },
+          "badgePos": {
+            "x": 51.6,
+            "y": 46.9
           }
         },
         {
           "id": "myohoin",
           "name": "妙法院",
-          "x": 81,
-          "y": 30.4,
-          "nameen": "Myoho-in"
+          "x": 78.2,
+          "y": 30.3,
+          "nameen": "Myoho-in",
+          "rect": {
+            "w": 79.6,
+            "h": 19.6
+          },
+          "badgePos": {
+            "x": 57.4,
+            "y": 29.6
+          }
         }
       ]
     },
@@ -171,22 +203,22 @@
           "id": "kiyomizudera",
           "name": "清水寺",
           "x": 100,
-          "y": 6.6,
+          "y": 8.1,
           "nameen": "Kiyomizu-dera",
           "rect": {
-            "w": 84.8,
-            "h": 11.8
+            "w": 100,
+            "h": 18.8
           },
           "badgePos": {
-            "x": 61.1,
-            "y": 1.7
+            "x": 84.9,
+            "y": 13.8
           }
         },
         {
           "id": "rokuharamitsuji",
           "name": "六波羅蜜寺",
-          "x": 98.8,
-          "y": 39.7,
+          "x": 100,
+          "y": 36.8,
           "nameen": "Rokuharamitsu-ji",
           "rect": {
             "w": 60,
@@ -203,9 +235,17 @@
         {
           "id": "shichijo-kawara",
           "name": "七条河原",
-          "x": 76,
-          "y": 84.5,
-          "nameen": "Shichijo Riverbed"
+          "x": 100,
+          "y": 73.7,
+          "nameen": "Shichijo Riverbed",
+          "rect": {
+            "w": 100,
+            "h": 21.4
+          },
+          "badgePos": {
+            "x": 77,
+            "y": 80.6
+          }
         }
       ]
     },
@@ -221,19 +261,31 @@
         {
           "id": "gionsha",
           "name": "祇園社",
-          "x": 89,
-          "y": 11,
-          "nameen": "Gion Shrine (Yasaka)"
+          "x": 85.1,
+          "y": 17.5,
+          "nameen": "Gion Shrine (Yasaka)",
+          "rect": {
+            "w": 100,
+            "h": 28.6
+          },
+          "badgePos": {
+            "x": 45,
+            "y": 27
+          }
         },
         {
           "id": "kenninji",
           "name": "建仁寺",
-          "x": 51.8,
-          "y": 35.1,
+          "x": 54.9,
+          "y": 34.6,
           "nameen": "Kennin-ji",
           "rect": {
-            "w": 4,
-            "h": 4
+            "w": 85.6,
+            "h": 15.6
+          },
+          "badgePos": {
+            "x": 42.5,
+            "y": 38.7
           }
         }
       ]
@@ -259,16 +311,32 @@
         {
           "id": "chionin",
           "name": "知恩院",
-          "x": 69,
-          "y": 10,
-          "nameen": "Chion-in"
+          "x": 42.8,
+          "y": 5.8,
+          "nameen": "Chion-in",
+          "rect": {
+            "w": 87.4,
+            "h": 16.4
+          },
+          "badgePos": {
+            "x": 31.6,
+            "y": 10.5
+          }
         },
         {
           "id": "gojobashi",
           "name": "五条大橋",
-          "x": 56,
-          "y": 50,
-          "nameen": "Gojo Bridge"
+          "x": 97.4,
+          "y": 59.2,
+          "nameen": "Gojo Bridge",
+          "rect": {
+            "w": 100,
+            "h": 16.2
+          },
+          "badgePos": {
+            "x": 119,
+            "y": 63.6
+          }
         }
       ]
     },
@@ -282,32 +350,34 @@
       "srcWidth": 1330,
       "spots": [
         {
-          "id": "sanjobashi",
-          "name": "三条大橋",
-          "x": 10,
-          "y": 11,
-          "nameen": "Sanjo Bridge"
-        },
-        {
           "id": "shijokawara",
           "name": "四条河原",
           "x": 60,
           "y": 23,
-          "nameen": "Shijo Riverbed"
+          "nameen": "Shijo Riverbed",
+          "rect": {
+            "w": 24,
+            "h": 20
+          },
+          "badgePos": {
+            "x": 40.3,
+            "y": 20.2
+          }
         },
         {
           "id": "gojoteramachi",
           "name": "五条寺町",
-          "x": 61,
-          "y": 50,
-          "nameen": "Gojo Teramachi"
-        },
-        {
-          "id": "rokujosanjyomachi",
-          "name": "六条三筋町",
-          "x": 82,
-          "y": 89,
-          "nameen": "Rokujo Sanjomachi"
+          "x": 33.9,
+          "y": 54.5,
+          "nameen": "Gojo Teramachi",
+          "rect": {
+            "w": 54.8,
+            "h": 22.4
+          },
+          "badgePos": {
+            "x": 72.2,
+            "y": 54.2
+          }
         }
       ]
     },
@@ -332,16 +402,32 @@
         {
           "id": "sanjobashi",
           "name": "三条大橋",
-          "x": 36,
-          "y": 11,
-          "nameen": "Sanjo Bridge"
+          "x": 44,
+          "y": 6.3,
+          "nameen": "Sanjo Bridge",
+          "rect": {
+            "w": 100,
+            "h": 11.2
+          },
+          "badgePos": {
+            "x": 84.3,
+            "y": 10.9
+          }
         },
         {
           "id": "kamogawa",
           "name": "賀茂川",
-          "x": 84,
-          "y": 10,
-          "nameen": "Kamo River"
+          "x": 100,
+          "y": 47.9,
+          "nameen": "Kamo River",
+          "rect": {
+            "w": 14,
+            "h": 4
+          },
+          "badgePos": {
+            "x": 235.4,
+            "y": 47.6
+          }
         },
         {
           "id": "gionryosho",
@@ -353,16 +439,24 @@
         {
           "id": "rokujosanjyomachi",
           "name": "六条三筋町",
-          "x": 91,
-          "y": 89,
-          "nameen": "Rokujo Sanjomachi"
+          "x": 100,
+          "y": 86.1,
+          "nameen": "Rokujo Sanjomachi",
+          "rect": {
+            "w": 100,
+            "h": 21.4
+          }
         },
         {
           "id": "higashi-honganji",
           "name": "東本願寺",
-          "x": 31,
-          "y": 71.5,
-          "nameen": "Higashi Hongan-ji"
+          "x": 12.3,
+          "y": 68.7,
+          "nameen": "Higashi Hongan-ji",
+          "rect": {
+            "w": 61.6,
+            "h": 18.8
+          }
         }
       ]
     },
@@ -392,16 +486,28 @@
         {
           "id": "muromachidori",
           "name": "室町通",
-          "x": 59,
-          "y": 49,
-          "nameen": "Muromachi Street"
+          "x": 87.9,
+          "y": 52.1,
+          "nameen": "Muromachi Street",
+          "rect": {
+            "w": 100,
+            "h": 22.8
+          }
         },
         {
           "id": "toji",
           "name": "東寺",
-          "x": 94,
-          "y": 81,
-          "nameen": "To-ji"
+          "x": 83.7,
+          "y": 90.3,
+          "nameen": "To-ji",
+          "rect": {
+            "w": 71.2,
+            "h": 17.2
+          },
+          "badgePos": {
+            "x": 62.7,
+            "y": 92.1
+          }
         }
       ]
     },
@@ -435,14 +541,30 @@
           "name": "新町通",
           "x": 34,
           "y": 43,
-          "nameen": "Shinmachi Street"
+          "nameen": "Shinmachi Street",
+          "rect": {
+            "w": 24,
+            "h": 20
+          },
+          "badgePos": {
+            "x": 21.5,
+            "y": 42.5
+          }
         },
         {
           "id": "nishihonganji",
           "name": "西本願寺",
-          "x": 81,
-          "y": 78,
-          "nameen": "Nishi Hongan-ji"
+          "x": 66,
+          "y": 82.6,
+          "nameen": "Nishi Hongan-ji",
+          "rect": {
+            "w": 94.2,
+            "h": 25.4
+          },
+          "badgePos": {
+            "x": 34.7,
+            "y": 93.5
+          }
         }
       ]
     },
@@ -460,14 +582,26 @@
           "name": "二条通",
           "x": 49,
           "y": 53,
-          "nameen": "Nijo Street"
+          "nameen": "Nijo Street",
+          "rect": {
+            "w": 100,
+            "h": 18.8
+          },
+          "badgePos": {
+            "x": 41.1,
+            "y": 55
+          }
         },
         {
           "id": "shimodachiuridori",
           "name": "下立売通",
-          "x": 68,
-          "y": 46,
-          "nameen": "Shimodachiuri Street"
+          "x": 64,
+          "y": 37.4,
+          "nameen": "Shimodachiuri Street",
+          "rect": {
+            "w": 100,
+            "h": 17.6
+          }
         },
         {
           "id": "kodaiin",
@@ -499,9 +633,17 @@
         {
           "id": "shishinden",
           "name": "紫宸殿",
-          "x": 58,
-          "y": 5,
-          "nameen": "Shishinden Hall"
+          "x": 33.7,
+          "y": 8.2,
+          "nameen": "Shishinden Hall",
+          "rect": {
+            "w": 100,
+            "h": 39.6
+          },
+          "badgePos": {
+            "x": 32.9,
+            "y": 8.6
+          }
         },
         {
           "id": "minamimon",
@@ -531,16 +673,32 @@
         {
           "id": "nijocastle",
           "name": "二条城",
-          "x": 23,
-          "y": 44.6,
-          "nameen": "Nijo Castle"
+          "x": 47.5,
+          "y": 51.7,
+          "nameen": "Nijo Castle",
+          "rect": {
+            "w": 85,
+            "h": 36.6
+          },
+          "badgePos": {
+            "x": 38.8,
+            "y": 38.7
+          }
         },
         {
           "id": "seiryoden",
           "name": "清涼殿",
-          "x": 81,
-          "y": 5,
-          "nameen": "Seiryoden Hall"
+          "x": 73.3,
+          "y": 11.3,
+          "nameen": "Seiryoden Hall",
+          "rect": {
+            "w": 94.6,
+            "h": 31
+          },
+          "badgePos": {
+            "x": 41.4,
+            "y": 2.7
+          }
         },
         {
           "id": "higashinotoindori",

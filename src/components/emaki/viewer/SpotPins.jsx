@@ -31,6 +31,8 @@ import {
   getAddedSpotsForSlug,
   getPlaceModeEnabled,
   getPlacedSpotIdsForSlug,
+  isSpotMarkedDeleted,
+  markSpotDeleted,
   mergePendingUpdate,
   registerSliceSpotIds,
   setPlaceModeEnabled,
@@ -101,6 +103,7 @@ const SpotPins = ({
   const pinRefs = useRef(new Map());
   const [dragOverrides, setDragOverrides] = useState({});
   const [draggingSpotId, setDraggingSpotId] = useState(null);
+  const [resizingSpotId, setResizingSpotId] = useState(null);
   const draggingRef = useRef(null);
   const suppressClickRef = useRef(false);
   const [, pendingBump] = useState(0);
@@ -164,18 +167,25 @@ const SpotPins = ({
         )
       : [];
 
-  const mergedSpots = [
-    ...(spots || []),
-    ...addedForSlice.map((a) => ({
-      id: a.spotId,
-      name: a.name,
-      nameen: a.nameen,
-      x: a.x,
-      y: a.y,
-      rect: a.rect,
-      badgePos: a.badgePos ?? null,
-    })),
-  ];
+  const mergedSpots = (
+    [
+      ...(spots || []),
+      ...addedForSlice.map((a) => ({
+        id: a.spotId,
+        name: a.name,
+        nameen: a.nameen,
+        x: a.x,
+        y: a.y,
+        rect: a.rect,
+        badgePos: a.badgePos ?? null,
+      })),
+    ]
+  ).filter(
+    (s) =>
+      !isEditMode ||
+      !editSlug ||
+      !isSpotMarkedDeleted(editSlug, s.id, sliceImageName),
+  );
 
   const spotLabel = useCallback(
     (spot) => (locale === "en" && spot.nameen ? spot.nameen : spot.name),
@@ -225,7 +235,7 @@ const SpotPins = ({
   };
 
   const invZoom = 1 / (zoomScale || 1);
-  const layerNeedsFront = draggingSpotId != null;
+  const layerNeedsFront = draggingSpotId != null || resizingSpotId != null;
 
   // ---------------------------------------------------------------------------
   // 5. 描画 — レイヤ・ピンボタン・編集オーバーレイ
@@ -424,6 +434,39 @@ const SpotPins = ({
             >
               <span className={styles.dot} aria-hidden="true" />
               <span className={styles.label}>{label}</span>
+              {isEditMode ? (
+                <span
+                  role="button"
+                  aria-label="削除"
+                  style={{
+                    marginLeft: 4,
+                    padding: "0 4px",
+                    fontSize: 12,
+                    lineHeight: 1,
+                    cursor: "pointer",
+                    userSelect: "none",
+                  }}
+                  onPointerDown={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                  }}
+                  onMouseDown={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    markSpotDeleted(resolveSlug(), {
+                      spotId: spot.id,
+                      sliceImageName,
+                      sliceIndex,
+                    });
+                  }}
+                >
+                  ×
+                </span>
+              ) : null}
             </button>
           );
           return (
@@ -456,6 +499,8 @@ const SpotPins = ({
             masterSpots={masterSpots}
             placedSpotIds={getPlacedSpotIdsForSlug(editSlug)}
             percentFromPointer={percentFromPointer}
+            resizingSpotId={resizingSpotId}
+            setResizingSpotId={setResizingSpotId}
           />
         ) : null}
       </div>

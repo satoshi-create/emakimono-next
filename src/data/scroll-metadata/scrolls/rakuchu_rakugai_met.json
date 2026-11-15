@@ -86,16 +86,32 @@
         {
           "id": "fushimijo",
           "name": "伏見城",
-          "x": 67.2,
-          "y": 3.4,
-          "nameen": "Fushimi Castle"
+          "x": 56.3,
+          "y": 14.8,
+          "nameen": "Fushimi Castle",
+          "rect": {
+            "w": 81.6,
+            "h": 27.8
+          },
+          "badgePos": {
+            "x": 29.1,
+            "y": 16.8
+          }
         },
         {
           "id": "tofukuji",
           "name": "東福寺",
-          "x": 43.2,
-          "y": 28.3,
-          "nameen": "Tofuku-ji"
+          "x": 48.6,
+          "y": 37.3,
+          "nameen": "Tofuku-ji",
+          "rect": {
+            "w": 43.2,
+            "h": 21.8
+          },
+          "badgePos": {
+            "x": 40.9,
+            "y": 41.1
+          }
         }
       ]
     },
@@ -111,30 +127,38 @@
         {
           "id": "hokoku-mausoleum",
           "name": "豊国廟",
-          "x": 3.7,
-          "y": 8.3,
+          "x": 0,
+          "y": 8.2,
           "nameen": "Hokoku Mausoleum",
           "rect": {
-            "w": 33.2,
-            "h": 5.2
+            "w": 100,
+            "h": 20.6
+          },
+          "badgePos": {
+            "x": 14.7,
+            "y": 7.8
           }
         },
         {
           "id": "sanjusangendo",
           "name": "三十三間堂",
-          "x": 93.5,
-          "y": 28.4,
-          "nameen": "Sanjusangen-do"
+          "x": 85.6,
+          "y": 35.3,
+          "nameen": "Sanjusangen-do",
+          "rect": {
+            "w": 78.8,
+            "h": 18.8
+          }
         },
         {
           "id": "mimizuka",
           "name": "耳塚",
-          "x": 45.4,
-          "y": 41.9,
+          "x": 43.2,
+          "y": 44.6,
           "nameen": "Mimizuka (Ear Burial Mound)",
           "rect": {
-            "w": 24,
-            "h": 20
+            "w": 29.6,
+            "h": 12.6
           },
           "badgePos": {
             "x": 27.4,
@@ -144,9 +168,13 @@
         {
           "id": "gion-festival",
           "name": "祇園祭（山鉾巡行）",
-          "x": 86.6,
-          "y": 66.5,
-          "nameen": "Gion Festival Procession"
+          "x": 16.1,
+          "y": 78.3,
+          "nameen": "Gion Festival Procession",
+          "rect": {
+            "w": 100,
+            "h": 38
+          }
         }
       ]
     },
@@ -171,8 +199,8 @@
         {
           "id": "daibutsuden",
           "name": "方広寺大仏殿",
-          "x": 88.8,
-          "y": 27.8,
+          "x": 85.4,
+          "y": 28.7,
           "nameen": "Great Buddha Hall of Hoko-ji",
           "rect": {
             "w": 67.6,
@@ -197,16 +225,16 @@
         {
           "id": "kiyomizudera",
           "name": "清水寺",
-          "x": 45.6,
-          "y": 10.6,
+          "x": 31.2,
+          "y": 11.5,
           "nameen": "Kiyomizu-dera",
           "rect": {
             "w": 90.6,
             "h": 17
           },
           "badgePos": {
-            "x": 8.5,
-            "y": 5.5
+            "x": 7.4,
+            "y": 16.3
           }
         },
         {
@@ -214,17 +242,29 @@
           "name": "鴨川",
           "x": 49.7,
           "y": 46.2,
-          "nameen": "Kamo River"
+          "nameen": "Kamo River",
+          "rect": {
+            "w": 40.2,
+            "h": 4.4
+          },
+          "badgePos": {
+            "x": 36.4,
+            "y": 46.7
+          }
         },
         {
           "id": "takasegawa",
           "name": "高瀬川",
-          "x": 58.5,
-          "y": 68.2,
+          "x": 64.9,
+          "y": 70,
           "nameen": "Takase River",
           "rect": {
-            "w": 24,
-            "h": 20
+            "w": 63.8,
+            "h": 4
+          },
+          "badgePos": {
+            "x": 63.5,
+            "y": 66.1
           }
         }
       ]
@@ -250,15 +290,19 @@
         {
           "id": "gionsha",
           "name": "八坂神社（祇園社）",
-          "x": 29.1,
-          "y": 19.9,
-          "nameen": "Yasaka Shrine"
+          "x": 26.4,
+          "y": 24.1,
+          "nameen": "Yasaka Shrine",
+          "rect": {
+            "w": 88.6,
+            "h": 24.4
+          }
         },
         {
           "id": "hidetsugu-mound",
           "name": "豊臣秀次一族の墓",
-          "x": 41.6,
-          "y": 50.3,
+          "x": 43.3,
+          "y": 50.5,
           "nameen": "Mound of Hidetsugu's Concubines",
           "rect": {
             "w": 29.4,
@@ -283,9 +327,32 @@
         {
           "id": "chionin",
           "name": "知恩院",
-          "x": 47,
-          "y": 12.2,
-          "nameen": "Chion-in"
+          "x": 26.2,
+          "y": 14.5,
+          "nameen": "Chion-in",
+          "rect": {
+            "w": 80.2,
+            "h": 22
+          },
+          "badgePos": {
+            "x": 12.8,
+            "y": 23.4
+          }
+        },
+        {
+          "id": "shishinden",
+          "name": "内裏・御所（紫宸殿・清涼殿）",
+          "nameen": "Imperial Palace (Shishinden & Seiryoden)",
+          "x": 58.4,
+          "y": 77,
+          "rect": {
+            "w": 100,
+            "h": 27.8
+          },
+          "badgePos": {
+            "x": 58.4,
+            "y": 59.5
+          }
         }
       ]
     },
@@ -310,9 +377,13 @@
         {
           "id": "kamigamo-shrine",
           "name": "上賀茂神社",
-          "x": 67.6,
-          "y": 24.1,
-          "nameen": "Kamigamo Shrine"
+          "x": 59.5,
+          "y": 32,
+          "nameen": "Kamigamo Shrine",
+          "rect": {
+            "w": 52.4,
+            "h": 28.2
+          }
         }
       ]
     },
@@ -328,9 +399,17 @@
         {
           "id": "daitokuji",
           "name": "大徳寺",
-          "x": 41.1,
-          "y": 17.1,
-          "nameen": "Daitoku-ji"
+          "x": 58.2,
+          "y": 23.3,
+          "nameen": "Daitoku-ji",
+          "rect": {
+            "w": 90.4,
+            "h": 19.4
+          },
+          "badgePos": {
+            "x": 28.9,
+            "y": 29.1
+          }
         }
       ]
     },
@@ -355,23 +434,47 @@
         {
           "id": "kinkakuji",
           "name": "金閣寺",
-          "x": 28.1,
-          "y": 4.9,
-          "nameen": "Kinkaku-ji"
+          "x": 21,
+          "y": 7.2,
+          "nameen": "Kinkaku-ji",
+          "rect": {
+            "w": 73.4,
+            "h": 11
+          },
+          "badgePos": {
+            "x": 40.1,
+            "y": 3.9
+          }
         },
         {
           "id": "kitano-shrine",
           "name": "北野天満宮",
-          "x": 44.4,
-          "y": 17.1,
-          "nameen": "Kitano Shrine"
+          "x": 18.8,
+          "y": 20.5,
+          "nameen": "Kitano Shrine",
+          "rect": {
+            "w": 98.6,
+            "h": 16.2
+          },
+          "badgePos": {
+            "x": 76.3,
+            "y": 16.7
+          }
         },
         {
           "id": "shoshidai-residence",
           "name": "京都所司代屋敷",
-          "x": 75.2,
-          "y": 36.6,
-          "nameen": "Residence of the Kyoto Governor"
+          "x": 70.3,
+          "y": 41.9,
+          "nameen": "Residence of the Kyoto Governor",
+          "rect": {
+            "w": 92.4,
+            "h": 22.4
+          },
+          "badgePos": {
+            "x": 57.7,
+            "y": 52.2
+          }
         }
       ]
     },
@@ -387,19 +490,31 @@
         {
           "id": "okuni-kabuki",
           "name": "お国歌舞伎",
-          "x": 58.5,
-          "y": 26.4,
-          "nameen": "Okuni Kabuki Theater"
+          "x": 42.4,
+          "y": 28.8,
+          "nameen": "Okuni Kabuki Theater",
+          "rect": {
+            "w": 78.2,
+            "h": 15
+          },
+          "badgePos": {
+            "x": 18.6,
+            "y": 25.6
+          }
         },
         {
           "id": "nijocastle",
           "name": "二条城",
-          "x": 92.4,
-          "y": 43.6,
+          "x": 89.2,
+          "y": 52.2,
           "nameen": "Nijo Castle",
           "rect": {
-            "w": 24,
-            "h": 20
+            "w": 100,
+            "h": 36.8
+          },
+          "badgePos": {
+            "x": 113.3,
+            "y": 38
           }
         }
       ]
@@ -425,9 +540,17 @@
         {
           "id": "tenryuji",
           "name": "天龍寺",
-          "x": 22.3,
-          "y": 8.1,
-          "nameen": "Tenryu-ji"
+          "x": 26,
+          "y": 11.3,
+          "nameen": "Tenryu-ji",
+          "rect": {
+            "w": 64.6,
+            "h": 13.6
+          },
+          "badgePos": {
+            "x": 49.3,
+            "y": 6.3
+          }
         }
       ]
     },
@@ -443,30 +566,62 @@
         {
           "id": "kokuzodo",
           "name": "法輪寺（虚空蔵堂）",
-          "x": 22,
-          "y": 6.3,
-          "nameen": "Kokuzo Temple (Horin-ji)"
+          "x": 36.7,
+          "y": 12.7,
+          "nameen": "Kokuzo Temple (Horin-ji)",
+          "rect": {
+            "w": 68.2,
+            "h": 21.8
+          },
+          "badgePos": {
+            "x": 66.5,
+            "y": 10.4
+          }
         },
         {
           "id": "oi-river",
           "name": "大堰川",
-          "x": 26.6,
-          "y": 31.9,
-          "nameen": "Oi River"
+          "x": 46.8,
+          "y": 32.7,
+          "nameen": "Oi River",
+          "rect": {
+            "w": 53.6,
+            "h": 4
+          },
+          "badgePos": {
+            "x": 30.5,
+            "y": 32.8
+          }
         },
         {
           "id": "katsura-villa",
           "name": "桂離宮",
-          "x": 5,
-          "y": 39.3,
-          "nameen": "Katsura Villa"
+          "x": 46.3,
+          "y": 43.8,
+          "nameen": "Katsura Villa",
+          "rect": {
+            "w": 58.4,
+            "h": 10.2
+          },
+          "badgePos": {
+            "x": 83.9,
+            "y": 39.7
+          }
         },
         {
           "id": "toji",
           "name": "東寺",
-          "x": 19.9,
-          "y": 53.1,
-          "nameen": "To-ji"
+          "x": 50.1,
+          "y": 57.3,
+          "nameen": "To-ji",
+          "rect": {
+            "w": 87.8,
+            "h": 30.2
+          },
+          "badgePos": {
+            "x": 64,
+            "y": 53.9
+          }
         }
       ]
     }

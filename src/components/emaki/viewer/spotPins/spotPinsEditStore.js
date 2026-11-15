@@ -196,6 +196,54 @@ export function registerNewSpot(
   });
 }
 
+export function markSpotDeleted(slug, { spotId, sliceImageName, sliceIndex }) {
+  if (!slug || !spotId) return;
+  const added = addedSpotsBySlug.get(slug);
+  if (added) {
+    const idx = added.findIndex(
+      (a) => a.spotId === spotId && a.sliceImageName === sliceImageName,
+    );
+    if (idx !== -1) {
+      added.splice(idx, 1);
+      const bySpot = pendingUpdatesBySlug.get(slug);
+      if (bySpot) {
+        bySpot.delete(spotId);
+        if (bySpot.size === 0) pendingUpdatesBySlug.delete(slug);
+      }
+      notifyPending();
+      return;
+    }
+  }
+  let bySpot = pendingUpdatesBySlug.get(slug);
+  if (!bySpot) {
+    bySpot = new Map();
+    pendingUpdatesBySlug.set(slug, bySpot);
+  }
+  const deleteKey = `${spotId}::delete::${sliceImageName || sliceIndex || ""}`;
+  bySpot.set(deleteKey, {
+    spotId,
+    sliceImageName,
+    sliceIndex,
+    deleted: true,
+  });
+  notifyPending();
+}
+
+export function isSpotMarkedDeleted(slug, spotId, sliceImageName) {
+  const bySpot = pendingUpdatesBySlug.get(slug);
+  if (!bySpot) return false;
+  for (const u of bySpot.values()) {
+    if (
+      u.deleted === true &&
+      u.spotId === spotId &&
+      (!u.sliceImageName || !sliceImageName || u.sliceImageName === sliceImageName)
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export function discardPendingForSlug(slug) {
   clearPendingForSlug(slug);
   if (slug) addedSpotsBySlug.delete(slug);

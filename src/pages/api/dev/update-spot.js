@@ -79,10 +79,15 @@ export default function handler(req, res) {
       return res.status(400).json({ error: "Invalid spotId" });
     }
 
-    const roundedX = clampAndRound(item.x);
-    const roundedY = clampAndRound(item.y);
-    if (roundedX === null || roundedY === null) {
-      return res.status(400).json({ error: "Invalid coordinates" });
+    const isDeleted = item?.deleted === true;
+    let roundedX;
+    let roundedY;
+    if (!isDeleted) {
+      roundedX = clampAndRound(item.x);
+      roundedY = clampAndRound(item.y);
+      if (roundedX === null || roundedY === null) {
+        return res.status(400).json({ error: "Invalid coordinates" });
+      }
     }
 
     let roundedRect = null;
@@ -127,6 +132,7 @@ export default function handler(req, res) {
     prepared.push({
       spotId: id,
       sliceIndex: normalizedSliceIndex,
+      sliceImageName: item?.sliceImageName,
       roundedX,
       roundedY,
       roundedRect,
@@ -134,6 +140,7 @@ export default function handler(req, res) {
       name: item?.name,
       nameen: item?.nameen,
       isNew: item?.isNew === true,
+      deleted: isDeleted,
     });
   }
 
@@ -162,6 +169,54 @@ export default function handler(req, res) {
   }
 
   for (const p of prepared) {
+    if (p.deleted === true) {
+      const sliceIdx = p.sliceIndex;
+      const sliceImageName = p.sliceImageName;
+      const imageSlices = emakis.filter((item) => item?.cat === "image");
+      const hasSliceImageName =
+        typeof sliceImageName === "string" && sliceImageName !== "";
+      const hasSliceIndex =
+        Number.isInteger(sliceIdx) && imageSlices[sliceIdx];
+      let slice = null;
+      if (hasSliceImageName) {
+        const normalizedSliceKey = sliceImageName.replace(/__+/g, "_");
+        const trailingSliceKey = sliceImageName.match(/(\d+_\d+__\d+)$/)?.[1];
+        const sliceMatchKeys = [
+          sliceImageName,
+          normalizedSliceKey,
+          trailingSliceKey,
+        ].filter((key) => typeof key === "string" && key !== "");
+        slice = emakis.find((item) => {
+          if (item?.cat !== "image") return false;
+          return sliceMatchKeys.some(
+            (key) =>
+              (item.name && item.name.includes(key)) ||
+              (item.src && item.src.includes(key))
+          );
+        });
+      }
+      if (!slice && hasSliceIndex) {
+        slice = imageSlices[sliceIdx];
+      }
+      if (
+        !slice &&
+        !hasSliceImageName &&
+        !Number.isInteger(sliceIdx)
+      ) {
+        slice = emakis.find(
+          (item) =>
+            item?.cat === "image" &&
+            Array.isArray(item.spots) &&
+            item.spots.some((s) => s && s.id === p.spotId)
+        );
+      }
+      if (slice && Array.isArray(slice.spots)) {
+        slice.spots = slice.spots.filter((s) => s && s.id !== p.spotId);
+        continue;
+      }
+      return res.status(404).json({ error: "Spot not found", spotId: p.spotId });
+    }
+
     const spot = findSpot(emakis, p.spotId);
     if (spot) {
       spot.x = p.roundedX;
@@ -186,12 +241,21 @@ export default function handler(req, res) {
     const imageSlices = emakis.filter((item) => item?.cat === "image");
     let slice = null;
     if (typeof sliceImageName === "string" && sliceImageName !== "") {
-      slice = emakis.find(
-        (item) =>
-          item?.cat === "image" &&
-          ((item.name && item.name.includes(sliceImageName)) ||
-            (item.src && item.src.includes(sliceImageName)))
-      );
+      const normalizedSliceKey = sliceImageName.replace(/__+/g, "_");
+      const trailingSliceKey = sliceImageName.match(/(\d+_\d+__\d+)$/)?.[1];
+      const sliceMatchKeys = [
+        sliceImageName,
+        normalizedSliceKey,
+        trailingSliceKey,
+      ].filter((key) => typeof key === "string" && key !== "");
+      slice = emakis.find((item) => {
+        if (item?.cat !== "image") return false;
+        return sliceMatchKeys.some(
+          (key) =>
+            (item.name && item.name.includes(key)) ||
+            (item.src && item.src.includes(key))
+        );
+      });
     }
     if (!slice && Number.isInteger(sliceIdx) && imageSlices[sliceIdx]) {
       slice = imageSlices[sliceIdx];

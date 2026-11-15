@@ -81,9 +81,17 @@
         {
           "id": "kanjin-zumo-teahouse",
           "name": "五条大橋付近の勧進相撲と茶屋",
-          "x": 62,
-          "y": 35.7,
-          "nameen": "Kanjin-zumo Wrestling and Teahouse"
+          "x": 0,
+          "y": 24.9,
+          "nameen": "Kanjin-zumo Wrestling and Teahouse",
+          "rect": {
+            "w": 100,
+            "h": 39.4
+          },
+          "badgePos": {
+            "x": -13.1,
+            "y": 21.6
+          }
         }
       ]
     },
@@ -117,15 +125,23 @@
         {
           "id": "gojo-bridge-barber",
           "name": "五条大橋と西詰の床屋",
-          "x": 77.6,
-          "y": 73,
-          "nameen": "Gojo Bridge and Barber Shop"
+          "x": 100,
+          "y": 54,
+          "nameen": "Gojo Bridge and Barber Shop",
+          "rect": {
+            "w": 100,
+            "h": 37.2
+          },
+          "badgePos": {
+            "x": 82.7,
+            "y": 48.6
+          }
         },
         {
           "id": "kiyomizudera",
           "name": "清水寺",
-          "x": 51.4,
-          "y": 9.4,
+          "x": 52.1,
+          "y": 9.9,
           "nameen": "Kiyomizu-dera Temple",
           "rect": {
             "w": 96.2,
@@ -139,9 +155,17 @@
         {
           "id": "teramachi-armor-shops",
           "name": "寺町通の刀研ぎ屋・武具屋",
-          "x": 30.2,
-          "y": 68.8,
-          "nameen": "Sword Polisher and Armor Shop on Teramachi Street"
+          "x": 0,
+          "y": 63.7,
+          "nameen": "Sword Polisher and Armor Shop on Teramachi Street",
+          "rect": {
+            "w": 100,
+            "h": 44.2
+          },
+          "badgePos": {
+            "x": -51.8,
+            "y": 48.8
+          }
         }
       ]
     },
@@ -175,9 +199,17 @@
         {
           "id": "gionsha",
           "name": "八坂神社（祇園社）",
-          "x": 7.3,
-          "y": 35.9,
-          "nameen": "Yasaka Shrine (Gion Shrine)"
+          "x": 0,
+          "y": 26.8,
+          "nameen": "Yasaka Shrine (Gion Shrine)",
+          "rect": {
+            "w": 100,
+            "h": 30.8
+          },
+          "badgePos": {
+            "x": -34.6,
+            "y": 20.1
+          }
         }
       ]
     },
@@ -211,16 +243,32 @@
         {
           "id": "seigan-ji",
           "name": "誓願寺",
-          "x": 31.4,
-          "y": 28.8,
-          "nameen": "Seigan-ji Temple"
+          "x": 29,
+          "y": 16,
+          "nameen": "Seigan-ji Temple",
+          "rect": {
+            "w": 100,
+            "h": 35.4
+          },
+          "badgePos": {
+            "x": 28.1,
+            "y": 30.1
+          }
         },
         {
           "id": "nanban-oharame-monkey-trainer",
           "name": "南蛮人・大原女・猿曳",
-          "x": 23.5,
-          "y": 87.2,
-          "nameen": "Nanban Visitors, Oharame, and Monkey Trainer"
+          "x": 0,
+          "y": 67.1,
+          "nameen": "Nanban Visitors, Oharame, and Monkey Trainer",
+          "rect": {
+            "w": 100,
+            "h": 40.8
+          },
+          "badgePos": {
+            "x": -53.2,
+            "y": 90.2
+          }
         }
       ]
     },
@@ -254,9 +302,17 @@
         {
           "id": "artisan-shops-townspeople",
           "name": "職人の店々と町衆の賑わい",
-          "x": 72.7,
-          "y": 72.8,
-          "nameen": "Artisan Shops and Townspeople"
+          "x": 0,
+          "y": 64,
+          "nameen": "Artisan Shops and Townspeople",
+          "rect": {
+            "w": 100,
+            "h": 54.4
+          },
+          "badgePos": {
+            "x": -8.4,
+            "y": 90.4
+          }
         }
       ]
     },
@@ -290,9 +346,17 @@
         {
           "id": "imperial-palace-shishinden",
           "name": "御所・紫宸殿の雅な花見",
-          "x": 6.1,
-          "y": 16,
-          "nameen": "Cherry Blossom Viewing at the Imperial Palace (Shishinden)"
+          "x": 0,
+          "y": 22.9,
+          "nameen": "Cherry Blossom Viewing at the Imperial Palace (Shishinden)",
+          "rect": {
+            "w": 100,
+            "h": 34.2
+          },
+          "badgePos": {
+            "x": 36.1,
+            "y": 37.4
+          }
         }
       ]
     },

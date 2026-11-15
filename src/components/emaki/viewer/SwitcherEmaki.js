@@ -8,7 +8,7 @@ import { buildSceneShellStyle } from "@/utils/emakiContentWindow";
 import { isByobuScroll } from "@/utils/isByobuScroll";
 import { sceneSectionId } from "@/utils/emakiSceneDom";
 import { useRouter } from "next/router";
-import { forwardRef, useContext } from "react";
+import { forwardRef, useContext, useState } from "react";
 
 /** 絵巻シーンを cat に応じて image / ekotoba に振り分け。幅は section 常置・中身は mountContent。 */
 const SwitcherEmaki = forwardRef(
@@ -37,7 +37,13 @@ const SwitcherEmaki = forwardRef(
   ) => {
     const { orientation, toggleFullscreen, chapterToggle, handleToId } =
       useContext(AppContext);
-    const { locale } = useRouter();
+    const router = useRouter();
+    const { locale } = router;
+    const isEditSpotsMode =
+      process.env.NODE_ENV === "development" &&
+      typeof window !== "undefined" &&
+      new URLSearchParams(window.location.search).get("editSpots") === "1";
+    const [activeSliceIdx, setActiveSliceIdx] = useState(null);
 
     if (cat !== "image" && cat !== "ekotoba") {
       return null;
@@ -81,18 +87,22 @@ const SwitcherEmaki = forwardRef(
       chapterTitle && chapterToggle && !isByobu
     );
     const needsRelativeLayer = Boolean(
-      spots?.length || ebikiPickerEnabled || showChapterTitle
+      spots?.length ||
+        isEditSpotsMode ||
+        ebikiPickerEnabled ||
+        showChapterTitle
     );
+    const hasSpotOverflow = Boolean(spots?.length || isEditSpotsMode);
     // buildSceneShellStyle は画像スライスに overflow:hidden を返すため、
     // スポットピンが扇の境界をはみ出せるよう spots 保持スライスだけ visible に上書きする。
-    // 併せて独立スタッキングコンテキスト化（zIndex:1）し、後段 DOM の隣接スライス画像が
-    // 上に描かれてもピンが潜り込まないようにする（.prt の sticky よりは下に留まる）。
+    // アクティブ扇のみ zIndex:40。非アクティブは zIndex を付けず、画像は zIndex:1 で
+    // SpotPins（20/50）が全扇の画像より前面に出る。
     const imageSectionStyle = needsRelativeLayer
       ? {
           ...sectionStyle,
           position: "relative",
-          overflow: spots?.length ? "visible" : sectionStyle?.overflow,
-          zIndex: spots?.length ? 1 : sectionStyle?.zIndex,
+          overflow: hasSpotOverflow ? "visible" : sectionStyle?.overflow,
+          zIndex: activeSliceIdx === index ? 40 : undefined,
         }
       : sectionStyle;
 
@@ -121,23 +131,26 @@ const SwitcherEmaki = forwardRef(
         id={sceneSectionId(index)}
         className={sectionClass}
         style={sectionWithChapterStyle}
+        onPointerDownCapture={() => setActiveSliceIdx(index)}
       >
         {item?.src ? (
-          <EmakiImage
-            key={index}
-            item={{
-              ...item,
-              index,
-              scroll,
-              selectedRef,
-              navIndex,
-              uniqueIndex,
-            }}
-            isPlayMode={isPlayMode}
-            sceneIndex={sceneIndex}
-            emakiId={data?.titleen}
-            isByobu={isByobu}
-          />
+          <div style={{ position: "relative", zIndex: 1 }}>
+            <EmakiImage
+              key={index}
+              item={{
+                ...item,
+                index,
+                scroll,
+                selectedRef,
+                navIndex,
+                uniqueIndex,
+              }}
+              isPlayMode={isPlayMode}
+              sceneIndex={sceneIndex}
+              emakiId={data?.titleen}
+              isByobu={isByobu}
+            />
+          </div>
         ) : null}
         {showChapterTitle ? (
           <div

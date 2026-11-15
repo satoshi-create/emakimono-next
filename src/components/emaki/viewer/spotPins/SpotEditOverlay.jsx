@@ -49,7 +49,7 @@ export default function SpotEditOverlay({
   dragOverrides,
   setDragOverrides,
   resizingSpotId: _resizingSpotId,
-  setResizingSpotId: _setResizingSpotId,
+  setResizingSpotId,
   layerRef: _layerRef,
   masterSpots,
   placedSpotIds,
@@ -156,6 +156,7 @@ export default function SpotEditOverlay({
             }}
             onPointerDown={(e) => {
               e.stopPropagation();
+              e.preventDefault();
               anchorDraggingRef.current = {
                 spotId: spot.id,
                 pointerId: e.pointerId,
@@ -164,6 +165,8 @@ export default function SpotEditOverlay({
               setDraggingSpotId(spot.id);
               e.currentTarget.setPointerCapture(e.pointerId);
             }}
+            onMouseDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
             onPointerMove={(e) => {
               if (
                 anchorDraggingRef.current?.spotId !== spot.id ||
@@ -332,12 +335,33 @@ export default function SpotEditOverlay({
           width: `${currentRect.w}%`,
           height: `${currentRect.h}%`,
           transform: "translate(-50%, -50%)",
-          border: "1px dashed rgba(225, 17, 17, 0.7)",
           boxSizing: "border-box",
           pointerEvents: "none",
           zIndex: 2,
         }}
       >
+        <svg
+          width="100%"
+          height="100%"
+          style={{
+            position: "absolute",
+            inset: 0,
+            overflow: "visible",
+            pointerEvents: "none",
+          }}
+        >
+          <rect
+            x="0"
+            y="0"
+            width="100%"
+            height="100%"
+            fill="none"
+            stroke="rgba(225, 17, 17, 0.75)"
+            strokeWidth="1"
+            strokeDasharray="4 3"
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
         <div
           role="presentation"
           style={{
@@ -355,6 +379,8 @@ export default function SpotEditOverlay({
           }}
           onPointerDown={(e) => {
             e.stopPropagation();
+            e.preventDefault();
+            setResizingSpotId?.(spot.id);
             resizingRef.current = {
               spotId: spot.id,
               pointerId: e.pointerId,
@@ -362,6 +388,8 @@ export default function SpotEditOverlay({
             };
             e.currentTarget.setPointerCapture(e.pointerId);
           }}
+          onMouseDown={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
           onPointerMove={(e) => {
             if (
               resizingRef.current?.spotId !== spot.id ||
@@ -369,6 +397,7 @@ export default function SpotEditOverlay({
             ) {
               return;
             }
+            e.stopPropagation();
             const pos = percentFromPointer(e);
             if (!pos) return;
             resizingRef.current.moved = true;
@@ -413,6 +442,7 @@ export default function SpotEditOverlay({
             e.currentTarget.releasePointerCapture(e.pointerId);
             const moved = resizingRef.current.moved;
             resizingRef.current = null;
+            setResizingSpotId?.(null);
             if (!moved) return;
             const pos = percentFromPointer(e);
             if (!pos) return;
@@ -455,6 +485,7 @@ export default function SpotEditOverlay({
             if (resizingRef.current?.spotId === spot.id) {
               e.currentTarget.releasePointerCapture(e.pointerId);
               resizingRef.current = null;
+              setResizingSpotId?.(null);
             }
           }}
         />

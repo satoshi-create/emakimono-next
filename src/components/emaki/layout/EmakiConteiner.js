@@ -175,7 +175,7 @@ const EmakiContainer = ({
   } = useContext(AppContext);
 
   const { backgroundImage } = data;
-  const { locale, locales, asPath, defaultLocale, query, push } = useRouter();
+  const { locale, locales, asPath, defaultLocale, query, push, pathname, replace } = useRouter();
   const { t } = useTranslation("common");
 
   const wrapperRef = useRef();
@@ -938,6 +938,22 @@ const EmakiContainer = ({
   }
   contentWindowMountedRef.current = nextContentMounted;
 
+  const isEditSpotsMode =
+    process.env.NODE_ENV === "development" &&
+    (query?.editSpots === "1" ||
+      (typeof window !== "undefined" &&
+        new URLSearchParams(window.location.search).get("editSpots") === "1"));
+
+  const handleToggleEditSpots = () => {
+    const nextQuery = { ...query };
+    if (isEditSpotsMode) {
+      delete nextQuery.editSpots;
+    } else {
+      nextQuery.editSpots = "1";
+    }
+    replace({ pathname, query: nextQuery }, undefined, { shallow: true });
+  };
+
   return (
       <div
         className={`${
@@ -970,21 +986,45 @@ const EmakiContainer = ({
               : null),
           }}
         >
+        {process.env.NODE_ENV === "development" && scroll && (
+          <button
+            type="button"
+            onClick={handleToggleEditSpots}
+            style={{
+              position: "absolute",
+              top: 12,
+              right: 12,
+              zIndex: 120,
+              padding: "6px 10px",
+              fontSize: 12,
+              fontWeight: 600,
+              borderRadius: 6,
+              border: "1px solid rgba(255, 255, 255, 0.35)",
+              background: isEditSpotsMode
+                ? "rgba(255, 140, 119, 0.92)"
+                : "rgba(20, 20, 20, 0.75)",
+              color: "#fff",
+              cursor: "pointer",
+            }}
+          >
+            {isEditSpotsMode ? "編集終了（通常表示へ）" : "スポット編集"}
+          </button>
+        )}
         {scroll && <FullScreen isUIVisible={isUIVisible} isBarFloating={commentaryFloating} />}
-        {scroll && (
+        {scroll && !isEditSpotsMode && (
           <WheelScrollIndicator
             showToast={showWheelToast}
             onToastComplete={() => setShowWheelToast(false)}
           />
         )}
-        {scroll && (
+        {scroll && !isEditSpotsMode && (
           <PositionIndicator
             indicatorElRef={indicatorElRef}
             isScrolling={isScrolling}
             isUIVisible={isUIVisible}
           />
         )}
-        {scroll && onToggleTheater && (
+        {scroll && !isEditSpotsMode && onToggleTheater && (
           <div className={zoomStyles.theaterAnchor}>
             <ActionButton
               icon={<TbRectangle style={{ fontSize: "1.5em" }} aria-hidden />}
@@ -1033,7 +1073,7 @@ const EmakiContainer = ({
             </div>
           </>
         )}
-        {scroll && (
+        {scroll && !isEditSpotsMode && (
           <>
             <EmakiNavigation
               handleToId={handleToId}
@@ -1222,7 +1262,7 @@ const EmakiContainer = ({
             onClose={clearEbikiPickerHud}
           />
         )}
-        {hasCommentaryData && !ebikiPickerEnabled && (
+        {hasCommentaryData && !ebikiPickerEnabled && !isEditSpotsMode && (
           <SceneCommentaryBar
             data={data}
             navIndex={liveSceneIndex}
