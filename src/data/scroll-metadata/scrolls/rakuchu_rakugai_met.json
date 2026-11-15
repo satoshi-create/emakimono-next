@@ -219,9 +219,13 @@
         {
           "id": "takasegawa",
           "name": "高瀬川",
-          "x": 57.6,
-          "y": 67.5,
-          "nameen": "Takase River"
+          "x": 58.5,
+          "y": 68.2,
+          "nameen": "Takase River",
+          "rect": {
+            "w": 24,
+            "h": 20
+          }
         }
       ]
     },

@@ -31,6 +31,17 @@ import { createPortal } from "react-dom";
 const EDGE_MARGIN = 4;
 const BADGE_GAP = 10;
 
+// =============================================================================
+// デバッグスイッチ（検証完了後は false にして一括停止）
+// =============================================================================
+const DEBUG_SPOT_ADD = false;
+
+function logDebug(tag, ...args) {
+  if (!DEBUG_SPOT_ADD) return;
+  const time = performance.now().toFixed(1);
+  console.log(`%c[${time}ms][${tag}]`, "color: #3b82f6; font-weight: bold;", ...args);
+}
+
 // 未測定時のフォールバック（CLS 回避）。原則左上配置、端寄りは反対側へ。
 const fallbackOffset = (x, y) => ({
   offsetX:
@@ -43,7 +54,7 @@ const transformOriginFor = (offsetX, offsetY) =>
   `${String(offsetX).includes("-100%") ? "100%" : "0%"} ${String(offsetY).includes("-100%") ? "100%" : "0%"}`;
 
 const pendingUpdatesBySlug = new Map();
-/** @type {Map<string, Array<{ spotId: string, sliceIndex: number, name: string, nameen: string, x: number, y: number, rect: { w: number, h: number }, badgePos: object|null, isNew: true }>>} */
+/** @type {Map<string, Array<{ spotId: string, sliceIndex?: number, sliceImageName: string, name: string, nameen: string, x: number, y: number, rect: { w: number, h: number }, badgePos: object|null, isNew: true }>>} */
 const addedSpotsBySlug = new Map();
 /** @type {Map<string, Map<number, string[]>>} */
 const sliceSpotIdsBySlug = new Map();
@@ -69,6 +80,38 @@ const getSlugFromPath = () => {
   if (typeof window === "undefined") return "";
   return window.location.pathname.split("/").filter(Boolean).pop() || "";
 };
+
+const IMAGE_FILE_EXT_RE = /\.(webp|jpe?g|png)$/i;
+
+/** layer の親ラッパー内の <img> src からスライス画像識別名（拡張子・クエリ除去）を得る */
+function getSliceImageName(layerEl) {
+  if (!layerEl) return null;
+  let el = layerEl;
+  let img = null;
+  for (let depth = 0; depth < 4 && el; depth += 1) {
+    img = el.querySelector("img");
+    if (img) break;
+    el = el.parentElement;
+  }
+  if (!img) return null;
+  let raw = img.currentSrc || img.src || "";
+  if (!raw) return null;
+  try {
+    const parsed = new URL(raw, window.location.href);
+    const nestedUrl = parsed.searchParams.get("url");
+    if (nestedUrl) raw = nestedUrl;
+  } catch {
+  }
+  let path = raw;
+  try {
+    path = new URL(raw, window.location.href).pathname;
+  } catch {
+    path = raw.split("?")[0].split("#")[0];
+  }
+  const base = path.split("/").pop() || "";
+  const name = base.replace(IMAGE_FILE_EXT_RE, "");
+  return name || null;
+}
 
 const getPlacedSpotIdsForSlug = (slug) => {
   const ids = new Set();
@@ -99,7 +142,12 @@ const mergePendingUpdate = (slug, spotId, patch) => {
     pendingUpdatesBySlug.set(slug, bySpot);
   }
   const prev = bySpot.get(spotId) || {};
-  bySpot.set(spotId, { spotId, ...prev, ...patch });
+  const merged = { spotId, ...prev, ...patch };
+  const preserveKeys = ["isNew", "sliceImageName", "sliceIndex", "name", "nameen"];
+  preserveKeys.forEach((key) => {
+    if (!(key in patch) && key in prev) merged[key] = prev[key];
+  });
+  bySpot.set(spotId, merged);
   notifyPending();
 };
 
@@ -110,12 +158,21 @@ const clearPendingForSlug = (slug) => {
 
 const registerNewSpot = (
   slug,
-  { spotId, sliceIndex, name, nameen, x = 50, y = 50 },
-) => {
-  if (!slug || !spotId) return;
-  const entry = {
+  {
     spotId,
     sliceIndex,
+    sliceImageName,
+    name,
+    nameen,
+    x = 50,
+    y = 50,
+  },
+) => {
+  if (!slug || !spotId || !sliceImageName) return;
+  const entry = {
+    spotId,
+    ...(Number.isInteger(sliceIndex) ? { sliceIndex } : {}),
+    sliceImageName,
     name,
     nameen,
     x,
@@ -131,7 +188,8 @@ const registerNewSpot = (
   }
   list.push(entry);
   mergePendingUpdate(slug, spotId, {
-    sliceIndex,
+    ...(Number.isInteger(sliceIndex) ? { sliceIndex } : {}),
+    sliceImageName,
     name,
     nameen,
     x,
@@ -277,34 +335,8 @@ function SpotPlaceNamePopup({
                     <span style={{ fontWeight: 600 }}>{master.nameJa}</span>
                     {master.nameEn ? (
                       <span style={{ display: "block", color: "#aaa", fontSize: 11 }}>
-                        {master.nameEn}
-                      </span>
-                    ) : null}
-                    {placed ? (
-                      <span
-                        style={{
-                          display: "inline-block",
-                          marginTop: 2,
-                          padding: "1px 5px",
-                          fontSize: 10,
-                          borderRadius: 4,
-                          background: "#444",
-                          color: "#ccc",
-                        }}
-                      >
-                        配置済
-                      </span>
-                    ) : null}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-          <button
-            type="button"
-            onClick={() => setMode("manual")}
-            style={{
-              padding: "4px 6px",
+
+    padding: "4px 6px",
               background: "transparent",
               color: "#9cf",
               border: "none",
@@ -462,11 +494,17 @@ function SpotPinsEditSaveBar() {
     const updates = Array.from(bySpot.values());
     const n = updates.length;
     setSaving(true);
+    logDebug("SAVE_ALL_REQUEST", { slug, updates });
     fetch("/api/dev/update-spot", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ slug, updates }),
     })
+      .then(async (res) => {
+        const body = await res.clone().json().catch(() => null);
+        logDebug("SAVE_ALL_RESPONSE", { status: res.status, ok: res.ok, body });
+        return res;
+      })
       .then((res) => {
         if (!res.ok) {
           setSaveStatus(`一括保存失敗 (${res.status})`);
@@ -600,7 +638,7 @@ const SpotPins = ({ spots, linkId, zoomScale = 1, sliceIndex }) => {
     process.env.NODE_ENV === "development" && router.query.editSpots === "1";
   // 実測用: layer（=スライス幅 W）と各ピン button（=ラベル実幅 w）
   const layerRef = useRef(null);
-  const [detectedSliceIndex, setDetectedSliceIndex] = useState(null);
+  const [sliceImageName, setSliceImageName] = useState(null);
   const pinRefs = useRef(new Map());
   const [offsetById, setOffsetById] = useState({});
   const offsetRef = useRef({});
@@ -615,20 +653,13 @@ const SpotPins = ({ spots, linkId, zoomScale = 1, sliceIndex }) => {
   const [placeDraft, setPlaceDraft] = useState(null);
 
   useEffect(() => {
-    if (Number.isInteger(sliceIndex)) {
-      setDetectedSliceIndex(sliceIndex);
-      return;
-    }
     const layer = layerRef.current;
     if (!layer) return;
-    const layers = document.querySelectorAll('[data-spotpins-layer="1"]');
-    const idx = Array.from(layers).indexOf(layer);
-    if (idx >= 0) setDetectedSliceIndex(idx);
-  }, [sliceIndex]);
+    const name = getSliceImageName(layer);
+    if (name) setSliceImageName(name);
+  }, [sliceIndex, spots]);
 
-  const effectiveSliceIndex = Number.isInteger(sliceIndex)
-    ? sliceIndex
-    : detectedSliceIndex;
+  const effectiveSliceIndex = Number.isInteger(sliceIndex) ? sliceIndex : null;
 
   useEffect(() => {
     if (isEditMode && Number.isInteger(effectiveSliceIndex))
@@ -681,11 +712,9 @@ const SpotPins = ({ spots, linkId, zoomScale = 1, sliceIndex }) => {
   }, [editSlug, effectiveSliceIndex, spots]);
 
   const addedForSlice =
-    isEditMode && editSlug && Number.isInteger(effectiveSliceIndex)
+    isEditMode && editSlug && sliceImageName
       ? (addedSpotsBySlug.get(editSlug) || []).filter(
-          (a) =>
-            Number.isInteger(a.sliceIndex) &&
-            a.sliceIndex === effectiveSliceIndex,
+          (a) => a.sliceImageName && a.sliceImageName === sliceImageName,
         )
       : [];
   const mergedSpots = [
@@ -841,14 +870,21 @@ const SpotPins = ({ spots, linkId, zoomScale = 1, sliceIndex }) => {
             invZoom={invZoom}
             placedSpotIds={getPlacedSpotIdsForSlug(editSlug)}
             onCancel={() => setPlaceDraft(null)}
-            onConfirm={({ id, name, nameen }) => {
+            onConfirm={(item) => {
+              const { id, name, nameen } = item;
+              logDebug("ADD_MASTER_SPOT", {
+                slug: getSlugFromPath(),
+                sliceIndexProp: sliceIndex,
+                sliceImageName,
+                item,
+              });
               const slug = getSlugFromPath();
-              if (!slug || !name || !Number.isInteger(effectiveSliceIndex))
-                return;
+              if (!slug || !name || !sliceImageName) return;
               const spotId = id || `spot-${Date.now()}`;
               registerNewSpot(slug, {
                 spotId,
-                sliceIndex: effectiveSliceIndex,
+                ...(Number.isInteger(sliceIndex) ? { sliceIndex } : {}),
+                sliceImageName,
                 name,
                 nameen,
                 x: placeDraft.x,

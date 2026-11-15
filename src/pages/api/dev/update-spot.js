@@ -182,9 +182,21 @@ export default function handler(req, res) {
     }
 
     const sliceIdx = p.sliceIndex;
+    const sliceImageName = p.sliceImageName;
     const imageSlices = emakis.filter((item) => item?.cat === "image");
-    if (Number.isInteger(sliceIdx) && imageSlices[sliceIdx]) {
-      const slice = imageSlices[sliceIdx];
+    let slice = null;
+    if (typeof sliceImageName === "string" && sliceImageName !== "") {
+      slice = emakis.find(
+        (item) =>
+          item?.cat === "image" &&
+          ((item.name && item.name.includes(sliceImageName)) ||
+            (item.src && item.src.includes(sliceImageName)))
+      );
+    }
+    if (!slice && Number.isInteger(sliceIdx) && imageSlices[sliceIdx]) {
+      slice = imageSlices[sliceIdx];
+    }
+    if (slice) {
       if (!Array.isArray(slice.spots)) {
         slice.spots = [];
       }
