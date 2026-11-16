@@ -195,8 +195,27 @@ export default function useEmakiZoomBridge({
         setZoomStageMetrics({ height: measuredHeight, width: measuredWidth });
       }
       setZoomCenterIndex(centerIndex);
-      const initialPanX = computeZoomAlignPanX(centerIndex, measuredHeight);
-      openZoom(clientX, clientY, initialPanX, initialScale);
+      const startScale =
+        typeof initialScale === "number" && Number.isFinite(initialScale)
+          ? initialScale
+          : undefined;
+      let initialPanX = computeZoomAlignPanX(centerIndex, measuredHeight);
+      let initialPanY = 0;
+      if (
+        Number.isFinite(clientX) &&
+        Number.isFinite(clientY) &&
+        startScale > 0
+      ) {
+        const stageEl = entryContainerRef.current || el;
+        const stageRect = stageEl?.getBoundingClientRect?.();
+        if (stageRect) {
+          const stageCenterX = stageRect.left + stageRect.width / 2;
+          const stageCenterY = stageRect.top + stageRect.height / 2;
+          initialPanX -= (clientX - stageCenterX) / startScale;
+          initialPanY -= (clientY - stageCenterY) / startScale;
+        }
+      }
+      openZoom(clientX, clientY, initialPanX, initialScale, initialPanY);
     },
     [
       data.emakis,

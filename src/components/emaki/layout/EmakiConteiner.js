@@ -142,6 +142,14 @@ function resolveSpotDeepLink(emakis, querySpot) {
       centerY = 50;
     }
     const offsetPercent = 100 - centerX;
+    let targetScale = 2.6;
+    if (rectW != null && rectH != null) {
+      targetScale = Math.min(
+        80 / Math.max(rectW, 12),
+        80 / Math.max(rectH, 12)
+      );
+      targetScale = Math.min(4.5, Math.max(2.2, targetScale));
+    }
     return {
       linkId,
       sliceIndex,

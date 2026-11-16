@@ -60,7 +60,12 @@ export default function useEmakiZoomPan({
   const scaleRef = useRef(DEFAULT_SCALE);
   const panRef = useRef({ x: 0, y: 0 });
   // 拡大開始時に基準とするカーソル座標（viewport 座標）と初期倍率。null なら中央基準
-  const focusPointRef = useRef({ x: null, y: null, scale: DEFAULT_SCALE });
+  const focusPointRef = useRef({
+    x: null,
+    y: null,
+    scale: DEFAULT_SCALE,
+    centerAtFocus: false,
+  });
   // 直近のカーソル位置（+/- ボタン・ホイールでのズーム基準）
   const cursorRef = useRef({ x: null, y: null });
   // ダブルクリック判定（拡大中にダブルクリックで横スクロールへ戻す）
@@ -286,12 +291,36 @@ export default function useEmakiZoomPan({
     [commitScale, containerRef, getFitScale, maxScale]
   );
 
+  // 指定 viewport 座標がステージ中央に来るよう pan を確定する（スポット着地向け）
+  const applyScaleCenteringFocus = useCallback(
+    (nextScale, focusX, focusY) => {
+      const raw = isFiniteNumber(nextScale) ? nextScale : DEFAULT_SCALE;
+      const targetScale = clamp(raw, getFitScale(), maxScale);
+      const stage = stageRef.current || containerRef?.current;
+      if (!stage || !isFiniteNumber(focusX) || !isFiniteNumber(focusY)) {
+        return commitScale(targetScale, panRef.current.x, panRef.current.y);
+      }
+      const rect = stage.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const nextX = panRef.current.x + (cx - focusX);
+      const nextY = panRef.current.y + (cy - focusY);
+      return commitScale(targetScale, nextX, nextY);
+    },
+    [commitScale, containerRef, getFitScale, maxScale]
+  );
+
   const resetZoom = useCallback(() => {
     isZoomedRef.current = false;
     setIsZoomed(false);
     scaleRef.current = DEFAULT_SCALE;
     panRef.current = { x: 0, y: 0 };
-    focusPointRef.current = { x: null, y: null, scale: DEFAULT_SCALE };
+    focusPointRef.current = {
+      x: null,
+      y: null,
+      scale: DEFAULT_SCALE,
+      centerAtFocus: false,
+    };
     lastTapRef.current = { time: 0, x: 0, y: 0 };
     setScale(DEFAULT_SCALE);
     setPanX(0);
@@ -314,25 +343,30 @@ export default function useEmakiZoomPan({
   // 実測前の初期フレームは補正済みパンで描画し、レイアウト確定後の
   // useLayoutEffect でカーソル基準の倍率・パンへ（ペイント前に）補正する。
   const openZoom = useCallback(
-    (focusX, focusY, initialPanX, initialScale) => {
+    (focusX, focusY, initialPanX, initialScale, initialPanY) => {
       // 先に pan/scale を確定してから isZoomed を立てる。
       // （レイヤーは isZoomed=true で初描画されるため、未初期化値の描画＝ちらつきを防ぐ）
       // initialScale: ボタン/ダブルクリックは既定倍率、ピンチ/ホイールは等倍から開始する
       const startScale = isFiniteNumber(initialScale)
         ? clamp(initialScale, FALLBACK_MIN_SCALE, maxScale)
         : DEFAULT_SCALE;
+      const centerAtFocus =
+        isFiniteNumber(focusX) && isFiniteNumber(focusY);
       focusPointRef.current = {
         x: isFiniteNumber(focusX) ? focusX : null,
         y: isFiniteNumber(focusY) ? focusY : null,
         scale: startScale,
+        centerAtFocus,
       };
       const initialPan =
         (isFiniteNumber(initialPanX) ? initialPanX : 0) * startScale;
+      const initialPanScreenY =
+        (isFiniteNumber(initialPanY) ? initialPanY : 0) * startScale;
       scaleRef.current = startScale;
-      panRef.current = { x: initialPan, y: 0 };
+      panRef.current = { x: initialPan, y: initialPanScreenY };
       setScale(startScale);
       setPanX(initialPan);
-      setPanY(0);
+      setPanY(initialPanScreenY);
       // 実測後（useLayoutEffect・ペイント前）にカーソル基準の最終倍率・パンへ補正する
       isZoomedRef.current = true;
       setIsZoomed(true);
@@ -379,10 +413,14 @@ export default function useEmakiZoomPan({
   // ズーム進入直後（ref 実測後・ペイント前）にカーソル基準の初期倍率・パンを確定する
   useLayoutEffect(() => {
     if (!isZoomed) return undefined;
-    const { x, y, scale: focusScale } = focusPointRef.current;
-    applyScaleAtPoint(focusScale, x, y);
+    const { x, y, scale: focusScale, centerAtFocus } = focusPointRef.current;
+    if (centerAtFocus) {
+      applyScaleCenteringFocus(focusScale, x, y);
+    } else {
+      applyScaleAtPoint(focusScale, x, y);
+    }
     return undefined;
-  }, [isZoomed, applyScaleAtPoint]);
+  }, [isZoomed, applyScaleAtPoint, applyScaleCenteringFocus]);
 
   // リサイズ / 向き変更で可動域が変わるため再補正
   useEffect(() => {
