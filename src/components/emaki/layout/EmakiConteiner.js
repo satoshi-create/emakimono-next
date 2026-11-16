@@ -1073,7 +1073,7 @@ const EmakiContainer = ({
             </div>
           </>
         )}
-        {scroll && !isEditSpotsMode && (
+        {scroll && !isEditSpotsMode && !isZoomed && (
           <>
             <EmakiNavigation
               handleToId={handleToId}
@@ -1262,7 +1262,7 @@ const EmakiContainer = ({
             onClose={clearEbikiPickerHud}
           />
         )}
-        {hasCommentaryData && !ebikiPickerEnabled && !isEditSpotsMode && (
+        {hasCommentaryData && !ebikiPickerEnabled && !isEditSpotsMode && !isZoomed && (
           <SceneCommentaryBar
             data={data}
             navIndex={liveSceneIndex}
