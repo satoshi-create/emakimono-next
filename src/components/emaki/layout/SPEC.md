@@ -8,6 +8,7 @@ graph TD
   EC --> SN[useEmakiSpotNavigation]
   EC --> QZ[useEmakiQuizController]
   EC --> LC[useEmakiViewerLifecycle]
+  EC --> VC[EmakiViewerChrome.jsx]
   EC --> VO[EmakiViewerOverlays.jsx]
   EC --> AP[useEmakiAutoPlay]
   EC --> PD[useEmakiPalmDrag]
@@ -25,6 +26,7 @@ graph TD
 | モジュール | 責務 |
 |-----------|------|
 | `EmakiConteiner.js` | Props 受け取り、フック呼び出し順序、`.entry-container` / `<article>` DOM、子コンポーネント配線 |
+| `EmakiViewerChrome.jsx` | `.entry-container` 内の浮遊ツールバー・HUD（FullScreen / スクロール指標 / ズーム・シアター / ナビ / Info） |
 | `useEmakiSpotNavigation` | スポット選択、`?spot` / `?scene` / ハッシュ深リンク、`history.replaceState`、ズーム連携 |
 | `useEmakiQuizController` | クイズ遅延ロード、セッション永続化、`?quiz`、FAB、ジャンプ |
 | `useEmakiViewerLifecycle` | 絵巻切替時 store リセット、ホイールスクロール、`wheel_toast_shown` |

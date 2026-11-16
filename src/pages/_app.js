@@ -182,8 +182,22 @@ function MyApp({ Component, pageProps, router }) {
   };
 
   useEffect(() => {
-    const resetViewerStateOnNavigate = () => {
+    const pathFromRouteUrl = (routeUrl) => {
+      if (!routeUrl) return "";
+      return String(routeUrl).split("?")[0].split("#")[0];
+    };
+
+    const resetViewerStateOnNavigate = (url, { shallow } = {}) => {
       setIsHelpModalOpen(false);
+
+      const isSamePageShallow =
+        shallow === true ||
+        (typeof window !== "undefined" &&
+          pathFromRouteUrl(url) === window.location.pathname);
+
+      if (isSamePageShallow) {
+        return;
+      }
 
       // 別絵巻遷移前に navIndex / 横スクロール保存状態をリセット
       // （フルスクリーン復元 effect より先にクリアして競合を防ぐ）
@@ -191,7 +205,7 @@ function MyApp({ Component, pageProps, router }) {
       resetScrollPositionStore();
 
       // フルスクリーン解除（useEmakiFullscreen が担当）
-      exitFullscreenForNavigation();
+      exitFullscreenForNavigation(url, { shallow });
     };
 
     gRouter.events.on("routeChangeStart", resetViewerStateOnNavigate);

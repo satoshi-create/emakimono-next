@@ -6,26 +6,16 @@
  * - 各ドメインフックの呼び出し順序と ref 配線の単一入口
  */
 import { useEbikiCoordinatePicker } from "@/components/emaki/dev/EbikiCoordinatePicker";
-import EmakiInfo from "@/components/emaki/metadata/EmakiInfo";
-import EmakiNavigation from "@/components/emaki/navigation/EmakiNavigation";
-import ActionButton from "@/components/emaki/viewer/ActionButton";
-import FullScreen from "@/components/emaki/viewer/FullScreen";
 import ZoomLayer from "@/components/emaki/viewer/ZoomLayer";
+import { EmakiViewerChrome } from "@/components/emaki/layout/EmakiViewerChrome";
 import SceneCommentaryBar from "@/components/emaki/viewer/SceneCommentaryBar";
-import PositionIndicator from "@/components/emaki/viewer/PositionIndicator";
 import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
-import WheelScrollIndicator from "@/components/emaki/viewer/WheelScrollIndicator";
 import {
   EmakiViewerOverlays,
   EbikiCoordinatePickerHud,
 } from "@/components/emaki/layout/EmakiViewerOverlays";
 import { AppContext } from "@/context/AppContext";
 import { assignUniqueIndex } from "@/utils/emakiItemIndexer";
-import {
-  faMagnifyingGlass,
-  faMagnifyingGlassMinus,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import useEmakiAutoPlay from "@/hooks/emaki/useEmakiAutoPlay";
 import useEmakiPalmDrag from "@/hooks/emaki/useEmakiPalmDrag";
@@ -36,6 +26,7 @@ import useScrollPositionRestore from "@/hooks/emaki/useScrollPositionRestore";
 import useEmakiRailSync from "@/hooks/emaki/useEmakiRailSync";
 import useEmakiSpotNavigation from "@/hooks/emaki/useEmakiSpotNavigation";
 import useEmakiQuizController from "@/hooks/emaki/useEmakiQuizController";
+import useEmakiViewportState from "@/hooks/emaki/useEmakiViewportState";
 import useEmakiViewerLifecycle, {
   useViewerTopInset,
   useEmakiZoomOpenHandlers,
@@ -43,13 +34,11 @@ import useEmakiViewerLifecycle, {
   computeNextContentMounted,
 } from "@/hooks/emaki/useEmakiViewerLifecycle";
 import styles from "@/styles/EmakiConteiner.module.css";
-import zoomStyles from "@/styles/ZoomLayer.module.css";
 import commentaryStyles from "@/styles/SceneCommentaryBar.module.css";
 import {
   useCallback,
   useContext,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -57,16 +46,10 @@ import {
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
-import { trackManualScroll } from "@/libs/api/measurementUtils";
 import { useEmakiPrompts } from "@/hooks/emaki/useEmakiPrompts";
 import { isByobuScroll } from "@/utils/isByobuScroll";
-import {
-  buildViewerThemeStyle,
-  resolveViewerLayoutMode,
-} from "@/theme/colorMode";
+import { buildViewerThemeStyle } from "@/theme/colorMode";
 import { scrollPositionStore } from "@/hooks/emaki/scrollPositionStore";
-import { TbRectangle } from "react-icons/tb";
-
 const QuizFab = dynamic(
   () => import("@/components/emaki/quiz/QuizFab"),
   { ssr: false }
@@ -139,30 +122,6 @@ const EmakiContainer = ({
     showRakuchuRakugaiHubLink;
 
   const [isScrollFeedbackOpen, setIsScrollFeedbackOpen] = useState(false);
-
-  const [isMdLandscape, setIsMdLandscape] = useState(false);
-  const commentaryFloating = Boolean(toggleFullscreen) || isMdLandscape;
-
-  useLayoutEffect(() => {
-    if (typeof window === "undefined") return undefined;
-    const mq = window.matchMedia("(min-width: 768px)");
-    const update = () => {
-      setIsMdLandscape(orientation === "landscape" && mq.matches);
-    };
-    update();
-    mq.addEventListener?.("change", update);
-    window.addEventListener("orientationchange", update);
-    return () => {
-      mq.removeEventListener?.("change", update);
-      window.removeEventListener("orientationchange", update);
-    };
-  }, [orientation]);
-
-  const viewerTopInset = useViewerTopInset({
-    commentaryFloating,
-    toggleFullscreen,
-    entryContainerRef,
-  });
 
   const emakiId = data.titleen;
   const lastDetectedSceneRef = useRef(navIndex);
@@ -328,6 +287,39 @@ const EmakiContainer = ({
     railPinScrollLeftRef,
   });
 
+  const {
+    commentaryFloating,
+    viewerLayout,
+    isEditSpotsMode,
+    handleToggleEditSpots,
+    stageHandlers,
+  } = useEmakiViewportState({
+    orientation,
+    toggleFullscreen,
+    data,
+    query,
+    pathname,
+    replace,
+    isPalmMode,
+    detectCurrentSceneRef,
+    isPlayMode,
+    stopPlayMode,
+    isAutoScrolling,
+    emakiId,
+    suppressClickUntilRef,
+    touchDoubleTapAtRef,
+    handleFullScreen,
+    setOepnSidebar,
+    handleRailTouchStart,
+    handleRailTouchEnd,
+  });
+
+  const viewerTopInset = useViewerTopInset({
+    commentaryFloating,
+    toggleFullscreen,
+    entryContainerRef,
+  });
+
   const handleViewerDoubleTap = useCallback(() => {
     touchDoubleTapAtRef.current = Date.now();
     handleFullScreen("landscape");
@@ -384,22 +376,6 @@ const EmakiContainer = ({
     hudData: ebikiPickerHud,
     clearHud: clearEbikiPickerHud,
   } = useEbikiCoordinatePicker({ handleToId, isZoomed });
-
-  const wasPalmActiveRef = useRef(false);
-  useEffect(() => {
-    if (isPalmMode) {
-      wasPalmActiveRef.current = true;
-      return undefined;
-    }
-    if (!wasPalmActiveRef.current) return undefined;
-    wasPalmActiveRef.current = false;
-    const t = setTimeout(() => {
-      if (typeof detectCurrentSceneRef.current === "function") {
-        detectCurrentSceneRef.current();
-      }
-    }, 120);
-    return () => clearTimeout(t);
-  }, [isPalmMode]);
 
   const showEndNudge = isAtEnd && hasNextVolume;
 
@@ -489,28 +465,6 @@ const EmakiContainer = ({
 
   const isByobu = isByobuScroll(data);
 
-  const isEditSpotsMode =
-    process.env.NODE_ENV === "development" &&
-    (query?.editSpots === "1" ||
-      (typeof window !== "undefined" &&
-        new URLSearchParams(window.location.search).get("editSpots") === "1"));
-
-  const handleToggleEditSpots = () => {
-    const nextQuery = { ...query };
-    if (isEditSpotsMode) {
-      delete nextQuery.editSpots;
-    } else {
-      nextQuery.editSpots = "1";
-    }
-    replace({ pathname, query: nextQuery }, undefined, { shallow: true });
-  };
-
-  const viewerLayout = resolveViewerLayoutMode({
-    data,
-    commentaryFloating,
-    isFullscreen: toggleFullscreen,
-  });
-
   return (
     <div
       className={`${
@@ -546,109 +500,30 @@ const EmakiContainer = ({
             : null),
         }}
       >
-        {process.env.NODE_ENV === "development" && scroll && (
-          <button
-            type="button"
-            onClick={handleToggleEditSpots}
-            style={{
-              position: "absolute",
-              top: 12,
-              right: 12,
-              zIndex: 120,
-              padding: "6px 10px",
-              fontSize: 12,
-              fontWeight: 600,
-              borderRadius: 6,
-              border: "1px solid rgba(255, 255, 255, 0.35)",
-              background: isEditSpotsMode
-                ? "rgba(255, 140, 119, 0.92)"
-                : "rgba(20, 20, 20, 0.75)",
-              color: "#fff",
-              cursor: "pointer",
-            }}
-          >
-            {isEditSpotsMode ? "編集終了（通常表示へ）" : "スポット編集"}
-          </button>
-        )}
-        {scroll && (
-          <FullScreen isUIVisible={isUIVisible} isBarFloating={commentaryFloating} />
-        )}
-        {scroll && !isEditSpotsMode && (
-          <WheelScrollIndicator
-            showToast={showWheelToast}
-            onToastComplete={() => setShowWheelToast(false)}
-          />
-        )}
-        {scroll && !isEditSpotsMode && (
-          <PositionIndicator
-            indicatorElRef={indicatorElRef}
-            isScrolling={isScrolling}
-            isUIVisible={isUIVisible}
-          />
-        )}
-        {scroll && !isEditSpotsMode && onToggleTheater && (
-          <div className={zoomStyles.theaterAnchor}>
-            <ActionButton
-              icon={<TbRectangle style={{ fontSize: "1.5em" }} aria-hidden />}
-              description={
-                isTheaterMode
-                  ? t("discovery.railExpand")
-                  : t("discovery.railCollapse")
-              }
-              onClick={onToggleTheater}
-              variant="fullscreen"
-              isOn={isTheaterMode}
-              isFullscreen={toggleFullscreen}
-              isBarFloating={commentaryFloating || isZoomed}
-              isUIVisible={isUIVisible}
-            />
-          </div>
-        )}
-        {scroll && (
-          <>
-            <div className={zoomStyles.toggleAnchor}>
-              <ActionButton
-                icon={
-                  <FontAwesomeIcon
-                    icon={isZoomed ? faMagnifyingGlassMinus : faMagnifyingGlass}
-                    style={{ fontSize: "1.5em" }}
-                  />
-                }
-                description={
-                  isZoomed ? t("viewer.zoomToggleOut") : t("viewer.zoomToggleIn")
-                }
-                onClick={() => {
-                  const rect = entryContainerRef.current?.getBoundingClientRect();
-                  toggleZoom(
-                    rect ? rect.left + rect.width / 2 : null,
-                    rect ? rect.top + rect.height / 2 : null
-                  );
-                }}
-                variant="fullscreen"
-                isOn={isZoomed}
-                isFullscreen={toggleFullscreen}
-                isBarFloating={commentaryFloating || isZoomed}
-                isUIVisible={isUIVisible}
-              />
-            </div>
-          </>
-        )}
-        {scroll && !isEditSpotsMode && !isZoomed && (
-          <>
-            <EmakiNavigation
-              handleToId={handleToId}
-              data={data}
-              isUIVisible={isUIVisible}
-              isPlayMode={isPlayMode}
-              isAutoScrolling={isAutoScrolling}
-              onStartPlayMode={startPlayMode}
-              onStopPlayMode={stopPlayMode}
-            />
-          </>
-        )}
-        {scroll && toggleFullscreen && (
-          <EmakiInfo value={data} isUIVisible={isUIVisible} />
-        )}
+        <EmakiViewerChrome
+          scroll={scroll}
+          isEditSpotsMode={isEditSpotsMode}
+          handleToggleEditSpots={handleToggleEditSpots}
+          isUIVisible={isUIVisible}
+          commentaryFloating={commentaryFloating}
+          showWheelToast={showWheelToast}
+          setShowWheelToast={setShowWheelToast}
+          indicatorElRef={indicatorElRef}
+          isScrolling={isScrolling}
+          onToggleTheater={onToggleTheater}
+          isTheaterMode={isTheaterMode}
+          t={t}
+          toggleFullscreen={toggleFullscreen}
+          isZoomed={isZoomed}
+          toggleZoom={toggleZoom}
+          entryContainerRef={entryContainerRef}
+          handleToId={handleToId}
+          data={data}
+          isPlayMode={isPlayMode}
+          isAutoScrolling={isAutoScrolling}
+          startPlayMode={startPlayMode}
+          stopPlayMode={stopPlayMode}
+        />
         <EmakiViewerOverlays
           scroll={scroll}
           isHelpModalOpen={isHelpModalOpen}
@@ -702,32 +577,7 @@ const EmakiContainer = ({
             "--box-shadow": boxshadow,
           }}
           onPointerDown={handleRailPointerDown}
-          onClick={() => {
-            if (isPlayMode) {
-              stopPlayMode();
-              return;
-            }
-            if (Date.now() < suppressClickUntilRef.current) return;
-            setOepnSidebar(false);
-          }}
-          onDoubleClick={(e) => {
-            if (e.target.closest("button, a, [role='button']")) return;
-            if (Date.now() < suppressClickUntilRef.current) return;
-            if (Date.now() - touchDoubleTapAtRef.current < 600) return;
-            handleFullScreen("landscape");
-          }}
-          onTouchStart={(e) => {
-            handleRailTouchStart(e);
-            if (isPlayMode) {
-              stopPlayMode();
-            }
-            if (!isAutoScrolling) {
-              trackManualScroll(emakiId, "touch");
-            }
-          }}
-          onTouchEnd={(e) => {
-            handleRailTouchEnd(e);
-          }}
+          {...stageHandlers}
           onWheel={handleRailWheel}
           ref={articleRef}
         >

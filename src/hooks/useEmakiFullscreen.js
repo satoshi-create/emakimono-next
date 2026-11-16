@@ -172,8 +172,18 @@ const useEmakiFullscreen = (navIndex) => {
     };
   }, [toggleFullscreen, router.asPath]);
 
-  // 別絵巻遷移（routeChangeStart）時のフルスクリーン解除
-  const exitFullscreenForNavigation = useCallback(async () => {
+  // 別ページ遷移（routeChangeStart）専用。同一作品内の shallow（例: ?spot=）では no-op。
+  const exitFullscreenForNavigation = useCallback(async (url, { shallow } = {}) => {
+    if (typeof window !== "undefined") {
+      const nextPath = url ? String(url).split("?")[0].split("#")[0] : "";
+      const isSamePageShallow =
+        shallow === true ||
+        (nextPath && nextPath === window.location.pathname);
+      if (isSamePageShallow) {
+        return;
+      }
+    }
+
     const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
     if (fsEl) {
       void (async () => {
