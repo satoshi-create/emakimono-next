@@ -633,6 +633,8 @@ const EmakiContainer = ({
           handlers={zoomHandlers}
           slices={zoomSlices}
           centerKey={zoomCenterIndex}
+          data={data}
+          ebikiPickerEnabled={ebikiPickerEnabled}
           onSelectSpot={onSelectSpot}
           selectedSpotId={selectedSpotId}
         />
@@ -651,6 +653,7 @@ const EmakiContainer = ({
               data={data}
               navIndex={liveSceneIndex}
               isFullscreen={toggleFullscreen}
+              isZoomed={isZoomed}
               commentaryFloating={commentaryFloating}
               openPolaroidModal={handleOpenPolaroidModal}
               entryContainerRef={entryContainerRef}

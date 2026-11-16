@@ -364,9 +364,26 @@ export function ByobuSpotFooterNav({
           role="button"
           tabIndex={next ? 0 : -1}
           aria-disabled={!next}
+          aria-label={
+            next
+              ? locale === "en"
+                ? `Next spot: ${next.title}`
+                : `次のスポット: ${next.title}`
+              : locale === "en"
+                ? "No next spot"
+                : "次のスポットなし"
+          }
+          title={
+            next
+              ? locale === "en"
+                ? `Go to next spot: ${next.title}`
+                : `次のスポットへ: ${next.title}`
+              : undefined
+          }
           style={{
             ...BYOBU_NAV_BTN,
             opacity: next ? 1 : 0.4,
+            cursor: next ? "pointer" : "default",
             color: "var(--bar-text)",
           }}
           onClick={(e) => {
@@ -410,9 +427,26 @@ export function ByobuSpotFooterNav({
           role="button"
           tabIndex={prev ? 0 : -1}
           aria-disabled={!prev}
+          aria-label={
+            prev
+              ? locale === "en"
+                ? `Previous spot: ${prev.title}`
+                : `前のスポット: ${prev.title}`
+              : locale === "en"
+                ? "No previous spot"
+                : "前のスポットなし"
+          }
+          title={
+            prev
+              ? locale === "en"
+                ? `Go to previous spot: ${prev.title}`
+                : `前のスポットへ: ${prev.title}`
+              : undefined
+          }
           style={{
             ...BYOBU_NAV_BTN_NEXT,
             opacity: prev ? 1 : 0.4,
+            cursor: prev ? "pointer" : "default",
             color: "var(--bar-text)",
           }}
           onClick={(e) => {
@@ -430,7 +464,7 @@ export function ByobuSpotFooterNav({
           {prev
             ? `${prev.title} →`
             : locale === "en"
-              ? "Prev →"
+              ? "Previous →"
               : "前へ →"}
         </span>
       </div>

@@ -120,6 +120,8 @@ export function resolveByobuSpotLinkChips(spotId, currentTitleen, locale) {
   return { crossEditionLinks, hubComparisonLink };
 }
 
+export const BYOBU_SPOT_LIKE_INDEX_OFFSET = 1000;
+
 export const BYOBU_CATEGORY_JA = {
   power: "権力・城郭",
   temple: "寺社",
@@ -204,16 +206,19 @@ export function useByobuSpotCommentary({
   // 2. 選択中スポットエントリの解決
   const activeByobuSpotEntry = useMemo(() => {
     if (!isByobuSpotMode || !selectedSpot) return null;
-    const hit = allSpots.find(
+    const i = allSpots.findIndex(
       (row) =>
         row.spot?.id && String(row.spot.id) === String(selectedSpot.id)
     );
-    if (hit) return hit;
+    if (i >= 0) {
+      return { ...allSpots[i], index: i };
+    }
     return {
       spot: selectedSpot,
       linkId: navIndex,
       sliceIndex: navIndex,
       spotGlobalIndex: 0,
+      index: 0,
     };
   }, [isByobuSpotMode, allSpots, selectedSpot, navIndex]);
 
@@ -254,12 +259,22 @@ export function useByobuSpotCommentary({
 
   const spotActiveIndex = useMemo(() => {
     if (!isByobuSpotMode || !effectiveSpot?.id) return 0;
+    if (activeByobuSpotEntry?.index != null) {
+      return activeByobuSpotEntry.index;
+    }
     const i = allSpots.findIndex(
       (row) =>
         row.spot?.id && String(row.spot.id) === String(effectiveSpot.id)
     );
     return i >= 0 ? i : 0;
-  }, [isByobuSpotMode, allSpots, effectiveSpot?.id]);
+  }, [isByobuSpotMode, allSpots, effectiveSpot?.id, activeByobuSpotEntry?.index]);
+
+  const spotLikeSceneIndex = useMemo(() => {
+    if (!activeByobuSpotEntry || activeByobuSpotEntry.index == null) {
+      return null;
+    }
+    return BYOBU_SPOT_LIKE_INDEX_OFFSET + activeByobuSpotEntry.index;
+  }, [activeByobuSpotEntry]);
 
   // 4. マスタ連携（カテゴリ・本文フォールバック）
   const rakuchuSpotMaster = useMemo(() => {
@@ -358,5 +373,6 @@ export function useByobuSpotCommentary({
     byobuChapterTitle,
     crossEditionLinks,
     hubComparisonLink,
+    spotLikeSceneIndex,
   };
 }

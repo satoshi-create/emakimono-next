@@ -29,9 +29,11 @@ export function fallbackOffset(x, y) {
   };
 }
 
-/** offsetX/Y の calc 文字列から transform-origin の % 値を導出 */
+/** offsetX/Y の calc 文字列から、アンカー点に接する角を不動点とする transform-origin */
 export function transformOriginFor(offsetX, offsetY) {
-  return `${String(offsetX).includes("-100%") ? "100%" : "0%"} ${String(offsetY).includes("-100%") ? "100%" : "0%"}`;
+  const horizontal = String(offsetX).includes("-100%") ? "right" : "left";
+  const vertical = String(offsetY).includes("-100%") ? "bottom" : "top";
+  return `${horizontal} ${vertical}`;
 }
 
 // =============================================================================

@@ -70,6 +70,7 @@ const SceneCommentaryBar = ({
   onClearSelectedSpot,
   allSpots = [],
   onSelectSpot,
+  isZoomed = false,
 }) => {
   const { handleToId, orientation } = useContext(AppContext);
   const router = useRouter();
@@ -120,6 +121,40 @@ const SceneCommentaryBar = ({
     return () =>
       window.removeEventListener("emaki:spot-badge-select", onBadgeSelect);
   }, [closeBarIfCompact]);
+
+  const barWrapRef = shell.wrapRef;
+  const zoomOutsideTapRef = useRef(null);
+
+  useEffect(() => {
+    if (shell.closed || !isZoomed) return undefined;
+
+    const onPointerDown = (e) => {
+      if (e.button !== 0) return;
+      zoomOutsideTapRef.current = {
+        x: e.clientX,
+        y: e.clientY,
+        inside: Boolean(barWrapRef.current?.contains(e.target)),
+      };
+    };
+
+    const onPointerUp = (e) => {
+      if (e.button !== 0) return;
+      const start = zoomOutsideTapRef.current;
+      zoomOutsideTapRef.current = null;
+      if (!start) return;
+      if (!isCompactViewport()) return;
+      if (start.inside || barWrapRef.current?.contains(e.target)) return;
+      if (Math.hypot(e.clientX - start.x, e.clientY - start.y) >= 8) return;
+      shell.setClosed(true);
+    };
+
+    document.addEventListener("pointerdown", onPointerDown, true);
+    document.addEventListener("pointerup", onPointerUp, true);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown, true);
+      document.removeEventListener("pointerup", onPointerUp, true);
+    };
+  }, [shell.closed, isZoomed, shell.setClosed, barWrapRef]);
 
   const byobu = useByobuSpotCommentary({
     data,
@@ -370,7 +405,9 @@ const SceneCommentaryBar = ({
               onClick={(e) => e.stopPropagation()}
               onKeyDown={(e) => e.stopPropagation()}
             >
-              {!(byobu.isByobuSpotMode && !byobu.activeByobuSpot) ? (
+              {(byobu.isByobuSpotMode
+                ? byobu.activeByobuSpot && byobu.spotLikeSceneIndex != null
+                : emaki.current != null) ? (
                 <SceneLikeButton
                   titleen={titleen}
                   title={title}
@@ -381,7 +418,7 @@ const SceneCommentaryBar = ({
                   }
                   index={
                     byobu.isByobuSpotMode
-                      ? 10000 + (byobu.activeByobuSpotEntry?.spotGlobalIndex ?? 0)
+                      ? byobu.spotLikeSceneIndex
                       : emaki.current?.linkId
                   }
                   variant="bar"
@@ -652,6 +689,8 @@ const SceneCommentaryBar = ({
               spotActiveIndex={byobu.spotActiveIndex}
               locale={locale}
               handleNavigateSpot={byobu.handleNavigateSpot}
+              prevSpot={byobu.prevSpot}
+              nextSpot={byobu.nextSpot}
             />
             <div className={styles.utilityActionsEnd}>
               <FolkloreToggleButton

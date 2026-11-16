@@ -7,10 +7,14 @@
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/SpotPins.module.css";
 import { useRouter } from "next/router";
+import SceneLikeButton from "@/components/emaki/viewer/SceneLikeButton";
+import { BYOBU_SPOT_LIKE_INDEX_OFFSET } from "@/components/emaki/commentary/useByobuSpotCommentary";
 import {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -78,6 +82,8 @@ const SpotPins = ({
   linkId,
   zoomScale = 1,
   sliceIndex,
+  data,
+  ebikiPickerEnabled = false,
   masterSpots = DEFAULT_SPOT_MASTERS,
   getSpotKindClass = getRakuchuSpotKindClass,
   slugOverride,
@@ -99,6 +105,27 @@ const SpotPins = ({
 
   const isEditMode =
     process.env.NODE_ENV === "development" && router.query.editSpots === "1";
+
+  const spotLikeIndexById = useMemo(() => {
+    const emakis = data?.emakis;
+    if (!Array.isArray(emakis)) return {};
+    /** @type {Record<string, number>} */
+    const map = {};
+    let globalSpotIndex = 0;
+    emakis.forEach((slice) => {
+      if (slice?.cat !== "image" || !Array.isArray(slice.spots)) return;
+      slice.spots.forEach((spot) => {
+        if (!spot?.id) return;
+        const id = String(spot.id);
+        map[id] = BYOBU_SPOT_LIKE_INDEX_OFFSET + globalSpotIndex;
+        globalSpotIndex += 1;
+      });
+    });
+    return map;
+  }, [data?.emakis]);
+
+  const emakiId = data?.titleen;
+  const emakiTitle = data?.title;
 
   const layerRef = useRef(null);
   const [sliceImageName, setSliceImageName] = useState(null);
@@ -202,6 +229,18 @@ const SpotPins = ({
     spotLabel,
     locale,
   });
+
+  const isZoomed = (zoomScale || 1) > 1.05;
+  const stableOffsetsRef = useRef(null);
+  useLayoutEffect(() => {
+    if (!isZoomed) {
+      stableOffsetsRef.current = offsetById;
+    }
+  }, [isZoomed, offsetById]);
+  const layoutOffsets =
+    isZoomed && stableOffsetsRef.current
+      ? stableOffsetsRef.current
+      : offsetById;
 
   if (
     !mergedSpots.length &&
@@ -310,7 +349,7 @@ const SpotPins = ({
             }
           } else {
             const measured =
-              offsetById[spot.id] ??
+              layoutOffsets[spot.id] ??
               {
                 offsetX: `calc(-100% - ${BADGE_GAP}px)`,
                 offsetY: `calc(-100% - ${BADGE_GAP}px)`,
@@ -447,6 +486,32 @@ const SpotPins = ({
             >
               <span className={styles.dot} aria-hidden="true" />
               <span className={styles.label}>{label}</span>
+              {!ebikiPickerEnabled &&
+              !isEditMode &&
+              emakiId &&
+              spotLikeIndexById[String(spot.id)] != null ? (
+                <>
+                  <span className={styles.likeDivider} aria-hidden="true" />
+                  <span
+                    className={styles.likeSlot}
+                    onClick={(e) => e.stopPropagation()}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    onDoubleClick={(e) => e.stopPropagation()}
+                  >
+                    <SceneLikeButton
+                      titleen={emakiId}
+                      title={emakiTitle}
+                      chapter={
+                        locale === "en"
+                          ? spot.nameen || spot.name
+                          : spot.name
+                      }
+                      index={spotLikeIndexById[String(spot.id)]}
+                      variant="bar"
+                    />
+                  </span>
+                </>
+              ) : null}
               {isEditMode ? (
                 <span
                   role="button"

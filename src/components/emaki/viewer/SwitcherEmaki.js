@@ -180,6 +180,8 @@ const SwitcherEmaki = forwardRef(
           <SpotPins
             spots={spots}
             linkId={item.linkId}
+            data={data}
+            ebikiPickerEnabled={ebikiPickerEnabled}
             onSelectSpot={onSelectSpot}
             selectedSpotId={selectedSpotId}
           />

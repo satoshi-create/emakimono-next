@@ -25,7 +25,7 @@ graph TD
 |----------|------|
 | `SceneCommentaryBar.js` | Props 不変の default export。ヘッダー（Like/Share）、共通カード枠、モード分岐、Folklore シート配置 |
 | `useCommentaryBarShell.js` | `closed` / `expanded` / `viewMode` / `cardPos`、向き連動、フローティング DnD、Esc、`useCommentaryBarMetrics`（`--commentary-bar-full-h` / `--folklore-sheet-bottom`） |
-| `useByobuSpotCommentary.js` | `isByobuSpotMode`、`activeByobuSpot*`、`spotIndexRows`、`spotDisplay`、`prevSpot` / `nextSpot`、`handleNavigateSpot`、`crossEditionLinks` / `hubComparisonLink`（解説文・カテゴリは下記2層フォールバック） |
+| `useByobuSpotCommentary.js` | `isByobuSpotMode`、`activeByobuSpot*`、`spotLikeSceneIndex`（`1000 + index`）、`spotIndexRows`、`spotDisplay`、`prevSpot` / `nextSpot`、`handleNavigateSpot`、`crossEditionLinks` / `hubComparisonLink`（解説文・カテゴリは下記2層フォールバック） |
 | `ByobuSpotCommentaryView.jsx` | スポット目次、カテゴリ行、未選択ガイド・詳細本文、他伝本ワープ＋比較ハブ（`#motif-<masterId>`）の1行ピルチップ、前後スポット名付きナビ |
 | `useEmakiSceneCommentary.js` | `?ebiki`、段インデックス、詞書タブ、絵引、探索、`handleNavigate` / `handleFolkloreSelect` |
 | `EmakiSceneCommentaryView.jsx` | 段目次、絵引リスト、モードタブ、`CommentaryTextView` / `CommentaryExploreView` |
@@ -61,7 +61,7 @@ sequenceDiagram
   EC->>SCB: selectedSpot, allSpots, onSelectSpot
   SCB->>Byobu: spotDisplay, spotIndexRows
   View->>EC: onSelectSpot (バッジ／目次／前後ナビ)
-  Note over View: RTL進行 — フッター左「←次スポット」／中央 n/N／右「前スポット→」
+  Note over View: フッター左「←前スポット」／中央 n/N／右「次スポット→」— handleNavigateSpot → onSelectSpot（スクロール・ズーム・?spot）
 ```
 
 ## 屏風スポット — カテゴリ・解説本文（2層フォールバック）
@@ -86,9 +86,15 @@ sequenceDiagram
 
 行頭ラベル: 日本語 `他伝本:` / 英語 `Editions:`。ハブチップ文言: `3伝本比較 ↗` / `Compare 3 editions ↗`。
 
-## 屏風フッター前後ナビ（RTL）
+## 屏風スポット詳細 — いいね（`/api/likes/scene`）
 
-横スクロール（右→左）の進行方向に合わせ、**左ボタンが「次へ」**（ラベル `← ${nextSpotTitle}`、末尾なら disabled で `← 次へ`）、**右ボタンが「前へ」**（`${prevSpotTitle} →`、先頭なら `前へ →`）。中央は `spotActiveIndex + 1 / N`。
+段インデックス（`0` 始まりの `linkId`）と衝突しないよう、屏風スポット選択時のみ `SceneLikeButton` の `sceneIndex` に **`BYOBU_SPOT_LIKE_INDEX_OFFSET`（`1000`）+ `activeByobuSpotEntry.index`** を渡す（`useByobuSpotCommentary.spotLikeSceneIndex`）。見どころガイド未選択時はいいねボタンを出さない。通常絵巻モードは従来どおり `emaki.current.linkId` のみ。
+
+**スポットバッジ（`SpotPins`）:** 各ピンラベル右端に縦ディバイダー＋コンパクト `SceneLikeButton`（`ebikiPickerEnabled` ／ `?editSpots=1` 時は非表示）。`sceneIndex` は `useEmakiSpotNavigation.allSpots` と同一の `cat === "image"` 走査順の **`1000 + globalSpotIndex`**。`SceneLikeCountsContext` 経由でコメンタリーバー側スポットいいねと件数・押下状態がリアルタイム同期する。いいね操作は `stopPropagation` でスポットジャンプ／ズーム操作と分離する。
+
+## 屏風フッター前後スポット巡りナビ
+
+`ByobuSpotFooterNav`（`activeByobuSpot` 選択中のみ表示）。**左: 前スポット** `← ${prevSpotTitle}`（先頭は disabled・`← 前へ` / `← Previous`）、**右: 次スポット** `${nextSpotTitle} →`（末尾は disabled・`次へ →` / `Next →`）。中央は **`${spotActiveIndex + 1} / ${N}`**（日英共通）。クリックは `handleNavigateSpot(index)` → `onSelectSpot` 経由でスクロール・ズームと `?spot=<id>` を更新。ループはせず境界で disabled（`opacity: 0.4`, `aria-disabled`）。
 
 ## 段・スポット目次（`CommentarySectionIndex`）
 
@@ -107,6 +113,10 @@ sequenceDiagram
 - **スポットバッジクリック**（`useEmakiSpotNavigation.onSelectSpot`）: 常にそのスポットを選択し、該当位置へズーム着地する。**同一スポットの再クリックで選択解除（トグル）や `?spot` 削除は行わない**。見どころガイドへ戻るときはコメンタリーバー内の目次から行う。
 - **コメンタリーバー右下「×」**（`closeBtn`）: 常に `shell.setClosed(true)` のみ（ピル化）。`onClearSelectedSpot` は呼ばず `selectedSpotId` / `?spot` を維持する。再表示ピルで直前のスポット解説に戻る。
 - **小画面の自動収納**: 上記に加え、同一スポットのバッジ再クリック時も（`selectedSpotId` が変わらない場合）`emaki:spot-badge-select` 経由で `closeBarIfCompact()` し、バーが開いていればピルへ収納する。
+
+## 小画面・ズーム時のバー外タップでピル収納
+
+小画面（`isCompactViewport()`）かつ **ズーム状態**（`isZoomed`）でコメンタリーバーが開いている（`!shell.closed`）とき、`.wrap`（`barWrapRef`）の外側（絵巻画面側）をタップ／クリックすると `shell.setClosed(true)` でピルへ自動収納する。`document` の `pointerdown` / `pointerup` で判定し、開始・終了ともバー外かつ移動量が 8px 未満のときのみ反応する（ズーム中のパン操作では閉じない）。非ズーム時・大画面ではバー外クリックでは閉じない。
 
 ## 配色
 

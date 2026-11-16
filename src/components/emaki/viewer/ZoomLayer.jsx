@@ -47,6 +47,8 @@ const ZoomLayer = ({
   slices = [],
   // 中心スライスの key（＝絵巻 index）。eager 読み込みの判定に使う
   centerKey,
+  data,
+  ebikiPickerEnabled = false,
   onSelectSpot,
   selectedSpotId,
 }) => {
@@ -61,6 +63,12 @@ const ZoomLayer = ({
   const prevTransformRef = useRef({ scale: null, panX: null, panY: null });
 
   const roundPct = (n) => Math.round(n * 10) / 10;
+
+  const stopIfSpotLikeControl = (e) => {
+    if (e.target?.closest?.("button")) {
+      e.stopPropagation();
+    }
+  };
 
   const pctFromPointer = (e, el) => {
     const rect = el.getBoundingClientRect();
@@ -273,6 +281,10 @@ const ZoomLayer = ({
                   pointerEvents: "auto",
                   ...aspectStyle,
                 }}
+                onPointerDown={stopIfSpotLikeControl}
+                onPointerUp={stopIfSpotLikeControl}
+                onTouchStart={stopIfSpotLikeControl}
+                onTouchEnd={stopIfSpotLikeControl}
               >
                 <img
                   data-scene-index={s.key}
@@ -296,6 +308,8 @@ const ZoomLayer = ({
                     spots={s.spots}
                     linkId={s.linkId}
                     zoomScale={safeScale}
+                    data={data}
+                    ebikiPickerEnabled={ebikiPickerEnabled}
                     onSelectSpot={onSelectSpot}
                     selectedSpotId={selectedSpotId}
                   />
