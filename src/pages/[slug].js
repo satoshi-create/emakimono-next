@@ -58,7 +58,13 @@ const Emaki = ({ data, locale, locales, slug }) => {
     // ?scene / ?ebiki ディープリンクも先頭リセットしない（#1 フォールバック防止）
     window.scrollTo({ top: 0, behavior: "instant" });
     const params = new URLSearchParams(window.location.search || "");
-    if (params.has("ebiki") || params.has("scene") || params.has("chapter")) return;
+    if (
+      params.has("ebiki") ||
+      params.has("scene") ||
+      params.has("chapter") ||
+      params.has("spot")
+    )
+      return;
     const hashScene = Number(
       String(window.location.hash || "").replace("#", "")
     );
@@ -72,10 +78,21 @@ const Emaki = ({ data, locale, locales, slug }) => {
   // クエリが存在する場合は EmakiConteiner 側の着地処理に委ね、ここでの setnavIndex 競合を防ぐ。
   useEffect(() => {
     const targetChapter = router.query?.scene ?? router.query?.chapter;
-    if (router.query?.ebiki || targetChapter !== undefined) {
+    if (
+      router.query?.ebiki ||
+      targetChapter !== undefined ||
+      router.query?.spot
+    ) {
       return;
     }
-  }, [router.query?.scene, router.query?.chapter, router.query?.ebiki, data, setnavIndex]);
+  }, [
+    router.query?.scene,
+    router.query?.chapter,
+    router.query?.ebiki,
+    router.query?.spot,
+    data,
+    setnavIndex,
+  ]);
 
   if (!data) {
     return null;

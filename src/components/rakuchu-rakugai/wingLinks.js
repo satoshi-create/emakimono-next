@@ -17,11 +17,18 @@ export function getMotifVisual(motifVisuals, masterId, titleen) {
     x,
     y,
     scene,
+    spotId: entry.spotId,
+    sliceIndex:
+      typeof entry.sliceIndex === "number" ? entry.sliceIndex : undefined,
+    rect: entry.rect ?? null,
   };
 }
 
 export function wingSceneHref(wingSpec, visual) {
   if (!wingSpec?.titleen) return undefined;
+  if (visual?.spotId) {
+    return `/${wingSpec.titleen}?spot=${encodeURIComponent(visual.spotId)}`;
+  }
   const scene = visual?.scene;
   return scene != null ? `/${wingSpec.titleen}?scene=${scene}` : `/${wingSpec.titleen}`;
 }

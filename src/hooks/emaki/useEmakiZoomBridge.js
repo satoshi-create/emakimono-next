@@ -160,15 +160,22 @@ export default function useEmakiZoomBridge({
   // [フロー 3] ズーム突入ハンドラ
   // ---------------------------------------------------------------------------
   const enterZoomAtPoint = useCallback(
-    (clientX, clientY, initialScale) => {
+    (clientX, clientY, initialScale, preferredCenterIndex) => {
       const el = articleRef.current;
       const containerHeight =
         entryContainerRef.current?.clientHeight || el?.clientHeight || 0;
-      let centerIndex = Number.isFinite(contentWindowCenterRef?.current)
-        ? contentWindowCenterRef.current
-        : zoomCenterIndex;
+      let centerIndex = Number.isFinite(preferredCenterIndex)
+        ? preferredCenterIndex
+        : Number.isFinite(contentWindowCenterRef?.current)
+          ? contentWindowCenterRef.current
+          : zoomCenterIndex;
 
-      if (el && el.clientWidth > 0 && el.clientHeight > 0) {
+      if (
+        !Number.isFinite(preferredCenterIndex) &&
+        el &&
+        el.clientWidth > 0 &&
+        el.clientHeight > 0
+      ) {
         const rect = el.getBoundingClientRect();
         const focusX = Number.isFinite(clientX)
           ? clientX

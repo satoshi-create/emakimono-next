@@ -74,6 +74,7 @@ import {
 import { scrollPositionStore } from "@/hooks/emaki/scrollPositionStore";
 import { runAfterPaint } from "@/utils/runAfterPaint";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
+import { triggerEbikiSpotlight } from "@/utils/triggerEbikiSpotlight";
 import { TbRectangle } from "react-icons/tb";
 
 // 鑑賞者向け通し番号（1始まり）の算出: 詞書ありは段数(activeIndex+1)、詞書なしはスライス通し番号
@@ -101,6 +102,57 @@ function getLinkIdForVisitorScene(emakis, sceneNum) {
     return ekotobas[idx].linkId;
   }
   return n - 1;
+}
+
+function resolveSpotDeepLink(emakis, querySpot) {
+  const spotId = String(
+    Array.isArray(querySpot) ? querySpot[0] : querySpot ?? ""
+  ).trim();
+  if (!spotId || !Array.isArray(emakis)) return null;
+  for (let sliceIndex = 0; sliceIndex < emakis.length; sliceIndex += 1) {
+    const slice = emakis[sliceIndex];
+    if (slice?.cat !== "image") continue;
+    const spots = slice.spots;
+    if (!Array.isArray(spots)) continue;
+    const spot = spots.find((s) => s?.id === spotId);
+    if (!spot) continue;
+    const linkId = slice.linkId;
+    if (typeof linkId !== "number") continue;
+    let centerX = Number(spot.x);
+    let centerY = Number(spot.y);
+    let rectW = null;
+    let rectH = null;
+    const rect = spot.rect;
+    if (
+      rect &&
+      typeof rect === "object" &&
+      typeof rect.x === "number" &&
+      typeof rect.w === "number"
+    ) {
+      centerX = rect.x + rect.w / 2;
+      rectW = rect.w;
+      if (typeof rect.y === "number" && typeof rect.h === "number") {
+        centerY = rect.y + rect.h / 2;
+        rectH = rect.h;
+      }
+    } else if (!Number.isFinite(centerX)) {
+      centerX = 50;
+    }
+    if (!Number.isFinite(centerY)) {
+      centerY = 50;
+    }
+    const offsetPercent = 100 - centerX;
+    return {
+      linkId,
+      sliceIndex,
+      offsetPercent,
+      centerX,
+      centerY,
+      rectW,
+      rectH,
+    };
+  }
+  return null;
 }
 
 // 動的インポート（初期チャンク軽量化）
@@ -175,7 +227,7 @@ const EmakiContainer = ({
   } = useContext(AppContext);
 
   const { backgroundImage } = data;
-  const { locale, locales, asPath, defaultLocale, query, push, pathname, replace } = useRouter();
+  const { locale, locales, asPath, defaultLocale, query, isReady, push, pathname, replace } = useRouter();
   const { t } = useTranslation("common");
 
   const wrapperRef = useRef();
@@ -490,9 +542,10 @@ const EmakiContainer = ({
     const hash =
       Number(String(window.location.hash || "").replace("#", "")) || 0;
     const hasQueryScene = Boolean(query?.scene);
+    const hasQuerySpot = Boolean(query?.spot);
     pendingInitialHashRef.current = hash;
-    if (hash <= 0 && !hasQueryScene) setHashFollowEnabled(true);
-  }, [scroll, data.id, query?.ebiki]);
+    if (hash <= 0 && !hasQueryScene && !hasQuerySpot) setHashFollowEnabled(true);
+  }, [scroll, data.id, query?.ebiki, query?.scene, query?.spot]);
 
   useEffect(() => {
     if (typeof window === "undefined" || !scroll) return;
@@ -541,10 +594,160 @@ const EmakiContainer = ({
   }, [scroll, data.id, articleRef, hashFollowEnabled]);
 
   const didApplyEntryHashRef = useRef(false);
+  const appliedSpotRef = useRef(null);
+  const [pendingSpotZoom, setPendingSpotZoom] = useState(null);
+
   useEffect(() => {
-    if (!scroll || didApplyEntryHashRef.current) return;
-    didApplyEntryHashRef.current = true;
-    if (query?.ebiki) return;
+    if (!pendingSpotZoom) return undefined;
+    const {
+      centerX,
+      centerY,
+      rectW,
+      rectH,
+      sliceIndex,
+      linkId,
+      offsetPercent,
+    } = pendingSpotZoom;
+    const zoomTimer = setTimeout(() => {
+      if (!enterZoomRef.current) {
+        setPendingSpotZoom(null);
+        return;
+      }
+      let targetScale = 2.6;
+      if (rectW != null && rectH != null) {
+        targetScale = Math.min(
+          80 / Math.max(rectW, 12),
+          80 / Math.max(rectH, 12)
+        );
+        targetScale = Math.min(4.5, Math.max(2.2, targetScale));
+      }
+
+      const root = entryContainerRef.current;
+      const viewportW =
+        typeof window !== "undefined" ? window.innerWidth : 0;
+      const viewportH =
+        typeof window !== "undefined" ? window.innerHeight : 0;
+
+      const querySliceEl = () => {
+        if (!Number.isFinite(sliceIndex)) return null;
+        const byData = root?.querySelector(
+          `[data-scene-index="${sliceIndex}"]`
+        );
+        if (byData) return byData;
+        return (
+          root?.querySelector(`section#scene-${sliceIndex}`) ||
+          (typeof document !== "undefined"
+            ? document.querySelector(`section#scene-${sliceIndex}`)
+            : null)
+        );
+      };
+
+      let sliceEl = querySliceEl();
+      let sliceRect = sliceEl?.getBoundingClientRect?.();
+
+      const sliceOffscreen =
+        !sliceRect ||
+        sliceRect.width <= 0 ||
+        sliceRect.height <= 0 ||
+        sliceRect.right < 0 ||
+        sliceRect.left > viewportW ||
+        sliceRect.bottom < 0 ||
+        sliceRect.top > viewportH;
+
+      if (sliceOffscreen && typeof linkId === "number") {
+        handleToId(linkId, {
+          realign: true,
+          offsetPercent: offsetPercent ?? 50,
+          behavior: "auto",
+        });
+        sliceEl = querySliceEl();
+        sliceRect = sliceEl?.getBoundingClientRect?.();
+      }
+
+      let clientX = viewportW / 2;
+      let clientY = viewportH / 2;
+
+      const sliceUsable =
+        sliceRect &&
+        sliceRect.width > 0 &&
+        sliceRect.height > 0 &&
+        sliceRect.right >= 0 &&
+        sliceRect.left <= viewportW;
+
+      if (sliceUsable) {
+        clientX = sliceRect.left + sliceRect.width * (centerX / 100);
+        clientY = sliceRect.top + sliceRect.height * (centerY / 100);
+      } else {
+        const stageRect = entryContainerRef.current?.getBoundingClientRect();
+        if (stageRect) {
+          clientX = stageRect.left + stageRect.width * (centerX / 100);
+          clientY = stageRect.top + stageRect.height * (centerY / 100);
+        }
+      }
+
+      enterZoomRef.current(
+        clientX,
+        clientY,
+        targetScale,
+        Number.isFinite(sliceIndex) ? sliceIndex : undefined
+      );
+      setPendingSpotZoom(null);
+    }, 300);
+    return () => clearTimeout(zoomTimer);
+  }, [pendingSpotZoom, handleToId]);
+
+  useEffect(() => {
+    if (!scroll || !isReady) return;
+    if (query?.ebiki) {
+      if (!didApplyEntryHashRef.current) didApplyEntryHashRef.current = true;
+      return;
+    }
+
+    const querySpot = query?.spot;
+    if (querySpot) {
+      const spotId = String(
+        Array.isArray(querySpot) ? querySpot[0] : querySpot ?? ""
+      ).trim();
+      if (spotId && appliedSpotRef.current !== spotId) {
+        const landing = resolveSpotDeepLink(data?.emakis || [], querySpot);
+        if (landing) {
+          appliedSpotRef.current = spotId;
+          const {
+            linkId,
+            sliceIndex,
+            offsetPercent,
+            centerX,
+            centerY,
+            rectW,
+            rectH,
+          } = landing;
+          const pin = () => window.scrollTo({ top: 0, behavior: "instant" });
+          triggerEbikiSpotlight(linkId, offsetPercent);
+          handleToId(linkId, {
+            realign: true,
+            offsetPercent,
+            behavior: "auto",
+          });
+          pin();
+          const timers = [50, 200, 500, 1000].map((ms) => setTimeout(pin, ms));
+          setPendingSpotZoom({
+            centerX,
+            centerY,
+            rectW,
+            rectH,
+            sliceIndex,
+            linkId,
+            offsetPercent,
+          });
+          return () => {
+            timers.forEach(clearTimeout);
+          };
+        }
+      } else if (spotId && appliedSpotRef.current === spotId) {
+        return;
+      }
+    }
+
     const queryScene = query?.scene;
     let targetIndex = null;
 
@@ -566,6 +769,9 @@ const EmakiContainer = ({
       }
     }
 
+    if (didApplyEntryHashRef.current) return;
+    didApplyEntryHashRef.current = true;
+
     if (targetIndex === null || targetIndex === undefined) return;
     const pin = () => window.scrollTo({ top: 0, behavior: "instant" });
     if (navIndex === targetIndex) {
@@ -580,8 +786,10 @@ const EmakiContainer = ({
     });
     pin();
     const timers = [50, 200, 500, 1000].map((ms) => setTimeout(pin, ms));
-    return () => timers.forEach(clearTimeout);
-  }, [scroll, data.id, handleToId, navIndex, query?.ebiki]);
+    return () => {
+      timers.forEach(clearTimeout);
+    };
+  }, [scroll, isReady, data.id, handleToId, navIndex, query?.ebiki, query?.spot, data?.emakis]);
 
   const shareTitle =
     locale === "en"

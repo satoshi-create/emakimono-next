@@ -14,7 +14,7 @@ import {
   overlayCarouselBtnStyle,
 } from "./rakuchuScrollConstants";
 import { categoryFilterTheme, themeForKind } from "./spotPinTheme";
-import { getMotifVisual } from "./wingLinks";
+import { getMotifVisual, wingSceneHref } from "./wingLinks";
 
 function MotifCarouselCard({ motif, motifVisuals, locale }) {
   const isJa = locale !== "en";
@@ -153,7 +153,10 @@ function MotifCarouselCard({ motif, motifVisuals, locale }) {
               ◀
             </button>
           ) : null}
-          <MotifCropCard visual={visual} href={`/${edition.titleen}`} />
+          <MotifCropCard
+            visual={visual}
+            href={wingSceneHref(edition, visual) ?? `/${edition.titleen}`}
+          />
           {showCarouselNav ? (
             <button
               type="button"
