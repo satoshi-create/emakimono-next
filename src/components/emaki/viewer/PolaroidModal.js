@@ -380,7 +380,7 @@ export function PolaroidModal({
                 }}
               />
               <span>{isEn ? "Loading..." : "読み込み中..."}</span>
-              <style jsx>{`
+              <style>{`
                 @keyframes spin {
                   to {
                     transform: rotate(360deg);

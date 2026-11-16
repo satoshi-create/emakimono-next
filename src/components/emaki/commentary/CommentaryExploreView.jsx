@@ -13,10 +13,8 @@ const CommentaryExploreView = ({
   const router = useRouter();
   const isEn = router.locale === "en";
 
-  if (!souData) return null;
-
   const availableMotifs = React.useMemo(() => {
-    if (!Array.isArray(souData.motifs)) return [];
+    if (!souData || !Array.isArray(souData.motifs)) return [];
     return souData.motifs.map((mId) => {
       const def = getMotifDefinition(mId);
       return {
@@ -25,7 +23,7 @@ const CommentaryExploreView = ({
         nameEn: def ? (def.labelEn || def.label) : mId,
       };
     });
-  }, [souData.motifs]);
+  }, [souData]);
 
   // モチーフの自動スライド（8秒間隔・フェード付き）
   React.useEffect(() => {
@@ -92,6 +90,8 @@ const CommentaryExploreView = ({
     }
     return null;
   }, [souData, selectedMotifId, activeMotif, isEn]);
+
+  if (!souData) return null;
 
   const handleSelectIndex = (idx) => {
     if (idx === currentIndex || !availableMotifs[idx]) return;

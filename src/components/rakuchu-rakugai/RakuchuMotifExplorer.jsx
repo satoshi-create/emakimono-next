@@ -31,7 +31,7 @@ export default function RakuchuMotifExplorer({ motifVisuals, locale = "ja" }) {
         <RakuchuCompositionSection motifVisuals={motifVisuals} locale={locale} />
         <RakuchuMotifSection motifVisuals={motifVisuals} locale={locale} />
       </div>
-      <style jsx>{`
+      <style>{`
         @media (max-width: 720px) {
           section > div:last-of-type {
             flex-direction: column;
