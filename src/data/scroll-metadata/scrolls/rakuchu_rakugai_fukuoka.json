@@ -246,6 +246,10 @@
           "x": 29,
           "y": 16,
           "nameen": "Seigan-ji Temple",
+          "category": "寺社",
+          "categoryen": "Temples & Shrines",
+          "summary": "寺町通に面する浄土宗西山深草派の総本山。落語の祖・安楽庵策伝ゆかりの寺でもあり、多くの参詣者で賑わう。",
+          "summaryen": "Head temple of the Seizan Fukakusa Jodo sect facing Teramachi Street, bustling with worshippers and famous for its ties to early rakugo storytelling.",
           "rect": {
             "w": 100,
             "h": 35.4
@@ -305,6 +309,10 @@
           "x": 0,
           "y": 64,
           "nameen": "Artisan Shops and Townspeople",
+          "category": "町並み・祭礼",
+          "categoryen": "Townscapes & Festivals",
+          "summary": "手工業の工房や商家が軒を連ねる京の町並み。働く職人と行き交う人々の生き生きとした描写が福岡本の魅力を凝縮する。",
+          "summaryen": "Kyoto streets lined with artisan workshops and merchant shops, capturing lively everyday labor and townspeople that define the Fukuoka screen.",
           "rect": {
             "w": 100,
             "h": 54.4

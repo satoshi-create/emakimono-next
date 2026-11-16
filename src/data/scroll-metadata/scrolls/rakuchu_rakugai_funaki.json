@@ -170,6 +170,10 @@
           "x": 78.2,
           "y": 30.3,
           "nameen": "Myoho-in",
+          "category": "寺社",
+          "categoryen": "Temples & Shrines",
+          "summary": "方広寺大仏殿に隣接する天台宗の門跡寺院。豊臣秀吉による大仏造営と深く関わり、東山の宗教・政治空間の要をなす。",
+          "summaryen": "An imperial Tendai temple adjacent to Hoko-ji's Great Buddha Hall, closely tied to Toyotomi Hideyoshi's monumental construction and eastern Kyoto's religious landscape.",
           "rect": {
             "w": 79.6,
             "h": 19.6
@@ -230,7 +234,11 @@
           "name": "五条通",
           "x": 18,
           "y": 60,
-          "nameen": "Gojo Street"
+          "nameen": "Gojo Street",
+          "category": "町並み・祭礼",
+          "categoryen": "Townscapes & Festivals",
+          "summary": "五条大橋から洛中へ延びる東西の幹線街路。扇屋や商家の店先が並び、往来する町衆の活気を伝える。",
+          "summaryen": "Major east-west thoroughfare leading from Gojo Bridge into the capital, lined with fan makers and merchant shops bustling with townspeople."
         },
         {
           "id": "shichijo-kawara",
@@ -238,6 +246,10 @@
           "x": 100,
           "y": 73.7,
           "nameen": "Shichijo Riverbed",
+          "category": "町並み・祭礼",
+          "categoryen": "Townscapes & Festivals",
+          "summary": "鴨川下流の河原空間。物見遊山や大道芸・行商が集い、都市の周縁ならではの開放的な風俗が繰り広げられる。",
+          "summaryen": "Lower Kamo riverbed where street performers, peddlers, and sightseers gather, showcasing lively popular culture along the urban edge.",
           "rect": {
             "w": 100,
             "h": 21.4
@@ -405,6 +417,10 @@
           "x": 44,
           "y": 6.3,
           "nameen": "Sanjo Bridge",
+          "category": "河川・橋",
+          "categoryen": "Rivers & Bridges",
+          "summary": "東海道の起点として秀吉が改修した擬宝珠付きの石柱大橋。旅人や商人が行き交う京の玄関口。",
+          "summaryen": "Stone-pillared bridge renovated by Hideyoshi as the western terminus of the Tokaido highway, serving as Kyoto's bustling eastern gateway.",
           "rect": {
             "w": 100,
             "h": 11.2
@@ -481,7 +497,11 @@
           "name": "四条通",
           "x": 21,
           "y": 35,
-          "nameen": "Shijo Street"
+          "nameen": "Shijo Street",
+          "category": "町並み・祭礼",
+          "categoryen": "Townscapes & Festivals",
+          "summary": "祇園社（八坂神社）の門前から洛中中心部へ貫く商業の大通り。多様な商店と賑やかな往来が描かれる。",
+          "summaryen": "Central commercial avenue running from Gion Shrine into downtown Kyoto, teeming with diverse shops and lively street traffic."
         },
         {
           "id": "muromachidori",
@@ -489,6 +509,10 @@
           "x": 87.9,
           "y": 52.1,
           "nameen": "Muromachi Street",
+          "category": "町並み・祭礼",
+          "categoryen": "Townscapes & Festivals",
+          "summary": "呉服商や富裕な町衆が軒を連ねる京の経済中枢。整然とした町屋と華やかな衣装の人々が都市の繁栄を物語る。",
+          "summaryen": "Economic heart of Kyoto lined with textile merchants and affluent townspeople, reflecting urban prosperity through orderly townhouses.",
           "rect": {
             "w": 100,
             "h": 22.8
@@ -542,6 +566,10 @@
           "x": 34,
           "y": 43,
           "nameen": "Shinmachi Street",
+          "category": "町並み・祭礼",
+          "categoryen": "Townscapes & Festivals",
+          "summary": "祇園祭の山鉾町としても知られる洛中の主要南北路。商家の暖簾が連なり、日常の商いと暮らしが息づく。",
+          "summaryen": "Key north-south street in central Kyoto renowned for Gion Festival float neighborhoods, lined with shop curtains and everyday commerce.",
           "rect": {
             "w": 24,
             "h": 20
@@ -583,6 +611,10 @@
           "x": 49,
           "y": 53,
           "nameen": "Nijo Street",
+          "category": "町並み・祭礼",
+          "categoryen": "Townscapes & Festivals",
+          "summary": "二条城の南側を東西に走る街路。薬種商や諸職人の店が並び、武家地と町人地を結ぶ要衝となっている。",
+          "summaryen": "East-west avenue running south of Nijo Castle, lined with apothecaries and artisan workshops linking warrior and merchant quarters.",
           "rect": {
             "w": 100,
             "h": 18.8
@@ -598,6 +630,10 @@
           "x": 64,
           "y": 37.4,
           "nameen": "Shimodachiuri Street",
+          "category": "町並み・祭礼",
+          "categoryen": "Townscapes & Festivals",
+          "summary": "内裏（御所）と二条城の間を東西に結ぶ通り。公家と武家の往来が見られ、近世初期の都市構造を示す。",
+          "summaryen": "Avenue connecting the Imperial Palace and Nijo Castle from east to west, reflecting early modern Kyoto's court-and-shogunate urban fabric.",
           "rect": {
             "w": 100,
             "h": 17.6
@@ -657,7 +693,11 @@
           "name": "堀川通",
           "x": 49,
           "y": 50,
-          "nameen": "Horikawa Street"
+          "nameen": "Horikawa Street",
+          "category": "河川・橋",
+          "categoryen": "Rivers & Bridges",
+          "summary": "二条城の東堀に沿って流れる堀川と並走する南北の幹線路。水運と城下周辺の賑わいが描き込まれている。",
+          "summaryen": "North-south thoroughfare running alongside the Horikawa canal east of Nijo Castle, depicting canal transport and castle-side activity."
         }
       ]
     },
@@ -705,7 +745,11 @@
           "name": "東洞院通",
           "x": 22,
           "y": 12,
-          "nameen": "Higashinotoin Street"
+          "nameen": "Higashinotoin Street",
+          "category": "町並み・祭礼",
+          "categoryen": "Townscapes & Festivals",
+          "summary": "御所の南から洛中を縦断する南北路。町屋が整然と建ち並び、都の格子状街区の広がりを視覚化している。",
+          "summaryen": "North-south avenue running south from the Imperial Palace, showcasing the orderly grid of townhouses across central Kyoto."
         }
       ]
     }

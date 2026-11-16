@@ -262,6 +262,10 @@
           "x": 64.9,
           "y": 70,
           "nameen": "Takase River",
+          "category": "河川・橋",
+          "categoryen": "Rivers & Bridges",
+          "summary": "角倉了以が開削した京都と伏見を結ぶ運河。高瀬舟による物資輸送が描かれ、江戸初期の都市インフラの革新を伝える。",
+          "summaryen": "Canal excavated by Suminokura Ryoi linking Kyoto and Fushimi, showing flat-bottomed cargo boats that revolutionized early Edo urban logistics.",
           "rect": {
             "w": 63.8,
             "h": 4
@@ -475,6 +479,10 @@
           "x": 70.3,
           "y": 41.9,
           "nameen": "Residence of the Kyoto Governor",
+          "category": "権力・城郭",
+          "categoryen": "Power & Castles",
+          "summary": "江戸幕府が朝廷の監視と京の治安維持のために置いた行政拠点。二条城の北に位置し、徳川支配の要石をなす。",
+          "summaryen": "Administrative headquarters of the Tokugawa shogunate's Kyoto Deputy north of Nijo Castle, overseeing the imperial court and municipal order.",
           "rect": {
             "w": 92.4,
             "h": 22.4
@@ -592,6 +600,10 @@
           "x": 46.8,
           "y": 32.7,
           "nameen": "Oi River",
+          "category": "河川・橋",
+          "categoryen": "Rivers & Bridges",
+          "summary": "嵐山・嵯峨野を流れる景勝の川。渡月橋や筏流しの風景とともに、洛西の豊かな自然景観を彩る。",
+          "summaryen": "Scenic river flowing through Arashiyama and Sagano, enriching the western suburbs with timber rafts and riverside views.",
           "rect": {
             "w": 53.6,
             "h": 4
