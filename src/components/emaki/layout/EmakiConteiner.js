@@ -74,7 +74,6 @@ import {
 import { scrollPositionStore } from "@/hooks/emaki/scrollPositionStore";
 import { runAfterPaint } from "@/utils/runAfterPaint";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
-import { triggerEbikiSpotlight } from "@/utils/triggerEbikiSpotlight";
 import { TbRectangle } from "react-icons/tb";
 
 // 鑑賞者向け通し番号（1始まり）の算出: 詞書ありは段数(activeIndex+1)、詞書なしはスライス通し番号
@@ -604,6 +603,105 @@ const EmakiContainer = ({
   const didApplyEntryHashRef = useRef(false);
   const appliedSpotRef = useRef(null);
   const [pendingSpotZoom, setPendingSpotZoom] = useState(null);
+  const [selectedSpotId, setSelectedSpotId] = useState(null);
+
+  const selectedSpot = useMemo(() => {
+    if (!selectedSpotId || !Array.isArray(data?.emakis)) return null;
+    for (let i = 0; i < data.emakis.length; i += 1) {
+      const slice = data.emakis[i];
+      if (slice?.cat !== "image" || !Array.isArray(slice.spots)) continue;
+      const found = slice.spots.find(
+        (s) => s?.id && String(s.id) === String(selectedSpotId)
+      );
+      if (found) return found;
+    }
+    return null;
+  }, [selectedSpotId, data?.emakis]);
+
+  const allSpots = useMemo(() => {
+    if (!isByobuScroll(data) || !Array.isArray(data?.emakis)) return [];
+    const rows = [];
+    let spotGlobalIndex = 0;
+    data.emakis.forEach((slice, sliceIndex) => {
+      if (slice?.cat !== "image" || !Array.isArray(slice.spots)) return;
+      const { linkId } = slice;
+      slice.spots.forEach((spot) => {
+        if (!spot?.id) return;
+        rows.push({
+          spot,
+          linkId: typeof linkId === "number" ? linkId : sliceIndex,
+          sliceIndex,
+          spotGlobalIndex,
+          sliceSrc: slice.src,
+        });
+        spotGlobalIndex += 1;
+      });
+    });
+    return rows;
+  }, [data]);
+
+  const onSelectSpotFromCommentary = useCallback(
+    (spot) => {
+      if (!spot?.id) return;
+      const id = String(spot.id);
+      setSelectedSpotId(id);
+      const nextQuery = { ...query, spot: id };
+      replace({ pathname, query: nextQuery }, undefined, { shallow: true });
+      const landing = resolveSpotDeepLink(data?.emakis || [], id);
+      if (!landing) return;
+      appliedSpotRef.current = id;
+      handleToId(landing.linkId, {
+        realign: true,
+        offsetPercent: landing.offsetPercent,
+        behavior: "smooth",
+      });
+      setPendingSpotZoom({
+        centerX: landing.centerX,
+        centerY: landing.centerY,
+        rectW: landing.rectW,
+        rectH: landing.rectH,
+        sliceIndex: landing.sliceIndex,
+        linkId: landing.linkId,
+        offsetPercent: landing.offsetPercent,
+      });
+    },
+    [query, pathname, replace, data?.emakis, handleToId]
+  );
+
+  useEffect(() => {
+    if (!isReady) return;
+    const raw = query?.spot;
+    if (!raw) {
+      setSelectedSpotId(null);
+      return;
+    }
+    const spotId = String(Array.isArray(raw) ? raw[0] : raw).trim();
+    if (spotId) setSelectedSpotId(spotId);
+  }, [isReady, query?.spot]);
+
+  const onSelectSpot = useCallback(
+    (spot) => {
+      if (!spot?.id) return;
+      const id = String(spot.id);
+      const nextId = selectedSpotId === id ? null : id;
+      setSelectedSpotId(nextId);
+      const nextQuery = { ...query };
+      if (nextId) {
+        nextQuery.spot = nextId;
+      } else {
+        delete nextQuery.spot;
+      }
+      replace({ pathname, query: nextQuery }, undefined, { shallow: true });
+    },
+    [selectedSpotId, query, pathname, replace]
+  );
+
+  const onClearSelectedSpot = useCallback(() => {
+    setSelectedSpotId(null);
+    const nextQuery = { ...query };
+    delete nextQuery.spot;
+    replace({ pathname, query: nextQuery }, undefined, { shallow: true });
+  }, [query, pathname, replace]);
 
   useEffect(() => {
     if (!pendingSpotZoom) return undefined;
@@ -720,6 +818,7 @@ const EmakiContainer = ({
         const landing = resolveSpotDeepLink(data?.emakis || [], querySpot);
         if (landing) {
           appliedSpotRef.current = spotId;
+          setSelectedSpotId(spotId);
           const {
             linkId,
             sliceIndex,
@@ -730,7 +829,6 @@ const EmakiContainer = ({
             rectH,
           } = landing;
           const pin = () => window.scrollTo({ top: 0, behavior: "instant" });
-          triggerEbikiSpotlight(linkId, offsetPercent);
           handleToId(linkId, {
             realign: true,
             offsetPercent,
@@ -752,6 +850,7 @@ const EmakiContainer = ({
           };
         }
       } else if (spotId && appliedSpotRef.current === spotId) {
+        setSelectedSpotId(spotId);
         return;
       }
     }
@@ -1442,6 +1541,8 @@ const EmakiContainer = ({
                 mountContent={nextContentMounted.has(index)}
                 ebikiPickerEnabled={ebikiPickerEnabled}
                 onEbikiPick={onEbikiPick}
+                onSelectSpot={onSelectSpot}
+                selectedSpotId={selectedSpotId}
               />
             );
           })}
@@ -1471,6 +1572,8 @@ const EmakiContainer = ({
           handlers={zoomHandlers}
           slices={zoomSlices}
           centerKey={zoomCenterIndex}
+          onSelectSpot={onSelectSpot}
+          selectedSpotId={selectedSpotId}
         />
         {ebikiPickerEnabled && (
           <EbikiCoordinatePickerHud
@@ -1478,7 +1581,11 @@ const EmakiContainer = ({
             onClose={clearEbikiPickerHud}
           />
         )}
-        {hasCommentaryData && !ebikiPickerEnabled && !isEditSpotsMode && !isZoomed && (
+        {hasCommentaryData &&
+          !ebikiPickerEnabled &&
+          !isEditSpotsMode &&
+          ((isByobu && allSpots.length > 0) ||
+            (!isZoomed || Boolean(selectedSpot))) && (
           <SceneCommentaryBar
             data={data}
             navIndex={liveSceneIndex}
@@ -1489,6 +1596,10 @@ const EmakiContainer = ({
             isPlayMode={isPlayMode}
             onIdlePauseChange={setIdlePaused}
             onIdleActivity={resetIdleTimer}
+            selectedSpot={selectedSpot}
+            onClearSelectedSpot={onClearSelectedSpot}
+            allSpots={allSpots}
+            onSelectSpot={onSelectSpotFromCommentary}
             quizFab={
               canShowQuizChrome ? (
                 <QuizFab

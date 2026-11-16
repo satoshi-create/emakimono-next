@@ -33,6 +33,12 @@ import {
 import { resolveReferenceUrl } from "@/utils/amazonUrl";
 import { getMotifDefinition, findRelatedScenesByMotif } from "@/utils/motifNetwork";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
+import { isByobuScroll } from "@/utils/isByobuScroll";
+import { getMasterByRawSpotId } from "@/data/rakuchu-rakugai/rakuchuMotifMaster";
+import {
+  SCROLL_EDITIONS,
+  SCROLL_PILL_LABELS,
+} from "@/components/rakuchu-rakugai/rakuchuScrollConstants";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
 import { resolveEbikiScrollTarget } from "@/utils/resolveQuizJump";
 import { triggerEbikiSpotlight } from "@/utils/triggerEbikiSpotlight";
@@ -63,6 +69,26 @@ const EmakiEraTimeline = dynamic(
 
 const TEXT_MODES = ["gendaibun", "kobun", "desc", "tansaku"];
 
+const BYOBU_CATEGORY_JA = {
+  power: "権力・城郭",
+  temple: "寺社",
+  town: "町並み・祭礼・河川",
+  court: "公家・御所",
+};
+
+const BYOBU_TEXT_LINK = {
+  padding: 0,
+  border: "none",
+  background: "transparent",
+  color: "var(--clr-link, #065fd4)",
+  fontSize: "inherit",
+  fontWeight: 500,
+  textDecoration: "underline",
+  textUnderlineOffset: "2px",
+  cursor: "pointer",
+  lineHeight: 1.5,
+};
+
 const stripHtml = (html) =>
   (html || "")
     .replace(/<[^>]+>/g, "")
@@ -87,6 +113,10 @@ const SceneCommentaryBar = ({
   onIdlePauseChange,
   onIdleActivity,
   openPolaroidModal,
+  selectedSpot = null,
+  onClearSelectedSpot,
+  allSpots = [],
+  onSelectSpot,
 }) => {
   const { handleToId, orientation } = useContext(AppContext);
   const router = useRouter();
@@ -103,6 +133,32 @@ const SceneCommentaryBar = ({
   const isGenji = typeof titleen === "string" && titleen.includes("genji");
   const isKusouzu = isKusouzuScroll(data);
   const emakis = useMemo(() => data.emakis || [], [data.emakis]);
+  const isByobuSpotMode =
+    isByobuScroll(data) &&
+    Array.isArray(allSpots) &&
+    allSpots.length > 0;
+
+  const activeByobuSpotEntry = useMemo(() => {
+    if (!isByobuSpotMode || !selectedSpot) return null;
+    const hit = allSpots.find(
+      (row) =>
+        row.spot?.id && String(row.spot.id) === String(selectedSpot.id)
+    );
+    if (hit) return hit;
+    return {
+      spot: selectedSpot,
+      linkId: navIndex,
+      sliceIndex: navIndex,
+      spotGlobalIndex: 0,
+    };
+  }, [isByobuSpotMode, allSpots, selectedSpot, navIndex]);
+
+  const activeByobuSpot = isByobuSpotMode
+    ? activeByobuSpotEntry?.spot ?? null
+    : null;
+
+  const effectiveSpot = isByobuSpotMode ? activeByobuSpot : selectedSpot;
+
   const ebikiAppliedRef = useRef(null);
 
   // ディープリンク `?ebiki={item_id}`: 即時スクロール → スポットライト → 詳細シート
@@ -208,6 +264,46 @@ const SceneCommentaryBar = ({
         : null,
     }));
   }, [viewMode, filterEkotobas, chapterThumbMap, locale, titleen, title]);
+
+  const spotIndexRows = useMemo(() => {
+    if (!isByobuSpotMode || viewMode !== "index") return [];
+    const isEn = locale === "en";
+    return allSpots.map((row) => {
+      const spot = row.spot;
+      const rowTitle = isEn ? spot.nameen || spot.name : spot.name;
+      const master =
+        typeof titleen === "string" && titleen.startsWith("rakuchu_rakugai")
+          ? getMasterByRawSpotId(spot.id)
+          : null;
+      let desc = spot.description || spot.summary || "";
+      if (!desc && master) {
+        desc = isEn
+          ? master.summaryEn || master.summaryJa
+          : master.summaryJa;
+      }
+      return {
+        linkId: row.linkId,
+        title: rowTitle,
+        desc: stripHtml(String(desc || "")),
+        thumb: row.sliceSrc
+          ? buildCloudinaryUrl(row.sliceSrc, [
+              "w_160",
+              "f_auto",
+              "q_auto:good",
+            ])
+          : null,
+      };
+    });
+  }, [viewMode, isByobuSpotMode, allSpots, locale, titleen]);
+
+  const spotActiveIndex = useMemo(() => {
+    if (!isByobuSpotMode || !effectiveSpot?.id) return 0;
+    const i = allSpots.findIndex(
+      (row) => row.spot?.id && String(row.spot.id) === String(effectiveSpot.id)
+    );
+    return i >= 0 ? i : 0;
+  }, [isByobuSpotMode, allSpots, effectiveSpot?.id]);
+
   // 現代文 / 古文 / 解説。詞書ありは現代文デフォルト。段変更でも維持（欠落時のみフォールバック）
   const [textMode, setTextMode] = useState("gendaibun");
   const [selectedMotifId, setSelectedMotifId] = useState(null);
@@ -439,10 +535,12 @@ const SceneCommentaryBar = ({
     expanded,
     closed,
     textMode,
+    contentTab,
     isFolkloreOpen,
     viewMode,
     cardPos,
     entryContainerRef,
+    selectedSpot,
   ]);
 
   const current = filterEkotobas[activeIndex];
@@ -540,7 +638,67 @@ const SceneCommentaryBar = ({
     }
   }, [availableModes, textMode]);
 
-  if (!current) return null;
+  const rakuchuSpotMaster = useMemo(() => {
+    const spot = isByobuSpotMode ? effectiveSpot : selectedSpot;
+    if (!spot) return null;
+    if (typeof titleen !== "string" || !titleen.startsWith("rakuchu_rakugai")) {
+      return null;
+    }
+    return getMasterByRawSpotId(spot.id) || null;
+  }, [isByobuSpotMode, effectiveSpot, selectedSpot, titleen]);
+
+  const [contentTab, setContentTab] = useState("scene");
+  const prevSelectedSpotIdRef = useRef(null);
+
+  useEffect(() => {
+    const id = selectedSpot?.id ? String(selectedSpot.id) : null;
+    if (id && id !== prevSelectedSpotIdRef.current) {
+      setContentTab("spot");
+    }
+    if (!id) {
+      setContentTab("scene");
+    }
+    prevSelectedSpotIdRef.current = id;
+  }, [selectedSpot?.id]);
+
+  const spotDisplay = useMemo(() => {
+    const spot = isByobuSpotMode ? effectiveSpot : selectedSpot;
+    if (!spot) return null;
+    const isEn = locale === "en";
+    const spotTitle = isEn ? spot.nameen || spot.name : spot.name;
+    let spotBody = spot.description || spot.summary || "";
+    if (!spotBody && rakuchuSpotMaster) {
+      spotBody = isEn
+        ? rakuchuSpotMaster.summaryEn || rakuchuSpotMaster.summaryJa
+        : rakuchuSpotMaster.summaryJa;
+    }
+    const targetSpotId =
+      rakuchuSpotMaster?.aliasSpotIds?.[0] || spot.id;
+    const otherScrolls =
+      rakuchuSpotMaster?.presentIn?.filter((te) => te !== titleen) || [];
+    const rawCategory = rakuchuSpotMaster?.category || null;
+    const categoryLabel = rawCategory
+      ? locale === "en"
+        ? rawCategory
+        : BYOBU_CATEGORY_JA[rawCategory] || rawCategory
+      : null;
+    return {
+      spotTitle,
+      spotBody: stripHtml(String(spotBody || "")),
+      targetSpotId,
+      otherScrolls,
+      categoryLabel,
+    };
+  }, [
+    isByobuSpotMode,
+    effectiveSpot,
+    selectedSpot,
+    rakuchuSpotMaster,
+    locale,
+    titleen,
+  ]);
+
+  if (!current && !isByobuSpotMode) return null;
 
   const baseShareTitle =
     locale === "en"
@@ -583,22 +741,27 @@ const SceneCommentaryBar = ({
     );
   }
 
-  const chapterTitle =
-    locale === "en"
+  const chapterTitle = isByobuSpotMode
+    ? activeByobuSpot && spotDisplay?.spotTitle
+      ? spotDisplay.spotTitle
+      : locale === "en"
+        ? `Highlights Guide (${allSpots.length} Spots)`
+        : `見どころガイド（全${allSpots.length}箇所）`
+    : locale === "en"
       ? ChaptersTitle(
-        titleen,
-        title,
-        current.chapter,
-        "titleen",
-        current.genji_chapter
-      )
+          titleen,
+          title,
+          current.chapter,
+          "titleen",
+          current.genji_chapter
+        )
       : ChaptersTitle(
-        titleen,
-        title,
-        current.chapter,
-        "title",
-        current.genji_chapter
-      );
+          titleen,
+          title,
+          current.chapter,
+          "title",
+          current.genji_chapter
+        );
 
   const activeMode = availableModes.includes(textMode)
     ? textMode
@@ -611,22 +774,26 @@ const SceneCommentaryBar = ({
         : activeMode === "tansaku" || activeMode === "sou"
           ? stripHtml(tansakuData?.summary || "")
           : chapterTexts.kobun;
-  const hasBody =
-    activeMode === "tansaku" || activeMode === "sou"
+  const hasBody = isByobuSpotMode
+    ? activeByobuSpot
+      ? Boolean(spotDisplay?.spotBody)
+      : true
+    : activeMode === "tansaku" || activeMode === "sou"
       ? Boolean(
-        tansakuData &&
-        (tansakuData.prompt ||
-          (Array.isArray(tansakuData.motifs) && tansakuData.motifs.length > 0) ||
-          tansakuData.motif ||
-          tansakuData.summary)
-      )
+          tansakuData &&
+            (tansakuData.prompt ||
+              (Array.isArray(tansakuData.motifs) &&
+                tansakuData.motifs.length > 0) ||
+              tansakuData.motif ||
+              tansakuData.summary)
+        )
       : plainBody.length > 0;
   const splitAt =
     locale === "en" ? plainBody.search(/\.\s/) : plainBody.indexOf("。");
   const hasRest = hasBody && splitAt >= 0 && splitAt < plainBody.length - 1;
   const previewText = hasRest ? plainBody.slice(0, splitAt + 1) : plainBody;
   // 1モードでもタブを出す（EN で Classical 欠落時も Commentary ラベルを残す）
-  const showModeTabs = availableModes.length >= 1;
+  const showModeTabs = !isByobuSpotMode && availableModes.length >= 1;
 
   const accent = eraColor(era) || "#8a6d3b";
   const readMoreLabel = locale === "en" ? "More ▾" : "もっと見る";
@@ -638,18 +805,28 @@ const SceneCommentaryBar = ({
       gtag.event("scene_modal_open", {
         emaki_title: title,
         emaki_id: titleen,
-        scene_index: current.linkId,
-        scene_chapter: current.chapter,
-        text_mode: activeMode,
+        scene_index: isByobuSpotMode
+          ? activeByobuSpotEntry?.linkId ?? navIndex
+          : current.linkId,
+        scene_chapter: isByobuSpotMode
+          ? activeByobuSpot?.name
+          : current.chapter,
+        text_mode: isByobuSpotMode ? "spot" : activeMode,
       });
     }
     setExpanded(next);
   };
 
   const handleTextMode = (mode) => {
-    if (mode === activeMode && !isFolkloreOpen && viewMode === "commentary") {
+    if (
+      mode === activeMode &&
+      contentTab === "scene" &&
+      !isFolkloreOpen &&
+      viewMode === "commentary"
+    ) {
       return;
     }
+    setContentTab("scene");
     setIsFolkloreOpen(false);
     setViewMode("commentary");
     setTextMode(mode);
@@ -667,6 +844,14 @@ const SceneCommentaryBar = ({
     if (!target) return;
     handleToId(target.linkId);
     setViewMode("commentary"); // 選択後は解説ビューへ戻す
+    setIsFolkloreOpen(false);
+  };
+
+  const handleNavigateSpot = (spotIdx) => {
+    const entry = allSpots[spotIdx];
+    if (!entry?.spot) return;
+    onSelectSpot?.(entry.spot);
+    setViewMode("commentary");
     setIsFolkloreOpen(false);
   };
 
@@ -694,20 +879,24 @@ const SceneCommentaryBar = ({
     setFolkloreItem(item);
   };
 
-  const hasMultipleSections = filterEkotobas.length > 1;
-  const chapterFolkloreItems = hasFolklore
-    ? getItemsForChapter(current.chapter)
-    : [];
+  const hasMultipleSections = isByobuSpotMode
+    ? allSpots.length > 1
+    : filterEkotobas.length > 1;
+  const chapterFolkloreItems =
+    hasFolklore && current?.chapter
+      ? getItemsForChapter(current.chapter)
+      : [];
   const folkloreCount = chapterFolkloreItems.length;
   // トグル開かつ再生モード外のみリスト表示（デフォルトは非表示で鑑賞優先）
   const showFolkloreList = isFolkloreOpen && !isPlayMode && folkloreCount > 0;
-  const sceneThumbSrc = chapterThumbMap.has(current.chapter)
-    ? buildCloudinaryUrl(chapterThumbMap.get(current.chapter), [
-      "w_160",
-      "f_auto",
-      "q_auto:good",
-    ])
-    : null;
+  const sceneThumbSrc =
+    current?.chapter && chapterThumbMap.has(current.chapter)
+      ? buildCloudinaryUrl(chapterThumbMap.get(current.chapter), [
+          "w_160",
+          "f_auto",
+          "q_auto:good",
+        ])
+      : null;
   const folkloreToggleLabel =
     folkloreCount > 0
       ? t("viewer.folkloreToggleCount", {
@@ -791,17 +980,31 @@ const SceneCommentaryBar = ({
               onClick={(e) => e.stopPropagation()}
               onKeyDown={(e) => e.stopPropagation()}
             >
-              <SceneLikeButton
-                titleen={titleen}
-                title={title}
-                chapter={current.chapter}
-                index={current.linkId}
-                variant="bar"
-              />
+              {!(isByobuSpotMode && !activeByobuSpot) ? (
+                <SceneLikeButton
+                  titleen={titleen}
+                  title={title}
+                  chapter={
+                    isByobuSpotMode
+                      ? activeByobuSpot?.name
+                      : current?.chapter
+                  }
+                  index={
+                    isByobuSpotMode
+                      ? 10000 + (activeByobuSpotEntry?.spotGlobalIndex ?? 0)
+                      : current?.linkId
+                  }
+                  variant="bar"
+                />
+              ) : null}
               {(() => {
                 let currentShareTitle = baseShareTitle;
-
-                if ((activeMode === "tansaku" || activeMode === "sou") && tansakuData) {
+                if (isByobuSpotMode && spotDisplay?.spotTitle) {
+                  currentShareTitle = spotDisplay.spotTitle;
+                } else if (
+                  (activeMode === "tansaku" || activeMode === "sou") &&
+                  tansakuData
+                ) {
                   const activeMotif = getMotifDefinition(selectedMotifId);
                   let prompt = null;
 
@@ -842,22 +1045,40 @@ const SceneCommentaryBar = ({
                 return (
                   <ShareButtons
                     variant="share"
-                    navIndex={navIndex}
+                    navIndex={
+                      isByobuSpotMode
+                        ? activeByobuSpotEntry?.linkId ?? navIndex
+                        : navIndex
+                    }
                     emakiId={titleen}
                     openPolaroidModal={openPolaroidModal}
                     shareTitle={currentShareTitle}
+                    spotId={
+                      isByobuSpotMode && activeByobuSpot?.id
+                        ? String(activeByobuSpot.id)
+                        : undefined
+                    }
                   />
                 );
               })()}
             </div>
           </div>
           {viewMode === "index" ? (
-            <CommentarySectionIndex
-              activeIndex={activeIndex}
-              indexRows={indexRows}
-              onNavigate={handleNavigate}
-              t={t}
-            />
+            isByobuSpotMode ? (
+              <CommentarySectionIndex
+                activeIndex={spotActiveIndex}
+                indexRows={spotIndexRows}
+                onNavigate={handleNavigateSpot}
+                t={t}
+              />
+            ) : (
+              <CommentarySectionIndex
+                activeIndex={activeIndex}
+                indexRows={indexRows}
+                onNavigate={handleNavigate}
+                t={t}
+              />
+            )
           ) : showFolkloreList ? (
             <>
               {showModeTabs && (
@@ -891,7 +1112,22 @@ const SceneCommentaryBar = ({
             </>
           ) : (
             <>
-              {showModeTabs && (
+              {isByobuSpotMode && activeByobuSpot ? (
+                spotDisplay?.categoryLabel ? (
+                  <p
+                    style={{
+                      margin: "4px 0 0",
+                      padding: "0 14px",
+                      color: "#6b7280",
+                      fontSize: "12px",
+                      fontWeight: 500,
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {spotDisplay.categoryLabel}
+                  </p>
+                ) : null
+              ) : showModeTabs ? (
                 <div
                   className={styles.modeTabs}
                   role="tablist"
@@ -899,22 +1135,91 @@ const SceneCommentaryBar = ({
                   onClick={(e) => e.stopPropagation()}
                 >
                   {availableModes.map((mode) => (
-                    <button
-                      key={mode}
-                      type="button"
-                      role="tab"
-                      aria-selected={mode === activeMode}
-                      className={`${styles.modeTab} ${mode === activeMode ? styles.modeTabActive : ""
-                        }`}
-                      onClick={() => handleTextMode(mode)}
-                    >
-                      {mode === "tansaku" || mode === "sou"
-                        ? (locale === "en" ? "Explore" : "探索")
-                        : t(`viewer.textMode.${mode}`)}
-                    </button>
+                    <span key={mode} style={{ display: "contents" }}>
+                      <button
+                        type="button"
+                        role="tab"
+                        aria-selected={
+                          contentTab === "scene" && mode === activeMode
+                        }
+                        className={`${styles.modeTab} ${contentTab === "scene" && mode === activeMode
+                          ? styles.modeTabActive
+                          : ""
+                          }`}
+                        onClick={() => handleTextMode(mode)}
+                      >
+                        {mode === "tansaku" || mode === "sou"
+                          ? locale === "en"
+                            ? "Explore"
+                            : "探索"
+                          : t(`viewer.textMode.${mode}`)}
+                      </button>
+                      {mode === "desc" &&
+                      !isByobuSpotMode &&
+                      selectedSpot &&
+                      spotDisplay ? (
+                        <span
+                          className={`${styles.modeTab} ${contentTab === "spot" ? styles.modeTabActive : ""
+                            }`}
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 2,
+                            paddingRight: 4,
+                          }}
+                        >
+                          <button
+                            type="button"
+                            role="tab"
+                            aria-selected={contentTab === "spot"}
+                            className={styles.modeTab}
+                            style={{
+                              border: "none",
+                              background: "transparent",
+                              padding: 0,
+                              boxShadow: "none",
+                            }}
+                            onClick={() => {
+                              setIsFolkloreOpen(false);
+                              setViewMode("commentary");
+                              setContentTab("spot");
+                            }}
+                          >
+                            {spotDisplay.spotTitle}
+                          </button>
+                          <button
+                            type="button"
+                            aria-label={
+                              locale === "en"
+                                ? "Clear spot selection"
+                                : "スポット選択を解除"
+                            }
+                            title={
+                              locale === "en"
+                                ? "Clear spot selection"
+                                : "スポット選択を解除"
+                            }
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onClearSelectedSpot?.();
+                            }}
+                            style={{
+                              padding: "0 4px",
+                              border: "none",
+                              background: "transparent",
+                              cursor: "pointer",
+                              lineHeight: 1,
+                              opacity: 0.75,
+                            }}
+                          >
+                            ×
+                          </button>
+                        </span>
+                      ) : null}
+                    </span>
                   ))}
                 </div>
-              )}
+              ) : null}
               {/* 本文。タップで開閉。古文の展開時は ruby HTML を描画 */}
               <button
                 type="button"
@@ -928,11 +1233,115 @@ const SceneCommentaryBar = ({
                 }
               >
                 <span
-                  className={`${styles.bodyText} ${activeMode === "kobun" ? styles.bodyTextClassical : ""
+                  className={`${styles.bodyText} ${activeMode === "kobun" && contentTab === "scene"
+                    ? styles.bodyTextClassical
+                    : ""
                     }`}
                 >
-                  {(activeMode === "tansaku" || activeMode === "sou") && tansakuData
-                    ? (() => {
+                  {isByobuSpotMode && !activeByobuSpot ? (
+                    <>
+                      <span>
+                        {locale === "en"
+                          ? "Click spot badges on the scroll to zoom in and read commentary. You can also tour them in order from the right section."
+                          : "画面上のスポットバッジをクリックすると拡大と解説が見られます。右隻から順番に巡ることもできます。"}
+                      </span>
+                      {allSpots[0]?.spot ? (
+                        <button
+                          type="button"
+                          style={{
+                            ...BYOBU_TEXT_LINK,
+                            marginTop: 10,
+                            display: "inline-block",
+                            textAlign: "left",
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onSelectSpot?.(allSpots[0].spot);
+                          }}
+                        >
+                          {locale === "en"
+                            ? `View the first highlight “${allSpots[0].spot.nameen || allSpots[0].spot.name}” →`
+                            : `最初の見どころ「${allSpots[0].spot.name}」を見る →`}
+                        </button>
+                      ) : null}
+                    </>
+                  ) : (isByobuSpotMode ||
+                      (contentTab === "spot" && selectedSpot)) &&
+                    spotDisplay ? (
+                    <>
+                      {spotDisplay.spotBody ? (
+                        <span>
+                          {expanded
+                            ? spotDisplay.spotBody
+                            : spotDisplay.spotBody.length > 120
+                              ? `${spotDisplay.spotBody.slice(0, 120)}…`
+                              : spotDisplay.spotBody}
+                        </span>
+                      ) : null}
+                      {rakuchuSpotMaster ? (
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "flex-start",
+                            gap: 6,
+                            marginTop: 10,
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {spotDisplay.otherScrolls.map((otherTitleen) => {
+                            const editionIdx = SCROLL_EDITIONS.findIndex(
+                              (e) => e.titleen === otherTitleen
+                            );
+                            const shortJa =
+                              editionIdx >= 0
+                                ? SCROLL_PILL_LABELS.ja[editionIdx]
+                                : otherTitleen;
+                            const shortEn =
+                              editionIdx >= 0
+                                ? SCROLL_PILL_LABELS.en[editionIdx]
+                                : otherTitleen;
+                            const label =
+                              locale === "en"
+                                ? `View in another scroll: ${shortEn} ↗`
+                                : `他伝本で見る: ${shortJa} ↗`;
+                            return (
+                              <Link
+                                key={otherTitleen}
+                                href={`/${otherTitleen}?spot=${encodeURIComponent(
+                                  spotDisplay.targetSpotId
+                                )}`}
+                              >
+                                <a
+                                  style={BYOBU_TEXT_LINK}
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  {label}
+                                </a>
+                              </Link>
+                            );
+                          })}
+                          <Link
+                            href={`/rakuchu-rakugai/chapters?motif=${encodeURIComponent(
+                              rakuchuSpotMaster.masterId
+                            )}#motifs`}
+                          >
+                            <a
+                              style={BYOBU_TEXT_LINK}
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              {locale === "en"
+                                ? "Compare three scrolls via motif hub ↗"
+                                : "主要モチーフ比較で3伝本を見比べる ↗"}
+                            </a>
+                          </Link>
+                        </div>
+                      ) : null}
+                    </>
+                  ) : !isByobuSpotMode &&
+                    (activeMode === "tansaku" || activeMode === "sou") &&
+                    tansakuData ? (
+                    (() => {
                       const activeMotif = getMotifDefinition(selectedMotifId);
 
                       return (
@@ -955,15 +1364,15 @@ const SceneCommentaryBar = ({
                         />
                       );
                     })()
-                    : (
-                      <CommentaryTextView
-                        activeMode={activeMode}
-                        chapterTexts={chapterTexts}
-                        expanded={expanded}
-                        locale={locale}
-                        readMoreLabel={readMoreLabel}
-                      />
-                    )}
+                  ) : !isByobuSpotMode ? (
+                    <CommentaryTextView
+                      activeMode={activeMode}
+                      chapterTexts={chapterTexts}
+                      expanded={expanded}
+                      locale={locale}
+                      readMoreLabel={readMoreLabel}
+                    />
+                  ) : null}
                 </span>
               </button>
             </>
@@ -971,6 +1380,51 @@ const SceneCommentaryBar = ({
           {/* ユーティリティはバー下部（タイトル圧迫を避ける） */}
           <div className={styles.utilityActions}>
             {quizFab}
+            {isByobuSpotMode && activeByobuSpot && allSpots.length > 0 ? (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  marginRight: "auto",
+                  flexWrap: "wrap",
+                }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <span
+                  style={{
+                    fontSize: "12px",
+                    fontWeight: 500,
+                    color: "#6b7280",
+                  }}
+                >
+                  {`${spotActiveIndex + 1} / ${allSpots.length}`}
+                </span>
+                <button
+                  type="button"
+                  style={{
+                    ...BYOBU_TEXT_LINK,
+                    opacity: spotActiveIndex <= 0 ? 0.4 : 1,
+                  }}
+                  disabled={spotActiveIndex <= 0}
+                  onClick={() => handleNavigateSpot(spotActiveIndex - 1)}
+                >
+                  {locale === "en" ? "← Prev" : "← 前へ"}
+                </button>
+                <button
+                  type="button"
+                  style={{
+                    ...BYOBU_TEXT_LINK,
+                    opacity:
+                      spotActiveIndex >= allSpots.length - 1 ? 0.4 : 1,
+                  }}
+                  disabled={spotActiveIndex >= allSpots.length - 1}
+                  onClick={() => handleNavigateSpot(spotActiveIndex + 1)}
+                >
+                  {locale === "en" ? "Next →" : "次へ →"}
+                </button>
+              </div>
+            ) : null}
             <div className={styles.utilityActionsEnd}>
               <FolkloreToggleButton
                 count={folkloreCount}
@@ -1045,7 +1499,11 @@ const SceneCommentaryBar = ({
                 className={styles.closeBtn}
                 onClick={() => {
                   setViewMode("commentary");
-                  setClosed(true);
+                  if (isByobuSpotMode && activeByobuSpot) {
+                    onClearSelectedSpot?.();
+                  } else {
+                    setClosed(true);
+                  }
                 }}
                 aria-label={t("viewer.closeCommentaryBar", {
                   defaultValue:

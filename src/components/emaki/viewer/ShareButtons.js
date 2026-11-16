@@ -43,6 +43,7 @@ const ShareButtons = ({
   isUIVisible = true,
   tone = "default",
   openPolaroidModal,
+  spotId = "",
 }) => {
   const { locale, locales, asPath, defaultLocale } = useRouter();
   const { t } = useTranslation("common");
@@ -99,17 +100,19 @@ const ShareButtons = ({
     if (!isUIVisible && isMenuOpen) setIsMenuOpen(false);
   }, [isUIVisible, isMenuOpen]);
 
-  const shareUrl = useMemo(
-    () =>
-      buildShareUrl({
-        locale,
-        asPath,
-        locales,
-        defaultLocale,
-        navIndex,
-      }),
-    [locale, asPath, locales, defaultLocale, navIndex]
-  );
+  const shareUrl = useMemo(() => {
+    const base = buildShareUrl({
+      locale,
+      asPath,
+      locales,
+      defaultLocale,
+      navIndex,
+    });
+    const id = spotId ? String(spotId).trim() : "";
+    if (!id) return base;
+    const joiner = base.includes("?") ? "&" : "?";
+    return `${base}${joiner}spot=${encodeURIComponent(id)}`;
+  }, [locale, asPath, locales, defaultLocale, navIndex, spotId]);
 
   const handleCopy = async () => {
     try {

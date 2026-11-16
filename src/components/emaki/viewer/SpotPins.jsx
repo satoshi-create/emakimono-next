@@ -82,6 +82,8 @@ const SpotPins = ({
   getSpotKindClass = getRakuchuSpotKindClass,
   slugOverride,
   apiEndpoint = "/api/dev/update-spot",
+  onSelectSpot,
+  selectedSpotId,
 }) => {
   const { handleToId, chapterToggle } = useContext(AppContext);
   const router = useRouter();
@@ -225,13 +227,14 @@ const SpotPins = ({
     };
   };
 
-  const goToScene = (e) => {
+  const goToScene = (e, spot) => {
     e.stopPropagation();
     if (suppressClickRef.current) {
       suppressClickRef.current = false;
       return;
     }
     if (typeof handleToId === "function") handleToId(linkId);
+    onSelectSpot?.(spot);
   };
 
   const invZoom = 1 / (zoomScale || 1);
@@ -316,6 +319,10 @@ const SpotPins = ({
             offsetY = measured.offsetY;
           }
           const isDragging = draggingSpotId === spot.id;
+          const isSelected =
+            !isEditMode &&
+            selectedSpotId != null &&
+            String(selectedSpotId) === String(spot.id);
           const pinButton = (
             <button
               ref={(el) => {
@@ -343,6 +350,12 @@ const SpotPins = ({
                   ? {
                       cursor: isDragging ? "grabbing" : "grab",
                       touchAction: "none",
+                    }
+                  : null),
+                ...(isSelected
+                  ? {
+                      boxShadow: "0 0 0 2px #ff8c77, 0 2px 10px rgba(255, 140, 119, 0.45)",
+                      filter: "brightness(1.08)",
                     }
                   : null),
               }}
@@ -430,7 +443,7 @@ const SpotPins = ({
                   setDraggingSpotId(null);
                 }
               }}
-              onClick={goToScene}
+              onClick={(e) => goToScene(e, spot)}
             >
               <span className={styles.dot} aria-hidden="true" />
               <span className={styles.label}>{label}</span>

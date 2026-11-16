@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/router";
 import {
   RAKUCHU_SPOT_MASTERS,
   getSpotVisualKind,
@@ -16,7 +17,7 @@ import {
 import { categoryFilterTheme, themeForKind } from "./spotPinTheme";
 import { getMotifVisual, wingSceneHref } from "./wingLinks";
 
-function MotifCarouselCard({ motif, motifVisuals, locale }) {
+function MotifCarouselCard({ motif, motifVisuals, locale, highlighted = false }) {
   const isJa = locale !== "en";
   const availableScrolls = useMemo(
     () =>
@@ -56,16 +57,22 @@ function MotifCarouselCard({ motif, motifVisuals, locale }) {
 
   return (
     <article
+      id={`motif-${motif.masterId}`}
       style={{
         display: "flex",
         flexDirection: "column",
         gap: 12,
         padding: 16,
         borderRadius: 6,
-        border: `1px solid ${theme.borderColor}`,
+        border: highlighted
+          ? `2px solid ${theme.accentColor}`
+          : `1px solid ${theme.borderColor}`,
         borderLeft: `4px solid ${theme.accentColor}`,
         background: theme.bg,
-        boxShadow: "0 1px 4px rgba(0, 0, 0, 0.08)",
+        boxShadow: highlighted
+          ? `0 0 0 3px ${theme.accentColor}33, 0 4px 16px rgba(0, 0, 0, 0.12)`
+          : "0 1px 4px rgba(0, 0, 0, 0.08)",
+        transition: "box-shadow 0.3s ease, border-color 0.3s ease",
       }}
     >
       <div>
@@ -173,11 +180,41 @@ function MotifCarouselCard({ motif, motifVisuals, locale }) {
   );
 }
 
-/** @param {{ motifVisuals?: Record<string, Record<string, { image?: string, x?: number, y?: number }>>, locale?: string }} props */
-export function RakuchuMotifSection({ motifVisuals, locale = "ja" }) {
+/** @param {{ motifVisuals?: Record<string, Record<string, { image?: string, x?: number, y?: number }>>, locale?: string, highlightMotifId?: string }} props */
+export function RakuchuMotifSection({
+  motifVisuals,
+  locale = "ja",
+  highlightMotifId,
+}) {
+  const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [ringMotifId, setRingMotifId] = useState(null);
 
   const isJa = locale !== "en";
+
+  useEffect(() => {
+    const motifId =
+      highlightMotifId ||
+      (typeof router.query.motif === "string" ? router.query.motif : null);
+    if (!motifId) return undefined;
+    const id = String(motifId);
+    const motifsEl = document.getElementById("motifs");
+    if (motifsEl) {
+      motifsEl.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    const scrollTimer = setTimeout(() => {
+      const el = document.getElementById(`motif-${id}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      setRingMotifId(id);
+    }, 400);
+    const clearTimer = setTimeout(() => setRingMotifId(null), 4500);
+    return () => {
+      clearTimeout(scrollTimer);
+      clearTimeout(clearTimer);
+    };
+  }, [highlightMotifId, router.query.motif]);
 
   const filteredMotifs = useMemo(() => {
     const byCategory =
@@ -256,6 +293,7 @@ export function RakuchuMotifSection({ motifVisuals, locale = "ja" }) {
             motif={motif}
             motifVisuals={motifVisuals}
             locale={locale}
+            highlighted={ringMotifId === motif.masterId}
           />
         ))}
       </div>

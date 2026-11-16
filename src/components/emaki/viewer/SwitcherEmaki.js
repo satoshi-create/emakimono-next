@@ -32,6 +32,8 @@ const SwitcherEmaki = forwardRef(
       /** 開発専用: 絵引座標ピッカー（?dev=ebiki） */
       ebikiPickerEnabled = false,
       onEbikiPick,
+      onSelectSpot,
+      selectedSpotId,
     },
     ref
   ) => {
@@ -175,7 +177,12 @@ const SwitcherEmaki = forwardRef(
           </div>
         ) : null}
         {isImage && spots?.length ? (
-          <SpotPins spots={spots} linkId={item.linkId} />
+          <SpotPins
+            spots={spots}
+            linkId={item.linkId}
+            onSelectSpot={onSelectSpot}
+            selectedSpotId={selectedSpotId}
+          />
         ) : null}
         {isImage && ebikiPickerEnabled ? (
           <EbikiPickerOverlay

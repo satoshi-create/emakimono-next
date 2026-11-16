@@ -47,6 +47,8 @@ const ZoomLayer = ({
   slices = [],
   // 中心スライスの key（＝絵巻 index）。eager 読み込みの判定に使う
   centerKey,
+  onSelectSpot,
+  selectedSpotId,
 }) => {
   const { t } = useTranslation("common");
   const [showHint, setShowHint] = useState(true);
@@ -294,6 +296,8 @@ const ZoomLayer = ({
                     spots={s.spots}
                     linkId={s.linkId}
                     zoomScale={safeScale}
+                    onSelectSpot={onSelectSpot}
+                    selectedSpotId={selectedSpotId}
                   />
                 )}
               </div>

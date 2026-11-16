@@ -95,6 +95,8 @@ const RakuchuRakugaiHub = ({ hubData }) => {
     typeof query.form === "string" && FORM_TAB_IDS.includes(query.form)
       ? query.form
       : undefined;
+  const motifFromQuery =
+    typeof query.motif === "string" ? query.motif : undefined;
 
   const scrollByTitleen = Object.fromEntries(
     hubData.scrolls.map((s) => [s.titleen, s])
@@ -232,6 +234,7 @@ const RakuchuRakugaiHub = ({ hubData }) => {
       <RakuchuMotifSection
         motifVisuals={hubData.motifVisuals}
         locale={locale}
+        highlightMotifId={motifFromQuery}
       />
     </section>
   );
