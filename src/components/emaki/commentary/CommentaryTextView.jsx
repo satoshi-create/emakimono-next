@@ -57,7 +57,7 @@ const CommentaryTextView = ({
           style={{
             display: "inline",
             fontSize: "0.75rem",
-            color: "rgba(0, 0, 0, 0.45)",
+            color: "var(--bar-text-muted, rgba(0, 0, 0, 0.45))",
             fontWeight: 400,
             marginLeft: "6px",
           }}

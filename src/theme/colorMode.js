@@ -1,5 +1,5 @@
 /**
- * 時代カラーモード × ビューアモード（emaki / byobu）の一元管理基盤。
+ * 全体サーフェス × 時代カラー × レイアウトモード（emaki / byobu × inline / floating）の一元管理基盤。
  */
 import { isByobuScroll } from "@/utils/isByobuScroll";
 
@@ -56,7 +56,19 @@ export const ERA_COLOR_MODES = {
   },
 };
 
-// 2. 日本語・英語・スラッグを正規化してモードキーへ
+// 2. ビューア全体のサーフェス・UI ベース色（時代に依存しないクリーム基調）
+export const VIEWER_SURFACE_TOKENS = {
+  barBg: "rgba(255, 252, 246, 0.92)",
+  barSurfaceSolid: "#fff",
+  barSubtleBg: "#f0ece6",
+  barBorder: "rgba(0, 0, 0, 0.12)",
+  barDivider: "rgba(0, 0, 0, 0.08)",
+  barShadow: "0 6px 24px rgba(0, 0, 0, 0.12)",
+  barText: "rgb(20, 20, 20)",
+  barTextMuted: "#6b7280",
+};
+
+// 3. 日本語・英語・スラッグを正規化してモードキーへ
 export function resolveEraModeKey(eraOrEraEn) {
   if (eraOrEraEn == null || eraOrEraEn === "") return "default";
   const raw = String(eraOrEraEn).trim();
@@ -113,21 +125,36 @@ export function resolveEraModeKey(eraOrEraEn) {
   return "default";
 }
 
-// 3. モードキーに対応するトークンオブジェクト
+// 4. モードキーに対応するトークンオブジェクト
 export function getEraColorTokens(eraOrEraEn) {
   const key = resolveEraModeKey(eraOrEraEn);
   return ERA_COLOR_MODES[key] || ERA_COLOR_MODES.default;
 }
 
-// 4. 絵巻データからビューアレイアウトモードを判定
+// 5. 絵巻データからビューアレイアウトモード（emaki / byobu）を判定
 export function resolveViewerMode(data) {
   return isByobuScroll(data) ? "byobu" : "emaki";
 }
 
-// 5. DOM style 用 CSS 変数オブジェクトを組み立て
-export function buildViewerThemeStyle(data) {
+// 6. 配置モード（inline / floating）とフルスクリーン状態を含むレイアウト解決
+export function resolveViewerLayoutMode({
+  data,
+  commentaryFloating = false,
+  isFullscreen = false,
+}) {
+  const floating = Boolean(commentaryFloating) || Boolean(isFullscreen);
+  return {
+    viewerMode: resolveViewerMode(data),
+    layoutPlacement: floating ? "floating" : "inline",
+    isFullscreen: Boolean(isFullscreen),
+  };
+}
+
+// 7. DOM style 用 CSS 変数オブジェクトを組み立て（時代色＋全体サーフェス）
+export function buildViewerThemeStyle(data, options = {}) {
   const eraSource = data?.era ?? data?.eraen;
   const tokens = getEraColorTokens(eraSource);
+  const surface = { ...VIEWER_SURFACE_TOKENS, ...options.surface };
   return {
     "--era-accent": tokens.accent,
     "--era-text": tokens.text,
@@ -135,5 +162,13 @@ export function buildViewerThemeStyle(data) {
     "--era-border": tokens.border,
     "--accent-color": tokens.accent,
     "--clr-link": tokens.text,
+    "--bar-bg": surface.barBg,
+    "--bar-surface-solid": surface.barSurfaceSolid,
+    "--bar-subtle-bg": surface.barSubtleBg,
+    "--bar-border": surface.barBorder,
+    "--bar-divider": surface.barDivider,
+    "--bar-shadow": surface.barShadow,
+    "--bar-text": surface.barText,
+    "--bar-text-muted": surface.barTextMuted,
   };
 }

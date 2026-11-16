@@ -27,7 +27,7 @@
   display: flex;
   flex-direction: column;
   /* 絵巻画像上に和紙調の半透明ブラーで重ねる */
-  background: rgba(255, 252, 246, 0.92);
+  background: var(--bar-bg, rgba(255, 252, 246, 0.92));
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.12);
@@ -131,7 +131,7 @@
 .modeTab {
   flex: 0 0 auto;
   padding: 2px 10px;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--bar-border, rgba(0, 0, 0, 0.12));
   border-radius: 999px;
   background: transparent;
   color: var(--clr-text-muted, #666);
@@ -167,7 +167,7 @@
 .gendaibun {
   font-size: 0.85rem;
   line-height: 1.45;
-  color: #333;
+  color: var(--bar-text, #333);
   font-family: var(--font-story);
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -343,9 +343,9 @@
   gap: 6px;
   padding: 7px 14px;
   pointer-events: auto;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--bar-border, rgba(0, 0, 0, 0.12));
   border-radius: 999px;
-  background: #fff;
+  background: var(--bar-surface-solid, #fff);
   color: var(--clr-accent);
   font-size: 0.8rem;
   font-weight: 700;
@@ -398,7 +398,7 @@
   padding: 2px 10px;
   border: 1px solid var(--clr-accent);
   border-radius: 999px;
-  background: rgba(255, 140, 119, 0.08);
+  background: var(--era-soft-bg, rgba(255, 140, 119, 0.12));
   color: var(--clr-accent);
   font-weight: 700;
   font-size: 0.78rem;
@@ -419,18 +419,18 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: 6px 8px 4px;
+  padding: 4px 6px 4px;
   overflow-y: auto;
   overscroll-behavior: contain;
-  max-height: min(280px, 32vh);
+  max-height: min(300px, 44vh);
 }
 
 .indexItem {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   width: 100%;
-  padding: 4px 6px;
+  padding: 6px 8px;
   border: 1px solid transparent;
   border-radius: 8px;
   background: transparent;
@@ -438,7 +438,7 @@
   text-align: left;
 }
 .indexItem:hover {
-  border-color: rgba(0, 0, 0, 0.12);
+  border-color: var(--bar-border, rgba(0, 0, 0, 0.12));
 }
 .indexItemActive {
   border-color: var(--era-accent, #ff8c77);
@@ -447,12 +447,12 @@
 
 .indexThumb {
   flex: 0 0 auto;
-  width: 56px;
-  height: 40px;
+  width: 40px;
+  height: 28px;
   object-fit: cover;
   object-position: left center;
   border-radius: 6px;
-  background: #f0ece6;
+  background: var(--bar-subtle-bg, #f0ece6);
 }
 
 .indexText {
@@ -486,10 +486,11 @@
   padding: 2px 8px;
 }
 
-/* フローティングカード時はカード自体がスクロールするため二重スクロールを防ぐ */
+/* フローティングカード時も目次はカード内で縦スクロール（絵巻上端をはみ出さない） */
 .wrap[data-fullscreen="true"] .sectionIndex {
-  max-height: none;
-  overflow: visible;
+  max-height: min(380px, 52vh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 /* フローティングカードのドラッグ＆ドロップ移動（全画面 or md+横）:

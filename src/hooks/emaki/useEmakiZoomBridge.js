@@ -46,6 +46,7 @@ export default function useEmakiZoomBridge({
   resetZoom: originalResetZoom,
   toggleZoom: originalToggleZoom,
   enterZoomRef,
+  zoomToSlicePercentRef,
   onZoomOpenTrack,
   onZoomCloseTrack,
 }) {
@@ -231,6 +232,67 @@ export default function useEmakiZoomBridge({
 
   if (enterZoomRef) {
     enterZoomRef.current = enterZoomAtPoint;
+  }
+
+  const zoomToSlicePercent = useCallback(
+    ({ sliceIndex, centerX, centerY, targetScale }) => {
+      const el = articleRef.current;
+      const items = processedEmakis;
+      const containerHeight =
+        entryContainerRef.current?.clientHeight || el?.clientHeight || 0;
+      const measuredHeight = containerHeight;
+      const measuredWidth = el?.clientWidth || 0;
+      if (measuredHeight > 0 || measuredWidth > 0) {
+        setZoomStageMetrics({ height: measuredHeight, width: measuredWidth });
+      }
+      const centerIndex = Number.isFinite(sliceIndex) ? sliceIndex : 0;
+      setZoomCenterIndex(centerIndex);
+
+      let initialPanX = computeZoomAlignPanX(centerIndex, measuredHeight);
+      const rowH = measuredHeight;
+      const cx = Number.isFinite(centerX) ? centerX : 50;
+      const cy = Number.isFinite(centerY) ? centerY : 50;
+
+      if (rowH > 0 && items?.length && Number.isFinite(sliceIndex)) {
+        const { from, to } = computeZoomStripRange(
+          items,
+          centerIndex,
+          rowH,
+          measuredWidth,
+          zoomMinSlices
+        );
+        let posInStrip = 0;
+        for (let i = from; i < sliceIndex; i += 1) {
+          posInStrip += sceneWidthPx(items[i], rowH);
+        }
+        let stripWidth = 0;
+        for (let i = from; i <= to; i += 1) {
+          stripWidth += sceneWidthPx(items[i], rowH);
+        }
+        const sliceW = sceneWidthPx(items[sliceIndex], rowH);
+        posInStrip += sliceW * (cx / 100);
+        initialPanX -= posInStrip - stripWidth / 2;
+      }
+
+      const initialPanY = -measuredHeight * ((cy - 50) / 100);
+      const startScale =
+        typeof targetScale === "number" && Number.isFinite(targetScale)
+          ? targetScale
+          : undefined;
+      openZoom(undefined, undefined, initialPanX, startScale, initialPanY);
+    },
+    [
+      processedEmakis,
+      computeZoomAlignPanX,
+      zoomMinSlices,
+      openZoom,
+      articleRef,
+      entryContainerRef,
+    ]
+  );
+
+  if (zoomToSlicePercentRef) {
+    zoomToSlicePercentRef.current = zoomToSlicePercent;
   }
 
   // ---------------------------------------------------------------------------
@@ -512,6 +574,7 @@ export default function useEmakiZoomBridge({
     zoomSlices,
     zoomCenterIndex,
     enterZoomAtPoint,
+    zoomToSlicePercent,
     handleCaptureFromZoom,
     handleOpenPolaroidModal,
     handleClosePolaroidModal,

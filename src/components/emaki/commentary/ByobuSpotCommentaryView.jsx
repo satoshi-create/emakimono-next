@@ -1,24 +1,36 @@
 /**
  * 屏風モード専用 UI 断片（目次・カテゴリ・本文・前後ナビ）。
  */
-import Link from "next/link";
 import CommentarySectionIndex from "@/components/emaki/commentary/CommentarySectionIndex";
-import {
-  SCROLL_EDITIONS,
-  SCROLL_PILL_LABELS,
-} from "@/components/rakuchu-rakugai/rakuchuScrollConstants";
 
 export const BYOBU_TEXT_LINK = {
   padding: 0,
   border: "none",
   background: "transparent",
-  color: "var(--era-text, #256394)",
+  color: "var(--era-text)",
   fontSize: "inherit",
   fontWeight: 500,
   textDecoration: "underline",
   textUnderlineOffset: "2px",
   cursor: "pointer",
   lineHeight: 1.5,
+};
+
+const BYOBU_NAV_BTN = {
+  ...BYOBU_TEXT_LINK,
+  textDecoration: "none",
+  flex: "1 1 0",
+  minWidth: 0,
+  maxWidth: "42%",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+  textAlign: "left",
+};
+
+const BYOBU_NAV_BTN_NEXT = {
+  ...BYOBU_NAV_BTN,
+  textAlign: "right",
 };
 
 // 1. スポット目次（段構成一覧の屏風版）
@@ -53,7 +65,7 @@ export function ByobuSpotCategoryLine({
       style={{
         margin: "4px 0 0",
         padding: "0 14px",
-        color: "#6b7280",
+        color: "var(--bar-text-muted)",
         fontSize: "12px",
         fontWeight: 500,
       }}
@@ -64,7 +76,7 @@ export function ByobuSpotCategoryLine({
   );
 }
 
-// 3. 本文: 未選択ガイド / 選択時スポット解説・他伝本リンク
+// 3. 本文: 未選択ガイド / 選択時スポット解説
 export function ByobuSpotBodyContent({
   isByobuSpotMode,
   activeByobuSpot,
@@ -72,7 +84,6 @@ export function ByobuSpotBodyContent({
   allSpots,
   onSelectSpot,
   spotDisplay,
-  rakuchuSpotMaster,
   expanded,
 }) {
   if (!isByobuSpotMode) return null;
@@ -80,7 +91,7 @@ export function ByobuSpotBodyContent({
   if (!activeByobuSpot) {
     return (
       <>
-        <span>
+        <span style={{ color: "var(--bar-text)" }}>
           {locale === "en"
             ? "Click spot badges on the scroll to zoom in and read commentary. You can also tour them in order from the right section."
             : "画面上のスポットバッジをクリックすると拡大と解説が見られます。右隻から順番に巡ることもできます。"}
@@ -113,7 +124,7 @@ export function ByobuSpotBodyContent({
   return (
     <>
       {spotDisplay.spotBody ? (
-        <span>
+        <span style={{ color: "var(--bar-text)" }}>
           {expanded
             ? spotDisplay.spotBody
             : spotDisplay.spotBody.length > 120
@@ -121,67 +132,33 @@ export function ByobuSpotBodyContent({
               : spotDisplay.spotBody}
         </span>
       ) : null}
-      {rakuchuSpotMaster ? (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            gap: 6,
-            marginTop: 10,
-          }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {spotDisplay.otherScrolls.map((otherTitleen) => {
-            const editionIdx = SCROLL_EDITIONS.findIndex(
-              (e) => e.titleen === otherTitleen
-            );
-            const shortJa =
-              editionIdx >= 0
-                ? SCROLL_PILL_LABELS.ja[editionIdx]
-                : otherTitleen;
-            const shortEn =
-              editionIdx >= 0
-                ? SCROLL_PILL_LABELS.en[editionIdx]
-                : otherTitleen;
-            const label =
-              locale === "en"
-                ? `View in another scroll: ${shortEn} ↗`
-                : `他伝本で見る: ${shortJa} ↗`;
-            return (
-              <Link
-                key={otherTitleen}
-                href={`/${otherTitleen}?spot=${encodeURIComponent(
-                  spotDisplay.targetSpotId
-                )}`}
-              >
-                <a
-                  style={BYOBU_TEXT_LINK}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {label}
-                </a>
-              </Link>
-            );
-          })}
-          <Link
-            href={`/rakuchu-rakugai/chapters?motif=${encodeURIComponent(
-              rakuchuSpotMaster.masterId
-            )}#motifs`}
-          >
-            <a
-              style={BYOBU_TEXT_LINK}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {locale === "en"
-                ? "Compare three scrolls via motif hub ↗"
-                : "主要モチーフ比較で3伝本を見比べる ↗"}
-            </a>
-          </Link>
-        </div>
-      ) : null}
     </>
   );
+}
+
+function resolveAdjacentSpots(allSpots, spotActiveIndex, locale, prevSpot, nextSpot) {
+  const titleForRow = (row) => {
+    const spot = row?.spot;
+    if (!spot) return "";
+    return locale === "en" ? spot.nameen || spot.name : spot.name;
+  };
+  const prev =
+    prevSpot ??
+    (spotActiveIndex > 0
+      ? {
+          index: spotActiveIndex - 1,
+          title: titleForRow(allSpots[spotActiveIndex - 1]),
+        }
+      : null);
+  const next =
+    nextSpot ??
+    (spotActiveIndex < allSpots.length - 1
+      ? {
+          index: spotActiveIndex + 1,
+          title: titleForRow(allSpots[spotActiveIndex + 1]),
+        }
+      : null);
+  return { prev, next };
 }
 
 // 4. フッター前後スポットナビ
@@ -192,26 +169,56 @@ export function ByobuSpotFooterNav({
   spotActiveIndex,
   locale,
   handleNavigateSpot,
+  prevSpot,
+  nextSpot,
 }) {
   if (!isByobuSpotMode || !activeByobuSpot || allSpots.length === 0) {
     return null;
   }
+
+  const { prev, next } = resolveAdjacentSpots(
+    allSpots,
+    spotActiveIndex,
+    locale,
+    prevSpot,
+    nextSpot
+  );
+
   return (
     <div
       style={{
         display: "flex",
         alignItems: "center",
-        gap: 10,
+        justifyContent: "space-between",
+        flex: 1,
+        minWidth: 0,
+        gap: "8px",
         marginRight: "auto",
-        flexWrap: "wrap",
       }}
       onClick={(e) => e.stopPropagation()}
     >
+      <button
+        type="button"
+        style={{
+          ...BYOBU_NAV_BTN,
+          opacity: next ? 1 : 0.4,
+          color: "var(--bar-text)",
+        }}
+        disabled={!next}
+        onClick={() => next && handleNavigateSpot(next.index)}
+      >
+        {next
+          ? `← ${next.title}`
+          : locale === "en"
+            ? "← Next"
+            : "← 次へ"}
+      </button>
       <span
         style={{
           fontSize: "12px",
           fontWeight: 500,
-          color: "#6b7280",
+          color: "var(--bar-text-muted)",
+          flexShrink: 0,
         }}
       >
         {`${spotActiveIndex + 1} / ${allSpots.length}`}
@@ -219,24 +226,18 @@ export function ByobuSpotFooterNav({
       <button
         type="button"
         style={{
-          ...BYOBU_TEXT_LINK,
-          opacity: spotActiveIndex <= 0 ? 0.4 : 1,
+          ...BYOBU_NAV_BTN_NEXT,
+          opacity: prev ? 1 : 0.4,
+          color: "var(--bar-text)",
         }}
-        disabled={spotActiveIndex <= 0}
-        onClick={() => handleNavigateSpot(spotActiveIndex - 1)}
+        disabled={!prev}
+        onClick={() => prev && handleNavigateSpot(prev.index)}
       >
-        {locale === "en" ? "← Prev" : "← 前へ"}
-      </button>
-      <button
-        type="button"
-        style={{
-          ...BYOBU_TEXT_LINK,
-          opacity: spotActiveIndex >= allSpots.length - 1 ? 0.4 : 1,
-        }}
-        disabled={spotActiveIndex >= allSpots.length - 1}
-        onClick={() => handleNavigateSpot(spotActiveIndex + 1)}
-      >
-        {locale === "en" ? "Next →" : "次へ →"}
+        {prev
+          ? `${prev.title} →`
+          : locale === "en"
+            ? "Prev →"
+            : "前へ →"}
       </button>
     </div>
   );

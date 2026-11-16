@@ -106,7 +106,7 @@ export function useByobuSpotCommentary({
     return i >= 0 ? i : 0;
   }, [isByobuSpotMode, allSpots, effectiveSpot?.id]);
 
-  // 4. マスタ連携・他伝本リンク用 spotDisplay
+  // 4. マスタ連携（カテゴリ・本文フォールバック）
   const rakuchuSpotMaster = useMemo(() => {
     const spot = effectiveSpot;
     if (!spot) return null;
@@ -127,10 +127,6 @@ export function useByobuSpotCommentary({
         ? rakuchuSpotMaster.summaryEn || rakuchuSpotMaster.summaryJa
         : rakuchuSpotMaster.summaryJa;
     }
-    const targetSpotId =
-      rakuchuSpotMaster?.aliasSpotIds?.[0] || spot.id;
-    const otherScrolls =
-      rakuchuSpotMaster?.presentIn?.filter((te) => te !== titleen) || [];
     const rawCategory = rakuchuSpotMaster?.category || null;
     const categoryLabel = rawCategory
       ? locale === "en"
@@ -140,11 +136,34 @@ export function useByobuSpotCommentary({
     return {
       spotTitle,
       spotBody: stripHtml(String(spotBody || "")),
-      targetSpotId,
-      otherScrolls,
       categoryLabel,
     };
   }, [effectiveSpot, rakuchuSpotMaster, locale, titleen]);
+
+  const resolveSpotTitle = (row) => {
+    const spot = row?.spot;
+    if (!spot) return "";
+    const isEn = locale === "en";
+    return isEn ? spot.nameen || spot.name : spot.name;
+  };
+
+  const prevSpot = useMemo(() => {
+    if (!isByobuSpotMode || spotActiveIndex <= 0) return null;
+    const index = spotActiveIndex - 1;
+    const row = allSpots[index];
+    if (!row?.spot) return null;
+    return { index, title: resolveSpotTitle(row) };
+  }, [isByobuSpotMode, spotActiveIndex, allSpots, locale]);
+
+  const nextSpot = useMemo(() => {
+    if (!isByobuSpotMode || spotActiveIndex >= allSpots.length - 1) {
+      return null;
+    }
+    const index = spotActiveIndex + 1;
+    const row = allSpots[index];
+    if (!row?.spot) return null;
+    return { index, title: resolveSpotTitle(row) };
+  }, [isByobuSpotMode, spotActiveIndex, allSpots, locale]);
 
   // 5. スポット間ナビゲーション
   const handleNavigateSpot = (spotIdx) => {
@@ -174,6 +193,8 @@ export function useByobuSpotCommentary({
     spotActiveIndex,
     rakuchuSpotMaster,
     spotDisplay,
+    prevSpot,
+    nextSpot,
     handleNavigateSpot,
     byobuChapterTitle,
   };

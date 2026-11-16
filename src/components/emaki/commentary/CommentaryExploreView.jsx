@@ -117,7 +117,7 @@ const CommentaryExploreView = ({
         flexDirection: "column",
         gap: "0.5rem",
         fontSize: "0.8125rem",
-        color: "#44403c",
+        color: "var(--bar-text, #44403c)",
       }}
       onClick={(e) => e.stopPropagation()}
     >
@@ -136,7 +136,7 @@ const CommentaryExploreView = ({
           <p
             style={{
               lineHeight: 1.55,
-              color: "#292524",
+              color: "var(--bar-text, #292524)",
               fontSize: "0.875rem",
               fontWeight: 700,
               margin: 0,
@@ -192,7 +192,7 @@ const CommentaryExploreView = ({
               target="_blank"
               rel="noopener noreferrer sponsored"
               style={{
-                color: "#374151",
+                color: "var(--bar-text-muted, #374151)",
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.375rem",
@@ -218,8 +218,8 @@ const CommentaryExploreView = ({
               <span
                 style={{
                   fontSize: "0.5625rem",
-                  color: "#9ca3af",
-                  border: "1px solid #d1d5db",
+                  color: "var(--bar-text-muted, #9ca3af)",
+                  border: "1px solid var(--bar-border, #d1d5db)",
                   padding: "0 0.25rem",
                   borderRadius: "0.125rem",
                   lineHeight: "1.2",
@@ -271,7 +271,7 @@ const CommentaryExploreView = ({
                   borderRadius: "9999px",
                   backgroundColor: isActive
                     ? "var(--era-accent)"
-                    : "#d6d3d1",
+                    : "var(--bar-divider, #d6d3d1)",
                   transition: "all 0.3s ease",
                   display: "inline-block",
                 }}

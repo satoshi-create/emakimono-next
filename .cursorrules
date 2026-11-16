@@ -47,6 +47,6 @@ AI アシスタントの自律多重往復（Tool Callループ）を物理遮�
 
 ## 6. ビューア配色（カラーモード）
 
-- 時代・ビューアモードの配色は `src/theme/colorMode.js` を正本とする。
-- UI では必ず `buildViewerThemeStyle` 由来の CSS 変数（`--era-accent`, `--era-text`, `--era-soft-bg`, `--era-border`）および `data-viewer-mode`（`emaki` / `byobu`）を使うこと。
-- コンポーネント内に色コードをハードコードしない。
+- 時代・ビューアモードの配色は `src/theme/colorMode.js` を正本とする（設計図は `src/theme/SPEC.md`）。
+- 新規・既存コンポーネントでは色コードやレイアウト状態分岐を個別ファイルにハードコードせず、`buildViewerThemeStyle` が発行するテーマ変数（`--bar-*`, `--era-*`）および `data-viewer-mode` / `data-layout-placement` を参照すること。
+- 配置判定は `resolveViewerLayoutMode` に集約し、`commentaryFloating` / `isFullscreen` を各所で独自に解釈しない。

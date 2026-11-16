@@ -69,7 +69,7 @@ import { useEmakiPrompts } from "@/hooks/emaki/useEmakiPrompts";
 import { isByobuScroll } from "@/utils/isByobuScroll";
 import {
   buildViewerThemeStyle,
-  resolveViewerMode,
+  resolveViewerLayoutMode,
 } from "@/theme/colorMode";
 import {
   ZOOM_STRIP_MIN_SLICES,
@@ -245,6 +245,7 @@ const EmakiContainer = ({
   const articleRef = useRef();
   const entryContainerRef = useRef(null);
   const enterZoomRef = useRef(null);
+  const zoomToSlicePercentRef = useRef(null);
   const touchDoubleTapAtRef = useRef(0);
   const scrollNextRef = useRef(null);
   const scrollPrevRef = useRef(null);
@@ -688,16 +689,35 @@ const EmakiContainer = ({
       if (!spot?.id) return;
       const id = String(spot.id);
       const nextId = selectedSpotId === id ? null : id;
-      setSelectedSpotId(nextId);
-      const nextQuery = { ...query };
-      if (nextId) {
-        nextQuery.spot = nextId;
-      } else {
+      if (!nextId) {
+        setSelectedSpotId(null);
+        const nextQuery = { ...query };
         delete nextQuery.spot;
+        replace({ pathname, query: nextQuery }, undefined, { shallow: true });
+        return;
       }
+      setSelectedSpotId(nextId);
+      const nextQuery = { ...query, spot: nextId };
       replace({ pathname, query: nextQuery }, undefined, { shallow: true });
+      const landing = resolveSpotDeepLink(data?.emakis || [], nextId);
+      if (!landing) return;
+      appliedSpotRef.current = nextId;
+      let targetScale = 2.6;
+      if (landing.rectW != null && landing.rectH != null) {
+        targetScale = Math.min(
+          80 / Math.max(landing.rectW, 12),
+          80 / Math.max(landing.rectH, 12)
+        );
+        targetScale = Math.min(4.5, Math.max(2.2, targetScale));
+      }
+      zoomToSlicePercentRef.current?.({
+        sliceIndex: landing.sliceIndex,
+        centerX: landing.centerX,
+        centerY: landing.centerY,
+        targetScale,
+      });
     },
-    [selectedSpotId, query, pathname, replace]
+    [selectedSpotId, query, pathname, replace, data?.emakis]
   );
 
   const onClearSelectedSpot = useCallback(() => {
@@ -709,17 +729,9 @@ const EmakiContainer = ({
 
   useEffect(() => {
     if (!pendingSpotZoom) return undefined;
-    const {
-      centerX,
-      centerY,
-      rectW,
-      rectH,
-      sliceIndex,
-      linkId,
-      offsetPercent,
-    } = pendingSpotZoom;
+    const { centerX, centerY, rectW, rectH, sliceIndex } = pendingSpotZoom;
     const zoomTimer = setTimeout(() => {
-      if (!enterZoomRef.current) {
+      if (!zoomToSlicePercentRef.current) {
         setPendingSpotZoom(null);
         return;
       }
@@ -731,80 +743,16 @@ const EmakiContainer = ({
         );
         targetScale = Math.min(4.5, Math.max(2.2, targetScale));
       }
-
-      const root = entryContainerRef.current;
-      const viewportW =
-        typeof window !== "undefined" ? window.innerWidth : 0;
-      const viewportH =
-        typeof window !== "undefined" ? window.innerHeight : 0;
-
-      const querySliceEl = () => {
-        if (!Number.isFinite(sliceIndex)) return null;
-        const byData = root?.querySelector(
-          `[data-scene-index="${sliceIndex}"]`
-        );
-        if (byData) return byData;
-        return (
-          root?.querySelector(`section#scene-${sliceIndex}`) ||
-          (typeof document !== "undefined"
-            ? document.querySelector(`section#scene-${sliceIndex}`)
-            : null)
-        );
-      };
-
-      let sliceEl = querySliceEl();
-      let sliceRect = sliceEl?.getBoundingClientRect?.();
-
-      const sliceOffscreen =
-        !sliceRect ||
-        sliceRect.width <= 0 ||
-        sliceRect.height <= 0 ||
-        sliceRect.right < 0 ||
-        sliceRect.left > viewportW ||
-        sliceRect.bottom < 0 ||
-        sliceRect.top > viewportH;
-
-      if (sliceOffscreen && typeof linkId === "number") {
-        handleToId(linkId, {
-          realign: true,
-          offsetPercent: offsetPercent ?? 50,
-          behavior: "auto",
-        });
-        sliceEl = querySliceEl();
-        sliceRect = sliceEl?.getBoundingClientRect?.();
-      }
-
-      let clientX = viewportW / 2;
-      let clientY = viewportH / 2;
-
-      const sliceUsable =
-        sliceRect &&
-        sliceRect.width > 0 &&
-        sliceRect.height > 0 &&
-        sliceRect.right >= 0 &&
-        sliceRect.left <= viewportW;
-
-      if (sliceUsable) {
-        clientX = sliceRect.left + sliceRect.width * (centerX / 100);
-        clientY = sliceRect.top + sliceRect.height * (centerY / 100);
-      } else {
-        const stageRect = entryContainerRef.current?.getBoundingClientRect();
-        if (stageRect) {
-          clientX = stageRect.left + stageRect.width * (centerX / 100);
-          clientY = stageRect.top + stageRect.height * (centerY / 100);
-        }
-      }
-
-      enterZoomRef.current(
-        clientX,
-        clientY,
+      zoomToSlicePercentRef.current({
+        sliceIndex,
+        centerX,
+        centerY,
         targetScale,
-        Number.isFinite(sliceIndex) ? sliceIndex : undefined
-      );
+      });
       setPendingSpotZoom(null);
     }, 300);
     return () => clearTimeout(zoomTimer);
-  }, [pendingSpotZoom, handleToId]);
+  }, [pendingSpotZoom]);
 
   useEffect(() => {
     if (!scroll || !isReady) return;
@@ -1210,6 +1158,7 @@ const EmakiContainer = ({
     resetZoom: originalResetZoom,
     toggleZoom: originalToggleZoom,
     enterZoomRef,
+    zoomToSlicePercentRef,
     onZoomOpenTrack: handleZoomOpenWithTrack,
     onZoomCloseTrack: handleZoomCloseWithTrack,
   });
@@ -1273,6 +1222,12 @@ const EmakiContainer = ({
     replace({ pathname, query: nextQuery }, undefined, { shallow: true });
   };
 
+  const viewerLayout = resolveViewerLayoutMode({
+    data,
+    commentaryFloating,
+    isFullscreen: toggleFullscreen,
+  });
+
   return (
       <div
         className={`${
@@ -1282,7 +1237,8 @@ const EmakiContainer = ({
         <div
           ref={entryContainerRef}
           data-commentary-float={commentaryFloating ? "true" : undefined}
-          data-viewer-mode={resolveViewerMode(data)}
+          data-viewer-mode={viewerLayout.viewerMode}
+          data-layout-placement={viewerLayout.layoutPlacement}
           className={`js-scrollable entry-container ${
             hasCommentaryData ? commentaryStyles.hasCommentaryBar : ""
           }`}

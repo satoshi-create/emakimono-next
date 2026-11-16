@@ -12,7 +12,7 @@ import GenjiHubLink from "@/components/genji/GenjiHubLink";
 import KusouzuHubLink from "@/components/emaki/kusouzu/KusouzuHubLink";
 import {
   buildViewerThemeStyle,
-  resolveViewerMode,
+  resolveViewerLayoutMode,
 } from "@/theme/colorMode";
 import { connectGenjiChapters } from "@/utils/emakiChapterText";
 import { getMotifDefinition } from "@/utils/motifNetwork";
@@ -209,7 +209,11 @@ const SceneCommentaryBar = ({
     !byobu.isByobuSpotMode && emaki.availableModes.length >= 1;
 
   const viewerThemeStyle = buildViewerThemeStyle(data);
-  const viewerMode = resolveViewerMode(data);
+  const viewerLayout = resolveViewerLayoutMode({
+    data,
+    commentaryFloating,
+    isFullscreen: shell.cardFloats,
+  });
   const readMoreLabel = locale === "en" ? "More ▾" : "もっと見る";
 
   const toggleExpanded = () => {
@@ -256,7 +260,8 @@ const SceneCommentaryBar = ({
     <div
       ref={shell.wrapRef}
       className={`${styles.wrap} ${shell.isCardDragging ? styles.dragging : ""}`}
-      data-viewer-mode={viewerMode}
+      data-viewer-mode={viewerLayout.viewerMode}
+      data-layout-placement={viewerLayout.layoutPlacement}
       data-fullscreen={shell.cardFloats ? "true" : "false"}
       style={{
         ...viewerThemeStyle,

@@ -48,6 +48,7 @@ export default function useEmakiZoomPan({
     : MAX_SCALE;
 
   const [isZoomed, setIsZoomed] = useState(false);
+  const [focusRevision, setFocusRevision] = useState(0);
   const [scale, setScale] = useState(DEFAULT_SCALE);
   const [panX, setPanX] = useState(0);
   const [panY, setPanY] = useState(0);
@@ -370,6 +371,7 @@ export default function useEmakiZoomPan({
       // 実測後（useLayoutEffect・ペイント前）にカーソル基準の最終倍率・パンへ補正する
       isZoomedRef.current = true;
       setIsZoomed(true);
+      setFocusRevision((r) => r + 1);
       if (typeof onOpen === "function") onOpen();
     },
     [onOpen, maxScale]
@@ -420,7 +422,7 @@ export default function useEmakiZoomPan({
       applyScaleAtPoint(focusScale, x, y);
     }
     return undefined;
-  }, [isZoomed, applyScaleAtPoint, applyScaleCenteringFocus]);
+  }, [isZoomed, focusRevision, applyScaleAtPoint, applyScaleCenteringFocus]);
 
   // リサイズ / 向き変更で可動域が変わるため再補正
   useEffect(() => {

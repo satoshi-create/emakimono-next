@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "@/styles/SceneCommentaryBar.module.css";
 
 const CommentarySectionIndex = ({
@@ -7,6 +7,15 @@ const CommentarySectionIndex = ({
   onNavigate,
   t,
 }) => {
+  const activeItemRef = useRef(null);
+
+  useEffect(() => {
+    activeItemRef.current?.scrollIntoView({
+      block: "nearest",
+      behavior: "smooth",
+    });
+  }, [activeIndex]);
+
   return (
     <nav
       className={styles.sectionIndex}
@@ -15,6 +24,7 @@ const CommentarySectionIndex = ({
       {indexRows.map((row, i) => (
         <button
           key={row.linkId}
+          ref={i === activeIndex ? activeItemRef : undefined}
           type="button"
           className={`${styles.indexItem} ${
             i === activeIndex ? styles.indexItemActive : ""
