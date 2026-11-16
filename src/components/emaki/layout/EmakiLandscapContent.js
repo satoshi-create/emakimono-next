@@ -264,7 +264,9 @@ const EmakiLandscapContent = ({
                         </Link>
                       )}
                       {getScrollCompositionForm(data?.titleen) && (
-                        <Link href={`${RAKUCHU_RAKUGAI_HUB_PATH}#motifs`}>
+                        <Link
+                          href={`${RAKUCHU_RAKUGAI_HUB_PATH}?form=${getScrollCompositionForm(data?.titleen).formId}#composition`}
+                        >
                           <a
                             className={styles.compositionBadge}
                             title={

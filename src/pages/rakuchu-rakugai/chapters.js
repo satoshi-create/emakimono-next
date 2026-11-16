@@ -3,6 +3,7 @@ import {
   RakuchuCompositionSection,
   RakuchuMotifSection,
 } from "@/components/rakuchu-rakugai/RakuchuMotifExplorer";
+import { FORM_TAB_IDS } from "@/components/rakuchu-rakugai/rakuchuScrollConstants";
 import Title from "@/components/ui/Title";
 import { RAKUCHU_RAKUGAI_HUB_PATH } from "@/libs/constants/links";
 import styles from "@/styles/ChoujuGigaHub.module.css";
@@ -89,7 +90,11 @@ const RakuchuRakugaiScrollCard = ({ scroll }) => {
 const RakuchuRakugaiHub = ({ hubData }) => {
   const { t } = useTranslation("common");
   const { t: meta } = useLocaleMeta();
-  const { locale, defaultLocale } = useRouter();
+  const { locale, defaultLocale, query } = useRouter();
+  const formFromQuery =
+    typeof query.form === "string" && FORM_TAB_IDS.includes(query.form)
+      ? query.form
+      : undefined;
 
   const scrollByTitleen = Object.fromEntries(
     hubData.scrolls.map((s) => [s.titleen, s])
@@ -156,31 +161,48 @@ const RakuchuRakugaiHub = ({ hubData }) => {
 
   const compositionSection = (
     <section
-      id="composition"
-      className={`section-grid section-padding ${styles.scrollSection}`}
+      className={`section-padding ${styles.scrollSection}`}
+      style={{
+        width: "100%",
+        backgroundColor: "#ffffff",
+        boxSizing: "border-box",
+        scrollMarginTop: "96px",
+      }}
     >
-      <Title
-        sectiontitle={
-          locale === "en" ? "Composition Lineages" : "構図形式の比較"
-        }
-      />
-      <p
-        className={styles.introLead}
+      <div
         style={{
-          textAlign: "center",
-          maxWidth: "42rem",
-          margin: "0 auto 2.25rem",
-          lineHeight: 1.85,
+          maxWidth: "min(96vw, 1560px)",
+          margin: "0 auto",
+          paddingLeft: "clamp(12px, 2vw, 24px)",
+          paddingRight: "clamp(12px, 2vw, 24px)",
+          boxSizing: "border-box",
         }}
       >
-        {locale === "en"
-          ? "Screen layout shifts by period and patron: compare the spatial pairing of the Right (East) and Left (West) screens."
-          : "時代や発注背景によって屏風全体の構図形式が異なります。右隻（東側）と左隻（西側）の主役の対比を比較できます。"}
-      </p>
-      <RakuchuCompositionSection
-        motifVisuals={hubData.motifVisuals}
-        locale={locale}
-      />
+        <Title
+          sectiontitle={
+            locale === "en" ? "Composition Lineages" : "構図形式の比較"
+          }
+        />
+        <p
+          className={styles.introLead}
+          style={{
+            textAlign: "center",
+            maxWidth: "42rem",
+            margin: "0 auto 2.25rem",
+            lineHeight: 1.85,
+          }}
+        >
+          {locale === "en"
+            ? "Screen layout shifts by period and patron: compare the spatial pairing of the Right (East) and Left (West) screens."
+            : "時代や発注背景によって屏風全体の構図形式が異なります。右隻（東側）と左隻（西側）の主役の対比を比較できます。"}
+        </p>
+        <RakuchuCompositionSection
+          motifVisuals={hubData.motifVisuals}
+          stripsByTitleen={hubData.stripsByTitleen}
+          locale={locale}
+          initialForm={formFromQuery}
+        />
+      </div>
     </section>
   );
 

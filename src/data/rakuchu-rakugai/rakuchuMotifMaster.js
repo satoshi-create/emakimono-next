@@ -33,14 +33,14 @@ export const RAKUCHU_COMPOSITION_FORMS = {
   },
   second_variant: {
     id: "second_variant",
-    labelJa: "第二形式（初期系譜・定型外）",
-    labelEn: "Second Form (Early-Lineage Variant)",
+    labelJa: "第一形式（初期系譜・定型外）",
+    labelEn: "First Form (Early-Lineage Variant)",
     rightFocusJa: "清水寺・八坂神社・五条大橋・寺町通の店舗群",
     rightFocusEn: "Kiyomizu-dera, Yasaka Shrine, Gojo Bridge & Teramachi Shops",
     leftFocusJa: "内裏（御所）の花見・市井の職人や南蛮風俗",
     leftFocusEn: "Imperial Palace Cherry Blossoms, Artisans & Nanban Visitors",
     summaryJa:
-      "江戸初期の作でありながら、定型の「方広寺大仏殿」も「二条城」も描かず、寺町商業や市井の風俗・名所を主役とする独自構図（福岡市博物館本）。",
+      "江戸初期の作でありながら、第二形式の「方広寺大仏殿」も「二条城」も描かず、初期系譜の伝統を受け継ぎつつ寺町商業や市井の風俗・名所を主役とする独自構図（福岡市博物館本）。",
     summaryEn:
       "An early-Edo variant omitting both Nijo Castle and the Great Buddha Hall, focusing instead on Teramachi commerce, street artisans, and classic landmarks (Fukuoka Version).",
     representativesJa: "福岡市博物館本（黒田家伝来・重文）",

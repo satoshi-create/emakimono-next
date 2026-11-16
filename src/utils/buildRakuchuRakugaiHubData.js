@@ -60,6 +60,7 @@ function resolveMotifVisualForScroll(emakis, aliasSpotIds, preferredSpotId) {
         spotNameJa: spot.name ?? "",
         spotNameEn: spot.nameen ?? spot.nameEn ?? "",
         sliceIndex,
+        spotId: spot.id,
       };
     }
   }
@@ -82,9 +83,78 @@ function resolveMotifVisualForScroll(emakis, aliasSpotIds, preferredSpotId) {
       spotNameJa: spot.name ?? "",
       spotNameEn: spot.nameen ?? spot.nameEn ?? "",
       sliceIndex,
+      spotId: spot.id,
     };
   }
   return null;
+}
+
+/**
+ * @param {unknown[] | undefined} emakis
+ * @param {number} imageSliceIndex
+ */
+function sceneForImageSlice(emakis, imageSliceIndex) {
+  if (!Array.isArray(emakis) || imageSliceIndex < 0) return undefined;
+  let idx = -1;
+  let currentScene = 1;
+  let ekotobaOrdinal = 0;
+  for (const slice of emakis) {
+    if (slice?.cat === "ekotoba") {
+      ekotobaOrdinal += 1;
+      const ch = Number(slice.chapter);
+      currentScene =
+        Number.isFinite(ch) && ch >= 1 ? ch : ekotobaOrdinal;
+    } else if (slice?.cat === "image") {
+      idx += 1;
+      if (idx === imageSliceIndex) return currentScene;
+    }
+  }
+  return undefined;
+}
+
+/** @param {Map<string, { emakis?: unknown[] }>} rawByTitleen */
+function buildStripsByTitleen(rawByTitleen) {
+  /** @type {Record<string, { image: string, srcWidth: number, srcHeight: number, spots: unknown[], linkId: number, scene: number, name?: string }[]>} */
+  const stripsByTitleen = {};
+  for (const titleen of RAKUCHU_RAKUGAI_CLUSTER_TITLEEN) {
+    const raw = rawByTitleen.get(titleen);
+    const emakis = raw?.emakis;
+    if (!Array.isArray(emakis)) {
+      stripsByTitleen[titleen] = [];
+      continue;
+    }
+    let currentScene = 1;
+    let ekotobaOrdinal = 0;
+    const strips = [];
+    let linkId = 0;
+    for (const slice of emakis) {
+      if (slice?.cat === "ekotoba") {
+        ekotobaOrdinal += 1;
+        const ch = Number(slice.chapter);
+        currentScene =
+          Number.isFinite(ch) && ch >= 1 ? ch : ekotobaOrdinal;
+      } else if (slice?.cat === "image") {
+        const srcWidth = slice.srcWidth ?? 0;
+        if (srcWidth > 0) {
+          const image = slice.image ?? slice.src;
+          if (image) {
+            strips.push({
+              image: toMotifImageUrl(image),
+              srcWidth,
+              srcHeight: slice.srcHeight ?? 0,
+              spots: Array.isArray(slice.spots) ? slice.spots : [],
+              linkId,
+              scene: currentScene,
+              name: slice.name ?? "",
+            });
+          }
+        }
+      }
+      linkId += 1;
+    }
+    stripsByTitleen[titleen] = strips;
+  }
+  return stripsByTitleen;
 }
 
 /** @param {Map<string, { emakis?: unknown[] }>} rawByTitleen */
@@ -107,6 +177,9 @@ function buildMotifVisuals(rawByTitleen) {
             x: resolved.x,
             y: resolved.y,
             rect: resolved.rect ?? null,
+            spotId: resolved.spotId,
+            sliceIndex: resolved.sliceIndex,
+            scene: sceneForImageSlice(raw?.emakis, resolved.sliceIndex),
             dx: override?.dx ?? 0,
             dy: override?.dy ?? 0,
             ...(typeof override?.zoom === "number" ? { zoom: override.zoom } : {}),
@@ -145,6 +218,7 @@ export function buildRakuchuRakugaiHubData() {
     ])
   );
   const motifVisuals = buildMotifVisuals(rawByTitleen);
+  const stripsByTitleen = buildStripsByTitleen(rawByTitleen);
 
   const scrolls = RAKUCHU_RAKUGAI_CLUSTER_TITLEEN.map((titleen) =>
     byTitleen.get(titleen)
@@ -172,5 +246,6 @@ export function buildRakuchuRakugaiHubData() {
     scrolls,
     heroThumb: hero?.thumb ?? null,
     motifVisuals,
+    stripsByTitleen,
   };
 }
