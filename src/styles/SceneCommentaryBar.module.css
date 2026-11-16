@@ -148,8 +148,8 @@
 }
 .modeTabActive {
   color: var(--clr-text);
-  border-color: var(--clr-accent, #ff8c77);
-  background: rgb(255 140 119 / 0.1);
+  border-color: var(--era-accent, #ff8c77);
+  background: var(--era-soft-bg, rgba(255, 140, 119, 0.12));
   font-weight: 600;
 }
 @media (pointer: coarse) {
@@ -441,8 +441,8 @@
   border-color: rgba(0, 0, 0, 0.12);
 }
 .indexItemActive {
-  border-color: var(--clr-accent);
-  background: rgb(255 140 119 / 0.08);
+  border-color: var(--era-accent, #ff8c77);
+  background: var(--era-soft-bg, rgba(255, 140, 119, 0.12));
 }
 
 .indexThumb {
@@ -528,10 +528,10 @@
   flex: 0 0 auto;
   margin-left: 2px;
   padding: 3px 10px;
-  border: 1px solid var(--clr-accent, #ff8c77);
+  border: 1px solid var(--era-accent, #ff8c77);
   border-radius: 999px;
-  background: rgb(255 140 119 / 0.08);
-  color: var(--clr-accent, #ff8c77);
+  background: var(--era-soft-bg, rgba(255, 140, 119, 0.12));
+  color: var(--era-accent, #ff8c77);
   font-family: var(--font-ui);
   font-size: 0.75rem;
   font-weight: 700;
@@ -542,7 +542,7 @@
 }
 .genjiGuidePill:hover,
 .genjiGuidePill:focus-visible {
-  background: var(--clr-accent, #ff8c77);
+  background: var(--era-accent, #ff8c77);
   color: #fff;
 }
 /* タッチデバイス: タップターゲットを拡大（WCAG 2.5.5 推奨 44px 目安） */

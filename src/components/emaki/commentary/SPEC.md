@@ -64,14 +64,20 @@ sequenceDiagram
   Note over View: 他伝本 Link + モチーフハブ
 ```
 
+## 配色（カラーモード）
+
+コメンタリーバー配下の配色は **`src/theme/colorMode.js`** 由来の CSS 変数（`--era-accent`, `--era-text`, `--era-soft-bg`, `--era-border`）および親要素の `data-viewer-mode`（`emaki` / `byobu`）に従うこと。コンポーネント内に色コード（hex / rgb リテラル）をハードコードしない。
+
 ## 外部契約（DOM / CSS 変数）
 
 | 種別 | 名前 | 設定元 | 意味 |
 |------|------|--------|------|
+| `data-*` | `data-viewer-mode` | `.entry-container` / `.wrap` | `resolveViewerMode(data)` |
 | `data-*` | `data-orientation` | バー root | `AppContext.orientation` |
 | `data-*` | `data-fullscreen` | wrap / bar | フローティングカード時 `"true"` |
 | `data-*` | `data-expanded` | `.bar` | 本文展開 |
 | `data-*` | `data-text-mode` | `.bar` | 現テキストモード（絵巻） |
+| CSS 変数 | `--era-accent` / `--era-text` / `--era-soft-bg` / `--era-border` | `.entry-container`, `.wrap` | `buildViewerThemeStyle(data)` |
 | CSS 変数 | `--commentary-bar-full-h` | `.entry-container` | バー実高さ（px） |
 | CSS 変数 | `--folklore-sheet-bottom` | `.entry-container` | Folklore シート下端オフセット |
 | イベント | `scene_modal_open` | 展開時 gtag | 仕様維持 |

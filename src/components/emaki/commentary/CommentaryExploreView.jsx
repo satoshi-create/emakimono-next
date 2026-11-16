@@ -202,13 +202,13 @@ const CommentaryExploreView = ({
               }}
               onClick={(e) => e.stopPropagation()}
             >
-              <span style={{ color: "var(--accent-color, #92400e)", fontSize: "0.875rem" }}>📖</span>
+              <span style={{ color: "var(--era-accent)", fontSize: "0.875rem" }}>📖</span>
               <span
                 style={{
                   textDecoration: "underline",
                   textUnderlineOffset: "3px",
                   fontWeight: 500,
-                  color: "#2563eb",
+                  color: "var(--era-text)",
                 }}
               >
                 {isEn
@@ -270,7 +270,7 @@ const CommentaryExploreView = ({
                   height: "5px",
                   borderRadius: "9999px",
                   backgroundColor: isActive
-                    ? "var(--accent-color, #92400e)"
+                    ? "var(--era-accent)"
                     : "#d6d3d1",
                   transition: "all 0.3s ease",
                   display: "inline-block",

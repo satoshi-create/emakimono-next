@@ -12,7 +12,7 @@ export const BYOBU_TEXT_LINK = {
   padding: 0,
   border: "none",
   background: "transparent",
-  color: "var(--clr-link, #065fd4)",
+  color: "var(--era-text, #256394)",
   fontSize: "inherit",
   fontWeight: 500,
   textDecoration: "underline",

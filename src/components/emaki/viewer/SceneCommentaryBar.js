@@ -10,7 +10,10 @@ import SceneLikeButton from "@/components/emaki/viewer/SceneLikeButton";
 import ShareButtons from "@/components/emaki/viewer/ShareButtons";
 import GenjiHubLink from "@/components/genji/GenjiHubLink";
 import KusouzuHubLink from "@/components/emaki/kusouzu/KusouzuHubLink";
-import { eraColor } from "@/utils/func";
+import {
+  buildViewerThemeStyle,
+  resolveViewerMode,
+} from "@/theme/colorMode";
 import { connectGenjiChapters } from "@/utils/emakiChapterText";
 import { getMotifDefinition } from "@/utils/motifNetwork";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
@@ -70,7 +73,7 @@ const SceneCommentaryBar = ({
   const router = useRouter();
   const { locale } = router;
   const { t } = useTranslation("common");
-  const { title, titleen, era } = data;
+  const { title, titleen } = data;
 
   const [isFolkloreOpen, setIsFolkloreOpen] = useState(false);
 
@@ -205,7 +208,8 @@ const SceneCommentaryBar = ({
   const showModeTabs =
     !byobu.isByobuSpotMode && emaki.availableModes.length >= 1;
 
-  const accent = eraColor(era) || "#8a6d3b";
+  const viewerThemeStyle = buildViewerThemeStyle(data);
+  const viewerMode = resolveViewerMode(data);
   const readMoreLabel = locale === "en" ? "More ▾" : "もっと見る";
 
   const toggleExpanded = () => {
@@ -252,14 +256,16 @@ const SceneCommentaryBar = ({
     <div
       ref={shell.wrapRef}
       className={`${styles.wrap} ${shell.isCardDragging ? styles.dragging : ""}`}
+      data-viewer-mode={viewerMode}
       data-fullscreen={shell.cardFloats ? "true" : "false"}
-      style={
-        shell.cardFloats && shell.cardPos
+      style={{
+        ...viewerThemeStyle,
+        ...(shell.cardFloats && shell.cardPos
           ? {
               transform: `translate3d(${shell.cardPos.x}px, ${shell.cardPos.y}px, 0)`,
             }
-          : undefined
-      }
+          : null),
+      }}
       onDoubleClick={shell.onCardDoubleClick}
     >
       <div
@@ -290,7 +296,7 @@ const SceneCommentaryBar = ({
                   : t("viewer.seeDetailsOfSection")
               }
             >
-              <span className={styles.title} style={{ color: accent }}>
+              <span className={styles.title} style={{ color: "var(--era-text)" }}>
                 {chapterTitle}
               </span>
             </button>

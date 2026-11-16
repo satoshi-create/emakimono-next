@@ -68,6 +68,10 @@ import {
 import { useEmakiPrompts } from "@/hooks/emaki/useEmakiPrompts";
 import { isByobuScroll } from "@/utils/isByobuScroll";
 import {
+  buildViewerThemeStyle,
+  resolveViewerMode,
+} from "@/theme/colorMode";
+import {
   ZOOM_STRIP_MIN_SLICES,
   ZOOM_STRIP_MIN_SLICES_BYOBU,
 } from "@/libs/constants/viewerPlayback";
@@ -1278,10 +1282,12 @@ const EmakiContainer = ({
         <div
           ref={entryContainerRef}
           data-commentary-float={commentaryFloating ? "true" : undefined}
+          data-viewer-mode={resolveViewerMode(data)}
           className={`js-scrollable entry-container ${
             hasCommentaryData ? commentaryStyles.hasCommentaryBar : ""
           }`}
           style={{
+            ...buildViewerThemeStyle(data),
             borderRadius:
               orientation === "landscape" &&
               scroll &&

@@ -42,3 +42,11 @@ AI アシスタントの自律多重往復（Tool Callループ）を物理遮�
 
 - AI側での自動ビルド・検証は行わない（トークン浪費防止）。
 - 修正完了通知後、ユーザーが手元で `npm run lint` / `npx tsc --noEmit` を実行する前提でコードの整合性を担保すること。
+
+---
+
+## 6. ビューア配色（カラーモード）
+
+- 時代・ビューアモードの配色は `src/theme/colorMode.js` を正本とする。
+- UI では必ず `buildViewerThemeStyle` 由来の CSS 変数（`--era-accent`, `--era-text`, `--era-soft-bg`, `--era-border`）および `data-viewer-mode`（`emaki` / `byobu`）を使うこと。
+- コンポーネント内に色コードをハードコードしない。
