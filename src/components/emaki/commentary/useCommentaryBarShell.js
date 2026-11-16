@@ -26,7 +26,15 @@ const clampCardDelta = (dx, dy, anchor) => {
  * @param {string} opts.orientation
  * @param {(open: boolean) => void} [opts.setIsFolkloreOpen]
  * @param {boolean} [opts.isFolkloreOpen]
+ * @param {string} [opts.workKey] 作品識別（titleen 等）— 遷移ごとの小画面初期クローズ用
  */
+const COMPACT_VIEWPORT_MQ = "(max-width: 768px), (max-height: 800px)";
+
+export function isCompactViewport() {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia(COMPACT_VIEWPORT_MQ).matches;
+}
+
 export function useCommentaryBarShell({
   isFullscreen,
   commentaryFloating,
@@ -34,21 +42,26 @@ export function useCommentaryBarShell({
   orientation,
   setIsFolkloreOpen,
   isFolkloreOpen = false,
+  workKey = "",
 }) {
   // 2. バー開閉・展開・段/スポット目次モード
   const [expanded, setExpanded] = useState(false);
-  const [closed, setClosed] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return (
-      orientation === "landscape" &&
-      window.matchMedia("(max-width: 1023px)").matches
-    );
-  });
+  const [closed, setClosed] = useState(false);
+  const initializedCompactKeyRef = useRef(null);
   const [viewMode, setViewMode] = useState("commentary");
 
   const wrapRef = useRef(null);
   const barRef = useRef(null);
   const prevOrientationRef = useRef(orientation);
+
+  // 2b. 作品遷移時は常にバー表示（同一作品内でユーザーが閉じた状態は維持）
+  useEffect(() => {
+    const key = `${workKey ?? ""}`.trim();
+    if (!key || typeof window === "undefined") return;
+    if (initializedCompactKeyRef.current === key) return;
+    initializedCompactKeyRef.current = key;
+    setClosed(false);
+  }, [workKey]);
 
   // 3. スマホ向き変更時の自動開閉（PC は触らない）
   useEffect(() => {

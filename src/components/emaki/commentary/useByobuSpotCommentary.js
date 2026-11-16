@@ -3,8 +3,122 @@
  */
 import { useMemo } from "react";
 import { isByobuScroll } from "@/utils/isByobuScroll";
-import { getMasterByRawSpotId } from "@/data/rakuchu-rakugai/rakuchuMotifMaster";
+import {
+  SCROLL_EDITIONS,
+  SCROLL_PILL_LABELS,
+} from "@/components/rakuchu-rakugai/rakuchuScrollConstants";
+import { getMotifVisual, wingSceneHref } from "@/components/rakuchu-rakugai/wingLinks";
+import {
+  getMasterByRawSpotId,
+  isCrossLinkableMaster,
+} from "@/data/rakuchu-rakugai/rakuchuMotifMaster";
+import { RAKUCHU_RAKUGAI_HUB_PATH } from "@/libs/constants/links";
+import { buildRakuchuRakugaiHubData } from "@/utils/buildRakuchuRakugaiHubData";
 import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
+
+/** @type {Record<string, Record<string, unknown>> | null} */
+let rakuchuHubMotifVisualsCache = null;
+
+function getRakuchuHubMotifVisuals() {
+  if (!rakuchuHubMotifVisualsCache) {
+    rakuchuHubMotifVisualsCache =
+      buildRakuchuRakugaiHubData().motifVisuals ?? null;
+  }
+  return rakuchuHubMotifVisualsCache;
+}
+
+/**
+ * @param {(typeof import("@/data/rakuchu-rakugai/rakuchuMotifMaster").RAKUCHU_SPOT_MASTERS)[number]} master
+ * @param {ReturnType<typeof getMotifVisual> | null | undefined} visual
+ * @returns {boolean}
+ */
+function isOneToOneMotifVisual(master, visual) {
+  if (!visual?.image) return false;
+  const hasTarget =
+    (typeof visual.spotId === "string" && visual.spotId.length > 0) ||
+    visual.scene != null;
+  if (!hasTarget) return false;
+  if (visual.spotId) {
+    const linked = getMasterByRawSpotId(visual.spotId);
+    return linked?.masterId === master.masterId;
+  }
+  return true;
+}
+
+/**
+ * @param {string | undefined} spotId
+ * @param {string | undefined} currentTitleen
+ * @param {string} locale
+ * @returns {{ crossEditionLinks: { key: string, label: string, href: string }[], hubComparisonLink: { label: string, href: string } | null }}
+ */
+export function resolveByobuSpotLinkChips(spotId, currentTitleen, locale) {
+  if (
+    !spotId ||
+    typeof currentTitleen !== "string" ||
+    !currentTitleen.startsWith("rakuchu_rakugai")
+  ) {
+    return { crossEditionLinks: [], hubComparisonLink: null };
+  }
+  const master = getMasterByRawSpotId(spotId);
+  if (
+    !master ||
+    !isCrossLinkableMaster(master) ||
+    !master.presentIn?.includes(currentTitleen)
+  ) {
+    return { crossEditionLinks: [], hubComparisonLink: null };
+  }
+  const isEn = locale === "en";
+  const motifVisuals = getRakuchuHubMotifVisuals();
+  const pillLabels = isEn ? SCROLL_PILL_LABELS.en : SCROLL_PILL_LABELS.ja;
+  const currentVisual = getMotifVisual(
+    motifVisuals,
+    master.masterId,
+    currentTitleen
+  );
+  if (!isOneToOneMotifVisual(master, currentVisual)) {
+    return { crossEditionLinks: [], hubComparisonLink: null };
+  }
+  /** @type {{ key: string, label: string, href: string }[]} */
+  const crossEditionLinks = [];
+  for (const edition of SCROLL_EDITIONS) {
+    if (
+      edition.titleen === currentTitleen ||
+      !master.presentIn?.includes(edition.titleen)
+    ) {
+      continue;
+    }
+    const visual = getMotifVisual(motifVisuals, master.masterId, edition.titleen);
+    if (!isOneToOneMotifVisual(master, visual)) continue;
+    const href = wingSceneHref({ titleen: edition.titleen }, visual);
+    if (!href) continue;
+    const pillIdx = SCROLL_EDITIONS.findIndex((e) => e.titleen === edition.titleen);
+    const label =
+      pillIdx >= 0
+        ? pillLabels[pillIdx]
+        : isEn
+          ? edition.labelEn
+          : edition.labelJa;
+    crossEditionLinks.push({
+      key: edition.titleen,
+      label: String(label || edition.titleen),
+      href,
+    });
+  }
+  const comparableEditions = (master.presentIn ?? []).filter((titleen) =>
+    isOneToOneMotifVisual(
+      master,
+      getMotifVisual(motifVisuals, master.masterId, titleen)
+    )
+  );
+  const hubComparisonLink =
+    crossEditionLinks.length > 0 || comparableEditions.length >= 2
+      ? {
+          label: isEn ? "Compare 3 editions ↗" : "3伝本比較 ↗",
+          href: `${RAKUCHU_RAKUGAI_HUB_PATH}#motif-${master.masterId}`,
+        }
+      : null;
+  return { crossEditionLinks, hubComparisonLink };
+}
 
 export const BYOBU_CATEGORY_JA = {
   power: "権力・城郭",
@@ -23,6 +137,50 @@ const stripHtml = (html) =>
     .replace(/&quot;/gi, '"')
     .replace(/&#39;/gi, "'")
     .trim();
+
+/**
+ * ① 作品 JSON 固有フィールド → ② rakuchuMotifMaster
+ * @param {Record<string, unknown> | null | undefined} spot
+ * @param {(typeof import("@/data/rakuchu-rakugai/rakuchuMotifMaster").RAKUCHU_SPOT_MASTERS)[number] | null | undefined} master
+ * @param {boolean} isEn
+ */
+function resolveByobuSpotCategoryLabel(spot, master, isEn) {
+  if (!spot) return null;
+  const fromSpot = isEn
+    ? spot.categoryen || spot.category
+    : spot.category || spot.categoryen;
+  if (fromSpot) return String(fromSpot);
+  const rawCategory = master?.category || null;
+  if (!rawCategory) return null;
+  return isEn
+    ? rawCategory
+    : BYOBU_CATEGORY_JA[rawCategory] || rawCategory;
+}
+
+/**
+ * @param {Record<string, unknown> | null | undefined} spot
+ * @param {(typeof import("@/data/rakuchu-rakugai/rakuchuMotifMaster").RAKUCHU_SPOT_MASTERS)[number] | null | undefined} master
+ * @param {boolean} isEn
+ */
+function resolveByobuSpotSummary(spot, master, isEn) {
+  if (!spot) return "";
+  const fromSpot = isEn
+    ? spot.summaryen ||
+      spot.descriptionen ||
+      spot.summary ||
+      spot.description
+    : spot.summary ||
+      spot.description ||
+      spot.summaryen ||
+      spot.descriptionen;
+  if (fromSpot) return String(fromSpot);
+  if (master) {
+    return isEn
+      ? master.summaryEn || master.summaryJa || ""
+      : master.summaryJa || master.summaryEn || "";
+  }
+  return "";
+}
 
 /**
  * @param {object} opts
@@ -60,10 +218,12 @@ export function useByobuSpotCommentary({
   }, [isByobuSpotMode, allSpots, selectedSpot, navIndex]);
 
   const activeByobuSpot = isByobuSpotMode
-    ? activeByobuSpotEntry?.spot ?? null
+    ? activeByobuSpotEntry?.spot ?? selectedSpot ?? null
     : null;
 
-  const effectiveSpot = isByobuSpotMode ? activeByobuSpot : selectedSpot;
+  const effectiveSpot = isByobuSpotMode
+    ? activeByobuSpot ?? selectedSpot
+    : selectedSpot;
 
   // 3. スポット目次行（viewMode=index 時のみ生成）
   const spotIndexRows = useMemo(() => {
@@ -76,12 +236,7 @@ export function useByobuSpotCommentary({
         typeof titleen === "string" && titleen.startsWith("rakuchu_rakugai")
           ? getMasterByRawSpotId(spot.id)
           : null;
-      let desc = spot.description || spot.summary || "";
-      if (!desc && master) {
-        desc = isEn
-          ? master.summaryEn || master.summaryJa
-          : master.summaryJa;
-      }
+      const desc = resolveByobuSpotSummary(spot, master, isEn);
       return {
         linkId: row.linkId,
         title: rowTitle,
@@ -121,18 +276,12 @@ export function useByobuSpotCommentary({
     if (!spot) return null;
     const isEn = locale === "en";
     const spotTitle = isEn ? spot.nameen || spot.name : spot.name;
-    let spotBody = spot.description || spot.summary || "";
-    if (!spotBody && rakuchuSpotMaster) {
-      spotBody = isEn
-        ? rakuchuSpotMaster.summaryEn || rakuchuSpotMaster.summaryJa
-        : rakuchuSpotMaster.summaryJa;
-    }
-    const rawCategory = rakuchuSpotMaster?.category || null;
-    const categoryLabel = rawCategory
-      ? locale === "en"
-        ? rawCategory
-        : BYOBU_CATEGORY_JA[rawCategory] || rawCategory
-      : null;
+    const spotBody = resolveByobuSpotSummary(spot, rakuchuSpotMaster, isEn);
+    const categoryLabel = resolveByobuSpotCategoryLabel(
+      spot,
+      rakuchuSpotMaster,
+      isEn
+    );
     return {
       spotTitle,
       spotBody: stripHtml(String(spotBody || "")),
@@ -184,6 +333,16 @@ export function useByobuSpotCommentary({
       : `見どころガイド（全${allSpotsCount}箇所）`;
   };
 
+  const { crossEditionLinks, hubComparisonLink } = useMemo(
+    () =>
+      resolveByobuSpotLinkChips(
+        effectiveSpot?.id,
+        data?.titleen || titleen,
+        locale
+      ),
+    [effectiveSpot?.id, data?.titleen, titleen, locale]
+  );
+
   return {
     isByobuSpotMode,
     activeByobuSpotEntry,
@@ -197,5 +356,7 @@ export function useByobuSpotCommentary({
     nextSpot,
     handleNavigateSpot,
     byobuChapterTitle,
+    crossEditionLinks,
+    hubComparisonLink,
   };
 }

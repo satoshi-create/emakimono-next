@@ -156,6 +156,10 @@
           "x": 43.2,
           "y": 44.6,
           "nameen": "Mimizuka (Ear Burial Mound)",
+          "category": "権力・城郭",
+          "categoryen": "Power & Castles",
+          "summary": "豊臣秀吉による朝鮮出兵の戦功の証として築かれた供養塚。方広寺大仏殿の門前に位置し、豊臣政権の威信と記憶を伝える。",
+          "summaryen": "Mound built in front of Hoko-ji's Great Buddha Hall to commemorate Toyotomi Hideyoshi's Korean campaigns, embodying the memory of Toyotomi rule.",
           "rect": {
             "w": 29.6,
             "h": 12.6
@@ -304,6 +308,10 @@
           "x": 43.3,
           "y": 50.5,
           "nameen": "Mound of Hidetsugu's Concubines",
+          "category": "権力・城郭",
+          "categoryen": "Power & Castles",
+          "summary": "豊臣秀次の処刑後に一族を弔う塚として描かれる。豊臣政権の血脈と権力力闘争の陰翳を洛中の景観に刻む。",
+          "summaryen": "Mound mourning Hidetsugu's clan after his execution; marks the shadow of Toyotomi succession and power struggle within the capital scene.",
           "rect": {
             "w": 29.4,
             "h": 11.4

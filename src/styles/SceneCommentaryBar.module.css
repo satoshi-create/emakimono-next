@@ -389,6 +389,31 @@
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
 }
 
+@media (max-width: 768px) {
+  .wrap[data-fullscreen="true"] {
+    right: 0.625rem;
+    left: 0.625rem;
+    width: auto;
+    min-width: 0;
+    bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
+  }
+  .bar[data-fullscreen="true"] {
+    max-height: min(34vh, 240px);
+  }
+  .wrap[data-fullscreen="true"] .sectionIndex {
+    max-height: min(42vh, 280px);
+  }
+}
+
+@media (max-height: 800px) {
+  .bar[data-fullscreen="true"] {
+    max-height: min(
+      calc(100vh - 5.5rem - env(safe-area-inset-bottom, 0px)),
+      220px
+    );
+  }
+}
+
 /* 「…詳細をみる」: プルダウンを意識させるボタン風ヒント。
    クリックするとバー全体（.body）がトグルされて展開する */
 .moreHint {

@@ -112,6 +112,7 @@ export default function useEmakiSpotNavigation({
   const [hashFollowEnabled, setHashFollowEnabled] = useState(false);
   const didApplyEntryHashRef = useRef(false);
   const appliedSpotRef = useRef(null);
+  const pendingSpotRef = useRef(null);
   const [pendingSpotZoom, setPendingSpotZoom] = useState(null);
   const [selectedSpotId, setSelectedSpotId] = useState(null);
 
@@ -154,8 +155,10 @@ export default function useEmakiSpotNavigation({
     (spot) => {
       if (!spot?.id) return;
       const id = String(spot.id);
+      pendingSpotRef.current = id;
       setSelectedSpotId(id);
       const nextQuery = { ...query, spot: id };
+      delete nextQuery.scene;
       replace({ pathname, query: nextQuery }, undefined, { shallow: true });
       const landing = resolveSpotDeepLink(data?.emakis || [], id);
       if (!landing) return;
@@ -181,28 +184,31 @@ export default function useEmakiSpotNavigation({
   useEffect(() => {
     if (!isReady) return;
     const raw = query?.spot;
-    if (!raw) {
+    const spotId = raw
+      ? String(Array.isArray(raw) ? raw[0] : raw).trim()
+      : "";
+    const pending = pendingSpotRef.current;
+    if (pending !== null) {
+      const pendingStr = pending === "" ? "" : String(pending);
+      if (spotId !== pendingStr) return;
+      pendingSpotRef.current = null;
+    }
+    if (!spotId) {
       setSelectedSpotId(null);
       return;
     }
-    const spotId = String(Array.isArray(raw) ? raw[0] : raw).trim();
-    if (spotId) setSelectedSpotId(spotId);
+    setSelectedSpotId(spotId);
   }, [isReady, query?.spot]);
 
   const onSelectSpot = useCallback(
     (spot) => {
       if (!spot?.id) return;
       const id = String(spot.id);
-      const nextId = selectedSpotId === id ? null : id;
-      if (!nextId) {
-        setSelectedSpotId(null);
-        const nextQuery = { ...query };
-        delete nextQuery.spot;
-        replace({ pathname, query: nextQuery }, undefined, { shallow: true });
-        return;
-      }
+      const nextId = id;
+      pendingSpotRef.current = nextId;
       setSelectedSpotId(nextId);
       const nextQuery = { ...query, spot: nextId };
+      delete nextQuery.scene;
       replace({ pathname, query: nextQuery }, undefined, { shallow: true });
       const landing = resolveSpotDeepLink(data?.emakis || [], nextId);
       if (!landing) return;
@@ -221,11 +227,19 @@ export default function useEmakiSpotNavigation({
         centerY: landing.centerY,
         targetScale,
       });
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(
+          new CustomEvent("emaki:spot-badge-select", {
+            detail: { spotId: nextId },
+          })
+        );
+      }
     },
-    [selectedSpotId, query, pathname, replace, data?.emakis, zoomToSlicePercentRef]
+    [query, pathname, replace, data?.emakis, zoomToSlicePercentRef]
   );
 
   const onClearSelectedSpot = useCallback(() => {
+    pendingSpotRef.current = "";
     setSelectedSpotId(null);
     const nextQuery = { ...query };
     delete nextQuery.spot;
@@ -254,6 +268,10 @@ export default function useEmakiSpotNavigation({
 
   useEffect(() => {
     if (typeof window === "undefined" || !scroll) return;
+    const urlHasSpot =
+      Boolean(query?.spot) ||
+      new URL(window.location.href).searchParams.has("spot");
+    if (selectedSpotId || urlHasSpot) return;
     const pending = pendingInitialHashRef.current;
     if (!hashFollowEnabled) {
       if (pending > 0) {
@@ -274,7 +292,14 @@ export default function useEmakiSpotNavigation({
     url.searchParams.set("scene", String(currentSceneNum));
     url.hash = "";
     window.history.replaceState(null, "", url.pathname + url.search);
-  }, [liveSceneIndex, scroll, hashFollowEnabled, data?.emakis]);
+  }, [
+    liveSceneIndex,
+    scroll,
+    hashFollowEnabled,
+    data?.emakis,
+    selectedSpotId,
+    query?.spot,
+  ]);
 
   useEffect(() => {
     if (!scroll || hashFollowEnabled) return;
@@ -338,44 +363,51 @@ export default function useEmakiSpotNavigation({
       const spotId = String(
         Array.isArray(querySpot) ? querySpot[0] : querySpot ?? ""
       ).trim();
-      if (spotId && appliedSpotRef.current !== spotId) {
-        const landing = resolveSpotDeepLink(data?.emakis || [], querySpot);
-        if (landing) {
-          appliedSpotRef.current = spotId;
+      const pending = pendingSpotRef.current;
+      const pendingStr =
+        pending === null ? null : pending === "" ? "" : String(pending);
+      const queryStale =
+        pendingStr !== null && spotId !== pendingStr;
+      if (!queryStale) {
+        if (spotId && appliedSpotRef.current !== spotId) {
+          const landing = resolveSpotDeepLink(data?.emakis || [], querySpot);
+          if (landing) {
+            appliedSpotRef.current = spotId;
+            setSelectedSpotId(spotId);
+            const {
+              linkId,
+              sliceIndex,
+              offsetPercent,
+              centerX,
+              centerY,
+              rectW,
+              rectH,
+            } = landing;
+            const pin = () => window.scrollTo({ top: 0, behavior: "instant" });
+            handleToId(linkId, {
+              realign: true,
+              offsetPercent,
+              behavior: "auto",
+            });
+            pin();
+            const timers = [50, 200, 500, 1000].map((ms) => setTimeout(pin, ms));
+            setPendingSpotZoom({
+              centerX,
+              centerY,
+              rectW,
+              rectH,
+              sliceIndex,
+              linkId,
+              offsetPercent,
+            });
+            return () => {
+              timers.forEach(clearTimeout);
+            };
+          }
+        } else if (spotId && appliedSpotRef.current === spotId) {
           setSelectedSpotId(spotId);
-          const {
-            linkId,
-            sliceIndex,
-            offsetPercent,
-            centerX,
-            centerY,
-            rectW,
-            rectH,
-          } = landing;
-          const pin = () => window.scrollTo({ top: 0, behavior: "instant" });
-          handleToId(linkId, {
-            realign: true,
-            offsetPercent,
-            behavior: "auto",
-          });
-          pin();
-          const timers = [50, 200, 500, 1000].map((ms) => setTimeout(pin, ms));
-          setPendingSpotZoom({
-            centerX,
-            centerY,
-            rectW,
-            rectH,
-            sliceIndex,
-            linkId,
-            offsetPercent,
-          });
-          return () => {
-            timers.forEach(clearTimeout);
-          };
+          return;
         }
-      } else if (spotId && appliedSpotRef.current === spotId) {
-        setSelectedSpotId(spotId);
-        return;
       }
     }
 

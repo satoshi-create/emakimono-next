@@ -25,8 +25,8 @@ graph TD
 |----------|------|
 | `SceneCommentaryBar.js` | Props 不変の default export。ヘッダー（Like/Share）、共通カード枠、モード分岐、Folklore シート配置 |
 | `useCommentaryBarShell.js` | `closed` / `expanded` / `viewMode` / `cardPos`、向き連動、フローティング DnD、Esc、`useCommentaryBarMetrics`（`--commentary-bar-full-h` / `--folklore-sheet-bottom`） |
-| `useByobuSpotCommentary.js` | `isByobuSpotMode`、`activeByobuSpot*`、`spotIndexRows`、`spotDisplay`、`prevSpot` / `nextSpot`、`handleNavigateSpot` |
-| `ByobuSpotCommentaryView.jsx` | スポット目次、カテゴリ行、未選択ガイド・詳細本文、前後スポット名付きナビ |
+| `useByobuSpotCommentary.js` | `isByobuSpotMode`、`activeByobuSpot*`、`spotIndexRows`、`spotDisplay`、`prevSpot` / `nextSpot`、`handleNavigateSpot`、`crossEditionLinks` / `hubComparisonLink`（解説文・カテゴリは下記2層フォールバック） |
+| `ByobuSpotCommentaryView.jsx` | スポット目次、カテゴリ行、未選択ガイド・詳細本文、他伝本ワープ＋比較ハブ（`#motif-<masterId>`）の1行ピルチップ、前後スポット名付きナビ |
 | `useEmakiSceneCommentary.js` | `?ebiki`、段インデックス、詞書タブ、絵引、探索、`handleNavigate` / `handleFolkloreSelect` |
 | `EmakiSceneCommentaryView.jsx` | 段目次、絵引リスト、モードタブ、`CommentaryTextView` / `CommentaryExploreView` |
 
@@ -64,6 +64,28 @@ sequenceDiagram
   Note over View: RTL進行 — フッター左「←次スポット」／中央 n/N／右「前スポット→」
 ```
 
+## 屏風スポット — カテゴリ・解説本文（2層フォールバック）
+
+`useByobuSpotCommentary.js` の `spotDisplay` / `spotIndexRows` は次の優先順でカテゴリ・解説を解決する。**相互リンクチップ**（`crossEditionLinks` / `hubComparisonLink`）はこの解決とは独立し、引き続き `rakuchuMotifMaster.js`（`isCrossLinkableMaster`）のみを正本とする。
+
+| 種別 | 第1優先（作品メタデータ `spots[]`） | 第2優先（共通マスター） | 欠落時 |
+|------|-------------------------------------|-------------------------|--------|
+| カテゴリ | `category` / `categoryen`（ロケールに応じて相互フォールバック） | `master.category` → 日本語は `BYOBU_CATEGORY_JA` マップ | `null` |
+| 解説本文 | `summary` / `summaryen` / `description` / `descriptionen`（ロケール順） | `master.summaryJa` / `master.summaryEn` | `""`（`stripHtml` 後も安全） |
+
+## 屏風スポット詳細 — 他伝本・比較ハブ（インラインピル1行）
+
+選択スポットの解説本文直下に、1行のピル型チップ行を表示する（`flex-wrap`、gap 6px）。展開用 `.body` の `<button>` 内に置くため、チップは **`<Link>` のみ**（`stopPropagation`）— `<button>` ネスト禁止。
+
+| チップ | 条件 | スタイル | 遷移先 |
+|--------|------|----------|--------|
+| 他伝本ワープ | 正本ホワイトリスト（下記）をすべて満たす | `--era-soft-bg` / `--era-border` / `--era-text` | `/<titleen>?spot=<id>`（`wingSceneHref`） |
+| 比較ハブ | 同上＋他伝本ワープ1件以上、または2伝本以上で1:1 visual 成立 | `--bar-border` / `--bar-text-muted`（枠線のみ） | `/rakuchu-rakugai/chapters#motif-<masterId>` |
+
+**相互リンク正本（ホワイトリスト）:** `src/data/rakuchu-rakugai/rakuchuMotifMaster.js` の `RAKUCHU_SPOT_MASTERS`。`resolveByobuSpotLinkChips` は `getMasterByRawSpotId` → `isCrossLinkableMaster`（`crossLinkable`、未指定時は `presentIn.length >= 2`）→ 現伝本が `presentIn` に含まれること → 各伝本の `getMotifVisual` が同一 `masterId` と 1:1（`spotId` は当該マスターの `aliasSpotIds` に限定、`scene` のみは hub 登録の当該モチーフ）を満たす場合のみチップを出す。`aliasSpotIds` に別地点を混在させない（例: 方広寺大仏殿は `daibutsuden` のみ）。
+
+行頭ラベル: 日本語 `他伝本:` / 英語 `Editions:`。ハブチップ文言: `3伝本比較 ↗` / `Compare 3 editions ↗`。
+
 ## 屏風フッター前後ナビ（RTL）
 
 横スクロール（右→左）の進行方向に合わせ、**左ボタンが「次へ」**（ラベル `← ${nextSpotTitle}`、末尾なら disabled で `← 次へ`）、**右ボタンが「前へ」**（`${prevSpotTitle} →`、先頭なら `前へ →`）。中央は `spotActiveIndex + 1 / N`。
@@ -72,7 +94,21 @@ sequenceDiagram
 
 絵巻・屏風共通。`SceneCommentaryBar.module.css` の `.sectionIndex` に `max-height: min(300px, 44vh)` と `overflow-y: auto` を設け、`.entry-container` 上端からはみ出さない。フルスクリーン（フローティングカード）時は `max-height: min(380px, 52vh)`。行はコンパクト（サムネ 40×28px、行 padding 6px 8px）。`activeIndex` 変更時は選択行へ `scrollIntoView({ block: "nearest" })`。
 
-## 配色（カラーモード）
+## 小画面でのコメンタリーバー初期状態
+
+ビューポートが **`max-width: 768px` または `max-height: 800px`**（`matchMedia("(max-width: 768px), (max-height: 800px)"`）でも、作品（`workKey` / `titleen`）へ遷移した直後は **`closed = false`**（コメンタリーバーを表示）で開始する。
+
+- 作品キーごとに **1 回だけ** 初期表示を開く（`initializedCompactKeyRef`）。リサイズだけではユーザーが閉じた／再表示したバーを勝手に変えない。
+- 上記小画面では、**スポットバッジクリック**およびコメンタリーバー内の **次へ／前へ**・**目次からのスポット移動**のたびに `closed = true` とし、右下「解説を表示」ピルへ自動収納する（大画面ではバーを開いたまま連続閲覧）。初回マウント時の `selectedSpot` 同期では閉じない（ユーザー操作時のみ）。
+- ピル表示: 屏風スポット選択中はラベルにスポット名（例: `豊国定舞台の解説`）。クリックは `setClosed(false)` のみ。`selectedSpot` 等は維持し、直前のスポット解説カードを再表示する。
+
+## スポットバッジ・閉じるボタン（選択状態の一貫性）
+
+- **スポットバッジクリック**（`useEmakiSpotNavigation.onSelectSpot`）: 常にそのスポットを選択し、該当位置へズーム着地する。**同一スポットの再クリックで選択解除（トグル）や `?spot` 削除は行わない**。見どころガイドへ戻るときはコメンタリーバー内の目次から行う。
+- **コメンタリーバー右下「×」**（`closeBtn`）: 常に `shell.setClosed(true)` のみ（ピル化）。`onClearSelectedSpot` は呼ばず `selectedSpotId` / `?spot` を維持する。再表示ピルで直前のスポット解説に戻る。
+- **小画面の自動収納**: 上記に加え、同一スポットのバッジ再クリック時も（`selectedSpotId` が変わらない場合）`emaki:spot-badge-select` 経由で `closeBarIfCompact()` し、バーが開いていればピルへ収納する。
+
+## 配色
 
 コメンタリーバー配下の配色は **`src/theme/colorMode.js`** 由来の CSS 変数（`--era-accent`, `--era-text`, `--era-soft-bg`, `--era-border`, `--bar-text`, `--bar-text-muted`）および親要素の `data-viewer-mode`（`emaki` / `byobu`）に従うこと。屏風スポット UI（`ByobuSpotCommentaryView.jsx`）の文字色は `var(--era-text)` / `var(--bar-text)` / `var(--bar-text-muted)` のみを参照し、フォールバック付き hex や標準リンク色を使わない。コンポーネント内に色コード（hex / rgb リテラル）をハードコードしない。
 

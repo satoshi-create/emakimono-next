@@ -20,13 +20,15 @@ import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 import {
   useCommentaryBarShell,
   useCommentaryBarMetrics,
+  isCompactViewport,
 } from "@/components/emaki/commentary/useCommentaryBarShell";
 import { useByobuSpotCommentary } from "@/components/emaki/commentary/useByobuSpotCommentary";
 import { useEmakiSceneCommentary } from "@/components/emaki/commentary/useEmakiSceneCommentary";
 import {
   ByobuSpotIndexSection,
   ByobuSpotCategoryLine,
-  ByobuSpotBodyContent,
+  ByobuSpotClampText,
+  ByobuSpotPersistentActions,
   ByobuSpotFooterNav,
 } from "@/components/emaki/commentary/ByobuSpotCommentaryView";
 import {
@@ -45,7 +47,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useContext, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
 
 const EmakiEraTimeline = dynamic(
@@ -84,7 +86,40 @@ const SceneCommentaryBar = ({
     orientation,
     setIsFolkloreOpen,
     isFolkloreOpen,
+    workKey: titleen,
   });
+
+  const closeBarIfCompact = useCallback(() => {
+    if (isCompactViewport()) shell.setClosed(true);
+  }, [shell.setClosed]);
+
+  const onSelectSpotFromCommentary = useCallback(
+    (spot) => {
+      onSelectSpot?.(spot);
+      closeBarIfCompact();
+    },
+    [onSelectSpot, closeBarIfCompact]
+  );
+
+  const selectedSpotId =
+    selectedSpot?.id != null ? String(selectedSpot.id) : null;
+  const prevSelectedSpotIdRef = useRef(undefined);
+  useEffect(() => {
+    if (prevSelectedSpotIdRef.current === undefined) {
+      prevSelectedSpotIdRef.current = selectedSpotId;
+      return;
+    }
+    if (prevSelectedSpotIdRef.current === selectedSpotId) return;
+    prevSelectedSpotIdRef.current = selectedSpotId;
+    if (selectedSpotId) closeBarIfCompact();
+  }, [selectedSpotId, closeBarIfCompact]);
+
+  useEffect(() => {
+    const onBadgeSelect = () => closeBarIfCompact();
+    window.addEventListener("emaki:spot-badge-select", onBadgeSelect);
+    return () =>
+      window.removeEventListener("emaki:spot-badge-select", onBadgeSelect);
+  }, [closeBarIfCompact]);
 
   const byobu = useByobuSpotCommentary({
     data,
@@ -94,7 +129,7 @@ const SceneCommentaryBar = ({
     viewMode: shell.viewMode,
     locale,
     titleen,
-    onSelectSpot,
+    onSelectSpot: onSelectSpotFromCommentary,
     setViewMode: shell.setViewMode,
     setIsFolkloreOpen,
   });
@@ -147,9 +182,18 @@ const SceneCommentaryBar = ({
   );
 
   if (shell.closed) {
-    const showLabel = t("viewer.showCommentary", {
-      defaultValue: locale === "en" ? "Show commentary" : "解説を表示",
+    const defaultShow =
+      locale === "en" ? "Show commentary" : "解説を表示";
+    let showLabel = t("viewer.showCommentary", {
+      defaultValue: defaultShow,
     });
+    const spot = byobu.activeByobuSpot;
+    if (byobu.isByobuSpotMode && spot) {
+      const name =
+        locale === "en" ? spot.nameen || spot.name : spot.name;
+      showLabel =
+        locale === "en" ? `Show: ${name}` : `${name}の解説`;
+    }
     return (
       <div
         ref={shell.barRef}
@@ -488,48 +532,90 @@ const SceneCommentaryBar = ({
                 onClearSelectedSpot={onClearSelectedSpot}
               />
               )}
-              <button
-                type="button"
-                className={styles.body}
-                onClick={toggleExpanded}
-                aria-expanded={shell.expanded}
-                aria-label={
-                  shell.expanded
-                    ? t("viewer.closeDetails")
-                    : t("viewer.seeDetailsOfSection")
-                }
-              >
-                <span
-                  className={`${styles.bodyText} ${
-                    emaki.activeMode === "kobun" && emaki.contentTab === "scene"
-                      ? styles.bodyTextClassical
-                      : ""
-                  }`}
-                >
-                  {byobu.isByobuSpotMode && !byobu.activeByobuSpot ? (
-                    <ByobuSpotBodyContent
+              {byobu.isByobuSpotMode ? (
+                <>
+                  <button
+                    type="button"
+                    className={styles.body}
+                    onClick={toggleExpanded}
+                    aria-expanded={shell.expanded}
+                    aria-label={
+                      shell.expanded
+                        ? t("viewer.closeDetails")
+                        : t("viewer.seeDetailsOfSection")
+                    }
+                  >
+                    <span className={styles.bodyText}>
+                      <ByobuSpotClampText
+                        isByobuSpotMode={byobu.isByobuSpotMode}
+                        activeByobuSpot={byobu.activeByobuSpot}
+                        locale={locale}
+                        spotDisplay={byobu.spotDisplay}
+                      />
+                    </span>
+                  </button>
+                  <div
+                    style={{
+                      padding: "0 14px 6px",
+                      width: "100%",
+                      flex: "0 0 auto",
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                    onKeyDown={(e) => e.stopPropagation()}
+                  >
+                    <ByobuSpotPersistentActions
                       isByobuSpotMode={byobu.isByobuSpotMode}
                       activeByobuSpot={byobu.activeByobuSpot}
                       locale={locale}
                       allSpots={allSpots}
-                      onSelectSpot={onSelectSpot}
+                      onSelectSpot={onSelectSpotFromCommentary}
                       spotDisplay={byobu.spotDisplay}
-                      rakuchuSpotMaster={byobu.rakuchuSpotMaster}
-                      expanded={shell.expanded}
+                      crossEditionLinks={byobu.crossEditionLinks}
+                      hubComparisonLink={byobu.hubComparisonLink}
+                      titleen={titleen}
                     />
-                  ) : (byobu.isByobuSpotMode ||
-                      (emaki.contentTab === "spot" && selectedSpot)) &&
+                  </div>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  className={styles.body}
+                  onClick={toggleExpanded}
+                  aria-expanded={shell.expanded}
+                  aria-label={
+                    shell.expanded
+                      ? t("viewer.closeDetails")
+                      : t("viewer.seeDetailsOfSection")
+                  }
+                >
+                  <span
+                    className={`${styles.bodyText} ${
+                      emaki.activeMode === "kobun" &&
+                      emaki.contentTab === "scene"
+                        ? styles.bodyTextClassical
+                        : ""
+                    }`}
+                  >
+                    {(emaki.contentTab === "spot" && selectedSpot) &&
                     spotDisplay ? (
-                    byobu.isByobuSpotMode ? (
-                      <ByobuSpotBodyContent
-                        isByobuSpotMode={byobu.isByobuSpotMode}
-                        activeByobuSpot={byobu.activeByobuSpot}
-                        locale={locale}
-                        allSpots={allSpots}
-                        onSelectSpot={onSelectSpot}
-                        spotDisplay={byobu.spotDisplay}
-                        rakuchuSpotMaster={byobu.rakuchuSpotMaster}
+                      <EmakiSceneBodyContent
+                        isByobuSpotMode={false}
+                        contentTab={emaki.contentTab}
+                        selectedSpot={selectedSpot}
+                        spotDisplay={emaki.emakiSpotDisplay}
+                        activeMode={emaki.activeMode}
+                        tansakuData={emaki.tansakuData}
+                        titleen={titleen}
+                        filterEkotobas={emaki.filterEkotobas}
+                        handleNavigate={emaki.handleNavigate}
+                        setSelectedMotifId={emaki.setSelectedMotifId}
+                        relatedScenes={emaki.relatedScenes}
+                        selectedMotifId={emaki.selectedMotifId}
+                        souData={emaki.souData}
+                        chapterTexts={emaki.chapterTexts}
                         expanded={shell.expanded}
+                        locale={locale}
+                        readMoreLabel={readMoreLabel}
                       />
                     ) : (
                       <EmakiSceneBodyContent
@@ -551,30 +637,10 @@ const SceneCommentaryBar = ({
                         locale={locale}
                         readMoreLabel={readMoreLabel}
                       />
-                    )
-                  ) : !byobu.isByobuSpotMode ? (
-                    <EmakiSceneBodyContent
-                      isByobuSpotMode={false}
-                      contentTab={emaki.contentTab}
-                      selectedSpot={selectedSpot}
-                      spotDisplay={emaki.emakiSpotDisplay}
-                      activeMode={emaki.activeMode}
-                      tansakuData={emaki.tansakuData}
-                      titleen={titleen}
-                      filterEkotobas={emaki.filterEkotobas}
-                      handleNavigate={emaki.handleNavigate}
-                      setSelectedMotifId={emaki.setSelectedMotifId}
-                      relatedScenes={emaki.relatedScenes}
-                      selectedMotifId={emaki.selectedMotifId}
-                      souData={emaki.souData}
-                      chapterTexts={emaki.chapterTexts}
-                      expanded={shell.expanded}
-                      locale={locale}
-                      readMoreLabel={readMoreLabel}
-                    />
-                  ) : null}
-                </span>
-              </button>
+                    )}
+                  </span>
+                </button>
+              )}
             </>
           )}
           <div className={styles.utilityActions}>
@@ -664,11 +730,7 @@ const SceneCommentaryBar = ({
                 className={styles.closeBtn}
                 onClick={() => {
                   shell.setViewMode("commentary");
-                  if (byobu.isByobuSpotMode && byobu.activeByobuSpot) {
-                    onClearSelectedSpot?.();
-                  } else {
-                    shell.setClosed(true);
-                  }
+                  shell.setClosed(true);
                 }}
                 aria-label={t("viewer.closeCommentaryBar", {
                   defaultValue:

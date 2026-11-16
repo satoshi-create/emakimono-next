@@ -85,8 +85,9 @@ export const RAKUCHU_SPOT_MASTERS = [
     formIds: ["second"],
     summaryJa: "第二形式右隻の視覚的頂点。豊臣政権の記憶を担う方広寺大仏殿の巨構。",
     summaryEn: "Visual apex of the right scroll in the Edo standard; the colossal Hoko-ji hall embodies Toyotomi memory.",
-    aliasSpotIds: ["daibutsuden", "myohoin", "mimizuka"],
+    aliasSpotIds: ["daibutsuden"],
     presentIn: ["rakuchu_rakugai_funaki", "rakuchu_rakugai_met"],
+    crossLinkable: true,
   },
   {
     masterId: "nijo_castle",
@@ -97,8 +98,9 @@ export const RAKUCHU_SPOT_MASTERS = [
     formIds: ["second"],
     summaryJa: "第二形式左隻の対桁。徳川武家政治の象徴として大仏殿と並置される。",
     summaryEn: "Counterpole on the left scroll, paired with the Great Buddha Hall as emblem of Tokugawa warrior government.",
-    aliasSpotIds: ["nijocastle", "shoshidai-residence"],
+    aliasSpotIds: ["nijocastle"],
     presentIn: ["rakuchu_rakugai_funaki", "rakuchu_rakugai_met"],
+    crossLinkable: true,
   },
   {
     masterId: "imperial_palace",
@@ -111,6 +113,7 @@ export const RAKUCHU_SPOT_MASTERS = [
     summaryEn: "Core of imperial rule; depicted across all composition lineages as the symbol of court ritual and authority.",
     aliasSpotIds: ["shishinden", "seiryoden", "minamimon", "imperial-palace-shishinden"],
     presentIn: ["rakuchu_rakugai_funaki", "rakuchu_rakugai_fukuoka", "rakuchu_rakugai_met"],
+    crossLinkable: true,
   },
   {
     masterId: "toyokuni_shrine",
@@ -123,6 +126,7 @@ export const RAKUCHU_SPOT_MASTERS = [
     summaryEn: "Shrines and mausolea to Hideyoshi; memorial architecture of Toyotomi power on the right scroll.",
     aliasSpotIds: ["toyokunisha", "toyokunitebutai", "hokoku-mausoleum"],
     presentIn: ["rakuchu_rakugai_funaki", "rakuchu_rakugai_met"],
+    crossLinkable: true,
   },
   {
     masterId: "kiyomizudera",
@@ -135,6 +139,7 @@ export const RAKUCHU_SPOT_MASTERS = [
     summaryEn: "Icon of Higashiyama faith; a landmark of eastern Rakugai in every major composition lineage.",
     aliasSpotIds: ["kiyomizudera"],
     presentIn: ["rakuchu_rakugai_funaki", "rakuchu_rakugai_met", "rakuchu_rakugai_fukuoka"],
+    crossLinkable: true,
   },
   {
     masterId: "gion_yasaka",
@@ -147,6 +152,7 @@ export const RAKUCHU_SPOT_MASTERS = [
     summaryEn: "Heart of Gion cult and festival culture; the shrine architecture defining southern Rakugai.",
     aliasSpotIds: ["gionsha", "gionryosho"],
     presentIn: ["rakuchu_rakugai_funaki", "rakuchu_rakugai_met", "rakuchu_rakugai_fukuoka"],
+    crossLinkable: true,
   },
   {
     masterId: "sanjusangendo",
@@ -159,6 +165,7 @@ export const RAKUCHU_SPOT_MASTERS = [
     summaryEn: "Long hall of Senju Kannon; an eastern Higashiyama temple in both early and standard lineages.",
     aliasSpotIds: ["sanjusangendo"],
     presentIn: ["rakuchu_rakugai_funaki", "rakuchu_rakugai_met"],
+    crossLinkable: true,
   },
   {
     masterId: "chionin",
@@ -171,6 +178,7 @@ export const RAKUCHU_SPOT_MASTERS = [
     summaryEn: "Head temple of Jodo Shu; a major monastic complex in Type II Higashiyama scenes.",
     aliasSpotIds: ["chionin"],
     presentIn: ["rakuchu_rakugai_funaki", "rakuchu_rakugai_met"],
+    crossLinkable: true,
   },
   {
     masterId: "toji",
@@ -183,6 +191,7 @@ export const RAKUCHU_SPOT_MASTERS = [
     summaryEn: "Shingon temple famed for its pagoda; a western Rakugai landmark on the left scroll.",
     aliasSpotIds: ["toji"],
     presentIn: ["rakuchu_rakugai_funaki", "rakuchu_rakugai_met"],
+    crossLinkable: true,
   },
   {
     masterId: "kamogawa",
@@ -193,8 +202,9 @@ export const RAKUCHU_SPOT_MASTERS = [
     formIds: ["first", "second", "second_variant"],
     summaryJa: "都の東西を分ける河川景観。屋形船・川岸の賑わいが画面の動線を貫く。",
     summaryEn: "The river dividing the capital; pleasure boats and riverbank bustle thread through the composition.",
-    aliasSpotIds: ["kamogawa", "sanjobashi", "takasegawa", "oi-river"],
+    aliasSpotIds: ["kamogawa"],
     presentIn: ["rakuchu_rakugai_funaki", "rakuchu_rakugai_met"],
+    crossLinkable: true,
   },
   {
     masterId: "gojo_bridge",
@@ -205,8 +215,9 @@ export const RAKUCHU_SPOT_MASTERS = [
     formIds: ["first", "second", "second_variant"],
     summaryJa: "五条橋と河原の商業・座頭・茶屋。交通と風俗が交わる都市の結節点。",
     summaryEn: "Gojo Bridge and riverside commerce, barbers, and tea houses—a hub of traffic and urban custom.",
-    aliasSpotIds: ["gojobashi", "gojo-bridge-barber", "kanjin-zumo-teahouse", "gojodori", "shichijo-kawara"],
+    aliasSpotIds: ["gojobashi", "gojo-bridge-barber", "kanjin-zumo-teahouse"],
     presentIn: ["rakuchu_rakugai_funaki", "rakuchu_rakugai_fukuoka"],
+    crossLinkable: true,
   },
   {
     masterId: "teramachi",
@@ -217,20 +228,9 @@ export const RAKUCHU_SPOT_MASTERS = [
     formIds: ["second", "second_variant"],
     summaryJa: "武器・漆器など町衆経済の通り。定型外本では大仏・二条に替わる主役街区。",
     summaryEn: "Street of townspeople’s trade in arms and lacquer; in the Fukuoka variant it substitutes for the canonical power dyad.",
-    aliasSpotIds: [
-      "teramachi",
-      "teramachi-armor-shops",
-      "gojoteramachi",
-      "artisan-shops-townspeople",
-      "shijodori",
-      "muromachidori",
-      "shinmachidori",
-      "nijodori",
-      "shimodachiuridori",
-      "horikawadori",
-      "higashinotoindori",
-    ],
+    aliasSpotIds: ["teramachi", "teramachi-armor-shops", "gojoteramachi"],
     presentIn: ["rakuchu_rakugai_funaki", "rakuchu_rakugai_fukuoka"],
+    crossLinkable: true,
   },
   {
     masterId: "gion_festival",
@@ -243,6 +243,7 @@ export const RAKUCHU_SPOT_MASTERS = [
     summaryEn: "Procession of Gion Festival floats; seasonal ritual ordering urban time in the capital.",
     aliasSpotIds: ["gion-festival"],
     presentIn: ["rakuchu_rakugai_met"],
+    crossLinkable: false,
   },
   {
     masterId: "kabuki_amusements",
@@ -255,6 +256,7 @@ export const RAKUCHU_SPOT_MASTERS = [
     summaryEn: "Performance and pleasure quarters at Shijo Kawara; genre scenes of Edo-period urban amusement.",
     aliasSpotIds: ["shijokawara", "okuni-kabuki", "rokujosanjyomachi"],
     presentIn: ["rakuchu_rakugai_funaki", "rakuchu_rakugai_met"],
+    crossLinkable: true,
   },
   {
     masterId: "nanban_visitors",
@@ -267,6 +269,7 @@ export const RAKUCHU_SPOT_MASTERS = [
     summaryEn: "Nanban figures, peddlers, and street performers—the Fukuoka scroll’s distinctive cosmopolitan detail.",
     aliasSpotIds: ["nanban-oharame-monkey-trainer"],
     presentIn: ["rakuchu_rakugai_fukuoka"],
+    crossLinkable: false,
   },
   {
     masterId: "kitano_kinkaku",
@@ -279,6 +282,7 @@ export const RAKUCHU_SPOT_MASTERS = [
     summaryEn: "Cluster of famed temples in northern and western Kyoto—Kitano, Kinkaku, and allied sites on the left scroll.",
     aliasSpotIds: ["kitano-shrine", "kinkakuji", "daitokuji", "kamigamo-shrine"],
     presentIn: ["rakuchu_rakugai_met"],
+    crossLinkable: false,
   },
   {
     masterId: "honganji",
@@ -291,6 +295,7 @@ export const RAKUCHU_SPOT_MASTERS = [
     summaryEn: "The twin head temples of Shin Buddhism; their halls in western Rakuchu mark layers of faith and patronage.",
     aliasSpotIds: ["higashi-honganji", "nishihonganji"],
     presentIn: ["rakuchu_rakugai_funaki"],
+    crossLinkable: false,
   },
   {
     masterId: "kenninji",
@@ -303,6 +308,7 @@ export const RAKUCHU_SPOT_MASTERS = [
     summaryEn: "Head temple of the Kennin-ji Rinzai lineage; a Higashiyama Zen complex in Type II Rakugai scenes.",
     aliasSpotIds: ["kenninji"],
     presentIn: ["rakuchu_rakugai_funaki"],
+    crossLinkable: false,
   },
   {
     masterId: "kodaiin",
@@ -315,6 +321,7 @@ export const RAKUCHU_SPOT_MASTERS = [
     summaryEn: "Temple linked to Hideyoshi and Nene; a Higashiyama monument to Toyotomi-era religious memory.",
     aliasSpotIds: ["kodaiin"],
     presentIn: ["rakuchu_rakugai_funaki"],
+    crossLinkable: false,
   },
   {
     masterId: "rokuharamitsuji",
@@ -327,6 +334,7 @@ export const RAKUCHU_SPOT_MASTERS = [
     summaryEn: "Ancient temple associated with Taira no Kiyomori; recalls the historical strata of southern Rakuchu.",
     aliasSpotIds: ["rokuharamitsuji"],
     presentIn: ["rakuchu_rakugai_funaki"],
+    crossLinkable: false,
   },
   {
     masterId: "tofukuji",
@@ -339,6 +347,7 @@ export const RAKUCHU_SPOT_MASTERS = [
     summaryEn: "One of Kyoto's Five Great Zen temples; its southern complex marks religious Rakugai on the left scroll.",
     aliasSpotIds: ["tofukuji"],
     presentIn: ["rakuchu_rakugai_met"],
+    crossLinkable: false,
   },
   {
     masterId: "rokkakudo",
@@ -349,8 +358,9 @@ export const RAKUCHU_SPOT_MASTERS = [
     formIds: ["second", "second_variant"],
     summaryJa: "市街中心の六角形堂宇。洛中の信仰と通り文化の交点として描かれる。",
     summaryEn: "Hexagonal hall at the urban core; a junction of downtown faith and street life in the capital.",
-    aliasSpotIds: ["rokkakudo", "seigan-ji"],
+    aliasSpotIds: ["rokkakudo"],
     presentIn: ["rakuchu_rakugai_funaki", "rakuchu_rakugai_fukuoka"],
+    crossLinkable: true,
   },
   {
     masterId: "fushimijo",
@@ -363,6 +373,7 @@ export const RAKUCHU_SPOT_MASTERS = [
     summaryEn: "Castle built by Hideyoshi at Fushimi; a southern Rakugai emblem of warrior-era power.",
     aliasSpotIds: ["fushimijo"],
     presentIn: ["rakuchu_rakugai_met"],
+    crossLinkable: false,
   },
   {
     masterId: "rakusai_arashiyama",
@@ -375,8 +386,19 @@ export const RAKUCHU_SPOT_MASTERS = [
     summaryEn: "Famed western temples and villa at Saga-Arashiyama; the cultural layer of Rakugai on the left scroll.",
     aliasSpotIds: ["tenryuji", "kokuzodo", "katsura-villa"],
     presentIn: ["rakuchu_rakugai_met"],
+    crossLinkable: false,
   },
 ];
+
+/**
+ * @param {(typeof RAKUCHU_SPOT_MASTERS)[number] | null | undefined} master
+ * @returns {boolean}
+ */
+export function isCrossLinkableMaster(master) {
+  if (!master) return false;
+  if (master.crossLinkable === false) return false;
+  return Array.isArray(master.presentIn) && master.presentIn.length >= 2;
+}
 
 /**
  * @param {string} rawSpotId scroll-metadata spots[].id
