@@ -67,6 +67,16 @@
      テクスチャを保持したまま引き伸ばし、ズームしても画像が甘いまま固定される。 */
 }
 
+.strip[data-animate-transition="true"] {
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .strip[data-animate-transition="true"] {
+    transition: none;
+  }
+}
+
 .image {
   height: 100%;
   width: auto;

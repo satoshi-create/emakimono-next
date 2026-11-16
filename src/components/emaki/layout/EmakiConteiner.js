@@ -1,46 +1,29 @@
 /**
  * EmakiConteiner.js
- * 
- * 【責務（Phase 1 責務分離後）】
- * - 絵巻本体の横スクロール描画コンテナ（<article>）の管理
- * - スライス画像の描画窓制御（仮想化）
- * - 自動再生、ズーム＆パン、クイズモーダル、解説バーのホスト
- * - 【分離完了】Discoveryレールとのスクロール同期ロジックは useEmakiRailSync フックへ完全委譲
+ *
+ * 【責務（Step 2 責務分離後）】
+ * - 絵巻ビューアのレイアウトオーケストレーター
+ * - 各ドメインフックの呼び出し順序と ref 配線の単一入口
  */
-import {
-  EbikiCoordinatePickerHud,
-  useEbikiCoordinatePicker,
-} from "@/components/emaki/dev/EbikiCoordinatePicker";
+import { useEbikiCoordinatePicker } from "@/components/emaki/dev/EbikiCoordinatePicker";
 import EmakiInfo from "@/components/emaki/metadata/EmakiInfo";
 import EmakiNavigation from "@/components/emaki/navigation/EmakiNavigation";
 import ActionButton from "@/components/emaki/viewer/ActionButton";
 import FullScreen from "@/components/emaki/viewer/FullScreen";
 import ZoomLayer from "@/components/emaki/viewer/ZoomLayer";
-import {
-  clearQuizSession,
-  createQuizSession,
-  loadQuizSession,
-  saveQuizSession,
-} from "@/libs/api/quizSessionStore";
-import {
-  isQuizFabHidden,
-  setQuizFabHidden,
-} from "@/libs/api/quizFabPrefs";
-import { resolveLinkIdByChapter } from "@/utils/resolveQuizJump";
-import { getFolkloreItemById } from "@/data/folklore/folkloreIndex";
 import SceneCommentaryBar from "@/components/emaki/viewer/SceneCommentaryBar";
 import PositionIndicator from "@/components/emaki/viewer/PositionIndicator";
 import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
 import WheelScrollIndicator from "@/components/emaki/viewer/WheelScrollIndicator";
+import {
+  EmakiViewerOverlays,
+  EbikiCoordinatePickerHud,
+} from "@/components/emaki/layout/EmakiViewerOverlays";
 import { AppContext } from "@/context/AppContext";
 import { assignUniqueIndex } from "@/utils/emakiItemIndexer";
 import {
-  shouldMountSceneContent,
-} from "@/utils/emakiContentWindow";
-import {
   faMagnifyingGlass,
   faMagnifyingGlassMinus,
-  faCamera,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
@@ -51,157 +34,47 @@ import useEmakiZoomBridge from "@/hooks/emaki/useEmakiZoomBridge";
 import useEmakiScroll from "@/hooks/emaki/useEmakiScroll";
 import useScrollPositionRestore from "@/hooks/emaki/useScrollPositionRestore";
 import useEmakiRailSync from "@/hooks/emaki/useEmakiRailSync";
+import useEmakiSpotNavigation from "@/hooks/emaki/useEmakiSpotNavigation";
+import useEmakiQuizController from "@/hooks/emaki/useEmakiQuizController";
+import useEmakiViewerLifecycle, {
+  useViewerTopInset,
+  useEmakiZoomOpenHandlers,
+  useEmakiZoomAnalyticsEffects,
+  computeNextContentMounted,
+} from "@/hooks/emaki/useEmakiViewerLifecycle";
 import styles from "@/styles/EmakiConteiner.module.css";
 import zoomStyles from "@/styles/ZoomLayer.module.css";
 import commentaryStyles from "@/styles/SceneCommentaryBar.module.css";
-import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
-import {
-  trackSessionContext,
-  trackManualScroll,
-  resetAllTracking,
-  trackZoomOpen,
-  trackZoomClose,
-} from "@/libs/api/measurementUtils";
+import { trackManualScroll } from "@/libs/api/measurementUtils";
 import { useEmakiPrompts } from "@/hooks/emaki/useEmakiPrompts";
 import { isByobuScroll } from "@/utils/isByobuScroll";
 import {
   buildViewerThemeStyle,
   resolveViewerLayoutMode,
 } from "@/theme/colorMode";
-import {
-  ZOOM_STRIP_MIN_SLICES,
-  ZOOM_STRIP_MIN_SLICES_BYOBU,
-} from "@/libs/constants/viewerPlayback";
 import { scrollPositionStore } from "@/hooks/emaki/scrollPositionStore";
-import { runAfterPaint } from "@/utils/runAfterPaint";
-import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
 import { TbRectangle } from "react-icons/tb";
 
-// 鑑賞者向け通し番号（1始まり）の算出: 詞書ありは段数(activeIndex+1)、詞書なしはスライス通し番号
-function getVisitorSceneNumber(emakis, navIndex) {
-  if (!Array.isArray(emakis) || emakis.length === 0) return 1;
-  const ekotobas = emakis.filter((item) => item.cat === "ekotoba");
-  if (ekotobas.length > 0) {
-    let segment = 0;
-    ekotobas.forEach((item, i) => {
-      if (item.linkId <= navIndex) segment = i;
-    });
-    return segment + 1;
-  }
-  const n = Number(navIndex);
-  return Number.isFinite(n) && n >= 0 ? n + 1 : 1;
-}
-
-// ?scene=N 入場時にジャンプすべき linkId の逆引き
-function getLinkIdForVisitorScene(emakis, sceneNum) {
-  if (!Array.isArray(emakis) || emakis.length === 0) return 0;
-  const n = Math.max(1, Math.floor(Number(sceneNum) || 1));
-  const ekotobas = emakis.filter((item) => item.cat === "ekotoba");
-  if (ekotobas.length > 0) {
-    const idx = Math.min(n - 1, ekotobas.length - 1);
-    return ekotobas[idx].linkId;
-  }
-  return n - 1;
-}
-
-function resolveSpotDeepLink(emakis, querySpot) {
-  const spotId = String(
-    Array.isArray(querySpot) ? querySpot[0] : querySpot ?? ""
-  ).trim();
-  if (!spotId || !Array.isArray(emakis)) return null;
-  for (let sliceIndex = 0; sliceIndex < emakis.length; sliceIndex += 1) {
-    const slice = emakis[sliceIndex];
-    if (slice?.cat !== "image") continue;
-    const spots = slice.spots;
-    if (!Array.isArray(spots)) continue;
-    const spot = spots.find((s) => s?.id === spotId);
-    if (!spot) continue;
-    const linkId = slice.linkId;
-    if (typeof linkId !== "number") continue;
-    let centerX = Number(spot.x);
-    let centerY = Number(spot.y);
-    let rectW = null;
-    let rectH = null;
-    const rect = spot.rect;
-    if (
-      rect &&
-      typeof rect === "object" &&
-      typeof rect.x === "number" &&
-      typeof rect.w === "number"
-    ) {
-      centerX = rect.x + rect.w / 2;
-      rectW = rect.w;
-      if (typeof rect.y === "number" && typeof rect.h === "number") {
-        centerY = rect.y + rect.h / 2;
-        rectH = rect.h;
-      }
-    } else if (!Number.isFinite(centerX)) {
-      centerX = 50;
-    }
-    if (!Number.isFinite(centerY)) {
-      centerY = 50;
-    }
-    const offsetPercent = 100 - centerX;
-    let targetScale = 2.6;
-    if (rectW != null && rectH != null) {
-      targetScale = Math.min(
-        80 / Math.max(rectW, 12),
-        80 / Math.max(rectH, 12)
-      );
-      targetScale = Math.min(4.5, Math.max(2.2, targetScale));
-    }
-    return {
-      linkId,
-      sliceIndex,
-      offsetPercent,
-      centerX,
-      centerY,
-      rectW,
-      rectH,
-    };
-  }
-  return null;
-}
-
-// 動的インポート（初期チャンク軽量化）
-const HelpModal = dynamic(
-  () => import("@/components/emaki/viewer/HelpModal"),
-  { ssr: false }
-);
 const QuizFab = dynamic(
   () => import("@/components/emaki/quiz/QuizFab"),
-  { ssr: false }
-);
-const QuizModal = dynamic(
-  () => import("@/components/emaki/quiz/QuizModal"),
-  { ssr: false }
-);
-const PolaroidModal = dynamic(
-  () => import("@/components/emaki/viewer/PolaroidModal").then((mod) => mod.PolaroidModal || mod.default || mod),
-  { ssr: false }
-);
-const ScrollFeedbackPanel = dynamic(
-  () => import("@/components/emaki/viewer/ScrollFeedbackPanel"),
-  { ssr: false }
-);
-const ViewerPullPrompt = dynamic(
-  () => import("@/components/emaki/viewer/ViewerPullPrompt"),
-  { ssr: false }
-);
-const ScrollFeedbackEndPrompt = dynamic(
-  () => import("@/components/emaki/viewer/ScrollFeedbackEndPrompt"),
   { ssr: false }
 );
 const EndNudgeCard = dynamic(
   () => import("@/components/emaki/viewer/EndNudgeCard"),
   { ssr: false }
 );
-
-// 教育現場向けUI: 絵巻切り替え検出用（モジュールスコープ）
-let prevDataId = null;
 
 const EmakiContainer = ({
   data,
@@ -238,7 +111,8 @@ const EmakiContainer = ({
   } = useContext(AppContext);
 
   const { backgroundImage } = data;
-  const { locale, locales, asPath, defaultLocale, query, isReady, push, pathname, replace } = useRouter();
+  const { locale, locales, asPath, defaultLocale, query, isReady, push, pathname, replace } =
+    useRouter();
   const { t } = useTranslation("common");
 
   const wrapperRef = useRef();
@@ -249,18 +123,21 @@ const EmakiContainer = ({
   const touchDoubleTapAtRef = useRef(0);
   const scrollNextRef = useRef(null);
   const scrollPrevRef = useRef(null);
+  const contentWindowMountedRef = useRef(new Set());
+  const contentWindowEmakiRef = useRef(data.id);
 
-  const [showWheelToast, setShowWheelToast] = useState(false);
-
-  // 端点状態管理（useEmakiScroll が更新）
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
   const isAtStartRef = useRef(true);
   const isAtEndRef = useRef(false);
 
-  const hasNextVolume = editionLinks.length > 0 || showKusouzuHubLink || showChojuGigaHubLink || showHyakkiHubLink || showRakuchuRakugaiHubLink;
+  const hasNextVolume =
+    editionLinks.length > 0 ||
+    showKusouzuHubLink ||
+    showChojuGigaHubLink ||
+    showHyakkiHubLink ||
+    showRakuchuRakugaiHubLink;
 
-  // フィードバックパネル開閉のみ親が保持（プロンプト本体は useEmakiPrompts）
   const [isScrollFeedbackOpen, setIsScrollFeedbackOpen] = useState(false);
 
   const [isMdLandscape, setIsMdLandscape] = useState(false);
@@ -281,59 +158,21 @@ const EmakiContainer = ({
     };
   }, [orientation]);
 
-  const [viewerTopInset, setViewerTopInset] = useState(null);
-  useLayoutEffect(() => {
-    if (!commentaryFloating || toggleFullscreen) return undefined;
-    const el = entryContainerRef.current;
-    if (!el) return undefined;
-    const measure = () => {
-      if (typeof window === "undefined") return;
-      const top = Math.round(el.getBoundingClientRect().top + window.scrollY);
-      setViewerTopInset((prev) => (prev === top ? prev : top));
-    };
-    measure();
-    window.addEventListener("resize", measure);
-    const timers = [200, 800].map((ms) => setTimeout(measure, ms));
-    return () => {
-      window.removeEventListener("resize", measure);
-      timers.forEach((t) => clearTimeout(t));
-    };
-  }, [commentaryFloating, toggleFullscreen]);
+  const viewerTopInset = useViewerTopInset({
+    commentaryFloating,
+    toggleFullscreen,
+    entryContainerRef,
+  });
 
   const emakiId = data.titleen;
-  const [quizModule, setQuizModule] = useState(null);
-  const [quizSession, setQuizSession] = useState(null);
-  const [quizUi, setQuizUi] = useState("closed");
-  const [quizFabHidden, setQuizFabHiddenState] = useState(false);
-  const quizHydratedRef = useRef(false);
-  const pendingJumpAppliedRef = useRef(false);
-
-  useEffect(() => {
-    let cancelled = false;
-    import("@/data/quiz").then((mod) => {
-      if (!cancelled) setQuizModule(mod);
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  const entryQuiz = quizModule
-    ? quizModule.getQuizForTitleen(data.titleen)
-    : null;
-
   const lastDetectedSceneRef = useRef(navIndex);
   const detectCurrentSceneRef = useRef(null);
   const indicatorElRef = useRef(null);
-
-  const contentWindowMountedRef = useRef(new Set());
-  const contentWindowEmakiRef = useRef(data.id);
 
   const [isScrolling, setIsScrolling] = useState(false);
   const isScrollingRef = useRef(false);
   const [idlePaused, setIdlePaused] = useState(false);
 
-  // 自動スクロール・UI可視性制御
   const {
     isAutoScrolling,
     isPlayMode,
@@ -362,151 +201,30 @@ const EmakiContainer = ({
     scrollPositionStore,
   });
 
-  const sessionQuiz =
-    quizModule && quizSession
-      ? quizModule.getQuizById(quizSession.quizId)
-      : null;
-  const activeQuiz = entryQuiz || sessionQuiz;
-  const isSessionForCurrentScroll =
-    quizSession &&
-    (!quizSession.hostTitleen || quizSession.hostTitleen === data?.titleen);
-  const forceQuizFabForResume = Boolean(
-    isSessionForCurrentScroll && !quizSession?.done
-  );
-  const canShowQuizChrome = Boolean(
-    scroll &&
-      activeQuiz &&
-      (entryQuiz ||
-        (isSessionForCurrentScroll && !quizSession?.done) ||
-        quizUi === "minimized") &&
-      (!quizFabHidden || forceQuizFabForResume)
-  );
-  const fabMode =
-    isSessionForCurrentScroll && !quizSession?.done ? "resume" : "start";
-
-  useEffect(() => {
-    if (!quizModule || quizHydratedRef.current) return;
-    return runAfterPaint(() => {
-      if (quizHydratedRef.current) return;
-      quizHydratedRef.current = true;
-      setQuizFabHiddenState(isQuizFabHidden());
-      const stored = loadQuizSession({ hostTitleen: data?.titleen });
-      if (!stored) {
-        setQuizSession(null);
-        return;
-      }
-      if (!quizModule.getQuizById(stored.quizId)) return;
-      setQuizSession(stored);
-
-      const isExplicitQuizQuery =
-        query.quiz === "1" || query.quiz === "true";
-      if (!isExplicitQuizQuery && !stored.done) {
-        setQuizUi("minimized");
-      }
-    });
-  }, [quizModule, data?.titleen, query.quiz]);
-
-  useEffect(() => {
-    const onShowFab = () => {
-      setQuizFabHidden(false);
-      setQuizFabHiddenState(false);
-    };
-    window.addEventListener("emaki-quiz-show-fab", onShowFab);
-    return () => window.removeEventListener("emaki-quiz-show-fab", onShowFab);
-  }, []);
-
-  useEffect(() => {
-    if (!scroll || !quizSession?.pendingJump || pendingJumpAppliedRef.current) {
-      return;
-    }
-    const pj = quizSession.pendingJump;
-    if (pj.titleen !== data.titleen) return;
-    pendingJumpAppliedRef.current = true;
-    const linkId =
-      typeof pj.linkId === "number"
-        ? pj.linkId
-        : resolveLinkIdByChapter(data.emakis, pj.chapter);
-    const cleared = { ...quizSession, pendingJump: null };
-    saveQuizSession(cleared);
-    setQuizSession(cleared);
-    setQuizUi("minimized");
-    if (typeof linkId === "number") {
-      stopPlayMode();
-      requestAnimationFrame(() => handleToId(linkId));
-    }
-  }, [
-    scroll,
-    data.titleen,
-    data.emakis,
+  const {
+    activeQuiz,
     quizSession,
+    quizUi,
+    canShowQuizChrome,
+    fabMode,
+    openQuizUi,
+    closeQuizUi,
+    abandonQuizUi,
+    handleQuizSessionChange,
+    handleQuizJumpLocal,
+    handleQuizJumpScroll,
+  } = useEmakiQuizController({
+    data,
+    scroll,
+    query,
     stopPlayMode,
     handleToId,
-  ]);
+    push,
+  });
 
-  const openQuizUi = useCallback(() => {
-    if (!quizModule) return;
-    if (!activeQuiz) return;
-    if (
-      quizSession &&
-      !quizSession.done &&
-      quizSession.quizId === activeQuiz.id &&
-      (!quizSession.hostTitleen || quizSession.hostTitleen === data?.titleen)
-    ) {
-      setQuizUi("open");
-      return;
-    }
-    if (!entryQuiz) return;
-    const nextSession = createQuizSession(entryQuiz, data?.titleen);
-    saveQuizSession(nextSession);
-    setQuizSession(nextSession);
-    setQuizUi("open");
-  }, [quizModule, quizSession, entryQuiz, activeQuiz, data?.titleen]);
+  const { isPalmMode, suppressClickUntilRef, palmActiveRef } =
+    useEmakiPalmDrag(articleRef);
 
-  const closeQuizUi = useCallback(() => {
-    setQuizUi("minimized");
-  }, []);
-
-  const abandonQuizUi = useCallback(() => {
-    clearQuizSession();
-    setQuizSession(null);
-    setQuizUi("closed");
-    pendingJumpAppliedRef.current = false;
-  }, []);
-
-  const handleQuizSessionChange = useCallback((next) => {
-    saveQuizSession(next);
-    setQuizSession(next);
-  }, []);
-
-  const handleQuizJumpLocal = useCallback(
-    (linkId) => {
-      stopPlayMode();
-      setQuizUi("minimized");
-      handleToId(linkId);
-    },
-    [stopPlayMode, handleToId]
-  );
-
-  const handleQuizJumpScroll = useCallback(
-    (titleen) => {
-      stopPlayMode();
-      setQuizUi("minimized");
-      pendingJumpAppliedRef.current = false;
-      push(`/${titleen}`);
-    },
-    [stopPlayMode, push]
-  );
-
-  const quizOpenedFromQueryRef = useRef(false);
-  useEffect(() => {
-    if (!scroll || !activeQuiz || quizOpenedFromQueryRef.current) return;
-    if (query.quiz === "true" || query.quiz === "1") {
-      quizOpenedFromQueryRef.current = true;
-      openQuizUi();
-    }
-  }, [scroll, activeQuiz, query.quiz, openQuizUi]);
-
-  // 物理スクロール制御フック
   const {
     scrollDimsRef,
     liveSceneIndex,
@@ -537,328 +255,32 @@ const EmakiContainer = ({
     detectCurrentSceneRef,
   });
 
-  const pendingInitialHashRef = useRef(0);
-  const [hashFollowEnabled, setHashFollowEnabled] = useState(false);
-
-  useEffect(() => {
-    if (!scroll) return;
-    setHashFollowEnabled(false);
-    const ebikiRaw = query?.ebiki;
-    if (ebikiRaw) {
-      const id = String(Array.isArray(ebikiRaw) ? ebikiRaw[0] : ebikiRaw).trim();
-      const found = id ? getFolkloreItemById(id) : null;
-      pendingInitialHashRef.current =
-        typeof found?.link_id === "number" ? found.link_id : 0;
-      return;
-    }
-    const hash =
-      Number(String(window.location.hash || "").replace("#", "")) || 0;
-    const hasQueryScene = Boolean(query?.scene);
-    const hasQuerySpot = Boolean(query?.spot);
-    pendingInitialHashRef.current = hash;
-    if (hash <= 0 && !hasQueryScene && !hasQuerySpot) setHashFollowEnabled(true);
-  }, [scroll, data.id, query?.ebiki, query?.scene, query?.spot]);
-
-  useEffect(() => {
-    if (typeof window === "undefined" || !scroll) return;
-    const pending = pendingInitialHashRef.current;
-    if (!hashFollowEnabled) {
-      if (pending > 0) {
-        const url = new URL(window.location.href);
-        url.searchParams.set("scene", String(pending));
-        url.hash = "";
-        window.history.replaceState(null, "", url.pathname + url.search);
-      }
-      return;
-    }
-    if (pending > 0 && liveSceneIndex !== pending && liveSceneIndex === 0) {
-      return;
-    }
-    pendingInitialHashRef.current = 0;
-    const currentEmakis = data?.emakis || [];
-    const url = new URL(window.location.href);
-    const currentSceneNum = getVisitorSceneNumber(currentEmakis, liveSceneIndex);
-    url.searchParams.set("scene", String(currentSceneNum));
-    url.hash = "";
-    window.history.replaceState(null, "", url.pathname + url.search);
-  }, [liveSceneIndex, scroll, hashFollowEnabled, data?.emakis]);
-
-  useEffect(() => {
-    if (!scroll || hashFollowEnabled) return;
-    const el = articleRef?.current;
-    if (!el) return;
-    let lastLeft = el.scrollLeft;
-    const onScroll = () => {
-      const left = el.scrollLeft;
-      if (
-        !scrollPositionStore.isProgrammaticScroll &&
-        Math.abs(left - lastLeft) > 1
-      ) {
-        pendingInitialHashRef.current = 0;
-        setHashFollowEnabled(true);
-      }
-      lastLeft = left;
-    };
-    el.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      el.removeEventListener("scroll", onScroll);
-    };
-  }, [scroll, data.id, articleRef, hashFollowEnabled]);
-
-  const didApplyEntryHashRef = useRef(false);
-  const appliedSpotRef = useRef(null);
-  const [pendingSpotZoom, setPendingSpotZoom] = useState(null);
-  const [selectedSpotId, setSelectedSpotId] = useState(null);
-
-  const selectedSpot = useMemo(() => {
-    if (!selectedSpotId || !Array.isArray(data?.emakis)) return null;
-    for (let i = 0; i < data.emakis.length; i += 1) {
-      const slice = data.emakis[i];
-      if (slice?.cat !== "image" || !Array.isArray(slice.spots)) continue;
-      const found = slice.spots.find(
-        (s) => s?.id && String(s.id) === String(selectedSpotId)
-      );
-      if (found) return found;
-    }
-    return null;
-  }, [selectedSpotId, data?.emakis]);
-
-  const allSpots = useMemo(() => {
-    if (!isByobuScroll(data) || !Array.isArray(data?.emakis)) return [];
-    const rows = [];
-    let spotGlobalIndex = 0;
-    data.emakis.forEach((slice, sliceIndex) => {
-      if (slice?.cat !== "image" || !Array.isArray(slice.spots)) return;
-      const { linkId } = slice;
-      slice.spots.forEach((spot) => {
-        if (!spot?.id) return;
-        rows.push({
-          spot,
-          linkId: typeof linkId === "number" ? linkId : sliceIndex,
-          sliceIndex,
-          spotGlobalIndex,
-          sliceSrc: slice.src,
-        });
-        spotGlobalIndex += 1;
-      });
-    });
-    return rows;
-  }, [data]);
-
-  const onSelectSpotFromCommentary = useCallback(
-    (spot) => {
-      if (!spot?.id) return;
-      const id = String(spot.id);
-      setSelectedSpotId(id);
-      const nextQuery = { ...query, spot: id };
-      replace({ pathname, query: nextQuery }, undefined, { shallow: true });
-      const landing = resolveSpotDeepLink(data?.emakis || [], id);
-      if (!landing) return;
-      appliedSpotRef.current = id;
-      handleToId(landing.linkId, {
-        realign: true,
-        offsetPercent: landing.offsetPercent,
-        behavior: "smooth",
-      });
-      setPendingSpotZoom({
-        centerX: landing.centerX,
-        centerY: landing.centerY,
-        rectW: landing.rectW,
-        rectH: landing.rectH,
-        sliceIndex: landing.sliceIndex,
-        linkId: landing.linkId,
-        offsetPercent: landing.offsetPercent,
-      });
-    },
-    [query, pathname, replace, data?.emakis, handleToId]
-  );
-
-  useEffect(() => {
-    if (!isReady) return;
-    const raw = query?.spot;
-    if (!raw) {
-      setSelectedSpotId(null);
-      return;
-    }
-    const spotId = String(Array.isArray(raw) ? raw[0] : raw).trim();
-    if (spotId) setSelectedSpotId(spotId);
-  }, [isReady, query?.spot]);
-
-  const onSelectSpot = useCallback(
-    (spot) => {
-      if (!spot?.id) return;
-      const id = String(spot.id);
-      const nextId = selectedSpotId === id ? null : id;
-      if (!nextId) {
-        setSelectedSpotId(null);
-        const nextQuery = { ...query };
-        delete nextQuery.spot;
-        replace({ pathname, query: nextQuery }, undefined, { shallow: true });
-        return;
-      }
-      setSelectedSpotId(nextId);
-      const nextQuery = { ...query, spot: nextId };
-      replace({ pathname, query: nextQuery }, undefined, { shallow: true });
-      const landing = resolveSpotDeepLink(data?.emakis || [], nextId);
-      if (!landing) return;
-      appliedSpotRef.current = nextId;
-      let targetScale = 2.6;
-      if (landing.rectW != null && landing.rectH != null) {
-        targetScale = Math.min(
-          80 / Math.max(landing.rectW, 12),
-          80 / Math.max(landing.rectH, 12)
-        );
-        targetScale = Math.min(4.5, Math.max(2.2, targetScale));
-      }
-      zoomToSlicePercentRef.current?.({
-        sliceIndex: landing.sliceIndex,
-        centerX: landing.centerX,
-        centerY: landing.centerY,
-        targetScale,
-      });
-    },
-    [selectedSpotId, query, pathname, replace, data?.emakis]
-  );
-
-  const onClearSelectedSpot = useCallback(() => {
-    setSelectedSpotId(null);
-    const nextQuery = { ...query };
-    delete nextQuery.spot;
-    replace({ pathname, query: nextQuery }, undefined, { shallow: true });
-  }, [query, pathname, replace]);
-
-  useEffect(() => {
-    if (!pendingSpotZoom) return undefined;
-    const { centerX, centerY, rectW, rectH, sliceIndex } = pendingSpotZoom;
-    const zoomTimer = setTimeout(() => {
-      if (!zoomToSlicePercentRef.current) {
-        setPendingSpotZoom(null);
-        return;
-      }
-      let targetScale = 2.6;
-      if (rectW != null && rectH != null) {
-        targetScale = Math.min(
-          80 / Math.max(rectW, 12),
-          80 / Math.max(rectH, 12)
-        );
-        targetScale = Math.min(4.5, Math.max(2.2, targetScale));
-      }
-      zoomToSlicePercentRef.current({
-        sliceIndex,
-        centerX,
-        centerY,
-        targetScale,
-      });
-      setPendingSpotZoom(null);
-    }, 300);
-    return () => clearTimeout(zoomTimer);
-  }, [pendingSpotZoom]);
-
-  useEffect(() => {
-    if (!scroll || !isReady) return;
-    if (query?.ebiki) {
-      if (!didApplyEntryHashRef.current) didApplyEntryHashRef.current = true;
-      return;
-    }
-
-    const querySpot = query?.spot;
-    if (querySpot) {
-      const spotId = String(
-        Array.isArray(querySpot) ? querySpot[0] : querySpot ?? ""
-      ).trim();
-      if (spotId && appliedSpotRef.current !== spotId) {
-        const landing = resolveSpotDeepLink(data?.emakis || [], querySpot);
-        if (landing) {
-          appliedSpotRef.current = spotId;
-          setSelectedSpotId(spotId);
-          const {
-            linkId,
-            sliceIndex,
-            offsetPercent,
-            centerX,
-            centerY,
-            rectW,
-            rectH,
-          } = landing;
-          const pin = () => window.scrollTo({ top: 0, behavior: "instant" });
-          handleToId(linkId, {
-            realign: true,
-            offsetPercent,
-            behavior: "auto",
-          });
-          pin();
-          const timers = [50, 200, 500, 1000].map((ms) => setTimeout(pin, ms));
-          setPendingSpotZoom({
-            centerX,
-            centerY,
-            rectW,
-            rectH,
-            sliceIndex,
-            linkId,
-            offsetPercent,
-          });
-          return () => {
-            timers.forEach(clearTimeout);
-          };
-        }
-      } else if (spotId && appliedSpotRef.current === spotId) {
-        setSelectedSpotId(spotId);
-        return;
-      }
-    }
-
-    const queryScene = query?.scene;
-    let targetIndex = null;
-
-    if (queryScene !== undefined && queryScene !== null) {
-      const parsed = Number(queryScene);
-      if (!Number.isNaN(parsed) && parsed >= 1) {
-        targetIndex = getLinkIdForVisitorScene(data?.emakis || [], parsed);
-      }
-    }
-
-    if (targetIndex === null) {
-      const hashflag = Number(
-        String(
-          typeof window !== "undefined" ? window.location.hash || "" : ""
-        ).replace("#", "")
-      );
-      if (!Number.isNaN(hashflag) && hashflag > 0) {
-        targetIndex = hashflag;
-      }
-    }
-
-    if (didApplyEntryHashRef.current) return;
-    didApplyEntryHashRef.current = true;
-
-    if (targetIndex === null || targetIndex === undefined) return;
-    const pin = () => window.scrollTo({ top: 0, behavior: "instant" });
-    if (navIndex === targetIndex) {
-      pin();
-      return;
-    }
-    handleToId(targetIndex, {
-      realign: true,
-      scrollBehavior: "auto",
-      align: "right",
-      offsetPercent: -50,
-    });
-    pin();
-    const timers = [50, 200, 500, 1000].map((ms) => setTimeout(pin, ms));
-    return () => {
-      timers.forEach(clearTimeout);
-    };
-  }, [scroll, isReady, data.id, handleToId, navIndex, query?.ebiki, query?.spot, data?.emakis]);
+  const {
+    selectedSpotId,
+    selectedSpot,
+    allSpots,
+    onSelectSpot,
+    onSelectSpotFromCommentary,
+    onClearSelectedSpot,
+  } = useEmakiSpotNavigation({
+    scroll,
+    isReady,
+    data,
+    query,
+    pathname,
+    replace,
+    handleToId,
+    navIndex,
+    liveSceneIndex,
+    articleRef,
+    zoomToSlicePercentRef,
+  });
 
   const shareTitle =
     locale === "en"
       ? emakiDisplayTitle(data, locale)
       : `${data.title ?? ""}${data.edition ? ` ${data.edition}` : ""}`.trim();
 
-  // ---------------------------------------------------------------------------
-  // 中盤・巻末プルプロンプト（状態 / sessionStorage / 表示条件 → useEmakiPrompts）
-  // UI は scroll フラグと isScrollFeedbackOpen のみ EmakiConteiner が配線する。
-  // ---------------------------------------------------------------------------
   const {
     getScrollRatio,
     scrollFeedbackSubmitted,
@@ -886,10 +308,6 @@ const EmakiContainer = ({
     liveSceneIndex,
   });
 
-  const { isPalmMode, suppressClickUntilRef, palmActiveRef } =
-    useEmakiPalmDrag(articleRef);
-
-  // 【責務分離】Discoveryレールとのスクロール同期ロジックを抽出したフックへ委譲
   const {
     handlePointerDown: handleRailPointerDown,
     handleTouchStart: handleRailTouchStart,
@@ -915,27 +333,11 @@ const EmakiContainer = ({
     handleFullScreen("landscape");
   }, [handleFullScreen]);
 
-  const zoomStartTimeRef = useRef(null);
-  const zoomMaxScaleRef = useRef(1);
-
-  const handleZoomOpenWithTrack = useCallback(
-    (source = "unknown") => {
-      stopPlayMode();
-      if (zoomStartTimeRef.current != null) return;
-      zoomStartTimeRef.current = Date.now();
-      zoomMaxScaleRef.current = 1;
-      trackZoomOpen(emakiId, source);
-    },
-    [stopPlayMode, emakiId]
-  );
-
-  const handleZoomCloseWithTrack = useCallback(() => {
-    if (zoomStartTimeRef.current) {
-      const durationSec = (Date.now() - zoomStartTimeRef.current) / 1000;
-      trackZoomClose(emakiId, durationSec, zoomMaxScaleRef.current);
-      zoomStartTimeRef.current = null;
-    }
-  }, [emakiId]);
+  const {
+    handleZoomOpenWithTrack,
+    handleZoomCloseWithTrack,
+    zoomMaxScaleRef,
+  } = useEmakiZoomOpenHandlers({ emakiId, stopPlayMode });
 
   const {
     isZoomed,
@@ -960,25 +362,21 @@ const EmakiContainer = ({
       typeof data?.maxScale === "number"
         ? data.maxScale
         : typeof data?.maxZoom === "number"
-        ? data.maxZoom / 100
-        : typeof data?.titleen === "string" && data.titleen.startsWith("rakuchu_rakugai")
-        ? 12
-        : isByobuScroll(data)
-        ? 8
-        : undefined,
+          ? data.maxZoom / 100
+          : typeof data?.titleen === "string" &&
+              data.titleen.startsWith("rakuchu_rakugai")
+            ? 12
+            : isByobuScroll(data)
+              ? 8
+              : undefined,
   });
 
-  useEffect(() => {
-    if (isZoomed && zoomScale > zoomMaxScaleRef.current) {
-      zoomMaxScaleRef.current = zoomScale;
-    }
-  }, [isZoomed, zoomScale]);
-
-  useEffect(() => {
-    if (!isZoomed) {
-      handleZoomCloseWithTrack();
-    }
-  }, [isZoomed, handleZoomCloseWithTrack]);
+  useEmakiZoomAnalyticsEffects({
+    isZoomed,
+    zoomScale,
+    handleZoomCloseWithTrack,
+    zoomMaxScaleRef,
+  });
 
   const {
     enabled: ebikiPickerEnabled,
@@ -1016,123 +414,47 @@ const EmakiContainer = ({
     detectCurrentSceneRef,
   });
 
-  useEffect(() => {
-    scrollDimsRef.current = { w: 0, c: 0, ts: 0 };
-    const t = setTimeout(() => {
-      if (typeof detectCurrentSceneRef.current === "function") {
-        detectCurrentSceneRef.current();
-      }
-    }, 150);
-    return () => clearTimeout(t);
-  }, [toggleFullscreen, orientation]);
-
-  useEffect(() => {
-    if (prevDataId !== null && prevDataId !== data.id) {
-      if (playModeAnimationRef.current) {
-        cancelAnimationFrame(playModeAnimationRef.current);
-        playModeAnimationRef.current = null;
-      }
-      setIsPlayMode(false);
-
-      scrollPositionStore.scrollLeft = 0;
-      scrollPositionStore.scrollRatio = 0;
-      scrollPositionStore.restored = false;
-      scrollPositionStore.isTransitioning = false;
-      scrollPositionStore.emakiId = null;
-
-      const el = articleRef.current;
-      if (el) {
-        scrollPositionStore.isTransitioning = true;
-        el.scrollTo({ left: 0, behavior: "auto" });
-        isAtStartRef.current = true;
-        isAtEndRef.current = false;
-        setIsAtStart(true);
-        setIsAtEnd(false);
-        lastDetectedSceneRef.current = 0;
-        setTimeout(() => {
-          scrollPositionStore.isTransitioning = false;
-        }, 100);
-      }
-
-      scrollDimsRef.current = { w: 0, c: 0, ts: 0 };
-      resetAllTracking();
-    }
-
-    prevDataId = data.id;
-
-    return runAfterPaint(() => {
-      const imageCount = (data.emakis || []).filter(
-        (scene) => scene.cat === "image"
-      ).length;
-      trackSessionContext(emakiId, imageCount);
-    });
-  }, [data.id, data.emakis, emakiId, backgroundImage]);
-
-  useEffect(() => {
-    if (scroll) {
-      let scrollSpeed = 30;
-      const el = articleRef.current;
-      const MouseWheelHandler = (e) => {
-        if (e.ctrlKey || e.metaKey) return;
-        if (!e.deltaY) return;
-
-        const toastKey = "wheel_toast_shown";
-        if (!sessionStorage.getItem(toastKey)) {
-          sessionStorage.setItem(toastKey, "true");
-          setShowWheelToast(true);
-        }
-
-        trackManualScroll(emakiId, "wheel");
-
-        if (playModeAnimationRef.current) {
-          cancelAnimationFrame(playModeAnimationRef.current);
-          playModeAnimationRef.current = null;
-          setIsPlayMode(false);
-          showUI();
-          e.preventDefault();
-          return;
-        }
-
-        let scrollDirection = e.deltaY > 0 ? 1 : -1;
-        let scrollLeft = el.scrollLeft;
-        let scrollWidth = el.scrollWidth;
-        let clientWidth = el.clientWidth;
-        let maxScrollLeft = scrollWidth - clientWidth;
-        const SCROLL_MARGIN = 5;
-
-        const atStart = Math.abs(scrollLeft) < SCROLL_MARGIN ||
-                        scrollLeft >= maxScrollLeft - SCROLL_MARGIN;
-
-        const atEnd = Math.abs(scrollLeft) >= maxScrollLeft - SCROLL_MARGIN ||
-                      (scrollLeft < 0 && Math.abs(scrollLeft) >= maxScrollLeft - SCROLL_MARGIN);
-
-        if (
-          (scrollDirection === -1 && !atEnd) ||
-          (scrollDirection === 1 && !atStart)
-        ) {
-          el.scrollLeft += scrollSpeed * scrollDirection;
-        }
-
-        e.preventDefault();
-        return true;
-      };
-
-      el.addEventListener("wheel", MouseWheelHandler, { passive: false });
-      return () => {
-        el.removeEventListener("wheel", MouseWheelHandler, { passive: false });
-      };
-    }
-  }, [scroll, emakiId]);
+  const { showWheelToast, setShowWheelToast } = useEmakiViewerLifecycle({
+    articleRef,
+    scroll,
+    emakiId,
+    data,
+    backgroundImage,
+    playModeAnimationRef,
+    setIsPlayMode,
+    showUI,
+    scrollDimsRef,
+    detectCurrentSceneRef,
+    lastDetectedSceneRef,
+    isAtStartRef,
+    isAtEndRef,
+    setIsAtStart,
+    setIsAtEnd,
+    orientation,
+    toggleFullscreen,
+  });
 
   const processedEmakis = useMemo(
     () => assignUniqueIndex(data.emakis || []),
     [data.emakis]
   );
 
+  const { nextContentMounted, windowCenter, windowIsPlaying } =
+    computeNextContentMounted({
+      data,
+      processedEmakis,
+      contentWindowCenter,
+      liveSceneIndex,
+      navIndex,
+      isPlayMode,
+      isAutoScrolling,
+      contentWindowMountedRef,
+      contentWindowEmakiRef,
+    });
+
   const {
     zoomSlices,
     zoomCenterIndex,
-    enterZoomAtPoint,
     handleCaptureFromZoom,
     handleOpenPolaroidModal,
     handleClosePolaroidModal,
@@ -1164,47 +486,8 @@ const EmakiContainer = ({
   });
 
   const hasCommentaryData = Boolean(scroll);
-  const sceneIndexForPrefetch =
-    isPlayMode || isAutoScrolling ? liveSceneIndex : navIndex;
-
-  if (contentWindowEmakiRef.current !== data.id) {
-    contentWindowEmakiRef.current = data.id;
-    contentWindowMountedRef.current = new Set();
-  }
-
-  const windowCenter = Number.isFinite(contentWindowCenter)
-    ? contentWindowCenter
-    : Number.isFinite(sceneIndexForPrefetch)
-      ? sceneIndexForPrefetch
-      : 0;
-  const windowIsPlaying = isPlayMode || isAutoScrolling;
-  const pendingHashCenter =
-    typeof window !== "undefined"
-      ? Number(String(window.location.hash || "").replace("#", "")) || 0
-      : 0;
 
   const isByobu = isByobuScroll(data);
-  const mountWindowOpts = { isPlayMode: windowIsPlaying, isByobu };
-  const nextContentMounted = new Set();
-  for (let i = 0; i < processedEmakis.length; i += 1) {
-    const wasMounted = contentWindowMountedRef.current.has(i);
-    const nearCenter = shouldMountSceneContent(
-      i,
-      windowCenter,
-      wasMounted,
-      mountWindowOpts
-    );
-    const nearHash =
-      pendingHashCenter > 0 &&
-      shouldMountSceneContent(i, pendingHashCenter, false, {
-        isPlayMode: false,
-        isByobu,
-      });
-    if (nearCenter || nearHash) {
-      nextContentMounted.add(i);
-    }
-  }
-  contentWindowMountedRef.current = nextContentMounted;
 
   const isEditSpotsMode =
     process.env.NODE_ENV === "development" &&
@@ -1229,40 +512,40 @@ const EmakiContainer = ({
   });
 
   return (
+    <div
+      className={`${
+        orientation === "landscape" && scroll ? styles.land : styles.prt
+      }`}
+    >
       <div
-        className={`${
-          orientation === "landscape" && scroll ? styles.land : styles.prt
+        ref={entryContainerRef}
+        data-commentary-float={commentaryFloating ? "true" : undefined}
+        data-viewer-mode={viewerLayout.viewerMode}
+        data-layout-placement={viewerLayout.layoutPlacement}
+        className={`js-scrollable entry-container ${
+          hasCommentaryData ? commentaryStyles.hasCommentaryBar : ""
         }`}
+        style={{
+          ...buildViewerThemeStyle(data),
+          borderRadius:
+            orientation === "landscape" &&
+            scroll &&
+            toggleFullscreen === false &&
+            "12px",
+          overflow:
+            orientation === "landscape" &&
+            scroll &&
+            !toggleFullscreen &&
+            "hidden",
+          width: toggleFullscreen ? "100%" : undefined,
+          height: toggleFullscreen ? "100%" : undefined,
+          position: "relative",
+          touchAction: "pan-x pan-y",
+          ...(viewerTopInset != null
+            ? { "--emaki-top-inset": `${viewerTopInset}px` }
+            : null),
+        }}
       >
-        <div
-          ref={entryContainerRef}
-          data-commentary-float={commentaryFloating ? "true" : undefined}
-          data-viewer-mode={viewerLayout.viewerMode}
-          data-layout-placement={viewerLayout.layoutPlacement}
-          className={`js-scrollable entry-container ${
-            hasCommentaryData ? commentaryStyles.hasCommentaryBar : ""
-          }`}
-          style={{
-            ...buildViewerThemeStyle(data),
-            borderRadius:
-              orientation === "landscape" &&
-              scroll &&
-              toggleFullscreen === false &&
-              "12px",
-            overflow:
-              orientation === "landscape" &&
-              scroll &&
-              !toggleFullscreen &&
-              "hidden",
-            width: toggleFullscreen ? "100%" : undefined,
-            height: toggleFullscreen ? "100%" : undefined,
-            position: "relative",
-            touchAction: "pan-x pan-y",
-            ...(viewerTopInset != null
-              ? { "--emaki-top-inset": `${viewerTopInset}px` }
-              : null),
-          }}
-        >
         {process.env.NODE_ENV === "development" && scroll && (
           <button
             type="button"
@@ -1287,7 +570,9 @@ const EmakiContainer = ({
             {isEditSpotsMode ? "編集終了（通常表示へ）" : "スポット編集"}
           </button>
         )}
-        {scroll && <FullScreen isUIVisible={isUIVisible} isBarFloating={commentaryFloating} />}
+        {scroll && (
+          <FullScreen isUIVisible={isUIVisible} isBarFloating={commentaryFloating} />
+        )}
         {scroll && !isEditSpotsMode && (
           <WheelScrollIndicator
             showToast={showWheelToast}
@@ -1330,9 +615,7 @@ const EmakiContainer = ({
                   />
                 }
                 description={
-                  isZoomed
-                    ? t("viewer.zoomToggleOut")
-                    : t("viewer.zoomToggleIn")
+                  isZoomed ? t("viewer.zoomToggleOut") : t("viewer.zoomToggleIn")
                 }
                 onClick={() => {
                   const rect = entryContainerRef.current?.getBoundingClientRect();
@@ -1366,81 +649,48 @@ const EmakiContainer = ({
         {scroll && toggleFullscreen && (
           <EmakiInfo value={data} isUIVisible={isUIVisible} />
         )}
-        {scroll && isHelpModalOpen && <HelpModal />}
-        {scroll && isPolaroidModalOpen && (
-          <PolaroidModal
-            scenes={processedEmakis ?? []}
-            emakiTitle={data?.title}
-            initialIndex={polaroidSceneIndex}
-            initialZoom={polaroidInitialZoom}
-            initialPan={polaroidInitialPan}
-            isOpen={isPolaroidModalOpen}
-            key={polaroidModalKey}
-            onClose={handleClosePolaroidModal}
-            title={data?.title}
-            titleen={data?.titleen}
-          />
-        )}
-        {canShowQuizChrome && (
-          <QuizFab
-            onOpen={openQuizUi}
-            isUIVisible={isUIVisible}
-            mode={fabMode}
-            variant="float"
-          />
-        )}
-        {scroll && activeQuiz && quizSession && quizUi === "open" && (
-          <QuizModal
-            quiz={activeQuiz}
-            emakiId={emakiId}
-            emakis={data.emakis}
-            session={quizSession}
-            onSessionChange={handleQuizSessionChange}
-            onClose={closeQuizUi}
-            onAbandon={abandonQuizUi}
-            onMinimizeAndJumpLocal={handleQuizJumpLocal}
-            onMinimizeAndJumpScroll={handleQuizJumpScroll}
-          />
-        )}
-        {scroll && isScrollFeedbackOpen && (
-          <ScrollFeedbackPanel
-            emakiId={emakiId}
-            sceneIndex={navIndex}
-            getScrollRatio={getScrollRatio}
-            locale={locale}
-            onClose={() => setIsScrollFeedbackOpen(false)}
-            onSubmitted={handleScrollFeedbackSubmitted}
-          />
-        )}
-        {scroll && showSharePullPrompt && (
-          <ViewerPullPrompt
-            mode="share"
-            isVisible
-            onPrimary={handleSharePromptCopy}
-            onDismiss={dismissSharePrompt}
-          />
-        )}
-        {scroll && showMidFeedbackPrompt && (
-          <ViewerPullPrompt
-            mode="mid_feedback"
-            isVisible
-            onPrimary={handleMidFeedbackPrimary}
-            onDismiss={dismissMidFeedbackPrompt}
-          />
-        )}
-        {scroll && showScrollFeedbackEndPrompt && (
-          <ScrollFeedbackEndPrompt
-            isVisible
-            onOpenFeedback={() => setIsScrollFeedbackOpen(true)}
-            onDismiss={dismissEndPrompt}
-            emakiId={emakiId}
-            shareTitle={shareTitle}
-            navIndex={liveSceneIndex}
-            showFeedback={!scrollFeedbackSubmitted}
-          />
-        )}
-
-        {/* 絵巻横スクロールコンテナ本体 */}
+        <EmakiViewerOverlays
+          scroll={scroll}
+          isHelpModalOpen={isHelpModalOpen}
+          isPolaroidModalOpen={isPolaroidModalOpen}
+          processedEmakis={processedEmakis}
+          data={data}
+          polaroidSceneIndex={polaroidSceneIndex}
+          polaroidInitialZoom={polaroidInitialZoom}
+          polaroidInitialPan={polaroidInitialPan}
+          polaroidModalKey={polaroidModalKey}
+          handleClosePolaroidModal={handleClosePolaroidModal}
+          canShowQuizChrome={canShowQuizChrome}
+          openQuizUi={openQuizUi}
+          isUIVisible={isUIVisible}
+          fabMode={fabMode}
+          activeQuiz={activeQuiz}
+          quizSession={quizSession}
+          quizUi={quizUi}
+          emakiId={emakiId}
+          handleQuizSessionChange={handleQuizSessionChange}
+          closeQuizUi={closeQuizUi}
+          abandonQuizUi={abandonQuizUi}
+          handleQuizJumpLocal={handleQuizJumpLocal}
+          handleQuizJumpScroll={handleQuizJumpScroll}
+          isScrollFeedbackOpen={isScrollFeedbackOpen}
+          setIsScrollFeedbackOpen={setIsScrollFeedbackOpen}
+          getScrollRatio={getScrollRatio}
+          locale={locale}
+          handleScrollFeedbackSubmitted={handleScrollFeedbackSubmitted}
+          showSharePullPrompt={showSharePullPrompt}
+          handleSharePromptCopy={handleSharePromptCopy}
+          dismissSharePrompt={dismissSharePrompt}
+          showMidFeedbackPrompt={showMidFeedbackPrompt}
+          handleMidFeedbackPrimary={handleMidFeedbackPrimary}
+          dismissMidFeedbackPrompt={dismissMidFeedbackPrompt}
+          showScrollFeedbackEndPrompt={showScrollFeedbackEndPrompt}
+          dismissEndPrompt={dismissEndPrompt}
+          shareTitle={shareTitle}
+          navIndex={navIndex}
+          liveSceneIndex={liveSceneIndex}
+          scrollFeedbackSubmitted={scrollFeedbackSubmitted}
+        />
         <article
           className={`${styles.container} ${styles.rl} scrollbar ${
             isPalmMode ? styles.palmMode : ""
@@ -1451,7 +701,6 @@ const EmakiContainer = ({
             "--overflow-x": overflowX,
             "--box-shadow": boxshadow,
           }}
-          /* 【分離完了】ポインター・タッチ・ホイールイベントを useEmakiRailSync のハンドラへ直接バインド */
           onPointerDown={handleRailPointerDown}
           onClick={() => {
             if (isPlayMode) {
@@ -1548,34 +797,34 @@ const EmakiContainer = ({
           !isEditSpotsMode &&
           ((isByobu && allSpots.length > 0) ||
             (!isZoomed || Boolean(selectedSpot))) && (
-          <SceneCommentaryBar
-            data={data}
-            navIndex={liveSceneIndex}
-            isFullscreen={toggleFullscreen}
-            commentaryFloating={commentaryFloating}
-            openPolaroidModal={handleOpenPolaroidModal}
-            entryContainerRef={entryContainerRef}
-            isPlayMode={isPlayMode}
-            onIdlePauseChange={setIdlePaused}
-            onIdleActivity={resetIdleTimer}
-            selectedSpot={selectedSpot}
-            onClearSelectedSpot={onClearSelectedSpot}
-            allSpots={allSpots}
-            onSelectSpot={onSelectSpotFromCommentary}
-            quizFab={
-              canShowQuizChrome ? (
-                <QuizFab
-                  onOpen={openQuizUi}
-                  isUIVisible={isUIVisible}
-                  mode={fabMode}
-                  variant="bar"
-                />
-              ) : null
-            }
-          />
-        )}
-        </div>
+            <SceneCommentaryBar
+              data={data}
+              navIndex={liveSceneIndex}
+              isFullscreen={toggleFullscreen}
+              commentaryFloating={commentaryFloating}
+              openPolaroidModal={handleOpenPolaroidModal}
+              entryContainerRef={entryContainerRef}
+              isPlayMode={isPlayMode}
+              onIdlePauseChange={setIdlePaused}
+              onIdleActivity={resetIdleTimer}
+              selectedSpot={selectedSpot}
+              onClearSelectedSpot={onClearSelectedSpot}
+              allSpots={allSpots}
+              onSelectSpot={onSelectSpotFromCommentary}
+              quizFab={
+                canShowQuizChrome ? (
+                  <QuizFab
+                    onOpen={openQuizUi}
+                    isUIVisible={isUIVisible}
+                    mode={fabMode}
+                    variant="bar"
+                  />
+                ) : null
+              }
+            />
+          )}
       </div>
+    </div>
   );
 };
 

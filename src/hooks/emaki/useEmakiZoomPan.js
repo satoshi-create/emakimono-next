@@ -27,6 +27,7 @@ const MIN_SCALE_EPSILON = 0.001;
 // ジェスチャ中に一度でもこの値以上まで拡大した場合のみ「ピンチイン復帰」を有効にする
 // （等倍で始まるピンチアウト開始直後に誤って即復帰しないためのガード）
 const PINCH_PEAK_EPSILON = 0.05;
+const PROGRAMMATIC_TRANSITION_MS = 550;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const isFiniteNumber = (value) =>
@@ -52,6 +53,7 @@ export default function useEmakiZoomPan({
   const [scale, setScale] = useState(DEFAULT_SCALE);
   const [panX, setPanX] = useState(0);
   const [panY, setPanY] = useState(0);
+  const [isAnimatingTransition, setIsAnimatingTransition] = useState(false);
 
   const zoomRef = useRef(null); // .layer（wheel ネイティブ登録・イベント委譲先）
   const stageRef = useRef(null); // .stage（可視ビューポート実寸）
@@ -152,6 +154,37 @@ export default function useEmakiZoomPan({
   const rasterRestoreRafRef = useRef(0);
   const rasterPendingRef = useRef(null); // { base, nudged } 一時的なサブピクセル変化
   const wheelSettleTimerRef = useRef(0);
+  const transitionTimerRef = useRef(0);
+
+  const syncStripTransitionDom = useCallback((enabled) => {
+    const strip = stripRef.current;
+    if (!strip) return;
+    if (enabled) {
+      strip.setAttribute("data-animate-transition", "true");
+    } else {
+      strip.removeAttribute("data-animate-transition");
+    }
+  }, []);
+
+  const endProgrammaticTransition = useCallback(() => {
+    if (transitionTimerRef.current) {
+      clearTimeout(transitionTimerRef.current);
+      transitionTimerRef.current = 0;
+    }
+    setIsAnimatingTransition(false);
+    syncStripTransitionDom(false);
+  }, [syncStripTransitionDom]);
+
+  const beginProgrammaticTransition = useCallback(() => {
+    setIsAnimatingTransition(true);
+    syncStripTransitionDom(true);
+    if (transitionTimerRef.current) clearTimeout(transitionTimerRef.current);
+    transitionTimerRef.current = setTimeout(() => {
+      transitionTimerRef.current = 0;
+      setIsAnimatingTransition(false);
+      syncStripTransitionDom(false);
+    }, PROGRAMMATIC_TRANSITION_MS);
+  }, [syncStripTransitionDom]);
 
   // 未実行のサブピクセル変化を即座に戻す（復元予約も破棄）
   const flushRasterNudge = useCallback(() => {
@@ -231,9 +264,14 @@ export default function useEmakiZoomPan({
       cancelAnimationFrame(rasterStagingRafRef.current);
       cancelAnimationFrame(rasterRestoreRafRef.current);
       if (wheelSettleTimerRef.current) clearTimeout(wheelSettleTimerRef.current);
+      if (transitionTimerRef.current) clearTimeout(transitionTimerRef.current);
     },
     []
   );
+
+  useLayoutEffect(() => {
+    syncStripTransitionDom(isAnimatingTransition);
+  }, [isAnimatingTransition, isZoomed, syncStripTransitionDom]);
 
   // scale と pan を同時に確定へ反映する（NaN / 極端値・可動域を常に補正）
   const commitScale = useCallback(
@@ -335,7 +373,8 @@ export default function useEmakiZoomPan({
     rasterActiveRef.current = false;
     flushRasterNudge();
     if (stripRef.current) stripRef.current.style.willChange = "";
-  }, [flushRasterNudge]);
+    endProgrammaticTransition();
+  }, [endProgrammaticTransition, flushRasterNudge]);
 
   // focusX / focusY（clientX / clientY）を渡すと、その点を基準に拡大を開始する。
   // initialPanX: article の表示中心とオーバーレイ strip 中心が指す内容の差分（P1）。
@@ -372,21 +411,22 @@ export default function useEmakiZoomPan({
       isZoomedRef.current = true;
       setIsZoomed(true);
       setFocusRevision((r) => r + 1);
+      beginProgrammaticTransition();
       if (typeof onOpen === "function") onOpen();
     },
-    [onOpen, maxScale]
+    [beginProgrammaticTransition, onOpen, maxScale]
   );
 
-  const zoomIn = useCallback(
-    () =>
-      applyScaleAtPoint(
-        scaleRef.current + ZOOM_STEP,
-        cursorRef.current.x,
-        cursorRef.current.y
-      ),
-    [applyScaleAtPoint]
-  );
+  const zoomIn = useCallback(() => {
+    endProgrammaticTransition();
+    return applyScaleAtPoint(
+      scaleRef.current + ZOOM_STEP,
+      cursorRef.current.x,
+      cursorRef.current.y
+    );
+  }, [applyScaleAtPoint, endProgrammaticTransition]);
   const zoomOut = useCallback(() => {
+    endProgrammaticTransition();
     const applied = applyScaleAtPoint(
       scaleRef.current - ZOOM_STEP,
       cursorRef.current.x,
@@ -395,7 +435,7 @@ export default function useEmakiZoomPan({
     // 等倍まで縮小したら通常スクロール状態へ自動復帰する（モードレス）
     if (applied <= getFitScale() + MIN_SCALE_EPSILON) resetZoom();
     return applied;
-  }, [applyScaleAtPoint, getFitScale, resetZoom]);
+  }, [applyScaleAtPoint, endProgrammaticTransition, getFitScale, resetZoom]);
 
   // 右下ズームボタン: 等倍（FALLBACK_MIN_SCALE）⇔ 既定倍率（DEFAULT_SCALE）をトグルする。
   // focusX / focusY 未指定なら表示中央基準で拡大する。
@@ -491,6 +531,7 @@ export default function useEmakiZoomPan({
           );
         }
       }
+      endProgrammaticTransition();
       // ズーム操作セッション: ホイールが止まるまで will-change を維持する
       beginRasterSession();
       if (wheelSettleTimerRef.current) clearTimeout(wheelSettleTimerRef.current);
@@ -514,6 +555,7 @@ export default function useEmakiZoomPan({
       const touches = event.touches;
       const t = touchRef.current;
       if (touches.length >= 2) {
+        endProgrammaticTransition();
         const [a, b] = [touches[0], touches[1]];
         const dist = Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
         const cx = (a.clientX + b.clientX) / 2;
@@ -577,6 +619,7 @@ export default function useEmakiZoomPan({
         t.mode = "pan";
         t.lastX = p.clientX;
         t.lastY = p.clientY;
+        endProgrammaticTransition();
         // パンドラッグ中も will-change を維持して再ラスタライズを促す
         beginRasterSession();
         event.preventDefault();
@@ -718,7 +761,7 @@ export default function useEmakiZoomPan({
       el.removeEventListener("touchend", onTouchEnd);
       el.removeEventListener("touchcancel", onTouchEnd);
     };
-  }, [containerRef, applyScaleAtPoint, clampPan, getFitScale, resetZoom, maxScale, beginRasterSession, endRasterSession]);
+  }, [containerRef, applyScaleAtPoint, clampPan, endProgrammaticTransition, getFitScale, resetZoom, maxScale, beginRasterSession, endRasterSession]);
 
   const onPointerDown = useCallback(
     (event) => {
@@ -729,6 +772,7 @@ export default function useEmakiZoomPan({
       if (event.pointerType === "touch") return;
 
       cursorRef.current = { x: event.clientX, y: event.clientY };
+      endProgrammaticTransition();
 
       // 拡大表示中のダブルクリック: 横スクロール画像の表示へ戻す
       const now = Date.now();
@@ -758,7 +802,7 @@ export default function useEmakiZoomPan({
       beginRasterSession();
       event.currentTarget.setPointerCapture?.(event.pointerId);
     },
-    [beginRasterSession, resetZoom]
+    [beginRasterSession, endProgrammaticTransition, resetZoom]
   );
 
   const onPointerMove = useCallback(
@@ -798,6 +842,7 @@ export default function useEmakiZoomPan({
 
   return {
     isZoomed,
+    isAnimatingTransition,
     scale,
     panX,
     panY,

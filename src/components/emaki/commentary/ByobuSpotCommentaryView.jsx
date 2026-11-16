@@ -16,21 +16,27 @@ export const BYOBU_TEXT_LINK = {
   lineHeight: 1.5,
 };
 
+/** 解説本文（SceneCommentaryBar .bodyText / .gendaibun）と同一 */
+const BYOBU_BODY_TEXT = {
+  fontSize: "0.85rem",
+  lineHeight: 1.45,
+  fontFamily: "var(--font-story)",
+};
+
 const BYOBU_NAV_BTN = {
   ...BYOBU_TEXT_LINK,
+  ...BYOBU_BODY_TEXT,
   textDecoration: "none",
-  flex: "1 1 0",
-  minWidth: 0,
-  maxWidth: "42%",
+  display: "inline-flex",
+  alignItems: "center",
+  maxWidth: "100%",
   overflow: "hidden",
   textOverflow: "ellipsis",
   whiteSpace: "nowrap",
-  textAlign: "left",
 };
 
 const BYOBU_NAV_BTN_NEXT = {
   ...BYOBU_NAV_BTN,
-  textAlign: "right",
 };
 
 // 1. スポット目次（段構成一覧の屏風版）
@@ -97,8 +103,9 @@ export function ByobuSpotBodyContent({
             : "画面上のスポットバッジをクリックすると拡大と解説が見られます。右隻から順番に巡ることもできます。"}
         </span>
         {allSpots[0]?.spot ? (
-          <button
-            type="button"
+          <span
+            role="button"
+            tabIndex={0}
             style={{
               ...BYOBU_TEXT_LINK,
               marginTop: 10,
@@ -109,11 +116,17 @@ export function ByobuSpotBodyContent({
               e.stopPropagation();
               onSelectSpot?.(allSpots[0].spot);
             }}
+            onKeyDown={(e) => {
+              if (e.key !== "Enter" && e.key !== " ") return;
+              e.preventDefault();
+              e.stopPropagation();
+              onSelectSpot?.(allSpots[0].spot);
+            }}
           >
             {locale === "en"
               ? `View the first highlight “${allSpots[0].spot.nameen || allSpots[0].spot.name}” →`
               : `最初の見どころ「${allSpots[0].spot.name}」を見る →`}
-          </button>
+          </span>
         ) : null}
       </>
     );
@@ -197,22 +210,42 @@ export function ByobuSpotFooterNav({
       }}
       onClick={(e) => e.stopPropagation()}
     >
-      <button
-        type="button"
+      <div
         style={{
-          ...BYOBU_NAV_BTN,
-          opacity: next ? 1 : 0.4,
-          color: "var(--bar-text)",
+          flex: 1,
+          minWidth: 0,
+          display: "flex",
+          justifyContent: "flex-start",
         }}
-        disabled={!next}
-        onClick={() => next && handleNavigateSpot(next.index)}
       >
-        {next
-          ? `← ${next.title}`
-          : locale === "en"
-            ? "← Next"
-            : "← 次へ"}
-      </button>
+        <span
+          role="button"
+          tabIndex={next ? 0 : -1}
+          aria-disabled={!next}
+          style={{
+            ...BYOBU_NAV_BTN,
+            opacity: next ? 1 : 0.4,
+            color: "var(--bar-text)",
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (next) handleNavigateSpot(next.index);
+          }}
+          onKeyDown={(e) => {
+            if (!next) return;
+            if (e.key !== "Enter" && e.key !== " ") return;
+            e.preventDefault();
+            e.stopPropagation();
+            handleNavigateSpot(next.index);
+          }}
+        >
+          {next
+            ? `← ${next.title}`
+            : locale === "en"
+              ? "← Next"
+              : "← 次へ"}
+        </span>
+      </div>
       <span
         style={{
           fontSize: "12px",
@@ -223,22 +256,42 @@ export function ByobuSpotFooterNav({
       >
         {`${spotActiveIndex + 1} / ${allSpots.length}`}
       </span>
-      <button
-        type="button"
+      <div
         style={{
-          ...BYOBU_NAV_BTN_NEXT,
-          opacity: prev ? 1 : 0.4,
-          color: "var(--bar-text)",
+          flex: 1,
+          minWidth: 0,
+          display: "flex",
+          justifyContent: "flex-end",
         }}
-        disabled={!prev}
-        onClick={() => prev && handleNavigateSpot(prev.index)}
       >
-        {prev
-          ? `${prev.title} →`
-          : locale === "en"
-            ? "Prev →"
-            : "前へ →"}
-      </button>
+        <span
+          role="button"
+          tabIndex={prev ? 0 : -1}
+          aria-disabled={!prev}
+          style={{
+            ...BYOBU_NAV_BTN_NEXT,
+            opacity: prev ? 1 : 0.4,
+            color: "var(--bar-text)",
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (prev) handleNavigateSpot(prev.index);
+          }}
+          onKeyDown={(e) => {
+            if (!prev) return;
+            if (e.key !== "Enter" && e.key !== " ") return;
+            e.preventDefault();
+            e.stopPropagation();
+            handleNavigateSpot(prev.index);
+          }}
+        >
+          {prev
+            ? `${prev.title} →`
+            : locale === "en"
+              ? "Prev →"
+              : "前へ →"}
+        </span>
+      </div>
     </div>
   );
 }

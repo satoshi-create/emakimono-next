@@ -248,7 +248,7 @@ export default function useEmakiZoomBridge({
       const centerIndex = Number.isFinite(sliceIndex) ? sliceIndex : 0;
       setZoomCenterIndex(centerIndex);
 
-      let initialPanX = computeZoomAlignPanX(centerIndex, measuredHeight);
+      let initialPanX = 0;
       const rowH = measuredHeight;
       const cx = Number.isFinite(centerX) ? centerX : 50;
       const cy = Number.isFinite(centerY) ? centerY : 50;
@@ -261,17 +261,17 @@ export default function useEmakiZoomBridge({
           measuredWidth,
           zoomMinSlices
         );
-        let posInStrip = 0;
-        for (let i = from; i < sliceIndex; i += 1) {
-          posInStrip += sceneWidthPx(items[i], rowH);
-        }
         let stripWidth = 0;
         for (let i = from; i <= to; i += 1) {
           stripWidth += sceneWidthPx(items[i], rowH);
         }
+        let leftSlicesWidth = 0;
+        for (let i = sliceIndex + 1; i <= to; i += 1) {
+          leftSlicesWidth += sceneWidthPx(items[i], rowH);
+        }
         const sliceW = sceneWidthPx(items[sliceIndex], rowH);
-        posInStrip += sliceW * (cx / 100);
-        initialPanX -= posInStrip - stripWidth / 2;
+        const xFromLeft = leftSlicesWidth + sliceW * (cx / 100);
+        initialPanX = stripWidth / 2 - xFromLeft;
       }
 
       const initialPanY = -measuredHeight * ((cy - 50) / 100);
@@ -283,7 +283,6 @@ export default function useEmakiZoomBridge({
     },
     [
       processedEmakis,
-      computeZoomAlignPanX,
       zoomMinSlices,
       openZoom,
       articleRef,
