@@ -23,14 +23,14 @@ import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import SpotPins from "./SpotPins";
 
 // =============================================================================
-// デバッグスイッチ
-// 検証完了後は false にすることで、すべてのコンソール出力を一括で停止できます。
+// デバッグスイッチ（検証完了後は false にして一括停止）
 // =============================================================================
-const DEBUG_ZOOM_LAYER = true;
+const DEBUG_ZOOM_PAN_SYNC = false;
 
-function logZoomLayer(tag, ...args) {
-  if (!DEBUG_ZOOM_LAYER) return;
-  // デバッグログ出力をクリーンアップ
+function logDebug(tag, ...args) {
+  if (!DEBUG_ZOOM_PAN_SYNC) return;
+  const time = performance.now().toFixed(1);
+  console.log(`%c[${time}ms][${tag}]`, "color: #3b82f6; font-weight: bold;", ...args);
 }
 
 const ZoomLayer = ({
@@ -170,25 +170,6 @@ const ZoomLayer = ({
     );
   }, [isZoomed, scale]);
 
-  // ---------------------------------------------------------------------------
-  // [フロー 2] ズーム表示状態および Transform の変化監視ログ
-  // ---------------------------------------------------------------------------
-  useEffect(() => {
-    if (!isZoomed) return;
-
-    const prev = prevTransformRef.current;
-    if (prev.scale !== scale || prev.panX !== panX || prev.panY !== panY) {
-      logZoomLayer("TransformChange", {
-        scale: scale?.toFixed(3),
-        panX: panX?.toFixed(1),
-        panY: panY?.toFixed(1),
-        sliceCount: slices.length,
-        centerKey,
-      });
-      prevTransformRef.current = { scale, panX, panY };
-    }
-  }, [isZoomed, scale, panX, panY, slices.length, centerKey]);
-
   const quizQuestions = useMemo(() => {
     const scrollKey = data?.scroll_id ?? data?.titleen;
     const quizDef =
@@ -207,43 +188,100 @@ const ZoomLayer = ({
 
   const mappedStripSpots = useMemo(() => {
     if (!hasPanoramaSpots) return [];
-    const images = (data?.emakis ?? []).filter((e) => e?.cat === "image");
-    const totalFullWidth = images.reduce(
-      (sum, e) => sum + (Number(e.srcWidth) || 0),
-      0
-    );
-    if (totalFullWidth <= 0) return panoramaSpots;
 
-    const stripWidth = slices.reduce(
-      (sum, s) => sum + (Number(s.srcWidth) || 0),
-      0
+    const allImageSlices = (Array.isArray(data?.emakis) ? data.emakis : []).filter(
+      (item) => item && item.cat === "image",
     );
-    const stripSpanRatio = stripWidth > 0 ? stripWidth / totalFullWidth : 1;
+    const allWidths = allImageSlices.map((s) =>
+      Number.isFinite(Number(s.srcWidth)) && Number(s.srcWidth) > 0
+        ? Number(s.srcWidth)
+        : 1,
+    );
+    const totalFullWidth = allWidths.reduce((sum, w) => sum + w, 0) || 1;
 
-    const firstSliceKey = slices[0]?.key;
-    let offsetWidth = 0;
-    for (const img of images) {
-      if (img.key === firstSliceKey || String(img.key) === String(firstSliceKey)) {
-        break;
+    let accFromRight = 0;
+    const sliceBoundsByIndex = allImageSlices.map((_, idx) => {
+      const spanPct = (allWidths[idx] / totalFullWidth) * 100;
+      const rightPct = 100 - accFromRight;
+      const leftPct = rightPct - spanPct;
+      accFromRight += spanPct;
+      return { leftPct, rightPct, spanPct };
+    });
+
+    if (!slices?.length) return panoramaSpots;
+
+    let stripLeftPct = Infinity;
+    let stripRightPct = -Infinity;
+
+    for (const s of slices) {
+      let idx =
+        typeof s.sliceIndex === "number"
+          ? s.sliceIndex
+          : allImageSlices.findIndex((img) => img.src === s.src);
+      if (idx < 0 && s.key != null) {
+        idx = allImageSlices.findIndex(
+          (img) => img.key === s.key || String(img.key) === String(s.key),
+        );
       }
-      offsetWidth += Number(img.srcWidth) || 0;
+      if (idx < 0 || !sliceBoundsByIndex[idx]) continue;
+      const { leftPct, rightPct } = sliceBoundsByIndex[idx];
+      stripLeftPct = Math.min(stripLeftPct, leftPct);
+      stripRightPct = Math.max(stripRightPct, rightPct);
     }
-    const stripStartFromLeftRatio = offsetWidth / totalFullWidth;
 
-    if (stripSpanRatio === 1) return panoramaSpots;
+    if (!Number.isFinite(stripLeftPct) || !Number.isFinite(stripRightPct)) {
+      return panoramaSpots;
+    }
+
+    const stripSpanPct = Math.max(0.001, stripRightPct - stripLeftPct);
 
     return panoramaSpots.map((spot) => ({
       ...spot,
-      x:
-        ((spot.x / 100 - stripStartFromLeftRatio) / stripSpanRatio) * 100,
+      x: ((spot.x - stripLeftPct) / stripSpanPct) * 100,
       rect: spot.rect
         ? {
             ...spot.rect,
-            w: (spot.rect.w ?? 6) / stripSpanRatio,
+            w: spot.rect?.w
+              ? (spot.rect.w / stripSpanPct) * 100
+              : spot.rect.w,
           }
         : spot.rect,
     }));
   }, [data?.emakis, slices, panoramaSpots, hasPanoramaSpots]);
+
+  useEffect(() => {
+    if (!isZoomed) return;
+
+    const prev = prevTransformRef.current;
+    if (prev.scale === scale && prev.panX === panX && prev.panY === panY) return;
+
+    const rafId = requestAnimationFrame(() => {
+      const stripEl = stripRef.current;
+      const pinLayerEl = stripEl?.querySelector?.("[data-spotpins-layer]");
+      const firstSliceEl = stripEl?.querySelector?.("[data-scene-index]");
+      logDebug("ZOOM:panSync", {
+        scale,
+        panX,
+        panY,
+        stripTransform: stripEl?.style?.transform,
+        stripRect: stripEl?.getBoundingClientRect?.(),
+        stripClientWidth: stripEl?.clientWidth,
+        stripScrollWidth: stripEl?.scrollWidth,
+        pinLayerRect: pinLayerEl?.getBoundingClientRect?.(),
+        firstSliceRect: firstSliceEl?.getBoundingClientRect?.(),
+        sampleSpot: mappedStripSpots?.[0]
+          ? {
+              id: mappedStripSpots[0].id,
+              x: mappedStripSpots[0].x,
+              y: mappedStripSpots[0].y,
+            }
+          : null,
+      });
+    });
+
+    prevTransformRef.current = { scale, panX, panY };
+    return () => cancelAnimationFrame(rafId);
+  }, [isZoomed, scale, panX, panY, mappedStripSpots, stripRef]);
 
   const panoramaLinkId = data?.linkId ?? slices[0]?.linkId;
 
