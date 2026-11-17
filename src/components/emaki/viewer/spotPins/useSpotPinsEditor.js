@@ -11,6 +11,7 @@ import {
 } from "react";
 import {
   getAddedSpotsForSlug,
+  getPendingUpdatesForSlug,
   getPlaceModeEnabled,
   getQuizOnlyEdit,
   isSpotMarkedDeleted,
@@ -123,6 +124,12 @@ export function useSpotPinsEditor({
         )
       : [];
 
+  const pendingBySpot =
+    isEditMode && editSlug
+      ? getPendingUpdatesForSlug(editSlug) ||
+        getPendingUpdatesForSlug(String(editSlug).trim().replace(/-/g, "_"))
+      : undefined;
+
   const mergedSpots = (
     [
       ...(spots || []),
@@ -136,18 +143,42 @@ export function useSpotPinsEditor({
         badgePos: a.badgePos ?? null,
       })),
     ]
-  ).filter((s) => {
-    const passesHidden = !isEditMode
-      ? !s.hidden
-      : quizOnlyEdit
-        ? Boolean(s.hidden)
-        : true;
-    const passesDeleted =
-      !isEditMode ||
-      !editSlug ||
-      !isSpotMarkedDeleted(editSlug, s.id, sliceImageName);
-    return passesHidden && passesDeleted;
-  });
+  )
+    .filter((s) => {
+      const passesHidden = !isEditMode
+        ? !s.hidden
+        : quizOnlyEdit
+          ? Boolean(s.hidden)
+          : true;
+      const passesDeleted =
+        !isEditMode ||
+        !editSlug ||
+        !isSpotMarkedDeleted(editSlug, s.id, sliceImageName);
+      return passesHidden && passesDeleted;
+    })
+    .map((spot) => {
+      const patch = pendingBySpot?.get(spot.id);
+      if (!patch) return spot;
+      const b = spot.stripBounds;
+      const mappedPatchX =
+        b && Number.isFinite(patch.x)
+          ? ((patch.x - b.leftPct) / b.spanPct) * 100
+          : patch.x;
+      const mappedPatchRect = patch.rect
+        ? {
+            ...patch.rect,
+            ...(b && Number.isFinite(patch.rect.w)
+              ? { w: (patch.rect.w / b.spanPct) * 100 }
+              : {}),
+          }
+        : undefined;
+      return {
+        ...spot,
+        ...patch,
+        ...(patch.x !== undefined ? { x: mappedPatchX } : {}),
+        ...(mappedPatchRect !== undefined ? { rect: mappedPatchRect } : {}),
+      };
+    });
 
   // レイヤ矩形内の client 座標をスライス % に丸める（ドラッグ・配置の共通変換）。
   const percentFromPointer = useCallback(

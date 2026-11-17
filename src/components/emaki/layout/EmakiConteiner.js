@@ -639,7 +639,7 @@ const EmakiContainer = ({
                 />
               );
             })}
-            {hasPanoramaSpots && (
+            {!isZoomed && hasPanoramaSpots && (
               <SpotPins
                 spots={panoramaSpots}
                 isPanorama

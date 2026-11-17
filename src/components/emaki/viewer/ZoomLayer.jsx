@@ -17,7 +17,10 @@ import styles from "@/styles/ZoomLayer.module.css";
 import { useTranslation } from "next-i18next";
 import { useEffect, useMemo, useState, useRef } from "react";
 import { ALL_QUIZZES } from "@/data/quiz/index";
-import { usePanoramaSpots } from "@/hooks/emaki/usePanoramaSpots";
+import {
+  usePanoramaSpots,
+  mapPanoramaSpotsToStrip,
+} from "@/hooks/emaki/usePanoramaSpots";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import SpotPins from "./SpotPins";
@@ -55,16 +58,10 @@ const ZoomLayer = ({
   selectedSpotId,
 }) => {
   const { t } = useTranslation("common");
-  const [showHint, setShowHint] = useState(true);
-  const [isSpotEditMode, setIsSpotEditMode] = useState(false);
-  const [pickedSpot, setPickedSpot] = useState(null);
-  const [spotIdDraft, setSpotIdDraft] = useState("");
-  const [copied, setCopied] = useState(false);
-  const [dragPreview, setDragPreview] = useState(null);
-  const dragSpotRef = useRef(null);
-  const prevTransformRef = useRef({ scale: null, panX: null, panY: null });
 
-  const roundPct = (n) => Math.round(n * 10) / 10;
+  // [1] 状態管理 (State)
+  const [showHint, setShowHint] = useState(true);
+  const prevTransformRef = useRef({ scale: null, panX: null, panY: null });
 
   const stopIfSpotLikeControl = (e) => {
     if (e.target?.closest?.("button")) {
@@ -72,90 +69,7 @@ const ZoomLayer = ({
     }
   };
 
-  const pctFromPointer = (e, el) => {
-    const rect = el.getBoundingClientRect();
-    if (rect.width <= 0 || rect.height <= 0) return { x: 0, y: 0 };
-    const x = roundPct(((e.clientX - rect.left) / rect.width) * 100);
-    const y = roundPct(((e.clientY - rect.top) / rect.height) * 100);
-    return {
-      x: Math.min(100, Math.max(0, x)),
-      y: Math.min(100, Math.max(0, y)),
-    };
-  };
-
-  const commitDragRect = (sliceKey, x0, y0, x1, y1) => {
-    const w = roundPct(Math.abs(x1 - x0));
-    const h = roundPct(Math.abs(y1 - y0));
-    if (w < 1.5 && h < 1.5) {
-      setPickedSpot({
-        sliceKey,
-        x: roundPct(x0),
-        y: roundPct(y0),
-        w: 24,
-        h: 20,
-        id: spotIdDraft,
-      });
-      return;
-    }
-    const x = roundPct((x0 + x1) / 2);
-    const y = roundPct((y0 + y1) / 2);
-    setPickedSpot({ sliceKey, x, y, w, h, id: spotIdDraft });
-  };
-
-  const copyPickedSpotJson = async () => {
-    if (!pickedSpot) return;
-    const text = JSON.stringify(
-      {
-        id: spotIdDraft || pickedSpot.id || "spot-id",
-        x: pickedSpot.x,
-        y: pickedSpot.y,
-        rect: { w: pickedSpot.w, h: pickedSpot.h },
-      },
-      null,
-      2
-    );
-
-    const fallbackCopy = () => {
-      if (typeof document === "undefined") return false;
-      const ta = document.createElement("textarea");
-      ta.value = text;
-      ta.setAttribute("readonly", "");
-      ta.style.position = "fixed";
-      ta.style.left = "-9999px";
-      ta.style.top = "0";
-      document.body.appendChild(ta);
-      ta.select();
-      ta.setSelectionRange(0, text.length);
-      let ok = false;
-      try {
-        ok = document.execCommand("copy");
-      } finally {
-        document.body.removeChild(ta);
-      }
-      return ok;
-    };
-
-    let success = false;
-    try {
-      if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(text);
-        success = true;
-      }
-    } catch {
-      /* fallback */
-    }
-    if (!success) {
-      success = fallbackCopy();
-    }
-    if (success) {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
-
-  // ---------------------------------------------------------------------------
-  // [フロー 1] 操作ヒントバブルの自動消去タイマー（3.2秒）
-  // ---------------------------------------------------------------------------
+  // [2] 同期・副作用 (Effects)
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowHint(false);
@@ -163,13 +77,7 @@ const ZoomLayer = ({
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    setIsSpotEditMode(
-      new URLSearchParams(window.location.search).get("editSpots") === "1"
-    );
-  }, [isZoomed, scale]);
-
+  // [3] パノラマ座標写像 (Pure Logic)
   const quizQuestions = useMemo(() => {
     const scrollKey = data?.scroll_id ?? data?.titleen;
     const quizDef =
@@ -177,77 +85,18 @@ const ZoomLayer = ({
       ALL_QUIZZES.find(
         (q) => q.titleen === scrollKey || q.id === scrollKey
       );
-    const mergeQuizTargets = isSpotEditMode || Boolean(quizDef);
-    return mergeQuizTargets && quizDef?.questions ? quizDef.questions : [];
-  }, [data, isSpotEditMode]);
+    return Boolean(quizDef) && quizDef?.questions ? quizDef.questions : [];
+  }, [data]);
 
   const { panoramaSpots, hasPanoramaSpots } = usePanoramaSpots(
     data,
     quizQuestions
   );
 
-  const mappedStripSpots = useMemo(() => {
-    if (!hasPanoramaSpots) return [];
-
-    const allImageSlices = (Array.isArray(data?.emakis) ? data.emakis : []).filter(
-      (item) => item && item.cat === "image",
-    );
-    const allWidths = allImageSlices.map((s) =>
-      Number.isFinite(Number(s.srcWidth)) && Number(s.srcWidth) > 0
-        ? Number(s.srcWidth)
-        : 1,
-    );
-    const totalFullWidth = allWidths.reduce((sum, w) => sum + w, 0) || 1;
-
-    let accFromRight = 0;
-    const sliceBoundsByIndex = allImageSlices.map((_, idx) => {
-      const spanPct = (allWidths[idx] / totalFullWidth) * 100;
-      const rightPct = 100 - accFromRight;
-      const leftPct = rightPct - spanPct;
-      accFromRight += spanPct;
-      return { leftPct, rightPct, spanPct };
-    });
-
-    if (!slices?.length) return panoramaSpots;
-
-    let stripLeftPct = Infinity;
-    let stripRightPct = -Infinity;
-
-    for (const s of slices) {
-      let idx =
-        typeof s.sliceIndex === "number"
-          ? s.sliceIndex
-          : allImageSlices.findIndex((img) => img.src === s.src);
-      if (idx < 0 && s.key != null) {
-        idx = allImageSlices.findIndex(
-          (img) => img.key === s.key || String(img.key) === String(s.key),
-        );
-      }
-      if (idx < 0 || !sliceBoundsByIndex[idx]) continue;
-      const { leftPct, rightPct } = sliceBoundsByIndex[idx];
-      stripLeftPct = Math.min(stripLeftPct, leftPct);
-      stripRightPct = Math.max(stripRightPct, rightPct);
-    }
-
-    if (!Number.isFinite(stripLeftPct) || !Number.isFinite(stripRightPct)) {
-      return panoramaSpots;
-    }
-
-    const stripSpanPct = Math.max(0.001, stripRightPct - stripLeftPct);
-
-    return panoramaSpots.map((spot) => ({
-      ...spot,
-      x: ((spot.x - stripLeftPct) / stripSpanPct) * 100,
-      rect: spot.rect
-        ? {
-            ...spot.rect,
-            w: spot.rect?.w
-              ? (spot.rect.w / stripSpanPct) * 100
-              : spot.rect.w,
-          }
-        : spot.rect,
-    }));
-  }, [data?.emakis, slices, panoramaSpots, hasPanoramaSpots]);
+  const mappedStripSpots = useMemo(
+    () => mapPanoramaSpotsToStrip(panoramaSpots, data?.emakis, slices),
+    [panoramaSpots, data?.emakis, slices]
+  );
 
   useEffect(() => {
     if (!isZoomed) return;
@@ -285,13 +134,9 @@ const ZoomLayer = ({
 
   const panoramaLinkId = data?.linkId ?? slices[0]?.linkId;
 
+  // [4] ビューポート・キャンバス描画 (View)
   // 非表示時はレンダリングを完全にスキップ
   if (!isZoomed) return null;
-
-  // ---------------------------------------------------------------------------
-  // [フロー 3] 座標・スケールの安全性ガード
-  // 初期フレーム等で NaN / 0 が混入しても黒画面・消失にならないようフォールバック
-  // ---------------------------------------------------------------------------
   const safeScale = Number.isFinite(scale) && scale > 0 ? scale : 1;
   const safePanX = Number.isFinite(panX) ? panX : 0;
   const safePanY = Number.isFinite(panY) ? panY : 0;
@@ -350,26 +195,6 @@ const ZoomLayer = ({
               s.srcHeight > 0
                 ? { aspectRatio: `${s.srcWidth} / ${s.srcHeight}` }
                 : undefined;
-
-            const preview =
-              dragPreview?.sliceKey === s.key ? dragPreview : null;
-            const boxFrom = (x0, y0, x1, y1) => ({
-              left: Math.min(x0, x1),
-              top: Math.min(y0, y1),
-              w: Math.abs(x1 - x0),
-              h: Math.abs(y1 - y0),
-            });
-            const previewBox = preview ? boxFrom(preview.x0, preview.y0, preview.x1, preview.y1) : null;
-            const pickedOnSlice =
-              pickedSpot?.sliceKey === s.key ? pickedSpot : null;
-            const pickedBox = pickedOnSlice
-              ? boxFrom(
-                  pickedOnSlice.x - pickedOnSlice.w / 2,
-                  pickedOnSlice.y - pickedOnSlice.h / 2,
-                  pickedOnSlice.x + pickedOnSlice.w / 2,
-                  pickedOnSlice.y + pickedOnSlice.h / 2
-                )
-              : null;
 
             return (
               <div
@@ -432,113 +257,6 @@ const ZoomLayer = ({
           )}
         </div>
       </div>
-
-      {isSpotEditMode && (
-        <div
-          style={{
-            position: "fixed",
-            top: 12,
-            left: "50%",
-            transform: "translateX(-50%)",
-            zIndex: 10050,
-            background: "rgba(20, 20, 20, 0.92)",
-            color: "#fff",
-            padding: "12px 16px",
-            borderRadius: 8,
-            fontSize: 13,
-            lineHeight: 1.5,
-            minWidth: 280,
-            boxShadow: "0 4px 24px rgba(0,0,0,0.35)",
-          }}
-          onPointerDown={(e) => e.stopPropagation()}
-          onMouseDown={(e) => e.stopPropagation()}
-        >
-          {!pickedSpot ? (
-            <div style={{ fontWeight: 600 }}>
-              【Spot ドラッグ編集モード】スポットバッジをドラッグして移動するとJSONが自動保存されます
-            </div>
-          ) : (
-            <>
-              <div style={{ fontWeight: 600, marginBottom: 6 }}>
-                Spot picker — slice {pickedSpot.sliceKey}
-              </div>
-              <div style={{ fontFamily: "monospace", marginBottom: 8 }}>
-                x: {pickedSpot.x} · y: {pickedSpot.y} · w: {pickedSpot.w} · h:{" "}
-                {pickedSpot.h}
-              </div>
-              <label style={{ display: "block", marginBottom: 8 }}>
-                <span
-                  style={{ display: "block", marginBottom: 4, opacity: 0.85 }}
-                >
-                  Spot id
-                </span>
-                <input
-                  type="text"
-                  value={spotIdDraft}
-                  onChange={(e) => setSpotIdDraft(e.target.value)}
-                  placeholder="spot-id"
-                  style={{
-                    width: "100%",
-                    boxSizing: "border-box",
-                    padding: "6px 8px",
-                    borderRadius: 4,
-                    border: "1px solid #555",
-                    background: "#111",
-                    color: "#fff",
-                  }}
-                />
-              </label>
-              <label style={{ display: "block", marginBottom: 8 }}>
-                <span
-                  style={{ display: "block", marginBottom: 4, opacity: 0.85 }}
-                >
-                  JSON
-                </span>
-                <input
-                  readOnly
-                  value={JSON.stringify(
-                    {
-                      id: spotIdDraft || pickedSpot.id || "spot-id",
-                      x: pickedSpot.x,
-                      y: pickedSpot.y,
-                      rect: { w: pickedSpot.w, h: pickedSpot.h },
-                    },
-                    null,
-                    2
-                  )}
-                  onFocus={(e) => e.target.select()}
-                  style={{
-                    width: "100%",
-                    boxSizing: "border-box",
-                    padding: "6px 8px",
-                    borderRadius: 4,
-                    border: "1px solid #555",
-                    background: "#111",
-                    color: "#fff",
-                    fontFamily: "monospace",
-                    fontSize: 11,
-                  }}
-                />
-              </label>
-              <button
-                type="button"
-                onClick={copyPickedSpotJson}
-                style={{
-                  padding: "6px 12px",
-                  borderRadius: 4,
-                  border: "none",
-                  background: "#ff8c77",
-                  color: "#141414",
-                  fontWeight: 600,
-                  cursor: "pointer",
-                }}
-              >
-                {copied ? "コピー済！" : "JSONをコピー"}
-              </button>
-            </>
-          )}
-        </div>
-      )}
 
       {/* ズーム操作用フローティングコントロールバー */}
       <div

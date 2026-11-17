@@ -73,13 +73,13 @@ export function resolvePanoramaCoordToSlice(emakis, panoramaX, panoramaY) {
     accPercent = nextAcc;
   }
 
-  // emakis 全体における対象スライスの元インデックスから linkId（scene-{index}）を解決
   const targetSliceObj = imageSlices[targetSliceIndex];
   const fullIndex = emakis.indexOf(targetSliceObj);
-  const linkId = fullIndex >= 0 ? `scene-${fullIndex}` : `scene-${targetSliceIndex}`;
+  const resolvedIndex = fullIndex >= 0 ? fullIndex : targetSliceIndex;
+  const linkId = `scene-${resolvedIndex}`;
 
   return {
-    sliceIndex: targetSliceIndex,
+    sliceIndex: resolvedIndex,
     linkId,
     centerX: localX,
     centerY: Math.max(0, Math.min(100, Math.round(panoramaY * 10) / 10)),

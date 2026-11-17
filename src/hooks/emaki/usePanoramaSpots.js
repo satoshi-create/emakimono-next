@@ -56,3 +56,87 @@ export function buildPanoramaSpots(data, quizQuestions = []) {
 export function usePanoramaSpots(data, quizQuestions = []) {
   return buildPanoramaSpots(data, quizQuestions);
 }
+
+// =============================================================================
+// 3. 純粋計算ロジック（Pure Logic）: 全巻パノラマ座標 ➔ ズーム帯（strip）写像
+// =============================================================================
+export function mapPanoramaSpotsToStrip(panoramaSpots, allEmakis, stripSlices) {
+  if (!Array.isArray(panoramaSpots) || panoramaSpots.length === 0) return [];
+  if (!Array.isArray(stripSlices) || stripSlices.length === 0) return panoramaSpots;
+
+  const list = Array.isArray(allEmakis) ? allEmakis : [];
+  const imageEntries = [];
+  list.forEach((item, emakiIndex) => {
+    if (item && item.cat === "image") {
+      const w =
+        Number.isFinite(Number(item.srcWidth)) && Number(item.srcWidth) > 0
+          ? Number(item.srcWidth)
+          : 1;
+      imageEntries.push({ emakiIndex, src: item.src, width: w });
+    }
+  });
+
+  if (imageEntries.length === 0) return panoramaSpots;
+
+  const totalFullWidth = imageEntries.reduce((sum, e) => sum + e.width, 0) || 1;
+
+  // row-reverse（右端 index 0 が 100%、左端が 0%）で元インデックス（emakiIndex）ごとの [leftPct, rightPct] を構築
+  let accFromRight = 0;
+  const boundsByEmakiIndex = new Map();
+  const boundsBySrc = new Map();
+
+  for (const entry of imageEntries) {
+    const spanPct = (entry.width / totalFullWidth) * 100;
+    const rightPct = 100 - accFromRight;
+    const leftPct = rightPct - spanPct;
+    const bounds = { leftPct, rightPct };
+    boundsByEmakiIndex.set(entry.emakiIndex, bounds);
+    if (entry.src) boundsBySrc.set(entry.src, bounds);
+    accFromRight += spanPct;
+  }
+
+  let stripLeftPct = Infinity;
+  let stripRightPct = -Infinity;
+
+  for (const s of stripSlices) {
+    const keyNum = typeof s.key === "number" ? s.key : Number(s.key);
+    const bounds =
+      (Number.isFinite(keyNum) && boundsByEmakiIndex.get(keyNum)) ||
+      (s.src && boundsBySrc.get(s.src)) ||
+      null;
+    if (!bounds) continue;
+    stripLeftPct = Math.min(stripLeftPct, bounds.leftPct);
+    stripRightPct = Math.max(stripRightPct, bounds.rightPct);
+  }
+
+  if (!Number.isFinite(stripLeftPct) || !Number.isFinite(stripRightPct)) {
+    return panoramaSpots;
+  }
+
+  const stripSpanPct = Math.max(0.001, stripRightPct - stripLeftPct);
+
+  return panoramaSpots.map((spot) => ({
+    ...spot,
+    stripBounds: { leftPct: stripLeftPct, spanPct: stripSpanPct },
+    x: ((spot.x - stripLeftPct) / stripSpanPct) * 100,
+    rect: spot.rect
+      ? {
+          ...spot.rect,
+          w: spot.rect?.w ? (spot.rect.w / stripSpanPct) * 100 : spot.rect.w,
+        }
+      : spot.rect,
+  }));
+}
+
+export function unmapStripCoordToPanorama({ x, w }, stripBounds) {
+  if (!stripBounds || !Number.isFinite(stripBounds.spanPct)) {
+    return { x, w };
+  }
+  const { leftPct, spanPct } = stripBounds;
+  const fullX = leftPct + (x / 100) * spanPct;
+  const fullW = Number.isFinite(w) ? (w / 100) * spanPct : w;
+  return {
+    x: Math.max(0, Math.min(100, Math.round(fullX * 10) / 10)),
+    w: Number.isFinite(fullW) ? Math.max(0.5, Math.min(100, Math.round(fullW * 10) / 10)) : fullW,
+  };
+}

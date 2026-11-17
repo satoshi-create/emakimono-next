@@ -47,7 +47,7 @@ export const RAKUCHU_RAKUGAI_FUNAKI_QUIZ: QuizDefinition = {
       explanationEn:
         "Street performers leading trained monkeys ('sarumawashi') were a popular entertainment on Kyoto's streets and riverbeds, also revered as guardian spirits for horses.",
       jump: { type: "spot", spotId: "quiz_funaki_q1_bell" },
-      target: { x: 64.6, y: 52.4, w: 10.2, h: 31, scale: 4.6 },
+      target: { x: 93.2, y: 74.3, w: 2.8, h: 12.6, scale: 4.6 },
       jumpLabelJa: "四条河原・鴨川周辺（第2扇）を見る",
       jumpLabelEn: "View Shijo Riverbed Area (Panel 2)",
     },
@@ -70,7 +70,7 @@ export const RAKUCHU_RAKUGAI_FUNAKI_QUIZ: QuizDefinition = {
       explanationEn:
         "In the shallows of the Kamo River, children are depicted swimming and trying to catch fish—the river served as a vibrant natural playground in Edo-period Kyoto.",
       jump: { type: "spot", spotId: "quiz_funaki_q2_river" },
-      target: { x: 77.2, y: 75.2, w: 11, h: 13.6, scale: 4.6 },
+      target: { x: 73.9, y: 73.1, w: 3.4, h: 11.2, scale: 4.6 },
       jumpLabelJa: "五条大橋・賀茂川周辺（第2扇）を見る",
       jumpLabelEn: "View Gojo Bridge & Kamo River (Panel 2)",
     },
@@ -93,7 +93,7 @@ export const RAKUCHU_RAKUGAI_FUNAKI_QUIZ: QuizDefinition = {
       explanationEn:
         "Entry to Shijo Riverbed theaters required admission fees. Here, the artist humorously captures two children sneaking a peek through the bamboo fence before fleeing from an approaching attendant.",
       jump: { type: "spot", spotId: "quiz_funaki_q3_kabuki" },
-      target: { x: 36.2, y: 17.7, w: 7, h: 14, scale: 4.6 },
+      target: { x: 57.1, y: 43.7, w: 5, h: 12.4, scale: 4.6 },
       jumpLabelJa: "四条河原の芝居小屋（覗き見する子ども）を見る",
       jumpLabelEn: "View Shijo Theater Fence (Peeking Children)",
     },
@@ -116,7 +116,7 @@ export const RAKUCHU_RAKUGAI_FUNAKI_QUIZ: QuizDefinition = {
       explanationEn:
         "Along Nijo Street behind the procession to Nijo Castle, startled black and white horses rear up while grooms and guards frantically pull the reins to bring them under control.",
       jump: { type: "spot", spotId: "quiz_funaki_q4_horse" },
-      target: { x: 54.2, y: 70.4, w: 8, h: 15, scale: 4.6 },
+      target: { x: 21, y: 57.6, w: 7.8, h: 11.4, scale: 4.6 },
       jumpLabelJa: "二条通の暴れ馬（行列の後尾）を見る",
       jumpLabelEn: "View Nijo Street Rearing Horses",
     },
@@ -139,7 +139,7 @@ export const RAKUCHU_RAKUGAI_FUNAKI_QUIZ: QuizDefinition = {
       explanationEn:
         "Oxen pulling carts and packhorses carrying goods were essential to Kyoto's supply chain, bustling alongside merchants and townspeople.",
       jump: { type: "spot", spotId: "quiz_funaki_q5_oxcart" },
-      target: { x: 38.9, y: 59.4, w: 7, h: 12, scale: 4.6 },
+      target: { x: 31.1, y: 52.1, w: 4, h: 22.4, scale: 4.6 },
       jumpLabelJa: "街道・大通り周辺（第5扇）を見る",
       jumpLabelEn: "View Main Thoroughfares (Panel 5)",
     },

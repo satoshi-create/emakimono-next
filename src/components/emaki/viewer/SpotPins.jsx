@@ -226,6 +226,9 @@ const SpotPins = ({
         onPointerDown={handleLayerPointerDown}
       >
         {mergedSpots.map((spot) => {
+          if (spot.quizQuestionId) {
+            return <div key={spot.id} style={{ display: "contents" }} />;
+          }
           const pinEditHandlers = isEditMode ? getPinEditHandlers(spot) : null;
           const isQuizHiddenSpot = isEditMode && spot.hidden === true;
           const label = spotLabel(spot);

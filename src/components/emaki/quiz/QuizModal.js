@@ -221,7 +221,15 @@ const QuizModal = ({
   };
 
   const handleJump = () => {
-    if (!question?.jump) return;
+    if (!question?.jump && !question?.target) return;
+
+    if (question?.target && !question?.jump) {
+      const nextJumpCount = jumpCount + 1;
+      patchSession({ jumpCount: nextJumpCount });
+      onMinimizeAndJumpLocal?.(undefined, undefined, question);
+      return;
+    }
+
     const resolved = resolveQuizJump(emakis, question.jump, emakiId);
     if (!resolved) return;
 
@@ -237,7 +245,7 @@ const QuizModal = ({
         toChapter: resolved.chapter,
       });
       patchSession(basePatch);
-      onMinimizeAndJumpLocal(resolved.linkId, resolved.spotId);
+      onMinimizeAndJumpLocal?.(resolved.linkId, resolved.spotId, question);
       return;
     }
 
@@ -368,7 +376,9 @@ const QuizModal = ({
               isEn={isEn}
               onSelect={handleSelect}
               onNext={handleNext}
-              onJump={handleJump}
+              onJump={
+                Boolean(question?.jump || question?.target) ? handleJump : undefined
+              }
             />
             </>
           )

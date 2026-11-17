@@ -6,11 +6,24 @@ import { useRef, useState } from "react";
 
 import SpotPlaceNamePopup from "./SpotPlaceNamePopup";
 import { BADGE_GAP, fallbackOffset } from "./spotPinsGeometry";
+
 import {
   mergePendingUpdate,
   registerNewSpot,
   setPlaceModeEnabled,
 } from "./spotPinsEditStore";
+
+function panoramaStoreCoords(px, py, nextRect, stripBounds) {
+  const fullX = Math.max(0, Math.min(100, Math.round(px * 10) / 10));
+  const fullY = Math.max(0, Math.min(100, Math.round(py * 10) / 10));
+  const fullRect = nextRect ? { ...nextRect } : undefined;
+  return {
+    x: fullX,
+    y: fullY,
+    rect: fullRect,
+    ...(stripBounds ? { stripBounds } : {}),
+  };
+}
 
 // =============================================================================
 // 1. 定数・開発ログ（SpotPins 本体と同じ挙動）
@@ -257,9 +270,7 @@ export default function SpotEditOverlay({
               let patch;
               if (isPanoramaTarget) {
                 patch = {
-                  x: Math.round(px * 10) / 10,
-                  y: Math.round(py * 10) / 10,
-                  rect: saveRect,
+                  ...panoramaStoreCoords(px, py, saveRect, spot.stripBounds),
                   ...commonMeta,
                 };
                 if (manualBadgePos) {
@@ -491,9 +502,7 @@ export default function SpotEditOverlay({
             dragOverrides[spot.id]?.badgePos ?? spot.badgePos;
           if (isPanoramaTarget) {
             patch = {
-              x: Math.round(px * 10) / 10,
-              y: Math.round(py * 10) / 10,
-              rect: saveRect,
+              ...panoramaStoreCoords(px, py, saveRect, spot.stripBounds),
               ...commonMeta,
             };
             if (saveBadgePos) {
@@ -555,6 +564,31 @@ export default function SpotEditOverlay({
             vectorEffect="non-scaling-stroke"
           />
         </svg>
+        {spot.quizQuestionId && spot.name && (
+          <div
+            style={{
+              position: "absolute",
+              top: 2,
+              left: 2,
+              right: 2,
+              padding: "2px 6px",
+              backgroundColor: "rgba(220, 38, 38, 0.88)",
+              color: "#ffffff",
+              fontSize: "11px",
+              fontWeight: 700,
+              lineHeight: 1.3,
+              borderRadius: "3px",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              pointerEvents: "none",
+              userSelect: "none",
+            }}
+            title={spot.name}
+          >
+            {spot.name}
+          </div>
+        )}
         <div
           role="button"
           tabIndex={-1}
@@ -675,10 +709,37 @@ export default function SpotEditOverlay({
                 ...(saveBadgePos ? { badgePos: saveBadgePos } : null),
               },
             }));
-            mergePendingUpdate(editSlug, spot.id, {
-              rect: finalRect,
-              ...(saveBadgePos ? { badgePos: saveBadgePos } : null),
-            });
+            const isPanoramaTarget = Boolean(
+              isPanorama || spot.isPanorama || spot.quizQuestionId,
+            );
+            const storeY = dragOverrides[spot.id]?.y ?? spot.y;
+            const commonMeta = {
+              ...(spot.quizQuestionId
+                ? { quizQuestionId: spot.quizQuestionId, scale: spot.scale ?? 4.6 }
+                : {}),
+              ...(isPanoramaTarget && !spot.quizQuestionId
+                ? { isPanorama: true }
+                : {}),
+            };
+            let resizePatch;
+            if (isPanoramaTarget) {
+              resizePatch = {
+                ...panoramaStoreCoords(
+                  currentX,
+                  storeY,
+                  finalRect,
+                  spot.stripBounds,
+                ),
+                ...commonMeta,
+                ...(saveBadgePos ? { badgePos: saveBadgePos } : null),
+              };
+            } else {
+              resizePatch = {
+                rect: finalRect,
+                ...(saveBadgePos ? { badgePos: saveBadgePos } : null),
+              };
+            }
+            mergePendingUpdate(editSlug, spot.id, resizePatch);
           }}
           onPointerCancel={(e) => {
             if (resizingRef.current?.spotId === spot.id) {
