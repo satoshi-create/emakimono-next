@@ -4,6 +4,8 @@
  */
 import { useRef, useState } from "react";
 
+import { unmapStripCoordToPanorama } from "@/hooks/emaki/usePanoramaSpots";
+
 import SpotPlaceNamePopup from "./SpotPlaceNamePopup";
 import { BADGE_GAP, fallbackOffset } from "./spotPinsGeometry";
 
@@ -13,17 +15,36 @@ import {
   setPlaceModeEnabled,
 } from "./spotPinsEditStore";
 
-function panoramaStoreCoords(px, py, nextRect, stripBounds) {
-  const fullX = Math.max(0, Math.min(100, Math.round(px * 10) / 10));
+const panoramaStoreCoords = (px, py, rectObj, stripBounds) => {
+  const unmapped = unmapStripCoordToPanorama(
+    { x: px, w: rectObj?.w },
+    stripBounds,
+  );
+  const fullX = Math.max(0, Math.min(100, Math.round(unmapped.x * 10) / 10));
   const fullY = Math.max(0, Math.min(100, Math.round(py * 10) / 10));
-  const fullRect = nextRect ? { ...nextRect } : undefined;
+  const fullRect = rectObj
+    ? {
+        ...rectObj,
+        ...(Number.isFinite(unmapped.w) ? { w: unmapped.w } : {}),
+      }
+    : undefined;
   return {
     x: fullX,
     y: fullY,
-    rect: fullRect,
-    ...(stripBounds ? { stripBounds } : {}),
+    ...(fullRect ? { rect: fullRect } : {}),
   };
-}
+};
+
+/** ストア用 patch（パノラマ%）と表示用 dragOverrides（スライス strip %）を分離 */
+const dragOverrideFromPatch = (isPanoramaTarget, px, py, saveRect, patch) =>
+  isPanoramaTarget
+    ? {
+        x: px,
+        y: py,
+        rect: saveRect,
+        ...(patch.badgePos ? { badgePos: patch.badgePos } : {}),
+      }
+    : patch;
 
 // =============================================================================
 // 1. 定数・開発ログ（SpotPins 本体と同じ挙動）
@@ -302,9 +323,13 @@ export default function SpotEditOverlay({
               }
               setDragOverrides((prev) => ({
                 ...prev,
-                [spot.id]: {
-                  ...patch,
-                },
+                [spot.id]: dragOverrideFromPatch(
+                  isPanoramaTarget,
+                  px,
+                  py,
+                  saveRect,
+                  patch,
+                ),
               }));
               mergePendingUpdate(editSlug, spot.id, patch);
             }}
@@ -530,7 +555,13 @@ export default function SpotEditOverlay({
           }
           setDragOverrides((prev) => ({
             ...prev,
-            [spot.id]: patch,
+            [spot.id]: dragOverrideFromPatch(
+              isPanoramaTarget,
+              px,
+              py,
+              saveRect,
+              patch,
+            ),
           }));
           mergePendingUpdate(editSlug, spot.id, patch);
         }}

@@ -16,6 +16,63 @@ export function buildPanoramaSpots(data, quizQuestions = []) {
     }
   }
 
+  const emakisList = Array.isArray(data?.emakis) ? data.emakis : [];
+  const imageEntries = [];
+  emakisList.forEach((item, emakiIndex) => {
+    if (item && item.cat === "image") {
+      const w =
+        Number.isFinite(Number(item.srcWidth)) && Number(item.srcWidth) > 0
+          ? Number(item.srcWidth)
+          : 1;
+      imageEntries.push({ emakiIndex, item, width: w });
+    }
+  });
+
+  if (imageEntries.length > 0) {
+    const totalFullWidth = imageEntries.reduce((sum, e) => sum + e.width, 0) || 1;
+    let accFromRight = 0;
+
+    for (const entry of imageEntries) {
+      const spanPct = (entry.width / totalFullWidth) * 100;
+      const rightPct = 100 - accFromRight;
+      const leftPct = rightPct - spanPct;
+      accFromRight += spanPct;
+
+      const spots = entry.item.spots;
+      if (!Array.isArray(spots)) continue;
+
+      for (const s of spots) {
+        if (s?.id == null || byId.has(s.id)) continue;
+        const fullX = leftPct + ((Number(s.x) || 0) / 100) * spanPct;
+        const fullRect = s.rect
+          ? {
+              ...s.rect,
+              ...(Number.isFinite(Number(s.rect.w))
+                ? { w: (Number(s.rect.w) / 100) * spanPct }
+                : {}),
+            }
+          : s.rect;
+        const fullBadgePos =
+          s.badgePos && Number.isFinite(Number(s.badgePos.x))
+            ? {
+                ...s.badgePos,
+                x: Math.round((leftPct + (Number(s.badgePos.x) / 100) * spanPct) * 10) / 10,
+              }
+            : s.badgePos;
+        byId.set(s.id, {
+          ...s,
+          x: Math.round(fullX * 10) / 10,
+          ...(fullRect ? { rect: fullRect } : {}),
+          ...(fullBadgePos ? { badgePos: fullBadgePos } : {}),
+          isPanorama: true,
+        });
+        if (s.quizQuestionId != null) {
+          quizQuestionIds.add(s.quizQuestionId);
+        }
+      }
+    }
+  }
+
   if (Array.isArray(quizQuestions)) {
     for (const q of quizQuestions) {
       const target = q?.target;
@@ -125,6 +182,13 @@ export function mapPanoramaSpotsToStrip(panoramaSpots, allEmakis, stripSlices) {
           w: spot.rect?.w ? (spot.rect.w / stripSpanPct) * 100 : spot.rect.w,
         }
       : spot.rect,
+    badgePos:
+      spot.badgePos && Number.isFinite(Number(spot.badgePos.x))
+        ? {
+            ...spot.badgePos,
+            x: ((Number(spot.badgePos.x) - stripLeftPct) / stripSpanPct) * 100,
+          }
+        : spot.badgePos,
   }));
 }
 

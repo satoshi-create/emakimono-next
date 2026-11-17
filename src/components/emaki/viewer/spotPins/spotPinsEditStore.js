@@ -1,5 +1,3 @@
-import { unmapStripCoordToPanorama } from "@/hooks/emaki/usePanoramaSpots";
-
 // =============================================================================
 // デバッグスイッチ（検証完了後は false にして一括停止）
 // =============================================================================
@@ -185,34 +183,23 @@ export function releaseEditBarHost() {
 export function mergePendingUpdate(slug, spotId, patch) {
   const key = normalizeStoreSlug(slug);
   if (!key || !spotId) return;
-  let normalizedPatch = { ...patch };
-  if (normalizedPatch.stripBounds) {
-    const unmapped = unmapStripCoordToPanorama(
-      { x: normalizedPatch.x, w: normalizedPatch.rect?.w },
-      normalizedPatch.stripBounds,
-    );
-    normalizedPatch.x = unmapped.x;
-    if (normalizedPatch.rect && Number.isFinite(unmapped.w)) {
-      normalizedPatch.rect = { ...normalizedPatch.rect, w: unmapped.w };
-    }
-    delete normalizedPatch.stripBounds;
-  }
+  const { stripBounds: _ignored, ...cleanPatch } = patch;
   let bySpot = pendingUpdatesBySlug.get(key);
   if (!bySpot) {
     bySpot = new Map();
     pendingUpdatesBySlug.set(key, bySpot);
   }
   const prev = bySpot.get(spotId) || {};
-  const merged = { spotId, ...prev, ...normalizedPatch };
+  const merged = { spotId, ...prev, ...cleanPatch };
   const preserveKeys = ["isNew", "sliceImageName", "sliceIndex", "name", "nameen"];
   preserveKeys.forEach((key) => {
-    if (!(key in normalizedPatch) && key in prev) merged[key] = prev[key];
+    if (!(key in cleanPatch) && key in prev) merged[key] = prev[key];
   });
   bySpot.set(spotId, merged);
   logDebug("STORE:mergePending", {
     slug,
     spotId,
-    patch: normalizedPatch,
+    patch: cleanPatch,
     after: merged,
   });
   notifyPending();
