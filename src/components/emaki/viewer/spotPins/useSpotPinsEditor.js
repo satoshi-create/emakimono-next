@@ -24,6 +24,17 @@ import {
   toggleQuizOnlyEdit,
 } from "./spotPinsEditStore";
 
+// =============================================================================
+// デバッグスイッチ（検証完了後は false にして一括停止）
+// =============================================================================
+const DEBUG_SPOT_EDIT_SAVE = true;
+
+function logDebug(tag, ...args) {
+  if (!DEBUG_SPOT_EDIT_SAVE) return;
+  const time = performance.now().toFixed(1);
+  console.log(`%c[${time}ms][${tag}]`, "color: #3b82f6; font-weight: bold;", ...args);
+}
+
 export function useSpotPinsEditor({
   isEditMode,
   spots,
@@ -83,11 +94,12 @@ export function useSpotPinsEditor({
     if (!isEditMode) return undefined;
     const fn = (s) => {
       if (s !== editSlug) return;
+      logDebug("EDITOR:discardFired", { sliceIndex: effectiveSliceIndex });
       setDragOverrides({});
       pendingBump((n) => n + 1);
     };
     return subscribeDiscard(fn);
-  }, [isEditMode, editSlug]);
+  }, [isEditMode, editSlug, effectiveSliceIndex]);
 
   // スライス上の既存 spotId をストアに登録（追加・削除の差分管理の基準）。
   useEffect(() => {
@@ -212,22 +224,23 @@ export function useSpotPinsEditor({
         draggingRef.current.moved = true;
         const roundedX = pos.x;
         const roundedY = pos.y;
-        setDragOverrides((prev) => ({
-          ...prev,
-          [spot.id]: {
-            ...(spot.hidden
-              ? { x: roundedX, y: roundedY }
-              : {
-                  x: prev[spot.id]?.x ?? spot.x,
-                  y: prev[spot.id]?.y ?? spot.y,
-                }),
-            rect:
-              prev[spot.id]?.rect ??
-              spot.rect ??
-              { w: 24, h: 20 },
-            badgePos: { x: roundedX, y: roundedY },
-          },
-        }));
+        setDragOverrides((prev) => {
+          const saveX = prev[spot.id]?.x ?? spot.x;
+          const saveY = prev[spot.id]?.y ?? spot.y;
+          const currentRect =
+            prev[spot.id]?.rect ??
+            spot.rect ??
+            { w: 24, h: 20 };
+          return {
+            ...prev,
+            [spot.id]: {
+              x: saveX,
+              y: saveY,
+              ...(currentRect ? { rect: currentRect } : {}),
+              badgePos: { x: roundedX, y: roundedY },
+            },
+          };
+        });
       };
 
       const onPointerUp = (e) => {
@@ -254,23 +267,27 @@ export function useSpotPinsEditor({
           { w: 24, h: 20 };
         const roundedX = pos.x;
         const roundedY = pos.y;
-        const nextBadgePos = { x: roundedX, y: roundedY };
-        const nextX = spot.hidden ? roundedX : saveX;
-        const nextY = spot.hidden ? roundedY : saveY;
         setDragOverrides((prev) => ({
           ...prev,
           [spot.id]: {
-            x: nextX,
-            y: nextY,
-            rect: saveRect,
-            badgePos: nextBadgePos,
+            x: saveX,
+            y: saveY,
+            ...(saveRect ? { rect: saveRect } : {}),
+            badgePos: { x: roundedX, y: roundedY },
           },
         }));
-        mergePendingUpdate(editSlug, spot.id, {
-          x: nextX,
-          y: nextY,
+        logDebug("EDITOR:dragEnd", {
+          spotId: spot.id,
+          hidden: spot.hidden,
+          x: saveX,
+          y: saveY,
           rect: saveRect,
-          badgePos: nextBadgePos,
+        });
+        mergePendingUpdate(editSlug, spot.id, {
+          x: saveX,
+          y: saveY,
+          ...(saveRect ? { rect: saveRect } : {}),
+          badgePos: { x: roundedX, y: roundedY },
         });
       };
 

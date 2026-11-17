@@ -15,7 +15,9 @@
  */
 import styles from "@/styles/ZoomLayer.module.css";
 import { useTranslation } from "next-i18next";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
+import { ALL_QUIZZES } from "@/data/quiz/index";
+import { usePanoramaSpots } from "@/hooks/emaki/usePanoramaSpots";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import SpotPins from "./SpotPins";
@@ -187,6 +189,64 @@ const ZoomLayer = ({
     }
   }, [isZoomed, scale, panX, panY, slices.length, centerKey]);
 
+  const quizQuestions = useMemo(() => {
+    const scrollKey = data?.scroll_id ?? data?.titleen;
+    const quizDef =
+      scrollKey &&
+      ALL_QUIZZES.find(
+        (q) => q.titleen === scrollKey || q.id === scrollKey
+      );
+    const mergeQuizTargets = isSpotEditMode || Boolean(quizDef);
+    return mergeQuizTargets && quizDef?.questions ? quizDef.questions : [];
+  }, [data, isSpotEditMode]);
+
+  const { panoramaSpots, hasPanoramaSpots } = usePanoramaSpots(
+    data,
+    quizQuestions
+  );
+
+  const mappedStripSpots = useMemo(() => {
+    if (!hasPanoramaSpots) return [];
+    const images = (data?.emakis ?? []).filter((e) => e?.cat === "image");
+    const totalFullWidth = images.reduce(
+      (sum, e) => sum + (Number(e.srcWidth) || 0),
+      0
+    );
+    if (totalFullWidth <= 0) return panoramaSpots;
+
+    const stripWidth = slices.reduce(
+      (sum, s) => sum + (Number(s.srcWidth) || 0),
+      0
+    );
+    const stripSpanRatio = stripWidth > 0 ? stripWidth / totalFullWidth : 1;
+
+    const firstSliceKey = slices[0]?.key;
+    let offsetWidth = 0;
+    for (const img of images) {
+      if (img.key === firstSliceKey || String(img.key) === String(firstSliceKey)) {
+        break;
+      }
+      offsetWidth += Number(img.srcWidth) || 0;
+    }
+    const stripStartFromLeftRatio = offsetWidth / totalFullWidth;
+
+    if (stripSpanRatio === 1) return panoramaSpots;
+
+    return panoramaSpots.map((spot) => ({
+      ...spot,
+      x:
+        ((spot.x / 100 - stripStartFromLeftRatio) / stripSpanRatio) * 100,
+      rect: spot.rect
+        ? {
+            ...spot.rect,
+            w: (spot.rect.w ?? 6) / stripSpanRatio,
+          }
+        : spot.rect,
+    }));
+  }, [data?.emakis, slices, panoramaSpots, hasPanoramaSpots]);
+
+  const panoramaLinkId = data?.linkId ?? slices[0]?.linkId;
+
   // 非表示時はレンダリングを完全にスキップ
   if (!isZoomed) return null;
 
@@ -238,6 +298,9 @@ const ZoomLayer = ({
           data-zoom-strip="true"
           className={styles.strip}
           style={{
+            position: "relative",
+            width: "max-content",
+            minWidth: "100%",
             transform: `translate(${safePanX}px, ${safePanY}px) scale(${safeScale})`,
           }}
         >
@@ -303,7 +366,7 @@ const ZoomLayer = ({
                     ...aspectStyle,
                   }}
                 />
-                {s.spots?.length > 0 && (
+                {!hasPanoramaSpots && s.spots?.length > 0 && (
                   <SpotPins
                     spots={s.spots}
                     linkId={s.linkId}
@@ -317,6 +380,18 @@ const ZoomLayer = ({
               </div>
             );
           })}
+          {hasPanoramaSpots && (
+            <SpotPins
+              spots={mappedStripSpots}
+              isPanorama
+              linkId={panoramaLinkId}
+              zoomScale={safeScale}
+              data={data}
+              ebikiPickerEnabled={ebikiPickerEnabled}
+              onSelectSpot={onSelectSpot}
+              selectedSpotId={selectedSpotId}
+            />
+          )}
         </div>
       </div>
 

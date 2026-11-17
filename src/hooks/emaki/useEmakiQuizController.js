@@ -12,7 +12,10 @@ import {
   isQuizFabHidden,
   setQuizFabHidden,
 } from "@/libs/api/quizFabPrefs";
-import { resolveSpotDeepLink } from "@/hooks/emaki/useEmakiSpotNavigation";
+import {
+  resolvePanoramaCoordToSlice,
+  resolveSpotDeepLink,
+} from "@/hooks/emaki/useEmakiSpotNavigation";
 import { resolveLinkIdByChapter } from "@/utils/resolveQuizJump";
 import { runAfterPaint } from "@/utils/runAfterPaint";
 
@@ -165,9 +168,35 @@ export default function useEmakiQuizController({
   }, []);
 
   const handleQuizJumpLocal = useCallback(
-    (linkId, spotId) => {
+    (linkId, spotId, currentQuestion) => {
       stopPlayMode();
       setQuizUi("minimized");
+      const target = currentQuestion?.target;
+      const hasPanoramaTarget =
+        target &&
+        Number.isFinite(target.x) &&
+        Number.isFinite(target.y);
+
+      if (hasPanoramaTarget && data?.emakis) {
+        const resolved = resolvePanoramaCoordToSlice(
+          data.emakis,
+          target.x,
+          target.y
+        );
+        if (resolved) {
+          handleToId(resolved.linkId);
+          window.setTimeout(() => {
+            zoomToSlicePercentRef?.current?.({
+              sliceIndex: resolved.sliceIndex,
+              centerX: resolved.centerX,
+              centerY: resolved.centerY,
+              targetScale: target.scale ?? 4.6,
+            });
+          }, 300);
+          return;
+        }
+      }
+
       handleToId(linkId);
       if (spotId && data?.emakis) {
         window.setTimeout(() => {

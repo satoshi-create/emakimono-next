@@ -32,6 +32,19 @@ export type QuizJumpTarget =
     }
   | { type: "spot"; spotId: string };
 
+export interface QuizPanoramaTarget {
+  /** 屏風・絵巻全体（横幅 0%〜100%）に対する中心 X 座標 */
+  x: number;
+  /** 屏風・絵巻全体（高さ 0%〜100%）に対する中心 Y 座標 */
+  y: number;
+  /** 正解エリア枠の幅（全体比 %） */
+  w?: number;
+  /** 正解エリア枠の高さ（全体比 %） */
+  h?: number;
+  /** ジャンプ時の目標ズーム倍率（例: 4.6） */
+  scale?: number;
+}
+
 export type QuizQuestion = {
   id: string;
   order: number;
@@ -43,6 +56,7 @@ export type QuizQuestion = {
   explanationJa: string;
   explanationEn: string;
   jump?: QuizJumpTarget;
+  target?: QuizPanoramaTarget;
   jumpLabelJa?: string;
   jumpLabelEn?: string;
 };

@@ -80,6 +80,7 @@ const SpotPins = ({
   apiEndpoint = "/api/dev/update-spot",
   onSelectSpot,
   selectedSpotId,
+  isPanorama = false,
 }) => {
   const { handleToId, chapterToggle } = useContext(AppContext);
   const router = useRouter();
@@ -146,7 +147,7 @@ const SpotPins = ({
     draggingSpotId,
     resizingSpotId,
     setResizingSpotId,
-    layerNeedsFront,
+    layerNeedsFront: layerNeedsFrontFromEditor,
     percentFromPointer,
     handleLayerPointerDown,
     getPinEditHandlers,
@@ -160,6 +161,9 @@ const SpotPins = ({
     zoomScale,
     layerRef,
   });
+
+  const layerNeedsFront =
+    Boolean(layerNeedsFrontFromEditor) || resizingSpotId != null;
 
   // 3. 計算（Pure Logic）
   const spotLabel = useCallback(
@@ -176,17 +180,7 @@ const SpotPins = ({
     locale,
   });
 
-  const isZoomed = (zoomScale || 1) > 1.05;
-  const stableOffsetsRef = useRef(null);
-  useLayoutEffect(() => {
-    if (!isZoomed) {
-      stableOffsetsRef.current = offsetById;
-    }
-  }, [isZoomed, offsetById]);
-  const layoutOffsets =
-    isZoomed && stableOffsetsRef.current
-      ? stableOffsetsRef.current
-      : offsetById;
+  const layoutOffsets = offsetById;
 
   if (
     !mergedSpots.length &&
@@ -224,7 +218,7 @@ const SpotPins = ({
         className={`${styles.layer}${chapterToggle ? "" : ` ${styles.hidden}`}`}
         style={{
           ...(isEditMode ? { overflow: "visible" } : null),
-          ...(layerNeedsFront ? { zIndex: 50 } : null),
+          zIndex: isPanorama ? 60 : isEditMode ? 50 : 20,
           ...(isEditMode && placeModeOn
             ? { pointerEvents: "auto", cursor: "crosshair" }
             : null),
@@ -440,6 +434,7 @@ const SpotPins = ({
             percentFromPointer={percentFromPointer}
             resizingSpotId={resizingSpotId}
             setResizingSpotId={setResizingSpotId}
+            isPanorama={isPanorama}
           />
         ) : null}
       </div>

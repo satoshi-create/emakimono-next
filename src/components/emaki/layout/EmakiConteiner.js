@@ -7,6 +7,8 @@
  */
 import { useEbikiCoordinatePicker } from "@/components/emaki/dev/EbikiCoordinatePicker";
 import ZoomLayer from "@/components/emaki/viewer/ZoomLayer";
+import SpotPins from "@/components/emaki/viewer/SpotPins";
+import { ALL_QUIZZES } from "@/data/quiz/index";
 import { EmakiViewerChrome } from "@/components/emaki/layout/EmakiViewerChrome";
 import SceneCommentaryBar from "@/components/emaki/viewer/SceneCommentaryBar";
 import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
@@ -26,6 +28,7 @@ import useScrollPositionRestore from "@/hooks/emaki/useScrollPositionRestore";
 import useEmakiRailSync from "@/hooks/emaki/useEmakiRailSync";
 import useEmakiSpotNavigation from "@/hooks/emaki/useEmakiSpotNavigation";
 import useEmakiQuizController from "@/hooks/emaki/useEmakiQuizController";
+import { usePanoramaSpots } from "@/hooks/emaki/usePanoramaSpots";
 import useEmakiViewportState from "@/hooks/emaki/useEmakiViewportState";
 import useEmakiViewerLifecycle, {
   useViewerTopInset,
@@ -417,6 +420,23 @@ const EmakiContainer = ({
     [data.emakis]
   );
 
+  const activeQuizQuestions = useMemo(() => {
+    const scrollKey = data?.scroll_id ?? data?.titleen;
+    const quizDef =
+      scrollKey &&
+      ALL_QUIZZES.find(
+        (q) => q.titleen === scrollKey || q.id === scrollKey
+      );
+    if (!(isEditSpotsMode || quizDef)) return [];
+    return quizDef?.questions ?? activeQuiz?.questions ?? [];
+  }, [data, isEditSpotsMode, activeQuiz]);
+
+  const { panoramaSpots, hasPanoramaSpots } = usePanoramaSpots(
+    data,
+    activeQuizQuestions
+  );
+  const panoramaLinkId = data?.linkId ?? processedEmakis[0]?.linkId;
+
   const { nextContentMounted, windowCenter, windowIsPlaying } =
     computeNextContentMounted({
       data,
@@ -583,32 +603,55 @@ const EmakiContainer = ({
           onWheel={handleRailWheel}
           ref={articleRef}
         >
-          {processedEmakis.map((item, index) => {
-            const { cat, src } = item;
-            return (
-              <SwitcherEmaki
-                key={index}
-                cat={cat}
+          <div
+            style={{
+              position: "relative",
+              display: "inline-flex",
+              flexDirection: "row-reverse",
+              width: "max-content",
+              height: "100%",
+              flexShrink: 0,
+            }}
+          >
+            {processedEmakis.map((item, index) => {
+              const { cat, src } = item;
+              return (
+                <SwitcherEmaki
+                  key={index}
+                  cat={cat}
+                  data={data}
+                  item={item}
+                  index={index}
+                  src={src}
+                  backgroundImage={backgroundImage}
+                  selectedRef={selectedRef}
+                  navIndex={navIndex}
+                  sceneIndex={windowCenter}
+                  uniqueIndex={item.uniqueIndex}
+                  scroll={scroll}
+                  isPlayMode={windowIsPlaying}
+                  floatLandscape={commentaryFloating && !toggleFullscreen}
+                  mountContent={nextContentMounted.has(index)}
+                  ebikiPickerEnabled={ebikiPickerEnabled}
+                  onEbikiPick={onEbikiPick}
+                  onSelectSpot={onSelectSpot}
+                  selectedSpotId={selectedSpotId}
+                />
+              );
+            })}
+            {hasPanoramaSpots && (
+              <SpotPins
+                spots={panoramaSpots}
+                isPanorama
+                linkId={panoramaLinkId}
+                zoomScale={1}
                 data={data}
-                item={item}
-                index={index}
-                src={src}
-                backgroundImage={backgroundImage}
-                selectedRef={selectedRef}
-                navIndex={navIndex}
-                sceneIndex={windowCenter}
-                uniqueIndex={item.uniqueIndex}
-                scroll={scroll}
-                isPlayMode={windowIsPlaying}
-                floatLandscape={commentaryFloating && !toggleFullscreen}
-                mountContent={nextContentMounted.has(index)}
                 ebikiPickerEnabled={ebikiPickerEnabled}
-                onEbikiPick={onEbikiPick}
                 onSelectSpot={onSelectSpot}
                 selectedSpotId={selectedSpotId}
               />
-            );
-          })}
+            )}
+          </div>
           {hasNextVolume && showEndNudge && (
             <EndNudgeCard
               editionLinks={editionLinks}

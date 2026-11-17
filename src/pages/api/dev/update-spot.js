@@ -36,6 +36,7 @@ export default function handler(req, res) {
     name,
     nameen,
     isNew,
+    isPanorama,
   } = req.body ?? {};
 
   const cleanSlug = decodeURIComponent(String(req.body.slug || "")).trim().replace(/^\/+|\/+$/g, "");
@@ -56,6 +57,7 @@ export default function handler(req, res) {
           name,
           nameen,
           isNew,
+          isPanorama,
         },
       ];
 
@@ -70,6 +72,13 @@ export default function handler(req, res) {
       if (found) return found;
     }
     return null;
+  }
+
+  function removeSpotFromEmakis(emakisList, id) {
+    for (const item of emakisList) {
+      if (item?.cat !== "image" || !Array.isArray(item.spots)) continue;
+      item.spots = item.spots.filter((s) => s && s.id !== id);
+    }
   }
 
   const prepared = [];
@@ -129,10 +138,19 @@ export default function handler(req, res) {
         ? Number(sliceIndexRaw)
         : sliceIndexRaw;
 
+    const targetSliceIndexRaw = item?.targetSliceIndex;
+    const targetSliceIndex =
+      targetSliceIndexRaw != null &&
+      targetSliceIndexRaw !== "" &&
+      Number.isInteger(Number(targetSliceIndexRaw))
+        ? Number(targetSliceIndexRaw)
+        : undefined;
+
     prepared.push({
       spotId: id,
       sliceIndex: normalizedSliceIndex,
       sliceImageName: item?.sliceImageName,
+      targetSliceIndex,
       roundedX,
       roundedY,
       roundedRect,
@@ -141,6 +159,7 @@ export default function handler(req, res) {
       nameen: item?.nameen,
       isNew: item?.isNew === true,
       deleted: isDeleted,
+      isPanorama: item?.isPanorama === true,
     });
   }
 
@@ -169,6 +188,50 @@ export default function handler(req, res) {
   }
 
   for (const p of prepared) {
+    const usePanorama = Array.isArray(data.spots) || p.isPanorama === true;
+    if (usePanorama) {
+      data.spots = Array.isArray(data.spots) ? data.spots : [];
+      const panoIdx = data.spots.findIndex((s) => s && s.id === p.spotId);
+
+      if (p.deleted === true) {
+        if (panoIdx !== -1) {
+          data.spots.splice(panoIdx, 1);
+        }
+        removeSpotFromEmakis(emakis, p.spotId);
+        continue;
+      }
+
+      if (panoIdx !== -1) {
+        const panoSpot = data.spots[panoIdx];
+        panoSpot.x = p.roundedX;
+        panoSpot.y = p.roundedY;
+        if (p.roundedRect) {
+          panoSpot.rect = p.roundedRect;
+        }
+        if (p.roundedBadgePos) {
+          panoSpot.badgePos = p.roundedBadgePos;
+        }
+        if (p.name != null && p.name !== "") {
+          panoSpot.name = p.name;
+        }
+        if (p.nameen != null && p.nameen !== "") {
+          panoSpot.nameen = p.nameen;
+        }
+        continue;
+      }
+
+      data.spots.push({
+        id: p.spotId,
+        name: p.name || p.spotId,
+        ...(p.nameen ? { nameen: p.nameen } : {}),
+        x: p.roundedX,
+        y: p.roundedY,
+        ...(p.roundedRect ? { rect: p.roundedRect } : {}),
+        ...(p.roundedBadgePos ? { badgePos: p.roundedBadgePos } : {}),
+      });
+      continue;
+    }
+
     if (p.deleted === true) {
       const sliceIdx = p.sliceIndex;
       const sliceImageName = p.sliceImageName;
@@ -219,6 +282,33 @@ export default function handler(req, res) {
 
     const spot = findSpot(emakis, p.spotId);
     if (spot) {
+      const imageSlices = emakis.filter((item) => item?.cat === "image");
+      let currentSlice = null;
+      let currentIdx = -1;
+      for (const slice of imageSlices) {
+        if (!Array.isArray(slice.spots)) continue;
+        const idx = slice.spots.findIndex((s) => s && s.id === p.spotId);
+        if (idx !== -1) {
+          currentSlice = slice;
+          currentIdx = idx;
+          break;
+        }
+      }
+      const tsi = p.targetSliceIndex;
+      if (
+        Number.isInteger(tsi) &&
+        imageSlices[tsi] &&
+        imageSlices[tsi] !== currentSlice &&
+        currentSlice &&
+        currentIdx !== -1
+      ) {
+        currentSlice.spots.splice(currentIdx, 1);
+        const targetSlice = imageSlices[tsi];
+        targetSlice.spots = Array.isArray(targetSlice.spots)
+          ? targetSlice.spots
+          : [];
+        targetSlice.spots.push(spot);
+      }
       spot.x = p.roundedX;
       spot.y = p.roundedY;
       if (p.roundedRect) {

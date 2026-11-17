@@ -263,8 +263,8 @@
         {
           "id": "shichijo-kawara",
           "name": "七条河原",
-          "x": 89,
-          "y": 76.6,
+          "x": 88.7,
+          "y": 80.9,
           "nameen": "Shichijo Riverbed",
           "category": "町並み・祭礼",
           "categoryen": "Townscapes & Festivals",
@@ -430,8 +430,8 @@
           "id": "quiz_funaki_q3_kabuki",
           "name": "【Q3】四条河原の芝居小屋",
           "nameen": "Shijo Theater Fence (Q3)",
-          "x": 82.6,
-          "y": 45.6,
+          "x": 82.5,
+          "y": 41.2,
           "rect": {
             "w": 55.2,
             "h": 12.8
@@ -447,7 +447,7 @@
           "name": "【Q2】賀茂川の水遊び",
           "nameen": "Kamo River Play (Q2)",
           "x": 100,
-          "y": 71.4,
+          "y": 72.4,
           "rect": {
             "w": 73,
             "h": 12
@@ -455,7 +455,7 @@
           "hidden": true,
           "badgePos": {
             "x": 250,
-            "y": 77.2
+            "y": 69.5
           }
         }
       ]
@@ -719,15 +719,15 @@
           "name": "【Q5】街道の荷運び牛馬",
           "nameen": "Transport Oxen & Packhorses (Q5)",
           "x": 100,
-          "y": 53.4,
+          "y": 51.8,
           "rect": {
-            "w": 56,
-            "h": 17
+            "w": 61.4,
+            "h": 22
           },
           "hidden": true,
           "badgePos": {
-            "x": 185,
-            "y": 63.9
+            "x": 189.9,
+            "y": 64.4
           }
         }
       ]

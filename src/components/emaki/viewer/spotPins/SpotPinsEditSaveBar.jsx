@@ -83,21 +83,37 @@ export default function SpotPinsEditSaveBar({
     getSlugFromPath(
       typeof window !== "undefined" ? window.location.pathname : "",
     );
-  const bySpot = getPendingUpdatesForSlug(slug);
+  const normalizedSlug = String(slug || "").trim().replace(/-/g, "_");
+  let bySpot = getPendingUpdatesForSlug(normalizedSlug);
+  if (!bySpot?.size && slug) {
+    const fallbackBySpot = getPendingUpdatesForSlug(slug);
+    if (fallbackBySpot?.size) {
+      bySpot = fallbackBySpot;
+    }
+  }
   const count = bySpot ? bySpot.size : 0;
   const placeModeEnabled = getPlaceModeEnabled();
 
   const onSaveAll = async () => {
-    if (!slug || !bySpot?.size || saving) return;
-    const n = count;
+    let pendingBySpot = getPendingUpdatesForSlug(normalizedSlug);
+    if (!pendingBySpot?.size && slug) {
+      const fallbackBySpot = getPendingUpdatesForSlug(slug);
+      if (fallbackBySpot?.size) {
+        pendingBySpot = fallbackBySpot;
+      }
+    }
+    const saveCount = pendingBySpot ? pendingBySpot.size : 0;
+    if (!slug || !pendingBySpot?.size || saving) return;
+    console.log("[SAVEBAR:click]", { slug, normalizedSlug, count: saveCount });
+    const n = saveCount;
     setSaving(true);
-    const result = await savePendingUpdatesToApi(slug, apiEndpoint);
+    const result = await savePendingUpdatesToApi(normalizedSlug, apiEndpoint);
     if (result.ok) {
-      setSaveStatus(`一括保存完了（${n}件）`);
+      setSaveStatus(`すべて保存完了（JSON・クイズTS、${n}件）`);
     } else if (result.status) {
-      setSaveStatus(`一括保存失敗 (${result.status})`);
+      setSaveStatus(`すべて保存失敗 (${result.status})`);
     } else {
-      setSaveStatus("一括保存失敗");
+      setSaveStatus("すべて保存失敗");
     }
     setSaving(false);
   };
@@ -117,7 +133,7 @@ export default function SpotPinsEditSaveBar({
     ? createPortal(
         <div
           role="toolbar"
-          aria-label="スポット編集の一括保存"
+          aria-label="スポット編集のすべて保存（JSON・クイズTS）"
           style={{
             position: "fixed",
             top: 12,
@@ -200,7 +216,7 @@ export default function SpotPinsEditSaveBar({
                   opacity: count === 0 ? 0.5 : 1,
                 }}
               >
-                すべてJSONに保存（{count}件）
+                すべて保存（{count}件）
               </button>
               <button
                 type="button"

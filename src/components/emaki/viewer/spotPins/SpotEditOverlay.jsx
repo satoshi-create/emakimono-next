@@ -30,6 +30,26 @@ function logDebug(tag, ...args) {
 
 const RECT_BADGE_GAP = 6;
 
+function resolveCrossSliceTarget(rawX, currentSliceIndex) {
+  if (!Number.isInteger(currentSliceIndex) || !Number.isFinite(rawX)) {
+    return { x: rawX, targetSliceIndex: undefined, shiftX: 0 };
+  }
+  const sliceDelta = Math.floor(rawX / 100);
+  if (sliceDelta === 0) {
+    return { x: rawX, targetSliceIndex: undefined, shiftX: 0 };
+  }
+  const nextSliceIndex = Math.max(0, currentSliceIndex - sliceDelta);
+  const actualDelta = currentSliceIndex - nextSliceIndex;
+  const shiftX = -actualDelta * 100;
+  const convertedX = Math.round((rawX + shiftX) * 10) / 10;
+  return {
+    x: convertedX,
+    targetSliceIndex:
+      nextSliceIndex !== currentSliceIndex ? nextSliceIndex : undefined,
+    shiftX,
+  };
+}
+
 // =============================================================================
 // 2. SpotEditOverlay — 編集専用インタラクション層
 // =============================================================================
@@ -55,8 +75,10 @@ export default function SpotEditOverlay({
   placedSpotIds,
   spotLabel: _spotLabel,
   percentFromPointer,
+  isPanorama = false,
 }) {
   const anchorDraggingRef = useRef(null);
+  const rectFrameDraggingRef = useRef(null);
   const resizingRef = useRef(null);
   const [, setDraggingSpotId] = useState(null);
 
@@ -141,6 +163,8 @@ export default function SpotEditOverlay({
         >
           <div
             aria-hidden="true"
+            role="button"
+            tabIndex={-1}
             style={{
               position: "absolute",
               left: 0,
@@ -152,7 +176,7 @@ export default function SpotEditOverlay({
               cursor: "move",
               pointerEvents: "auto",
               touchAction: "none",
-              zIndex: 3,
+              zIndex: 50,
             }}
             onPointerDown={(e) => {
               e.stopPropagation();
@@ -174,14 +198,17 @@ export default function SpotEditOverlay({
               ) {
                 return;
               }
-              const pos = percentFromPointer(e);
+              const pos = percentFromPointer(e.clientX, e.clientY);
               if (!pos) return;
+              const px = Number.isFinite(pos.x) ? pos.x : pos.percentX;
+              const py = Number.isFinite(pos.y) ? pos.y : pos.percentY;
+              if (!Number.isFinite(px) || !Number.isFinite(py)) return;
               anchorDraggingRef.current.moved = true;
               setDragOverrides((prev) => ({
                 ...prev,
                 [spot.id]: {
-                  x: pos.x,
-                  y: pos.y,
+                  x: px,
+                  y: py,
                   rect:
                     prev[spot.id]?.rect ??
                     spot.rect ??
@@ -207,20 +234,60 @@ export default function SpotEditOverlay({
               anchorDraggingRef.current = null;
               setDraggingSpotId(null);
               if (!moved) return;
-              const pos = percentFromPointer(e);
+              const pos = percentFromPointer(e.clientX, e.clientY);
               if (!pos) return;
+              const px = Number.isFinite(pos.x) ? pos.x : pos.percentX;
+              const py = Number.isFinite(pos.y) ? pos.y : pos.percentY;
+              if (!Number.isFinite(px) || !Number.isFinite(py)) return;
               const saveRect =
                 dragOverrides[spot.id]?.rect ??
                 spot.rect ??
                 { w: 24, h: 20 };
-              const patch = {
-                x: pos.x,
-                y: pos.y,
-                rect: saveRect,
+              const isPanoramaTarget = Boolean(
+                isPanorama || spot.isPanorama || spot.quizQuestionId,
+              );
+              const commonMeta = {
+                ...(spot.quizQuestionId
+                  ? { quizQuestionId: spot.quizQuestionId, scale: spot.scale ?? 4.6 }
+                  : {}),
+                ...(isPanoramaTarget && !spot.quizQuestionId
+                  ? { isPanorama: true }
+                  : {}),
               };
-              if (manualBadgePos) {
-                patch.badgePos =
-                  dragOverrides[spot.id]?.badgePos ?? spot.badgePos;
+              let patch;
+              if (isPanoramaTarget) {
+                patch = {
+                  x: Math.round(px * 10) / 10,
+                  y: Math.round(py * 10) / 10,
+                  rect: saveRect,
+                  ...commonMeta,
+                };
+                if (manualBadgePos) {
+                  const baseBadge =
+                    dragOverrides[spot.id]?.badgePos ?? spot.badgePos;
+                  patch.badgePos = { x: baseBadge.x, y: baseBadge.y };
+                }
+              } else {
+                const spotSliceIndex = Number.isInteger(spot.sliceIndex)
+                  ? spot.sliceIndex
+                  : sliceIndex;
+                const resolved = resolveCrossSliceTarget(px, spotSliceIndex);
+                patch = {
+                  x: resolved.x,
+                  y: py,
+                  rect: saveRect,
+                  ...(resolved.targetSliceIndex != null
+                    ? { targetSliceIndex: resolved.targetSliceIndex }
+                    : {}),
+                };
+                if (manualBadgePos) {
+                  const baseBadge =
+                    dragOverrides[spot.id]?.badgePos ?? spot.badgePos;
+                  patch.badgePos = {
+                    x: Math.round((baseBadge.x + resolved.shiftX) * 10) / 10,
+                    y: baseBadge.y,
+                  };
+                }
               }
               setDragOverrides((prev) => ({
                 ...prev,
@@ -328,6 +395,8 @@ export default function SpotEditOverlay({
       <div
         key={`spot-edit-rect-${spot.id}`}
         aria-hidden="true"
+        role="button"
+        tabIndex={-1}
         style={{
           position: "absolute",
           left: `${currentX}%`,
@@ -336,8 +405,132 @@ export default function SpotEditOverlay({
           height: `${currentRect.h}%`,
           transform: "translate(-50%, -50%)",
           boxSizing: "border-box",
-          pointerEvents: "none",
-          zIndex: 2,
+          pointerEvents: "auto",
+          cursor: "move",
+          touchAction: "none",
+          zIndex: 40,
+        }}
+        onPointerDown={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          rectFrameDraggingRef.current = {
+            spotId: spot.id,
+            pointerId: e.pointerId,
+            moved: false,
+          };
+          setDraggingSpotId(spot.id);
+          e.currentTarget.setPointerCapture(e.pointerId);
+        }}
+        onMouseDown={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+        onPointerMove={(e) => {
+          if (
+            rectFrameDraggingRef.current?.spotId !== spot.id ||
+            !rectFrameDraggingRef.current
+          ) {
+            return;
+          }
+          const pos = percentFromPointer(e.clientX, e.clientY);
+          if (!pos) return;
+          const px = Number.isFinite(pos.x) ? pos.x : pos.percentX;
+          const py = Number.isFinite(pos.y) ? pos.y : pos.percentY;
+          if (!Number.isFinite(px) || !Number.isFinite(py)) return;
+          rectFrameDraggingRef.current.moved = true;
+          const saveRect =
+            dragOverrides[spot.id]?.rect ??
+            spot.rect ??
+            { w: 24, h: 20 };
+          setDragOverrides((prev) => ({
+            ...prev,
+            [spot.id]: {
+              x: px,
+              y: py,
+              rect: saveRect,
+              ...(prev[spot.id]?.badgePos || spot.badgePos
+                ? {
+                    badgePos: prev[spot.id]?.badgePos ?? spot.badgePos,
+                  }
+                : null),
+            },
+          }));
+        }}
+        onPointerUp={(e) => {
+          if (
+            rectFrameDraggingRef.current?.spotId !== spot.id ||
+            !rectFrameDraggingRef.current
+          ) {
+            return;
+          }
+          e.currentTarget.releasePointerCapture(e.pointerId);
+          const moved = rectFrameDraggingRef.current.moved;
+          rectFrameDraggingRef.current = null;
+          setDraggingSpotId(null);
+          if (!moved) return;
+          const pos = percentFromPointer(e.clientX, e.clientY);
+          if (!pos) return;
+          const px = Number.isFinite(pos.x) ? pos.x : pos.percentX;
+          const py = Number.isFinite(pos.y) ? pos.y : pos.percentY;
+          if (!Number.isFinite(px) || !Number.isFinite(py)) return;
+          const saveRect =
+            dragOverrides[spot.id]?.rect ??
+            spot.rect ??
+            { w: 24, h: 20 };
+          const isPanoramaTarget = Boolean(
+            isPanorama || spot.isPanorama || spot.quizQuestionId,
+          );
+          const commonMeta = {
+            ...(spot.quizQuestionId
+              ? { quizQuestionId: spot.quizQuestionId, scale: spot.scale ?? 4.6 }
+              : {}),
+            ...(isPanoramaTarget && !spot.quizQuestionId
+              ? { isPanorama: true }
+              : {}),
+          };
+          let patch;
+          const saveBadgePos =
+            dragOverrides[spot.id]?.badgePos ?? spot.badgePos;
+          if (isPanoramaTarget) {
+            patch = {
+              x: Math.round(px * 10) / 10,
+              y: Math.round(py * 10) / 10,
+              rect: saveRect,
+              ...commonMeta,
+            };
+            if (saveBadgePos) {
+              patch.badgePos = { x: saveBadgePos.x, y: saveBadgePos.y };
+            }
+          } else {
+            const spotSliceIndex = Number.isInteger(spot.sliceIndex)
+              ? spot.sliceIndex
+              : sliceIndex;
+            const resolved = resolveCrossSliceTarget(px, spotSliceIndex);
+            patch = {
+              x: resolved.x,
+              y: py,
+              rect: saveRect,
+              ...(resolved.targetSliceIndex != null
+                ? { targetSliceIndex: resolved.targetSliceIndex }
+                : {}),
+            };
+            if (saveBadgePos) {
+              patch.badgePos = {
+                x: Math.round((saveBadgePos.x + resolved.shiftX) * 10) / 10,
+                y: saveBadgePos.y,
+              };
+            }
+          }
+          setDragOverrides((prev) => ({
+            ...prev,
+            [spot.id]: patch,
+          }));
+          mergePendingUpdate(editSlug, spot.id, patch);
+        }}
+        onPointerCancel={(e) => {
+          if (rectFrameDraggingRef.current?.spotId === spot.id) {
+            e.currentTarget.releasePointerCapture(e.pointerId);
+            rectFrameDraggingRef.current = null;
+            setDraggingSpotId(null);
+          }
         }}
       >
         <svg
@@ -363,7 +556,8 @@ export default function SpotEditOverlay({
           />
         </svg>
         <div
-          role="presentation"
+          role="button"
+          tabIndex={-1}
           style={{
             position: "absolute",
             right: -6,
@@ -374,6 +568,7 @@ export default function SpotEditOverlay({
             cursor: "nwse-resize",
             pointerEvents: "auto",
             touchAction: "none",
+            zIndex: 60,
             transform: `scale(${invZoom})`,
             transformOrigin: "100% 100%",
           }}
@@ -398,11 +593,14 @@ export default function SpotEditOverlay({
               return;
             }
             e.stopPropagation();
-            const pos = percentFromPointer(e);
+            const pos = percentFromPointer(e.clientX, e.clientY);
             if (!pos) return;
+            const px = Number.isFinite(pos.x) ? pos.x : pos.percentX;
+            const py = Number.isFinite(pos.y) ? pos.y : pos.percentY;
+            if (!Number.isFinite(px) || !Number.isFinite(py)) return;
             resizingRef.current.moved = true;
-            const mx = pos.x;
-            const my = pos.y;
+            const mx = px;
+            const my = py;
             const w = Math.max(
               4,
               Math.min(
@@ -444,10 +642,13 @@ export default function SpotEditOverlay({
             resizingRef.current = null;
             setResizingSpotId?.(null);
             if (!moved) return;
-            const pos = percentFromPointer(e);
+            const pos = percentFromPointer(e.clientX, e.clientY);
             if (!pos) return;
-            const mx = pos.x;
-            const my = pos.y;
+            const px = Number.isFinite(pos.x) ? pos.x : pos.percentX;
+            const py = Number.isFinite(pos.y) ? pos.y : pos.percentY;
+            if (!Number.isFinite(px) || !Number.isFinite(py)) return;
+            const mx = px;
+            const my = py;
             const finalW = Math.max(
               4,
               Math.min(
@@ -494,8 +695,8 @@ export default function SpotEditOverlay({
   return (
   <>
     {placeNamePopup}
-    {spotAnchorAndConnectors}
     {resizeFrames}
+    {spotAnchorAndConnectors}
   </>
   );
 }
