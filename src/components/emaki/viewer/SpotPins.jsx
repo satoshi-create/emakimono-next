@@ -17,7 +17,6 @@ import {
   useMemo,
   useRef,
   useState,
-  useSyncExternalStore,
 } from "react";
 
 import SpotEditOverlay from "./spotPins/SpotEditOverlay";
@@ -32,23 +31,9 @@ import {
   getSlugFromPath,
   transformOriginFor,
 } from "./spotPins/spotPinsGeometry";
-import {
-  getAddedSpotsForSlug,
-  getPlaceModeEnabled,
-  getQuizOnlyEdit,
-  getPlacedSpotIdsForSlug,
-  isSpotMarkedDeleted,
-  markSpotDeleted,
-  mergePendingUpdate,
-  registerSliceSpotIds,
-  setPlaceModeEnabled,
-  subscribeDiscard,
-  subscribePendingUpdates,
-  subscribePlaceMode,
-  subscribeQuizOnly,
-  toggleQuizOnlyEdit,
-} from "./spotPins/spotPinsEditStore";
+import { getPlacedSpotIdsForSlug } from "./spotPins/spotPinsEditStore";
 import { useSpotLayout } from "./spotPins/useSpotLayout";
+import { useSpotPinsEditor } from "./spotPins/useSpotPinsEditor";
 
 // =============================================================================
 // 1. ユーティリティ — スライス画像名・開発ログ（ジオメトリは spotPinsGeometry）
@@ -132,27 +117,13 @@ const SpotPins = ({
   const emakiId = data?.titleen;
   const emakiTitle = data?.title;
 
+  // 1. 状態（State）
   const layerRef = useRef(null);
   const [sliceImageName, setSliceImageName] = useState(null);
   const pinRefs = useRef(new Map());
-  const [dragOverrides, setDragOverrides] = useState({});
-  const [draggingSpotId, setDraggingSpotId] = useState(null);
-  const [resizingSpotId, setResizingSpotId] = useState(null);
-  const draggingRef = useRef(null);
   const suppressClickRef = useRef(false);
-  const [, pendingBump] = useState(0);
-  const [placeModeOn, setPlaceModeOn] = useState(() => getPlaceModeEnabled());
-  const [placeDraft, setPlaceDraft] = useState(null);
-  const quizOnlyEdit = useSyncExternalStore(
-    subscribeQuizOnly,
-    getQuizOnlyEdit,
-    getQuizOnlyEdit,
-  );
 
-  // ---------------------------------------------------------------------------
-  // 3. 同期 — スライス名・編集ストア・配置モード
-  // ---------------------------------------------------------------------------
-
+  // 2. 同期（Effects / Observer）
   useEffect(() => {
     const layer = layerRef.current;
     if (!layer) return;
@@ -161,77 +132,36 @@ const SpotPins = ({
   }, [sliceIndex, spots]);
 
   const effectiveSliceIndex = Number.isInteger(sliceIndex) ? sliceIndex : null;
-
-  useEffect(() => {
-    if (!isEditMode) return undefined;
-    const syncPlace = () => setPlaceModeOn(getPlaceModeEnabled());
-    return subscribePlaceMode(syncPlace);
-  }, [isEditMode]);
-
-  useEffect(() => {
-    if (!placeModeOn) setPlaceDraft(null);
-  }, [placeModeOn]);
-
-  useEffect(() => {
-    if (!isEditMode) return undefined;
-    const fn = () => pendingBump((n) => n + 1);
-    return subscribePendingUpdates(fn);
-  }, [isEditMode]);
-
-  useEffect(() => {
-    if (!isEditMode) return undefined;
-    const fn = (s) => {
-      if (s !== resolveSlug()) return;
-      setDragOverrides({});
-      pendingBump((n) => n + 1);
-    };
-    return subscribeDiscard(fn);
-  }, [isEditMode, resolveSlug]);
-
   const editSlug = isEditMode ? resolveSlug() : "";
 
-  useEffect(() => {
-    if (!editSlug || !Number.isInteger(effectiveSliceIndex)) return;
-    registerSliceSpotIds(
-      editSlug,
-      effectiveSliceIndex,
-      (spots || []).map((s) => s.id).filter(Boolean),
-    );
-  }, [editSlug, effectiveSliceIndex, spots]);
-
-  const addedForSlice =
-    isEditMode && editSlug && sliceImageName
-      ? getAddedSpotsForSlug(editSlug).filter(
-          (a) => a.sliceImageName && a.sliceImageName === sliceImageName,
-        )
-      : [];
-
-  const mergedSpots = (
-    [
-      ...(spots || []),
-      ...addedForSlice.map((a) => ({
-        id: a.spotId,
-        name: a.name,
-        nameen: a.nameen,
-        x: a.x,
-        y: a.y,
-        rect: a.rect,
-        badgePos: a.badgePos ?? null,
-      })),
-    ]
-  ).filter((s) => {
-    const passesHidden = !isEditMode
-      ? !s.hidden
-      : quizOnlyEdit
-        ? Boolean(s.hidden)
-        : true;
-    const passesDeleted =
-      !isEditMode ||
-      !editSlug ||
-      !isSpotMarkedDeleted(editSlug, s.id, sliceImageName);
-    return passesHidden && passesDeleted;
+  const {
+    mergedSpots,
+    quizOnlyEdit,
+    toggleQuizOnlyEdit,
+    placeModeOn,
+    placeDraft,
+    setPlaceDraft,
+    dragOverrides,
+    setDragOverrides,
+    draggingSpotId,
+    resizingSpotId,
+    setResizingSpotId,
+    layerNeedsFront,
+    percentFromPointer,
+    handleLayerPointerDown,
+    getPinEditHandlers,
+  } = useSpotPinsEditor({
+    isEditMode,
+    spots,
+    sliceIndex,
+    effectiveSliceIndex,
+    editSlug,
+    sliceImageName,
+    zoomScale,
+    layerRef,
   });
 
+  // 3. 計算（Pure Logic）
   const spotLabel = useCallback(
     (spot) => (locale === "en" && spot.nameen ? spot.nameen : spot.name),
     [locale],
@@ -265,23 +195,7 @@ const SpotPins = ({
     return null;
   }
 
-  // ---------------------------------------------------------------------------
-  // 4. 座標・ナビ — ポインタ % 変換と段スクロール
-  // ---------------------------------------------------------------------------
-
-  const percentFromPointer = (e) => {
-    const layer = layerRef.current;
-    if (!layer) return null;
-    const rect = layer.getBoundingClientRect();
-    if (!rect.width || !rect.height) return null;
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    return {
-      x: Math.round(Math.min(250, Math.max(-150, x)) * 10) / 10,
-      y: Math.round(Math.min(250, Math.max(-150, y)) * 10) / 10,
-    };
-  };
-
+  // 4. UI表示（View）
   const goToScene = (e, spot) => {
     e.stopPropagation();
     if (suppressClickRef.current) {
@@ -293,11 +207,6 @@ const SpotPins = ({
   };
 
   const invZoom = 1 / (zoomScale || 1);
-  const layerNeedsFront = draggingSpotId != null || resizingSpotId != null;
-
-  // ---------------------------------------------------------------------------
-  // 5. 描画 — レイヤ・ピンボタン・編集オーバーレイ
-  // ---------------------------------------------------------------------------
 
   return (
     <>
@@ -320,16 +229,10 @@ const SpotPins = ({
             ? { pointerEvents: "auto", cursor: "crosshair" }
             : null),
         }}
-        onPointerDown={(e) => {
-          if (!isEditMode || !placeModeOn || placeDraft) return;
-          if (e.target !== e.currentTarget) return;
-          e.stopPropagation();
-          const pos = percentFromPointer(e);
-          if (!pos) return;
-          setPlaceDraft({ x: pos.x, y: pos.y });
-        }}
+        onPointerDown={handleLayerPointerDown}
       >
         {mergedSpots.map((spot) => {
+          const pinEditHandlers = isEditMode ? getPinEditHandlers(spot) : null;
           const isQuizHiddenSpot = isEditMode && spot.hidden === true;
           const label = spotLabel(spot);
           const kindClass =
@@ -433,97 +336,10 @@ const SpotPins = ({
               title={label}
               aria-label={label}
               draggable={false}
-              onPointerDown={(e) => {
-                e.stopPropagation();
-                if (!isEditMode) return;
-                draggingRef.current = {
-                  spotId: spot.id,
-                  pointerId: e.pointerId,
-                  moved: false,
-                };
-                setDraggingSpotId(spot.id);
-                e.currentTarget.setPointerCapture(e.pointerId);
-              }}
-              onPointerMove={(e) => {
-                if (
-                  !isEditMode ||
-                  draggingRef.current?.spotId !== spot.id ||
-                  !draggingRef.current
-                ) {
-                  return;
-                }
-                const pos = percentFromPointer(e);
-                if (!pos) return;
-                draggingRef.current.moved = true;
-                const roundedX = pos.x;
-                const roundedY = pos.y;
-                setDragOverrides((prev) => ({
-                  ...prev,
-                  [spot.id]: {
-                    ...(spot.hidden
-                      ? { x: roundedX, y: roundedY }
-                      : {
-                          x: prev[spot.id]?.x ?? spot.x,
-                          y: prev[spot.id]?.y ?? spot.y,
-                        }),
-                    rect:
-                      prev[spot.id]?.rect ??
-                      spot.rect ??
-                      { w: 24, h: 20 },
-                    badgePos: { x: roundedX, y: roundedY },
-                  },
-                }));
-              }}
-              onPointerUp={(e) => {
-                if (
-                  !isEditMode ||
-                  draggingRef.current?.spotId !== spot.id ||
-                  !draggingRef.current
-                ) {
-                  return;
-                }
-                e.currentTarget.releasePointerCapture(e.pointerId);
-                const moved = draggingRef.current.moved;
-                draggingRef.current = null;
-                setDraggingSpotId(null);
-                if (!moved) return;
-                suppressClickRef.current = true;
-                const pos = percentFromPointer(e);
-                if (!pos) return;
-                const saveX = dragOverrides[spot.id]?.x ?? spot.x;
-                const saveY = dragOverrides[spot.id]?.y ?? spot.y;
-                const saveRect =
-                  dragOverrides[spot.id]?.rect ??
-                  spot.rect ??
-                  { w: 24, h: 20 };
-                const roundedX = pos.x;
-                const roundedY = pos.y;
-                const nextBadgePos = { x: roundedX, y: roundedY };
-                const nextX = spot.hidden ? roundedX : saveX;
-                const nextY = spot.hidden ? roundedY : saveY;
-                setDragOverrides((prev) => ({
-                  ...prev,
-                  [spot.id]: {
-                    x: nextX,
-                    y: nextY,
-                    rect: saveRect,
-                    badgePos: nextBadgePos,
-                  },
-                }));
-                mergePendingUpdate(resolveSlug(), spot.id, {
-                  x: nextX,
-                  y: nextY,
-                  rect: saveRect,
-                  badgePos: nextBadgePos,
-                });
-              }}
-              onPointerCancel={(e) => {
-                if (draggingRef.current?.spotId === spot.id) {
-                  e.currentTarget.releasePointerCapture(e.pointerId);
-                  draggingRef.current = null;
-                  setDraggingSpotId(null);
-                }
-              }}
+              onPointerDown={pinEditHandlers?.onPointerDown}
+              onPointerMove={pinEditHandlers?.onPointerMove}
+              onPointerUp={pinEditHandlers?.onPointerUp}
+              onPointerCancel={pinEditHandlers?.onPointerCancel}
               onClick={(e) => goToScene(e, spot)}
             >
               <span
@@ -585,15 +401,7 @@ const SpotPins = ({
                     e.stopPropagation();
                     e.preventDefault();
                   }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    markSpotDeleted(resolveSlug(), {
-                      spotId: spot.id,
-                      sliceImageName,
-                      sliceIndex,
-                    });
-                  }}
+                  onClick={(e) => pinEditHandlers?.handleDeleteSpot(e, spot)}
                 >
                   ×
                 </span>

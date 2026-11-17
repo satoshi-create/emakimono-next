@@ -10,21 +10,24 @@
 
 ```mermaid
 graph TD
-  SpotPins["SpotPins.jsx<br/>View / Sync オーケストレータ（作品非依存）"]
-  Layout["useSpotLayout.js<br/>同期・レイアウト実測フック"]
-  EditOverlay["SpotEditOverlay.jsx<br/>開発編集専用オーバーレイ UI"]
+  SpotPins["SpotPins.jsx<br/>閲覧表示オーケストレータ（作品非依存）"]
+  Editor["useSpotPinsEditor.js<br/>編集状態・ドラッグ・削除ハンドラ"]
+  Layout["useSpotLayout.js<br/>レイアウト計算"]
+  EditOverlay["SpotEditOverlay.jsx<br/>rect リサイズ・十字ドラッグ・配置ドラフト"]
+  SaveBar["SpotPinsEditSaveBar.jsx<br/>編集ツールバー（ポータル）"]
+  Store["spotPinsEditStore.js<br/>編集 SSOT（pendingUpdates 等）"]
+  Popup["SpotPlaceNamePopup.jsx<br/>名所選択 UI"]
   Preset["rakuchuSpotPreset.js<br/>洛中洛外図デフォルトプリセット"]
   Geo["spotPinsGeometry.js<br/>計算・定数"]
-  Store["spotPinsEditStore.js<br/>編集状態（モジュールスコープ）"]
-  Popup["SpotPlaceNamePopup.jsx<br/>名所選択 UI"]
-  SaveBar["SpotPinsEditSaveBar.jsx<br/>保存バー UI"]
 
   SpotPins --> Layout
+  SpotPins --> Editor
   SpotPins --> Geo
-  SpotPins --> Store
-  SpotPins --> EditOverlay
+  SpotPins -->|"?editSpots=1 のみマウント"| EditOverlay
+  SpotPins -->|"?editSpots=1 のみマウント"| SaveBar
+  Editor --> Store
+  EditOverlay --> Store
   EditOverlay --> Popup
-  EditOverlay --> SaveBar
   SaveBar --> Store
   Popup --> Store
   SpotPins --> AppContext["@/context/AppContext"]
@@ -34,18 +37,19 @@ graph TD
 
 ---
 
-## 2. 4層責務一覧
+## 2. 責務一覧
 
 | 層 | ファイル | 責務 | 主要な公開 API |
 |----|----------|------|----------------|
-| **同期・表示（オーケストレータ）** | `../SpotPins.jsx` | スポット描画、クリック→段スクロール、`useSpotLayout` / `SpotEditOverlay` への配線。作品固有定数は持たない汎用コンポーネント | **Props:** `spots`, `linkId`, `zoomScale`, `sliceIndex`, `masterSpots`, `getSpotKindClass`, `slugOverride`, `apiEndpoint`（default: `"/api/dev/update-spot"`）<br/>**Export:** `export default SpotPins` |
-| **同期・表示** | `useSpotLayout.js` | スライス要素とオーバーレイの座標同期、リサイズ・`zoomScale` に追従するレイアウト実測 | `useSpotLayout`（section 参照・ピン座標用メトリクス等） |
-| **状態** | `spotPinsEditStore.js` | 開発編集用の配置モード、未保存差分、スライスごとの追加 ID（slug 単位） | `getPlaceModeEnabled`, `setPlaceModeEnabled`, `subscribePlaceMode`, `registerNewSpot`, `mergePendingUpdate`, `getAddedSpotsForSlug`, `getPlacedSpotIdsForSlug`, `registerSliceSpotIds`, `subscribePendingUpdates`, `subscribeDiscard` |
+| **閲覧・合成（オーケストレータ）** | `../SpotPins.jsx` | 通常閲覧のピン描画・選択・いいね操作。`useSpotLayout` / `useSpotPinsEditor` の配線。編集モード時のみ `SpotPinsEditSaveBar` と `SpotEditOverlay` を合成マウント。作品固有定数は持たない | **Props:** `spots`, `linkId`, `zoomScale`, `sliceIndex`, `masterSpots`, `getSpotKindClass`, `slugOverride`, `apiEndpoint`（default: `"/api/dev/update-spot"`）<br/>**Export:** `export default SpotPins` |
+| **編集ロジック（フック）** | `useSpotPinsEditor.js` | `isEditMode` 判定（`?editSpots=1` + development）。ストア購読（`quizOnlyEdit`, `placeMode`, `pendingUpdates`, `discard`）、`mergedSpots` 合成、ピン移動・削除ハンドラを `SpotPins` へ返す | `useSpotPinsEditor`（`mergedSpots`, 編集ハンドラ群, `isEditMode` 等） |
+| **レイアウト** | `useSpotLayout.js` | スライス要素とオーバーレイの座標同期、リサイズ・`zoomScale` に追従するレイアウト実測 | `useSpotLayout`（section 参照・ピン座標用メトリクス等） |
+| **状態（SSOT）** | `spotPinsEditStore.js` | スポット編集の未保存差分（`pendingUpdates`）、配置モード（`placeMode`）、`quizOnlyEdit` を slug 単位で保持・通知 | `getPlaceModeEnabled`, `setPlaceModeEnabled`, `subscribePlaceMode`, `registerNewSpot`, `mergePendingUpdate`, `getAddedSpotsForSlug`, `getPlacedSpotIdsForSlug`, `registerSliceSpotIds`, `subscribePendingUpdates`, `subscribeDiscard` |
 | **計算・定数** | `spotPinsGeometry.js` | バッジ余白、エッジマージン、スライス画像名抽出、フォールバックオフセット、slug 解決、transform-origin | `BADGE_GAP`, `EDGE_MARGIN`, `extractSliceImageName`, `fallbackOffset`, `getSlugFromPath`, `transformOriginFor` |
 | **プリセット（作品別・親注入）** | `rakuchuSpotPreset.js` | 洛中洛外屏風向けの名所マスター既定値・種別スタイル等。`SpotPins` 本体には埋め込まない | `RAKUCHU_SPOT_MASTERS`, `getRakuchuSpotKindClass` 等（ビューア親から Props として渡す） |
-| **UI 表示** | `SpotEditOverlay.jsx` | 開発編集モード（`?editSpots=1`）専用オーバーレイ。配置クリック・ドラッグ・ポップアップ／保存バーの組み立て | **Props:** `SpotPins` から編集関連を委譲 |
+| **UI 表示（編集オーバーレイ）** | `SpotEditOverlay.jsx` | `rect` リサイズハンドル、中心十字ドラッグ、新規スポット配置ドラフト。名所ポップアップのトリガ | **Props:** `SpotPins` が `isEditMode` 時に委譲 |
 | **UI 表示** | `SpotPlaceNamePopup.jsx` | 編集時の名所マスターからの選択ポップアップ | **Props:** 親から `masterSpots` 等を受け取り store と連携 |
-| **UI 表示** | `SpotPinsEditSaveBar.jsx` | 未保存件数表示・一括保存・破棄 | **Props:** `slugOverride`, `apiEndpoint` 等（`SpotEditOverlay` 経由で委譲） |
+| **UI 表示（編集ツールバー）** | `SpotPinsEditSaveBar.jsx` | ポータル描画の編集ツールバー。クイズ枠のみ表示切替・JSON 一括保存・破棄 | **Props:** `slugOverride`, `apiEndpoint` 等（`SpotPins` が `isEditMode` 時に直結） |
 
 ---
 
@@ -57,24 +61,36 @@ graph TD
 sequenceDiagram
   actor Dev as 開発者
   participant SpotPins as SpotPins.jsx
+  participant Editor as useSpotPinsEditor.js
+  participant Overlay as SpotEditOverlay.jsx
   participant Store as spotPinsEditStore
   participant Popup as SpotPlaceNamePopup
   participant SaveBar as SpotPinsEditSaveBar
   participant API as /api/dev/update-spot
 
   Dev->>SpotPins: ?editSpots=1 でビューア表示
-  SpotPins->>SpotPins: isEditMode 有効化
-  Dev->>SpotPins: スライス上クリック（配置モード）
-  SpotPins->>Store: registerNewSpot / setPlaceModeEnabled 等
-  Dev->>Popup: 名所マスターから選択
-  Popup->>Store: mergePendingUpdate（座標・ID）
-  Dev->>SpotPins: ピン drag で座標調整
-  SpotPins->>Store: mergePendingUpdate（x/y%）
+  SpotPins->>Editor: useSpotPinsEditor 初期化
+  Editor->>Store: subscribe（quizOnlyEdit / placeMode / pendingUpdates / discard）
+  SpotPins->>SpotPins: isEditMode 時のみ Overlay・SaveBar マウント
+
+  Dev->>Overlay: ドラッグ / rect リサイズ / 配置クリック
+  Overlay->>Store: mergePendingUpdate（座標・rect 等）
+  Dev->>SpotPins: 閲覧ピン移動・削除
+  SpotPins->>Editor: 移動・削除ハンドラ
+  Editor->>Store: mergePendingUpdate / 削除反映
+
+  Store-->>Editor: 更新通知
+  Store-->>SpotPins: 全スライス上の SpotPins / Editor が mergedSpots 同期
+
+  Dev->>Popup: 名所マスターから選択（新規配置）
+  Popup->>Store: mergePendingUpdate（id・座標）
+
   Dev->>SaveBar: 一括保存
   SaveBar->>Store: subscribePendingUpdates の差分取得
   SaveBar->>API: POST（apiEndpoint、slug + 更新配列）
   API-->>SaveBar: 成功 / エラー
   SaveBar->>Store: 保存成功時に破棄 or 同期（subscribeDiscard）
+  Store-->>Editor: discard 通知 → 全スライス再同期
 ```
 
 ---
