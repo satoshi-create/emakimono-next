@@ -2,7 +2,8 @@ import styles from "@/styles/QuizModal.module.css";
 import { AppContext } from "@/context/AppContext";
 import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { useTranslation } from "next-i18next";
 
 /**
@@ -18,13 +19,19 @@ const QuizFab = ({
 }) => {
   const { t } = useTranslation("common");
   const { orientation, toggleFullscreen } = useContext(AppContext);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const label =
     mode === "resume" ? t("quiz.resumeLabel") : t("quiz.fabLabel");
 
   // float（PC / SP横）はナビ idle に連動。bar（SP縦）は非連動
-  const hideWithIdle = variant === "float" && !isUIVisible;
+  const hideWithIdle = false;
 
-  return (
+  const fabElement = (
     <div
       className={`${styles.fabWrap} ${hideWithIdle ? styles.fabHidden : ""}`}
       data-variant={variant}
@@ -47,6 +54,19 @@ const QuizFab = ({
       </button>
     </div>
   );
+
+  if (
+    variant === "float" &&
+    mounted &&
+    typeof document !== "undefined"
+  ) {
+    return createPortal(
+      fabElement,
+      document.querySelector(".entry-container") || document.body
+    );
+  }
+
+  return fabElement;
 };
 
 export default QuizFab;

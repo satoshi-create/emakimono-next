@@ -11,7 +11,8 @@ export type QuizId =
   | "kusouzumaki"
   | "kusouzu-kobayasieieitaku"
   | "genji-monogatari-tokugawa"
-  | "tsukumogami";
+  | "tsukumogami"
+  | "rakuchu-rakugai-funaki";
 
 export type QuizChoice = {
   id: string;
