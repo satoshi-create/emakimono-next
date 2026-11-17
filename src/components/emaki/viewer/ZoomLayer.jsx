@@ -148,7 +148,7 @@ const ZoomLayer = ({
     if (stripRef?.current) {
       const rect = stripRef.current.getBoundingClientRect();
       const imgs = Array.from(stripRef.current.querySelectorAll("img[data-scene-index]"));
-      logZoomLayer("CaptureTriggered", {
+      logDebug("CaptureTriggered", {
         stripRect: { left: rect.left.toFixed(1), width: rect.width.toFixed(1) },
         renderedImages: imgs.map((img) => ({
           sceneIndex: img.dataset.sceneIndex,

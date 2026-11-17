@@ -9,7 +9,7 @@ import { useTranslation } from "next-i18next";
 // =============================================================================
 // デバッグスイッチ（検証完了後は false にして一括停止）
 // =============================================================================
-const DEBUG_QUIZ_FAB = true;
+const DEBUG_QUIZ_FAB = false;
 
 function logDebug(tag, ...args) {
   if (!DEBUG_QUIZ_FAB) return;
