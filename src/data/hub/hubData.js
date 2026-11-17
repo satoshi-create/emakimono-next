@@ -135,6 +135,57 @@ export const HUB_EMAKIS = [
       },
     },
   },
+  {
+    titleen: "rakuchu_rakugai_funaki",
+    region: "kyoto",
+    theme: "satire",
+    themes: ["satire", "samurai"],
+    tags: ["Kyoto", "Screen", "Townspeople"],
+    spot: {
+      nameJa: "方広寺大仏殿・豊国社付近",
+      nameEn: "Hōkō-ji & Toyokuni Shrine Area",
+      lat: 34.9918,
+      lng: 135.7725,
+      desc: {
+        ja: "岩佐又兵衛筆と伝わる国宝「洛中洛外図屏風（舟木本）」。方広寺大仏殿や豊国社をはじめ、慶長期の京の街並みと躍動する人々の風俗を描きます。",
+        en: "The Funaki Version of Scenes in and around the Capital, attributed to Iwasa Matabei, vividly depicting Keichō-era Kyoto landmarks such as Hōkō-ji and Toyokuni Shrine alongside lively townspeople.",
+      },
+    },
+  },
+  {
+    titleen: "rakuchu_rakugai_fukuoka",
+    region: "kyoto",
+    theme: "satire",
+    themes: ["satire", "samurai"],
+    tags: ["Kyoto", "Screen", "Festival"],
+    spot: {
+      nameJa: "五条大橋・清水寺付近",
+      nameEn: "Gojō Bridge & Kiyomizu-dera Area",
+      lat: 34.9958,
+      lng: 135.7705,
+      desc: {
+        ja: "福岡市博物館所蔵の「洛中洛外図屏風」。五条大橋や清水寺など東山から鴨川にかけての景観と、四季の祭礼や庶民の暮らしを華やかに伝えます。",
+        en: "Held by the Fukuoka City Museum, this screen captures the scenery from Gojō Bridge to Kiyomizu-dera, seasonal festivals, and everyday life in Kyoto.",
+      },
+    },
+  },
+  {
+    titleen: "rakuchu_rakugai_met",
+    region: "kyoto",
+    theme: "samurai",
+    themes: ["samurai", "satire"],
+    tags: ["Kyoto", "Screen", "Nijō Castle"],
+    spot: {
+      nameJa: "二条城・洛中",
+      nameEn: "Nijō Castle & Central Kyoto",
+      lat: 35.0142,
+      lng: 135.7482,
+      desc: {
+        ja: "メトロポリタン美術館所蔵の「洛中洛外図屏風」。二条城を中心とする洛中の壮麗な建築群と武家・公家・町衆の往来を緻密に描き出しています。",
+        en: "Held by the Metropolitan Museum of Art, this screen portrays Nijō Castle and central Kyoto in intricate detail, bustling with samurai, courtiers, and townspeople.",
+      },
+    },
+  },
   // ---- 鎌倉編 ----
   {
     titleen: "",
