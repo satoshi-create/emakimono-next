@@ -184,6 +184,8 @@ export default function useEmakiQuizController({
           target.y
         );
         if (resolved) {
+          const rectW = target.w ?? target.rect?.w;
+          const rectH = target.h ?? target.rect?.h;
           handleToId(resolved.linkId);
           window.setTimeout(() => {
             zoomToSlicePercentRef?.current?.({
@@ -191,6 +193,8 @@ export default function useEmakiQuizController({
               centerX: resolved.centerX,
               centerY: resolved.centerY,
               targetScale: target.scale ?? 4.6,
+              rectW,
+              rectH,
             });
           }, 300);
           return;
@@ -206,7 +210,9 @@ export default function useEmakiQuizController({
             sliceIndex: deep.sliceIndex,
             centerX: deep.centerX,
             centerY: deep.centerY,
-            targetScale: 4.6,
+            targetScale: deep.targetScale ?? 4.6,
+            rectW: deep.rectW,
+            rectH: deep.rectH,
           });
         }, 300);
       }

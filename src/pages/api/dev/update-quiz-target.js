@@ -44,10 +44,14 @@ function replaceQuestionTarget(source, questionId, target) {
   return source.slice(0, startIdx) + newBlock + source.slice(endIdx);
 }
 
-const QUIZ_FILE = path.join(
-  process.cwd(),
-  "src/data/quiz/rakuchuRakugaiFunakiQuiz.ts"
-);
+const QUIZ_FILES_BY_ID = {
+  rakuchu_rakugai_funaki: path.join(process.cwd(), "src/data/quiz/rakuchuRakugaiFunakiQuiz.ts"),
+  "rakuchu-rakugai-funaki-quiz": path.join(process.cwd(), "src/data/quiz/rakuchuRakugaiFunakiQuiz.ts"),
+  rakuchu_rakugai_fukuoka: path.join(process.cwd(), "src/data/quiz/rakuchuRakugaiFukuokaQuiz.ts"),
+  "rakuchu-rakugai-fukuoka-quiz": path.join(process.cwd(), "src/data/quiz/rakuchuRakugaiFukuokaQuiz.ts"),
+  rakuchu_rakugai_met: path.join(process.cwd(), "src/data/quiz/rakuchuRakugaiMetQuiz.ts"),
+  "rakuchu-rakugai-met-quiz": path.join(process.cwd(), "src/data/quiz/rakuchuRakugaiMetQuiz.ts"),
+};
 
 export default function handler(req, res) {
   if (process.env.NODE_ENV !== "development") {
@@ -58,7 +62,11 @@ export default function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { updates, questionId, target } = req.body ?? {};
+  const { quizId = "rakuchu_rakugai_funaki", updates, questionId, target } = req.body ?? {};
+  const quizFile = QUIZ_FILES_BY_ID[String(quizId).trim()];
+  if (!quizFile) {
+    return res.status(400).json({ error: `Unsupported quizId: ${quizId}` });
+  }
 
   const items = Array.isArray(updates)
     ? updates
@@ -72,7 +80,7 @@ export default function handler(req, res) {
 
   let source;
   try {
-    source = fs.readFileSync(QUIZ_FILE, "utf8");
+    source = fs.readFileSync(quizFile, "utf8");
   } catch {
     return res.status(500).json({ error: "Quiz file not found" });
   }
@@ -98,7 +106,7 @@ export default function handler(req, res) {
   }
 
   try {
-    fs.writeFileSync(QUIZ_FILE, source, "utf8");
+    fs.writeFileSync(quizFile, source, "utf8");
   } catch {
     return res.status(500).json({ error: "Failed to write quiz file" });
   }

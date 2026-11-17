@@ -60,7 +60,6 @@ graph TD
 | `touchAction` | `pan-x pan-y` |
 
 ## 主要 Ref 配線
-
 | Ref | 定義元 | 主な受け渡し先 |
 |-----|--------|----------------|
 | `articleRef` | EmakiConteiner | Scroll / AutoPlay / RailSync / Restore / Lifecycle |

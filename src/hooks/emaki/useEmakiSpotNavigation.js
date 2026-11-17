@@ -316,16 +316,18 @@ export default function useEmakiSpotNavigation({
       let targetScale = 2.6;
       if (landing.rectW != null && landing.rectH != null) {
         targetScale = Math.min(
-          80 / Math.max(landing.rectW, 12),
-          80 / Math.max(landing.rectH, 12)
+          80 / Math.max(landing.rectW, 4),
+          80 / Math.max(landing.rectH, 4)
         );
-        targetScale = Math.min(4.6, Math.max(2.2, targetScale));
+        targetScale = Math.min(5.5, Math.max(1.2, targetScale));
       }
       zoomToSlicePercentRef.current?.({
         sliceIndex: landing.sliceIndex,
         centerX: landing.centerX,
         centerY: landing.centerY,
         targetScale,
+        rectW: landing.rectW,
+        rectH: landing.rectH,
       });
       if (typeof window !== "undefined") {
         window.dispatchEvent(
@@ -434,16 +436,18 @@ export default function useEmakiSpotNavigation({
       let targetScale = 2.6;
       if (rectW != null && rectH != null) {
         targetScale = Math.min(
-          80 / Math.max(rectW, 12),
-          80 / Math.max(rectH, 12)
+          80 / Math.max(rectW, 4),
+          80 / Math.max(rectH, 4)
         );
-        targetScale = Math.min(4.6, Math.max(2.2, targetScale));
+        targetScale = Math.min(5.5, Math.max(1.2, targetScale));
       }
       zoomToSlicePercentRef.current({
         sliceIndex,
         centerX,
         centerY,
         targetScale,
+        rectW,
+        rectH,
       });
       setPendingSpotZoom(null);
     }, 300);

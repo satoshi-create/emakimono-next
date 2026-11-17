@@ -11,6 +11,8 @@ import { KUSOUZU_KOBAYASIEIEITAKU_QUIZ } from "./kusouzuKobayasieieitakuQuiz";
 import { GENJI_MONOGATARI_TOKUGAWA_QUIZ } from "./genjiMonogatariTokugawaQuiz";
 import { TSUKUMOGAMI_QUIZ } from "./tsukumogamiQuiz";
 import { RAKUCHU_RAKUGAI_FUNAKI_QUIZ } from "./rakuchuRakugaiFunakiQuiz";
+import { RAKUCHU_RAKUGAI_FUKUOKA_QUIZ } from "./rakuchuRakugaiFukuokaQuiz";
+import { RAKUCHU_RAKUGAI_MET_QUIZ } from "./rakuchuRakugaiMetQuiz";
 
 export { getQuizRank } from "./choujuGigaKouQuiz";
 
@@ -121,6 +123,8 @@ export const ALL_QUIZZES: QuizDefinition[] = [
     seriesTitleEn: "The Tale of Genji Scroll Series",
   },
   RAKUCHU_RAKUGAI_FUNAKI_QUIZ,
+  RAKUCHU_RAKUGAI_FUKUOKA_QUIZ,
+  RAKUCHU_RAKUGAI_MET_QUIZ,
 ];
 
 export const QUIZ_BY_ID: Record<QuizId, QuizDefinition> = {
@@ -136,6 +140,8 @@ export const QUIZ_BY_ID: Record<QuizId, QuizDefinition> = {
   "kusouzu-kobayasieieitaku": KUSOUZU_KOBAYASIEIEITAKU_QUIZ,
   "genji-monogatari-tokugawa": GENJI_MONOGATARI_TOKUGAWA_QUIZ,
   "rakuchu-rakugai-funaki": RAKUCHU_RAKUGAI_FUNAKI_QUIZ,
+  "rakuchu-rakugai-fukuoka-quiz": RAKUCHU_RAKUGAI_FUKUOKA_QUIZ,
+  "rakuchu-rakugai-met-quiz": RAKUCHU_RAKUGAI_MET_QUIZ,
 };
 
 export const QUIZ_BY_TITLEEN: Record<string, QuizDefinition> = {
@@ -151,6 +157,8 @@ export const QUIZ_BY_TITLEEN: Record<string, QuizDefinition> = {
   "genjimonogatari-emaki-tokugawa": GENJI_MONOGATARI_TOKUGAWA_QUIZ,
   tsukumogami: TSUKUMOGAMI_QUIZ,
   rakuchu_rakugai_funaki: RAKUCHU_RAKUGAI_FUNAKI_QUIZ,
+  [RAKUCHU_RAKUGAI_FUKUOKA_QUIZ.titleen]: RAKUCHU_RAKUGAI_FUKUOKA_QUIZ,
+  [RAKUCHU_RAKUGAI_MET_QUIZ.titleen]: RAKUCHU_RAKUGAI_MET_QUIZ,
 };
 
 export function getQuizForTitleen(
