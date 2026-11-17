@@ -362,6 +362,21 @@
       "srcWidth": 1330,
       "spots": [
         {
+          "id": "kamogawa",
+          "name": "賀茂川",
+          "x": 100,
+          "y": 47.6,
+          "nameen": "Kamo River",
+          "rect": {
+            "w": 55,
+            "h": 8
+          },
+          "badgePos": {
+            "x": 144.1,
+            "y": 48
+          }
+        },
+        {
           "id": "shijokawara",
           "name": "四条河原",
           "x": 60,
@@ -428,21 +443,6 @@
           "badgePos": {
             "x": 84.3,
             "y": 10.9
-          }
-        },
-        {
-          "id": "kamogawa",
-          "name": "賀茂川",
-          "x": 100,
-          "y": 47.9,
-          "nameen": "Kamo River",
-          "rect": {
-            "w": 14,
-            "h": 4
-          },
-          "badgePos": {
-            "x": 235.4,
-            "y": 47.6
           }
         },
         {
