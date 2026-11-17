@@ -31,10 +31,14 @@ import { getSlugFromPath } from "./spotPinsGeometry";
  * @param {object} props
  * @param {string} [props.slugOverride] 絵巻 slug を明示指定（未指定時は現在 pathname）
  * @param {string} [props.apiEndpoint] 一括保存 POST 先（既定: /api/dev/update-spot）
+ * @param {boolean} [props.quizOnlyEdit] クイズ枠のみ編集表示
+ * @param {() => void} [props.onToggleQuizOnlyEdit] クイズ枠のみ切替
  */
 export default function SpotPinsEditSaveBar({
   slugOverride,
   apiEndpoint = "/api/dev/update-spot",
+  quizOnlyEdit = false,
+  onToggleQuizOnlyEdit,
 }) {
   const router = useRouter();
   const isEditMode =
@@ -156,6 +160,26 @@ export default function SpotPinsEditSaveBar({
               >
                 ＋ クリックで配置（{placeModeEnabled ? "ON" : "OFF"}）
               </button>
+              {onToggleQuizOnlyEdit && (
+                <button
+                  type="button"
+                  onClick={onToggleQuizOnlyEdit}
+                  style={{
+                    padding: "4px 10px",
+                    borderRadius: "4px",
+                    fontSize: "12px",
+                    fontWeight: 600,
+                    backgroundColor: quizOnlyEdit
+                      ? "#2563eb"
+                      : "rgba(255,255,255,0.12)",
+                    color: "#fff",
+                    border: "1px solid rgba(255,255,255,0.25)",
+                    cursor: "pointer",
+                  }}
+                >
+                  {quizOnlyEdit ? "クイズ枠のみ: ON" : "クイズ枠のみ: OFF"}
+                </button>
+              )}
               {placeModeEnabled ? (
                 <span style={{ fontSize: 12, color: "#ccc", maxWidth: 220 }}>
                   絵巻上の追加したい場所をクリックしてください

@@ -464,6 +464,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: opacity 0.2s ease, transform 0.2s ease;
+  margin-bottom: 0.5rem;
 }
 
 .fabHidden {

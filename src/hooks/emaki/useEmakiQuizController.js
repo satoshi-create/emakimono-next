@@ -12,6 +12,7 @@ import {
   isQuizFabHidden,
   setQuizFabHidden,
 } from "@/libs/api/quizFabPrefs";
+import { resolveSpotDeepLink } from "@/hooks/emaki/useEmakiSpotNavigation";
 import { resolveLinkIdByChapter } from "@/utils/resolveQuizJump";
 import { runAfterPaint } from "@/utils/runAfterPaint";
 
@@ -22,6 +23,7 @@ export default function useEmakiQuizController({
   stopPlayMode,
   handleToId,
   push,
+  zoomToSlicePercentRef,
 }) {
   const [quizModule, setQuizModule] = useState(null);
   const [quizSession, setQuizSession] = useState(null);
@@ -163,12 +165,24 @@ export default function useEmakiQuizController({
   }, []);
 
   const handleQuizJumpLocal = useCallback(
-    (linkId) => {
+    (linkId, spotId) => {
       stopPlayMode();
       setQuizUi("minimized");
       handleToId(linkId);
+      if (spotId && data?.emakis) {
+        window.setTimeout(() => {
+          const deep = resolveSpotDeepLink(data.emakis, spotId);
+          if (!deep) return;
+          zoomToSlicePercentRef?.current?.({
+            sliceIndex: deep.sliceIndex,
+            centerX: deep.centerX,
+            centerY: deep.centerY,
+            targetScale: 4.6,
+          });
+        }, 300);
+      }
     },
-    [stopPlayMode, handleToId]
+    [stopPlayMode, handleToId, data?.emakis, zoomToSlicePercentRef]
   );
 
   const handleQuizJumpScroll = useCallback(

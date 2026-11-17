@@ -179,6 +179,8 @@ const EmakiContainer = ({
     stopPlayMode,
     handleToId,
     push,
+    zoomToSlicePercentRef,
+    emakis: data.emakis,
   });
 
   const { isPalmMode, suppressClickUntilRef, palmActiveRef } =

@@ -29,7 +29,8 @@ export type QuizJumpTarget =
       titleen: string;
       chapter?: number | string;
       linkId?: number;
-    };
+    }
+  | { type: "spot"; spotId: string };
 
 export type QuizQuestion = {
   id: string;

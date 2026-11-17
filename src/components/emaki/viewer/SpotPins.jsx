@@ -17,6 +17,7 @@ import {
   useMemo,
   useRef,
   useState,
+  useSyncExternalStore,
 } from "react";
 
 import SpotEditOverlay from "./spotPins/SpotEditOverlay";
@@ -34,6 +35,7 @@ import {
 import {
   getAddedSpotsForSlug,
   getPlaceModeEnabled,
+  getQuizOnlyEdit,
   getPlacedSpotIdsForSlug,
   isSpotMarkedDeleted,
   markSpotDeleted,
@@ -43,6 +45,8 @@ import {
   subscribeDiscard,
   subscribePendingUpdates,
   subscribePlaceMode,
+  subscribeQuizOnly,
+  toggleQuizOnlyEdit,
 } from "./spotPins/spotPinsEditStore";
 import { useSpotLayout } from "./spotPins/useSpotLayout";
 
@@ -51,6 +55,7 @@ import { useSpotLayout } from "./spotPins/useSpotLayout";
 // =============================================================================
 
 const DEBUG_SPOT_ADD = false;
+const QUIZ_EDIT_ACCENT = "#2563eb";
 
 function logDebug(tag, ...args) {
   if (!DEBUG_SPOT_ADD) return;
@@ -138,6 +143,11 @@ const SpotPins = ({
   const [, pendingBump] = useState(0);
   const [placeModeOn, setPlaceModeOn] = useState(() => getPlaceModeEnabled());
   const [placeDraft, setPlaceDraft] = useState(null);
+  const quizOnlyEdit = useSyncExternalStore(
+    subscribeQuizOnly,
+    getQuizOnlyEdit,
+    getQuizOnlyEdit,
+  );
 
   // ---------------------------------------------------------------------------
   // 3. 同期 — スライス名・編集ストア・配置モード
@@ -209,12 +219,18 @@ const SpotPins = ({
         badgePos: a.badgePos ?? null,
       })),
     ]
-  ).filter(
-    (s) =>
+  ).filter((s) => {
+    const passesHidden = !isEditMode
+      ? !s.hidden
+      : quizOnlyEdit
+        ? Boolean(s.hidden)
+        : true;
+    const passesDeleted =
       !isEditMode ||
       !editSlug ||
-      !isSpotMarkedDeleted(editSlug, s.id, sliceImageName),
-  );
+      !isSpotMarkedDeleted(editSlug, s.id, sliceImageName);
+    return passesHidden && passesDeleted;
+  });
 
   const spotLabel = useCallback(
     (spot) => (locale === "en" && spot.nameen ? spot.nameen : spot.name),
@@ -289,6 +305,8 @@ const SpotPins = ({
         <SpotPinsEditSaveBar
           slugOverride={slugOverride}
           apiEndpoint={apiEndpoint}
+          quizOnlyEdit={quizOnlyEdit}
+          onToggleQuizOnlyEdit={toggleQuizOnlyEdit}
         />
       ) : null}
       <div
@@ -312,6 +330,7 @@ const SpotPins = ({
         }}
       >
         {mergedSpots.map((spot) => {
+          const isQuizHiddenSpot = isEditMode && spot.hidden === true;
           const label = spotLabel(spot);
           const kindClass =
             getSpotKindClass === null
@@ -363,13 +382,20 @@ const SpotPins = ({
             selectedSpotId != null &&
             String(selectedSpotId) === String(spot.id);
           const pinButton = (
-            <button
+            <div
+              role="button"
+              tabIndex={0}
               ref={(el) => {
                 if (el) pinRefs.current.set(spot.id, el);
                 else pinRefs.current.delete(spot.id);
               }}
-              type="button"
               className={`${styles.pin} ${kindClass}`}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  e.currentTarget.click();
+                }
+              }}
               style={{
                 ...(useBadgePos
                   ? {
@@ -389,6 +415,12 @@ const SpotPins = ({
                   ? {
                       cursor: isDragging ? "grabbing" : "grab",
                       touchAction: "none",
+                      ...(isQuizHiddenSpot
+                        ? {
+                            boxShadow:
+                              "0 0 0 2px #2563eb, 0 2px 10px rgba(37, 99, 235, 0.35)",
+                          }
+                        : null),
                     }
                   : null),
                 ...(isSelected
@@ -423,16 +455,22 @@ const SpotPins = ({
                 const pos = percentFromPointer(e);
                 if (!pos) return;
                 draggingRef.current.moved = true;
+                const roundedX = pos.x;
+                const roundedY = pos.y;
                 setDragOverrides((prev) => ({
                   ...prev,
                   [spot.id]: {
-                    x: prev[spot.id]?.x ?? spot.x,
-                    y: prev[spot.id]?.y ?? spot.y,
+                    ...(spot.hidden
+                      ? { x: roundedX, y: roundedY }
+                      : {
+                          x: prev[spot.id]?.x ?? spot.x,
+                          y: prev[spot.id]?.y ?? spot.y,
+                        }),
                     rect:
                       prev[spot.id]?.rect ??
                       spot.rect ??
                       { w: 24, h: 20 },
-                    badgePos: { x: pos.x, y: pos.y },
+                    badgePos: { x: roundedX, y: roundedY },
                   },
                 }));
               }}
@@ -458,19 +496,23 @@ const SpotPins = ({
                   dragOverrides[spot.id]?.rect ??
                   spot.rect ??
                   { w: 24, h: 20 };
-                const nextBadgePos = { x: pos.x, y: pos.y };
+                const roundedX = pos.x;
+                const roundedY = pos.y;
+                const nextBadgePos = { x: roundedX, y: roundedY };
+                const nextX = spot.hidden ? roundedX : saveX;
+                const nextY = spot.hidden ? roundedY : saveY;
                 setDragOverrides((prev) => ({
                   ...prev,
                   [spot.id]: {
-                    x: saveX,
-                    y: saveY,
+                    x: nextX,
+                    y: nextY,
                     rect: saveRect,
                     badgePos: nextBadgePos,
                   },
                 }));
                 mergePendingUpdate(resolveSlug(), spot.id, {
-                  x: saveX,
-                  y: saveY,
+                  x: nextX,
+                  y: nextY,
                   rect: saveRect,
                   badgePos: nextBadgePos,
                 });
@@ -484,7 +526,18 @@ const SpotPins = ({
               }}
               onClick={(e) => goToScene(e, spot)}
             >
-              <span className={styles.dot} aria-hidden="true" />
+              <span
+                className={styles.dot}
+                aria-hidden="true"
+                style={
+                  isQuizHiddenSpot
+                    ? {
+                        backgroundColor: QUIZ_EDIT_ACCENT,
+                        borderColor: QUIZ_EDIT_ACCENT,
+                      }
+                    : undefined
+                }
+              />
               <span className={styles.label}>{label}</span>
               {!ebikiPickerEnabled &&
               !isEditMode &&
@@ -545,7 +598,7 @@ const SpotPins = ({
                   ×
                 </span>
               ) : null}
-            </button>
+            </div>
           );
           return (
             <div key={spot.id} style={{ display: "contents" }}>

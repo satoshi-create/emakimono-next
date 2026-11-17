@@ -77,7 +77,7 @@ export function resolveSpotDeepLink(emakis, querySpot) {
         80 / Math.max(rectW, 12),
         80 / Math.max(rectH, 12)
       );
-      targetScale = Math.min(4.5, Math.max(2.2, targetScale));
+      targetScale = Math.min(4.6, Math.max(2.2, targetScale));
     }
     return {
       linkId,
@@ -87,6 +87,7 @@ export function resolveSpotDeepLink(emakis, querySpot) {
       centerY,
       rectW,
       rectH,
+      targetScale,
     };
   }
   return null;
@@ -219,7 +220,7 @@ export default function useEmakiSpotNavigation({
           80 / Math.max(landing.rectW, 12),
           80 / Math.max(landing.rectH, 12)
         );
-        targetScale = Math.min(4.5, Math.max(2.2, targetScale));
+        targetScale = Math.min(4.6, Math.max(2.2, targetScale));
       }
       zoomToSlicePercentRef.current?.({
         sliceIndex: landing.sliceIndex,
@@ -337,7 +338,7 @@ export default function useEmakiSpotNavigation({
           80 / Math.max(rectW, 12),
           80 / Math.max(rectH, 12)
         );
-        targetScale = Math.min(4.5, Math.max(2.2, targetScale));
+        targetScale = Math.min(4.6, Math.max(2.2, targetScale));
       }
       zoomToSlicePercentRef.current({
         sliceIndex,

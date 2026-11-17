@@ -475,8 +475,6 @@ export default function SpotEditOverlay({
               },
             }));
             mergePendingUpdate(editSlug, spot.id, {
-              x: currentX,
-              y: currentY,
               rect: finalRect,
               ...(saveBadgePos ? { badgePos: saveBadgePos } : null),
             });

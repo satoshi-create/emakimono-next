@@ -2,6 +2,8 @@
  * クイズ jump 定義 → ビューア linkId / 他巻遷移情報へ解決。
  */
 
+import { resolveSpotDeepLink } from "@/hooks/emaki/useEmakiSpotNavigation";
+
 /**
  * @param {{ chapter?: string|number, linkId: number, cat?: string }[]} emakis
  * @param {string|number} chapter
@@ -172,6 +174,13 @@ export function resolveQuizJump(emakis, jump, currentTitleen) {
 
   if (jump.type === "linkId" && typeof jump.linkId === "number") {
     return { kind: "local", linkId: jump.linkId };
+  }
+
+  if (jump.type === "spot" && jump.spotId) {
+    const resolved = resolveSpotDeepLink(emakis, jump.spotId);
+    if (resolved) {
+      return { kind: "local", linkId: resolved.linkId, spotId: jump.spotId };
+    }
   }
 
   if (jump.type === "chapter") {

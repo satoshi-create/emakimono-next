@@ -237,7 +237,7 @@ const QuizModal = ({
         toChapter: resolved.chapter,
       });
       patchSession(basePatch);
-      onMinimizeAndJumpLocal(resolved.linkId);
+      onMinimizeAndJumpLocal(resolved.linkId, resolved.spotId);
       return;
     }
 

@@ -15,8 +15,10 @@ const sliceSpotIdsBySlug = new Map();
 const pendingListeners = new Set();
 const discardListeners = new Set();
 const placeModeListeners = new Set();
+const quizOnlyListeners = new Set();
 
 let placeModeEnabled = false;
+let quizOnlyEdit = false;
 
 /** 一括保存バーの単一ホスト（開発 editSpots 時に1コンポーネントのみ表示） */
 const editBarHostRef = { taken: false };
@@ -37,6 +39,12 @@ const notifyPlaceMode = () => {
   });
 };
 
+const notifyQuizOnly = () => {
+  quizOnlyListeners.forEach((fn) => {
+    fn();
+  });
+};
+
 // =============================================================================
 // 3. 購読 API — React 側は useEffect で登録・解除する
 // =============================================================================
@@ -51,6 +59,12 @@ export function subscribePendingUpdates(listener) {
 export function subscribePlaceMode(listener) {
   placeModeListeners.add(listener);
   return () => placeModeListeners.delete(listener);
+}
+
+/** クイズ枠のみ編集 on/off を購読 */
+export function subscribeQuizOnly(listener) {
+  quizOnlyListeners.add(listener);
+  return () => quizOnlyListeners.delete(listener);
 }
 
 /** 破棄（discard）実行を購読 — 引数は slug */
@@ -114,6 +128,20 @@ export function setPlaceModeEnabled(next) {
 
 export function getPlaceModeEnabled() {
   return placeModeEnabled;
+}
+
+export function getQuizOnlyEdit() {
+  return quizOnlyEdit;
+}
+
+export function setQuizOnlyEdit(next) {
+  quizOnlyEdit = Boolean(next);
+  notifyQuizOnly();
+}
+
+export function toggleQuizOnlyEdit() {
+  quizOnlyEdit = !quizOnlyEdit;
+  notifyQuizOnly();
 }
 
 /** 保存バー表示権を取得。既に他が保持していれば false */
