@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import styles from "@/styles/ScrollSightseeingMapDrawer.module.css";
 import {
   findGeoSpotByScrollSpot,
   getGeoSpotsForScroll,
@@ -144,7 +145,7 @@ const ScrollSightseeingMapDrawer = ({
 
   return (
     <div
-      className="ssmd-backdrop"
+      className={styles.backdrop}
       role="dialog"
       aria-modal="true"
       aria-label={
@@ -161,7 +162,7 @@ const ScrollSightseeingMapDrawer = ({
       }}
     >
       <aside
-        className="ssmd-panel"
+        className={styles.panel}
         style={
           drawerWidth != null
             ? { width: drawerWidth, maxWidth: drawerWidth }
@@ -169,35 +170,35 @@ const ScrollSightseeingMapDrawer = ({
         }
       >
         <div
-          className="ssmd-resize-handle"
+          className={styles.resizeHandle}
           role="separator"
           aria-orientation="vertical"
           aria-label={isEn ? "Resize panel" : "パネル幅を調整"}
           onPointerDown={handleResizePointerDown}
         >
-          <span className="ssmd-resize-grip" aria-hidden="true" />
+          <span className={styles.resizeGrip} aria-hidden="true" />
         </div>
-        <header className="ssmd-header">
-          <div className="ssmd-header-main">
-            <div className="ssmd-title-row">
-              <h2 className="ssmd-title">
+        <header className={styles.header}>
+          <div className={styles.headerMain}>
+            <div className={styles.titleRow}>
+              <h2 className={styles.title}>
                 {scrollTitle || (isEn ? "Sightseeing Map" : "観光マップ")}
               </h2>
-              <span className="ssmd-count">{spotCountLabel}</span>
+              <span className={styles.count}>{spotCountLabel}</span>
             </div>
-            <div className="ssmd-header-actions">
+            <div className={styles.headerActions}>
               <Link href={hubHref}>
-                <a className="ssmd-hub-link">
+                <a className={styles.hubLink}>
                   {isEn ? "Open full map page" : "全体マップページで開く"}
                   <span aria-hidden="true">↗</span>
                 </a>
               </Link>
             </div>
           </div>
-          <div className="ssmd-header-btns">
+          <div className={styles.headerBtns}>
             <button
               type="button"
-              className="ssmd-width-toggle-btn"
+              className={styles.widthToggleBtn}
               onClick={handleWidthToggle}
               aria-label={
                 isEn
@@ -219,7 +220,7 @@ const ScrollSightseeingMapDrawer = ({
             </button>
             <button
               type="button"
-              className="ssmd-close-btn"
+              className={styles.closeBtn}
               onClick={() => onClose?.()}
               aria-label={isEn ? "Close map" : "地図を閉じる"}
             >
@@ -230,7 +231,7 @@ const ScrollSightseeingMapDrawer = ({
 
         {geoSpots.length > 0 && (
           <div
-            className="ssmd-chips"
+            className={styles.chips}
             role="tablist"
             aria-label={isEn ? "Spot selector" : "スポット一覧"}
           >
@@ -245,18 +246,18 @@ const ScrollSightseeingMapDrawer = ({
                   type="button"
                   role="tab"
                   aria-selected={isActive}
-                  className={`ssmd-chip ${isActive ? "is-active" : ""}`}
+                  className={`${styles.chip} ${isActive ? styles.chipActive : ""}`}
                   onClick={() => setActiveGeoSpotId(spot.id)}
                 >
-                  <span className="ssmd-chip-num">{idx + 1}</span>
-                  <span className="ssmd-chip-label">{name}</span>
+                  <span className={styles.chipNum}>{idx + 1}</span>
+                  <span>{name}</span>
                 </button>
               );
             })}
           </div>
         )}
 
-        <div className="ssmd-map-body">
+        <div className={styles.mapBody}>
           {geoSpots.length > 0 ? (
             <ScrollSpotMapCanvas
               currentTitleen={titleen}
@@ -269,7 +270,7 @@ const ScrollSightseeingMapDrawer = ({
               locale={locale}
             />
           ) : (
-            <div className="ssmd-empty">
+            <div className={styles.empty}>
               {isEn
                 ? "No sightseeing spots registered for this scroll."
                 : "この絵巻に対応する観光スポットはありません。"}
@@ -277,290 +278,6 @@ const ScrollSightseeingMapDrawer = ({
           )}
         </div>
       </aside>
-
-      <style jsx>{`
-        .ssmd-backdrop {
-          position: fixed;
-          inset: 0;
-          z-index: 1200;
-          background: rgba(15, 23, 42, 0.45);
-          display: flex;
-          justify-content: flex-end;
-          align-items: stretch;
-          font-family: var(--font-ui, sans-serif);
-          overscroll-behavior: contain;
-        }
-
-        .ssmd-panel {
-          position: relative;
-          width: min(680px, 92vw);
-          height: 100%;
-          background: var(--clr-bg, #ffffff);
-          color: var(--clr-text, #141414);
-          display: flex;
-          flex-direction: column;
-          box-shadow: -8px 0 32px rgba(15, 23, 42, 0.18);
-          animation: ssmdSlideInRight 0.22s ease-out;
-          overflow: hidden;
-          overscroll-behavior: contain;
-        }
-
-        .ssmd-header {
-          display: flex;
-          align-items: flex-start;
-          justify-content: space-between;
-          gap: 12px;
-          padding: 14px 16px 12px;
-          border-bottom: 1px solid #e2e8f0;
-          background: var(--clr-surface, #f9fbff);
-          flex-shrink: 0;
-        }
-
-        .ssmd-header-main {
-          display: flex;
-          flex-direction: column;
-          gap: 6px;
-          min-width: 0;
-          flex: 1;
-        }
-
-        .ssmd-title-row {
-          display: flex;
-          align-items: center;
-          flex-wrap: wrap;
-          gap: 8px;
-        }
-
-        .ssmd-title {
-          margin: 0;
-          font-size: 1rem;
-          font-weight: 700;
-          line-height: 1.35;
-          color: var(--clr-text, #141414);
-        }
-
-        .ssmd-count {
-          display: inline-flex;
-          align-items: center;
-          padding: 2px 8px;
-          border-radius: 9999px;
-          background: #e2e8f0;
-          color: #334155;
-          font-size: 0.75rem;
-          font-weight: 600;
-          line-height: 1.4;
-          white-space: nowrap;
-        }
-
-        .ssmd-header-actions {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-
-        .ssmd-hub-link {
-          display: inline-flex;
-          align-items: center;
-          gap: 4px;
-          font-size: 0.8125rem;
-          font-weight: 600;
-          color: var(--clr-link, #065fd4);
-          text-decoration: none;
-        }
-
-        .ssmd-hub-link:hover {
-          text-decoration: underline;
-        }
-
-        .ssmd-resize-handle {
-          position: absolute;
-          top: 0;
-          left: 0;
-          bottom: 0;
-          width: 10px;
-          cursor: ew-resize;
-          z-index: 60;
-          touch-action: none;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .ssmd-resize-grip {
-          width: 3px;
-          height: 36px;
-          border-radius: 2px;
-          background: #94a3b8;
-          pointer-events: none;
-        }
-
-        .ssmd-header-btns {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          flex-shrink: 0;
-        }
-
-        .ssmd-width-toggle-btn {
-          height: 34px;
-          padding: 0 10px;
-          border-radius: 9999px;
-          border: 1px solid #cbd5e1;
-          background: #ffffff;
-          color: #334155;
-          font-size: 0.75rem;
-          font-weight: 600;
-          line-height: 1;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          white-space: nowrap;
-          transition: background-color 0.15s ease, color 0.15s ease;
-        }
-
-        .ssmd-width-toggle-btn:hover {
-          background: #f1f5f9;
-          color: #0f172a;
-        }
-
-        .ssmd-close-btn {
-          width: 34px;
-          height: 34px;
-          border-radius: 9999px;
-          border: 1px solid #cbd5e1;
-          background: #ffffff;
-          color: #334155;
-          font-size: 1rem;
-          line-height: 1;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          flex-shrink: 0;
-          transition: background-color 0.15s ease, color 0.15s ease;
-        }
-
-        .ssmd-close-btn:hover {
-          background: #f1f5f9;
-          color: #0f172a;
-        }
-
-        .ssmd-chips {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 10px 16px;
-          overflow-x: auto;
-          border-bottom: 1px solid #e2e8f0;
-          background: #ffffff;
-          flex-shrink: 0;
-          scrollbar-width: thin;
-        }
-
-        .ssmd-chip {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          padding: 6px 10px;
-          border-radius: 9999px;
-          border: 1px solid #cbd5e1;
-          background: #f8fafc;
-          color: #1e293b;
-          font-size: 0.8125rem;
-          font-weight: 500;
-          white-space: nowrap;
-          cursor: pointer;
-          flex-shrink: 0;
-          transition: all 0.15s ease;
-        }
-
-        .ssmd-chip:hover {
-          border-color: #94a3b8;
-          background: #f1f5f9;
-        }
-
-        .ssmd-chip.is-active {
-          border-color: #e11d48;
-          background: #fff1f2;
-          color: #be123c;
-          font-weight: 700;
-        }
-
-        .ssmd-chip-num {
-          width: 20px;
-          height: 20px;
-          border-radius: 9999px;
-          background: #1e3a5f;
-          color: #ffffff;
-          font-size: 0.7rem;
-          font-weight: 700;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .ssmd-chip.is-active .ssmd-chip-num {
-          background: #e11d48;
-        }
-
-        .ssmd-map-body {
-          flex: 1;
-          min-height: 0;
-          position: relative;
-        }
-
-        .ssmd-empty {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 24px;
-          color: var(--clr-text-muted, #727272);
-          font-size: 0.875rem;
-          text-align: center;
-        }
-
-        @keyframes ssmdSlideInRight {
-          from {
-            transform: translateX(100%);
-          }
-          to {
-            transform: translateX(0);
-          }
-        }
-
-        @keyframes ssmdSlideInUp {
-          from {
-            transform: translateY(100%);
-          }
-          to {
-            transform: translateY(0);
-          }
-        }
-
-        @media (max-width: 767px) {
-          .ssmd-backdrop {
-            align-items: flex-end;
-            justify-content: center;
-          }
-
-          .ssmd-panel {
-            width: 100%;
-            height: 92dvh;
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
-            box-shadow: 0 -8px 32px rgba(15, 23, 42, 0.22);
-            animation: ssmdSlideInUp 0.22s ease-out;
-          }
-
-          .ssmd-resize-handle,
-          .ssmd-width-toggle-btn {
-            display: none;
-          }
-        }
-      `}</style>
     </div>
   );
 };

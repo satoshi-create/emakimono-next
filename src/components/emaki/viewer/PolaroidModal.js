@@ -44,6 +44,7 @@ import { PolaroidShareSheet } from "./polaroid/PolaroidShareSheet";
 import {
   trackPolaroidClose,
   trackPolaroidThemeChange,
+  trackPolaroidSheetOpen,
 } from "@/libs/api/measurementUtils";
 
 export function PolaroidModal({
@@ -189,6 +190,7 @@ export function PolaroidModal({
     message,
     isEn,
     canShareFiles,
+    scrollId,
   });
 
   // モーダルが閉じられた際のエクスポート状態初期化
@@ -577,6 +579,11 @@ export function PolaroidModal({
             type="button"
             className={styles.saveBtn}
             onClick={() => {
+              trackPolaroidSheetOpen({
+                sheetMode: "save",
+                scrollId,
+                sceneIndex: selectedIndex,
+              });
               setSheetMode("save");
               setShareStep("select");
               setIsShareSheetOpen(true);
@@ -589,6 +596,11 @@ export function PolaroidModal({
             type="button"
             className={styles.shareBtn}
             onClick={() => {
+              trackPolaroidSheetOpen({
+                sheetMode: "share",
+                scrollId,
+                sceneIndex: selectedIndex,
+              });
               setFeedbackMessage(null);
               setSheetMode("share");
               setShareStep("select");

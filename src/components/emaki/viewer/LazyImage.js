@@ -2,6 +2,7 @@ import { AppContext } from "@/context/AppContext";
 import {
   trackImageFallback,
   trackImageLoaded,
+  trackImageLoadRecovered,
   trackImageLoadSlow,
 } from "@/libs/api/measurementUtils";
 import {
@@ -88,6 +89,8 @@ const LazyImage = ({
   const isImageLoadedRef = useRef(alreadyHydrated);
   const loadStartTimeRef = useRef(null);
   const hasTrackedRef = useRef(false);
+  const hasTrackedLoadedRef = useRef(false);
+  const emittedFallbackReasonRef = useRef(null);
   const loadStartLoggedRef = useRef(false);
 
   const imageUrl = src?.src ?? null;
@@ -103,6 +106,8 @@ const LazyImage = ({
       retryTimerRef.current = null;
     }
     setRetryCount(0);
+    hasTrackedLoadedRef.current = false;
+    emittedFallbackReasonRef.current = null;
   }, [imageUrl, uniqueIndex]);
 
   useEffect(() => {
@@ -199,6 +204,7 @@ const LazyImage = ({
       fallbackTimer = setTimeout(() => {
         if (!hasTrackedRef.current && emakiId) {
           trackImageFallback(emakiId, uniqueIndex, fallbackReason);
+          emittedFallbackReasonRef.current = fallbackReason;
           hasTrackedRef.current = true;
         }
         if (emakiId) {
@@ -318,7 +324,12 @@ const LazyImage = ({
           const loadTimeMs = Math.max(0, Date.now() - start);
           if (hydrateKey) registerHydratedImageKey(hydrateKey);
           if (emakiId) recordLoadTime(loadTimeMs);
-          if (!hasTrackedRef.current && emakiId) {
+          const pendingRecovery = emittedFallbackReasonRef.current;
+          if (pendingRecovery && emakiId) {
+            trackImageLoadRecovered(emakiId, pendingRecovery);
+            emittedFallbackReasonRef.current = null;
+          }
+          if (!hasTrackedLoadedRef.current && emakiId && !pendingRecovery) {
             trackImageLoaded(emakiId, uniqueIndex, loadTimeMs, "normal");
             const thresholdType = toggleFullscreen ? "fullscreen" : "universal";
             const threshold = getAdaptiveTimeout(thresholdType, emakiId);
@@ -330,7 +341,7 @@ const LazyImage = ({
               toggleFullscreen,
               isEager ? "eager" : "lazy"
             );
-            hasTrackedRef.current = true;
+            hasTrackedLoadedRef.current = true;
           }
           if (emakiId) {
             const thresholdType =

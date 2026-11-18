@@ -72,6 +72,18 @@ export const trackImageFallback = (emakiId, imageIndex, fallbackReason) => {
   });
 };
 
+/**
+ * フォールバック発火後の描画完了（回復）
+ * @param {string} emakiId - 絵巻ID
+ * @param {string} fallbackReason - 発火済みタイムアウト理由
+ */
+export const trackImageLoadRecovered = (emakiId, fallbackReason) => {
+  sendEvent("image_load_recovered", {
+    emaki_id: emakiId,
+    fallback_reason: fallbackReason,
+  });
+};
+
 // =====================================================
 // ② 横スクロール操作計測
 // =====================================================
@@ -585,6 +597,7 @@ export const trackPolaroidOpen = ({ source, scrollId, sceneIndex }) => {
   sendEvent("polaroid_modal_open", {
     trigger_source: source,
     scroll_id: scrollId || "",
+    emaki_id: scrollId || "",
     scene_index: typeof sceneIndex === "number" ? sceneIndex : null,
   });
 };
@@ -597,6 +610,7 @@ export const trackPolaroidOpen = ({ source, scrollId, sceneIndex }) => {
 export const trackPolaroidClose = ({ scrollId } = {}) => {
   sendEvent("polaroid_modal_close", {
     scroll_id: scrollId || "",
+    emaki_id: scrollId || "",
   });
 };
 
@@ -610,6 +624,23 @@ export const trackPolaroidThemeChange = ({ theme, scrollId }) => {
   sendEvent("polaroid_theme_change", {
     theme_name: theme,
     scroll_id: scrollId || "",
+    emaki_id: scrollId || "",
+  });
+};
+
+/**
+ * ポラロイド保存・共有シート起動計測
+ * @param {Object} params
+ * @param {"save" | "share"} params.sheetMode - シートモード
+ * @param {string} [params.scrollId] - 絵巻物識別子
+ * @param {number} [params.sceneIndex] - 対象スライス番号
+ */
+export const trackPolaroidSheetOpen = ({ sheetMode, scrollId, sceneIndex }) => {
+  sendEvent("polaroid_sheet_open", {
+    sheet_mode: sheetMode,
+    scroll_id: scrollId || "",
+    emaki_id: scrollId || "",
+    scene_index: sceneIndex,
   });
 };
 
@@ -624,6 +655,7 @@ export const trackPolaroidExportSuccess = ({ exportType, scrollId, hasMessage })
   sendEvent("polaroid_export_success", {
     export_type: exportType,
     scroll_id: scrollId || "",
+    emaki_id: scrollId || "",
     has_message: Boolean(hasMessage),
   });
 };
