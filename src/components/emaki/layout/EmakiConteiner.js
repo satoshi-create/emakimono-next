@@ -15,6 +15,7 @@ import {
   EmakiViewerOverlays,
   EbikiCoordinatePickerHud,
 } from "@/components/emaki/layout/EmakiViewerOverlays";
+import { useEffect, useState } from "react";
 import useEmakiViewerOrchestrator from "@/hooks/emaki/useEmakiViewerOrchestrator";
 import styles from "@/styles/EmakiConteiner.module.css";
 import commentaryStyles from "@/styles/SceneCommentaryBar.module.css";
@@ -86,6 +87,23 @@ const EmakiContainer = ({
 
   const { backgroundImage } = data;
 
+  const [isMapDrawerOpen, setIsMapDrawerOpen] = useState(false);
+  useEffect(() => {
+    const body = document.body;
+    const syncMapDrawerOpen = () => {
+      setIsMapDrawerOpen(body?.dataset?.mapDrawerOpen === "true");
+    };
+    syncMapDrawerOpen();
+    const observer = new MutationObserver(syncMapDrawerOpen);
+    observer.observe(body, {
+      attributes: true,
+      attributeFilter: ["data-map-drawer-open"],
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  const stageTouchAction = isMapDrawerOpen ? "none" : "pan-x pan-y";
+
   // 2. ビューアレイアウト描画
   return (
     <div
@@ -120,7 +138,7 @@ const EmakiContainer = ({
           width: layoutState.toggleFullscreen ? "100%" : undefined,
           height: layoutState.toggleFullscreen ? "100%" : undefined,
           position: "relative",
-          touchAction: "pan-x pan-y",
+          touchAction: stageTouchAction,
           ...(layoutState.viewerTopInset != null
             ? { "--emaki-top-inset": `${layoutState.viewerTopInset}px` }
             : null),
@@ -137,6 +155,7 @@ const EmakiContainer = ({
             "--screen-width": width,
             "--overflow-x": overflowX,
             "--box-shadow": boxshadow,
+            touchAction: isMapDrawerOpen ? "none" : undefined,
           }}
           onPointerDown={stageProps.handleRailPointerDown}
           {...stageProps.stageHandlers}

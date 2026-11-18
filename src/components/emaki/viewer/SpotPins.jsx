@@ -218,7 +218,7 @@ const SpotPins = ({
         className={`${styles.layer}${chapterToggle ? "" : ` ${styles.hidden}`}`}
         style={{
           ...(isEditMode ? { overflow: "visible" } : null),
-          zIndex: isPanorama ? 60 : isEditMode ? 50 : 20,
+          zIndex: isPanorama ? 55 : isEditMode ? 50 : 20,
           ...(isEditMode && placeModeOn
             ? { pointerEvents: "auto", cursor: "crosshair" }
             : null),

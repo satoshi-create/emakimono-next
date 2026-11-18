@@ -56,18 +56,42 @@ function masterToGeoSpot(m) {
   };
 }
 
+/** @type {Record<string, Record<string, string>>} */
+const MASTER_SCROLL_SPOT_OVERRIDES = {
+  imperial_palace: {
+    rakuchu_rakugai_funaki: "shishinden",
+    rakuchu_rakugai_fukuoka: "imperial-palace-shishinden",
+    rakuchu_rakugai_met: "shishinden",
+  },
+  gion_yasaka: {
+    rakuchu_rakugai_funaki: "gionsha",
+    rakuchu_rakugai_fukuoka: "gionsha",
+    rakuchu_rakugai_met: "gionsha",
+  },
+  toyokuni_shrine: {
+    rakuchu_rakugai_funaki: "toyokunisha",
+    rakuchu_rakugai_fukuoka: "toyokunisha",
+    rakuchu_rakugai_met: "hokoku-mausoleum",
+  },
+  kabuki_amusements: {
+    rakuchu_rakugai_funaki: "shijokawara",
+    rakuchu_rakugai_met: "okuni-kabuki",
+  },
+  rokujo_misujimachi: {
+    rakuchu_rakugai_funaki: "rokujosanjyomachi",
+  },
+};
+
 /**
  * @param {(typeof RAKUCHU_SPOT_MASTERS)[number]} master
  * @param {string} titleen
  * @returns {string}
  */
 function pickMatchedSpotIdForScroll(master, titleen) {
+  const override = MASTER_SCROLL_SPOT_OVERRIDES[master.masterId]?.[titleen];
+  if (override) return override;
   const aliases = master.aliasSpotIds ?? [];
   if (aliases.length === 0) return master.masterId;
-  if (aliases.length === 1) return aliases[0];
-  const present = master.presentIn ?? [];
-  const idx = present.indexOf(titleen);
-  if (idx >= 0 && idx < aliases.length) return aliases[idx];
   return aliases[0];
 }
 

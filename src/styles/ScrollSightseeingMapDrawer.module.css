@@ -8,6 +8,7 @@
   align-items: stretch;
   font-family: var(--font-ui, sans-serif);
   overscroll-behavior: contain;
+  touch-action: pan-y;
 }
 
 .panel {

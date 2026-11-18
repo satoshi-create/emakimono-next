@@ -4,7 +4,7 @@
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
-  z-index: 60;
+  z-index: 80;
   display: flex;
   justify-content: center;
   align-items: center;

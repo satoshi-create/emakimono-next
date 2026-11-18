@@ -114,9 +114,11 @@ const ScrollSightseeingMapDrawer = ({
     const prevBodyOverflow = body.style.overflow;
     html.style.overflow = "hidden";
     body.style.overflow = "hidden";
+    body.dataset.mapDrawerOpen = "true";
     return () => {
       html.style.overflow = prevHtmlOverflow;
       body.style.overflow = prevBodyOverflow;
+      delete body.dataset.mapDrawerOpen;
     };
   }, [isOpen]);
 
