@@ -31,8 +31,31 @@ def check_files() -> list[str]:
             errors.append(f"Missing config: {path.relative_to(REPO_ROOT)}")
     project = load_project_config(expand_env=False)
     emakis = REPO_ROOT / project["content"]["emakis_json"]
-    if not emakis.is_file():
-        errors.append(f"Missing content file: {emakis.relative_to(REPO_ROOT)}")
+    if emakis.is_file():
+        pass
+    elif emakis.is_dir():
+        order_path = emakis / "_order.json"
+        if not order_path.is_file():
+            errors.append(f"Missing _order.json: {order_path.relative_to(REPO_ROOT)}")
+        else:
+            import json
+
+            try:
+                order = json.loads(order_path.read_text(encoding="utf-8"))
+            except json.JSONDecodeError as exc:
+                errors.append(f"Invalid _order.json: {order_path.relative_to(REPO_ROOT)} ({exc})")
+                order = []
+            if isinstance(order, list):
+                for titleen in order:
+                    if not isinstance(titleen, str):
+                        continue
+                    scroll_path = emakis / f"{titleen}.json"
+                    if not scroll_path.is_file():
+                        errors.append(
+                            f"Missing scroll file: {scroll_path.relative_to(REPO_ROOT)}"
+                        )
+    else:
+        errors.append(f"Missing content source: {emakis.relative_to(REPO_ROOT)}")
     return errors
 
 
