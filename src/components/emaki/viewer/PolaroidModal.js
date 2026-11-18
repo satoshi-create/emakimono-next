@@ -311,7 +311,7 @@ export function PolaroidModal({
         <div
           ref={frameRef}
           data-polaroid-frame
-          className={`relative aspect-[960/1280] max-h-[52vh] w-full flex-1 min-h-0 overflow-hidden bg-neutral-900/5 select-none touch-none ${
+          className={`relative aspect-[720/560] w-full overflow-hidden bg-neutral-900/5 select-none touch-none ${
             dragging ? "cursor-grabbing" : "cursor-grab"
           }`}
           onPointerDown={handlePointerDown}

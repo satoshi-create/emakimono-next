@@ -166,11 +166,44 @@ export function usePolaroidExport({
       displayUrl = displayUrl.replace(/^https?:\/\/[^/]+/, "emakimono.com");
       drawPhoto(ctx, favicon, qrImg, displayUrl, format);
 
-      const dataUrl = canvas.toDataURL("image/png");
+      const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+      if (!blob) {
+        setFeedbackMessage(isEn ? "Failed to generate image." : "画像の生成に失敗しました。");
+        return;
+      }
+
+      const fileName = `emakimono-${format}-${Date.now()}.png`;
+      const isTouchDevice =
+        typeof window !== "undefined" &&
+        (window.matchMedia?.("(pointer: coarse)")?.matches || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+
+      // モバイル・タブレットでファイル共有APIが使える場合はシステム共有シート（写真に保存含む）を優先
+      if (isTouchDevice && typeof navigator !== "undefined" && typeof navigator.share === "function") {
+        const file = new File([blob], fileName, { type: "image/png" });
+        if (!navigator.canShare || navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({ files: [file], title: "Emakimono Polaroid" });
+            trackPolaroidExportSuccess({
+              exportType: format === "reel" ? "reel" : "polaroid",
+              scrollId: typeof scrollId === "string" ? scrollId : "",
+              hasMessage: Boolean(message && message.trim()),
+            });
+            return;
+          } catch (err) {
+            if (err?.name === "AbortError") return;
+            // 共有失敗時は下のBlobダウンロードへフォールバック
+          }
+        }
+      }
+
+      const blobUrl = URL.createObjectURL(blob);
       const link = document.createElement("a");
-      link.download = `emakimono-${format}-${Date.now()}.png`;
-      link.href = dataUrl;
+      link.download = fileName;
+      link.href = blobUrl;
+      document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 10000);
 
       trackPolaroidExportSuccess({
         exportType: format === "reel" ? "reel" : "polaroid",
@@ -178,7 +211,7 @@ export function usePolaroidExport({
         hasMessage: Boolean(message && message.trim()),
       });
     },
-    [drawPhoto, ensureLoadedForExport, currentTheme, message, scrollId]
+    [drawPhoto, ensureLoadedForExport, currentTheme, isEn, message, scrollId]
   );
 
   const handleShareCopy = useCallback(
@@ -187,7 +220,10 @@ export function usePolaroidExport({
         const isReel = type === "reel";
         const format = isReel ? "reel" : "polaroid";
         const img = await ensureLoadedForExport();
-        if (!img) return;
+        if (!img) {
+          setFeedbackMessage(isEn ? "Failed to load image." : "画像の読み込みに失敗しました。");
+          return;
+        }
         const copyFmt = FORMATS[format] || FORMATS.polaroid;
         const canvas = canvasRef.current ?? document.createElement("canvas");
         canvas.width = copyFmt.canvasW;
@@ -218,47 +254,76 @@ export function usePolaroidExport({
         }
         displayUrl = displayUrl.replace(/^https?:\/\/[^/]+/, "emakimono.com");
         drawPhoto(ctx, favicon, qrImg, displayUrl, format);
-        canvas.toBlob(async (blob) => {
-          if (!blob) return;
-          if (!navigator.clipboard || !window.ClipboardItem) {
-            alert("クリップボードへの画像コピーに対応していません。「保存」をご利用ください。");
-            return;
-          }
-          try {
-            if (isReel) {
-              await navigator.clipboard.write([
-                new ClipboardItem({
-                  "image/png": blob,
-                }),
-              ]);
+
+        const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+        if (!blob) {
+          setFeedbackMessage(isEn ? "Failed to generate image." : "画像の生成に失敗しました。");
+          return;
+        }
+
+        const isTouchDevice =
+          typeof window !== "undefined" &&
+          (window.matchMedia?.("(pointer: coarse)")?.matches || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+
+        // モバイル・タブレットではClipboardItemがユーザージェスチャ失効で失敗しやすいためWeb Share APIを使用
+        if (isTouchDevice && typeof navigator !== "undefined" && typeof navigator.share === "function") {
+          const fileName = `emakimono-${format}-${Date.now()}.png`;
+          const file = new File([blob], fileName, { type: "image/png" });
+          if (!navigator.canShare || navigator.canShare({ files: [file] })) {
+            try {
+              await navigator.share({ files: [file], title: "Emakimono Polaroid" });
               setIsShareSheetOpen(false);
-              setFeedbackMessage(
-                isEn ? "Reels image (9:16) copied to clipboard!" : "リール用画像(9:16)をコピーしました"
-              );
-
               trackPolaroidExportSuccess({
-                exportType: "reel_copy",
+                exportType: isReel ? "reel_copy" : "x_copy",
                 scrollId: typeof scrollId === "string" ? scrollId : "",
                 hasMessage: Boolean(message && message.trim()),
               });
-            } else {
-              await navigator.clipboard.write([
-                new ClipboardItem({
-                  "image/png": blob,
-                }),
-              ]);
-              setShareStep("textCopy");
-
-              trackPolaroidExportSuccess({
-                exportType: "x_copy",
-                scrollId: typeof scrollId === "string" ? scrollId : "",
-                hasMessage: Boolean(message && message.trim()),
-              });
+              return;
+            } catch (err) {
+              if (err?.name === "AbortError") return;
             }
-          } catch (err) {
-            console.error("Clipboard copy failed:", err);
           }
-        }, "image/png");
+        }
+
+        if (!navigator.clipboard || !window.ClipboardItem) {
+          setFeedbackMessage(
+            isEn
+              ? "Clipboard copy is not supported on this device. Please use Save."
+              : "この端末では画像コピーに非対応です。「保存」をご利用ください。"
+          );
+          return;
+        }
+
+        try {
+          await navigator.clipboard.write([
+            new ClipboardItem({
+              "image/png": blob,
+            }),
+          ]);
+          if (isReel) {
+            setIsShareSheetOpen(false);
+            setFeedbackMessage(
+              isEn ? "Reels image (9:16) copied to clipboard!" : "リール用画像(9:16)をコピーしました"
+            );
+            trackPolaroidExportSuccess({
+              exportType: "reel_copy",
+              scrollId: typeof scrollId === "string" ? scrollId : "",
+              hasMessage: Boolean(message && message.trim()),
+            });
+          } else {
+            setShareStep("textCopy");
+            trackPolaroidExportSuccess({
+              exportType: "x_copy",
+              scrollId: typeof scrollId === "string" ? scrollId : "",
+              hasMessage: Boolean(message && message.trim()),
+            });
+          }
+        } catch (err) {
+          console.error("Clipboard copy failed:", err);
+          setFeedbackMessage(
+            isEn ? "Failed to copy image. Please use Save." : "画像のコピーに失敗しました。「保存」をお試しください。"
+          );
+        }
       } catch (error) {
         console.error("Failed to generate share content:", error);
       }

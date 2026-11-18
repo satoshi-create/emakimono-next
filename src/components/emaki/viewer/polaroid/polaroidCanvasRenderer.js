@@ -244,10 +244,17 @@ export function renderPolaroidCanvas({
   const curX = cx - curW / 2;
   const curY = cy - curH / 2;
 
+  const theme = THEMES[currentTheme] || THEMES.white;
+
+  drawCanvasTexture(ctx, fmt.canvasW, fmt.canvasH, currentTheme);
+
   ctx.save();
   ctx.beginPath();
   ctx.rect(fmt.photoDx, fmt.photoDy, fmt.photoDw, fmt.photoDh);
   ctx.clip();
+
+  ctx.fillStyle = theme.cardBg || theme.bg;
+  ctx.fillRect(fmt.photoDx, fmt.photoDy, fmt.photoDw, fmt.photoDh);
 
   ctx.drawImage(img, curX, curY, curW, curH);
   if (next?.naturalWidth) {
@@ -261,10 +268,6 @@ export function renderPolaroidCanvas({
     ctx.drawImage(prev, curX + curW, cy - ph / 2, pw, ph);
   }
   ctx.restore();
-
-  const theme = THEMES[currentTheme] || THEMES.white;
-
-  drawCanvasTexture(ctx, fmt.canvasW, fmt.canvasH, currentTheme);
 
   if (theme.border) {
     ctx.strokeStyle = theme.border;
