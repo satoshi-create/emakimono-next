@@ -64,6 +64,8 @@ export function MotifCropCard({
         <img
           src={visual.image}
           alt=""
+          loading="lazy"
+          decoding="async"
           style={{
             display: "block",
             width: "100%",

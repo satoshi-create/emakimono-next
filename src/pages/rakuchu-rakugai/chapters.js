@@ -3,6 +3,7 @@ import {
   RakuchuCompositionSection,
   RakuchuMotifSection,
 } from "@/components/rakuchu-rakugai/RakuchuMotifExplorer";
+import RakuchuSightseeingMapSection from "@/components/rakuchu-rakugai/RakuchuSightseeingMapSection";
 import { FORM_TAB_IDS } from "@/components/rakuchu-rakugai/rakuchuScrollConstants";
 import Title from "@/components/ui/Title";
 import { RAKUCHU_RAKUGAI_HUB_PATH } from "@/libs/constants/links";
@@ -239,6 +240,35 @@ const RakuchuRakugaiHub = ({ hubData }) => {
     </section>
   );
 
+  const sightseeingSection = (
+    <section
+      id="sightseeing-map"
+      className={`section-grid section-padding ${styles.scrollSection}`}
+    >
+      <Title
+        sectiontitle={
+          locale === "en"
+            ? "Kyoto Sightseeing Map & Recommended Routes"
+            : "京都観光マップ・おすすめルート"
+        }
+      />
+      <p
+        className={styles.introLead}
+        style={{
+          textAlign: "center",
+          maxWidth: "42rem",
+          margin: "0 auto 2.25rem",
+          lineHeight: 1.85,
+        }}
+      >
+        {locale === "en"
+          ? "Explore temples, rivers, and streets depicted in Rakuchu-Rakugai-zu screens on the map of Kyoto, and follow curated walking routes."
+          : "洛中洛外図屏風に描かれた寺社・河川・町並みを現在の京都地図と照らし合わせ、テーマ別の散策ルートを辿れます。"}
+      </p>
+      <RakuchuSightseeingMapSection locale={locale} />
+    </section>
+  );
+
   return (
     <HubPageShell
       meta={{
@@ -251,6 +281,12 @@ const RakuchuRakugaiHub = ({ hubData }) => {
       sections={[
         { id: "scrolls", content: scrollsSection },
         { id: "composition", content: compositionSection },
+        {
+          id: "sightseeing-map",
+          navLabel:
+            locale === "en" ? "Kyoto Map & Routes" : "京都観光マップ",
+          content: sightseeingSection,
+        },
         { id: "motifs", content: motifsSection },
       ]}
     />

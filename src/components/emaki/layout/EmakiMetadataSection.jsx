@@ -14,7 +14,6 @@ import KusouzuModelLink from "@/components/emaki/kusouzu/KusouzuModelLink";
 import EmakiPersonLinks from "@/components/emaki/metadata/EmakiPersonLinks";
 import ChojuGigaHubLink from "@/components/emaki/chouju-giga/ChojuGigaHubLink";
 import HyakkiHubLink from "@/components/emaki/hyakki/HyakkiHubLink";
-import SightseeingMapLink from "@/components/emaki/hub/SightseeingMapLink";
 import SourceAttribution from "@/components/emaki/metadata/SourceAttribution";
 import MangaRootsEmakiLink from "@/components/manga-roots/MangaRootsEmakiLink";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
@@ -107,7 +106,6 @@ const EmakiMetadataSection = ({
       {!isKusouzu && <EmakiPersonLinks personname={personname} />}
       {isChojuGiga && <ChojuGigaHubLink variant="banner" />}
       {isHyakki && <HyakkiHubLink variant="banner" />}
-      <SightseeingMapLink titleen={titleen} variant="banner" />
       <MangaRootsEmakiLink titleen={titleen} locale={locale} />
       {tagCloud}
       {/*メタ情報（出典・参考文献は折りたたみ表示）*/}

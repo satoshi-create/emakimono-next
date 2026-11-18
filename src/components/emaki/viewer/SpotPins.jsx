@@ -31,26 +31,16 @@ import {
   getSlugFromPath,
   transformOriginFor,
 } from "./spotPins/spotPinsGeometry";
-import {
-  getAddedSpotsForSlug,
-  getPlaceModeEnabled,
-  getPlacedSpotIdsForSlug,
-  isSpotMarkedDeleted,
-  markSpotDeleted,
-  mergePendingUpdate,
-  registerSliceSpotIds,
-  setPlaceModeEnabled,
-  subscribeDiscard,
-  subscribePendingUpdates,
-  subscribePlaceMode,
-} from "./spotPins/spotPinsEditStore";
+import { getPlacedSpotIdsForSlug } from "./spotPins/spotPinsEditStore";
 import { useSpotLayout } from "./spotPins/useSpotLayout";
+import { useSpotPinsEditor } from "./spotPins/useSpotPinsEditor";
 
 // =============================================================================
 // 1. ユーティリティ — スライス画像名・開発ログ（ジオメトリは spotPinsGeometry）
 // =============================================================================
 
 const DEBUG_SPOT_ADD = false;
+const QUIZ_EDIT_ACCENT = "#2563eb";
 
 function logDebug(tag, ...args) {
   if (!DEBUG_SPOT_ADD) return;
@@ -90,6 +80,7 @@ const SpotPins = ({
   apiEndpoint = "/api/dev/update-spot",
   onSelectSpot,
   selectedSpotId,
+  isPanorama = false,
 }) => {
   const { handleToId, chapterToggle } = useContext(AppContext);
   const router = useRouter();
@@ -127,22 +118,13 @@ const SpotPins = ({
   const emakiId = data?.titleen;
   const emakiTitle = data?.title;
 
+  // 1. 状態（State）
   const layerRef = useRef(null);
   const [sliceImageName, setSliceImageName] = useState(null);
   const pinRefs = useRef(new Map());
-  const [dragOverrides, setDragOverrides] = useState({});
-  const [draggingSpotId, setDraggingSpotId] = useState(null);
-  const [resizingSpotId, setResizingSpotId] = useState(null);
-  const draggingRef = useRef(null);
   const suppressClickRef = useRef(false);
-  const [, pendingBump] = useState(0);
-  const [placeModeOn, setPlaceModeOn] = useState(() => getPlaceModeEnabled());
-  const [placeDraft, setPlaceDraft] = useState(null);
 
-  // ---------------------------------------------------------------------------
-  // 3. 同期 — スライス名・編集ストア・配置モード
-  // ---------------------------------------------------------------------------
-
+  // 2. 同期（Effects / Observer）
   useEffect(() => {
     const layer = layerRef.current;
     if (!layer) return;
@@ -151,71 +133,39 @@ const SpotPins = ({
   }, [sliceIndex, spots]);
 
   const effectiveSliceIndex = Number.isInteger(sliceIndex) ? sliceIndex : null;
-
-  useEffect(() => {
-    if (!isEditMode) return undefined;
-    const syncPlace = () => setPlaceModeOn(getPlaceModeEnabled());
-    return subscribePlaceMode(syncPlace);
-  }, [isEditMode]);
-
-  useEffect(() => {
-    if (!placeModeOn) setPlaceDraft(null);
-  }, [placeModeOn]);
-
-  useEffect(() => {
-    if (!isEditMode) return undefined;
-    const fn = () => pendingBump((n) => n + 1);
-    return subscribePendingUpdates(fn);
-  }, [isEditMode]);
-
-  useEffect(() => {
-    if (!isEditMode) return undefined;
-    const fn = (s) => {
-      if (s !== resolveSlug()) return;
-      setDragOverrides({});
-      pendingBump((n) => n + 1);
-    };
-    return subscribeDiscard(fn);
-  }, [isEditMode, resolveSlug]);
-
   const editSlug = isEditMode ? resolveSlug() : "";
 
-  useEffect(() => {
-    if (!editSlug || !Number.isInteger(effectiveSliceIndex)) return;
-    registerSliceSpotIds(
-      editSlug,
-      effectiveSliceIndex,
-      (spots || []).map((s) => s.id).filter(Boolean),
-    );
-  }, [editSlug, effectiveSliceIndex, spots]);
+  const {
+    mergedSpots,
+    quizOnlyEdit,
+    toggleQuizOnlyEdit,
+    placeModeOn,
+    placeDraft,
+    setPlaceDraft,
+    dragOverrides,
+    setDragOverrides,
+    draggingSpotId,
+    resizingSpotId,
+    setResizingSpotId,
+    layerNeedsFront: layerNeedsFrontFromEditor,
+    percentFromPointer,
+    handleLayerPointerDown,
+    getPinEditHandlers,
+  } = useSpotPinsEditor({
+    isEditMode,
+    spots,
+    sliceIndex,
+    effectiveSliceIndex,
+    editSlug,
+    sliceImageName,
+    zoomScale,
+    layerRef,
+  });
 
-  const addedForSlice =
-    isEditMode && editSlug && sliceImageName
-      ? getAddedSpotsForSlug(editSlug).filter(
-          (a) => a.sliceImageName && a.sliceImageName === sliceImageName,
-        )
-      : [];
+  const layerNeedsFront =
+    Boolean(layerNeedsFrontFromEditor) || resizingSpotId != null;
 
-  const mergedSpots = (
-    [
-      ...(spots || []),
-      ...addedForSlice.map((a) => ({
-        id: a.spotId,
-        name: a.name,
-        nameen: a.nameen,
-        x: a.x,
-        y: a.y,
-        rect: a.rect,
-        badgePos: a.badgePos ?? null,
-      })),
-    ]
-  ).filter(
-    (s) =>
-      !isEditMode ||
-      !editSlug ||
-      !isSpotMarkedDeleted(editSlug, s.id, sliceImageName),
-  );
-
+  // 3. 計算（Pure Logic）
   const spotLabel = useCallback(
     (spot) => (locale === "en" && spot.nameen ? spot.nameen : spot.name),
     [locale],
@@ -230,17 +180,7 @@ const SpotPins = ({
     locale,
   });
 
-  const isZoomed = (zoomScale || 1) > 1.05;
-  const stableOffsetsRef = useRef(null);
-  useLayoutEffect(() => {
-    if (!isZoomed) {
-      stableOffsetsRef.current = offsetById;
-    }
-  }, [isZoomed, offsetById]);
-  const layoutOffsets =
-    isZoomed && stableOffsetsRef.current
-      ? stableOffsetsRef.current
-      : offsetById;
+  const layoutOffsets = offsetById;
 
   if (
     !mergedSpots.length &&
@@ -249,23 +189,7 @@ const SpotPins = ({
     return null;
   }
 
-  // ---------------------------------------------------------------------------
-  // 4. 座標・ナビ — ポインタ % 変換と段スクロール
-  // ---------------------------------------------------------------------------
-
-  const percentFromPointer = (e) => {
-    const layer = layerRef.current;
-    if (!layer) return null;
-    const rect = layer.getBoundingClientRect();
-    if (!rect.width || !rect.height) return null;
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    return {
-      x: Math.round(Math.min(250, Math.max(-150, x)) * 10) / 10,
-      y: Math.round(Math.min(250, Math.max(-150, y)) * 10) / 10,
-    };
-  };
-
+  // 4. UI表示（View）
   const goToScene = (e, spot) => {
     e.stopPropagation();
     if (suppressClickRef.current) {
@@ -277,11 +201,6 @@ const SpotPins = ({
   };
 
   const invZoom = 1 / (zoomScale || 1);
-  const layerNeedsFront = draggingSpotId != null || resizingSpotId != null;
-
-  // ---------------------------------------------------------------------------
-  // 5. 描画 — レイヤ・ピンボタン・編集オーバーレイ
-  // ---------------------------------------------------------------------------
 
   return (
     <>
@@ -289,6 +208,8 @@ const SpotPins = ({
         <SpotPinsEditSaveBar
           slugOverride={slugOverride}
           apiEndpoint={apiEndpoint}
+          quizOnlyEdit={quizOnlyEdit}
+          onToggleQuizOnlyEdit={toggleQuizOnlyEdit}
         />
       ) : null}
       <div
@@ -297,21 +218,19 @@ const SpotPins = ({
         className={`${styles.layer}${chapterToggle ? "" : ` ${styles.hidden}`}`}
         style={{
           ...(isEditMode ? { overflow: "visible" } : null),
-          ...(layerNeedsFront ? { zIndex: 50 } : null),
+          zIndex: isPanorama ? 60 : isEditMode ? 50 : 20,
           ...(isEditMode && placeModeOn
             ? { pointerEvents: "auto", cursor: "crosshair" }
             : null),
         }}
-        onPointerDown={(e) => {
-          if (!isEditMode || !placeModeOn || placeDraft) return;
-          if (e.target !== e.currentTarget) return;
-          e.stopPropagation();
-          const pos = percentFromPointer(e);
-          if (!pos) return;
-          setPlaceDraft({ x: pos.x, y: pos.y });
-        }}
+        onPointerDown={handleLayerPointerDown}
       >
         {mergedSpots.map((spot) => {
+          if (spot.quizQuestionId) {
+            return <div key={spot.id} style={{ display: "contents" }} />;
+          }
+          const pinEditHandlers = isEditMode ? getPinEditHandlers(spot) : null;
+          const isQuizHiddenSpot = isEditMode && spot.hidden === true;
           const label = spotLabel(spot);
           const kindClass =
             getSpotKindClass === null
@@ -363,13 +282,20 @@ const SpotPins = ({
             selectedSpotId != null &&
             String(selectedSpotId) === String(spot.id);
           const pinButton = (
-            <button
+            <div
+              role="button"
+              tabIndex={0}
               ref={(el) => {
                 if (el) pinRefs.current.set(spot.id, el);
                 else pinRefs.current.delete(spot.id);
               }}
-              type="button"
               className={`${styles.pin} ${kindClass}`}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  e.currentTarget.click();
+                }
+              }}
               style={{
                 ...(useBadgePos
                   ? {
@@ -389,6 +315,12 @@ const SpotPins = ({
                   ? {
                       cursor: isDragging ? "grabbing" : "grab",
                       touchAction: "none",
+                      ...(isQuizHiddenSpot
+                        ? {
+                            boxShadow:
+                              "0 0 0 2px #2563eb, 0 2px 10px rgba(37, 99, 235, 0.35)",
+                          }
+                        : null),
                     }
                   : null),
                 ...(isSelected
@@ -401,90 +333,24 @@ const SpotPins = ({
               title={label}
               aria-label={label}
               draggable={false}
-              onPointerDown={(e) => {
-                e.stopPropagation();
-                if (!isEditMode) return;
-                draggingRef.current = {
-                  spotId: spot.id,
-                  pointerId: e.pointerId,
-                  moved: false,
-                };
-                setDraggingSpotId(spot.id);
-                e.currentTarget.setPointerCapture(e.pointerId);
-              }}
-              onPointerMove={(e) => {
-                if (
-                  !isEditMode ||
-                  draggingRef.current?.spotId !== spot.id ||
-                  !draggingRef.current
-                ) {
-                  return;
-                }
-                const pos = percentFromPointer(e);
-                if (!pos) return;
-                draggingRef.current.moved = true;
-                setDragOverrides((prev) => ({
-                  ...prev,
-                  [spot.id]: {
-                    x: prev[spot.id]?.x ?? spot.x,
-                    y: prev[spot.id]?.y ?? spot.y,
-                    rect:
-                      prev[spot.id]?.rect ??
-                      spot.rect ??
-                      { w: 24, h: 20 },
-                    badgePos: { x: pos.x, y: pos.y },
-                  },
-                }));
-              }}
-              onPointerUp={(e) => {
-                if (
-                  !isEditMode ||
-                  draggingRef.current?.spotId !== spot.id ||
-                  !draggingRef.current
-                ) {
-                  return;
-                }
-                e.currentTarget.releasePointerCapture(e.pointerId);
-                const moved = draggingRef.current.moved;
-                draggingRef.current = null;
-                setDraggingSpotId(null);
-                if (!moved) return;
-                suppressClickRef.current = true;
-                const pos = percentFromPointer(e);
-                if (!pos) return;
-                const saveX = dragOverrides[spot.id]?.x ?? spot.x;
-                const saveY = dragOverrides[spot.id]?.y ?? spot.y;
-                const saveRect =
-                  dragOverrides[spot.id]?.rect ??
-                  spot.rect ??
-                  { w: 24, h: 20 };
-                const nextBadgePos = { x: pos.x, y: pos.y };
-                setDragOverrides((prev) => ({
-                  ...prev,
-                  [spot.id]: {
-                    x: saveX,
-                    y: saveY,
-                    rect: saveRect,
-                    badgePos: nextBadgePos,
-                  },
-                }));
-                mergePendingUpdate(resolveSlug(), spot.id, {
-                  x: saveX,
-                  y: saveY,
-                  rect: saveRect,
-                  badgePos: nextBadgePos,
-                });
-              }}
-              onPointerCancel={(e) => {
-                if (draggingRef.current?.spotId === spot.id) {
-                  e.currentTarget.releasePointerCapture(e.pointerId);
-                  draggingRef.current = null;
-                  setDraggingSpotId(null);
-                }
-              }}
+              onPointerDown={pinEditHandlers?.onPointerDown}
+              onPointerMove={pinEditHandlers?.onPointerMove}
+              onPointerUp={pinEditHandlers?.onPointerUp}
+              onPointerCancel={pinEditHandlers?.onPointerCancel}
               onClick={(e) => goToScene(e, spot)}
             >
-              <span className={styles.dot} aria-hidden="true" />
+              <span
+                className={styles.dot}
+                aria-hidden="true"
+                style={
+                  isQuizHiddenSpot
+                    ? {
+                        backgroundColor: QUIZ_EDIT_ACCENT,
+                        borderColor: QUIZ_EDIT_ACCENT,
+                      }
+                    : undefined
+                }
+              />
               <span className={styles.label}>{label}</span>
               {!ebikiPickerEnabled &&
               !isEditMode &&
@@ -532,20 +398,12 @@ const SpotPins = ({
                     e.stopPropagation();
                     e.preventDefault();
                   }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    markSpotDeleted(resolveSlug(), {
-                      spotId: spot.id,
-                      sliceImageName,
-                      sliceIndex,
-                    });
-                  }}
+                  onClick={(e) => pinEditHandlers?.handleDeleteSpot(e, spot)}
                 >
                   ×
                 </span>
               ) : null}
-            </button>
+            </div>
           );
           return (
             <div key={spot.id} style={{ display: "contents" }}>
@@ -579,6 +437,7 @@ const SpotPins = ({
             percentFromPointer={percentFromPointer}
             resizingSpotId={resizingSpotId}
             setResizingSpotId={setResizingSpotId}
+            isPanorama={isPanorama}
           />
         ) : null}
       </div>

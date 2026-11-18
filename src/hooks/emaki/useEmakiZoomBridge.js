@@ -235,7 +235,7 @@ export default function useEmakiZoomBridge({
   }
 
   const zoomToSlicePercent = useCallback(
-    ({ sliceIndex, centerX, centerY, targetScale }) => {
+    ({ sliceIndex, centerX, centerY, targetScale, rectW, rectH, targetRect }) => {
       const el = articleRef.current;
       const items = processedEmakis;
       const containerHeight =
@@ -249,9 +249,16 @@ export default function useEmakiZoomBridge({
       setZoomCenterIndex(centerIndex);
 
       let initialPanX = 0;
+      let totalFullWidthPx = 0;
       const rowH = measuredHeight;
       const cx = Number.isFinite(centerX) ? centerX : 50;
       const cy = Number.isFinite(centerY) ? centerY : 50;
+
+      if (rowH > 0 && items?.length) {
+        for (let i = 0; i < items.length; i += 1) {
+          totalFullWidthPx += sceneWidthPx(items[i], rowH);
+        }
+      }
 
       if (rowH > 0 && items?.length && Number.isFinite(sliceIndex)) {
         const { from, to } = computeZoomStripRange(
@@ -275,10 +282,29 @@ export default function useEmakiZoomBridge({
       }
 
       const initialPanY = -measuredHeight * ((cy - 50) / 100);
+
+      // ターゲット枠の広さ（w%, h%）から画面内に80%の余白で収まる最適倍率を自動算出
+      const rw = Number(rectW ?? targetRect?.w);
+      const rh = Number(rectH ?? targetRect?.h);
+      let fitScale;
+      if (Number.isFinite(rh) && rh > 0) {
+        const fitY = 80 / rh;
+        const fitX =
+          Number.isFinite(rw) && rw > 0 && totalFullWidthPx > 0 && measuredWidth > 0
+            ? (measuredWidth * 0.8) / (totalFullWidthPx * (rw / 100))
+            : Infinity;
+        const rawFit = Math.min(fitX, fitY);
+        if (Number.isFinite(rawFit)) {
+          fitScale = Math.max(1.2, Math.min(5.5, Math.round(rawFit * 10) / 10));
+        }
+      }
+
       const startScale =
-        typeof targetScale === "number" && Number.isFinite(targetScale)
-          ? targetScale
-          : undefined;
+        typeof fitScale === "number"
+          ? fitScale
+          : typeof targetScale === "number" && Number.isFinite(targetScale)
+            ? targetScale
+            : undefined;
       openZoom(undefined, undefined, initialPanX, startScale, initialPanY);
     },
     [

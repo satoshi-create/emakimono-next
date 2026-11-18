@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "@/styles/EmakiHub.module.css";
 import { faMapMarkedAlt, faClock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,7 +8,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
  * stops は JOIN 済みで、絵巻由来なら thumb/title/spot、単独スポットなら spot を持つ。
  */
 const EmakiHubRouteCard = ({ route, t, locale, onViewOnMap }) => {
-  const l = (obj) => (locale === "en" ? obj.en : obj.ja);
+  const l = (obj, fallback = "") =>
+    !obj
+      ? fallback
+      : typeof obj === "string"
+        ? obj
+        : (locale === "en" ? obj.en : obj.ja) || obj.ja || obj.en || fallback;
   const duration = locale === "en" ? route.durationEn : route.durationJa;
   const routeTitle = locale === "en" ? route.titleEn : route.titleJa;
 
@@ -37,7 +43,9 @@ const EmakiHubRouteCard = ({ route, t, locale, onViewOnMap }) => {
         </span>
       </div>
 
-      <p className={styles.routeSummary}>{l(route.summary)}</p>
+      <p className={styles.routeSummary}>
+        {l(route.summary, locale === "en" ? route.summaryEn : route.summaryJa)}
+      </p>
 
       <ol className={styles.routeStops}>
         {route.stops.map((stop, idx) => (
@@ -63,7 +71,21 @@ const EmakiHubRouteCard = ({ route, t, locale, onViewOnMap }) => {
                   {stop.spot?.nameJa}（{stop.spot?.nameEn}）
                 </span>
               </div>
-              <p className={styles.routeStopNote}>{l(stop.note)}</p>
+              <p className={styles.routeStopNote}>
+                {l(stop.note, locale === "en" ? stop.noteEn : stop.noteJa)}
+              </p>
+              {stop.titleen && stop.spotId && (
+                <Link
+                  href={`/${stop.titleen}?spot=${encodeURIComponent(stop.spotId)}`}
+                >
+                  <a
+                    className={styles.routeStopEmakiLink}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {locale === "en" ? "View in emaki ↗" : "絵巻で見る ↗"}
+                  </a>
+                </Link>
+              )}
             </div>
           </li>
         ))}

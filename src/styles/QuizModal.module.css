@@ -411,7 +411,7 @@
 
 /* PC: ビューア左下フロート（SP では非表示） */
 .fabWrap[data-variant="float"] {
-  position: absolute;
+  position: fixed;
   z-index: 11;
   left: 1%;
   bottom: calc(1.5rem + var(--commentary-bar-full-h, var(--commentary-bar-h, 0px)));
@@ -464,6 +464,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: opacity 0.2s ease, transform 0.2s ease;
+  margin-bottom: 0.5rem;
 }
 
 .fabHidden {

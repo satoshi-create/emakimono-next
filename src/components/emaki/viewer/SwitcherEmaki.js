@@ -8,6 +8,7 @@ import { buildSceneShellStyle } from "@/utils/emakiContentWindow";
 import { isByobuScroll } from "@/utils/isByobuScroll";
 import { sceneSectionId } from "@/utils/emakiSceneDom";
 import { useRouter } from "next/router";
+import { ALL_QUIZZES } from "@/data/quiz/index";
 import { forwardRef, useContext, useState } from "react";
 
 /** 絵巻シーンを cat に応じて image / ekotoba に振り分け。幅は section 常置・中身は mountContent。 */
@@ -51,6 +52,18 @@ const SwitcherEmaki = forwardRef(
       return null;
     }
 
+    const scrollKey = data?.scroll_id ?? data?.titleen;
+    const quizDef =
+      scrollKey &&
+      ALL_QUIZZES.find(
+        (q) => q.titleen === scrollKey || q.id === scrollKey
+      );
+    const hasQuizPanoramaTarget = Boolean(
+      quizDef?.questions?.some((q) => q?.target)
+    );
+    const usePanoramaSpots =
+      Array.isArray(data?.spots) || hasQuizPanoramaTarget;
+
     const { chapter, genji_chapter: genjiChapter, title: itemTitle } = item ?? {};
     const chapterTitle =
       (locale === "en"
@@ -83,7 +96,8 @@ const SwitcherEmaki = forwardRef(
       isByobu,
     });
     // 名所スポットピンの基準座標系を section に固定する（spots がある時だけ付与）
-    const spots = cat === "image" ? item.spots : null;
+    const spots =
+      cat === "image" && !usePanoramaSpots ? item.spots : null;
     // 絵引ピッカー時も absolute オーバーレイ基準が必要なので relative を付与
     const showChapterTitle = Boolean(
       chapterTitle && chapterToggle && !isByobu

@@ -12,6 +12,10 @@ import {
   isQuizFabHidden,
   setQuizFabHidden,
 } from "@/libs/api/quizFabPrefs";
+import {
+  resolvePanoramaCoordToSlice,
+  resolveSpotDeepLink,
+} from "@/hooks/emaki/useEmakiSpotNavigation";
 import { resolveLinkIdByChapter } from "@/utils/resolveQuizJump";
 import { runAfterPaint } from "@/utils/runAfterPaint";
 
@@ -22,6 +26,7 @@ export default function useEmakiQuizController({
   stopPlayMode,
   handleToId,
   push,
+  zoomToSlicePercentRef,
 }) {
   const [quizModule, setQuizModule] = useState(null);
   const [quizSession, setQuizSession] = useState(null);
@@ -163,12 +168,64 @@ export default function useEmakiQuizController({
   }, []);
 
   const handleQuizJumpLocal = useCallback(
-    (linkId) => {
+    (linkId, spotId, currentQuestion) => {
       stopPlayMode();
       setQuizUi("minimized");
+      const target = currentQuestion?.target;
+      const hasPanoramaTarget =
+        target &&
+        Number.isFinite(target.x) &&
+        Number.isFinite(target.y);
+
+      if (hasPanoramaTarget && data?.emakis) {
+        const resolved = resolvePanoramaCoordToSlice(
+          data.emakis,
+          target.x,
+          target.y
+        );
+        if (resolved) {
+          const rectW = target.w ?? target.rect?.w;
+          const rectH = target.h ?? target.rect?.h;
+          const targetNumericId =
+            typeof resolved.sliceIndex === "number"
+              ? resolved.sliceIndex
+              : typeof resolved.linkId === "number"
+                ? resolved.linkId
+                : Number(String(resolved.linkId ?? "").replace(/^scene-/, ""));
+          if (Number.isFinite(targetNumericId)) {
+            handleToId(targetNumericId);
+          }
+          window.setTimeout(() => {
+            zoomToSlicePercentRef?.current?.({
+              sliceIndex: resolved.sliceIndex,
+              centerX: resolved.centerX,
+              centerY: resolved.centerY,
+              targetScale: target.scale ?? 4.6,
+              rectW,
+              rectH,
+            });
+          }, 300);
+          return;
+        }
+      }
+
       handleToId(linkId);
+      if (spotId && data?.emakis) {
+        window.setTimeout(() => {
+          const deep = resolveSpotDeepLink(data.emakis, spotId);
+          if (!deep) return;
+          zoomToSlicePercentRef?.current?.({
+            sliceIndex: deep.sliceIndex,
+            centerX: deep.centerX,
+            centerY: deep.centerY,
+            targetScale: deep.targetScale ?? 4.6,
+            rectW: deep.rectW,
+            rectH: deep.rectH,
+          });
+        }, 300);
+      }
     },
-    [stopPlayMode, handleToId]
+    [stopPlayMode, handleToId, data?.emakis, zoomToSlicePercentRef]
   );
 
   const handleQuizJumpScroll = useCallback(

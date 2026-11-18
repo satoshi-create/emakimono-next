@@ -69,6 +69,24 @@ export function useSpotLayout({
       }
       const X = (W * sx) / 100;
       const Y = (H * sy) / 100;
+      if (
+        !dragOverrides?.[spot.id] &&
+        spot.badgePos &&
+        Number.isFinite(Number(spot.badgePos.x)) &&
+        Number.isFinite(Number(spot.badgePos.y))
+      ) {
+        const bx = (W * Number(spot.badgePos.x)) / 100;
+        const by = (H * Number(spot.badgePos.y)) / 100;
+        const dx = Math.round(bx - X);
+        const dy = Math.round(by - Y);
+        next[spot.id] = {
+          offsetX: `${dx - Math.round(w / 2)}px`,
+          offsetY: `${dy - Math.round(h / 2)}px`,
+          guideX: dx,
+          guideY: dy,
+        };
+        return;
+      }
       let offsetX = `calc(-100% - ${BADGE_GAP}px)`;
       if (X - w - BADGE_GAP < EDGE_MARGIN) {
         offsetX = `calc(0% + ${BADGE_GAP}px)`;

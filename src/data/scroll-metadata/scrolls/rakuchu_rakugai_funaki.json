@@ -182,6 +182,22 @@
             "x": 57.4,
             "y": 29.6
           }
+        },
+        {
+          "id": "quiz_funaki_q1_bell",
+          "name": "【Q1】方広寺大仏殿前の鐘楼",
+          "nameen": "Hoko-ji Bell Tower (Q1)",
+          "x": 100,
+          "y": 76.6,
+          "rect": {
+            "w": 81.4,
+            "h": 13.6
+          },
+          "hidden": true,
+          "badgePos": {
+            "x": 114.5,
+            "y": 79.9
+          }
         }
       ]
     },
@@ -238,13 +254,17 @@
           "category": "町並み・祭礼",
           "categoryen": "Townscapes & Festivals",
           "summary": "五条大橋から洛中へ延びる東西の幹線街路。扇屋や商家の店先が並び、往来する町衆の活気を伝える。",
-          "summaryen": "Major east-west thoroughfare leading from Gojo Bridge into the capital, lined with fan makers and merchant shops bustling with townspeople."
+          "summaryen": "Major east-west thoroughfare leading from Gojo Bridge into the capital, lined with fan makers and merchant shops bustling with townspeople.",
+          "rect": {
+            "w": 40.2,
+            "h": 10.2
+          }
         },
         {
           "id": "shichijo-kawara",
           "name": "七条河原",
-          "x": 100,
-          "y": 73.7,
+          "x": 88.7,
+          "y": 80.9,
           "nameen": "Shichijo Riverbed",
           "category": "町並み・祭礼",
           "categoryen": "Townscapes & Festivals",
@@ -394,8 +414,8 @@
         {
           "id": "gojoteramachi",
           "name": "五条寺町",
-          "x": 33.9,
-          "y": 54.5,
+          "x": 61.3,
+          "y": 53.9,
           "nameen": "Gojo Teramachi",
           "rect": {
             "w": 54.8,
@@ -404,6 +424,38 @@
           "badgePos": {
             "x": 72.2,
             "y": 54.2
+          }
+        },
+        {
+          "id": "quiz_funaki_q3_kabuki",
+          "name": "【Q3】四条河原の芝居小屋",
+          "nameen": "Shijo Theater Fence (Q3)",
+          "x": 82.5,
+          "y": 41.2,
+          "rect": {
+            "w": 55.2,
+            "h": 12.8
+          },
+          "hidden": true,
+          "badgePos": {
+            "x": 69.6,
+            "y": 49.4
+          }
+        },
+        {
+          "id": "quiz_funaki_q2_river",
+          "name": "【Q2】賀茂川の水遊び",
+          "nameen": "Kamo River Play (Q2)",
+          "x": 100,
+          "y": 72.4,
+          "rect": {
+            "w": 73,
+            "h": 12
+          },
+          "hidden": true,
+          "badgePos": {
+            "x": 250,
+            "y": 69.5
           }
         }
       ]
@@ -608,27 +660,27 @@
         {
           "id": "nijodori",
           "name": "二条通",
-          "x": 49,
-          "y": 53,
+          "x": 51.7,
+          "y": 58.5,
           "nameen": "Nijo Street",
           "category": "町並み・祭礼",
           "categoryen": "Townscapes & Festivals",
           "summary": "二条城の南側を東西に走る街路。薬種商や諸職人の店が並び、武家地と町人地を結ぶ要衝となっている。",
           "summaryen": "East-west avenue running south of Nijo Castle, lined with apothecaries and artisan workshops linking warrior and merchant quarters.",
           "rect": {
-            "w": 100,
-            "h": 18.8
+            "w": 91.6,
+            "h": 9.8
           },
           "badgePos": {
-            "x": 41.1,
-            "y": 55
+            "x": 84.1,
+            "y": 52.4
           }
         },
         {
           "id": "shimodachiuridori",
           "name": "下立売通",
-          "x": 64,
-          "y": 37.4,
+          "x": 55.3,
+          "y": 41.8,
           "nameen": "Shimodachiuri Street",
           "category": "町並み・祭礼",
           "categoryen": "Townscapes & Festivals",
@@ -645,6 +697,38 @@
           "x": 83,
           "y": 5,
           "nameen": "Kodai-in"
+        },
+        {
+          "id": "quiz_funaki_q4_horse",
+          "name": "【Q4】二条通の暴れ馬",
+          "nameen": "Nijo Street Rearing Horses (Q4)",
+          "x": 57.7,
+          "y": 57.9,
+          "rect": {
+            "w": 100,
+            "h": 12.8
+          },
+          "hidden": true,
+          "badgePos": {
+            "x": 69.3,
+            "y": 60.5
+          }
+        },
+        {
+          "id": "quiz_funaki_q5_oxcart",
+          "name": "【Q5】街道の荷運び牛馬",
+          "nameen": "Transport Oxen & Packhorses (Q5)",
+          "x": 100,
+          "y": 51.8,
+          "rect": {
+            "w": 61.4,
+            "h": 22
+          },
+          "hidden": true,
+          "badgePos": {
+            "x": 189.9,
+            "y": 64.4
+          }
         }
       ]
     },

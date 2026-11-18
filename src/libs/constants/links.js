@@ -88,7 +88,6 @@ export const navGroups = [
       },
       { name: "屏風一覧", nameen: "Byōbu Screens", path: BYOBU_HUB_PATH },
       { name: "ランキング", nameen: "Rankings", path: "/ranking" },
-      { name: "観光マップ", nameen: "Sightseeing Map", path: "/emaki-hub" },
       {
         name: "マンガのルーツ",
         nameen: "Manga Roots",

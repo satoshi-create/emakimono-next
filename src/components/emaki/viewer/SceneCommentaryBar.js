@@ -40,14 +40,16 @@ import {
 import {
   faBookOpen,
   faList,
+  faLocationDot,
   faTimeline,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+import { findGeoSpotByScrollSpot } from "@/data/hub/rakuchuRakugaiGeoSpots";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
 
 const EmakiEraTimeline = dynamic(
@@ -71,6 +73,7 @@ const SceneCommentaryBar = ({
   allSpots = [],
   onSelectSpot,
   isZoomed = false,
+  onOpenMapDrawer,
 }) => {
   const { handleToId, orientation } = useContext(AppContext);
   const router = useRouter();
@@ -168,6 +171,20 @@ const SceneCommentaryBar = ({
     setViewMode: shell.setViewMode,
     setIsFolkloreOpen,
   });
+
+  const activeSpotId =
+    byobu.isByobuSpotMode && byobu.activeByobuSpot?.id
+      ? String(byobu.activeByobuSpot.id)
+      : selectedSpot?.id
+        ? String(selectedSpot.id)
+        : null;
+  const activeGeoSpot = useMemo(
+    () =>
+      titleen && activeSpotId
+        ? findGeoSpotByScrollSpot(titleen, activeSpotId)
+        : null,
+    [titleen, activeSpotId]
+  );
 
   const emaki = useEmakiSceneCommentary({
     data,
@@ -508,6 +525,31 @@ const SceneCommentaryBar = ({
                   />
                 );
               })()}
+              {activeGeoSpot && onOpenMapDrawer && (
+                <button
+                  type="button"
+                  className={styles.timelineBtn}
+                  onClick={() => {
+                    onIdleActivity?.();
+                    onOpenMapDrawer();
+                  }}
+                  aria-label={
+                    locale === "en"
+                      ? `View ${activeGeoSpot.nameEn || activeGeoSpot.nameJa} on Kyoto Map`
+                      : `${activeGeoSpot.nameJa}を京都マップで見る`
+                  }
+                  title={
+                    locale === "en"
+                      ? `View ${activeGeoSpot.nameEn || activeGeoSpot.nameJa} on Kyoto Map`
+                      : `${activeGeoSpot.nameJa}を京都マップで見る`
+                  }
+                >
+                  <FontAwesomeIcon
+                    icon={faLocationDot}
+                    style={{ color: "#c2410c" }}
+                  />
+                </button>
+              )}
             </div>
           </div>
           {shell.viewMode === "index" ? (
