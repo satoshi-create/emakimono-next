@@ -186,7 +186,15 @@ export default function useEmakiQuizController({
         if (resolved) {
           const rectW = target.w ?? target.rect?.w;
           const rectH = target.h ?? target.rect?.h;
-          handleToId(resolved.linkId);
+          const targetNumericId =
+            typeof resolved.sliceIndex === "number"
+              ? resolved.sliceIndex
+              : typeof resolved.linkId === "number"
+                ? resolved.linkId
+                : Number(String(resolved.linkId ?? "").replace(/^scene-/, ""));
+          if (Number.isFinite(targetNumericId)) {
+            handleToId(targetNumericId);
+          }
           window.setTimeout(() => {
             zoomToSlicePercentRef?.current?.({
               sliceIndex: resolved.sliceIndex,

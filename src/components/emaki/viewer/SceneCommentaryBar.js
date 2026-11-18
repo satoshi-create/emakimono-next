@@ -40,6 +40,7 @@ import {
 import {
   faBookOpen,
   faList,
+  faMapLocationDot,
   faTimeline,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
@@ -47,8 +48,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "next-i18next";
+import { getGeoSpotsForScroll } from "@/data/hub/rakuchuRakugaiGeoSpots";
+import ScrollSightseeingMapDrawer from "./ScrollSightseeingMapDrawer";
 
 const EmakiEraTimeline = dynamic(
   () => import("@/components/chronology/EmakiEraTimeline"),
@@ -79,6 +82,11 @@ const SceneCommentaryBar = ({
   const { title, titleen } = data;
 
   const [isFolkloreOpen, setIsFolkloreOpen] = useState(false);
+  const [isMapDrawerOpen, setIsMapDrawerOpen] = useState(false);
+  const hasGeoSpots = useMemo(
+    () => getGeoSpotsForScroll(titleen).length > 0,
+    [titleen]
+  );
 
   const shell = useCommentaryBarShell({
     isFullscreen,
@@ -734,6 +742,20 @@ const SceneCommentaryBar = ({
                   <FontAwesomeIcon icon={faList} />
                 </button>
               )}
+              {hasGeoSpots && (
+                <button
+                  type="button"
+                  className={styles.timelineBtn}
+                  onClick={() => {
+                    onIdleActivity?.();
+                    setIsMapDrawerOpen(true);
+                  }}
+                  aria-label={locale === "en" ? "Open Kyoto Sightseeing Map" : "観光マップで見る"}
+                  title={locale === "en" ? "Open Kyoto Sightseeing Map" : "観光マップで見る"}
+                >
+                  <FontAwesomeIcon icon={faMapLocationDot} />
+                </button>
+              )}
               {emaki.eraen && (
                 <EmakiEraTimeline
                   eraen={emaki.eraen}
@@ -785,6 +807,24 @@ const SceneCommentaryBar = ({
         </div>
       </div>
       {folkloreChrome}
+      {hasGeoSpots && (
+        <ScrollSightseeingMapDrawer
+          isOpen={isMapDrawerOpen}
+          onClose={() => setIsMapDrawerOpen(false)}
+          titleen={titleen}
+          scrollTitle={title}
+          selectedSpotId={
+            byobu.isByobuSpotMode && byobu.activeByobuSpot?.id
+              ? String(byobu.activeByobuSpot.id)
+              : selectedSpot?.id
+                ? String(selectedSpot.id)
+                : null
+          }
+          allSpots={allSpots}
+          onSelectSpot={onSelectSpot}
+          locale={locale}
+        />
+      )}
     </div>
   );
 };
