@@ -29,8 +29,8 @@ ga4:
     connection_type: customEvent:connection_type
 
 content:
-  # 本番正本 image-metadata-cache を使用（local-data/ は gitignore 済みで CI に存在しない）
-  emakis_json: src/data/image-metadata-cache/image-metadata-cache.json
+  # 本番正本: scroll-metadata/scrolls（_order.json + 各 {titleen}.json の分割ディレクトリ）
+  emakis_json: src/data/scroll-metadata/scrolls
   content_map: analytics/content-map.json
   slug_field: titleen
 

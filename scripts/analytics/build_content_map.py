@@ -23,10 +23,47 @@ from _config import load_project_config  # noqa: E402
 from _paths import REPO_ROOT  # noqa: E402
 
 
+
+
+def load_emaki_entries(source: Path) -> list[dict]:
+    if source.is_file():
+        data = json.loads(source.read_text(encoding="utf-8"))
+        return data if isinstance(data, list) else []
+    if source.is_dir():
+        order_path = source / "_order.json"
+        order = json.loads(order_path.read_text(encoding="utf-8"))
+        if not isinstance(order, list):
+            return []
+        entries: list[dict] = []
+        for titleen in order:
+            if not isinstance(titleen, str):
+                continue
+            scroll_path = source / f"{titleen}.json"
+            item = json.loads(scroll_path.read_text(encoding="utf-8"))
+            if isinstance(item, dict):
+                entries.append(item)
+        return entries
+    raise FileNotFoundError(source)
+
+
+def source_mtime(source: Path) -> float:
+    if source.is_file():
+        return source.stat().st_mtime
+    if source.is_dir():
+        mtimes = [source.stat().st_mtime]
+        order_path = source / "_order.json"
+        if order_path.is_file():
+            mtimes.append(order_path.stat().st_mtime)
+        for path in source.glob("*.json"):
+            if path.name != "_order.json":
+                mtimes.append(path.stat().st_mtime)
+        return max(mtimes)
+    return 0.0
+
 def build_content_map(project: dict) -> dict:
     emakis_path = REPO_ROOT / project["content"]["emakis_json"]
     slug_field = project["content"]["slug_field"]
-    entries = json.loads(emakis_path.read_text(encoding="utf-8"))
+    entries = load_emaki_entries(emakis_path)
 
     by_slug: dict[str, dict] = {}
     for item in entries:
@@ -56,7 +93,7 @@ def build_content_map(project: dict) -> dict:
 def is_stale(output_path: Path, source_path: Path) -> bool:
     if not output_path.is_file():
         return True
-    return source_path.stat().st_mtime > output_path.stat().st_mtime
+    return source_mtime(source_path) > output_path.stat().st_mtime
 
 
 def main(argv: list[str] | None = None) -> int:
