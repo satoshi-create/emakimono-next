@@ -117,7 +117,7 @@ export function EmakiViewerChrome({
         </button>
       )}
       {scroll && (
-        <FullScreen isUIVisible={isUIVisible} isBarFloating={commentaryFloating} />
+        <FullScreen isUIVisible={isUIVisible} isBarFloating={commentaryFloating || isZoomed} />
       )}
       {scroll && !isEditSpotsMode && (
         <WheelScrollIndicator
