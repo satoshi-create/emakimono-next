@@ -401,81 +401,134 @@ const ScrollSpotMapCanvas = ({
       <div
         style={{
           position: "absolute",
-          top: "10px",
-          right: "10px",
-          zIndex: 1000,
+          top: 8,
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 450,
           pointerEvents: "none",
-          background: "rgba(255, 255, 255, 0.9)",
+          background: "rgba(255, 255, 255, 0.88)",
           backdropFilter: "blur(4px)",
-          borderRadius: "8px",
-          padding: "6px 10px",
-          boxShadow: "0 2px 8px rgba(15, 23, 42, 0.14)",
-          border: "1px solid rgba(15, 23, 42, 0.08)",
-          fontFamily: "var(--font-ui, sans-serif)",
-          fontSize: "11px",
-          lineHeight: 1.45,
+          border: "1px solid rgba(148, 163, 184, 0.4)",
+          borderRadius: "6px",
+          padding: "4px 10px",
+          fontSize: 11,
+          fontWeight: 600,
           color: "#1e293b",
-          maxWidth: "calc(100% - 60px)",
+          boxShadow: "0 1px 4px rgba(15, 23, 42, 0.1)",
+          fontFamily: "var(--font-ui, sans-serif)",
+          whiteSpace: "nowrap",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            gap: "6px",
-            fontWeight: 600,
-          }}
-        >
-          <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
-            <span
-              style={{
-                width: "8px",
-                height: "8px",
-                borderRadius: "9999px",
-                background: "#c2410c",
-                display: "inline-block",
-              }}
-            />
-            {isEn ? "Temples & Landmarks" : "朱＝寺社・名所"}
-          </span>
-          <span style={{ color: "#94a3b8" }}>/</span>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
-            <span
-              style={{
-                width: "8px",
-                height: "8px",
-                borderRadius: "9999px",
-                background: "#0284c7",
-                display: "inline-block",
-              }}
-            />
-            {isEn ? "Rivers & Canals (〜)" : "青＝河川・水路"}
-          </span>
-          <span style={{ color: "#94a3b8" }}>/</span>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
-            <span
-              style={{
-                width: "8px",
-                height: "8px",
-                borderRadius: "9999px",
-                background: "#15803d",
-                display: "inline-block",
-              }}
-            />
-            {isEn ? "Streets (＝)" : "緑＝通り"}
-          </span>
-        </div>
-        <div style={{ marginTop: "3px", color: "#475569", fontSize: "10.5px" }}>
-          {isEn
-            ? "East (Right Screen) = Higashiyama & Kamo R. / Center = Central Kyoto & Takase R. / West (Left Screen) = Nijo Castle & Oi R."
-            : "東（右隻）＝東山・賀茂川 ／ 中央＝洛中・高瀬川 ／ 西（左隻）＝二条城・大堰川"}
-        </div>
-        <div style={{ marginTop: "2px", color: "#64748b", fontSize: "10px" }}>
-          {isEn
-            ? "Circle size = scroll appearance count (1–3 works)"
-            : "円の大きさ＝登場作品数（1〜3作品）"}
-        </div>
+        {isEn ? "N · Rakuhoku / Imperial Palace" : "北（洛北・御所）"}
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          bottom: 24,
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 450,
+          pointerEvents: "none",
+          background: "rgba(255, 255, 255, 0.88)",
+          backdropFilter: "blur(4px)",
+          border: "1px solid rgba(148, 163, 184, 0.4)",
+          borderRadius: "6px",
+          padding: "4px 10px",
+          fontSize: 11,
+          fontWeight: 600,
+          color: "#1e293b",
+          boxShadow: "0 1px 4px rgba(15, 23, 42, 0.1)",
+          fontFamily: "var(--font-ui, sans-serif)",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {isEn ? "S · Rakunan / To-ji / Fushimi" : "南（洛南・東寺・伏見）"}
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          right: 8,
+          top: "50%",
+          transform: "translateY(-50%)",
+          zIndex: 450,
+          pointerEvents: "none",
+          background: "rgba(255, 255, 255, 0.88)",
+          backdropFilter: "blur(4px)",
+          border: "1px solid rgba(148, 163, 184, 0.4)",
+          borderRadius: "6px",
+          padding: "8px 4px",
+          fontSize: 11,
+          fontWeight: 600,
+          color: "#1e293b",
+          boxShadow: "0 1px 4px rgba(15, 23, 42, 0.1)",
+          fontFamily: "var(--font-ui, sans-serif)",
+          writingMode: "vertical-rl",
+        }}
+      >
+        {isEn ? (
+          <>
+            E <span style={{ color: "#b91c1c" }}>[Right Screen]</span> Higashiyama / Kamo River
+          </>
+        ) : (
+          <>
+            東<span style={{ color: "#b91c1c" }}>【右隻】</span>東山・鴨川
+          </>
+        )}
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          left: 8,
+          top: "50%",
+          transform: "translateY(-50%)",
+          zIndex: 450,
+          pointerEvents: "none",
+          background: "rgba(255, 255, 255, 0.88)",
+          backdropFilter: "blur(4px)",
+          border: "1px solid rgba(148, 163, 184, 0.4)",
+          borderRadius: "6px",
+          padding: "8px 4px",
+          fontSize: 11,
+          fontWeight: 600,
+          color: "#1e293b",
+          boxShadow: "0 1px 4px rgba(15, 23, 42, 0.1)",
+          fontFamily: "var(--font-ui, sans-serif)",
+          writingMode: "vertical-rl",
+        }}
+      >
+        {isEn ? (
+          <>
+            W <span style={{ color: "#1d4ed8" }}>[Left Screen]</span> Nijo Castle / Arashiyama
+          </>
+        ) : (
+          <>
+            西<span style={{ color: "#1d4ed8" }}>【左隻】</span>二条城・嵐山
+          </>
+        )}
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          bottom: 6,
+          left: 8,
+          zIndex: 450,
+          pointerEvents: "none",
+          background: "rgba(255, 255, 255, 0.88)",
+          backdropFilter: "blur(4px)",
+          border: "1px solid rgba(148, 163, 184, 0.4)",
+          borderRadius: "6px",
+          padding: "4px 8px",
+          fontSize: 11,
+          fontWeight: 600,
+          color: "#1e293b",
+          boxShadow: "0 1px 4px rgba(15, 23, 42, 0.1)",
+          fontFamily: "var(--font-ui, sans-serif)",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {isEn
+          ? "●Landmark ●River ●Street | Size = Scrolls (1-3)"
+          : "●寺社 ●川 ●道 ｜ 円＝登場数(1〜3)"}
       </div>
     </div>
   );
