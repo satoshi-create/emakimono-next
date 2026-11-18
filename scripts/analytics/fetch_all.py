@@ -171,6 +171,7 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
     feedback_lines: list[str] = []
     share_lines: list[str] = []
     quiz_lines: list[str] = []
+    polaroid_lines: list[str] = []
     education_geo_lines: list[str] = []
     env_lines: list[str] = []
     severity_lines: list[str] = []
@@ -186,14 +187,23 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
                 f"(GSC imp {row.get('gsc_impressions')}, sessions {row.get('ga4_sessions')})"
             )
         breakdown = merged.get("fallback_reason_breakdown") or {}
+        recovered_breakdown = merged.get("recovered_reason_breakdown") or {}
         if breakdown:
             total = sum(breakdown.values())
             if total > 0:
-                fallback_reason_lines.append("| reason | events | % |")
-                fallback_reason_lines.append("|---|---|---|")
+                fallback_reason_lines.append(
+                    "| reason | Fallback | Recovered | Unrecovered | Recovery % | share % |"
+                )
+                fallback_reason_lines.append("|---|---|---|---|---|---|")
                 for reason, count in breakdown.items():
-                    pct = round(count / total * 100, 1)
-                    fallback_reason_lines.append(f"| `{reason}` | {count} | {pct}% |")
+                    fb = int(count or 0)
+                    rec = int(recovered_breakdown.get(reason) or 0)
+                    unrec = max(0, fb - rec)
+                    rec_pct = round(rec / fb * 100, 1) if fb else 0.0
+                    share_pct = round(fb / total * 100, 1)
+                    fallback_reason_lines.append(
+                        f"| `{reason}` | {fb} | {rec} | {unrec} | {rec_pct}% | {share_pct}% |"
+                    )
 
         # Like 系（絵巻別）: scene_like / like_emaki のサマリ
         scene_like_breakdown = merged.get("scene_like_breakdown") or {}
@@ -326,6 +336,70 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
                 "\n※ `question_id` / `is_correct` / `rank` が GA4 未登録の場合、設問表・rank は空です。"
             )
 
+        # ポラロイド保存・共有
+        ps = merged.get("polaroid_summary") or {}
+        modal_open = int(ps.get("modal_open") or 0)
+        sheet_open = int(ps.get("sheet_open") or 0)
+        export_total = int(ps.get("export_total") or 0)
+        completion = ps.get("completion_rate")
+        completion_s = f"{round(completion * 100, 1)}%" if completion is not None else "n/a"
+        msg_rate = ps.get("message_input_rate")
+        msg_s = f"{round(msg_rate * 100, 1)}%" if msg_rate is not None else "n/a"
+        polaroid_lines.append(
+            f"- **funnel**: modal_open **{modal_open}** → sheet_open **{sheet_open}** → "
+            f"export **{export_total}** (export÷open {completion_s})"
+        )
+        polaroid_lines.append(
+            f"- **modal_close**: **{int(ps.get('modal_close') or 0)}** / "
+            f"exports_with_message: **{int(ps.get('export_with_message') or 0)}** ({msg_s})"
+        )
+        open_by_source = ps.get("open_by_source") or {}
+        if isinstance(open_by_source, dict) and open_by_source:
+            polaroid_lines.append("\n| trigger_source | modal_open |")
+            polaroid_lines.append("|---|---|")
+            for source, count in open_by_source.items():
+                polaroid_lines.append(f"| `{source}` | {count} |")
+        export_by_type = ps.get("export_by_type") or {}
+        type_order = ("polaroid", "reel", "video", "x_copy", "reel_copy")
+        type_labels = {
+            "polaroid": "4:5",
+            "reel": "9:16",
+            "video": "動画",
+            "x_copy": "Xコピー",
+            "reel_copy": "reel_copy",
+        }
+        polaroid_lines.append("\n| format | export_type | exports |")
+        polaroid_lines.append("|---|---|---|")
+        seen_types: set[str] = set()
+        for key in type_order:
+            count = int((export_by_type or {}).get(key) or 0)
+            seen_types.add(key)
+            polaroid_lines.append(f"| {type_labels.get(key, key)} | `{key}` | {count} |")
+        if isinstance(export_by_type, dict):
+            for key, count in export_by_type.items():
+                if key in seen_types:
+                    continue
+                polaroid_lines.append(f"| — | `{key}` | {int(count or 0)} |")
+        rank_open = ps.get("ranking_by_open") or []
+        rank_export = ps.get("ranking_by_export") or []
+        if rank_open:
+            polaroid_lines.append("\n| 絵巻 (起動 Top) | modal_open | export |")
+            polaroid_lines.append("|---|---|---|")
+            for row in rank_open[:10]:
+                polaroid_lines.append(
+                    f"| `{row.get('emaki_id')}` | {row.get('modal_open', 0)} | {row.get('export_success', 0)} |"
+                )
+        if rank_export:
+            polaroid_lines.append("\n| 絵巻 (エクスポート Top) | modal_open | export |")
+            polaroid_lines.append("|---|---|---|")
+            for row in rank_export[:10]:
+                polaroid_lines.append(
+                    f"| `{row.get('emaki_id')}` | {row.get('modal_open', 0)} | {row.get('export_success', 0)} |"
+                )
+        polaroid_lines.append(
+            "\n※ `trigger_source` / `export_type` / `has_message` が GA4 未登録の場合、内訳・ランキングは空です。"
+        )
+
         # 教育利用の地域クラスタ（弱い代理）
         geo_clusters = merged.get("education_geo_clusters") or []
         geo_flags = merged.get("education_geo_insight_flags") or []
@@ -413,14 +487,23 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
                 "`emaki_id` / `fallback_reason` / `connection_type`（イベントスコープ）を登録後に有効。"
             )
             devices = sorted(set(fb_dev) | set(slow_dev) | set(cont_dev))
+            rec_dev = merged.get("recovered_crosstab_by_device_reason") or {}
             if fb_dev:
-                severity_lines.append("\n| deviceCategory | reason | fallback events | % |")
-                severity_lines.append("|---|---|---|---|")
+                severity_lines.append(
+                    "\n| deviceCategory | reason | Fallback | Recovered | Unrecovered | Recovery % | share % |"
+                )
+                severity_lines.append("|---|---|---|---|---|---|---|")
                 for device in devices:
                     total = sum(fb_dev[device].values()) if fb_dev.get(device) else 0
                     for reason, count in (fb_dev.get(device) or {}).items():
-                        pct = round(count / total * 100, 1) if total else 0.0
-                        severity_lines.append(f"| `{device}` | `{reason}` | {count} | {pct}% |")
+                        fb = int(count or 0)
+                        rec = int((rec_dev.get(device) or {}).get(reason) or 0)
+                        unrec = max(0, fb - rec)
+                        rec_pct = round(rec / fb * 100, 1) if fb else 0.0
+                        share_pct = round(fb / total * 100, 1) if total else 0.0
+                        severity_lines.append(
+                            f"| `{device}` | `{reason}` | {fb} | {rec} | {unrec} | {rec_pct}% | {share_pct}% |"
+                        )
             if cont_dev:
                 severity_lines.append("\n| deviceCategory | fallback | viewer_engagement | scene_dwell | eng÷fallback |")
                 severity_lines.append("|---|---|---|---|---|")
@@ -525,6 +608,16 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
             ]
         )
 
+    if polaroid_lines:
+        lines.extend(
+            [
+                "## Polaroid",
+                "",
+                *polaroid_lines,
+                "",
+            ]
+        )
+
     if education_geo_lines:
         lines.extend(
             [
@@ -591,12 +684,12 @@ def write_summary(report_dir: Path, manifest: dict) -> Path:
         [
             "## Files (read order for Cursor Agent)",
             "1. `summary.md` — this file",
-            "2. `merged.json` — per-emaki GSC × GA4 join（`quiz_funnel` / `education_geo_clusters` 含む）",
+            "2. `merged.json` — per-emaki GSC × GA4 join（`quiz_funnel` / `polaroid_summary` / `education_geo_clusters` 含む）",
             "3. `gsc_queries.json` — query detail",
             "4. `ga4_events_summary.json` — event counts",
             "5. `ga4_fallback_by_reason.json` — fallback reason breakdown",
             "6. `ga4_sessions_by_region.json` / `ga4_sessions_by_city.json` — geo",
-            "7. `ga4_quiz_*.json` — quiz optional breakdowns（Admin 登録後）",
+            "7. `ga4_quiz_*.json` / `ga4_polaroid_*.json` — optional breakdowns（Admin 登録後）",
             "8. `ga4_fallback_crosstab.json` / `ga4_slow_crosstab.json` — device × emaki × reason",
             "9. `ga4_continuity_crosstab.json` — 閲覧継続の並列集計（Admin 登録後）",
             "",

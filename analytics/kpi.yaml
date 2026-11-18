@@ -49,6 +49,7 @@ ga4_reports:
         - viewer_engagement
         - scene_dwell
         - image_load_fallback
+        - image_load_recovered
         - image_load_slow
         - session_context
         - scene_modal_open
@@ -174,6 +175,47 @@ ga4_reports:
       field: eventName
       op: exact
       value: image_load_fallback
+    limit: 2000
+
+  - id: recovered_by_emaki
+    optional: true
+    requires_custom_dimension: emaki_id
+    dimensions:
+      - customEvent:emaki_id
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: image_load_recovered
+    limit: 200
+
+  - id: recovered_by_reason
+    optional: true
+    requires_custom_dimension: fallback_reason
+    dimensions:
+      - customEvent:fallback_reason
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: image_load_recovered
+    limit: 50
+
+  - id: recovered_crosstab
+    optional: true
+    requires_custom_dimension: emaki_id
+    dimensions:
+      - deviceCategory
+      - customEvent:emaki_id
+      - customEvent:fallback_reason
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: image_load_recovered
     limit: 2000
 
   # image_load_slow の deviceCategory × 絵巻
@@ -481,6 +523,66 @@ ga4_reports:
       op: exact
       value: quiz_jump_to_scene
     limit: 50
+
+  # ポラロイド保存・共有（optional）
+  - id: polaroid_funnel
+    optional: true
+    dimensions:
+      - eventName
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: in_list
+      values:
+        - polaroid_modal_open
+        - polaroid_sheet_open
+        - polaroid_export_success
+        - polaroid_modal_close
+    limit: 20
+
+  - id: polaroid_open_by_source
+    optional: true
+    requires_custom_dimension: trigger_source
+    dimensions:
+      - customEvent:trigger_source
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: polaroid_modal_open
+    limit: 50
+
+  - id: polaroid_export_by_type
+    optional: true
+    requires_custom_dimension: export_type
+    dimensions:
+      - customEvent:export_type
+      - customEvent:has_message
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: exact
+      value: polaroid_export_success
+    limit: 100
+
+  - id: polaroid_by_emaki
+    optional: true
+    requires_custom_dimension: emaki_id
+    dimensions:
+      - eventName
+      - customEvent:emaki_id
+    metrics:
+      - eventCount
+    dimension_filter:
+      field: eventName
+      op: in_list
+      values:
+        - polaroid_modal_open
+        - polaroid_export_success
+    limit: 500
 
 merge:
   insight_thresholds:

@@ -260,6 +260,78 @@ def _quiz_rank_by_emaki(rows: list) -> dict[str, dict[str, int]]:
     return out
 
 
+
+
+def _polaroid_funnel_counts(rows: list) -> dict[str, int]:
+    keys = (
+        "polaroid_modal_open",
+        "polaroid_sheet_open",
+        "polaroid_export_success",
+        "polaroid_modal_close",
+    )
+    out = {k: 0 for k in keys}
+    for row in rows if isinstance(rows, list) else []:
+        if not isinstance(row, dict):
+            continue
+        name = row.get("eventName") or ""
+        if name in out:
+            out[name] = int(row.get("eventCount") or 0)
+    return out
+
+
+def _polaroid_export_breakdown(rows: list) -> tuple[dict[str, int], dict[str, int | float | None]]:
+    by_type: dict[str, int] = {}
+    with_message = 0
+    total = 0
+    for row in rows if isinstance(rows, list) else []:
+        if not isinstance(row, dict):
+            continue
+        export_type = _dim_value(row, "customEvent:export_type", "export_type")
+        has_msg = _parse_boolish(_dim_value(row, "customEvent:has_message", "has_message"))
+        count = int(row.get("eventCount") or 0)
+        total += count
+        if export_type:
+            by_type[export_type] = by_type.get(export_type, 0) + count
+        if has_msg is True:
+            with_message += count
+    message_rate = round(with_message / total, 4) if total > 0 else None
+    return dict(sorted(by_type.items(), key=lambda kv: kv[1], reverse=True)), {
+        "with_message": with_message,
+        "exports_counted": total,
+        "message_input_rate": message_rate,
+    }
+
+
+def _polaroid_by_emaki(rows: list) -> dict[str, dict[str, int]]:
+    by_emaki: dict[str, dict[str, int]] = defaultdict(lambda: {"modal_open": 0, "export_success": 0})
+    for row in rows if isinstance(rows, list) else []:
+        if not isinstance(row, dict):
+            continue
+        emaki = _dim_value(row, "customEvent:emaki_id", "emaki_id", "slug")
+        if not emaki:
+            continue
+        event = row.get("eventName") or ""
+        count = int(row.get("eventCount") or 0)
+        if event == "polaroid_modal_open":
+            by_emaki[emaki]["modal_open"] += count
+        elif event == "polaroid_export_success":
+            by_emaki[emaki]["export_success"] += count
+    return dict(by_emaki)
+
+
+def _polaroid_emaki_rankings(by_emaki: dict[str, dict[str, int]], *, limit: int = 15) -> dict[str, list]:
+    open_rank = sorted(
+        ({"emaki_id": k, **v} for k, v in by_emaki.items()),
+        key=lambda r: (r.get("modal_open") or 0, r.get("export_success") or 0),
+        reverse=True,
+    )[:limit]
+    export_rank = sorted(
+        ({"emaki_id": k, **v} for k, v in by_emaki.items()),
+        key=lambda r: (r.get("export_success") or 0, r.get("modal_open") or 0),
+        reverse=True,
+    )[:limit]
+    return {"by_open": open_rank, "by_export": export_rank}
+
 def _quiz_insights(funnel: dict, thresholds: dict) -> list[str]:
     flags: list[str] = []
     start = int(funnel.get("start") or 0)
@@ -432,6 +504,7 @@ def calc_site_kpis(
     fallback_reason_breakdown: dict,
     fallback_crosstab_by_device_reason: dict,
     ga4_pages_rows: list | None,
+    recovered_reason_breakdown: dict | None = None,
 ) -> dict:
     breakdown = fallback_reason_breakdown if isinstance(fallback_reason_breakdown, dict) else {}
     crosstab = (
@@ -461,10 +534,23 @@ def calc_site_kpis(
     engagement_rate_weighted = (
         round(weighted_sum / session_sum, 4) if session_sum > 0 else None
     )
+    recovered_breakdown = (
+        recovered_reason_breakdown if isinstance(recovered_reason_breakdown, dict) else {}
+    )
+    fallback_total = sum(int(v or 0) for v in breakdown.values())
+    recovered_total = sum(int(v or 0) for v in recovered_breakdown.values())
+    unrecovered_total = max(0, fallback_total - recovered_total)
+    recovery_rate = (
+        round(recovered_total / fallback_total, 4) if fallback_total > 0 else None
+    )
     return {
         "load_error_total": load_error_total,
         "load_error_tablet": load_error_tablet,
         "engagement_rate_weighted": engagement_rate_weighted,
+        "fallback_total": fallback_total,
+        "recovered_total": recovered_total,
+        "unrecovered_total": unrecovered_total,
+        "recovery_rate": recovery_rate,
     }
 
 
@@ -491,6 +577,7 @@ def _site_kpis_from_report_dir(report_dir: Path) -> dict | None:
 
     fallback_by_reason = _load_json(report_dir / "ga4_fallback_by_reason.json")
     fallback_crosstab = _load_json(report_dir / "ga4_fallback_crosstab.json")
+    recovered_by_reason = _load_json(report_dir / "ga4_recovered_by_reason.json")
     ga4_pages = _load_json(report_dir / "ga4_pages.json")
     if not isinstance(fallback_by_reason, list) and not isinstance(ga4_pages, list):
         return None
@@ -502,10 +589,14 @@ def _site_kpis_from_report_dir(report_dir: Path) -> dict | None:
         fallback_crosstab if isinstance(fallback_crosstab, list) else [],
         ("customEvent:fallback_reason", "fallback_reason"),
     )
+    recovered_reason_breakdown = _index_fallback_reason(
+        recovered_by_reason if isinstance(recovered_by_reason, list) else []
+    )
     return calc_site_kpis(
         fallback_reason_breakdown,
         fallback_crosstab_by_device_reason,
         ga4_pages if isinstance(ga4_pages, list) else [],
+        recovered_reason_breakdown,
     )
 
 
@@ -561,7 +652,7 @@ def _insight_flags(
     ctr = record.get("gsc_ctr") or 0.0
     sessions = int(record.get("ga4_sessions") or 0)
     viewer_events = int(record.get("viewer_engagement_events") or 0)
-    fallback_events = int(record.get("image_load_fallback_events") or 0)
+    unrecovered_events = int(record.get("image_load_unrecovered_events") or 0)
 
     if impressions >= 100 and site_avg_ctr > 0 and ctr < site_avg_ctr * thresholds.get("low_ctr_vs_site_ratio", 0.7):
         flags.append("high_impressions_low_ctr")
@@ -571,7 +662,7 @@ def _insight_flags(
         if ratio < 0.3:
             flags.append("high_traffic_low_engagement")
 
-    if fallback_events >= thresholds.get("high_fallback_events", 50):
+    if unrecovered_events >= thresholds.get("high_fallback_events", 50):
         flags.append("high_image_fallback")
 
     if clicks == 0 and impressions >= 50:
@@ -616,6 +707,10 @@ def merge_report(report_dir: Path) -> dict:
         report_dir / "ga4_quiz_complete_by_emaki_rank.json"
     )
     quiz_jump_by_question = _load_json(report_dir / "ga4_quiz_jump_by_question.json")
+    polaroid_funnel = _load_json(report_dir / "ga4_polaroid_funnel.json")
+    polaroid_open_by_source = _load_json(report_dir / "ga4_polaroid_open_by_source.json")
+    polaroid_export_by_type = _load_json(report_dir / "ga4_polaroid_export_by_type.json")
+    polaroid_by_emaki = _load_json(report_dir / "ga4_polaroid_by_emaki.json")
     sessions_by_region = _load_json(report_dir / "ga4_sessions_by_region.json")
     sessions_by_city = _load_json(report_dir / "ga4_sessions_by_city.json")
     sessions_by_region_device = _load_json(report_dir / "ga4_sessions_by_region_device.json")
@@ -625,6 +720,9 @@ def merge_report(report_dir: Path) -> dict:
     session_context_by_device = _load_json(report_dir / "ga4_session_context_by_device.json")
     session_context_by_connection = _load_json(report_dir / "ga4_session_context_by_connection.json")
     fallback_crosstab = _load_json(report_dir / "ga4_fallback_crosstab.json")
+    recovered_by_emaki = _load_json(report_dir / "ga4_recovered_by_emaki.json")
+    recovered_by_reason = _load_json(report_dir / "ga4_recovered_by_reason.json")
+    recovered_crosstab = _load_json(report_dir / "ga4_recovered_crosstab.json")
     slow_crosstab = _load_json(report_dir / "ga4_slow_crosstab.json")
     continuity_crosstab = _load_json(report_dir / "ga4_continuity_crosstab.json")
 
@@ -639,8 +737,12 @@ def merge_report(report_dir: Path) -> dict:
     )
     viewer_by_slug = _index_ga4_emaki(viewer_by_emaki if isinstance(viewer_by_emaki, list) else [])
     fallback_by_slug = _index_ga4_emaki(fallback_by_emaki if isinstance(fallback_by_emaki, list) else [])
+    recovered_by_slug = _index_ga4_emaki(recovered_by_emaki if isinstance(recovered_by_emaki, list) else [])
     fallback_reason_counts = _index_fallback_reason(
         fallback_by_reason if isinstance(fallback_by_reason, list) else []
+    )
+    recovered_reason_counts = _index_fallback_reason(
+        recovered_by_reason if isinstance(recovered_by_reason, list) else []
     )
     scene_like_by_slug = _index_ga4_emaki(
         scene_like_by_emaki if isinstance(scene_like_by_emaki, list) else []
@@ -729,6 +831,49 @@ def merge_report(report_dir: Path) -> dict:
     }
     quiz_insight_flags = _quiz_insights(quiz_funnel, thresholds)
 
+    polaroid_funnel_counts = _polaroid_funnel_counts(
+        polaroid_funnel if isinstance(polaroid_funnel, list) else []
+    )
+    polaroid_modal_open = polaroid_funnel_counts.get("polaroid_modal_open") or _event_count_from_summary(
+        events_summary, "polaroid_modal_open"
+    )
+    polaroid_sheet_open = polaroid_funnel_counts.get("polaroid_sheet_open") or _event_count_from_summary(
+        events_summary, "polaroid_sheet_open"
+    )
+    polaroid_export_total = polaroid_funnel_counts.get("polaroid_export_success") or _event_count_from_summary(
+        events_summary, "polaroid_export_success"
+    )
+    polaroid_modal_close = polaroid_funnel_counts.get("polaroid_modal_close") or _event_count_from_summary(
+        events_summary, "polaroid_modal_close"
+    )
+    polaroid_open_by_source_counts = _index_fallback_reason(
+        polaroid_open_by_source if isinstance(polaroid_open_by_source, list) else [],
+        dim_key="customEvent:trigger_source",
+    )
+    polaroid_export_by_type_counts, polaroid_message_stats = _polaroid_export_breakdown(
+        polaroid_export_by_type if isinstance(polaroid_export_by_type, list) else []
+    )
+    polaroid_by_emaki_counts = _polaroid_by_emaki(
+        polaroid_by_emaki if isinstance(polaroid_by_emaki, list) else []
+    )
+    polaroid_emaki_rankings = _polaroid_emaki_rankings(polaroid_by_emaki_counts)
+    polaroid_summary = {
+        "modal_open": polaroid_modal_open,
+        "sheet_open": polaroid_sheet_open,
+        "export_total": polaroid_export_total,
+        "modal_close": polaroid_modal_close,
+        "completion_rate": round(polaroid_export_total / polaroid_modal_open, 4)
+        if polaroid_modal_open > 0
+        else None,
+        "open_by_source": polaroid_open_by_source_counts,
+        "export_by_type": polaroid_export_by_type_counts,
+        "export_with_message": polaroid_message_stats.get("with_message") or 0,
+        "message_input_rate": polaroid_message_stats.get("message_input_rate"),
+        "by_emaki": polaroid_by_emaki_counts,
+        "ranking_by_open": polaroid_emaki_rankings.get("by_open") or [],
+        "ranking_by_export": polaroid_emaki_rankings.get("by_export") or [],
+    }
+
     education_geo_clusters, education_geo_flags = _education_geo_clusters(
         sessions_by_region if isinstance(sessions_by_region, list) else [],
         sessions_by_city if isinstance(sessions_by_city, list) else [],
@@ -744,6 +889,10 @@ def merge_report(report_dir: Path) -> dict:
     slow_by_slug = _index_ga4_emaki(slow_by_emaki if isinstance(slow_by_emaki, list) else [])
     fallback_device_reason = _index_device_group(
         fallback_crosstab if isinstance(fallback_crosstab, list) else [],
+        ("customEvent:fallback_reason", "fallback_reason"),
+    )
+    recovered_device_reason = _index_device_group(
+        recovered_crosstab if isinstance(recovered_crosstab, list) else [],
         ("customEvent:fallback_reason", "fallback_reason"),
     )
     slow_device_emaki = _index_device_group(
@@ -812,6 +961,11 @@ def merge_report(report_dir: Path) -> dict:
             "ga4_engagement_rate": ga4_page.get("engagementRate"),
             "viewer_engagement_events": viewer_by_slug.get(slug, 0),
             "image_load_fallback_events": fallback_by_slug.get(slug, 0),
+            "image_load_recovered_events": recovered_by_slug.get(slug, 0),
+            "image_load_unrecovered_events": max(
+                0,
+                fallback_by_slug.get(slug, 0) - recovered_by_slug.get(slug, 0),
+            ),
             "image_load_slow_events": slow_by_slug.get(slug, 0),
             "scene_like_events": scene_like_by_slug.get(slug, 0),
             "like_emaki_events": like_emaki_by_slug.get(slug, 0),
@@ -845,6 +999,7 @@ def merge_report(report_dir: Path) -> dict:
         fallback_reason_counts,
         fallback_device_reason,
         ga4_pages_rows,
+        recovered_reason_counts,
     )
 
     week_over_week: dict | None = None
@@ -893,6 +1048,7 @@ def merge_report(report_dir: Path) -> dict:
         "quiz_complete_breakdown": quiz_complete_by_slug,
         "quiz_jump_breakdown": quiz_jump_by_slug,
         "quiz_insight_flags": quiz_insight_flags,
+        "polaroid_summary": polaroid_summary,
         "education_geo_clusters": education_geo_clusters,
         "education_geo_insight_flags": education_geo_flags,
         "geo_region_top": region_top,
@@ -902,6 +1058,8 @@ def merge_report(report_dir: Path) -> dict:
         "session_context_connection_breakdown": session_connection_breakdown,
         "image_load_slow_breakdown": slow_by_slug,
         "fallback_crosstab_by_device_reason": fallback_device_reason,
+        "recovered_reason_breakdown": recovered_reason_counts,
+        "recovered_crosstab_by_device_reason": recovered_device_reason,
         "slow_crosstab_by_device_emaki": slow_device_emaki,
         "continuity_by_device_event": continuity_device_event,
         "site_kpis": site_kpis,
