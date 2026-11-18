@@ -122,14 +122,6 @@ const ScrollSightseeingMapDrawer = ({
     };
   }, [isOpen]);
 
-  const isolateMapDrawerEvents = {
-    onTouchStart: (e) => e.stopPropagation(),
-    onTouchMove: (e) => e.stopPropagation(),
-    onTouchEnd: (e) => e.stopPropagation(),
-    onPointerDown: (e) => e.stopPropagation(),
-    onWheel: (e) => e.stopPropagation(),
-  };
-
   const handleJumpToScrollSpot = useCallback(
     (matchedSpotId) => {
       if (!matchedSpotId || !Array.isArray(allSpots)) return;
@@ -170,7 +162,6 @@ const ScrollSightseeingMapDrawer = ({
           onClose?.();
         }
       }}
-      {...isolateMapDrawerEvents}
     >
       <aside
         className={styles.panel}
@@ -179,7 +170,6 @@ const ScrollSightseeingMapDrawer = ({
             ? { width: drawerWidth, maxWidth: drawerWidth }
             : undefined
         }
-        {...isolateMapDrawerEvents}
       >
         <div
           className={styles.resizeHandle}

@@ -32,6 +32,7 @@ const useEmakiPalmDrag = (articleRef) => {
     el.addEventListener("dragstart", preventNativeDrag);
 
     const handlePointerDown = (e) => {
+      if (typeof document !== "undefined" && document.body?.dataset?.mapDrawerOpen === "true") return;
       if (e.pointerType !== "mouse" || e.button !== 0) return;
       if (
         process.env.NODE_ENV === "development" &&
@@ -54,6 +55,7 @@ const useEmakiPalmDrag = (articleRef) => {
     };
 
     const handlePointerMove = (e) => {
+      if (typeof document !== "undefined" && document.body?.dataset?.mapDrawerOpen === "true") return;
       if (!dragRef.current) return;
 
       const dx = e.clientX - dragRef.current.startX;

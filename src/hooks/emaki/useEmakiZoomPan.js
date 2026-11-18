@@ -497,6 +497,7 @@ export default function useEmakiZoomPan({
     if (!el) return undefined;
 
     const onWheel = (event) => {
+      if (typeof document !== "undefined" && document.body?.dataset?.mapDrawerOpen === "true") return;
       if (isPausedRef.current) return;
       // ポラロイドモーダル等の外部ダイアログ内操作のみを除外（自前の ZoomLayer は除外しない）
       const dialogEl = event.target.closest?.('[role="dialog"], [aria-modal="true"]');
@@ -551,6 +552,7 @@ export default function useEmakiZoomPan({
     };
 
     const onTouchStart = (event) => {
+      if (typeof document !== "undefined" && document.body?.dataset?.mapDrawerOpen === "true") return;
       if (event.target.closest?.("button, a, [role='button']")) return;
       const touches = event.touches;
       const t = touchRef.current;
@@ -627,6 +629,7 @@ export default function useEmakiZoomPan({
     };
 
     const onTouchMove = (event) => {
+      if (typeof document !== "undefined" && document.body?.dataset?.mapDrawerOpen === "true") return;
       const touches = event.touches;
       const t = touchRef.current;
       if (touches.length >= 2) {
@@ -765,6 +768,7 @@ export default function useEmakiZoomPan({
 
   const onPointerDown = useCallback(
     (event) => {
+      if (typeof document !== "undefined" && document.body?.dataset?.mapDrawerOpen === "true") return;
       // コントロールUI（ボタン）上の押下時はドラッグを開始せず、通常のclickを通す
       if (event.target.closest?.("button, a, [role='button']")) return;
 
@@ -807,6 +811,7 @@ export default function useEmakiZoomPan({
 
   const onPointerMove = useCallback(
     (event) => {
+      if (typeof document !== "undefined" && document.body?.dataset?.mapDrawerOpen === "true") return;
       cursorRef.current = { x: event.clientX, y: event.clientY };
       const drag = dragRef.current;
       if (!drag || drag.pointerId !== event.pointerId) return;
