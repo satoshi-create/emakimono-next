@@ -7,10 +7,14 @@ import WheelScrollIndicator from "@/components/emaki/viewer/WheelScrollIndicator
 import {
   faMagnifyingGlass,
   faMagnifyingGlassMinus,
+  faMapLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { getGeoSpotsForScroll } from "@/data/hub/rakuchuRakugaiGeoSpots";
 import zoomStyles from "@/styles/ZoomLayer.module.css";
+import { useMemo, useState } from "react";
 import { TbRectangle } from "react-icons/tb";
+import ScrollSightseeingMapDrawer from "../viewer/ScrollSightseeingMapDrawer";
 
 export function EmakiViewerChrome({
   scroll,
@@ -35,7 +39,26 @@ export function EmakiViewerChrome({
   isAutoScrolling,
   startPlayMode,
   stopPlayMode,
+  titleen,
+  scrollTitle,
+  selectedSpotId,
+  selectedSpot,
+  allSpots,
+  onSelectSpot,
+  locale = "ja",
+  isMapDrawerOpen: controlledIsMapDrawerOpen,
+  openMapDrawer,
+  closeMapDrawer,
 }) {
+  const [localIsMapDrawerOpen, setLocalIsMapDrawerOpen] = useState(false);
+  const isDrawerOpen = controlledIsMapDrawerOpen ?? localIsMapDrawerOpen;
+  const handleOpenDrawer = openMapDrawer ?? (() => setLocalIsMapDrawerOpen(true));
+  const handleCloseDrawer = closeMapDrawer ?? (() => setLocalIsMapDrawerOpen(false));
+  const hasGeoSpots = useMemo(
+    () => Boolean(titleen) && getGeoSpotsForScroll(titleen).length > 0,
+    [titleen]
+  );
+
   return (
     <>
       {process.env.NODE_ENV === "development" && scroll && (
@@ -60,6 +83,37 @@ export function EmakiViewerChrome({
           }}
         >
           {isEditSpotsMode ? "編集終了（通常表示へ）" : "スポット編集"}
+        </button>
+      )}
+      {scroll && hasGeoSpots && (
+        <button
+          type="button"
+          onClick={handleOpenDrawer}
+          style={{
+            position: "absolute",
+            top: 12,
+            right: process.env.NODE_ENV === "development" ? 116 : 12,
+            zIndex: 120,
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            padding: "6px 12px",
+            fontSize: 12,
+            fontWeight: 600,
+            borderRadius: 9999,
+            border: "none",
+            background: "rgba(255, 255, 255, 0.94)",
+            color: "#1e293b",
+            boxShadow: "0 2px 8px rgba(15, 23, 42, 0.16)",
+            cursor: "pointer",
+          }}
+        >
+          <FontAwesomeIcon
+            icon={faMapLocationDot}
+            style={{ color: "#c2410c", fontSize: 14 }}
+            aria-hidden
+          />
+          {locale === "en" ? "Kyoto Map" : "京都マップ"}
         </button>
       )}
       {scroll && (
@@ -140,6 +194,24 @@ export function EmakiViewerChrome({
       )}
       {scroll && toggleFullscreen && (
         <EmakiInfo value={data} isUIVisible={isUIVisible} />
+      )}
+      {scroll && hasGeoSpots && (
+        <ScrollSightseeingMapDrawer
+          isOpen={isDrawerOpen}
+          onClose={handleCloseDrawer}
+          titleen={titleen}
+          scrollTitle={scrollTitle}
+          selectedSpotId={
+            selectedSpot?.id
+              ? String(selectedSpot.id)
+              : selectedSpotId
+                ? String(selectedSpotId)
+                : null
+          }
+          allSpots={allSpots}
+          onSelectSpot={onSelectSpot}
+          locale={locale}
+        />
       )}
     </>
   );

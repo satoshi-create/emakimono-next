@@ -116,6 +116,9 @@ export default function useEmakiViewerOrchestrator({
   const [isScrolling, setIsScrolling] = useState(false);
   const isScrollingRef = useRef(false);
   const [idlePaused, setIdlePaused] = useState(false);
+  const [isMapDrawerOpen, setIsMapDrawerOpen] = useState(false);
+  const openMapDrawer = useCallback(() => setIsMapDrawerOpen(true), []);
+  const closeMapDrawer = useCallback(() => setIsMapDrawerOpen(false), []);
 
   // =============================================================================
   // 2. 再生・スクロール・ナビゲーション同期
@@ -536,10 +539,20 @@ export default function useEmakiViewerOrchestrator({
       entryContainerRef,
       handleToId,
       data,
+      titleen: data?.titleen,
+      scrollTitle: data?.title,
+      selectedSpotId,
+      selectedSpot,
+      allSpots,
+      onSelectSpot,
+      locale,
       isPlayMode,
       isAutoScrolling,
       startPlayMode,
       stopPlayMode,
+      isMapDrawerOpen,
+      openMapDrawer,
+      closeMapDrawer,
     },
     overlaysProps: {
       scroll,
@@ -629,6 +642,7 @@ export default function useEmakiViewerOrchestrator({
       isUIVisible,
       fabMode,
       canShowQuizChrome,
+      onOpenMapDrawer: openMapDrawer,
     },
     ebikiHudProps: {
       hudData: ebikiPickerHud,
