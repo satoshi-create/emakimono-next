@@ -33,6 +33,14 @@ function nodeMatchesTheme(node, theme) {
   return true;
 }
 
+function nodeMatchesScroll(node, scroll) {
+  if (!scroll || scroll === "all") return true;
+  if (Array.isArray(node.scrollLinks) && node.scrollLinks.length > 0) {
+    return node.scrollLinks.some((link) => link.titleen === scroll);
+  }
+  return (node.presentIn ?? []).includes(scroll);
+}
+
 function makeRakuchuGeoIcon(L, node, isDim = false) {
   const count = node.appearanceCount ?? (node.presentIn?.length || 1);
   const isRiver = node.category === "river";
@@ -151,6 +159,19 @@ const InvalidateSize = ({ isFullscreen, useMap }) => {
     const timer = setTimeout(() => map.invalidateSize(), 200);
     return () => clearTimeout(timer);
   }, [map, isFullscreen]);
+  useEffect(() => {
+    const el = map.getContainer()?.parentElement;
+    if (!el) return undefined;
+    const invalidate = () => map.invalidateSize();
+    const ro = new ResizeObserver(invalidate);
+    ro.observe(el);
+    window.addEventListener("resize", invalidate);
+    invalidate();
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", invalidate);
+    };
+  }, [map]);
   return null;
 };
 
@@ -165,7 +186,7 @@ const EmakiHubMap = ({
   items,
   locale,
   t,
-  activeScroll = null,
+  activeScroll = "all",
   activeRoute = null,
   activeTheme = "all",
   isFullscreen = false,
@@ -270,8 +291,10 @@ const EmakiHubMap = ({
 
   const rakuchuGeoNodes = useMemo(() => {
     if (!isKyoto) return [];
-    return getAllRakuchuGeoNodes();
-  }, [isKyoto]);
+    const nodes = getAllRakuchuGeoNodes();
+    if (!activeScroll || activeScroll === "all") return nodes;
+    return nodes.filter((node) => nodeMatchesScroll(node, activeScroll));
+  }, [isKyoto, activeScroll]);
 
   const rakuchuScrollLabels = useMemo(() => {
     const labels = {};
@@ -297,17 +320,22 @@ const EmakiHubMap = ({
   // ?scroll= 指定で対象となる作品（現在のリージョン内のみ）
   const activeTarget =
     activeScroll &&
+    activeScroll !== "all" &&
     positioned.find((it) => it.titleen === activeScroll && it.spot);
 
+  const mapWrapStyle = {
+    height: "100%",
+    width: "100%",
+    ...(isKyoto ? { position: "relative" } : {}),
+  };
+
   return (
-    <div
-      className={styles.mapWrap}
-      style={isKyoto ? { position: "relative" } : undefined}
-    >
+    <div className={styles.mapWrap} style={mapWrapStyle}>
       <MapContainer
         center={[centerLat, centerLng]}
         zoom={zoomLevel}
         className={styles.map}
+        style={{ height: "100%", width: "100%" }}
         scrollWheelZoom
       >
         <TileLayer
@@ -410,8 +438,12 @@ const EmakiHubMap = ({
           ))}
         {showRakuchuGeoHub &&
           rakuchuGeoNodes.map((node) => {
-            const matches = nodeMatchesTheme(node, activeTheme);
-            if (themeActive && !matches) return null;
+            const matchesTheme = nodeMatchesTheme(node, activeTheme);
+            const matchesScroll = nodeMatchesScroll(node, activeScroll);
+            if (themeActive && !matchesTheme) return null;
+            if (activeScroll && activeScroll !== "all" && !matchesScroll) {
+              return null;
+            }
             const count =
               node.appearanceCount ?? (node.presentIn?.length || 1);
             const name =
@@ -445,7 +477,7 @@ const EmakiHubMap = ({
               <Marker
                 key={`rakuchu-geo-${node.id}`}
                 position={[node.lat, node.lng]}
-                icon={makeRakuchuGeoIcon(L, node, themeActive && !matches)}
+                icon={makeRakuchuGeoIcon(L, node, themeActive && !matchesTheme)}
               >
                 <Popup className={styles.mapPopup} maxWidth={280}>
                   <div className={styles.mapPopupCard}>

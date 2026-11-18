@@ -1,7 +1,9 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
-import { HUB_EMAKIS, REGIONS, ROUTES, THEMES } from "@/data/hub/hubData";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { REGIONS, ROUTES, THEMES } from "@/data/hub/hubData";
+import { getMasterByRawSpotId } from "@/data/rakuchu-rakugai/rakuchuMotifMaster";
 
 const DynamicEmakiHubMap = dynamic(
   () => import("@/components/emaki/hub/EmakiHubMap"),
@@ -10,7 +12,12 @@ const DynamicEmakiHubMap = dynamic(
 
 const kyotoRoutes = ROUTES.filter((r) => r.region === "kyoto");
 
-const hubByTitleen = Object.fromEntries(HUB_EMAKIS.map((e) => [e.titleen, e]));
+const SCROLL_FILTERS = [
+  { id: "all", labelJa: "全伝本（3作品）", labelEn: "All Screens (3)" },
+  { id: "rakuchu_rakugai_funaki", labelJa: "舟木本", labelEn: "Funaki Version" },
+  { id: "rakuchu_rakugai_fukuoka", labelJa: "福岡本", labelEn: "Fukuoka Version" },
+  { id: "rakuchu_rakugai_met", labelJa: "メトロポリタン本", labelEn: "Met Version" },
+];
 
 const l = (locale, ja, en) => (locale === "en" ? en : ja);
 
@@ -20,12 +27,23 @@ const formatSpotId = (spotId) =>
     : "";
 
 const stopLabel = (stop, locale) => {
-  const ja = stop.name?.ja || stop.spot?.nameJa;
-  const en = stop.name?.en || stop.spot?.nameEn;
-  if (ja || en) return l(locale, ja, en);
-  const hub = hubByTitleen[stop.titleen];
-  if (hub?.spot && stop.spotId && hub.spot.nameJa) {
-    return l(locale, hub.spot.nameJa, hub.spot.nameEn);
+  const wp = stop.wp || stop;
+  const ja =
+    stop.name?.ja ||
+    stop.spot?.nameJa ||
+    wp.nameJa ||
+    stop.nameJa;
+  const en =
+    stop.name?.en ||
+    stop.spot?.nameEn ||
+    wp.nameEn ||
+    stop.nameEn;
+  if (ja || en) return locale === "en" ? en || ja : ja || en;
+  if (stop.spotId) {
+    const master = getMasterByRawSpotId(stop.spotId);
+    if (master?.nameJa || master?.nameEn) {
+      return l(locale, master.nameJa, master.nameEn);
+    }
   }
   return formatSpotId(stop.spotId);
 };
@@ -36,16 +54,41 @@ const stopLabel = (stop, locale) => {
  */
 export function RakuchuSightseeingMapSection({ locale, t = (k) => k }) {
   const [activeTheme, setActiveTheme] = useState("all");
+  const [activeScroll, setActiveScroll] = useState("all");
   const [activeRoute, setActiveRoute] = useState(null);
-  const [wideLayout, setWideLayout] = useState(false);
+  const [isRoutesOpen, setIsRoutesOpen] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const sectionContainerRef = useRef(null);
+
+  const dispatchMapResize = useCallback(() => {
+    window.dispatchEvent(new Event("resize"));
+  }, []);
+
+  const handleFullscreenToggle = useCallback(() => {
+    setIsFullscreen((prev) => !prev);
+    setTimeout(() => dispatchMapResize(), 50);
+  }, [dispatchMapResize]);
 
   useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)");
-    const sync = () => setWideLayout(mq.matches);
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
-  }, []);
+    if (!isFullscreen) return undefined;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [isFullscreen]);
+
+  useEffect(() => {
+    if (!isFullscreen) return undefined;
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setIsFullscreen(false);
+        setTimeout(() => dispatchMapResize(), 50);
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [dispatchMapResize, isFullscreen]);
 
   const handleRouteToggle = useCallback((route) => {
     setActiveRoute((prev) => (prev?.id === route.id ? null : route));
@@ -63,123 +106,184 @@ export function RakuchuSightseeingMapSection({ locale, t = (k) => k }) {
     "Select a card to show the route and stop numbers on the map. Click again to clear."
   );
 
-  return (
-    <section style={styles.section} aria-labelledby="rakuchu-sightseeing-map-heading">
-      <div style={styles.themeBar} role="group" aria-label={l(locale, "テーマ", "Theme")}>
-        {THEMES.map((th) => {
-          const active = activeTheme === th.id;
-          return (
-            <button
-              key={th.id}
-              type="button"
-              style={{
-                ...styles.themePill,
-                ...(active ? styles.themePillActive : null),
-              }}
-              aria-pressed={active}
-              onClick={() => setActiveTheme(th.id)}
-            >
-              {l(locale, th.labelJa, th.labelEn)}
-            </button>
-          );
-        })}
+  const sectionEl = (
+    <div
+      ref={sectionContainerRef}
+      style={{
+        ...styles.section,
+        ...(isFullscreen ? styles.sectionFullscreen : null),
+      }}
+      aria-labelledby="rakuchu-sightseeing-routes-heading"
+    >
+      <div style={styles.filterStack}>
+        <div style={styles.themeBar} role="group" aria-label={l(locale, "作品", "Screen version")}>
+          {SCROLL_FILTERS.map((sf) => {
+            const active = activeScroll === sf.id;
+            return (
+              <button
+                key={sf.id}
+                type="button"
+                style={{
+                  ...styles.scrollPill,
+                  ...(active ? styles.scrollPillActive : null),
+                }}
+                aria-pressed={active}
+                onClick={() => setActiveScroll(sf.id)}
+              >
+                {l(locale, sf.labelJa, sf.labelEn)}
+              </button>
+            );
+          })}
+        </div>
+        <div style={styles.themeBar} role="group" aria-label={l(locale, "テーマ", "Theme")}>
+          {THEMES.map((th) => {
+            const active = activeTheme === th.id;
+            return (
+              <button
+                key={th.id}
+                type="button"
+                style={{
+                  ...styles.themePill,
+                  ...(active ? styles.themePillActive : null),
+                }}
+                aria-pressed={active}
+                onClick={() => setActiveTheme(th.id)}
+              >
+                {l(locale, th.labelJa, th.labelEn)}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div
         style={{
-          ...styles.columns,
-          flexDirection: wideLayout ? "row" : "column",
-          alignItems: wideLayout ? "stretch" : "stretch",
+          ...styles.mapWrapper,
+          ...(isFullscreen ? styles.mapWrapperFullscreen : null),
         }}
       >
-        <div
-          style={{
-            ...styles.mapCol,
-            width: wideLayout ? "65%" : "100%",
-            flexShrink: wideLayout ? 0 : undefined,
-          }}
+        <button
+          type="button"
+          style={styles.fullscreenToggleBtn}
+          onClick={handleFullscreenToggle}
+          aria-pressed={isFullscreen}
         >
-          <DynamicEmakiHubMap
-            region={REGIONS.kyoto}
-            regionConfig={REGIONS.kyoto}
-            items={[]}
-            activeTheme={activeTheme}
-            activeRoute={activeRoute}
-            onSelectRoute={setActiveRoute}
-            locale={locale}
-            t={t}
-          />
-        </div>
-
-        <aside
-          style={{
-            ...styles.routesCol,
-            width: wideLayout ? "35%" : "100%",
-            flex: wideLayout ? "1 1 35%" : undefined,
-          }}
-        >
-          <h2 id="rakuchu-sightseeing-map-heading" style={styles.routesHeading}>
-            {sectionTitle}
-          </h2>
-          <p style={styles.routesLead}>{routesDesc}</p>
-          <ul style={styles.routeList}>
-            {kyotoRoutes.map((route) => {
-              const selected = activeRoute?.id === route.id;
-              const title = l(locale, route.titleJa, route.titleEn);
-              const duration = l(locale, route.durationJa, route.durationEn);
-              const summary = l(
-                locale,
-                route.summaryJa || route.summary?.ja,
-                route.summaryEn || route.summary?.en
-              );
-              return (
-                <li key={route.id} style={styles.routeListItem}>
-                  <article
-                    style={{
-                      ...styles.routeCard,
-                      ...(selected ? styles.routeCardActive : null),
-                    }}
-                  >
-                    <button
-                      type="button"
-                      style={styles.routeCardButton}
-                      aria-pressed={selected}
-                      onClick={() => handleRouteToggle(route)}
+          {isFullscreen
+            ? l(locale, "✕ 元のサイズに戻す", "✕ Exit Fullscreen")
+            : l(locale, "⛶ 全画面表示", "⛶ Fullscreen")}
+        </button>
+        <DynamicEmakiHubMap
+          region={REGIONS.kyoto}
+          regionConfig={REGIONS.kyoto}
+          items={[]}
+          activeTheme={activeTheme}
+          activeScroll={activeScroll}
+          activeRoute={activeRoute}
+          onSelectRoute={setActiveRoute}
+          locale={locale}
+          t={t}
+        />
+        {!isRoutesOpen ? (
+          <button
+            type="button"
+            style={styles.routesFloatBtn}
+            onClick={() => setIsRoutesOpen(true)}
+            aria-expanded={false}
+            aria-controls="rakuchu-routes-drawer"
+          >
+            {activeRoute
+              ? l(locale, "ルート表示中（解除可）", "Route shown (tap to manage)")
+              : l(
+                  locale,
+                  "🗺️ おすすめの観光ルート",
+                  "🗺️ Recommended sightseeing routes"
+                )}
+          </button>
+        ) : null}
+        {isRoutesOpen ? (
+          <aside
+            id="rakuchu-routes-drawer"
+            style={styles.routesDrawer}
+            aria-labelledby="rakuchu-sightseeing-routes-heading"
+          >
+            <div style={styles.routesDrawerHeader}>
+              <h2 id="rakuchu-sightseeing-routes-heading" style={styles.routesHeading}>
+                {sectionTitle}
+              </h2>
+              <button
+                type="button"
+                style={styles.routesDrawerClose}
+                onClick={() => setIsRoutesOpen(false)}
+                aria-label={l(locale, "閉じる", "Close")}
+              >
+                ×
+              </button>
+            </div>
+            <p style={styles.routesLead}>{routesDesc}</p>
+            <ul style={styles.routeList}>
+              {kyotoRoutes.map((route) => {
+                const selected = activeRoute?.id === route.id;
+                const title = l(locale, route.titleJa, route.titleEn);
+                const duration = l(locale, route.durationJa, route.durationEn);
+                const summary = l(
+                  locale,
+                  route.summaryJa || route.summary?.ja,
+                  route.summaryEn || route.summary?.en
+                );
+                return (
+                  <li key={route.id} style={styles.routeListItem}>
+                    <article
+                      style={{
+                        ...styles.routeCard,
+                        ...(selected ? styles.routeCardActive : null),
+                      }}
                     >
-                      <div style={styles.routeCardHeader}>
-                        <h3 style={styles.routeTitle}>{title}</h3>
-                        <span style={styles.routeDuration}>
-                          {l(locale, "所要", "Duration")}: {duration}
-                        </span>
-                      </div>
-                      <p style={styles.routeSummary}>{summary}</p>
-                    </button>
-                    <ol style={styles.stopsList}>
-                      {route.stops.map((stop, idx) => (
-                        <li key={`${route.id}-${idx}`} style={styles.stopItem}>
-                          <span style={styles.stopNum}>{idx + 1}</span>
-                          {stop.titleen && stop.spotId ? (
-                            <Link
-                              href={`/${stop.titleen}?spot=${encodeURIComponent(stop.spotId)}`}
-                              style={styles.stopLink}
-                            >
-                              {stopLabel(stop, locale)}
-                            </Link>
-                          ) : (
-                            <span style={styles.stopName}>{stopLabel(stop, locale)}</span>
-                          )}
-                        </li>
-                      ))}
-                    </ol>
-                  </article>
-                </li>
-              );
-            })}
-          </ul>
-        </aside>
+                      <button
+                        type="button"
+                        style={styles.routeCardButton}
+                        aria-pressed={selected}
+                        onClick={() => handleRouteToggle(route)}
+                      >
+                        <div style={styles.routeCardHeader}>
+                          <h3 style={styles.routeTitle}>{title}</h3>
+                          <span style={styles.routeDuration}>
+                            {l(locale, "所要", "Duration")}: {duration}
+                          </span>
+                        </div>
+                        <p style={styles.routeSummary}>{summary}</p>
+                      </button>
+                      <ol style={styles.stopsList}>
+                        {route.stops.map((stop, idx) => (
+                          <li key={`${route.id}-${idx}`} style={styles.stopItem}>
+                            <span style={styles.stopNum}>{idx + 1}</span>
+                            {stop.titleen && stop.spotId ? (
+                              <Link
+                                href={`/${stop.titleen}?spot=${encodeURIComponent(stop.spotId)}`}
+                                style={styles.stopLink}
+                              >
+                                {stopLabel(stop, locale)}
+                              </Link>
+                            ) : (
+                              <span style={styles.stopName}>{stopLabel(stop, locale)}</span>
+                            )}
+                          </li>
+                        ))}
+                      </ol>
+                    </article>
+                  </li>
+                );
+              })}
+            </ul>
+          </aside>
+        ) : null}
       </div>
-    </section>
+    </div>
   );
+
+  if (isFullscreen && typeof document !== "undefined") {
+    return createPortal(sectionEl, document.body);
+  }
+  return sectionEl;
 }
 
 const styles = {
@@ -190,16 +294,52 @@ const styles = {
     margin: "0 auto",
     width: "100%",
   },
+  sectionFullscreen: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100vw",
+    height: "100vh",
+    zIndex: 9999,
+    background: "#ffffff",
+    padding: "12px 16px",
+    display: "flex",
+    flexDirection: "column",
+    maxWidth: "none",
+    margin: 0,
+    boxSizing: "border-box",
+  },
+  filterStack: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "0.65rem",
+    marginBottom: "1.25rem",
+  },
   themeBar: {
     display: "flex",
     flexWrap: "wrap",
     gap: "0.5rem",
-    marginBottom: "1.25rem",
+    marginBottom: 0,
+  },
+  scrollPill: {
+    padding: "0.4rem 0.85rem",
+    borderRadius: 6,
+    border: "1px solid #cbd5e1",
+    background: "var(--clr-surface, #f9fbff)",
+    color: "var(--clr-text, rgb(20 20 20))",
+    fontSize: "0.875rem",
+    cursor: "pointer",
+  },
+  scrollPillActive: {
+    borderColor: "#1e3a8a",
+    background: "#eff6ff",
+    color: "#1e3a8a",
+    fontWeight: 600,
   },
   themePill: {
     padding: "0.4rem 0.85rem",
     borderRadius: 6,
-    border: "1px solid var(--clr-text-muted, rgb(114 114 114))",
+    border: "1px solid #cbd5e1",
     background: "var(--clr-surface, #f9fbff)",
     color: "var(--clr-text, rgb(20 20 20))",
     fontSize: "0.875rem",
@@ -210,24 +350,91 @@ const styles = {
     background: "rgba(255, 140, 119, 0.12)",
     fontWeight: 600,
   },
-  columns: {
-    display: "flex",
-    gap: "1.5rem",
-  },
-  mapCol: {
-    height: 520,
-    minHeight: 520,
+  mapWrapper: {
+    position: "relative",
+    width: "100%",
+    height: "clamp(400px, 60vh, 540px)",
+    minHeight: 400,
     borderRadius: 12,
     overflow: "hidden",
     border: "1px solid var(--border, #e5e7eb)",
-    position: "relative",
   },
-  routesCol: {},
+  mapWrapperFullscreen: {
+    flex: 1,
+    minHeight: 0,
+    height: "auto",
+  },
+  fullscreenToggleBtn: {
+    position: "absolute",
+    top: 12,
+    right: 12,
+    zIndex: 480,
+    background: "rgba(255, 255, 255, 0.94)",
+    border: "1px solid #cbd5e1",
+    borderRadius: 8,
+    padding: "6px 12px",
+    fontSize: 12,
+    fontWeight: 600,
+    color: "#1e293b",
+    boxShadow: "0 2px 6px rgba(15, 23, 42, 0.14)",
+    cursor: "pointer",
+    fontFamily: "inherit",
+  },
+  routesFloatBtn: {
+    position: "absolute",
+    bottom: 24,
+    right: 12,
+    zIndex: 500,
+    background: "#1e293b",
+    color: "#ffffff",
+    borderRadius: 9999,
+    padding: "10px 16px",
+    boxShadow: "0 4px 12px rgba(15, 23, 42, 0.25)",
+    border: "none",
+    cursor: "pointer",
+    fontSize: "0.875rem",
+    fontWeight: 600,
+    fontFamily: "inherit",
+  },
+  routesDrawer: {
+    position: "absolute",
+    top: 12,
+    right: 12,
+    bottom: 24,
+    width: "min(340px, calc(100% - 24px))",
+    zIndex: 510,
+    background: "rgba(255, 255, 255, 0.96)",
+    backdropFilter: "blur(6px)",
+    borderRadius: 12,
+    overflowY: "auto",
+    boxShadow: "0 8px 24px rgba(15, 23, 42, 0.18)",
+    padding: "1rem 1.25rem",
+    boxSizing: "border-box",
+  },
+  routesDrawerHeader: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    gap: "0.5rem",
+  },
+  routesDrawerClose: {
+    flexShrink: 0,
+    width: "2rem",
+    height: "2rem",
+    border: "none",
+    borderRadius: 8,
+    background: "transparent",
+    cursor: "pointer",
+    fontSize: "1.25rem",
+    lineHeight: 1,
+    color: "var(--clr-text-muted, rgb(114 114 114))",
+  },
   routesHeading: {
     fontSize: "1.125rem",
     fontWeight: 700,
-    margin: "0 0 0.5rem",
+    margin: 0,
     fontFamily: "var(--font-story, 'Zen Maru Gothic', sans-serif)",
+    flex: "1 1 auto",
   },
   routesLead: {
     fontSize: "0.875rem",
@@ -326,7 +533,7 @@ const styles = {
   },
   mapLoading: {
     height: "100%",
-    minHeight: 520,
+    minHeight: 400,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",

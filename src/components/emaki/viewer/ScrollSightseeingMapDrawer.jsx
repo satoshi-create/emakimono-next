@@ -28,6 +28,59 @@ const ScrollSightseeingMapDrawer = ({
   }, [titleen]);
 
   const [activeGeoSpotId, setActiveGeoSpotId] = useState(null);
+  const [drawerWidth, setDrawerWidth] = useState(null);
+  const [isResizing, setIsResizing] = useState(false);
+
+  const clampDrawerWidth = useCallback((width) => {
+    const minWidth = 340;
+    const maxWidth = Math.floor(window.innerWidth * 0.92);
+    return Math.min(maxWidth, Math.max(minWidth, width));
+  }, []);
+
+  const notifyMapResize = useCallback(() => {
+    window.dispatchEvent(new Event("resize"));
+  }, []);
+
+  const handleResizePointerDown = useCallback(
+    (e) => {
+      e.preventDefault();
+      e.currentTarget.setPointerCapture(e.pointerId);
+      setIsResizing(true);
+      document.body.style.userSelect = "none";
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (!isResizing) return undefined;
+    const handlePointerMove = (e) => {
+      const nextWidth = clampDrawerWidth(window.innerWidth - e.clientX);
+      setDrawerWidth(nextWidth);
+      notifyMapResize();
+    };
+    const handlePointerUp = () => {
+      setIsResizing(false);
+      document.body.style.userSelect = "";
+      notifyMapResize();
+    };
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", handlePointerUp);
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", handlePointerUp);
+      document.body.style.userSelect = "";
+    };
+  }, [isResizing, clampDrawerWidth, notifyMapResize]);
+
+  const handleWidthToggle = useCallback(() => {
+    setDrawerWidth((prev) => {
+      if (prev === null) {
+        return clampDrawerWidth(Math.floor(window.innerWidth * 0.75));
+      }
+      return null;
+    });
+    notifyMapResize();
+  }, [clampDrawerWidth, notifyMapResize]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -93,7 +146,23 @@ const ScrollSightseeingMapDrawer = ({
         }
       }}
     >
-      <aside className="ssmd-panel">
+      <aside
+        className="ssmd-panel"
+        style={
+          drawerWidth != null
+            ? { width: drawerWidth, maxWidth: drawerWidth }
+            : undefined
+        }
+      >
+        <div
+          className="ssmd-resize-handle"
+          role="separator"
+          aria-orientation="vertical"
+          aria-label={isEn ? "Resize panel" : "パネル幅を調整"}
+          onPointerDown={handleResizePointerDown}
+        >
+          <span className="ssmd-resize-grip" aria-hidden="true" />
+        </div>
         <header className="ssmd-header">
           <div className="ssmd-header-main">
             <div className="ssmd-title-row">
@@ -111,14 +180,38 @@ const ScrollSightseeingMapDrawer = ({
               </Link>
             </div>
           </div>
-          <button
-            type="button"
-            className="ssmd-close-btn"
-            onClick={() => onClose?.()}
-            aria-label={isEn ? "Close map" : "地図を閉じる"}
-          >
-            ✕
-          </button>
+          <div className="ssmd-header-btns">
+            <button
+              type="button"
+              className="ssmd-width-toggle-btn"
+              onClick={handleWidthToggle}
+              aria-label={
+                isEn
+                  ? drawerWidth != null
+                    ? "Reset panel width"
+                    : "Widen panel"
+                  : drawerWidth != null
+                  ? "標準幅に戻す"
+                  : "パネルを広げる"
+              }
+            >
+              {isEn
+                ? drawerWidth != null
+                  ? "↔ Standard"
+                  : "↔ Widen"
+                : drawerWidth != null
+                ? "↔ 標準幅"
+                : "↔ 広げる"}
+            </button>
+            <button
+              type="button"
+              className="ssmd-close-btn"
+              onClick={() => onClose?.()}
+              aria-label={isEn ? "Close map" : "地図を閉じる"}
+            >
+              ✕
+            </button>
+          </div>
         </header>
 
         {geoSpots.length > 0 && (
@@ -184,6 +277,7 @@ const ScrollSightseeingMapDrawer = ({
         }
 
         .ssmd-panel {
+          position: relative;
           width: min(680px, 92vw);
           height: 100%;
           background: var(--clr-bg, #ffffff);
@@ -260,6 +354,58 @@ const ScrollSightseeingMapDrawer = ({
 
         .ssmd-hub-link:hover {
           text-decoration: underline;
+        }
+
+        .ssmd-resize-handle {
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          width: 10px;
+          cursor: ew-resize;
+          z-index: 60;
+          touch-action: none;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .ssmd-resize-grip {
+          width: 3px;
+          height: 36px;
+          border-radius: 2px;
+          background: #94a3b8;
+          pointer-events: none;
+        }
+
+        .ssmd-header-btns {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          flex-shrink: 0;
+        }
+
+        .ssmd-width-toggle-btn {
+          height: 34px;
+          padding: 0 10px;
+          border-radius: 9999px;
+          border: 1px solid #cbd5e1;
+          background: #ffffff;
+          color: #334155;
+          font-size: 0.75rem;
+          font-weight: 600;
+          line-height: 1;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          white-space: nowrap;
+          transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .ssmd-width-toggle-btn:hover {
+          background: #f1f5f9;
+          color: #0f172a;
         }
 
         .ssmd-close-btn {
@@ -391,6 +537,11 @@ const ScrollSightseeingMapDrawer = ({
             border-top-right-radius: 16px;
             box-shadow: 0 -8px 32px rgba(15, 23, 42, 0.22);
             animation: ssmdSlideInUp 0.22s ease-out;
+          }
+
+          .ssmd-resize-handle,
+          .ssmd-width-toggle-btn {
+            display: none;
           }
         }
       `}</style>

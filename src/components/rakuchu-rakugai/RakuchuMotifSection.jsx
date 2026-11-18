@@ -189,6 +189,8 @@ export function RakuchuMotifSection({
   const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [ringMotifId, setRingMotifId] = useState(null);
+  const INITIAL_VISIBLE_COUNT = 6;
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const isJa = locale !== "en";
 
@@ -216,6 +218,10 @@ export function RakuchuMotifSection({
     };
   }, [highlightMotifId, router.query.motif]);
 
+  useEffect(() => {
+    setIsExpanded(false);
+  }, [selectedCategory]);
+
   const filteredMotifs = useMemo(() => {
     const byCategory =
       selectedCategory === "all"
@@ -227,6 +233,23 @@ export function RakuchuMotifSection({
       )
     );
   }, [selectedCategory, motifVisuals]);
+
+  useEffect(() => {
+    const motifId =
+      highlightMotifId ||
+      (typeof router.query.motif === "string" ? router.query.motif : null);
+    if (!motifId) return;
+    const idx = filteredMotifs.findIndex(
+      (m) => m.masterId === String(motifId)
+    );
+    if (idx >= INITIAL_VISIBLE_COUNT) {
+      setIsExpanded(true);
+    }
+  }, [highlightMotifId, router.query.motif, filteredMotifs]);
+
+  const visibleMotifs = isExpanded
+    ? filteredMotifs
+    : filteredMotifs.slice(0, INITIAL_VISIBLE_COUNT);
 
   return (
     <section>
@@ -287,7 +310,7 @@ export function RakuchuMotifSection({
           gap: 24,
         }}
       >
-        {filteredMotifs.map((motif) => (
+        {visibleMotifs.map((motif) => (
           <MotifCarouselCard
             key={motif.masterId}
             motif={motif}
@@ -297,6 +320,34 @@ export function RakuchuMotifSection({
           />
         ))}
       </div>
+
+      {filteredMotifs.length > INITIAL_VISIBLE_COUNT ? (
+        <div style={{ display: "flex", justifyContent: "center", marginTop: 20 }}>
+          <button
+            type="button"
+            onClick={() => setIsExpanded((v) => !v)}
+            style={{
+              padding: "10px 20px",
+              borderRadius: 999,
+              border: "1px solid #d8d0c3",
+              background: "#f4f1ea",
+              color: "#3b3228",
+              fontSize: 13,
+              fontWeight: 600,
+              cursor: "pointer",
+              boxShadow: "0 1px 3px rgba(0, 0, 0, 0.06)",
+            }}
+          >
+            {isExpanded
+              ? locale === "en"
+                ? "Show Less"
+                : "閉じる"
+              : locale === "en"
+                ? `Show More (${filteredMotifs.length - INITIAL_VISIBLE_COUNT} more)`
+                : `もっと見る（残り ${filteredMotifs.length - INITIAL_VISIBLE_COUNT}件）`}
+          </button>
+        </div>
+      ) : null}
     </section>
   );
 }
