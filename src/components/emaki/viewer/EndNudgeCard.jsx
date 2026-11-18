@@ -98,7 +98,7 @@ const EndNudgeCard = ({
           </Link>
         )}
         {editionLinks.map((item, i) => (
-          <Link key={i} href={`/${item.titleen}`}>
+          <Link key={i} href={`/${item.titleen}`} prefetch={false}>
             <a
               style={{
                 display: "flex",

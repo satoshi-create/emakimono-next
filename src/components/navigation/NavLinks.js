@@ -32,7 +32,7 @@ const NavLinks = ({ footerstyle }) => {
   return (
     <ul className={styles.links} ref={navRef}>
       <li>
-        <Link href="/">
+        <Link href="/" prefetch={false}>
           <a className={styles.linksName} style={footerstyle}>
             {t("nav.home")}
           </a>
@@ -60,7 +60,7 @@ const NavLinks = ({ footerstyle }) => {
               }`}
             >
               {group.links.map((link, index) => (
-                <Link href={link.path} key={`${link.path}-${index}`}>
+                <Link href={link.path} prefetch={false} key={`${link.path}-${index}`}>
                   <a
                     style={footerstyle}
                     onClick={() => setOpenMenu(null)}

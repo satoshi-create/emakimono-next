@@ -97,7 +97,7 @@ const CardA = ({
               : null);
 
           return (
-            <Link href={`/${item.titleen}`} key={i} passHref>
+            <Link href={`/${item.titleen}`} key={i} passHref prefetch={false}>
               <a className={styles.listItem}>
                 <div className={styles.listThumb}>
                   {item.thumb && (

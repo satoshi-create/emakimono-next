@@ -17,7 +17,7 @@ const SidebarHome = () => {
     const { path, name, nameen } = link;
     return (
       <li key={`${path}-${index}`} className={styles.navLink}>
-        <Link href={path}>
+        <Link href={path} prefetch={false}>
           <a onClick={() => closeSidebar()}>
             {locale === "en" ? nameen : name}
           </a>
@@ -48,7 +48,7 @@ const SidebarHome = () => {
         </button>
         <ul className={styles.navLinks}>
           <li className={styles.navLink}>
-            <Link href="/">
+            <Link href="/" prefetch={false}>
               <a onClick={() => closeSidebar()}>{t("nav.home")}</a>
             </Link>
           </li>

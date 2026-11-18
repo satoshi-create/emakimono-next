@@ -146,7 +146,7 @@ const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
         <ul className={styles.list}>
           {relatedItems.map((item) => (
             <li key={item.titleen}>
-              <Link href={`/${item.titleen}`}>
+              <Link href={`/${item.titleen}`} prefetch={false}>
                 <a className={styles.card} onClick={stopRailAsideBubble}>
                   {item.thumb && (
                     <span className={styles.thumbWrap}>
@@ -196,7 +196,7 @@ const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
               </li>
               {byobuItems.map((item) => (
                 <li key={item.titleen}>
-                  <Link href={`/${item.titleen}`}>
+                  <Link href={`/${item.titleen}`} prefetch={false}>
                     <a className={styles.card} onClick={stopRailAsideBubble}>
                       {item.thumb && (
                         <span className={styles.thumbWrap}>
@@ -251,7 +251,7 @@ const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
               </li>
               {scrollItems.map((item) => (
                 <li key={item.titleen}>
-                  <Link href={`/${item.titleen}`}>
+                  <Link href={`/${item.titleen}`} prefetch={false}>
                     <a className={styles.card} onClick={stopRailAsideBubble}>
                       {item.thumb && (
                         <span className={styles.thumbWrap}>
@@ -297,7 +297,7 @@ const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
           )}
         </ul>
       )}
-      <Link href="/ranking">
+      <Link href="/ranking" prefetch={false}>
         <a className={styles.rankingLink} onClick={stopRailAsideBubble}>
           {t("discovery.ctaRanking")}
         </a>

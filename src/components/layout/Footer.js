@@ -35,7 +35,7 @@ const Footer = () => {
       {primaryNavLinks.map((link, i) => {
         const { path, name, nameen } = link;
         return (
-          <Link key={i} href={path} passHref>
+          <Link key={i} href={path} passHref prefetch={false}>
             <ChakraLink
               fontWeight="medium"
               _hover={{
@@ -93,7 +93,7 @@ const Footer = () => {
           gap={{ base: 6, md: 4 }}
         >
           <Box display="flex" justifyContent="center" alignItems="center" w="100%">
-            <Link href="/" passHref>
+            <Link href="/" passHref prefetch={false}>
               <a
                 className={styles.title}
                 style={{ display: "flex", alignItems: "center" }}
@@ -127,7 +127,7 @@ const Footer = () => {
             mb={4}
           >
             {legalLinks.map(({ path, name, nameen }) => (
-              <Link key={path} href={path} passHref>
+              <Link key={path} href={path} passHref prefetch={false}>
                 <ChakraLink
                   fontSize="sm"
                   color="whiteAlpha.800"

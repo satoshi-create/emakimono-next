@@ -49,7 +49,7 @@ const HomeLatestScrolls = () => {
             RAKUCHU_RAKUGAI_CLUSTER_TITLEEN.includes(item.titleen) ||
             item.type === "byobu";
           return (
-          <Link href={`/${item.titleen}`} key={item.titleen}>
+          <Link href={`/${item.titleen}`} key={item.titleen} prefetch={false}>
             <a className={styles.card}>
               <div className={styles.thumbWrap}>
                 <Image
