@@ -69,9 +69,7 @@ const ScrollSightseeingMapDrawer = ({
 
   if (!isOpen) return null;
 
-  const hubHref = `/emaki-hub?region=kyoto&scroll=${encodeURIComponent(
-    titleen || ""
-  )}`;
+  const hubHref = "/rakuchu-rakugai/chapters#sightseeing-map";
 
   const spotCountLabel = isEn
     ? `${geoSpots.length} spots`

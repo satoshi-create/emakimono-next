@@ -6,6 +6,7 @@ import {
   getAllRakuchuGeoNodes,
   KYOTO_RIVER_POLYLINES,
 } from "@/data/hub/rakuchuRakugaiGeoSpots";
+import { REGIONS } from "@/data/hub/hubData";
 
 const RAKUCHU_TITLEENS = new Set([
   "rakuchu_rakugai_funaki",
@@ -250,7 +251,21 @@ const EmakiHubMap = ({
     return { stops, indexByTitleen, indexByKey };
   }, [activeRoute]);
 
-  const isKyoto = region.id === "kyoto";
+  const regionObj =
+    typeof region === "string"
+      ? REGIONS[region] || REGIONS.kyoto
+      : region || REGIONS.kyoto;
+  const regionId =
+    regionObj?.id || (typeof region === "string" ? region : "kyoto");
+  const centerLat = Array.isArray(regionObj?.center)
+    ? regionObj.center[0]
+    : regionObj?.center?.lat ?? 35.0116;
+  const centerLng = Array.isArray(regionObj?.center)
+    ? regionObj.center[1]
+    : regionObj?.center?.lng ?? 135.7681;
+  const zoomLevel = regionObj?.zoom ?? 13;
+
+  const isKyoto = regionId === "kyoto";
   const showRakuchuGeoHub = isKyoto;
 
   const rakuchuGeoNodes = useMemo(() => {
@@ -290,8 +305,8 @@ const EmakiHubMap = ({
       style={isKyoto ? { position: "relative" } : undefined}
     >
       <MapContainer
-        center={[region.center.lat, region.center.lng]}
-        zoom={region.zoom}
+        center={[centerLat, centerLng]}
+        zoom={zoomLevel}
         className={styles.map}
         scrollWheelZoom
       >
@@ -300,14 +315,14 @@ const EmakiHubMap = ({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <FlyToRegion
-          lat={region.center.lat}
-          lng={region.center.lng}
-          zoom={region.zoom}
+          lat={centerLat}
+          lng={centerLng}
+          zoom={zoomLevel}
           useMap={useMap}
         />
         <FocusScroll
           target={activeTarget}
-          zoom={Math.max(region.zoom, 15)}
+          zoom={Math.max(zoomLevel, 15)}
           markerRefs={markerRefs}
           lastFocusedRef={lastFocusedRef}
           useMap={useMap}
