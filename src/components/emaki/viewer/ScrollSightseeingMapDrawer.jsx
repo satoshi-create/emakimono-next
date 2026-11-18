@@ -105,6 +105,20 @@ const ScrollSightseeingMapDrawer = ({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
+  useEffect(() => {
+    if (!isOpen) return undefined;
+    const html = document.documentElement;
+    const body = document.body;
+    const prevHtmlOverflow = html.style.overflow;
+    const prevBodyOverflow = body.style.overflow;
+    html.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    return () => {
+      html.style.overflow = prevHtmlOverflow;
+      body.style.overflow = prevBodyOverflow;
+    };
+  }, [isOpen]);
+
   const handleJumpToScrollSpot = useCallback(
     (matchedSpotId) => {
       if (!matchedSpotId || !Array.isArray(allSpots)) return;
@@ -274,6 +288,7 @@ const ScrollSightseeingMapDrawer = ({
           justify-content: flex-end;
           align-items: stretch;
           font-family: var(--font-ui, sans-serif);
+          overscroll-behavior: contain;
         }
 
         .ssmd-panel {
@@ -287,6 +302,7 @@ const ScrollSightseeingMapDrawer = ({
           box-shadow: -8px 0 32px rgba(15, 23, 42, 0.18);
           animation: ssmdSlideInRight 0.22s ease-out;
           overflow: hidden;
+          overscroll-behavior: contain;
         }
 
         .ssmd-header {

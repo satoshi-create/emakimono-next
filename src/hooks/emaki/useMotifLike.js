@@ -2,6 +2,22 @@ import { fetchSceneLikeCounts, postSceneLike } from "@/libs/api/ugcApi";
 import { resolveMotifEditionDetails } from "@/utils/rakuchuMotifClientResolver";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+/** @type {Map<string, Promise<Record<number, number>>>} */
+const sceneCountsCache = new Map();
+
+/**
+ * @param {string} emakiId
+ * @returns {Promise<{ counts?: Record<number, number> } | Record<string, never>>}
+ */
+function getCachedSceneLikeCounts(emakiId) {
+  if (sceneCountsCache.has(emakiId)) {
+    return sceneCountsCache.get(emakiId);
+  }
+  const promise = fetchSceneLikeCounts(emakiId).catch(() => ({}));
+  sceneCountsCache.set(emakiId, promise);
+  return promise;
+}
+
 function motifLikeStorageKey(masterId) {
   return `motif_like_${masterId}`;
 }
@@ -75,7 +91,7 @@ export function useMotifLike(masterId) {
 
       await Promise.all(
         titleenSet.map(async (titleen) => {
-          const data = await fetchSceneLikeCounts(titleen);
+          const data = await getCachedSceneLikeCounts(titleen);
           const counts = data?.counts ?? {};
           for (const ed of editions) {
             if (ed.titleen !== titleen) continue;
@@ -149,6 +165,9 @@ export function useMotifLike(masterId) {
         )
       );
     } finally {
+      for (const titleen of new Set(linked.map((ed) => ed.titleen))) {
+        sceneCountsCache.delete(titleen);
+      }
       pendingRef.current = false;
     }
 

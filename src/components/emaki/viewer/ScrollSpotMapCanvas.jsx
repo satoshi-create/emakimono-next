@@ -73,6 +73,7 @@ const ScrollSpotMapCanvas = ({
   currentTitleen = null,
 }) => {
   const [rl, setRl] = useState(null);
+  const [openPopupKey, setOpenPopupKey] = useState(null);
   const markerRefs = useRef({});
   const lastFocusedIdRef = useRef(null);
 
@@ -225,6 +226,7 @@ const ScrollSpotMapCanvas = ({
         {geoSpots.map((spot, idx) => {
           const isActive = spot.id === activeGeoSpotId;
           const appearanceCount = spot.appearanceCount ?? 1;
+          const markerUniqueKey = `spot-${spot.id || spot.masterId}`;
 
           return (
             <Marker
@@ -239,6 +241,11 @@ const ScrollSpotMapCanvas = ({
                 click: () => {
                   onSelectGeoSpot?.(spot);
                 },
+                popupopen: () => setOpenPopupKey(markerUniqueKey),
+                popupclose: () =>
+                  setOpenPopupKey((prev) =>
+                    prev === markerUniqueKey ? null : prev
+                  ),
               }}
             >
               <Popup
@@ -248,21 +255,23 @@ const ScrollSpotMapCanvas = ({
                 autoPanPaddingTopLeft={[24, 48]}
                 autoPanPaddingBottomRight={[24, 40]}
               >
-                <RakuchuMotifCard
-                  motif={resolveRakuchuMotif(spot)}
-                  variant="popup"
-                  currentScrollTitleen={currentTitleen}
-                  onJumpToCurrentScroll={(href) => {
-                    const m =
-                      typeof href === "string"
-                        ? href.match(/[?&]spot=([^&]+)/)
-                        : null;
-                    if (m) onJumpToScrollSpot?.(decodeURIComponent(m[1]));
-                    else if (spot.matchedSpotId)
-                      onJumpToScrollSpot?.(spot.matchedSpotId);
-                  }}
-                  locale={locale}
-                />
+                {openPopupKey === markerUniqueKey ? (
+                  <RakuchuMotifCard
+                    motif={resolveRakuchuMotif(spot)}
+                    variant="popup"
+                    currentScrollTitleen={currentTitleen}
+                    onJumpToCurrentScroll={(href) => {
+                      const m =
+                        typeof href === "string"
+                          ? href.match(/[?&]spot=([^&]+)/)
+                          : null;
+                      if (m) onJumpToScrollSpot?.(decodeURIComponent(m[1]));
+                      else if (spot.matchedSpotId)
+                        onJumpToScrollSpot?.(spot.matchedSpotId);
+                    }}
+                    locale={locale}
+                  />
+                ) : null}
               </Popup>
             </Marker>
           );

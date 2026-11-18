@@ -104,7 +104,6 @@ export default function SpotPinsEditSaveBar({
     }
     const saveCount = pendingBySpot ? pendingBySpot.size : 0;
     if (!slug || !pendingBySpot?.size || saving) return;
-    console.log("[SAVEBAR:click]", { slug, normalizedSlug, count: saveCount });
     const n = saveCount;
     setSaving(true);
     const result = await savePendingUpdatesToApi(normalizedSlug, apiEndpoint);

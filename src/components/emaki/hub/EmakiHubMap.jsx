@@ -205,6 +205,7 @@ const EmakiHubMap = ({
   isFullscreen = false,
 }) => {
   const [rl, setRl] = useState(null);
+  const [openPopupKey, setOpenPopupKey] = useState(null);
   const markerRefs = useRef({});
   // 自動フォーカス済みの作品を記憶し、テーマ切替等の再レンダーで再実行させない
   const lastFocusedRef = useRef(null);
@@ -387,12 +388,21 @@ const EmakiHubMap = ({
                 dashArray: "8, 6",
               }}
             />
-            {routeData.stops.map((stop, idx) => (
+            {routeData.stops.map((stop, idx) => {
+              const markerUniqueKey = `route-${idx}-${stop.spotId}`;
+              return (
               <Marker
                 key={`route-wp-${activeRoute.id}-${idx}`}
                 position={[stop.spot.lat, stop.spot.lng]}
                 icon={makeRouteWaypointIcon(L, idx + 1)}
                 zIndexOffset={800 + idx}
+                eventHandlers={{
+                  popupopen: () => setOpenPopupKey(markerUniqueKey),
+                  popupclose: () =>
+                    setOpenPopupKey((prev) =>
+                      prev === markerUniqueKey ? null : prev
+                    ),
+                }}
               >
                 <Popup
                   className={styles.mapPopup}
@@ -402,14 +412,17 @@ const EmakiHubMap = ({
                   autoPanPaddingTopLeft={[24, 48]}
                   autoPanPaddingBottomRight={[24, 40]}
                 >
-                  <RakuchuMotifCard
-                    motif={resolveRakuchuMotif(stop.spot)}
-                    variant="popup"
-                    locale={locale}
-                  />
+                  {openPopupKey === markerUniqueKey ? (
+                    <RakuchuMotifCard
+                      motif={resolveRakuchuMotif(stop.spot)}
+                      variant="popup"
+                      locale={locale}
+                    />
+                  ) : null}
                 </Popup>
               </Marker>
-            ))}
+              );
+            })}
           </>
         )}
         {showRakuchuGeoHub &&
@@ -432,11 +445,19 @@ const EmakiHubMap = ({
             if (activeScroll && activeScroll !== "all" && !matchesScroll) {
               return null;
             }
+            const markerUniqueKey = `spot-${node.id || node.masterId}`;
             return (
               <Marker
                 key={`rakuchu-geo-${node.id}`}
                 position={[node.lat, node.lng]}
                 icon={makeRakuchuGeoIcon(L, node, themeActive && !matchesTheme)}
+                eventHandlers={{
+                  popupopen: () => setOpenPopupKey(markerUniqueKey),
+                  popupclose: () =>
+                    setOpenPopupKey((prev) =>
+                      prev === markerUniqueKey ? null : prev
+                    ),
+                }}
               >
                 <Popup
                   className={styles.mapPopup}
@@ -446,11 +467,13 @@ const EmakiHubMap = ({
                   autoPanPaddingTopLeft={[24, 48]}
                   autoPanPaddingBottomRight={[24, 40]}
                 >
-                  <RakuchuMotifCard
-                    motif={resolveRakuchuMotif(node)}
-                    variant="popup"
-                    locale={locale}
-                  />
+                  {openPopupKey === markerUniqueKey ? (
+                    <RakuchuMotifCard
+                      motif={resolveRakuchuMotif(node)}
+                      variant="popup"
+                      locale={locale}
+                    />
+                  ) : null}
                 </Popup>
               </Marker>
             );

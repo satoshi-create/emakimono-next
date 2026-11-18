@@ -28,7 +28,7 @@ import {
 // =============================================================================
 // デバッグスイッチ（検証完了後は false にして一括停止）
 // =============================================================================
-const DEBUG_SPOT_EDIT_SAVE = true;
+const DEBUG_SPOT_EDIT_SAVE= false;
 
 function logDebug(tag, ...args) {
   if (!DEBUG_SPOT_EDIT_SAVE) return;
