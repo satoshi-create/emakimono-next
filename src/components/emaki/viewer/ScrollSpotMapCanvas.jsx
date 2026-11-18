@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import "leaflet/dist/leaflet.css";
 import { KYOTO_RIVER_POLYLINES } from "@/data/hub/rakuchuRakugaiGeoSpots";
 
@@ -57,6 +58,7 @@ const ScrollSpotMapCanvas = ({
   onSelectGeoSpot,
   onJumpToScrollSpot,
   locale = "ja",
+  currentTitleen = null,
 }) => {
   const [rl, setRl] = useState(null);
   const markerRefs = useRef({});
@@ -121,8 +123,10 @@ const ScrollSpotMapCanvas = ({
   const { L, MapContainer, Marker, Polyline, Popup, TileLayer, useMap } = rl;
   const isEn = locale === "en";
 
-  const makeIcon = (num, isActive, category) => {
-    const size = isActive ? 36 : 28;
+  const makeIcon = (appearanceCount, isActive, category) => {
+    const count = appearanceCount ?? 1;
+    let size = count >= 3 ? 42 : count === 2 ? 34 : 26;
+    if (isActive) size += 4;
     const isRiver = category === "river";
     const isStreet = category === "street";
     const bg = isRiver
@@ -134,37 +138,49 @@ const ScrollSpotMapCanvas = ({
           : "#c2410c";
     const border = isActive ? "3px solid #ffffff" : "2px solid #ffffff";
     const shadow = isActive
-      ? isRiver
-        ? "0 4px 12px rgba(2, 132, 199, 0.45)"
-        : isStreet
-          ? "0 4px 12px rgba(21, 128, 61, 0.45)"
-          : "0 4px 12px rgba(225, 29, 72, 0.45)"
+      ? "0 6px 18px rgba(15, 23, 42, 0.55)"
       : "0 2px 6px rgba(15, 23, 42, 0.35)";
-    const fontSize = isActive ? "13px" : "11px";
-    const label = isRiver ? "〜" : isStreet ? "＝" : num;
+    const fontSize = count >= 3 ? "14px" : count === 2 ? "12px" : "11px";
+    const label = isRiver ? "〜" : isStreet ? "＝" : `${count}`;
+    const haloRing =
+      count >= 3
+        ? `<div style="
+          position:absolute;
+          inset:-5px;
+          border-radius:9999px;
+          border:2px solid rgba(255,255,255,0.9);
+          box-shadow:0 0 0 2px ${bg}66;
+          pointer-events:none;
+        "></div>`
+        : "";
+
+    const outerSize = count >= 3 ? size + 10 : size;
 
     return L.divIcon({
       className: "",
-      html: `<div style="
-        width:${size}px;
-        height:${size}px;
-        border-radius:9999px;
-        background:${bg};
-        color:#ffffff;
-        border:${border};
-        box-shadow:${shadow};
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        font-weight:700;
-        font-size:${fontSize};
-        line-height:1;
-        transition:transform 0.2s ease;
-        transform:${isActive ? "scale(1.08)" : "scale(1)"};
-      ">${label}</div>`,
-      iconSize: [size, size],
-      iconAnchor: [size / 2, size / 2],
-      popupAnchor: [0, -(size / 2 + 4)],
+      html: `<div style="position:relative;width:${outerSize}px;height:${outerSize}px;display:flex;align-items:center;justify-content:center;">
+        ${haloRing}
+        <div style="
+          width:${size}px;
+          height:${size}px;
+          border-radius:9999px;
+          background:${bg};
+          color:#ffffff;
+          border:${border};
+          box-shadow:${shadow};
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-weight:700;
+          font-size:${fontSize};
+          line-height:1;
+          position:relative;
+          z-index:1;
+        ">${label}</div>
+      </div>`,
+      iconSize: [outerSize, outerSize],
+      iconAnchor: [outerSize / 2, outerSize / 2],
+      popupAnchor: [0, -(outerSize / 2 + 4)],
     });
   };
 
@@ -200,12 +216,16 @@ const ScrollSpotMapCanvas = ({
           const name = isEn ? spot.nameEn || spot.nameJa : spot.nameJa || spot.nameEn;
           const desc = isEn ? spot.descEn || spot.descJa : spot.descJa || spot.descEn;
           const gmapsUrl = `https://www.google.com/maps/search/?api=1&query=${spot.lat},${spot.lng}`;
+          const appearanceCount = spot.appearanceCount ?? 1;
+          const otherScrollLinks = (spot.scrollLinks ?? []).filter(
+            (l) => l.titleen !== currentTitleen
+          );
 
           return (
             <Marker
               key={spot.id}
               position={[spot.lat, spot.lng]}
-              icon={makeIcon(idx + 1, isActive, spot.category)}
+              icon={makeIcon(appearanceCount, isActive, spot.category)}
               zIndexOffset={isActive ? 1000 : 0}
               ref={(el) => {
                 if (el) markerRefs.current[spot.id] = el;
@@ -253,6 +273,24 @@ const ScrollSpotMapCanvas = ({
                   >
                     {name}
                   </div>
+                  <span
+                    style={{
+                      display: "inline-block",
+                      alignSelf: "flex-start",
+                      padding: "2px 8px",
+                      borderRadius: "6px",
+                      background: "#fff7ed",
+                      color: "#c2410c",
+                      fontSize: "10.5px",
+                      fontWeight: 600,
+                      lineHeight: 1.4,
+                      border: "1px solid rgba(194, 65, 12, 0.2)",
+                    }}
+                  >
+                    {isEn
+                      ? `Appears in ${appearanceCount} of 3 scrolls`
+                      : `全3作品中 ${appearanceCount}作品に登場`}
+                  </span>
                   {desc && (
                     <p
                       style={{
@@ -292,6 +330,53 @@ const ScrollSpotMapCanvas = ({
                       >
                         {isEn ? "View this scene in the scroll" : "絵巻のこの場面を見る"}
                       </button>
+                    )}
+                    {otherScrollLinks.length > 0 && (
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "6px",
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontSize: "11px",
+                            fontWeight: 600,
+                            color: "#64748b",
+                          }}
+                        >
+                          {isEn ? "Other versions:" : "他伝本:"}
+                        </span>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexWrap: "wrap",
+                            gap: "6px",
+                          }}
+                        >
+                          {otherScrollLinks.map((link) => (
+                            <Link key={link.titleen || link.href} href={link.href} passHref>
+                              <a
+                                style={{
+                                  display: "inline-block",
+                                  padding: "4px 10px",
+                                  borderRadius: "9999px",
+                                  background: "rgba(59, 130, 246, 0.12)",
+                                  color: "#2563eb",
+                                  fontSize: "11px",
+                                  fontWeight: 600,
+                                  textDecoration: "none",
+                                  lineHeight: 1.4,
+                                  border: "1px solid rgba(59, 130, 246, 0.25)",
+                                }}
+                              >
+                                {isEn ? link.labelEn : link.labelJa} ↗
+                              </a>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
                     )}
                     <a
                       href={gmapsUrl}
@@ -385,6 +470,11 @@ const ScrollSpotMapCanvas = ({
           {isEn
             ? "East (Right Screen) = Higashiyama & Kamo R. / Center = Central Kyoto & Takase R. / West (Left Screen) = Nijo Castle & Oi R."
             : "東（右隻）＝東山・賀茂川 ／ 中央＝洛中・高瀬川 ／ 西（左隻）＝二条城・大堰川"}
+        </div>
+        <div style={{ marginTop: "2px", color: "#64748b", fontSize: "10px" }}>
+          {isEn
+            ? "Circle size = scroll appearance count (1–3 works)"
+            : "円の大きさ＝登場作品数（1〜3作品）"}
         </div>
       </div>
     </div>

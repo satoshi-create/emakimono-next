@@ -154,6 +154,7 @@ const ScrollSightseeingMapDrawer = ({
         <div className="ssmd-map-body">
           {geoSpots.length > 0 ? (
             <ScrollSpotMapCanvas
+              currentTitleen={titleen}
               geoSpots={geoSpots}
               activeGeoSpotId={activeGeoSpotId}
               onSelectGeoSpot={(geoSpot) =>

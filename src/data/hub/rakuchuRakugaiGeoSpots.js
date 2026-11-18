@@ -6,6 +6,13 @@ import {
 
 export { KYOTO_RIVER_POLYLINES };
 
+/** @type {Record<string, { labelJa: string, labelEn: string }>} */
+const RAKUCHU_SCROLL_LABELS = {
+  rakuchu_rakugai_funaki: { labelJa: "舟木本", labelEn: "Funaki" },
+  rakuchu_rakugai_fukuoka: { labelJa: "福岡本", labelEn: "Fukuoka" },
+  rakuchu_rakugai_met: { labelJa: "メトロポリタン本", labelEn: "Met" },
+};
+
 /**
  * @param {(typeof RAKUCHU_SPOT_MASTERS)[number]} m
  * @returns {object | null}
@@ -13,6 +20,22 @@ export { KYOTO_RIVER_POLYLINES };
 function masterToGeoSpot(m) {
   if (typeof m.lat !== "number" || typeof m.lng !== "number") return null;
   const presentIn = m.presentIn ?? [];
+  const scrollLinks = presentIn.map((scrollSlug) => {
+    const { labelJa, labelEn } = RAKUCHU_SCROLL_LABELS[scrollSlug] ?? {
+      labelJa: scrollSlug,
+      labelEn: scrollSlug,
+    };
+    const resolvedSpotId = pickMatchedSpotIdForScroll(m, scrollSlug);
+    return {
+      titleen: scrollSlug,
+      labelJa,
+      labelEn,
+      spotId: resolvedSpotId,
+      href: resolvedSpotId
+        ? `/${scrollSlug}?spot=${encodeURIComponent(resolvedSpotId)}`
+        : `/${scrollSlug}`,
+    };
+  });
   return {
     id: m.masterId,
     masterId: m.masterId,
@@ -29,6 +52,7 @@ function masterToGeoSpot(m) {
     presentIn,
     appearanceCount: presentIn.length,
     aliasSpotIds: m.aliasSpotIds ?? [],
+    scrollLinks,
   };
 }
 

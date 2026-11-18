@@ -2,6 +2,57 @@ import styles from "@/styles/EmakiHub.module.css";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import "leaflet/dist/leaflet.css";
+import {
+  getAllRakuchuGeoNodes,
+  KYOTO_RIVER_POLYLINES,
+} from "@/data/hub/rakuchuRakugaiGeoSpots";
+
+const RAKUCHU_TITLEENS = new Set([
+  "rakuchu_rakugai_funaki",
+  "rakuchu_rakugai_fukuoka",
+  "rakuchu_rakugai_met",
+]);
+
+function pickRakuchuSpotId(node, titleen) {
+  const aliases = node.aliasSpotIds ?? [];
+  const id = node.masterId ?? node.id;
+  if (aliases.length === 0) return id;
+  if (aliases.length === 1) return aliases[0];
+  const idx = (node.presentIn ?? []).indexOf(titleen);
+  if (idx >= 0 && idx < aliases.length) return aliases[idx];
+  return aliases[0];
+}
+
+function makeRakuchuGeoIcon(L, node) {
+  const count = node.appearanceCount ?? (node.presentIn?.length || 1);
+  let size;
+  let bg;
+  let shadow = "";
+  if (count >= 3) {
+    size = 44;
+    bg = "#be123c";
+    shadow = "box-shadow:0 0 0 5px rgba(225,29,72,0.22)";
+  } else if (count === 2) {
+    size = 34;
+    bg = "#c2410c";
+    shadow = "box-shadow:0 0 0 3px rgba(194,65,12,0.2)";
+  } else {
+    size = 26;
+    if (node.category === "river") bg = "#0284c7";
+    else if (node.category === "street") bg = "#15803d";
+    else bg = "#475569";
+  }
+  const html = `<div style="width:${size}px;height:${size}px;border-radius:50%;background:${bg};${shadow};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:${
+    size >= 40 ? 15 : 12
+  }px;line-height:1;border:2px solid rgba(255,255,255,0.9);">${count}</div>`;
+  return L.divIcon({
+    className: styles.mapPinWrap,
+    html,
+    iconSize: [size, size],
+    iconAnchor: [size / 2, size / 2],
+    popupAnchor: [0, -Math.round(size / 2)],
+  });
+}
 
 /**
  * 制御コンポーネント（FlyToRegion / FitRoute / FocusScroll）はモジュールスコープに定義する。
@@ -148,6 +199,34 @@ const EmakiHubMap = ({
     return { stops, indexByTitleen };
   }, [activeRoute]);
 
+  const showRakuchuGeoHub = useMemo(
+    () =>
+      region.id === "kyoto" &&
+      items.some((it) => it.titleen && RAKUCHU_TITLEENS.has(it.titleen)),
+    [region.id, items]
+  );
+
+  const rakuchuGeoNodes = useMemo(() => {
+    if (!showRakuchuGeoHub) return [];
+    const all = getAllRakuchuGeoNodes();
+    if (activeScroll && RAKUCHU_TITLEENS.has(activeScroll)) {
+      return all.filter((n) => n.presentIn.includes(activeScroll));
+    }
+    return all;
+  }, [showRakuchuGeoHub, activeScroll]);
+
+  const rakuchuScrollLabels = useMemo(() => {
+    const labels = {};
+    items.forEach((it) => {
+      if (!it.titleen || !RAKUCHU_TITLEENS.has(it.titleen)) return;
+      labels[it.titleen] =
+        locale === "en"
+          ? it.title || it.titleEn || it.titleJa
+          : it.titleJa || it.title;
+    });
+    return labels;
+  }, [items, locale]);
+
   if (!rl) {
     return <div className={styles.mapLoading}>Loading map…</div>;
   }
@@ -219,8 +298,93 @@ const EmakiHubMap = ({
             }}
           />
         )}
+        {showRakuchuGeoHub &&
+          Object.entries(KYOTO_RIVER_POLYLINES).map(([riverId, positions]) => (
+            <Polyline
+              key={`kyoto-river-${riverId}`}
+              positions={positions}
+              pathOptions={{
+                color: "#0284c7",
+                weight: 3.5,
+                opacity: 0.35,
+              }}
+            />
+          ))}
+        {showRakuchuGeoHub &&
+          rakuchuGeoNodes.map((node) => {
+            const count =
+              node.appearanceCount ?? (node.presentIn?.length || 1);
+            const name =
+              locale === "en"
+                ? node.nameEn || node.nameJa
+                : node.nameJa || node.nameEn;
+            const area =
+              locale === "en"
+                ? node.areaEn || node.areaJa
+                : node.areaJa || node.areaEn;
+            const desc =
+              locale === "en"
+                ? node.descEn || node.descJa
+                : node.descJa || node.descEn;
+            const badge =
+              locale === "en"
+                ? `${count} scroll${count > 1 ? "s" : ""} depict this place`
+                : `${count}作品に描かれた名所`;
+            return (
+              <Marker
+                key={`rakuchu-geo-${node.id}`}
+                position={[node.lat, node.lng]}
+                icon={makeRakuchuGeoIcon(L, node)}
+              >
+                <Popup className={styles.mapPopup} maxWidth={280}>
+                  <div className={styles.mapPopupCard}>
+                    <p className={styles.mapPopupTitle}>{name}</p>
+                    {area ? (
+                      <p className={styles.mapPopupSpot}>{area}</p>
+                    ) : null}
+                    <p className={styles.mapPopupTitleEn}>{badge}</p>
+                    {desc ? (
+                      <p className={styles.mapPopupDesc}>{desc}</p>
+                    ) : null}
+                    {(node.presentIn ?? []).map((titleen) => (
+                      <Link
+                        key={`${node.id}-${titleen}`}
+                        href={`/${titleen}?spot=${pickRakuchuSpotId(
+                          node,
+                          titleen
+                        )}`}
+                      >
+                        <a
+                          className={styles.mapPopupBtn}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {rakuchuScrollLabels[titleen] || titleen}
+                        </a>
+                      </Link>
+                    ))}
+                    <a
+                      className={styles.mapPopupGmap}
+                      href={`https://maps.google.com/?q=${node.lat},${node.lng}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {t("emakiHub.openMap")}
+                    </a>
+                  </div>
+                </Popup>
+              </Marker>
+            );
+          })}
         {positioned.map((item) => {
           if (!item.spot) return null;
+          if (
+            showRakuchuGeoHub &&
+            item.titleen &&
+            RAKUCHU_TITLEENS.has(item.titleen)
+          ) {
+            return null;
+          }
           const lat = item.pinLat ?? item.spot.lat;
           const lng = item.pinLng ?? item.spot.lng;
           const isComingSoon = item.status === "coming-soon";
