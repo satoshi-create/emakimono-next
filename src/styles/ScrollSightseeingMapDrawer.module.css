@@ -8,6 +8,7 @@
   align-items: stretch;
   font-family: var(--font-ui, sans-serif);
   overscroll-behavior: contain;
+  touch-action: pan-y;
 }
 
 .panel {
@@ -22,6 +23,7 @@
   animation: slideInRight 0.22s ease-out;
   overflow: hidden;
   overscroll-behavior: contain;
+  touch-action: pan-y;
 }
 
 .header {

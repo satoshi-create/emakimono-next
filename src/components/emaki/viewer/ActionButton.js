@@ -64,7 +64,7 @@ const ActionButton = forwardRef(
                   ? "0.75rem"
                   : "calc(0.75rem + var(--commentary-bar-full-h, 0px))",
               right: !isMobile ? (barFloatsOverCanvas ? "1rem" : "1%") : "0.5rem",
-              zIndex: "10",
+              zIndex: "80",
               display: "flex",
               alignItems: "center",
               fontsize: "1em",

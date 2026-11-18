@@ -114,11 +114,21 @@ const ScrollSightseeingMapDrawer = ({
     const prevBodyOverflow = body.style.overflow;
     html.style.overflow = "hidden";
     body.style.overflow = "hidden";
+    body.dataset.mapDrawerOpen = "true";
     return () => {
       html.style.overflow = prevHtmlOverflow;
       body.style.overflow = prevBodyOverflow;
+      delete body.dataset.mapDrawerOpen;
     };
   }, [isOpen]);
+
+  const isolateMapDrawerEvents = {
+    onTouchStart: (e) => e.stopPropagation(),
+    onTouchMove: (e) => e.stopPropagation(),
+    onTouchEnd: (e) => e.stopPropagation(),
+    onPointerDown: (e) => e.stopPropagation(),
+    onWheel: (e) => e.stopPropagation(),
+  };
 
   const handleJumpToScrollSpot = useCallback(
     (matchedSpotId) => {
@@ -160,6 +170,7 @@ const ScrollSightseeingMapDrawer = ({
           onClose?.();
         }
       }}
+      {...isolateMapDrawerEvents}
     >
       <aside
         className={styles.panel}
@@ -168,6 +179,7 @@ const ScrollSightseeingMapDrawer = ({
             ? { width: drawerWidth, maxWidth: drawerWidth }
             : undefined
         }
+        {...isolateMapDrawerEvents}
       >
         <div
           className={styles.resizeHandle}

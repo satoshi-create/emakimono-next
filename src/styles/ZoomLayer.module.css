@@ -192,7 +192,7 @@
   position: absolute;
   inset: 0;
   /* ズームレイヤー（z-index: 40）より前面: 拡大中もトグルで等倍へ戻せる */
-  z-index: 50;
+  z-index: 80;
   pointer-events: none;
   transform: translateX(-3rem);
 }

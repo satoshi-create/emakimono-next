@@ -21,6 +21,20 @@ const MOTIF_VISUAL_OVERRIDES = {
   "imperial_palace:rakuchu_rakugai_fukuoka": {
     preferredSpotId: "imperial-palace-shishinden",
   },
+  "imperial_palace:rakuchu_rakugai_met": { preferredSpotId: "shishinden" },
+  "gion_yasaka:rakuchu_rakugai_funaki": { preferredSpotId: "gionsha" },
+  "gion_yasaka:rakuchu_rakugai_fukuoka": { preferredSpotId: "gionsha" },
+  "gion_yasaka:rakuchu_rakugai_met": { preferredSpotId: "gionsha" },
+  "toyokuni_shrine:rakuchu_rakugai_funaki": { preferredSpotId: "toyokunisha" },
+  "toyokuni_shrine:rakuchu_rakugai_fukuoka": { preferredSpotId: "toyokunisha" },
+  "toyokuni_shrine:rakuchu_rakugai_met": {
+    preferredSpotId: "hokoku-mausoleum",
+  },
+  "kabuki_amusements:rakuchu_rakugai_funaki": { preferredSpotId: "shijokawara" },
+  "kabuki_amusements:rakuchu_rakugai_met": { preferredSpotId: "okuni-kabuki" },
+  "rokujo_misujimachi:rakuchu_rakugai_funaki": {
+    preferredSpotId: "rokujosanjyomachi",
+  },
 };
 
 /** @param {string | null | undefined} image */
