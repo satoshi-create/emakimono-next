@@ -1,7 +1,7 @@
 import RegionSwitcher from "@/components/emaki/hub/RegionSwitcher";
 import EmakiHubMap from "@/components/emaki/hub/EmakiHubMap";
 import EmakiHubRouteCard from "@/components/emaki/hub/EmakiHubRouteCard";
-// 漫画・アニメと絵巻セクションは非表示のため一時コメントアウト（あとで再利用）
+// 関連メディアセクションは非表示のため一時コメントアウト（あとで再利用）
 // import EmakiRelatedMediaCard from "@/components/emaki/hub/EmakiRelatedMediaCard";
 import useEmakiHubController from "@/hooks/emaki/useEmakiHubController";
 import styles from "@/styles/EmakiHub.module.css";
@@ -58,8 +58,16 @@ const EmakiHubPage = ({ hubData, t }) => {
       {/* Hero（和モダン・ダークグラデ帯） */}
       <section className={styles.hero}>
         <div className={styles.heroInner}>
-          <h1 className={styles.heroTitle}>{l(currentRegion.copy)}</h1>
-          <p className={styles.heroLead}>{l(currentRegion.lead)}</p>
+          <h1 className={styles.heroTitle}>
+            {locale === "en"
+              ? "Explore the historic cityscape depicted in handscrolls and screens."
+              : "絵巻と屏風に描かれた都の風景を、京都で辿る。"}
+          </h1>
+          <p className={styles.heroLead}>
+            {locale === "en"
+              ? "Compare temples, rivers, and streetscapes from the Rakuchu Rakugai screens with present-day Kyoto on the map."
+              : "洛中洛外図屏風に描かれた寺社・河川・町並みを、実際の京都の地図と照らし合わせて味わう。"}
+          </p>
           <RegionSwitcher
             regions={hubData.regions}
             currentRegion={region}
@@ -80,7 +88,11 @@ const EmakiHubPage = ({ hubData, t }) => {
         className={`section-grid-wide section-padding ${styles.sectionAnchor}`}
       >
         <h2 className={styles.sectionTitle}>{t("emakiHub.sectionTitle")}</h2>
-        <p className={styles.sectionDesc}>{t("emakiHub.sectionDesc")}</p>
+        <p className={styles.sectionDesc}>
+          {locale === "en"
+            ? "Explore famous places, rivers, and streets depicted in the Rakuchu Rakugai screens via the map and suggested routes."
+            : "洛中洛外図に描かれた名所・河川・通りを、地図やおすすめルートから巡れます。"}
+        </p>
 
         <div
           className={`${styles.mapWrap} ${
@@ -94,6 +106,7 @@ const EmakiHubPage = ({ hubData, t }) => {
             t={t}
             activeScroll={activeScroll}
             activeRoute={activeRoute}
+            activeTheme={theme}
             isFullscreen={mapFullscreen}
           />
 
@@ -185,7 +198,7 @@ const EmakiHubPage = ({ hubData, t }) => {
         </div>
       </section>
 
-      {/* 漫画・アニメと絵巻（現在は非表示。再利用時にコメント解除） */}
+      {/* 関連メディア（現在は非表示。再利用時にコメント解除） */}
       {/* <section
         id="media"
         className={`section-grid-wide section-padding ${styles.sectionAnchor}`}

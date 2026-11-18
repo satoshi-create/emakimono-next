@@ -15,12 +15,12 @@ export const REGIONS = {
     center: { lat: 35.0116, lng: 135.7681 },
     zoom: 11,
     copy: {
-      ja: "千年の物語絵巻とダークファンタジーを、京都で辿る。",
-      en: "Explore 1,000 Years of Visual Storytelling & Dark Fantasy in Kyoto",
+      ja: "絵巻と屏風に描かれた都の風景を、京都の地図で辿る。",
+      en: "Explore the historic cityscape depicted in handscrolls and folding screens on the map of Kyoto.",
     },
     lead: {
-      ja: "平安〜鎌倉の都・京都ゆかりの絵巻を、横スクロールで味わう。",
-      en: "Unroll picture scrolls tied to the ancient capital of Kyoto.",
+      ja: "洛中洛外図屏風に描かれた寺社・河川・町並みを、現在の京都の地理と照らし合わせて巡ります。",
+      en: "Discover temples, rivers, and historic streets painted in Rakuchu-Rakugai-zu screens alongside modern Kyoto geography.",
     },
   },
   kamakura: {
@@ -30,12 +30,12 @@ export const REGIONS = {
     center: { lat: 35.3197, lng: 139.5515 },
     zoom: 12,
     copy: {
-      ja: "武士の合戦絵巻と妖怪退治を、鎌倉で体験する。",
-      en: "Experience the Epic Samurai Battles & Monster Hunts in Kamakura",
+      ja: "中世の物語絵巻と歴史の舞台を、鎌倉の地図で辿る。",
+      en: "Trace medieval narrative handscrolls and historic sites on the map of Kamakura.",
     },
     lead: {
-      ja: "武家の都・鎌倉ゆかりの絵巻を、横スクロールで体験する。",
-      en: "Unroll picture scrolls of the samurai capital, Kamakura.",
+      ja: "絵巻に描かれた古都・鎌倉の寺社や街道の面影を地図とともに歩きます。",
+      en: "Walk through the temples and historic roads of ancient Kamakura featured in narrative scrolls.",
     },
   },
 };
@@ -43,9 +43,10 @@ export const REGIONS = {
 /** テーマフィルター定義（フィルタの表示順・日本語名） */
 export const THEMES = [
   { id: "all", labelJa: "すべて", labelEn: "All" },
-  { id: "satire", labelJa: "風刺とユーモア", labelEn: "Satire & Humor" },
-  { id: "dark-fantasy", labelJa: "ダークファンタジー", labelEn: "Dark Fantasy & Curses" },
-  { id: "samurai", labelJa: "武士の活劇", labelEn: "Samurai & Action" },
+  { id: "landmark", labelJa: "寺社・名所", labelEn: "Temples & Shrines" },
+  { id: "river", labelJa: "河川・橋", labelEn: "Rivers & Bridges" },
+  { id: "street", labelJa: "町並み・通り", labelEn: "Streets & Towns" },
+  { id: "power", labelJa: "御所・城郭・史跡", labelEn: "Palaces & Historic Sites" },
 ];
 
 /**
@@ -54,98 +55,16 @@ export const THEMES = [
  * status: "coming-soon" の作品はビューア未公開のため準備中カードとして表示。
  */
 export const HUB_EMAKIS = [
-  // ---- 京都編 ----
-  {
-    titleen: "Chōjū-jinbutsu-giga_first",
-    region: "kyoto",
-    theme: "satire",
-    tags: ["Manga", "Animals", "Humor"],
-    spot: {
-      nameJa: "高山寺",
-      nameEn: "Kōzan-ji",
-      lat: 35.0601,
-      lng: 135.6763,
-      desc: {
-        ja: "鳥獣人物戯画は高山寺の寺宝として伝来し、現在も同寺に所蔵されています。",
-        en: "Chōjū-jinbutsu-giga has been passed down as a treasure of Kōzan-ji and is still kept there today.",
-      },
-    },
-  },
-  {
-    titleen: "jigokusoushi_anzyuin",
-    region: "kyoto",
-    theme: "dark-fantasy",
-    tags: ["Curses", "Hell", "Buddhism"],
-    spot: {
-      nameJa: "京都国立博物館",
-      nameEn: "Kyoto National Museum",
-      lat: 34.9902,
-      lng: 135.7731,
-      desc: {
-        ja: "当館が所蔵する絵巻の一つ。地獄の責め苦の情景を迫力ある筆致で描きます。",
-        en: "One of the hell-scroll versions held by the museum, depicting torments with powerful brushwork.",
-      },
-    },
-  },
-  {
-    titleen: "jigokusoushi_masuda_kou",
-    region: "kyoto",
-    theme: "dark-fantasy",
-    tags: ["Curses", "Hell", "Buddhism"],
-    spot: {
-      nameJa: "京都国立博物館",
-      nameEn: "Kyoto National Museum",
-      lat: 34.9902,
-      lng: 135.7731,
-      desc: {
-        ja: "同じく京都国立博物館の所蔵。独自の場面構成で、地獄の世界観を細部まで描き込んでいます。",
-        en: "Also held by the museum. This version arranges its scenes independently, detailing the underworld in minute brushwork.",
-      },
-    },
-  },
-  {
-    titleen: "gakisoushi_kawamoto",
-    region: "kyoto",
-    theme: "dark-fantasy",
-    tags: ["Ghosts", "Hunger", "Buddhism"],
-    spot: {
-      nameJa: "京都国立博物館",
-      nameEn: "Kyoto National Museum",
-      lat: 34.9902,
-      lng: 135.7731,
-      desc: {
-        ja: "飢えた亡者たちの姿を描く餓鬼草紙。本図は京都国立博物館が所蔵する作品です。",
-        en: "Hungry Ghosts Scroll depicts starving spirits in their torment. This version is held by the Kyoto National Museum.",
-      },
-    },
-  },
-  {
-    titleen: "kusouzumaki",
-    region: "kyoto",
-    theme: "dark-fantasy",
-    tags: ["Buddhism", "Impermanence", "Death"],
-    spot: {
-      nameJa: "檀林寺",
-      nameEn: "Danrin-ji",
-      lat: 35.0237,
-      lng: 135.6674,
-      desc: {
-        ja: "九相図巻のモデル・檀林皇后（橘嘉智子）が開いた禅宗最初の寺。皇后は自らの死後、遺体を風葬に付して無常を示したと伝えられ、その朽ちゆく姿は九相図に描かれました。",
-        en: "The first Zen temple in Japan, founded by Empress Danrin (Tachibana no Kachiko), the model of the Kusōzu Scroll. She is said to have left her own body to the elements after death to show impermanence—the theme depicted in the scroll.",
-      },
-    },
-  },
   {
     titleen: "rakuchu_rakugai_funaki",
     region: "kyoto",
-    theme: "satire",
-    themes: ["satire", "samurai"],
+    theme: "landmark",
     tags: ["Kyoto", "Screen", "Townspeople"],
     spot: {
-      nameJa: "方広寺大仏殿・豊国社付近",
-      nameEn: "Hōkō-ji & Toyokuni Shrine Area",
-      lat: 34.9918,
-      lng: 135.7725,
+      nameJa: "清水寺",
+      nameEn: "Kiyomizu-dera",
+      lat: 34.9949,
+      lng: 135.785,
       desc: {
         ja: "岩佐又兵衛筆と伝わる国宝「洛中洛外図屏風（舟木本）」。方広寺大仏殿や豊国社をはじめ、慶長期の京の街並みと躍動する人々の風俗を描きます。",
         en: "The Funaki Version of Scenes in and around the Capital, attributed to Iwasa Matabei, vividly depicting Keichō-era Kyoto landmarks such as Hōkō-ji and Toyokuni Shrine alongside lively townspeople.",
@@ -155,14 +74,13 @@ export const HUB_EMAKIS = [
   {
     titleen: "rakuchu_rakugai_fukuoka",
     region: "kyoto",
-    theme: "satire",
-    themes: ["satire", "samurai"],
+    theme: "landmark",
     tags: ["Kyoto", "Screen", "Festival"],
     spot: {
-      nameJa: "五条大橋・清水寺付近",
-      nameEn: "Gojō Bridge & Kiyomizu-dera Area",
-      lat: 34.9958,
-      lng: 135.7705,
+      nameJa: "祇園社・八坂神社",
+      nameEn: "Gion Shrine (Yasaka-jinja)",
+      lat: 35.0037,
+      lng: 135.7785,
       desc: {
         ja: "福岡市博物館所蔵の「洛中洛外図屏風」。五条大橋や清水寺など東山から鴨川にかけての景観と、四季の祭礼や庶民の暮らしを華やかに伝えます。",
         en: "Held by the Fukuoka City Museum, this screen captures the scenery from Gojō Bridge to Kiyomizu-dera, seasonal festivals, and everyday life in Kyoto.",
@@ -172,75 +90,16 @@ export const HUB_EMAKIS = [
   {
     titleen: "rakuchu_rakugai_met",
     region: "kyoto",
-    theme: "samurai",
-    themes: ["samurai", "satire"],
+    theme: "power",
     tags: ["Kyoto", "Screen", "Nijō Castle"],
     spot: {
-      nameJa: "二条城・洛中",
-      nameEn: "Nijō Castle & Central Kyoto",
-      lat: 35.0142,
-      lng: 135.7482,
+      nameJa: "内裏・京都御所",
+      nameEn: "Imperial Palace (Kyoto Gosho)",
+      lat: 35.0254,
+      lng: 135.7621,
       desc: {
         ja: "メトロポリタン美術館所蔵の「洛中洛外図屏風」。二条城を中心とする洛中の壮麗な建築群と武家・公家・町衆の往来を緻密に描き出しています。",
         en: "Held by the Metropolitan Museum of Art, this screen portrays Nijō Castle and central Kyoto in intricate detail, bustling with samurai, courtiers, and townspeople.",
-      },
-    },
-  },
-  // ---- 鎌倉編 ----
-  {
-    titleen: "",
-    titleJa: "平治物語絵巻",
-    titleEn: "Tale of Heiji",
-    region: "kamakura",
-    theme: "samurai",
-    tags: ["Samurai", "Battle", "History"],
-    status: "coming-soon",
-    spot: {
-      nameJa: "鎌倉国宝館",
-      nameEn: "Kamakura Museum of National Treasures",
-      lat: 35.326,
-      lng: 139.5564,
-      desc: {
-        ja: "平治の乱を描いた合戦絵巻の現存断簡を、鎌倉国宝館が収蔵しています。",
-        en: "Surviving fragments of the battle scroll of the Heiji Rebellion are kept at the Kamakura Museum of National Treasures.",
-      },
-    },
-  },
-  {
-    titleen: "",
-    titleJa: "土蜘蛛草紙",
-    titleEn: "Tsuchigumo Sōshi",
-    region: "kamakura",
-    theme: "samurai",
-    tags: ["Monster", "Yokai", "Sword"],
-    status: "coming-soon",
-    spot: {
-      nameJa: "鎌倉エリア",
-      nameEn: "Kamakura Area",
-      lat: 35.319,
-      lng: 139.551,
-      desc: {
-        ja: "源頼光の土蜘蛛退治を描いた絵巻で、鎌倉ゆかりの武家文化を伝えます。",
-        en: "A scroll of Minamoto no Yorimitsu slaying the Tsuchigumo, carrying on the samurai culture of Kamakura.",
-      },
-    },
-  },
-  {
-    titleen: "",
-    titleJa: "蒙古襲来絵詞",
-    titleEn: "Mōko Shūrai Ekotoba",
-    region: "kamakura",
-    theme: "samurai",
-    tags: ["History", "Invasion", "Samurai"],
-    status: "coming-soon",
-    spot: {
-      nameJa: "鎌倉エリア",
-      nameEn: "Kamakura Area",
-      lat: 35.32,
-      lng: 139.553,
-      desc: {
-        ja: "元寇（蒙古襲来）の戦いを記録した絵詞で、当時の武士の活躍を伝えます。",
-        en: "An illustrated record of the Mongol invasions, telling of the samurai who fought in the era.",
       },
     },
   },
@@ -248,199 +107,158 @@ export const HUB_EMAKIS = [
 
 /**
  * おすすめ観光ルート（手動キュレーション正本）。
- * stops は絵巻由来（titleen → HUB_EMAKIS / scroll-metadata/scrolls/{titleen}.json と JOIN）と
- * 単独スポット（spot 直書き）を混在できる。座標は HUB_EMAKIS と二重管理しない。
+ * stops は spotId で洛中洛外図屏風各本（titleen）と JOIN する。
  */
 export const ROUTES = [
   {
-    id: "kyoto-takao-giga",
+    id: "rakuchu-higashiyama-right-screen",
     region: "kyoto",
-    titleJa: "鳥獣戯画の里・高雄 古道めぐり",
-    titleEn: "Chōjū-giga's Home: Takao Temple Walk",
+    titleJa: "東山・鴨川パノラマコース（右隻の王道）",
+    titleEn: "Higashiyama & Kamo River Panorama (Right Screen Classic)",
     durationJa: "半日",
-    durationEn: "Half day",
+    durationEn: "Half Day",
+    summaryJa:
+      "洛中洛外図の右隻を彩る東山の名刹と鴨川沿いの賑わいを南から北へ辿る王道コース。三伝本すべてに描かれるランドマークを巡ります。",
+    summaryEn:
+      "A classic south-to-north walk along Higashiyama's great temples and the bustling Kamo River—landmarks shared across all three Rakuchu-Rakugai screen versions.",
     summary: {
-      ja: "「日本最古のマンガ」鳥獣人物戯画の伝来の地・高山寺を起点に、同じく高雄に残る古刹を歩きます。",
-      en: "Start at Kōzan-ji, home of Japan's oldest manga, and walk the ancient temples of Takao.",
+      ja: "洛中洛外図の右隻を彩る東山の名刹と鴨川沿いの賑わいを南から北へ辿る王道コース。三伝本すべてに描かれるランドマークを巡ります。",
+      en: "A classic south-to-north walk along Higashiyama's great temples and the bustling Kamo River—landmarks shared across all three Rakuchu-Rakugai screen versions.",
     },
     stops: [
       {
-        titleen: "Chōjū-jinbutsu-giga_first",
-        note: {
-          ja: "鳥獣人物戯画の寺宝を伝える高山寺。",
-          en: "Kōzan-ji, which has handed down Chōjū-jinbutsu-giga.",
-        },
+        lat: 34.9879,
+        lng: 135.7717,
+        titleen: "rakuchu_rakugai_funaki",
+        spotId: "sanjusangendo",
+        name: { ja: "", en: "" },
+        note: { ja: "", en: "" },
       },
       {
-        spot: {
-          nameJa: "神護寺",
-          nameEn: "Jingo-ji",
-          lat: 35.0535,
-          lng: 135.6686,
-        },
-        note: {
-          ja: "空海ゆかりの古刹。紅葉の名所としても有名。",
-          en: "An ancient temple tied to Kūkai, famed for autumn leaves.",
-        },
+        lat: 34.9917,
+        lng: 135.7722,
+        titleen: "rakuchu_rakugai_funaki",
+        spotId: "hokoji-daibutsuden",
       },
       {
-        spot: {
-          nameJa: "西明寺",
-          nameEn: "Saimyō-ji",
-          lat: 35.0505,
-          lng: 135.6657,
-        },
-        note: {
-          ja: "高雄山に残るもう一つの古刹。",
-          en: "Another ancient temple in the Takao mountains.",
-        },
+        lat: 34.9949,
+        lng: 135.785,
+        titleen: "rakuchu_rakugai_funaki",
+        spotId: "kiyomizudera",
+      },
+      {
+        lat: 35.0007,
+        lng: 135.7812,
+        titleen: "rakuchu_rakugai_funaki",
+        spotId: "kodaiin",
+      },
+      {
+        lat: 35.0037,
+        lng: 135.7785,
+        titleen: "rakuchu_rakugai_funaki",
+        spotId: "gion-shrine",
+      },
+      {
+        lat: 35.0038,
+        lng: 135.7712,
+        titleen: "rakuchu_rakugai_funaki",
+        spotId: "shijo-kawara",
       },
     ],
   },
   {
-    id: "kyoto-higashiyama-hell",
+    id: "rakuchu-power-axis-center-left",
     region: "kyoto",
-    titleJa: "東山のダークファンタジー 地獄絵巻ルート",
-    titleEn: "Dark Fantasy Walk: Higashiyama & the Museum",
+    titleJa: "洛中・公家と武家の権力軸コース（中央〜左隻）",
+    titleEn: "Imperial Court & Shogunate Axis (Center to Left Screen)",
+    durationJa: "半日",
+    durationEn: "Half Day",
+    summaryJa:
+      "朝廷の象徴・内裏（御所）から町衆の寺町・高瀬川を経て、幕府権力の象徴・二条城へ至る洛中横断ルート。屏風の中央から左隻への空間構成を体感できます。",
+    summaryEn:
+      "Cross central Kyoto from the imperial palace through merchant temple towns and the Takase River to Nijō Castle—experiencing the screen's center-to-left spatial composition.",
+    summary: {
+      ja: "朝廷の象徴・内裏（御所）から町衆の寺町・高瀬川を経て、幕府権力の象徴・二条城へ至る洛中横断ルート。屏風の中央から左隻への空間構成を体感できます。",
+      en: "Cross central Kyoto from the imperial palace through merchant temple towns and the Takase River to Nijō Castle—experiencing the screen's center-to-left spatial composition.",
+    },
+    stops: [
+      {
+        lat: 35.0254,
+        lng: 135.7621,
+        titleen: "rakuchu_rakugai_funaki",
+        spotId: "imperial-palace",
+      },
+      {
+        lat: 35.0072,
+        lng: 135.7675,
+        titleen: "rakuchu_rakugai_fukuoka",
+        spotId: "seigan-ji",
+      },
+      {
+        lat: 35.0079,
+        lng: 135.7703,
+        titleen: "rakuchu_rakugai_met",
+        spotId: "hidetsugu-mound",
+      },
+      {
+        lat: 35.0142,
+        lng: 135.7481,
+        titleen: "rakuchu_rakugai_funaki",
+        spotId: "nijo-castle",
+      },
+      {
+        lat: 35.0165,
+        lng: 135.7485,
+        titleen: "rakuchu_rakugai_met",
+        spotId: "shoshidai-residence",
+      },
+    ],
+  },
+  {
+    id: "rakuchu-rakuhoku-rakusai-classic",
+    region: "kyoto",
+    titleJa: "洛北・洛西の景勝と王城鎮護コース（第一定型）",
+    titleEn: "Rakuhoku & Rakusai Scenic Landmarks (First Composition)",
     durationJa: "1日",
-    durationEn: "Full day",
+    durationEn: "Full Day",
+    summaryJa:
+      "メトロポリタン本など初期定型の屏風に描かれる洛北・洛西の名勝を巡る広域コース。北の上賀茂神社・金閣寺から西の嵐山・大堰川、南の東寺まで京の四方を一望します。",
+    summaryEn:
+      "A wide-ranging tour of scenic landmarks in the north and west as seen in early canonical screens—from Kamigamo and Kinkaku-ji to Arashiyama, the Ōi River, and Tō-ji in the south.",
     summary: {
-      ja: "地獄草紙・餓鬼草紙を所蔵する京都国立博物館を軸に、隣接する東山の名所を結ぶ一日コース。",
-      en: "A full-day course around the Kyoto National Museum and its hell scrolls, linked with Higashiyama landmarks.",
+      ja: "メトロポリタン本など初期定型の屏風に描かれる洛北・洛西の名勝を巡る広域コース。北の上賀茂神社・金閣寺から西の嵐山・大堰川、南の東寺まで京の四方を一望します。",
+      en: "A wide-ranging tour of scenic landmarks in the north and west as seen in early canonical screens—from Kamigamo and Kinkaku-ji to Arashiyama, the Ōi River, and Tō-ji in the south.",
     },
     stops: [
       {
-        spot: {
-          nameJa: "三十三間堂",
-          nameEn: "Sanjūsangendō",
-          lat: 34.9879,
-          lng: 135.7716,
-        },
-        note: {
-          ja: "1001体の千手観音像が並ぶ圧巻の仏堂。",
-          en: "The hall of 1,001 Kannon statues.",
-        },
+        lat: 35.0596,
+        lng: 135.7525,
+        titleen: "rakuchu_rakugai_met",
+        spotId: "kamigamo-shrine",
       },
       {
-        titleen: "jigokusoushi_anzyuin",
-        note: {
-          ja: "地獄の責め苦を描いた地獄草紙を所蔵。",
-          en: "Holds a Hell Scroll depicting underworld torments.",
-        },
+        lat: 35.0394,
+        lng: 135.7292,
+        titleen: "rakuchu_rakugai_met",
+        spotId: "kinkakuji",
       },
       {
-        titleen: "gakisoushi_kawamoto",
-        note: {
-          ja: "飢えた亡者たちの餓鬼草紙も同館に。",
-          en: "Also holds a Hungry Ghosts Scroll.",
-        },
+        lat: 35.0156,
+        lng: 135.6745,
+        titleen: "rakuchu_rakugai_met",
+        spotId: "tenryuji",
       },
       {
-        spot: {
-          nameJa: "清水寺",
-          nameEn: "Kiyomizu-dera",
-          lat: 34.9948,
-          lng: 135.785,
-        },
-        note: {
-          ja: "東山随一の名所でルートを締めくくる。",
-          en: "End the course at one of Kyoto's most famous sights.",
-        },
-      },
-    ],
-  },
-  {
-    id: "kyoto-sagano-kusouzu",
-    region: "kyoto",
-    titleJa: "嵯峨野の無常 九相図ルート",
-    titleEn: "Impermanence Walk: Sagano & the Kusōzu",
-    durationJa: "半日",
-    durationEn: "Half day",
-    summary: {
-      ja: "九相図巻のモデル・檀林皇后ゆかりの檀林寺から、平安の風葬地・化野念仏寺を経て、旧檀林寺跡に建つ天龍寺へ。無常と死生観の世界を嵯峨野で辿るコース。",
-      en: "From Danrin-ji, tied to Empress Danrin—model of the Kusōzu scroll—through Adashino Nenbutsu-ji, a Heian-era open-air burial ground, to Tenryū-ji, built on the old Danrin-ji site. A walk through impermanence in Sagano.",
-    },
-    stops: [
-      {
-        titleen: "kusouzumaki",
-        note: {
-          ja: "九相図巻のモデル・檀林皇后（橘嘉智子）が開いた、日本最初の禅の寺。",
-          en: "The first Zen temple in Japan, founded by Empress Danrin, model of the Kusōzu scroll.",
-        },
+        lat: 35.0129,
+        lng: 135.6777,
+        titleen: "rakuchu_rakugai_met",
+        spotId: "oi-river",
       },
       {
-        spot: {
-          nameJa: "化野念仏寺",
-          nameEn: "Adashino Nenbutsu-ji",
-          lat: 35.0268,
-          lng: 135.6645,
-        },
-        note: {
-          ja: "鳥辺野・蓮台野と並ぶ平安の風葬地。約8000体の石仏・石塔が無常を語る。",
-          en: "One of three Heian open-air burial grounds, with some 8,000 stone Buddhas bearing witness to impermanence.",
-        },
-      },
-      {
-        spot: {
-          nameJa: "天龍寺",
-          nameEn: "Tenryū-ji",
-          lat: 35.016,
-          lng: 135.6738,
-        },
-        note: {
-          ja: "旧檀林寺の跡地に建つ世界遺産。嵐山の竹林とともにルートを締めくくる。",
-          en: "A World Heritage temple on the former Danrin-ji site, ending the walk amid the Arashiyama bamboo groves.",
-        },
-      },
-    ],
-  },
-  {
-    id: "kamakura-samurai",
-    region: "kamakura",
-    titleJa: "鎌倉 武士の都ルート",
-    titleEn: "Kamakura: The Samurai Capital Walk",
-    durationJa: "半日",
-    durationEn: "Half day",
-    summary: {
-      ja: "武家の都・鎌倉の中心を、平治物語絵巻などの合戦絵巻に想いを馳せながら歩くコース。",
-      en: "Walk the heart of the samurai capital with battle scrolls such as the Tale of Heiji in mind.",
-    },
-    stops: [
-      {
-        spot: {
-          nameJa: "鶴岡八幡宮",
-          nameEn: "Tsurugaoka Hachimangū",
-          lat: 35.3266,
-          lng: 139.5566,
-        },
-        note: {
-          ja: "源氏ゆかりの武家守護の社。",
-          en: "The shrine guarding the Minamoto clan.",
-        },
-      },
-      {
-        spot: {
-          nameJa: "鎌倉国宝館",
-          nameEn: "Kamakura Museum of National Treasures",
-          lat: 35.326,
-          lng: 139.5564,
-        },
-        note: {
-          ja: "平治物語絵巻の現存断簡を収蔵。",
-          en: "Keeps surviving fragments of the Tale of Heiji scroll.",
-        },
-      },
-      {
-        spot: {
-          nameJa: "高徳院（鎌倉大仏）",
-          nameEn: "Kōtoku-in (Great Buddha)",
-          lat: 35.3167,
-          lng: 139.5357,
-        },
-        note: {
-          ja: "鎌倉を代表するシンボルで締めくくる。",
-          en: "End at the iconic Great Buddha of Kamakura.",
-        },
+        lat: 34.9806,
+        lng: 135.7478,
+        titleen: "rakuchu_rakugai_met",
+        spotId: "toji",
       },
     ],
   },

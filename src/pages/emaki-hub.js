@@ -89,7 +89,7 @@ const buildEmakiHubJsonLd = ({ locale, defaultLocale, t, meta, items }) => {
 const buildRoutes = () => {
   return ROUTES.map((route) => ({
     ...route,
-    stops: route.stops.map((stop) => {
+    stops: (route.stops || route.waypoints || []).map((stop) => {
       if (!stop.titleen) return stop;
       const meta = emakisData.find((m) => m.titleen === stop.titleen);
       const hub = HUB_EMAKIS.find((h) => h.titleen === stop.titleen);
