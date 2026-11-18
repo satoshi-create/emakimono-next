@@ -1,11 +1,23 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import Link from "next/link";
 import "leaflet/dist/leaflet.css";
 import { KYOTO_RIVER_POLYLINES } from "@/data/hub/rakuchuRakugaiGeoSpots";
+import { RakuchuMotifCard } from "@/components/rakuchu-rakugai/RakuchuMotifCard";
+import { RAKUCHU_SPOT_MASTERS } from "@/data/rakuchu-rakugai/rakuchuMotifMaster";
 
 const KYOTO_CENTER = { lat: 35.0036, lng: 135.7681 };
 const DEFAULT_ZOOM = 13;
 const FOCUS_ZOOM = 15;
+
+function resolveRakuchuMotif(node) {
+  if (!node) return null;
+  const masterId = node.masterId ?? node.id;
+  const master = RAKUCHU_SPOT_MASTERS.find(
+    (m) => m.masterId === masterId || m.id === masterId
+  );
+  return master
+    ? { ...master, ...node, masterId: master.masterId ?? masterId }
+    : { ...node, masterId };
+}
 
 /**
  * 制御コンポーネントはモジュールスコープに定義し、再レンダー時の再マウントを防ぐ。
@@ -212,14 +224,7 @@ const ScrollSpotMapCanvas = ({
         ))}
         {geoSpots.map((spot, idx) => {
           const isActive = spot.id === activeGeoSpotId;
-          const area = isEn ? spot.areaEn || spot.areaJa : spot.areaJa || spot.areaEn;
-          const name = isEn ? spot.nameEn || spot.nameJa : spot.nameJa || spot.nameEn;
-          const desc = isEn ? spot.descEn || spot.descJa : spot.descJa || spot.descEn;
-          const gmapsUrl = `https://www.google.com/maps/search/?api=1&query=${spot.lat},${spot.lng}`;
           const appearanceCount = spot.appearanceCount ?? 1;
-          const otherScrollLinks = (spot.scrollLinks ?? []).filter(
-            (l) => l.titleen !== currentTitleen
-          );
 
           return (
             <Marker
@@ -236,163 +241,28 @@ const ScrollSpotMapCanvas = ({
                 },
               }}
             >
-              <Popup maxWidth={260}>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "6px",
-                    minWidth: "180px",
-                    fontFamily: "var(--font-ui, sans-serif)",
+              <Popup
+                maxWidth={290}
+                minWidth={250}
+                autoPan
+                autoPanPaddingTopLeft={[24, 48]}
+                autoPanPaddingBottomRight={[24, 40]}
+              >
+                <RakuchuMotifCard
+                  motif={resolveRakuchuMotif(spot)}
+                  variant="popup"
+                  currentScrollTitleen={currentTitleen}
+                  onJumpToCurrentScroll={(href) => {
+                    const m =
+                      typeof href === "string"
+                        ? href.match(/[?&]spot=([^&]+)/)
+                        : null;
+                    if (m) onJumpToScrollSpot?.(decodeURIComponent(m[1]));
+                    else if (spot.matchedSpotId)
+                      onJumpToScrollSpot?.(spot.matchedSpotId);
                   }}
-                >
-                  {area && (
-                    <span
-                      style={{
-                        display: "inline-block",
-                        alignSelf: "flex-start",
-                        padding: "2px 8px",
-                        borderRadius: "9999px",
-                        background: "#f1f5f9",
-                        color: "#334155",
-                        fontSize: "11px",
-                        fontWeight: 600,
-                        lineHeight: 1.4,
-                      }}
-                    >
-                      {area}
-                    </span>
-                  )}
-                  <div
-                    style={{
-                      fontSize: "14px",
-                      fontWeight: 700,
-                      color: "#0f172a",
-                      lineHeight: 1.35,
-                    }}
-                  >
-                    {name}
-                  </div>
-                  <span
-                    style={{
-                      display: "inline-block",
-                      alignSelf: "flex-start",
-                      padding: "2px 8px",
-                      borderRadius: "6px",
-                      background: "#fff7ed",
-                      color: "#c2410c",
-                      fontSize: "10.5px",
-                      fontWeight: 600,
-                      lineHeight: 1.4,
-                      border: "1px solid rgba(194, 65, 12, 0.2)",
-                    }}
-                  >
-                    {isEn
-                      ? `Appears in ${appearanceCount} of 3 scrolls`
-                      : `全3作品中 ${appearanceCount}作品に登場`}
-                  </span>
-                  {desc && (
-                    <p
-                      style={{
-                        margin: 0,
-                        fontSize: "12px",
-                        color: "#475569",
-                        lineHeight: 1.5,
-                      }}
-                    >
-                      {desc}
-                    </p>
-                  )}
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "6px",
-                      marginTop: "4px",
-                    }}
-                  >
-                    {spot.matchedSpotId && (
-                      <button
-                        type="button"
-                        onClick={() => onJumpToScrollSpot?.(spot.matchedSpotId)}
-                        style={{
-                          width: "100%",
-                          padding: "6px 10px",
-                          borderRadius: "6px",
-                          border: "none",
-                          background: "#e11d48",
-                          color: "#ffffff",
-                          fontSize: "12px",
-                          fontWeight: 600,
-                          cursor: "pointer",
-                          textAlign: "center",
-                        }}
-                      >
-                        {isEn ? "View this scene in the scroll" : "絵巻のこの場面を見る"}
-                      </button>
-                    )}
-                    {otherScrollLinks.length > 0 && (
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "6px",
-                        }}
-                      >
-                        <span
-                          style={{
-                            fontSize: "11px",
-                            fontWeight: 600,
-                            color: "#64748b",
-                          }}
-                        >
-                          {isEn ? "Other versions:" : "他伝本:"}
-                        </span>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexWrap: "wrap",
-                            gap: "6px",
-                          }}
-                        >
-                          {otherScrollLinks.map((link) => (
-                            <Link key={link.titleen || link.href} href={link.href} passHref>
-                              <a
-                                style={{
-                                  display: "inline-block",
-                                  padding: "4px 10px",
-                                  borderRadius: "9999px",
-                                  background: "rgba(59, 130, 246, 0.12)",
-                                  color: "#2563eb",
-                                  fontSize: "11px",
-                                  fontWeight: 600,
-                                  textDecoration: "none",
-                                  lineHeight: 1.4,
-                                  border: "1px solid rgba(59, 130, 246, 0.25)",
-                                }}
-                              >
-                                {isEn ? link.labelEn : link.labelJa} ↗
-                              </a>
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                    <a
-                      href={gmapsUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        fontSize: "12px",
-                        color: "var(--clr-link, #065fd4)",
-                        textDecoration: "underline",
-                        textAlign: "center",
-                      }}
-                    >
-                      {isEn ? "Open in Google Maps" : "Google マップで開く"}
-                    </a>
-                  </div>
-                </div>
+                  locale={locale}
+                />
               </Popup>
             </Marker>
           );

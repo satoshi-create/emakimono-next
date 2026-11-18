@@ -30,11 +30,33 @@ const SceneLikeButton = ({
     hydrateLiked(index);
   }, [hydrateLiked, index]);
 
+  useEffect(() => {
+    const onMotifLikeSync = (ev) => {
+      const detail = ev?.detail;
+      if (!detail || detail.titleen !== titleen || detail.index !== index) return;
+      const key = `scene_like_${titleen}_${index}`;
+      void (window.localStorage.getItem(key) === "true");
+      hydrateLiked(index);
+    };
+    window.addEventListener("rakuchu-motif-like-sync", onMotifLikeSync);
+    return () => {
+      window.removeEventListener("rakuchu-motif-like-sync", onMotifLikeSync);
+    };
+  }, [titleen, index, hydrateLiked, isLiked]);
+
   const handleClick = async (e) => {
     e.stopPropagation();
 
     const result = await toggleLike(index);
     if (!result) return;
+
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("rakuchu-motif-like-sync", {
+          detail: { titleen, index },
+        })
+      );
+    }
 
     if (result.liked) {
       setIsAnimating(true);

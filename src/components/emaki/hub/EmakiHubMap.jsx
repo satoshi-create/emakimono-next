@@ -7,6 +7,8 @@ import {
   KYOTO_RIVER_POLYLINES,
 } from "@/data/hub/rakuchuRakugaiGeoSpots";
 import { REGIONS } from "@/data/hub/hubData";
+import { RakuchuMotifCard } from "@/components/rakuchu-rakugai/RakuchuMotifCard";
+import { RAKUCHU_SPOT_MASTERS } from "@/data/rakuchu-rakugai/rakuchuMotifMaster";
 
 const RAKUCHU_TITLEENS = new Set([
   "rakuchu_rakugai_funaki",
@@ -22,6 +24,17 @@ function pickRakuchuSpotId(node, titleen) {
   const idx = (node.presentIn ?? []).indexOf(titleen);
   if (idx >= 0 && idx < aliases.length) return aliases[idx];
   return aliases[0];
+}
+
+function resolveRakuchuMotif(node) {
+  if (!node) return null;
+  const masterId = node.masterId ?? node.id;
+  const master = RAKUCHU_SPOT_MASTERS.find(
+    (m) => m.masterId === masterId || m.id === masterId
+  );
+  return master
+    ? { ...master, ...node, masterId: master.masterId ?? masterId }
+    : { ...node, masterId };
 }
 
 function nodeMatchesTheme(node, theme) {
@@ -381,44 +394,19 @@ const EmakiHubMap = ({
                 icon={makeRouteWaypointIcon(L, idx + 1)}
                 zIndexOffset={800 + idx}
               >
-                <Popup className={styles.mapPopup} maxWidth={260}>
-                  <div className={styles.mapPopupCard}>
-                    <p className={styles.mapPopupTitle}>
-                      {stop.spot.nameJa || stop.nameJa || `${idx + 1}`}
-                    </p>
-                    {stop.spot.nameEn || stop.nameEn ? (
-                      <p className={styles.mapPopupTitleEn}>
-                        {stop.spot.nameEn || stop.nameEn}
-                      </p>
-                    ) : null}
-                    {stop.note && (
-                      <p className={styles.mapPopupDesc}>
-                        {isEn ? stop.note.en : stop.note.ja}
-                      </p>
-                    )}
-                    {stop.titleen && stop.spotId ? (
-                      <Link
-                        href={`/${stop.titleen}?spot=${stop.spotId}`}
-                        passHref
-                      >
-                        <a
-                          className={styles.mapPopupBtn}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {t("emakiHub.viewerBtn")} ↗
-                        </a>
-                      </Link>
-                    ) : null}
-                    <a
-                      className={styles.mapPopupGmap}
-                      href={`https://www.google.com/maps/search/?api=1&query=${stop.spot.lat},${stop.spot.lng}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {t("emakiHub.openMap")}
-                    </a>
-                  </div>
+                <Popup
+                  className={styles.mapPopup}
+                  maxWidth={290}
+                  minWidth={250}
+                  autoPan
+                  autoPanPaddingTopLeft={[24, 48]}
+                  autoPanPaddingBottomRight={[24, 40]}
+                >
+                  <RakuchuMotifCard
+                    motif={resolveRakuchuMotif(stop.spot)}
+                    variant="popup"
+                    locale={locale}
+                  />
                 </Popup>
               </Marker>
             ))}
@@ -444,101 +432,25 @@ const EmakiHubMap = ({
             if (activeScroll && activeScroll !== "all" && !matchesScroll) {
               return null;
             }
-            const count =
-              node.appearanceCount ?? (node.presentIn?.length || 1);
-            const name =
-              locale === "en"
-                ? node.nameEn || node.nameJa
-                : node.nameJa || node.nameEn;
-            const area =
-              locale === "en"
-                ? node.areaEn || node.areaJa
-                : node.areaJa || node.areaEn;
-            const desc =
-              locale === "en"
-                ? node.descEn || node.descJa
-                : node.descJa || node.descEn;
-            const scrollLinks =
-              node.scrollLinks ??
-              (node.presentIn ?? []).map((titleen) => ({
-                titleen,
-                spotId: pickRakuchuSpotId(node, titleen),
-                labelJa:
-                  RAKUCHU_SCROLL_CHIP[titleen]?.labelJa ||
-                  rakuchuScrollLabels[titleen] ||
-                  titleen,
-                labelEn:
-                  RAKUCHU_SCROLL_CHIP[titleen]?.labelEn ||
-                  rakuchuScrollLabels[titleen] ||
-                  titleen,
-                href: `/${titleen}?spot=${pickRakuchuSpotId(node, titleen)}`,
-              }));
             return (
               <Marker
                 key={`rakuchu-geo-${node.id}`}
                 position={[node.lat, node.lng]}
                 icon={makeRakuchuGeoIcon(L, node, themeActive && !matchesTheme)}
               >
-                <Popup className={styles.mapPopup} maxWidth={280}>
-                  <div className={styles.mapPopupCard}>
-                    {area ? (
-                      <p className={styles.mapPopupSpot}>{area}</p>
-                    ) : null}
-                    <p className={styles.mapPopupTitle}>{name}</p>
-                    <p className={styles.mapPopupTitleEn}>
-                      {isEn
-                        ? `Appears in ${count} of 3 scrolls`
-                        : `全3作品中 ${count}作品に登場`}
-                    </p>
-                    {desc ? (
-                      <p className={styles.mapPopupDesc}>{desc}</p>
-                    ) : null}
-                    <div
-                      style={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        gap: "6px",
-                        marginTop: "4px",
-                      }}
-                    >
-                      {scrollLinks.map((link) => {
-                        const titleen = link.titleen;
-                        const href =
-                          link.href ||
-                          `/${titleen}?spot=${link.spotId ?? pickRakuchuSpotId(node, titleen)}`;
-                        const chip = RAKUCHU_SCROLL_CHIP[titleen];
-                        const label = isEn
-                          ? link.labelEn || chip?.labelEn || titleen
-                          : link.labelJa || chip?.labelJa || titleen;
-                        return (
-                          <Link key={`${node.id}-${titleen}`} href={href} passHref>
-                            <a
-                              className={styles.mapPopupBtn}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              style={{
-                                display: "inline-block",
-                                padding: "4px 10px",
-                                borderRadius: "9999px",
-                                fontSize: "11px",
-                                fontWeight: 600,
-                              }}
-                            >
-                              {label} ↗
-                            </a>
-                          </Link>
-                        );
-                      })}
-                    </div>
-                    <a
-                      className={styles.mapPopupGmap}
-                      href={`https://www.google.com/maps/search/?api=1&query=${node.lat},${node.lng}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {t("emakiHub.openMap")}
-                    </a>
-                  </div>
+                <Popup
+                  className={styles.mapPopup}
+                  maxWidth={290}
+                  minWidth={250}
+                  autoPan
+                  autoPanPaddingTopLeft={[24, 48]}
+                  autoPanPaddingBottomRight={[24, 40]}
+                >
+                  <RakuchuMotifCard
+                    motif={resolveRakuchuMotif(node)}
+                    variant="popup"
+                    locale={locale}
+                  />
                 </Popup>
               </Marker>
             );
