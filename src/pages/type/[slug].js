@@ -46,13 +46,18 @@ export const getStaticPaths = async (context) => {
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
 
-  const paths = typeItem(tEmakisData).map(({ typeen }) => ({
-    params: {
-      slug: typeen,
-    },
-    locale: "ja",
-  }));
-  paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
+  const validSlugs = [
+    ...new Set(
+      typeItem(tEmakisData)
+        .map(({ typeen }) => typeen)
+        .filter((slug) => typeof slug === "string" && slug.trim().length > 0)
+        .map((slug) => slug.trim())
+    ),
+  ];
+  const paths = validSlugs.flatMap((slug) => [
+    { params: { slug }, locale: "ja" },
+    { params: { slug }, locale: "en" },
+  ]);
   return {
     paths: paths,
     fallback: false,

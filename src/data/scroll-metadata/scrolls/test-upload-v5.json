@@ -1,0 +1,88 @@
+{
+  "id": 995,
+  "title": "テスト絵巻 v5（リファクタリング後・最終動作確認用）",
+  "titleen": "test-upload-v5",
+  "author": "作者不詳",
+  "authoren": "Unknown Artist",
+  "edition": "",
+  "encodeUrl": "",
+  "backgroundImage": "",
+  "thumb": "/thumb/test-upload-v5_thumb.webp",
+  "thumb2": "",
+  "video": "",
+  "era": "江戸時代",
+  "eraen": "edo",
+  "desc": "リファクタリング後のローカル先行検証・Cloudflare R2 本番同期・UIゴミ箱削除の最終動作確認用サンプルデータです。",
+  "descen": "Sample scroll configuration for final verification of local-first preview, Cloudflare R2 delivery, and UI trash deletion after refactoring.",
+  "readMore": false,
+  "type": "絵巻",
+  "typeen": "emaki",
+  "keyword": [
+    {
+      "name": "江戸時代",
+      "id": "edo",
+      "slug": "edo"
+    },
+    {
+      "name": "絵巻",
+      "id": "emaki",
+      "slug": "emaki"
+    }
+  ],
+  "kotobagaki": false,
+  "sceneText": "kotobagaki",
+  "favorite": false,
+  "sourceImageUrl": "https://example.org/emaki/test-upload-v5",
+  "sourceImage": "テスト所蔵デジタルアーカイブ v5",
+  "metadesc": "",
+  "gif": "",
+  "sourceEkotoba": "",
+  "reference": [
+    {
+      "type": "所蔵機関",
+      "url": "https://example.org/emaki/test-upload-v5",
+      "title": "テスト絵巻 v5（開発検証用デジタル資料）"
+    }
+  ],
+  "emakis": [
+    {
+      "cat": "ekotoba",
+      "chapter": "1",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "test-upload-v5__test-upload-v5_1_01__01.webp",
+      "name": "test-upload-v5__test-upload-v5_1_01__01",
+      "srcHeight": 1080,
+      "srcWidth": 306
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "test-upload-v5__test-upload-v5_1_01__02.webp",
+      "name": "test-upload-v5__test-upload-v5_1_01__02",
+      "srcHeight": 1080,
+      "srcWidth": 464
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "test-upload-v5__test-upload-v5_1_01__03.webp",
+      "name": "test-upload-v5__test-upload-v5_1_01__03",
+      "srcHeight": 1080,
+      "srcWidth": 374
+    }
+  ],
+  "sourceAuthor": "作者不詳",
+  "sourceCollection": "開発検証用コレクション",
+  "sourceLicense": "CC BY 4.0"
+}

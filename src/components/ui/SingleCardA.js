@@ -34,8 +34,8 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
     return { rank: index + 1, pageView: rankingData[index].pageView };
   }, [rankingData, titleen]);
 
-  const viewerHref = item.viewerHref || `/${titleen}`;
-  const filterDesc = desc.substring(0, 40);
+const viewerHref = item.viewerHref || `/${titleen}`;
+const filterDesc = typeof desc === "string" ? desc.substring(0, 40) : "";
   const descTemp = `${title} ${
     author && `（${author}）`
   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
