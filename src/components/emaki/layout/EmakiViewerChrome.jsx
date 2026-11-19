@@ -12,6 +12,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getGeoSpotsForScroll } from "@/data/hub/rakuchuRakugaiGeoSpots";
 import zoomStyles from "@/styles/ZoomLayer.module.css";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { TbRectangle } from "react-icons/tb";
 import ScrollSightseeingMapDrawer from "../viewer/ScrollSightseeingMapDrawer";
@@ -61,60 +62,87 @@ export function EmakiViewerChrome({
 
   return (
     <>
-      {process.env.NODE_ENV === "development" && scroll && (
-        <button
-          type="button"
-          onClick={handleToggleEditSpots}
+      {scroll && (process.env.NODE_ENV === "development" || hasGeoSpots) && (
+        <div
           style={{
             position: "absolute",
             top: 12,
             right: 12,
             zIndex: 120,
-            padding: "6px 10px",
-            fontSize: 12,
-            fontWeight: 600,
-            borderRadius: 6,
-            border: "1px solid rgba(255, 255, 255, 0.35)",
-            background: isEditSpotsMode
-              ? "rgba(255, 140, 119, 0.92)"
-              : "rgba(20, 20, 20, 0.75)",
-            color: "#fff",
-            cursor: "pointer",
-          }}
-        >
-          {isEditSpotsMode ? "編集終了（通常表示へ）" : "スポット編集"}
-        </button>
-      )}
-      {scroll && hasGeoSpots && (
-        <button
-          type="button"
-          onClick={handleOpenDrawer}
-          style={{
-            position: "absolute",
-            top: 12,
-            right: process.env.NODE_ENV === "development" ? 116 : 12,
-            zIndex: 120,
-            display: "inline-flex",
+            display: "flex",
             alignItems: "center",
-            gap: 6,
-            padding: "6px 12px",
-            fontSize: 12,
-            fontWeight: 600,
-            borderRadius: 9999,
-            border: "none",
-            background: "rgba(255, 255, 255, 0.94)",
-            color: "#1e293b",
-            boxShadow: "0 2px 8px rgba(15, 23, 42, 0.16)",
-            cursor: "pointer",
+            gap: 8,
           }}
         >
-          <FontAwesomeIcon
-            icon={faMapLocationDot}
-            style={{ color: "#c2410c", fontSize: 14 }}
-            aria-hidden
-          />
-          {locale === "en" ? "Kyoto Map" : "京都マップ"}
-        </button>
+          {hasGeoSpots && (
+            <button
+              type="button"
+              onClick={handleOpenDrawer}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "6px 12px",
+                fontSize: 12,
+                fontWeight: 600,
+                borderRadius: 9999,
+                border: "none",
+                background: "rgba(255, 255, 255, 0.94)",
+                color: "#1e293b",
+                boxShadow: "0 2px 8px rgba(15, 23, 42, 0.16)",
+                cursor: "pointer",
+              }}
+            >
+              <FontAwesomeIcon
+                icon={faMapLocationDot}
+                style={{ color: "#c2410c", fontSize: 14 }}
+                aria-hidden
+              />
+              {locale === "en" ? "Kyoto Map" : "京都マップ"}
+            </button>
+          )}
+          {process.env.NODE_ENV === "development" && (
+            <>
+              <Link href="/dev">
+                <a
+                  style={{
+                    padding: "6px 10px",
+                    fontSize: 12,
+                    fontWeight: 600,
+                    borderRadius: 6,
+                    border: "1px solid rgba(255, 255, 255, 0.35)",
+                    background: "rgba(20, 20, 20, 0.75)",
+                    color: "#fff",
+                    cursor: "pointer",
+                    textDecoration: "none",
+                    display: "inline-flex",
+                    alignItems: "center",
+                  }}
+                >
+                  開発ハブ (/dev)
+                </a>
+              </Link>
+              <button
+                type="button"
+                onClick={handleToggleEditSpots}
+                style={{
+                  padding: "6px 10px",
+                  fontSize: 12,
+                  fontWeight: 600,
+                  borderRadius: 6,
+                  border: "1px solid rgba(255, 255, 255, 0.35)",
+                  background: isEditSpotsMode
+                    ? "rgba(255, 140, 119, 0.92)"
+                    : "rgba(20, 20, 20, 0.75)",
+                  color: "#fff",
+                  cursor: "pointer",
+                }}
+              >
+                {isEditSpotsMode ? "編集終了（通常表示へ）" : "スポット編集"}
+              </button>
+            </>
+          )}
+        </div>
       )}
       {scroll && (
         <FullScreen isUIVisible={isUIVisible} isBarFloating={commentaryFloating || isZoomed} />

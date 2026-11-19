@@ -1,0 +1,79 @@
+{
+  "id": "test-upload-v4",
+  "title": "test-upload-v4",
+  "titleen": "test-upload-v4",
+  "author": "",
+  "authoren": "",
+  "era": "",
+  "eraen": "",
+  "type": "",
+  "typeen": "",
+  "desc": "",
+  "descen": "",
+  "thumb": "/thumb/test-upload-v4_thumb.webp",
+  "sceneText": "",
+  "sourceImage": "",
+  "sourceImageUrl": "",
+  "sourceAuthor": "",
+  "sourceCollection": "",
+  "sourceLicense": "",
+  "reference": "",
+  "keyword": [],
+  "delivery": "local",
+  "images": [
+    {
+      "chapter": "1",
+      "src": "/dev-scroll-images/test-upload-v4/test-upload-v4_01-1080.jpg",
+      "filename": "test-upload-v4_01-1080.jpg"
+    },
+    {
+      "chapter": "2",
+      "src": "/dev-scroll-images/test-upload-v4/test-upload-v4_02-1080.jpg",
+      "filename": "test-upload-v4_02-1080.jpg"
+    },
+    {
+      "chapter": "3",
+      "src": "/dev-scroll-images/test-upload-v4/test-upload-v4_03-1080.jpg",
+      "filename": "test-upload-v4_03-1080.jpg"
+    }
+  ],
+  "chapters": [],
+  "emakis": [
+    {
+      "cat": "ekotoba",
+      "chapter": "1",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 1080,
+      "srcWidth": 1920
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "local",
+      "src": "/dev-scroll-images/test-upload-v4/test-upload-v4_01-1080.jpg",
+      "name": "test-upload-v4_01-1080",
+      "srcHeight": 1080,
+      "srcWidth": 434
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "local",
+      "src": "/dev-scroll-images/test-upload-v4/test-upload-v4_02-1080.jpg",
+      "name": "test-upload-v4_02-1080",
+      "srcHeight": 1080,
+      "srcWidth": 452
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "local",
+      "src": "/dev-scroll-images/test-upload-v4/test-upload-v4_03-1080.jpg",
+      "name": "test-upload-v4_03-1080",
+      "srcHeight": 1080,
+      "srcWidth": 387
+    }
+  ]
+}

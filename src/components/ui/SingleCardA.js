@@ -1,7 +1,7 @@
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/CardA.module.css";
 import { eraColor } from "@/utils/func";
-import { faEye, faTrophy } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faTrash, faTrophy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
@@ -43,6 +43,34 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
   const baseUrl =
     "https://res.cloudinary.com/dw2gjxrrf/image/upload/fl_progressive";
 
+  const handleDevDeleteScroll = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const confirmed = window.confirm(
+      `開発環境: 「${title || titleen}」（${titleen}）のローカルJSON・画像・サムネイルを削除しますか？`
+    );
+    if (!confirmed) return;
+    try {
+      const res = await fetch("/api/dev/delete-scroll", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ titleen }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) {
+        window.location.reload();
+      } else {
+        alert(
+          data.error ||
+            data.message ||
+            `削除に失敗しました (${res.status})`
+        );
+      }
+    } catch (err) {
+      alert(err?.message || String(err));
+    }
+  };
+
   return (
     <div className={styles.cardOuter} onClick={closeSearchModal}>
       {sectiontitle === "さまざまな絵巻" && (
@@ -51,7 +79,33 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
           {sectiontitle === "横スクロールで楽しむワイド美術" && type}
         </h4>
       )}
-      <div className={styles.card}>
+      <div className={styles.card} style={{ position: "relative" }}>
+        {process.env.NODE_ENV === "development" && titleen ? (
+          <button
+            type="button"
+            aria-label="開発: 作品削除"
+            onClick={handleDevDeleteScroll}
+            style={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+              zIndex: 20,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 32,
+              height: 32,
+              padding: 0,
+              border: "1px solid rgba(185, 28, 28, 0.5)",
+              borderRadius: 6,
+              backgroundColor: "rgba(220, 38, 38, 0.9)",
+              color: "#fff",
+              cursor: "pointer",
+            }}
+          >
+            <FontAwesomeIcon icon={faTrash} style={{ fontSize: 14 }} />
+          </button>
+        ) : null}
         <div className={styles.single}>
           <Link href={viewerHref}>
             <a className={styles.singleLink}>

@@ -10,10 +10,7 @@
  * 変換は version / public_id の前に置く:
  *   .../upload/{transforms}/v{version}/emakimono/{id}.jpg
  */
-import {
-  ENABLE_R2_DELIVERY,
-  R2_CANARY_WORK_TITLES,
-} from "@/config/r2MigrationConfig";
+import { shouldUseR2Delivery } from "@/config/r2MigrationConfig";
 
 export const CLOUDINARY_UPLOAD_BASE =
   "https://res.cloudinary.com/dw2gjxrrf/image/upload";
@@ -23,36 +20,89 @@ export const R2_UPLOAD_BASE =
   "https://assets.emakimono.com";
 
 /**
- * R2 配信対象かどうかを判定する（作品単位カナリア判定・部分一致禁止）
+ * R2 配信対象かどうかを判定する（未移行作品以外は R2・部分一致禁止）
  */
 function isR2DeliveryTarget(publicId, options = {}) {
-  if (!ENABLE_R2_DELIVERY) return false;
-
   // 1. 明示指定（フォールバック時の "cloudinary" 強制やメタデータ上の "r2" 指定）を最優先
   if (options?.delivery === "r2") return true;
   if (options?.delivery === "cloudinary") return false;
 
-  // 2. 作品の titleen が渡されている場合は完全一致で判定
-  if (options?.workTitleEn && R2_CANARY_WORK_TITLES.has(options.workTitleEn)) {
-    return true;
+  // 2. 作品の titleen が渡されている場合
+  if (options?.workTitleEn) {
+    return shouldUseR2Delivery(options.workTitleEn);
   }
 
   // 3. 後方互換（options 未指定の既存2引数呼び出し向け）:
-  //    "emakimono/{slug}__" の {slug} 部分のみを厳密抽出して完全一致照合
+  //    "emakimono/{slug}__" の {slug} 部分のみを厳密抽出して titleen 相当で判定
   const normalized = String(publicId || "").replace(/^v\d+\//, "");
   const match = normalized.match(/^(?:emakimono\/)?([^/_]+?)__/);
-  if (!match) return false;
+  if (!match) return shouldUseR2Delivery(null);
 
   const slugHyphen = match[1];
   const slugUnderscore = slugHyphen.replace(/-/g, "_");
   return (
-    R2_CANARY_WORK_TITLES.has(slugHyphen) ||
-    R2_CANARY_WORK_TITLES.has(slugUnderscore)
+    shouldUseR2Delivery(slugHyphen) || shouldUseR2Delivery(slugUnderscore)
   );
 }
 
+function resolveWorkTitleEn(publicId, options = {}) {
+  if (options?.workTitleEn) {
+    return String(options.workTitleEn);
+  }
+  const normalized = String(publicId || "").replace(/^v\d+\//, "");
+  const match = normalized.match(/^(?:emakimono\/)?([^/_]+?)__/);
+  return match ? match[1] : null;
+}
+
+function isWorkInLocalPreviewList(workTitleEn) {
+  const raw =
+    typeof process !== "undefined"
+      ? process.env.NEXT_PUBLIC_LOCAL_PREVIEW_SCROLLS
+      : "";
+  if (!raw || !workTitleEn) return false;
+  return raw
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .includes(workTitleEn);
+}
+
+function shouldUseLocalDelivery(publicId, options = {}) {
+  if (
+    String(publicId || "").startsWith("/dev-scroll-images/") ||
+    String(publicId || "").replace(/^\//, "").startsWith("dev-scroll-images/")
+  ) {
+    return true;
+  }
+  if (options?.delivery === "local") return true;
+  const workTitleEn = resolveWorkTitleEn(publicId, options);
+  return isWorkInLocalPreviewList(workTitleEn);
+}
+
+function extractLocalImageFileName(publicId, r2Key) {
+  if (r2Key) {
+    const key = String(r2Key).replace(/^\//, "");
+    const segment = key.split("/").pop();
+    if (segment) return segment;
+  }
+  const id = String(publicId || "").replace(/^\//, "").replace(/^v\d+\//, "");
+  const segment = id.split("/").pop();
+  return segment || id;
+}
+
 export function buildCloudinaryUrl(src, transforms = [], options = {}) {
+  if (typeof src === "string" && src.startsWith("/dev-scroll-images/")) {
+    return src;
+  }
   let publicId = String(src || "").replace(/^\//, "");
+
+  if (shouldUseLocalDelivery(publicId, options)) {
+    const workTitleEn = resolveWorkTitleEn(publicId, options);
+    const baseName = extractLocalImageFileName(publicId, options?.r2Key);
+    if (workTitleEn && baseName) {
+      return `/dev-scroll-images/${workTitleEn}/${baseName}`;
+    }
+  }
 
   // Cloudflare Worker / R2 経由でキャッシュ付き WebP を直接配信
   if (isR2DeliveryTarget(publicId, options)) {

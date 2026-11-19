@@ -1,0 +1,62 @@
+{
+  "titleen": "test-upload-v3",
+  "thumb": "/thumb/test-upload-v3_thumb.webp",
+  "delivery": "local",
+  "images": [
+    {
+      "chapter": "1",
+      "src": "/dev-scroll-images/test-upload-v3/test-upload-v3_01-1080.jpg",
+      "filename": "test-upload-v3_01-1080.jpg"
+    },
+    {
+      "chapter": "2",
+      "src": "/dev-scroll-images/test-upload-v3/test-upload-v3_02-1080.jpg",
+      "filename": "test-upload-v3_02-1080.jpg"
+    },
+    {
+      "chapter": "3",
+      "src": "/dev-scroll-images/test-upload-v3/test-upload-v3_03-1080.jpg",
+      "filename": "test-upload-v3_03-1080.jpg"
+    }
+  ],
+  "chapters": [],
+  "emakis": [
+    {
+      "cat": "ekotoba",
+      "chapter": "1",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "local",
+      "src": "/dev-scroll-images/test-upload-v3/test-upload-v3_01-1080.jpg",
+      "name": "test-upload-v3_01-1080",
+      "srcHeight": 1080,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "local",
+      "src": "/dev-scroll-images/test-upload-v3/test-upload-v3_02-1080.jpg",
+      "name": "test-upload-v3_02-1080",
+      "srcHeight": 1080,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "local",
+      "src": "/dev-scroll-images/test-upload-v3/test-upload-v3_03-1080.jpg",
+      "name": "test-upload-v3_03-1080",
+      "srcHeight": 1080,
+      "srcWidth": 0
+    }
+  ],
+  "title": "test-upload-v3"
+}

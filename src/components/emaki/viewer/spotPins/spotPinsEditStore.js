@@ -1,3 +1,5 @@
+import { DEV_API_ROUTES } from "@/lib/dev/apiRoutes";
+
 // =============================================================================
 // デバッグスイッチ（検証完了後は false にして一括停止）
 // =============================================================================
@@ -320,7 +322,7 @@ export function discardPendingForSlug(slug) {
 
 export async function savePendingUpdatesToApi(
   rawSlug,
-  endpoint = "/api/dev/update-spot",
+  endpoint = DEV_API_ROUTES.UPDATE_SPOT,
 ) {
   const key = normalizeStoreSlug(rawSlug);
   const bySpot = pendingUpdatesBySlug.get(key);
@@ -357,7 +359,7 @@ export async function savePendingUpdatesToApi(
     logDebug("STORE:saveRequest", { slug: key, quizUpdates, spotUpdates });
 
     if (quizUpdates.length > 0) {
-      const quizRes = await fetch("/api/dev/update-quiz-target", {
+      const quizRes = await fetch(DEV_API_ROUTES.UPDATE_QUIZ_TARGET, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ quizId: key, updates: quizUpdates }),
@@ -389,7 +391,7 @@ export async function savePendingUpdatesToApi(
     }
 
     if (spotUpdates.length > 0) {
-      const spotEndpoint = endpoint || "/api/dev/update-spot";
+      const spotEndpoint = endpoint || DEV_API_ROUTES.UPDATE_SPOT;
       const res = await fetch(spotEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

@@ -16,6 +16,14 @@ export function resolveScrollConfigPath(scrollId) {
 }
 
 /**
+ * @param {string} scrollId
+ * @returns {string}
+ */
+export function resolveScrollDir(scrollId) {
+  return path.join("scrolls", scrollId);
+}
+
+/**
  * scrolls/{scrollId}/scroll_config.yaml の存在を確認する。
  * @param {string} scrollId
  * @returns {boolean}
@@ -35,7 +43,7 @@ export function buildScrollUploadArgv({ scrollId, args = [] }) {
       `scroll_config.yaml not found: ${resolveScrollConfigPath(scrollId)}`
     );
   }
-  return [SCROLL_UPLOAD_SCRIPT, scrollId, ...args];
+  return [SCROLL_UPLOAD_SCRIPT, resolveScrollDir(scrollId), ...args];
 }
 
 // === 2. パイプライン実行（Process Execution） ===

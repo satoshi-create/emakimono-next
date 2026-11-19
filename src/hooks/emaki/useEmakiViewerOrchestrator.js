@@ -6,7 +6,7 @@
  *   境界 state 管理・パノラマスポット算出を一元化するオーケストレーターフック。
  * - UI コンポーネント側は返却される状態・ハンドラ・Ref を JSX に配線するのみとする。
  */
-import { useEbikiCoordinatePicker } from "@/components/emaki/dev/EbikiCoordinatePicker";
+import { useEbikiCoordinatePicker } from "@/components/dev/EbikiCoordinatePicker";
 import { ALL_QUIZZES } from "@/data/quiz/index";
 import { AppContext } from "@/context/AppContext";
 import { assignUniqueIndex } from "@/utils/emakiItemIndexer";

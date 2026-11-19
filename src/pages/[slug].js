@@ -240,6 +240,30 @@ const Emaki = ({ data, locale, locales, slug }) => {
     }
   };
 
+  const handleDevDeleteScroll = async () => {
+    if (!data?.titleen) return;
+    const label = data.title || data.titleen;
+    const confirmed = window.confirm(
+      `開発環境: 「${label}」（${data.titleen}）のローカルJSON・画像・サムネイルを削除しますか？`
+    );
+    if (!confirmed) return;
+    try {
+      const res = await fetch("/api/dev/delete-scroll", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ titleen: data.titleen }),
+      });
+      const payload = await res.json();
+      if (res.ok && payload.ok) {
+        window.location.href = "/";
+        return;
+      }
+      alert(payload?.error || payload?.message || "削除に失敗しました");
+    } catch (err) {
+      alert(err?.message || "削除に失敗しました");
+    }
+  };
+
   return (
     <>
       <Head
@@ -256,6 +280,29 @@ const Emaki = ({ data, locale, locales, slug }) => {
       <SceneLikeCountsProvider emakiId={data.titleen}>
         {matchMediaContainer(toggleFullscreen, orientation)}
       </SceneLikeCountsProvider>
+      {process.env.NODE_ENV === "development" && data?.titleen ? (
+        <button
+          type="button"
+          onClick={handleDevDeleteScroll}
+          aria-label="開発用: 作品削除"
+          style={{
+            position: "fixed",
+            bottom: 20,
+            right: 20,
+            zIndex: 9999,
+            padding: "8px 12px",
+            fontSize: "12px",
+            cursor: "pointer",
+            background: "#fff",
+            border: "1px solid #c62828",
+            color: "#c62828",
+            borderRadius: "6px",
+            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+          }}
+        >
+          開発用: 作品削除 🗑
+        </button>
+      ) : null}
     </>
   );
 };

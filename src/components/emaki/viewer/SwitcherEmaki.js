@@ -1,4 +1,4 @@
-import { EbikiPickerOverlay } from "@/components/emaki/dev/EbikiCoordinatePicker";
+import { EbikiPickerOverlay } from "@/components/dev/EbikiCoordinatePicker";
 import EmakiImage from "@/components/emaki/viewer/EmakiImage";
 import SpotPins from "@/components/emaki/viewer/SpotPins";
 import { AppContext } from "@/context/AppContext";
