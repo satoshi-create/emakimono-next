@@ -182,10 +182,7 @@ const SpotPins = ({
 
   const layoutOffsets = offsetById;
 
-  if (
-    !mergedSpots.length &&
-    !(isEditMode && (placeModeOn || placeDraft != null))
-  ) {
+  if (!mergedSpots.length && !isEditMode) {
     return null;
   }
 

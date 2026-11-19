@@ -76,7 +76,7 @@ const EmakiLandscapContent = ({
   } = useViewerDiscoveryRailState({
     viewerFullscreen,
     articleRef,
-    stickyTheater: isByobuScroll(data),
+    stickyTheater: isByobuScroll(data) || data?.typeen === "birdseye",
   });
 
   const removeNestedArrayObj = ExtractingListData();

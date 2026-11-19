@@ -22,6 +22,16 @@ KNOWN_ERAEN = frozenset(
         "aduchimomoyama",
         "edo",
         "meiji",
+        "showa",
+    }
+)
+
+# typeen codes used by category filters / viewer routing (lowercase URL slugs)
+KNOWN_TYPEEN = frozenset(
+    {
+        "emaki",
+        "byobu",
+        "birdseye",
     }
 )
 

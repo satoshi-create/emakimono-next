@@ -3,7 +3,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getFolkloreItemById } from "@/data/folklore/folkloreIndex";
-import { isByobuScroll } from "@/utils/isByobuScroll";
+import { isSpotGuideScroll } from "@/utils/isByobuScroll";
+import { buildPanoramaSpots } from "@/hooks/emaki/usePanoramaSpots";
 import { scrollPositionStore } from "@/hooks/emaki/scrollPositionStore";
 
 /** 鑑賞者向け通し番号（1始まり）の算出: 詞書ありは段数(activeIndex+1)、詞書なしはスライス通し番号 */
@@ -217,7 +218,14 @@ export default function useEmakiSpotNavigation({
   const [selectedSpotId, setSelectedSpotId] = useState(null);
 
   const selectedSpot = useMemo(() => {
-    if (!selectedSpotId || !Array.isArray(data?.emakis)) return null;
+    if (!selectedSpotId) return null;
+    if (Array.isArray(data?.spots)) {
+      const top = data.spots.find(
+        (s) => s?.id && String(s.id) === String(selectedSpotId)
+      );
+      if (top) return top;
+    }
+    if (!Array.isArray(data?.emakis)) return null;
     for (let i = 0; i < data.emakis.length; i += 1) {
       const slice = data.emakis[i];
       if (slice?.cat !== "image" || !Array.isArray(slice.spots)) continue;
@@ -230,7 +238,7 @@ export default function useEmakiSpotNavigation({
   }, [selectedSpotId, data?.emakis]);
 
   const allSpots = useMemo(() => {
-    if (!isByobuScroll(data) || !Array.isArray(data?.emakis)) return [];
+    if (!isSpotGuideScroll(data) || !Array.isArray(data?.emakis)) return [];
     const rows = [];
     let spotGlobalIndex = 0;
     data.emakis.forEach((slice, sliceIndex) => {
@@ -248,6 +256,29 @@ export default function useEmakiSpotNavigation({
         spotGlobalIndex += 1;
       });
     });
+    const seenIds = new Set(rows.map((r) => String(r.spot.id)));
+    const { panoramaSpots } = buildPanoramaSpots(data);
+    for (const spot of panoramaSpots) {
+      if (!spot?.id || seenIds.has(String(spot.id))) continue;
+      const resolved = resolvePanoramaCoordToSlice(
+        data.emakis,
+        Number(spot.x),
+        Number(spot.y)
+      );
+      const sliceIndex = resolved?.sliceIndex ?? 0;
+      const slice = data.emakis[sliceIndex];
+      const linkId =
+        typeof slice?.linkId === "number" ? slice.linkId : sliceIndex;
+      rows.push({
+        spot,
+        linkId,
+        sliceIndex,
+        spotGlobalIndex,
+        sliceSrc: slice?.src ?? null,
+      });
+      spotGlobalIndex += 1;
+      seenIds.add(String(spot.id));
+    }
     return rows;
   }, [data]);
 
@@ -260,7 +291,7 @@ export default function useEmakiSpotNavigation({
       const nextQuery = { ...query, spot: id };
       delete nextQuery.scene;
       replace({ pathname, query: nextQuery }, undefined, { shallow: true });
-      const landing = resolveSpotDeepLink(data?.emakis || [], id);
+      const landing = resolveSpotDeepLink(data, id);
       if (!landing) return;
       appliedSpotRef.current = id;
       handleToId(landing.linkId, {
@@ -310,7 +341,7 @@ export default function useEmakiSpotNavigation({
       const nextQuery = { ...query, spot: nextId };
       delete nextQuery.scene;
       replace({ pathname, query: nextQuery }, undefined, { shallow: true });
-      const landing = resolveSpotDeepLink(data?.emakis || [], nextId);
+      const landing = resolveSpotDeepLink(data, nextId);
       if (!landing) return;
       appliedSpotRef.current = nextId;
       let targetScale = 2.6;
@@ -474,7 +505,7 @@ export default function useEmakiSpotNavigation({
         pendingStr !== null && spotId !== pendingStr;
       if (!queryStale) {
         if (spotId && appliedSpotRef.current !== spotId) {
-          const landing = resolveSpotDeepLink(data?.emakis || [], querySpot);
+          const landing = resolveSpotDeepLink(data, querySpot);
           if (landing) {
             appliedSpotRef.current = spotId;
             setSelectedSpotId(spotId);

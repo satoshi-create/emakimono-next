@@ -15,6 +15,7 @@
  */
 import styles from "@/styles/ZoomLayer.module.css";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import { useEffect, useMemo, useState, useRef } from "react";
 import { ALL_QUIZZES } from "@/data/quiz/index";
 import {
@@ -58,6 +59,9 @@ const ZoomLayer = ({
   selectedSpotId,
 }) => {
   const { t } = useTranslation("common");
+  const router = useRouter();
+  const isEditSpotsMode =
+    process.env.NODE_ENV === "development" && router.query.editSpots === "1";
 
   // [1] 状態管理 (State)
   const [showHint, setShowHint] = useState(true);
@@ -229,9 +233,9 @@ const ZoomLayer = ({
                     ...aspectStyle,
                   }}
                 />
-                {!hasPanoramaSpots && s.spots?.length > 0 && (
+                {!hasPanoramaSpots && (s.spots?.length > 0 || isEditSpotsMode) && (
                   <SpotPins
-                    spots={s.spots}
+                    spots={s.spots ?? []}
                     linkId={s.linkId}
                     zoomScale={safeScale}
                     data={data}
@@ -243,7 +247,8 @@ const ZoomLayer = ({
               </div>
             );
           })}
-          {hasPanoramaSpots && (
+          {(hasPanoramaSpots || isEditSpotsMode) &&
+            (Array.isArray(data?.spots) || hasPanoramaSpots) && (
             <SpotPins
               spots={mappedStripSpots}
               isPanorama

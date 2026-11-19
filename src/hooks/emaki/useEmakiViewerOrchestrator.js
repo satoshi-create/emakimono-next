@@ -29,7 +29,7 @@ import useEmakiViewerLifecycle, {
   computeNextContentMounted,
 } from "@/hooks/emaki/useEmakiViewerLifecycle";
 import { useEmakiPrompts } from "@/hooks/emaki/useEmakiPrompts";
-import { isByobuScroll } from "@/utils/isByobuScroll";
+import { isByobuScroll, isSpotGuideScroll } from "@/utils/isByobuScroll";
 import { scrollPositionStore } from "@/hooks/emaki/scrollPositionStore";
 import { useCallback, useContext, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
@@ -485,6 +485,7 @@ export default function useEmakiViewerOrchestrator({
 
   const hasCommentaryData = Boolean(scroll);
   const isByobu = isByobuScroll(data);
+  const isSpotGuide = isSpotGuideScroll(data);
 
   return {
     refs: {
@@ -500,6 +501,7 @@ export default function useEmakiViewerOrchestrator({
       viewerTopInset,
       hasCommentaryData,
       isByobu,
+      isSpotGuide,
       isPalmMode,
       isZoomed,
       hasNextVolume,

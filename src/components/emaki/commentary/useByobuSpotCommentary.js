@@ -2,7 +2,7 @@
  * 屏風モード: スポット選択・目次行・表示用メタの算出。
  */
 import { useMemo } from "react";
-import { isByobuScroll } from "@/utils/isByobuScroll";
+import { isSpotGuideScroll } from "@/utils/isByobuScroll";
 import {
   SCROLL_EDITIONS,
   SCROLL_PILL_LABELS,
@@ -201,7 +201,9 @@ export function useByobuSpotCommentary({
 }) {
   // 1. 屏風スポットモード判定
   const isByobuSpotMode =
-    isByobuScroll(data) && Array.isArray(allSpots) && allSpots.length > 0;
+    isSpotGuideScroll(data) &&
+    Array.isArray(allSpots) &&
+    allSpots.length > 0;
 
   // 2. 選択中スポットエントリの解決
   const activeByobuSpotEntry = useMemo(() => {

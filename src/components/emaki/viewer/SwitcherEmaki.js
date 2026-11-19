@@ -100,7 +100,7 @@ const SwitcherEmaki = forwardRef(
       cat === "image" && !usePanoramaSpots ? item.spots : null;
     // 絵引ピッカー時も absolute オーバーレイ基準が必要なので relative を付与
     const showChapterTitle = Boolean(
-      chapterTitle && chapterToggle && !isByobu
+      chapterTitle && chapterToggle && !isByobu && data?.typeen !== "birdseye"
     );
     const needsRelativeLayer = Boolean(
       spots?.length ||
@@ -190,9 +190,10 @@ const SwitcherEmaki = forwardRef(
             </h3>
           </div>
         ) : null}
-        {isImage && spots?.length ? (
+        {isImage && (spots?.length || isEditSpotsMode) ? (
           <SpotPins
-            spots={spots}
+            spots={spots ?? []}
+            sliceIndex={index}
             linkId={item.linkId}
             data={data}
             ebikiPickerEnabled={ebikiPickerEnabled}

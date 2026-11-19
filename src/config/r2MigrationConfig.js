@@ -20,6 +20,7 @@ export const R2_CANARY_WORK_TITLES = new Set([
   "kuso-zu",
   "kusoushi",
   "kusouzu",
+  "kyoto-birdseye-1947",
   "nine-stages-of-decay-empress-danrin",
   "rakuchu-rakugai-funaki",
   "rakuchu_rakugai_funaki",

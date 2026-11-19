@@ -119,12 +119,13 @@ export function useEmakiSceneCommentary({
   const prevActiveIndexRef = useRef(activeIndex);
 
   useEffect(() => {
+    if (isByobuSpotMode) return;
     if (prevActiveIndexRef.current !== activeIndex) {
       prevActiveIndexRef.current = activeIndex;
       setViewMode("commentary");
       setIsFolkloreOpen(false);
     }
-  }, [activeIndex, setViewMode, setIsFolkloreOpen]);
+  }, [activeIndex, isByobuSpotMode, setViewMode, setIsFolkloreOpen]);
 
   // 3. 段目次行
   const indexRows = useMemo(() => {

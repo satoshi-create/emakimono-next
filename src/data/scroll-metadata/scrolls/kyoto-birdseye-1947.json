@@ -1,0 +1,116 @@
+{
+  "id": 107,
+  "title": "京都とその周辺鳥瞰図（京都鳥瞰図絵）",
+  "titleen": "kyoto-birdseye-1947",
+  "author": "吉田初三郎",
+  "authoren": "yoshida-hatsusaburo",
+  "edition": "1947年版（ポケットマップ）",
+  "encodeUrl": "",
+  "backgroundImage": "",
+  "thumb": "/thumb/kyoto-birdseye-1947_thumb.webp",
+  "thumb2": "",
+  "video": "",
+  "era": "昭和",
+  "eraen": "showa",
+  "desc": "1947年（昭和22年）、吉田初三郎によって描かれた京都とその周辺の鳥瞰図（縦27cm×横76cm）。戦後の国際観光再開期にツーリスト・ビューローおよび案内所から発行されたポケットマップで、平安神宮や金閣寺、碁盤の目の街路網、盆地を囲む山々や河川が鮮やかな色彩とデフォルメを交えたパノラマ視点で表現されている。",
+  "descen": "A colorful bird's-eye view pocket map of Kyoto and its environs created by Hatsusaburo Yoshida in 1947 (27 cm x 76 cm). Published by the Tourist Bureau and Guide Office just after WWII as Japan reopened to international tourism, it blends traditional Japanese artistic sensibility with cartographic detail, highlighting Heian Shrine, Kinkaku-ji, Kyoto's grid street pattern, rivers, and surrounding mountains.",
+  "readMore": false,
+  "type": "鳥瞰図",
+  "typeen": "birdseye",
+  "keyword": [
+    {
+      "name": "吉田初三郎",
+      "id": "yoshida-hatsusaburo",
+      "slug": "yoshida-hatsusaburo"
+    },
+    {
+      "name": "鳥瞰図",
+      "id": "birdseye-view",
+      "slug": "birdseye-view"
+    },
+    {
+      "name": "京都",
+      "id": "kyoto",
+      "slug": "kyoto"
+    },
+    {
+      "name": "昭和",
+      "id": "showa",
+      "slug": "showa"
+    }
+  ],
+  "kotobagaki": false,
+  "sceneText": true,
+  "favorite": false,
+  "sourceImageUrl": "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~289630~90061422:Bird-s-eye-view-Kyoto-and-its-envir?sort=pub_list_no_initialsort%2Cpub_date%2Cpub_list_no%2Cseries_no&mi=16&trs=18&qvq=q:Yoshida;sort:pub_list_no_initialsort%2Cpub_date%2Cpub_list_no%2Cseries_no;lc:RUMSEY~8~1",
+  "sourceImage": "Bird's-eye-view Kyoto and its environs (List No. 11110.002)",
+  "metadesc": "",
+  "gif": "",
+  "sourceEkotoba": "",
+  "reference": [
+    {
+      "type": "所蔵機関",
+      "url": "https://www.davidrumsey.com/luna/servlet/detail/RUMSEY~8~1~289630~90061422:Bird-s-eye-view-Kyoto-and-its-envir?sort=pub_list_no_initialsort%2Cpub_date%2Cpub_list_no%2Cseries_no&mi=16&trs=18&qvq=q:Yoshida;sort:pub_list_no_initialsort%2Cpub_date%2Cpub_list_no%2Cseries_no;lc:RUMSEY~8~1",
+      "title": "Bird's-eye-view Kyoto and its environs (List No. 11110.002)"
+    }
+  ],
+  "emakis": [
+    {
+      "cat": "ekotoba",
+      "chapter": "1",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "kyoto-birdseye-1947__kyoto-birdseye-1947_1_01__01.webp",
+      "name": "kyoto-birdseye-1947__kyoto-birdseye-1947_1_01__01",
+      "srcHeight": 1080,
+      "srcWidth": 1315
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "2",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "kyoto-birdseye-1947__kyoto-birdseye-1947_1_02__01.webp",
+      "name": "kyoto-birdseye-1947__kyoto-birdseye-1947_1_02__01",
+      "srcHeight": 1080,
+      "srcWidth": 1314
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "3",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "kyoto-birdseye-1947__kyoto-birdseye-1947_1_03__01.webp",
+      "name": "kyoto-birdseye-1947__kyoto-birdseye-1947_1_03__01",
+      "srcHeight": 1080,
+      "srcWidth": 1314
+    }
+  ],
+  "sourceAuthor": "Yoshida, Hatsusaburo",
+  "sourceCollection": "David Rumsey Map Collection, David Rumsey Map Center, Stanford Libraries",
+  "sourceLicense": "CC BY-NC-SA 3.0"
+}

@@ -12,4 +12,17 @@ export function isByobuScroll(data) {
   return data?.typeen === "byobu";
 }
 
+/** 鳥瞰図（typeen === "birdseye"） */
+export function isBirdseyeScroll(data) {
+  return data?.typeen === "birdseye";
+}
+
+/**
+ * スポットバッジ式コメントバー（屏風・鳥瞰図）。
+ * 物理レイアウト（屏風スライス寸法等）は isByobuScroll のまま分離する。
+ */
+export function isSpotGuideScroll(data) {
+  return isByobuScroll(data) || isBirdseyeScroll(data);
+}
+
 export default isByobuScroll;

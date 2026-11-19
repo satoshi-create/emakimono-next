@@ -35,9 +35,25 @@ const useScrollPositionRestore = ({
       scrollPositionStore.emakiId === null ||
       scrollPositionStore.emakiId === dataId;
 
-    // 初回マウントかつ保存なし → スキップ（入場 hash は handleToId 側）
-    if (!hasRatio && !scrollPositionStore.isTransitioning) return;
     if (!sameEmaki) return;
+    if (!hasRatio && !scrollPositionStore.isTransitioning) {
+      let abortedInit = false;
+      const r1 = requestAnimationFrame(() => {
+        const r2 = requestAnimationFrame(() => {
+          if (abortedInit) return;
+          const el = articleRef?.current;
+          if (el) el.scrollLeft = 0;
+          if (typeof handleToIdRef?.current === "function") {
+            handleToIdRef.current(0);
+          }
+        });
+        return () => cancelAnimationFrame(r2);
+      });
+      return () => {
+        abortedInit = true;
+        cancelAnimationFrame(r1);
+      };
+    }
 
     scrollPositionStore.restored = false;
     scrollPositionStore.isTransitioning = true;
@@ -103,7 +119,7 @@ const useScrollPositionRestore = ({
       if (
         !aborted &&
         typeof toId === "function" &&
-        sceneId > 0 &&
+        sceneId >= 0 &&
         (!ok || stuckAtStart)
       ) {
         toId(sceneId);

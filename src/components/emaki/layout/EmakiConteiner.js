@@ -104,6 +104,12 @@ const EmakiContainer = ({
 
   const stageTouchAction = isMapDrawerOpen ? "none" : "pan-x pan-y";
 
+  const usePanoramaSpotLayer =
+    Array.isArray(data?.spots) ||
+    Boolean(
+      layoutState.panoramaSpots?.some((s) => s?.quizQuestionId != null)
+    );
+
   // 2. ビューアレイアウト描画
   return (
     <div
@@ -201,7 +207,9 @@ const EmakiContainer = ({
                 />
               );
             })}
-            {!layoutState.isZoomed && layoutState.hasPanoramaSpots && (
+            {!layoutState.isZoomed &&
+              usePanoramaSpotLayer &&
+              (layoutState.hasPanoramaSpots || layoutState.isEditSpotsMode) && (
               <SpotPins
                 spots={layoutState.panoramaSpots}
                 isPanorama
@@ -232,7 +240,7 @@ const EmakiContainer = ({
         {layoutState.hasCommentaryData &&
           !layoutState.ebikiPickerEnabled &&
           !layoutState.isEditSpotsMode &&
-          ((layoutState.isByobu && layoutState.allSpots.length > 0) ||
+          ((layoutState.isSpotGuide && layoutState.allSpots.length > 0) ||
             (!layoutState.isZoomed || Boolean(layoutState.selectedSpot))) && (
             <SceneCommentaryBar
               {...commentaryBarProps}
