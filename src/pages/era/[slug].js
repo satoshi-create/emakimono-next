@@ -70,13 +70,19 @@ export default Emaki;
 export const getStaticPaths = async (context) => {
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
-  const paths = eraItem(tEmakisData).map(({ eraen }) => ({
-    params: {
-      slug: eraen,
-    },
-    locale: "ja",
-  }));
-  paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
+  const slugs = [
+    ...new Set(
+      eraItem(tEmakisData)
+        .map(({ eraen }) => eraen)
+        .filter(
+          (slug) => typeof slug === "string" && slug.trim().length > 0
+        )
+    ),
+  ];
+  const paths = slugs.flatMap((slug) => [
+    { params: { slug }, locale: "ja" },
+    { params: { slug }, locale: "en" },
+  ]);
   return {
     paths: paths,
     fallback: false,
