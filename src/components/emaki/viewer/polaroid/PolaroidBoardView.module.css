@@ -364,3 +364,130 @@
   opacity: 0.95;
   background: rgba(255, 255, 255, 0.65);
 }
+
+/* =============================================================================
+ * コラボボード（複数人共有ルーム）用UIスタイル
+ * ============================================================================= */
+
+.collabCreateBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid #d97706;
+  background: #fffbeb;
+  color: #b45309;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.collabCreateBtn:hover:not(:disabled) {
+  background: #fef3c7;
+}
+
+.collabCreateBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.collabBanner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 16px;
+  background: linear-gradient(90deg, #fffbeb 0%, #fef3c7 100%);
+  border-bottom: 1px solid #fcd34d;
+  color: #78350f;
+  font-size: 12px;
+  z-index: 20;
+}
+
+.collabBannerLeft {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.collabBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #d97706;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.collabTitleInput {
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #451a03;
+  min-width: 180px;
+}
+
+.collabTitleInput:focus {
+  outline: none;
+  border-color: #d97706;
+  background: #ffffff;
+}
+
+.collabBannerRight {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.authorNameInput {
+  border: 1px solid #fbbf24;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  color: #1f2937;
+  width: 130px;
+}
+
+.authorNameInput:focus {
+  outline: none;
+  border-color: #d97706;
+}
+
+.collabMiniBtn {
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid #d97706;
+  background: #ffffff;
+  color: #92400e;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.collabMiniBtn:hover {
+  background: #fef3c7;
+}
+
+.authorTag {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}

@@ -33,6 +33,7 @@ import {
   getThemeTextureUrl,
 } from "./polaroid/polaroidCanvasRenderer";
 import { appendBoardItem } from "./polaroid/polaroidBoardStorage";
+import { addCollabBoardItem } from "@/libs/api/ugcApi";
 
 // --- 分割・抽出された責務別カスタムフック ---
 import { usePolaroidPanZoom } from "./polaroid/usePolaroidPanZoom";
@@ -593,6 +594,52 @@ export function PolaroidModal({
           >
             {isEn ? "Save" : "保存"}
           </button>
+          {(() => {
+            let activeRoom = null;
+            if (typeof window !== "undefined") {
+              try {
+                const raw = window.sessionStorage.getItem("emakimono_active_collab_room_v1");
+                if (raw) activeRoom = JSON.parse(raw);
+              } catch {
+                activeRoom = null;
+              }
+            }
+            if (!activeRoom?.id) return null;
+            return (
+              <button
+                type="button"
+                className={styles.secondaryBtn || styles.closeBtn}
+                style={{ borderColor: "#d97706", color: "#b45309", background: "#fffbeb" }}
+                onClick={async () => {
+                  const authorName =
+                    typeof window !== "undefined"
+                      ? window.localStorage.getItem("emakimono_polaroid_author_v1") || ""
+                      : "";
+                  try {
+                    await addCollabBoardItem(activeRoom.id, {
+                      scrollId,
+                      sceneIndex: selectedIndex,
+                      src,
+                      pan,
+                      zoom,
+                      coverScale,
+                      theme: currentTheme,
+                      displayTitle,
+                      displayChapter,
+                      message,
+                      authorName,
+                    });
+                    handleModalClose();
+                    router.push(`/board?room=${encodeURIComponent(activeRoom.id)}`);
+                  } catch (error) {
+                    alert(error.message || "コラボボードへの投稿に失敗しました");
+                  }
+                }}
+              >
+                {isEn ? "Pin to Collab Board" : "コラボボードに貼る"}
+              </button>
+            );
+          })()}
           <button
             type="button"
             className={styles.secondaryBtn || styles.closeBtn}
@@ -615,7 +662,7 @@ export function PolaroidModal({
               router.push("/board");
             }}
           >
-            {isEn ? "Pin to Board" : "ボードに貼る"}
+            {isEn ? "Pin to My Board" : "マイボードに貼る"}
           </button>
           <button
             type="button"

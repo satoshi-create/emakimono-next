@@ -1,7 +1,7 @@
 import {
   readScrollMetadata,
   writeScrollMetadata,
-} from "@/lib/scroll-pipeline/scrollMetadataFs";
+} from "@/libs/scroll-pipeline/scrollMetadataFs";
 
 function clampAndRound(val) {
   const n = Number(val);

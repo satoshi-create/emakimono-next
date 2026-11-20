@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import { SCROLL_METADATA_DIR, SCROLLS_WORKSPACE_DIR } from "@/lib/scroll-pipeline/scrollMetadataFs";
+import { SCROLL_METADATA_DIR, SCROLLS_WORKSPACE_DIR } from "@/libs/scroll-pipeline/scrollMetadataFs";
 
 // === 1. 定数・ファイル走査（FS Operations） ===
 

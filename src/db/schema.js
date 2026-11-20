@@ -56,3 +56,43 @@ export const scrollFeedback = sqliteTable("scroll_feedback", {
     .notNull()
     .$defaultFn(() => new Date()),
 });
+
+// =============================================================================
+// ポラロイド・コラボホワイトボード（複数人共有ルーム）
+// =============================================================================
+
+export const polaroidBoards = sqliteTable("polaroid_boards", {
+  id: text("id").primaryKey(),
+  title: text("title").notNull().default("みんなのポラロイドボード"),
+  createdByHash: text("created_by_hash").notNull(),
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
+    .notNull()
+    .$defaultFn(() => new Date()),
+});
+
+export const polaroidBoardItems = sqliteTable("polaroid_board_items", {
+  id: text("id").primaryKey(),
+  boardId: text("board_id")
+    .notNull()
+    .references(() => polaroidBoards.id, { onDelete: "cascade" }),
+  scrollId: text("scroll_id").notNull(),
+  sceneIndex: integer("scene_index").notNull().default(0),
+  src: text("src").notNull(),
+  panX: integer("pan_x").notNull().default(0),
+  panY: integer("pan_y").notNull().default(0),
+  zoom: text("zoom").notNull().default("1"),
+  coverScale: text("cover_scale").notNull().default("1"),
+  theme: text("theme").notNull().default("classic"),
+  displayTitle: text("display_title").notNull().default(""),
+  displayChapter: text("display_chapter").notNull().default(""),
+  message: text("message").notNull().default(""),
+  boardX: integer("board_x").notNull().default(0),
+  boardY: integer("board_y").notNull().default(0),
+  rotate: text("rotate").notNull().default("0"),
+  zIndex: integer("z_index").notNull().default(1),
+  authorName: text("author_name").notNull().default(""),
+  visitorHash: text("visitor_hash").notNull(),
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
+    .notNull()
+    .$defaultFn(() => new Date()),
+});

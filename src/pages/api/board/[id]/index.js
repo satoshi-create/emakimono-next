@@ -1,0 +1,128 @@
+import { getDb } from "@/db";
+import { polaroidBoardItems, polaroidBoards } from "@/db/schema";
+import {
+  ensureDbConfigured,
+  ensureMethod,
+  parseNonEmptyString,
+  sendApiError,
+} from "@/libs/api/dbApi";
+import { getVisitorHash } from "@/libs/api/visitorHash";
+import { asc, eq } from "drizzle-orm";
+
+// =============================================================================
+// 1. DBレコード → フロントエンド互換アイテム形式への変換
+// =============================================================================
+
+export function serializeBoardItem(row, currentVisitorHash) {
+  return {
+    id: row.id,
+    scrollId: row.scrollId,
+    sceneIndex: row.sceneIndex,
+    src: row.src,
+    pan: { x: row.panX, y: row.panY },
+    zoom: Number(row.zoom) || 1,
+    coverScale: Number(row.coverScale) || 1,
+    theme: row.theme || "classic",
+    displayTitle: row.displayTitle || "",
+    displayChapter: row.displayChapter || "",
+    message: row.message || "",
+    boardX: row.boardX,
+    boardY: row.boardY,
+    rotate: Number(row.rotate) || 0,
+    zIndex: row.zIndex,
+    authorName: row.authorName || "",
+    canEdit: Boolean(currentVisitorHash && row.visitorHash === currentVisitorHash),
+    createdAt: row.createdAt ? new Date(row.createdAt).getTime() : Date.now(),
+  };
+}
+
+// =============================================================================
+// 2. メソッド別ハンドラ（GET: ボード＆全カード取得 / PATCH: タイトル更新）
+// =============================================================================
+
+async function handleGet(req, res, boardId) {
+  try {
+    const db = getDb();
+    const boards = await db
+      .select()
+      .from(polaroidBoards)
+      .where(eq(polaroidBoards.id, boardId))
+      .limit(1);
+
+    if (boards.length === 0) {
+      return sendApiError(res, 404, "Board not found");
+    }
+
+    const rows = await db
+      .select()
+      .from(polaroidBoardItems)
+      .where(eq(polaroidBoardItems.boardId, boardId))
+      .orderBy(asc(polaroidBoardItems.zIndex), asc(polaroidBoardItems.createdAt));
+
+    const visitorHash = getVisitorHash(req);
+    const board = boards[0];
+
+    res.setHeader("Cache-Control", "no-store");
+    return res.status(200).json({
+      board: {
+        id: board.id,
+        title: board.title,
+        isOwner: board.createdByHash === visitorHash,
+        createdAt: board.createdAt ? new Date(board.createdAt).getTime() : Date.now(),
+      },
+      items: rows.map((row) => serializeBoardItem(row, visitorHash)),
+    });
+  } catch (error) {
+    console.error("GET /api/board/[id] failed:", error);
+    return sendApiError(res, 500, "Failed to fetch board");
+  }
+}
+
+async function handlePatch(req, res, boardId) {
+  const title = parseNonEmptyString(req.body?.title, 100);
+  if (!title) {
+    return sendApiError(res, 400, "Invalid title");
+  }
+
+  try {
+    const db = getDb();
+    const existing = await db
+      .select({ id: polaroidBoards.id })
+      .from(polaroidBoards)
+      .where(eq(polaroidBoards.id, boardId))
+      .limit(1);
+
+    if (existing.length === 0) {
+      return sendApiError(res, 404, "Board not found");
+    }
+
+    await db
+      .update(polaroidBoards)
+      .set({ title })
+      .where(eq(polaroidBoards.id, boardId));
+
+    return res.status(200).json({ ok: true, title });
+  } catch (error) {
+    console.error("PATCH /api/board/[id] failed:", error);
+    return sendApiError(res, 500, "Failed to update board title");
+  }
+}
+
+// =============================================================================
+// 3. エントリポイント
+// =============================================================================
+
+export default async function handler(req, res) {
+  if (!ensureDbConfigured(res)) return;
+  if (!ensureMethod(req, res, ["GET", "PATCH"])) return;
+
+  const boardId = parseNonEmptyString(req.query.id, 64);
+  if (!boardId) {
+    return sendApiError(res, 400, "Invalid board id");
+  }
+
+  if (req.method === "GET") {
+    return handleGet(req, res, boardId);
+  }
+  return handlePatch(req, res, boardId);
+}

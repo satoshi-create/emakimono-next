@@ -95,3 +95,61 @@ export async function postScrollFeedback({
     { ignore503: false }
   );
 }
+
+// =============================================================================
+// 4. ポラロイド・コラボホワイトボード API クライアント
+// =============================================================================
+
+export async function createCollabBoard({ title, authorName, items = [] } = {}) {
+  return requestJson("/api/board", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title, authorName, items }),
+    ignore503: false,
+  });
+}
+
+export async function fetchCollabBoard(boardId) {
+  return requestJson(`/api/board/${encodeURIComponent(boardId)}`, {
+    ignore503: false,
+  });
+}
+
+export async function updateCollabBoardTitle(boardId, title) {
+  return requestJson(`/api/board/${encodeURIComponent(boardId)}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title }),
+    ignore503: false,
+  });
+}
+
+export async function addCollabBoardItem(boardId, item) {
+  return requestJson(`/api/board/${encodeURIComponent(boardId)}/items`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(item),
+    ignore503: false,
+  });
+}
+
+export async function updateCollabBoardItem(boardId, payload) {
+  return requestJson(`/api/board/${encodeURIComponent(boardId)}/items`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+    ignore503: false,
+  });
+}
+
+export async function deleteCollabBoardItem(boardId, itemId) {
+  return requestJson(
+    `/api/board/${encodeURIComponent(boardId)}/items?itemId=${encodeURIComponent(
+      itemId
+    )}`,
+    {
+      method: "DELETE",
+      ignore503: false,
+    }
+  );
+}

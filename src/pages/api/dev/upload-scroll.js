@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import { executeScrollUpload } from "@/lib/scroll-pipeline/runScrollPipeline";
+import { executeScrollUpload } from "@/libs/scroll-pipeline/runScrollPipeline";
 
 export const config = {
   api: { bodyParser: { sizeLimit: "100mb" } },

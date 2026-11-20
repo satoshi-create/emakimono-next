@@ -14,6 +14,13 @@ import {
   encodeBoardShareUrl,
   decodeBoardShareParam,
 } from "./polaroidBoardStorage";
+import {
+  createCollabBoard,
+  fetchCollabBoard,
+  updateCollabBoardTitle,
+  updateCollabBoardItem,
+  deleteCollabBoardItem,
+} from "@/libs/api/ugcApi";
 
 const CARD_PHOTO_W = 216;
 const CARD_PHOTO_H = Math.round((CARD_PHOTO_W * PHOTO_DH) / PHOTO_DW); // 168px (720:560比率)
@@ -71,13 +78,23 @@ function PolaroidCardPreview({ item }) {
   );
 }
 
+const ACTIVE_COLLAB_ROOM_KEY = "emakimono_active_collab_room_v1";
+const AUTHOR_NAME_KEY = "emakimono_polaroid_author_v1";
+
 export function PolaroidBoardView() {
   const router = useRouter();
   const isEn = router.locale === "en";
   const sharedParam = typeof router.query.d === "string" ? router.query.d : "";
+  const roomParam = typeof router.query.room === "string" ? router.query.room.trim() : "";
 
   const [items, setItems] = useState([]);
   const [isSharedMode, setIsSharedMode] = useState(false);
+  const [collabBoard, setCollabBoard] = useState(null);
+  const [collabTitleDraft, setCollabTitleDraft] = useState("");
+  const [authorName, setAuthorName] = useState("");
+  const [isCreatingRoom, setIsCreatingRoom] = useState(false);
+  const [roomError, setRoomError] = useState("");
+  const isCollabMode = Boolean(roomParam);
   const [copied, setCopied] = useState(false);
   const [activeId, setActiveId] = useState(null);
   const [viewport, setViewport] = useState({ x: 0, y: 0, scale: 1 });
@@ -101,7 +118,49 @@ export function PolaroidBoardView() {
   });
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    const savedAuthor = window.localStorage.getItem(AUTHOR_NAME_KEY) || "";
+    setAuthorName(savedAuthor);
+  }, []);
+
+  const loadCollabRoom = async (roomId) => {
+    try {
+      const data = await fetchCollabBoard(roomId);
+      setCollabBoard(data.board);
+      setCollabTitleDraft(data.board?.title || "");
+      setItems(Array.isArray(data.items) ? data.items : []);
+      setRoomError("");
+      if (typeof window !== "undefined") {
+        window.sessionStorage.setItem(
+          ACTIVE_COLLAB_ROOM_KEY,
+          JSON.stringify({ id: roomId, title: data.board?.title || "" })
+        );
+      }
+    } catch (error) {
+      setRoomError(error.message || "Failed to load board");
+    }
+  };
+
+  useEffect(() => {
     if (!router.isReady) return;
+
+    if (roomParam) {
+      setIsSharedMode(false);
+      loadCollabRoom(roomParam);
+      const timer = setInterval(() => {
+        if (!dragStateRef.current?.id) {
+          loadCollabRoom(roomParam);
+        }
+      }, 10000);
+      return () => clearInterval(timer);
+    }
+
+    setCollabBoard(null);
+    setRoomError("");
+    if (typeof window !== "undefined") {
+      window.sessionStorage.removeItem(ACTIVE_COLLAB_ROOM_KEY);
+    }
+
     if (sharedParam) {
       const restored = decodeBoardShareParam(sharedParam);
       if (restored) {
@@ -112,12 +171,59 @@ export function PolaroidBoardView() {
     }
     setItems(loadBoardItems());
     setIsSharedMode(false);
-  }, [router.isReady, sharedParam]);
+  }, [router.isReady, sharedParam, roomParam]);
 
   const updateAndPersist = (nextItems) => {
     setItems(nextItems);
-    if (!isSharedMode) {
+    if (!isSharedMode && !isCollabMode) {
       saveBoardItems(nextItems);
+    }
+  };
+
+  const handleAuthorNameChange = (val) => {
+    setAuthorName(val);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(AUTHOR_NAME_KEY, val);
+    }
+  };
+
+  const handleCreateCollabRoom = async () => {
+    if (isCreatingRoom) return;
+    setIsCreatingRoom(true);
+    try {
+      const res = await createCollabBoard({
+        title: isEn ? "Shared Emaki Polaroid Board" : "みんなの絵巻ポラロイドボード",
+        authorName,
+        items,
+      });
+      if (res?.board?.id) {
+        router.push(`/board?room=${encodeURIComponent(res.board.id)}`);
+      }
+    } catch (error) {
+      alert(error.message || "コラボボードの作成に失敗しました");
+    } finally {
+      setIsCreatingRoom(false);
+    }
+  };
+
+  const handleCopyCollabInviteUrl = async () => {
+    if (typeof window === "undefined") return;
+    const url = window.location.href;
+    await navigator.clipboard?.writeText(url);
+    alert(
+      isEn
+        ? "Collab invite URL copied!"
+        : "コラボボードの招待URLをコピーしました！リンクを送ると誰でもポラロイドを貼れます。"
+    );
+  };
+
+  const handleSaveCollabTitle = async () => {
+    if (!roomParam || !collabTitleDraft.trim()) return;
+    try {
+      await updateCollabBoardTitle(roomParam, collabTitleDraft.trim());
+      setCollabBoard((prev) => (prev ? { ...prev, title: collabTitleDraft.trim() } : prev));
+    } catch {
+      // ignore
     }
   };
 
@@ -186,12 +292,34 @@ export function PolaroidBoardView() {
     });
   };
 
-  const handleCanvasWheel = (e) => {
-    if (e.target.tagName === "TEXTAREA") return;
-    e.preventDefault();
-    const factor = e.deltaY < 0 ? 1.1 : 0.9;
-    applyZoomAtPoint(viewport.scale * factor, e.clientX, e.clientY);
-  };
+  useEffect(() => {
+    const el = canvasOuterRef.current;
+    if (!el) return;
+
+    const onWheelNative = (e) => {
+      if (e.target.tagName === "TEXTAREA") return;
+      e.preventDefault();
+      const factor = e.deltaY < 0 ? 1.1 : 0.9;
+      setViewport((prev) => {
+        const nextScale = Math.min(2.5, Math.max(0.35, Number((prev.scale * factor).toFixed(3))));
+        const rect = el.getBoundingClientRect();
+        if (!rect) {
+          return { ...prev, scale: nextScale };
+        }
+        const localX = e.clientX - rect.left;
+        const localY = e.clientY - rect.top;
+        const ratio = nextScale / prev.scale;
+        return {
+          x: localX - (localX - prev.x) * ratio,
+          y: localY - (localY - prev.y) * ratio,
+          scale: nextScale,
+        };
+      });
+    };
+
+    el.addEventListener("wheel", onWheelNative, { passive: false });
+    return () => el.removeEventListener("wheel", onWheelNative);
+  }, []);
 
   const handleZoomStep = (delta) => {
     const rect = canvasOuterRef.current?.getBoundingClientRect();
@@ -247,9 +375,23 @@ export function PolaroidBoardView() {
     } catch {
       // noop
     }
+    const movedId = st.id;
     dragStateRef.current = { id: null, startX: 0, startY: 0, origX: 0, origY: 0 };
     setItems((prev) => {
-      if (!isSharedMode) saveBoardItems(prev);
+      if (!isSharedMode && !isCollabMode) {
+        saveBoardItems(prev);
+      }
+      if (isCollabMode && roomParam) {
+        const moved = prev.find((it) => it.id === movedId);
+        if (moved) {
+          updateCollabBoardItem(roomParam, {
+            itemId: movedId,
+            boardX: moved.boardX,
+            boardY: moved.boardY,
+            zIndex: moved.zIndex,
+          }).catch(() => {});
+        }
+      }
       return prev;
     });
   };
@@ -257,11 +399,17 @@ export function PolaroidBoardView() {
   const handleMessageChange = (id, message) => {
     const next = items.map((it) => (it.id === id ? { ...it, message, memo: "" } : it));
     updateAndPersist(next);
+    if (isCollabMode && roomParam) {
+      updateCollabBoardItem(roomParam, { itemId: id, message }).catch(() => {});
+    }
   };
 
   const handleDelete = (id) => {
     const next = items.filter((it) => it.id !== id);
     updateAndPersist(next);
+    if (isCollabMode && roomParam) {
+      deleteCollabBoardItem(roomParam, id).catch(() => {});
+    }
   };
 
   const handleCopyShareUrl = async () => {
@@ -303,32 +451,91 @@ export function PolaroidBoardView() {
         </div>
 
         <div className={styles.headerRight}>
-          {isSharedMode ? (
-            <button
-              type="button"
-              onClick={handleSaveSharedToMyBoard}
-              className={styles.saveSharedBtn}
-            >
+          {isCollabMode ? (
+            <>
+              <button type="button" onClick={handleCopyCollabInviteUrl} className={styles.primaryBtn}>
+                {isEn ? "Copy Invite Link" : "招待URLをコピー"}
+              </button>
+              <button type="button" onClick={() => router.push("/board")} className={styles.collabMiniBtn}>
+                {isEn ? "My Board" : "マイボードへ戻る"}
+              </button>
+            </>
+          ) : isSharedMode ? (
+            <button type="button" onClick={handleSaveSharedToMyBoard} className={styles.saveSharedBtn}>
               {isEn ? "Save to My Board" : "自分のボードに保存して編集"}
             </button>
           ) : (
-            <button
-              type="button"
-              disabled={items.length === 0}
-              onClick={handleCopyShareUrl}
-              className={styles.primaryBtn}
-            >
-              {copied
-                ? isEn
-                  ? "Share URL Copied!"
-                  : "共有URLをコピーしました！"
-                : isEn
-                ? "Copy Share URL"
-                : "共有URLをコピー"}
-            </button>
+            <>
+              <button
+                type="button"
+                disabled={isCreatingRoom}
+                onClick={handleCreateCollabRoom}
+                className={styles.collabCreateBtn}
+              >
+                {isCreatingRoom
+                  ? isEn
+                    ? "Creating..."
+                    : "作成中..."
+                  : isEn
+                  ? "Start Collab Board"
+                  : "みんなで貼るコラボボード作成"}
+              </button>
+              <button
+                type="button"
+                disabled={items.length === 0}
+                onClick={handleCopyShareUrl}
+                className={styles.primaryBtn}
+              >
+                {copied
+                  ? isEn
+                    ? "Share URL Copied!"
+                    : "共有URLをコピーしました！"
+                  : isEn
+                  ? "Copy Static Link"
+                  : "閲覧用URLをコピー"}
+              </button>
+            </>
           )}
         </div>
       </header>
+
+      {isCollabMode && (
+        <div className={styles.collabBanner}>
+          <div className={styles.collabBannerLeft}>
+            <span className={styles.collabBadge}>{isEn ? "COLLAB BOARD" : "コラボボード"}</span>
+            <input
+              type="text"
+              value={collabTitleDraft}
+              onChange={(e) => setCollabTitleDraft(e.target.value)}
+              onBlur={handleSaveCollabTitle}
+              aria-label="Board title"
+              className={styles.collabTitleInput}
+            />
+            <span>
+              {isEn
+                ? "Anyone with this link can pin polaroids from any scroll!"
+                : "URLを知っている人なら誰でも絵巻からポラロイドを貼れます"}
+            </span>
+            {roomError && <strong style={{ color: "#dc2626" }}>({roomError})</strong>}
+          </div>
+          <div className={styles.collabBannerRight}>
+            <label style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+              <span>{isEn ? "Your name:" : "投稿者名:"}</span>
+              <input
+                type="text"
+                maxLength={30}
+                value={authorName}
+                onChange={(e) => handleAuthorNameChange(e.target.value)}
+                placeholder={isEn ? "Anonymous" : "名無しの鑑賞者"}
+                className={styles.authorNameInput}
+              />
+            </label>
+            <button type="button" onClick={() => loadCollabRoom(roomParam)} className={styles.collabMiniBtn}>
+              {isEn ? "Refresh" : "最新に更新"}
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* ホワイトボードキャンバス（パン＆ズーム対応） */}
       <main
@@ -337,7 +544,6 @@ export function PolaroidBoardView() {
         onPointerMove={handleCanvasPointerMove}
         onPointerUp={handleCanvasPointerUp}
         onPointerCancel={handleCanvasPointerUp}
-        onWheel={handleCanvasWheel}
         style={{
           backgroundPosition: `${viewport.x}px ${viewport.y}px`,
           backgroundSize: `${24 * viewport.scale}px ${24 * viewport.scale}px`,
@@ -392,7 +598,7 @@ export function PolaroidBoardView() {
                   <div className={styles.tape} />
 
                   {/* 削除ボタン */}
-                  {!isSharedMode && (
+                  {(!isSharedMode && (!isCollabMode || item.canEdit !== false)) && (
                     <button
                       type="button"
                       onClick={() => handleDelete(item.id)}
@@ -426,11 +632,16 @@ export function PolaroidBoardView() {
                       rows={2}
                       maxLength={40}
                       value={item.message || item.memo || ""}
-                      readOnly={isSharedMode}
+                      readOnly={isSharedMode || (isCollabMode && item.canEdit === false)}
                       onChange={(e) => handleMessageChange(item.id, e.target.value)}
                       placeholder={isEn ? "Add a caption / note..." : "ひとこと・観察メモを書き込む..."}
                       className={styles.memoInput}
                     />
+                    {isCollabMode && (
+                      <span className={styles.authorTag}>
+                        by {item.authorName || (isEn ? "Anonymous" : "名無しの鑑賞者")}
+                      </span>
+                    )}
                   </div>
 
                   {/* 元の絵巻へ戻るリンク */}
