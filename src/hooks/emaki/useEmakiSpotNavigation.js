@@ -458,13 +458,16 @@ export default function useEmakiSpotNavigation({
 
   useEffect(() => {
     if (!pendingSpotZoom) return undefined;
-    const { centerX, centerY, rectW, rectH, sliceIndex } = pendingSpotZoom;
+    const { centerX, centerY, rectW, rectH, sliceIndex, explicitScale } = pendingSpotZoom;
     const zoomTimer = setTimeout(() => {
       if (!zoomToSlicePercentRef.current) {
         setPendingSpotZoom(null);
         return;
       }
-      let targetScale = 2.6;
+      let targetScale =
+        typeof explicitScale === "number" && Number.isFinite(explicitScale)
+          ? Math.min(5.5, Math.max(1.2, explicitScale))
+          : 2.6;
       if (rectW != null && rectH != null) {
         targetScale = Math.min(
           80 / Math.max(rectW, 4),
@@ -491,6 +494,56 @@ export default function useEmakiSpotNavigation({
     if (query?.ebiki) {
       if (!didApplyEntryHashRef.current) didApplyEntryHashRef.current = true;
       return;
+    }
+
+    const rawSlice = Array.isArray(query?.slice) ? query.slice[0] : query?.slice;
+    const rawCx = Array.isArray(query?.cx) ? query.cx[0] : query?.cx;
+    const rawCy = Array.isArray(query?.cy) ? query.cy[0] : query?.cy;
+    const rawCz = Array.isArray(query?.cz) ? query.cz[0] : query?.cz;
+    if (
+      !query?.spot &&
+      rawSlice !== undefined &&
+      rawCx !== undefined &&
+      rawCy !== undefined
+    ) {
+      const sliceIndex = Number(rawSlice);
+      const centerX = Number(rawCx);
+      const centerY = Number(rawCy);
+      const explicitScale = rawCz !== undefined ? Number(rawCz) : undefined;
+      const coordKey = `${sliceIndex}:${centerX}:${centerY}:${explicitScale ?? ""}`;
+      const emakis = Array.isArray(data?.emakis) ? data.emakis : [];
+      const targetSlice = Number.isInteger(sliceIndex) ? emakis[sliceIndex] : null;
+      const linkId = targetSlice?.linkId;
+      if (
+        typeof linkId === "number" &&
+        Number.isFinite(centerX) &&
+        Number.isFinite(centerY) &&
+        appliedSpotRef.current !== coordKey
+      ) {
+        appliedSpotRef.current = coordKey;
+        const offsetPercent = 100 - centerX;
+        const pin = () => window.scrollTo({ top: 0, behavior: "instant" });
+        handleToId(linkId, {
+          realign: true,
+          offsetPercent,
+          behavior: "auto",
+        });
+        pin();
+        const timers = [50, 200, 500, 1000].map((ms) => setTimeout(pin, ms));
+        setPendingSpotZoom({
+          centerX,
+          centerY,
+          rectW: null,
+          rectH: null,
+          sliceIndex,
+          linkId,
+          offsetPercent,
+          explicitScale,
+        });
+        return () => {
+          timers.forEach(clearTimeout);
+        };
+      }
     }
 
     const querySpot = query?.spot;

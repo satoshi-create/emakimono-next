@@ -228,6 +228,12 @@ export function PolaroidModal({
   const prevDh = prevSlot?.naturalHeight ? prevSlot.naturalHeight * cs * z * r : 0;
   const nextDh = nextSlot?.naturalHeight ? nextSlot.naturalHeight * cs * z * r : 0;
 
+  const rawCx = curDw > 0 ? 50 - (((pan?.x || 0) * r) / curDw) * 100 : 50;
+  const rawCy = curDh > 0 ? 50 - (((pan?.y || 0) * r) / curDh) * 100 : 50;
+  const cropCx = Math.round(Math.min(100, Math.max(0, rawCx)) * 10) / 10;
+  const cropCy = Math.round(Math.min(100, Math.max(0, rawCy)) * 10) / 10;
+  const cropCz = Math.round(Math.min(4.6, Math.max(1.2, z)) * 100) / 100;
+
   // 前後画像の幅差による中央補正量（絵巻は右から左に進むため）
   const stripNudgeX = (prevDw - nextDw) / 2;
 
@@ -623,6 +629,9 @@ export function PolaroidModal({
                       pan,
                       zoom,
                       coverScale,
+                      cx: cropCx,
+                      cy: cropCy,
+                      cz: cropCz,
                       theme: currentTheme,
                       displayTitle,
                       displayChapter,
@@ -657,6 +666,9 @@ export function PolaroidModal({
                 pan,
                 zoom,
                 coverScale,
+                cx: cropCx,
+                cy: cropCy,
+                cz: cropCz,
                 theme: currentTheme,
                 displayTitle,
                 displayChapter,

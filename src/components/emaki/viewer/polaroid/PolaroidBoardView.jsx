@@ -15,13 +15,22 @@ import {
   decodeBoardShareParam,
 } from "./polaroidBoardStorage";
 import {
+  addCollabBoardItem,
   createCollabBoard,
-  fetchCollabBoard,
-  updateCollabBoardTitle,
-  updateCollabBoardMeta,
-  updateCollabBoardItem,
   deleteCollabBoardItem,
+  fetchCollabBoard,
+  fetchPublicBoards,
+  updateCollabBoardItem,
+  updateCollabBoardMeta,
+  updateCollabBoardTitle,
 } from "@/libs/api/ugcApi";
+import {
+  BYOBU_HUB_PATH,
+  CHOUJU_GIGA_HUB_PATH,
+  HYAKKI_HUB_PATH,
+  KUSOUZU_HUB_PATH,
+  RAKUCHU_RAKUGAI_HUB_PATH,
+} from "@/libs/constants/links";
 
 const CARD_PHOTO_W = 216;
 const CARD_PHOTO_H = Math.round((CARD_PHOTO_W * PHOTO_DH) / PHOTO_DW); // 168px (720:560比率)
@@ -85,6 +94,143 @@ const AUTHOR_NAME_KEY = "emakimono_polaroid_author_v1";
 export function PolaroidBoardView() {
   const router = useRouter();
   const isEn = router.locale === "en";
+  const [likedIds, setLikedIds] = useState({});
+  const [copiedCardId, setCopiedCardId] = useState(null);
+  const [publicBoards, setPublicBoards] = useState([]);
+  const [publishingCardId, setPublishingCardId] = useState(null);
+  const [selectedPublicBoardId, setSelectedPublicBoardId] = useState("");
+  const [isPublishingCard, setIsPublishingCard] = useState(false);
+
+  const openPublishPicker = async (e, cardId) => {
+    e.stopPropagation();
+    if (publishingCardId === cardId) {
+      setPublishingCardId(null);
+      return;
+    }
+    setPublishingCardId(cardId);
+    if (publicBoards.length === 0) {
+      try {
+        const res = await fetchPublicBoards();
+        const list = Array.isArray(res?.boards) ? res.boards : [];
+        setPublicBoards(list);
+        if (list[0]?.id) {
+          setSelectedPublicBoardId(list[0].id);
+        }
+      } catch {
+        // 取得失敗時は空リストのまま
+      }
+    } else if (!selectedPublicBoardId && publicBoards[0]?.id) {
+      setSelectedPublicBoardId(publicBoards[0].id);
+    }
+  };
+
+  const handlePublishCardToPublicBoard = async (e, item) => {
+    e.stopPropagation();
+    if (!selectedPublicBoardId || isPublishingCard) return;
+    setIsPublishingCard(true);
+    try {
+      const authorName =
+        typeof window !== "undefined"
+          ? window.localStorage.getItem("emakimono_polaroid_author_v1") || ""
+          : "";
+      await addCollabBoardItem(selectedPublicBoardId, {
+        scrollId: item.scrollId,
+        sceneIndex: item.sceneIndex,
+        src: item.src,
+        pan: item.pan,
+        zoom: item.zoom,
+        coverScale: item.coverScale,
+        cx: item.cx,
+        cy: item.cy,
+        cz: item.cz,
+        theme: item.theme,
+        displayTitle: item.displayTitle,
+        displayChapter: item.displayChapter,
+        message: item.message || item.memo || "",
+        authorName,
+      });
+      setPublishingCardId(null);
+      router.push(
+        `/board?room=${encodeURIComponent(selectedPublicBoardId)}`,
+        undefined,
+        { locale: router.locale }
+      );
+    } catch (err) {
+      alert(err.message || "公開ボードへの投稿に失敗しました");
+    } finally {
+      setIsPublishingCard(false);
+    }
+  };
+
+  const resolveRelatedThemeHub = (text) => {
+    const s = String(text || "").toLowerCase();
+    if (/鳥獣|choju|chouju/.test(s)) {
+      return { path: CHOUJU_GIGA_HUB_PATH, labelJa: "鳥獣人物戯画一覧", labelEn: "Chōjū-giga" };
+    }
+    if (/百鬼|付喪神|hyakki|tsukumogami/.test(s)) {
+      return { path: HYAKKI_HUB_PATH, labelJa: "百鬼夜行・付喪神一覧", labelEn: "Hyakki Yagyō" };
+    }
+    if (/九相|kusozu|kusouzu/.test(s)) {
+      return { path: KUSOUZU_HUB_PATH, labelJa: "九相図一覧", labelEn: "Kusōzu" };
+    }
+    if (/洛中|rakuchu/.test(s)) {
+      return { path: RAKUCHU_RAKUGAI_HUB_PATH, labelJa: "洛中洛外図一覧", labelEn: "Rakuchū-rakugai-zu" };
+    }
+    if (/屏風|byobu/.test(s)) {
+      return { path: BYOBU_HUB_PATH, labelJa: "屏風一覧", labelEn: "Byōbu Screens" };
+    }
+    return null;
+  };
+
+  const handleToggleCardLike = (e, cardId) => {
+    e.stopPropagation();
+    setLikedIds((prev) => ({ ...prev, [cardId]: !prev[cardId] }));
+  };
+
+  const handleShareCard = async (e, item) => {
+    e.stopPropagation();
+    if (typeof window === "undefined") return;
+    const shareUrl = `${window.location.origin}${window.location.pathname}${window.location.search}`;
+    try {
+      await navigator.clipboard?.writeText(shareUrl);
+      setCopiedCardId(item.id);
+      window.setTimeout(() => {
+        setCopiedCardId((cur) => (cur === item.id ? null : cur));
+      }, 1800);
+    } catch {
+      // clipboard 失敗時はフォールバックしない
+    }
+  };
+
+  const buildSourceHref = (item) => {
+    const params = new URLSearchParams();
+    if (typeof item.sceneIndex === "number" && item.sceneIndex >= 0) {
+      params.set("slice", String(item.sceneIndex));
+    }
+    const z = typeof item.zoom === "number" && item.zoom > 0 ? item.zoom : 1.5;
+    const cs = typeof item.coverScale === "number" && item.coverScale > 0 ? item.coverScale : 1;
+    const estW = 960 * cs * z;
+    const estH = 960 * cs * z;
+    const cx =
+      typeof item.cx === "number" && Number.isFinite(item.cx)
+        ? item.cx
+        : Math.round(Math.min(100, Math.max(0, 50 - ((item.pan?.x || 0) / estW) * 100)) * 10) / 10;
+    const cy =
+      typeof item.cy === "number" && Number.isFinite(item.cy)
+        ? item.cy
+        : Math.round(Math.min(100, Math.max(0, 50 - ((item.pan?.y || 0) / estH) * 100)) * 10) / 10;
+    const cz =
+      typeof item.cz === "number" && Number.isFinite(item.cz)
+        ? item.cz
+        : Math.round(Math.min(4.6, Math.max(1.2, z)) * 100) / 100;
+
+    params.set("cx", String(cx));
+    params.set("cy", String(cy));
+    params.set("cz", String(cz));
+
+    const qs = params.toString();
+    return qs ? `/${item.scrollId}?${qs}` : `/${item.scrollId}`;
+  };
   const sharedParam = typeof router.query.d === "string" ? router.query.d : "";
   const roomParam = typeof router.query.room === "string" ? router.query.room.trim() : "";
 
@@ -361,6 +507,9 @@ export function PolaroidBoardView() {
   const handleCardPointerDown = (e, item) => {
     e.stopPropagation();
     if (e.target.tagName === "TEXTAREA" || e.target.tagName === "BUTTON" || e.target.tagName === "A") {
+      return;
+    }
+    if (isCollabMode && item.canEdit === false) {
       return;
     }
     e.currentTarget.setPointerCapture(e.pointerId);
@@ -684,6 +833,31 @@ export function PolaroidBoardView() {
               className={styles.collabTitleInput}
               style={{ flex: "1 1 280px", maxWidth: 520 }}
             />
+            {(() => {
+              const hub = resolveRelatedThemeHub(
+                `${collabBoard?.title || ""} ${collabBoard?.description || ""}`
+              );
+              if (!hub) return null;
+              return (
+                <Link href={hub.path} locale={router.locale} passHref>
+                  <a
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 600,
+                      padding: "3px 10px",
+                      borderRadius: 999,
+                      background: "#ffffff",
+                      color: "#047857",
+                      border: "1px solid #a7f3d0",
+                      textDecoration: "none",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {isEn ? `Related: ${hub.labelEn} →` : `関連作品: ${hub.labelJa} →`}
+                  </a>
+                </Link>
+              );
+            })()}
             {roomError && <strong style={{ color: "#dc2626" }}>({roomError})</strong>}
           </div>
           <div className={styles.collabBannerRight}>
@@ -821,16 +995,165 @@ export function PolaroidBoardView() {
                     )}
                   </div>
 
-                  {/* 元の絵巻へ戻るリンク */}
-                  {item.scrollId ? (
-                    <div className={styles.cardFooter}>
-                      <Link href={`/${item.scrollId}`} locale={router.locale} passHref>
-                        <a className={styles.scrollLink} style={{ color: th.subColor }}>
-                          {isEn ? "Source →" : "元の絵巻 →"}
+                  {/* いいね・共有・元の絵巻＆座標リンク */}
+                  <div
+                    className={styles.cardFooter}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      gap: 6,
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <button
+                        type="button"
+                        onPointerDown={(e) => e.stopPropagation()}
+                        onClick={(e) => handleToggleCardLike(e, item.id)}
+                        style={{
+                          fontSize: 11,
+                          padding: "2px 7px",
+                          borderRadius: 999,
+                          border: "1px solid #e5e7eb",
+                          background: likedIds[item.id] ? "#fef2f2" : "#fff",
+                          color: likedIds[item.id] ? "#dc2626" : "#374151",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {likedIds[item.id] ? "♥" : "♡"}{" "}
+                        {(item.likeCount || 0) + (likedIds[item.id] ? 1 : 0)}
+                      </button>
+                      <button
+                        type="button"
+                        onPointerDown={(e) => e.stopPropagation()}
+                        onClick={(e) => handleShareCard(e, item)}
+                        style={{
+                          fontSize: 11,
+                          padding: "2px 7px",
+                          borderRadius: 999,
+                          border: "1px solid #e5e7eb",
+                          background: "#fff",
+                          color: "#374151",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {copiedCardId === item.id
+                          ? isEn
+                            ? "Copied"
+                            : "コピー済"
+                          : isEn
+                            ? "Share"
+                            : "共有"}
+                      </button>
+                    </div>
+                    {item.scrollId ? (
+                      <Link href={buildSourceHref(item)} locale={router.locale} passHref>
+                        <a
+                          onPointerDown={(e) => e.stopPropagation()}
+                          className={styles.scrollLink}
+                          style={{ color: th.subColor }}
+                        >
+                          {isEn ? "Scene & Scroll →" : "元絵巻・座標 →"}
                         </a>
                       </Link>
+                    ) : null}
+                  </div>
+
+                  {!isCollabMode && !isSharedMode && (
+                    <div
+                      onPointerDown={(e) => e.stopPropagation()}
+                      style={{
+                        marginTop: 6,
+                        paddingTop: 6,
+                        borderTop: "1px dashed #e5e7eb",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 6,
+                      }}
+                    >
+                      <button
+                        type="button"
+                        onClick={(e) => openPublishPicker(e, item.id)}
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 600,
+                          padding: "4px 8px",
+                          borderRadius: 6,
+                          border: "1px solid #a7f3d0",
+                          background: "#ecfdf5",
+                          color: "#047857",
+                          cursor: "pointer",
+                          textAlign: "center",
+                        }}
+                      >
+                        {publishingCardId === item.id
+                          ? isEn
+                            ? "Close"
+                            : "閉じる"
+                          : isEn
+                          ? "Post to Public Board"
+                          : "公開ボードに投稿する"}
+                      </button>
+
+                      {publishingCardId === item.id && (
+                        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                          {publicBoards.length === 0 ? (
+                            <Link href="/board/public" locale={router.locale} passHref>
+                              <a style={{ fontSize: 11, color: "#047857" }}>
+                                {isEn
+                                  ? "No public boards yet. Create one →"
+                                  : "公開ボードがまだありません（一覧で作成 →）"}
+                              </a>
+                            </Link>
+                          ) : (
+                            <>
+                              <select
+                                value={selectedPublicBoardId}
+                                onChange={(e) => setSelectedPublicBoardId(e.target.value)}
+                                style={{
+                                  fontSize: 11,
+                                  padding: "4px 6px",
+                                  borderRadius: 6,
+                                  border: "1px solid #d1d5db",
+                                  background: "#fff",
+                                }}
+                              >
+                                {publicBoards.map((b) => (
+                                  <option key={b.id} value={b.id}>
+                                    {b.title}
+                                  </option>
+                                ))}
+                              </select>
+                              <button
+                                type="button"
+                                disabled={isPublishingCard}
+                                onClick={(e) => handlePublishCardToPublicBoard(e, item)}
+                                style={{
+                                  fontSize: 11,
+                                  fontWeight: 700,
+                                  padding: "4px 8px",
+                                  borderRadius: 6,
+                                  border: "none",
+                                  background: "#059669",
+                                  color: "#fff",
+                                  cursor: "pointer",
+                                }}
+                              >
+                                {isPublishingCard
+                                  ? isEn
+                                    ? "Posting..."
+                                    : "投稿中..."
+                                  : isEn
+                                  ? "Confirm & Post"
+                                  : "この公開ボードへ投稿"}
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      )}
                     </div>
-                  ) : null}
+                  )}
                 </div>
               );
             })}
