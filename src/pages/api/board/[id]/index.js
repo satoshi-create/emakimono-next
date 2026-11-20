@@ -67,6 +67,7 @@ async function handleGet(req, res, boardId) {
       board: {
         id: board.id,
         title: board.title,
+        visibility: board.visibility || "unlisted",
         isOwner: board.createdByHash === visitorHash,
         createdAt: board.createdAt ? new Date(board.createdAt).getTime() : Date.now(),
       },

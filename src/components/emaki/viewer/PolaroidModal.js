@@ -594,48 +594,60 @@ export function PolaroidModal({
           >
             {isEn ? "Save" : "保存"}
           </button>
+          {(() => {
+            let activeRoom = null;
+            if (typeof window !== "undefined") {
+              try {
+                const raw = window.sessionStorage.getItem("emakimono_active_collab_room_v1");
+                if (raw) activeRoom = JSON.parse(raw);
+              } catch {
+                activeRoom = null;
+              }
+            }
+            if (!activeRoom?.id) return null;
+            return (
+              <button
+                type="button"
+                className={styles.secondaryBtn || styles.closeBtn}
+                style={{ borderColor: "#d97706", color: "#b45309", background: "#fffbeb" }}
+                onClick={async () => {
+                  const authorName =
+                    typeof window !== "undefined"
+                      ? window.localStorage.getItem("emakimono_polaroid_author_v1") || ""
+                      : "";
+                  try {
+                    await addCollabBoardItem(activeRoom.id, {
+                      scrollId,
+                      sceneIndex: selectedIndex,
+                      src,
+                      pan,
+                      zoom,
+                      coverScale,
+                      theme: currentTheme,
+                      displayTitle,
+                      displayChapter,
+                      message,
+                      authorName,
+                    });
+                    handleModalClose();
+                    router.push(`/board?room=${encodeURIComponent(activeRoom.id)}`, undefined, {
+                      locale: router.locale,
+                    });
+                  } catch (error) {
+                    alert(error.message || "ボードへの投稿に失敗しました");
+                  }
+                }}
+              >
+                {isEn
+                  ? `Pin to "${activeRoom.title || "Shared Board"}"`
+                  : `「${activeRoom.title || "共有ボード"}」に貼る`}
+              </button>
+            );
+          })()}
           <button
             type="button"
             className={styles.secondaryBtn || styles.closeBtn}
-            onClick={async () => {
-              let activeRoom = null;
-              if (typeof window !== "undefined") {
-                try {
-                  const raw = window.sessionStorage.getItem("emakimono_active_collab_room_v1");
-                  if (raw) activeRoom = JSON.parse(raw);
-                } catch {
-                  activeRoom = null;
-                }
-              }
-
-              if (activeRoom?.id) {
-                const authorName =
-                  typeof window !== "undefined"
-                    ? window.localStorage.getItem("emakimono_polaroid_author_v1") || ""
-                    : "";
-                try {
-                  await addCollabBoardItem(activeRoom.id, {
-                    scrollId,
-                    sceneIndex: selectedIndex,
-                    src,
-                    pan,
-                    zoom,
-                    coverScale,
-                    theme: currentTheme,
-                    displayTitle,
-                    displayChapter,
-                    message,
-                    authorName,
-                  });
-                  handleModalClose();
-                  router.push(`/board?room=${encodeURIComponent(activeRoom.id)}`);
-                  return;
-                } catch (error) {
-                  alert(error.message || "共有ボードへの投稿に失敗しました");
-                  return;
-                }
-              }
-
+            onClick={() => {
               appendBoardItem({
                 scrollId,
                 sceneIndex: selectedIndex,
@@ -651,10 +663,21 @@ export function PolaroidModal({
                 message,
               });
               handleModalClose();
-              router.push("/board");
+              router.push("/board", undefined, { locale: router.locale });
             }}
           >
-            {isEn ? "Pin to Board" : "ボードに貼る"}
+            {isEn ? "Keep on Personal Board" : "個人ボードにキープ"}
+          </button>
+          <button
+            type="button"
+            className={styles.secondaryBtn || styles.closeBtn}
+            style={{ borderColor: "#059669", color: "#047857", background: "#ecfdf5" }}
+            onClick={() => {
+              handleModalClose();
+              router.push("/board/public", undefined, { locale: router.locale });
+            }}
+          >
+            {isEn ? "Public Boards" : "公開ボード一覧を見る"}
           </button>
           <button
             type="button"

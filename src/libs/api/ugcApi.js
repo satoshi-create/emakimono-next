@@ -100,11 +100,20 @@ export async function postScrollFeedback({
 // 4. ポラロイド・コラボホワイトボード API クライアント
 // =============================================================================
 
-export async function createCollabBoard({ title, authorName, items = [] } = {}) {
+export async function fetchPublicBoards() {
+  return requestJson("/api/board", { method: "GET" });
+}
+
+export async function createCollabBoard({
+  title,
+  visibility = "unlisted",
+  authorName,
+  items = [],
+} = {}) {
   return requestJson("/api/board", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ title, authorName, items }),
+    body: JSON.stringify({ title, visibility, authorName, items }),
     ignore503: false,
   });
 }

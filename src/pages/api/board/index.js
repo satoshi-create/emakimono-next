@@ -7,6 +7,7 @@ import {
   sendApiError,
 } from "@/libs/api/dbApi";
 import { getVisitorHash } from "@/libs/api/visitorHash";
+import { desc, eq, sql } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
 
 // =============================================================================
@@ -54,13 +55,54 @@ function normalizeInitialItem(raw, boardId, visitorHash, fallbackAuthor, index) 
 // 2. エントリポイント（POST: コラボボード新規発行）
 // =============================================================================
 
+async function handleGetPublicBoards(res) {
+  try {
+    const db = getDb();
+    const boards = await db
+      .select({
+        id: polaroidBoards.id,
+        title: polaroidBoards.title,
+        visibility: polaroidBoards.visibility,
+        createdAt: polaroidBoards.createdAt,
+        itemCount: sql`count(${polaroidBoardItems.id})`,
+      })
+      .from(polaroidBoards)
+      .leftJoin(
+        polaroidBoardItems,
+        eq(polaroidBoards.id, polaroidBoardItems.boardId)
+      )
+      .where(eq(polaroidBoards.visibility, "public"))
+      .groupBy(polaroidBoards.id)
+      .orderBy(desc(polaroidBoards.createdAt))
+      .limit(30);
+
+    res.setHeader("Cache-Control", "no-store");
+    return res.status(200).json({
+      boards: boards.map((b) => ({
+        id: b.id,
+        title: b.title,
+        visibility: b.visibility,
+        itemCount: Number(b.itemCount ?? 0),
+        createdAt: b.createdAt ? new Date(b.createdAt).getTime() : Date.now(),
+      })),
+    });
+  } catch (error) {
+    console.error("GET /api/board failed:", error);
+    return sendApiError(res, 500, "Failed to fetch public boards");
+  }
+}
+
 export default async function handler(req, res) {
-  if (!ensureMethod(req, res, "POST") || !ensureDbConfigured(res)) {
-    return;
+  if (!ensureDbConfigured(res)) return;
+  if (!ensureMethod(req, res, ["GET", "POST"])) return;
+
+  if (req.method === "GET") {
+    return handleGetPublicBoards(res);
   }
 
   const title =
     parseNonEmptyString(req.body?.title, 100) || "みんなのポラロイドボード";
+  const visibility = req.body?.visibility === "public" ? "public" : "unlisted";
   const authorName = parseNonEmptyString(req.body?.authorName, 40) || "";
   const rawItems = Array.isArray(req.body?.items)
     ? req.body.items.slice(0, 30)
@@ -75,6 +117,7 @@ export default async function handler(req, res) {
     await db.insert(polaroidBoards).values({
       id: boardId,
       title,
+      visibility,
       createdByHash: visitorHash,
     });
 
@@ -93,6 +136,7 @@ export default async function handler(req, res) {
       board: {
         id: boardId,
         title,
+        visibility,
       },
       itemCount: initialRows.length,
     });

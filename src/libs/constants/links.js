@@ -93,6 +93,11 @@ export const navGroups = [
         nameen: "Manga Roots",
         path: "/manga-roots",
       },
+      {
+        name: "公開ポラロイドボード",
+        nameen: "Public Polaroid Boards",
+        path: "/board/public",
+      },
     ],
   },
   {

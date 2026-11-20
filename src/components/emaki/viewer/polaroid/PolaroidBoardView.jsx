@@ -261,6 +261,9 @@ export function PolaroidBoardView() {
 
   const handleCanvasPointerDown = (e) => {
     if (e.button !== 0 && e.pointerType === "mouse") return;
+    if (e.target instanceof Element && e.target.closest("a, button, input, textarea, select")) {
+      return;
+    }
     e.currentTarget.setPointerCapture(e.pointerId);
     setIsPanning(true);
     panStateRef.current = {
@@ -473,6 +476,13 @@ export function PolaroidBoardView() {
         </div>
 
         <div className={styles.headerRight}>
+          <button
+            type="button"
+            onClick={() => router.push("/board/public")}
+            className={styles.collabMiniBtn}
+          >
+            {isEn ? "Public Boards" : "公開ボード一覧"}
+          </button>
           {isCollabMode ? (
             <>
               <button
@@ -510,10 +520,26 @@ export function PolaroidBoardView() {
       </header>
 
       {isCollabMode && (
-        <div className={styles.collabBanner}>
+        <div
+          className={styles.collabBanner}
+          style={
+            collabBoard?.visibility === "public"
+              ? { background: "#ecfdf5", borderColor: "#a7f3d0", color: "#065f46" }
+              : undefined
+          }
+        >
           <div className={styles.collabBannerLeft}>
-            <span className={styles.collabBadge}>
-              {isEn ? "SHARED BOARD" : "共有中"}
+            <span
+              className={styles.collabBadge}
+              style={
+                collabBoard?.visibility === "public"
+                  ? { background: "#059669" }
+                  : undefined
+              }
+            >
+              {collabBoard?.visibility === "public"
+                ? isEn ? "PUBLIC BOARD" : "公開ボード"
+                : isEn ? "SHARED BOARD" : "限定共有中"}
             </span>
             <input
               type="text"
@@ -524,9 +550,13 @@ export function PolaroidBoardView() {
               className={styles.collabTitleInput}
             />
             <span>
-              {isEn
+              {collabBoard?.visibility === "public"
+                ? isEn
+                  ? "This board is open to all visitors in the Public Boards gallery."
+                  : "公開ボード一覧に掲載されており、誰でも閲覧・ポラロイド貼り付けができます"
+                : isEn
                 ? "Anyone with this URL can pin polaroids from any scroll."
-                : "このURLを共有すると、授業やグループで同じボードにポラロイドを貼れます"}
+                : "URLを知っている人だけが参加できる限定公開ボードです（授業・グループ向け）"}
             </span>
             {roomError && <strong style={{ color: "#dc2626" }}>({roomError})</strong>}
           </div>
