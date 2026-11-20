@@ -39,6 +39,20 @@ graph TD
         Modal -->|SheetProps, Handlers| ShareUI
 
         Export -->|Draw Context| Renderer
+        Modal -->|appendBoardItem| BoardStore["polaroidBoardStorage.js<br/>(localStorage永続化 / Base64URL圧縮)"]
+    end
+
+    Modal -->|router.push('/board')| BoardPage
+
+    subgraph BoardScope["【独立ページ領域】ポラロイド・ホワイトボード (/board)"]
+        BoardPage["src/pages/board.js<br/>(Pages Router / i18n SSR)"]
+        BoardView["PolaroidBoardView.jsx<br/>(無限キャンバスPan/Zoom・カード配置・メモ編集)"]
+        BoardCSS["PolaroidBoardView.module.css<br/>(CSS Module スタイリング)"]
+
+        BoardPage --> BoardView
+        BoardView <-->|load / save / encode / decode| BoardStore
+        BoardView -->|THEMES / PHOTO_DW,DH / Texture| Renderer
+        BoardView -.-> BoardCSS
     end
 
     %% バグの発生境界線
@@ -61,9 +75,10 @@ graph TD
 | 子 (スクロール制御) | `usePolaroidScrollLock.js` | ・モーダル表示中の `document.body` スクロール物理遮断<br>
 
 <br>・`data-polaroid-card` 外での wheel イベント `preventDefault` | `isOpen`, `frameRef` | DOM 副作用（`body.style.overflow`, wheel リスナー） |
-| 子 (共有ダイアログ) | `PolaroidShareSheet.jsx` | ・4:5 ポラロイド静止画 / 9:16 リール / ループ動画の選択肢提示<br>
-
-<br>・クリップボード貼付案内ステップ表示 | `sheetMode`, `shareStep`, エクスポート用ハンドラ群 | 共有・保存の各アクション発火、UI レンダー |
+| 子 (共有ダイアログ) | `PolaroidShareSheet.jsx` | ・4:5 ポラロイド静止画 / 9:16 リール / ループ動画の選択肢提示<br><br>・クリップボード貼付案内ステップ表示 | `sheetMode`, `shareStep`, エクスポート用ハンドラ群 | 共有・保存の各アクション発火、UI レンダー |
+| 子 (ボード永続化) | `polaroidBoardStorage.js` | ・`localStorage`（最大30件）へのボードアイテムCRUD<br><br>・UTF-8 Base64URL による圧縮共有URLのエンコード／デコード | `payload`, `items`, `locale`, クエリ `d` | `localStorage` 書込、`/ja/board?d=...` 生成、アイテム配列復元 |
+| 子 (ボードUI) | `PolaroidBoardView.jsx` | ・Figma風無限キャンバスのパン＆カーソル基準ホイールズーム<br><br>・ポラロイドカード配置（ドラッグ・最前面化）・統一メモ（`message`）編集・元絵巻リンク | `router.query.d`, `localStorage`, `THEMES` | カード座標・メモ永続化、共有URLクリップボードコピー |
+| ページ (ボード) | `src/pages/board.js` | ・`/board`（および `/ja/board`）のルーティングエントリ<br><br>・`serverSideTranslations` による日英ロケール供給 | `locale` | `<Head>` メタ出力、`PolaroidBoardView` マウント |
 
 ---
 
@@ -113,6 +128,18 @@ sequenceDiagram
         Modal->>ShareUI: シート表示 (isOpen: true, sheetMode, exportHandlers)
         User->>ShareUI: 各種フォーマット選択 (4:5 / 9:16 / 動画)
         ShareUI->>Export: handleDownload / handleShareCopy 発火
+    end
+
+    opt ユーザー操作: ホワイトボードへピン留め ＆ 整理・共有
+        User->>Modal: 「ボードに貼る」ボタン押下
+        Modal->>BoardStore: appendBoardItem (pan, zoom, theme, message, scrollId 等)
+        Modal->>BoardPage: router.push("/board") 遷移
+        BoardPage->>BoardView: マウント
+        BoardView->>BoardStore: loadBoardItems() または decodeBoardShareParam(query.d)
+        User->>BoardView: 背景パン・ホイールズーム / カード移動 / メモ編集
+        BoardView->>BoardStore: saveBoardItems() 自動永続化
+        User->>BoardView: 「共有URLをコピー」押下
+        BoardView->>BoardStore: encodeBoardShareUrl(items, router.locale)
     end
 
 ```
