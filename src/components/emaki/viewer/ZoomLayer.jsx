@@ -224,7 +224,9 @@ const ZoomLayer = ({
                   draggable={false}
                   loading={s.key === centerKey ? "eager" : "lazy"}
                   onError={() => {
-                    logZoomLayer("ImageLoadError", { key: s.key, src: s.src });
+                    if (process.env.NODE_ENV !== "production") {
+                      console.warn("[ZoomLayer] ImageLoadError", { key: s.key, src: s.src });
+                    }
                   }}
                   style={{
                     display: "block",
