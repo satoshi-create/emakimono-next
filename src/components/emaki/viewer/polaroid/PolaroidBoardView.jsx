@@ -93,6 +93,8 @@ export function PolaroidBoardView() {
   const [collabTitleDraft, setCollabTitleDraft] = useState("");
   const [authorName, setAuthorName] = useState("");
   const [isCreatingRoom, setIsCreatingRoom] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [refreshSuccess, setRefreshSuccess] = useState(false);
   const [roomError, setRoomError] = useState("");
   const isCollabMode = Boolean(roomParam);
   const [copied, setCopied] = useState(false);
@@ -123,7 +125,11 @@ export function PolaroidBoardView() {
     setAuthorName(savedAuthor);
   }, []);
 
-  const loadCollabRoom = async (roomId) => {
+  const loadCollabRoom = async (roomId, showFeedback = false) => {
+    if (showFeedback) {
+      setIsRefreshing(true);
+      setRefreshSuccess(false);
+    }
     try {
       const data = await fetchCollabBoard(roomId);
       setCollabBoard(data.board);
@@ -136,8 +142,14 @@ export function PolaroidBoardView() {
           JSON.stringify({ id: roomId, title: data.board?.title || "" })
         );
       }
+      if (showFeedback) {
+        setRefreshSuccess(true);
+        setTimeout(() => setRefreshSuccess(false), 1800);
+      }
     } catch (error) {
       setRoomError(error.message || "Failed to load board");
+    } finally {
+      if (showFeedback) setIsRefreshing(false);
     }
   };
 
@@ -197,7 +209,17 @@ export function PolaroidBoardView() {
         items,
       });
       if (res?.board?.id) {
-        router.push(`/board?room=${encodeURIComponent(res.board.id)}`);
+        const targetPath = `/board?room=${encodeURIComponent(res.board.id)}`;
+        if (typeof window !== "undefined") {
+          const shareUrl = `${window.location.origin}${targetPath}`;
+          await navigator.clipboard?.writeText(shareUrl).catch(() => {});
+        }
+        await router.push(targetPath);
+        alert(
+          isEn
+            ? "Shared board link copied! Send this URL so anyone can pin polaroids together."
+            : "共有ボードのURLをコピーしました！このリンクを送ると、みんなで同じボードにポラロイドを貼れます。"
+        );
       }
     } catch (error) {
       alert(error.message || "コラボボードの作成に失敗しました");
@@ -453,48 +475,36 @@ export function PolaroidBoardView() {
         <div className={styles.headerRight}>
           {isCollabMode ? (
             <>
-              <button type="button" onClick={handleCopyCollabInviteUrl} className={styles.primaryBtn}>
-                {isEn ? "Copy Invite Link" : "招待URLをコピー"}
+              <button
+                type="button"
+                onClick={handleCopyCollabInviteUrl}
+                className={styles.primaryBtn}
+              >
+                {isEn ? "Copy Share Link" : "共有リンクをコピー"}
               </button>
-              <button type="button" onClick={() => router.push("/board")} className={styles.collabMiniBtn}>
-                {isEn ? "My Board" : "マイボードへ戻る"}
+              <button
+                type="button"
+                onClick={() => router.push("/board")}
+                className={styles.collabMiniBtn}
+              >
+                {isEn ? "New Personal Board" : "個人ボードへ切替"}
               </button>
             </>
           ) : isSharedMode ? (
             <button type="button" onClick={handleSaveSharedToMyBoard} className={styles.saveSharedBtn}>
-              {isEn ? "Save to My Board" : "自分のボードに保存して編集"}
+              {isEn ? "Edit on My Board" : "このボードを編集する"}
             </button>
           ) : (
-            <>
-              <button
-                type="button"
-                disabled={isCreatingRoom}
-                onClick={handleCreateCollabRoom}
-                className={styles.collabCreateBtn}
-              >
-                {isCreatingRoom
-                  ? isEn
-                    ? "Creating..."
-                    : "作成中..."
-                  : isEn
-                  ? "Start Collab Board"
-                  : "みんなで貼るコラボボード作成"}
-              </button>
-              <button
-                type="button"
-                disabled={items.length === 0}
-                onClick={handleCopyShareUrl}
-                className={styles.primaryBtn}
-              >
-                {copied
-                  ? isEn
-                    ? "Share URL Copied!"
-                    : "共有URLをコピーしました！"
-                  : isEn
-                  ? "Copy Static Link"
-                  : "閲覧用URLをコピー"}
-              </button>
-            </>
+            <button
+              type="button"
+              disabled={isCreatingRoom}
+              onClick={handleCreateCollabRoom}
+              className={styles.primaryBtn}
+            >
+              {isCreatingRoom
+                ? isEn ? "Creating Link..." : "共有リンク発行中..."
+                : isEn ? "Share Board to Collaborate" : "リンクを共有して一緒に貼る"}
+            </button>
           )}
         </div>
       </header>
@@ -502,7 +512,9 @@ export function PolaroidBoardView() {
       {isCollabMode && (
         <div className={styles.collabBanner}>
           <div className={styles.collabBannerLeft}>
-            <span className={styles.collabBadge}>{isEn ? "COLLAB BOARD" : "コラボボード"}</span>
+            <span className={styles.collabBadge}>
+              {isEn ? "SHARED BOARD" : "共有中"}
+            </span>
             <input
               type="text"
               value={collabTitleDraft}
@@ -513,25 +525,34 @@ export function PolaroidBoardView() {
             />
             <span>
               {isEn
-                ? "Anyone with this link can pin polaroids from any scroll!"
-                : "URLを知っている人なら誰でも絵巻からポラロイドを貼れます"}
+                ? "Anyone with this URL can pin polaroids from any scroll."
+                : "このURLを共有すると、授業やグループで同じボードにポラロイドを貼れます"}
             </span>
             {roomError && <strong style={{ color: "#dc2626" }}>({roomError})</strong>}
           </div>
           <div className={styles.collabBannerRight}>
             <label style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
-              <span>{isEn ? "Your name:" : "投稿者名:"}</span>
+              <span>{isEn ? "Your name:" : "あなたの名前:"}</span>
               <input
                 type="text"
                 maxLength={30}
                 value={authorName}
                 onChange={(e) => handleAuthorNameChange(e.target.value)}
-                placeholder={isEn ? "Anonymous" : "名無しの鑑賞者"}
+                placeholder={isEn ? "e.g. Student A" : "例: 3年1組 田中"}
                 className={styles.authorNameInput}
               />
             </label>
-            <button type="button" onClick={() => loadCollabRoom(roomParam)} className={styles.collabMiniBtn}>
-              {isEn ? "Refresh" : "最新に更新"}
+            <button
+              type="button"
+              disabled={isRefreshing}
+              onClick={() => loadCollabRoom(roomParam, true)}
+              className={styles.collabMiniBtn}
+            >
+              {isRefreshing
+                ? isEn ? "Refreshing..." : "更新中..."
+                : refreshSuccess
+                ? isEn ? "✓ Updated" : "✓ 更新完了"
+                : isEn ? "Refresh" : "最新に更新"}
             </button>
           </div>
         </div>
