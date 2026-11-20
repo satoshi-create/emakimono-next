@@ -22,7 +22,7 @@ export const LEGACY_CLOUDINARY_WORK_TITLES = new Set([
   "hyakki_kokkai_a",
   "hyakki_utokyo",
   "naomoto_moushibumi_ekotoba",
-  "genjimonogatari-emaki-tokugawa",
+  "genji-monogatari-emaki-tokugawa",
 ]);
 
 /**
