@@ -11,10 +11,8 @@ import SpotPins from "@/components/emaki/viewer/SpotPins";
 import { EmakiViewerChrome } from "@/components/emaki/layout/EmakiViewerChrome";
 import SceneCommentaryBar from "@/components/emaki/viewer/SceneCommentaryBar";
 import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
-import {
-  EmakiViewerOverlays,
-  EbikiCoordinatePickerHud,
-} from "@/components/emaki/layout/EmakiViewerOverlays";
+import { EmakiViewerOverlays } from "@/components/emaki/layout/EmakiViewerOverlays";
+import { EbikiCoordinatePickerHud } from "@/components/dev/EbikiCoordinatePicker";
 import { useEffect, useState } from "react";
 import useEmakiViewerOrchestrator from "@/hooks/emaki/useEmakiViewerOrchestrator";
 import styles from "@/styles/EmakiConteiner.module.css";

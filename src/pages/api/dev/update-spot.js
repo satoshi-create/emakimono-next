@@ -1,5 +1,7 @@
-import fs from "fs";
-import path from "path";
+import {
+  readScrollMetadata,
+  writeScrollMetadata,
+} from "@/lib/scroll-pipeline/scrollMetadataFs";
 
 function clampAndRound(val) {
   const n = Number(val);
@@ -163,21 +165,15 @@ export default function handler(req, res) {
     });
   }
 
-  const scrollsDir = path.join(process.cwd(), "src/data/scroll-metadata/scrolls");
-  const candidateFiles = [
-    path.join(scrollsDir, `${cleanSlug}.json`),
-    path.join(scrollsDir, `${cleanSlug.replace(/-/g, "_")}.json`),
-    path.join(scrollsDir, `${cleanSlug.replace(/_/g, "-")}.json`),
-  ];
-  const filePath = candidateFiles.find((p) => fs.existsSync(p));
-
-  if (!filePath) {
-    return res.status(404).json({ error: "Scroll metadata not found", slug: cleanSlug });
-  }
-
+  let filePath;
   let data;
   try {
-    data = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    const loaded = readScrollMetadata(cleanSlug);
+    if (!loaded) {
+      return res.status(404).json({ error: "Scroll metadata not found", slug: cleanSlug });
+    }
+    filePath = loaded.filePath;
+    data = loaded.data;
   } catch {
     return res.status(500).json({ error: "Failed to parse scroll metadata" });
   }
@@ -369,7 +365,7 @@ export default function handler(req, res) {
     return res.status(404).json({ error: "Spot not found", spotId: p.spotId });
   }
 
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2) + "\n", "utf8");
+  writeScrollMetadata(filePath, data);
 
   return res.status(200).json({
     ok: true,

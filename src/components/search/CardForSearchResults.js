@@ -28,7 +28,7 @@ const CardForSearchResults = ({ emakis, columns, needdesc }) => {
           keyword,
         } = item;
 
-        const filterDesc = desc.substring(0, 40);
+        const filterDesc = typeof desc === "string" ? desc.substring(0, 40) : "";
         const descTemp = `${title} ${
           author && `（${author}）`
         }の全シーンを、縦書き、横スクロールで楽しむことができます。`;

@@ -156,4 +156,4 @@ export function EmakiViewerOverlays({
 }
 
 // 2. Ebiki 開発 HUD
-export { EbikiCoordinatePickerHud } from "@/components/emaki/dev/EbikiCoordinatePicker";
+export { EbikiCoordinatePickerHud } from "@/components/dev/EbikiCoordinatePicker";
