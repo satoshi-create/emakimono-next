@@ -118,8 +118,19 @@ export function usePolaroidExport({
     const titleLines = [chapter, mainTitle].filter(Boolean).join("\n");
     const cleanMsg = typeof message === "string" ? message.trim() : "";
     const customLine = cleanMsg ? cleanMsg : "";
-    const tags = "#絵巻物ビューアー #日本美術";
-    const url = typeof window !== "undefined" ? window.location.href : "";
+    const tags = isEn ? "#EmakiViewer #JapaneseArt" : "#絵巻物ビューアー #日本美術";
+    let url = typeof window !== "undefined" ? window.location.href : "";
+    if (url && !isEn) {
+      try {
+        const parsed = new URL(url);
+        if (!parsed.pathname.startsWith("/ja/") && parsed.pathname !== "/ja") {
+          parsed.pathname = `/ja${parsed.pathname === "/" ? "" : parsed.pathname}`;
+          url = parsed.toString();
+        }
+      } catch {
+        // noop
+      }
+    }
 
     return [titleLines, customLine, tags, url]
       .filter((line) => line !== "")

@@ -32,6 +32,7 @@ import {
   MESSAGE_MAX,
   getThemeTextureUrl,
 } from "./polaroid/polaroidCanvasRenderer";
+import { appendBoardItem } from "./polaroid/polaroidBoardStorage";
 
 // --- 分割・抽出された責務別カスタムフック ---
 import { usePolaroidPanZoom } from "./polaroid/usePolaroidPanZoom";
@@ -573,7 +574,7 @@ export function PolaroidModal({
           </p>
         )}
 
-        {/* --- F. フッター操作ボタン（保存 / 共有 / 閉じる） --- */}
+        {/* --- F. フッター操作ボタン（保存 / 共有 / ボード / 閉じる） --- */}
         <div className={styles.footer}>
           <button
             type="button"
@@ -591,6 +592,30 @@ export function PolaroidModal({
             disabled={!src}
           >
             {isEn ? "Save" : "保存"}
+          </button>
+          <button
+            type="button"
+            className={styles.secondaryBtn || styles.closeBtn}
+            onClick={() => {
+              appendBoardItem({
+                scrollId,
+                sceneIndex: selectedIndex,
+                src,
+                prevSrc: prevSlot?.src || "",
+                nextSrc: nextSlot?.src || "",
+                pan,
+                zoom,
+                coverScale,
+                theme: currentTheme,
+                displayTitle,
+                displayChapter,
+                message,
+              });
+              handleModalClose();
+              router.push("/board");
+            }}
+          >
+            {isEn ? "Pin to Board" : "ボードに貼る"}
           </button>
           <button
             type="button"
