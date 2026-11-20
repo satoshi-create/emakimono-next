@@ -1,32 +1,43 @@
 /**
- * Client helpers for Turso-backed UGC API routes.
+ * Turso バックエンド連携 UGC API 用クライアントヘルパー
  */
 
-async function postJson(url, body) {
-  const res = await fetch(url, {
+// =============================================================================
+// 1. 共通 JSON リクエスト基盤
+// =============================================================================
+
+/**
+ * JSON API への共通 fetch ラッパ
+ * @param {string} url
+ * @param {RequestInit & { ignore503?: boolean }} [options]
+ */
+async function requestJson(url, { ignore503 = true, ...fetchOptions } = {}) {
+  const res = await fetch(url, fetchOptions);
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok && !(ignore503 && res.status === 503)) {
+    throw new Error(data.message || `Request failed (${res.status})`);
+  }
+
+  return data;
+}
+
+function getJson(url, options) {
+  return requestJson(url, options);
+}
+
+function postJson(url, body, options) {
+  return requestJson(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
+    ...options,
   });
-
-  if (!res.ok && res.status !== 503) {
-    const data = await res.json().catch(() => ({}));
-    throw new Error(data.message || `Request failed (${res.status})`);
-  }
-
-  return res.json().catch(() => ({}));
 }
 
-async function getJson(url) {
-  const res = await fetch(url);
-
-  if (!res.ok && res.status !== 503) {
-    const data = await res.json().catch(() => ({}));
-    throw new Error(data.message || `Request failed (${res.status})`);
-  }
-
-  return res.json().catch(() => ({}));
-}
+// =============================================================================
+// 2. いいね API クライアント（絵巻単位・シーン単位）
+// =============================================================================
 
 export async function postEmakiLike(emakiId) {
   try {
@@ -61,6 +72,10 @@ export async function fetchSceneLikeCounts(emakiId) {
   }
 }
 
+// =============================================================================
+// 3. 読後フィードバック API クライアント
+// =============================================================================
+
 export async function postScrollFeedback({
   emakiId,
   choice,
@@ -68,21 +83,15 @@ export async function postScrollFeedback({
   scrollRatio,
   locale,
 }) {
-  const res = await fetch("/api/feedback/scroll", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
+  return postJson(
+    "/api/feedback/scroll",
+    {
       emakiId,
       choice,
       sceneIndex,
       scrollRatio,
       locale,
-    }),
-  });
-
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    throw new Error(data.message || `Request failed (${res.status})`);
-  }
-  return data;
+    },
+    { ignore503: false }
+  );
 }

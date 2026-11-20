@@ -1,9 +1,18 @@
 import { getDb } from "@/db";
 import { sceneLikes } from "@/db/schema";
-import { ensureDbConfigured } from "@/libs/api/dbApi";
+import {
+  ensureDbConfigured,
+  ensureMethod,
+  parseNonEmptyString,
+  sendApiError,
+} from "@/libs/api/dbApi";
 import { getVisitorHash } from "@/libs/api/visitorHash";
 import { and, eq, sql } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
+
+// =============================================================================
+// 1. DB クエリヘルパー
+// =============================================================================
 
 async function selectSceneLikeCount(db, emakiId, index) {
   const result = await db
@@ -16,59 +25,57 @@ async function selectSceneLikeCount(db, emakiId, index) {
   return Number(result[0]?.count ?? 0);
 }
 
-export default async function handler(req, res) {
-  if (!ensureDbConfigured(res)) {
-    return;
+// =============================================================================
+// 2. メソッド別ハンドラ（GET: シーン別集計 / POST: いいね登録・解除）
+// =============================================================================
+
+async function handleGet(req, res) {
+  const emakiId = parseNonEmptyString(req.query?.emakiId, 128);
+  if (!emakiId) {
+    return sendApiError(res, 400, "Invalid emakiId");
   }
 
-  if (req.method === "GET") {
-    const { emakiId } = req.query ?? {};
-    if (!emakiId || typeof emakiId !== "string" || emakiId.length > 128) {
-      return res.status(400).json({ message: "Invalid emakiId" });
-    }
+  const db = getDb();
 
-    const db = getDb();
+  try {
+    const rows = await db
+      .select({
+        sceneIndex: sceneLikes.sceneIndex,
+        count: sql`count(*)`,
+      })
+      .from(sceneLikes)
+      .where(eq(sceneLikes.emakiId, emakiId))
+      .groupBy(sceneLikes.sceneIndex);
 
-    try {
-      const rows = await db
-        .select({
-          sceneIndex: sceneLikes.sceneIndex,
-          count: sql`count(*)`,
-        })
-        .from(sceneLikes)
-        .where(eq(sceneLikes.emakiId, emakiId))
-        .groupBy(sceneLikes.sceneIndex);
+    const counts = rows.reduce((acc, row) => {
+      acc[row.sceneIndex] = Number(row.count ?? 0);
+      return acc;
+    }, {});
 
-      const counts = rows.reduce((acc, row) => {
-        acc[row.sceneIndex] = Number(row.count ?? 0);
-        return acc;
-      }, {});
-
-      res.setHeader("Cache-Control", "s-maxage=60, stale-while-revalidate=300");
-      return res.status(200).json({ counts });
-    } catch (error) {
-      console.error("GET /api/likes/scene failed:", error);
-      return res.status(500).json({ message: "Failed to load scene likes" });
-    }
+    res.setHeader("Cache-Control", "s-maxage=60, stale-while-revalidate=300");
+    return res.status(200).json({ counts });
+  } catch (error) {
+    console.error("GET /api/likes/scene failed:", error);
+    return sendApiError(res, 500, "Failed to load scene likes");
   }
+}
 
-  if (req.method !== "POST") {
-    res.setHeader("Allow", ["GET", "POST"]);
-    return res.status(405).json({ message: `Method ${req.method} Not Allowed` });
-  }
+async function handlePost(req, res) {
+  const emakiId = parseNonEmptyString(req.body?.emakiId, 128);
+  const sceneIndex = req.body?.sceneIndex;
+  const action = req.body?.action;
 
-  const { emakiId, sceneIndex, action } = req.body ?? {};
-  if (!emakiId || typeof emakiId !== "string" || emakiId.length > 128) {
-    return res.status(400).json({ message: "Invalid emakiId" });
+  if (!emakiId) {
+    return sendApiError(res, 400, "Invalid emakiId");
   }
 
   const index = Number(sceneIndex);
   if (!Number.isInteger(index) || index < 0) {
-    return res.status(400).json({ message: "Invalid sceneIndex" });
+    return sendApiError(res, 400, "Invalid sceneIndex");
   }
 
   if (action !== "like" && action !== "unlike") {
-    return res.status(400).json({ message: "Invalid action" });
+    return sendApiError(res, 400, "Invalid action");
   }
 
   const visitorHash = getVisitorHash(req);
@@ -106,6 +113,20 @@ export default async function handler(req, res) {
     return res.status(200).json({ ok: true, liked: true, count });
   } catch (error) {
     console.error("POST /api/likes/scene failed:", error);
-    return res.status(500).json({ message: "Failed to save scene like" });
+    return sendApiError(res, 500, "Failed to save scene like");
   }
+}
+
+// =============================================================================
+// 3. エントリポイント
+// =============================================================================
+
+export default async function handler(req, res) {
+  if (!ensureDbConfigured(res)) return;
+  if (!ensureMethod(req, res, ["GET", "POST"])) return;
+
+  if (req.method === "GET") {
+    return handleGet(req, res);
+  }
+  return handlePost(req, res);
 }
