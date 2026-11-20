@@ -62,6 +62,7 @@ async function handleGetPublicBoards(res) {
       .select({
         id: polaroidBoards.id,
         title: polaroidBoards.title,
+        description: polaroidBoards.description,
         visibility: polaroidBoards.visibility,
         createdAt: polaroidBoards.createdAt,
         itemCount: sql`count(${polaroidBoardItems.id})`,
@@ -81,6 +82,7 @@ async function handleGetPublicBoards(res) {
       boards: boards.map((b) => ({
         id: b.id,
         title: b.title,
+        description: b.description || "",
         visibility: b.visibility,
         itemCount: Number(b.itemCount ?? 0),
         createdAt: b.createdAt ? new Date(b.createdAt).getTime() : Date.now(),
@@ -102,6 +104,7 @@ export default async function handler(req, res) {
 
   const title =
     parseNonEmptyString(req.body?.title, 100) || "みんなのポラロイドボード";
+  const description = parseNonEmptyString(req.body?.description, 240) || "";
   const visibility = req.body?.visibility === "public" ? "public" : "unlisted";
   const authorName = parseNonEmptyString(req.body?.authorName, 40) || "";
   const rawItems = Array.isArray(req.body?.items)
@@ -117,6 +120,7 @@ export default async function handler(req, res) {
     await db.insert(polaroidBoards).values({
       id: boardId,
       title,
+      description,
       visibility,
       createdByHash: visitorHash,
     });
@@ -136,6 +140,7 @@ export default async function handler(req, res) {
       board: {
         id: boardId,
         title,
+        description,
         visibility,
       },
       itemCount: initialRows.length,

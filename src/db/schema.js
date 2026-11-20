@@ -64,6 +64,7 @@ export const scrollFeedback = sqliteTable("scroll_feedback", {
 export const polaroidBoards = sqliteTable("polaroid_boards", {
   id: text("id").primaryKey(),
   title: text("title").notNull().default("みんなのポラロイドボード"),
+  description: text("description").notNull().default(""),
   visibility: text("visibility").notNull().default("unlisted"), // 'unlisted' (限定公開) | 'public' (公開ボード)
   createdByHash: text("created_by_hash").notNull(),
   createdAt: integer("created_at", { mode: "timestamp_ms" })

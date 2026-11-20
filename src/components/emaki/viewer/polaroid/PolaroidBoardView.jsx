@@ -18,6 +18,7 @@ import {
   createCollabBoard,
   fetchCollabBoard,
   updateCollabBoardTitle,
+  updateCollabBoardMeta,
   updateCollabBoardItem,
   deleteCollabBoardItem,
 } from "@/libs/api/ugcApi";
@@ -475,46 +476,156 @@ export function PolaroidBoardView() {
           </div>
         </div>
 
-        <div className={styles.headerRight}>
-          <button
-            type="button"
-            onClick={() => router.push("/board/public")}
-            className={styles.collabMiniBtn}
-          >
-            {isEn ? "Public Boards" : "公開ボード一覧"}
-          </button>
+        <div
+          className={styles.headerRight}
+          style={{ flexWrap: "nowrap", gap: 8, alignItems: "center" }}
+        >
           {isCollabMode ? (
             <>
+              <span
+                style={{
+                  fontSize: 12,
+                  fontWeight: 700,
+                  padding: "4px 10px",
+                  borderRadius: 999,
+                  whiteSpace: "nowrap",
+                  background:
+                    collabBoard?.visibility === "public" ? "#ecfdf5" : "#fffbeb",
+                  color:
+                    collabBoard?.visibility === "public" ? "#047857" : "#b45309",
+                  border:
+                    collabBoard?.visibility === "public"
+                      ? "1px solid #a7f3d0"
+                      : "1px solid #fde68a",
+                }}
+              >
+                {collabBoard?.visibility === "public"
+                  ? isEn
+                    ? "Public Board"
+                    : "公開ボード"
+                  : isEn
+                  ? "Unlisted Shared"
+                  : "限定共有ボード"}
+              </span>
+              <input
+                type="text"
+                value={collabTitleDraft}
+                onChange={(e) => setCollabTitleDraft(e.target.value)}
+                onBlur={handleSaveCollabTitle}
+                aria-label="Board title"
+                className={styles.collabTitleInput}
+                style={{ maxWidth: 180 }}
+              />
               <button
                 type="button"
                 onClick={handleCopyCollabInviteUrl}
                 className={styles.primaryBtn}
+                style={{ whiteSpace: "nowrap" }}
               >
-                {isEn ? "Copy Share Link" : "共有リンクをコピー"}
+                {isEn ? "Copy Link" : "共有URLコピー"}
               </button>
               <button
                 type="button"
-                onClick={() => router.push("/board")}
+                onClick={() =>
+                  router.push("/board/public", undefined, {
+                    locale: router.locale,
+                  })
+                }
                 className={styles.collabMiniBtn}
+                style={{ whiteSpace: "nowrap" }}
               >
-                {isEn ? "New Personal Board" : "個人ボードへ切替"}
+                {isEn ? "Public List" : "公開一覧"}
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  router.push("/board", undefined, { locale: router.locale })
+                }
+                className={styles.collabMiniBtn}
+                style={{ whiteSpace: "nowrap" }}
+              >
+                {isEn ? "Personal" : "個人ボード"}
               </button>
             </>
           ) : isSharedMode ? (
-            <button type="button" onClick={handleSaveSharedToMyBoard} className={styles.saveSharedBtn}>
-              {isEn ? "Edit on My Board" : "このボードを編集する"}
-            </button>
+            <>
+              <span
+                style={{
+                  fontSize: 12,
+                  fontWeight: 700,
+                  padding: "4px 10px",
+                  borderRadius: 999,
+                  whiteSpace: "nowrap",
+                  background: "#f3f4f6",
+                  color: "#374151",
+                }}
+              >
+                {isEn ? "Shared Preview" : "共有プレビュー"}
+              </span>
+              <button
+                type="button"
+                onClick={handleSaveSharedToMyBoard}
+                className={styles.saveSharedBtn}
+                style={{ whiteSpace: "nowrap" }}
+              >
+                {isEn ? "Save to Personal" : "個人ボードに保存"}
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  router.push("/board/public", undefined, {
+                    locale: router.locale,
+                  })
+                }
+                className={styles.collabMiniBtn}
+                style={{ whiteSpace: "nowrap" }}
+              >
+                {isEn ? "Public List" : "公開一覧"}
+              </button>
+            </>
           ) : (
-            <button
-              type="button"
-              disabled={isCreatingRoom}
-              onClick={handleCreateCollabRoom}
-              className={styles.primaryBtn}
-            >
-              {isCreatingRoom
-                ? isEn ? "Creating Link..." : "共有リンク発行中..."
-                : isEn ? "Share Board to Collaborate" : "リンクを共有して一緒に貼る"}
-            </button>
+            <>
+              <span
+                style={{
+                  fontSize: 12,
+                  fontWeight: 700,
+                  padding: "4px 10px",
+                  borderRadius: 999,
+                  whiteSpace: "nowrap",
+                  background: "#f3f4f6",
+                  color: "#111827",
+                }}
+              >
+                {isEn ? "Personal Board" : "個人ボード"}
+              </span>
+              <button
+                type="button"
+                onClick={() =>
+                  router.push("/board/public", undefined, {
+                    locale: router.locale,
+                  })
+                }
+                className={styles.collabMiniBtn}
+                style={{ whiteSpace: "nowrap" }}
+              >
+                {isEn ? "Public List" : "公開一覧"}
+              </button>
+              <button
+                type="button"
+                disabled={isCreatingRoom}
+                onClick={handleCreateCollabRoom}
+                className={styles.primaryBtn}
+                style={{ whiteSpace: "nowrap" }}
+              >
+                {isCreatingRoom
+                  ? isEn
+                    ? "Creating..."
+                    : "発行中..."
+                  : isEn
+                  ? "Create Share Link"
+                  : "限定共有リンクを発行"}
+              </button>
+            </>
           )}
         </div>
       </header>
@@ -538,26 +649,41 @@ export function PolaroidBoardView() {
               }
             >
               {collabBoard?.visibility === "public"
-                ? isEn ? "PUBLIC BOARD" : "公開ボード"
-                : isEn ? "SHARED BOARD" : "限定共有中"}
+                ? isEn
+                  ? "PUBLIC"
+                  : "公開"
+                : isEn
+                ? "UNLISTED"
+                : "限定共有"}
             </span>
             <input
               type="text"
-              value={collabTitleDraft}
-              onChange={(e) => setCollabTitleDraft(e.target.value)}
-              onBlur={handleSaveCollabTitle}
-              aria-label="Board title"
+              defaultValue={collabBoard?.description || ""}
+              key={`${collabBoard?.id || "room"}-${collabBoard?.description || ""}`}
+              onBlur={async (e) => {
+                if (!collabBoard?.id) return;
+                const nextDesc = e.target.value.trim().slice(0, 240);
+                if (nextDesc === (collabBoard.description || "")) return;
+                try {
+                  await updateCollabBoardMeta(collabBoard.id, {
+                    description: nextDesc,
+                  });
+                  setCollabBoard((prev) =>
+                    prev ? { ...prev, description: nextDesc } : prev
+                  );
+                } catch (err) {
+                  setRoomError(err.message || "テーマ説明の更新に失敗しました");
+                }
+              }}
+              placeholder={
+                isEn
+                  ? "Theme description (click to edit)"
+                  : "テーマの説明（クリックして編集・共有）"
+              }
+              aria-label="Board theme description"
               className={styles.collabTitleInput}
+              style={{ flex: "1 1 280px", maxWidth: 520 }}
             />
-            <span>
-              {collabBoard?.visibility === "public"
-                ? isEn
-                  ? "This board is open to all visitors in the Public Boards gallery."
-                  : "公開ボード一覧に掲載されており、誰でも閲覧・ポラロイド貼り付けができます"
-                : isEn
-                ? "Anyone with this URL can pin polaroids from any scroll."
-                : "URLを知っている人だけが参加できる限定公開ボードです（授業・グループ向け）"}
-            </span>
             {roomError && <strong style={{ color: "#dc2626" }}>({roomError})</strong>}
           </div>
           <div className={styles.collabBannerRight}>
