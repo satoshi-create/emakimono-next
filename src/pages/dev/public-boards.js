@@ -165,6 +165,7 @@ function serializeBoardDescription(desc, odai) {
     prompt: (odai?.prompt || "").trim(),
     mode: odai?.mode || "coop",
     targetCount: Number(odai?.targetCount) || 0,
+    onePerUser: odai?.onePerUser === true,
   };
   const tag = `<!--odai:${JSON.stringify(payload)}-->`;
   if (!base) return tag;

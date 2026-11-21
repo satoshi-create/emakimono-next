@@ -97,55 +97,67 @@ async function handlePost(req, res, boardId) {
       req.body?.rotate !== undefined
         ? String(Number(req.body.rotate) || 0)
         : ((Math.random() - 0.5) * 6).toFixed(2);
-    const zIndex = currentCount + 1;
-    const authorName = parseNonEmptyString(req.body?.authorName, 40) || "";
+      const zIndex = currentCount + 1;
+      const authorName = parseNonEmptyString(req.body?.authorName, 40) || "";
 
-    if (isOnePerUser) {
-      const existingItems = await db
-        .select({
-          id: polaroidBoardItems.id,
-          visitorHash: polaroidBoardItems.visitorHash,
-          authorName: polaroidBoardItems.authorName,
-        })
-        .from(polaroidBoardItems)
-        .where(eq(polaroidBoardItems.boardId, boardId));
-
-      const alreadyPosted = existingItems.some(
-        (row) =>
-          (visitorHash && row.visitorHash === visitorHash) ||
-          (authorName && row.authorName === authorName)
+      const expectedAdminKey = process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY;
+      const providedAdminKey = req.headers["x-board-admin-key"];
+      const isBoardAdmin = Boolean(
+        expectedAdminKey && providedAdminKey === expectedAdminKey
       );
-      if (alreadyPosted) {
-        return sendApiError(
-          res,
-          409,
-          "このお題はお一人様1枚まで投稿できます（既にある自分のカードを削除すると再投稿できます）"
-        );
-      }
-    }
 
-    const newRow = {
-      id: itemId,
-      boardId,
-      scrollId,
-      sceneIndex,
-      src,
-      panX,
-      panY,
-      zoom,
-      coverScale,
-      theme,
-      displayTitle,
-      displayChapter,
-      message,
-      boardX,
-      boardY,
-      rotate,
-      zIndex,
-      authorName,
-      visitorHash,
-      createdAt: new Date(),
-    };
+      const clientId = parseNonEmptyString(req.body?.clientId, 80) || "";
+      const storedVisitorHash = clientId
+        ? `${visitorHash}:${clientId}`.slice(0, 64)
+        : visitorHash;
+
+      if (isOnePerUser && !isBoardAdmin) {
+        const existingItems = await db
+          .select({
+            id: polaroidBoardItems.id,
+            visitorHash: polaroidBoardItems.visitorHash,
+            authorName: polaroidBoardItems.authorName,
+          })
+          .from(polaroidBoardItems)
+          .where(eq(polaroidBoardItems.boardId, boardId));
+
+        const alreadyPosted = existingItems.some(
+          (row) =>
+            (visitorHash && row.visitorHash && row.visitorHash.startsWith(visitorHash)) ||
+            (clientId && row.visitorHash && row.visitorHash.endsWith(`:${clientId}`)) ||
+            (authorName && row.authorName === authorName)
+        );
+        if (alreadyPosted) {
+          return sendApiError(
+            res,
+            409,
+            "このお題はお一人様1枚まで投稿できます（既にある自分のカードを削除すると再投稿できます）"
+          );
+        }
+      }
+
+      const newRow = {
+        id: itemId,
+        boardId,
+        scrollId,
+        sceneIndex,
+        src,
+        panX,
+        panY,
+        zoom,
+        coverScale,
+        theme,
+        displayTitle,
+        displayChapter,
+        message,
+        boardX,
+        boardY,
+        rotate,
+        zIndex,
+        authorName,
+        visitorHash: storedVisitorHash,
+        createdAt: new Date(),
+      };
 
     await db.insert(polaroidBoardItems).values(newRow);
 

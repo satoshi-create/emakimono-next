@@ -104,7 +104,7 @@ export default async function handler(req, res) {
 
     const title =
       parseNonEmptyString(req.body?.title, 100) || "みんなのポラロイドボード";
-    const description = parseNonEmptyString(req.body?.description, 240) || "";
+    const description = parseNonEmptyString(req.body?.description, 800) || "";
     const visibility = req.body?.visibility === "public" ? "public" : "unlisted";
 
     if (visibility === "public") {
