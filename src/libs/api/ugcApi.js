@@ -143,11 +143,39 @@ export async function updateCollabBoardMeta(boardId, payload) {
   });
 }
 
+function getOrCreatePolaroidClientId() {
+  if (typeof window === "undefined") return "";
+  const key = "emakimono_polaroid_client_id_v1";
+  try {
+    let cid = window.localStorage.getItem(key);
+    if (!cid) {
+      cid = `cid_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+      window.localStorage.setItem(key, cid);
+    }
+    return cid;
+  } catch {
+    return "";
+  }
+}
+
 export async function addCollabBoardItem(boardId, item) {
+  const clientId = getOrCreatePolaroidClientId();
+  const adminKey =
+    typeof window !== "undefined"
+      ? window.localStorage.getItem("emakimono_board_admin_key") || ""
+      : "";
+  const headers = { "Content-Type": "application/json" };
+  if (adminKey) {
+    headers["x-board-admin-key"] = adminKey;
+  }
+
   return requestJson(`/api/board/${encodeURIComponent(boardId)}/items`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(item),
+    headers,
+    body: JSON.stringify({
+      ...item,
+      clientId: item?.clientId || clientId,
+    }),
     ignore503: false,
   });
 }

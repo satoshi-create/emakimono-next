@@ -55,6 +55,7 @@ export function PolaroidBoardInfoCard({
         prompt: parsed.prompt,
         mode: parsed.mode,
         targetCount: Number(parsed.targetCount) || 0,
+        onePerUser: Boolean(parsed.onePerUser),
       };
     } catch {
       return null;
@@ -299,6 +300,21 @@ export function PolaroidBoardInfoCard({
                     >
                       {theme.badgeLabel}
                     </span>
+                    {odaiMeta.onePerUser && (
+                      <span
+                        style={{
+                          fontSize: 11.5,
+                          fontWeight: 800,
+                          padding: "3px 9px",
+                          borderRadius: 999,
+                          background: "#fee2e2",
+                          color: "#b91c1c",
+                          border: "1px solid #fca5a5",
+                        }}
+                      >
+                        🔒 {isEn ? "1 per user" : "1人1枚限定"}
+                      </span>
+                    )}
                     <span style={{ fontWeight: 700, fontSize: 14.5, lineHeight: 1.45 }}>
                       📜 {isEn ? "Theme:" : "お題:"} {odaiMeta.prompt}
                     </span>

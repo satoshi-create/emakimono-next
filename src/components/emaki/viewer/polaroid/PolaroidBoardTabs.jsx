@@ -15,9 +15,24 @@ export function PolaroidBoardTabs({
   const canCreateTheme = !isCollabMode || isBoardAdmin;
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    const expectedKey = process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY;
+    if (!expectedKey) return;
+
+    const url = new URL(window.location.href);
+    const adminParam = url.searchParams.get("admin");
+    if (adminParam && adminParam === expectedKey) {
+      try {
+        window.localStorage.setItem("emakimono_board_admin_key", adminParam);
+      } catch {
+        // ignore storage errors
+      }
+      url.searchParams.delete("admin");
+      window.history.replaceState({}, "", url.toString());
+    }
+
     setIsBoardAdmin(
-      localStorage.getItem("emakimono_board_admin_key") ===
-        process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY
+      window.localStorage.getItem("emakimono_board_admin_key") === expectedKey
     );
   }, []);
 

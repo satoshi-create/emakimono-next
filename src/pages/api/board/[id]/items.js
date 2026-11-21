@@ -33,13 +33,28 @@ async function handlePost(req, res, boardId) {
     const db = getDb();
 
     const boards = await db
-      .select({ id: polaroidBoards.id })
+      .select({
+        id: polaroidBoards.id,
+        description: polaroidBoards.description,
+      })
       .from(polaroidBoards)
       .where(eq(polaroidBoards.id, boardId))
       .limit(1);
 
     if (boards.length === 0) {
       return sendApiError(res, 404, "Board not found");
+    }
+
+    let isOnePerUser = false;
+    const rawDesc = boards[0]?.description || "";
+    const odaiMatch = rawDesc.match(/<!--odai:(\{[\s\S]*?\})-->/);
+    if (odaiMatch) {
+      try {
+        const parsedOdai = JSON.parse(odaiMatch[1]);
+        if (parsedOdai?.onePerUser === true) {
+          isOnePerUser = true;
+        }
+      } catch {}
     }
 
     const countResult = await db
@@ -84,6 +99,30 @@ async function handlePost(req, res, boardId) {
         : ((Math.random() - 0.5) * 6).toFixed(2);
     const zIndex = currentCount + 1;
     const authorName = parseNonEmptyString(req.body?.authorName, 40) || "";
+
+    if (isOnePerUser) {
+      const existingItems = await db
+        .select({
+          id: polaroidBoardItems.id,
+          visitorHash: polaroidBoardItems.visitorHash,
+          authorName: polaroidBoardItems.authorName,
+        })
+        .from(polaroidBoardItems)
+        .where(eq(polaroidBoardItems.boardId, boardId));
+
+      const alreadyPosted = existingItems.some(
+        (row) =>
+          (visitorHash && row.visitorHash === visitorHash) ||
+          (authorName && row.authorName === authorName)
+      );
+      if (alreadyPosted) {
+        return sendApiError(
+          res,
+          409,
+          "このお題はお一人様1枚まで投稿できます（既にある自分のカードを削除すると再投稿できます）"
+        );
+      }
+    }
 
     const newRow = {
       id: itemId,

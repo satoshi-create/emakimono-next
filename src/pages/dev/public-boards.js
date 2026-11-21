@@ -177,6 +177,7 @@ export default function DevPublicBoardsPage() {
   const [odaiPrompt, setOdaiPrompt] = useState("");
   const [odaiMode, setOdaiMode] = useState("coop");
   const [odaiTarget, setOdaiTarget] = useState(3);
+  const [odaiOnePerUser, setOdaiOnePerUser] = useState(false);
   const [deletingId, setDeletingId] = useState("");
   const [boards, setBoards] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -224,6 +225,7 @@ export default function DevPublicBoardsPage() {
             prompt: odaiPrompt,
             mode: odaiMode,
             targetCount: odaiTarget,
+            onePerUser: odaiOnePerUser,
           }),
           visibility: "public",
         }),
@@ -237,6 +239,7 @@ export default function DevPublicBoardsPage() {
       setOdaiPrompt("");
       setOdaiMode("coop");
       setOdaiTarget(3);
+      setOdaiOnePerUser(false);
       await loadBoards();
     } catch (err) {
       setError(err.message || "作成に失敗しました");
@@ -353,6 +356,24 @@ export default function DevPublicBoardsPage() {
                   </select>
                 </div>
               </div>
+              <label
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  fontSize: "0.88rem",
+                  fontWeight: 600,
+                  marginBottom: "0.9rem",
+                  cursor: "pointer",
+                }}
+              >
+                <input
+                  type="checkbox"
+                  checked={odaiOnePerUser}
+                  onChange={(e) => setOdaiOnePerUser(e.target.checked)}
+                />
+                お一人様1枚までに制限する（同じユーザーからの複数投稿をブロック）
+              </label>
               <label style={labelStyle} htmlFor="board-description">
                 テーマの補足説明（任意・200文字まで）
               </label>
@@ -416,6 +437,7 @@ export default function DevPublicBoardsPage() {
                               {meta.odai.targetCount > 0
                                 ? `（目標 ${count} / ${meta.odai.targetCount}枚）`
                                 : ""}
+                              {meta.odai.onePerUser ? " · 🔒 1人1枚限定" : ""}
                             </div>
                           ) : null}
                           {meta.cleanDescription ? (
