@@ -2,12 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "./PolaroidBoardView.module.css";
-import {
-  THEMES,
-  PHOTO_DW,
-  PHOTO_DH,
-  getThemeTextureUrl,
-} from "./polaroidCanvasRenderer";
+import { PolaroidBoardCard } from "./PolaroidBoardCard";
+import { PolaroidBoardHeader } from "./PolaroidBoardHeader";
 import {
   loadBoardItems,
   saveBoardItems,
@@ -25,71 +21,10 @@ import {
   updateCollabBoardTitle,
 } from "@/libs/api/ugcApi";
 import {
-  BYOBU_HUB_PATH,
-  CHOUJU_GIGA_HUB_PATH,
-  HYAKKI_HUB_PATH,
-  KUSOUZU_HUB_PATH,
-  RAKUCHU_RAKUGAI_HUB_PATH,
-} from "@/libs/constants/links";
-
-const CARD_PHOTO_W = 216;
-const CARD_PHOTO_H = Math.round((CARD_PHOTO_W * PHOTO_DH) / PHOTO_DW); // 168px (720:560比率)
-
-function PolaroidCardPreview({ item }) {
-  const [imgSize, setImgSize] = useState({ w: 0, h: 0 });
-  const r = CARD_PHOTO_W / PHOTO_DW;
-  const cs = item.coverScale || 1;
-  const z = item.zoom || 1.5;
-
-  const dw = imgSize.w ? imgSize.w * cs * z * r : 0;
-  const dh = imgSize.h ? imgSize.h * cs * z * r : 0;
-  const tx = (item.pan?.x || 0) * r;
-  const ty = (item.pan?.y || 0) * r;
-
-  return (
-    <div
-      style={{
-        width: `${CARD_PHOTO_W}px`,
-        height: `${CARD_PHOTO_H}px`,
-      }}
-      className={styles.photoBox}
-    >
-      {item.src ? (
-        <img
-          src={item.src}
-          alt={item.displayTitle || "Emaki Polaroid"}
-          draggable={false}
-          onLoad={(e) => {
-            const target = e.currentTarget;
-            if (target.naturalWidth && target.naturalHeight) {
-              setImgSize({ w: target.naturalWidth, h: target.naturalHeight });
-            }
-          }}
-          style={
-            dw > 0
-              ? {
-                  position: "absolute",
-                  left: "50%",
-                  top: "50%",
-                  width: `${dw}px`,
-                  height: `${dh}px`,
-                  maxWidth: "none",
-                  transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px))`,
-                }
-              : {
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                }
-          }
-        />
-      ) : null}
-    </div>
-  );
-}
-
-const ACTIVE_COLLAB_ROOM_KEY = "emakimono_active_collab_room_v1";
-const AUTHOR_NAME_KEY = "emakimono_polaroid_author_v1";
+  ACTIVE_COLLAB_ROOM_KEY,
+  AUTHOR_NAME_KEY,
+  buildSourceHref,
+} from "./polaroidBoardHelpers";
 
 export function PolaroidBoardView() {
   const router = useRouter();
@@ -162,26 +97,6 @@ export function PolaroidBoardView() {
     }
   };
 
-  const resolveRelatedThemeHub = (text) => {
-    const s = String(text || "").toLowerCase();
-    if (/鳥獣|choju|chouju/.test(s)) {
-      return { path: CHOUJU_GIGA_HUB_PATH, labelJa: "鳥獣人物戯画一覧", labelEn: "Chōjū-giga" };
-    }
-    if (/百鬼|付喪神|hyakki|tsukumogami/.test(s)) {
-      return { path: HYAKKI_HUB_PATH, labelJa: "百鬼夜行・付喪神一覧", labelEn: "Hyakki Yagyō" };
-    }
-    if (/九相|kusozu|kusouzu/.test(s)) {
-      return { path: KUSOUZU_HUB_PATH, labelJa: "九相図一覧", labelEn: "Kusōzu" };
-    }
-    if (/洛中|rakuchu/.test(s)) {
-      return { path: RAKUCHU_RAKUGAI_HUB_PATH, labelJa: "洛中洛外図一覧", labelEn: "Rakuchū-rakugai-zu" };
-    }
-    if (/屏風|byobu/.test(s)) {
-      return { path: BYOBU_HUB_PATH, labelJa: "屏風一覧", labelEn: "Byōbu Screens" };
-    }
-    return null;
-  };
-
   const handleToggleCardLike = (e, cardId) => {
     e.stopPropagation();
     setLikedIds((prev) => ({ ...prev, [cardId]: !prev[cardId] }));
@@ -202,35 +117,6 @@ export function PolaroidBoardView() {
     }
   };
 
-  const buildSourceHref = (item) => {
-    const params = new URLSearchParams();
-    if (typeof item.sceneIndex === "number" && item.sceneIndex >= 0) {
-      params.set("slice", String(item.sceneIndex));
-    }
-    const z = typeof item.zoom === "number" && item.zoom > 0 ? item.zoom : 1.5;
-    const cs = typeof item.coverScale === "number" && item.coverScale > 0 ? item.coverScale : 1;
-    const estW = 960 * cs * z;
-    const estH = 960 * cs * z;
-    const cx =
-      typeof item.cx === "number" && Number.isFinite(item.cx)
-        ? item.cx
-        : Math.round(Math.min(100, Math.max(0, 50 - ((item.pan?.x || 0) / estW) * 100)) * 10) / 10;
-    const cy =
-      typeof item.cy === "number" && Number.isFinite(item.cy)
-        ? item.cy
-        : Math.round(Math.min(100, Math.max(0, 50 - ((item.pan?.y || 0) / estH) * 100)) * 10) / 10;
-    const cz =
-      typeof item.cz === "number" && Number.isFinite(item.cz)
-        ? item.cz
-        : Math.round(Math.min(4.6, Math.max(1.2, z)) * 100) / 100;
-
-    params.set("cx", String(cx));
-    params.set("cy", String(cy));
-    params.set("cz", String(cz));
-
-    const qs = params.toString();
-    return qs ? `/${item.scrollId}?${qs}` : `/${item.scrollId}`;
-  };
   const sharedParam = typeof router.query.d === "string" ? router.query.d : "";
   const roomParam = typeof router.query.room === "string" ? router.query.room.trim() : "";
 
@@ -246,10 +132,55 @@ export function PolaroidBoardView() {
   const isCollabMode = Boolean(roomParam);
   const [copied, setCopied] = useState(false);
   const [activeId, setActiveId] = useState(null);
-  const [viewport, setViewport] = useState({ x: 0, y: 0, scale: 1 });
+  const [viewport, setViewport] = useState({ x: 48, y: 48, scale: 1 });
   const [isPanning, setIsPanning] = useState(false);
 
   const canvasOuterRef = useRef(null);
+  const hasInitialFitRef = useRef(false);
+
+  const fitViewportToItems = (targetItems) => {
+    if (!Array.isArray(targetItems) || targetItems.length === 0) {
+      setViewport({ x: 48, y: 48, scale: 1 });
+      return;
+    }
+    const cardW = 240;
+    const cardH = 310;
+    let minX = Infinity;
+    let minY = Infinity;
+    let maxX = -Infinity;
+    let maxY = -Infinity;
+
+    for (const it of targetItems) {
+      const x = Number(it.boardX) || 0;
+      const y = Number(it.boardY) || 0;
+      if (x < minX) minX = x;
+      if (y < minY) minY = y;
+      if (x + cardW > maxX) maxX = x + cardW;
+      if (y + cardH > maxY) maxY = y + cardH;
+    }
+
+    const rect = canvasOuterRef.current?.getBoundingClientRect();
+    const viewW = rect?.width || (typeof window !== "undefined" ? window.innerWidth : 1280);
+    const viewH = rect?.height || (typeof window !== "undefined" ? window.innerHeight - 120 : 680);
+
+    const pad = 48;
+    const contentW = Math.max(cardW, maxX - minX);
+    const contentH = Math.max(cardH, maxY - minY);
+    const availW = Math.max(300, viewW - pad * 2);
+    const availH = Math.max(240, viewH - pad * 2);
+
+    const rawScale = Math.min(1, availW / contentW, availH / contentH);
+    const scale = Math.round(Math.max(0.45, Math.min(1, rawScale)) * 100) / 100;
+
+    const scaledW = contentW * scale;
+    const x =
+      scaledW < availW
+        ? Math.round(pad + (availW - scaledW) / 2 - minX * scale)
+        : Math.round(pad - minX * scale);
+    const y = Math.round(pad - minY * scale);
+
+    setViewport({ x, y, scale });
+  };
   const panStateRef = useRef({
     active: false,
     startX: 0,
@@ -279,9 +210,14 @@ export function PolaroidBoardView() {
     }
     try {
       const data = await fetchCollabBoard(roomId);
+      const loadedItems = Array.isArray(data.items) ? data.items : [];
       setCollabBoard(data.board);
       setCollabTitleDraft(data.board?.title || "");
-      setItems(Array.isArray(data.items) ? data.items : []);
+      setItems(loadedItems);
+      if (!hasInitialFitRef.current) {
+        hasInitialFitRef.current = true;
+        fitViewportToItems(loadedItems);
+      }
       setRoomError("");
       if (typeof window !== "undefined") {
         window.sessionStorage.setItem(
@@ -302,6 +238,7 @@ export function PolaroidBoardView() {
 
   useEffect(() => {
     if (!router.isReady) return;
+    hasInitialFitRef.current = false;
 
     if (roomParam) {
       setIsSharedMode(false);
@@ -325,11 +262,16 @@ export function PolaroidBoardView() {
       if (restored) {
         setItems(restored);
         setIsSharedMode(true);
+        hasInitialFitRef.current = true;
+        fitViewportToItems(restored);
         return;
       }
     }
-    setItems(loadBoardItems());
+    const localItems = loadBoardItems();
+    setItems(localItems);
     setIsSharedMode(false);
+    hasInitialFitRef.current = true;
+    fitViewportToItems(localItems);
   }, [router.isReady, sharedParam, roomParam]);
 
   const updateAndPersist = (nextItems) => {
@@ -501,7 +443,7 @@ export function PolaroidBoardView() {
   };
 
   const handleZoomReset = () => {
-    setViewport({ x: 0, y: 0, scale: 1 });
+    fitViewportToItems(items);
   };
 
   const handleCardPointerDown = (e, item) => {
@@ -605,288 +547,53 @@ export function PolaroidBoardView() {
     router.replace("/board", undefined, { shallow: true });
   };
 
+  const handleSaveCollabDescription = async (rawDescription) => {
+    if (!collabBoard?.id) return;
+    const nextDesc = String(rawDescription || "").trim().slice(0, 240);
+    if (nextDesc === (collabBoard.description || "")) return;
+    try {
+      await updateCollabBoardMeta(collabBoard.id, {
+        description: nextDesc,
+      });
+      setCollabBoard((prev) =>
+        prev ? { ...prev, description: nextDesc } : prev
+      );
+    } catch (err) {
+      setRoomError(err.message || "テーマ説明の更新に失敗しました");
+    }
+  };
+
   return (
     <div className={styles.page}>
-      {/* 上部ツールバー */}
-      <header className={styles.header}>
-        <div className={styles.headerLeft}>
-          <Link href="/" passHref>
-            <a className={styles.backLink}>{isEn ? "← Gallery" : "← 絵巻一覧へ"}</a>
-          </Link>
-          <div>
-            <h1 className={styles.title}>
-              {isEn ? "Emaki Polaroid Board" : "絵巻ポラロイド・ホワイトボード"}
-            </h1>
-            <p className={styles.subtitle}>
-              {isEn
-                ? "Drag cards to arrange your personal curation."
-                : "ポラロイドを自由に並べて、自分だけの鑑賞ボードを作れます"}
-            </p>
-          </div>
-        </div>
-
-        <div
-          className={styles.headerRight}
-          style={{ flexWrap: "nowrap", gap: 8, alignItems: "center" }}
-        >
-          {isCollabMode ? (
-            <>
-              <span
-                style={{
-                  fontSize: 12,
-                  fontWeight: 700,
-                  padding: "4px 10px",
-                  borderRadius: 999,
-                  whiteSpace: "nowrap",
-                  background:
-                    collabBoard?.visibility === "public" ? "#ecfdf5" : "#fffbeb",
-                  color:
-                    collabBoard?.visibility === "public" ? "#047857" : "#b45309",
-                  border:
-                    collabBoard?.visibility === "public"
-                      ? "1px solid #a7f3d0"
-                      : "1px solid #fde68a",
-                }}
-              >
-                {collabBoard?.visibility === "public"
-                  ? isEn
-                    ? "Public Board"
-                    : "公開ボード"
-                  : isEn
-                  ? "Unlisted Shared"
-                  : "限定共有ボード"}
-              </span>
-              <input
-                type="text"
-                value={collabTitleDraft}
-                onChange={(e) => setCollabTitleDraft(e.target.value)}
-                onBlur={handleSaveCollabTitle}
-                aria-label="Board title"
-                className={styles.collabTitleInput}
-                style={{ maxWidth: 180 }}
-              />
-              <button
-                type="button"
-                onClick={handleCopyCollabInviteUrl}
-                className={styles.primaryBtn}
-                style={{ whiteSpace: "nowrap" }}
-              >
-                {isEn ? "Copy Link" : "共有URLコピー"}
-              </button>
-              <button
-                type="button"
-                onClick={() =>
-                  router.push("/board/public", undefined, {
-                    locale: router.locale,
-                  })
-                }
-                className={styles.collabMiniBtn}
-                style={{ whiteSpace: "nowrap" }}
-              >
-                {isEn ? "Public List" : "公開一覧"}
-              </button>
-              <button
-                type="button"
-                onClick={() =>
-                  router.push("/board", undefined, { locale: router.locale })
-                }
-                className={styles.collabMiniBtn}
-                style={{ whiteSpace: "nowrap" }}
-              >
-                {isEn ? "Personal" : "個人ボード"}
-              </button>
-            </>
-          ) : isSharedMode ? (
-            <>
-              <span
-                style={{
-                  fontSize: 12,
-                  fontWeight: 700,
-                  padding: "4px 10px",
-                  borderRadius: 999,
-                  whiteSpace: "nowrap",
-                  background: "#f3f4f6",
-                  color: "#374151",
-                }}
-              >
-                {isEn ? "Shared Preview" : "共有プレビュー"}
-              </span>
-              <button
-                type="button"
-                onClick={handleSaveSharedToMyBoard}
-                className={styles.saveSharedBtn}
-                style={{ whiteSpace: "nowrap" }}
-              >
-                {isEn ? "Save to Personal" : "個人ボードに保存"}
-              </button>
-              <button
-                type="button"
-                onClick={() =>
-                  router.push("/board/public", undefined, {
-                    locale: router.locale,
-                  })
-                }
-                className={styles.collabMiniBtn}
-                style={{ whiteSpace: "nowrap" }}
-              >
-                {isEn ? "Public List" : "公開一覧"}
-              </button>
-            </>
-          ) : (
-            <>
-              <span
-                style={{
-                  fontSize: 12,
-                  fontWeight: 700,
-                  padding: "4px 10px",
-                  borderRadius: 999,
-                  whiteSpace: "nowrap",
-                  background: "#f3f4f6",
-                  color: "#111827",
-                }}
-              >
-                {isEn ? "Personal Board" : "個人ボード"}
-              </span>
-              <button
-                type="button"
-                onClick={() =>
-                  router.push("/board/public", undefined, {
-                    locale: router.locale,
-                  })
-                }
-                className={styles.collabMiniBtn}
-                style={{ whiteSpace: "nowrap" }}
-              >
-                {isEn ? "Public List" : "公開一覧"}
-              </button>
-              <button
-                type="button"
-                disabled={isCreatingRoom}
-                onClick={handleCreateCollabRoom}
-                className={styles.primaryBtn}
-                style={{ whiteSpace: "nowrap" }}
-              >
-                {isCreatingRoom
-                  ? isEn
-                    ? "Creating..."
-                    : "発行中..."
-                  : isEn
-                  ? "Create Share Link"
-                  : "限定共有リンクを発行"}
-              </button>
-            </>
-          )}
-        </div>
-      </header>
-
-      {isCollabMode && (
-        <div
-          className={styles.collabBanner}
-          style={
-            collabBoard?.visibility === "public"
-              ? { background: "#ecfdf5", borderColor: "#a7f3d0", color: "#065f46" }
-              : undefined
-          }
-        >
-          <div className={styles.collabBannerLeft}>
-            <span
-              className={styles.collabBadge}
-              style={
-                collabBoard?.visibility === "public"
-                  ? { background: "#059669" }
-                  : undefined
-              }
-            >
-              {collabBoard?.visibility === "public"
-                ? isEn
-                  ? "PUBLIC"
-                  : "公開"
-                : isEn
-                ? "UNLISTED"
-                : "限定共有"}
-            </span>
-            <input
-              type="text"
-              defaultValue={collabBoard?.description || ""}
-              key={`${collabBoard?.id || "room"}-${collabBoard?.description || ""}`}
-              onBlur={async (e) => {
-                if (!collabBoard?.id) return;
-                const nextDesc = e.target.value.trim().slice(0, 240);
-                if (nextDesc === (collabBoard.description || "")) return;
-                try {
-                  await updateCollabBoardMeta(collabBoard.id, {
-                    description: nextDesc,
-                  });
-                  setCollabBoard((prev) =>
-                    prev ? { ...prev, description: nextDesc } : prev
-                  );
-                } catch (err) {
-                  setRoomError(err.message || "テーマ説明の更新に失敗しました");
-                }
-              }}
-              placeholder={
-                isEn
-                  ? "Theme description (click to edit)"
-                  : "テーマの説明（クリックして編集・共有）"
-              }
-              aria-label="Board theme description"
-              className={styles.collabTitleInput}
-              style={{ flex: "1 1 280px", maxWidth: 520 }}
-            />
-            {(() => {
-              const hub = resolveRelatedThemeHub(
-                `${collabBoard?.title || ""} ${collabBoard?.description || ""}`
-              );
-              if (!hub) return null;
-              return (
-                <Link href={hub.path} locale={router.locale} passHref>
-                  <a
-                    style={{
-                      fontSize: 12,
-                      fontWeight: 600,
-                      padding: "3px 10px",
-                      borderRadius: 999,
-                      background: "#ffffff",
-                      color: "#047857",
-                      border: "1px solid #a7f3d0",
-                      textDecoration: "none",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {isEn ? `Related: ${hub.labelEn} →` : `関連作品: ${hub.labelJa} →`}
-                  </a>
-                </Link>
-              );
-            })()}
-            {roomError && <strong style={{ color: "#dc2626" }}>({roomError})</strong>}
-          </div>
-          <div className={styles.collabBannerRight}>
-            <label style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
-              <span>{isEn ? "Your name:" : "あなたの名前:"}</span>
-              <input
-                type="text"
-                maxLength={30}
-                value={authorName}
-                onChange={(e) => handleAuthorNameChange(e.target.value)}
-                placeholder={isEn ? "e.g. Student A" : "例: 3年1組 田中"}
-                className={styles.authorNameInput}
-              />
-            </label>
-            <button
-              type="button"
-              disabled={isRefreshing}
-              onClick={() => loadCollabRoom(roomParam, true)}
-              className={styles.collabMiniBtn}
-            >
-              {isRefreshing
-                ? isEn ? "Refreshing..." : "更新中..."
-                : refreshSuccess
-                ? isEn ? "✓ Updated" : "✓ 更新完了"
-                : isEn ? "Refresh" : "最新に更新"}
-            </button>
-          </div>
-        </div>
-      )}
+      <PolaroidBoardHeader
+        collabBoard={collabBoard}
+        collabTitleDraft={collabTitleDraft}
+        isCollabMode={isCollabMode}
+        isEn={isEn}
+        isSharedMode={isSharedMode}
+        locale={router.locale}
+        onCopyCollabInviteUrl={handleCopyCollabInviteUrl}
+        onNavigatePublicBoards={() =>
+          router.push("/board/public", undefined, {
+            locale: router.locale,
+          })
+        }
+        onSaveCollabDescription={handleSaveCollabDescription}
+        onSaveCollabTitle={handleSaveCollabTitle}
+        setCollabTitleDraft={setCollabTitleDraft}
+        onNavigatePersonalBoard={() =>
+          router.push("/board", undefined, { locale: router.locale })
+        }
+        onSaveSharedToMyBoard={handleSaveSharedToMyBoard}
+        isCreatingRoom={isCreatingRoom}
+        onCreateCollabRoom={handleCreateCollabRoom}
+        roomError={roomError}
+        authorName={authorName}
+        onAuthorNameChange={handleAuthorNameChange}
+        isRefreshing={isRefreshing}
+        refreshSuccess={refreshSuccess}
+        onRefreshRoom={() => loadCollabRoom(roomParam, true)}
+      />
 
       {/* ホワイトボードキャンバス（パン＆ズーム対応） */}
       <main
@@ -922,241 +629,34 @@ export function PolaroidBoardView() {
               transform: `translate3d(${viewport.x}px, ${viewport.y}px, 0) scale(${viewport.scale})`,
             }}
           >
-            {items.map((item) => {
-              const th = THEMES[item.theme] || THEMES.white;
-              const texUrl = getThemeTextureUrl(item.theme);
-              const isSelected = activeId === item.id;
-
-              return (
-                <div
-                  key={item.id}
-                  onPointerDown={(e) => handleCardPointerDown(e, item)}
-                  onPointerMove={handleCardPointerMove}
-                  onPointerUp={handleCardPointerUp}
-                  onPointerCancel={handleCardPointerUp}
-                  style={{
-                    width: `${CARD_PHOTO_W + 24}px`,
-                    zIndex: item.zIndex || 1,
-                    transform: `translate3d(${item.boardX}px, ${item.boardY}px, 0) rotate(${item.rotate || 0}deg)`,
-                    backgroundColor: th.bg,
-                    backgroundImage: texUrl ? `url(${texUrl})` : "none",
-                    border: th.border ? `1.5px solid ${th.border}` : "1px solid #e5e7eb",
-                    color: th.titleColor,
-                  }}
-                  className={`${styles.card} ${isSelected ? styles.cardSelected : ""}`}
-                >
-                  {/* マスキングテープ風装飾 */}
-                  <div className={styles.tape} />
-
-                  {/* 削除ボタン */}
-                  {(!isSharedMode && (!isCollabMode || item.canEdit !== false)) && (
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(item.id)}
-                      title={isEn ? "Remove" : "ボードから外す"}
-                      className={styles.deleteBtn}
-                    >
-                      ×
-                    </button>
-                  )}
-
-                  {/* 写真切り抜きプレビュー */}
-                  <PolaroidCardPreview item={item} />
-
-                  {/* 作品タイトル・章 */}
-                  <div className={styles.captionBox}>
-                    {item.displayChapter ? (
-                      <p className={styles.chapterText} style={{ color: th.titleColor }}>
-                        {item.displayChapter}
-                      </p>
-                    ) : null}
-                    {item.displayTitle ? (
-                      <p className={styles.titleText} style={{ color: th.subColor }}>
-                        {isEn ? item.displayTitle : `『${item.displayTitle}』`}
-                      </p>
-                    ) : null}
-                  </div>
-
-                  {/* ひとこと・観察メモ（統一入力欄） */}
-                  <div className={styles.memoBox}>
-                    <textarea
-                      rows={2}
-                      maxLength={40}
-                      value={item.message || item.memo || ""}
-                      readOnly={isSharedMode || (isCollabMode && item.canEdit === false)}
-                      onChange={(e) => handleMessageChange(item.id, e.target.value)}
-                      placeholder={isEn ? "Add a caption / note..." : "ひとこと・観察メモを書き込む..."}
-                      className={styles.memoInput}
-                    />
-                    {isCollabMode && (
-                      <span className={styles.authorTag}>
-                        by {item.authorName || (isEn ? "Anonymous" : "名無しの鑑賞者")}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* いいね・共有・元の絵巻＆座標リンク */}
-                  <div
-                    className={styles.cardFooter}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      gap: 6,
-                      flexWrap: "wrap",
-                    }}
-                  >
-                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <button
-                        type="button"
-                        onPointerDown={(e) => e.stopPropagation()}
-                        onClick={(e) => handleToggleCardLike(e, item.id)}
-                        style={{
-                          fontSize: 11,
-                          padding: "2px 7px",
-                          borderRadius: 999,
-                          border: "1px solid #e5e7eb",
-                          background: likedIds[item.id] ? "#fef2f2" : "#fff",
-                          color: likedIds[item.id] ? "#dc2626" : "#374151",
-                          cursor: "pointer",
-                        }}
-                      >
-                        {likedIds[item.id] ? "♥" : "♡"}{" "}
-                        {(item.likeCount || 0) + (likedIds[item.id] ? 1 : 0)}
-                      </button>
-                      <button
-                        type="button"
-                        onPointerDown={(e) => e.stopPropagation()}
-                        onClick={(e) => handleShareCard(e, item)}
-                        style={{
-                          fontSize: 11,
-                          padding: "2px 7px",
-                          borderRadius: 999,
-                          border: "1px solid #e5e7eb",
-                          background: "#fff",
-                          color: "#374151",
-                          cursor: "pointer",
-                        }}
-                      >
-                        {copiedCardId === item.id
-                          ? isEn
-                            ? "Copied"
-                            : "コピー済"
-                          : isEn
-                            ? "Share"
-                            : "共有"}
-                      </button>
-                    </div>
-                    {item.scrollId ? (
-                      <Link href={buildSourceHref(item)} locale={router.locale} passHref>
-                        <a
-                          onPointerDown={(e) => e.stopPropagation()}
-                          className={styles.scrollLink}
-                          style={{ color: th.subColor }}
-                        >
-                          {isEn ? "Scene & Scroll →" : "元絵巻・座標 →"}
-                        </a>
-                      </Link>
-                    ) : null}
-                  </div>
-
-                  {!isCollabMode && !isSharedMode && (
-                    <div
-                      onPointerDown={(e) => e.stopPropagation()}
-                      style={{
-                        marginTop: 6,
-                        paddingTop: 6,
-                        borderTop: "1px dashed #e5e7eb",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: 6,
-                      }}
-                    >
-                      <button
-                        type="button"
-                        onClick={(e) => openPublishPicker(e, item.id)}
-                        style={{
-                          fontSize: 11,
-                          fontWeight: 600,
-                          padding: "4px 8px",
-                          borderRadius: 6,
-                          border: "1px solid #a7f3d0",
-                          background: "#ecfdf5",
-                          color: "#047857",
-                          cursor: "pointer",
-                          textAlign: "center",
-                        }}
-                      >
-                        {publishingCardId === item.id
-                          ? isEn
-                            ? "Close"
-                            : "閉じる"
-                          : isEn
-                          ? "Post to Public Board"
-                          : "公開ボードに投稿する"}
-                      </button>
-
-                      {publishingCardId === item.id && (
-                        <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                          {publicBoards.length === 0 ? (
-                            <Link href="/board/public" locale={router.locale} passHref>
-                              <a style={{ fontSize: 11, color: "#047857" }}>
-                                {isEn
-                                  ? "No public boards yet. Create one →"
-                                  : "公開ボードがまだありません（一覧で作成 →）"}
-                              </a>
-                            </Link>
-                          ) : (
-                            <>
-                              <select
-                                value={selectedPublicBoardId}
-                                onChange={(e) => setSelectedPublicBoardId(e.target.value)}
-                                style={{
-                                  fontSize: 11,
-                                  padding: "4px 6px",
-                                  borderRadius: 6,
-                                  border: "1px solid #d1d5db",
-                                  background: "#fff",
-                                }}
-                              >
-                                {publicBoards.map((b) => (
-                                  <option key={b.id} value={b.id}>
-                                    {b.title}
-                                  </option>
-                                ))}
-                              </select>
-                              <button
-                                type="button"
-                                disabled={isPublishingCard}
-                                onClick={(e) => handlePublishCardToPublicBoard(e, item)}
-                                style={{
-                                  fontSize: 11,
-                                  fontWeight: 700,
-                                  padding: "4px 8px",
-                                  borderRadius: 6,
-                                  border: "none",
-                                  background: "#059669",
-                                  color: "#fff",
-                                  cursor: "pointer",
-                                }}
-                              >
-                                {isPublishingCard
-                                  ? isEn
-                                    ? "Posting..."
-                                    : "投稿中..."
-                                  : isEn
-                                  ? "Confirm & Post"
-                                  : "この公開ボードへ投稿"}
-                              </button>
-                            </>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+            {items.map((item) => (
+              <PolaroidBoardCard
+                key={item.id}
+                item={item}
+                isSelected={activeId === item.id}
+                isEn={isEn}
+                locale={router.locale}
+                isSharedMode={isSharedMode}
+                isCollabMode={isCollabMode}
+                isLiked={Boolean(likedIds[item.id])}
+                isCopied={copiedCardId === item.id}
+                sourceHref={buildSourceHref(item)}
+                isPublishingOpen={publishingCardId === item.id}
+                publicBoards={publicBoards}
+                selectedPublicBoardId={selectedPublicBoardId}
+                isPublishingCard={isPublishingCard}
+                onDelete={handleDelete}
+                onMessageChange={handleMessageChange}
+                onOpenPublishPicker={openPublishPicker}
+                onPointerDown={handleCardPointerDown}
+                onPointerMove={handleCardPointerMove}
+                onPointerUp={handleCardPointerUp}
+                onPublishCard={handlePublishCardToPublicBoard}
+                onSelectPublicBoardId={setSelectedPublicBoardId}
+                onShareCard={handleShareCard}
+                onToggleLike={handleToggleCardLike}
+              />
+            ))}
           </div>
         )}
 
