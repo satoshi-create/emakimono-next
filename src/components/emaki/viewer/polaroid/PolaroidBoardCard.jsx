@@ -69,6 +69,7 @@ function PolaroidCardPreview({ item }) {
 
 export function PolaroidBoardCard({
   item,
+  ruleBadge = null,
   isSelected,
   isEn,
   locale,
@@ -125,6 +126,28 @@ export function PolaroidBoardCard({
         >
           ×
         </button>
+      )}
+
+      {ruleBadge && (
+        <div
+          style={{
+            position: "absolute",
+            top: 8,
+            left: 10,
+            zIndex: 5,
+            padding: "2px 8px",
+            borderRadius: 999,
+            fontSize: 10.5,
+            fontWeight: 800,
+            background: ruleBadge.bg,
+            color: ruleBadge.color,
+            border: `1px solid ${ruleBadge.border}`,
+            boxShadow: "0 1px 3px rgba(0,0,0,0.12)",
+            pointerEvents: "none",
+          }}
+        >
+          {ruleBadge.label}
+        </div>
       )}
 
       {/* 写真切り抜きプレビュー */}

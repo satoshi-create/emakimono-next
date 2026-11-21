@@ -663,34 +663,95 @@ export function PolaroidBoardView() {
               transform: `translate3d(${viewport.x}px, ${viewport.y}px, 0) scale(${viewport.scale})`,
             }}
           >
-            {items.map((item) => (
-              <PolaroidBoardCard
-                key={item.id}
-                item={item}
-                isSelected={activeId === item.id}
-                isEn={isEn}
-                locale={router.locale}
-                isSharedMode={isSharedMode}
-                isCollabMode={isCollabMode}
-                isLiked={Boolean(likedIds[item.id])}
-                isCopied={copiedCardId === item.id}
-                sourceHref={buildSourceHref(item)}
-                isPublishingOpen={publishingCardId === item.id}
-                publicBoards={publicBoards}
-                selectedPublicBoardId={selectedPublicBoardId}
-                isPublishingCard={isPublishingCard}
-                onDelete={handleDelete}
-                onMessageChange={handleMessageChange}
-                onOpenPublishPicker={openPublishPicker}
-                onPointerDown={handleCardPointerDown}
-                onPointerMove={handleCardPointerMove}
-                onPointerUp={handleCardPointerUp}
-                onPublishCard={handlePublishCardToPublicBoard}
-                onSelectPublicBoardId={setSelectedPublicBoardId}
-                onShareCard={handleShareCard}
-                onToggleLike={handleToggleCardLike}
-              />
-            ))}
+            {(() => {
+              let odaiMode = "coop";
+              if (isCollabMode && collabBoard?.description) {
+                const m = collabBoard.description.match(/<!--odai:(\{[\s\S]*?\})-->/);
+                if (m) {
+                  try {
+                    const parsed = JSON.parse(m[1]);
+                    if (parsed?.mode) odaiMode = parsed.mode;
+                  } catch {}
+                }
+              }
+
+              const sceneCounts = {};
+              const maxLikes = items.reduce(
+                (max, it) => Math.max(max, (it.likeCount || 0) + (likedIds[it.id] ? 1 : 0)),
+                0
+              );
+              if (isCollabMode && odaiMode === "unique") {
+                items.forEach((it) => {
+                  const key = it.displayChapter || it.displayTitle || "";
+                  if (key) sceneCounts[key] = (sceneCounts[key] || 0) + 1;
+                });
+              }
+
+              return items.map((item, idx) => {
+                let ruleBadge = null;
+                if (isCollabMode && odaiMode === "utaawase") {
+                  const totalLikes = (item.likeCount || 0) + (likedIds[item.id] ? 1 : 0);
+                  const isTop = maxLikes > 0 && totalLikes === maxLikes;
+                  const isLeft = idx % 2 === 0;
+                  ruleBadge = {
+                    label: isTop
+                      ? isEn
+                        ? "👑 Top Verse"
+                        : "👑 ベスト一句"
+                      : isLeft
+                      ? isEn
+                        ? "🌸 Left Team"
+                        : "🌸 左方（紅組）"
+                      : isEn
+                      ? "🍁 Right Team"
+                      : "🍁 右方（白組）",
+                    bg: isTop ? "#fef3c7" : isLeft ? "#ffe4e6" : "#dbeafe",
+                    color: isTop ? "#b45309" : isLeft ? "#be123c" : "#1d4ed8",
+                    border: isTop ? "#f59e0b" : isLeft ? "#fda4af" : "#93c5fd",
+                  };
+                } else if (isCollabMode && odaiMode === "unique") {
+                  const key = item.displayChapter || item.displayTitle || "";
+                  if (key && sceneCounts[key] > 1) {
+                    ruleBadge = {
+                      label: isEn ? "⚠️ Duplicate Scene" : "⚠️ かぶり中！",
+                      bg: "#fee2e2",
+                      color: "#b91c1c",
+                      border: "#fca5a5",
+                    };
+                  }
+                }
+
+                return (
+                  <PolaroidBoardCard
+                    key={item.id}
+                    item={item}
+                    isSelected={activeId === item.id}
+                    isEn={isEn}
+                    locale={router.locale}
+                    isSharedMode={isSharedMode}
+                    isCollabMode={isCollabMode}
+                    isLiked={Boolean(likedIds[item.id])}
+                    isCopied={copiedCardId === item.id}
+                    sourceHref={buildSourceHref(item)}
+                    isPublishingOpen={publishingCardId === item.id}
+                    publicBoards={publicBoards}
+                    selectedPublicBoardId={selectedPublicBoardId}
+                    isPublishingCard={isPublishingCard}
+                    ruleBadge={ruleBadge}
+                    onDelete={handleDelete}
+                    onMessageChange={handleMessageChange}
+                    onOpenPublishPicker={openPublishPicker}
+                    onPointerDown={handleCardPointerDown}
+                    onPointerMove={handleCardPointerMove}
+                    onPointerUp={handleCardPointerUp}
+                    onPublishCard={handlePublishCardToPublicBoard}
+                    onSelectPublicBoardId={setSelectedPublicBoardId}
+                    onShareCard={handleShareCard}
+                    onToggleLike={handleToggleCardLike}
+                  />
+                );
+              });
+            })()}
           </div>
         )}
 
