@@ -9,14 +9,29 @@ import styles from "@/styles/Header.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Mail, Menu } from "react-feather";
 import { useTranslation } from "next-i18next";
 
 const Header = ({ slug, fixed }) => {
   const { t } = useTranslation("common");
   const { locale } = useRouter();
-  const { openSidebar = () => {}, stickyClass = "" } = useContext(AppContext) ?? {};
+  const {
+    openSidebar = () => {},
+    closeSidebar,
+    stickyClass = "",
+  } = useContext(AppContext) ?? {};
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !closeSidebar) return;
+    const mq = window.matchMedia("(min-width: 768px)");
+    const handleChange = (e) => {
+      if (e.matches) closeSidebar();
+    };
+    if (mq.matches) closeSidebar();
+    mq.addEventListener("change", handleChange);
+    return () => mq.removeEventListener("change", handleChange);
+  }, [closeSidebar]);
 
   return (
     <header
