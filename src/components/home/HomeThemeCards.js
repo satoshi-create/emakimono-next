@@ -10,11 +10,14 @@ const THEME_ITEMS = [
   { key: "genji", href: "/genji/chapters-genji", accent: "genji" },
 ];
 
-const HomeThemeCards = () => {
+const HomeThemeCards = ({ surface = false }) => {
   const { t } = useTranslation("common");
 
   return (
-    <section className={`section-grid section-padding ${styles.section}`}>
+    <section
+      className={`section-grid section-padding ${styles.section}`}
+      style={surface ? { backgroundColor: "var(--clr-surface)" } : undefined}
+    >
       <h2 className={styles.sectionTitle}>{t("home.themeSectionTitle")}</h2>
       <div className={styles.grid}>
         {THEME_ITEMS.map(({ key, href, accent }) => (

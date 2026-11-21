@@ -8,22 +8,31 @@ import { useTranslation } from "next-i18next";
  * ホーム「いま人気の絵巻」。
  * emakis は index getStaticProps（ISR）から渡し、初回 HTML に載せて CLS を防ぐ。
  */
-const TopRanking = ({ emakis = [] }) => {
+const TopRanking = ({ emakis = [], bcg = "var(--clr-surface)" }) => {
   const { t } = useTranslation("common");
   const top4 = emakis.slice(0, 4);
 
   if (top4.length === 0) return null;
 
+  const isSurface = bcg === "var(--clr-surface)";
+
   return (
-    <section className={sectionStyles.popularSection}>
+    <section
+      className={sectionStyles.popularSection}
+      style={!isSurface ? { backgroundColor: bcg } : undefined}
+    >
       <CardA
         emakis={top4}
         columns="four"
         sectiontitle={t("home.popularSectionTitle")}
         sectiontitleen={t("home.popularSectionTitle")}
-        bcg="var(--clr-surface)"
+        bcg={bcg}
       />
-      <div className={`section-grid ${styles.wrap} ${styles.wrapSurface}`}>
+      <div
+        className={`section-grid ${styles.wrap} ${
+          isSurface ? styles.wrapSurface : ""
+        }`}
+      >
         <Link href="/ranking">
           <a>
             <button type="button" className={styles.btn}>

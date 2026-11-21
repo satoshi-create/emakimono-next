@@ -1,5 +1,6 @@
 import HomeGalleryLink from "@/components/home/HomeGalleryLink";
 import HomeLatestScrolls from "@/components/home/HomeLatestScrolls";
+import HomePublicBoards from "@/components/home/HomePublicBoards";
 import HomeThemeCards from "@/components/home/HomeThemeCards";
 import TopRanking from "@/components/emaki/ranking/TopRanking";
 import Footer from "@/components/layout/Footer";
@@ -145,8 +146,9 @@ const Home = ({ popularEmakis = [] }) => {
         </div>
       </section>
       <HomeLatestScrolls />
-      <TopRanking emakis={popularEmakis} />
-      <HomeThemeCards />
+      <HomePublicBoards />
+      <TopRanking bcg="#fff" emakis={popularEmakis} />
+      <HomeThemeCards surface />
       {allKeywords.length > 0 && (
         <section className="section-grid section-padding">
           <Title
