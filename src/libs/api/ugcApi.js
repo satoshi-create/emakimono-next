@@ -120,7 +120,17 @@ export async function createCollabBoard({
 }
 
 export async function fetchCollabBoard(boardId) {
+  const clientId = getOrCreatePolaroidClientId();
+  const adminKey =
+    typeof window !== "undefined"
+      ? window.localStorage.getItem("emakimono_board_admin_key") || ""
+      : "";
+  const headers = {};
+  if (clientId) headers["x-board-client-id"] = clientId;
+  if (adminKey) headers["x-board-admin-key"] = adminKey;
   return requestJson(`/api/board/${encodeURIComponent(boardId)}`, {
+    method: "GET",
+    headers,
     ignore503: false,
   });
 }
@@ -181,10 +191,18 @@ export async function addCollabBoardItem(boardId, item) {
 }
 
 export async function updateCollabBoardItem(boardId, payload) {
+  const clientId = getOrCreatePolaroidClientId();
+  const adminKey =
+    typeof window !== "undefined"
+      ? window.localStorage.getItem("emakimono_board_admin_key") || ""
+      : "";
+  const headers = { "Content-Type": "application/json" };
+  if (clientId) headers["x-board-client-id"] = clientId;
+  if (adminKey) headers["x-board-admin-key"] = adminKey;
   return requestJson(`/api/board/${encodeURIComponent(boardId)}/items`, {
     method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
+    headers,
+    body: JSON.stringify({ ...payload, clientId }),
     ignore503: false,
   });
 }

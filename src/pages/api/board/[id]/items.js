@@ -46,6 +46,7 @@ async function handlePost(req, res, boardId) {
     }
 
     let isOnePerUser = false;
+    let targetCount = 0;
     const rawDesc = boards[0]?.description || "";
     const odaiMatch = rawDesc.match(/<!--odai:(\{[\s\S]*?\})-->/);
     if (odaiMatch) {
@@ -54,8 +55,17 @@ async function handlePost(req, res, boardId) {
         if (parsedOdai?.onePerUser === true) {
           isOnePerUser = true;
         }
+        if (Number(parsedOdai?.targetCount) > 0) {
+          targetCount = Number(parsedOdai.targetCount);
+        }
       } catch {}
     }
+
+    const expectedAdminKey = process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY;
+    const providedAdminKey = req.headers["x-board-admin-key"];
+    const isBoardAdmin = Boolean(
+      expectedAdminKey && providedAdminKey === expectedAdminKey
+    );
 
     const countResult = await db
       .select({ count: sql`count(*)` })
@@ -71,6 +81,14 @@ async function handlePost(req, res, boardId) {
       );
     }
 
+    if (targetCount > 0 && currentCount >= targetCount && !isBoardAdmin) {
+      return sendApiError(
+        res,
+        409,
+        `このお題は目標枚数（${targetCount}枚）に達したため投稿が締め切られました`
+      );
+    }
+
     const visitorHash = getVisitorHash(req);
     const itemId = uuidv4();
     const panX = Math.round(Number(req.body?.pan?.x ?? req.body?.panX ?? 0)) || 0;
@@ -83,28 +101,24 @@ async function handlePost(req, res, boardId) {
     const message =
       typeof req.body?.message === "string" ? req.body.message.slice(0, 500) : "";
 
-    // 未指定時は少しずらしたデフォルト位置に配置
-    const offset = (currentCount % 8) * 32;
+    // 未指定時はカード同士が重ならないグリッド位置（3列×横265px×縦330px間隔）に配置
+    const cols = 3;
+    const col = currentCount % cols;
+    const rowIdx = Math.floor(currentCount / cols);
     const boardX =
       req.body?.boardX !== undefined
         ? Math.round(Number(req.body.boardX)) || 0
-        : -120 + offset;
+        : -260 + col * 265;
     const boardY =
       req.body?.boardY !== undefined
         ? Math.round(Number(req.body.boardY)) || 0
-        : -80 + offset;
+        : -160 + rowIdx * 330;
     const rotate =
       req.body?.rotate !== undefined
         ? String(Number(req.body.rotate) || 0)
         : ((Math.random() - 0.5) * 6).toFixed(2);
       const zIndex = currentCount + 1;
       const authorName = parseNonEmptyString(req.body?.authorName, 40) || "";
-
-      const expectedAdminKey = process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY;
-      const providedAdminKey = req.headers["x-board-admin-key"];
-      const isBoardAdmin = Boolean(
-        expectedAdminKey && providedAdminKey === expectedAdminKey
-      );
 
       const clientId = parseNonEmptyString(req.body?.clientId, 80) || "";
       const storedVisitorHash = clientId
@@ -165,7 +179,7 @@ async function handlePost(req, res, boardId) {
 
     return res.status(201).json({
       ok: true,
-      item: serializeBoardItem(newRow, visitorHash),
+      item: serializeBoardItem(newRow, visitorHash, clientId, isBoardAdmin),
     });
   } catch (error) {
     console.error("POST /api/board/[id]/items failed:", error);
@@ -204,26 +218,44 @@ async function handlePatch(req, res, boardId) {
   try {
     const db = getDb();
 
-    // メモ更新は投稿者本人のみに制限（位置移動・前面化は全員で整理可能）
-    if (updates.message !== undefined) {
-      const visitorHash = getVisitorHash(req);
-      const target = await db
-        .select({ visitorHash: polaroidBoardItems.visitorHash })
-        .from(polaroidBoardItems)
-        .where(
-          and(
-            eq(polaroidBoardItems.id, itemId),
-            eq(polaroidBoardItems.boardId, boardId)
-          )
-        )
-        .limit(1);
+    // メモ更新および位置移動は投稿者本人（clientId一致）または管理者のみに制限
+    const visitorHash = getVisitorHash(req);
+    const clientId =
+      parseNonEmptyString(
+        req.headers["x-board-client-id"] || req.body?.clientId,
+        80
+      ) || "";
+    const expectedAdminKey = process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY;
+    const providedAdminKey = req.headers["x-board-admin-key"];
+    const isBoardAdmin = Boolean(
+      expectedAdminKey && providedAdminKey === expectedAdminKey
+    );
 
-      if (target.length === 0) {
-        return sendApiError(res, 404, "Item not found");
-      }
-      if (target[0].visitorHash !== visitorHash) {
-        return sendApiError(res, 403, "Only the author can edit this message");
-      }
+    const target = await db
+      .select({ visitorHash: polaroidBoardItems.visitorHash })
+      .from(polaroidBoardItems)
+      .where(
+        and(
+          eq(polaroidBoardItems.id, itemId),
+          eq(polaroidBoardItems.boardId, boardId)
+        )
+      )
+      .limit(1);
+
+    if (target.length === 0) {
+      return sendApiError(res, 404, "Item not found");
+    }
+
+    const rowHash = target[0].visitorHash || "";
+    const isOwner = Boolean(
+      isBoardAdmin ||
+        (clientId &&
+          (rowHash === clientId || rowHash.endsWith(`:${clientId}`))) ||
+        (!clientId && visitorHash && rowHash === visitorHash)
+    );
+
+    if (!isOwner) {
+      return sendApiError(res, 403, "Only the author can move or edit this card");
     }
 
     await db

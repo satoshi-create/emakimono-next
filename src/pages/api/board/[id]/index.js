@@ -13,7 +13,22 @@ import { asc, eq } from "drizzle-orm";
 // 1. DBレコード → フロントエンド互換アイテム形式への変換
 // =============================================================================
 
-export function serializeBoardItem(row, currentVisitorHash) {
+export function serializeBoardItem(
+  row,
+  currentVisitorHash,
+  currentClientId = "",
+  isBoardAdmin = false
+) {
+  const isOwner = Boolean(
+    isBoardAdmin ||
+      (currentClientId &&
+        row.visitorHash &&
+        (row.visitorHash === currentClientId ||
+          row.visitorHash.endsWith(`:${currentClientId}`))) ||
+      (!currentClientId &&
+        currentVisitorHash &&
+        row.visitorHash === currentVisitorHash)
+  );
   return {
     id: row.id,
     scrollId: row.scrollId,
@@ -31,7 +46,7 @@ export function serializeBoardItem(row, currentVisitorHash) {
     rotate: Number(row.rotate) || 0,
     zIndex: row.zIndex,
     authorName: row.authorName || "",
-    canEdit: Boolean(currentVisitorHash && row.visitorHash === currentVisitorHash),
+    canEdit: isOwner,
     createdAt: row.createdAt ? new Date(row.createdAt).getTime() : Date.now(),
   };
 }
@@ -60,6 +75,16 @@ async function handleGet(req, res, boardId) {
       .orderBy(asc(polaroidBoardItems.zIndex), asc(polaroidBoardItems.createdAt));
 
     const visitorHash = getVisitorHash(req);
+    const currentClientId =
+      parseNonEmptyString(
+        req.headers["x-board-client-id"] || req.query?.clientId,
+        80
+      ) || "";
+    const expectedAdminKey = process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY;
+    const providedAdminKey = req.headers["x-board-admin-key"];
+    const isBoardAdmin = Boolean(
+      expectedAdminKey && providedAdminKey === expectedAdminKey
+    );
     const board = boards[0];
 
     res.setHeader("Cache-Control", "no-store");
@@ -72,7 +97,9 @@ async function handleGet(req, res, boardId) {
         isOwner: board.createdByHash === visitorHash,
         createdAt: board.createdAt ? new Date(board.createdAt).getTime() : Date.now(),
       },
-      items: rows.map((row) => serializeBoardItem(row, visitorHash)),
+      items: rows.map((row) =>
+        serializeBoardItem(row, visitorHash, currentClientId, isBoardAdmin)
+      ),
     });
   } catch (error) {
     console.error("GET /api/board/[id] failed:", error);

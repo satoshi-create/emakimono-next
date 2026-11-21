@@ -339,8 +339,8 @@ export function PolaroidBoardInfoCard({
                     >
                       {currentItemCount >= odaiMeta.targetCount
                         ? isEn
-                          ? `🎉 Goal Reached! (${currentItemCount}/${odaiMeta.targetCount})`
-                          : `🎉 目標達成！ (${currentItemCount} / ${odaiMeta.targetCount}枚)`
+                          ? `🔒 Goal Reached — Submissions Locked (${currentItemCount}/${odaiMeta.targetCount})`
+                          : `🔒 目標達成！投稿締切ロック中 (${currentItemCount} / ${odaiMeta.targetCount}枚)`
                         : isEn
                         ? `Posts: ${currentItemCount}/${odaiMeta.targetCount} (${
                             odaiMeta.targetCount - currentItemCount

@@ -27,14 +27,30 @@ export function PolaroidModalFooter({
   onCloseModal,
 }) {
   const router = useRouter();
+  const isDevEnv = process.env.NODE_ENV === "development";
   const [footerTab, setFooterTab] = useState("board"); // "board" | "share"
   const [publicBoards, setPublicBoards] = useState([]);
   const [targetPublicBoardId, setTargetPublicBoardId] = useState("");
   const [isPostingPublic, setIsPostingPublic] = useState(false);
+  const [authorNameInput, setAuthorNameInput] = useState("");
+  const [postAsAdmin, setPostAsAdmin] = useState(false);
 
   useEffect(() => {
     if (!isOpen) return;
     let active = true;
+    if (typeof window !== "undefined") {
+      try {
+        setAuthorNameInput(
+          window.localStorage.getItem("emakimono_polaroid_author_v1") || ""
+        );
+        const savedAdminKey =
+          window.localStorage.getItem("emakimono_board_admin_key") || "";
+        const envAdminKey = process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY || "";
+        setPostAsAdmin(Boolean(savedAdminKey && savedAdminKey === envAdminKey));
+      } catch {
+        // noop
+      }
+    }
 
     let storedRoom = null;
     if (typeof window !== "undefined") {
@@ -86,10 +102,22 @@ export function PolaroidModalFooter({
   const handlePinToPublicBoard = async () => {
     if (!targetPublicBoardId || isPostingPublic || !src) return;
     const chosen = publicBoards.find((b) => b.id === targetPublicBoardId);
-    const authorName =
-      typeof window !== "undefined"
-        ? window.localStorage.getItem("emakimono_polaroid_author_v1") || ""
-        : "";
+    const authorName = (authorNameInput || "").trim().slice(0, 40);
+    if (typeof window !== "undefined") {
+      try {
+        window.localStorage.setItem("emakimono_polaroid_author_v1", authorName);
+        if (isDevEnv) {
+          const envAdminKey = process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY || "";
+          if (postAsAdmin && envAdminKey) {
+            window.localStorage.setItem("emakimono_board_admin_key", envAdminKey);
+          } else {
+            window.localStorage.removeItem("emakimono_board_admin_key");
+          }
+        }
+      } catch {
+        // noop
+      }
+    }
     setIsPostingPublic(true);
     try {
       await addCollabBoardItem(targetPublicBoardId, {
@@ -186,52 +214,165 @@ export function PolaroidModalFooter({
         </button>
       </div>
 
-      {/* 下部：選択モードに応じた1行アクションバー */}
+      {/* 下部：選択モードに応じたアクションバー */}
       {footerTab === "board" ? (
-        <div className={styles.footerRow}>
+        <>
           {hasPublicBoards && (
-            <>
-              <select
-                aria-label={isEn ? "Select public board" : "投稿先の公開ボードを選択"}
-                value={targetPublicBoardId}
-                onChange={(e) => setTargetPublicBoardId(e.target.value)}
-                disabled={isPostingPublic}
-                className={styles.boardSelect}
-              >
-                {publicBoards.map((board) => (
-                  <option key={board.id} value={board.id}>
-                    {board.title || (isEn ? "Shared Board" : "公開ボード")}
-                  </option>
-                ))}
-              </select>
-
-              <button
-                type="button"
-                className={styles.publicPinBtn}
-                disabled={!src || !targetPublicBoardId || isPostingPublic}
-                onClick={handlePinToPublicBoard}
-              >
-                {isPostingPublic
-                  ? isEn
-                    ? "..."
-                    : "投稿中"
-                  : isEn
-                    ? "Pin"
-                    : "貼る"}
-              </button>
-            </>
+            <div style={{ marginBottom: 6, display: "flex", flexDirection: "column", gap: 4 }}>
+              <input
+                type="text"
+                maxLength={40}
+                value={authorNameInput}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setAuthorNameInput(val);
+                  if (typeof window !== "undefined") {
+                    try {
+                      window.localStorage.setItem("emakimono_polaroid_author_v1", val);
+                    } catch {}
+                  }
+                }}
+                placeholder={
+                  isEn
+                    ? "Your name (optional)"
+                    : "投稿者名・ニックネーム（任意）"
+                }
+                aria-label={isEn ? "Author name" : "投稿者名"}
+                style={{
+                  width: "100%",
+                  boxSizing: "border-box",
+                  padding: "6px 10px",
+                  fontSize: 12,
+                  borderRadius: 8,
+                  border: "1px solid #cbd5e1",
+                  backgroundColor: "#ffffff",
+                  color: "#0f172a",
+                }}
+              />
+              {isDevEnv && (
+                <label
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    fontSize: 11,
+                    fontWeight: 600,
+                    color: "#b45309",
+                    backgroundColor: "#fef3c7",
+                    border: "1px solid #fcd34d",
+                    borderRadius: 6,
+                    padding: "3px 8px",
+                    cursor: "pointer",
+                    userSelect: "none",
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={postAsAdmin}
+                    onChange={(e) => {
+                      const checked = e.target.checked;
+                      setPostAsAdmin(checked);
+                      if (typeof window !== "undefined") {
+                        try {
+                          const envAdminKey = process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY || "";
+                          if (checked && envAdminKey) {
+                            window.localStorage.setItem("emakimono_board_admin_key", envAdminKey);
+                          } else {
+                            window.localStorage.removeItem("emakimono_board_admin_key");
+                          }
+                        } catch {}
+                      }
+                    }}
+                  />
+                  <span>
+                    {isEn
+                      ? "🔑 Post as Admin (DEV only: bypass lock & 1-per-user limit)"
+                      : "🔑 管理者として投稿（DEV限定：達成済ロック・1人1枚制限を解除）"}
+                  </span>
+                </label>
+              )}
+            </div>
           )}
+          <div className={styles.footerRow}>
+            {hasPublicBoards && (() => {
+              const selectedBoard = publicBoards.find(
+                (b) => b.id === targetPublicBoardId
+              );
+              const odaiMatch = (selectedBoard?.description || "").match(
+                /<!--odai:(\{[\s\S]*?\})-->/
+              );
+              let targetCount = 0;
+              if (odaiMatch) {
+                try {
+                  targetCount = Number(JSON.parse(odaiMatch[1])?.targetCount) || 0;
+                } catch {}
+              }
+              const isGoalReached =
+                !postAsAdmin &&
+                targetCount > 0 &&
+                (selectedBoard?.itemCount || 0) >= targetCount;
 
-          <button
-            type="button"
-            className={styles.personalCompactBtn}
-            style={hasPublicBoards ? undefined : { flex: 1 }}
-            onClick={handleKeepPersonal}
-            title={isEn ? "Keep on Personal Board" : "個人ボードにキープ"}
-          >
-            {isEn ? "Personal" : "個人ボード"}
-          </button>
-        </div>
+              return (
+                <>
+                  <select
+                    aria-label={
+                      isEn ? "Select public board" : "投稿先の公開ボードを選択"
+                    }
+                    value={targetPublicBoardId}
+                    onChange={(e) => setTargetPublicBoardId(e.target.value)}
+                    disabled={isPostingPublic}
+                    className={styles.boardSelect}
+                  >
+                    {publicBoards.map((board) => (
+                      <option key={board.id} value={board.id}>
+                        {board.title || (isEn ? "Shared Board" : "公開ボード")}
+                      </option>
+                    ))}
+                  </select>
+
+                  <button
+                    type="button"
+                    className={styles.publicPinBtn}
+                    disabled={
+                      !src ||
+                      !targetPublicBoardId ||
+                      isPostingPublic ||
+                      isGoalReached
+                    }
+                    onClick={handlePinToPublicBoard}
+                    style={
+                      isGoalReached
+                        ? { backgroundColor: "#64748b", cursor: "not-allowed" }
+                        : undefined
+                    }
+                  >
+                    {isGoalReached
+                      ? isEn
+                        ? "🔒 Locked"
+                        : "🔒 達成済"
+                      : isPostingPublic
+                        ? isEn
+                          ? "..."
+                          : "投稿中"
+                        : isEn
+                          ? "Pin"
+                          : "貼る"}
+                  </button>
+                </>
+              );
+            })()}
+
+            <button
+              type="button"
+              className={styles.personalCompactBtn}
+              style={hasPublicBoards ? undefined : { flex: 1 }}
+              onClick={handleKeepPersonal}
+              title={isEn ? "Keep on Personal Board" : "個人ボードにキープ"}
+            >
+              {isEn ? "Personal" : "個人ボード"}
+            </button>
+          </div>
+        </>
       ) : (
         <div className={styles.footerRow}>
           <button
