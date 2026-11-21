@@ -421,7 +421,7 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
     }));
   };
 
-  if (process.env.NODE_ENV !== "development") {
+  if (!isLoadingList && boards.length === 0) {
     return null;
   }
 
