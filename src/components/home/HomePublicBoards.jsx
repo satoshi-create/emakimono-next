@@ -234,11 +234,16 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
     };
   }, []);
 
-  // 2. 選択されたタブのボード詳細（カード一覧）を取得・キャッシュ・自動フィット
+  // 2. 選択されたタブのボード詳細（カード一覧）を取得・キャッシュ・自動フィット（ボード切替時のみ）
+  const fittedBoardIdRef = React.useRef(null);
+
   useEffect(() => {
     if (!selectedBoardId) return;
     if (Object.prototype.hasOwnProperty.call(itemsByBoardId, selectedBoardId)) {
-      applyFitForItems(itemsByBoardId[selectedBoardId]);
+      if (fittedBoardIdRef.current !== selectedBoardId) {
+        fittedBoardIdRef.current = selectedBoardId;
+        applyFitForItems(itemsByBoardId[selectedBoardId]);
+      }
       return;
     }
 
@@ -254,6 +259,7 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
           ...prev,
           [selectedBoardId]: normalized,
         }));
+        fittedBoardIdRef.current = selectedBoardId;
         applyFitForItems(normalized);
       } catch {
         if (!active) return;
