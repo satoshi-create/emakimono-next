@@ -421,6 +421,10 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
     }));
   };
 
+  if (process.env.NODE_ENV !== "development") {
+    return null;
+  }
+
   return (
     <section
       aria-label={

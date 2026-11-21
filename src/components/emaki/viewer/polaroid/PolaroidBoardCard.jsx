@@ -229,6 +229,8 @@ export function PolaroidBoardCard({
             gap: 6,
           }}
         >
+          {process.env.NODE_ENV === "development" && (
+            <>
           <button
             type="button"
             onClick={(e) => onOpenPublishPicker(e, item.id)}
@@ -308,6 +310,8 @@ export function PolaroidBoardCard({
                 </>
               )}
             </div>
+          )}
+            </>
           )}
         </div>
       )}

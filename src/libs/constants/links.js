@@ -70,9 +70,9 @@ export const navGroups = [
       { name: "テーマ・特集ハブ一覧", nameen: "Theme Hubs", path: "/hub" },
       { name: "ランキング", nameen: "Ranking", path: "/ranking" },
       {
-        name: "公開ポラロイドボード",
-        nameen: "Public Polaroid Board",
-        path: "/board/public",
+        name: "個人ポラロイドボード",
+        nameen: "Personal Polaroid Board",
+        path: "/board/personal",
       },
     ],
   },

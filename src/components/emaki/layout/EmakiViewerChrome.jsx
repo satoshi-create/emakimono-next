@@ -101,27 +101,33 @@ export function EmakiViewerChrome({
               {locale === "en" ? "Kyoto Map" : "京都マップ"}
             </button>
           )}
+          {(process.env.NODE_ENV === "development" ||
+            (typeof window !== "undefined" &&
+              Boolean(process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY) &&
+              localStorage.getItem("emakimono_board_admin_key") ===
+                process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY)) && (
+            <Link href="/dev">
+              <a
+                style={{
+                  padding: "6px 10px",
+                  fontSize: 12,
+                  fontWeight: 600,
+                  borderRadius: 6,
+                  border: "1px solid rgba(255, 255, 255, 0.35)",
+                  background: "rgba(20, 20, 20, 0.75)",
+                  color: "#fff",
+                  cursor: "pointer",
+                  textDecoration: "none",
+                  display: "inline-flex",
+                  alignItems: "center",
+                }}
+              >
+                開発ハブ (/dev)
+              </a>
+            </Link>
+          )}
           {process.env.NODE_ENV === "development" && (
             <>
-              <Link href="/dev">
-                <a
-                  style={{
-                    padding: "6px 10px",
-                    fontSize: 12,
-                    fontWeight: 600,
-                    borderRadius: 6,
-                    border: "1px solid rgba(255, 255, 255, 0.35)",
-                    background: "rgba(20, 20, 20, 0.75)",
-                    color: "#fff",
-                    cursor: "pointer",
-                    textDecoration: "none",
-                    display: "inline-flex",
-                    alignItems: "center",
-                  }}
-                >
-                  開発ハブ (/dev)
-                </a>
-              </Link>
               <button
                 type="button"
                 onClick={handleToggleEditSpots}

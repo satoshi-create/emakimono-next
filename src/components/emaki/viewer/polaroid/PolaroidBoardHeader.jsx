@@ -157,29 +157,11 @@ export function PolaroidBoardHeader({
                   gap: 8,
                 }}
               >
-                <span>🔒</span>
-                <span>{isEn ? "Personal Boards List" : "個人ボード一覧"}</span>
-              </a>
-            </Link>
-            <Link href="/board/public" locale={locale} passHref>
-              <a
-                onClick={() => setMenuOpen(false)}
-                style={{
-                  padding: "8px 12px",
-                  borderRadius: 6,
-                  fontSize: 13,
-                  color: "#1e293b",
-                  textDecoration: "none",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                }}
-              >
-                <span>🌐</span>
-                <span>{isEn ? "Public Boards List" : "公開ボード一覧"}</span>
-              </a>
-            </Link>
-            <div style={{ height: 1, background: "#f1f5f9", margin: "4px 0" }} />
+              <span>🔒</span>
+              <span>{isEn ? "Personal Boards List" : "個人ボード一覧"}</span>
+            </a>
+          </Link>
+          <div style={{ height: 1, background: "#f1f5f9", margin: "4px 0" }} />
             <Link href="/" locale={locale} passHref>
               <a
                 onClick={() => setMenuOpen(false)}

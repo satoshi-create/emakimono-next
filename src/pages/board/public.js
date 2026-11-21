@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useEffect, useState } from "react";
 import { fetchPublicBoards } from "@/libs/api/ugcApi";
 
@@ -218,10 +217,6 @@ export default function PublicBoardsPage() {
   );
 }
 
-export async function getStaticProps({ locale }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale ?? "ja", ["common"])),
-    },
-  };
+export async function getServerSideProps() {
+  return { notFound: true };
 }

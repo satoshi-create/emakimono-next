@@ -127,27 +127,6 @@ export default function PersonalBoardsPage() {
                   <span>{isEn ? "Personal List" : "個人ボード一覧"}</span>
                 </span>
 
-                <Link href="/board/public" locale={router.locale} passHref>
-                  <a
-                    role="tab"
-                    aria-selected={false}
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 5,
-                      padding: "5px 12px",
-                      borderRadius: 999,
-                      fontSize: 12,
-                      fontWeight: 500,
-                      color: "#64748b",
-                      textDecoration: "none",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    <span aria-hidden="true">🌐</span>
-                    <span>{isEn ? "Public List" : "公開ボード一覧"}</span>
-                  </a>
-                </Link>
               </div>
 
               <Link href="/" locale={router.locale} passHref>
