@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useEffect, useState } from "react";
-import { createCollabBoard, fetchPublicBoards } from "@/libs/api/ugcApi";
+import { fetchPublicBoards } from "@/libs/api/ugcApi";
 
 export default function PublicBoardsPage() {
   const router = useRouter();
@@ -12,9 +12,6 @@ export default function PublicBoardsPage() {
   const [boards, setBoards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [newTitle, setNewTitle] = useState("");
-  const [newDescription, setNewDescription] = useState("");
-  const [creating, setCreating] = useState(false);
 
   const loadBoards = async () => {
     setLoading(true);
@@ -32,37 +29,6 @@ export default function PublicBoardsPage() {
   useEffect(() => {
     loadBoards();
   }, []);
-
-  const handleCreatePublicBoard = async (e) => {
-    e.preventDefault();
-    if (creating) return;
-    setCreating(true);
-    try {
-      const authorName =
-        typeof window !== "undefined"
-          ? window.localStorage.getItem("emakimono_polaroid_author_v1") || ""
-          : "";
-      const res = await createCollabBoard({
-        title:
-          newTitle.trim() ||
-          (isEn ? "Public Emaki Gallery Board" : "みんなの公開ポラロイドボード"),
-        description: newDescription.trim(),
-        visibility: "public",
-        authorName,
-      });
-      if (res?.board?.id) {
-        router.push(
-          `/board?room=${encodeURIComponent(res.board.id)}`,
-          undefined,
-          { locale: router.locale }
-        );
-      }
-    } catch (err) {
-      alert(err.message || "公開ボードの作成に失敗しました");
-    } finally {
-      setCreating(false);
-    }
-  };
 
   return (
     <>
@@ -172,88 +138,6 @@ export default function PublicBoardsPage() {
           </div>
         </header>
 
-        <section
-          style={{
-            background: "#f9fafb",
-            border: "1px solid #e5e7eb",
-            borderRadius: 12,
-            padding: 16,
-            marginBottom: 28,
-          }}
-        >
-          <form
-            onSubmit={handleCreatePublicBoard}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 10,
-            }}
-          >
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-              <input
-                type="text"
-                maxLength={80}
-                value={newTitle}
-                onChange={(e) => setNewTitle(e.target.value)}
-                placeholder={
-                  isEn
-                    ? "Board theme (e.g. Funny Animals in Choju-giga)"
-                    : "テーマ名（例: 鳥獣戯画のお気に入り動物集）"
-                }
-                style={{
-                  flex: "1 1 260px",
-                  padding: "9px 12px",
-                  borderRadius: 8,
-                  border: "1px solid #d1d5db",
-                  fontSize: 14,
-                  background: "#fff",
-                }}
-              />
-              <button
-                type="submit"
-                disabled={creating}
-                style={{
-                  padding: "9px 16px",
-                  borderRadius: 8,
-                  border: "none",
-                  background: "#111827",
-                  color: "#fff",
-                  fontWeight: 600,
-                  fontSize: 14,
-                  cursor: "pointer",
-                }}
-              >
-                {creating
-                  ? isEn
-                    ? "Creating..."
-                    : "作成中..."
-                  : isEn
-                  ? "+ Create Public Board"
-                  : "+ 公開ボードを新しく作る"}
-              </button>
-            </div>
-            <input
-              type="text"
-              maxLength={240}
-              value={newDescription}
-              onChange={(e) => setNewDescription(e.target.value)}
-              placeholder={
-                isEn
-                  ? "Theme description (optional: e.g. Pin expressive frogs, rabbits, and monkeys!)"
-                  : "テーマの説明（任意：例 表情豊かなカエルやウサギ、サルの名場面をみんなで貼ろう！）"
-              }
-              style={{
-                width: "100%",
-                padding: "8px 12px",
-                borderRadius: 8,
-                border: "1px solid #d1d5db",
-                fontSize: 13,
-                background: "#fff",
-              }}
-            />
-          </form>
-        </section>
-
         {loading ? (
           <p style={{ color: "#6b7280" }}>
             {isEn ? "Loading boards..." : "公開ボードを読み込み中..."}
@@ -263,8 +147,8 @@ export default function PublicBoardsPage() {
         ) : boards.length === 0 ? (
           <p style={{ color: "#6b7280" }}>
             {isEn
-              ? "No public boards yet. Create the first one above!"
-              : "まだ公開ボードがありません。上のフォームから最初の公開ボードを作成してみましょう！"}
+              ? "No public boards yet."
+              : "まだ公開ボードがありません。"}
           </p>
         ) : (
           <div

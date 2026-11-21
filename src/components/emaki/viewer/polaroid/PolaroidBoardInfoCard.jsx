@@ -37,6 +37,12 @@ export function PolaroidBoardInfoCard({
     ? collabTitleDraft || collabBoard?.title || ""
     : personalMeta?.title || "";
 
+  const isBoardAdmin =
+    typeof window !== "undefined" &&
+    Boolean(process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY) &&
+    localStorage.getItem("emakimono_board_admin_key") ===
+      process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY;
+
   useEffect(() => {
     if (!expanded) return;
     const handleMouseDown = (e) => {
@@ -144,13 +150,15 @@ export function PolaroidBoardInfoCard({
           </span>
         )}
 
-        <button
-          type="button"
-          onClick={() => setExpanded(true)}
-          style={pillBtnStyle}
-        >
-          {isEn ? "⚙️ Edit" : "⚙️ 編集"}
-        </button>
+        {(!isCollabMode || isBoardAdmin) && (
+          <button
+            type="button"
+            onClick={() => setExpanded(true)}
+            style={pillBtnStyle}
+          >
+            {isEn ? "⚙️ Edit" : "⚙️ 編集"}
+          </button>
+        )}
 
         {isCollabMode && (
           <button

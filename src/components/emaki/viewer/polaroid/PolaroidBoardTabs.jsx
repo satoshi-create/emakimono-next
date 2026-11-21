@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export function PolaroidBoardTabs({
   isEn,
@@ -11,6 +11,15 @@ export function PolaroidBoardTabs({
   const [isCreating, setIsCreating] = useState(false);
   const [draftTitle, setDraftTitle] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [isBoardAdmin, setIsBoardAdmin] = useState(false);
+  const canCreateTheme = !isCollabMode || isBoardAdmin;
+
+  useEffect(() => {
+    setIsBoardAdmin(
+      localStorage.getItem("emakimono_board_admin_key") ===
+        process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY
+    );
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,6 +95,7 @@ export function PolaroidBoardTabs({
           );
         })}
 
+        {canCreateTheme && (
         <button
           type="button"
           title={
@@ -117,9 +127,10 @@ export function PolaroidBoardTabs({
         >
           ＋
         </button>
+        )}
       </div>
 
-      {isCreating && (
+      {isCreating && canCreateTheme && (
         <form
           onSubmit={handleSubmit}
           style={{

@@ -87,10 +87,16 @@ async function handlePatch(req, res, boardId) {
     "description"
   );
 
-  const title = hasTitle ? parseNonEmptyString(req.body?.title, 100) : null;
-  if (hasTitle && !title) {
-    return sendApiError(res, 400, "Invalid title");
-  }
+    const expectedAdminKey = process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY;
+    const providedAdminKey = req.headers["x-board-admin-key"];
+    if (!expectedAdminKey || providedAdminKey !== expectedAdminKey) {
+      return sendApiError(res, 403, "Admin permission required to update board");
+    }
+
+    const title = hasTitle ? parseNonEmptyString(req.body?.title, 100) : null;
+    if (hasTitle && !title) {
+      return sendApiError(res, 400, "Invalid title");
+    }
 
   const description = hasDescription
     ? String(req.body?.description ?? "").trim().slice(0, 500)

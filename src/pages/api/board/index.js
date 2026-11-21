@@ -102,10 +102,18 @@ export default async function handler(req, res) {
     return handleGetPublicBoards(res);
   }
 
-  const title =
-    parseNonEmptyString(req.body?.title, 100) || "みんなのポラロイドボード";
-  const description = parseNonEmptyString(req.body?.description, 240) || "";
-  const visibility = req.body?.visibility === "public" ? "public" : "unlisted";
+    const title =
+      parseNonEmptyString(req.body?.title, 100) || "みんなのポラロイドボード";
+    const description = parseNonEmptyString(req.body?.description, 240) || "";
+    const visibility = req.body?.visibility === "public" ? "public" : "unlisted";
+
+    if (visibility === "public") {
+      const expectedAdminKey = process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY;
+      const providedAdminKey = req.headers["x-board-admin-key"];
+      if (!expectedAdminKey || providedAdminKey !== expectedAdminKey) {
+        return sendApiError(res, 403, "Admin permission required to create public boards");
+      }
+    }
   const authorName = parseNonEmptyString(req.body?.authorName, 40) || "";
   const rawItems = Array.isArray(req.body?.items)
     ? req.body.items.slice(0, 30)
