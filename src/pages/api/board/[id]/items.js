@@ -123,8 +123,10 @@ async function handlePost(req, res, boardId) {
 
         const alreadyPosted = existingItems.some(
           (row) =>
-            (visitorHash && row.visitorHash && row.visitorHash.startsWith(visitorHash)) ||
-            (clientId && row.visitorHash && row.visitorHash.endsWith(`:${clientId}`)) ||
+            (clientId &&
+              row.visitorHash &&
+              (row.visitorHash === clientId || row.visitorHash.endsWith(`:${clientId}`))) ||
+            (!clientId && visitorHash && row.visitorHash === visitorHash) ||
             (authorName && row.authorName === authorName)
         );
         if (alreadyPosted) {
