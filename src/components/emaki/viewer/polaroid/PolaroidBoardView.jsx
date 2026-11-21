@@ -616,6 +616,7 @@ export function PolaroidBoardView() {
           isCollabMode={isCollabMode}
           isSharedMode={isSharedMode}
           collabBoard={collabBoard}
+          items={items}
           collabTitleDraft={collabTitleDraft}
           setCollabTitleDraft={setCollabTitleDraft}
           collabDescription={parsedCollab.cleanDescription}

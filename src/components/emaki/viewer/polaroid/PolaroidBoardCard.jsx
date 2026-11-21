@@ -50,12 +50,15 @@ function PolaroidCardPreview({ item }) {
                   width: `${dw}px`,
                   height: `${dh}px`,
                   maxWidth: "none",
-                  transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px))`,
+                  transform: `translate3d(calc(-50% + ${tx}px), calc(-50% + ${ty}px), 0)`,
+                  imageRendering: "-webkit-optimize-contrast",
+                  backfaceVisibility: "hidden",
                 }
               : {
                   width: "100%",
                   height: "100%",
                   objectFit: "cover",
+                  imageRendering: "-webkit-optimize-contrast",
                 }
           }
         />
@@ -184,7 +187,7 @@ export function PolaroidBoardCard({
             type="button"
             onPointerDown={(e) => e.stopPropagation()}
             onClick={(e) => onToggleLike(e, item.id)}
-            title={isCollabMode ? (isEn ? "Vote / Applaud" : "お見事！（判を入れる）") : undefined}
+            title={isCollabMode ? (isEn ? "Like this post" : "この投稿にいいね！する") : undefined}
             style={{
               fontSize: 11,
               fontWeight: isCollabMode ? 600 : 400,
@@ -212,7 +215,7 @@ export function PolaroidBoardCard({
               cursor: "pointer",
             }}
           >
-            {isCollabMode ? (isLiked ? "👏 判" : "👏") : isLiked ? "♥" : "♡"}{" "}
+            {isCollabMode ? (isLiked ? "👏 いいね！" : "👏 いいね") : isLiked ? "♥" : "♡"}{" "}
             {(item.likeCount || 0) + (isLiked ? 1 : 0)}
           </button>
           <button

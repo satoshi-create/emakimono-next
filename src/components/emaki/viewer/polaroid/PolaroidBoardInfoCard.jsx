@@ -185,49 +185,87 @@ export function PolaroidBoardInfoCard({
             style={{
               width: "100%",
               marginTop: 6,
-              padding: "6px 10px",
+              padding: "8px 12px",
               borderRadius: 8,
               background: "#fffbeb",
               border: "1px solid #fcd34d",
               fontSize: 12,
               color: "#92400e",
               display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: 8,
-              flexWrap: "wrap",
+              flexDirection: "column",
+              gap: 5,
             }}
           >
-            <span style={{ fontWeight: 700 }}>
-              📜 {isEn ? "Theme Quest:" : "お題:"} {odaiMeta.prompt}
-            </span>
-            {odaiMeta.targetCount > 0 && (
-              <span
-                style={{
-                  fontSize: 11,
-                  fontWeight: 700,
-                  padding: "2px 8px",
-                  borderRadius: 999,
-                  background:
-                    currentItemCount >= odaiMeta.targetCount
-                      ? "#dcfce7"
-                      : "#fef3c7",
-                  color:
-                    currentItemCount >= odaiMeta.targetCount
-                      ? "#166534"
-                      : "#b45309",
-                  border: "1px solid #f59e0b",
-                }}
-              >
-                {currentItemCount >= odaiMeta.targetCount
-                  ? isEn
-                    ? `Completed (${currentItemCount}/${odaiMeta.targetCount})`
-                    : `満願達成 (${currentItemCount}/${odaiMeta.targetCount}枚)`
-                  : isEn
-                  ? `Progress ${currentItemCount}/${odaiMeta.targetCount}`
-                  : `回収 ${currentItemCount} / ${odaiMeta.targetCount}枚`}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 8,
+                flexWrap: "wrap",
+              }}
+            >
+              <span style={{ fontWeight: 700, fontSize: 12.5 }}>
+                📜 {isEn ? "Theme Quest:" : "お題:"} {odaiMeta.prompt}
               </span>
-            )}
+              {odaiMeta.targetCount > 0 && (
+                <span
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 700,
+                    padding: "2px 9px",
+                    borderRadius: 999,
+                    background:
+                      currentItemCount >= odaiMeta.targetCount
+                        ? "#dcfce7"
+                        : "#fef3c7",
+                    color:
+                      currentItemCount >= odaiMeta.targetCount
+                        ? "#166534"
+                        : "#b45309",
+                    border:
+                      currentItemCount >= odaiMeta.targetCount
+                        ? "1px solid #86efac"
+                        : "1px solid #f59e0b",
+                  }}
+                >
+                  {currentItemCount >= odaiMeta.targetCount
+                    ? isEn
+                      ? `🎉 Goal Reached! (${currentItemCount}/${odaiMeta.targetCount})`
+                      : `🎉 目標達成！ (${currentItemCount} / ${odaiMeta.targetCount}枚)`
+                    : isEn
+                    ? `Posts: ${currentItemCount} / ${odaiMeta.targetCount} (${
+                        odaiMeta.targetCount - currentItemCount
+                      } left)`
+                    : `投稿数: ${currentItemCount} / ${odaiMeta.targetCount}枚（あと${
+                        odaiMeta.targetCount - currentItemCount
+                      }枚で達成！）`}
+                </span>
+              )}
+            </div>
+            <div
+              style={{
+                fontSize: 11,
+                color: "#78350f",
+                background: "rgba(255, 255, 255, 0.7)",
+                padding: "4px 8px",
+                borderRadius: 6,
+                lineHeight: 1.5,
+              }}
+            >
+              <strong>{isEn ? "Rule: " : "【遊び方・ルール】"}</strong>
+              {odaiMeta.mode === "utaawase"
+                ? isEn
+                  ? "Cut out a matching scene from an emaki scroll, add a witty caption, and vote with 'Like!' on your favorites."
+                  : "① 絵巻からテーマに合う場面を切り抜いて投稿 → ② 一言コメントを添える → ③ 気に入った投稿に「👏 いいね！」で投票！"
+                : odaiMeta.mode === "unique"
+                ? isEn
+                  ? "Find unique scenes that haven't been posted yet and complete the board together!"
+                  : "① まだ誰も貼っていない場面を絵巻から切り抜いて投稿 → ② みんなで目標枚数をコンプリートしよう！"
+                : isEn
+                ? "Pin matching scenes from emaki scrolls together to reach the target count!"
+                : "① 絵巻ビューアのポラロイド機能で場面を切り抜き、このボードへ投稿 → ② みんなで力を合わせて目標枚数を達成しよう！"}
+            </div>
           </div>
         )}
 
