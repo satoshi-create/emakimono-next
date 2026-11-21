@@ -43,13 +43,13 @@
 /* 【外枠: discoveryRail】位置決め・防壁の責務（transform は持たない） */
 .discoveryRail {
   grid-column: 2;
-  grid-row: 1 / -1; /* 行1に固定してレイアウトシフトを防止 */
+  grid-row: 1 / -1;
   min-width: 0;
   position: sticky;
   top: 0.75rem;
-  align-self: stretch;
-  /* height: var(--vh-75); 絵巻ビューアと完全一致する高さ */
-  /* max-height: var(--vh-75); */
+  align-self: start;
+  height: calc(100vh - 1.5rem);
+  max-height: calc(100vh - 1.5rem);
   overflow-y: auto;
   overflow-x: hidden;
   transition: box-shadow 0.25s ease;
