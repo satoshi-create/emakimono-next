@@ -87,33 +87,88 @@ export default function PublicBoardsPage() {
             flexWrap: "wrap",
             justifyContent: "space-between",
             alignItems: "center",
-            gap: 12,
+            gap: 16,
             borderBottom: "1px solid #e5e7eb",
             paddingBottom: 16,
             marginBottom: 24,
           }}
         >
-          <div>
-            <div style={{ display: "flex", gap: 12, marginBottom: 8 }}>
-              <Link href="/" passHref>
-                <a style={{ fontSize: 13, color: "#4b5563" }}>
-                  {isEn ? "← Gallery" : "← 絵巻一覧へ"}
-                </a>
-              </Link>
-              <Link href="/board" passHref>
-                <a style={{ fontSize: 13, color: "#4b5563" }}>
-                  {isEn ? "My Personal Board" : "個人ボードへ"}
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+              {/* 共通2モード切替セグメントスイッチ */}
+              <div
+                role="tablist"
+                aria-label={isEn ? "Board mode switch" : "ボードモード切替"}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  background: "#f1f5f9",
+                  padding: 3,
+                  borderRadius: 999,
+                  border: "1px solid #cbd5e1",
+                }}
+              >
+                <Link href="/board/personal" locale={router.locale} passHref>
+                  <a
+                    role="tab"
+                    aria-selected={false}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 5,
+                      padding: "5px 12px",
+                      borderRadius: 999,
+                      fontSize: 12,
+                      fontWeight: 500,
+                      color: "#64748b",
+                      textDecoration: "none",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    <span aria-hidden="true">🔒</span>
+                    <span>{isEn ? "Personal List" : "個人ボード一覧"}</span>
+                  </a>
+                </Link>
+
+                <span
+                  role="tab"
+                  aria-selected={true}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 5,
+                    padding: "5px 12px",
+                    borderRadius: 999,
+                    fontSize: 12,
+                    fontWeight: 700,
+                    background: "#dcfce7",
+                    color: "#166534",
+                    boxShadow: "0 1px 3px rgba(22, 101, 52, 0.14)",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  <span aria-hidden="true">🌐</span>
+                  <span>{isEn ? "Public List" : "公開ボード一覧"}</span>
+                </span>
+              </div>
+
+              <Link href="/" locale={router.locale} passHref>
+                <a style={{ fontSize: 12.5, color: "#64748b", textDecoration: "none" }}>
+                  {isEn ? "← Emaki Gallery" : "← 絵巻一覧へ"}
                 </a>
               </Link>
             </div>
-            <h1 style={{ fontSize: 22, fontWeight: 700, margin: 0 }}>
-              {isEn ? "Public Polaroid Boards" : "みんなの公開ポラロイドボード"}
-            </h1>
-            <p style={{ fontSize: 13, color: "#6b7280", margin: "4px 0 0" }}>
-              {isEn
-                ? "Browse open community boards and pin your favorite scenes from any scroll."
-                : "誰でも自由に閲覧・貼り付けができる公開ギャラリーボードです。"}
-            </p>
+
+            <div>
+              <h1 style={{ fontSize: 22, fontWeight: 700, margin: 0 }}>
+                {isEn ? "Public Polaroid Boards" : "みんなの公開ポラロイドボード"}
+              </h1>
+              <p style={{ fontSize: 13, color: "#6b7280", margin: "4px 0 0" }}>
+                {isEn
+                  ? "Browse open community boards and pin your favorite scenes from any scroll."
+                  : "誰でも自由に閲覧・貼り付けができる公開ギャラリーボードです。"}
+              </p>
+            </div>
           </div>
         </header>
 

@@ -5,12 +5,38 @@ import {
   KUSOUZU_HUB_PATH,
   RAKUCHU_RAKUGAI_HUB_PATH,
 } from "@/libs/constants/links";
+import { getAllHubPages } from "@/libs/hubPages";
 
 export const ACTIVE_COLLAB_ROOM_KEY = "emakimono_active_collab_room_v1";
 export const AUTHOR_NAME_KEY = "emakimono_polaroid_author_v1";
 
 export function resolveRelatedThemeHub(text) {
   const s = String(text || "").toLowerCase();
+  if (!s) return null;
+
+  // 1. hubPages.json 内の動的追加ハブ（!isBuiltin）を優先照合
+  const allHubs = getAllHubPages();
+  for (const hub of allHubs) {
+    if (hub.isBuiltin) continue;
+    const titleJa = String(hub.titleJa || "").replace(/一覧$/, "").toLowerCase();
+    const titleEn = String(hub.titleEn || "").toLowerCase();
+    const kws = Array.isArray(hub.keywords)
+      ? hub.keywords.map((k) => String(k).toLowerCase()).filter(Boolean)
+      : [];
+    if (
+      (titleJa && s.includes(titleJa)) ||
+      (titleEn && s.includes(titleEn)) ||
+      kws.some((kw) => s.includes(kw))
+    ) {
+      return {
+        path: hub.path,
+        labelJa: hub.titleJa,
+        labelEn: hub.titleEn || hub.titleJa,
+      };
+    }
+  }
+
+  // 2. 既存の組み込みハブ照合
   if (/鳥獣|choju|chouju/.test(s)) {
     return { path: CHOUJU_GIGA_HUB_PATH, labelJa: "鳥獣人物戯画一覧", labelEn: "Chōjū-giga" };
   }

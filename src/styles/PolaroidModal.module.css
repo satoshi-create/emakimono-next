@@ -330,13 +330,125 @@
   color: var(--clr-text-muted);
 }
 
+.headerCloseBtn {
+  margin-left: auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid rgb(20 20 20 / 0.14);
+  background: rgb(255 255 255 / 0.9);
+  color: var(--clr-text);
+  font-size: 0.85rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.15s ease;
+}
+
+.headerCloseBtn:hover {
+  background: rgb(20 20 20 / 0.08);
+}
+
 .footer {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px;
-  margin-top: 8px;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 6px;
   width: 100%;
+  min-width: 0;
+}
+
+.footerTabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgb(20 20 20 / 0.05);
+  padding: 2px;
+  border-radius: 7px;
+  width: 100%;
+}
+
+.footerTabBtn {
+  flex: 1;
+  height: 26px;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: #6b7280;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: var(--font-ui);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.footerTabBtnActive {
+  background: #ffffff;
+  color: var(--clr-text);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
+}
+
+.footerRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+}
+
+.boardSelect {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 36px;
+  padding: 0 8px;
+  border-radius: 6px;
+  border: 1px solid #d97706;
+  background: #ffffff;
+  color: #78350f;
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: var(--font-ui);
+  cursor: pointer;
+  text-overflow: ellipsis;
+}
+
+.publicPinBtn {
+  flex: 0 0 auto;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 6px;
+  border: 1px solid #d97706;
+  background: #fffbeb;
+  color: #b45309;
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-family: var(--font-ui);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.publicPinBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.personalCompactBtn {
+  flex: 0 0 auto;
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 6px;
+  border: 1px solid rgb(20 20 20 / 0.16);
+  background: #ffffff;
+  color: var(--clr-text);
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: var(--font-ui);
+  white-space: nowrap;
+  cursor: pointer;
 }
 
 .saveBtn,

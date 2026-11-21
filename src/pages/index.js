@@ -1,7 +1,7 @@
 import HomeGalleryLink from "@/components/home/HomeGalleryLink";
+import HomeHubSection from "@/components/home/HomeHubSection";
 import HomeLatestScrolls from "@/components/home/HomeLatestScrolls";
 import HomePublicBoards from "@/components/home/HomePublicBoards";
-import HomeThemeCards from "@/components/home/HomeThemeCards";
 import TopRanking from "@/components/emaki/ranking/TopRanking";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
@@ -9,6 +9,7 @@ import Head from "@/components/meta/Meta";
 import CustomTagCloud from "@/components/keyword/CustomTagCloud";
 import CardA from "@/components/ui/CardA";
 import Title from "@/components/ui/Title";
+import emakisData from "@/data/scroll-metadata";
 import ExtractingListData from "@/utils/ExtractingListData";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { buildLocaleUrl, SITE_ORIGIN } from "@/libs/constants/dataSiteMeta";
@@ -17,8 +18,10 @@ import {
   HOME_LATEST_TITLEEN,
   KUSOUZU_HUB_PATH,
 } from "@/libs/constants/links";
+import { filterEmakisForHub, getAllHubPages } from "@/libs/hubPages";
 import { fetchRankingPageViews } from "@/libs/api/fetchRankingPageViews";
 import { buildRankingData } from "@/utils/buildRankingData";
+import { removeNestedEmakisObj } from "@/utils/emakiList";
 import { keywordItem, useLocale, useLocaleMeta } from "@/utils/func";
 import "lazysizes";
 import { useTranslation } from "next-i18next";
@@ -99,7 +102,7 @@ const buildHomeJsonLd = ({
   );
 };
 
-const Home = ({ popularEmakis = [] }) => {
+const Home = ({ popularEmakis = [], themeHubs = [] }) => {
   const { t } = useLocale();
   const { t: tCommon } = useTranslation("common");
   const { t: meta } = useLocaleMeta();
@@ -148,7 +151,7 @@ const Home = ({ popularEmakis = [] }) => {
       <HomeLatestScrolls />
       <HomePublicBoards />
       <TopRanking bcg="#fff" emakis={popularEmakis} />
-      <HomeThemeCards surface />
+      <HomeHubSection hubs={themeHubs} surface />
       {allKeywords.length > 0 && (
         <section className="section-grid section-padding">
           <Title
@@ -186,9 +189,34 @@ export const getStaticProps = async ({ locale }) => {
     console.warn("Home getStaticProps: GA ranking fetch failed", error.message);
   }
 
+  // getStaticProps では React hooks 不可。ExtractingListData / useLocaleData は使わない
+  const flattenedEmakis = emakisData.map((item) => removeNestedEmakisObj(item));
+  const themeHubs = getAllHubPages().map((hub) => {
+    const matched = filterEmakisForHub(flattenedEmakis, hub);
+    const uniqueThumbs = [];
+    for (const item of matched) {
+      if (item?.thumb && !uniqueThumbs.includes(item.thumb)) {
+        uniqueThumbs.push(item.thumb);
+        if (uniqueThumbs.length >= 3) break;
+      }
+    }
+    return {
+      slug: hub.slug,
+      path: hub.path,
+      titleJa: hub.titleJa,
+      titleEn: hub.titleEn,
+      descriptionJa: hub.descriptionJa,
+      descriptionEn: hub.descriptionEn,
+      workCount: matched.length,
+      coverThumb: uniqueThumbs[0] || "",
+      coverThumbs: uniqueThumbs,
+    };
+  });
+
   return {
     props: {
       popularEmakis,
+      themeHubs,
       ...(await serverSideTranslations(locale ?? "ja", ["common"])),
     },
     // /ranking と同様。人気枠を初回 HTML に載せ CLS を防ぐ

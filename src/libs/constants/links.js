@@ -66,36 +66,12 @@ export const navGroups = [
     labelKey: "nav.groupExplore",
     links: [
       { name: "絵巻一覧", nameen: "Emaki Gallery", path: "/type/emaki" },
-      {
-        name: "鳥獣人物戯画一覧",
-        nameen: "Chōjū-jinbutsu-giga",
-        path: CHOUJU_GIGA_HUB_PATH,
-      },
-      {
-        name: "九相図一覧",
-        nameen: "Kusōzu Gallery",
-        path: KUSOUZU_HUB_PATH,
-      },
-      {
-        name: "百鬼夜行・付喪神一覧",
-        nameen: "Hyakki Yagyō & Tsukumogami",
-        path: HYAKKI_HUB_PATH,
-      },
-      {
-        name: "洛中洛外図一覧",
-        nameen: "Rakuchū-rakugai-zu",
-        path: RAKUCHU_RAKUGAI_HUB_PATH,
-      },
-      { name: "屏風一覧", nameen: "Byōbu Screens", path: BYOBU_HUB_PATH },
-      { name: "ランキング", nameen: "Rankings", path: "/ranking" },
-      {
-        name: "マンガのルーツ",
-        nameen: "Manga Roots",
-        path: "/manga-roots",
-      },
+      { name: "屏風一覧", nameen: "Byōbu Folding Screens", path: BYOBU_HUB_PATH },
+      { name: "テーマ・特集ハブ一覧", nameen: "Theme Hubs", path: "/hub" },
+      { name: "ランキング", nameen: "Ranking", path: "/ranking" },
       {
         name: "公開ポラロイドボード",
-        nameen: "Public Polaroid Boards",
+        nameen: "Public Polaroid Board",
         path: "/board/public",
       },
     ],
@@ -104,7 +80,11 @@ export const navGroups = [
     id: "learn",
     labelKey: "nav.groupLearn",
     links: [
-      { name: "About", nameen: "About", path: "/about" },
+      {
+        name: "マンガのルーツ",
+        nameen: "Roots of Manga",
+        path: "/manga-roots",
+      },
       { name: "年表", nameen: "Timeline", path: "/timeline" },
       { name: "使い方ガイド", nameen: "Guide", path: "/guide" },
     ],

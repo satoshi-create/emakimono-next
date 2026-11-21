@@ -585,13 +585,35 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
 
                   <BoardCardPhoto item={item} />
 
-                  <div style={{ marginTop: 8 }}>
+                  {/* 作品タイトル・段タイトル（/board の PolaroidBoardCard と統一） */}
+                  <div
+                    style={{
+                      marginTop: 8,
+                      textAlign: "center",
+                    }}
+                  >
+                    {item.displayChapter && (
+                      <div
+                        style={{
+                          fontSize: 12.5,
+                          fontWeight: 700,
+                          color: th.titleColor || surface.barText,
+                          lineHeight: 1.35,
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                        }}
+                      >
+                        {item.displayChapter}
+                      </div>
+                    )}
                     {item.displayTitle && (
                       <div
                         style={{
                           fontSize: 11,
-                          fontWeight: 700,
+                          fontWeight: 600,
                           color: th.subColor || surface.barTextMuted,
+                          marginTop: item.displayChapter ? 2 : 0,
                           whiteSpace: "nowrap",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
@@ -600,12 +622,21 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
                         {isEn ? item.displayTitle : `『${item.displayTitle}』`}
                       </div>
                     )}
-                    {(item.message || item.memo) && (
+                  </div>
+
+                  {(item.message || item.memo) && (
+                    <div
+                      style={{
+                        marginTop: 6,
+                        paddingTop: 6,
+                        borderTop: "1px solid rgb(20 20 20 / 0.08)",
+                      }}
+                    >
                       <p
                         style={{
                           fontSize: 12,
                           color: th.titleColor || surface.barText,
-                          margin: "4px 0 0",
+                          margin: 0,
                           lineHeight: 1.45,
                           display: "-webkit-box",
                           WebkitLineClamp: 2,
@@ -615,7 +646,26 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
                       >
                         {item.message || item.memo}
                       </p>
-                    )}
+                    </div>
+                  )}
+
+                  {/* 投稿者バッジ（/board の PolaroidBoardCard と統一） */}
+                  <div style={{ marginTop: 6 }}>
+                    <span
+                      style={{
+                        display: "inline-block",
+                        fontSize: 10.5,
+                        fontWeight: 700,
+                        color: "#92400e",
+                        background: "#fef3c7",
+                        padding: "2px 8px",
+                        borderRadius: 999,
+                      }}
+                    >
+                      by{" "}
+                      {item.authorName ||
+                        (isEn ? "Anonymous" : "名無しの鑑賞者")}
+                    </span>
                   </div>
 
                   <div

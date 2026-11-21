@@ -67,6 +67,7 @@ async function handleGet(req, res, boardId) {
       board: {
         id: board.id,
         title: board.title,
+        description: board.description || "",
         visibility: board.visibility || "unlisted",
         isOwner: board.createdByHash === visitorHash,
         createdAt: board.createdAt ? new Date(board.createdAt).getTime() : Date.now(),
@@ -80,9 +81,23 @@ async function handleGet(req, res, boardId) {
 }
 
 async function handlePatch(req, res, boardId) {
-  const title = parseNonEmptyString(req.body?.title, 100);
-  if (!title) {
+  const hasTitle = Object.prototype.hasOwnProperty.call(req.body || {}, "title");
+  const hasDescription = Object.prototype.hasOwnProperty.call(
+    req.body || {},
+    "description"
+  );
+
+  const title = hasTitle ? parseNonEmptyString(req.body?.title, 100) : null;
+  if (hasTitle && !title) {
     return sendApiError(res, 400, "Invalid title");
+  }
+
+  const description = hasDescription
+    ? String(req.body?.description ?? "").trim().slice(0, 500)
+    : null;
+
+  if (!hasTitle && !hasDescription) {
+    return sendApiError(res, 400, "No updatable fields provided");
   }
 
   try {
@@ -97,15 +112,19 @@ async function handlePatch(req, res, boardId) {
       return sendApiError(res, 404, "Board not found");
     }
 
+    const updates = {};
+    if (hasTitle) updates.title = title;
+    if (hasDescription) updates.description = description;
+
     await db
       .update(polaroidBoards)
-      .set({ title })
+      .set(updates)
       .where(eq(polaroidBoards.id, boardId));
 
-    return res.status(200).json({ ok: true, title });
+    return res.status(200).json({ ok: true, ...updates });
   } catch (error) {
     console.error("PATCH /api/board/[id] failed:", error);
-    return sendApiError(res, 500, "Failed to update board title");
+    return sendApiError(res, 500, "Failed to update board");
   }
 }
 

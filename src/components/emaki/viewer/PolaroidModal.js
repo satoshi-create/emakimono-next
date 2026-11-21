@@ -32,8 +32,7 @@ import {
   MESSAGE_MAX,
   getThemeTextureUrl,
 } from "./polaroid/polaroidCanvasRenderer";
-import { appendBoardItem } from "./polaroid/polaroidBoardStorage";
-import { addCollabBoardItem } from "@/libs/api/ugcApi";
+import { PolaroidModalFooter } from "./polaroid/PolaroidModalFooter";
 
 // --- 分割・抽出された責務別カスタムフック ---
 import { usePolaroidPanZoom } from "./polaroid/usePolaroidPanZoom";
@@ -313,6 +312,15 @@ export function PolaroidModal({
           <span style={{ display: "inline-flex", alignItems: "center", gap: "2px", background: "#f0f0f0", color: "#111", padding: "2px 6px", borderRadius: "10px", fontWeight: "600" }}>
             TikTok
           </span>
+          <button
+            type="button"
+            className={styles.headerCloseBtn}
+            onClick={handleModalClose}
+            aria-label={isEn ? "Close" : "閉じる"}
+            title={isEn ? "Close" : "閉じる"}
+          >
+            ✕
+          </button>
         </div>
 
         {/* --- B. 写真表示フレーム（ドラッグ/ホイール操作対象） --- */}
@@ -504,7 +512,11 @@ export function PolaroidModal({
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder={isEn ? "Add a note (e.g. Favorite scene)" : "ひとこと添える（例: お気に入りのシーン）"}
+                placeholder={
+                  isEn
+                    ? "Add a note (shown on image, max 40 chars)"
+                    : "ひとこと添える（画像に反映・40字まで）"
+                }
                 maxLength={MESSAGE_MAX}
                 style={{
                   flex: 1,
@@ -537,20 +549,6 @@ export function PolaroidModal({
                 </button>
               )}
             </div>
-            {!message && (
-              <div
-                style={{
-                  fontSize: "10px",
-                  color: "#999",
-                  textAlign: "center",
-                  marginTop: "2px",
-                }}
-              >
-                {isEn
-                  ? "※ Included as a caption in the image/video (max 40 chars)"
-                  : "※画像・動画内に手書きキャプションとして反映されます（最大40文字）"}
-              </div>
-            )}
           </div>
         </div>
 
@@ -581,141 +579,48 @@ export function PolaroidModal({
           </p>
         )}
 
-        {/* --- F. フッター操作ボタン（保存 / 共有 / ボード / 閉じる） --- */}
-        <div className={styles.footer}>
-          <button
-            type="button"
-            className={styles.saveBtn}
-            onClick={() => {
-              trackPolaroidSheetOpen({
-                sheetMode: "save",
-                scrollId,
-                sceneIndex: selectedIndex,
-              });
-              setSheetMode("save");
-              setShareStep("select");
-              setIsShareSheetOpen(true);
-            }}
-            disabled={!src}
-          >
-            {isEn ? "Save" : "保存"}
-          </button>
-          {(() => {
-            let activeRoom = null;
-            if (typeof window !== "undefined") {
-              try {
-                const raw = window.sessionStorage.getItem("emakimono_active_collab_room_v1");
-                if (raw) activeRoom = JSON.parse(raw);
-              } catch {
-                activeRoom = null;
-              }
-            }
-            if (!activeRoom?.id) return null;
-            return (
-              <button
-                type="button"
-                className={styles.secondaryBtn || styles.closeBtn}
-                style={{ borderColor: "#d97706", color: "#b45309", background: "#fffbeb" }}
-                onClick={async () => {
-                  const authorName =
-                    typeof window !== "undefined"
-                      ? window.localStorage.getItem("emakimono_polaroid_author_v1") || ""
-                      : "";
-                  try {
-                    await addCollabBoardItem(activeRoom.id, {
-                      scrollId,
-                      sceneIndex: selectedIndex,
-                      src,
-                      pan,
-                      zoom,
-                      coverScale,
-                      cx: cropCx,
-                      cy: cropCy,
-                      cz: cropCz,
-                      theme: currentTheme,
-                      displayTitle,
-                      displayChapter,
-                      message,
-                      authorName,
-                    });
-                    handleModalClose();
-                    router.push(`/board?room=${encodeURIComponent(activeRoom.id)}`, undefined, {
-                      locale: router.locale,
-                    });
-                  } catch (error) {
-                    alert(error.message || "ボードへの投稿に失敗しました");
-                  }
-                }}
-              >
-                {isEn
-                  ? `Pin to "${activeRoom.title || "Shared Board"}"`
-                  : `「${activeRoom.title || "共有ボード"}」に貼る`}
-              </button>
-            );
-          })()}
-          <button
-            type="button"
-            className={styles.secondaryBtn || styles.closeBtn}
-            onClick={() => {
-              appendBoardItem({
-                scrollId,
-                sceneIndex: selectedIndex,
-                src,
-                prevSrc: prevSlot?.src || "",
-                nextSrc: nextSlot?.src || "",
-                pan,
-                zoom,
-                coverScale,
-                cx: cropCx,
-                cy: cropCy,
-                cz: cropCz,
-                theme: currentTheme,
-                displayTitle,
-                displayChapter,
-                message,
-              });
-              handleModalClose();
-              router.push("/board", undefined, { locale: router.locale });
-            }}
-          >
-            {isEn ? "Keep on Personal Board" : "個人ボードにキープ"}
-          </button>
-          <button
-            type="button"
-            className={styles.secondaryBtn || styles.closeBtn}
-            style={{ borderColor: "#059669", color: "#047857", background: "#ecfdf5" }}
-            onClick={() => {
-              handleModalClose();
-              router.push("/board/public", undefined, { locale: router.locale });
-            }}
-          >
-            {isEn ? "Public Boards" : "公開ボード一覧を見る"}
-          </button>
-          <button
-            type="button"
-            className={styles.shareBtn}
-            onClick={() => {
-              trackPolaroidSheetOpen({
-                sheetMode: "share",
-                scrollId,
-                sceneIndex: selectedIndex,
-              });
-              setFeedbackMessage(null);
-              setSheetMode("share");
-              setShareStep("select");
-              setIsShareSheetOpen(true);
-            }}
-            disabled={!src}
-            style={{
-              backgroundColor: currentTheme === "sumi" ? "#383533" : "#2c3e50",
-            }}
-          >
-            {isEn ? "Share to SNS / Shorts" : "SNS・Shortsに共有"}
-          </button>
-          <button type="button" className={styles.closeBtn} onClick={handleModalClose}>
-            {isEn ? "Close" : "閉じる"}
-          </button>
-        </div>
+        {/* --- F. フッター操作ボタン（切り出しコンポーネント） --- */}
+        <PolaroidModalFooter
+          coverScale={coverScale}
+          cropCx={cropCx}
+          cropCy={cropCy}
+          cropCz={cropCz}
+          currentTheme={currentTheme}
+          displayChapter={displayChapter}
+          displayTitle={displayTitle}
+          isEn={isEn}
+          isOpen={isOpen}
+          message={message}
+          nextSlot={nextSlot}
+          pan={pan}
+          prevSlot={prevSlot}
+          scrollId={scrollId}
+          selectedIndex={selectedIndex}
+          src={src}
+          zoom={zoom}
+          onOpenSaveSheet={() => {
+            trackPolaroidSheetOpen({
+              sheetMode: "save",
+              scrollId,
+              sceneIndex: selectedIndex,
+            });
+            setSheetMode("save");
+            setShareStep("select");
+            setIsShareSheetOpen(true);
+          }}
+          onOpenShareSheet={() => {
+            trackPolaroidSheetOpen({
+              sheetMode: "share",
+              scrollId,
+              sceneIndex: selectedIndex,
+            });
+            setFeedbackMessage(null);
+            setSheetMode("share");
+            setShareStep("select");
+            setIsShareSheetOpen(true);
+          }}
+          onCloseModal={handleModalClose}
+        />
 
         {/* --- G. 共有・保存ボトムシート（切り出しコンポーネント） --- */}
         <PolaroidShareSheet

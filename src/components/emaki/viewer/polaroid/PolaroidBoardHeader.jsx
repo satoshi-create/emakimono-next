@@ -1,293 +1,206 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import styles from "./PolaroidBoardView.module.css";
-import { resolveRelatedThemeHub } from "./polaroidBoardHelpers";
 
 export function PolaroidBoardHeader({
   isEn,
   locale,
   isCollabMode,
-  isSharedMode,
-  collabBoard,
-  collabTitleDraft,
-  setCollabTitleDraft,
-  onSaveCollabTitle,
-  onSaveCollabDescription,
-  onCopyCollabInviteUrl,
-  onNavigatePublicBoards,
-  onNavigatePersonalBoard,
-  onSaveSharedToMyBoard,
-  isCreatingRoom,
-  onCreateCollabRoom,
-  roomError,
-  authorName,
-  onAuthorNameChange,
-  isRefreshing,
-  refreshSuccess,
-  onRefreshRoom,
+  onSwitchToPersonal,
+  onSwitchToPublic,
 }) {
-  const relatedHub = isCollabMode
-    ? resolveRelatedThemeHub(
-        `${collabBoard?.title || ""} ${collabBoard?.description || ""}`
-      )
-    : null;
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [menuOpen]);
 
   return (
-    <>
-      {/* 上部ツールバー */}
-      <header className={styles.header}>
-        <div className={styles.headerLeft}>
-          <Link href="/" passHref>
-            <a className={styles.backLink}>{isEn ? "← Gallery" : "← 絵巻一覧へ"}</a>
-          </Link>
-          <div>
-            <h1 className={styles.title}>
-              {isEn ? "Emaki Polaroid Board" : "絵巻ポラロイド・ホワイトボード"}
-            </h1>
-            <p className={styles.subtitle}>
-              {isEn
-                ? "Drag cards to arrange your personal curation."
-                : "ポラロイドを自由に並べて、自分だけの鑑賞ボードを作れます"}
-            </p>
-          </div>
-        </div>
-
+    <header
+      className={styles.header}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        gap: 12,
+        padding: "8px 16px",
+        minHeight: 48,
+      }}
+    >
+      {/* 左：個人・公開切り替えピルのみ */}
+      <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
         <div
-          className={styles.headerRight}
-          style={{ flexWrap: "nowrap", gap: 8, alignItems: "center" }}
+          role="group"
+          aria-label={isEn ? "Board mode switch" : "ボードモード切替"}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            background: "#f1f5f9",
+            padding: 3,
+            borderRadius: 999,
+            border: "1px solid #cbd5e1",
+          }}
         >
-          {isCollabMode ? (
-            <>
-              <span
-                style={{
-                  fontSize: 12,
-                  fontWeight: 700,
-                  padding: "4px 10px",
-                  borderRadius: 999,
-                  whiteSpace: "nowrap",
-                  background:
-                    collabBoard?.visibility === "public" ? "#ecfdf5" : "#fffbeb",
-                  color:
-                    collabBoard?.visibility === "public" ? "#047857" : "#b45309",
-                  border:
-                    collabBoard?.visibility === "public"
-                      ? "1px solid #a7f3d0"
-                      : "1px solid #fde68a",
-                }}
-              >
-                {collabBoard?.visibility === "public"
-                  ? isEn
-                    ? "Public Board"
-                    : "公開ボード"
-                  : isEn
-                  ? "Unlisted Shared"
-                  : "限定共有ボード"}
-              </span>
-              <input
-                type="text"
-                value={collabTitleDraft}
-                onChange={(e) => setCollabTitleDraft(e.target.value)}
-                onBlur={onSaveCollabTitle}
-                aria-label="Board title"
-                className={styles.collabTitleInput}
-                style={{ maxWidth: 180 }}
-              />
-              <button
-                type="button"
-                onClick={onCopyCollabInviteUrl}
-                className={styles.primaryBtn}
-                style={{ whiteSpace: "nowrap" }}
-              >
-                {isEn ? "Copy Link" : "共有URLコピー"}
-              </button>
-              <button
-                type="button"
-                onClick={onNavigatePublicBoards}
-                className={styles.collabMiniBtn}
-                style={{ whiteSpace: "nowrap" }}
-              >
-                {isEn ? "Public List" : "公開一覧"}
-              </button>
-              <button
-                type="button"
-                onClick={onNavigatePersonalBoard}
-                className={styles.collabMiniBtn}
-                style={{ whiteSpace: "nowrap" }}
-              >
-                {isEn ? "Personal" : "個人ボード"}
-              </button>
-            </>
-          ) : isSharedMode ? (
-            <>
-              <span
-                style={{
-                  fontSize: 12,
-                  fontWeight: 700,
-                  padding: "4px 10px",
-                  borderRadius: 999,
-                  whiteSpace: "nowrap",
-                  background: "#f3f4f6",
-                  color: "#374151",
-                }}
-              >
-                {isEn ? "Shared Preview" : "共有プレビュー"}
-              </span>
-              <button
-                type="button"
-                onClick={onSaveSharedToMyBoard}
-                className={styles.saveSharedBtn}
-                style={{ whiteSpace: "nowrap" }}
-              >
-                {isEn ? "Save to Personal" : "個人ボードに保存"}
-              </button>
-              <button
-                type="button"
-                onClick={onNavigatePublicBoards}
-                className={styles.collabMiniBtn}
-                style={{ whiteSpace: "nowrap" }}
-              >
-                {isEn ? "Public List" : "公開一覧"}
-              </button>
-            </>
-          ) : (
-            <>
-              <span
-                style={{
-                  fontSize: 12,
-                  fontWeight: 700,
-                  padding: "4px 10px",
-                  borderRadius: 999,
-                  whiteSpace: "nowrap",
-                  background: "#f3f4f6",
-                  color: "#111827",
-                }}
-              >
-                {isEn ? "Personal Board" : "個人ボード"}
-              </span>
-              <button
-                type="button"
-                onClick={onNavigatePublicBoards}
-                className={styles.collabMiniBtn}
-                style={{ whiteSpace: "nowrap" }}
-              >
-                {isEn ? "Public List" : "公開一覧"}
-              </button>
-              <button
-                type="button"
-                disabled={isCreatingRoom}
-                onClick={onCreateCollabRoom}
-                className={styles.primaryBtn}
-                style={{ whiteSpace: "nowrap" }}
-              >
-                {isCreatingRoom
-                  ? isEn
-                    ? "Creating..."
-                    : "発行中..."
-                  : isEn
-                  ? "Create Share Link"
-                  : "限定共有リンクを発行"}
-              </button>
-            </>
-          )}
-        </div>
-      </header>
+          <button
+            type="button"
+            onClick={() => {
+              if (isCollabMode && onSwitchToPersonal) onSwitchToPersonal();
+            }}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 5,
+              padding: "4px 12px",
+              borderRadius: 999,
+              border: "none",
+              fontSize: 12,
+              fontWeight: !isCollabMode ? 700 : 500,
+              background: !isCollabMode ? "#ffffff" : "transparent",
+              color: !isCollabMode ? "#0f172a" : "#64748b",
+              boxShadow: !isCollabMode ? "0 1px 3px rgba(15, 23, 42, 0.12)" : "none",
+              cursor: !isCollabMode ? "default" : "pointer",
+              whiteSpace: "nowrap",
+            }}
+          >
+            <span aria-hidden="true">🔒</span>
+            <span>{isEn ? "Personal" : "個人ボード"}</span>
+          </button>
 
-      {isCollabMode && (
-        <div
-          className={styles.collabBanner}
-          style={
-            collabBoard?.visibility === "public"
-              ? { background: "#ecfdf5", borderColor: "#a7f3d0", color: "#065f46" }
-              : undefined
-          }
-        >
-          <div className={styles.collabBannerLeft}>
-            <span
-              className={styles.collabBadge}
-              style={
-                collabBoard?.visibility === "public"
-                  ? { background: "#059669" }
-                  : undefined
-              }
-            >
-              {collabBoard?.visibility === "public"
-                ? isEn
-                  ? "PUBLIC"
-                  : "公開"
-                : isEn
-                ? "UNLISTED"
-                : "限定共有"}
-            </span>
-            <input
-              type="text"
-              defaultValue={collabBoard?.description || ""}
-              key={`${collabBoard?.id || "room"}-${collabBoard?.description || ""}`}
-              onBlur={(e) => onSaveCollabDescription(e.target.value)}
-              placeholder={
-                isEn
-                  ? "Theme description (click to edit)"
-                  : "テーマの説明（クリックして編集・共有）"
-              }
-              aria-label="Board theme description"
-              className={styles.collabTitleInput}
-              style={{ flex: "1 1 280px", maxWidth: 520 }}
-            />
-            {relatedHub && (
-              <Link href="{relatedHub.path}" locale="{locale}" passHref>
-                <a
-                  style={{
-                    fontSize: 12,
-                    fontWeight: 600,
-                    padding: "3px 10px",
-                    borderRadius: 999,
-                    background: "#ffffff",
-                    color: "#047857",
-                    border: "1px solid #a7f3d0",
-                    textDecoration: "none",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {isEn
-                    ? `Related: ${relatedHub.labelEn} →`
-                    : `関連作品: ${relatedHub.labelJa} →`}
-                </a>
-              </Link>
-            )}
-            {roomError && <strong style={{ color: "#dc2626" }}>({roomError})</strong>}
-          </div>
-          <div className={styles.collabBannerRight}>
-            <label style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
-              <span>{isEn ? "Your name:" : "あなたの名前:"}</span>
-              <input
-                type="text"
-                maxLength={30}
-                value={authorName}
-                onChange={(e) => onAuthorNameChange(e.target.value)}
-                placeholder={isEn ? "e.g. Student A" : "例: 3年1組 田中"}
-                className={styles.authorNameInput}
-              />
-            </label>
-            <button
-              type="button"
-              disabled={isRefreshing}
-              onClick={onRefreshRoom}
-              className={styles.collabMiniBtn}
-            >
-              {isRefreshing
-                ? isEn
-                  ? "Refreshing..."
-                  : "更新中..."
-                : refreshSuccess
-                ? isEn
-                  ? "✓ Updated"
-                  : "✓ 更新完了"
-                : isEn
-                ? "Refresh"
-                : "最新に更新"}
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => {
+              if (!isCollabMode && onSwitchToPublic) onSwitchToPublic();
+            }}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 5,
+              padding: "4px 12px",
+              borderRadius: 999,
+              border: "none",
+              fontSize: 12,
+              fontWeight: isCollabMode ? 700 : 500,
+              background: isCollabMode ? "#dcfce7" : "transparent",
+              color: isCollabMode ? "#166534" : "#64748b",
+              boxShadow: isCollabMode ? "0 1px 3px rgba(22, 101, 52, 0.14)" : "none",
+              cursor: isCollabMode ? "default" : "pointer",
+              whiteSpace: "nowrap",
+            }}
+          >
+            <span aria-hidden="true">🌐</span>
+            <span>{isEn ? "Public" : "公開ボード"}</span>
+          </button>
         </div>
-      )}
-    </>
+      </div>
+
+      {/* 右上：ハンバーガーメニュー */}
+      <div ref={menuRef} style={{ position: "relative" }}>
+        <button
+          type="button"
+          aria-label={isEn ? "Menu" : "メニュー"}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((prev) => !prev)}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 34,
+            height: 34,
+            borderRadius: 8,
+            border: "1px solid #cbd5e1",
+            background: "#ffffff",
+            color: "#1e293b",
+            fontSize: 16,
+            cursor: "pointer",
+          }}
+        >
+          ☰
+        </button>
+
+        {menuOpen && (
+          <div
+            style={{
+              position: "absolute",
+              right: 0,
+              top: "calc(100% + 6px)",
+              minWidth: 200,
+              background: "#ffffff",
+              border: "1px solid #e2e8f0",
+              borderRadius: 10,
+              boxShadow: "0 10px 25px rgba(15, 23, 42, 0.12)",
+              padding: 6,
+              zIndex: 60,
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+            }}
+          >
+            <Link href="/board/personal" locale={locale} passHref>
+              <a
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  padding: "8px 12px",
+                  borderRadius: 6,
+                  fontSize: 13,
+                  color: "#1e293b",
+                  textDecoration: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                }}
+              >
+                <span>🔒</span>
+                <span>{isEn ? "Personal Boards List" : "個人ボード一覧"}</span>
+              </a>
+            </Link>
+            <Link href="/board/public" locale={locale} passHref>
+              <a
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  padding: "8px 12px",
+                  borderRadius: 6,
+                  fontSize: 13,
+                  color: "#1e293b",
+                  textDecoration: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                }}
+              >
+                <span>🌐</span>
+                <span>{isEn ? "Public Boards List" : "公開ボード一覧"}</span>
+              </a>
+            </Link>
+            <div style={{ height: 1, background: "#f1f5f9", margin: "4px 0" }} />
+            <Link href="/" locale={locale} passHref>
+              <a
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  padding: "8px 12px",
+                  borderRadius: 6,
+                  fontSize: 13,
+                  color: "#475569",
+                  textDecoration: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                }}
+              >
+                <span>🖼️</span>
+                <span>{isEn ? "Emaki Gallery (Home)" : "絵巻一覧（トップ）"}</span>
+              </a>
+            </Link>
+          </div>
+        )}
+      </div>
+    </header>
   );
 }

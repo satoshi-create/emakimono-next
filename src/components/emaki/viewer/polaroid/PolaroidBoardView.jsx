@@ -4,11 +4,15 @@ import { useRouter } from "next/router";
 import styles from "./PolaroidBoardView.module.css";
 import { PolaroidBoardCard } from "./PolaroidBoardCard";
 import { PolaroidBoardHeader } from "./PolaroidBoardHeader";
+import { PolaroidBoardTabs } from "./PolaroidBoardTabs";
+import { PolaroidBoardInfoCard } from "./PolaroidBoardInfoCard";
 import {
   loadBoardItems,
   saveBoardItems,
   encodeBoardShareUrl,
   decodeBoardShareParam,
+  listPersonalBoards,
+  DEFAULT_PERSONAL_BOARD,
 } from "./polaroidBoardStorage";
 import {
   addCollabBoardItem,
@@ -17,14 +21,13 @@ import {
   fetchCollabBoard,
   fetchPublicBoards,
   updateCollabBoardItem,
-  updateCollabBoardMeta,
-  updateCollabBoardTitle,
 } from "@/libs/api/ugcApi";
 import {
   ACTIVE_COLLAB_ROOM_KEY,
   AUTHOR_NAME_KEY,
   buildSourceHref,
 } from "./polaroidBoardHelpers";
+import { usePolaroidBoardMeta } from "./usePolaroidBoardMeta";
 
 export function PolaroidBoardView() {
   const router = useRouter();
@@ -119,11 +122,12 @@ export function PolaroidBoardView() {
 
   const sharedParam = typeof router.query.d === "string" ? router.query.d : "";
   const roomParam = typeof router.query.room === "string" ? router.query.room.trim() : "";
+  const personalParam =
+    typeof router.query.personal === "string" ? router.query.personal.trim() : "";
 
   const [items, setItems] = useState([]);
   const [isSharedMode, setIsSharedMode] = useState(false);
   const [collabBoard, setCollabBoard] = useState(null);
-  const [collabTitleDraft, setCollabTitleDraft] = useState("");
   const [authorName, setAuthorName] = useState("");
   const [isCreatingRoom, setIsCreatingRoom] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -134,6 +138,34 @@ export function PolaroidBoardView() {
   const [activeId, setActiveId] = useState(null);
   const [viewport, setViewport] = useState({ x: 48, y: 48, scale: 1 });
   const [isPanning, setIsPanning] = useState(false);
+
+  const {
+    personalMeta,
+    setPersonalMeta,
+    collabTitleDraft,
+    setCollabTitleDraft,
+    parsedCollab,
+    visibleTabs,
+    activeTabKey,
+    handleSavePersonalTitle,
+    handleSavePersonalDescription,
+    handleSavePersonalRelatedHubs,
+    handleSaveCollabTitle,
+    handleSaveCollabDescription,
+    handleSaveCollabRelatedHubs,
+    handleSelectTab,
+    handleCreateThemeFromTab,
+    handleSwitchToPersonalBoard,
+    handleSwitchToPublicBoard,
+  } = usePolaroidBoardMeta({
+    router,
+    isCollabMode,
+    roomParam,
+    personalParam,
+    collabBoard,
+    setCollabBoard,
+    setRoomError,
+  });
 
   const canvasOuterRef = useRef(null);
   const hasInitialFitRef = useRef(false);
@@ -267,17 +299,25 @@ export function PolaroidBoardView() {
         return;
       }
     }
-    const localItems = loadBoardItems();
+    const boardId = personalParam || "default";
+    const localItems = loadBoardItems(boardId);
     setItems(localItems);
     setIsSharedMode(false);
+    const boards = listPersonalBoards();
+    const meta = boards.find((b) => b.id === boardId) || DEFAULT_PERSONAL_BOARD;
+    setPersonalMeta({
+      title: meta.title || DEFAULT_PERSONAL_BOARD.title,
+      description: meta.description || DEFAULT_PERSONAL_BOARD.description,
+      relatedHubs: Array.isArray(meta.relatedHubs) ? meta.relatedHubs : [],
+    });
     hasInitialFitRef.current = true;
     fitViewportToItems(localItems);
-  }, [router.isReady, sharedParam, roomParam]);
+  }, [router.isReady, sharedParam, roomParam, personalParam]);
 
   const updateAndPersist = (nextItems) => {
     setItems(nextItems);
     if (!isSharedMode && !isCollabMode) {
-      saveBoardItems(nextItems);
+      saveBoardItems(nextItems, personalParam || "default");
     }
   };
 
@@ -328,22 +368,14 @@ export function PolaroidBoardView() {
     );
   };
 
-  const handleSaveCollabTitle = async () => {
-    if (!roomParam || !collabTitleDraft.trim()) return;
-    try {
-      await updateCollabBoardTitle(roomParam, collabTitleDraft.trim());
-      setCollabBoard((prev) => (prev ? { ...prev, title: collabTitleDraft.trim() } : prev));
-    } catch {
-      // ignore
-    }
-  };
-
   const bringToFront = (id) => {
     setActiveId(id);
     setItems((prev) => {
       const maxZ = prev.reduce((acc, cur) => Math.max(acc, cur.zIndex || 1), 1);
       const next = prev.map((it) => (it.id === id ? { ...it, zIndex: maxZ + 1 } : it));
-      if (!isSharedMode) saveBoardItems(next);
+      if (!isSharedMode && !isCollabMode) {
+        saveBoardItems(next, personalParam || "default");
+      }
       return next;
     });
   };
@@ -496,7 +528,7 @@ export function PolaroidBoardView() {
     dragStateRef.current = { id: null, startX: 0, startY: 0, origX: 0, origY: 0 };
     setItems((prev) => {
       if (!isSharedMode && !isCollabMode) {
-        saveBoardItems(prev);
+        saveBoardItems(prev, personalParam || "default");
       }
       if (isCollabMode && roomParam) {
         const moved = prev.find((it) => it.id === movedId);
@@ -547,52 +579,22 @@ export function PolaroidBoardView() {
     router.replace("/board", undefined, { shallow: true });
   };
 
-  const handleSaveCollabDescription = async (rawDescription) => {
-    if (!collabBoard?.id) return;
-    const nextDesc = String(rawDescription || "").trim().slice(0, 240);
-    if (nextDesc === (collabBoard.description || "")) return;
-    try {
-      await updateCollabBoardMeta(collabBoard.id, {
-        description: nextDesc,
-      });
-      setCollabBoard((prev) =>
-        prev ? { ...prev, description: nextDesc } : prev
-      );
-    } catch (err) {
-      setRoomError(err.message || "テーマ説明の更新に失敗しました");
-    }
-  };
-
   return (
     <div className={styles.page}>
       <PolaroidBoardHeader
-        collabBoard={collabBoard}
-        collabTitleDraft={collabTitleDraft}
-        isCollabMode={isCollabMode}
         isEn={isEn}
-        isSharedMode={isSharedMode}
         locale={router.locale}
-        onCopyCollabInviteUrl={handleCopyCollabInviteUrl}
-        onNavigatePublicBoards={() =>
-          router.push("/board/public", undefined, {
-            locale: router.locale,
-          })
-        }
-        onSaveCollabDescription={handleSaveCollabDescription}
-        onSaveCollabTitle={handleSaveCollabTitle}
-        setCollabTitleDraft={setCollabTitleDraft}
-        onNavigatePersonalBoard={() =>
-          router.push("/board", undefined, { locale: router.locale })
-        }
-        onSaveSharedToMyBoard={handleSaveSharedToMyBoard}
-        isCreatingRoom={isCreatingRoom}
-        onCreateCollabRoom={handleCreateCollabRoom}
-        roomError={roomError}
-        authorName={authorName}
-        onAuthorNameChange={handleAuthorNameChange}
-        isRefreshing={isRefreshing}
-        refreshSuccess={refreshSuccess}
-        onRefreshRoom={() => loadCollabRoom(roomParam, true)}
+        isCollabMode={isCollabMode}
+        onSwitchToPersonal={handleSwitchToPersonalBoard}
+        onSwitchToPublic={handleSwitchToPublicBoard}
+      />
+      <PolaroidBoardTabs
+        isEn={isEn}
+        isCollabMode={isCollabMode}
+        tabs={visibleTabs}
+        activeKey={activeTabKey}
+        onSelectTab={handleSelectTab}
+        onCreateTheme={handleCreateThemeFromTab}
       />
 
       {/* ホワイトボードキャンバス（パン＆ズーム対応） */}
@@ -608,6 +610,37 @@ export function PolaroidBoardView() {
         }}
         className={`${styles.canvasOuter} ${isPanning ? styles.canvasOuterPanning : ""}`}
       >
+        <PolaroidBoardInfoCard
+          isEn={isEn}
+          locale={router.locale}
+          isCollabMode={isCollabMode}
+          isSharedMode={isSharedMode}
+          collabBoard={collabBoard}
+          collabTitleDraft={collabTitleDraft}
+          setCollabTitleDraft={setCollabTitleDraft}
+          collabDescription={parsedCollab.cleanDescription}
+          onSaveCollabTitle={handleSaveCollabTitle}
+          onSaveCollabDescription={handleSaveCollabDescription}
+          personalMeta={personalMeta}
+          setPersonalMeta={setPersonalMeta}
+          onSavePersonalTitle={handleSavePersonalTitle}
+          onSavePersonalDescription={handleSavePersonalDescription}
+          relatedHubSlugs={
+            isCollabMode
+              ? parsedCollab.relatedHubs
+              : personalMeta?.relatedHubs || []
+          }
+          onChangeRelatedHubSlugs={
+            isCollabMode ? handleSaveCollabRelatedHubs : handleSavePersonalRelatedHubs
+          }
+          onSaveSharedToMyBoard={handleSaveSharedToMyBoard}
+          roomError={roomError}
+          authorName={authorName}
+          onAuthorNameChange={handleAuthorNameChange}
+          isRefreshing={isRefreshing}
+          refreshSuccess={refreshSuccess}
+          onRefreshRoom={() => loadCollabRoom(roomParam, true)}
+        />
         {items.length === 0 ? (
           <div className={styles.emptyBox}>
             <p className={styles.emptyTitle}>

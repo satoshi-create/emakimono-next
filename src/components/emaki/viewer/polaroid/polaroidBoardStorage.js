@@ -1,5 +1,51 @@
 const STORAGE_KEY = "emakimono_polaroid_board_v1";
+const PERSONAL_BOARDS_META_KEY = "emakimono_personal_boards_v1";
 const MAX_BOARD_ITEMS = 30;
+
+export const DEFAULT_PERSONAL_BOARD = {
+  id: "default",
+  title: "マイ・ポラロイドボード",
+  description: "ポラロイドを自由に並べて、自分だけの鑑賞ボードを作れます",
+  relatedHubs: [],
+};
+
+function isDefaultBoardId(boardId) {
+  return !boardId || boardId === "default";
+}
+
+function personalBoardStorageKey(boardId) {
+  return `emakimono_polaroid_board_personal_${boardId}`;
+}
+
+function readPersonalBoardsMeta() {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem(PERSONAL_BOARDS_META_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function writePersonalBoardsMeta(list) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(PERSONAL_BOARDS_META_KEY, JSON.stringify(list));
+  } catch (e) {
+    console.error("Failed to save personal boards meta:", e);
+  }
+}
+
+function touchPersonalBoardUpdatedAt(boardId) {
+  if (isDefaultBoardId(boardId)) return;
+  const list = readPersonalBoardsMeta();
+  const next = list.map((b) =>
+    b.id === boardId ? { ...b, updatedAt: Date.now() } : b
+  );
+  writePersonalBoardsMeta(next);
+}
 
 function encodeUtf8Base64Url(str) {
   const bytes = new TextEncoder().encode(str);
@@ -56,11 +102,15 @@ export function createBoardItem(payload, existingCount = 0) {
 
 /**
  * localStorage から自分のボード一覧を読み込む
+ * boardId 省略 / "default" 時は既存キーを使用（後方互換）
  */
-export function loadBoardItems() {
+export function loadBoardItems(boardId = "default") {
   if (typeof window === "undefined") return [];
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
+    const key = isDefaultBoardId(boardId)
+      ? STORAGE_KEY
+      : personalBoardStorageKey(boardId);
+    const raw = window.localStorage.getItem(key);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     return Array.isArray(parsed) ? parsed : [];
@@ -71,14 +121,126 @@ export function loadBoardItems() {
 
 /**
  * localStorage にボード一覧を保存する
+ * boardId 省略 / "default" 時は既存キーへ保存（後方互換）
  */
-export function saveBoardItems(items) {
+export function saveBoardItems(items, boardId = "default") {
   if (typeof window === "undefined") return;
   try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items.slice(-MAX_BOARD_ITEMS)));
+    const key = isDefaultBoardId(boardId)
+      ? STORAGE_KEY
+      : personalBoardStorageKey(boardId);
+    window.localStorage.setItem(key, JSON.stringify(items.slice(-MAX_BOARD_ITEMS)));
+    if (!isDefaultBoardId(boardId)) {
+      touchPersonalBoardUpdatedAt(boardId);
+    }
   } catch (e) {
     console.error("Failed to save polaroid board items:", e);
   }
+}
+
+/**
+ * 個人ボードのメタデータ一覧（default を先頭に含む）
+ */
+export function listPersonalBoards() {
+  const saved = readPersonalBoardsMeta();
+  const savedDefault = saved.find((b) => b.id === "default");
+  const defaultBoard = {
+    ...DEFAULT_PERSONAL_BOARD,
+    ...(savedDefault || {}),
+    id: "default",
+    itemCount: loadBoardItems("default").length,
+  };
+  const extras = saved
+    .filter((b) => b && b.id && b.id !== "default")
+    .map((b) => ({
+      ...b,
+      itemCount: loadBoardItems(b.id).length,
+    }));
+  return [defaultBoard, ...extras];
+}
+
+/**
+ * 個人ボードを新規作成
+ */
+export function createPersonalBoard({ title, description } = {}) {
+  const id = `pb_${Date.now().toString(36)}`;
+  const board = {
+    id,
+    title: String(title || "").trim() || "新しい個人ボード",
+    description: String(description || "").trim(),
+    updatedAt: Date.now(),
+  };
+  const list = readPersonalBoardsMeta().filter((b) => b.id !== id);
+  writePersonalBoardsMeta([board, ...list]);
+  try {
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(personalBoardStorageKey(id), JSON.stringify([]));
+    }
+  } catch {
+    // noop
+  }
+  return { ...board, itemCount: 0 };
+}
+
+/**
+ * 個人ボードのタイトル・解説を更新
+ */
+export function updatePersonalBoardMeta(
+  boardId = "default",
+  { title, description, relatedHubs } = {}
+) {
+  const id = boardId || "default";
+  const list = readPersonalBoardsMeta();
+  const existing = list.find((b) => b.id === id);
+  const base =
+    id === "default"
+      ? { ...DEFAULT_PERSONAL_BOARD, ...(existing || {}) }
+      : existing || { id, title: "", description: "", relatedHubs: [] };
+  const nextMeta = {
+    ...base,
+    id,
+    title:
+      title !== undefined
+        ? String(title).trim() || base.title || DEFAULT_PERSONAL_BOARD.title
+        : base.title,
+    description:
+      description !== undefined
+        ? String(description).trim()
+        : base.description || "",
+    relatedHubs:
+      relatedHubs !== undefined
+        ? Array.isArray(relatedHubs)
+          ? relatedHubs
+          : base.relatedHubs || []
+        : Array.isArray(base.relatedHubs)
+        ? base.relatedHubs
+        : [],
+    updatedAt: Date.now(),
+  };
+  const without = list.filter((b) => b.id !== id);
+  if (id === "default") {
+    writePersonalBoardsMeta([nextMeta, ...without.filter((b) => b.id !== "default")]);
+  } else {
+    writePersonalBoardsMeta([nextMeta, ...without]);
+  }
+  return nextMeta;
+}
+
+/**
+ * 個人ボードを削除（default は削除不可）
+ */
+export function deletePersonalBoard(boardId) {
+  if (isDefaultBoardId(boardId)) return false;
+  const list = readPersonalBoardsMeta().filter((b) => b.id !== boardId);
+  writePersonalBoardsMeta(list);
+  try {
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem(personalBoardStorageKey(boardId));
+    }
+  } catch {
+    // noop
+  }
+  return true;
 }
 
 /**

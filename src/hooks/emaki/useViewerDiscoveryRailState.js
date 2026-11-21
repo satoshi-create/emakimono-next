@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 
 // =============================================================================
 // デバッグスイッチ
@@ -24,6 +25,23 @@ function logDebug(tag, hypothesis, ...args) {
   // デバッグ用 console.log をクリーンアップ
 }
 
+function hasDeepLinkViewportQuery(query) {
+  if (!query || typeof query !== "object") return false;
+  const pick = (v) => (Array.isArray(v) ? v[0] : v);
+  const spot = pick(query.spot);
+  const cx = pick(query.cx);
+  const cy = pick(query.cy);
+  const cz = pick(query.cz);
+  const scene = pick(query.scene);
+  return Boolean(
+    (spot !== undefined && spot !== "") ||
+      (cx !== undefined && cx !== "") ||
+      (cy !== undefined && cy !== "") ||
+      (cz !== undefined && cz !== "") ||
+      (scene !== undefined && scene !== "")
+  );
+}
+
 /**
  * useViewerDiscoveryRailState
  * 
@@ -41,11 +59,32 @@ export const useViewerDiscoveryRailState = ({
   onLog,
   stickyTheater = false,
 }) => {
+  const router = useRouter();
   // ---------------------------------------------------------------------------
   // 1. 状態管理（State）
   // ---------------------------------------------------------------------------
   // レールの開閉状態（true: 2列表示 / false: シアター全幅モード）
-  const [railOpen, setRailOpen] = useState(true);
+  // 座標・スポット指定のディープリンク遷移時は最初からシアターモード（全幅）で開く
+  const [railOpen, setRailOpen] = useState(
+    () => !hasDeepLinkViewportQuery(router?.query)
+  );
+
+  useEffect(() => {
+    if (!router?.isReady) return;
+    if (hasDeepLinkViewportQuery(router.query)) {
+      if (typeof suppressRailTheaterRef !== "undefined" && suppressRailTheaterRef?.current !== undefined) {
+        suppressRailTheaterRef.current = Date.now() + 1800;
+      }
+      setRailOpen(false);
+    }
+  }, [
+    router?.isReady,
+    router?.query?.spot,
+    router?.query?.cx,
+    router?.query?.cy,
+    router?.query?.cz,
+    router?.query?.scene,
+  ]);
 
   // ---------------------------------------------------------------------------
   // 2. 定数定義（Constants）
