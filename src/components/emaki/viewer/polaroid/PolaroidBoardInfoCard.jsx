@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { getAllHubPages } from "@/libs/hubPages";
 
@@ -8,6 +8,7 @@ export function PolaroidBoardInfoCard({
   isCollabMode,
   isSharedMode,
   collabBoard,
+  items,
   collabTitleDraft,
   setCollabTitleDraft,
   collabDescription,
@@ -42,6 +43,25 @@ export function PolaroidBoardInfoCard({
     Boolean(process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY) &&
     localStorage.getItem("emakimono_board_admin_key") ===
       process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY;
+
+  const odaiMeta = useMemo(() => {
+    if (!isCollabMode || !collabBoard?.description) return null;
+    const match = collabBoard.description.match(/<!--odai:(\{[\s\S]*?\})-->/);
+    if (!match) return null;
+    try {
+      const parsed = JSON.parse(match[1]);
+      if (!parsed || typeof parsed.prompt !== "string") return null;
+      return {
+        prompt: parsed.prompt,
+        mode: parsed.mode,
+        targetCount: Number(parsed.targetCount) || 0,
+      };
+    } catch {
+      return null;
+    }
+  }, [isCollabMode, collabBoard?.description]);
+
+  const currentItemCount = items?.length ?? collabBoard?.items?.length ?? 0;
 
   useEffect(() => {
     if (!expanded) return;
@@ -158,6 +178,57 @@ export function PolaroidBoardInfoCard({
           >
             {isEn ? "⚙️ Edit" : "⚙️ 編集"}
           </button>
+        )}
+
+        {isCollabMode && odaiMeta?.prompt && (
+          <div
+            style={{
+              width: "100%",
+              marginTop: 6,
+              padding: "6px 10px",
+              borderRadius: 8,
+              background: "#fffbeb",
+              border: "1px solid #fcd34d",
+              fontSize: 12,
+              color: "#92400e",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 8,
+              flexWrap: "wrap",
+            }}
+          >
+            <span style={{ fontWeight: 700 }}>
+              📜 {isEn ? "Theme Quest:" : "お題:"} {odaiMeta.prompt}
+            </span>
+            {odaiMeta.targetCount > 0 && (
+              <span
+                style={{
+                  fontSize: 11,
+                  fontWeight: 700,
+                  padding: "2px 8px",
+                  borderRadius: 999,
+                  background:
+                    currentItemCount >= odaiMeta.targetCount
+                      ? "#dcfce7"
+                      : "#fef3c7",
+                  color:
+                    currentItemCount >= odaiMeta.targetCount
+                      ? "#166534"
+                      : "#b45309",
+                  border: "1px solid #f59e0b",
+                }}
+              >
+                {currentItemCount >= odaiMeta.targetCount
+                  ? isEn
+                    ? `Completed (${currentItemCount}/${odaiMeta.targetCount})`
+                    : `満願達成 (${currentItemCount}/${odaiMeta.targetCount}枚)`
+                  : isEn
+                  ? `Progress ${currentItemCount}/${odaiMeta.targetCount}`
+                  : `回収 ${currentItemCount} / ${odaiMeta.targetCount}枚`}
+              </span>
+            )}
+          </div>
         )}
 
         {isCollabMode && (

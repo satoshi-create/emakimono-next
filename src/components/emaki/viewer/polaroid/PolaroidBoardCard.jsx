@@ -149,12 +149,21 @@ export function PolaroidBoardCard({
           value={item.message || item.memo || ""}
           readOnly={isSharedMode || (isCollabMode && item.canEdit === false)}
           onChange={(e) => onMessageChange(item.id, e.target.value)}
-          placeholder={isEn ? "Add a caption / note..." : "ひとこと・観察メモを書き込む..."}
+          placeholder={
+            isCollabMode
+              ? isEn
+                ? "Write a verse or witty caption for this prompt..."
+                : "お題への一句・一言見立てを詠む..."
+              : isEn
+              ? "Add a caption / note..."
+              : "ひとこと・観察メモを書き込む..."
+          }
           className={styles.memoInput}
         />
         {isCollabMode && (
           <span className={styles.authorTag}>
-            by {item.authorName || (isEn ? "Anonymous" : "名無しの鑑賞者")}
+            {isEn ? "by" : "詠み人:"}{" "}
+            {item.authorName || (isEn ? "Anonymous" : "名無しの鑑賞者")}
           </span>
         )}
       </div>
@@ -175,17 +184,36 @@ export function PolaroidBoardCard({
             type="button"
             onPointerDown={(e) => e.stopPropagation()}
             onClick={(e) => onToggleLike(e, item.id)}
+            title={isCollabMode ? (isEn ? "Vote / Applaud" : "お見事！（判を入れる）") : undefined}
             style={{
               fontSize: 11,
-              padding: "2px 7px",
+              fontWeight: isCollabMode ? 600 : 400,
+              padding: "2px 8px",
               borderRadius: 999,
-              border: "1px solid #e5e7eb",
-              background: isLiked ? "#fef2f2" : "#fff",
-              color: isLiked ? "#dc2626" : "#374151",
+              border: isCollabMode
+                ? isLiked
+                  ? "1px solid #f59e0b"
+                  : "1px solid #e5e7eb"
+                : "1px solid #e5e7eb",
+              background: isCollabMode
+                ? isLiked
+                  ? "#fef3c7"
+                  : "#fff"
+                : isLiked
+                ? "#fef2f2"
+                : "#fff",
+              color: isCollabMode
+                ? isLiked
+                  ? "#b45309"
+                  : "#374151"
+                : isLiked
+                ? "#dc2626"
+                : "#374151",
               cursor: "pointer",
             }}
           >
-            {isLiked ? "♥" : "♡"} {(item.likeCount || 0) + (isLiked ? 1 : 0)}
+            {isCollabMode ? (isLiked ? "👏 判" : "👏") : isLiked ? "♥" : "♡"}{" "}
+            {(item.likeCount || 0) + (isLiked ? 1 : 0)}
           </button>
           <button
             type="button"

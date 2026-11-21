@@ -141,9 +141,43 @@ function apiHeaders(json = true) {
   return headers;
 }
 
+const ODAI_TAG_RE = /<!--odai:([\s\S]*?)-->/;
+const HUBS_TAG_RE = /<!--hubs:[\s\S]*?-->/g;
+
+function parseBoardMeta(rawDesc) {
+  const raw = typeof rawDesc === "string" ? rawDesc : "";
+  let odai = null;
+  const odaiMatch = raw.match(ODAI_TAG_RE);
+  if (odaiMatch) {
+    try {
+      odai = JSON.parse(odaiMatch[1]);
+    } catch {
+      odai = null;
+    }
+  }
+  const cleanDescription = raw.replace(ODAI_TAG_RE, "").replace(HUBS_TAG_RE, "").trim();
+  return { cleanDescription, odai };
+}
+
+function serializeBoardDescription(desc, odai) {
+  const base = (desc || "").trim();
+  const payload = {
+    prompt: (odai?.prompt || "").trim(),
+    mode: odai?.mode || "coop",
+    targetCount: Number(odai?.targetCount) || 0,
+  };
+  const tag = `<!--odai:${JSON.stringify(payload)}-->`;
+  if (!base) return tag;
+  return `${base}\n${tag}`;
+}
+
 export default function DevPublicBoardsPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [odaiPrompt, setOdaiPrompt] = useState("");
+  const [odaiMode, setOdaiMode] = useState("coop");
+  const [odaiTarget, setOdaiTarget] = useState(3);
+  const [deletingId, setDeletingId] = useState("");
   const [boards, setBoards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -186,7 +220,11 @@ export default function DevPublicBoardsPage() {
         headers: apiHeaders(true),
         body: JSON.stringify({
           title: trimmedTitle,
-          description: description.trim() || undefined,
+          description: serializeBoardDescription(description.trim(), {
+            prompt: odaiPrompt,
+            mode: odaiMode,
+            targetCount: odaiTarget,
+          }),
           visibility: "public",
         }),
       });
@@ -196,11 +234,38 @@ export default function DevPublicBoardsPage() {
       }
       setTitle("");
       setDescription("");
+      setOdaiPrompt("");
+      setOdaiMode("coop");
+      setOdaiTarget(3);
       await loadBoards();
     } catch (err) {
       setError(err.message || "作成に失敗しました");
     } finally {
       setSubmitting(false);
+    }
+  }
+
+  async function handleDeleteBoard(board) {
+    const label = board.title || board.id;
+    if (!window.confirm(`「${label}」を削除しますか？この操作は取り消せません。`)) {
+      return;
+    }
+    setDeletingId(board.id);
+    setError("");
+    try {
+      const res = await fetch(`/api/board/${encodeURIComponent(board.id)}`, {
+        method: "DELETE",
+        headers: apiHeaders(false),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || data.message || `HTTP ${res.status}`);
+      }
+      setBoards((prev) => prev.filter((b) => b.id !== board.id));
+    } catch (err) {
+      setError(err.message || "削除に失敗しました");
+    } finally {
+      setDeletingId("");
     }
   }
 
@@ -243,23 +308,68 @@ export default function DevPublicBoardsPage() {
                 style={inputStyle}
                 placeholder="例: 春の絵巻コラージュ"
               />
+              <label style={labelStyle} htmlFor="board-odai-prompt">
+                お題ミッション（任意・120文字まで）
+              </label>
+              <input
+                id="board-odai-prompt"
+                type="text"
+                value={odaiPrompt}
+                onChange={(e) => setOdaiPrompt(e.target.value)}
+                maxLength={120}
+                style={inputStyle}
+                placeholder="例: 一番楽しそうに宴をしている場面を3枚切り抜こう！"
+              />
+              <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+                <div style={{ flex: "1 1 200px" }}>
+                  <label style={labelStyle} htmlFor="board-odai-mode">
+                    遊び方ルール
+                  </label>
+                  <select
+                    id="board-odai-mode"
+                    value={odaiMode}
+                    onChange={(e) => setOdaiMode(e.target.value)}
+                    style={inputStyle}
+                  >
+                    <option value="coop">協力コレクション（みんなで目標達成）</option>
+                    <option value="utaawase">歌合（左右対決・一首詠み）</option>
+                    <option value="unique">かぶり禁止（通な名場面発掘）</option>
+                  </select>
+                </div>
+                <div style={{ flex: "1 1 160px" }}>
+                  <label style={labelStyle} htmlFor="board-odai-target">
+                    完了条件（目標枚数）
+                  </label>
+                  <select
+                    id="board-odai-target"
+                    value={odaiTarget}
+                    onChange={(e) => setOdaiTarget(Number(e.target.value))}
+                    style={inputStyle}
+                  >
+                    <option value={3}>3枚で満願</option>
+                    <option value={6}>6枚で満願</option>
+                    <option value={9}>9枚で満願</option>
+                    <option value={0}>上限なし（自由投稿）</option>
+                  </select>
+                </div>
+              </div>
               <label style={labelStyle} htmlFor="board-description">
-                テーマの説明（任意・240文字まで）
+                テーマの補足説明（任意・200文字まで）
               </label>
               <textarea
                 id="board-description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                maxLength={240}
+                maxLength={200}
                 style={textareaStyle}
-                placeholder="参加者向けの短い説明"
+                placeholder="参加者向けの補足説明"
               />
               <button
                 type="submit"
                 style={linkButtonStyle}
                 disabled={submitting}
               >
-                {submitting ? "作成中…" : "公開ボードを作成"}
+                {submitting ? "作成中…" : "お題公開ボードを作成"}
               </button>
             </form>
           </section>
@@ -272,25 +382,78 @@ export default function DevPublicBoardsPage() {
               <p style={metaStyle}>まだボードがありません。</p>
             ) : (
               <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-                {boards.map((board) => (
-                  <li key={board.id} style={listItemStyle}>
-                    <strong style={{ fontSize: "1rem" }}>
-                      {board.title || "（無題）"}
-                    </strong>
-                    {board.description ? (
-                      <p style={{ ...metaStyle, marginTop: "0.5rem" }}>
-                        {board.description}
-                      </p>
-                    ) : null}
-                    <p style={metaStyle}>
-                      アイテム数: {itemCountFor(board)} · ID:{" "}
-                      <code>{board.id}</code>
-                    </p>
-                    <Link href={boardAdminHref(board.id)}>
-                      <a style={linkButtonStyle}>管理者モードで開く</a>
-                    </Link>
-                  </li>
-                ))}
+                {boards.map((board) => {
+                  const meta = parseBoardMeta(board.description);
+                  const count = itemCountFor(board);
+                  return (
+                    <li key={board.id} style={listItemStyle}>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "flex-start",
+                          gap: "0.75rem",
+                        }}
+                      >
+                        <div>
+                          <strong style={{ fontSize: "1rem" }}>
+                            {board.title || "（無題）"}
+                          </strong>
+                          {meta.odai?.prompt ? (
+                            <div
+                              style={{
+                                marginTop: "0.4rem",
+                                padding: "0.35rem 0.6rem",
+                                background: "#fef3c7",
+                                border: "1px solid #fcd34d",
+                                borderRadius: "6px",
+                                fontSize: "0.85rem",
+                                color: "#92400e",
+                                fontWeight: 600,
+                              }}
+                            >
+                              📜 お題: {meta.odai.prompt}
+                              {meta.odai.targetCount > 0
+                                ? `（目標 ${count} / ${meta.odai.targetCount}枚）`
+                                : ""}
+                            </div>
+                          ) : null}
+                          {meta.cleanDescription ? (
+                            <p style={{ ...metaStyle, marginTop: "0.5rem" }}>
+                              {meta.cleanDescription}
+                            </p>
+                          ) : null}
+                          <p style={metaStyle}>
+                            アイテム数: {count} · ID: <code>{board.id}</code>
+                          </p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteBoard(board)}
+                          disabled={deletingId === board.id}
+                          title="この公開ボードを削除"
+                          aria-label="この公開ボードを削除"
+                          style={{
+                            padding: "6px 10px",
+                            background: "#fee2e2",
+                            color: "#b91c1c",
+                            border: "1px solid #fecaca",
+                            borderRadius: "6px",
+                            fontSize: "0.85rem",
+                            fontWeight: 600,
+                            cursor: "pointer",
+                            flexShrink: 0,
+                          }}
+                        >
+                          {deletingId === board.id ? "削除中…" : "🗑️ 削除"}
+                        </button>
+                      </div>
+                      <Link href={boardAdminHref(board.id)}>
+                        <a style={linkButtonStyle}>管理者モードで開く</a>
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             )}
           </section>

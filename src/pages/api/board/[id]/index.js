@@ -127,28 +127,65 @@ async function handlePatch(req, res, boardId) {
       .set(updates)
       .where(eq(polaroidBoards.id, boardId));
 
-    return res.status(200).json({ ok: true, ...updates });
-  } catch (error) {
-    console.error("PATCH /api/board/[id] failed:", error);
-    return sendApiError(res, 500, "Failed to update board");
-  }
-}
-
-// =============================================================================
-// 3. エントリポイント
-// =============================================================================
-
-export default async function handler(req, res) {
-  if (!ensureDbConfigured(res)) return;
-  if (!ensureMethod(req, res, ["GET", "PATCH"])) return;
-
-  const boardId = parseNonEmptyString(req.query.id, 64);
-  if (!boardId) {
-    return sendApiError(res, 400, "Invalid board id");
+      return res.status(200).json({ ok: true, ...updates });
+    } catch (error) {
+      console.error("PATCH /api/board/[id] failed:", error);
+      return sendApiError(res, 500, "Failed to update board");
+    }
   }
 
-  if (req.method === "GET") {
-    return handleGet(req, res, boardId);
+  async function handleDelete(req, res, boardId) {
+    const expectedAdminKey = process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY;
+    const providedAdminKey = req.headers["x-board-admin-key"];
+    const isDev = process.env.NODE_ENV === "development";
+    if (!isDev && (!expectedAdminKey || providedAdminKey !== expectedAdminKey)) {
+      return sendApiError(res, 403, "Admin permission required to delete board");
+    }
+
+    try {
+      const db = getDb();
+      const existing = await db
+        .select({ id: polaroidBoards.id })
+        .from(polaroidBoards)
+        .where(eq(polaroidBoards.id, boardId))
+        .limit(1);
+
+      if (existing.length === 0) {
+        return sendApiError(res, 404, "Board not found");
+      }
+
+      await db
+        .delete(polaroidBoardItems)
+        .where(eq(polaroidBoardItems.boardId, boardId));
+      await db
+        .delete(polaroidBoards)
+        .where(eq(polaroidBoards.id, boardId));
+
+      return res.status(200).json({ ok: true, deletedId: boardId });
+    } catch (error) {
+      console.error("DELETE /api/board/[id] failed:", error);
+      return sendApiError(res, 500, "Failed to delete board");
+    }
   }
-  return handlePatch(req, res, boardId);
-}
+
+  // =============================================================================
+  // 3. エントリポイント
+  // =============================================================================
+
+  export default async function handler(req, res) {
+    if (!ensureDbConfigured(res)) return;
+    if (!ensureMethod(req, res, ["GET", "PATCH", "DELETE"])) return;
+
+    const boardId = parseNonEmptyString(req.query.id, 64);
+    if (!boardId) {
+      return sendApiError(res, 400, "Invalid board id");
+    }
+
+    if (req.method === "GET") {
+      return handleGet(req, res, boardId);
+    }
+    if (req.method === "DELETE") {
+      return handleDelete(req, res, boardId);
+    }
+    return handlePatch(req, res, boardId);
+  }
