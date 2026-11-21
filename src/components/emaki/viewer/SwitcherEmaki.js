@@ -1,15 +1,12 @@
 import { EbikiPickerOverlay } from "@/components/dev/EbikiCoordinatePicker";
 import EmakiImage from "@/components/emaki/viewer/EmakiImage";
+import { SceneChapterOverlay } from "@/components/emaki/viewer/SceneChapterOverlay";
 import SpotPins from "@/components/emaki/viewer/SpotPins";
+import { useSwitcherEmakiState } from "@/components/emaki/viewer/useSwitcherEmakiState";
 import { AppContext } from "@/context/AppContext";
-import styles from "@/styles/SwitcherEmaki.module.css";
-import { ChaptersTitle } from "@/utils/emakiChapterText";
-import { buildSceneShellStyle } from "@/utils/emakiContentWindow";
-import { isByobuScroll } from "@/utils/isByobuScroll";
 import { sceneSectionId } from "@/utils/emakiSceneDom";
 import { useRouter } from "next/router";
-import { ALL_QUIZZES } from "@/data/quiz/index";
-import { forwardRef, useContext, useState } from "react";
+import { forwardRef, useContext } from "react";
 
 /** 絵巻シーンを cat に応じて image / ekotoba に振り分け。幅は section 常置・中身は mountContent。 */
 const SwitcherEmaki = forwardRef(
@@ -28,9 +25,7 @@ const SwitcherEmaki = forwardRef(
       isPlayMode,
       sceneIndex,
       mountContent = true,
-      // 解説カードのフローティング化（非全画面 md+横）: 画像高基準を実キャンバス高へ
       floatLandscape = false,
-      /** 開発専用: 絵引座標ピッカー（?dev=ebiki） */
       ebikiPickerEnabled = false,
       onEbikiPick,
       onSelectSpot,
@@ -40,87 +35,37 @@ const SwitcherEmaki = forwardRef(
   ) => {
     const { orientation, toggleFullscreen, chapterToggle, handleToId } =
       useContext(AppContext);
-    const router = useRouter();
-    const { locale } = router;
-    const isEditSpotsMode =
-      process.env.NODE_ENV === "development" &&
-      typeof window !== "undefined" &&
-      new URLSearchParams(window.location.search).get("editSpots") === "1";
-    const [activeSliceIdx, setActiveSliceIdx] = useState(null);
+    const { locale } = useRouter();
 
-    if (cat !== "image" && cat !== "ekotoba") {
+    const {
+      isSupportedCat,
+      isImage,
+      isByobu,
+      isEditSpotsMode,
+      chapterTitle,
+      showChapterTitle,
+      spots,
+      sectionStyle,
+      sectionWithChapterStyle,
+      setActiveSliceIdx,
+    } = useSwitcherEmakiState({
+      cat,
+      data,
+      item,
+      index,
+      locale,
+      orientation,
+      toggleFullscreen,
+      chapterToggle,
+      floatLandscape,
+      ebikiPickerEnabled,
+    });
+
+    if (!isSupportedCat) {
       return null;
     }
 
-    const scrollKey = data?.scroll_id ?? data?.titleen;
-    const quizDef =
-      scrollKey &&
-      ALL_QUIZZES.find(
-        (q) => q.titleen === scrollKey || q.id === scrollKey
-      );
-    const hasQuizPanoramaTarget = Boolean(
-      quizDef?.questions?.some((q) => q?.target)
-    );
-    const usePanoramaSpots =
-      Array.isArray(data?.spots) || hasQuizPanoramaTarget;
-
-    const { chapter, genji_chapter: genjiChapter, title: itemTitle } = item ?? {};
-    const chapterTitle =
-      (locale === "en"
-        ? ChaptersTitle(
-            data?.titleen,
-            data?.title,
-            chapter,
-            "titleen",
-            genjiChapter
-          )
-        : ChaptersTitle(
-            data?.titleen,
-            data?.title,
-            chapter,
-            "title",
-            genjiChapter
-          )) ||
-      itemTitle ||
-      "";
-
     const sectionClass = undefined;
-    // 屏風のみ: 段タイトルバー（黒帯）を非表示化（マーカー要素・DOM 構造は不変）
-    const isByobu = isByobuScroll(data);
-    // 殻↔中身差し替えで flex 幅が変わらないよう、幅は常に section に載せる
-    // （isByobu: 縦持ち時の画像高基準フロアを EmakiPortraitContent と同期させる）
-    const sectionStyle = buildSceneShellStyle(item, {
-      toggleFullscreen,
-      orientation,
-      floatLandscape,
-      isByobu,
-    });
-    // 名所スポットピンの基準座標系を section に固定する（spots がある時だけ付与）
-    const spots =
-      cat === "image" && !usePanoramaSpots ? item.spots : null;
-    // 絵引ピッカー時も absolute オーバーレイ基準が必要なので relative を付与
-    const showChapterTitle = Boolean(
-      chapterTitle && chapterToggle && !isByobu && data?.typeen !== "birdseye"
-    );
-    const needsRelativeLayer = Boolean(
-      spots?.length ||
-        isEditSpotsMode ||
-        ebikiPickerEnabled ||
-        showChapterTitle
-    );
-    const hasSpotOverflow = Boolean(spots?.length || isEditSpotsMode);
-    // buildSceneShellStyle は画像スライスに overflow:hidden を返すため、
-    // スポットピンが扇の境界をはみ出せるよう spots 保持スライスだけ visible に上書きする。
-    // アクティブ扇のみ zIndex:40。非アクティブは zIndex を付けず、画像は zIndex:1 で
-    // SpotPins（20/50）が全扇の画像より前面に出る。
-    const imageSectionStyle = needsRelativeLayer
-      ? {
-          ...sectionStyle,
-          position: "relative",
-          overflow: hasSpotOverflow ? "visible" : sectionStyle?.overflow,
-          zIndex: activeSliceIdx === index ? 40 : undefined,
-        }
-      : sectionStyle;
 
     if (!mountContent) {
       return (
@@ -130,16 +75,14 @@ const SwitcherEmaki = forwardRef(
           className={sectionClass}
           style={sectionStyle}
         >
-          <div className="section" style={{ width: "100%", height: "100%" }} aria-hidden />
+          <div
+            className="section"
+            style={{ width: "100%", height: "100%" }}
+            aria-hidden
+          />
         </section>
       );
     }
-
-    const isImage = cat === "image";
-    const activeSectionStyle = isImage ? imageSectionStyle : sectionStyle;
-    const sectionWithChapterStyle = showChapterTitle
-      ? { ...activeSectionStyle, position: "relative" }
-      : activeSectionStyle;
 
     return (
       <section
@@ -168,28 +111,19 @@ const SwitcherEmaki = forwardRef(
             />
           </div>
         ) : null}
+
         {showChapterTitle ? (
-          <div
-            className={`${styles.chapterbox} ${
-              orientation === "portrait"
-                ? styles.chapterboxPrt
-                : styles.chapterboxLand
-            } ${locale === "en" ? styles.chapterboxEn : ""}`}
-          >
-            <h3
-              className={`${styles.chapter} ${
-                orientation === "portrait" ? styles.chapterPrt : styles.chapterLand
-              } ${locale === "en" ? styles.chapterEn : ""}`}
-              onClick={() => handleToId?.(index)}
-              style={{
-                fontFamily:
-                  locale === "en" ? "var(--font-ui)" : "var(--font-classical)",
-              }}
-            >
-              {chapterTitle}
-            </h3>
-          </div>
+          <SceneChapterOverlay
+            chapterTitle={chapterTitle}
+            index={index}
+            locale={locale}
+            onSelectChapter={handleToId}
+            orientation={orientation}
+            title={data?.title}
+            titleen={data?.titleen}
+          />
         ) : null}
+
         {isImage && (spots?.length || isEditSpotsMode) ? (
           <SpotPins
             spots={spots ?? []}
@@ -201,6 +135,7 @@ const SwitcherEmaki = forwardRef(
             selectedSpotId={selectedSpotId}
           />
         ) : null}
+
         {isImage && ebikiPickerEnabled ? (
           <EbikiPickerOverlay
             linkId={item.linkId ?? index}
