@@ -93,6 +93,7 @@ export function PolaroidBoardInfoCard({
   };
 
   if (!expanded) {
+    const hasOdaiBanner = Boolean(isCollabMode && odaiMeta?.prompt);
     return (
       <aside
         ref={cardRef}
@@ -103,19 +104,30 @@ export function PolaroidBoardInfoCard({
           top: 14,
           left: 14,
           zIndex: 25,
-          height: 38,
-          background: "rgba(255, 255, 255, 0.96)",
-          backdropFilter: "blur(6px)",
-          border: "1px solid rgba(15, 23, 42, 0.12)",
-          borderRadius: 999,
-          boxShadow: "0 4px 14px rgba(15, 23, 42, 0.08)",
-          padding: "0 8px 0 12px",
-          display: "inline-flex",
-          alignItems: "center",
-          gap: 8,
+          height: hasOdaiBanner ? "auto" : 38,
+          background: "rgba(255, 255, 255, 0.97)",
+          backdropFilter: "blur(8px)",
+          border: "1px solid rgba(15, 23, 42, 0.14)",
+          borderRadius: hasOdaiBanner ? 16 : 999,
+          boxShadow: "0 6px 20px rgba(15, 23, 42, 0.1)",
+          padding: hasOdaiBanner ? "10px 14px 12px" : "0 8px 0 12px",
+          display: hasOdaiBanner ? "flex" : "inline-flex",
+          flexDirection: hasOdaiBanner ? "column" : "row",
+          alignItems: hasOdaiBanner ? "stretch" : "center",
+          gap: hasOdaiBanner ? 8 : 8,
+          width: hasOdaiBanner ? "min(640px, calc(100vw - 28px))" : "auto",
           maxWidth: "calc(100vw - 28px)",
         }}
       >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 8,
+            flexWrap: "wrap",
+          }}
+        >
         <button
           type="button"
           onClick={() => setExpanded(true)}
@@ -180,6 +192,26 @@ export function PolaroidBoardInfoCard({
           </button>
         )}
 
+        {isCollabMode && (
+          <button
+            type="button"
+            disabled={isRefreshing}
+            onClick={onRefreshRoom}
+            title={isEn ? "Refresh" : "最新に更新"}
+            style={{
+              ...pillBtnStyle,
+              width: 28,
+              padding: 0,
+              borderColor: "#f59e0b",
+              background: "#fffbeb",
+              color: "#b45309",
+            }}
+          >
+            {isRefreshing ? "…" : refreshSuccess ? "✓" : "↻"}
+          </button>
+        )}
+        </div>
+
         {isCollabMode && odaiMeta?.prompt && (() => {
             const mode = odaiMeta.mode || "coop";
             const safeItems = Array.isArray(items) ? items : [];
@@ -232,16 +264,16 @@ export function PolaroidBoardInfoCard({
               <div
                 style={{
                   width: "100%",
-                  marginTop: 6,
-                  padding: "8px 12px",
-                  borderRadius: 8,
+                  marginTop: 2,
+                  padding: "10px 14px",
+                  borderRadius: 10,
                   background: theme.bg,
                   border: `1px solid ${theme.border}`,
-                  fontSize: 12,
+                  fontSize: 13.5,
                   color: theme.text,
                   display: "flex",
                   flexDirection: "column",
-                  gap: 6,
+                  gap: 8,
                 }}
               >
                 <div
@@ -256,9 +288,9 @@ export function PolaroidBoardInfoCard({
                   <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
                     <span
                       style={{
-                        fontSize: 10.5,
+                        fontSize: 12,
                         fontWeight: 800,
-                        padding: "2px 8px",
+                        padding: "3px 10px",
                         borderRadius: 999,
                         background: theme.badgeBg,
                         color: theme.badgeText,
@@ -267,16 +299,16 @@ export function PolaroidBoardInfoCard({
                     >
                       {theme.badgeLabel}
                     </span>
-                    <span style={{ fontWeight: 700, fontSize: 12.5 }}>
+                    <span style={{ fontWeight: 700, fontSize: 14.5, lineHeight: 1.45 }}>
                       📜 {isEn ? "Theme:" : "お題:"} {odaiMeta.prompt}
                     </span>
                   </div>
                   {odaiMeta.targetCount > 0 && (
                     <span
                       style={{
-                        fontSize: 11,
+                        fontSize: 12,
                         fontWeight: 700,
-                        padding: "2px 9px",
+                        padding: "3px 10px",
                         borderRadius: 999,
                         background:
                           currentItemCount >= odaiMeta.targetCount
@@ -312,11 +344,11 @@ export function PolaroidBoardInfoCard({
                       alignItems: "center",
                       justifyContent: "space-between",
                       gap: 8,
-                      padding: "5px 10px",
+                      padding: "7px 12px",
                       borderRadius: 6,
                       background: "#ffffff",
                       border: "1px solid #ddd6fe",
-                      fontSize: 11.5,
+                      fontSize: 13,
                       fontWeight: 700,
                     }}
                   >
@@ -335,11 +367,11 @@ export function PolaroidBoardInfoCard({
                       alignItems: "center",
                       gap: 5,
                       flexWrap: "wrap",
-                      padding: "5px 8px",
+                      padding: "7px 12px",
                       borderRadius: 6,
                       background: "#ffffff",
                       border: "1px solid #a7f3d0",
-                      fontSize: 11,
+                      fontSize: 13,
                     }}
                   >
                     <span style={{ fontWeight: 700, color: "#065f46" }}>
@@ -394,12 +426,12 @@ export function PolaroidBoardInfoCard({
 
                 <div
                   style={{
-                    fontSize: 11,
+                    fontSize: 13,
                     color: theme.text,
                     background: "rgba(255, 255, 255, 0.72)",
-                    padding: "4px 8px",
+                    padding: "7px 10px",
                     borderRadius: 6,
-                    lineHeight: 1.5,
+                    lineHeight: 1.6,
                   }}
                 >
                   <strong>{isEn ? "Rule: " : "【遊び方・ルール】"}</strong>
@@ -418,25 +450,6 @@ export function PolaroidBoardInfoCard({
               </div>
             );
           })()}
-
-        {isCollabMode && (
-          <button
-            type="button"
-            disabled={isRefreshing}
-            onClick={onRefreshRoom}
-            title={isEn ? "Refresh" : "最新に更新"}
-            style={{
-              ...pillBtnStyle,
-              width: 28,
-              padding: 0,
-              borderColor: "#f59e0b",
-              background: "#fffbeb",
-              color: "#b45309",
-            }}
-          >
-            {isRefreshing ? "…" : refreshSuccess ? "✓" : "↻"}
-          </button>
-        )}
       </aside>
     );
   }
