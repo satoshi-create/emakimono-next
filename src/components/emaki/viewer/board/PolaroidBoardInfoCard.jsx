@@ -1,11 +1,13 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { getAllHubPages } from "@/libs/hubPages";
 import {
   getBoardPermissions,
   isClientBoardAdmin,
   parseOdaiMeta,
 } from "./polaroidBoardPolicy";
+import { usePolaroidBoardMeta } from "./usePolaroidBoardMeta";
 
 export function PolaroidBoardInfoCard({
   isEn,
@@ -13,26 +15,65 @@ export function PolaroidBoardInfoCard({
   isCollabMode,
   isSharedMode,
   collabBoard,
+  setCollabBoard,
+  roomParam,
+  personalParam,
   items,
-  collabTitleDraft,
-  setCollabTitleDraft,
-  collabDescription,
-  onSaveCollabTitle,
-  onSaveCollabDescription,
-  personalMeta,
-  setPersonalMeta,
-  onSavePersonalTitle,
-  onSavePersonalDescription,
-  relatedHubSlugs = [],
-  onChangeRelatedHubSlugs,
+  collabTitleDraft: collabTitleDraftProp,
+  setCollabTitleDraft: setCollabTitleDraftProp,
+  collabDescription: collabDescriptionProp,
+  onSaveCollabTitle: onSaveCollabTitleProp,
+  onSaveCollabDescription: onSaveCollabDescriptionProp,
+  personalMeta: personalMetaProp,
+  setPersonalMeta: setPersonalMetaProp,
+  onSavePersonalTitle: onSavePersonalTitleProp,
+  onSavePersonalDescription: onSavePersonalDescriptionProp,
+  relatedHubSlugs: relatedHubSlugsProp,
+  onChangeRelatedHubSlugs: onChangeRelatedHubSlugsProp,
   onSaveSharedToMyBoard,
   roomError,
+  setRoomError,
   authorName,
   onAuthorNameChange,
   isRefreshing,
   refreshSuccess,
   onRefreshRoom,
 }) {
+  const router = useRouter();
+  const internalMeta = usePolaroidBoardMeta({
+    router,
+    isCollabMode,
+    roomParam,
+    personalParam,
+    collabBoard,
+    setCollabBoard,
+    setRoomError,
+  });
+
+  const collabTitleDraft = collabTitleDraftProp ?? internalMeta.collabTitleDraft;
+  const setCollabTitleDraft = setCollabTitleDraftProp ?? internalMeta.setCollabTitleDraft;
+  const collabDescription =
+    collabDescriptionProp ?? internalMeta.parsedCollab.cleanDescription;
+  const onSaveCollabTitle = onSaveCollabTitleProp ?? internalMeta.handleSaveCollabTitle;
+  const onSaveCollabDescription =
+    onSaveCollabDescriptionProp ?? internalMeta.handleSaveCollabDescription;
+  const personalMeta = personalMetaProp ?? internalMeta.personalMeta;
+  const setPersonalMeta = setPersonalMetaProp ?? internalMeta.setPersonalMeta;
+  const onSavePersonalTitle =
+    onSavePersonalTitleProp ?? internalMeta.handleSavePersonalTitle;
+  const onSavePersonalDescription =
+    onSavePersonalDescriptionProp ?? internalMeta.handleSavePersonalDescription;
+  const relatedHubSlugs =
+    relatedHubSlugsProp ??
+    (isCollabMode
+      ? internalMeta.parsedCollab.relatedHubs
+      : internalMeta.personalMeta?.relatedHubs || []);
+  const onChangeRelatedHubSlugs =
+    onChangeRelatedHubSlugsProp ??
+    (isCollabMode
+      ? internalMeta.handleSaveCollabRelatedHubs
+      : internalMeta.handleSavePersonalRelatedHubs);
+
   const [expanded, setExpanded] = useState(false);
   const cardRef = useRef(null);
   const allHubs = getAllHubPages();

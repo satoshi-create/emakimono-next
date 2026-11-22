@@ -617,36 +617,23 @@ export function PolaroidBoardView() {
         className={`${styles.canvasOuter} ${isPanning ? styles.canvasOuterPanning : ""}`}
       >
         <PolaroidBoardInfoCard
-          isEn={isEn}
-          locale={router.locale}
-          isCollabMode={isCollabMode}
-          isSharedMode={isSharedMode}
-          collabBoard={collabBoard}
-          items={items}
-          collabTitleDraft={collabTitleDraft}
-          setCollabTitleDraft={setCollabTitleDraft}
-          collabDescription={parsedCollab.cleanDescription}
-          onSaveCollabTitle={handleSaveCollabTitle}
-          onSaveCollabDescription={handleSaveCollabDescription}
-          personalMeta={personalMeta}
-          setPersonalMeta={setPersonalMeta}
-          onSavePersonalTitle={handleSavePersonalTitle}
-          onSavePersonalDescription={handleSavePersonalDescription}
-          relatedHubSlugs={
-            isCollabMode
-              ? parsedCollab.relatedHubs
-              : personalMeta?.relatedHubs || []
-          }
-          onChangeRelatedHubSlugs={
-            isCollabMode ? handleSaveCollabRelatedHubs : handleSavePersonalRelatedHubs
-          }
-          onSaveSharedToMyBoard={handleSaveSharedToMyBoard}
-          roomError={roomError}
           authorName={authorName}
-          onAuthorNameChange={handleAuthorNameChange}
+          collabBoard={collabBoard}
+          isCollabMode={isCollabMode}
+          isEn={isEn}
           isRefreshing={isRefreshing}
-          refreshSuccess={refreshSuccess}
+          isSharedMode={isSharedMode}
+          items={items}
+          locale={router.locale}
+          onAuthorNameChange={handleAuthorNameChange}
           onRefreshRoom={() => loadCollabRoom(roomParam, true)}
+          onSaveSharedToMyBoard={handleSaveSharedToMyBoard}
+          personalParam={personalParam}
+          refreshSuccess={refreshSuccess}
+          roomError={roomError}
+          roomParam={roomParam}
+          setCollabBoard={setCollabBoard}
+          setRoomError={setRoomError}
         />
         {items.length === 0 ? (
           <div className={styles.emptyBox}>
