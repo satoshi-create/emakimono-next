@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -13,9 +13,26 @@ import {
   getDynamicHubPages,
   getHubBySlug,
 } from "@/libs/hubPages";
-import { fetchCollabBoard } from "@/libs/api/ugcApi";
+import { fetchCollabBoard, fetchPublicBoards } from "@/libs/api/ugcApi";
 import { removeNestedEmakisObj } from "@/utils/emakiList";
 import styles from "@/styles/ByobuHub.module.css";
+
+function extractRelatedHubSlugsFromDescription(description) {
+  const text = String(description || "");
+  const match = text.match(/\n?<!--hubs:([^>]*)-->/);
+  if (!match) return [];
+  return match[1]
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function publicBoardRelatesToHub(board, hubSlug) {
+  if (!hubSlug || !board) return false;
+  return extractRelatedHubSlugsFromDescription(board.description).includes(
+    hubSlug
+  );
+}
 
 function buildDynamicHubJsonLd({ locale, defaultLocale, meta, hub, items }) {
   const isEn = locale === "en";
@@ -79,6 +96,7 @@ export default function DynamicHubPage({ hub, items }) {
   const { t: meta } = useLocaleMeta();
   const isEn = locale === "en";
   const [linkedBoard, setLinkedBoard] = useState(null);
+  const [relatedBoards, setRelatedBoards] = useState([]);
 
   useEffect(() => {
     if (!hub?.linkedBoardId) return;
@@ -93,6 +111,41 @@ export default function DynamicHubPage({ hub, items }) {
       active = false;
     };
   }, [hub?.linkedBoardId]);
+
+  useEffect(() => {
+    if (!hub?.slug) return;
+    let active = true;
+    fetchPublicBoards()
+      .then((res) => {
+        if (!active) return;
+        const boards = Array.isArray(res?.boards) ? res.boards : [];
+        setRelatedBoards(
+          boards.filter((board) => publicBoardRelatesToHub(board, hub.slug))
+        );
+      })
+      .catch(() => {
+        if (active) setRelatedBoards([]);
+      });
+    return () => {
+      active = false;
+    };
+  }, [hub?.slug]);
+
+  const hubBoardLinks = useMemo(() => {
+    const byId = new Map();
+    relatedBoards.forEach((board) => {
+      if (board?.id) byId.set(board.id, board);
+    });
+    if (hub?.linkedBoardId) {
+      const existing = byId.get(hub.linkedBoardId);
+      byId.set(hub.linkedBoardId, {
+        ...(existing || {}),
+        id: hub.linkedBoardId,
+        title: existing?.title || linkedBoard?.title,
+      });
+    }
+    return Array.from(byId.values());
+  }, [relatedBoards, hub?.linkedBoardId, linkedBoard?.title]);
 
   if (!hub) return null;
 
@@ -129,33 +182,46 @@ export default function DynamicHubPage({ hub, items }) {
       <div className={styles.heroText}>
         <h1 className={styles.introTitle}>{title}</h1>
         {description && <p className={styles.introLead}>{description}</p>}
-        {hub.linkedBoardId && (
-          <div style={{ marginTop: 14 }}>
-            <Link
-              href={`/board?room=${encodeURIComponent(hub.linkedBoardId)}`}
-              locale={locale}
-              passHref
-            >
-              <a
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 6,
-                  padding: "7px 14px",
-                  borderRadius: 999,
-                  background: "#fffbeb",
-                  border: "1px solid #d97706",
-                  color: "#b45309",
-                  fontSize: 13,
-                  fontWeight: 700,
-                  textDecoration: "none",
-                }}
+        {hubBoardLinks.length > 0 && (
+          <div
+            style={{
+              marginTop: 14,
+              display: "flex",
+              flexDirection: "column",
+              gap: 8,
+              alignItems: "flex-start",
+            }}
+          >
+            {hubBoardLinks.map((board) => (
+              <Link
+                key={board.id}
+                href={`/board?room=${encodeURIComponent(board.id)}`}
+                locale={locale}
+                passHref
               >
-                {isEn
-                  ? "📌 View Community Polaroid Board →"
-                  : "📌 みんなのポラロイドボードを見る・貼る →"}
-              </a>
-            </Link>
+                <a
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    padding: "7px 14px",
+                    borderRadius: 999,
+                    background: "#fffbeb",
+                    border: "1px solid #d97706",
+                    color: "#b45309",
+                    fontSize: 13,
+                    fontWeight: 700,
+                    textDecoration: "none",
+                  }}
+                >
+                  {board.title
+                    ? `📌 ${board.title} →`
+                    : isEn
+                      ? "📌 View Community Polaroid Board →"
+                      : "📌 みんなのポラロイドボードを見る・貼る →"}
+                </a>
+              </Link>
+            ))}
           </div>
         )}
       </div>
