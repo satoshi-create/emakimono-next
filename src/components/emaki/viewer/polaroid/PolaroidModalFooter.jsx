@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import styles from "@/styles/PolaroidModal.module.css";
-import { appendBoardItem } from "./polaroidBoardStorage";
+import { appendBoardItem } from "../board/polaroidBoardStorage";
 import { addCollabBoardItem, fetchPublicBoards } from "@/libs/api/ugcApi";
 
 export function PolaroidModalFooter({

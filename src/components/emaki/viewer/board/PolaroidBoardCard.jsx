@@ -8,7 +8,7 @@ import {
   PHOTO_DH,
   getThemeTextureUrl,
   getSenmenFanGeometry,
-} from "./polaroidCanvasRenderer";
+} from "../polaroid/polaroidCanvasRenderer";
 import { getBoardCardPermissions } from "./polaroidBoardPolicy";
 
 const CARD_PHOTO_W = 216;

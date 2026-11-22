@@ -7,7 +7,7 @@ import {
   createPersonalBoard,
   deletePersonalBoard,
   listPersonalBoards,
-} from "@/components/emaki/viewer/polaroid/polaroidBoardStorage";
+} from "@/components/emaki/viewer/board/polaroidBoardStorage";
 
 export default function PersonalBoardsPage() {
   const router = useRouter();

@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { PolaroidBoardView } from "@/components/emaki/viewer/polaroid/PolaroidBoardView";
+import { PolaroidBoardView } from "@/components/emaki/viewer/board/PolaroidBoardView";
 
 export default function PolaroidBoardPage() {
   const router = useRouter();
