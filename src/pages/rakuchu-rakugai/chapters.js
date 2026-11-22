@@ -304,7 +304,11 @@ const RakuchuRakugaiHub = ({ hubData }) => {
         pageDesc: t("rakuchuRakugaiHub.metaDesc"),
         jsonLd,
       }}
-      breadcrumb={{ name: t("rakuchuRakugaiHub.breadcrumb") }}
+      breadcrumb={{
+        name: t("rakuchuRakugaiHub.breadcrumb"),
+        test: locale === "en" ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
+        testen: "hub",
+      }}
       hero={hero}
       sections={[
         { id: "scrolls", content: scrollsSection },

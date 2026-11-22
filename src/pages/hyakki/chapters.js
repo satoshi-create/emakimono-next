@@ -181,7 +181,11 @@ const HyakkiHub = ({ hubData }) => {
         pageDesc: t("hyakkiHub.metaDesc"),
         jsonLd,
       }}
-      breadcrumb={{ name: t("hyakkiHub.breadcrumb") }}
+      breadcrumb={{
+        name: t("hyakkiHub.breadcrumb"),
+        test: locale === "en" ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
+        testen: "hub",
+      }}
       hero={hero}
       sections={[{ id: "scrolls", content: scrollsSection }]}
     />

@@ -75,7 +75,11 @@ const ChaptersKusouzulist = ({ hubData }) => {
         pageDesc: t("kusouzuHub.metaDesc"),
         jsonLd,
       }}
-      breadcrumb={{ name: t("kusouzuHub.breadcrumb") }}
+      breadcrumb={{
+        name: t("kusouzuHub.breadcrumb"),
+        test: locale === "en" ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
+        testen: "hub",
+      }}
       hero={hero}
       navItems={[
         { id: "stages", label: t("kusouzuHub.stageSectionTitle") },

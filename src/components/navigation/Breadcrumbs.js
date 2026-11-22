@@ -1,7 +1,12 @@
 import styles from "@/styles/Breadcrumbs.module.css";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Breadcrumbs = ({ name, test, testen }) => {
+  const { locale } = useRouter();
+  const normalizedHref =
+    testen && (testen.startsWith("/") ? testen : `/${testen}`);
+
   return (
     <section className={styles.container}>
       <ul className={styles.breadcrumbs}>
@@ -12,7 +17,7 @@ const Breadcrumbs = ({ name, test, testen }) => {
         {test && (
           <>
             <p>{">"}</p>
-            <Link href={`/${testen}`}>
+            <Link href={normalizedHref} locale={locale}>
               <a>{test}</a>
             </Link>
           </>

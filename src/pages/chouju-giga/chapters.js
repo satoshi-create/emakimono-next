@@ -110,7 +110,11 @@ const ChoujuGigaHub = ({ hubData }) => {
         pageDesc: t("choujuGigaHub.metaDesc"),
         jsonLd,
       }}
-      breadcrumb={{ name: t("choujuGigaHub.breadcrumb") }}
+      breadcrumb={{
+        name: t("choujuGigaHub.breadcrumb"),
+        test: locale === "en" ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
+        testen: "hub",
+      }}
       hero={hero}
       sections={[{ id: "scrolls", content: scrollsSection }]}
     />

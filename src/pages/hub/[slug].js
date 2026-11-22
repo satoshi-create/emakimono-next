@@ -293,7 +293,11 @@ export default function DynamicHubPage({ hub, items }) {
         pageDesc: description,
         jsonLd,
       }}
-      breadcrumb={{ name: title }}
+      breadcrumb={{
+        name: title,
+        test: locale === "en" ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
+        testen: "hub",
+      }}
       hero={hero}
       sections={sections}
     />
