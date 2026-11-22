@@ -1,4 +1,5 @@
-import { LinkedPublicBoards } from "@/components/hub/LinkedPublicBoards";
+import { HubHeroWithBoards } from "@/components/hub/HubHeroWithBoards";
+import { filterBoardsForHubSlug } from "@/libs/hubPublicBoards";
 import HubPageShell from "@/components/layout/HubPageShell";
 import {
   RakuchuCompositionSection,
@@ -18,25 +19,6 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useEffect, useState } from "react";
 import { fetchPublicBoards } from "@/libs/api/ugcApi";
-
-const RAKUCHU_RAKUGAI_HUB_SLUG = "rakuchu-rakugai";
-
-function extractRelatedHubSlugsFromDescription(description) {
-  const text = String(description || "");
-  const match = text.match(/\n?<!--hubs:([^>]*)-->/);
-  if (!match) return [];
-  return match[1]
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
-}
-
-function publicBoardRelatesToHub(board, hubSlug) {
-  if (!hubSlug || !board) return false;
-  return extractRelatedHubSlugsFromDescription(board.description).includes(
-    hubSlug
-  );
-}
 
 function scrollLabelForTitleen(scroll, locale) {
   if (!scroll) return "";
@@ -131,9 +113,7 @@ const RakuchuRakugaiHub = ({ hubData }) => {
         if (!active) return;
         const boards = Array.isArray(res?.boards) ? res.boards : [];
         setRelatedPublicBoards(
-          boards.filter((board) =>
-            publicBoardRelatesToHub(board, RAKUCHU_RAKUGAI_HUB_SLUG)
-          )
+          filterBoardsForHubSlug(boards, "rakuchu-rakugai")
         );
       })
       .catch(() => {
@@ -175,26 +155,28 @@ const RakuchuRakugaiHub = ({ hubData }) => {
   };
 
   const hero = (
-    <section className={styles.hero}>
-      {hubData.heroThumb && (
-        <div className={styles.heroImageWrap}>
-          <Image
-            src={hubData.heroThumb}
-            alt={t("rakuchuRakugaiHub.introTitle")}
-            width={800}
-            height={450}
-            sizes="100vw"
-            priority
-            className={styles.heroImage}
-          />
-        </div>
-      )}
-      <div className={styles.heroText}>
-        <h1 className={styles.introTitle}>{t("rakuchuRakugaiHub.introTitle")}</h1>
-        <p className={styles.introLead}>{t("rakuchuRakugaiHub.intro")}</p>
-        <LinkedPublicBoards boards={relatedPublicBoards} locale={locale} />
-      </div>
-    </section>
+    <HubHeroWithBoards
+      title={t("rakuchuRakugaiHub.introTitle")}
+      description={t("rakuchuRakugaiHub.intro")}
+      locale={locale}
+      boards={relatedPublicBoards}
+      styles={styles}
+      media={
+        hubData.heroThumb ? (
+          <div className={styles.heroImageWrap}>
+            <Image
+              src={hubData.heroThumb}
+              alt={t("rakuchuRakugaiHub.introTitle")}
+              width={800}
+              height={450}
+              sizes="100vw"
+              priority
+              className={styles.heroImage}
+            />
+          </div>
+        ) : null
+      }
+    />
   );
 
   const scrollsSection = (

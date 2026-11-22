@@ -1,9 +1,11 @@
-import { LinkedPublicBoards } from "@/components/hub/LinkedPublicBoards";
+import { HubHeroWithBoards } from "@/components/hub/HubHeroWithBoards";
+import { filterBoardsForHubSlug } from "@/libs/hubPublicBoards";
 import HubPageShell from "@/components/layout/HubPageShell";
 import KusouzuHubIntro from "@/components/emaki/kusouzu/KusouzuHubIntro";
 import KusouzuHubPeople from "@/components/emaki/kusouzu/KusouzuHubPeople";
 import KusouzuScrollCatalog from "@/components/emaki/kusouzu/KusouzuScrollCatalog";
 import KusouzuStageGrid from "@/components/emaki/kusouzu/KusouzuStageGrid";
+import styles from "@/styles/KusouzuHub.module.css";
 import { buildKusouzuHubData } from "@/utils/buildKusouzuHubData";
 import { buildKusouzuHubJsonLd } from "@/utils/buildKusouzuHubJsonLd";
 import { useLocaleMeta } from "@/utils/func";
@@ -14,22 +16,6 @@ import { useEffect, useState } from "react";
 import { fetchPublicBoards } from "@/libs/api/ugcApi";
 
 const KUSOUZU_HUB_SLUG = "kusouzu";
-
-function parseHubSlugsFromDescription(description) {
-  if (!description || typeof description !== "string") return [];
-  const match = description.match(/<!--\s*hubs:\s*([^>]+)\s*-->/i);
-  if (!match) return [];
-  return match[1]
-    .split(",")
-    .map((slug) => slug.trim())
-    .filter(Boolean);
-}
-
-function filterBoardsLinkedToHub(boards, hubSlug) {
-  return (boards || []).filter((board) =>
-    parseHubSlugsFromDescription(board.description).includes(hubSlug),
-  );
-}
 
 const ChaptersKusouzulist = ({ hubData }) => {
   const { t } = useTranslation("common");
@@ -43,7 +29,8 @@ const ChaptersKusouzulist = ({ hubData }) => {
       try {
         const res = await fetchPublicBoards();
         if (cancelled) return;
-        setLinkedBoards(filterBoardsLinkedToHub(res?.boards, KUSOUZU_HUB_SLUG));
+        const boards = Array.isArray(res?.boards) ? res.boards : [];
+        setLinkedBoards(filterBoardsForHubSlug(boards, KUSOUZU_HUB_SLUG));
       } catch {
         if (!cancelled) setLinkedBoards([]);
       }
@@ -62,6 +49,25 @@ const ChaptersKusouzulist = ({ hubData }) => {
     hubData,
   });
 
+  const hero = (
+    <HubHeroWithBoards
+      title={t("kusouzuHub.introTitle")}
+      description={t("kusouzuHub.intro")}
+      locale={locale}
+      boards={linkedBoards}
+      boardProps={{
+        ariaLabel: t("kusouzuHub.linkedPublicBoardsAria"),
+      }}
+      styles={styles}
+      media={
+        <KusouzuHubIntro
+          heroThumb={hubData.heroThumb}
+          heroCloudinary={hubData.heroCloudinary}
+        />
+      }
+    />
+  );
+
   return (
     <HubPageShell
       meta={{
@@ -70,20 +76,7 @@ const ChaptersKusouzulist = ({ hubData }) => {
         jsonLd,
       }}
       breadcrumb={{ name: t("kusouzuHub.breadcrumb") }}
-      hero={
-        <>
-          <KusouzuHubIntro
-            heroThumb={hubData.heroThumb}
-            heroCloudinary={hubData.heroCloudinary}
-          />
-          <LinkedPublicBoards
-            boards={linkedBoards}
-            locale={locale}
-            ariaLabel={t("kusouzuHub.linkedPublicBoardsAria")}
-            className="section-grid section-padding"
-          />
-        </>
-      }
+      hero={hero}
       navItems={[
         { id: "stages", label: t("kusouzuHub.stageSectionTitle") },
         { id: "scrolls", label: t("kusouzuHub.scrollSectionTitle") },

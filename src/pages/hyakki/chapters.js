@@ -1,4 +1,5 @@
-import { LinkedPublicBoards } from "@/components/hub/LinkedPublicBoards";
+import { HubHeroWithBoards } from "@/components/hub/HubHeroWithBoards";
+import { filterBoardsForHubSlug } from "@/libs/hubPublicBoards";
 import HubPageShell from "@/components/layout/HubPageShell";
 import Title from "@/components/ui/Title";
 import { HYAKKI_HUB_PATH } from "@/libs/constants/links";
@@ -13,24 +14,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useEffect, useState } from "react";
 import { fetchPublicBoards } from "@/libs/api/ugcApi";
 
-const HUB_SLUGS_RE = /<!--\s*hubs:([^>]+)\s*-->/i;
-const HYAKKI_HUB_SLUG = "hyakki";
-
-function parseHubSlugsFromDescription(description) {
-  if (!description) return [];
-  const match = description.match(HUB_SLUGS_RE);
-  if (!match) return [];
-  return match[1]
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
-}
-
-function filterBoardsForHub(boards, hubSlug) {
-  return (boards || []).filter((board) =>
-    parseHubSlugsFromDescription(board.description).includes(hubSlug)
-  );
-}
+const HUB_SLUG = "hyakki";
 
 function firstSentence(text) {
   if (!text) return "";
@@ -110,7 +94,8 @@ const HyakkiHub = ({ hubData }) => {
       try {
         const res = await fetchPublicBoards();
         if (cancelled) return;
-        setLinkedBoards(filterBoardsForHub(res?.boards, HYAKKI_HUB_SLUG));
+        const boards = Array.isArray(res?.boards) ? res.boards : [];
+        setLinkedBoards(filterBoardsForHubSlug(boards, HUB_SLUG));
       } catch {
         if (!cancelled) setLinkedBoards([]);
       }
@@ -147,39 +132,39 @@ const HyakkiHub = ({ hubData }) => {
   };
 
   const hero = (
-    <section className={styles.hero}>
-      {hubData.heroThumb && (
-        <div className={styles.heroImageWrap}>
-          <Image
-            src={hubData.heroThumb}
-            alt={t("hyakkiHub.introTitle")}
-            width={800}
-            height={450}
-            sizes="100vw"
-            priority
-            className={styles.heroImage}
-          />
-        </div>
-      )}
-      <div className={styles.heroText}>
-        <h1 className={styles.introTitle}>{t("hyakkiHub.introTitle")}</h1>
-        <p className={styles.introLead}>{t("hyakkiHub.intro")}</p>
-      </div>
-    </section>
+    <HubHeroWithBoards
+      title={t("hyakkiHub.introTitle")}
+      description={t("hyakkiHub.intro")}
+      locale={locale}
+      boards={linkedBoards}
+      boardProps={{
+        title: t("hyakkiHub.linkedPublicBoardsTitle"),
+        ariaLabel: t("hyakkiHub.linkedPublicBoardsAria"),
+        untitledLabel: t("hyakkiHub.linkedPublicBoardUntitled"),
+        itemCountLabel: (count) =>
+          t("hyakkiHub.linkedPublicBoardItemCount", { count }),
+      }}
+      styles={styles}
+      media={
+        hubData.heroThumb ? (
+          <div className={styles.heroImageWrap}>
+            <Image
+              src={hubData.heroThumb}
+              alt={t("hyakkiHub.introTitle")}
+              width={800}
+              height={450}
+              sizes="100vw"
+              priority
+              className={styles.heroImage}
+            />
+          </div>
+        ) : null
+      }
+    />
   );
 
   const scrollsSection = (
     <section className={`section-grid section-padding ${styles.scrollSection}`}>
-      <LinkedPublicBoards
-        boards={linkedBoards}
-        locale={locale}
-        title={t("hyakkiHub.linkedPublicBoardsTitle")}
-        ariaLabel={t("hyakkiHub.linkedPublicBoardsAria")}
-        untitledLabel={t("hyakkiHub.linkedPublicBoardUntitled")}
-        itemCountLabel={(count) =>
-          t("hyakkiHub.linkedPublicBoardItemCount", { count })
-        }
-      />
       <Title sectiontitle={t("hyakkiHub.scrollSectionTitle")} />
       <div className={styles.scrollGrid}>
         {hubData.scrolls.map((scroll) => (

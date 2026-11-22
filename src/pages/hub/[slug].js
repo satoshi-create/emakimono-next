@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import HubPageShell from "@/components/layout/HubPageShell";
-import { LinkedPublicBoards } from "@/components/hub/LinkedPublicBoards";
+import { HubHeroWithBoards } from "@/components/hub/HubHeroWithBoards";
+import { filterBoardsForHubSlug } from "@/libs/hubPublicBoards";
 import CardA from "@/components/ui/CardA";
 import emakisData from "@/data/scroll-metadata";
 import { useLocaleMeta } from "@/hooks/useLocale";
@@ -17,23 +18,6 @@ import {
 import { fetchCollabBoard, fetchPublicBoards } from "@/libs/api/ugcApi";
 import { removeNestedEmakisObj } from "@/utils/emakiList";
 import styles from "@/styles/ByobuHub.module.css";
-
-function extractRelatedHubSlugsFromDescription(description) {
-  const text = String(description || "");
-  const match = text.match(/\n?<!--hubs:([^>]*)-->/);
-  if (!match) return [];
-  return match[1]
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
-}
-
-function publicBoardRelatesToHub(board, hubSlug) {
-  if (!hubSlug || !board) return false;
-  return extractRelatedHubSlugsFromDescription(board.description).includes(
-    hubSlug
-  );
-}
 
 function buildDynamicHubJsonLd({ locale, defaultLocale, meta, hub, items }) {
   const isEn = locale === "en";
@@ -120,9 +104,7 @@ export default function DynamicHubPage({ hub, items }) {
       .then((res) => {
         if (!active) return;
         const boards = Array.isArray(res?.boards) ? res.boards : [];
-        setRelatedBoards(
-          boards.filter((board) => publicBoardRelatesToHub(board, hub.slug))
-        );
+        setRelatedBoards(filterBoardsForHubSlug(boards, hub.slug));
       })
       .catch(() => {
         if (active) setRelatedBoards([]);
@@ -166,28 +148,28 @@ export default function DynamicHubPage({ hub, items }) {
   const heroItem = items.find((item) => item.thumb);
 
   const hero = (
-    <section className={styles.hero}>
-      {heroItem && (
-        <div className={styles.heroImageWrap}>
-          <Image
-            src={heroItem.thumb}
-            alt={isEn ? heroItem.titleen : heroItem.title}
-            className={styles.heroImage}
-            width={1600}
-            height={900}
-            priority
-            sizes="100vw"
-          />
-        </div>
-      )}
-      <div className={styles.heroText}>
-        <h1 className={styles.introTitle}>{title}</h1>
-        {description && <p className={styles.introLead}>{description}</p>}
-        {hubBoardLinks.length > 0 && (
-          <LinkedPublicBoards boards={hubBoardLinks} locale={locale} />
-        )}
-      </div>
-    </section>
+    <HubHeroWithBoards
+      title={title}
+      description={description}
+      locale={locale}
+      boards={hubBoardLinks}
+      styles={styles}
+      media={
+        heroItem ? (
+          <div className={styles.heroImageWrap}>
+            <Image
+              src={heroItem.thumb}
+              alt={isEn ? heroItem.titleen : heroItem.title}
+              className={styles.heroImage}
+              width={1600}
+              height={900}
+              priority
+              sizes="100vw"
+            />
+          </div>
+        ) : null
+      }
+    />
   );
 
   const sections = [
