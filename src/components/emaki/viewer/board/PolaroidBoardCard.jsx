@@ -210,7 +210,7 @@ export function PolaroidBoardCard({
       style={{
         width: `${activePhotoW + 24}px`,
         zIndex: item.zIndex || 1,
-        transform: `translate3d(${item.boardX}px, ${item.boardY}px, 0) rotate(${item.rotate || 0}deg)`,
+        transform: `translate3d(${Math.round(Number(item.boardX) || 0)}px, ${Math.round(Number(item.boardY) || 0)}px, 0) rotate(${item.rotate || 0}deg)`,
         backgroundColor: th.bg,
         backgroundImage: texUrl ? `url(${texUrl})` : "none",
         border: isSenmen
