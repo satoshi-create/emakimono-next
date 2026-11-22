@@ -81,11 +81,7 @@ const GenjiChapter = ({
         pageDesc={tPageDesc}
       />
       <Header />
-      <Breadcrumbs
-        name={isEn ? titleen : title}
-        test={isEn ? "The Tale of Genji — 54 chapters" : "源氏物語 五十四帖"}
-        testen={"hub/genji-world"}
-      />
+      <Breadcrumbs name={isEn ? titleen : title} />
       <section className={styles.chapterDetail}>
         <div className={styles.chapterDetailHead}>
           <h1 className={styles.chapterDetailTitle}>
