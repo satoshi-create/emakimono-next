@@ -1,7 +1,14 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { fetchCollabBoard, fetchPublicBoards } from "@/libs/api/ugcApi";
+import { getAllHubPages } from "@/libs/hubPages";
 import {
   THEMES,
   PHOTO_DW,
@@ -15,6 +22,18 @@ const CARD_PHOTO_W = 204;
 const CARD_PHOTO_H = Math.round((CARD_PHOTO_W * PHOTO_DH) / PHOTO_DW);
 const CARD_OUTER_W = CARD_PHOTO_W + 22;
 const CARD_OUTER_H = CARD_PHOTO_H + 108;
+
+const HUBS_INLINE_RE = /\n?<!--hubs:([^>]*)-->/;
+
+function extractHubSlugsFromDescription(description) {
+  const raw = typeof description === "string" ? description : "";
+  const match = raw.match(HUBS_INLINE_RE);
+  if (!match) return [];
+  return match[1]
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
 
 function BoardCardPhoto({ item }) {
   const [imgSize, setImgSize] = useState({ w: 0, h: 0 });
@@ -310,6 +329,13 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
   const activeBoard =
     boards.find((b) => b.id === selectedBoardId) || boards[0] || null;
   const activeItems = activeBoard ? itemsByBoardId[activeBoard.id] || [] : [];
+
+  const relatedHubs = useMemo(() => {
+    const slugs = extractHubSlugsFromDescription(activeBoard?.description);
+    if (!slugs.length) return [];
+    const bySlug = new Map(getAllHubPages().map((h) => [h.slug, h]));
+    return slugs.map((slug) => bySlug.get(slug)).filter(Boolean);
+  }, [activeBoard?.description]);
 
   const handleSelectTab = (boardId) => {
     setSelectedBoardId(boardId);
@@ -1111,6 +1137,58 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
                 );
               })}
             </div>
+            {relatedHubs.length > 0 && (
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  gap: 6,
+                  marginTop: 8,
+                  maxWidth: "100%",
+                  pointerEvents: "auto",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 700,
+                    color: surface.barTextMuted,
+                  }}
+                >
+                  {isEn ? "Related hubs" : "関連ハブ"}
+                </span>
+                {relatedHubs.map((hub) => (
+                  <Link
+                    key={hub.slug}
+                    href={hub.path}
+                    locale={router.locale}
+                    passHref
+                  >
+                    <a
+                      onPointerDown={(e) => e.stopPropagation()}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        fontSize: 11,
+                        fontWeight: 600,
+                        padding: "3px 10px",
+                        borderRadius: 999,
+                        background: "#ecfdf5",
+                        color: "#047857",
+                        border: "1px solid #a7f3d0",
+                        textDecoration: "none",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {isEn
+                        ? hub.titleEn || hub.titleJa
+                        : hub.titleJa || hub.titleEn}
+                    </a>
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>
