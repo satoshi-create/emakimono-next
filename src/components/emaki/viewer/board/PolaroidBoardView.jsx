@@ -141,7 +141,7 @@ export function PolaroidBoardView() {
   const isCollabMode = Boolean(roomParam);
   const [copied, setCopied] = useState(false);
   const [activeId, setActiveId] = useState(null);
-  const [viewport, setViewport] = useState({ x: 48, y: 48, scale: 1 });
+  const [viewport, setViewport] = useState({ x: 340, y: 64, scale: 1 });
   const [isPanning, setIsPanning] = useState(false);
 
   const {
@@ -177,7 +177,7 @@ export function PolaroidBoardView() {
 
   const fitViewportToItems = (targetItems) => {
     if (!Array.isArray(targetItems) || targetItems.length === 0) {
-      setViewport({ x: 48, y: 48, scale: 1 });
+      setViewport({ x: 340, y: 64, scale: 1 });
       return;
     }
     const cardW = 240;
@@ -200,11 +200,13 @@ export function PolaroidBoardView() {
     const viewW = rect?.width || (typeof window !== "undefined" ? window.innerWidth : 1280);
     const viewH = rect?.height || (typeof window !== "undefined" ? window.innerHeight - 120 : 680);
 
+    const leftSafe = 340;
+    const topSafe = 64;
     const pad = 48;
     const contentW = Math.max(cardW, maxX - minX);
     const contentH = Math.max(cardH, maxY - minY);
-    const availW = Math.max(300, viewW - pad * 2);
-    const availH = Math.max(240, viewH - pad * 2);
+    const availW = Math.max(300, viewW - leftSafe - pad);
+    const availH = Math.max(240, viewH - topSafe - pad);
 
     const rawScale = Math.min(1, availW / contentW, availH / contentH);
     const scale = Math.round(Math.max(0.45, Math.min(1, rawScale)) * 100) / 100;
@@ -212,9 +214,9 @@ export function PolaroidBoardView() {
     const scaledW = contentW * scale;
     const x =
       scaledW < availW
-        ? Math.round(pad + (availW - scaledW) / 2 - minX * scale)
-        : Math.round(pad - minX * scale);
-    const y = Math.round(pad - minY * scale);
+        ? Math.round(leftSafe + (availW - scaledW) / 2 - minX * scale)
+        : Math.round(leftSafe - minX * scale);
+    const y = Math.round(topSafe - minY * scale);
 
     setViewport({ x, y, scale });
   };
