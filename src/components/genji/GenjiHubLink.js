@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
-export const HUB_PATH = "/genji/chapters-genji";
+export const HUB_PATH = "/hub/genji-world";
 
 /**
  * Link from the emaki viewer to the Tale of Genji hub.

@@ -84,7 +84,7 @@ const GenjiChapter = ({
       <Breadcrumbs
         name={isEn ? titleen : title}
         test={isEn ? "The Tale of Genji — 54 chapters" : "源氏物語 五十四帖"}
-        testen={"genji/chapters-genji"}
+        testen={"hub/genji-world"}
       />
       <section className={styles.chapterDetail}>
         <div className={styles.chapterDetailHead}>

@@ -15,6 +15,8 @@ import {
 } from "@/libs/hubPages";
 import { fetchCollabBoard, fetchPublicBoards } from "@/libs/api/ugcApi";
 import { removeNestedEmakisObj } from "@/utils/emakiList";
+import { buildGenjiHubData } from "@/utils/buildGenjiHubData";
+import GenjiChaptersSection from "@/components/genji/GenjiChaptersSection";
 import styles from "@/styles/ByobuHub.module.css";
 
 function buildDynamicHubJsonLd({ locale, defaultLocale, meta, hub, items }) {
@@ -74,7 +76,7 @@ function buildDynamicHubJsonLd({ locale, defaultLocale, meta, hub, items }) {
   );
 }
 
-export default function DynamicHubPage({ hub, items }) {
+export default function DynamicHubPage({ hub, items, genjiChapters }) {
   const { locale, defaultLocale } = useRouter();
   const { t: meta } = useLocaleMeta();
   const isEn = locale === "en";
@@ -238,6 +240,17 @@ export default function DynamicHubPage({ hub, items }) {
         </section>
     ) : null;
 
+  const extraSections = [];
+  if (polaroidsContent) {
+    extraSections.push({ id: "polaroids", content: polaroidsContent });
+  }
+  if (hub.slug === "genji-world" && Array.isArray(genjiChapters)) {
+    extraSections.push({
+      id: "chapters",
+      content: <GenjiChaptersSection chapters={genjiChapters} />,
+    });
+  }
+
   return (
     <HubMinimalTemplate
       meta={{
@@ -278,11 +291,7 @@ export default function DynamicHubPage({ hub, items }) {
         columns: "three",
         needdesc: true,
       }}
-      extraSections={
-        polaroidsContent
-          ? [{ id: "polaroids", content: polaroidsContent }]
-          : undefined
-      }
+      extraSections={extraSections.length > 0 ? extraSections : undefined}
     />
   );
 }
@@ -311,10 +320,12 @@ export async function getStaticProps({ params, locale }) {
     removeNestedEmakisObj(item)
   );
 
+  const slug = params?.slug;
   return {
     props: {
       hub,
       items,
+      genjiChapters: slug === "genji-world" ? buildGenjiHubData().chapters : null,
       ...(await serverSideTranslations(locale ?? "ja", ["common"])),
     },
     revalidate: 60,

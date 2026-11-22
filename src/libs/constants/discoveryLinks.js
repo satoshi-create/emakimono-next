@@ -40,7 +40,7 @@ export const DISCOVERY_SPOTLIGHT_GROUPS = [
   {
     id: "monogatari",
     titleKey: "discovery.groupMonogatari",
-    ctaHref: "/genji/chapters-genji",
+    ctaHref: "/hub/genji-world",
     ctaKey: "discovery.ctaGenjiHub",
     titleens: [
       "genjimonogatari-emaki-tokugawa",

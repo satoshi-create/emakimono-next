@@ -157,6 +157,11 @@ const nextConfig = {
       ...buildKusouzuSlugRedirects(),
       ...buildWithdrawnScrollRedirects(),
       ...buildSeoRedirects(),
+      {
+        source: "/genji/chapters-genji",
+        destination: "/hub/genji-world",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {
