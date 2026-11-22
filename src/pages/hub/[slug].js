@@ -3,10 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import HubPageShell from "@/components/layout/HubPageShell";
-import { HubHeroWithBoards } from "@/components/hub/HubHeroWithBoards";
+import HubMinimalTemplate from "@/components/hub/HubMinimalTemplate";
 import { filterBoardsForHubSlug } from "@/libs/hubPublicBoards";
-import CardA from "@/components/ui/CardA";
 import emakisData from "@/data/scroll-metadata";
 import { useLocaleMeta } from "@/hooks/useLocale";
 import { buildLocaleUrl, SITE_ORIGIN } from "@/libs/constants/dataSiteMeta";
@@ -147,52 +145,10 @@ export default function DynamicHubPage({ hub, items }) {
 
   const heroItem = items.find((item) => item.thumb);
 
-  const hero = (
-    <HubHeroWithBoards
-      title={title}
-      description={description}
-      locale={locale}
-      boards={hubBoardLinks}
-      styles={styles}
-      media={
-        heroItem ? (
-          <div className={styles.heroImageWrap}>
-            <Image
-              src={heroItem.thumb}
-              alt={isEn ? heroItem.titleen : heroItem.title}
-              className={styles.heroImage}
-              width={1600}
-              height={900}
-              priority
-              sizes="100vw"
-            />
-          </div>
-        ) : null
-      }
-    />
-  );
-
-  /** @type {Array<{ id: string, content: React.ReactNode }>} */
-  const worksSection = {
-    id: "works",
-    content: (
-      <CardA
-        columns="three"
-        emakis={items}
-        needdesc
-        sectiontitle={title}
-        sectiontitleen={hub.titleEn || title}
-      />
-    ),
-  };
-
   const linkedPolaroidItems =
     linkedBoard && Array.isArray(linkedBoard.items) ? linkedBoard.items : [];
-  const polaroidsSection =
-    linkedPolaroidItems.length > 0
-      ? {
-          id: "polaroids",
-          content: (
+  const polaroidsContent =
+    linkedPolaroidItems.length > 0 ? (
         <section
           style={{ maxWidth: 1120, margin: "0 auto", padding: "32px 16px" }}
         >
@@ -280,16 +236,10 @@ export default function DynamicHubPage({ hub, items }) {
             ))}
           </div>
         </section>
-          ),
-        }
-      : null;
-
-  const sections = polaroidsSection
-    ? [worksSection, polaroidsSection]
-    : [worksSection];
+    ) : null;
 
   return (
-    <HubPageShell
+    <HubMinimalTemplate
       meta={{
         pagetitle: `${title} | ${meta.siteTitle}`,
         pageDesc: description,
@@ -300,8 +250,39 @@ export default function DynamicHubPage({ hub, items }) {
         test: locale === "en" ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
         testen: "hub",
       }}
-      hero={hero}
-      sections={sections}
+      heroProps={{
+        title,
+        description,
+        locale,
+        boards: hubBoardLinks,
+        styles,
+        media: heroItem ? (
+          <div className={styles.heroImageWrap}>
+            <Image
+              src={heroItem.thumb}
+              alt={isEn ? heroItem.titleen : heroItem.title}
+              className={styles.heroImage}
+              width={1600}
+              height={900}
+              priority
+              sizes="100vw"
+            />
+          </div>
+        ) : null,
+      }}
+      worksSection={{
+        id: "works",
+        emakis: items,
+        sectiontitle: title,
+        sectiontitleen: hub.titleEn || title,
+        columns: "three",
+        needdesc: true,
+      }}
+      extraSections={
+        polaroidsContent
+          ? [{ id: "polaroids", content: polaroidsContent }]
+          : undefined
+      }
     />
   );
 }

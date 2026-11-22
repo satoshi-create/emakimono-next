@@ -1,13 +1,10 @@
-import { HubHeroWithBoards } from "@/components/hub/HubHeroWithBoards";
+import HubMinimalTemplate from "@/components/hub/HubMinimalTemplate";
 import { filterBoardsForHubSlug } from "@/libs/hubPublicBoards";
-import HubPageShell from "@/components/layout/HubPageShell";
-import { HubScrollGridSection } from "@/components/hub/HubScrollGridSection";
 import { HYAKKI_HUB_PATH } from "@/libs/constants/links";
 import styles from "@/styles/ChoujuGigaHub.module.css";
 import { buildHyakkiHubData } from "@/utils/buildHyakkiHubData";
 import { useLocaleMeta } from "@/utils/func";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -15,72 +12,6 @@ import { useEffect, useState } from "react";
 import { fetchPublicBoards } from "@/libs/api/ugcApi";
 
 const HUB_SLUG = "hyakki";
-
-function firstSentence(text) {
-  if (!text) return "";
-  const match = text.match(/^.*?[。！？\n.!?]/);
-  return match ? match[0].trim() : text.slice(0, 100).trim();
-}
-
-const HyakkiScrollCard = ({ scroll }) => {
-  const { locale } = useRouter();
-  const {
-    titleen,
-    title,
-    thumb,
-    era,
-    eraen,
-    author,
-    authoren,
-    desc,
-    descen,
-    edition,
-  } = scroll;
-
-  const scrollTitle =
-    locale === "ja"
-      ? `${title}${edition ? ` ${edition}` : ""}`
-      : titleen;
-  const snippet = locale === "en" ? firstSentence(descen) : firstSentence(desc);
-
-  return (
-    <article className={styles.scrollCard}>
-      <Link href={`/${titleen}`}>
-        <a className={styles.scrollCardInner}>
-          {thumb && (
-            <div className={styles.scrollCardThumbWrap}>
-              <Image
-                src={thumb}
-                alt={title}
-                width={533}
-                height={300}
-                sizes="(max-width: 768px) 100vw, 300px"
-                loading="lazy"
-                className={styles.scrollCardThumb}
-              />
-            </div>
-          )}
-          <div className={styles.scrollCardBody}>
-            <h3 className={styles.cardTitle}>{scrollTitle}</h3>
-            <div className={styles.cardMeta}>
-              {era && (
-                <span className={styles.cardEra}>
-                  {locale === "en" ? `${eraen} period` : `${era}時代`}
-                </span>
-              )}
-              {author && (
-                <span className={styles.cardAuthor}>
-                  {locale === "ja" ? author : authoren}
-                </span>
-              )}
-            </div>
-            {snippet && <p className={styles.cardSnippet}>{snippet}</p>}
-          </div>
-        </a>
-      </Link>
-    </article>
-  );
-};
 
 const HyakkiHub = ({ hubData }) => {
   const { t } = useTranslation("common");
@@ -131,22 +62,31 @@ const HyakkiHub = ({ hubData }) => {
     })),
   };
 
-  const hero = (
-    <HubHeroWithBoards
-      title={t("hyakkiHub.introTitle")}
-      description={t("hyakkiHub.intro")}
-      locale={locale}
-      boards={linkedBoards}
-      boardProps={{
-        title: t("hyakkiHub.linkedPublicBoardsTitle"),
-        ariaLabel: t("hyakkiHub.linkedPublicBoardsAria"),
-        untitledLabel: t("hyakkiHub.linkedPublicBoardUntitled"),
-        itemCountLabel: (count) =>
-          t("hyakkiHub.linkedPublicBoardItemCount", { count }),
+  return (
+    <HubMinimalTemplate
+      meta={{
+        pagetitle: t("hyakkiHub.pagetitle"),
+        pageDesc: t("hyakkiHub.metaDesc"),
+        jsonLd,
       }}
-      styles={styles}
-      media={
-        hubData.heroThumb ? (
+      breadcrumb={{
+        name: t("hyakkiHub.breadcrumb"),
+        test: locale === "en" ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
+        testen: "hub",
+      }}
+      heroProps={{
+        title: t("hyakkiHub.introTitle"),
+        description: t("hyakkiHub.intro"),
+        locale,
+        boards: linkedBoards,
+        boardProps: {
+          ariaLabel: t("hyakkiHub.linkedPublicBoardsAria"),
+          untitledLabel: t("hyakkiHub.linkedPublicBoardUntitled"),
+          itemCountLabel: (count) =>
+            t("hyakkiHub.linkedPublicBoardItemCount", { count }),
+        },
+        styles,
+        media: hubData.heroThumb ? (
           <div className={styles.heroImageWrap}>
             <Image
               src={hubData.heroThumb}
@@ -158,34 +98,13 @@ const HyakkiHub = ({ hubData }) => {
               className={styles.heroImage}
             />
           </div>
-        ) : null
-      }
-    />
-  );
-
-  const scrollsSection = (
-    <HubScrollGridSection
-      title={t("hyakkiHub.scrollSectionTitle")}
-      scrolls={hubData.scrolls}
-      renderCard={(scroll) => <HyakkiScrollCard scroll={scroll} />}
-      styles={styles}
-    />
-  );
-
-  return (
-    <HubPageShell
-      meta={{
-        pagetitle: t("hyakkiHub.pagetitle"),
-        pageDesc: t("hyakkiHub.metaDesc"),
-        jsonLd,
+        ) : null,
       }}
-      breadcrumb={{
-        name: t("hyakkiHub.breadcrumb"),
-        test: locale === "en" ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
-        testen: "hub",
+      worksSection={{
+        id: "scrolls",
+        emakis: hubData.scrolls,
+        sectiontitle: t("hyakkiHub.scrollSectionTitle"),
       }}
-      hero={hero}
-      sections={[{ id: "scrolls", content: scrollsSection }]}
     />
   );
 };
