@@ -322,8 +322,8 @@ export function buildSourceHref(item) {
       : Math.round(Math.min(100, Math.max(0, 50 - ((item.pan?.y || 0) / estH) * 100)) * 10) / 10;
   const cz =
     typeof item.cz === "number" && Number.isFinite(item.cz)
-      ? item.cz
-      : Math.round(Math.min(4.6, Math.max(1.2, z)) * 100) / 100;
+      ? Math.round(Math.min(1.5, Math.max(1.2, item.cz)) * 10) / 10
+      : Math.round(Math.min(1.5, Math.max(1.2, z)) * 10) / 10;
 
   params.set("cx", String(cx));
   params.set("cy", String(cy));
