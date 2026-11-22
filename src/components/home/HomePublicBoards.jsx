@@ -148,7 +148,7 @@ function computeFittedViewport(items, containerW = 1280, containerH = 580) {
   const availH = Math.max(240, containerH - padTop - padBottom);
 
   const fitScale = Math.min(1, availW / contentW, availH / contentH);
-  const scale = Math.round(Math.max(0.55, Math.min(1, fitScale)) * 100) / 100;
+  const scale = 1;
 
   const scaledW = contentW * scale;
   const offsetX =
@@ -181,7 +181,7 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
   const [isLoadingList, setIsLoadingList] = useState(true);
   const [isLoadingItems, setIsLoadingItems] = useState(false);
 
-  const [viewport, setViewport] = useState({ x: 48, y: 118, scale: 0.94 });
+  const [viewport, setViewport] = useState({ x: 48, y: 118, scale: 1 });
   const [isPanning, setIsPanning] = useState(false);
   const [activeCardId, setActiveCardId] = useState(null);
   const [likedIds, setLikedIds] = useState({});
