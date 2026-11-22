@@ -165,3 +165,30 @@ sequenceDiagram
         SpotNav->>SpotNav: handleToId + setPendingSpotZoom で切り抜き位置へズーム着地
     end
 ```
+
+## 2. ボード権限・ルールポリシー（polaroidBoardPolicy.js）と拡張ガイド
+
+個人ボード・共有URL・公開コラボボード（および将来のユーザー作成公開ボード）の権限とルール判定は、すべて `polaroidBoardPolicy.js` を単一信頼源（Single Source of Truth）として参照します。
+
+### ボード種別ごとの権限マトリクス（getBoardPermissions / getBoardCardPermissions）
+
+| ボード種別 (BOARD_MODES) | カード投稿 (canPostItem) | カード移動・メモ編集 (canDrag / canEditMemo) | カード削除 (canDelete) | ボードタイトル・説明編集 (canEditBoardMeta) | 新規テーマ作成 (canCreateTheme) | 永続化先 |
+|---|---|---|---|---|---|---|
+| 個人ボード (personal) | ○ | ○ | ○ | ○ | ○ | localStorage |
+| 共有URL (shared) | × | ×（閲覧専用） | × | × | × | URLパラメータ |
+| 公開コラボ (collab) | ○（お題上限内） | 投稿者本人 or 管理者 | 投稿者本人 or 管理者 | 作成者 (isOwner) or 管理者 | 作成者 (isOwner) or 管理者 | DB API (`/api/board/[id]`) |
+
+### 今後の安全なルール・ボード拡張手順
+
+**新しいお題ルール**（例：特定作品限定・時代限定など）を追加する場合:
+
+- `polaroidBoardPolicy.js` の `ODAI_RULE_MODES` と `parseOdaiMeta(description)` にデフォルトプロパティを追加し、`computeCardRuleBadges(items, odaiMeta, isEn)` にバッジ判定ロジックを1ケース追加するだけで、ボード全体のカードUIへ自動反映されます。
+
+**一般ユーザーによる公開ボード作成機能**を追加する場合:
+
+- API レスポンスの `board.isOwner` を `getBoardPermissions({ isCollabMode, isSharedMode, isBoardAdmin, isBoardOwner })` に渡す設計がすでに組み込まれているため、作成者本人にのみボード設定・テーマ作成権限が自動で付与されます。
+
+### 扇面レイアウト（layoutMode: `"senmen"`）の連携仕様
+
+- 形状（`layoutMode: "polaroid" | "senmen"`）とカラーテーマ（`currentTheme: white | washi | sumi | miyabi`）は完全に独立しています。
+- ボード保存時は API スキーマ変更を避けるため `theme` 文字列に `:senmen` サフィックス（例: `white:senmen`）を付与して永続化し、`PolaroidBoardCard.jsx` の `parseCardThemeAndMode` で復元して横長扇面フレーム（264×144）を描画します。

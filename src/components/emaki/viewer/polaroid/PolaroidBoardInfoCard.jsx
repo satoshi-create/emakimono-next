@@ -1,6 +1,11 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { getAllHubPages } from "@/libs/hubPages";
+import {
+  getBoardPermissions,
+  isClientBoardAdmin,
+  parseOdaiMeta,
+} from "./polaroidBoardPolicy";
 
 export function PolaroidBoardInfoCard({
   isEn,
@@ -38,28 +43,18 @@ export function PolaroidBoardInfoCard({
     ? collabTitleDraft || collabBoard?.title || ""
     : personalMeta?.title || "";
 
-  const isBoardAdmin =
-    typeof window !== "undefined" &&
-    Boolean(process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY) &&
-    localStorage.getItem("emakimono_board_admin_key") ===
-      process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY;
+  const isBoardAdmin = isClientBoardAdmin();
+  const { canEditBoardMeta } = getBoardPermissions({
+    isCollabMode,
+    isSharedMode,
+    isBoardAdmin,
+    isBoardOwner: Boolean(collabBoard?.isOwner),
+  });
 
   const odaiMeta = useMemo(() => {
     if (!isCollabMode || !collabBoard?.description) return null;
-    const match = collabBoard.description.match(/<!--odai:(\{[\s\S]*?\})-->/);
-    if (!match) return null;
-    try {
-      const parsed = JSON.parse(match[1]);
-      if (!parsed || typeof parsed.prompt !== "string") return null;
-      return {
-        prompt: parsed.prompt,
-        mode: parsed.mode,
-        targetCount: Number(parsed.targetCount) || 0,
-        onePerUser: Boolean(parsed.onePerUser),
-      };
-    } catch {
-      return null;
-    }
+    const parsed = parseOdaiMeta(collabBoard.description);
+    return parsed.prompt ? parsed : null;
   }, [isCollabMode, collabBoard?.description]);
 
   const currentItemCount = items?.length ?? collabBoard?.items?.length ?? 0;
@@ -183,7 +178,7 @@ export function PolaroidBoardInfoCard({
           </span>
         )}
 
-        {(!isCollabMode || isBoardAdmin) && (
+        {canEditBoardMeta && (
           <button
             type="button"
             onClick={() => setExpanded(true)}

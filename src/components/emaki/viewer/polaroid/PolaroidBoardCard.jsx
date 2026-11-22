@@ -9,6 +9,7 @@ import {
   getThemeTextureUrl,
   getSenmenFanGeometry,
 } from "./polaroidCanvasRenderer";
+import { getBoardCardPermissions } from "./polaroidBoardPolicy";
 
 const CARD_PHOTO_W = 216;
 const CARD_PHOTO_H = Math.round((CARD_PHOTO_W * PHOTO_DH) / PHOTO_DW); // 168px (720:560比率)
@@ -198,6 +199,7 @@ export function PolaroidBoardCard({
   const th = THEMES[themeId] || THEMES.white;
   const texUrl = getThemeTextureUrl(themeId);
   const activePhotoW = isSenmen ? SENMEN_CARD_PHOTO_W : CARD_PHOTO_W;
+  const cardPerms = getBoardCardPermissions({ isCollabMode, isSharedMode }, item);
 
   return (
     <div
@@ -224,7 +226,7 @@ export function PolaroidBoardCard({
       <div className={styles.tape} />
 
       {/* 削除ボタン */}
-      {!isSharedMode && (!isCollabMode || item.canEdit !== false) && (
+      {cardPerms.canDelete && (
         <button
           type="button"
           onClick={() => onDelete(item.id)}
@@ -280,7 +282,7 @@ export function PolaroidBoardCard({
           rows={2}
           maxLength={40}
           value={item.message || item.memo || ""}
-          readOnly={isSharedMode || (isCollabMode && item.canEdit === false)}
+          readOnly={!cardPerms.canEditMemo}
           onChange={(e) => onMessageChange(item.id, e.target.value)}
           placeholder={
             isCollabMode

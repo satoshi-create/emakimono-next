@@ -28,6 +28,12 @@ import {
   buildSourceHref,
 } from "./polaroidBoardHelpers";
 import { usePolaroidBoardMeta } from "./usePolaroidBoardMeta";
+import {
+  getBoardPermissions,
+  getBoardCardPermissions,
+  parseOdaiMeta,
+  computeCardRuleBadges,
+} from "./polaroidBoardPolicy";
 
 export function PolaroidBoardView() {
   const router = useRouter();
@@ -314,9 +320,11 @@ export function PolaroidBoardView() {
     fitViewportToItems(localItems);
   }, [router.isReady, sharedParam, roomParam, personalParam]);
 
+  const boardPerms = getBoardPermissions({ isCollabMode, isSharedMode });
+
   const updateAndPersist = (nextItems) => {
     setItems(nextItems);
-    if (!isSharedMode && !isCollabMode) {
+    if (boardPerms.persistToLocalStorage) {
       saveBoardItems(nextItems, personalParam || "default");
     }
   };
@@ -373,7 +381,7 @@ export function PolaroidBoardView() {
     setItems((prev) => {
       const maxZ = prev.reduce((acc, cur) => Math.max(acc, cur.zIndex || 1), 1);
       const next = prev.map((it) => (it.id === id ? { ...it, zIndex: maxZ + 1 } : it));
-      if (!isSharedMode && !isCollabMode) {
+      if (boardPerms.persistToLocalStorage) {
         saveBoardItems(next, personalParam || "default");
       }
       return next;
@@ -483,7 +491,7 @@ export function PolaroidBoardView() {
     if (e.target.tagName === "TEXTAREA" || e.target.tagName === "BUTTON" || e.target.tagName === "A") {
       return;
     }
-    if (isCollabMode && item.canEdit === false) {
+    if (!getBoardCardPermissions({ isCollabMode, isSharedMode }, item).canDrag) {
       return;
     }
     e.currentTarget.setPointerCapture(e.pointerId);
@@ -527,7 +535,7 @@ export function PolaroidBoardView() {
     const movedId = st.id;
     dragStateRef.current = { id: null, startX: 0, startY: 0, origX: 0, origY: 0 };
     setItems((prev) => {
-      if (!isSharedMode && !isCollabMode) {
+      if (boardPerms.persistToLocalStorage) {
         saveBoardItems(prev, personalParam || "default");
       }
       if (isCollabMode && roomParam) {
@@ -664,62 +672,15 @@ export function PolaroidBoardView() {
             }}
           >
             {(() => {
-              let odaiMode = "coop";
-              if (isCollabMode && collabBoard?.description) {
-                const m = collabBoard.description.match(/<!--odai:(\{[\s\S]*?\})-->/);
-                if (m) {
-                  try {
-                    const parsed = JSON.parse(m[1]);
-                    if (parsed?.mode) odaiMode = parsed.mode;
-                  } catch {}
-                }
-              }
+              const odaiMeta = isCollabMode ? parseOdaiMeta(collabBoard?.description) : null;
+              const itemsWithLikes = items.map((it) => ({
+                ...it,
+                likedIds: likedIds[it.id] ? [it.id] : [],
+              }));
+              const ruleBadgeMap = computeCardRuleBadges(itemsWithLikes, odaiMeta, isEn);
 
-              const sceneCounts = {};
-              const maxLikes = items.reduce(
-                (max, it) => Math.max(max, (it.likeCount || 0) + (likedIds[it.id] ? 1 : 0)),
-                0
-              );
-              if (isCollabMode && odaiMode === "unique") {
-                items.forEach((it) => {
-                  const key = it.displayChapter || it.displayTitle || "";
-                  if (key) sceneCounts[key] = (sceneCounts[key] || 0) + 1;
-                });
-              }
-
-              return items.map((item, idx) => {
-                let ruleBadge = null;
-                if (isCollabMode && odaiMode === "utaawase") {
-                  const totalLikes = (item.likeCount || 0) + (likedIds[item.id] ? 1 : 0);
-                  const isTop = maxLikes > 0 && totalLikes === maxLikes;
-                  const isLeft = idx % 2 === 0;
-                  ruleBadge = {
-                    label: isTop
-                      ? isEn
-                        ? "👑 Top Verse"
-                        : "👑 ベスト一句"
-                      : isLeft
-                      ? isEn
-                        ? "🌸 Left Team"
-                        : "🌸 左方（紅組）"
-                      : isEn
-                      ? "🍁 Right Team"
-                      : "🍁 右方（白組）",
-                    bg: isTop ? "#fef3c7" : isLeft ? "#ffe4e6" : "#dbeafe",
-                    color: isTop ? "#b45309" : isLeft ? "#be123c" : "#1d4ed8",
-                    border: isTop ? "#f59e0b" : isLeft ? "#fda4af" : "#93c5fd",
-                  };
-                } else if (isCollabMode && odaiMode === "unique") {
-                  const key = item.displayChapter || item.displayTitle || "";
-                  if (key && sceneCounts[key] > 1) {
-                    ruleBadge = {
-                      label: isEn ? "⚠️ Duplicate Scene" : "⚠️ かぶり中！",
-                      bg: "#fee2e2",
-                      color: "#b91c1c",
-                      border: "#fca5a5",
-                    };
-                  }
-                }
+              return items.map((item) => {
+                const ruleBadge = ruleBadgeMap.get(item.id) || null;
 
                 return (
                   <PolaroidBoardCard

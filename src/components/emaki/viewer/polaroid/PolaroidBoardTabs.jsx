@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { getBoardPermissions, isClientBoardAdmin } from "./polaroidBoardPolicy";
 
 export function PolaroidBoardTabs({
   isEn,
@@ -12,7 +13,7 @@ export function PolaroidBoardTabs({
   const [draftTitle, setDraftTitle] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [isBoardAdmin, setIsBoardAdmin] = useState(false);
-  const canCreateTheme = !isCollabMode || isBoardAdmin;
+  const { canCreateTheme } = getBoardPermissions({ isCollabMode, isBoardAdmin });
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -31,9 +32,7 @@ export function PolaroidBoardTabs({
       window.history.replaceState({}, "", url.toString());
     }
 
-    setIsBoardAdmin(
-      window.localStorage.getItem("emakimono_board_admin_key") === expectedKey
-    );
+    setIsBoardAdmin(isClientBoardAdmin());
   }, []);
 
   const handleSubmit = async (e) => {
