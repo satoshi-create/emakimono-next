@@ -8,7 +8,7 @@ import {
   PHOTO_DH,
   getThemeTextureUrl,
 } from "@/components/emaki/viewer/polaroid/polaroidCanvasRenderer";
-import { buildSourceHref } from "@/components/emaki/viewer/board/polaroidBoardHelpers";
+import { buildSourceHref } from "@/components/emaki/viewer/board/polaroidBoardPolicy";
 import { ERA_COLOR_MODES, VIEWER_SURFACE_TOKENS } from "@/theme/colorMode";
 
 const CARD_PHOTO_W = 204;

@@ -22,13 +22,11 @@ import {
   fetchPublicBoards,
   updateCollabBoardItem,
 } from "@/libs/api/ugcApi";
+import { usePolaroidBoardMeta } from "./usePolaroidBoardMeta";
 import {
   ACTIVE_COLLAB_ROOM_KEY,
   AUTHOR_NAME_KEY,
   buildSourceHref,
-} from "./polaroidBoardHelpers";
-import { usePolaroidBoardMeta } from "./usePolaroidBoardMeta";
-import {
   getBoardPermissions,
   getBoardCardPermissions,
   parseOdaiMeta,

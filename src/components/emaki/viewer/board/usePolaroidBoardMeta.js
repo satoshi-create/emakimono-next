@@ -11,7 +11,7 @@ import {
   updateCollabBoardMeta,
   updateCollabBoardTitle,
 } from "@/libs/api/ugcApi";
-import { AUTHOR_NAME_KEY } from "./polaroidBoardHelpers";
+import { AUTHOR_NAME_KEY } from "./polaroidBoardPolicy";
 
 const LAST_PUBLIC_BOARD_KEY = "emakimono_last_public_board_v1";
 const LAST_PERSONAL_BOARD_KEY = "emakimono_last_personal_board_v1";
