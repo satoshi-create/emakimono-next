@@ -1,3 +1,4 @@
+import { LinkedPublicBoards } from "@/components/hub/LinkedPublicBoards";
 import HubPageShell from "@/components/layout/HubPageShell";
 import ChojuGigaScrollCard from "@/components/emaki/chouju-giga/ChojuGigaScrollCard";
 import Title from "@/components/ui/Title";
@@ -9,7 +10,6 @@ import { createCloudinaryHeroLoader } from "@/utils/cloudinaryUrl";
 import Image from "next/image";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { fetchPublicBoards } from "@/libs/api/ugcApi";
@@ -103,27 +103,12 @@ const ChoujuGigaHub = ({ hubData }) => {
   const scrollsSection = (
     <section className={`section-grid section-padding ${styles.scrollSection}`}>
       <Title sectiontitle={t("choujuGigaHub.scrollSectionTitle")} />
-      {linkedBoards.length > 0 ? (
-        <nav
-          className={styles.introLead}
-          aria-label={t("choujuGigaHub.linkedPublicBoardsAria")}
-        >
-          <ul style={{ listStyle: "none", padding: 0, margin: "0 0 1rem" }}>
-            {linkedBoards.map((board) => (
-              <li key={board.id} style={{ marginBottom: "0.5rem" }}>
-                <Link
-                  href={`/board?room=${encodeURIComponent(board.id)}`}
-                  locale={locale}
-                >
-                  {t("choujuGigaHub.linkedPublicBoardLink", {
-                    title: board.title || board.id,
-                  })}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      ) : null}
+      <LinkedPublicBoards
+        boards={linkedBoards}
+        locale={locale}
+        ariaLabel={t("choujuGigaHub.linkedPublicBoardsAria")}
+        className={styles.introLead}
+      />
       <div className={styles.scrollGrid}>
         {hubData.scrolls.map((scroll) => (
           <ChojuGigaScrollCard key={scroll.titleen} scroll={scroll} />

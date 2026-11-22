@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import HubPageShell from "@/components/layout/HubPageShell";
+import { LinkedPublicBoards } from "@/components/hub/LinkedPublicBoards";
 import CardA from "@/components/ui/CardA";
 import emakisData from "@/data/scroll-metadata";
 import { useLocaleMeta } from "@/hooks/useLocale";
@@ -183,46 +184,7 @@ export default function DynamicHubPage({ hub, items }) {
         <h1 className={styles.introTitle}>{title}</h1>
         {description && <p className={styles.introLead}>{description}</p>}
         {hubBoardLinks.length > 0 && (
-          <div
-            style={{
-              marginTop: 14,
-              display: "flex",
-              flexDirection: "column",
-              gap: 8,
-              alignItems: "flex-start",
-            }}
-          >
-            {hubBoardLinks.map((board) => (
-              <Link
-                key={board.id}
-                href={`/board?room=${encodeURIComponent(board.id)}`}
-                locale={locale}
-                passHref
-              >
-                <a
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 6,
-                    padding: "7px 14px",
-                    borderRadius: 999,
-                    background: "#fffbeb",
-                    border: "1px solid #d97706",
-                    color: "#b45309",
-                    fontSize: 13,
-                    fontWeight: 700,
-                    textDecoration: "none",
-                  }}
-                >
-                  {board.title
-                    ? `📌 ${board.title} →`
-                    : isEn
-                      ? "📌 View Community Polaroid Board →"
-                      : "📌 みんなのポラロイドボードを見る・貼る →"}
-                </a>
-              </Link>
-            ))}
-          </div>
+          <LinkedPublicBoards boards={hubBoardLinks} locale={locale} />
         )}
       </div>
     </section>

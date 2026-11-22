@@ -308,7 +308,8 @@
     "modelLinkLabel": "この作品のモデル",
     "representativeLinkLabel": "代表作「九相図巻（鎌倉）」を見る",
     "stageViewIn": "{{scroll}}でこの相を鑑賞",
-    "hubNudgeDesc": "鎌倉・江戸・明治の九相図を並べて比較"
+    "hubNudgeDesc": "鎌倉・江戸・明治の九相図を並べて比較",
+    "linkedPublicBoardsAria": "このハブにリンクされた公開ボード"
   },
   "choujuGigaHub": {
     "pagetitle": "鳥獣人物戯画一覧",
@@ -339,7 +340,11 @@
     "scrollSectionTitle": "作品を鑑賞",
     "hubNudgeLabel": "百鬼夜行・付喪神一覧を見る",
     "linkLabel": "百鬼夜行・付喪神一覧",
-    "linkDesc": "百鬼夜行絵巻と付喪神絵巻を横スクロールで鑑賞する"
+    "linkDesc": "百鬼夜行絵巻と付喪神絵巻を横スクロールで鑑賞する",
+    "linkedPublicBoardsTitle": "公開ポラロイドボード",
+    "linkedPublicBoardsAria": "このハブにリンクされた公開ボード",
+    "linkedPublicBoardUntitled": "公開ボード（無題）",
+    "linkedPublicBoardItemCount": "（{{count}}枚）"
   },
   "rakuchuRakugaiHub": {
     "pagetitle": "洛中洛外図屏風一覧｜名品3伝本を横スクロールで鑑賞",

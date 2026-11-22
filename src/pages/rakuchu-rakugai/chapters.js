@@ -1,3 +1,4 @@
+import { LinkedPublicBoards } from "@/components/hub/LinkedPublicBoards";
 import HubPageShell from "@/components/layout/HubPageShell";
 import {
   RakuchuCompositionSection,
@@ -191,51 +192,7 @@ const RakuchuRakugaiHub = ({ hubData }) => {
       <div className={styles.heroText}>
         <h1 className={styles.introTitle}>{t("rakuchuRakugaiHub.introTitle")}</h1>
         <p className={styles.introLead}>{t("rakuchuRakugaiHub.intro")}</p>
-        {relatedPublicBoards.length > 0 && (
-          <div
-            style={{
-              marginTop: 14,
-              display: "flex",
-              flexDirection: "column",
-              gap: 8,
-              alignItems: "flex-start",
-            }}
-          >
-            {relatedPublicBoards.map((board) => (
-              <Link
-                key={board.id}
-                href={`/board?room=${encodeURIComponent(board.id)}`}
-                locale={locale}
-                passHref
-              >
-                <a
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 6,
-                    padding: "7px 14px",
-                    borderRadius: 999,
-                    background: "#fffbeb",
-                    border: "1px solid #d97706",
-                    color: "#b45309",
-                    fontSize: 13,
-                    fontWeight: 700,
-                    textDecoration: "none",
-                  }}
-                >
-                  {board.title
-                    ? `📌 ${board.title} →`
-                    : t("rakuchuRakugaiHub.publicBoardLink", {
-                        defaultValue:
-                          locale === "en"
-                            ? "📌 View Community Polaroid Board →"
-                            : "📌 みんなのポラロイドボードを見る・貼る →",
-                      })}
-                </a>
-              </Link>
-            ))}
-          </div>
-        )}
+        <LinkedPublicBoards boards={relatedPublicBoards} locale={locale} />
       </div>
     </section>
   );

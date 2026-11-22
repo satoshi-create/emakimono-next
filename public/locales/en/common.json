@@ -308,7 +308,8 @@
     "modelLinkLabel": "Model of this work",
     "representativeLinkLabel": "View the representative scroll — Kusōzu-maki (Kamakura)",
     "stageViewIn": "View in {{scroll}}",
-    "hubNudgeDesc": "Compare Kamakura, Edo, and Meiji kusōzu side by side"
+    "hubNudgeDesc": "Compare Kamakura, Edo, and Meiji kusōzu side by side",
+    "linkedPublicBoardsAria": "Public boards linked to this hub"
   },
   "choujuGigaHub": {
     "pagetitle": "Chōjū-jinbutsu-giga — Hub",
@@ -339,7 +340,11 @@
     "scrollSectionTitle": "Browse scrolls",
     "hubNudgeLabel": "View Hyakki & Tsukumogami hub",
     "linkLabel": "Hyakki Yagyō & Tsukumogami",
-    "linkDesc": "Browse hyakki yagyō and tsukumogami scrolls horizontally"
+    "linkDesc": "Browse hyakki yagyō and tsukumogami scrolls horizontally",
+    "linkedPublicBoardsTitle": "Public polaroid boards",
+    "linkedPublicBoardsAria": "Public boards linked to this hub",
+    "linkedPublicBoardUntitled": "Untitled public board",
+    "linkedPublicBoardItemCount": " ({{count}})"
   },
   "rakuchuRakugaiHub": {
     "pagetitle": "Rakuchū-rakugai-zu Folding Screens | Compare 3 Masterpieces",

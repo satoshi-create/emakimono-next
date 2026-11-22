@@ -1,3 +1,4 @@
+import { LinkedPublicBoards } from "@/components/hub/LinkedPublicBoards";
 import HubPageShell from "@/components/layout/HubPageShell";
 import Title from "@/components/ui/Title";
 import { HYAKKI_HUB_PATH } from "@/libs/constants/links";
@@ -169,36 +170,16 @@ const HyakkiHub = ({ hubData }) => {
 
   const scrollsSection = (
     <section className={`section-grid section-padding ${styles.scrollSection}`}>
-      {linkedBoards.length > 0 && (
-        <>
-          <Title sectiontitle={t("hyakkiHub.linkedPublicBoardsTitle")} />
-          <ul className={styles.scrollGrid}>
-            {linkedBoards.map((board) => (
-              <li key={board.id}>
-                <Link
-                  href={`/board?room=${encodeURIComponent(board.id)}`}
-                  locale={locale}
-                >
-                  <a className={styles.scrollCardInner}>
-                    <div className={styles.scrollCardBody}>
-                      <h3 className={styles.cardTitle}>
-                        {board.title || t("hyakkiHub.linkedPublicBoardUntitled")}
-                      </h3>
-                      {typeof board.itemCount === "number" && (
-                        <div className={styles.cardMeta}>
-                          {t("hyakkiHub.linkedPublicBoardItemCount", {
-                            count: board.itemCount,
-                          })}
-                        </div>
-                      )}
-                    </div>
-                  </a>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+      <LinkedPublicBoards
+        boards={linkedBoards}
+        locale={locale}
+        title={t("hyakkiHub.linkedPublicBoardsTitle")}
+        ariaLabel={t("hyakkiHub.linkedPublicBoardsAria")}
+        untitledLabel={t("hyakkiHub.linkedPublicBoardUntitled")}
+        itemCountLabel={(count) =>
+          t("hyakkiHub.linkedPublicBoardItemCount", { count })
+        }
+      />
       <Title sectiontitle={t("hyakkiHub.scrollSectionTitle")} />
       <div className={styles.scrollGrid}>
         {hubData.scrolls.map((scroll) => (
