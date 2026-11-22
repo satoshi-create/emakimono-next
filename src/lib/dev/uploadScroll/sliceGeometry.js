@@ -137,11 +137,44 @@ export function orderIntervalsForRtl(intervals, isRtlSlice) {
 // === 3. Canvas JPEG スライス生成 ===
 // 元画像から区間ごとに Canvas 切り出しし、scroll_id 命名の JPEG File 配列を返す
 
+function applyUnsharpMask(ctx, width, height, percent) {
+  const amount = Math.max(0, Math.min(100, Number(percent) || 0)) / 100;
+  if (amount <= 0 || width < 3 || height < 3) return;
+  const imgData = ctx.getImageData(0, 0, width, height);
+  const src = imgData.data;
+  const copy = new Uint8ClampedArray(src);
+  // 3x3 ガウシアン近似ぼかしとの差分を加算して輪郭を強調
+  const strength = amount * 1.2;
+  for (let y = 1; y < height - 1; y++) {
+    const row = y * width;
+    for (let x = 1; x < width - 1; x++) {
+      const idx = (row + x) * 4;
+      for (let c = 0; c < 3; c++) {
+        const center = copy[idx + c];
+        const blur =
+          (copy[((row - width) + (x - 1)) * 4 + c] +
+            2 * copy[((row - width) + x) * 4 + c] +
+            copy[((row - width) + (x + 1)) * 4 + c] +
+            2 * copy[(row + (x - 1)) * 4 + c] +
+            4 * center +
+            2 * copy[(row + (x + 1)) * 4 + c] +
+            copy[((row + width) + (x - 1)) * 4 + c] +
+            2 * copy[((row + width) + x) * 4 + c] +
+            copy[((row + width) + (x + 1)) * 4 + c]) /
+          16;
+        src[idx + c] = center + (center - blur) * strength;
+      }
+    }
+  }
+  ctx.putImageData(imgData, 0, 0);
+}
+
 export async function sliceRawImagesToFiles(
   rawFiles,
   {
     sliceAspectRatio,
     overlapPercent,
+    sharpenPercent = 0,
     isRtlSlice,
     scrollId,
     startIndex = 0,
@@ -157,7 +190,9 @@ export async function sliceRawImagesToFiles(
 
   for (const source of sources) {
     const img = await loadImageElementFromFile(source);
-    const targetHeight = Math.min(1080, img.naturalHeight);
+    // 縦長（屏風等）のみ高さ上限2560pxで精細さを確保し、横長（通常絵巻）は1080px上限を維持して軽量化
+    const maxHeight = img.naturalHeight > img.naturalWidth ? 2560 : 1080;
+    const targetHeight = Math.min(maxHeight, img.naturalHeight);
     const scale = targetHeight / img.naturalHeight;
     const w = img.naturalWidth;
     let intervals;
@@ -176,10 +211,13 @@ export async function sliceRawImagesToFiles(
       const canvas = document.createElement("canvas");
       canvas.width = Math.round(sw * scale);
       canvas.height = targetHeight;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) throw new Error("Canvas が利用できません");
-      ctx.drawImage(img, sx, 0, sw, img.naturalHeight, 0, 0, canvas.width, canvas.height);
-      const fileName = `${idPrefix}_${String(index + 1).padStart(2, "0")}-1080.jpg`;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) throw new Error("Canvas が利用できません");
+        ctx.drawImage(img, sx, 0, sw, img.naturalHeight, 0, 0, canvas.width, canvas.height);
+        if (sharpenPercent > 0) {
+          applyUnsharpMask(ctx, canvas.width, canvas.height, sharpenPercent);
+        }
+        const fileName = `${idPrefix}_${String(index + 1).padStart(2, "0")}-1080.jpg`;
       const file = await canvasToJpegFile(canvas, fileName);
       out.push(file);
       index += 1;
