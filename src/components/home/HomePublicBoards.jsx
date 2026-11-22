@@ -334,13 +334,7 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
 
   const handleJumpToScrolls = (e) => {
     e.stopPropagation();
-    const sectionEl = e.currentTarget.closest("section");
-    const nextSection = sectionEl?.nextElementSibling;
-    if (nextSection && typeof nextSection.scrollIntoView === "function") {
-      nextSection.scrollIntoView({ behavior: "smooth", block: "start" });
-      return;
-    }
-    router.push("/gallery", undefined, { locale: router.locale });
+    router.push("/emaki-hub", undefined, { locale: router.locale });
   };
   const handleCanvasPointerMove = (e) => {
     if (!panRef.current.active) return;
@@ -1047,21 +1041,6 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
                 </a>
               </Link>
             )}
-            <Link href="/board/public" locale={router.locale} passHref>
-              <a
-                style={{
-                  fontSize: 12,
-                  fontWeight: 600,
-                  padding: "5px 11px",
-                  borderRadius: 999,
-                  color: defaultTone.text,
-                  textDecoration: "none",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {isEn ? "All Boards" : "公開一覧"}
-              </a>
-            </Link>
           </div>
         </div>
 

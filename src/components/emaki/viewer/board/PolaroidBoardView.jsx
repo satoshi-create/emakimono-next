@@ -645,7 +645,7 @@ export function PolaroidBoardView() {
                 ? "Open any emaki scroll, launch the Polaroid tool, and click 'Pin to Board'."
                 : "お好みの絵巻物を開いてポラロイド機能を起動し、「ボードに貼る」を押すとここに並びます。"}
             </p>
-            <Link href="/" passHref>
+            <Link href="/type/emaki" locale={router.locale} passHref>
               <a className={styles.emptyAction}>{isEn ? "Explore Emaki" : "絵巻物を探しに行く"}</a>
             </Link>
           </div>

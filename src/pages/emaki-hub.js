@@ -6,7 +6,7 @@ export default function EmakiHubRedirect() {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace("/rakuchu-rakugai/chapters#sightseeing-map");
+    router.replace("/type/emaki");
   }, [router]);
 
   return null;

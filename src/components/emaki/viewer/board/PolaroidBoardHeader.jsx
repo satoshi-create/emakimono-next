@@ -101,8 +101,28 @@ export function PolaroidBoardHeader({
         </div>
       </div>
 
-      {/* 右上：ハンバーガーメニュー */}
-      <div ref={menuRef} style={{ position: "relative" }}>
+      {/* 右上：絵巻一覧導線 ＋ ハンバーガーメニュー */}
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <Link href="/type/emaki" locale={locale} passHref>
+          <a
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              padding: "6px 12px",
+              borderRadius: 999,
+              border: "1px solid #cbd5e1",
+              background: "#ffffff",
+              color: "#1e293b",
+              fontSize: 12,
+              fontWeight: 600,
+              textDecoration: "none",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {isEn ? "Explore Emaki" : "絵巻を探しに行く"}
+          </a>
+        </Link>
+        <div ref={menuRef} style={{ position: "relative" }}>
         <button
           type="button"
           aria-label={isEn ? "Menu" : "メニュー"}
@@ -182,6 +202,7 @@ export function PolaroidBoardHeader({
             </Link>
           </div>
         )}
+        </div>
       </div>
     </header>
   );
