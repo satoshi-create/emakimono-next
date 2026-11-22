@@ -959,11 +959,26 @@ export default async function handler(req, res) {
 
   const hasRawYaml =
     typeof rawYaml === "string" && rawYaml.trim().length > 0;
+  const trimmedBodyScrollId =
+    typeof bodyScrollId === "string" ? bodyScrollId.trim() : "";
+  const existingConfigPath =
+    !hasRawYaml &&
+    trimmedBodyScrollId &&
+    !validateScrollId(trimmedBodyScrollId)
+      ? path.join(
+          process.cwd(),
+          "scrolls",
+          trimmedBodyScrollId,
+          "scroll_config.yaml"
+        )
+      : "";
+  const hasExistingLocalConfig = Boolean(
+    existingConfigPath && fs.existsSync(existingConfigPath)
+  );
 
-  if (hasRawYaml) {
-    let scrollId =
-      typeof bodyScrollId === "string" ? bodyScrollId.trim() : "";
-    if (validateScrollId(scrollId)) {
+  if (hasRawYaml || hasExistingLocalConfig) {
+    let scrollId = trimmedBodyScrollId;
+    if (hasRawYaml && validateScrollId(scrollId)) {
       scrollId = extractScrollIdFromRawYaml(rawYaml) ?? "";
     }
     const scrollErr = validateScrollId(scrollId);
@@ -977,9 +992,14 @@ export default async function handler(req, res) {
     }
 
     try {
-      writeRawYamlAuthoringFiles(scrollId, rawYaml, images);
+      const effectiveRawYaml = hasRawYaml
+        ? rawYaml
+        : fs.readFileSync(existingConfigPath, "utf8");
+      if (hasRawYaml) {
+        writeRawYamlAuthoringFiles(scrollId, rawYaml, images);
+      }
 
-      const titleen = extractTitleenFromRawYaml(rawYaml) ?? scrollId;
+      const titleen = extractTitleenFromRawYaml(effectiveRawYaml) ?? scrollId;
       const parsedYaml = readScrollConfigForLocal(scrollId);
       const rawMeta =
         parsedYaml?.metadata && typeof parsedYaml.metadata === "object"

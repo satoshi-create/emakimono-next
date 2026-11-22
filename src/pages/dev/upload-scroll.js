@@ -55,9 +55,16 @@ function DevUploadScrollPage() {
   const imageDragCounterRef = useRef(0);
   const fileInputRef = useRef(null);
 
+  const savedLocalScrollId =
+    lastSuccessResult?.ok && lastSuccessResult?.mode === "local"
+      ? (lastSuccessResult.scrollId || lastSuccessResult.titleen || "").trim()
+      : "";
   const canPreflight = rawYaml.trim().length > 0 && !isSubmitting;
   const canFullRun =
     canPreflight && liveValidation.errors.length === 0 && !isSubmitting;
+  const canR2Run =
+    canFullRun ||
+    (!rawYaml.trim() && Boolean(savedLocalScrollId) && !isSubmitting);
   const btnDisabled = { opacity: 0.5, cursor: "not-allowed" };
 
   return (
@@ -164,13 +171,20 @@ function DevUploadScrollPage() {
             </button>
             <button
               type="button"
-              disabled={!canFullRun}
-              style={{ ...ui.btnPrimary, ...(!canFullRun ? btnDisabled : {}) }}
-              onClick={() => submitUpload({ mode: "r2" })}
+              disabled={!canR2Run}
+              style={{ ...ui.btnPrimary, ...(!canR2Run ? btnDisabled : {}) }}
+              onClick={() =>
+                submitUpload({
+                  mode: "r2",
+                  fallbackScrollId: !rawYaml.trim() ? savedLocalScrollId : "",
+                })
+              }
               title={
-                liveValidation.errors.length
+                rawYaml.trim() && liveValidation.errors.length
                   ? "事前チェックのエラーを解消してください"
-                  : undefined
+                  : !rawYaml.trim() && savedLocalScrollId
+                    ? `ローカル検証済みの「${savedLocalScrollId}」をそのまま R2 へアップロードします`
+                    : undefined
               }
             >
               {isSubmitting ? "実行中…" : "② Cloudflare R2 へ本番アップロード ＆ 同期"}

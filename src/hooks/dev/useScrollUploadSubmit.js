@@ -50,14 +50,23 @@ export function useScrollUploadSubmit({ rawYaml, yamlScrollId, yamlTitleen, imag
 
   // === 3. /api/dev/upload-scroll への送信（preflight / local / r2） ===
 
-  const submitUpload = async ({ dryRun = false, mode = null } = {}) => {
+  const submitUpload = async ({
+    dryRun = false,
+    mode = null,
+    fallbackScrollId = "",
+  } = {}) => {
     const trimmed = rawYaml.trim();
-    if (!trimmed) {
+    const resolvedFallbackScrollId =
+      typeof fallbackScrollId === "string" ? fallbackScrollId.trim() : "";
+    const useSavedLocalConfig =
+      !trimmed && mode === "r2" && !dryRun && Boolean(resolvedFallbackScrollId);
+
+    if (!trimmed && !useSavedLocalConfig) {
       setResultLog({ error: "scroll_config.yaml をアップロードまたは入力してください" });
       return;
     }
 
-    const scrollId = yamlScrollId.trim();
+    const scrollId = trimmed ? yamlScrollId.trim() : resolvedFallbackScrollId;
     if (!scrollId) {
       setResultLog({ error: "YAML 内に scroll_id が見つかりません" });
       return;
@@ -68,7 +77,7 @@ export function useScrollUploadSubmit({ rawYaml, yamlScrollId, yamlTitleen, imag
 
     try {
       const images =
-        imageItems.length > 0
+        !useSavedLocalConfig && imageItems.length > 0
           ? await Promise.all(
               imageItems.map(async (item) => ({
                 base64: await fileToDataUrl(item.file),
@@ -115,8 +124,13 @@ export function useScrollUploadSubmit({ rawYaml, yamlScrollId, yamlTitleen, imag
       });
 
       if (data.ok && !dryRun && (mode === "local" || mode === "r2")) {
-        const titleen = data.titleen || yamlTitleen.trim();
-        const title = data.title || extractYamlScalar(trimmed, "title");
+        const titleen =
+          data.titleen || yamlTitleen.trim() || lastSuccessResult?.titleen || "";
+        const title =
+          data.title ||
+          (trimmed ? extractYamlScalar(trimmed, "title") : "") ||
+          lastSuccessResult?.title ||
+          titleen;
         const viewerUrl =
           data.viewerUrl ||
           (typeof window !== "undefined" && titleen
@@ -127,6 +141,7 @@ export function useScrollUploadSubmit({ rawYaml, yamlScrollId, yamlTitleen, imag
         const successPayload = {
           ok: true,
           mode,
+          scrollId,
           titleen,
           title,
           viewerUrl,
