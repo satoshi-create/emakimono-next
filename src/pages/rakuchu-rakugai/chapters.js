@@ -15,6 +15,28 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useEffect, useState } from "react";
+import { fetchPublicBoards } from "@/libs/api/ugcApi";
+
+const RAKUCHU_RAKUGAI_HUB_SLUG = "rakuchu-rakugai";
+
+function extractRelatedHubSlugsFromDescription(description) {
+  const text = String(description || "");
+  const match = text.match(/\n?<!--hubs:([^>]*)-->/);
+  if (!match) return [];
+  return match[1]
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function publicBoardRelatesToHub(board, hubSlug) {
+  if (!hubSlug || !board) return false;
+  return extractRelatedHubSlugsFromDescription(board.description).includes(
+    hubSlug
+  );
+}
+
 function scrollLabelForTitleen(scroll, locale) {
   if (!scroll) return "";
   return locale === "ja"
@@ -99,6 +121,28 @@ const RakuchuRakugaiHub = ({ hubData }) => {
   const motifFromQuery =
     typeof query.motif === "string" ? query.motif : undefined;
 
+  const [relatedPublicBoards, setRelatedPublicBoards] = useState([]);
+
+  useEffect(() => {
+    let active = true;
+    fetchPublicBoards()
+      .then((res) => {
+        if (!active) return;
+        const boards = Array.isArray(res?.boards) ? res.boards : [];
+        setRelatedPublicBoards(
+          boards.filter((board) =>
+            publicBoardRelatesToHub(board, RAKUCHU_RAKUGAI_HUB_SLUG)
+          )
+        );
+      })
+      .catch(() => {
+        if (active) setRelatedPublicBoards([]);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
   const scrollByTitleen = Object.fromEntries(
     hubData.scrolls.map((s) => [s.titleen, s])
   );
@@ -147,6 +191,51 @@ const RakuchuRakugaiHub = ({ hubData }) => {
       <div className={styles.heroText}>
         <h1 className={styles.introTitle}>{t("rakuchuRakugaiHub.introTitle")}</h1>
         <p className={styles.introLead}>{t("rakuchuRakugaiHub.intro")}</p>
+        {relatedPublicBoards.length > 0 && (
+          <div
+            style={{
+              marginTop: 14,
+              display: "flex",
+              flexDirection: "column",
+              gap: 8,
+              alignItems: "flex-start",
+            }}
+          >
+            {relatedPublicBoards.map((board) => (
+              <Link
+                key={board.id}
+                href={`/board?room=${encodeURIComponent(board.id)}`}
+                locale={locale}
+                passHref
+              >
+                <a
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    padding: "7px 14px",
+                    borderRadius: 999,
+                    background: "#fffbeb",
+                    border: "1px solid #d97706",
+                    color: "#b45309",
+                    fontSize: 13,
+                    fontWeight: 700,
+                    textDecoration: "none",
+                  }}
+                >
+                  {board.title
+                    ? `📌 ${board.title} →`
+                    : t("rakuchuRakugaiHub.publicBoardLink", {
+                        defaultValue:
+                          locale === "en"
+                            ? "📌 View Community Polaroid Board →"
+                            : "📌 みんなのポラロイドボードを見る・貼る →",
+                      })}
+                </a>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
