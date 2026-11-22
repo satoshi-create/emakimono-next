@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { getAllHubPages } from "@/libs/hubPages";
 
 const pageStyle = {
   minHeight: "100vh",
@@ -143,6 +144,17 @@ function apiHeaders(json = true) {
 
 const ODAI_TAG_RE = /<!--odai:([\s\S]*?)-->/;
 const HUBS_TAG_RE = /<!--hubs:[\s\S]*?-->/g;
+const HUBS_INLINE_RE = /\n?<!--hubs:([^>]*)-->/;
+
+function extractRelatedHubSlugs(rawDesc) {
+  const raw = typeof rawDesc === "string" ? rawDesc : "";
+  const match = raw.match(HUBS_INLINE_RE);
+  if (!match) return [];
+  return match[1]
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
 
 function parseBoardMeta(rawDesc) {
   const raw = typeof rawDesc === "string" ? rawDesc : "";
@@ -155,11 +167,12 @@ function parseBoardMeta(rawDesc) {
       odai = null;
     }
   }
+  const relatedHubSlugs = extractRelatedHubSlugs(raw);
   const cleanDescription = raw.replace(ODAI_TAG_RE, "").replace(HUBS_TAG_RE, "").trim();
-  return { cleanDescription, odai };
+  return { cleanDescription, odai, relatedHubSlugs };
 }
 
-function serializeBoardDescription(desc, odai) {
+function serializeBoardDescription(desc, odai, relatedHubSlugs = []) {
   const base = (desc || "").trim();
   const payload = {
     prompt: (odai?.prompt || "").trim(),
@@ -167,9 +180,16 @@ function serializeBoardDescription(desc, odai) {
     targetCount: Number(odai?.targetCount) || 0,
     onePerUser: odai?.onePerUser === true,
   };
-  const tag = `<!--odai:${JSON.stringify(payload)}-->`;
-  if (!base) return tag;
-  return `${base}\n${tag}`;
+  const odaiTag = `<!--odai:${JSON.stringify(payload)}-->`;
+  const slugs = (relatedHubSlugs || []).map((s) => String(s).trim()).filter(Boolean);
+  const hubsTag = slugs.length > 0 ? `\n<!--hubs:${slugs.join(",")}-->` : "";
+  if (!base) return `${odaiTag}${hubsTag}`;
+  return `${base}\n${odaiTag}${hubsTag}`;
+}
+
+function hubLabel(hub) {
+  if (!hub) return "";
+  return hub.titleJa || hub.titleEn || hub.slug || "";
 }
 
 export default function DevPublicBoardsPage() {
@@ -179,7 +199,10 @@ export default function DevPublicBoardsPage() {
   const [odaiMode, setOdaiMode] = useState("coop");
   const [odaiTarget, setOdaiTarget] = useState(3);
   const [odaiOnePerUser, setOdaiOnePerUser] = useState(false);
+  const [relatedHubSlugs, setRelatedHubSlugs] = useState([]);
+  const [hubPick, setHubPick] = useState("");
   const [deletingId, setDeletingId] = useState("");
+  const allHubs = getAllHubPages();
   const [boards, setBoards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -222,12 +245,16 @@ export default function DevPublicBoardsPage() {
         headers: apiHeaders(true),
         body: JSON.stringify({
           title: trimmedTitle,
-          description: serializeBoardDescription(description.trim(), {
-            prompt: odaiPrompt,
-            mode: odaiMode,
-            targetCount: odaiTarget,
-            onePerUser: odaiOnePerUser,
-          }),
+          description: serializeBoardDescription(
+            description.trim(),
+            {
+              prompt: odaiPrompt,
+              mode: odaiMode,
+              targetCount: odaiTarget,
+              onePerUser: odaiOnePerUser,
+            },
+            relatedHubSlugs
+          ),
           visibility: "public",
         }),
       });
@@ -241,6 +268,8 @@ export default function DevPublicBoardsPage() {
       setOdaiMode("coop");
       setOdaiTarget(3);
       setOdaiOnePerUser(false);
+      setRelatedHubSlugs([]);
+      setHubPick("");
       await loadBoards();
     } catch (err) {
       setError(err.message || "作成に失敗しました");
@@ -386,6 +415,117 @@ export default function DevPublicBoardsPage() {
                 style={textareaStyle}
                 placeholder="参加者向けの補足説明"
               />
+              <label style={labelStyle} htmlFor="board-related-hub">
+                関連ハブ（任意・複数可）
+              </label>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "0.5rem",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  marginBottom: "0.65rem",
+                }}
+              >
+                <select
+                  id="board-related-hub"
+                  value={hubPick}
+                  onChange={(e) => setHubPick(e.target.value)}
+                  style={{ ...inputStyle, marginBottom: 0, flex: "1 1 200px" }}
+                >
+                  <option value="">ハブを選択…</option>
+                  {allHubs
+                    .filter((hub) => hub.slug && !relatedHubSlugs.includes(hub.slug))
+                    .map((hub) => (
+                      <option key={hub.slug} value={hub.slug}>
+                        {hubLabel(hub)} ({hub.slug})
+                      </option>
+                    ))}
+                </select>
+                <button
+                  type="button"
+                  style={{
+                    ...linkButtonStyle,
+                    padding: "8px 14px",
+                    fontSize: "0.85rem",
+                  }}
+                  disabled={!hubPick}
+                  onClick={() => {
+                    if (!hubPick || relatedHubSlugs.includes(hubPick)) return;
+                    setRelatedHubSlugs((prev) => [...prev, hubPick]);
+                    setHubPick("");
+                  }}
+                >
+                  追加
+                </button>
+              </div>
+              {relatedHubSlugs.length > 0 ? (
+                <ul
+                  style={{
+                    listStyle: "none",
+                    margin: "0 0 0.85rem",
+                    padding: 0,
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "0.4rem",
+                  }}
+                >
+                  {relatedHubSlugs.map((slug) => {
+                    const hub = allHubs.find((h) => h.slug === slug);
+                    return (
+                      <li key={slug}>
+                        <span
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "0.35rem",
+                            padding: "4px 8px",
+                            background: "#eef2ff",
+                            border: "1px solid #c7d2fe",
+                            borderRadius: "6px",
+                            fontSize: "0.82rem",
+                          }}
+                        >
+                          {hub ? (
+                            <Link href={hub.path || `/hub/${slug}`}>
+                              <a
+                                style={{
+                                  color: "#1e40af",
+                                  textDecoration: "none",
+                                }}
+                              >
+                                {hubLabel(hub)}
+                              </a>
+                            </Link>
+                          ) : (
+                            <span>{slug}</span>
+                          )}
+                          <button
+                            type="button"
+                            aria-label={`${slug} を外す`}
+                            onClick={() =>
+                              setRelatedHubSlugs((prev) =>
+                                prev.filter((s) => s !== slug)
+                              )
+                            }
+                            style={{
+                              border: "none",
+                              background: "transparent",
+                              cursor: "pointer",
+                              padding: "0 2px",
+                              fontSize: "0.9rem",
+                              lineHeight: 1,
+                              color: "#64748b",
+                            }}
+                          >
+                            ×
+                          </button>
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : null}
               <button
                 type="submit"
                 style={linkButtonStyle}
@@ -444,6 +584,17 @@ export default function DevPublicBoardsPage() {
                           {meta.cleanDescription ? (
                             <p style={{ ...metaStyle, marginTop: "0.5rem" }}>
                               {meta.cleanDescription}
+                            </p>
+                          ) : null}
+                          {meta.relatedHubSlugs?.length > 0 ? (
+                            <p style={{ ...metaStyle, marginTop: "0.35rem" }}>
+                              関連ハブ:{" "}
+                              {meta.relatedHubSlugs
+                                .map((slug) => {
+                                  const hub = allHubs.find((h) => h.slug === slug);
+                                  return hub ? hubLabel(hub) : slug;
+                                })
+                                .join(" · ")}
                             </p>
                           ) : null}
                           <p style={metaStyle}>
