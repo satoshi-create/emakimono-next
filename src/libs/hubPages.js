@@ -52,3 +52,15 @@ export function filterEmakisForHub(allEmakis = [], hub) {
     return false;
   });
 }
+
+export function getHubSlugsForEmaki(emaki) {
+  if (!emaki) return [];
+  const slugs = new Set();
+  for (const hub of getAllHubPages()) {
+    if (!hub?.slug) continue;
+    if (filterEmakisForHub([emaki], hub).length > 0) {
+      slugs.add(hub.slug);
+    }
+  }
+  return [...slugs];
+}

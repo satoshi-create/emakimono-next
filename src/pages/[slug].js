@@ -21,7 +21,7 @@ import { getFolkloreItemById } from "@/data/folklore/folkloreIndex";
 import { useLocaleMeta } from "@/utils/func";
 import { resolveLinkIdByChapter } from "@/utils/resolveQuizJump";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -93,6 +93,18 @@ const Emaki = ({ data, locale, locales, slug }) => {
     data,
     setnavIndex,
   ]);
+
+  const emaki = useMemo(
+    () =>
+      data
+        ? {
+            ...data,
+            slug: data.slug ?? data.titleen,
+            id: data.id ?? data.titleen,
+          }
+        : null,
+    [data]
+  );
 
   if (!data) {
     return null;
@@ -211,7 +223,9 @@ const Emaki = ({ data, locale, locales, slug }) => {
           {!full && <EmakiHeader />}
           {!full && <EmakiBreadcrumbs {...breadcrumbProps} />}
           <EmakiLandscapContent
-            data={{ ...data }}
+            data={emaki}
+            emaki={emaki}
+            locale={locale}
             scroll={true}
             selectedRef={selectedRef}
             navIndex={navIndex}
@@ -227,7 +241,9 @@ const Emaki = ({ data, locale, locales, slug }) => {
           {!full && <EmakiHeader />}
           {!full && <EmakiBreadcrumbs orientation={orientation} {...breadcrumbProps} />}
           <EmakiPortraitContent
-            data={data}
+            data={emaki}
+            emaki={emaki}
+            locale={locale}
             scroll={true}
             selectedRef={selectedRef}
             navIndex={navIndex}

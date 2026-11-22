@@ -27,11 +27,21 @@ import { useTranslation } from "next-i18next";
 import { getScrollCompositionForm } from "@/data/rakuchu-rakugai/rakuchuMotifMaster";
 import { RAKUCHU_RAKUGAI_HUB_PATH } from "@/libs/constants/links";
 
-const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerFullscreen = false }) => {
+const EmakiPortraitContent = ({
+  data,
+  emaki,
+  locale: localeProp,
+  selectedRef,
+  navIndex,
+  articleRef,
+  viewerFullscreen = false,
+}) => {
   const { rankingData } = useContext(AppContext);
   const { totalCount } = useSceneLikeCounts();
 
-  const { locale } = useRouter();
+  const router = useRouter();
+  const locale = localeProp ?? router.locale;
+  const scrollMeta = emaki ?? data;
   const { t: alldata } = useLocaleData();
   const { t } = useTranslation("common");
 
@@ -194,7 +204,8 @@ const EmakiPortraitContent = ({ data, selectedRef, navIndex, articleRef, viewerF
           </div>
 
           <EmakiMetadataSection
-            data={data}
+            data={scrollMeta}
+            emaki={scrollMeta}
             locale={locale}
             styles={styles}
             descContent={locale === "en" ? parse(descEn) : parse(descJa)}
