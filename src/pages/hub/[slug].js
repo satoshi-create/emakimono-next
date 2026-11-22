@@ -172,29 +172,27 @@ export default function DynamicHubPage({ hub, items }) {
     />
   );
 
-  const sections = [
-    {
-      id: "works",
-      content: (
-        <CardA
-          columns="three"
-          emakis={items}
-          needdesc
-          sectiontitle={title}
-          sectiontitleen={hub.titleEn || title}
-        />
-      ),
-    },
-  ];
+  /** @type {Array<{ id: string, content: React.ReactNode }>} */
+  const worksSection = {
+    id: "works",
+    content: (
+      <CardA
+        columns="three"
+        emakis={items}
+        needdesc
+        sectiontitle={title}
+        sectiontitleen={hub.titleEn || title}
+      />
+    ),
+  };
 
-  if (
-    linkedBoard &&
-    Array.isArray(linkedBoard.items) &&
-    linkedBoard.items.length > 0
-  ) {
-    sections.push({
-      id: "polaroids",
-      content: (
+  const linkedPolaroidItems =
+    linkedBoard && Array.isArray(linkedBoard.items) ? linkedBoard.items : [];
+  const polaroidsSection =
+    linkedPolaroidItems.length > 0
+      ? {
+          id: "polaroids",
+          content: (
         <section
           style={{ maxWidth: 1120, margin: "0 auto", padding: "32px 16px" }}
         >
@@ -210,8 +208,8 @@ export default function DynamicHubPage({ hub, items }) {
           >
             <h2 style={{ margin: 0, fontSize: "1.2rem", fontWeight: 700 }}>
               {isEn
-                ? `Featured Polaroids (${linkedBoard.items.length})`
-                : `このテーマの切り抜きポラロイド（${linkedBoard.items.length}枚）`}
+                ? `Featured Polaroids (${linkedPolaroidItems.length})`
+                : `このテーマの切り抜きポラロイド（${linkedPolaroidItems.length}枚）`}
             </h2>
             <Link
               href={`/board?room=${encodeURIComponent(hub.linkedBoardId)}`}
@@ -231,7 +229,7 @@ export default function DynamicHubPage({ hub, items }) {
               gap: 16,
             }}
           >
-            {linkedBoard.items.slice(0, 8).map((p) => (
+            {linkedPolaroidItems.slice(0, 8).map((p) => (
               <div
                 key={p.id}
                 style={{
@@ -282,9 +280,13 @@ export default function DynamicHubPage({ hub, items }) {
             ))}
           </div>
         </section>
-      ),
-    });
-  }
+          ),
+        }
+      : null;
+
+  const sections = polaroidsSection
+    ? [worksSection, polaroidsSection]
+    : [worksSection];
 
   return (
     <HubPageShell
