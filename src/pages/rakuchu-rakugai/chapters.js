@@ -1,4 +1,5 @@
 import { HubHeroWithBoards } from "@/components/hub/HubHeroWithBoards";
+import { HubScrollGridSection } from "@/components/hub/HubScrollGridSection";
 import { filterBoardsForHubSlug } from "@/libs/hubPublicBoards";
 import HubPageShell from "@/components/layout/HubPageShell";
 import {
@@ -180,14 +181,12 @@ const RakuchuRakugaiHub = ({ hubData }) => {
   );
 
   const scrollsSection = (
-    <section className={`section-grid section-padding ${styles.scrollSection}`}>
-      <Title sectiontitle={t("rakuchuRakugaiHub.scrollSectionTitle")} />
-      <div className={styles.scrollGrid}>
-        {hubData.scrolls.map((scroll) => (
-          <RakuchuRakugaiScrollCard key={scroll.titleen} scroll={scroll} />
-        ))}
-      </div>
-    </section>
+    <HubScrollGridSection
+      title={t("rakuchuRakugaiHub.scrollSectionTitle")}
+      scrolls={hubData.scrolls}
+      renderCard={(scroll) => <RakuchuRakugaiScrollCard scroll={scroll} />}
+      styles={styles}
+    />
   );
 
   const compositionSection = (
@@ -239,7 +238,6 @@ const RakuchuRakugaiHub = ({ hubData }) => {
 
   const motifsSection = (
     <section
-      id="motifs"
       className={`section-grid section-padding ${styles.scrollSection}`}
     >
       <Title
@@ -270,7 +268,6 @@ const RakuchuRakugaiHub = ({ hubData }) => {
 
   const sightseeingSection = (
     <section
-      id="sightseeing-map"
       className={`section-grid section-padding ${styles.scrollSection}`}
     >
       <Title

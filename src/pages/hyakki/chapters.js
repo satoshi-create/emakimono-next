@@ -1,7 +1,7 @@
 import { HubHeroWithBoards } from "@/components/hub/HubHeroWithBoards";
 import { filterBoardsForHubSlug } from "@/libs/hubPublicBoards";
 import HubPageShell from "@/components/layout/HubPageShell";
-import Title from "@/components/ui/Title";
+import { HubScrollGridSection } from "@/components/hub/HubScrollGridSection";
 import { HYAKKI_HUB_PATH } from "@/libs/constants/links";
 import styles from "@/styles/ChoujuGigaHub.module.css";
 import { buildHyakkiHubData } from "@/utils/buildHyakkiHubData";
@@ -164,14 +164,12 @@ const HyakkiHub = ({ hubData }) => {
   );
 
   const scrollsSection = (
-    <section className={`section-grid section-padding ${styles.scrollSection}`}>
-      <Title sectiontitle={t("hyakkiHub.scrollSectionTitle")} />
-      <div className={styles.scrollGrid}>
-        {hubData.scrolls.map((scroll) => (
-          <HyakkiScrollCard key={scroll.titleen} scroll={scroll} />
-        ))}
-      </div>
-    </section>
+    <HubScrollGridSection
+      title={t("hyakkiHub.scrollSectionTitle")}
+      scrolls={hubData.scrolls}
+      renderCard={(scroll) => <HyakkiScrollCard scroll={scroll} />}
+      styles={styles}
+    />
   );
 
   return (

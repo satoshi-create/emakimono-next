@@ -2,7 +2,7 @@ import { HubHeroWithBoards } from "@/components/hub/HubHeroWithBoards";
 import { filterBoardsForHubSlug } from "@/libs/hubPublicBoards";
 import HubPageShell from "@/components/layout/HubPageShell";
 import ChojuGigaScrollCard from "@/components/emaki/chouju-giga/ChojuGigaScrollCard";
-import Title from "@/components/ui/Title";
+import { HubScrollGridSection } from "@/components/hub/HubScrollGridSection";
 import styles from "@/styles/ChoujuGigaHub.module.css";
 import { buildChojuGigaHubData } from "@/utils/buildChojuGigaHubData";
 import { buildChojuGigaHubJsonLd } from "@/utils/buildChojuGigaHubJsonLd";
@@ -93,14 +93,14 @@ const ChoujuGigaHub = ({ hubData }) => {
   );
 
   const scrollsSection = (
-    <section className={`section-grid section-padding ${styles.scrollSection}`}>
-      <Title sectiontitle={t("choujuGigaHub.scrollSectionTitle")} />
-      <div className={styles.scrollGrid}>
-        {hubData.scrolls.map((scroll) => (
-          <ChojuGigaScrollCard key={scroll.titleen} scroll={scroll} />
-        ))}
-      </div>
-    </section>
+    <HubScrollGridSection
+      title={t("choujuGigaHub.scrollSectionTitle")}
+      scrolls={hubData.scrolls}
+      styles={styles}
+      renderCard={(scroll) => (
+        <ChojuGigaScrollCard key={scroll.titleen} scroll={scroll} />
+      )}
+    />
   );
 
   return (
