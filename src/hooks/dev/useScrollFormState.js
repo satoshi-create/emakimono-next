@@ -85,10 +85,8 @@ export function useScrollFormState(setResultLog) {
       .catch(() => setResultLog({ error: "テンプレートの読み込みに失敗しました" }));
   }, [selectedTemplateId, scrollTemplates, setResultLog]);
 
-  const previewOrder = useMemo(
-    () => (rtlPreview ? [...imageItems].reverse() : imageItems),
-    [imageItems, rtlPreview]
-  );
+  // 表示方向（右→左）の反転は thumbGridStyle の flexDirection: "row-reverse" に一本化し、二重反転を防ぐ
+  const previewOrder = imageItems;
 
   const loadYamlFile = useCallback(
     (file) => {

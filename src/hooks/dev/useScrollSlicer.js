@@ -11,9 +11,10 @@ import {
 // パネル開閉・アスペクト・オーバーラップ・RTL・モード・枚数・カスタム cut
 
 export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
-  const [slicePanelOpen, setSlicePanelOpen] = useState(false);
+  const [slicePanelOpen, setSlicePanelOpen] = useState(true);
   const [sliceAspectRatio, setSliceAspectRatio] = useState(1.5);
   const [overlapPercent, setOverlapPercent] = useState(0);
+  const [sharpenPercent, setSharpenPercent] = useState(25);
   const [isRtlSlice, setIsRtlSlice] = useState(true);
   const [sliceGenMessage, setSliceGenMessage] = useState("");
   const [isSlicing, setIsSlicing] = useState(false);
@@ -24,36 +25,57 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
   const [sliceMode, setSliceMode] = useState("aspect");
   const [sliceCount, setSliceCount] = useState(6);
   const [customCuts, setCustomCuts] = useState([]);
+  const [rawSlicePreviews, setRawSlicePreviews] = useState([]);
   const [rawSlicePreviewUrl, setRawSlicePreviewUrl] = useState("");
   const [rawSliceNaturalSize, setRawSliceNaturalSize] = useState(null);
   const [customDragCutIndex, setCustomDragCutIndex] = useState(null);
   const rawSlicePreviewRef = useRef(null);
 
   // === 2. 長尺プレビュー URL（createObjectURL / revoke） ===
-  // 元画像1枚目から naturalSize を取得しプレビュー用 blob URL を維持する
+  // 全元画像の naturalSize を取得しプレビュー用 blob URL 配列を維持する
 
   useEffect(() => {
-    const file = rawSliceSourceFiles[0];
-    if (!file) {
-      setRawSlicePreviewUrl((prev) => {
-        if (prev) URL.revokeObjectURL(prev);
-        return "";
-      });
+    if (!rawSliceSourceFiles || rawSliceSourceFiles.length === 0) {
+      setRawSlicePreviews([]);
+      setRawSlicePreviewUrl("");
       setRawSliceNaturalSize(null);
       return undefined;
     }
-    const url = URL.createObjectURL(file);
-    setRawSlicePreviewUrl((prev) => {
-      if (prev) URL.revokeObjectURL(prev);
-      return url;
+
+    let cancelled = false;
+    const entries = rawSliceSourceFiles.map((file) => ({
+      file,
+      url: URL.createObjectURL(file),
+    }));
+
+    setRawSlicePreviewUrl(entries[0].url);
+    setRawSlicePreviews(
+      entries.map((entry) => ({
+        name: entry.file.name,
+        url: entry.url,
+        width: 0,
+        height: 0,
+      })),
+    );
+
+    entries.forEach((entry, index) => {
+      const probe = new Image();
+      probe.onload = () => {
+        if (cancelled) return;
+        const size = { width: probe.naturalWidth, height: probe.naturalHeight };
+        if (index === 0) {
+          setRawSliceNaturalSize(size);
+        }
+        setRawSlicePreviews((prev) =>
+          prev.map((item, i) => (i === index ? { ...item, ...size } : item)),
+        );
+      };
+      probe.src = entry.url;
     });
-    const probe = new Image();
-    probe.onload = () => {
-      setRawSliceNaturalSize({ width: probe.naturalWidth, height: probe.naturalHeight });
-    };
-    probe.src = url;
+
     return () => {
-      URL.revokeObjectURL(url);
+      cancelled = true;
+      entries.forEach((entry) => URL.revokeObjectURL(entry.url));
     };
   }, [rawSliceSourceFiles]);
 
@@ -152,6 +174,7 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
       const generated = await sliceRawImagesToFiles(rawSliceSourceFiles, {
         sliceAspectRatio,
         overlapPercent,
+        sharpenPercent,
         isRtlSlice,
         scrollId,
         startIndex: imageItems.length,
@@ -182,6 +205,7 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
     rawSliceSourceFiles,
     sliceAspectRatio,
     overlapPercent,
+    sharpenPercent,
     isRtlSlice,
     yamlScrollId,
     imageItems.length,
@@ -198,6 +222,8 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
     setSliceAspectRatio,
     overlapPercent,
     setOverlapPercent,
+    sharpenPercent,
+    setSharpenPercent,
     isRtlSlice,
     setIsRtlSlice,
     sliceGenMessage,
@@ -215,6 +241,7 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
     setSliceCount,
     customCuts,
     setCustomCuts,
+    rawSlicePreviews,
     rawSlicePreviewUrl,
     rawSliceNaturalSize,
     customDragCutIndex,

@@ -8,8 +8,10 @@ export function AutoSlicePanel({
   rawSliceDragCounterRef,
   addRawSliceSources,
   rawSliceInputRef,
+  rtlPreview = true,
   rawSliceSourceFiles,
   setRawSliceSourceFiles,
+  rawSlicePreviews = [],
   rawSlicePreviewUrl,
   rawSlicePreviewRef,
   handleRawSlicePreviewPointerMove,
@@ -25,6 +27,8 @@ export function AutoSlicePanel({
   previewBoundaryRatios,
   sliceAspectRatio,
   setSliceAspectRatio,
+  sharpenPercent = 25,
+  setSharpenPercent,
   sliceCount,
   setSliceCount,
   overlapPercent,
@@ -99,98 +103,138 @@ export function AutoSlicePanel({
             e.target.value = "";
           }}
         />
-        {rawSlicePreviewUrl ? (
-          <div style={{ overflowX: "auto", borderRadius: 8, border: "1px solid #cbd5e1" }}>
-            <div
-              ref={rawSlicePreviewRef}
-              style={{ position: "relative", display: "inline-block", touchAction: "none" }}
-              onPointerMove={handleRawSlicePreviewPointerMove}
-              onPointerUp={() => {
-                setCustomDragCutIndex(null);
-                setCustomCuts((prev) => [...prev].sort((a, b) => a - b));
-              }}
-              onPointerCancel={() => {
-                setCustomDragCutIndex(null);
-                setCustomCuts((prev) => [...prev].sort((a, b) => a - b));
-              }}
-              onClick={(e) => {
-                if (sliceMode !== "custom" || customDragCutIndex != null) return;
-                const el = rawSlicePreviewRef.current;
-                if (!el) return;
-                const rect = el.getBoundingClientRect();
-                if (rect.width <= 0) return;
-                addCustomCutAtRatio((e.clientX - rect.left) / rect.width);
-              }}
-            >
-              <img
-                src={rawSlicePreviewUrl}
-                alt="長尺元画像プレビュー"
-                draggable={false}
-                style={{ height: 220, width: "auto", maxWidth: "none", display: "block" }}
-              />
-              {previewIntervals.map(([start, end], idx) => (
-                <span
-                  key={`badge-${idx}`}
-                  style={{
-                    position: "absolute",
-                    left: `${((start + end) / 2) * 100}%`,
-                    top: 6,
-                    transform: "translateX(-50%)",
-                    fontSize: 11,
-                    fontWeight: 700,
-                    color: "#fff",
-                    background: "rgba(15, 23, 42, 0.75)",
-                    padding: "2px 6px",
-                    borderRadius: 4,
-                    pointerEvents: "none",
-                  }}
-                >
-                  {String(idx + 1).padStart(2, "0")}
+        {rawSlicePreviews.length > 0 || rawSlicePreviewUrl ? (
+          <div
+            style={{
+              overflowX: "auto",
+              borderRadius: 8,
+              border: "1px solid #cbd5e1",
+              padding: 8,
+              background: "#fff",
+              display: "flex",
+              flexDirection: rtlPreview ? "row-reverse" : "row",
+              justifyContent: rtlPreview ? "flex-end" : "flex-start",
+              gap: 12,
+              alignItems: "flex-start",
+            }}
+          >
+            {(rawSlicePreviews.length > 0
+              ? rawSlicePreviews
+              : [{ url: rawSlicePreviewUrl, name: "元画像 1" }]
+            ).map((item, fileIdx) => (
+              <div
+                key={`${item.url}-${fileIdx}`}
+                style={{ display: "flex", flexDirection: "column", gap: 4, flexShrink: 0 }}
+              >
+                <span style={{ fontSize: 11, color: "#475569", fontWeight: 600 }}>
+                  #{fileIdx + 1} {item.name || ""}
                 </span>
-              ))}
-              {sliceMode === "custom"
-                ? customCuts.map((ratio, cutIndex) => (
-                    <div
-                      key={`handle-${cutIndex}-${ratio.toFixed(4)}`}
-                      role="presentation"
-                      onPointerDown={(e) => {
-                        e.stopPropagation();
-                        setCustomDragCutIndex(cutIndex);
-                        e.currentTarget.setPointerCapture(e.pointerId);
-                      }}
-                      onDoubleClick={(e) => {
-                        e.stopPropagation();
-                        removeCustomCutAt(cutIndex);
-                      }}
-                      style={{
-                        position: "absolute",
-                        left: `${ratio * 100}%`,
-                        top: 0,
-                        bottom: 0,
-                        width: 3,
-                        marginLeft: -1,
-                        background: "#ef4444",
-                        cursor: "ew-resize",
-                        boxShadow: "0 0 0 1px rgba(255,255,255,0.35)",
-                      }}
-                    />
-                  ))
-                : previewBoundaryRatios.map((ratio) => (
-                    <div
-                      key={`bound-${ratio.toFixed(5)}`}
-                      style={{
-                        position: "absolute",
-                        left: `${ratio * 100}%`,
-                        top: 0,
-                        bottom: 0,
-                        width: 2,
-                        marginLeft: -1,
-                        background: "rgba(56, 189, 248, 0.85)",
-                        pointerEvents: "none",
-                      }}
-                    />
-                  ))}
-            </div>
+                <div
+                  ref={fileIdx === 0 ? rawSlicePreviewRef : undefined}
+                  style={{ position: "relative", display: "inline-block", touchAction: "none" }}
+                  onPointerMove={fileIdx === 0 ? handleRawSlicePreviewPointerMove : undefined}
+                  onPointerUp={
+                    fileIdx === 0
+                      ? () => {
+                          setCustomDragCutIndex(null);
+                          setCustomCuts((prev) => [...prev].sort((a, b) => a - b));
+                        }
+                      : undefined
+                  }
+                  onPointerCancel={
+                    fileIdx === 0
+                      ? () => {
+                          setCustomDragCutIndex(null);
+                          setCustomCuts((prev) => [...prev].sort((a, b) => a - b));
+                        }
+                      : undefined
+                  }
+                  onClick={
+                    fileIdx === 0
+                      ? (e) => {
+                          if (sliceMode !== "custom" || customDragCutIndex != null) return;
+                          const el = rawSlicePreviewRef.current;
+                          if (!el) return;
+                          const rect = el.getBoundingClientRect();
+                          if (rect.width <= 0) return;
+                          addCustomCutAtRatio((e.clientX - rect.left) / rect.width);
+                        }
+                      : undefined
+                  }
+                >
+                  <img
+                    src={item.url}
+                    alt={`長尺元画像プレビュー ${fileIdx + 1}`}
+                    draggable={false}
+                    style={{ height: 220, width: "auto", maxWidth: "none", display: "block" }}
+                  />
+                  {fileIdx === 0 &&
+                    previewIntervals.map(([start, end], idx) => (
+                      <span
+                        key={`badge-${idx}`}
+                        style={{
+                          position: "absolute",
+                          left: `${((start + end) / 2) * 100}%`,
+                          top: 6,
+                          transform: "translateX(-50%)",
+                          fontSize: 11,
+                          fontWeight: 700,
+                          color: "#fff",
+                          background: "rgba(15, 23, 42, 0.75)",
+                          padding: "2px 6px",
+                          borderRadius: 4,
+                          pointerEvents: "none",
+                        }}
+                      >
+                        {String(idx + 1).padStart(2, "0")}
+                      </span>
+                    ))}
+                  {fileIdx === 0 &&
+                    (sliceMode === "custom"
+                      ? customCuts.map((ratio, cutIndex) => (
+                          <div
+                            key={`handle-${cutIndex}-${ratio.toFixed(4)}`}
+                            role="presentation"
+                            onPointerDown={(e) => {
+                              e.stopPropagation();
+                              setCustomDragCutIndex(cutIndex);
+                              e.currentTarget.setPointerCapture(e.pointerId);
+                            }}
+                            onDoubleClick={(e) => {
+                              e.stopPropagation();
+                              removeCustomCutAt(cutIndex);
+                            }}
+                            style={{
+                              position: "absolute",
+                              left: `${ratio * 100}%`,
+                              top: 0,
+                              bottom: 0,
+                              width: 3,
+                              marginLeft: -1,
+                              background: "#ef4444",
+                              cursor: "ew-resize",
+                              boxShadow: "0 0 0 1px rgba(255,255,255,0.35)",
+                            }}
+                          />
+                        ))
+                      : previewBoundaryRatios.map((ratio) => (
+                          <div
+                            key={`bound-${ratio.toFixed(5)}`}
+                            style={{
+                              position: "absolute",
+                              left: `${ratio * 100}%`,
+                              top: 0,
+                              bottom: 0,
+                              width: 2,
+                              marginLeft: -1,
+                              background: "rgba(56, 189, 248, 0.85)",
+                              pointerEvents: "none",
+                            }}
+                          />
+                        )))}
+                </div>
+              </div>
+            ))}
           </div>
         ) : null}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -269,6 +313,21 @@ export function AutoSlicePanel({
               />
             </label>
           ) : null}
+          <label style={{ fontSize: 13, color: "#475569" }}>
+            シャープネス（0〜100%）
+            <input
+              type="number"
+              min={0}
+              max={100}
+              step={5}
+              value={sharpenPercent}
+              onChange={(e) => {
+                const v = Math.min(100, Math.max(0, parseInt(e.target.value, 10) || 0));
+                if (setSharpenPercent) setSharpenPercent(v);
+              }}
+              style={{ display: "block", width: "100%", marginTop: 4, padding: "6px 8px" }}
+            />
+          </label>
           <label
             style={{
               display: "flex",

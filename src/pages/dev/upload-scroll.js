@@ -55,9 +55,16 @@ function DevUploadScrollPage() {
   const imageDragCounterRef = useRef(0);
   const fileInputRef = useRef(null);
 
+  const savedLocalScrollId =
+    lastSuccessResult?.ok && lastSuccessResult?.mode === "local"
+      ? (lastSuccessResult.scrollId || lastSuccessResult.titleen || "").trim()
+      : "";
   const canPreflight = rawYaml.trim().length > 0 && !isSubmitting;
   const canFullRun =
     canPreflight && liveValidation.errors.length === 0 && !isSubmitting;
+  const canR2Run =
+    canFullRun ||
+    (!rawYaml.trim() && Boolean(savedLocalScrollId) && !isSubmitting);
   const btnDisabled = { opacity: 0.5, cursor: "not-allowed" };
 
   return (
@@ -118,55 +125,7 @@ function DevUploadScrollPage() {
               ※既に scrolls/&#123;scroll_id&#125;/images/ に画像がある場合は、画像選択なしで YAML のみ再同期できます。
             </p>
 
-            <AutoSlicePanel {...slicer} />
-
-            <div
-              role="button"
-              tabIndex={0}
-              style={dropZoneStyle(isImageDragging)}
-              onDragEnter={(e) => {
-                e.preventDefault();
-                imageDragCounterRef.current += 1;
-                setIsImageDragging(true);
-              }}
-              onDragLeave={(e) => {
-                e.preventDefault();
-                imageDragCounterRef.current -= 1;
-                if (imageDragCounterRef.current <= 0) {
-                  imageDragCounterRef.current = 0;
-                  setIsImageDragging(false);
-                }
-              }}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={(e) => {
-                e.preventDefault();
-                imageDragCounterRef.current = 0;
-                setIsImageDragging(false);
-                addFiles(e.dataTransfer.files);
-              }}
-              onClick={() => fileInputRef.current?.click()}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") fileInputRef.current?.click();
-              }}
-            >
-              <p style={{ margin: 0, fontSize: 14, color: "#334155" }}>
-                ドラッグ＆ドロップ、またはクリックで画像を追加
-              </p>
-              <p style={{ margin: "8px 0 0", fontSize: 12, color: "#64748b" }}>
-                複数選択可 · 保存順が連番 01, 02, … になります
-              </p>
-            </div>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              multiple
-              style={{ display: "none" }}
-              onChange={(e) => {
-                addFiles(e.target.files);
-                e.target.value = "";
-              }}
-            />
+            <AutoSlicePanel rtlPreview={rtlPreview} {...slicer} />
 
             <div style={thumbGridStyle(rtlPreview)}>
               {previewOrder.map((item) => {
@@ -212,13 +171,20 @@ function DevUploadScrollPage() {
             </button>
             <button
               type="button"
-              disabled={!canFullRun}
-              style={{ ...ui.btnPrimary, ...(!canFullRun ? btnDisabled : {}) }}
-              onClick={() => submitUpload({ mode: "r2" })}
+              disabled={!canR2Run}
+              style={{ ...ui.btnPrimary, ...(!canR2Run ? btnDisabled : {}) }}
+              onClick={() =>
+                submitUpload({
+                  mode: "r2",
+                  fallbackScrollId: !rawYaml.trim() ? savedLocalScrollId : "",
+                })
+              }
               title={
-                liveValidation.errors.length
+                rawYaml.trim() && liveValidation.errors.length
                   ? "事前チェックのエラーを解消してください"
-                  : undefined
+                  : !rawYaml.trim() && savedLocalScrollId
+                    ? `ローカル検証済みの「${savedLocalScrollId}」をそのまま R2 へアップロードします`
+                    : undefined
               }
             >
               {isSubmitting ? "実行中…" : "② Cloudflare R2 へ本番アップロード ＆ 同期"}

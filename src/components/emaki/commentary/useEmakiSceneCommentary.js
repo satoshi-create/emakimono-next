@@ -250,10 +250,7 @@ export function useEmakiSceneCommentary({
       TEXT_MODES.filter((mode) => {
         if (mode === "desc") return chapterTexts.desc.length > 0;
         if (mode === "tansaku") return Boolean(tansakuData);
-        if (mode === "gendaibun")
-          return (
-            chapterTexts.kobun.length > 0 && chapterTexts.gendaibun.length > 0
-          );
+        if (mode === "gendaibun") return chapterTexts.gendaibun.length > 0;
         return chapterTexts.kobun.length > 0;
       }),
     [chapterTexts, tansakuData]

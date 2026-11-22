@@ -1,0 +1,272 @@
+{
+  "id": 108,
+  "title": "扇面散屏風",
+  "titleen": "senmen_chirashi_byobu",
+  "author": "俵屋宗達",
+  "authoren": "tawaraya-sotatsu",
+  "edition": "東京国立博物館所蔵（六曲一双）",
+  "encodeUrl": "",
+  "backgroundImage": "",
+  "thumb": "/thumb/senmen_chirashi_byobu_thumb.webp",
+  "thumb2": "",
+  "video": "",
+  "era": "安土桃山",
+  "eraen": "aduchimomoyama",
+  "desc": "俵屋宗達筆《扇面散屏風》（東京国立博物館所蔵・重要文化財・ColBase A-12329-1）。金地・砂子散らしの屏風面に、源氏物語や伊勢物語、四季草花などを描いた扇面画を散らし貼りした六曲一双の屏風です。",
+  "descen": "Pair of Six-Panel Folding Screens with Scattered Fan Paintings by Tawaraya Sotatsu (Tokyo National Museum, Important Cultural Property). Scattered fan-shaped paintings depicting classical tales and seasonal motifs across gold-dusted folding screens.",
+  "readMore": false,
+  "type": "屏風",
+  "typeen": "byobu",
+  "keyword": [
+    {
+      "name": "俵屋宗達",
+      "id": "tawaraya-sotatsu",
+      "slug": "tawaraya-sotatsu"
+    },
+    {
+      "name": "琳派",
+      "id": "rinpa",
+      "slug": "rinpa"
+    },
+    {
+      "name": "扇面画",
+      "id": "senmenga",
+      "slug": "senmenga"
+    }
+  ],
+  "kotobagaki": false,
+  "sceneText": true,
+  "favorite": false,
+  "sourceImageUrl": "https://colbase.nich.go.jp/collection_items/tnm/A-12329-1?locale=ja",
+  "sourceImage": "扇面散屏風（東京国立博物館所蔵 / ColBase A-12329-1）",
+  "metadesc": "",
+  "gif": "",
+  "sourceEkotoba": "",
+  "reference": [
+    {
+      "type": "所蔵機関",
+      "url": "https://colbase.nich.go.jp/collection_items/tnm/A-12329-1?locale=ja",
+      "title": "ColBase：扇面散屏風（東京国立博物館）"
+    }
+  ],
+  "emakis": [
+    {
+      "cat": "ekotoba",
+      "chapter": "1",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_01__01.webp",
+      "name": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_01__01",
+      "srcHeight": 1920,
+      "srcWidth": 720
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "2",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_02__01.webp",
+      "name": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_02__01",
+      "srcHeight": 1920,
+      "srcWidth": 720
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "3",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_03__01.webp",
+      "name": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_03__01",
+      "srcHeight": 1920,
+      "srcWidth": 720
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "4",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_04__01.webp",
+      "name": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_04__01",
+      "srcHeight": 1920,
+      "srcWidth": 720
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "5",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_05__01.webp",
+      "name": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_05__01",
+      "srcHeight": 1920,
+      "srcWidth": 720
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "6",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_06__01.webp",
+      "name": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_06__01",
+      "srcHeight": 1920,
+      "srcWidth": 720
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "7",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_07__01.webp",
+      "name": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_07__01",
+      "srcHeight": 1920,
+      "srcWidth": 720
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "8",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_08__01.webp",
+      "name": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_08__01",
+      "srcHeight": 1920,
+      "srcWidth": 720
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "9",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_09__01.webp",
+      "name": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_09__01",
+      "srcHeight": 1920,
+      "srcWidth": 720
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "10",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_10__01.webp",
+      "name": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_10__01",
+      "srcHeight": 1920,
+      "srcWidth": 720
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "11",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_11__01.webp",
+      "name": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_11__01",
+      "srcHeight": 1920,
+      "srcWidth": 720
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "12",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_12__01.webp",
+      "name": "senmen-chirashi-byobu__senmen-chirashi-byobu_1_12__01",
+      "srcHeight": 1920,
+      "srcWidth": 720
+    }
+  ],
+  "sourceAuthor": "俵屋宗達",
+  "sourceCollection": "東京国立博物館"
+}

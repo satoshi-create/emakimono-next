@@ -415,21 +415,59 @@ function readYamlBlockScalar(lines, fromIndex, contentIndent) {
 
 function sceneTextFields(scene) {
   if (!scene || typeof scene !== "object") {
-    return { kotobagaki: "", modern: "", en: "" };
+    return {
+      kobun: "",
+      kobunen: "",
+      gendaibun: "",
+      gendaibunen: "",
+      desc: "",
+      descen: "",
+      tansaku: null,
+    };
   }
   const t =
     scene.text && typeof scene.text === "object" && !Array.isArray(scene.text)
       ? scene.text
       : scene;
-  return {
-    kotobagaki:
-      typeof t.kotobagaki === "string"
+  const kobun =
+    typeof t.kobun === "string"
+      ? t.kobun
+      : typeof t.kotobagaki === "string"
         ? t.kotobagaki
         : typeof scene.text === "string"
           ? scene.text
-          : "",
-    modern: typeof t.modern === "string" ? t.modern : "",
-    en: typeof t.en === "string" ? t.en : "",
+          : "";
+  const gendaibun =
+    typeof t.gendaibun === "string"
+      ? t.gendaibun
+      : typeof t.modern === "string"
+        ? t.modern
+        : "";
+  const desc =
+    typeof t.desc === "string"
+      ? t.desc
+      : typeof scene.desc === "string"
+        ? scene.desc
+        : "";
+  const descen =
+    typeof t.descen === "string"
+      ? t.descen
+      : typeof t.en === "string"
+        ? t.en
+        : typeof scene.descen === "string"
+          ? scene.descen
+          : "";
+  const tansaku =
+    (t.tansaku && typeof t.tansaku === "object" ? t.tansaku : null) ||
+    (scene.tansaku && typeof scene.tansaku === "object" ? scene.tansaku : null);
+  return {
+    kobun,
+    kobunen: typeof t.kobunen === "string" ? t.kobunen : "",
+    gendaibun,
+    gendaibunen: typeof t.gendaibunen === "string" ? t.gendaibunen : "",
+    desc,
+    descen,
+    tansaku,
   };
 }
 
@@ -699,42 +737,65 @@ function executeLocalVerification(scrollId, titleen, metadata, scenes) {
     range: scene.range ?? null,
   }));
 
-  const firstSceneText = sceneList.length > 0 ? sceneTextFields(sceneList[0]) : {};
-  const kotobagakiName =
-    typeof firstSceneText.kotobagaki === "string"
-      ? firstSceneText.kotobagaki.trim()
-      : "";
-
-  const emakis = [
-    {
+  const sceneStartMap = new Map();
+  if (sceneList.length > 0) {
+    sceneList.forEach((scene, idx) => {
+      const range = Array.isArray(scene.range) ? scene.range : [];
+      const startPage =
+        Number.isFinite(Number(range[0])) && Number(range[0]) >= 1
+          ? Number(range[0])
+          : idx + 1;
+      if (!sceneStartMap.has(startPage)) {
+        const tf = sceneTextFields(scene);
+        const kobunName =
+          typeof tf.kobun === "string" ? tf.kobun.trim() : "";
+        sceneStartMap.set(startPage, {
+          cat: "ekotoba",
+          chapter: String(scene.id ?? scene.chapter ?? idx + 1),
+          config: "",
+          src: "",
+          name: kobunName,
+          srcHeight: 1080,
+          srcWidth: 1920,
+        });
+      }
+    });
+  } else {
+    sceneStartMap.set(1, {
       cat: "ekotoba",
       chapter: "1",
       config: "",
       src: "",
-      name: kotobagakiName,
+      name: "",
       srcHeight: 1080,
       srcWidth: 1920,
-    },
-    ...imageFiles.map((filename) => {
-      const imagePath = path.join(
-        process.cwd(),
-        "scrolls",
-        scrollId,
-        "images",
-        filename
-      );
-      const { width, height } = readImageDimensions(imagePath);
-      return {
-        cat: "image",
-        chapter: "",
-        config: "local",
-        src: `${devBase}/${filename}`,
-        name: path.parse(filename).name,
-        srcHeight: height,
-        srcWidth: width,
-      };
-    }),
-  ];
+    });
+  }
+
+  const emakis = [];
+  imageFiles.forEach((filename, imgIdx) => {
+    const pageNum = imgIdx + 1;
+    if (sceneStartMap.has(pageNum)) {
+      emakis.push(sceneStartMap.get(pageNum));
+    }
+    const imagePath = path.join(
+      process.cwd(),
+      "scrolls",
+      scrollId,
+      "images",
+      filename
+    );
+    const { width, height } = readImageDimensions(imagePath);
+    emakis.push({
+      cat: "image",
+      chapter: "",
+      config: "local",
+      src: `${devBase}/${filename}`,
+      name: path.parse(filename).name,
+      srcHeight: height,
+      srcWidth: width,
+    });
+  });
 
   const kw = meta.keyword ?? meta.keywords;
   const keyword = Array.isArray(kw)
@@ -790,20 +851,31 @@ function executeLocalVerification(scrollId, titleen, metadata, scenes) {
   const hasText = sceneList.some((s) => {
     const tf = sceneTextFields(s);
     return (
-      tf.kotobagaki.trim() || tf.modern.trim() || tf.en.trim()
+      tf.kobun.trim() ||
+      tf.kobunen.trim() ||
+      tf.gendaibun.trim() ||
+      tf.gendaibunen.trim() ||
+      tf.desc.trim() ||
+      tf.descen.trim() ||
+      Boolean(tf.tansaku)
     );
   });
   if (hasText) {
     const textEntries = sceneList.map((scene, idx) => {
       const tf = sceneTextFields(scene);
-      return {
+      const entry = {
         chapter: String(scene.id ?? scene.chapter ?? idx + 1),
         title: scene.title ?? "",
-        kobun: tf.kotobagaki,
-        gendaibun: tf.modern,
-        desc: tf.en || scene.desc || "",
         titleen: scene.titleen ?? "",
+        kobun: tf.kobun,
+        gendaibun: tf.gendaibun,
+        desc: tf.desc,
       };
+      if (tf.kobunen) entry.kobunen = tf.kobunen;
+      if (tf.gendaibunen) entry.gendaibunen = tf.gendaibunen;
+      if (tf.descen) entry.descen = tf.descen;
+      if (tf.tansaku) entry.tansaku = tf.tansaku;
+      return entry;
     });
     const textDir = path.join(process.cwd(), "src", "data", "scroll-texts");
     fs.mkdirSync(textDir, { recursive: true });
@@ -887,11 +959,26 @@ export default async function handler(req, res) {
 
   const hasRawYaml =
     typeof rawYaml === "string" && rawYaml.trim().length > 0;
+  const trimmedBodyScrollId =
+    typeof bodyScrollId === "string" ? bodyScrollId.trim() : "";
+  const existingConfigPath =
+    !hasRawYaml &&
+    trimmedBodyScrollId &&
+    !validateScrollId(trimmedBodyScrollId)
+      ? path.join(
+          process.cwd(),
+          "scrolls",
+          trimmedBodyScrollId,
+          "scroll_config.yaml"
+        )
+      : "";
+  const hasExistingLocalConfig = Boolean(
+    existingConfigPath && fs.existsSync(existingConfigPath)
+  );
 
-  if (hasRawYaml) {
-    let scrollId =
-      typeof bodyScrollId === "string" ? bodyScrollId.trim() : "";
-    if (validateScrollId(scrollId)) {
+  if (hasRawYaml || hasExistingLocalConfig) {
+    let scrollId = trimmedBodyScrollId;
+    if (hasRawYaml && validateScrollId(scrollId)) {
       scrollId = extractScrollIdFromRawYaml(rawYaml) ?? "";
     }
     const scrollErr = validateScrollId(scrollId);
@@ -905,9 +992,14 @@ export default async function handler(req, res) {
     }
 
     try {
-      writeRawYamlAuthoringFiles(scrollId, rawYaml, images);
+      const effectiveRawYaml = hasRawYaml
+        ? rawYaml
+        : fs.readFileSync(existingConfigPath, "utf8");
+      if (hasRawYaml) {
+        writeRawYamlAuthoringFiles(scrollId, rawYaml, images);
+      }
 
-      const titleen = extractTitleenFromRawYaml(rawYaml) ?? scrollId;
+      const titleen = extractTitleenFromRawYaml(effectiveRawYaml) ?? scrollId;
       const parsedYaml = readScrollConfigForLocal(scrollId);
       const rawMeta =
         parsedYaml?.metadata && typeof parsedYaml.metadata === "object"
