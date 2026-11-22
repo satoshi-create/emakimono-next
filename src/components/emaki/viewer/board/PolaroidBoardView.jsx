@@ -130,6 +130,7 @@ export function PolaroidBoardView() {
     typeof router.query.personal === "string" ? router.query.personal.trim() : "";
 
   const [items, setItems] = useState([]);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [isSharedMode, setIsSharedMode] = useState(false);
   const [collabBoard, setCollabBoard] = useState(null);
   const [authorName, setAuthorName] = useState("");
@@ -269,6 +270,7 @@ export function PolaroidBoardView() {
       setRoomError(error.message || "Failed to load board");
     } finally {
       if (showFeedback) setIsRefreshing(false);
+      setIsInitialLoading(false);
     }
   };
 
@@ -300,6 +302,7 @@ export function PolaroidBoardView() {
         setIsSharedMode(true);
         hasInitialFitRef.current = true;
         fitViewportToItems(restored);
+        setIsInitialLoading(false);
         return;
       }
     }
@@ -316,6 +319,7 @@ export function PolaroidBoardView() {
     });
     hasInitialFitRef.current = true;
     fitViewportToItems(localItems);
+    setIsInitialLoading(false);
   }, [router.isReady, sharedParam, roomParam, personalParam]);
 
   const boardPerms = getBoardPermissions({ isCollabMode, isSharedMode });
@@ -635,7 +639,7 @@ export function PolaroidBoardView() {
           setCollabBoard={setCollabBoard}
           setRoomError={setRoomError}
         />
-        {items.length === 0 ? (
+        {!isInitialLoading && items.length === 0 ? (
           <div className={styles.emptyBox}>
             <p className={styles.emptyTitle}>
               {isEn ? "Your board is empty" : "まだポラロイドが貼られていません"}
