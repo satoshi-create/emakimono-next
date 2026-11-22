@@ -3,17 +3,33 @@ import Link from "next/link";
 import styles from "./PolaroidBoardView.module.css";
 import {
   THEMES,
+  FORMATS,
   PHOTO_DW,
   PHOTO_DH,
   getThemeTextureUrl,
+  getSenmenFanGeometry,
 } from "./polaroidCanvasRenderer";
 
 const CARD_PHOTO_W = 216;
 const CARD_PHOTO_H = Math.round((CARD_PHOTO_W * PHOTO_DH) / PHOTO_DW); // 168px (720:560比率)
+const SENMEN_CARD_PHOTO_W = 264;
+const SENMEN_CARD_PHOTO_H = Math.round(
+  (SENMEN_CARD_PHOTO_W * FORMATS.senmen.photoDh) / FORMATS.senmen.photoDw
+); // 144px (880:480比率)
 
-function PolaroidCardPreview({ item }) {
+function parseCardThemeAndMode(rawTheme) {
+  const str = String(rawTheme || "white");
+  if (str.endsWith(":senmen")) {
+    return { themeId: str.slice(0, -":senmen".length) || "white", isSenmen: true };
+  }
+  return { themeId: str, isSenmen: false };
+}
+
+function PolaroidCardPreview({ item, isSenmen, cardBg }) {
   const [imgSize, setImgSize] = useState({ w: 0, h: 0 });
-  const r = CARD_PHOTO_W / PHOTO_DW;
+  const boxW = isSenmen ? SENMEN_CARD_PHOTO_W : CARD_PHOTO_W;
+  const boxH = isSenmen ? SENMEN_CARD_PHOTO_H : CARD_PHOTO_H;
+  const r = boxW / PHOTO_DW;
   const cs = item.coverScale || 1;
   const z = item.zoom || 1.5;
 
@@ -22,11 +38,31 @@ function PolaroidCardPreview({ item }) {
   const tx = (item.pan?.x || 0) * r;
   const ty = (item.pan?.y || 0) * r;
 
+  const senmenW = FORMATS.senmen.photoDw;
+  const senmenH = FORMATS.senmen.photoDh;
+  const fanGeom = isSenmen ? getSenmenFanGeometry(0, 0, senmenW, senmenH) : null;
+  const fanPathD = fanGeom
+    ? (() => {
+        const { pivotX, pivotY, outerR, innerR, startAngle, endAngle } = fanGeom;
+        const ox1 = pivotX + Math.cos(startAngle) * outerR;
+        const oy1 = pivotY + Math.sin(startAngle) * outerR;
+        const ox2 = pivotX + Math.cos(endAngle) * outerR;
+        const oy2 = pivotY + Math.sin(endAngle) * outerR;
+        const ix2 = pivotX + Math.cos(endAngle) * innerR;
+        const iy2 = pivotY + Math.sin(endAngle) * innerR;
+        const ix1 = pivotX + Math.cos(startAngle) * innerR;
+        const iy1 = pivotY + Math.sin(startAngle) * innerR;
+        return `M ${ox1} ${oy1} A ${outerR} ${outerR} 0 0 1 ${ox2} ${oy2} L ${ix2} ${iy2} A ${innerR} ${innerR} 0 0 0 ${ix1} ${iy1} Z`;
+      })()
+    : "";
+
   return (
     <div
       style={{
-        width: `${CARD_PHOTO_W}px`,
-        height: `${CARD_PHOTO_H}px`,
+        position: "relative",
+        width: `${boxW}px`,
+        height: `${boxH}px`,
+        ...(isSenmen ? { background: "transparent", border: "none", boxShadow: "none" } : {}),
       }}
       className={styles.photoBox}
     >
@@ -63,6 +99,70 @@ function PolaroidCardPreview({ item }) {
           }
         />
       ) : null}
+      {isSenmen && fanGeom ? (
+        <svg
+          viewBox={`0 0 ${senmenW} ${senmenH}`}
+          preserveAspectRatio="none"
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            pointerEvents: "none",
+            zIndex: 2,
+          }}
+        >
+          <path
+            d={`M 0 0 H ${senmenW} V ${senmenH} H 0 Z ${fanPathD}`}
+            fillRule="evenodd"
+            fill={cardBg || "#ffffff"}
+          />
+          {Array.from({ length: 11 }, (_, i) => {
+            const ang =
+              fanGeom.startAngle +
+              ((fanGeom.endAngle - fanGeom.startAngle) * i) / 10;
+            const isOuterBone = i === 0 || i === 10;
+            const boneEndR = fanGeom.innerR * 0.42;
+            const x1 = fanGeom.pivotX + Math.cos(ang) * boneEndR;
+            const y1 = fanGeom.pivotY + Math.sin(ang) * boneEndR;
+            const x2 = fanGeom.pivotX + Math.cos(ang) * fanGeom.innerR;
+            const y2 = fanGeom.pivotY + Math.sin(ang) * fanGeom.innerR;
+            return (
+              <g key={`board-rib-${i}`}>
+                <line
+                  x1={x1}
+                  y1={y1}
+                  x2={x2}
+                  y2={y2}
+                  stroke={isOuterBone ? "#3a2c1e" : "rgba(158, 122, 68, 0.55)"}
+                  strokeWidth={isOuterBone ? 6 : 1.8}
+                  strokeLinecap="round"
+                />
+                {isOuterBone ? (
+                  <line
+                    x1={x1}
+                    y1={y1}
+                    x2={x2}
+                    y2={y2}
+                    stroke="rgba(218, 182, 108, 0.65)"
+                    strokeWidth="1.4"
+                  />
+                ) : null}
+              </g>
+            );
+          })}
+          <circle
+            cx={fanGeom.pivotX}
+            cy={fanGeom.pivotY - fanGeom.innerR * 0.46}
+            r="5"
+            fill="#d4af5a"
+            stroke="#5c431d"
+            strokeWidth="1.4"
+          />
+          <path d={fanPathD} fill="none" stroke="#c99e44" strokeWidth="4.5" />
+          <path d={fanPathD} fill="none" stroke="#f0d78c" strokeWidth="1.5" />
+        </svg>
+      ) : null}
     </div>
   );
 }
@@ -93,8 +193,11 @@ export function PolaroidBoardCard({
   onSelectPublicBoardId,
   onPublishCard,
 }) {
-  const th = THEMES[item.theme] || THEMES.white;
-  const texUrl = getThemeTextureUrl(item.theme);
+  const { themeId, isSenmen: isSenmenTheme } = parseCardThemeAndMode(item.theme);
+  const isSenmen = item.layout === "senmen" || isSenmenTheme;
+  const th = THEMES[themeId] || THEMES.white;
+  const texUrl = getThemeTextureUrl(themeId);
+  const activePhotoW = isSenmen ? SENMEN_CARD_PHOTO_W : CARD_PHOTO_W;
 
   return (
     <div
@@ -103,12 +206,16 @@ export function PolaroidBoardCard({
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
       style={{
-        width: `${CARD_PHOTO_W + 24}px`,
+        width: `${activePhotoW + 24}px`,
         zIndex: item.zIndex || 1,
         transform: `translate3d(${item.boardX}px, ${item.boardY}px, 0) rotate(${item.rotate || 0}deg)`,
         backgroundColor: th.bg,
         backgroundImage: texUrl ? `url(${texUrl})` : "none",
-        border: th.border ? `1.5px solid ${th.border}` : "1px solid #e5e7eb",
+        border: isSenmen
+          ? "1.5px solid #c99e44"
+          : th.border
+            ? `1.5px solid ${th.border}`
+            : "1px solid #e5e7eb",
         color: th.titleColor,
       }}
       className={`${styles.card} ${isSelected ? styles.cardSelected : ""}`}
@@ -151,7 +258,7 @@ export function PolaroidBoardCard({
       )}
 
       {/* 写真切り抜きプレビュー */}
-      <PolaroidCardPreview item={item} />
+      <PolaroidCardPreview item={item} isSenmen={isSenmen} cardBg={th.bg} />
 
       {/* 作品タイトル・章 */}
       <div className={styles.captionBox}>

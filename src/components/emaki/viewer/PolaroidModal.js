@@ -31,6 +31,7 @@ import {
   PHOTO_DH,
   MESSAGE_MAX,
   getThemeTextureUrl,
+  getSenmenFanGeometry,
 } from "./polaroid/polaroidCanvasRenderer";
 import { PolaroidModalFooter } from "./polaroid/PolaroidModalFooter";
 
@@ -64,7 +65,8 @@ export function PolaroidModal({
   // ---------------------------------------------------------------------------
   // 1. ローカルUIステート & ルーター情報
   // ---------------------------------------------------------------------------
-  const [currentTheme, setCurrentTheme] = useState("white"); // ポラロイド台紙テーマ（和紙、墨、雅など）
+  const [currentTheme, setCurrentTheme] = useState("white"); // ポラロイド台紙テーマ（白、和紙、墨、雅）
+  const [layoutMode, setLayoutMode] = useState("polaroid"); // レイアウト形状（polaroid | senmen）
   const [message, setMessage] = useState("");                // 手書き風キャプションメッセージ
   const [isMobileDevice, setIsMobileDevice] = useState(false); // モバイル端末判定（ネイティブ共有用）
 
@@ -186,6 +188,7 @@ export function PolaroidModal({
     zoom,
     coverScale,
     currentTheme,
+    layoutMode,
     displayTitle,
     displayChapter,
     message,
@@ -323,22 +326,265 @@ export function PolaroidModal({
           </button>
         </div>
 
-        {/* --- B. 写真表示フレーム（ドラッグ/ホイール操作対象） --- */}
+        {/* --- A2. ポラロイド / 扇面 モード切替タブ --- */}
         <div
-          ref={frameRef}
-          data-polaroid-frame
-          className={`relative aspect-[720/560] w-full overflow-hidden bg-neutral-900/5 select-none touch-none ${
-            dragging ? "cursor-grabbing" : "cursor-grab"
-          }`}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerUp}
-          onWheel={handleFrameWheel}
+          role="tablist"
+          aria-label={isEn ? "Frame Layout Mode" : "レイアウト切替"}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            padding: "0 0 8px",
+          }}
         >
-          {src && curSlot && curDw > 0 ? (
-            /* パノラマストリップ（RTL順: next -> cur -> prev） */
-            <div className={styles.panoramaStrip} style={stripTransform}>
+          <div
+            style={{
+              display: "inline-flex",
+              background:
+                currentTheme === "sumi"
+                  ? "rgba(255, 255, 255, 0.1)"
+                  : "rgba(0, 0, 0, 0.06)",
+              padding: "3px",
+              borderRadius: "999px",
+              border:
+                currentTheme === "sumi"
+                  ? "1px solid rgba(201, 158, 68, 0.35)"
+                  : "1px solid rgba(0, 0, 0, 0.08)",
+              gap: "3px",
+            }}
+          >
+            <button
+              type="button"
+              role="tab"
+              aria-selected={layoutMode === "polaroid"}
+              onClick={() => {
+                if (layoutMode !== "polaroid") {
+                  setLayoutMode("polaroid");
+                }
+              }}
+              style={{
+                padding: "4px 14px",
+                borderRadius: "999px",
+                fontSize: "11px",
+                fontWeight: "600",
+                border: "none",
+                cursor: "pointer",
+                transition: "all 0.15s ease",
+                background:
+                  layoutMode === "polaroid"
+                    ? currentTheme === "sumi"
+                      ? "#cfa554"
+                      : "#ffffff"
+                    : "transparent",
+                color:
+                  layoutMode === "polaroid"
+                    ? "#1f2937"
+                    : currentTheme === "sumi"
+                      ? "rgba(247, 241, 230, 0.75)"
+                      : "#4b5563",
+                boxShadow:
+                  layoutMode === "polaroid"
+                    ? "0 1px 3px rgba(0, 0, 0, 0.16)"
+                    : "none",
+              }}
+            >
+              {isEn ? "📷 Polaroid" : "📷 ポラロイド"}
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={layoutMode === "senmen"}
+              onClick={() => {
+                if (layoutMode !== "senmen") {
+                  setLayoutMode("senmen");
+                }
+              }}
+              style={{
+                padding: "4px 14px",
+                borderRadius: "999px",
+                fontSize: "11px",
+                fontWeight: "600",
+                border: "none",
+                cursor: "pointer",
+                transition: "all 0.15s ease",
+                background:
+                  layoutMode === "senmen"
+                    ? currentTheme === "sumi"
+                      ? "#cfa554"
+                      : "#ffffff"
+                    : "transparent",
+                color:
+                  layoutMode === "senmen"
+                    ? "#1f2937"
+                    : currentTheme === "sumi"
+                      ? "rgba(247, 241, 230, 0.75)"
+                      : "#4b5563",
+                boxShadow:
+                  layoutMode === "senmen"
+                    ? "0 1px 3px rgba(0, 0, 0, 0.16)"
+                    : "none",
+              }}
+            >
+              {isEn ? "🪭 Fan Art (Senmen)" : "🪭 扇面"}
+            </button>
+          </div>
+        </div>
+
+        {/* --- B. 写真表示フレーム（ドラッグ/ホイール操作対象） --- */}
+        {(() => {
+          const isSenmenLayout = layoutMode === "senmen";
+          const senmenW = FORMATS.senmen.photoDw;
+          const senmenH = FORMATS.senmen.photoDh;
+          const fanGeom = isSenmenLayout
+            ? getSenmenFanGeometry(0, 0, senmenW, senmenH)
+            : null;
+          const fanPathD = fanGeom
+            ? (() => {
+                const { pivotX, pivotY, outerR, innerR, startAngle, endAngle } = fanGeom;
+                const ox1 = pivotX + Math.cos(startAngle) * outerR;
+                const oy1 = pivotY + Math.sin(startAngle) * outerR;
+                const ox2 = pivotX + Math.cos(endAngle) * outerR;
+                const oy2 = pivotY + Math.sin(endAngle) * outerR;
+                const ix2 = pivotX + Math.cos(endAngle) * innerR;
+                const iy2 = pivotY + Math.sin(endAngle) * innerR;
+                const ix1 = pivotX + Math.cos(startAngle) * innerR;
+                const iy1 = pivotY + Math.sin(startAngle) * innerR;
+                return `M ${ox1} ${oy1} A ${outerR} ${outerR} 0 0 1 ${ox2} ${oy2} L ${ix2} ${iy2} A ${innerR} ${innerR} 0 0 0 ${ix1} ${iy1} Z`;
+              })()
+            : "";
+          const activeCardBg =
+            THEMES[currentTheme]?.cardBg || THEMES[currentTheme]?.bg || "#ffffff";
+
+          return (
+            <div
+              ref={frameRef}
+              data-polaroid-frame
+              className={`relative ${
+                isSenmenLayout ? "aspect-[880/480] bg-transparent" : "aspect-[720/560] bg-neutral-900/5"
+              } w-full overflow-hidden select-none touch-none ${
+                dragging ? "cursor-grabbing" : "cursor-grab"
+              }`}
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onPointerCancel={handlePointerUp}
+              onWheel={handleFrameWheel}
+            >
+              {isSenmenLayout && fanGeom ? (
+                <svg
+                  viewBox={`0 0 ${senmenW} ${senmenH}`}
+                  preserveAspectRatio="none"
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    pointerEvents: "none",
+                    zIndex: 2,
+                  }}
+                >
+                  <defs>
+                    <filter id="polaroid-senmen-shadow" x="-15%" y="-15%" width="130%" height="135%">
+                      <feDropShadow
+                        dx="0"
+                        dy="8"
+                        stdDeviation="10"
+                        floodColor={currentTheme === "sumi" ? "#000000" : "#2d200e"}
+                        floodOpacity={currentTheme === "sumi" ? "0.65" : "0.26"}
+                      />
+                    </filter>
+                  </defs>
+
+                  {/* 扇形の外側を選択中テーマ背景色で覆う逆抜きマスク（全ブラウザ対応） */}
+                  <path
+                    d={`M 0 0 H ${senmenW} V ${senmenH} H 0 Z ${fanPathD}`}
+                    fillRule="evenodd"
+                    fill={activeCardBg}
+                  />
+
+                  {/* 要（かなめ）へ集まる黒漆の親骨（左右）と煤竹の中骨 */}
+                  {Array.from({ length: 11 }, (_, i) => {
+                    const ang =
+                      fanGeom.startAngle +
+                      ((fanGeom.endAngle - fanGeom.startAngle) * i) / 10;
+                    const isOuterBone = i === 0 || i === 10;
+                    const boneEndR = fanGeom.innerR * 0.42;
+                    const x1 = fanGeom.pivotX + Math.cos(ang) * boneEndR;
+                    const y1 = fanGeom.pivotY + Math.sin(ang) * boneEndR;
+                    const x2 = fanGeom.pivotX + Math.cos(ang) * fanGeom.innerR;
+                    const y2 = fanGeom.pivotY + Math.sin(ang) * fanGeom.innerR;
+                    return (
+                      <g key={`rib-stub-${i}`}>
+                        <line
+                          x1={x1}
+                          y1={y1}
+                          x2={x2}
+                          y2={y2}
+                          stroke={isOuterBone ? "#3a2c1e" : "rgba(158, 122, 68, 0.55)"}
+                          strokeWidth={isOuterBone ? 6 : 1.8}
+                          strokeLinecap="round"
+                        />
+                        {isOuterBone ? (
+                          <line
+                            x1={x1}
+                            y1={y1}
+                            x2={x2}
+                            y2={y2}
+                            stroke="rgba(218, 182, 108, 0.65)"
+                            strokeWidth="1.4"
+                          />
+                        ) : null}
+                      </g>
+                    );
+                  })}
+
+                  {/* 要（かなめ）の金鋲 */}
+                  <circle
+                    cx={fanGeom.pivotX}
+                    cy={fanGeom.pivotY - fanGeom.innerR * 0.46}
+                    r="5"
+                    fill="#d4af5a"
+                    stroke="#5c431d"
+                    strokeWidth="1.4"
+                  />
+
+                  {/* 地紙内の透かし扇骨 */}
+                  {Array.from({ length: 9 }, (_, idx) => {
+                    const ang =
+                      fanGeom.startAngle +
+                      ((fanGeom.endAngle - fanGeom.startAngle) * (idx + 1)) / 10;
+                    return (
+                      <line
+                        key={`rib-inner-${idx}`}
+                        x1={fanGeom.pivotX + Math.cos(ang) * fanGeom.innerR}
+                        y1={fanGeom.pivotY + Math.sin(ang) * fanGeom.innerR}
+                        x2={fanGeom.pivotX + Math.cos(ang) * fanGeom.outerR}
+                        y2={fanGeom.pivotY + Math.sin(ang) * fanGeom.outerR}
+                        stroke="rgba(212, 175, 90, 0.24)"
+                        strokeWidth="1.4"
+                      />
+                    );
+                  })}
+
+                  {/* 扇面（地紙）の立体シャドウ＋二重金箔縁取り */}
+                  <path
+                    d={fanPathD}
+                    fill="none"
+                    stroke="#c99e44"
+                    strokeWidth="4.5"
+                    filter="url(#polaroid-senmen-shadow)"
+                  />
+                  <path
+                    d={fanPathD}
+                    fill="none"
+                    stroke="#f0d78c"
+                    strokeWidth="1.5"
+                  />
+                </svg>
+              ) : null}
+
+              {src && curSlot && curDw > 0 ? (
+                /* パノラマストリップ（RTL順: next -> cur -> prev） */
+                <div className={styles.panoramaStrip} style={stripTransform}>
               {/* 絵巻の進行方向（左側: 次スライス） */}
               {nextSlot ? (
                 <img
@@ -439,8 +685,10 @@ export function PolaroidModal({
           ) : null}
           <div className={styles.zoomHint}>ドラッグで位置調整・ホイールで拡大縮小</div>
         </div>
+          );
+        })()}
 
-        {/* --- C. 和紙・墨・雅などのテーマセレクタ --- */}
+        {/* --- C. 和紙・墨・雅などのテーマセレクタ（ポラロイド・扇面共通で4色切替） --- */}
         <div className={styles.themeSelector} role="radiogroup" aria-label="テーマ選択">
           {Object.values(THEMES).map((th) => (
             <button
@@ -449,7 +697,12 @@ export function PolaroidModal({
               className={`${styles.themeDot} ${currentTheme === th.id ? styles.themeDotActive : ""}`}
               style={{
                 backgroundColor: th.bg,
-                borderColor: currentTheme === th.id ? (th.id === "sumi" ? "#cfa554" : "#2c3e50") : (th.border || "#d1d5db"),
+                borderColor:
+                  currentTheme === th.id
+                    ? th.id === "sumi"
+                      ? "#cfa554"
+                      : "#2c3e50"
+                    : th.border || "#d1d5db",
               }}
               onClick={() => {
                 if (currentTheme !== th.id) {
@@ -464,9 +717,32 @@ export function PolaroidModal({
         </div>
 
         {/* --- D. キャプション & ひとこと入力エリア --- */}
-        <div className={styles.captionArea}>
+        <div
+          className={styles.captionArea}
+          style={
+            layoutMode === "senmen"
+              ? {
+                  background: "transparent",
+                  marginTop: "4px",
+                  paddingTop: "2px",
+                }
+              : undefined
+          }
+        >
           {displayChapter && (
-            <h3 className={styles.captionTitle} style={{ color: THEMES[currentTheme]?.titleColor }}>
+            <h3
+              className={styles.captionTitle}
+              style={{
+                color: THEMES[currentTheme]?.titleColor,
+                ...(layoutMode === "senmen"
+                  ? {
+                      background: "transparent",
+                      letterSpacing: "0.08em",
+                      fontSize: "15px",
+                    }
+                  : {}),
+              }}
+            >
               {isEn ? `— ${displayChapter} —` : `― ${displayChapter} ―`}
             </h3>
           )}
@@ -587,6 +863,7 @@ export function PolaroidModal({
           cropCz={cropCz}
           currentTheme={currentTheme}
           displayChapter={displayChapter}
+          layoutMode={layoutMode}
           displayTitle={displayTitle}
           isEn={isEn}
           isOpen={isOpen}

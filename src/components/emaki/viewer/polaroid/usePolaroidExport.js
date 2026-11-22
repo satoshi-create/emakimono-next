@@ -19,6 +19,7 @@ export function usePolaroidExport({
   zoom,
   coverScale,
   currentTheme,
+  layoutMode = "polaroid",
   displayTitle,
   displayChapter,
   message,
@@ -87,6 +88,7 @@ export function usePolaroidExport({
         zoom,
         coverScale,
         currentTheme,
+        layoutMode,
         displayTitle,
         displayChapter,
         message,
@@ -103,6 +105,7 @@ export function usePolaroidExport({
       zoom,
       coverScale,
       currentTheme,
+      layoutMode,
       displayTitle,
       displayChapter,
       message,
@@ -139,7 +142,10 @@ export function usePolaroidExport({
 
   const handleDownload = useCallback(
     async (format = "polaroid") => {
-      const fmt = FORMATS[format] || FORMATS.polaroid;
+      const isFanLayout = layoutMode === "senmen" || currentTheme === "senmen";
+      const resolvedFormat =
+        isFanLayout && format === "polaroid" ? "senmen" : format;
+      const fmt = FORMATS[resolvedFormat] || FORMATS.polaroid;
       const img = await ensureLoadedForExport();
       if (!img) return;
 
@@ -230,12 +236,15 @@ export function usePolaroidExport({
       try {
         const isReel = type === "reel";
         const format = isReel ? "reel" : "polaroid";
+        const isFanLayout = layoutMode === "senmen" || currentTheme === "senmen";
+        const resolvedFormat =
+          isFanLayout && format === "polaroid" ? "senmen" : format;
         const img = await ensureLoadedForExport();
         if (!img) {
           setFeedbackMessage(isEn ? "Failed to load image." : "画像の読み込みに失敗しました。");
           return;
         }
-        const copyFmt = FORMATS[format] || FORMATS.polaroid;
+        const copyFmt = FORMATS[resolvedFormat] || FORMATS.polaroid;
         const canvas = canvasRef.current ?? document.createElement("canvas");
         canvas.width = copyFmt.canvasW;
         canvas.height = copyFmt.canvasH;
