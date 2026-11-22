@@ -174,6 +174,7 @@ export function PolaroidBoardView() {
 
   const canvasOuterRef = useRef(null);
   const hasInitialFitRef = useRef(false);
+  const localMovedCoordsRef = useRef({});
 
   const fitViewportToItems = (targetItems) => {
     if (!Array.isArray(targetItems) || targetItems.length === 0) {
@@ -250,9 +251,20 @@ export function PolaroidBoardView() {
     try {
       const data = await fetchCollabBoard(roomId);
       const loadedItems = Array.isArray(data.items) ? data.items : [];
+      const overrides = localMovedCoordsRef.current || {};
+      const mergedItems = loadedItems.map((it) => {
+        const ov = overrides[it.id];
+        if (!ov) return it;
+        return {
+          ...it,
+          boardX: typeof ov.boardX === "number" ? ov.boardX : it.boardX,
+          boardY: typeof ov.boardY === "number" ? ov.boardY : it.boardY,
+          zIndex: typeof ov.zIndex === "number" ? ov.zIndex : it.zIndex,
+        };
+      });
       setCollabBoard(data.board);
       setCollabTitleDraft(data.board?.title || "");
-      setItems(loadedItems);
+      setItems(mergedItems);
       if (!hasInitialFitRef.current) {
         hasInitialFitRef.current = true;
         fitViewportToItems(loadedItems);
@@ -279,6 +291,7 @@ export function PolaroidBoardView() {
   useEffect(() => {
     if (!router.isReady) return;
     hasInitialFitRef.current = false;
+    localMovedCoordsRef.current = {};
 
     if (roomParam) {
       setIsSharedMode(false);
@@ -388,6 +401,19 @@ export function PolaroidBoardView() {
       if (boardPerms.persistToLocalStorage) {
         saveBoardItems(next, personalParam || "default");
       }
+      const shouldTrackLocal =
+        isCollabMode || (!boardPerms.persistToLocalStorage && !isSharedMode);
+      if (shouldTrackLocal) {
+        const it = next.find((x) => x.id === id);
+        if (it) {
+          const prevOv = localMovedCoordsRef.current[id] || {};
+          localMovedCoordsRef.current[id] = {
+            boardX: typeof it.boardX === "number" ? it.boardX : prevOv.boardX,
+            boardY: typeof it.boardY === "number" ? it.boardY : prevOv.boardY,
+            zIndex: maxZ + 1,
+          };
+        }
+      }
       return next;
     });
   };
@@ -495,9 +521,7 @@ export function PolaroidBoardView() {
     if (e.target.tagName === "TEXTAREA" || e.target.tagName === "BUTTON" || e.target.tagName === "A") {
       return;
     }
-    if (!getBoardCardPermissions({ isCollabMode, isSharedMode }, item).canDrag) {
-      return;
-    }
+    // 公開ボード・共有ボード・個人ボードいずれもドラッグ移動を許可（保存は pointerUp で制御）
     e.currentTarget.setPointerCapture(e.pointerId);
     bringToFront(item.id);
     dragStateRef.current = {
@@ -515,8 +539,10 @@ export function PolaroidBoardView() {
     e.stopPropagation();
     const dx = (e.clientX - st.startX) / viewport.scale;
     const dy = (e.clientY - st.startY) / viewport.scale;
-    setItems((prev) =>
-      prev.map((it) =>
+    const shouldTrackLocal =
+      isCollabMode || (!boardPerms.persistToLocalStorage && !isSharedMode);
+    setItems((prev) => {
+      const next = prev.map((it) =>
         it.id === st.id
           ? {
               ...it,
@@ -524,8 +550,24 @@ export function PolaroidBoardView() {
               boardY: st.origY + dy,
             }
           : it
-      )
-    );
+      );
+      if (shouldTrackLocal) {
+        const moved = next.find((it) => it.id === st.id);
+        if (moved) {
+          const prevOv = localMovedCoordsRef.current[st.id] || {};
+          localMovedCoordsRef.current[st.id] = {
+            boardX: moved.boardX,
+            boardY: moved.boardY,
+            ...(typeof moved.zIndex === "number"
+              ? { zIndex: moved.zIndex }
+              : typeof prevOv.zIndex === "number"
+                ? { zIndex: prevOv.zIndex }
+                : {}),
+          };
+        }
+      }
+      return next;
+    });
   };
 
   const handleCardPointerUp = (e) => {
@@ -538,20 +580,26 @@ export function PolaroidBoardView() {
     }
     const movedId = st.id;
     dragStateRef.current = { id: null, startX: 0, startY: 0, origX: 0, origY: 0 };
+    const shouldTrackLocal =
+      isCollabMode || (!boardPerms.persistToLocalStorage && !isSharedMode);
     setItems((prev) => {
-      if (boardPerms.persistToLocalStorage) {
-        saveBoardItems(prev, personalParam || "default");
-      }
-      if (isCollabMode && roomParam) {
+      if (shouldTrackLocal) {
         const moved = prev.find((it) => it.id === movedId);
         if (moved) {
-          updateCollabBoardItem(roomParam, {
-            itemId: movedId,
+          const prevOv = localMovedCoordsRef.current[movedId] || {};
+          localMovedCoordsRef.current[movedId] = {
             boardX: moved.boardX,
             boardY: moved.boardY,
-            zIndex: moved.zIndex,
-          }).catch(() => {});
+            ...(typeof moved.zIndex === "number"
+              ? { zIndex: moved.zIndex }
+              : typeof prevOv.zIndex === "number"
+                ? { zIndex: prevOv.zIndex }
+                : {}),
+          };
         }
+      }
+      if (boardPerms.persistToLocalStorage && !isCollabMode && !isSharedMode) {
+        saveBoardItems(prev, personalParam || "default");
       }
       return prev;
     });
