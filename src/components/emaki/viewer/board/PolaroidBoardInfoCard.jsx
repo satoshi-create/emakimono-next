@@ -130,7 +130,52 @@ export function PolaroidBoardInfoCard({
   };
 
   if (!expanded) {
-    const hasOdaiBanner = Boolean(isCollabMode && odaiMeta?.prompt);
+    const targetDone =
+      odaiMeta?.targetCount > 0 && currentItemCount >= odaiMeta.targetCount;
+    const countLabel =
+      odaiMeta?.targetCount > 0
+        ? targetDone
+          ? isEn
+            ? "✓ Done"
+            : "✓ 完了"
+          : isEn
+          ? `${currentItemCount}/${odaiMeta.targetCount}`
+          : `${currentItemCount}/${odaiMeta.targetCount}枚`
+        : isEn
+        ? `${currentItemCount} item${currentItemCount === 1 ? "" : "s"}`
+        : `${currentItemCount}件`;
+
+    const odaiModeLabel = odaiMeta
+      ? (() => {
+          const m = odaiMeta.mode;
+          const base =
+            m === "coop"
+              ? isEn
+                ? "Co-op"
+                : "協力"
+              : m === "utaawase"
+              ? isEn
+                ? "Uta-awase"
+                : "歌合わせ"
+              : m === "unique"
+              ? isEn
+                ? "Unique"
+                : "唯一"
+              : m || "";
+          if (!base) return "";
+          return odaiMeta.onePerUser
+            ? `${base}${isEn ? " · 1/user" : " · 1人1枚"}`
+            : base;
+        })()
+      : "";
+
+    const ellipsisText = {
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+      minWidth: 0,
+    };
+
     return (
       <aside
         ref={cardRef}
@@ -141,34 +186,27 @@ export function PolaroidBoardInfoCard({
           top: 14,
           left: 14,
           zIndex: 25,
-          height: hasOdaiBanner ? "auto" : 38,
+          height: 32,
           background: "rgba(255, 255, 255, 0.97)",
           backdropFilter: "blur(8px)",
           border: "1px solid rgba(15, 23, 42, 0.14)",
-          borderRadius: hasOdaiBanner ? 16 : 999,
+          borderRadius: 999,
           boxShadow: "0 6px 20px rgba(15, 23, 42, 0.1)",
-          padding: hasOdaiBanner ? "10px 14px 12px" : "0 8px 0 12px",
-          display: hasOdaiBanner ? "flex" : "inline-flex",
-          flexDirection: hasOdaiBanner ? "column" : "row",
-          alignItems: hasOdaiBanner ? "stretch" : "center",
-          gap: hasOdaiBanner ? 8 : 8,
-          width: hasOdaiBanner ? "min(640px, calc(100vw - 28px))" : "auto",
-          maxWidth: "calc(100vw - 28px)",
+          padding: "0 10px 0 12px",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 8,
+          whiteSpace: "nowrap",
+          maxWidth: "calc(100% - 28px)",
+          overflow: "hidden",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: 8,
-            flexWrap: "wrap",
-          }}
-        >
         <button
           type="button"
           onClick={() => setExpanded(true)}
-          title={displayTitle || (isEn ? "Board" : "ボード")}
+          title={
+            odaiMeta?.prompt || displayTitle || (isEn ? "Board" : "ボード")
+          }
           style={{
             border: "none",
             background: "transparent",
@@ -178,26 +216,57 @@ export function PolaroidBoardInfoCard({
             alignItems: "center",
             gap: 6,
             minWidth: 0,
-            maxWidth: 220,
+            flex: odaiMeta ? "1 1 auto" : undefined,
             fontFamily: "inherit",
+            overflow: "hidden",
           }}
         >
           <span style={{ fontSize: 13, flexShrink: 0 }}>
             {isCollabMode ? "🌐" : "🔒"}
           </span>
+          {odaiMeta ? (
+            <span
+              style={{
+                fontSize: 12,
+                fontWeight: 700,
+                color: "#0f172a",
+                ...ellipsisText,
+              }}
+            >
+              {odaiMeta.prompt}
+            </span>
+          ) : null}
+        </button>
+
+        {odaiMeta && odaiModeLabel ? (
           <span
             style={{
-              fontSize: 13,
+              fontSize: 10,
               fontWeight: 700,
-              color: "#0f172a",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
+              padding: "2px 7px",
+              borderRadius: 999,
+              background: "#eef2ff",
+              color: "#4338ca",
+              border: "1px solid #c7d2fe",
+              flexShrink: 0,
+              maxWidth: "34%",
+              ...ellipsisText,
             }}
           >
-            {displayTitle || (isEn ? "Untitled" : "無題")}
+            {odaiModeLabel}
           </span>
-        </button>
+        ) : null}
+
+        <span
+          style={{
+            fontSize: 11,
+            fontWeight: 700,
+            color: targetDone ? "#047857" : "#64748b",
+            flexShrink: 0,
+          }}
+        >
+          {countLabel}
+        </span>
 
         {selectedHubs.length > 0 && (
           <span
@@ -210,12 +279,11 @@ export function PolaroidBoardInfoCard({
               color: "#047857",
               border: "1px solid #a7f3d0",
               flexShrink: 0,
-              whiteSpace: "nowrap",
             }}
           >
             {isEn
               ? `${selectedHubs.length} hub${selectedHubs.length > 1 ? "s" : ""}`
-              : `関連ハブ ${selectedHubs.length}件`}
+              : `ハブ${selectedHubs.length}`}
           </span>
         )}
 
@@ -247,264 +315,21 @@ export function PolaroidBoardInfoCard({
             {isRefreshing ? "…" : refreshSuccess ? "✓" : "↻"}
           </button>
         )}
-        </div>
 
-        {isCollabMode && odaiMeta?.prompt && (() => {
-            const mode = odaiMeta.mode || "coop";
-            const safeItems = Array.isArray(items) ? items : [];
-            const isUtaawase = mode === "utaawase";
-            const isUnique = mode === "unique";
-            const theme = isUtaawase
-              ? {
-                  bg: "#f5f3ff",
-                  border: "#c4b5fd",
-                  text: "#4c1d95",
-                  badgeBg: "#ede9fe",
-                  badgeText: "#5b21b6",
-                  badgeLabel: isEn ? "⚔️ Uta-awase Duel" : "⚔️ 歌合・左右対決モード",
-                }
-              : isUnique
-              ? {
-                  bg: "#ecfdf5",
-                  border: "#6ee7b7",
-                  text: "#064e3b",
-                  badgeBg: "#d1fae5",
-                  badgeText: "#065f46",
-                  badgeLabel: isEn ? "🔍 No-Duplicates" : "🔍 かぶり禁止モード",
-                }
-              : {
-                  bg: "#fffbeb",
-                  border: "#fcd34d",
-                  text: "#92400e",
-                  badgeBg: "#fef3c7",
-                  badgeText: "#b45309",
-                  badgeLabel: isEn ? "🤝 Co-op Collection" : "🤝 協力コレクション",
-                };
-
-            const leftItems = safeItems.filter((_, idx) => idx % 2 === 0);
-            const rightItems = safeItems.filter((_, idx) => idx % 2 === 1);
-            const leftLikes = leftItems.reduce((sum, it) => sum + (it.likeCount || 0), 0);
-            const rightLikes = rightItems.reduce((sum, it) => sum + (it.likeCount || 0), 0);
-            const postedScenes = Array.from(
-              new Set(
-                safeItems
-                  .map((it) => it.displayChapter || it.displayTitle)
-                  .filter(Boolean)
-              )
-            );
-            const progressPct =
-              odaiMeta.targetCount > 0
-                ? Math.min(100, Math.round((currentItemCount / odaiMeta.targetCount) * 100))
-                : 0;
-
-            return (
-              <div
-                style={{
-                  width: "100%",
-                  marginTop: 2,
-                  padding: "10px 14px",
-                  borderRadius: 10,
-                  background: theme.bg,
-                  border: `1px solid ${theme.border}`,
-                  fontSize: 13.5,
-                  color: theme.text,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 8,
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: 8,
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-                    <span
-                      style={{
-                        fontSize: 12,
-                        fontWeight: 800,
-                        padding: "3px 10px",
-                        borderRadius: 999,
-                        background: theme.badgeBg,
-                        color: theme.badgeText,
-                        border: `1px solid ${theme.border}`,
-                      }}
-                    >
-                      {theme.badgeLabel}
-                    </span>
-                    {odaiMeta.onePerUser && (
-                      <span
-                        style={{
-                          fontSize: 11.5,
-                          fontWeight: 800,
-                          padding: "3px 9px",
-                          borderRadius: 999,
-                          background: "#fee2e2",
-                          color: "#b91c1c",
-                          border: "1px solid #fca5a5",
-                        }}
-                      >
-                        🔒 {isEn ? "1 per user" : "1人1枚限定"}
-                      </span>
-                    )}
-                    <span style={{ fontWeight: 700, fontSize: 14.5, lineHeight: 1.45 }}>
-                      📜 {isEn ? "Theme:" : "お題:"} {odaiMeta.prompt}
-                    </span>
-                  </div>
-                  {odaiMeta.targetCount > 0 && (
-                    <span
-                      style={{
-                        fontSize: 12,
-                        fontWeight: 700,
-                        padding: "3px 10px",
-                        borderRadius: 999,
-                        background:
-                          currentItemCount >= odaiMeta.targetCount
-                            ? "#dcfce7"
-                            : "#ffffff",
-                        color:
-                          currentItemCount >= odaiMeta.targetCount
-                            ? "#166534"
-                            : theme.badgeText,
-                        border: `1px solid ${theme.border}`,
-                      }}
-                    >
-                      {currentItemCount >= odaiMeta.targetCount
-                        ? isEn
-                          ? `🔒 Goal Reached — Submissions Locked (${currentItemCount}/${odaiMeta.targetCount})`
-                          : `🔒 目標達成！投稿締切ロック中 (${currentItemCount} / ${odaiMeta.targetCount}枚)`
-                        : isEn
-                        ? `Posts: ${currentItemCount}/${odaiMeta.targetCount} (${
-                            odaiMeta.targetCount - currentItemCount
-                          } left)`
-                        : `投稿数: ${currentItemCount} / ${odaiMeta.targetCount}枚（あと${
-                            odaiMeta.targetCount - currentItemCount
-                          }枚で達成！）`}
-                    </span>
-                  )}
-                </div>
-
-                {/* モード別の視覚インジケータ */}
-                {isUtaawase ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      gap: 8,
-                      padding: "7px 12px",
-                      borderRadius: 6,
-                      background: "#ffffff",
-                      border: "1px solid #ddd6fe",
-                      fontSize: 13,
-                      fontWeight: 700,
-                    }}
-                  >
-                    <span style={{ color: "#be123c" }}>
-                      🌸 左方（紅組）: {leftItems.length}首 / 👏 {leftLikes}
-                    </span>
-                    <span style={{ color: "#6b7280", fontSize: 10 }}>VS</span>
-                    <span style={{ color: "#1d4ed8" }}>
-                      🍁 右方（白組）: {rightItems.length}首 / 👏 {rightLikes}
-                    </span>
-                  </div>
-                ) : isUnique ? (
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 5,
-                      flexWrap: "wrap",
-                      padding: "7px 12px",
-                      borderRadius: 6,
-                      background: "#ffffff",
-                      border: "1px solid #a7f3d0",
-                      fontSize: 13,
-                    }}
-                  >
-                    <span style={{ fontWeight: 700, color: "#065f46" }}>
-                      🚫 {isEn ? "Already Posted:" : "投稿済みの場面（かぶり注意）:"}
-                    </span>
-                    {postedScenes.length === 0 ? (
-                      <span style={{ color: "#6b7280" }}>
-                        {isEn ? "None yet — be the first!" : "まだありません（一番乗りチャンス！）"}
-                      </span>
-                    ) : (
-                      postedScenes.map((scene) => (
-                        <span
-                          key={scene}
-                          style={{
-                            padding: "1px 6px",
-                            borderRadius: 4,
-                            background: "#ecfdf5",
-                            color: "#047857",
-                            border: "1px solid #a7f3d0",
-                            fontSize: 10.5,
-                          }}
-                        >
-                          {scene}
-                        </span>
-                      ))
-                    )}
-                  </div>
-                ) : odaiMeta.targetCount > 0 ? (
-                  <div
-                    style={{
-                      width: "100%",
-                      height: 8,
-                      borderRadius: 999,
-                      background: "rgba(255, 255, 255, 0.85)",
-                      border: "1px solid #fcd34d",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: `${progressPct}%`,
-                        height: "100%",
-                        background:
-                          currentItemCount >= odaiMeta.targetCount
-                            ? "#16a34a"
-                            : "#f59e0b",
-                        transition: "width 0.3s ease",
-                      }}
-                    />
-                  </div>
-                ) : null}
-
-                <div
-                  style={{
-                    fontSize: 13,
-                    color: theme.text,
-                    background: "rgba(255, 255, 255, 0.72)",
-                    padding: "7px 10px",
-                    borderRadius: 6,
-                    lineHeight: 1.6,
-                  }}
-                >
-                  <strong>{isEn ? "Rule: " : "【遊び方・ルール】"}</strong>
-                  {isUtaawase
-                    ? isEn
-                      ? "Post matching scenes (alternating Left vs Right team), write a verse, and vote with 'Like!'."
-                      : "① 投稿順に「🌸左方」と「🍁右方」に分かれて対決！ → ② 一言コメント（一句）を添えて投稿 → ③ 好きな方に「👏 いいね！」で投票！"
-                    : isUnique
-                    ? isEn
-                      ? "Avoid already-posted scenes listed above and discover unique moments!"
-                      : "① 上の「投稿済みの場面」と被らないシーンを絵巻から切り抜いて投稿 → ② みんなで新しい名場面を発掘しよう！"
-                    : isEn
-                    ? "Pin matching scenes together to fill the progress bar!"
-                    : "① 絵巻ビューアのポラロイド機能で場面を切り抜き、このボードへ投稿 → ② みんなでゲージを100%にして目標達成しよう！"}
-                </div>
-              </div>
-            );
-          })()}
+        {isSharedMode && (
+          <button
+            type="button"
+            onClick={onSaveSharedToMyBoard}
+            title={isEn ? "Save to Personal Board" : "個人ボードに保存する"}
+            style={pillBtnStyle}
+          >
+            {isEn ? "💾 Save" : "💾 保存"}
+          </button>
+        )}
       </aside>
     );
   }
+
 
   return (
     <aside
