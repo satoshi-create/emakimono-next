@@ -9,14 +9,52 @@ import { createCloudinaryHeroLoader } from "@/utils/cloudinaryUrl";
 import Image from "next/image";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { fetchPublicBoards } from "@/libs/api/ugcApi";
+
+const HUB_SLUG = "chouju-giga";
 
 const heroLoader = createCloudinaryHeroLoader("g_auto");
+
+function parseHubSlugsFromDescription(description) {
+  if (!description || typeof description !== "string") return [];
+  const match = description.match(/<!--\s*hubs:\s*([^>]+)\s*-->/i);
+  if (!match) return [];
+  return match[1]
+    .split(",")
+    .map((slug) => slug.trim())
+    .filter(Boolean);
+}
+
+function filterBoardsLinkedToHub(boards, hubSlug) {
+  return (boards || []).filter((board) =>
+    parseHubSlugsFromDescription(board.description).includes(hubSlug),
+  );
+}
 
 const ChoujuGigaHub = ({ hubData }) => {
   const { t } = useTranslation("common");
   const { t: meta } = useLocaleMeta();
   const { locale, defaultLocale } = useRouter();
+  const [linkedBoards, setLinkedBoards] = useState([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetchPublicBoards();
+        if (cancelled) return;
+        setLinkedBoards(filterBoardsLinkedToHub(res?.boards, HUB_SLUG));
+      } catch {
+        if (!cancelled) setLinkedBoards([]);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const jsonLd = buildChojuGigaHubJsonLd({
     locale,
@@ -65,6 +103,27 @@ const ChoujuGigaHub = ({ hubData }) => {
   const scrollsSection = (
     <section className={`section-grid section-padding ${styles.scrollSection}`}>
       <Title sectiontitle={t("choujuGigaHub.scrollSectionTitle")} />
+      {linkedBoards.length > 0 ? (
+        <nav
+          className={styles.introLead}
+          aria-label={t("choujuGigaHub.linkedPublicBoardsAria")}
+        >
+          <ul style={{ listStyle: "none", padding: 0, margin: "0 0 1rem" }}>
+            {linkedBoards.map((board) => (
+              <li key={board.id} style={{ marginBottom: "0.5rem" }}>
+                <Link
+                  href={`/board?room=${encodeURIComponent(board.id)}`}
+                  locale={locale}
+                >
+                  {t("choujuGigaHub.linkedPublicBoardLink", {
+                    title: board.title || board.id,
+                  })}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ) : null}
       <div className={styles.scrollGrid}>
         {hubData.scrolls.map((scroll) => (
           <ChojuGigaScrollCard key={scroll.titleen} scroll={scroll} />

@@ -326,7 +326,9 @@
     "hubNudgeLabelEn": "View Chōjū-jinbutsu-giga hub",
     "linkLabel": "Chōjū-jinbutsu-giga — Hub",
     "linkDesc": "Browse all 4 scrolls of Chōjū-jinbutsu-giga",
-    "linkDescEn": "Browse all 4 scrolls of Chōjū-jinbutsu-giga"
+    "linkDescEn": "Browse all 4 scrolls of Chōjū-jinbutsu-giga",
+    "linkedPublicBoardsAria": "Public boards linked to this hub",
+    "linkedPublicBoardLink": "Public board: {{title}}"
   },
   "hyakkiHub": {
     "pagetitle": "Hyakki Yagyō & Tsukumogami",

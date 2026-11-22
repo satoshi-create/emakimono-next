@@ -9,6 +9,27 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useEffect, useState } from "react";
+import { fetchPublicBoards } from "@/libs/api/ugcApi";
+
+const HUB_SLUGS_RE = /<!--\s*hubs:([^>]+)\s*-->/i;
+const HYAKKI_HUB_SLUG = "hyakki";
+
+function parseHubSlugsFromDescription(description) {
+  if (!description) return [];
+  const match = description.match(HUB_SLUGS_RE);
+  if (!match) return [];
+  return match[1]
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function filterBoardsForHub(boards, hubSlug) {
+  return (boards || []).filter((board) =>
+    parseHubSlugsFromDescription(board.description).includes(hubSlug)
+  );
+}
 
 function firstSentence(text) {
   if (!text) return "";
@@ -80,6 +101,23 @@ const HyakkiHub = ({ hubData }) => {
   const { t } = useTranslation("common");
   const { t: meta } = useLocaleMeta();
   const { locale, defaultLocale } = useRouter();
+  const [linkedBoards, setLinkedBoards] = useState([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetchPublicBoards();
+        if (cancelled) return;
+        setLinkedBoards(filterBoardsForHub(res?.boards, HYAKKI_HUB_SLUG));
+      } catch {
+        if (!cancelled) setLinkedBoards([]);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const pageUrl =
     locale === defaultLocale
@@ -131,6 +169,36 @@ const HyakkiHub = ({ hubData }) => {
 
   const scrollsSection = (
     <section className={`section-grid section-padding ${styles.scrollSection}`}>
+      {linkedBoards.length > 0 && (
+        <>
+          <Title sectiontitle={t("hyakkiHub.linkedPublicBoardsTitle")} />
+          <ul className={styles.scrollGrid}>
+            {linkedBoards.map((board) => (
+              <li key={board.id}>
+                <Link
+                  href={`/board?room=${encodeURIComponent(board.id)}`}
+                  locale={locale}
+                >
+                  <a className={styles.scrollCardInner}>
+                    <div className={styles.scrollCardBody}>
+                      <h3 className={styles.cardTitle}>
+                        {board.title || t("hyakkiHub.linkedPublicBoardUntitled")}
+                      </h3>
+                      {typeof board.itemCount === "number" && (
+                        <div className={styles.cardMeta}>
+                          {t("hyakkiHub.linkedPublicBoardItemCount", {
+                            count: board.itemCount,
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  </a>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
       <Title sectiontitle={t("hyakkiHub.scrollSectionTitle")} />
       <div className={styles.scrollGrid}>
         {hubData.scrolls.map((scroll) => (

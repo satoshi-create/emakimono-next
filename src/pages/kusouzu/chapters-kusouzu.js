@@ -8,12 +8,50 @@ import { buildKusouzuHubJsonLd } from "@/utils/buildKusouzuHubJsonLd";
 import { useLocaleMeta } from "@/utils/func";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { fetchPublicBoards } from "@/libs/api/ugcApi";
+
+const KUSOUZU_HUB_SLUG = "kusouzu";
+
+function parseHubSlugsFromDescription(description) {
+  if (!description || typeof description !== "string") return [];
+  const match = description.match(/<!--\s*hubs:\s*([^>]+)\s*-->/i);
+  if (!match) return [];
+  return match[1]
+    .split(",")
+    .map((slug) => slug.trim())
+    .filter(Boolean);
+}
+
+function filterBoardsLinkedToHub(boards, hubSlug) {
+  return (boards || []).filter((board) =>
+    parseHubSlugsFromDescription(board.description).includes(hubSlug),
+  );
+}
 
 const ChaptersKusouzulist = ({ hubData }) => {
   const { t } = useTranslation("common");
   const { t: meta } = useLocaleMeta();
   const { locale, defaultLocale } = useRouter();
+  const [linkedBoards, setLinkedBoards] = useState([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetchPublicBoards();
+        if (cancelled) return;
+        setLinkedBoards(filterBoardsLinkedToHub(res?.boards, KUSOUZU_HUB_SLUG));
+      } catch {
+        if (!cancelled) setLinkedBoards([]);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const jsonLd = buildKusouzuHubJsonLd({
     locale,
@@ -33,10 +71,33 @@ const ChaptersKusouzulist = ({ hubData }) => {
       }}
       breadcrumb={{ name: t("kusouzuHub.breadcrumb") }}
       hero={
-        <KusouzuHubIntro
-          heroThumb={hubData.heroThumb}
-          heroCloudinary={hubData.heroCloudinary}
-        />
+        <>
+          <KusouzuHubIntro
+            heroThumb={hubData.heroThumb}
+            heroCloudinary={hubData.heroCloudinary}
+          />
+          {linkedBoards.length > 0 ? (
+            <nav
+              className="section-grid section-padding"
+              aria-label={t("kusouzuHub.linkedPublicBoardsAria")}
+            >
+              <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                {linkedBoards.map((board) => (
+                  <li key={board.id} style={{ marginBottom: "0.5rem" }}>
+                    <Link
+                      href={`/board?room=${encodeURIComponent(board.id)}`}
+                      locale={locale}
+                    >
+                      {t("kusouzuHub.linkedPublicBoardLink", {
+                        title: board.title || board.id,
+                      })}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ) : null}
+        </>
       }
       navItems={[
         { id: "stages", label: t("kusouzuHub.stageSectionTitle") },

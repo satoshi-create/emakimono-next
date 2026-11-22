@@ -326,7 +326,9 @@
     "hubNudgeLabelEn": "View Chōjū-jinbutsu-giga hub",
     "linkLabel": "鳥獣人物戯画一覧",
     "linkDesc": "鳥獣人物戯画 全4巻（甲・乙・丙・丁）を横スクロールで鑑賞する",
-    "linkDescEn": "Browse all 4 scrolls of Chōjū-jinbutsu-giga"
+    "linkDescEn": "Browse all 4 scrolls of Chōjū-jinbutsu-giga",
+    "linkedPublicBoardsAria": "このハブにリンクされた公開ボード",
+    "linkedPublicBoardLink": "公開ボード: {{title}}"
   },
   "hyakkiHub": {
     "pagetitle": "百鬼夜行・付喪神一覧",
