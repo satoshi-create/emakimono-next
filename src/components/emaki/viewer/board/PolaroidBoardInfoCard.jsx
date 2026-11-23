@@ -281,22 +281,37 @@ export function PolaroidBoardInfoCard({
         )}
 
         {selectedHubs.map((hub) => (
-          <span
+          <Link
+            href={`/hub/${encodeURIComponent(hub.slug)}`}
             key={hub.slug}
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              padding: "2px 9px",
-              borderRadius: 999,
-              background: "#ecfdf5",
-              color: "#047857",
-              border: "1px solid #6ee7b7",
-              flexShrink: 0,
-              whiteSpace: "nowrap",
-            }}
+            locale={locale}
+            passHref
           >
-            {isEn ? hub.titleEn || hub.titleJa : hub.titleJa || hub.titleEn}
-          </span>
+            <a
+              title={
+                isEn
+                  ? `Open ${hub.titleEn || hub.titleJa} hub`
+                  : `「${hub.titleJa || hub.titleEn}」特集ハブを開く`
+              }
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                fontSize: 11,
+                fontWeight: 700,
+                padding: "2px 9px",
+                borderRadius: 999,
+                background: "#ecfdf5",
+                color: "#047857",
+                border: "1px solid #6ee7b7",
+                flexShrink: 0,
+                whiteSpace: "nowrap",
+                textDecoration: "none",
+                cursor: "pointer",
+              }}
+            >
+              {isEn ? hub.titleEn || hub.titleJa : hub.titleJa || hub.titleEn}
+            </a>
+          </Link>
         ))}
 
         {isSharedMode && (
