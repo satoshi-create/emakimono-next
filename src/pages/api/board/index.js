@@ -55,10 +55,31 @@ function normalizeInitialItem(raw, boardId, visitorHash, fallbackAuthor, index) 
 // 2. エントリポイント（POST: コラボボード新規発行）
 // =============================================================================
 
-async function handleGetPublicBoards(res) {
+function extractBoardSortOrder(description) {
+  if (typeof description !== "string") return null;
+  const match = description.match(/<!--odai:(\{[\s\S]*?\})-->/);
+  if (!match) return null;
   try {
+    const parsed = JSON.parse(match[1]);
+    return typeof parsed?.sortOrder === "number" && Number.isFinite(parsed.sortOrder)
+      ? parsed.sortOrder
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+async function handleGetPublicBoards(req, res) {
+  try {
+    const wantUnlisted = String(req.query?.includeUnlisted || "") === "1";
+    const expectedAdminKey = process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY;
+    const providedAdminKey = req.headers["x-board-admin-key"];
+    const isDev = process.env.NODE_ENV === "development";
+    const canIncludeUnlisted =
+      wantUnlisted && (isDev || (Boolean(expectedAdminKey) && providedAdminKey === expectedAdminKey));
+
     const db = getDb();
-    const boards = await db
+    let query = db
       .select({
         id: polaroidBoards.id,
         title: polaroidBoards.title,
@@ -71,22 +92,43 @@ async function handleGetPublicBoards(res) {
       .leftJoin(
         polaroidBoardItems,
         eq(polaroidBoards.id, polaroidBoardItems.boardId)
-      )
-      .where(eq(polaroidBoards.visibility, "public"))
+      );
+
+    if (!canIncludeUnlisted) {
+      query = query.where(eq(polaroidBoards.visibility, "public"));
+    }
+
+    const boards = await query
       .groupBy(polaroidBoards.id)
       .orderBy(desc(polaroidBoards.createdAt))
-      .limit(30);
+      .limit(50);
 
-    res.setHeader("Cache-Control", "no-store");
-    return res.status(200).json({
-      boards: boards.map((b) => ({
+    const normalizedBoards = boards
+      .map((b) => ({
         id: b.id,
         title: b.title,
         description: b.description || "",
         visibility: b.visibility,
         itemCount: Number(b.itemCount ?? 0),
         createdAt: b.createdAt ? new Date(b.createdAt).getTime() : Date.now(),
-      })),
+        _sortOrder: extractBoardSortOrder(b.description),
+      }))
+      .sort((a, b) => {
+        const aHas = a._sortOrder !== null;
+        const bHas = b._sortOrder !== null;
+        if (aHas && bHas && a._sortOrder !== b._sortOrder) {
+          return a._sortOrder - b._sortOrder;
+        }
+        if (aHas !== bHas) {
+          return aHas ? -1 : 1;
+        }
+        return b.createdAt - a.createdAt;
+      })
+      .map(({ _sortOrder, ...rest }) => rest);
+
+    res.setHeader("Cache-Control", "no-store");
+    return res.status(200).json({
+      boards: normalizedBoards,
     });
   } catch (error) {
     console.error("GET /api/board failed:", error);
@@ -99,7 +141,7 @@ export default async function handler(req, res) {
   if (!ensureMethod(req, res, ["GET", "POST"])) return;
 
   if (req.method === "GET") {
-    return handleGetPublicBoards(res);
+    return handleGetPublicBoards(req, res);
   }
 
     const title =

@@ -130,7 +130,22 @@ async function handlePatch(req, res, boardId) {
     ? String(req.body?.description ?? "").trim().slice(0, 500)
     : null;
 
-  if (!hasTitle && !hasDescription) {
+  const hasVisibility = Object.prototype.hasOwnProperty.call(req.body ?? {}, "visibility");
+  const visibility = hasVisibility ? String(req.body?.visibility ?? "").trim() : null;
+  if (hasVisibility && visibility !== "public" && visibility !== "unlisted") {
+    return sendApiError(res, 400, "Invalid visibility");
+  }
+
+  if (hasVisibility) {
+    const expectedAdminKey = process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY;
+    const providedAdminKey = req.headers["x-board-admin-key"];
+    const isDev = process.env.NODE_ENV === "development";
+    if (!isDev && (!expectedAdminKey || providedAdminKey !== expectedAdminKey)) {
+      return sendApiError(res, 403, "Admin permission required to change visibility");
+    }
+  }
+
+  if (!hasTitle && !hasDescription && !hasVisibility) {
     return sendApiError(res, 400, "No updatable fields provided");
   }
 
@@ -149,6 +164,7 @@ async function handlePatch(req, res, boardId) {
     const updates = {};
     if (hasTitle) updates.title = title;
     if (hasDescription) updates.description = description;
+    if (hasVisibility) updates.visibility = visibility;
 
     await db
       .update(polaroidBoards)

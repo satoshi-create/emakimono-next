@@ -117,48 +117,6 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
           </button>
         ) : null}
         <div className={styles.single} style={{ position: "relative" }}>
-          {candidateHubs.length > 0 && (
-            <div
-              style={{
-                position: "absolute",
-                top: 8,
-                left: 8,
-                zIndex: 15,
-                display: "flex",
-                flexWrap: "wrap",
-                gap: 4,
-                maxWidth: "calc(100% - 48px)",
-                pointerEvents: "none",
-              }}
-            >
-              {candidateHubs.slice(0, 2).map((hub) => (
-                <span
-                  key={hub.slug}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 3,
-                    fontSize: 10.5,
-                    fontWeight: 700,
-                    padding: "2px 8px",
-                    borderRadius: 999,
-                    background: "rgba(236, 253, 245, 0.94)",
-                    color: "#065f46",
-                    border: "1px solid #6ee7b7",
-                    boxShadow: "0 2px 6px rgba(15, 23, 42, 0.14)",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  <span aria-hidden="true">📷</span>
-                  <span>
-                    {locale === "en"
-                      ? `${hub.titleEn || hub.titleJa} Board`
-                      : `${hub.titleJa || hub.titleEn} 候補`}
-                  </span>
-                </span>
-              ))}
-            </div>
-          )}
           <Link href={viewerHref}>
             <a className={styles.singleLink}>
               <Image
@@ -237,27 +195,6 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
                       ? "Enjoy by right to left scroll !!"
                       : "横スクロールで見る"}
                   </button>
-                </a>
-              </Link>
-              <Link href={polaroidClipHref}>
-                <a
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 4,
-                    fontSize: 11.5,
-                    fontWeight: 700,
-                    padding: "6px 10px",
-                    borderRadius: 6,
-                    border: "1px solid #fcd34d",
-                    background: "#fffbeb",
-                    color: "#92400e",
-                    textDecoration: "none",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  <span aria-hidden="true">📷</span>
-                  <span>{locale === "en" ? "Clip to Board" : "切り抜いて貼る"}</span>
                 </a>
               </Link>
             </div>

@@ -180,6 +180,9 @@ function serializeBoardDescription(desc, odai, relatedHubSlugs = []) {
     targetCount: Number(odai?.targetCount) || 0,
     onePerUser: odai?.onePerUser === true,
   };
+  if (typeof odai?.sortOrder === "number" && Number.isFinite(odai.sortOrder)) {
+    payload.sortOrder = odai.sortOrder;
+  }
   const odaiTag = `<!--odai:${JSON.stringify(payload)}-->`;
   const slugs = (relatedHubSlugs || []).map((s) => String(s).trim()).filter(Boolean);
   const hubsTag = slugs.length > 0 ? `\n<!--hubs:${slugs.join(",")}-->` : "";
@@ -201,6 +204,8 @@ export default function DevPublicBoardsPage() {
   const [relatedHubSlugs, setRelatedHubSlugs] = useState([]);
   const [hubPick, setHubPick] = useState("");
   const [deletingId, setDeletingId] = useState("");
+  const [togglingId, setTogglingId] = useState("");
+  const [reorderingId, setReorderingId] = useState("");
   const allHubs = getAllHubPages();
   const [boards, setBoards] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -211,7 +216,7 @@ export default function DevPublicBoardsPage() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("/api/board", { headers: apiHeaders(false) });
+      const res = await fetch("/api/board?includeUnlisted=1", { headers: apiHeaders(false) });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         throw new Error(data.error || data.message || `HTTP ${res.status}`);
@@ -276,9 +281,77 @@ export default function DevPublicBoardsPage() {
     }
   }
 
+  async function handleMoveBoard(index, direction) {
+    const targetIndex = index + direction;
+    if (targetIndex < 0 || targetIndex >= boards.length) return;
+
+    const nextList = [...boards];
+    const [moved] = nextList.splice(index, 1);
+    nextList.splice(targetIndex, 0, moved);
+
+    setReorderingId(moved.id);
+    setError("");
+    try {
+      const updatedList = nextList.map((b, idx) => {
+        const meta = parseBoardMeta(b.description);
+        const nextDesc = serializeBoardDescription(
+          meta.cleanDescription,
+          { ...(meta.odai || {}), sortOrder: idx + 1 },
+          meta.relatedHubSlugs
+        );
+        return { ...b, description: nextDesc };
+      });
+
+      await Promise.all(
+        updatedList.map(async (b, idx) => {
+          if (b.description === nextList[idx].description) return;
+          const res = await fetch(`/api/board/${encodeURIComponent(b.id)}`, {
+            method: "PATCH",
+            headers: apiHeaders(true),
+            body: JSON.stringify({ description: b.description }),
+          });
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) {
+            throw new Error(data.error || data.message || `HTTP ${res.status}`);
+          }
+        })
+      );
+
+      setBoards(updatedList);
+    } catch (err) {
+      setError(err.message || "並び順の変更に失敗しました");
+    } finally {
+      setReorderingId("");
+    }
+  }
+
+  async function handleToggleVisibility(board) {
+    const nextVisibility = board.visibility === "public" ? "unlisted" : "public";
+    setTogglingId(board.id);
+    setError("");
+    try {
+      const res = await fetch(`/api/board/${encodeURIComponent(board.id)}`, {
+        method: "PATCH",
+        headers: apiHeaders(true),
+        body: JSON.stringify({ visibility: nextVisibility }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.error || data.message || `HTTP ${res.status}`);
+      }
+      setBoards((prev) =>
+        prev.map((b) => (b.id === board.id ? { ...b, visibility: nextVisibility } : b))
+      );
+    } catch (err) {
+      setError(err.message || "公開状態の切り替えに失敗しました");
+    } finally {
+      setTogglingId("");
+    }
+  }
+
   async function handleDeleteBoard(board) {
     const label = board.title || board.id;
-    if (!window.confirm(`「${label}」を削除しますか？この操作は取り消せません。`)) {
+    if (!window.confirm(`「${label}」をデータベースから完全削除しますか？カードも含め復元できなくなります。`)) {
       return;
     }
     setDeletingId(board.id);
@@ -524,9 +597,13 @@ export default function DevPublicBoardsPage() {
               <p style={metaStyle}>まだボードがありません。</p>
             ) : (
               <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-                {boards.map((board) => {
+                {boards.map((board, index) => {
                   const meta = parseBoardMeta(board.description);
                   const count = itemCountFor(board);
+                  const isBusy =
+                    Boolean(reorderingId) ||
+                    deletingId === board.id ||
+                    togglingId === board.id;
                   return (
                     <li key={board.id} style={listItemStyle}>
                       <div
@@ -538,9 +615,37 @@ export default function DevPublicBoardsPage() {
                         }}
                       >
                         <div>
-                          <strong style={{ fontSize: "1rem" }}>
-                            {board.title || "（無題）"}
-                          </strong>
+                          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
+                            <span
+                              style={{
+                                padding: "2px 7px",
+                                borderRadius: "6px",
+                                fontSize: "0.75rem",
+                                fontWeight: 700,
+                                background: "#eef2ff",
+                                color: "#3730a3",
+                                border: "1px solid #c7d2fe",
+                              }}
+                            >
+                              #{index + 1}
+                            </span>
+                            <strong style={{ fontSize: "1rem" }}>
+                              {board.title || "（無題）"}
+                            </strong>
+                            <span
+                              style={{
+                                padding: "2px 8px",
+                                borderRadius: "999px",
+                                fontSize: "0.75rem",
+                                fontWeight: 700,
+                                background: board.visibility === "public" ? "#dcfce7" : "#f1f5f9",
+                                color: board.visibility === "public" ? "#166534" : "#475569",
+                                border: `1px solid ${board.visibility === "public" ? "#86efac" : "#cbd5e1"}`,
+                              }}
+                            >
+                              {board.visibility === "public" ? "公開中" : "非公開（編集中）"}
+                            </span>
+                          </div>
                           {meta.odai?.prompt ? (
                             <div
                               style={{
@@ -581,26 +686,86 @@ export default function DevPublicBoardsPage() {
                             アイテム数: {count} · ID: <code>{board.id}</code>
                           </p>
                         </div>
-                        <button
-                          type="button"
-                          onClick={() => handleDeleteBoard(board)}
-                          disabled={deletingId === board.id}
-                          title="この公開ボードを削除"
-                          aria-label="この公開ボードを削除"
-                          style={{
-                            padding: "6px 10px",
-                            background: "#fee2e2",
-                            color: "#b91c1c",
-                            border: "1px solid #fecaca",
-                            borderRadius: "6px",
-                            fontSize: "0.85rem",
-                            fontWeight: 600,
-                            cursor: "pointer",
-                            flexShrink: 0,
-                          }}
-                        >
-                          {deletingId === board.id ? "削除中…" : "🗑️ 削除"}
-                        </button>
+                        <div style={{ display: "flex", gap: "0.5rem", flexShrink: 0, flexWrap: "wrap" }}>
+                          <button
+                            type="button"
+                            onClick={() => handleMoveBoard(index, -1)}
+                            disabled={index === 0 || isBusy}
+                            title="優先順位を1つ上げる"
+                            aria-label="優先順位を1つ上げる"
+                            style={{
+                              padding: "6px 9px",
+                              background: "#f8fafc",
+                              color: index === 0 ? "#94a3b8" : "#334155",
+                              border: "1px solid #cbd5e1",
+                              borderRadius: "6px",
+                              fontSize: "0.85rem",
+                              fontWeight: 700,
+                              cursor: index === 0 || isBusy ? "not-allowed" : "pointer",
+                            }}
+                          >
+                            ↑
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleMoveBoard(index, 1)}
+                            disabled={index === boards.length - 1 || isBusy}
+                            title="優先順位を1つ下げる"
+                            aria-label="優先順位を1つ下げる"
+                            style={{
+                              padding: "6px 9px",
+                              background: "#f8fafc",
+                              color: index === boards.length - 1 ? "#94a3b8" : "#334155",
+                              border: "1px solid #cbd5e1",
+                              borderRadius: "6px",
+                              fontSize: "0.85rem",
+                              fontWeight: 700,
+                              cursor: index === boards.length - 1 || isBusy ? "not-allowed" : "pointer",
+                            }}
+                          >
+                            ↓
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleToggleVisibility(board)}
+                            disabled={togglingId === board.id || deletingId === board.id}
+                            style={{
+                              padding: "6px 10px",
+                              background: board.visibility === "public" ? "#fef3c7" : "#dbeafe",
+                              color: board.visibility === "public" ? "#92400e" : "#1e40af",
+                              border: `1px solid ${board.visibility === "public" ? "#fcd34d" : "#93c5fd"}`,
+                              borderRadius: "6px",
+                              fontSize: "0.85rem",
+                              fontWeight: 600,
+                              cursor: "pointer",
+                            }}
+                          >
+                            {togglingId === board.id
+                              ? "切替中…"
+                              : board.visibility === "public"
+                                ? "非公開にする"
+                                : "再公開する"}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteBoard(board)}
+                            disabled={deletingId === board.id || togglingId === board.id}
+                            title="この公開ボードを完全削除"
+                            aria-label="この公開ボードを完全削除"
+                            style={{
+                              padding: "6px 10px",
+                              background: "#fee2e2",
+                              color: "#b91c1c",
+                              border: "1px solid #fecaca",
+                              borderRadius: "6px",
+                              fontSize: "0.85rem",
+                              fontWeight: 600,
+                              cursor: "pointer",
+                            }}
+                          >
+                            {deletingId === board.id ? "削除中…" : "🗑️ 完全削除"}
+                          </button>
+                        </div>
                       </div>
                       <Link href={boardAdminHref(board.id)}>
                         <a style={linkButtonStyle}>管理者モードで開く</a>
