@@ -19,6 +19,24 @@ export function getHubByPath(path) {
   return getAllHubPages().find((hub) => hub.path === path) || null;
 }
 
+export function getHubHref(hubOrSlug) {
+  if (!hubOrSlug) return "/hub";
+  if (typeof hubOrSlug === "string") {
+    const found = getHubBySlug(hubOrSlug) || getHubByPath(hubOrSlug);
+    if (found?.path) return found.path;
+    return hubOrSlug.startsWith("/") ? hubOrSlug : `/hub/${encodeURIComponent(hubOrSlug)}`;
+  }
+  if (typeof hubOrSlug.path === "string" && hubOrSlug.path.startsWith("/")) {
+    return hubOrSlug.path;
+  }
+  if (hubOrSlug.slug) {
+    const found = getHubBySlug(hubOrSlug.slug);
+    if (found?.path) return found.path;
+    return `/hub/${encodeURIComponent(hubOrSlug.slug)}`;
+  }
+  return "/hub";
+}
+
 export function filterEmakisForHub(allEmakis = [], hub) {
   if (!hub || !Array.isArray(allEmakis)) return [];
   const scrollIdSet = new Set(Array.isArray(hub.scrollIds) ? hub.scrollIds : []);

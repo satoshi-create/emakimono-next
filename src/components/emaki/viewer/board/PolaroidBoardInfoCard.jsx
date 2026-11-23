@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import emakisData from "@/data/scroll-metadata";
-import { filterEmakisForHub, getAllHubPages } from "@/libs/hubPages";
+import { filterEmakisForHub, getAllHubPages, getHubHref } from "@/libs/hubPages";
 import {
   getBoardPermissions,
   isClientBoardAdmin,
@@ -282,7 +282,7 @@ export function PolaroidBoardInfoCard({
 
         {selectedHubs.map((hub) => (
           <Link
-            href={`/hub/${encodeURIComponent(hub.slug)}`}
+            href={getHubHref(hub)}
             key={hub.slug}
             locale={locale}
             passHref
