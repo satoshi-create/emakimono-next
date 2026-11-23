@@ -11,7 +11,7 @@
     "bio": "小野小町は、平安時代前期に活躍した歌人です。六歌仙・三十六歌仙の一人に数えられ、絶世の美女として数多くの物語や伝説に語り継がれてきました。「小野小町九相図」など、その朽ちゆく姿を描いた九相図のモデルとされることでも知られています。",
     "bioen": "Ono no Komachi was a waka poet of the early Heian period. Counted among the Six Poetic Immortals and the Thirty-Six Immortals of Poetry, she has been celebrated in countless tales and legends as a peerless beauty. She is also known as the traditional model of kusōzu works depicting the decay of a noble lady's body, such as \"Kusōzu: the death of a noble lady and the decay of her body.\"",
     "hub": {
-      "path": "/kusouzu/chapters-kusouzu",
+      "path": "/hub/kusouzu",
       "labelJa": "九相図一覧",
       "labelEn": "Kusōzu Hub"
     }
@@ -149,7 +149,7 @@
     "bio": "檀林皇后こと橘嘉智子は、嵯峨天皇の皇后です。死後、遺体を風葬に付して無常を示したと伝えられ、九相図のモデルとして広く知られています。",
     "bioen": "Empress Danrin (Tachibana no Kachiko), consort of Emperor Saga, is the legendary model of kusōzu — the Nine Stages of Decay in Buddhist art. Tradition holds that she chose exposure burial to teach impermanence. Explore her Edo-period Nine Stages of Decay scroll and compare every stage across eras.",
     "hub": {
-      "path": "/kusouzu/chapters-kusouzu",
+      "path": "/hub/kusouzu",
       "labelJa": "九相図一覧・見比べハブ",
       "labelEn": "Nine Stages of Decay Hub"
     },
@@ -161,7 +161,7 @@
         "labelEn": "View Empress Danrin Nine Stages of Decay scroll"
       },
       {
-        "path": "/kusouzu/chapters-kusouzu",
+        "path": "/hub/kusouzu",
         "labelJa": "九相図の全場面一覧・見比べハブ",
         "labelEn": "Nine Stages of Decay hub — compare all scenes"
       }

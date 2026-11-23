@@ -139,7 +139,7 @@ const ScrollSightseeingMapDrawer = ({
 
   if (!isOpen) return null;
 
-  const hubHref = "/rakuchu-rakugai/chapters#sightseeing-map";
+  const hubHref = "/hub/rakuchu-rakugai#sightseeing-map";
 
   const spotCountLabel = isEn
     ? `${geoSpots.length} spots`

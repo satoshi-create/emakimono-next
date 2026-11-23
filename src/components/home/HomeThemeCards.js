@@ -3,9 +3,9 @@ import Link from "next/link";
 import { useTranslation } from "next-i18next";
 
 const THEME_ITEMS = [
-  { key: "satire", href: "/chouju-giga/chapters", accent: "satire" },
+  { key: "satire", href: "/hub/chouju-giga", accent: "satire" },
   { key: "darkFantasy", href: "/emaki-hub?theme=dark-fantasy", accent: "dark" },
-  { key: "kusouzu", href: "/kusouzu/chapters-kusouzu", accent: "kusouzu" },
+  { key: "kusouzu", href: "/hub/kusouzu", accent: "kusouzu" },
   { key: "mangaRoots", href: "/manga-roots", accent: "manga" },
   { key: "genji", href: "/hub/genji-world", accent: "genji" },
 ];

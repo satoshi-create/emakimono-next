@@ -48,7 +48,7 @@ const ja = [
         story:
           "院政期の洒脱な貴族の空気が、動物を擬人化した戯画を生みます。「日本最古の漫画」とも呼ばれる作品です。",
         emaki: [
-          { name: "鳥獣戯画一覧（全4巻）", href: "/chouju-giga/chapters" },
+          { name: "鳥獣戯画一覧（全4巻）", href: "/hub/chouju-giga" },
           { name: "鳥獣人物戯画（甲巻）", titleen: "Chōjū-jinbutsu-giga_first" },
         ],
       },
@@ -84,7 +84,7 @@ const ja = [
         story:
           "仏教の無常観が、人の死骸の変化を九段階に描く九相図を生みます。観想のための絵巻です。",
         emaki: [
-          { name: "九相図一覧（全十場面）", href: "/kusouzu/chapters-kusouzu" },
+          { name: "九相図一覧（全十場面）", href: "/hub/kusouzu" },
           { name: "九相図巻", titleen: "kusouzumaki" },
         ],
       },
@@ -173,7 +173,7 @@ const ja = [
         story:
           "古典の題材が江戸の仏教画としてよみがえり、檀林皇后や小野小町をモデルに描かれます。",
         emaki: [
-          { name: "九相図一覧（全十場面）", href: "/kusouzu/chapters-kusouzu" },
+          { name: "九相図一覧（全十場面）", href: "/hub/kusouzu" },
           {
             name: "檀林皇后九相観",
             titleen: "nine-stages-of-decay-empress-danrin",
@@ -222,7 +222,7 @@ const ja = [
         story:
           "小林永濯が近世の娼婦をモデルに九相図を描き、江戸の感性を明治に引き継ぎます。",
         emaki: [
-          { name: "九相図一覧（全十場面）", href: "/kusouzu/chapters-kusouzu" },
+          { name: "九相図一覧（全十場面）", href: "/hub/kusouzu" },
           { name: "九相図（小林永濯）", titleen: "kusouzu_kobayasieieitaku" },
         ],
       },
@@ -280,7 +280,7 @@ const en = [
         story:
           "The elegant wit of aristocratic society produced caricatures of animals behaving like humans—often called Japan's oldest manga.",
         emaki: [
-          { name: "Chōjū-jinbutsu-giga (all 4 scrolls)", href: "/chouju-giga/chapters" },
+          { name: "Chōjū-jinbutsu-giga (all 4 scrolls)", href: "/hub/chouju-giga" },
           { name: "Chōjū-jinbutsu-giga (Kō)", titleen: "Chōjū-jinbutsu-giga_first" },
         ],
       },
@@ -316,7 +316,7 @@ const en = [
         story:
           "The Buddhist idea of impermanence produced kusōzu—scrolls depicting a body's decay in nine stages, made for contemplation.",
         emaki: [
-          { name: "Kusōzu (all ten stages)", href: "/kusouzu/chapters-kusouzu" },
+          { name: "Kusōzu (all ten stages)", href: "/hub/kusouzu" },
           { name: "Kusōzu Maki", titleen: "kusouzumaki" },
         ],
       },
@@ -405,7 +405,7 @@ const en = [
         story:
           "Classical themes were reborn as Edo-period Buddhist paintings, modeled on Danrin Kōgō and Ono no Komachi.",
         emaki: [
-          { name: "Kusōzu (all ten stages)", href: "/kusouzu/chapters-kusouzu" },
+          { name: "Kusōzu (all ten stages)", href: "/hub/kusouzu" },
           { name: "Danrin Kōgō Kusōkan", titleen: "nine-stages-of-decay-empress-danrin" },
           { name: "Ono no Komachi Kusōzu", titleen: "kusouzu_wellcome_noble_lady" },
         ],
@@ -445,7 +445,7 @@ const en = [
         story:
           "Kobayashi Eitaku painted a kusōzu modeled on a modern courtesan, carrying Edo sensibilities into Meiji.",
         emaki: [
-          { name: "Kusōzu (all ten stages)", href: "/kusouzu/chapters-kusouzu" },
+          { name: "Kusōzu (all ten stages)", href: "/hub/kusouzu" },
           { name: "Kusōzu (Kobayashi Eitaku)", titleen: "kusouzu_kobayasieieitaku" },
         ],
       },

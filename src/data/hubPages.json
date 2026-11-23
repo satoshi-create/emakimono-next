@@ -1,7 +1,7 @@
 [
   {
     "slug": "chouju-giga",
-    "path": "/chouju-giga/chapters",
+    "path": "/hub/chouju-giga",
     "isBuiltin": true,
     "titleJa": "鳥獣人物戯画",
     "titleEn": "Chōjū-jinbutsu-giga",
@@ -16,7 +16,7 @@
   },
   {
     "slug": "kusouzu",
-    "path": "/kusouzu/chapters-kusouzu",
+    "path": "/hub/kusouzu",
     "isBuiltin": true,
     "titleJa": "九相図",
     "titleEn": "Kusōzu (Nine Stages of Decay)",
@@ -31,7 +31,7 @@
   },
   {
     "slug": "hyakki",
-    "path": "/hyakki/chapters",
+    "path": "/hub/hyakki",
     "isBuiltin": true,
     "titleJa": "百鬼夜行と付喪神",
     "titleEn": "Hyakki Yagyō & Tsukumogami",
@@ -46,7 +46,7 @@
   },
   {
     "slug": "rakuchu-rakugai",
-    "path": "/rakuchu-rakugai/chapters",
+    "path": "/hub/rakuchu-rakugai",
     "isBuiltin": true,
     "titleJa": "洛中洛外図屏風",
     "titleEn": "Rakuchū-rakugai-zu Folding Screens",

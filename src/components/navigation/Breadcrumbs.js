@@ -39,7 +39,7 @@ const Breadcrumbs = ({ name, test, testen, items }) => {
         },
         {
           label: isEn ? kusouzuHub.titleEn : kusouzuHub.titleJa,
-          href: kusouzuHub.path || "/kusouzu/chapters-kusouzu",
+          href: kusouzuHub.path || "/hub/kusouzu",
         },
       ];
     }

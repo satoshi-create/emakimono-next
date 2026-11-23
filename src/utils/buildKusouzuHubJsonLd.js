@@ -13,7 +13,7 @@ export function buildKusouzuHubJsonLd({
 }) {
   const pageUrl = buildLocaleUrl(
     locale,
-    "/kusouzu/chapters-kusouzu",
+    "/hub/kusouzu",
     defaultLocale
   );
 

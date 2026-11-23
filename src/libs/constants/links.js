@@ -1,7 +1,7 @@
-export const CHOUJU_GIGA_HUB_PATH = "/chouju-giga/chapters";
-export const KUSOUZU_HUB_PATH = "/kusouzu/chapters-kusouzu";
-export const HYAKKI_HUB_PATH = "/hyakki/chapters";
-export const RAKUCHU_RAKUGAI_HUB_PATH = "/rakuchu-rakugai/chapters";
+export const CHOUJU_GIGA_HUB_PATH = "/hub/chouju-giga";
+export const KUSOUZU_HUB_PATH = "/hub/kusouzu";
+export const HYAKKI_HUB_PATH = "/hub/hyakki";
+export const RAKUCHU_RAKUGAI_HUB_PATH = "/hub/rakuchu-rakugai";
 export const BYOBU_HUB_PATH = "/byobu";
 
 /** トップ「最新の絵巻」キュレーション。新規公開時は先頭に追加（最大5枠）。 */

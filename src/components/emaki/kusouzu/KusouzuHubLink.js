@@ -1,8 +1,7 @@
 import styles from "@/styles/KusouzuHubLink.module.css";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
-
-const HUB_PATH = "/kusouzu/chapters-kusouzu";
+import { KUSOUZU_HUB_PATH as HUB_PATH } from "@/libs/constants/links";
 
 /**
  * Link to the kusōzu hub.

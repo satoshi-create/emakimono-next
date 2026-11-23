@@ -22,14 +22,14 @@ export const DISCOVERY_SPOTLIGHT_GROUPS = [
   {
     id: "yokai",
     titleKey: "discovery.groupYokai",
-    ctaHref: "/hyakki/chapters",
+    ctaHref: "/hub/hyakki",
     ctaKey: "discovery.ctaHyakkiHub",
     titleens: HYAKKI_CLUSTER_TITLEEN,
   },
   {
     id: "rokudo",
     titleKey: "discovery.groupRokudo",
-    ctaHref: "/kusouzu/chapters-kusouzu",
+    ctaHref: "/hub/kusouzu",
     ctaKey: "discovery.ctaKusouzuHub",
     titleens: [
       "jigokusoushi_anzyuin",
