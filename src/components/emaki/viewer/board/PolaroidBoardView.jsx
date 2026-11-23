@@ -32,6 +32,8 @@ import {
   parseOdaiMeta,
   computeCardRuleBadges,
 } from "./polaroidBoardPolicy";
+import { filterEmakisForHub, getAllHubPages } from "@/libs/hubPages";
+import emakisData from "@/data/scroll-metadata";
 
 export function PolaroidBoardView() {
   const router = useRouter();
@@ -177,8 +179,19 @@ export function PolaroidBoardView() {
   const localMovedCoordsRef = useRef({});
 
   const fitViewportToItems = (targetItems) => {
+    const rect = canvasOuterRef.current?.getBoundingClientRect();
+    const viewW = rect?.width || (typeof window !== "undefined" ? window.innerWidth : 1280);
+    const viewH = rect?.height || (typeof window !== "undefined" ? window.innerHeight - 120 : 680);
+
     if (!Array.isArray(targetItems) || targetItems.length === 0) {
-      setViewport({ x: 340, y: 64, scale: 1 });
+      if (isCollabMode) {
+        // 公開ボード0枚時は点線カード (320, 140, 幅228, 高さ260) を画面中央に配置
+        const centerX = Math.round(viewW / 2 - (320 + 114));
+        const centerY = Math.round(viewH / 2 - (140 + 130) + 20);
+        setViewport({ x: centerX, y: Math.max(56, centerY), scale: 1 });
+      } else {
+        setViewport({ x: 340, y: 64, scale: 1 });
+      }
       return;
     }
     const cardW = 240;
@@ -197,12 +210,18 @@ export function PolaroidBoardView() {
       if (y + cardH > maxY) maxY = y + cardH;
     }
 
-    const rect = canvasOuterRef.current?.getBoundingClientRect();
-    const viewW = rect?.width || (typeof window !== "undefined" ? window.innerWidth : 1280);
-    const viewH = rect?.height || (typeof window !== "undefined" ? window.innerHeight - 120 : 680);
+    if (isCollabMode) {
+      // 公開ボード時は右隣の点線カードもバウンディングボックスに含める
+      const phX = targetItems.reduce((m, c) => Math.max(m, Number(c.boardX) || 0), 0) + 270;
+      const phY = targetItems.reduce((m, c) => Math.min(m, Number(c.boardY) || 140), 140);
+      if (phX < minX) minX = phX;
+      if (phY < minY) minY = phY;
+      if (phX + 228 > maxX) maxX = phX + 228;
+      if (phY + 260 > maxY) maxY = phY + 260;
+    }
 
-    const leftSafe = 340;
-    const topSafe = 64;
+    const leftSafe = 48;
+    const topSafe = 68;
     const pad = 48;
     const contentW = Math.max(cardW, maxX - minX);
     const contentH = Math.max(cardH, maxY - minY);
@@ -265,9 +284,9 @@ export function PolaroidBoardView() {
       setCollabBoard(data.board);
       setCollabTitleDraft(data.board?.title || "");
       setItems(mergedItems);
-      if (!hasInitialFitRef.current) {
+      if (!hasInitialFitRef.current || router.query?.pinned === "1") {
         hasInitialFitRef.current = true;
-        fitViewportToItems(loadedItems);
+        fitViewportToItems(mergedItems);
       }
       setRoomError("");
       if (typeof window !== "undefined") {
@@ -657,6 +676,55 @@ export function PolaroidBoardView() {
         onCreateTheme={handleCreateThemeFromTab}
       />
 
+      {router.query?.pinned === "1" && (
+        <div
+          role="status"
+          style={{
+            position: "fixed",
+            top: 76,
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: 1200,
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 10,
+            padding: "10px 18px",
+            borderRadius: 999,
+            backgroundColor: "#1e293b",
+            color: "#ffffff",
+            fontSize: 13,
+            fontWeight: 700,
+            boxShadow: "0 10px 26px rgba(15, 23, 42, 0.25)",
+          }}
+        >
+          <span>
+            {isEn
+              ? "✨ Pinned your Polaroid to the public board!"
+              : "✨ 公開ボードにあなたのポラロイドを貼りました！"}
+          </span>
+          <button
+            type="button"
+            onClick={() => {
+              const nextQuery = { ...router.query };
+              delete nextQuery.pinned;
+              router.replace({ pathname: router.pathname, query: nextQuery }, undefined, {
+                shallow: true,
+              });
+            }}
+            aria-label="Close"
+            style={{
+              border: "none",
+              background: "transparent",
+              color: "#cbd5e1",
+              fontSize: 14,
+              cursor: "pointer",
+            }}
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       {/* ホワイトボードキャンバス（パン＆ズーム対応） */}
       <main
         ref={canvasOuterRef}
@@ -689,7 +757,7 @@ export function PolaroidBoardView() {
           setCollabBoard={setCollabBoard}
           setRoomError={setRoomError}
         />
-        {!isInitialLoading && items.length === 0 ? (
+        {!isInitialLoading && !isCollabMode && items.length === 0 ? (
           <div className={styles.emptyBox}>
             <p className={styles.emptyTitle}>
               {isEn ? "Your board is empty" : "まだポラロイドが貼られていません"}
@@ -751,6 +819,144 @@ export function PolaroidBoardView() {
                   />
                 );
               });
+            })()}
+
+            {isCollabMode && (() => {
+              const descText = String(collabBoard?.description || "");
+              const hubMatch = descText.match(/\n?<!--hubs:([^>]*)-->/);
+              const rawRelated = hubMatch
+                ? hubMatch[1]
+                    .split(",")
+                    .map((s) => s.trim())
+                    .filter(Boolean)
+                : [];
+              const allHubs = getAllHubPages();
+              const matchedHubs = allHubs.filter(
+                (h) => rawRelated.includes(h.slug) || rawRelated.includes(h.path)
+              );
+              const primaryHub = matchedHubs.length > 0 ? matchedHubs[0] : null;
+
+              // 紐づくハブ配下の作品を抽出し、1作品のみなら作品ページへダイレクト遷移する
+              const hubEmakis = primaryHub ? filterEmakisForHub(emakisData, primaryHub) : [];
+              const singleEmaki = hubEmakis.length === 1 ? hubEmakis[0] : null;
+              const singleEmakiSlug = singleEmaki?.slug || singleEmaki?.titleen;
+
+              const targetPath = singleEmakiSlug
+                ? `/emaki/${encodeURIComponent(singleEmakiSlug)}`
+                : primaryHub?.path || "/emaki-hub";
+
+              const targetLabel = singleEmaki
+                ? isEn
+                  ? `Open "${singleEmaki.titleen || singleEmaki.title}" →`
+                  : `『${singleEmaki.title}』を開いて切り抜く →`
+                : primaryHub
+                ? isEn
+                  ? `Explore "${primaryHub.titleEn || primaryHub.titleJa}" →`
+                  : `『${primaryHub.titleJa || primaryHub.titleEn}』から選んで切り抜く →`
+                : isEn
+                ? "Pick a Scroll to Clip →"
+                : "絵巻を選んで切り抜く →";
+
+              const phX =
+                items.length === 0
+                  ? 320
+                  : items.reduce((m, c) => Math.max(m, Number(c.boardX) || 0), 0) + 270;
+              const phY =
+                items.length === 0
+                  ? 140
+                  : items.reduce((m, c) => Math.min(m, Number(c.boardY) || 140), 140);
+
+              return (
+                <div
+                  onPointerDown={(e) => e.stopPropagation()}
+                  style={{
+                    position: "absolute",
+                    left: 0,
+                    top: 0,
+                    width: "228px",
+                    minHeight: "260px",
+                    zIndex: 1,
+                    transform: `translate3d(${phX}px, ${phY}px, 0) rotate(1.4deg)`,
+                    backgroundColor: "rgba(255, 255, 255, 0.78)",
+                    border: "2px dashed rgba(138, 109, 59, 0.45)",
+                    borderRadius: 8,
+                    padding: "14px 13px 13px",
+                    boxShadow: "0 4px 14px rgba(15, 23, 42, 0.05)",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    gap: 10,
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: -9,
+                      left: "50%",
+                      transform: "translateX(-50%) rotate(2deg)",
+                      width: 56,
+                      height: 16,
+                      background: "rgba(255, 248, 220, 0.85)",
+                      border: "1px dashed rgba(138, 109, 59, 0.35)",
+                    }}
+                  />
+                  <div
+                    style={{
+                      borderRadius: 6,
+                      background: "rgba(138, 109, 59, 0.08)",
+                      padding: "12px 10px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <div style={{ fontSize: 22, lineHeight: 1.1, marginBottom: 4 }}>📷</div>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: "#5c431d" }}>
+                      {isEn ? "+ Pin Your Scene" : "＋ あなたの1枚を貼る"}
+                    </div>
+                  </div>
+                  <ol
+                    style={{
+                      margin: 0,
+                      paddingLeft: 16,
+                      fontSize: 11,
+                      lineHeight: 1.55,
+                      color: "#334155",
+                    }}
+                  >
+                    <li>{isEn ? "Open any emaki scroll" : "好きな絵巻を開く"}</li>
+                    <li>{isEn ? "Tap the 📷 Polaroid button" : "画面の 📷 ボタンを押す"}</li>
+                    <li>{isEn ? 'Choose "Pin to Board"' : "「ボードに貼る」で追加！"}</li>
+                  </ol>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (typeof window !== "undefined" && collabBoard?.id) {
+                        try {
+                          window.sessionStorage.setItem(
+                            "emakimono_active_collab_room_v1",
+                            JSON.stringify({ id: collabBoard.id, title: collabBoard.title || "" })
+                          );
+                        } catch {}
+                      }
+                      router.push(targetPath, undefined, { locale: router.locale });
+                    }}
+                    style={{
+                      width: "100%",
+                      fontSize: 11,
+                      fontWeight: 700,
+                      padding: "7px 10px",
+                      borderRadius: 999,
+                      border: "none",
+                      background: "#8a6d3b",
+                      color: "#ffffff",
+                      cursor: "pointer",
+                      boxShadow: "0 2px 6px rgba(138, 109, 59, 0.25)",
+                    }}
+                  >
+                    {targetLabel}
+                  </button>
+                </div>
+              );
             })()}
           </div>
         )}

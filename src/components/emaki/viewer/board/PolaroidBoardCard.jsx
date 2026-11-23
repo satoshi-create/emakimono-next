@@ -30,14 +30,23 @@ function PolaroidCardPreview({ item, isSenmen, cardBg }) {
   const [imgSize, setImgSize] = useState({ w: 0, h: 0 });
   const boxW = isSenmen ? SENMEN_CARD_PHOTO_W : CARD_PHOTO_W;
   const boxH = isSenmen ? SENMEN_CARD_PHOTO_H : CARD_PHOTO_H;
-  const r = boxW / PHOTO_DW;
-  const cs = item.coverScale || 1;
-  const z = item.zoom || 1.5;
+    const r = boxW / PHOTO_DW;
+    const cs = item.coverScale || 1;
+    const z = item.zoom || 1.5;
 
-  const dw = imgSize.w ? imgSize.w * cs * z * r : 0;
-  const dh = imgSize.h ? imgSize.h * cs * z * r : 0;
-  const tx = (item.pan?.x || 0) * r;
-  const ty = (item.pan?.y || 0) * r;
+    const minCoverScale =
+      imgSize.w && imgSize.h ? Math.max(boxW / imgSize.w, boxH / imgSize.h) : 0;
+    const rawDw = imgSize.w ? imgSize.w * cs * z * r : 0;
+    const rawDh = imgSize.h ? imgSize.h * cs * z * r : 0;
+    const dw = imgSize.w ? Math.max(rawDw, imgSize.w * minCoverScale) : 0;
+    const dh = imgSize.h ? Math.max(rawDh, imgSize.h * minCoverScale) : 0;
+
+    const maxPanX = dw > boxW ? (dw - boxW) / 2 : 0;
+    const maxPanY = dh > boxH ? (dh - boxH) / 2 : 0;
+    const rawTx = (item.pan?.x || 0) * r;
+    const rawTy = (item.pan?.y || 0) * r;
+    const tx = Math.max(-maxPanX, Math.min(maxPanX, rawTx));
+    const ty = Math.max(-maxPanY, Math.min(maxPanY, rawTy));
 
   const senmenW = FORMATS.senmen.photoDw;
   const senmenH = FORMATS.senmen.photoDh;

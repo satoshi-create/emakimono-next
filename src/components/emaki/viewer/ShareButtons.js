@@ -15,7 +15,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "next-i18next";
 
@@ -197,18 +197,139 @@ const ShareButtons = ({
   );
 
   const polaroidLabel = t("polaroid.title");
+  const isEnLocale = locale === "en";
+  const polaroidBtnRef = useRef(null);
+  const [showPolaroidTip, setShowPolaroidTip] = useState(false);
+  const [polaroidTipPos, setPolaroidTipPos] = useState(null);
+
+  useEffect(() => {
+    if (!openPolaroidModal || typeof window === "undefined") return;
+    try {
+      const seen = window.localStorage.getItem("emakimono_polaroid_tip_seen_v1");
+      if (!seen) {
+        setShowPolaroidTip(true);
+      }
+    } catch {}
+  }, [openPolaroidModal]);
+
+  useEffect(() => {
+    if (!showPolaroidTip || typeof window === "undefined") return;
+    const updateTipPos = () => {
+      const el = polaroidBtnRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.width === 0 && rect.height === 0) return;
+      const centerX = rect.left + rect.width / 2;
+      const clampedX = Math.max(120, Math.min(window.innerWidth - 120, centerX));
+      setPolaroidTipPos({
+        left: clampedX,
+        top: rect.top - 10,
+        arrowOffset: centerX - clampedX,
+      });
+    };
+    updateTipPos();
+    const rafId = window.requestAnimationFrame(updateTipPos);
+    window.addEventListener("resize", updateTipPos);
+    window.addEventListener("scroll", updateTipPos, true);
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      window.removeEventListener("resize", updateTipPos);
+      window.removeEventListener("scroll", updateTipPos, true);
+    };
+  }, [showPolaroidTip]);
+
+  const dismissPolaroidTip = (e) => {
+    if (e) e.stopPropagation();
+    setShowPolaroidTip(false);
+    if (typeof window !== "undefined") {
+      try {
+        window.localStorage.setItem("emakimono_polaroid_tip_seen_v1", "1");
+      } catch {}
+    }
+  };
 
   const renderPolaroidButton = (className) =>
     openPolaroidModal ? (
-      <button
-        type="button"
-        onClick={openPolaroidModal}
-        className={className}
-        title={polaroidLabel}
-        aria-label={polaroidLabel}
-      >
-        <FontAwesomeIcon icon={faCamera} />
-      </button>
+      <>
+        <button
+          ref={polaroidBtnRef}
+          type="button"
+          onClick={() => {
+            dismissPolaroidTip();
+            openPolaroidModal();
+          }}
+          className={className}
+          title={polaroidLabel}
+          aria-label={polaroidLabel}
+        >
+          <FontAwesomeIcon icon={faCamera} />
+        </button>
+        {showPolaroidTip &&
+          polaroidTipPos &&
+          typeof document !== "undefined" &&
+          createPortal(
+            <div
+              role="tooltip"
+              style={{
+                position: "fixed",
+                left: `${polaroidTipPos.left}px`,
+                top: `${polaroidTipPos.top}px`,
+                transform: "translate(-50%, -100%)",
+                zIndex: 9999,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                padding: "6px 10px",
+                borderRadius: "8px",
+                backgroundColor: "#5c431d",
+                color: "#ffffff",
+                fontSize: "11px",
+                fontWeight: 700,
+                lineHeight: 1.35,
+                whiteSpace: "nowrap",
+                boxShadow: "0 6px 16px rgba(15, 23, 42, 0.25)",
+                pointerEvents: "auto",
+              }}
+            >
+              <span>
+                {isEnLocale
+                  ? "📷 Clip this scene to a board!"
+                  : "📷 ここから場面を切り抜けます！"}
+              </span>
+              <button
+                type="button"
+                onClick={dismissPolaroidTip}
+                aria-label="Close tooltip"
+                style={{
+                  border: "none",
+                  background: "transparent",
+                  color: "rgba(255,255,255,0.8)",
+                  fontSize: "11px",
+                  padding: "0 2px",
+                  cursor: "pointer",
+                  lineHeight: 1,
+                }}
+              >
+                ✕
+              </button>
+              <span
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  top: "100%",
+                  left: `calc(50% + ${polaroidTipPos.arrowOffset || 0}px)`,
+                  transform: "translateX(-50%)",
+                  width: 0,
+                  height: 0,
+                  borderLeft: "5px solid transparent",
+                  borderRight: "5px solid transparent",
+                  borderTop: "5px solid #5c431d",
+                }}
+              />
+            </div>,
+            document.body
+          )}
+      </>
     ) : null;
 
   // ナビ用: 「共有」1ボタン + クリックでポップオーバー展開

@@ -358,9 +358,27 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
     setShowHowTo(false);
   };
 
+  const primaryTargetHub = relatedHubs.length > 0 ? relatedHubs[0] : null;
+  const primaryTargetPath = primaryTargetHub?.path || "/emaki-hub";
+  const primaryTargetLabel = primaryTargetHub
+    ? isEn
+      ? `Explore "${primaryTargetHub.titleEn || primaryTargetHub.titleJa}" →`
+      : `『${primaryTargetHub.titleJa || primaryTargetHub.titleEn}』から選んで切り抜く →`
+    : isEn
+    ? "Pick a Scroll to Clip →"
+    : "絵巻を選んで切り抜く →";
+
   const handleJumpToScrolls = (e) => {
     e.stopPropagation();
-    router.push("/emaki-hub", undefined, { locale: router.locale });
+    if (typeof window !== "undefined" && activeBoard?.id) {
+      try {
+        window.sessionStorage.setItem(
+          "emakimono_active_collab_room_v1",
+          JSON.stringify({ id: activeBoard.id, title: activeBoard.title || "" })
+        );
+      } catch {}
+    }
+    router.push(primaryTargetPath, undefined, { locale: router.locale });
   };
   const handleCanvasPointerMove = (e) => {
     if (!panRef.current.active) return;
@@ -507,50 +525,6 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
             {isEn
               ? "Loading polaroid whiteboard..."
               : "ホワイトボードを読み込み中..."}
-          </div>
-        ) : activeItems.length === 0 ? (
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 12,
-              padding: 20,
-              textAlign: "center",
-            }}
-          >
-            <p style={{ margin: 0, fontSize: 14, color: surface.barTextMuted }}>
-              {isEn
-                ? "No polaroids pinned to this board yet."
-                : "このホワイトボードにはまだカードが貼られていません。"}
-            </p>
-            {activeBoard && (
-              <Link
-                href={`/board?room=${encodeURIComponent(activeBoard.id)}`}
-                locale={router.locale}
-                passHref
-              >
-                <a
-                  onPointerDown={(e) => e.stopPropagation()}
-                  style={{
-                    fontSize: 13,
-                    fontWeight: 700,
-                    padding: "8px 18px",
-                    borderRadius: 999,
-                    background: defaultTone.accent,
-                    color: "#fff",
-                    textDecoration: "none",
-                  }}
-                >
-                  {isEn
-                    ? "Open Board & Pin First Card →"
-                    : "ボードを開いて最初の1枚を貼る →"}
-                </a>
-              </Link>
-            )}
           </div>
         ) : (
           <div
@@ -856,9 +830,7 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
                       boxShadow: "0 2px 6px rgba(138, 109, 59, 0.25)",
                     }}
                   >
-                    {isEn
-                      ? "Pick a Scroll to Clip →"
-                      : "絵巻を選んで切り抜く →"}
+                    {primaryTargetLabel}
                   </button>
                 </div>
               );

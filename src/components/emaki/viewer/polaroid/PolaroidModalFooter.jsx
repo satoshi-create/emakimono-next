@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import styles from "@/styles/PolaroidModal.module.css";
 import { appendBoardItem } from "../board/polaroidBoardStorage";
 import { addCollabBoardItem, fetchPublicBoards } from "@/libs/api/ugcApi";
+import { filterEmakisForHub, getAllHubPages } from "@/libs/hubPages";
+import emakisData from "@/data/scroll-metadata";
 
 export function PolaroidModalFooter({
   isOpen,
@@ -88,6 +90,22 @@ export function PolaroidModalFooter({
           if (storedRoom?.id && merged.some((b) => b.id === storedRoom.id)) {
             return storedRoom.id;
           }
+          if (scrollId) {
+            const allHubs = getAllHubPages();
+            const matchedBoard = merged.find((b) => {
+              const m = String(b.description || "").match(/\n?<!--hubs:([^>]*)-->/);
+              if (!m) return false;
+              const slugs = m[1].split(",").map((s) => s.trim()).filter(Boolean);
+              return allHubs
+                .filter((h) => slugs.includes(h.slug) || slugs.includes(h.path))
+                .some((hub) =>
+                  filterEmakisForHub(emakisData, hub).some(
+                    (em) => em?.slug === scrollId || em?.titleen === scrollId
+                  )
+                );
+            });
+            if (matchedBoard?.id) return matchedBoard.id;
+          }
           return merged[0]?.id || "";
         });
       } catch {
@@ -150,12 +168,12 @@ export function PolaroidModalFooter({
           // ignore storage errors
         }
       }
-      onCloseModal();
-      router.push(
-        `/board?room=${encodeURIComponent(targetPublicBoardId)}`,
-        undefined,
-        { locale: router.locale }
-      );
+        onCloseModal();
+        router.push(
+          `/board?room=${encodeURIComponent(targetPublicBoardId)}&pinned=1`,
+          undefined,
+          { locale: router.locale }
+        );
     } catch (error) {
       alert(error.message || "ボードへの投稿に失敗しました");
     } finally {
@@ -294,7 +312,7 @@ export function PolaroidModalFooter({
               )}
             </div>
           )}
-          <div className={styles.footerRow}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6, width: "100%" }}>
             {hasPublicBoards && (() => {
               const selectedBoard = publicBoards.find(
                 (b) => b.id === targetPublicBoardId
@@ -314,7 +332,7 @@ export function PolaroidModalFooter({
                 (selectedBoard?.itemCount || 0) >= targetCount;
 
               return (
-                <>
+                <div className={styles.footerRow}>
                   <select
                     aria-label={
                       isEn ? "Select public board" : "投稿先の公開ボードを選択"
@@ -323,10 +341,13 @@ export function PolaroidModalFooter({
                     onChange={(e) => setTargetPublicBoardId(e.target.value)}
                     disabled={isPostingPublic}
                     className={styles.boardSelect}
+                    style={{ fontWeight: 700 }}
                   >
                     {publicBoards.map((board) => (
                       <option key={board.id} value={board.id}>
-                        {board.title || (isEn ? "Shared Board" : "公開ボード")}
+                        {isEn
+                          ? `Public: ${board.title || "Shared Board"}`
+                          : `公開ボード：${board.title || "公開ボード"}`}
                       </option>
                     ))}
                   </select>
@@ -341,37 +362,46 @@ export function PolaroidModalFooter({
                       isGoalReached
                     }
                     onClick={handlePinToPublicBoard}
-                    style={
-                      isGoalReached
+                    style={{
+                      whiteSpace: "nowrap",
+                      paddingInline: 16,
+                      ...(isGoalReached
                         ? { backgroundColor: "#64748b", cursor: "not-allowed" }
-                        : undefined
-                    }
+                        : {}),
+                    }}
                   >
                     {isGoalReached
                       ? isEn
-                        ? "🔒 Locked"
-                        : "🔒 達成済"
+                        ? "Completed"
+                        : "達成済"
                       : isPostingPublic
                         ? isEn
-                          ? "..."
-                          : "投稿中"
+                          ? "Pinning..."
+                          : "投稿中..."
                         : isEn
-                          ? "Pin"
-                          : "貼る"}
+                          ? "Pin to Public Board"
+                          : "公開ボードに貼る"}
                   </button>
-                </>
+                </div>
               );
             })()}
-
-            <button
-              type="button"
-              className={styles.personalCompactBtn}
-              style={hasPublicBoards ? undefined : { flex: 1 }}
-              onClick={handleKeepPersonal}
-              title={isEn ? "Keep on Personal Board" : "個人ボードにキープ"}
-            >
-              {isEn ? "Personal" : "個人ボード"}
-            </button>
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <button
+                type="button"
+                onClick={handleKeepPersonal}
+                style={{
+                  background: "none",
+                  border: "none",
+                  padding: "2px 4px",
+                  fontSize: 11,
+                  color: "#64748b",
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                }}
+              >
+                {isEn ? "Save to Personal Board instead" : "自分だけの個人ボードに保存する"}
+              </button>
+            </div>
           </div>
         </>
       ) : (
