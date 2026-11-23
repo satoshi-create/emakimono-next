@@ -92,6 +92,7 @@ export const polaroidBoardItems = sqliteTable("polaroid_board_items", {
   boardY: integer("board_y").notNull().default(0),
   rotate: text("rotate").notNull().default("0"),
   zIndex: integer("z_index").notNull().default(1),
+  likeCount: integer("like_count").default(0),
   authorName: text("author_name").notNull().default(""),
   visitorHash: text("visitor_hash").notNull(),
   createdAt: integer("created_at", { mode: "timestamp_ms" })

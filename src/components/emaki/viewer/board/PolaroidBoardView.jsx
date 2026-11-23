@@ -20,6 +20,7 @@ import {
   deleteCollabBoardItem,
   fetchCollabBoard,
   fetchPublicBoards,
+  toggleCollabBoardItemLike,
   updateCollabBoardItem,
 } from "@/libs/api/ugcApi";
 import { usePolaroidBoardMeta } from "./usePolaroidBoardMeta";
@@ -106,9 +107,42 @@ export function PolaroidBoardView() {
     }
   };
 
-  const handleToggleCardLike = (e, cardId) => {
+  const handleToggleCardLike = async (e, cardId) => {
     e.stopPropagation();
-    setLikedIds((prev) => ({ ...prev, [cardId]: !prev[cardId] }));
+    const nextLiked = !likedIds[cardId];
+    const delta = nextLiked ? 1 : -1;
+
+    setLikedIds((prev) => {
+      const updated = { ...prev, [cardId]: nextLiked };
+      if (typeof window !== "undefined") {
+        try {
+          window.localStorage.setItem("emakimono_polaroid_likes_v1", JSON.stringify(updated));
+        } catch {}
+      }
+      return updated;
+    });
+
+    if (isCollabMode && roomParam) {
+      setItems((prev) =>
+        prev.map((it) =>
+          it.id === cardId
+            ? { ...it, likeCount: Math.max(0, (Number(it.likeCount) || 0) + delta) }
+            : it
+        )
+      );
+      try {
+        const res = await toggleCollabBoardItemLike(roomParam, cardId, delta);
+        if (res?.item && typeof res.item.likeCount === "number") {
+          setItems((prev) =>
+            prev.map((it) =>
+              it.id === cardId ? { ...it, likeCount: res.item.likeCount } : it
+            )
+          );
+        }
+      } catch (err) {
+        console.warn("toggleCollabBoardItemLike failed:", err);
+      }
+    }
   };
 
   const handleShareCard = async (e, item) => {
@@ -260,6 +294,12 @@ export function PolaroidBoardView() {
     if (typeof window === "undefined") return;
     const savedAuthor = window.localStorage.getItem(AUTHOR_NAME_KEY) || "";
     setAuthorName(savedAuthor);
+    if (typeof window !== "undefined") {
+      try {
+        const rawLikes = window.localStorage.getItem("emakimono_polaroid_likes_v1");
+        if (rawLikes) setLikedIds(JSON.parse(rawLikes));
+      } catch {}
+    }
   }, []);
 
   const loadCollabRoom = async (roomId, showFeedback = false) => {
@@ -281,14 +321,21 @@ export function PolaroidBoardView() {
           zIndex: typeof ov.zIndex === "number" ? ov.zIndex : it.zIndex,
         };
       });
-      setCollabBoard(data.board);
-      setCollabTitleDraft(data.board?.title || "");
-      setItems(mergedItems);
-      if (!hasInitialFitRef.current || router.query?.pinned === "1") {
-        hasInitialFitRef.current = true;
-        fitViewportToItems(mergedItems);
-      }
-      setRoomError("");
+        setCollabBoard(data.board);
+        setCollabTitleDraft(data.board?.title || "");
+        setItems(mergedItems);
+        if (!hasInitialFitRef.current || router.query?.pinned === "1") {
+          hasInitialFitRef.current = true;
+          fitViewportToItems(mergedItems);
+          if (router.query?.pinned === "1") {
+            const nextQuery = { ...router.query };
+            delete nextQuery.pinned;
+            router.replace({ pathname: router.pathname, query: nextQuery }, undefined, {
+              shallow: true,
+            });
+          }
+        }
+        setRoomError("");
       if (typeof window !== "undefined") {
         window.sessionStorage.setItem(
           ACTIVE_COLLAB_ROOM_KEY,
@@ -857,14 +904,18 @@ export function PolaroidBoardView() {
                 ? "Pick a Scroll to Clip →"
                 : "絵巻を選んで切り抜く →";
 
-              const phX =
-                items.length === 0
-                  ? 320
-                  : items.reduce((m, c) => Math.max(m, Number(c.boardX) || 0), 0) + 270;
-              const phY =
-                items.length === 0
-                  ? 140
-                  : items.reduce((m, c) => Math.min(m, Number(c.boardY) || 140), 140);
+                const fixedAnchorItems = items.filter(
+                  (c) => !localMovedCoordsRef.current?.[c.id]
+                );
+                const anchorSource = fixedAnchorItems.length > 0 ? fixedAnchorItems : items;
+                const phX =
+                  anchorSource.length === 0
+                    ? 320
+                    : anchorSource.reduce((m, c) => Math.max(m, Number(c.boardX) || 0), 0) + 270;
+                const phY =
+                  anchorSource.length === 0
+                    ? 140
+                    : anchorSource.reduce((m, c) => Math.min(m, Number(c.boardY) || 140), 140);
 
               return (
                 <div

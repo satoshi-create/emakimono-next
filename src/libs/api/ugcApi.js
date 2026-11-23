@@ -218,3 +218,15 @@ export async function deleteCollabBoardItem(boardId, itemId) {
     }
   );
 }
+
+export async function toggleCollabBoardItemLike(boardId, itemId, likeDelta) {
+  return requestJson(
+    `/api/board/${encodeURIComponent(boardId)}/items`,
+    {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ itemId, likeDelta }),
+      ignore503: false,
+    }
+  );
+}

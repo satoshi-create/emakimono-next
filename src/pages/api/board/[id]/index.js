@@ -45,6 +45,7 @@ export function serializeBoardItem(
     boardY: row.boardY,
     rotate: Number(row.rotate) || 0,
     zIndex: row.zIndex,
+    likeCount: Number(row.likeCount) || 0,
     authorName: row.authorName || "",
     canEdit: isOwner,
     createdAt: row.createdAt ? new Date(row.createdAt).getTime() : Date.now(),

@@ -80,8 +80,9 @@ function PolaroidCardPreview({ item, isSenmen, cardBg }) {
         <img
           src={item.src}
           alt={item.displayTitle || "Emaki Polaroid"}
-          draggable={false}
-          onLoad={(e) => {
+            draggable={false}
+            decoding="async"
+            onLoad={(e) => {
             const target = e.currentTarget;
             if (target.naturalWidth && target.naturalHeight) {
               setImgSize({ w: target.naturalWidth, h: target.naturalHeight });
@@ -96,16 +97,14 @@ function PolaroidCardPreview({ item, isSenmen, cardBg }) {
                   width: `${dw}px`,
                   height: `${dh}px`,
                   maxWidth: "none",
-                  transform: `translate3d(calc(-50% + ${tx}px), calc(-50% + ${ty}px), 0)`,
-                  imageRendering: "-webkit-optimize-contrast",
-                  backfaceVisibility: "hidden",
+                    transform: `translate3d(calc(-50% + ${tx}px), calc(-50% + ${ty}px), 0)`,
+                    backfaceVisibility: "hidden",
                 }
               : {
                   width: "100%",
                   height: "100%",
-                  objectFit: "cover",
-                  imageRendering: "-webkit-optimize-contrast",
-                }
+                    objectFit: "cover",
+                  }
           }
         />
       ) : null}
@@ -177,7 +176,7 @@ function PolaroidCardPreview({ item, isSenmen, cardBg }) {
   );
 }
 
-export function PolaroidBoardCard({
+export const PolaroidBoardCard = React.memo(function PolaroidBoardCard({
   item,
   ruleBadge = null,
   isSelected,
@@ -209,6 +208,11 @@ export function PolaroidBoardCard({
   const texUrl = getThemeTextureUrl(themeId);
   const activePhotoW = isSenmen ? SENMEN_CARD_PHOTO_W : CARD_PHOTO_W;
   const cardPerms = getBoardCardPermissions({ isCollabMode, isSharedMode }, item);
+  const displayLikeCount = isCollabMode
+    ? Math.max(0, Number(item.likeCount) || 0)
+    : isLiked
+    ? 1
+    : 0;
 
   return (
     <div
@@ -357,7 +361,7 @@ export function PolaroidBoardCard({
             }}
           >
             {isCollabMode ? (isLiked ? "👏 いいね！" : "👏 いいね") : isLiked ? "♥" : "♡"}{" "}
-            {(item.likeCount || 0) + (isLiked ? 1 : 0)}
+            {displayLikeCount}
           </button>
           <button
             type="button"
@@ -489,4 +493,4 @@ export function PolaroidBoardCard({
       )}
     </div>
   );
-}
+});

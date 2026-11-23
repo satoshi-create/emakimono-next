@@ -101,8 +101,29 @@ export function PolaroidBoardHeader({
         </div>
       </div>
 
-      {/* 右上：絵巻一覧導線 ＋ ハンバーガーメニュー */}
+      {/* 右上：ホーム導線 ＋ 絵巻一覧導線 ＋ ハンバーガーメニュー */}
       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <Link href="/" locale={locale} passHref>
+          <a
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 4,
+              padding: "6px 12px",
+              borderRadius: 999,
+              border: "1px solid #cbd5e1",
+              background: "#ffffff",
+              color: "#1e293b",
+              fontSize: 12,
+              fontWeight: 600,
+              textDecoration: "none",
+              whiteSpace: "nowrap",
+            }}
+          >
+            <span aria-hidden="true">🏠</span>
+            <span>{isEn ? "Home" : "ホームに戻る"}</span>
+          </a>
+        </Link>
         <Link href="/type/emaki" locale={locale} passHref>
           <a
             style={{

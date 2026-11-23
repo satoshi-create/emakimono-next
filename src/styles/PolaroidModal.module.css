@@ -31,13 +31,13 @@
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
   width: 100%;
   max-width: 420px;
-  padding: 14px 14px 14px 14px;
+  padding: 12px 14px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   background-size: cover;
   background-position: center;
-  max-height: 90vh;
+  max-height: 94vh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }

@@ -113,10 +113,22 @@ export function PolaroidBoardInfoCard({
   });
 
   const odaiMeta = useMemo(() => {
-    if (!isCollabMode || !collabBoard?.description) return null;
-    const parsed = parseOdaiMeta(collabBoard.description);
+    const rawDesc = isCollabMode
+      ? collabBoard?.description
+      : personalMeta?.description;
+    if (!rawDesc) return null;
+    const parsed = parseOdaiMeta(rawDesc);
     return parsed.prompt ? parsed : null;
-  }, [isCollabMode, collabBoard?.description]);
+  }, [isCollabMode, collabBoard?.description, personalMeta?.description]);
+
+  const fallbackPromptText = useMemo(() => {
+    if (odaiMeta?.prompt) return odaiMeta.prompt;
+    const desc = isCollabMode ? collabDescription : personalMeta?.description;
+    if (typeof desc === "string" && desc.trim()) {
+      return desc.replace(/<!--[\s\S]*?-->/g, "").trim();
+    }
+    return displayTitle || "";
+  }, [odaiMeta, isCollabMode, collabDescription, personalMeta?.description, displayTitle]);
 
   const currentItemCount = items?.length ?? collabBoard?.items?.length ?? 0;
 
@@ -244,7 +256,7 @@ export function PolaroidBoardInfoCard({
           <span style={{ fontSize: 13, flexShrink: 0 }}>
             {isCollabMode ? "🌐" : "🔒"}
           </span>
-          {odaiMeta ? (
+          {fallbackPromptText ? (
             <span
               style={{
                 fontSize: 12,
@@ -253,59 +265,10 @@ export function PolaroidBoardInfoCard({
                 ...ellipsisText,
               }}
             >
-              {odaiMeta.prompt}
+              {fallbackPromptText}
             </span>
           ) : null}
         </button>
-
-        {odaiMeta && odaiModeLabel ? (
-          <span
-            style={{
-              fontSize: 10,
-              fontWeight: 700,
-              padding: "2px 7px",
-              borderRadius: 999,
-              background: "#eef2ff",
-              color: "#4338ca",
-              border: "1px solid #c7d2fe",
-              flexShrink: 0,
-              maxWidth: "34%",
-              ...ellipsisText,
-            }}
-          >
-            {odaiModeLabel}
-          </span>
-        ) : null}
-
-        <span
-          style={{
-            fontSize: 11,
-            fontWeight: 700,
-            color: targetDone ? "#047857" : "#64748b",
-            flexShrink: 0,
-          }}
-        >
-          {countLabel}
-        </span>
-
-        {selectedHubs.length > 0 && (
-          <span
-            style={{
-              fontSize: 10,
-              fontWeight: 700,
-              padding: "2px 7px",
-              borderRadius: 999,
-              background: "#ecfdf5",
-              color: "#047857",
-              border: "1px solid #a7f3d0",
-              flexShrink: 0,
-            }}
-          >
-            {isEn
-              ? `${selectedHubs.length} hub${selectedHubs.length > 1 ? "s" : ""}`
-              : `ハブ${selectedHubs.length}`}
-          </span>
-        )}
 
         {canEditBoardMeta && (
           <button
@@ -317,24 +280,24 @@ export function PolaroidBoardInfoCard({
           </button>
         )}
 
-        {isCollabMode && (
-          <button
-            type="button"
-            disabled={isRefreshing}
-            onClick={onRefreshRoom}
-            title={isEn ? "Refresh" : "最新に更新"}
+        {selectedHubs.map((hub) => (
+          <span
+            key={hub.slug}
             style={{
-              ...pillBtnStyle,
-              width: 28,
-              padding: 0,
-              borderColor: "#f59e0b",
-              background: "#fffbeb",
-              color: "#b45309",
+              fontSize: 11,
+              fontWeight: 700,
+              padding: "2px 9px",
+              borderRadius: 999,
+              background: "#ecfdf5",
+              color: "#047857",
+              border: "1px solid #6ee7b7",
+              flexShrink: 0,
+              whiteSpace: "nowrap",
             }}
           >
-            {isRefreshing ? "…" : refreshSuccess ? "✓" : "↻"}
-          </button>
-        )}
+            {isEn ? hub.titleEn || hub.titleJa : hub.titleJa || hub.titleEn}
+          </span>
+        ))}
 
         {isSharedMode && (
           <button

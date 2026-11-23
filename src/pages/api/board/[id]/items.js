@@ -72,24 +72,16 @@ async function handlePost(req, res, boardId) {
       .from(polaroidBoardItems)
       .where(eq(polaroidBoardItems.boardId, boardId));
 
-    const currentCount = Number(countResult[0]?.count ?? 0);
-    if (currentCount >= MAX_SHARED_BOARD_ITEMS) {
-      return sendApiError(
-        res,
-        400,
-        `Board item limit (${MAX_SHARED_BOARD_ITEMS}) reached`
-      );
-    }
+      const currentCount = Number(countResult[0]?.count ?? 0);
+      if (currentCount >= MAX_SHARED_BOARD_ITEMS) {
+        return sendApiError(
+          res,
+          400,
+          `Board item limit (${MAX_SHARED_BOARD_ITEMS}) reached`
+        );
+      }
 
-    if (targetCount > 0 && currentCount >= targetCount && !isBoardAdmin) {
-      return sendApiError(
-        res,
-        409,
-        `このお題は目標枚数（${targetCount}枚）に達したため投稿が締め切られました`
-      );
-    }
-
-    const visitorHash = getVisitorHash(req);
+      const visitorHash = getVisitorHash(req);
     const itemId = uuidv4();
     const panX = Math.round(Number(req.body?.pan?.x ?? req.body?.panX ?? 0)) || 0;
     const panY = Math.round(Number(req.body?.pan?.y ?? req.body?.panY ?? 0)) || 0;
@@ -195,6 +187,49 @@ async function handlePatch(req, res, boardId) {
   const itemId = parseNonEmptyString(req.body?.itemId, 64);
   if (!itemId) {
     return sendApiError(res, 400, "Invalid itemId");
+  }
+
+  const delta = Number(req.body?.likeDelta);
+  if (delta === 1 || delta === -1) {
+    try {
+      const db = getDb();
+      const visitorHash = getVisitorHash(req);
+      const clientId =
+        parseNonEmptyString(
+          req.headers["x-board-client-id"] || req.body?.clientId,
+          80
+        ) || "";
+      const expectedAdminKey = process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY;
+      const providedAdminKey = req.headers["x-board-admin-key"];
+      const isBoardAdmin = Boolean(
+        expectedAdminKey && providedAdminKey === expectedAdminKey
+      );
+
+      await db
+        .update(polaroidBoardItems)
+        .set({
+          likeCount: sql`max(0, ${polaroidBoardItems.likeCount} + ${delta})`,
+        })
+        .where(
+          and(
+            eq(polaroidBoardItems.id, itemId),
+            eq(polaroidBoardItems.boardId, boardId)
+          )
+        );
+      const updatedRows = await db
+        .select()
+        .from(polaroidBoardItems)
+        .where(eq(polaroidBoardItems.id, itemId))
+        .limit(1);
+      return res.status(200).json({
+        item: updatedRows[0]
+          ? serializeBoardItem(updatedRows[0], visitorHash, clientId, isBoardAdmin)
+          : null,
+      });
+    } catch (error) {
+      console.error("PATCH /api/board/[id]/items like failed:", error);
+      return sendApiError(res, 500, "Failed to update board item like");
+    }
   }
 
   const updates = {};

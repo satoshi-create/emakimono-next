@@ -197,7 +197,6 @@ export default function DevPublicBoardsPage() {
   const [description, setDescription] = useState("");
   const [odaiPrompt, setOdaiPrompt] = useState("");
   const [odaiMode, setOdaiMode] = useState("coop");
-  const [odaiTarget, setOdaiTarget] = useState(3);
   const [odaiOnePerUser, setOdaiOnePerUser] = useState(false);
   const [relatedHubSlugs, setRelatedHubSlugs] = useState([]);
   const [hubPick, setHubPick] = useState("");
@@ -250,7 +249,7 @@ export default function DevPublicBoardsPage() {
             {
               prompt: odaiPrompt,
               mode: odaiMode,
-              targetCount: odaiTarget,
+              targetCount: 0,
               onePerUser: odaiOnePerUser,
             },
             relatedHubSlugs
@@ -266,7 +265,6 @@ export default function DevPublicBoardsPage() {
       setDescription("");
       setOdaiPrompt("");
       setOdaiMode("coop");
-      setOdaiTarget(3);
       setOdaiOnePerUser(false);
       setRelatedHubSlugs([]);
       setHubPick("");
@@ -353,38 +351,20 @@ export default function DevPublicBoardsPage() {
                 style={inputStyle}
                 placeholder="例: 一番楽しそうに宴をしている場面を3枚切り抜こう！"
               />
-              <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-                <div style={{ flex: "1 1 200px" }}>
-                  <label style={labelStyle} htmlFor="board-odai-mode">
-                    遊び方ルール
-                  </label>
-                  <select
-                    id="board-odai-mode"
-                    value={odaiMode}
-                    onChange={(e) => setOdaiMode(e.target.value)}
-                    style={inputStyle}
-                  >
-                    <option value="coop">協力コレクション（みんなで目標達成）</option>
-                    <option value="utaawase">歌合（左右対決・一首詠み）</option>
-                    <option value="unique">かぶり禁止（通な名場面発掘）</option>
-                  </select>
-                </div>
-                <div style={{ flex: "1 1 160px" }}>
-                  <label style={labelStyle} htmlFor="board-odai-target">
-                    完了条件（目標枚数）
-                  </label>
-                  <select
-                    id="board-odai-target"
-                    value={odaiTarget}
-                    onChange={(e) => setOdaiTarget(Number(e.target.value))}
-                    style={inputStyle}
-                  >
-                    <option value={3}>3枚で満願</option>
-                    <option value={6}>6枚で満願</option>
-                    <option value={9}>9枚で満願</option>
-                    <option value={0}>上限なし（自由投稿）</option>
-                  </select>
-                </div>
+              <div>
+                <label style={labelStyle} htmlFor="board-odai-mode">
+                  遊び方ルール
+                </label>
+                <select
+                  id="board-odai-mode"
+                  value={odaiMode}
+                  onChange={(e) => setOdaiMode(e.target.value)}
+                  style={inputStyle}
+                >
+                  <option value="coop">協力コレクション（みんなで目標達成）</option>
+                  <option value="utaawase">歌合（左右対決・一首詠み）</option>
+                  <option value="unique">かぶり禁止（通な名場面発掘）</option>
+                </select>
               </div>
               <label
                 style={{

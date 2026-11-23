@@ -31,12 +31,25 @@ export function PolaroidModalFooter({
 }) {
   const router = useRouter();
   const isDevEnv = process.env.NODE_ENV === "development";
-  const [footerTab, setFooterTab] = useState("board"); // "board" | "share"
+  const [boardTargetMode, setBoardTargetMode] = useState("public"); // "public" | "personal"
   const [publicBoards, setPublicBoards] = useState([]);
   const [targetPublicBoardId, setTargetPublicBoardId] = useState("");
   const [isPostingPublic, setIsPostingPublic] = useState(false);
   const [authorNameInput, setAuthorNameInput] = useState("");
   const [postAsAdmin, setPostAsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return undefined;
+    const syncAuthor = () => {
+      try {
+        setAuthorNameInput(
+          window.localStorage.getItem("emakimono_polaroid_author_v1") || ""
+        );
+      } catch {}
+    };
+    window.addEventListener("emakimono-author-change", syncAuthor);
+    return () => window.removeEventListener("emakimono-author-change", syncAuthor);
+  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -205,229 +218,160 @@ export function PolaroidModalFooter({
 
   const hasPublicBoards = publicBoards.length > 0;
 
+  const effectiveMode = hasPublicBoards ? boardTargetMode : "personal";
+
   return (
-    <div className={styles.footer}>
-      {/* 上部：コンパクトモード切替ピル */}
-      <div className={styles.footerTabs} role="tablist">
-        <button
-          type="button"
-          role="tab"
-          aria-selected={footerTab === "board"}
-          className={`${styles.footerTabBtn} ${
-            footerTab === "board" ? styles.footerTabBtnActive : ""
-          }`}
-          onClick={() => setFooterTab("board")}
-        >
-          {isEn ? "📌 Pin to Board" : "📌 ボードに貼る"}
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={footerTab === "share"}
-          className={`${styles.footerTabBtn} ${
-            footerTab === "share" ? styles.footerTabBtnActive : ""
-          }`}
-          onClick={() => setFooterTab("share")}
-        >
-          {isEn ? "📤 Save / Share" : "📤 保存・SNS共有"}
-        </button>
-      </div>
-
-      {/* 下部：選択モードに応じたアクションバー */}
-      {footerTab === "board" ? (
-        <>
-          {hasPublicBoards && (
-            <div style={{ marginBottom: 6, display: "flex", flexDirection: "column", gap: 4 }}>
-              <input
-                type="text"
-                maxLength={40}
-                value={authorNameInput}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  setAuthorNameInput(val);
-                  if (typeof window !== "undefined") {
-                    try {
-                      window.localStorage.setItem("emakimono_polaroid_author_v1", val);
-                    } catch {}
-                  }
-                }}
-                placeholder={
-                  isEn
-                    ? "Your name (optional)"
-                    : "投稿者名・ニックネーム（任意）"
-                }
-                aria-label={isEn ? "Author name" : "投稿者名"}
-                style={{
-                  width: "100%",
-                  boxSizing: "border-box",
-                  padding: "6px 10px",
-                  fontSize: 12,
-                  borderRadius: 8,
-                  border: "1px solid #cbd5e1",
-                  backgroundColor: "#ffffff",
-                  color: "#0f172a",
-                }}
-              />
-              {isDevEnv && (
-                <label
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 6,
-                    fontSize: 11,
-                    fontWeight: 600,
-                    color: "#b45309",
-                    backgroundColor: "#fef3c7",
-                    border: "1px solid #fcd34d",
-                    borderRadius: 6,
-                    padding: "3px 8px",
-                    cursor: "pointer",
-                    userSelect: "none",
-                  }}
-                >
-                  <input
-                    type="checkbox"
-                    checked={postAsAdmin}
-                    onChange={(e) => {
-                      const checked = e.target.checked;
-                      setPostAsAdmin(checked);
-                      if (typeof window !== "undefined") {
-                        try {
-                          const envAdminKey = process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY || "";
-                          if (checked && envAdminKey) {
-                            window.localStorage.setItem("emakimono_board_admin_key", envAdminKey);
-                          } else {
-                            window.localStorage.removeItem("emakimono_board_admin_key");
-                          }
-                        } catch {}
-                      }
-                    }}
-                  />
-                  <span>
-                    {isEn
-                      ? "🔑 Post as Admin (DEV only: bypass lock & 1-per-user limit)"
-                      : "🔑 管理者として投稿（DEV限定：達成済ロック・1人1枚制限を解除）"}
-                  </span>
-                </label>
-              )}
-            </div>
-          )}
-          <div style={{ display: "flex", flexDirection: "column", gap: 6, width: "100%" }}>
-            {hasPublicBoards && (() => {
-              const selectedBoard = publicBoards.find(
-                (b) => b.id === targetPublicBoardId
-              );
-              const odaiMatch = (selectedBoard?.description || "").match(
-                /<!--odai:(\{[\s\S]*?\})-->/
-              );
-              let targetCount = 0;
-              if (odaiMatch) {
-                try {
-                  targetCount = Number(JSON.parse(odaiMatch[1])?.targetCount) || 0;
-                } catch {}
-              }
-              const isGoalReached =
-                !postAsAdmin &&
-                targetCount > 0 &&
-                (selectedBoard?.itemCount || 0) >= targetCount;
-
-              return (
-                <div className={styles.footerRow}>
-                  <select
-                    aria-label={
-                      isEn ? "Select public board" : "投稿先の公開ボードを選択"
-                    }
-                    value={targetPublicBoardId}
-                    onChange={(e) => setTargetPublicBoardId(e.target.value)}
-                    disabled={isPostingPublic}
-                    className={styles.boardSelect}
-                    style={{ fontWeight: 700 }}
-                  >
-                    {publicBoards.map((board) => (
-                      <option key={board.id} value={board.id}>
-                        {isEn
-                          ? `Public: ${board.title || "Shared Board"}`
-                          : `公開ボード：${board.title || "公開ボード"}`}
-                      </option>
-                    ))}
-                  </select>
-
-                  <button
-                    type="button"
-                    className={styles.publicPinBtn}
-                    disabled={
-                      !src ||
-                      !targetPublicBoardId ||
-                      isPostingPublic ||
-                      isGoalReached
-                    }
-                    onClick={handlePinToPublicBoard}
-                    style={{
-                      whiteSpace: "nowrap",
-                      paddingInline: 16,
-                      ...(isGoalReached
-                        ? { backgroundColor: "#64748b", cursor: "not-allowed" }
-                        : {}),
-                    }}
-                  >
-                    {isGoalReached
-                      ? isEn
-                        ? "Completed"
-                        : "達成済"
-                      : isPostingPublic
-                        ? isEn
-                          ? "Pinning..."
-                          : "投稿中..."
-                        : isEn
-                          ? "Pin to Public Board"
-                          : "公開ボードに貼る"}
-                  </button>
-                </div>
-              );
-            })()}
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <button
-                type="button"
-                onClick={handleKeepPersonal}
-                style={{
-                  background: "none",
-                  border: "none",
-                  padding: "2px 4px",
-                  fontSize: 11,
-                  color: "#64748b",
-                  textDecoration: "underline",
-                  cursor: "pointer",
-                }}
-              >
-                {isEn ? "Save to Personal Board instead" : "自分だけの個人ボードに保存する"}
-              </button>
-            </div>
-          </div>
-        </>
-      ) : (
-        <div className={styles.footerRow}>
-          <button
-            type="button"
-            className={styles.saveBtn}
-            onClick={onOpenSaveSheet}
-            disabled={!src}
-          >
-            {isEn ? "Save Image / Video" : "画像・動画保存"}
-          </button>
-
-          <button
-            type="button"
-            className={styles.shareBtn}
-            onClick={onOpenShareSheet}
-            disabled={!src}
+    <div className={styles.footer} style={{ gap: 6, paddingTop: 6 }}>
+      {/* 1行目：🌐公開 / 🔒個人 切替ピル ＋ 選択に応じた投稿・保存ボタン */}
+      <div className={styles.footerRow} style={{ gap: 6, alignItems: "center" }}>
+        {hasPublicBoards && (
+          <div
+            role="group"
+            aria-label={isEn ? "Target board type" : "保存先ボード切替"}
             style={{
-              backgroundColor: currentTheme === "sumi" ? "#383533" : "#2c3e50",
+              display: "inline-flex",
+              alignItems: "center",
+              background: "#f1f5f9",
+              padding: 2,
+              borderRadius: 999,
+              border: "1px solid #cbd5e1",
+              flexShrink: 0,
             }}
           >
-            {isEn ? "Share to SNS / Shorts" : "SNS・Shortsに共有"}
+            <button
+              type="button"
+              onClick={() => setBoardTargetMode("public")}
+              style={{
+                padding: "4px 9px",
+                borderRadius: 999,
+                border: "none",
+                fontSize: 11,
+                fontWeight: effectiveMode === "public" ? 700 : 500,
+                background: effectiveMode === "public" ? "#dcfce7" : "transparent",
+                color: effectiveMode === "public" ? "#166534" : "#64748b",
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {isEn ? "🌐 Public" : "🌐 公開"}
+            </button>
+            <button
+              type="button"
+              onClick={() => setBoardTargetMode("personal")}
+              style={{
+                padding: "4px 9px",
+                borderRadius: 999,
+                border: "none",
+                fontSize: 11,
+                fontWeight: effectiveMode === "personal" ? 700 : 500,
+                background: effectiveMode === "personal" ? "#ffffff" : "transparent",
+                color: effectiveMode === "personal" ? "#0f172a" : "#64748b",
+                boxShadow:
+                  effectiveMode === "personal"
+                    ? "0 1px 2px rgba(15, 23, 42, 0.12)"
+                    : "none",
+                cursor: "pointer",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {isEn ? "🔒 Personal" : "🔒 個人"}
+            </button>
+          </div>
+        )}
+
+        {effectiveMode === "public" ? (
+          <>
+            <select
+              aria-label={isEn ? "Select public board" : "投稿先の公開ボードを選択"}
+              value={targetPublicBoardId}
+              onChange={(e) => setTargetPublicBoardId(e.target.value)}
+              disabled={isPostingPublic}
+              className={styles.boardSelect}
+              style={{
+                flex: 1,
+                minWidth: 0,
+                fontWeight: 700,
+                height: 34,
+                fontSize: 12,
+              }}
+            >
+              {publicBoards.map((board) => (
+                <option key={board.id} value={board.id}>
+                  {board.title || (isEn ? "Shared Board" : "公開ボード")}
+                </option>
+              ))}
+            </select>
+
+            <button
+              type="button"
+              className={styles.publicPinBtn}
+              disabled={!src || !targetPublicBoardId || isPostingPublic}
+              onClick={handlePinToPublicBoard}
+              style={{
+                whiteSpace: "nowrap",
+                paddingInline: 12,
+                height: 34,
+                fontSize: 12,
+                flexShrink: 0,
+              }}
+            >
+              {isPostingPublic
+                ? isEn
+                  ? "Pinning..."
+                  : "投稿中..."
+                : isEn
+                  ? "📌 Pin"
+                  : "📌 貼る"}
+            </button>
+          </>
+        ) : (
+          <button
+            type="button"
+            className={styles.publicPinBtn}
+            disabled={!src}
+            onClick={handleKeepPersonal}
+            style={{
+              flex: 1,
+              height: 34,
+              fontSize: 12,
+              backgroundColor: "#0f172a",
+              color: "#ffffff",
+              borderColor: "#0f172a",
+            }}
+          >
+            {isEn ? "🔒 Save to Personal Board" : "🔒 個人ボードに保存する"}
           </button>
-        </div>
-      )}
+        )}
+      </div>
+
+      {/* 2行目：画像保存 ＋ SNS共有 */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 6,
+          width: "100%",
+        }}
+      >
+        <button
+          type="button"
+          className={styles.saveBtn}
+          onClick={onOpenSaveSheet}
+          disabled={!src}
+          style={{ flex: 1, height: 32, fontSize: 12, padding: "0 10px" }}
+        >
+          {isEn ? "Save Image / Video" : "画像・動画保存"}
+        </button>
+        <button
+          type="button"
+          className={styles.shareBtn}
+          onClick={onOpenShareSheet}
+          disabled={!src}
+          style={{ flex: 1, height: 32, fontSize: 12, padding: "0 10px" }}
+        >
+          {isEn ? "Share to SNS" : "SNS共有"}
+        </button>
+      </div>
     </div>
   );
 }
