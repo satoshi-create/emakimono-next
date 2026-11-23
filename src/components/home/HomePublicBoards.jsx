@@ -210,6 +210,10 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
   const canvasRef = useRef(null);
   const viewportRef = useRef(viewport);
   viewportRef.current = viewport;
+  const boardsRef = useRef(boards);
+  boardsRef.current = boards;
+  const itemsByBoardIdRef = useRef(itemsByBoardId);
+  itemsByBoardIdRef.current = itemsByBoardId;
 
   const panRef = useRef({ active: false, startX: 0, startY: 0, origX: 0, origY: 0 });
   const dragRef = useRef({
@@ -221,15 +225,18 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
     origY: 0,
   });
 
-  const applyFitForItems = useCallback((items) => {
+  const applyFitForItems = useCallback((items, reason = "unknown") => {
     const rect = canvasRef.current?.getBoundingClientRect();
     const w = rect?.width || (typeof window !== "undefined" ? window.innerWidth : 1280);
     const h = rect?.height || 580;
-    setViewport(computeFittedViewport(items, w, h));
+    const nextVp = computeFittedViewport(items, w, h);
+    logBoardDebug("APPLY_FIT", { reason, prevScale: viewportRef.current.scale, nextVp });
+    setViewport(nextVp);
   }, []);
 
   useEffect(() => {
     if (!isFullscreen) return;
+    logBoardDebug("FULLSCREEN_EFFECT_RUN", { selectedBoardId });
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const onKeyDown = (e) => {
@@ -239,16 +246,17 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
     };
     window.addEventListener("keydown", onKeyDown);
     const rafId = window.requestAnimationFrame(() => {
-      const current = boards.find((b) => b.id === selectedBoardId) || boards[0];
-      const currentItems = current ? itemsByBoardId[current.id] || [] : [];
-      applyFitForItems(currentItems);
+      const list = boardsRef.current;
+      const current = list.find((b) => b.id === selectedBoardId) || list[0];
+      const currentItems = current ? itemsByBoardIdRef.current[current.id] || [] : [];
+      applyFitForItems(currentItems, "fullscreen-effect");
     });
     return () => {
       document.body.style.overflow = prevOverflow;
       window.removeEventListener("keydown", onKeyDown);
       window.cancelAnimationFrame(rafId);
     };
-  }, [isFullscreen, boards, selectedBoardId, itemsByBoardId, applyFitForItems]);
+  }, [isFullscreen, selectedBoardId, applyFitForItems]);
 
   // 1. 公開ボード一覧の取得と初期タブ選択
   useEffect(() => {
