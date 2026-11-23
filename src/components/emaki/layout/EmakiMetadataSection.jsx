@@ -69,8 +69,9 @@ const EmakiMetadataSection = ({
     }
     let cancelled = false;
     fetchPublicBoards()
-      .then((allBoards) => {
+      .then((res) => {
         if (cancelled) return;
+        const allBoards = Array.isArray(res) ? res : Array.isArray(res?.boards) ? res.boards : [];
         const seen = new Set();
         const next = [];
         for (const slug of hubSlugs) {
@@ -149,11 +150,15 @@ const EmakiMetadataSection = ({
         <LinkedPublicBoards
           boards={relatedBoards}
           locale={locale}
-          title={t("hyakkiHub.linkedPublicBoardsTitle")}
-          ariaLabel={t("hyakkiHub.linkedPublicBoardsAria")}
-          untitledLabel={t("hyakkiHub.linkedPublicBoardUntitled")}
-          itemCountLabel={(count) =>
-            t("hyakkiHub.linkedPublicBoardItemCount", { count })
+          title={
+            locale === "en"
+              ? "Related Polaroid Public Boards"
+              : "関連する公開ボード"
+          }
+          ariaLabel={
+            locale === "en"
+              ? "Related public boards list"
+              : "関連する公開ボード一覧"
           }
         />
       )}

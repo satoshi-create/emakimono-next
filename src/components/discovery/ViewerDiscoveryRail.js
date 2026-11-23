@@ -9,9 +9,13 @@ import ExtractingListData from "@/utils/ExtractingListData";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useMemo, useContext } from "react";
+import React, { useEffect, useMemo, useContext, useState } from "react";
 import { useTranslation } from "next-i18next";
 import { AppContext } from "@/pages/_app";
+import { LinkedPublicBoards } from "@/components/hub/LinkedPublicBoards";
+import { fetchPublicBoards } from "@/libs/api/ugcApi";
+import { getHubBySlug, getHubSlugsForEmaki } from "@/libs/hubPages";
+import { filterBoardsForHubSlug } from "@/libs/hubPublicBoards";
 
 /**
  * YouTube 風「次に見る」レール。クラスター／最新を優先（累計ランキングではない）。
@@ -101,6 +105,60 @@ const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
     return { plan: p, relatedItems, byobuItems, scrollItems };
   }, [all, data, rankingList]);
 
+  const hubSlugs = useMemo(() => getHubSlugsForEmaki(data), [data]);
+  const primaryHub = useMemo(() => {
+    if (!hubSlugs.length) return null;
+    return getHubBySlug(hubSlugs[0]);
+  }, [hubSlugs]);
+
+  const [relatedBoards, setRelatedBoards] = useState([]);
+
+  useEffect(() => {
+    if (!hubSlugs.length) {
+      setRelatedBoards([]);
+      return undefined;
+    }
+    let cancelled = false;
+    fetchPublicBoards()
+      .then((res) => {
+        if (cancelled) return;
+        const allBoards = Array.isArray(res) ? res : Array.isArray(res?.boards) ? res.boards : [];
+        const seen = new Set();
+        const next = [];
+        for (const slug of hubSlugs) {
+          for (const board of filterBoardsForHubSlug(allBoards, slug)) {
+            const key = board?.id ?? board?.slug ?? board?.boardId;
+            const dedupeKey =
+              key != null ? String(key) : `${slug}:${board?.title ?? ""}`;
+            if (seen.has(dedupeKey)) continue;
+            seen.add(dedupeKey);
+            next.push(board);
+          }
+        }
+        setRelatedBoards(next);
+      })
+      .catch(() => {
+        if (!cancelled) setRelatedBoards([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [hubSlugs]);
+
+  const resolvedTitle =
+    !plan.ctaHref && primaryHub
+      ? locale === "en"
+        ? primaryHub.titleEn || primaryHub.titleJa
+        : primaryHub.titleJa
+      : t(plan.titleKey);
+
+  const resolvedCtaHref = plan.ctaHref || primaryHub?.path || null;
+  const resolvedCtaLabel = plan.ctaHref
+    ? t(plan.ctaKey)
+    : locale === "en"
+      ? "Explore theme hub"
+      : "特集ハブを見る";
+
   const stopRailAsideBubble = (e) => {
     if (
       expandClickGuardUntilRef?.current &&
@@ -116,12 +174,12 @@ const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
   return (
     <div className={styles.rail}>
       <div className={styles.head}>
-        <h2 className={styles.title}>{t(plan.titleKey)}</h2>
+        <h2 className={styles.title}>{resolvedTitle}</h2>
         <div className={styles.headActions}>
-          {plan.ctaHref && (
-            <Link href={plan.ctaHref}>
+          {resolvedCtaHref && (
+            <Link href={resolvedCtaHref}>
               <a className={styles.hubCta} onClick={stopRailAsideBubble}>
-                {t(plan.ctaKey)} →
+                {resolvedCtaLabel} →
               </a>
             </Link>
           )}
@@ -138,6 +196,22 @@ const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
         </div>
       </div>
       <p className={styles.lead}>{t("discovery.railLead")}</p>
+      {relatedBoards.length > 0 && (
+        <div style={{ margin: "6px 0 12px" }}>
+          <LinkedPublicBoards
+            boards={relatedBoards}
+            locale={locale}
+            title={
+              locale === "en" ? "Related Public Boards" : "関連する公開ボード"
+            }
+            ariaLabel={
+              locale === "en"
+                ? "Related public boards list"
+                : "関連する公開ボード一覧"
+            }
+          />
+        </div>
+      )}
       {relatedItems.length === 0 &&
       byobuItems.length === 0 &&
       scrollItems.length === 0 ? (

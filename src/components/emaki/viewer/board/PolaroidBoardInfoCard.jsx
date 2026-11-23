@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { getAllHubPages } from "@/libs/hubPages";
+import emakisData from "@/data/scroll-metadata";
+import { filterEmakisForHub, getAllHubPages } from "@/libs/hubPages";
 import {
   getBoardPermissions,
   isClientBoardAdmin,
@@ -79,6 +80,25 @@ export function PolaroidBoardInfoCard({
   const allHubs = getAllHubPages();
   const selectedHubs = allHubs.filter((h) => relatedHubSlugs.includes(h.slug));
   const unselectedHubs = allHubs.filter((h) => !relatedHubSlugs.includes(h.slug));
+
+  const relatedEmakis = useMemo(() => {
+    if (!selectedHubs.length) return [];
+    const seen = new Set();
+    const list = [];
+    for (const hub of selectedHubs) {
+      for (const emaki of filterEmakisForHub(emakisData, hub)) {
+        const slug = emaki?.slug || emaki?.titleen;
+        if (!slug || seen.has(slug)) continue;
+        seen.add(slug);
+        list.push({
+          slug,
+          titleJa: `${emaki.title ?? ""}${emaki.edition ? ` ${emaki.edition}` : ""}`.trim(),
+          titleEn: `${emaki.titleen ?? slug}`.trim(),
+        });
+      }
+    }
+    return list;
+  }, [selectedHubs]);
 
   const displayTitle = isCollabMode
     ? collabTitleDraft || collabBoard?.title || ""
@@ -626,6 +646,37 @@ export function PolaroidBoardInfoCard({
                   </button>
                 )}
               </span>
+            ))}
+          </div>
+        )}
+
+        {relatedEmakis.length > 0 && (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginTop: 6 }}>
+            {relatedEmakis.map((emaki) => (
+              <Link
+                href={`/${emaki.slug}`}
+                key={emaki.slug}
+                locale={locale}
+                passHref
+              >
+                <a
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 4,
+                    fontSize: 11,
+                    fontWeight: 600,
+                    padding: "2px 7px",
+                    borderRadius: 999,
+                    background: "#eff6ff",
+                    color: "#1d4ed8",
+                    border: "1px solid #bfdbfe",
+                    textDecoration: "none",
+                  }}
+                >
+                  📜 {isEn ? emaki.titleEn : emaki.titleJa}
+                </a>
+              </Link>
             ))}
           </div>
         )}
