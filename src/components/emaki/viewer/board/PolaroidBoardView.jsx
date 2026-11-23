@@ -1036,9 +1036,21 @@ export function PolaroidBoardView() {
                       color: "#334155",
                     }}
                   >
-                    <li>{isEn ? "Open any emaki scroll" : "好きな絵巻を開く"}</li>
-                    <li>{isEn ? "Tap the 📷 Polaroid button" : "画面の 📷 ボタンを押す"}</li>
-                    <li>{isEn ? 'Choose "Pin to Board"' : "「ボードに貼る」で追加！"}</li>
+                    <li>
+                      {isEn
+                        ? "Find a scene matching the theme"
+                        : "お題に合う絵巻・場面を探す"}
+                    </li>
+                    <li>
+                      {isEn
+                        ? "Tap the 📷 Polaroid button"
+                        : "画面の 📷 ボタンを押して切り抜く"}
+                    </li>
+                    <li>
+                      {isEn
+                        ? 'Add a note & "Pin to Board"'
+                        : "一言を添えて「ボードに貼る」！"}
+                    </li>
                   </ol>
                   <button
                     type="button"
@@ -1067,7 +1079,9 @@ export function PolaroidBoardView() {
                       boxShadow: "0 2px 6px rgba(138, 109, 59, 0.25)",
                     }}
                   >
-                    {targetLabel}
+                    {isEn
+                      ? "Explore Scrolls for This Theme →"
+                      : "お題に合う絵巻を探す →"}
                   </button>
                 </div>
               );
