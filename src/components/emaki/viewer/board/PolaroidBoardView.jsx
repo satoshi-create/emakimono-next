@@ -177,8 +177,19 @@ export function PolaroidBoardView() {
   const isCollabMode = Boolean(roomParam);
   const [copied, setCopied] = useState(false);
   const [activeId, setActiveId] = useState(null);
+  // =============================================================================
+  // デバッグスイッチ（検証完了後は false にして一括停止）
+  // =============================================================================
+  const DEBUG_BOARD_PERF = false;
+  const logBoardDebug = (tag, ...args) => {
+    if (!DEBUG_BOARD_PERF) return;
+    const time = performance.now().toFixed(1);
+    console.log(`%c[${time}ms][${tag}]`, "color: #3b82f6; font-weight: bold;", ...args);
+  };
+
   const [viewport, setViewport] = useState({ x: 340, y: 64, scale: 1 });
   const [isPanning, setIsPanning] = useState(false);
+  const [rasterizeTick, setRasterizeTick] = useState(0);
 
   const {
     personalMeta,
@@ -211,6 +222,26 @@ export function PolaroidBoardView() {
   const canvasOuterRef = useRef(null);
   const hasInitialFitRef = useRef(false);
   const localMovedCoordsRef = useRef({});
+  const placeholderAnchorRef = useRef({ boardKey: null, x: 320, y: 140 });
+
+  const resolveFixedPlaceholderPos = (targetItems) => {
+    const boardKey = `${isCollabMode ? "pub" : "priv"}:${roomParam || personalParam || "default"}:${
+      Array.isArray(targetItems) ? targetItems.length : 0
+    }`;
+    if (placeholderAnchorRef.current.boardKey === boardKey) {
+      return { x: placeholderAnchorRef.current.x, y: placeholderAnchorRef.current.y };
+    }
+    const x =
+      !Array.isArray(targetItems) || targetItems.length === 0
+        ? 320
+        : targetItems.reduce((m, c) => Math.max(m, Number(c.boardX) || 0), 0) + 270;
+    const y =
+      !Array.isArray(targetItems) || targetItems.length === 0
+        ? 140
+        : targetItems.reduce((m, c) => Math.min(m, Number(c.boardY) || 140), 140);
+    placeholderAnchorRef.current = { boardKey, x, y };
+    return { x, y };
+  };
 
   const fitViewportToItems = (targetItems) => {
     const rect = canvasOuterRef.current?.getBoundingClientRect();
@@ -219,9 +250,10 @@ export function PolaroidBoardView() {
 
     if (!Array.isArray(targetItems) || targetItems.length === 0) {
       if (isCollabMode) {
+        const fixedPh = resolveFixedPlaceholderPos([]);
         // 公開ボード0枚時は点線カード (320, 140, 幅228, 高さ260) を画面中央に配置
-        const centerX = Math.round(viewW / 2 - (320 + 114));
-        const centerY = Math.round(viewH / 2 - (140 + 130) + 20);
+        const centerX = Math.round(viewW / 2 - (fixedPh.x + 114));
+        const centerY = Math.round(viewH / 2 - (fixedPh.y + 130) + 20);
         setViewport({ x: centerX, y: Math.max(56, centerY), scale: 1 });
       } else {
         setViewport({ x: 340, y: 64, scale: 1 });
@@ -246,8 +278,7 @@ export function PolaroidBoardView() {
 
     if (isCollabMode) {
       // 公開ボード時は右隣の点線カードもバウンディングボックスに含める
-      const phX = targetItems.reduce((m, c) => Math.max(m, Number(c.boardX) || 0), 0) + 270;
-      const phY = targetItems.reduce((m, c) => Math.min(m, Number(c.boardY) || 140), 140);
+      const { x: phX, y: phY } = resolveFixedPlaceholderPos(targetItems);
       if (phX < minX) minX = phX;
       if (phY < minY) minY = phY;
       if (phX + 228 > maxX) maxX = phX + 228;
@@ -284,11 +315,22 @@ export function PolaroidBoardView() {
 
   const dragStateRef = useRef({
     id: null,
+    el: null,
     startX: 0,
     startY: 0,
     origX: 0,
     origY: 0,
+    lastX: 0,
+    lastY: 0,
+    rafId: null,
   });
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setRasterizeTick((t) => t + 1);
+    }, 140);
+    return () => window.clearTimeout(timer);
+  }, [viewport.scale]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -546,18 +588,25 @@ export function PolaroidBoardView() {
     const el = canvasOuterRef.current;
     if (!el) return;
 
-    const onWheelNative = (e) => {
-      if (e.target.tagName === "TEXTAREA") return;
-      e.preventDefault();
-      const factor = e.deltaY < 0 ? 1.1 : 0.9;
+    let rafId = null;
+    let pendingFactor = 1;
+    let lastClientX = 0;
+    let lastClientY = 0;
+
+    const flushWheelZoom = () => {
+      rafId = null;
+      const factor = pendingFactor;
+      pendingFactor = 1;
+      if (factor === 1) return;
+      const rect = el.getBoundingClientRect();
       setViewport((prev) => {
         const nextScale = Math.min(2.5, Math.max(0.35, Number((prev.scale * factor).toFixed(3))));
-        const rect = el.getBoundingClientRect();
+        if (nextScale === prev.scale) return prev;
         if (!rect) {
           return { ...prev, scale: nextScale };
         }
-        const localX = e.clientX - rect.left;
-        const localY = e.clientY - rect.top;
+        const localX = lastClientX - rect.left;
+        const localY = lastClientY - rect.top;
         const ratio = nextScale / prev.scale;
         return {
           x: localX - (localX - prev.x) * ratio,
@@ -567,8 +616,24 @@ export function PolaroidBoardView() {
       });
     };
 
+    const onWheelNative = (e) => {
+      if (e.target.tagName === "TEXTAREA") return;
+      e.preventDefault();
+      const clampedDelta = Math.max(-120, Math.min(120, e.deltaY));
+      const stepFactor = Math.exp(-clampedDelta * 0.0014);
+      pendingFactor *= stepFactor;
+      lastClientX = e.clientX;
+      lastClientY = e.clientY;
+      if (rafId === null) {
+        rafId = window.requestAnimationFrame(flushWheelZoom);
+      }
+    };
+
     el.addEventListener("wheel", onWheelNative, { passive: false });
-    return () => el.removeEventListener("wheel", onWheelNative);
+    return () => {
+      el.removeEventListener("wheel", onWheelNative);
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+    };
   }, []);
 
   const handleZoomStep = (delta) => {
@@ -588,14 +653,21 @@ export function PolaroidBoardView() {
       return;
     }
     // 公開ボード・共有ボード・個人ボードいずれもドラッグ移動を許可（保存は pointerUp で制御）
-    e.currentTarget.setPointerCapture(e.pointerId);
+    const cardEl = e.currentTarget;
+    cardEl.setPointerCapture(e.pointerId);
     bringToFront(item.id);
+    const origX = item.boardX || 0;
+    const origY = item.boardY || 0;
     dragStateRef.current = {
       id: item.id,
+      el: cardEl,
       startX: e.clientX,
       startY: e.clientY,
-      origX: item.boardX || 0,
-      origY: item.boardY || 0,
+      origX,
+      origY,
+      lastX: origX,
+      lastY: origY,
+      rafId: null,
     };
   };
 
@@ -605,35 +677,18 @@ export function PolaroidBoardView() {
     e.stopPropagation();
     const dx = (e.clientX - st.startX) / viewport.scale;
     const dy = (e.clientY - st.startY) / viewport.scale;
-    const shouldTrackLocal =
-      isCollabMode || (!boardPerms.persistToLocalStorage && !isSharedMode);
-    setItems((prev) => {
-      const next = prev.map((it) =>
-        it.id === st.id
-          ? {
-              ...it,
-              boardX: st.origX + dx,
-              boardY: st.origY + dy,
-            }
-          : it
-      );
-      if (shouldTrackLocal) {
-        const moved = next.find((it) => it.id === st.id);
-        if (moved) {
-          const prevOv = localMovedCoordsRef.current[st.id] || {};
-          localMovedCoordsRef.current[st.id] = {
-            boardX: moved.boardX,
-            boardY: moved.boardY,
-            ...(typeof moved.zIndex === "number"
-              ? { zIndex: moved.zIndex }
-              : typeof prevOv.zIndex === "number"
-                ? { zIndex: prevOv.zIndex }
-                : {}),
-          };
-        }
-      }
-      return next;
-    });
+    st.lastX = st.origX + dx;
+    st.lastY = st.origY + dy;
+    if (st.rafId === null && st.el) {
+      st.rafId = window.requestAnimationFrame(() => {
+        st.rafId = null;
+        if (!st.el) return;
+        const curTransform = st.el.style.transform || "";
+        const rotateMatch = curTransform.match(/rotate\([^)]+\)/);
+        const rotatePart = rotateMatch ? ` ${rotateMatch[0]}` : "";
+        st.el.style.transform = `translate3d(${st.lastX}px, ${st.lastY}px, 0)${rotatePart}`;
+      });
+    }
   };
 
   const handleCardPointerUp = (e) => {
@@ -644,13 +699,31 @@ export function PolaroidBoardView() {
     } catch {
       // noop
     }
+    if (st.rafId !== null) {
+      window.cancelAnimationFrame(st.rafId);
+    }
     const movedId = st.id;
-    dragStateRef.current = { id: null, startX: 0, startY: 0, origX: 0, origY: 0 };
+    const finalX = st.lastX;
+    const finalY = st.lastY;
+    dragStateRef.current = {
+      id: null,
+      el: null,
+      startX: 0,
+      startY: 0,
+      origX: 0,
+      origY: 0,
+      lastX: 0,
+      lastY: 0,
+      rafId: null,
+    };
     const shouldTrackLocal =
       isCollabMode || (!boardPerms.persistToLocalStorage && !isSharedMode);
     setItems((prev) => {
+      const next = prev.map((it) =>
+        it.id === movedId ? { ...it, boardX: finalX, boardY: finalY } : it
+      );
       if (shouldTrackLocal) {
-        const moved = prev.find((it) => it.id === movedId);
+        const moved = next.find((it) => it.id === movedId);
         if (moved) {
           const prevOv = localMovedCoordsRef.current[movedId] || {};
           localMovedCoordsRef.current[movedId] = {
@@ -665,9 +738,9 @@ export function PolaroidBoardView() {
         }
       }
       if (boardPerms.persistToLocalStorage && !isCollabMode && !isSharedMode) {
-        saveBoardItems(prev, personalParam || "default");
+        saveBoardItems(next, personalParam || "default");
       }
-      return prev;
+      return next;
     });
   };
 
@@ -823,6 +896,7 @@ export function PolaroidBoardView() {
             className={styles.canvasInner}
             style={{
               transform: `translate3d(${viewport.x}px, ${viewport.y}px, 0) scale(${viewport.scale})`,
+              backfaceVisibility: rasterizeTick % 2 === 0 ? "visible" : "hidden",
             }}
           >
             {(() => {
@@ -904,18 +978,7 @@ export function PolaroidBoardView() {
                 ? "Pick a Scroll to Clip →"
                 : "絵巻を選んで切り抜く →";
 
-                const fixedAnchorItems = items.filter(
-                  (c) => !localMovedCoordsRef.current?.[c.id]
-                );
-                const anchorSource = fixedAnchorItems.length > 0 ? fixedAnchorItems : items;
-                const phX =
-                  anchorSource.length === 0
-                    ? 320
-                    : anchorSource.reduce((m, c) => Math.max(m, Number(c.boardX) || 0), 0) + 270;
-                const phY =
-                  anchorSource.length === 0
-                    ? 140
-                    : anchorSource.reduce((m, c) => Math.min(m, Number(c.boardY) || 140), 140);
+                const { x: phX, y: phY } = resolveFixedPlaceholderPos(items);
 
               return (
                 <div
