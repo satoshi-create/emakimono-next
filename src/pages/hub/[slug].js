@@ -286,8 +286,8 @@ export default function DynamicHubPage({ hub, items, genjiChapters }) {
       worksSection={{
         id: "works",
         emakis: items,
-        sectiontitle: title,
-        sectiontitleen: hub.titleEn || title,
+        sectiontitle: locale === "en" ? "Explore the Scrolls" : "収録作品を鑑賞",
+        sectiontitleen: "Explore the Scrolls",
         columns: "three",
         needdesc: true,
       }}
