@@ -205,6 +205,7 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
   const [activeCardId, setActiveCardId] = useState(null);
   const [likedIds, setLikedIds] = useState({});
   const [showHowTo, setShowHowTo] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const canvasRef = useRef(null);
   const viewportRef = useRef(viewport);
@@ -226,6 +227,28 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
     const h = rect?.height || 580;
     setViewport(computeFittedViewport(items, w, h));
   }, []);
+
+  useEffect(() => {
+    if (!isFullscreen) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setIsFullscreen(false);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    const rafId = window.requestAnimationFrame(() => {
+      const current = boards.find((b) => b.id === selectedBoardId) || boards[0];
+      const currentItems = current ? itemsByBoardId[current.id] || [] : [];
+      applyFitForItems(currentItems);
+    });
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+      window.cancelAnimationFrame(rafId);
+    };
+  }, [isFullscreen, boards, selectedBoardId, itemsByBoardId, applyFitForItems]);
 
   // 1. 公開ボード一覧の取得と初期タブ選択
   useEffect(() => {
@@ -342,8 +365,27 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
     setActiveCardId(null);
   };
 
+  // =============================================================================
+  // デバッグスイッチ（検証完了後は false にして一括停止）
+  // =============================================================================
+  const DEBUG_HOME_BOARD_DRAG = false;
+  const logBoardDebug = (tag, ...args) => {
+    if (!DEBUG_HOME_BOARD_DRAG) return;
+    const time = performance.now().toFixed(1);
+    console.log(`%c[${time}ms][${tag}]`, "color: #3b82f6; font-weight: bold;", ...args);
+  };
+
   // 背景ドラッグ（ホワイトボードのパン移動）
   const handleCanvasPointerDown = (e) => {
+    logBoardDebug("CANVAS_DOWN", {
+      isFullscreen,
+      pointerId: e.pointerId,
+      dragActive: dragRef.current.active,
+      panActive: panRef.current.active,
+      targetTag: e.target?.tagName,
+      currentTag: e.currentTarget?.tagName,
+    });
+    if (dragRef.current.active) return;
     if (e.button !== 0 && e.pointerType === "mouse") return;
     e.currentTarget.setPointerCapture?.(e.pointerId);
     panRef.current = {
@@ -381,9 +423,10 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
     router.push(primaryTargetPath, undefined, { locale: router.locale });
   };
   const handleCanvasPointerMove = (e) => {
-    if (!panRef.current.active) return;
+    if (dragRef.current.active || !panRef.current.active) return;
     const dx = e.clientX - panRef.current.startX;
     const dy = e.clientY - panRef.current.startY;
+    logBoardDebug("CANVAS_MOVE", { isFullscreen, pointerId: e.pointerId, dx, dy });
     setViewport((prev) => ({
       ...prev,
       x: panRef.current.origX + dx,
@@ -393,6 +436,7 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
 
   const handleCanvasPointerUp = (e) => {
     if (!panRef.current.active) return;
+    logBoardDebug("CANVAS_UP", { isFullscreen, pointerId: e.pointerId });
     panRef.current.active = false;
     setIsPanning(false);
     e.currentTarget.releasePointerCapture?.(e.pointerId);
@@ -401,7 +445,16 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
   // カードのドラッグ移動（ローカルお試し操作＆最前面化）
   const handleCardPointerDown = (e, item) => {
     e.stopPropagation();
+    logBoardDebug("CARD_DOWN", {
+      isFullscreen,
+      cardId: item.id,
+      pointerId: e.pointerId,
+      panActiveBefore: panRef.current.active,
+      targetTag: e.target?.tagName,
+    });
     if (e.button !== 0 && e.pointerType === "mouse") return;
+    panRef.current.active = false;
+    setIsPanning(false);
     e.currentTarget.setPointerCapture?.(e.pointerId);
 
     setActiveCardId(item.id);
@@ -435,6 +488,13 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
     const nextX = Math.round(dragRef.current.origX + dx);
     const nextY = Math.round(dragRef.current.origY + dy);
     const targetId = dragRef.current.cardId;
+    logBoardDebug("CARD_MOVE", {
+      isFullscreen,
+      targetId,
+      panActive: panRef.current.active,
+      nextX,
+      nextY,
+    });
 
     setItemsByBoardId((prev) => ({
       ...prev,
@@ -474,18 +534,38 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
       aria-label={
         isEn ? "Public Polaroid Whiteboard" : "みんなのポラロイド・ホワイトボード"
       }
-      style={{
-        position: "relative",
-        width: "100%",
-        height: "580px",
-        margin: 0,
-        overflow: "hidden",
-        backgroundColor: sectionBg,
-      }}
+      style={
+        isFullscreen
+          ? {
+              position: "fixed",
+              inset: 0,
+              width: "100vw",
+              height: "100vh",
+              zIndex: 1300,
+              margin: 0,
+              overflow: "hidden",
+              overscrollBehavior: "none",
+              userSelect: "none",
+              WebkitUserSelect: "none",
+              backgroundColor: sectionBg,
+            }
+          : {
+              position: "relative",
+              width: "100%",
+              height: "580px",
+              margin: 0,
+              overflow: "hidden",
+              overscrollBehavior: "none",
+              userSelect: "none",
+              WebkitUserSelect: "none",
+              backgroundColor: sectionBg,
+            }
+      }
     >
       {/* 全面ホワイトボードキャンバス */}
       <div
         ref={canvasRef}
+        onDragStart={(e) => e.preventDefault()}
         onPointerDown={handleCanvasPointerDown}
         onPointerMove={handleCanvasPointerMove}
         onPointerUp={handleCanvasPointerUp}
@@ -496,6 +576,7 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
           width: "100%",
           height: "100%",
           overflow: "hidden",
+          overscrollBehavior: "none",
           touchAction: "none",
           cursor: isPanning ? "grabbing" : "grab",
           backgroundColor: sectionBg,
@@ -508,6 +589,7 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
           boxShadow:
             "inset 0 10px 18px -14px rgba(15, 23, 42, 0.18), inset 0 -10px 18px -14px rgba(15, 23, 42, 0.16)",
           userSelect: "none",
+          WebkitUserSelect: "none",
         }}
       >
         {isLoadingList || isLoadingItems ? (
@@ -545,6 +627,7 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
               return (
                 <div
                   key={item.id}
+                  onDragStart={(e) => e.preventDefault()}
                   onPointerDown={(e) => handleCardPointerDown(e, item)}
                   onPointerMove={handleCardPointerMove}
                   onPointerUp={handleCardPointerUp}
@@ -554,6 +637,8 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
                     left: 0,
                     top: 0,
                     width: `${CARD_OUTER_W}px`,
+                    userSelect: "none",
+                    WebkitUserSelect: "none",
                     zIndex: item.zIndex || 1,
                     transform: `translate3d(${item.boardX}px, ${item.boardY}px, 0) rotate(${item.rotate || 0}deg)`,
                     backgroundColor: th.bg || "#fff",
@@ -729,31 +814,40 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
               );
             })}
 
-            {/* ① ボード上の「＋ あなたの1枚を貼る」点線ポラロイドカード */}
-            {(() => {
-              const ph = getAddPlaceholderPos(activeItems);
-              return (
-                <div
-                  onPointerDown={(e) => e.stopPropagation()}
-                  style={{
-                    position: "absolute",
-                    left: 0,
-                    top: 0,
-                    width: `${CARD_OUTER_W}px`,
-                    minHeight: `${CARD_PHOTO_H + 92}px`,
-                    zIndex: 1,
-                    transform: `translate3d(${ph.x}px, ${ph.y}px, 0) rotate(1.4deg)`,
-                    backgroundColor: "rgba(255, 255, 255, 0.72)",
-                    border: `2px dashed ${defaultTone.border}`,
-                    borderRadius: 8,
-                    padding: "14px 13px 13px",
-                    boxShadow: "0 4px 14px rgba(15, 23, 42, 0.05)",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    gap: 10,
-                  }}
-                >
+              {/* ① ボード上の「＋ あなたの1枚を貼る」点線ポラロイドカード（ドラッグ追従防止のためボード単位で初期座標を固定） */}
+              {(() => {
+                const boardKey = activeBoard?.id || "default";
+                if (!HomePublicBoards._fixedPhMap) {
+                  HomePublicBoards._fixedPhMap = {};
+                }
+                if (!HomePublicBoards._fixedPhMap[boardKey] && activeItems.length > 0) {
+                  HomePublicBoards._fixedPhMap[boardKey] = getAddPlaceholderPos(activeItems);
+                }
+                const ph =
+                  HomePublicBoards._fixedPhMap[boardKey] ||
+                  getAddPlaceholderPos(activeItems);
+                return (
+                  <div
+                    onPointerDown={(e) => e.stopPropagation()}
+                    style={{
+                      position: "absolute",
+                      left: 0,
+                      top: 0,
+                      width: `${CARD_OUTER_W}px`,
+                      minHeight: `${CARD_PHOTO_H + 92}px`,
+                      zIndex: 1,
+                      transform: `translate3d(${ph.x}px, ${ph.y}px, 0) rotate(1.4deg)`,
+                      backgroundColor: "rgba(255, 255, 255, 0.72)",
+                      border: `2px dashed ${defaultTone.border}`,
+                      borderRadius: 8,
+                      padding: "14px 13px 13px",
+                      boxShadow: "0 4px 14px rgba(15, 23, 42, 0.05)",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      gap: 10,
+                    }}
+                  >
                   {/* マスキングテープ風装飾 */}
                   <div
                     style={{
@@ -854,260 +948,245 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
           pointerEvents: "none",
         }}
       >
-        {/* 1段目：キャッチコピーピル（＋貼り方ポップオーバー） ＋ アクションボタン */}
+        {/* 1段目：最上部に強調見出し（キャッチコピー） ＋ 「？」貼り方ボタン ＋ 全画面ボタン */}
         <div
           style={{
+            position: "relative",
             display: "flex",
-            flexWrap: "wrap",
             alignItems: "center",
             justifyContent: "space-between",
+            width: "100%",
+            flexWrap: "wrap",
             gap: 8,
           }}
         >
-          <div style={{ position: "relative", pointerEvents: "auto" }}>
+          <div
+            style={{
+              pointerEvents: "auto",
+              display: "inline-flex",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: 8,
+            }}
+          >
+            <h2
+              style={{
+                margin: 0,
+                fontSize: "clamp(18px, 2.2vw, 24px)",
+                fontWeight: 800,
+                letterSpacing: "0.02em",
+                lineHeight: 1.35,
+                color: surface.barText,
+                textShadow: "0 1px 10px rgba(255, 252, 246, 0.95), 0 0 2px rgba(255, 252, 246, 0.9)",
+              }}
+            >
+              {isEn
+                ? "Clip & Share Your Favorite Emaki Scenes"
+                : "絵巻の気になる場面を切り抜いて、みんなで共有しよう"}
+            </h2>
+
+            <button
+              type="button"
+              aria-expanded={showHowTo}
+              aria-label={isEn ? "How to pin a polaroid" : "ポラロイドの貼り方"}
+              title={isEn ? "How to Pin" : "貼り方"}
+              onClick={() => setShowHowTo((prev) => !prev)}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 24,
+                height: 24,
+                padding: 0,
+                fontSize: 13,
+                fontWeight: 800,
+                borderRadius: "50%",
+                border: `1.5px solid ${defaultTone.border}`,
+                background: showHowTo ? defaultTone.accent : "rgba(255, 252, 246, 0.96)",
+                color: showHowTo ? "#ffffff" : defaultTone.text,
+                cursor: "pointer",
+                boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
+                transition: "all 0.15s ease",
+              }}
+            >
+              ?
+            </button>
+          </div>
+
+          <button
+            type="button"
+            aria-pressed={isFullscreen}
+            onClick={() => setIsFullscreen((prev) => !prev)}
+            style={{
+              pointerEvents: "auto",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 6,
+              fontSize: 12,
+              fontWeight: 700,
+              padding: "7px 14px",
+              borderRadius: 999,
+              border: `1.5px solid ${isFullscreen ? "#0f172a" : defaultTone.border}`,
+              background: isFullscreen ? "#0f172a" : "rgba(255, 252, 246, 0.96)",
+              color: isFullscreen ? "#ffffff" : defaultTone.text,
+              boxShadow: "0 4px 14px rgba(15, 23, 42, 0.1)",
+              cursor: "pointer",
+              whiteSpace: "nowrap",
+            }}
+          >
+            <span aria-hidden="true">{isFullscreen ? "✕" : "⛶"}</span>
+            <span>
+              {isFullscreen
+                ? isEn
+                  ? "Exit Fullscreen (ESC)"
+                  : "全画面を閉じる (ESC)"
+                : isEn
+                ? "Fullscreen Board"
+                : "全画面で広げる"}
+            </span>
+          </button>
+
+          {showHowTo && (
+            <div
+              role="dialog"
+              aria-label={isEn ? "How to pin a polaroid" : "ポラロイドの貼り方ガイド"}
+              style={{
+                pointerEvents: "auto",
+                position: "absolute",
+                top: "calc(100% + 8px)",
+                left: 0,
+                zIndex: 60,
+                width: "min(360px, calc(100vw - 32px))",
+                padding: "14px 16px",
+                borderRadius: 14,
+                background: "rgba(255, 252, 246, 0.98)",
+                border: `1.5px solid ${defaultTone.border}`,
+                boxShadow: "0 12px 28px rgba(15, 23, 42, 0.16)",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginBottom: 8,
+                }}
+              >
+                <strong style={{ fontSize: 13, color: defaultTone.text }}>
+                  {isEn
+                    ? "3 Easy Steps to Pin Your Discovery"
+                    : "かんたん3ステップでボードに貼れます"}
+                </strong>
+                <button
+                  type="button"
+                  onClick={() => setShowHowTo(false)}
+                  aria-label="Close guide"
+                  style={{
+                    border: "none",
+                    background: "transparent",
+                    fontSize: 14,
+                    fontWeight: 700,
+                    color: surface.barTextMuted,
+                    cursor: "pointer",
+                    padding: "0 4px",
+                  }}
+                >
+                  ✕
+                </button>
+              </div>
+              <ol
+                style={{
+                  margin: 0,
+                  paddingLeft: 18,
+                  fontSize: 12,
+                  lineHeight: 1.65,
+                  color: surface.barText,
+                }}
+              >
+                <li>
+                  {isEn
+                    ? "Open any scroll viewer and zoom into an interesting detail."
+                    : "好きな絵巻ビューアを開き、気になる場面を拡大します。"}
+                </li>
+                <li>
+                  {isEn
+                    ? "Click the 📷 camera icon at the bottom-right to snap a Polaroid."
+                    : "画面右下の 📷 カメラボタンを押してポラロイド風に切り抜きます。"}
+                </li>
+                <li>
+                  {isEn
+                    ? 'Add a note, tap "Pin to Board", and publish it to any public theme!'
+                    : "メモを添えて「ボードに貼る」を押し、公開ボードへ投稿すれば完了です。"}
+                </li>
+              </ol>
+            </div>
+          )}
+        </div>
+
+        {/* 2段目：テーマ選択ドロップダウン ＋ このボードを開くボタン */}
+        {!isLoadingList && boards.length > 0 && (
+          <div>
             <div
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                gap: 8,
-                padding: "6px 10px 6px 14px",
+                flexWrap: "wrap",
+                gap: 6,
+                padding: "4px 6px",
                 borderRadius: 999,
                 background: "rgba(255, 252, 246, 0.95)",
                 backdropFilter: "blur(6px)",
                 border: `1px solid ${surface.barBorder}`,
                 boxShadow: "0 4px 14px rgba(0, 0, 0, 0.07)",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  padding: "2px 8px",
-                  borderRadius: 999,
-                  background: heianTone.softBg,
-                  color: heianTone.text,
-                  border: `1px solid ${heianTone.border}`,
-                }}
-              >
-                {isEn ? "POLAROID BOARD" : "ポラロイド・ボード"}
-              </span>
-              <span
-                style={{
-                  fontSize: 13,
-                  fontWeight: 700,
-                  color: surface.barText,
-                }}
-              >
-                {isEn
-                  ? "Clip & Share Your Favorite Emaki Scenes"
-                  : "絵巻の気になる場面を切り抜いて、みんなで共有しよう"}
-              </span>
-              <button
-                type="button"
-                aria-expanded={showHowTo}
-                onClick={() => setShowHowTo((prev) => !prev)}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 4,
-                  fontSize: 11,
-                  fontWeight: 700,
-                  padding: "4px 10px",
-                  borderRadius: 999,
-                  border: `1px solid ${defaultTone.border}`,
-                  background: showHowTo ? defaultTone.accent : defaultTone.softBg,
-                  color: showHowTo ? "#ffffff" : defaultTone.text,
-                  cursor: "pointer",
-                  whiteSpace: "nowrap",
-                  transition: "all 0.15s ease",
-                }}
-              >
-                <span aria-hidden="true">📷</span>
-                <span>{isEn ? "How to Pin" : "貼り方"}</span>
-              </button>
-            </div>
-
-            {showHowTo && (
-              <div
-                role="dialog"
-                aria-label={isEn ? "How to pin a polaroid" : "ポラロイドの貼り方ガイド"}
-                style={{
-                  position: "absolute",
-                  top: "calc(100% + 8px)",
-                  left: 0,
-                  zIndex: 60,
-                  width: "min(360px, calc(100vw - 32px))",
-                  padding: "14px 16px",
-                  borderRadius: 14,
-                  background: "rgba(255, 252, 246, 0.98)",
-                  border: `1.5px solid ${defaultTone.border}`,
-                  boxShadow: "0 12px 28px rgba(15, 23, 42, 0.16)",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginBottom: 8,
-                  }}
-                >
-                  <strong style={{ fontSize: 13, color: defaultTone.text }}>
-                    {isEn
-                      ? "3 Easy Steps to Pin Your Discovery"
-                      : "かんたん3ステップでボードに貼れます"}
-                  </strong>
-                  <button
-                    type="button"
-                    onClick={() => setShowHowTo(false)}
-                    aria-label="Close guide"
-                    style={{
-                      border: "none",
-                      background: "transparent",
-                      fontSize: 14,
-                      fontWeight: 700,
-                      color: surface.barTextMuted,
-                      cursor: "pointer",
-                      padding: "0 4px",
-                    }}
-                  >
-                    ✕
-                  </button>
-                </div>
-                <ol
-                  style={{
-                    margin: 0,
-                    paddingLeft: 18,
-                    fontSize: 12,
-                    lineHeight: 1.65,
-                    color: surface.barText,
-                  }}
-                >
-                  <li>
-                    {isEn
-                      ? "Open any scroll viewer and zoom into an interesting detail."
-                      : "好きな絵巻ビューアを開き、気になる場面を拡大します。"}
-                  </li>
-                  <li>
-                    {isEn
-                      ? "Click the 📷 camera icon at the bottom-right to snap a Polaroid."
-                      : "画面右下の 📷 カメラボタンを押してポラロイド風に切り抜きます。"}
-                  </li>
-                  <li>
-                    {isEn
-                      ? 'Add a note, tap "Pin to Board", and publish it to any public theme!'
-                      : "メモを添えて「ボードに貼る」を押し、公開ボードへ投稿すれば完了です。"}
-                  </li>
-                </ol>
-              </div>
-            )}
-          </div>
-
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 6,
-              padding: "4px 6px",
-              borderRadius: 999,
-              background: "rgba(255, 252, 246, 0.94)",
-              backdropFilter: "blur(6px)",
-              border: `1px solid ${surface.barBorder}`,
-              boxShadow: "0 4px 14px rgba(0, 0, 0, 0.07)",
-              pointerEvents: "auto",
-            }}
-          >
-            {activeBoard && (
-              <Link
-                href={`/board?room=${encodeURIComponent(activeBoard.id)}`}
-                locale={router.locale}
-                passHref
-              >
-                <a
-                  style={{
-                    fontSize: 12,
-                    fontWeight: 700,
-                    padding: "5px 13px",
-                    borderRadius: 999,
-                    background: defaultTone.accent,
-                    color: "#ffffff",
-                    textDecoration: "none",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {isEn ? "Join Board →" : "このボードを開く →"}
-                </a>
-              </Link>
-            )}
-          </div>
-        </div>
-
-        {/* 2段目：テーマ切り替えタブ */}
-        {!isLoadingList && boards.length > 0 && (
-          <div>
-            <div
-              role="tablist"
-              aria-label={
-                isEn ? "Public board themes" : "公開ボードのテーマ切り替え"
-              }
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
-                maxWidth: "100%",
-                overflowX: "auto",
-                padding: "4px 6px",
-                borderRadius: 999,
-                background: "rgba(255, 252, 246, 0.92)",
-                backdropFilter: "blur(6px)",
-                border: `1px solid ${surface.barBorder}`,
-                boxShadow: "0 4px 14px rgba(0, 0, 0, 0.06)",
                 pointerEvents: "auto",
               }}
             >
-              {boards.map((b) => {
-                const isSelected = activeBoard?.id === b.id;
-                return (
-                  <button
-                    key={b.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={isSelected}
-                    onClick={() => handleSelectTab(b.id)}
+              <select
+                aria-label={isEn ? "Select public board theme" : "公開ボードのテーマを選択"}
+                value={activeBoard?.id || ""}
+                onChange={(e) => handleSelectTab(e.target.value)}
+                style={{
+                  fontSize: 12,
+                  fontWeight: 700,
+                  padding: "5px 12px",
+                  borderRadius: 999,
+                  border: `1px solid ${defaultTone.border}`,
+                  background: defaultTone.softBg,
+                  color: defaultTone.text,
+                  cursor: "pointer",
+                  outline: "none",
+                }}
+              >
+                {boards.map((b) => (
+                  <option key={b.id} value={b.id}>
+                    {b.title}
+                    {typeof b.itemCount === "number" ? ` (${b.itemCount})` : ""}
+                  </option>
+                ))}
+              </select>
+
+              {activeBoard && (
+                <Link
+                  href={`/board?room=${encodeURIComponent(activeBoard.id)}`}
+                  locale={router.locale}
+                  passHref
+                >
+                  <a
                     style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 5,
                       fontSize: 12,
-                      fontWeight: isSelected ? 700 : 500,
-                      padding: "5px 12px",
+                      fontWeight: 700,
+                      padding: "5px 14px",
                       borderRadius: 999,
-                      border: "none",
-                      background: isSelected ? defaultTone.accent : "transparent",
-                      color: isSelected ? "#ffffff" : surface.barText,
-                      cursor: "pointer",
+                      background: defaultTone.accent,
+                      color: "#ffffff",
+                      textDecoration: "none",
                       whiteSpace: "nowrap",
-                      transition: "all 0.15s ease",
                     }}
                   >
-                    <span>{b.title}</span>
-                    <span
-                      style={{
-                        fontSize: 10,
-                        fontWeight: 700,
-                        padding: "1px 6px",
-                        borderRadius: 999,
-                        background: isSelected
-                          ? "rgba(255, 255, 255, 0.24)"
-                          : defaultTone.softBg,
-                        color: isSelected ? "#ffffff" : defaultTone.text,
-                      }}
-                    >
-                      {b.itemCount || 0}
-                    </span>
-                  </button>
-                );
-              })}
+                    {isEn ? "Join Board →" : "このボードを開く →"}
+                  </a>
+                </Link>
+              )}
             </div>
             {relatedHubs.length > 0 && (
               <div
