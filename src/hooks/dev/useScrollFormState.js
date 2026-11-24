@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { extractYamlScalar, validateScrollYaml } from "@/lib/dev/uploadScroll/yamlValidator";
+import { extractYamlScalar, validateScrollYaml } from "@/libs/dev/uploadScroll/yamlValidator";
 
 export function useScrollFormState(setResultLog) {
   const [rawYaml, setRawYaml] = useState("");

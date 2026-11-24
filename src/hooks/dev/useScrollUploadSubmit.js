@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import {
   UPLOAD_RESULT_STORAGE_KEY,
   extractYamlScalar,
-} from "@/lib/dev/uploadScroll/yamlValidator";
-import { extFromFile, fileToDataUrl } from "@/lib/dev/uploadScroll/sliceGeometry";
+} from "@/libs/dev/uploadScroll/yamlValidator";
+import { extFromFile, fileToDataUrl } from "@/libs/dev/uploadScroll/sliceGeometry";
 
 // === 1. 送信・結果ログ状態 ===
 // Preflight / local / R2 実行と API 応答ログ

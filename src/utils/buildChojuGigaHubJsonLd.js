@@ -13,7 +13,7 @@ export function buildChojuGigaHubJsonLd({
 }) {
   const pageUrl = buildLocaleUrl(
     locale,
-    "/chouju-giga/chapters",
+    "/hub/chouju-giga",
     defaultLocale
   );
 

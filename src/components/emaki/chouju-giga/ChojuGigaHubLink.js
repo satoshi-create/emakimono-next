@@ -1,8 +1,7 @@
 import styles from "@/styles/ChoujuGigaHubLink.module.css";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
-
-const HUB_PATH = "/chouju-giga/chapters";
+import { CHOUJU_GIGA_HUB_PATH as HUB_PATH } from "@/libs/constants/links";
 
 /** Link to the Chōjū-jinbutsu-giga hub — use on emaki viewer pages for giga scrolls. */
 const ChojuGigaHubLink = ({ variant = "tag" }) => {

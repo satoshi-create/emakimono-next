@@ -1,4 +1,5 @@
 import { AppContext } from "@/context/AppContext";
+import { getAllHubPages, getHubSlugsForEmaki } from "@/libs/hubPages";
 import styles from "@/styles/CardA.module.css";
 import { eraColor } from "@/utils/func";
 import { faEye, faTrash, faTrophy } from "@fortawesome/free-solid-svg-icons";
@@ -34,8 +35,17 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
     return { rank: index + 1, pageView: rankingData[index].pageView };
   }, [rankingData, titleen]);
 
-const viewerHref = item.viewerHref || `/${titleen}`;
-const filterDesc = typeof desc === "string" ? desc.substring(0, 40) : "";
+  const viewerHref = item.viewerHref || `/${titleen}`;
+  const polaroidClipHref = viewerHref.includes("?")
+    ? `${viewerHref}&polaroid=1`
+    : `${viewerHref}?polaroid=1`;
+  const candidateHubs = useMemo(() => {
+    const slugs = getHubSlugsForEmaki(item);
+    if (!slugs.length) return [];
+    const bySlug = new Map(getAllHubPages().map((h) => [h.slug, h]));
+    return slugs.map((s) => bySlug.get(s)).filter(Boolean);
+  }, [item]);
+  const filterDesc = typeof desc === "string" ? desc.substring(0, 40) : "";
   const descTemp = `${title} ${
     author && `（${author}）`
   }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
@@ -106,7 +116,7 @@ const filterDesc = typeof desc === "string" ? desc.substring(0, 40) : "";
             <FontAwesomeIcon icon={faTrash} style={{ fontSize: 14 }} />
           </button>
         ) : null}
-        <div className={styles.single}>
+        <div className={styles.single} style={{ position: "relative" }}>
           <Link href={viewerHref}>
             <a className={styles.singleLink}>
               <Image
@@ -174,7 +184,10 @@ const filterDesc = typeof desc === "string" ? desc.substring(0, 40) : "";
             </div>
           )}
           {variant !== "editionlink" && (
-            <div className={styles.viewemaki}>
+            <div
+              className={styles.viewemaki}
+              style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}
+            >
               <Link href={viewerHref}>
                 <a>
                   <button className={styles.viewemakiBtn}>

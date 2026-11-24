@@ -1,4 +1,4 @@
-import { formatUploadTimestamp } from "@/lib/dev/uploadScroll/yamlValidator";
+import { formatUploadTimestamp } from "@/libs/dev/uploadScroll/yamlValidator";
 
 const ui = {
   btnSecondary: {

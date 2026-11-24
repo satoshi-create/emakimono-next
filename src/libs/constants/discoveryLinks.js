@@ -22,14 +22,14 @@ export const DISCOVERY_SPOTLIGHT_GROUPS = [
   {
     id: "yokai",
     titleKey: "discovery.groupYokai",
-    ctaHref: "/hyakki/chapters",
+    ctaHref: "/hub/hyakki",
     ctaKey: "discovery.ctaHyakkiHub",
     titleens: HYAKKI_CLUSTER_TITLEEN,
   },
   {
     id: "rokudo",
     titleKey: "discovery.groupRokudo",
-    ctaHref: "/kusouzu/chapters-kusouzu",
+    ctaHref: "/hub/kusouzu",
     ctaKey: "discovery.ctaKusouzuHub",
     titleens: [
       "jigokusoushi_anzyuin",
@@ -40,7 +40,7 @@ export const DISCOVERY_SPOTLIGHT_GROUPS = [
   {
     id: "monogatari",
     titleKey: "discovery.groupMonogatari",
-    ctaHref: "/genji/chapters-genji",
+    ctaHref: "/hub/genji-world",
     ctaKey: "discovery.ctaGenjiHub",
     titleens: [
       "genjimonogatari-emaki-tokugawa",

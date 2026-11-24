@@ -16,17 +16,20 @@ import {
 } from "@/data/scroll-metadata";
 
 export const useLocale = () => {
-  const { locale } = useRouter();
+  const router = useRouter();
+  const locale = router?.locale || "ja";
   const t = locale === "en" ? en : ja;
   return { locale, t };
 };
 export const useLocaleMeta = () => {
-  const { locale } = useRouter();
+  const router = useRouter();
+  const locale = router?.locale || "ja";
   const t = locale === "en" ? enMeta : jaMeta;
   return { locale, t };
 };
 export const useLocaleData = () => {
-  const { locale } = useRouter();
+  const router = useRouter();
+  const locale = router?.locale || "ja";
   const t = locale === "en" ? enData : jaData;
   return { locale, t };
 };

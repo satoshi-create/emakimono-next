@@ -3,18 +3,21 @@ import Link from "next/link";
 import { useTranslation } from "next-i18next";
 
 const THEME_ITEMS = [
-  { key: "satire", href: "/chouju-giga/chapters", accent: "satire" },
+  { key: "satire", href: "/hub/chouju-giga", accent: "satire" },
   { key: "darkFantasy", href: "/emaki-hub?theme=dark-fantasy", accent: "dark" },
-  { key: "kusouzu", href: "/kusouzu/chapters-kusouzu", accent: "kusouzu" },
+  { key: "kusouzu", href: "/hub/kusouzu", accent: "kusouzu" },
   { key: "mangaRoots", href: "/manga-roots", accent: "manga" },
-  { key: "genji", href: "/genji/chapters-genji", accent: "genji" },
+  { key: "genji", href: "/hub/genji-world", accent: "genji" },
 ];
 
-const HomeThemeCards = () => {
+const HomeThemeCards = ({ surface = false }) => {
   const { t } = useTranslation("common");
 
   return (
-    <section className={`section-grid section-padding ${styles.section}`}>
+    <section
+      className={`section-grid section-padding ${styles.section}`}
+      style={surface ? { backgroundColor: "var(--clr-surface)" } : undefined}
+    >
       <h2 className={styles.sectionTitle}>{t("home.themeSectionTitle")}</h2>
       <div className={styles.grid}>
         {THEME_ITEMS.map(({ key, href, accent }) => (

@@ -171,6 +171,16 @@ export default function DevHubPage() {
               {ebikiHref} を新しいタブで開く
             </a>
           </section>
+
+          <section style={cardStyle}>
+            <h2 style={cardTitleStyle}>⑤ 公開ポラロイドボード作成・管理</h2>
+            <p style={cardDescStyle}>
+              効果測定用の公開ボード（歌合お題・テーマボード）の新規作成と管理を行います。
+            </p>
+            <Link href="/dev/public-boards">
+              <a style={linkButtonStyle}>/dev/public-boards を開く</a>
+            </Link>
+          </section>
         </div>
       </main>
     </>

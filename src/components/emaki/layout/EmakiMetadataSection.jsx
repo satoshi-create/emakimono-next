@@ -22,7 +22,12 @@ import { isHyakkiClusterScroll } from "@/utils/buildHyakkiHubData";
 import { eraColor } from "@/utils/func";
 import { resolveReferenceUrl } from "@/utils/amazonUrl";
 import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "next-i18next";
+import { LinkedPublicBoards } from "@/components/hub/LinkedPublicBoards";
+import { fetchPublicBoards } from "@/libs/api/ugcApi";
+import { getHubSlugsForEmaki } from "@/libs/hubPages";
+import { filterBoardsForHubSlug } from "@/libs/hubPublicBoards";
 
 const EmakiMetadataSection = ({
   data,
@@ -53,6 +58,41 @@ const EmakiMetadataSection = ({
   const isKusouzu = isKusouzuScroll(data);
   const isChojuGiga = isChojuGigaScroll(data);
   const isHyakki = isHyakkiClusterScroll(data);
+
+  const hubSlugs = useMemo(() => getHubSlugsForEmaki(data), [data]);
+  const [relatedBoards, setRelatedBoards] = useState([]);
+
+  useEffect(() => {
+    if (!hubSlugs.length) {
+      setRelatedBoards([]);
+      return undefined;
+    }
+    let cancelled = false;
+    fetchPublicBoards()
+      .then((res) => {
+        if (cancelled) return;
+        const allBoards = Array.isArray(res) ? res : Array.isArray(res?.boards) ? res.boards : [];
+        const seen = new Set();
+        const next = [];
+        for (const slug of hubSlugs) {
+          for (const board of filterBoardsForHubSlug(allBoards, slug)) {
+            const key = board?.id ?? board?.slug ?? board?.boardId;
+            const dedupeKey =
+              key != null ? String(key) : `${slug}:${board?.title ?? ""}`;
+            if (seen.has(dedupeKey)) continue;
+            seen.add(dedupeKey);
+            next.push(board);
+          }
+        }
+        setRelatedBoards(next);
+      })
+      .catch(() => {
+        if (!cancelled) setRelatedBoards([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [hubSlugs]);
 
   return (
     <div className={styles.metadataB}>
@@ -106,6 +146,22 @@ const EmakiMetadataSection = ({
       {!isKusouzu && <EmakiPersonLinks personname={personname} />}
       {isChojuGiga && <ChojuGigaHubLink variant="banner" />}
       {isHyakki && <HyakkiHubLink variant="banner" />}
+      {relatedBoards.length > 0 && (
+        <LinkedPublicBoards
+          boards={relatedBoards}
+          locale={locale}
+          title={
+            locale === "en"
+              ? "Related Polaroid Public Boards"
+              : "関連する公開ボード"
+          }
+          ariaLabel={
+            locale === "en"
+              ? "Related public boards list"
+              : "関連する公開ボード一覧"
+          }
+        />
+      )}
       <MangaRootsEmakiLink titleen={titleen} locale={locale} />
       {tagCloud}
       {/*メタ情報（出典・参考文献は折りたたみ表示）*/}

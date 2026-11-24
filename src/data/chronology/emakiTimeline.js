@@ -508,7 +508,7 @@ const ja = [
       {
         "name": "鳥獣人物戯画一覧（全4巻）",
         "titleen": "",
-        "href": "/chouju-giga/chapters"
+        "href": "/hub/chouju-giga"
       },
       {
         "name": "鳥獣人物戯画絵巻",
@@ -989,7 +989,7 @@ const ja = [
       {
         "name": "九相図一覧（全十場面）",
         "titleen": "",
-        "href": "/kusouzu/chapters-kusouzu"
+        "href": "/hub/kusouzu"
       },
       {
         "name": "九相図巻",
@@ -1250,7 +1250,7 @@ const ja = [
       {
         "name": "九相図一覧（全十場面）",
         "titleen": "",
-        "href": "/kusouzu/chapters-kusouzu"
+        "href": "/hub/kusouzu"
       },
       {
         "name": "檀林皇后九相観",
@@ -1337,7 +1337,7 @@ const ja = [
       {
         "name": "九相図一覧（全十場面）",
         "titleen": "",
-        "href": "/kusouzu/chapters-kusouzu"
+        "href": "/hub/kusouzu"
       },
       {
         "name": "九相図（小林永濯）",

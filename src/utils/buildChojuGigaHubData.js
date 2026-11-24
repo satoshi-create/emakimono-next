@@ -52,6 +52,8 @@ export function buildChojuGigaHubData() {
     const chapters = suffix ? chapterData[suffix] ?? [] : [];
     return {
       titleen: emaki.titleen,
+      type: emaki.type ?? "絵巻",
+      typeen: emaki.typeen ?? "Emaki",
       title: emaki.title,
       thumb: emaki.thumb ?? null,
       era: emaki.era ?? null,

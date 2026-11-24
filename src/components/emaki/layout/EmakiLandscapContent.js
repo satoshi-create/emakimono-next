@@ -50,6 +50,8 @@ import { RAKUCHU_RAKUGAI_HUB_PATH } from "@/libs/constants/links";
 
 const EmakiLandscapContent = ({
   data,
+  emaki,
+  locale: localeProp,
   selectedRef,
   navIndex,
   articleRef,
@@ -57,7 +59,9 @@ const EmakiLandscapContent = ({
 }) => {
   const { rankingData } = useContext(AppContext);
   const { totalCount } = useSceneLikeCounts();
-  const { locale } = useRouter();
+  const router = useRouter();
+  const locale = localeProp ?? router.locale;
+  const scrollMeta = emaki ?? data;
   const { t } = useTranslation("common");
   const { t: alldata } = useLocaleData();
 
@@ -297,7 +301,8 @@ const EmakiLandscapContent = ({
                   )}
                 </div>
                 <EmakiMetadataSection
-                  data={data}
+                  data={scrollMeta}
+                  emaki={scrollMeta}
                   locale={locale}
                   styles={styles}
                   descContent={

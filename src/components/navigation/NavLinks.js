@@ -38,6 +38,13 @@ const NavLinks = ({ footerstyle }) => {
           </a>
         </Link>
       </li>
+      <li>
+        <Link href="/about" prefetch={false}>
+          <a className={styles.linksName} style={footerstyle}>
+            About
+          </a>
+        </Link>
+      </li>
       {navGroups.map((group) => {
         const isOpen = openMenu === group.id;
         return (

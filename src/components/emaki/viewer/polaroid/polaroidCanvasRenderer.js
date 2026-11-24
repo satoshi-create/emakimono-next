@@ -9,6 +9,16 @@ export const FORMATS = {
     captionY: 648,
     qrSize: 64,
   },
+  senmen: {
+    canvasW: 960,
+    canvasH: 740,
+    photoDx: 40,
+    photoDy: 34,
+    photoDw: 880,
+    photoDh: 480,
+    captionY: 544,
+    qrSize: 56,
+  },
   reel: {
     canvasW: 1080,
     canvasH: 1920,
@@ -89,6 +99,95 @@ export const THEMES = {
     border: "#cfa554",
   },
 };
+
+export function getSenmenFanGeometry(dx, dy, dw, dh) {
+  const pivotX = dx + dw * 0.5;
+  const pivotY = dy + dh * 1.24;
+  const outerR = dh * 1.19;
+  const innerR = dh * 0.36;
+  const halfAngle = (47 * Math.PI) / 180;
+  const startAngle = -Math.PI / 2 - halfAngle;
+  const endAngle = -Math.PI / 2 + halfAngle;
+  return { pivotX, pivotY, outerR, innerR, halfAngle, startAngle, endAngle };
+}
+
+export function buildSenmenFanPath(ctx, dx, dy, dw, dh) {
+  const { pivotX, pivotY, outerR, innerR, startAngle, endAngle } =
+    getSenmenFanGeometry(dx, dy, dw, dh);
+  ctx.beginPath();
+  ctx.arc(pivotX, pivotY, outerR, startAngle, endAngle, false);
+  ctx.arc(pivotX, pivotY, innerR, endAngle, startAngle, true);
+  ctx.closePath();
+}
+
+export function drawSenmenFanOverlay(ctx, dx, dy, dw, dh) {
+  const { pivotX, pivotY, outerR, innerR, startAngle, endAngle } =
+    getSenmenFanGeometry(dx, dy, dw, dh);
+
+  // 要（かなめ）へ集まる黒漆の親骨（左右）と煤竹の中骨
+  ctx.save();
+  const ribCount = 10;
+  const boneEndR = innerR * 0.42;
+  for (let i = 0; i <= ribCount; i++) {
+    const ang = startAngle + ((endAngle - startAngle) * i) / ribCount;
+    const isOuterBone = i === 0 || i === ribCount;
+    ctx.beginPath();
+    ctx.moveTo(pivotX + Math.cos(ang) * boneEndR, pivotY + Math.sin(ang) * boneEndR);
+    ctx.lineTo(pivotX + Math.cos(ang) * innerR, pivotY + Math.sin(ang) * innerR);
+    ctx.strokeStyle = isOuterBone ? "#3a2c1e" : "rgba(158, 122, 68, 0.55)";
+    ctx.lineWidth = isOuterBone ? Math.max(5.5, dw * 0.0085) : Math.max(1.5, dw * 0.0024);
+    ctx.lineCap = "round";
+    ctx.stroke();
+
+    if (isOuterBone) {
+      ctx.beginPath();
+      ctx.moveTo(pivotX + Math.cos(ang) * boneEndR, pivotY + Math.sin(ang) * boneEndR);
+      ctx.lineTo(pivotX + Math.cos(ang) * innerR, pivotY + Math.sin(ang) * innerR);
+      ctx.strokeStyle = "rgba(218, 182, 108, 0.65)";
+      ctx.lineWidth = Math.max(1.2, dw * 0.002);
+      ctx.stroke();
+    }
+  }
+
+  // 要（かなめ）の金鋲
+  const kanameX = pivotX;
+  const kanameY = pivotY - innerR * 0.46;
+  ctx.beginPath();
+  ctx.arc(kanameX, kanameY, Math.max(4.5, dw * 0.007), 0, Math.PI * 2);
+  ctx.fillStyle = "#d4af5a";
+  ctx.fill();
+  ctx.strokeStyle = "#5c431d";
+  ctx.lineWidth = Math.max(1.2, dw * 0.002);
+  ctx.stroke();
+  ctx.restore();
+
+  // 地紙内の透かし扇骨
+  ctx.save();
+  buildSenmenFanPath(ctx, dx, dy, dw, dh);
+  ctx.clip();
+  ctx.strokeStyle = "rgba(212, 175, 90, 0.24)";
+  ctx.lineWidth = Math.max(1.1, dw * 0.002);
+  for (let i = 1; i < ribCount; i++) {
+    const ang = startAngle + ((endAngle - startAngle) * i) / ribCount;
+    ctx.beginPath();
+    ctx.moveTo(pivotX + Math.cos(ang) * innerR, pivotY + Math.sin(ang) * innerR);
+    ctx.lineTo(pivotX + Math.cos(ang) * outerR, pivotY + Math.sin(ang) * outerR);
+    ctx.stroke();
+  }
+  ctx.restore();
+
+  // 扇面（地紙）の二重金箔縁取り
+  ctx.save();
+  buildSenmenFanPath(ctx, dx, dy, dw, dh);
+  ctx.strokeStyle = "#c99e44";
+  ctx.lineWidth = Math.max(3.5, dw * 0.006);
+  ctx.stroke();
+
+  ctx.strokeStyle = "#f0d78c";
+  ctx.lineWidth = Math.max(1.2, dw * 0.002);
+  ctx.stroke();
+  ctx.restore();
+}
 
 export function coverScaleFor(img, photoDw, photoDh) {
   return Math.max(photoDw / img.naturalWidth, photoDh / img.naturalHeight);
@@ -185,6 +284,32 @@ export function drawCanvasTexture(ctx, width, height, themeId) {
       ctx.arc(sx, sy, 0.9, 0, Math.PI * 2);
       ctx.fill();
     }
+  } else if (themeId === "senmen") {
+    const bgGrad = ctx.createRadialGradient(
+      width * 0.5,
+      height * 0.34,
+      width * 0.08,
+      width * 0.5,
+      height * 0.45,
+      width * 0.85
+    );
+    bgGrad.addColorStop(0, "rgba(56, 48, 34, 0.55)");
+    bgGrad.addColorStop(0.65, "rgba(27, 26, 23, 0.85)");
+    bgGrad.addColorStop(1, "rgba(16, 15, 13, 0.98)");
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, width, height);
+
+    // 金砂子（きんすなご）の微細な金箔散らし
+    for (let i = 0; i < 240; i++) {
+      const gx = (Math.sin(i * 733) * 0.5 + 0.5) * width;
+      const gy = (Math.cos(i * 521) * 0.5 + 0.5) * height;
+      const size = 0.7 + (i % 4) * 0.55;
+      ctx.fillStyle =
+        i % 3 === 0
+          ? "rgba(232, 196, 112, 0.34)"
+          : "rgba(198, 158, 78, 0.22)";
+      ctx.fillRect(gx, gy, size, size);
+    }
   }
 
   ctx.restore();
@@ -218,6 +343,7 @@ export function renderPolaroidCanvas({
   zoom,
   coverScale,
   currentTheme,
+  layoutMode = "polaroid",
   displayTitle,
   displayChapter,
   message,
@@ -227,11 +353,16 @@ export function renderPolaroidCanvas({
   format = "polaroid",
   isEn = false,
 }) {
-  const fmt = FORMATS[format] || FORMATS.polaroid;
+  const isFanLayout = layoutMode === "senmen" || currentTheme === "senmen";
+  const resolvedFormat =
+    isFanLayout && format === "polaroid" ? "senmen" : format;
+  const fmt = FORMATS[resolvedFormat] || FORMATS.polaroid;
   const { prev, current: img, next } = loadedImages;
   if (!img?.naturalWidth) return;
   const cs =
-    format === "polaroid" ? coverScale : coverScaleFor(img, fmt.photoDw, fmt.photoDh);
+    resolvedFormat === "polaroid"
+      ? coverScale
+      : coverScaleFor(img, fmt.photoDw, fmt.photoDh);
   const z = zoom;
   const panScaleX = fmt.photoDw / PHOTO_DW;
   const panScaleY = fmt.photoDh / PHOTO_DH;
@@ -248,9 +379,41 @@ export function renderPolaroidCanvas({
 
   drawCanvasTexture(ctx, fmt.canvasW, fmt.canvasH, currentTheme);
 
+  const fanBox =
+    isFanLayout && resolvedFormat === "reel"
+      ? {
+          dx: Math.round((fmt.canvasW - 960) / 2),
+          dy: 360,
+          dw: 960,
+          dh: 530,
+        }
+      : {
+          dx: fmt.photoDx,
+          dy: fmt.photoDy,
+          dw: fmt.photoDw,
+          dh: fmt.photoDh,
+        };
+
+  if (isFanLayout) {
+    ctx.save();
+    buildSenmenFanPath(ctx, fanBox.dx, fanBox.dy, fanBox.dw, fanBox.dh);
+    ctx.shadowColor =
+      currentTheme === "sumi" ? "rgba(0, 0, 0, 0.65)" : "rgba(45, 32, 14, 0.26)";
+    ctx.shadowBlur = Math.max(18, fanBox.dw * 0.03);
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = Math.max(8, fanBox.dh * 0.016);
+    ctx.fillStyle = theme.cardBg || theme.bg;
+    ctx.fill();
+    ctx.restore();
+  }
+
   ctx.save();
-  ctx.beginPath();
-  ctx.rect(fmt.photoDx, fmt.photoDy, fmt.photoDw, fmt.photoDh);
+  if (isFanLayout) {
+    buildSenmenFanPath(ctx, fanBox.dx, fanBox.dy, fanBox.dw, fanBox.dh);
+  } else {
+    ctx.beginPath();
+    ctx.rect(fmt.photoDx, fmt.photoDy, fmt.photoDw, fmt.photoDh);
+  }
   ctx.clip();
 
   ctx.fillStyle = theme.cardBg || theme.bg;
@@ -269,7 +432,11 @@ export function renderPolaroidCanvas({
   }
   ctx.restore();
 
-  if (theme.border) {
+  if (isFanLayout) {
+    drawSenmenFanOverlay(ctx, fanBox.dx, fanBox.dy, fanBox.dw, fanBox.dh);
+  }
+
+  if (theme.border && !isFanLayout) {
     ctx.strokeStyle = theme.border;
     ctx.lineWidth = 1.5;
     ctx.strokeRect(18, 18, fmt.canvasW - 36, fmt.canvasH - 36);

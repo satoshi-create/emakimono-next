@@ -5,7 +5,7 @@ import {
   buildIntervalsCustom,
   orderIntervalsForRtl,
   sliceRawImagesToFiles,
-} from "@/lib/dev/uploadScroll/sliceGeometry";
+} from "@/libs/dev/uploadScroll/sliceGeometry";
 
 // === 1. スライス UI 状態 ===
 // パネル開閉・アスペクト・オーバーラップ・RTL・モード・枚数・カスタム cut

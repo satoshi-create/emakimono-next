@@ -157,6 +157,31 @@ const nextConfig = {
       ...buildKusouzuSlugRedirects(),
       ...buildWithdrawnScrollRedirects(),
       ...buildSeoRedirects(),
+      {
+        source: "/genji/chapters-genji",
+        destination: "/hub/genji-world",
+        permanent: true,
+      },
+      {
+        source: "/chouju-giga/chapters",
+        destination: "/hub/chouju-giga",
+        permanent: true,
+      },
+      {
+        source: "/kusouzu/chapters-kusouzu",
+        destination: "/hub/kusouzu",
+        permanent: true,
+      },
+      {
+        source: "/hyakki/chapters",
+        destination: "/hub/hyakki",
+        permanent: true,
+      },
+      {
+        source: "/rakuchu-rakugai/chapters",
+        destination: "/hub/rakuchu-rakugai",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {

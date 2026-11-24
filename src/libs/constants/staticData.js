@@ -50,7 +50,7 @@ const ja = {
       <ul>
         <li>
           🐸 <strong>風刺とユーモア</strong> —
-          <a href="/chouju-giga/chapters">鳥獣人物戯画一覧</a>（Chōjū-jinbutsu-giga）
+          <a href="/hub/chouju-giga">鳥獣人物戯画一覧</a>（Chōjū-jinbutsu-giga）
         </li>
         <li>
           🔥 <strong>地獄とダークファンタジー</strong> —
@@ -58,7 +58,7 @@ const ja = {
         </li>
         <li>
           💀 <strong>九相と無常</strong> —
-          <a href="/kusouzu/chapters-kusouzu">九相図一覧</a>（Kusōzu）
+          <a href="/hub/kusouzu">九相図一覧</a>（Kusōzu）
         </li>
         <li>
           📺 <strong>マンガ・アニメのルーツ</strong> —
@@ -154,7 +154,7 @@ const en = {
     <ul>
       <li>
         🐸 <strong>Satire &amp; Humor</strong> —
-        <a href="/chouju-giga/chapters">Chōjū-jinbutsu-giga Gallery</a>
+        <a href="/hub/chouju-giga">Chōjū-jinbutsu-giga Gallery</a>
       </li>
       <li>
         🔥 <strong>Hell &amp; Dark Fantasy</strong> —
@@ -162,7 +162,7 @@ const en = {
       </li>
       <li>
         💀 <strong>Impermanence</strong> —
-        <a href="/kusouzu/chapters-kusouzu">Kusōzu Gallery</a>
+        <a href="/hub/kusouzu">Kusōzu Gallery</a>
       </li>
       <li>
         📺 <strong>Manga &amp; Anime Roots</strong> —

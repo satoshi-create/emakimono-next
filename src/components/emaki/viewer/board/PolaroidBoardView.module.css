@@ -1,0 +1,492 @@
+.page {
+  min-height: 100vh;
+  background-color: #f5f5f4;
+  color: #1c1917;
+  display: flex;
+  flex-direction: column;
+  font-family: "Zen Old Mincho", "Noto Sans JP", sans-serif;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid #e7e5e4;
+  padding: 12px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.backLink {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #57534e;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #d6d3d1;
+  background: #ffffff;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.backLink:hover {
+  background: #f5f5f4;
+  color: #1c1917;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.subtitle {
+  margin: 2px 0 0;
+  font-size: 0.75rem;
+  color: #78716c;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.primaryBtn {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  background-color: #1c1917;
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  transition: background-color 0.15s, opacity 0.15s;
+}
+
+.primaryBtn:hover:not(:disabled) {
+  background-color: #44403c;
+}
+
+.primaryBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.saveSharedBtn {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  background-color: #d97706;
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.saveSharedBtn:hover {
+  background-color: #b45309;
+}
+
+.canvasOuter {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  background-color: #f5f5f4;
+  background-image: radial-gradient(circle, rgba(120, 113, 108, 0.28) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+}
+
+.canvasOuterPanning {
+  cursor: grabbing;
+}
+
+.canvasInner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  transform-origin: 0 0;
+}
+
+.zoomControls {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 8px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  border: 1px solid #d6d3d1;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+.zoomBtn {
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #292524;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zoomBtn:hover {
+  background: #f5f5f4;
+}
+
+.zoomLabel {
+  min-width: 48px;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #57534e;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+}
+
+.zoomLabel:hover {
+  background: #f5f5f4;
+  color: #1c1917;
+}
+
+.emptyBox {
+  max-width: 440px;
+  margin: 80px auto 0;
+  padding: 28px 24px;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e7e5e4;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.emptyTitle {
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #292524;
+}
+
+.emptyText {
+  margin: 0 0 18px;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: #57534e;
+}
+
+.emptyAction {
+  display: inline-block;
+  padding: 9px 18px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: 8px;
+  background: #1c1917;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 12px 12px 14px;
+  border-radius: 3px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  transition: box-shadow 0.15s;
+}
+
+.card:active {
+  cursor: grabbing;
+}
+
+.cardSelected {
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2), 0 0 0 2px rgba(217, 119, 6, 0.75);
+}
+
+.tape {
+  width: 56px;
+  height: 14px;
+  background: rgba(254, 243, 199, 0.85);
+  border: 1px solid rgba(253, 230, 138, 0.7);
+  margin: -20px auto 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  pointer-events: none;
+}
+
+.deleteBtn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 10;
+  width: 22px;
+  height: 22px;
+  border-radius: 9999px;
+  border: none;
+  background: rgba(0, 0, 0, 0.65);
+  color: #ffffff;
+  font-size: 13px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.deleteBtn:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.photoBox {
+  position: relative;
+  overflow: hidden;
+  background: rgba(23, 23, 23, 0.08);
+  pointer-events: none;
+}
+
+.captionBox {
+  margin-top: 8px;
+  text-align: center;
+}
+
+.chapterText {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.titleText {
+  margin: 2px 0 0;
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.messageText {
+  margin: 3px 0 0;
+  font-size: 10px;
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.memoBox {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.memoInput {
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 11px;
+  line-height: 1.4;
+  background: rgba(255, 255, 255, 0.72);
+  color: #292524;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  padding: 4px 6px;
+  resize: none;
+  font-family: inherit;
+}
+
+.memoInput:focus {
+  outline: none;
+  border-color: #d97706;
+  background: #ffffff;
+}
+
+.cardFooter {
+  margin-top: 6px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.scrollLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  padding: 3px 7px;
+  border-radius: 9999px;
+  border: 1px solid currentColor;
+  background: rgba(255, 255, 255, 0.35);
+  opacity: 0.62;
+  transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.card:hover .scrollLink,
+.scrollLink:hover {
+  opacity: 0.95;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+/* =============================================================================
+ * コラボボード（複数人共有ルーム）用UIスタイル
+ * ============================================================================= */
+
+.collabCreateBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid #d97706;
+  background: #fffbeb;
+  color: #b45309;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.collabCreateBtn:hover:not(:disabled) {
+  background: #fef3c7;
+}
+
+.collabCreateBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.collabBanner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 16px;
+  background: linear-gradient(90deg, #fffbeb 0%, #fef3c7 100%);
+  border-bottom: 1px solid #fcd34d;
+  color: #78350f;
+  font-size: 12px;
+  z-index: 20;
+}
+
+.collabBannerLeft {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.collabBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #d97706;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.collabTitleInput {
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #451a03;
+  min-width: 180px;
+}
+
+.collabTitleInput:focus {
+  outline: none;
+  border-color: #d97706;
+  background: #ffffff;
+}
+
+.collabBannerRight {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.authorNameInput {
+  border: 1px solid #fbbf24;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  color: #1f2937;
+  width: 130px;
+}
+
+.authorNameInput:focus {
+  outline: none;
+  border-color: #d97706;
+}
+
+.collabMiniBtn {
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid #d97706;
+  background: #ffffff;
+  color: #92400e;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.collabMiniBtn:hover {
+  background: #fef3c7;
+}
+
+.authorTag {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: #fef3c7;
+  color: #92400e;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}

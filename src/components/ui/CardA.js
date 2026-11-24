@@ -1,11 +1,12 @@
 import SingleCardA from "@/components/ui/SingleCardA";
 import Title from "@/components/ui/Title";
+import { filterEmakisForHub, getAllHubPages } from "@/libs/hubPages";
 import styles from "@/styles/CardA.module.css";
 import emakiStyles from "@/styles/Emakis.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 const CardA = ({
   emakis,
@@ -18,9 +19,28 @@ const CardA = ({
   variant,
 }) => {
   const { locale } = useRouter();
+  const isEn = locale === "en";
   const [viewMode, setViewMode] = useState("card");
+  const [selectedHubSlug, setSelectedHubSlug] = useState("all");
   const showToggle = columns !== "searchbox";
   const isList = viewMode === "list";
+
+  const hubFilterOptions = useMemo(() => {
+    if (!showToggle || !Array.isArray(emakis) || emakis.length < 4) return [];
+    return getAllHubPages()
+      .map((hub) => {
+        const matched = filterEmakisForHub(emakis, hub);
+        return { hub, count: matched.length, matchedIds: new Set(matched.map((m) => m.titleen || m.id)) };
+      })
+      .filter((entry) => entry.count > 0 && entry.count < emakis.length);
+  }, [emakis, showToggle]);
+
+  const displayedEmakis = useMemo(() => {
+    if (selectedHubSlug === "all") return emakis;
+    const target = hubFilterOptions.find((opt) => opt.hub.slug === selectedHubSlug);
+    if (!target) return emakis;
+    return emakis.filter((it) => target.matchedIds.has(it.titleen || it.id));
+  }, [emakis, selectedHubSlug, hubFilterOptions]);
 
   return (
     <section
@@ -33,7 +53,7 @@ const CardA = ({
           <div
             className={emakiStyles.viewToggle}
             role="tablist"
-            aria-label={locale === "en" ? "View mode" : "表示切替"}
+            aria-label={isEn ? "View mode" : "表示切替"}
           >
             <button
               type="button"
@@ -44,7 +64,7 @@ const CardA = ({
               }`}
               onClick={() => setViewMode("card")}
             >
-              {locale === "en" ? "Cards" : "カード"}
+              {isEn ? "Cards" : "カード"}
             </button>
             <button
               type="button"
@@ -55,14 +75,86 @@ const CardA = ({
               }`}
               onClick={() => setViewMode("list")}
             >
-              {locale === "en" ? "List" : "リスト"}
+              {isEn ? "List" : "リスト"}
             </button>
           </div>
         )}
       </div>
+
+      {hubFilterOptions.length > 0 && (
+        <div
+          role="group"
+          aria-label={isEn ? "Filter by Polaroid Board theme" : "ボード貼り付け候補テーマで絞り込み"}
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            gap: 8,
+            margin: "0 auto 20px",
+            padding: "10px 14px",
+            borderRadius: 12,
+            background: "#fffbeb",
+            border: "1px solid #fde68a",
+          }}
+        >
+          <span
+            style={{
+              fontSize: 12,
+              fontWeight: 700,
+              color: "#92400e",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 4,
+              marginRight: 4,
+            }}
+          >
+            <span aria-hidden="true">📷</span>
+            <span>{isEn ? "Board Pin Candidates:" : "ボード貼り付け候補:"}</span>
+          </span>
+          <button
+            type="button"
+            onClick={() => setSelectedHubSlug("all")}
+            style={{
+              fontSize: 12,
+              fontWeight: 700,
+              padding: "4px 12px",
+              borderRadius: 999,
+              border: selectedHubSlug === "all" ? "1.5px solid #92400e" : "1px solid #fcd34d",
+              background: selectedHubSlug === "all" ? "#92400e" : "#ffffff",
+              color: selectedHubSlug === "all" ? "#ffffff" : "#78350f",
+              cursor: "pointer",
+            }}
+          >
+            {isEn ? `All (${emakis.length})` : `すべて (${emakis.length})`}
+          </button>
+          {hubFilterOptions.map(({ hub, count }) => {
+            const active = selectedHubSlug === hub.slug;
+            return (
+              <button
+                key={hub.slug}
+                type="button"
+                onClick={() => setSelectedHubSlug(active ? "all" : hub.slug)}
+                style={{
+                  fontSize: 12,
+                  fontWeight: 700,
+                  padding: "4px 12px",
+                  borderRadius: 999,
+                  border: active ? "1.5px solid #047857" : "1px solid #6ee7b7",
+                  background: active ? "#047857" : "#ecfdf5",
+                  color: active ? "#ffffff" : "#065f46",
+                  cursor: "pointer",
+                }}
+              >
+                {isEn ? `${hub.titleEn || hub.titleJa} (${count})` : `${hub.titleJa || hub.titleEn} (${count})`}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
       {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
       <div className={isList ? emakiStyles.listView : styles[columns]}>
-        {emakis.map((item, i) => {
+        {displayedEmakis.map((item, i) => {
           if (!isList) {
             return (
               <SingleCardA

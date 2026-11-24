@@ -1,4 +1,4 @@
-import { DEV_API_ROUTES } from "@/lib/dev/apiRoutes";
+import { DEV_API_ROUTES } from "@/libs/dev/apiRoutes";
 
 // =============================================================================
 // デバッグスイッチ（検証完了後は false にして一括停止）

@@ -11,7 +11,7 @@ function buildWithdrawnScrollRedirects() {
     },
     {
       source: "/frolicking_animals_and_tengu_goblins",
-      destination: "/chouju-giga/chapters",
+      destination: "/hub/chouju-giga",
       permanent: true,
     },
   ];

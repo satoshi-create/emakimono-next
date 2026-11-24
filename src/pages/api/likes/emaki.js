@@ -1,24 +1,33 @@
 import { getDb } from "@/db";
 import { emakiLikes } from "@/db/schema";
-import { ensureDbConfigured, ensureMethod } from "@/libs/api/dbApi";
+import {
+  ensureDbConfigured,
+  ensureMethod,
+  parseNonEmptyString,
+  sendApiError,
+} from "@/libs/api/dbApi";
 import { getVisitorHash } from "@/libs/api/visitorHash";
 import { and, eq } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
+
+// =============================================================================
+// エントリポイント（POST: 絵巻単位のいいね登録・冪等処理）
+// =============================================================================
 
 export default async function handler(req, res) {
   if (!ensureMethod(req, res, "POST") || !ensureDbConfigured(res)) {
     return;
   }
 
-  const { emakiId } = req.body ?? {};
-  if (!emakiId || typeof emakiId !== "string" || emakiId.length > 128) {
-    return res.status(400).json({ message: "Invalid emakiId" });
+  const emakiId = parseNonEmptyString(req.body?.emakiId);
+  if (!emakiId) {
+    return sendApiError(res, 400, "Invalid emakiId");
   }
 
   const visitorHash = getVisitorHash(req);
-  const db = getDb();
 
   try {
+    const db = getDb();
     const existing = await db
       .select({ id: emakiLikes.id })
       .from(emakiLikes)
@@ -43,6 +52,6 @@ export default async function handler(req, res) {
     return res.status(201).json({ ok: true, alreadyLiked: false });
   } catch (error) {
     console.error("POST /api/likes/emaki failed:", error);
-    return res.status(500).json({ message: "Failed to save like" });
+    return sendApiError(res, 500, "Failed to save like");
   }
 }

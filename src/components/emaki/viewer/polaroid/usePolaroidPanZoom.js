@@ -315,9 +315,9 @@ export function usePolaroidPanZoom({
   }, []);
 
   // ---------------------------------------------------------------------------
-  // [フロー 4] マウスホイールズーム操作（DOM 接続後に React onWheel で受ける）
+  // [フロー 4] マウスホイールズーム操作（passive: false のネイティブ wheel）
   // ---------------------------------------------------------------------------
-  const handleFrameWheel = useCallback(
+  const onFrameWheel = useCallback(
     (e) => {
       if (!isOpen) return;
       if (e.timeStamp === lastWheelStampRef.current) return;
@@ -346,6 +346,17 @@ export function usePolaroidPanZoom({
     },
     [isOpen, frameW, applyZoomWithPan]
   );
+
+  useEffect(() => {
+    if (!isOpen || !frameDomReady) return;
+    const el = frameRef.current;
+    if (!el) return;
+    el.addEventListener("wheel", onFrameWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onFrameWheel);
+  }, [isOpen, frameDomReady, onFrameWheel]);
+
+  /** React onWheel 互換（PolaroidModal）— preventDefault はネイティブリスナー側 */
+  const handleFrameWheel = useCallback(() => {}, []);
 
   // ---------------------------------------------------------------------------
   // [フロー 5] ズーム値変更による maxPan（可動域）の再計算

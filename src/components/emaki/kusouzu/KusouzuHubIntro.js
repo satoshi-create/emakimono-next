@@ -9,14 +9,14 @@ const KusouzuHubIntro = ({ heroThumb, heroCloudinary }) => {
   const { t } = useTranslation("common");
 
   return (
-    <section className={styles.hero}>
+    <>
       {(heroCloudinary || heroThumb) && (
         <div className={styles.heroImageWrap}>
           {heroCloudinary ? (
             <Image
               loader={heroLoader}
               src={heroCloudinary}
-              alt="九相図巻"
+              alt={t("kusouzuHub.introTitle")}
               width={1600}
               height={900}
               sizes="100vw"
@@ -26,7 +26,7 @@ const KusouzuHubIntro = ({ heroThumb, heroCloudinary }) => {
           ) : (
             <Image
               src={heroThumb}
-              alt="九相図巻"
+              alt={t("kusouzuHub.introTitle")}
               width={800}
               height={450}
               sizes="100vw"
@@ -36,12 +36,7 @@ const KusouzuHubIntro = ({ heroThumb, heroCloudinary }) => {
           )}
         </div>
       )}
-      <div className={styles.heroText}>
-        <h1 className={styles.introTitle}>{t("kusouzuHub.introTitle")}</h1>
-        <p className={styles.introLead}>{t("kusouzuHub.intro")}</p>
-        <p className={styles.introTips}>{t("kusouzuHub.tips")}</p>
-      </div>
-    </section>
+    </>
   );
 };
 

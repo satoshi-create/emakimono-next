@@ -28,10 +28,11 @@ import {
   THEMES,
   FORMATS,
   PHOTO_DW,
-  PHOTO_DH,
   MESSAGE_MAX,
   getThemeTextureUrl,
 } from "./polaroid/polaroidCanvasRenderer";
+import { PolaroidModalFooter } from "./polaroid/PolaroidModalFooter";
+import { PolaroidPreviewFrame } from "./polaroid/PolaroidPreviewFrame";
 
 // --- 分割・抽出された責務別カスタムフック ---
 import { usePolaroidPanZoom } from "./polaroid/usePolaroidPanZoom";
@@ -63,7 +64,8 @@ export function PolaroidModal({
   // ---------------------------------------------------------------------------
   // 1. ローカルUIステート & ルーター情報
   // ---------------------------------------------------------------------------
-  const [currentTheme, setCurrentTheme] = useState("white"); // ポラロイド台紙テーマ（和紙、墨、雅など）
+  const [currentTheme, setCurrentTheme] = useState("white"); // ポラロイド台紙テーマ（白、和紙、墨、雅）
+  const [layoutMode, setLayoutMode] = useState("polaroid"); // レイアウト形状（polaroid | senmen）
   const [message, setMessage] = useState("");                // 手書き風キャプションメッセージ
   const [isMobileDevice, setIsMobileDevice] = useState(false); // モバイル端末判定（ネイティブ共有用）
 
@@ -194,6 +196,7 @@ export function PolaroidModal({
     zoom,
     coverScale,
     currentTheme,
+    layoutMode,
     displayTitle,
     displayChapter,
     message,
@@ -234,6 +237,12 @@ export function PolaroidModal({
   const curDh = curSlot?.naturalHeight ? curSlot.naturalHeight * cs * z * r : 0;
   const prevDh = prevSlot?.naturalHeight ? prevSlot.naturalHeight * cs * z * r : 0;
   const nextDh = nextSlot?.naturalHeight ? nextSlot.naturalHeight * cs * z * r : 0;
+
+  const rawCx = curDw > 0 ? 50 - (((pan?.x || 0) * r) / curDw) * 100 : 50;
+  const rawCy = curDh > 0 ? 50 - (((pan?.y || 0) * r) / curDh) * 100 : 50;
+  const cropCx = Math.round(Math.min(100, Math.max(0, rawCx)) * 10) / 10;
+  const cropCy = Math.round(Math.min(100, Math.max(0, rawCy)) * 10) / 10;
+  const cropCz = Math.round(Math.min(4.6, Math.max(1.2, z)) * 100) / 100;
 
   // 前後画像の幅差による中央補正量（絵巻は右から左に進むため）
   const stripNudgeX = (prevDw - nextDw) / 2;
@@ -284,156 +293,147 @@ export function PolaroidModal({
           ポラロイド切り抜き
         </h2>
 
-        {/* --- A. プラットフォーム案内バッジ --- */}
+        {/* --- A. ポラロイド / 扇面 モード切替タブ ＋ 閉じるボタン --- */}
         <div
+          role="tablist"
+          aria-label={isEn ? "Frame Layout Mode" : "レイアウト切替"}
           style={{
+            position: "relative",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: "5px",
-            padding: "6px 8px 8px",
-            fontSize: "10px",
-            color: "#555",
-            flexWrap: "nowrap",
-            whiteSpace: "nowrap",
-            overflowX: "auto",
+            padding: "2px 32px 8px",
           }}
         >
-          <span style={{ fontSize: "10px", color: "#888", fontWeight: "600", marginRight: "1px" }}>
-            {isEn ? "Export for:" : "対応:"}
-          </span>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: "2px", background: "#f0f2f5", padding: "2px 6px", borderRadius: "10px", fontWeight: "600" }}>
-            𝕏
-          </span>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: "2px", background: "#fcefe9", color: "#c13584", padding: "2px 6px", borderRadius: "10px", fontWeight: "600" }}>
-            {isEn ? "📸 Reels" : "📸 リール"}
-          </span>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: "2px", background: "#ffebee", color: "#d32f2f", padding: "2px 6px", borderRadius: "10px", fontWeight: "600" }}>
-            ▶️ Shorts
-          </span>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: "2px", background: "#f0f0f0", color: "#111", padding: "2px 6px", borderRadius: "10px", fontWeight: "600" }}>
-            TikTok
-          </span>
-        </div>
-
-        {/* --- B. 写真表示フレーム（ドラッグ/ホイール操作対象） --- */}
-        <div
-          ref={frameRef}
-          data-polaroid-frame
-          className={`relative aspect-[720/560] w-full overflow-hidden bg-neutral-900/5 select-none touch-none ${
-            dragging ? "cursor-grabbing" : "cursor-grab"
-          }`}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerUp}
-          onWheel={handleFrameWheel}
-        >
-          {src && curSlot && curDw > 0 ? (
-            /* パノラマストリップ（RTL順: next -> cur -> prev） */
-            <div className={styles.panoramaStrip} style={stripTransform}>
-              {/* 絵巻の進行方向（左側: 次スライス） */}
-              {nextSlot ? (
-                <img
-                  crossOrigin="anonymous"
-                  src={nextSlot.src}
-                  alt=""
-                  className={styles.photoImage}
-                  style={{ width: `${nextDw}px`, height: `${nextDh}px`, flexShrink: 0 }}
-                  draggable={false}
-                />
-              ) : null}
-              {/* 中央スライス */}
-              <img
-                crossOrigin="anonymous"
-                src={curSlot.src}
-                alt={currentScene?.name || currentScene?.title || "Emaki Scene"}
-                className={styles.photoImage}
-                style={{ width: `${curDw}px`, height: `${curDh}px`, flexShrink: 0, pointerEvents: "none" }}
-                draggable={false}
-              />
-              {/* 絵巻の進行方向（右側: 前スライス） */}
-              {prevSlot ? (
-                <img
-                  crossOrigin="anonymous"
-                  src={prevSlot.src}
-                  alt=""
-                  className={styles.photoImage}
-                  style={{ width: `${prevDw}px`, height: `${prevDh}px`, flexShrink: 0 }}
-                  draggable={false}
-                />
-              ) : null}
-            </div>
-          ) : (
-            /* ローディングスピナー */
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                height: "100%",
-                minHeight: "240px",
-                gap: "12px",
-                color: "#888",
-                fontSize: "13px",
-                fontFamily: "'Noto Serif JP', serif",
-              }}
-            >
-              <div
-                style={{
-                  width: "28px",
-                  height: "28px",
-                  border: "3px solid #e0ded9",
-                  borderTopColor: "#b8b2a5",
-                  borderRadius: "50%",
-                  animation: "spin 0.8s linear infinite",
-                }}
-              />
-              <span>{isEn ? "Loading..." : "読み込み中..."}</span>
-              <style>{`
-                @keyframes spin {
-                  to {
-                    transform: rotate(360deg);
-                  }
+          <button
+            type="button"
+            className={styles.headerCloseBtn}
+            onClick={handleModalClose}
+            aria-label={isEn ? "Close" : "閉じる"}
+            title={isEn ? "Close" : "閉じる"}
+            style={{ position: "absolute", right: 0, top: 0 }}
+          >
+            ✕
+          </button>
+          <div
+            style={{
+              display: "inline-flex",
+              background:
+                currentTheme === "sumi"
+                  ? "rgba(255, 255, 255, 0.1)"
+                  : "rgba(0, 0, 0, 0.06)",
+              padding: "3px",
+              borderRadius: "999px",
+              border:
+                currentTheme === "sumi"
+                  ? "1px solid rgba(201, 158, 68, 0.35)"
+                  : "1px solid rgba(0, 0, 0, 0.08)",
+              gap: "3px",
+            }}
+          >
+            <button
+              type="button"
+              role="tab"
+              aria-selected={layoutMode === "polaroid"}
+              onClick={() => {
+                if (layoutMode !== "polaroid") {
+                  setLayoutMode("polaroid");
                 }
-              `}</style>
-            </div>
-          )}
-
-          {/* ドラッグ操作ヒントバッジ */}
-          {src && curSlot ? (
-            <div
+              }}
               style={{
-                position: "absolute",
-                bottom: "8px",
-                right: "8px",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "4px",
-                background: dragging ? "rgba(0, 0, 0, 0.72)" : "rgba(0, 0, 0, 0.55)",
-                color: "#ffffff",
-                padding: "3px 8px",
-                borderRadius: "14px",
-                fontSize: "10px",
-                fontWeight: "500",
-                pointerEvents: "none",
-                backdropFilter: "blur(2px)",
-                boxShadow: dragging
-                  ? "0 2px 6px rgba(0, 0, 0, 0.35)"
-                  : "0 1px 3px rgba(0, 0, 0, 0.2)",
-                transition: "background 0.15s ease, box-shadow 0.15s ease",
-                zIndex: 2,
+                padding: "4px 14px",
+                borderRadius: "999px",
+                fontSize: "11px",
+                fontWeight: "600",
+                border: "none",
+                cursor: "pointer",
+                transition: "all 0.15s ease",
+                background:
+                  layoutMode === "polaroid"
+                    ? currentTheme === "sumi"
+                      ? "#cfa554"
+                      : "#ffffff"
+                    : "transparent",
+                color:
+                  layoutMode === "polaroid"
+                    ? "#1f2937"
+                    : currentTheme === "sumi"
+                      ? "rgba(247, 241, 230, 0.75)"
+                      : "#4b5563",
+                boxShadow:
+                  layoutMode === "polaroid"
+                    ? "0 1px 3px rgba(0, 0, 0, 0.16)"
+                    : "none",
               }}
             >
-              <span style={{ fontSize: "11px" }}>✥</span>
-              <span>{isEn ? "Drag to move" : "ドラッグで移動"}</span>
-            </div>
-          ) : null}
-          <div className={styles.zoomHint}>ドラッグで位置調整・ホイールで拡大縮小</div>
+              {isEn ? "📷 Polaroid" : "📷 ポラロイド"}
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={layoutMode === "senmen"}
+              onClick={() => {
+                if (layoutMode !== "senmen") {
+                  setLayoutMode("senmen");
+                }
+              }}
+              style={{
+                padding: "4px 14px",
+                borderRadius: "999px",
+                fontSize: "11px",
+                fontWeight: "600",
+                border: "none",
+                cursor: "pointer",
+                transition: "all 0.15s ease",
+                background:
+                  layoutMode === "senmen"
+                    ? currentTheme === "sumi"
+                      ? "#cfa554"
+                      : "#ffffff"
+                    : "transparent",
+                color:
+                  layoutMode === "senmen"
+                    ? "#1f2937"
+                    : currentTheme === "sumi"
+                      ? "rgba(247, 241, 230, 0.75)"
+                      : "#4b5563",
+                boxShadow:
+                  layoutMode === "senmen"
+                    ? "0 1px 3px rgba(0, 0, 0, 0.16)"
+                    : "none",
+              }}
+            >
+              {isEn ? "🪭 Fan Art (Senmen)" : "🪭 扇面"}
+            </button>
+          </div>
         </div>
 
-        {/* --- C. 和紙・墨・雅などのテーマセレクタ --- */}
+        {/* --- B. 写真表示フレーム（切り出しコンポーネント） --- */}
+        <PolaroidPreviewFrame
+          curDh={curDh}
+          curDw={curDw}
+          curSlot={curSlot}
+          currentScene={currentScene}
+          currentTheme={currentTheme}
+          dragging={dragging}
+          frameRef={frameRef}
+          handleFrameWheel={handleFrameWheel}
+          handlePointerDown={handlePointerDown}
+          handlePointerMove={handlePointerMove}
+          handlePointerUp={handlePointerUp}
+          isEn={isEn}
+          layoutMode={layoutMode}
+          nextDh={nextDh}
+          nextDw={nextDw}
+          nextSlot={nextSlot}
+          prevDh={prevDh}
+          prevDw={prevDw}
+          prevSlot={prevSlot}
+          src={src}
+          stripTransform={stripTransform}
+        />
+
+        {/* --- C. 和紙・墨・雅などのテーマセレクタ（ポラロイド・扇面共通で4色切替） --- */}
         <div className={styles.themeSelector} role="radiogroup" aria-label="テーマ選択">
           {Object.values(THEMES).map((th) => (
             <button
@@ -442,7 +442,12 @@ export function PolaroidModal({
               className={`${styles.themeDot} ${currentTheme === th.id ? styles.themeDotActive : ""}`}
               style={{
                 backgroundColor: th.bg,
-                borderColor: currentTheme === th.id ? (th.id === "sumi" ? "#cfa554" : "#2c3e50") : (th.border || "#d1d5db"),
+                borderColor:
+                  currentTheme === th.id
+                    ? th.id === "sumi"
+                      ? "#cfa554"
+                      : "#2c3e50"
+                    : th.border || "#d1d5db",
               }}
               onClick={() => {
                 if (currentTheme !== th.id) {
@@ -457,9 +462,32 @@ export function PolaroidModal({
         </div>
 
         {/* --- D. キャプション & ひとこと入力エリア --- */}
-        <div className={styles.captionArea}>
+        <div
+          className={styles.captionArea}
+          style={
+            layoutMode === "senmen"
+              ? {
+                  background: "transparent",
+                  marginTop: "4px",
+                  paddingTop: "2px",
+                }
+              : undefined
+          }
+        >
           {displayChapter && (
-            <h3 className={styles.captionTitle} style={{ color: THEMES[currentTheme]?.titleColor }}>
+            <h3
+              className={styles.captionTitle}
+              style={{
+                color: THEMES[currentTheme]?.titleColor,
+                ...(layoutMode === "senmen"
+                  ? {
+                      background: "transparent",
+                      letterSpacing: "0.08em",
+                      fontSize: "15px",
+                    }
+                  : {}),
+              }}
+            >
               {isEn ? `— ${displayChapter} —` : `― ${displayChapter} ―`}
             </h3>
           )}
@@ -469,31 +497,34 @@ export function PolaroidModal({
             </p>
           )}
 
-          {/* メッセージ入力フォーム */}
+          {/* メッセージ ＆ 投稿者名 入力フォーム（横並び） */}
           <div
             style={{
-              margin: "10px auto 4px",
-              maxWidth: "360px",
-              width: "90%",
-              position: "relative",
+              margin: "8px auto 2px",
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
             }}
           >
             <div
               style={{
+                flex: "1 1 62%",
+                minWidth: 0,
                 display: "flex",
                 alignItems: "center",
                 background: message ? "rgba(255, 255, 255, 0.85)" : "#f7f6f2",
                 border: message ? "1px solid #d0ccc0" : "1.5px dashed #b8b2a5",
                 borderRadius: "8px",
-                padding: "5px 10px",
+                padding: "5px 8px",
                 transition: "all 0.2s ease",
                 boxShadow: "inset 0 1px 2px rgba(0, 0, 0, 0.04)",
               }}
             >
               <span
                 style={{
-                  fontSize: "13px",
-                  marginRight: "6px",
+                  fontSize: "12px",
+                  marginRight: "5px",
                   opacity: 0.65,
                   userSelect: "none",
                   flexShrink: 0,
@@ -505,17 +536,21 @@ export function PolaroidModal({
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder={isEn ? "Add a note (e.g. Favorite scene)" : "ひとこと添える（例: お気に入りのシーン）"}
+                placeholder={
+                  isEn
+                    ? "Note (max 40 chars)"
+                    : "ひとこと添える（40字まで）"
+                }
                 maxLength={MESSAGE_MAX}
                 style={{
                   flex: 1,
+                  minWidth: 0,
                   border: "none",
                   outline: "none",
                   background: "transparent",
                   fontFamily: "'Noto Serif JP', serif",
-                  fontSize: "13px",
+                  fontSize: "12px",
                   color: THEMES[currentTheme]?.msgColor || "#333",
-                  textAlign: "center",
                   fontStyle: message ? "italic" : "normal",
                 }}
               />
@@ -527,10 +562,11 @@ export function PolaroidModal({
                     border: "none",
                     background: "transparent",
                     cursor: "pointer",
-                    fontSize: "12px",
+                    fontSize: "11px",
                     color: "#999",
                     padding: "0 2px",
                     lineHeight: 1,
+                    flexShrink: 0,
                   }}
                   title="クリア"
                 >
@@ -538,28 +574,63 @@ export function PolaroidModal({
                 </button>
               )}
             </div>
-            {!message && (
-              <div
+
+            <div
+              style={{
+                flex: "0 1 38%",
+                minWidth: 0,
+                display: "flex",
+                alignItems: "center",
+                background: "rgba(255, 255, 255, 0.9)",
+                border: "1px solid #cbd5e1",
+                borderRadius: "8px",
+                padding: "5px 8px",
+              }}
+            >
+              <span
                 style={{
-                  fontSize: "10px",
-                  color: "#999",
-                  textAlign: "center",
-                  marginTop: "2px",
+                  fontSize: "11px",
+                  marginRight: "4px",
+                  opacity: 0.65,
+                  userSelect: "none",
+                  flexShrink: 0,
                 }}
               >
-                {isEn
-                  ? "※ Included as a caption in the image/video (max 40 chars)"
-                  : "※画像・動画内に手書きキャプションとして反映されます（最大40文字）"}
-              </div>
-            )}
+                👤
+              </span>
+              <input
+                type="text"
+                maxLength={40}
+                defaultValue={
+                  typeof window !== "undefined"
+                    ? window.localStorage.getItem("emakimono_polaroid_author_v1") || ""
+                    : ""
+                }
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (typeof window !== "undefined") {
+                    try {
+                      window.localStorage.setItem("emakimono_polaroid_author_v1", val);
+                      window.dispatchEvent(new Event("emakimono-author-change"));
+                    } catch {}
+                  }
+                }}
+                placeholder={isEn ? "Name (opt.)" : "投稿者名（任意）"}
+                aria-label={isEn ? "Author name" : "投稿者名"}
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  border: "none",
+                  outline: "none",
+                  background: "transparent",
+                  fontSize: "12px",
+                  color: "#0f172a",
+                }}
+              />
+            </div>
           </div>
         </div>
 
-        {/* --- E. クレジット表記 --- */}
-        <div className={styles.cardFooterLine} style={{ color: THEMES[currentTheme]?.creditColor }}>
-          <img src="/favicon.ico" alt="" width={12} height={12} style={{ borderRadius: 2, marginRight: 4 }} />
-          絵巻物ビューアー | emakimono.com
-        </div>
 
         {/* コピー結果通知トースト */}
         {(copiedStep || feedbackMessage) && (
@@ -582,50 +653,49 @@ export function PolaroidModal({
           </p>
         )}
 
-        {/* --- F. フッター操作ボタン（保存 / 共有 / 閉じる） --- */}
-        <div className={styles.footer}>
-          <button
-            type="button"
-            className={styles.saveBtn}
-            onClick={() => {
-              trackPolaroidSheetOpen({
-                sheetMode: "save",
-                scrollId,
-                sceneIndex: selectedIndex,
-              });
-              setSheetMode("save");
-              setShareStep("select");
-              setIsShareSheetOpen(true);
-            }}
-            disabled={!src}
-          >
-            {isEn ? "Save" : "保存"}
-          </button>
-          <button
-            type="button"
-            className={styles.shareBtn}
-            onClick={() => {
-              trackPolaroidSheetOpen({
-                sheetMode: "share",
-                scrollId,
-                sceneIndex: selectedIndex,
-              });
-              setFeedbackMessage(null);
-              setSheetMode("share");
-              setShareStep("select");
-              setIsShareSheetOpen(true);
-            }}
-            disabled={!src}
-            style={{
-              backgroundColor: currentTheme === "sumi" ? "#383533" : "#2c3e50",
-            }}
-          >
-            {isEn ? "Share to SNS / Shorts" : "SNS・Shortsに共有"}
-          </button>
-          <button type="button" className={styles.closeBtn} onClick={handleModalClose}>
-            {isEn ? "Close" : "閉じる"}
-          </button>
-        </div>
+        {/* --- F. フッター操作ボタン（切り出しコンポーネント） --- */}
+        <PolaroidModalFooter
+          coverScale={coverScale}
+          cropCx={cropCx}
+          cropCy={cropCy}
+          cropCz={cropCz}
+          currentTheme={currentTheme}
+          displayChapter={displayChapter}
+          layoutMode={layoutMode}
+          displayTitle={displayTitle}
+          isEn={isEn}
+          isOpen={isOpen}
+          message={message}
+          nextSlot={nextSlot}
+          pan={pan}
+          prevSlot={prevSlot}
+          scrollId={scrollId}
+          selectedIndex={selectedIndex}
+          src={src}
+          zoom={zoom}
+          onOpenSaveSheet={() => {
+            trackPolaroidSheetOpen({
+              sheetMode: "save",
+              scrollId,
+              sceneIndex: selectedIndex,
+            });
+            setSheetMode("save");
+            setShareStep("select");
+            setIsShareSheetOpen(true);
+          }}
+          onOpenShareSheet={() => {
+            trackPolaroidSheetOpen({
+              sheetMode: "share",
+              scrollId,
+              sceneIndex: selectedIndex,
+            });
+            setFeedbackMessage(null);
+            setSheetMode("share");
+            setShareStep("select");
+            setIsShareSheetOpen(true);
+          }}
+          onCloseModal={handleModalClose}
+        />
 
         {/* --- G. 共有・保存ボトムシート（切り出しコンポーネント） --- */}
         <PolaroidShareSheet
