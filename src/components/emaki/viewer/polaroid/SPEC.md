@@ -12,10 +12,12 @@ graph TD
     Modal -->|シーン情報| Meta["usePolaroidChapterMetadata.js"]
     Modal -->|isOpen / frameRef| ScrollLock["usePolaroidScrollLock.js"]
     Modal -->|メタ・座標・テーマ| Export["usePolaroidExport.js"]
+    Modal -->|切り抜き枠・扇面プレビュー| PreviewFrame["PolaroidPreviewFrame.jsx"]
     Modal -->|シート表示・フォーマット選択| ShareSheet["PolaroidShareSheet.jsx"]
     Modal -->|保存・ボード追加操作| Footer["PolaroidModalFooter.jsx"]
 
-    Export --> Renderer["polaroidCanvasRenderer.js<br/>(Offscreen Canvas描画・扇面ジオメトリ)"]
+    PreviewFrame --> Renderer["polaroidCanvasRenderer.js<br/>(Offscreen Canvas描画・扇面ジオメトリ)"]
+    Export --> Renderer
     PanZoom --> Renderer
     Footer -->|appendBoardItem| BoardStorage["../board/polaroidBoardStorage.js"]
 ```
@@ -25,6 +27,7 @@ graph TD
 | ファイル | 種別 | 主な責務 |
 | --- | --- | --- |
 | PolaroidModal.js | View / Orchestrator | モーダル描画、実描画領域からの % 座標（cx, cy, cz）算出、各フック・サブUIの統合 |
+| PolaroidPreviewFrame.jsx | View | ポラロイド／扇面（senmen）レイアウトの写真表示フレーム、扇面SVG逆抜きマスク、3スライスパノラマストリップ描画 |
 | usePolaroidPanZoom.js | Hook | ホイール／ドラッグ／ピンチ操作による Pan・Zoom 更新とクランプ |
 | usePolaroidChapterMetadata.js | Hook | 詞書・章タイトル・作品名メタデータの解決 |
 | usePolaroidScrollLock.js | Hook | モーダル表示中の body スクロール固定とカード外 wheel イベント遮断 |
