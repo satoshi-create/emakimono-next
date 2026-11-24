@@ -29,10 +29,21 @@ function BoardCardPhoto({ item }) {
   const cs = item.coverScale || 1;
   const z = item.zoom || 1.5;
 
-  const dw = imgSize.w ? imgSize.w * cs * z * r : 0;
-  const dh = imgSize.h ? imgSize.h * cs * z * r : 0;
-  const tx = (item.pan?.x || 0) * r;
-  const ty = (item.pan?.y || 0) * r;
+  const minCoverScale =
+    imgSize.w && imgSize.h
+      ? Math.max(CARD_PHOTO_W / imgSize.w, CARD_PHOTO_H / imgSize.h)
+      : 0;
+  const rawDw = imgSize.w ? imgSize.w * cs * z * r : 0;
+  const rawDh = imgSize.h ? imgSize.h * cs * z * r : 0;
+  const dw = imgSize.w ? Math.max(rawDw, imgSize.w * minCoverScale) : 0;
+  const dh = imgSize.h ? Math.max(rawDh, imgSize.h * minCoverScale) : 0;
+
+  const maxPanX = dw > CARD_PHOTO_W ? (dw - CARD_PHOTO_W) / 2 : 0;
+  const maxPanY = dh > CARD_PHOTO_H ? (dh - CARD_PHOTO_H) / 2 : 0;
+  const rawTx = (item.pan?.x || 0) * r;
+  const rawTy = (item.pan?.y || 0) * r;
+  const tx = Math.max(-maxPanX, Math.min(maxPanX, rawTx));
+  const ty = Math.max(-maxPanY, Math.min(maxPanY, rawTy));
 
   return (
     <div
