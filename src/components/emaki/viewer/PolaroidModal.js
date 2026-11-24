@@ -106,6 +106,8 @@ export function PolaroidModal({
   }, []);
 
   const frameDomReady = mounted && isOpen;
+  const resolvedWorkTitleEn =
+    titleen || titleEn || scrollTitleEn || scrollId || "";
 
   // ---------------------------------------------------------------------------
   // 2. Pan / Zoom & パノラマ画像ロード（usePolaroidPanZoom）
@@ -130,12 +132,19 @@ export function PolaroidModal({
     initialIndex,
     initialZoom,
     initialPan,
+    workTitleEn: resolvedWorkTitleEn,
     frameDomReady,
   });
 
   const currentScene = scenes[selectedIndex] || scenes[0];
   const rawSrc = currentScene?.src ?? "";
-  const src = rawSrc ? buildCloudinaryUrl(rawSrc) : "";
+  const src = rawSrc
+    ? buildCloudinaryUrl(rawSrc, [], {
+        workTitleEn: resolvedWorkTitleEn,
+        delivery: currentScene?.delivery,
+        r2Key: currentScene?.r2Key,
+      })
+    : "";
 
   // ---------------------------------------------------------------------------
   // 3. メタデータ解決（usePolaroidChapterMetadata）

@@ -94,6 +94,7 @@ export function usePolaroidPanZoom({
   initialIndex = 0,
   initialZoom,
   initialPan,
+  workTitleEn,
   /** 写真枠が DOM に載った後（PolaroidModal の mounted 等） */
   frameDomReady = true,
 }) {
@@ -211,11 +212,18 @@ export function usePolaroidPanZoom({
     const prevIdx = findPanoramaIndex(curIdx - 1, -1);
     const nextIdx = findPanoramaIndex(curIdx + 1, 1);
 
-    const curUrl = scenes[curIdx]?.src ? buildCloudinaryUrl(scenes[curIdx].src) : null;
-    const prevUrl =
-      prevIdx != null && scenes[prevIdx]?.src ? buildCloudinaryUrl(scenes[prevIdx].src) : null;
-    const nextUrl =
-      nextIdx != null && scenes[nextIdx]?.src ? buildCloudinaryUrl(scenes[nextIdx].src) : null;
+    const buildSceneUrl = (scene) =>
+      scene?.src
+        ? buildCloudinaryUrl(scene.src, [], {
+            workTitleEn,
+            delivery: scene.delivery,
+            r2Key: scene.r2Key,
+          })
+        : null;
+
+    const curUrl = buildSceneUrl(scenes[curIdx]);
+    const prevUrl = prevIdx != null ? buildSceneUrl(scenes[prevIdx]) : null;
+    const nextUrl = nextIdx != null ? buildSceneUrl(scenes[nextIdx]) : null;
     if (!curUrl) return;
 
     loadedImagesRef.current = { prev: null, current: null, next: null };
@@ -250,7 +258,7 @@ export function usePolaroidPanZoom({
       setPan(initialPan && typeof initialPan.x === "number" ? initialPan : { x: 0, y: 0 });
       setZoom(typeof initialZoom === "number" ? initialZoom : ZOOM_DEFAULT);
     });
-  }, [isOpen, selectedIndex, scenes, initialPan, initialZoom, updatePanLimits]);
+  }, [isOpen, selectedIndex, scenes, initialPan, initialZoom, updatePanLimits, workTitleEn]);
 
   // ---------------------------------------------------------------------------
   // [フロー 3] 写真枠（DOM）寸法の監視

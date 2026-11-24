@@ -97,27 +97,35 @@ export default function useEmakiZoomBridge({
         zoomMinSlices
       );
       const list = [];
-      for (let i = from; i <= to; i += 1) {
-        const item = items[i];
-        if (!item?.src) continue;
-        list.push({
-          key: i,
-          src: buildCloudinaryUrl(item.src, [
-            "c_limit",
-            `w_${Math.max(2000, Math.round(item.srcWidth || 0))}`,
-            "e_sharpen:80",
-            "f_auto",
-            "q_auto:best",
-          ]),
-          srcWidth: item.srcWidth || 0,
-          srcHeight: item.srcHeight || 0,
-          spots: item.spots || [],
-          linkId: item.linkId,
-        });
-      }
-      return list;
-    },
-    [processedEmakis, zoomMinSlices, articleRef, entryContainerRef]
+        for (let i = from; i <= to; i += 1) {
+          const item = items[i];
+          if (!item?.src) continue;
+          list.push({
+            key: i,
+            src: buildCloudinaryUrl(
+              item.src,
+              [
+                "c_limit",
+                `w_${Math.max(2000, Math.round(item.srcWidth || 0))}`,
+                "e_sharpen:80",
+                "f_auto",
+                "q_auto:best",
+              ],
+              {
+                workTitleEn: data?.titleen,
+                delivery: item.delivery,
+                r2Key: item.r2Key,
+              }
+            ),
+            srcWidth: item.srcWidth || 0,
+            srcHeight: item.srcHeight || 0,
+            spots: item.spots || [],
+            linkId: item.linkId,
+          });
+        }
+        return list;
+      },
+      [data?.titleen, processedEmakis, zoomMinSlices, articleRef, entryContainerRef]
   );
 
   const zoomSlices = useMemo(
