@@ -149,6 +149,14 @@ export function useHomePublicBoards({ router, isEn }) {
   itemsByBoardIdRef.current = itemsByBoardId;
 
   const panRef = useRef({ active: false, startX: 0, startY: 0, origX: 0, origY: 0 });
+  const activePointersRef = useRef(new Map());
+  const pinchRef = useRef({
+    active: false,
+    initialDist: 0,
+    initialScale: 1,
+    worldCenterX: 0,
+    worldCenterY: 0,
+  });
   const dragRef = useRef({
     active: false,
     cardId: null,
@@ -330,7 +338,7 @@ export function useHomePublicBoards({ router, isEn }) {
     router.push(primaryTargetPath, undefined, { locale: router.locale });
   };
 
-  // 背景ドラッグ（ホワイトボードのパン移動）
+  // 背景ドラッグ（ホワイトボードのパン移動 ＆ 2本指ピンチズーム）
   const handleCanvasPointerDown = (e) => {
     logBoardDebug("CANVAS_DOWN", {
       isFullscreen,
@@ -343,20 +351,76 @@ export function useHomePublicBoards({ router, isEn }) {
     if (dragRef.current.active) return;
     if (e.button !== 0 && e.pointerType === "mouse") return;
     e.currentTarget.setPointerCapture?.(e.pointerId);
-    panRef.current = {
-      active: true,
-      startX: e.clientX,
-      startY: e.clientY,
-      origX: viewport.x,
-      origY: viewport.y,
-    };
-    setIsPanning(true);
-    setActiveCardId(null);
-    setShowHowTo(false);
+    activePointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    if (activePointersRef.current.size === 2) {
+      const pts = Array.from(activePointersRef.current.values());
+      const dist = Math.hypot(pts[1].x - pts[0].x, pts[1].y - pts[0].y);
+      const midClientX = (pts[0].x + pts[1].x) / 2;
+      const midClientY = (pts[0].y + pts[1].y) / 2;
+      const rect = canvasRef.current?.getBoundingClientRect();
+      const cursorX = rect ? midClientX - rect.left : midClientX;
+      const cursorY = rect ? midClientY - rect.top : midClientY;
+      const cur = viewportRef.current;
+
+      panRef.current.active = false;
+      pinchRef.current = {
+        active: dist > 0,
+        initialDist: dist,
+        initialScale: cur.scale,
+        worldCenterX: (cursorX - cur.x) / cur.scale,
+        worldCenterY: (cursorY - cur.y) / cur.scale,
+      };
+      setIsPanning(true);
+      setActiveCardId(null);
+      setShowHowTo(false);
+      return;
+    }
+
+    if (activePointersRef.current.size === 1) {
+      pinchRef.current.active = false;
+      panRef.current = {
+        active: true,
+        startX: e.clientX,
+        startY: e.clientY,
+        origX: viewportRef.current.x,
+        origY: viewportRef.current.y,
+      };
+      setIsPanning(true);
+      setActiveCardId(null);
+      setShowHowTo(false);
+    }
   };
 
   const handleCanvasPointerMove = (e) => {
-    if (dragRef.current.active || !panRef.current.active) return;
+    if (activePointersRef.current.has(e.pointerId)) {
+      activePointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    }
+    if (dragRef.current.active) return;
+
+    const pinch = pinchRef.current;
+    if (pinch.active && activePointersRef.current.size >= 2) {
+      const pts = Array.from(activePointersRef.current.values());
+      const dist = Math.hypot(pts[1].x - pts[0].x, pts[1].y - pts[0].y);
+      if (pinch.initialDist > 0 && dist > 0) {
+        const rawScale = pinch.initialScale * (dist / pinch.initialDist);
+        const nextScale =
+          Math.round(Math.min(1.8, Math.max(0.45, rawScale)) * 100) / 100;
+        const midClientX = (pts[0].x + pts[1].x) / 2;
+        const midClientY = (pts[0].y + pts[1].y) / 2;
+        const rect = canvasRef.current?.getBoundingClientRect();
+        const cursorX = rect ? midClientX - rect.left : midClientX;
+        const cursorY = rect ? midClientY - rect.top : midClientY;
+        setViewport({
+          x: Math.round(cursorX - pinch.worldCenterX * nextScale),
+          y: Math.round(cursorY - pinch.worldCenterY * nextScale),
+          scale: nextScale,
+        });
+      }
+      return;
+    }
+
+    if (!panRef.current.active) return;
     const dx = e.clientX - panRef.current.startX;
     const dy = e.clientY - panRef.current.startY;
     logBoardDebug("CANVAS_MOVE", { isFullscreen, pointerId: e.pointerId, dx, dy });
@@ -368,11 +432,28 @@ export function useHomePublicBoards({ router, isEn }) {
   };
 
   const handleCanvasPointerUp = (e) => {
-    if (!panRef.current.active) return;
-    logBoardDebug("CANVAS_UP", { isFullscreen, pointerId: e.pointerId });
-    panRef.current.active = false;
-    setIsPanning(false);
+    activePointersRef.current.delete(e.pointerId);
     e.currentTarget.releasePointerCapture?.(e.pointerId);
+    logBoardDebug("CANVAS_UP", { isFullscreen, pointerId: e.pointerId });
+
+    if (activePointersRef.current.size === 1) {
+      const [rem] = Array.from(activePointersRef.current.values());
+      pinchRef.current.active = false;
+      panRef.current = {
+        active: true,
+        startX: rem.x,
+        startY: rem.y,
+        origX: viewportRef.current.x,
+        origY: viewportRef.current.y,
+      };
+      return;
+    }
+
+    if (activePointersRef.current.size === 0) {
+      pinchRef.current.active = false;
+      panRef.current.active = false;
+      setIsPanning(false);
+    }
   };
 
   // カードのドラッグ移動（ローカルお試し操作＆最前面化）

@@ -53,13 +53,21 @@ export function usePolaroidBoardCanvas({
   const localMovedCoordsRef = localMovedCoordsRefProp ?? internalLocalMovedCoordsRef;
   const placeholderAnchorRef = useRef({ boardKey: null, x: 320, y: 140 });
 
-  const panStateRef = useRef({
-    active: false,
-    startX: 0,
-    startY: 0,
-    origX: 0,
-    origY: 0,
-  });
+    const panStateRef = useRef({
+      active: false,
+      startX: 0,
+      startY: 0,
+      origX: 0,
+      origY: 0,
+    });
+    const activePointersRef = useRef(new Map());
+    const pinchStateRef = useRef({
+      active: false,
+      initialDist: 0,
+      initialScale: 1,
+      worldCenterX: 0,
+      worldCenterY: 0,
+    });
 
   const internalDragStateRef = useRef({
     id: null,
@@ -276,44 +284,117 @@ export function usePolaroidBoardCanvas({
   // ===========================================================================
   // 4. キャンバス全体のパン（ドラッグ移動） ＆ ホイール／ボタンズーム
   // ===========================================================================
-  const handleCanvasPointerDown = (e) => {
-    if (e.button !== 0 && e.pointerType === "mouse") return;
-    if (e.target instanceof Element && e.target.closest("a, button, input, textarea, select")) {
-      return;
-    }
-    e.currentTarget.setPointerCapture(e.pointerId);
-    setIsPanning(true);
-    panStateRef.current = {
-      active: true,
-      startX: e.clientX,
-      startY: e.clientY,
-      origX: viewport.x,
-      origY: viewport.y,
+    const handleCanvasPointerDown = (e) => {
+      if (e.button !== 0 && e.pointerType === "mouse") return;
+      if (e.target instanceof Element && e.target.closest("a, button, input, textarea, select")) {
+        return;
+      }
+      try {
+        e.currentTarget.setPointerCapture(e.pointerId);
+      } catch {
+        // noop
+      }
+      activePointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+      if (activePointersRef.current.size === 2) {
+        const pts = Array.from(activePointersRef.current.values());
+        const dist = Math.hypot(pts[1].x - pts[0].x, pts[1].y - pts[0].y);
+        const midClientX = (pts[0].x + pts[1].x) / 2;
+        const midClientY = (pts[0].y + pts[1].y) / 2;
+        const rect = canvasOuterRef.current?.getBoundingClientRect();
+        const localX = rect ? midClientX - rect.left : midClientX;
+        const localY = rect ? midClientY - rect.top : midClientY;
+        const cur = viewportRef.current;
+
+        panStateRef.current.active = false;
+        pinchStateRef.current = {
+          active: dist > 0,
+          initialDist: dist,
+          initialScale: cur.scale,
+          worldCenterX: (localX - cur.x) / cur.scale,
+          worldCenterY: (localY - cur.y) / cur.scale,
+        };
+        setIsPanning(true);
+        return;
+      }
+
+      if (activePointersRef.current.size === 1) {
+        pinchStateRef.current.active = false;
+        setIsPanning(true);
+        panStateRef.current = {
+          active: true,
+          startX: e.clientX,
+          startY: e.clientY,
+          origX: viewportRef.current.x,
+          origY: viewportRef.current.y,
+        };
+      }
     };
-  };
 
-  const handleCanvasPointerMove = (e) => {
-    const pst = panStateRef.current;
-    if (!pst.active) return;
-    const dx = e.clientX - pst.startX;
-    const dy = e.clientY - pst.startY;
-    setViewport((prev) => ({
-      ...prev,
-      x: pst.origX + dx,
-      y: pst.origY + dy,
-    }));
-  };
+    const handleCanvasPointerMove = (e) => {
+      if (activePointersRef.current.has(e.pointerId)) {
+        activePointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      }
 
-  const handleCanvasPointerUp = (e) => {
-    if (!panStateRef.current.active) return;
-    try {
-      e.currentTarget.releasePointerCapture(e.pointerId);
-    } catch {
-      // noop
-    }
-    panStateRef.current.active = false;
-    setIsPanning(false);
-  };
+      const pinch = pinchStateRef.current;
+      if (pinch.active && activePointersRef.current.size >= 2) {
+        const pts = Array.from(activePointersRef.current.values());
+        const dist = Math.hypot(pts[1].x - pts[0].x, pts[1].y - pts[0].y);
+        if (pinch.initialDist > 0 && dist > 0) {
+          const rawScale = pinch.initialScale * (dist / pinch.initialDist);
+          const nextScale = Math.min(2.5, Math.max(0.35, Number(rawScale.toFixed(3))));
+          const midClientX = (pts[0].x + pts[1].x) / 2;
+          const midClientY = (pts[0].y + pts[1].y) / 2;
+          const rect = canvasOuterRef.current?.getBoundingClientRect();
+          const localX = rect ? midClientX - rect.left : midClientX;
+          const localY = rect ? midClientY - rect.top : midClientY;
+          setViewport({
+            x: localX - pinch.worldCenterX * nextScale,
+            y: localY - pinch.worldCenterY * nextScale,
+            scale: nextScale,
+          });
+        }
+        return;
+      }
+
+      const pst = panStateRef.current;
+      if (!pst.active) return;
+      const dx = e.clientX - pst.startX;
+      const dy = e.clientY - pst.startY;
+      setViewport((prev) => ({
+        ...prev,
+        x: pst.origX + dx,
+        y: pst.origY + dy,
+      }));
+    };
+
+    const handleCanvasPointerUp = (e) => {
+      activePointersRef.current.delete(e.pointerId);
+      try {
+        e.currentTarget.releasePointerCapture(e.pointerId);
+      } catch {
+        // noop
+      }
+
+      if (activePointersRef.current.size === 1) {
+        const [rem] = Array.from(activePointersRef.current.values());
+        pinchStateRef.current.active = false;
+        panStateRef.current = {
+          active: true,
+          startX: rem.x,
+          startY: rem.y,
+          origX: viewportRef.current.x,
+          origY: viewportRef.current.y,
+        };
+        return;
+      }
+
+      if (activePointersRef.current.size === 0) {
+        pinchStateRef.current.active = false;
+        panStateRef.current.active = false;
+        setIsPanning(false);
+      }
+    };
 
   const applyZoomAtPoint = (nextScaleRaw, clientX, clientY) => {
     const nextScale = Math.min(2.5, Math.max(0.35, Number(nextScaleRaw.toFixed(3))));
