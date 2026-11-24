@@ -281,6 +281,15 @@ async function handlePatch(req, res, boardId) {
       return sendApiError(res, 404, "Item not found");
     }
 
+    const hasLayoutUpdate =
+      updates.boardX !== undefined ||
+      updates.boardY !== undefined ||
+      updates.zIndex !== undefined;
+
+    if (hasLayoutUpdate && !isBoardAdmin) {
+      return sendApiError(res, 403, "Only board admin can persist layout changes");
+    }
+
     const rowHash = target[0].visitorHash || "";
     const isOwner = Boolean(
       isBoardAdmin ||
@@ -290,7 +299,7 @@ async function handlePatch(req, res, boardId) {
     );
 
     if (!isOwner) {
-      return sendApiError(res, 403, "Only the author can move or edit this card");
+      return sendApiError(res, 403, "Only the author can edit this card");
     }
 
     await db

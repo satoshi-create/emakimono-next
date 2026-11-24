@@ -16,6 +16,7 @@ import {
   getThemeTextureUrl,
 } from "@/components/emaki/viewer/polaroid/polaroidCanvasRenderer";
 import { buildSourceHref } from "@/components/emaki/viewer/board/polaroidBoardPolicy";
+import { PolaroidCardView } from "@/components/emaki/viewer/board/PolaroidCardView";
 import { ERA_COLOR_MODES, VIEWER_SURFACE_TOKENS } from "@/theme/colorMode";
 
 const CARD_PHOTO_W = 204;
@@ -95,16 +96,16 @@ function BoardCardPhoto({ item }) {
 // 初期座標が未設定または重なっている場合に整列するフォールバック
 function normalizeBoardItems(rawItems) {
   return rawItems.map((item, idx) => {
+    const bx = Number(item.boardX);
+    const by = Number(item.boardY);
     const hasCoords =
-      typeof item.boardX === "number" &&
-      typeof item.boardY === "number" &&
-      (item.boardX !== 0 || item.boardY !== 0);
+      Number.isFinite(bx) && Number.isFinite(by) && (bx !== 0 || by !== 0);
     const col = idx % 4;
     const row = Math.floor(idx / 4);
     return {
       ...item,
-      boardX: hasCoords ? item.boardX : 40 + col * 255,
-      boardY: hasCoords ? item.boardY : 40 + row * 285,
+      boardX: hasCoords ? bx : 40 + col * 255,
+      boardY: hasCoords ? by : 40 + row * 285,
       rotate:
         typeof item.rotate === "number"
           ? item.rotate
@@ -698,14 +699,33 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
               const isLiked = Boolean(likedIds[item.id]);
 
               return (
-                <div
+                <PolaroidCardView
                   key={item.id}
-                  onDragStart={(e) => e.preventDefault()}
+                  item={item}
                   onPointerDown={(e) => handleCardPointerDown(e, item)}
                   onPointerMove={handleCardPointerMove}
                   onPointerUp={handleCardPointerUp}
-                  onPointerCancel={handleCardPointerUp}
-                  style={{
+                  isEn={isEn}
+                  locale={router.locale}
+                  isCollabMode={true}
+                  isLiked={isLiked}
+                  displayLikeCount={(item.likeCount || 0) + (isLiked ? 1 : 0)}
+                  sourceHref={item.scrollId ? buildSourceHref(item) : ""}
+                  onToggleLike={handleToggleLike}
+                  renderPhoto={() => <BoardCardPhoto item={item} />}
+                  theme={{
+                    bg: th.bg || "#fff",
+                    textureUrl: texUrl,
+                    titleColor: th.titleColor || surface.barText,
+                    subColor: th.subColor || surface.barTextMuted,
+                    linkColor: defaultTone.text,
+                    border: isSelected
+                      ? `2px solid ${defaultTone.accent}`
+                      : th.border
+                      ? `1.5px solid ${th.border}`
+                      : "1px solid rgba(0,0,0,0.14)",
+                  }}
+                  cardStyle={{
                     position: "absolute",
                     left: 0,
                     top: 0,
@@ -714,13 +734,6 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
                     WebkitUserSelect: "none",
                     zIndex: item.zIndex || 1,
                     transform: `translate3d(${item.boardX}px, ${item.boardY}px, 0) rotate(${item.rotate || 0}deg)`,
-                    backgroundColor: th.bg || "#fff",
-                    backgroundImage: texUrl ? `url(${texUrl})` : "none",
-                    border: isSelected
-                      ? `2px solid ${defaultTone.accent}`
-                      : th.border
-                      ? `1.5px solid ${th.border}`
-                      : "1px solid rgba(0,0,0,0.14)",
                     borderRadius: 6,
                     padding: "11px 11px 12px",
                     boxShadow: isSelected
@@ -729,161 +742,7 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
                     cursor: "grab",
                     transition: "box-shadow 0.15s ease",
                   }}
-                >
-                  {/* マスキングテープ風装飾 */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: -9,
-                      left: "50%",
-                      transform: "translateX(-50%) rotate(-2deg)",
-                      width: 56,
-                      height: 16,
-                      background: "rgba(255, 248, 220, 0.88)",
-                      border: "1px solid rgba(138, 109, 59, 0.25)",
-                      boxShadow: "0 1px 3px rgba(0,0,0,0.08)",
-                    }}
-                  />
-
-                  <BoardCardPhoto item={item} />
-
-                  {/* 作品タイトル・段タイトル（/board の PolaroidBoardCard と統一） */}
-                  <div
-                    style={{
-                      marginTop: 8,
-                      textAlign: "center",
-                    }}
-                  >
-                    {item.displayChapter && (
-                      <div
-                        style={{
-                          fontSize: 12.5,
-                          fontWeight: 700,
-                          color: th.titleColor || surface.barText,
-                          lineHeight: 1.35,
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                        }}
-                      >
-                        {item.displayChapter}
-                      </div>
-                    )}
-                    {item.displayTitle && (
-                      <div
-                        style={{
-                          fontSize: 11,
-                          fontWeight: 600,
-                          color: th.subColor || surface.barTextMuted,
-                          marginTop: item.displayChapter ? 2 : 0,
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                        }}
-                      >
-                        {isEn ? item.displayTitle : `『${item.displayTitle}』`}
-                      </div>
-                    )}
-                  </div>
-
-                  {(item.message || item.memo) && (
-                    <div
-                      style={{
-                        marginTop: 6,
-                        paddingTop: 6,
-                        borderTop: "1px solid rgb(20 20 20 / 0.08)",
-                      }}
-                    >
-                      <p
-                        style={{
-                          fontSize: 12,
-                          color: th.titleColor || surface.barText,
-                          margin: 0,
-                          lineHeight: 1.45,
-                          display: "-webkit-box",
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: "vertical",
-                          overflow: "hidden",
-                        }}
-                      >
-                        {item.message || item.memo}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* 投稿者バッジ（/board の PolaroidBoardCard と統一） */}
-                  <div style={{ marginTop: 6 }}>
-                    <span
-                      style={{
-                        display: "inline-block",
-                        fontSize: 10.5,
-                        fontWeight: 700,
-                        color: "#92400e",
-                        background: "#fef3c7",
-                        padding: "2px 8px",
-                        borderRadius: 999,
-                      }}
-                    >
-                      by{" "}
-                      {item.authorName ||
-                        (isEn ? "Anonymous" : "名無しの鑑賞者")}
-                    </span>
-                  </div>
-
-                  <div
-                    style={{
-                      marginTop: 8,
-                      paddingTop: 6,
-                      borderTop: "1px dashed rgba(0,0,0,0.12)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      gap: 6,
-                      fontSize: 11,
-                    }}
-                  >
-                    <button
-                      type="button"
-                      onPointerDown={(e) => e.stopPropagation()}
-                      onClick={(e) => handleToggleLike(e, item.id)}
-                      style={{
-                        fontSize: 11,
-                        padding: "2px 7px",
-                        borderRadius: 999,
-                        border: "1px solid rgba(0,0,0,0.14)",
-                        background: isLiked ? "#fef2f2" : "#fff",
-                        color: isLiked ? "#dc2626" : "#374151",
-                        cursor: "pointer",
-                      }}
-                    >
-                      {isLiked ? "♥" : "♡"}{" "}
-                      {(item.likeCount || 0) + (isLiked ? 1 : 0)}
-                    </button>
-
-                    {item.scrollId ? (
-                      <Link
-                        href={buildSourceHref(item)}
-                        locale={router.locale}
-                        passHref
-                      >
-                        <a
-                          onPointerDown={(e) => e.stopPropagation()}
-                          style={{
-                            fontWeight: 700,
-                            color: defaultTone.text,
-                            textDecoration: "none",
-                          }}
-                        >
-                          {isEn ? "Jump to Scene →" : "元絵巻・座標 →"}
-                        </a>
-                      </Link>
-                    ) : (
-                      <span style={{ color: surface.barTextMuted }}>
-                        by {item.authorName || (isEn ? "Guest" : "鑑賞者")}
-                      </span>
-                    )}
-                  </div>
-                </div>
+                />
               );
             })}
 

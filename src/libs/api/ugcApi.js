@@ -208,12 +208,24 @@ export async function updateCollabBoardItem(boardId, payload) {
 }
 
 export async function deleteCollabBoardItem(boardId, itemId) {
+  const clientId =
+    typeof window !== "undefined"
+      ? window.localStorage.getItem("emakimono_board_client_id") || ""
+      : "";
+  const adminKey =
+    typeof window !== "undefined"
+      ? window.localStorage.getItem("emakimono_board_admin_key") || ""
+      : "";
+  const headers = {};
+  if (clientId) headers["x-board-client-id"] = clientId;
+  if (adminKey) headers["x-board-admin-key"] = adminKey;
   return requestJson(
     `/api/board/${encodeURIComponent(boardId)}/items?itemId=${encodeURIComponent(
       itemId
     )}`,
     {
       method: "DELETE",
+      headers,
       ignore503: false,
     }
   );

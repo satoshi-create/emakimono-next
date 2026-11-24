@@ -332,3 +332,48 @@ export function buildSourceHref(item) {
   const qs = params.toString();
   return qs ? `/${item.scrollId}?${qs}` : `/${item.scrollId}`;
 }
+
+export const BOARD_VIEWPORT_SESSION_PREFIX = "emakimono_polaroid_viewport_v1:";
+
+export function buildBoardViewportStorageKey({ roomParam, personalParam, sharedParam }) {
+  if (roomParam) return `${BOARD_VIEWPORT_SESSION_PREFIX}room:${roomParam}`;
+  if (sharedParam) return `${BOARD_VIEWPORT_SESSION_PREFIX}shared:${sharedParam.slice(0, 48)}`;
+  const personalId = personalParam || "default";
+  return `${BOARD_VIEWPORT_SESSION_PREFIX}personal:${personalId}`;
+}
+
+export function loadBoardViewport(storageKey) {
+  if (typeof window === "undefined" || !storageKey) return null;
+  try {
+    const raw = window.sessionStorage.getItem(storageKey);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    const x = Number(parsed?.x);
+    const y = Number(parsed?.y);
+    const scale = Number(parsed?.scale);
+    if (!Number.isFinite(x) || !Number.isFinite(y) || !Number.isFinite(scale)) return null;
+    return {
+      x: Math.round(x),
+      y: Math.round(y),
+      scale: Math.min(2.5, Math.max(0.35, Number(scale.toFixed(3)))),
+    };
+  } catch {
+    return null;
+  }
+}
+
+export function saveBoardViewport(storageKey, viewport) {
+  if (typeof window === "undefined" || !storageKey || !viewport) return;
+  try {
+    window.sessionStorage.setItem(
+      storageKey,
+      JSON.stringify({
+        x: Math.round(viewport.x),
+        y: Math.round(viewport.y),
+        scale: viewport.scale,
+      })
+    );
+  } catch {
+    // quota / private mode
+  }
+}

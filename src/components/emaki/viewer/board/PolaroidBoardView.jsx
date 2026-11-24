@@ -3,6 +3,17 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "./PolaroidBoardView.module.css";
 import { PolaroidBoardCard } from "./PolaroidBoardCard";
+
+// =============================================================================
+// デバッグスイッチ（検証完了後は false にして一括停止）
+// =============================================================================
+const DEBUG_BOARD_PERSIST = true;
+
+function logDebug(tag, ...args) {
+  if (!DEBUG_BOARD_PERSIST) return;
+  const time = typeof performance !== "undefined" ? performance.now().toFixed(1) : "0.0";
+  console.log(`%c[${time}ms][${tag}]`, "color: #3b82f6; font-weight: bold;", ...args);
+}
 import { PolaroidBoardHeader } from "./PolaroidBoardHeader";
 import { PolaroidBoardTabs } from "./PolaroidBoardTabs";
 import { PolaroidBoardInfoCard } from "./PolaroidBoardInfoCard";
@@ -30,8 +41,12 @@ import {
   buildSourceHref,
   getBoardPermissions,
   getBoardCardPermissions,
+  isClientBoardAdmin,
   parseOdaiMeta,
   computeCardRuleBadges,
+  buildBoardViewportStorageKey,
+  loadBoardViewport,
+  saveBoardViewport,
 } from "./polaroidBoardPolicy";
 import { filterEmakisForHub, getAllHubPages } from "@/libs/hubPages";
 import emakisData from "@/data/scroll-metadata";
@@ -221,6 +236,8 @@ export function PolaroidBoardView() {
 
   const canvasOuterRef = useRef(null);
   const hasInitialFitRef = useRef(false);
+  const activeBoardContextRef = useRef(null);
+  const allowViewportPersistRef = useRef(false);
   const localMovedCoordsRef = useRef({});
   const placeholderAnchorRef = useRef({ boardKey: null, x: 320, y: 140 });
 
@@ -305,6 +322,43 @@ export function PolaroidBoardView() {
 
     setViewport({ x, y, scale });
   };
+
+  const resolveBoardViewportKey = () =>
+    buildBoardViewportStorageKey({ roomParam, personalParam, sharedParam });
+
+  const tryRestoreViewportFromSession = () => {
+    if (typeof window === "undefined") return false;
+    const saved = loadBoardViewport(resolveBoardViewportKey());
+    if (!saved) return false;
+    setViewport(saved);
+    return true;
+  };
+
+  const applyInitialViewportForItems = (targetItems, { forceFit = false } = {}) => {
+    const wantPinnedFit = router.query?.pinned === "1";
+    if (forceFit || wantPinnedFit) {
+      hasInitialFitRef.current = true;
+      fitViewportToItems(targetItems);
+      if (wantPinnedFit) {
+        const nextQuery = { ...router.query };
+        delete nextQuery.pinned;
+        router.replace({ pathname: router.pathname, query: nextQuery }, undefined, {
+          shallow: true,
+        });
+      }
+      return;
+    }
+    if (tryRestoreViewportFromSession()) {
+      hasInitialFitRef.current = true;
+      return;
+    }
+    if (!hasInitialFitRef.current) {
+      hasInitialFitRef.current = true;
+      fitViewportToItems(targetItems);
+    }
+    allowViewportPersistRef.current = true;
+  };
+
   const panStateRef = useRef({
     active: false,
     startX: 0,
@@ -352,6 +406,13 @@ export function PolaroidBoardView() {
     try {
       const data = await fetchCollabBoard(roomId);
       const loadedItems = Array.isArray(data.items) ? data.items : [];
+        logDebug(
+          "LOAD_COLLAB",
+          roomId,
+          JSON.stringify(
+            loadedItems.map((it) => ({ id: it.id, boardX: it.boardX, boardY: it.boardY }))
+          )
+        );
       const overrides = localMovedCoordsRef.current || {};
       const mergedItems = loadedItems.map((it) => {
         const ov = overrides[it.id];
@@ -367,15 +428,7 @@ export function PolaroidBoardView() {
         setCollabTitleDraft(data.board?.title || "");
         setItems(mergedItems);
         if (!hasInitialFitRef.current || router.query?.pinned === "1") {
-          hasInitialFitRef.current = true;
-          fitViewportToItems(mergedItems);
-          if (router.query?.pinned === "1") {
-            const nextQuery = { ...router.query };
-            delete nextQuery.pinned;
-            router.replace({ pathname: router.pathname, query: nextQuery }, undefined, {
-              shallow: true,
-            });
-          }
+          applyInitialViewportForItems(mergedItems);
         }
         setRoomError("");
       if (typeof window !== "undefined") {
@@ -398,8 +451,15 @@ export function PolaroidBoardView() {
 
   useEffect(() => {
     if (!router.isReady) return;
-    hasInitialFitRef.current = false;
-    localMovedCoordsRef.current = {};
+    const boardContextKey =
+      roomParam ||
+      (sharedParam ? `shared:${sharedParam.slice(0, 48)}` : `personal:${personalParam || "default"}`);
+    if (activeBoardContextRef.current !== boardContextKey) {
+      activeBoardContextRef.current = boardContextKey;
+      hasInitialFitRef.current = false;
+      allowViewportPersistRef.current = false;
+      localMovedCoordsRef.current = {};
+    }
 
     if (roomParam) {
       setIsSharedMode(false);
@@ -423,8 +483,7 @@ export function PolaroidBoardView() {
       if (restored) {
         setItems(restored);
         setIsSharedMode(true);
-        hasInitialFitRef.current = true;
-        fitViewportToItems(restored);
+        applyInitialViewportForItems(restored);
         setIsInitialLoading(false);
         return;
       }
@@ -440,10 +499,15 @@ export function PolaroidBoardView() {
       description: meta.description || DEFAULT_PERSONAL_BOARD.description,
       relatedHubs: Array.isArray(meta.relatedHubs) ? meta.relatedHubs : [],
     });
-    hasInitialFitRef.current = true;
-    fitViewportToItems(localItems);
+    applyInitialViewportForItems(localItems);
     setIsInitialLoading(false);
   }, [router.isReady, sharedParam, roomParam, personalParam]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!allowViewportPersistRef.current) return;
+    saveBoardViewport(resolveBoardViewportKey(), viewport);
+  }, [viewport, roomParam, personalParam, sharedParam]);
 
   const boardPerms = getBoardPermissions({ isCollabMode, isSharedMode });
 
@@ -742,6 +806,32 @@ export function PolaroidBoardView() {
       }
       return next;
     });
+    logDebug("POINTER_UP", {
+      movedId,
+      finalX: Math.round(finalX),
+      finalY: Math.round(finalY),
+      isCollabMode,
+      isSharedMode,
+      roomParam,
+      personalParam,
+      persistToLocalStorage: boardPerms.persistToLocalStorage,
+      isAdmin: isClientBoardAdmin(),
+    });
+    if (
+      isCollabMode &&
+      roomParam &&
+      (isClientBoardAdmin() || process.env.NODE_ENV === "development")
+    ) {
+      updateCollabBoardItem(roomParam, {
+        itemId: movedId,
+        boardX: Math.round(finalX),
+        boardY: Math.round(finalY),
+      })
+        .then((res) => logDebug("PATCH_OK", { movedId, res }))
+        .catch((err) => {
+          console.warn("[PolaroidBoardView] Failed to persist card position:", err);
+        });
+    }
   };
 
   const handleMessageChange = (id, message) => {

@@ -10,6 +10,7 @@ import {
   getSenmenFanGeometry,
 } from "../polaroid/polaroidCanvasRenderer";
 import { getBoardCardPermissions } from "./polaroidBoardPolicy";
+import { PolaroidCardView } from "./PolaroidCardView";
 
 const CARD_PHOTO_W = 216;
 const CARD_PHOTO_H = Math.round((CARD_PHOTO_W * PHOTO_DH) / PHOTO_DW); // 168px (720:560比率)
@@ -214,283 +215,175 @@ export const PolaroidBoardCard = React.memo(function PolaroidBoardCard({
     ? 1
     : 0;
 
-  return (
+  const topLeftSlot = ruleBadge ? (
     <div
-      onPointerDown={(e) => onPointerDown(e, item)}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      onPointerCancel={onPointerUp}
       style={{
-        width: `${activePhotoW + 24}px`,
-        zIndex: item.zIndex || 1,
-        transform: `translate3d(${Math.round(Number(item.boardX) || 0)}px, ${Math.round(Number(item.boardY) || 0)}px, 0) rotate(${item.rotate || 0}deg)`,
-        backgroundColor: th.bg,
-        backgroundImage: texUrl ? `url(${texUrl})` : "none",
+        position: "absolute",
+        top: 8,
+        left: 10,
+        zIndex: 5,
+        padding: "2px 8px",
+        borderRadius: 999,
+        fontSize: 10.5,
+        fontWeight: 800,
+        background: ruleBadge.bg,
+        color: ruleBadge.color,
+        border: `1px solid ${ruleBadge.border}`,
+        boxShadow: "0 1px 3px rgba(0,0,0,0.12)",
+        pointerEvents: "none",
+      }}
+    >
+      {ruleBadge.label}
+    </div>
+  ) : null;
+
+  const topRightSlot = cardPerms.canDelete ? (
+    <button
+      type="button"
+      onPointerDown={(e) => e.stopPropagation()}
+      onClick={() => onDelete(item.id)}
+      title={isEn ? "Remove" : "ボードから外す"}
+      className={styles.deleteBtn}
+    >
+      ×
+    </button>
+  ) : null;
+
+  const bottomExtraSlot =
+    !isCollabMode && !isSharedMode && process.env.NODE_ENV === "development" ? (
+      <div
+        onPointerDown={(e) => e.stopPropagation()}
+        style={{
+          marginTop: 6,
+          paddingTop: 6,
+          borderTop: "1px dashed #e5e7eb",
+          display: "flex",
+          flexDirection: "column",
+          gap: 6,
+        }}
+      >
+        <button
+          type="button"
+          onClick={(e) => onOpenPublishPicker(e, item.id)}
+          style={{
+            fontSize: 11,
+            fontWeight: 600,
+            padding: "4px 8px",
+            borderRadius: 6,
+            border: "1px solid #a7f3d0",
+            background: "#ecfdf5",
+            color: "#047857",
+            cursor: "pointer",
+            textAlign: "center",
+          }}
+        >
+          {isPublishingOpen
+            ? isEn
+              ? "Close"
+              : "閉じる"
+            : isEn
+            ? "Post to Public Board"
+            : "公開ボードに投稿する"}
+        </button>
+
+        {isPublishingOpen && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+            {publicBoards.length === 0 ? (
+              <Link href="/board/public" locale={locale} passHref>
+                <a style={{ fontSize: 11, color: "#047857" }}>
+                  {isEn
+                    ? "No public boards yet. Create one →"
+                    : "公開ボードがまだありません（一覧で作成 →）"}
+                </a>
+              </Link>
+            ) : (
+              <>
+                <select
+                  value={selectedPublicBoardId}
+                  onChange={(e) => onSelectPublicBoardId(e.target.value)}
+                  style={{
+                    fontSize: 11,
+                    padding: "4px 6px",
+                    borderRadius: 6,
+                    border: "1px solid #d1d5db",
+                    background: "#fff",
+                  }}
+                >
+                  {publicBoards.map((b) => (
+                    <option key={b.id} value={b.id}>
+                      {b.title}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  disabled={isPublishingCard}
+                  onClick={(e) => onPublishCard(e, item)}
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 700,
+                    padding: "4px 8px",
+                    borderRadius: 6,
+                    border: "none",
+                    background: "#059669",
+                    color: "#fff",
+                    cursor: "pointer",
+                  }}
+                >
+                  {isPublishingCard
+                    ? isEn
+                      ? "Posting..."
+                      : "投稿中..."
+                    : isEn
+                    ? "Confirm & Post"
+                    : "この公開ボードへ投稿"}
+                </button>
+              </>
+            )}
+          </div>
+        )}
+      </div>
+    ) : null;
+
+  return (
+    <PolaroidCardView
+      item={item}
+      isEn={isEn}
+      locale={locale}
+      theme={{
+        bg: th.bg,
+        textureUrl: texUrl,
+        titleColor: th.titleColor,
+        subColor: th.subColor,
+        linkColor: th.subColor || "#78350f",
         border: isSenmen
           ? "1.5px solid #c99e44"
           : th.border
             ? `1.5px solid ${th.border}`
             : "1px solid #e5e7eb",
-        color: th.titleColor,
       }}
-      className={`${styles.card} ${isSelected ? styles.cardSelected : ""}`}
-    >
-      {/* マスキングテープ風装飾 */}
-      <div className={styles.tape} />
-
-      {/* 削除ボタン */}
-      {cardPerms.canDelete && (
-        <button
-          type="button"
-          onClick={() => onDelete(item.id)}
-          title={isEn ? "Remove" : "ボードから外す"}
-          className={styles.deleteBtn}
-        >
-          ×
-        </button>
+      isCollabMode={isCollabMode}
+      isLiked={isLiked}
+      displayLikeCount={displayLikeCount}
+      sourceHref={sourceHref}
+      canEditMemo={cardPerms.canEditMemo}
+      onMessageChange={onMessageChange}
+      onToggleLike={onToggleLike}
+      renderPhoto={() => (
+        <PolaroidCardPreview item={item} isSenmen={isSenmen} cardBg={th.bg} />
       )}
-
-      {ruleBadge && (
-        <div
-          style={{
-            position: "absolute",
-            top: 8,
-            left: 10,
-            zIndex: 5,
-            padding: "2px 8px",
-            borderRadius: 999,
-            fontSize: 10.5,
-            fontWeight: 800,
-            background: ruleBadge.bg,
-            color: ruleBadge.color,
-            border: `1px solid ${ruleBadge.border}`,
-            boxShadow: "0 1px 3px rgba(0,0,0,0.12)",
-            pointerEvents: "none",
-          }}
-        >
-          {ruleBadge.label}
-        </div>
-      )}
-
-      {/* 写真切り抜きプレビュー */}
-      <PolaroidCardPreview item={item} isSenmen={isSenmen} cardBg={th.bg} />
-
-      {/* 作品タイトル・章 */}
-      <div className={styles.captionBox}>
-        {item.displayChapter ? (
-          <p className={styles.chapterText} style={{ color: th.titleColor }}>
-            {item.displayChapter}
-          </p>
-        ) : null}
-        {item.displayTitle ? (
-          <p className={styles.titleText} style={{ color: th.subColor }}>
-            {isEn ? item.displayTitle : `『${item.displayTitle}』`}
-          </p>
-        ) : null}
-      </div>
-
-      {/* ひとこと・観察メモ（統一入力欄） */}
-      <div className={styles.memoBox}>
-        <textarea
-          rows={2}
-          maxLength={40}
-          value={item.message || item.memo || ""}
-          readOnly={!cardPerms.canEditMemo}
-          onChange={(e) => onMessageChange(item.id, e.target.value)}
-          placeholder={
-            isCollabMode
-              ? isEn
-                ? "Write a verse or witty caption for this prompt..."
-                : "お題への一句・一言見立てを詠む..."
-              : isEn
-              ? "Add a caption / note..."
-              : "ひとこと・観察メモを書き込む..."
-          }
-          className={styles.memoInput}
-        />
-        {isCollabMode && (
-          <span className={styles.authorTag}>
-            {isEn ? "by" : "詠み人:"}{" "}
-            {item.authorName || (isEn ? "Anonymous" : "名無しの鑑賞者")}
-          </span>
-        )}
-      </div>
-
-      {/* いいね・共有・元の絵巻＆座標リンク */}
-      <div
-        className={styles.cardFooter}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 6,
-          flexWrap: "wrap",
-        }}
-      >
-        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          <button
-            type="button"
-            onPointerDown={(e) => e.stopPropagation()}
-            onClick={(e) => onToggleLike(e, item.id)}
-            title={isCollabMode ? (isEn ? "Like this post" : "この投稿にいいね！する") : undefined}
-            style={{
-              fontSize: 11,
-              fontWeight: isCollabMode ? 600 : 400,
-              padding: "2px 8px",
-              borderRadius: 999,
-              border: isCollabMode
-                ? isLiked
-                  ? "1px solid #f59e0b"
-                  : "1px solid #e5e7eb"
-                : "1px solid #e5e7eb",
-              background: isCollabMode
-                ? isLiked
-                  ? "#fef3c7"
-                  : "#fff"
-                : isLiked
-                ? "#fef2f2"
-                : "#fff",
-              color: isCollabMode
-                ? isLiked
-                  ? "#b45309"
-                  : "#374151"
-                : isLiked
-                ? "#dc2626"
-                : "#374151",
-              cursor: "pointer",
-            }}
-          >
-            {isCollabMode ? (isLiked ? "👏 いいね！" : "👏 いいね") : isLiked ? "♥" : "♡"}{" "}
-            {displayLikeCount}
-          </button>
-          <button
-            type="button"
-            onPointerDown={(e) => e.stopPropagation()}
-            onClick={(e) => onShareCard(e, item)}
-            style={{
-              fontSize: 11,
-              padding: "2px 7px",
-              borderRadius: 999,
-              border: "1px solid #e5e7eb",
-              background: "#fff",
-              color: "#374151",
-              cursor: "pointer",
-            }}
-          >
-            {isCopied ? (isEn ? "Copied" : "コピー済") : isEn ? "Share" : "共有"}
-          </button>
-        </div>
-        {item.scrollId ? (
-          <Link href={sourceHref} locale={locale} passHref>
-            <a
-              onPointerDown={(e) => e.stopPropagation()}
-              className={styles.scrollLink}
-              style={{ color: th.subColor }}
-            >
-              {isEn ? "Scene & Scroll →" : "元絵巻・座標 →"}
-            </a>
-          </Link>
-        ) : null}
-      </div>
-
-      {!isCollabMode && !isSharedMode && (
-        <div
-          onPointerDown={(e) => e.stopPropagation()}
-          style={{
-            marginTop: 6,
-            paddingTop: 6,
-            borderTop: "1px dashed #e5e7eb",
-            display: "flex",
-            flexDirection: "column",
-            gap: 6,
-          }}
-        >
-          {process.env.NODE_ENV === "development" && (
-            <>
-          <button
-            type="button"
-            onClick={(e) => onOpenPublishPicker(e, item.id)}
-            style={{
-              fontSize: 11,
-              fontWeight: 600,
-              padding: "4px 8px",
-              borderRadius: 6,
-              border: "1px solid #a7f3d0",
-              background: "#ecfdf5",
-              color: "#047857",
-              cursor: "pointer",
-              textAlign: "center",
-            }}
-          >
-            {isPublishingOpen
-              ? isEn
-                ? "Close"
-                : "閉じる"
-              : isEn
-              ? "Post to Public Board"
-              : "公開ボードに投稿する"}
-          </button>
-
-          {isPublishingOpen && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-              {publicBoards.length === 0 ? (
-                <Link href="/board/public" locale={locale} passHref>
-                  <a style={{ fontSize: 11, color: "#047857" }}>
-                    {isEn
-                      ? "No public boards yet. Create one →"
-                      : "公開ボードがまだありません（一覧で作成 →）"}
-                  </a>
-                </Link>
-              ) : (
-                <>
-                  <select
-                    value={selectedPublicBoardId}
-                    onChange={(e) => onSelectPublicBoardId(e.target.value)}
-                    style={{
-                      fontSize: 11,
-                      padding: "4px 6px",
-                      borderRadius: 6,
-                      border: "1px solid #d1d5db",
-                      background: "#fff",
-                    }}
-                  >
-                    {publicBoards.map((b) => (
-                      <option key={b.id} value={b.id}>
-                        {b.title}
-                      </option>
-                    ))}
-                  </select>
-                  <button
-                    type="button"
-                    disabled={isPublishingCard}
-                    onClick={(e) => onPublishCard(e, item)}
-                    style={{
-                      fontSize: 11,
-                      fontWeight: 700,
-                      padding: "4px 8px",
-                      borderRadius: 6,
-                      border: "none",
-                      background: "#059669",
-                      color: "#fff",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {isPublishingCard
-                      ? isEn
-                        ? "Posting..."
-                        : "投稿中..."
-                      : isEn
-                      ? "Confirm & Post"
-                      : "この公開ボードへ投稿"}
-                  </button>
-                </>
-              )}
-            </div>
-          )}
-            </>
-          )}
-        </div>
-      )}
-    </div>
+      topLeftSlot={topLeftSlot}
+      topRightSlot={topRightSlot}
+      bottomExtraSlot={bottomExtraSlot}
+      onPointerDown={(e) => onPointerDown(e, item)}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      cardClassName={`${styles.card} ${isSelected ? styles.cardSelected : ""}`}
+      cardStyle={{
+        width: `${activePhotoW + 24}px`,
+        zIndex: item.zIndex || 1,
+        transform: `translate3d(${Math.round(Number(item.boardX) || 0)}px, ${Math.round(Number(item.boardY) || 0)}px, 0) rotate(${item.rotate || 0}deg)`,
+      }}
+    />
   );
 });

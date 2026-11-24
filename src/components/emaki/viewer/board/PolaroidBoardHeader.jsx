@@ -49,6 +49,28 @@ export function PolaroidBoardHeader({
             border: "1px solid #cbd5e1",
           }}
         >
+            <Link href="/" locale={locale} passHref>
+              <a
+                aria-label={isEn ? "Home" : "ホームに戻る"}
+                title={isEn ? "Home" : "ホームに戻る"}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 30,
+                  height: 30,
+                  borderRadius: 999,
+                  border: "1px solid #cbd5e1",
+                  background: "#ffffff",
+                  color: "#1e293b",
+                  fontSize: 14,
+                  textDecoration: "none",
+                  flexShrink: 0,
+                }}
+              >
+                <span aria-hidden="true">🏠</span>
+              </a>
+            </Link>
           <button
             type="button"
             onClick={() => {
@@ -101,29 +123,8 @@ export function PolaroidBoardHeader({
         </div>
       </div>
 
-      {/* 右上：ホーム導線 ＋ 絵巻一覧導線 ＋ ハンバーガーメニュー */}
+      {/* 右上：絵巻一覧導線 ＋ ハンバーガーメニュー */}
       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        <Link href="/" locale={locale} passHref>
-          <a
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 4,
-              padding: "6px 12px",
-              borderRadius: 999,
-              border: "1px solid #cbd5e1",
-              background: "#ffffff",
-              color: "#1e293b",
-              fontSize: 12,
-              fontWeight: 600,
-              textDecoration: "none",
-              whiteSpace: "nowrap",
-            }}
-          >
-            <span aria-hidden="true">🏠</span>
-            <span>{isEn ? "Home" : "ホームに戻る"}</span>
-          </a>
-        </Link>
         <Link href="/type/emaki" locale={locale} passHref>
           <a
             style={{

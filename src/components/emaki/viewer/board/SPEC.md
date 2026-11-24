@@ -10,7 +10,8 @@ graph TD
     View --> Header["PolaroidBoardHeader.jsx<br/>(ヘッダー・個人/公開切替)"]
     View --> Tabs["PolaroidBoardTabs.jsx<br/>(ボード/テーマタブ切替・作成)"]
     View --> InfoCard["PolaroidBoardInfoCard.jsx<br/>(ボード情報・お題バナー・メタ編集)"]
-    View --> Card["PolaroidBoardCard.jsx<br/>(カード描画・扇面レイアウト・操作)"]
+    View --> Card["PolaroidBoardCard.jsx<br/>(ボード座標配置・操作スロット・扇面プレビュー)"]
+    Card --> CardView["PolaroidCardView.jsx<br/>(トップページ・ボード共通ポラロイドカードUI)"]
 
     InfoCard --> MetaHook["usePolaroidBoardMeta.js<br/>(メタ状態・保存ハンドラ)"]
     View --> Policy["polaroidBoardPolicy.js<br/>(権限・お題ルール・URL生成・定数)"]
@@ -32,7 +33,8 @@ graph TD
 | `PolaroidBoardHeader.jsx` | View | ボード上部ヘッダー、個人ボード／公開ボードモード切替 |
 | `PolaroidBoardTabs.jsx` | View | タブ一覧表示、タブ選択、新規テーマ作成トリガー |
 | `PolaroidBoardInfoCard.jsx` | View + State | ボードタイトル・説明・関連ハブ編集、お題バナー表示、`usePolaroidBoardMeta` 連携 |
-| `PolaroidBoardCard.jsx` | View | 単体カード（ポラロイド／扇面 `layoutMode: "senmen"`）描画、いいね・共有・公開投稿・元絵巻リンク |
+| `PolaroidBoardCard.jsx` | View | ボード上の座標配置、削除・ルールバッジ・公開ピッカー等の操作スロット制御、`PolaroidCardView` への委譲 |
+| `PolaroidCardView.jsx` | View | トップページ（`HomePublicBoards.jsx`）と個人/公開ボード共通のポラロイドカード純粋UI描画 |
 | `usePolaroidBoardMeta.js` | Hook / State | 個人・公開ボードのメタ情報状態管理、`<!--hubs:...-->` パース/シリアライズ、保存ハンドラ |
 | `polaroidBoardPolicy.js` | Pure Logic | 権限判定（`getBoardPermissions` / `getBoardCardPermissions`）、お題ルール（`parseOdaiMeta` / `computeCardRuleBadges`）、`buildSourceHref`、`resolveRelatedThemeHub`、ストレージキー定数 |
 | `polaroidBoardStorage.js` | Storage | localStorage への個人ボードCRUD、共有URL用Base64URLエンコード/デコード |
