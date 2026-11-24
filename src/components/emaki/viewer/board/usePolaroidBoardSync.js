@@ -25,7 +25,7 @@ import {
 // =============================================================================
 // 1. デバッグロガー（検証完了後は false にして一括停止）
 // =============================================================================
-const DEBUG_BOARD_PERSIST = true;
+const DEBUG_BOARD_PERSIST = false;
 
 export function logBoardPersistDebug(tag, ...args) {
   if (!DEBUG_BOARD_PERSIST) return;
