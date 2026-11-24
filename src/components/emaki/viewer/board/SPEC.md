@@ -2,24 +2,29 @@
 
 ## 1. 全体アーキテクチャとファイル構成
 
-`viewer/polaroid/` からボード関連モジュールを `viewer/board/` へ分離し、権限・お題ルール・URL生成・ハブ解決を `polaroidBoardPolicy.js` に集約しました。また、`PolaroidBoardInfoCard.jsx` 内で `usePolaroidBoardMeta` を直接利用することで、`PolaroidBoardView.jsx` からの過剰なメタ関連Propsバケツリレーを削減しています。
+`viewer/polaroid/` からボード関連モジュールを `viewer/board/` へ分離し、権限・お題ルール・URL生成・ハブ解決を `polaroidBoardPolicy.js` に集約しました。さらに `PolaroidBoardView.jsx` からデータ同期・通信ロジックを `usePolaroidBoardSync.js` へ、キャンバスPan/Zoom・カードドラッグ処理を `usePolaroidBoardCanvas.js` へ分離しています。
 
 ```mermaid
 graph TD
-    Page["/board & /board/public<br/>(ボード画面・公開一覧)"] --> View["PolaroidBoardView.jsx<br/>(キャンバスPan/Zoom・カード配置・操作制御)"]
+    Page["/board & /board/public<br/>(ボード画面・公開一覧)"] --> View["PolaroidBoardView.jsx<br/>(ボード画面統括・JSXレイアウト)"]
+    View --> SyncHook["usePolaroidBoardSync.js<br/>(コラボ同期・共有URL復元・CRUD)"]
+    View --> CanvasHook["usePolaroidBoardCanvas.js<br/>(キャンバスPan/Zoom・カードドラッグ)"]
+    View --> MetaHook["usePolaroidBoardMeta.js<br/>(メタ状態・タブ・保存ハンドラ)"]
     View --> Header["PolaroidBoardHeader.jsx<br/>(ヘッダー・個人/公開切替)"]
     View --> Tabs["PolaroidBoardTabs.jsx<br/>(ボード/テーマタブ切替・作成)"]
     View --> InfoCard["PolaroidBoardInfoCard.jsx<br/>(ボード情報・お題バナー・メタ編集)"]
     View --> Card["PolaroidBoardCard.jsx<br/>(ボード座標配置・操作スロット・扇面プレビュー)"]
     Card --> CardView["PolaroidCardView.jsx<br/>(トップページ・ボード共通ポラロイドカードUI)"]
 
-    InfoCard --> MetaHook["usePolaroidBoardMeta.js<br/>(メタ状態・保存ハンドラ)"]
-    View --> Policy["polaroidBoardPolicy.js<br/>(権限・お題ルール・URL生成・定数)"]
+    InfoCard --> MetaHook
+    SyncHook --> Policy["polaroidBoardPolicy.js<br/>(権限・お題ルール・URL生成・定数)"]
+    CanvasHook --> Policy
     InfoCard --> Policy
     Card --> Policy
     MetaHook --> Policy
 
-    View --> Storage["polaroidBoardStorage.js<br/>(個人ボード永続化・共有URLエンコード/デコード)"]
+    SyncHook --> Storage["polaroidBoardStorage.js<br/>(個人ボード永続化・共有URLエンコード/デコード)"]
+    CanvasHook --> Storage
     MetaHook --> Storage
     Card -.->|Offscreen Canvas描画| Renderer["../polaroid/polaroidCanvasRenderer.js"]
     View -.->|?slice=&cx=&cy=&cz= 遷移| SpotNav["useEmakiSpotNavigation.js"]
@@ -29,7 +34,9 @@ graph TD
 
 | ファイル | 種別 | 主な責務 |
 |---------|------|----------|
-| `PolaroidBoardView.jsx` | View / Orchestrator | ボード画面全体の統括、キャンバスPan/Zoom、カードドラッグ/選択、共有ボードの個人保存 |
+| `PolaroidBoardView.jsx` | View / Orchestrator | ボード画面全体の統括、各カスタムフックとサブUIの統合レイアウト |
+| `usePolaroidBoardSync.js` | Hook / Sync | 個人・共有URL・公開コラボボードのデータ取得・ポーリング同期、投稿・いいね・削除CRUD |
+| `usePolaroidBoardCanvas.js` | Hook / Canvas | キャンバスPan/Zoom、初期自動フィット、ビューポートsessionStorage保存、カードドラッグ移動・座標永続化 |
 | `PolaroidBoardHeader.jsx` | View | ボード上部ヘッダー、個人ボード／公開ボードモード切替 |
 | `PolaroidBoardTabs.jsx` | View | タブ一覧表示、タブ選択、新規テーマ作成トリガー |
 | `PolaroidBoardInfoCard.jsx` | View + State | ボードタイトル・説明・関連ハブ編集、お題バナー表示、`usePolaroidBoardMeta` 連携 |
@@ -46,17 +53,27 @@ graph TD
 sequenceDiagram
     participant User as ユーザー
     participant View as PolaroidBoardView
+    participant Sync as usePolaroidBoardSync
+    participant Canvas as usePolaroidBoardCanvas
     participant Info as PolaroidBoardInfoCard
     participant Meta as usePolaroidBoardMeta
     participant Policy as polaroidBoardPolicy
     participant Storage as polaroidBoardStorage
 
     User->>View: ボード画面（/board?room=... 等）を開く
-    View->>Policy: getBoardPermissions / parseOdaiMeta 参照
+    View->>Sync: ルーム/共有URLからボードデータ取得・ポーリング開始
+    Sync->>Policy: getBoardPermissions 等参照
+    Sync->>Storage: 個人ボード読込・共有URLデコード
+    View->>Canvas: キャンバス初期フィット・ビューポート復元
+    Canvas->>Storage: sessionStorage ビューポート保存
     Info->>Meta: usePolaroidBoardMeta 呼び出し
     User->>Info: タイトル・説明・関連ハブを編集して保存
     Info->>Meta: 保存ハンドラ発火
     Meta->>Storage: 個人メタ更新（またはAPI更新）
+    User->>Canvas: カードドラッグ・Pan/Zoom
+    Canvas->>Storage: カード座標・ビューポート永続化
+  User->>Sync: 投稿・いいね・削除
+    Sync->>Storage: 個人ボードCRUD（またはAPI更新）
     User->>View: カードの「元絵巻・座標 →」をクリック
     View->>Policy: buildSourceHref(item) で ?slice=&cx=&cy=&cz= 生成
     Policy-->>User: 該当絵巻スポットへ遷移
