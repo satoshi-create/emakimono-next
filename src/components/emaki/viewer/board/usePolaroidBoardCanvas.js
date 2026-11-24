@@ -121,30 +121,32 @@ export function usePolaroidBoardCanvas({
       }
       return;
     }
-    const cardW = 240;
-    const cardH = 310;
-    let minX = Infinity;
-    let minY = Infinity;
-    let maxX = -Infinity;
-    let maxY = -Infinity;
+      const cardW = 240;
+      const cardH = 310;
+      // 最新カードを基準に3000px以上離れた外れ値クラスタがある場合は、最新カード周辺のみをフィット対象にする
+      const latestItem = targetItems[targetItems.length - 1];
+      const latestX = Number(latestItem?.boardX) || 0;
+      const latestY = Number(latestItem?.boardY) || 0;
+      const nearbyItems = targetItems.filter((it) => {
+        const dx = Math.abs((Number(it.boardX) || 0) - latestX);
+        const dy = Math.abs((Number(it.boardY) || 0) - latestY);
+        return dx <= 3000 && dy <= 3000;
+      });
+      const fitTargets = nearbyItems.length > 0 ? nearbyItems : targetItems;
 
-    for (const it of targetItems) {
-      const x = Number(it.boardX) || 0;
-      const y = Number(it.boardY) || 0;
-      if (x < minX) minX = x;
-      if (y < minY) minY = y;
-      if (x + cardW > maxX) maxX = x + cardW;
-      if (y + cardH > maxY) maxY = y + cardH;
-    }
+      let minX = Infinity;
+      let minY = Infinity;
+      let maxX = -Infinity;
+      let maxY = -Infinity;
 
-    if (isCollabMode) {
-      // 公開ボード時は右隣の点線カードもバウンディングボックスに含める
-      const { x: phX, y: phY } = resolveFixedPlaceholderPos(targetItems);
-      if (phX < minX) minX = phX;
-      if (phY < minY) minY = phY;
-      if (phX + 228 > maxX) maxX = phX + 228;
-      if (phY + 260 > maxY) maxY = phY + 260;
-    }
+      for (const it of fitTargets) {
+        const x = Number(it.boardX) || 0;
+        const y = Number(it.boardY) || 0;
+        if (x < minX) minX = x;
+        if (y < minY) minY = y;
+        if (x + cardW > maxX) maxX = x + cardW;
+        if (y + cardH > maxY) maxY = y + cardH;
+      }
 
     const leftSafe = 48;
     const topSafe = 68;
@@ -203,16 +205,32 @@ export function usePolaroidBoardCanvas({
     const wantPinnedFit = router.query?.pinned === "1";
     if (forceFit || wantPinnedFit) {
       hasInitialFitRef.current = true;
-      fitViewportToItems(targetItems);
-      allowViewportPersistRef.current = true;
-      if (wantPinnedFit) {
-        const nextQuery = { ...router.query };
-        delete nextQuery.pinned;
-        router.replace({ pathname: router.pathname, query: nextQuery }, undefined, {
-          shallow: true,
+      // 投稿直後（pinned=1）で既存カードと新カードが大きく離れている場合は最新カード付近へフォーカス
+      if (wantPinnedFit && Array.isArray(targetItems) && targetItems.length > 1) {
+        const latest = targetItems[targetItems.length - 1];
+        const lx = Number(latest?.boardX) || 0;
+        const ly = Number(latest?.boardY) || 0;
+        const rect = canvasOuterRef.current?.getBoundingClientRect();
+        const viewW = rect?.width || (typeof window !== "undefined" ? window.innerWidth : 1280);
+        const viewH = rect?.height || (typeof window !== "undefined" ? window.innerHeight - 120 : 680);
+        setViewport({
+          x: Math.round(viewW / 2 - (lx + 120)),
+          y: Math.max(72, Math.round(viewH / 2 - (ly + 155))),
+          scale: 1,
         });
+      } else {
+        fitViewportToItems(targetItems);
       }
-      return;
+        allowViewportPersistRef.current = true;
+        if (wantPinnedFit) {
+          hasInitialFitRef.current = true;
+          const nextQuery = { ...router.query };
+          delete nextQuery.pinned;
+          router.replace({ pathname: router.pathname, query: nextQuery }, undefined, {
+            shallow: true,
+          });
+        }
+        return;
     }
     if (tryRestoreViewportFromSession(targetItems)) {
       hasInitialFitRef.current = true;

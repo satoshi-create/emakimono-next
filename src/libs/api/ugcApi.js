@@ -192,13 +192,10 @@ export async function addCollabBoardItem(boardId, item) {
 
 export async function updateCollabBoardItem(boardId, payload) {
   const clientId = getOrCreatePolaroidClientId();
-  const adminKey =
-    typeof window !== "undefined"
-      ? window.localStorage.getItem("emakimono_board_admin_key") || ""
-      : "";
-  const headers = { "Content-Type": "application/json" };
-  if (clientId) headers["x-board-client-id"] = clientId;
-  if (adminKey) headers["x-board-admin-key"] = adminKey;
+  const headers = buildBoardAuthHeaders(
+    { "Content-Type": "application/json" },
+    clientId
+  );
   return requestJson(`/api/board/${encodeURIComponent(boardId)}/items`, {
     method: "PATCH",
     headers,
@@ -207,15 +204,20 @@ export async function updateCollabBoardItem(boardId, payload) {
   });
 }
 
-export async function deleteCollabBoardItem(boardId, itemId) {
-  const clientId = getOrCreatePolaroidClientId();
+function buildBoardAuthHeaders(baseHeaders = {}, explicitClientId) {
+  const headers = { ...baseHeaders };
+  const clientId = explicitClientId ?? getOrCreatePolaroidClientId();
   const adminKey =
     typeof window !== "undefined"
       ? window.localStorage.getItem("emakimono_board_admin_key") || ""
       : "";
-  const headers = {};
   if (clientId) headers["x-board-client-id"] = clientId;
   if (adminKey) headers["x-board-admin-key"] = adminKey;
+  return headers;
+}
+
+export async function deleteCollabBoardItem(boardId, itemId) {
+  const headers = buildBoardAuthHeaders();
   return requestJson(
     `/api/board/${encodeURIComponent(boardId)}/items?itemId=${encodeURIComponent(
       itemId

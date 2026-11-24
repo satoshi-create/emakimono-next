@@ -196,36 +196,6 @@ export function PolaroidBoardView() {
         isCollabMode={isCollabMode}
         onSwitchToPersonal={handleSwitchToPersonalBoard}
         onSwitchToPublic={handleSwitchToPublicBoard}
-        onExploreTheme={() => {
-          if (typeof window !== "undefined" && collabBoard?.id) {
-            try {
-              window.sessionStorage.setItem(
-                "emakimono_active_collab_room_v1",
-                JSON.stringify({ id: collabBoard.id, title: collabBoard.title || "" })
-              );
-            } catch {}
-          }
-          const descText = String(collabBoard?.description || "");
-          const hubMatch = descText.match(/\n?<!--hubs:([^>]*)-->/);
-          const rawRelated = hubMatch
-            ? hubMatch[1]
-                .split(",")
-                .map((s) => s.trim())
-                .filter(Boolean)
-            : [];
-          const allHubs = getAllHubPages();
-          const matchedHubs = allHubs.filter(
-            (h) => rawRelated.includes(h.slug) || rawRelated.includes(h.path)
-          );
-          const primaryHub = matchedHubs.length > 0 ? matchedHubs[0] : null;
-          const hubEmakis = primaryHub ? filterEmakisForHub(emakisData, primaryHub) : [];
-          const singleEmaki = hubEmakis.length === 1 ? hubEmakis[0] : null;
-          const singleEmakiSlug = singleEmaki?.slug || singleEmaki?.titleen;
-          const targetPath = singleEmakiSlug
-            ? `/emaki/${encodeURIComponent(singleEmakiSlug)}`
-            : primaryHub?.path || "/emaki-hub";
-          router.push(targetPath, undefined, { locale: router.locale });
-        }}
       />
       <PolaroidBoardTabs
         isEn={isEn}

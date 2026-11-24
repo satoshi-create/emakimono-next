@@ -256,21 +256,66 @@ export function PolaroidBoardInfoCard({
           <span style={{ fontSize: 13, flexShrink: 0 }}>
             {isCollabMode ? "🌐" : "🔒"}
           </span>
-          {fallbackPromptText ? (
-            <span
+            {fallbackPromptText ? (
+              <span
+                style={{
+                  fontSize: 12,
+                  fontWeight: 700,
+                  color: "#0f172a",
+                  ...ellipsisText,
+                }}
+              >
+                {fallbackPromptText}
+              </span>
+            ) : null}
+          </button>
+
+          {isCollabMode && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (typeof window !== "undefined" && collabBoard?.id) {
+                  try {
+                    window.sessionStorage.setItem(
+                      "emakimono_active_collab_room_v1",
+                      JSON.stringify({ id: collabBoard.id, title: collabBoard.title || "" })
+                    );
+                  } catch {}
+                }
+                const singleEmaki = relatedEmakis.length === 1 ? relatedEmakis[0] : null;
+                const primaryHub = selectedHubs.length > 0 ? selectedHubs[0] : null;
+                const targetPath = singleEmaki?.slug
+                  ? `/emaki/${encodeURIComponent(singleEmaki.slug)}`
+                  : primaryHub
+                  ? getHubHref(primaryHub)
+                  : "/emaki-hub";
+                router.push(targetPath, undefined, { locale: router.locale });
+              }}
               style={{
-                fontSize: 12,
+                border: "none",
+                background: "#8a6d3b",
+                color: "#ffffff",
+                borderRadius: 999,
+                height: 24,
+                padding: "0 11px",
+                fontSize: 11,
                 fontWeight: 700,
-                color: "#0f172a",
-                ...ellipsisText,
+                cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+                whiteSpace: "nowrap",
+                fontFamily: "inherit",
+                boxShadow: "0 1px 4px rgba(138, 109, 59, 0.25)",
               }}
             >
-              {fallbackPromptText}
-            </span>
-          ) : null}
-        </button>
+              {isEn ? "Explore Scrolls for This Theme →" : "お題に合う絵巻を探す →"}
+            </button>
+          )}
 
-        {canEditBoardMeta && (
+          {canEditBoardMeta && (
           <button
             type="button"
             onClick={() => setExpanded(true)}

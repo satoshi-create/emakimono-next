@@ -6,6 +6,8 @@ import {
   parseNonEmptyString,
   sendApiError,
 } from "@/libs/api/dbApi";
+import { resolveBoardActor, canModifyBoardItem } from "@/libs/api/boardAuth";
+import { computeNextBoardCardPosition } from "@/libs/api/boardLayout";
 import { getVisitorHash } from "@/libs/api/visitorHash";
 import { serializeBoardItem } from "@/pages/api/board/[id]/index";
 import { and, eq, sql } from "drizzle-orm";
@@ -61,27 +63,29 @@ async function handlePost(req, res, boardId) {
       } catch {}
     }
 
-    const expectedAdminKey = process.env.NEXT_PUBLIC_BOARD_ADMIN_KEY;
-    const providedAdminKey = req.headers["x-board-admin-key"];
-    const isBoardAdmin = Boolean(
-      expectedAdminKey && providedAdminKey === expectedAdminKey
-    );
+    const actor = resolveBoardActor(req);
+    const { visitorHash, isBoardAdmin } = actor;
 
-    const countResult = await db
-      .select({ count: sql`count(*)` })
+    const existingItems = await db
+      .select({
+        id: polaroidBoardItems.id,
+        visitorHash: polaroidBoardItems.visitorHash,
+        authorName: polaroidBoardItems.authorName,
+        boardX: polaroidBoardItems.boardX,
+        boardY: polaroidBoardItems.boardY,
+      })
       .from(polaroidBoardItems)
       .where(eq(polaroidBoardItems.boardId, boardId));
 
-      const currentCount = Number(countResult[0]?.count ?? 0);
-      if (currentCount >= MAX_SHARED_BOARD_ITEMS) {
-        return sendApiError(
-          res,
-          400,
-          `Board item limit (${MAX_SHARED_BOARD_ITEMS}) reached`
-        );
-      }
+    const currentCount = existingItems.length;
+    if (currentCount >= MAX_SHARED_BOARD_ITEMS) {
+      return sendApiError(
+        res,
+        400,
+        `Board item limit (${MAX_SHARED_BOARD_ITEMS}) reached`
+      );
+    }
 
-      const visitorHash = getVisitorHash(req);
     const itemId = uuidv4();
     const panX = Math.round(Number(req.body?.pan?.x ?? req.body?.panX ?? 0)) || 0;
     const panY = Math.round(Number(req.body?.pan?.y ?? req.body?.panY ?? 0)) || 0;
@@ -93,40 +97,24 @@ async function handlePost(req, res, boardId) {
     const message =
       typeof req.body?.message === "string" ? req.body.message.slice(0, 500) : "";
 
-    // 未指定時はカード同士が重ならないグリッド位置（3列×横265px×縦330px間隔）に配置
-    const cols = 3;
-    const col = currentCount % cols;
-    const rowIdx = Math.floor(currentCount / cols);
-    const boardX =
-      req.body?.boardX !== undefined
-        ? Math.round(Number(req.body.boardX)) || 0
-        : -260 + col * 265;
-    const boardY =
-      req.body?.boardY !== undefined
-        ? Math.round(Number(req.body.boardY)) || 0
-        : -160 + rowIdx * 330;
+    const { boardX, boardY } = computeNextBoardCardPosition(existingItems, {
+      boardX: req.body?.boardX,
+      boardY: req.body?.boardY,
+    });
     const rotate =
       req.body?.rotate !== undefined
         ? String(Number(req.body.rotate) || 0)
         : ((Math.random() - 0.5) * 6).toFixed(2);
-      const zIndex = currentCount + 1;
-      const authorName = parseNonEmptyString(req.body?.authorName, 40) || "";
+    const zIndex = currentCount + 1;
+    const authorName = parseNonEmptyString(req.body?.authorName, 40) || "";
 
-      const clientId = parseNonEmptyString(req.body?.clientId, 80) || "";
-      const storedVisitorHash = clientId
-        ? `${visitorHash}:${clientId}`.slice(0, 64)
-        : visitorHash;
+    const bodyClientId = parseNonEmptyString(req.body?.clientId, 80) || "";
+    const clientId = actor.clientId || bodyClientId;
+    const storedVisitorHash = clientId
+      ? `${visitorHash}:${clientId}`.slice(0, 64)
+      : actor.storedVisitorHash;
 
-      if (isOnePerUser && !isBoardAdmin) {
-        const existingItems = await db
-          .select({
-            id: polaroidBoardItems.id,
-            visitorHash: polaroidBoardItems.visitorHash,
-            authorName: polaroidBoardItems.authorName,
-          })
-          .from(polaroidBoardItems)
-          .where(eq(polaroidBoardItems.boardId, boardId));
-
+    if (isOnePerUser && !isBoardAdmin) {
         const alreadyPosted = existingItems.some(
           (row) =>
             (clientId &&
@@ -330,27 +318,27 @@ async function handleDelete(req, res, boardId) {
     return sendApiError(res, 400, "Invalid itemId");
   }
 
-  try {
-    const db = getDb();
-    const visitorHash = getVisitorHash(req);
+    try {
+      const db = getDb();
+      const actor = resolveBoardActor(req);
 
-    const target = await db
-      .select({ visitorHash: polaroidBoardItems.visitorHash })
-      .from(polaroidBoardItems)
-      .where(
-        and(
-          eq(polaroidBoardItems.id, itemId),
-          eq(polaroidBoardItems.boardId, boardId)
+      const target = await db
+        .select({ visitorHash: polaroidBoardItems.visitorHash })
+        .from(polaroidBoardItems)
+        .where(
+          and(
+            eq(polaroidBoardItems.id, itemId),
+            eq(polaroidBoardItems.boardId, boardId)
+          )
         )
-      )
-      .limit(1);
+        .limit(1);
 
-    if (target.length === 0) {
-      return sendApiError(res, 404, "Item not found");
-    }
-    if (target[0].visitorHash !== visitorHash) {
-      return sendApiError(res, 403, "Only the author can delete this item");
-    }
+      if (target.length === 0) {
+        return sendApiError(res, 404, "Item not found");
+      }
+      if (!canModifyBoardItem(actor, target[0])) {
+        return sendApiError(res, 403, "Only the author can delete this item");
+      }
 
     await db
       .delete(polaroidBoardItems)
