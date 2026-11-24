@@ -8,6 +8,7 @@ import {
   saveBoardViewport,
 } from "./polaroidBoardPolicy";
 import { logBoardPersistDebug } from "./usePolaroidBoardSync";
+import { trackBoardViewportGesture } from "@/libs/api/measurementUtils";
 
 /**
  * ボードキャンバスの Pan / Zoom・自動フィット・カードドラッグ配置を統括するフック
@@ -331,6 +332,8 @@ export function usePolaroidBoardCanvas({
       }
     };
 
+    const currentBoardType = isCollabMode ? "public" : isSharedMode ? "shared" : "personal";
+
     const handleCanvasPointerMove = (e) => {
       if (activePointersRef.current.has(e.pointerId)) {
         activePointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
@@ -341,6 +344,7 @@ export function usePolaroidBoardCanvas({
         const pts = Array.from(activePointersRef.current.values());
         const dist = Math.hypot(pts[1].x - pts[0].x, pts[1].y - pts[0].y);
         if (pinch.initialDist > 0 && dist > 0) {
+          trackBoardViewportGesture("pinch_zoom", currentBoardType);
           const rawScale = pinch.initialScale * (dist / pinch.initialDist);
           const nextScale = Math.min(2.5, Math.max(0.35, Number(rawScale.toFixed(3))));
           const midClientX = (pts[0].x + pts[1].x) / 2;
@@ -361,6 +365,9 @@ export function usePolaroidBoardCanvas({
       if (!pst.active) return;
       const dx = e.clientX - pst.startX;
       const dy = e.clientY - pst.startY;
+      if (Math.hypot(dx, dy) > 4) {
+        trackBoardViewportGesture("pan", currentBoardType);
+      }
       setViewport((prev) => ({
         ...prev,
         x: pst.origX + dx,
@@ -450,6 +457,7 @@ export function usePolaroidBoardCanvas({
     const onWheelNative = (e) => {
       if (e.target.tagName === "TEXTAREA") return;
       e.preventDefault();
+      trackBoardViewportGesture("wheel_zoom", isCollabMode ? "public" : isSharedMode ? "shared" : "personal");
       const clampedDelta = Math.max(-120, Math.min(120, e.deltaY));
       const stepFactor = Math.exp(-clampedDelta * 0.0014);
       pendingFactor *= stepFactor;
@@ -468,6 +476,7 @@ export function usePolaroidBoardCanvas({
   }, []);
 
   const handleZoomStep = (delta) => {
+    trackBoardViewportGesture("button_zoom", isCollabMode ? "public" : isSharedMode ? "shared" : "personal");
     const rect = canvasOuterRef.current?.getBoundingClientRect();
     const cx = rect ? rect.left + rect.width / 2 : 0;
     const cy = rect ? rect.top + rect.height / 2 : 0;

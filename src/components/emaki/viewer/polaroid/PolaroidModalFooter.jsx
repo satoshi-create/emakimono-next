@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import styles from "@/styles/PolaroidModal.module.css";
 import { appendBoardItem } from "../board/polaroidBoardStorage";
 import { addCollabBoardItem, fetchPublicBoards } from "@/libs/api/ugcApi";
+import { trackBoardItemPin } from "@/libs/api/measurementUtils";
 import { filterEmakisForHub, getAllHubPages } from "@/libs/hubPages";
 import emakisData from "@/data/scroll-metadata";
 
@@ -181,6 +182,12 @@ export function PolaroidModalFooter({
           // ignore storage errors
         }
       }
+        trackBoardItemPin({
+          boardType: "public",
+          boardId: targetPublicBoardId,
+          scrollId: scrollId || "",
+          hasMessage: Boolean(message),
+        });
         onCloseModal();
         router.push(
           `/board?room=${encodeURIComponent(targetPublicBoardId)}&pinned=1`,
@@ -195,6 +202,12 @@ export function PolaroidModalFooter({
   };
 
   const handleKeepPersonal = () => {
+    trackBoardItemPin({
+      boardType: "personal",
+      boardId: "default",
+      scrollId: scrollId || "",
+      hasMessage: Boolean(message),
+    });
     appendBoardItem({
       scrollId,
       sceneIndex: selectedIndex,

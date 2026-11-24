@@ -659,3 +659,93 @@ export const trackPolaroidExportSuccess = ({ exportType, scrollId, hasMessage })
     has_message: Boolean(hasMessage),
   });
 };
+
+// =====================================================
+// ポラロイドボード利用計測
+// =====================================================
+
+/**
+ * ポラロイドボード表示計測
+ * @param {Object} params
+ * @param {"personal" | "public" | "shared" | "home"} params.boardType - ボード種別
+ * @param {string} [params.boardId] - ボードID（公開・共有時）
+ * @param {number} [params.itemCount] - 表示中のカード枚数
+ */
+export const trackBoardView = ({ boardType, boardId = "", itemCount = 0 }) => {
+  sendEvent("polaroid_board_view", {
+    board_type: boardType,
+    board_id: boardId,
+    item_count: Number(itemCount) || 0,
+    device_type: getDeviceType(),
+  });
+};
+
+/**
+ * ポラロイドボードへの新規カード投稿計測
+ * @param {Object} params
+ * @param {"personal" | "public"} params.boardType - 投稿先ボード種別
+ * @param {string} [params.boardId] - 公開ボードID
+ * @param {string} [params.scrollId] - 元絵巻ID
+ * @param {boolean} [params.hasMessage] - コメント入力有無
+ */
+export const trackBoardItemPin = ({
+  boardType,
+  boardId = "",
+  scrollId = "",
+  hasMessage = false,
+}) => {
+  sendEvent("polaroid_board_item_pin", {
+    board_type: boardType,
+    board_id: boardId,
+    scroll_id: scrollId,
+    emaki_id: scrollId,
+    has_message: Boolean(hasMessage),
+    device_type: getDeviceType(),
+  });
+};
+
+/**
+ * ポラロイドボード上のカード操作計測
+ * @param {Object} params
+ * @param {"move" | "like" | "delete" | "memo_edit" | "jump_to_scroll"} params.action - 操作種別
+ * @param {"personal" | "public" | "shared" | "home"} params.boardType - ボード種別
+ * @param {string} [params.boardId] - ボードID
+ * @param {string} [params.scrollId] - 元絵巻ID
+ */
+export const trackBoardItemAction = ({
+  action,
+  boardType,
+  boardId = "",
+  scrollId = "",
+}) => {
+  sendEvent("polaroid_board_item_action", {
+    board_action: action,
+    board_type: boardType,
+    board_id: boardId,
+    scroll_id: scrollId,
+    emaki_id: scrollId,
+  });
+};
+
+const boardGestureTracked = {
+  pan: false,
+  wheel_zoom: false,
+  pinch_zoom: false,
+  button_zoom: false,
+};
+
+/**
+ * ポラロイドボード上のキャンバス操作（パン・ズーム）計測（セッション内で各操作1回のみ）
+ * @param {"pan" | "wheel_zoom" | "pinch_zoom" | "button_zoom"} gestureType - 操作種別
+ * @param {"personal" | "public" | "shared" | "home"} [boardType] - ボード種別
+ */
+export const trackBoardViewportGesture = (gestureType, boardType = "public") => {
+  if (!gestureType || boardGestureTracked[gestureType]) return;
+  boardGestureTracked[gestureType] = true;
+
+  sendEvent("polaroid_board_viewport_gesture", {
+    gesture_type: gestureType,
+    board_type: boardType,
+    device_type: getDeviceType(),
+  });
+};

@@ -21,6 +21,11 @@ import {
   AUTHOR_NAME_KEY,
   getBoardPermissions,
 } from "./polaroidBoardPolicy";
+import {
+  trackBoardView,
+  trackBoardItemPin,
+  trackBoardItemAction,
+} from "@/libs/api/measurementUtils";
 
 // =============================================================================
 // 1. デバッグロガー（検証完了後は false にして一括停止）
@@ -150,13 +155,20 @@ export function usePolaroidBoardSync({
         board: data.board,
         items: mergedItems,
       };
-      setCollabBoard(data.board);
-      setCollabTitleDraft(data.board?.title || "");
-      setItems(mergedItems);
-      if (!hasInitialFitRef.current || router.query?.pinned === "1") {
-        hasInitialFitRef.current = true;
-        applyInitialViewportForItems(mergedItems, { forceFit: true });
-      }
+        setCollabBoard(data.board);
+        setCollabTitleDraft(data.board?.title || "");
+        setItems(mergedItems);
+        if (!hasInitialFitRef.current) {
+          trackBoardView({
+            boardType: "public",
+            boardId: roomId,
+            itemCount: mergedItems.length,
+          });
+        }
+        if (!hasInitialFitRef.current || router.query?.pinned === "1") {
+          hasInitialFitRef.current = true;
+          applyInitialViewportForItems(mergedItems, { forceFit: true });
+        }
       setRoomError("");
       if (typeof window !== "undefined") {
         window.sessionStorage.setItem(
@@ -220,31 +232,40 @@ export function usePolaroidBoardSync({
       window.sessionStorage.removeItem(ACTIVE_COLLAB_ROOM_KEY);
     }
 
-    if (sharedParam) {
-      const restored = decodeBoardShareParam(sharedParam);
-      if (restored) {
-        setItems(restored);
-        setIsSharedMode(true);
-        hasInitialFitRef.current = true;
-        applyInitialViewportForItems(restored, { forceFit: true });
-        setIsInitialLoading(false);
-        return;
+      if (sharedParam) {
+        const restored = decodeBoardShareParam(sharedParam);
+        if (restored) {
+          setItems(restored);
+          setIsSharedMode(true);
+          hasInitialFitRef.current = true;
+          applyInitialViewportForItems(restored, { forceFit: true });
+          trackBoardView({
+            boardType: "shared",
+            itemCount: restored.length,
+          });
+          setIsInitialLoading(false);
+          return;
+        }
       }
-    }
-    const boardId = personalParam || "default";
-    const localItems = loadBoardItems(boardId);
-    setItems(localItems);
-    setIsSharedMode(false);
-    const boards = listPersonalBoards();
-    const meta = boards.find((b) => b.id === boardId) || DEFAULT_PERSONAL_BOARD;
-    setPersonalMeta({
-      title: meta.title || DEFAULT_PERSONAL_BOARD.title,
-      description: meta.description || DEFAULT_PERSONAL_BOARD.description,
-      relatedHubs: Array.isArray(meta.relatedHubs) ? meta.relatedHubs : [],
-    });
-    hasInitialFitRef.current = true;
-    applyInitialViewportForItems(localItems, { forceFit: true });
-    setIsInitialLoading(false);
+      const boardId = personalParam || "default";
+      const localItems = loadBoardItems(boardId);
+      setItems(localItems);
+      setIsSharedMode(false);
+      const boards = listPersonalBoards();
+      const meta = boards.find((b) => b.id === boardId) || DEFAULT_PERSONAL_BOARD;
+      setPersonalMeta({
+        title: meta.title || DEFAULT_PERSONAL_BOARD.title,
+        description: meta.description || DEFAULT_PERSONAL_BOARD.description,
+        relatedHubs: Array.isArray(meta.relatedHubs) ? meta.relatedHubs : [],
+      });
+      hasInitialFitRef.current = true;
+      applyInitialViewportForItems(localItems, { forceFit: true });
+      trackBoardView({
+        boardType: "personal",
+        boardId,
+        itemCount: localItems.length,
+      });
+      setIsInitialLoading(false);
   }, [router.isReady, sharedParam, roomParam, personalParam]);
 
   // ===========================================================================
@@ -294,6 +315,13 @@ export function usePolaroidBoardSync({
   };
 
   const handleDelete = (id) => {
+    const target = items.find((it) => it.id === id);
+    trackBoardItemAction({
+      action: "delete",
+      boardType: isCollabMode ? "public" : "personal",
+      boardId: isCollabMode ? roomParam || "" : personalParam || "default",
+      scrollId: target?.scrollId || "",
+    });
     const next = items.filter((it) => it.id !== id);
     updateAndPersist(next);
     if (isCollabMode && roomParam) {
@@ -392,6 +420,12 @@ export function usePolaroidBoardSync({
         message: item.message || item.memo || "",
         authorName: savedAuthorName,
       });
+      trackBoardItemPin({
+        boardType: "public",
+        boardId: selectedPublicBoardId,
+        scrollId: item.scrollId || "",
+        hasMessage: Boolean(item.message || item.memo),
+      });
       setPublishingCardId(null);
       router.push(
         `/board?room=${encodeURIComponent(selectedPublicBoardId)}`,
@@ -421,6 +455,15 @@ export function usePolaroidBoardSync({
     });
 
     if (isCollabMode && roomParam) {
+      if (nextLiked) {
+        const target = items.find((it) => it.id === cardId);
+        trackBoardItemAction({
+          action: "like",
+          boardType: "public",
+          boardId: roomParam,
+          scrollId: target?.scrollId || "",
+        });
+      }
       setItems((prev) =>
         prev.map((it) =>
           it.id === cardId

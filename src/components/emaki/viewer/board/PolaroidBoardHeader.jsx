@@ -35,8 +35,34 @@ export function PolaroidBoardHeader({
         minHeight: 48,
       }}
     >
-      {/* 左：個人・公開切り替えピルのみ */}
-      <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+      {/* 左：個人・公開切り替えピル ＋ ベータ版周知バッジ */}
+      <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+        <span
+          title={
+            isEn
+              ? "Polaroid Board is currently in Beta. Features and layout may change."
+              : "ポラロイドボードは現在ベータ版です。仕様や表示は予告なく変更される場合があります。"
+          }
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 5,
+            padding: "3px 9px",
+            borderRadius: 999,
+            fontSize: 11,
+            fontWeight: 700,
+            letterSpacing: "0.04em",
+            color: "#92400e",
+            background: "#fef3c7",
+            border: "1px solid #f59e0b",
+            whiteSpace: "nowrap",
+          }}
+        >
+          <span>BETA</span>
+          <span style={{ fontWeight: 500, fontSize: 10.5 }}>
+            {isEn ? "Preview" : "ベータ版"}
+          </span>
+        </span>
         <div
           role="group"
           aria-label={isEn ? "Board mode switch" : "ボードモード切替"}

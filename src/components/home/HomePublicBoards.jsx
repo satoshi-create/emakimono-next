@@ -143,19 +143,49 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
         <div
           role="tablist"
           aria-label={isEn ? "Public board tabs" : "公開ボード切り替えタブ"}
-          style={{
-            width: "100%",
-            padding: "10px 16px 0",
-            backgroundColor: "#eef2f6",
-            borderBottom: `1px solid ${surface.barBorder}`,
-            display: "flex",
-            alignItems: "flex-end",
-            gap: 4,
-            overflowX: "auto",
-            scrollbarWidth: "none",
-          }}
-        >
-          {boards.map((b) => {
+            style={{
+              width: "100%",
+              padding: "10px 16px 0",
+              backgroundColor: "#eef2f6",
+              borderBottom: `1px solid ${surface.barBorder}`,
+              display: "flex",
+              alignItems: "flex-end",
+              gap: 6,
+              overflowX: "auto",
+              scrollbarWidth: "none",
+            }}
+          >
+            <span
+              title={
+                isEn
+                  ? "Polaroid Board is currently in Beta. Features and layout may change."
+                  : "ポラロイドボードは現在ベータ版です。仕様や表示は予告なく変更される場合があります。"
+              }
+              style={{
+                alignSelf: "center",
+                marginBottom: 4,
+                marginRight: 4,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 4,
+                padding: "2px 8px",
+                borderRadius: 999,
+                fontSize: 10.5,
+                fontWeight: 700,
+                letterSpacing: "0.04em",
+                color: "#92400e",
+                background: "#fef3c7",
+                border: "1px solid #f59e0b",
+                whiteSpace: "nowrap",
+                flexShrink: 0,
+              }}
+            >
+              <span>BETA</span>
+              <span style={{ fontWeight: 500, fontSize: 10 }}>
+                {isEn ? "Preview" : "ベータ版"}
+              </span>
+            </span>
+            {boards.map((b) => {
             const isActive = b.id === activeBoard?.id;
             return (
               <button
