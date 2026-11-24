@@ -9,7 +9,7 @@ import {
   getThemeTextureUrl,
   getSenmenFanGeometry,
 } from "../polaroid/polaroidCanvasRenderer";
-import { getBoardCardPermissions } from "./polaroidBoardPolicy";
+import { getBoardCardPermissions, isClientBoardAdmin } from "./polaroidBoardPolicy";
 import { PolaroidCardView } from "./PolaroidCardView";
 
 const CARD_PHOTO_W = 216;
@@ -202,18 +202,29 @@ export const PolaroidBoardCard = React.memo(function PolaroidBoardCard({
   onOpenPublishPicker,
   onSelectPublicBoardId,
   onPublishCard,
+  dragLivePosition = null,
 }) {
   const { themeId, isSenmen: isSenmenTheme } = parseCardThemeAndMode(item.theme);
   const isSenmen = item.layout === "senmen" || isSenmenTheme;
   const th = THEMES[themeId] || THEMES.white;
   const texUrl = getThemeTextureUrl(themeId);
   const activePhotoW = isSenmen ? SENMEN_CARD_PHOTO_W : CARD_PHOTO_W;
-  const cardPerms = getBoardCardPermissions({ isCollabMode, isSharedMode }, item);
+  const cardPerms = getBoardCardPermissions(
+    { isCollabMode, isSharedMode, isBoardAdmin: isClientBoardAdmin() },
+    item
+  );
   const displayLikeCount = isCollabMode
     ? Math.max(0, Number(item.likeCount) || 0)
     : isLiked
     ? 1
     : 0;
+  const boardX = dragLivePosition
+    ? dragLivePosition.boardX
+    : Math.round(Number(item.boardX) || 0);
+  const boardY = dragLivePosition
+    ? dragLivePosition.boardY
+    : Math.round(Number(item.boardY) || 0);
+  const cardZIndex = dragLivePosition ? 50000 : item.zIndex || 1;
 
   const topLeftSlot = ruleBadge ? (
     <div
@@ -375,15 +386,21 @@ export const PolaroidBoardCard = React.memo(function PolaroidBoardCard({
       topLeftSlot={topLeftSlot}
       topRightSlot={topRightSlot}
       bottomExtraSlot={bottomExtraSlot}
-      onPointerDown={(e) => onPointerDown(e, item)}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
       cardClassName={`${styles.card} ${isSelected ? styles.cardSelected : ""}`}
       cardStyle={{
+        position: "absolute",
+        left: 0,
+        top: 0,
         width: `${activePhotoW + 24}px`,
-        zIndex: item.zIndex || 1,
-        transform: `translate3d(${Math.round(Number(item.boardX) || 0)}px, ${Math.round(Number(item.boardY) || 0)}px, 0) rotate(${item.rotate || 0}deg)`,
+        zIndex: cardZIndex,
+        transform: `translate3d(${boardX}px, ${boardY}px, 0) rotate(${item.rotate || 0}deg)`,
+        cursor: cardPerms.canDrag ? (dragLivePosition ? "grabbing" : "grab") : "default",
       }}
+      onPointerDown={
+        cardPerms.canDrag ? (e) => onPointerDown(e, item) : undefined
+      }
+      onPointerMove={cardPerms.canDrag ? onPointerMove : undefined}
+      onPointerUp={cardPerms.canDrag ? onPointerUp : undefined}
     />
   );
 });

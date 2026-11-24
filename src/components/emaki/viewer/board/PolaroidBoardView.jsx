@@ -28,21 +28,28 @@ export function PolaroidBoardView() {
     typeof router.query.personal === "string" ? router.query.personal.trim() : "";
   const isCollabMode = Boolean(roomParam);
 
-  // usePolaroidBoardSync と usePolaroidBoardCanvas 間で共有するBridge Ref
-  const bridgeRefs = useRef({
-    setCollabBoard: () => {},
-    setRoomError: () => {},
-    setPersonalMeta: () => {},
-    setCollabTitleDraft: () => {},
-    hasInitialFitRef: { current: false },
-    activeBoardContextRef: { current: null },
-    allowViewportPersistRef: { current: false },
-    localMovedCoordsRef: { current: {} },
-    dragStateRef: { current: { id: null } },
-    applyInitialViewportForItems: () => {},
-    setItems: () => {},
-    bringToFront: () => {},
+  // Sync ↔ Canvas で同一参照を共有（ドラッグ状態・ローカル座標オーバーライド）
+  const localMovedCoordsRef = useRef({});
+  const dragStateRef = useRef({
+    id: null,
+    el: null,
+    startX: 0,
+    startY: 0,
+    origX: 0,
+    origY: 0,
+    lastX: 0,
+    lastY: 0,
+    rafId: null,
   });
+  const pendingPersistRef = useRef({});
+
+  // Sync ↔ Canvas で単一インスタンス共有（Bridge Ref 廃止）
+  const hasInitialFitRef = useRef(false);
+  const activeBoardContextRef = useRef(null);
+  const allowViewportPersistRef = useRef(false);
+  const applyViewportRef = useRef(() => {});
+  const setPersonalMetaRef = useRef(() => {});
+  const setCollabTitleDraftRef = useRef(() => {});
 
   // ===========================================================================
   // 1. データ取得・コラボルーム同期・アイテムCRUDフック
@@ -54,15 +61,15 @@ export function PolaroidBoardView() {
     roomParam,
     personalParam,
     isCollabMode,
-    setPersonalMeta: (v) => bridgeRefs.current.setPersonalMeta(v),
-    setCollabTitleDraft: (v) => bridgeRefs.current.setCollabTitleDraft(v),
-    hasInitialFitRef: bridgeRefs.current.hasInitialFitRef,
-    activeBoardContextRef: bridgeRefs.current.activeBoardContextRef,
-    allowViewportPersistRef: bridgeRefs.current.allowViewportPersistRef,
-    localMovedCoordsRef: bridgeRefs.current.localMovedCoordsRef,
-    dragStateRef: bridgeRefs.current.dragStateRef,
-    applyInitialViewportForItems: (...args) =>
-      bridgeRefs.current.applyInitialViewportForItems(...args),
+    setPersonalMeta: (v) => setPersonalMetaRef.current(v),
+    setCollabTitleDraft: (v) => setCollabTitleDraftRef.current(v),
+    hasInitialFitRef,
+    activeBoardContextRef,
+    allowViewportPersistRef,
+    localMovedCoordsRef,
+    dragStateRef,
+    pendingPersistRef,
+    applyInitialViewportForItems: (...args) => applyViewportRef.current(...args),
   });
 
   const {
@@ -101,12 +108,8 @@ export function PolaroidBoardView() {
     handleShareCard,
     handleCopyShareUrl,
     handleSaveSharedToMyBoard,
+    updateCollabRoomItemsCache,
   } = sync;
-
-  bridgeRefs.current.setCollabBoard = setCollabBoard;
-  bridgeRefs.current.setRoomError = setRoomError;
-  bridgeRefs.current.setItems = setItems;
-  bridgeRefs.current.bringToFront = bringToFront;
 
   // ===========================================================================
   // 2. ボードメタ情報・タブ切替フック
@@ -139,8 +142,8 @@ export function PolaroidBoardView() {
     setRoomError,
   });
 
-  bridgeRefs.current.setPersonalMeta = setPersonalMeta;
-  bridgeRefs.current.setCollabTitleDraft = setCollabTitleDraft;
+  setPersonalMetaRef.current = setPersonalMeta;
+  setCollabTitleDraftRef.current = setCollabTitleDraft;
 
   // ===========================================================================
   // 3. キャンバス Pan/Zoom・カードドラッグ配置フック
@@ -156,6 +159,13 @@ export function PolaroidBoardView() {
     items,
     setItems,
     bringToFront,
+    localMovedCoordsRef,
+    dragStateRef,
+    pendingPersistRef,
+    hasInitialFitRef,
+    activeBoardContextRef,
+    allowViewportPersistRef,
+    updateCollabRoomItemsCache,
   });
 
   const {
@@ -163,11 +173,6 @@ export function PolaroidBoardView() {
     isPanning,
     rasterizeTick,
     canvasOuterRef,
-    hasInitialFitRef,
-    activeBoardContextRef,
-    allowViewportPersistRef,
-    localMovedCoordsRef,
-    dragStateRef,
     resolveFixedPlaceholderPos,
     applyInitialViewportForItems,
     handleCanvasPointerDown,
@@ -178,14 +183,10 @@ export function PolaroidBoardView() {
     handleCardPointerDown,
     handleCardPointerMove,
     handleCardPointerUp,
+    dragLivePosition,
   } = canvas;
 
-  bridgeRefs.current.hasInitialFitRef = hasInitialFitRef;
-  bridgeRefs.current.activeBoardContextRef = activeBoardContextRef;
-  bridgeRefs.current.allowViewportPersistRef = allowViewportPersistRef;
-  bridgeRefs.current.localMovedCoordsRef = localMovedCoordsRef;
-  bridgeRefs.current.dragStateRef = dragStateRef;
-  bridgeRefs.current.applyInitialViewportForItems = applyInitialViewportForItems;
+  applyViewportRef.current = applyInitialViewportForItems;
 
   return (
     <div className={styles.page}>
@@ -195,6 +196,36 @@ export function PolaroidBoardView() {
         isCollabMode={isCollabMode}
         onSwitchToPersonal={handleSwitchToPersonalBoard}
         onSwitchToPublic={handleSwitchToPublicBoard}
+        onExploreTheme={() => {
+          if (typeof window !== "undefined" && collabBoard?.id) {
+            try {
+              window.sessionStorage.setItem(
+                "emakimono_active_collab_room_v1",
+                JSON.stringify({ id: collabBoard.id, title: collabBoard.title || "" })
+              );
+            } catch {}
+          }
+          const descText = String(collabBoard?.description || "");
+          const hubMatch = descText.match(/\n?<!--hubs:([^>]*)-->/);
+          const rawRelated = hubMatch
+            ? hubMatch[1]
+                .split(",")
+                .map((s) => s.trim())
+                .filter(Boolean)
+            : [];
+          const allHubs = getAllHubPages();
+          const matchedHubs = allHubs.filter(
+            (h) => rawRelated.includes(h.slug) || rawRelated.includes(h.path)
+          );
+          const primaryHub = matchedHubs.length > 0 ? matchedHubs[0] : null;
+          const hubEmakis = primaryHub ? filterEmakisForHub(emakisData, primaryHub) : [];
+          const singleEmaki = hubEmakis.length === 1 ? hubEmakis[0] : null;
+          const singleEmakiSlug = singleEmaki?.slug || singleEmaki?.titleen;
+          const targetPath = singleEmakiSlug
+            ? `/emaki/${encodeURIComponent(singleEmakiSlug)}`
+            : primaryHub?.path || "/emaki-hub";
+          router.push(targetPath, undefined, { locale: router.locale });
+        }}
       />
       <PolaroidBoardTabs
         isEn={isEn}
@@ -286,7 +317,13 @@ export function PolaroidBoardView() {
           setCollabBoard={setCollabBoard}
           setRoomError={setRoomError}
         />
-        {!isInitialLoading && !isCollabMode && items.length === 0 ? (
+        {isCollabMode && isInitialLoading && items.length === 0 ? (
+          <div className={styles.emptyBox} role="status" aria-live="polite">
+            <p className={styles.emptyTitle}>
+              {isEn ? "Loading board…" : "ボードを読み込んでいます…"}
+            </p>
+          </div>
+        ) : !isInitialLoading && !isCollabMode && items.length === 0 ? (
           <div className={styles.emptyBox}>
             <p className={styles.emptyTitle}>
               {isEn ? "Your board is empty" : "まだポラロイドが貼られていません"}
@@ -323,6 +360,9 @@ export function PolaroidBoardView() {
                   <PolaroidBoardCard
                     key={item.id}
                     item={item}
+                    dragLivePosition={
+                      dragLivePosition?.id === item.id ? dragLivePosition : null
+                    }
                     isSelected={activeId === item.id}
                     isEn={isEn}
                     locale={router.locale}
@@ -351,150 +391,6 @@ export function PolaroidBoardView() {
               });
             })()}
 
-            {isCollabMode && (() => {
-              const descText = String(collabBoard?.description || "");
-              const hubMatch = descText.match(/\n?<!--hubs:([^>]*)-->/);
-              const rawRelated = hubMatch
-                ? hubMatch[1]
-                    .split(",")
-                    .map((s) => s.trim())
-                    .filter(Boolean)
-                : [];
-              const allHubs = getAllHubPages();
-              const matchedHubs = allHubs.filter(
-                (h) => rawRelated.includes(h.slug) || rawRelated.includes(h.path)
-              );
-              const primaryHub = matchedHubs.length > 0 ? matchedHubs[0] : null;
-
-              // 紐づくハブ配下の作品を抽出し、1作品のみなら作品ページへダイレクト遷移する
-              const hubEmakis = primaryHub ? filterEmakisForHub(emakisData, primaryHub) : [];
-              const singleEmaki = hubEmakis.length === 1 ? hubEmakis[0] : null;
-              const singleEmakiSlug = singleEmaki?.slug || singleEmaki?.titleen;
-
-              const targetPath = singleEmakiSlug
-                ? `/emaki/${encodeURIComponent(singleEmakiSlug)}`
-                : primaryHub?.path || "/emaki-hub";
-
-              const targetLabel = singleEmaki
-                ? isEn
-                  ? `Open "${singleEmaki.titleen || singleEmaki.title}" →`
-                  : `『${singleEmaki.title}』を開いて切り抜く →`
-                : primaryHub
-                ? isEn
-                  ? `Explore "${primaryHub.titleEn || primaryHub.titleJa}" →`
-                  : `『${primaryHub.titleJa || primaryHub.titleEn}』から選んで切り抜く →`
-                : isEn
-                ? "Pick a Scroll to Clip →"
-                : "絵巻を選んで切り抜く →";
-
-                const { x: phX, y: phY } = resolveFixedPlaceholderPos(items);
-
-              return (
-                <div
-                  onPointerDown={(e) => e.stopPropagation()}
-                  style={{
-                    position: "absolute",
-                    left: 0,
-                    top: 0,
-                    width: "228px",
-                    minHeight: "260px",
-                    zIndex: 1,
-                    transform: `translate3d(${phX}px, ${phY}px, 0) rotate(1.4deg)`,
-                    backgroundColor: "rgba(255, 255, 255, 0.78)",
-                    border: "2px dashed rgba(138, 109, 59, 0.45)",
-                    borderRadius: 8,
-                    padding: "14px 13px 13px",
-                    boxShadow: "0 4px 14px rgba(15, 23, 42, 0.05)",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    gap: 10,
-                  }}
-                >
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: -9,
-                      left: "50%",
-                      transform: "translateX(-50%) rotate(2deg)",
-                      width: 56,
-                      height: 16,
-                      background: "rgba(255, 248, 220, 0.85)",
-                      border: "1px dashed rgba(138, 109, 59, 0.35)",
-                    }}
-                  />
-                  <div
-                    style={{
-                      borderRadius: 6,
-                      background: "rgba(138, 109, 59, 0.08)",
-                      padding: "12px 10px",
-                      textAlign: "center",
-                    }}
-                  >
-                    <div style={{ fontSize: 22, lineHeight: 1.1, marginBottom: 4 }}>📷</div>
-                    <div style={{ fontSize: 12, fontWeight: 700, color: "#5c431d" }}>
-                      {isEn ? "+ Pin Your Scene" : "＋ あなたの1枚を貼る"}
-                    </div>
-                  </div>
-                  <ol
-                    style={{
-                      margin: 0,
-                      paddingLeft: 16,
-                      fontSize: 11,
-                      lineHeight: 1.55,
-                      color: "#334155",
-                    }}
-                  >
-                    <li>
-                      {isEn
-                        ? "Find a scene matching the theme"
-                        : "お題に合う絵巻・場面を探す"}
-                    </li>
-                    <li>
-                      {isEn
-                        ? "Tap the 📷 Polaroid button"
-                        : "画面の 📷 ボタンを押して切り抜く"}
-                    </li>
-                    <li>
-                      {isEn
-                        ? 'Add a note & "Pin to Board"'
-                        : "一言を添えて「ボードに貼る」！"}
-                    </li>
-                  </ol>
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (typeof window !== "undefined" && collabBoard?.id) {
-                        try {
-                          window.sessionStorage.setItem(
-                            "emakimono_active_collab_room_v1",
-                            JSON.stringify({ id: collabBoard.id, title: collabBoard.title || "" })
-                          );
-                        } catch {}
-                      }
-                      router.push(targetPath, undefined, { locale: router.locale });
-                    }}
-                    style={{
-                      width: "100%",
-                      fontSize: 11,
-                      fontWeight: 700,
-                      padding: "7px 10px",
-                      borderRadius: 999,
-                      border: "none",
-                      background: "#8a6d3b",
-                      color: "#ffffff",
-                      cursor: "pointer",
-                      boxShadow: "0 2px 6px rgba(138, 109, 59, 0.25)",
-                    }}
-                  >
-                    {isEn
-                      ? "Explore Scrolls for This Theme →"
-                      : "お題に合う絵巻を探す →"}
-                  </button>
-                </div>
-              );
-            })()}
           </div>
         )}
 

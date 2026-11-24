@@ -23,19 +23,34 @@ export function usePolaroidBoardCanvas({
   items,
   setItems,
   bringToFront,
+  localMovedCoordsRef: localMovedCoordsRefProp,
+  dragStateRef: dragStateRefProp,
+  pendingPersistRef: pendingPersistRefProp,
+  hasInitialFitRef: hasInitialFitRefProp,
+  activeBoardContextRef: activeBoardContextRefProp,
+  allowViewportPersistRef: allowViewportPersistRefProp,
+  updateCollabRoomItemsCache,
 }) {
   // ===========================================================================
   // 1. ビューポート状態・参照Ref（ドラッグ中のローカル座標上書き保護を含む）
   // ===========================================================================
   const [viewport, setViewport] = useState({ x: 340, y: 64, scale: 1 });
+  const viewportRef = useRef(viewport);
+  viewportRef.current = viewport;
   const [isPanning, setIsPanning] = useState(false);
   const [rasterizeTick, setRasterizeTick] = useState(0);
 
   const canvasOuterRef = useRef(null);
-  const hasInitialFitRef = useRef(false);
-  const activeBoardContextRef = useRef(null);
-  const allowViewportPersistRef = useRef(false);
-  const localMovedCoordsRef = useRef({});
+  const internalHasInitialFitRef = useRef(false);
+  const internalActiveBoardContextRef = useRef(null);
+  const internalAllowViewportPersistRef = useRef(false);
+  const internalPendingPersistRef = useRef({});
+  const hasInitialFitRef = hasInitialFitRefProp ?? internalHasInitialFitRef;
+  const activeBoardContextRef = activeBoardContextRefProp ?? internalActiveBoardContextRef;
+  const allowViewportPersistRef = allowViewportPersistRefProp ?? internalAllowViewportPersistRef;
+  const pendingPersistRef = pendingPersistRefProp ?? internalPendingPersistRef;
+  const internalLocalMovedCoordsRef = useRef({});
+  const localMovedCoordsRef = localMovedCoordsRefProp ?? internalLocalMovedCoordsRef;
   const placeholderAnchorRef = useRef({ boardKey: null, x: 320, y: 140 });
 
   const panStateRef = useRef({
@@ -46,7 +61,7 @@ export function usePolaroidBoardCanvas({
     origY: 0,
   });
 
-  const dragStateRef = useRef({
+  const internalDragStateRef = useRef({
     id: null,
     el: null,
     startX: 0,
@@ -57,6 +72,7 @@ export function usePolaroidBoardCanvas({
     lastY: 0,
     rafId: null,
   });
+  const dragStateRef = dragStateRefProp ?? internalDragStateRef;
 
   // ズーム変更後の高精細ラスタライズ再描画デバウンス
   useEffect(() => {
@@ -157,19 +173,38 @@ export function usePolaroidBoardCanvas({
   const resolveBoardViewportKey = () =>
     buildBoardViewportStorageKey({ roomParam, personalParam, sharedParam });
 
-  const tryRestoreViewportFromSession = () => {
+  const isAnyItemVisibleInViewport = (targetItems, vp) => {
+    if (!Array.isArray(targetItems) || targetItems.length === 0) return true;
+    const rect = canvasOuterRef.current?.getBoundingClientRect();
+    const viewW = rect?.width || (typeof window !== "undefined" ? window.innerWidth : 1280);
+    const viewH = rect?.height || (typeof window !== "undefined" ? window.innerHeight - 120 : 680);
+    const cardW = 240;
+    const cardH = 310;
+    return targetItems.some((it) => {
+      const sx = (Number(it.boardX) || 0) * vp.scale + vp.x;
+      const sy = (Number(it.boardY) || 0) * vp.scale + vp.y;
+      return sx + cardW * vp.scale > 0 && sx < viewW && sy + cardH * vp.scale > 0 && sy < viewH;
+    });
+  };
+
+  const tryRestoreViewportFromSession = (targetItems) => {
     if (typeof window === "undefined") return false;
+    if (isCollabMode) return false;
     const saved = loadBoardViewport(resolveBoardViewportKey());
     if (!saved) return false;
+    if (!isAnyItemVisibleInViewport(targetItems, saved)) {
+      return false;
+    }
     setViewport(saved);
     return true;
   };
 
-  const applyInitialViewportForItems = (targetItems, { forceFit = false } = {}) => {
+  const applyInitialViewportForItemsCore = (targetItems, { forceFit = false } = {}) => {
     const wantPinnedFit = router.query?.pinned === "1";
     if (forceFit || wantPinnedFit) {
       hasInitialFitRef.current = true;
       fitViewportToItems(targetItems);
+      allowViewportPersistRef.current = true;
       if (wantPinnedFit) {
         const nextQuery = { ...router.query };
         delete nextQuery.pinned;
@@ -179,8 +214,9 @@ export function usePolaroidBoardCanvas({
       }
       return;
     }
-    if (tryRestoreViewportFromSession()) {
+    if (tryRestoreViewportFromSession(targetItems)) {
       hasInitialFitRef.current = true;
+      allowViewportPersistRef.current = true;
       return;
     }
     if (!hasInitialFitRef.current) {
@@ -189,6 +225,29 @@ export function usePolaroidBoardCanvas({
     }
     allowViewportPersistRef.current = true;
   };
+
+  const applyInitialViewportForItems = (targetItems, options = {}) => {
+    if (options.forceFit && typeof window !== "undefined") {
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          applyInitialViewportForItemsCore(targetItems, options);
+        });
+      });
+      return;
+    }
+    applyInitialViewportForItemsCore(targetItems, options);
+  };
+
+  const prevBoardRouteRef = useRef(
+    `${roomParam || ""}|${personalParam || ""}|${sharedParam || ""}`
+  );
+  useEffect(() => {
+    const routeKey = `${roomParam || ""}|${personalParam || ""}|${sharedParam || ""}`;
+    if (prevBoardRouteRef.current !== routeKey) {
+      prevBoardRouteRef.current = routeKey;
+      setViewport({ x: 340, y: 64, scale: 1 });
+    }
+  }, [roomParam, personalParam, sharedParam]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -320,49 +379,85 @@ export function usePolaroidBoardCanvas({
     fitViewportToItems(items);
   };
 
+  const [dragLivePosition, setDragLivePosition] = useState(null);
+
+  const readBoardXYFromElement = (el, fallbackX, fallbackY) => {
+    if (!el || typeof window === "undefined") {
+      return { x: fallbackX, y: fallbackY };
+    }
+    const raw = window.getComputedStyle(el).transform;
+    if (!raw || raw === "none") return { x: fallbackX, y: fallbackY };
+    const match2d = raw.match(/^matrix\(([^)]+)\)$/);
+    if (match2d) {
+      const parts = match2d[1].split(",").map((s) => parseFloat(s.trim()));
+      if (parts.length >= 6 && Number.isFinite(parts[4]) && Number.isFinite(parts[5])) {
+        return { x: Math.round(parts[4]), y: Math.round(parts[5]) };
+      }
+    }
+    const match3d = raw.match(/^matrix3d\(([^)]+)\)$/);
+    if (match3d) {
+      const parts = match3d[1].split(",").map((s) => parseFloat(s.trim()));
+      if (parts.length >= 14 && Number.isFinite(parts[12]) && Number.isFinite(parts[13])) {
+        return { x: Math.round(parts[12]), y: Math.round(parts[13]) };
+      }
+    }
+    return { x: fallbackX, y: fallbackY };
+  };
+
+  const clampBoardCoord = (v) => Math.max(-50000, Math.min(50000, Math.round(v)));
+
   // ===========================================================================
-  // 5. 個別カードのドラッグ移動（rAFダイレクトDOM更新） ＆ 座標永続化
+  // 5. 個別カードのドラッグ移動（dragLivePosition のみ描画・PointerUp で永続化）
   // ===========================================================================
   const handleCardPointerDown = (e, item) => {
     e.stopPropagation();
+    if (e.button !== 0 && e.pointerType === "mouse") return;
     if (e.target.tagName === "TEXTAREA" || e.target.tagName === "BUTTON" || e.target.tagName === "A") {
       return;
     }
-    // 公開ボード・共有ボード・個人ボードいずれもドラッグ移動を許可（保存は pointerUp で制御）
+    panStateRef.current.active = false;
+    setIsPanning(false);
+
     const cardEl = e.currentTarget;
-    cardEl.setPointerCapture(e.pointerId);
-    bringToFront(item.id);
-    const origX = item.boardX || 0;
-    const origY = item.boardY || 0;
+    cardEl.setPointerCapture?.(e.pointerId);
+    const fallbackX = Number(item.boardX) || 0;
+    const fallbackY = Number(item.boardY) || 0;
+    const { x: origX, y: origY } = readBoardXYFromElement(cardEl, fallbackX, fallbackY);
+    const rotate = Number(item.rotate) || 0;
     dragStateRef.current = {
       id: item.id,
-      el: cardEl,
       startX: e.clientX,
       startY: e.clientY,
       origX,
       origY,
+      rotate,
       lastX: origX,
       lastY: origY,
       rafId: null,
     };
+    setDragLivePosition({ id: item.id, boardX: origX, boardY: origY, rotate });
   };
 
   const handleCardPointerMove = (e) => {
     const st = dragStateRef.current;
     if (!st.id) return;
     e.stopPropagation();
-    const dx = (e.clientX - st.startX) / viewport.scale;
-    const dy = (e.clientY - st.startY) / viewport.scale;
-    st.lastX = st.origX + dx;
-    st.lastY = st.origY + dy;
-    if (st.rafId === null && st.el) {
+    const currentScale = viewportRef.current?.scale || 1;
+    const dx = (e.clientX - st.startX) / currentScale;
+    const dy = (e.clientY - st.startY) / currentScale;
+    st.lastX = clampBoardCoord(st.origX + dx);
+    st.lastY = clampBoardCoord(st.origY + dy);
+    if (st.rafId === null) {
       st.rafId = window.requestAnimationFrame(() => {
         st.rafId = null;
-        if (!st.el) return;
-        const curTransform = st.el.style.transform || "";
-        const rotateMatch = curTransform.match(/rotate\([^)]+\)/);
-        const rotatePart = rotateMatch ? ` ${rotateMatch[0]}` : "";
-        st.el.style.transform = `translate3d(${st.lastX}px, ${st.lastY}px, 0)${rotatePart}`;
+        const activeDrag = dragStateRef.current;
+        if (!activeDrag.id) return;
+        setDragLivePosition({
+          id: activeDrag.id,
+          boardX: activeDrag.lastX,
+          boardY: activeDrag.lastY,
+          rotate: activeDrag.rotate,
+        });
       });
     }
   };
@@ -379,11 +474,10 @@ export function usePolaroidBoardCanvas({
       window.cancelAnimationFrame(st.rafId);
     }
     const movedId = st.id;
-    const finalX = st.lastX;
-    const finalY = st.lastY;
+    const finalX = clampBoardCoord(st.lastX);
+    const finalY = clampBoardCoord(st.lastY);
     dragStateRef.current = {
       id: null,
-      el: null,
       startX: 0,
       startY: 0,
       origX: 0,
@@ -392,56 +486,81 @@ export function usePolaroidBoardCanvas({
       lastY: 0,
       rafId: null,
     };
+    setDragLivePosition(null);
     const shouldTrackLocal =
       isCollabMode || (!boardPerms.persistToLocalStorage && !isSharedMode);
+    if (shouldTrackLocal) {
+      const prevOv = localMovedCoordsRef.current[movedId] || {};
+      localMovedCoordsRef.current[movedId] = {
+        boardX: finalX,
+        boardY: finalY,
+        ...(typeof prevOv.zIndex === "number" ? { zIndex: prevOv.zIndex } : {}),
+      };
+    }
     setItems((prev) => {
       const next = prev.map((it) =>
         it.id === movedId ? { ...it, boardX: finalX, boardY: finalY } : it
       );
-      if (shouldTrackLocal) {
-        const moved = next.find((it) => it.id === movedId);
-        if (moved) {
-          const prevOv = localMovedCoordsRef.current[movedId] || {};
-          localMovedCoordsRef.current[movedId] = {
-            boardX: moved.boardX,
-            boardY: moved.boardY,
-            ...(typeof moved.zIndex === "number"
-              ? { zIndex: moved.zIndex }
-              : typeof prevOv.zIndex === "number"
-                ? { zIndex: prevOv.zIndex }
-                : {}),
-          };
-        }
-      }
       if (boardPerms.persistToLocalStorage && !isCollabMode && !isSharedMode) {
         saveBoardItems(next, personalParam || "default");
       }
+      if (isCollabMode && roomParam && typeof updateCollabRoomItemsCache === "function") {
+        updateCollabRoomItemsCache(roomParam, next);
+      }
       return next;
     });
+    bringToFront(movedId);
+    const isAdmin = isClientBoardAdmin();
     logBoardPersistDebug("POINTER_UP", {
       movedId,
-      finalX: Math.round(finalX),
-      finalY: Math.round(finalY),
+      finalX,
+      finalY,
       isCollabMode,
       isSharedMode,
       roomParam,
       personalParam,
       persistToLocalStorage: boardPerms.persistToLocalStorage,
-      isAdmin: isClientBoardAdmin(),
+      isAdmin,
     });
-    if (
-      isCollabMode &&
-      roomParam &&
-      (isClientBoardAdmin() || process.env.NODE_ENV === "development")
-    ) {
+    if (isCollabMode && roomParam) {
+      pendingPersistRef.current[movedId] = {
+        boardX: finalX,
+        boardY: finalY,
+        ts: Date.now(),
+      };
       updateCollabBoardItem(roomParam, {
         itemId: movedId,
-        boardX: Math.round(finalX),
-        boardY: Math.round(finalY),
+        boardX: finalX,
+        boardY: finalY,
       })
-        .then((res) => logBoardPersistDebug("PATCH_OK", { movedId, res }))
+        .then((res) => {
+          logBoardPersistDebug("PATCH_OK", { movedId, finalX, finalY, res });
+          const updated = res?.updated;
+          if (
+            updated &&
+            (updated.boardX !== finalX || updated.boardY !== finalY)
+          ) {
+            setItems((prev) =>
+              prev.map((it) =>
+                it.id === movedId
+                  ? {
+                      ...it,
+                      boardX: updated.boardX ?? it.boardX,
+                      boardY: updated.boardY ?? it.boardY,
+                    }
+                  : it
+              )
+            );
+          }
+          window.setTimeout(() => {
+            delete pendingPersistRef.current[movedId];
+          }, 2500);
+        })
         .catch((err) => {
           console.warn("[PolaroidBoardView] Failed to persist card position:", err);
+          window.setTimeout(() => {
+            delete pendingPersistRef.current[movedId];
+          }, 5000);
         });
     }
   };
@@ -466,5 +585,6 @@ export function usePolaroidBoardCanvas({
     handleCardPointerDown,
     handleCardPointerMove,
     handleCardPointerUp,
+    dragLivePosition,
   };
 }

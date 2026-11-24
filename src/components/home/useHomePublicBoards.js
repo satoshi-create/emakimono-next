@@ -416,8 +416,8 @@ export function useHomePublicBoards({ router, isEn }) {
   const handleCardPointerMove = (e) => {
     if (!dragRef.current.active || !activeBoard?.id) return;
     e.stopPropagation();
-    const dx = (e.clientX - dragRef.current.startX) / viewport.scale;
-    const dy = (e.clientY - dragRef.current.startY) / viewport.scale;
+    const dx = (e.clientX - dragRef.current.startX) / (viewportRef.current?.scale || 1);
+    const dy = (e.clientY - dragRef.current.startY) / (viewportRef.current?.scale || 1);
     const nextX = Math.round(dragRef.current.origX + dx);
     const nextY = Math.round(dragRef.current.origY + dy);
     const targetId = dragRef.current.cardId;

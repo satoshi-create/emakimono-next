@@ -334,125 +334,6 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
               );
             })}
 
-              {/* ① ボード上の「＋ あなたの1枚を貼る」点線ポラロイドカード（ドラッグ追従防止のためボード単位で初期座標を固定） */}
-              {(() => {
-                const boardKey = activeBoard?.id || "default";
-                if (!HomePublicBoards._fixedPhMap) {
-                  HomePublicBoards._fixedPhMap = {};
-                }
-                if (!HomePublicBoards._fixedPhMap[boardKey] && activeItems.length > 0) {
-                  HomePublicBoards._fixedPhMap[boardKey] = getAddPlaceholderPos(activeItems);
-                }
-                const ph =
-                  HomePublicBoards._fixedPhMap[boardKey] ||
-                  getAddPlaceholderPos(activeItems);
-                return (
-                  <div
-                    onPointerDown={(e) => e.stopPropagation()}
-                    style={{
-                      position: "absolute",
-                      left: 0,
-                      top: 0,
-                      width: `${CARD_OUTER_W}px`,
-                      minHeight: `${CARD_PHOTO_H + 92}px`,
-                      zIndex: 1,
-                      transform: `translate3d(${ph.x}px, ${ph.y}px, 0) rotate(1.4deg)`,
-                      backgroundColor: "rgba(255, 255, 255, 0.72)",
-                      border: `2px dashed ${defaultTone.border}`,
-                      borderRadius: 8,
-                      padding: "14px 13px 13px",
-                      boxShadow: "0 4px 14px rgba(15, 23, 42, 0.05)",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                      gap: 10,
-                    }}
-                  >
-                  {/* マスキングテープ風装飾 */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: -9,
-                      left: "50%",
-                      transform: "translateX(-50%) rotate(2deg)",
-                      width: 56,
-                      height: 16,
-                      background: "rgba(255, 248, 220, 0.85)",
-                      border: "1px dashed rgba(138, 109, 59, 0.35)",
-                    }}
-                  />
-
-                  <div
-                    style={{
-                      borderRadius: 6,
-                      background: defaultTone.softBg,
-                      padding: "12px 10px",
-                      textAlign: "center",
-                    }}
-                  >
-                    <div style={{ fontSize: 22, lineHeight: 1.1, marginBottom: 4 }}>
-                      📷
-                    </div>
-                    <div
-                      style={{
-                        fontSize: 12,
-                        fontWeight: 700,
-                        color: defaultTone.text,
-                      }}
-                    >
-                      {isEn ? "+ Pin Your Scene" : "＋ あなたの1枚を貼る"}
-                    </div>
-                  </div>
-
-                  <ol
-                    style={{
-                      margin: 0,
-                      paddingLeft: 16,
-                      fontSize: 11,
-                      lineHeight: 1.55,
-                      color: surface.barText,
-                    }}
-                  >
-                    <li>
-                      {isEn
-                        ? "Find a scene matching the theme"
-                        : "お題に合う絵巻・場面を探す"}
-                    </li>
-                    <li>
-                      {isEn
-                        ? "Tap the 📷 Polaroid button"
-                        : "画面の 📷 ボタンを押して切り抜く"}
-                    </li>
-                    <li>
-                      {isEn
-                        ? 'Add a note & "Pin to Board"'
-                        : "一言を添えて「ボードに貼る」！"}
-                    </li>
-                  </ol>
-
-                  <button
-                    type="button"
-                    onClick={handleJumpToScrolls}
-                    style={{
-                      width: "100%",
-                      fontSize: 11,
-                      fontWeight: 700,
-                      padding: "7px 10px",
-                      borderRadius: 999,
-                      border: "none",
-                      background: defaultTone.accent,
-                      color: "#ffffff",
-                      cursor: "pointer",
-                      boxShadow: "0 2px 6px rgba(138, 109, 59, 0.25)",
-                    }}
-                  >
-                    {isEn
-                      ? "Explore Scrolls for This Theme →"
-                      : "お題に合う絵巻を探す →"}
-                  </button>
-                </div>
-              );
-            })()}
           </div>
         )}
       </div>
@@ -579,7 +460,15 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
         {/* 2段目：このボードを開くボタン（プルダウン削除済み） */}
         {!isLoadingList && activeBoard && (
           <div>
-            <div style={{ pointerEvents: "auto" }}>
+            <div
+              style={{
+                pointerEvents: "auto",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                flexWrap: "wrap",
+              }}
+            >
               <Link
                 href={`/board?room=${encodeURIComponent(activeBoard.id)}`}
                 locale={router.locale}
@@ -603,6 +492,29 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
                   {isEn ? "Open Full Board →" : "このボードを開く →"}
                 </a>
               </Link>
+              <button
+                type="button"
+                onClick={handleJumpToScrolls}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 5,
+                  fontSize: 12,
+                  fontWeight: 700,
+                  padding: "7px 14px",
+                  borderRadius: 999,
+                  border: `1px solid ${defaultTone.border}`,
+                  background: "#ffffff",
+                  color: defaultTone.text,
+                  cursor: "pointer",
+                  boxShadow: "0 2px 6px rgba(15, 23, 42, 0.08)",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {isEn
+                  ? "Explore Scrolls for This Theme →"
+                  : "お題に合う絵巻を探す →"}
+              </button>
             </div>
             {relatedHubs.length > 0 && (
               <div

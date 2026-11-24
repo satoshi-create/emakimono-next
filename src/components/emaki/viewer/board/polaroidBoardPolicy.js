@@ -162,7 +162,7 @@ export function getBoardCardPermissions(
   }
 
   if (mode === BOARD_MODES.COLLAB) {
-    const isAuthorOrAdmin = Boolean(isBoardAdmin || item.canEdit !== false);
+    const isAuthorOrAdmin = Boolean(isBoardAdmin || item.canEdit === true);
     return {
       canDrag: isAuthorOrAdmin,
       canEditMemo: isAuthorOrAdmin,

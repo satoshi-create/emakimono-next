@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   loadBoardItems,
   saveBoardItems,
@@ -50,6 +50,7 @@ export function usePolaroidBoardSync({
   allowViewportPersistRef,
   localMovedCoordsRef,
   dragStateRef,
+  pendingPersistRef,
   applyInitialViewportForItems,
 }) {
   // ===========================================================================
@@ -73,6 +74,11 @@ export function usePolaroidBoardSync({
   const [publishingCardId, setPublishingCardId] = useState(null);
   const [selectedPublicBoardId, setSelectedPublicBoardId] = useState("");
   const [isPublishingCard, setIsPublishingCard] = useState(false);
+
+  // ルームIDごとのボードメタ・アイテムキャッシュ（タブ切替時の即時表示用）
+  const collabCacheRef = useRef({});
+  const activeRoomRef = useRef(roomParam);
+  activeRoomRef.current = roomParam;
 
   const boardPerms = getBoardPermissions({ isCollabMode, isSharedMode });
 
@@ -100,6 +106,8 @@ export function usePolaroidBoardSync({
     }
     try {
       const data = await fetchCollabBoard(roomId);
+      // 非同期通信中に別タブへ切り替わっていた場合は古いレスポンスを破棄
+      if (activeRoomRef.current !== roomId) return;
       const loadedItems = Array.isArray(data.items) ? data.items : [];
       logBoardPersistDebug(
         "LOAD_COLLAB",
@@ -109,9 +117,28 @@ export function usePolaroidBoardSync({
         )
       );
       const overrides = localMovedCoordsRef.current || {};
+      const pending = pendingPersistRef?.current || {};
       const mergedItems = loadedItems.map((it) => {
+        const pend = pending[it.id];
         const ov = overrides[it.id];
+        if (pend && Date.now() - (pend.ts || 0) < 120000) {
+          return {
+            ...it,
+            boardX: typeof pend.boardX === "number" ? pend.boardX : it.boardX,
+            boardY: typeof pend.boardY === "number" ? pend.boardY : it.boardY,
+          };
+        }
         if (!ov) return it;
+        // DB側がすでに同座標へ更新済みならローカル一時上書きを解除してDBを正とする
+        if (
+          typeof ov.boardX === "number" &&
+          typeof ov.boardY === "number" &&
+          Math.round(Number(it.boardX)) === Math.round(ov.boardX) &&
+          Math.round(Number(it.boardY)) === Math.round(ov.boardY)
+        ) {
+          delete overrides[it.id];
+          return it;
+        }
         return {
           ...it,
           boardX: typeof ov.boardX === "number" ? ov.boardX : it.boardX,
@@ -119,11 +146,16 @@ export function usePolaroidBoardSync({
           zIndex: typeof ov.zIndex === "number" ? ov.zIndex : it.zIndex,
         };
       });
+      collabCacheRef.current[roomId] = {
+        board: data.board,
+        items: mergedItems,
+      };
       setCollabBoard(data.board);
       setCollabTitleDraft(data.board?.title || "");
       setItems(mergedItems);
       if (!hasInitialFitRef.current || router.query?.pinned === "1") {
-        applyInitialViewportForItems(mergedItems);
+        hasInitialFitRef.current = true;
+        applyInitialViewportForItems(mergedItems, { forceFit: true });
       }
       setRoomError("");
       if (typeof window !== "undefined") {
@@ -158,11 +190,26 @@ export function usePolaroidBoardSync({
 
     if (roomParam) {
       setIsSharedMode(false);
+      // タブ切替時は前ルームの一時上書き座標を破棄し、DB値を正として同期する
+      localMovedCoordsRef.current = {};
+      const cached = collabCacheRef.current[roomParam];
+      if (cached) {
+        setCollabBoard(cached.board);
+        setCollabTitleDraft(cached.board?.title || "");
+        setItems(cached.items);
+        setIsInitialLoading(false);
+        hasInitialFitRef.current = true;
+        applyInitialViewportForItems(cached.items, { forceFit: true });
+      } else {
+        setItems([]);
+        setIsInitialLoading(true);
+      }
       loadCollabRoom(roomParam);
       const timer = setInterval(() => {
-        if (!dragStateRef.current?.id) {
-          loadCollabRoom(roomParam);
-        }
+        if (dragStateRef.current?.id) return;
+        const pend = pendingPersistRef?.current;
+        if (pend && Object.keys(pend).length > 0) return;
+        loadCollabRoom(roomParam);
       }, 10000);
       return () => clearInterval(timer);
     }
@@ -178,7 +225,8 @@ export function usePolaroidBoardSync({
       if (restored) {
         setItems(restored);
         setIsSharedMode(true);
-        applyInitialViewportForItems(restored);
+        hasInitialFitRef.current = true;
+        applyInitialViewportForItems(restored, { forceFit: true });
         setIsInitialLoading(false);
         return;
       }
@@ -194,7 +242,8 @@ export function usePolaroidBoardSync({
       description: meta.description || DEFAULT_PERSONAL_BOARD.description,
       relatedHubs: Array.isArray(meta.relatedHubs) ? meta.relatedHubs : [],
     });
-    applyInitialViewportForItems(localItems);
+    hasInitialFitRef.current = true;
+    applyInitialViewportForItems(localItems, { forceFit: true });
     setIsInitialLoading(false);
   }, [router.isReady, sharedParam, roomParam, personalParam]);
 
@@ -226,15 +275,11 @@ export function usePolaroidBoardSync({
       const shouldTrackLocal =
         isCollabMode || (!boardPerms.persistToLocalStorage && !isSharedMode);
       if (shouldTrackLocal) {
-        const it = next.find((x) => x.id === id);
-        if (it) {
-          const prevOv = localMovedCoordsRef.current[id] || {};
-          localMovedCoordsRef.current[id] = {
-            boardX: typeof it.boardX === "number" ? it.boardX : prevOv.boardX,
-            boardY: typeof it.boardY === "number" ? it.boardY : prevOv.boardY,
-            zIndex: maxZ + 1,
-          };
-        }
+        const prevOv = localMovedCoordsRef.current[id] || {};
+        localMovedCoordsRef.current[id] = {
+          ...prevOv,
+          zIndex: maxZ + 1,
+        };
       }
       return next;
     });
@@ -398,6 +443,13 @@ export function usePolaroidBoardSync({
     }
   };
 
+  const updateCollabRoomItemsCache = (roomId, nextItems) => {
+    if (!roomId || !Array.isArray(nextItems)) return;
+    const cached = collabCacheRef.current[roomId];
+    if (!cached) return;
+    collabCacheRef.current[roomId] = { ...cached, items: nextItems };
+  };
+
   const handleShareCard = async (e, item) => {
     e.stopPropagation();
     if (typeof window === "undefined") return;
@@ -467,5 +519,6 @@ export function usePolaroidBoardSync({
     handleShareCard,
     handleCopyShareUrl,
     handleSaveSharedToMyBoard,
+    updateCollabRoomItemsCache,
   };
 }

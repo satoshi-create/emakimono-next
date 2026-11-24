@@ -9,6 +9,7 @@ graph TD
     Page["/board & /board/public<br/>(ボード画面・公開一覧)"] --> View["PolaroidBoardView.jsx<br/>(ボード画面統括・JSXレイアウト)"]
     View --> SyncHook["usePolaroidBoardSync.js<br/>(コラボ同期・共有URL復元・CRUD)"]
     View --> CanvasHook["usePolaroidBoardCanvas.js<br/>(キャンバスPan/Zoom・カードドラッグ)"]
+    View --> SharedRefs["PolaroidBoardView 共有 Ref<br/>(hasInitialFit / viewport fit / pendingPersist)"]
     View --> MetaHook["usePolaroidBoardMeta.js<br/>(メタ状態・タブ・保存ハンドラ)"]
     View --> Header["PolaroidBoardHeader.jsx<br/>(ヘッダー・個人/公開切替)"]
     View --> Tabs["PolaroidBoardTabs.jsx<br/>(ボード/テーマタブ切替・作成)"]

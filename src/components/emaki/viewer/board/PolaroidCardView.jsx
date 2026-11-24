@@ -42,7 +42,6 @@ export const PolaroidCardView = React.memo(function PolaroidCardView({
       onPointerCancel={onPointerUp}
       className={cardClassName}
       style={{
-        position: "relative",
         backgroundColor: theme.bg || "#ffffff",
         backgroundImage: theme.textureUrl ? `url(${theme.textureUrl})` : "none",
         border: theme.border || "1.5px solid #8a6d3b",
