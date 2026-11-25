@@ -1,4 +1,5 @@
 import { getContactUrl, navGroups } from "@/libs/constants/links";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import styles from "@/styles/NavLinks.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -72,7 +73,11 @@ const NavLinks = ({ footerstyle }) => {
                     style={footerstyle}
                     onClick={() => setOpenMenu(null)}
                   >
-                    {locale === "en" ? link.nameen : link.name}
+                    {getLocalizedField(
+                      { name: link.name, name_en: link.nameen },
+                      "name",
+                      locale
+                    )}
                   </a>
                 </Link>
               ))}

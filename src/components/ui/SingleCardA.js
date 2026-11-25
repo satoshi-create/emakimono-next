@@ -1,6 +1,7 @@
 import { AppContext } from "@/context/AppContext";
 import { getAllHubPages, getHubSlugsForEmaki } from "@/libs/hubPages";
 import styles from "@/styles/CardA.module.css";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import { eraColor } from "@/utils/func";
 import { faEye, faTrash, faTrophy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,6 +12,7 @@ import { useContext, useMemo } from "react";
 
 const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   const { closeSearchModal, rankingData } = useContext(AppContext);
   const {
     titleen,
@@ -27,6 +29,16 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
     subtype,
     keyword,
   } = item;
+
+  const displayTitle = getLocalizedField(item, "title", locale, titleen);
+  const displayAuthor = getLocalizedField(item, "author", locale);
+  const displayEra = getLocalizedField(item, "era", locale);
+  const displayType = getLocalizedField(
+    item,
+    "type",
+    locale,
+    isJa ? "絵巻" : "Emaki"
+  );
 
   // ランキング順位・閲覧数を検索
   const rankInfo = useMemo(() => {
@@ -135,7 +147,7 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
         <div className={styles.footer}>
           <div className={styles.cat}>
             <Link href={`/type/${typeen}`}>
-              <a className={styles.type}>{locale === "en" ? typeen : type}</a>
+              <a className={styles.type}>{displayType}</a>
             </Link>
             <Link href={`/era/${eraen}`}>
               <a
@@ -146,14 +158,14 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
                   color: eraColor(era) ? "white" : "black",
                 }}
               >
-                {locale === "en" ? `${eraen} period` : `${era}時代`}
+                {isJa ? `${displayEra}時代` : `${displayEra} period`}
               </a>
             </Link>
             {rankInfo && (
               <Link href="/ranking">
                 <a className={styles.rankBadge}>
                   <FontAwesomeIcon icon={faTrophy} className={styles.rankBadgeIcon} />
-                  {locale === "en" ? `#${rankInfo.rank}` : `${rankInfo.rank}位`}
+                  {isJa ? `${rankInfo.rank}位` : `#${rankInfo.rank}`}
                 </a>
               </Link>
             )}
@@ -162,16 +174,14 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
             <Link href={viewerHref}>
               <a>
                 <h3 className={styles.title}>
-                  {locale === "ja" ? title : titleen} {locale === "ja" && edition}
+                  {displayTitle} {isJa && edition}
                 </h3>
               </a>
             </Link>
             {author ? (
               <Link href={`/author/${authoren}`}>
                 <a className={styles.authorLink}>
-                  <h4 className={styles.author}>
-                    {locale === "ja" ? author : authoren}
-                  </h4>
+                  <h4 className={styles.author}>{displayAuthor}</h4>
                 </a>
               </Link>
             ) : (
@@ -191,9 +201,9 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
               <Link href={viewerHref}>
                 <a>
                   <button className={styles.viewemakiBtn}>
-                    {locale === "en"
-                      ? "Enjoy by right to left scroll !!"
-                      : "横スクロールで見る"}
+                    {isJa
+                      ? "横スクロールで見る"
+                      : "Enjoy by right to left scroll !!"}
                   </button>
                 </a>
               </Link>
@@ -214,7 +224,7 @@ const SingleCardA = ({ item, sectiontitle, columns, needdesc, variant }) => {
                   return (
                     <Link href={`/keyword/${slug}`} key={index}>
                       <a className={styles.keywordLink}>
-                        {locale === "en" ? id : name}
+                        {isJa ? name : id}
                       </a>
                     </Link>
                   );

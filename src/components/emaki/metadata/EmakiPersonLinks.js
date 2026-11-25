@@ -10,6 +10,7 @@ import { useTranslation } from "next-i18next";
 const EmakiPersonLinks = ({ personname }) => {
   const { t } = useTranslation("common");
   const { locale } = useRouter();
+  const isJa = locale === "ja";
 
   if (!personname || personname.length === 0) return null;
 
@@ -18,7 +19,7 @@ const EmakiPersonLinks = ({ personname }) => {
       <p className={styles.heading}>{t("personname.emakiSectionTitle")}</p>
       <ul className={styles.list}>
         {personname.map((person) => {
-          const label = locale === "en" ? person.id : person.name;
+          const label = isJa ? person.name : person.id;
           return (
             <li key={person.slug}>
               <Link href={`/personname/${person.slug}`}>

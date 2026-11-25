@@ -197,7 +197,8 @@ const ShareButtons = ({
   );
 
   const polaroidLabel = t("polaroid.title");
-  const isEnLocale = locale === "en";
+  const isJa = locale === "ja";
+  const isEnLocale = !isJa;
   const polaroidBtnRef = useRef(null);
   const [showPolaroidTip, setShowPolaroidTip] = useState(false);
   const [polaroidTipPos, setPolaroidTipPos] = useState(null);
@@ -405,12 +406,12 @@ const ShareButtons = ({
                 <span>{isTextLinkCopied ? "✓" : "📋"}</span>
                 <span>
                   {isTextLinkCopied
-                    ? locale === "en"
-                      ? "Copied!"
-                      : "コピーしました！"
-                    : locale === "en"
-                      ? "Copy text & link"
-                      : "文面とリンクをコピー"}
+                    ? isJa
+                      ? "コピーしました！"
+                      : "Copied!"
+                    : isJa
+                      ? "文面とリンクをコピー"
+                      : "Copy text & link"}
                 </span>
               </button>
               {!canNativeShare && (

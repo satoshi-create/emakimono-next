@@ -2,6 +2,7 @@ import CardForSearchResults from "@/components/search/CardForSearchResults";
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/Search.css.module.css";
 import ExtractingListData from "@/utils/ExtractingListData";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import { authorItem, eraColor, typeItem } from "@/utils/func";
 import { faClose, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -39,6 +40,7 @@ const reducer = (state, action) => {
 const ModalSearch = () => {
   const { closeSearchModal } = useContext(AppContext);
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   const initialData = ExtractingListData(); // 初期データを取得
 
   // useReducerで状態を管理
@@ -173,10 +175,9 @@ const ModalSearch = () => {
 
   const selectTypes = (e) => {
     const el = e.target.value;
-    const selectTypeItems =
-      locale === "en"
-        ? state.data.filter((item) => item.typeen === el)
-        : state.data.filter((item) => item.type === el);
+    const selectTypeItems = isJa
+      ? state.data.filter((item) => item.type === el)
+      : state.data.filter((item) => item.typeen === el);
     dispatch({ type: "SET_FILTERED_DATA", payload: selectTypeItems });
     setSearchKeyword(""); // 🔹 検索ボックスは空のまま
     setDisplayKeyword(el); // 🔹 "results for" にのみ表示
@@ -184,10 +185,9 @@ const ModalSearch = () => {
 
   const selectEras = (e) => {
     const el = e.target.value;
-    const selectEraItems =
-      locale === "en"
-        ? state.data.filter((item) => item.eraen === el)
-        : state.data.filter((item) => item.era === el);
+    const selectEraItems = isJa
+      ? state.data.filter((item) => item.era === el)
+      : state.data.filter((item) => item.eraen === el);
 
     dispatch({ type: "SET_FILTERED_DATA", payload: selectEraItems });
     setSearchKeyword(""); // 🔹 検索ボックスは空のまま
@@ -196,10 +196,9 @@ const ModalSearch = () => {
 
   const selectAuthor = (e) => {
     const el = e.target.value;
-    const selectAuthorItems =
-      locale === "en"
-        ? state.data.filter((item) => item.authoren === el)
-        : state.data.filter((item) => item.author === el);
+    const selectAuthorItems = isJa
+      ? state.data.filter((item) => item.author === el)
+      : state.data.filter((item) => item.authoren === el);
 
     dispatch({ type: "SET_FILTERED_DATA", payload: selectAuthorItems });
     setSearchKeyword(""); // 🔹 検索ボックスは空のまま
@@ -231,9 +230,7 @@ const ModalSearch = () => {
             onChange={handleInput} // 入力時のイベント
             onCompositionStart={handleCompositionStart} // 日本語入力開始時
             onCompositionEnd={handleCompositionEnd} // 日本語入力確定時
-            placeholder={
-              locale == "en" ? "Search Emaki Gallary" : "絵巻を検索する"
-            }
+            placeholder={isJa ? "絵巻を検索する" : "Search Emaki Gallary"}
           />
           {/* 🔹 リセットボタンを追加 */}
           {searchKeyword && (
@@ -253,50 +250,50 @@ const ModalSearch = () => {
             className={styles.typeselectbtn}
             onClick={(e) => selectAll(e)}
           >
-            {locale == "en" ? "View All Contents" : "全ての作品"}
+            {isJa ? "全ての作品" : "View All Contents"}
           </button>
           <div className={styles.typeselect}>
-            <h4>{locale == "en" ? "View by Genre" : "タイプから見る"}</h4>
+            <h4>{isJa ? "タイプから見る" : "View by Genre"}</h4>
             <div className={styles.selectbtnbox}>
               {types.map((item, i) => (
                 <button
                   key={i}
-                  value={locale == "en" ? item.typeen : item.type}
+                  value={getLocalizedField(item, "type", locale)}
                   onClick={(e) => selectTypes(e)}
                   className={styles.typeselectbtn}
                 >
-                  {locale == "en" ? item.typeen : item.type}
+                  {getLocalizedField(item, "type", locale)}
                 </button>
               ))}
             </div>
           </div>
           <div className={styles.eraselect}>
-            <h4>{locale == "en" ? "View by Date" : "制作年から見る"}</h4>
+            <h4>{isJa ? "制作年から見る" : "View by Date"}</h4>
             <div className={styles.selectbtnbox}>
               {eras.map((item, i) => (
                 <Button
-                  item={locale == "en" ? item.eraen : item.era}
+                  item={getLocalizedField(item, "era", locale)}
                   key={i}
-                  value={locale == "en" ? item.eraen : item.era}
+                  value={getLocalizedField(item, "era", locale)}
                   onClick={(e) => selectEras(e)}
                   className={styles.eraselectbtn}
                 >
-                  {locale == "en" ? item.eraen : item.era}
+                  {getLocalizedField(item, "era", locale)}
                 </Button>
               ))}
             </div>
           </div>
           <div className={styles.authorselect}>
-            <h4>{locale == "en" ? "View by Artist" : "絵師から見る"}</h4>
+            <h4>{isJa ? "絵師から見る" : "View by Artist"}</h4>
             <div className={styles.selectbtnbox}>
               {authors.map((item, i) => (
                 <button
                   key={i}
-                  value={locale == "en" ? item.authoren : item.author}
+                  value={getLocalizedField(item, "author", locale)}
                   onClick={(e) => selectAuthor(e)}
                   className={styles.typeselectbtn}
                 >
-                  {locale == "en" ? item.authoren : item.author}
+                  {getLocalizedField(item, "author", locale)}
                 </button>
               ))}
             </div>

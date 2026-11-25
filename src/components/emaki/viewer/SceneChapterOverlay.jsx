@@ -10,6 +10,7 @@ export function SceneChapterOverlay({
   titleen,
   onSelectChapter,
 }) {
+  const isJa = locale === "ja";
   return (
     <div className={styles.chapterbox}>
       <h3
@@ -17,7 +18,7 @@ export function SceneChapterOverlay({
         onClick={() => onSelectChapter?.(index)}
         style={{
           fontFamily:
-            locale === "en" ? "var(--font-ui)" : "var(--font-classical)",
+            isJa ? "var(--font-classical)" : "var(--font-ui)",
         }}
       >
         {chapterTitle}

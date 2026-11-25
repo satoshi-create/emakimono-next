@@ -19,7 +19,7 @@ const SCROLL_FILTERS = [
   { id: "rakuchu_rakugai_met", labelJa: "メトロポリタン本", labelEn: "Met Version" },
 ];
 
-const l = (locale, ja, en) => (locale === "en" ? en : ja);
+const l = (locale, ja, en) => (locale === "ja" ? ja : en);
 
 const formatSpotId = (spotId) =>
   spotId
@@ -38,7 +38,8 @@ const stopLabel = (stop, locale) => {
     stop.spot?.nameEn ||
     wp.nameEn ||
     stop.nameEn;
-  if (ja || en) return locale === "en" ? en || ja : ja || en;
+  const isJa = locale === "ja";
+  if (ja || en) return isJa ? ja || en : en || ja;
   if (stop.spotId) {
     const master = getMasterByRawSpotId(stop.spotId);
     if (master?.nameJa || master?.nameEn) {

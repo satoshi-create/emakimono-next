@@ -51,6 +51,7 @@ const EmakiHubPage = ({ hubData, t }) => {
     emakis: hubData.emakis,
     routes: hubData.routes,
   });
+  const isJa = locale === "ja";
 
   // 2. ハブレイアウト描画
   return (
@@ -59,14 +60,14 @@ const EmakiHubPage = ({ hubData, t }) => {
       <section className={styles.hero}>
         <div className={styles.heroInner}>
           <h1 className={styles.heroTitle}>
-            {locale === "en"
-              ? "Explore the historic cityscape depicted in handscrolls and screens."
-              : "絵巻と屏風に描かれた都の風景を、京都で辿る。"}
+            {isJa
+              ? "絵巻と屏風に描かれた都の風景を、京都で辿る。"
+              : "Explore the historic cityscape depicted in handscrolls and screens."}
           </h1>
           <p className={styles.heroLead}>
-            {locale === "en"
-              ? "Compare temples, rivers, and streetscapes from the Rakuchu Rakugai screens with present-day Kyoto on the map."
-              : "洛中洛外図屏風に描かれた寺社・河川・町並みを、実際の京都の地図と照らし合わせて味わう。"}
+            {isJa
+              ? "洛中洛外図屏風に描かれた寺社・河川・町並みを、実際の京都の地図と照らし合わせて味わう。"
+              : "Compare temples, rivers, and streetscapes from the Rakuchu Rakugai screens with present-day Kyoto on the map."}
           </p>
           <RegionSwitcher
             regions={hubData.regions}
@@ -89,9 +90,9 @@ const EmakiHubPage = ({ hubData, t }) => {
       >
         <h2 className={styles.sectionTitle}>{t("emakiHub.sectionTitle")}</h2>
         <p className={styles.sectionDesc}>
-          {locale === "en"
-            ? "Explore famous places, rivers, and streets depicted in the Rakuchu Rakugai screens via the map and suggested routes."
-            : "洛中洛外図に描かれた名所・河川・通りを、地図やおすすめルートから巡れます。"}
+          {isJa
+            ? "洛中洛外図に描かれた名所・河川・通りを、地図やおすすめルートから巡れます。"
+            : "Explore famous places, rivers, and streets depicted in the Rakuchu Rakugai screens via the map and suggested routes."}
         </p>
 
         <div
@@ -140,7 +141,7 @@ const EmakiHubPage = ({ hubData, t }) => {
                 }`}
                 onClick={() => handleThemeChange(th.id)}
               >
-                {locale === "en" ? th.labelEn : th.labelJa}
+                {isJa ? th.labelJa : th.labelEn}
               </button>
             ))}
           </div>
@@ -189,7 +190,7 @@ const EmakiHubPage = ({ hubData, t }) => {
               <span>
                 {activeRoute
                   ? `${t("emakiHub.routesTitle")}: ${
-                      locale === "en" ? activeRoute.titleEn : activeRoute.titleJa
+                      isJa ? activeRoute.titleJa : activeRoute.titleEn
                     }`
                   : t("emakiHub.routesTitle")}
               </span>

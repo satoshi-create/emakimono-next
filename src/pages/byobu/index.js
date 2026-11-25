@@ -4,7 +4,9 @@ import emakisData from "@/data/scroll-metadata";
 import { useLocaleMeta } from "@/hooks/useLocale";
 import { buildLocaleUrl, SITE_ORIGIN } from "@/libs/constants/dataSiteMeta";
 import styles from "@/styles/ByobuHub.module.css";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import { removeNestedEmakisObj } from "@/utils/emakiList";
+import { resolveEmakiCatalog } from "@/utils/i18nStaticPaths";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
@@ -28,7 +30,7 @@ const buildByobuJsonLd = ({ locale, defaultLocale, t, meta, items }) => {
     .map((item, index) => ({
       "@type": "ListItem",
       position: index + 1,
-      name: item.title || item.titleen,
+      name: getLocalizedField(item, "title", locale, item.titleen),
       url: buildLocaleUrl(locale, `/${item.titleen}`, defaultLocale),
     }));
 
@@ -93,7 +95,7 @@ const Byobu = ({ items }) => {
         <div className={styles.heroImageWrap}>
           <Image
             src={heroItem.thumb}
-            alt={locale === "en" ? heroItem.titleen : heroItem.title}
+            alt={getLocalizedField(heroItem, "title", locale, heroItem.titleen)}
             width={1600}
             height={900}
             sizes="100vw"
@@ -136,7 +138,7 @@ const Byobu = ({ items }) => {
 export const getStaticProps = async ({ locale }) => {
   return {
     props: {
-      items: filterByobuItems(),
+      items: filterByobuItems(resolveEmakiCatalog(locale ?? "ja")),
       ...(await serverSideTranslations(locale ?? "ja", ["common"])),
     },
   };

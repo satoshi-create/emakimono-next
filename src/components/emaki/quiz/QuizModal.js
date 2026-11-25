@@ -60,7 +60,8 @@ const QuizModal = ({
 }) => {
   const { t } = useTranslation("common");
   const { locale } = useRouter();
-  const isEn = locale === "en";
+  const isJa = locale === "ja";
+  const isEn = !isJa;
   const startedRef = useRef(false);
   const [completedQuizIds, setCompletedQuizIds] = useState([]);
 

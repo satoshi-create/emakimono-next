@@ -72,6 +72,7 @@ const ScrollSpotMapCanvas = ({
   locale = "ja",
   currentTitleen = null,
 }) => {
+  const isJa = locale === "ja";
   const [rl, setRl] = useState(null);
   const [openPopupKey, setOpenPopupKey] = useState(null);
   const markerRefs = useRef({});
@@ -128,13 +129,13 @@ const ScrollSpotMapCanvas = ({
           background: "var(--clr-surface, #f9fbff)",
         }}
       >
-        {locale === "en" ? "Loading map…" : "地図を読み込み中…"}
+        {isJa ? "地図を読み込み中…" : "Loading map…"}
       </div>
     );
   }
 
   const { L, MapContainer, Marker, Polyline, Popup, TileLayer, useMap } = rl;
-  const isEn = locale === "en";
+  const isEn = !isJa;
 
   const makeIcon = (appearanceCount, isActive, category) => {
     const count = appearanceCount ?? 1;

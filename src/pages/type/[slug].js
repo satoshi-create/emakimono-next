@@ -4,34 +4,35 @@ import Head from "@/components/meta/Meta";
 import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import CardA from "@/components/ui/CardA";
 import {
-  default as enData,
-  default as jaData,
-} from "@/data/scroll-metadata";
+  buildI18nStaticPaths,
+  resolveEmakiCatalog,
+} from "@/utils/i18nStaticPaths";
 import { removeNestedEmakisObj, typeItem } from "@/utils/func";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Type = ({ name, nameen, posts, slug }) => {
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   const tPageDesc =
-    locale === "en"
+    !isJa
       ? `This is the ${nameen} list page.This site pursues the enjoyment of picture scrolls by scrolling from right to left!`
       : `${name}一覧のページです。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。`;
 
   return (
     <>
       <Head
-        pagetitle={locale === "en" ? `${nameen} gallary` : `${name}一覧`}
+        pagetitle={!isJa ? `${nameen} gallary` : `${name}一覧`}
         pageDesc={tPageDesc}
       />
       <Header />
-      <Breadcrumbs name={locale === "en" ? nameen : name} />
+      <Breadcrumbs name={!isJa ? nameen : name} />
       <CardA
         emakis={posts}
         columns={"three"}
         sectionname={"recommend"}
-        sectiontitle={locale === "en" ? `${nameen} gallary` : `${name}一覧`}
-        sectiontitleen={locale === "en" ? `${name}一覧` : `List of ${nameen}`}
+        sectiontitle={!isJa ? `${nameen} gallary` : `${name}一覧`}
+        sectiontitleen={!isJa ? `${name}一覧` : `List of ${nameen}`}
       />
       <Footer />
     </>
@@ -41,8 +42,7 @@ const Type = ({ name, nameen, posts, slug }) => {
 export default Type;
 
 export const getStaticPaths = async (context) => {
-  const { locale, locales } = context;
-  const tEmakisData = locale === "en" ? enData : jaData;
+  const tEmakisData = resolveEmakiCatalog(context.defaultLocale ?? "ja");
 
   const validSlugs = [
     ...new Set(
@@ -52,20 +52,17 @@ export const getStaticPaths = async (context) => {
         .map((slug) => slug.trim())
     ),
   ];
-  const paths = validSlugs.flatMap((slug) => [
-    { params: { slug }, locale: "ja" },
-    { params: { slug }, locale: "en" },
-  ]);
+  const paths = buildI18nStaticPaths(validSlugs, context.locales);
   return {
-    paths: paths,
+    paths,
     fallback: false,
   };
 };
 
 export const getStaticProps = async (context) => {
   const catslug = context.params.slug;
-  const { locale, locales } = context;
-  const tEmakisData = locale === "en" ? enData : jaData;
+  const { locale } = context;
+  const tEmakisData = resolveEmakiCatalog(locale);
 
   const typeObj = typeItem(tEmakisData).find(
     ({ typeen }) => typeen === catslug

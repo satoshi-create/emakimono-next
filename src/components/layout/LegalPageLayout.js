@@ -4,6 +4,7 @@ import Head from "@/components/meta/Meta";
 import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import Title from "@/components/ui/Title";
 import { relatedSiteLinks } from "@/libs/constants/links";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import styles from "@/styles/LegalPage.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -40,7 +41,9 @@ const LegalPageLayout = ({
             {relatedSiteLinks.map(({ path, name, nameen }) => (
               <li key={path}>
                 <Link href={path}>
-                  <a>{locale === "ja" ? name : nameen}</a>
+                  <a>
+                    {getLocalizedField({ name, nameen }, "name", locale)}
+                  </a>
                 </Link>
               </li>
             ))}

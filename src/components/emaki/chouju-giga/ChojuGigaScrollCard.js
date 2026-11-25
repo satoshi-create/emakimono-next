@@ -2,6 +2,7 @@ import styles from "@/styles/ChoujuGigaHub.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 
 /** Map titleen suffix to Japanese/English scroll label. */
 const SUFFIX_LABEL = {
@@ -23,18 +24,16 @@ function firstSentence(text) {
 
 const ChojuGigaScrollCard = ({ scroll }) => {
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   const { titleen, title, thumb, era, eraen, author, authoren, desc, descen, chapters, suffix } = scroll;
+  const localizedTitle = getLocalizedField(scroll, "title", locale);
 
   const scrollTitle =
-    locale === "ja"
-      ? suffix && SUFFIX_LABEL[suffix]
-        ? `${title}${SUFFIX_LABEL[suffix].ja}`
-        : title
-      : suffix && SUFFIX_LABEL[suffix]
-        ? `${titleen}${SUFFIX_LABEL[suffix].en}`
-        : titleen;
+    suffix && SUFFIX_LABEL[suffix]
+      ? `${localizedTitle}${isJa ? SUFFIX_LABEL[suffix].ja : SUFFIX_LABEL[suffix].en}`
+      : localizedTitle;
 
-  const snippet = locale === "en" ? firstSentence(descen) : firstSentence(desc);
+  const snippet = firstSentence(getLocalizedField(scroll, "desc", locale));
   const displayChapters = chapters?.slice(0, 6) ?? [];
   const remainingCount = chapters ? chapters.length - 6 : 0;
 
@@ -63,12 +62,12 @@ const ChojuGigaScrollCard = ({ scroll }) => {
             <div className={styles.cardMeta}>
               {era && (
                 <span className={styles.cardEra}>
-                  {locale === "en" ? `${eraen} period` : `${era}時代`}
+                  {isJa ? `${getLocalizedField(scroll, "era", locale)}時代` : `${getLocalizedField(scroll, "era", locale)} period`}
                 </span>
               )}
               {author && (
                 <span className={styles.cardAuthor}>
-                  {locale === "ja" ? author : authoren}
+                  {getLocalizedField(scroll, "author", locale)}
                 </span>
               )}
             </div>
@@ -80,7 +79,7 @@ const ChojuGigaScrollCard = ({ scroll }) => {
               <div className={styles.cardChapters}>
                 {displayChapters.map((ch) => (
                   <span key={ch.chapter} className={styles.cardChapterTag}>
-                    {locale === "en" ? ch.titleen : ch.title}
+                    {getLocalizedField(ch, "title", locale)}
                   </span>
                 ))}
                 {remainingCount > 0 && (

@@ -281,7 +281,8 @@ export function encodeBoardShareUrl(items, locale = "ja") {
   }));
 
   const encoded = encodeUtf8Base64Url(JSON.stringify(compact));
-  const prefix = locale === "ja" ? "/ja" : "";
+  const isJa = locale === "ja";
+  const prefix = isJa ? "/ja" : "";
   const url = new URL(`${window.location.origin}${prefix}/board`);
   url.searchParams.set("d", encoded);
   return url.toString();

@@ -3,6 +3,7 @@ import styles from "@/styles/KusouzuHub.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import { useMemo } from "react";
 
 /** Build a stage_en → { title, titleen } lookup once. */
@@ -13,6 +14,7 @@ chapters.forEach((ch) => {
 
 const KusouzuScrollCard = ({ emaki }) => {
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   const { titleen, title, thumb, edition, author, authoren, era, eraen, kusouzuslug } = emaki;
 
   const stageTags = useMemo(() => {
@@ -50,18 +52,18 @@ const KusouzuScrollCard = ({ emaki }) => {
           )}
           <div className={styles.scrollCardBody}>
             <h3 className={styles.scrollCardTitle}>
-              {locale === "ja" ? title : titleen}
-              {locale === "ja" && edition && ` ${edition}`}
+              {getLocalizedField(emaki, "title", locale)}
+              {isJa && edition && ` ${edition}`}
             </h3>
             <div className={styles.scrollCardMeta}>
               {era && (
                 <span className={styles.scrollCardEra}>
-                  {locale === "en" ? `${eraen} period` : `${era}時代`}
+                  {isJa ? `${getLocalizedField(emaki, "era", locale)}時代` : `${getLocalizedField(emaki, "era", locale)} period`}
                 </span>
               )}
               {author && (
                 <span className={styles.scrollCardAuthor}>
-                  {locale === "ja" ? author : authoren}
+                  {getLocalizedField(emaki, "author", locale)}
                 </span>
               )}
             </div>
@@ -69,7 +71,7 @@ const KusouzuScrollCard = ({ emaki }) => {
               <div className={styles.scrollCardStages}>
                 {stageTags.map((st) => (
                   <span key={st.title} className={styles.scrollCardStageTag}>
-                    {locale === "en" ? st.titleen : st.title}
+                    {getLocalizedField(st, "title", locale)}
                   </span>
                 ))}
                 {remainingCount > 0 && (

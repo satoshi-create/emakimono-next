@@ -8,14 +8,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
  * stops は JOIN 済みで、絵巻由来なら thumb/title/spot、単独スポットなら spot を持つ。
  */
 const EmakiHubRouteCard = ({ route, t, locale, onViewOnMap }) => {
+  const isJa = locale === "ja";
   const l = (obj, fallback = "") =>
     !obj
       ? fallback
       : typeof obj === "string"
         ? obj
-        : (locale === "en" ? obj.en : obj.ja) || obj.ja || obj.en || fallback;
-  const duration = locale === "en" ? route.durationEn : route.durationJa;
-  const routeTitle = locale === "en" ? route.titleEn : route.titleJa;
+        : (isJa ? obj.ja : obj.en) || obj.ja || obj.en || fallback;
+  const duration = isJa ? route.durationJa : route.durationEn;
+  const routeTitle = isJa ? route.titleJa : route.titleEn;
 
   return (
     <article
@@ -34,7 +35,7 @@ const EmakiHubRouteCard = ({ route, t, locale, onViewOnMap }) => {
         <div>
           <h3 className={styles.routeTitle}>{routeTitle}</h3>
           <p className={styles.routeTitleEn}>
-            {locale === "en" ? route.titleJa : route.titleEn}
+            {isJa ? route.titleEn : route.titleJa}
           </p>
         </div>
         <span className={styles.routeDuration}>
@@ -44,7 +45,7 @@ const EmakiHubRouteCard = ({ route, t, locale, onViewOnMap }) => {
       </div>
 
       <p className={styles.routeSummary}>
-        {l(route.summary, locale === "en" ? route.summaryEn : route.summaryJa)}
+        {l(route.summary, isJa ? route.summaryJa : route.summaryEn)}
       </p>
 
       <ol className={styles.routeStops}>
@@ -72,7 +73,7 @@ const EmakiHubRouteCard = ({ route, t, locale, onViewOnMap }) => {
                 </span>
               </div>
               <p className={styles.routeStopNote}>
-                {l(stop.note, locale === "en" ? stop.noteEn : stop.noteJa)}
+                {l(stop.note, isJa ? stop.noteJa : stop.noteEn)}
               </p>
               {stop.titleen && stop.spotId && (
                 <Link
@@ -82,7 +83,7 @@ const EmakiHubRouteCard = ({ route, t, locale, onViewOnMap }) => {
                     className={styles.routeStopEmakiLink}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    {locale === "en" ? "View in emaki ↗" : "絵巻で見る ↗"}
+                    {isJa ? "絵巻で見る ↗" : "View in emaki ↗"}
                   </a>
                 </Link>
               )}

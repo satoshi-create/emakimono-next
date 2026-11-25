@@ -7,6 +7,7 @@
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/SpotPins.module.css";
 import { useRouter } from "next/router";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import SceneLikeButton from "@/components/emaki/viewer/SceneLikeButton";
 import { BYOBU_SPOT_LIKE_INDEX_OFFSET } from "@/components/emaki/commentary/useByobuSpotCommentary";
 import {
@@ -85,6 +86,7 @@ const SpotPins = ({
   const { handleToId, chapterToggle } = useContext(AppContext);
   const router = useRouter();
   const { locale } = router;
+  const isJa = locale === "ja";
 
   const resolveSlug = useCallback(() => {
     if (slugOverride) return slugOverride;
@@ -167,7 +169,7 @@ const SpotPins = ({
 
   // 3. 計算（Pure Logic）
   const spotLabel = useCallback(
-    (spot) => (locale === "en" && spot.nameen ? spot.nameen : spot.name),
+    (spot) => getLocalizedField(spot, "name", locale),
     [locale],
   );
 
@@ -364,11 +366,7 @@ const SpotPins = ({
                     <SceneLikeButton
                       titleen={emakiId}
                       title={emakiTitle}
-                      chapter={
-                        locale === "en"
-                          ? spot.nameen || spot.name
-                          : spot.name
-                      }
+                      chapter={getLocalizedField(spot, "name", locale)}
                       index={spotLikeIndexById[String(spot.id)]}
                       variant="bar"
                     />

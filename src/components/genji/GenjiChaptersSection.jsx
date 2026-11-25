@@ -21,7 +21,7 @@ const filterBtnBase = {
 export default function GenjiChaptersSection({ chapters = [] }) {
   const { t } = useTranslation("common");
   const { locale } = useRouter();
-  const isEn = locale === "en";
+  const isJa = locale === "ja";
   const [onlyWithScroll, setOnlyWithScroll] = useState(true);
   const scrollChaptersCount = chapters.filter((c) => c.hasScroll).length;
   const visibleChapters = onlyWithScroll
@@ -32,7 +32,7 @@ export default function GenjiChaptersSection({ chapters = [] }) {
     <section className={`section-grid section-padding ${styles.chapterSection}`}>
       <Title
         sectiontitle={
-          isEn
+          !isJa
             ? t("genjiHub.chapterSectionTitleEn", {
                 defaultValue: "The Tale of Genji: 54 Chapters",
               })
@@ -66,7 +66,7 @@ export default function GenjiChaptersSection({ chapters = [] }) {
         >
           {t("genjiHub.filterChaptersWithScroll", {
             count: scrollChaptersCount,
-            defaultValue: isEn
+            defaultValue: !isJa
               ? `Chapters with scrolls (${scrollChaptersCount})`
               : `絵巻のある帖のみ（${scrollChaptersCount}）`,
           })}
@@ -88,7 +88,7 @@ export default function GenjiChaptersSection({ chapters = [] }) {
         >
           {t("genjiHub.filterChaptersAll", {
             count: chapters.length,
-            defaultValue: isEn
+            defaultValue: !isJa
               ? `All chapters (${chapters.length})`
               : `すべて（${chapters.length}帖）`,
           })}
@@ -97,7 +97,7 @@ export default function GenjiChaptersSection({ chapters = [] }) {
       {visibleChapters.length === 0 ? (
         <p className={styles.chapterEmpty}>
           {t("genjiHub.noResult", {
-            defaultValue: isEn
+            defaultValue: !isJa
               ? "No chapters match your search."
               : "該当する帖がありません。",
           })}
@@ -116,7 +116,7 @@ export default function GenjiChaptersSection({ chapters = [] }) {
                         <Image
                           className={styles.chapterThumb}
                           src={thumbSrc}
-                          alt={isEn ? chapter.titleen : chapter.title}
+                          alt={!isJa ? chapter.titleen : chapter.title}
                           layout="fill"
                           sizes="(max-width: 768px) 100vw, 25vw"
                         />
@@ -125,19 +125,19 @@ export default function GenjiChaptersSection({ chapters = [] }) {
                     <span className={styles.chapterCardBody}>
                       <span
                         className={`${styles.chapterNumberBadge} ${
-                          isEn ? styles.chapterNumberBadgeEn : ""
+                          !isJa ? styles.chapterNumberBadgeEn : ""
                         }`}
                       >
-                        {isEn
+                        {!isJa
                           ? `Chapter ${chapter.chapter_en}`
                           : `第${chapter.chapter_ch}帖`}
                       </span>
                       <h2 className={styles.chapterTitle}>
-                        {isEn ? chapter.titleen : chapter.title}
+                        {!isJa ? chapter.titleen : chapter.title}
                       </h2>
                       <span className={styles.chapterRuby}>{chapter.ruby}</span>
                       <span className={styles.chapterDesc}>
-                        {(isEn ? chapter.descen : chapter.summary) ?? ""}
+                        {(!isJa ? chapter.descen : chapter.summary) ?? ""}
                       </span>
                       <span
                         className={
@@ -148,12 +148,12 @@ export default function GenjiChaptersSection({ chapters = [] }) {
                       >
                         {chapter.hasScroll
                           ? t("genjiHub.scrollAvailable", {
-                              defaultValue: isEn
+                              defaultValue: !isJa
                                 ? `${chapter.scrollTitleens.length} scroll(s)`
                                 : `絵巻 ${chapter.scrollTitleens.length} 件`,
                             })
                           : t("genjiHub.scrollNone", {
-                              defaultValue: isEn ? "No scroll" : "絵巻なし",
+                              defaultValue: !isJa ? "No scroll" : "絵巻なし",
                             })}
                       </span>
                     </span>

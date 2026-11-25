@@ -10,9 +10,9 @@ import {
   ja as jaTimelineSimple,
 } from "@/data/chronology/emakiTimelineSimple";
 import {
-  default as enData,
-  default as jaData,
-} from "@/data/scroll-metadata";
+  buildI18nStaticPaths,
+  resolveEmakiCatalog,
+} from "@/utils/i18nStaticPaths";
 import { eraItem, removeNestedEmakisObj } from "@/utils/func";
 import { getLiveSlugs } from "@/utils/getLiveSlugs";
 import { useRouter } from "next/router";
@@ -22,22 +22,23 @@ import { useTranslation } from "next-i18next";
 const Emaki = ({ name, nameen, posts, slug, liveSlugs, timelineEraName }) => {
   const { locale } = useRouter();
   const { t } = useTranslation("common");
+  const isJa = locale === "ja";
   const tPageDesc =
-    locale === "en"
+    !isJa
       ? `You can enjoy all the scenes of the ${nameen} Period in vertical and right to left scrolling mode.`
       : `${name}時代に描かれた絵巻物を、縦書き、横スクロールで楽しむことができます。`;
   return (
     <>
       <Head
         pagetitle={
-          locale === "en"
+          !isJa
             ? `Picture scrolls from the ${nameen} Period`
             : `${name}時代の作品`
         }
         pageDesc={tPageDesc}
       />
       <Header slug={`era/${slug}`} />
-      <Breadcrumbs name={locale === "en" ? `${nameen} Period` : name} />
+      <Breadcrumbs name={!isJa ? `${nameen} Period` : name} />
       <section className="section-grid section-padding">
         <Title
           sectiontitle={t("timeline.embedEraTitle", { era: timelineEraName })}
@@ -50,12 +51,12 @@ const Emaki = ({ name, nameen, posts, slug, liveSlugs, timelineEraName }) => {
         sectionname={"recommend"}
         pagetitle={name}
         sectiontitle={
-          locale === "en"
+          !isJa
             ? `Picture scrolls from the ${nameen} Period`
             : `${name}時代の作品`
         }
         sectiontitleen={
-          locale === "en"
+          !isJa
             ? `${name}時代の作品`
             : `Picture scrolls from the ${nameen} Period`
         }
@@ -68,8 +69,7 @@ const Emaki = ({ name, nameen, posts, slug, liveSlugs, timelineEraName }) => {
 export default Emaki;
 
 export const getStaticPaths = async (context) => {
-  const { locale, locales } = context;
-  const tEmakisData = locale === "en" ? enData : jaData;
+  const tEmakisData = resolveEmakiCatalog(context.locale);
   const slugs = [
     ...new Set(
       eraItem(tEmakisData)
@@ -79,20 +79,18 @@ export const getStaticPaths = async (context) => {
         )
     ),
   ];
-  const paths = slugs.flatMap((slug) => [
-    { params: { slug }, locale: "ja" },
-    { params: { slug }, locale: "en" },
-  ]);
+  const paths = buildI18nStaticPaths(slugs, context.locales);
   return {
-    paths: paths,
+    paths,
     fallback: false,
   };
 };
 
 export const getStaticProps = async (context) => {
   const eraslug = context.params.slug;
-  const { locale, locales } = context;
-  const tEmakisData = locale === "en" ? enData : jaData;
+  const { locale } = context;
+  const isJa = locale === "ja";
+  const tEmakisData = resolveEmakiCatalog(locale);
 
   const eraObj = eraItem(tEmakisData).find(({ eraen }) => eraen === eraslug);
   const removeNestedArrayObj = tEmakisData.map((item) => {
@@ -111,7 +109,7 @@ export const getStaticProps = async (context) => {
       slug: eraslug,
       liveSlugs: getLiveSlugs(tEmakisData),
       timelineEraName:
-        (locale === "en" ? enTimelineSimple : jaTimelineSimple).find(
+        (isJa ? jaTimelineSimple : enTimelineSimple).find(
           (era) => era.eraen === eraslug
         )?.era || eraObj.era,
     },

@@ -3,6 +3,7 @@ import Title from "@/components/ui/Title";
 import { filterEmakisForHub, getAllHubPages } from "@/libs/hubPages";
 import styles from "@/styles/CardA.module.css";
 import emakiStyles from "@/styles/Emakis.module.css";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -19,7 +20,7 @@ const CardA = ({
   variant,
 }) => {
   const { locale } = useRouter();
-  const isEn = locale === "en";
+  const isJa = locale === "ja";
   const [viewMode, setViewMode] = useState("card");
   const [selectedHubSlug, setSelectedHubSlug] = useState("all");
   const showToggle = columns !== "searchbox";
@@ -53,7 +54,7 @@ const CardA = ({
           <div
             className={emakiStyles.viewToggle}
             role="tablist"
-            aria-label={isEn ? "View mode" : "表示切替"}
+            aria-label={!isJa ? "View mode" : "表示切替"}
           >
             <button
               type="button"
@@ -64,7 +65,7 @@ const CardA = ({
               }`}
               onClick={() => setViewMode("card")}
             >
-              {isEn ? "Cards" : "カード"}
+              {!isJa ? "Cards" : "カード"}
             </button>
             <button
               type="button"
@@ -75,7 +76,7 @@ const CardA = ({
               }`}
               onClick={() => setViewMode("list")}
             >
-              {isEn ? "List" : "リスト"}
+              {!isJa ? "List" : "リスト"}
             </button>
           </div>
         )}
@@ -84,7 +85,11 @@ const CardA = ({
       {hubFilterOptions.length > 0 && (
         <div
           role="group"
-          aria-label={isEn ? "Filter by Polaroid Board theme" : "ボード貼り付け候補テーマで絞り込み"}
+          aria-label={
+            !isJa
+              ? "Filter by Polaroid Board theme"
+              : "ボード貼り付け候補テーマで絞り込み"
+          }
           style={{
             display: "flex",
             flexWrap: "wrap",
@@ -109,7 +114,7 @@ const CardA = ({
             }}
           >
             <span aria-hidden="true">📷</span>
-            <span>{isEn ? "Board Pin Candidates:" : "ボード貼り付け候補:"}</span>
+            <span>{!isJa ? "Board Pin Candidates:" : "ボード貼り付け候補:"}</span>
           </span>
           <button
             type="button"
@@ -125,7 +130,7 @@ const CardA = ({
               cursor: "pointer",
             }}
           >
-            {isEn ? `All (${emakis.length})` : `すべて (${emakis.length})`}
+            {!isJa ? `All (${emakis.length})` : `すべて (${emakis.length})`}
           </button>
           {hubFilterOptions.map(({ hub, count }) => {
             const active = selectedHubSlug === hub.slug;
@@ -145,7 +150,11 @@ const CardA = ({
                   cursor: "pointer",
                 }}
               >
-                {isEn ? `${hub.titleEn || hub.titleJa} (${count})` : `${hub.titleJa || hub.titleEn} (${count})`}
+                {`${getLocalizedField(
+                  { title: hub.titleJa, title_en: hub.titleEn },
+                  "title",
+                  locale
+                )} (${count})`}
               </button>
             );
           })}
@@ -169,14 +178,16 @@ const CardA = ({
             );
           }
 
-          const title = locale === "en" ? item.titleen : item.title;
-          const author = locale === "en" ? item.authoren : item.author;
-          const era = locale === "en" ? item.eraen || item.era : item.era;
-          const typeLabel =
-            locale === "en"
-              ? item.typeen || item.type || "Emaki"
-              : item.type || "絵巻";
-          const keywords = locale === "en" ? item.keyworden : item.keyword;
+          const title = getLocalizedField(item, "title", locale, item.titleen);
+          const author = getLocalizedField(item, "author", locale);
+          const era = getLocalizedField(item, "era", locale);
+          const typeLabel = getLocalizedField(
+            item,
+            "type",
+            locale,
+            isJa ? "絵巻" : "Emaki"
+          );
+          const keywords = getLocalizedField(item, "keyword", locale);
           const keywordList = Array.isArray(keywords)
             ? keywords
             : keywords

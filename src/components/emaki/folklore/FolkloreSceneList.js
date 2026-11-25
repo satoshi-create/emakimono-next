@@ -5,6 +5,7 @@
 import styles from "@/styles/FolkloreSceneList.module.css";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import { useEffect, useMemo, useState } from "react";
 
 const SCROLL_THUMB_FALLBACK = {
@@ -72,7 +73,6 @@ const FolkloreSceneList = ({
 }) => {
   const { t } = useTranslation("common");
   const { locale } = useRouter();
-  const isEn = locale === "en";
 
   if (!items.length) return null;
 
@@ -87,12 +87,9 @@ const FolkloreSceneList = ({
       onTouchStart={bump}
     >
       {items.map((item) => {
-        const displayName =
-          isEn && item.name_en ? item.name_en : item.name;
-        const displayActLabel =
-          isEn && item.act_label_en ? item.act_label_en : item.act_label;
-        const displaySummary =
-          isEn && item.summary_en ? item.summary_en : item.summary;
+        const displayName = getLocalizedField(item, "name", locale);
+        const displayActLabel = getLocalizedField(item, "act_label", locale);
+        const displaySummary = getLocalizedField(item, "summary", locale);
 
         return (
           <button

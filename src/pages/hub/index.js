@@ -8,21 +8,36 @@ import emakisData from "@/data/scroll-metadata";
 import { useLocaleMeta } from "@/hooks/useLocale";
 import { buildLocaleUrl, SITE_ORIGIN } from "@/libs/constants/dataSiteMeta";
 import { filterEmakisForHub, getAllHubPages } from "@/libs/hubPages";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
+
+function hubTitleFields(hub) {
+  return {
+    title: hub.titleJa,
+    titleen: hub.titleEn,
+  };
+}
+
+function hubDescriptionFields(hub) {
+  return {
+    description: hub.descriptionJa,
+    descriptionen: hub.descriptionEn,
+  };
+}
 
 function buildHubIndexJsonLd({ locale, defaultLocale, meta, hubs }) {
-  const isEn = locale === "en";
-  const pageTitle = isEn
-    ? "Curated Themes & Hub Directory"
-    : "テーマ・特集ハブ一覧";
-  const pageDesc = isEn
-    ? "Explore curated themes and special collections of Japanese picture scrolls and folding screens."
-    : "鳥獣戯画・九相図・百鬼夜行・洛中洛外図など、テーマ別の特集ハブ一覧から絵巻物・屏風を鑑賞できます。";
+  const isJa = locale === "ja";
+  const pageTitle = isJa
+    ? "テーマ・特集ハブ一覧"
+    : "Curated Themes & Hub Directory";
+  const pageDesc = isJa
+    ? "鳥獣戯画・九相図・百鬼夜行・洛中洛外図など、テーマ別の特集ハブ一覧から絵巻物・屏風を鑑賞できます。"
+    : "Explore curated themes and special collections of Japanese picture scrolls and folding screens.";
   const pageUrl = buildLocaleUrl(locale, "/hub", defaultLocale);
 
   const itemListElement = hubs.map((hub, index) => ({
     "@type": "ListItem",
     position: index + 1,
-    name: isEn ? hub.titleEn || hub.titleJa : hub.titleJa,
+    name: getLocalizedField(hubTitleFields(hub), "title", locale, hub.titleJa),
     url: buildLocaleUrl(locale, hub.path, defaultLocale),
   }));
 
@@ -69,14 +84,14 @@ function buildHubIndexJsonLd({ locale, defaultLocale, meta, hubs }) {
 export default function HubIndexPage({ hubs }) {
   const { locale, defaultLocale } = useRouter();
   const { t: meta } = useLocaleMeta();
-  const isEn = locale === "en";
+  const isJa = locale === "ja";
 
-  const pageTitle = isEn
-    ? "Curated Themes & Hub Directory"
-    : "テーマ・特集ハブ一覧";
-  const pageDesc = isEn
-    ? "Explore curated themes and special collections of Japanese picture scrolls and folding screens."
-    : "鳥獣戯画・九相図・百鬼夜行・洛中洛外図・源氏物語など、テーマごとの特集一覧ページから作品を比較・鑑賞できます。";
+  const pageTitle = isJa
+    ? "テーマ・特集ハブ一覧"
+    : "Curated Themes & Hub Directory";
+  const pageDesc = isJa
+    ? "鳥獣戯画・九相図・百鬼夜行・洛中洛外図・源氏物語など、テーマごとの特集一覧ページから作品を比較・鑑賞できます。"
+    : "Explore curated themes and special collections of Japanese picture scrolls and folding screens.";
 
   const jsonLd = buildHubIndexJsonLd({
     locale,
@@ -107,7 +122,7 @@ export default function HubIndexPage({ hubs }) {
           marginBottom: 10,
         }}
       >
-        {isEn ? "CURATED THEMES" : "テーマ別特集"}
+        {isJa ? "テーマ別特集" : "CURATED THEMES"}
       </div>
       <h1
         style={{
@@ -149,10 +164,18 @@ export default function HubIndexPage({ hubs }) {
         }}
       >
         {hubs.map((hub) => {
-          const title = isEn ? hub.titleEn || hub.titleJa : hub.titleJa;
-          const desc = isEn
-            ? hub.descriptionEn || hub.descriptionJa
-            : hub.descriptionJa;
+          const title = getLocalizedField(
+            hubTitleFields(hub),
+            "title",
+            locale,
+            hub.titleJa
+          );
+          const desc = getLocalizedField(
+            hubDescriptionFields(hub),
+            "description",
+            locale,
+            hub.descriptionJa
+          );
 
           return (
             <Link href={hub.path} key={hub.slug} locale={locale} passHref>
@@ -218,9 +241,9 @@ export default function HubIndexPage({ hubs }) {
                         borderRadius: 999,
                       }}
                     >
-                      {isEn
-                        ? `${hub.workCount} works`
-                        : `${hub.workCount}作品収録`}
+                      {isJa
+                        ? `${hub.workCount}作品収録`
+                        : `${hub.workCount} works`}
                     </span>
                   )}
                 </div>
@@ -264,7 +287,7 @@ export default function HubIndexPage({ hubs }) {
                           whiteSpace: "nowrap",
                         }}
                       >
-                        {isEn ? "New" : "新着"}
+                        {isJa ? "新着" : "New"}
                       </span>
                     )}
                   </div>
@@ -299,7 +322,7 @@ export default function HubIndexPage({ hubs }) {
                     }}
                   >
                     <span>
-                      {isEn ? "Explore theme →" : "特集ページを見る →"}
+                      {isJa ? "特集ページを見る →" : "Explore theme →"}
                     </span>
                     {hub.linkedBoardId && (
                       <span

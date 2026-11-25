@@ -25,6 +25,7 @@ const EndNudgeCard = ({
 }) => {
   const { t } = useTranslation("common");
   const { locale } = useRouter();
+  const isJa = locale === "ja";
 
   return (
     <div
@@ -138,9 +139,9 @@ const EndNudgeCard = ({
                   flex: 1,
                 }}
               >
-                {locale === "en"
-                  ? emakiDisplayTitle(item, locale)
-                  : item.edition || item.title}
+                {isJa
+                  ? item.edition || item.title
+                  : emakiDisplayTitle(item, locale)}
               </span>
             </a>
           </Link>

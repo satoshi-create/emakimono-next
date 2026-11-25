@@ -6,9 +6,11 @@ import { eraColor } from "@/utils/func";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 
 const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
   const { locale } = useRouter();
+  const isJa = locale === "ja";
 
   return (
     <section
@@ -17,7 +19,7 @@ const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
     >
       <ClassicalFontLink />
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
-      <div className={`${styles.tags} ${locale === "ja" && styles.jatags}`}>
+      <div className={`${styles.tags} ${isJa && styles.jatags}`}>
         {allTags.map((item, index) => {
           const { name, id, slug, total, ruby, era, eraen, portrait } = item;
           const eraColorValue = eraColor(era);
@@ -51,15 +53,15 @@ const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
                   )}
                 </span>
                 <p className={styles.name}>
-                  {locale === "en" ? id : name}
+                  {getLocalizedField({ name, nameen: id }, "name", locale)}
                   <span className={styles.totalcount}>{`(${total})`}</span>
                 </p>
-                {locale === "ja" && ruby && (
-                  <p className={styles.ruby}>{ruby}</p>
-                )}
+                {isJa && ruby && <p className={styles.ruby}>{ruby}</p>}
                 {era && (
                   <p className={styles.era}>
-                    {locale === "en" ? `${eraen} period` : `${era}時代`}
+                    {isJa
+                      ? `${era}時代`
+                      : `${getLocalizedField({ era, eraen }, "era", locale)} period`}
                   </p>
                 )}
               </a>
@@ -70,9 +72,7 @@ const PersonNames = ({ sectiontitle, sectiontitleen, path, allTags, bcg }) => {
       {path && (
         <Button
           title={
-            locale === "en"
-              ? "View a list of personnames !!"
-              : "人物名一覧を見る"
+            isJa ? "人物名一覧を見る" : "View a list of personnames !!"
           }
           path={path}
           style={"tag"}

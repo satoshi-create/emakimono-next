@@ -18,25 +18,25 @@ export const HUB_PATH = "/hub/genji-world";
 const GenjiHubLink = ({ genjieslug, variant = "tag", linkClassName }) => {
   const { t } = useTranslation("common");
   const { locale } = useRouter();
-  const isEn = locale === "en";
+  const isJa = locale === "ja";
   const href = genjieslug ? `/genji/${genjieslug}` : HUB_PATH;
 
   const label = t("genjiHub.linkLabel", {
-    defaultValue: isEn
+    defaultValue: !isJa
       ? "View the Tale of Genji hub"
       : "源氏物語 54帖ハブを見る",
   });
   // 帖ガイド（コメンタリーバー内のピルリンク）: ラベルと遷移先を明示する
   const guideLabel = t("genjiHub.chapterGuide", {
-    defaultValue: isEn ? "Chapter guide" : "帖ガイド",
+    defaultValue: !isJa ? "Chapter guide" : "帖ガイド",
   });
   const guideTitle = t("genjiHub.chapterGuideTitle", {
-    defaultValue: isEn
+    defaultValue: !isJa
       ? "Full synopsis and notes for this chapter"
       : "帖の全体あらすじ・解説",
   });
   const desc = t("genjiHub.linkDesc", {
-    defaultValue: isEn
+    defaultValue: !isJa
       ? "Browse all 54 chapters and their illustrated scrolls."
       : "源氏物語54帖と絵巻を横断して鑑賞できます。",
   });

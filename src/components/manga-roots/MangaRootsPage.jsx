@@ -67,6 +67,7 @@ export const MangaRootsNetworkSection = ({ graph, t }) => {
 
 export const MangaRootsMap = ({ spots, t }) => {
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   return (
     <div className={`section-grid section-padding ${styles.section}`}>
       <h2 className={styles.sectionTitle}>{t("mangaRoots.mapTitle")}</h2>
@@ -75,10 +76,10 @@ export const MangaRootsMap = ({ spots, t }) => {
         {spots.map((spot) => (
           <li key={spot.nameEn} className={styles.spotItem}>
             <span className={styles.spotName}>
-              {locale === "en" ? spot.nameEn : spot.nameJa}
+              {isJa ? spot.nameJa : spot.nameEn}
             </span>
             <span className={styles.spotAlt}>
-              {locale === "en" ? spot.nameJa : spot.nameEn}
+              {isJa ? spot.nameEn : spot.nameJa}
             </span>
           </li>
         ))}

@@ -119,12 +119,13 @@ const Timeline = ({ rows, simpleRows, liveSlugs }) => {
 export default Timeline;
 
 export const getStaticProps = async ({ locale }) => {
+  const isJa = locale === "ja";
   // en の本文は未翻訳のため ja にフォールバック（ja/en 同時公開を維持）
-  const source = locale === "en" ? enTimeline : jaTimeline;
+  const source = isJa ? jaTimeline : enTimeline;
   const rows = source.length ? source : jaTimeline;
 
   // 簡易版は ja/en 両方を手動管理（en があれば使用、なければ ja フォールバック）
-  const sourceSimple = locale === "en" ? enTimelineSimple : jaTimelineSimple;
+  const sourceSimple = isJa ? jaTimelineSimple : enTimelineSimple;
   const simpleRows = sourceSimple.length ? sourceSimple : jaTimelineSimple;
 
   // ビューア公開中（withdrawn 除外）の titleen 集合。未公開作品は「準備中」表示にする

@@ -46,7 +46,8 @@ const QuizResult = ({
 }) => {
   const { t } = useTranslation("common");
   const { locale } = useRouter();
-  const isEn = locale === "en";
+  const isJa = locale === "ja";
+  const isEn = !isJa;
   const [copied, setCopied] = useState(false);
 
   const handleShareChallenge = async () => {

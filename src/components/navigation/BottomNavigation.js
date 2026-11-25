@@ -8,10 +8,12 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import { FaCrown, FaHome, FaScroll, FaSearch } from "react-icons/fa";
 
 const BottomNavigation = () => {
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   const [activeMenu, setActiveMenu] = useState(null);
   const { stickyClass, openSearchModalOpen, closeSearchModal, toggleFullscreen } =
     useContext(AppContext);
@@ -106,7 +108,7 @@ const BottomNavigation = () => {
                 color={activeMenu === label ? activeColor : iconColor}
                 // mt="1"
               >
-                {locale == "en" ? labelen : label}
+                {getLocalizedField(item, "label", locale)}
               </Text>
             </Flex>
           );
@@ -131,7 +133,7 @@ const BottomNavigation = () => {
             color={activeMenu === "検索" ? activeColor : iconColor}
             // mt="1"
           >
-            {locale == "en" ? "Search" : "検索"}
+            {isJa ? "検索" : "Search"}
           </Text>
         </Flex>
       </Flex>

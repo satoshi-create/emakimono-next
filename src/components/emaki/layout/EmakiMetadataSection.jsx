@@ -28,6 +28,7 @@ import { LinkedPublicBoards } from "@/components/hub/LinkedPublicBoards";
 import { fetchPublicBoards } from "@/libs/api/ugcApi";
 import { getHubSlugsForEmaki } from "@/libs/hubPages";
 import { filterBoardsForHubSlug } from "@/libs/hubPublicBoards";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 
 const EmakiMetadataSection = ({
   data,
@@ -39,6 +40,7 @@ const EmakiMetadataSection = ({
   tagCloud = null,
 }) => {
   const { t } = useTranslation("common");
+  const isJa = locale === "ja";
   const {
     type,
     typeen,
@@ -103,7 +105,7 @@ const EmakiMetadataSection = ({
           "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
         }}
       >
-        {locale == "en" ? "Introduction to Emaki" : "絵巻の紹介"}
+        {isJa ? "絵巻の紹介" : "Introduction to Emaki"}
       </h4>
       <div className={styles.desc}>{descContent}</div>
       {/*カテゴリー・時代タグ（紹介文の直後に置く）*/}
@@ -119,11 +121,11 @@ const EmakiMetadataSection = ({
                 : {}),
             }}
           >
-            {locale === "en" ? `${eraen} period` : `${era}`}
+            {isJa ? `${getLocalizedField(data, "era", locale)}` : `${getLocalizedField(data, "era", locale)} period`}
           </a>
         </Link>
         <Link href={`/type/${typeen}`} className={styles.type}>
-          <a>{locale === "en" ? typeen : type}</a>
+          <a>{getLocalizedField(data, "type", locale)}</a>
         </Link>
       </div>
       <span
@@ -150,15 +152,9 @@ const EmakiMetadataSection = ({
         <LinkedPublicBoards
           boards={relatedBoards}
           locale={locale}
-          title={
-            locale === "en"
-              ? "Related Polaroid Public Boards"
-              : "関連する公開ボード"
-          }
+          title={isJa ? "関連する公開ボード" : "Related Polaroid Public Boards"}
           ariaLabel={
-            locale === "en"
-              ? "Related public boards list"
-              : "関連する公開ボード一覧"
+            isJa ? "関連する公開ボード一覧" : "Related public boards list"
           }
         />
       )}
@@ -167,7 +163,7 @@ const EmakiMetadataSection = ({
       {/*メタ情報（出典・参考文献は折りたたみ表示）*/}
       <details className={styles.authority}>
         <summary className={styles.authoritySummary}>
-          {locale === "en" ? "Source & References" : "出典・参考文献"}
+          {isJa ? "出典・参考文献" : "Source & References"}
         </summary>
         <SourceAttribution
           sourceImageUrl={sourceImageUrl}
@@ -183,7 +179,7 @@ const EmakiMetadataSection = ({
         {reference?.length > 0 && (
           <>
             <p className={styles.refLabel}>
-              {locale === "en" ? "References" : "参考文献"}
+              {isJa ? "参考文献" : "References"}
             </p>
             <ul>
               {reference.map((item, i) => {

@@ -1,11 +1,12 @@
 import styles from "@/styles/Breadcrumbs.module.css";
 import { getHubBySlug } from "@/libs/hubPages";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 const Breadcrumbs = ({ name, test, testen, items }) => {
   const { locale, asPath } = useRouter();
-  const isEn = locale === "en";
+  const isJa = locale === "ja";
   const cleanPath = (asPath || "").split(/[?#]/)[0];
 
   let resolvedTrails = [];
@@ -20,11 +21,15 @@ const Breadcrumbs = ({ name, test, testen, items }) => {
     if (genjiHub) {
       resolvedTrails = [
         {
-          label: isEn ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
+          label: isJa ? "テーマ・特集ハブ一覧" : "Curated Themes & Hub Directory",
           href: "/hub",
         },
         {
-          label: isEn ? genjiHub.titleEn : genjiHub.titleJa,
+          label: getLocalizedField(
+            { title: genjiHub.titleJa, titleen: genjiHub.titleEn },
+            "title",
+            locale
+          ),
           href: genjiHub.path || "/hub/genji-world",
         },
       ];
@@ -34,11 +39,15 @@ const Breadcrumbs = ({ name, test, testen, items }) => {
     if (kusouzuHub) {
       resolvedTrails = [
         {
-          label: isEn ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
+          label: isJa ? "テーマ・特集ハブ一覧" : "Curated Themes & Hub Directory",
           href: "/hub",
         },
         {
-          label: isEn ? kusouzuHub.titleEn : kusouzuHub.titleJa,
+          label: getLocalizedField(
+            { title: kusouzuHub.titleJa, titleen: kusouzuHub.titleEn },
+            "title",
+            locale
+          ),
           href: kusouzuHub.path || "/hub/kusouzu",
         },
       ];

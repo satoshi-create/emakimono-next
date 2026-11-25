@@ -10,12 +10,13 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Custom404 = () => {
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   return (
     <>
       <Head noindex />
       <Header fixed={true} />
       <Breadcrumbs
-        name={locale === "en" ? "PAGE NOT FOUND" : "ページが見つかりません"}
+        name={isJa ? "ページが見つかりません" : "PAGE NOT FOUND"}
       />
       <section className="section-grid section-padding">
         <Title

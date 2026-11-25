@@ -5,10 +5,6 @@ const FALLBACK_UNTITLED = {
   ja: "みんなのポラロイドボードを見る・貼る",
 };
 
-function isEnLocale(locale) {
-  return locale === "en" || locale === "en-US";
-}
-
 function formatItemCount(count, itemCountLabel, en) {
   if (typeof itemCountLabel === "function") {
     return itemCountLabel(count);
@@ -74,11 +70,12 @@ export function LinkedPublicBoards({
     return null;
   }
 
-  const en = isEnLocale(locale);
+  const isJa = locale === "ja";
+  const en = !isJa;
   const navLabel =
     ariaLabel ||
     title ||
-    (en ? "Linked public polaroid boards" : "公開ポラロイドボードへのリンク");
+    (isJa ? "公開ポラロイドボードへのリンク" : "Linked public polaroid boards");
 
   return (
     <nav aria-label={navLabel} className={className} style={wrapStyle}>

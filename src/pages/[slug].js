@@ -13,10 +13,11 @@ import { SceneLikeCountsProvider } from "@/context/SceneLikeCountsContext";
 import { connectGenjiChapterFallback } from "@/utils/connectEmakiText";
 import { buildEmakiJsonLd } from "@/utils/buildEmakiJsonLd";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
+import { buildI18nStaticPaths } from "@/utils/i18nStaticPaths";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
 import { isHyakkiClusterScroll } from "@/utils/buildHyakkiHubData";
 import { isRakuchuRakugaiClusterScroll } from "@/utils/buildRakuchuRakugaiHubData";
-import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
+import { emakiDisplayTitle, getLocalizedField } from "@/utils/emakiDisplayTitle";
 import { getFolkloreItemById } from "@/data/folklore/folkloreIndex";
 import { useLocaleMeta } from "@/utils/func";
 import { resolveLinkIdByChapter } from "@/utils/resolveQuizJump";
@@ -110,30 +111,32 @@ const Emaki = ({ data, locale, locales, slug }) => {
     return null;
   }
 
+  const isJa = locale === "ja";
+
   // 九相図クラスタ SEO: 代表巻・檀林皇后版は SERP 向け title/desc を個別最適化。
   // H1（data.title）は変えない。
   let pagetitle;
   if (data.titleen === "kusouzumaki") {
     pagetitle =
-      locale === "en"
+      !isJa
         ? "Kusōzu-maki (Nine Stages of Decay) — Scene List & Interactive Scroll"
         : "九相図巻｜九相図とは・一覧・順番を横スクロールで鑑賞";
   } else if (data.titleen === "nine-stages-of-decay-empress-danrin") {
     pagetitle =
-      locale === "en"
+      !isJa
         ? "Nine Stages of Decay of Empress Danrin — Interactive High-Res Emakimono Scroll"
         : `${data.title ?? ""}${data.edition ? ` ${data.edition}` : ""}`.trim();
   } else {
     pagetitle =
-      locale === "en"
+      !isJa
         ? emakiDisplayTitle(data, locale)
         : `${data.title ?? ""}${data.edition ? ` ${data.edition}` : ""}`.trim();
   }
 
-  const pageAuthor = locale === "en" ? data.authoren : data.author;
+  const pageAuthor = getLocalizedField(data, "author", locale);
 
   const tPageDesc =
-    locale === "en"
+    !isJa
       ? `You can enjoy all the scenes of the ${pagetitle} ${
           pageAuthor && `（${pageAuthor}）`
         }in vertical and right to left scrolling mode.`
@@ -141,7 +144,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
           pageAuthor && `（${pageAuthor}）`
         }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
 
-  const pageDesc = locale === "en" ? data.descen : data.desc;
+  const pageDesc = getLocalizedField(data, "desc", locale);
 
   let pageDescTemp = pageDesc ? pageDesc : tPageDesc;
   if (data.titleen === "kusouzumaki") {
@@ -155,7 +158,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
     }
   } else if (
     data.titleen === "nine-stages-of-decay-empress-danrin" &&
-    locale === "en"
+    !isJa
   ) {
     pageDescTemp =
       "Nine Stages of Decay (9 stages of decay) of Empress Danrin — an interactive high-res emakimono scroll from the Honolulu Museum of Art. Unroll every surviving stage right to left.";
@@ -175,7 +178,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
     image: ogImage,
     creatorName: pageAuthor,
     siteTitle: t.siteTitle,
-    typeName: locale === "en" ? data.typeen : data.type,
+    typeName: getLocalizedField(data, "type", locale),
     typeSlug: data.typeen,
   });
 
@@ -211,7 +214,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
         nameB: displayTitle,
       }
     : {
-        nameA: locale === "en" ? data.typeen : data.type,
+        nameA: getLocalizedField(data, "type", locale),
         nameAen: `type/${data.typeen}`,
         nameB: displayTitle,
       };
@@ -341,17 +344,11 @@ const withGenjiChapterText = (item) => {
   };
 };
 
-export const getStaticPaths = async () => {
-  const activeEmakis = emakisData.filter(
-    (item) => !isWithdrawnScroll(item.titleen)
-  );
-  const paths = activeEmakis.map((item) => ({
-    params: {
-      slug: item.titleen,
-    },
-    locale: "ja",
-  }));
-  paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
+export const getStaticPaths = async (context) => {
+  const activeSlugs = emakisData
+    .filter((item) => !isWithdrawnScroll(item.titleen))
+    .map((item) => item.titleen);
+  const paths = buildI18nStaticPaths(activeSlugs, context?.locales);
   return { paths, fallback: false };
 };
 

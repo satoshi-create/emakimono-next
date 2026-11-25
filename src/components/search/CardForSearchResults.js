@@ -1,5 +1,6 @@
 import { AppContext } from "@/context/AppContext";
 import styles from "@/styles/CardForSearchResults.module.css";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import { eraColor } from "@/utils/func";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,6 +10,7 @@ import { useContext } from "react";
 const CardForSearchResults = ({ emakis, columns, needdesc }) => {
   const { closeSearchModal } = useContext(AppContext);
   const { locale } = useRouter();
+  const isJa = locale === "ja";
 
   return (
     <div className={styles.searchbox}>
@@ -55,7 +57,7 @@ const CardForSearchResults = ({ emakis, columns, needdesc }) => {
               <div className={styles.cat}>
                 <Link href={`/type/${typeen}`}>
                   <a className={styles.type}>
-                    {locale === "en" ? typeen : type}
+                    {getLocalizedField(item, "type", locale)}
                   </a>
                 </Link>
                 <Link href={`/era/${eraen}`}>
@@ -67,18 +69,21 @@ const CardForSearchResults = ({ emakis, columns, needdesc }) => {
                       color: eraColor(era) ? "white" : "black",
                     }}
                   >
-                    {locale === "en" ? `${eraen} period` : `${era}時代`}
+                    {isJa
+                      ? `${getLocalizedField(item, "era", locale)}時代`
+                      : `${getLocalizedField(item, "era", locale)} period`}
                   </a>
                 </Link>
               </div>
               <h3 className={styles.title}>
-                {locale === "ja" ? title : titleen} {locale === "ja" && edition}
+                {getLocalizedField(item, "title", locale)}{" "}
+                {isJa && edition}
               </h3>
               {author ? (
                 <Link href={`/author/${authoren}`}>
                   <a className={styles.authorLink}>
                     <h4 className={styles.author}>
-                      {locale === "ja" ? author : authoren}
+                      {getLocalizedField(item, "author", locale)}
                     </h4>
                   </a>
                 </Link>
@@ -94,9 +99,7 @@ const CardForSearchResults = ({ emakis, columns, needdesc }) => {
                 <Link href={`/${titleen}`}>
                   <a>
                     <button className={styles.viewemakiBtn}>
-                      {locale === "en"
-                        ? "Enjoy by right to left scroll !!"
-                        : "横スクロールで見る"}
+                      {isJa ? "横スクロールで見る" : "Enjoy by right to left scroll !!"}
                     </button>
                   </a>
                 </Link>
@@ -108,7 +111,7 @@ const CardForSearchResults = ({ emakis, columns, needdesc }) => {
                     return (
                       <Link href={`/keyword/${slug}`} key={index}>
                         <a className={styles.keywordLink}>
-                          {locale === "en" ? id : name}
+                          {getLocalizedField({ name, nameen: id }, "name", locale)}
                         </a>
                       </Link>
                     );

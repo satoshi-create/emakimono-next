@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import Image from "next/image";
 import Link from "next/link";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
@@ -44,7 +45,7 @@ const Footer = () => {
               }}
               transition="all 0.2s"
             >
-              {locale === "ja" ? name : nameen}
+              {getLocalizedField(link, "name", locale)}
             </ChakraLink>
           </Link>
         );
@@ -126,8 +127,8 @@ const Footer = () => {
             flexWrap="wrap"
             mb={4}
           >
-            {legalLinks.map(({ path, name, nameen }) => (
-              <Link key={path} href={path} passHref prefetch={false}>
+            {legalLinks.map((link) => (
+              <Link key={link.path} href={link.path} passHref prefetch={false}>
                 <ChakraLink
                   fontSize="sm"
                   color="whiteAlpha.800"
@@ -136,7 +137,7 @@ const Footer = () => {
                   }}
                   transition="all 0.2s"
                 >
-                  {locale === "ja" ? name : nameen}
+                  {getLocalizedField(link, "name", locale)}
                 </ChakraLink>
               </Link>
             ))}

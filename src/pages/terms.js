@@ -9,6 +9,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Terms = () => {
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   const { t } = useTranslation("common");
   const sections = t("terms.sections", { returnObjects: true });
 
@@ -63,7 +64,7 @@ const Terms = () => {
                   rel="noopener noreferrer"
                   className={styles.socialLink}
                 >
-                  {locale === "ja" ? label : labelEn || label}
+                  {isJa ? label : labelEn || label}
                 </a>
               </li>
             ))}

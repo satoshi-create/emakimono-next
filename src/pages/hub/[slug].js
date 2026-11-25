@@ -13,6 +13,8 @@ import {
   getAllHubPages,
   getHubBySlug,
 } from "@/libs/hubPages";
+import { buildI18nStaticPaths } from "@/utils/i18nStaticPaths";
+import { emakiDisplayTitle, getLocalizedField } from "@/utils/emakiDisplayTitle";
 import { fetchCollabBoard, fetchPublicBoards } from "@/libs/api/ugcApi";
 import { removeNestedEmakisObj } from "@/utils/emakiList";
 import { buildGenjiHubData } from "@/utils/buildGenjiHubData";
@@ -42,11 +44,15 @@ import kusouzuStyles from "@/styles/KusouzuHub.module.css";
 const choujuHeroLoader = createCloudinaryHeroLoader("g_auto");
 
 function buildDynamicHubJsonLd({ locale, defaultLocale, meta, hub, items }) {
-  const isEn = locale === "en";
-  const pageTitle = isEn ? hub.titleEn || hub.titleJa : hub.titleJa;
-  const pageDesc = isEn
-    ? hub.descriptionEn || hub.descriptionJa
-    : hub.descriptionJa;
+  const isJa = locale === "ja";
+  const hubMeta = {
+    title: hub.titleJa,
+    titleen: hub.titleEn,
+    desc: hub.descriptionJa,
+    descen: hub.descriptionEn,
+  };
+  const pageTitle = getLocalizedField(hubMeta, "title", locale);
+  const pageDesc = getLocalizedField(hubMeta, "desc", locale);
   const pageUrl = buildLocaleUrl(locale, hub.path, defaultLocale);
 
   const itemListElement = items
@@ -54,7 +60,7 @@ function buildDynamicHubJsonLd({ locale, defaultLocale, meta, hub, items }) {
     .map((item, index) => ({
       "@type": "ListItem",
       position: index + 1,
-      name: isEn ? item.titleen : item.title || item.titleen,
+      name: emakiDisplayTitle(item, locale),
       url: buildLocaleUrl(locale, `/${item.titleen}`, defaultLocale),
     }));
 
@@ -84,7 +90,7 @@ function buildDynamicHubJsonLd({ locale, defaultLocale, meta, hub, items }) {
         {
           "@type": "ListItem",
           position: 2,
-          name: isEn ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
+          name: !isJa ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
           item: buildLocaleUrl(locale, "/hub", defaultLocale),
         },
         {
@@ -113,7 +119,7 @@ export default function DynamicHubPage({
   const { t } = useTranslation("common");
   const { locale, defaultLocale, query } = useRouter();
   const { t: meta } = useLocaleMeta();
-  const isEn = locale === "en";
+  const isJa = locale === "ja";
   const [linkedBoard, setLinkedBoard] = useState(null);
   const [relatedBoards, setRelatedBoards] = useState([]);
 
@@ -166,10 +172,14 @@ export default function DynamicHubPage({
 
   if (!hub) return null;
 
-  const title = isEn ? hub.titleEn || hub.titleJa : hub.titleJa;
-  const description = isEn
-    ? hub.descriptionEn || hub.descriptionJa
-    : hub.descriptionJa;
+  const hubMeta = {
+    title: hub.titleJa,
+    titleen: hub.titleEn,
+    desc: hub.descriptionJa,
+    descen: hub.descriptionEn,
+  };
+  const title = getLocalizedField(hubMeta, "title", locale);
+  const description = getLocalizedField(hubMeta, "desc", locale);
 
   const jsonLd = buildDynamicHubJsonLd({
     locale,
@@ -199,7 +209,7 @@ export default function DynamicHubPage({
             }}
           >
             <h2 style={{ margin: 0, fontSize: "1.2rem", fontWeight: 700 }}>
-              {isEn
+              {!isJa
                 ? `Featured Polaroids (${linkedPolaroidItems.length})`
                 : `このテーマの切り抜きポラロイド（${linkedPolaroidItems.length}枚）`}
             </h2>
@@ -209,7 +219,7 @@ export default function DynamicHubPage({
               passHref
             >
               <a style={{ fontSize: 13, fontWeight: 700, color: "#b45309" }}>
-                {isEn ? "Open Board →" : "ボードで全件見る・追加する →"}
+                {!isJa ? "Open Board →" : "ボードで全件見る・追加する →"}
               </a>
             </Link>
           </div>
@@ -254,7 +264,7 @@ export default function DynamicHubPage({
                   <div
                     style={{ fontSize: 11.5, color: "#6b7280", marginTop: 2 }}
                   >
-                    {isEn ? p.displayTitle : `『${p.displayTitle}』`}
+                    {!isJa ? p.displayTitle : `『${p.displayTitle}』`}
                   </div>
                 )}
                 {(p.message || p.memo) && (
@@ -303,7 +313,7 @@ export default function DynamicHubPage({
         }}
         breadcrumb={{
           name: t("choujuGigaHub.breadcrumb"),
-          test: locale === "en" ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
+          test: !isJa ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
           testen: "hub",
         }}
         heroProps={{
@@ -369,7 +379,7 @@ export default function DynamicHubPage({
         }}
         breadcrumb={{
           name: t("kusouzuHub.breadcrumb"),
-          test: locale === "en" ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
+          test: !isJa ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
           testen: "hub",
         }}
         heroProps={{
@@ -410,13 +420,13 @@ export default function DynamicHubPage({
     const pageTitle = t("hyakkiHub.pagetitle");
     const pageDesc = t("hyakkiHub.metaDesc");
     const hubDirectoryName =
-      locale === "en" ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧";
+      !isJa ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧";
     const itemListElement = (builtinHubData.scrolls || [])
       .filter((s) => s.titleen)
       .map((s, index) => ({
         "@type": "ListItem",
         position: index + 1,
-        name: locale === "en" ? s.titleen : s.title || s.titleen,
+        name: emakiDisplayTitle(s, locale),
         url: buildLocaleUrl(locale, `/${s.titleen}`, defaultLocale),
       }));
     const builtinJsonLd = JSON.stringify(
@@ -477,7 +487,7 @@ export default function DynamicHubPage({
         }}
         breadcrumb={{
           name: t("hyakkiHub.breadcrumb"),
-          test: locale === "en" ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
+          test: !isJa ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
           testen: "hub",
         }}
         heroProps={{
@@ -521,13 +531,13 @@ export default function DynamicHubPage({
     const pageTitle = t("rakuchuRakugaiHub.pagetitle");
     const pageDesc = t("rakuchuRakugaiHub.metaDesc");
     const hubDirectoryName =
-      locale === "en" ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧";
+      !isJa ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧";
     const itemListElement = (builtinHubData.scrolls || [])
       .filter((s) => s.titleen)
       .map((s, index) => ({
         "@type": "ListItem",
         position: index + 1,
-        name: locale === "en" ? s.titleen : s.title || s.titleen,
+        name: emakiDisplayTitle(s, locale),
         url: buildLocaleUrl(locale, `/${s.titleen}`, defaultLocale),
       }));
     const builtinJsonLd = JSON.stringify(
@@ -606,7 +616,7 @@ export default function DynamicHubPage({
         >
           <Title
             sectiontitle={
-              locale === "en" ? "Composition Lineages" : "構図形式の比較"
+              !isJa ? "Composition Lineages" : "構図形式の比較"
             }
           />
           <p
@@ -618,7 +628,7 @@ export default function DynamicHubPage({
               lineHeight: 1.85,
             }}
           >
-            {locale === "en"
+            {!isJa
               ? "Screen layout shifts by period and patron: compare the spatial pairing of the Right (East) and Left (West) screens."
               : "時代や発注背景によって屏風全体の構図形式が異なります。右隻（東側）と左隻（西側）の主役の対比を比較できます。"}
           </p>
@@ -637,7 +647,7 @@ export default function DynamicHubPage({
       >
         <Title
           sectiontitle={
-            locale === "en" ? "Key Motifs Across Scrolls" : "主要モチーフの比較"
+            !isJa ? "Key Motifs Across Scrolls" : "主要モチーフの比較"
           }
         />
         <p
@@ -649,7 +659,7 @@ export default function DynamicHubPage({
             lineHeight: 1.85,
           }}
         >
-          {locale === "en"
+          {!isJa
             ? "Compare how iconic Kyoto landmarks, rivers, and festivals are depicted across the three screens."
             : "京都を代表する名所・河川・祭礼が、3つの伝本それぞれにどのように描かれているかを図像で見比べられます。"}
         </p>
@@ -666,7 +676,7 @@ export default function DynamicHubPage({
       >
         <Title
           sectiontitle={
-            locale === "en"
+            !isJa
               ? "Kyoto Sightseeing Map & Recommended Routes"
               : "京都観光マップ・おすすめルート"
           }
@@ -680,7 +690,7 @@ export default function DynamicHubPage({
             lineHeight: 1.85,
           }}
         >
-          {locale === "en"
+          {!isJa
             ? "Explore temples, rivers, and streets depicted in Rakuchu-Rakugai-zu screens on the map of Kyoto, and follow curated walking routes."
             : "洛中洛外図屏風に描かれた寺社・河川・町並みを現在の京都地図と照らし合わせ、テーマ別の散策ルートを辿れます。"}
         </p>
@@ -696,7 +706,7 @@ export default function DynamicHubPage({
         }}
         breadcrumb={{
           name: t("rakuchuRakugaiHub.breadcrumb"),
-          test: locale === "en" ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
+          test: !isJa ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
           testen: "hub",
         }}
         heroProps={{
@@ -743,7 +753,7 @@ export default function DynamicHubPage({
       }}
       breadcrumb={{
         name: title,
-        test: locale === "en" ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
+        test: !isJa ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
         testen: "hub",
       }}
       heroProps={{
@@ -756,7 +766,7 @@ export default function DynamicHubPage({
           <div className={styles.heroImageWrap}>
             <Image
               src={heroItem.thumb}
-              alt={isEn ? heroItem.titleen : heroItem.title}
+              alt={emakiDisplayTitle(heroItem, locale)}
               className={styles.heroImage}
               width={1600}
               height={900}
@@ -769,7 +779,7 @@ export default function DynamicHubPage({
       worksSection={{
         id: "works",
         emakis: items,
-        sectiontitle: locale === "en" ? "Explore the Scrolls" : "収録作品を鑑賞",
+        sectiontitle: !isJa ? "Explore the Scrolls" : "収録作品を鑑賞",
         sectiontitleen: "Explore the Scrolls",
         columns: "three",
         needdesc: true,
@@ -779,14 +789,9 @@ export default function DynamicHubPage({
   );
 }
 
-export async function getStaticPaths({ locales = ["ja", "en"] }) {
-  const allHubs = getAllHubPages();
-  const paths = [];
-  for (const hub of allHubs) {
-    for (const locale of locales) {
-      paths.push({ params: { slug: hub.slug }, locale });
-    }
-  }
+export async function getStaticPaths({ locales }) {
+  const slugs = getAllHubPages().map((hub) => hub.slug);
+  const paths = buildI18nStaticPaths(slugs, locales);
   return {
     paths,
     fallback: "blocking",

@@ -16,7 +16,7 @@ import {
 } from "@/theme/colorMode";
 import { connectGenjiChapters } from "@/utils/emakiChapterText";
 import { getMotifDefinition } from "@/utils/motifNetwork";
-import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
+import { emakiDisplayTitle, getLocalizedField } from "@/utils/emakiDisplayTitle";
 import {
   useCommentaryBarShell,
   useCommentaryBarMetrics,
@@ -78,6 +78,7 @@ const SceneCommentaryBar = ({
   const { handleToId, orientation } = useContext(AppContext);
   const router = useRouter();
   const { locale } = router;
+  const isJa = locale === "ja";
   const { t } = useTranslation("common");
   const { title, titleen } = data;
 
@@ -219,10 +220,9 @@ const SceneCommentaryBar = ({
 
   if (!emaki.current && !byobu.isByobuSpotMode) return null;
 
-  const baseShareTitle =
-    locale === "en"
-      ? emakiDisplayTitle(data, locale)
-      : `${title ?? ""}`.trim();
+  const baseShareTitle = isJa
+    ? `${title ?? ""}`.trim()
+    : emakiDisplayTitle(data, locale);
 
   const folkloreChrome = (
     <FolkloreDetailSheet
@@ -234,17 +234,14 @@ const SceneCommentaryBar = ({
   );
 
   if (shell.closed) {
-    const defaultShow =
-      locale === "en" ? "Show commentary" : "解説を表示";
+    const defaultShow = isJa ? "解説を表示" : "Show commentary";
     let showLabel = t("viewer.showCommentary", {
       defaultValue: defaultShow,
     });
     const spot = byobu.activeByobuSpot;
     if (byobu.isByobuSpotMode && spot) {
-      const name =
-        locale === "en" ? spot.nameen || spot.name : spot.name;
-      showLabel =
-        locale === "en" ? `Show: ${name}` : `${name}の解説`;
+      const name = getLocalizedField(spot, "name", locale);
+      showLabel = isJa ? `${name}の解説` : `Show: ${name}`;
     }
     return (
       <div
@@ -298,8 +295,7 @@ const SceneCommentaryBar = ({
               emaki.tansakuData.summary)
         )
       : plainBody.length > 0;
-  const splitAt =
-    locale === "en" ? plainBody.search(/\.\s/) : plainBody.indexOf("。");
+  const splitAt = isJa ? plainBody.indexOf("。") : plainBody.search(/\.\s/);
   const hasRest = hasBody && splitAt >= 0 && splitAt < plainBody.length - 1;
   const showModeTabs =
     !byobu.isByobuSpotMode && emaki.availableModes.length >= 1;
@@ -310,7 +306,7 @@ const SceneCommentaryBar = ({
     commentaryFloating,
     isFullscreen: shell.cardFloats,
   });
-  const readMoreLabel = locale === "en" ? "More ▾" : "もっと見る";
+  const readMoreLabel = isJa ? "もっと見る" : "More ▾";
 
   const toggleExpanded = () => {
     const next = !shell.expanded;
@@ -336,16 +332,14 @@ const SceneCommentaryBar = ({
     emaki.folkloreCount > 0
       ? t("viewer.folkloreToggleCount", {
           count: emaki.folkloreCount,
-          defaultValue:
-            locale === "en"
-              ? `Folklore tags (${emaki.folkloreCount})`
-              : `絵引（${emaki.folkloreCount}件）`,
+          defaultValue: isJa
+            ? `絵引（${emaki.folkloreCount}件）`
+            : `Folklore tags (${emaki.folkloreCount})`,
         })
       : t("viewer.folkloreToggle", {
-          defaultValue:
-            locale === "en"
-              ? "Folklore tags (daily life & tools)"
-              : "絵引（生活誌・民具）",
+          defaultValue: isJa
+            ? "絵引（生活誌・民具）"
+            : "Folklore tags (daily life & tools)",
         });
 
   const hasMultipleSections = byobu.isByobuSpotMode
@@ -451,9 +445,9 @@ const SceneCommentaryBar = ({
                 ) {
                   const activeMotif = getMotifDefinition(emaki.selectedMotifId);
                   let prompt = null;
-                  const isEn = router.locale === "en";
+                  const isJaMotif = router.locale === "ja";
                   if (
-                    isEn &&
+                    !isJaMotif &&
                     emaki.souData?.promptsEn &&
                     emaki.selectedMotifId &&
                     emaki.souData.promptsEn[emaki.selectedMotifId]
@@ -462,7 +456,7 @@ const SceneCommentaryBar = ({
                       emaki.souData.promptsEn[emaki.selectedMotifId]
                     ).replace(/[\s\.…・]+$/, "");
                   } else if (
-                    !isEn &&
+                    isJaMotif &&
                     emaki.souData?.prompts &&
                     emaki.selectedMotifId &&
                     emaki.souData.prompts[emaki.selectedMotifId]
@@ -471,27 +465,27 @@ const SceneCommentaryBar = ({
                       emaki.souData.prompts[emaki.selectedMotifId]
                     ).replace(/[\s\.…・]+$/, "");
                   } else if (activeMotif) {
-                    const motifPrompt = isEn
-                      ? activeMotif.promptEn || activeMotif.prompt
-                      : activeMotif.prompt;
+                    const motifPrompt = isJaMotif
+                      ? activeMotif.prompt
+                      : activeMotif.promptEn || activeMotif.prompt;
                     if (motifPrompt) {
                       prompt = String(motifPrompt).replace(/[\s\.…・]+$/, "");
                     }
                   } else if (emaki.souData) {
-                    const scenePrompt = isEn
-                      ? emaki.souData.promptEn || emaki.souData.prompt
-                      : emaki.souData.prompt;
+                    const scenePrompt = isJaMotif
+                      ? emaki.souData.prompt
+                      : emaki.souData.promptEn || emaki.souData.prompt;
                     if (scenePrompt) {
                       prompt = String(scenePrompt).replace(/[\s\.…・]+$/, "");
                     }
                   } else if (activeMotif) {
-                    const label = isEn
-                      ? activeMotif.labelEn || activeMotif.label
-                      : activeMotif.label;
+                    const label = isJaMotif
+                      ? activeMotif.label
+                      : activeMotif.labelEn || activeMotif.label;
                     if (label) {
-                      prompt = isEn
-                        ? `What was the artist's intent behind the depiction of "${label}"?`
-                        : `「${label}」の描写から読み解く、絵師の意図とは？`;
+                      prompt = isJaMotif
+                        ? `「${label}」の描写から読み解く、絵師の意図とは？`
+                        : `What was the artist's intent behind the depiction of "${label}"?`;
                     }
                   }
                   const tag = activeMotif?.label ? `#${activeMotif.label}` : "";
@@ -534,14 +528,14 @@ const SceneCommentaryBar = ({
                     onOpenMapDrawer();
                   }}
                   aria-label={
-                    locale === "en"
-                      ? `View ${activeGeoSpot.nameEn || activeGeoSpot.nameJa} on Kyoto Map`
-                      : `${activeGeoSpot.nameJa}を京都マップで見る`
+                    isJa
+                      ? `${activeGeoSpot.nameJa}を京都マップで見る`
+                      : `View ${activeGeoSpot.nameEn || activeGeoSpot.nameJa} on Kyoto Map`
                   }
                   title={
-                    locale === "en"
-                      ? `View ${activeGeoSpot.nameEn || activeGeoSpot.nameJa} on Kyoto Map`
-                      : `${activeGeoSpot.nameJa}を京都マップで見る`
+                    isJa
+                      ? `${activeGeoSpot.nameJa}を京都マップで見る`
+                      : `View ${activeGeoSpot.nameEn || activeGeoSpot.nameJa} on Kyoto Map`
                   }
                 >
                   <FontAwesomeIcon
@@ -814,10 +808,9 @@ const SceneCommentaryBar = ({
                   shell.setClosed(true);
                 }}
                 aria-label={t("viewer.closeCommentaryBar", {
-                  defaultValue:
-                    locale === "en"
-                      ? "Close commentary bar"
-                      : "解説バーを閉じる",
+                  defaultValue: isJa
+                    ? "解説バーを閉じる"
+                    : "Close commentary bar",
                 })}
               >
                 <FontAwesomeIcon icon={faXmark} />
