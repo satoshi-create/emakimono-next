@@ -14,21 +14,34 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Emaki = ({ name, posts, nameen, slug }) => {
   const { locale } = useRouter();
+  const isEn = locale === "en";
+  const keywordName = isEn ? nameen : name;
+  const count = posts?.length ?? 0;
+  const sampleItems = (posts ?? []).slice(0, 4);
+  const sampleTitles = sampleItems
+    .map((item) => (isEn ? item.titleen || item.title : item.title))
+    .filter(Boolean)
+    .join(isEn ? ", " : "・");
 
-  const tPageDesc =
-    locale === "en"
-      ? `You can enjoy picture scrolls, folding screens, etc. related to "${name}" in vertical and horizontal scrolling mode.`
+  const pagetitle = isEn
+    ? count > 0
+      ? `${keywordName} — Japanese Picture Scrolls (${count} Works)`
+      : `List of works about " ${nameen} "`
+    : count > 0
+      ? `「${keywordName}」の絵巻物一覧（全${count}作品）`
+      : `「${name}」に関する作品一覧`;
+
+  const pageDesc = isEn
+    ? count > 0
+      ? `Explore ${count} classical Japanese picture scrolls (emakimono) tagged with "${keywordName}"${sampleTitles ? `, including ${sampleTitles}` : ""}. View full scrolls with high-resolution horizontal zoom and commentary.`
+      : `You can enjoy picture scrolls, folding screens, etc. related to "${name}" in vertical and horizontal scrolling mode.`
+    : count > 0
+      ? `「${keywordName}」をテーマにした日本の絵巻物・古典絵画全${count}作品を収録。${sampleTitles ? `『${sampleTitles}』などの` : ""}全場面を、高精細な横スクロール・拡大ズーム・現代語解説付きで鑑賞できます。`
       : `「${name}」に関する絵巻物・屏風その他を、縦書き、横スクロールで楽しむことができます。`;
+
   return (
     <>
-      <Head
-        pagetitle={
-          locale === "en"
-            ? `List of works about " ${nameen} "`
-            : `「${name}」に関する作品一覧`
-        }
-        pageDesc={tPageDesc}
-      />
+      <Head pagetitle={pagetitle} pageDesc={pageDesc} />
       <Header slug={`keyword/${slug}`} />
       <Breadcrumbs
         name={locale === "en" ? `${nameen}` : name}
