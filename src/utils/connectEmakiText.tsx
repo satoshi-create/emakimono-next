@@ -1,5 +1,5 @@
 // TypeScriptの型だけをインポートします（ランタイムには影響しない）
-import chaptergenji from "@/data/scroll-texts/genji-chapters.json";
+import chaptergenji from "@/data/scroll-texts/genji-chapters";
 import type {
   EmakiChapterTextItem,
   EmakiTextData,

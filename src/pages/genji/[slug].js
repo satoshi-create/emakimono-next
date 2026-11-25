@@ -4,7 +4,7 @@ import Header from "@/components/layout/Header";
 import Head from "@/components/meta/Meta";
 import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import CardA from "@/components/ui/CardA";
-import AllGenjiChapters from "@/data/scroll-texts/genji-chapters.json";
+import AllGenjiChapters from "@/data/scroll-texts/genji-chapters";
 import {
   default as enData,
   default as jaData,

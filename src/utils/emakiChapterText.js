@@ -8,7 +8,7 @@
  *
  * 抽出元: src/utils/func.js（旧 func.js は re-export のみに縮小済み）。
  */
-import chaptergenji from "@/data/scroll-texts/genji-chapters.json";
+import chaptergenji from "@/data/scroll-texts/genji-chapters";
 import parse from "html-react-parser";
 
 /** 縦書き内の連続アラビア数字を縦中横用 span で囲む */
