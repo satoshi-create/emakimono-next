@@ -76,7 +76,9 @@ export function buildEmakiJsonLd({
         name,
         item: pageUrl,
       },
-    ],
+    ]
+      .filter((el) => Boolean(el.name && el.item))
+      .map((el, index) => ({ ...el, position: index + 1 })),
   };
 
   return JSON.stringify(

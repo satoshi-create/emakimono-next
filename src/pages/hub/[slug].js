@@ -84,6 +84,12 @@ function buildDynamicHubJsonLd({ locale, defaultLocale, meta, hub, items }) {
         {
           "@type": "ListItem",
           position: 2,
+          name: isEn ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧",
+          item: buildLocaleUrl(locale, "/hub", defaultLocale),
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
           name: pageTitle,
           item: pageUrl,
         },
@@ -401,19 +407,67 @@ export default function DynamicHubPage({
 
   if (hub.slug === "hyakki" && builtinHubData) {
     const pageUrl = buildLocaleUrl(locale, hub.path, defaultLocale);
-    const builtinJsonLd = {
-      "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      name: t("hyakkiHub.pagetitle"),
-      description: t("hyakkiHub.metaDesc"),
-      url: pageUrl,
-      isPartOf: { "@type": "WebSite", name: meta.siteTitle, url: SITE_ORIGIN },
-      hasPart: (builtinHubData.scrolls || []).map((s) => ({
-        "@type": "VisualArtwork",
-        name: locale === "en" ? s.titleen : s.title,
+    const pageTitle = t("hyakkiHub.pagetitle");
+    const pageDesc = t("hyakkiHub.metaDesc");
+    const hubDirectoryName =
+      locale === "en" ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧";
+    const itemListElement = (builtinHubData.scrolls || [])
+      .filter((s) => s.titleen)
+      .map((s, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: locale === "en" ? s.titleen : s.title || s.titleen,
         url: buildLocaleUrl(locale, `/${s.titleen}`, defaultLocale),
-      })),
-    };
+      }));
+    const builtinJsonLd = JSON.stringify(
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "CollectionPage",
+            "@id": pageUrl,
+            name: pageTitle,
+            description: pageDesc,
+            url: pageUrl,
+            isPartOf: {
+              "@type": "WebSite",
+              name: meta.siteTitle,
+              url: SITE_ORIGIN,
+            },
+            mainEntity: {
+              "@type": "ItemList",
+              numberOfItems: itemListElement.length,
+              itemListElement,
+            },
+          },
+          {
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: meta.siteTitle,
+                item: buildLocaleUrl(locale, "/", defaultLocale),
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: hubDirectoryName,
+                item: buildLocaleUrl(locale, "/hub", defaultLocale),
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: pageTitle,
+                item: pageUrl,
+              },
+            ],
+          },
+        ],
+      },
+      null,
+      " "
+    );
     return (
       <HubMinimalTemplate
         meta={{
@@ -464,19 +518,67 @@ export default function DynamicHubPage({
 
   if (hub.slug === "rakuchu-rakugai" && builtinHubData) {
     const pageUrl = buildLocaleUrl(locale, hub.path, defaultLocale);
-    const builtinJsonLd = {
-      "@context": "https://schema.org",
-      "@type": "CollectionPage",
-      name: t("rakuchuRakugaiHub.pagetitle"),
-      description: t("rakuchuRakugaiHub.metaDesc"),
-      url: pageUrl,
-      isPartOf: { "@type": "WebSite", name: meta.siteTitle, url: SITE_ORIGIN },
-      hasPart: (builtinHubData.scrolls || []).map((s) => ({
-        "@type": "VisualArtwork",
-        name: locale === "en" ? s.titleen : s.title,
+    const pageTitle = t("rakuchuRakugaiHub.pagetitle");
+    const pageDesc = t("rakuchuRakugaiHub.metaDesc");
+    const hubDirectoryName =
+      locale === "en" ? "Curated Themes & Hub Directory" : "テーマ・特集ハブ一覧";
+    const itemListElement = (builtinHubData.scrolls || [])
+      .filter((s) => s.titleen)
+      .map((s, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: locale === "en" ? s.titleen : s.title || s.titleen,
         url: buildLocaleUrl(locale, `/${s.titleen}`, defaultLocale),
-      })),
-    };
+      }));
+    const builtinJsonLd = JSON.stringify(
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "CollectionPage",
+            "@id": pageUrl,
+            name: pageTitle,
+            description: pageDesc,
+            url: pageUrl,
+            isPartOf: {
+              "@type": "WebSite",
+              name: meta.siteTitle,
+              url: SITE_ORIGIN,
+            },
+            mainEntity: {
+              "@type": "ItemList",
+              numberOfItems: itemListElement.length,
+              itemListElement,
+            },
+          },
+          {
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: meta.siteTitle,
+                item: buildLocaleUrl(locale, "/", defaultLocale),
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: hubDirectoryName,
+                item: buildLocaleUrl(locale, "/hub", defaultLocale),
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: pageTitle,
+                item: pageUrl,
+              },
+            ],
+          },
+        ],
+      },
+      null,
+      " "
+    );
     const formFromQuery =
       typeof query?.form === "string" && FORM_TAB_IDS.includes(query.form)
         ? query.form
