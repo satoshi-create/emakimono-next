@@ -79,13 +79,13 @@ const LazyImage = ({
   const [isSkeletonVisible, setSkeletonVisible] = useState(!alreadyHydrated);
   const [isImageLoaded, setImageLoaded] = useState(alreadyHydrated);
   const [retryCount, setRetryCount] = useState(0);
-  const [forceCloudinary, setForceCloudinary] = useState(false);
 
   // ---------------------------------------------------------------------------
   // 2. 参照管理（Refs）- 再レンダリングをトリガーしない値の保持
   // ---------------------------------------------------------------------------
   const containerRef = useRef(null);
   const retryTimerRef = useRef(null);
+  const isMountedRef = useRef(true);
   const isImageLoadedRef = useRef(alreadyHydrated);
   const loadStartTimeRef = useRef(null);
   const hasTrackedRef = useRef(false);
@@ -112,6 +112,7 @@ const LazyImage = ({
 
   useEffect(() => {
     return () => {
+      isMountedRef.current = false;
       if (retryTimerRef.current) clearTimeout(retryTimerRef.current);
     };
   }, []);
@@ -197,11 +198,20 @@ const LazyImage = ({
 
     let fallbackTimer = null;
 
+    const clearFallbackTimer = () => {
+      if (fallbackTimer) {
+        clearTimeout(fallbackTimer);
+        fallbackTimer = null;
+      }
+    };
+
     const startFallbackTimer = () => {
-      if (isImageLoadedRef.current) return;
+      if (isImageLoadedRef.current || hasTrackedRef.current) return;
+      clearFallbackTimer();
       markLoadStart();
       const timeout = getAdaptiveTimeout(timeoutType, emakiId);
       fallbackTimer = setTimeout(() => {
+        fallbackTimer = null;
         if (!hasTrackedRef.current && emakiId) {
           trackImageFallback(emakiId, uniqueIndex, fallbackReason);
           emittedFallbackReasonRef.current = fallbackReason;
@@ -226,9 +236,12 @@ const LazyImage = ({
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
+        const entry = entries[0];
+        if (!entry) return;
+        if (entry.isIntersecting) {
           startFallbackTimer();
-          observer.disconnect();
+        } else {
+          clearFallbackTimer();
         }
       },
       { rootMargin: "200px" }
@@ -237,7 +250,7 @@ const LazyImage = ({
 
     return () => {
       observer.disconnect();
-      if (fallbackTimer) clearTimeout(fallbackTimer);
+      clearFallbackTimer();
     };
   }, [isSkeletonVisible, uniqueIndex, toggleFullscreen, emakiId]);
 
@@ -257,7 +270,7 @@ const LazyImage = ({
         isByobu && quality ? `q_${quality}` : "q_auto:eco",
       ],
       {
-        delivery: forceCloudinary ? "cloudinary" : src?.delivery,
+        delivery: src?.delivery,
         r2Key: src?.r2Key,
       }
     );
@@ -277,6 +290,11 @@ const LazyImage = ({
     : `(orientation: portrait) ${portraitSizes}, ${landscapeSizes}`;
 
   const isEager = evaluateIsEager();
+
+  const imageSrc =
+    retryCount > 0 && src?.src
+      ? `${src.src}${src.src.includes("?") ? "&" : "?"}retry=${retryCount}`
+      : src?.src;
 
   return (
     <div
@@ -298,9 +316,9 @@ const LazyImage = ({
         />
       )}
       <Image
-        key={`${hydrateKey ?? imageUrl}:${retryCount}:${forceCloudinary}`}
+        key={`${hydrateKey ?? imageUrl}:${retryCount}`}
         loader={config === "cloudinary" ? cloudinaryLoader : undefined}
-        src={src.src}
+        src={imageSrc}
         width={width}
         height={height}
         alt={alt}
@@ -367,21 +385,19 @@ const LazyImage = ({
         }}
         onError={() => {
           // -------------------------------------------------------------------
-          // [フロー 4] エラー（onError）— 1回自動リトライ後のみフォールバック計測
+          // [フロー 4] エラー（onError）— 同一配信元で1回リトライ後のみ load_error 計測
           // -------------------------------------------------------------------
-          if (!forceCloudinary && config === "cloudinary") {
-            setForceCloudinary(true);
-            return;
-          }
           if (retryCount < 1) {
             if (retryTimerRef.current) clearTimeout(retryTimerRef.current);
             resetLoadStartTime();
             retryTimerRef.current = setTimeout(() => {
               retryTimerRef.current = null;
+              if (!isMountedRef.current) return;
               setRetryCount((prev) => prev + 1);
             }, 500);
             return;
           }
+          if (!isMountedRef.current) return;
           if (!hasTrackedRef.current && emakiId) {
             trackImageFallback(emakiId, uniqueIndex, "load_error");
             hasTrackedRef.current = true;
