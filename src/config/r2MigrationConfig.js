@@ -12,18 +12,7 @@ export const ENABLE_R2_DELIVERY = true;
  * 旧 Cloudinary のみ配信（R2 未移行）の titleen ブラックリスト（完全一致）
  * ※ 部分一致（includes）は jigokusoushi が kusoushi に誤爆する原因になるため厳禁
  */
-export const LEGACY_CLOUDINARY_WORK_TITLES = new Set([
-  "jigokusoushi_anzyuin",
-  "gakisoushi_kawamoto",
-  "jigokusoushi_masuda_kou",
-  "eshi-no-soshi_tohaku",
-  "kusouzu_wellcome_noble_lady",
-  "hyakki_no_zu_nichibun",
-  "hyakki_kokkai_a",
-  "hyakki_utokyo",
-  "naomoto_moushibumi_ekotoba",
-  "genji-monogatari-emaki-tokugawa",
-]);
+export const LEGACY_CLOUDINARY_WORK_TITLES = new Set([]);
 
 /**
  * @param {string | undefined | null} titleen
