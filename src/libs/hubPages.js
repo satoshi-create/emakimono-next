@@ -1,4 +1,4 @@
-import hubPagesData from "@/data/hubPages.json";
+import hubPagesData from "@/data/hubPages";
 
 export function getAllHubPages() {
   const list = Array.isArray(hubPagesData) ? hubPagesData : [];
