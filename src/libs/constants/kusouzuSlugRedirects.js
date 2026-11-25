@@ -11,8 +11,10 @@ const chaptersTsPath = path.join(
 );
 const chaptersTsSource = fs.readFileSync(chaptersTsPath, "utf8");
 const chapters = Array.from(
-  chaptersTsSource.matchAll(/slug:\s*"([^"]+)"/g),
-  (m) => ({ slug: m[1] })
+  chaptersTsSource.matchAll(
+    /slug:\s*"([^"]+)"[\s\S]*?titleen:\s*"([^"]+)"/g
+  ),
+  (m) => ({ slug: m[1], titleen: m[2] })
 );
 
 /** Spaces in legacy titleen URLs are percent-encoded in requests. */
