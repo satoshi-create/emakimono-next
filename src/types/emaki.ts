@@ -102,3 +102,11 @@ export interface EmakiChapterTextItem {
   promptsEn?: Record<string, string>;
   [key: string]: unknown;
 }
+
+/**
+ * =============================================================================
+ * 5. 既存モジュール互換エイリアス (ScrollMetadata / EmakiTextData)
+ * =============================================================================
+ */
+export type ScrollMetadata = EmakiMetadata;
+export type EmakiTextData = EmakiChapterTextItem[];

@@ -39,3 +39,93 @@ export interface QuizStatsMaster {
   canonicalQuizStatKeys: Record<string, string>;
   quizzes: Record<string, QuizStatEntry>;
 }
+
+/**
+ * =============================================================================
+ * 5. クイズ定義マスター型定義 (QuizId / QuizDefinition)
+ * -----------------------------------------------------------------------------
+ * src/data/quiz/*.ts および src/data/quiz/index.ts で使用されるクイズ構造契約。
+ * =============================================================================
+ */
+export type QuizId =
+  | "chouju_giga_kou_observe_v1"
+  | "chouju-giga-otsu"
+  | "chouju-giga-hei"
+  | "chouju-giga-tei"
+  | "hyakki-yagyo-utokyo"
+  | "hyakki-kokkai-a"
+  | "hyakki-no-zu-nichibun"
+  | "tsukumogami"
+  | "kusouzumaki"
+  | "kusouzu-kobayasieieitaku"
+  | "genji-monogatari-tokugawa"
+  | "rakuchu-rakugai-funaki"
+  | "rakuchu-rakugai-fukuoka-quiz"
+  | "rakuchu-rakugai-met-quiz"
+  | (string & {});
+
+export interface QuizRankRule {
+  id: string;
+  minCorrect: number;
+  maxCorrect: number;
+  labelJa: string;
+  labelEn: string;
+  descriptionJa?: string;
+  descriptionEn?: string;
+  [key: string]: unknown;
+}
+
+export interface QuizResultLink {
+  type: string;
+  path?: string;
+  slug?: string;
+  labelJa: string;
+  labelEn: string;
+  [key: string]: unknown;
+}
+
+export interface QuizQuestionOption {
+  id?: string;
+  labelJa?: string;
+  labelEn?: string;
+  textJa?: string;
+  textEn?: string;
+  [key: string]: unknown;
+}
+
+export interface QuizQuestionItem {
+  id: string;
+  questionJa?: string;
+  questionEn?: string;
+  promptJa?: string;
+  promptEn?: string;
+  options?: QuizQuestionOption[] | string[];
+  answer?: string | number;
+  correctAnswer?: string | number;
+  correctIndex?: number;
+  explanationJa?: string;
+  explanationEn?: string;
+  jump?: {
+    chapter?: string | number;
+    [key: string]: unknown;
+  };
+  [key: string]: unknown;
+}
+
+export interface QuizDefinition {
+  id: QuizId;
+  titleen: string;
+  titleJa?: string;
+  titleEn?: string;
+  version?: number;
+  ranks?: QuizRankRule[];
+  resultLinks?: QuizResultLink[];
+  questions: QuizQuestionItem[];
+  seriesId?: string;
+  seriesTitleJa?: string;
+  seriesTitleEn?: string;
+  seriesOrder?: number;
+  shortTitleJa?: string;
+  shortTitleEn?: string;
+  [key: string]: unknown;
+}

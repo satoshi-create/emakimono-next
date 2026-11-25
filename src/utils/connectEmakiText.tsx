@@ -1,6 +1,9 @@
 // TypeScriptの型だけをインポートします（ランタイムには影響しない）
 import chaptergenji from "@/data/scroll-texts/genji-chapters.json";
-import type { EmakiTextData } from "@/types/emaki.ts";
+import type {
+  EmakiChapterTextItem,
+  EmakiTextData,
+} from "@/types/emaki.ts";
 
 /** 源氏54帖マスター（genji-chapters.json）の1帖ぶんの形 */
 type GenjiChapterRecord = {
@@ -141,18 +144,18 @@ export const getGenjiChapterDrawer = (
 export const connectEmakiText = async (
   titleen: string, // JSONファイル名（例: "heiji-scroll"）
   chapter: number, // 対象章番号（例: 2）
-  text: keyof EmakiTextData // 取得するプロパティ名。型により "title" | "title_en" | "text" | "chapter" に制限される
+  text: keyof EmakiChapterTextItem // scroll-texts JSON 1要素のキー
 ): Promise<string | undefined> => {
   try {
     // 動的インポートでJSONファイルを読み込む（importは非同期なのでawaitが必要）
     const jsonModule = await import(`@/data/scroll-texts/${titleen}.json`);
 
     // JSONモジュールのdefaultエクスポート部分にアクセスし、型アサーションを適用
-    const emakiTextData = jsonModule.default as EmakiTextData[];
+    const emakiTextData = jsonModule.default as EmakiTextData;
 
-    // 指定されたchapterのデータを抽出し、対象のプロパティ（text）を取り出してjoin（複数ある場合は結合）
+    const chapterStr = String(chapter);
     const matched = emakiTextData
-      .filter((item) => chapter === item.chapter) // 該当する章だけに絞る
+      .filter((item) => chapterStr === String(item.chapter))
       .map((item) => item[text]) // そのプロパティだけ取り出す
       .join(); // 複数データがあったら文字列としてつなげる
 

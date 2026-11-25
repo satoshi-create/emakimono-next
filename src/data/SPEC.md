@@ -1,6 +1,8 @@
 # src/data 境界仕様書（Phase 1 → Step 4 → Step B 命名統一）
 
-**Step B（2026-11）:** 役割ベースのディレクトリ名 — `scroll-metadata/`, `scroll-texts/`, `hub/`, `persons/`, `master/`, `features/`。サーバー再読込は `scroll-metadata/loadFresh.js`（export 名 `loadEmakiMetadataFresh` は互換維持）。源氏・九相マスターは `genji-chapters.json` / `kusouzu-chapters.json`。
+**Step B（2026-11）:** 役割ベースのディレクトリ名 — `scroll-metadata/`, `scroll-texts/`, `hub/`, `persons/`, `master/`, `features/`。サーバー再読込は `scroll-metadata/loadFresh.ts`（export 名 `loadEmakiMetadataFresh` は互換維持）。源氏・九相マスターは `genji-chapters.json` / `kusouzu-chapters.ts`。
+
+**Step TS（2026-11）:** 静的マスター・ローダーを TypeScript 化（`src/types/{hub,master,person,quiz,emaki,chapters,json-modules}.ts`）。Python 自動同期対象（`scroll-metadata/scrolls/*.json`・`scroll-texts/*.json`）は JSON 正本を維持しつつ境界で型付け。旧静的 JSON（`hubPages.json`, `master/motifs.json`, `master/references.json`, `persons/profiles.json`, `quiz/quizStats.json`, `scroll-texts/kusouzu-chapters.json`）および旧 JS ローダー（`scroll-metadata/index.js`, `scroll-metadata/loadFresh.js`）を削除。
 
 本書は `emakimono-next` における `src/data` 配下のデータ責務・生成経路・フロント読込境界を固定する。YAML 自動アップロード（`scroll-upload` / `scripts/sync_all.py`）と Next.js ビルドの import 互換を壊さないことが最優先契約である。
 
@@ -95,11 +97,12 @@ graph TD
 | ファイル | 行数 | サイズ | 分類 | 参照概要 |
 |---|---:|---:|---|---|
 | `scroll-metadata/scrolls/{titleen}.json` + `_order.json` | 巻ごと | 可変 | ①②③ | 正本；`index.js` / `loadFresh.js` |
-| `scroll-metadata/index.js` | — | 2K | ③ | `@/data/scroll-metadata` デフォルト export |
-| `scroll-metadata/loadFresh.js` | — | 1K | ③ | サーバー fs 読込 |
-| `scroll-texts/{titleen}.json`（各巻） | 〜250 | 4–20K | ①③ | sync 生成 + `require.context` |
-| `scroll-texts/genji-chapters.json` | 2449 | 220K | ② | 源氏マスター・静的 import |
-| `scroll-texts/kusouzu-chapters.json` | 121 | 12K | ② | 九相図ハブ |
+| `hubPages.ts` | 95 | 4K | ② | ハブページ定義（`HubPageConfig[]`・旧 `hubPages.json` 削除済） |
+| `scroll-metadata/index.ts` | 65 | 2K | ③ | `@/data/scroll-metadata` デフォルト export（`EmakiMetadata[]`・旧 `index.js` 削除済） |
+| `scroll-metadata/loadFresh.ts` | 50 | 2K | ③ | サーバー fs 読込（旧 `loadFresh.js` 削除済） |
+| `scroll-texts/{titleen}.json`（各巻） | 〜250 | 4–20K | ①③ | sync 生成 + `require.context`（`EmakiChapterTextItem[]` 型宣言） |
+| `scroll-texts/genji-chapters.json` | 2449 | 220K | ② | 源氏マスター・静的 import（`GenjiChapterItem[]` 型宣言） |
+| `scroll-texts/kusouzu-chapters.ts` | 125 | 12K | ② | 九相図ハブ（`KusouzuChapterItem[]`・旧 `.json` 削除済） |
 | `hub/hubData.js` | 403 | 16K | ② | emaki-hub / テーマカード |
 | `hub/relatedMedia.js` | 61 | 4K | ② | emaki-hub メディア関連 |
 | `features/mangaRoots.js` | 257 | 12K | ② | manga-roots ページ |
@@ -108,11 +111,11 @@ graph TD
 | `folklore/folkloreItems.js` | 1167 | 56K | ② | 寓話インデックス |
 | `folklore/folkloreIndex.js` | 39 | 4K | ② | ebiki / ビューア hook |
 | `folklore/folkloreByTitleen.js` | 77 | 4K | ② | `useFolkloreForScroll` |
-| `master/motifs.json` | 184 | 12K | ② | Commentary / motifNetwork |
+| `master/motifs.ts` | 190 | 12K | ② | Commentary / motifNetwork（`MotifMasterMap`・旧 `.json` 削除済） |
 | `master/generated-motif-index.json` | 0 | 4K | ①④ | `motifNetwork.js`（空ファイル・将来生成想定） |
-| `master/references.json` | 184 | 8K | ② | `[slug].js` |
-| `persons/profiles.json` | 230 | 12K | ② | personname / seoRedirects |
-| `quiz/*.ts` + `quizStats.json` | 各〜260 | 4–16K | ② | クイズモーダル |
+| `master/references.ts` | 190 | 8K | ② | `[slug].js`（`ReferencesMasterMap`・旧 `.json` 削除済） |
+| `persons/profiles.ts` | 235 | 12K | ② | personname / seoRedirects（`PersonProfile[]`・旧 `.json` 削除済） |
+| `quiz/*.ts` + `quizStats.ts` | 各〜260 | 4–16K | ② | クイズモーダル（`QuizStatsMaster`・旧 `quizStats.json` 削除済） |
 | `_archive/withdrawn/*.json` | — | — | ④ | **隔離済**（実制御は `withdrawnTitleen.json`） |
 | `_archive/scroll-metadata/*` | — | — | ④ | **隔離済**（旧 monolith .bak、choju 断片、integration 等） |
 | `_archive/scroll-texts/*_old.json`, `*.bak` | — | — | ④ | **隔離済** |
