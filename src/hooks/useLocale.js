@@ -8,28 +8,47 @@
  * 抽出元: src/utils/func.js（旧 func.js は re-export のみに縮小済み）。
  */
 import { useRouter } from "next/router";
-import { enMeta, jaMeta } from "@/libs/constants/dataSiteMeta";
-import { en, ja } from "@/libs/constants/staticData";
+import {
+  enMeta,
+  jaMeta,
+  zhHansMeta,
+  zhHantMeta,
+} from "@/libs/constants/dataSiteMeta";
+import { en, ja, zhHans, zhHant } from "@/libs/constants/staticData";
 import {
   default as enData,
   default as jaData,
 } from "@/data/scroll-metadata";
 
+const STATIC_MAP = {
+  ja,
+  en,
+  "zh-Hans": zhHans,
+  "zh-Hant": zhHant,
+};
+
+const META_MAP = {
+  ja: jaMeta,
+  en: enMeta,
+  "zh-Hans": zhHansMeta,
+  "zh-Hant": zhHantMeta,
+};
+
 export const useLocale = () => {
   const router = useRouter();
   const locale = router?.locale || "ja";
-  const t = locale === "en" ? en : ja;
+  const t = STATIC_MAP[locale] || en;
   return { locale, t };
 };
 export const useLocaleMeta = () => {
   const router = useRouter();
   const locale = router?.locale || "ja";
-  const t = locale === "en" ? enMeta : jaMeta;
+  const t = META_MAP[locale] || jaMeta;
   return { locale, t };
 };
 export const useLocaleData = () => {
   const router = useRouter();
   const locale = router?.locale || "ja";
-  const t = locale === "en" ? enData : jaData;
+  const t = locale === "ja" ? jaData : enData;
   return { locale, t };
 };

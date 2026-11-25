@@ -101,7 +101,7 @@ const CardB = ({
                       }}
                     >
                       <p className={styles.title}>
-                        {locale === "en" ? parse(eraen) : parse(era)}
+                        {locale !== "ja" ? parse(eraen) : parse(era)}
                       </p>
                     </div>
                   </figure>
@@ -120,7 +120,7 @@ const CardB = ({
         {linktitle && (
           <Button
             title={
-              locale === "en"
+              locale !== "ja"
                 ? `View a list of ${linktitleen} !!`
                 : `${linktitle}一覧を見る`
             }

@@ -156,7 +156,7 @@ const Home = ({ popularEmakis = [], themeHubs = [] }) => {
         <section className="section-grid section-padding">
           <Title
             sectiontitle={
-              locale === "en" ? "Keywords" : "キーワード一覧"
+              locale === "ja" ? "キーワード一覧" : "Keywords"
             }
             sectiontitleen="Keywords"
           />

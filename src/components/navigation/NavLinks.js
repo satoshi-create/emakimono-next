@@ -72,7 +72,7 @@ const NavLinks = ({ footerstyle }) => {
                     style={footerstyle}
                     onClick={() => setOpenMenu(null)}
                   >
-                    {locale === "en" ? link.nameen : link.name}
+                    {locale === "ja" ? link.name : link.nameen}
                   </a>
                 </Link>
               ))}

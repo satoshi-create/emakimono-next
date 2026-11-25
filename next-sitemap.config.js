@@ -3,6 +3,8 @@ const withdrawnTitleen = require("./src/libs/constants/withdrawnTitleen.json");
 const withdrawnExcludes = withdrawnTitleen.flatMap((slug) => [
   `/${slug}`,
   `/ja/${slug}`,
+  `/zh-Hans/${slug}`,
+  `/zh-Hant/${slug}`,
 ]);
 
 /** @type {import('next-sitemap').IConfig} */

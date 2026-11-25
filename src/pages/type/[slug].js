@@ -11,27 +11,27 @@ import { removeNestedEmakisObj, typeItem } from "@/utils/func";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-const Type = ({ name, nameen, posts, slug }) => {
+const Type = ({ name, nameen, posts = [], slug }) => {
   const { locale } = useRouter();
-  const tPageDesc =
-    locale === "en"
-      ? `This is the ${nameen} list page.This site pursues the enjoyment of picture scrolls by scrolling from right to left!`
-      : `${name}一覧のページです。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。`;
+  const isJa = locale === "ja";
+  const tPageDesc = isJa
+    ? `${name}一覧のページです。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。`
+    : `This is the ${nameen} list page.This site pursues the enjoyment of picture scrolls by scrolling from right to left!`;
 
   return (
     <>
       <Head
-        pagetitle={locale === "en" ? `${nameen} gallary` : `${name}一覧`}
+        pagetitle={isJa ? `${name}一覧` : `${nameen} gallary`}
         pageDesc={tPageDesc}
       />
       <Header />
-      <Breadcrumbs name={locale === "en" ? nameen : name} />
+      <Breadcrumbs name={isJa ? name : nameen} />
       <CardA
         emakis={posts}
         columns={"three"}
         sectionname={"recommend"}
-        sectiontitle={locale === "en" ? `${nameen} gallary` : `${name}一覧`}
-        sectiontitleen={locale === "en" ? `${name}一覧` : `List of ${nameen}`}
+        sectiontitle={isJa ? `${name}一覧` : `${nameen} gallary`}
+        sectiontitleen={isJa ? `List of ${nameen}` : `${name}一覧`}
       />
       <Footer />
     </>
@@ -41,21 +41,19 @@ const Type = ({ name, nameen, posts, slug }) => {
 export default Type;
 
 export const getStaticPaths = async (context) => {
-  const { locale, locales } = context;
-  const tEmakisData = locale === "en" ? enData : jaData;
+  const { locales = ["ja", "en", "zh-Hans", "zh-Hant"] } = context;
 
   const validSlugs = [
     ...new Set(
-      typeItem(tEmakisData)
+      typeItem(enData)
         .map(({ typeen }) => typeen)
         .filter((slug) => typeof slug === "string" && slug.trim().length > 0)
         .map((slug) => slug.trim())
     ),
   ];
-  const paths = validSlugs.flatMap((slug) => [
-    { params: { slug }, locale: "ja" },
-    { params: { slug }, locale: "en" },
-  ]);
+  const paths = validSlugs.flatMap((slug) =>
+    locales.map((loc) => ({ params: { slug }, locale: loc }))
+  );
   return {
     paths: paths,
     fallback: false,
@@ -65,7 +63,7 @@ export const getStaticPaths = async (context) => {
 export const getStaticProps = async (context) => {
   const catslug = context.params.slug;
   const { locale, locales } = context;
-  const tEmakisData = locale === "en" ? enData : jaData;
+  const tEmakisData = locale === "ja" ? jaData : enData;
 
   const typeObj = typeItem(tEmakisData).find(
     ({ typeen }) => typeen === catslug

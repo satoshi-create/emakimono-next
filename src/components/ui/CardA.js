@@ -2,6 +2,7 @@ import SingleCardA from "@/components/ui/SingleCardA";
 import Title from "@/components/ui/Title";
 import { filterEmakisForHub, getAllHubPages } from "@/libs/hubPages";
 import styles from "@/styles/CardA.module.css";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import emakiStyles from "@/styles/Emakis.module.css";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,7 +20,7 @@ const CardA = ({
   variant,
 }) => {
   const { locale } = useRouter();
-  const isEn = locale === "en";
+  const isEn = locale !== "ja";
   const [viewMode, setViewMode] = useState("card");
   const [selectedHubSlug, setSelectedHubSlug] = useState("all");
   const showToggle = columns !== "searchbox";
@@ -154,7 +155,7 @@ const CardA = ({
 
       {sectiondesc && <p className={styles.sectiondesc}>{sectiondesc}</p>}
       <div className={isList ? emakiStyles.listView : styles[columns]}>
-        {displayedEmakis.map((item, i) => {
+          {(displayedEmakis || []).map((item, i) => {
           if (!isList) {
             return (
               <SingleCardA
@@ -169,14 +170,16 @@ const CardA = ({
             );
           }
 
-          const title = locale === "en" ? item.titleen : item.title;
-          const author = locale === "en" ? item.authoren : item.author;
-          const era = locale === "en" ? item.eraen || item.era : item.era;
-          const typeLabel =
-            locale === "en"
-              ? item.typeen || item.type || "Emaki"
-              : item.type || "絵巻";
-          const keywords = locale === "en" ? item.keyworden : item.keyword;
+          const title = getLocalizedField(item, "title", locale, item.titleen);
+          const author = getLocalizedField(item, "author", locale);
+          const era = getLocalizedField(item, "era", locale);
+          const typeLabel = getLocalizedField(
+            item,
+            "type",
+            locale,
+            locale === "ja" ? "絵巻" : "Emaki"
+          );
+          const keywords = getLocalizedField(item, "keyword", locale);
           const keywordList = Array.isArray(keywords)
             ? keywords
             : keywords

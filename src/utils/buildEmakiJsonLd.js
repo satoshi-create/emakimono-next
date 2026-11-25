@@ -30,6 +30,7 @@ export function buildEmakiJsonLd({
     "@id": pageUrl,
     name,
     description,
+    inLanguage: locale,
     url: pageUrl,
     image: {
       "@type": "ImageObject",

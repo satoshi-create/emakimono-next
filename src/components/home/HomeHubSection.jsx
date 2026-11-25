@@ -130,7 +130,7 @@ function ThumbStack({ thumbs = [], title }) {
 
 export function HomeHubSection({ hubs = [], surface = true }) {
   const { locale } = useRouter();
-  const isEn = locale === "en";
+  const isEn = locale !== "ja";
 
   if (!Array.isArray(hubs) || hubs.length === 0) return null;
 

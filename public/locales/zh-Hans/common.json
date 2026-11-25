@@ -1,0 +1,191 @@
+{
+  "search": "搜索",
+  "source": "出处",
+  "viewer": {
+    "next": "下一幕",
+    "previous": "上一幕",
+    "showChapterTitles": "显示章节标题",
+    "hideChapterTitles": "隐藏章节标题",
+    "like": "点赞",
+    "unlike": "取消点赞",
+    "liked": "已赞",
+    "likeEmaki": "赞赏此画卷",
+    "likeScene": "赞赏此场景",
+    "likeSceneShort": "场景",
+    "unlikeScene": "取消场景点赞",
+    "goToEnd": "前往卷末",
+    "goToStart": "返回卷首",
+    "howToView": "浏览指南",
+    "stop": "停止",
+    "stopAutoPlay": "停止自动播放",
+    "autoPlay": "自动播放",
+    "copied": "已复制",
+    "copySceneUrl": "复制当前场景链接",
+    "copySceneUrlShort": "复制链接",
+    "enterFullscreen": "全屏浏览",
+    "exitFullscreen": "退出全屏",
+    "viewImage": "查看高清图",
+    "seeDetailsOfSection": "查看本段解说",
+    "closeDetails": "关闭解说",
+    "sectionList": "章节目录",
+    "seeMore": "查看详情",
+    "closeCommentaryBar": "关闭解说栏",
+    "showCommentary": "显示解说",
+    "backToCommentary": "返回解说",
+    "currentSection": "当前",
+    "textMode": {
+      "desc": "解说",
+      "gendaibun": "现代译文",
+      "kobun": "原文",
+      "label": "文本模式",
+      "tansaku": "探索",
+      "sou": "探索"
+    },
+    "horizontalScrollHint": "横向滚动以展开画卷",
+    "verticalScrollHint": "纵向滚动：请将光标移至画卷外侧",
+    "fullscreeBtn": "全屏沉浸欣赏画卷",
+    "zoomToggleIn": "点击放大（或使用 Ctrl + 滚轮 / 双指缩放）",
+    "zoomToggleOut": "点击恢复 100%（或使用 Ctrl + 滚轮 / 双指缩放）",
+    "zoomInTitle": "放大 (Ctrl + 向上滚动)",
+    "zoomOutTitle": "缩小 (Ctrl + 向下滚动)",
+    "zoomResetTitle": "重置缩放",
+    "zoomWheelHint": "也可使用 Ctrl + 滚轮或双指捏合进行缩放"
+  },
+  "help": {
+    "title": "画卷浏览方法",
+    "closeHelp": "关闭帮助",
+    "swipeToScroll": "左右滑动即可横向展开画卷",
+    "useArrowKeys": "使用方向键浏览",
+    "useArrowKeysAlso": "也可使用键盘方向键移动",
+    "useMouseWheel": "滚动鼠标滚轮进行横向移动",
+    "useScrollbar": "或拖动底部横向滚动条",
+    "palmModeHint": "按住并拖拽画卷即可自由移动",
+    "fullscreenShortcut": "按 F 键或双击切换全屏",
+    "useZoom": "使用 Ctrl + 滚轮或双指缩放细节",
+    "fullGuide": "查看完整使用指南"
+  },
+  "header": {
+    "siteTitle": "绘卷物浏览器",
+    "feedback": "发送反馈"
+  },
+  "nav": {
+    "home": "首页",
+    "openMenu": "打开菜单",
+    "closeMenu": "关闭菜单",
+    "languageSwitch": "语言",
+    "groupExplore": "探索",
+    "groupLearn": "学习",
+    "groupSite": "关于",
+    "contact": "联系我们",
+    "choujuHub": "鸟兽人物戏画",
+    "kusouzuHub": "九相图画廊",
+    "hyakkiHub": "百鬼夜行与付丧神",
+    "rakuchuHub": "洛中洛外图屏风",
+    "mangaRoots": "漫画之源流"
+  },
+  "home": {
+    "metaTitle": "在线横向滚动高清鉴赏",
+    "metaDesc": "横向滚动在线欣赏经典长卷与绘卷艺术——鸟兽人物戏画、地狱草纸、饿鬼草纸、九相图、洛中洛外图等高清数字展厅。",
+    "themeSectionTitle": "按主题浏览",
+    "latestSectionTitle": "最新收录",
+    "popularSectionTitle": "热门画卷",
+    "popularMoreLink": "查看更多热门画卷",
+    "latestNewBadge": "新上线",
+    "latestOrderBadge": "#{{order}}",
+    "featuredSectionTitle": "精选画卷",
+    "galleryLink": "浏览全部画卷",
+    "hubTeaserSectionTitle": "经典专题",
+    "themes": {
+      "satire": {
+        "title": "讽刺与幽默",
+        "desc": "《鸟兽人物戏画》——拟人化的动物嬉戏，被誉为日本最古老的漫画",
+        "cta": "浏览全部4卷"
+      },
+      "darkFantasy": {
+        "title": "地狱与暗黑幻想",
+        "desc": "《地狱草纸》与《饿鬼草纸》——因果报应与奇诡幻想的视觉艺术",
+        "cta": "在京都地图上探索",
+        "warning": "包含地狱受苦描绘，请酌情观看。"
+      },
+      "kusouzu": {
+        "title": "无常观与九相图",
+        "desc": "《九相图》——从生前到化为白骨灰烬的九个阶段完整解析",
+        "cta": "进入九相图画廊"
+      },
+      "mangaRoots": {
+        "title": "现代漫画与动画的源流",
+        "desc": "从古典长卷到现代动漫的视觉叙事谱系",
+        "cta": "探索视觉关联"
+      },
+      "genji": {
+        "title": "王朝美学与物语文学",
+        "desc": "《源氏物语》——平安宫廷的爱恨与雅致，巡礼全54帖",
+        "cta": "浏览源氏物语"
+      }
+    }
+  },
+  "about": {
+    "metaDesc": "致力于以横向滚动方式还原长卷与绘卷原本阅读体验的开源数字艺术项目。"
+  },
+  "share": {
+    "groupLabel": "分享",
+    "x": "分享至 X",
+    "xDesc": "在 X (Twitter) 分享此链接",
+    "line": "分享至 LINE",
+    "lineDesc": "在 LINE 分享此链接",
+    "native": "分享",
+    "nativeDesc": "通过应用分享"
+  },
+  "guide": {
+    "pagetitle": "使用指南",
+    "metaDesc": "了解如何通过横向滚动高清欣赏长卷与绘卷：选择作品、平移缩放、分段解说与场景分享。",
+    "breadcrumb": "使用指南",
+    "sectionTitle": "本站使用指南"
+  },
+  "ranking": {
+    "pagetitle": "热门绘卷排行榜",
+    "metaDesc": "按人气浏览经典绘卷与长卷作品，在 emakimono.com 体验横向展开的数字卷轴。",
+    "breadcrumb": "热门排行榜",
+    "sectionTitle": "热门绘卷排行榜"
+  },
+  "kusouzuHub": {
+    "pagetitle": "九相图全解：九个阶段一览与高清交互长卷对比",
+    "metaDesc": "深入解析佛教艺术中的九相图（生前至白骨灰烬的九个阶段），横向滚动对比镰仓、江户与明治时期名作。",
+    "breadcrumb": "九相图",
+    "introTitle": "九相图（九个无常阶段）",
+    "intro": "描绘人体从逝去到化为尘土九个阶段的佛教观想艺术，横向滚动对比不同时代的经典版本。"
+  },
+  "choujuGigaHub": {
+    "pagetitle": "鸟兽人物戏画 专题合集（甲・乙・丙・丁全4卷）",
+    "metaDesc": "在线横向滚动欣赏日本国宝《鸟兽人物戏画》全四卷，高清放大兔子、青蛙与猿猴的灵动笔触。",
+    "introTitle": "鸟兽人物戏画",
+    "intro": "平安至镰仓时代的讽刺幽默杰作，横向展开甲、乙、丙、丁全部四卷。",
+    "breadcrumb": "鸟兽人物戏画专题"
+  },
+  "hyakkiHub": {
+    "pagetitle": "百鬼夜行绘卷与付丧神绘卷 专题对比",
+    "metaDesc": "横向滚动对比东京大学本、国立国会图书馆本等经典《百鬼夜行绘卷》与《付丧神绘卷》。",
+    "introTitle": "百鬼夜行与付丧神",
+    "intro": "描绘群妖夜行与百年器物化灵的奇幻长卷，支持多版本横向对照鉴赏。",
+    "breadcrumb": "百鬼夜行与付丧神"
+  },
+  "rakuchuRakugaiHub": {
+    "pagetitle": "洛中洛外图屏风 高清对比（舟木本・伯克本・福冈本）",
+    "metaDesc": "全景式俯瞰京都街市、祭典与市井生活，横向滚动高清对比舟木本、伯克本与福冈本三大名作。",
+    "introTitle": "洛中洛外图屏风",
+    "intro": "全景记录战国至江户时代京都风貌与岁时节庆的屏风杰作，横向滚动对比三大传世名本。",
+    "breadcrumb": "洛中洛外图屏风"
+  },
+  "byobuHub": {
+    "pagetitle": "屏风画专题 | 全景长幅数字鉴赏",
+    "metaDesc": "在线横向滚动欣赏国宝《洛中洛外图屏风（舟木本）》等六曲一双大型屏风名作。",
+    "breadcrumb": "屏风画",
+    "introTitle": "屏风画专题",
+    "intro": "折叠展开的空间艺术，高清横向浏览大型屏风画作。"
+  },
+  "mangaRoots": {
+    "pagetitle": "漫画与动画的千年源流 | 从古典绘卷到现代动漫",
+    "metaDesc": "探索12世纪《鸟兽戏画》《地狱草纸》《九相图》如何奠定《咒术回战》《吉卜力》《剑风传奇》的视觉基因。",
+    "breadcrumb": "漫画之源流"
+  }
+}

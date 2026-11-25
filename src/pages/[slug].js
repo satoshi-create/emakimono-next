@@ -166,6 +166,15 @@ const Emaki = ({ data, locale, locales, slug }) => {
   const ogImage =
     OGP_IMAGE_FALLBACKS[data.titleen] || `/ogp/${encodeURI(data.titleen)}.jpg`;
 
+  const resolvedTypeName =
+    locale === "en"
+      ? data.typeen
+      : locale === "zh-Hans"
+        ? data.type_zh_hans || data.type
+        : locale === "zh-Hant"
+          ? data.type_zh_hant || data.type
+          : data.type;
+
   const jsonLd = buildEmakiJsonLd({
     locale,
     slug,
@@ -175,7 +184,7 @@ const Emaki = ({ data, locale, locales, slug }) => {
     image: ogImage,
     creatorName: pageAuthor,
     siteTitle: t.siteTitle,
-    typeName: locale === "en" ? data.typeen : data.type,
+    typeName: resolvedTypeName,
     typeSlug: data.typeen,
   });
 

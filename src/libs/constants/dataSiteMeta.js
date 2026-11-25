@@ -31,8 +31,25 @@ const enMeta = {
   siteType: "website",
   siteIcon: "/favicon.png",
 };
+const zhHansMeta = {
+  siteTitle: "绘卷物浏览器",
+  siteDesc:
+    "横向滚动欣赏古代绘卷与长卷艺术——鸟兽人物戏画、地狱草纸、饿鬼草纸、九相图等经典长卷在线高清鉴赏。",
+  siteUrl: SITE_ORIGIN,
+  siteLang: "zh-Hans",
+  siteLocale: "zh_CN",
+  siteType: "website",
+  siteIcon: "/favicon.png",
+};
+const zhHantMeta = {
+  siteTitle: "繪卷物瀏覽器",
+  siteDesc:
+    "橫向滾動欣賞古代繪卷與長卷藝術——鳥獸人物戲畫、地獄草紙、餓鬼草紙、九相圖等經典長卷線上高清鑑賞。",
+  siteUrl: SITE_ORIGIN,
+  siteLang: "zh-Hant",
+  siteLocale: "zh_TW",
+  siteType: "website",
+  siteIcon: "/favicon.png",
+};
 
-
-
-
-export { SITE_ORIGIN, buildLocaleUrl, jaMeta, enMeta };
+export { SITE_ORIGIN, buildLocaleUrl, jaMeta, enMeta, zhHansMeta, zhHantMeta };

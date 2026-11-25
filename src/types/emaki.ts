@@ -25,6 +25,10 @@ export type EmakiTextData = {
   title: string;
   /** English title of the scroll (optional) */
   title_en?: string;
+  /** Simplified Chinese title of the scroll (optional) */
+  title_zh_hans?: string;
+  /** Traditional Chinese title of the scroll (optional) */
+  title_zh_hant?: string;
   /** Main text content of the scroll */
   text: string;
   /** Chapter number of the scroll */
@@ -116,6 +120,10 @@ export type ScrollMetadata = {
   titleen: string;
   /** English display title (optional). URL slug remains titleen. */
   title_en?: string;
+  /** Simplified Chinese display title (optional). */
+  title_zh_hans?: string;
+  /** Traditional Chinese display title (optional). */
+  title_zh_hant?: string;
   author?: string;
   authoren?: string;
   /** レガシー typos（atuhoren）は rename しない方針（AGENTS.md） */
@@ -131,10 +139,14 @@ export type ScrollMetadata = {
   eraen?: string;
   desc?: string;
   descen?: string;
+  desc_zh_hans?: string;
+  desc_zh_hant?: string;
   metadesc?: string;
   readMore?: boolean;
   type?: string;
   typeen?: string;
+  type_zh_hans?: string;
+  type_zh_hant?: string;
   subtype?: string;
   keyword?: KeywordTag[];
   /** @deprecated UI は参照しない。sync 互換のため JSON に残る場合あり */

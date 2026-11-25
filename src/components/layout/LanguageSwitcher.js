@@ -24,7 +24,14 @@ const stripLocalePrefix = (asPath, locales) => {
   return `${stripped}${queryPart}${hashPart}`;
 };
 
-const LOCALE_ORDER = ["en", "ja"];
+const LOCALE_ORDER = ["en", "ja", "zh-Hans", "zh-Hant"];
+
+const LOCALE_LABELS = {
+  en: { short: "EN", aria: "English" },
+  ja: { short: "JA", aria: "日本語" },
+  "zh-Hans": { short: "简", aria: "简体中文" },
+  "zh-Hant": { short: "繁", aria: "繁體中文" },
+};
 
 const LanguageSwitcher = () => {
   const router = useRouter();
@@ -53,26 +60,32 @@ const LanguageSwitcher = () => {
       role="group"
       aria-label={t("nav.languageSwitch")}
     >
-      {orderedLocales.map((locale, index) => (
-        <Fragment key={locale}>
-          {index > 0 && (
-            <span className={styles.sep} aria-hidden="true">
-              /
-            </span>
-          )}
-          <button
-            type="button"
-            className={`${styles.langBtn} ${
-              locale === activeLocale ? styles.active : ""
-            }`}
-            onClick={() => handleLanguageChange(locale)}
-            aria-pressed={locale === activeLocale}
-            aria-label={locale === "en" ? "English" : "日本語"}
-          >
-            {locale === "en" ? "EN" : "JA"}
-          </button>
-        </Fragment>
-      ))}
+      {orderedLocales.map((locale, index) => {
+        const label = LOCALE_LABELS[locale] || {
+          short: locale.toUpperCase(),
+          aria: locale,
+        };
+        return (
+          <Fragment key={locale}>
+            {index > 0 && (
+              <span className={styles.sep} aria-hidden="true">
+                /
+              </span>
+            )}
+            <button
+              type="button"
+              className={`${styles.langBtn} ${
+                locale === activeLocale ? styles.active : ""
+              }`}
+              onClick={() => handleLanguageChange(locale)}
+              aria-pressed={locale === activeLocale}
+              aria-label={label.aria}
+            >
+              {label.short}
+            </button>
+          </Fragment>
+        );
+      })}
     </div>
   );
 };
