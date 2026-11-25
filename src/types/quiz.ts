@@ -1,130 +1,41 @@
-/** 観察力クイズ — 型の正本。実装: src/data/quiz/, src/components/emaki/quiz/ */
-
-export type QuizId =
-  | "chouju_giga_kou_observe_v1"
-  | "chouju-giga-otsu"
-  | "chouju-giga-hei"
-  | "chouju-giga-tei"
-  | "hyakki-yagyo-utokyo"
-  | "hyakki-kokkai-a"
-  | "hyakki-no-zu-nichibun"
-  | "kusouzumaki"
-  | "kusouzu-kobayasieieitaku"
-  | "genji-monogatari-tokugawa"
-  | "tsukumogami"
-  | "rakuchu-rakugai-funaki"
-  | "rakuchu-rakugai-fukuoka-quiz"
-  | "rakuchu-rakugai-met-quiz";
-
-export type QuizChoice = {
-  id: string;
-  labelJa: string;
-  labelEn: string;
-};
-
-/** chapter / linkId = 同一巻。scroll = 他巻へ遷移してから chapter 解決 */
-export type QuizJumpTarget =
-  | { type: "chapter"; chapter: number | string }
-  | { type: "linkId"; linkId: number }
-  | {
-      type: "scroll";
-      titleen: string;
-      chapter?: number | string;
-      linkId?: number;
-    }
-  | { type: "spot"; spotId: string };
-
-export interface QuizPanoramaTarget {
-  /** 屏風・絵巻全体（横幅 0%〜100%）に対する中心 X 座標 */
-  x: number;
-  /** 屏風・絵巻全体（高さ 0%〜100%）に対する中心 Y 座標 */
-  y: number;
-  /** 正解エリア枠の幅（全体比 %） */
-  w?: number;
-  /** 正解エリア枠の高さ（全体比 %） */
-  h?: number;
-  /** ジャンプ時の目標ズーム倍率（例: 4.6） */
-  scale?: number;
+/**
+ * =============================================================================
+ * 1. クイズ完了サマリー・スコア分布型定義 (QuizSummaryStat)
+ * =============================================================================
+ */
+export interface QuizSummaryStat {
+  totalCompletions: number;
+  scoreDistribution: Record<string, number>;
 }
 
-export type QuizQuestion = {
-  id: string;
-  order: number;
-  promptJa: string;
-  promptEn: string;
-  choices: QuizChoice[];
-  /** choices 配列上の正解インデックス（0-based） */
-  correctIndex: number;
-  explanationJa: string;
-  explanationEn: string;
-  jump?: QuizJumpTarget;
-  target?: QuizPanoramaTarget;
-  jumpLabelJa?: string;
-  jumpLabelEn?: string;
-};
+/**
+ * =============================================================================
+ * 2. クイズ設問別正答率統計型定義 (QuizQuestionStat)
+ * =============================================================================
+ */
+export interface QuizQuestionStat {
+  attempts: number;
+  correctRate: number;
+}
 
-export type QuizRankId = "master" | "observer" | "beginner";
+/**
+ * =============================================================================
+ * 3. クイズ1タイトル分の統計エントリ型定義 (QuizStatEntry)
+ * =============================================================================
+ */
+export interface QuizStatEntry {
+  summary: QuizSummaryStat;
+  questions: Record<string, QuizQuestionStat>;
+}
 
-export type QuizRankRule = {
-  id: QuizRankId;
-  minCorrect: number;
-  maxCorrect: number;
-  labelJa: string;
-  labelEn: string;
-};
-
-/** 結果画面の回遊リンク */
-export type QuizResultLink =
-  | {
-      type: "scroll";
-      titleen: string;
-      labelJa: string;
-      labelEn: string;
-    }
-  | {
-      type: "path";
-      path: string;
-      labelJa: string;
-      labelEn: string;
-    };
-
-export type QuizDefinition = {
-  id: QuizId;
-  /** クイズ開始を出す titleen（エントリー巻） */
-  titleen: string;
+/**
+ * =============================================================================
+ * 4. クイズ統計マスター全体型定義 (QuizStatsMaster)
+ * =============================================================================
+ */
+export interface QuizStatsMaster {
+  _comment?: string;
   version: number;
-  seriesId?: string;          // 例: "choju-giga"
-  seriesTitleJa?: string;     // 例: "鳥獣戯画シリーズ"
-  seriesTitleEn?: string;     // 例: "Chōjū-giga Series"
-  seriesOrder?: number;       // 例: 1 (甲), 2 (乙), 3 (丙), 4 (丁)
-  shortTitleJa?: string;      // 例: "甲巻", "乙巻"
-  shortTitleEn?: string;      // 例: "Scroll I", "Scroll II"
-  questions: QuizQuestion[];
-  ranks: QuizRankRule[];
-  resultLinks?: QuizResultLink[];
-};
-
-export type QuizAnswerRecord = {
-  questionId: string;
-  choiceIndex: number;
-  correct: boolean;
-};
-
-/** sessionStorage に保存する進行状態 */
-export type QuizSessionState = {
-  quizId: QuizId;
-  quizVersion: number;
-  /** 開始した巻の titleen */
-  hostTitleen: string;
-  index: number;
-  selectedIndex: number | null;
-  answers: QuizAnswerRecord[];
-  jumpCount: number;
-  done: boolean;
-  /** 他巻ジャンプ後に適用する章移動 */
-  pendingJump?: {
-    titleen: string;
-    chapter?: number | string;
-    linkId?: number;
-  } | null;
-};
+  canonicalQuizStatKeys: Record<string, string>;
+  quizzes: Record<string, QuizStatEntry>;
+}

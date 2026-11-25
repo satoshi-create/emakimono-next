@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "@/styles/QuizModal.module.css";
-import quizStats from "@/data/quiz/quizStats.json";
+import quizStats from "@/data/quiz/quizStats";
 import { trackQuizShareChallenge } from "@/libs/api/measurementUtils";
 import { getQuizNavigation } from "@/data/quiz";
 import Link from "next/link";

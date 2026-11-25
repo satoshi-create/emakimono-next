@@ -12,7 +12,7 @@ import {
   markQuizCompleted,
 } from "@/libs/api/quizCompletionStore";
 import styles from "@/styles/QuizModal.module.css";
-import quizStats from "@/data/quiz/quizStats.json";
+import quizStats from "@/data/quiz/quizStats";
 import { resolveQuizJump } from "@/utils/resolveQuizJump";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
