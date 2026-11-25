@@ -16,6 +16,10 @@ import { LinkedPublicBoards } from "@/components/hub/LinkedPublicBoards";
 import { fetchPublicBoards } from "@/libs/api/ugcApi";
 import { getHubBySlug, getHubSlugsForEmaki } from "@/libs/hubPages";
 import { filterBoardsForHubSlug } from "@/libs/hubPublicBoards";
+import {
+  emakiDisplayTitle,
+  getLocalizedField,
+} from "@/utils/emakiDisplayTitle";
 
 /**
  * YouTube 風「次に見る」レール。クラスター／最新を優先（累計ランキングではない）。
@@ -23,6 +27,7 @@ import { filterBoardsForHubSlug } from "@/libs/hubPublicBoards";
 const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
   const { t } = useTranslation("common");
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   const all = ExtractingListData();
   const context = useContext(AppContext);
   const rankingList = context?.rankingData || [];
@@ -147,17 +152,19 @@ const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
 
   const resolvedTitle =
     !plan.ctaHref && primaryHub
-      ? locale === "en"
-        ? primaryHub.titleEn || primaryHub.titleJa
-        : primaryHub.titleJa
+      ? getLocalizedField(
+          { title: primaryHub.titleJa, titleen: primaryHub.titleEn },
+          "title",
+          locale
+        )
       : t(plan.titleKey);
 
   const resolvedCtaHref = plan.ctaHref || primaryHub?.path || null;
   const resolvedCtaLabel = plan.ctaHref
     ? t(plan.ctaKey)
-    : locale === "en"
-      ? "Explore theme hub"
-      : "特集ハブを見る";
+    : isJa
+      ? "特集ハブを見る"
+      : "Explore theme hub";
 
   const stopRailAsideBubble = (e) => {
     if (
@@ -202,12 +209,12 @@ const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
             boards={relatedBoards}
             locale={locale}
             title={
-              locale === "en" ? "Related Public Boards" : "関連する公開ボード"
+              isJa ? "関連する公開ボード" : "Related Public Boards"
             }
             ariaLabel={
-              locale === "en"
-                ? "Related public boards list"
-                : "関連する公開ボード一覧"
+              isJa
+                ? "関連する公開ボード一覧"
+                : "Related public boards list"
             }
           />
         </div>
@@ -236,10 +243,8 @@ const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
                   )}
                   <span className={styles.body}>
                     <span className={styles.itemTitle}>
-                      {locale === "en" ? item.titleen : item.title}
-                      {locale === "ja" && item.edition
-                        ? ` ${item.edition}`
-                        : ""}
+                      {emakiDisplayTitle(item, locale)}
+                      {isJa && item.edition ? ` ${item.edition}` : ""}
                     </span>
                     <div className={styles.metaRow}>
                       <span className={styles.hint}>
@@ -263,9 +268,9 @@ const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
             <>
               <li className={styles.sectionHeader} aria-hidden="true">
                 <span className={styles.sectionTitle}>
-                  {locale === "en"
-                    ? "Rakuchū Rakugai Screens"
-                    : "洛中洛外図屏風（特集）"}
+                  {isJa
+                    ? "洛中洛外図屏風（特集）"
+                    : "Rakuchū Rakugai Screens"}
                 </span>
               </li>
               {byobuItems.map((item) => (
@@ -286,10 +291,8 @@ const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
                       )}
                       <span className={styles.body}>
                         <span className={styles.itemTitle}>
-                          {locale === "en" ? item.titleen : item.title}
-                          {locale === "ja" && item.edition
-                            ? ` ${item.edition}`
-                            : ""}
+                          {emakiDisplayTitle(item, locale)}
+                          {isJa && item.edition ? ` ${item.edition}` : ""}
                         </span>
                         <div className={styles.metaRow}>
                           <span className={styles.hint}>
@@ -318,9 +321,7 @@ const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
             <>
               <li className={styles.sectionHeader} aria-hidden="true">
                 <span className={styles.sectionTitle}>
-                  {locale === "en"
-                    ? "Recommended Scrolls"
-                    : "おすすめ・人気の絵巻"}
+                  {isJa ? "おすすめ・人気の絵巻" : "Recommended Scrolls"}
                 </span>
               </li>
               {scrollItems.map((item) => (
@@ -341,10 +342,8 @@ const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
                       )}
                       <span className={styles.body}>
                         <span className={styles.itemTitle}>
-                          {locale === "en" ? item.titleen : item.title}
-                          {locale === "ja" && item.edition
-                            ? ` ${item.edition}`
-                            : ""}
+                          {emakiDisplayTitle(item, locale)}
+                          {isJa && item.edition ? ` ${item.edition}` : ""}
                         </span>
                         <div className={styles.metaRow}>
                           <span className={styles.hint}>

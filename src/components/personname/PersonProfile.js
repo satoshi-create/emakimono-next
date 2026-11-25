@@ -1,4 +1,5 @@
 import styles from "@/styles/PersonProfile.module.css";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import { createCloudinaryHeroLoader } from "@/utils/cloudinaryUrl";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,11 +19,12 @@ const HERO_CLOUDINARY =
  */
 const PersonProfile = ({ person }) => {
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   const { name, id, nameen, ruby, era, eraen, bio, bioen, hub, featuredLinks } =
     person;
 
-  const displayName = locale === "en" ? nameen || id : name;
-  const displayBio = locale === "en" ? bioen : bio;
+  const displayName = isJa ? name : nameen || id;
+  const displayBio = isJa ? bio : bioen;
   const heroSrc = person.heroCloudinary || HERO_CLOUDINARY;
   const links =
     Array.isArray(featuredLinks) && featuredLinks.length > 0
@@ -49,7 +51,7 @@ const PersonProfile = ({ person }) => {
         <div className={styles.headerText}>
           <p className={styles.nameEn}>{nameen || id}</p>
           <h1 className={styles.name}>
-            {locale === "ja" ? (
+            {isJa ? (
               <ruby>
                 {name}
                 <rp>（</rp>
@@ -63,7 +65,9 @@ const PersonProfile = ({ person }) => {
           {era && (
             <Link href={`/era/${eraen}`}>
               <a className={styles.era}>
-                {locale === "en" ? `${eraen} period` : `${era}時代`}
+                {isJa
+                  ? `${getLocalizedField(person, "era", locale)}時代`
+                  : `${getLocalizedField(person, "era", locale)} period`}
               </a>
             </Link>
           )}
@@ -83,7 +87,11 @@ const PersonProfile = ({ person }) => {
                   }
                 >
                   <span className={styles.hubLabel}>
-                    {locale === "en" ? link.labelEn : link.labelJa}
+                    {getLocalizedField(
+                      { label: link.labelJa, labelen: link.labelEn },
+                      "label",
+                      locale
+                    )}
                   </span>
                   <span className={styles.hubArrow}>→</span>
                 </a>

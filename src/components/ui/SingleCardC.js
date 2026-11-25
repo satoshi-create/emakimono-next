@@ -2,9 +2,11 @@ import styles from "@/styles/CardC.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 
 const SingleCardC = ({ item, i, variant }) => {
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   const { titleen, title, thumb, edition, author } = item;
   const boxClass =
     variant === "editionlink"
@@ -29,8 +31,8 @@ const SingleCardC = ({ item, i, variant }) => {
         <a>
           <div className={styles.metadata}>
             <h3 className={styles.title}>
-              {locale == "en" ? titleen : title}
-              <div>{locale == "ja" && edition}</div>
+              {getLocalizedField(item, "title", locale)}
+              <div>{isJa && edition}</div>
             </h3>
           </div>
         </a>

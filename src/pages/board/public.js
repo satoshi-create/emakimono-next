@@ -6,7 +6,7 @@ import { fetchPublicBoards } from "@/libs/api/ugcApi";
 
 export default function PublicBoardsPage() {
   const router = useRouter();
-  const isEn = router.locale === "en";
+  const isJa = router.locale === "ja";
 
   const [boards, setBoards] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,9 +33,9 @@ export default function PublicBoardsPage() {
     <>
       <Head>
         <title>
-          {isEn
-            ? "Public Polaroid Boards | Emakimono"
-            : "みんなの公開ポラロイドボード | 横スクロールで楽しむ絵巻物"}
+          {isJa
+            ? "みんなの公開ポラロイドボード | 横スクロールで楽しむ絵巻物"
+            : "Public Polaroid Boards | Emakimono"}
         </title>
       </Head>
       <main
@@ -63,7 +63,7 @@ export default function PublicBoardsPage() {
               {/* 共通2モード切替セグメントスイッチ */}
               <div
                 role="tablist"
-                aria-label={isEn ? "Board mode switch" : "ボードモード切替"}
+                aria-label={isJa ? "ボードモード切替" : "Board mode switch"}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -91,7 +91,7 @@ export default function PublicBoardsPage() {
                     }}
                   >
                     <span aria-hidden="true">🔒</span>
-                    <span>{isEn ? "Personal List" : "個人ボード一覧"}</span>
+                    <span>{isJa ? "個人ボード一覧" : "Personal List"}</span>
                   </a>
                 </Link>
 
@@ -113,25 +113,25 @@ export default function PublicBoardsPage() {
                   }}
                 >
                   <span aria-hidden="true">🌐</span>
-                  <span>{isEn ? "Public List" : "公開ボード一覧"}</span>
+                  <span>{isJa ? "公開ボード一覧" : "Public List"}</span>
                 </span>
               </div>
 
               <Link href="/" locale={router.locale} passHref>
                 <a style={{ fontSize: 12.5, color: "#64748b", textDecoration: "none" }}>
-                  {isEn ? "← Emaki Gallery" : "← 絵巻一覧へ"}
+                  {isJa ? "← 絵巻一覧へ" : "← Emaki Gallery"}
                 </a>
               </Link>
             </div>
 
             <div>
               <h1 style={{ fontSize: 22, fontWeight: 700, margin: 0 }}>
-                {isEn ? "Public Polaroid Boards" : "みんなの公開ポラロイドボード"}
+                {isJa ? "みんなの公開ポラロイドボード" : "Public Polaroid Boards"}
               </h1>
               <p style={{ fontSize: 13, color: "#6b7280", margin: "4px 0 0" }}>
-                {isEn
-                  ? "Browse open community boards and pin your favorite scenes from any scroll."
-                  : "誰でも自由に閲覧・貼り付けができる公開ギャラリーボードです。"}
+                {isJa
+                  ? "誰でも自由に閲覧・貼り付けができる公開ギャラリーボードです。"
+                  : "Browse open community boards and pin your favorite scenes from any scroll."}
               </p>
             </div>
           </div>
@@ -139,15 +139,15 @@ export default function PublicBoardsPage() {
 
         {loading ? (
           <p style={{ color: "#6b7280" }}>
-            {isEn ? "Loading boards..." : "公開ボードを読み込み中..."}
+            {isJa ? "公開ボードを読み込み中..." : "Loading boards..."}
           </p>
         ) : error ? (
           <p style={{ color: "#dc2626" }}>{error}</p>
         ) : boards.length === 0 ? (
           <p style={{ color: "#6b7280" }}>
-            {isEn
-              ? "No public boards yet."
-              : "まだ公開ボードがありません。"}
+            {isJa
+              ? "まだ公開ボードがありません。"
+              : "No public boards yet."}
           </p>
         ) : (
           <div
@@ -186,7 +186,7 @@ export default function PublicBoardsPage() {
                         marginBottom: 8,
                       }}
                     >
-                      {isEn ? "PUBLIC BOARD" : "公開ボード"}
+                      {isJa ? "公開ボード" : "PUBLIC BOARD"}
                     </div>
                     <h2 style={{ fontSize: 16, fontWeight: 700, margin: "0 0 6px" }}>
                       {b.title}
@@ -205,7 +205,7 @@ export default function PublicBoardsPage() {
                     )}
                   </div>
                   <div style={{ fontSize: 12, color: "#6b7280" }}>
-                    {isEn ? `${b.itemCount} polaroids` : `ポラロイド ${b.itemCount} 枚`}
+                    {isJa ? `ポラロイド ${b.itemCount} 枚` : `${b.itemCount} polaroids`}
                   </div>
                 </a>
               </Link>

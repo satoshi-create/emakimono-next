@@ -51,6 +51,7 @@ export function EmakiViewerChrome({
   openMapDrawer,
   closeMapDrawer,
 }) {
+  const isJa = locale === "ja";
   const [localIsMapDrawerOpen, setLocalIsMapDrawerOpen] = useState(false);
   const isDrawerOpen = controlledIsMapDrawerOpen ?? localIsMapDrawerOpen;
   const handleOpenDrawer = openMapDrawer ?? (() => setLocalIsMapDrawerOpen(true));
@@ -98,7 +99,7 @@ export function EmakiViewerChrome({
                 style={{ color: "#c2410c", fontSize: 14 }}
                 aria-hidden
               />
-              {locale === "en" ? "Kyoto Map" : "京都マップ"}
+              {isJa ? "京都マップ" : "Kyoto Map"}
             </button>
           )}
           {(process.env.NODE_ENV === "development" ||

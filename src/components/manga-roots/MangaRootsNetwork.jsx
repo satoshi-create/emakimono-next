@@ -10,6 +10,7 @@ import {
   useReactFlow,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 const LAYOUT = {
@@ -49,7 +50,11 @@ function graphToFlow(graph, locale, t, variant, enlarged) {
       type: "emaki",
       position: { x: placeX(graph.emakiNodes.length, i, L.padEmaki, L.W - L.padEmaki), y: L.yEmaki },
       data: {
-        title: locale === "en" ? n.titleEn || n.titleen : n.title,
+        title: getLocalizedField(
+          { title: n.title, titleen: n.titleEn || n.titleen },
+          "title",
+          locale
+        ),
         titleen: n.titleen,
         tags: n.tags,
         locale,
@@ -60,7 +65,14 @@ function graphToFlow(graph, locale, t, variant, enlarged) {
       id: n.id,
       type: "tag",
       position: { x: placeX(graph.tagNodes.length, i, L.padTag, L.W - L.padTag), y: L.yTag },
-      data: { label: locale === "en" ? n.labelEn : n.labelJa, tags: [n.id] },
+      data: {
+        label: getLocalizedField(
+          { label: n.labelJa, labelen: n.labelEn },
+          "label",
+          locale
+        ),
+        tags: [n.id],
+      },
       draggable: false,
     })),
     ...graph.mediaNodes.map((n, i) => ({
@@ -68,7 +80,11 @@ function graphToFlow(graph, locale, t, variant, enlarged) {
       type: "media",
       position: { x: placeX(graph.mediaNodes.length, i, L.padMedia, L.W - L.padMedia), y: L.yMedia },
       data: {
-        title: locale === "en" ? n.titleEn : n.titleJa,
+        title: getLocalizedField(
+          { title: n.titleJa, titleen: n.titleEn },
+          "title",
+          locale
+        ),
         typeLabel: n.type === "anime" ? t("mangaRoots.typeAnime") : t("mangaRoots.typeManga"),
         officialUrl: n.officialUrl,
         tags: n.tags,

@@ -5,9 +5,11 @@ import { ArrowForwardIcon } from "@chakra-ui/icons";
 import { Box, Button, Link as ChakraLink } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 
 const CustomTagCloud = ({ tags, emakiPage, compact }) => {
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   const [hoveredTag, setHoveredTag] = useState(null);
 
   // compact（SP等）ではフォントサイズの範囲を縮小して小さく表示する
@@ -131,7 +133,11 @@ const CustomTagCloud = ({ tags, emakiPage, compact }) => {
             margin: "5px",
           }}
         >
-          {locale === "en" ? tag.id : tag.name}
+          {getLocalizedField(
+            { keyword: tag.name, keyworden: tag.id },
+            "keyword",
+            locale
+          )}
         </a>
       </Link>
     );
@@ -162,7 +168,7 @@ const CustomTagCloud = ({ tags, emakiPage, compact }) => {
                   transition: "all 0.2s",
                 }}
               >
-                {locale == "en" ? "View All Keywords	" : "キーワード一覧を見る"}
+                {isJa ? "キーワード一覧を見る" : "View All Keywords	"}
               </Button>
             </ChakraLink>
           </Link>

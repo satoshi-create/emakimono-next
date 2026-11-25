@@ -25,7 +25,7 @@ import ExtractingListData from "@/utils/ExtractingListData";
 import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
 import { isHyakkiClusterScroll } from "@/utils/buildHyakkiHubData";
-import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
+import { emakiDisplayTitle, getLocalizedField } from "@/utils/emakiDisplayTitle";
 import { isByobuScroll } from "@/utils/isByobuScroll";
 import {
   filterdKeywords,
@@ -61,6 +61,7 @@ const EmakiLandscapContent = ({
   const { totalCount } = useSceneLikeCounts();
   const router = useRouter();
   const locale = localeProp ?? router.locale;
+  const isJa = locale === "ja";
   const scrollMeta = emaki ?? data;
   const { t } = useTranslation("common");
   const { t: alldata } = useLocaleData();
@@ -236,13 +237,13 @@ const EmakiLandscapContent = ({
                     <div className={styles.titleLeading}>
                       <h1 className={styles.title}>
                         {emakiDisplayTitle(data, locale)}{" "}
-                        {locale === "ja" && edition}
+                        {isJa && edition}
                       </h1>
                       {totalCount > 0 && (
                         <span
                           className={styles.totalLikesBadge}
-                          aria-label={locale === "en" ? "Total likes" : "いいね総計"}
-                          title={locale === "en" ? "Total likes" : "いいね総計"}
+                          aria-label={isJa ? "いいね総計" : "Total likes"}
+                          title={isJa ? "いいね総計" : "Total likes"}
                         >
                           <FontAwesomeIcon icon={faHeart} aria-hidden />
                           {totalCount.toLocaleString()}
@@ -255,9 +256,9 @@ const EmakiLandscapContent = ({
                               icon={faTrophy}
                               className={styles.rankIcon}
                             />
-                            {locale === "en"
-                              ? `#${rankInfo.rank}`
-                              : `${rankInfo.rank}位`}
+                            {isJa
+                              ? `${rankInfo.rank}位`
+                              : `#${rankInfo.rank}`}
                             <span className={styles.rankDivider}>|</span>
                             <FontAwesomeIcon
                               icon={faEye}
@@ -274,15 +275,15 @@ const EmakiLandscapContent = ({
                           <a
                             className={styles.compositionBadge}
                             title={
-                              locale === "en"
-                                ? "View Rakuchū-rakugai-zu composition & motifs"
-                                : "洛中洛外図の構図形式と主要モチーフを見る"
+                              isJa
+                                ? "洛中洛外図の構図形式と主要モチーフを見る"
+                                : "View Rakuchū-rakugai-zu composition & motifs"
                             }
                           >
                             <span>
-                              {locale === "en"
-                                ? getScrollCompositionForm(data?.titleen).badgeEn
-                                : getScrollCompositionForm(data?.titleen).badgeJa}
+                              {isJa
+                                ? getScrollCompositionForm(data?.titleen).badgeJa
+                                : getScrollCompositionForm(data?.titleen).badgeEn}
                             </span>
                             <span aria-hidden="true">↗</span>
                           </a>
@@ -294,7 +295,7 @@ const EmakiLandscapContent = ({
                     <Link href={`/author/${authoren}`}>
                       <a className={styles.authorLink}>
                         <h2 className={styles.author}>
-                          {locale === "ja" ? author : authoren}
+                          {getLocalizedField(scrollMeta, "author", locale)}
                         </h2>
                       </a>
                     </Link>
@@ -306,8 +307,8 @@ const EmakiLandscapContent = ({
                   locale={locale}
                   styles={styles}
                   descContent={
-                    descToParagraphs(locale === "en" ? descEn : descJa) ??
-                    parse(locale === "en" ? descEn : descJa)
+                    descToParagraphs(isJa ? descJa : descEn) ??
+                    parse(isJa ? descJa : descEn)
                   }
                   eraTagTextColor
                   showRepresentativeLink={isKusouzu && titleen !== "kusouzumaki"}

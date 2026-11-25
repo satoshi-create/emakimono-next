@@ -21,6 +21,7 @@ import {
 import { filterEmakisForHub, getAllHubPages } from "@/libs/hubPages";
 import { fetchRankingPageViews } from "@/libs/api/fetchRankingPageViews";
 import { buildRankingData } from "@/utils/buildRankingData";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import { removeNestedEmakisObj } from "@/utils/emakiList";
 import { keywordItem, useLocale, useLocaleMeta } from "@/utils/func";
 import "lazysizes";
@@ -67,7 +68,7 @@ const buildHomeJsonLd = ({
   const scrollItems = featuredItems.map((item, index) => ({
     "@type": "ListItem",
     position: hubItems.length + index + 1,
-    name: item.title || item.titleen,
+    name: getLocalizedField(item, "title", locale, item.titleen || ""),
     url: buildLocaleUrl(locale, `/${item.titleen}`, defaultLocale),
   }));
 
@@ -107,6 +108,7 @@ const Home = ({ popularEmakis = [], themeHubs = [] }) => {
   const { t: tCommon } = useTranslation("common");
   const { t: meta } = useLocaleMeta();
   const { locale, defaultLocale } = useRouter();
+  const isJa = locale === "ja";
   const removeNestedArrayObj = ExtractingListData();
 
   const featuredEmakis = useMemo(
@@ -155,9 +157,7 @@ const Home = ({ popularEmakis = [], themeHubs = [] }) => {
       {allKeywords.length > 0 && (
         <section className="section-grid section-padding">
           <Title
-            sectiontitle={
-              locale === "en" ? "Keywords" : "キーワード一覧"
-            }
+            sectiontitle={isJa ? "キーワード一覧" : "Keywords"}
             sectiontitleen="Keywords"
           />
           <CustomTagCloud tags={allKeywords} emakiPage compact />

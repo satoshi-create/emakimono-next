@@ -5,6 +5,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import { useContext, useEffect, useState } from "react";
 import { X } from "react-feather";
 
@@ -130,7 +131,7 @@ const Sidebar = ({ value, handleToId }) => {
                 }`}
                 key={index}
               >
-                {locale === "en" ? titleen : title}
+                {getLocalizedField(item, "title", locale)}
               </button>
             );
           })}

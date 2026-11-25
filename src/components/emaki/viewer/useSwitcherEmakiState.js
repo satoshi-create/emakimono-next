@@ -37,20 +37,21 @@ export function useSwitcherEmakiState({
     Array.isArray(data?.spots) || hasQuizPanoramaTarget;
 
   const { chapter, genji_chapter: genjiChapter, title: itemTitle } = item ?? {};
+  const isJa = locale === "ja";
   const chapterTitle =
-    (locale === "en"
+    (isJa
       ? ChaptersTitle(
           data?.titleen,
           data?.title,
           chapter,
-          "titleen",
+          "title",
           genjiChapter
         )
       : ChaptersTitle(
           data?.titleen,
           data?.title,
           chapter,
-          "title",
+          "titleen",
           genjiChapter
         )) ||
     itemTitle ||

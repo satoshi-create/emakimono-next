@@ -2,6 +2,7 @@ import styles from "@/styles/MangaRoots.module.css";
 import Link from "next/link";
 
 const MangaRootsThemeCard = ({ theme, t, locale }) => {
+  const isJa = locale === "ja";
   const thumb = theme.scrolls.find((s) => s.thumb)?.thumb;
   const classicNames = theme.scrolls.map((s) => s.title).join(" / ");
   const spots = [];
@@ -36,7 +37,7 @@ const MangaRootsThemeCard = ({ theme, t, locale }) => {
 
         {spots.map((spot) => (
           <p key={spot.nameEn} className={styles.spot}>
-            {locale === "en" ? spot.nameEn : spot.nameJa}
+            {isJa ? spot.nameJa : spot.nameEn}
           </p>
         ))}
 

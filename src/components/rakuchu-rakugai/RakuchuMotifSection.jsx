@@ -25,7 +25,7 @@ export function RakuchuMotifSection({
   const INITIAL_VISIBLE_COUNT = 6;
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const isJa = locale !== "en";
+  const isJa = locale === "ja";
 
   useEffect(() => {
     const motifId =
@@ -173,12 +173,12 @@ export function RakuchuMotifSection({
             }}
           >
             {isExpanded
-              ? locale === "en"
-                ? "Show Less"
-                : "閉じる"
-              : locale === "en"
-                ? `Show More (${filteredMotifs.length - INITIAL_VISIBLE_COUNT} more)`
-                : `もっと見る（残り ${filteredMotifs.length - INITIAL_VISIBLE_COUNT}件）`}
+              ? isJa
+                ? "閉じる"
+                : "Show Less"
+              : isJa
+                ? `もっと見る（残り ${filteredMotifs.length - INITIAL_VISIBLE_COUNT}件）`
+                : `Show More (${filteredMotifs.length - INITIAL_VISIBLE_COUNT} more)`}
           </button>
         </div>
       ) : null}

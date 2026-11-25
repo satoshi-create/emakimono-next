@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 
 const SCROLL_THUMB_FALLBACK = {
   naomoto_moushibumi_ekotoba: "/thumb/naomoto_moushibumi_ekotoba_thumb.webp",
@@ -25,7 +26,7 @@ const SCROLL_THUMB_FALLBACK = {
 const FolkloreDetailSheet = ({ item, open, onClose, onActivity }) => {
   const { t } = useTranslation("common");
   const { locale } = useRouter();
-  const isEn = locale === "en";
+  const isJa = locale === "ja";
 
   const fallback =
     SCROLL_THUMB_FALLBACK[item?.titleen] ||
@@ -190,13 +191,10 @@ const FolkloreDetailSheet = ({ item, open, onClose, onActivity }) => {
     ? `/ebiki?item=${encodeURIComponent(item.item_id)}`
     : "/ebiki";
 
-  const displayName =
-    isEn && item.name_en ? item.name_en : item.name;
-  const displayActLabel =
-    isEn && item.act_label_en ? item.act_label_en : item.act_label;
-  const displayEra = isEn && item.era_en ? item.era_en : item.era;
-  const displaySummary =
-    isEn && item.summary_en ? item.summary_en : item.summary;
+  const displayName = getLocalizedField(item, "name", locale);
+  const displayActLabel = getLocalizedField(item, "act_label", locale);
+  const displayEra = getLocalizedField(item, "era", locale);
+  const displaySummary = getLocalizedField(item, "summary", locale);
   const closeLabel = t("viewer.folkloreClose");
 
   return createPortal(
@@ -240,7 +238,7 @@ const FolkloreDetailSheet = ({ item, open, onClose, onActivity }) => {
             <h2 id="folklore-sheet-title" className={styles.title}>
               {displayName}
             </h2>
-            {!isEn && item.reading ? (
+            {isJa && item.reading ? (
               <p className={styles.reading}>{item.reading}</p>
             ) : null}
           </div>

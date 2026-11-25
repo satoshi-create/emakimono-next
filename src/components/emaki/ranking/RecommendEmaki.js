@@ -20,6 +20,7 @@ import { useContext, useState } from "react";
 const RecommendEmaki = ({ data }) => {
   const [tabIndex, setTabIndex] = useState(0);
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   const { loading } = useContext(AppContext);
   const handleTabsChange = (index) => {
     setTabIndex(index);
@@ -34,14 +35,14 @@ const RecommendEmaki = ({ data }) => {
               <Flex align="center">
                 <StarIcon mr={2} />
                 <Text>
-                  {locale == "en" ? "Emaki Rankings" : "絵巻ランキング"}
+                  {isJa ? "絵巻ランキング" : "Emaki Rankings"}
                 </Text>
               </Flex>
             </Tab>
             <Tab>
               <Flex align="center">
                 <LinkIcon mr={2} />
-                <Text>{locale == "en" ? "Related Emaki" : "関連絵巻"}</Text>
+                <Text>{isJa ? "関連絵巻" : "Related Emaki"}</Text>
               </Flex>
             </Tab>
           </TabList>

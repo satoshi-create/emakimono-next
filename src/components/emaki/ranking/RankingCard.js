@@ -1,5 +1,6 @@
 import { AppContext } from "@/context/AppContext";
 import { eraColor, eraNameEn } from "@/utils/func";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import { ArrowForwardIcon, ViewIcon } from "@chakra-ui/icons";
 import {
   Badge,
@@ -27,6 +28,7 @@ const medalColors = ["#FFD700", "#C0C0C0", "#CD7F32"]; // gold, silver, bronze
 /* ─── トップ3 ヒーローセクション ─── */
 function Top3Hero({ items, locale }) {
   if (items.length === 0) return null;
+  const isJa = locale === "ja";
   const first = items[0];
   const runners = items.slice(1, 3);
 
@@ -64,7 +66,7 @@ function Top3Hero({ items, locale }) {
             >
               <HStack spacing={2} mb={1}>
                 <Text fontSize="2xl" fontWeight="bold" color={medalColors[0]}>
-                  {locale === "en" ? "#1" : "1位"}
+                  {isJa ? "1位" : "#1"}
                 </Text>
                 <Badge
                   bg={eraColor(first.era) || "gray.500"}
@@ -75,9 +77,9 @@ function Top3Hero({ items, locale }) {
                   flexShrink={0}
                   whiteSpace="nowrap"
                 >
-                  {locale === "en"
-                    ? `${eraNameEn(first.eraen)} period`
-                    : `${first.era}時代`}
+                  {isJa
+                    ? `${first.era}時代`
+                    : `${eraNameEn(first.eraen)} period`}
                 </Badge>
               </HStack>
               <Text
@@ -88,14 +90,14 @@ function Top3Hero({ items, locale }) {
                 wordBreak="break-word"
                 overflowWrap="anywhere"
               >
-                {locale === "en" ? first.titleen : first.title}
-                {locale === "ja" && first.edition && ` ${first.edition}`}
+                {getLocalizedField(first, "title", locale)}
+                {isJa && first.edition && ` ${first.edition}`}
               </Text>
               <HStack mt={1} color="whiteAlpha.800" fontSize="sm">
                 <ViewIcon />
                 <Text>
                   {Number(first.pageView).toLocaleString()}
-                  {locale === "ja" && "回鑑賞"}
+                  {isJa && "回鑑賞"}
                 </Text>
               </HStack>
             </Box>
@@ -146,7 +148,7 @@ function Top3Hero({ items, locale }) {
                           fontWeight="bold"
                           color={medalColors[rank - 1]}
                         >
-                          {locale === "en" ? `#${rank}` : `${rank}位`}
+                          {isJa ? `${rank}位` : `#${rank}`}
                         </Text>
                         <Badge
                           bg={eraColor(item.era) || "gray.500"}
@@ -158,9 +160,9 @@ function Top3Hero({ items, locale }) {
                           flexShrink={0}
                           whiteSpace="nowrap"
                         >
-                          {locale === "en"
-                            ? `${eraNameEn(item.eraen)} period`
-                            : `${item.era}時代`}
+                          {isJa
+                            ? `${item.era}時代`
+                            : `${eraNameEn(item.eraen)} period`}
                         </Badge>
                       </HStack>
                       <Text
@@ -171,14 +173,14 @@ function Top3Hero({ items, locale }) {
                         wordBreak="break-word"
                         overflowWrap="anywhere"
                       >
-                        {locale === "en" ? item.titleen : item.title}
-                        {locale === "ja" && item.edition && ` ${item.edition}`}
+                        {getLocalizedField(item, "title", locale)}
+                        {isJa && item.edition && ` ${item.edition}`}
                       </Text>
                       <HStack mt={1} color="whiteAlpha.800" fontSize="xs">
                         <ViewIcon />
                         <Text>
                           {Number(item.pageView).toLocaleString()}
-                          {locale === "ja" && "回鑑賞"}
+                          {isJa && "回鑑賞"}
                         </Text>
                       </HStack>
                     </Box>
@@ -195,6 +197,7 @@ function Top3Hero({ items, locale }) {
 
 /* ─── 4位以降: プログレスバー付きリスト ─── */
 function RankingList({ items, startRank, maxPageView, locale }) {
+  const isJa = locale === "ja";
   return (
     <VStack spacing={3} align="stretch">
       {items.map((item, idx) => {
@@ -244,8 +247,8 @@ function RankingList({ items, startRank, maxPageView, locale }) {
                       wordBreak="break-word"
                       overflowWrap="anywhere"
                     >
-                      {locale === "en" ? item.titleen : item.title}
-                      {locale === "ja" && item.edition && ` ${item.edition}`}
+                      {getLocalizedField(item, "title", locale)}
+                      {isJa && item.edition && ` ${item.edition}`}
                     </Text>
                     <Badge
                       mt={1}
@@ -258,9 +261,9 @@ function RankingList({ items, startRank, maxPageView, locale }) {
                       flexShrink={0}
                       whiteSpace="nowrap"
                     >
-                      {locale === "en"
-                        ? `${eraNameEn(item.eraen)}`
-                        : `${item.era}`}
+                      {isJa
+                        ? `${item.era}`
+                        : `${eraNameEn(item.eraen)}`}
                     </Badge>
                   </Box>
                   {/* プログレスバー */}
@@ -298,6 +301,7 @@ function RankingList({ items, startRank, maxPageView, locale }) {
 /* ─── メインコンポーネント ─── */
 export default function RankingCard({ isCompact = false, rankingData: rankingDataProp }) {
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   const { rankingData: contextRankingData } = useContext(AppContext);
   const rankingData = rankingDataProp ?? contextRankingData;
   const [selectedEra, setSelectedEra] = useState(null);
@@ -338,7 +342,7 @@ export default function RankingCard({ isCompact = false, rankingData: rankingDat
             onClick={() => setSelectedEra(null)}
             borderRadius="full"
           >
-            {locale === "en" ? "All" : "すべて"}
+            {isJa ? "すべて" : "All"}
           </Tag>
         </WrapItem>
         {eras.map(({ era, eraen }) => {
@@ -361,7 +365,7 @@ export default function RankingCard({ isCompact = false, rankingData: rankingDat
                   color: "white",
                 }}
               >
-                {locale === "en" ? eraNameEn(eraen) : `${era}時代`}
+                {isJa ? `${era}時代` : eraNameEn(eraen)}
               </Tag>
             </WrapItem>
           );
@@ -370,7 +374,7 @@ export default function RankingCard({ isCompact = false, rankingData: rankingDat
 
       {filteredData.length === 0 ? (
         <Text textAlign="center" color="gray.400" py={10}>
-          {locale === "en" ? "No data" : "データがありません"}
+          {isJa ? "データがありません" : "No data"}
         </Text>
       ) : (
         <>
@@ -394,6 +398,7 @@ export default function RankingCard({ isCompact = false, rankingData: rankingDat
 
 /* ─── Compact表示 (RecommendEmaki 用) ─── */
 function CompactList({ data, locale }) {
+  const isJa = locale === "ja";
   return (
     <Box maxWidth="4xl" margin="auto">
       <Stack direction="column" align="stretch" rowGap="2">
@@ -451,21 +456,21 @@ function CompactList({ data, locale }) {
                             textTransform="none"
                             borderRadius={10}
                           >
-                            {locale === "en" ? typeen : type}
+                            {getLocalizedField(item, "type", locale)}
                           </Badge>
                           <Badge
                             variant="outline"
                             textTransform="none"
                             borderRadius={10}
                           >
-                            {locale === "en"
-                              ? `${eraNameEn(eraen)} period`
-                              : `${era}時代`}
+                            {isJa
+                              ? `${era}時代`
+                              : `${eraNameEn(eraen)} period`}
                           </Badge>
                         </HStack>
                         <Text fontSize="md" fontWeight="bold">
-                          {locale === "en" ? titleen : title}
-                          {locale === "ja" && edition}
+                          {getLocalizedField(item, "title", locale)}
+                          {isJa && edition}
                         </Text>
                       </VStack>
                       <HStack marginTop={2} color="gray.500" fontSize="sm">
@@ -489,9 +494,9 @@ function CompactList({ data, locale }) {
             borderWidth="1px"
             fontSize="small"
           >
-            {locale === "en"
-              ? "View All Emaki Rankings"
-              : "全ての絵巻ランキングを見る"}
+            {isJa
+              ? "全ての絵巻ランキングを見る"
+              : "View All Emaki Rankings"}
           </Button>
         </NextLink>
       </Box>

@@ -6,6 +6,7 @@ import parse from "html-react-parser";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 
 const CardB = ({
   columns,
@@ -19,6 +20,7 @@ const CardB = ({
   linktitleen,
 }) => {
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   const historyemakis = [
     {
       path: "/era/heiann",
@@ -101,7 +103,7 @@ const CardB = ({
                       }}
                     >
                       <p className={styles.title}>
-                        {locale === "en" ? parse(eraen) : parse(era)}
+                        {parse(getLocalizedField(item, "era", locale))}
                       </p>
                     </div>
                   </figure>
@@ -112,7 +114,7 @@ const CardB = ({
         })}
         {/* <Button
           title={
-            locale === "en" ? "View a list of EMAKIMONO !!" : "絵巻一覧を見る"
+            isJa ? "絵巻一覧を見る" : "View a list of EMAKIMONO !!"
           }
           path={"/category/emaki"}
           style={"cardB"}
@@ -120,9 +122,9 @@ const CardB = ({
         {linktitle && (
           <Button
             title={
-              locale === "en"
-                ? `View a list of ${linktitleen} !!`
-                : `${linktitle}一覧を見る`
+              isJa
+                ? `${linktitle}一覧を見る`
+                : `View a list of ${linktitleen} !!`
             }
             path={linkpath}
             style={columns}

@@ -6,11 +6,12 @@ import { useRouter } from "next/router";
 
 const Keywords = ({ sectiontitle, sectiontitleen, path, allTags }) => {
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   return (
     <section className={`section-grid section-padding `}>
       <Title sectiontitle={sectiontitle} sectiontitleen={sectiontitleen} />
 
-      <div className={`${styles.tags} ${locale === "ja" && styles.jatags}`}>
+      <div className={`${styles.tags} ${isJa && styles.jatags}`}>
         <CustomTagCloud tags={allTags} />
         {/* {allTags.map((item, index) => {
           const { name, id, slug, total, ruby } = item;
@@ -19,7 +20,7 @@ const Keywords = ({ sectiontitle, sectiontitleen, path, allTags }) => {
             <Link href={`/keyword/${slug}`} key={index}>
               <a className={styles.title}>
                 <p>
-                  {locale === "en" ? id : name}
+                  {isJa ? name : id}
                   <span className={styles.total}>{`(${total})`}</span>
                 </p>
               </a>
@@ -30,9 +31,9 @@ const Keywords = ({ sectiontitle, sectiontitleen, path, allTags }) => {
       {path && (
         <Button
           title={
-            locale === "en"
-              ? "View a list of keywords !!"
-              : "キーワード一覧を見る"
+            isJa
+              ? "キーワード一覧を見る"
+              : "View a list of keywords !!"
           }
           path={path}
           style={"tag"}

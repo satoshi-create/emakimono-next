@@ -1,10 +1,14 @@
 import styles from "@/styles/Title.module.css";
+import { useRouter } from "next/router";
 
-const Title = ({ sectiontitle }) => {
+const Title = ({ sectiontitle, sectiontitleen }) => {
+  const { locale } = useRouter();
+  const isJa = locale === "ja";
+  const heading = !isJa && sectiontitleen ? sectiontitleen : sectiontitle;
+
   return (
     <div className={styles.title}>
-      {/* <h3>{sectiontitleen}</h3> */}
-      <h2>{sectiontitle}</h2>
+      <h2>{heading}</h2>
     </div>
   );
 };

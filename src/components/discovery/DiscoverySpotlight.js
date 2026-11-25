@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { useTranslation } from "next-i18next";
+import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
 
 /**
  * 入口ページ用: キュレーションされた絵巻への落下導線。
@@ -14,6 +15,7 @@ import { useTranslation } from "next-i18next";
 const DiscoverySpotlight = () => {
   const { t } = useTranslation("common");
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   const all = ExtractingListData();
 
   const groups = useMemo(() => {
@@ -61,10 +63,8 @@ const DiscoverySpotlight = () => {
                     )}
                     <span className={styles.body}>
                       <span className={styles.itemTitle}>
-                        {locale === "en" ? item.titleen : item.title}
-                        {locale === "ja" && item.edition
-                          ? ` ${item.edition}`
-                          : ""}
+                        {emakiDisplayTitle(item, locale)}
+                        {isJa && item.edition ? ` ${item.edition}` : ""}
                       </span>
                       <span className={styles.hint}>
                         {t("discovery.watchHint")}

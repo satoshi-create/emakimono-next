@@ -15,11 +15,11 @@ export default function FullScreenComp({
 }) {
   const handle = useFullScreenHandle();
   const { locale } = useRouter();
+  const isJa = locale === "ja";
 
-  const localeTitle =
-    locale === "en"
-      ? emakiDisplayTitle({ title, titleen, title_en }, locale)
-      : `${title} ${edition ? edition : ""}`;
+  const localeTitle = isJa
+    ? `${title} ${edition ? edition : ""}`
+    : emakiDisplayTitle({ title, titleen, title_en }, locale);
 
   return (
     <>

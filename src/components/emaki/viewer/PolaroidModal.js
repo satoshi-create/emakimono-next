@@ -71,7 +71,8 @@ export function PolaroidModal({
 
   const router = useRouter();
   const locale = router.locale ?? "ja";
-  const isEn = locale === "en";
+  const isJa = locale === "ja";
+  const isEn = !isJa;
 
   // モバイル端末判定（navigator.share を利用可能か判断）
   useEffect(() => {

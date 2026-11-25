@@ -20,7 +20,8 @@ import emakisData from "@/data/scroll-metadata";
 
 export function PolaroidBoardView() {
   const router = useRouter();
-  const isEn = router.locale === "en";
+  const isJa = router.locale === "ja";
+  const isEn = !isJa;
 
   const sharedParam = typeof router.query.d === "string" ? router.query.d : "";
   const roomParam = typeof router.query.room === "string" ? router.query.room.trim() : "";

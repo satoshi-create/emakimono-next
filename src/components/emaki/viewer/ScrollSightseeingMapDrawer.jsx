@@ -21,7 +21,8 @@ const ScrollSightseeingMapDrawer = ({
   onSelectSpot,
   locale = "ja",
 }) => {
-  const isEn = locale === "en";
+  const isJa = locale === "ja";
+  const isEn = !isJa;
 
   const geoSpots = useMemo(() => {
     if (!titleen) return [];

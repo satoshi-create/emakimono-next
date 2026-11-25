@@ -18,7 +18,7 @@ import { createPortal } from "react-dom";
 const GenjiChapterDrawer = ({ genjieslug, href, isOpen, onClose }) => {
   const { locale } = useRouter();
   const { t } = useTranslation("common");
-  const isEn = locale === "en";
+  const isJa = locale === "ja";
   const panelRef = useRef(null);
   const [shown, setShown] = useState(false);
   const [activeTab, setActiveTab] = useState("summary");
@@ -58,28 +58,28 @@ const GenjiChapterDrawer = ({ genjieslug, href, isOpen, onClose }) => {
   if (!isOpen || !detail || typeof document === "undefined") return null;
 
   const closeLabel = t("genjiHub.drawerClose", {
-    defaultValue: isEn ? "Close" : "閉じる",
+    defaultValue: !isJa ? "Close" : "閉じる",
   });
   const detailLabel = t("genjiHub.modalDetailLink", {
-    defaultValue: isEn ? "Read more details ↗" : "さらに詳細を見る ↗",
+    defaultValue: !isJa ? "Read more details ↗" : "さらに詳細を見る ↗",
   });
 
   const tabs = [
     {
       id: "summary",
-      label: isEn ? "Summary" : "あらすじ",
+      label: !isJa ? "Summary" : "あらすじ",
       body: detail.summary,
       source: "",
     },
     {
       id: "gendaibun",
-      label: isEn ? "Modern Japanese" : "現代文",
+      label: !isJa ? "Modern Japanese" : "現代文",
       body: detail.gendaibun,
       source: detail.sourceGendaibunUrl,
     },
     {
       id: "kobun",
-      label: isEn ? "Classical Japanese" : "古文",
+      label: !isJa ? "Classical Japanese" : "古文",
       body: detail.kobun,
       source: detail.sourceKobunUrl,
     },
@@ -93,20 +93,20 @@ const GenjiChapterDrawer = ({ genjieslug, href, isOpen, onClose }) => {
       data-open={shown ? "true" : "false"}
       role="dialog"
       aria-modal="false"
-      aria-label={isEn ? detail.titleen : detail.title}
+      aria-label={!isJa ? detail.titleen : detail.title}
     >
       <header className={drawerStyles.head}>
         <div className={drawerStyles.headText}>
           <h2 className={drawerStyles.title}>
-            {isEn ? detail.titleen : detail.title}
+            {!isJa ? detail.titleen : detail.title}
           </h2>
-          {!isEn && detail.ruby ? (
+          {isJa && detail.ruby ? (
             <span className={drawerStyles.ruby}>{detail.ruby}</span>
           ) : null}
         </div>
         {detail.chapterCh ? (
           <span className={drawerStyles.badge}>
-            {isEn ? `Chapter ${detail.chapterEn}` : `第${detail.chapterCh}帖`}
+            {!isJa ? `Chapter ${detail.chapterEn}` : `第${detail.chapterCh}帖`}
           </span>
         ) : null}
         <button
@@ -124,13 +124,13 @@ const GenjiChapterDrawer = ({ genjieslug, href, isOpen, onClose }) => {
         <div className={drawerStyles.facts}>
           {detail.age ? (
             <span>
-              {isEn ? "Age" : "巻立"}:{" "}
+              {!isJa ? "Age" : "巻立"}:{" "}
               <b className={drawerStyles.factValue}>{detail.age}</b>
             </span>
           ) : null}
           {detail.mainCharacter ? (
             <span>
-              {isEn ? "Main character" : "主な人物"}:{" "}
+              {!isJa ? "Main character" : "主な人物"}:{" "}
               <b className={drawerStyles.factValue}>{detail.mainCharacter}</b>
             </span>
           ) : null}
@@ -165,10 +165,10 @@ const GenjiChapterDrawer = ({ genjieslug, href, isOpen, onClose }) => {
                 rel="noopener noreferrer"
               >
                 {current.id === "kobun"
-                  ? isEn
+                  ? !isJa
                     ? "Open the classical text (source) ↗"
                     : "出典・底本（古文）を開く ↗"
-                  : isEn
+                  : !isJa
                   ? "Open the modern translation (source) ↗"
                   : "出典・底本（現代文）を開く ↗"}
               </a>

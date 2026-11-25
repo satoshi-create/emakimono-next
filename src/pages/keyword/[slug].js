@@ -3,27 +3,27 @@ import Header from "@/components/layout/Header";
 import Head from "@/components/meta/Meta";
 import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import CardA from "@/components/ui/CardA";
-import {
-  default as emakisData,
-  default as enData,
-  default as jaData,
-} from "@/data/scroll-metadata";
 import { keywordItem, removeNestedEmakisObj } from "@/utils/func";
+import {
+  buildI18nStaticPaths,
+  resolveEmakiCatalog,
+} from "@/utils/i18nStaticPaths";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Emaki = ({ name, posts, nameen, slug }) => {
   const { locale } = useRouter();
-  const isEn = locale === "en";
-  const keywordName = isEn ? nameen : name;
+  const isJa = locale === "ja";
+  const keywordName = getLocalizedField({ name, nameen }, "name", locale);
   const count = posts?.length ?? 0;
   const sampleItems = (posts ?? []).slice(0, 4);
   const sampleTitles = sampleItems
-    .map((item) => (isEn ? item.titleen || item.title : item.title))
+    .map((item) => getLocalizedField(item, "title", locale, item.titleen || ""))
     .filter(Boolean)
-    .join(isEn ? ", " : "・");
+    .join(!isJa ? ", " : "・");
 
-  const pagetitle = isEn
+  const pagetitle = !isJa
     ? count > 0
       ? `${keywordName} — Japanese Picture Scrolls (${count} Works)`
       : `List of works about " ${nameen} "`
@@ -31,7 +31,7 @@ const Emaki = ({ name, posts, nameen, slug }) => {
       ? `「${keywordName}」の絵巻物一覧（全${count}作品）`
       : `「${name}」に関する作品一覧`;
 
-  const pageDesc = isEn
+  const pageDesc = !isJa
     ? count > 0
       ? `Explore ${count} classical Japanese picture scrolls (emakimono) tagged with "${keywordName}"${sampleTitles ? `, including ${sampleTitles}` : ""}. View full scrolls with high-resolution horizontal zoom and commentary.`
       : `You can enjoy picture scrolls, folding screens, etc. related to "${name}" in vertical and horizontal scrolling mode.`
@@ -44,8 +44,8 @@ const Emaki = ({ name, posts, nameen, slug }) => {
       <Head pagetitle={pagetitle} pageDesc={pageDesc} />
       <Header slug={`keyword/${slug}`} />
       <Breadcrumbs
-        name={locale === "en" ? `${nameen}` : name}
-        test={locale === "en" ? "keyword list" : "キーワード一覧"}
+        name={!isJa ? `${nameen}` : name}
+        test={!isJa ? "keyword list" : "キーワード一覧"}
         testen={"keyword/keywordlist"}
       />
       <CardA
@@ -53,12 +53,12 @@ const Emaki = ({ name, posts, nameen, slug }) => {
         columns={"three"}
         sectionname={"recommend"}
         sectiontitle={
-          locale === "en"
+          !isJa
             ? `List of works about " ${nameen} "`
             : `「${name}」に関する作品一覧`
         }
         sectiontitleen={
-          locale === "en"
+          !isJa
             ? `「${name}」に関する作品一覧`
             : `List of works about " ${nameen} "`
         }
@@ -68,24 +68,20 @@ const Emaki = ({ name, posts, nameen, slug }) => {
   );
 };
 
-export const getStaticPaths = async () => {
-  const paths = keywordItem(emakisData).map(({ slug }) => ({
-    params: {
-      slug: slug,
-    },
-    locale: "ja",
-  }));
-  paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
+export const getStaticPaths = async (context) => {
+  const tEmakisData = resolveEmakiCatalog(context?.locale);
+  const slugs = keywordItem(tEmakisData).map(({ slug }) => slug);
+  const paths = buildI18nStaticPaths(slugs, context?.locales);
   return {
-    paths: paths,
+    paths,
     fallback: false,
   };
 };
 
 export const getStaticProps = async (context) => {
   const keywordslug = context.params.slug;
-  const { locale, locales } = context;
-  const tEmakisData = locale === "en" ? enData : jaData;
+  const { locale } = context;
+  const tEmakisData = resolveEmakiCatalog(locale);
   const keyword = keywordItem(tEmakisData).find(
     ({ slug }) => slug === keywordslug
   );

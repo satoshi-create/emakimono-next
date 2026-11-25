@@ -5,6 +5,7 @@
 import styles from "@/styles/FolkloreSceneChips.module.css";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 
 const FolkloreSceneChips = ({
   items = [],
@@ -14,7 +15,6 @@ const FolkloreSceneChips = ({
 }) => {
   const { t } = useTranslation("common");
   const { locale } = useRouter();
-  const isEn = locale === "en";
 
   if (hidden || !items.length) return null;
 
@@ -44,7 +44,7 @@ const FolkloreSceneChips = ({
               onSelect?.(item);
             }}
           >
-            {isEn && item.name_en ? item.name_en : item.name}
+            {getLocalizedField(item, "name", locale)}
           </button>
         ))}
       </div>

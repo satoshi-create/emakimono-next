@@ -17,6 +17,7 @@ import {
   getAddPlaceholderPos,
   useHomePublicBoards,
 } from "./useHomePublicBoards";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 
 const CARD_PHOTO_W = HOME_CARD_PHOTO_W;
 const CARD_PHOTO_H = HOME_CARD_PHOTO_H;
@@ -93,7 +94,8 @@ function BoardCardPhoto({ item }) {
 
 export default function HomePublicBoards({ surface: useSurface = true }) {
   const router = useRouter();
-  const isEn = router.locale === "en";
+  const isJa = router.locale === "ja";
+  const isEn = !isJa;
   const sectionBg = useSurface
     ? "var(--clr-surface, #f9fbff)"
     : "var(--clr-bg, #ffffff)";
@@ -142,7 +144,7 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
       {!isFullscreen && !isLoadingList && boards.length > 0 && (
         <div
           role="tablist"
-          aria-label={isEn ? "Public board tabs" : "公開ボード切り替えタブ"}
+          aria-label={isJa ? "公開ボード切り替えタブ" : "Public board tabs"}
             style={{
               width: "100%",
               padding: "10px 16px 0",
@@ -157,9 +159,9 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
           >
             <span
               title={
-                isEn
-                  ? "Polaroid Board is currently in Beta. Features and layout may change."
-                  : "ポラロイドボードは現在ベータ版です。仕様や表示は予告なく変更される場合があります。"
+                isJa
+                  ? "ポラロイドボードは現在ベータ版です。仕様や表示は予告なく変更される場合があります。"
+                  : "Polaroid Board is currently in Beta. Features and layout may change."
               }
               style={{
                 alignSelf: "center",
@@ -182,7 +184,7 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
             >
               <span>BETA</span>
               <span style={{ fontWeight: 500, fontSize: 10 }}>
-                {isEn ? "Preview" : "ベータ版"}
+                {isJa ? "ベータ版" : "Preview"}
               </span>
             </span>
             {boards.map((b) => {
@@ -235,7 +237,7 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
 
       <section
         aria-label={
-          isEn ? "Public Polaroid Whiteboard" : "みんなのポラロイド・ホワイトボード"
+          isJa ? "みんなのポラロイド・ホワイトボード" : "Public Polaroid Whiteboard"
         }
       style={
         isFullscreen
@@ -307,9 +309,9 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
               color: surface.barTextMuted,
             }}
           >
-            {isEn
-              ? "Loading polaroid whiteboard..."
-              : "ホワイトボードを読み込み中..."}
+            {isJa
+              ? "ホワイトボードを読み込み中..."
+              : "Loading polaroid whiteboard..."}
           </div>
         ) : (
           <div
@@ -447,7 +449,7 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
                     letterSpacing: "0.08em",
                   }}
                 >
-                  {isEn ? "CURRENT THEME" : "今回のお題"}
+                  {isJa ? "今回のお題" : "CURRENT THEME"}
                 </span>
                 <div
                   style={{
@@ -488,12 +490,12 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
             <span aria-hidden="true">{isFullscreen ? "✕" : "⛶"}</span>
             <span>
               {isFullscreen
-                ? isEn
-                  ? "Exit Fullscreen (ESC)"
-                  : "全画面を閉じる (ESC)"
-                : isEn
-                ? "Fullscreen Board"
-                : "全画面で広げる"}
+                ? isJa
+                  ? "全画面を閉じる (ESC)"
+                  : "Exit Fullscreen (ESC)"
+                : isJa
+                ? "全画面で広げる"
+                : "Fullscreen Board"}
             </span>
           </button>
         </div>
@@ -530,7 +532,7 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
                     boxShadow: "0 2px 8px rgba(138, 109, 59, 0.25)",
                   }}
                 >
-                  {isEn ? "Open Full Board →" : "このボードを開く →"}
+                  {isJa ? "このボードを開く →" : "Open Full Board →"}
                 </a>
               </Link>
               <button
@@ -552,9 +554,9 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
                   whiteSpace: "nowrap",
                 }}
               >
-                {isEn
-                  ? "Explore Scrolls for This Theme →"
-                  : "お題に合う絵巻を探す →"}
+                {isJa
+                  ? "お題に合う絵巻を探す →"
+                  : "Explore Scrolls for This Theme →"}
               </button>
             </div>
             {relatedHubs.length > 0 && (
@@ -576,7 +578,7 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
                     color: surface.barTextMuted,
                   }}
                 >
-                  {isEn ? "Related hubs" : "関連ハブ"}
+                  {isJa ? "関連ハブ" : "Related hubs"}
                 </span>
                 {relatedHubs.map((hub) => (
                   <Link
@@ -601,9 +603,11 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {isEn
-                        ? hub.titleEn || hub.titleJa
-                        : hub.titleJa || hub.titleEn}
+                      {getLocalizedField(
+                        { title: hub.titleJa, titleen: hub.titleEn },
+                        "title",
+                        router.locale
+                      )}
                     </a>
                   </Link>
                 ))}
@@ -637,9 +641,9 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
       >
         <span aria-hidden="true">✋</span>
         <span>
-          {isEn
-            ? "Interactive Board: Drag cards or background • Scroll to zoom"
-            : "触れるボード：カードや背景をドラッグ・ホイールで拡大縮小"}
+          {isJa
+            ? "触れるボード：カードや背景をドラッグ・ホイールで拡大縮小"
+            : "Interactive Board: Drag cards or background • Scroll to zoom"}
         </span>
       </div>
 
@@ -720,7 +724,7 @@ export default function HomePublicBoards({ surface: useSurface = true }) {
             cursor: "pointer",
           }}
         >
-          {isEn ? "Reset" : "リセット"}
+          {isJa ? "リセット" : "Reset"}
         </button>
       </div>
     </section>

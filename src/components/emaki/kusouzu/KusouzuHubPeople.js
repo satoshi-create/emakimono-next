@@ -6,6 +6,7 @@ import emakisData from "@/data/scroll-metadata";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 
 const KUSOUZU_PERSON_SLUGS = ["danrinkougou", "ononokomachi"];
 
@@ -13,6 +14,7 @@ const KUSOUZU_PERSON_SLUGS = ["danrinkougou", "ononokomachi"];
 const KusouzuHubPeople = () => {
   const { t } = useTranslation("common");
   const { locale } = useRouter();
+  const isJa = locale === "ja";
 
   const people = personProfileItem(emakisData).filter((p) =>
     KUSOUZU_PERSON_SLUGS.includes(p.slug)
@@ -25,7 +27,9 @@ const KusouzuHubPeople = () => {
       <p className={hubStyles.peopleIntro}>{t("kusouzuHub.peopleIntro")}</p>
       <ul className={hubStyles.peopleGrid}>
         {people.map((person) => {
-          const displayName = locale === "en" ? person.id : person.name;
+          const displayName = isJa
+            ? getLocalizedField(person, "name", locale)
+            : person.id;
           return (
             <li key={person.slug}>
               <Link href={`/personname/${person.slug}`}>
@@ -35,7 +39,7 @@ const KusouzuHubPeople = () => {
                   </span>
                   <span className={hubStyles.peopleName}>{displayName}</span>
                   <span className={hubStyles.peopleRuby}>
-                    {locale === "ja" ? person.ruby : ""}
+                    {isJa ? person.ruby : ""}
                   </span>
                 </a>
               </Link>

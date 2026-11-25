@@ -6,14 +6,14 @@ import { PolaroidBoardView } from "@/components/emaki/viewer/board/PolaroidBoard
 
 export default function PolaroidBoardPage() {
   const router = useRouter();
-  const isEn = router.locale === "en";
+  const isJa = router.locale === "ja";
 
-  const pageTitle = isEn
-    ? "Emaki Polaroid Board | emakimono.com"
-    : "絵巻ポラロイド・ホワイトボード | 絵巻物ビューアー";
-  const pageDesc = isEn
-    ? "Collect your favorite scenes from Japanese emaki scrolls, arrange them on a whiteboard, add notes, and share."
-    : "絵巻物のお気に入りシーンをポラロイドで切り抜き、ホワイトボードに並べて観察メモや共有ができる個人図録ボードです。";
+  const pageTitle = isJa
+    ? "絵巻ポラロイド・ホワイトボード | 絵巻物ビューアー"
+    : "Emaki Polaroid Board | emakimono.com";
+  const pageDesc = isJa
+    ? "絵巻物のお気に入りシーンをポラロイドで切り抜き、ホワイトボードに並べて観察メモや共有ができる個人図録ボードです。"
+    : "Collect your favorite scenes from Japanese emaki scrolls, arrange them on a whiteboard, add notes, and share.";
 
   return (
     <>

@@ -11,7 +11,7 @@ import {
 
 export default function PersonalBoardsPage() {
   const router = useRouter();
-  const isEn = router.locale === "en";
+  const isJa = router.locale === "ja";
 
   const [boards, setBoards] = useState([]);
   const [newTitle, setNewTitle] = useState("");
@@ -54,9 +54,9 @@ export default function PersonalBoardsPage() {
     e.stopPropagation();
     if (boardId === "default") return;
     const ok = window.confirm(
-      isEn
-        ? "Delete this personal board? Polaroids on it will be removed."
-        : "この個人ボードを削除しますか？貼ったポラロイドも消えます。"
+      isJa
+        ? "この個人ボードを削除しますか？貼ったポラロイドも消えます。"
+        : "Delete this personal board? Polaroids on it will be removed."
     );
     if (!ok) return;
     deletePersonalBoard(boardId);
@@ -67,9 +67,9 @@ export default function PersonalBoardsPage() {
     <>
       <Head>
         <title>
-          {isEn
-            ? "My Personal Polaroid Boards | Emakimono"
-            : "自分のポラロイドボード一覧 | 横スクロールで楽しむ絵巻物"}
+          {isJa
+            ? "自分のポラロイドボード一覧 | 横スクロールで楽しむ絵巻物"
+            : "My Personal Polaroid Boards | Emakimono"}
         </title>
       </Head>
       <main
@@ -96,7 +96,7 @@ export default function PersonalBoardsPage() {
             <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
               <div
                 role="tablist"
-                aria-label={isEn ? "Board mode switch" : "ボードモード切替"}
+                aria-label={isJa ? "ボードモード切替" : "Board mode switch"}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -124,26 +124,26 @@ export default function PersonalBoardsPage() {
                   }}
                 >
                   <span aria-hidden="true">🔒</span>
-                  <span>{isEn ? "Personal List" : "個人ボード一覧"}</span>
+                  <span>{isJa ? "個人ボード一覧" : "Personal List"}</span>
                 </span>
 
               </div>
 
               <Link href="/" locale={router.locale} passHref>
                 <a style={{ fontSize: 12.5, color: "#64748b", textDecoration: "none" }}>
-                  {isEn ? "← Emaki Gallery" : "← 絵巻一覧へ"}
+                  {isJa ? "← 絵巻一覧へ" : "← Emaki Gallery"}
                 </a>
               </Link>
             </div>
 
             <div>
               <h1 style={{ fontSize: 22, fontWeight: 700, margin: 0 }}>
-                {isEn ? "My Personal Polaroid Boards" : "自分のポラロイドボード一覧"}
+                {isJa ? "自分のポラロイドボード一覧" : "My Personal Polaroid Boards"}
               </h1>
               <p style={{ fontSize: 13, color: "#6b7280", margin: "4px 0 0" }}>
-                {isEn
-                  ? "Create themed boards and arrange polaroids from any scroll."
-                  : "テーマごとに個人ボードを作り、好きな絵巻のポラロイドを並べられます。"}
+                {isJa
+                  ? "テーマごとに個人ボードを作り、好きな絵巻のポラロイドを並べられます。"
+                  : "Create themed boards and arrange polaroids from any scroll."}
               </p>
             </div>
           </div>
@@ -173,9 +173,9 @@ export default function PersonalBoardsPage() {
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
                 placeholder={
-                  isEn
-                    ? "Board theme (e.g. Favorite frogs in Choju-giga)"
-                    : "テーマ名（例: 鳥獣戯画のお気に入り動物集）"
+                  isJa
+                    ? "テーマ名（例: 鳥獣戯画のお気に入り動物集）"
+                    : "Board theme (e.g. Favorite frogs in Choju-giga)"
                 }
                 style={{
                   flex: "1 1 260px",
@@ -201,12 +201,12 @@ export default function PersonalBoardsPage() {
                 }}
               >
                 {creating
-                  ? isEn
-                    ? "Creating..."
-                    : "作成中..."
-                  : isEn
-                  ? "+ Create Personal Board"
-                  : "＋ 個人ボードを新しく作る"}
+                  ? isJa
+                    ? "作成中..."
+                    : "Creating..."
+                  : isJa
+                  ? "＋ 個人ボードを新しく作る"
+                  : "+ Create Personal Board"}
               </button>
             </div>
             <input
@@ -215,9 +215,9 @@ export default function PersonalBoardsPage() {
               value={newDescription}
               onChange={(e) => setNewDescription(e.target.value)}
               placeholder={
-                isEn
-                  ? "Theme description (optional)"
-                  : "テーマの説明（任意）"
+                isJa
+                  ? "テーマの説明（任意）"
+                  : "Theme description (optional)"
               }
               style={{
                 width: "100%",
@@ -233,9 +233,9 @@ export default function PersonalBoardsPage() {
 
         {boards.length === 0 ? (
           <p style={{ color: "#6b7280" }}>
-            {isEn
-              ? "No personal boards yet. Create one above!"
-              : "まだ個人ボードがありません。上のフォームから作成してみましょう！"}
+            {isJa
+              ? "まだ個人ボードがありません。上のフォームから作成してみましょう！"
+              : "No personal boards yet. Create one above!"}
           </p>
         ) : (
           <div
@@ -265,7 +265,7 @@ export default function PersonalBoardsPage() {
                     <button
                       type="button"
                       onClick={(e) => handleDelete(e, b.id)}
-                      aria-label={isEn ? "Delete board" : "ボードを削除"}
+                      aria-label={isJa ? "ボードを削除" : "Delete board"}
                       style={{
                         position: "absolute",
                         top: 10,
@@ -308,7 +308,7 @@ export default function PersonalBoardsPage() {
                             marginBottom: 8,
                           }}
                         >
-                          {isEn ? "PERSONAL" : "個人ボード"}
+                          {isJa ? "個人ボード" : "PERSONAL"}
                         </div>
                         <h2 style={{ fontSize: 16, fontWeight: 700, margin: "0 0 6px", paddingRight: 28 }}>
                           {b.title}
@@ -336,12 +336,12 @@ export default function PersonalBoardsPage() {
                         }}
                       >
                         <span>
-                          {isEn
-                            ? `${b.itemCount || 0} polaroids`
-                            : `ポラロイド ${b.itemCount || 0}枚`}
+                          {isJa
+                            ? `ポラロイド ${b.itemCount || 0}枚`
+                            : `${b.itemCount || 0} polaroids`}
                         </span>
                         <span style={{ fontWeight: 600, color: "#0f172a" }}>
-                          {isEn ? "Open →" : "開く →"}
+                          {isJa ? "開く →" : "Open →"}
                         </span>
                       </div>
                     </a>

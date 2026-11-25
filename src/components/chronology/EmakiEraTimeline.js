@@ -21,6 +21,7 @@ import { createPortal } from "react-dom";
  */
 const EmakiEraTimeline = ({ eraen, liveSlugs, t, trigger }) => {
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   const [isModalOpen, setIsModalOpen] = useState(false);
   // liveSlugs 未指定時はモーダル用チャンク側で解決（解説バー初回バンドルを太らせない）
   const resolvedLiveSlugs = useMemo(
@@ -28,7 +29,7 @@ const EmakiEraTimeline = ({ eraen, liveSlugs, t, trigger }) => {
     [liveSlugs]
   );
 
-  const source = locale === "en" ? enTimelineSimple : jaTimelineSimple;
+  const source = isJa ? jaTimelineSimple : enTimelineSimple;
   const rows = source.length ? source : jaTimelineSimple;
   const era = rows.find((row) => row.eraen === eraen);
 

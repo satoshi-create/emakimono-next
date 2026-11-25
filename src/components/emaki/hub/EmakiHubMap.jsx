@@ -204,6 +204,7 @@ const EmakiHubMap = ({
   activeTheme = "all",
   isFullscreen = false,
 }) => {
+  const isJa = locale === "ja";
   const [rl, setRl] = useState(null);
   const [openPopupKey, setOpenPopupKey] = useState(null);
   const markerRefs = useRef({});
@@ -314,21 +315,18 @@ const EmakiHubMap = ({
     const labels = {};
     items.forEach((it) => {
       if (!it.titleen || !RAKUCHU_TITLEENS.has(it.titleen)) return;
-      labels[it.titleen] =
-        locale === "en"
-          ? it.title || it.titleEn || it.titleJa
-          : it.titleJa || it.title;
+      labels[it.titleen] = isJa
+        ? it.titleJa || it.title
+        : it.title || it.titleEn || it.titleJa;
     });
     return labels;
-  }, [items, locale]);
+  }, [items, isJa]);
 
   if (!rl) {
     return <div className={styles.mapLoading}>Loading map…</div>;
   }
 
   const { L, MapContainer, Marker, Popup, TileLayer, Polyline, useMap } = rl;
-
-  const isEn = locale === "en";
   const themeActive = activeTheme && activeTheme !== "all";
 
   // ?scroll= 指定で対象となる作品（現在のリージョン内のみ）
@@ -502,7 +500,7 @@ const EmakiHubMap = ({
               whiteSpace: "nowrap",
             }}
           >
-            {isEn ? "N · Rakuhoku / Imperial Palace" : "北（洛北・御所）"}
+            {isJa ? "北（洛北・御所）" : "N · Rakuhoku / Imperial Palace"}
           </div>
           <div
             style={{
@@ -525,7 +523,7 @@ const EmakiHubMap = ({
               whiteSpace: "nowrap",
             }}
           >
-            {isEn ? "S · Rakunan / To-ji / Fushimi" : "南（洛南・東寺・伏見）"}
+            {isJa ? "南（洛南・東寺・伏見）" : "S · Rakunan / To-ji / Fushimi"}
           </div>
           <div
             style={{
@@ -548,15 +546,15 @@ const EmakiHubMap = ({
               writingMode: "vertical-rl",
             }}
           >
-            {isEn ? (
+            {isJa ? (
+              <>
+                東<span style={{ color: "#b91c1c" }}>【右隻】</span>東山・鴨川
+              </>
+            ) : (
               <>
                 E{" "}
                 <span style={{ color: "#b91c1c" }}>[Right Screen]</span>{" "}
                 Higashiyama / Kamo River
-              </>
-            ) : (
-              <>
-                東<span style={{ color: "#b91c1c" }}>【右隻】</span>東山・鴨川
               </>
             )}
           </div>
@@ -581,14 +579,14 @@ const EmakiHubMap = ({
               writingMode: "vertical-rl",
             }}
           >
-            {isEn ? (
+            {isJa ? (
               <>
-                W <span style={{ color: "#b91c1c" }}>[Left Screen]</span> Nijo
-                Castle / Arashiyama
+                西<span style={{ color: "#b91c1c" }}>【左隻】</span>二条城・嵐山
               </>
             ) : (
               <>
-                西<span style={{ color: "#b91c1c" }}>【左隻】</span>二条城・嵐山
+                W <span style={{ color: "#b91c1c" }}>[Left Screen]</span> Nijo
+                Castle / Arashiyama
               </>
             )}
           </div>
@@ -612,19 +610,19 @@ const EmakiHubMap = ({
               whiteSpace: "nowrap",
             }}
           >
-            {isEn ? (
-              <>
-                <span style={{ color: "#c2410c" }}>●</span> Temples{" "}
-                <span style={{ color: "#0284c7" }}>●</span> River{" "}
-                <span style={{ color: "#15803d" }}>●</span> Street | Circle =
-                scroll count (1–3)
-              </>
-            ) : (
+            {isJa ? (
               <>
                 <span style={{ color: "#c2410c" }}>●</span>寺社{" "}
                 <span style={{ color: "#0284c7" }}>●</span>川{" "}
                 <span style={{ color: "#15803d" }}>●</span>道 ｜
                 円＝登場数(1〜3)
+              </>
+            ) : (
+              <>
+                <span style={{ color: "#c2410c" }}>●</span> Temples{" "}
+                <span style={{ color: "#0284c7" }}>●</span> River{" "}
+                <span style={{ color: "#15803d" }}>●</span> Street | Circle =
+                scroll count (1–3)
               </>
             )}
           </div>

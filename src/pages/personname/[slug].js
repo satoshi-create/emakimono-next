@@ -7,6 +7,7 @@ import {
   personProfileItem,
   removeNestedEmakisObj,
 } from "@/utils/func";
+import { buildI18nStaticPaths } from "@/utils/i18nStaticPaths";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { DISPLAY_PERSON_SLUGS } from "@/libs/constants/displayPersonSlugs";
@@ -15,11 +16,11 @@ import { useTranslation } from "next-i18next";
 const PersonnameDetail = ({ person, posts, slug }) => {
   const { locale } = useRouter();
   const { t } = useTranslation("common");
-  const displayName =
-    locale === "en" ? person.nameen || person.id : person.name;
+  const isJa = locale === "ja";
+  const displayName = !isJa ? person.nameen || person.id : person.name;
 
   const tPageDesc =
-    locale === "en"
+    !isJa
       ? person.slug === "danrinkougou"
         ? `Empress Danrin & Nine Stages of Decay (kusōzu). Explore the Edo-period Nine Stages of Decay of Empress Danrin scroll in high resolution, and compare every stage across eras.`
         : person.slug === "ononokomachi"
@@ -32,7 +33,7 @@ const PersonnameDetail = ({ person, posts, slug }) => {
       : `${person.name}（${person.ruby}）— 絵巻物に関連する人物の紹介ページ。この人物が登場する絵巻を、縦書き・横スクロールで楽しめます。`;
 
   const pageTitle =
-    locale === "en" && person.slug === "danrinkougou"
+    !isJa && person.slug === "danrinkougou"
       ? "Empress Danrin & Nine Stages of Decay"
       : displayName;
 
@@ -42,7 +43,7 @@ const PersonnameDetail = ({ person, posts, slug }) => {
       headerSlug={`personname/${slug}`}
       breadcrumb={{
         name: displayName,
-        test: locale === "en" ? "personname list" : "人物名一覧",
+        test: !isJa ? "personname list" : "人物名一覧",
         testen: "personname/personnamelist",
       }}
       hero={<PersonProfile person={person} />}
@@ -56,7 +57,7 @@ const PersonnameDetail = ({ person, posts, slug }) => {
                 columns={"three"}
                 sectionname={"recommend"}
                 sectiontitle={t("personname.worksTitle")}
-                sectiontitleen={locale === "en" ? displayName : person.name}
+                sectiontitleen={!isJa ? displayName : person.name}
               />
             ) : (
               <section className="section-grid section-padding">
@@ -71,17 +72,13 @@ const PersonnameDetail = ({ person, posts, slug }) => {
 
 export default PersonnameDetail;
 
-export const getStaticPaths = async () => {
+export const getStaticPaths = async (context) => {
   // 一覧掲載人物（DISPLAY_PERSON_SLUGS）または cache に登場する人物（total > 0）のみビルド
   const allSlugs = personProfileItem(emakisData)
     .filter((p) => p.total > 0 || DISPLAY_PERSON_SLUGS.includes(p.slug))
     .map((p) => p.slug);
 
-  const paths = allSlugs.map((slug) => ({
-    params: { slug },
-    locale: "ja",
-  }));
-  paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
+  const paths = buildI18nStaticPaths(allSlugs, context?.locales);
   return { paths, fallback: false };
 };
 

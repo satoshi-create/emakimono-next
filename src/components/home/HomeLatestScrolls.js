@@ -3,6 +3,7 @@ import Title from "@/components/ui/Title";
 import { RAKUCHU_RAKUGAI_CLUSTER_TITLEEN } from "@/libs/constants/discoveryLinks";
 import { HOME_LATEST_SCROLLS } from "@/libs/constants/links";
 import styles from "@/styles/HomeLatestScrolls.module.css";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import ExtractingListData from "@/utils/ExtractingListData";
 import Image from "next/image";
 import Link from "next/link";
@@ -16,12 +17,16 @@ const formatPublishedAt = (publishedAt, locale) => {
   if (locale === "ja") {
     return `${date.getFullYear()}年${date.getMonth() + 1}月公開`;
   }
-  return date.toLocaleDateString("en", { year: "numeric", month: "long" });
+  return date.toLocaleDateString(locale || "en", {
+    year: "numeric",
+    month: "long",
+  });
 };
 
 const HomeLatestScrolls = () => {
   const { t } = useTranslation("common");
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   const removeNestedArrayObj = ExtractingListData();
 
   const latestItems = useMemo(() => {
@@ -40,7 +45,7 @@ const HomeLatestScrolls = () => {
   return (
     <section className={`section-grid section-padding ${styles.section}`}>
       <Title
-        sectiontitle={locale === "en" ? "Latest Releases" : "最新の公開作品"}
+        sectiontitle={!isJa ? "Latest Releases" : "最新の公開作品"}
         sectiontitleen="Latest Releases"
       />
       <div className={styles.track}>
@@ -76,8 +81,8 @@ const HomeLatestScrolls = () => {
                   </span>
                 </div>
                 <h3 className={styles.title}>
-                  {locale === "en" ? item.titleen : item.title}
-                  {locale === "ja" && item.edition ? ` ${item.edition}` : ""}
+                  {getLocalizedField(item, "title", locale, item.titleen)}
+                  {isJa && item.edition ? ` ${item.edition}` : ""}
                 </h3>
                 <div
                   style={{
@@ -87,9 +92,9 @@ const HomeLatestScrolls = () => {
                   }}
                 >
                   <span className={styles.era}>
-                    {locale === "en"
-                      ? `${item.eraen} period`
-                      : `${item.era}時代`}
+                    {isJa
+                      ? `${getLocalizedField(item, "era", locale)}時代`
+                      : `${getLocalizedField(item, "era", locale)} period`}
                   </span>
                   <span
                     style={{
@@ -112,10 +117,10 @@ const HomeLatestScrolls = () => {
                     }}
                   >
                     {isByobu
-                      ? locale === "en"
+                      ? !isJa
                         ? "Byobu"
                         : "屏風"
-                      : locale === "en"
+                      : !isJa
                         ? "Emaki"
                         : "絵巻"}
                   </span>

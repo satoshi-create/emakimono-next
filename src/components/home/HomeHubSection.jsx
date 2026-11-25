@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Title from "@/components/ui/Title";
 import linkStyles from "@/styles/HomeSectionLink.module.css";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 
 function ThumbStack({ thumbs = [], title }) {
   const list = Array.isArray(thumbs) ? thumbs.filter(Boolean).slice(0, 3) : [];
@@ -130,7 +131,7 @@ function ThumbStack({ thumbs = [], title }) {
 
 export function HomeHubSection({ hubs = [], surface = true }) {
   const { locale } = useRouter();
-  const isEn = locale === "en";
+  const isJa = locale === "ja";
 
   if (!Array.isArray(hubs) || hubs.length === 0) return null;
 
@@ -155,10 +156,19 @@ export function HomeHubSection({ hubs = [], surface = true }) {
         }}
       >
         {hubs.map((hub) => {
-          const title = isEn ? hub.titleEn || hub.titleJa : hub.titleJa;
-          const desc = isEn
-            ? hub.descriptionEn || hub.descriptionJa
-            : hub.descriptionJa;
+          const title = getLocalizedField(
+            { title: hub.titleJa, title_en: hub.titleEn },
+            "title",
+            locale
+          );
+          const desc = getLocalizedField(
+            {
+              description: hub.descriptionJa,
+              description_en: hub.descriptionEn,
+            },
+            "description",
+            locale
+          );
           const thumbs =
             Array.isArray(hub.coverThumbs) && hub.coverThumbs.length > 0
               ? hub.coverThumbs
@@ -218,7 +228,7 @@ export function HomeHubSection({ hubs = [], surface = true }) {
                         marginBottom: 8,
                       }}
                     >
-                      {isEn
+                      {!isJa
                         ? `${hub.workCount} works`
                         : `全${hub.workCount}巻・${hub.workCount}作品収録`}
                     </span>
@@ -263,7 +273,7 @@ export function HomeHubSection({ hubs = [], surface = true }) {
                       color: "var(--clr-accent, #ff8c77)",
                     }}
                   >
-                    {isEn ? "View theme →" : "特集ページを見る →"}
+                    {!isJa ? "View theme →" : "特集ページを見る →"}
                   </span>
                 </div>
               </a>
@@ -275,7 +285,7 @@ export function HomeHubSection({ hubs = [], surface = true }) {
       <div className={linkStyles.wrap}>
         <Link href="/hub" locale={locale}>
           <a className={linkStyles.btn}>
-            {isEn ? "View all theme hubs" : "すべての特集ハブを見る"}
+            {!isJa ? "View all theme hubs" : "すべての特集ハブを見る"}
           </a>
         </Link>
       </div>

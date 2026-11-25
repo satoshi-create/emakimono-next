@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useContext } from "react";
 import { Mail, X } from "react-feather";
 import { useTranslation } from "next-i18next";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 
 const SidebarHome = () => {
   const { isSidebarOpen, closeSidebar } = useContext(AppContext);
@@ -19,7 +20,7 @@ const SidebarHome = () => {
       <li key={`${path}-${index}`} className={styles.navLink}>
         <Link href={path} prefetch={false}>
           <a onClick={() => closeSidebar()}>
-            {locale === "en" ? nameen : name}
+            {getLocalizedField(link, "name", locale)}
           </a>
         </Link>
       </li>

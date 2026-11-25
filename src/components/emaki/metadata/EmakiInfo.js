@@ -2,6 +2,7 @@ import styles from "@/styles/EmakiInfo.module.css";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { eraNameEn } from "@/utils/func";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import GenjiHubLink from "@/components/genji/GenjiHubLink";
 
 // 教育現場向けUI: isUIVisible で静止UI耐性に対応
@@ -10,6 +11,7 @@ import GenjiHubLink from "@/components/genji/GenjiHubLink";
 const EmakiInfo = ({ value, isUIVisible = true }) => {
   const { type, title, titleen, typeen, era, eraen, edition } = value;
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   // 源氏物語系の絵巻のみハブリンクを表示
   const isGenji =
     typeof titleen === "string" &&
@@ -25,17 +27,17 @@ const EmakiInfo = ({ value, isUIVisible = true }) => {
       }}
     >
       <h1 className={styles.title}>
-        {locale === "en"
-          ? titleen
-          : `${title}${edition ? ` ${edition}` : ""}`}
+        {isJa
+          ? `${title}${edition ? ` ${edition}` : ""}`
+          : titleen}
       </h1>
       <Link href={`/era/${eraen}`}>
         <a className={styles.tag}>{`${
-          locale === "en" ? eraNameEn(eraen) : `${era}時代`
+          isJa ? `${era}時代` : eraNameEn(eraen)
         }`}</a>
       </Link>
       <Link href={`/type/${typeen}`}>
-        <a className={styles.tag}>{`${locale === "en" ? typeen : type}`}</a>
+        <a className={styles.tag}>{`${getLocalizedField(value, "type", locale)}`}</a>
       </Link>
       {isGenji && <GenjiHubLink />}
     </div>

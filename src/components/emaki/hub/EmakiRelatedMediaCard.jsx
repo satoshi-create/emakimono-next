@@ -7,7 +7,8 @@ import Link from "next/link";
  * props.media = { titleJa, titleEn, type, theme, rationale, officialUrl, emaki: { titleen, title, thumb } }
  */
 const EmakiRelatedMediaCard = ({ media, t, locale }) => {
-  const l = (obj) => (locale === "en" ? obj.en : obj.ja);
+  const isJa = locale === "ja";
+  const l = (obj) => (isJa ? obj.ja : obj.en);
   const typeLabel =
     media.type === "manga"
       ? t("emakiHub.mediaTypeManga")

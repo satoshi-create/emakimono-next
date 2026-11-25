@@ -5,6 +5,7 @@ import { cloudinaryThumbLoader } from "@/utils/cloudinaryUrl";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 
 const IMG_PROPS = { width: 533, height: 300, loading: "lazy" };
 const IMG_SIZES = "(max-width: 768px) 100vw, 280px";
@@ -49,24 +50,24 @@ const StageThumb = ({ stage }) => {
   return null;
 };
 
-const editionLabel = (edition, isEn) => {
+const editionLabel = (edition, isJa) => {
   const short = SHORT_LABELS[edition.titleen];
-  if (short) return isEn ? short.en : short.ja;
-  return isEn ? edition.titleen : edition.title;
+  if (short) return isJa ? short.ja : short.en;
+  return getLocalizedField(edition, "title", isJa ? "ja" : "en");
 };
 
 const KusouzuStageGrid = ({ stages }) => {
   const { t } = useTranslation("common");
   const { locale } = useRouter();
+  const isJa = locale === "ja";
 
   return (
     <section className={`section-grid section-padding ${styles.stageSection}`}>
       <Title sectiontitle={t("kusouzuHub.stageSectionTitle")} />
       <ul className={styles.stageGrid}>
         {stages.map((stage) => {
-          const isEn = locale === "en";
-          const displayTitle = isEn ? stage.titleen : stage.title;
-          const displayDesc = isEn ? stage.descen : stage.desc;
+          const displayTitle = getLocalizedField(stage, "title", locale);
+          const displayDesc = getLocalizedField(stage, "desc", locale);
           const editions = stage.editions ?? [];
           const hasImage = stage.thumbCloudinary || stage.thumb;
 
@@ -87,7 +88,7 @@ const KusouzuStageGrid = ({ stages }) => {
                         })}
                       </span>
                       <h3 className={styles.stageTitle}>
-                        {!isEn ? (
+                        {isJa ? (
                           <ruby>
                             {stage.title} <rp>(</rp>
                             <rt>{stage.ruby}</rt>
@@ -109,7 +110,7 @@ const KusouzuStageGrid = ({ stages }) => {
                       <Link key={edition.titleen} href={edition.href}>
                         <a className={styles.stageCta}>
                           {t("kusouzuHub.stageViewIn", {
-                            scroll: editionLabel(edition, isEn),
+                            scroll: editionLabel(edition, isJa),
                           })}
                         </a>
                       </Link>

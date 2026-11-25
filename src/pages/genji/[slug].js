@@ -5,13 +5,14 @@ import Head from "@/components/meta/Meta";
 import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import CardA from "@/components/ui/CardA";
 import AllGenjiChapters from "@/data/scroll-texts/genji-chapters.json";
-import {
-  default as enData,
-  default as jaData,
-} from "@/data/scroll-metadata";
 import styles from "@/styles/GenjiHub.module.css";
 import { removeNestedEmakisObj } from "@/utils/func";
 import { genjiChapterHref } from "@/utils/buildGenjiHubData";
+import {
+  buildI18nStaticPaths,
+  resolveEmakiCatalog,
+} from "@/utils/i18nStaticPaths";
+import { getLocalizedField } from "@/utils/emakiDisplayTitle";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -38,25 +39,40 @@ const GenjiChapter = ({
   posts,
 }) => {
   const { locale } = useRouter();
-  const isEn = locale === "en";
+  const isJa = locale === "ja";
   const [activeTab, setActiveTab] = useState("summary");
+
+  const chapterTexts = {
+    title,
+    titleen,
+    summary,
+    summaryen,
+    gendaibun,
+    gendaibunen,
+    kobun,
+    kobunen,
+    age,
+    ageen,
+    mainCharacter,
+    mainCharacteren,
+  };
 
   const tabDefs = [
     {
       id: "summary",
-      label: isEn ? "Summary" : "あらすじ",
-      body: isEn ? summaryen || summary : summary,
+      label: !isJa ? "Summary" : "あらすじ",
+      body: getLocalizedField(chapterTexts, "summary", locale),
     },
     {
       id: "gendaibun",
-      label: isEn ? "Modern Japanese" : "現代文",
-      body: isEn ? gendaibunen || gendaibun : gendaibun,
+      label: !isJa ? "Modern Japanese" : "現代文",
+      body: getLocalizedField(chapterTexts, "gendaibun", locale),
       source: sourceGendaibunUrl,
     },
     {
       id: "kobun",
-      label: isEn ? "Classical Japanese" : "古文",
-      body: isEn ? kobunen || kobun : kobun,
+      label: !isJa ? "Classical Japanese" : "古文",
+      body: getLocalizedField(chapterTexts, "kobun", locale),
       source: sourceKobunUrl,
     },
   ];
@@ -66,7 +82,7 @@ const GenjiChapter = ({
 
   const relatedScrolls = posts ?? [];
 
-  const tPageDesc = isEn
+  const tPageDesc = !isJa
     ? `View the "${titleen}" chapter of The Tale of Genji and the illustrated scrolls that depict it.`
     : `源氏物語「${title}」帖のあらすじと、この帖を描いた絵巻を横スクロールで鑑賞できます。`;
 
@@ -74,40 +90,42 @@ const GenjiChapter = ({
     <>
       <Head
         pagetitle={
-          isEn
+          !isJa
             ? `"${titleen}" from The Tale of Genji`
             : `源氏物語「${title}」`
         }
         pageDesc={tPageDesc}
       />
       <Header />
-      <Breadcrumbs name={isEn ? titleen : title} />
+      <Breadcrumbs
+        name={getLocalizedField(chapterTexts, "title", locale)}
+      />
       <section className={styles.chapterDetail}>
         <div className={styles.chapterDetailHead}>
           <h1 className={styles.chapterDetailTitle}>
-            {isEn ? titleen : title}
+            {getLocalizedField(chapterTexts, "title", locale)}
           </h1>
           <span className={styles.chapterDetailRuby}>{ruby}</span>
           <div className={styles.chapterDetailFacts}>
             <span>
-              {isEn ? "Chapter" : "帖"}:{" "}
+              {!isJa ? "Chapter" : "帖"}:{" "}
               <span className={styles.chapterDetailFactValue}>
-                {isEn ? chapterEn : chapterCh}
+                {!isJa ? chapterEn : chapterCh}
               </span>
             </span>
             {age && (
               <span>
-                {isEn ? "Age" : "巻立"}:{" "}
+                {!isJa ? "Age" : "巻立"}:{" "}
                 <span className={styles.chapterDetailFactValue}>
-                  {isEn ? ageen || age : age}
+                  {getLocalizedField(chapterTexts, "age", locale)}
                 </span>
               </span>
             )}
             {mainCharacter && (
               <span>
-                {isEn ? "Main character" : "主な人物"}:{" "}
+                {!isJa ? "Main character" : "主な人物"}:{" "}
                 <span className={styles.chapterDetailFactValue}>
-                  {isEn ? mainCharacteren || mainCharacter : mainCharacter}
+                  {getLocalizedField(chapterTexts, "mainCharacter", locale)}
                 </span>
               </span>
             )}
@@ -140,10 +158,10 @@ const GenjiChapter = ({
                 rel="noopener noreferrer"
               >
                 {currentTab.id === "kobun"
-                  ? isEn
+                  ? !isJa
                     ? "Open the classical text (source) ↗"
                     : "出典・底本（古文）を開く ↗"
-                  : isEn
+                  : !isJa
                   ? "Open the modern translation (source) ↗"
                   : "出典・底本（現代文）を開く ↗"}
               </a>
@@ -157,21 +175,21 @@ const GenjiChapter = ({
             target="_blank"
             rel="noopener noreferrer"
           >
-            {isEn ? "Source" : "出典"}
+            {!isJa ? "Source" : "出典"}
           </a>
         )}
       </section>
       {(scenes ?? []).length > 0 && (
         <section className={styles.chapterDetail}>
           <h2 className={styles.sectionTitle}>
-            {isEn ? "Scenes" : "場面"}
+            {!isJa ? "Scenes" : "場面"}
           </h2>
           <ol className={styles.sceneList}>
             {scenes.map((scene) => (
               <li key={scene.sceneId} className={styles.sceneItem}>
                 <span className={styles.sceneIndex}>{scene.sceneId}</span>
                 <span>
-                  {isEn ? scene.contenten || scene.content : scene.content}
+                  {getLocalizedField(scene, "content", locale)}
                 </span>
               </li>
             ))}
@@ -186,12 +204,12 @@ const GenjiChapter = ({
             sectionname={"recommend"}
             pagetitle={title}
             sectiontitle={
-              isEn
+              !isJa
                 ? `Illustrated scrolls depicting "${titleen}"`
                 : `源氏物語「${title}」を描いた絵巻`
             }
             sectiontitleen={
-              isEn
+              !isJa
                 ? `源氏物語「${title}」を描いた絵巻`
                 : `Illustrated scrolls depicting "${titleen}"`
             }
@@ -203,16 +221,11 @@ const GenjiChapter = ({
   );
 };
 
-export const getStaticPaths = async () => {
-  const paths = AllGenjiChapters.map(({ path }) => ({
-    params: {
-      slug: path,
-    },
-    locale: "ja",
-  }));
-  paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
+export const getStaticPaths = async (context) => {
+  const slugs = AllGenjiChapters.map(({ path }) => path);
+  const paths = buildI18nStaticPaths(slugs, context?.locales);
   return {
-    paths: paths,
+    paths,
     fallback: false,
   };
 };
@@ -220,7 +233,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
   const genjieslugname = context.params.slug;
   const { locale } = context;
-  const tEmakisData = locale === "en" ? enData : jaData;
+  const tEmakisData = resolveEmakiCatalog(locale);
 
   const chapterGenji = AllGenjiChapters.find(
     (item) => item.path === genjieslugname

@@ -11,7 +11,7 @@ import { isKusouzuScroll } from "@/utils/buildKusouzuHubData";
 import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
 import { isHyakkiClusterScroll } from "@/utils/buildHyakkiHubData";
 import { isByobuScroll } from "@/utils/isByobuScroll";
-import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
+import { emakiDisplayTitle, getLocalizedField } from "@/utils/emakiDisplayTitle";
 import {
   filterdKeywords,
   keywordItem,
@@ -41,6 +41,7 @@ const EmakiPortraitContent = ({
 
   const router = useRouter();
   const locale = localeProp ?? router.locale;
+  const isJa = locale === "ja";
   const scrollMeta = emaki ?? data;
   const { t: alldata } = useLocaleData();
   const { t } = useTranslation("common");
@@ -138,13 +139,13 @@ const EmakiPortraitContent = ({
               <div className={styles.titleLeading}>
                 <h3 className={styles.title}>
                   {emakiDisplayTitle(data, locale)}{" "}
-                  {locale === "ja" && edition}
+                  {isJa && edition}
                 </h3>
                 {totalCount > 0 && (
                   <span
                     className={styles.totalLikesBadge}
-                    aria-label={locale === "en" ? "Total likes" : "いいね総計"}
-                    title={locale === "en" ? "Total likes" : "いいね総計"}
+                    aria-label={isJa ? "いいね総計" : "Total likes"}
+                    title={isJa ? "いいね総計" : "Total likes"}
                   >
                     <FontAwesomeIcon icon={faHeart} aria-hidden />
                     {totalCount.toLocaleString()}
@@ -157,9 +158,9 @@ const EmakiPortraitContent = ({
                         icon={faTrophy}
                         className={styles.rankIcon}
                       />
-                      {locale === "en"
-                        ? `#${rankInfo.rank}`
-                        : `${rankInfo.rank}位`}
+                      {isJa
+                        ? `${rankInfo.rank}位`
+                        : `#${rankInfo.rank}`}
                       <span className={styles.rankDivider}>|</span>
                       <FontAwesomeIcon
                         icon={faEye}
@@ -176,15 +177,15 @@ const EmakiPortraitContent = ({
                     <a
                       className={styles.compositionBadge}
                       title={
-                        locale === "en"
-                          ? "View Rakuchū-rakugai-zu composition & motifs"
-                          : "洛中洛外図の構図形式と主要モチーフを見る"
+                        isJa
+                          ? "洛中洛外図の構図形式と主要モチーフを見る"
+                          : "View Rakuchū-rakugai-zu composition & motifs"
                       }
                     >
                       <span>
-                        {locale === "en"
-                          ? getScrollCompositionForm(data?.titleen).badgeEn
-                          : getScrollCompositionForm(data?.titleen).badgeJa}
+                        {isJa
+                          ? getScrollCompositionForm(data?.titleen).badgeJa
+                          : getScrollCompositionForm(data?.titleen).badgeEn}
                       </span>
                       <span aria-hidden="true">↗</span>
                     </a>
@@ -196,7 +197,7 @@ const EmakiPortraitContent = ({
               <Link href={`/author/${authoren}`}>
                 <a className={styles.authorLink}>
                   <h4 className={styles.author}>
-                    {locale === "ja" ? author : authoren}
+                    {getLocalizedField(data, "author", locale)}
                   </h4>
                 </a>
               </Link>
@@ -208,7 +209,7 @@ const EmakiPortraitContent = ({
             emaki={scrollMeta}
             locale={locale}
             styles={styles}
-            descContent={locale === "en" ? parse(descEn) : parse(descJa)}
+            descContent={isJa ? parse(descJa) : parse(descEn)}
             tagCloud={
               keyword && (
                 <div className={styles.tagCloud}>

@@ -12,24 +12,24 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const PersonnamesComp = () => {
   const { locale } = useRouter();
+  const isJa = locale === "ja";
   // cache（閲覧可能絵巻）のみで集計し、表示対象人物に絞る
   const allPersonNames = personProfileItem(cacheData).filter((p) =>
     DISPLAY_PERSON_SLUGS.includes(p.slug)
   );
-  const tPageDesc =
-    locale === "en"
-      ? `This is the personnames list page. This site pursues the enjoyment of picture scrolls by scrolling from right to left!`
-      : `人物名一覧のページです。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。`;
+  const tPageDesc = isJa
+    ? `人物名一覧のページです。縦書き、横スクロールで、絵巻物本来の見方を楽しむことを追求しているサイトです。`
+    : `This is the personnames list page. This site pursues the enjoyment of picture scrolls by scrolling from right to left!`;
   return (
     <>
       <Head
-        pagetitle={locale === "en" ? "personnames list" : "人物名一覧"}
+        pagetitle={isJa ? "人物名一覧" : "personnames list"}
         pageDesc={tPageDesc}
       />
       <Header slug={"personnames"} />
-      <Breadcrumbs name={locale === "en" ? "personnames list" : "人物名一覧"} />
+      <Breadcrumbs name={isJa ? "人物名一覧" : "personnames list"} />
       <PersonNames
-        sectiontitle={locale === "en" ? "personnames list" : "人物名一覧"}
+        sectiontitle={isJa ? "人物名一覧" : "personnames list"}
         sectiontitleen={"keywords"}
         allTags={allPersonNames}
       />
