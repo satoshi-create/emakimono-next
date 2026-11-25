@@ -1,4 +1,4 @@
-import motifsMaster from "@/data/master/motifs.json";
+import motifsMaster from "@/data/master/motifs";
 import generatedMotifIndex from "@/data/master/generated-motif-index.json";
 
 /**

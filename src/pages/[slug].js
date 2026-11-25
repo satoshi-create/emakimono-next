@@ -5,7 +5,7 @@ import EmakiBreadcrumbs from "@/components/emaki/navigation/EmakiBreadcrumbs";
 import ClassicalFontLink from "@/components/meta/ClassicalFontLink";
 import Head from "@/components/meta/Meta";
 import emakisData from "@/data/scroll-metadata";
-import referencesData from "@/data/master/references.json";
+import referencesData from "@/data/master/references";
 import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
 import { OGP_IMAGE_FALLBACKS } from "@/libs/constants/emakiOgImages";
 import { AppContext } from "@/context/AppContext";

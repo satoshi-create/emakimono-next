@@ -3,7 +3,8 @@
  * defaultLocale は `en` のため、Next.js i18n が自動的に locale ルーティングを処理する。
  * 手動の locale リダイレクト（/en → / など）は _next/static 等と衝突し無限ループの原因となるため記述しない。
  */
-const personProfiles = require("../../data/persons/profiles.json");
+const personProfilesModule = require("../../data/persons/profiles");
+const personProfiles = personProfilesModule.default || personProfilesModule;
 const { DISPLAY_PERSON_SLUGS } = require("./displayPersonSlugs");
 
 function buildUnpublishedPersonRedirects() {
