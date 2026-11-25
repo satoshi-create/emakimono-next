@@ -1,5 +1,5 @@
 import Title from "@/components/ui/Title";
-import AllKusouzuChapters from "@/data/scroll-texts/kusouzu-chapters.json";
+import AllKusouzuChapters from "@/data/scroll-texts/kusouzu-chapters";
 import styles from "@/styles/ChaptersTable.module.css";
 import { faCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

@@ -3,7 +3,7 @@ import Header from "@/components/layout/Header";
 import Head from "@/components/meta/Meta";
 import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import CardA from "@/components/ui/CardA";
-import AllKusouzuChapters from "@/data/scroll-texts/kusouzu-chapters.json";
+import AllKusouzuChapters from "@/data/scroll-texts/kusouzu-chapters";
 import {
   default as enData,
   default as jaData,

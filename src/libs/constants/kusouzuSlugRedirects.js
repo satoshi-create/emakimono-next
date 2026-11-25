@@ -2,7 +2,18 @@
  * 301 redirects: legacy kusouzu URLs (titleen with spaces) → kebab-case slug.
  * Used by next.config.js — keep in sync with kusouzu-chapters.json.
  */
-const chapters = require("../../data/scroll-texts/kusouzu-chapters.json");
+const fs = require("fs");
+const path = require("path");
+
+const chaptersTsPath = path.join(
+  __dirname,
+  "../../data/scroll-texts/kusouzu-chapters.ts"
+);
+const chaptersTsSource = fs.readFileSync(chaptersTsPath, "utf8");
+const chapters = Array.from(
+  chaptersTsSource.matchAll(/slug:\s*"([^"]+)"/g),
+  (m) => ({ slug: m[1] })
+);
 
 /** Spaces in legacy titleen URLs are percent-encoded in requests. */
 function legacyKusouzuPath(titleen) {

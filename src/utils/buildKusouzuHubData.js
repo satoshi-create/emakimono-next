@@ -1,4 +1,4 @@
-import chapters from "@/data/scroll-texts/kusouzu-chapters.json";
+import chapters from "@/data/scroll-texts/kusouzu-chapters";
 import emakisMetadata from "@/data/scroll-metadata";
 import { isWithdrawnScroll } from "@/libs/constants/withdrawnScrolls";
 import { removeNestedEmakisObj } from "@/utils/func";
