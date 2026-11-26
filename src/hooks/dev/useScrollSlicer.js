@@ -16,6 +16,7 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
   const [overlapPercent, setOverlapPercent] = useState(0);
   const [sharpenPercent, setSharpenPercent] = useState(25);
   const [isRtlSlice, setIsRtlSlice] = useState(true);
+  const [isHighResSlice, setIsHighResSlice] = useState(false);
   const [sliceGenMessage, setSliceGenMessage] = useState("");
   const [isSlicing, setIsSlicing] = useState(false);
   const [isRawSliceDragging, setIsRawSliceDragging] = useState(false);
@@ -176,6 +177,7 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
         overlapPercent,
         sharpenPercent,
         isRtlSlice,
+        highResMode: isHighResSlice,
         scrollId,
         startIndex: imageItems.length,
         sliceMode,
@@ -207,6 +209,7 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
     overlapPercent,
     sharpenPercent,
     isRtlSlice,
+    isHighResSlice,
     yamlScrollId,
     imageItems.length,
     sliceMode,
@@ -226,6 +229,8 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
     setSharpenPercent,
     isRtlSlice,
     setIsRtlSlice,
+    isHighResSlice,
+    setIsHighResSlice,
     sliceGenMessage,
     setSliceGenMessage,
     isSlicing,

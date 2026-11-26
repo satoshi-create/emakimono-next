@@ -21,6 +21,7 @@ export const eraNameEn = (eraen) => {
     aduchimomoyama: "Azuchi–Momoyama",
     edo: "Edo",
     meiji: "Meiji",
+    "northern-song": "Northern Song",
   };
   return map[eraen] || eraen;
 };

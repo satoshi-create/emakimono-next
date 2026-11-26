@@ -35,6 +35,8 @@ export function AutoSlicePanel({
   setOverlapPercent,
   isRtlSlice,
   setIsRtlSlice,
+  isHighResSlice = false,
+  setIsHighResSlice,
   initCustomCutsFromCount,
   isSlicing,
   runAutoSlice,
@@ -345,6 +347,26 @@ export function AutoSlicePanel({
             />
             右端から左へスライス（_01, _02…）
           </label>
+          {typeof setIsHighResSlice === "function" && (
+            <label
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                fontSize: 13,
+                color: isHighResSlice ? "#0369a1" : "#475569",
+                fontWeight: isHighResSlice ? 600 : 400,
+                paddingBottom: 6,
+              }}
+            >
+              <input
+                type="checkbox"
+                checked={isHighResSlice}
+                onChange={(e) => setIsHighResSlice(e.target.checked)}
+              />
+              超高精細モード（最大1600px・品質95%）
+            </label>
+          )}
         </div>
         {sliceMode === "custom" ? (
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>

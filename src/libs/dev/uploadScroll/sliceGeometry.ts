@@ -36,7 +36,7 @@ export function loadImageElementFromFile(file: File): Promise<HTMLImageElement> 
   });
 }
 
-export function canvasToJpegFile(canvas, fileName) {
+export function canvasToJpegFile(canvas, fileName, quality = 0.92) {
   return new Promise((resolve, reject) => {
     canvas.toBlob(
       (blob) => {
@@ -47,7 +47,7 @@ export function canvasToJpegFile(canvas, fileName) {
         resolve(new File([blob], fileName, { type: "image/jpeg" }));
       },
       "image/jpeg",
-      0.92
+      quality
     );
   });
 }
@@ -181,6 +181,7 @@ export async function sliceRawImagesToFiles(
     sliceMode = "aspect",
     sliceCount = 6,
     customCuts = [],
+    highResMode = false,
   }
 ) {
   const sources = Array.from(rawFiles || []).filter(
@@ -189,11 +190,13 @@ export async function sliceRawImagesToFiles(
   const out = [];
   let index = startIndex;
   const idPrefix = scrollId || "scroll";
+  const highRes = Boolean(highResMode);
+  const jpegQuality = highRes ? 0.95 : 0.92;
 
   for (const source of sources) {
     const img = await loadImageElementFromFile(source);
-    // 縦長（屏風等）のみ高さ上限2560pxで精細さを確保し、横長（通常絵巻）は1080px上限を維持して軽量化
-    const maxHeight = img.naturalHeight > img.naturalWidth ? 2560 : 1080;
+    // 縦長（屏風等）は上限2560px、横長は通常1080px・超高精細モード(highResMode)時のみ1600px上限で精細さを確保
+    const maxHeight = img.naturalHeight > img.naturalWidth ? 2560 : highRes ? 1600 : 1080;
     const targetHeight = Math.min(maxHeight, img.naturalHeight);
     const scale = targetHeight / img.naturalHeight;
     const w = img.naturalWidth;
@@ -215,12 +218,14 @@ export async function sliceRawImagesToFiles(
       canvas.height = targetHeight;
         const ctx = canvas.getContext("2d");
         if (!ctx) throw new Error("Canvas が利用できません");
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
         ctx.drawImage(img, sx, 0, sw, img.naturalHeight, 0, 0, canvas.width, canvas.height);
         if (sharpenPercent > 0) {
           applyUnsharpMask(ctx, canvas.width, canvas.height, sharpenPercent);
         }
-        const fileName = `${idPrefix}_${String(index + 1).padStart(2, "0")}-1080.jpg`;
-      const file = await canvasToJpegFile(canvas, fileName);
+        const fileName = `${idPrefix}_${String(index + 1).padStart(2, "0")}-${targetHeight}.jpg`;
+      const file = await canvasToJpegFile(canvas, fileName, jpegQuality);
       out.push(file);
       index += 1;
     }

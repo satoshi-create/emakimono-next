@@ -23,6 +23,7 @@ KNOWN_ERAEN = frozenset(
         "edo",
         "meiji",
         "showa",
+        "northern-song",
     }
 )
 

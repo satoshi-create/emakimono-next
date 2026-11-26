@@ -422,6 +422,7 @@ function sceneTextFields(scene) {
       gendaibunen: "",
       desc: "",
       descen: "",
+      desc_zh: "",
       tansaku: null,
     };
   }
@@ -457,6 +458,12 @@ function sceneTextFields(scene) {
         : typeof scene.descen === "string"
           ? scene.descen
           : "";
+  const desc_zh =
+    typeof t.desc_zh === "string"
+      ? t.desc_zh
+      : typeof scene.desc_zh === "string"
+        ? scene.desc_zh
+        : "";
   const tansaku =
     (t.tansaku && typeof t.tansaku === "object" ? t.tansaku : null) ||
     (scene.tansaku && typeof scene.tansaku === "object" ? scene.tansaku : null);
@@ -467,6 +474,7 @@ function sceneTextFields(scene) {
     gendaibunen: typeof t.gendaibunen === "string" ? t.gendaibunen : "",
     desc,
     descen,
+    desc_zh,
     tansaku,
   };
 }
@@ -808,14 +816,19 @@ function executeLocalVerification(scrollId, titleen, metadata, scenes) {
     id: meta.id ?? scrollId,
     title: meta.title || titleen,
     titleen,
+    ...(meta.title_zh ? { title_zh: meta.title_zh } : {}),
     author: meta.author ?? "",
     authoren: meta.authoren ?? "",
+    ...(meta.author_zh ? { author_zh: meta.author_zh } : {}),
     era: meta.era ?? "",
     eraen: meta.eraen ?? "",
+    ...(meta.era_zh ? { era_zh: meta.era_zh } : {}),
     type: meta.type ?? "",
     typeen: meta.typeen ?? "",
+    ...(meta.type_zh ? { type_zh: meta.type_zh } : {}),
     desc: meta.desc ?? "",
     descen: meta.descen ?? "",
+    ...(meta.desc_zh ? { desc_zh: meta.desc_zh } : {}),
     thumb: meta.thumb ?? thumbPublic,
     sceneText: meta.sceneText ?? "",
     sourceImage: meta.sourceImage ?? "",
@@ -871,9 +884,11 @@ function executeLocalVerification(scrollId, titleen, metadata, scenes) {
         gendaibun: tf.gendaibun,
         desc: tf.desc,
       };
+      if (scene.title_zh) entry.title_zh = scene.title_zh;
       if (tf.kobunen) entry.kobunen = tf.kobunen;
       if (tf.gendaibunen) entry.gendaibunen = tf.gendaibunen;
       if (tf.descen) entry.descen = tf.descen;
+      if (tf.desc_zh) entry.desc_zh = tf.desc_zh;
       if (tf.tansaku) entry.tansaku = tf.tansaku;
       return entry;
     });

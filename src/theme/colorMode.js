@@ -47,6 +47,13 @@ export const ERA_COLOR_MODES = {
     softBg: "rgba(178, 58, 58, 0.12)",
     border: "rgba(178, 58, 58, 0.45)",
   },
+  northernsong: {
+    badgeBg: "#3d7a74",
+    accent: "#3d7a74",
+    text: "#295954",
+    softBg: "rgba(61, 122, 116, 0.12)",
+    border: "rgba(61, 122, 116, 0.45)",
+  },
   default: {
     badgeBg: undefined,
     accent: "#8a6d3b",
@@ -87,6 +94,8 @@ export function resolveEraModeKey(eraOrEraEn) {
       return "edo";
     case "明治":
       return "meiji";
+    case "北宋":
+      return "northernsong";
     default:
       break;
   }
@@ -105,6 +114,8 @@ export function resolveEraModeKey(eraOrEraEn) {
       return "edo";
     case "Meiji":
       return "meiji";
+    case "Northern Song":
+      return "northernsong";
     default:
       break;
   }
@@ -121,6 +132,7 @@ export function resolveEraModeKey(eraOrEraEn) {
   }
   if (lower === "edo") return "edo";
   if (lower === "meiji") return "meiji";
+  if (lower === "northernsong" || lower === "northern-song") return "northernsong";
 
   return "default";
 }

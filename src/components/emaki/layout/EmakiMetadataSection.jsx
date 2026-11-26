@@ -44,6 +44,8 @@ const EmakiMetadataSection = ({
     typeen,
     eraen,
     era,
+    era_zh,
+    type_zh,
     title,
     titleen,
     sourceImage,
@@ -103,7 +105,11 @@ const EmakiMetadataSection = ({
           "--border-color": eraColor(era) || "black", // カスタムプロパティを渡す
         }}
       >
-        {locale == "en" ? "Introduction to Emaki" : "絵巻の紹介"}
+        {locale === "zh-Hans"
+          ? "绘卷简介"
+          : locale === "en"
+            ? "Introduction to Emaki"
+            : "絵巻の紹介"}
       </h4>
       <div className={styles.desc}>{descContent}</div>
       {/*カテゴリー・時代タグ（紹介文の直後に置く）*/}
@@ -119,11 +125,21 @@ const EmakiMetadataSection = ({
                 : {}),
             }}
           >
-            {locale === "en" ? `${eraen} period` : `${era}`}
+            {locale === "zh-Hans"
+              ? era_zh || era
+              : locale === "en"
+                ? `${eraen} period`
+                : `${era}`}
           </a>
         </Link>
         <Link href={`/type/${typeen}`} className={styles.type}>
-          <a>{locale === "en" ? typeen : type}</a>
+          <a>
+            {locale === "zh-Hans"
+              ? type_zh || type
+              : locale === "en"
+                ? typeen
+                : type}
+          </a>
         </Link>
       </div>
       <span
@@ -167,7 +183,11 @@ const EmakiMetadataSection = ({
       {/*メタ情報（出典・参考文献は折りたたみ表示）*/}
       <details className={styles.authority}>
         <summary className={styles.authoritySummary}>
-          {locale === "en" ? "Source & References" : "出典・参考文献"}
+          {locale === "zh-Hans"
+            ? "出处与参考文献"
+            : locale === "en"
+              ? "Source & References"
+              : "出典・参考文献"}
         </summary>
         <SourceAttribution
           sourceImageUrl={sourceImageUrl}

@@ -1,0 +1,372 @@
+{
+  "id": 109,
+  "title": "清明上河図",
+  "titleen": "along_the_river_during_the_qingming_festival",
+  "author": "張択端",
+  "authoren": "zhang-zeduan",
+  "edition": "故宮博物院本",
+  "encodeUrl": "",
+  "backgroundImage": "",
+  "thumb": "/thumb/along_the_river_during_the_qingming_festival_thumb.webp",
+  "thumb2": "",
+  "video": "",
+  "era": "北宋",
+  "eraen": "northern-song",
+  "desc": "北宋の画家・張択端による中国絵画史上の最高傑作『清明上河図』（北京故宮博物院蔵）の全巻公開版です。都・汴京（開封）の郊外の春景色から、汴河の賑わい、虹橋のクライマックス、城門と繁華街・酒楼の活気まで、800人以上の人々の営みを高精細な横スクロールで鑑賞できます。",
+  "descen": "The complete scroll of Along the River During the Qingming Festival (Qingming Shanghe Tu) by Northern Song painter Zhang Zeduan (Palace Museum, Beijing). Experience daily life in the capital city of Bianjing—from suburban spring paths and bustling Bian River grain boats to the dramatic Rainbow Bridge and lively city streets—in high-resolution horizontal scroll.",
+  "readMore": false,
+  "type": "絵巻",
+  "typeen": "emaki",
+  "keyword": [
+    {
+      "name": "風俗画",
+      "id": "genre-painting",
+      "slug": "genre-painting"
+    },
+    {
+      "name": "中国絵画",
+      "id": "chinese-painting",
+      "slug": "chinese-painting"
+    },
+    {
+      "name": "清明節",
+      "id": "qingming-festival",
+      "slug": "qingming-festival"
+    }
+  ],
+  "kotobagaki": false,
+  "sceneText": true,
+  "favorite": false,
+  "sourceImageUrl": "https://commons.wikimedia.org/wiki/File:Alongtheriver_QingMing.jpg",
+  "sourceImage": "清明上河図（北京故宮博物院蔵）",
+  "metadesc": "",
+  "gif": "",
+  "sourceEkotoba": "",
+  "reference": [
+    {
+      "type": "Wikimedia Commons",
+      "url": "https://commons.wikimedia.org/wiki/File:Alongtheriver_QingMing.jpg",
+      "title": "File:Alongtheriver QingMing.jpg - Wikimedia Commons"
+    }
+  ],
+  "emakis": [
+    {
+      "cat": "ekotoba",
+      "chapter": "1",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_01__01.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_01__01",
+      "srcHeight": 1600,
+      "srcWidth": 1404
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_01__02.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_01__02",
+      "srcHeight": 1600,
+      "srcWidth": 1404
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_01__03.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_01__03",
+      "srcHeight": 1600,
+      "srcWidth": 1404
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_01__04.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_01__04",
+      "srcHeight": 1600,
+      "srcWidth": 1404
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_01__05.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_01__05",
+      "srcHeight": 1600,
+      "srcWidth": 1404
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_01__06.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_01__06",
+      "srcHeight": 1600,
+      "srcWidth": 1404
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "2",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_02__01.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_02__01",
+      "srcHeight": 1600,
+      "srcWidth": 1299
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_02__02.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_02__02",
+      "srcHeight": 1600,
+      "srcWidth": 1299
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_02__03.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_02__03",
+      "srcHeight": 1600,
+      "srcWidth": 1299
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_02__04.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_02__04",
+      "srcHeight": 1600,
+      "srcWidth": 1299
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_02__05.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_02__05",
+      "srcHeight": 1600,
+      "srcWidth": 1299
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_02__06.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_02__06",
+      "srcHeight": 1600,
+      "srcWidth": 1299
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "3",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_03__01.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_03__01",
+      "srcHeight": 1600,
+      "srcWidth": 988
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_03__02.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_03__02",
+      "srcHeight": 1600,
+      "srcWidth": 988
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_03__03.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_03__03",
+      "srcHeight": 1600,
+      "srcWidth": 988
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_03__04.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_03__04",
+      "srcHeight": 1600,
+      "srcWidth": 988
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_03__05.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_03__05",
+      "srcHeight": 1600,
+      "srcWidth": 988
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_03__06.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_03__06",
+      "srcHeight": 1600,
+      "srcWidth": 988
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "4",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_04__01.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_04__01",
+      "srcHeight": 1600,
+      "srcWidth": 1197
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_04__02.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_04__02",
+      "srcHeight": 1600,
+      "srcWidth": 1197
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_04__03.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_04__03",
+      "srcHeight": 1600,
+      "srcWidth": 1197
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_04__04.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_04__04",
+      "srcHeight": 1600,
+      "srcWidth": 1197
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_04__05.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_04__05",
+      "srcHeight": 1600,
+      "srcWidth": 1197
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_04__06.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_04__06",
+      "srcHeight": 1600,
+      "srcWidth": 1197
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "5",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 0,
+      "srcWidth": 0
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_05__01.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_05__01",
+      "srcHeight": 1600,
+      "srcWidth": 958
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_05__02.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_05__02",
+      "srcHeight": 1600,
+      "srcWidth": 958
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_05__03.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_05__03",
+      "srcHeight": 1600,
+      "srcWidth": 958
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_05__04.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_05__04",
+      "srcHeight": 1600,
+      "srcWidth": 958
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_05__05.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_05__05",
+      "srcHeight": 1600,
+      "srcWidth": 958
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "cloudinary",
+      "src": "qingming-shanghe-tu__qingming-shanghe-tu_1_05__06.webp",
+      "name": "qingming-shanghe-tu__qingming-shanghe-tu_1_05__06",
+      "srcHeight": 1600,
+      "srcWidth": 958
+    }
+  ],
+  "sourceAuthor": "張択端（1085–1145）",
+  "sourceCollection": "Palace Museum, Beijing (via Wikimedia Commons)",
+  "sourceLicense": "Public Domain"
+}

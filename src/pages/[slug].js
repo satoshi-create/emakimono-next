@@ -126,9 +126,9 @@ const Emaki = ({ data, locale, locales, slug }) => {
         : `${data.title ?? ""}${data.edition ? ` ${data.edition}` : ""}`.trim();
   } else {
     pagetitle =
-      locale === "en"
-        ? emakiDisplayTitle(data, locale)
-        : `${data.title ?? ""}${data.edition ? ` ${data.edition}` : ""}`.trim();
+      locale === "ja"
+        ? `${data.title ?? ""}${data.edition ? ` ${data.edition}` : ""}`.trim()
+        : emakiDisplayTitle(data, locale);
   }
 
   const pageAuthor = locale === "ja" ? data.author : data.authoren;
@@ -142,7 +142,12 @@ const Emaki = ({ data, locale, locales, slug }) => {
           pageAuthor ? ` (${pageAuthor})` : ""
         }, a classical Japanese picture scroll (emakimono), in high-resolution right-to-left scrolling mode.`;
 
-  const pageDesc = locale === "ja" ? data.desc : data.descen;
+  const pageDesc =
+    locale === "zh-Hans"
+      ? data.desc_zh || data.descen || data.desc
+      : locale === "ja"
+        ? data.desc
+        : data.descen;
 
   let pageDescTemp = pageDesc ? pageDesc : tPageDesc;
   if (data.titleen === "kusouzumaki") {

@@ -305,10 +305,15 @@ const EmakiLandscapContent = ({
                   emaki={scrollMeta}
                   locale={locale}
                   styles={styles}
-                  descContent={
-                    descToParagraphs(locale === "en" ? descEn : descJa) ??
-                    parse(locale === "en" ? descEn : descJa)
-                  }
+                  descContent={(() => {
+                    const activeDesc =
+                      locale === "zh-Hans"
+                        ? data?.desc_zh || descEn || descJa
+                        : locale === "en"
+                          ? descEn
+                          : descJa;
+                    return descToParagraphs(activeDesc) ?? parse(activeDesc);
+                  })()}
                   eraTagTextColor
                   showRepresentativeLink={isKusouzu && titleen !== "kusouzumaki"}
                   tagCloud={

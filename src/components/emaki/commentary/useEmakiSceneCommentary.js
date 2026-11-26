@@ -185,15 +185,33 @@ export function useEmakiSceneCommentary({
       return { desc: "", gendaibun: "", kobun: "", kobunHtml: "" };
     }
     const isEn = locale === "en";
+    const isZh = locale === "zh-Hans";
     const genjiCh = current.genji_chapter;
-    const descRaw = getChapterFieldRaw(
-      titleen,
-      title,
-      current.chapter,
-      isEn ? "descen" : "desc",
-      current.desc,
-      genjiCh
-    );
+    const descField = isZh ? "desc_zh" : isEn ? "descen" : "desc";
+    const descFallback = isZh
+      ? current.desc_zh || current.descen || current.desc
+      : isEn
+        ? current.descen
+        : current.desc;
+    const descRaw =
+      getChapterFieldRaw(
+        titleen,
+        title,
+        current.chapter,
+        descField,
+        descFallback,
+        genjiCh
+      ) ||
+      (isZh
+        ? getChapterFieldRaw(
+            titleen,
+            title,
+            current.chapter,
+            "descen",
+            current.descen,
+            genjiCh
+          )
+        : "");
     const gendaibunRaw = getChapterFieldRaw(
       titleen,
       title,
@@ -368,6 +386,24 @@ export function useEmakiSceneCommentary({
 
   const emakiChapterTitle = () => {
     if (!current) return "";
+    if (locale === "zh-Hans") {
+      return (
+        ChaptersTitle(
+          titleen,
+          title,
+          current.chapter,
+          "title_zh",
+          current.genji_chapter
+        ) ||
+        ChaptersTitle(
+          titleen,
+          title,
+          current.chapter,
+          "titleen",
+          current.genji_chapter
+        )
+      );
+    }
     return locale === "en"
       ? ChaptersTitle(
           titleen,

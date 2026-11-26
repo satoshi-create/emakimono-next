@@ -20,7 +20,15 @@ import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 
-const Emaki = ({ name, nameen, posts, slug, liveSlugs, timelineEraName }) => {
+const Emaki = ({
+  name,
+  nameen,
+  posts,
+  slug,
+  liveSlugs,
+  timelineEraName,
+  hasTimeline,
+}) => {
   const { locale } = useRouter();
   const { t } = useTranslation("common");
   const tPageDesc =
@@ -39,12 +47,14 @@ const Emaki = ({ name, nameen, posts, slug, liveSlugs, timelineEraName }) => {
       />
       <Header slug={`era/${slug}`} />
       <Breadcrumbs name={locale === "en" ? `${nameen} Period` : name} />
-      <section className="section-grid section-padding">
-        <Title
-          sectiontitle={t("timeline.embedEraTitle", { era: timelineEraName })}
-        />
-        <EmakiEraTimeline eraen={slug} liveSlugs={liveSlugs} t={t} />
-      </section>
+      {hasTimeline && (
+        <section className="section-grid section-padding">
+          <Title
+            sectiontitle={t("timeline.embedEraTitle", { era: timelineEraName })}
+          />
+          <EmakiEraTimeline eraen={slug} liveSlugs={liveSlugs} t={t} />
+        </section>
+      )}
       <CardA
         emakis={posts}
         columns={"three"}
@@ -100,6 +110,10 @@ export const getStaticProps = async (context) => {
     (item) => item.eraen === eraslug
   );
 
+  const matchedTimelineEra = (
+    locale === "en" ? enTimelineSimple : jaTimelineSimple
+  ).find((era) => era.eraen === eraslug);
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
@@ -108,10 +122,8 @@ export const getStaticProps = async (context) => {
       posts: filterdEmakisData,
       slug: eraslug,
       liveSlugs: getLiveSlugs(tEmakisData),
-      timelineEraName:
-        (locale === "en" ? enTimelineSimple : jaTimelineSimple).find(
-          (era) => era.eraen === eraslug
-        )?.era || eraObj.era,
+      timelineEraName: matchedTimelineEra?.era || eraObj.era,
+      hasTimeline: Boolean(matchedTimelineEra),
     },
   };
 };

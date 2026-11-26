@@ -131,7 +131,11 @@ const CustomTagCloud = ({ tags, emakiPage, compact }) => {
             margin: "5px",
           }}
         >
-          {locale === "en" ? tag.id : tag.name}
+          {locale === "zh-Hans"
+            ? tag.name_zh || tag.id
+            : locale === "en"
+              ? tag.id
+              : tag.name}
         </a>
       </Link>
     );
@@ -162,7 +166,11 @@ const CustomTagCloud = ({ tags, emakiPage, compact }) => {
                   transition: "all 0.2s",
                 }}
               >
-                {locale == "en" ? "View All Keywords	" : "キーワード一覧を見る"}
+                {locale === "zh-Hans"
+                  ? "查看全部关键词"
+                  : locale === "en"
+                    ? "View All Keywords	"
+                    : "キーワード一覧を見る"}
               </Button>
             </ChakraLink>
           </Link>
