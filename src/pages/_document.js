@@ -29,8 +29,9 @@ class MyDocument extends Document {
   }
 
   render() {
+    const lang = this.props.locale || this.props.__NEXT_DATA__?.locale || "en";
     return (
-      <Html>
+      <Html lang={lang}>
         <Head>
           {/* viewport meta は _app.js で next/head を使用して設定（Next.js推奨パターン） */}
           <script

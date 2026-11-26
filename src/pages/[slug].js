@@ -131,18 +131,18 @@ const Emaki = ({ data, locale, locales, slug }) => {
         : `${data.title ?? ""}${data.edition ? ` ${data.edition}` : ""}`.trim();
   }
 
-  const pageAuthor = locale === "en" ? data.authoren : data.author;
+  const pageAuthor = locale === "ja" ? data.author : data.authoren;
 
   const tPageDesc =
-    locale === "en"
-      ? `You can enjoy all the scenes of the ${pagetitle} ${
-          pageAuthor && `（${pageAuthor}）`
-        }in vertical and right to left scrolling mode.`
-      : `${pagetitle}${
-          pageAuthor && `（${pageAuthor}）`
-        }の全シーンを、縦書き、横スクロールで楽しむことができます。`;
+    locale === "ja"
+      ? `${pagetitle}${
+          pageAuthor ? `（${pageAuthor}）` : ""
+        }の全シーンを、縦書き、横スクロールで楽しむことができます。`
+      : `Explore all scenes of ${pagetitle}${
+          pageAuthor ? ` (${pageAuthor})` : ""
+        }, a classical Japanese picture scroll (emakimono), in high-resolution right-to-left scrolling mode.`;
 
-  const pageDesc = locale === "en" ? data.descen : data.desc;
+  const pageDesc = locale === "ja" ? data.desc : data.descen;
 
   let pageDescTemp = pageDesc ? pageDesc : tPageDesc;
   if (data.titleen === "kusouzumaki") {

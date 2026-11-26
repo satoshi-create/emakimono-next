@@ -68,7 +68,10 @@ const buildHomeJsonLd = ({
   const scrollItems = featuredItems.map((item, index) => ({
     "@type": "ListItem",
     position: hubItems.length + index + 1,
-    name: item.title || item.titleen,
+    name:
+      locale === "ja"
+        ? item.title || item.titleen
+        : item.titleen || item.title,
     url: buildLocaleUrl(locale, `/${item.titleen}`, defaultLocale),
   }));
 
