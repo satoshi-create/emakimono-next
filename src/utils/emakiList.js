@@ -16,6 +16,8 @@ const convert = (arr) => {
     const key = `${obj.name}`;
     if (!res[key]) {
       res[key] = { ...obj, total: 0 };
+    } else if (obj.name_zh && !res[key].name_zh) {
+      res[key].name_zh = obj.name_zh;
     }
     res[key].total += 1;
   });
@@ -191,6 +193,9 @@ export const filterdKeywords = (pageKey, allKey) =>
           id: matchingItem.id,
           slug: matchingItem.slug,
           total: matchingItem.total,
+          ...(matchingItem.name_zh || item2.name_zh
+            ? { name_zh: matchingItem.name_zh ?? item2.name_zh }
+            : {}),
         };
       }
       return null;
