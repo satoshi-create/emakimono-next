@@ -15,6 +15,7 @@ import {
 } from "@/libs/hubPages";
 import { fetchCollabBoard, fetchPublicBoards } from "@/libs/api/ugcApi";
 import { removeNestedEmakisObj } from "@/utils/emakiList";
+import { buildI18nStaticPaths } from "@/utils/i18nStaticPaths";
 import { buildGenjiHubData } from "@/utils/buildGenjiHubData";
 import GenjiChaptersSection from "@/components/genji/GenjiChaptersSection";
 import { buildChojuGigaHubData } from "@/utils/buildChojuGigaHubData";
@@ -779,14 +780,9 @@ export default function DynamicHubPage({
   );
 }
 
-export async function getStaticPaths({ locales = ["ja", "en"] }) {
+export async function getStaticPaths() {
   const allHubs = getAllHubPages();
-  const paths = [];
-  for (const hub of allHubs) {
-    for (const locale of locales) {
-      paths.push({ params: { slug: hub.slug }, locale });
-    }
-  }
+  const paths = buildI18nStaticPaths(allHubs.map((hub) => hub.slug));
   return {
     paths,
     fallback: "blocking",

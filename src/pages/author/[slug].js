@@ -8,6 +8,7 @@ import {
   default as jaData,
 } from "@/data/scroll-metadata";
 import { authorItem, removeNestedEmakisObj } from "@/utils/func";
+import { buildI18nStaticPaths } from "@/utils/i18nStaticPaths";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -47,13 +48,9 @@ const Author = ({ name, nameen, posts, slug }) => {
 export const getStaticPaths = async (context) => {
   const { locale, locales } = context;
   const tEmakisData = locale === "en" ? enData : jaData;
-  const paths = authorItem(tEmakisData).map(({ authoren }) => ({
-    params: {
-      slug: authoren,
-    },
-    locale: "ja",
-  }));
-  paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
+  const paths = buildI18nStaticPaths(
+    authorItem(tEmakisData).map(({ authoren }) => authoren)
+  );
   return {
     paths: paths,
     fallback: false,

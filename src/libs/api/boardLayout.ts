@@ -12,7 +12,16 @@ const INITIAL_BOARD_Y = -160;
  * - 未指定かつ既存カードがある場合は、最右端カードのすぐ右隣へ配置して座標乖離を防ぐ
  * - 0枚の場合は初期原点付近（-260, -160）へ配置
  */
-export function computeNextBoardCardPosition(existingItems = [], requested = {}) {
+type BoardCardItem = {
+  boardX?: number | string | null;
+  boardY?: number | string | null;
+};
+type BoardCardPositionRequest = { boardX?: number | string; boardY?: number | string };
+
+export function computeNextBoardCardPosition(
+  existingItems: BoardCardItem[] = [],
+  requested: BoardCardPositionRequest = {}
+): { boardX: number; boardY: number } {
   let defaultX = INITIAL_BOARD_X;
   let defaultY = INITIAL_BOARD_Y;
 

@@ -10,6 +10,7 @@ import {
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { DISPLAY_PERSON_SLUGS } from "@/libs/constants/displayPersonSlugs";
+import { buildI18nStaticPaths } from "@/utils/i18nStaticPaths";
 import { useTranslation } from "next-i18next";
 
 const PersonnameDetail = ({ person, posts, slug }) => {
@@ -77,11 +78,7 @@ export const getStaticPaths = async () => {
     .filter((p) => p.total > 0 || DISPLAY_PERSON_SLUGS.includes(p.slug))
     .map((p) => p.slug);
 
-  const paths = allSlugs.map((slug) => ({
-    params: { slug },
-    locale: "ja",
-  }));
-  paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
+  const paths = buildI18nStaticPaths(allSlugs);
   return { paths, fallback: false };
 };
 

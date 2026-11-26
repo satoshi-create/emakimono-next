@@ -24,7 +24,7 @@ const stripLocalePrefix = (asPath, locales) => {
   return `${stripped}${queryPart}${hashPart}`;
 };
 
-const LOCALE_ORDER = ["en", "ja"];
+const LOCALE_ORDER = ["en", "ja", "zh-Hans"];
 
 const LanguageSwitcher = () => {
   const router = useRouter();
@@ -67,9 +67,19 @@ const LanguageSwitcher = () => {
             }`}
             onClick={() => handleLanguageChange(locale)}
             aria-pressed={locale === activeLocale}
-            aria-label={locale === "en" ? "English" : "日本語"}
+            aria-label={
+              locale === "en"
+                ? t("languageSwitcher.en.ariaLabel")
+                : locale === "zh-Hans"
+                  ? t("languageSwitcher.zhHans.ariaLabel")
+                  : t("languageSwitcher.ja.ariaLabel")
+            }
           >
-            {locale === "en" ? "EN" : "JA"}
+            {locale === "en"
+              ? t("languageSwitcher.en.short")
+              : locale === "zh-Hans"
+                ? t("languageSwitcher.zhHans.short")
+                : t("languageSwitcher.ja.short")}
           </button>
         </Fragment>
       ))}

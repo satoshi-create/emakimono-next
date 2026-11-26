@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Title from "@/components/ui/Title";
 import linkStyles from "@/styles/HomeSectionLink.module.css";
+import { useTranslation } from "next-i18next";
 
 function ThumbStack({ thumbs = [], title }) {
   const list = Array.isArray(thumbs) ? thumbs.filter(Boolean).slice(0, 3) : [];
@@ -130,7 +131,8 @@ function ThumbStack({ thumbs = [], title }) {
 
 export function HomeHubSection({ hubs = [], surface = true }) {
   const { locale } = useRouter();
-  const isEn = locale === "en";
+  const { t } = useTranslation("common");
+  const useEnTitles = locale === "en" || locale === "zh-Hans";
 
   if (!Array.isArray(hubs) || hubs.length === 0) return null;
 
@@ -141,10 +143,7 @@ export function HomeHubSection({ hubs = [], surface = true }) {
         backgroundColor: surface ? "var(--clr-surface)" : "#ffffff",
       }}
     >
-      <Title
-        sectiontitle="テーマ・特集ハブ一覧"
-        sectiontitleen="Curated Theme Hubs"
-      />
+      <Title sectiontitle={t("home.hubSection.sectionTitle")} />
 
       <div
         style={{
@@ -155,8 +154,10 @@ export function HomeHubSection({ hubs = [], surface = true }) {
         }}
       >
         {hubs.map((hub) => {
-          const title = isEn ? hub.titleEn || hub.titleJa : hub.titleJa;
-          const desc = isEn
+          const title = useEnTitles
+            ? hub.titleEn || hub.titleJa
+            : hub.titleJa;
+          const desc = useEnTitles
             ? hub.descriptionEn || hub.descriptionJa
             : hub.descriptionJa;
           const thumbs =
@@ -218,9 +219,7 @@ export function HomeHubSection({ hubs = [], surface = true }) {
                         marginBottom: 8,
                       }}
                     >
-                      {isEn
-                        ? `${hub.workCount} works`
-                        : `全${hub.workCount}巻・${hub.workCount}作品収録`}
+                      {t("home.hubSection.workCount", { count: hub.workCount })}
                     </span>
                   )}
 
@@ -263,7 +262,7 @@ export function HomeHubSection({ hubs = [], surface = true }) {
                       color: "var(--clr-accent, #ff8c77)",
                     }}
                   >
-                    {isEn ? "View theme →" : "特集ページを見る →"}
+                    {t("home.hubSection.viewTheme")}
                   </span>
                 </div>
               </a>
@@ -275,7 +274,7 @@ export function HomeHubSection({ hubs = [], surface = true }) {
       <div className={linkStyles.wrap}>
         <Link href="/hub" locale={locale}>
           <a className={linkStyles.btn}>
-            {isEn ? "View all theme hubs" : "すべての特集ハブを見る"}
+            {t("home.hubSection.viewAll")}
           </a>
         </Link>
       </div>

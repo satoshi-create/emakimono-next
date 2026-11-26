@@ -26,7 +26,7 @@ export const NOTION_CONTACT_URL_EN =
   "https://sour-brain-48f.notion.site/cd0994f0dfcd83bca239819bbac61635?pvs=105";
 
 /** Select the contact form URL by locale (ja / en). */
-export const getContactUrl = (locale) =>
+export const getContactUrl = (locale: string): string =>
   locale === "en" ? NOTION_CONTACT_URL_EN : NOTION_CONTACT_URL;
 
 export const GITHUB_REPO_URL =
@@ -43,19 +43,15 @@ export const operatorSocialLinks = [
 ];
 
 export const legalLinks = [
-  { name: "使い方ガイド", nameen: "Guide", path: "/guide" },
-  { name: "著作権・ライセンス", nameen: "Copyright", path: "/copyright" },
-  { name: "プライバシー", nameen: "Privacy", path: "/privacy" },
-  { name: "利用規約", nameen: "Terms", path: "/terms" },
+  { labelKey: "nav.items.guide.label", path: "/guide" },
+  { labelKey: "nav.items.copyright.label", path: "/copyright" },
+  { labelKey: "nav.items.privacy.label", path: "/privacy" },
+  { labelKey: "nav.items.terms.label", path: "/terms" },
 ];
 
 export const relatedSiteLinks = [
-  { name: "About", nameen: "About", path: "/about" },
-  {
-    name: "絵巻物と日本史の年表",
-    nameen: "Emaki Timeline",
-    path: "/timeline",
-  },
+  { labelKey: "nav.items.about.label", path: "/about" },
+  { labelKey: "nav.items.timeline.label", path: "/timeline" },
   ...legalLinks,
 ];
 
@@ -65,13 +61,12 @@ export const navGroups = [
     id: "explore",
     labelKey: "nav.groupExplore",
     links: [
-      { name: "絵巻一覧", nameen: "Emaki Gallery", path: "/type/emaki" },
-      { name: "屏風一覧", nameen: "Byōbu Folding Screens", path: BYOBU_HUB_PATH },
-      { name: "テーマ・特集ハブ一覧", nameen: "Theme Hubs", path: "/hub" },
-      { name: "ランキング", nameen: "Ranking", path: "/ranking" },
+      { labelKey: "nav.items.emaki.label", path: "/type/emaki" },
+      { labelKey: "nav.items.byobu.label", path: BYOBU_HUB_PATH },
+      { labelKey: "nav.items.themeHubs.label", path: "/hub" },
+      { labelKey: "nav.items.ranking.label", path: "/ranking" },
       {
-        name: "個人ポラロイドボード",
-        nameen: "Personal Polaroid Board",
+        labelKey: "nav.items.personalBoard.label",
         path: "/board/personal",
       },
     ],
@@ -81,52 +76,47 @@ export const navGroups = [
     labelKey: "nav.groupLearn",
     links: [
       {
-        name: "マンガのルーツ",
-        nameen: "Roots of Manga",
+        labelKey: "nav.items.mangaRoots.label",
         path: "/manga-roots",
       },
-      { name: "年表", nameen: "Timeline", path: "/timeline" },
-      { name: "使い方ガイド", nameen: "Guide", path: "/guide" },
+      { labelKey: "nav.items.timeline.label", path: "/timeline" },
+      { labelKey: "nav.items.guide.label", path: "/guide" },
     ],
   },
   {
     id: "site",
     labelKey: "nav.groupSite",
     links: [
-      { name: "著作権・ライセンス", nameen: "Copyright", path: "/copyright" },
-      { name: "プライバシー", nameen: "Privacy", path: "/privacy" },
-      { name: "利用規約", nameen: "Terms", path: "/terms" },
+      { labelKey: "nav.items.copyright.label", path: "/copyright" },
+      { labelKey: "nav.items.privacy.label", path: "/privacy" },
+      { labelKey: "nav.items.terms.label", path: "/terms" },
     ],
   },
 ];
 
 /** Desktop header nav + footer main links. */
 export const primaryNavLinks = [
-  { name: "ホーム", nameen: "Home", id: "home", path: "/", submenu: "" },
+  { labelKey: "nav.items.home.label", id: "home", path: "/", submenu: "" },
   {
-    name: "絵巻一覧",
-    nameen: "Emaki Gallery",
+    labelKey: "nav.items.emaki.label",
     id: "emaki",
     path: "/type/emaki",
     submenu: "",
   },
   {
-    name: "ランキング",
-    nameen: "Rankings",
+    labelKey: "nav.items.ranking.label",
     id: "ranking",
     path: "/ranking",
     submenu: "",
   },
   {
-    name: "年表",
-    nameen: "Timeline",
+    labelKey: "nav.items.timeline.label",
     id: "timeline",
     path: "/timeline",
     submenu: "",
   },
   {
-    name: "About",
-    nameen: "About",
+    labelKey: "nav.items.about.label",
     id: "about",
     path: "/about",
     submenu: "",

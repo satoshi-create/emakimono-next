@@ -14,6 +14,7 @@ import {
   default as jaData,
 } from "@/data/scroll-metadata";
 import { eraItem, removeNestedEmakisObj } from "@/utils/func";
+import { buildI18nStaticPaths } from "@/utils/i18nStaticPaths";
 import { getLiveSlugs } from "@/utils/getLiveSlugs";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -79,10 +80,7 @@ export const getStaticPaths = async (context) => {
         )
     ),
   ];
-  const paths = slugs.flatMap((slug) => [
-    { params: { slug }, locale: "ja" },
-    { params: { slug }, locale: "en" },
-  ]);
+  const paths = buildI18nStaticPaths(slugs);
   return {
     paths: paths,
     fallback: false,

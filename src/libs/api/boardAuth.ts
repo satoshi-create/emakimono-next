@@ -1,4 +1,16 @@
+import type { NextApiRequest } from "next";
 import { getVisitorHash } from "./visitorHash";
+
+export type BoardActor = {
+  visitorHash: string;
+  clientId: string;
+  storedVisitorHash: string;
+  isBoardAdmin: boolean;
+};
+
+export type BoardItemAuthFields = {
+  visitorHash?: string | null;
+};
 
 // =============================================================================
 // 1. 管理者キー・リクエストアクター解決（全ボードAPI共通）
@@ -8,7 +20,7 @@ import { getVisitorHash } from "./visitorHash";
  * リクエストヘッダーと環境変数から操作者（管理者 / 投稿者クライアント）情報を解決する
  * 環境変数名は NEXT_PUBLIC_BOARD_ADMIN_KEY に統一し、APIごとのキー不一致を防ぐ
  */
-export function resolveBoardActor(req) {
+export function resolveBoardActor(req: NextApiRequest): BoardActor {
   const visitorHash = getVisitorHash(req) || "";
   const rawClientId = req.headers?.["x-board-client-id"];
   const clientId =
@@ -40,7 +52,10 @@ export function resolveBoardActor(req) {
 /**
  * 対象アイテムに対して現在のリクエスト操作者が変更・削除権限を持つか判定する
  */
-export function canModifyBoardItem(actor, item) {
+export function canModifyBoardItem(
+  actor: BoardActor | null | undefined,
+  item: BoardItemAuthFields | null | undefined
+): boolean {
   if (!actor || !item) return false;
   if (actor.isBoardAdmin) return true;
 

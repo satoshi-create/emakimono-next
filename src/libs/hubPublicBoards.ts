@@ -4,7 +4,9 @@ const HUBS_COMMENT_RE = /<!--\s*hubs:\s*([\s\S]*?)\s*-->/gi;
  * @param {string | undefined | null} description
  * @returns {string[]}
  */
-export function extractHubSlugsFromBoardDescription(description) {
+export function extractHubSlugsFromBoardDescription(
+  description: string | undefined | null
+): string[] {
   if (typeof description !== "string" || !description) {
     return [];
   }
@@ -34,7 +36,17 @@ export function extractHubSlugsFromBoardDescription(description) {
  * @param {string} targetSlug
  * @returns {typeof boards}
  */
-export function filterBoardsForHubSlug(boards, targetSlug) {
+export type HubBoardSummary = {
+  id?: string;
+  title?: string;
+  description?: string;
+  itemCount?: number;
+};
+
+export function filterBoardsForHubSlug(
+  boards: HubBoardSummary[],
+  targetSlug: string
+): HubBoardSummary[] {
   if (!Array.isArray(boards) || typeof targetSlug !== "string") {
     return [];
   }

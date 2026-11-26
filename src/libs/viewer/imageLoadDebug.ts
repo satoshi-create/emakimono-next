@@ -19,7 +19,20 @@ function logDebug(tag, ...args) {
 // 1. 状態管理（in-flight / preload キュー）
 // ---------------------------------------------------------------------------
 let imageLoadInFlightCount = 0;
-const imagePreloadQueue = new Set();
+const imagePreloadQueue = new Set<string>();
+
+export type ImageLoadEndStatus = "success" | "slow" | string;
+
+export type LogImageLoadEndParams = {
+  emakiId?: string;
+  imageIndex?: number;
+  url?: string;
+  loadTimeMs?: number;
+  status?: ImageLoadEndStatus;
+  fallbackReason?: string | null;
+  queueKey?: string;
+  releaseInFlight?: boolean;
+};
 
 // ---------------------------------------------------------------------------
 // [計算関数] キュー状況のスナップショット出力
@@ -36,7 +49,12 @@ export const logImageLoadQueue = () => {
 // ---------------------------------------------------------------------------
 // [フロー 1] ネットワーク計測開始（markLoadStart 連動）
 // ---------------------------------------------------------------------------
-export const logImageLoadStart = (emakiId, imageIndex, url, queueKey) => {
+export const logImageLoadStart = (
+  emakiId: string | undefined,
+  imageIndex: number | undefined,
+  url: string | undefined,
+  queueKey: string | undefined
+): void => {
   if (!DEBUG_IMAGE_LOAD) return;
   imageLoadInFlightCount += 1;
   if (queueKey) imagePreloadQueue.add(queueKey);
@@ -61,7 +79,7 @@ export const logImageLoadEnd = ({
   fallbackReason = null,
   queueKey,
   releaseInFlight = true,
-}) => {
+}: LogImageLoadEndParams): void => {
   if (!DEBUG_IMAGE_LOAD) return;
   if (releaseInFlight && imageLoadInFlightCount > 0) {
     imageLoadInFlightCount -= 1;

@@ -10,14 +10,20 @@ import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { useTranslation } from "next-i18next";
 
-const formatPublishedAt = (publishedAt, locale) => {
+const formatPublishedAt = (publishedAt, locale, t) => {
   const date = new Date(publishedAt);
   if (Number.isNaN(date.getTime())) return publishedAt;
-  if (locale === "ja") {
-    return `${date.getFullYear()}年${date.getMonth() + 1}月公開`;
+  if (locale === "en") {
+    return date.toLocaleDateString("en", { year: "numeric", month: "long" });
   }
-  return date.toLocaleDateString("en", { year: "numeric", month: "long" });
+  return t("home.latest.published", {
+    year: date.getFullYear(),
+    month: date.getMonth() + 1,
+  });
 };
+
+const scrollTitleForLocale = (item, locale) =>
+  locale === "ja" ? item.title : item.titleen || item.title;
 
 const HomeLatestScrolls = () => {
   const { t } = useTranslation("common");
@@ -39,10 +45,7 @@ const HomeLatestScrolls = () => {
 
   return (
     <section className={`section-grid section-padding ${styles.section}`}>
-      <Title
-        sectiontitle={locale === "en" ? "Latest Releases" : "最新の公開作品"}
-        sectiontitleen="Latest Releases"
-      />
+      <Title sectiontitle={t("home.latestSectionTitle")} />
       <div className={styles.track}>
         {latestItems.map((item) => {
           const isByobu =
@@ -72,11 +75,11 @@ const HomeLatestScrolls = () => {
                     <span className={styles.newBadge}>{t("home.latestNewBadge")}</span>
                   )}
                   <span className={styles.date}>
-                    {formatPublishedAt(item.publishedAt, locale)}
+                    {formatPublishedAt(item.publishedAt, locale, t)}
                   </span>
                 </div>
                 <h3 className={styles.title}>
-                  {locale === "en" ? item.titleen : item.title}
+                  {scrollTitleForLocale(item, locale)}
                   {locale === "ja" && item.edition ? ` ${item.edition}` : ""}
                 </h3>
                 <div
@@ -87,9 +90,9 @@ const HomeLatestScrolls = () => {
                   }}
                 >
                   <span className={styles.era}>
-                    {locale === "en"
-                      ? `${item.eraen} period`
-                      : `${item.era}時代`}
+                    {t("home.latest.eraPeriod", {
+                      era: locale === "ja" ? item.era : item.eraen || item.era,
+                    })}
                   </span>
                   <span
                     style={{
@@ -112,12 +115,8 @@ const HomeLatestScrolls = () => {
                     }}
                   >
                     {isByobu
-                      ? locale === "en"
-                        ? "Byobu"
-                        : "屏風"
-                      : locale === "en"
-                        ? "Emaki"
-                        : "絵巻"}
+                      ? t("home.latest.typeByobu")
+                      : t("home.latest.typeEmaki")}
                   </span>
                 </div>
               </div>

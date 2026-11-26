@@ -12,7 +12,15 @@ const personProfiles = Array.from(
   profilesTsSource.matchAll(/slug:\s*"([^"]+)"/g),
   (m) => ({ slug: m[1] })
 );
-const { DISPLAY_PERSON_SLUGS } = require("./displayPersonSlugs");
+
+const displaySlugsTsPath = path.join(__dirname, "./displayPersonSlugs.ts");
+const displaySlugsTsSource = fs.readFileSync(displaySlugsTsPath, "utf8");
+const displaySlugsMatch = displaySlugsTsSource.match(
+  /DISPLAY_PERSON_SLUGS\s*=\s*\[([\s\S]*?)\]/
+);
+const DISPLAY_PERSON_SLUGS = displaySlugsMatch
+  ? Array.from(displaySlugsMatch[1].matchAll(/"([^"]+)"/g), (m) => m[1])
+  : [];
 
 function buildUnpublishedPersonRedirects() {
   return personProfiles

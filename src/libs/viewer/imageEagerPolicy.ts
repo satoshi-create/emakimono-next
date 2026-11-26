@@ -22,12 +22,14 @@ function logDebug(tag, ...args) {
 // 3g 以下・鳥獣戯画第一巻・タブレット/モバイル・effectiveType 不明時は
 // 先読みを 1 枚に絞り、教室 Wi-Fi や iOS Safari 等での同時接続飽和を防ぐ
 // ---------------------------------------------------------------------------
-export const getManualLookahead = (emakiId) => {
+export const getManualLookahead = (emakiId: string | undefined): number => {
   if (emakiId === "Chōjū-jinbutsu-giga_first") {
     return MANUAL_IMAGE_LOOKAHEAD_CONSTRAINED;
   }
   if (typeof navigator === "undefined") return MANUAL_IMAGE_LOOKAHEAD;
-  const conn = navigator.connection?.effectiveType;
+  const conn = (
+    navigator as Navigator & { connection?: { effectiveType?: string } }
+  ).connection?.effectiveType;
   if (conn === "slow-2g" || conn === "2g" || conn === "3g") {
     return MANUAL_IMAGE_LOOKAHEAD_CONSTRAINED;
   }
@@ -47,12 +49,12 @@ export const getManualLookahead = (emakiId) => {
 // 前方 eager を厚くして二重 lazy ゲートを避ける。
 // ---------------------------------------------------------------------------
 export const isEagerLoad = (
-  uniqueIndex,
-  prefetchIndex,
-  isPlayMode,
-  toggleFullscreen,
-  manualLookahead = MANUAL_IMAGE_LOOKAHEAD
-) => {
+  uniqueIndex: number,
+  prefetchIndex: number,
+  isPlayMode: boolean,
+  toggleFullscreen: boolean,
+  manualLookahead: number = MANUAL_IMAGE_LOOKAHEAD
+): boolean => {
   if (uniqueIndex === 0) {
     logDebug("Eager:Check", { uniqueIndex, result: true, reason: "priority_index_0" });
     return true;

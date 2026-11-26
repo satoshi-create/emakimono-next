@@ -135,7 +135,48 @@
     "kusouzuHub": "Kusōzu Gallery",
     "hyakkiHub": "Hyakki Yagyō & Tsukumogami",
     "rakuchuHub": "Rakuchū-rakugai-zu",
-    "mangaRoots": "Manga Roots"
+    "mangaRoots": "Manga Roots",
+    "items": {
+      "home": {
+        "label": "Home"
+      },
+      "emaki": {
+        "label": "Emaki Gallery"
+      },
+      "byobu": {
+        "label": "Byōbu Folding Screens"
+      },
+      "themeHubs": {
+        "label": "Theme Hubs"
+      },
+      "ranking": {
+        "label": "Rankings"
+      },
+      "personalBoard": {
+        "label": "Personal Polaroid Board"
+      },
+      "timeline": {
+        "label": "Timeline"
+      },
+      "about": {
+        "label": "About"
+      },
+      "guide": {
+        "label": "Guide"
+      },
+      "copyright": {
+        "label": "Copyright"
+      },
+      "privacy": {
+        "label": "Privacy"
+      },
+      "terms": {
+        "label": "Terms"
+      },
+      "mangaRoots": {
+        "label": "Roots of Manga"
+      }
+    }
   },
   "home": {
     "metaTitle": "Emakimono Viewer",
@@ -186,10 +227,51 @@
       "title": "Kusōzu",
       "desc": "Ten stages explained, with related scrolls",
       "cta": "Kusōzu gallery"
+    },
+    "hero": {
+      "title": "View Emaki with Horizontal Scrolling",
+      "desc": "Emaki are meant to be unrolled and followed — not read like a book. From satire and hell scrolls to kusōzu, explore Heian–Kamakura picture scrolls scene by scene with horizontal scrolling."
+    },
+    "keywords": {
+      "sectionTitle": "Keywords"
+    },
+    "jsonLd": {
+      "hubs": {
+        "chouju": {
+          "name": "Chōjū-jinbutsu-giga"
+        },
+        "kusouzu": {
+          "name": "Kusōzu"
+        },
+        "darkFantasy": {
+          "name": "Hell & Dark Fantasy"
+        },
+        "mangaRoots": {
+          "name": "Manga Roots"
+        }
+      }
+    },
+    "hubSection": {
+      "sectionTitle": "Curated Theme Hubs",
+      "workCount": "{{count}} works",
+      "viewTheme": "View theme →",
+      "viewAll": "View all theme hubs"
+    },
+    "latest": {
+      "published": "{{month}} {{year}}",
+      "eraPeriod": "{{era}} period",
+      "typeEmaki": "Emaki",
+      "typeByobu": "Byobu"
     }
   },
   "about": {
-    "metaDesc": "An open-source project for viewing Heian–Kamakura emaki with horizontal scrolling. Expanding thematic collections including Chōjū-jinbutsu-giga, Hell Scrolls, and Kusōzu."
+    "metaDesc": "An open-source project for viewing Heian–Kamakura emaki with horizontal scrolling. Expanding thematic collections including Chōjū-jinbutsu-giga, Hell Scrolls, and Kusōzu.",
+    "pagetitle": "About",
+    "breadcrumb": "About",
+    "sectionTitle": "About This Project",
+    "introHtml": "<p>\n      Emaki picture scrolls are not meant to be \"read\" in the conventional sense—they are meant to be slowly unrolled and followed visually.\n      As the scroll is extended leftward, images appear and disappear, drawing the viewer into the story's world.\n      This experience feels less like appreciating static art, and more like savoring an animation.\n    </p>\n    <br/>\n    <p>\n      Unfortunately, opportunities to view authentic emaki are rare. In books and catalogs, they are often presented only in fragments.\n      Even in digital formats, vertical scrolling or static image lists are common, making it difficult to experience the original horizontal \"unrolling\" format.\n    </p>\n    <br/>\n    <p>\n      That’s why we set out to <strong>recreate the experience of scrolling through emaki using the expressive power of horizontal scrolling on the web</strong>.\n    </p>\n    <br/>\n    <p>\n      This site lets you explore Heian–Kamakura emaki by theme with horizontal scrolling.\n      Works such as Chōjū-jinbutsu-giga, Hell Scrolls, Hungry Ghosts Scrolls, and Kusōzu\n      are rarely shown in full outside museums — here you can follow every scene in sequence.\n    </p>\n    <br/>\n    <ul>\n      <li>\n        🐸 <strong>Satire &amp; Humor</strong> —\n        <a href=\"/hub/chouju-giga\">Chōjū-jinbutsu-giga Gallery</a>\n      </li>\n      <li>\n        🔥 <strong>Hell &amp; Dark Fantasy</strong> —\n        <a href=\"/emaki-hub?theme=dark-fantasy\">Hell &amp; Hungry Ghosts Scrolls</a>\n      </li>\n      <li>\n        💀 <strong>Impermanence</strong> —\n        <a href=\"/hub/kusouzu\">Kusōzu Gallery</a>\n      </li>\n      <li>\n        📺 <strong>Manga &amp; Anime Roots</strong> —\n        <a href=\"/manga-roots\">Connections to modern works</a>\n      </li>\n    </ul>\n    <br/>\n    <p>\n      Scroll horizontally through each work as if watching animation.\n      The collection is expanding over time.\n    </p>\n    <br/><br/>",
+    "contributorHeading": "For Contributors",
+    "contributorHtml": "<p>\n      This project is currently <strong>undergoing refactoring in preparation for open-source (OSS) release</strong>.\n      Starting from a minimal structure, we aim to improve the following areas over time:\n    </p>\n    <br/>\n    <ul>\n      <li>- Migration to TypeScript and updating to a newer version of Next.js</li>\n      <li>- Structuring emaki data (using JSON, Supabase, etc.)</li>\n      <li>- Adding thumbnail navigation and scroll indicators</li>\n      <li>- Expanding the collection with new emaki and thematic categories</li>\n    </ul>\n    <br/>\n    <p>\n      We started with Chōjū-jinbutsu-giga and Kusōzu as our MVP, and are now expanding\n      to Hell Scrolls, Hungry Ghosts Scrolls, and thematic hub pages.\n    </p>\n    <br/>\n    <p>\n      If you're intrigued by the unique theme of <strong>“Emaki × Front-End”</strong>,\n      we invite you to join us in growing this project together!\n    </p>\n    <p>\n      👉 You can explore the source code and contribute via our\n         <a href=\"https://github.com/satoshi-create/emakimono-next\" target=\"_blank\" rel=\"noopener noreferrer\">\n        GitHub repository\n      </a>.\n    </p>"
   },
   "share": {
     "groupLabel": "Share",
@@ -849,5 +931,35 @@
     "closeButton": "Close",
     "generating": "Generating...",
     "downloadSuccess": "Image saved successfully"
+  },
+  "meta": {
+    "siteTitle": "Emakimono Viewer",
+    "siteDesc": "View Heian–Kamakura picture scrolls with horizontal scrolling — Chōjū-jinbutsu-giga, Hell Scrolls, Hungry Ghosts Scrolls, Kusōzu, and more.",
+    "siteLang": "en",
+    "siteLocale": "en_US",
+    "siteType": "website",
+    "siteIcon": "/favicon.png"
+  },
+  "footer": {
+    "copyright": "© {{year}} emakimono.com. All rights reserved."
+  },
+  "notFound": {
+    "breadcrumb": "PAGE NOT FOUND",
+    "title": "PAGE NOT FOUND",
+    "ctaHome": "Back to Home"
+  },
+  "languageSwitcher": {
+    "en": {
+      "short": "EN",
+      "ariaLabel": "English"
+    },
+    "ja": {
+      "short": "JA",
+      "ariaLabel": "日本語"
+    },
+    "zhHans": {
+      "short": "简体",
+      "ariaLabel": "简体中文"
+    }
   }
 }

@@ -20,7 +20,7 @@ export function extFromFile(file) {
   return "jpg";
 }
 
-export function loadImageElementFromFile(file) {
+export function loadImageElementFromFile(file: File): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const url = URL.createObjectURL(file);
     const img = new Image();
@@ -170,7 +170,7 @@ function applyUnsharpMask(ctx, width, height, percent) {
 }
 
 export async function sliceRawImagesToFiles(
-  rawFiles,
+  rawFiles: FileList | File[] | null | undefined,
   {
     sliceAspectRatio,
     overlapPercent,
@@ -183,7 +183,9 @@ export async function sliceRawImagesToFiles(
     customCuts = [],
   }
 ) {
-  const sources = Array.from(rawFiles || []).filter((f) => f.type.startsWith("image/"));
+  const sources = Array.from(rawFiles || []).filter(
+    (f): f is File => f instanceof File && f.type.startsWith("image/")
+  );
   const out = [];
   let index = startIndex;
   const idPrefix = scrollId || "scroll";

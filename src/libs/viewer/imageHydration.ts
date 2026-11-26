@@ -14,13 +14,13 @@ function logDebug(tag, ...args) {
 // 1. 状態管理（State）— セッション内ハイドレーションキー集合
 // 一度 onLoadingComplete した画像。描画窓 remount 時の blur/skeleton 再発を抑止。
 // ---------------------------------------------------------------------------
-export const hydratedImageKeys = new Set();
+export const hydratedImageKeys = new Set<string>();
 
 // ---------------------------------------------------------------------------
 // [フロー 1] マウント・ハイドレーション済み判定
 // emakiId 無し（詞書オーバーレイ）は src をキーにフォールバック
 // ---------------------------------------------------------------------------
-export const isHydratedImageKey = (hydrateKey) => {
+export const isHydratedImageKey = (hydrateKey: string | undefined): boolean => {
   const hit = Boolean(hydrateKey && hydratedImageKeys.has(hydrateKey));
   logDebug("Hydration:Check", { hydrateKey, hit });
   return hit;
@@ -29,7 +29,7 @@ export const isHydratedImageKey = (hydrateKey) => {
 // ---------------------------------------------------------------------------
 // [フロー 2] ロード完了時のキー登録
 // ---------------------------------------------------------------------------
-export const registerHydratedImageKey = (hydrateKey) => {
+export const registerHydratedImageKey = (hydrateKey: string | undefined): void => {
   if (hydrateKey) {
     hydratedImageKeys.add(hydrateKey);
     logDebug("Hydration:Register", { hydrateKey, size: hydratedImageKeys.size });

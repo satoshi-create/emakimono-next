@@ -22,7 +22,7 @@ import { filterEmakisForHub, getAllHubPages } from "@/libs/hubPages";
 import { fetchRankingPageViews } from "@/libs/api/fetchRankingPageViews";
 import { buildRankingData } from "@/utils/buildRankingData";
 import { removeNestedEmakisObj } from "@/utils/emakiList";
-import { keywordItem, useLocale, useLocaleMeta } from "@/utils/func";
+import { keywordItem, useLocaleMeta } from "@/utils/func";
 import "lazysizes";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -38,20 +38,21 @@ const buildHomeJsonLd = ({
   siteTitle,
   pageDesc,
   featuredItems,
+  hubNames,
 }) => {
   const pageUrl = buildLocaleUrl(locale, "/", defaultLocale);
 
   const hubItems = [
     {
-      name: "Chōjū-jinbutsu-giga",
+      name: hubNames.chouju,
       url: buildLocaleUrl(locale, CHOUJU_GIGA_HUB_PATH, defaultLocale),
     },
     {
-      name: "Kusōzu",
+      name: hubNames.kusouzu,
       url: buildLocaleUrl(locale, KUSOUZU_HUB_PATH, defaultLocale),
     },
     {
-      name: "Hell & Dark Fantasy",
+      name: hubNames.darkFantasy,
       url: buildLocaleUrl(
         locale,
         "/emaki-hub?theme=dark-fantasy",
@@ -59,7 +60,7 @@ const buildHomeJsonLd = ({
       ),
     },
     {
-      name: "Manga Roots",
+      name: hubNames.mangaRoots,
       url: buildLocaleUrl(locale, "/manga-roots", defaultLocale),
     },
   ];
@@ -103,7 +104,6 @@ const buildHomeJsonLd = ({
 };
 
 const Home = ({ popularEmakis = [], themeHubs = [] }) => {
-  const { t } = useLocale();
   const { t: tCommon } = useTranslation("common");
   const { t: meta } = useLocaleMeta();
   const { locale, defaultLocale } = useRouter();
@@ -132,6 +132,12 @@ const Home = ({ popularEmakis = [], themeHubs = [] }) => {
     siteTitle: meta.siteTitle,
     pageDesc,
     featuredItems: featuredEmakis,
+    hubNames: {
+      chouju: tCommon("home.jsonLd.hubs.chouju.name"),
+      kusouzu: tCommon("home.jsonLd.hubs.kusouzu.name"),
+      darkFantasy: tCommon("home.jsonLd.hubs.darkFantasy.name"),
+      mangaRoots: tCommon("home.jsonLd.hubs.mangaRoots.name"),
+    },
   });
 
   return (
@@ -144,8 +150,8 @@ const Home = ({ popularEmakis = [], themeHubs = [] }) => {
       <Header fixed={false} />
       <section className="section-grid section-padding">
         <div className="hero">
-          <h1 className="heroTitle">{t.top.title}</h1>
-          <p className="heroDesc">{t.top.desc}</p>
+          <h1 className="heroTitle">{tCommon("home.hero.title")}</h1>
+          <p className="heroDesc">{tCommon("home.hero.desc")}</p>
         </div>
       </section>
       <HomeLatestScrolls />
@@ -154,12 +160,7 @@ const Home = ({ popularEmakis = [], themeHubs = [] }) => {
       <HomeHubSection hubs={themeHubs} surface />
       {allKeywords.length > 0 && (
         <section className="section-grid section-padding">
-          <Title
-            sectiontitle={
-              locale === "en" ? "Keywords" : "キーワード一覧"
-            }
-            sectiontitleen="Keywords"
-          />
+          <Title sectiontitle={tCommon("home.keywords.sectionTitle")} />
           <CustomTagCloud tags={allKeywords} emakiPage compact />
         </section>
       )}

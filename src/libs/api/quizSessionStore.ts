@@ -1,13 +1,31 @@
+import type { QuizDefinition } from "@/types/quiz";
+
+export type QuizSessionState = {
+  quizId: string;
+  quizVersion?: number;
+  hostTitleen: string;
+  index: number;
+  selectedIndex: number | null;
+  answers: unknown[];
+  jumpCount: number;
+  done: boolean;
+  pendingJump: unknown | null;
+};
+
 /**
  * 観察力クイズの進行を sessionStorage に永続化（同一巻最小化・他巻ジャンプ再開用）
  */
 
 export const QUIZ_SESSION_KEY = "emaki_quiz_session_v1";
 
-/**
- * @returns {import("@/types/quiz").QuizSessionState|null}
- */
-export function loadQuizSession(filter = {}) {
+type QuizSessionFilter = {
+  hostTitleen?: string;
+  quizId?: string;
+};
+
+export function loadQuizSession(
+  filter: QuizSessionFilter = {}
+): QuizSessionState | null {
   if (typeof window === "undefined") return null;
   try {
     const raw = window.sessionStorage.getItem(QUIZ_SESSION_KEY);
@@ -23,16 +41,13 @@ export function loadQuizSession(filter = {}) {
       return null;
     }
 
-    return parsed;
+    return parsed as QuizSessionState;
   } catch {
     return null;
   }
 }
 
-/**
- * @param {import("@/types/quiz").QuizSessionState} session
- */
-export function saveQuizSession(session) {
+export function saveQuizSession(session: QuizSessionState): void {
   if (typeof window === "undefined" || !session) return;
   try {
     window.sessionStorage.setItem(QUIZ_SESSION_KEY, JSON.stringify(session));
@@ -50,12 +65,10 @@ export function clearQuizSession() {
   }
 }
 
-/**
- * @param {import("@/types/quiz").QuizDefinition} quiz
- * @param {string} hostTitleen
- * @returns {import("@/types/quiz").QuizSessionState}
- */
-export function createQuizSession(quiz, hostTitleen) {
+export function createQuizSession(
+  quiz: QuizDefinition,
+  hostTitleen: string
+): QuizSessionState {
   return {
     quizId: quiz.id,
     quizVersion: quiz.version,

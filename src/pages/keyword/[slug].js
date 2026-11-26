@@ -9,6 +9,7 @@ import {
   default as jaData,
 } from "@/data/scroll-metadata";
 import { keywordItem, removeNestedEmakisObj } from "@/utils/func";
+import { buildI18nStaticPaths } from "@/utils/i18nStaticPaths";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -69,13 +70,9 @@ const Emaki = ({ name, posts, nameen, slug }) => {
 };
 
 export const getStaticPaths = async () => {
-  const paths = keywordItem(emakisData).map(({ slug }) => ({
-    params: {
-      slug: slug,
-    },
-    locale: "ja",
-  }));
-  paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
+  const paths = buildI18nStaticPaths(
+    keywordItem(emakisData).map(({ slug }) => slug)
+  );
   return {
     paths: paths,
     fallback: false,

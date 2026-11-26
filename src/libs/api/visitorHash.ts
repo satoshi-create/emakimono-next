@@ -1,10 +1,8 @@
 import crypto from "crypto";
+import type { IncomingMessage } from "http";
 
-/**
- * Anonymous visitor fingerprint for deduplicating likes (server-side only).
- * @param {import('http').IncomingMessage} req
- */
-export function getVisitorHash(req) {
+/** Anonymous visitor fingerprint for deduplicating likes (server-side only). */
+export function getVisitorHash(req: IncomingMessage): string {
   const forwarded = req.headers["x-forwarded-for"];
   const ip =
     (typeof forwarded === "string"

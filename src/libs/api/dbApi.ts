@@ -1,4 +1,5 @@
 import { isDbConfigured } from "@/db";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 // =============================================================================
 // 1. 共通エラー・ガードレスポンス
@@ -10,7 +11,11 @@ import { isDbConfigured } from "@/db";
  * @param {number} status
  * @param {string} message
  */
-export function sendApiError(res, status, message) {
+export function sendApiError(
+  res: NextApiResponse,
+  status: number,
+  message: string
+): boolean {
   res.status(status).json({ message });
   return false;
 }
@@ -20,7 +25,7 @@ export function sendApiError(res, status, message) {
  * @param {import('next').NextApiResponse} res
  * @returns {boolean}
  */
-export function ensureDbConfigured(res) {
+export function ensureDbConfigured(res: NextApiResponse): boolean {
   if (!isDbConfigured()) {
     return sendApiError(res, 503, "Database is not configured");
   }
@@ -34,7 +39,11 @@ export function ensureDbConfigured(res) {
  * @param {string | string[]} allowedMethods
  * @returns {boolean}
  */
-export function ensureMethod(req, res, allowedMethods) {
+export function ensureMethod(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  allowedMethods: string | string[]
+): boolean {
   const methods = Array.isArray(allowedMethods) ? allowedMethods : [allowedMethods];
   if (!methods.includes(req.method)) {
     res.setHeader("Allow", methods);
@@ -53,7 +62,10 @@ export function ensureMethod(req, res, allowedMethods) {
  * @param {number} [maxLength=200]
  * @returns {string | null}
  */
-export function parseNonEmptyString(value, maxLength = 200) {
+export function parseNonEmptyString(
+  value: unknown,
+  maxLength = 200
+): string | null {
   if (typeof value !== "string") return null;
   const trimmed = value.trim();
   if (!trimmed || trimmed.length > maxLength) return null;

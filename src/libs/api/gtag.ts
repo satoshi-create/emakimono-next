@@ -1,3 +1,9 @@
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
 export const GA_MEASURAMENT_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 export const GTM_ID = process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID;
@@ -11,7 +17,7 @@ export const isGtagEnabled = () => {
   return PRODUCTION_HOST_RE.test(window.location.hostname);
 };
 
-export const pageView = (url) => {
+export const pageView = (url: string): void => {
   if (!isGtagEnabled() || typeof window.gtag !== "function") return;
   window.gtag("config", GA_MEASURAMENT_ID, {
     page_path: url,
@@ -23,7 +29,10 @@ export const pageView = (url) => {
  * @param {string} action - イベントアクション名
  * @param {object} params - イベントパラメータ
  */
-export const event = (action, params = {}) => {
+export const event = (
+  action: string,
+  params: Record<string, unknown> = {}
+): void => {
   if (isGtagEnabled() && typeof window.gtag === "function") {
     window.gtag("event", action, params);
   }

@@ -15,7 +15,7 @@ export const SCROLLS_WORKSPACE_DIR = path.join(process.cwd(), "scrolls");
  * @param {string} slug
  * @returns {string | null}
  */
-export function resolveScrollMetadataPath(slug) {
+export function resolveScrollMetadataPath(slug: string): string | null {
   const candidates = [
     slug,
     slug.replace(/-/g, "_"),
@@ -39,7 +39,9 @@ export function resolveScrollMetadataPath(slug) {
  * @param {string} slug
  * @returns {{ filePath: string, data: object } | null}
  */
-export function readScrollMetadata(slug) {
+export function readScrollMetadata(
+  slug: string
+): { filePath: string; data: Record<string, unknown> } | null {
   const filePath = resolveScrollMetadataPath(slug);
   if (!filePath) return null;
   const raw = fs.readFileSync(filePath, "utf8");
@@ -51,7 +53,10 @@ export function readScrollMetadata(slug) {
  * @param {string} filePath
  * @param {object} data
  */
-export function writeScrollMetadata(filePath, data) {
+export function writeScrollMetadata(
+  filePath: string,
+  data: Record<string, unknown>
+): void {
   const content = JSON.stringify(data, null, 2) + "\n";
   fs.writeFileSync(filePath, content, "utf8");
 }

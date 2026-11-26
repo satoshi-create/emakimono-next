@@ -1,0 +1,965 @@
+{
+  "search": "搜索",
+  "source": "来源",
+  "sourceAttribution": {
+    "labelSource": "来源",
+    "labelLicense": "许可",
+    "labelModified": "改编/处理",
+    "colbaseSource": "来源：ColBase — 国立文化财机构藏品综合检索系统",
+    "colbaseModified": "在 ColBase 图像基础上加工制作",
+    "britishMuseumSource": "来源：© The Trustees of the British Museum",
+    "britishMuseumLicense": "许可：CC BY-NC-SA 4.0",
+    "britishMuseumModified": "改编：在上述图像基础上调整分辨率、转换为 WebP 等。加工图像依据 CC BY-NC-SA 4.0 非商业使用发布。",
+    "wikimediaSource": "来源：{{title}}（{{collection}}）— 摄影：{{author}} / Wikimedia Commons",
+    "wikimediaLicense": "许可：CC0 1.0",
+    "wikimediaModified": "改编：在上述文件基础上调整分辨率、转换为 WebP 等。",
+    "byLicense": "许可：{{license}}",
+    "byModified": "改编：在上述图像基础上调整分辨率、转换为 WebP 等。加工图像依据 {{license}} 发布。",
+    "genericSource": "来源：{{label}}",
+    "genericModified": "在「{{label}}」图像基础上加工制作",
+    "ndlSource": "来源：国立国会图书馆数字馆藏（{{label}}）",
+    "ndlModified": "基于国会图书馆数字馆藏图像（调整分辨率/WebP 等）改编。依据「互联网公开（保护期满）」使用。",
+    "badgeLabels": {
+      "colbase": "文化财机构利用条款",
+      "ndl": "NDL 转载条件（保护期满）"
+    },
+    "badgeTitles": {
+      "cc0": "无条件，可自由使用",
+      "cc": "遵守条件（如署名）即可使用",
+      "terms": "请遵守收藏机构的利用条款"
+    },
+    "seeGuide": "如何理解版权与许可（/copyright）"
+  },
+  "viewer": {
+    "next": "下一屏",
+    "previous": "上一屏",
+    "showChapterTitles": "显示场景标题",
+    "hideChapterTitles": "隐藏场景标题",
+    "like": "点赞",
+    "unlike": "取消点赞",
+    "liked": "已点赞",
+    "likeEmaki": "为这幅绘卷点赞",
+    "likeScene": "为这一场景点赞",
+    "likeSceneShort": "场景",
+    "unlikeScene": "取消本场景点赞",
+    "goToEnd": "跳到末尾",
+    "goToStart": "回到开头",
+    "howToView": "如何观赏",
+    "stop": "停止",
+    "stopAutoPlay": "停止自动播放",
+    "autoPlay": "自动播放",
+    "copied": "已复制",
+    "copySceneUrl": "复制本场景链接",
+    "copySceneUrlShort": "复制链接",
+    "enterFullscreen": "进入全屏",
+    "exitFullscreen": "退出全屏",
+    "viewImage": "查看图像",
+    "seeDetailsOfSection": "查看本段详情",
+    "closeDetails": "关闭解说",
+    "sectionList": "场景列表",
+    "seeMore": "查看详情",
+    "closeCommentaryBar": "关闭解说栏",
+    "showCommentary": "显示解说",
+    "backToCommentary": "返回解说",
+    "folkloreToggle": "民俗标签（民俗·生活史）",
+    "folkloreToggleCount": "民俗标签（{{count}}）",
+    "folkloreOverview": "概览",
+    "folklorePortalLink": "在「绘引」门户查看详情与论述 →",
+    "folkloreClose": "关闭",
+    "folkloreListAria": "民俗标签（民俗·生活史）",
+    "folkloreChipLabel": "绘引",
+    "currentSection": "当前",
+    "textMode": {
+      "desc": "解说",
+      "gendaibun": "现代文",
+      "kobun": "古文",
+      "label": "文本类型",
+      "tansaku": "探索",
+      "sou": "探索"
+    },
+    "horizontalScrollHint": "横向滚动浏览",
+    "verticalScrollHint": "纵向滚动：将光标移到绘卷区域外",
+    "fullscreeBtn": "全屏欣赏绘卷",
+    "zoomToggleIn": "点击放大（或 Ctrl + 滚轮 / 双指捏合缩放）",
+    "zoomToggleOut": "点击恢复 100%（Ctrl + 滚轮 / 双指捏合也可缩放）",
+    "zoomInTitle": "放大（Ctrl + 上滚）",
+    "zoomOutTitle": "缩小（Ctrl + 下滚）",
+    "zoomResetTitle": "恢复原始比例并退出",
+    "zoomWheelHint": "也可用 Ctrl + 滚轮或捏合手势缩放"
+  },
+  "quiz": {
+    "fabLabel": "观察力小测（约 2 分钟）",
+    "resumeLabel": "返回测验",
+    "title": "观察力测验",
+    "close": "关闭测验",
+    "next": "下一屏",
+    "seeResult": "查看结果",
+    "retry": "再试一次",
+    "backToViewer": "返回阅卷器",
+    "correct": "答对了！",
+    "incorrect": "不太对",
+    "scoreLabel": "答对 {{score}} / {{total}} 题",
+    "questionProgress": "第 {{current}} / {{total}} 题",
+    "seeScene": "查看该场景",
+    "exploreMore": "探索更多绘卷",
+    "hideFab": "隐藏测验按钮",
+    "showFab": "再次显示测验按钮"
+  },
+  "help": {
+    "title": "如何观赏绘卷",
+    "closeHelp": "关闭帮助",
+    "swipeToScroll": "左右滑动浏览",
+    "useArrowKeys": "使用方向键移动",
+    "useArrowKeysAlso": "也可使用方向键移动",
+    "useMouseWheel": "用鼠标滚轮横向滚动",
+    "useScrollbar": "或使用横向滚动条",
+    "palmModeHint": "按住绘卷拖动即可移动",
+    "fullscreenShortcut": "按 F 或双击切换全屏",
+    "useZoom": "Ctrl + 滚轮或捏合缩放",
+    "fullGuide": "站点完整使用指南"
+  },
+  "header": {
+    "siteTitle": "绘卷阅卷器",
+    "feedback": "欢迎反馈"
+  },
+  "nav": {
+    "home": "首页",
+    "openMenu": "打开菜单",
+    "closeMenu": "关闭菜单",
+    "languageSwitch": "语言切换",
+    "groupExplore": "探索",
+    "groupLearn": "了解",
+    "groupSite": "站点",
+    "contact": "联系",
+    "choujuHub": "鸟兽人物戏画",
+    "kusouzuHub": "九相图",
+    "hyakkiHub": "百鬼夜行与付丧神",
+    "rakuchuHub": "洛中洛外图",
+    "mangaRoots": "漫画源流",
+    "items": {
+      "home": {
+        "label": "首页"
+      },
+      "emaki": {
+        "label": "绘卷一览"
+      },
+      "byobu": {
+        "label": "屏风一览"
+      },
+      "themeHubs": {
+        "label": "主题特集 hub"
+      },
+      "ranking": {
+        "label": "排行榜"
+      },
+      "personalBoard": {
+        "label": "个人拍立得看板"
+      },
+      "timeline": {
+        "label": "年表"
+      },
+      "about": {
+        "label": "About"
+      },
+      "guide": {
+        "label": "使用指南"
+      },
+      "copyright": {
+        "label": "版权与许可"
+      },
+      "privacy": {
+        "label": "隐私"
+      },
+      "terms": {
+        "label": "使用条款"
+      },
+      "mangaRoots": {
+        "label": "漫画源流"
+      }
+    }
+  },
+  "home": {
+    "metaTitle": "绘卷阅卷器",
+    "metaDesc": "横向滚动观赏平安至镰仓时期的绘卷——鸟兽人物戏画、地狱绘卷、饿鬼绘卷、九相图等。可按主题浏览。",
+    "themeSectionTitle": "按主题浏览",
+    "latestSectionTitle": "最新绘卷",
+    "popularSectionTitle": "热门绘卷",
+    "popularMoreLink": "查看更多热门绘卷",
+    "latestNewBadge": "NEW",
+    "latestOrderBadge": "#{{order}}",
+    "featuredSectionTitle": "更多绘卷",
+    "galleryLink": "浏览绘卷馆",
+    "hubTeaserSectionTitle": "经典专题",
+    "themes": {
+      "satire": {
+        "title": "讽刺与幽默",
+        "desc": "鸟兽人物戏画——动物像人一样活动，常被称为日本最古老的漫画",
+        "cta": "查看全部 4 卷"
+      },
+      "darkFantasy": {
+        "title": "地狱与暗黑幻想",
+        "desc": "地狱绘卷与饿鬼绘卷——责罚与异想世界",
+        "cta": "在京都地图上探索",
+        "warning": "含有责罚场面，请自行斟酌观看。"
+      },
+      "kusouzu": {
+        "title": "无常",
+        "desc": "九相图——从生前到灰烬，追随十相",
+        "cta": "九相图专题"
+      },
+      "mangaRoots": {
+        "title": "漫画源流",
+        "desc": "从中世纪绘卷到当代动漫的视觉谱系",
+        "cta": "探索关联"
+      },
+      "genji": {
+        "title": "王朝之美与宫廷文学",
+        "desc": "源氏物语绘卷——平安宫廷的爱憎与华美色彩，巡览全部 54 帖。",
+        "cta": "浏览源氏物语"
+      }
+    },
+    "choujuTeaser": {
+      "title": "鸟兽人物戏画",
+      "desc": "甲至丁四卷横向滚动观赏",
+      "cta": "鸟兽人物戏画专题"
+    },
+    "kusouzuTeaser": {
+      "title": "九相图",
+      "desc": "十相解说及相关绘卷",
+      "cta": "九相图专题"
+    },
+    "hero": {
+      "title": "横向滚动欣赏绘卷",
+      "desc": "绘卷本意是展开追随，而非像书一样阅读。从讽刺、地狱绘卷到九相图，以横向滚动逐场景欣赏平安至镰仓作品。"
+    },
+    "keywords": {
+      "sectionTitle": "关键词一览"
+    },
+    "jsonLd": {
+      "hubs": {
+        "chouju": {
+          "name": "鸟兽人物戏画"
+        },
+        "kusouzu": {
+          "name": "九相图"
+        },
+        "darkFantasy": {
+          "name": "地狱与黑暗幻想"
+        },
+        "mangaRoots": {
+          "name": "漫画源流"
+        }
+      }
+    },
+    "hubSection": {
+      "sectionTitle": "主题特集 hub 一览",
+      "workCount": "收录 {{count}} 件作品",
+      "viewTheme": "查看专题 →",
+      "viewAll": "查看全部专题 hub"
+    },
+    "latest": {
+      "published": "{{year}}年{{month}}月公开",
+      "eraPeriod": "{{era}}时代",
+      "typeEmaki": "绘卷",
+      "typeByobu": "屏风"
+    }
+  },
+  "about": {
+    "metaDesc": "以横向滚动观赏平安至镰仓绘卷的开源项目，正逐步扩展鸟兽人物戏画、地狱绘卷、九相图等主题藏品。",
+    "pagetitle": "About",
+    "breadcrumb": "About",
+    "sectionTitle": "关于本项目",
+    "contributorHeading": "致贡献者",
+    "contributorHtml": "<p>本项目正为<strong>开源（OSS）发布</strong>进行重构。欢迎通过 <a href=\"https://github.com/satoshi-create/emakimono-next\" target=\"_blank\" rel=\"noopener noreferrer\">GitHub 仓库</a> 参与。</p>",
+    "introHtml": "<p>绘卷原本不是用来「阅读」的，而是徐徐展开、用视线追随的艺术品。本网站以网页横向滚动再现这一体验。</p><br/><ul><li>🐸 <strong>讽刺与幽默</strong> — <a href=\"/hub/chouju-giga\">鸟兽人物戏画一览</a></li><li>🔥 <strong>地狱与黑暗幻想</strong> — <a href=\"/emaki-hub?theme=dark-fantasy\">地狱草纸·饿鬼草纸</a></li><li>💀 <strong>九相与无常</strong> — <a href=\"/hub/kusouzu\">九相图一览</a></li><li>📺 <strong>漫画源流</strong> — <a href=\"/manga-roots\">与现代作品的联系</a></li></ul>"
+  },
+  "share": {
+    "groupLabel": "分享",
+    "x": "分享到 X",
+    "xDesc": "在 X（Twitter）分享此链接",
+    "line": "分享到 LINE",
+    "lineDesc": "在 LINE 分享此链接",
+    "native": "分享",
+    "nativeDesc": "通过应用分享"
+  },
+  "scrollFeedback": {
+    "buttonLabel": "滚动体验",
+    "prompt": "滚动体验如何？",
+    "endPrompt": "您已读到卷末",
+    "open": "告诉我们",
+    "close": "关闭",
+    "dismiss": "关闭",
+    "thanks": "谢谢",
+    "error": "发送失败",
+    "choices": {
+      "smooth": "滚动流畅",
+      "laggy": "有些卡顿",
+      "hard_to_read": "画面或文字难读",
+      "confusing": "操作不易理解",
+      "great": "体验很好"
+    }
+  },
+  "pullPrompt": {
+    "shareText": "复制本场景链接以便分享",
+    "shareAction": "复制",
+    "midFeedbackText": "滚动手感如何？点一下告诉我们",
+    "midFeedbackAction": "反馈",
+    "dismiss": "关闭"
+  },
+  "legal": {
+    "relatedLinks": "相关页面",
+    "contactButton": "联系表单",
+    "socialLinksTitle": "运营方链接"
+  },
+  "guide": {
+    "pagetitle": "使用指南",
+    "metaDesc": "学习如何横向滚动欣赏绘卷：选卷、导航、阅卷器功能与分享。",
+    "breadcrumb": "使用指南",
+    "sectionTitle": "本站使用指南",
+    "tocTitle": "目录",
+    "toc": {
+      "scroll": "横向滚动观赏",
+      "features": "阅卷器功能",
+      "share": "分享与参与"
+    },
+    "scroll": {
+      "title": "横向滚动观赏",
+      "step1": "从首页主题卡片、绘卷馆或专题页选卷。初次访问可从鸟兽人物戏画（甲卷）或地狱绘卷开始。",
+      "step2": "左右滑动、方向键、鼠标滚轮或横向滚动条推进，如同展开卷轴。",
+      "step3": "绘卷按段（场景）划分。可用目录、URL 中的 #数字，或上一段/下一段跟随叙事。"
+    },
+    "features": {
+      "title": "阅卷器功能",
+      "ekotoba": "词书与译文——在底部栏切换解说、现代文与古文（如有）。",
+      "nav": "目录——查看当前所在段落。",
+      "playback": "自动播放与全屏——连续观看或沉浸浏览。",
+      "zoom": "缩放与细览——点击放大镜（或 Ctrl + 滚轮/捏合）放大笔致与表情，浮动栏可调整或复位倍率。",
+      "tips": "观赏建议——每段稍作停顿品味画面。九相图建议缓慢静观。"
+    },
+    "share": {
+      "title": "分享与参与",
+      "url": "复制场景链接分享到社交或课堂。",
+      "contact": "通过联系表单发送意见。",
+      "github": "本站开源——欢迎在 GitHub 参与改进解说与功能。"
+    },
+    "faq": [
+      {
+        "q": "绘卷如何浏览？",
+        "a": "横向滚动。手机滑动；电脑用滚轮、方向键或横向滚动条。"
+      },
+      {
+        "q": "竖排绘卷为何横向滚动？",
+        "a": "卷轴本是逐段展开观看。本站以横向滚动再现这一体验。"
+      },
+      {
+        "q": "能跳到指定场景吗？",
+        "a": "可以——在 URL 使用 #数字、目录或上/下一段按钮按段跳转。"
+      },
+      {
+        "q": "如何显示词书或现代译？",
+        "a": "底部解说栏默认显示段标题与解说。如有现代文/古文，用标签切换，点按展开全文。"
+      }
+    ]
+  },
+  "ranking": {
+    "pagetitle": "绘卷排行榜",
+    "metaDesc": "按人气浏览绘卷排行，在 emakimono.com 横向滚动探索作品。",
+    "breadcrumb": "绘卷排行榜",
+    "sectionTitle": "绘卷排行榜"
+  },
+  "kusouzuHub": {
+    "pagetitle": "九相图解说：场景一览与互动阅卷",
+    "metaDesc": "探索佛教艺术中肉体分解的九个阶段，高分辨率对比镰仓、江户、明治名作。",
+    "breadcrumb": "九相图",
+    "introTitle": "九相图",
+    "intro": "以生前姿与九种朽变对照传达无常的佛教绘画。可横向并排比较各时代版本。",
+    "tips": "观赏建议——每段稍作停顿品味画面。九相图建议缓慢静观。",
+    "stageSectionTitle": "场景一览",
+    "scrollSectionTitle": "观赏收录作品",
+    "stageNumber": "第 {{stage}} 相",
+    "stageScrollCount": "可在 {{count}} 卷中观看",
+    "stageNoScrolls": "本站暂无收录",
+    "linkLabel": "九相图专题",
+    "hubGuide": "九相图专题",
+    "hubGuideTitle": "九相图专题——对比全部场景",
+    "linkDesc": "在 emakimono.com 查看各相与相关绘卷",
+    "otherScrollsTitle": "其他九相图绘卷",
+    "hubNudgeLabel": "返回九相图专题——对比全部场景",
+    "peopleSectionTitle": "相关人物",
+    "peopleIntro": "传统上被视为九相图模特的人物。",
+    "modelLinkLabel": "本作模特",
+    "representativeLinkLabel": "观看代表作——九相图卷（镰仓）",
+    "stageViewIn": "在 {{scroll}} 中观看本相",
+    "hubNudgeDesc": "并排比较镰仓、江户、明治九相图",
+    "linkedPublicBoardsAria": "链至本专题的公开展板"
+  },
+  "choujuGigaHub": {
+    "pagetitle": "鸟兽人物戏画专题",
+    "pagetitleEn": "鸟兽人物戏画专题",
+    "metaDesc": "浏览鸟兽人物戏画（人畜嬉戏图）全部四卷——平安至镰仓时期、常被称为日本最古老的漫画式绘卷。",
+    "metaDescEn": "浏览鸟兽人物戏画（人畜嬉戏图）全部四卷——平安至镰仓时期、常被称为日本最古老的漫画式绘卷。",
+    "introTitle": "鸟兽人物戏画",
+    "introTitleEn": "鸟兽人物戏画",
+    "intro": "平安至镰仓四卷讽刺名作，兔蛙猴嬉戏。可横向浏览四卷。",
+    "introEn": "平安至镰仓四卷讽刺名作，兔蛙猴嬉戏。可横向浏览四卷。",
+    "breadcrumb": "鸟兽人物戏画专题",
+    "scrollSectionTitle": "观赏收录作品",
+    "scrollSectionTitleEn": "观赏收录作品",
+    "hubNudgeLabel": "查看鸟兽人物戏画专题",
+    "hubNudgeLabelEn": "查看鸟兽人物戏画专题",
+    "linkLabel": "鸟兽人物戏画专题",
+    "linkDesc": "浏览鸟兽人物戏画全部 4 卷",
+    "linkDescEn": "浏览鸟兽人物戏画全部 4 卷",
+    "linkedPublicBoardsAria": "链至本专题的公开展板",
+    "linkedPublicBoardLink": "公开展板：{{title}}"
+  },
+  "hyakkiHub": {
+    "pagetitle": "百鬼夜行与付丧神",
+    "metaDesc": "横向滚动浏览百鬼夜行绘卷（东大本、国会 A 本、日文研本）与付丧神绘卷。",
+    "introTitle": "百鬼夜行与付丧神",
+    "intro": "描绘百鬼夜行与被弃器物化作妖怪的绘卷，可横向对比经典版本。",
+    "breadcrumb": "百鬼夜行与付丧神",
+    "scrollSectionTitle": "观赏收录作品",
+    "hubNudgeLabel": "查看百鬼与付丧神专题",
+    "linkLabel": "百鬼夜行与付丧神",
+    "linkDesc": "横向浏览百鬼夜行与付丧神绘卷",
+    "linkedPublicBoardsTitle": "公开拍立得展板",
+    "linkedPublicBoardsAria": "链至本专题的公开展板",
+    "linkedPublicBoardUntitled": "未命名公开展板",
+    "linkedPublicBoardItemCount": "（{{count}}）"
+  },
+  "rakuchuRakugaiHub": {
+    "pagetitle": "洛中洛外图屏风｜对比三幅名作",
+    "metaDesc": "探索描绘京都市景、节庆与日常的远景屏风，高精度横向对比舟木、伯克、福冈三版本。",
+    "introTitle": "洛中洛外图屏风",
+    "intro": "自战国至江户，俯瞰京都街景、祭礼与闹市。横向对比三幅名作。",
+    "breadcrumb": "洛中洛外图",
+    "scrollSectionTitle": "观赏收录作品",
+    "hubNudgeLabel": "探索其他洛中洛外图屏风",
+    "linkLabel": "洛中洛外图（三版本）",
+    "linkDesc": "对比舟木、伯克、福冈三版本",
+    "motifsSectionTitle": "构图形式与主要母题",
+    "motifsSectionDesc": "洛中洛外图因时代与委托背景构图各异，可对比各版出现的名所与街景。",
+    "filterAll": "全部形式",
+    "filterFirstForm": "第一形式（战国/早期）",
+    "filterSecondForm": "第二形式（江户定型）",
+    "filterSecondVariant": "第二形式（早期谱系变体）",
+    "wingRight": "右屏（东侧）",
+    "wingLeft": "左屏（西侧）",
+    "presentLabel": "出现于",
+    "absentLabel": "未描绘"
+  },
+  "discovery": {
+    "sectionTitle": "值得观看的绘卷",
+    "sectionLead": "从馆藏与排行跳入主题聚类，体验自右向左的原生阅卷方式。",
+    "watchHint": "横向滚动观看",
+    "groupYokai": "百鬼夜行与付丧神",
+    "groupRokudo": "六道与观想（地狱、饿鬼、九相图）",
+    "groupMonogatari": "物语绘卷",
+    "ctaHyakkiHub": "百鬼专题",
+    "ctaKusouzuHub": "九相图专题",
+    "ctaGenjiHub": "源氏专题",
+    "groupChoju": "鸟兽人物戏画",
+    "ctaChojuHub": "鸟兽专题",
+    "railTitle": "接下来看",
+    "railLead": "按相关主题或新作继续——自右向左。",
+    "railEmpty": "暂无推荐。",
+    "railCollapse": "关闭",
+    "railExpand": "作品",
+    "railCollapseAria": "关闭作品列表",
+    "railExpandAria": "打开作品列表",
+    "ctaGallery": "绘卷馆",
+    "ctaRanking": "查看排行榜"
+  },
+  "timeline": {
+    "pagetitle": "绘卷与日本史年表",
+    "metaDesc": "日本史实与各时代诞生的绘卷对照年表，理解绘卷与日本史的关系。",
+    "breadcrumb": "绘卷与日本史年表",
+    "sectionTitle": "绘卷与日本史年表",
+    "lead": "绘卷生于日本史进程之中。与年号、天皇、政治事件并列，可知何时因何而作。",
+    "eraJump": "按时代跳转",
+    "comingSoon": "即将上线",
+    "nextEra": "下一时代（{{era}}）",
+    "viewToggle": {
+      "label": "年表视图",
+      "simple": "速览",
+      "full": "完整年表"
+    },
+    "embedTitle": "本时代年表",
+    "embedEraTitle": "{{era}} 时代年表",
+    "viewFull": "查看完整年表",
+    "close": "关闭",
+    "tableHead": {
+      "year": "公元",
+      "emperor": "天皇",
+      "eraName": "年号",
+      "politics": "通史",
+      "arts": "绘卷与文学",
+      "regent": "摄政·关白",
+      "culture": "文化史"
+    },
+    "note": "* 成立年代学者说法不一。来源：绘卷相关年表及史书。准确性说明见使用条款。"
+  },
+  "personname": {
+    "emakiSectionTitle": "相关人物",
+    "worksTitle": "相关绘卷",
+    "worksTitleEn": "相关绘卷",
+    "noWorks": "收录此人物的绘卷即将上线。",
+    "noWorksEn": "收录此人物的绘卷尚在准备中。",
+    "listPagetitle": "人物名一览",
+    "listDesc": "介绍绘卷中出现的人物。本站致力于以自右向左的横向滚动，还原绘卷本来的观赏方式。"
+  },
+  "privacy": {
+    "pagetitle": "隐私政策",
+    "metaDesc": "说明 emakimono.com 如何处理个人与访问数据。",
+    "breadcrumb": "隐私政策",
+    "sectionTitle": "隐私政策",
+    "updated": "最后更新：2026 年 11 月 6 日",
+    "intro": "emakimono.com（「本站」）尊重您的隐私。本政策说明我们收集的信息及用途。",
+    "sections": {
+      "collected": {
+        "title": "我们收集的信息",
+        "body": "为改进站点，我们可能收集：",
+        "items": [
+          "Google Analytics 4（GA4）——页面浏览、设备/浏览器类型、大致地区",
+          "Microsoft Clarity——使用模式（点击、滚动行为）",
+          "Web 服务器访问日志——IP、来源、User-Agent 等"
+        ]
+      },
+      "location": {
+        "title": "位置信息",
+        "body": "本站不收集 GPS 等精确定位。"
+      },
+      "thirdParty": {
+        "title": "第三方服务",
+        "body": "我们使用以下服务，请一并查阅其隐私政策：",
+        "items": [
+          "Cloudinary——图像分发",
+          "Notion——联系表单",
+          "Google Analytics / Microsoft Clarity——分析",
+          "Amazon Associates——作为联盟伙伴，本站可从符合条件的购买中获得佣金。"
+        ]
+      },
+      "purpose": {
+        "title": "用途与保存期限",
+        "body": "数据用于运营、改进与防止滥用。保存期限依各服务商政策，限于必要期间。"
+      },
+      "contact": {
+        "title": "联系",
+        "body": "有关本政策请咨询本站联系表单。"
+      }
+    }
+  },
+  "terms": {
+    "pagetitle": "使用条款",
+    "metaDesc": "emakimono.com 的使用条件、禁止事项与免责声明。",
+    "breadcrumb": "使用条款",
+    "sectionTitle": "使用条款",
+    "updated": "最后更新：2026 年 7 月 25 日",
+    "intro": "本条款规范 emakimono.com（「本站」）的使用。使用即视为同意。",
+    "sections": {
+      "definitions": {
+        "title": "定义",
+        "body": "「本站」指 emakimono.com 及其子域。「用户」指浏览或使用本站的任何人。"
+      },
+      "service": {
+        "title": "服务内容",
+        "body": "本站提供可横向滚动的绘卷观赏，以及解说与搜索功能。"
+      },
+      "prohibited": {
+        "title": "禁止行为",
+        "body": "用户不得：",
+        "items": [
+          "未经许可转载或再分发本站内容（图像、文字）",
+          "用自动化工具大量访问（爬取等）",
+          "妨碍本站运行",
+          "违反法律或公序良俗"
+        ]
+      },
+      "disclaimer": {
+        "title": "关于解说准确性",
+        "body": "解说仅供参考，不保证学术准确或完整。重要判断请查原典与专业文献。"
+      },
+      "sensitive": {
+        "title": "敏感内容",
+        "body": "部分作品（如九相图）描绘死亡与肉体朽变（溃烂、崩坏等），应在宗教文化语境下观赏。部分观者可能不适，请自行斟酌。"
+      },
+      "operator": {
+        "title": "运营方",
+        "body": "运营相关事宜请通过下方按钮联系。"
+      }
+    }
+  },
+  "copyright": {
+    "pagetitle": "版权与许可",
+    "metaDesc": "说明绘卷图像的版权、公有领域与 CC 许可，以及用于 Stable Diffusion、Midjourney 等 AI 图像生成的指引。",
+    "breadcrumb": "版权与许可",
+    "sectionTitle": "版权与许可——AI 图像生成指引",
+    "updated": "最后更新：2026 年 8 月 9 日",
+    "intro": "使用绘卷图像时，常问古典作品是否可自由使用，或海内外机构许可有何不同。本页说明版权与许可思路，并提供安全再利用的实用指引。仅供信息，不构成法律意见。",
+    "tocTitle": "目录",
+    "toc": {
+      "copyright": "版权",
+      "cc": "CC 许可",
+      "ai": "AI 图像生成指引",
+      "sources": "主要收藏机构许可"
+    },
+    "sections": {
+      "copyright": {
+        "title": "版权——古典绘卷属公有领域",
+        "body": "本站多数绘卷作于平安至江户，作者已故数百年。日本原则上作者去世后 70 年版权消灭，原作品属公有领域。",
+        "points": [
+          "要点是作品与「图像」并非同一。摄影或数字化图像的使用条件由典藏机构（美术馆、图书馆、数字档案）的许可规定。",
+          "换言之，「作品公有领域即图像可自由用」未必成立。请核对图像来源机构的许可。",
+          "各绘卷页标注来源与处理（分辨率调整、WebP 转换等）。使用图像请依来源信息。"
+        ],
+        "official": {
+          "title": "相关官方页面",
+          "links": [
+            {
+              "name": "日本文化厅——版权政策总览（日语）",
+              "url": "https://www.bunka.go.jp/seisaku/chosakuken/"
+            }
+          ]
+        }
+      },
+      "cc": {
+        "title": "CC 许可（知识共享）",
+        "body": "CC 许可由四种条件组合而成。先了解四要素，再用下表判断是否适合您的用途。海外数字馆藏（如 MET、Wellcome）常用 CC。",
+        "conditionsTitle": "四要素",
+        "conditions": [
+          {
+            "code": "BY",
+            "label": "署名",
+            "desc": "注明出处即可使用"
+          },
+          {
+            "code": "NC",
+            "label": "非商业",
+            "desc": "禁止营利使用"
+          },
+          {
+            "code": "ND",
+            "label": "禁止演绎",
+            "desc": "禁止修改或混编"
+          },
+          {
+            "code": "SA",
+            "label": "相同方式共享",
+            "desc": "演绎作品须以相同许可分享"
+          }
+        ],
+        "tableTitle": "许可组合",
+        "columns": [
+          "许可",
+          "署名",
+          "商业",
+          "改编",
+          "简记"
+        ],
+        "rows": [
+          {
+            "name": "CC0",
+            "cells": [
+              "否",
+              "◯",
+              "◯"
+            ],
+            "summary": "无条件，完全自由"
+          },
+          {
+            "name": "CC BY",
+            "cells": [
+              "是",
+              "◯",
+              "◯"
+            ],
+            "summary": "署名即可自由"
+          },
+          {
+            "name": "CC BY-SA",
+            "cells": [
+              "是",
+              "◯",
+              "◯（相同许可）"
+            ],
+            "summary": "自由，须相同许可分享"
+          },
+          {
+            "name": "CC BY-NC",
+            "cells": [
+              "是",
+              "✕",
+              "◯"
+            ],
+            "summary": "非商业可免费"
+          },
+          {
+            "name": "CC BY-ND",
+            "cells": [
+              "是",
+              "◯",
+              "✕"
+            ],
+            "summary": "仅可未改复制"
+          }
+        ],
+        "note": "署名宜含作品名、作者、收藏机构、来源 URL、许可名（如 CC BY 4.0）。各版本条件不同，使用前请核对页面许可声明。",
+        "official": {
+          "title": "Creative Commons 官方页面",
+          "links": [
+            {
+              "name": "Creative Commons — 关于 CC 许可",
+              "url": "https://creativecommons.org/about/cclicenses/"
+            },
+            {
+              "name": "CC0 1.0 通用",
+              "url": "https://creativecommons.org/publicdomain/zero/1.0/"
+            },
+            {
+              "name": "CC BY 4.0（日文说明）",
+              "url": "https://creativecommons.org/licenses/by/4.0/deed.ja"
+            },
+            {
+              "name": "许可选择器",
+              "url": "https://creativecommons.org/choose/"
+            }
+          ]
+        }
+      },
+      "ai": {
+        "title": "AI 图像生成指引",
+        "body": "Stable Diffusion、ControlNet、Midjourney 等二次创作的分类指引。",
+        "points": [
+          "公有领域/CC0：AI 训练、生成、发布、商用均可。在说明中列出来源作品与机构是良好做法。",
+          "CC BY：可生成与商用，但须在输出上附要求的署名。",
+          "机构条款型（如 ColBase）：务必查商用/改编/再分发条款。部分机构明确禁止 AI 训练。违条款即不可，即使原作为公有领域。",
+          "勿再分发图像本身：避免将照片或加工版作为数据集再分发或出售，可能违反机构许可。",
+          "勿误导：勿将生成物呈现为实藏真品或机构作品。",
+          "亦须查 AI 工具条款：各工具条款常变（如 Midjourney 商用、Adobe Firefly 训练数据）。请核对使用当时的现行条款。"
+        ]
+      },
+      "sources": {
+        "title": "主要收藏机构许可",
+        "body": "本站主要引用图像来源机构的许可信息。使用前请查各机构最新条款。",
+        "links": [
+          {
+            "name": "ColBase（国立文化财机构藏品综合检索）",
+            "url": "https://colbase.nich.go.jp/?locale=en"
+          },
+          {
+            "name": "ColBase — 使用条款",
+            "url": "https://colbase.nich.go.jp/pages/term?locale=en"
+          },
+          {
+            "name": "大英博物馆 — 版权与使用许可",
+            "url": "https://www.britishmuseum.org/terms-use/copyright-and-permissions"
+          },
+          {
+            "name": "Wellcome 收藏 — 馆藏使用说明",
+            "url": "https://wellcomecollection.org/collections/accessing-our-collections"
+          },
+          {
+            "name": "大都会艺术博物馆（MET）— 开放获取",
+            "url": "https://www.metmuseum.org/about-the-met/policies-and-documents/open-access"
+          },
+          {
+            "name": "Wikimedia Commons",
+            "url": "https://commons.wikimedia.org/"
+          }
+        ]
+      },
+      "contact": {
+        "title": "免责声明与联系",
+        "body": "本页仅一般信息，非法律意见。具体用途请查各机构条款，必要时咨询专业人士。有关本页请用下方按钮联系。"
+      }
+    }
+  },
+  "byobuHub": {
+    "pagetitle": "屏风",
+    "pagetitleEn": "屏风",
+    "metaDesc": "以列表浏览屏风：国宝洛中洛外图屏风（舟木本）等六曲一双名作，横向滚动观赏。",
+    "metaDescEn": "以列表浏览屏风：国宝洛中洛外图屏风（舟木本）等六曲一双名作，横向滚动观赏。",
+    "breadcrumb": "屏风",
+    "introTitle": "屏风",
+    "introTitleEn": "屏风",
+    "intro": "屏风为日本六曲一双折屏，可收合展开。因可移动多角度观赏，画家常绘壮阔城景与四季。浏览馆藏屏风作品。",
+    "introEn": "屏风为日本六曲一双折屏，可收合展开。因可移动多角度观赏，画家常绘壮阔城景与四季。浏览馆藏屏风作品。",
+    "scrollSectionTitle": "屏风作品",
+    "scrollSectionTitleEn": "屏风作品",
+    "galleryLinkLabel": "浏览绘卷馆",
+    "galleryLinkLabelEn": "浏览绘卷馆"
+  },
+  "emakiHub": {
+    "pagetitle": "观光地图——京都·镰仓",
+    "pagetitleEn": "观光地图——京都·镰仓",
+    "metaDesc": "走访绘卷诞生之地。沿京都·镰仓推荐路线，在地图上探索鸟兽人物戏画、地狱与饿鬼绘卷等，发现与动漫关联，再横向展开各卷。",
+    "metaDescEn": "走访绘卷故乡。在京都·镰仓观光地图上探索鸟兽人物戏画、地狱与饿鬼绘卷等，再横向展开。",
+    "breadcrumb": "观光地图",
+    "topBannerTitle": "在观光地图上探索绘卷",
+    "topBannerCta": "打开京都·镰仓观光地图 →",
+    "heroLead": "跟随绘卷，也跟随其故乡。",
+    "heroLeadEn": "跟随绘卷，也跟随其故乡。",
+    "viewerBtn": "展开绘卷",
+    "viewerBtnEn": "展开绘卷",
+    "comingSoon": "即将上线",
+    "comingSoonDesc": "即将上线，敬请期待。",
+    "comingSoonDescEn": "即将上线，敬请期待。",
+    "themeFilter": "按主题筛选",
+    "themeFilterEn": "按主题筛选",
+    "viewToggle": "视图模式",
+    "grid": "卡片",
+    "gridEn": "卡片",
+    "map": "地图",
+    "mapEn": "地图",
+    "openMap": "在 Google 地图中打开",
+    "openMapEn": "在 Google 地图中打开",
+    "spotLabel": "相关地点",
+    "spotLabelEn": "相关地点",
+    "sectionTitle": "浏览作品",
+    "sectionTitleEn": "浏览作品",
+    "sectionDesc": "以卡片或地图发现所选地区相关绘卷。",
+    "sectionDescEn": "以卡片或地图发现所选地区相关绘卷。",
+    "mapLinkLabel": "在观光地图上查看本绘卷相关地点",
+    "mapLinkLabelEn": "在观光地图上查看本绘卷相关地点",
+    "routesTitle": "推荐路线",
+    "routesTitleEn": "推荐路线",
+    "routesDesc": "串联绘卷典藏与诞生之地的精选路线。",
+    "routesDescEn": "串联绘卷典藏与诞生之地的精选路线。",
+    "routeDuration": "所需时间",
+    "routeDurationEn": "所需时间",
+    "routeViewOnMap": "在地图中查看",
+    "routeViewOnMapEn": "在地图中查看",
+    "mapFullscreenOpen": "全屏打开地图",
+    "mapFullscreenClose": "关闭全屏",
+    "mapFullscreenOpenEn": "全屏打开地图",
+    "mapFullscreenCloseEn": "关闭全屏",
+    "routesClose": "关闭推荐路线",
+    "routesCloseEn": "关闭推荐路线",
+    "routeStopEmaki": "绘卷相关地点",
+    "routeStopEmakiEn": "绘卷相关地点",
+    "routeStopSpot": "观光景点",
+    "routeStopSpotEn": "观光景点",
+    "mediaTitle": "漫画·动画 × 绘卷",
+    "mediaTitleEn": "漫画·动画 × 绘卷",
+    "mediaDesc": "熟悉故事的世界观，往往根植于平安至镰仓绘卷。",
+    "mediaDescEn": "熟悉故事的世界观，往往根植于平安至镰仓绘卷。",
+    "mediaViewEmaki": "展开这幅绘卷",
+    "mediaViewEmakiEn": "展开这幅绘卷",
+    "mediaOfficial": "官方网站",
+    "mediaOfficialEn": "官方网站",
+    "mediaTypeAnime": "动画",
+    "mediaTypeAnimeEn": "动画",
+    "mediaTypeManga": "漫画",
+    "mediaTypeMangaEn": "漫画"
+  },
+  "mangaRoots": {
+    "pagetitle": "漫画与动画的古老根源",
+    "metaDesc": "探索 12 世纪京都绘卷如何为《咒术回战》、吉卜力、《剑风传奇》等现代动画奠基。",
+    "breadcrumb": "漫画源流",
+    "heroTitle": "发现漫画与暗黑幻想的千年根源",
+    "heroLead": "从《鸟兽戏画》到《咒术回战》《剑风传奇》——中世纪绘卷如何塑造现代动画的视觉 DNA。",
+    "ctaExplore": "探索互动阅卷",
+    "ctaExploreSub": "体验京都绘卷",
+    "navThemes": "古与今",
+    "navNetwork": "关联",
+    "navMap": "京都",
+    "navFeedback": "反馈",
+    "themesTitle": "古与今",
+    "themesDesc": "三条视觉谱系——京都绘卷到熟悉的漫画动画。作品名为编辑性对照，非官方联动。",
+    "warning": "地狱绘卷与九相图含有责罚与肉体朽变，请自行斟酌。",
+    "modernLabel": "现代文",
+    "classicLabel": "经典绘卷",
+    "originTitle": "漫画与动物拟人化的起源",
+    "originModern": "《铁臂阿童木》、吉卜力（《平成狸合战》）、BEASTARS、ODDTAXI",
+    "originStory": "手冢治虫与高畑勋赞誉其流动动感与动物讽刺——这一视觉语法仍在漫画中鲜活。",
+    "hellTitle": "地狱与暗黑幻想的蓝本",
+    "hellModern": "《电锯人》《地狱乐》《鬼灯的冷彻》",
+    "hellStory": "异形鬼怪与佛教地狱的超现实恐怖——仍在塑造暗黑幻想的中世纪美学。",
+    "curseTitle": "咒术、妖怪与九相",
+    "curseModern": "《咒术回战》（咒胎九相图）、《剑风传奇》《东京喰种》",
+    "curseStory": "将无形之咒可视化，以及肉体胀坏血流等九相——在现代恐怖中回响的母题。",
+    "ctaChoju": "打开阅卷器：鸟兽戏画",
+    "ctaJigoku": "打开阅卷器：地狱绘卷",
+    "ctaGaki": "打开阅卷器：饿鬼绘卷",
+    "ctaKusouzu": "打开阅卷器：九相图",
+    "networkTitle": "它们如何相连",
+    "networkDesc": "绘卷与现代作品以关键词相连——多数关联松散，亦有更直接者。点关键词可追踪关联。",
+    "networkAria": "连接京都绘卷、共享关键词与现代漫画动画的网络图。",
+    "networkFullscreenOpen": "放大图示",
+    "networkFullscreenClose": "关闭全屏",
+    "networkHint": "点关键词追踪关联。",
+    "emakiMetaTitle": "与漫画动画的关联",
+    "emakiMetaDesc": "以共享关键词松散关联——编辑性对照，非官方合作。",
+    "emakiMetaCta": "查看完整关联图",
+    "typeAnime": "动画",
+    "typeManga": "漫画",
+    "mapTitle": "京都——这些绘卷的故乡",
+    "mapDesc": "高山寺、京都国立博物馆及相关寺社典藏这些对照中的作品。打开观光地图可在城中定位。",
+    "mapCta": "打开京都观光地图",
+    "mapCtaHint": "寺社与博物馆标记 →",
+    "feedbackTitle": "分享您的感受",
+    "feedbackDesc": "千年图像中，哪些让您似曾相识或意外？欢迎告诉我们。",
+    "feedbackCta": "分享您的感受"
+  },
+  "ebikiHub": {
+    "pagetitle": "绘引——绘卷中的日常生活",
+    "metaDesc": "探索绘卷中的民具与习俗，联结宫本常一生活史与神奈川大学「绘引」图像数据库。",
+    "breadcrumb": "绘引",
+    "introTitle": "绘卷中的日常生活——宫本常一生活史 × 涩泽敬三「绘引」数据库",
+    "intro": "跟随绘卷中的摊位、搬运、嬉戏与养身。打开卡片跳转对应场景，结合宫本笔记与绘引书目阅读。",
+    "filterLabel": "按行为筛选",
+    "empty": "没有匹配项。",
+    "attribution": "来源：宫本常一《绘卷中的日本常民生活史》；神奈川大学日本常民文化研究所「绘引」数据库。",
+    "filters": {
+      "all": "全部",
+      "labor_trade": "交易",
+      "dwell": "居住",
+      "carry": "搬运",
+      "eat": "饮食",
+      "play_ritual": "嬉戏",
+      "body_life": "身体与生命",
+      "wear": "穿着"
+    }
+  },
+  "polaroid": {
+    "title": "截取场景",
+    "adjustNotice": "横向拖动调整取景框",
+    "commentPlaceholder": "添加简短留言（最多 40 字）...",
+    "creditSuffix": "emakimono-next",
+    "saveButton": "下载图片",
+    "closeButton": "关闭",
+    "generating": "生成中...",
+    "downloadSuccess": "图片已保存"
+  },
+  "meta": {
+    "siteTitle": "绘卷阅卷器",
+    "siteDesc": "以横向滚动观赏平安至镰仓时代的绘卷——鸟兽人物戏画、地狱草纸、饿鬼草纸、九相图等，按主题持续扩充中。",
+    "siteLang": "zh-Hans",
+    "siteLocale": "zh_CN",
+    "siteType": "website",
+    "siteIcon": "/favicon.png"
+  },
+  "footer": {
+    "copyright": "© {{year}} emakimono.com. 保留所有权利。"
+  },
+  "notFound": {
+    "breadcrumb": "页面未找到",
+    "title": "页面未找到",
+    "ctaHome": "返回首页"
+  },
+  "languageSwitcher": {
+    "en": {
+      "short": "EN",
+      "ariaLabel": "English"
+    },
+    "ja": {
+      "short": "JA",
+      "ariaLabel": "日本語"
+    },
+    "zhHans": {
+      "short": "简体",
+      "ariaLabel": "简体中文"
+    }
+  }
+}

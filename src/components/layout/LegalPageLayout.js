@@ -6,7 +6,6 @@ import Title from "@/components/ui/Title";
 import { relatedSiteLinks } from "@/libs/constants/links";
 import styles from "@/styles/LegalPage.module.css";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
 const LegalPageLayout = ({
@@ -18,7 +17,6 @@ const LegalPageLayout = ({
   noindex,
   children,
 }) => {
-  const { locale } = useRouter();
   const { t } = useTranslation("common");
 
   return (
@@ -37,10 +35,10 @@ const LegalPageLayout = ({
         <nav className={styles.related} aria-label={t("legal.relatedLinks")}>
           <h3>{t("legal.relatedLinks")}</h3>
           <ul>
-            {relatedSiteLinks.map(({ path, name, nameen }) => (
+            {relatedSiteLinks.map(({ path, labelKey }) => (
               <li key={path}>
                 <Link href={path}>
-                  <a>{locale === "ja" ? name : nameen}</a>
+                  <a>{t(labelKey)}</a>
                 </Link>
               </li>
             ))}

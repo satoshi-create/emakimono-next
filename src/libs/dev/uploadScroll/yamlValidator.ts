@@ -1,7 +1,7 @@
 // === 1. 定数（研究用語 NG・slot 許可・LocalStorage キー） ===
 // アップロード画面と同期パイプラインで共有する検証用定数
 
-export function extractYamlScalar(yaml, key) {
+export function extractYamlScalar(yaml: string, key: string): string {
   const re = new RegExp(`^\\s*${key}:\\s*["']?([^"'\\n#]+)["']?\\s*$`, "m");
   const m = yaml.match(re);
   if (!m) return "";
@@ -28,7 +28,7 @@ export const UPLOAD_RESULT_STORAGE_KEY = "emakimono_dev_last_upload_result";
 // === 2. YAML スカラー・メタ抽出 ===
 // scroll 設定 YAML から id / range 終端などを正規表現で抽出
 
-export function formatUploadTimestamp(ts) {
+export function formatUploadTimestamp(ts: string | number | Date | null | undefined): string {
   if (!ts) return "—";
   try {
     return new Date(ts).toLocaleString("ja-JP");
@@ -37,14 +37,14 @@ export function formatUploadTimestamp(ts) {
   }
 }
 
-export function extractYamlNumericId(yaml) {
+export function extractYamlNumericId(yaml: string): number | null {
   const m = yaml.match(/^metadata:[\s\S]*?^\s*id:\s*(\d+)/m);
   if (m) return parseInt(m[1], 10);
   const m2 = yaml.match(/^\s*id:\s*(\d+)\s*$/m);
   return m2 ? parseInt(m2[1], 10) : null;
 }
 
-export function extractMaxRangeEnd(yaml) {
+export function extractMaxRangeEnd(yaml: string): number {
   let max = 0;
   const re = /range:\s*\[\s*(\d+)\s*,\s*(\d+)\s*\]/g;
   let m;
@@ -58,14 +58,32 @@ export function extractMaxRangeEnd(yaml) {
 // === 3. scroll YAML 総合検証 ===
 // 必須キー・研究用語・既存 scroll との id/titleen 衝突・range と画像枚数の警告
 
-/** @returns {{ errors: string[], warnings: string[], overwriteMode: boolean }} */
-export function validateScrollYaml(yaml, { existingScrolls = [], imageCount = 0, yamlTitleen = "" } = {}) {
+type ExistingScrollMeta = { id?: number; titleen?: string; title?: string };
+
+export type ValidateScrollYamlResult = {
+  errors: string[];
+  warnings: string[];
+  overwriteMode: boolean;
+};
+
+export function validateScrollYaml(
+  yaml: string,
+  {
+    existingScrolls = [],
+    imageCount = 0,
+    yamlTitleen = "",
+  }: {
+    existingScrolls?: ExistingScrollMeta[];
+    imageCount?: number;
+    yamlTitleen?: string;
+  } = {}
+): ValidateScrollYamlResult {
   const errors = [];
   const warnings = [];
   const trimmed = (yaml || "").trim();
   if (!trimmed) return { errors, warnings, overwriteMode: false };
 
-  const required = [
+  const required: Array<[string, RegExp]> = [
     ["scroll_id", /^scroll_id:/m],
     ["volume_num", /^volume_num:/m],
     ["folder", /^folder:/m],

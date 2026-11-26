@@ -1,8 +1,14 @@
+type WithdrawnScrollRedirect = {
+  source: string;
+  destination: string;
+  permanent: boolean;
+};
+
 /**
  * 公開取り下げスラッグ → 近い現行ページへの 301。
- * next.config.js から require する（CJS）。
+ * next.config.js は Node から参照するため redirects 定義を同期でインライン化している。
  */
-function buildWithdrawnScrollRedirects() {
+export function buildWithdrawnScrollRedirects(): WithdrawnScrollRedirect[] {
   return [
     {
       source: "/jigokusoushi_genke",
@@ -16,5 +22,3 @@ function buildWithdrawnScrollRedirects() {
     },
   ];
 }
-
-module.exports = { buildWithdrawnScrollRedirects };

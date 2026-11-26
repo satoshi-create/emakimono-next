@@ -3,11 +3,9 @@
  * metadata.personname に載せた代表人物はここに追加すること
  * （未掲載 slug は seoRedirects で personnamelist へ 301）。
  */
-const DISPLAY_PERSON_SLUGS = [
+export const DISPLAY_PERSON_SLUGS = [
   "danrinkougou",
   "ononokomachi",
   "tachibananaomoto",
   "fujiwarasaneyori",
-];
-
-module.exports = { DISPLAY_PERSON_SLUGS };
+] as const;

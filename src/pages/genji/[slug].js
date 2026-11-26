@@ -11,6 +11,7 @@ import {
 } from "@/data/scroll-metadata";
 import styles from "@/styles/GenjiHub.module.css";
 import { removeNestedEmakisObj } from "@/utils/func";
+import { buildI18nStaticPaths } from "@/utils/i18nStaticPaths";
 import { genjiChapterHref } from "@/utils/buildGenjiHubData";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -204,13 +205,9 @@ const GenjiChapter = ({
 };
 
 export const getStaticPaths = async () => {
-  const paths = AllGenjiChapters.map(({ path }) => ({
-    params: {
-      slug: path,
-    },
-    locale: "ja",
-  }));
-  paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
+  const paths = buildI18nStaticPaths(
+    AllGenjiChapters.map(({ path }) => path)
+  );
   return {
     paths: paths,
     fallback: false,

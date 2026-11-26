@@ -30,9 +30,20 @@ const { i18n } = require("./next-i18next.config");
 const {
   buildKusouzuSlugRedirects,
 } = require("./src/libs/constants/kusouzuSlugRedirects");
-const {
-  buildWithdrawnScrollRedirects,
-} = require("./src/libs/constants/withdrawnRedirects");
+function buildWithdrawnScrollRedirects() {
+  return [
+    {
+      source: "/jigokusoushi_genke",
+      destination: "/jigokusoushi_anzyuin",
+      permanent: true,
+    },
+    {
+      source: "/frolicking_animals_and_tengu_goblins",
+      destination: "/hub/chouju-giga",
+      permanent: true,
+    },
+  ];
+}
 const { buildSeoRedirects } = require("./src/libs/constants/seoRedirects");
 
 const vercelSha = process.env.VERCEL_GIT_COMMIT_SHA || "";

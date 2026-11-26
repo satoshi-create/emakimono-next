@@ -33,6 +33,5 @@ export const socialLinks = [
     ),
     path: "https://note.com/enjoy_emakimono",
     title: "note",
-    title: "note",
   },
 ];

@@ -5,24 +5,19 @@ import Breadcrumbs from "@/components/navigation/Breadcrumbs";
 import Button from "@/components/ui/Button";
 import Title from "@/components/ui/Title";
 import "lazysizes";
-import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 const Custom404 = () => {
-  const { locale } = useRouter();
+  const { t } = useTranslation("common");
   return (
     <>
       <Head noindex />
       <Header fixed={true} />
-      <Breadcrumbs
-        name={locale === "en" ? "PAGE NOT FOUND" : "ページが見つかりません"}
-      />
+      <Breadcrumbs name={t("notFound.breadcrumb")} />
       <section className="section-grid section-padding">
-        <Title
-          sectiontitle={"ページが見つかりません"}
-          sectiontitleen={"PAGE NOT FOUND"}
-        />
-        <Button title="ホームに戻る" path="/" />
+        <Title sectiontitle={t("notFound.title")} />
+        <Button title={t("notFound.ctaHome")} path="/" />
       </section>
       <Footer />
     </>

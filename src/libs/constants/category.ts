@@ -1,4 +1,10 @@
-const category = [
+export type CategoryEntry = {
+  name: string;
+  nameen: string;
+  slug: string;
+};
+
+const category: CategoryEntry[] = [
   { name: "絵巻", nameen: "Emaki", slug: "emaki" },
   { name: "屏風", nameen: "Byoubu", slug: "byoubu" },
   { name: "水墨画", nameen: "Suibokuga", slug: "suibokuga" },

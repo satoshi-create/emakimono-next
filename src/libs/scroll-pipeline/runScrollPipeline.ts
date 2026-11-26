@@ -11,7 +11,7 @@ const SCROLLS_DIR = path.join(process.cwd(), "scrolls");
  * @param {string} scrollId
  * @returns {string}
  */
-export function resolveScrollConfigPath(scrollId) {
+export function resolveScrollConfigPath(scrollId: string): string {
   return path.join(SCROLLS_DIR, scrollId, "scroll_config.yaml");
 }
 
@@ -19,7 +19,7 @@ export function resolveScrollConfigPath(scrollId) {
  * @param {string} scrollId
  * @returns {string}
  */
-export function resolveScrollDir(scrollId) {
+export function resolveScrollDir(scrollId: string): string {
   return path.join("scrolls", scrollId);
 }
 
@@ -28,7 +28,7 @@ export function resolveScrollDir(scrollId) {
  * @param {string} scrollId
  * @returns {boolean}
  */
-export function scrollConfigExists(scrollId) {
+export function scrollConfigExists(scrollId: string): boolean {
   return fs.existsSync(resolveScrollConfigPath(scrollId));
 }
 
@@ -37,7 +37,13 @@ export function scrollConfigExists(scrollId) {
  * @param {{ scrollId: string, args?: string[] }} options
  * @returns {string[]}
  */
-export function buildScrollUploadArgv({ scrollId, args = [] }) {
+export function buildScrollUploadArgv({
+  scrollId,
+  args = [],
+}: {
+  scrollId: string;
+  args?: string[];
+}): string[] {
   if (!scrollConfigExists(scrollId)) {
     throw new Error(
       `scroll_config.yaml not found: ${resolveScrollConfigPath(scrollId)}`
@@ -52,7 +58,13 @@ export function buildScrollUploadArgv({ scrollId, args = [] }) {
  * @param {{ scrollId: string, args?: string[] }} options
  * @returns {Promise<{ stdout: string, stderr: string, exitCode: number | null }>}
  */
-export function executeScrollUpload({ scrollId, args = [] }) {
+export function executeScrollUpload({
+  scrollId,
+  args = [],
+}: {
+  scrollId: string;
+  args?: string[];
+}): Promise<{ stdout: string; stderr: string; exitCode: number | null }> {
   const argv = buildScrollUploadArgv({ scrollId, args });
   const scriptPath = argv[0];
   const scriptArgs = argv.slice(1);

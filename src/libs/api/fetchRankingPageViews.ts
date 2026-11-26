@@ -1,10 +1,9 @@
 import { BetaAnalyticsDataClient } from "@google-analytics/data";
 
-/**
- * Fetch page-view counts from GA4, aggregated by emaki slug (locale-agnostic).
- * @returns {Promise<{ pathName: string, pageView: number }[]>}
- */
-export async function fetchRankingPageViews() {
+export type RankingPageViewRow = { pathName: string; pageView: number };
+
+/** Fetch page-view counts from GA4, aggregated by emaki slug (locale-agnostic). */
+export async function fetchRankingPageViews(): Promise<RankingPageViewRow[]> {
   const propertyId = process.env.GOOGLE_APPLICATION_PROPERTY_ID;
   const credentialsBase64 = process.env.GOOGLE_CREDENTIALS_BASE64;
 
@@ -28,7 +27,7 @@ export async function fetchRankingPageViews() {
     { timeout: 5000 }
   );
 
-  const pvMap = {};
+  const pvMap: Record<string, number> = {};
   (response.rows || []).forEach((row) => {
     const pagePath = row.dimensionValues[0].value;
     const pathName = pagePath.replace(/^\/(ja\/)?/, "");

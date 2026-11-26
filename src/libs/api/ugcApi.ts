@@ -11,22 +11,33 @@
  * @param {string} url
  * @param {RequestInit & { ignore503?: boolean }} [options]
  */
-async function requestJson(url, { ignore503 = true, ...fetchOptions } = {}) {
+type RequestJsonOptions = RequestInit & { ignore503?: boolean };
+
+async function requestJson(
+  url: string,
+  { ignore503 = true, ...fetchOptions }: RequestJsonOptions = {}
+): Promise<Record<string, unknown>> {
   const res = await fetch(url, fetchOptions);
-  const data = await res.json().catch(() => ({}));
+  const data = (await res.json().catch(() => ({}))) as Record<string, unknown>;
 
   if (!res.ok && !(ignore503 && res.status === 503)) {
-    throw new Error(data.message || `Request failed (${res.status})`);
+    const message =
+      typeof data.message === "string" ? data.message : undefined;
+    throw new Error(message || `Request failed (${res.status})`);
   }
 
   return data;
 }
 
-function getJson(url, options) {
+function getJson(url: string, options?: RequestJsonOptions) {
   return requestJson(url, options);
 }
 
-function postJson(url, body, options) {
+function postJson(
+  url: string,
+  body: Record<string, unknown>,
+  options?: RequestJsonOptions
+) {
   return requestJson(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -110,6 +121,12 @@ export async function createCollabBoard({
   visibility = "unlisted",
   authorName,
   items = [],
+}: {
+  title?: string;
+  description?: string;
+  visibility?: string;
+  authorName?: string;
+  items?: unknown[];
 } = {}) {
   return requestJson("/api/board", {
     method: "POST",
@@ -204,8 +221,11 @@ export async function updateCollabBoardItem(boardId, payload) {
   });
 }
 
-function buildBoardAuthHeaders(baseHeaders = {}, explicitClientId) {
-  const headers = { ...baseHeaders };
+function buildBoardAuthHeaders(
+  baseHeaders: Record<string, string> = {},
+  explicitClientId?: string
+): Record<string, string> {
+  const headers: Record<string, string> = { ...baseHeaders };
   const clientId = explicitClientId ?? getOrCreatePolaroidClientId();
   const adminKey =
     typeof window !== "undefined"

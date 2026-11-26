@@ -135,7 +135,48 @@
     "kusouzuHub": "九相図一覧",
     "hyakkiHub": "百鬼夜行・付喪神一覧",
     "rakuchuHub": "洛中洛外図一覧",
-    "mangaRoots": "マンガのルーツ"
+    "mangaRoots": "マンガのルーツ",
+    "items": {
+      "home": {
+        "label": "ホーム"
+      },
+      "emaki": {
+        "label": "絵巻一覧"
+      },
+      "byobu": {
+        "label": "屏風一覧"
+      },
+      "themeHubs": {
+        "label": "テーマ・特集ハブ一覧"
+      },
+      "ranking": {
+        "label": "ランキング"
+      },
+      "personalBoard": {
+        "label": "個人ポラロイドボード"
+      },
+      "timeline": {
+        "label": "年表"
+      },
+      "about": {
+        "label": "About"
+      },
+      "guide": {
+        "label": "使い方ガイド"
+      },
+      "copyright": {
+        "label": "著作権・ライセンス"
+      },
+      "privacy": {
+        "label": "プライバシー"
+      },
+      "terms": {
+        "label": "利用規約"
+      },
+      "mangaRoots": {
+        "label": "マンガのルーツ"
+      }
+    }
   },
   "home": {
     "metaTitle": "絵巻物ビューアー",
@@ -186,10 +227,51 @@
       "title": "九相図",
       "desc": "十相の順番と関連絵巻を解説",
       "cta": "九相図一覧へ"
+    },
+    "hero": {
+      "title": "絵巻物を横スクロールで鑑賞",
+      "desc": "絵巻物（えまきもの）は、本来「読むもの」ではなく「繰り展げて追うもの」。風刺・地獄・無常——平安〜鎌倉時代の絵巻を、横スクロールで全シーンにわたって追いかけられます。"
+    },
+    "keywords": {
+      "sectionTitle": "キーワード一覧"
+    },
+    "jsonLd": {
+      "hubs": {
+        "chouju": {
+          "name": "鳥獣人物戯画"
+        },
+        "kusouzu": {
+          "name": "九相図"
+        },
+        "darkFantasy": {
+          "name": "地獄とダークファンタジー"
+        },
+        "mangaRoots": {
+          "name": "マンガのルーツ"
+        }
+      }
+    },
+    "hubSection": {
+      "sectionTitle": "テーマ・特集ハブ一覧",
+      "workCount": "全{{count}}巻・{{count}}作品収録",
+      "viewTheme": "特集ページを見る →",
+      "viewAll": "すべての特集ハブを見る"
+    },
+    "latest": {
+      "published": "{{year}}年{{month}}月公開",
+      "eraPeriod": "{{era}}時代",
+      "typeEmaki": "絵巻",
+      "typeByobu": "屏風"
     }
   },
   "about": {
-    "metaDesc": "平安〜鎌倉の絵巻物を横スクロールで鑑賞するオープンソースプロジェクト。鳥獣人物戯画・地獄草紙・九相図など、テーマ別コレクションを段階的に拡大中。"
+    "metaDesc": "平安〜鎌倉の絵巻物を横スクロールで鑑賞するオープンソースプロジェクト。鳥獣人物戯画・地獄草紙・九相図など、テーマ別コレクションを段階的に拡大中。",
+    "pagetitle": "About",
+    "breadcrumb": "About",
+    "sectionTitle": "このプロジェクトについて",
+    "introHtml": "<p>\n        絵巻物とは、本来「読むもの」ではなく「繰り展げて追うもの」です。\n        左へ左へと少しずつ巻きをほどき、現れては消えていく絵を追いながら、\n        物語の世界に没入していく──。その体験は、絵を静かに鑑賞するというよりも、\n        アニメーションを味わう感覚に近いかもしれません。\n      </p>\n      <br/>\n      <p>\n        しかし、現実の絵巻物を手に取る機会は非常に限られており、\n        書籍や図録では断片的にしか掲載されていません。\n        デジタル上でも、縦スクロールや静止画の一覧表示が一般的で、\n        「繰り展げる」本来の鑑賞方法を体験できる機会はほとんどありません。\n      </p>\n            <br/>\n      <p>\n        そこで私たちは、<strong>ウェブの横スクロールという表現手法を活かし、\n        「絵巻物を繰り展げながら鑑賞する」インターフェースを再現する</strong>\n        ことに挑戦しました。\n      </p>\n       <br/>\n      <p>\n        本サイトでは、平安〜鎌倉時代の絵巻をテーマ別に横スクロールで鑑賞できます。\n        鳥獣人物戯画・地獄草紙・餓鬼草紙・九相図など、\n        教科書では断片的にしか触れられない作品を、連続したシーンとして追えます。\n      </p>\n       <br/>\n      <ul>\n        <li>\n          🐸 <strong>風刺とユーモア</strong> —\n          <a href=\"/hub/chouju-giga\">鳥獣人物戯画一覧</a>（Chōjū-jinbutsu-giga）\n        </li>\n        <li>\n          🔥 <strong>地獄とダークファンタジー</strong> —\n          <a href=\"/emaki-hub?theme=dark-fantasy\">地獄草紙・餓鬼草紙</a>（Hell &amp; Hungry Ghosts Scrolls）\n        </li>\n        <li>\n          💀 <strong>九相と無常</strong> —\n          <a href=\"/hub/kusouzu\">九相図一覧</a>（Kusōzu）\n        </li>\n        <li>\n          📺 <strong>マンガ・アニメのルーツ</strong> —\n          <a href=\"/manga-roots\">現代作品とのつながり</a>\n        </li>\n      </ul>\n       <br/>\n      <p>\n        本サイトでは、横スクロールを使って一気に絵巻物を展開し、\n        あたかもアニメを観るように物語を追いかけることができます。\n        コレクションは段階的に拡大中です。\n      </p>\n      <br/><br/>",
+    "contributorHeading": "コントリビューターの方へ",
+    "contributorHtml": "<p>\n        本プロジェクトは現在、<strong>オープンソース化（OSS）に向けてリファクタリング中</strong>です。\n        最小限の構成から出発し、将来的には以下のような改善を目指しています：\n      </p>\n        <br/>\n      <ul>\n        <li>- TypeScript化とNext.jsのバージョンアップ</li>\n        <li>- 絵巻のデータ構造の整備（JSON, Supabase 等）</li>\n        <li>- サムネイル付きのナビゲーションや閲覧インジケーターの追加</li>\n        <li>- 新しい絵巻の追加や、テーマ別コレクションの展開</li>\n      </ul>\n        <br/>\n      <p>\n        MVP として鳥獣人物戯画と九相図から始め、\n        現在は地獄草紙・餓鬼草紙などへの拡張と、テーマ別ハブページの整備を進めています。\n      </p>\n        <br/>\n      <p>\n        <strong>「絵巻物 × フロントエンド」</strong>というユニークなテーマに興味がある方、\n        ぜひ一緒にこのプロジェクトを育てていきませんか？\n      </p>\n      <p>\n  👉 このプロジェクトのソースコードは、\n  <a href=\"https://github.com/satoshi-create/emakimono-next\" target=\"_blank\" rel=\"noopener noreferrer\">\n    GitHub リポジトリ\n  </a>\n  から閲覧・参加できます。\n</p>"
   },
   "share": {
     "groupLabel": "共有",
@@ -849,5 +931,35 @@
     "closeButton": "閉じる",
     "generating": "画像生成中...",
     "downloadSuccess": "画像を保存しました"
+  },
+  "meta": {
+    "siteTitle": "絵巻物ビューアー",
+    "siteDesc": "平安〜鎌倉の絵巻物を横スクロールで鑑賞。鳥獣人物戯画・地獄草紙・餓鬼草紙・九相図など、テーマ別に作品を追加中の絵巻物ビューアーです。",
+    "siteLang": "ja",
+    "siteLocale": "ja_JP",
+    "siteType": "website",
+    "siteIcon": "/favicon.png"
+  },
+  "footer": {
+    "copyright": "© {{year}} emakimono.com. All rights reserved."
+  },
+  "notFound": {
+    "breadcrumb": "ページが見つかりません",
+    "title": "ページが見つかりません",
+    "ctaHome": "ホームに戻る"
+  },
+  "languageSwitcher": {
+    "en": {
+      "short": "EN",
+      "ariaLabel": "English"
+    },
+    "ja": {
+      "short": "JA",
+      "ariaLabel": "日本語"
+    },
+    "zhHans": {
+      "short": "简体",
+      "ariaLabel": "简体中文"
+    }
   }
 }

@@ -33,7 +33,7 @@ const Footer = () => {
       w="100%"
     >
       {primaryNavLinks.map((link, i) => {
-        const { path, name, nameen } = link;
+        const { path, labelKey } = link;
         return (
           <Link key={i} href={path} passHref prefetch={false}>
             <ChakraLink
@@ -44,7 +44,7 @@ const Footer = () => {
               }}
               transition="all 0.2s"
             >
-              {locale === "ja" ? name : nameen}
+              {t(labelKey)}
             </ChakraLink>
           </Link>
         );
@@ -126,7 +126,7 @@ const Footer = () => {
             flexWrap="wrap"
             mb={4}
           >
-            {legalLinks.map(({ path, name, nameen }) => (
+            {legalLinks.map(({ path, labelKey }) => (
               <Link key={path} href={path} passHref prefetch={false}>
                 <ChakraLink
                   fontSize="sm"
@@ -136,7 +136,7 @@ const Footer = () => {
                   }}
                   transition="all 0.2s"
                 >
-                  {locale === "ja" ? name : nameen}
+                  {t(labelKey)}
                 </ChakraLink>
               </Link>
             ))}
@@ -149,7 +149,7 @@ const Footer = () => {
             mx="auto"
           />
           <Text className={styles.copyright} textAlign="center">
-            {`© ${year} emakimono.com. All rights reserved.`}
+            {t("footer.copyright", { year })}
           </Text>
         </Box>
       </Flex>

@@ -93,7 +93,7 @@ function BoardCardPhoto({ item }) {
 
 export default function HomePublicBoards({ surface: useSurface = true }) {
   const router = useRouter();
-  const isEn = router.locale === "en";
+  const isEn = router.locale !== "ja";
   const sectionBg = useSurface
     ? "var(--clr-surface, #f9fbff)"
     : "var(--clr-bg, #ffffff)";

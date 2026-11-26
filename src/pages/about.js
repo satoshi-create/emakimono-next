@@ -1,24 +1,22 @@
 import LegalPageLayout from "@/components/layout/LegalPageLayout";
-import { useLocale } from "@/utils/func";
 import parse from "html-react-parser";
 import "lazysizes";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const About = () => {
-  const { t } = useLocale();
-  const { t: tCommon } = useTranslation("common");
+  const { t } = useTranslation("common");
 
   return (
     <LegalPageLayout
-      pagetitle="About"
-      pageDesc={tCommon("about.metaDesc")}
-      breadcrumbName="About"
-      sectionTitle={t.about.sectiontitle}
+      pagetitle={t("about.pagetitle")}
+      pageDesc={t("about.metaDesc")}
+      breadcrumbName={t("about.breadcrumb")}
+      sectionTitle={t("about.sectionTitle")}
     >
-      {parse(t.about.intro)}
-      <h3>For Contributors</h3>
-      {parse(t.about.contributor)}
+      {parse(t("about.introHtml"))}
+      <h3>{t("about.contributorHeading")}</h3>
+      {parse(t("about.contributorHtml"))}
     </LegalPageLayout>
   );
 };

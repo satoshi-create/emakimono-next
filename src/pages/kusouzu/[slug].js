@@ -10,6 +10,7 @@ import {
 } from "@/data/scroll-metadata";
 import { kusouzuStageHref } from "@/utils/buildKusouzuHubData";
 import { removeNestedEmakisObj } from "@/utils/func";
+import { buildI18nStaticPaths } from "@/utils/i18nStaticPaths";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -59,13 +60,9 @@ const Kusouzu = ({ title, titleen, posts, slug }) => {
 };
 
 export const getStaticPaths = async () => {
-  const paths = AllKusouzuChapters.map(({ slug }) => ({
-    params: {
-      slug,
-    },
-    locale: "ja",
-  }));
-  paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
+  const paths = buildI18nStaticPaths(
+    AllKusouzuChapters.map(({ slug }) => slug)
+  );
   return {
     paths: paths,
     fallback: false,

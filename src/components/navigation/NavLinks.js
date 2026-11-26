@@ -34,14 +34,14 @@ const NavLinks = ({ footerstyle }) => {
       <li>
         <Link href="/" prefetch={false}>
           <a className={styles.linksName} style={footerstyle}>
-            {t("nav.home")}
+            {t("nav.items.home.label")}
           </a>
         </Link>
       </li>
       <li>
         <Link href="/about" prefetch={false}>
           <a className={styles.linksName} style={footerstyle}>
-            About
+            {t("nav.items.about.label")}
           </a>
         </Link>
       </li>
@@ -72,7 +72,7 @@ const NavLinks = ({ footerstyle }) => {
                     style={footerstyle}
                     onClick={() => setOpenMenu(null)}
                   >
-                    {locale === "en" ? link.nameen : link.name}
+                    {t(link.labelKey)}
                   </a>
                 </Link>
               ))}

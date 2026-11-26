@@ -16,7 +16,7 @@ function logDebug(tag, ...args) {
 // ---------------------------------------------------------------------------
 // 1. 定数・サンプルバッファ（State 相当・モジュールスコープ）
 // ---------------------------------------------------------------------------
-export const loadTimeSamples = [];
+export const loadTimeSamples: number[] = [];
 export const MAX_SAMPLES = 8;
 export const TIMEOUT_MULTIPLIER = 2.5;
 export const MIN_MEASURABLE_LOAD_MS = 150;
@@ -40,7 +40,9 @@ export const TIMEOUT_BOUNDS = {
 // ---------------------------------------------------------------------------
 export const getConnectionMultiplier = () => {
   if (typeof navigator === "undefined") return 1;
-  const conn = navigator.connection?.effectiveType;
+  const conn = (
+    navigator as Navigator & { connection?: { effectiveType?: string } }
+  ).connection?.effectiveType;
   if (!conn) return 1;
   if (conn === "slow-2g") return 2.5;
   if (conn === "2g") return 1.8;
@@ -52,7 +54,7 @@ export const getConnectionMultiplier = () => {
 // [フロー 1] onLoadingComplete 時のサンプル記録（emakiId 無し時は LazyImage 側で呼ばない）
 // MIN_MEASURABLE_LOAD_MS 未満は計測ノイズとして捨てる
 // ---------------------------------------------------------------------------
-export const recordLoadTime = (ms) => {
+export const recordLoadTime = (ms: number): void => {
   if (!Number.isFinite(ms) || ms < MIN_MEASURABLE_LOAD_MS) return;
   loadTimeSamples.push(ms);
   if (loadTimeSamples.length > MAX_SAMPLES) loadTimeSamples.shift();
@@ -63,7 +65,12 @@ export const recordLoadTime = (ms) => {
 // [フロー 2] フォールバックタイマー閾値の算出（LazyImage の IO / slow 判定と共有）
 // サンプル未蓄積時は bounds.fallback × 接続・巻別倍率
 // ---------------------------------------------------------------------------
-export const getAdaptiveTimeout = (type, emakiId) => {
+export type AdaptiveTimeoutType = keyof typeof TIMEOUT_BOUNDS;
+
+export const getAdaptiveTimeout = (
+  type: AdaptiveTimeoutType,
+  emakiId: string | undefined
+): number => {
   const bounds = TIMEOUT_BOUNDS[type];
   const connMultiplier = getConnectionMultiplier();
   const emakiMultiplier = PER_EMAKI_TIMEOUT[emakiId] || 1;

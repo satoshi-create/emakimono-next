@@ -17,6 +17,7 @@ import { isChojuGigaScroll } from "@/utils/buildChojuGigaHubData";
 import { isHyakkiClusterScroll } from "@/utils/buildHyakkiHubData";
 import { isRakuchuRakugaiClusterScroll } from "@/utils/buildRakuchuRakugaiHubData";
 import { emakiDisplayTitle } from "@/utils/emakiDisplayTitle";
+import { buildI18nStaticPaths } from "@/utils/i18nStaticPaths";
 import { getFolkloreItemById } from "@/data/folklore/folkloreIndex";
 import { useLocaleMeta } from "@/utils/func";
 import { resolveLinkIdByChapter } from "@/utils/resolveQuizJump";
@@ -345,13 +346,9 @@ export const getStaticPaths = async () => {
   const activeEmakis = emakisData.filter(
     (item) => !isWithdrawnScroll(item.titleen)
   );
-  const paths = activeEmakis.map((item) => ({
-    params: {
-      slug: item.titleen,
-    },
-    locale: "ja",
-  }));
-  paths.push(...paths.map((item) => ({ ...item, locale: "en" })));
+  const paths = buildI18nStaticPaths(
+    activeEmakis.map((item) => item.titleen)
+  );
   return { paths, fallback: false };
 };
 

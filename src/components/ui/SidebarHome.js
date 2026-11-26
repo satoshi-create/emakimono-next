@@ -14,12 +14,12 @@ const SidebarHome = () => {
   const { t } = useTranslation("common");
 
   const renderLink = (link, index) => {
-    const { path, name, nameen } = link;
+    const { path, labelKey } = link;
     return (
       <li key={`${path}-${index}`} className={styles.navLink}>
         <Link href={path} prefetch={false}>
           <a onClick={() => closeSidebar()}>
-            {locale === "en" ? nameen : name}
+            {t(labelKey)}
           </a>
         </Link>
       </li>
@@ -49,7 +49,7 @@ const SidebarHome = () => {
         <ul className={styles.navLinks}>
           <li className={styles.navLink}>
             <Link href="/" prefetch={false}>
-              <a onClick={() => closeSidebar()}>{t("nav.home")}</a>
+              <a onClick={() => closeSidebar()}>{t("nav.items.home.label")}</a>
             </Link>
           </li>
           {navGroups.map((group) => (
