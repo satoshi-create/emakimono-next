@@ -174,6 +174,7 @@ def check_post_sync(
         if missing_ch and scene_text:
             report.warn(f"YAML scenes without scroll-texts chapter: {', '.join(missing_ch)}")
 
+        yaml_scene_by_id = {str(s["id"]): s for s in scenes}
         for row in text_json:
             chapter = row.get("chapter")
             desc = _plain_text(row.get("desc", ""))
@@ -182,11 +183,25 @@ def check_post_sync(
                 report.error(
                     f"scroll-texts chapter {chapter}: desc set but descen empty (en locale issue)"
                 )
+            yaml_scene = yaml_scene_by_id.get(str(chapter)) or {}
+            yaml_text = yaml_scene.get("text") or {}
+            if (yaml_scene.get("title_zh") or yaml_text.get("title_zh")) and not row.get("title_zh"):
+                report.error(
+                    f"scroll-texts chapter {chapter}: YAML has title_zh but JSON title_zh is missing"
+                )
+            if yaml_text.get("desc_zh") and not _plain_text(row.get("desc_zh", "")):
+                report.error(
+                    f"scroll-texts chapter {chapter}: YAML has desc_zh but JSON desc_zh is missing"
+                )
 
     meta_desc = _plain_text(meta.get("desc", ""))
     meta_descen = _plain_text(meta.get("descen", ""))
     if meta_desc and not meta_descen:
         report.warn("metadata.desc is set but metadata.descen is empty")
+
+    for zh_key in ("title_zh", "desc_zh", "author_zh"):
+        if meta.get(zh_key) and not entry.get(zh_key):
+            report.error(f"metadata.{zh_key} is set in YAML but missing in scrolls/{titleen}.json")
 
     expected_thumb = expected_thumb_path(titleen)
     thumb = entry.get("thumb") or meta.get("thumb") or ""

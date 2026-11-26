@@ -184,6 +184,8 @@ def get_scenes_config(config: dict) -> list[dict]:
         }
         if s.get("titleen"):
             scene["titleen"] = s["titleen"]
+        if s.get("title_zh"):
+            scene["title_zh"] = s["title_zh"]
         if s.get("text"):
             scene["text"] = s["text"]
         if "ekotoba_src" in s:

@@ -151,7 +151,7 @@ def scene_has_text(scene: dict) -> bool:
     text = scene.get("text") or {}
     return any(
         str(text.get(k, "")).strip()
-        for k in ("gendaibun", "gendaibunen", "kobun", "kobunen", "desc", "descen")
+        for k in ("gendaibun", "gendaibunen", "kobun", "kobunen", "desc", "descen", "desc_zh")
     )
 
 
@@ -159,7 +159,11 @@ def scene_includes_text_json_entry(scene: dict) -> bool:
     """True when a scene should appear in scroll-texts (body text and/or chapter title)."""
     if scene_has_text(scene):
         return True
-    return bool(str(scene.get("title", "")).strip() or str(scene.get("titleen", "")).strip())
+    return bool(
+        str(scene.get("title", "")).strip()
+        or str(scene.get("titleen", "")).strip()
+        or str(scene.get("title_zh", "")).strip()
+    )
 
 
 def _normalize_text_value(value: str) -> str:
@@ -193,6 +197,9 @@ def build_text_json(config: dict) -> list[dict]:
         }
         if scene.get("titleen"):
             entry["titleen"] = scene["titleen"]
+        title_zh = _normalize_text_value(text.get("title_zh") or scene.get("title_zh", ""))
+        if title_zh:
+            entry["title_zh"] = title_zh
         if scene.get("genji_chapter") is not None:
             entry["genji_chapter"] = str(scene["genji_chapter"])
         if text.get("gendaibunen"):
@@ -201,6 +208,8 @@ def build_text_json(config: dict) -> list[dict]:
             entry["kobunen"] = _normalize_text_value(text["kobunen"])
         if text.get("descen"):
             entry["descen"] = _normalize_text_value(text["descen"])
+        if text.get("desc_zh"):
+            entry["desc_zh"] = _normalize_text_value(text["desc_zh"])
         entries.append(entry)
     return entries
 
@@ -580,6 +589,11 @@ def build_emaki_entry(config: dict, image_rows: list[dict], existing_entry: dict
     # 英語表示名（任意。URL slug の titleen とは別）
     if meta.get("title_en"):
         entry["title_en"] = meta["title_en"]
+
+    # 簡体字中国語メタデータ（任意）
+    for key in ("title_zh", "author_zh", "era_zh", "type_zh", "desc_zh", "sourceImage_zh", "sourceAuthor_zh"):
+        if meta.get(key):
+            entry[key] = meta[key]
 
     # 出典・ライセンス（YAML に指定があるときのみ上書き。無ければ preserve が保持）
     for key in ("sourceAuthor", "sourceCollection", "sourceLicense"):
