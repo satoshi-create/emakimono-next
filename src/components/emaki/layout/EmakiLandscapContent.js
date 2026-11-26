@@ -93,6 +93,7 @@ const EmakiLandscapContent = ({
     edition,
     author,
     authoren,
+    author_zh,
     desc,
     descen,
     keyword,
@@ -294,7 +295,11 @@ const EmakiLandscapContent = ({
                     <Link href={`/author/${authoren}`}>
                       <a className={styles.authorLink}>
                         <h2 className={styles.author}>
-                          {locale === "ja" ? author : authoren}
+                          {locale === "zh-Hans"
+                            ? author_zh || authoren
+                            : locale === "ja"
+                              ? author
+                              : authoren}
                         </h2>
                       </a>
                     </Link>

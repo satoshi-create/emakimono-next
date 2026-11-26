@@ -36,24 +36,44 @@ export function useSwitcherEmakiState({
   const usePanoramaSpots =
     Array.isArray(data?.spots) || hasQuizPanoramaTarget;
 
-  const { chapter, genji_chapter: genjiChapter, title: itemTitle } = item ?? {};
+  const {
+    chapter,
+    genji_chapter: genjiChapter,
+    title: itemTitle,
+    title_zh: itemTitleZh,
+  } = item ?? {};
   const chapterTitle =
-    (locale === "en"
+    (locale === "zh-Hans"
       ? ChaptersTitle(
+          data?.titleen,
+          data?.title,
+          chapter,
+          "title_zh",
+          genjiChapter
+        ) ||
+        ChaptersTitle(
           data?.titleen,
           data?.title,
           chapter,
           "titleen",
           genjiChapter
         )
-      : ChaptersTitle(
-          data?.titleen,
-          data?.title,
-          chapter,
-          "title",
-          genjiChapter
-        )) ||
-    itemTitle ||
+      : locale === "en"
+        ? ChaptersTitle(
+            data?.titleen,
+            data?.title,
+            chapter,
+            "titleen",
+            genjiChapter
+          )
+        : ChaptersTitle(
+            data?.titleen,
+            data?.title,
+            chapter,
+            "title",
+            genjiChapter
+          )) ||
+    (locale === "zh-Hans" ? itemTitleZh || itemTitle : itemTitle) ||
     "";
 
   const isByobu = isByobuScroll(data);

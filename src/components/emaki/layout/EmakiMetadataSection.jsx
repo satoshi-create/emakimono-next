@@ -49,8 +49,10 @@ const EmakiMetadataSection = ({
     title,
     titleen,
     sourceImage,
+    sourceImage_zh,
     sourceImageUrl,
     sourceAuthor,
+    sourceAuthor_zh,
     sourceCollection,
     sourceLicense,
     reference,
@@ -191,10 +193,16 @@ const EmakiMetadataSection = ({
         </summary>
         <SourceAttribution
           sourceImageUrl={sourceImageUrl}
-          sourceImage={sourceImage}
+          sourceImage={
+            locale === "zh-Hans" ? sourceImage_zh || sourceImage : sourceImage
+          }
           sourceTitle={title}
           sourceTitleen={titleen}
-          sourceAuthor={sourceAuthor}
+          sourceAuthor={
+            locale === "zh-Hans"
+              ? sourceAuthor_zh || sourceAuthor
+              : sourceAuthor
+          }
           sourceCollection={sourceCollection}
           license={sourceLicense}
           linkClassName={styles.sourceLink}

@@ -2,46 +2,56 @@
   {
     "chapter": "1",
     "title": "第1段：郊外の春と清明節の行列",
+    "title_zh": "第一段：郊外春景",
     "gendaibun": "",
     "kobun": "",
     "desc": "早春の都・汴京（開封）郊外の風景。芽吹き始めた柳並木の下、炭を運ぶロバの隊列や、清明節の墓参りから戻る一行が都へと向かっています。",
     "titleen": "Scene 1: Suburban Spring & Procession",
-    "descen": "Suburban scenery outside the Northern Song capital of Bianjing in early spring. Beneath budding willow trees, a caravan of donkeys laden with charcoal and a procession returning from Qingming tomb-sweeping make their way toward the city."
+    "descen": "Suburban scenery outside the Northern Song capital of Bianjing in early spring. Beneath budding willow trees, a caravan of donkeys laden with charcoal and a procession returning from Qingming tomb-sweeping make their way toward the city.",
+    "desc_zh": "早春都城汴京（开封）郊外的田园风光。新绿初绽的柳林之下，驮炭的毛驴商队与清明扫墓归来的轿马一行正朝着城门方向行进。"
   },
   {
     "chapter": "2",
     "title": "第2段：汴河の船着場と穀物船",
+    "title_zh": "第二段：汴河漕运",
     "gendaibun": "",
     "kobun": "",
     "desc": "大運河・汴河（べんが）の船着場周辺。川岸に停泊する大型の穀物運搬船や、荷揚げ作業に汗を流す人足たち、川沿いの茶屋で一息つく人々の姿が細密に描かれています。",
     "titleen": "Scene 2: Bian River & Grain Boats",
-    "descen": "Along the docks of the Bian River, large grain transport boats moor by the bank while laborers unload cargo and travelers rest at riverside teahouses."
+    "descen": "Along the docks of the Bian River, large grain transport boats moor by the bank while laborers unload cargo and travelers rest at riverside teahouses.",
+    "desc_zh": "大运河汴河沿岸的繁忙码头。河畔停泊着满载粮食的大型漕船，脚夫们正喊着号子卸货搬运，岸边茶肆酒楼内坐满了歇脚的商旅。"
   },
   {
     "chapter": "3",
     "title": "第3段：虹橋のクライマックス",
+    "title_zh": "第三段：虹桥喧嚣",
     "gendaibun": "",
     "kobun": "",
     "desc": "作品最大のハイライトであるアーチ型の木橋「虹橋（こうきょう）」。急流に流されかけた大型船がマストを倒して橋をくぐり抜けようとする緊迫の瞬間と、橋の上で野次馬や商人が入り乱れる大混雑が描かれています。",
     "titleen": "Scene 3: The Rainbow Bridge",
-    "descen": "The dramatic climax of the scroll at the arched wooden Rainbow Bridge: crewmen scramble to lower a boat's mast to pass safely under the span as crowds of onlookers and merchants pack the bridge above."
+    "descen": "The dramatic climax of the scroll at the arched wooden Rainbow Bridge: crewmen scramble to lower a boat's mast to pass safely under the span as crowds of onlookers and merchants pack the bridge above.",
+    "desc_zh": "全卷最扣人心弦的高潮——木拱“虹桥”。急流中一艘大船正紧急放倒桅杆准备穿桥而过，船夫与桥上围观呼喊的百姓、摊贩交织成一片沸腾的市井奇观。"
   },
   {
     "chapter": "4",
     "title": "第4段：城門と繁華街・酒楼",
+    "title_zh": "第四段：城门与市井",
     "gendaibun": "",
     "kobun": "",
     "desc": "そびえ立つ城門をくぐり抜けると、都の繁華街が広がります。西域から来たラクダの隊商、旗を掲げる大型料理店（孫羊正店）、占い師や診療所など、都市の活気が凝縮されています。",
     "titleen": "Scene 4: City Gate & Bustling Streets",
-    "descen": "Passing through the towering city gate into the bustling commercial district, filled with a camel caravan, the grand Sun Yang Zhengdian tavern, fortune-tellers, and a street-side clinic."
+    "descen": "Passing through the towering city gate into the bustling commercial district, filled with a camel caravan, the grand Sun Yang Zhengdian tavern, fortune-tellers, and a street-side clinic.",
+    "desc_zh": "穿过巍峨的城门楼，便是汴京最繁华的商业街区。来自西域的骆驼商队、高悬彩楼欢门的“孙羊正店”大酒楼、算命摊与赵太丞家医馆鳞次栉比。"
   },
   {
     "chapter": "5",
     "title": "第5段：街の奥行きと終章",
+    "title_zh": "第五段：街巷深处",
     "gendaibun": "",
     "kobun": "",
     "desc": "繁華街のさらに奥へ続く都の日常風景。役所の門前を行き交う人々や商店の賑わいを描きながら、画面は静かな余韻を残して結びを迎えます。",
     "titleen": "Scene 5: Inner City Life",
-    "descen": "Deeper into the inner city streets, officials, merchants, and townspeople go about their daily routines before the scroll comes to a serene close."
+    "descen": "Deeper into the inner city streets, officials, merchants, and townspeople go about their daily routines before the scroll comes to a serene close.",
+    "desc_zh": "深入城内街巷的日常百态。官府门前车水马龙，各类店铺林立，随着行人渐渐疏朗，整幅长卷在平和悠远的余韵中缓缓收尾。"
   }
 ]

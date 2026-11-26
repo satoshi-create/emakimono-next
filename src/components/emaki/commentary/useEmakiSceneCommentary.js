@@ -135,7 +135,10 @@ export function useEmakiSceneCommentary({
       linkId: item.linkId,
       title: isEn
         ? ChaptersTitle(titleen, title, item.chapter, "titleen", item.genji_chapter)
-        : ChaptersTitle(titleen, title, item.chapter, "title", item.genji_chapter),
+        : locale === "zh-Hans"
+          ? ChaptersTitle(titleen, title, item.chapter, "title_zh", item.genji_chapter) ||
+            ChaptersTitle(titleen, title, item.chapter, "titleen", item.genji_chapter)
+          : ChaptersTitle(titleen, title, item.chapter, "title", item.genji_chapter),
       desc: stripHtml(
         getChapterFieldRaw(
           titleen,

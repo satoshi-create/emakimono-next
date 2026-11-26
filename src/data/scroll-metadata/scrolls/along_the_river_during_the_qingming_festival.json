@@ -2,8 +2,10 @@
   "id": 109,
   "title": "清明上河図",
   "titleen": "along_the_river_during_the_qingming_festival",
+  "title_zh": "清明上河图",
   "author": "張択端",
   "authoren": "zhang-zeduan",
+  "author_zh": "张择端",
   "edition": "故宮博物院本",
   "encodeUrl": "",
   "backgroundImage": "",
@@ -12,24 +14,30 @@
   "video": "",
   "era": "北宋",
   "eraen": "northern-song",
+  "era_zh": "北宋",
   "desc": "北宋の画家・張択端による中国絵画史上の最高傑作『清明上河図』（北京故宮博物院蔵）の全巻公開版です。都・汴京（開封）の郊外の春景色から、汴河の賑わい、虹橋のクライマックス、城門と繁華街・酒楼の活気まで、800人以上の人々の営みを高精細な横スクロールで鑑賞できます。",
   "descen": "The complete scroll of Along the River During the Qingming Festival (Qingming Shanghe Tu) by Northern Song painter Zhang Zeduan (Palace Museum, Beijing). Experience daily life in the capital city of Bianjing—from suburban spring paths and bustling Bian River grain boats to the dramatic Rainbow Bridge and lively city streets—in high-resolution horizontal scroll.",
+  "desc_zh": "北宋画家张择端创作的中国绘画史巅峰之作《清明上河图》（北京故宫博物院藏）全卷高清版。从都城汴京（开封）郊外的早春景致、汴河漕运的繁忙码头、惊心动魄的虹桥喧嚣，到城门内外的繁华市井与酒楼，800余位人物的生动日常尽收眼底。",
   "readMore": false,
   "type": "絵巻",
   "typeen": "emaki",
+  "type_zh": "绘卷",
   "keyword": [
     {
       "name": "風俗画",
+      "name_zh": "风俗画",
       "id": "genre-painting",
       "slug": "genre-painting"
     },
     {
       "name": "中国絵画",
+      "name_zh": "中国绘画",
       "id": "chinese-painting",
       "slug": "chinese-painting"
     },
     {
       "name": "清明節",
+      "name_zh": "清明节",
       "id": "qingming-festival",
       "slug": "qingming-festival"
     }
@@ -39,6 +47,7 @@
   "favorite": false,
   "sourceImageUrl": "https://commons.wikimedia.org/wiki/File:Alongtheriver_QingMing.jpg",
   "sourceImage": "清明上河図（北京故宮博物院蔵）",
+  "sourceImage_zh": "清明上河图（北京故宫博物院藏）",
   "metadesc": "",
   "gif": "",
   "sourceEkotoba": "",
@@ -367,6 +376,7 @@
     }
   ],
   "sourceAuthor": "張択端（1085–1145）",
+  "sourceAuthor_zh": "张择端（1085–1145）",
   "sourceCollection": "Palace Museum, Beijing (via Wikimedia Commons)",
   "sourceLicense": "Public Domain"
 }
