@@ -28,12 +28,18 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
   const [rawSliceSourceFiles, setRawSliceSourceFiles] = useState([]);
   const [sliceMode, setSliceMode] = useState("aspect");
   const [sliceCount, setSliceCount] = useState(6);
-  const [customCuts, setCustomCuts] = useState([]);
+  const [customCutsByFile, setCustomCutsByFile] = useState({});
+  const customCuts = useMemo(() => customCutsByFile[0] || [], [customCutsByFile]);
   const [rawSlicePreviews, setRawSlicePreviews] = useState([]);
   const [rawSlicePreviewUrl, setRawSlicePreviewUrl] = useState("");
   const [rawSliceNaturalSize, setRawSliceNaturalSize] = useState(null);
-  const [customDragCutIndex, setCustomDragCutIndex] = useState(null);
+  const [customDragState, setCustomDragState] = useState(null);
+  const customDragCutIndex = customDragState?.cutIndex ?? null;
+  const setCustomDragCutIndex = useCallback((cutIndex) => {
+    setCustomDragState(cutIndex == null ? null : { fileIndex: 0, cutIndex });
+  }, []);
   const rawSlicePreviewRef = useRef(null);
+  const rawSlicePreviewRefs = useRef({});
   const [previewFitMode, setPreviewFitMode] = useState("scroll");
   const [previewHeight, setPreviewHeight] = useState(280);
 
@@ -129,42 +135,133 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
 
   // === 4. カスタム cut 操作ハンドラ ===
 
-  const addCustomCutAtRatio = useCallback((ratio) => {
+  const setRawSlicePreviewRef = useCallback((fileIndex, el) => {
+    if (el) {
+      rawSlicePreviewRefs.current[fileIndex] = el;
+      if (fileIndex === 0) rawSlicePreviewRef.current = el;
+    } else {
+      delete rawSlicePreviewRefs.current[fileIndex];
+      if (fileIndex === 0) rawSlicePreviewRef.current = null;
+    }
+  }, []);
+
+  const addCustomCutAtRatio = useCallback((ratio, fileIndex = 0) => {
     const r = Math.max(0.01, Math.min(0.99, ratio));
-    setCustomCuts((prev) => {
-      if (prev.some((c) => Math.abs(c - r) < 0.01)) return prev;
-      return [...prev, r].sort((a, b) => a - b);
+    setCustomCutsByFile((prev) => {
+      const cuts = prev[fileIndex] || [];
+      if (cuts.some((c) => Math.abs(c - r) < 0.01)) return prev;
+      return { ...prev, [fileIndex]: [...cuts, r].sort((a, b) => a - b) };
     });
   }, []);
 
-  const initCustomCutsFromCount = useCallback(() => {
-    const N = Math.max(2, Math.floor(sliceCount));
-    const cuts = [];
-    for (let i = 1; i < N; i += 1) cuts.push(i / N);
-    setCustomCuts(cuts);
-  }, [sliceCount]);
+  const initCustomCutsFromCount = useCallback(
+    (fileIndex) => {
+      const N = Math.max(2, Math.floor(sliceCount));
+      const cuts = [];
+      for (let i = 1; i < N; i += 1) cuts.push(i / N);
+      setCustomCutsByFile((prev) => {
+        const next = { ...prev };
+        if (fileIndex === undefined || fileIndex === null) {
+          rawSliceSourceFiles.forEach((_, idx) => {
+            next[idx] = cuts;
+          });
+          return next;
+        }
+        next[fileIndex] = cuts;
+        return next;
+      });
+    },
+    [sliceCount, rawSliceSourceFiles]
+  );
 
-  const updateCustomCutRatio = useCallback((cutIndex, ratio) => {
+  const updateCustomCutRatio = useCallback((cutIndex, ratio, fileIndex = 0) => {
     const r = Math.max(0.01, Math.min(0.99, ratio));
-    setCustomCuts((prev) => prev.map((c, i) => (i === cutIndex ? r : c)));
+    setCustomCutsByFile((prev) => {
+      const cuts = prev[fileIndex] || [];
+      return {
+        ...prev,
+        [fileIndex]: cuts.map((c, i) => (i === cutIndex ? r : c)),
+      };
+    });
   }, []);
 
-  const removeCustomCutAt = useCallback((cutIndex) => {
-    setCustomCuts((prev) => prev.filter((_, i) => i !== cutIndex));
+  const removeCustomCutAt = useCallback((cutIndex, fileIndex = 0) => {
+    setCustomCutsByFile((prev) => {
+      const cuts = prev[fileIndex] || [];
+      return { ...prev, [fileIndex]: cuts.filter((_, i) => i !== cutIndex) };
+    });
   }, []);
 
-  const resolveCutRatioAtClientX = useCallback((clientX) => {
-    return ratioFromPointerOnElement(clientX, rawSlicePreviewRef.current);
+  const sortCustomCutsForFile = useCallback((fileIndex = 0) => {
+    setCustomCutsByFile((prev) => {
+      const cuts = prev[fileIndex];
+      if (!cuts?.length) return prev;
+      return { ...prev, [fileIndex]: [...cuts].sort((a, b) => a - b) };
+    });
+  }, []);
+
+  const clearAllCustomCuts = useCallback(() => {
+    setCustomCutsByFile({});
+  }, []);
+
+  const resolveCutRatioAtClientX = useCallback((clientX, fileIndex = 0) => {
+    const el =
+      rawSlicePreviewRefs.current[fileIndex] ??
+      (fileIndex === 0 ? rawSlicePreviewRef.current : null);
+    return ratioFromPointerOnElement(clientX, el);
   }, []);
 
   const handleRawSlicePreviewPointerMove = useCallback(
-    (e) => {
-      if (customDragCutIndex == null) return;
-      const ratio = ratioFromPointerOnElement(e.clientX, rawSlicePreviewRef.current);
+    (e, fileIndex = 0) => {
+      if (!customDragState || customDragState.fileIndex !== fileIndex) return;
+      const el =
+        rawSlicePreviewRefs.current[fileIndex] ??
+        (fileIndex === 0 ? rawSlicePreviewRef.current : null);
+      const ratio = ratioFromPointerOnElement(e.clientX, el);
       if (ratio == null) return;
-      updateCustomCutRatio(customDragCutIndex, ratio);
+      updateCustomCutRatio(customDragState.cutIndex, ratio, fileIndex);
     },
-    [customDragCutIndex, updateCustomCutRatio]
+    [customDragState, updateCustomCutRatio]
+  );
+
+  const getPreviewIntervalsForFile = useCallback(
+    (fileIndex) => {
+      const preview = rawSlicePreviews[fileIndex];
+      if (!preview?.width || !preview?.height) return [];
+      const { width, height } = preview;
+      const cuts = customCutsByFile[fileIndex] || [];
+      let intervals;
+      if (sliceMode === "count") {
+        intervals = buildIntervalsCount(sliceCount, overlapPercent);
+      } else if (sliceMode === "custom") {
+        intervals = buildIntervalsCustom(cuts);
+      } else {
+        intervals = buildIntervalsAspect(width, height, sliceAspectRatio, overlapPercent);
+      }
+      return orderIntervalsForRtl(intervals, isRtlSlice);
+    },
+    [
+      rawSlicePreviews,
+      customCutsByFile,
+      sliceMode,
+      sliceCount,
+      overlapPercent,
+      sliceAspectRatio,
+      isRtlSlice,
+    ]
+  );
+
+  const getPreviewBoundaryRatiosForFile = useCallback(
+    (fileIndex) => {
+      const intervals = getPreviewIntervalsForFile(fileIndex);
+      const pts = new Set();
+      intervals.forEach(([s, e]) => {
+        if (s > 0.0001) pts.add(s);
+        if (e < 0.9999) pts.add(e);
+      });
+      return [...pts].sort((a, b) => a - b);
+    },
+    [getPreviewIntervalsForFile]
   );
 
   // === 5. 元画像追加と自動スライス実行 ===
@@ -181,9 +278,16 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
       setSliceGenMessage("元画像を選択してください");
       return;
     }
-    if (sliceMode === "custom" && customCuts.length === 0) {
-      setSliceGenMessage("自由区切りモードでは区切り線を1本以上指定してください");
-      return;
+    if (sliceMode === "custom") {
+      const missingIdx = rawSliceSourceFiles.findIndex(
+        (_, i) => (customCutsByFile[i] || []).length === 0
+      );
+      if (missingIdx >= 0) {
+        setSliceGenMessage(
+          `自由区切り: 画像 #${missingIdx + 1} に区切り線を1本以上指定してください`
+        );
+        return;
+      }
     }
     setIsSlicing(true);
     setSliceGenMessage("");
@@ -201,6 +305,7 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
         sliceMode,
         sliceCount,
         customCuts,
+        customCutsByFile,
         sliceWarnings,
       });
       if (generated.length === 0) {
@@ -244,6 +349,7 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
     sliceMode,
     sliceCount,
     customCuts,
+    customCutsByFile,
     batchOutputTargetHeight,
     setImageItems,
   ]);
@@ -275,15 +381,23 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
     sliceCount,
     setSliceCount,
     customCuts,
-    setCustomCuts,
+    customCutsByFile,
+    setCustomCutsByFile,
+    clearAllCustomCuts,
+    sortCustomCutsForFile,
     rawSlicePreviews,
     rawSlicePreviewUrl,
     rawSliceNaturalSize,
+    customDragState,
+    setCustomDragState,
     customDragCutIndex,
     setCustomDragCutIndex,
     rawSlicePreviewRef,
+    setRawSlicePreviewRef,
     previewIntervals,
     previewBoundaryRatios,
+    getPreviewIntervalsForFile,
+    getPreviewBoundaryRatiosForFile,
     addCustomCutAtRatio,
     initCustomCutsFromCount,
     updateCustomCutRatio,

@@ -244,6 +244,7 @@ export async function sliceRawImagesToFiles(
     sliceMode = "aspect",
     sliceCount = 6,
     customCuts = [],
+    customCutsByFile,
     highResMode = false,
     sliceWarnings = [],
   }: {
@@ -256,6 +257,7 @@ export async function sliceRawImagesToFiles(
     sliceMode?: string;
     sliceCount?: number;
     customCuts?: number[];
+    customCutsByFile?: Record<number, number[]>;
     highResMode?: boolean;
     sliceWarnings?: { sliceIndex: number; outputWidth: number }[];
   }
@@ -279,14 +281,17 @@ export async function sliceRawImagesToFiles(
     highRes
   );
 
-  for (const { img } of loaded) {
+  for (let fileIdx = 0; fileIdx < loaded.length; fileIdx += 1) {
+    const { img } = loaded[fileIdx];
     const srcHeight = img.naturalHeight;
     const w = img.naturalWidth;
+    const cutsForFile =
+      customCutsByFile?.[fileIdx] ?? (fileIdx === 0 ? customCuts : []);
     let intervals;
     if (sliceMode === "count") {
       intervals = buildIntervalsCount(sliceCount, overlapPercent);
     } else if (sliceMode === "custom") {
-      intervals = buildIntervalsCustom(customCuts);
+      intervals = buildIntervalsCustom(cutsForFile);
     } else {
       intervals = buildIntervalsAspect(w, srcHeight, sliceAspectRatio, overlapPercent);
     }

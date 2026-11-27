@@ -354,45 +354,46 @@ def build_emakis_for_panels(config: dict, image_rows: list[dict]) -> list[dict]:
     seen_scene_ekotoba: set[int] = set()
 
     for panel in panels:
-        idx = int(panel["slice_range"][0])
+        start, end = int(panel["slice_range"][0]), int(panel["slice_range"][1])
         cid = int(panel["chapter_id"])
-        ir = by_index.get(idx)
-        if ir is None:
-            continue
+        for idx in range(start, end + 1):
+            ir = by_index.get(idx)
+            if ir is None:
+                continue
 
-        if cid not in seen_scene_ekotoba and idx == first_by_scene.get(cid, idx):
-            ekotoba: dict = {
-                "cat": "ekotoba",
-                "chapter": str(cid),
-                "config": "",
-                "src": "",
-                "name": "",
-                "srcHeight": "",
-                "srcWidth": "",
-                "scene_chapter": str(cid),
-                "chapter_pill": True,
+            if cid not in seen_scene_ekotoba and idx == first_by_scene.get(cid, idx):
+                ekotoba: dict = {
+                    "cat": "ekotoba",
+                    "chapter": str(cid),
+                    "config": "",
+                    "src": "",
+                    "name": "",
+                    "srcHeight": "",
+                    "srcWidth": "",
+                    "scene_chapter": str(cid),
+                    "chapter_pill": True,
+                }
+                scene = scenes_by_id.get(cid)
+                if scene and scene.get("genji_chapter") is not None:
+                    ekotoba["genji_chapter"] = str(scene["genji_chapter"])
+                emakis.append(ekotoba)
+                seen_scene_ekotoba.add(cid)
+
+            src = ir.get("src", "") or ""
+            if isinstance(src, str) and src.startswith("/"):
+                src = src.lstrip("/")
+            slot: dict = {
+                "cat": "image",
+                "chapter": str(panel["id"]),
+                "config": "cloudinary" if ir.get("src") else "",
+                "src": src,
+                "name": ir.get("public_id", ""),
+                "srcHeight": str(ir["height"]) if ir.get("height") else "",
+                "srcWidth": str(ir["width"]) if ir.get("width") else "",
+                "global_index": idx,
+                **_panel_slot_metadata(panel),
             }
-            scene = scenes_by_id.get(cid)
-            if scene and scene.get("genji_chapter") is not None:
-                ekotoba["genji_chapter"] = str(scene["genji_chapter"])
-            emakis.append(ekotoba)
-            seen_scene_ekotoba.add(cid)
-
-        src = ir.get("src", "") or ""
-        if isinstance(src, str) and src.startswith("/"):
-            src = src.lstrip("/")
-        slot: dict = {
-            "cat": "image",
-            "chapter": str(panel["id"]),
-            "config": "cloudinary" if ir.get("src") else "",
-            "src": src,
-            "name": ir.get("public_id", ""),
-            "srcHeight": str(ir["height"]) if ir.get("height") else "",
-            "srcWidth": str(ir["width"]) if ir.get("width") else "",
-            "global_index": idx,
-            **_panel_slot_metadata(panel),
-        }
-        emakis.append(slot)
+            emakis.append(slot)
     return emakis
 
 

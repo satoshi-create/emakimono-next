@@ -10,6 +10,7 @@
     "previewModeFit": "Fit to panel",
     "previewHeight": "Preview height (px)",
     "previewScrollHint": "Panorama images: scroll horizontally to edit cut lines at both ends",
+    "rawSlicePreviewAlt": "Source panorama preview {n}",
     "sliceWideBatchHint": "Some panels are extremely wide in output pixels—consider adding more cut lines.",
     "sliceWideItem": "Panel {index}: {outputWidth}px wide"
   }

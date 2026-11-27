@@ -487,15 +487,17 @@ function readScrollConfigForLocal(scrollId) {
     "scroll_config.yaml"
   );
   if (!fs.existsSync(configPath)) {
-    return { metadata: {}, scenes: [] };
+    return { metadata: {}, scenes: [], panels: [] };
   }
   const raw = fs.readFileSync(configPath, "utf8");
   const lines = raw.split("\n");
   let metaStart = -1;
   let scenesStart = -1;
+  let panelsStart = -1;
   for (let i = 0; i < lines.length; i++) {
     if (/^metadata:\s*$/.test(lines[i])) metaStart = i + 1;
     if (/^scenes:\s*$/.test(lines[i])) scenesStart = i + 1;
+    if (/^panels:\s*$/.test(lines[i])) panelsStart = i + 1;
   }
 
   const metadata = {};
@@ -564,6 +566,8 @@ function readScrollConfigForLocal(scrollId) {
   if (scenesStart >= 0) {
     let i = scenesStart;
     while (i < lines.length) {
+      if (panelsStart >= 0 && i >= panelsStart) break;
+      if (/^[a-zA-Z0-9_]+:\s*$/.test(lines[i])) break;
       const dash = lines[i].match(/^ {2}-\s*(.*)$/);
       if (!dash) {
         i++;
@@ -589,8 +593,8 @@ function readScrollConfigForLocal(scrollId) {
         }
         const skey = sm[1];
         const srest = sm[2].trim();
-        if (skey === "text" && srest === "") {
-          scene.text = {};
+        if ((skey === "text" || skey === "summary") && srest === "") {
+          scene[skey] = {};
           i++;
           while (i < lines.length && /^ {6}[a-zA-Z0-9_]+:/.test(lines[i])) {
             const tm = lines[i].match(/^ {6}([a-zA-Z0-9_]+):\s*(.*)$/);
@@ -603,10 +607,10 @@ function readScrollConfigForLocal(scrollId) {
                 i + 1,
                 8
               );
-              scene.text[tkey] = value;
+              scene[skey][tkey] = value;
               i = nextIndex;
             } else {
-              scene.text[tkey] = unquoteYamlScalar(trest);
+              scene[skey][tkey] = unquoteYamlScalar(trest);
               i++;
             }
           }
@@ -616,12 +620,234 @@ function readScrollConfigForLocal(scrollId) {
         else if (srest !== "") scene[skey] = unquoteYamlScalar(srest);
         i++;
       }
-      if (scene.id != null && scene.id !== "") {
+      if (scene.id != null && scene.id !== "" && Array.isArray(scene.range)) {
         scenes.push(scene);
       }
     }
   }
-  return { metadata, scenes };
+
+  const panels = [];
+  if (panelsStart >= 0) {
+    let i = panelsStart;
+    while (i < lines.length) {
+      if (/^[a-zA-Z0-9_]+:\s*$/.test(lines[i])) break;
+      const dash = lines[i].match(/^ {2}-\s*(.*)$/);
+      if (!dash) {
+        i++;
+        continue;
+      }
+      const panel = {};
+      const head = dash[1].trim();
+      if (head) {
+        const hm = head.match(/^([a-zA-Z0-9_]+):\s*(.*)$/);
+        if (hm) {
+          const hv = hm[2].trim();
+          if (hv.startsWith("[")) panel[hm[1]] = parseBracketArray(hv);
+          else panel[hm[1]] = unquoteYamlScalar(hv);
+        }
+      }
+      i++;
+      while (i < lines.length && !/^ {2}-\s/.test(lines[i])) {
+        if (!/^ {4}[a-zA-Z0-9_]+:/.test(lines[i])) break;
+        const sm = lines[i].match(/^ {4}([a-zA-Z0-9_]+):\s*(.*)$/);
+        if (!sm) {
+          i++;
+          continue;
+        }
+        const skey = sm[1];
+        const srest = sm[2].trim();
+        if ((skey === "text" || skey === "summary") && srest === "") {
+          panel[skey] = {};
+          i++;
+          while (i < lines.length && /^ {6}[a-zA-Z0-9_]+:/.test(lines[i])) {
+            const tm = lines[i].match(/^ {6}([a-zA-Z0-9_]+):\s*(.*)$/);
+            if (!tm) break;
+            const tkey = tm[1];
+            const trest = tm[2].trim();
+            if (trest === "|" || trest === ">" || trest === "") {
+              const { value, nextIndex } = readYamlBlockScalar(
+                lines,
+                i + 1,
+                8
+              );
+              panel[skey][tkey] = value;
+              i = nextIndex;
+            } else {
+              panel[skey][tkey] = unquoteYamlScalar(trest);
+              i++;
+            }
+          }
+          continue;
+        }
+        if (srest.startsWith("[")) panel[skey] = parseBracketArray(srest);
+        else if (srest !== "") panel[skey] = unquoteYamlScalar(srest);
+        i++;
+      }
+      const sliceRange = panel.slice_range || panel.range;
+      if (panel.id != null && panel.id !== "" && Array.isArray(sliceRange)) {
+        panels.push(panel);
+      }
+    }
+  }
+  return { metadata, scenes, panels };
+}
+
+const PANEL_META_KEYS = [
+  "panel_number",
+  "embroidered_mark",
+  "latin_inscription",
+  "latin_translation_ja",
+  "latin_translation_en",
+  "title",
+  "titleen",
+  "title_zh",
+  "summary",
+  "actors",
+  "location",
+  "motifs",
+  "border_motifs",
+];
+
+function getPanelsConfig(rawPanels) {
+  const panels = [];
+  for (const p of rawPanels || []) {
+    if (!p || typeof p !== "object") continue;
+    const sliceRange = p.slice_range || p.range;
+    if (!Array.isArray(sliceRange) || sliceRange.length < 2) continue;
+    const start = Number(sliceRange[0]);
+    const end = Number(sliceRange[1]);
+    const panel = {
+      id: Number(p.id ?? start),
+      chapter_id: Number(p.chapter_id ?? p.scene_id ?? 1),
+      slice_range: [start, end],
+    };
+    for (const key of PANEL_META_KEYS) {
+      if (p[key] != null) panel[key] = p[key];
+    }
+    panels.push(panel);
+  }
+  panels.sort(
+    (a, b) =>
+      a.slice_range[0] - b.slice_range[0] || a.id - b.id
+  );
+  return panels;
+}
+
+function buildViewerChapters(sceneList) {
+  return sceneList
+    .filter((s) => Array.isArray(s.range) && s.range.length >= 2)
+    .map((scene) => {
+      const row = {
+        chapter: String(scene.id ?? scene.chapter),
+        title: scene.title ?? "",
+        range: [Number(scene.range[0]), Number(scene.range[1])],
+      };
+      if (scene.titleen) row.titleen = scene.titleen;
+      if (scene.title_zh) row.title_zh = scene.title_zh;
+      return row;
+    });
+}
+
+function buildPanelsForViewer(panels) {
+  return panels.map((panel) => {
+    const entry = { ...panel };
+    entry.slice_range = [...panel.slice_range];
+    return entry;
+  });
+}
+
+function sceneFirstGlobalIndex(panels) {
+  const out = {};
+  for (const panel of panels) {
+    const cid = panel.chapter_id;
+    const start = panel.slice_range[0];
+    out[cid] = Math.min(out[cid] ?? start, start);
+  }
+  return out;
+}
+
+function panelSlotMetadata(panel) {
+  const meta = {
+    panel_id: panel.id,
+    scene_chapter: String(panel.chapter_id),
+  };
+  for (const key of PANEL_META_KEYS) {
+    if (key in panel) meta[key] = panel[key];
+  }
+  return meta;
+}
+
+function buildEmakisForPanelsLocal(
+  sceneList,
+  panels,
+  imageFiles,
+  devBase,
+  scrollId
+) {
+  const scenesById = {};
+  sceneList.forEach((s) => {
+    const id = Number(s.id ?? s.chapter);
+    if (Number.isFinite(id)) scenesById[id] = s;
+  });
+  const firstByScene = sceneFirstGlobalIndex(panels);
+  const seenSceneEkotoba = new Set();
+  const emakis = [];
+
+  panels.forEach((panel) => {
+    const [start, end] = panel.slice_range;
+    const cid = panel.chapter_id;
+
+    for (let idx = start; idx <= end; idx += 1) {
+      const imgIdx = idx - 1;
+      const filename = imageFiles[imgIdx];
+      if (!filename) continue;
+
+      if (
+        !seenSceneEkotoba.has(cid) &&
+        idx === (firstByScene[cid] ?? idx)
+      ) {
+        const ekotoba = {
+          cat: "ekotoba",
+          chapter: String(cid),
+          config: "",
+          src: "",
+          name: "",
+          srcHeight: 1080,
+          srcWidth: 1920,
+          scene_chapter: String(cid),
+          chapter_pill: true,
+        };
+        const scene = scenesById[cid];
+        if (scene?.genji_chapter != null) {
+          ekotoba.genji_chapter = String(scene.genji_chapter);
+        }
+        emakis.push(ekotoba);
+        seenSceneEkotoba.add(cid);
+      }
+
+      const imagePath = path.join(
+        process.cwd(),
+        "scrolls",
+        scrollId,
+        "images",
+        filename
+      );
+      const { width, height } = readImageDimensions(imagePath);
+      emakis.push({
+        cat: "image",
+        chapter: String(panel.id),
+        config: "local",
+        src: `${devBase}/${filename}`,
+        name: path.parse(filename).name,
+        srcHeight: height,
+        srcWidth: width,
+        global_index: idx,
+        ...panelSlotMetadata(panel),
+      });
+    }
+  });
+
+  return emakis;
 }
 
 function readImageDimensionsFromBuffer(buf) {
@@ -702,9 +928,11 @@ function listSortedScrollImages(scrollId) {
     .sort();
 }
 
-function executeLocalVerification(scrollId, titleen, metadata, scenes) {
+function executeLocalVerification(scrollId, titleen, metadata, scenes, panels) {
   const meta = metadata && typeof metadata === "object" ? { ...metadata } : {};
   const sceneList = Array.isArray(scenes) ? scenes : [];
+  const panelConfig = getPanelsConfig(Array.isArray(panels) ? panels : []);
+  const usePanels = panelConfig.length > 0;
   const imageFiles = listSortedScrollImages(scrollId);
 
   copyScrollImagesToPublicDev(scrollId, titleen);
@@ -738,12 +966,14 @@ function executeLocalVerification(scrollId, titleen, metadata, scenes) {
     filename,
   }));
 
-  const chapters = sceneList.map((scene, idx) => ({
-    chapter: String(scene.id ?? scene.chapter ?? idx + 1),
-    title: scene.title ?? "",
-    titleen: scene.titleen ?? "",
-    range: scene.range ?? null,
-  }));
+  const chapters = usePanels
+    ? buildViewerChapters(sceneList)
+    : sceneList.map((scene, idx) => ({
+        chapter: String(scene.id ?? scene.chapter ?? idx + 1),
+        title: scene.title ?? "",
+        titleen: scene.titleen ?? "",
+        range: scene.range ?? null,
+      }));
 
   const sceneStartMap = new Map();
   if (sceneList.length > 0) {
@@ -780,30 +1010,40 @@ function executeLocalVerification(scrollId, titleen, metadata, scenes) {
     });
   }
 
-  const emakis = [];
-  imageFiles.forEach((filename, imgIdx) => {
-    const pageNum = imgIdx + 1;
-    if (sceneStartMap.has(pageNum)) {
-      emakis.push(sceneStartMap.get(pageNum));
-    }
-    const imagePath = path.join(
-      process.cwd(),
-      "scrolls",
-      scrollId,
-      "images",
-      filename
-    );
-    const { width, height } = readImageDimensions(imagePath);
-    emakis.push({
-      cat: "image",
-      chapter: "",
-      config: "local",
-      src: `${devBase}/${filename}`,
-      name: path.parse(filename).name,
-      srcHeight: height,
-      srcWidth: width,
+  const emakis = usePanels
+    ? buildEmakisForPanelsLocal(
+        sceneList,
+        panelConfig,
+        imageFiles,
+        devBase,
+        scrollId
+      )
+    : [];
+  if (!usePanels) {
+    imageFiles.forEach((filename, imgIdx) => {
+      const pageNum = imgIdx + 1;
+      if (sceneStartMap.has(pageNum)) {
+        emakis.push(sceneStartMap.get(pageNum));
+      }
+      const imagePath = path.join(
+        process.cwd(),
+        "scrolls",
+        scrollId,
+        "images",
+        filename
+      );
+      const { width, height } = readImageDimensions(imagePath);
+      emakis.push({
+        cat: "image",
+        chapter: "",
+        config: "local",
+        src: `${devBase}/${filename}`,
+        name: path.parse(filename).name,
+        srcHeight: height,
+        srcWidth: width,
+      });
     });
-  });
+  }
 
   const kw = meta.keyword ?? meta.keywords;
   const keyword = Array.isArray(kw)
@@ -848,6 +1088,7 @@ function executeLocalVerification(scrollId, titleen, metadata, scenes) {
     images,
     chapters,
     emakis,
+    ...(usePanels ? { panels: buildPanelsForViewer(panelConfig) } : {}),
   };
 
   const scrollsMetaDir = path.join(
@@ -966,6 +1207,7 @@ export default async function handler(req, res) {
     scrollId: bodyScrollId,
     metadata,
     scenes,
+    panels: bodyPanels,
     images,
     dryRun,
     rawYaml,
@@ -1024,6 +1266,7 @@ export default async function handler(req, res) {
           ? parsedYaml.metadata
           : parsedYaml;
       const yamlScenes = Array.isArray(parsedYaml.scenes) ? parsedYaml.scenes : [];
+      const yamlPanels = Array.isArray(parsedYaml.panels) ? parsedYaml.panels : [];
 
       if (uploadMode === "local") {
         if (preflightOnly === true) {
@@ -1048,7 +1291,8 @@ export default async function handler(req, res) {
           scrollId,
           titleen,
           { ...rawMeta, titleen },
-          yamlScenes
+          yamlScenes,
+          yamlPanels
         );
         return res.status(200).json({
           ok: true,
@@ -1150,6 +1394,7 @@ export default async function handler(req, res) {
         ? metadata.titleen
         : scrollId;
     const sceneList = Array.isArray(scenes) ? scenes : [];
+    const panelList = Array.isArray(bodyPanels) ? bodyPanels : [];
 
     if (uploadMode === "local") {
       if (preflightOnly === true) {
@@ -1169,7 +1414,8 @@ export default async function handler(req, res) {
         scrollId,
         titleen,
         { ...metadata, titleen },
-        sceneList
+        sceneList,
+        panelList
       );
       return res.status(200).json({
         ok: true,

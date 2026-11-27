@@ -2,21 +2,21 @@
   "id": 110,
   "title": "バイユーのタペストリー（場面1〜4テスト版）",
   "titleen": "bayeux_tapestry",
+  "title_zh": "贝叶挂毯（第1–4场面测试版）",
   "author": "オド司教（制作依頼・伝）",
   "authoren": "bishop-odo-of-bayeux",
+  "author_zh": "巴约主教厄德（传委托制作）",
   "era": "中世（11世紀）",
   "eraen": "medieval",
+  "era_zh": "中世纪（11世纪）",
   "type": "刺繍絵巻（タペストリー）",
   "typeen": "tapestry",
+  "type_zh": "刺绣长卷（挂毯）",
   "desc": "1066年のノルマン・コンクエスト（ウィリアム征服王によるイングランド征服）に至る一連の出来事を描いた、全長約70メートルにおよぶ中世ヨーロッパの記念碑的刺繍作品です。左から右へ物語が展開する横スクロール構成で、本テスト版では原本の場面1〜4（エドワード懺悔王の宮廷からボシャムでの祈りと宴・出航準備まで）を、大分類の「章（Chapter）」と原本刺繍番号に基づく「場面（Panel）」に分離して収録しています。",
   "descen": "A monumental 11th-century embroidered cloth nearly 70 meters long depicting the events leading up to the Norman Conquest of England in 1066. Presented in left-to-right (LTR) horizontal scroll format, this test edition covers original Tapestry Panels 1 to 4 (from King Edward the Confessor's court to Bosham church and departure), separating narrative Chapters from original embroidered Scene Panels for structured analysis.",
-  "title_zh": "贝叶挂毯（第1–4场面测试版）",
-  "author_zh": "巴约主教厄德（传委托制作）",
-  "era_zh": "中世纪（11世纪）",
-  "type_zh": "刺绣长卷（挂毯）",
   "desc_zh": "全长约70米的中世纪欧洲纪念碑式刺绣长卷，描绘了1066年诺曼征服（征服者威廉入主英格兰）前后的历史风云。本测试版采用从左至右（LTR）横向卷轴阅读模式，收录原绣第1至第4场面（从忏悔者爱德华宫廷到博舍姆教堂祈祷与启航），并将宏观的“章（Chapter）”与原绣编号对应的“场面（Panel）”分离设计。",
   "thumb": "/thumb/bayeux_tapestry_thumb.webp",
-  "sceneText": true,
+  "sceneText": "true",
   "sourceImage": "バイユーのタペストリー（バイユー・タペストリー美術館蔵）",
   "sourceImageUrl": "https://commons.wikimedia.org/wiki/Bayeux_Tapestry",
   "sourceAuthor": "11世紀アングロ・ノルマン工房（デジタル化：Wikimedia Commons）",
@@ -68,6 +68,21 @@
       "chapter": "4",
       "src": "/dev-scroll-images/bayeux_tapestry/bayeux-tapestry_04-1080.jpg",
       "filename": "bayeux-tapestry_04-1080.jpg"
+    },
+    {
+      "chapter": "5",
+      "src": "/dev-scroll-images/bayeux_tapestry/bayeux-tapestry_05-1080.jpg",
+      "filename": "bayeux-tapestry_05-1080.jpg"
+    },
+    {
+      "chapter": "6",
+      "src": "/dev-scroll-images/bayeux_tapestry/bayeux-tapestry_06-1080.jpg",
+      "filename": "bayeux-tapestry_06-1080.jpg"
+    },
+    {
+      "chapter": "7",
+      "src": "/dev-scroll-images/bayeux_tapestry/bayeux-tapestry_07-1080.jpg",
+      "filename": "bayeux-tapestry_07-1080.jpg"
     }
   ],
   "chapters": [
@@ -76,156 +91,10 @@
       "title": "第1章：エドワード懺悔王の宮廷とハロルドの旅立ち",
       "range": [
         1,
-        4
+        7
       ],
       "titleen": "Chapter 1: King Edward's Court & Harold's Departure",
       "title_zh": "第一章：忏悔者爱德华宫廷与哈罗德启程"
-    }
-  ],
-  "panels": [
-    {
-      "id": 1,
-      "chapter_id": 1,
-      "panel_number": 1,
-      "embroidered_mark": "I.",
-      "latin_inscription": "EDWARD REX",
-      "latin_translation_ja": "エドワード王",
-      "latin_translation_en": "King Edward",
-      "title": "場面1（I.）：エドワード懺悔王の謁見",
-      "titleen": "Panel 1 (I.): Audience with King Edward the Confessor",
-      "title_zh": "场面1（I.）：忏悔者爱德华召见哈罗德",
-      "summary": {
-        "desc": "ウェストミンスターの宮殿の玉座に座る老王エドワード懺悔王が、ウェセックス伯ハロルドと対面して語りかけ、大陸（ノルマンディー）への使節としての任務を託す冒頭場面です。",
-        "descen": "Seated on his throne at Westminster Palace, the aging King Edward the Confessor speaks with Harold, Earl of Wessex, entrusting him with a mission across the Channel.",
-        "desc_zh": "年迈的忏悔者爱德华端坐于威斯敏斯特宫宝座之上，与威塞克斯伯爵哈罗德面谈并嘱托使命。"
-      },
-      "actors": [
-        "edward-the-confessor",
-        "harold-godwinson"
-      ],
-      "location": "Westminster, England",
-      "motifs": [
-        "palace",
-        "throne",
-        "royal-audience"
-      ],
-      "border_motifs": [
-        "birds",
-        "lions",
-        "mythical-beasts"
-      ],
-      "slice_range": [
-        1,
-        1
-      ]
-    },
-    {
-      "id": 2,
-      "chapter_id": 1,
-      "panel_number": 2,
-      "embroidered_mark": "2.",
-      "latin_inscription": "UBI HAROLD DUX ANGLORUM ET SUI MILITES EQUITANT AD BOSHAM",
-      "latin_translation_ja": "イングランド公ハロルドとその騎士たちがボシャムへ馬で向かうところ",
-      "latin_translation_en": "Where Harold, Duke of the English, and his knights ride to Bosham",
-      "title": "場面2（2.）：ボシャムへの騎馬行進",
-      "titleen": "Panel 2 (2.): Harold and His Knights Ride to Bosham",
-      "title_zh": "场面2（2.）：哈罗德与骑士团骑马前往博舍姆",
-      "summary": {
-        "desc": "左手に鷹を据え、先頭に猟犬を走らせながら、ハロルドとその従者たちがイングランド南岸の所領ボシャムへ向かって馬を進める場面です。",
-        "descen": "Bearing a hawk on his wrist and preceded by hunting hounds, Harold rides with his retinue toward his coastal estate at Bosham.",
-        "desc_zh": "哈罗德手架猎鹰、前有猎犬引路，率领骑士随从骑马前往英格兰南部沿海领地博舍姆。"
-      },
-      "actors": [
-        "harold-godwinson",
-        "anglo-saxon-knights"
-      ],
-      "location": "Road to Bosham, Sussex",
-      "motifs": [
-        "horses",
-        "hawks",
-        "hounds",
-        "procession"
-      ],
-      "border_motifs": [
-        "dogs",
-        "birds",
-        "scrollwork"
-      ],
-      "slice_range": [
-        2,
-        2
-      ]
-    },
-    {
-      "id": 3,
-      "chapter_id": 1,
-      "panel_number": 3,
-      "embroidered_mark": "3.",
-      "latin_inscription": "ECCLESIA",
-      "latin_translation_ja": "教会",
-      "latin_translation_en": "Church",
-      "title": "場面3（3.）：ボシャム教会での祈り",
-      "titleen": "Panel 3 (3.): Prayer at Bosham Church",
-      "title_zh": "场面3（3.）：博舍姆教堂祈祷",
-      "summary": {
-        "desc": "渡海の無事を祈願するため、ハロルドと従者がボシャムの聖トリニティ教会へ足を踏み入れ祈りを捧げる場面です。",
-        "descen": "Before embarking on the sea voyage, Harold and a companion enter Bosham Church to pray for a safe crossing.",
-        "desc_zh": "为祈求渡海平安，哈罗德与随从步入博舍姆教堂虔诚祈祷。"
-      },
-      "actors": [
-        "harold-godwinson"
-      ],
-      "location": "Bosham Church, Sussex",
-      "motifs": [
-        "church",
-        "architecture",
-        "prayer"
-      ],
-      "border_motifs": [
-        "birds",
-        "fantastic-creatures"
-      ],
-      "slice_range": [
-        3,
-        3
-      ]
-    },
-    {
-      "id": 4,
-      "chapter_id": 1,
-      "panel_number": 4,
-      "embroidered_mark": "4.",
-      "latin_inscription": "HIC HAROLD MARE NAVIGAVIT",
-      "latin_translation_ja": "ここでハロルドは海を航行した",
-      "latin_translation_en": "Here Harold sailed the sea",
-      "title": "場面4（4.）：ボシャムの宴と出航",
-      "titleen": "Panel 4 (4.): Feast at Bosham and Embarkation",
-      "title_zh": "场面4（4.）：博舍姆宴饮与扬帆出海",
-      "summary": {
-        "desc": "ボシャムの館の2階で角杯を傾けて宴を開いた後、出航の合図を受けて裸足で浅瀬を歩き、鷹と猟犬を抱えて船に乗り込み英仏海峡へ漕ぎ出す場面です。",
-        "descen": "After feasting with drinking horns in the upper hall at Bosham, Harold and his men wade barefoot into the shallows carrying hawks and hounds to board their ship and set sail.",
-        "desc_zh": "在博舍姆宅邸二层举角杯宴饮后，哈罗德与随从赤足涉水、怀抱猎鹰与猎犬登船，扬帆驶向英吉利海峡。"
-      },
-      "actors": [
-        "harold-godwinson",
-        "sailors"
-      ],
-      "location": "Bosham Harbour / English Channel",
-      "motifs": [
-        "feast",
-        "drinking-horn",
-        "ship",
-        "embarkation"
-      ],
-      "border_motifs": [
-        "fables",
-        "animals",
-        "marine-motifs"
-      ],
-      "slice_range": [
-        4,
-        4
-      ]
     }
   ],
   "emakis": [
@@ -235,8 +104,8 @@
       "config": "",
       "src": "",
       "name": "",
-      "srcHeight": "",
-      "srcWidth": "",
+      "srcHeight": 1080,
+      "srcWidth": 1920,
       "scene_chapter": "1",
       "chapter_pill": true
     },
@@ -247,18 +116,18 @@
       "src": "/dev-scroll-images/bayeux_tapestry/bayeux-tapestry_01-1080.jpg",
       "name": "bayeux-tapestry_01-1080",
       "srcHeight": 1080,
-      "srcWidth": 1222,
+      "srcWidth": 978,
       "global_index": 1,
       "panel_id": 1,
       "scene_chapter": "1",
-      "title": "場面1（I.）：エドワード懺悔王の謁見",
-      "titleen": "Panel 1 (I.): Audience with King Edward the Confessor",
-      "title_zh": "场面1（I.）：忏悔者爱德华召见哈罗德",
       "panel_number": 1,
       "embroidered_mark": "I.",
       "latin_inscription": "EDWARD REX",
       "latin_translation_ja": "エドワード王",
       "latin_translation_en": "King Edward",
+      "title": "場面1（I.）：エドワード懺悔王の謁見",
+      "titleen": "Panel 1 (I.): Audience with King Edward the Confessor",
+      "title_zh": "场面1（I.）：忏悔者爱德华召见哈罗德",
       "summary": {
         "desc": "ウェストミンスターの宮殿の玉座に座る老王エドワード懺悔王が、ウェセックス伯ハロルドと対面して語りかけ、大陸（ノルマンディー）への使節としての任務を託す冒頭場面です。",
         "descen": "Seated on his throne at Westminster Palace, the aging King Edward the Confessor speaks with Harold, Earl of Wessex, entrusting him with a mission across the Channel.",
@@ -287,18 +156,18 @@
       "src": "/dev-scroll-images/bayeux_tapestry/bayeux-tapestry_02-1080.jpg",
       "name": "bayeux-tapestry_02-1080",
       "srcHeight": 1080,
-      "srcWidth": 1338,
+      "srcWidth": 1014,
       "global_index": 2,
       "panel_id": 2,
       "scene_chapter": "1",
-      "title": "場面2（2.）：ボシャムへの騎馬行進",
-      "titleen": "Panel 2 (2.): Harold and His Knights Ride to Bosham",
-      "title_zh": "场面2（2.）：哈罗德与骑士团骑马前往博舍姆",
       "panel_number": 2,
       "embroidered_mark": "2.",
       "latin_inscription": "UBI HAROLD DUX ANGLORUM ET SUI MILITES EQUITANT AD BOSHAM",
       "latin_translation_ja": "イングランド公ハロルドとその騎士たちがボシャムへ馬で向かうところ",
       "latin_translation_en": "Where Harold, Duke of the English, and his knights ride to Bosham",
+      "title": "場面2（2.）：ボシャムへの騎馬行進",
+      "titleen": "Panel 2 (2.): Harold and His Knights Ride to Bosham",
+      "title_zh": "场面2（2.）：哈罗德与骑士团骑马前往博舍姆",
       "summary": {
         "desc": "左手に鷹を据え、先頭に猟犬を走らせながら、ハロルドとその従者たちがイングランド南岸の所領ボシャムへ向かって馬を進める場面です。",
         "descen": "Bearing a hawk on his wrist and preceded by hunting hounds, Harold rides with his retinue toward his coastal estate at Bosham.",
@@ -328,18 +197,18 @@
       "src": "/dev-scroll-images/bayeux_tapestry/bayeux-tapestry_03-1080.jpg",
       "name": "bayeux-tapestry_03-1080",
       "srcHeight": 1080,
-      "srcWidth": 1913,
+      "srcWidth": 1504,
       "global_index": 3,
       "panel_id": 3,
       "scene_chapter": "1",
-      "title": "場面3（3.）：ボシャム教会での祈り",
-      "titleen": "Panel 3 (3.): Prayer at Bosham Church",
-      "title_zh": "场面3（3.）：博舍姆教堂祈祷",
       "panel_number": 3,
       "embroidered_mark": "3.",
       "latin_inscription": "ECCLESIA",
       "latin_translation_ja": "教会",
       "latin_translation_en": "Church",
+      "title": "場面3（3.）：ボシャム教会での祈り",
+      "titleen": "Panel 3 (3.): Prayer at Bosham Church",
+      "title_zh": "场面3（3.）：博舍姆教堂祈祷",
       "summary": {
         "desc": "渡海の無事を祈願するため、ハロルドと従者がボシャムの聖トリニティ教会へ足を踏み入れ祈りを捧げる場面です。",
         "descen": "Before embarking on the sea voyage, Harold and a companion enter Bosham Church to pray for a safe crossing.",
@@ -366,18 +235,287 @@
       "src": "/dev-scroll-images/bayeux_tapestry/bayeux-tapestry_04-1080.jpg",
       "name": "bayeux-tapestry_04-1080",
       "srcHeight": 1080,
-      "srcWidth": 295,
+      "srcWidth": 1272,
       "global_index": 4,
       "panel_id": 4,
       "scene_chapter": "1",
-      "title": "場面4（4.）：ボシャムの宴と出航",
-      "titleen": "Panel 4 (4.): Feast at Bosham and Embarkation",
-      "title_zh": "场面4（4.）：博舍姆宴饮与扬帆出海",
       "panel_number": 4,
       "embroidered_mark": "4.",
       "latin_inscription": "HIC HAROLD MARE NAVIGAVIT",
       "latin_translation_ja": "ここでハロルドは海を航行した",
       "latin_translation_en": "Here Harold sailed the sea",
+      "title": "場面4（4.）：ボシャムの宴と出航",
+      "titleen": "Panel 4 (4.): Feast at Bosham and Embarkation",
+      "title_zh": "场面4（4.）：博舍姆宴饮与扬帆出海",
+      "summary": {
+        "desc": "ボシャムの館の2階で角杯を傾けて宴を開いた後、出航の合図を受けて裸足で浅瀬を歩き、鷹と猟犬を抱えて船に乗り込み英仏海峡へ漕ぎ出す場面です。",
+        "descen": "After feasting with drinking horns in the upper hall at Bosham, Harold and his men wade barefoot into the shallows carrying hawks and hounds to board their ship and set sail.",
+        "desc_zh": "在博舍姆宅邸二层举角杯宴饮后，哈罗德与随从赤足涉水、怀抱猎鹰与猎犬登船，扬帆驶向英吉利海峡。"
+      },
+      "actors": [
+        "harold-godwinson",
+        "sailors"
+      ],
+      "location": "Bosham Harbour / English Channel",
+      "motifs": [
+        "feast",
+        "drinking-horn",
+        "ship",
+        "embarkation"
+      ],
+      "border_motifs": [
+        "fables",
+        "animals",
+        "marine-motifs"
+      ]
+    },
+    {
+      "cat": "image",
+      "chapter": "4",
+      "config": "local",
+      "src": "/dev-scroll-images/bayeux_tapestry/bayeux-tapestry_05-1080.jpg",
+      "name": "bayeux-tapestry_05-1080",
+      "srcHeight": 1080,
+      "srcWidth": 2432,
+      "global_index": 5,
+      "panel_id": 4,
+      "scene_chapter": "1",
+      "panel_number": 4,
+      "embroidered_mark": "4.",
+      "latin_inscription": "HIC HAROLD MARE NAVIGAVIT",
+      "latin_translation_ja": "ここでハロルドは海を航行した",
+      "latin_translation_en": "Here Harold sailed the sea",
+      "title": "場面4（4.）：ボシャムの宴と出航",
+      "titleen": "Panel 4 (4.): Feast at Bosham and Embarkation",
+      "title_zh": "场面4（4.）：博舍姆宴饮与扬帆出海",
+      "summary": {
+        "desc": "ボシャムの館の2階で角杯を傾けて宴を開いた後、出航の合図を受けて裸足で浅瀬を歩き、鷹と猟犬を抱えて船に乗り込み英仏海峡へ漕ぎ出す場面です。",
+        "descen": "After feasting with drinking horns in the upper hall at Bosham, Harold and his men wade barefoot into the shallows carrying hawks and hounds to board their ship and set sail.",
+        "desc_zh": "在博舍姆宅邸二层举角杯宴饮后，哈罗德与随从赤足涉水、怀抱猎鹰与猎犬登船，扬帆驶向英吉利海峡。"
+      },
+      "actors": [
+        "harold-godwinson",
+        "sailors"
+      ],
+      "location": "Bosham Harbour / English Channel",
+      "motifs": [
+        "feast",
+        "drinking-horn",
+        "ship",
+        "embarkation"
+      ],
+      "border_motifs": [
+        "fables",
+        "animals",
+        "marine-motifs"
+      ]
+    },
+    {
+      "cat": "image",
+      "chapter": "4",
+      "config": "local",
+      "src": "/dev-scroll-images/bayeux_tapestry/bayeux-tapestry_06-1080.jpg",
+      "name": "bayeux-tapestry_06-1080",
+      "srcHeight": 1080,
+      "srcWidth": 1064,
+      "global_index": 6,
+      "panel_id": 4,
+      "scene_chapter": "1",
+      "panel_number": 4,
+      "embroidered_mark": "4.",
+      "latin_inscription": "HIC HAROLD MARE NAVIGAVIT",
+      "latin_translation_ja": "ここでハロルドは海を航行した",
+      "latin_translation_en": "Here Harold sailed the sea",
+      "title": "場面4（4.）：ボシャムの宴と出航",
+      "titleen": "Panel 4 (4.): Feast at Bosham and Embarkation",
+      "title_zh": "场面4（4.）：博舍姆宴饮与扬帆出海",
+      "summary": {
+        "desc": "ボシャムの館の2階で角杯を傾けて宴を開いた後、出航の合図を受けて裸足で浅瀬を歩き、鷹と猟犬を抱えて船に乗り込み英仏海峡へ漕ぎ出す場面です。",
+        "descen": "After feasting with drinking horns in the upper hall at Bosham, Harold and his men wade barefoot into the shallows carrying hawks and hounds to board their ship and set sail.",
+        "desc_zh": "在博舍姆宅邸二层举角杯宴饮后，哈罗德与随从赤足涉水、怀抱猎鹰与猎犬登船，扬帆驶向英吉利海峡。"
+      },
+      "actors": [
+        "harold-godwinson",
+        "sailors"
+      ],
+      "location": "Bosham Harbour / English Channel",
+      "motifs": [
+        "feast",
+        "drinking-horn",
+        "ship",
+        "embarkation"
+      ],
+      "border_motifs": [
+        "fables",
+        "animals",
+        "marine-motifs"
+      ]
+    },
+    {
+      "cat": "image",
+      "chapter": "4",
+      "config": "local",
+      "src": "/dev-scroll-images/bayeux_tapestry/bayeux-tapestry_07-1080.jpg",
+      "name": "bayeux-tapestry_07-1080",
+      "srcHeight": 1080,
+      "srcWidth": 781,
+      "global_index": 7,
+      "panel_id": 4,
+      "scene_chapter": "1",
+      "panel_number": 4,
+      "embroidered_mark": "4.",
+      "latin_inscription": "HIC HAROLD MARE NAVIGAVIT",
+      "latin_translation_ja": "ここでハロルドは海を航行した",
+      "latin_translation_en": "Here Harold sailed the sea",
+      "title": "場面4（4.）：ボシャムの宴と出航",
+      "titleen": "Panel 4 (4.): Feast at Bosham and Embarkation",
+      "title_zh": "场面4（4.）：博舍姆宴饮与扬帆出海",
+      "summary": {
+        "desc": "ボシャムの館の2階で角杯を傾けて宴を開いた後、出航の合図を受けて裸足で浅瀬を歩き、鷹と猟犬を抱えて船に乗り込み英仏海峡へ漕ぎ出す場面です。",
+        "descen": "After feasting with drinking horns in the upper hall at Bosham, Harold and his men wade barefoot into the shallows carrying hawks and hounds to board their ship and set sail.",
+        "desc_zh": "在博舍姆宅邸二层举角杯宴饮后，哈罗德与随从赤足涉水、怀抱猎鹰与猎犬登船，扬帆驶向英吉利海峡。"
+      },
+      "actors": [
+        "harold-godwinson",
+        "sailors"
+      ],
+      "location": "Bosham Harbour / English Channel",
+      "motifs": [
+        "feast",
+        "drinking-horn",
+        "ship",
+        "embarkation"
+      ],
+      "border_motifs": [
+        "fables",
+        "animals",
+        "marine-motifs"
+      ]
+    }
+  ],
+  "panels": [
+    {
+      "id": 1,
+      "chapter_id": 1,
+      "slice_range": [
+        1,
+        1
+      ],
+      "panel_number": 1,
+      "embroidered_mark": "I.",
+      "latin_inscription": "EDWARD REX",
+      "latin_translation_ja": "エドワード王",
+      "latin_translation_en": "King Edward",
+      "title": "場面1（I.）：エドワード懺悔王の謁見",
+      "titleen": "Panel 1 (I.): Audience with King Edward the Confessor",
+      "title_zh": "场面1（I.）：忏悔者爱德华召见哈罗德",
+      "summary": {
+        "desc": "ウェストミンスターの宮殿の玉座に座る老王エドワード懺悔王が、ウェセックス伯ハロルドと対面して語りかけ、大陸（ノルマンディー）への使節としての任務を託す冒頭場面です。",
+        "descen": "Seated on his throne at Westminster Palace, the aging King Edward the Confessor speaks with Harold, Earl of Wessex, entrusting him with a mission across the Channel.",
+        "desc_zh": "年迈的忏悔者爱德华端坐于威斯敏斯特宫宝座之上，与威塞克斯伯爵哈罗德面谈并嘱托使命。"
+      },
+      "actors": [
+        "edward-the-confessor",
+        "harold-godwinson"
+      ],
+      "location": "Westminster, England",
+      "motifs": [
+        "palace",
+        "throne",
+        "royal-audience"
+      ],
+      "border_motifs": [
+        "birds",
+        "lions",
+        "mythical-beasts"
+      ]
+    },
+    {
+      "id": 2,
+      "chapter_id": 1,
+      "slice_range": [
+        2,
+        2
+      ],
+      "panel_number": 2,
+      "embroidered_mark": "2.",
+      "latin_inscription": "UBI HAROLD DUX ANGLORUM ET SUI MILITES EQUITANT AD BOSHAM",
+      "latin_translation_ja": "イングランド公ハロルドとその騎士たちがボシャムへ馬で向かうところ",
+      "latin_translation_en": "Where Harold, Duke of the English, and his knights ride to Bosham",
+      "title": "場面2（2.）：ボシャムへの騎馬行進",
+      "titleen": "Panel 2 (2.): Harold and His Knights Ride to Bosham",
+      "title_zh": "场面2（2.）：哈罗德与骑士团骑马前往博舍姆",
+      "summary": {
+        "desc": "左手に鷹を据え、先頭に猟犬を走らせながら、ハロルドとその従者たちがイングランド南岸の所領ボシャムへ向かって馬を進める場面です。",
+        "descen": "Bearing a hawk on his wrist and preceded by hunting hounds, Harold rides with his retinue toward his coastal estate at Bosham.",
+        "desc_zh": "哈罗德手架猎鹰、前有猎犬引路，率领骑士随从骑马前往英格兰南部沿海领地博舍姆。"
+      },
+      "actors": [
+        "harold-godwinson",
+        "anglo-saxon-knights"
+      ],
+      "location": "Road to Bosham, Sussex",
+      "motifs": [
+        "horses",
+        "hawks",
+        "hounds",
+        "procession"
+      ],
+      "border_motifs": [
+        "dogs",
+        "birds",
+        "scrollwork"
+      ]
+    },
+    {
+      "id": 3,
+      "chapter_id": 1,
+      "slice_range": [
+        3,
+        3
+      ],
+      "panel_number": 3,
+      "embroidered_mark": "3.",
+      "latin_inscription": "ECCLESIA",
+      "latin_translation_ja": "教会",
+      "latin_translation_en": "Church",
+      "title": "場面3（3.）：ボシャム教会での祈り",
+      "titleen": "Panel 3 (3.): Prayer at Bosham Church",
+      "title_zh": "场面3（3.）：博舍姆教堂祈祷",
+      "summary": {
+        "desc": "渡海の無事を祈願するため、ハロルドと従者がボシャムの聖トリニティ教会へ足を踏み入れ祈りを捧げる場面です。",
+        "descen": "Before embarking on the sea voyage, Harold and a companion enter Bosham Church to pray for a safe crossing.",
+        "desc_zh": "为祈求渡海平安，哈罗德与随从步入博舍姆教堂虔诚祈祷。"
+      },
+      "actors": [
+        "harold-godwinson"
+      ],
+      "location": "Bosham Church, Sussex",
+      "motifs": [
+        "church",
+        "architecture",
+        "prayer"
+      ],
+      "border_motifs": [
+        "birds",
+        "fantastic-creatures"
+      ]
+    },
+    {
+      "id": 4,
+      "chapter_id": 1,
+      "slice_range": [
+        4,
+        7
+      ],
+      "panel_number": 4,
+      "embroidered_mark": "4.",
+      "latin_inscription": "HIC HAROLD MARE NAVIGAVIT",
+      "latin_translation_ja": "ここでハロルドは海を航行した",
+      "latin_translation_en": "Here Harold sailed the sea",
+      "title": "場面4（4.）：ボシャムの宴と出航",
+      "titleen": "Panel 4 (4.): Feast at Bosham and Embarkation",
+      "title_zh": "场面4（4.）：博舍姆宴饮与扬帆出海",
       "summary": {
         "desc": "ボシャムの館の2階で角杯を傾けて宴を開いた後、出航の合図を受けて裸足で浅瀬を歩き、鷹と猟犬を抱えて船に乗り込み英仏海峡へ漕ぎ出す場面です。",
         "descen": "After feasting with drinking horns in the upper hall at Bosham, Harold and his men wade barefoot into the shallows carrying hawks and hounds to board their ship and set sail.",
