@@ -12,22 +12,29 @@
 /* LTR 絵巻: 左カラムに Discovery レール（RTL 既定グリッドは不変） */
 .wrapper.ltr {
   grid-template-columns: clamp(260px, 22vw, 420px) minmax(0, 1fr);
+  grid-template-rows: auto auto;
 }
 
-.wrapper.ltr .viewerCell {
+.wrapper.ltr > .viewerCell {
   grid-column: 2;
   grid-row: 1;
+  min-width: 0;
 }
 
-.wrapper.ltr .discoveryRail,
-.wrapper.ltr .discoveryRailLtr {
+.wrapper.ltr > .discoveryRail,
+.wrapper.ltr > .discoveryRailLtr {
   grid-column: 1;
   grid-row: 1 / -1;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  justify-self: stretch;
 }
 
-.wrapper.ltr .metadata {
+.wrapper.ltr > .metadata {
   grid-column: 2;
   grid-row: 2;
+  min-width: 0;
 }
 
 .wrapper.ltr.theater {
@@ -38,10 +45,20 @@
   grid-column: 1 / -1;
 }
 
-.wrapper.ltr.theater .discoveryRail,
-.wrapper.ltr.theater .discoveryRailLtr {
+.wrapper.ltr.theater > .discoveryRail,
+.wrapper.ltr.theater > .discoveryRailLtr {
   grid-column: 1;
   grid-row: 2;
+  position: sticky;
+  top: 0.75rem;
+  align-self: stretch;
+  height: 100%;
+  max-height: 100%;
+  overflow-x: clip;
+  overflow-y: auto;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .wrapper.ltr.theater .metadata {
@@ -128,13 +145,22 @@
   transform: none;
 }
 
-/* LTR シアター時: RTL の transform:none より後に指定し左端チラ見えスライド */
+/* LTR シアター: RTL .wrapper.theater .discoveryRailSlide と同様 transform 不使用（左端帯の防止） */
 .wrapper.ltr.theater .discoveryRailSlide.discoveryRailSlideLtr {
-  transform: translateX(calc(-100% + var(--discovery-rail-peek, 3.5rem)));
+  width: 100%;
+  transform: none;
 }
 
-.wrapper.ltr:not(.theater) .discoveryRailSlide.discoveryRailSlideLtr {
-  transform: translateX(0);
+.wrapper.ltr:not(.theater) > .discoveryRail,
+.wrapper.ltr:not(.theater) > .discoveryRailLtr {
+  overflow-x: clip;
+}
+
+.discoveryRailSlideLtr {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .wrapper.theater .discoveryRail:hover {

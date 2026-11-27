@@ -67,6 +67,9 @@ export default function useEmakiZoomBridge({
     ? ZOOM_STRIP_MIN_SLICES_BYOBU
     : ZOOM_STRIP_MIN_SLICES;
 
+  const readingDirection = data?.readingDirection === "ltr" ? "ltr" : "rtl";
+  const isLtrScroll = readingDirection === "ltr";
+
   const getArticleUnitHeight = useCallback(
     (el) => (el ? el.offsetHeight || el.clientHeight || 0 : 0),
     []
@@ -158,11 +161,14 @@ export default function useEmakiZoomBridge({
       }
       const articleUnit = getArticleUnitHeight(el);
       const k = articleUnit > 0 ? rowHeightPx / articleUnit : 1;
-      const viewportCenterFromStart =
-        (Math.abs(el.scrollLeft) + el.clientWidth / 2) * k;
+      const scrollAlong =
+        isLtrScroll
+          ? Math.max(0, el.scrollLeft)
+          : Math.abs(el.scrollLeft);
+      const viewportCenterFromStart = (scrollAlong + el.clientWidth / 2) * k;
       return viewportCenterFromStart - offsetFrom - stripWidth / 2;
     },
-    [processedEmakis, zoomMinSlices, getArticleUnitHeight, articleRef]
+    [processedEmakis, zoomMinSlices, getArticleUnitHeight, articleRef, isLtrScroll]
   );
 
   // ---------------------------------------------------------------------------
@@ -189,7 +195,9 @@ export default function useEmakiZoomBridge({
         const focusX = Number.isFinite(clientX)
           ? clientX
           : rect.left + rect.width / 2;
-        const contentX = Math.abs(el.scrollLeft) + (rect.right - focusX);
+        const contentX = isLtrScroll
+          ? el.scrollLeft + (focusX - rect.left)
+          : Math.abs(el.scrollLeft) + (rect.right - focusX);
         const estimated = sceneIndexAtContentX(
           data.emakis,
           contentX,
@@ -235,6 +243,7 @@ export default function useEmakiZoomBridge({
       openZoom,
       articleRef,
       entryContainerRef,
+      isLtrScroll,
     ]
   );
 
@@ -280,13 +289,19 @@ export default function useEmakiZoomBridge({
         for (let i = from; i <= to; i += 1) {
           stripWidth += sceneWidthPx(items[i], rowH);
         }
-        let leftSlicesWidth = 0;
-        for (let i = sliceIndex + 1; i <= to; i += 1) {
-          leftSlicesWidth += sceneWidthPx(items[i], rowH);
+        let offsetFromStripStart = 0;
+        if (isLtrScroll) {
+          for (let i = from; i < sliceIndex; i += 1) {
+            offsetFromStripStart += sceneWidthPx(items[i], rowH);
+          }
+        } else {
+          for (let i = sliceIndex + 1; i <= to; i += 1) {
+            offsetFromStripStart += sceneWidthPx(items[i], rowH);
+          }
         }
         const sliceW = sceneWidthPx(items[sliceIndex], rowH);
-        const xFromLeft = leftSlicesWidth + sliceW * (cx / 100);
-        initialPanX = stripWidth / 2 - xFromLeft;
+        const xFromStripStart = offsetFromStripStart + sliceW * (cx / 100);
+        initialPanX = stripWidth / 2 - xFromStripStart;
       }
 
       const initialPanY = -measuredHeight * ((cy - 50) / 100);
@@ -321,6 +336,7 @@ export default function useEmakiZoomBridge({
       openZoom,
       articleRef,
       entryContainerRef,
+      isLtrScroll,
     ]
   );
 

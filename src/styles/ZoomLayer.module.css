@@ -67,6 +67,10 @@
      テクスチャを保持したまま引き伸ばし、ズームしても画像が甘いまま固定される。 */
 }
 
+.stripLtr {
+  flex-direction: row; /* LTR: article と同じ左→右の並び */
+}
+
 .strip[data-animate-transition="true"] {
   transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -214,18 +218,9 @@
   transform: translateX(-6rem);
 }
 
-/* LTR: レールが左側のときシアター切替ボタンを右寄せ基準に反転 */
-.theaterAnchorLtr {
-  transform: translateX(6rem);
-}
-
 @media (max-width: 1023px) {
   .theaterAnchor {
     display: none;
-  }
-
-  .theaterAnchorLtr {
-    transform: none;
   }
 }
 

@@ -214,6 +214,22 @@
 .rail.ltr {
   direction: ltr;
   text-align: left;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.rail.ltr .head {
+  overflow: hidden;
+  padding-inline-end: 0.25rem;
+}
+
+.rail.ltr .headActions {
+  flex-shrink: 0;
+}
+
+.rail.ltr .list {
+  overflow-x: hidden;
 }
 
 @media (hover: hover) and (pointer: fine) {

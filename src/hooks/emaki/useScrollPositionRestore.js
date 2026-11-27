@@ -84,8 +84,10 @@ const useScrollPositionRestore = ({
         aborted = true;
         return false;
       }
-      const sign = readingDirection === "ltr" ? 1 : -1;
-      lastApplied = sign * (scrollPositionStore.scrollRatio * maxScrollLeft);
+      const isLtr = readingDirection === "ltr";
+      lastApplied = isLtr
+        ? scrollPositionStore.scrollRatio * maxScrollLeft
+        : -(scrollPositionStore.scrollRatio * maxScrollLeft);
       el.scrollLeft = lastApplied;
       return true;
     };
@@ -116,8 +118,10 @@ const useScrollPositionRestore = ({
 
       const sceneId = navIndexRef.current;
       const toId = handleToIdRef.current;
-      const stuckAtStart =
-        scrollPositionStore.scrollRatio > 0.05 && Math.abs(el.scrollLeft) < 8;
+      const isLtr = readingDirection === "ltr";
+      const stuckAtStart = isLtr
+        ? scrollPositionStore.scrollRatio > 0.05 && el.scrollLeft < 8
+        : scrollPositionStore.scrollRatio > 0.05 && Math.abs(el.scrollLeft) < 8;
       if (
         !aborted &&
         typeof toId === "function" &&
@@ -138,7 +142,14 @@ const useScrollPositionRestore = ({
       window.removeEventListener("keydown", abortRestore);
       // isTransitioning は落とさない（次インスタンスの begin〜restore に引き継ぐ）
     };
-  }, [toggleFullscreen, orientation, dataId, articleRef, scrollPositionStore]);
+  }, [
+    toggleFullscreen,
+    orientation,
+    dataId,
+    articleRef,
+    scrollPositionStore,
+    readingDirection,
+  ]);
 };
 
 export default useScrollPositionRestore;

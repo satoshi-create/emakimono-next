@@ -36,6 +36,7 @@ const SwitcherEmaki = forwardRef(
     const { orientation, toggleFullscreen, chapterToggle, handleToId } =
       useContext(AppContext);
     const { locale } = useRouter();
+    const isLtr = data?.readingDirection === "ltr";
 
     const {
       isSupportedCat,
@@ -121,6 +122,7 @@ const SwitcherEmaki = forwardRef(
             orientation={orientation}
             title={data?.title}
             titleen={data?.titleen}
+            isLtr={isLtr}
           />
         ) : null}
 

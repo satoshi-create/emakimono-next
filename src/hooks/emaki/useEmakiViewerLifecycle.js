@@ -282,6 +282,11 @@ export default function useEmakiViewerLifecycle({
     if (scroll) {
       let scrollSpeed = 30;
       const el = articleRef.current;
+      if (!el) return;
+
+      const readingDirection = data?.readingDirection || "rtl";
+      const isLtr = readingDirection === "ltr";
+
       const MouseWheelHandler = (e) => {
         if (e.ctrlKey || e.metaKey) return;
         if (!e.deltaY) return;
@@ -303,27 +308,33 @@ export default function useEmakiViewerLifecycle({
           return;
         }
 
-        let scrollDirection = e.deltaY > 0 ? 1 : -1;
-        let scrollLeft = el.scrollLeft;
-        let scrollWidth = el.scrollWidth;
-        let clientWidth = el.clientWidth;
-        let maxScrollLeft = scrollWidth - clientWidth;
+        const scrollDirection = e.deltaY > 0 ? 1 : -1;
+        const scrollLeft = el.scrollLeft;
+        const scrollWidth = el.scrollWidth;
+        const clientWidth = el.clientWidth;
+        const maxScrollLeft = scrollWidth - clientWidth;
         const SCROLL_MARGIN = 5;
 
-        const atStart =
-          Math.abs(scrollLeft) < SCROLL_MARGIN ||
-          scrollLeft >= maxScrollLeft - SCROLL_MARGIN;
+        const atStart = isLtr
+          ? scrollLeft <= SCROLL_MARGIN
+          : Math.abs(scrollLeft) < SCROLL_MARGIN ||
+            scrollLeft >= maxScrollLeft - SCROLL_MARGIN;
 
-        const atEnd =
-          Math.abs(scrollLeft) >= maxScrollLeft - SCROLL_MARGIN ||
-          (scrollLeft < 0 &&
-            Math.abs(scrollLeft) >= maxScrollLeft - SCROLL_MARGIN);
+        const atEnd = isLtr
+          ? scrollLeft >= maxScrollLeft - SCROLL_MARGIN
+          : Math.abs(scrollLeft) >= maxScrollLeft - SCROLL_MARGIN ||
+            (scrollLeft < 0 &&
+              Math.abs(scrollLeft) >= maxScrollLeft - SCROLL_MARGIN);
 
-        if (
-          (scrollDirection === -1 && !atEnd) ||
-          (scrollDirection === 1 && !atStart)
-        ) {
-          el.scrollLeft += scrollSpeed * scrollDirection;
+        const shouldScroll = isLtr
+          ? (scrollDirection === 1 && !atEnd) ||
+            (scrollDirection === -1 && !atStart)
+          : (scrollDirection === -1 && !atEnd) ||
+            (scrollDirection === 1 && !atStart);
+
+        if (shouldScroll) {
+          const delta = scrollSpeed * scrollDirection;
+          el.scrollLeft += delta;
         }
 
         e.preventDefault();
@@ -335,7 +346,7 @@ export default function useEmakiViewerLifecycle({
         el.removeEventListener("wheel", MouseWheelHandler, { passive: false });
       };
     }
-  }, [scroll, emakiId]);
+  }, [scroll, emakiId, data?.readingDirection, playModeAnimationRef, setIsPlayMode, showUI]);
 
   return {
     showWheelToast,

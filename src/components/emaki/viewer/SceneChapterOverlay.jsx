@@ -9,9 +9,10 @@ export function SceneChapterOverlay({
   title,
   titleen,
   onSelectChapter,
+  isLtr = false,
 }) {
   return (
-    <div className={styles.chapterbox}>
+    <div className={`${styles.chapterbox}${isLtr ? ` ${styles.ltr}` : ""}`}>
       <h3
         className={styles.chapter}
         onClick={() => onSelectChapter?.(index)}

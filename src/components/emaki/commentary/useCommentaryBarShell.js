@@ -47,7 +47,7 @@ export function useCommentaryBarShell({
 }) {
   // 2. バー開閉・展開・段/スポット目次モード
   const [expanded, setExpanded] = useState(false);
-  const [closed, setClosed] = useState(false);
+  const [closed, setClosed] = useState(true);
   const initializedCompactKeyRef = useRef(null);
   const [viewMode, setViewMode] = useState("commentary");
 
@@ -55,16 +55,16 @@ export function useCommentaryBarShell({
   const barRef = useRef(null);
   const prevOrientationRef = useRef(orientation);
 
-  // 2b. 作品遷移時は常にバー表示（同一作品内でユーザーが閉じた状態は維持）
+  // 2b. 作品遷移時は解説バーを閉じた状態で開始（同一作品内でユーザーが開いた状態は維持）
   useEffect(() => {
     const key = `${workKey ?? ""}`.trim();
     if (!key || typeof window === "undefined") return;
     if (initializedCompactKeyRef.current === key) return;
     initializedCompactKeyRef.current = key;
-    setClosed(false);
+    setClosed(true);
   }, [workKey]);
 
-  // 3. スマホ向き変更時の自動開閉（PC は触らない）
+  // 3. スマホ横向き時のみ閲覧域確保のため自動で閉じる（自動オープンはしない）
   useEffect(() => {
     if (prevOrientationRef.current === orientation) return;
     prevOrientationRef.current = orientation;
@@ -75,8 +75,6 @@ export function useCommentaryBarShell({
       setExpanded(false);
       setViewMode("commentary");
       setIsFolkloreOpen?.(false);
-    } else if (orientation === "portrait") {
-      setClosed(false);
     }
   }, [orientation, setIsFolkloreOpen]);
 

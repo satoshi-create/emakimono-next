@@ -631,6 +631,7 @@ export default function useEmakiViewerOrchestrator({
       ebikiPickerEnabled,
       onSelectSpot,
       selectedSpotId,
+      isLtr,
     },
     commentaryBarProps: {
       data,

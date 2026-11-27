@@ -57,9 +57,13 @@ const ZoomLayer = ({
   ebikiPickerEnabled = false,
   onSelectSpot,
   selectedSpotId,
+  isLtr = false,
 }) => {
   const { t } = useTranslation("common");
   const router = useRouter();
+  const stripClassName = isLtr
+    ? `${styles.strip} ${styles.stripLtr}`
+    : styles.strip;
   const isEditSpotsMode =
     process.env.NODE_ENV === "development" && router.query.editSpots === "1";
 
@@ -183,7 +187,7 @@ const ZoomLayer = ({
         <div
           ref={stripRef}
           data-zoom-strip="true"
-          className={styles.strip}
+          className={stripClassName}
           style={{
             position: "relative",
             width: "max-content",

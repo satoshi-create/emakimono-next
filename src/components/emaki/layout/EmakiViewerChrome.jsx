@@ -169,11 +169,7 @@ export function EmakiViewerChrome({
         />
       )}
       {scroll && !isEditSpotsMode && onToggleTheater && (
-        <div
-          className={`${zoomStyles.theaterAnchor}${
-            isLtr ? ` ${zoomStyles.theaterAnchorLtr}` : ""
-          }`}
-        >
+        <div className={zoomStyles.theaterAnchor}>
           <ActionButton
             icon={<TbRectangle style={{ fontSize: "1.5em" }} aria-hidden />}
             description={
@@ -183,7 +179,7 @@ export function EmakiViewerChrome({
             }
             onClick={onToggleTheater}
             variant="fullscreen"
-            isOn={isTheaterMode}
+            isOn={false}
             isFullscreen={toggleFullscreen}
             isBarFloating={commentaryFloating || isZoomed}
             isUIVisible={isUIVisible}

@@ -17,6 +17,11 @@
   box-sizing: border-box;
 }
 
+.chapterbox.ltr {
+  right: auto;
+  left: 12px;
+}
+
 .chapterbox :global(button) {
   color: #44403c;
   flex-shrink: 0;

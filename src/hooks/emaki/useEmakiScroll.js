@@ -219,8 +219,11 @@ const useEmakiScroll = ({
       const SCROLL_MARGIN = 5;
 
       if (maxScrollLeft > 0 && !scrollPositionStore.isTransitioning) {
+        const isLtrScroll = readingDirection === "ltr";
         scrollPositionStore.scrollLeft = currentScrollX;
-        scrollPositionStore.scrollRatio = Math.abs(currentScrollX) / maxScrollLeft;
+        scrollPositionStore.scrollRatio = isLtrScroll
+          ? Math.max(0, currentScrollX) / maxScrollLeft
+          : Math.abs(currentScrollX) / maxScrollLeft;
         scrollPositionStore.emakiId = dataId;
         scrollPositionStore.restored = false;
         updateScrollProgress(scrollPositionStore.scrollRatio);
@@ -329,7 +332,14 @@ const useEmakiScroll = ({
         windowCenterIdleRef.current = null;
       }
     };
-  }, [detectCurrentScene, isAutoScrolling, dataId, emakiId, scrollPositionStore]);
+  }, [
+    detectCurrentScene,
+    isAutoScrolling,
+    dataId,
+    emakiId,
+    scrollPositionStore,
+    readingDirection,
+  ]);
 
   /**
    * レイアウトシフト（シアター切り替えによる幅・高さ変更）を監視
