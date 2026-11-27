@@ -7,6 +7,52 @@ import CommentarySectionIndex from "@/components/emaki/commentary/CommentarySect
 import FolkloreSceneList from "@/components/emaki/folklore/FolkloreSceneList";
 import { getMotifDefinition } from "@/utils/motifNetwork";
 import styles from "@/styles/SceneCommentaryBar.module.css";
+import jaMessages from "../../../../messages/ja.json";
+import enMessages from "../../../../messages/en.json";
+
+function viewerPanelLabel(key, locale) {
+  const ns =
+    (locale === "en" ? enMessages : jaMessages).viewerPanel ?? {};
+  return ns[key] ?? key;
+}
+
+function resolveActivePanel(panels, activeSliceNumber) {
+  if (!Array.isArray(panels) || panels.length === 0 || activeSliceNumber == null) {
+    return null;
+  }
+  const sliceNum = Number(activeSliceNumber);
+  if (!Number.isFinite(sliceNum)) return null;
+  const byId = panels.find(
+    (p) => p.id === sliceNum || p.panel_number === sliceNum
+  );
+  if (byId) return byId;
+  return (
+    panels.find((p) => {
+      const range = p.slice_range;
+      if (!Array.isArray(range) || range.length < 2) return false;
+      return range[0] <= sliceNum && sliceNum <= range[1];
+    }) ?? null
+  );
+}
+
+function panelLocalizedStrings(panel, locale) {
+  const isEn = locale === "en";
+  const isZh = locale === "zh-Hans";
+  const title = isZh
+    ? panel.title_zh || panel.titleen || panel.title
+    : isEn
+      ? panel.titleen || panel.title
+      : panel.title || panel.titleen;
+  const summaryObj = panel.summary;
+  const summary = summaryObj
+    ? isZh
+      ? summaryObj.desc_zh || summaryObj.descen || summaryObj.desc
+      : isEn
+        ? summaryObj.descen || summaryObj.desc
+        : summaryObj.desc || summaryObj.descen
+    : "";
+  return { title, summary };
+}
 
 // 1. 段目次
 export function EmakiSectionIndex({
@@ -96,8 +142,10 @@ export function EmakiModeTabs({
   setViewMode,
   setContentTab,
   onClearSelectedSpot,
+  panels,
 }) {
-  if (isByobuSpotMode || !showModeTabs) return null;
+  const hasPanels = Array.isArray(panels) && panels.length > 0;
+  if (isByobuSpotMode || (!showModeTabs && !hasPanels)) return null;
   return (
     <div
       className={styles.modeTabs}
@@ -116,7 +164,10 @@ export function EmakiModeTabs({
                 ? styles.modeTabActive
                 : ""
             }`}
-            onClick={() => handleTextMode(mode)}
+            onClick={() => {
+              setContentTab("scene");
+              handleTextMode(mode);
+            }}
           >
             {mode === "tansaku" || mode === "sou"
               ? locale === "en"
@@ -189,6 +240,19 @@ export function EmakiModeTabs({
           ) : null}
         </span>
       ))}
+      {hasPanels ? (
+        <button
+          type="button"
+          role="tab"
+          aria-selected={contentTab === "panel"}
+          className={`${styles.modeTab} ${
+            contentTab === "panel" ? styles.modeTabActive : ""
+          }`}
+          onClick={() => setContentTab("panel")}
+        >
+          {viewerPanelLabel("panelTab", locale)}
+        </button>
+      ) : null}
     </div>
   );
 }
@@ -212,6 +276,8 @@ export function EmakiSceneBodyContent({
   expanded,
   locale,
   readMoreLabel,
+  panels,
+  activeSliceNumber,
 }) {
   if (isByobuSpotMode) return null;
 
@@ -246,6 +312,44 @@ export function EmakiSceneBodyContent({
         selectedMotifId={selectedMotifId}
         souData={souData}
       />
+    );
+  }
+
+  const hasPanels = Array.isArray(panels) && panels.length > 0;
+
+  if (hasPanels && contentTab === "panel") {
+    const activePanel =
+      resolveActivePanel(panels, activeSliceNumber) ?? panels[0];
+    const panelCopy = panelLocalizedStrings(activePanel, locale);
+    return (
+      <span className={styles.panelSceneCard}>
+        {activePanel.embroidered_mark ? (
+          <span className={styles.panelSceneMarkRow}>
+            <span className={styles.panelSceneMarkLabel}>
+              {viewerPanelLabel("originalMark", locale)}
+            </span>
+            <span className={styles.panelSceneMarkValue}>
+              {activePanel.embroidered_mark}
+            </span>
+          </span>
+        ) : null}
+        {panelCopy.title ? (
+          <span className={styles.panelSceneTitle}>{panelCopy.title}</span>
+        ) : null}
+        {activePanel.latin_inscription ? (
+          <span className={styles.panelSceneLatinBlock}>
+            <span className={styles.panelSceneMarkLabel}>
+              {viewerPanelLabel("latinInscription", locale)}
+            </span>
+            <span className={styles.panelSceneLatin}>
+              {activePanel.latin_inscription}
+            </span>
+          </span>
+        ) : null}
+        {panelCopy.summary ? (
+          <span className={styles.panelSceneSummary}>{panelCopy.summary}</span>
+        ) : null}
+      </span>
     );
   }
 

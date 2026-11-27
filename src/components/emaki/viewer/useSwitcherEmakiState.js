@@ -4,6 +4,55 @@ import { ChaptersTitle } from "@/utils/emakiChapterText";
 import { buildSceneShellStyle } from "@/utils/emakiContentWindow";
 import { isByobuScroll } from "@/utils/isByobuScroll";
 
+function usesPanelChapterGuards(data) {
+  if (Array.isArray(data?.panels) && data.panels.length > 0) return true;
+  return data?.readingDirection === "ltr";
+}
+
+function sceneChapterKeyForPill(data, item) {
+  if (item?.scene_chapter != null && String(item.scene_chapter).trim() !== "") {
+    return String(item.scene_chapter);
+  }
+  const globalIdx = item?.global_index;
+  if (
+    Number.isFinite(Number(globalIdx)) &&
+    Array.isArray(data?.panels) &&
+    data.panels.length > 0
+  ) {
+    const panel = data.panels.find((p) => {
+      const range = p?.slice_range;
+      if (!Array.isArray(range) || range.length < 1) return false;
+      return Number(range[0]) === Number(globalIdx);
+    });
+    if (panel?.chapter_id != null) return String(panel.chapter_id);
+  }
+  return item?.chapter;
+}
+
+function shouldShowSceneChapterPill(data, item) {
+  if (!usesPanelChapterGuards(data)) return true;
+  if (item?.chapter_pill) return true;
+  const chapters = data?.chapters;
+  if (!Array.isArray(chapters) || chapters.length === 0) return false;
+  const globalIdx = item?.global_index;
+  for (const ch of chapters) {
+    const range = ch?.range;
+    if (!Array.isArray(range) || range.length < 2) continue;
+    const start = Number(range[0]);
+    if (!Number.isFinite(start)) continue;
+    if (Number(globalIdx) === start) return true;
+    if (
+      globalIdx == null &&
+      item?.chapter != null &&
+      String(ch.chapter) === String(item.chapter) &&
+      start === 1
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export function useSwitcherEmakiState({
   cat,
   data,
@@ -42,19 +91,21 @@ export function useSwitcherEmakiState({
     title: itemTitle,
     title_zh: itemTitleZh,
   } = item ?? {};
-  const chapterTitle =
-    (locale === "zh-Hans"
+  const panelGuards = usesPanelChapterGuards(data);
+  const chapterLookup = panelGuards ? sceneChapterKeyForPill(data, item) : chapter;
+  const chapterTitleFromTexts =
+    locale === "zh-Hans"
       ? ChaptersTitle(
           data?.titleen,
           data?.title,
-          chapter,
+          chapterLookup,
           "title_zh",
           genjiChapter
         ) ||
         ChaptersTitle(
           data?.titleen,
           data?.title,
-          chapter,
+          chapterLookup,
           "titleen",
           genjiChapter
         )
@@ -62,19 +113,22 @@ export function useSwitcherEmakiState({
         ? ChaptersTitle(
             data?.titleen,
             data?.title,
-            chapter,
+            chapterLookup,
             "titleen",
             genjiChapter
           )
         : ChaptersTitle(
             data?.titleen,
             data?.title,
-            chapter,
+            chapterLookup,
             "title",
             genjiChapter
-          )) ||
-    (locale === "zh-Hans" ? itemTitleZh || itemTitle : itemTitle) ||
-    "";
+          );
+  const chapterTitle =
+    chapterTitleFromTexts ||
+    (panelGuards
+      ? ""
+      : (locale === "zh-Hans" ? itemTitleZh || itemTitle : itemTitle) || "");
 
   const isByobu = isByobuScroll(data);
   const sectionStyle = buildSceneShellStyle(item, {
@@ -86,7 +140,11 @@ export function useSwitcherEmakiState({
 
   const spots = isImage && !usePanoramaSpots ? item?.spots : null;
   const showChapterTitle = Boolean(
-    chapterTitle && chapterToggle && !isByobu && data?.typeen !== "birdseye"
+    chapterTitle &&
+      chapterToggle &&
+      !isByobu &&
+      data?.typeen !== "birdseye" &&
+      shouldShowSceneChapterPill(data, item)
   );
 
   const needsRelativeLayer = Boolean(

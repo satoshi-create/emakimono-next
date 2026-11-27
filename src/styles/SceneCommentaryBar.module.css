@@ -65,21 +65,20 @@
 /* 段タイトル行: タイトルのすぐ隣にいいね・コピー・共有 */
 .titleLine {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
-  gap: 0.15rem;
-  padding: 6px 14px 2px;
+  gap: 0.25rem;
+  padding: 6px 14px 4px;
   min-width: 0;
   width: 100%;
 }
 .titleBtn {
-  flex: 0 1 auto;
+  flex: 1 1 auto;
   min-width: 0;
-  max-width: calc(100% - 5.5rem);
+  text-align: left;
   padding: 0;
   border: none;
   background: transparent;
-  text-align: left;
   cursor: pointer;
 }
 .titleActions {
@@ -111,13 +110,68 @@
 
 .title {
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   line-height: 1.35;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
   max-width: 100%;
+}
+
+.panelSceneCard {
   display: block;
+  margin: 0 0 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--bar-border, rgba(0, 0, 0, 0.1));
+  border-radius: 8px;
+  background: var(--era-soft-bg, rgba(255, 140, 119, 0.08));
+  font-family: var(--font-ui);
+  text-align: left;
+}
+.panelSceneMarkRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+.panelSceneMarkLabel {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--clr-text-muted, #666);
+  letter-spacing: 0.03em;
+}
+.panelSceneMarkValue {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--bar-text, #333);
+}
+.panelSceneTitle {
+  margin-top: 4px;
+  font-weight: 600;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: var(--bar-text, #333);
+}
+.panelSceneLatinBlock {
+  margin-top: 6px;
+}
+.panelSceneLatin {
+  margin-top: 2px;
+  font-size: 0.74rem;
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--clr-text-muted, #555);
+  word-break: break-word;
+}
+.panelSceneSummary {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  font-family: var(--font-story);
+  color: var(--bar-text, #333);
 }
 
 /* 解説 / 現代文 / 古文（2種以上あるときのみ表示） */

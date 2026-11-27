@@ -61,9 +61,26 @@ const computeMinScrollLeft = (el) => -(el.scrollWidth - el.clientWidth);
 
 
 
-const syncEdgeRefsFromScroll = (el, minScrollLeft, isAtStartRef, isAtEndRef) => {
-
+const syncEdgeRefsFromScroll = (
+  el,
+  minScrollLeft,
+  isAtStartRef,
+  isAtEndRef,
+  isLtr = false,
+) => {
   const currentScrollX = el.scrollLeft;
+
+  if (isLtr) {
+    const maxScrollLeft = el.scrollWidth - el.clientWidth;
+    if (maxScrollLeft <= 0) return;
+
+    const atStart = currentScrollX <= SCROLL_MARGIN;
+    const atEnd = currentScrollX >= maxScrollLeft - SCROLL_MARGIN;
+
+    if (atStart !== isAtStartRef.current) isAtStartRef.current = atStart;
+    if (atEnd !== isAtEndRef.current) isAtEndRef.current = atEnd;
+    return;
+  }
 
   const maxScrollLeft = -minScrollLeft;
 
@@ -162,7 +179,11 @@ const useEmakiAutoPlay = ({
 
   idlePaused = false,
 
+  readingDirection = "rtl",
+
 }) => {
+
+  const isLtr = readingDirection === "ltr";
 
   const [isAutoScrolling, setIsAutoScrolling] = useState(false);
 
@@ -229,6 +250,8 @@ const useEmakiAutoPlay = ({
       let lastSelfScrollLeft = null;
 
       let minScrollLeft = computeMinScrollLeft(el);
+
+      let maxScrollLeft = el.scrollWidth - el.clientWidth;
 
       const lastDetectMsRef = { current: 0 };
 
@@ -357,34 +380,48 @@ const useEmakiAutoPlay = ({
 
         const currentScrollLeft = el.scrollLeft;
 
-        const newScrollLeft = currentScrollLeft - scrollSpeedPxPerSec * dt;
+        if (isLtr) {
+          const newScrollLeft =
+            currentScrollLeft + scrollSpeedPxPerSec * dt;
 
+          if (
+            newScrollLeft >
+            maxScrollLeft - PLAYBACK_SCROLL_LIMIT_NEAR_END_PX
+          ) {
+            maxScrollLeft = el.scrollWidth - el.clientWidth;
+          }
 
+          if (newScrollLeft > maxScrollLeft) {
+            stopAutoScroll();
+            return;
+          }
 
-        if (newScrollLeft < minScrollLeft + PLAYBACK_SCROLL_LIMIT_NEAR_END_PX) {
+          el.scrollLeft = newScrollLeft;
+        } else {
+          const newScrollLeft = currentScrollLeft - scrollSpeedPxPerSec * dt;
 
-          minScrollLeft = computeMinScrollLeft(el);
+          if (newScrollLeft < minScrollLeft + PLAYBACK_SCROLL_LIMIT_NEAR_END_PX) {
+            minScrollLeft = computeMinScrollLeft(el);
+          }
 
+          if (newScrollLeft < minScrollLeft) {
+            stopAutoScroll();
+            return;
+          }
+
+          el.scrollLeft = newScrollLeft;
         }
-
-
-
-        if (newScrollLeft < minScrollLeft) {
-
-          stopAutoScroll();
-
-          return;
-
-        }
-
-
-
-        el.scrollLeft = newScrollLeft;
 
         // 自分が書いた実位置を記録（クランプ後も含む）。手動スクロール検知の基準にする
         lastSelfScrollLeft = el.scrollLeft;
 
-        syncEdgeRefsFromScroll(el, minScrollLeft, isAtStartRef, isAtEndRef);
+        syncEdgeRefsFromScroll(
+          el,
+          minScrollLeft,
+          isAtStartRef,
+          isAtEndRef,
+          isLtr,
+        );
 
         saveScrollPositionStore(el, dataId, scrollPositionStore);
 
@@ -441,7 +478,11 @@ const useEmakiAutoPlay = ({
 
               if (stopped) return;
 
-              minScrollLeft = computeMinScrollLeft(el);
+              if (isLtr) {
+                maxScrollLeft = el.scrollWidth - el.clientWidth;
+              } else {
+                minScrollLeft = computeMinScrollLeft(el);
+              }
 
               animationId = requestAnimationFrame(autoScroll);
 
@@ -529,6 +570,8 @@ const useEmakiAutoPlay = ({
 
     let minScrollLeft = computeMinScrollLeft(el);
 
+    let maxScrollLeft = el.scrollWidth - el.clientWidth;
+
 
 
     const originalScrollBehavior = el.style.scrollBehavior;
@@ -559,20 +602,7 @@ const useEmakiAutoPlay = ({
 
       const currentScrollLeft = el.scrollLeft;
 
-      const newScrollLeft = currentScrollLeft - scrollSpeedPxPerSec * dt;
-
-
-
-      if (newScrollLeft < minScrollLeft + PLAYBACK_SCROLL_LIMIT_NEAR_END_PX) {
-
-        minScrollLeft = computeMinScrollLeft(el);
-
-      }
-
-
-
-      if (newScrollLeft < minScrollLeft) {
-
+      const finishPlayAtEnd = () => {
         saveScrollPositionStore(el, dataId, scrollPositionStore);
 
         setIsPlayMode(false);
@@ -584,24 +614,53 @@ const useEmakiAutoPlay = ({
         setIsAtEnd(isAtEndRef.current);
 
         if (lastDetectedSceneRef.current !== navIndex) {
-
           setnavIndex(lastDetectedSceneRef.current);
-
         }
 
         el.style.scrollBehavior = originalScrollBehavior;
 
         playModeAnimationRef.current = null;
+      };
 
-        return;
+      if (isLtr) {
+        const newScrollLeft =
+          currentScrollLeft + scrollSpeedPxPerSec * dt;
 
+        if (
+          newScrollLeft >
+          maxScrollLeft - PLAYBACK_SCROLL_LIMIT_NEAR_END_PX
+        ) {
+          maxScrollLeft = el.scrollWidth - el.clientWidth;
+        }
+
+        if (newScrollLeft > maxScrollLeft) {
+          finishPlayAtEnd();
+          return;
+        }
+
+        el.scrollLeft = newScrollLeft;
+      } else {
+        const newScrollLeft = currentScrollLeft - scrollSpeedPxPerSec * dt;
+
+        if (newScrollLeft < minScrollLeft + PLAYBACK_SCROLL_LIMIT_NEAR_END_PX) {
+          minScrollLeft = computeMinScrollLeft(el);
+        }
+
+        if (newScrollLeft < minScrollLeft) {
+          finishPlayAtEnd();
+          return;
+        }
+
+        el.scrollLeft = newScrollLeft;
       }
 
-
-
-      el.scrollLeft = newScrollLeft;
-
-      syncEdgeRefsFromScroll(el, minScrollLeft, isAtStartRef, isAtEndRef);
+      syncEdgeRefsFromScroll(
+        el,
+        minScrollLeft,
+        isAtStartRef,
+        isAtEndRef,
+        isLtr,
+      );
 
       saveScrollPositionStore(el, dataId, scrollPositionStore);
 

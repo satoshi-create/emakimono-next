@@ -2,45 +2,12 @@
   {
     "chapter": "1",
     "title": "第1章：エドワード懺悔王の宮廷とハロルドの旅立ち",
+    "gendaibun": "",
+    "kobun": "",
+    "desc": "イングランド王エドワード懺悔王がウェストミンスターの宮殿でウェセックス伯ハロルドに語りかけ（場面1）、ハロルドは鷹と猟犬を伴って領地ボシャムへ馬で向かい（場面2）、ボシャム教会で祈りを捧げた後に館で宴を催して出航に備えます（場面3〜4）。",
     "titleen": "Chapter 1: King Edward's Court & Harold's Departure",
-    "kobun": "",
-    "gendaibun": "",
-    "desc": "イングランド王エドワード懺悔王がウェストミンスターの宮殿でウェセックス伯ハロルドに語りかけ、ハロルドは鷹と猟犬を伴って領地ボシャムへと向かい、教会で祈りを捧げた後に出航します。",
     "title_zh": "第一章：忏悔者爱德华宫廷与哈罗德启程",
-    "descen": "King Edward the Confessor speaks with Harold Godwinson, Earl of Wessex, at Westminster. Harold rides to his estate at Bosham with hawks and hounds, prays at the church, and sets sail across the Channel.",
-    "desc_zh": "英格兰国王忏悔者爱德华在威斯敏斯特宫殿嘱托威塞克斯伯爵哈罗德。哈罗德携猎鹰与猎犬前往领地博舍姆，在教堂祈祷后扬帆出海。"
-  },
-  {
-    "chapter": "2",
-    "title": "第2章：英仏海峡の横断とポンチュー伯ギーによる拘束",
-    "titleen": "Chapter 2: Crossing the Channel & Capture by Guy of Ponthieu",
-    "kobun": "",
-    "gendaibun": "",
-    "desc": "逆風に流されたハロルドの一行はフランス北岸のポンチューに漂着し、領主ポンチュー伯ギーによって捕らえられ、ボーラン城へと連行されます。",
-    "title_zh": "第二章：横渡英吉利海峡与遭蓬蒂约伯爵拘禁",
-    "descen": "Blown off course by strong winds, Harold's ships land on the coast of Ponthieu in northern France, where Count Guy captures Harold and takes him to his fortress at Beaurain.",
-    "desc_zh": "哈罗德船队被逆风吹离航线，在法国北部蓬蒂约海岸登陆，随即被当地领主蓬蒂约伯爵居伊俘获并押往博兰城堡。"
-  },
-  {
-    "chapter": "3",
-    "title": "第3章：ノルマンディー公ウィリアムによる救出とブルターニュ遠征",
-    "titleen": "Chapter 3: Rescue by Duke William & the Brittany Campaign",
-    "kobun": "",
-    "gendaibun": "",
-    "desc": "知らせを受けたノルマンディー公ウィリアムが身代金を交渉してハロルドを解放させ、ルーアンの宮殿へ迎えます。続いて二人はブルターニュ遠征に同行し、クエノン川の流砂でハロルドが兵士たちを救出する活躍を見せます。",
-    "title_zh": "第三章：诺曼底公爵威廉营救与布列塔尼远征",
-    "descen": "Upon hearing the news, Duke William of Normandy secures Harold's release and welcomes him to Rouen. They campaign together in Brittany, where Harold heroically rescues Norman soldiers from quicksand near Mont-Saint-Michel.",
-    "desc_zh": "诺曼底公爵威廉闻讯交涉赎回哈罗德，将其迎入鲁昂宫殿。随后二人共同出征布列塔尼，哈罗德在库埃农河流沙中英勇救出多名诺曼士兵。"
-  },
-  {
-    "chapter": "4",
-    "title": "第4章：バイユーでの聖遺物への誓いとイングランド帰還",
-    "titleen": "Chapter 4: Harold's Oath at Bayeux & Return to England",
-    "kobun": "",
-    "gendaibun": "",
-    "desc": "遠征の功績によりウィリアムから武具を授けられたハロルドは、バイユーの聖遺物箱に両手を置いて厳粛な誓いを立てた後、イングランドへ帰国してエドワード王に報告します。",
-    "title_zh": "第四章：巴约圣物前立誓与返回英格兰",
-    "descen": "Honored with arms by Duke William for his valor, Harold places his hands on sacred reliquaries at Bayeux to swear a solemn oath before sailing back to England to report to King Edward.",
-    "desc_zh": "因战功获威廉公爵赐予盔甲武器后，哈罗德在巴约将双手按在圣物箱上立下庄严誓言，随后渡海返回英格兰向爱德华国王复命。"
+    "descen": "King Edward the Confessor speaks with Harold Godwinson, Earl of Wessex, at Westminster (Panel 1). Harold rides to his estate at Bosham with hawks and hounds (Panel 2), prays at Bosham Church, and holds a feast before setting sail across the Channel (Panels 3–4).",
+    "desc_zh": "英格兰国王忏悔者爱德华在威斯敏斯特宫殿嘱托威塞克斯伯爵哈罗德（场面1）；哈罗德携猎鹰与猎犬骑马前往领地博舍姆（场面2），在博舍姆教堂祈祷并于宅邸设宴准备启航（场面3–4）。"
   }
 ]

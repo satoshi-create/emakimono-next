@@ -1,4 +1,10 @@
 {
+  "viewerPanel": {
+    "originalMark": "Original panel mark",
+    "latinInscription": "Latin inscription",
+    "chapterTab": "Chapter",
+    "panelTab": "Scene"
+  },
   "devUploadScroll": {
     "previewModeScroll": "Horizontal scroll (full width)",
     "previewModeFit": "Fit to panel",

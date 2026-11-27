@@ -152,6 +152,7 @@ export default function useEmakiViewerOrchestrator({
     idlePaused,
     detectCurrentSceneRef,
     scrollPositionStore,
+    readingDirection: data?.readingDirection || "rtl",
   });
 
   const {

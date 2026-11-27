@@ -543,7 +543,9 @@ def build_emaki_entry(config: dict, image_rows: list[dict], existing_entry: dict
     """
     meta = config["metadata"]
 
-    if meta.get("kotobagaki_mode") == "explicit":
+    if ss.uses_panels_pipeline(config):
+        emakis = ss.build_emakis_for_panels(config, image_rows)
+    elif meta.get("kotobagaki_mode") == "explicit":
         emakis = _build_emakis_explicit(config, image_rows)
     elif meta.get("kotobagaki_mode") == "alternating":
         emakis = _build_emakis_alternating(config, image_rows)
@@ -616,6 +618,12 @@ def build_emaki_entry(config: dict, image_rows: list[dict], existing_entry: dict
         entry["kusouzuslug"] = _build_kusouzuslug(meta["kusouzuslug"])
     if meta.get("genjieslug"):
         entry["genjieslug"] = _build_genjieslug(meta["genjieslug"])
+
+    if ss.uses_panels_pipeline(config):
+        entry["chapters"] = ss.build_viewer_chapters(config)
+        panels = ss.build_panels_for_viewer(config)
+        if panels:
+            entry["panels"] = panels
 
     # 既存エントリにある、本スクリプトが生成しないフィールドを保持する（再 sync で失わない）
     # character / ebiki は旧ビューア注釈フラグ（廃止）。preserve しない。

@@ -222,6 +222,47 @@ const SceneCommentaryBar = ({
 
   if (!emaki.current && !byobu.isByobuSpotMode) return null;
 
+  const currentSliceItem = Array.isArray(data?.emakis)
+    ? data.emakis[navIndex]
+    : null;
+  const activeSliceNumber = (() => {
+    const emakis = data?.emakis;
+    if (!Array.isArray(emakis)) {
+      return (
+        emaki.current?.panel_number ??
+        emaki.current?.index ??
+        (typeof navIndex === "number" ? navIndex + 1 : 1)
+      );
+    }
+    const imageOrdinal = emakis
+      .slice(0, navIndex + 1)
+      .filter((e) => e.cat === "image").length;
+    if (currentSliceItem?.cat === "image") {
+      const direct =
+        currentSliceItem.panel_number ??
+        currentSliceItem.scene_id ??
+        currentSliceItem.index;
+      if (direct != null && Number.isFinite(Number(direct))) {
+        return Number(direct);
+      }
+      return imageOrdinal > 0 ? imageOrdinal : 1;
+    }
+    if (currentSliceItem?.cat === "ekotoba") {
+      const nextImage = emakis.slice(navIndex + 1).find((e) => e.cat === "image");
+      if (nextImage) {
+        const n =
+          nextImage.panel_number ?? nextImage.scene_id ?? nextImage.index;
+        if (n != null && Number.isFinite(Number(n))) return Number(n);
+      }
+      return imageOrdinal > 0 ? imageOrdinal : 1;
+    }
+    return (
+      emaki.current?.panel_number ??
+      emaki.current?.index ??
+      (imageOrdinal > 0 ? imageOrdinal : 1)
+    );
+  })();
+
   const baseShareTitle =
     locale === "en"
       ? emakiDisplayTitle(data, locale)
@@ -616,6 +657,7 @@ const SceneCommentaryBar = ({
                 setViewMode={shell.setViewMode}
                 setContentTab={emaki.setContentTab}
                 onClearSelectedSpot={onClearSelectedSpot}
+                panels={data?.panels}
               />
               )}
               {byobu.isByobuSpotMode ? (
@@ -702,6 +744,8 @@ const SceneCommentaryBar = ({
                         expanded={shell.expanded}
                         locale={locale}
                         readMoreLabel={readMoreLabel}
+                        panels={data?.panels}
+                        activeSliceNumber={activeSliceNumber}
                       />
                     ) : (
                       <EmakiSceneBodyContent
@@ -722,6 +766,8 @@ const SceneCommentaryBar = ({
                         expanded={shell.expanded}
                         locale={locale}
                         readMoreLabel={readMoreLabel}
+                        panels={data?.panels}
+                        activeSliceNumber={activeSliceNumber}
                       />
                     )}
                   </span>

@@ -202,8 +202,222 @@ def get_scenes_config(config: dict) -> list[dict]:
     return scenes
 
 
+def _config_reading_direction(config: dict) -> str:
+    meta = config.get("metadata") or {}
+    return str(meta.get("reading_direction") or meta.get("readingDirection") or "rtl")
+
+
+def uses_panels_pipeline(config: dict) -> bool:
+    """Opt-in when scroll_config defines panels (legacy scrolls: no panels key → unchanged)."""
+    return bool(config.get("panels"))
+
+
+def uses_panel_chapter_guards(config: dict) -> bool:
+    if uses_panels_pipeline(config):
+        return True
+    return _config_reading_direction(config) == "ltr" and uses_panels_pipeline(config)
+
+
+def get_panels_config(config: dict) -> list[dict]:
+    """Normalized panel rows (never merged into scenes[].title)."""
+    raw = config.get("panels") or []
+    panels: list[dict] = []
+    for p in raw:
+        if not isinstance(p, dict):
+            continue
+        slice_range = p.get("slice_range") or p.get("range")
+        if not slice_range or len(slice_range) < 2:
+            continue
+        start, end = int(slice_range[0]), int(slice_range[1])
+        panel: dict = {
+            "id": int(p.get("id", start)),
+            "chapter_id": int(p.get("chapter_id", p.get("scene_id", 1))),
+            "slice_range": [start, end],
+        }
+        for key in (
+            "panel_number",
+            "embroidered_mark",
+            "latin_inscription",
+            "latin_translation_ja",
+            "latin_translation_en",
+            "title",
+            "titleen",
+            "title_zh",
+            "summary",
+            "actors",
+            "location",
+            "motifs",
+            "border_motifs",
+        ):
+            if key in p and p[key] is not None:
+                panel[key] = p[key]
+        panels.append(panel)
+    panels.sort(key=lambda row: (row["slice_range"][0], row["id"]))
+    return panels
+
+
+def _scene_first_global_index(config: dict) -> dict[int, int]:
+    out: dict[int, int] = {}
+    if uses_panels_pipeline(config):
+        for panel in get_panels_config(config):
+            cid = int(panel["chapter_id"])
+            start = int(panel["slice_range"][0])
+            out[cid] = min(out.get(cid, start), start)
+    else:
+        for scene in get_scenes_config(config):
+            cid = int(scene["id"])
+            start, _end = scene["range"]
+            out[cid] = int(start)
+    return out
+
+
+def scene_title_for_global_index(config: dict, global_index: int) -> str:
+    """Chapter pill title (scene only); empty on trailing slices within a scene range."""
+    scenes_by_id = {int(s["id"]): s for s in get_scenes_config(config)}
+    if uses_panels_pipeline(config):
+        for panel in get_panels_config(config):
+            start, end = panel["slice_range"]
+            if start <= global_index <= end:
+                cid = int(panel["chapter_id"])
+                scene = scenes_by_id.get(cid, {})
+                first = _scene_first_global_index(config).get(cid, start)
+                return str(scene.get("title", "")) if global_index == first else ""
+        return ""
+    for scene in get_scenes_config(config):
+        start, end = scene["range"]
+        if start <= global_index <= end:
+            return str(scene.get("title", "")) if global_index == start else ""
+    return ""
+
+
+def build_viewer_chapters(config: dict) -> list[dict]:
+    """Scroll nav chapters: scenes only (panels are not promoted to chapters[])."""
+    chapters: list[dict] = []
+    for scene in get_scenes_config(config):
+        start, end = scene["range"]
+        row: dict = {
+            "chapter": str(scene["id"]),
+            "title": scene.get("title", ""),
+            "range": [int(start), int(end)],
+        }
+        if scene.get("titleen"):
+            row["titleen"] = scene["titleen"]
+        if scene.get("title_zh"):
+            row["title_zh"] = scene["title_zh"]
+        chapters.append(row)
+    return chapters
+
+
+def build_panels_for_viewer(config: dict) -> list[dict]:
+    if not uses_panels_pipeline(config):
+        return []
+    out: list[dict] = []
+    for panel in get_panels_config(config):
+        entry = {k: v for k, v in panel.items() if k != "slice_range"}
+        entry["slice_range"] = list(panel["slice_range"])
+        out.append(entry)
+    return out
+
+
+def _panel_slot_metadata(panel: dict) -> dict:
+    meta: dict = {
+        "panel_id": panel["id"],
+        "scene_chapter": str(panel["chapter_id"]),
+    }
+    for key in (
+        "title",
+        "titleen",
+        "title_zh",
+        "panel_number",
+        "embroidered_mark",
+        "latin_inscription",
+        "latin_translation_ja",
+        "latin_translation_en",
+        "summary",
+        "actors",
+        "location",
+        "motifs",
+        "border_motifs",
+    ):
+        if key in panel:
+            meta[key] = panel[key]
+    return meta
+
+
+def build_emakis_for_panels(config: dict, image_rows: list[dict]) -> list[dict]:
+    """Panels layout: one scene ekotoba at scene start; panel titles stay on image metadata."""
+    panels = get_panels_config(config)
+    scenes_by_id = {int(s["id"]): s for s in get_scenes_config(config)}
+    first_by_scene = _scene_first_global_index(config)
+    by_index = {int(ir["index"]): ir for ir in image_rows}
+    emakis: list[dict] = []
+    seen_scene_ekotoba: set[int] = set()
+
+    for panel in panels:
+        idx = int(panel["slice_range"][0])
+        cid = int(panel["chapter_id"])
+        ir = by_index.get(idx)
+        if ir is None:
+            continue
+
+        if cid not in seen_scene_ekotoba and idx == first_by_scene.get(cid, idx):
+            ekotoba: dict = {
+                "cat": "ekotoba",
+                "chapter": str(cid),
+                "config": "",
+                "src": "",
+                "name": "",
+                "srcHeight": "",
+                "srcWidth": "",
+                "scene_chapter": str(cid),
+                "chapter_pill": True,
+            }
+            scene = scenes_by_id.get(cid)
+            if scene and scene.get("genji_chapter") is not None:
+                ekotoba["genji_chapter"] = str(scene["genji_chapter"])
+            emakis.append(ekotoba)
+            seen_scene_ekotoba.add(cid)
+
+        src = ir.get("src", "") or ""
+        if isinstance(src, str) and src.startswith("/"):
+            src = src.lstrip("/")
+        slot: dict = {
+            "cat": "image",
+            "chapter": str(panel["id"]),
+            "config": "cloudinary" if ir.get("src") else "",
+            "src": src,
+            "name": ir.get("public_id", ""),
+            "srcHeight": str(ir["height"]) if ir.get("height") else "",
+            "srcWidth": str(ir["width"]) if ir.get("width") else "",
+            "global_index": idx,
+            **_panel_slot_metadata(panel),
+        }
+        emakis.append(slot)
+    return emakis
+
+
 def expand_chapters(config: dict) -> list[tuple[int, str, int, int]]:
     """(chapter_id, title, global_index, ordinal_within_chapter)"""
+    if uses_panels_pipeline(config):
+        scenes_by_id = {int(s["id"]): s for s in get_scenes_config(config)}
+        panels = get_panels_config(config)
+        first_by_scene = _scene_first_global_index(config)
+        out: list[tuple[int, str, int, int]] = []
+        ordinals: dict[int, int] = {}
+        for panel in panels:
+            idx = int(panel["slice_range"][0])
+            cid = int(panel["chapter_id"])
+            ordinals[cid] = ordinals.get(cid, 0) + 1
+            ordinal = ordinals[cid]
+            scene = scenes_by_id.get(cid, {})
+            title = (
+                str(scene.get("title", ""))
+                if idx == first_by_scene.get(cid, idx)
+                else ""
+            )
+            out.append((cid, title, idx, ordinal))
+        return out
+
     out = []
     for ch in get_scenes_config(config):
         ch_id = ch["id"]
@@ -212,6 +426,7 @@ def expand_chapters(config: dict) -> list[tuple[int, str, int, int]]:
         for pos, idx in enumerate(range(start, end + 1), start=1):
             out.append((ch_id, title, idx, pos))
     return out
+
 
 
 # ---------------------------------------------------------------------------

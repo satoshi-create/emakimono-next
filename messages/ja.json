@@ -1,4 +1,10 @@
 {
+  "viewerPanel": {
+    "originalMark": "原本番号",
+    "latinInscription": "ラテン語銘文",
+    "chapterTab": "章の解説",
+    "panelTab": "場面の解説"
+  },
   "devUploadScroll": {
     "previewModeScroll": "横スクロール（端まで操作）",
     "previewModeFit": "全体フィット",
