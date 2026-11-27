@@ -330,9 +330,15 @@ export function EmakiSceneBodyContent({
         ? `"${latinTranslation}"`
         : `「${latinTranslation}」`
       : null;
-    return (
-      <span className={styles.panelSceneCard}>
-        <span className={styles.panelSceneHeader}>
+    const summaryText = panelCopy.summary ?? "";
+    const summaryCollapsed =
+      !expanded && summaryText.length > 120
+        ? `${summaryText.slice(0, 120)}…`
+        : summaryText;
+    const showSummaryMore = !expanded && summaryText.length > 120;
+  return (
+      <div className={styles.panelSceneCard}>
+        <div className={styles.panelSceneHeader}>
           {activePanel.embroidered_mark ? (
             <span className={styles.panelSceneMarkBadge}>
               {activePanel.embroidered_mark}
@@ -341,8 +347,8 @@ export function EmakiSceneBodyContent({
           {panelCopy.title ? (
             <span className={styles.panelSceneTitle}>{panelCopy.title}</span>
           ) : null}
-        </span>
-        {activePanel.latin_inscription ? (
+        </div>
+        {expanded && activePanel.latin_inscription ? (
           <blockquote className={styles.panelSceneLatinQuote}>
             <span className={styles.panelSceneLatinLabel}>
               {viewerPanelLabel("latinInscription", locale)}
@@ -357,10 +363,15 @@ export function EmakiSceneBodyContent({
             ) : null}
           </blockquote>
         ) : null}
-        {panelCopy.summary ? (
-          <span className={styles.panelSceneSummary}>{panelCopy.summary}</span>
+        {summaryText ? (
+          <p className={styles.panelSceneSummary}>
+            {summaryCollapsed}
+            {showSummaryMore ? (
+              <span className={styles.moreHint}>…{readMoreLabel}</span>
+            ) : null}
+          </p>
         ) : null}
-      </span>
+      </div>
     );
   }
 

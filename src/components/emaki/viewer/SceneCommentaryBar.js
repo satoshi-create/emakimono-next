@@ -422,6 +422,7 @@ const SceneCommentaryBar = ({
         data-fullscreen={shell.cardFloats ? "true" : "false"}
         data-expanded={shell.expanded ? "true" : "false"}
         data-text-mode={emaki.activeMode}
+        data-content-tab={emaki.contentTab}
       >
         <div
           className={styles.header}
@@ -704,26 +705,26 @@ const SceneCommentaryBar = ({
                     />
                   </div>
                 </>
-              ) : (
-                <button
-                  type="button"
-                  className={styles.body}
-                  onClick={toggleExpanded}
-                  aria-expanded={shell.expanded}
-                  aria-label={
-                    shell.expanded
-                      ? t("viewer.closeDetails")
-                      : t("viewer.seeDetailsOfSection")
-                  }
-                >
-                  <span
-                    className={`${styles.bodyText} ${
+              ) : (() => {
+                const isPanelTab = emaki.contentTab === "panel";
+                const bodyCommon = {
+                  className: styles.body,
+                  onClick: toggleExpanded,
+                  "aria-expanded": shell.expanded,
+                  "aria-label": shell.expanded
+                    ? t("viewer.closeDetails")
+                    : t("viewer.seeDetailsOfSection"),
+                };
+                const textWrapClass = isPanelTab
+                  ? styles.bodyTextPanelRoot
+                  : `${styles.bodyText} ${
                       emaki.activeMode === "kobun" &&
                       emaki.contentTab === "scene"
                         ? styles.bodyTextClassical
                         : ""
-                    }`}
-                  >
+                    }`;
+                const bodyInner = (
+                  <span className={textWrapClass}>
                     {(emaki.contentTab === "spot" && selectedSpot) &&
                     spotDisplay ? (
                       <EmakiSceneBodyContent
@@ -771,8 +772,27 @@ const SceneCommentaryBar = ({
                       />
                     )}
                   </span>
-                </button>
-              )}
+                );
+                return isPanelTab ? (
+                  <div
+                    {...bodyCommon}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        toggleExpanded();
+                      }
+                    }}
+                  >
+                    {bodyInner}
+                  </div>
+                ) : (
+                  <button type="button" {...bodyCommon}>
+                    {bodyInner}
+                  </button>
+                );
+              })()}
             </>
           )}
           <div className={styles.utilityActions}>

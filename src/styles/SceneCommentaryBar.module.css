@@ -121,6 +121,16 @@
   max-width: 100%;
 }
 
+/* 場面の解説タブ: bodyText の line-clamp を避けるラッパー */
+.bodyTextPanelRoot {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+  -webkit-box-orient: unset;
+}
+
 .panelSceneCard {
   display: block;
   margin: 0 0 8px;
@@ -130,6 +140,8 @@
   background: var(--era-soft-bg, rgba(255, 140, 119, 0.08));
   font-family: var(--font-ui);
   text-align: left;
+  min-width: 0;
+  box-sizing: border-box;
 }
 .panelSceneHeader {
   display: flex;
@@ -191,11 +203,29 @@
   word-break: break-word;
 }
 .panelSceneSummary {
-  margin-top: 6px;
+  margin: 6px 0 0;
   font-size: 0.8rem;
   line-height: 1.45;
   font-family: var(--font-story);
   color: var(--bar-text, #333);
+  word-break: break-word;
+}
+.panelSceneSummary .moreHint {
+  margin-left: 0.25rem;
+  vertical-align: baseline;
+}
+
+/* 場面の解説: 展開時は本文エリア内スクロール（低い laptop でも summary が切れない） */
+.bar[data-expanded="true"][data-content-tab="panel"] .body {
+  max-height: min(42vh, 280px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+@media (max-height: 768px) {
+  .bar[data-expanded="true"][data-content-tab="panel"] .body {
+    max-height: min(36vh, 220px);
+  }
 }
 
 /* 解説 / 現代文 / 古文（2種以上あるときのみ表示） */

@@ -86,6 +86,107 @@ function buildEmakiTextDataMap() {
 
 const emakiTextDataMap = buildEmakiTextDataMap();
 
+const SCROLL_METADATA_ORDER = "_order.json";
+
+function buildScrollPanelsMap() {
+  const map = {};
+  const ctx = require.context(
+    "../data/scroll-metadata/scrolls",
+    false,
+    /\.json$/
+  );
+  ctx.keys().forEach((key) => {
+    const base = key.replace(/^\.\//, "");
+    if (base === SCROLL_METADATA_ORDER) return;
+    const raw = ctx(key);
+    const item = raw?.default ?? raw;
+    const slug = base.replace(/\.json$/, "");
+    const scrollKey = item?.titleen ?? slug;
+    if (Array.isArray(item?.panels) && item.panels.length > 0) {
+      map[scrollKey] = item.panels;
+    }
+  });
+  return map;
+}
+
+const scrollPanelsMap = buildScrollPanelsMap();
+
+function panelEmbroideredMark(panel) {
+  const mark = panel?.embroidered_mark;
+  if (mark != null && String(mark).trim() !== "") return String(mark).trim();
+  if (panel?.panel_number != null) return String(panel.panel_number);
+  return "";
+}
+
+function buildPanelRangeSuffix(textField, first, last) {
+  const isEn = textField === "titleen";
+  const isZh = textField === "title_zh";
+  if (first === last) {
+    if (isEn) return ` (Panel ${first})`;
+    if (isZh) return `（场面 ${first}）`;
+    return `（場面 ${first}）`;
+  }
+  if (isEn) return ` (Panels ${first}–${last})`;
+  if (isZh) return `（场面 ${first}–${last}）`;
+  return `（場面 ${first}–${last}）`;
+}
+
+function titleAlreadyHasPanelRange(titleStr, first, last, textField) {
+  if (!titleStr) return false;
+  const t = String(titleStr);
+  const enDash = "[\u2013\\-—]";
+  if (first === last) {
+    const solo = new RegExp(
+      `[（(]\\s*(?:場面|场面|Panels?|Panel)\\s+${escapeForRegExp(first)}\\s*[）)]`,
+      "i"
+    );
+    return solo.test(t);
+  }
+  const range = new RegExp(
+    `${escapeForRegExp(first)}\\s*${enDash}\\s*${escapeForRegExp(last)}`
+  );
+  if (range.test(t)) return true;
+  const labeled = buildPanelRangeSuffix(textField, first, last).trim();
+  return t.includes(labeled);
+}
+
+function escapeForRegExp(s) {
+  return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function maybeAppendPanelRange(titleen, chapter, textField, titleValue, panelsOverride) {
+  if (titleValue == null || titleValue === "" || titleValue === false) {
+    return titleValue;
+  }
+  if (typeof titleValue !== "string") return titleValue;
+
+  const panels =
+    (Array.isArray(panelsOverride) && panelsOverride.length > 0
+      ? panelsOverride
+      : scrollPanelsMap[titleen]) || [];
+  if (!panels.length) return titleValue;
+
+  const chapterStr = String(chapter);
+  const chapterPanels = panels.filter(
+    (p) => String(p.chapter_id) === chapterStr
+  );
+  if (!chapterPanels.length) return titleValue;
+
+  const sorted = [...chapterPanels].sort(
+    (a, b) =>
+      Number(a.panel_number ?? a.id ?? 0) - Number(b.panel_number ?? b.id ?? 0)
+  );
+  const first = panelEmbroideredMark(sorted[0]);
+  const last = panelEmbroideredMark(sorted[sorted.length - 1]);
+  if (!first) return titleValue;
+
+  if (titleAlreadyHasPanelRange(titleValue, first, last || first, textField)) {
+    return titleValue;
+  }
+  const suffix = buildPanelRangeSuffix(textField, first, last || first);
+  return titleValue + suffix;
+}
+
 export const connectEmakiTextData = (titleen, chapter, field) => {
   const chapterData = emakiTextDataMap[titleen];
   if (!chapterData) {
@@ -171,25 +272,31 @@ export const ChaptersTitle = (
   title,
   chapter,
   text,
-  genjiChapter
+  genjiChapter,
+  panelsOverride
 ) => {
+  const withPanelRange = (value) =>
+    maybeAppendPanelRange(titleen, chapter, text, value, panelsOverride);
+
   if (isGenjiWork(titleen, title)) {
     const masterCh = resolveGenjiMasterChapter(titleen, chapter, genjiChapter);
     if (text === "titleen") {
       const fromFile =
         hasTextData(titleen) &&
         connectEmakiTextData(titleen, chapter, "titleen");
-      if (fromFile) return fromFile;
+      if (fromFile) return withPanelRange(fromFile);
       const num = connectGenjiChapters(masterCh, "chapter_en");
       const path = connectGenjiChapters(masterCh, "titleen");
-      if (num && path) return `Chapter ${num}: ${path}`;
-      if (num) return `Chapter ${num}`;
-      return path || "";
+      if (num && path) return withPanelRange(`Chapter ${num}: ${path}`);
+      if (num) return withPanelRange(`Chapter ${num}`);
+      return withPanelRange(path || "");
     }
     // 日本語: 巻別 title を優先（柏木（一）等の段番号を含める）
     const fromFile =
       hasTextData(titleen) && connectEmakiTextData(titleen, chapter, "title");
-    if (fromFile) return withTateChuYoko(fromFile);
+    if (fromFile) {
+      return withTateChuYoko(withPanelRange(fromFile));
+    }
 
     const chEn = connectGenjiChapters(masterCh, "chapter_en");
     if (!chEn) return "";
@@ -212,7 +319,7 @@ export const ChaptersTitle = (
   }
   if (hasTextData(titleen)) {
     const t = connectEmakiTextData(titleen, chapter, text);
-    return t ? withTateChuYoko(t) : "";
+    return t ? withTateChuYoko(withPanelRange(t)) : "";
   }
   return chapter ? parse(String(chapter)) : "";
 };

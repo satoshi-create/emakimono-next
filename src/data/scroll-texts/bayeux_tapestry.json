@@ -5,9 +5,97 @@
     "titleen": "Chapter 1: King Edward's Court & Harold's Departure",
     "kobun": "",
     "gendaibun": "",
-    "desc": "イングランド王エドワード懺悔王がウェストミンスターの宮殿でウェセックス伯ハロルドに語りかけ（場面1）、ハロルドは鷹と猟犬を伴って領地ボシャムへ馬で向かい（場面2）、ボシャム教会で祈りを捧げた後に館で宴を催して出航に備えます（場面3〜4）。",
+    "desc": "イングランド王エドワード懺悔王がウェストミンスターの宮殿でウェセックス伯ハロルドに語りかけ（場面I.）、ハロルドは鷹と猟犬を伴ってボシャムへ馬で向かい（場面2.）、教会で祈りを捧げた後に館で宴を催して英仏海峡へ船出します（場面3.〜5.）。",
     "title_zh": "第一章：忏悔者爱德华宫廷与哈罗德启程",
-    "descen": "King Edward the Confessor speaks with Harold Godwinson, Earl of Wessex, at Westminster (Panel 1). Harold rides to his estate at Bosham with hawks and hounds (Panel 2), prays at Bosham Church, and holds a feast before setting sail across the Channel (Panels 3–4).",
-    "desc_zh": "英格兰国王忏悔者爱德华在威斯敏斯特宫殿嘱托威塞克斯伯爵哈罗德（场面1）；哈罗德携猎鹰与猎犬骑马前往领地博舍姆（场面2），在博舍姆教堂祈祷并于宅邸设宴准备启航（场面3–4）。"
+    "descen": "King Edward the Confessor speaks with Harold, Earl of Wessex, at Westminster (Panel I.). Harold rides to Bosham with hawks and hounds (Panel 2.), prays at the church, feasts in his hall, and sets sail across the Channel (Panels 3.–5.).",
+    "desc_zh": "英格兰国王忏悔者爱德华在威斯敏斯特宫嘱托威塞克斯伯爵哈罗德（场面I.）；哈罗德携猎鹰与猎犬前往博舍姆（场面2.），在教堂祈祷并于宅邸设宴后扬帆渡海（场面3.–5.）。"
+  },
+  {
+    "chapter": "2",
+    "title": "第2章：ポンチュー上陸とギー伯による拘束",
+    "titleen": "Chapter 2: Landfall in Ponthieu & Capture by Count Guy",
+    "kobun": "",
+    "gendaibun": "",
+    "desc": "嵐に流されてポンチューに漂着したハロルドはギー伯に捕らえられ（場面6.〜7.）、ボーラン城へ連行されます（場面8.〜9.）。知らせを受けたウィリアム公は使者を送り、ハロルドの引き渡しを迫ります（場面10.〜13.）。",
+    "title_zh": "第二章：蓬蒂厄登陆与居伊伯爵扣押",
+    "descen": "Blown off course onto the coast of Ponthieu, Harold is seized by Count Guy (Panels 6.–7.) and taken to Beaurain (Panels 8.–9.). Informed of his capture, Duke William of Normandy sends envoys demanding Harold's release (Panels 10.–13.).",
+    "desc_zh": "哈罗德因风暴漂流至蓬蒂厄海岸被居伊伯爵俘获（场面6.–7.），押往博兰城堡（场面8.–9.）。威廉公爵闻讯派使者交涉，要求交出哈罗德（场面10.–13.）。"
+  },
+  {
+    "chapter": "3",
+    "title": "第3章：ウィリアム公との会見とエルフギヴァの謎",
+    "titleen": "Chapter 3: Meeting Duke William & the Mystery of Ælfgyva",
+    "kobun": "",
+    "gendaibun": "",
+    "desc": "ギー伯はウ城でハロルドをウィリアム公に引き渡し（場面14.）、ウィリアム公はルーアンの宮殿へ招き入れます（場面15.）。その傍らでは聖職者と貴婦人エルフギヴァの謎の場面が描かれます（場面16.）。",
+    "title_zh": "第三章：威廉公爵会见与埃尔夫吉娃之谜",
+    "descen": "Count Guy hands Harold over to Duke William at Eu (Panel 14.), and William escorts him to his palace at Rouen (Panel 15.), alongside an enigmatic scene involving a cleric and the noblewoman Ælfgyva (Panel 16.).",
+    "desc_zh": "居伊伯爵在厄城将哈罗德移交威廉公爵（场面14.），威廉将其迎入鲁昂宫殿（场面15.）；一旁则描绘了神职人员与贵族女性埃尔夫吉娃的神秘插曲（场面16.）。"
+  },
+  {
+    "chapter": "4",
+    "title": "第4章：ブルターニュ遠征と騎士叙任",
+    "titleen": "Chapter 4: The Breton Campaign & Knighting of Harold",
+    "kobun": "",
+    "gendaibun": "",
+    "desc": "ウィリアム公とハロルドはブルターニュ遠征に出陣し（場面17.）、クエノン川の流砂でハロルドがノルマン兵を救出（場面18.）。ドル・レンヌ・ディナンを攻略後（場面19.〜21.）、ウィリアムはハロルドに武具を授けます（場面22.）。",
+    "title_zh": "第四章：布列塔尼远征与册封骑士",
+    "descen": "William and Harold march against Conan II of Brittany (Panel 17.). Near Mont-Saint-Michel, Harold rescues Norman soldiers from quicksand in the Couesnon River (Panel 18.). After taking Dol, Rennes, and Dinan (Panels 19.–21.), William invests Harold with arms (Panel 22.).",
+    "desc_zh": "威廉公爵与哈罗德出征讨伐布列塔尼公爵柯南二世（场面17.），哈罗德在库埃农河流沙中勇救诺曼士兵（场面18.）。攻克多尔、雷恩与迪南后（场面19.–21.），威廉赐予哈罗德武器（场面22.）。"
+  },
+  {
+    "chapter": "5",
+    "title": "第5章：バイユーの聖遺物への誓いと帰国",
+    "titleen": "Chapter 5: The Oath at Bayeux & Return to England",
+    "kobun": "",
+    "gendaibun": "",
+    "desc": "バイユーへ移動したハロルドは聖遺物箱に両手を置いて厳粛な誓いを立て（場面23.）、イングランドへ帰国してエドワード王に報告します（場面24.〜25.）。",
+    "title_zh": "第五章：巴约圣物起誓与返回英格兰",
+    "descen": "Arriving at Bayeux, Harold swears a solemn oath on sacred relics before Duke William (Panel 23.), then sails back to England and reports to King Edward (Panels 24.–25.).",
+    "desc_zh": "抵达巴约后，哈罗德双手按在圣物箱上向威廉公爵立下庄严誓言（场面23.），随后渡海返回英格兰向爱德华国王复命（场面24.–25.）。"
+  },
+  {
+    "chapter": "6",
+    "title": "第6章：エドワード王の崩御とハロルドの即位・彗星",
+    "titleen": "Chapter 6: Death of King Edward, Harold's Coronation & the Comet",
+    "kobun": "",
+    "gendaibun": "",
+    "desc": "ウェストミンスター寺院へエドワード王の遺体が運ばれ（場面26.）、臨終の床で王冠を託されたハロルドが即位（場面27.〜30.）。夜空にハレー彗星が現れ（場面31.〜32.）、急報がノルマンディーへ届きます（場面33.）。",
+    "title_zh": "第六章：爱德华驾崩、哈罗德即位与彗星现世",
+    "descen": "King Edward's body is borne to Westminster Abbey (Panel 26.), and Harold is crowned King of England (Panels 27.–30.). Soon Halley's Comet appears in the sky (Panels 31.–32.), and news of Harold's coronation reaches Duke William (Panel 33.).",
+    "desc_zh": "爱德华国王的遗体被抬往威斯敏斯特教堂（场面26.），哈罗德加冕为英格兰国王（场面27.–30.）。不久夜空出现哈雷彗星（场面31.–32.），哈罗德即位的消息传入威廉公爵耳中（场面33.）。"
+  },
+  {
+    "chapter": "7",
+    "title": "第7章：ノルマン艦隊の建造と英仏海峡横断",
+    "titleen": "Chapter 7: Building the Norman Fleet & Crossing the Channel",
+    "kobun": "",
+    "gendaibun": "",
+    "desc": "ウィリアム公は侵攻艦隊の建造を命じ、木こりが伐採して船を造り武具と葡萄酒を積み込みます（場面34.〜36.）。大船団は英仏海峡を渡りペヴェンジーに上陸します（場面37.〜39.）。",
+    "title_zh": "第七章：诺曼舰队建造与横渡英吉利海峡",
+    "descen": "Duke William orders an invasion fleet built; timber is felled, ships are constructed and loaded with arms and wine (Panels 34.–36.), and the armada crosses the Channel to land unopposed at Pevensey (Panels 37.–39.).",
+    "desc_zh": "威廉公爵下令建造远征舰队，工匠伐木造船并将武器与美酒装船（场面34.–36.）。大舰队横渡海峡顺利在佩文西登陆（场面37.–39.）。"
+  },
+  {
+    "chapter": "8",
+    "title": "第8章：ヘイスティングズでの布陣と開戦前夜",
+    "titleen": "Chapter 8: Encampment at Hastings & Eve of Battle",
+    "kobun": "",
+    "gendaibun": "",
+    "desc": "上陸したノルマン軍はヘイスティングズで食糧を徴発・調理して祝宴を開き（場面40.〜42.）、軍議と築城を行います（場面43.〜44.）。ハロルド軍接近の報を受けたウィリアム公は全軍に出撃と開戦を命じます（場面45.〜50.）。",
+    "title_zh": "第八章：黑斯廷斯扎营与大战前夜",
+    "descen": "Landing in England, the Normans forage around Hastings, cook, hold a banquet (Panels 40.–42.), confer and fortify their camp (Panels 43.–44.). Receiving scouts' intelligence, William orders his knights to arm and advance (Panels 45.–50.).",
+    "desc_zh": "登陆后的诺曼军在黑斯廷斯筹集粮草、烹煮并举行宴会（场面40.–42.），商议军机并构筑工事（场面43.–44.）。接获侦察报告后，威廉下令全军披甲出击（场面45.–50.）。"
+  },
+  {
+    "chapter": "9",
+    "title": "第9章：ヘイスティングズの戦い・ハロルド王の戦死",
+    "titleen": "Chapter 9: The Battle of Hastings & Death of King Harold",
+    "kobun": "",
+    "gendaibun": "",
+    "desc": "ノルマン騎兵が盾の壁に突撃しハロルドの弟たちが戦死（場面51.〜52.）。オド司教や兜を上げたウィリアム公が味方を鼓舞し（場面53.〜54.）、親衛隊崩壊の末にハロルド王が戦死（場面55.〜56.）、イングランド軍は敗走します（場面57.〜58.）。",
+    "title_zh": "第九章：黑斯廷斯战役与哈罗德王战死",
+    "descen": "Norman cavalry charge the shield wall and Harold's brothers fall (Panels 51.–52.). Bishop Odo and Duke William rally their troops (Panels 53.–54.); King Harold falls in battle (Panels 55.–56.), and the English army breaks and flees (Panels 57.–58.).",
+    "desc_zh": "诺曼骑兵猛攻盾墙，哈罗德二弟阵亡（场面51.–52.）。厄德主教与威廉公爵鼓舞士气（场面53.–54.），亲卫队崩溃后哈罗德王战死沙场（场面55.–56.），英格兰军溃败逃亡（场面57.–58.）。"
   }
 ]

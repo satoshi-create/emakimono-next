@@ -54,6 +54,8 @@ export function AutoSlicePanel({
   isSlicing,
   runAutoSlice,
   sliceGenMessage,
+  numberedListCount = 0,
+  clearAllNumberedImages,
 }) {
   return (
     <details
@@ -552,6 +554,24 @@ export function AutoSlicePanel({
               }}
             >
               元画像選択をクリア
+            </button>
+          ) : null}
+          {numberedListCount > 0 ? (
+            <button
+              type="button"
+              disabled={isSlicing}
+              onClick={() => clearAllNumberedImages?.()}
+              style={{
+                padding: "8px 12px",
+                fontSize: 13,
+                borderRadius: 6,
+                border: "1px solid #fca5a5",
+                background: "#fff",
+                color: "#b91c1c",
+                cursor: isSlicing ? "not-allowed" : "pointer",
+              }}
+            >
+              {`連番リストをすべてクリア（${numberedListCount}枚）`}
             </button>
           ) : null}
         </div>

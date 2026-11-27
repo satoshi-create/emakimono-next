@@ -132,14 +132,43 @@ export function useEmakiSceneCommentary({
   const indexRows = useMemo(() => {
     if (viewMode !== "index") return [];
     const isEn = locale === "en";
+    const panelsArg = data?.panels;
     return filterEkotobas.map((item) => ({
       linkId: item.linkId,
       title: isEn
-        ? ChaptersTitle(titleen, title, item.chapter, "titleen", item.genji_chapter)
+        ? ChaptersTitle(
+            titleen,
+            title,
+            item.chapter,
+            "titleen",
+            item.genji_chapter,
+            panelsArg
+          )
         : locale === "zh-Hans"
-          ? ChaptersTitle(titleen, title, item.chapter, "title_zh", item.genji_chapter) ||
-            ChaptersTitle(titleen, title, item.chapter, "titleen", item.genji_chapter)
-          : ChaptersTitle(titleen, title, item.chapter, "title", item.genji_chapter),
+          ? ChaptersTitle(
+              titleen,
+              title,
+              item.chapter,
+              "title_zh",
+              item.genji_chapter,
+              panelsArg
+            ) ||
+            ChaptersTitle(
+              titleen,
+              title,
+              item.chapter,
+              "titleen",
+              item.genji_chapter,
+              panelsArg
+            )
+          : ChaptersTitle(
+              titleen,
+              title,
+              item.chapter,
+              "title",
+              item.genji_chapter,
+              panelsArg
+            ),
       desc: stripHtml(
         getChapterFieldRaw(
           titleen,
@@ -158,7 +187,7 @@ export function useEmakiSceneCommentary({
           ])
         : null,
     }));
-  }, [viewMode, filterEkotobas, chapterThumbMap, locale, titleen, title]);
+  }, [viewMode, filterEkotobas, chapterThumbMap, locale, titleen, title, data?.panels]);
 
   const [textMode, setTextMode] = useState("gendaibun");
   const [selectedMotifId, setSelectedMotifId] = useState(null);
@@ -406,6 +435,7 @@ export function useEmakiSceneCommentary({
 
   const emakiChapterTitle = () => {
     if (!current) return "";
+    const panelsArg = data?.panels;
     if (locale === "zh-Hans") {
       return (
         ChaptersTitle(
@@ -413,14 +443,16 @@ export function useEmakiSceneCommentary({
           title,
           current.chapter,
           "title_zh",
-          current.genji_chapter
+          current.genji_chapter,
+          panelsArg
         ) ||
         ChaptersTitle(
           titleen,
           title,
           current.chapter,
           "titleen",
-          current.genji_chapter
+          current.genji_chapter,
+          panelsArg
         )
       );
     }
@@ -430,14 +462,16 @@ export function useEmakiSceneCommentary({
           title,
           current.chapter,
           "titleen",
-          current.genji_chapter
+          current.genji_chapter,
+          panelsArg
         )
       : ChaptersTitle(
           titleen,
           title,
           current.chapter,
           "title",
-          current.genji_chapter
+          current.genji_chapter,
+          panelsArg
         );
   };
 

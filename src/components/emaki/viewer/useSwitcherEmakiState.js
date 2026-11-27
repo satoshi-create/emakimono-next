@@ -93,6 +93,7 @@ export function useSwitcherEmakiState({
   } = item ?? {};
   const panelGuards = usesPanelChapterGuards(data);
   const chapterLookup = panelGuards ? sceneChapterKeyForPill(data, item) : chapter;
+  const panelsArg = data?.panels;
   const chapterTitleFromTexts =
     locale === "zh-Hans"
       ? ChaptersTitle(
@@ -100,14 +101,16 @@ export function useSwitcherEmakiState({
           data?.title,
           chapterLookup,
           "title_zh",
-          genjiChapter
+          genjiChapter,
+          panelsArg
         ) ||
         ChaptersTitle(
           data?.titleen,
           data?.title,
           chapterLookup,
           "titleen",
-          genjiChapter
+          genjiChapter,
+          panelsArg
         )
       : locale === "en"
         ? ChaptersTitle(
@@ -115,14 +118,16 @@ export function useSwitcherEmakiState({
             data?.title,
             chapterLookup,
             "titleen",
-            genjiChapter
+            genjiChapter,
+            panelsArg
           )
         : ChaptersTitle(
             data?.titleen,
             data?.title,
             chapterLookup,
             "title",
-            genjiChapter
+            genjiChapter,
+            panelsArg
           );
   const chapterTitle =
     chapterTitleFromTexts ||

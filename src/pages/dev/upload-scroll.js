@@ -38,6 +38,18 @@ function DevUploadScrollPage() {
     moveImage,
   } = useScrollFormState((payload) => setResultLogRef.current(payload));
 
+  const clearAllNumberedImages = () => {
+    const count = imageItems.length;
+    if (count === 0) return;
+    if (!window.confirm(`連番リストの全 ${count} 枚の画像を削除しますか？`)) return;
+    setImageItems((prev) => {
+      prev.forEach((item) => {
+        if (item?.preview) URL.revokeObjectURL(item.preview);
+      });
+      return [];
+    });
+  };
+
   const slicer = useScrollSlicer({ yamlScrollId, imageItems, setImageItems });
   const { setIsRtlSlice } = slicer;
 
@@ -165,7 +177,12 @@ function DevUploadScrollPage() {
               ※既に scrolls/&#123;scroll_id&#125;/images/ に画像がある場合は、画像選択なしで YAML のみ再同期できます。
             </p>
 
-            <AutoSlicePanel rtlPreview={rtlPreview} {...slicer} />
+            <AutoSlicePanel
+              rtlPreview={rtlPreview}
+              {...slicer}
+              numberedListCount={imageItems.length}
+              clearAllNumberedImages={clearAllNumberedImages}
+            />
 
             <div style={thumbGridStyle(rtlPreview)}>
               {previewOrder.map((item) => {
