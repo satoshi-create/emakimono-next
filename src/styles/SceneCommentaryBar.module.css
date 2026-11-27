@@ -131,38 +131,62 @@
   font-family: var(--font-ui);
   text-align: left;
 }
-.panelSceneMarkRow {
+.panelSceneHeader {
   display: flex;
   align-items: baseline;
-  gap: 0.35rem;
   flex-wrap: wrap;
+  gap: 0.4rem;
 }
-.panelSceneMarkLabel {
-  font-size: 0.68rem;
-  font-weight: 600;
-  color: var(--clr-text-muted, #666);
-  letter-spacing: 0.03em;
-}
-.panelSceneMarkValue {
-  font-size: 0.8rem;
+.panelSceneMarkBadge {
+  flex: 0 0 auto;
+  padding: 1px 6px;
+  font-size: 0.72rem;
   font-weight: 700;
+  line-height: 1.3;
   color: var(--bar-text, #333);
+  border: 1px solid var(--bar-border, rgba(0, 0, 0, 0.14));
+  border-radius: 4px;
+  background: var(--clr-surface, rgba(255, 255, 255, 0.65));
 }
 .panelSceneTitle {
-  margin-top: 4px;
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
   font-weight: 600;
   font-size: 0.82rem;
   line-height: 1.35;
   color: var(--bar-text, #333);
 }
-.panelSceneLatinBlock {
-  margin-top: 6px;
+.panelSceneLatinQuote {
+  margin: 8px 0 0;
+  padding: 8px 10px 8px 12px;
+  border: none;
+  border-left: 3px solid var(--clr-accent, #ff8c77);
+  border-radius: 0 6px 6px 0;
+  background: var(--clr-surface, rgba(255, 255, 255, 0.45));
 }
-.panelSceneLatin {
-  margin-top: 2px;
-  font-size: 0.74rem;
+.panelSceneLatinLabel {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--clr-text-muted, #666);
+  letter-spacing: 0.03em;
+}
+.panelSceneLatinText {
+  margin: 4px 0 0;
+  font-size: 0.78rem;
+  font-weight: 700;
   font-style: italic;
-  line-height: 1.4;
+  font-variant-numeric: lining-nums;
+  line-height: 1.45;
+  color: var(--bar-text, #333);
+  word-break: break-word;
+}
+.panelSceneLatinTranslation {
+  margin: 6px 0 0;
+  font-size: 0.76rem;
+  line-height: 1.45;
+  font-family: var(--font-story);
   color: var(--clr-text-muted, #555);
   word-break: break-word;
 }

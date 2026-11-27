@@ -321,30 +321,41 @@ export function EmakiSceneBodyContent({
     const activePanel =
       resolveActivePanel(panels, activeSliceNumber) ?? panels[0];
     const panelCopy = panelLocalizedStrings(activePanel, locale);
+    const latinTranslation =
+      locale === "en"
+        ? activePanel.latin_translation_en
+        : activePanel.latin_translation_ja;
+    const translationQuote = latinTranslation
+      ? locale === "en"
+        ? `"${latinTranslation}"`
+        : `「${latinTranslation}」`
+      : null;
     return (
       <span className={styles.panelSceneCard}>
-        {activePanel.embroidered_mark ? (
-          <span className={styles.panelSceneMarkRow}>
-            <span className={styles.panelSceneMarkLabel}>
-              {viewerPanelLabel("originalMark", locale)}
-            </span>
-            <span className={styles.panelSceneMarkValue}>
+        <span className={styles.panelSceneHeader}>
+          {activePanel.embroidered_mark ? (
+            <span className={styles.panelSceneMarkBadge}>
               {activePanel.embroidered_mark}
             </span>
-          </span>
-        ) : null}
-        {panelCopy.title ? (
-          <span className={styles.panelSceneTitle}>{panelCopy.title}</span>
-        ) : null}
+          ) : null}
+          {panelCopy.title ? (
+            <span className={styles.panelSceneTitle}>{panelCopy.title}</span>
+          ) : null}
+        </span>
         {activePanel.latin_inscription ? (
-          <span className={styles.panelSceneLatinBlock}>
-            <span className={styles.panelSceneMarkLabel}>
+          <blockquote className={styles.panelSceneLatinQuote}>
+            <span className={styles.panelSceneLatinLabel}>
               {viewerPanelLabel("latinInscription", locale)}
             </span>
-            <span className={styles.panelSceneLatin}>
+            <p className={styles.panelSceneLatinText}>
               {activePanel.latin_inscription}
-            </span>
-          </span>
+            </p>
+            {translationQuote ? (
+              <p className={styles.panelSceneLatinTranslation}>
+                {translationQuote}
+              </p>
+            ) : null}
+          </blockquote>
         ) : null}
         {panelCopy.summary ? (
           <span className={styles.panelSceneSummary}>{panelCopy.summary}</span>
