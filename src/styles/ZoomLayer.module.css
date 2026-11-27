@@ -214,9 +214,18 @@
   transform: translateX(-6rem);
 }
 
+/* LTR: レールが左側のときシアター切替ボタンを右寄せ基準に反転 */
+.theaterAnchorLtr {
+  transform: translateX(6rem);
+}
+
 @media (max-width: 1023px) {
   .theaterAnchor {
     display: none;
+  }
+
+  .theaterAnchorLtr {
+    transform: none;
   }
 }
 

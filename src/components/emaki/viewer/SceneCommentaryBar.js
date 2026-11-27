@@ -80,6 +80,7 @@ const SceneCommentaryBar = ({
   const { locale } = router;
   const { t } = useTranslation("common");
   const { title, titleen } = data;
+  const isLtr = data?.readingDirection === "ltr";
 
   const [isFolkloreOpen, setIsFolkloreOpen] = useState(false);
 
@@ -91,6 +92,7 @@ const SceneCommentaryBar = ({
     setIsFolkloreOpen,
     isFolkloreOpen,
     workKey: titleen,
+    isLtr,
   });
 
   const closeBarIfCompact = useCallback(() => {
@@ -201,6 +203,7 @@ const SceneCommentaryBar = ({
     onIdlePauseChange,
     isFolkloreOpen,
     setIsFolkloreOpen,
+    isLtr,
   });
 
   useCommentaryBarMetrics({
@@ -249,7 +252,7 @@ const SceneCommentaryBar = ({
     return (
       <div
         ref={shell.barRef}
-        className={styles.reopenBar}
+        className={`${styles.reopenBar} ${isLtr ? styles.ltr : ""}`}
         data-orientation={orientation}
         data-fullscreen={shell.cardFloats ? "true" : "false"}
       >
@@ -355,7 +358,9 @@ const SceneCommentaryBar = ({
   return (
     <div
       ref={shell.wrapRef}
-      className={`${styles.wrap} ${shell.isCardDragging ? styles.dragging : ""}`}
+      className={`${styles.wrap} ${shell.isCardDragging ? styles.dragging : ""} ${
+        isLtr ? styles.ltr : ""
+      }`}
       data-viewer-mode={viewerLayout.viewerMode}
       data-layout-placement={viewerLayout.layoutPlacement}
       data-fullscreen={shell.cardFloats ? "true" : "false"}
@@ -371,7 +376,7 @@ const SceneCommentaryBar = ({
     >
       <div
         ref={shell.barRef}
-        className={styles.bar}
+        className={`${styles.bar} ${isLtr ? styles.ltr : ""}`}
         data-orientation={orientation}
         data-fullscreen={shell.cardFloats ? "true" : "false"}
         data-expanded={shell.expanded ? "true" : "false"}
@@ -569,6 +574,8 @@ const SceneCommentaryBar = ({
                 activeIndex={emaki.activeIndex}
                 indexRows={emaki.indexRows}
                 handleNavigate={emaki.handleNavigate}
+                onSectionStep={emaki.handleSectionStep}
+                isLtr={isLtr}
                 t={t}
               />
             )

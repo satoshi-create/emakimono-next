@@ -14,7 +14,7 @@ import { buildCloudinaryUrl } from "@/utils/cloudinaryUrl";
 import { resolveEbikiScrollTarget } from "@/utils/resolveQuizJump";
 import { triggerEbikiSpotlight } from "@/utils/triggerEbikiSpotlight";
 import { getMasterByRawSpotId } from "@/data/rakuchu-rakugai/rakuchuMotifMaster";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 export const TEXT_MODES = ["gendaibun", "kobun", "desc", "tansaku"];
 
@@ -47,6 +47,7 @@ export function useEmakiSceneCommentary({
   onIdlePauseChange,
   isFolkloreOpen,
   setIsFolkloreOpen,
+  isLtr = false,
 }) {
   const { era, eraen } = data;
   const { getItemsForChapter, getItemById, hasFolklore } =
@@ -347,6 +348,22 @@ export function useEmakiSceneCommentary({
     setIsFolkloreOpen(false);
   };
 
+  const prevSectionIndex = activeIndex > 0 ? activeIndex - 1 : null;
+  const nextSectionIndex =
+    activeIndex >= 0 && activeIndex < filterEkotobas.length - 1
+      ? activeIndex + 1
+      : null;
+
+  const handleSectionStep = useCallback(
+    (delta) => {
+      if (!isLtr) return;
+      const target =
+        delta < 0 ? prevSectionIndex : delta > 0 ? nextSectionIndex : null;
+      if (target != null) handleNavigate(target);
+    },
+    [isLtr, prevSectionIndex, nextSectionIndex, handleNavigate]
+  );
+
   const handleFolkloreSelect = (item) => {
     if (!item) return;
     const target = resolveEbikiScrollTarget(emakis, item);
@@ -451,6 +468,8 @@ export function useEmakiSceneCommentary({
     hasFolklore,
     handleTextMode,
     handleNavigate,
+    handleSectionStep,
+    isLtr,
     handleFolkloreSelect,
     hasMultipleSections,
     chapterFolkloreItems,

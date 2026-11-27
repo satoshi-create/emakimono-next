@@ -110,6 +110,7 @@ export default function useEmakiViewerOrchestrator({
   const [isScrollFeedbackOpen, setIsScrollFeedbackOpen] = useState(false);
 
   const emakiId = data.titleen;
+  const isLtr = data?.readingDirection === "ltr";
   const lastDetectedSceneRef = useRef(navIndex);
   const detectCurrentSceneRef = useRef(null);
 
@@ -190,6 +191,7 @@ export default function useEmakiViewerOrchestrator({
     emakiId,
     emakis: data.emakis,
     isByobu: isByobuScroll(data),
+    readingDirection: data?.readingDirection || "rtl",
     navIndex,
     setnavIndex,
     isScrollDetectedUpdateRef,
@@ -275,6 +277,7 @@ export default function useEmakiViewerOrchestrator({
     isAtEndRef,
     isAutoScrolling,
     isPlayMode,
+    isLtr,
     onUserScrollStart,
     onReachStartBoundary,
     theaterSuppressRef,
@@ -388,6 +391,7 @@ export default function useEmakiViewerOrchestrator({
     navIndex,
     handleToId,
     detectCurrentSceneRef,
+    readingDirection: data?.readingDirection || "rtl",
   });
 
   const { showWheelToast, setShowWheelToast } = useEmakiViewerLifecycle({
@@ -515,6 +519,7 @@ export default function useEmakiViewerOrchestrator({
       windowIsPlaying,
       ebikiPickerEnabled,
       isEditSpotsMode,
+      isLtr,
       selectedSpot,
       selectedSpotId,
       allSpots,
@@ -555,6 +560,7 @@ export default function useEmakiViewerOrchestrator({
       isMapDrawerOpen,
       openMapDrawer,
       closeMapDrawer,
+      isLtr,
     },
     overlaysProps: {
       scroll,
@@ -597,6 +603,7 @@ export default function useEmakiViewerOrchestrator({
       navIndex,
       liveSceneIndex,
       scrollFeedbackSubmitted,
+      isLtr,
     },
     stageProps: {
       handleRailPointerDown,
@@ -645,6 +652,7 @@ export default function useEmakiViewerOrchestrator({
       fabMode,
       canShowQuizChrome,
       onOpenMapDrawer: openMapDrawer,
+      isLtr,
     },
     ebikiHudProps: {
       hudData: ebikiPickerHud,

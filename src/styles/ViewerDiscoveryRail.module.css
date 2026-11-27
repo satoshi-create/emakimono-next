@@ -210,6 +210,12 @@
   text-decoration: underline;
 }
 
+/* LTR 絵巻（readingDirection === "ltr"）のみ .ltr 修飾。RTL 既定は不変 */
+.rail.ltr {
+  direction: ltr;
+  text-align: left;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .closeBtn:hover {
     border-color: var(--clr-accent);

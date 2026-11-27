@@ -39,7 +39,7 @@ const EmakiNavigation = ({
     (acc, item, i) => (item.linkId <= navIndex ? i : acc),
     0
   );
-  // 絵巻は右起・RTL 横スクロール（旧「西洋絵画」LTR 分岐は廃止）
+  const isLtr = data?.readingDirection === "ltr";
   const nextScene = ekotobas[currentIdx + 1];
   const prevScene = ekotobas[currentIdx - 1];
 
@@ -54,28 +54,64 @@ const EmakiNavigation = ({
         transition: "opacity 0.3s linear",
       }}
     >
-      <ActionButton
-        icon={
-          <FontAwesomeIcon icon={faAnglesLeft} style={{ fontSize: "1.5em" }} />
-        }
-        label={t("viewer.goToEnd")}
-        onClick={() => handleToId(endIndex)}
-        description={t("viewer.goToEnd")}
-        isUIVisible={isUIVisible}
-      />
-      {nextScene && (
-        <ActionButton
-          icon={
-            <FontAwesomeIcon
-              icon={faChevronLeft}
-              style={{ fontSize: "1.5em" }}
+      {isLtr ? (
+        <>
+          <ActionButton
+            icon={
+              <FontAwesomeIcon
+                icon={faAnglesLeft}
+                style={{ fontSize: "1.5em" }}
+              />
+            }
+            label={t("viewer.goToStart")}
+            onClick={() => handleToId(0)}
+            description={t("viewer.goToStart")}
+            isUIVisible={isUIVisible}
+          />
+          {prevScene && (
+            <ActionButton
+              icon={
+                <FontAwesomeIcon
+                  icon={faChevronLeft}
+                  style={{ fontSize: "1.5em" }}
+                />
+              }
+              label={t("viewer.previous")}
+              description={t("viewer.previous")}
+              onClick={() => handleToId(prevScene.linkId)}
+              isUIVisible={isUIVisible}
             />
-          }
-          label={t("viewer.next")}
-          description={t("viewer.next")}
-          onClick={() => handleToId(nextScene.linkId)}
-          isUIVisible={isUIVisible}
-        />
+          )}
+        </>
+      ) : (
+        <>
+          <ActionButton
+            icon={
+              <FontAwesomeIcon
+                icon={faAnglesLeft}
+                style={{ fontSize: "1.5em" }}
+              />
+            }
+            label={t("viewer.goToEnd")}
+            onClick={() => handleToId(endIndex)}
+            description={t("viewer.goToEnd")}
+            isUIVisible={isUIVisible}
+          />
+          {nextScene && (
+            <ActionButton
+              icon={
+                <FontAwesomeIcon
+                  icon={faChevronLeft}
+                  style={{ fontSize: "1.5em" }}
+                />
+              }
+              label={t("viewer.next")}
+              description={t("viewer.next")}
+              onClick={() => handleToId(nextScene.linkId)}
+              isUIVisible={isUIVisible}
+            />
+          )}
+        </>
       )}
       <ActionButton
         icon={
@@ -113,29 +149,65 @@ const EmakiNavigation = ({
         )
       )}
       {hasChapters && <ToggleChapter isUIVisible={isUIVisible} />}
-      {prevScene && (
-        <ActionButton
-          icon={
-            <FontAwesomeIcon
-              icon={faChevronRight}
-              style={{ fontSize: "1.5em" }}
+      {isLtr ? (
+        <>
+          {nextScene && (
+            <ActionButton
+              icon={
+                <FontAwesomeIcon
+                  icon={faChevronRight}
+                  style={{ fontSize: "1.5em" }}
+                />
+              }
+              label={t("viewer.next")}
+              description={t("viewer.next")}
+              onClick={() => handleToId(nextScene.linkId)}
+              isUIVisible={isUIVisible}
             />
-          }
-          label={t("viewer.previous")}
-          description={t("viewer.previous")}
-          onClick={() => handleToId(prevScene.linkId)}
-          isUIVisible={isUIVisible}
-        />
+          )}
+          <ActionButton
+            icon={
+              <FontAwesomeIcon
+                icon={faAnglesRight}
+                style={{ fontSize: "1.5em" }}
+              />
+            }
+            label={t("viewer.goToEnd")}
+            onClick={() => handleToId(endIndex)}
+            description={t("viewer.goToEnd")}
+            isUIVisible={isUIVisible}
+          />
+        </>
+      ) : (
+        <>
+          {prevScene && (
+            <ActionButton
+              icon={
+                <FontAwesomeIcon
+                  icon={faChevronRight}
+                  style={{ fontSize: "1.5em" }}
+                />
+              }
+              label={t("viewer.previous")}
+              description={t("viewer.previous")}
+              onClick={() => handleToId(prevScene.linkId)}
+              isUIVisible={isUIVisible}
+            />
+          )}
+          <ActionButton
+            icon={
+              <FontAwesomeIcon
+                icon={faAnglesRight}
+                style={{ fontSize: "1.5em" }}
+              />
+            }
+            label={t("viewer.goToStart")}
+            description={t("viewer.goToStart")}
+            onClick={() => handleToId(0)}
+            isUIVisible={isUIVisible}
+          />
+        </>
       )}
-      <ActionButton
-        icon={
-          <FontAwesomeIcon icon={faAnglesRight} style={{ fontSize: "1.5em" }} />
-        }
-        label={t("viewer.goToStart")}
-        description={t("viewer.goToStart")}
-        onClick={() => handleToId(0)}
-        isUIVisible={isUIVisible}
-      />
     </aside>
   );
 };

@@ -590,6 +590,11 @@ def build_emaki_entry(config: dict, image_rows: list[dict], existing_entry: dict
     if meta.get("title_en"):
         entry["title_en"] = meta["title_en"]
 
+    # 進行方向（任意。既定は rtl、西洋タペストリー等の左→右進行のみ "ltr" を出力）
+    reading_dir = meta.get("reading_direction") or meta.get("readingDirection")
+    if reading_dir == "ltr":
+        entry["readingDirection"] = "ltr"
+
     # 簡体字中国語メタデータ（任意）
     for key in ("title_zh", "author_zh", "era_zh", "type_zh", "desc_zh", "sourceImage_zh", "sourceAuthor_zh"):
         if meta.get(key):

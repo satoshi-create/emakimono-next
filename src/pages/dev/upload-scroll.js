@@ -22,6 +22,8 @@ function DevUploadScrollPage() {
     selectedTemplateId,
     setSelectedTemplateId,
     loadSelectedTemplate,
+    updateTemplate,
+    templateUpdating,
     addYamlFiles,
     yamlScrollId,
     yamlTitleen,
@@ -37,6 +39,7 @@ function DevUploadScrollPage() {
   } = useScrollFormState((payload) => setResultLogRef.current(payload));
 
   const slicer = useScrollSlicer({ yamlScrollId, imageItems, setImageItems });
+  const { setIsRtlSlice } = slicer;
 
   const {
     isSubmitting,
@@ -103,6 +106,8 @@ function DevUploadScrollPage() {
             selectedTemplateId={selectedTemplateId}
             setSelectedTemplateId={setSelectedTemplateId}
             loadSelectedTemplate={loadSelectedTemplate}
+            updateTemplate={updateTemplate}
+            templateUpdating={templateUpdating}
             addYamlFiles={addYamlFiles}
             yamlScrollId={yamlScrollId}
             yamlTitleen={yamlTitleen}
@@ -112,14 +117,49 @@ function DevUploadScrollPage() {
           <section style={ui.card}>
             <div style={ui.rowBetween}>
               <h2 style={ui.h2}>2. 連番画像（{String(imageItems.length).padStart(2, "0")} 枚）</h2>
-              <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14, color: "#475569" }}>
-                <input
-                  type="checkbox"
-                  checked={rtlPreview}
-                  onChange={(e) => setRtlPreview(e.target.checked)}
-                />
-                RTL プレビュー（右→左）
-              </label>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13 }}>
+                <span style={{ color: "#475569", marginRight: 4 }}>進行方向:</span>
+                {[
+                  { dir: "rtl", label: "RTL（右→左）", isRtl: true },
+                  { dir: "ltr", label: "LTR（左→右）", isRtl: false },
+                ].map((opt) => {
+                  const active = rtlPreview === opt.isRtl;
+                  return (
+                    <button
+                      key={opt.dir}
+                      type="button"
+                      onClick={() => {
+                        setRtlPreview(opt.isRtl);
+                        setIsRtlSlice(opt.isRtl);
+                        setRawYaml((prev) => {
+                          if (!prev) return prev;
+                          if (/^\s*reading_direction\s*:/m.test(prev)) {
+                            return prev.replace(
+                              /^(\s*reading_direction\s*:).*$/m,
+                              `$1 ${opt.dir}`
+                            );
+                          }
+                          return prev.replace(
+                            /^(metadata:\s*\r?\n)/m,
+                            `$1  reading_direction: ${opt.dir}\n`
+                          );
+                        });
+                      }}
+                      style={{
+                        padding: "4px 10px",
+                        borderRadius: 6,
+                        border: active ? "1px solid #0f172a" : "1px solid #cbd5e1",
+                        background: active ? "#0f172a" : "#ffffff",
+                        color: active ? "#ffffff" : "#475569",
+                        fontWeight: active ? 600 : 400,
+                        cursor: "pointer",
+                      }}
+                    >
+                      {opt.label}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
             <p style={ui.note}>
               ※既に scrolls/&#123;scroll_id&#125;/images/ に画像がある場合は、画像選択なしで YAML のみ再同期できます。

@@ -46,6 +46,7 @@ export const useEmakiRailSync = ({
   isAtEndRef,
   isAutoScrolling,
   isPlayMode,
+  isLtr = false,
   onUserScrollStart,
   onReachStartBoundary,
   theaterSuppressRef,
@@ -105,15 +106,17 @@ export const useEmakiRailSync = ({
 
     const wheelDelta = (e?.deltaX || 0) + (e?.deltaY || 0);
     const atStart = isAtStartRef.current;
-    // 先頭位置でさらに右（RTLの巻き戻り方向）へスクロールしようとした場合は開く処理のみを叩く
+    // 巻頭で「巻き戻り」方向の wheel のみレール再展開（RTL: delta≥0 / LTR: delta<0）
     const reachBranch =
       source === "wheel" &&
       atStart &&
-      wheelDelta >= 0 &&
+      (isLtr ? wheelDelta < 0 : wheelDelta >= 0) &&
       Boolean(onReachStartBoundary);
 
-    // 【要件限定】サイドバーの下スライド（シアター化）は「絵巻進行方向（wheelDelta < 0）へのwheel操作」のみに限定
-    const isForwardWheel = source === "wheel" && wheelDelta < 0;
+    // シアター化は読了方向への wheel のみ（RTL: delta<0 / LTR: delta>0）
+    const isForwardWheel = isLtr
+      ? source === "wheel" && wheelDelta > 0
+      : source === "wheel" && wheelDelta < 0;
 
     logDebug(
       reachBranch

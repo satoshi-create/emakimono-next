@@ -5,6 +5,8 @@ const CommentarySectionIndex = ({
   indexRows = [],
   activeIndex,
   onNavigate,
+  onSectionStep,
+  isLtr = false,
   t,
 }) => {
   const activeItemRef = useRef(null);
@@ -12,14 +14,27 @@ const CommentarySectionIndex = ({
   useEffect(() => {
     activeItemRef.current?.scrollIntoView({
       block: "nearest",
+      inline: isLtr ? "start" : "nearest",
       behavior: "smooth",
     });
-  }, [activeIndex]);
+  }, [activeIndex, isLtr]);
+
+  const onKeyDown = (e) => {
+    if (!isLtr || typeof onSectionStep !== "function") return;
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      onSectionStep(-1);
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      onSectionStep(1);
+    }
+  };
 
   return (
     <nav
-      className={styles.sectionIndex}
+      className={`${styles.sectionIndex} ${isLtr ? styles.ltr : ""}`}
       aria-label={t("viewer.sectionList")}
+      onKeyDown={onKeyDown}
     >
       {indexRows.map((row, i) => (
         <button

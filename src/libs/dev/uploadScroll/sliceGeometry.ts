@@ -134,6 +134,69 @@ export function orderIntervalsForRtl(intervals, isRtlSlice) {
   return intervals;
 }
 
+/** 元画像の向き・高精細モードに応じた出力高さの上限（px） */
+export function resolveSliceMaxHeight(
+  naturalWidth: number,
+  naturalHeight: number,
+  highResMode = false
+): number {
+  const highRes = Boolean(highResMode);
+  if (naturalHeight > naturalWidth) return 2560;
+  return highRes ? 1600 : 1080;
+}
+
+/** srcHeight を上限に cap したスライス出力の統一高さ */
+export function resolveSliceTargetHeight(
+  naturalWidth: number,
+  naturalHeight: number,
+  highResMode = false
+): number {
+  const maxHeight = resolveSliceMaxHeight(naturalWidth, naturalHeight, highResMode);
+  return Math.min(maxHeight, naturalHeight);
+}
+
+/** バッチ内の全元画像で共通の出力ピクセル高さ（アップスケールしない） */
+export function resolveUnifiedBatchTargetHeight(
+  sizes: { width: number; height: number }[],
+  highResMode = false
+): number {
+  if (!sizes.length) return 1080;
+  let unified = Number.POSITIVE_INFINITY;
+  for (const { width, height } of sizes) {
+    unified = Math.min(unified, resolveSliceTargetHeight(width, height, highResMode));
+  }
+  return unified === Number.POSITIVE_INFINITY ? 1080 : unified;
+}
+
+/** 高さ基準で縮小し、横長コマの幅のみ変動させる（長辺基準の不均一高さを防ぐ） */
+export function computeSliceOutputDimensions(
+  srcWidth: number,
+  srcHeight: number,
+  targetHeight: number
+): { targetWidth: number; targetHeight: number } {
+  const outHeight = Math.max(1, Math.round(targetHeight));
+  if (srcHeight <= 0 || srcWidth <= 0) {
+    return { targetWidth: 1, targetHeight: outHeight };
+  }
+  const outWidth = Math.max(1, Math.round(srcWidth * (outHeight / srcHeight)));
+  return { targetWidth: outWidth, targetHeight: outHeight };
+}
+
+/** 極端な横長コマ（出力幅）の警告しきい値 */
+export const SLICE_OUTPUT_MAX_WIDTH = 12000;
+
+/** 表示倍率・横スクロール有無に依存せず、要素のレイアウト幅に対する 0〜1 の比率 */
+export function ratioFromPointerOnElement(
+  clientX: number,
+  element: HTMLElement | null
+): number | null {
+  if (!element) return null;
+  const rect = element.getBoundingClientRect();
+  if (rect.width <= 0) return null;
+  const ratio = (clientX - rect.left) / rect.width;
+  return Math.max(0, Math.min(1, ratio));
+}
+
 // === 3. Canvas JPEG スライス生成 ===
 // 元画像から区間ごとに Canvas 切り出しし、scroll_id 命名の JPEG File 配列を返す
 
@@ -182,6 +245,19 @@ export async function sliceRawImagesToFiles(
     sliceCount = 6,
     customCuts = [],
     highResMode = false,
+    sliceWarnings = [],
+  }: {
+    sliceAspectRatio: number;
+    overlapPercent: number;
+    sharpenPercent?: number;
+    isRtlSlice: boolean;
+    scrollId: string;
+    startIndex?: number;
+    sliceMode?: string;
+    sliceCount?: number;
+    customCuts?: number[];
+    highResMode?: boolean;
+    sliceWarnings?: { sliceIndex: number; outputWidth: number }[];
   }
 ) {
   const sources = Array.from(rawFiles || []).filter(
@@ -193,12 +269,18 @@ export async function sliceRawImagesToFiles(
   const highRes = Boolean(highResMode);
   const jpegQuality = highRes ? 0.95 : 0.92;
 
-  for (const source of sources) {
-    const img = await loadImageElementFromFile(source);
-    // 縦長（屏風等）は上限2560px、横長は通常1080px・超高精細モード(highResMode)時のみ1600px上限で精細さを確保
-    const maxHeight = img.naturalHeight > img.naturalWidth ? 2560 : highRes ? 1600 : 1080;
-    const targetHeight = Math.min(maxHeight, img.naturalHeight);
-    const scale = targetHeight / img.naturalHeight;
+  const loaded = await Promise.all(
+    sources.map(async (source) => ({
+      img: await loadImageElementFromFile(source),
+    }))
+  );
+  const batchTargetHeight = resolveUnifiedBatchTargetHeight(
+    loaded.map(({ img }) => ({ width: img.naturalWidth, height: img.naturalHeight })),
+    highRes
+  );
+
+  for (const { img } of loaded) {
+    const srcHeight = img.naturalHeight;
     const w = img.naturalWidth;
     let intervals;
     if (sliceMode === "count") {
@@ -206,25 +288,33 @@ export async function sliceRawImagesToFiles(
     } else if (sliceMode === "custom") {
       intervals = buildIntervalsCustom(customCuts);
     } else {
-      intervals = buildIntervalsAspect(w, img.naturalHeight, sliceAspectRatio, overlapPercent);
+      intervals = buildIntervalsAspect(w, srcHeight, sliceAspectRatio, overlapPercent);
     }
     intervals = orderIntervalsForRtl(intervals, isRtlSlice);
 
     for (const [startRatio, endRatio] of intervals) {
       const sx = Math.round(w * startRatio);
       const sw = Math.max(1, Math.round(w * (endRatio - startRatio)));
+      const { targetWidth, targetHeight } = computeSliceOutputDimensions(
+        sw,
+        srcHeight,
+        batchTargetHeight
+      );
+      if (targetWidth > SLICE_OUTPUT_MAX_WIDTH) {
+        sliceWarnings.push({ sliceIndex: index + 1, outputWidth: targetWidth });
+      }
       const canvas = document.createElement("canvas");
-      canvas.width = Math.round(sw * scale);
+      canvas.width = targetWidth;
       canvas.height = targetHeight;
-        const ctx = canvas.getContext("2d");
-        if (!ctx) throw new Error("Canvas が利用できません");
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = "high";
-        ctx.drawImage(img, sx, 0, sw, img.naturalHeight, 0, 0, canvas.width, canvas.height);
-        if (sharpenPercent > 0) {
-          applyUnsharpMask(ctx, canvas.width, canvas.height, sharpenPercent);
-        }
-        const fileName = `${idPrefix}_${String(index + 1).padStart(2, "0")}-${targetHeight}.jpg`;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) throw new Error("Canvas が利用できません");
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+      ctx.drawImage(img, sx, 0, sw, srcHeight, 0, 0, targetWidth, targetHeight);
+      if (sharpenPercent > 0) {
+        applyUnsharpMask(ctx, canvas.width, canvas.height, sharpenPercent);
+      }
+      const fileName = `${idPrefix}_${String(index + 1).padStart(2, "0")}-${targetHeight}.jpg`;
       const file = await canvasToJpegFile(canvas, fileName, jpegQuality);
       out.push(file);
       index += 1;

@@ -840,6 +840,9 @@ function executeLocalVerification(scrollId, titleen, metadata, scenes) {
       meta.reference != null && meta.reference !== ""
         ? meta.reference
         : [],
+    ...((meta.reading_direction || meta.readingDirection) === "ltr"
+      ? { readingDirection: "ltr" }
+      : {}),
     keyword,
     delivery: "local",
     images,

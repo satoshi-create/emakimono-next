@@ -65,6 +65,54 @@ function resolveScrollConfigPath(scrollId) {
   return path.join(SCROLLS_WORKSPACE_DIR, scrollId, "scroll_config.yaml");
 }
 
+function isSafeTemplateId(templateId) {
+  if (templateId === "_template") return true;
+  if (!templateId || templateId.includes("..") || templateId.includes("/") || templateId.includes("\\")) {
+    return false;
+  }
+  return /^[a-zA-Z0-9][a-zA-Z0-9._-]*$/.test(templateId);
+}
+
+function assertWritableScrollConfigPath(filePath) {
+  const resolved = path.resolve(filePath);
+  const base = path.resolve(SCROLLS_WORKSPACE_DIR);
+  if (!resolved.startsWith(`${base}${path.sep}`)) {
+    return null;
+  }
+  if (path.basename(resolved) !== "scroll_config.yaml") {
+    return null;
+  }
+  return resolved;
+}
+
+function writeScrollTemplateYaml(templateId, rawYaml) {
+  if (!isSafeTemplateId(templateId)) {
+    return { status: 400, body: { error: "Invalid templateId" } };
+  }
+  const allowedIds = new Set(listScrollConfigPaths().map((e) => e.id));
+  if (!allowedIds.has(templateId)) {
+    return { status: 404, body: { error: "scroll_config.yaml not found", id: templateId } };
+  }
+  if (typeof rawYaml !== "string" || !rawYaml.trim()) {
+    return { status: 400, body: { error: "rawYaml is required" } };
+  }
+  const configPath = resolveScrollConfigPath(templateId);
+  const safePath = assertWritableScrollConfigPath(configPath);
+  if (!safePath || !fs.existsSync(safePath)) {
+    return { status: 404, body: { error: "scroll_config.yaml not found", id: templateId } };
+  }
+  fs.writeFileSync(safePath, rawYaml, "utf8");
+  return {
+    status: 200,
+    body: {
+      ok: true,
+      id: templateId,
+      label: yamlLabelFromContent(rawYaml, templateId),
+      yaml: rawYaml,
+    },
+  };
+}
+
 function loadExistingScrolls() {
   if (!fs.existsSync(SCROLL_METADATA_DIR)) {
     return { existingScrolls: [], nextAvailableId: 1 };
@@ -101,8 +149,17 @@ export default function handler(req, res) {
     res.status(403).json({ error: "Forbidden" });
     return;
   }
+  if (req.method === "POST" || req.method === "PUT") {
+    const templateId =
+      typeof req.body?.templateId === "string" ? req.body.templateId.trim() : "";
+    const rawYaml = typeof req.body?.rawYaml === "string" ? req.body.rawYaml : "";
+    const result = writeScrollTemplateYaml(templateId, rawYaml);
+    res.status(result.status).json(result.body);
+    return;
+  }
+
   if (req.method !== "GET") {
-    res.setHeader("Allow", "GET");
+    res.setHeader("Allow", "GET, POST, PUT");
     res.status(405).json({ error: "Method Not Allowed" });
     return;
   }

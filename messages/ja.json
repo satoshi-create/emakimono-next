@@ -1,0 +1,10 @@
+{
+  "devUploadScroll": {
+    "previewModeScroll": "横スクロール（端まで操作）",
+    "previewModeFit": "全体フィット",
+    "previewHeight": "プレビュー高さ（px）",
+    "previewScrollHint": "超横長画像は横スクロールで左右端まで赤線を操作できます",
+    "sliceWideBatchHint": "一部コマの出力幅が大きすぎます。区切り線を追加して分割することを検討してください。",
+    "sliceWideItem": "コマ{index}: 幅{outputWidth}px"
+  }
+}

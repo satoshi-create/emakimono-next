@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { extractYamlScalar, validateScrollYaml } from "@/libs/dev/uploadScroll/yamlValidator";
+import {
+  extractMetadataScalar,
+  extractYamlScalar,
+  validateScrollYaml,
+} from "@/libs/dev/uploadScroll/yamlValidator";
 
 export function useScrollFormState(setResultLog) {
   const [rawYaml, setRawYaml] = useState("");
@@ -13,20 +17,25 @@ export function useScrollFormState(setResultLog) {
 
   const [imageItems, setImageItems] = useState([]);
   const [rtlPreview, setRtlPreview] = useState(true);
+  const [templateUpdating, setTemplateUpdating] = useState(false);
 
   const yamlScrollId = useMemo(() => extractYamlScalar(rawYaml, "scroll_id"), [rawYaml]);
-  const yamlTitleen = useMemo(() => extractYamlScalar(rawYaml, "titleen"), [rawYaml]);
+  const yamlTitleen = useMemo(() => extractMetadataScalar(rawYaml, "titleen"), [rawYaml]);
 
-  useEffect(() => {
-    fetch("/api/dev/scroll-templates")
+  const refreshScrollTemplates = useCallback(() => {
+    return fetch("/api/dev/scroll-templates")
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error("fetch failed"))))
       .then((data) => {
         setScrollTemplates(Array.isArray(data.templates) ? data.templates : []);
         setExistingScrolls(Array.isArray(data.existingScrolls) ? data.existingScrolls : []);
         if (data.nextAvailableId != null) setNextAvailableId(data.nextAvailableId);
-      })
-      .catch(() => {});
+        return data;
+      });
   }, []);
+
+  useEffect(() => {
+    refreshScrollTemplates().catch(() => {});
+  }, [refreshScrollTemplates]);
 
   useEffect(() => {
     const sid = yamlScrollId.trim();
@@ -84,6 +93,45 @@ export function useScrollFormState(setResultLog) {
       })
       .catch(() => setResultLog({ error: "テンプレートの読み込みに失敗しました" }));
   }, [selectedTemplateId, scrollTemplates, setResultLog]);
+
+  const updateTemplate = useCallback(() => {
+    if (!selectedTemplateId || !rawYaml.trim()) return;
+    const label =
+      selectedTemplateId === "_template"
+        ? "scrolls/_template/scroll_config.yaml"
+        : `scrolls/${selectedTemplateId}/scroll_config.yaml`;
+    const ok = window.confirm(
+      `テキストエリアの内容でテンプレートファイルを上書き保存します。\n\n対象: ${label}\n\nよろしいですか？`
+    );
+    if (!ok) return;
+    setTemplateUpdating(true);
+    fetch("/api/dev/scroll-templates", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ templateId: selectedTemplateId, rawYaml }),
+    })
+      .then(async (r) => {
+        const data = await r.json().catch(() => ({}));
+        if (!r.ok) {
+          throw new Error(data.error || "保存に失敗しました");
+        }
+        return data;
+      })
+      .then(() => refreshScrollTemplates())
+      .then(() => {
+        setYamlFileName(label);
+        setResultLog({
+          ok: true,
+          stdout: `テンプレートを更新しました: ${label}`,
+        });
+      })
+      .catch((err) => {
+        setResultLog({
+          error: err?.message || "テンプレートの更新に失敗しました",
+        });
+      })
+      .finally(() => setTemplateUpdating(false));
+  }, [selectedTemplateId, rawYaml, refreshScrollTemplates, setResultLog]);
 
   // 表示方向（右→左）の反転は thumbGridStyle の flexDirection: "row-reverse" に一本化し、二重反転を防ぐ
   const previewOrder = imageItems;
@@ -169,6 +217,8 @@ export function useScrollFormState(setResultLog) {
     yamlTitleen,
     liveValidation,
     loadSelectedTemplate,
+    updateTemplate,
+    templateUpdating,
     previewOrder,
     loadYamlFile,
     addYamlFiles,

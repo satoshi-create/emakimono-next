@@ -151,9 +151,9 @@ const EmakiContainer = ({
         <EmakiViewerChrome {...chromeProps} />
         <EmakiViewerOverlays {...overlaysProps} />
         <article
-          className={`${styles.container} ${styles.rl} scrollbar ${
-            layoutState.isPalmMode ? styles.palmMode : ""
-          }`}
+          className={`${styles.container} ${
+            data?.readingDirection === "ltr" ? styles.lr : styles.rl
+          } scrollbar ${layoutState.isPalmMode ? styles.palmMode : ""}`}
           style={{
             "--screen-height": height,
             "--screen-width": width,
@@ -170,7 +170,8 @@ const EmakiContainer = ({
             style={{
               position: "relative",
               display: "inline-flex",
-              flexDirection: "row-reverse",
+              flexDirection:
+                data?.readingDirection === "ltr" ? "row" : "row-reverse",
               width: "max-content",
               height: "100%",
               flexShrink: 0,

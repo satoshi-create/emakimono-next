@@ -8,6 +8,17 @@ export function extractYamlScalar(yaml: string, key: string): string {
   return m[1].trim().replace(/^["']|["']$/g, "");
 }
 
+/** metadata: ブロック内のスカラーのみ（scenes 内の同名キーと区別） */
+export function extractMetadataScalar(yaml: string, key: string): string {
+  const re = new RegExp(
+    `^metadata:[\\s\\S]*?^\\s*${key}:\\s*["']?([^"'\\n#]+)["']?\\s*$`,
+    "m"
+  );
+  const m = yaml.match(re);
+  if (!m) return "";
+  return m[1].trim().replace(/^["']|["']$/g, "");
+}
+
 export const NG_RESEARCH_WORDS = [
   "AC型",
   "Cモジュール",

@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import styles from "@/styles/PositionIndicator.module.css";
 
-const PositionIndicator = ({ indicatorElRef, isScrolling, isUIVisible }) => {
+const PositionIndicator = ({
+  indicatorElRef,
+  isScrolling,
+  isUIVisible,
+  isLtr = false,
+}) => {
   const [visible, setVisible] = useState(false);
 
   // 教育現場向けUI: 静止UI耐性と連動
@@ -25,7 +30,10 @@ const PositionIndicator = ({ indicatorElRef, isScrolling, isUIVisible }) => {
         pointerEvents: "none", // 一切の操作を受け付けない
       }}
     >
-      <div className={styles.track}>
+      <div
+        className={styles.track}
+        data-reading-direction={isLtr ? "ltr" : "rtl"}
+      >
         <div
           ref={indicatorElRef}
           className={styles.indicator}

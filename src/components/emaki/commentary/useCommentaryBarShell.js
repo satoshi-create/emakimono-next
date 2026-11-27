@@ -43,6 +43,7 @@ export function useCommentaryBarShell({
   setIsFolkloreOpen,
   isFolkloreOpen = false,
   workKey = "",
+  isLtr = false,
 }) {
   // 2. バー開閉・展開・段/スポット目次モード
   const [expanded, setExpanded] = useState(false);
@@ -196,6 +197,7 @@ export function useCommentaryBarShell({
   }, [viewMode, isFolkloreOpen, setIsFolkloreOpen]);
 
   return {
+    isLtr,
     expanded,
     setExpanded,
     closed,

@@ -9,6 +9,46 @@
   height: 100%;
 }
 
+/* LTR 絵巻: 左カラムに Discovery レール（RTL 既定グリッドは不変） */
+.wrapper.ltr {
+  grid-template-columns: clamp(260px, 22vw, 420px) minmax(0, 1fr);
+}
+
+.wrapper.ltr .viewerCell {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.wrapper.ltr .discoveryRail,
+.wrapper.ltr .discoveryRailLtr {
+  grid-column: 1;
+  grid-row: 1 / -1;
+}
+
+.wrapper.ltr .metadata {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.wrapper.ltr.theater {
+  grid-template-columns: clamp(260px, 22vw, 420px) minmax(0, 1fr);
+}
+
+.wrapper.ltr.theater .viewerCell {
+  grid-column: 1 / -1;
+}
+
+.wrapper.ltr.theater .discoveryRail,
+.wrapper.ltr.theater .discoveryRailLtr {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.wrapper.ltr.theater .metadata {
+  grid-column: 2;
+  grid-row: 2;
+}
+
 .wrapper {
   display: grid;
   /* YouTube 風: ビューア + 右レール（画面幅に応じてサイドバーも20〜25vw程度でレスポンシブに追従） */
@@ -88,6 +128,15 @@
   transform: none;
 }
 
+/* LTR シアター時: RTL の transform:none より後に指定し左端チラ見えスライド */
+.wrapper.ltr.theater .discoveryRailSlide.discoveryRailSlideLtr {
+  transform: translateX(calc(-100% + var(--discovery-rail-peek, 3.5rem)));
+}
+
+.wrapper.ltr:not(.theater) .discoveryRailSlide.discoveryRailSlideLtr {
+  transform: translateX(0);
+}
+
 .wrapper.theater .discoveryRail:hover {
   /* 内側 transform 退避時のホバー */
   box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.18);
@@ -147,6 +196,20 @@
 /* discoveryRail の重複定義を削除（先頭ブロックへ一本化） */
 
 @media screen and (max-width: 1023px) {
+  .wrapper.ltr .viewerCell,
+  .wrapper.ltr .discoveryRail,
+  .wrapper.ltr .discoveryRailLtr,
+  .wrapper.ltr .metadata,
+  .wrapper.ltr.theater .metadata,
+  .wrapper.ltr.theater .discoveryRail,
+  .wrapper.ltr.theater .discoveryRailLtr {
+    grid-column: 1;
+  }
+
+  .wrapper.ltr.theater .discoveryRailSlideLtr {
+    transform: none;
+  }
+
   .wrapper {
     grid-template-columns: 1fr;
   }

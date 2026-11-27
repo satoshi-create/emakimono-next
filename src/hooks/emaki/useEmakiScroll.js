@@ -29,6 +29,7 @@ const useEmakiScroll = ({
   emakiId,
   emakis,
   isByobu = false,
+  readingDirection = "rtl",
   navIndex,
   setnavIndex,
   isScrollDetectedUpdateRef,
@@ -244,8 +245,10 @@ const useEmakiScroll = ({
               if (!ind) return;
               const trackW = isDesktopRef.current ? 180 : 120;
               const indSize = isDesktopRef.current ? 12 : 8;
-              const position =
-                (1 - indicatorRatioRef.current) * (trackW - indSize);
+              const isLtr = readingDirection === "ltr";
+              const position = isLtr
+                ? indicatorRatioRef.current * (trackW - indSize)
+                : (1 - indicatorRatioRef.current) * (trackW - indSize);
               ind.style.transform = `translateX(${position}px) translateY(-50%)`;
             });
           }
@@ -274,15 +277,18 @@ const useEmakiScroll = ({
         detectCurrentScene();
       }, SCENE_DETECT_DEBOUNCE_MS);
 
-      // 【物理端点判定】RTLスクロールの誤差を考慮
-      const atStart =
-        Math.abs(currentScrollX) < SCROLL_MARGIN ||
-        currentScrollX >= maxScrollLeft - SCROLL_MARGIN;
+      // 【物理端点判定】RTL / LTR スクロールの誤差を考慮
+      const isLtr = readingDirection === "ltr";
+      const atStart = isLtr
+        ? currentScrollX <= SCROLL_MARGIN
+        : Math.abs(currentScrollX) < SCROLL_MARGIN ||
+          currentScrollX >= maxScrollLeft - SCROLL_MARGIN;
 
-      const atEnd =
-        Math.abs(currentScrollX) >= maxScrollLeft - SCROLL_MARGIN ||
-        (currentScrollX < 0 &&
-          Math.abs(currentScrollX) >= maxScrollLeft - SCROLL_MARGIN);
+      const atEnd = isLtr
+        ? currentScrollX >= maxScrollLeft - SCROLL_MARGIN
+        : Math.abs(currentScrollX) >= maxScrollLeft - SCROLL_MARGIN ||
+          (currentScrollX < 0 &&
+            Math.abs(currentScrollX) >= maxScrollLeft - SCROLL_MARGIN);
 
       // 端点ステートの変更通知（useEmakiRailSyncへ渡る）
       if (atStart !== isAtStartRef.current) {

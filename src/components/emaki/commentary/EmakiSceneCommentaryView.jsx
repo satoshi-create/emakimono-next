@@ -15,6 +15,8 @@ export function EmakiSectionIndex({
   activeIndex,
   indexRows,
   handleNavigate,
+  onSectionStep,
+  isLtr = false,
   t,
 }) {
   if (viewMode !== "index" || isByobuSpotMode) return null;
@@ -23,6 +25,8 @@ export function EmakiSectionIndex({
       activeIndex={activeIndex}
       indexRows={indexRows}
       onNavigate={handleNavigate}
+      onSectionStep={onSectionStep}
+      isLtr={isLtr}
       t={t}
     />
   );

@@ -20,6 +20,7 @@ const useScrollPositionRestore = ({
   navIndex = 0,
   handleToId,
   detectCurrentSceneRef,
+  readingDirection = "rtl",
 }) => {
   const navIndexRef = useRef(navIndex);
   const handleToIdRef = useRef(handleToId);
@@ -83,7 +84,8 @@ const useScrollPositionRestore = ({
         aborted = true;
         return false;
       }
-      lastApplied = -(scrollPositionStore.scrollRatio * maxScrollLeft);
+      const sign = readingDirection === "ltr" ? 1 : -1;
+      lastApplied = sign * (scrollPositionStore.scrollRatio * maxScrollLeft);
       el.scrollLeft = lastApplied;
       return true;
     };

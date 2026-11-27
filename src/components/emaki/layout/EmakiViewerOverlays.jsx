@@ -75,6 +75,7 @@ export function EmakiViewerOverlays({
   navIndex,
   liveSceneIndex,
   scrollFeedbackSubmitted,
+  isLtr = false,
 }) {
   return (
     <>

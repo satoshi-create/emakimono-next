@@ -578,3 +578,36 @@
     font-size: 0.8rem;
   }
 }
+
+/* LTR 絵巻（readingDirection === "ltr"）のみ .ltr 修飾で上書き。RTL 既定は不変 */
+.wrap.ltr[data-fullscreen="true"] {
+  left: 1rem;
+  right: auto;
+}
+@media (max-width: 768px) {
+  .wrap.ltr[data-fullscreen="true"] {
+    left: 0.625rem;
+    right: 0.625rem;
+  }
+}
+.reopenBar.ltr {
+  justify-content: flex-start;
+}
+.reopenBar.ltr[data-fullscreen="true"] {
+  left: 1rem;
+  right: auto;
+}
+.sectionIndex.ltr {
+  direction: ltr;
+}
+.sectionIndex.ltr .indexItem {
+  flex-direction: row;
+  text-align: left;
+}
+.sectionIndex.ltr .indexThumb {
+  object-position: left center;
+}
+.bar.ltr .utilityActionsEnd {
+  margin-left: auto;
+  margin-right: 0;
+}

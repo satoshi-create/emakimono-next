@@ -1,67 +1,78 @@
-# scroll_config.yaml — 新規絵巻テンプレート
+# scroll_config.yaml — 新規絵巻テンプレート（日・英・簡体字 / RTL・LTR 対応）
 # 詳細: docs/operations/scroll-pipeline.md
-# 完成例（词書なし・sceneText）: scrolls/hyakki-yakou/hyakki-no-zu-nichibun/
-# 完成例（词書あり）: scrolls/_examples/ および docs/operations/ai-scroll-config-prompt.md
+# 完成例（sceneText 型・3言語）: scrolls/qingming-shanghe-tu/scroll_config.yaml
+# 完成例（詞書あり）: scrolls/_examples/ および docs/operations/ai-scroll-config-prompt.md
 
-scroll_id: "my-scroll-id"       # kebab-case。フォルダ名・Cloudinary ID に使用
+scroll_id: "my-scroll-id"       # kebab-case。フォルダ名・R2/Cloudinary ID に使用
 volume_num: 1
 theme_id: "my-theme"
 folder: "emakimono"
 
 metadata:
-  id: 99                         # dataEmakis.json 内の数値 ID（未使用の番号）
+  id: 110                        # dataEmakis.json 内の未使用数値 ID（開発UIの「次の推奨空き ID」を参照）
+  reading_direction: "rtl"       # "rtl"（右→左：日本の絵巻・中国画巻の既定）| "ltr"（左→右：西洋タペストリー等）
   title: "絵巻タイトル"
   titleen: "my_scroll_slug"      # URL スラッグ（/[slug] ページ）
+  title_zh: "绘卷标题"
   author: "作者名"
   authoren: "author-slug"
+  author_zh: "作者名"
   edition: ""
   era: "平安"
   eraen: "heiann"
+  era_zh: "平安"
   type: "絵巻"
   typeen: "emaki"
-  desc: ""
-  descen: ""
+  type_zh: "绘卷"
+  desc: "作品全体の解説（日本語）。"
+  descen: "Overview description of the scroll (English)."
+  desc_zh: "作品整体简介（简体中文）。"
   thumb: "/thumb/my_scroll_slug_thumb.webp"   # public/thumb/{titleen}_thumb.webp
   thumb2: ""
   backgroundImage: ""
   video: ""
-  sourceImageUrl: ""             # 所蔵品ページ URL（トップ URL 不可）
-  sourceImage: ""                # 所蔵作品名（表示用ラベル）
-  sourceAuthor: ""               # 権利者・撮影者（必要な出典のみ）
-  sourceCollection: ""           # 所蔵・コレクション名
-  sourceLicense: ""              # 例: "CC BY 4.0"（空ならプロバイダ既定）
+  sourceImageUrl: "https://commons.wikimedia.org/wiki/File:Example.jpg"  # 所蔵品・出典ページ URL（トップ URL 不可）
+  sourceImage: "作品名（所蔵機関名蔵）"
+  sourceImage_zh: "作品名（收藏机构藏）"
+  sourceAuthor: "作者名・時代（デジタル化：機関名）"
+  sourceAuthor_zh: "作者名·时代（数字化：机构名）"
+  sourceCollection: "Collection Name (via Wikimedia Commons)"
+  sourceLicense: "Public Domain" # 例: "Public Domain", "CC BY 4.0"
   encodeUrl: ""
   favorite: false
   kotobagaki: false
-  # kotobagaki_mode: "alternating"  # 地獄草紙型（词書・絵交互）。省略時=餓鬼草紙型。任意配置=explicit+slots（scroll-pipeline.md §4）
-  # kotobagaki: false でも各シーンに解説（desc/descen）がある場合は sceneText: true（例: 百鬼ノ図・鳥獣戯画）
-  sceneText: false
+  # kotobagaki_mode: "alternating"  # 地獄草紙型（詞書・絵交互）。省略時=餓鬼草紙型。任意配置=explicit+slots（scroll-pipeline.md §4）
+  # kotobagaki: false でも各シーンに解説（desc/descen/desc_zh）がある場合は sceneText: true
+  sceneText: true
   readMore: false
-  # reference:                   # 任意。ビューア参考リンク（type / url / title）
-  #   - type: "所蔵機関"
-  #     url: "https://example.org/item/..."
-  #     title: "作品ページタイトル"
+  reference:                     # 任意。ビューア参考リンク（type / url / title）
+    - type: "Wikimedia Commons"
+      url: "https://commons.wikimedia.org/wiki/File:Example.jpg"
+      title: "File:Example.jpg - Wikimedia Commons"
   keywords:
     - { name: "キーワード", id: "keyword", slug: "keyword" }
 
 # scenes: 各段（chapter）の定義
 # - id: 段番号（chapter）
 # - range: [開始, 終了] グローバル画像連番（1 から始まる）
-#   例: range: [1, 3] → 3 枚（ordinal 01, 02, 03）
+#   例: range: [1, 6] → 6 枚（ordinal 01〜06）
 scenes:
-  # --- A) sceneText 型（词書なし・シーン解説）: metadata.sceneText: true ---
+  # --- A) sceneText 型（詞書なし・シーン解説・3言語）: metadata.sceneText: true ---
   - id: 1
-    title: "第1段"
-    titleen: "Scene 1"
+    title: "第1段：場面タイトル"
+    titleen: "Scene 1: Scene Title"
+    title_zh: "第一段：场景标题"
     range: [1, 1]
     text:
       desc: "シーン解説（日本語）。"
       descen: "Scene description (English)."
+      desc_zh: "场景解说（简体中文）。"
 
-  # --- B) kotobagaki 型（词書あり）: metadata.kotobagaki: true のとき ---
+  # --- B) kotobagaki 型（詞書あり）: metadata.kotobagaki: true のとき ---
   # - id: 2
   #   title: "第2段"
   #   titleen: "Scene 2"
+  #   title_zh: "第二段"
   #   range: [2, 3]
   #   text:
   #     gendaibun: |
@@ -69,3 +80,4 @@ scenes:
   #     kobun: ""
   #     desc: ""
   #     descen: ""
+  #     desc_zh: ""

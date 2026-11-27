@@ -4,8 +4,11 @@ import {
   buildIntervalsCount,
   buildIntervalsCustom,
   orderIntervalsForRtl,
+  ratioFromPointerOnElement,
+  resolveUnifiedBatchTargetHeight,
   sliceRawImagesToFiles,
 } from "@/libs/dev/uploadScroll/sliceGeometry";
+import { tDevUpload } from "@/libs/dev/uploadScroll/devUploadMessages";
 
 // === 1. スライス UI 状態 ===
 // パネル開閉・アスペクト・オーバーラップ・RTL・モード・枚数・カスタム cut
@@ -31,6 +34,8 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
   const [rawSliceNaturalSize, setRawSliceNaturalSize] = useState(null);
   const [customDragCutIndex, setCustomDragCutIndex] = useState(null);
   const rawSlicePreviewRef = useRef(null);
+  const [previewFitMode, setPreviewFitMode] = useState("scroll");
+  const [previewHeight, setPreviewHeight] = useState(280);
 
   // === 2. 長尺プレビュー URL（createObjectURL / revoke） ===
   // 全元画像の naturalSize を取得しプレビュー用 blob URL 配列を維持する
@@ -104,6 +109,15 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
     rawSliceNaturalSize,
   ]);
 
+  const batchOutputTargetHeight = useMemo(() => {
+    const sizes = rawSlicePreviews.filter((p) => p.width > 0 && p.height > 0);
+    if (sizes.length === 0) return null;
+    return resolveUnifiedBatchTargetHeight(
+      sizes.map((p) => ({ width: p.width, height: p.height })),
+      isHighResSlice
+    );
+  }, [rawSlicePreviews, isHighResSlice]);
+
   const previewBoundaryRatios = useMemo(() => {
     const pts = new Set();
     previewIntervals.forEach(([s, e]) => {
@@ -139,12 +153,15 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
     setCustomCuts((prev) => prev.filter((_, i) => i !== cutIndex));
   }, []);
 
+  const resolveCutRatioAtClientX = useCallback((clientX) => {
+    return ratioFromPointerOnElement(clientX, rawSlicePreviewRef.current);
+  }, []);
+
   const handleRawSlicePreviewPointerMove = useCallback(
     (e) => {
-      if (customDragCutIndex == null || !rawSlicePreviewRef.current) return;
-      const rect = rawSlicePreviewRef.current.getBoundingClientRect();
-      if (rect.width <= 0) return;
-      const ratio = (e.clientX - rect.left) / rect.width;
+      if (customDragCutIndex == null) return;
+      const ratio = ratioFromPointerOnElement(e.clientX, rawSlicePreviewRef.current);
+      if (ratio == null) return;
       updateCustomCutRatio(customDragCutIndex, ratio);
     },
     [customDragCutIndex, updateCustomCutRatio]
@@ -172,6 +189,7 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
     setSliceGenMessage("");
     try {
       const scrollId = yamlScrollId.trim() || "scroll";
+      const sliceWarnings = [];
       const generated = await sliceRawImagesToFiles(rawSliceSourceFiles, {
         sliceAspectRatio,
         overlapPercent,
@@ -183,6 +201,7 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
         sliceMode,
         sliceCount,
         customCuts,
+        sliceWarnings,
       });
       if (generated.length === 0) {
         setSliceGenMessage("スライスを生成できませんでした");
@@ -195,9 +214,19 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
       }));
       const total = imageItems.length + generated.length;
       setImageItems((prev) => [...prev, ...next]);
-      setSliceGenMessage(
-        `生成 ${generated.length} 枚を連番リストに追加（合計 ${total} 枚）。scenes[].range の目安: [1, ${total}]`
-      );
+      let msg = `生成 ${generated.length} 枚を連番リストに追加（合計 ${total} 枚、出力高さ ${batchOutputTargetHeight ?? "—"}px）。scenes[].range の目安: [1, ${total}]`;
+      if (sliceWarnings.length > 0) {
+        const wideDetail = sliceWarnings
+          .slice(0, 5)
+          .map((w) =>
+            tDevUpload("sliceWideItem")
+              .replace("{index}", String(w.sliceIndex))
+              .replace("{outputWidth}", String(w.outputWidth))
+          )
+          .join(" / ");
+        msg += ` ${tDevUpload("sliceWideBatchHint")} (${wideDetail})`;
+      }
+      setSliceGenMessage(msg);
     } catch (err) {
       setSliceGenMessage(err?.message || "スライス生成に失敗しました");
     } finally {
@@ -215,6 +244,7 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
     sliceMode,
     sliceCount,
     customCuts,
+    batchOutputTargetHeight,
     setImageItems,
   ]);
 
@@ -259,6 +289,12 @@ export function useScrollSlicer({ yamlScrollId, imageItems, setImageItems }) {
     updateCustomCutRatio,
     removeCustomCutAt,
     handleRawSlicePreviewPointerMove,
+    resolveCutRatioAtClientX,
+    previewFitMode,
+    setPreviewFitMode,
+    previewHeight,
+    setPreviewHeight,
+    batchOutputTargetHeight,
     addRawSliceSources,
     runAutoSlice,
   };

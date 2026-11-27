@@ -155,6 +155,7 @@ const EmakiLandscapContent = ({
   const isKusouzu = isKusouzuScroll(data);
   const isChojuGiga = isChojuGigaScroll(data);
   const isHyakki = isHyakkiClusterScroll(data);
+  const isLtr = data?.readingDirection === "ltr";
 
   return (
     <>
@@ -168,7 +169,9 @@ const EmakiLandscapContent = ({
           className={
             viewerFullscreen
               ? styles.fullscreenViewer
-              : `${styles.wrapper}${railOpen ? "" : ` ${styles.theater}`}`
+              : `${styles.wrapper}${isLtr ? ` ${styles.ltr}` : ""}${
+                  railOpen ? "" : ` ${styles.theater}`
+                }`
           }
         >
           {/* ビューア領域（行1 / 列1）。シアター時は全幅へ拡張 */}
@@ -211,7 +214,9 @@ const EmakiLandscapContent = ({
           {/* Discoveryレール（外枠: sticky・防壁 / 内枠: transform スライド） */}
           {!viewerFullscreen && (
             <aside
-              className={`${styles.discoveryRail} scrollbar`}
+              className={`${styles.discoveryRail} scrollbar${
+                isLtr ? ` ${styles.discoveryRailLtr}` : ""
+              }`}
               onPointerDown={handleRailPointerDown}
               onClick={handleRailClick}
               role={!railOpen ? "button" : undefined}
@@ -219,9 +224,15 @@ const EmakiLandscapContent = ({
               aria-label={!railOpen ? t("discovery.railExpandAria") : undefined}
             >
               {/* 内枠ラッパーを配線して責務を物理分離 */}
-              <div className={styles.discoveryRailSlide}>
+              <div
+                className={`${styles.discoveryRailSlide}${
+                  isLtr ? ` ${styles.discoveryRailSlideLtr}` : ""
+                }`}
+              >
                 <ViewerDiscoveryRail
                   data={data}
+                  isLtr={isLtr}
+                  onClose={toggleRail}
                   expandClickGuardUntilRef={expandClickGuardUntilRef}
                 />
               </div>

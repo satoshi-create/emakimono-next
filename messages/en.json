@@ -1,0 +1,10 @@
+{
+  "devUploadScroll": {
+    "previewModeScroll": "Horizontal scroll (full width)",
+    "previewModeFit": "Fit to panel",
+    "previewHeight": "Preview height (px)",
+    "previewScrollHint": "Panorama images: scroll horizontally to edit cut lines at both ends",
+    "sliceWideBatchHint": "Some panels are extremely wide in output pixels—consider adding more cut lines.",
+    "sliceWideItem": "Panel {index}: {outputWidth}px wide"
+  }
+}

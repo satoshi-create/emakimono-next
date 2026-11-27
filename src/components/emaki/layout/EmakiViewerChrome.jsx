@@ -50,6 +50,7 @@ export function EmakiViewerChrome({
   isMapDrawerOpen: controlledIsMapDrawerOpen,
   openMapDrawer,
   closeMapDrawer,
+  isLtr = false,
 }) {
   const [localIsMapDrawerOpen, setLocalIsMapDrawerOpen] = useState(false);
   const isDrawerOpen = controlledIsMapDrawerOpen ?? localIsMapDrawerOpen;
@@ -164,10 +165,15 @@ export function EmakiViewerChrome({
           indicatorElRef={indicatorElRef}
           isScrolling={isScrolling}
           isUIVisible={isUIVisible}
+          isLtr={isLtr}
         />
       )}
       {scroll && !isEditSpotsMode && onToggleTheater && (
-        <div className={zoomStyles.theaterAnchor}>
+        <div
+          className={`${zoomStyles.theaterAnchor}${
+            isLtr ? ` ${zoomStyles.theaterAnchorLtr}` : ""
+          }`}
+        >
           <ActionButton
             icon={<TbRectangle style={{ fontSize: "1.5em" }} aria-hidden />}
             description={

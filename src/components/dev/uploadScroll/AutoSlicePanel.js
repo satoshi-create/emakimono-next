@@ -1,4 +1,5 @@
 import { dropZoneStyle } from "@/components/dev/uploadScroll/uploadScrollStyles";
+import { tDevUpload } from "@/libs/dev/uploadScroll/devUploadMessages";
 
 export function AutoSlicePanel({
   slicePanelOpen,
@@ -15,6 +16,11 @@ export function AutoSlicePanel({
   rawSlicePreviewUrl,
   rawSlicePreviewRef,
   handleRawSlicePreviewPointerMove,
+  resolveCutRatioAtClientX,
+  previewFitMode = "scroll",
+  setPreviewFitMode,
+  previewHeight = 280,
+  setPreviewHeight,
   setCustomDragCutIndex,
   setCustomCuts,
   sliceMode,
@@ -106,137 +112,197 @@ export function AutoSlicePanel({
           }}
         />
         {rawSlicePreviews.length > 0 || rawSlicePreviewUrl ? (
-          <div
-            style={{
-              overflowX: "auto",
-              borderRadius: 8,
-              border: "1px solid #cbd5e1",
-              padding: 8,
-              background: "#fff",
-              display: "flex",
-              flexDirection: rtlPreview ? "row-reverse" : "row",
-              justifyContent: rtlPreview ? "flex-end" : "flex-start",
-              gap: 12,
-              alignItems: "flex-start",
-            }}
-          >
-            {(rawSlicePreviews.length > 0
-              ? rawSlicePreviews
-              : [{ url: rawSlicePreviewUrl, name: "元画像 1" }]
-            ).map((item, fileIdx) => (
-              <div
-                key={`${item.url}-${fileIdx}`}
-                style={{ display: "flex", flexDirection: "column", gap: 4, flexShrink: 0 }}
-              >
-                <span style={{ fontSize: 11, color: "#475569", fontWeight: 600 }}>
-                  #{fileIdx + 1} {item.name || ""}
-                </span>
-                <div
-                  ref={fileIdx === 0 ? rawSlicePreviewRef : undefined}
-                  style={{ position: "relative", display: "inline-block", touchAction: "none" }}
-                  onPointerMove={fileIdx === 0 ? handleRawSlicePreviewPointerMove : undefined}
-                  onPointerUp={
-                    fileIdx === 0
-                      ? () => {
-                          setCustomDragCutIndex(null);
-                          setCustomCuts((prev) => [...prev].sort((a, b) => a - b));
-                        }
-                      : undefined
-                  }
-                  onPointerCancel={
-                    fileIdx === 0
-                      ? () => {
-                          setCustomDragCutIndex(null);
-                          setCustomCuts((prev) => [...prev].sort((a, b) => a - b));
-                        }
-                      : undefined
-                  }
-                  onClick={
-                    fileIdx === 0
-                      ? (e) => {
-                          if (sliceMode !== "custom" || customDragCutIndex != null) return;
-                          const el = rawSlicePreviewRef.current;
-                          if (!el) return;
-                          const rect = el.getBoundingClientRect();
-                          if (rect.width <= 0) return;
-                          addCustomCutAtRatio((e.clientX - rect.left) / rect.width);
-                        }
-                      : undefined
-                  }
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+              {[
+                ["scroll", tDevUpload("previewModeScroll")],
+                ["fit", tDevUpload("previewModeFit")],
+              ].map(([mode, label]) => (
+                <button
+                  key={mode}
+                  type="button"
+                  onClick={() => setPreviewFitMode?.(mode)}
+                  style={{
+                    padding: "5px 10px",
+                    fontSize: 12,
+                    fontWeight: previewFitMode === mode ? 700 : 500,
+                    borderRadius: 6,
+                    border: previewFitMode === mode ? "1px solid #0284c7" : "1px solid #cbd5e1",
+                    background: previewFitMode === mode ? "#e0f2fe" : "#fff",
+                    color: "#334155",
+                    cursor: "pointer",
+                  }}
                 >
-                  <img
-                    src={item.url}
-                    alt={`長尺元画像プレビュー ${fileIdx + 1}`}
-                    draggable={false}
-                    style={{ height: 220, width: "auto", maxWidth: "none", display: "block" }}
+                  {label}
+                </button>
+              ))}
+              {previewFitMode === "scroll" ? (
+                <label style={{ fontSize: 12, color: "#475569", display: "flex", alignItems: "center", gap: 6 }}>
+                  {tDevUpload("previewHeight")}
+                  <input
+                    type="number"
+                    min={120}
+                    max={720}
+                    step={20}
+                    value={previewHeight}
+                    onChange={(e) => {
+                      const v = Math.min(720, Math.max(120, parseInt(e.target.value, 10) || 280));
+                      setPreviewHeight?.(v);
+                    }}
+                    style={{ width: 72, padding: "4px 6px" }}
                   />
-                  {fileIdx === 0 &&
-                    previewIntervals.map(([start, end], idx) => (
-                      <span
-                        key={`badge-${idx}`}
-                        style={{
-                          position: "absolute",
-                          left: `${((start + end) / 2) * 100}%`,
-                          top: 6,
-                          transform: "translateX(-50%)",
-                          fontSize: 11,
-                          fontWeight: 700,
-                          color: "#fff",
-                          background: "rgba(15, 23, 42, 0.75)",
-                          padding: "2px 6px",
-                          borderRadius: 4,
-                          pointerEvents: "none",
-                        }}
-                      >
-                        {String(idx + 1).padStart(2, "0")}
-                      </span>
-                    ))}
-                  {fileIdx === 0 &&
-                    (sliceMode === "custom"
-                      ? customCuts.map((ratio, cutIndex) => (
-                          <div
-                            key={`handle-${cutIndex}-${ratio.toFixed(4)}`}
-                            role="presentation"
-                            onPointerDown={(e) => {
-                              e.stopPropagation();
-                              setCustomDragCutIndex(cutIndex);
-                              e.currentTarget.setPointerCapture(e.pointerId);
-                            }}
-                            onDoubleClick={(e) => {
-                              e.stopPropagation();
-                              removeCustomCutAt(cutIndex);
-                            }}
-                            style={{
-                              position: "absolute",
-                              left: `${ratio * 100}%`,
-                              top: 0,
-                              bottom: 0,
-                              width: 3,
-                              marginLeft: -1,
-                              background: "#ef4444",
-                              cursor: "ew-resize",
-                              boxShadow: "0 0 0 1px rgba(255,255,255,0.35)",
-                            }}
-                          />
-                        ))
-                      : previewBoundaryRatios.map((ratio) => (
-                          <div
-                            key={`bound-${ratio.toFixed(5)}`}
-                            style={{
-                              position: "absolute",
-                              left: `${ratio * 100}%`,
-                              top: 0,
-                              bottom: 0,
-                              width: 2,
-                              marginLeft: -1,
-                              background: "rgba(56, 189, 248, 0.85)",
-                              pointerEvents: "none",
-                            }}
-                          />
-                        )))}
+                </label>
+              ) : null}
+            </div>
+            <p style={{ margin: 0, fontSize: 11, color: "#64748b" }}>{tDevUpload("previewScrollHint")}</p>
+            {(() => {
+              const primary =
+                rawSlicePreviews.length > 0
+                  ? rawSlicePreviews[0]
+                  : { url: rawSlicePreviewUrl, name: "元画像 1" };
+              const imgStyle =
+                previewFitMode === "fit"
+                  ? { width: "100%", height: "auto", maxWidth: "100%", display: "block" }
+                  : { height: previewHeight, width: "auto", maxWidth: "none", display: "block" };
+              return (
+                <div
+                  style={{
+                    width: "100%",
+                    maxWidth: "100%",
+                    overflowX: previewFitMode === "scroll" ? "auto" : "hidden",
+                    overflowY: "auto",
+                    borderRadius: 8,
+                    border: "1px solid #cbd5e1",
+                    padding: 8,
+                    background: "#fff",
+                    WebkitOverflowScrolling: "touch",
+                    direction: "ltr",
+                    minHeight: previewFitMode === "scroll" ? previewHeight + 16 : undefined,
+                  }}
+                >
+                  <div style={{ display: "flex", flexDirection: "column", gap: 4, flexShrink: 0 }}>
+                    <span style={{ fontSize: 11, color: "#475569", fontWeight: 600 }}>
+                      #1 {primary.name || ""}
+                    </span>
+                    <div
+                      ref={rawSlicePreviewRef}
+                      style={{ position: "relative", display: "inline-block", touchAction: "none" }}
+                      onPointerMove={handleRawSlicePreviewPointerMove}
+                      onPointerUp={() => {
+                        setCustomDragCutIndex(null);
+                        setCustomCuts((prev) => [...prev].sort((a, b) => a - b));
+                      }}
+                      onPointerCancel={() => {
+                        setCustomDragCutIndex(null);
+                        setCustomCuts((prev) => [...prev].sort((a, b) => a - b));
+                      }}
+                      onClick={(e) => {
+                        if (sliceMode !== "custom" || customDragCutIndex != null) return;
+                        const ratio = resolveCutRatioAtClientX?.(e.clientX);
+                        if (ratio == null) return;
+                        addCustomCutAtRatio(ratio);
+                      }}
+                    >
+                      <img src={primary.url} alt="長尺元画像プレビュー 1" draggable={false} style={imgStyle} />
+                      {previewIntervals.map(([start, end], idx) => (
+                        <span
+                          key={`badge-${idx}`}
+                          style={{
+                            position: "absolute",
+                            left: `${((start + end) / 2) * 100}%`,
+                            top: 6,
+                            transform: "translateX(-50%)",
+                            fontSize: 11,
+                            fontWeight: 700,
+                            color: "#fff",
+                            background: "rgba(15, 23, 42, 0.75)",
+                            padding: "2px 6px",
+                            borderRadius: 4,
+                            pointerEvents: "none",
+                          }}
+                        >
+                          {String(idx + 1).padStart(2, "0")}
+                        </span>
+                      ))}
+                      {(sliceMode === "custom"
+                        ? customCuts.map((ratio, cutIndex) => (
+                            <div
+                              key={`handle-${cutIndex}-${ratio.toFixed(4)}`}
+                              role="presentation"
+                              onPointerDown={(e) => {
+                                e.stopPropagation();
+                                setCustomDragCutIndex(cutIndex);
+                                e.currentTarget.setPointerCapture(e.pointerId);
+                              }}
+                              onDoubleClick={(e) => {
+                                e.stopPropagation();
+                                removeCustomCutAt(cutIndex);
+                              }}
+                              style={{
+                                position: "absolute",
+                                left: `${ratio * 100}%`,
+                                top: 0,
+                                bottom: 0,
+                                width: 3,
+                                marginLeft: -1,
+                                background: "#ef4444",
+                                cursor: "ew-resize",
+                                boxShadow: "0 0 0 1px rgba(255,255,255,0.35)",
+                              }}
+                            />
+                          ))
+                        : previewBoundaryRatios.map((ratio) => (
+                            <div
+                              key={`bound-${ratio.toFixed(5)}`}
+                              style={{
+                                position: "absolute",
+                                left: `${ratio * 100}%`,
+                                top: 0,
+                                bottom: 0,
+                                width: 2,
+                                marginLeft: -1,
+                                background: "rgba(56, 189, 248, 0.85)",
+                                pointerEvents: "none",
+                              }}
+                            />
+                          )))}
+                    </div>
+                  </div>
                 </div>
+              );
+            })()}
+            {rawSlicePreviews.length > 1 ? (
+              <div
+                style={{
+                  overflowX: "auto",
+                  display: "flex",
+                  flexDirection: rtlPreview ? "row-reverse" : "row",
+                  gap: 12,
+                  alignItems: "flex-start",
+                  direction: "ltr",
+                }}
+              >
+                {rawSlicePreviews.slice(1).map((item, offset) => {
+                  const fileIdx = offset + 1;
+                  return (
+                    <div
+                      key={`${item.url}-${fileIdx}`}
+                      style={{ display: "flex", flexDirection: "column", gap: 4, flexShrink: 0 }}
+                    >
+                      <span style={{ fontSize: 11, color: "#475569", fontWeight: 600 }}>
+                        #{fileIdx + 1} {item.name || ""}
+                      </span>
+                      <img
+                        src={item.url}
+                        alt={`長尺元画像プレビュー ${fileIdx + 1}`}
+                        draggable={false}
+                        style={{ height: Math.min(180, previewHeight), width: "auto", maxWidth: "none", display: "block" }}
+                      />
+                    </div>
+                  );
+                })}
               </div>
-            ))}
+            ) : null}
           </div>
         ) : null}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>

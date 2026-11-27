@@ -20,7 +20,16 @@ import { filterBoardsForHubSlug } from "@/libs/hubPublicBoards";
 /**
  * YouTube 風「次に見る」レール。クラスター／最新を優先（累計ランキングではない）。
  */
-const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
+const ViewerDiscoveryRail = ({
+  data,
+  onClose,
+  expandClickGuardUntilRef,
+  isLtr: isLtrProp,
+}) => {
+  const isLtr =
+    typeof isLtrProp === "boolean"
+      ? isLtrProp
+      : data?.readingDirection === "ltr";
   const { t } = useTranslation("common");
   const { locale } = useRouter();
   const all = ExtractingListData();
@@ -172,7 +181,7 @@ const ViewerDiscoveryRail = ({ data, onClose, expandClickGuardUntilRef }) => {
   };
 
   return (
-    <div className={styles.rail}>
+    <div className={`${styles.rail} ${isLtr ? styles.ltr : ""}`}>
       <div className={styles.head}>
         <h2 className={styles.title}>{resolvedTitle}</h2>
         <div className={styles.headActions}>

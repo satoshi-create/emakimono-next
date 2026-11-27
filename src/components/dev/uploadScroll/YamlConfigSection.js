@@ -10,6 +10,8 @@ export function YamlConfigSection({
   selectedTemplateId,
   setSelectedTemplateId,
   loadSelectedTemplate,
+  updateTemplate,
+  templateUpdating,
   addYamlFiles,
   yamlScrollId,
   yamlTitleen,
@@ -73,6 +75,21 @@ export function YamlConfigSection({
           onClick={loadSelectedTemplate}
         >
           読込
+        </button>
+        <button
+          type="button"
+          style={ui.btnSecondary}
+          disabled={!selectedTemplateId || !rawYaml.trim() || templateUpdating}
+          onClick={updateTemplate}
+          title={
+            !selectedTemplateId
+              ? "テンプレートを選択してください"
+              : !rawYaml.trim()
+                ? "保存する YAML を入力してください"
+                : undefined
+          }
+        >
+          {templateUpdating ? "更新中…" : "テンプレートを更新"}
         </button>
         {nextAvailableId != null ? (
           <span style={ui.badge}>次の推奨空き ID: #{nextAvailableId}</span>

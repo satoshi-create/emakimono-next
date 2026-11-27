@@ -22,6 +22,7 @@ KNOWN_ERAEN = frozenset(
         "aduchimomoyama",
         "edo",
         "meiji",
+        "medieval",
         "showa",
         "northern-song",
     }

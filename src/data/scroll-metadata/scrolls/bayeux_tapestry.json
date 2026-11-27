@@ -1,0 +1,185 @@
+{
+  "id": 110,
+  "title": "バイユーのタペストリー（第1〜4章テスト版）",
+  "titleen": "bayeux_tapestry",
+  "title_zh": "贝叶挂毯（第1–4章测试版）",
+  "author": "オド司教（制作依頼・伝）",
+  "authoren": "bishop-odo-of-bayeux",
+  "author_zh": "巴约主教厄德（传委托制作）",
+  "era": "中世（11世紀）",
+  "eraen": "medieval",
+  "era_zh": "中世纪（11世纪）",
+  "type": "刺繍絵巻（タペストリー）",
+  "typeen": "tapestry",
+  "type_zh": "刺绣长卷（挂毯）",
+  "desc": "1066年のノルマン・コンクエスト（ウィリアム征服王によるイングランド征服）に至る一連の出来事を描いた、全長約70メートルにおよぶ中世ヨーロッパの記念碑的刺繍作品です。左から右へ物語が展開する横スクロール構成で、第1章から第4章（エドワード懺悔王の宮廷からハロルドの誓約と帰国まで）を収録しています。",
+  "descen": "A monumental 11th-century embroidered cloth nearly 70 meters long depicting the events leading up to the Norman Conquest of England in 1066. Presented in left-to-right (LTR) horizontal scroll format, this test edition covers Chapters 1 to 4, from King Edward the Confessor's court to Harold's sacred oath at Bayeux and return to England.",
+  "desc_zh": "全长约70米的中世纪欧洲纪念碑式刺绣长卷，描绘了1066年诺曼征服（征服者威廉入主英格兰）前后的历史风云。本测试版采用从左至右（LTR）横向卷轴阅读模式，收录第1章至第4章（从忏悔者爱德华宫廷到哈罗德在巴约立誓并返英）。",
+  "thumb": "/thumb/bayeux_tapestry_thumb.webp",
+  "sceneText": "true",
+  "sourceImage": "バイユーのタペストリー（バイユー・タペストリー美術館蔵）",
+  "sourceImageUrl": "https://commons.wikimedia.org/wiki/Bayeux_Tapestry",
+  "sourceAuthor": "11世紀アングロ・ノルマン工房（デジタル化：Wikimedia Commons）",
+  "sourceCollection": "Musée de la Tapisserie de Bayeux (via Wikimedia Commons)",
+  "sourceLicense": "Public Domain",
+  "reference": [
+    {
+      "type": "Wikimedia Commons",
+      "url": "https://commons.wikimedia.org/wiki/Bayeux_Tapestry",
+      "title": "Bayeux Tapestry - Wikimedia Commons"
+    }
+  ],
+  "readingDirection": "ltr",
+  "keyword": [
+    {
+      "name": "西洋美術",
+      "id": "western-art",
+      "slug": "western-art"
+    },
+    {
+      "name": "タペストリー",
+      "id": "tapestry",
+      "slug": "tapestry"
+    },
+    {
+      "name": "ノルマン・コンクエスト",
+      "id": "norman-conquest",
+      "slug": "norman-conquest"
+    }
+  ],
+  "delivery": "local",
+  "images": [
+    {
+      "chapter": "1",
+      "src": "/dev-scroll-images/bayeux_tapestry/bayeux-tapestry_01-1080.jpg",
+      "filename": "bayeux-tapestry_01-1080.jpg"
+    },
+    {
+      "chapter": "2",
+      "src": "/dev-scroll-images/bayeux_tapestry/bayeux-tapestry_02-1080.jpg",
+      "filename": "bayeux-tapestry_02-1080.jpg"
+    },
+    {
+      "chapter": "3",
+      "src": "/dev-scroll-images/bayeux_tapestry/bayeux-tapestry_03-1080.jpg",
+      "filename": "bayeux-tapestry_03-1080.jpg"
+    },
+    {
+      "chapter": "4",
+      "src": "/dev-scroll-images/bayeux_tapestry/bayeux-tapestry_04-1080.jpg",
+      "filename": "bayeux-tapestry_04-1080.jpg"
+    }
+  ],
+  "chapters": [
+    {
+      "chapter": "1",
+      "title": "第1章：エドワード懺悔王の宮廷とハロルドの旅立ち",
+      "titleen": "Chapter 1: King Edward's Court & Harold's Departure",
+      "range": [
+        1,
+        1
+      ]
+    },
+    {
+      "chapter": "2",
+      "title": "第2章：英仏海峡の横断とポンチュー伯ギーによる拘束",
+      "titleen": "Chapter 2: Crossing the Channel & Capture by Guy of Ponthieu",
+      "range": [
+        2,
+        2
+      ]
+    },
+    {
+      "chapter": "3",
+      "title": "第3章：ノルマンディー公ウィリアムによる救出とブルターニュ遠征",
+      "titleen": "Chapter 3: Rescue by Duke William & the Brittany Campaign",
+      "range": [
+        3,
+        3
+      ]
+    },
+    {
+      "chapter": "4",
+      "title": "第4章：バイユーでの聖遺物への誓いとイングランド帰還",
+      "titleen": "Chapter 4: Harold's Oath at Bayeux & Return to England",
+      "range": [
+        4,
+        4
+      ]
+    }
+  ],
+  "emakis": [
+    {
+      "cat": "ekotoba",
+      "chapter": "1",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 1080,
+      "srcWidth": 1920
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "local",
+      "src": "/dev-scroll-images/bayeux_tapestry/bayeux-tapestry_01-1080.jpg",
+      "name": "bayeux-tapestry_01-1080",
+      "srcHeight": 1080,
+      "srcWidth": 1222
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "2",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 1080,
+      "srcWidth": 1920
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "local",
+      "src": "/dev-scroll-images/bayeux_tapestry/bayeux-tapestry_02-1080.jpg",
+      "name": "bayeux-tapestry_02-1080",
+      "srcHeight": 1080,
+      "srcWidth": 1338
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "3",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 1080,
+      "srcWidth": 1920
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "local",
+      "src": "/dev-scroll-images/bayeux_tapestry/bayeux-tapestry_03-1080.jpg",
+      "name": "bayeux-tapestry_03-1080",
+      "srcHeight": 1080,
+      "srcWidth": 1913
+    },
+    {
+      "cat": "ekotoba",
+      "chapter": "4",
+      "config": "",
+      "src": "",
+      "name": "",
+      "srcHeight": 1080,
+      "srcWidth": 1920
+    },
+    {
+      "cat": "image",
+      "chapter": "",
+      "config": "local",
+      "src": "/dev-scroll-images/bayeux_tapestry/bayeux-tapestry_04-1080.jpg",
+      "name": "bayeux-tapestry_04-1080",
+      "srcHeight": 1080,
+      "srcWidth": 295
+    }
+  ]
+}

@@ -54,6 +54,13 @@ export const ERA_COLOR_MODES = {
     softBg: "rgba(61, 122, 116, 0.12)",
     border: "rgba(61, 122, 116, 0.45)",
   },
+  medieval: {
+    badgeBg: "#6b4c7a",
+    accent: "#6b4c7a",
+    text: "#4f365c",
+    softBg: "rgba(107, 76, 122, 0.12)",
+    border: "rgba(107, 76, 122, 0.45)",
+  },
   default: {
     badgeBg: undefined,
     accent: "#8a6d3b",
@@ -96,6 +103,8 @@ export function resolveEraModeKey(eraOrEraEn) {
       return "meiji";
     case "北宋":
       return "northernsong";
+    case "中世":
+      return "medieval";
     default:
       break;
   }
@@ -116,6 +125,8 @@ export function resolveEraModeKey(eraOrEraEn) {
       return "meiji";
     case "Northern Song":
       return "northernsong";
+    case "Medieval":
+      return "medieval";
     default:
       break;
   }
@@ -133,6 +144,7 @@ export function resolveEraModeKey(eraOrEraEn) {
   if (lower === "edo") return "edo";
   if (lower === "meiji") return "meiji";
   if (lower === "northernsong" || lower === "northern-song") return "northernsong";
+  if (lower === "medieval") return "medieval";
 
   return "default";
 }
