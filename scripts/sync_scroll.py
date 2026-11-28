@@ -406,17 +406,18 @@ def expand_chapters(config: dict) -> list[tuple[int, str, int, int]]:
         out: list[tuple[int, str, int, int]] = []
         ordinals: dict[int, int] = {}
         for panel in panels:
-            idx = int(panel["slice_range"][0])
+            start, end = int(panel["slice_range"][0]), int(panel["slice_range"][1])
             cid = int(panel["chapter_id"])
-            ordinals[cid] = ordinals.get(cid, 0) + 1
-            ordinal = ordinals[cid]
-            scene = scenes_by_id.get(cid, {})
-            title = (
-                str(scene.get("title", ""))
-                if idx == first_by_scene.get(cid, idx)
-                else ""
-            )
-            out.append((cid, title, idx, ordinal))
+            for idx in range(start, end + 1):
+                ordinals[cid] = ordinals.get(cid, 0) + 1
+                ordinal = ordinals[cid]
+                scene = scenes_by_id.get(cid, {})
+                title = (
+                    str(scene.get("title", ""))
+                    if idx == first_by_scene.get(cid, idx)
+                    else ""
+                )
+                out.append((cid, title, idx, ordinal))
         return out
 
     out = []
