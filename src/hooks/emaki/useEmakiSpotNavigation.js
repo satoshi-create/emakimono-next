@@ -38,7 +38,12 @@ export function getLinkIdForVisitorScene(emakis, sceneNum) {
  * パノラマ全体座標（x: 0〜100, y: 0〜100）を各扇スライス（cat === "image"）のローカル座標へ変換する。
  * 屏風・絵巻は右端（sliceIndex = 0）から左端（sliceIndex = N - 1）へ並ぶ前提。
  */
-export function resolvePanoramaCoordToSlice(emakis, panoramaX, panoramaY) {
+export function resolvePanoramaCoordToSlice(
+  emakis,
+  panoramaX,
+  panoramaY,
+  readingDirection = "rtl",
+) {
   const imageSlices = (Array.isArray(emakis) ? emakis : []).filter(
     (item) => item && item.cat === "image",
   );
@@ -52,9 +57,8 @@ export function resolvePanoramaCoordToSlice(emakis, panoramaX, panoramaY) {
   );
   const totalWidth = widths.reduce((sum, w) => sum + w, 0);
 
-  // 画面左端を 0%、右端を 100% とするため、右端からの距離（100 - panoramaX）でスライスを特定
+  const isLtr = readingDirection === "ltr";
   const clampedX = Math.max(0, Math.min(100, panoramaX));
-  const distFromRight = 100 - clampedX;
 
   let accPercent = 0;
   let targetSliceIndex = imageSlices.length - 1;
@@ -63,11 +67,21 @@ export function resolvePanoramaCoordToSlice(emakis, panoramaX, panoramaY) {
   for (let i = 0; i < imageSlices.length; i += 1) {
     const sliceSpanPercent = (widths[i] / totalWidth) * 100;
     const nextAcc = accPercent + sliceSpanPercent;
-    if (distFromRight <= nextAcc || i === imageSlices.length - 1) {
+  if (isLtr) {
+      if (clampedX < nextAcc || i === imageSlices.length - 1) {
+        targetSliceIndex = i;
+        const offsetFromSliceLeft = clampedX - accPercent;
+        const ratioFromLeft =
+          sliceSpanPercent > 0 ? offsetFromSliceLeft / sliceSpanPercent : 0.5;
+        localX = Math.max(0, Math.min(100, Math.round(ratioFromLeft * 1000) / 10));
+        break;
+      }
+    } else if (100 - clampedX <= nextAcc || i === imageSlices.length - 1) {
       targetSliceIndex = i;
-      // スライス内では左端が 0%、右端が 100%
+      const distFromRight = 100 - clampedX;
       const offsetFromSliceRight = distFromRight - accPercent;
-      const ratioFromRight = sliceSpanPercent > 0 ? offsetFromSliceRight / sliceSpanPercent : 0.5;
+      const ratioFromRight =
+        sliceSpanPercent > 0 ? offsetFromSliceRight / sliceSpanPercent : 0.5;
       localX = Math.max(0, Math.min(100, Math.round((1 - ratioFromRight) * 1000) / 10));
       break;
     }
@@ -85,6 +99,16 @@ export function resolvePanoramaCoordToSlice(emakis, panoramaX, panoramaY) {
     centerX: localX,
     centerY: Math.max(0, Math.min(100, Math.round(panoramaY * 10) / 10)),
   };
+}
+
+function scrollOffsetPercentFromCenterX(centerX, readingDirection = "rtl") {
+  const cx = Number(centerX);
+  if (!Number.isFinite(cx)) return 50;
+  if (readingDirection === "ltr") {
+    return Math.min(100, Math.max(0, Math.round(cx * 10) / 10));
+  }
+  // handleToId: 0=スライス右端, 100=左端（ピッカー仕様）。スポット x% はスライス左上原点。
+  return Math.min(100, Math.max(0, Math.round((100 - cx) * 10) / 10));
 }
 
 export function resolveSpotDeepLink(emakisOrData, querySpot) {
@@ -110,34 +134,12 @@ export function resolveSpotDeepLink(emakisOrData, querySpot) {
 
   if (!spotId || !Array.isArray(emakis)) return null;
 
-  if (Array.isArray(topLevelSpots)) {
-    const topSpot = topLevelSpots.find((s) => s?.id === spotId);
-    if (topSpot) {
-      const resolved = resolvePanoramaCoordToSlice(
-        emakis,
-        Number(topSpot.x),
-        Number(topSpot.y),
-      );
-      if (resolved) {
-        const match = /^scene-(\d+)$/.exec(String(resolved.linkId));
-        const fullIndex = match ? Number(match[1]) : resolved.sliceIndex;
-        const slice = emakis[fullIndex];
-        const linkId =
-          typeof slice?.linkId === "number" ? slice.linkId : fullIndex;
-        return {
-          linkId,
-          sliceIndex: fullIndex,
-          offsetPercent: 100 - resolved.centerX,
-          centerX: resolved.centerX,
-          centerY: resolved.centerY,
-          rectW: null,
-          rectH: null,
-          targetScale: 2.6,
-        };
-      }
-    }
-  }
+  const readingDirection =
+    !Array.isArray(emakisOrData) && emakisOrData?.readingDirection === "ltr"
+      ? "ltr"
+      : "rtl";
 
+  // 1. スライス内 spots（ローカル座標）が存在する場合は最優先で採用
   for (let sliceIndex = 0; sliceIndex < emakis.length; sliceIndex += 1) {
     const slice = emakis[sliceIndex];
     if (slice?.cat !== "image") continue;
@@ -145,8 +147,8 @@ export function resolveSpotDeepLink(emakisOrData, querySpot) {
     if (!Array.isArray(spots)) continue;
     const spot = spots.find((s) => s?.id === spotId);
     if (!spot) continue;
-    const linkId = slice.linkId;
-    if (typeof linkId !== "number") continue;
+    const linkId =
+      typeof slice.linkId === "number" ? slice.linkId : sliceIndex;
     let centerX = Number(spot.x);
     let centerY = Number(spot.y);
     let rectW = null;
@@ -170,7 +172,10 @@ export function resolveSpotDeepLink(emakisOrData, querySpot) {
     if (!Number.isFinite(centerY)) {
       centerY = 50;
     }
-    const offsetPercent = 100 - centerX;
+    const offsetPercent = scrollOffsetPercentFromCenterX(
+      centerX,
+      readingDirection,
+    );
     let targetScale = 2.6;
     if (rectW != null && rectH != null) {
       targetScale = Math.min(
@@ -189,6 +194,74 @@ export function resolveSpotDeepLink(emakisOrData, querySpot) {
       rectH,
       targetScale,
     };
+  }
+
+  // 2. トップレベル spots（パノラマ座標）からの解決
+  if (Array.isArray(topLevelSpots)) {
+    const topSpot = topLevelSpots.find((s) => s?.id === spotId);
+    if (topSpot) {
+      // panel-inscription-{n} の場合はパノラマ x 逆算のズレを避け、n 番目の画像スライスを直接取得
+      const panelMatch = /^panel-inscription-(\d+)$/.exec(spotId);
+      if (panelMatch) {
+        const panelNum = Number(panelMatch[1]);
+        const imageSlices = emakis.filter((item) => item?.cat === "image");
+        const targetSliceObj =
+          imageSlices[Math.max(0, Math.min(panelNum - 1, imageSlices.length - 1))];
+        if (targetSliceObj) {
+          const fullIndex = emakis.indexOf(targetSliceObj);
+          const linkId =
+            typeof targetSliceObj.linkId === "number"
+              ? targetSliceObj.linkId
+              : fullIndex;
+          const centerX = 50;
+          const centerY = Number.isFinite(Number(topSpot.y))
+            ? Number(topSpot.y)
+            : 22;
+          return {
+            linkId,
+            sliceIndex: fullIndex,
+            offsetPercent: scrollOffsetPercentFromCenterX(
+              centerX,
+              readingDirection,
+            ),
+            centerX,
+            centerY,
+            rectW: null,
+            rectH: null,
+            targetScale: 2.6,
+          };
+        }
+      }
+
+      const resolved = resolvePanoramaCoordToSlice(
+        emakis,
+        Number(topSpot.x),
+        Number(topSpot.y),
+        readingDirection,
+      );
+      if (resolved) {
+        const match = /^scene-(\d+)$/.exec(String(resolved.linkId));
+        const fullIndex = match ? Number(match[1]) : resolved.sliceIndex;
+        const slice = emakis[fullIndex];
+        const linkId =
+          typeof slice?.linkId === "number" ? slice.linkId : fullIndex;
+        const topRectW = Number(topSpot?.rect?.w);
+        const topRectH = Number(topSpot?.rect?.h);
+        return {
+          linkId,
+          sliceIndex: fullIndex,
+          offsetPercent: scrollOffsetPercentFromCenterX(
+            resolved.centerX,
+            readingDirection,
+          ),
+          centerX: resolved.centerX,
+          centerY: resolved.centerY,
+          rectW: Number.isFinite(topRectW) && topRectW > 0 ? topRectW : null,
+          rectH: Number.isFinite(topRectH) && topRectH > 0 ? topRectH : null,
+          targetScale: 2.6,
+        };
+      }
+    }
   }
   return null;
 }
@@ -263,7 +336,8 @@ export default function useEmakiSpotNavigation({
       const resolved = resolvePanoramaCoordToSlice(
         data.emakis,
         Number(spot.x),
-        Number(spot.y)
+        Number(spot.y),
+        data?.readingDirection === "ltr" ? "ltr" : "rtl",
       );
       const sliceIndex = resolved?.sliceIndex ?? 0;
       const slice = data.emakis[sliceIndex];
@@ -344,6 +418,11 @@ export default function useEmakiSpotNavigation({
       const landing = resolveSpotDeepLink(data, nextId);
       if (!landing) return;
       appliedSpotRef.current = nextId;
+      handleToId(landing.linkId, {
+        realign: true,
+        offsetPercent: landing.offsetPercent,
+        behavior: "auto",
+      });
       let targetScale = 2.6;
       if (landing.rectW != null && landing.rectH != null) {
         targetScale = Math.min(
@@ -359,6 +438,7 @@ export default function useEmakiSpotNavigation({
         targetScale,
         rectW: landing.rectW,
         rectH: landing.rectH,
+        readingDirection: data?.readingDirection,
       });
       if (typeof window !== "undefined") {
         window.dispatchEvent(
@@ -368,7 +448,7 @@ export default function useEmakiSpotNavigation({
         );
       }
     },
-    [query, pathname, replace, data?.emakis, zoomToSlicePercentRef]
+    [query, pathname, replace, data, handleToId, zoomToSlicePercentRef]
   );
 
   const onClearSelectedSpot = useCallback(() => {
@@ -482,11 +562,12 @@ export default function useEmakiSpotNavigation({
         targetScale,
         rectW,
         rectH,
+        readingDirection: data?.readingDirection,
       });
       setPendingSpotZoom(null);
     }, 300);
     return () => clearTimeout(zoomTimer);
-  }, [pendingSpotZoom, zoomToSlicePercentRef]);
+  }, [pendingSpotZoom, zoomToSlicePercentRef, data?.readingDirection]);
 
   // 4. 初回 ?spot / ?scene / レガシーハッシュによるジャンプ
   useEffect(() => {
@@ -521,7 +602,7 @@ export default function useEmakiSpotNavigation({
         appliedSpotRef.current !== coordKey
       ) {
         appliedSpotRef.current = coordKey;
-        const offsetPercent = 100 - centerX;
+        const offsetPercent = scrollOffsetPercentFromCenterX(centerX);
         const pin = () => window.scrollTo({ top: 0, behavior: "instant" });
         handleToId(linkId, {
           realign: true,

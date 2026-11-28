@@ -629,22 +629,36 @@ def upload_to_cloudinary(
     ) from last_error
 
 
+def _r2_target_height() -> int:
+    """Max output height for R2 WebP (width scales proportionally; no width cap)."""
+    raw = os.environ.get("R2_TARGET_HEIGHT", "1080").strip()
+    try:
+        return max(1, int(raw))
+    except ValueError:
+        return 1080
+
+
+def _r2_webp_quality() -> int:
+    raw = os.environ.get("R2_WEBP_QUALITY", "85").strip()
+    try:
+        return max(1, min(100, int(raw)))
+    except ValueError:
+        return 85
+
+
 def upload_to_r2(file_path: Path, public_id: str) -> dict:
-    """Convert to WebP (max long edge 1920) and upload to Cloudflare R2 via wrangler."""
+    """Convert to WebP (height capped, variable width) and upload to R2 via wrangler."""
     if Image is None:
         raise SystemExit("Pillow (PIL) required for R2 uploads: pip install Pillow")
 
     base_id = strip_cloudinary_folder(public_id)
+    target_height = _r2_target_height()
+    webp_quality = _r2_webp_quality()
     with Image.open(file_path) as img:
         width, height = img.size
-        max_edge = 1920
-        if max(width, height) > max_edge:
-            if width >= height:
-                new_w = max_edge
-                new_h = max(round(height * max_edge / width), 1)
-            else:
-                new_h = max_edge
-                new_w = max(round(width * max_edge / height), 1)
+        if height > target_height and height > 0:
+            new_h = target_height
+            new_w = max(1, round(width * target_height / height))
             img = img.resize((new_w, new_h), Image.Resampling.LANCZOS)
             width, height = new_w, new_h
         if img.mode in ("RGBA", "P"):
@@ -654,7 +668,7 @@ def upload_to_r2(file_path: Path, public_id: str) -> dict:
         os.close(fd)
         tmp_path = Path(tmp_name)
         try:
-            img.save(tmp_path, "WEBP", quality=80)
+            img.save(tmp_path, "WEBP", quality=webp_quality)
             subprocess.run(
                 [
                     "npx",

@@ -1,5 +1,7 @@
 import type { EmakiMetadata } from "@/types/emaki";
 import scrollOrder from "./scrolls/_order.json";
+import bayeuxPanels from "@/data/bayeux-tapestry/bayeux_panels.json";
+import { mergeBayeuxScrollMetadata } from "@/data/bayeux-tapestry/mergeBayeuxMetadata";
 
 /**
  * =============================================================================
@@ -38,8 +40,11 @@ function buildMapFromContext(): Map<string, EmakiMetadata> {
   scrollContext.keys().forEach((key) => {
     const base = key.replace(/^\.\//, "");
     if (base === ORDER_JSON_BASENAME) return;
-    const item = scrollContext<EmakiMetadata>(key);
+    let item = scrollContext<EmakiMetadata>(key);
     const titleen = item?.titleen ?? base.replace(/\.json$/, "");
+    if (titleen === "bayeux_tapestry") {
+      item = mergeBayeuxScrollMetadata(item, bayeuxPanels);
+    }
     map.set(titleen, item);
   });
   return map;

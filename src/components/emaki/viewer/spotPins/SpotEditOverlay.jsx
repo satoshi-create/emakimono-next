@@ -1,54 +1,11 @@
 /**
  * SpotEditOverlay — 開発時のみの名所編集用オーバーレイ（基準点・枠・新規配置 UI）。
- * SpotPins から isEditMode 専用の DOM／ポインタ処理を切り出し、見た目と z-index を維持する。
  */
-import { useRef, useState } from "react";
-
-import { unmapStripCoordToPanorama } from "@/hooks/emaki/usePanoramaSpots";
-
 import SpotPlaceNamePopup from "./SpotPlaceNamePopup";
 import { BADGE_GAP, fallbackOffset } from "./spotPinsGeometry";
-
-import {
-  mergePendingUpdate,
-  registerNewSpot,
-  setPlaceModeEnabled,
-} from "./spotPinsEditStore";
-
-const panoramaStoreCoords = (px, py, rectObj, stripBounds) => {
-  const unmapped = unmapStripCoordToPanorama(
-    { x: px, w: rectObj?.w },
-    stripBounds,
-  );
-  const fullX = Math.max(0, Math.min(100, Math.round(unmapped.x * 10) / 10));
-  const fullY = Math.max(0, Math.min(100, Math.round(py * 10) / 10));
-  const fullRect = rectObj
-    ? {
-        ...rectObj,
-        ...(Number.isFinite(unmapped.w) ? { w: unmapped.w } : {}),
-      }
-    : undefined;
-  return {
-    x: fullX,
-    y: fullY,
-    ...(fullRect ? { rect: fullRect } : {}),
-  };
-};
-
-/** ストア用 patch（パノラマ%）と表示用 dragOverrides（スライス strip %）を分離 */
-const dragOverrideFromPatch = (isPanoramaTarget, px, py, saveRect, patch) =>
-  isPanoramaTarget
-    ? {
-        x: px,
-        y: py,
-        rect: saveRect,
-        ...(patch.badgePos ? { badgePos: patch.badgePos } : {}),
-      }
-    : patch;
-
-// =============================================================================
-// 1. 定数・開発ログ（SpotPins 本体と同じ挙動）
-// =============================================================================
+import { registerNewSpot, setPlaceModeEnabled } from "./spotPinsEditStore";
+import { RECT_BADGE_GAP } from "./spotEditGeometry";
+import { useSpotDragResize } from "./useSpotDragResize";
 
 const DEBUG_SPOT_ADD = false;
 
@@ -62,36 +19,6 @@ function logDebug(tag, ...args) {
   );
 }
 
-const RECT_BADGE_GAP = 6;
-
-function resolveCrossSliceTarget(rawX, currentSliceIndex) {
-  if (!Number.isInteger(currentSliceIndex) || !Number.isFinite(rawX)) {
-    return { x: rawX, targetSliceIndex: undefined, shiftX: 0 };
-  }
-  const sliceDelta = Math.floor(rawX / 100);
-  if (sliceDelta === 0) {
-    return { x: rawX, targetSliceIndex: undefined, shiftX: 0 };
-  }
-  const nextSliceIndex = Math.max(0, currentSliceIndex - sliceDelta);
-  const actualDelta = currentSliceIndex - nextSliceIndex;
-  const shiftX = -actualDelta * 100;
-  const convertedX = Math.round((rawX + shiftX) * 10) / 10;
-  return {
-    x: convertedX,
-    targetSliceIndex:
-      nextSliceIndex !== currentSliceIndex ? nextSliceIndex : undefined,
-    shiftX,
-  };
-}
-
-// =============================================================================
-// 2. SpotEditOverlay — 編集専用インタラクション層
-// =============================================================================
-
-/**
- * @param {object} props
- * 親 SpotPins から editSlug・座標系・ドラフト状態を受け取り、編集 UI のみ描画する。
- */
 export default function SpotEditOverlay({
   editSlug,
   sliceIndex,
@@ -110,15 +37,26 @@ export default function SpotEditOverlay({
   spotLabel: _spotLabel,
   percentFromPointer,
   isPanorama = false,
+  imageSliceCount,
 }) {
-  const anchorDraggingRef = useRef(null);
-  const rectFrameDraggingRef = useRef(null);
-  const resizingRef = useRef(null);
-  const [, setDraggingSpotId] = useState(null);
+  const {
+    makeAnchorHandlers,
+    makeRectFrameHandlers,
+    makeResizeHandlers,
+  } = useSpotDragResize({
+    editSlug,
+    sliceIndex,
+    isPanorama,
+    percentFromPointer,
+    dragOverrides,
+    setDragOverrides,
+    setResizingSpotId,
+  });
 
-  // ---------------------------------------------------------------------------
-  // 3. 新規名所配置ポップアップ（placeDraft 確定 → registerNewSpot）
-  // ---------------------------------------------------------------------------
+  const stopBubble = {
+    onMouseDown: (e) => e.stopPropagation(),
+    onTouchStart: (e) => e.stopPropagation(),
+  };
 
   const placeNamePopup =
     placeDraft != null ? (
@@ -130,7 +68,7 @@ export default function SpotEditOverlay({
         placedSpotIds={placedSpotIds}
         onCancel={() => setPlaceDraft(null)}
         onConfirm={(item) => {
-          const { id, name, nameen } = item;
+          const { id, name, nameen, description } = item;
           logDebug("ADD_MASTER_SPOT", {
             slug: editSlug,
             sliceIndexProp: sliceIndex,
@@ -145,18 +83,17 @@ export default function SpotEditOverlay({
             sliceImageName,
             name,
             nameen,
+            ...(description ? { description } : {}),
             x: placeDraft.x,
             y: placeDraft.y,
+            isPanorama,
+            imageSliceCount,
           });
           setPlaceDraft(null);
           setPlaceModeEnabled(false);
         }}
       />
     ) : null;
-
-  // ---------------------------------------------------------------------------
-  // 4. 各スポット — 基準点十字・破線コネクタ（バッジ非手動配置時）
-  // ---------------------------------------------------------------------------
 
   const spotAnchorAndConnectors = (mergedSpots || []).map((spot) => {
     const currentX = dragOverrides[spot.id]?.x ?? spot.x;
@@ -174,8 +111,7 @@ export default function SpotEditOverlay({
     let guideX = -BADGE_GAP;
     let guideY = -BADGE_GAP;
     if (hasSpotRect) {
-      const rw = currentRect.w;
-      const rh = currentRect.h;
+      const { w: rw, h: rh } = currentRect;
       const flipX = currentX - rw / 2 < 10;
       const flipY = currentY - rh / 2 < 10;
       guideX = flipX ? RECT_BADGE_GAP : -RECT_BADGE_GAP;
@@ -185,6 +121,8 @@ export default function SpotEditOverlay({
       guideX = measured.guideX ?? -BADGE_GAP;
       guideY = measured.guideY ?? -BADGE_GAP;
     }
+
+    const anchorHandlers = makeAnchorHandlers(spot, { manualBadgePos });
 
     return (
       <div key={`spot-edit-anchor-${spot.id}`} style={{ display: "contents" }}>
@@ -212,134 +150,8 @@ export default function SpotEditOverlay({
               touchAction: "none",
               zIndex: 50,
             }}
-            onPointerDown={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
-              anchorDraggingRef.current = {
-                spotId: spot.id,
-                pointerId: e.pointerId,
-                moved: false,
-              };
-              setDraggingSpotId(spot.id);
-              e.currentTarget.setPointerCapture(e.pointerId);
-            }}
-            onMouseDown={(e) => e.stopPropagation()}
-            onTouchStart={(e) => e.stopPropagation()}
-            onPointerMove={(e) => {
-              if (
-                anchorDraggingRef.current?.spotId !== spot.id ||
-                !anchorDraggingRef.current
-              ) {
-                return;
-              }
-              const pos = percentFromPointer(e.clientX, e.clientY);
-              if (!pos) return;
-              const px = Number.isFinite(pos.x) ? pos.x : pos.percentX;
-              const py = Number.isFinite(pos.y) ? pos.y : pos.percentY;
-              if (!Number.isFinite(px) || !Number.isFinite(py)) return;
-              anchorDraggingRef.current.moved = true;
-              setDragOverrides((prev) => ({
-                ...prev,
-                [spot.id]: {
-                  x: px,
-                  y: py,
-                  rect:
-                    prev[spot.id]?.rect ??
-                    spot.rect ??
-                    { w: 24, h: 20 },
-                  ...(manualBadgePos
-                    ? {
-                        badgePos:
-                          prev[spot.id]?.badgePos ?? spot.badgePos,
-                      }
-                    : null),
-                },
-              }));
-            }}
-            onPointerUp={(e) => {
-              if (
-                anchorDraggingRef.current?.spotId !== spot.id ||
-                !anchorDraggingRef.current
-              ) {
-                return;
-              }
-              e.currentTarget.releasePointerCapture(e.pointerId);
-              const moved = anchorDraggingRef.current.moved;
-              anchorDraggingRef.current = null;
-              setDraggingSpotId(null);
-              if (!moved) return;
-              const pos = percentFromPointer(e.clientX, e.clientY);
-              if (!pos) return;
-              const px = Number.isFinite(pos.x) ? pos.x : pos.percentX;
-              const py = Number.isFinite(pos.y) ? pos.y : pos.percentY;
-              if (!Number.isFinite(px) || !Number.isFinite(py)) return;
-              const saveRect =
-                dragOverrides[spot.id]?.rect ??
-                spot.rect ??
-                { w: 24, h: 20 };
-              const isPanoramaTarget = Boolean(
-                isPanorama || spot.isPanorama || spot.quizQuestionId,
-              );
-              const commonMeta = {
-                ...(spot.quizQuestionId
-                  ? { quizQuestionId: spot.quizQuestionId, scale: spot.scale ?? 4.6 }
-                  : {}),
-                ...(isPanoramaTarget && !spot.quizQuestionId
-                  ? { isPanorama: true }
-                  : {}),
-              };
-              let patch;
-              if (isPanoramaTarget) {
-                patch = {
-                  ...panoramaStoreCoords(px, py, saveRect, spot.stripBounds),
-                  ...commonMeta,
-                };
-                if (manualBadgePos) {
-                  const baseBadge =
-                    dragOverrides[spot.id]?.badgePos ?? spot.badgePos;
-                  patch.badgePos = { x: baseBadge.x, y: baseBadge.y };
-                }
-              } else {
-                const spotSliceIndex = Number.isInteger(spot.sliceIndex)
-                  ? spot.sliceIndex
-                  : sliceIndex;
-                const resolved = resolveCrossSliceTarget(px, spotSliceIndex);
-                patch = {
-                  x: resolved.x,
-                  y: py,
-                  rect: saveRect,
-                  ...(resolved.targetSliceIndex != null
-                    ? { targetSliceIndex: resolved.targetSliceIndex }
-                    : {}),
-                };
-                if (manualBadgePos) {
-                  const baseBadge =
-                    dragOverrides[spot.id]?.badgePos ?? spot.badgePos;
-                  patch.badgePos = {
-                    x: Math.round((baseBadge.x + resolved.shiftX) * 10) / 10,
-                    y: baseBadge.y,
-                  };
-                }
-              }
-              setDragOverrides((prev) => ({
-                ...prev,
-                [spot.id]: dragOverrideFromPatch(
-                  isPanoramaTarget,
-                  px,
-                  py,
-                  saveRect,
-                  patch,
-                ),
-              }));
-              mergePendingUpdate(editSlug, spot.id, patch);
-            }}
-            onPointerCancel={(e) => {
-              if (anchorDraggingRef.current?.spotId === spot.id) {
-                e.currentTarget.releasePointerCapture(e.pointerId);
-                anchorDraggingRef.current = null;
-                setDraggingSpotId(null);
-              }
-            }}
+            {...anchorHandlers}
+            {...stopBubble}
           >
             <span
               style={{
@@ -417,15 +229,17 @@ export default function SpotEditOverlay({
     );
   });
 
-  // ---------------------------------------------------------------------------
-  // 5. リサイズ枠（破線 rect）と右下ドラッグハンドル
-  // ---------------------------------------------------------------------------
-
   const resizeFrames = (mergedSpots || []).map((spot) => {
     const currentX = dragOverrides[spot.id]?.x ?? spot.x;
     const currentY = dragOverrides[spot.id]?.y ?? spot.y;
     const currentRect =
       dragOverrides[spot.id]?.rect ?? spot.rect ?? { w: 24, h: 20 };
+    const frameHandlers = makeRectFrameHandlers(spot);
+    const resizeHandlers = makeResizeHandlers(spot, {
+      currentX,
+      currentY,
+      currentRect,
+    });
 
     return (
       <div
@@ -446,132 +260,8 @@ export default function SpotEditOverlay({
           touchAction: "none",
           zIndex: 40,
         }}
-        onPointerDown={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-          rectFrameDraggingRef.current = {
-            spotId: spot.id,
-            pointerId: e.pointerId,
-            moved: false,
-          };
-          setDraggingSpotId(spot.id);
-          e.currentTarget.setPointerCapture(e.pointerId);
-        }}
-        onMouseDown={(e) => e.stopPropagation()}
-        onTouchStart={(e) => e.stopPropagation()}
-        onPointerMove={(e) => {
-          if (
-            rectFrameDraggingRef.current?.spotId !== spot.id ||
-            !rectFrameDraggingRef.current
-          ) {
-            return;
-          }
-          const pos = percentFromPointer(e.clientX, e.clientY);
-          if (!pos) return;
-          const px = Number.isFinite(pos.x) ? pos.x : pos.percentX;
-          const py = Number.isFinite(pos.y) ? pos.y : pos.percentY;
-          if (!Number.isFinite(px) || !Number.isFinite(py)) return;
-          rectFrameDraggingRef.current.moved = true;
-          const saveRect =
-            dragOverrides[spot.id]?.rect ??
-            spot.rect ??
-            { w: 24, h: 20 };
-          setDragOverrides((prev) => ({
-            ...prev,
-            [spot.id]: {
-              x: px,
-              y: py,
-              rect: saveRect,
-              ...(prev[spot.id]?.badgePos || spot.badgePos
-                ? {
-                    badgePos: prev[spot.id]?.badgePos ?? spot.badgePos,
-                  }
-                : null),
-            },
-          }));
-        }}
-        onPointerUp={(e) => {
-          if (
-            rectFrameDraggingRef.current?.spotId !== spot.id ||
-            !rectFrameDraggingRef.current
-          ) {
-            return;
-          }
-          e.currentTarget.releasePointerCapture(e.pointerId);
-          const moved = rectFrameDraggingRef.current.moved;
-          rectFrameDraggingRef.current = null;
-          setDraggingSpotId(null);
-          if (!moved) return;
-          const pos = percentFromPointer(e.clientX, e.clientY);
-          if (!pos) return;
-          const px = Number.isFinite(pos.x) ? pos.x : pos.percentX;
-          const py = Number.isFinite(pos.y) ? pos.y : pos.percentY;
-          if (!Number.isFinite(px) || !Number.isFinite(py)) return;
-          const saveRect =
-            dragOverrides[spot.id]?.rect ??
-            spot.rect ??
-            { w: 24, h: 20 };
-          const isPanoramaTarget = Boolean(
-            isPanorama || spot.isPanorama || spot.quizQuestionId,
-          );
-          const commonMeta = {
-            ...(spot.quizQuestionId
-              ? { quizQuestionId: spot.quizQuestionId, scale: spot.scale ?? 4.6 }
-              : {}),
-            ...(isPanoramaTarget && !spot.quizQuestionId
-              ? { isPanorama: true }
-              : {}),
-          };
-          let patch;
-          const saveBadgePos =
-            dragOverrides[spot.id]?.badgePos ?? spot.badgePos;
-          if (isPanoramaTarget) {
-            patch = {
-              ...panoramaStoreCoords(px, py, saveRect, spot.stripBounds),
-              ...commonMeta,
-            };
-            if (saveBadgePos) {
-              patch.badgePos = { x: saveBadgePos.x, y: saveBadgePos.y };
-            }
-          } else {
-            const spotSliceIndex = Number.isInteger(spot.sliceIndex)
-              ? spot.sliceIndex
-              : sliceIndex;
-            const resolved = resolveCrossSliceTarget(px, spotSliceIndex);
-            patch = {
-              x: resolved.x,
-              y: py,
-              rect: saveRect,
-              ...(resolved.targetSliceIndex != null
-                ? { targetSliceIndex: resolved.targetSliceIndex }
-                : {}),
-            };
-            if (saveBadgePos) {
-              patch.badgePos = {
-                x: Math.round((saveBadgePos.x + resolved.shiftX) * 10) / 10,
-                y: saveBadgePos.y,
-              };
-            }
-          }
-          setDragOverrides((prev) => ({
-            ...prev,
-            [spot.id]: dragOverrideFromPatch(
-              isPanoramaTarget,
-              px,
-              py,
-              saveRect,
-              patch,
-            ),
-          }));
-          mergePendingUpdate(editSlug, spot.id, patch);
-        }}
-        onPointerCancel={(e) => {
-          if (rectFrameDraggingRef.current?.spotId === spot.id) {
-            e.currentTarget.releasePointerCapture(e.pointerId);
-            rectFrameDraggingRef.current = null;
-            setDraggingSpotId(null);
-          }
-        }}
+        {...frameHandlers}
+        {...stopBubble}
       >
         <svg
           width="100%"
@@ -637,158 +327,18 @@ export default function SpotEditOverlay({
             transform: `scale(${invZoom})`,
             transformOrigin: "100% 100%",
           }}
-          onPointerDown={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            setResizingSpotId?.(spot.id);
-            resizingRef.current = {
-              spotId: spot.id,
-              pointerId: e.pointerId,
-              moved: false,
-            };
-            e.currentTarget.setPointerCapture(e.pointerId);
-          }}
-          onMouseDown={(e) => e.stopPropagation()}
-          onTouchStart={(e) => e.stopPropagation()}
-          onPointerMove={(e) => {
-            if (
-              resizingRef.current?.spotId !== spot.id ||
-              !resizingRef.current
-            ) {
-              return;
-            }
-            e.stopPropagation();
-            const pos = percentFromPointer(e.clientX, e.clientY);
-            if (!pos) return;
-            const px = Number.isFinite(pos.x) ? pos.x : pos.percentX;
-            const py = Number.isFinite(pos.y) ? pos.y : pos.percentY;
-            if (!Number.isFinite(px) || !Number.isFinite(py)) return;
-            resizingRef.current.moved = true;
-            const mx = px;
-            const my = py;
-            const w = Math.max(
-              4,
-              Math.min(
-                250,
-                Math.round(Math.abs(mx - currentX) * 2 * 10) / 10,
-              ),
-            );
-            const h = Math.max(
-              4,
-              Math.min(
-                250,
-                Math.round(Math.abs(my - currentY) * 2 * 10) / 10,
-              ),
-            );
-            setDragOverrides((prev) => ({
-              ...prev,
-              [spot.id]: {
-                x: prev[spot.id]?.x ?? spot.x,
-                y: prev[spot.id]?.y ?? spot.y,
-                rect: { w, h },
-                ...(prev[spot.id]?.badgePos || spot.badgePos
-                  ? {
-                      badgePos:
-                        prev[spot.id]?.badgePos ?? spot.badgePos,
-                    }
-                  : null),
-              },
-            }));
-          }}
-          onPointerUp={(e) => {
-            if (
-              resizingRef.current?.spotId !== spot.id ||
-              !resizingRef.current
-            ) {
-              return;
-            }
-            e.currentTarget.releasePointerCapture(e.pointerId);
-            const moved = resizingRef.current.moved;
-            resizingRef.current = null;
-            setResizingSpotId?.(null);
-            if (!moved) return;
-            const pos = percentFromPointer(e.clientX, e.clientY);
-            if (!pos) return;
-            const px = Number.isFinite(pos.x) ? pos.x : pos.percentX;
-            const py = Number.isFinite(pos.y) ? pos.y : pos.percentY;
-            if (!Number.isFinite(px) || !Number.isFinite(py)) return;
-            const mx = px;
-            const my = py;
-            const finalW = Math.max(
-              4,
-              Math.min(
-                250,
-                Math.round(Math.abs(mx - currentX) * 2 * 10) / 10,
-              ),
-            );
-            const finalH = Math.max(
-              4,
-              Math.min(
-                250,
-                Math.round(Math.abs(my - currentY) * 2 * 10) / 10,
-              ),
-            );
-            const finalRect = { w: finalW, h: finalH };
-            const saveBadgePos =
-              dragOverrides[spot.id]?.badgePos ?? spot.badgePos;
-            setDragOverrides((prev) => ({
-              ...prev,
-              [spot.id]: {
-                x: prev[spot.id]?.x ?? spot.x,
-                y: prev[spot.id]?.y ?? spot.y,
-                rect: finalRect,
-                ...(saveBadgePos ? { badgePos: saveBadgePos } : null),
-              },
-            }));
-            const isPanoramaTarget = Boolean(
-              isPanorama || spot.isPanorama || spot.quizQuestionId,
-            );
-            const storeY = dragOverrides[spot.id]?.y ?? spot.y;
-            const commonMeta = {
-              ...(spot.quizQuestionId
-                ? { quizQuestionId: spot.quizQuestionId, scale: spot.scale ?? 4.6 }
-                : {}),
-              ...(isPanoramaTarget && !spot.quizQuestionId
-                ? { isPanorama: true }
-                : {}),
-            };
-            let resizePatch;
-            if (isPanoramaTarget) {
-              resizePatch = {
-                ...panoramaStoreCoords(
-                  currentX,
-                  storeY,
-                  finalRect,
-                  spot.stripBounds,
-                ),
-                ...commonMeta,
-                ...(saveBadgePos ? { badgePos: saveBadgePos } : null),
-              };
-            } else {
-              resizePatch = {
-                rect: finalRect,
-                ...(saveBadgePos ? { badgePos: saveBadgePos } : null),
-              };
-            }
-            mergePendingUpdate(editSlug, spot.id, resizePatch);
-          }}
-          onPointerCancel={(e) => {
-            if (resizingRef.current?.spotId === spot.id) {
-              e.currentTarget.releasePointerCapture(e.pointerId);
-              resizingRef.current = null;
-              setResizingSpotId?.(null);
-            }
-          }}
+          {...resizeHandlers}
+          {...stopBubble}
         />
       </div>
     );
   });
 
   return (
-  <>
-    {placeNamePopup}
-    {resizeFrames}
-    {spotAnchorAndConnectors}
-  </>
+    <>
+      {placeNamePopup}
+      {resizeFrames}
+      {spotAnchorAndConnectors}
+    </>
   );
 }

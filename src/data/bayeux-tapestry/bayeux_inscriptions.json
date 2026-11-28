@@ -1,0 +1,876 @@
+{
+  "scrollId": "bayeux-tapestry",
+  "titleen": "bayeux_tapestry",
+  "inscriptions": [
+    {
+      "id": "panel-inscription-1",
+      "kind": "inscription",
+      "name": "EDWARD REX",
+      "nameen": "King Edward",
+      "description": "エドワード王",
+      "x": 5,
+      "y": 38.5,
+      "rect": {
+        "w": 90,
+        "h": 10
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_01__01",
+      "panel_id": 1
+    },
+    {
+      "id": "panel-inscription-2",
+      "kind": "inscription",
+      "name": "UBI HAROLD DUX ANGLORUM ET SUI MILITES EQUITANT AD BOSHAM",
+      "nameen": "Where Harold, Duke of the English, and his knights ride to Bosham",
+      "description": "イングランド公ハロルドとその騎士たちがボシャムへ馬で向かうところ",
+      "x": 1.9,
+      "y": 39.3,
+      "rect": {
+        "w": 1.8,
+        "h": 9.3
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_01__03",
+      "panel_id": 2
+    },
+    {
+      "id": "panel-inscription-3",
+      "kind": "inscription",
+      "name": "ECCLESIA",
+      "nameen": "Church",
+      "description": "教会",
+      "x": 0,
+      "y": 39.2,
+      "rect": {
+        "w": 67.4,
+        "h": 7.1
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_01__04",
+      "panel_id": 3
+    },
+    {
+      "id": "panel-inscription-4",
+      "kind": "inscription",
+      "name": "HIC HAROLD MARE NAVIGAVIT",
+      "nameen": "Here Harold sailed the sea",
+      "description": "ここでハロルドは海を航行した",
+      "x": 0,
+      "y": 39.6,
+      "rect": {
+        "w": 44.5,
+        "h": 8.3
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_01__05",
+      "panel_id": 4
+    },
+    {
+      "id": "panel-inscription-5",
+      "kind": "inscription",
+      "name": "ET VELIS VENTO PLENIS VENIT IN TERRAM WIDONIS COMITIS",
+      "nameen": "And with sails full of wind he came into the land of Count Guy",
+      "description": "そして帆に風をいっぱいに受けてギー伯の領地へ到達した",
+      "x": 0,
+      "y": 46.5,
+      "rect": {
+        "w": 79.7,
+        "h": 20.4
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_01__06",
+      "panel_id": 5
+    },
+    {
+      "id": "panel-inscription-6",
+      "kind": "inscription",
+      "name": "HAROLD",
+      "nameen": "Harold",
+      "description": "ハロルド",
+      "x": 0,
+      "y": 38.1,
+      "rect": {
+        "w": 100,
+        "h": 7.4
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_02__01",
+      "panel_id": 6
+    },
+    {
+      "id": "panel-inscription-7",
+      "kind": "inscription",
+      "name": "HIC APPREHENDIT WIDO HAROLDUM",
+      "nameen": "Here Guy seized Harold",
+      "description": "ここでギーはハロルドを捕らえた",
+      "x": 0,
+      "y": 37.6,
+      "rect": {
+        "w": 49,
+        "h": 7.1
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_02__02",
+      "panel_id": 7
+    },
+    {
+      "id": "panel-inscription-8",
+      "kind": "inscription",
+      "name": "ET DUXIT EUM AD BELREM ET IBI EUM TENUIT",
+      "nameen": "And led him to Beaurain and held him there",
+      "description": "そして彼をボーランへ連行し、そこに監禁した",
+      "x": 0,
+      "y": 37.4,
+      "rect": {
+        "w": 80.2,
+        "h": 6.8
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_02__03",
+      "panel_id": 8
+    },
+    {
+      "id": "panel-inscription-9",
+      "kind": "inscription",
+      "name": "UBI HAROLD ET WIDO PARABOLANT",
+      "nameen": "Where Harold and Guy parley",
+      "description": "ハロルドとギーが話し合うところ",
+      "x": 0,
+      "y": 37.2,
+      "rect": {
+        "w": 76,
+        "h": 8
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_02__04",
+      "panel_id": 9
+    },
+    {
+      "id": "panel-inscription-10",
+      "kind": "inscription",
+      "name": "UBI NUNTII WILLELMI DUCIS VENERUNT AD WIDONEM",
+      "nameen": "Where Duke William's messengers came to Guy",
+      "description": "ウィリアム公の使者たちがギーのもとへ来たところ",
+      "x": 0,
+      "y": 41.6,
+      "rect": {
+        "w": 72.7,
+        "h": 12.8
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_02__05",
+      "panel_id": 10
+    },
+    {
+      "id": "inscription-turold",
+      "kind": "inscription",
+      "name": "TUROLD",
+      "nameen": "Turold",
+      "description": "テュロルド",
+      "x": 85,
+      "y": 54.4,
+      "rect": {
+        "w": 12,
+        "h": 5.8
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_02__06",
+      "panel_id": 10
+    },
+    {
+      "id": "panel-inscription-11",
+      "kind": "inscription",
+      "name": "NUNTII WILLELMI",
+      "nameen": "William's messengers",
+      "description": "ウィリアムの使者たち",
+      "x": 0,
+      "y": 41.5,
+      "rect": {
+        "w": 44.5,
+        "h": 12.9
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_02__07",
+      "panel_id": 11
+    },
+    {
+      "id": "panel-inscription-12",
+      "kind": "inscription",
+      "name": "HIC VENIT NUNTIUS AD WILGELMUM DUCEM",
+      "nameen": "Here the messenger came to Duke William",
+      "description": "ここで使者がウィリアム公のもとへ来た",
+      "x": 0,
+      "y": 40.7,
+      "rect": {
+        "w": 98,
+        "h": 9.3
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_02__08",
+      "panel_id": 12
+    },
+    {
+      "id": "panel-inscription-13",
+      "kind": "inscription",
+      "name": "HIC WIDO ADDUXIT HAROLDUM AD WILGELMUM NORMANNORUM DUCEM",
+      "nameen": "Here Guy brought Harold to William, Duke of the Normans",
+      "description": "ここでギーはハロルドをノルマン人の公ウィリアムのもとへ連れてきた",
+      "x": 0,
+      "y": 40.7,
+      "rect": {
+        "w": 60.3,
+        "h": 13.8
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_03__01",
+      "panel_id": 13
+    },
+    {
+      "id": "panel-inscription-14",
+      "kind": "inscription",
+      "name": "HIC DUX WILGELM CUM HAROLDO VENIT AD PALATIUM SUUM",
+      "nameen": "Here Duke William came with Harold to his palace",
+      "description": "ここでウィリアム公はハロルドとともに自らの宮殿へ来た",
+      "x": 0,
+      "y": 40.7,
+      "rect": {
+        "w": 64.4,
+        "h": 9.6
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_03__02",
+      "panel_id": 14
+    },
+    {
+      "id": "panel-inscription-15",
+      "kind": "inscription",
+      "name": "UBI UNUS CLERICUS ET AELFGYVA",
+      "nameen": "Where a certain cleric and Ælfgyva...",
+      "description": "ある聖職者とエルフギヴァがいるところ",
+      "x": 0,
+      "y": 39.1,
+      "rect": {
+        "w": 93,
+        "h": 10.8
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_03__03",
+      "panel_id": 15
+    },
+    {
+      "id": "panel-inscription-16",
+      "kind": "inscription",
+      "name": "HIC WILLELM DUX ET EXERCITUS EIUS VENERUNT AD MONTEM MICHAELIS",
+      "nameen": "Here Duke William and his army came to Mont-Saint-Michel",
+      "description": "ここでウィリアム公とその軍勢はモン・サン・ミシェルへ来た",
+      "x": 0,
+      "y": 42.2,
+      "rect": {
+        "w": 49,
+        "h": 19.4
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_04__01",
+      "panel_id": 16
+    },
+    {
+      "id": "panel-inscription-17",
+      "kind": "inscription",
+      "name": "ET HIC TRANSIERUNT FLUMEN COSNONIS HIC HAROLD DUX TRAHEBAT EOS DE ARENA",
+      "nameen": "And here they crossed the River Couesnon; here Duke Harold dragged them from the sand",
+      "description": "そしてここで彼らはクエノン川を渡った。ここでハロルド公が彼らを砂（流砂）から引き上げた",
+      "x": 0,
+      "y": 35.3,
+      "rect": {
+        "w": 71.2,
+        "h": 8.1
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_04__02",
+      "panel_id": 17
+    },
+    {
+      "id": "panel-inscription-18",
+      "kind": "inscription",
+      "name": "ET VENERUNT AD DOL ET CONAN FUGA VERTIT",
+      "nameen": "And they came to Dol and Conan turned in flight",
+      "description": "そして彼らはドルへ来ると、コナンは敗走した",
+      "x": 0,
+      "y": 47.6,
+      "rect": {
+        "w": 60.9,
+        "h": 8.5
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_04__03",
+      "panel_id": 18
+    },
+    {
+      "id": "panel-inscription-19",
+      "kind": "inscription",
+      "name": "REDNES",
+      "nameen": "Rennes",
+      "description": "レンヌ",
+      "x": 0,
+      "y": 35.2,
+      "rect": {
+        "w": 100,
+        "h": 12.4
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_04__04",
+      "panel_id": 19
+    },
+    {
+      "id": "panel-inscription-20",
+      "kind": "inscription",
+      "name": "HIC MILITES WILLELMI DUCIS PUGNANT CONTRA DINANTES ET CUNAN CLAVES PORREXIT",
+      "nameen": "Here Duke William's knights fight against the men of Dinan, and Conan handed over the keys",
+      "description": "ここでウィリアム公の騎士たちはディナンの人々と戦い、コナンは鍵を差し出した",
+      "x": 0,
+      "y": 44.5,
+      "rect": {
+        "w": 78,
+        "h": 21.3
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_04__05",
+      "panel_id": 20
+    },
+    {
+      "id": "panel-inscription-21",
+      "kind": "inscription",
+      "name": "HIC WILLELM DEDIT HAROLDO ARMA",
+      "nameen": "Here William gave arms to Harold",
+      "description": "ここでウィリアムはハロルドに武具を与えた",
+      "x": 0,
+      "y": 41.7,
+      "rect": {
+        "w": 100,
+        "h": 15
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_04__06",
+      "panel_id": 21
+    },
+    {
+      "id": "panel-inscription-22",
+      "kind": "inscription",
+      "name": "HIC WILLELM VENIT BAGIAS UBI HAROLD SACRAMENTUM FECIT WILLELMO DUCI",
+      "nameen": "Here William came to Bayeux, where Harold swore an oath to Duke William",
+      "description": "ここでウィリアムはバイユーへ来た。そこでハロルドはウィリアム公に誓いを立てた",
+      "x": 0,
+      "y": 40.7,
+      "rect": {
+        "w": 100,
+        "h": 7.8
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_05__01",
+      "panel_id": 22
+    },
+    {
+      "id": "panel-inscription-23",
+      "kind": "inscription",
+      "name": "HIC HAROLD DUX REVERSUS EST AD ANGLICAM TERRAM",
+      "nameen": "Here Duke Harold returned to English soil",
+      "description": "ここでハロルド公はイングランドの地へ帰還した",
+      "x": 0,
+      "y": 40,
+      "rect": {
+        "w": 66.8,
+        "h": 6.2
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_05__02",
+      "panel_id": 23
+    },
+    {
+      "id": "panel-inscription-24",
+      "kind": "inscription",
+      "name": "ET VENIT AD EDWARDUM REGEM",
+      "nameen": "And came to King Edward",
+      "description": "そしてエドワード王のもとへ来た",
+      "x": 0,
+      "y": 41.7,
+      "rect": {
+        "w": 100,
+        "h": 14.2
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_05__03",
+      "panel_id": 24
+    },
+    {
+      "id": "panel-inscription-25",
+      "kind": "inscription",
+      "name": "HIC PORTATUR CORPUS EADWARDI REGIS AD ECCLESIAM SANCTI PETRI APOSTOLI",
+      "nameen": "Here the body of King Edward is carried to the Church of St. Peter the Apostle",
+      "description": "ここでエドワード王の遺体が使徒聖ペテロ教会へ運ばれる",
+      "x": 0,
+      "y": 30.4,
+      "rect": {
+        "w": 65.6,
+        "h": 15.4
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_06__01",
+      "panel_id": 25
+    },
+    {
+      "id": "panel-inscription-26",
+      "kind": "inscription",
+      "name": "HIC EADWARDUS REX IN LECTO ALLOQUITUR FIDELES",
+      "nameen": "Here King Edward in bed speaks to his faithful followers",
+      "description": "ここでエドワード王は病床で忠臣たちに語りかける",
+      "x": 0,
+      "y": 65.7,
+      "rect": {
+        "w": 100,
+        "h": 13.2
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_06__02",
+      "panel_id": 26
+    },
+    {
+      "id": "panel-inscription-27",
+      "kind": "inscription",
+      "name": "ET HIC DEFUNCTUS EST",
+      "nameen": "And here he died",
+      "description": "そしてここで彼は崩御した",
+      "x": 0,
+      "y": 41.4,
+      "rect": {
+        "w": 100,
+        "h": 10
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_06__03",
+      "panel_id": 27
+    },
+    {
+      "id": "panel-inscription-28",
+      "kind": "inscription",
+      "name": "HIC DEDERUNT HAROLDO CORONAM REGIS",
+      "nameen": "Here they gave the king's crown to Harold",
+      "description": "ここで人々はハロルドに王冠を授けた",
+      "x": 0,
+      "y": 45.2,
+      "rect": {
+        "w": 100,
+        "h": 20.8
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_06__04",
+      "panel_id": 28
+    },
+    {
+      "id": "panel-inscription-29",
+      "kind": "inscription",
+      "name": "HIC RESIDET HAROLD REX ANGLORUM STIGANT ARCHIEPISCOPUS",
+      "nameen": "Here sits Harold, King of the English; Archbishop Stigand",
+      "description": "ここにイングランド王ハロルドが座す。大司教スティガンド",
+      "x": 0,
+      "y": 25.5,
+      "rect": {
+        "w": 100,
+        "h": 7.6
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_06__05",
+      "panel_id": 29
+    },
+    {
+      "id": "panel-inscription-30",
+      "kind": "inscription",
+      "name": "ISTI MIRANT STELLA",
+      "nameen": "These men marvel at the star",
+      "description": "この人々は星を見て驚いている",
+      "x": 0,
+      "y": 46.3,
+      "rect": {
+        "w": 98,
+        "h": 5.4
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_06__06",
+      "panel_id": 30
+    },
+    {
+      "id": "panel-inscription-31",
+      "kind": "inscription",
+      "name": "HAROLD",
+      "nameen": "Harold",
+      "description": "ハロルド",
+      "x": 0,
+      "y": 38.6,
+      "rect": {
+        "w": 100,
+        "h": 15
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_06__07",
+      "panel_id": 31
+    },
+    {
+      "id": "panel-inscription-32",
+      "kind": "inscription",
+      "name": "HIC NAVIS ANGLICA VENIT IN TERRAM WILLELMI DUCIS",
+      "nameen": "Here an English ship came into the land of Duke William",
+      "description": "ここでイングランドの船がウィリアム公の領地へ来た",
+      "x": 0,
+      "y": 29,
+      "rect": {
+        "w": 66.1,
+        "h": 17.2
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_06__08",
+      "panel_id": 32
+    },
+    {
+      "id": "panel-inscription-33",
+      "kind": "inscription",
+      "name": "HIC WILLELM DUX IUSSIT NAVES AEDIFICARE",
+      "nameen": "Here Duke William ordered ships to be built",
+      "description": "ここでウィリアム公は船の建造を命じた",
+      "x": 0,
+      "y": 37.6,
+      "rect": {
+        "w": 57.9,
+        "h": 9.2
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_07__01",
+      "panel_id": 33
+    },
+    {
+      "id": "panel-inscription-34",
+      "kind": "inscription",
+      "name": "HIC TRAHUNT NAVES AD MARE",
+      "nameen": "Here they drag the ships to the sea",
+      "description": "ここで人々は船を海へ曳き出す",
+      "x": 0,
+      "y": 42.1,
+      "rect": {
+        "w": 57.9,
+        "h": 17.1
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_07__02",
+      "panel_id": 34
+    },
+    {
+      "id": "panel-inscription-35",
+      "kind": "inscription",
+      "name": "ISTI PORTANT ARMAS AD NAVES ET HIC TRAHUNT CARRUM CUM VINO ET ARMIS",
+      "nameen": "These men carry arms to the ships, and here they pull a cart with wine and arms",
+      "description": "この人々は武具を船へ運び、ここで葡萄酒と武具を積んだ荷車を引く",
+      "x": 0,
+      "y": 36.4,
+      "rect": {
+        "w": 100,
+        "h": 7
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_07__03",
+      "panel_id": 35
+    },
+    {
+      "id": "panel-inscription-36",
+      "kind": "inscription",
+      "name": "HIC WILLELM DUX IN MAGNO NAVIGIO MARE TRANSIVIT ET VENIT AD PEVENESAE",
+      "nameen": "Here Duke William crossed the sea in a great fleet and came to Pevensey",
+      "description": "ここでウィリアム公は大船団で海を渡り、ペヴェンジーへ到達した",
+      "x": 45.3,
+      "y": 39.3,
+      "rect": {
+        "w": 44.5,
+        "h": 5.9
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_07__04",
+      "panel_id": 36
+    },
+    {
+      "id": "panel-inscription-37",
+      "kind": "inscription",
+      "name": "HIC EXEUNT CABALLI DE NAVIBUS",
+      "nameen": "Here the horses leave the ships",
+      "description": "ここで馬たちが船から降りる",
+      "x": 0,
+      "y": 37.7,
+      "rect": {
+        "w": 98,
+        "h": 10.7
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_07__05",
+      "panel_id": 37
+    },
+    {
+      "id": "panel-inscription-38",
+      "kind": "inscription",
+      "name": "ET HIC MILITES FESTINAVERUNT HESTINGA UT CIBUM RAPERENTUR",
+      "nameen": "And here the knights hurried to Hastings to seize food",
+      "description": "そしてここで騎士たちは食糧を徴発するためヘイスティングズへ急いだ",
+      "x": 0,
+      "y": 37.4,
+      "rect": {
+        "w": 44.5,
+        "h": 7.8
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_07__06",
+      "panel_id": 38
+    },
+    {
+      "id": "panel-inscription-39",
+      "kind": "inscription",
+      "name": "HIC EST WADARD",
+      "nameen": "Here is Wadard",
+      "description": "ここにワダードがいる",
+      "x": 0,
+      "y": 40.6,
+      "rect": {
+        "w": 60,
+        "h": 10.5
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_08__01",
+      "panel_id": 39
+    },
+    {
+      "id": "panel-inscription-40",
+      "kind": "inscription",
+      "name": "HIC COQUITUR CARO ET HIC MINISTRAVERUNT MINISTRI",
+      "nameen": "Here the meat is cooked and here the servants served",
+      "description": "ここで肉が調理され、ここで給仕たちが配膳した",
+      "x": 0,
+      "y": 38.1,
+      "rect": {
+        "w": 73.6,
+        "h": 11.8
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_08__02",
+      "panel_id": 40
+    },
+    {
+      "id": "panel-inscription-41",
+      "kind": "inscription",
+      "name": "HIC FECERUNT PRANDIUM",
+      "nameen": "Here they took their meal",
+      "description": "ここで彼らは食事をとった",
+      "x": 0,
+      "y": 45.8,
+      "rect": {
+        "w": 78,
+        "h": 15
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_08__03",
+      "panel_id": 41
+    },
+    {
+      "id": "panel-inscription-42",
+      "kind": "inscription",
+      "name": "HIC EPISCOPUS CIBUM ET POTUM BENEDICIT ODO EPISCOPUS WILLELM ROTBERT",
+      "nameen": "Here the bishop blesses the food and drink: Bishop Odo, William, Robert",
+      "description": "ここで司教が食べ物と飲み物を祝福する。オド司教、ウィリアム、ロベール",
+      "x": 0,
+      "y": 40,
+      "rect": {
+        "w": 100,
+        "h": 10
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_08__04",
+      "panel_id": 42
+    },
+    {
+      "id": "panel-inscription-43",
+      "kind": "inscription",
+      "name": "ISTE IUSSIT UT FODERETUR CASTELLUM AT HESTENGA CEASTRA",
+      "nameen": "He ordered that a castle be dug at the camp of Hastings",
+      "description": "この人がヘイスティングズの陣営に城砦（土塁）を掘るよう命じた",
+      "x": 0,
+      "y": 39.4,
+      "rect": {
+        "w": 80.9,
+        "h": 10.3
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_08__05",
+      "panel_id": 43
+    },
+    {
+      "id": "panel-inscription-44",
+      "kind": "inscription",
+      "name": "HIC NUNTIATUM EST WILLELMO DE HAROLDO",
+      "nameen": "Here news was brought to William about Harold",
+      "description": "ここでウィリアムにハロルドについての報告がなされた",
+      "x": 0,
+      "y": 39.8,
+      "rect": {
+        "w": 62.1,
+        "h": 10.8
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_08__06",
+      "panel_id": 44
+    },
+    {
+      "id": "panel-inscription-45",
+      "kind": "inscription",
+      "name": "HIC DOMUS INCENDITUR",
+      "nameen": "Here a house is burned",
+      "description": "ここで家が焼き払われる",
+      "x": 0,
+      "y": 37.6,
+      "rect": {
+        "w": 100,
+        "h": 8.4
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_08__07",
+      "panel_id": 45
+    },
+    {
+      "id": "panel-inscription-46",
+      "kind": "inscription",
+      "name": "HIC MILITES EXIERUNT DE HESTENGA ET VENERUNT AD PRELIUM CONTRA HAROLDUM REGEM",
+      "nameen": "Here the knights left Hastings and came to battle against King Harold",
+      "description": "ここで騎士たちはヘイスティングズを出撃し、ハロルド王との戦いへ向かった",
+      "x": 0,
+      "y": 42.8,
+      "rect": {
+        "w": 98,
+        "h": 17.9
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_08__08",
+      "panel_id": 46
+    },
+    {
+      "id": "panel-inscription-47",
+      "kind": "inscription",
+      "name": "HIC WILLELM DUX INTERROGAT VITAL SI VIDISSET EXERCITUM HAROLDI",
+      "nameen": "Here Duke William asks Vital if he has seen Harold's army",
+      "description": "ここでウィリアム公はヴィタルにハロルドの軍勢を見たかと尋ねる",
+      "x": 0,
+      "y": 52.4,
+      "rect": {
+        "w": 44.5,
+        "h": 36.7
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_08__09",
+      "panel_id": 47
+    },
+    {
+      "id": "panel-inscription-48",
+      "kind": "inscription",
+      "name": "ISTE NUNTIAT HAROLDUM REGEM DE EXERCITU WILELMI DUCIS",
+      "nameen": "This man informs King Harold about Duke William's army",
+      "description": "この人がハロルド王にウィリアム公の軍勢について報告する",
+      "x": 0,
+      "y": 37.7,
+      "rect": {
+        "w": 100,
+        "h": 8.6
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_08__10",
+      "panel_id": 48
+    },
+    {
+      "id": "panel-inscription-49",
+      "kind": "inscription",
+      "name": "HIC WILLELM DUX ALLOQUITUR SUIS MILITIBUS UT PREPARARENT SE VIRILITER ET SAPIENTER AD PRELIUM CONTRA ANGLORUM EXERCITUM",
+      "nameen": "Here Duke William exhorts his soldiers to prepare themselves manfully and wisely for battle against the English army",
+      "description": "ここでウィリアム公は自らの騎士たちに、イングランド軍との戦いに向けて勇敢かつ賢明に備えるよう語りかける",
+      "x": 0,
+      "y": 38.9,
+      "rect": {
+        "w": 100,
+        "h": 11.5
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_08__11",
+      "panel_id": 49
+    },
+    {
+      "id": "panel-inscription-50",
+      "kind": "inscription",
+      "name": "HIC CECIDERUNT LEWINE ET GYRD FRATRES HAROLDI REGIS",
+      "nameen": "Here fell Leofwine and Gyrth, brothers of King Harold",
+      "description": "ここでハロルド王の兄弟レオフウィンとギルスが倒れた",
+      "x": 0,
+      "y": 38.2,
+      "rect": {
+        "w": 80.2,
+        "h": 8.1
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_09__01",
+      "panel_id": 50
+    },
+    {
+      "id": "panel-inscription-51",
+      "kind": "inscription",
+      "name": "HIC CECIDERUNT SIMUL ANGLI ET FRANCI IN PRELIO",
+      "nameen": "Here English and French fell together in battle",
+      "description": "ここでイングランド人とフランス人が戦いでともに倒れた",
+      "x": 0,
+      "y": 56.4,
+      "rect": {
+        "w": 44.5,
+        "h": 42.4
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_09__02",
+      "panel_id": 51
+    },
+    {
+      "id": "panel-inscription-52",
+      "kind": "inscription",
+      "name": "HIC ODO EPISCOPUS BACULUM TENENS CONFORTAT PUEROS",
+      "nameen": "Here Bishop Odo, holding a club, encourages the young warriors",
+      "description": "ここでオド司教は棍棒を手にして若者たちを励ます",
+      "x": 0,
+      "y": 42.2,
+      "rect": {
+        "w": 47.9,
+        "h": 17.8
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_09__03",
+      "panel_id": 52
+    },
+    {
+      "id": "panel-inscription-53",
+      "kind": "inscription",
+      "name": "HIC EST WILLELM DUX",
+      "nameen": "Here is Duke William",
+      "description": "ここにウィリアム公がいる",
+      "x": 0,
+      "y": 35.3,
+      "rect": {
+        "w": 100,
+        "h": 25
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_09__04",
+      "panel_id": 53
+    },
+    {
+      "id": "panel-inscription-54",
+      "kind": "inscription",
+      "name": "ISTE FRANCI PUGNANT ET CECIDERUNT QUI ERANT CUM HAROLDO",
+      "nameen": "These Frenchmen fight, and those who were with Harold fell",
+      "description": "このフランス人たちは戦い、ハロルドとともにいた者たちが倒れた",
+      "x": 0,
+      "y": 43.7,
+      "rect": {
+        "w": 66.8,
+        "h": 17.9
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_09__05",
+      "panel_id": 54
+    },
+    {
+      "id": "panel-inscription-55",
+      "kind": "inscription",
+      "name": "HIC HAROLD REX INTERFECTUS EST",
+      "nameen": "Here King Harold was killed",
+      "description": "ここでハロルド王は殺害された",
+      "x": 48.2,
+      "y": 39.3,
+      "rect": {
+        "w": 49,
+        "h": 10.9
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_09__06",
+      "panel_id": 55
+    },
+    {
+      "id": "panel-inscription-56",
+      "kind": "inscription",
+      "name": "ET FUGA VERTERUNT ANGLI",
+      "nameen": "And the English turned in flight",
+      "description": "そしてイングランド人たちは敗走した",
+      "x": 50.6,
+      "y": 39.3,
+      "rect": {
+        "w": 49,
+        "h": 10.9
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_09__07",
+      "panel_id": 56
+    },
+    {
+      "id": "panel-inscription-57",
+      "kind": "inscription",
+      "name": "ET FUGA VERTERUNT ANGLI",
+      "nameen": "And the English turned in flight (Finale)",
+      "description": "そしてイングランド人たちは敗走した（終幕）",
+      "x": 0,
+      "y": 39.3,
+      "rect": {
+        "w": 69.2,
+        "h": 10.9
+      },
+      "sliceName": "bayeux-tapestry__bayeux-tapestry_1_09__08",
+      "panel_id": 57
+    }
+  ]
+}

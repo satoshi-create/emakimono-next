@@ -1,7 +1,15 @@
+import fs from "fs";
+import path from "path";
 import {
   readScrollMetadata,
   writeScrollMetadata,
 } from "@/libs/scroll-pipeline/scrollMetadataFs";
+import { mergeBayeuxScrollMetadata, inscriptionsFromEmakis } from "@/data/bayeux-tapestry/mergeBayeuxMetadata";
+
+const BAYEUX_INSCRIPTIONS_PATH = path.join(
+  process.cwd(),
+  "src/data/bayeux-tapestry/bayeux_inscriptions.json"
+);
 
 function clampAndRound(val) {
   const n = Number(val);
@@ -37,6 +45,7 @@ export default function handler(req, res) {
     badgePos,
     name,
     nameen,
+    description,
     isNew,
     isPanorama,
   } = req.body ?? {};
@@ -58,6 +67,7 @@ export default function handler(req, res) {
           badgePos,
           name,
           nameen,
+          description,
           isNew,
           isPanorama,
         },
@@ -159,6 +169,8 @@ export default function handler(req, res) {
       roundedBadgePos,
       name: item?.name,
       nameen: item?.nameen,
+      description:
+        typeof item?.description === "string" ? item.description.trim() : undefined,
       isNew: item?.isNew === true,
       deleted: isDeleted,
       isPanorama: item?.isPanorama === true,
@@ -178,13 +190,28 @@ export default function handler(req, res) {
     return res.status(500).json({ error: "Failed to parse scroll metadata" });
   }
 
+  const isBayeux = data.titleen === "bayeux_tapestry";
+  let bayeuxExtra = null;
+  if (isBayeux) {
+    try {
+      bayeuxExtra = JSON.parse(fs.readFileSync(BAYEUX_INSCRIPTIONS_PATH, "utf8"));
+      data = mergeBayeuxScrollMetadata(data, bayeuxExtra);
+    } catch {
+      return res.status(500).json({ error: "Failed to load bayeux inscriptions" });
+    }
+  }
+
   const emakis = data.emakis;
   if (!Array.isArray(emakis)) {
     return res.status(400).json({ error: "Invalid metadata" });
   }
 
   for (const p of prepared) {
-    const usePanorama = Array.isArray(data.spots) || p.isPanorama === true;
+    const hasPanelsPipeline =
+      Array.isArray(data.panels) && data.panels.length > 0;
+    const usePanorama =
+      !isBayeux &&
+      (Array.isArray(data.spots) || hasPanelsPipeline || p.isPanorama === true);
     if (usePanorama) {
       data.spots = Array.isArray(data.spots) ? data.spots : [];
       const panoIdx = data.spots.findIndex((s) => s && s.id === p.spotId);
@@ -213,6 +240,9 @@ export default function handler(req, res) {
         if (p.nameen != null && p.nameen !== "") {
           panoSpot.nameen = p.nameen;
         }
+        if (p.description != null && p.description !== "") {
+          panoSpot.description = p.description;
+        }
         continue;
       }
 
@@ -220,6 +250,7 @@ export default function handler(req, res) {
         id: p.spotId,
         name: p.name || p.spotId,
         ...(p.nameen ? { nameen: p.nameen } : {}),
+        ...(p.description ? { description: p.description } : {}),
         x: p.roundedX,
         y: p.roundedY,
         ...(p.roundedRect ? { rect: p.roundedRect } : {}),
@@ -319,6 +350,9 @@ export default function handler(req, res) {
       if (p.nameen != null && p.nameen !== "") {
         spot.nameen = p.nameen;
       }
+      if (p.description != null && p.description !== "") {
+        spot.description = p.description;
+      }
       continue;
     }
 
@@ -354,6 +388,7 @@ export default function handler(req, res) {
         id: p.spotId,
         name: p.name || p.spotId,
         ...(p.nameen ? { nameen: p.nameen } : {}),
+        ...(p.description ? { description: p.description } : {}),
         x: p.roundedX,
         y: p.roundedY,
         ...(p.roundedRect ? { rect: p.roundedRect } : {}),
@@ -365,7 +400,16 @@ export default function handler(req, res) {
     return res.status(404).json({ error: "Spot not found", spotId: p.spotId });
   }
 
-  writeScrollMetadata(filePath, data);
+  if (isBayeux && bayeuxExtra) {
+    bayeuxExtra.inscriptions = inscriptionsFromEmakis(data.emakis);
+    fs.writeFileSync(
+      BAYEUX_INSCRIPTIONS_PATH,
+      JSON.stringify(bayeuxExtra, null, 2) + "\n",
+      "utf8"
+    );
+  } else {
+    writeScrollMetadata(filePath, data);
+  }
 
   return res.status(200).json({
     ok: true,

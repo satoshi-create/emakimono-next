@@ -166,7 +166,8 @@ export default function useEmakiZoomBridge({
           ? Math.max(0, el.scrollLeft)
           : Math.abs(el.scrollLeft);
       const viewportCenterFromStart = (scrollAlong + el.clientWidth / 2) * k;
-      return viewportCenterFromStart - offsetFrom - stripWidth / 2;
+      const deltaFromStripCenter = viewportCenterFromStart - offsetFrom - stripWidth / 2;
+      return isLtrScroll ? -deltaFromStripCenter : deltaFromStripCenter;
     },
     [processedEmakis, zoomMinSlices, getArticleUnitHeight, articleRef, isLtrScroll]
   );
@@ -252,7 +253,18 @@ export default function useEmakiZoomBridge({
   }
 
   const zoomToSlicePercent = useCallback(
-    ({ sliceIndex, centerX, centerY, targetScale, rectW, rectH, targetRect }) => {
+    ({
+      sliceIndex,
+      centerX,
+      centerY,
+      targetScale,
+      rectW,
+      rectH,
+      targetRect,
+      readingDirection: readingDirectionArg,
+    }) => {
+      const scrollLtr =
+        (readingDirectionArg ?? data?.readingDirection) === "ltr";
       const el = articleRef.current;
       const items = processedEmakis;
       const containerHeight =
@@ -262,7 +274,17 @@ export default function useEmakiZoomBridge({
       if (measuredHeight > 0 || measuredWidth > 0) {
         setZoomStageMetrics({ height: measuredHeight, width: measuredWidth });
       }
-      const centerIndex = Number.isFinite(sliceIndex) ? sliceIndex : 0;
+      const rawIdx = Number.isFinite(sliceIndex) ? sliceIndex : 0;
+      const targetEmakiItem = data?.emakis?.[rawIdx];
+      const mappedIdx =
+        targetEmakiItem && Array.isArray(items)
+          ? items.findIndex(
+              (it) =>
+                it === targetEmakiItem ||
+                (targetEmakiItem.src && it?.src === targetEmakiItem.src)
+            )
+          : -1;
+      const centerIndex = mappedIdx >= 0 ? mappedIdx : rawIdx;
       setZoomCenterIndex(centerIndex);
 
       let initialPanX = 0;
@@ -277,7 +299,7 @@ export default function useEmakiZoomBridge({
         }
       }
 
-      if (rowH > 0 && items?.length && Number.isFinite(sliceIndex)) {
+      if (rowH > 0 && items?.length && Number.isFinite(centerIndex)) {
         const { from, to } = computeZoomStripRange(
           items,
           centerIndex,
@@ -285,21 +307,23 @@ export default function useEmakiZoomBridge({
           measuredWidth,
           zoomMinSlices
         );
+        const renderedSliceWidth = (item) =>
+          item?.src ? sceneWidthPx(item, rowH) : 0;
         let stripWidth = 0;
         for (let i = from; i <= to; i += 1) {
-          stripWidth += sceneWidthPx(items[i], rowH);
+          stripWidth += renderedSliceWidth(items[i]);
         }
         let offsetFromStripStart = 0;
-        if (isLtrScroll) {
-          for (let i = from; i < sliceIndex; i += 1) {
-            offsetFromStripStart += sceneWidthPx(items[i], rowH);
+        if (scrollLtr) {
+          for (let i = from; i < centerIndex; i += 1) {
+            offsetFromStripStart += renderedSliceWidth(items[i]);
           }
         } else {
-          for (let i = sliceIndex + 1; i <= to; i += 1) {
-            offsetFromStripStart += sceneWidthPx(items[i], rowH);
+          for (let i = centerIndex + 1; i <= to; i += 1) {
+            offsetFromStripStart += renderedSliceWidth(items[i]);
           }
         }
-        const sliceW = sceneWidthPx(items[sliceIndex], rowH);
+        const sliceW = renderedSliceWidth(items[centerIndex]);
         const xFromStripStart = offsetFromStripStart + sliceW * (cx / 100);
         initialPanX = stripWidth / 2 - xFromStripStart;
       }
@@ -336,7 +360,7 @@ export default function useEmakiZoomBridge({
       openZoom,
       articleRef,
       entryContainerRef,
-      isLtrScroll,
+      data?.readingDirection,
     ]
   );
 

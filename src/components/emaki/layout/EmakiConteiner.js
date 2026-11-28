@@ -13,7 +13,8 @@ import SceneCommentaryBar from "@/components/emaki/viewer/SceneCommentaryBar";
 import SwitcherEmaki from "@/components/emaki/viewer/SwitcherEmaki";
 import { EmakiViewerOverlays } from "@/components/emaki/layout/EmakiViewerOverlays";
 import { EbikiCoordinatePickerHud } from "@/components/dev/EbikiCoordinatePicker";
-import { useEffect, useState } from "react";
+import { resolveScrollSpotConfig } from "@/components/emaki/viewer/spotPins/resolveScrollSpotConfig";
+import { useEffect, useMemo, useState } from "react";
 import useEmakiViewerOrchestrator from "@/hooks/emaki/useEmakiViewerOrchestrator";
 import styles from "@/styles/EmakiConteiner.module.css";
 import commentaryStyles from "@/styles/SceneCommentaryBar.module.css";
@@ -102,8 +103,12 @@ const EmakiContainer = ({
 
   const stageTouchAction = isMapDrawerOpen ? "none" : "pan-x pan-y";
 
+  const spotConfig = useMemo(
+    () => resolveScrollSpotConfig(data),
+    [data]
+  );
   const usePanoramaSpotLayer =
-    Array.isArray(data?.spots) ||
+    spotConfig.usePanoramaStrip ||
     Boolean(
       layoutState.panoramaSpots?.some((s) => s?.quizQuestionId != null)
     );
@@ -218,6 +223,8 @@ const EmakiContainer = ({
                 ebikiPickerEnabled={layoutState.ebikiPickerEnabled}
                 onSelectSpot={stageProps.onSelectSpot}
                 selectedSpotId={layoutState.selectedSpotId}
+                masterSpots={spotConfig.masterSpots}
+                getSpotKindClass={spotConfig.getSpotKindClass}
               />
             )}
           </div>

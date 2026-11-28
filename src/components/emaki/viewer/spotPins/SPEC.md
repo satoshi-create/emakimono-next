@@ -17,8 +17,11 @@ graph TD
   SaveBar["SpotPinsEditSaveBar.jsx<br/>編集ツールバー（ポータル）"]
   Store["spotPinsEditStore.js<br/>編集 SSOT（pendingUpdates 等）"]
   Popup["SpotPlaceNamePopup.jsx<br/>名所選択 UI"]
-  Preset["rakuchuSpotPreset.js<br/>洛中洛外図デフォルトプリセット"]
+  Preset["rakuchuSpotPreset.js<br/>洛中洛外図プリセット"]
+  Resolver["resolveScrollSpotConfig.js<br/>作品別 spot 設定リゾルバ"]
   Geo["spotPinsGeometry.js<br/>計算・定数"]
+  EditGeo["spotEditGeometry.js<br/>編集座標・リサイズ純関数"]
+  DragHook["useSpotDragResize.js<br/>移動・リサイズポインタ"]
 
   SpotPins --> Layout
   SpotPins --> Editor
@@ -27,12 +30,17 @@ graph TD
   SpotPins -->|"?editSpots=1 のみマウント"| SaveBar
   Editor --> Store
   EditOverlay --> Store
+  EditOverlay --> EditGeo
+  EditOverlay --> DragHook
+  DragHook --> EditGeo
+  DragHook --> Store
   EditOverlay --> Popup
   SaveBar --> Store
   Popup --> Store
   SpotPins --> AppContext["@/context/AppContext"]
   SpotPins --> Styles["SpotPins.module.css"]
-  Preset -.->|"親ビューアが import して Props 注入"| SpotPins
+  Resolver --> Preset
+  Resolver -.->|"ZoomLayer / SwitcherEmaki / EmakiConteiner が Props 注入"| SpotPins
 ```
 
 ---
@@ -46,8 +54,11 @@ graph TD
 | **レイアウト** | `useSpotLayout.js` | スライス要素とオーバーレイの座標同期、リサイズ・`zoomScale` に追従するレイアウト実測 | `useSpotLayout`（section 参照・ピン座標用メトリクス等） |
 | **状態（SSOT）** | `spotPinsEditStore.js` | スポット編集の未保存差分（`pendingUpdates`）、配置モード（`placeMode`）、`quizOnlyEdit` を slug 単位で保持・通知 | `getPlaceModeEnabled`, `setPlaceModeEnabled`, `subscribePlaceMode`, `registerNewSpot`, `mergePendingUpdate`, `getAddedSpotsForSlug`, `getPlacedSpotIdsForSlug`, `registerSliceSpotIds`, `subscribePendingUpdates`, `subscribeDiscard` |
 | **計算・定数** | `spotPinsGeometry.js` | バッジ余白、エッジマージン、スライス画像名抽出、フォールバックオフセット、slug 解決、transform-origin | `BADGE_GAP`, `EDGE_MARGIN`, `extractSliceImageName`, `fallbackOffset`, `getSlugFromPath`, `transformOriginFor` |
-| **プリセット（作品別・親注入）** | `rakuchuSpotPreset.js` | 洛中洛外屏風向けの名所マスター既定値・種別スタイル等。`SpotPins` 本体には埋め込まない | `RAKUCHU_SPOT_MASTERS`, `getRakuchuSpotKindClass` 等（ビューア親から Props として渡す） |
-| **UI 表示（編集オーバーレイ）** | `SpotEditOverlay.jsx` | `rect` リサイズハンドル、中心十字ドラッグ、新規スポット配置ドラフト。名所ポップアップのトリガ | **Props:** `SpotPins` が `isEditMode` 時に委譲 |
+| **編集ジオメトリ** | `spotEditGeometry.js` | 編集専用の座標変換・右下リサイズ（左上固定）・パノラマ保存パッチ組み立て | `computeBottomRightResize`, `panoramaStorePatch`, `buildSpotCommitPayload`, `resolveCrossSliceTarget` |
+| **編集ポインタ** | `useSpotDragResize.js` | 十字／枠ドラッグの掴みオフセット、リサイズ、ドロップ時 `commitSpotTransform` → `mergePendingUpdate` | `useSpotDragResize`, `makeAnchorHandlers`, `makeRectFrameHandlers`, `makeResizeHandlers` |
+| **設定リゾルバ** | `resolveScrollSpotConfig.js` | `data` から `usePanoramaStrip` / `masterSpots` / `getSpotKindClass` を解決。ビューア親はここだけ import する | `resolveScrollSpotConfig(data)` |
+| **プリセット（洛中洛外のみ）** | `rakuchuSpotPreset.js` | 洛中洛外向け名所マスター・種別スタイル。`resolveScrollSpotConfig` 経由でのみ `SpotPins` へ届く | `DEFAULT_SPOT_MASTERS`, `getRakuchuSpotKindClass` |
+| **UI 表示（編集オーバーレイ）** | `SpotEditOverlay.jsx` | 編集 UI の宣言的描画。ポインタ処理は `useSpotDragResize` に委譲 | **Props:** `SpotPins` が `isEditMode` 時に委譲 |
 | **UI 表示** | `SpotPlaceNamePopup.jsx` | 編集時の名所マスターからの選択ポップアップ | **Props:** 親から `masterSpots` 等を受け取り store と連携 |
 | **UI 表示（編集ツールバー）** | `SpotPinsEditSaveBar.jsx` | ポータル描画の編集ツールバー。クイズ枠のみ表示切替・JSON 一括保存・破棄 | **Props:** `slugOverride`, `apiEndpoint` 等（`SpotPins` が `isEditMode` 時に直結） |
 
@@ -97,34 +108,34 @@ sequenceDiagram
 
 ## 4. 汎用利用ガイド（他絵巻・他コンテンツ）
 
-Phase-2 以降、`SpotPins.jsx` は作品非依存の純粋汎用コンポーネント。洛中洛外向けの既定マスター・種別スタイルは `rakuchuSpotPreset.js` に分離し、**ビューア親（例: 洛中洛外用スイッチャー）が import して Props として注入**する。
+`SpotPins.jsx` は作品非依存。親は `resolveScrollSpotConfig(data)` の結果を `masterSpots` / `getSpotKindClass` に渡す（`ZoomLayer` / `SwitcherEmaki` / `EmakiConteiner` が統一配線）。
 
 ### 基本配置
 
-親スライス `section` 内で、同期済み `spots` 配列を渡す（屏風では `scenes[].spots` を扇 index へ振り分けた結果）。
-
 ```jsx
 import SpotPins from "@/components/emaki/viewer/SpotPins";
-import { RAKUCHU_SPOT_MASTERS, getRakuchuSpotKindClass } from "@/components/emaki/viewer/spotPins/rakuchuSpotPreset";
+import { resolveScrollSpotConfig } from "@/components/emaki/viewer/spotPins/resolveScrollSpotConfig";
+
+const spotConfig = resolveScrollSpotConfig(data);
 
 <SpotPins
   spots={spotsForThisSlice}
   linkId={scrollLinkId}
   sliceIndex={sliceIndex}
   zoomScale={zoomScale}
-  masterSpots={RAKUCHU_SPOT_MASTERS}
-  getSpotKindClass={getRakuchuSpotKindClass}
+  masterSpots={spotConfig.masterSpots}
+  getSpotKindClass={spotConfig.getSpotKindClass}
 />
 ```
 
-他絵巻は `rakuchuSpotPreset.js` を使わず、自前の `masterSpots` / `getSpotKindClass`（または `null`）だけを渡せばよい。
+未指定時の `SpotPins` デフォルトは `masterSpots=[]` / `getSpotKindClass=undefined`（手入力フォーム即開き・種別クラスなし）。
 
 ### 汎用 Props
 
 | Prop | 型 | デフォルト | 用途 |
 |------|-----|----------|------|
-| `masterSpots` | 配列 | なし（親が渡す） | 編集モードで選択する名所マスター。洛中洛外は `rakuchuSpotPreset.js` から注入。 |
-| `getSpotKindClass` | `function \| null` | 未定義 | `(spot, styles) => string`。種別ごとの CSS Module クラス。`null` でバッジ種別スタイルを無効化。 |
+| `masterSpots` | 配列 | `[]` | 編集モードの名所候補。作品別解決は `resolveScrollSpotConfig`。 |
+| `getSpotKindClass` | `function \| undefined` | `undefined` | `(spot, styles) => string`。洛中洛外のみリゾルバが `getRakuchuSpotKindClass` を返す。 |
 | `slugOverride` | `string` | 未定義 | メタ JSON / API の scroll slug を URL から取れない場合に明示指定。SaveBar・store のキーにも使用。 |
 | `apiEndpoint` | `string` | `"/api/dev/update-spot"` | 開発用一括保存先。別プロジェクト用エンドポイントに差し替え可能。 |
 
@@ -137,7 +148,7 @@ import { RAKUCHU_SPOT_MASTERS, getRakuchuSpotKindClass } from "@/components/emak
 ### 後方互換
 
 - Props 名は上記のとおり。**export 名は `SpotPins`（default）のみ。**
-- 洛中洛外の従来デフォルトは `SpotPins` 内ではなく `rakuchuSpotPreset.js` に移動。既存洛中洛外ビューアは親側でプリセットを import して渡すことで同等動作となる。`apiEndpoint` の default（`"/api/dev/update-spot"`）と path からの `slug` 解決は `SpotPins` 側のまま。
+- 洛中洛外プリセットは `resolveScrollSpotConfig` → `rakuchuSpotPreset.js` のみ。`SpotPins` 本体に作品既定値はない。
 - 本番ビルドでは `editSpots` クエリがあっても `isEditMode` は development 限定のため、編集 UI は本番に出ない。
 
 ### 他コンテンツチェックリスト
@@ -146,3 +157,14 @@ import { RAKUCHU_SPOT_MASTERS, getRakuchuSpotKindClass } from "@/components/emak
 2. `masterSpots` に編集用候補一覧を渡す（開発時のみ参照）。
 3. 保存 API が `slug` + 更新配列を受け取れることを確認し、必要なら `apiEndpoint` を変更。
 4. URL が `[slug]` パターンでない場合は `slugOverride` を必須化。
+
+---
+
+## 5. 編集オーバーレイの座標・ポインタ仕様（`spotEditGeometry` / `useSpotDragResize`）
+
+| 操作 | 挙動 |
+|------|------|
+| **右下リサイズ** | 枠の左上（中心 − 半幅/半高）を固定。`minW` はパノラマ 0.3%・通常 2%、`minH` 1.5%。右下ハンドルはポインタに 1:1 追従（中心基準 2 倍伸びは廃止）。 |
+| **枠・十字移動** | ポインタダウン時の `(pointer − spot中心)` をオフセット保持し、ドラッグ中も枠がカーソル下に飛ばない。 |
+| **パノラマ保存** | `spot.stripBounds` がある旧パノラマのみ `unmapStripCoordToPanorama`。`panels` 全体ストリップ（バイユー等）は strip % を `round2` でそのまま `pendingUpdates` / `dragOverrides` に保存。 |
+| **確定** | `onPointerUp` の patch 生成は `buildSpotCommitPayload` → `commitSpotTransform` に一元化。 |

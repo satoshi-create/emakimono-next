@@ -12,7 +12,7 @@ import {
   RAKUCHU_SPOT_MASTERS,
 } from "@/data/rakuchu-rakugai/rakuchuMotifMaster";
 
-/** SpotPins の `masterSpots` デフォルト値（RAKUCHU_SPOT_MASTERS の別名） */
+/** 洛中洛外専用（`resolveScrollSpotConfig` が titleen 判定後に注入） */
 export const DEFAULT_SPOT_MASTERS = RAKUCHU_SPOT_MASTERS;
 
 // =============================================================================

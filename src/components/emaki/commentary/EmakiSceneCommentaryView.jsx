@@ -321,57 +321,37 @@ export function EmakiSceneBodyContent({
     const activePanel =
       resolveActivePanel(panels, activeSliceNumber) ?? panels[0];
     const panelCopy = panelLocalizedStrings(activePanel, locale);
-    const latinTranslation =
-      locale === "en"
-        ? activePanel.latin_translation_en
-        : activePanel.latin_translation_ja;
-    const translationQuote = latinTranslation
-      ? locale === "en"
-        ? `"${latinTranslation}"`
-        : `「${latinTranslation}」`
-      : null;
     const summaryText = panelCopy.summary ?? "";
     const summaryCollapsed =
       !expanded && summaryText.length > 120
         ? `${summaryText.slice(0, 120)}…`
         : summaryText;
     const showSummaryMore = !expanded && summaryText.length > 120;
-  return (
-      <div className={styles.panelSceneCard}>
-        <div className={styles.panelSceneHeader}>
-          {activePanel.embroidered_mark ? (
-            <span className={styles.panelSceneMarkBadge}>
-              {activePanel.embroidered_mark}
-            </span>
-          ) : null}
-          {panelCopy.title ? (
-            <span className={styles.panelSceneTitle}>{panelCopy.title}</span>
-          ) : null}
-        </div>
-        {expanded && activePanel.latin_inscription ? (
-          <blockquote className={styles.panelSceneLatinQuote}>
-            <span className={styles.panelSceneLatinLabel}>
-              {viewerPanelLabel("latinInscription", locale)}
-            </span>
-            <p className={styles.panelSceneLatinText}>
-              {activePanel.latin_inscription}
-            </p>
-            {translationQuote ? (
-              <p className={styles.panelSceneLatinTranslation}>
-                {translationQuote}
-              </p>
-            ) : null}
-          </blockquote>
+    return (
+      <span className={styles.bodyText}>
+        {panelCopy.title ? (
+          <span className={styles.panelSceneTitle}>{panelCopy.title}</span>
         ) : null}
         {summaryText ? (
-          <p className={styles.panelSceneSummary}>
+          <>
+            {panelCopy.title ? " " : null}
             {summaryCollapsed}
             {showSummaryMore ? (
-              <span className={styles.moreHint}>…{readMoreLabel}</span>
+              <span
+                style={{
+                  display: "inline",
+                  fontSize: "0.75rem",
+                  color: "var(--bar-text-muted, rgba(0, 0, 0, 0.45))",
+                  fontWeight: 400,
+                  marginLeft: "6px",
+                }}
+              >
+                …{readMoreLabel}
+              </span>
             ) : null}
-          </p>
+          </>
         ) : null}
-      </div>
+      </span>
     );
   }
 

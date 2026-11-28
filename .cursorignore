@@ -83,14 +83,14 @@ public/unused/
 # ==============================================================================
 # 5. 生成・同期・パイプラインスクリプト & アーカイブコード
 # ==============================================================================
-scripts/
-src/script/
-**/__pycache__/
-*.py
-*.pyc
-src/libs/_archive_unused_data/
-src/components/_archive_unused/
-src/styles/_archive_unused_styles/
+# scripts/
+# src/script/
+# **/__pycache__/
+# *.py
+# *.pyc
+# src/libs/_archive_unused_data/
+# src/components/_archive_unused/
+# src/styles/_archive_unused_styles/
 
 # ==============================================================================
 # 6. 環境変数・シークレット・デプロイ設定

@@ -137,6 +137,7 @@ export function useSpotPinsEditor({
         id: a.spotId,
         name: a.name,
         nameen: a.nameen,
+        ...(a.description ? { description: a.description } : {}),
         x: a.x,
         y: a.y,
         rect: a.rect,

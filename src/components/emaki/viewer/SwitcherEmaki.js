@@ -2,11 +2,12 @@ import { EbikiPickerOverlay } from "@/components/dev/EbikiCoordinatePicker";
 import EmakiImage from "@/components/emaki/viewer/EmakiImage";
 import { SceneChapterOverlay } from "@/components/emaki/viewer/SceneChapterOverlay";
 import SpotPins from "@/components/emaki/viewer/SpotPins";
+import { resolveScrollSpotConfig } from "@/components/emaki/viewer/spotPins/resolveScrollSpotConfig";
 import { useSwitcherEmakiState } from "@/components/emaki/viewer/useSwitcherEmakiState";
 import { AppContext } from "@/context/AppContext";
 import { sceneSectionId } from "@/utils/emakiSceneDom";
 import { useRouter } from "next/router";
-import { forwardRef, useContext } from "react";
+import { forwardRef, useContext, useMemo } from "react";
 
 /** 絵巻シーンを cat に応じて image / ekotoba に振り分け。幅は section 常置・中身は mountContent。 */
 const SwitcherEmaki = forwardRef(
@@ -37,6 +38,11 @@ const SwitcherEmaki = forwardRef(
       useContext(AppContext);
     const { locale } = useRouter();
     const isLtr = data?.readingDirection === "ltr";
+    const spotConfig = useMemo(
+      () => resolveScrollSpotConfig(data),
+      [data]
+    );
+    const usePanoramaStripSpots = spotConfig.usePanoramaStrip;
 
     const {
       isSupportedCat,
@@ -126,7 +132,9 @@ const SwitcherEmaki = forwardRef(
           />
         ) : null}
 
-        {isImage && (spots?.length || isEditSpotsMode) ? (
+        {isImage &&
+        !usePanoramaStripSpots &&
+        (spots?.length || isEditSpotsMode) ? (
           <SpotPins
             spots={spots ?? []}
             sliceIndex={index}
@@ -135,6 +143,8 @@ const SwitcherEmaki = forwardRef(
             ebikiPickerEnabled={ebikiPickerEnabled}
             onSelectSpot={onSelectSpot}
             selectedSpotId={selectedSpotId}
+            masterSpots={spotConfig.masterSpots}
+            getSpotKindClass={spotConfig.getSpotKindClass}
           />
         ) : null}
 

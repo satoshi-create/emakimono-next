@@ -29,14 +29,14 @@ export function buildPanoramaSpots(data, quizQuestions = []) {
   });
 
   if (imageEntries.length > 0) {
+    const isLtr = data?.readingDirection === "ltr";
     const totalFullWidth = imageEntries.reduce((sum, e) => sum + e.width, 0) || 1;
-    let accFromRight = 0;
+    let acc = 0;
 
     for (const entry of imageEntries) {
       const spanPct = (entry.width / totalFullWidth) * 100;
-      const rightPct = 100 - accFromRight;
-      const leftPct = rightPct - spanPct;
-      accFromRight += spanPct;
+      const leftPct = isLtr ? acc : 100 - acc - spanPct;
+      acc += spanPct;
 
       const spots = entry.item.spots;
       if (!Array.isArray(spots)) continue;
@@ -117,10 +117,11 @@ export function usePanoramaSpots(data, quizQuestions = []) {
 // =============================================================================
 // 3. 純粋計算ロジック（Pure Logic）: 全巻パノラマ座標 ➔ ズーム帯（strip）写像
 // =============================================================================
-export function mapPanoramaSpotsToStrip(panoramaSpots, allEmakis, stripSlices) {
+export function mapPanoramaSpotsToStrip(panoramaSpots, allEmakis, stripSlices, readingDirection = "rtl") {
   if (!Array.isArray(panoramaSpots) || panoramaSpots.length === 0) return [];
   if (!Array.isArray(stripSlices) || stripSlices.length === 0) return panoramaSpots;
 
+  const isLtr = readingDirection === "ltr";
   const list = Array.isArray(allEmakis) ? allEmakis : [];
   const imageEntries = [];
   list.forEach((item, emakiIndex) => {
@@ -137,19 +138,18 @@ export function mapPanoramaSpotsToStrip(panoramaSpots, allEmakis, stripSlices) {
 
   const totalFullWidth = imageEntries.reduce((sum, e) => sum + e.width, 0) || 1;
 
-  // row-reverse（右端 index 0 が 100%、左端が 0%）で元インデックス（emakiIndex）ごとの [leftPct, rightPct] を構築
-  let accFromRight = 0;
+  let acc = 0;
   const boundsByEmakiIndex = new Map();
   const boundsBySrc = new Map();
 
   for (const entry of imageEntries) {
     const spanPct = (entry.width / totalFullWidth) * 100;
-    const rightPct = 100 - accFromRight;
-    const leftPct = rightPct - spanPct;
+    const leftPct = isLtr ? acc : 100 - acc - spanPct;
+    const rightPct = leftPct + spanPct;
     const bounds = { leftPct, rightPct };
     boundsByEmakiIndex.set(entry.emakiIndex, bounds);
     if (entry.src) boundsBySrc.set(entry.src, bounds);
-    accFromRight += spanPct;
+    acc += spanPct;
   }
 
   let stripLeftPct = Infinity;

@@ -25,6 +25,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import SpotPins from "./SpotPins";
+import { resolveScrollSpotConfig } from "./spotPins/resolveScrollSpotConfig";
 
 // =============================================================================
 // デバッグスイッチ（検証完了後は false にして一括停止）
@@ -96,13 +97,18 @@ const ZoomLayer = ({
     return Boolean(quizDef) && quizDef?.questions ? quizDef.questions : [];
   }, [data]);
 
-  const { panoramaSpots, hasPanoramaSpots } = usePanoramaSpots(
+  const { panoramaSpots } = usePanoramaSpots(
     data,
     quizQuestions
   );
+  const spotConfig = useMemo(
+    () => resolveScrollSpotConfig(data),
+  [data]
+  );
+  const usePanoramaStripSpots = spotConfig.usePanoramaStrip;
 
   const mappedStripSpots = useMemo(
-    () => mapPanoramaSpotsToStrip(panoramaSpots, data?.emakis, slices),
+    () => mapPanoramaSpotsToStrip(panoramaSpots, data?.emakis, slices, data?.readingDirection),
     [panoramaSpots, data?.emakis, slices]
   );
 
@@ -239,7 +245,8 @@ const ZoomLayer = ({
                     ...aspectStyle,
                   }}
                 />
-                {!hasPanoramaSpots && (s.spots?.length > 0 || isEditSpotsMode) && (
+                {!usePanoramaStripSpots &&
+                  (s.spots?.length > 0 || isEditSpotsMode) && (
                   <SpotPins
                     spots={s.spots ?? []}
                     linkId={s.linkId}
@@ -248,13 +255,14 @@ const ZoomLayer = ({
                     ebikiPickerEnabled={ebikiPickerEnabled}
                     onSelectSpot={onSelectSpot}
                     selectedSpotId={selectedSpotId}
+                    masterSpots={spotConfig.masterSpots}
+                    getSpotKindClass={spotConfig.getSpotKindClass}
                   />
                 )}
               </div>
             );
           })}
-          {(hasPanoramaSpots || isEditSpotsMode) &&
-            (Array.isArray(data?.spots) || hasPanoramaSpots) && (
+          {(usePanoramaStripSpots || isEditSpotsMode) && (
             <SpotPins
               spots={mappedStripSpots}
               isPanorama
@@ -264,6 +272,8 @@ const ZoomLayer = ({
               ebikiPickerEnabled={ebikiPickerEnabled}
               onSelectSpot={onSelectSpot}
               selectedSpotId={selectedSpotId}
+              masterSpots={spotConfig.masterSpots}
+              getSpotKindClass={spotConfig.getSpotKindClass}
             />
           )}
         </div>

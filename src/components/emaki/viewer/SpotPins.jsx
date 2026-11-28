@@ -13,7 +13,6 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -21,10 +20,6 @@ import {
 
 import SpotEditOverlay from "./spotPins/SpotEditOverlay";
 import SpotPinsEditSaveBar from "./spotPins/SpotPinsEditSaveBar";
-import {
-  DEFAULT_SPOT_MASTERS,
-  getRakuchuSpotKindClass,
-} from "./spotPins/rakuchuSpotPreset";
 import {
   BADGE_GAP,
   extractSliceImageName,
@@ -74,8 +69,8 @@ const SpotPins = ({
   sliceIndex,
   data,
   ebikiPickerEnabled = false,
-  masterSpots = DEFAULT_SPOT_MASTERS,
-  getSpotKindClass = getRakuchuSpotKindClass,
+  masterSpots = [],
+  getSpotKindClass = undefined,
   slugOverride,
   apiEndpoint = "/api/dev/update-spot",
   onSelectSpot,
@@ -113,6 +108,12 @@ const SpotPins = ({
       });
     });
     return map;
+  }, [data?.emakis]);
+
+  const imageSliceCount = useMemo(() => {
+    const emakis = data?.emakis;
+    if (!Array.isArray(emakis)) return 1;
+    return emakis.filter((slice) => slice?.cat === "image").length || 1;
   }, [data?.emakis]);
 
   const emakiId = data?.titleen;
@@ -435,6 +436,7 @@ const SpotPins = ({
             resizingSpotId={resizingSpotId}
             setResizingSpotId={setResizingSpotId}
             isPanorama={isPanorama}
+            imageSliceCount={imageSliceCount}
           />
         ) : null}
       </div>

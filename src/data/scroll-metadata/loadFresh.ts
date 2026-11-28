@@ -1,6 +1,10 @@
 import fs from "fs";
 import path from "path";
 import type { EmakiMetadata } from "@/types/emaki";
+import {
+  mergeBayeuxScrollMetadata,
+  type BayeuxPanelsAndInscriptions,
+} from "@/data/bayeux-tapestry/mergeBayeuxMetadata";
 
 /**
  * =============================================================================
@@ -41,10 +45,25 @@ export function loadEmakiMetadataFresh(): EmakiMetadata[] {
   const orderPath = path.join(scrollsDir, ORDER_JSON_BASENAME);
   const order = JSON.parse(fs.readFileSync(orderPath, "utf8")) as string[];
 
+  const bayeuxExtraPath = path.join(
+    process.cwd(),
+    "src/data/bayeux-tapestry/bayeux_panels.json"
+  );
+  let bayeuxExtra: BayeuxPanelsAndInscriptions | null = null;
+
   const map = new Map<string, EmakiMetadata>();
   for (const titleen of order) {
     const filePath = path.join(scrollsDir, `${titleen}.json`);
-    map.set(titleen, JSON.parse(fs.readFileSync(filePath, "utf8")) as EmakiMetadata);
+    let item = JSON.parse(fs.readFileSync(filePath, "utf8")) as EmakiMetadata;
+    if (titleen === "bayeux_tapestry") {
+      if (!bayeuxExtra) {
+        bayeuxExtra = JSON.parse(
+          fs.readFileSync(bayeuxExtraPath, "utf8")
+        ) as BayeuxPanelsAndInscriptions;
+      }
+      item = mergeBayeuxScrollMetadata(item, bayeuxExtra);
+    }
+    map.set(titleen, item);
   }
 
   return assembleList(map, order);

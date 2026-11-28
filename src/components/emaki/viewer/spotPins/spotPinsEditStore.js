@@ -25,7 +25,7 @@ function normalizeStoreSlug(slug) {
 /** @type {Map<string, Map<string, object>>} */
 const pendingUpdatesBySlug = new Map();
 
-/** @type {Map<string, Array<{ spotId: string, sliceIndex?: number, sliceImageName: string, name: string, nameen: string, x: number, y: number, rect: { w: number, h: number }, badgePos: object|null, isNew: true }>>} */
+/** @type {Map<string, Array<{ spotId: string, sliceIndex?: number, sliceImageName: string, name: string, nameen: string, description?: string, x: number, y: number, rect: { w: number, h: number }, badgePos: object|null, isNew: true }>>} */
 const addedSpotsBySlug = new Map();
 
 /** @type {Map<string, Map<number, string[]>>} */
@@ -193,7 +193,14 @@ export function mergePendingUpdate(slug, spotId, patch) {
   }
   const prev = bySpot.get(spotId) || {};
   const merged = { spotId, ...prev, ...cleanPatch };
-  const preserveKeys = ["isNew", "sliceImageName", "sliceIndex", "name", "nameen"];
+  const preserveKeys = [
+    "isNew",
+    "sliceImageName",
+    "sliceIndex",
+    "name",
+    "nameen",
+    "description",
+  ];
   preserveKeys.forEach((key) => {
     if (!(key in cleanPatch) && key in prev) merged[key] = prev[key];
   });
@@ -221,23 +228,39 @@ export function registerNewSpot(
     sliceImageName,
     name,
     nameen,
+    description = "",
     x = 50,
     y = 50,
+    isPanorama = false,
+    imageSliceCount,
   },
 ) {
   const key = normalizeStoreSlug(slug);
   if (!key || !spotId || !sliceImageName) return;
+  const sliceCount = Math.max(Number(imageSliceCount) || 1, 1);
+  const initialRect =
+    isPanorama === true || sliceCount > 1
+      ? {
+          w: Math.max(
+            1.5,
+            Number(((100 / sliceCount) * 0.6).toFixed(2)),
+          ),
+          h: 10,
+        }
+      : { w: 20, h: 10 };
   const entry = {
     spotId,
     ...(Number.isInteger(sliceIndex) ? { sliceIndex } : {}),
     sliceImageName,
     name,
     nameen,
+    ...(description ? { description } : {}),
     x,
     y,
-    rect: { w: 24, h: 20 },
+    rect: initialRect,
     badgePos: null,
     isNew: true,
+    ...(isPanorama ? { isPanorama: true } : {}),
   };
   let list = addedSpotsBySlug.get(key);
   if (!list) {
@@ -250,10 +273,12 @@ export function registerNewSpot(
     sliceImageName,
     name,
     nameen,
+    ...(description ? { description } : {}),
     x,
     y,
-    rect: { w: 24, h: 20 },
+    rect: initialRect,
     isNew: true,
+    ...(isPanorama ? { isPanorama: true } : {}),
   });
 }
 

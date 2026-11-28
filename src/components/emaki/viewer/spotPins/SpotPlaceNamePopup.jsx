@@ -16,8 +16,8 @@ import { isMasterSpotPlaced } from "./spotPinsEditStore";
  * @param {number} props.y — クリック位置 Y（%）
  * @param {number} props.invZoom — ズーム逆倍率（UI を一定サイズに見せる scale）
  * @param {Set<string>} props.placedSpotIds — 既配置 spotId（配置済バッジ用）
- * @param {Array<{ masterId: string, aliasSpotIds?: string[], nameJa: string, nameEn?: string }>} [props.masterSpots]
- * @param {(payload: { id?: string, name: string, nameen: string }) => void} props.onConfirm
+ * @param {Array<{ masterId: string, aliasSpotIds?: string[], nameJa: string, nameEn?: string, description?: string, badgeText?: string }>} [props.masterSpots]
+ * @param {(payload: { id?: string, name: string, nameen: string, description?: string }) => void} props.onConfirm
  * @param {() => void} props.onCancel
  */
 export default function SpotPlaceNamePopup({
@@ -38,6 +38,7 @@ export default function SpotPlaceNamePopup({
   const [query, setQuery] = useState("");
   const [name, setName] = useState("");
   const [nameen, setNameen] = useState("");
+  const [description, setDescription] = useState("");
   const [customId, setCustomId] = useState("");
 
   useEffect(() => {
@@ -81,6 +82,7 @@ export default function SpotPlaceNamePopup({
       id,
       name: master.nameJa,
       nameen: master.nameEn || "",
+      description: master.description || "",
     });
   };
 
@@ -90,6 +92,8 @@ export default function SpotPlaceNamePopup({
     return (
       master.nameJa.toLowerCase().includes(q) ||
       (master.nameEn || "").toLowerCase().includes(q) ||
+      (master.description || "").toLowerCase().includes(q) ||
+      (master.badgeText || "").toLowerCase().includes(q) ||
       master.masterId.toLowerCase().includes(q)
     );
   });
@@ -102,6 +106,7 @@ export default function SpotPlaceNamePopup({
       id: idTrim || undefined,
       name: trimmed,
       nameen: nameen.trim(),
+      description: description.trim(),
     });
   };
 
@@ -160,6 +165,31 @@ export default function SpotPlaceNamePopup({
                     }}
                   >
                     <span style={{ fontWeight: 600 }}>{master.nameJa}</span>
+                    {master.badgeText ? (
+                      <span
+                        style={{
+                          display: "inline-block",
+                          marginLeft: 6,
+                          fontSize: 10,
+                          color: "#bbb",
+                          fontWeight: 500,
+                        }}
+                      >
+                        {master.badgeText}
+                      </span>
+                    ) : null}
+                    {master.description ? (
+                      <span
+                        style={{
+                          display: "block",
+                          color: "#9cc",
+                          fontSize: 11,
+                          marginTop: 2,
+                        }}
+                      >
+                        {master.description}
+                      </span>
+                    ) : null}
                     {master.nameEn ? (
                       <span style={{ display: "block", color: "#aaa", fontSize: 11 }}>
                         {master.nameEn}
@@ -250,6 +280,21 @@ export default function SpotPlaceNamePopup({
               if (e.key === "Escape") onCancel();
             }}
             style={inputStyle}
+          />
+          <textarea
+            placeholder="訳・解説（任意）"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") onCancel();
+            }}
+            rows={3}
+            style={{
+              ...inputStyle,
+              resize: "vertical",
+              minHeight: 52,
+              fontFamily: "inherit",
+            }}
           />
           <button
             type="button"
